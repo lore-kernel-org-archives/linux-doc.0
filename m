@@ -1,47 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794839402;
-	b=p8b8V6wfOoL30KxZ3tCJ9vil5eohI4Q5NW43PACVkDJNqw5L1K6Y8UMOoxfv64oxAclM
-	 g0wfgtJ/9WDxLjlK0GZhRr0FHbEJCN4hk1Oa1L1hQqHBLLzlK0Oie0dc/pCGUKXGMW22l
-	 yCjYbzWq9SO3xNzNZhCQrVdXSJ7OvvEL2h2kEwcy5Cfu8Z+vHGksYYyBbDzj+mWnHXkGb
-	 KnCbLQDb64qn2jK3LJCRaW5VgPG3Ypt9bTP9Y4ridRQ5illb1lje18zoWA1cyEVsOcqGP
-	 1LDyhaVjqj6BDa1ub2n84ryJ0BHMYytBtNmvLz7Yt+n75urC+rH+pX5NaAipdyVRIYA==
+	t=1794839407;
+	b=tW08+Ojcv+Ulsq0injmSsaUKL60q/AXaJlp2y/CZmzhZSfJPl5t6upXS4yypzT0Zk/69
+	 65m7gEJc85dSrP7+X9dMzRAtr5jorNHvNSx7hhBlS6InkGrIT1O0us3pX0nBtd3rGi7At
+	 JzDFMI9fSqRbSS35VpC6AuEx9YHEDr4xos+McKdnl6/Xzvv+PnpnvzxZBYmb1Du9oPM5Q
+	 XAXJjN9PaBnWIW91+LRbMBxcDPC+dbrx+IV6OPEV15BZaDGYy4QycRIIujumcJKLB+1F0
+	 RCY+N/enRZXAb+U1PiDmZbgXxjEW/T3by4fBoenRfhL2B3Uqb5P8fBwZ9WJF0c5ljYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794839402;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794839407;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=vZCWpscS/9vTvNDiA6NxPK37wejkIN0l6hD8ZRTgRUc=;
-	b=GqCwTfkugknDH2s0KbvLMgZWWowqq/WMRfbarRBZPZnndOGi9z+fv0skeEwvBwPsqFtG
-	 EQiyoCkVExPX5M4/+skMks9df6I8uzg/sQhxoucGAZpcphD+SoOZBwAPQRcdGFo6YawHH
-	 hQJKovi9+Ff6rKlWgUQs3jlGNkwqk0jYAcLTt+r1oHEKvIQyVcXRmGzcAC6Z0RMPg/1yl
-	 geGvYeDzrm1d/xwzydnyPGsAqtEoAdpQqQJqEiuzlg/nhPMazzzL7EqRYhKldKxHD6rKe
-	 S9t5gREPK15ZE2jvvIUK6FydqwMPj83dZVWqWN8blCHm02tDZeYcK8n5Uyp/Twbv42w==
+	bh=VsvQOmy+WVg70rJS0fmQOllgfUN6zg5nW954YzZCliE=;
+	b=5DqypqJaJnNLuEY+Ol+eMrgoo5j0wH/ZRlpjkR171AcNsOga/HpJMgtJsXLb7X2tAq0l
+	 WamyfOxPHUme3WIqMzYnMyIG2f+9rI+XKBWYXonOyTl4qzBv0oLF0cK3WyCXMxscOzR9T
+	 8QJGxxJqQael1eDgern/Zfbu6ID6e15K1SO4zePHmr+bY1k1Ik2cWW76L/tGbqR2or5KH
+	 3lxnaCxbBdbyo5AI6Jsfky1MHbZGelhS5iDVATAnOCTJhbLlzawrUF9ezb9fwOS5m3b04
+	 1sJ+5OeUxWBiPsV4dEBS2JfJ99ae6JPbLi9YBR6HAWGSugh5q4ZmdsUQf9+1xkDHOcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JtAl5hiT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UtDT6H6U;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184FD606A336;
-	Mon, 16 Nov 2026 14:30:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F660606A336;
+	Mon, 16 Nov 2026 14:30:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JtAl5hiT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98D001F000C4;
-	Mon, 16 Nov 2026 14:30:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UtDT6H6U
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C6F81F000C4;
+	Mon, 16 Nov 2026 14:30:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794839401;
-	bh=vZCWpscS/9vTvNDiA6NxPK37wejkIN0l6hD8ZRTgRUc=;
+	s=k20260515; t=1794839407;
+	bh=VsvQOmy+WVg70rJS0fmQOllgfUN6zg5nW954YzZCliE=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=JtAl5hiT0L0DlrW1ztmMoOvyAxeA9W8aTxEkRKPviPDXJ4jpHk9HHLg2Ax/tf1YzL
-	 XkOh/WjvtEGW87BO5kaSwtQs81xv4318zAM980jo2fnTQMKHfVl7oJcBEzg9FwsT91
-	 iPleYG1YGXTR9as1OV0jAAtQN/3ULK3qKTGYyxk3O/3YzJEAMSanGS4j0wCXPZ1fB8
-	 O4lx4puF4NPCVxh8to6m090IuFUx9oxJAN8BmCsD59GRdtyZ7ZcF4pJ7ZZ3VRtJDJv
-	 PxY8xWwneuSRwhpW8KEob91jbzGKl3aWOTSCrLG0PRnU2H2Hpzt1VLqPWdM31Q8IXR
-	 AJIKnt7U1Wkdw==
-Subject: Re: [PATCH net-next v4 02/14] selftests: dpll: add test library and
- device lifecycle tests
+	b=UtDT6H6UhxnZOHm3/9bTHdp56LUAwMUnGmnwGRc4TZG9q5EFs74bkohvgwc5pg7VD
+	 r9iIrADxBW3Vd2S4QyggwdqsdGTVDm758CMkr44vNB3TZXpM6uSbsPmo8CjIC+UA2Y
+	 yUEC4DvdJriFHGpcNAtRc2TGcGjUsCInZ3NhfwlNcNoDpH0J3PsRH0aNDPSc5j2W8R
+	 3GOjGHgTItfT7zFpS/iP38sadFydIJnOw2935RNqk3ETyO47YAJ3L+qzF5RGG+Jgp+
+	 edfG+Xpb5JTVBF7imYj0pgCyE8hJZZAEA1bn/39gK1BwuXZGWGAIrCC3B5piu2gWT7
+	 pMDISa7r2+4fw==
+Subject: Re: [PATCH net-next v4 10/14] selftests: dpll: add pin frequency test
 From: netdev-bot+sashiko@kernel.org
 To: poros@redhat.com
 Cc: netdev@vger.kernel.org, ivecera@redhat.com, jiri@nvidia.com,
@@ -50,10 +49,10 @@ Cc: netdev@vger.kernel.org, ivecera@redhat.com, jiri@nvidia.com,
  arkadiusz.kubalewski@intel.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
  davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Date: Mon, 16 Nov 2026 14:29:59 +0000
-Message-ID: <179483939997.3136.11285041510598744878@kernel.org>
-In-Reply-To: <20261112130359.840795-3-poros@redhat.com>
-References: <20261112130359.840795-3-poros@redhat.com>
+Date: Mon, 16 Nov 2026 14:30:05 +0000
+Message-ID: <179483940555.3136.5523095972528283974@kernel.org>
+In-Reply-To: <20261112130359.840795-11-poros@redhat.com>
+References: <20261112130359.840795-11-poros@redhat.com>
 X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -67,10 +66,10 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 4 potential
 issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1
+Critical: 0 · High: 0 · Medium: 1 · Low: 3
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -78,146 +77,193 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] When dpllsim is built in (CONFIG_DPLLSIM=y), the selftests
-  cannot find their own devices and report a hard FAIL where they should…
-- [Low] A second signal can still abort the exit-trap teardown, despite
-  the comment in cleanup().
+- [Medium] test_pin_frequency_set_get
+  (tools/testing/selftests/drivers/dpll/dpll_features.sh) only re-checks…
+- [Low] test_pin_frequency_set_get registers `defer dpll_restore
+  dpll_pin_set_frequency "$PIN_TUNE_ID" "$before"` before any frequency…
+- [Low] pin_is_spare/pick_tune_pin do not look at reference-sync pairing.
+- [Low] Two statements in the commit message do not match the code.
 
 --
 
-selftests: dpll: add test library and device lifecycle tests
+selftests: dpll: add pin frequency test
 
-This adds a shell library for the DPLL selftests. It wraps the iproute2
-dpll tool and the dpllsim configfs interface, and the patch also adds
-dpll_basic.sh and dpll_stress.sh. The library finds simulated devices by
-clock ID and module name, and each script takes a lock, mounts configfs
-when needed and cleans up from an exit trap.
+This adds test_pin_frequency_set_get() to dpll_features.sh. The test picks
+a supported frequency of the spare input pin other than the current one,
+sets it, reads it back and restores the original value. A new
+dpll_pin_set_frequency() helper in dpll_lib.sh keeps the error output of
+the tool in DPLL_LAST_ERR.
 
-> diff --git a/tools/testing/selftests/drivers/dpll/dpll_lib.sh b/tools/testing/selftests/drivers/dpll/dpll_lib.sh
-> new file mode 100644
-> index 0000000000000..9fe7f2f62dd46
-> --- /dev/null
-> +++ b/tools/testing/selftests/drivers/dpll/dpll_lib.sh
-
-[ ... ]
-
-> +# $1: clock-id, $2: module name (optional)
-> +dpll_device_get_id_by_clock_id()
-> +{
-> +	local clock_id=$1
-> +	local module=${2:-}
-> +	local out
-> +
-> +	out=$(dpll device show -j 2>/dev/null) || return 1
-> +	jq -r --arg cid "$clock_id" --arg mod "$module" \
-> +	   '[.device[]? |
-> +	     select((.["clock-id"] | tostring) == $cid and
-> +		    ($mod == "" or .["module-name"] == $mod))
-> +	    ][0].id // empty' <<< "$out"
-> +}
-
-[Severity: Medium]
-Does this module-name match work when dpllsim is built in?
-
-DPLLSIM is a tristate. With CONFIG_DPLLSIM=y, THIS_MODULE is NULL, and
-dpllsim registers its device with:
-
-drivers/dpll/dpllsim/dpll.c:dpllsim_dev_deploy() {
-    ...
-	dpll = dpll_device_get(sim->clock_id, 0, THIS_MODULE, &sim->tracker);
-    ...
-}
-
-The netlink reply then carries:
-
-drivers/dpll/dpll_netlink.c:dpll_device_get_one() {
-    ...
-	if (nla_put_string(msg, DPLL_A_MODULE_NAME, module_name(dpll->module)))
-    ...
-}
-
-module_name() returns "kernel" for a NULL module. With mod=dpllsim, the
-select above never matches a device the script created.
-
-dpllsim_available() still counts a built-in simulator as available. Once
-/sys/kernel/config/dpllsim exists it returns 0, and it ignores the
-modprobe result:
-
-	[ -d "$DPLLSIM_CFG" ] && return 0
-
-So the scripts create and deploy a device that their own lookup cannot
-find:
-
-In dpll_basic.sh, dpllsim_setup_standard_device() calls
-dpll_device_wait_by_clock_id "$clock_id" dpllsim. busywait runs until
-BUSYWAIT_TIMEOUT, and the script then prints "FAIL: cannot create dpllsim
-device" and exits with ksft_fail.
-
-In dpll_stress.sh, test_deploy_cycle() fails on its first iteration with
-"device not on netlink".
-
-The default branch of dpll_lib_init() has a related problem:
-
-	select(.["module-name"] != "dpllsim")
-
-This does not exclude a leftover built-in dpllsim device, so that device
-would be tested as if it were hardware.
-
-The later patches in the series (the pin flooding and many-devices tests)
-still use the same module-name filter, so they do not fix this.
-
-Could the lookups handle a built-in dpllsim, or should the scripts skip
-when dpllsim is not a module?
-
-> diff --git a/tools/testing/selftests/drivers/dpll/dpll_stress.sh b/tools/testing/selftests/drivers/dpll/dpll_stress.sh
-> new file mode 100755
-> index 0000000000000..01d57ab0172b0
-> --- /dev/null
-> +++ b/tools/testing/selftests/drivers/dpll/dpll_stress.sh
-
-[ ... ]
-
-> +cleanup()
-> +{
-> +	local dev
-> +
-> +	# A second signal must not abort the teardown half way.
-> +	trap '' INT TERM
+> constraints of its own refuses values the advertised ranges allow,
+> zl3073x for instance wants the frequencies of an output pair to divide
+> each other.
 
 [Severity: Low]
-Can a second signal still abort the teardown here? The script sets up its
-traps like this:
+Does this example apply to this test? The divisibility check is only in
+zl3073x_dpll_output_pin_frequency_set():
 
-	trap cleanup EXIT
-	trap 'exit 1' INT TERM
+    "OUT%uN freq must divide OUT%uP freq",
 
-The INT/TERM handler stays "exit 1" until cleanup() itself runs
-trap '' INT TERM, and here "local dev" runs before that.
+This test only changes PIN_TUNE_ID, which is taken from the input pins.
 
-If another INT or TERM is handled at that command boundary, exit 1 runs
-inside the EXIT trap. bash does not run the EXIT trap a second time, so
-the shell exits without running:
+> A pin that reports no frequency or advertises a single frequency only
+> is a skip on a device provided by the user and a failure on the device
+> the script created, whose pins advertise several.
 
-- the CREATED_DEVICES loop
-- the DPLLSIM_CREATED_NAME delete
-- dpll_lib_cleanup()
+Is this accurate for the gnss pins of the created device?
+dpllsim_pin_props() gives gnss pins a single 1 Hz range:
 
-The simulated devices and the configfs mount from this run would then be
-left behind.
+static struct dpll_pin_frequency dpllsim_freq_1pps[] = {
+	DPLL_PIN_FREQUENCY_RANGE(1, 1),
+};
 
-dpll_basic.sh uses the same trap pattern. Its cleanup() runs the ignore
-first, which makes the window smaller but does not remove it.
+dpllsim_setup_standard_device() creates gnss0 before ext0. The test passes
+on the created device only because pick_tune_pin() ends up choosing ext0.
+If that choice changed, the created device would fail with "no
+alternative supported frequency".
 
-The window is still there at the end of the series. There, cleanup() in
-dpll_stress.sh runs "local pid dev base" and "local pids=() shell_jobs=()"
-before the ignore.
+> diff --git a/tools/testing/selftests/drivers/dpll/dpll_features.sh b/tools/testing/selftests/drivers/dpll/dpll_features.sh
+> index f7340bd89602f..ebb52c8526201 100755
+> --- a/tools/testing/selftests/drivers/dpll/dpll_features.sh
+> +++ b/tools/testing/selftests/drivers/dpll/dpll_features.sh
+> @@ -28,6 +28,7 @@ input_pins=()
+>  ALL_TESTS="
+>  	test_pin_state_transitions
+>  	test_pin_priority_get_set
+> +	test_pin_frequency_set_get
+>  "
 
-Would it be better to ignore the signals in the handler itself? For
-example:
+[ ... ]
 
-	trap 'trap "" INT TERM; exit 1' INT TERM
+> @@ -297,6 +298,95 @@ test_pin_state_transitions()
+>  	log_test "DPLL pin state transitions"
+>  }
+>  
+> +test_pin_frequency_set_get()
+> +{
+> +	local before target after reason json
+> +
+> +	RET=0
+> +
 
-Or at least make the ignore the first statement of every cleanup()?
+[ ... ]
+
+> +	# The core refuses a frequency outside the supported ranges, the
+> +	# current one included, and a driver may report one it does not
+> +	# offer, zl3073x reads a sub-Hz reference back as 0 Hz. Such a pin
+> +	# could not be restored, so bail out before it is touched.
+> +	if ! jq -e --argjson cur "$before" \
+> +		'any(.["frequency-supported"][]?;
+> +		     .["frequency-min"] <= $cur and
+> +		     .["frequency-max"] >= $cur)' <<< "$json" &> /dev/null; then
+> +		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
+> +		    "current frequency is not a supported one"
+> +		return
+> +	fi
+> +	defer dpll_restore dpll_pin_set_frequency "$PIN_TUNE_ID" "$before"
+
+[Severity: Low]
+The restore is deferred here, before any frequency write has worked. The
+commit message covers "A driver without a frequency setter refuses every
+value with EOPNOTSUPP". On such a driver the target set below fails, the
+test skips and returns, and then the deferred restore runs.
+
+In dpll_pin_freq_set() the ops check comes before the no-op shortcut:
+
+drivers/dpll/dpll_netlink.c:dpll_pin_freq_set() {
+    ...
+	if (!ops->frequency_set || !ops->frequency_get) {
+		NL_SET_ERR_MSG(extack,
+			       "frequency set not supported by the device");
+		return -EOPNOTSUPP;
+	}
+    ...
+	if (freq == old_freq)
+		return 0;
+    ...
+}
+
+So writing back the unchanged value fails as well. dpll_restore() then
+logs "restore failed: dpll_pin_set_frequency ..." with the "frequency set
+not supported by the device" reason, for a pin that was never changed.
+
+All in-tree drivers currently pair frequency_get with frequency_set, so
+this needs a driver that implements only frequency_get.
+
+Could this do what test_pin_priority_get_set() does? That test writes the
+current value back first and defers the restore only after that write
+succeeds.
+
+> +
+> +	# Pick a supported frequency different from the current one. Both
+> +	# ends of every supported range are candidates, so a pin with a
+> +	# single range still has an alternative unless it is one value wide.
+
+[ ... ]
+
+> +	# A driver without a frequency setter or with constraints of its own
+> +	# may refuse the candidate, a skip on a device the user provided, the
+> +	# simulator accepts every advertised value.
+> +	if ! dpll_pin_set_frequency "$PIN_TUNE_ID" "$target"; then
+
+[Severity: Medium]
+Can PIN_TUNE_ID have become the reference by the time this runs?
+
+test_pin_priority_get_set() runs just before this test and gives the pin a
+better priority (before - 1, 1 or 7). A qualified input with that priority
+can win the automatic selection. A non-revertive device can stay on it
+after the priority is put back.
+
+test_pin_state_transitions() checks for exactly this:
+
+	# The automatic selection may have taken the pin since it was
+	# picked, it is the reference then and not to be touched.
+	if [ "$mode" = automatic ] && [ "$before" = connected ]; then
+		dpll_log_test_skip_or_fail "DPLL pin state transitions" \
+		    "spare input pin became the reference"
+
+This test only relies on the pin_is_spare() check that pick_tune_pin()
+does once when the script starts.
+
+On zl3073x, zl3073x_dpll_input_pin_frequency_set() writes the new
+frequency with zl3073x_ref_state_set(). That configuration is shared by
+every channel the reference feeds, so a locked channel could lose lock or
+go into holdover until the restore runs.
+
+The commit message says "the pin the script picks must not be the
+reference of any of them". Should the pin's state on each parent device
+be checked again before this set, as test_pin_state_transitions() does?
+
+[Severity: Low]
+Could PIN_TUNE_ID be the reference-sync partner of the active reference?
+
+On zl3073x, zl3073x_dpll_input_pin_ref_sync_set() checks the pair rules
+only when the pair is enabled:
+
+		if (sync_freq > 8000) {
+			NL_SET_ERR_MSG(extack,
+				       "sync frequency must be 8 kHz or less");
+
+It also sets the priority of the sync partner to none on every channel. In
+automatic mode that partner then reports disconnected. pin_is_spare() only
+looks at state and operstate on the parent devices, so it treats the
+partner as spare.
+
+zl3073x_dpll_input_pin_frequency_set() and dpll_pin_freq_set() do not check
+the ref-sync rules again. The test could therefore set the sync input to
+an advertised endpoint above 8 kHz, for example 10 MHz instead of 1 Hz. It
+would stay paired with the locked reference until the restore runs.
+
+Should pin_is_spare() also treat a pin as not spare when it has a connected
+reference-sync entry in the output of dpll pin show -j?
+
+> +		reason=${DPLL_LAST_ERR%%$'\n'*}
+> +		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
+> +		    "cannot set frequency=$target${reason:+, $reason}"
+> +		return
+> +	fi
+
+[ ... ]
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261112130359.840795-1-poros%40redhat.com
