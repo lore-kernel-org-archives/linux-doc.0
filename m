@@ -1,41 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.76.78.106
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.122
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794845027;
-	b=s4Nb8xAFDMVWWzAQPkbljNXKgtR0FfX05EkZR8k9IU0HofH+yHlOUaXQgluI0fx3w1Oz
-	 LNFSvvVvC8WJD9obEOtxO3IwFv9W2r6STU8O/16jqkeqKToATfzmzlQZgz/cnsOPg/676
-	 LXzRR9tpm3THQmopwQxwYWCao8jlhkFkzMTCQpy+cU0Qd6GbDx7NqN4ZbQBLyIM2RCcOi
-	 2yJHko3B3x5Nkm20ufdPazjEfuUfDpob1Qn+tSwQWHy299XI7//k/u+yPFTde7rEP8Qki
-	 m+0/72EW8wOJeK1k7ou9Eztggvy48XqoLSYo5ns6CR3fYy7sjLPeYfGuRBg4YDW95iw==
+	t=1794845367;
+	b=cyeAdeKdyCIypC+U9+g2qnhrEscullqs3VIiQw5dwbLqn9nw8gzjiYMT/lKOnR6SmFTn
+	 PJSgZ08r1sMTaJCeZSKrUh+SfFmrZbhHYcJ5URT3pDNJLqZgMDJgDVkQQd3E5vsMsAUvi
+	 bF4EEP7RMTm67FnLIqWemzXf4hqvCuvRz1sqNvbew5QaEbr7casz2XMsoEmI9bT/WZMj6
+	 +CNM3vT5ugj38svxmoSXENhISIqizjK3PMJrQI2jF6mPBJb41Mvb22KaH/Vyw1/hrm8Wk
+	 D1XrXMJ2nB26e1RcNuwcieUhpZxo9XS689uPSTfnscLpAa9mdVyiyW1Ru9WXOx/2U3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794845027;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=hpS6M900ZrqbYNnwn6CCN4oJpj/TVPdsd/1y1XqUQaI=;
-	b=LxUQS+kQdEFdYLYLdUQSIoTioyQC4CRr+D2aCKgfU3Heo0jGhLXBy63qZgLRkXLescnd
-	 UxmA4VCulrJqaAfeuj7aBO1SZzLpwfNlfw9A13Hz9rzysbIUzcf+xPE+/u1USrqMjOL2e
-	 5EE51HrUdfwwOearuRLe2ynsI6fZR+v8IgLu7RYnMrmf8JTQ6VNW/5zMf/MnZIIJm9z3a
-	 5YzWYPAne04OPTCxNPNJygb1x5gzJmwNlXD6O7yhKr3RlTLzI0jpfIIu4kuG3Qzx9yjPk
-	 vidbCVyZLC7TYDYgQ2OFcoXfxo9ZR04rWEA0drg7fQLZc2aWnxz2y9d+j1res2e7yag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794845367;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=xuWJrrizIQaSrZTQFgUO3V0HL4ic1BmuoACdN3FzMhU=;
+	b=AebG2IUJJSgq7I2GGuGY5Hz8TYG7/yjdnHJobFIvr+SlKUCuyMN9eTtNqaWLvPYmwxX1
+	 nzePLsKFJ6pw/fpUySvWOZYVoyFOjXjuSWmQRH0zB8DN1//S+DjJKohWqcTfKVjchqECT
+	 aT3ZIE+qZppZr+tUPIXXw3/x64DBn+qJq3qC62kJ2C2nBBdB+FD1WhM/dw64td/JuDr7L
+	 vZVTmi3oHw7TONBghJL9JOF/hGzqr+th5UM3YHhqleNEoO2Kp8aTKGiTXM4d6BjvTg3N6
+	 O4uukheCQhyExu7aDU4o2xux/l3zXTpxXQ+Oh1S4C3p2Mqd9eYUi4VrBh+ZeYKTTu5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=13.76.78.106
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9415606A322
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 16:03:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9415606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with UTF8SMTP id IQEQrMBWfcVbKftqrIkbAA--.39274S2;
-	Tue, 17 Nov 2026 00:03:40 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wAH0slWKftqmMkcAA--.6011S2;
-	Tue, 17 Nov 2026 00:03:36 +0800 (CST)
-Message-ID: <8663b8ae-9bc7-46ab-ad12-c9ed97a8096a@hust.edu.cn>
-Date: Tue, 17 Nov 2026 00:03:34 +0800
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=MWgeacYg;
+	arc=none smtp.remote-ip=91.218.175.122
+Received: from mta0.migadu.com (out-122.mta0.migadu.com [91.218.175.122])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0EA606A31C
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 16:09:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C0EA606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=MWgeacYg
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=xuWJrrizIQaSrZTQFgUO3V0HL4ic1BmuoACdN3FzMhU=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794845364; v=1; x=1795450164;
+ b=MWgeacYgaru9efJolT6kBToK2hT0DibHV0eF6vuzRodm9xIlji4/ycamOihaLx5Od3ltDDqO
+ qAf8pB2Ig0FhTy3sp2sa1NyGXzCVhdBj7/cDdj+NM0s3RQHyR/qBGlmPVfpWudk1vtFC79SDX70
+ ZxRiC35IVo0jkYtEHQedtfUo=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 4271a455ba8f50c2;
+	Mon, 16 Nov 2026 16:09:24 +0000
+X-Mizu-Trace-ID: 4271a455ba8f50c2
+X-Migadu-Flow: FLOW_OUT
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5c14bc5a743so12524e87.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 08:09:24 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErEovbWllJ088nhheR2fuLTXjrMJY0cSMDES2Vp4r3RJGpw/FzUjeuKLl2IwR1/zu7HpcRX1PoArDcY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+lSWtG/uiR6vb6YGUFPS79pQyTd9VoniJ6y7BB/Qm29WzyKeUb
+	QHLgrLJLr0M16+pFZ+cpsJ0KG0TleIN6vSRMMA1181pt8+7sP7q8qUvJONWryLKLsHf/Re4hHA2
+	qPXR19m0VR/9dBSuvQxeAIogKqD7FLG4wVGh3gm5Q
+X-Received: by 2002:a05:6512:1304:b0:5c1:4cc8:2f22 with SMTP id
+ 2adb3069b0e04-5c17e4b9f86mr221482e87.8.1794845363481; Mon, 16 Nov 2026
+ 08:09:23 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -45,123 +66,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: What's cooking in Chinese docs (Nov 2026, #04)
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Weijie Yuan <kernel@wyuan.org>, linux-doc@vger.kernel.org,
- Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Chen-Yu Yeh <chenyou910331@gmail.com>
-References: <avcRFzlQQTOra-fr@wyuan.org>
- <b930b5f3-8571-42a6-a8d4-433ace854f3f@hust.edu.cn>
- <avsgnLlkyQZ2U7d7@wyuan.org>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <avsgnLlkyQZ2U7d7@wyuan.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:IQEQrMBWfcVbKftqrIkbAA--.39274S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxCw1UWF1UXF4xWFyUWw17Jrb_yoW5CFW3pF
-	WfKFn7GF18Xr18Ar1Iga18CF1IqF1rG343Xr15G3WfArn0yry0qF1jkrWFga4qvrykCF45
-	tw17Zr9agryDZFDanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmlb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1ln4kS14v26r
-	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY02Avz4vE-syl42xK82IYc2Ij64
-	vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCI
-	bckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
-	I_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
-	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
-	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8
-	JbIYCTnIWIevJa73UjIFyTuYvjxUV9N3UUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+References: <20261110110724.3614412-1-fuad.tabba@linux.dev>
+ <20261110110724.3614412-2-fuad.tabba@linux.dev> <avM81YcTBTJ8zCMX@seanjc-mac.roam.internal>
+ <CA+EHjTz-Nb-g9YQKX2fKk61hC2BfzXfmUHv=2j+eZ18YuTv2Eg@mail.gmail.com>
+In-Reply-To: <CA+EHjTz-Nb-g9YQKX2fKk61hC2BfzXfmUHv=2j+eZ18YuTv2Eg@mail.gmail.com>
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Mon, 16 Nov 2026 16:08:47 +0000
+X-Gmail-Original-Message-ID: <CA+EHjTyqJfGS+5UajX=RYTAG-qfhZ-vmGi=1SixXydWhwGHLUA@mail.gmail.com>
+X-Gm-Features: Aa3M54pa7DZ_uBY7ynCUhZPG35ZaG2vJ1bC6E24f7r2YagR26_2vzli-PPKoWqQ
+Message-ID: <CA+EHjTyqJfGS+5UajX=RYTAG-qfhZ-vmGi=1SixXydWhwGHLUA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] KVM: Stop KVM_PRE_FAULT_MEMORY when the vCPU's dirty
+ ring is full
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, 
+	Wei-Lin Chang <weilin.chang@arm.com>, Will Deacon <will@kernel.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Sean,
 
-On 11/16/26 11:26 PM, Weijie Yuan wrote:
-> On Mon, Nov 16, 2026 at 11:07:34PM +0800, Dongliang Mu wrote:
->> On 11/13/26 9:31 PM, Weijie Yuan wrote:
->>> Here are the topics for Chinese docs waiting to be merged.
->>>
->>> Copies of the source code to Chinese documentation development tree live
->>> in here:
->>>
->>>       git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
->>>       https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
->>>       https://kernel.googlesource.com/pub/scm/linux/kernel/git/alexs/linux.git
->>>
->>> Mirrors:
->>>
->>>       https://mirrors.hust.edu.cn/git/kernel-doc-zh.git
->>>       https://mirror.nju.edu.cn/git/kernel-doc-zh.git (experimental)
->>>
->>> Please report any mirror instability to linux-doc@vger.kernel.org
->>>
->>> -------------------------------------------------------------------
->>> [Cooking]
->>>
->>> * Yikun Wei 2026-11-13
->>>     [PATCH] docs/zh_CN: Add deprecated translation
->>>
->>>     Needs review.
->>>     source: <20261113122844.24838-1-YikunWei@126.com>
->>>
->>>
->>> * Yikun Wei 2026-11-13
->>>     [PATCH] docs/zh_CN: Add contribution maturity model translation
->>>
->>>     Needs review.
->>>     source: <20261113112200.16790-1-YikunWei@126.com>
->>>
->>>
->>> * Xiongwei Song 2026-11-13
->>>     [PATCH 0/2] Add RCU docs Chinese translation
->>>     [PATCH 1/2] docs/zh_CN: Add RCU/index.rst translation
->>>     [PATCH 2/2] docs/zh_CN: Add RCU/whatisRCU.rst Chinese translation
->>>
->>>     Needs review.
->>>     source: <20261113013054.5662-1-xiongwei.song@linux.dev>
->>>
->>>
->>> * Weijie Yuan 2026-11-09
->>>     [PATCH v3 0/2] docs/zh_CN: update maintainer/configure-git.rst
->>>     [PATCH v3 1/2] docs/zh_CN: sync maintainer/configure-git with upstream
->>>     [PATCH v3 2/2] docs/zh_CN: improve maintainer/pull-requests translation
->>>
->>>     Needs review.
->>>     source: <20261109-configure-git-v3-0-d7807bb8e8c7@wyuan.org>
->> The above four patch/patchset are reviewed. New contributors still need to
->> pay more attention to how-to.rst.
-> Oh btw, once this patch from Konstantin is merged, we'll only have the
-> linux-doc list, and no more LKML:
+On Tue, 10 Nov 2026 17:18:22 +0000, Fuad Tabba <fuad.tabba@linux.dev> wrote:
+[...]
+> > Eh, I vote to just use kvm_dirty_ring_check_request(), I don't see any harm in
+> > clobbering vcpu->run->exit_reason.
 >
-> https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?h=mm-nonmm-hotfixes-unstable&id=24e311b72f31fddbbb1e2f6fc3232f3ac523d929
->
-> Therefore our free Sashiko review will stop soon because linux-doc is
-> not registered in Sashiko.
->
-> I noticed that support for triggering reviews based on specific file
-> paths, without enabling them for the entire linux-doc mailing list,
-> seems to have landed on Sashiko´s main branch, but isn't in the latest
-> release yet. If folks would appreciate an extra pair of eyes, I'll take
-> another look and kindly ask Roman to enable it for us.
+> Will do.
 
-Just do it. No lost, but more issues with another round of review.
+After taking a closer look, the clobber is problematic on arm64, where
+KVM_RUN completes a pending MMIO exit only if run->exit_reason is
+still KVM_EXIT_MMIO. If a pre-fault stops on a full ring after an MMIO
+exit, the helper overwrites exit_reason, so the next KVM_RUN doesn't
+complete the exit and the guest repeats the MMIO access. The ring can
+be full at that point if the pre-fault dirties pages, or with NV, if
+the stage-2 walk for the MMIO access does.
 
+I don't think changing how arm64 completes an MMIO exit should be in a
+fix for stable, so should I keep testing kvm_dirty_ring_soft_full()
+directly in v2, or do you have another suggestion?
 
->   I'll do that
-> after this weekend's CLK conference. What do you think?
-
-If you are in Hangzhou at the weekend, maybe we can have a talk there.
-
-I will go to Hangzhou this weekend since my student will have a talk in 
-the ebpf subsystem of CLK conference.
-
-Dongliang Mu
-
-
->
-> Thanks.
-
+Cheers,
+/fuad
