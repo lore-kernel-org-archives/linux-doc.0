@@ -1,67 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=183.62.165.209
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794817427;
-	b=JFTEU2Y2saAZp8wK+uoHAwAVPj3tzrIB+ApsEwt2QRwmbZd51PeZN4ue5OFj1FiEuaGf
-	 bk29L6LEDCFryJYtqHJh4n0P6SlrZ2aX1v+vh2eexCpuw2HekpJIIKU18KdlK/vpxhuc8
-	 i2LggAjtOmpIuSrENb6oUifRDVn2eqeWQhASTM6aqBAeraJV8hw2u6WDfFZQ1rWurWLyn
-	 RzoH68rz/+5ELXi57t6JNuESUHmZuxnWrXK6uqY+domRqJzEPA2yeyarfcId7x3sf+sLR
-	 Q3cVGmAVkAvOGV1a/NQ3miQsOHWUgGJV/RexKFCJPo5idwPc2XvgyqnzPCHDfZ/q2Dw==
+	t=1794817483;
+	b=VpMFzL8FEO0Qffa49VkNQlDZsOq4c7mSamFsXWYYw8cJkPHmy0IHXl4bVSWR4luXJozN
+	 kqVCPNRLaNY09TgSzzDBMwBrvdikYnI4tXTkws5k7MHDBxyEzG+K/hovH3t7f2vBEc7jC
+	 ljkdFPsEzr26+5uM0NHXhejdOBfc1VN6wk9M1EZMs4UwMwWzeI3k4/izJVcEHs7FBam+6
+	 v0Ih5XBG+6UPhgt8ZUEz6aduMHE0+UV8y1bpzSIiZP58a+yDO9GBrWcMhUewNKFkJnmgk
+	 +01Fasgv9d82Ob3+Up1asoBJ5cYPRJmtjzMW68mr8YDkeyY+ora9euk1mC3x14Cw1sA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794817427;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:From:To:Cc:References:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
-	bh=zk7qMeGwsrGuf2gsO4HA2YvZx++EbTxoa+GvBuzPEW8=;
-	b=LzcBrSZE8PO+skoStmCX4t/4faoEh1DMD1pCuzBpbuUpxoJ7XkPp6JU4YMTF6cTKGZsg
-	 LqLiDlo/FyRtHMO4oXtDcm7IQiHWC9PHgsiPRumsIc/Pu57b/VjJ0j72ichz5YWxSOEcJ
-	 diCuzxk3QA06Wgbe+A5VldI9hVx/GmUDdHgr+jv7i5XVAvU+FMvtpKagflEwAn/aZg8mG
-	 ySIec9N0+LEQiMKy5c2AIuWMY2ussCMOmCNBaZp+pido0WwjsH2oB4a/f9gJWR8NNSTEC
-	 vOPsZU2VR3D2c8LgBXENWMji6lJoIfwpxJCNyc2OnFp/lMyq01A3beGfDsnafiJxtqw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794817483;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-Id:Received:
+	 Received:X-Zmail-TransId:X-Mailer:In-Reply-To:References:Date:
+	 Mime-Version:From:To:Cc:Subject:Content-Type:X-MAIL:X-MSS:X-TLS:
+	 X-ENVELOPE-SENDER:X-SOURCE-IP:X-CLEAN:X-Fangmail-Anti-Spam-Filtered:
+	 X-Fangmail-MID-QID;
+	bh=58IfPnqHRKLwuXBvAs4GhM8StT1P1xBBygpTTFKoJac=;
+	b=iuGtjMrK9TAiNac2eFAhnn2ilGMqi0yGS+zFMLJOmMaGulJJGxHDwSE/iKPDnLrDCJBR
+	 EpPfFhwGf5WnQomGyhD4vn/kRTOiMpKEq02qzMGaGgnRFUiKhyRiA4crkO8Q+ZPA0rTOP
+	 9u4c9sks+oaAJbJx83dYHhzgqEB31I133LyH3DI76fK2liN8SkuYTmY6VDGtlg/HBKsDY
+	 J3EyheoRl5p/QE+oJsa2maeSSewD0mg2ws2pYfmvBIsk8eVpzv78v5zIPA1BMHPm2jGIL
+	 nIzG9bq0gbpAlpV5XZle/uK8wo408tkw+uaxOxjj3Rw7HTeokuq7/OOSBWAFFXzRgKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=QkcFewS9;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dmarc=pass header.from=zte.com.cn;
+	spf=pass smtp.mailfrom=zte.com.cn;
+	dkim=pass header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=0f4mOhhR;
+	arc=none smtp.remote-ip=183.62.165.209
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3B3606A32C
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 08:23:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC3B3606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E819606A323;
+	Mon, 16 Nov 2026 08:24:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E819606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=QkcFewS9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794817425;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zk7qMeGwsrGuf2gsO4HA2YvZx++EbTxoa+GvBuzPEW8=;
-	b=QkcFewS9ullkYehd7joROddpjZb7nZ03RFYcTwy1KiWEuvRFqeMpKEksQNz7zgHRTfcOXw
-	8EJQp4QftUTkKfyhDfLzKf9LsbecJfHZkRU4V9cjYHDQ6OoHJthnPklLCPSfnT+waAYsY3
-	WY3ctA3qBm1FW95Z8+56AhUOzrQNnj0=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-650-KBcw-E4wPoCsNlIGF5y5VQ-1; Mon,
- 16 Nov 2026 03:23:32 -0500
-X-MC-Unique: KBcw-E4wPoCsNlIGF5y5VQ-1
-X-Mimecast-MFC-AGG-ID: KBcw-E4wPoCsNlIGF5y5VQ_1794817409
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	dkim=pass (2048-bit key, unprotected) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=0f4mOhhR
+Received: from mse-db.zte.com.cn (unknown [10.5.228.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 433F619560AD;
-	Mon, 16 Nov 2026 08:23:29 +0000 (UTC)
-Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E718218004FC;
-	Mon, 16 Nov 2026 08:23:22 +0000 (UTC)
-Message-ID: <b6e9a07d-ed95-49c3-a797-0dc23dcedd43@redhat.com>
-Date: Mon, 16 Nov 2026 09:23:21 +0100
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4jSgrd4R8Wz5B17d;
+	Mon, 16 Nov 2026 16:24:33 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
+	s=z202610; t=1794817473;
+	bh=N0NdiKv+Fy5j35Vr2TJujUaTH6LyttgdteR+TV6ffEE=;
+	h=In-Reply-To:References:Date:From:To:Cc:Subject;
+	b=0f4mOhhRbefSY5NNdtIvw1DVYk5XQK2+Rbzzgb1HwrGMyfk8sl79doLDGgL+zf9/5
+	 TZx0viM9kOUXmEyI2hByf68HLA6UFbUvQp0TMEhM0moDP7Rz52r6LEWN5m7/LNwZiB
+	 xDJU8wniE2JxRtdTHUQZtz35sPBCQtOYIUX6fAc9myAJFo677hoNHlEZET4P1M8tXn
+	 dnkWyVkTUpqKKm8v2S4IttloWW+LFVT9pFH+09lxITFxIUmn0NHqTTk3VGxESk3gTZ
+	 AJHSHk+S1TcVK5Oa+yugiuVWJyCSc48Nw99FeiJbJB4JK66X7KmGiKg38I1mzb2jOM
+	 gJBH+2cglq8QQ==
+Received: (from root@localhost)
+	by mse-db.zte.com.cn id 6AG8OXL4051238;
+	Mon, 16 Nov 2026 16:24:33 +0800 (+08)
+	(envelope-from lv.yating@zte.com.cn)
+Message-Id: <202611160824.6AG8OXL4051238@mse-db.zte.com.cn>
+Received: from szxlzmapp04.zte.com.cn ([10.5.231.166])
+	by mse-fl1.zte.com.cn with SMTP id 6AG8GMN1074362;
+	Mon, 16 Nov 2026 16:16:22 +0800 (+08)
+	(envelope-from lv.yating@zte.com.cn)
+Received: from mapi (szxlzmapp03[null])
+	by mapi (Zmail) with MAPI id mid16;
+	Mon, 16 Nov 2026 16:16:24 +0800 (CST)
+X-Zmail-TransId: 2b056afabbd8e45-0504e
+X-Mailer: Zmail v1.0
+In-Reply-To: <20261116160310759KXBV_Mm-mVT-XuE_01dgU@zte.com.cn>
+References: 20261116160310759KXBV_Mm-mVT-XuE_01dgU@zte.com.cn
+Date: Mon, 16 Nov 2026 16:16:24 +0800 (CST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,71 +76,55 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 9/9] dpll: document locking rules
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Min Li <min.li@microchip.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Richard Cochran <richardcochran@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- Grzegorz Nitka <grzegorz.nitka@intel.com>,
- Karol Kolacinski <karol.kolacinski@intel.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
- Petr Oros <poros@redhat.com>
-References: <20261111164021.273409-1-ivecera@redhat.com>
- <20261111164021.273409-10-ivecera@redhat.com>
-Content-Language: en-US
-In-Reply-To: <20261111164021.273409-10-ivecera@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Mime-Version: 1.0
+From: <lv.yating@zte.com.cn>
+To: <lv.yating@zte.com.cn>
+Cc: <pjw@kernel.org>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
+        <alex@ghiti.fr>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+        <rdunlap@infradead.org>, <linux-riscv@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <liu.qingtao2@zte.com.cn>,
+        <he.yilin@zte.com.cn>, <ye.zhihao1@zte.com.cn>,
+        <zhang.cheng35@zte.com.cn>, <hu.shengming@zte.com.cn>,
+        <linux-doc@vger.kernel.org>, <wang.yechao255@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIFJFU0VORCAxLzJdIHJpc2N2OiBBZGQgTGVhcFJpc2UgVGVjaG5vbG9neSB0byB0aGUgdmVuZG9yIGxpc3Q=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-db.zte.com.cn 6AG8OXL4051238
+X-MSS: AUDITRELEASE@mse-db.zte.com.cn
+X-TLS: YES
+X-ENVELOPE-SENDER: lv.yating@zte.com.cn
+X-SOURCE-IP: 10.5.228.131 unknown Mon, 16 Nov 2026 16:24:33 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6AFABDC1.000/4jSgrd4R8Wz5B17d
 
-Sashiko reviewed v2 only on its dashboard [1], with low severity
-findings, so I am answering them here.
+From: Lv Yating <lv.yating@zte.com.cn>
 
-[1] 
-https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261111164021.273409-1-ivecera%40redhat.com
+Beijing LeapRise Technology Co., Ltd. has been assigned a JEDEC
+manufacturer identity: bank 0x12 with final byte 0x66. Per the
+JEP106 encoding used for mvendorid, with the parity bit dropped:
 
- > Is this rule broad enough? Several other exported functions in
- > drivers/dpll/dpll_core.c also take dpll_lock for write, and most of them
- > do not change the topology:
-[...]
- > Would it make sense to say that these contexts must not call any exported
- > dpll function that takes dpll_lock (everything except the __ prefixed
- > notifiers), or to list these functions?
+    mvendorid = (bank << 7) | (byte & 0x7f) = 0x966
 
-Yes. Every exported dpll function except the __ prefixed notifiers and
-the netdev pin helpers takes dpll_lock, and rules 1 and 3 should cover
-all of them. This is not new: on main, a callback calling
-fwnode_dpll_pin_find() deadlocks on the dpll_lock mutex the same way. I
-will widen both rules in a follow-up, or in v3 if one is needed.
+Add LEAPRISE_VENDOR_ID to the vendor ID list as groundwork for
+follow-up patches.
 
- > Should this section also describe the context of in-kernel notifier
- > callbacks registered with register_dpll_notifier()? The rules only cover
- > ops callbacks and driver code.
-[...]
- > Today ice_dpll_pin_notify() handles this correctly. It only allocates the
- > work and queues it:
-[...]
- > The dpll calls are then made from ice_dpll_pin_notify_work(). Could this
- > requirement be stated in the new rules as well?
+Signed-off-by: Lv Yating <lv.yating@zte.com.cn>
+---
+ arch/riscv/include/asm/vendorid_list.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Yes. Notifier callbacks run under dpll_lock, and with this series also
-under the domain lock of the notified object, which can belong to
-another driver. They have to follow the rules of a callback, and a
-driver must not hold a lock they take while calling a function that
-takes dpll_lock. I will add both to the same follow-up.
+diff --git a/arch/riscv/include/asm/vendorid_list.h b/arch/riscv/include/asm/vendorid_list.h
+index 7f5030ee1fcf..2d0a8a2e4a67 100644
+--- a/arch/riscv/include/asm/vendorid_list.h
++++ b/arch/riscv/include/asm/vendorid_list.h
+@@ -6,6 +6,7 @@
+ #define ASM_VENDOR_LIST_H
 
-Thanks,
-Ivan
-
+ #define ANDES_VENDOR_ID		0x31e
++#define LEAPRISE_VENDOR_ID	0x966
+ #define MICROCHIP_VENDOR_ID	0x029
+ #define MIPS_VENDOR_ID		0x127
+ #define SIFIVE_VENDOR_ID	0x489
+-- 
+2.27.0
