@@ -1,66 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.32
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794839934;
-	b=yVtAMgmYk3nVR4Tk6XZAcYvn9JaDheJy/nVarM0eF+i4bL/kjdAhVxCfM4eJKFDhBs9P
-	 jLnRaO2zfytsDiBc44akl3yT2aeakL8iwRPofqK0xSw/7Gqx3uacrtTMMiwGmBHtXOmw6
-	 Rsirb7oO6NO0ciSj+3i5fGmnH/BK4MjOoeEvUaf4NqCB7GVblD5u4wdxV8JmupNC+OpIz
-	 Df9jSAZWddve0McWTyHgccEiYHlvUOJ5rYDERc9xbY5VeRkVUq1wTFcSRiTU2OPBXus7F
-	 aghZ83XQzziScMrzqsnoOR7ZbcnIQYQjEqwukwlz07mv6+NoFePHKiYOS/HQ0Hc/7Ug==
+	t=1794839943;
+	b=r7lE6bOyYQzCrTO8WJEBsxwmK9Jr7CsoEpWOtuDKVUXkc90uY84h1xhC2WsP5YCrXoTQ
+	 d84nIvpSPR7zY9xORaclNp3OpreZZx1co9vZT2sXGuXLqu9BA6xBrM1HI5I10HqurKYRJ
+	 vc0gyZFWnA2QXLGGkYYhcH2zQQWaz53/JsAng+pgHWIWfNPlnn7KQrOM7zA2xurtm6Vjr
+	 zKjc0BOGyZ7wEm6vejuM0DHTKIiLYpi0NYyMyJ1PGUcctHuP99ug2lfBdLzU9M0TZetI/
+	 f5R+av5o1Ohxprj6vBMYAaMN5NLxBxzNk/Hbz27uQb+LF9oaq74vFEFOCbunRCVyv8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794839934;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=RCSsIAQr4ns8lByjqkl548Iact+tOp+5FXcI5XUX2Pc=;
-	b=A4WDn2eiUrybkqp13jk06/XhVrzclGNcvQqRfW5AHt25rmZY7RYqGjEiys8GarZZcLPa
-	 tAksXYTcivdqoUHr2m4hlRJHkb+PBvYA8qbZWs/vmTGKm5n84LhttY3cML6tA+MeucIov
-	 mAW4RYcIfAwJ9c9v3/e6A5LWWt4u+e5NnoG4PFRL2PuNi1mVXuGqOYYneXUHMO67dVHas
-	 +k9C3NKSAtbmtOW+Vbh3VuFuhYTnY/I0ZD7ZNlsP0v6Z3M30Xvl94ekYgO0dsQq+a3/+j
-	 L6dbpVrTVbJaHD0R5CPTAuNIOvcy/qfYNZXaX1zrSxRdV8u5iP2uCXd92+tcsvscLSw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794839943;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type;
+	bh=a4RVFnW40tIgP+A14RnYbG4R7E02jcPalUi+wNICCI0=;
+	b=EpB9jtKiL/lFp2Fp8UzePSlxmlLYLkCSpfpdYk5c0F6Q8nAvgX8OxuZ7AHc62onr4krm
+	 545x2tCxLktO3NDdAF992wCvq449cd9zZcCgZqWeSqUJj7/AmI4mL+s45z/Lr66Kz8z3m
+	 J0M6QRWvVGhGlJCryoJFTye4q32RK02AIGgAYES5+X2IbgXdwZIh8e0epAmFzlGTXU19i
+	 oLdX5Alft3twIJUBAMjyYYQtIb4nATmpJWrMmquZ5t6pNAJKP2/TSj6O2oGsMu3qXiZgY
+	 i4wEoeShMu1sT7LVszrZEXquhpWGLzW/2rCYgdOxQOBiWOU4Qg/tsbFCWPGV7DgnhaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=v9liGBx9;
-	arc=none smtp.remote-ip=95.215.58.32
-Received: from mta1.migadu.com (out-32.mta1.migadu.com [95.215.58.32])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QxK9c8eu;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5792C606A31C
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 14:38:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5792C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F40B606A32F;
+	Mon, 16 Nov 2026 14:39:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=v9liGBx9
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=ztk7Pa//cX1DYQS+6PFeoSOK37LnXmVRwhbAOkkIc8Y=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794839931; v=1; x=1795444731;
- b=v9liGBx9pFghjKrHK//eWsSI/AkEIleCB+znkXZIWrFaWv9FQLJGI1XjcC/hdCae2zkfYKzR
- wLw4fs0Lvgs83sW/+OLnSBoV0CceVRMvjkZZeS+rITf7Wy42b84Y6L0Nm1YY50GZ5lRgWg9kRrE
- LqppFHjCyjojMufQz89T9iFnUnLzoUbbPvLClhjphp+k/IV76sntI8u32veQjhcqpZjVMNHxEG9
- E/+IleSJM7cBH3l3yWVEpPsBQ+I/eeUMFXwnnbux6/s96j3oMiBRRrsOZZkRdCamz76fp+RJZHV
- PJ5tmaY7Y4zL1ncpC7MqxaDd5E4SzHlBz1LeTofkItSDw==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id fcd1bff72ff77b43;
-	Mon, 16 Nov 2026 14:38:51 +0000
-X-Mizu-Trace-ID: fcd1bff72ff77b43
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 16 Nov 2026 22:38:46 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] docs/zh_CN: update maintainer/configure-git.rst
-Message-ID: <avsVdm5rzX_ZxtsP@wyuan.org>
-References: <20261109-configure-git-v3-0-d7807bb8e8c7@wyuan.org>
- <476202a2-26a7-4b6b-a7d5-ba8e586371bb@hust.edu.cn>
- <avsSapW0-wS_gEsz@wyuan.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QxK9c8eu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D73181F000C8;
+	Mon, 16 Nov 2026 14:38:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794839943;
+	bh=a4RVFnW40tIgP+A14RnYbG4R7E02jcPalUi+wNICCI0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=QxK9c8euAWzXRsLDFjPby0hAYyh5iCkQKcBe05mgP/2X+g0Vkhykk0kae4BRCzs+d
+	 yClPLbAktxlFEiUa06wlaGY5SNzq8AHsRpOL/vmLmVLBa57CXX73HGotKo66ju6bdN
+	 jHAcizVBx5rJwT7GYDJU1rr2IWeVuwlx6xLEtH3tzBlVO+a+PIK8+G5ij7O/L/nU5f
+	 qRlt0XlmSlN6OrGzqLKO2TROen/iCNJLo5VxHqVz3AGp5n3W+CwcgA5Kpcu1WMi4TZ
+	 an8CgnMxUjt5AniFGMlV9fjywSs/QL4Zau4J7mEvrpdNnNQmxqYzSDEKV1rkrlqIqm
+	 gO+YAE2WXb6XA==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: FUJITA Tomonori <tomo@flapping.org>, corbet@lwn.net, ojeda@kernel.org
+Cc: acourbot@nvidia.com, aliceryhl@google.com, bjorn3_gh@protonmail.com,
+ boqun@kernel.org, dakr@kernel.org, daniel.almeida@collabora.com,
+ gary@garyguo.net, lossin@kernel.org, rdunlap@infradead.org,
+ skhan@linuxfoundation.org, tamird@kernel.org, tmgross@umich.edu,
+ work@onurozkan.dev, linux-doc@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, FUJITA Tomonori
+ <fujita.tomonori@gmail.com>
+Subject: Re: [PATCH v1] docs: rust: add guidelines for Display and Debug
+In-Reply-To: <20261115214025.2122718-1-tomo@flapping.org>
+References: <wMC2tYBzaOkqEnEQsq9wrD2Pr6zHx4Cg7bghaMBfvI3yyXOlWUlxHxpEdUgJ1lF2NA0uhYFkChJ4Jl7iOJ_geA==@protonmail.internalid>
+ <20261115214025.2122718-1-tomo@flapping.org>
+Date: Mon, 16 Nov 2026 15:38:49 +0100
+Message-ID: <87ld6svo1y.fsf@t14s.mail-host-address-is-not-set>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,35 +63,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <avsSapW0-wS_gEsz@wyuan.org>
+Content-Type: text/plain
 
-On Mon, Nov 16, 2026 at 10:25:55PM +0800, Weijie Yuan wrote:
-> > > Range-diff versus v2:
-> > 
-> > You need to tell your agent to forget about the range-diff.
-> 
-> Sorry, I realized immediately that I forgot to change my template for b4
-> cover letter after sending out this. Now deleted.
-> 
-> --- a/.b4-cover-template
-> +++ b/.b4-cover-template
-> @@ -4,8 +4,6 @@ ${cover}
->  ${shortlog}
->  
->  ${diffstat}
-> -
-> -${range_diff}
->  ---
->  base-commit: ${base_commit}
->  change-id: ${change_id}
-> 
-> Thanks.
+"FUJITA Tomonori" <tomo@flapping.org> writes:
 
-But anyway, for recent series I did not use b4, so absolutely no more
-range-diffs will be generated manually. This series was created and
-tracked with b4 in August, therefore I continued to use b4 to send out
-v3. And yes, I might be better off asking an agent to check it for me.
+> From: FUJITA Tomonori <fujita.tomonori@gmail.com>
+>
+> The kernel crate has no written rule about when a type should implement
+> Display and when it should implement only Debug. This came up in the
+> review of a patch that adds Display for Delta.
+>
+> Add a section that follows the usual Rust convention, with one kernel
+> specific point about types that correspond to C types.
+>
+> Link: https://lore.kernel.org/rust-for-linux/87se19qgeu.fsf@t14s.mail-host-address-is-not-set/
+> Signed-off-by: FUJITA Tomonori <fujita.tomonori@gmail.com>
 
-Will pay more attention, thanks.
+Seems sensible to me.
+
+Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+
+Best regards,
+Andreas Hindborg
+
