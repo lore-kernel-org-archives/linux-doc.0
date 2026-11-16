@@ -1,101 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794796333;
-	b=Do+Q5FoT0P/RlL+4AJxl3s5cQ08lChmRha7eA11HGN6zqeTGltFNlXEcHARbv0ZXthJe
-	 7wgfe6zk2FduV7LVCUe/XopZgo44vKUT2idMV1mSQSzH7glsLuCzpvwckmUdvMGmllLQU
-	 ZFk9l6mCNcF+8nfMhOoud0ID3PoRdMk/n01ASnHrz0y/Mxxdx2xCg9eoUHWWlcA/0cA0q
-	 +rGgWYNyxLk/cL82KHgg4nejoaveA7LtEM29Qqud7U33rZUx1o4/mqw4Wtf5F2y7nBc1g
-	 4LpOtR9vKWPIpd9GL0FiaTa6vPTkNadkTRgAnVOvFbGA2NwsSWVs92HsnuJfqlNySzw==
+	t=1794797218;
+	b=5TiTjdg6ANIxzQo0R6LjDB5wb9g7PPG8cCNCH9wWRIXQZuZ4OvZzty1uQaV2vqfCezrF
+	 dmEyiL57FxO2DSAr+Yn9R/aO887lhwkdeYFedFvTTzZ7bb7hUzDMAELKr1MY18ntoWLoU
+	 vpx6luXe9idM0SB+atHkXywDdPIeKqP7VZrtr7WH+VMHAWSVxb1ErapgXzx8LYR9EMWpX
+	 7jnyOamsbb4e0NVpRgZIUDFoJOHUmNjKcSd7NoQlRPpgInRwejeC2pcX7qbHIVNIerWHF
+	 EfATD2DJCw1aGKRnEFnVU5+o1xBhUtP7wsPpCOG/E0gfw+aUzLk5JG/lelLboJuJ1ug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794796333;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=qP0oQ8pgHCHQzk/+nldvTTjF2Xe/AkvM0ngljoymRm4=;
-	b=MIhq6ItivnTMfxDWsExL74EdjmABoBFL0xEmsk2qlJ5jeNia/18QwY/PH5nBOXSJ7P/7
-	 XcJk4UrBQdI1S1UNEHh0AqnnlwnskoOsvDSEhLDhKeiq+DfUgmy3Nx4ysKF5yuuqIhRBC
-	 1GMpvXinopi6vMz21PW+rk8mbv0OSitnXWj1x8psb0HVk+Bvi9rHYrcE0mYA8AvClm0ar
-	 UWvI3U7PlX6UpoqSKihiGenu/paAsYINa2/+5urf+Nxj7JshoMQTglc8GCdewUouURME/
-	 V4PBrSl1rYqKvAmsQLJ0SS4e4s9s9XWJnHQXsiQVQyCQ0iuTM6plP9aOI9LX3Oq1xYw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794797218;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
+	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=bJ6zQJ+d4ghqmxHcyVoo4p8quIchGY2srwMKzAjG3lo=;
+	b=SKsjI+iiOkChnYsnQ/nVojVzQbUT4pEZ3/q2Kl9OCzPRdWa8Fha2FgWhGj3G75RnX6lF
+	 MdrM9dHjL2LHTDKcK/Twyq3Y6tSfioz8kUHf0/RAj8uxXhKZX5D2Nzk0d5Z/9meTLAKNU
+	 7tdjsfy75Mc16fySvKgKcZPME7tHUdqTUpiah/bSmBSazP7WM4N7+e36VVXoSem725mU3
+	 09H/040qj/+t+HdT/ziy38BwHWafFRJGpaFHQQBI12L8ktdxeewaT1dXL/1Bb58aFlq5v
+	 DuPSfdeuYHTGotyy0IYDlzrGdEHjLviSrdLcaCEGiFmxPqsUKJMymMEKyVW6sulVOIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n097wLUh;
-	arc=none smtp.remote-ip=209.85.161.41
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=w9dmxDnR;
+	arc=none smtp.remote-ip=35.89.44.37
+Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08336606A31C
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 02:32:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08336606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0840F606A31F
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 02:46:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0840F606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n097wLUh
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-70bf1671c21so2696749eaf.1
-        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 18:32:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794796332; x=1795401132; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qP0oQ8pgHCHQzk/+nldvTTjF2Xe/AkvM0ngljoymRm4=;
-        b=n097wLUhxoclfA5QObXODd/JJRRKdOMko7wT9CCDpExxu+EqWIRhSBNsYYJW1UNrAo
-         oNR2SX6deWfZeNa0DslMa0sMX7UtmAo4zgIRgiABWk5pgtfUOw13ijcp3BLV3Cx6zeNf
-         1bUrTC2qZRH5pmqtCBMte/Th5bR9t19SgALJVXzq6Vf7+4xIxuM67fweKuwVegbjyKw8
-         emkTrBKSFEk8UIjCPafZo09qflxilxW1zvRkRkKTsOe9nWg8K/mFtD/SOTvEtC638G2M
-         jBcu5xCP71GlWOtRLnusPyokNC5B0dn9ZA4K8Cg9ZrEg3zxWJMvW1nrpzEpjZ7RWAlVe
-         n4Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794796332; x=1795401132;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qP0oQ8pgHCHQzk/+nldvTTjF2Xe/AkvM0ngljoymRm4=;
-        b=RNIb31LObRsfhE4YKd6McojGj34PUJs2sRXXcvwUS2xA43FBcwwJyQhIsQrzSWuzQU
-         3J2zzIH5C7HonpV9zQ1rlfKhB6Xy3ROqkhfevXSUshw7EIyxAwToZDDyn8OSdr45SPcU
-         EYpIwMASHMS85/lM4hfgSRC9dzy+lZhXlHoDfkKGEYH0Fb47f9z810vBbEy6TrIlP/q1
-         sx2Qk4M4fE7nw2FkDh2VjXFlcLPrJ4TWB009lwkhdN1b/M4U40Ad7IuJDL39zE/Y0slJ
-         /7vbvcSWaLxVdqXSwJZb5zCrao5fymiWKpdxuWWwENBWbNwH01lRHPNHIfmaeZgb5Ij/
-         75Tg==
-X-Forwarded-Encrypted: i=1; AL+hErG/RMo7CmvT5VOMLpz4C8Ym1a5cbcPEBhySqOeTXUMguEy7zJP3HagfA1RiT9bovgMzDAo+X8FUbds=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8vQhAKPuMaWqqHkkokpgx4l20avaFhmMOmI/pohdd7aQpVqgjs
-	Qs2I6pY9Ex/ZxtLgIKk9PhBmA8ln0ahzT7lIuDtjYLkLW9k3U54kDUeUszXS5ZFK
-X-Gm-Gg: AYBFou06EfMkRapS25i6LmkPT25PPpI2QFmnFz/Y8YygUgi8n51yRc8PiNQNXVtpH2P
-	XyoENO9STaIHTgfT2JF10fpRk3zYky+UOpmXlMJTourOOrDxthK40ufoD4E04WwgwTwz73IZFyC
-	jd1BSVcrEUR5/y/56byNPOiM61a9a/LM6Q76eKKC1ccnQl5BpYyji3IfrXwZb/l4WgT1ysBKI8A
-	R/DbkZaNidosqKUarJF7zEcEStfcF+cnfBS65HVTe9P8fChbcJOOnyZtuPlw+efkj6mIcNSIunk
-	q6bv4pUI/GorMzMjuqrP5+Gf6lPrGac+c2NXeOvZ2y4BTiK1LEthMJDJI0/M6B3PcUeiRKdn7tK
-	6ilBgk190hlDuS2Pn1S1byMi0MTUrr+SpiEPPAhL0G/djtM8eq0i3BGg6L47QTQmyfJjmKmjX8T
-	gJZwW/n0kHx0qPoCvdht8uCEOGy5s8fFgR1RfoW9MyUApeFuhAatvw9zRA4SI4A5ddMYplYhIAD
-	xirR9E7Mlz6VVnxp02t7W2+vS9dCE/6PrvhTRUSxtQhk/Br/VmfWVMmMfRFwOhOgvF24bevjXF3
-	Lln+3aDefvFHfCAGRNfpsevLZDXpcWaefr9phaYtjKJb4UBVWxwxVXyuTuoJ99ga7mONvZRgO3u
-	xTbRhtHbCKyfYkJ1ZwMyT3lwhD0hgY4v9qg==
-X-Received: by 2002:a05:6820:1c83:b0:71a:ea6a:4f65 with SMTP id 006d021491bc7-71aea6a57c6mr2168123eaf.23.1794796331802;
-        Sun, 15 Nov 2026 18:32:11 -0800 (PST)
-Received: from fedora-laptop ([172.245.82.59])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-862c67db8basm1743225a34.13.2026.11.15.18.32.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 18:32:10 -0800 (PST)
-Date: Sun, 15 Nov 2026 20:32:02 -0600
-From: Ming Lei <tom.leiming@gmail.com>
-To: Qiliang Yuan <qiliang.yuan@linux.dev>
-Cc: "Martin K. Petersen" <mkp@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>, io-uring@vger.kernel.org,
-	Mike Christie <michael.christie@oracle.com>,
-	Bodo Stroesser <bostroesser@gmail.com>
-Subject: Re: [PATCH RFC 00/18] scsi: target: Add target_core_uring, an
- io_uring based user backstore
-Message-ID: <avprIhtn1TuYLX1b@fedora-laptop>
-References: <20261115-feat-target-core-uring-v1-0-28cdc137eac6@linux.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=w9dmxDnR
+Received: from eig-obgw-6007b.ext.cloudfilter.net ([10.0.30.166])
+	by cmsmtp with ESMTPS
+	id SfhixNw4MVK9USmkDxtHY8; Mon, 16 Nov 2026 02:46:57 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id SmkCxCsXj3nNNSmkDxb7ZK; Mon, 16 Nov 2026 02:46:57 +0000
+X-Authority-Analysis: v=2.4 cv=TuLmhCXh c=1 sm=1 tr=0 ts=6afa6ea1
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
+ a=L0PWDpQY-NtK-K_AShAA:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=bJ6zQJ+d4ghqmxHcyVoo4p8quIchGY2srwMKzAjG3lo=; b=w9dmxDnRfDNu
+	rI7YGuRtFLY5GnNnhQlkSTY64XfPXJ+TcQ90gi4SUE6sklbuNQvtQlu1CIO+wfBm56mn1uCfOy8OZ
+	cawOYs9R34mTPSXLti1YaI0ds+0DfbY7FJC0NnxBmje9QBrd54vyQJv4zQU/7GYUXp91maJvd6yEE
+	wZ9gs64PYIqT0t8WdBFYH+pPdY0mB2Yp+Lphhvy7Drk3Id1+gxLBiJgx88jgBAV6lxhc/kKhe0WDz
+	bZLW9hYDbgdpL2xse5TWxzbBc95kRydGxKgGMGE0Mp/R+8pMSo7n/gZhD2AGL/X75wGA6fHt9egIO
+	ptci6IopfO2o03qSphTTZQ==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:41278)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xSmkC-00000002Yqg-2fjc;
+	Mon, 16 Nov 2026 08:16:56 +0530
+Message-ID: <a0f9b726-d877-42cd-aebe-7cd727a6c98c@roeck-us.net>
+Date: Sun, 15 Nov 2026 18:46:55 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,82 +75,100 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261115-feat-target-core-uring-v1-0-28cdc137eac6@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] hwmon: add three more board models
+To: Eugene Shalygin <eugene.shalygin@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261115143708.492883-1-eugene.shalygin@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20261115143708.492883-1-eugene.shalygin@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xSmkC-00000002Yqg-2fjc
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:41278
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 2
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfHIHb8EgSr3EmYPezGAGMCNIk5hYf+dil2MzMAwfdUW3CnpeuZOZplUlglGPaxic6EC/7R5LCoLNUSCCN5W+2Pr20jVHaoQtQIyEzE/1qtbGiRcRRj9P
+ BgQ35JyFhm54yhxEbem4i27xh4rRHGn2rjfL0lFyJqpWI4fNhSG3BGq57OK9g4omsM0TgNcdOTjhml6z44oCr9MhsCMyQq2BrHXAIhUrvdrPZd6rEayvZwWj
 
-On Sun, Nov 15, 2026 at 07:17:53PM -0500, Qiliang Yuan wrote:
-> TCM/USER is how a userspace process serves a LIO device, for instance
-> to export distributed storage over iSCSI or vhost-scsi. All commands of
-> a device go through one command ring under one mutex, the data of each
-> command is copied into and out of a shared data area, and the server
-> has to parse every SCSI CDB itself.
+On 11/15/26 06:25, Eugene Shalygin wrote:
+> Add three boars, submitted by users via GitHub repo.
 > 
-> This series adds target_core_uring, a second user backstore next to
-> TCM/USER, built the way ublk is:
+> Eugene Shalygin (1):
+>    hwmon: (asus-ec-sensors) add ROG CROSSHAIR X870E DARK HERO
 > 
-> - The kernel emulates the SCSI commands. The server only sees reads,
->   writes, flushes, UNMAP and WRITE SAME as an operation, an offset and a
->   length.
-> - A device has several queues. Each queue is served through io_uring
->   commands on its own ring, with no lock shared between queues.
-> - Data is copied once, with pread()/pwrite() on the character device, or
->   not at all when the server registers the pages of a command as an
->   io_uring fixed buffer.
-
-This is ublk's uapi re-implemented inside LIO: FETCH/COMMIT_AND_FETCH
-per tag, pread()/pwrite() with (qid, tag) in the offset, and buffer
-registration via io_buffer_register_bvec(). It starts without what
-ublk added afterwards (queue affinity, recovery, auto buffer
-registration, batching), and the sashiko reviews already found the
-same abort and lifetime races ublk fixed years ago.
-
-Follows two alternatives, especially with zero kernel change:
-
-1) If LIO is required (vhost-scsi, FC, SRP, iSER), serve the device
-with ublk and export it via target_core_iblock. Same per-queue
-io_uring, same user copy and zero copy path, no new uapi. Please
-benchmark that configuration, with UBLK_F_USER_COPY and with
-UBLK_F_AUTO_BUF_REG, same 32 queues and threads.
-
-2) If the goal is iSCSI for userspace storage, keep the kernel out of
-the data path entirely. A write here still goes NIC -> iscsit -> LIO
--> uring_cmd -> pread() -> storage client, and a distributed storage
-client needs the data in its own memory anyway, so the zero copy path
-only helps file and block backends, which iblock and fileio already
-cover.
-
-A userspace iSCSI target on io_uring receives straight into the server's
-buffer, with one copy fewer and no new kernel ABI. ioutgt
-
-		https://github.com/io-target/ioutgt
-
-is that design: one ring per queue thread for socket and backend I/O, lock-free
-data path, NVMe/TCP and NVMe/RDMA today, iSCSI on the roadmap. It already beats
-the kernel target by a wide margin: about 2x nvmet on 4k NVMe/TCP random read
-and write, and 2x on 64k over both TCP and RDMA, on 100GbE. Adding iSCSI
-there is a bounded userspace project.
-  
-> Patches 1-4 create the device, its queues and the character device.
-> Patches 5-8 pass reads and writes to the server. Patches 9-11 handle a
-> server that exits or hangs, and aborts. Patches 12-14 add flush, UNMAP
-> and WRITE SAME, patch 15 adds fixed buffers. Patches 16-18 add a small
-> server, a selftest and the documentation.
+> John Roden (1):
+>    hwmon: (asus-ec-sensors) add ROG STRIX X670E-F GAMING WIFI
 > 
-> Not covered yet: protection information, and a way for existing
-> tcmu-runner handlers to move over without changes, as they implement
-> SCSI rather than block commands.
+> Kostiantyn Korn (1):
+>    hwmon: (asus-ec-sensors) Add support for PRIME Z590-A
 > 
-> Exporting a 2 GiB device through tcm_loop to fio (io_uring, direct I/O,
-> iodepth 32 for 4k and 8 for 1M, 6 seconds per job) on a 32 CPU VM, with
-> TCM/USER and a single-threaded handler, then with this series, 32 queues
-> and one server thread per queue. Both servers keep the data in memory.
-
-32 threads against one, over tcm_loop with data in memory, measures
-only the hand-off. Please run a real fabric and explain the -13%
-single job result.
-
-
+>   Documentation/hwmon/asus_ec_sensors.rst |  3 +++
+>   drivers/hwmon/asus-ec-sensors.c         | 34 +++++++++++++++++++++++++
+>   2 files changed, 37 insertions(+)
+> 
+Series applied.
 
 Thanks,
-Ming
+Guenter
+
