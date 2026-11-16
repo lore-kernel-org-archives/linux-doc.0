@@ -1,58 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.114
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794841897;
-	b=1om0f+bKhBMh7wFC4I6D8FKDMsEW0o5dAvNFW0/aJ2XnKprJhJTAs9tWiJtjqY5J0rxv
-	 6JjlGt2GVTDbH9X9c1d3k0uV0iyAlnHwO7UXtyBMEFBUs+FMcFNoJiVSpmD6kJUtLlb3Z
-	 hCFCjZSFLWYjdfftA7tPFt9tmRbdjsnAVZzDv1sFvqurlzOzPT9FNgdItZh8ENDKTWGFD
-	 KrONqYeCyPWoji8ylvgSGnTlLoHcRuTbzyeuC+WgZPdmpHw8ua35o9g9NSFM/+YzphDjy
-	 ytwtTowC+Yp0dsspkcjWDlmAsO+GLm5lXSSiJ4IO50AaV6xiOtOZU9jl1ji8qHm2Xmw==
+	t=1794841977;
+	b=qNCF8mjDnEpASzxOBZkgzxzZyNC3Hkqp4XOyhfEX6BT5GHGihAqhbfG7iqu9dfZkW7F6
+	 dwAzjzKY3oL0W+8895xMK7hqoVwKcFzn6ARPJYmsXUjFha5K0aNVf3m6qPhRdXbQ6mlWM
+	 wq492vxOgxXX2YsvQSmAWzLTjfPmA9imrc2Gs4YsSKrKTw85QDdcVKBQL7wqMZFppUDRX
+	 GEiaG+U7faH8FpCpZgzL1x2V/bqib/rAOz2SQUHz3dWF2o0inxJwYF32pau3m9oZHJZCt
+	 WzdbU2bBdwmpSZsGzas1rWKvEbvvSjGlLQmRxuIGEEPFF6ULlK2WikPb3FOpu3MTE8A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794841897;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-MBO-RS-ID:X-MBO-RS-META;
-	bh=OhBxQLyc+UlBggGXFY7J26oX5udFii//2UhfOrNq+7Y=;
-	b=MRudz49rXM1dEG8FubfPwzrwbBUYwOSwDxIhkbrp8G+87BPcBwUAO96sRkl+kZjvNSJB
-	 dvVklaVEQ7nIsNCOQQRFFoJ3p5MSF3F3F48OTSv+Ek/QklEaTVOBHN1vGpxRs3GXalPw6
-	 HqOIK/dqoxUJdfJ4iBxnPddSZPn2K2wGSpK/zZvHQ+gxbwZvRfPZmHc7TaClOhU5+EZYw
-	 iir1/hsN6RBfJAmpca/CEgxNrwl8MUIC0KDlTEAaJBF2Hvrgc/GCFQZTmbuzbSZ3BqmWT
-	 nuLS6wbMlyoK/efyfBqg/7e9Dsi/Ky3PVLJD2WlHl1jykEcCeT0vMLSvQfOLwdyEc6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794841977;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=+0UYWY5Ylh+KrWGsxxRAdRH7NkLfyVTq7h0fa0xqQKs=;
+	b=lmvl5DEo3pJX5Zra6p+Q5IdV+QiaIulbusvlL4wLDe76MPcqCrLtDA6pNB9PVkqO6ozD
+	 8dI56JKATfnqRV1mT6WFo8bKeK+IUjYtpPeXaJiypGS2EDrioZ8a2+p+MuM6QVG7aR+Ex
+	 BG5dX7I/Zr9b+pJx7BBQQYAYnghgR3dgfubgrOyaliHd8ykJaki/yo7BpJaOb1i4aOmmE
+	 FaKDaalH0wro1dd7ZPPtjEm8g8uomLNvM1vBCh42B0g3pt0iIYXAHnkV5Lzc46uJ7KQoA
+	 zRD99RybuOzzueSdWYapKwmuGnvi7omhNBk6S/bRzID2i8nMcCh7r+WfOutj8GLGoLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=dz3C+ckR;
-	arc=none smtp.remote-ip=80.241.56.152
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b="RxStZ7X/";
+	arc=none smtp.remote-ip=91.218.175.114
+Received: from mta0.migadu.com (out-114.mta0.migadu.com [91.218.175.114])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344AF606A338;
-	Mon, 16 Nov 2026 15:11:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 344AF606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1BD606A889
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 15:12:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D1BD606A889
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=dz3C+ckR
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4jSrtD45y6zKr5l;
-	Mon, 16 Nov 2026 16:11:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1794841892;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OhBxQLyc+UlBggGXFY7J26oX5udFii//2UhfOrNq+7Y=;
-	b=dz3C+ckRStHyLkCMfLmW/4CK1Xmgbb+eFk/94WfAaGXVpUpUR4aKY6A5P3q/8ahuWAMGQj
-	7ToxXzmG2qe3fWpiHawprgr9NUptapCqMPcjyLhBGtG3tyXPAmYzUO3gD77apFmbnWUD/6
-	Jy5KVpPUQ8GN6v/Jc7uAOvPxuxi2gDBCFAFBqxQ/qWkjbyPt/PzG5P/X2cS0IPY5qQEQ5L
-	Zeg55+Lbgt0TPDz8dXXMHaPhQa5ij3bAVk5jzvCiTzmqrVi0dXOrIGEDK34+ziJKNHxK1O
-	F+8Bhn4EGXcOOh4pANzYOyoc21XAp9k/6pFrKvwRApclYUPWSyxQy3jQM+TcsQ==
-Message-ID: <fd24b5f7-52b6-4e6f-a0e5-32ed29683a87@mailbox.org>
-Date: Mon, 16 Nov 2026 16:11:29 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=RxStZ7X/
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=3ldeSoOlRHxHqdDLaarbCn9jFffKQuxeUAjhFmDUWBA=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794841972; v=1; x=1795446772;
+ b=RxStZ7X/xJJo96g3jr1HB90OOsZ0BAuvmOlEfsWiLOOZlR6vrOzazH0nJvrEesSaEoHghoR0
+ /ldsYMVOC/BkU2tz/ryuIq6zFiyA+A+IpGxdqBkCDC89jh1Wvw+j+0wDbsjmB+sL/XW9ieXGXtb
+ 7k2uIAQyKbSC+tZMKYQF8l4HLGhjmxLq3epsZPDE72xKnZURbPYDUQ7tRvHQbogtRvG2QIbmn80
+ pa3tRAML77wrnuXIhwUQlUXAoL2kNYTUGAG3Z3/o/Yx54hi/cslGha/Uf/oGqv0/cV9ZVXUXywA
+ ba9A1rvuH7xlHv1X8bwfhvuhqSvj4Y3cFBjJGzs2alpfg==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id e85528d7703d5095;
+	Mon, 16 Nov 2026 15:12:52 +0000
+X-Mizu-Trace-ID: e85528d7703d5095
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 16 Nov 2026 23:12:49 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Weijie Yuan <kernel@wyuan.org>, linux-doc@vger.kernel.org,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Chen-Yu Yeh <chenyou910331@gmail.com>
+Subject: Re: What's cooking in Chinese docs (Nov 2026, #04)
+Message-ID: <avsdccLDUrcGJc9f@wyuan.org>
+References: <avcRFzlQQTOra-fr@wyuan.org>
+ <b930b5f3-8571-42a6-a8d4-433ace854f3f@hust.edu.cn>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,67 +67,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: doc: cs35l56: Point to kernel.org firmware
- repository
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
- linux-sound@vger.kernel.org, David Rhodes <david.rhodes@cirrus.com>,
- Jaroslav Kysela <perex@perex.cz>, Jonathan Corbet <corbet@lwn.net>,
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Takashi Iwai <tiwai@suse.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20260914031252.98932-1-marek.vasut+renesas@mailbox.org>
- <fd865483-1485-4042-b938-2012eaa65043@mailbox.org>
- <3b620222-ba1c-4c6c-a06b-2dd5fb391fb6@opensource.cirrus.com>
- <49f749ff-8d34-4806-bca7-403005600c0d@mailbox.org>
- <575412a7-9f7d-47af-83b8-a0933b4c729a@opensource.cirrus.com>
- <87zev9x8jh.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <87zev9x8jh.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: fd37157f19718693fae
-X-MBO-RS-META: usak8cirobmjn7ei6rakn863htj8bdck
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b930b5f3-8571-42a6-a8d4-433ace854f3f@hust.edu.cn>
 
-On 11/16/26 1:30 PM, Takashi Iwai wrote:
-> On Mon, 16 Nov 2026 12:26:32 +0100,
-> Richard Fitzgerald wrote:
->>
->> On 16/11/2026 10:57 am, Marek Vasut wrote:
->>> On 11/16/26 11:14 AM, Richard Fitzgerald wrote:
->>>> On 16/11/2026 9:22 am, Marek Vasut wrote:
->>>>> On 9/14/26 5:12 AM, Marek Vasut wrote:
->>>>>> Use the primary mirror of linux-firmware at kernel.org.
->>>>>> No functional change.
->>>>>>
->>>>>> Fixes: 088fb4ee17fc ("ALSA: doc: cs35l56: Add information about
->>>>>> Cirrus Logic CS35L54/56/57")
->>>>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->>>>>> ---
->>>>>> Cc: David Rhodes <david.rhodes@cirrus.com>
->>>>>> Cc: Jaroslav Kysela <perex@perex.cz>
->>>>>> Cc: Jonathan Corbet <corbet@lwn.net>
->>>>>> Cc: Randy Dunlap <rdunlap@infradead.org>
->>>>>> Cc: Richard Fitzgerald <rf@opensource.cirrus.com>
->>>>>> Cc: Shuah Khan <skhan@linuxfoundation.org>
->>>>>> Cc: Takashi Iwai <tiwai@suse.com>
->>>> ...
->>>>
->>>>
->>>>> Is there anything left over to do with this change ?
->>>> You should send patches To: a maintainter if you want them to merge it.
->>>> They are not guaranteed to see it if you only CC them.
->>>
->>> Who is the maintainer in this case ?
->>>
->>> I used the get_maintainer.pl script which should have done the right thing.
->>
->> You have the correct people but you sent it to them CC: instead of TO:
->> Takashi would be the best person for this.
+On Mon, Nov 16, 2026 at 11:07:34PM +0800, Dongliang Mu wrote:
+> > -------------------------------------------------------------------
+> > [Cooking]
+> > 
+> > * Yikun Wei 2026-11-13
+> >    [PATCH] docs/zh_CN: Add deprecated translation
+> > 
+> >    Needs review.
+> >    source: <20261113122844.24838-1-YikunWei@126.com>
+> > 
+> > 
+> > * Yikun Wei 2026-11-13
+> >    [PATCH] docs/zh_CN: Add contribution maturity model translation
+> > 
+> >    Needs review.
+> >    source: <20261113112200.16790-1-YikunWei@126.com>
+> > 
+> > 
+> > * Xiongwei Song 2026-11-13
+> >    [PATCH 0/2] Add RCU docs Chinese translation
+> >    [PATCH 1/2] docs/zh_CN: Add RCU/index.rst translation
+> >    [PATCH 2/2] docs/zh_CN: Add RCU/whatisRCU.rst Chinese translation
+> > 
+> >    Needs review.
+> >    source: <20261113013054.5662-1-xiongwei.song@linux.dev>
+> > 
+> > 
+> > * Weijie Yuan 2026-11-09
+> >    [PATCH v3 0/2] docs/zh_CN: update maintainer/configure-git.rst
+> >    [PATCH v3 1/2] docs/zh_CN: sync maintainer/configure-git with upstream
+> >    [PATCH v3 2/2] docs/zh_CN: improve maintainer/pull-requests translation
+> > 
+> >    Needs review.
+> >    source: <20261109-configure-git-v3-0-d7807bb8e8c7@wyuan.org>
 > 
-> It seems that the patch fell into a crack during my vacation, sorry!
-> Now applied.
-Thank you !
+> The above four patch/patchset are reviewed.
+
+Thanks for the review. Already updated the status and pushed out.
+
+https://github.com/kernel-zh/linux-zh_TW/blob/meta/whats-cooking.txt
+
+> New contributors still need to pay more attention to how-to.rst.
+
+I'll try to help newcomers get familiar with our process.
+
+Thanks.
