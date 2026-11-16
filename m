@@ -1,79 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794838317;
-	b=xPwHdMIlC7QZr/uOx00qEaN4Yw4MlM0gu6mtR/Sl1G06pYdHKuPeXvyI7w41hxBoh1i9
-	 wwHQlDP54oJrVx4dNTdibjSfVNHVnvcy0wW4AMRowaTbTRA9v7nojfS8nlX1NuVNhlaE/
-	 FbFVlDD+2cCHAorQTFFWramuX6U5dgvoGnvqr6K8MWD6KPayAwP2uT9ocP6xVOgGjdYWL
-	 bfZOkHWjGRBwazezXyiYSjaSojd2kbFaYPGh3kOGUjzi/vcYubnzeNg37hCR0fohz991l
-	 +uuLBOaX9+KZIx4zRdraqPoFrNOKwYJKfCHbAVjONBOLjqeSuOnj2N+9BhsYknmar8g==
+	t=1794838863;
+	b=IbCNaqdJOU07zbAZb8Opk3vFkA5dVe5zC8MFLIaGQFMmyJO3XVO4Q8NvB+jKKZNUiaVr
+	 ET2GUnnbfgaAFGHcCmLZXjO/JKXcJRCigWpYmZIWtMEFBC2Q/ki/J3hLvGz9uDtObGLB0
+	 GIWnhLOCAaFyDxhiGxwwz/ZQIVRtCxmIaVObG1AAM+5eI58snhy0xeaVpZ+uCToBJPPa8
+	 a9tQjUl93kQSHsNyxsx7+vGtAp0s6Oku6p4z8D2Nu+khQjVYz6O/eBhg/uzrB04BambFl
+	 TlBuY4UEkit4lvK8rtMMrk6GWTb/1tLa/DSY3p9+02mvgV/0+KRsaBXOebwEDXKFNrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794838317;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Message-ID:
-	 In-Reply-To:References:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Priority:Importance:X-Mailer:
-	 X-Originating-Client:X-Rspamd-Queue-Id;
-	bh=27EBgBrbFFlASVSyVER9wm/IKSXbTEK4pD7f5ZtX4VY=;
-	b=WbeQo5pHMmeklYm45GVwWYRLYA4pg9sjaIlBuBiOm37zqIwSOe2/0UQNGcAWeKK0WX9l
-	 oSj6EkwuKLswzcmQ8yV1WMV9NSkNhzO0eHHJeDd5nsPUnEgNYtMvGGWQLQv6wiOAzEfxz
-	 j06fqDkbaGTOshkGpYEpPpc48thT83riJ7oqCZbPDutIUk2XAMByaylVLcfFsrNm2GpSS
-	 py7HJILARitCRT4oc+hLKGKfiTP/ggmQHf/o1zUui0Tz7VDjE5PsqSM4r9TrHtQWY8tu3
-	 1V6wLM56mH9vrVyxkwHOF8TdSoeP1k5V4LP7WtHqzlaJ72I7QvUweRnc0F27wStQH2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794838863;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=p0MCEiScXA3/AegZMZrPbSW4djcYCJen36hSgSOSxr8=;
+	b=X7+eyVHJ7Qzo7PbJm3hhjsd5LcQf6N7iF1wN27Am2zkPoU+mXJMgaS8GXnxVOoZPVu1j
+	 NpGtI2idzwwFX0X4zqkfq3RyUiy4Zi+obksfaofHS49EVkoKj1g90aic73QYnar2CFqXm
+	 pFgQ/YmqW7xiF2wgME6Ves3JRd0oMPB5GNUOq/pEax6hXVa9nJLP8/NjbwLPGisKvXcIN
+	 97bYhK12AeKGWqHcyirSNbQ+th3B+njMCSYvfzPwXea0tWSXdwtzqN5rJ5dTIHp0d2zFO
+	 w9SQ4/WbkdBH5AtpbGMckTLG1/nMX8GaqEIKeAHK/ziGfKDGfXRZGV4AuWmKyEWMPBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=hsal.es;
-	spf=pass smtp.mailfrom=hsal.es;
-	dkim=pass header.d=hsal.es header.i=@hsal.es header.a=rsa-sha256 header.s=MBO0001 header.b=kshO+vjx;
-	arc=none smtp.remote-ip=80.241.56.152
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lrMNwZMp;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461F2606A323;
-	Mon, 16 Nov 2026 14:11:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 461F2606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hsal.es
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hsal.es
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CBDE606A329;
+	Mon, 16 Nov 2026 14:21:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hsal.es header.i=@hsal.es header.a=rsa-sha256 header.s=MBO0001 header.b=kshO+vjx
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4jSqYN2qY7zKnC6;
-	Mon, 16 Nov 2026 15:11:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hsal.es; s=MBO0001;
-	t=1794838312;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=27EBgBrbFFlASVSyVER9wm/IKSXbTEK4pD7f5ZtX4VY=;
-	b=kshO+vjxICe+BZY4EzzCjo60xoca8VuT/dDDPzocZyijX1b+/XA9BYiqZHVoF1wEb3vSsA
-	Jt+80MQjjeqasDBJD6cK0CkuC3bhcTZUmvVKogadGgpsHFYNcIPOswQJ4AofpQSweWRo+N
-	UVXBCzTHP+PhS6b3TWaOvd9tSuTCCzYU4BQwXZLMmdKj+BSo2IRNWvjtkcYd0kLGR9TUwD
-	aIfx1SDwoX5wBjLxw7v4/2+JxC6r3yntM+bEQR8x5f0CtkIZ8mlTvWyQ9hucG/LlThKxfY
-	kAJiWh0FspnMoJksItWDRJlm07jATuiCROvcy6P8DIfop0OLt3Nmgqx04d1yKQ==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of hugo@hsal.es designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=hugo@hsal.es
-Date: Mon, 16 Nov 2026 14:11:50 +0000 (WET)
-From: Hugo Sales <hugo@hsal.es>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
-	Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>
-Cc: Mario Limonciello <mario.limonciello@amd.com>, Ray Wu <ray.wu@amd.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>,
-	Ivan Lipski <ivan.lipski@amd.com>,
-	Chenyu Chen <chen-yu.chen@amd.com>,
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <335815674.648716.1794838310991@app.mailbox.org>
-In-Reply-To: <20261113-abm-sysfs-commit-v2-0-5808d17a7e89@hsal.es>
-References: <20261113-abm-sysfs-commit-v2-0-5808d17a7e89@hsal.es>
-Subject: Re: [PATCH v2 0/5] drm/amd/display: Commit panel_power_savings
- writes from the kernel
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lrMNwZMp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64E1A1F000C4;
+	Mon, 16 Nov 2026 14:21:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794838863;
+	bh=p0MCEiScXA3/AegZMZrPbSW4djcYCJen36hSgSOSxr8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=lrMNwZMpVLaC2BtfAP4b7LZ6QFc4IZAk8smXnST30fiArFsHMpDO8pHkIB6Cr8ys+
+	 ee+JRnmqA68sVX265zPLaNHnOzcJcKLeRl4boeqkIBPd85eN10aGzC0MJ8/2iRTaPX
+	 C4js2OW0HI4bnxI5yEVoRrrSVD0MczuQ7+8+Ai3AUOVruZhi0h6yiLoBUlpAnHrgPX
+	 XjK/UDNqOIoRJDvbfzRZ9VG2IFMtNBWl0HmfcnKl7yIiBlpo873jNkEGXJhENBI0CR
+	 gS+aiwQEoBnOez7Qp2dCZTZnUqIJu9WGirp6rXpJ171+S+xd5+BuR5lK65ivivJEec
+	 IBwEluMMFSqZA==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
+ <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Jesper Dangaard Brouer <hawk@kernel.org>, Ilias
+ Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov
+ <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John Fastabend
+ <john.fastabend@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>, Jens
+ Axboe <axboe@kernel.dk>, Andrii Nakryiko <andrii@kernel.org>, Eduard
+ Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ Emil
+ Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
+ netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org,
+ Mina
+ Almasry <almasrymina@google.com>, "Mike Marciniszyn (Meta)"
+ <mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, Nikolay
+ Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, Alexander
+ Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Stuart Clark <stuclar@meta.com>
+Subject: Re: [PATCH net-next v1 02/11] net: Add memory provider capabilities
+In-Reply-To: <20261115131840.55b03578@kernel.org>
+References: <20261110102039.1002605-1-bjorn@kernel.org>
+ <20261110102039.1002605-3-bjorn@kernel.org>
+ <20261115131840.55b03578@kernel.org>
+Date: Mon, 16 Nov 2026 15:20:59 +0100
+Message-ID: <871p8khn78.fsf@all.your.base.are.belong.to.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,28 +81,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v8.53.348
-X-Originating-Client: open-xchange-appsuite
-X-Rspamd-Queue-Id: 4jSqYN2qY7zKnC6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-v3 is out: https://lore.kernel.org/r/20261116-abm-sysfs-commit-v3-0-7a3d84a5328e@hsal.es
+Jakub Kicinski <kuba@kernel.org> writes:
 
-It adds a patch 2. Without the forced modeset, a commit that only
-changes the ABM level on a CRTC with VRR active carried only the primary
-plane, and DC dropped an active overlay until the next flip. Sashiko
-reported it on v2 and I reproduced it on my laptop. Patch 2 adds the
-CRTC's planes when the level changes, and the overlay stays with it
+> On Tue, 10 Nov 2026 11:20:23 +0100 Bj=C3=B6rn T=C3=B6pel wrote:
+>> diff --git a/include/net/page_pool/memory_provider.h b/include/net/page_=
+pool/memory_provider.h
+>> index bceb5f7740e2..4417e54a0f81 100644
+>> --- a/include/net/page_pool/memory_provider.h
+>> +++ b/include/net/page_pool/memory_provider.h
+>> @@ -19,6 +19,18 @@ struct sk_buff;
+>>   * Per-provider custom logic must be delegated to memory_provider_ops r=
+ather
+>>   * than handled directly in page_pool core code.
+>>   */
+>> +
+>> +/**
+>> + * enum mp_caps - memory provider capabilities
+>> + * @MP_CAP_READABLE: The CPU can access provider memory. It may back he=
+ader
+>> + *	page pools, and XDP programs may run on it.
+>
+> Being readable is the normal state for memory.
+> We should be marking mps as unreadable, not as readable?
 
-Patch 3 now credits David Weber, who sent the same change in August,
-and patch 5 says a compositor commit waits for the write instead of
-failing with -EBUSY, as Chenyu pointed out
+Fair, I'll flip it. devmem and io_uring zcrx mark themselves unreadable.
+The same goes for the other two caps; page memory can be split and kept,
+so AF_XDP marks that its buffers can't be.
 
-Chenyu, if this week's promotion run hasn't started yet, could you take
-v3 instead of v2? "Leave self-refresh before an ABM level update" stays
-at v2
+>> @@ -1070,6 +1095,9 @@ netmem_ref page_pool_alloc_frag_netmem(struct page=
+_pool *pool,
+>>  	unsigned int max_size =3D PAGE_SIZE << pool->p.order;
+>>  	netmem_ref netmem =3D pool->frag_page;
+>>=20=20
+>> +	if (static_branch_unlikely(&page_pool_mem_providers) &&
+>> +	    WARN_ON_ONCE(!page_pool_supports_frag(pool)))
+>> +		return 0;
+>
+> Shouldn't we return a full page if we can't frag?
+> Fragmentation breaks up a page into smaller units,
+> it should be legal to simply return a full page if
+> fragmentation is not supported for the provider.
 
-Hugo
+Yeah, make sense. I'll return the whole buffer at offset 0, instead of
+the WARN Stan and I settled on, and page_pool_alloc_netmem() reports the
+chunk size for callers that need it for truesize.
+
+
+Bj=C3=B6rn
