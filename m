@@ -1,94 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794837578;
-	b=2Jai3Xf41EVm1tVRcNUfFmmt7ashig8Nr2xfI6fMT1B3kLctXyyXE4diyvwo7WspN9t0
-	 oeUkC1mPJ5r16eUI5Zoe/mIOpFEKx5n6j1zNZ/gKLFcTuL601PtoDtOM7ivehk4jB2KYr
-	 RMhSH4Vs3iNoeq+RwhVlcSwPQlvWLT7gQW8dvE1IQ06couKapmL95DmfK/HLhnRpmhEie
-	 LVYrCXSN2jK1vg2F+hivSpzNzv/TQzPw2+0HkjaSwC1IorEghe0wNOleyzG0l2hpaZ3Ij
-	 2KTUBmyU28y6fitAXOOdOwrFkqXatqFKnUS8pphyx1mroCPT8e6FIBybAftfJOJMhzg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794837578;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=+0F/BYp4W2Rhn1Nomgj2rP/Jj1y5yUU++uEAdL1QZkk=;
-	b=BrglKSJ/+qYFbB9Kc4qxd2ACInUDZk79TYmxBYJUWVCR63/oqF4k41MzQr49n7Fp3V/c
-	 fcc1MWJPpUppTvrFHurZc/o4NBkHJTb/jSg1lHvijQ+G5iwyka6F6wKFd9vyUNMy6N3NA
-	 k6dYGfle2s/DCyMmgCP8O/goTE5e94Cw2SJoZyCGqrcO80GT3smtgs37QsngfWrmyxS15
-	 WihVGXmV5OHoiw7mezJKVzzDVY3QPidgyBg0Y5dWl/W4RFDHNUcsxyMRmXdWKWkBbvTeY
-	 MnEvQwlY45GxSI+vsDhxOV3yOfSEiSWCVx2rmlBOMR2ssbRhjZdyv9vVAJBMEupvLQg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Kpn603/2";
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794837666;
+	b=ZfY1kJqcBVZl6BiZWm9Fjd+tGByty2gb2yI91DfawEUK+PUyQvOWdVAOCaINYhpnvQLz
+	 OVXjAR91HDc8j+xH3JauVDOmjctjL0iwawgw8R9i5S0vDZwxLj3WJaYCWpzmcQrWdt/KX
+	 QFDv+g1fbA3n9SXCmvdZngAcEpixwB6XatGgm6mh5XexAw1bq7mOcbMhbhH3gDtWjzuqS
+	 G/MIclZX4DrKXI0hnvkF4PXTNuAOKmR3GOaj/UNvOXhIzLLLm0Ero4QCCMH2JRWJMjE+B
+	 g6N0teL43nIAWnqdZpyLXROr6P9hNVhn+XLsKhHIfOL2VNlfWCYyxUUWTxv+gfDoWLA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794837666;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=TlcNcFV/e6ku1Q/CV6lyI3bgB/SHhlBbcUeMj52adDI=;
+	b=3chMEsibcGrvicjfdRYnVsSYGL8Ai6Ik/r+MQA5yTCF0agih4E7T8IDFLJOSkLNfNcR4
+	 jMChVWKp66SiYFozPNKUIy9qecl8HXCVm/ZGqGZAfaXH+s0rJPn4CCz5SZZvRL3q7nK52
+	 1JJtUTiO6XFWX3mXmDhEHhMxhHY3A3c5DENENm9hIP0fPDT30jqQDsCxuNLszgD5H+zHE
+	 oA81rRtqIM6qkUiGOtoyfdGU52Dey3toTDnLnsX+HkW8qK77lRBq5Y+Lzr/HDNFBMJES8
+	 VUNyQlVonUnftNQkfWUz4f9A/RrCJiyuaMFMJwG7SNoYO4G/K2kqVZpCXW04fA6w6xQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ey29Xf6J;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6E7606A32F;
-	Mon, 16 Nov 2026 13:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22458606A339;
+	Mon, 16 Nov 2026 14:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kpn603/2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E75A41F000C4;
-	Mon, 16 Nov 2026 13:59:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ey29Xf6J
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794837665;
+	b=cxt0vokZIJV4iLuPIHUR+VJ3CEdW8Ii5idcs0cf/4iBRIq36ydOl1kBwCU7gCJXPMRUA
+	 nMUGDz+SlQdvcjwSY+viQnyZFk9Nuru/YHkeHMHBJz1ATcdMwnUtkE9fYqtVcfpmPQQYH
+	 eWiGxfB5Z7U4Jvg4JEMhFkSRXl1t1V95UBjjlsPUpRc3a0zxKLRxIbJO8mw5VEGJCDUCq
+	 5YqmfWLH6SNGHi19mW//PctK9F1HjJ0pryIET0NfqiuuWpz++/twa3Z/ltw5PNdykhLPp
+	 ZKJ8wOfSA2H5DBIpy8kRp9xYnW0t4hSB+zkivNPdTr01oFAbgw6P6QVCeEcfi1Y9X3A==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794837665;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=TlcNcFV/e6ku1Q/CV6lyI3bgB/SHhlBbcUeMj52adDI=;
+	b=1Pm//x55opp/ieEqJvvwfTjQ9Hs/5KQbRhvFMHDzPdF8XUb7GNV1KWMiNsafgdi50D0R
+	 SMpXHosxJi2if6q/eERla3G/hX5Hx0j4THqmNiPouK2a3A0fUuvmWME3dR37IqvDUiiV6
+	 aVG6bfLzEK/4MQRyrRk+46M2whRuOd95iN/oQdiRVR5QZ+DGdvJnk1ZTnLF/NAf9dSS9s
+	 +lntrXkVWiB5G0JaFHF66WQywNbvMRGn0XVvSvVUdOxJMCLivYMRGyTNuCU3RHbJhx9L5
+	 h58y9MGBiQveSjhPFcvYL9lhsUvLGq0W8iwEKrTNNdE3LWcPZKCffA3mR341sPGabIA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 0B03C1F000C9;
+	Mon, 16 Nov 2026 14:01:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794837577;
-	bh=+0F/BYp4W2Rhn1Nomgj2rP/Jj1y5yUU++uEAdL1QZkk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Kpn603/27RkRxVRhQ2GPbhKABaIfZqjKTwCtns8ztXQ0jE/KbpVLGlLBT/foBR3Zj
-	 yxdFYkNgKX2LOwUM9MOeiEMTCH2JDsgSMkXKtVIJuzdy5nUpi0bD0cODM3lRG3wONG
-	 doQKlDNwF4+nao1Wdp1ZVAdIgldCugYkGbWWjUh3waSUMeeQt98GnXQST9kLOl70hE
-	 yN1Bw+Zi6ULCeHYPlpj6mRoWdZH5x+w6BJt0ZfXNN7j0bYBt+qQtQLskREvRY8s2wt
-	 gihMMKJ310+1fqoOuqwp6S50rqxEWvJjhCKo9PMOwK6vWI6n6+YRT6J058ZpQoOtbj
-	 UN9YKIs/0alNg==
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 39564198004A;
-	Mon, 16 Nov 2026 08:59:30 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Mon, 16 Nov 2026 08:59:35 -0500
-X-ME-Sender: <xms:QQz7aqj1qeMiPG-z-Dgb1cG-n7hCkX50jw3cTnX1khXuV-tvPJ7u3g>
-    <xme:QQz7airZTcMK3nJvnmcrfLb8eDJIqIzjj_rdu3AkWA3TybTsQbroaSapMunU3ocP7
-    v4p2BTTeaYv5_mOijVpsuNfRdo-viWHof7_n-FoMDNRr6dblbh_qTY3>
-X-ME-Received: <xmr:QQz7apdBVAiNyAF_et2VScCAMJZA0xxSw6C2vOqEILECRiZShYaN2tlxNLY>
-X-ME-Proxy-Cause: dmFkZTGw7Ek27OkttPtA0Uz12TIRY+fdCmOBGTdrDghB0eLcttPx19DupuImOjFBtxaU6o
-    JpeXLrgoMfTu/lRKHCIbMj8TzWKHmfHCUY1G1XUscv97+KfE4ZgUv3URbsjMgtUtdZeyxZ
-    SgpYcwu9pXmzrr5EJzFIwQG92uYZOBq7pK07CTnxZhIOY2LLT1RQ4TYNmjWVB5mI/QlLrd
-    lgMB1n608lO6GGOFzonO3YCxKtuKcIqa2yW4weia5Qzv8gyUD2hS5o7CzQGTr7cuwDbUa0
-    lJoWxHsuV1AHsxtoMgIcDdVvIbsfeBRmZr2ToyOJqhisBH0S/Tg40BJ9RANd8a+DCyuOEi
-    hn098RuATgD8qEKVgtdPugOq0uT6bGPyrMOntKLKkq+ZkA01R44yfH+YH0c9YDbYmzrQIA
-    Iopzse1Ct7eMKJwAWqXgcNivcm0iyHT2OhWNgV+VWC0Q82FfCdXJRs/ieaQi7IDVGGntxr
-    2IHkGaGTAT12B8bkGtjQix6jaqugDGh3lm423/jNh60ZAHjmjuCDYvMBwXk5+ytJbrwnWB
-    7dMtlkUuY/1t0syakAczXa7L80fTrhVuFAPUFWNIqdlWtI7V0N8u5qe93gMfQIbb2CGwXy
-    M0D8RdnYRzDAUCTOKXcrl+5HZfFQvkzD95yUO5jtbnlC2gt1X6l6UfYs85/A
-X-ME-Proxy: <xmx:QQz7atyEKDj06BUWZSenI9BcQjUGATvIgsIXq027hGWgFApDfXXGkg>
-    <xmx:QQz7avTOcYMA16LqFIE-4PZjPp6l7Sfra25M7fhVcGDr_O5nYkk8sQ>
-    <xmx:QQz7arlAtzq6xhRodDWJnvXKtlxZGt6D7-GsazYmLfD-SWfZxg7NNQ>
-    <xmx:QQz7aqeKOk5ehpHc2ZTy-jLZG_fiZ1OP4vKyP4CZ9R_qovBM46JmsQ>
-    <xmx:QQz7ajyqGivGQB206Ld8BHvW9UTez-MXUa_VwzqnnC6fvXEdvu6kRNI0>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 Nov 2026 08:59:28 -0500 (EST)
-Date: Mon, 16 Nov 2026 13:59:27 +0000
-From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Peter Xu <peterx@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] mm/userfaultfd: prevent poison marker loss
-Message-ID: <avsLuMTVBFfDwfsw@shutemov.name>
-References: <20261107-b4-uffd_marker_loss-v1-0-82926b22704c@kernel.org>
- <20261107-b4-uffd_marker_loss-v1-1-82926b22704c@kernel.org>
+	s=k20260515; t=1794837665;
+	bh=TlcNcFV/e6ku1Q/CV6lyI3bgB/SHhlBbcUeMj52adDI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=Ey29Xf6JyFJfpHI71UBshi9RsQA901NIwWdnTM2fMzynsr1vQVWsEjsYP0tsf5eun
+	 iyP7OwLxs/d/SLygG8ElkXIeuLqNVZmowjo/0FpGROimtjdfBum8a+7K9015kcM8s3
+	 3LzLa732mmQjR5p44NyUUoFakzM2iy1v6HK2ibU+yHa63rgsuijTGqPeTvRCNtXJ7E
+	 OV0ahGjVm0S0hjpfQLYrLknlxj+PpZRrqqEAL8GaabXW3+jqOxpDeOZ2jnePRyn5NY
+	 zsnViM3tJIAXpJpgT1SWCmcW2IlMQX7s+jYUKzc/i0GMZHhD1amtsaZ0FYV2CDS53C
+	 tl7p7Tk7VnuXA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 847074A4AB;
+	Mon, 16 Nov 2026 14:01:04 +0000 (UTC)
+From: Hugo Sales via B4 Relay <devnull+hugo.hsal.es@kernel.org>
+Date: Mon, 16 Nov 2026 14:01:03 +0000
+Subject: [PATCH v3 1/6] drm/amd/display: Render the panel power savings
+ kernel-doc
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -98,53 +83,68 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261107-b4-uffd_marker_loss-v1-1-82926b22704c@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261116-abm-sysfs-commit-v3-1-7a3d84a5328e@hsal.es>
+References: <20261116-abm-sysfs-commit-v3-0-7a3d84a5328e@hsal.es>
+In-Reply-To: <20261116-abm-sysfs-commit-v3-0-7a3d84a5328e@hsal.es>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Mario Limonciello <mario.limonciello@amd.com>, Ray Wu <ray.wu@amd.com>, 
+ Alex Hung <alex.hung@amd.com>, 
+ Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>, 
+ Ivan Lipski <ivan.lipski@amd.com>, Chenyu Chen <chen-yu.chen@amd.com>, 
+ David Weber <weber.aulendorf@gmail.com>, 
+ Shivam Kalra <shivamkalra98@zohomail.in>, 
+ Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Hugo Sales <hugo@hsal.es>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=972; i=hugo@hsal.es;
+ h=from:subject:message-id;
+ bh=FVHKsTcB+kzVbQ+9zevb2MG6df7WbrsHz6OXzX6yqvM=;
+ b=owJ4nJvAy8zAJVbLU7f+5A3TBYyn1ZIYsn7zzGdpqd6kKRUbEfRwLk8ZC0f8l2DxucdPWyQcL
+ w3OtG69xNtRysIgxsUgK6bIonvDk4Fl4uSZOUXPl8DMYWUCGcLAxSkAE8lJZPgfkvfy3CKbJtZ3
+ Dw0D5yWVVd+wNfn9997sl/vLWc45M98TZfif9GdGXfVTky+7z7+R/Ob15TTzVgXWg/E3JQ4FVAR
+ d/tzKCQCkuUxx
+X-Developer-Key: i=hugo@hsal.es; a=openpgp;
+ fpr=193D095149CF7E8737B39064D912B0DB205A91C1
+X-Endpoint-Received: by B4 Relay for hugo@hsal.es/default with auth_id=1417
+X-Original-From: Hugo Sales <hugo@hsal.es>
+Reply-To: hugo@hsal.es
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 07, 2026 at 12:51:05AM +0100, David Hildenbrand (Arm) wrote:
-> Unregistering userfaultfd leaves poison markers in the page tables.
-> However, once unregistered, hugetlb PMD tables can be shared again.
-> 
-> Further, shmem page-table retraction can discard poison markers even
-> while registered in missing mode, and fork() can skip copying page
-> tables containing poison markers.
-> 
-> To fix it, add VM_MAYBE_UFFD_POISON and set it before installing poison
-> markers. Preserve it across unregistration, splits, merges and fork(),
-> just like we do with guard markers.
-> 
-> Use the new atomic VMA flag to disable PMD sharing and page-table
-> retraction, and to force page-table copying during fork().
-> 
-> Move VM_UFFD_WP to bit 44 and make HAVE_ARCH_USERFAULTFD_WP depend on
-> 64BIT, freeing bit 12 for the new flag on both 32-bit and 64-bit systems.
-> Expose the flag as "up" in smaps.
-> 
-> Losing poison markers, while unpleasant, is not really fatal, and the
-> use case is rather a niche thing. In addition, we rely on the atomic
-> VMA flags infrastructure ... so let's not CC stable.
-> 
-> Fixes: fc71884a5f59 ("mm: userfaultfd: add new UFFDIO_POISON ioctl")
-> Fixes: 8a13897fb0da ("mm: userfaultfd: support UFFDIO_POISON for hugetlbfs")
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  Documentation/filesystems/proc.rst |  1 +
->  fs/proc/task_mmu.c                 |  3 +++
->  include/linux/mm.h                 | 45 ++++++++++++++++++++++++--------------
->  include/linux/userfaultfd_k.h      |  7 ++++--
->  include/trace/events/mmflags.h     |  9 +++++++-
->  mm/Kconfig                         |  1 +
->  mm/khugepaged.c                    |  9 ++++----
->  mm/userfaultfd.c                   |  3 +++
->  tools/testing/vma/include/dup.h    | 20 ++++++++++++-----
->  9 files changed, 70 insertions(+), 28 deletions(-)
+From: Hugo Sales <hugo@hsal.es>
 
-Oh, that's a lot of boilerplate for what it worth...
+The DOC section for the panel_power_savings sysfs file is not included
+in any rst file, so it never shows up in the built documentation. Add it
+to the Display Properties section next to the 'adaptive backlight
+modulation' property it interacts with
 
-Anyways,
+Signed-off-by: Hugo Sales <hugo@hsal.es>
+---
+ Documentation/gpu/amdgpu/display/display-manager.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+diff --git a/Documentation/gpu/amdgpu/display/display-manager.rst b/Documentation/gpu/amdgpu/display/display-manager.rst
+index f6de9e7779e29..ca4a956d2aa17 100644
+--- a/Documentation/gpu/amdgpu/display/display-manager.rst
++++ b/Documentation/gpu/amdgpu/display/display-manager.rst
+@@ -187,3 +187,6 @@ Display Properties
+ 
+ .. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+    :doc: property for adaptive backlight modulation
++
++.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_backlight.c
++   :doc: panel power savings
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.56.0
+
+
