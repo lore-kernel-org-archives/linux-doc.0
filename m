@@ -1,65 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794839158;
-	b=vTdT99hXXwCoI8zf2QejsEKvBf9AVTVCzg43SPuzkczq2MFnB7PV1SqEJlNt0u17R65c
-	 yCHP5PS3ifNR0kTmLWT9R4gq85uDCaU5y3F1G6/C9QmVQuCQfZ26vvKlTQSSiQj3M+cxw
-	 IG+ERiqAzKuKb2lk4wknWJ2B0gNyrztlNA44uiIDSd4bZ4xKHmBmYuu7ci/vYxg/I9SI/
-	 vrBSFwyPOm44R2K5kHgso+KrtvxZMVf0VTrpgONNNUXmjwgns9WwBSXhMuL56c+rDEaGT
-	 u5t1bLK6UWNhsb5mwYXBrXTvH+qnrMyK43AVG9Bywx0hbUl0cxooAsEhCps96TVTkcg==
+	t=1794839186;
+	b=DMmZCoINDwA42OdY9wwwH8OtWyHnU+yFfSiFzeTeH+NqU/btIOMs5GTQwtr2/aBAEqfG
+	 nCQLriFAXKQuHOnvo+jCewl7idtxIArlCgSIu4N+CwXVrUU+OuYIx5FTWMtJUKNbyKSlH
+	 KDMifV9y6yUsEqqeQ4mWzrbdRp2o8ZB9LWyyEe2xUWzzR3W8nLrj+GT8ZFrw5x9sr+R+h
+	 xnHPnzGphuiqBzOST9T4PTtNl2vZvzczwWTCtOSVwzuEHxFtly3rlh7dtvmr+8GvRKMsZ
+	 lNnYvcFcR2ckptsk7l+JhXJupxP+cuuoH6s74JOhJcV4k6OqwSTuJ3VjOu+4gSAhN0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794839158;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=3tsuMG36yW2/wCTC0oKqM0f6Cdxqx1im/se83C0BA1A=;
-	b=ZxHMVAmxzRupOfHvKLdksAb+dLqjLTFaEd96YJeZDRyMyrJtwU4+3OfsPna07k3bzlJB
-	 mpc5jo1wbZKhuohxx/nTfVWi8dErurK0WbErJqqTOVy2rMKIuSSL+dvjBiOzFkMuizwHP
-	 JWK7MyovnB6pZ89E+a1RexVcwMDGOh04o0ZM/OzuBRlS1DSw8+K2+pl2YXSxC9+NZMbuk
-	 xS9rRMHn60f7o2X3x1KHzE/4F4HXVJKz87wwUSExRpyTVofNS0Op7lZrWi/DRsObYyBsA
-	 TskZaEH1TpqUg+f0wzHZ/dP06czytG+TEzoy1CeSPAO2s2GEYrrn0xDOhmSdk+n6sOA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794839186;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Julx96UTlwUpy/yEEb6XKUMDaihQ6nHqBxqUTRWWoDs=;
+	b=lPZo4Q+vna+QZUDyNu7dp0VRhaQd4CIHy5S0Q7fhtc09kBNdz643Arg1bwW/NKUge4ht
+	 5SS6UxrnWPRQo4Q4TWZHReuvrbzdrm4egJEIZcIT4Crs635fZYBrq7jjul8YT+M6jLTIN
+	 wGxITtjRLxWr+4jWgKWCpoqhdGF6P04A0c9rDnI9lmloKzDj/lpsK6QNqr5c3Urf1b9hK
+	 ENB66g7lNb7MjA77o/GCNueAypJ6A4t6/k2MkLamdZT8/C2nTWIobtk8oWBawHGFYtvou
+	 fRQhaTfVZZtkjgSUle5dH63T6SXNq+oSkGAYPxtoZoMgIPIOi4F0kZ2zHrAaCNWNP5w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=H7aHhzDm;
-	arc=none smtp.remote-ip=91.218.175.151
-Received: from mta0.migadu.com (out-151.mta0.migadu.com [91.218.175.151])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=o04lO8GG;
+	arc=none smtp.remote-ip=209.85.210.199
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70451606A336
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 14:25:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70451606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF01D606A32A
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 14:26:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF01D606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=H7aHhzDm
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=/GTg9hL5xuUl9myEXN9GO4riPpvpZqScq4U+gn+DN4w=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794839155; v=1; x=1795443955;
- b=H7aHhzDmNuOVbrR2uVic9KsMcERt/ih2Cx4FkJPaLyaUVTsSxiKfM+jb7bUyCJfEJUP4SUhj
- Uh5Utmc2dMUQOXnm1rpI0s06K3T5CADKRgAQRdhFvgHvjNhzCmXnmEn09IXAOjrLB/Ne7D6BJwT
- rkMYssG9Hi13ChX/HTEM7KGKIiziAPyHZAJaM5tEhmAw9hqNwDLWg9FQ6Z7NQq9tXflndT1WGe9
- lWptL9r7rEPR50QwUJ0Afvy6mFnlYCgD3OTmReLeuoud8pAGFpUDm6t8s2CYfOBOQPhSlMXocFe
- JH2QHfUgdm3rZVWelcrcgjRBOu3bTQrEF4cfzk54ZbG0Q==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f3254909706c970a;
-	Mon, 16 Nov 2026 14:25:55 +0000
-X-Mizu-Trace-ID: f3254909706c970a
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 16 Nov 2026 22:25:46 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] docs/zh_CN: update maintainer/configure-git.rst
-Message-ID: <avsSapW0-wS_gEsz@wyuan.org>
-References: <20261109-configure-git-v3-0-d7807bb8e8c7@wyuan.org>
- <476202a2-26a7-4b6b-a7d5-ba8e586371bb@hust.edu.cn>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=o04lO8GG
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-8b647bbf8a9so3985406b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 06:26:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794839184; x=1795443984; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Julx96UTlwUpy/yEEb6XKUMDaihQ6nHqBxqUTRWWoDs=;
+        b=o04lO8GGgXrESFKdzPFhg+2CZ66oWV/D9RCdkmGQv5zmRx4ocR7cMj49UAZWLzQ08p
+         Exgjw5nzv+VU/noSZj1qNSRM42Efhd5UU9M4zYhj9hYL33RguWZjEdRIwhZZKtjjmAWK
+         CZHQW0LenzCeV4Az+D9oYTYe1+JdnXTThTdnyyA0qyK3iEfA5CNu2rFJPxjCMaEbDPPa
+         4GWRcxQfsKciv2s2Xnp6TE4BCnhHiUeXbt2eHpPmzKjfbnT06BfdZVvWfMuXAZ4NfG2z
+         lvfm/r/kXhSPWJ2Thy+3cctCZhv0qphjwQepT6O3eDBYyRmyUCFE1kDkMxO3F8tlJaEg
+         ursQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794839184; x=1795443984;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Julx96UTlwUpy/yEEb6XKUMDaihQ6nHqBxqUTRWWoDs=;
+        b=VSYkA2O3p7umeq/2OQ9sJb22+M8vO67jrN1ixg9PqrP/iJY/sMeiqF0gfgjOPN/fYs
+         gpzTL/reQk9GlYzpo0QiAI5eLSOeQwlbJop2BjPtBOMAQ7FFGjyA1vgYQhUL+8/n5CXJ
+         fupmx+4L6hW35L0Suk6jM9lewpJch7TBMW5rkEv0nnZ658R0tqgAy3/yKBjEFbS9j7gq
+         aAn7fX/f+kR99WPrVxl1W5Haf7h9qFlosZlAvh/43fuehPcIHW1zJbwHQEz9sSK41mer
+         osK5Tj9XjXm+WmgUeZUlqM7wVIaPYPwtvFknMWoQsqpAot1y/cWKEhnfw+5mSG+L0iIh
+         W2Gw==
+X-Forwarded-Encrypted: i=1; AL+hErEZRrOgAcSoTZqp6YgDau97sS9/jEj3Y5QwUXpMwOgfH/mv30RzoqadiCCUa3RRSt/pXp6GWEwlmnk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8tGrruZRziSmQKyaMSyEnp7TCDue2LUn22KAXXI8ecs6YqQNjL
+	Zcw/y22moU8NL/PLPsoUiuoXDClXFfHpHR6N7Uj81CaIGbvy726+K+DsEGNv++d1xyWxT373zLi
+	rEnNe1g==
+X-Received: from pffm4-n2.prod.google.com ([2002:a05:6a00:c304:20b0:8a0:70d8:a2ef])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4fc3:b0:89f:b166:bde6
+ with SMTP id d2e1a72fcca58-8beb8cc8ad6mr9720424b3a.54.1794839183449; Mon, 16
+ Nov 2026 06:26:23 -0800 (PST)
+Date: Mon, 16 Nov 2026 06:26:22 -0800
+In-Reply-To: <20261114202653.3113381-10-rdunlap@infradead.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,78 +79,222 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <476202a2-26a7-4b6b-a7d5-ba8e586371bb@hust.edu.cn>
+Mime-Version: 1.0
+References: <20261114202653.3113381-1-rdunlap@infradead.org> <20261114202653.3113381-10-rdunlap@infradead.org>
+Message-ID: <avsSjioXqbCOn834@seanjc-mac.roam.internal>
+Subject: Re: [PATCH 09/12] docs: ioctl-number: update virtualization entries
+From: Sean Christopherson <seanjc@google.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	linux-bluetooth@vger.kernel.org, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowangio@gmail.com>, 
+	David Heidelberg <david@ixit.cz>, oe-linux-nfc@lists.linux.dev, 
+	Chas Williams <3chas3@gmail.com>, linux-atm-general@lists.sourceforge.net, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
+	Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, MPT-FusionLinux.pdl@broadcom.com, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Zhihao Cheng <chengzhihao1@huawei.com>, linux-mtd@lists.infradead.org, 
+	Neill Kapron <nkapron@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org, 
+	Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	"Eugenio =?utf-8?B?UMOpcmV6?=" <eperezma@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
+	virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org, 
+	Mike Marshall <hubcap@omnibond.com>, devel@lists.orangefs.org, 
+	Paulo Alcantara <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
+	linux-f2fs-devel@lists.sourceforge.net, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alex Deucher <alexander.deucher@amd.com>, 
+	"Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>, amd-gfx@lists.freedesktop.org, 
+	Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	"Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, intel-xe@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 16, 2026 at 10:20:46PM +0800, Dongliang Mu wrote:
-> 
-> On 11/9/26 5:28 PM, Weijie Yuan wrote:
-> > Update the translation of two files:
-> > 
-> > 1) maintainer/configure-git.rst
-> > 2) maintainer/pull-requests.rst
-> > 
-> > I only update the first one in v1. However, I find a reference of
-> > pull-requests.rst in configure-git.rst is in English, while we've had a
-> > Chinese one. So, update both this time.
-> > 
-> > Note that there're warm tips from checkpatch,
-> > 
-> > checkpatch.pl: :6: WARNING: 'Link:' should be followed by a public http(s) link
-> > checkpatch.pl: Documentation/translations/zh_CN/maintainer/pull-requests.rst:118: WARNING: Do not use whitespace before Signed-off-by:
-> > 
-> > .. which are caused by a 'Link:' in the commit message and a sample Sob
-> > trailer.
-> > 
-> > ---
-> > Changes in v3:
-> > - Put "update to commit section" at the end of commit message in both.
-> > - Rebase to d48723711bae (Merge tag 'arm64-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux, 2026-11-06)
-> >    Alex's docs-next HEAD now.
-> > - Link to v2: https://patch.msgid.link/20260905-configure-git-v2-0-ab194db8c6b9@wyuan.org
-> > 
-> > Changes in v2:
-> > - Remove the SPDX identifier, see details and reasons in the thread of v1.
-> > - Add a new translation.
-> > - Link to v1: https://patch.msgid.link/20260823-configure-git-v1-1-3c65eefcc585@wyuan.org
-> > 
-> > To: Alex Shi <alexs@kernel.org>
-> > To: Yanteng Si <si.yanteng@linux.dev>
-> > To: Dongliang Mu <dzm91@hust.edu.cn>
-> > To: Jonathan Corbet <corbet@lwn.net>
-> > To: Shuah Khan <skhan@linuxfoundation.org>
-> > To: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: linux-doc@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > 
-> > ---
-> > Weijie Yuan (2):
-> >        docs/zh_CN: sync maintainer/configure-git with upstream
-> >        docs/zh_CN: improve maintainer/pull-requests translation
-> > 
-> >   .../zh_CN/maintainer/configure-git.rst             |  48 ++------
-> >   .../zh_CN/maintainer/pull-requests.rst             | 127 +++++++++++----------
-> >   2 files changed, 77 insertions(+), 98 deletions(-)
-> > 
-> > Range-diff versus v2:
-> 
-> You need to tell your agent to forget about the range-diff.
+On Sat, Nov 14, 2026, Randy Dunlap wrote:
+> Update the list of files where virtualization ioctls are defined.
+>=20
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> [Since having multiple maintainers trying to merge these would
+> cause some conflicts, it would be more manageable for Jon to
+> take all of these through the docs-next tree.]
+>=20
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Juergen Gross <jgross@suse.com>
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: xen-devel@lists.xenproject.org
+> Cc: Hans de Goede <hansg@kernel.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Jason Wang <jasowangio@gmail.com>
+> Cc: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> Cc: Sean Christopherson <seanjc@google.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: kvm@vger.kernel.org
+> Cc: virtualization@lists.linux.dev
+>=20
+>  Documentation/userspace-api/ioctl/ioctl-number.rst |    6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> --- linux-next-20261113.orig/Documentation/userspace-api/ioctl/ioctl-numb=
+er.rst
+> +++ linux-next-20261113/Documentation/userspace-api/ioctl/ioctl-number.rs=
+t
+> @@ -200,6 +200,7 @@ Code  Seq#    Include File
+>  'M'   01-03  drivers/scsi/megaraid/megaraid_sas.h
+>  'M'   00-03  drivers/video/fbdev/mb862xx/mb862xxfb.h
+>  'M'   00-0F  drivers/video/fsl-diu-fb.h                                c=
+onflict!
+> +'M'   01-03  xen/interface/xen-mca.h                                   c=
+onflict!
+>  'N'   00-1F  drivers/usb/scanner.h
+>  'N'   40-7F  uapi/linux/nvme_ioctl.h
+>  'N'   80-83  uapi/linux/ntsync.h and uapi/linux/nvme_ioctl.h           c=
+onflict!
+> @@ -239,6 +240,7 @@ Code  Seq#    Include File
+>  'U'   64     drivers/usb/misc/usbtest.c                                c=
+onflict!
+>  'V'   all    linux/vt.h                                                c=
+onflict!
+>  'V'   all    linux/videodev2.h                                         c=
+onflict!
+> +'V'   00-1F  linux/vboxguest.h                                         c=
+onflict!
+>  'V'   C0     linux/ivtvfb.h                                            c=
+onflict!
+>  'V'   C0     linux/ivtv.h                                              c=
+onflict!
+>  'V'   C0     media/si4713.h                                            c=
+onflict!
+> @@ -357,6 +359,7 @@ Code  Seq#    Include File
+>  '|'   80-9F  samples/                                                  A=
+ny sample and example drivers
+>  0x80  00-1F  linux/fb.h
+>  0x81  00-1F  linux/vduse.h
+> +             drivers/vdpa/vdpa_user/vduse_dev.c
+>  0x89  00-07  asm-generic/sockios.h
+>  0x89  06-07  linux/sockios.h
+>  0x89  0B-DF  linux/sockios.h
+> @@ -398,8 +401,11 @@ Code  Seq#    Include File
+>                                                                         <=
+mailto:kvm@vger.kernel.org>
+>  0xAE  40-FF  linux/kvm.h                                               K=
+ernel-based Virtual Machine
+>                                                                         <=
+mailto:kvm@vger.kernel.org>
+> +0xAE  C6     arch/x86/kvm/x86.c                                        X=
+86 KVM
 
-Sorry, I realized immediately that I forgot to change my template for b4
-cover letter after sending out this. Now deleted.
+I'd rather omit this entry.  0xAE C6 is covered by the entry above, and the=
+ horror
+in arch/x86/kvm/x86.c is purely a 32-bit compatibility alias for an ioctl t=
+hat is
+defined in kvm.h (the structure payload defines an pointer instead of a __u=
+64).
 
---- a/.b4-cover-template
-+++ b/.b4-cover-template
-@@ -4,8 +4,6 @@ ${cover}
- ${shortlog}
- 
- ${diffstat}
+If it's a sticking point, e.g. this will trip automated tooling over and ov=
+er, then
+I vote to move the relevant definitions to uapi headers, e.g.
+
+diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kv=
+m.h
+index 00ce265391e1..e02ef7a39f7c 100644
+--- a/arch/x86/include/uapi/asm/kvm.h
++++ b/arch/x86/include/uapi/asm/kvm.h
+@@ -230,6 +230,18 @@ struct kvm_msr_filter {
+ 	struct kvm_msr_filter_range ranges[KVM_MSR_FILTER_MAX_RANGES];
+ };
+
++struct kvm_msr_filter_range_compat {
++	__u32 flags;
++	__u32 nmsrs;
++	__u32 base;
++	__u32 bitmap;
++};
++
++struct kvm_msr_filter_compat {
++	__u32 flags;
++	struct kvm_msr_filter_range_compat ranges[KVM_MSR_FILTER_MAX_RANGES];
++};
++
+ struct kvm_cpuid_entry {
+ 	__u32 function;
+ 	__u32 eax;
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 0771efaf94c8..ef9f92cba589 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -4260,21 +4260,6 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+ }
+
+ #ifdef CONFIG_KVM_COMPAT
+-/* for KVM_X86_SET_MSR_FILTER */
+-struct kvm_msr_filter_range_compat {
+-	__u32 flags;
+-	__u32 nmsrs;
+-	__u32 base;
+-	__u32 bitmap;
+-};
 -
--${range_diff}
- ---
- base-commit: ${base_commit}
- change-id: ${change_id}
+-struct kvm_msr_filter_compat {
+-	__u32 flags;
+-	struct kvm_msr_filter_range_compat ranges[KVM_MSR_FILTER_MAX_RANGES];
+-};
+-
+-#define KVM_X86_SET_MSR_FILTER_COMPAT _IOW(KVMIO, 0xc6, struct kvm_msr_fil=
+ter_compat)
+-
+ long kvm_arch_vm_compat_ioctl(struct file *filp, unsigned int ioctl,
+ 			      unsigned long arg)
+ {
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 8dff2fc1972e..54dbdabd0e9b 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -1477,6 +1477,7 @@ struct kvm_enc_region {
 
-Thanks.
+ /* Available with KVM_CAP_X86_MSR_FILTER */
+ #define KVM_X86_SET_MSR_FILTER	_IOW(KVMIO,  0xc6, struct kvm_msr_filter)
++#define KVM_X86_SET_MSR_FILTER_COMPAT _IOW(KVMIO, 0xc6, struct kvm_msr_fil=
+ter_compat)
+
+ /* Available with KVM_CAP_DIRTY_LOG_RING */
+ #define KVM_RESET_DIRTY_RINGS		_IO(KVMIO, 0xc7)
+
+>  0xAE  20-3F  linux/nitro_enclaves.h                                    N=
+itro Enclaves
+>  0xAF  00-1F  linux/fsl_hypervisor.h                                    F=
+reescale hypervisor
+> +0xAF  00-8F  linux/vhost.h                                             c=
+onflict!
+> +0xAF  31-32  drivers/vhost/test.h                                      c=
+onflict!
+>  0xB0  all                                                              R=
+ATIO devices in development:
+>                                                                         <=
+mailto:vgo@ratio.de>
+>  0xB1  00-1F                                                            P=
+PPoX
