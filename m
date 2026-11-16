@@ -1,126 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794827346;
-	b=incu4fTg3CxFTwePXdoIqqVfMlaEmCjf5wiEeWRUxiS+F1HkTfNJXkK1Z9SaiybH2fc5
-	 qBJnTP7oQytnStSfK/7UcKWJcPbc4DwGNg9NQdOaw/Ss8lTrSABg98JmdBEsMHhb9ZeNq
-	 7xoJQ7AI0FjgcWaKEze6byfEydn9d9TwQV06RFUZghETbCXsIUm29NNUxL6wPWt3HPh8Q
-	 J5vHRi2JXr09wXIERzBHJnYKewTSm11vQ6Vvho4BLDEkKrYdtmluyodSL3I+lYbF6/DuF
-	 roD3VCrCgEKee6IRCz3mlouxwE8P4E0ju11SJUK/W0ucnvBOPH4w+FEgD4tKnt/T3zA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794827346;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=vrxK8BHa7Tpi5p5VONtpcoo9vzYtSGzKykWTFXCQG5k=;
-	b=0SueERsfFC+KE19ilSoKN8bOsNRlYBfLPY76LEf9mUHhfg1bLvy+kdIPF0fZaNHtjkZZ
-	 OYgQesdAVrlabvIDLe2KdG2AWnjMgGEO+q1EnFBpNbtjaq6DHsQ4ZjKrGL13W/Yv+9MYK
-	 lf5lq/qj3t0Lk4g1nwkmJf74u4DgumQ4nGhi7RBSnNDJe5Fijk4UFc04lQT+2PUO0hXDh
-	 +JMv0AtGN6Z5BUBjEToPypIlNKucRWp+RlhjcY+9EyuQee/KVEadnnLYmYaEt6UhG1VBH
-	 BKntNMkq4T1f94OTpls0MP3HTSDm6NTmvLh5E6X84MDHM0ltD8wAteF3/VpvP8X5qlg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=LMZr1uKW;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794828607;
+	b=MJRAximr/2DPw/O7xHnAGj7KsP9XGfgVEBVWdil0TAT7hBAmFpdEbq8odJi92kejISn1
+	 4wSda1I+wgxBLNk3NoXZ7ZhzUza9l35iww95UfgEhTCMD/HRD/r/NX93QFr6AazuLPVwy
+	 eHYI6EdasFpOgioBY1TNVPKaMi2HDJLthBqL5QN1G9DGK5nPzh9Ipdn3Xd1V9kcOCkQ7b
+	 srgy7mn6UxigfySyJs6+4CcbR5lGUwBbVknDlT5y23EoN/P6FAPCPc9RA6yRp5U30vVAG
+	 M+Hl2QltWwRrh8V8SRo8yUUXv8Cye5E3IGtfyAzVU5QUmm7Tmaby1rd2Pr8NEV1UHYw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794828607;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Reason;
+	bh=pszfIBqKJ5cOlGB91M1o2+6uw052LAtKFmM3aAj1Mag=;
+	b=2AxuGZw1cPypgsxFd58W4mAPpcLbiPUwyaXP06jve2Da3REsV/Ai5dsc+Ap1QD4Ekzvh
+	 qc68XHF/+C6qR8qlzzDbG7UaNzfJWCoxaIaJaPdQai0spJMSDzqq84iKZA96RgprpPXDJ
+	 QG7/Yj9O+YA9VeOLadnrr0lB+UHVhFkBYv6y0dYP4rRHCudG/QZUPWRB1eBvOvcC3qBp7
+	 PTV7WJL+SxMBIjnMYSblJBI4oZWR0QGiDbl8/IuK1PxxM2aPGRQPZHpNDYj5RifaVriwm
+	 rAIPuzUA+4ixMKWf894fcv7+s3T+xCvoGxf6wANBuVD/IxRbrmos8FisJbag8QAJiZg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=opensource.cirrus.com;
+	spf=pass smtp.mailfrom=opensource.cirrus.com;
+	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=YgnKBndM;
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b="om/6KtJL";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46107606C13B
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 11:09:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46107606C13B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB04606A7A7;
+	Mon, 16 Nov 2026 11:30:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FB04606A7A7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=LMZr1uKW
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-490d59c3f0aso1277381f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 03:09:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=YgnKBndM;
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=om/6KtJL
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AGAblxE1643381;
+	Mon, 16 Nov 2026 05:29:40 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=pszfIBqKJ5cOlGB91M1o2+6uw052LAtKFmM3aAj1Mag=; b=
+	YgnKBndMdhpx1pbR8ITVu0aNiiI7h6UdzQ6KgxHsxxtjwitIAf/1MLDm2zi9xQsD
+	t8bMxV8oQ1zGJI3bhm3HyVeOR3CZCjQAPSL9SgEs98pzpiLPIunrABQYjmxJ+yPl
+	BnuRQrF8tFvaIpK55i2EdoR3Qe6Lk+B8MGmFqKgeMwbU4DoFyyWtEV/qIFx3vpLW
+	MWQyjUVN3UzYO6dE0xdKD6OSExnlpXX+n8EQBXD7vkZH4Huo5/ag3cVLpLiTDdzp
+	L41VcPLRwGbBvY6qrJhYo7CkdjMvx0lj6XqzN/f9aM2+uQ2YVVeh4KWUfbwHgD61
+	1iCc/AaghP2BaqSQAMHPgw==
+Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11021143.outbound.protection.outlook.com [52.101.57.143])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4hxnxej0gg-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 16 Nov 2026 05:29:39 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CiF8m7Sd5W6BogKqP7FSvCnd7l8Driyc/ASbJVW0tJIpy7Y0nTGIDfqGpOZPyC4Bx7DXI0xebm1KqT14HwqZdWbCzNegkI/ArTi/WYciF2gbBVKzFGtKfqtZXQuauPiBRs5HzxbSy6JrDxOoHZrlHshS69qkvG8e2AJ7UTQWiatrLHubzNrPInGO3YfaptmJ+DuvAhE7zb+NUFIs0D7ccXZCZdJSMnZvYRhm8Dti/XS3eG8IfId0SulJZJS4kU68NQjjPGezksHmg3Wm8peVrx2eGbz8NGezzUbT/Ayn+0ZVz8cvKuGw87Z9S/rA3EWTYkfC/wFhYEQsSww7UohGDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pszfIBqKJ5cOlGB91M1o2+6uw052LAtKFmM3aAj1Mag=;
+ b=J2JoyMK02/f2LX66Se6bZbsgnOL0mDWVL4xN/3OCznJcCJBEuzG2FVoCbaqBN3B+clLV5WUIqX9xQ+LySAK+J9yj2trEb5lsPVVHYcQmhqr3WYT4Uo3aovBql3Qv71BFchOo/sJrqRwIzUFCwLPiUjThyoj7Q3d3Qa+8XdZiu13gbGVGQVOUcjbr+26qlCBTC6ZOLKMpU4sFg2+SpVbFDKn7gNURnbo+ju3mT2SQUosYnYk8m6JOKcuZRmcvHiylTfu53BOMkAoXd3PSjfKn8xrGiCzRwxb+G5XlpsSVUJvGVujRBKZTDr6gCnq4phCD8NXc9uC6vp1eYbPTOnz8dw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1794827344; x=1795432144; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vrxK8BHa7Tpi5p5VONtpcoo9vzYtSGzKykWTFXCQG5k=;
-        b=LMZr1uKWAKiPz/Vtz3m54P+/P85Xgxy8OB6QQaMNznqNFT5ybBS7NmrY9v0o5gtx+g
-         KHhwTM5uL/uKC1A0m5yG8R2qq3CxuHFFGNllvk7PHXM1W/+VSS2FUO0/l7vXKwvi2GiI
-         zNCITWRJGRXya3aizSpagzCq6qDSXnnMN2QsVuRmLcnkLu98J0ZCV0GfbJx7PhyqeLiY
-         K203bgsAZllVV0NAzYeTfu/V3BBbFg7ugl3SOiLVF8CYRDtnNtz3t3mzztdhfaQiljig
-         /n+s33Y2M3i2shjiqtlU0c3mxuJTTrBp89SZaJDKjJcroGpUkVbOZgn3BrW6jotK3PeN
-         y8/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794827344; x=1795432144;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vrxK8BHa7Tpi5p5VONtpcoo9vzYtSGzKykWTFXCQG5k=;
-        b=Mmt2eTAqMkWQHmEf+6ohAcE0GcWrVjliAjhMx8BRAE9rg0qlsdYfhqwbDYEnBzyQez
-         9DTdXZGYmjiseLEnPfhv6wfIV7v1GgLu6axnMEPwhhb5iBl3XPu5SiFX7YqNFcUzeZxk
-         6VbQVVS8kRoWOfTyJXvJFxOj3wBGx8QD3fxgcwSo3G6++5VvbTaW1YLit41vPdk0UZbD
-         EkoV7O1H15PA6I1coCiLYj27vYSyLbWFXxc0jdpC25jtJAv9oASc8REuV/A4j5YDzsTS
-         Ed2zkhlqgfVYhehr0bv+75Bfd6LUnRLnbxBkLC7nmnyObdvk70AMSVzA3m8BRaIJJhvu
-         3Fgg==
-X-Forwarded-Encrypted: i=1; AL+hErESQxRq5GgYVaQeGrp5T4RvNnwaWgSSL2a9F2/Lw3Nj9XJ1+j8j+Xf7la7pryvS58OztS96euo7hy0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8/chcXP4OiHE9iCsQcc9YDQolPNXsZYlw2myr7Hn0YVh81ju+0
-	mucc/K2m/qJrL+rjT1Fc+bdkBUrjKx8m3WcopUQqxy0X1OX/1oyrVPfZ9fytxRNpp6I=
-X-Gm-Gg: AZFdTZdsYmfM6n+C1+gRiZjgWlBtMeL28yd/rbwQEesQAsJVJ5QuH1Pp4YVRJP/tNAk
-	BLmJIu3voWpwIGH2z4+8neg/eyZ2hYsjZiR5nUphfye69TTsj+q7T3DIfQiPEl/2XNeuvXRujBU
-	8uk+xcyr8sPlKoWu+6eZB1cIjBDlgYq2rZG1bnZdAj2j3PM8UoGa8lxhPNqklvi5iYTZoWMXwDk
-	C6PjFgRfszsoRHlL41D3R25bzYyblKy3fU/Prfe7jmR+lJ1LssFjH+TYzmiw+4gK7xhZtq/O8hh
-	vYbk9npQfRv9P0t+jUu03ZcMmK5BY0hkRu58oL+LgCFjlFSMxH12BGwM9OmP7xDIzwlXrFjRKkw
-	zBhtxmQWErR27J5KMIJxESNK46H4/Rs+4OwmSdZc2SCtS5zsARV58st68koEW6M6qoMKz51uhLT
-	piIMmWtJ0r/Ny+d3bfhuZEXJZ59GQzYMyqZ2TG+kY3JphYW7HEgNKA4cN15tHCT4C+hZOe6rVMz
-	TcpGKokp0FaKU7gR/x7BArblduhzHt7HD12PmMg5ScIiAflAQGadvqV8ln2hfV1mOO8JDCtKb0F
-	+aA0JvsYjM4nF//7SXs4idgbO9QaoZKosnS8iMZYrwrYHTZRw6B5TLPr/1fbZoWUjrEml9nKKzW
-	EKyWsa80qUWzPXnTT
-X-Received: by 2002:a05:6000:2408:b0:490:6327:96da with SMTP id ffacd0b85a97d-49c6b788747mr29898191f8f.0.1794827343493;
-        Mon, 16 Nov 2026 03:09:03 -0800 (PST)
-Received: from localhost (p200300f65f19a9042c263c0c153a4e28.dip0.t-ipconnect.de. [2003:f6:5f19:a904:2c26:3c0c:153a:4e28])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-49c5d03b10fsm24202375f8f.1.2026.11.16.03.09.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 03:09:02 -0800 (PST)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Armin Wolf <W_Armin@gmx.de>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Marco Elver <elver@google.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Bradley Morgan <brads@mainlining.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Pnina Feder <pnina.feder@mobileye.com>,
-	Mete Durlu <meted@linux.ibm.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Rio <rioo.tsukatsukii@gmail.com>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Alex Williamson <alex@shazbot.org>
-Subject: [PATCH] driver core: Disable driver overriding by default
-Date: Mon, 16 Nov 2026 12:08:52 +0100
-Message-ID: <20261116110853.3418077-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pszfIBqKJ5cOlGB91M1o2+6uw052LAtKFmM3aAj1Mag=;
+ b=om/6KtJLqSqkL2IJrvAfw/uRhPjDh8LSgCv0NGmuhXGA/5pUZ4qL6pSgIM4uxudp7jb9vwg3Ft590uO6Kb/TX9hslNpsK8dtwZIUhSbHyyYLa3czpJZG2zWrNYaOSYpHFWf2H/gbkLaiiaYFTC+cThT0WlRTXtT60f626aSYy1U=
+Received: from CH2PR10CA0004.namprd10.prod.outlook.com (2603:10b6:610:4c::14)
+ by CH2PR19MB3766.namprd19.prod.outlook.com (2603:10b6:610:a1::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Mon, 16 Nov
+ 2026 11:26:34 +0000
+Received: from CH2PEPF00016D4C.namprd02.prod.outlook.com
+ (2603:10b6:610:4c:cafe::8a) by CH2PR10CA0004.outlook.office365.com
+ (2603:10b6:610:4c::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.8 via Frontend Transport; Mon, 16
+ Nov 2026 11:26:34 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH2PEPF00016D4C.mail.protection.outlook.com (10.167.244.121) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.4
+ via Frontend Transport; Mon, 16 Nov 2026 11:26:34 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 10CCC406541;
+	Mon, 16 Nov 2026 11:26:33 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id F0A3B820273;
+	Mon, 16 Nov 2026 11:26:32 +0000 (UTC)
+Message-ID: <575412a7-9f7d-47af-83b8-a0933b4c729a@opensource.cirrus.com>
+Date: Mon, 16 Nov 2026 11:26:32 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -130,346 +124,103 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=14253; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=sqFm6ESjdybLkCEghtjL2OJfYqUeydfVlCoinB4e6MY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBq+uRF/48exftyFahrWCtmmAi/MRPmusy2FL3Jd Xk3QPIdrIeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCavrkRQAKCRCPgPtYfRL+ TmzpCACjwTIAF9xxChcvU9VNraL3Y2V4WoPBm/JBjd3tl4yYpPIP/6oP2kh1aaLlUabLcl8RggZ mZEB8ip2E5Uk8CFq5D8UWlt069dcwA2lQ93oIP+1An2pKKuiTYlgWniXudm5ZRJQPxypnd9vYWz Ha6m/HjH1OwralE0uY3jLD8GFB0RfLQnahIHEiU/E53eTfV86sIdnztFz53UyuLxx1yfZHJCi8e ji3kE/lWEUST9x8lnVxanYFDt1Ue+wyerLMQpur35we4te629nx1VzdEb9qNUFs8AsbFCRJ9Kzf Eye+O7EF5OKM402Nkrvy0dWJ4WHp/vRwUanXDSevgh1Bnv3n
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: doc: cs35l56: Point to kernel.org firmware
+ repository
+To: Marek Vasut <marek.vasut@mailbox.org>, linux-sound@vger.kernel.org
+Cc: David Rhodes <david.rhodes@cirrus.com>, Jaroslav Kysela <perex@perex.cz>,
+        Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+        Shuah Khan <skhan@linuxfoundation.org>, Takashi Iwai <tiwai@suse.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com
+References: <20260914031252.98932-1-marek.vasut+renesas@mailbox.org>
+ <fd865483-1485-4042-b938-2012eaa65043@mailbox.org>
+ <3b620222-ba1c-4c6c-a06b-2dd5fb391fb6@opensource.cirrus.com>
+ <49f749ff-8d34-4806-bca7-403005600c0d@mailbox.org>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <49f749ff-8d34-4806-bca7-403005600c0d@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF00016D4C:EE_|CH2PR19MB3766:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5803b889-ecd9-43aa-81f3-08df43d4787a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|36860700016|23010399003|61400799027|22082099003|18002099003|16102099003|4143699003|56012099006|11063799006|261028144727099003|261026121527099003|261026140227099003|261022105027099003|261022075727099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	+79RTXi5cBcqbYaSDGNLY5lsEmu3Ofq4fLT0XCy51flZZhCsfEzGhRuQCkgpo3UHAuzC4sbAcGJF5YUY3ZP2b30U2JtC7Qu1M6DPssbNr2bpUTqMuDb7jJYkq76xjYjlXXkh2nhFKsC7TRJBJXKf1vAU4YUhsVZlj/awljJgAVCBQ3DfxEDzk+ONFxChKgiywjohic8qQMDfXf9JMxeEfweDXOrLsnMHwqwKSq4+OUxyWeoZDx5fjp68Qijst5zCx4BMYFjAJ92lvVxclLjqCcAI1/hUBKk9rlW/Y4zzGfr6tc8xkF7pHk5MnSWor/QWUw7UraewDdHNbSxfwyG/QYqtgI8Je6oOi4I5nm1G9L9Du59wpRSqXY67TcoxDPTAUjsIivV+0kqogt7qiqJFKlHGhMeP416vJHNarP5LdEPRD7HK1d2Ls8MQC+CRf6rR8rsP6xI6iMVkJnnvmnlRjLlTncH41xFTF1dbTj+qkWJbiuESEDPHlZjLD9qOpD+FXhOv96GBo3mzzLoxDzRZ22MPjI7ydpc9OSfrRxYfCqfeskl2iIFkJHarQzHcuxQ9GlHNYQ4UZ7hThc2klEgGqeTjV5anGTvnc4wksFXqhAShh31dsJu6Sn/SybB8eqKcDc941pDJ3YSsj5L2K84KAGLyt1WaWGqcpo++HLYdPVVBjOnuE2OEUUxiSLeotB5yoIIw4QqeRMZbMDKaPgaTFw==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700016)(23010399003)(61400799027)(22082099003)(18002099003)(16102099003)(4143699003)(56012099006)(11063799006)(261028144727099003)(261026121527099003)(261026140227099003)(261022105027099003)(261022075727099003)(10067099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	hWYL43h0NbymD3KrIhw3N157YAgRBn+ogkNLHqF9LrRe7O1Dy0WB6PDUz4hHm4/csPh28i/kXTvgv3NZ0UDNW540h8ggM7v6hdWcjs/C6anK1PuAFHbr/K46vAZj/AxzaiKBrdAJc7aes/MkQzRXgX2DeqSw+YiKxPWnSocJ9CpzKoHSwYuZzcofTjxLFn4i+urGpdC/cmB5S+9dBd5N083lS6mCirZaAOloDu8gndzXVa0AqhBuYhT3znmmNbLeguBuNLWNzEAV+roR7JOkC9iRc7CR9TNkj9BM8SEvr3cexE44DrF61rpuzLgyCZS8UlFyWJZa4JzxVvLFCOezs6byxcl9YnFSMJYPOAfMbpfx5heqHgXhbs8WLkx9+o0RY5DcCoIA6ig7bnN1sCedsxWuvJB14DShrJvDM2nJLpUduKdJsqfrPTE3Ue27K8Tx
+X-Exchange-RoutingPolicyChecked:
+	YFMVvwZ3SjNKpV1RkWSfs/3/3ctm+Cr+Y4NLfxIQk0xk1as5VyXtqQr0ewY9pqYz5j8Zv7pprw+bbA22Zmf7v3cfrbM0s3DP/+rbzMau6O+4yRIQWQySEXaIsNeodS/VE76yN23dfpP4siH/AUN4X9ZdOlMJy1P0G0PWEF69q7Ei57Peh2cRfepMA4yO2xoueayEK74XuTiyj5P6vYSyB/+4q1duz8PCWj8adV5JxLiPOjvY1QZrPBY83D/vH6RffL+/BUkfNcGYCfN2sSFmIFTGmerr8Gtz3o08hiEpdHkrsCKFcBE8hOgDj8+X5/ulDsITF+ZIclAzwwK0KIc3KA==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 11:26:34.0935
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5803b889-ecd9-43aa-81f3-08df43d4787a
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH2PEPF00016D4C.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR19MB3766
+X-Authority-Analysis: v=2.4 cv=KNbPn1Fo c=1 sm=1 tr=0 ts=6afae924 cx=c_pps
+ a=pCScd9Md5F2Oib7HHR5gBQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=VwQbUJbxAAAA:8
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=b3CbU_ItAAAA:8 a=w1d2syhTAAAA:8 a=07d9gI8wAAAA:8 a=JfrnYn6hAAAA:8
+ a=ag1SF4gXAAAA:8 a=iox4zFpeAAAA:8 a=AKw2qs2-w66Y8sInf28A:9 a=QEXdDO2ut3YA:10
+ a=Rv2g8BkzVjQTVhhssdqe:22 a=e2CUPOnPG4QKp8I52DXD:22 a=1CNFftbPRP8L7MoqJWF3:22
+ a=Yupwre4RP9_Eg_Bd0iYG:22 a=WzC6qhA0u3u7Ye7llzcV:22
+X-Proofpoint-ORIG-GUID: 2MJoONZXR_7DaoFhgacNeVyzJ92Z1CmB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE2MDA0NSBTYWx0ZWRfX35CDqPJz2haV
+ 4vK7OKyZxxU0nyI5f6f8juCjyU0Rm6NHmSr66R8LT7jbENp5LdfuKwzJHwkzUL2LpTvRRbXn47k
+ xtMLw4zgcAPRPEv291R3gEb0iSYGBfJk/jsaS05c4RUUMT3RQlpz3dyL+GWWZmt2You7oM5TtSv
+ /ZkWn6qKfpXmFGrO8RBHjqihojPdZxOmO+7Yt93nSmSD9Lg/11nuVTewNljQBseQn/4M63tRVpJ
+ Myuaa1z+2rKLuG+UVGDzu0lY+2Q2XahijcHHZZGiUHpOGdP35sKwbHJZ0sBrXKmKAVpF89iUuwP
+ J+NAnJD8aUeW0qoBZW8iY8IC6pUPM3Tbp1DLv+uFN2l4CcQOa301cno20Ekynu1AUc02Eun8obE
+ MGeIgfQEL6moC98vcYsUIhuh7VmQW1906J9s6n34FCj1zaCDbt63vcPYAuncI484qWNywTZXOY5
+ euJ9GyuioBjqbTvKGmw==
+X-Proofpoint-GUID: 2MJoONZXR_7DaoFhgacNeVyzJ92Z1CmB
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE2MDA0NSBTYWx0ZWRfX0sBCWOeTSRsN
+ iBpIRYjzkQPkAevGNdGdRW86o47XWxrjl+oDbsOR9QHiVsAbWhZInZyxqigDFSxEjCSXMbriFxR
+ GJjRTQvlX6MA3nOhOwRqM+gEKCXc5OI=
+X-Proofpoint-Spam-Reason: safe
 
-Driver overriding is useful only in a very limited set of situations
-and then only with very few drivers that are designed to support that.
+On 16/11/2026 10:57 am, Marek Vasut wrote:
+> On 11/16/26 11:14 AM, Richard Fitzgerald wrote:
+>> On 16/11/2026 9:22 am, Marek Vasut wrote:
+>>> On 9/14/26 5:12 AM, Marek Vasut wrote:
+>>>> Use the primary mirror of linux-firmware at kernel.org.
+>>>> No functional change.
+>>>>
+>>>> Fixes: 088fb4ee17fc ("ALSA: doc: cs35l56: Add information about 
+>>>> Cirrus Logic CS35L54/56/57")
+>>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>>> ---
+>>>> Cc: David Rhodes <david.rhodes@cirrus.com>
+>>>> Cc: Jaroslav Kysela <perex@perex.cz>
+>>>> Cc: Jonathan Corbet <corbet@lwn.net>
+>>>> Cc: Randy Dunlap <rdunlap@infradead.org>
+>>>> Cc: Richard Fitzgerald <rf@opensource.cirrus.com>
+>>>> Cc: Shuah Khan <skhan@linuxfoundation.org>
+>>>> Cc: Takashi Iwai <tiwai@suse.com>
+>> ...
+>>
+>>
+>>> Is there anything left over to do with this change ?
+>> You should send patches To: a maintainter if you want them to merge it.
+>> They are not guaranteed to see it if you only CC them.
+> 
+> Who is the maintainer in this case ?
+> 
+> I used the get_maintainer.pl script which should have done the right thing.
 
-Disallow matching via driver_override unless the driver explicitly
-allows it or the safe guard is disabled using the
-"allow_driver_override=1" kernel parameter.
-
-There are many drivers that don't expect to be force-bound and often
-doing it anyhow results in a NULL pointer exception. To make debugging
-such cases easier, add a new taint if such a forced match happens.
-
-Implementation detail: device_match_driver_override() isn't a static
-inline any more. It grew a certain complexity (e.g. a pr_info()) and so
-was made a regular exported function.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
-Hello,
-
-this is a rebase to current next of the series
-https://lore.kernel.org/all/cover.1790612298.git.u.kleine-koenig@baylibre.com/
-. It combines the functionality of former patches #2 and #3 (#1 was a
-fix that was already applied). I also addressed sashiko's comments. I think
-this matches what most people want in the previous discussion.
-
-As the rebase wasn't trivial and I merged the two patches, I didn't
-apply the review tags I already received for v3.
-
-If this patch is accepted, a number of drivers that are supposed to be
-force-bound need to get their .support_driver_override property set. I'm
-aware of the following:
-
- - spidev_spi_driver in drivers/spi/spidev.c
- - stub_driver in drivers/pci/pci-stub.c
- - uio_dmem_genirq in drivers/uio/uio_dmem_genirq.c
- - uio_pci_driver in drivers/uio/uio_pci_generic.c
- - uio_pdrv_genirq in drivers/uio/uio_pdrv_genirq.c
- - vfio_amba_driver in drivers/vfio/platform/vfio_amba.c
- - vfio_ccw_sch_driver in drivers/s390/cio/vfio_ccw_drv.c
- - vfio_pci_driver in drivers/vfio/pci/vfio_pci.c
- - vfio_platform_driver in drivers/vfio/platform/vfio_platform.c
-
-This is not needed for the userspace i2c driver.
-
-As the flag to set is only introduced in this patch and assuming this
-patch is accepted, I suggest to create an immutable branch for it to
-allow setting the needed flags in driver trees. Alternatively let all
-these go together via a single tree or branch.
-
-Best regards
-Uwe
-
- .../admin-guide/kernel-parameters.txt         |  6 +++
- Documentation/admin-guide/tainted-kernels.rst | 54 ++++++++++---------
- drivers/base/bus.c                            | 50 +++++++++++++++++
- include/linux/device.h                        | 19 +------
- include/linux/device/driver.h                 |  2 +
- include/linux/panic.h                         |  3 +-
- include/trace/events/module.h                 |  3 +-
- kernel/panic.c                                |  3 +-
- tools/debugging/kernel-chktaint               |  9 ++++
- 9 files changed, 104 insertions(+), 45 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 85804cfe7ef6..aabc97feef9b 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -424,6 +424,12 @@ Kernel parameters
- 			do not want to use tracing_snapshot_alloc() as it needs
- 			to be done where GFP_KERNEL allocations are allowed.
- 
-+	allow_driver_override=
-+			When set to 1 allow matching drivers without
-+			.support_driver_override = true to devices using
-+			driver_override. This is a dangerous operation in
-+			general allowing root to oops the kernel.
-+
- 	allow_mismatched_32bit_el0 [ARM64,EARLY]
- 			Allow execve() of 32-bit applications and setting of the
- 			PER_LINUX32 personality on systems where only a strict
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-index fcb8b9734548..e6bab575ccef 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -74,35 +74,36 @@ a particular type of taint. It's best to leave that to the aforementioned
- script, but if you need something quick you can use this shell command to check
- which bits are set::
- 
--	$ for i in $(seq 0 19); do echo $i $(($(cat /proc/sys/kernel/tainted)>>$i&1));done
-+	$ for i in $(seq 0 20); do echo $i $(($(cat /proc/sys/kernel/tainted)>>$i&1));done
- 
- Table for decoding tainted state
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--===  ===  ======  ========================================================
--Bit  Log  Number  Reason that got the kernel tainted
--===  ===  ======  ========================================================
--  0  G/P       1  proprietary module was loaded
--  1  _/F       2  module was force loaded
--  2  _/S       4  kernel running on an out of specification system
--  3  _/R       8  module was force unloaded
--  4  _/M      16  processor reported a Machine Check Exception (MCE)
--  5  _/B      32  bad page referenced or some unexpected page flags
--  6  _/U      64  taint requested by userspace application
--  7  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
--  8  _/A     256  ACPI table overridden by user
--  9  _/W     512  kernel issued warning
-- 10  _/C    1024  staging driver was loaded
-- 11  _/I    2048  workaround for bug in platform firmware applied
-- 12  _/O    4096  externally-built ("out-of-tree") module was loaded
-- 13  _/E    8192  unsigned module was loaded
-- 14  _/L   16384  soft lockup occurred
-- 15  _/K   32768  kernel has been live patched
-- 16  _/X   65536  auxiliary taint, defined for and used by distros
-- 17  _/T  131072  kernel was built with the struct randomization plugin
-- 18  _/N  262144  an in-kernel test has been run
-- 19  _/J  524288  userspace used a mutating debug operation in fwctl
--===  ===  ======  ========================================================
-+===  ===  =======  ========================================================
-+Bit  Log   Number  Reason that got the kernel tainted
-+===  ===  =======  ========================================================
-+  0  G/P        1  proprietary module was loaded
-+  1  _/F        2  module was force loaded
-+  2  _/S        4  kernel running on an out of specification system
-+  3  _/R        8  module was force unloaded
-+  4  _/M       16  processor reported a Machine Check Exception (MCE)
-+  5  _/B       32  bad page referenced or some unexpected page flags
-+  6  _/U       64  taint requested by userspace application
-+  7  _/D      128  kernel died recently, i.e. there was an OOPS or BUG
-+  8  _/A      256  ACPI table overridden by user
-+  9  _/W      512  kernel issued warning
-+ 10  _/C     1024  staging driver was loaded
-+ 11  _/I     2048  workaround for bug in platform firmware applied
-+ 12  _/O     4096  externally-built ("out-of-tree") module was loaded
-+ 13  _/E     8192  unsigned module was loaded
-+ 14  _/L    16384  soft lockup occurred
-+ 15  _/K    32768  kernel has been live patched
-+ 16  _/X    65536  auxiliary taint, defined for and used by distros
-+ 17  _/T   131072  kernel was built with the struct randomization plugin
-+ 18  _/N   262144  an in-kernel test has been run
-+ 19  _/J   524288  userspace used a mutating debug operation in fwctl
-+ 20  _/Z  1048576  a driver was forced on a non-matching device
-+===  ===  =======  ========================================================
- 
- Note: The character ``_`` is representing a blank in this table to make reading
- easier.
-@@ -189,3 +190,6 @@ More detailed explanation for tainting
-  19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
-      to use the devices debugging features. Device debugging features could
-      cause the device to malfunction in undefined ways.
-+
-+ 20) ``Z`` if a device was matched using the `driver_override` sysfs property
-+     to a driver that didn't explicitly allow that.
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index 396097fdb316..5344b20488fd 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -603,6 +603,56 @@ int bus_add_device(struct device *dev)
- 	return error;
- }
- 
-+static bool __read_mostly allow_driver_override;
-+
-+static int __init allow_driver_override_setup(char *str)
-+{
-+	if (!str || kstrtobool(str, &allow_driver_override) < 0)
-+		allow_driver_override = true;
-+
-+	return 1;
-+}
-+__setup("allow_driver_override=", allow_driver_override_setup);
-+
-+/**
-+ * device_match_driver_override() - Match a driver against the device's driver_override.
-+ * @dev: device to check
-+ * @drv: driver to match against
-+ *
-+ * Returns > 0 if a driver override is set and matches the given driver, 0 if a
-+ * driver override is set but does not match, or < 0 if a driver override is not
-+ * set at all.
-+ */
-+int device_match_driver_override(struct device *dev,
-+				 const struct device_driver *drv)
-+{
-+	guard(spinlock)(&dev->driver_override.lock);
-+	if (dev->driver_override.name) {
-+		int ret = !strcmp(dev->driver_override.name, drv->name);
-+
-+		if (ret > 0 && !drv->support_driver_override) {
-+			if (allow_driver_override) {
-+				add_taint_module(drv->owner,
-+						 TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
-+			} else {
-+				/*
-+				 * If you hit this warning and you need to
-+				 * quickly workaround this check, boot with
-+				 * allow_driver_override=1 on the kernel
-+				 * commandline. The right fix is to set the
-+				 * driver's .support_driver_override property.
-+				 */
-+				dev_warn(dev, "Suppressed driver override binding to %s.\n", drv->name);
-+				return -1;
-+			}
-+		}
-+
-+		return ret;
-+	}
-+	return -1;
-+}
-+EXPORT_SYMBOL_GPL(device_match_driver_override);
-+
- static void __bus_probe_device(struct device *dev)
- {
- 	struct subsys_private *sp = bus_to_subsys(dev->bus);
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 6b082c638d45..05413c1a9454 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -907,23 +907,8 @@ static inline bool device_has_driver_override(struct device *dev)
- 	return !!dev->driver_override.name;
- }
- 
--/**
-- * device_match_driver_override() - Match a driver against the device's driver_override.
-- * @dev: device to check
-- * @drv: driver to match against
-- *
-- * Returns > 0 if a driver override is set and matches the given driver, 0 if a
-- * driver override is set but does not match, or < 0 if a driver override is not
-- * set at all.
-- */
--static inline int device_match_driver_override(struct device *dev,
--					       const struct device_driver *drv)
--{
--	guard(spinlock)(&dev->driver_override.lock);
--	if (dev->driver_override.name)
--		return !strcmp(dev->driver_override.name, drv->name);
--	return -1;
--}
-+int device_match_driver_override(struct device *dev,
-+				 const struct device_driver *drv);
- 
- /**
-  * device_iommu_mapped - Returns true when the device DMA is translated
-diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
-index 29fbc01ef06f..0153cfcbe1b9 100644
---- a/include/linux/device/driver.h
-+++ b/include/linux/device/driver.h
-@@ -56,6 +56,7 @@ enum probe_type {
-  * @bus:	The bus which the device of this driver belongs to.
-  * @owner:	The module owner.
-  * @mod_name:	Used for built-in modules.
-+ * @support_driver_override: driver_override only works if this is true.
-  * @suppress_bind_attrs: Disables bind/unbind via sysfs.
-  * @probe_type:	Type of the probe (synchronous or asynchronous) to use.
-  * @of_match_table: The open firmware table.
-@@ -104,6 +105,7 @@ struct device_driver {
- 	struct module		*owner;
- 	const char		*mod_name;	/* used for built-in modules */
- 
-+	bool support_driver_override;
- 	bool suppress_bind_attrs;	/* disables bind/unbind via sysfs */
- 	enum probe_type probe_type;
- 
-diff --git a/include/linux/panic.h b/include/linux/panic.h
-index 17e61b61c45f..009232511cc7 100644
---- a/include/linux/panic.h
-+++ b/include/linux/panic.h
-@@ -89,7 +89,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
- #define TAINT_RANDSTRUCT		17
- #define TAINT_TEST			18
- #define TAINT_FWCTL			19
--#define TAINT_FLAGS_COUNT		20
-+#define TAINT_DRIVER_OVERRIDE		20
-+#define TAINT_FLAGS_COUNT		21
- #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
- 
- struct taint_flag {
-diff --git a/include/trace/events/module.h b/include/trace/events/module.h
-index e5a006be9dc6..d54ce3c7572b 100644
---- a/include/trace/events/module.h
-+++ b/include/trace/events/module.h
-@@ -26,7 +26,8 @@ struct module;
- 	{ (1UL << TAINT_OOT_MODULE),		"O" },		\
- 	{ (1UL << TAINT_FORCED_MODULE),		"F" },		\
- 	{ (1UL << TAINT_CRAP),			"C" },		\
--	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" })
-+	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" },		\
-+	{ (1UL << TAINT_DRIVER_OVERRIDE),	"Z" })
- 
- TRACE_EVENT(module_load,
- 
-diff --git a/kernel/panic.c b/kernel/panic.c
-index 91e48d33b7db..81ea9ef9afb0 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -825,6 +825,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
- 	TAINT_FLAG(RANDSTRUCT,			'T', ' '),
- 	TAINT_FLAG(TEST,			'N', ' '),
- 	TAINT_FLAG(FWCTL,			'J', ' '),
-+	TAINT_FLAG(DRIVER_OVERRIDE,		'Z', ' '),
- };
- 
- #undef TAINT_FLAG
-@@ -861,7 +862,7 @@ static void print_tainted_seq(struct seq_buf *s, bool verbose)
-  * exact size is allocated dynamically; the initial buffer remains
-  * as a fallback if allocation fails.
-  *
-- * The verbose taint string currently requires up to 327 characters.
-+ * The verbose taint string currently requires up to 348 characters.
-  */
- #define INIT_TAINT_BUF_MAX 350
- 
-diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
-index e1571c04afb5..56215e0f5112 100755
---- a/tools/debugging/kernel-chktaint
-+++ b/tools/debugging/kernel-chktaint
-@@ -211,6 +211,15 @@ else
- 	addout "J"
- 	echo " * fwctl's mutating debug interface was used (#19)"
- fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "Z"
-+	echo " * A device was matched using driver_override to a driver not supporting that (#20)"
-+fi
-+
- echo "Raw taint value as int/string: $taint/'$out'"
- 
- # report on any tainted loadable modules
-
-base-commit: 84abb955b1015477aa11a96e2f3ac1b938b77f48
--- 
-2.56.0.rc1
-
+You have the correct people but you sent it to them CC: instead of TO:
+Takashi would be the best person for this.
