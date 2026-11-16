@@ -1,49 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794853930;
-	b=e6QFgS+A3NM5zkXXVFA2zKVALzXzJL5vLEYkPQTwXaf/Rfq1LhU8/7YuK8ANW5D/V3yh
-	 tc57qMG/DBokFdG/6/ACtaGzQSl1eygtfZdHSll+RXa3/CVwrzNlu9ZR4kHQvmGub3PeJ
-	 B6KIczdiLyRKr2a6a7eUD8XcDSMc3snW1M8a5ivqJ8+Z3tEeflWjevDECXewvVYntOqtA
-	 kvljlwZI08WywLNolQ8c12YI+nJSvmkOmrlaGDvOLR9DuoMuvMFrwwOG7h0kcH7SmMlvr
-	 UIuMjczajy/4ta6fL93kmorw3BqSX5lD/TabmnIdEAno44CG3x0D9B5T7sUpkzqqd8A==
+	t=1794854804;
+	b=O0C82aFD1yAjysl7pomqH4NV44Q+XztruFDNhaHCxyZMD9BwGFbb2UtjjQsvcLFM0k7M
+	 q409BXCc88PplTPeEfuBVKJGJ8Hj/tqimoUEOTjabHMw5K1WnVB0VJ2HbcGZoqX9R7pfH
+	 GxI5WEKjArfw/H5ZM6HYbFcPP3pVDiZ3Qyr/S8YSWdrhhSMfSZfGnmqevYHvI7OIki6Zm
+	 Gpi6uYHoqU5A2bEDB9JmV2/Gk4El9jgsrRs+Y/57BeLBOVhWXQ3/478Eu/YmbVKAUhMCK
+	 YRV2h2DVXDU0wWL2BweoS8IAifF+xckpugqFpf+IXo53rgMlYxKM/SvCsxnxBwnYDfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794853930;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=M7YASCMfUojH4P76ZeJnAz/MiqFf5EnwJ9chjkp8J9o=;
-	b=uCFsrpkLo+GK8A4ro2Kbc2hWstZBeIytD2aKOxEkrr9HiCurvXgzGyK6xXH3MFxZ/gcy
-	 Lrg+uDAWAvQaUoEYQEjzOKt+3fbMu6hRUFbSv18mbaKYz3SJVSDJX1xXyiFtt8x+Inuo9
-	 y/D0bnhnh2v/dv4eBdUWMcncbzNhkvu/Hw8OxzdZnptE6WuActB6u1cF/GHwswG/vLDHo
-	 9n8TkFkfze7nM2ALopKCZRZ3wj8uYHArvF7ZZu0XQpLlfITaoc26ppL9TB+1dmgpg/rHg
-	 7znd6Qi5o/ycAdoptW8eeMWZMeMt0T6rdjjXGhcDJaG4lj32Me0XqyNPbdS/yx3e7RA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794854804;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=2YUoAQtat16PZh3hSCS4+DqmjjlkhuzhPF22RNobT8o=;
+	b=zhE3G7H7lMDhplDrhp2nvc+m0WKPoMOJBeXnahO0KyyIa0io0u5dPKD/CnayE8bAsoVJ
+	 v43SzwVQfzVhvJ9bEjCHJyk0Xvdt5VUFjo71kt6PcpDLpV+hbBE9Vuq7tqNSvlbf4HNtQ
+	 sXEfds472n5MGAZJNceK/+dPlLS91HJTN9aly2GRfF06ouYT7+8uaf8OJVkS9dVyMx+UF
+	 I2Hm0xr3asVqTYxJfKpMI/sAvRBn6FmXTd43G5MlvhpLQe2jiNyU2T4cnSsXTGsCLA9XR
+	 l/zJvCQPSQ6jzgk3DEZ+0T8h23jsVXbDJua+YxP0VmSrq2XGBmiOPk5BCs6pjR0uGdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UGTCUFTG;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29821606A332;
-	Mon, 16 Nov 2026 18:32:10 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="ar/HfkpK";
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40AE3606A887;
+	Mon, 16 Nov 2026 18:46:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40AE3606A887
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UGTCUFTG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE64A1F000C4;
-	Mon, 16 Nov 2026 18:32:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794853930;
-	bh=M7YASCMfUojH4P76ZeJnAz/MiqFf5EnwJ9chjkp8J9o=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=UGTCUFTGbnSjNyFX3sPH+u4fMWq+LyxfN7y963g+66H/XuKSyQHtfjOV33IipciXk
-	 u+VAzVaxmN/j6uyVvvyzegKMe4kVdLm63tmUbDlx7f+GubSbyTwz3jsScwLMeu4YJj
-	 7XToOXS2svLW9+r7TqAhh4x4vu/2t93u0PdarnGcVHSvXosZF2DtYhOM5Q5rUSig+w
-	 T5MaM4azc+4iPBHGC0JfRlrAIFjSN9z1zc3Em0VjwAxLcKvc38oZ+h+DFmFqIITpL1
-	 K+FTP+8LE84TY4SJrv+z5FNouIvqOBXQiV/vpvBgTeSwGJedAJuGBtjTeNV77m6i6T
-	 GICPiHRyyMGQA==
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Mon, 16 Nov 2026 19:29:36 +0100
-Subject: [PATCH v2 15/15] mm/hugetlb: delay anon folio rmap removal until
- after the TLB flush
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=ar/HfkpK
+Received: from [10.4.158.9] (unknown [4.194.122.136])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7265820B7168;
+	Mon, 16 Nov 2026 10:46:22 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7265820B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794854797;
+	bh=2YUoAQtat16PZh3hSCS4+DqmjjlkhuzhPF22RNobT8o=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ar/HfkpK8k1ZfyLEAMEdfVEdj4XWJ+1H1H5p4+N5kRMVF/qjNy+qJg4OAdqfB9iv6
+	 /GyMsdSGwvn/F858ycbweBk71Yc8fOyK+s49/97ZsaR0580NPH4BYdq2zfYt3tar5I
+	 jrG1L0wqQBpLEjYOex+EamkH/5FPwfT+dGzxHjes=
+Message-ID: <193e4130-9c2f-4a0f-b218-f5fcf0b3d508@linux.microsoft.com>
+Date: Mon, 16 Nov 2026 10:46:25 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,287 +53,443 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 18/19] PCI: Replace untrusted state with device trust
+To: Leon Romanovsky <leon@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Johan Hovold <johan@kernel.org>,
+ Eric Dumazet <edumazet@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
+ Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-input@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev,
+ Jason Gunthorpe <jgg@ziepe.ca>
+References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+Content-Language: en-US
+From: Kameron Carr <kameroncarr@linux.microsoft.com>
+In-Reply-To: <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-fixes_hugetlb-v2-15-4dd9e94ea9ac@kernel.org>
-References: <20261116-fixes_hugetlb-v2-0-4dd9e94ea9ac@kernel.org>
-In-Reply-To: <20261116-fixes_hugetlb-v2-0-4dd9e94ea9ac@kernel.org>
-To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- Naoya Horiguchi <nao.horiguchi@gmail.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Mel Gorman <mgorman@suse.de>, 
- Andy Whitcroft <apw@canonical.com>, Miaohe Lin <linmiaohe@huawei.com>, 
- Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>, 
- Hugh Dickins <hughd@google.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Vivek Kasireddy <vivek.kasireddy@intel.com>, 
- Dave Airlie <airlied@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Peter Xu <peterx@redhat.com>, 
- Breno Leitao <leitao@debian.org>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- Gerd Hoffmann <kraxel@redhat.com>, linux-doc@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org, 
- "David Hildenbrand (Arm)" <david@kernel.org>, 
- Chris Mason <mason@kernel.org>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8957; i=david@kernel.org;
- h=from:subject:message-id; bh=ezVRlEOJn8tPlGFEYoemtNxCRaBfSpr7eSGJpjRYqKA=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLJ+e3ee2eKUpvrlrnVJlzLTsd+pBdvTj0wznj7jsUtiy
- +RD71KKO0pZGMQ4GGTFFFmCgu8bvHy5rrbajY8ZZg4rE8gQBi5OAZjI8RUM/8vDBCu5+TaeqSrZ
- mr2/1uuQlcfc7ZLvbL+rLy3/cHj/sS2MDK90zh0/J/a+9Y3V5JrLxzOENhn8amoSfl6+1VODbVo
- vHzcA
-X-Developer-Key: i=david@kernel.org; a=openpgp;
- fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-After fork(), parent and child map anonymous folios read-only shared
-by CoW. On a write fault, hugetlb_wp() reuses an anonymous page instead of
-copying it if its mapcount is 1. As documented, switching to the safer
-refcount would cause more harm than help with these scarce resources.
+On 11/8/2026 11:33 PM, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> Convert the PCI specific untrusted to use the common device trust
+> level. Adversarial means the same thing untrusted does.
+> 
+> PCI discovery keeps the logic that set untrusted: it looks for removable
+> PCI devices with arch_pci_dev_is_removable() and defaults them to an
+> adversarial policy. Treat a disabled policy the same way when choosing
+> the IOMMU domain. Do not record the ATS capability of such a device, as
+> pci_ats_supported() rejected untrusted ones. Let the Intel write-buffer
+> quirk apply, as it only adds flushing.
+> 
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  drivers/iommu/amd/iommu.c   |  3 +--
+>  drivers/iommu/dma-iommu.c   | 14 +++++---------
+>  drivers/iommu/intel/iommu.c | 17 +++++------------
+>  drivers/iommu/iommu.c       | 17 +++++++++--------
+>  drivers/pci/ats.c           |  4 ++--
+>  drivers/pci/pci.c           |  5 +++--
+>  drivers/pci/probe.c         | 22 +++++++++++-----------
+>  drivers/pci/quirks.c        |  7 ++++---
+>  include/linux/device.h      |  5 +++++
+>  include/linux/pci.h         | 30 ++++++++++++++++++++++--------
+>  10 files changed, 67 insertions(+), 57 deletions(-)
+> 
+> diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+> index 960e1dc05ec69..e358bbb1f2baa 100644
+> --- a/drivers/iommu/amd/iommu.c
+> +++ b/drivers/iommu/amd/iommu.c
+> @@ -3401,8 +3401,7 @@ static int amd_iommu_def_domain_type(struct device *dev)
+>  	if (!dev_is_pci(dev))
+>  		return 0;
+>  
+> -	/* Always use DMA domain for untrusted device */
+> -	if (to_pci_dev(dev)->untrusted)
+> +	if (pci_dev_default_is_restricted(to_pci_dev(dev)))
+>  		return IOMMU_DOMAIN_DMA;
+>  
+>  	/* Apply device specific quirks */
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index 78742aeba932d..a48fb511bfe6f 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -589,16 +589,11 @@ static int iova_reserve_iommu_regions(struct device *dev,
+>  	return ret;
+>  }
+>  
+> -static bool dev_is_untrusted(struct device *dev)
+> -{
+> -	return dev_is_pci(dev) && to_pci_dev(dev)->untrusted;
+> -}
+> -
+>  static bool dev_use_swiotlb(struct device *dev, size_t size,
+>  			    enum dma_data_direction dir)
+>  {
+>  	return IS_ENABLED(CONFIG_SWIOTLB) &&
+> -		(dev_is_untrusted(dev) ||
+> +		(device_is_adversarial(dev) ||
+>  		 dma_kmalloc_needs_bounce(dev, size, dir));
+>  }
+>  
+> @@ -611,7 +606,7 @@ static bool dev_use_sg_swiotlb(struct device *dev, struct scatterlist *sg,
+>  	if (!IS_ENABLED(CONFIG_SWIOTLB))
+>  		return false;
+>  
+> -	if (dev_is_untrusted(dev))
+> +	if (device_is_adversarial(dev))
+>  		return true;
+>  
+>  	/*
+> @@ -1189,7 +1184,8 @@ static phys_addr_t iommu_dma_map_swiotlb(struct device *dev, phys_addr_t phys,
+>  	 * swiotlb_tbl_map_single() has initialized the bounce buffer proper to
+>  	 * the contents of the original memory buffer.
+>  	 */
+> -	if (phys != (phys_addr_t)DMA_MAPPING_ERROR && dev_is_untrusted(dev)) {
+> +	if (phys != (phys_addr_t)DMA_MAPPING_ERROR &&
+> +	    device_is_adversarial(dev)) {
+>  		size_t start, virt = (size_t)phys_to_virt(phys);
+>  
+>  		/* Pre-padding */
+> @@ -1790,7 +1786,7 @@ size_t iommu_dma_max_opt_mapping_size(void)
+>  
+>  size_t iommu_dma_max_mapping_size(struct device *dev)
+>  {
+> -	if (dev_is_untrusted(dev))
+> +	if (device_is_adversarial(dev))
+>  		return swiotlb_max_mapping_size(dev);
+>  
+>  	return SIZE_MAX;
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index 5a2e705a2f2e0..66942a91b992f 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -2624,8 +2624,8 @@ static void __init platform_optin_force_iommu(void)
+>  		return;
+>  
+>  	/*
+> -	 * If Intel-IOMMU is disabled by default, we will apply identity
+> -	 * map for all devices except those marked as being untrusted.
+> +	 * If Intel-IOMMU is disabled by default, an external device could
+> +	 * otherwise receive an identity map despite its adversarial policy.
+>  	 */
+>  	if (dmar_policy_off()) {
+>  		pr_info("Intel-IOMMU force enabled due to platform opt in\n");
+> @@ -3629,16 +3629,12 @@ static bool intel_iommu_is_attach_deferred(struct device *dev)
+>  	return translation_pre_enabled(info->iommu) && !info->domain;
+>  }
+>  
+> -/*
+> - * Check that the device does not live on an external facing PCI port that is
+> - * marked as untrusted. Such devices should not be able to apply quirks and
+> - * thus not be able to bypass the IOMMU restrictions.
+> - */
+> +/* Bypass quirks must not prevent later adversarial operation. */
+>  static bool risky_device(struct pci_dev *pdev)
+>  {
+> -	if (pdev->untrusted) {
+> +	if (pci_dev_default_is_restricted(pdev)) {
+>  		pci_info(pdev,
+> -			 "Skipping IOMMU quirk for dev [%04X:%04X] on untrusted PCI link\n",
+> +			 "Skipping IOMMU quirk due to trust policy [%04X:%04X]\n",
+>  			 pdev->vendor, pdev->device);
+>  		pci_info(pdev, "Please check with your BIOS/Platform vendor about this\n");
+>  		return true;
+> @@ -4124,9 +4120,6 @@ DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163D, quirk_iommu_igfx);
+>  
+>  static void quirk_iommu_rwbf(struct pci_dev *dev)
+>  {
+> -	if (risky_device(dev))
+> -		return;
+> -
+>  	/*
+>  	 * Mobile 4 Series Chipset neglects to set RWBF capability,
+>  	 * but needs it. Same seems to hold for the desktop versions.
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index b486b8bbd1fcd..8be2a246d4903 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -1879,7 +1879,7 @@ static int iommu_get_def_domain_type(struct iommu_group *group,
+>  static int iommu_get_default_domain_type(struct iommu_group *group,
+>  					 int target_type)
+>  {
+> -	struct device *untrusted = NULL;
+> +	struct device *restricted = NULL;
+>  	struct group_device *gdev;
+>  	int driver_type = 0;
+>  
+> @@ -1901,14 +1901,15 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
+>  		driver_type = iommu_get_def_domain_type(group, gdev->dev,
+>  							driver_type);
+>  
+> -		if (dev_is_pci(gdev->dev) && to_pci_dev(gdev->dev)->untrusted) {
+> +		if (dev_is_pci(gdev->dev) &&
+> +		    pci_dev_default_is_restricted(to_pci_dev(gdev->dev))) {
+>  			/*
+> -			 * No ARM32 using systems will set untrusted, it cannot
+> -			 * work.
+> +			 * No ARM32 using systems select a restricted trust
+> +			 * policy; it cannot work.
+>  			 */
+>  			if (WARN_ON(IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)))
+>  				return -1;
+> -			untrusted = gdev->dev;
+> +			restricted = gdev->dev;
+>  		}
+>  	}
+>  
+> @@ -1924,11 +1925,11 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
+>  			driver_type = IOMMU_DOMAIN_IDENTITY;
+>  	}
+>  
+> -	if (untrusted) {
+> +	if (restricted) {
+>  		if (driver_type && driver_type != IOMMU_DOMAIN_DMA) {
+>  			dev_err_ratelimited(
+> -				untrusted,
+> -				"Device is not trusted, but driver is overriding group %u to %s, refusing to probe.\n",
+> +				restricted,
+> +				"Device trust policy restricts DMA, but driver is overriding group %u to %s, refusing to probe.\n",
+>  				group->id, iommu_domain_type_str(driver_type));
+>  			return -1;
+>  		}
+> diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
+> index 9cb23780093dd..c8c96acc26343 100644
+> --- a/drivers/pci/ats.c
+> +++ b/drivers/pci/ats.c
+> @@ -21,7 +21,7 @@ void pci_ats_init(struct pci_dev *dev)
+>  {
+>  	int pos;
+>  
+> -	if (pci_ats_disabled())
+> +	if (pci_ats_disabled() || pci_dev_default_is_restricted(dev))
+>  		return;
+>  
+>  	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ATS);
+> @@ -40,7 +40,7 @@ void pci_ats_init(struct pci_dev *dev)
+>   */
+>  bool pci_ats_supported(struct pci_dev *dev)
+>  {
+> -	if (!dev->ats_cap || dev->untrusted)
+> +	if (!dev->ats_cap)
+>  		return false;
+>  
+>  	if (dev->is_virtfn)
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 7c6f2aba81443..b08adba03f96b 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -1016,8 +1016,9 @@ static void pci_std_enable_acs(struct pci_dev *dev, struct pci_acs *caps)
+>  	/* Upstream Forwarding */
+>  	caps->ctrl |= (dev->acs_capabilities & PCI_ACS_UF);
+>  
+> -	/* Enable Translation Blocking for external devices and noats */
+> -	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
+> +	/* Enable Translation Blocking when ATS is unavailable or restricted. */
+> +	if (pci_ats_disabled() || dev->external_facing ||
+> +	    !pci_dev_ats_permitted(dev))
+>  		caps->ctrl |= (dev->acs_capabilities & PCI_ACS_TB);
+>  }
+>  
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 5b6960bbb35bc..607569c31b5b9 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -1738,24 +1738,24 @@ static void set_pcie_cxl(struct pci_dev *dev)
+>  
+>  }
+>  
+> -static void set_pcie_untrusted(struct pci_dev *dev)
+> +static void pci_set_default_trust_policy(struct pci_dev *dev)
+>  {
+> -	struct pci_dev *parent = pci_upstream_bridge(dev);
+> +	struct pci_dev *parent = pci_physfn(dev);
+> +
+> +	if (parent == dev)
+> +		parent = pci_upstream_bridge(dev);
+>  
+>  	if (!parent)
+>  		return;
 
-munmap() and MADV_DONTNEED unmap such folios and decrement the mapcount
-before the TLB is flushed. Until then, another thread of the process can
-still read the page through a stale TLB entry:
+Hi Leon,
 
-    child: reader        child: munmap()       parent: writer
-    =============        ===============       ==============
-    reads the page
-                         clears the entry
-                         mapcount drops to 1
-                                               store to the page
-                                                 hugetlb_wp() reuses it
-    reads the store
-      /* leak */
-                         flushes the TLB
+The default policy here works for physical hierarchies, but there's no
+opportunity for a paravirtual host bridge to participate in the trust
+resolution when the host bridge driver itself knows the appropriate
+trust level for a device.
 
-Similar observations are also known and possible with things like
-vmsplice().
+Could we add an optional host bridge callback?
 
-Extend the mmu_gather delayed-rmap machinery to handle hugetlb folios.
-Defer anonymous hugetlb rmap removal until after the batched TLB flush.
+    struct pci_host_bridge {
+        ...
+        int (*trust_resolve)(struct pci_host_bridge *bridge,
+                     struct pci_dev *dev,
+                     const struct device_driver *drv,
+                     enum device_trust_policy policy,
+                     enum device_trust_level *level);
+    };
 
-Flush the TLB and remove pending rmaps when the batch fills and before
-leaving the VMA, then drain the batch so later rmap flushes cannot process
-the same entries again. This is very similar to how zap_present_ptes()
-operates.
+An implementation of trust_resolve() in pci_bus_type could default to
+calling the hook and fall back to the current default policy when the
+host bridge does not provide a callback.
 
-Skip deferral at exit. On UP, flush before removing the rmap. With
-MMU_GATHER_NO_GATHER, clearing the entry already flushes the TLB.
+My scenario is pci-hyperv in a confidential VM with a paravisor. The
+paravisor is inside the guest's trust boundary and owns TDISP. It locks,
+attests and accepts the device, then answers a VMBus query describing
+which BAR ranges are private and whether the device's DMA may target
+private memory. Before a driver can bind pci-hyperv has to:
 
-Restore reservations after the actual rmap removal, preserving the existing
-mapcount check.
+  - query the paravisor,
+  - refuse to operate the device if the query failed or if the response
+    is invalid,
+  - decide whether the device may operate.
 
-This is very likely not stable-worthy, as hugetlb is commonly not used
-for applications with different parent vs. child trust boundaries.
+The modular host bridge driver in this scenario needs a hook to be able
+to participate in trust resolution.
 
-Fixes: 24669e58477e ("hugetlb: use mmu_gather instead of a temporary linked list for accumulating pages")
-Reported-by: Chris Mason <mason@kernel.org>
-Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
----
- arch/s390/include/asm/tlb.h |  5 +++--
- include/asm-generic/tlb.h   |  5 +++--
- mm/hugetlb.c                | 39 ++++++++++++++++++++++++++++++++++-----
- mm/internal.h               |  9 +++++++++
- mm/mmu_gather.c             | 16 ++++++++++++----
- 5 files changed, 61 insertions(+), 13 deletions(-)
+I'm also looking for the right place to setup MMIO and configure DMA
+in my scenario. Let me know if you have guidance.
 
-diff --git a/arch/s390/include/asm/tlb.h b/arch/s390/include/asm/tlb.h
-index 619fd41e710e9..3408ee400d23e 100644
---- a/arch/s390/include/asm/tlb.h
-+++ b/arch/s390/include/asm/tlb.h
-@@ -24,7 +24,7 @@
- 
- static inline void tlb_flush(struct mmu_gather *tlb);
- static inline bool __tlb_remove_page_size(struct mmu_gather *tlb,
--		struct page *page, int page_size);
-+		struct page *page, int page_size, bool delay_rmap);
- static inline bool __tlb_remove_folio_pages(struct mmu_gather *tlb,
- 		struct page *page, unsigned int nr_pages, bool delay_rmap);
- 
-@@ -45,8 +45,9 @@ static inline bool __tlb_remove_folio_pages(struct mmu_gather *tlb,
-  * s390 doesn't delay rmap removal.
-  */
- static inline bool __tlb_remove_page_size(struct mmu_gather *tlb,
--		struct page *page, int page_size)
-+		struct page *page, int page_size, bool delay_rmap)
- {
-+	VM_WARN_ON_ONCE(delay_rmap);
- 	free_folio_and_swap_cache(page_folio(page));
- 	return false;
- }
-diff --git a/include/asm-generic/tlb.h b/include/asm-generic/tlb.h
-index 3f4a180b48f3c..476fa3495eb29 100644
---- a/include/asm-generic/tlb.h
-+++ b/include/asm-generic/tlb.h
-@@ -245,7 +245,8 @@ struct mmu_gather_batch {
-  */
- #define MAX_GATHER_BATCH_COUNT	(10000UL/MAX_GATHER_BATCH)
- 
--extern bool __tlb_remove_page_size(struct mmu_gather *tlb, struct page *page, int page_size);
-+bool __tlb_remove_page_size(struct mmu_gather *tlb, struct page *page,
-+		int page_size, bool delay_rmap);
- bool __tlb_remove_folio_pages(struct mmu_gather *tlb, struct page *page,
- 		unsigned int nr_pages, bool delay_rmap);
- 
-@@ -464,7 +465,7 @@ static inline void tlb_flush_mmu_tlbonly(struct mmu_gather *tlb)
- static inline void tlb_remove_page_size(struct mmu_gather *tlb,
- 					struct page *page, int page_size)
- {
--	if (__tlb_remove_page_size(tlb, page, page_size))
-+	if (__tlb_remove_page_size(tlb, page, page_size, false))
- 		tlb_flush_mmu(tlb);
- }
- 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 94de63529cbc5..ec9eaaa13ada3 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -5340,7 +5340,7 @@ unsigned long move_hugetlb_page_tables(struct vm_area_struct *vma,
- }
- 
- /* Must be called after rmap removal. */
--static void hugetlb_folio_restore_rsv_on_unmap(struct vm_area_struct *vma,
-+void hugetlb_folio_restore_rsv_on_unmap(struct vm_area_struct *vma,
- 		struct folio *folio)
- {
- 	struct hstate *h = hstate_vma(vma);
-@@ -5401,6 +5401,8 @@ static void hugetlb_unmap_range(struct mmu_gather *tlb,
- 	last_addr_mask = hugetlb_mask_last_page(h);
- 	address = start;
- 	for (; address < end; address += sz) {
-+		bool delay_rmap = false;
-+
- 		ptep = hugetlb_walk(vma, address, sz);
- 		if (!ptep) {
- 			address |= last_addr_mask;
-@@ -5473,19 +5475,46 @@ static void hugetlb_unmap_range(struct mmu_gather *tlb,
- 					make_pte_marker(PTE_MARKER_UFFD_WP),
- 					sz);
- 		hugetlb_count_sub(pages_per_huge_page(h), mm);
--		hugetlb_remove_rmap(folio);
-+		/*
-+		 * hugetlb_wp() uses mapcount to decide whether an anonymous
-+		 * folio can be reused. Delay rmap removal until stale TLB
-+		 * entries are gone, unless the mm has no users left.
-+		 */
-+		if (folio_test_anon(folio) && !tlb->fullmm) {
-+			delay_rmap = tlb_delay_rmap(tlb);
-+			/*
-+			 * Without delay-rmap support, just flush before
-+			 * dropping the PTL. Except with MMU_GATHER_NO_GATHER
-+			 * where clearing already flushed the TLB.
-+			 */
-+			if (!delay_rmap && !IS_ENABLED(CONFIG_MMU_GATHER_NO_GATHER))
-+				flush_hugetlb_tlb_range(vma, address, address + sz);
-+		}
-+		if (!delay_rmap)
-+			hugetlb_remove_rmap(folio);
- 		spin_unlock(ptl);
- 
--		hugetlb_folio_restore_rsv_on_unmap(vma, folio);
-+		if (!delay_rmap)
-+			hugetlb_folio_restore_rsv_on_unmap(vma, folio);
- 
--		tlb_remove_page_size(tlb, folio_page(folio, 0),
--				     folio_size(folio));
-+		if (__tlb_remove_page_size(tlb, folio_page(folio, 0), sz,
-+					   delay_rmap)) {
-+			tlb_flush_mmu_tlbonly(tlb);
-+			tlb_flush_rmaps(tlb, vma);
-+			tlb_flush_mmu(tlb);
-+		}
- 		/*
- 		 * If we were instructed to unmap a specific folio, we're done.
- 		 */
- 		if (folio_provided)
- 			break;
- 	}
-+
-+	if (tlb->delayed_rmap) {
-+		tlb_flush_mmu_tlbonly(tlb);
-+		tlb_flush_rmaps(tlb, vma);
-+		tlb_flush_mmu(tlb);
-+	}
- }
- 
- void __unmap_hugepage_range(struct mmu_gather *tlb, struct vm_area_struct *vma,
-diff --git a/mm/internal.h b/mm/internal.h
-index e3f92883bf238..2f1a7b9b2c055 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -614,6 +614,15 @@ void zap_vma_range_batched(struct mmu_gather *tlb,
- 		struct vm_area_struct *vma, unsigned long addr,
- 		unsigned long size, struct zap_details *details);
- int zap_vma_for_reaping(struct vm_area_struct *vma);
-+#ifdef CONFIG_HUGETLB_PAGE
-+void hugetlb_folio_restore_rsv_on_unmap(struct vm_area_struct *vma,
-+		struct folio *folio);
-+#else
-+static inline void hugetlb_folio_restore_rsv_on_unmap(struct vm_area_struct *vma,
-+		struct folio *folio)
-+{
-+}
-+#endif
- int folio_unmap_invalidate(struct address_space *mapping, struct folio *folio,
- 			   gfp_t gfp);
- 
-diff --git a/mm/mmu_gather.c b/mm/mmu_gather.c
-index 9f353f0e2ef4d..8728e1764fc5a 100644
---- a/mm/mmu_gather.c
-+++ b/mm/mmu_gather.c
-@@ -15,6 +15,8 @@
- 
- #include <asm/tlb.h>
- 
-+#include "internal.h"
-+
- #ifndef CONFIG_MMU_GATHER_NO_GATHER
- 
- static bool tlb_next_batch(struct mmu_gather *tlb)
-@@ -59,14 +61,19 @@ static void tlb_flush_rmap_batch(struct mmu_gather_batch *batch, struct vm_area_
- 
- 		if (encoded_page_flags(enc) & ENCODED_PAGE_BIT_DELAY_RMAP) {
- 			struct page *page = encoded_page_ptr(enc);
-+			struct folio *folio = page_folio(page);
- 			unsigned int nr_pages = 1;
- 
- 			if (unlikely(encoded_page_flags(enc) &
- 				     ENCODED_PAGE_BIT_NR_PAGES_NEXT))
- 				nr_pages = encoded_nr_pages(pages[++i]);
- 
--			folio_remove_rmap_ptes(page_folio(page), page, nr_pages,
--					       vma);
-+			if (folio_test_hugetlb(folio)) {
-+				hugetlb_remove_rmap(folio);
-+				hugetlb_folio_restore_rsv_on_unmap(vma, folio);
-+			} else {
-+				folio_remove_rmap_ptes(folio, page, nr_pages, vma);
-+			}
- 		}
- 	}
- }
-@@ -211,9 +218,10 @@ bool __tlb_remove_folio_pages(struct mmu_gather *tlb, struct page *page,
- 					     PAGE_SIZE);
- }
- 
--bool __tlb_remove_page_size(struct mmu_gather *tlb, struct page *page, int page_size)
-+bool __tlb_remove_page_size(struct mmu_gather *tlb, struct page *page,
-+		int page_size, bool delay_rmap)
- {
--	return __tlb_remove_folio_pages_size(tlb, page, 1, false, page_size);
-+	return __tlb_remove_folio_pages_size(tlb, page, 1, delay_rmap, page_size);
- }
- 
- #endif /* MMU_GATHER_NO_GATHER */
+--
+Regards,
+Kameron
 
--- 
-2.56.1
 
+> -	/*
+> -	 * If the upstream bridge is untrusted we treat this device as
+> -	 * untrusted as well.
+> -	 */
+> -	if (parent->untrusted) {
+> -		dev->untrusted = true;
+> +
+> +	if (device_policy_is_adversarial(&parent->dev)) {
+> +		dev->dev.trust_policy = DEVICE_TRUST_POLICY_ADVERSARY;
+>  		return;
+>  	}
+>  
+>  	if (arch_pci_dev_is_removable(dev)) {
+> -		pci_dbg(dev, "marking as untrusted\n");
+> -		dev->untrusted = true;
+> +		pci_dbg(dev, "setting adversarial trust policy\n");
+> +		dev->dev.trust_policy = DEVICE_TRUST_POLICY_ADVERSARY;
+>  	}
+>  }
+>  
+> @@ -2082,7 +2082,7 @@ int pci_setup_device(struct pci_dev *dev)
+>  
+>  	set_pcie_cxl(dev);
+>  
+> -	set_pcie_untrusted(dev);
+> +	pci_set_default_trust_policy(dev);
+>  	device_trust_init(&dev->dev);
+>  
+>  	/* "Unknown power state" */
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+> index 7f1f47ea2ee41..9ed3e7660bab2 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -5525,8 +5525,8 @@ static void pci_quirk_enable_intel_rp_mpc_acs(struct pci_dev *dev)
+>   * Currently this quirk does the equivalent of
+>   * PCI_ACS_SV | PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_UF
+>   *
+> - * TODO: This quirk also needs to do equivalent of PCI_ACS_TB,
+> - * if dev->external_facing || dev->untrusted
+> + * TODO: This quirk also needs to do the equivalent of PCI_ACS_TB when the
+> + * device is external-facing or ATS is restricted by trust policy.
+>   */
+>  static int pci_quirk_enable_intel_pch_acs(struct pci_dev *dev)
+>  {
+> @@ -5567,7 +5567,8 @@ static int pci_quirk_enable_intel_spt_pch_acs(struct pci_dev *dev)
+>  	ctrl |= (cap & PCI_ACS_CR);
+>  	ctrl |= (cap & PCI_ACS_UF);
+>  
+> -	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
+> +	if (pci_ats_disabled() || dev->external_facing ||
+> +	    !pci_dev_ats_permitted(dev))
+>  		ctrl |= (cap & PCI_ACS_TB);
+>  
+>  	pci_write_config_dword(dev, pos + INTEL_SPT_ACS_CTRL, ctrl);
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index e3e7457cd50f4..770c3040fd2b9 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -933,6 +933,11 @@ static inline bool device_iommu_mapped(struct device *dev)
+>  	return (dev->iommu_group != NULL);
+>  }
+>  
+> +static inline bool device_policy_is_adversarial(const struct device *dev)
+> +{
+> +	return READ_ONCE(dev->trust_policy) == DEVICE_TRUST_POLICY_ADVERSARY;
+> +}
+> +
+>  static inline bool device_policy_is_disabled(const struct device *dev)
+>  {
+>  	return READ_ONCE(dev->trust_policy) == DEVICE_TRUST_POLICY_DISABLED;
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index aa3765a20a96c..087c63b177c85 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -490,14 +490,6 @@ struct pci_dev {
+>  	unsigned int	shpc_managed:1;		/* SHPC owned by shpchp */
+>  	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
+>  	unsigned int	is_cxl:1;               /* Compute Express Link (CXL) */
+> -	/*
+> -	 * Devices marked being untrusted are the ones that can potentially
+> -	 * execute DMA attacks and similar. They are typically connected
+> -	 * through external ports such as Thunderbolt but not limited to
+> -	 * that. When an IOMMU is enabled they should be getting full
+> -	 * mappings to make sure they cannot access arbitrary memory.
+> -	 */
+> -	unsigned int	untrusted:1;
+>  	/*
+>  	 * Info from the platform, e.g., ACPI or device tree, may mark a
+>  	 * device as "external-facing".  An external-facing device is
+> @@ -616,6 +608,28 @@ static inline struct pci_dev *to_pci_dev(const struct device *dev)
+>  {
+>  	return container_of(dev, struct pci_dev, dev);
+>  }
+> +
+> +static inline bool
+> +pci_dev_default_is_restricted(const struct pci_dev *pdev)
+> +{
+> +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
+> +
+> +	return policy == DEVICE_TRUST_POLICY_DISABLED ||
+> +	       policy == DEVICE_TRUST_POLICY_ADVERSARY;
+> +}
+> +
+> +static inline bool pci_dev_ats_permitted(const struct pci_dev *pdev)
+> +{
+> +	enum device_trust_level level = device_get_trust_level(&pdev->dev);
+> +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
+> +
+> +	if (level == DEVICE_TRUST_DISABLED)
+> +		return policy != DEVICE_TRUST_POLICY_ADVERSARY &&
+> +		       policy != DEVICE_TRUST_POLICY_DISABLED;
+> +
+> +	return level == DEVICE_TRUST_FULL;
+> +}
+> +
+>  #define for_each_pci_dev(d) while ((d = pci_get_device(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
+>  #define for_each_pci_dev_reverse(d) \
+>  	while ((d = pci_get_device_reverse(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
+> 
