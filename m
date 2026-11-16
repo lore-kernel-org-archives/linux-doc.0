@@ -1,102 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.47
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794804999;
-	b=subApPd78qT2MuT19nScKOzY00iMaxrSwD9GCSFeeAiBrR7fg65EMQrMuQmDrXoS3V8U
-	 K82+M41R0xm0URksJyzQl/hGPj47Q1xC04PG3DFrTfDewF5ixZgXgEhLV8Jz51IQVB24c
-	 JwSnoTJS3RtW3p2LeS2leMgZT+QnUqU3cWnb+8qlxVcZ6q11PtYc2hoqduQ1FHcj/in9V
-	 NsgZV3+onjozJQ5Wd8N14dBF4lmivanUioV0IHjz7gLEm+Xd6NhJQl6e3+g3R2VSQAiB7
-	 Pl66+tjJkLscLX9GcSvn3Kyev9AVL26F7scXz0LwRwqFvq2DaXVYA7ZcgmiarhOfW4Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794804999;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=PmXn9RNdrABzPTMtJd4NSRaGp3dYOUZF4LR0v4t4Fa4=;
-	b=nQJKQIOJ7rrtd25foL8HSQxw1nhiSHA7s2GeCmNnP4+2WRO96bBsoU29QCF2Y9EHuoVF
-	 Hq2CdSfKz/u0sDyzJxWCrcWGP0Pm66LDYx54N+/CpiBrOFowkNteV7uZ3aA3XjCBDcVsp
-	 hiJJm2C8z2mTQ5pya+8tdgTojkecIXnQhrnwBcxiGMOANCA+DgwU1jcHkv+wZvwHUuMPI
-	 m/6TBOxYpy4k6Vv2EAhWPwnnmlMGFtHKkSwXcFnR/nycxzb5fh/vBHo7qckbV0a5Yr+ho
-	 eroKyXTfewNb5p7avxLoVdD3UhNt/794msbKgiVdJjMsPViKZO/FEXB3MCjUJv1WFfg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=X1zJ5RDQ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.47
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794806504;
+	b=J7Td53IbBQQAZHW6AkPF/M1MahDuoOocCOOSf3vUmqUNPiaE1Yzk7a++bGgFItuS1oDU
+	 TbpAKjwhRXvy11YtQm9nh8xMvDL2Q0qJt2TjlK/U0aah02nal5wuoEa7M3aM8TB4TIhZ/
+	 n06XVAIfzNbFZiOq1gJ4nafI9LvUcAT2hBVIx+APF37JtYDEwYfS9owwE9ow8lXoQ9FKB
+	 0LpPnhcSTCbWzoE2z8fzFQPdQtO9vkK9zYnHAh9qXyheix9Gdnb6L0Fpow9TZZ5MibQfq
+	 PpwSutwy/SlmmsWSWSvgbkAjPYUYssMSFSgcFbl++S0MeIjufmfNY4CaaFuiYm9Izcw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794806504;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=fBQuIlX1DRBYchoBiFw8IVANuBNaBS/6iLy0xMzuzEI=;
+	b=Wzj5Azt/9VyfuEzg8mhqcGhcLX6p2tdyPRwE+pVueGOs7lLc/If9/4k3RRQh3XfrCy+X
+	 io8PG5TdGW4Wdn8KIgxNMB6jM4IVNOlZOw0Df+TaUQIhX3KOUpUGeQLFaYFR4a1HRTGIH
+	 CwVSeA8C0HJTA/ih1ekda1lrecU0ey1/1YZUK0PmEbvaDl2MA2s2i6f9Ehd1oqJ3TG7/6
+	 nWoXLTOh7bX7VXVEN/T+Q4FlxU9kERbQftwjwry5t4FeFrqRzHdkikPuL2X3zQ/06S97r
+	 Fr3eDC6Gd8uR2ZoXs/UOgjxI39rWtsk8cwk7sSkZokNoP3twGsqwJjVzdMGnfmTI5AA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kdbr1DW9;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93841606A31F
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 04:56:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93841606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB00606A323;
+	Mon, 16 Nov 2026 05:21:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=X1zJ5RDQ
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-9907a58f14dso655565241.2
-        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 20:56:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794804998; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ess3JBpEsJuKRwDWKkuDWxL/TtQ7gnihRfbATFRS1B3LcvQQXL61bdopiM4OyduaDD
-         07l2GAILJ/LDs9VHssVkOV2zFMP/Ekq0QIlkD5k5CuhUw0dOszyBSM8a9TQZJ0zgW2Ta
-         qpA0UuH+ezB+QStZ4rLqCRiFGkYfmHhWKgdjJZiyqAuO+YdYjALOQE8fTwzczUvaG2mq
-         z37sA0RWpzO7FO5g46M5xFsPMqWRNuYpt0pK878U6gUTHZd7D7y+kfkcQuHZii9edQDY
-         nyL9UnC9Bt+cRiRRqO0Gl1DOExOsiXhVM0N8e79DQYBBkiyhH7QF09oMo845BfD/p6Kz
-         NIgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=PmXn9RNdrABzPTMtJd4NSRaGp3dYOUZF4LR0v4t4Fa4=;
-        fh=rv5kt2HUKw99Erl3+h8dkPOiBHxoULltNFIq8jTTBRQ=;
-        b=spLU7rpXwrJy8lsCKSiVNrnCBRSeFgi8kceIqp9Vod3B8D7wYpdyOjglq5V080pe0/
-         LdLrO69BXBcFrWkBqkdsfQpzCGlj+Dmh6x1Q8P1i6/MIxu2Cfl6jfeGhHQbsOUlg50Mi
-         WIXEaP1qC4t3AL/mIrjbz1H0kZb3gKEuBeyqmYKyqO84/hl242RPHIw1kb3O21V85bvj
-         Jq7EIfVz+p4ICXjnXxS4Ai+4BKWccXbJ3eNlOUXzfQMLmQ4Lmu9clynH45ggFIFidNtO
-         s6F8692dZcEMAlbcD/4enz+5LR995N3MGbw+RaTOI8sKRF58x8N3J76XfA9P9ASTg3Nq
-         gIbg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794804998; x=1795409798; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=PmXn9RNdrABzPTMtJd4NSRaGp3dYOUZF4LR0v4t4Fa4=;
-        b=X1zJ5RDQeUFDdGphkWM10fgrRC2oV9rjQRtmNdqgmqHFizwwAWCJepUCRD3U+gWzZ5
-         D2t/kh4W5ZyJQhMXltCOoJCkiLC3xwuN9rRcX0YSjuK5K+5XEq313NsYPeKJdIswB46Y
-         oENFL6IkfhC6ya4ZdfzbMzCjfPw3/gEzl80e2+gdRcKuF1fJLNDJ9Tc60WvjaV2nZzJR
-         Mlq1viJaqDPNbbHcCDd7Ty37h+it+P9ki8kaGstWVYuMIhzUR2m2lw+c/K9SijlmRsiu
-         Ib0ACPMAn7DUyW4fNs31OcmXhAY6/4YSnGnFh7rsH3W6N+v91bW2AWT9KunhuO16PM6X
-         SYqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794804998; x=1795409798;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PmXn9RNdrABzPTMtJd4NSRaGp3dYOUZF4LR0v4t4Fa4=;
-        b=CCusJbRhIWnWbNe0Cf9Y0RX28LpX1QbHvBJxj+zP5Wb7odvezkYwA3Jyk+BL40uitj
-         zhzdN+mSGJe638Vtwuwdb4jNinverDP5742EGidgHZHOHCUk2aD4oUkhlLtGjQzJScFJ
-         met3tPV8HStgR49UVaIhO4Ycuczz2SY1j3k8n6fCAJ9XWe1Ubi6kbfZkKRkzEAEVj0XZ
-         uaKlERDfhyZ7qu2V+CYtjNfLyV7LzKaJb9NMCCppuDZA4jnVDk+ICiQksfQQbiSSEIVc
-         WITN9uzE05ZJeF18880bMt2UYxF7wPtcvCfHVZLcw4c8Ns5/xDgSy/b1YhfTfLytZjor
-         aMHQ==
-X-Forwarded-Encrypted: i=1; AL+hErHrAcITJ1+L/CK8EMrJCl5142pl7CtvCFbWbKzb3PzzW8+2OhMoketVjKP+PICwPZXlpDaX9q94RzY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8YE9ql1B/d4xBt/kziuRimWDsCOFleAasoBY7Gz99dFgYWkGzd
-	ChjQflXRvLIda57GDXCtmvLtpLoLzvSn5JxvvWR0VIanFM7nHJxS7xQv+ClQix3llRd0nxOYADA
-	VhG1ZhN//qp5iXgoD/deNjPkg7RezaUDMievt
-X-Gm-Gg: AYBFou37TSZDLDhM3M5sDgPg/grCikDfJcRBjZ2LLQtrrqyi0t6alR6OZxMhTXBkhWQ
-	x2E4YizQ/gleiT2LftOjbTi8iCUgGx8Q5E4Thx/qpbyDiWiG3lgJEOacv7Do3vZnlDU/73avFR8
-	tCfgyr4wlxH5c1riBZxfZg4X2sgJCyUXO1tq21SpwZDxqrLNGmjqkN1AMuewv0u9lGzQmtIUQjh
-	LdQiBp7aJ/VUvkLSPJoCkOPrZKRWJEeG8psw+Co3YPobFf1TBgKqeXkXpBwOpnQEAM7NrwXWWYn
-	DjUh7bh38moaigCs/8ZbaXSLhcdMS+9n2BmHCRPPvRTM0N+E98ZDSq67IV6qTCIope1RYGKiHU5
-	nkOphzKvXW1CsD6eKMIQN2DMS+q1POAkqyDOaiUoTq9o7p8OUS0Xtdyg4rUFMslIWM0TZM/eqHQ
-	CuB6+nkEdiKajl9uCG9e2GJB/98EALq0R8mR8lHkNkO+oXsHAlELqgSpCbCWTejUs6gwgjGOa04
-	q7kUKBbN8zJTfMbSjWinDcLcTPB5w==
-X-Received: by 2002:a05:6102:3eca:b0:7c3:6466:3155 with SMTP id
- ada2fe7eead31-7d64d8da06cmr2426406137.33.1794804998470; Sun, 15 Nov 2026
- 20:56:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kdbr1DW9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B79721F000C4;
+	Mon, 16 Nov 2026 05:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794806504;
+	bh=fBQuIlX1DRBYchoBiFw8IVANuBNaBS/6iLy0xMzuzEI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=kdbr1DW97+dIb6BvDMoons5bpJwMFi84dmJhwINDj1S4w/iHun5uxSEAfo2g4sQ2N
+	 SpPvvjkRcPmc+aDhIbJqe7BACUZFdvDEOwFFZIMwasljxW4EvLLnlApNjsYEvtYx16
+	 Qpb+HMu9CfZ31u+WgJZwh4PKZlkt+ctyBtYv+8YFZ3Shvpepq1GMz7bzz9qK8gI1OF
+	 KQaX1pMzLiu0DU7nqpY47x5GsDn2C1PIiSzaW0WvsYyWL0tk7LoOJlyOP7dbQM/ebu
+	 qKF3ByTngMALVw19vnmqLV0K2aQ1JG7VGo3GM/+9vHKzo8XMFls8p7z4LP+RK+8FVk
+	 OhrPstSvYZ8Ug==
+Subject:
+ Re: [PATCH net v2 1/2] tcp: avoid wrapping Fast Open blackhole timeout
+From: netdev-bot+sashiko@kernel.org
+To: x-professor@outlook.com
+Cc: netdev@vger.kernel.org, mptcp@lists.linux.dev,
+ linux-kernel@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, linux-doc@vger.kernel.org, edumazet@kernel.org,
+ ncardwell@google.com, gang.yan@linux.dev, kuniyu@google.com,
+ davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ matttbe@kernel.org, martineau@kernel.org, geliang@kernel.org,
+ ycheng@google.com, weiwan@google.com, stable@vger.kernel.org,
+ yangang@kylinos.cn
+Date: Mon, 16 Nov 2026 05:21:42 +0000
+Message-ID: <179480650221.3133.4194401145263235869@kernel.org>
+In-Reply-To: <072048c5616098a20126342372d66697c728881d.1794672619.git.x-professor@outlook.com>
+References: <072048c5616098a20126342372d66697c728881d.1794672619.git.x-professor@outlook.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,83 +68,120 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115-submit-acx00-phy-stats-v1-v5-0-ed81a7f54373@gmail.com>
- <20261115-submit-acx00-phy-stats-v1-v5-2-ed81a7f54373@gmail.com>
- <37e4b9b8-d381-448f-a2b3-b92d7bd9033d@lunn.ch> <CADvTj4qh8Pvss+xEwcjshodwv-yN6haP-9aaeRXg1ydSu5ibVg@mail.gmail.com>
- <d3f2dc1c-9daf-4b5f-903b-657ae3f32647@lunn.ch>
-In-Reply-To: <d3f2dc1c-9daf-4b5f-903b-657ae3f32647@lunn.ch>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sun, 15 Nov 2026 21:56:26 -0700
-X-Gm-Features: Aa3M54pfgPpl22QOYcS9U-YpyBuFQlb4VrEZUDEBvkJV5vCHfNjijzrmfafBS4A
-Message-ID: <CADvTj4opiu_vhat12BRzk61b7ymG+g12c2aoK+rcZHjpWZjL4Q@mail.gmail.com>
-Subject: Re: [PATCH net-next v5 2/3] ethtool: add a PHY receive byte total
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Oleksij Rempel <o.rempel@pengutronix.de>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 15, 2026 at 9:39=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
->
-> On Sun, Nov 15, 2026 at 09:12:35PM -0700, James Hilliard wrote:
-> > On Sun, Nov 15, 2026 at 8:25=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wr=
-ote:
-> > >
-> > > On Sun, Nov 15, 2026 at 12:45:46AM -0700, James Hilliard wrote:
-> > >
-> > > > The generic PHY receive-byte counter describes successfully receive=
-d
-> > > > traffic. Some PHYs instead count bytes in all received frames,
-> > > > including frames with errors.
-> >
-> > That restriction comes from the current kernel-doc definition of
-> > ethtool_phy_stats.rx_bytes: "Total successfully received bytes".
->
-> Yes, i found this.
->
-> > Should we instead clarify the existing rx_bytes definition to include
-> > errored traffic and use it for ACx00, dropping rx_bytes_total? That
-> > would leave the existing packet counters unchanged.
->
-> What do you mean by errored traffic?
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-Specifically, frames with an invalid Ethernet FCS. ACx00 has a
-PHY-resident CRC-error counter, and its received-byte counter includes
-bytes from those frames.
+Critical: 0 · High: 0 · Medium: 1 · Low: 1
 
-We checked this using PHY loopback with MAC FCS insertion disabled.
-Frames with a software-generated valid FCS did not increment the PHY
-CRC-error counter; flipping one FCS bit did. These observations came
-from the PHY registers read over MDIO, not from MAC statistics.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
->
-> Think about it.
->
-> If you don't have a MAC, you don't have FCS.
+- [Medium] The patch adds a new upper bound, `.extra2 = &one_day_secs`
+  (86400), to `net.ipv4.tcp_fastopen_blackhole_timeout_sec` in…
+- [Low] The commit body of "tcp: avoid wrapping Fast Open blackhole
+  timeout" refers to patch revisions: 'In the v1 arithmetic-only test,…
 
-There are existing mainline PHY drivers exposing this functionality.
-The QCA807x/QCA808x drivers use qcom_phy_counter_config() to enable
-CRC checking, and qcom_phy_get_stats() reports the RX CRC-error count
-through ethtool_phy_stats.rx_errors [0]. The IP101G driver also exposes
-a phy_crc_errors counter separately from phy_symbol_errors [1].
+--
 
-This demonstrates frame-aware diagnostic functionality within these
-PHYs, rather than something every PHY necessarily implements.
+tcp: avoid wrapping Fast Open blackhole timeout
 
-The generic byte counter need not require that functionality. My
-question was whether rx_bytes should count received bytes without
-conditioning the count on FCS validity. ACx00 could then report its
-hardware byte total through that field, including bytes from frames
-which its separate CRC checker identifies as bad.
+This commit computes the Fast Open active-disable interval in
+tcp_fastopen_active_should_disable() as a u64 and caps it at
+MAX_JIFFY_OFFSET, so the delay can no longer wrap. It also limits
+tcp_fastopen_blackhole_timeout_sec to 86400 seconds and documents the new
+limit in ip-sysctl.rst.
 
-[0] https://github.com/torvalds/linux/blob/v7.4-rc3/drivers/net/phy/qcom/qc=
-om-phy-lib.c
-[1] https://github.com/torvalds/linux/blob/v7.4-rc3/drivers/net/phy/icplus.=
-c
+> This issue was found using a static analysis tool. A loopback reproducer
+> induced 12 Fast Open blackholes and waited 1.2 seconds before opening
+> another connection. In the v1 arithmetic-only test, the unpatched kernel
+> retried active Fast Open, while the fixed kernel used a regular TCP
+> handshake. The reproducer required neither kernel modifications nor
+> fault injection. The input limit added here rejects that large setting.
 
->
->         Andrew
+[ ... ]
+
+> On the v2 kernel, the sysctl accepts 86400 seconds and rejects 86401,
+> leaving the previous value unchanged.
+
+[Severity: Low]
+This isn't a bug, but these sentences mention patch revisions (v1 and v2).
+Could this revision history go below the --- line instead? Once the patch is
+merged, v1 and v2 won't mean anything in git history.
+
+The wording also suggests that the only functional test of the arithmetic
+fix (the 6912213 second timeout) was run on v1. The submitted code now
+rejects that input, and the only v2 test described is the sysctl range
+check.
+
+The arithmetic fix still matters within the new limit. At HZ=1000,
+64 * 86400 * 1000 = 5,529,600,000. In 32-bit math that wraps to
+1,234,632,704 jiffies, which is about 14.3 days instead of 64 days.
+
+Could the changelog describe a test of the submitted code on that path?
+
+The companion MPTCP patch in this series uses the same v1/v2 wording.
+
+> diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+> index bf193e7ec5168..5bc357e189bde 100644
+> --- a/net/ipv4/sysctl_net_ipv4.c
+> +++ b/net/ipv4/sysctl_net_ipv4.c
+> @@ -1152,6 +1152,7 @@ static const struct ctl_table ipv4_net_table[] = {
+>  		.mode		= 0644,
+>  		.proc_handler	= proc_tfo_blackhole_detect_timeout,
+>  		.extra1		= SYSCTL_ZERO,
+> +		.extra2		= &one_day_secs,
+>  	},
+
+[Severity: Medium]
+Is this new upper bound needed for the overflow fix? The patch is also
+tagged Cc: stable.
+
+proc_tfo_blackhole_detect_timeout() calls proc_dointvec_minmax(), so extra2
+is enforced:
+
+net/ipv4/sysctl_net_ipv4.c:proc_tfo_blackhole_detect_timeout() {
+    ...
+	ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
+	if (write && ret == 0)
+		atomic_set(&net->ipv4.tfo_active_disable_times, 0);
+    ...
+}
+
+Before this patch, any non-negative int was accepted, such as 172800 or
+604800. Now those writes fail with -EINVAL. The stored value stays as it
+was, and the tfo_active_disable_times reset is skipped.
+
+At boot, the stored value is the per-netns default of 0 from tcp_sk_init().
+If sysctl.conf has a multi-day value, would Fast Open blackhole detection
+stay disabled after a stable update?
+
+The u64 calculation and the cap in tcp_fastopen_active_should_disable()
+already seem to handle every int input:
+
+	delay = (u64)multiplier * tfo_bh_timeout * HZ;
+	...
+		  min(delay, MAX_JIFFY_OFFSET);
+
+tfo_bh_timeout is at most 2^31-1, multiplier is at most 64, and HZ is at
+most a little over 1000. The product stays below 2^48, and the cap covers
+both 32-bit and 64-bit kernels. So the one day limit looks like a policy
+change, not part of the fix.
+
+The commit message mentions the limit. It doesn't say that values accepted
+before will now be rejected.
+
+The companion patch in this series, "mptcp: avoid wrapping blackhole
+timeout", makes the same arithmetic fix and says "Preserve the existing
+sysctl input range". So the two patches treat the input range differently.
+
+Could the bound be dropped here? Or could it move to a separate patch,
+without Cc: stable, whose changelog describes the narrower range?
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1794672619.git.x-professor%40outlook.com
