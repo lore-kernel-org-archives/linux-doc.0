@@ -1,54 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794811168;
-	b=z0faBIrRXmXP32IJrdeLl62T+o8KOHi74u4vTzX7M9MYDxvzhuOAZ0eEONy58tB8mxdN
-	 m052WQjFJY+TVhPc+i81iUo82CkLlD0oNgKGHgMaQ2oSOmVP6zOrHGDuAupT6dgNIkiWK
-	 HLVoda1GJp39EJpBltO3TuH+Yt9F66zuvMKFbwn/EPO0wavz8joRTpWN34tiWzInOxlYf
-	 UD0U08XHYmbw1hXlcFAtwb+AhMc7k2eL5DY619BFFpvfgLEMD4GFMbWpGjC2efqCWBCcN
-	 Pg49oRx7UYx8XtZWx9nyY3otZo2EIZku47PDP02raH8khaJcehB6bk4yf+QZk+On5dg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794811168;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=8+iR4niHczic0KzJmA8oF+7h1DwHaTXrdYECxI6T5P4=;
-	b=0v0PGu1aqvLBvp3g2LI6fDuHxEd1TYfX+nqWGcaujfoS/SsZzGsyyE+CDIyi9JEG4+f7
-	 FEDXbflJtH+01xTVplNmvffB09s6Xywr4ActETgK7KNr3EQJ/jRykv+AlAI/+J3Oq7qJC
-	 T/e+P4V1H6iBLhoQC3VVL8MmeQKeJqqHQgRbfO3gh+qDpCVQo9wjuvANw8GXFWRslUxBv
-	 1aHNomr0SbVrLmiDYxcGQNxFIbLItgeNBGr+jiY34FptT4BAHw93r7K47kXPniCw7eRdk
-	 J/W4vyYR7A13hh67mtqDHQCiAm09Gp0O3+29qPQipBat+YfUxxQJyN4DT9/UQ61IP3Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=MwblwEnl;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.51
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794812429;
+	b=qFu5CH5c4aQOieBC1BftV1gF6A+/Tb0xhuAkjpv3CqBgkCP9Mtu5FVrGVzkQWDnTFvbt
+	 XU6mWT5lMq9zhdaEV4YV1yPwRyl5sLk9NiwVUnZ4w4xcTlrlobrHbBI9efmXFVP5aZwby
+	 ePD9DRw89qUZoLixSZRywhcZOtQ19IMoLxb5lymV7lYTFG9aIy4/y3PSDgOBzJO0cJ15J
+	 5utVDtPbCIpZ7wHMncAgc4ZlVMSYo+FuWMjqR9fLXO2La1UEaA64unGNMPXlt2oENVX3T
+	 xAdf9y0ewNw1B7wdG4ubUrtbJaxcltrwGOJLvDuWFZRiAYhOOi3ODnAjEUIrurIERIw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794812429;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=5s1cMjlhSVoN+8pwAodz8Vnb1Cd7Y7PNKE3ORLQFJUQ=;
+	b=VZSzhRdlnTttttUh8BSrMkSpxDYP/h6CsNs0UG/D2SxXbCOiC1x2VeO1RHPI30/lk3te
+	 3kWvfPWN59wzF9wgHNC+lk5z4TP4GgYKJ/5tZ2MZUggjkvXDWiufJPreRu/ghTpGiWgNk
+	 GPDDEklhvPFHzCS93pL2CO15ZZ7m0ovzGjYPM2ayb5A3xJUDanKB1cDiZsS6e+0hbKlzK
+	 buvpowdxNhpm5KiwcJzGCCeq08CjiNRpG5GQMnhYHpXHx1OuqszKyqTwgkDFQg5KHXm8T
+	 KiacSVnw9Gsul9BdZWon41BOT6zJU4TrRj495ZNi+oH1sh9lEeNKuXr95gB95wK6DwQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=aM8kJmic;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.51
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A72A606A323;
-	Mon, 16 Nov 2026 06:39:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A72A606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D47606A323
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 07:00:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4D47606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=MwblwEnl
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=8+iR4niHczic0KzJmA8oF+7h1DwHaTXrdYECxI6T5P4=; b=MwblwEnliTeyRsI0YjRVZgrHXR
-	yyQ7pmXkqc87VxwqOih58LWjUOrBxr2VQk190xsc7NakZFA8OOC4O+i4wwihOKjSCYu7IDRVctoMd
-	J2gQUXEasYYAfa81tHtXXCIa8U5iTXPOMTYv+Uxpvcv8+QDTCowl9PS+voUUTZLbU5S2oJFJj4fAR
-	Esdaq4ai2ndU6SsXRoTGtVUWrBmQux+1TZ9omxmhDNKuJIQGgX4gThBrMw6g/yLu9E27gkuFmLrZ7
-	TmWJmG2oSry9UfrJFGoM4XjZ7tVyg2EoV4P/hVkCl5kW0BGubx5srlpMquD4f0Bwc3UK8qjpldVt7
-	jEOaKbmw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSqNC-00000001K0W-15xT;
-	Mon, 16 Nov 2026 06:39:26 +0000
-Message-ID: <2571c5d4-f7c9-43af-b6ef-12f7414d4709@infradead.org>
-Date: Sun, 15 Nov 2026 22:39:24 -0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=aM8kJmic
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1b3acec6677so4198809c88.1
+        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 23:00:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794812428; cv=none;
+        d=google.com; s=arc-20260327;
+        b=oxJL3irEVLSUj2CyZ4vSehJf4qoVziEB0j6ZxI9Bg/jMW8H4eV6xWffTlh0ckdZumM
+         Bf+H5JA39Tx0YLuhDWunls1JbjnxK8MuGJ/u9aURJZD8V9lDv0t36IuOGjufK3U4RSib
+         Fx0nSmgT9Fu20zNwctzaPjjbj1VTii+lC3xUXCHRpTGkbWQulYdHzvUpYYMasdkrPcAb
+         APP31K76qckbPcgIj+lbOEVFsulQQ7mVqN6tDEx+vOqoww0XHJPs4+7LdiU3ABxmUjZ1
+         Yg7pWbPLb2qDLo79ekZVB9/dlY+E8f8+0mmlqTXf+EJoCY2DNAtPpk3KMN9nNICoBQOA
+         NSfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=5s1cMjlhSVoN+8pwAodz8Vnb1Cd7Y7PNKE3ORLQFJUQ=;
+        fh=DQzIJ7mA8/beYL1UHA0INz1ZpElcrKuRGO4JLVTkzGI=;
+        b=ZWWM+xvKUnA8iSiGKRxv6SB/NirUlQztoPs/BPQk5jn64QEXWVIvKlr09VIgPvwUaG
+         6PJAo3WMdHpg7PPF5/Dh0317822OPIly0Q/lbFaB229xFeXP1qWrFwFwXMEOVKyLk6hz
+         hf6mC6N69B6XwIC0GsqQnJzDWEsDNtK6fL6rwrxAfEYf/aUO5SSMjApcZR/CiA79r08/
+         f6vVjAOgUN9Y+/dU3fM4D5HnCzsrvw+886KJskpvkfqD9DhKxrRHgp9RxTK4PUL7yAVT
+         daC5nHSVR/jZa0NUbRjdCWQwSAFeYwm3+cfgLcWvJgfLFsL+K3lSwfyffkBagk19QyyB
+         EO8A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794812428; x=1795417228; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5s1cMjlhSVoN+8pwAodz8Vnb1Cd7Y7PNKE3ORLQFJUQ=;
+        b=aM8kJmicAjEEvAO8VJcw7Lk13a1P/J+UL1Ot0LwjE3UM44EQakokEW1GpWqoIgBL81
+         XEMKqZl0M7jEeIQzfSUnL/Wg2MVRMh99yiApeIgC52YdGoxRL0vtAgz+UQJuAi8R/eSw
+         rmQGfkDI0AdFt/ZMn0n3NonYDBJ3qBuu/yAFPVNCOWYn9wuduSeN0iQTAXuHA8pVqKF0
+         VkCZuTxZ3nneZ7x0B4h2DypFJQOmT/LB4IshGj9aMxQn2WlGRzjUQXs3mijOEtVOA7JT
+         oghcNRa8E/eN6VI3vzUHnpUbH1kNxpTVuphAtTQLzQzeIypTNtWlZWim3SGHtkcZapZM
+         xLng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794812428; x=1795417228;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5s1cMjlhSVoN+8pwAodz8Vnb1Cd7Y7PNKE3ORLQFJUQ=;
+        b=bKCshVBrPyVfpKxT5wNQ3G7xUrlF9nZOIPKcTcwQFeRJxtbNKwM/KVMtAGKAfAC+k5
+         ZY2/O4IypYGkAkOcJzjVm+2Iy5gE0VYeIESrA8PkgB7zppKxAp/oOK+Qk8QMJlZfCSfq
+         gCRKey3615o6a25NTMqgGNK4UMHalRKG0T5DmAMaWs4OFgU127nD+0g1AGSMgza0cJX8
+         WIImzSCgDY9cndImwY/wuUM39S2Ae/KdSGVa8rfBaSV2FwiH1hHlZxHeFwSHO/EBKpxU
+         Xos5YTIBT9t+5L60ZFpGwjh3tU8udz+C/4jWKr1h3Tx4DoCd5B7FKc1qhoehuNmBp+88
+         wJfA==
+X-Forwarded-Encrypted: i=1; AL+hErHBLLGEkJHu6kCHAm0daFE/ZkeyIdGDxnZZIhuo2W8Va5OBoBBFjBwm+qes3Ea1rSr77grazTA2HdY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/8fFT1vvVO9aDmIov1ZeVdnaLvOeBXbWqUp6tkhEy8njEIGOYK
+	g+soCV76ERezFXTWwxbPEQu8ktN2eT+22uRmm9+MqtyLRZ84bYDcATVaUvt2Md1V62T3YjSK+Sv
+	HKOC0Q2qYOoAgI1XyiERFTjs+sLogY4/75Yn154ES
+X-Gm-Gg: AYBFou2CARVodPToMtjQnhiIu10bKwsYxthAUC4a9lzIdgeHhg+jqj4zn71ZYBQnh/+
+	C7krgc/GPGhUHmfFandwPbZADqvxfmBgfKgV9HdFGdDO4X9shYCfGS9jckJoVLyydf7IG9zRIfv
+	edYQe3CP3ntQiWmo4iyswP5IGWz3u5I4rqW3nbrEMNt6khW2JhzRIH5LcumCjt4J2Y9wGN7e7b0
+	s2dpHEMk3fG+27UqgxyKEuG3f1f3+rqnQV052h7mR54WvljRZH/3qQYmLEAut7MSagxnZ9pV/Oo
+	mLL43HXzI3yMLtFTHTHXNaZz7b8N3NELLIApdD3Uu2uo4WFlLPiVPTlxLw7FceVmf5YyAldj+2O
+	Dfg+9EmN26uLcj627CtVVk6+vsa1Ok5C9gk67/kbnNvdz+3D2rhjFTB+S3ZMaVVk4mgoo
+X-Received: by 2002:a05:7022:3a03:b0:1b3:755a:ec49 with SMTP id
+ a92af1059eb24-1b503157e74mr10651080c88.40.1794812426897; Sun, 15 Nov 2026
+ 23:00:26 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,50 +103,67 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs: porting.rst: use literal string to avoid warning
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org
-References: <20260924183915.400588-1-rdunlap@infradead.org>
- <hyk4puvpheleitf4kt74aamqex2ytuxpda2iki5bgzoteldf23@pccvy6sdmerx>
- <avpzSippbZRkaki9@archie.me>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <avpzSippbZRkaki9@archie.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <auA7FdubFEDVPB7v@chrisdown.name> <CANpmjNMunLgXHRqXgW3LnniCX50CLbLYsE3DpY7h=cuvu2vSkA@mail.gmail.com>
+ <20261114150201.d428c3847d573be1@chrisdown.name>
+In-Reply-To: <20261114150201.d428c3847d573be1@chrisdown.name>
+From: Marco Elver <elver@google.com>
+Date: Mon, 16 Nov 2026 08:00:00 +0100
+X-Gm-Features: AclHuK-F0k1P_2O2E2wygaMki6BhhjUtxnekVFOvFTlkQiN3eI7cLbmv5yhD7oA
+Message-ID: <CANpmjNNwaeFmVxfPsvdVSc33_DoF_Gcz9DpjGWf6PLD_GZwAyw@mail.gmail.com>
+Subject: Re: [PATCH] kfence: Allow selecting static keys mode at boot
+To: Chris Down <chris@chrisdown.name>
+Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Bagas,
+On Sun, 15 Nov 2026 at 00:02, Chris Down <chris@chrisdown.name> wrote:
+>
+> Hi Marco,
+>
+> Marco Elver writes:
+> >On which systems have you found static keys to provide a significant
+> >improvement? Can you share benchmarks?
+>
+> I don't have numbers that show a significant improvement. To be clear,
+> the hosts that use static keys have had it set that way since long
+> before I started looking at this, so it may well just be cargo culted
+> by now :-) Given that, I had a go at measuring the saving on its own.
+> It's there, but it's small.
+>
+>  From a quick check I did in an 8 CPU x86 VM, a
+> kmem_cache_alloc()/kmem_cache_free() pair takes 8.0ns in static keys
+> mode, which is the same as with KFENCE off. With the dynamic branch it
+> takes 8.4ns. A kmalloc()/kfree() pair takes 13.3ns in all three. Both
+> are the same with either branch layout.
+>
+> So static keys saves about half a nanosecond per allocation at best, in
+> a loop that does nothing else. At a million allocations a second on a
+> CPU, that accounts for 0.05% of it.
 
-On 11/15/26 7:06 PM, Bagas Sanjaya wrote:
-> On Fri, Sep 25, 2026 at 11:32:43AM +0200, Jan Kara wrote:
->> On Thu 24-09-26 11:39:15, Randy Dunlap wrote:
->>> Avoid the docutils warning:
->>>
->>> Documentation/filesystems/porting.rst:1417: WARNING: Inline emphasis start-string without end-string. [docutils]
->>>
->>> by quoting the const pointer in literal quotation marks.
->>> (Adding a space between the '*' and the '.' also works but it looks odd.)
->>>
->>> Reported-by: kernel test robot <lkp@intel.com>
->>> Closes: https://lore.kernel.org/oe-kbuild-all/202609231806.ILZP6Fy0-lkp@intel.com/
->>> Fixes: 025756ee7b47 ("fs: port mnt_idmap() and file_mnt_idmap() to const mnt_idmap")
->>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->>
->> Thanks! Looks good. Feel free to add:
->>
->> Reviewed-by: Jan Kara <jack@suse.cz>
-> 
-> I still see the warning on current docs-next, though. Has the patch not
-> been applied yet?
+Thanks for the investigation. On x86 I thought as much; I'm just not
+entirely sure about other architectures, and before deletion, that
+might need some investigation.
 
-This patch went thru the filesystem tree and was merged into mainline
-today (Sunday) - Linux v7.4-rc3.
+> >IMHO, I was thinking of deleting the CONFIG_KFENCE_STATIC_KEYS mode,
+> >because on most systems, it's not worth the complexity for the small
+> >(if any) performance improvement anymore.
+>
+> I agree, and I think the numbers above are enough evidence for that.
+> Deleting it is better than this patch, because all we want is one kernel
+> across the fleet, and that gets us there with less code. I'm happy to
+> send the removal, if you'd like.
 
--- 
-~Randy
+While eventual deletion would be my preference, what you say here
+doesn't make sense. "One kernel across the fleet" does not necessitate
+deleting this Kconfig option from the upstream kernel. You control
+your .config, and the Kconfig option is default-off nor is anyone
+forced to enable it.
 
+An intermediate step would be to e.g. not make
+CONFIG_KFENCE_STATIC_KEYS selectable on certain architectures where we
+are sure it causes more problems (global IPIs on systems with 100s of
+CPUs) than performance improvements. We could do that for x86, and I'd
+Ack that right away.
