@@ -1,67 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794836439;
-	b=s1tcUS/1+rvLRgODg/AwDF8Ti/dB/TC6czLPS0HMZ4HL07xyR17T5bdLFmPeF6HV+40H
-	 EOG8YR2DtVmuRpsS6UyRMTrZ+0UTwRyxQ2H4oGbOd+tea6ZaxRdotStF19HnO26d7L+FF
-	 3EMTJappM89/LHKE8N/4OY0+qHLePeNkLnCERrF1xPRbmf6gUG+tRg8zDjewTnc3QwKUE
-	 BAm9d5hJcdr1yjDHCmoptbE3tHUm35eHLgZUROKXnHwFVuksyix1osvGadOurlsL9Xi7c
-	 O/KW4dqX+paCPBEPXfF539A30pmvFDh97Qzcr/9p5EEbzvuhiGvurlzolEBppwH+agA==
+	t=1794837064;
+	b=uBPv/MxTBdeWVs+9xLdfCND7cuh7VqEn4S27f1Ti2gJRFqwvUrDbPWJNtKtTkGu9dNLt
+	 WXImsqLgmPitUGT+Pc/5MSXp3eNJnGwQ8iSRvyYvnBBqkLhP28MtVuitQYPGo1gGTJdbR
+	 8yVkPY4Xa55T7NInpUV0qJvW3LxHu7gSiTTIhE0XCodFEQLmzfNaWFbg368cEvUshcM6g
+	 O5ZtQFipiMMrl4eg6OVTK9SkiAK7ogLCaIsE3n2toI6sfpTeWv3wQGefxh41lEX2MYdN9
+	 LIS5Sy74tnak7IgAMYv6bFa7HPRtfAt59Vw4pLb83iJVY2kYblzDxaMfbKDfzC4i62w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794836439;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=o58Uk0z5/VSRQnQFdmkvJUPFvXFWWXuI0VIVQWg8Ntc=;
-	b=nUjzVILfjm/MSOJCnbzj4LHg+BDGbhkdzfZtVQy2/2Kdk1dd0piQilpC9Q1FcoUuEWlI
-	 OjPbeZ+gA61UBB5nndQ4ZObPnPnCfpbZqvOqq6hBXqOPtFIYP01oy4gbG5vKpU4S+mFAz
-	 4wiCLelbgC0DoIAsLmIXKx8ZXVAWz3e4QpuJo0a/rC2P7noRioVxrYC7txyXe8sBuwqia
-	 u/0qcpib+W3eOUAWQdYlsJhCHmitfF50NP1ZAhM/U9cssoRjnhp9hckUr9al+EHODiSal
-	 rQjs0Nng3lQsBKHnoGec0hZFHJ6qy+/P+Mi7OwceEZ1qe8eUJrJaxNNUKfJxQBY4hWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794837064;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=KG1MGo/DVuw8aITbp4BPPajePR4Ohrcz/mqxJPeMWfU=;
+	b=r8xrMJygW25FfN1L3TLpkrbv7It/9KwJKTvY67hg1VMBrees7y4owjr1WeoE3xZO5XAr
+	 fLKAMvg9f1qouU9QmdjOGXLbjYqQP0SIh04JR+0Wb2/aLAHy6a13CXON2ulS3QCgrrleb
+	 Cl0HGhWEv2qgASr6M/hmbRhAqAG1cspzi/bkjMuDpcHIzo26THx+SGUTqbGbAIMO1+4Dh
+	 I/K90UECuqq5c+PiTReY2NFGVx09alhWxxb5RHPpZYTI5BsuJmFHA0uZjWGyYw6NIaxUf
+	 Hw/RBB6iu9ruf/UbD5Is9NIdOWK9lGEMaf4cxmoeTsp3BO5fX1yRDwV31iSM7d4LKOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ekrNzw2m;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SneNHsiK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E14606A886;
-	Mon, 16 Nov 2026 13:40:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA03608590E;
+	Mon, 16 Nov 2026 13:51:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ekrNzw2m
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92B331F000C8;
-	Mon, 16 Nov 2026 13:40:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SneNHsiK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F26001F000C8;
+	Mon, 16 Nov 2026 13:51:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794836439;
-	bh=o58Uk0z5/VSRQnQFdmkvJUPFvXFWWXuI0VIVQWg8Ntc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ekrNzw2mvFn2PJisggTurCwF2ov2lnxA6T8q36VvLLlstkTzn+0BbvitSMnVMSDXl
-	 bFKl4pZiIgN896OsTJNTHnfxmJUldVYAoAK4HjrUHdo8IvqetGOuXvc97KcWET8D9C
-	 yGgPHcO4Zy0x/0QjK8pKyK/qv/kXL8xYFEDgDNnqWuPrQuOPblsO3tTfOxxI3Ttd/y
-	 npNGfGsDRuHg2ZfGJLmMKZ9TnLV8YH8vZi0TFeIZC4TZjqzhjEPUSdXUm9CLrFNPaj
-	 4RfJ+Pmb/KL4XO/FxxVbXAm5mEQNbd7lgQbKFDLEA3kaDmhyinvdM4xvaDQrLLN1fF
-	 vFhftlq/Zdw7A==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Alexander Graf <graf@amazon.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Tarun Sahu <tarunsahu@google.com>,
-	David Matlack <dmatlack@google.com>,
-	Samiullah Khawaja <skhawaja@google.com>
-Cc: kexec@lists.infradead.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [RFC PATCH 5/5] mm/memfd_luo: use KHO map for tracking folios
-Date: Mon, 16 Nov 2026 14:40:10 +0100
-Message-ID: <20261116134013.1636689-6-pratyush@kernel.org>
-X-Mailer: git-send-email 2.56.0.611.g1030f0b940-goog
-In-Reply-To: <20261116134013.1636689-1-pratyush@kernel.org>
-References: <20261116134013.1636689-1-pratyush@kernel.org>
+	s=k20260515; t=1794837064;
+	bh=KG1MGo/DVuw8aITbp4BPPajePR4Ohrcz/mqxJPeMWfU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=SneNHsiKDy+0YZv7oPb8vmoTrIlVZQMg0EPXkHKbvPvyiljrq/LUHd9BUnYFgCZrn
+	 6ddf8sG01zboffWEVIUq8NsK8kJD8ef9dgvazigOCFFqhRcDOnDjlurIjzVg+4KV/y
+	 XEiJlJ1ugUbPB9sYgse2rzHuxyVSWEjI1v/5B5S/XgVAWM1odRu4MyzAM6lrFmKJT0
+	 SJ3lMRh0kmnKc2dJOpcN2WhBAfUDQ6DdHC2vyejpj1TpgrbQWyZoaT8rX+o7iddmGQ
+	 EOZ+oGkY2i3ztqt2hLnst5KZNeENXRsIi0Y/wkG6QIkOoVf+HXkotg2O1pjkt+IWRS
+	 NWpMMyng5ea+g==
+Subject: Re: [PATCH net-next v03 2/4] hinic3: Avoid concurrent updates on
+ 32-bit systems.
+From: netdev-bot+sashiko@kernel.org
+To: gongfan1@huawei.com
+Cc: wudi234@huawei.com, tengpeisen@huawei.com, netdev@vger.kernel.org,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ horms@kernel.org, andrew+netdev@lunn.ch, ioana.ciornei@nxp.com,
+ maxime.chevallier@bootlin.com, mohsin.bashr@gmail.com,
+ dimitri.daskalakis1@gmail.com, hramamurthy@google.com,
+ larysa.zaremba@intel.com, vadim.fedorenko@linux.dev,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ zhoushuai28@huawei.com, wulike1@huawei.com
+Date: Mon, 16 Nov 2026 13:51:02 +0000
+Message-ID: <179483706251.3136.3766644106019912452@kernel.org>
+In-Reply-To: <6e3be192de613fb537fc2050ce28e1bd71346e35.1794467919.git.gongfan1@huawei.com>
+References: <6e3be192de613fb537fc2050ce28e1bd71346e35.1794467919.git.gongfan1@huawei.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,628 +68,108 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: "Pratyush Yadav (Google)" <pratyush@kernel.org>
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-Currently the folios of the memfd are tracked in a vmalloc-ed array.
-Each entry takes 16 bytes. 8 bytes for the index and another 8 for the
-folio info. This is inefficient for memfds with order 0 folios. Updating
-the map after preservation is also impractical. This makes supporting
-sparse memfds more difficult.
+Low priority / nit picks for your consideration:
 
-Use a KHO map to track the folios instead. The key is the index of the
-folio in the file, so it no longer needs to be stored in the entry, and
-each entry shrinks to a single u64 holding the PFN and the folio flags.
+- [Low] The commit message and Fixes: tag describe a bug this driver can
+  never hit.
+- [Low] The patch drops `csum_errors` from `rx_errors` in
+  hinic3_get_stats64() (`errors = rxq_stats->other_errors;`).
 
-struct memfd_luo_ser now embeds struct kho_map_ser in place of the
-folios array and nr_folios. This changes the ABI, so bump the compatible
-string to "memfd-v3".
+--
 
-Signed-off-by: Pratyush Yadav (Google) <pratyush@kernel.org>
----
- include/linux/kho/abi/memfd.h |  39 +++--
- mm/memfd_luo.c                | 292 +++++++++++++++-------------------
- 2 files changed, 151 insertions(+), 180 deletions(-)
+hinic3: Avoid concurrent updates on 32-bit systems.
 
-diff --git a/include/linux/kho/abi/memfd.h b/include/linux/kho/abi/memfd.h
-index 08b10fea2afc8..b17ada3af7abb 100644
---- a/include/linux/kho/abi/memfd.h
-+++ b/include/linux/kho/abi/memfd.h
-@@ -11,8 +11,11 @@
- #ifndef _LINUX_KHO_ABI_MEMFD_H
- #define _LINUX_KHO_ABI_MEMFD_H
- 
-+#include <linux/bits.h>
-+#include <linux/build_bug.h>
- #include <linux/types.h>
- #include <linux/kho/abi/kexec_handover.h>
-+#include <linux/kho/abi/map.h>
- 
- /**
-  * DOC: memfd Live Update ABI
-@@ -23,6 +26,10 @@
-  * The state is serialized into a packed structure `struct memfd_luo_ser`
-  * which is handed over to the next kernel via the KHO mechanism.
-  *
-+ * The folios of the file are stored in a KHO map. The value at a folio index
-+ * is a ``union memfd_luo_folio_ser``. A value of 0 means there is no folio at
-+ * that offset.
-+ *
-  * This interface is a contract. Any modification to the structure layout
-  * constitutes a breaking change. Such changes require incrementing the
-  * version number in the MEMFD_LUO_FH_COMPATIBLE string.
-@@ -45,16 +52,21 @@
- #define MEMFD_LUO_FOLIO_UPTODATE	BIT(1)
- 
- /**
-- * struct memfd_luo_folio_ser - Serialized state of a single folio.
-- * @pfn:       The page frame number of the folio.
-- * @flags:     Flags to describe the state of the folio.
-- * @index:     The page offset (pgoff_t) of the folio within the original file.
-+ * union memfd_luo_folio_ser - Serialized state of a single folio.
-+ * @val:   The raw value stored in the KHO map.
-+ * @pfn:   The page frame number of the folio.
-+ * @flags: Flags to describe the state of the folio.
-  */
--struct memfd_luo_folio_ser {
--	u64 pfn:52;
--	u64 flags:12;
--	u64 index;
--} __packed;
-+union memfd_luo_folio_ser {
-+	u64 val;
-+	struct {
-+		u64 pfn:52;
-+		u64 flags:12;
-+	};
-+};
-+
-+/* It must fit into a KHO map entry. */
-+static_assert(sizeof(union memfd_luo_folio_ser) == sizeof(u64));
- 
- /*
-  * The set of seals this version supports preserving. If support for any new
-@@ -74,20 +86,17 @@ struct memfd_luo_folio_ser {
-  * @seals:     The seals present on the memfd. The seals are uABI so it is safe
-  *             to directly use them in the ABI.
-  * @flags:     Flags for the file. Unused flag bits must be set to 0.
-- * @nr_folios: Number of folios in the folios array.
-- * @folios:    KHO vmalloc descriptor pointing to the array of
-- *             struct memfd_luo_folio_ser.
-+ * @folios:    Folios in the file.
-  */
- struct memfd_luo_ser {
- 	u64 pos;
- 	u64 size;
- 	u32 seals;
- 	u32 flags;
--	u64 nr_folios;
--	struct kho_vmalloc folios;
-+	struct kho_map_ser folios;
- } __packed;
- 
- /* The compatibility string for memfd file handler */
--#define MEMFD_LUO_FH_COMPATIBLE	"memfd-v2"
-+#define MEMFD_LUO_FH_COMPATIBLE	"memfd-v3"
- 
- #endif /* _LINUX_KHO_ABI_MEMFD_H */
-diff --git a/mm/memfd_luo.c b/mm/memfd_luo.c
-index 50dbbda47ad3c..26cdb41f40532 100644
---- a/mm/memfd_luo.c
-+++ b/mm/memfd_luo.c
-@@ -84,31 +84,25 @@
- #include <linux/io.h>
- #include <linux/kexec_handover.h>
- #include <linux/kho/abi/memfd.h>
-+#include <linux/kho_map.h>
- #include <linux/liveupdate.h>
- #include <linux/migrate.h>
- #include <linux/sched/mm.h>
- #include <linux/sched/signal.h>
- #include <linux/shmem_fs.h>
- #include <linux/swap.h>
--#include <linux/vmalloc.h>
- #include <linux/memfd.h>
- #include <uapi/linux/memfd.h>
- 
- #include "internal.h"
- 
--static void memfd_luo_put_folios(const struct memfd_luo_folio_ser *folios_ser,
--				 u64 nr_folios)
-+static void memfd_luo_put_folios(struct kho_map *map)
- {
--	u64 i;
-+	union memfd_luo_folio_ser entry;
-+	u64 index;
- 
--	for (i = 0; i < nr_folios; i++) {
--		const struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
--		struct folio *folio;
--
--		if (!pfolio->pfn)
--			continue;
--
--		folio = pfn_folio(pfolio->pfn);
-+	kho_map_for_each(map, index, entry.val) {
-+		struct folio *folio = pfn_folio(entry.pfn);
- 
- 		kho_unpreserve_folio(folio);
- 		folio_put(folio);
-@@ -190,9 +184,9 @@ static int memfd_luo_get_folio(struct inode *inode, pgoff_t index,
- 	return 0;
- }
- 
--static int memfd_luo_preserve_folio(struct folio *folio,
--				    struct memfd_luo_folio_ser *pfolio)
-+static int memfd_luo_preserve_folio(struct folio *folio, struct kho_map *map)
- {
-+	union memfd_luo_folio_ser entry = {};
- 	int err;
- 
- 	err = kho_preserve_folio(folio);
-@@ -210,7 +204,7 @@ static int memfd_luo_preserve_folio(struct folio *folio,
- 	 * might still be a mapping of the file at freeze().
- 	 *
- 	 * To see why this is a problem, say a folio is clean at
--	 * preserve, but gets dirtied later. The pfolio flags will mark
-+	 * preserve, but gets dirtied later. The preserved flags will mark
- 	 * it as clean. After retrieve, the next kernel might try to
- 	 * reclaim this folio under memory pressure, losing user data.
- 	 *
-@@ -220,46 +214,31 @@ static int memfd_luo_preserve_folio(struct folio *folio,
- 	 */
- 	folio_mark_dirty(folio);
- 
--	pfolio->pfn = folio_pfn(folio);
--	pfolio->flags = MEMFD_LUO_FOLIO_DIRTY | MEMFD_LUO_FOLIO_UPTODATE;
--	pfolio->index = folio->index;
-+	entry.pfn = folio_pfn(folio);
-+	entry.flags = MEMFD_LUO_FOLIO_DIRTY | MEMFD_LUO_FOLIO_UPTODATE;
-+	err = kho_map_set(map, folio->index, entry.val);
-+	if (err) {
-+		kho_unpreserve_folio(folio);
-+		return err;
-+	}
- 
- 	return 0;
- }
- 
--static int memfd_luo_preserve_folios(struct file *file,
--				     struct kho_vmalloc *kho_vmalloc,
--				     struct memfd_luo_folio_ser **out_folios_ser,
--				     u64 *nr_foliosp)
-+static int memfd_luo_preserve_folios(struct file *file, struct kho_map *map)
- {
--	struct memfd_luo_folio_ser *folios_ser, *shrunk;
- 	struct inode *inode = file_inode(file);
--	u64 nr_folios = 0, max_folios;
- 	unsigned int pin_flags;
- 	pgoff_t index = 0, end;
- 	int err;
- 	loff_t size;
- 
- 	size = i_size_read(inode);
--	/*
--	 * If the file has zero size, then the folios and nr_folios properties
--	 * are not set.
--	 */
--	if (!size) {
--		*nr_foliosp = 0;
--		*out_folios_ser = NULL;
-+	/* If the file has zero size, then the folios map is left empty. */
-+	if (!size)
- 		return 0;
--	}
- 
--	/*
--	 * Guess the number of folios based on inode size. Real number might end
--	 * up being smaller if there are higher order folios.
--	 */
- 	end = DIV_ROUND_UP_ULL(size, PAGE_SIZE);
--	max_folios = end;
--	folios_ser = vmalloc_array(max_folios, sizeof(*folios_ser));
--	if (!folios_ser)
--		return -ENOMEM;
- 
- 	/*
- 	 * The folios are held until the next kernel, so keep newly allocated
-@@ -281,75 +260,41 @@ static int memfd_luo_preserve_folios(struct file *file,
- 			goto err_restore;
- 		}
- 
--		if (WARN_ON_ONCE(nr_folios >= max_folios)) {
--			err = -EINVAL;
--			goto err_restore;
--		}
--
- 		err = memfd_luo_get_folio(inode, index, &folio);
- 		if (err)
- 			goto err_restore;
- 
--		err = memfd_luo_preserve_folio(folio, &folios_ser[nr_folios]);
-+		err = memfd_luo_preserve_folio(folio, map);
- 		index = folio_next_index(folio);
- 		folio_unlock(folio);
- 		if (err) {
- 			folio_put(folio);
- 			goto err_restore;
- 		}
--		nr_folios++;
- 	}
- 	memalloc_pin_restore(pin_flags);
- 
--	/*
--	 * Free the unused tail so it doesn't get preserved. If vrealloc fails,
--	 * the folios_ser is still valid.
--	 */
--	shrunk = vrealloc(folios_ser, array_size(nr_folios, sizeof(*folios_ser)),
--			  GFP_KERNEL);
--	if (shrunk)
--		folios_ser = shrunk;
--
--	err = kho_preserve_vmalloc(folios_ser, kho_vmalloc);
--	if (err)
--		goto err_put;
--
--	*nr_foliosp = nr_folios;
--	*out_folios_ser = folios_ser;
--
--	/*
--	 * Note: folios_ser is purposely not freed here. It is preserved
--	 * memory (via KHO). In the 'unpreserve' path, we use the vmap pointer
--	 * that is passed via private_data.
--	 */
- 	return 0;
- 
- err_restore:
- 	memalloc_pin_restore(pin_flags);
--err_put:
--	memfd_luo_put_folios(folios_ser, nr_folios);
--	vfree(folios_ser);
-+	memfd_luo_put_folios(map);
-+	kho_map_destroy(map);
- 	return err;
- }
- 
--static void memfd_luo_unpreserve_folios(struct kho_vmalloc *kho_vmalloc,
--					struct memfd_luo_folio_ser *folios_ser,
--					u64 nr_folios)
-+static void memfd_luo_unpreserve_folios(struct kho_map *map)
- {
--	if (!nr_folios)
--		return;
--
--	kho_unpreserve_vmalloc(kho_vmalloc);
--	memfd_luo_put_folios(folios_ser, nr_folios);
--	vfree(folios_ser);
-+	memfd_luo_put_folios(map);
-+	kho_map_destroy(map);
- }
- 
- static int memfd_luo_preserve(struct liveupdate_file_op_args *args)
- {
- 	struct inode *inode = file_inode(args->file);
--	struct memfd_luo_folio_ser *folios_ser;
- 	struct memfd_luo_ser *ser;
--	u64 nr_folios, inode_size;
-+	struct kho_map *folios;
-+	u64 inode_size;
- 	int err = 0, seals;
- 
- 	inode_lock(inode);
-@@ -380,19 +325,38 @@ static int memfd_luo_preserve(struct liveupdate_file_op_args *args)
- 	ser->size = inode_size;
- 	ser->seals = seals;
- 
--	err = memfd_luo_preserve_folios(args->file, &ser->folios,
--					&folios_ser, &nr_folios);
--	if (err)
-+	/*
-+	 * The runtime handle of the folios map is needed until unpreserve(),
-+	 * so keep it in private_data.
-+	 */
-+	folios = kmalloc_obj(*folios);
-+	if (!folios) {
-+		err = -ENOMEM;
- 		goto err_free_ser;
-+	}
-+
-+	kho_map_init(folios, &ser->folios);
-+	/*
-+	 * Preserve the empty tree right away, so every node allocated for the
-+	 * tree is auto-preserved.
-+	 */
-+	err = kho_map_preserve(folios);
-+	if (err)
-+		goto err_free_folios;
-+
-+	err = memfd_luo_preserve_folios(args->file, folios);
-+	if (err)
-+		goto err_free_folios;
- 
--	ser->nr_folios = nr_folios;
- 	inode_unlock(inode);
- 
--	args->private_data = folios_ser;
- 	args->serialized_data = virt_to_phys(ser);
-+	args->private_data = folios;
- 
- 	return 0;
- 
-+err_free_folios:
-+	kfree(folios);
- err_free_ser:
- 	kho_unpreserve_free(ser);
- err_unlock:
-@@ -432,27 +396,26 @@ static void memfd_luo_unpreserve(struct liveupdate_file_op_args *args)
- 
- 	ser = phys_to_virt(args->serialized_data);
- 
--	memfd_luo_unpreserve_folios(&ser->folios, args->private_data,
--				    ser->nr_folios);
-+	memfd_luo_unpreserve_folios(args->private_data);
-+	kfree(args->private_data);
- 
- 	kho_unpreserve_free(ser);
- 	inode_unlock(inode);
- }
- 
--static void memfd_luo_discard_folios(const struct memfd_luo_folio_ser *folios_ser,
--				     u64 nr_folios)
-+/*
-+ * Restore and free all folios in @map with keys starting from @start. @map must
-+ * already be restored.
-+ */
-+static void memfd_luo_discard_folios(struct kho_map *map, u64 start)
- {
--	u64 i;
-+	union memfd_luo_folio_ser entry;
-+	u64 index;
- 
--	for (i = 0; i < nr_folios; i++) {
--		const struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
-+	kho_map_for_each_from(map, index, entry.val, start) {
-+		phys_addr_t phys = PFN_PHYS(entry.pfn);
- 		struct folio *folio;
--		phys_addr_t phys;
- 
--		if (!pfolio->pfn)
--			continue;
--
--		phys = PFN_PHYS(pfolio->pfn);
- 		folio = kho_restore_folio(phys);
- 		if (!folio) {
- 			pr_warn_ratelimited("Unable to restore folio at physical address: %llx\n",
-@@ -464,22 +427,25 @@ static void memfd_luo_discard_folios(const struct memfd_luo_folio_ser *folios_se
- 	}
- }
- 
--/* Drop the references retrieve() holds on the folios added to the file. */
--static void
--memfd_luo_put_retrieved_folios(const struct memfd_luo_folio_ser *folios_ser,
--			       u64 nr_folios)
-+/*
-+ * Drop the references retrieve() holds on the folios added to the file, i.e.
-+ * the folios in @map with keys below @end.
-+ */
-+static void memfd_luo_put_retrieved_folios(struct kho_map *map, u64 end)
- {
--	for (u64 i = 0; i < nr_folios; i++) {
--		const struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
-+	union memfd_luo_folio_ser entry;
-+	u64 index;
- 
--		if (pfolio->pfn)
--			folio_put(pfn_folio(pfolio->pfn));
-+	kho_map_for_each(map, index, entry.val) {
-+		if (index >= end)
-+			break;
-+
-+		folio_put(pfn_folio(entry.pfn));
- 	}
- }
- 
- static void memfd_luo_finish(struct liveupdate_file_op_args *args)
- {
--	struct memfd_luo_folio_ser *folios_ser;
- 	struct memfd_luo_ser *ser;
- 
- 	/* If retrieve failed, it already cleaned up everything it could. */
-@@ -496,48 +462,51 @@ static void memfd_luo_finish(struct liveupdate_file_op_args *args)
- 		 * file so it can be used normally.
- 		 */
- 		struct inode *inode = file_inode(args->file);
--
--		folios_ser = args->private_data;
-+		struct kho_map *retrieved = args->private_data;
- 
- 		inode_lock(inode);
--		memfd_luo_put_retrieved_folios(folios_ser, ser->nr_folios);
-+		memfd_luo_put_retrieved_folios(retrieved, U64_MAX);
- 		shmem_freeze(inode, false);
- 		inode_unlock(inode);
- 
--		vfree(folios_ser);
--	} else if (args->retrieve_status == 0 && ser->nr_folios) {
-+		kho_map_destroy(retrieved);
-+		kfree(retrieved);
-+	} else {
- 		/* Retrieve was not called, discard the preserved folios. */
--		folios_ser = kho_restore_vmalloc(&ser->folios);
--		if (folios_ser) {
--			memfd_luo_discard_folios(folios_ser, ser->nr_folios);
--			vfree(folios_ser);
-+		struct kho_map folios;
-+
-+		if (kho_map_restore(&folios, &ser->folios)) {
-+			pr_warn("Unable to restore folios map\n");
-+			goto out;
- 		}
-+
-+		memfd_luo_discard_folios(&folios, 0);
-+		kho_map_destroy(&folios);
- 	}
- 
-+out:
- 	kho_restore_free(ser);
- }
- 
--static int memfd_luo_retrieve_folios(struct file *file,
--				     struct memfd_luo_folio_ser *folios_ser,
--				     u64 nr_folios)
-+/*
-+ * Add the folios in @folios to @file. @folios must already be restored. On
-+ * success, a reference is kept on each added folio, which is dropped in
-+ * finish(). On failure, everything is cleaned up except @folios itself.
-+ */
-+static int memfd_luo_retrieve_folios(struct file *file, struct kho_map *folios)
- {
- 	struct inode *inode = file_inode(file);
- 	struct address_space *mapping = inode->i_mapping;
--	struct folio *folio;
- 	long npages, nr_added_pages = 0;
-+	union memfd_luo_folio_ser entry;
-+	struct folio *folio;
- 	int err = -EIO;
--	long i;
-+	u64 index;
- 
--	for (i = 0; i < nr_folios; i++) {
--		const struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
--		phys_addr_t phys;
--		u64 index;
--		int flags;
-+	kho_map_for_each(folios, index, entry.val) {
-+		phys_addr_t phys = PFN_PHYS(entry.pfn);
-+		unsigned long flags = entry.flags;
- 
--		if (!pfolio->pfn)
--			continue;
--
--		phys = PFN_PHYS(pfolio->pfn);
- 		folio = kho_restore_folio(phys);
- 		if (!folio) {
- 			pr_err("Unable to restore folio at physical address: %llx\n",
-@@ -545,8 +514,6 @@ static int memfd_luo_retrieve_folios(struct file *file,
- 			err = -EIO;
- 			goto put_folios;
- 		}
--		index = pfolio->index;
--		flags = pfolio->flags;
- 
- 		/* Set up the folio for insertion. */
- 		__folio_set_locked(folio);
-@@ -554,16 +521,16 @@ static int memfd_luo_retrieve_folios(struct file *file,
- 
- 		err = mem_cgroup_charge(folio, NULL, mapping_gfp_mask(mapping));
- 		if (err) {
--			pr_err("shmem: failed to charge folio index %ld: %d\n",
--			       i, err);
-+			pr_err("shmem: failed to charge folio index %llu: %d\n",
-+			       index, err);
- 			goto unlock_folio;
- 		}
- 
- 		err = shmem_add_to_page_cache(folio, mapping, index, NULL,
- 					      mapping_gfp_mask(mapping));
- 		if (err) {
--			pr_err("shmem: failed to add to page cache folio index %ld: %d\n",
--			       i, err);
-+			pr_err("shmem: failed to add to page cache folio index %llu: %d\n",
-+			       index, err);
- 			goto unlock_folio;
- 		}
- 
-@@ -575,8 +542,8 @@ static int memfd_luo_retrieve_folios(struct file *file,
- 		npages = folio_nr_pages(folio);
- 		err = shmem_inode_acct_blocks(inode, npages);
- 		if (err) {
--			pr_err("shmem: failed to account folio index %ld(%ld pages): %d\n",
--			       i, npages, err);
-+			pr_err("shmem: failed to account folio index %llu(%ld pages): %d\n",
-+			       index, npages, err);
- 			goto remove_from_cache;
- 		}
- 
-@@ -603,21 +570,10 @@ static int memfd_luo_retrieve_folios(struct file *file,
- 	 * Drop the references held on the folios already added to the file.
- 	 * The folios themselves will be freed when the file is freed.
- 	 */
--	memfd_luo_put_retrieved_folios(folios_ser, i);
-+	memfd_luo_put_retrieved_folios(folios, index);
- 
- 	/* Free the ones not added yet here. */
--	for (long j = i + 1; j < nr_folios; j++) {
--		const struct memfd_luo_folio_ser *pfolio = &folios_ser[j];
--		phys_addr_t phys;
--
--		if (!pfolio->pfn)
--			continue;
--
--		phys = PFN_PHYS(pfolio->pfn);
--		folio = kho_restore_folio(phys);
--		if (folio)
--			folio_put(folio);
--	}
-+	memfd_luo_discard_folios(folios, index + 1);
- 
- 	shmem_recalc_inode(inode, nr_added_pages, 0);
- 
-@@ -626,8 +582,8 @@ static int memfd_luo_retrieve_folios(struct file *file,
- 
- static int memfd_luo_retrieve(struct liveupdate_file_op_args *args)
- {
--	struct memfd_luo_folio_ser *folios_ser = NULL;
- 	struct memfd_luo_ser *ser;
-+	struct kho_map *folios;
- 	struct file *file;
- 	int err;
- 
-@@ -672,25 +628,31 @@ static int memfd_luo_retrieve(struct liveupdate_file_op_args *args)
- 	shmem_freeze(file_inode(file), true);
- 	inode_unlock(file_inode(file));
- 
--	if (ser->nr_folios) {
--		folios_ser = kho_restore_vmalloc(&ser->folios);
--		if (!folios_ser) {
--			err = -EINVAL;
--			goto put_file;
--		}
-+	folios = kmalloc_obj(*folios);
-+	if (!folios) {
-+		err = -ENOMEM;
-+		goto put_file;
-+	}
- 
--		err = memfd_luo_retrieve_folios(file, folios_ser, ser->nr_folios);
--		if (err)
--			goto free_folios_ser;
-+	err = kho_map_restore(folios, &ser->folios);
-+	if (err) {
-+		pr_err("failed to restore folios map: %pe\n", ERR_PTR(err));
-+		goto free_folios;
- 	}
- 
-+	err = memfd_luo_retrieve_folios(file, folios);
-+	if (err)
-+		goto destroy_folios;
-+
- 	args->file = file;
--	args->private_data = folios_ser;
-+	args->private_data = folios;
- 
- 	return 0;
- 
--free_folios_ser:
--	vfree(folios_ser);
-+destroy_folios:
-+	kho_map_destroy(folios);
-+free_folios:
-+	kfree(folios);
- put_file:
- 	fput(file);
- free_ser:
+This commit reworks the u64_stats reader loops in hinic3_get_stats64().
+Per-queue values are now assigned inside the fetch/retry loop and added
+into rtnl_link_stats64 outside it. The patch also drops csum_errors from
+rx_errors, removes the NULL checks on nic_dev->txqs and nic_dev->rxqs, and
+removes the zeroing of the local counters before each loop.
+
+> hinic3: Avoid concurrent updates on 32-bit systems.
+>
+> Within the while loop of hinic3_get_stats64(), the counters between
+> u64_stats_fetch_retry and u64_stats_fetch_begin are incremented by +=.
+> This operation will cause repeated counting of the counters on a 32-bit
+> system. Therefore, change += to + and the counters are incremented
+> out side the wile loop.
+
+[Severity: Low]
+Can this driver be built on a 32-bit kernel? The Kconfig in
+drivers/net/ethernet/huawei/hinic3/ has:
+
+	depends on PCI_MSI && 64BIT
+
+When BITS_PER_LONG == 64, include/linux/u64_stats_sync.h defines:
+
+static inline bool __u64_stats_fetch_retry(const struct u64_stats_sync *syncp,
+					   unsigned int start)
+{
+	return false;
+}
+
+So the old loop body ran exactly once per queue. The += into locals that
+started at zero already gave correct totals in every configuration that
+can be built.
+
+The subject says "Avoid concurrent updates". However, the patch only
+changes the reader side and does not change how updates are serialized.
+
+This patch carries "Fixes: f47872bed40f" and will be picked up for
+stable. Would it be better described as a cleanup of the reader idiom,
+without the Fixes: tag?
+
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+> index da73811641a9d..d1fd91d97ccfc 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+> @@ -791,49 +791,35 @@ static void hinic3_get_stats64(struct net_device *netdev,
+
+[ ... ]
+
+>  		rxq = &nic_dev->rxqs[i];
+>  		rxq_stats = &rxq->rxq_stats;
+>  		do {
+>  			start = u64_stats_fetch_begin(&rxq_stats->syncp);
+> -			bytes += rxq_stats->bytes;
+> -			packets += rxq_stats->packets;
+> -			errors += rxq_stats->csum_errors +
+> -				rxq_stats->other_errors;
+> -			dropped += rxq_stats->dropped;
+> +			bytes = rxq_stats->bytes;
+> +			packets = rxq_stats->packets;
+> +			errors = rxq_stats->other_errors;
+
+[Severity: Low]
+The commit message says:
+
+  csum_errors and other_errors are not the same things. csum_errors will
+  go to csum_bad in netdev netlink qstats.
+
+Where is csum_errors reported as csum_bad? I could not find a netdev
+queue stats implementation (stat_ops, get_queue_stats_rx or csum_bad)
+anywhere under drivers/net/ethernet/huawei/hinic3/. It is not in this
+patch, and it is not added later in the series.
+
+After this change, the only remaining reference to csum_errors is the
+reset in hinic3_rxq_clean_stats():
+
+	rxq_stats->csum_errors = 0;
+	rxq_stats->other_errors = 0;
+
+Neither counter is incremented anywhere today, so rx_errors does not
+change in practice. Once the datapath starts incrementing csum_errors,
+would those counts then be missing from every uAPI?
+
+This rx_errors change is unrelated to the retry loop change. Could it be
+split into its own patch, or sent together with the qstats support it
+refers to?
+
+[ ... ]
+
 -- 
-2.56.0.611.g1030f0b940-goog
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1794467919.git.gongfan1%40huawei.com
