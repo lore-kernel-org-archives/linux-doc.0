@@ -1,47 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794832166;
-	b=C6GHegEWJdphTI4FsM8x2andEdd/kAPZq7F2j8UNuXDzvJ9movyi1OqUihb7BHHmosTC
-	 Gb6xZF2bzYnGzNkUwY57E8zla9/tjWrEW6DbvHNS08Z7YwuYxefykiWzzi6t5ILSoBHyr
-	 f7xIgxaqGjzvdacPTbFWUcs02qVa7PK/xXS7l801B+L0poOr46c/3Yc4R80myjNnVxmK6
-	 TlL0MW8NIjnxtwvjYS1QBmXZy7TsgsNs6GsYmQYJSqHoUxq9wkC47HeXI5pZbwkMdGnkG
-	 VGYSNcylBdv/xml2Khq5Yd49iObEoe1do0IGdxhXZQ2CE7gvhxSawdbxTCfiq+S/ozg==
+	t=1794832261;
+	b=BNk/CLpBYwmTlaC6ZaFNOpjjjfrZaW8d4Bbpew74dx+HmWqrl2evOa9r/1oGXe6MwSTx
+	 sQ2mGSX6xCRmD4qdy/faIPVH/weXTEyAI74HebNawv/P82vnsRq5vMrk1OQMUOdKS+/8u
+	 Z0TY8W9zXls3ijD6t6sptL9uNx9m28a2XaDvcJburQ4geXZT+46vSobgkhag2usBfRQHP
+	 NabeszDB5sspaA81yWTjMrpEY9ZkH+h54gbnBiynpXkSTCcBrFSmGIJdNDFliuoo8y4ew
+	 lcCpfyPqQx+KJ9qgmzsSF3eVQDDSIx/PK+5SesZBe/DpnsdWjbBZdAMW6rfNJQxfDzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794832166;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:Content-Language:To:Cc:References:From:Autocrypt:Organization:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=8lfPLp5TsXisntpYB62MidRhzh2xJrWLldHNeL5CnQ0=;
-	b=fnW3vG80xqYyyS2iylLh2mxyxfgFDB2Jh7ZZHT4oQ6YxcE4+MiLz/dKhWjMjDIJsK0/1
-	 gtsxjTzc40XF0nt9uXLVDR3rrltMTKa5GgMHO2ugNcqESlruHeCEPfnXwn/5E7Fqoz6HO
-	 C6j+WOhhm+KcMTr8df3Cn/ylZKdEFdw02fFWQztuZB2AonXg3Mr4klpQdh2DHo5tfeOJe
-	 7UwYEinaG98GBnlsrRLtaVSqJkAJuMayL3hkCZv+EHQrvpK+1mbwRDJMNoMESredN+v94
-	 /2yhNZ7khgtOL0qa8r/QdhwYonoZW2rceAhg18foa6MteL9p5Iqwh7ItuildPQcigZw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794832261;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=knADILq5PgI4KuorUbpvDWBdF7yfkOwdnlZ7YCzAKbI=;
+	b=z/deU7R9dQxrZaSXdJMYR+gH3YRjKzS1yFfOgeqGPElfGQ8j3+yZjye3a9zn8OoYo7IK
+	 CjokzbwXJPNEDx5ezPf5jEge4J5Lec01FmPkSInHF+lEzQ/1UVps6mokFAika19S3EGq8
+	 tVnC+bti3d5aBv6cSrQsuKQGpu7NxLq9D6wKcnd4PtZanDwObWk3A0z5ka31DUR8DAWKK
+	 srCutRruR1fYM0lIgOEitQkjbIWOWp8DetbggcW8tHbRbXXk6purLnzjYNOS+bi/cRgTI
+	 3j7CYW1yCq0DOf9ax97aTZaNDxGPhY4rPp7qmdoF3R7R/BN0tmwor66PO/ZNaFFPHYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UE+d2nl1;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=tZTfbG7T;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5wfT1DGo;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=AsjTXVYm;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qUtY3QDY;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14089606A31C;
-	Mon, 16 Nov 2026 12:29:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32A4606A323;
+	Mon, 16 Nov 2026 12:31:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C32A4606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UE+d2nl1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F7891F000C4;
-	Mon, 16 Nov 2026 12:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794832165;
-	bh=8lfPLp5TsXisntpYB62MidRhzh2xJrWLldHNeL5CnQ0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=UE+d2nl1xi6laQEmxqVBp1nbZvKivGZcX3T+WcUMQEyhPX9vydA/kPqnjWR7x4o8S
-	 6FbvMdQm89jWMAJaXEOMlaXP9U32npYEzs58NCczfW06r67tMRnHsC7ugrJQTVEyp3
-	 MGAx9AXzTGBbh6O1Fbf9TbqUkpgios7I7QK4RGZCI+AYhfzQjIvKik9eKIIOi4VG/e
-	 Pj2kD5TLt7Oi7S8Wef289Pj2nGM5ACzT1uQKIvlLb27AlYnzUP9sP6PpUi42va2Fbr
-	 TybgYldR63kCqaF9SVJ14lUVxJaqs0syNdKyKpR2dh0Dwt7hpi6u9WXGOpPUUclBgo
-	 qgrFA/QtkAaXw==
-Message-ID: <9af16bc6-f44a-4585-8d19-6be3f637a12e@kernel.org>
-Date: Mon, 16 Nov 2026 13:29:17 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=tZTfbG7T;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5wfT1DGo;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=AsjTXVYm;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qUtY3QDY
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E139E221D9;
+	Mon, 16 Nov 2026 12:30:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794832259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=knADILq5PgI4KuorUbpvDWBdF7yfkOwdnlZ7YCzAKbI=;
+	b=tZTfbG7TmWN/aqYe2MXVQPaC2xjqHfGA6pVyaYZqATGptR544p23JDVcopw0TJp6fDNz4a
+	157pPsYg+8uZhqykFEt8/RnJNMpwtXIlJJDexjdfq2kO+9sJS+Y2HqIflEt0O6qpSOUAvc
+	CyzcSY3R0Vj8zXyXOVBvTHxivyctPqg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794832259;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=knADILq5PgI4KuorUbpvDWBdF7yfkOwdnlZ7YCzAKbI=;
+	b=5wfT1DGoXn7BgmBfyy5tfUkImCITvYXkkiENIWTO4k4trYrfHfKzNbUvRgjcCBVcRCv48G
+	/Vl28q9hSEa3uODA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794832258; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=knADILq5PgI4KuorUbpvDWBdF7yfkOwdnlZ7YCzAKbI=;
+	b=AsjTXVYmhqfbvc7E/XBao7JVlknoQCjPGoTmw2gWxmYUvRzWzt4YsWdQ4GAvOYkkpRjHoY
+	wmzBx3iMerg+4n/D4dVSx0PTlY8UQ61SAHgiUwnezAapjljoWG2HvXb7wNJi6GHcsbWu7o
+	Oa7gfdhVSisWfP2UTIwXaYx7m/oI0cg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794832258;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=knADILq5PgI4KuorUbpvDWBdF7yfkOwdnlZ7YCzAKbI=;
+	b=qUtY3QDYRBlTR2mENVIOLSl1X/x9jC4DJAJd6kyqA1FxdY9STvEafMLLv9EurmLfi77Ql+
+	h7tHHUMuACUhOjCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 773FE1334C;
+	Mon, 16 Nov 2026 12:30:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id D6KHE4L3+mpdagAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 16 Nov 2026 12:30:58 +0000
+Date: Mon, 16 Nov 2026 13:30:58 +0100
+Message-ID: <87zev9x8jh.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH] ALSA: doc: cs35l56: Point to kernel.org firmware repository
+In-Reply-To: <575412a7-9f7d-47af-83b8-a0933b4c729a@opensource.cirrus.com>
+References: <20260914031252.98932-1-marek.vasut+renesas@mailbox.org>
+	<fd865483-1485-4042-b938-2012eaa65043@mailbox.org>
+	<3b620222-ba1c-4c6c-a06b-2dd5fb391fb6@opensource.cirrus.com>
+	<49f749ff-8d34-4806-bca7-403005600c0d@mailbox.org>
+	<575412a7-9f7d-47af-83b8-a0933b4c729a@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -50,130 +121,70 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH net v2 0/2] tcp/mptcp: prevent blackhole timeout
- arithmetic wraparound
-Content-Language: fr
-To: Eric Dumazet <edumazet@kernel.org>, Yingjie Wang <x-professor@outlook.com>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "mptcp@lists.linux.dev" <mptcp@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- "rdunlap@infradead.org" <rdunlap@infradead.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "ncardwell@google.com" <ncardwell@google.com>,
- "gang.yan@linux.dev" <gang.yan@linux.dev>,
- "kuniyu@google.com" <kuniyu@google.com>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com"
- <pabeni@redhat.com>, "horms@kernel.org" <horms@kernel.org>,
- "martineau@kernel.org" <martineau@kernel.org>,
- "geliang@kernel.org" <geliang@kernel.org>,
- "ycheng@google.com" <ycheng@google.com>,
- "weiwan@google.com" <weiwan@google.com>
-References: <cover.1794672619.git.x-professor@outlook.com>
- <CAL4WiirENP_SBccpu3qq51f6u4E7BwFoadEARZctwm0CGNCusg@mail.gmail.com>
-From: Matthieu Baerts <matttbe@kernel.org>
-Autocrypt: addr=matttbe@kernel.org; keydata=
- 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
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <CAL4WiirENP_SBccpu3qq51f6u4E7BwFoadEARZctwm0CGNCusg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,lwn.net:email,suse.com:email,infradead.org:email]
+X-Spam-Score: -12.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Hi Eric, Yingjie,
-
-On 15/11/2026 09:24, Eric Dumazet wrote:
-> Le sam. 14 nov. 2026 à 17:12, Yingjie Wang <x-professor@outlook.com> a écrit :
->>
->> The TCP Fast Open and MPTCP blackhole handlers multiply writable timeout
->> sysctl values before adding the result to a jiffies timestamp. The
->> multiplication is performed in 32-bit unsigned arithmetic, so a large
->> value can wrap into a short delay even on a 64-bit kernel.
->>
->> With HZ=1000, a timeout of 6912213 seconds and the maximum multiplier of
->> 64 should produce 442,381,632,000 jiffies, but the current calculations
->> truncate the result to 512 jiffies. Both patches compute the delay in u64
->> and cap it at MAX_JIFFY_OFFSET before adding it to the saved timestamp.
->>
->> The issues were found using a static analysis tool. In the v1 arithmetic
->> A/B tests, loopback reproducers induced 12 blackholes, waited 1.2 seconds,
->> and then made a new connection:
->>
->>   TFO:   base probe 1.026 s, TCPFastOpenActiveFail +1;
->>          fixed probe 0.000 s, TCPFastOpenActiveFail +0.
->>   MPTCP: base probe 3.087 s, MPCapableSYNTXDisabled +0;
->>          fixed probe 0.000 s, MPCapableSYNTXDisabled +1.
->>
->> The TFO counter records another failed active Fast Open attempt. The
->> MPTCP counter records a connection that skips MP_CAPABLE and falls back to
->> TCP while active MPTCP is disabled.
->>
->> Changes since v1:
->>
->> - Add a reasonable upper bound for the TCP Fast Open sysctl, as requested
->>   by Kuniyuki Iwashima. This version proposes one day (86400 seconds),
->>   using the existing IPv4 one_day_secs bound, and documents that limit.
->>   Keep the existing MPTCP sysctl input range.
+On Mon, 16 Nov 2026 12:26:32 +0100,
+Richard Fitzgerald wrote:
 > 
-> The one day limit, the u64 computation and the clamp look fine to me
-> for the TCP side: with HZ=1000, 64 * 86400 * HZ still does not fit in
-> 32 bits, and 32-bit kernels need the interval to stay below 2^31 jiffies
-> for time_before().
+> On 16/11/2026 10:57 am, Marek Vasut wrote:
+> > On 11/16/26 11:14 AM, Richard Fitzgerald wrote:
+> >> On 16/11/2026 9:22 am, Marek Vasut wrote:
+> >>> On 9/14/26 5:12 AM, Marek Vasut wrote:
+> >>>> Use the primary mirror of linux-firmware at kernel.org.
+> >>>> No functional change.
+> >>>> 
+> >>>> Fixes: 088fb4ee17fc ("ALSA: doc: cs35l56: Add information about
+> >>>> Cirrus Logic CS35L54/56/57")
+> >>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> >>>> ---
+> >>>> Cc: David Rhodes <david.rhodes@cirrus.com>
+> >>>> Cc: Jaroslav Kysela <perex@perex.cz>
+> >>>> Cc: Jonathan Corbet <corbet@lwn.net>
+> >>>> Cc: Randy Dunlap <rdunlap@infradead.org>
+> >>>> Cc: Richard Fitzgerald <rf@opensource.cirrus.com>
+> >>>> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> >>>> Cc: Takashi Iwai <tiwai@suse.com>
+> >> ...
+> >> 
+> >> 
+> >>> Is there anything left over to do with this change ?
+> >> You should send patches To: a maintainter if you want them to merge it.
+> >> They are not guaranteed to see it if you only CC them.
+> > 
+> > Who is the maintainer in this case ?
+> > 
+> > I used the get_maintainer.pl script which should have done the right thing.
 > 
-> Why is MPTCP left alone? Kuniyuki's remark applies equally to
-> net.mptcp.blackhole_timeout: nobody needs a multi-day initial timeout
-> there either. I will let MPTCP maintainers decide, but having the two
-> sysctls behave differently looks odd.
+> You have the correct people but you sent it to them CC: instead of TO:
+> Takashi would be the best person for this.
 
-I agree with Eric: these two "blackhole" sysctl knobs are similar, and
-the behaviour shouldn't differentiate then.
+It seems that the patch fell into a crack during my vacation, sorry!
+Now applied.
 
-Cheers,
-Matt
--- 
-Sponsored by the NGI0 Core fund.
 
+thanks,
+
+Takashi
