@@ -1,69 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=46.30.189.100
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794868721;
-	b=B5IQsAOJE95Tzi7EyMDRdPcAFrHhFpJInB+arei231imHEKXJ50p7q7nmsdwL1gEL7OI
-	 LGGduXvl8AaXSh6XpAm69DvaSLVuD8blgVoQWiO609epeK1lY2szId1g/vNJSqKwb+ZXV
-	 MtxrNnG1i/8ssxxDgEQUP9E4/FnJzNMS3ajp8lzJXhRKgfmmeIqs96k+0hCkUUznj8Obx
-	 e2RR9GCS9mHZh43KBxJ3JgJU8oGIMaIZX523Mq5HRmC81hDQeQPWW73xZQsXQb5bPHQ1I
-	 PkpwQGQ2hqvKoUAnQ01ATZCF/JgxBYlE3LzIms/y7wNc4mljOgMVddQiTq88u/WVlaA==
+	t=1794869015;
+	b=izag45uEhA6No3CKihHSD1EASdTEdF5MAZ9ZKXwuHInb9IESeTt8o8oPV8jHpM7+FiRu
+	 7VL7gEknlyA0e1L7uf/KZrrOd/ee7Cwv5vNB6SobiurPv1nYqspb5bkqtG+EcR/5/ZfQn
+	 P/pq22xZ3nd6FTDAGvoT41mEZ66lvqZv1Hic3i0TC/3L4rDY1O4j+SVXCwnXX4YOQV7TK
+	 B3r2wGenNVjmkctR3kcCPrg2vTxr5EqlLygiPL3W22M7Er1GMR2Qwhejbqmuof2XOCumh
+	 gzrQEoSYkovesfXGqLOJSe/2fck4r0/q01xDnUHBJkIFLGREO8kFd6XmjFWPpAeGhYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794868721;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:Auto-Submitted:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=oj2zs7YpNjut+Fle9NDI2/nVbuq1xcuWOh/20pAlrQ0=;
-	b=I4ZopmN8SuoHsV+/NqxZqcA01Y2gAlwDCrX6ifSHGp1HecwClvDVFJYIZ8KtWbT9VhTU
-	 V41gXsjlGnUp1oZPz+8ypKg83fFK+oRBAAwSg8f8ROn8J8txTRlJUL7yEfwzIbbhvbf9a
-	 0o/eqHC4Y1Z4Kt6j7rQtnuwpkMxqZQMIG5qBdaayKAk5YQcyDtqoVC2ODWMQFIGedOOyJ
-	 JdPU1glA9JLM46ziDEe/6T3/GDau82IWoDNC7g805BCm4JCkoitUS0QrJy++GdogHCBYG
-	 ARGv54zStJCjlwjUfzxIkf7SST6AKYUDcPFPYahuIVEqMeCs0y/qLj/dC+3SPMn6qwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794869015;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=N4dtWhUNiSukhf8R9NIb08lmkSRTINrzxb9Pf8lumPY=;
+	b=MpuxmbKMaInZktVXcDKbXAv4EbWYQyi1l5wLpT2dSpYGa4ld24oAB6a8AojcF7R8eLqS
+	 xBPm5JVo28cIpz2QVbThF120A8fYWK3Y5KNeA0XEGLpQKBqR8/ILo0Mk5c8dYD7GLg2iF
+	 pTS8pSgE0wegBzp5Fn0X9chRWyngt5CqS2Vowp7L09A6OykiUNcs2kZoS1jYwf3dh4Dif
+	 mU7MoV5zfw37hPSreIkPXiIhQJFnaJtrkLdRCGv2aHIvlLe8NPR42U+IqqQsadKJVL5u8
+	 yWfr3z57cjq5L1kOcBrF0Z3/MQGoZ+4q/9csuUff/P7hss1r9NUjCY4mUpZLbNkVJDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GNWnV1PG;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98CAC606A33F;
-	Mon, 16 Nov 2026 22:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GNWnV1PG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1220E1F000C4;
-	Mon, 16 Nov 2026 22:38:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794868721;
-	bh=oj2zs7YpNjut+Fle9NDI2/nVbuq1xcuWOh/20pAlrQ0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=GNWnV1PGjcdzbOacpLmztFsnh+FnLqTXz3XeEyYVY1H+flnCxBj4CEvNW9dghQFab
-	 o+9W7kECCLqEEwDJOZ7TTsGOQBQPzbC9TzW/VQrNBsyX/gcLqGXJ7EUAiaY1ZfJKvv
-	 F1509QwEhs8jZgijHYgU8b9iDBlIMpbR2ZHClbueQBferEVBBT44f/XwF9ZhMQS36c
-	 faJEZErVCSTsIns6KwYi33I6e/w8ait8RtR5dNDfEC/WMZSCL1B4V3q1p5Lr2V9azY
-	 vCfQ/zglr3D+qR35fHwFdBqWtxux1NgU5RO5Ft1iZwM3MjbLc19Uq94P87PQPet6No
-	 Sw7ieVwtX65QA==
-From: netdev-bot+sinfo@kernel.org
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: netdev@vger.kernel.org,
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Jonas Gorski <jonas.gorski@gmail.com>, Vladimir Oltean <olteanv@gmail.com>,
- Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>,
- Phil Sutter <phil@nwl.cc>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Subject: Re: [PATCH net-next 0/9] net: bgmac: add Northstar IPv4 TCP/UDP NAT
- flowtable offload
-Date: Mon, 16 Nov 2026 22:38:39 +0000
-Message-ID: <179486871961.3291.17535527526102286596@kernel.org>
-In-Reply-To: <20261116222519.1416501-1-florian.fainelli@broadcom.com>
-References: <20261116222519.1416501-1-florian.fainelli@broadcom.com>
-Auto-Submitted: auto-generated
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dmarc=pass header.from=iodev.co.uk;
+	spf=pass smtp.mailfrom=iodev.co.uk;
+	arc=none smtp.remote-ip=46.30.189.100
+Received: from iodev.co.uk (iodev.co.uk [46.30.189.100])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 413F5606A31C;
+	Mon, 16 Nov 2026 22:43:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 413F5606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iodev.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iodev.co.uk
+Received: from localhost (unknown [79.116.217.174])
+	by iodev.co.uk (Postfix) with ESMTPSA id EBE015E22CE;
+	Mon, 16 Nov 2026 23:43:26 +0100 (CET)
+From: Ismael Luceno <ismael@iodev.co.uk>
+To: linux-kernel@vger.kernel.org,
+	linux-btrfs@vger.kernel.org
+Cc: Ismael Luceno <ismael@iodev.co.uk>,
+	David Sterba <dsterba@suse.com>,
+	Chris Mason <mason@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 0/8] btrfs: assemble a multi-device root filesystem without an initrd
+Date: Mon, 16 Nov 2026 23:43:16 +0100
+Message-ID: <20261116224316.11237-10-ismael@iodev.co.uk>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -73,26 +53,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi!
+A multi-device btrfs root filesystem is normally assembled by the device
+scanner that an initrd runs before mounting the root.  Without an initrd
+nothing runs that scanner, so the root mount names a single device and
+the rest of the array is left out.
 
-This is an automated message. This series looks like a fix, but its
-commit messages seem to be missing some information:
+This series lets btrfs assemble such a root filesystem in the kernel:
 
- - How the issue was discovered, e.g. hit in production, hit during
-   development, syzbot report, manual code inspection, LLM or static
-   analysis tool scan.
+  * mount devtmpfs on the initial root before the root filesystem, so
+    device nodes exist to open the other devices by name (init);
+  * let a filesystem tell whether it is mounting the root device and read
+    rootwait, and resolve root=UUID=/root=LABEL= values that name the
+    filesystem rather than a partition (init/VFS);
+  * scan all block devices for the remaining members of a btrfs root
+    filesystem, and wait for all of them to appear before mounting.
 
- - Whether the issue was actually triggered, or is only theoretical
-   (e.g. found by LLM and not proven at runtime). If it was triggered
-   please include the symptoms, like the stack trace or kernel messages.
+The scan and wait are gated on CONFIG_BTRFS_ROOT_SCAN (default y) and
+only act on the root mount when the user asked for it with rootwait, so
+non-root mounts and systems without the option are unchanged.
 
-Please do not repost the series just to address the above. Instead,
-reply to this email with the missing information, so that reviewers
-can take it into account.
 
-*IMPORTANT*: If you do repost (for other reasons) - please include
-the relevant info in the cover letter or commit messages.
--- 
-The evaluation is done by an LLM so it may be wrong, if you think
-that is the case please reply and explain.
+Ismael Luceno (8):
+  btrfs: add config options for the root device scan
+  init: mount devtmpfs before the root filesystem
+  init: let filesystems ask whether they are mounting the root device
+  btrfs: add a helper to scan all block devices
+  btrfs: wait for the root filesystem to have all its devices
+  Documentation: btrfs: document waiting for the root filesystem devices
+  init: let a filesystem resolve a root device by UUID or label
+  btrfs: resolve root=UUID= and root=LABEL=
+
+ Documentation/filesystems/btrfs.rst |  31 +++++
+ fs/btrfs/Kconfig                    |  25 ++++
+ fs/btrfs/super.c                    | 165 +++++++++++++++++++++++
+ fs/btrfs/volumes.c                  | 196 ++++++++++++++++++++++++++++
+ fs/btrfs/volumes.h                  |  25 ++++
+ fs/filesystems.c                    |  37 ++++++
+ include/linux/fs.h                  |  10 ++
+ include/linux/root_dev.h            |  14 ++
+ init/do_mounts.c                    |  51 +++++++-
+ 9 files changed, 553 insertions(+), 1 deletion(-)
+
