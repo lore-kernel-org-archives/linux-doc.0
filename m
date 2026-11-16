@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794857811;
-	b=wVipegeFRMhkS2CMfYi6aj716hC2dg+3rJ0zAgFNsytr2iWuwchpkvHZdtE+2XkMvbvL
-	 VkZnGgL3dPDkjytsFiOv9eeXemno8ksI2bLGN+yFcHfD3wZhD91GJjfy1mEKaUKKt786E
-	 80GF0NCsG1F29BVD13Gq5YK842qzHBLCl9QE1jM8rqelL7xtW42IBB5GePGhKBY9h3eO+
-	 mwUaXmv3xTKSZo38pZTTUDtJQhT4cq0zkV0jlkpz1ZgLQ7ShyDXEf3R/34FCAyWyb7him
-	 7+WjxoLKIVMjGoYO6zmiHOdBl/5Ul3sIeJqdep1ChFAbBnjBf05x3ODurMFVtVV1HHA==
+	t=1794857849;
+	b=qC2n0l0/D9NEbLFuPaa7rEBMjBrRJE5f81UA9L4rmQ5DxHVpzw+R8Rt2g/pL57TZGnuq
+	 HMDkPbifPaeQCoEIMTNQnNLNZm05SuxuOGPNYfRaJzKM6FzYbCSsVu2+DoPLkQU2Kg94a
+	 Lpzb9MOyP7JBJuMa+WWr0M9T9EWOuDCo87H37rPvwx8sDAfX2p+OaRSDti7kV2RH0Wnz4
+	 hz7iHTMOo/dZ6UU3repRI9pFiBEb16pQx0ov0KCAffMlyrRPRXzJi3VBnx5uYbQxHsJCk
+	 mrtcYgHgOUgzEK9ghpDWVISwl+FBQV0KKppcxXKHi7g0F78MxhEVImU7tP7aO6ftVMw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794857811;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=nh4pWMvkRsPEst/kCwIp1wxFa2k7tAfx6b5lfGN0krQ=;
-	b=ntommHl7WUOTfMHRqDe+9g5uL7FDHYl4BI4EbXucZdBWk+MGkggu5Oq+H15kkTo6bEJ3
-	 V5JK2j31SjIPnSQYyIHBxfJnsjA4mvA28vBYukQhuvYfLWOVvAtuMMzkuDzx498nQUXx7
-	 mjqA9pNYpSeVYF3ohgCRKTd1jDcRx7aWeoW+P8e0CvzpMl0J3tebIeB/FYgAdjM12zFcb
-	 Jgh60TxSY0nw0rEnLXwRzS+/KzhpjCwQsSRVsKZjzvrHWmJF5gEviThUPrhIHUpO3d8zH
-	 ySRXZU380vMZQFWyRBqbxnRWEz9eLJ/gzY1w4k7TRJlRnWhceBOzCMkWvdUlv2EZZnA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794857849;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=VgCzYve1kCS7waE1BrpxdQm3V/eHAwNUjgHqRgoaPno=;
+	b=vwUKjBe6g3WKNZn6U4j9Xs+dIgfuF8IScy8RLjl/CC+pzjbXzErbHdkr/ch84XfHBYSC
+	 ud7X1hJYI0eBoK64BodJhFy0e1dLCnuB4JeEMzdlYEUWZjCwlnMwkXtGYV9Dfbj2MsgZy
+	 Cu8XY5j+ukKiiEXWj2aCegeZxhWJSe5M7OIZCYkY7E1sn+LQKl/3LnJkKLRpfaytMGWL5
+	 +EY/crBEbulg/cwoijowuU4Mtsme0fxFbPHByXEBJ0Nr7S+tpJKJNNl2jBR36MFaJHyGY
+	 /AhcmQskc56kY2k0JabCfFt5lRNYE63T51z2wM1gdWXthj1/qWG+0dUuQSADfn3js8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-foundation.org;
-	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=JE0F9thh;
-	arc=none smtp.remote-ip=209.85.218.46
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b7wz07DI;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0C6606A322
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 19:36:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D0C6606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 71FAA606A31C;
+	Mon, 16 Nov 2026 19:37:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=JE0F9thh
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c4d2b741ed9so624125266b.2
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 11:36:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1794857810; x=1795462610; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nh4pWMvkRsPEst/kCwIp1wxFa2k7tAfx6b5lfGN0krQ=;
-        b=JE0F9thh/y7UOTJSKLxzXKX12imABePPMOEs6ZIqDpMCHKNnzFR2d8+uI2rH3zTxFb
-         3+zn+/+ytydiFugyyWX5j1XDjGVg1yc1fDfTMFBxntmN74IYqLR7d+xqVvxZddj565v1
-         pu0IKYOb0XbsknnypjIZaGJErbXCCh3Lfw1vo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794857810; x=1795462610;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=nh4pWMvkRsPEst/kCwIp1wxFa2k7tAfx6b5lfGN0krQ=;
-        b=wKcK8IopvbEkfJYP8LK51CNR22atX6Cvg+8sUzsysmhNB4rxa3gEd9dGL8efzpxbqz
-         1ZALfgcQJf62tASiRWTs/yIJR+TRVMQECYmYVT4ZinwupztQq5Id+QZ0xugL8/hlhbIs
-         bN4qZBtMNadYGOEvAvl7zthXv0g1imtWvoeUQ3ebBKNu0XjL5RbPx6OQvvbQxp3IdVVA
-         A8ympgA9BPDYgFJdEZ4nmo82CS8hyHWsRmZZKa2L0JadO5P01Ww4A2tFX7tJtot50GBH
-         l4uGlbwC+Kdbb9JEOfhU4sq57J40ZhvWu6tSrp3QlxKYdrWf7BnhVI/3CyBQfqf4aS42
-         5GBA==
-X-Forwarded-Encrypted: i=1; AL+hErGZ59xHWvVrjZmksdAa7Kw87fd3TiXDDSPYBmHUjWn5ArRURu2n8XrW7dRSLd/PsrHX2idnIU4G1qE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/I+rrLYqVIurFIHAduj3BsSLDhIY9AejZGGPz2DnUOUmUHSTl8
-	DlO6zp12V/QG8vuZzyQQu0dcE9n6LcAp/2Y2haaLYpkRi9bhphUo/xxS+6sFiN5C7xHcP+qHvxN
-	dw/C1T8hWaw==
-X-Gm-Gg: AYBFou3F8Dhd5OKJ0rnBj2e/Qws8oxdZRCxsOcHKmFp8ieKI+LKvRH4oZSim2RmRxYS
-	95eYNi6bgEI+e87Qu32WrNGRCM2L10+dvEdhw1bugN40QLuFcxFTORr+WlCDP98UQCqiKmzcIRS
-	wwTyZhvQaUu8RMFAKSkZ4L/TIALJLRxhLmjsnWAuWCEjQChRyuDSDTEfkmrqSRRwQAV8viVGlGg
-	OSp2DIzZ5f0Ve2tR6YMSorGqY/UDFIpMkBUS72h+H/J6E4pqW1c49smKO5ULbT5iBILWq8ok5GI
-	MBaOyAFEkPRQn3cQhtPcADwGZiNZu+Aj9mba9pYtKf2HwMY0CTEGXON5irThwJEwilChsTbI3wS
-	E1e1zAUawU0dCLux1jTdEme6MJ3e9M9jgoaILr3b3O/MhhCJSunAyHUzxLE3arcIN1UhaampELC
-	56QLm5zyfTNPiL1gO/3mudJgCPlCfbAKZMKyszkFD0KUq6prKNrdhFVLLO9RfC512FdPzdvsvDK
-	PdfMkHBgF+HO03OW9TviP5G+eR8lMS+eLqIaTfBTHZWjvR4xEWOHeoeIS4eyyhpVkL8CiijzJYw
-	emX/ZPHn8hT5laShdoxt/WQWDtcq8sdT7As2A5In7TVZdPXvtIabA38IZQRFUGxfChxeUpBOvK1
-	GJI61
-X-Received: by 2002:a17:907:3e8b:b0:c29:f5d8:9c78 with SMTP id a640c23a62f3a-c50964101demr914519566b.39.1794857809850;
-        Mon, 16 Nov 2026 11:36:49 -0800 (PST)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c50e9b2b5fasm92810366b.35.2026.11.16.11.36.49
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 11:36:49 -0800 (PST)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c50ac25cdd4so373219966b.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 11:36:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFvdJtY3UidWjFhZ9fG/WLtZ/3cKRmEneoeQGWwJ87gCe72hwKPQrzCNkFfzcBSmiWRIVeUvyrbycs=@vger.kernel.org
-X-Received: by 2002:a17:907:d86:b0:c50:4b6e:329 with SMTP id
- a640c23a62f3a-c5096372173mr926077766b.15.1794857808907; Mon, 16 Nov 2026
- 11:36:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b7wz07DI
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 4FC681F000C4;
+	Mon, 16 Nov 2026 19:37:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794857849;
+	bh=VgCzYve1kCS7waE1BrpxdQm3V/eHAwNUjgHqRgoaPno=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=b7wz07DIP3vgML0qQDMBFxUuiC4snWIOw82w+o5jNvTrQ2OKmd+Wxll3WmKLyu8gm
+	 P+J6xBmRadl6GGcHpghMpaeNyR1XJOugm9rPcnyWkrqsZxmBplcyECQhZ9P+EtobWX
+	 Rk6HMNPUu2uwL9ax63LNFbdL5fP++OFem7Y9Z39EzPlypQLyK2/wsnM4BexEGJctel
+	 cQk0Hi9zMIcmY7dkRij4b9xUaMe6t1zcdf4NRBR96IU1L4wxFOWrkRiCkvyOoA+zBQ
+	 +jYU44Afao8OqsXN+tZA1xGezP2kgG0E3UPPeKcI44WxZzcj33bHL22tztp1Zl/CsA
+	 3Koaue1vujUGw==
+Date: Mon, 16 Nov 2026 21:37:25 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Heiko Carstens <hca@linux.ibm.com>
+Cc: David Howells <dhowells@redhat.com>, bpf@vger.kernel.org,
+	dm-devel@lists.linux.dev, fsverity@lists.linux.dev,
+	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Alasdair Kergon <agk@redhat.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
+	Anastasia Eskova <anastasia.eskova@ibm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Ignat Korchagin <ignat@linux.win>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Mimi Zohar <zohar@linux.ibm.com>, Paul Moore <paul@paul-moore.com>,
+	Peter Oberparleiter <oberpar@linux.ibm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Yonghong Song <yonghong.song@linux.dev>
+Subject: Re: [PATCH v13 0/7] KEYS: Replace assoc_array with rhashtable
+Message-ID: <avtbdRYtBl3fsXBF@kernel.org>
+References: <20261114193631.731615-1-jarkko@kernel.org>
+ <20261116120722.99807Ac6-hca@linux.ibm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -94,60 +94,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261025164719.1831477-1-sashal@kernel.org> <CA+1xoqcxAsRij1j10TyhNX9JXNXNkdWO3sMaVRXCqYdEXi45fg@mail.gmail.com>
-In-Reply-To: <CA+1xoqcxAsRij1j10TyhNX9JXNXNkdWO3sMaVRXCqYdEXi45fg@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 16 Nov 2026 11:36:32 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
-X-Gm-Features: AclHuK9wFvPLbk2hT2Jt-YCf9KvKeXcURMdq1CAih03odFDrPYf2QaCfvYcr5qU
-Message-ID: <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
-Subject: Re: [GIT PULL] Kernel API specification framework for v7.4
-To: Sasha Levin <levinsasha928@gmail.com>
-Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261116120722.99807Ac6-hca@linux.ibm.com>
 
-On Mon, 16 Nov 2026 at 10:14, Sasha Levin <levinsasha928@gmail.com> wrote:
->
-> Ping?
+On Mon, Nov 16, 2026 at 01:07:22PM +0100, Heiko Carstens wrote:
+> Hi Jarkko,
+> 
+> On Sat, Nov 14, 2026 at 09:36:24PM +0200, Jarkko Sakkinen wrote:
+> > The keyrings subsystem is the sole user of assoc_array. It has over 1700
+> > lines of code, no test suite, and a long history of bugs, with LLMs now
+> > finding more.
+> > 
+> > This unfortunate outcome has evolved over time by large from the shortage
+> > of in-kernel callers, time bandwidth and 3rd party contributors.  What the
+> > keyrings subsystem needs is just a generic key-value store, which performs
+> > well with sparse key sets. Replace assoc_array with an rhashtable-backed
+> > keyring index and remove assoc_array from the kernel.
+> 
+> ...
+> 
+> > v13:
+> > - s390/cert_store: Hold key reference across key_unlink(), and ignore -ENOENT.
+> > - s390/cert_store: Add "s390/cert_store: Read-lock keyring semaphore in
+> >   invalidate_keyring_keys()".
+> 
+> Actually I had / have a patch series of 15 small patches ready to address
+> various bugs in certstore, including yours. I'll send them later - a few
+> (or many) collide with your patches. Not sure how we coordinate this.
 
-So honestly, I really don't like it. I don't think *any* of this
-should be inside the kernel. I don't think the in-kernel side helps at
-all: the comments are too big, nobody will read them, and the whole -
-and only - real use of them would be outside validation, not at
-run-time.
+That is perfect. I don't honestly care about patch authorship in this case
+too much. Do whatever you want :-) I'm just happy to get them out of the
+way.
 
-IOW, I see only downsides to polluting the kernel source code with
-comments that aren't useful to humans.
 
-If this was a spec that is maintained in some automated format - not
-in C comments in source files that aren't useful as comments anyway
-purely inside something like tools/kernel-api/ (or Documentation, or
-even an outside repository entirely), together with the scripts to
-then validate it, that would be one thing.
-
-But polluting source code with huge comments that aren't for humans is
-right out. Particularly when it clearly is a "first step" and the
-intent is to make those comments bigger and more extended in the
-future.
-
-And I see *no* upside to any /sys/kernel/debug/kapi interface. Nobody
-cares, and any excuse to make it dynamic ("We might update the API in
-the future") is actually the complete opposite of the whole point of a
-stable API and not something I want to make easier or support in any
-way what-so-ever.
-
-So all of the in-kernel side to me looks like actively detrimental to
-the whole idea.
-
-What I think *can* work is an external spec that is written so that
-tools (read: AI) can actually then verify it against kernel sources,
-and that can be used to also drive automated testing. But putting any
-of it inside the kernel is bad.
-
-                  Linus
+Br, Jarkko
