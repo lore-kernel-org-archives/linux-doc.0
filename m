@@ -1,85 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794845623;
-	b=dQSqv1mXwYC6blpomVsBMkiaM2i4Dglb0VMqFgpyWmOPGM+ZdhF2nCIHfgXQ5hjJ4vqT
-	 8gTqnGNdWRO3hXTcJvPCEySuqi9Uso5s4b5kV5PZez71B8j5TZ/3T9yYdCfJ5vDAfvpzx
-	 v6SrLEiXibu8AAJA6sXsE44hYmReiQl4digfVvA7SX/5uuXh2OAJKMQ2tJREuaHPsK4h7
-	 WeGXtCiaeAE73OonL9OYOKK/jLJRAXkUBe7INy8+cyT7dzzvCeRad9AlIum5k5H8jQyNQ
-	 GjhGGdOg68PWANSuDs/KZ+TeWeA+Y9D8LEmG8kikPWREQMU8a7c4dRoq4/hQzD2/QHA==
+	t=1794846523;
+	b=mdh7pJq4ZTxFDBm5A5bWTuhWw+Svo3mzaqfBwaSnkL/MWKAQmvIZKXaV+qrOuvmyLRm7
+	 tkQdVcThOLrcv1PTLz8f16xam5h0GoMhJnUcspTe+Q1nNIILy3dOK/uhSJ96sgL4zsKlX
+	 t5byEH0WdPSl5nUvmrodySyYRXU5HtqhM5oOehG+e7ZRLEoEuHOhBewgyUJ7W+9R4Ghbi
+	 iY9zdJRkOMbJTk/wPwBfivD1zg/OWBVZ4VH+aM5MDrLHqp9amXl5yYNWR+b7jAshEmpKg
+	 tfIi5PuE+TiwDwSRcyuJ1w6mPQjKWqWClGl+PDShqbPw7b8O14/FwNmzMVhCk11Qh+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794845623;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794846523;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=ZxHOUEDwJr8Ec59nGL6gXnjQrpofiX9HS0TRBVLwZm8=;
-	b=DTWwV3kOtsyFoyGqBPB0EQUzJm+zSQaK6qG5BCQwAGWoU/3hRAQsEG+CrFKhIL0fMzGx
-	 CbF/pqiidZpqQNVGVFElXlo2dFJ5uNmZOn0kp4fmZE5IsBsx1bQ18IKEO9PgIqYW857cG
-	 guVZW5ybQBNylCQGhg//OOJzhzyLgY0xjc9zk9BI6cE3/cdgH32sbt1pyuvTIsa1l0szQ
-	 uCZEzbgYNP5hQn/LSpZUFhZpCbUwT73WJbbG3MW/O2c+RDH0VZpYaW/zTTWsc+h1acxTD
-	 Z38N6CjVVtm+4Q+qMY2iOHYtbYyy+rYqHPPi4FiQumvy6XsuJsKwQnk05vWea6cA7+g==
+	 From:X-Google-Original-From:Date:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=2+nzMcVP/+P9vG+E1zkKZ9XZsaAgRds940lbNhNpcpI=;
+	b=dDY5pUYW4wcAgH6ZKe5JE+V6UPhLoEkbl37IwDq9QMLWwy33A0l1NQ+NQ9dqI6aDIP91
+	 1k3adsHU99+fnwRoCqxrnPVZW+pNsBElpT4AB66v0I84I+Fn3RJNAgov1I8uuVJ28gsvB
+	 ff/vi7Eu504A/p7b+hXl5kGB2TSRpb7Al3i5cj3988J4kLbmu/nIABhy+jgkG85cU0cwR
+	 4rSGYMoMkv5jondOIQDJVc4hJUkOGekfJWDeJig0LeZRNXZmyBMo4burga9iAyni3uOc/
+	 y4ap96+xZZOyFCYocrDfJkFPXUQn2Z4i12b2t56dLObdnk2ng6Ow8Vkv/BTLZXfxM5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=DfyLCbzv;
-	arc=none smtp.remote-ip=209.85.160.170
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DgGsa1h5;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC57606A322
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 16:13:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8AC57606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D298A606A32A
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 16:28:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D298A606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=DfyLCbzv
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5364d86f7f0so17693711cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 08:13:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DgGsa1h5
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a210470b49so30337585e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 08:28:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794845622; x=1795450422; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ZxHOUEDwJr8Ec59nGL6gXnjQrpofiX9HS0TRBVLwZm8=;
-        b=DfyLCbzv97E8Hk1ejG7+FaD+1xL/uA/0hg5ayQHlJWr1PsZHS44gSfOgCfQB9U6h/z
-         s/Hwfhv3gnVCvz/8vnnEwN/2zHeJpSnfMR7nbcXpYlzMU2Cb4Bqc1TgDV4esmkwnC2pV
-         vHdJ6HEDYotF3Q+8IVJKE3NTwEqOUrQsvnX0eKdbg8d3V5soKfpN6IGm4Ug2l3ymu6KJ
-         xyq3AgTy4XM8UU3LZRR+L1pyLINbLgGk/R8gqRZFwtd+49oCRL0A+KeGkJR8PSh0Rzi6
-         jtbP4Loc8pcq/4xL1hv34RP9MdS/4tbBgNMQ3gsThS7p3n64LXZ8ZJ7QryxGdNrHwCVJ
-         wYiQ==
+        d=gmail.com; s=20260707; t=1794846521; x=1795451321; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=2+nzMcVP/+P9vG+E1zkKZ9XZsaAgRds940lbNhNpcpI=;
+        b=DgGsa1h52Rts8iMQsAM4EJfolE1WumuJFMv+MANoxbtXJXUOJKjkXxqF7F52ddwi4B
+         igJl8Rh2ip7GVy8wPhlLKhruAujaQotXx1zhJlK/t1l3kKd7ciRnftPamiLQwevK64Bt
+         k8APXM+6MHR6p9gPx61Vp76+p/B521PwanYfwN3htVEnEoonaZ23QL33BIDUw3R+yf4d
+         h4IbGGGBRAapLvL8Rlc4TNDPbcyxFICIxnJoPuMIWyJ/Ovt2fCzL+Zl6ikJ+w7CHqluQ
+         Ayy4mBCMc8Z7wwVKi76I1WC/0L03NnAnS2aMKpMAIs0mwzZilY4SpSvU/4y2CBxtQROJ
+         IW7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794845622; x=1795450422;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1794846521; x=1795451321;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZxHOUEDwJr8Ec59nGL6gXnjQrpofiX9HS0TRBVLwZm8=;
-        b=pzYMakcwFYH/sJWIdfPyECHIMKtr7epS6/9Qe1AVn8sahbdLzjnaZBxgO1mUnGATvH
-         EbUwBeIfBRy5u9e1/NKWSY8DuxX4ozfXuofzaP9LCrAhGDRl6+Ktadmup6FSOl8ApTpP
-         0A9lmXdPhMFr0LEl3FJ2PiCkAjeu/010sOV0qksIM2wi+Nfp6jnkS9D+nhIWypLAa+k8
-         JYbH8xeBlsPIU04bSQbIyVA7T5TZb/4HDm1nNCiL1PznJPg2t7CHCyITUD7cCqfyAQRF
-         0qLUHus7Gd0mzngZDedmvinIJiT81OhtiiP6dtCjUtpNuwBktt7JaKx9Isy+cdFK+lWK
-         79aQ==
-X-Forwarded-Encrypted: i=1; AL+hErGCR8w9/4Y0eedcfXnfO4j2yw8kbzRdDdWTkjK9VhJr4MBBNhytlAEjvrJAF4pI0nH/vF0BtwMXuyo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/OpPMXpudxDJmZMve7wVwGSt+EmPWo1HxQk8fVkih+lMsO/wPv
-	v9u5Y/h2aN36TFLZkjpVSBFEBoyyLKO0KXBbfoXE4CzIXyGTIiiienbkVvHNvLC3WSI=
-X-Gm-Gg: AYBFou0jCSI1cJr8Wi8NS1G7l2OKgfVE2MG1AQOYa9sYSV+4u7p2KXLT9zBwB077ctY
-	8c1brbzKzq5MezLujrE7OdwLW3oj5dWO+N+SlZTO5+R1hU/iYYFoIWDzi+0gGlr59ho3C9ZbIde
-	jv6++xeW06XxEFxMOKqgY6tEHeKr+nbfQ071/D6upxCDmln/KXdXUdvtt0sPJIhJp6eU7srS47n
-	ieoZDn9zsdvTScN6h+1vmNcfjkdI0r7xF8f3PZ6/pF0fzUgdoVLM0BVwtkbzblMOo0szd5YblgH
-	uXBcIOedt+hzBXVyJzPNDKO2RdUTw+FHRQ/gk6NCeN/pm0DZHoVrRIZYfioRE3TNNLbgrX7k/gH
-	AJbQItbVdTnI43Jk2TxqgSfV7gcCn2FczCfb8jpQOdTYN8MCUQeILqUB62HJuBEVATImpSlqn1l
-	DEWi/ooyynTrjp6zwo6eaydnsZLAA7ky/Y9yY15PaMRoDcCnP/IW6Ilbs5ptqDBqLCOHtnXviXo
-	4zRHmqFxcrkIPnE6OGAwDuqlDPxhJ1NXdCaWaRCSYUq/Fs2zXHtHBWsSuHpIGhgdfZXNuWOHDwL
-	tLv0SDW3WvJdVEdH1yX9JsBcxt2px5+eg9BMvz2TX3PV3LCG9L3w2Y4SQt5iyv0cmKX3hFhTBkg
-	g0t6At5lZNox07vqKkJJvs88JcftH
-X-Received: by 2002:a05:622a:4d98:b0:55c:e8b1:3349 with SMTP id d75a77b69052e-55ce8b169c1mr107785991cf.25.1794845622539;
-        Mon, 16 Nov 2026 08:13:42 -0800 (PST)
-Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c6025f5sm868661285a.5.2026.11.16.08.13.41
+        bh=2+nzMcVP/+P9vG+E1zkKZ9XZsaAgRds940lbNhNpcpI=;
+        b=lVRdnlwgu82bzToNfEzrcCYbP/rR4jS4MXE9yanV5F5QYxbVaSr39l6wrtNK5OLU5P
+         vvtVz2dCrrfH5NESCCHvwJ72vpL0jta2HkW+wSy9L8QZp+AM89NVYjDCEPfKxuOgXbWR
+         MFTA0X+ZNrNhncGYRiHKBN3+S/2eX9R1cRjcZXyWApVKjvBHgPT6ncKnj4v60MlKNmNb
+         MmdxRbEpJ5U1LqXev7r7ZZ63OkNJ0NTvkIhAaAq018579PQwXh0DQxZBA5MVG77h6KDH
+         /U9iXvpZpewSlXAQcU0U43CGWNXmgHVauYK9eJ3hsHon0+g2CBOcPCs/5cKLleZsjpim
+         7USw==
+X-Forwarded-Encrypted: i=1; AL+hErF9YLzmiRCBW6TxJhUWoXz5umaUXm5GpHhyveC+FQ6ZF4jLwN8INgq0x3Gtul2d+JewEkjlG1WC6IM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8eU24l+ZE5VajK0DrhXLfv4SnXrv/GF4FnciNAIzFVp9a730np
+	MBgJybpNO3r+NpL9vevgFc6ihe22H7AGYPH5pUioJ5et7JwBqnbf2GgJ
+X-Gm-Gg: AYBFou22n4i9ZXpp4p2aQtWAizOyRv0CYRRGGDiN2lY79Lw2tEZf2+PNEHS9WCevwHB
+	d4UJ2zv18aPEuXePhT68sm4zR4x4g2Ep+bYJlUneaTYT7efjWBFH/edCUjUQUrng4Bwew3yunoU
+	FpBuWG44yQvMTTC2kXgMVlyXNG9mCtYuV38y5FCW+1+jhpi6n0PTsxli+oaDhsUR/Jvq5VS+XR3
+	fWHyyxsB4vxBkf1lBUt0i3xenlUgUlXAn+p/cAn/vCs72V88PxvK7mK7vLiVgJMkcUgLVSIDRK1
+	fObjOkPL2rXGCsZGkj2xjIgFyG+JgpSkagUHNXWA8mbWsaq/PKNEkJ03bF49D7ZETNpGpUh3cpl
+	X8n6/yHC71M4/5Hzwj101eNsyMD7G4DwxrsS26lDHNqgYiGHpbhMy1lbbtVSxuBuXeuxQ37vux2
+	QUMm1W67xJKM+ntl8oyHzbsIdBqgBEN2tQTd09+86EXK6UhQh4T96tSkDD2nmtuiUN+kcRSMNOv
+	FHPTH9HhcSJ1auIJcKyo5zld8azxLiijNlqGOZKJxsOWUlhrF+Z/eNtjkx+miq2dv6SzjIx2b+n
+	eAXmuSg6CabPf6JRZ2vY9Yfd75H/jGVmGYuv8qNK/jRmpLIMbKhOPMAEOhacm+J0dV2qPunjNDQ
+	+g3ZiBwGvmbXLzU52VfVICQc6riaDVl6xLoPpUjdA0bsN6p6Zr7Y=
+X-Received: by 2002:a05:600c:3e06:b0:4bb:6947:3e1d with SMTP id 5b1f17b1804b1-4bb6947426bmr119351755e9.20.1794846521012;
+        Mon, 16 Nov 2026 08:28:41 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2adf53sm412165885e9.15.2026.11.16.08.28.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 08:13:42 -0800 (PST)
+        Mon, 16 Nov 2026 08:28:39 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Date: Mon, 16 Nov 2026 16:28:32 +0000
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux@analog.com, devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>, 
+	Olivier Moysan <olivier.moysan@foss.st.com>, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 08/10] iio: frequency: ad9910: support iio backend
+Message-ID: <ika7dmfhhue7il5xgbgx434vjxdwj57dz6kebaossw32vym7nt@gmpxjkkqirgz>
+References: <20261103-ad9910-backend-support-v3-0-0e9224ddf7b7@analog.com>
+ <20261103-ad9910-backend-support-v3-8-0e9224ddf7b7@analog.com>
+ <auoRUS-tsK4X0KoU@ashevche-desk.local>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,74 +107,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 2/2] mm/mempolicy: limit shared policy ranges per inode
-From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Gregory Price (Meta)" <gourry@gourry.net>, 
- Hugh Dickins <hughd@google.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-In-Reply-To: <76fc4555-b458-491b-ba2c-ec030879dafe@kernel.org>
-References: <20261113-mempolicy_limit-v1-0-16688b2644dc@kernel.org>
- <20261113-mempolicy_limit-v1-2-16688b2644dc@kernel.org>
- <179467808112.482102.13365594235443107281.b4-reply@b4>
- <70740a32-92f5-4425-8676-68863f3e44c3@kernel.org>
- <179468794889.482102.14066028910704780583.b4-reply@b4>
- <76fc4555-b458-491b-ba2c-ec030879dafe@kernel.org>
-Date: Mon, 16 Nov 2026 11:13:41 -0500
-Message-Id: <179484562114.482102.7068121367282977254.b4-reply@b4>
-X-Mailer: b4 0.17-dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <auoRUS-tsK4X0KoU@ashevche-desk.local>
 
-On 2026-11-15 17:40 +0100, David Hildenbrand (Arm) wrote:
-> On 11/14/26 21:25, Gregory Price (Meta) wrote:
-> > On 2026-11-14 21:16 +0100, David Hildenbrand (Arm) wrote:
-> >> On 11/14/26 18:41, Gregory Price (Meta) wrote:
-> >>>
-> >>> Multi-task mappers were previously unlimited, but that seems like more
-> >>> of a nasty unintended corner case - not a real feature.
-> >>>
-> >>> A single process is already limited on the number of vmas/policies based
-> >>> on `max_map_count`, so it seems natural to just use max_map_count
-> >>> directly, but I took a brief look at some distros and most seem to
-> >>> ship a raised `max_map_count` (>1 million) by default).
-> >>>
-> >>> I tested that and even 1 million can cause a soft lockup.
-> >>>
-> >>> Not sure there's an easy solution here, we might have to rework the shm
-> >>> policy locks.
-> >>
-> >> Do you know a single valid use case that's not solved by patch #1 and would
-> >> trigger that many policies?
-> >>
-> >> Ai was not able to come up with anything for me.
+On 03/11/26 18:52, Andy Shevchenko wrote:
+> On Tue, Nov 03, 2026 at 11:53:04AM -0300, Rodrigo Alencar via B4 Relay wrote:
 > > 
-> > Just want to make sure the bases are covered.
+> > The AD9910 parallel data port allows modulation of the DDS core parameters
+> > at up to the PDCLK rate, which requires a high-speed data source. Add
+> > support for an optional IIO backend that provides such interface, with
+> > data streamed into the device through an output buffer.
 > > 
+> > The parallel port channels get scan indexes and scan types according to
+> > the data destination: 14-bit amplitude, 16-bit phase, 16-bit frequency,
+> > or the 8-bit amplitude and phase pair for polar modulation. As only one
+> > destination can be active at a time, this is enforced by the available
+> > scan masks. On buffer enable, the destination is configured in the
+> > backend and the parallel data port is enabled. The sampling_frequency
+> > attribute of the parallel port channels controls the backend data rate.
+> > 
+> > The backend is also notified about profile changes, as it may drive the
+> > PROFILE[2:0] pins, and the debugfs source attributes now consider the
+> > parallel data port when reporting which channel controls each DDS core
+> > parameter.
+
+...
+
+> > +static u32 ad9910_buffer_chan_idx(struct iio_dev *indio_dev)
+> > +{
+> > +	unsigned int scan_idx = find_first_bit(indio_dev->active_scan_mask,
+> > +					       iio_get_masklength(indio_dev));
 > 
-> Yes, and I'd be very happy to learn about use cases.
+> Split assignment.
 > 
-> Maybe we can let this stay in -next for a while before moving forward with this?
+> > +	return ad9910_scan_chan_idx[scan_idx];
 > 
+> Who guarantees the scan_idx to be in the boundaries?
 
-Seems reasonable, although just kind of delaying the inevitable.
-
-I suppose the mitigation for it causing issues is backporting an
-increase to the default size.
-
-Eh, if the concern here isn't a big deal, I'd just say ship it.
-
-Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+ad9910_available_scan_masks constraints the possible values here.
+will add a comment.
 
 -- 
-~Gregory
+Kind regards,
 
+Rodrigo Alencar
