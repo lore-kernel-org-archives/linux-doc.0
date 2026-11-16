@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794813269;
-	b=w5wo9tZgQkbxgmUAKVp6Kj/QofmC1OEUIx3/WKUdeTPYOeSg7fNMXRVMHXDyKDSKlqDr
-	 DNBhfXASEDTqeNh6LvKnvpj7kWooF+fIrTKDFi6PTmDGOPj2Xg3BsFzBXTUQ6/58T18q+
-	 +/z+M2OBm8IE9/gcfM8kV1B3yxd65uzIyB2bKZIr14BTFvY25/83c8OximPJLmTE/oAOD
-	 wwSVkTswoAqGxTgpf+8R0dJLqF5FNHWOak6vgUnhbs+EGho1u+l9scIrijxMA7bynXrsn
-	 KOVE6LOl+6fcS5MDPkF1bN5NvT5UYEGh5PeRoLOXCSyioqHV2t3l+o4I84Oajv8EQWw==
+	t=1794813280;
+	b=r3oM1E9ym2zH46MbGtSH0mh/lMIcQXxaxFIL4KiIeFFScw6Aj5fo01706AXCVeruY/Vu
+	 eZOlR0h6QIU4Rd3Mi+QQ30CRc9hd9LQ+Mel2zjRIvYzhyQJHTWoI0kyPeJ0+kDi7bJlAG
+	 n4pCHThva8kccUP8RpXvR2rUEhXxSfLeWKs94oZ08MwWMrA2m+dVZEys7/ti5HhTgAaI/
+	 qLO+ShxInnEqHjBBdJ9lWYNxIPOhAmvPSf0A90cdPjBevyaGeupzoQklhqSS4yUe9uwyI
+	 N5l7sJTOraNO5nRHYgnP/GXC2c9Ywa0K9fe7oX20GpyuaLcz5fBfJ7HRBt10dmU17Ww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794813269;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794813280;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=NxDYjHN9xu1rKZeQRn1aw7vmWeqj0c4dyaODRBVM0ig=;
-	b=vegg7kk4ZoooAMjD/qFtRE4LHV4GdwybbAG+sJmeQZ5pd7/vUaccithwprChbt3x7GKz
-	 TreDvut/ASaQWaDtUn8m33Z2AnaEGEB0znpsb0fK/v9bPomaVumm1k7aq1v3RjNEOb2Ho
-	 3qiUpVN2Ij2ndHG7dJgl8glozvc4lE/hWm6i9I/vzJfT10qKbaw4qAB67l2A6rzx4/jlB
-	 jMzd8ACRn3FkIm/xVoE6K1AqCYvfsAju/akTES7kqdT+35t80RXiGxaVKlEw0YdoPkGoi
-	 HvxRVyykLX7m4m+RtNfZdNGVsBMYg8/r/zr8o4bSkc86P5sIUjZJq/NUxMTn6spxinw==
+	bh=PPim49+jVa+ImXCDNPx+5pLKoiv5ZpP/doxdTQ1/jfk=;
+	b=xIYXPDLkWuYSRgH6XMPUwJMGMU7/DiZl99/NviGJ4ELG/Ex3HTMt7LVDtKoGucOvobQ1
+	 fViHHTNkKL441lyePp8IK39+4fl4BsaXlKduM/GLSNUawD5db9WJ4WuySEdA6pTC2GE59
+	 1TXOTwBQDNha4bEP3O1e+z2HYpE1lnYIuoA8bXMrdWC00lANnYsiKxH1Iw3fo4tY5awds
+	 XguYTS6A6BAmzyZo7eGzg+naB5zWNGSKXjdOLAtsN7RkWop2Kjn83cdbBMDFNOLHlKNLM
+	 mQlpbK/c+4TDGMD8zy7HK0llIs7MGiU08vT4Jcn03qP3jQMaN1JUZgFVQoeUiUu2c9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bytedance.com;
 	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b="flY3h/9g";
-	arc=none smtp.remote-ip=74.125.82.170
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=Kk0adAHL;
+	arc=none smtp.remote-ip=74.125.82.171
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD4C606A332
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 07:14:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DD4C606A332
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62E3606A33F
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 07:14:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B62E3606A33F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=flY3h/9g
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-3791619605cso6042023eec.0
-        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 23:14:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=Kk0adAHL
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-36e99cf7bb3so4046571eec.0
+        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 23:14:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1794813268; x=1795418068; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1794813279; x=1795418079; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=NxDYjHN9xu1rKZeQRn1aw7vmWeqj0c4dyaODRBVM0ig=;
-        b=flY3h/9gbz3jeBAPlZN9xHp510ADVkhw6kZnMPbmfpCnewDRkATQ0avt4sv1c4a3rL
-         ezjwpKxMu5ur1EgT9/I3t4vkbzpCm9rtjvlOb3KlGsw/Fla/JXImJOZ8BvllHQ3uq9Qj
-         LhIi2MLuX2KS00+6GAgT/gPvbOBWtdfJpdt26Cbn9zRQ2olzbgCUklktC/DkkaanAeLI
-         QIX9xfe9uYFpFDc9RJcuJAoQcKNWC2iAnoRwnZT2++nUneWgWfXDyR06tps3KT6/Kflj
-         DTEG/ZIyQjktn5bR9WuayMR0lRPN9GSXiW5MDoec+EOnnyHWfKqa33xruqytsPfC+Pxn
-         ftcQ==
+        bh=PPim49+jVa+ImXCDNPx+5pLKoiv5ZpP/doxdTQ1/jfk=;
+        b=Kk0adAHLO2UBm3+iTCPu6Q+dxKMnuA6qxn+oy6eSxxgSK/yM23T4rf1F789nJd9oKa
+         QUyBZCRrFGYaDkiIUmnLaoSxlj9sihXLtT0XpZdeI/7abNzAMsZg6PpU11lwCY/1Dw5A
+         TsiINNUO/si7uc81tlqhG+/WThVH/uiLbPyNUhkydK9uVEkfXHcyG9aS5BIDsWGMqylD
+         3ErgS7HREgRToyASQNCbriVeIaO0JCrCUsDo8M28lp+o4bmhv8hNa3mklcfKwlK1q5Sd
+         MXy5mgfEuTojr0barcyH+WpEN9UJjlSdg8seOwrrK34E93UF45tu/3jNhCXjIHWl9sGI
+         XkjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794813268; x=1795418068;
+        d=1e100.net; s=20260707; t=1794813279; x=1795418079;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NxDYjHN9xu1rKZeQRn1aw7vmWeqj0c4dyaODRBVM0ig=;
-        b=nyOhEWlQSkAcGEAjgaz7eK0TrWY4jSzzAgdkfJ+LdUcsLcIV1A+d86U/pDqVH1doc/
-         YsJvCcUnc+bVzPCLx9OwX9km/jUjQCCus8I1NH1MNsZR3ib80SDGQBo1BiwVsQvn6ZdY
-         t0h695Z+kOvMlugkLMQxoLUyS5EpWgfg8OHARJmMEJ5L/a9uYwfFYcQE/7RwxSrNUIHe
-         evSsUpJLghiBlCMmw3fuAjn3zOu46wRy+V2HHBpFrsUmzcWy3ynk24/sS4Vyc5uEWf90
-         qgr3PECZGVbYzcEmLXGLYo6sqprHLDk6cp3tdHWpq+Qw3JttCVQLWk+nVErewGPEBq0v
-         sNcA==
-X-Forwarded-Encrypted: i=1; AL+hErH7W+/eJ92mAe9XSP+DYREMVY4QTnJ0dE0PtdySnP6vqlv4oyvoGMti0VLto4//LiLH2z8HKVEYaDU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/+UNfqUO3MQ6/kPMXSg6ixXH7xudr4bWoZw3g1SiaOi1kregsh
-	r0fF6ZVpOFAOIwUCyrTWL+7lBhnsKgSmGW7PdjUv5Zqx4zjciZS82vL0jjCxoXGDytQ=
-X-Gm-Gg: AYBFou0Akg0ej8/zskGt/EE3yTJwq7N8ihmHVZYy5xcvh4Y7P/XdQ7YlIfgqyS66+AR
-	aH2AispQ36R/846JMTd7EzglKRD322fFoiHZVHgL0ht60mjLWuFjM3ihWI3YO2T0nl2cAJ3NWdf
-	vb3J0Z/WkWQKiLNY8ebVKjz39zZRBo8VdVaGwBs8ISLx8FToAns937jkCehgxMqhL83gYkz0o+O
-	Y1FNWY6DicfGIjc1klpShdenjcAqMSkzOV2SgqulV78OGsJ/XDGXJIR37u4kTX3GxDiGqTt5E6U
-	EAKA/u63iMxBIGZ+tOj+Gp7txADFeWOaop7ltKHWxpYyUz8Y0yf9ltUgM3ar/Y3mFjiEIY4H0Ku
-	0QsfHpUJv0iqc0KyVjcJMG7WELD2qG3shtrCjaOq5hccGVPsVw6WpJv4luCq+z5/XWHHZXs7QQb
-	xn+PW5Ctt9PjYOc0QgQChoVFxVUFgYFhm7JKTCXHa2rKRWBmaYU/hwCImHTdk8Hz0Yn+tcFxClV
-	h2ezKytBsWY7aLeid3VjNRupk3etzSiqdx5zZ9r5BCfISc0jG2VVtO5PbVshsA+ezWzeH8uNhsg
-	/kk4Xw73bSUsdJMFhAmZnIBlIwK4r022ZF92C23fXqzUSVxZ0wdHPH3zaY5knKCuQmTGQQSivBA
-	goxE9hg==
-X-Received: by 2002:a05:693c:6219:b0:377:1ad4:1947 with SMTP id 5a478bee46e88-379659c685dmr8592620eec.6.1794813268238;
-        Sun, 15 Nov 2026 23:14:28 -0800 (PST)
+        bh=PPim49+jVa+ImXCDNPx+5pLKoiv5ZpP/doxdTQ1/jfk=;
+        b=MTRc+0Ayw5BRTHbfSzyDQovkgeA9NMyqPbMigEUhiE5vdQMdQn6i5pbBMJnLCrpV7N
+         iA82agYgZ2s6t2UR5CUdNtkBoh5JVU9XcaiwRb8v2+q1ghZcuvyv99WhWu+YUgJFk3hQ
+         M2591lBEnQtOcxn4Vjx7nAbImnk2O7VuuQV2WTrkFdHnj6MdbGKmWnGjsVaUX4d+kiMa
+         fpjFlh88qMb9pQFPyJmUB5A3gIaGmYhgPGDu2MbbuSk8/pZsQ8hz6IW/JO6Mff6f69r4
+         uU8+EZD4SjIeTKDBgKQtJRG5i/aea+PRIwYryUw60ka9L1AseMzhMjyBXbnKnIyBobet
+         AgJA==
+X-Forwarded-Encrypted: i=1; AL+hErGp9JZodJm8XssPrx1+DuJCcPnUHAZoNOhszdt7SEfT+M4N7N+VMvZM1Haosw1tqldfzzyAv8RbuOg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+QyYuIsoD26W0gyaT/vi/9VWxa0mdwKE7eK7n9c9cmiEchm3pA
+	XMfTpfuI5FY3R6jCeXOegeSHt9CgYHcVut6mxyE7bR/rUCXSPy/qRP1tmmx8RIXFQ0k=
+X-Gm-Gg: AYBFou3//dputpRzyAHSc3ma8t7QFunYiZSCh4tfGYCh9+gbRzvP4LUPAeJOV2gSOGj
+	98hQzo4CNmeK/y8+lJNKZPYCz0pWtSlRW4wfzd5QQWjXWR4HQTzzAURSEe5aiT8sFvumMF8KLTt
+	HBfFk4A1a4ZQty8zF7EO960skdW8eyxLLnOn744RsJn/NVdR6mJpFR0+FLg5HpVUQJiKAYCMvAq
+	kRyQcq2DdpT2voEAbaMunhb752u6Sq112cwGrE+0s8fWOsaMEEcMNjft9wFRZc7KO0M85Vz+Oao
+	cjCy5jttnFOOfB4sgaAdR6X050w34z9Bl56R0YLzqgbuJI+0zqbcZRyvmzNAVqQOBIGv1ffhmWh
+	/nFYxY9dhZ4374Mmm+YyoKhxssd6Q5u3pVq8yHLL//5cqzgDfsjtHAMQMu0OtLo1m+Swbq16/nL
+	XiUrFwaoE8dOfdO/L0I5n5e4qJYItBzthB1lEiF5Gl9aRy133INsSAzGz3xDOlDmZDjgi8p58tQ
+	FYgNk2JtXf+Ba37ZGk0KNSqOM14Xbmd6ixKfIg8/dGjlJVFdeiVI6k9U3P/PQT4gd5EAGqWl2Zq
+	lZ4lC1Ir2KF8fQA6FdHdil7wYdQL8E5CFLyMNSZVtbpsyCmKxrbzyKqk48AT9XaMfSbDQQnsEOb
+	qB1gX8A==
+X-Received: by 2002:a05:693c:414e:20b0:36c:49a7:86ac with SMTP id 5a478bee46e88-37968b8ee68mr10638311eec.37.1794813278638;
+        Sun, 15 Nov 2026 23:14:38 -0800 (PST)
 Received: from FJ7FR2JRQ3.bytedance.net ([63.216.146.178])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37955332ae7sm47858505eec.8.2026.11.15.23.14.18
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37955332ae7sm47858505eec.8.2026.11.15.23.14.28
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 15 Nov 2026 23:14:27 -0800 (PST)
+        Sun, 15 Nov 2026 23:14:38 -0800 (PST)
 From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
 To: joro@8bytes.org,
 	palmer@dabbelt.com,
@@ -110,9 +110,9 @@ Cc: fustini@kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	x86@kernel.org
-Subject: [RFC PATCH v2 3/4] iommu/riscv: Expose global QoS IDs in sysfs
-Date: Mon, 16 Nov 2026 15:13:42 +0800
-Message-ID: <20261116071338.35991-9-zhangzhanpeng.jasper@bytedance.com>
+Subject: [RFC PATCH v2 4/4] selftests/resctrl: Exercise device assignment and IOMMU global IDs
+Date: Mon, 16 Nov 2026 15:13:43 +0800
+Message-ID: <20261116071338.35991-10-zhangzhanpeng.jasper@bytedance.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20261116071338.35991-6-zhangzhanpeng.jasper@bytedance.com>
 References: <20261116071338.35991-6-zhangzhanpeng.jasper@bytedance.com>
@@ -127,254 +127,442 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Expose the per-IOMMU global RCID and MCID as separate attributes in the
-IOMMU class device's qosid group. These IDs label IOMMU-originated
-directory and queue accesses, and device requests in DDTP BARE mode.
+Add opt-in tests with an explicitly selected disposable device or IOMMU.
+Cover assignment, moves, idempotence, malformed tokens, occupied-group
+removal, global register readback and restoration. Include monitor-group
+checks only when explicitly requested on a monitoring-capable dependency.
 
-Initialize the global IDs to zero before enabling translation. Preserve
-the other field and reserved bits on each write, serialize updates, and
-reject values that the WARL fields do not retain. Keep this interface
-independent of resctrl device assignment and available without resctrl.
+Check that a task and a registered device can share a control group with
+a non-default cache mask while leaving the default group's policy intact.
 
-Document the attributes and add a maintainer entry for the new ABI and
-device-assignment files.
+Document the assignment interface and how to run both selftests. These
+tests do not verify downstream traffic tags or resource isolation.
+
+The shell selftests were largely drafted with a large language model
+(LLM) using the test scenarios and expected results as input.
 
 Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
 ---
- .../ABI/testing/sysfs-class-iommu-riscv-iommu |  27 ++++
- MAINTAINERS                                   |   7 +
- drivers/iommu/riscv/iommu.c                   | 135 +++++++++++++++++-
- 3 files changed, 164 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-class-iommu-riscv-iommu
+ .../filesystems/resctrl-devices-prototype.rst |  43 ++++
+ MAINTAINERS                                   |   1 +
+ tools/testing/selftests/resctrl/Makefile      |   2 +
+ tools/testing/selftests/resctrl/devices.sh    | 205 ++++++++++++++++++
+ .../testing/selftests/resctrl/iommu_qosid.sh  | 119 ++++++++++
+ 5 files changed, 370 insertions(+)
+ create mode 100644 Documentation/filesystems/resctrl-devices-prototype.rst
+ create mode 100755 tools/testing/selftests/resctrl/devices.sh
+ create mode 100755 tools/testing/selftests/resctrl/iommu_qosid.sh
 
-diff --git a/Documentation/ABI/testing/sysfs-class-iommu-riscv-iommu b/Documentation/ABI/testing/sysfs-class-iommu-riscv-iommu
+diff --git a/Documentation/filesystems/resctrl-devices-prototype.rst b/Documentation/filesystems/resctrl-devices-prototype.rst
 new file mode 100644
-index 000000000000..4658cbcd625b
+index 000000000000..7e6eedb9bf79
 --- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-class-iommu-riscv-iommu
-@@ -0,0 +1,27 @@
-+What:		/sys/class/iommu/<iommu>/qosid/rcid
-+What:		/sys/class/iommu/<iommu>/qosid/mcid
-+Date:		October 2026
-+Contact:	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-+Description:
-+		The global default QoS IDs for a RISC-V IOMMU. These files
-+		are present only when the IOMMU reports the QOSID capability.
-+		Reading rcid or mcid returns the corresponding iommu_qosid
-+		register field as a decimal number followed by a newline.
++++ b/Documentation/filesystems/resctrl-devices-prototype.rst
+@@ -0,0 +1,43 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+		Writing a decimal number updates only the corresponding
-+		field, preserving the other ID and reserved/WPRI bits. The
-+		two writes are independent, not an atomic pair update.
-+		Malformed input fails with EINVAL. Values outside
-+		the 12-bit field range fail with ERANGE. If WARL readback
-+		does not retain a value, the old register value is restored
-+		and the write fails with ERANGE. Initialization sets both
-+		IDs to zero.
++Registered resctrl devices (prototype)
++=====================================
 +
-+		These IDs tag IOMMU-originated DDT, CQ, FQ, PQ and MSI
-+		accesses. In DDTP BARE mode they also tag device-originated
-+		requests. In translated modes, device-specific requests
-+		instead use the device context's QoS IDs.
++Write one registered ``<bus>/<device-name>`` token to a group's
++``devices`` file to move the device there. Reading the file lists that
++group's devices; the root file lists only the default group.
++``tasks`` is unchanged.
 +
-+		This interface does not allocate resctrl IDs or configure
-+		downstream resource controllers. The administrator must
-+		choose IDs appropriate for the platform's QoS policy.
++Run as root, using a test device listed in the default group::
++
++    mount -t resctrl resctrl /sys/fs/resctrl
++    cat /sys/fs/resctrl/devices
++    mkdir /sys/fs/resctrl/p1
++    echo pci/0000:00:03.0 > /sys/fs/resctrl/p1/devices
++    echo pci/0000:00:03.0 > /sys/fs/resctrl/devices
++    rmdir /sys/fs/resctrl/p1
++
++Return devices to the default group before removing their group.
++``devices`` appears only if a device was registered at mount time.
++The RISC-V IOMMU driver does not register devices with shared contexts
++for independent assignment.
++
++Selftests
++---------
++
++Use an explicitly selected disposable device in the default group::
++
++    RESCTRL_DEVICE=pci/0000:00:03.0 sh tools/testing/selftests/resctrl/devices.sh
++
++This covers device moves, invalid writes, group removal and task/device
++co-assignment with a non-default cache mask. Set ``RESCTRL_TEST_MONITOR=1``
++only with a monitoring-capable dependency.
++
++For the separate global-ID test, substitute the test IOMMU's name::
++
++    IOMMU_QOSID_DIR='/sys/class/iommu/<iommu>/qosid' \
++        sh tools/testing/selftests/resctrl/iommu_qosid.sh
++
++The global-ID test restores the original values. Each test ID defaults
++to 1; override ``IOMMU_QOSID_RCID`` and ``IOMMU_QOSID_MCID`` if needed.
++Neither test measures traffic tags or resource isolation.
 diff --git a/MAINTAINERS b/MAINTAINERS
-index df051086b5dd..e14fddd07882 100644
+index e14fddd07882..eef4695d089a 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -24072,6 +24072,13 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git
- F:	Documentation/devicetree/bindings/iommu/riscv,iommu.yaml
- F:	drivers/iommu/riscv/
+@@ -23466,6 +23466,7 @@ R:	Babu Moger <babu.moger@amd.com>
+ L:	linux-kernel@vger.kernel.org
+ S:	Supported
+ P:	Documentation/process/maintainer-tip.rst
++F:	Documentation/filesystems/resctrl-devices-prototype.rst
+ F:	Documentation/filesystems/resctrl.rst
+ F:	arch/x86/include/asm/resctrl.h
+ F:	arch/x86/kernel/cpu/resctrl/
+diff --git a/tools/testing/selftests/resctrl/Makefile b/tools/testing/selftests/resctrl/Makefile
+index 984534cfbf1b..73646aec1284 100644
+--- a/tools/testing/selftests/resctrl/Makefile
++++ b/tools/testing/selftests/resctrl/Makefile
+@@ -4,6 +4,8 @@ CFLAGS = -g -Wall -O2 -D_FORTIFY_SOURCE=2
+ CFLAGS += $(KHDR_INCLUDES)
  
-+RISC-V IOMMU QoS
-+M:	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-+L:	iommu@lists.linux.dev
-+L:	linux-riscv@lists.infradead.org
-+S:	Maintained
-+F:	Documentation/ABI/testing/sysfs-class-iommu-riscv-iommu
+ TEST_GEN_PROGS := resctrl_tests
++TEST_PROGS += devices.sh
++TEST_PROGS += iommu_qosid.sh
+ 
+ LOCAL_HDRS += $(wildcard *.h)
+ 
+diff --git a/tools/testing/selftests/resctrl/devices.sh b/tools/testing/selftests/resctrl/devices.sh
+new file mode 100755
+index 000000000000..12176d6a3779
+--- /dev/null
++++ b/tools/testing/selftests/resctrl/devices.sh
+@@ -0,0 +1,205 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++# Explicitly select a disposable device; never choose a storage device for you.
 +
- RISC-V MICROCHIP SUPPORT
- M:	Conor Dooley <conor.dooley@microchip.com>
- R:	Valentina Fernandez <valentina.fernandezalanis@microchip.com>
-diff --git a/drivers/iommu/riscv/iommu.c b/drivers/iommu/riscv/iommu.c
-index dd2ebb25312d..b1b069bb2ad8 100644
---- a/drivers/iommu/riscv/iommu.c
-+++ b/drivers/iommu/riscv/iommu.c
-@@ -23,6 +23,7 @@
- #include <linux/kernel.h>
- #include <linux/pci.h>
- #include <linux/resctrl_device.h>
-+#include <linux/string.h>
- #include <linux/generic_pt/iommu.h>
- 
- #include "../iommu-pages.h"
-@@ -1777,9 +1778,124 @@ static void riscv_iommu_probe_qosid_limits(struct riscv_iommu_device *iommu)
- 	dev_warn(iommu->dev, "QoS ID limits unavailable; device QoS disabled\n");
- }
- 
-+static int riscv_iommu_update_qosid(struct riscv_iommu_device *iommu,
-+				    u32 mask, u32 value)
++root=${RESCTRL_MOUNT:-/sys/fs/resctrl}
++token=${RESCTRL_DEVICE:-}
++count=0
++failed=0
++g1="$root/device-test-$$-a"
++g2="$root/device-test-$$-b"
++mon="$g2/mon_groups/device-test-$$"
++test_pid=
++
++echo 'TAP version 13'
++skip()
 +{
-+	u32 old_qosid, qosid;
-+	int ret = 0;
++	echo "1..0 # SKIP $*"
++	exit 4
++}
++[ "$(id -u)" = 0 ] || skip 'root required'
++[ -n "$token" ] || skip 'set RESCTRL_DEVICE=bus/name for a test device'
++[ -f "$root/devices" ] || skip 'no registered resctrl device interface'
++grep -Fxq "$token" "$root/devices" || skip 'device is not in the default group'
 +
-+	mutex_lock(&iommu->qosid_lock);
-+	old_qosid = riscv_iommu_readl(iommu, RISCV_IOMMU_REG_IOMMU_QOSID);
-+	qosid = (old_qosid & ~mask) | value;
-+	riscv_iommu_writel(iommu, RISCV_IOMMU_REG_IOMMU_QOSID, qosid);
-+
-+	/* Reject values that the WARL fields do not retain. */
-+	qosid = riscv_iommu_readl(iommu, RISCV_IOMMU_REG_IOMMU_QOSID);
-+	if ((qosid & mask) != value) {
-+		riscv_iommu_writel(iommu, RISCV_IOMMU_REG_IOMMU_QOSID,
-+				   old_qosid);
-+		riscv_iommu_readl(iommu, RISCV_IOMMU_REG_IOMMU_QOSID);
-+		ret = -ERANGE;
-+	}
-+	mutex_unlock(&iommu->qosid_lock);
-+	return ret;
++stop_test_task()
++{
++	[ -n "$test_pid" ] || return 0
++	kill "$test_pid" 2>/dev/null || :
++	wait "$test_pid" 2>/dev/null || :
++	test_pid=
 +}
 +
-+static ssize_t riscv_iommu_qosid_show(struct device *dev, char *buf, bool rcid)
++cleanup()
 +{
-+	struct iommu_device *idev = dev_to_iommu_device(dev);
-+	struct riscv_iommu_device *iommu;
-+	u32 qosid;
-+
-+	if (!idev)
-+		return -ENODEV;
-+	iommu = container_of(idev, struct riscv_iommu_device, iommu);
-+	mutex_lock(&iommu->qosid_lock);
-+	qosid = riscv_iommu_readl(iommu, RISCV_IOMMU_REG_IOMMU_QOSID);
-+	mutex_unlock(&iommu->qosid_lock);
-+	return sysfs_emit(buf, "%u\n", rcid ?
-+			 (u32)FIELD_GET(RISCV_IOMMU_IOMMU_QOSID_RCID, qosid) :
-+			 (u32)FIELD_GET(RISCV_IOMMU_IOMMU_QOSID_MCID, qosid));
++	stop_test_task
++	if ! echo "$token" > "$root/devices"; then
++		echo '# ERROR: cannot restore device to default group' >&2
++		failed=1
++		return
++	fi
++	rmdir "$mon" "$g1" "$g2" 2>/dev/null || :
 +}
 +
-+static ssize_t riscv_iommu_qosid_store(struct device *dev, const char *buf,
-+				       size_t count, bool rcid)
++finish()
 +{
-+	struct iommu_device *idev = dev_to_iommu_device(dev);
-+	struct riscv_iommu_device *iommu;
-+	u32 mask, value;
-+	int ret;
++	ret=$?
++	trap - EXIT HUP INT TERM
++	cleanup
++	echo "1..$count"
++	[ "$ret" = 0 ] || failed=1
++	exit "$failed"
++}
++trap finish EXIT
++trap 'exit 1' HUP INT TERM
 +
-+	if (!idev)
-+		return -ENODEV;
-+	if (memchr(buf, '\0', count))
-+		return -EINVAL;
-+	ret = kstrtou32(buf, 10, &value);
-+	if (ret)
-+		return ret;
-+	if (rcid) {
-+		if (value > FIELD_MAX(RISCV_IOMMU_IOMMU_QOSID_RCID))
-+			return -ERANGE;
-+		mask = RISCV_IOMMU_IOMMU_QOSID_RCID;
-+		value = FIELD_PREP(RISCV_IOMMU_IOMMU_QOSID_RCID, value);
-+	} else {
-+		if (value > FIELD_MAX(RISCV_IOMMU_IOMMU_QOSID_MCID))
-+			return -ERANGE;
-+		mask = RISCV_IOMMU_IOMMU_QOSID_MCID;
-+		value = FIELD_PREP(RISCV_IOMMU_IOMMU_QOSID_MCID, value);
-+	}
-+
-+	iommu = container_of(idev, struct riscv_iommu_device, iommu);
-+	ret = riscv_iommu_update_qosid(iommu, mask, value);
-+	return ret ? ret : count;
++check()
++{
++	name=$1
++	shift
++	count=$((count + 1))
++	if "$@"; then
++		echo "ok $count - $name"
++	else
++		echo "not ok $count - $name"
++		failed=1
++	fi
++}
++move()
++{
++	echo "$token" > "$1/devices" &&
++		grep -Fxq "$token" "$1/devices"
++}
++reject()
++{
++	if echo "$1" > "$g1/devices" 2>/dev/null; then
++		return 1
++	fi
++	grep -Fxq "$token" "$g2/devices"
++}
++nul()
++{
++	if printf '%s\000ignored\n' "$token" > "$g1/devices" 2>/dev/null; then
++		return 1
++	fi
++	grep -Fxq "$token" "$g2/devices"
++}
++busy()
++{
++	! rmdir "$g2" 2>/dev/null && [ -d "$g2" ]
++}
++busy_mon()
++{
++	! rmdir "$mon" 2>/dev/null && [ -d "$mon" ]
++}
++mode_busy()
++{
++	if echo exclusive > "$g2/mode" 2>/dev/null; then
++		return 1
++	fi
++	# Inspect the reason before another group read clears last_cmd_status.
++	grep -Fq 'Move assigned devices' "$root/info/last_cmd_status" &&
++		[ "$(cat "$g2/mode")" = shareable ]
++}
++empty()
++{
++	contents=$(cat "$1") || return 1
++	[ -z "$contents" ]
 +}
 +
-+static ssize_t rcid_show(struct device *dev, struct device_attribute *attr,
-+			 char *buf)
++cache_entry()
 +{
-+	return riscv_iommu_qosid_show(dev, buf, true);
++	awk -F '[:=;]' -v res="$resource" '
++		$1 ~ ("^[[:space:]]*" res "$") && NF >= 3 {
++			print $2 "=" $3
++			exit
++		}' "$g1/schemata"
 +}
 +
-+static ssize_t rcid_store(struct device *dev, struct device_attribute *attr,
-+			  const char *buf, size_t count)
++find_cache_mask()
 +{
-+	return riscv_iommu_qosid_store(dev, buf, count, true);
-+}
-+static DEVICE_ATTR_RW(rcid);
++	for resource in L3 L2; do
++		full=$(cat "$root/info/$resource/cbm_mask" 2>/dev/null) || continue
++		min=$(cat "$root/info/$resource/min_cbm_bits") || continue
++		initial=$(cache_entry)
++		[ -n "$initial" ] || continue
 +
-+static ssize_t mcid_show(struct device *dev, struct device_attribute *attr,
-+			 char *buf)
++		# Use a contiguous subset distinct from the new group's initial mask.
++		mask=$((0x$full >> 1))
++		[ "$mask" -gt 0 ] &&
++			[ "$((mask & (mask + 1)))" -eq 0 ] &&
++			[ "$((mask & 0x$full))" -eq "$mask" ] &&
++			[ "$mask" -ge "$(((1 << min) - 1))" ] &&
++			[ "$mask" -ne "$((0x${initial#*=}))" ] || continue
++		cache_setting=$(printf '%s=%x' "${initial%=*}" "$mask")
++		return 0
++	done
++	return 1
++}
++
++task_and_device()
 +{
-+	return riscv_iommu_qosid_show(dev, buf, false);
++	default_schema=$(cat "$root/schemata") || return 1
++	echo "$resource:$cache_setting" > "$g1/schemata" || return 1
++	sleep 60 &
++	test_pid=$!
++	result=1
++	if echo "$test_pid" > "$g1/tasks" &&
++	   grep -Fxq "$test_pid" "$g1/tasks" &&
++	   grep -Fxq "$token" "$root/devices" &&
++	   move "$g1" &&
++	   ! grep -Fxq "$token" "$root/devices" &&
++	   grep -Fxq "$test_pid" "$g1/tasks" &&
++	   [ "$(cache_entry)" = "$cache_setting" ] &&
++	   [ "$(cat "$root/schemata")" = "$default_schema" ]; then
++		echo "# PID $test_pid and $token share $resource:$cache_setting"
++		result=0
++	fi
++	stop_test_task
++	move "$root" && [ "$result" -eq 0 ]
 +}
 +
-+static ssize_t mcid_store(struct device *dev, struct device_attribute *attr,
-+			  const char *buf, size_t count)
++check 'create first control group' mkdir "$g1"
++[ -d "$g1" ] || exit 1
++check 'create second control group' mkdir "$g2"
++[ -d "$g2" ] || exit 1
++if find_cache_mask; then
++	check 'task and device share a control group with a non-default cache mask' task_and_device
++else
++	count=$((count + 1))
++	echo "ok $count - task and device share a control group # SKIP no alternate cache mask"
++fi
++check 'assign device to a control group' move "$g1"
++check 'repeat the same assignment' move "$g1"
++check 'move device to another control group' move "$g2"
++check 'old group no longer lists device' empty "$g1/devices"
++check 'reject unknown device without moving the member' reject 'missing/device'
++check 'reject old IOMMU group token' reject 'iommu_group:0'
++check 'reject multiple tokens' reject "$token,$token"
++check 'reject empty token' reject ''
++check 'reject multiple lines' reject "$token
++$token"
++check 'reject embedded NUL without moving the member' nul
++check 'reject removing a group with devices' busy
++check 'reject exclusive mode with devices before testing cache masks' mode_busy
++
++# Monitoring requires a real monitoring-capable dependency, not fabricated RMIDs.
++if [ "${RESCTRL_TEST_MONITOR:-0}" = 1 ]; then
++	check 'create monitor group' mkdir "$mon"
++	if [ -d "$mon" ]; then
++		check 'assign device to monitor group' move "$mon"
++		check 'control group no longer lists monitored device' empty "$g2/devices"
++		check 'reject removing monitor group with device' busy_mon
++		check 'reject removing parent with monitored device' busy
++		check 'reject exclusive parent with monitored device' mode_busy
++		check 'restore device to control group' move "$g2"
++		check 'remove empty monitor group' rmdir "$mon"
++	fi
++else
++	count=$((count + 1))
++	echo "ok $count - monitor-group assignment # SKIP set RESCTRL_TEST_MONITOR=1"
++fi
++check 'move back to default group' move "$root"
++check 'remove empty first group' rmdir "$g1"
++check 'remove empty second group' rmdir "$g2"
++exit "$failed"
+diff --git a/tools/testing/selftests/resctrl/iommu_qosid.sh b/tools/testing/selftests/resctrl/iommu_qosid.sh
+new file mode 100755
+index 000000000000..b10f89721dc2
+--- /dev/null
++++ b/tools/testing/selftests/resctrl/iommu_qosid.sh
+@@ -0,0 +1,119 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++# Opt in: global IDs affect IOMMU traffic, not just a disposable endpoint.
++
++dir=${IOMMU_QOSID_DIR:-}
++rcid=${IOMMU_QOSID_RCID:-1}
++mcid=${IOMMU_QOSID_MCID:-1}
++count=0
++failed=0
++
++echo 'TAP version 13'
++skip()
 +{
-+	return riscv_iommu_qosid_store(dev, buf, count, false);
++	echo "1..0 # SKIP $*"
++	exit 4
 +}
-+static DEVICE_ATTR_RW(mcid);
++[ "$(id -u)" = 0 ] || skip 'root required'
++[ -n "$dir" ] || skip 'set IOMMU_QOSID_DIR for a test IOMMU'
++for field in rcid mcid; do
++	[ -r "$dir/$field" ] && [ -w "$dir/$field" ] ||
++		skip 'qosid interface unavailable'
++done
++case "$rcid:$mcid" in
++	*[!0-9:]* | :* | *:) skip 'select decimal test IDs supported by the IOMMU' ;;
++	0* | *:0*) skip 'select nonzero IDs without leading zeros' ;;
++esac
++[ "$rcid" -gt 0 ] && [ "$rcid" -le 4095 ] &&
++	[ "$mcid" -gt 0 ] && [ "$mcid" -le 4095 ] ||
++	skip 'select nonzero 12-bit test IDs supported by the IOMMU'
++original_rcid=$(cat "$dir/rcid") || exit 1
++original_mcid=$(cat "$dir/mcid") || exit 1
 +
-+static struct attribute *riscv_iommu_attrs[] = {
-+	&dev_attr_rcid.attr,
-+	&dev_attr_mcid.attr,
-+	NULL,
-+};
++snapshot()
++{
++	current_rcid=$(cat "$dir/rcid") || return 1
++	current_mcid=$(cat "$dir/mcid") || return 1
++	printf '%s:%s\n' "$current_rcid" "$current_mcid"
++}
++restore()
++{
++	restored=0
++	echo "$original_rcid" > "$dir/rcid" || restored=1
++	echo "$original_mcid" > "$dir/mcid" || restored=1
++	[ "$(snapshot)" = "$original_rcid:$original_mcid" ] || restored=1
++	return "$restored"
++}
 +
-+static const struct attribute_group riscv_iommu_group = {
-+	.name = "qosid",
-+	.attrs = riscv_iommu_attrs,
-+};
++finish()
++{
++	ret=$?
++	trap - EXIT HUP INT TERM
++	if ! restore; then
++		echo '# ERROR: failed to restore global QoS IDs' >&2
++		failed=1
++	fi
++	echo "1..$count"
++	[ "$ret" = 0 ] || failed=1
++	exit "$failed"
++}
++trap finish EXIT
++trap 'exit 1' HUP INT TERM
 +
-+static const struct attribute_group *riscv_iommu_groups[] = {
-+	&riscv_iommu_group,
-+	NULL,
-+};
++check()
++{
++	name=$1
++	shift
++	count=$((count + 1))
++	if "$@"; then
++		echo "ok $count - $name"
++	else
++		echo "not ok $count - $name"
++		failed=1
++	fi
++}
++write_rcid()
++{
++	other=$(cat "$dir/mcid") || return 1
++	echo "$1" > "$dir/rcid" && [ "$(snapshot)" = "$1:$other" ]
++}
++write_mcid()
++{
++	other=$(cat "$dir/rcid") || return 1
++	echo "$1" > "$dir/mcid" && [ "$(snapshot)" = "$other:$1" ]
++}
++reject()
++{
++	before=$(snapshot) || return 1
++	if echo "$2" > "$dir/$1" 2>/dev/null; then
++		return 1
++	fi
++	[ "$(snapshot)" = "$before" ]
++}
++nul()
++{
++	before=$(snapshot) || return 1
++	if printf '0\000ignored\n' > "$dir/$1" 2>/dev/null; then
++		return 1
++	fi
++	[ "$(snapshot)" = "$before" ]
++}
 +
- static int riscv_iommu_init_check(struct riscv_iommu_device *iommu)
- {
- 	u64 ddtp;
-+	int ret;
- 
- 	/*
- 	 * Make sure the IOMMU is switched off or in pass-through mode during
-@@ -1810,9 +1926,15 @@ static int riscv_iommu_init_check(struct riscv_iommu_device *iommu)
- 			return -EINVAL;
- 	}
- 
--	if (IS_ENABLED(CONFIG_RISCV_CBQRI_RESCTRL_FS) &&
--	    (iommu->caps & RISCV_IOMMU_CAPABILITIES_QOSID))
--		riscv_iommu_probe_qosid_limits(iommu);
-+	if (iommu->caps & RISCV_IOMMU_CAPABILITIES_QOSID) {
-+		if (IS_ENABLED(CONFIG_RISCV_CBQRI_RESCTRL_FS))
-+			riscv_iommu_probe_qosid_limits(iommu);
-+		ret = riscv_iommu_update_qosid(iommu,
-+					       RISCV_IOMMU_IOMMU_QOSID_RCID |
-+					       RISCV_IOMMU_IOMMU_QOSID_MCID, 0);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	/*
- 	 * Distribute interrupt vectors, always use first vector for CIV.
-@@ -1847,6 +1969,7 @@ void riscv_iommu_remove(struct riscv_iommu_device *iommu)
- 
- int riscv_iommu_init(struct riscv_iommu_device *iommu)
- {
-+	const struct attribute_group **sysfs_groups = NULL;
- 	int rc;
- 
- 	RISCV_IOMMU_QUEUE_INIT(&iommu->cmdq, CQ);
-@@ -1887,8 +2010,10 @@ int riscv_iommu_init(struct riscv_iommu_device *iommu)
- 	if (rc)
- 		goto err_queue_disable;
- 
--	rc = iommu_device_sysfs_add(&iommu->iommu, NULL, NULL, "riscv-iommu@%s",
--				    dev_name(iommu->dev));
-+	if (iommu->caps & RISCV_IOMMU_CAPABILITIES_QOSID)
-+		sysfs_groups = riscv_iommu_groups;
-+	rc = iommu_device_sysfs_add(&iommu->iommu, NULL, sysfs_groups,
-+				    "riscv-iommu@%s", dev_name(iommu->dev));
- 	if (rc) {
- 		dev_err_probe(iommu->dev, rc, "cannot register sysfs interface\n");
- 		goto err_iodir_off;
++check 'write RCID zero without changing MCID' write_rcid 0
++check 'write MCID zero without changing RCID' write_mcid 0
++check 'write nonzero RCID without changing MCID' write_rcid "$rcid"
++check 'write nonzero MCID without changing RCID' write_mcid "$mcid"
++check 'change RCID while preserving nonzero MCID' write_rcid 0
++check 'restore nonzero RCID while preserving MCID' write_rcid "$rcid"
++check 'change MCID while preserving nonzero RCID' write_mcid 0
++check 'reject malformed RCID and preserve IDs' reject rcid bad
++check 'reject malformed MCID and preserve IDs' reject mcid bad
++check 'reject trailing input and preserve IDs' reject rcid '0 1'
++check 'reject out-of-range RCID and preserve IDs' reject rcid 4096
++check 'reject out-of-range MCID and preserve IDs' reject mcid 4096
++check 'reject negative ID and preserve IDs' reject mcid -1
++check 'reject integer overflow and preserve IDs' reject rcid 4294967296
++check 'reject embedded NUL in RCID and preserve IDs' nul rcid
++check 'reject embedded NUL in MCID and preserve IDs' nul mcid
++check 'restore original global IDs' restore
++exit "$failed"
 -- 
 2.50.1 (Apple Git-155)
 
