@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794784935;
-	b=2Sl443uP0GMbDB6rWZScD7ynC94YG7eN/vQG3wzYr4l5Q9kRGPrVdwvyfHoljj6czFgP
-	 a/ujqak8ajDTrRJ4K93H5xFOc8eYDEkPMF7uCxf9WO+CiB+n8FXWIajC9QoWuWmSBBgeA
-	 GhhEVpVCSYdXiE5k2Bw+b2N63Zq4WwjNxNnupaoqwwHQmjMgD61JMzAsOFOLHkxOZJArc
-	 3wHx+81U0n+3UFxHA4zoSz99jEOJkW5YpJEvEnXRjqbPqMmx9rkVThqQPzvYcAaZitSIP
-	 VjlNNWVLS2rz2PGFg6w4rsWkHR7lxm2u8JPYlwabvYEI3gYksyaK3K9WR0tU5SZfU/g==
+	t=1794784937;
+	b=L0Nbyeh5EO532D6y3nxQK4jNbdT8tL2xT9RVUtKDepmFCeen5WDoR7woXft6fxQPWUCS
+	 7lWqmdM/+nz+7vRf9JNGICKzvwv6vadNiIF9TPPT7IFBu8MXprVjN5LwzffEWGgib+wcg
+	 MrUq58nBkilP6NlTkWZ7abs3ZzpkfU13+kUCq/enSEPAWwz4em5kDwhHTXmArHgXCSoNd
+	 Hn8IXBU6jII2GemnvOAMHi/cHWnatO1E962lYuPJHX38e5FsIiOMfk4DHTT1qf8TodsOo
+	 gIpk97KlNrCOPp9KrKXpYxmq6YacNMvLj8VMpjoU23iyjbz1ceSNwWbSf2NkSOW5k0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794784935;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794784937;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=uREsKIEDczdDVdj720bXK/T41S+3ar5PxkrrHsI/TEM=;
-	b=FL8LodNKtFnxYVQ9Yuj3TVQSokPTppibg1HoIjQlSHo02PgtxSc9rQpDf4q64wxzuX9R
-	 d8ULLw0rPisxc0Caz15aD+Pt646aH1jjQGHTAn4VEMsckm0711U30/dtqQBL+yVPb0gWV
-	 TqEiokflX7g4lr/lbeEVpN/8eeAem2BREcHkyLZLRrqYIiQsbFKgUbkGmy+HcRIdxxAFg
-	 S7yqdBwM13+ZMB90i5gts79Bi+UmZ3MjaY3yanAPtYQWmUxg8Ws9mvMQ4PEmleSDzKj4/
-	 mVWmJ1XlmYTo4SqYXbXwfvxcigjIB4IVUb91l3HlZh51EvwA4KvVp1Up/0UA0xye5fg==
+	bh=Erdyei72788KVv8pLaqul7iSgCQZTDqlNCfVWoF2cUc=;
+	b=DHwXeu1AXc3KBU5do+ujqyq8qcfnmfPLScgAiKQ+5wM7ChxAmgUeEeDOFqCByWyl7N3J
+	 eX1Q8v0dVtmGaZ/tOcLbu0EfnW56FRsSrlaWEsr37u8i/ZPffOgeRoCrkHjBU8VDN5xtK
+	 ZbOmzRraPQQJoOUw9i+C8OVvo0V/A5ZhGYWGVK4P4+U9lTvpdFpgE2VjO3eA7Vf7ums1z
+	 p/dDLLE8hnAT0LJiTY0JOVS8LyedbKnFnamf6cqYcGD54l9Vig5wX3WohDxmD26Gg3DDC
+	 h2xFZYr/hQ6XYUWo8keQqFZFlwTp/Pa0O/L02ZfWUAtn6mHyN4G6dv+ic3x3ItiXxqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jQkNrinm;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LopHEaxb;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A536D606A331
-	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 23:22:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A536D606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB14606A88F
+	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 23:22:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8EB14606A88F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jQkNrinm
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4b79502c27aso21144295e9.1
-        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 15:22:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LopHEaxb
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4bb70074ab2so3653365e9.0
+        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 15:22:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794784933; x=1795389733; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794784935; x=1795389735; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=uREsKIEDczdDVdj720bXK/T41S+3ar5PxkrrHsI/TEM=;
-        b=jQkNrinmnyiH3DT7YlgTu03VUyhi7q9DOquQaVlWG2jLJQvITuOTfMsr31WXFI+y8G
-         +Ms42TCNfD1X8Dl6ARmdwurW4X+BahBcgVm8UHxkrzd8kxbab0jv+ZArjfC5id5O4hdm
-         GzWp+0uOyvdUhTypeyVI95yeEE2pWqOZXxXXhi8gCTsDd6ZjFC3cyM4MtwGcv3j1c2E/
-         I84JM9NZjz4EQwQzv7fYTqHIxRyZ1rZX8ReX7qzYdCxIqdLajnu0wbev3sqsM13aXYpO
-         PG+kJApuGBCqeDWtl3PDAywcNnmBGGlKcyWUwatKPfe9hZBUeNTrDbGmpnHeB+Dymb9V
-         upkQ==
+        bh=Erdyei72788KVv8pLaqul7iSgCQZTDqlNCfVWoF2cUc=;
+        b=LopHEaxbU8qluG0bNr0X7YSDk+c0OsgMfGYigZ//YqyCiIDFOvvTCgvq4FYIvzWR5L
+         2WxbabMKUv2GXxZwVT777BbykE9Pt73WrQ3c8jH0H6c+Yk/nSQLHK/ROeiv3Tw72dKXm
+         8LOi/aISgXUGLQTrQ+bZsiW+vtc3Hlkwm+8czErJfQgaIxkrhqXzLcNubNchYhvq9ORX
+         7d32GFh8QvbGh3Tp662n1q2rwQFnjBYjEYczFxotThVDzUblLAEP6ycMVbZ8UwQTCNZ5
+         xI2aLRfs9lVYfboicZmB1tcl1R+v80EYEwjVpU7PH63NTXJXLv7CFu1m6U9UeZmjcqNe
+         gZsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794784933; x=1795389733;
+        d=1e100.net; s=20260707; t=1794784935; x=1795389735;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uREsKIEDczdDVdj720bXK/T41S+3ar5PxkrrHsI/TEM=;
-        b=T4H2g7Hc8cMJvCmzzZJm6Pg9B2b6rrzs1UL9vxZGy08d0ArALuXd11waYy3N29KiPI
-         s+tgU0hJ9CXbMnIvfyNEPc7CTVdZPTC7OEJnsrp7WwvNnOyYRcPRBZMRtAfyx+2Udh74
-         4G+h5qyiJLfA24pte/9WcR/K/W58uAPZdiDhqS2Ljh37QLawzMb5xH4LFp9fgzlucyfW
-         GgvN0dyNngyF+NFGmbYXEm3veqR3CSRy0vkvkxT2dlBWJogp3T05cwHQ5k77M/C0TSE/
-         9i95vKV+ZBnez4jpZDcPt9R65escFApDOeHyg4ucbMM1EMePlHxRv4BpYfOQoOABw3CJ
-         eQgA==
-X-Forwarded-Encrypted: i=1; AL+hErG5SECfHvI5EE30RKS4jXcG/E3LvEOkTyWHNxUwFCS0Q/yPJNHD105eudHFvV2crq4V4BMUeeUK62s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/4jChVqu5Y+BRfVA+t9+iYRuxzgM5a6w5JwVY7KqWlfAgDQYYw
-	1F97DwF/3Z+7R61P1tEt6T8OQjYX/jSatlvqej1hAjrJnH1eeksW/h8j
-X-Gm-Gg: AYBFou2gI63XhshECbFRiRzlOkII9UQpzYU0xwugrzcmueR/DurATZyHuJocb+05Y+A
-	oLeZHkKrViBzKw3D3vNoFZRuN1DzSMuSXqU5ji4jfxA7xwp5ssiap7JaXIqHmbYQi72b3B/jLDa
-	ri0NtBz31+Q8EbO00dNWmeP0DfXOuXMHsO+7uzQRJ5/dl6dSyF4SDTw1i+ZrtoPtY2CBg1h7eKq
-	yvR1rmRkMx78WT1X3cic/v9Bh0EgFwYZb3st39IillXH7W+30zrzNuIqSKRbnV1JZYqHs76lUWu
-	RpLG0PdvG2rZHqD9rD8Qf+DW6rUOAiGg+v1M4zbLERRb9eDMlEsiFMHljyGTjQn/tLHDsef5Ypj
-	lVTYeM3Oy6F+u3DKq40SoH0y86dl/nlA9TG5c728rPkVCr4FFGhjPGezyh7jIojznM7gGHWfTPt
-	QEpiZAtJrNrtkAi+fojlFRij/M+tpeCWAt4IZq9esj09UdkBrE61pm3K33kG3wC1eVNMGNweoV+
-	6TGISp7PU1mfidV2lBc6rbj9JIpLxO58A91NaEmELYgMSkuAx7KKOxxvDWOUdfVn3RI+jdfdFjL
-	f/AJhnumLPpbD513y1B2lAXe5d4tunx71GHbq7G1eM179e/fYPLRSEo=
-X-Received: by 2002:a05:600c:34d5:b0:4b7:6942:39bd with SMTP id 5b1f17b1804b1-4bb55ab1610mr175771075e9.26.1794784932986;
-        Sun, 15 Nov 2026 15:22:12 -0800 (PST)
+        bh=Erdyei72788KVv8pLaqul7iSgCQZTDqlNCfVWoF2cUc=;
+        b=Cc56fmzYlfflSz6sSb47V4mJekyJKhygkxfFg2iU1V4aIovvbZkHGBQxFa6/XIgaiR
+         8Mta87Lk7GpmasP6FwF25NT3F4g9be1s6R2ddkIXI47aO4xLzSyHF6Z6s/wC7/MmcHpR
+         wLqWKOR00NZ40XJEzrHsAM0zAJ+ySzkc/fhpSqz3maMl7cAaL5tE1lxmpjF95vmNTMNc
+         UXrjmTN4EpyyttVGhyPDrL/GgeQyotj+xxpXb5PHSOIO2e6NicKSTryfnoHftKeScFSR
+         0dF3/UwRRGe4NsPbr6wle25P9IEJBYzRnjEo0n1gp6CV4vnu6EkV7e6rDaLsWRaiHSoQ
+         qZYg==
+X-Forwarded-Encrypted: i=1; AL+hErGTaJCm+XsTqy4B/GCrSexQIN8sAa+htjUafNEOFZcQNQxEbws3Afp8BDFHF62JTEnH5R5SM97AuXs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9zUo4yyLyvEHkqwDpoPi4SK29DEPxCN570ZpYsqFOpDaK8/ye8
+	2zUfvQgOeBGPk/ZSGwxZV2d7FgO7k1bCulBdQuEJ5xkfNKqHDRkSoCbu
+X-Gm-Gg: AYBFou0qCgy7MIUqmrrsgh0nqyHtUKyfkE77fzFHEFFsLlQ9ltSLmYq4i1r/iKV27oJ
+	SkQwOy1IOWMd1uoyLpC/xVAaf9wO7MjdGAzCiW+MisGQYO3jnQZrGBN7i7kvZoiB2gIufp3iZMC
+	qCpwnoMO76Kpy3Ad4GKU06NNb6rn3y+aSfZJl6humGBiZA5+/te3w3IBC3OVNQ0W0AnMzbeABxy
+	UR5uySAMHWetWyGmO968PRguZ49Oxv8JqzDxnpiRzkmFXyeNXV+voLsIlFOCgbQMuznMfg8XBIZ
+	KFqjvl0V3Ml0k7w6+yKHF64aVrCBPlk0aysr5URb8MypTcLRvO3u1/95isWXRqlRT1y1CEvtt0s
+	Eu29q7Nhja8Qp2e6vYkZ2YIPUIFHkHu+9f7pYw0u6J4/bmy7HXeFm/jqnkyY+f+Hk6AQBwR1Exj
+	twYjJwv3OTMkoQzA4XDEJMDBxnQirY40a8D5GXH767e7Hxqy3lDhyn2fuSuwIW4pgo+gUugJHrm
+	0jY+PsOg30EUjXHJRYGkMka0imWNQJMuRDGsT7L2hlz8+NvD/wN0T8x+qjy1Fh/CyO37IzbOUhw
+	8vjmeAHWGAokPwXqKnpJn+yZQgj6EwaltRzEAumFIlSyPBwxo6NhVHg=
+X-Received: by 2002:a05:600c:3509:b0:4a1:dbdf:17a8 with SMTP id 5b1f17b1804b1-4bb559f2cc3mr183275325e9.2.1794784934909;
+        Sun, 15 Nov 2026 15:22:14 -0800 (PST)
 Received: from ingenieria31.oficinasStQ.local ([79.117.0.220])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb571f976esm127920955e9.3.2026.11.15.15.22.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb571f976esm127920955e9.3.2026.11.15.15.22.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 15:22:12 -0800 (PST)
+        Sun, 15 Nov 2026 15:22:14 -0800 (PST)
 From: =?UTF-8?q?M=C3=A0xim=20Pedraza=20Padilla?= <maximpedraza@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -104,9 +104,9 @@ Cc: Francesco Valla <francesco@valla.it>,
 	linux-doc@vger.kernel.org,
 	linux-embedded@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 5/6] drm: docs: remove bootsplash from TODO
-Date: Mon, 16 Nov 2026 01:21:55 +0100
-Message-Id: <20261116002156.1027726-6-maximpedraza@gmail.com>
+Subject: [PATCH v7 6/6] drm/client: splash: pick the image source in one place
+Date: Mon, 16 Nov 2026 01:21:56 +0100
+Message-Id: <20261116002156.1027726-7-maximpedraza@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261116002156.1027726-1-maximpedraza@gmail.com>
 References: <20261116002156.1027726-1-maximpedraza@gmail.com>
@@ -122,46 +122,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Francesco Valla <francesco@valla.it>
+The client chooses between two sources with a boolean: the BGRT if the
+firmware left one, otherwise the BMP loaded as firmware. A third one is
+coming, and with it an order of preference that a boolean cannot hold.
 
-Now that a splash client exists, remove the bootsplash task from the
-TODO list for the DRM subsystem.
+Name the source in use with an enum, picked once by
+drm_splash_pick_source(), and have drm_splash_image_load() switch on
+it. No functional change.
 
-Signed-off-by: Francesco Valla <francesco@valla.it>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+v7:
+- DRM_SPLASH_SRC_FW for DRM_SPLASH_SRC_BMP: the BGRT is a BMP too
+
+Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Màxim Pedraza Padilla <maximpedraza@gmail.com>
 ---
- Documentation/gpu/todo.rst | 17 -----------------
- 1 file changed, 17 deletions(-)
+ drivers/gpu/drm/clients/drm_splash.c | 46 ++++++++++++++++++++++------
+ 1 file changed, 37 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index e6d36f8da086..5e987e18bfcd 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -756,23 +756,6 @@ See drivers/gpu/drm/amd/display/TODO for tasks.
+diff --git a/drivers/gpu/drm/clients/drm_splash.c b/drivers/gpu/drm/clients/drm_splash.c
+index d54cf628cf17..fbbdc034e417 100644
+--- a/drivers/gpu/drm/clients/drm_splash.c
++++ b/drivers/gpu/drm/clients/drm_splash.c
+@@ -39,6 +39,16 @@
+  * a static image.
+  */
  
- Contact: Harry Wentland, Alex Deucher
++/*
++ * Where the image comes from. drm_splash_pick_source() sets the order of
++ * preference; NONE is zero, so that a new splash starts without a source.
++ */
++enum drm_splash_source {
++	DRM_SPLASH_SRC_NONE,
++	DRM_SPLASH_SRC_BGRT,
++	DRM_SPLASH_SRC_FW,
++};
++
+ struct drm_splash_scanout {
+ 	int id;
+ 	/* Modesets scanning this buffer out, by position in the list */
+@@ -91,7 +101,7 @@ struct drm_splash {
+ 	const struct firmware *fw;
+ 	void *map_data;
  
--Bootsplash
--==========
--
--There is support in place now for writing internal DRM clients making it
--possible to pick up the bootsplash work that was rejected because it was written
--for fbdev.
--
--- [v6,8/8] drm/client: Hack: Add bootsplash example
--  https://patchwork.freedesktop.org/patch/306579/
--
--- [RFC PATCH v2 00/13] Kernel based bootsplash
--  https://lore.kernel.org/r/20171213194755.3409-1-mstaudt@suse.de
--
--Contact: Sam Ravnborg
--
--Level: Advanced
--
- Brightness handling on devices with multiple internal panels
- ============================================================
+-	bool use_bgrt;
++	enum drm_splash_source src;
+ };
  
+ static struct drm_splash *client_to_drm_splash(struct drm_client_dev *client)
+@@ -439,7 +449,7 @@ static int drm_splash_bmp_to_scanout(struct drm_splash *splash,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (splash->use_bgrt) {
++	if (splash->src == DRM_SPLASH_SRC_BGRT) {
+ 		x_pad = efi_bgrt_image_offset_x();
+ 		y_pad = efi_bgrt_image_offset_y();
+ 
+@@ -509,13 +519,31 @@ static int drm_splash_bmp_to_scanout(struct drm_splash *splash,
+ static int drm_splash_image_load(struct drm_splash *splash, const u8 **img_data,
+ 				 size_t *img_data_len)
+ {
+-	if (splash->use_bgrt)
++	switch (splash->src) {
++	case DRM_SPLASH_SRC_BGRT:
+ 		return drm_splash_bgrt_load(splash, img_data, img_data_len);
++	case DRM_SPLASH_SRC_FW:
++		return drm_splash_fw_load(splash, img_data, img_data_len);
++	case DRM_SPLASH_SRC_NONE:
++		break;
++	}
+ 
+-	if (!IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_SRC_FW))
+-		return -ENOENT;
++	return -ENOENT;
++}
++
++/*
++ * Pick the one source the image will come from: the BGRT is whatever the
++ * firmware shows, and the BMP loaded as firmware is the fallback. With
++ * neither, only the background colour is drawn.
++ */
++static enum drm_splash_source drm_splash_pick_source(struct drm_splash *splash)
++{
++	if (drm_splash_bgrt_available(splash))
++		return DRM_SPLASH_SRC_BGRT;
++	if (IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_SRC_FW))
++		return DRM_SPLASH_SRC_FW;
+ 
+-	return drm_splash_fw_load(splash, img_data, img_data_len);
++	return DRM_SPLASH_SRC_NONE;
+ }
+ 
+ /* At unregister, once nothing else can use the image */
+@@ -858,10 +886,10 @@ static void drm_splash_rebuild(struct drm_splash *splash)
+ 
+ 	if (!splash->source_picked) {
+ 		splash->source_picked = true;
+-		splash->use_bgrt = drm_splash_bgrt_available(splash);
++		splash->src = drm_splash_pick_source(splash);
+ 
+-		/* If no other image has been loaded, try to load a BMP as firmware */
+-		if (IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_SRC_FW) && !splash->use_bgrt) {
++		/* The BMP loaded as firmware is the only source that arrives later */
++		if (splash->src == DRM_SPLASH_SRC_FW) {
+ 			ret = drm_splash_fw_request(splash);
+ 			splash->fw_requested = !ret;
+ 			if (ret)
 -- 
 2.39.5
 
