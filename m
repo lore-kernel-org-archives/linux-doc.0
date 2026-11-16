@@ -1,106 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794853631;
-	b=pnCnYCKyYRsaNaDAANZAuDeKecZYdr1TET43aLkP/uMjZ1jfNwnBXjrr4FTlqJ0EXM6I
-	 5h9r3z0U7epDz+G5z88FhUGCnO1hrQyYpgn6nkUaZeKARWqIHF3BpJnt4w0BNbnzS9J4q
-	 ZXzz7/3bI08KVxMoxQFYFcAR6hD5lm0LuXxLsF0ST9zYZ7s3ZoBhsi4yLik4m3cmYRHKC
-	 btytQ0meVQwhrpG12iCCYLmr4ZQKs34l71qN9FEyOXqwGEqg7+5a65fPWotz2hZs4T8vg
-	 DKMyudW09335G57U5lT/CWcn5trSJzcXLhSp+IfLDuC8EzY4sb2u44K4CkHLnEP3+MA==
+	t=1794853781;
+	b=NOfQ38JO11sifmwy3zuCrnTuRAAnuUrmfSbpmNseZ3g3meMc9RBpaq6NpjrmAfbUHoie
+	 Z4ohNhHZPd5b/gcrZ0ju64H7UqAB2qdEFm8RBZPEmXeDovWSxuKHXw7zdly6POvFHZeV/
+	 LvI6o8nDWh52hITGheJoWheoM3cWcVytVJro6223Vog/radzSRGfw8S8woJ+VbJ47sqZF
+	 vU4ivQaWy6G/WOz95lkVAltfABp5RH4AvWTk8yBPeFUUVAxm5VvyUaZfTHece8bl99iQC
+	 emehI3fuFG5B26dlf9t+EFJfSDtYMclbzCMD2AGGUm7kbwFWhvm/uK47vXyBkh2BJow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794853631;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=i0+NdK/YeASsZuhz7coPXNHnm1YViQRZlPGWrC7m3dY=;
-	b=CuwdyJ3UJmv8MYBMykV4vXFA1bjWWSqvq/gtnl0/XODOjTYsB5aNf7Lt7o4TNio6pP28
-	 o7KGTqMCci3Hs9ucrDYse6/tyEGpjSWAZgHWNFAhmX1mMv7jGm+yigorLrU2HwWPCMDt2
-	 UlsWAtYiIJgT4x1X8aHJaDxd2XuaeISNMWH4Jis4mGJmCY4mYy24q37OSBWLVbRzGCBHM
-	 CIcUiwQCtzL9n41/QXkyDYPStqtfw15goHG3+1wvSez23bIUNq6ENplBww6RG/ATyxcl2
-	 HHHXbCGTB4sq00e45M2lhNHILmaR6xuT8ZaeJI4WgxjJzZRxa2xPLrxUU9P6WU/J8bA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794853781;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=4Dt8UvYqN45Q1jq3hRtmbwqb95X+fOufXdlZIkND6MQ=;
+	b=JeYsZH9T10Pqed7n8Pwp9w87101qRuxwiClCiBx1d1l3o0cnICAMluFE3zk6SmRu5FT+
+	 FswlzaenQr+GpiYU1pvHIM+qz3JU9HF1HN7jhH5wOKip3BQTYgCCbbIJgNoyJrRZ+Sf9D
+	 5JsRIecJvhoeogBv61VOOazZ/M4mQvN93oYPKa2BW6aXyMCSiVr0ghsY3SFPU+D+mHbg0
+	 6rV5xEdZPg3FjbNsdh2XSybMTqOmOp6KIx6+cEY1BKCnjpv58wX+2Fao0KeD31Zb/3E9q
+	 5+R7FQMgUA2vBOtmODhPfR+FmDup5h3IRlI09R9HcJwEr9Rv9Eaw7t3hj6PGJmwWzNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Qr4RejGE;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ohNH5Gne;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B38606A32A
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 18:27:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03B38606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68998606A31C;
+	Mon, 16 Nov 2026 18:29:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Qr4RejGE
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a018493d57so3865e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 10:27:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794853628; x=1795458428; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=i0+NdK/YeASsZuhz7coPXNHnm1YViQRZlPGWrC7m3dY=;
-        b=Qr4RejGEWeUwI0wtVtMolfzVWYPmWIxJfwOGpJssQTLxQ3Mj/VhD1UlHy6KuHOqqSL
-         FAhSyKSey47XQIUuhSJXQbSTECFAINqlpr7/7qz5DW+httFcF+CMGLNOtgzd54S2NPZD
-         gaYYo7UV+pUGwsrSh92T+ex26qSG4aSqT7wc7dx/KPUlexjlDCGlXRITajRZHc5SQ75y
-         Im8W3+17t5eoEn6NCo6Tn1skt3YZ06Y4WqUafzX4HamVJrzpOfAS4DHGVUYPM58W268f
-         kZp1ypdqLR5WfqzYfbKZH5hfqAhrIim+UYp5zeRV7adDftPXx1l5DEcincnjDx9eAFsr
-         AGKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794853628; x=1795458428;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=i0+NdK/YeASsZuhz7coPXNHnm1YViQRZlPGWrC7m3dY=;
-        b=eYy7AIVX+LAMTlmGx3V/7MT9D3AuQIFoQFX3e+bOiwnQRdPQlb+YmylgJBD2ZgNpUv
-         QaXgRCR7l2nHub4LDnQCY2m2V2V9dlv/5BBUqK/+RGn8iFHQp0RBpocFG/gGEwTJ78nT
-         gTilrSYvMiZzAk6MGKzrBbPatP6MXUWQfo91mTHmMdJHMQbgKeglTP0D3uIqHWDs7Fng
-         /EY93s5CVhZABhdfu3+C3SRlPN+z9LuZf8jy+X4caJ0WGOVAHL+oVWi+KBPOijEu/RGx
-         0EaG1lAwb4Uc9wKXV60wHcSkrskcZYx//G2WPHa/MRbVhhOoZ0VKpObDgIkXBp/nLkyp
-         O91w==
-X-Forwarded-Encrypted: i=1; AL+hErHwHimgInoi8IM2JEYpIyCTGpvsXS7i1cj4bZB70rlYzow2l6/Hmnasz9HjkhkRQnVbP1p9vU7F44g=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8uC5FuyRVQYS3ITbNF5XmnBuQnDqrWj+8VAWE8L5q1dzs+MZW5
-	tTOCCHT7gMKPXMkOsFCSvU3oCPVnz6Wm9wj6o2AWYwoH5Eh+F6dM4OTNxzpGBrd38EAi4IRjG/Q
-	gCySkTA==
-X-Gm-Gg: AYBFou0Wp8EOiD5qsBQcVMQyFyMhtKU1N+BgSO4WSxoMIH4kjky4Wt9izJd6hmlKDkb
-	17TtGcOD4tJDtPMG1fLUzpw+OeQhXweCDVvNfX1bIZq8hOMWYe5BvjDPhf0Zjd1GheJw/hlHcdk
-	LoQ+TrXMrHMS5CbQCv1TGd/DYPKgDMnHhPuDwcyGekD9UWbmQhHkm/zefRMpvVqLEag51G1Qf+A
-	ymtpWpBtFlrBjgIjlg3HumLdEtgBRWZD2zmcW4KtHqTiod4pli7f5GkZ5B55NcMtVmv63/sOk7b
-	NoXDfjN1zGf36H81py2q/wCeUvtY96flpKkLFUiu+l8SkgenuxYTyFA/UXemSC4Aa54Bpn0jGY4
-	AgXk9IaEynqjsuUedTJHtRuT1gRXeOahtd29ACvMVjqtp1ZRVi2dKxyromAZjDRjstVpvEkVO8z
-	gSaViI4urKQJb1FJ9wpP0YFOwR7m89jF2BOiogmu8V6GWm8GRaBzAknujQ8mqhz78vWqfZHQis5
-	43ZOmyk6GXWWj/mMv1+v/hAZJ0+bJ3zl9JByQ2l/H6iF7TjzFTDCL677uI89W4wMzERc9Me9KzW
-	NwJV607mL1JiwfoGcieA7g//ruDU7LDdxT8LiW9TiIHeL3JMmcWFKOEsxrZhetYPNm7iUaTa3KS
-	fD3KU9P9E0FSQ5G7M
-X-Received: by 2002:a05:600c:491c:b0:4a1:d2f2:9fbd with SMTP id 5b1f17b1804b1-4bb7894d9bfmr42925e9.0.1794853627708;
-        Mon, 16 Nov 2026 10:27:07 -0800 (PST)
-Received: from google.com (250.192.189.35.bc.googleusercontent.com. [35.189.192.250])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f1c1968sm24006935f8f.10.2026.11.16.10.27.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 10:27:06 -0800 (PST)
-Date: Mon, 16 Nov 2026 18:27:02 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Peter Griffin <peter.griffin@linaro.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Daniel Mentz <danielmentz@google.com>,
-	Juan Yescas <jyescas@google.com>, kernel-team@android.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH] iommu: Add iommu.passthrough_devs early command line
- parameter
-Message-ID: <avtK9qMAjIIwD84k@google.com>
-References: <20261116-b4-iommu-passthrough-devs-v1-1-dc5b493f7551@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ohNH5Gne
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35F361F000C4;
+	Mon, 16 Nov 2026 18:29:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794853781;
+	bh=4Dt8UvYqN45Q1jq3hRtmbwqb95X+fOufXdlZIkND6MQ=;
+	h=From:Subject:Date:To:Cc;
+	b=ohNH5GneK3A7EOdyU+Jd+fzHkBpcFAjOiqXLLG40Bqz4EMUQxQHbMaxWLGrAUgpr1
+	 D8dmX/P08z4tLfV/byuKIwTnl+WtT/bv39FXW6XhyzaGg3f1EYfOC9ccyoM//9l1v3
+	 xWaHHTfTDCJUUEn0ImVtvQ//nKjUAAHnsXH8iyEMOXKx+017NpL431mj4IILZYGc/1
+	 i2RsoQ+vgBOunWpt9AceF9lFiqemwF3WE61glPMXrmU0r3Ub2cTHHjVD+tjqYJYNMy
+	 u26wa2YrhEf6WzmUX9fxU5bFFW2lk5eEDazTgk0t2C+q4lSWxfylvjoypdv5AI+JxX
+	 LFFqt1acbeNFw==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: [PATCH v2 00/15] mm/hugetlb: various fixes
+Date: Mon, 16 Nov 2026 19:29:21 +0100
+Message-Id: <20261116-fixes_hugetlb-v2-0-4dd9e94ea9ac@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -110,268 +53,117 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261116-b4-iommu-passthrough-devs-v1-1-dc5b493f7551@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAA/13NQQqDMBCF4auEWZsyiWIlq96jSNE4iWlFSxJDi
+ 3j3Eks3XT74+N8GgbyjAIpt4Cm54JYZFJMFAz12syXuBlAMJMpaoDxz414UbuNqKU49l7oyKI2
+ pS6ygYPD0dABQ7Np+d1j7O+mYI1mMLsTFv4/DJLL7tZu/dhIceYcdluXQiwbN5UF+pum0eAvtv
+ u8f2dLrs70AAAA=
+X-Change-ID: 20261027-fixes_hugetlb-2c4f02ff6304
+To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+ Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Mel Gorman <mgorman@suse.de>, 
+ Andy Whitcroft <apw@canonical.com>, Miaohe Lin <linmiaohe@huawei.com>, 
+ Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>, 
+ Hugh Dickins <hughd@google.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+ Dave Airlie <airlied@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Peter Xu <peterx@redhat.com>, 
+ Breno Leitao <leitao@debian.org>, Will Deacon <will@kernel.org>, 
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, linux-doc@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org, 
+ "David Hildenbrand (Arm)" <david@kernel.org>, 
+ luojiajun <luojiajun3@huawei.com>, Josef Bacik <josef@toxicpanda.com>, 
+ stable@kernel.org, Ackerley Tng <ackerleytng@google.com>, 
+ "Gregory Price (Meta)" <gourry@gourry.net>, Chris Mason <mason@kernel.org>, 
+ Daehyeon Ko <4ncienth@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2982; i=david@kernel.org;
+ h=from:subject:message-id; bh=9K2LhqofrRy5sX+UjJYGABWwyD7YIUGt24m0J81fj3w=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLJ+e7d9aJdxWxh97VTWrwZeX82i0FNMrP9nBH5xPaxW+
+ iXj9Vb9jlIWBjEOBlkxRZag4PsGL1+uq61242OGmcPKBDKEgYtTACbi853hn85kBYbLPz6UHLG3
+ yK7csK217OalmjNn4jnXB6Ry7XvyvInhv6OPWYy8xy4Fu/vTnTibDt3Yl/yU87Z1x8952o3a19v
+ F+QE=
+X-Developer-Key: i=david@kernel.org; a=openpgp;
+ fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-On Mon, Nov 16, 2026 at 05:37:45PM +0000, Peter Griffin wrote:
-> Currently, the generic IOMMU core only provides an all-or-nothing global
-> switch ('iommu.passthrough={0,1}' and CONFIG_IOMMU_DEFAULT_PASSTHROUGH)
-> to configure default DMA domains in passthrough (IOMMU_DOMAIN_IDENTITY)
-> mode at boot time.
-> 
-> Add an 'iommu.passthrough_devs=<dev_name>[,<dev_name>...]' early
-> command-line parameter. When allocating the default domain for a group in
-> iommu_group_alloc_default_domain(), if no mandatory domain type override
-> is present, check whether any device in the group (or any of its
-> parent/bridge devices via dev->parent) matches 'iommu.passthrough_devs'
-> and request IOMMU_DOMAIN_IDENTITY, warning and falling back to
-> IOMMU_DOMAIN_DMA if identity domains are unsupported (consistent with
-> 'iommu.passthrough=1').
-> 
-> Device names match dev_name(), such as PCI BDFs ('0000:01:00.0'),
+Hi,
 
-I believe BDFs are not reliable as they can change based on how Linux
-enumerates the bus and hotplug.
-Probably we'd need something as pci_dev_str_match() which is used
-in other cmdline options.
+v2 of the hugetlb fixes. There will be more at some point ... let's
+drag these over the finishing line.
 
-Thanks,
-Mostafa
+Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+---
+Changes in v2:
+- Rebased on top of akpm/mm-stable
+- Applied tags
+- "mm/hugetlb: compare against persistent count when freeing lowmem folios"
+  and "mm/hugetlb: account temporary folios separately"
+ - Use const struct hstate pointers
+- "mm/hugetlb: fix reservation leak on min_size= mounts"
+ - Clarify that this is only an accounting error in the description
+- "mm/hugetlb: account restored reservations before freeing folios"
+ - Drop RFC
+ - Don't allocate surplus pages for restored reservations
+ - Free unused surplus pages directly instead of via free_huge_folio()
+ - Document available_huge_pages() and assert that hugetlb_lock is held
+- "mm/hugetlb: delay anon folio rmap removal until after the TLB flush"
+ - Drop RFC
+ - Flush delayed rmaps in hugetlb_unmap_range() (due to rebasing)
+ - Move hugetlb_folio_restore_rsv_on_unmap() declaration to mm/internal.h
+- Link to v1: https://patch.msgid.link/20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org
 
-> Device Tree platform devices ('3c400000.ufs'), or ACPI platform
-> devices ('AMDI0010:00'). Walking dev->parent also allows specifying a
-> parent PCIe host controller or root port (e.g. '3c500000.pcie' or
-> '0000:00:1c.0') to cover its downstream endpoints.
-> 
-> Note: Untrusted PCI devices ('pdev->untrusted') and explicit IOMMU
-> driver '.def_domain_type' requirements continue to take precedence.
-> 
-> Configuring per-device passthrough mode at boot is needed for several
-> use cases:
-> 
-> - Performance tuning and benchmarking: high-throughput storage
->   workloads (e.g. fio benchmarks on UFS) can incur measurable
->   IOPS/latency and CPU overhead from IOMMU page table management and
->   TLB invalidations. Selective device passthrough allows bypassing
->   translation for these devices while keeping IOMMU isolation enabled
->   for other devices in the system.
-> 
-> - SoC/board bringup and debugging: isolating whether a DMA fault or
->   regression is caused by a specific device's IOMMU translation without
->   disabling the IOMMU globally across the entire platform.
-> 
-> Implementing this in the generic IOMMU core allows it to work with
-> ACPI and Device Tree (DT) systems as well as across all IOMMU drivers.
-> 
-> Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
-> ---
-> Hi folks,
-> 
-> This patch follows up on a conversation with Jason Gunthorpe at
-> Linux Plumbers regarding how to upstream support for configuring
-> per-device IOMMU passthrough (IOMMU_DOMAIN_IDENTITY) at boot without
-> abusing Device Tree properties.
-> 
-> Downstream on Google Pixel G5 Laguna platforms, we have historically
-> carried a custom 'iommu-idmapped' DT property parsed by the arm-smmu-v3
-> driver to place specific client devices into bypass mode. As discussed
-> at Plumbers, Device Tree seems the wrong place for this because choosing
-> passthrough vs. translation for a given device can sometimes be an OS
-> policy trade-off where we choose device peak performance at the expense
-> of DMA isolation. This is the case for UFS and PCIe WLAN on Laguna,
-> which share a common SMMU instance with other peripherals (such as DMA
-> controllers, VPU, and ISP) where we want DMA isolation to remain
-> enabled.
-> 
-> A secondary benefit is it could be useful during device bringup and
-> debugging for fault isolation and to work around firmware/device issues
-> before a proper driver quirk is in place.
-> 
-> Instead, I propose handling this in the generic IOMMU core via a
-> kernel command-line parameter. This makes it available uniformly
-> across both Device Tree and ACPI systems and across all IOMMU drivers.
-> 
-> In terms of upstream Laguna support, initial DT support has already
-> landed in tree, along with USB and phy support. Other support for
-> mailbox, clocks, powerdomains, reset is under review in the following
-> series with more to follow.
-> 
-> https://lore.kernel.org/lkml/20261023235408.3063350-1-dianders@chromium.org/
-> https://lore.kernel.org/lkml/20261026214359.3122870-1-briannorris@chromium.org/
-> 
-> Feedback and suggestions are very welcome.
-> 
-> Thanks,
-> 
-> Peter
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 11 ++++
->  drivers/iommu/iommu.c                           | 76 +++++++++++++++++++++++--
->  2 files changed, 82 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index c343bc9a0d28..926380cb1e99 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2689,6 +2689,17 @@ Kernel parameters
->  			1 - Bypass the IOMMU for DMA.
->  			unset - Use value of CONFIG_IOMMU_DEFAULT_PASSTHROUGH.
->  
-> +	iommu.passthrough_devs=
-> +			[KNL,EARLY] Configure DMA to bypass the IOMMU by default
-> +			for specific devices.
-> +			Format: <dev_name>[,<dev_name>...]
-> +			Specify a comma-separated list of device names (matching
-> +			dev_name() of the client device or any of its parent/bridge
-> +			devices) whose IOMMU groups should default to passthrough
-> +			(identity) mode (e.g. "0000:01:00.0" for PCI,
-> +			"3c400000.ufs" for Device Tree, or
-> +			"AMDI0010:00" for ACPI).
-> +
->  	iommu.debug_pagealloc=
->  			[KNL,EARLY] When CONFIG_IOMMU_DEBUG_PAGEALLOC is set, this
->  			parameter enables the feature at boot time. By default, it
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index b486b8bbd1fc..0a7796e0311e 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -33,6 +33,7 @@
->  #include <trace/events/iommu.h>
->  #include <linux/sched/mm.h>
->  #include <linux/msi.h>
-> +#include <linux/string.h>
->  #include <uapi/linux/iommufd.h>
->  #include <linux/generic_pt/iommu.h>
->  
-> @@ -43,9 +44,12 @@ static struct kset *iommu_group_kset;
->  static DEFINE_IDA(iommu_group_ida);
->  static DEFINE_IDA(iommu_global_pasid_ida);
->  
-> +#define IOMMU_PASSTHROUGH_DEVS_MAX_LEN	256
-> +
->  static unsigned int iommu_def_domain_type __read_mostly;
->  static bool iommu_dma_strict __read_mostly = IS_ENABLED(CONFIG_IOMMU_DEFAULT_DMA_STRICT);
->  static u32 iommu_cmd_line __read_mostly;
-> +static char iommu_passthrough_devs[IOMMU_PASSTHROUGH_DEVS_MAX_LEN] __read_mostly;
->  
->  /* Tags used with xa_tag_pointer() in group->pasid_array */
->  enum { IOMMU_PASID_ARRAY_DOMAIN = 0, IOMMU_PASID_ARRAY_HANDLE = 1 };
-> @@ -805,6 +809,27 @@ static int __init iommu_set_def_domain_type(char *str)
->  }
->  early_param("iommu.passthrough", iommu_set_def_domain_type);
->  
-> +static int __init iommu_set_passthrough_devs(char *str)
-> +{
-> +	size_t len;
-> +
-> +	if (!str || !*str)
-> +		return -EINVAL;
-> +
-> +	len = strlen(iommu_passthrough_devs);
-> +	if (len + (len ? 1 : 0) + strlen(str) >= IOMMU_PASSTHROUGH_DEVS_MAX_LEN) {
-> +		pr_warn("Too long list of device names for 'iommu.passthrough_devs'!\n");
-> +		return -EINVAL;
-> +	}
-> +	if (len)
-> +		iommu_passthrough_devs[len++] = ',';
-> +
-> +	strscpy(iommu_passthrough_devs + len, str,
-> +		IOMMU_PASSTHROUGH_DEVS_MAX_LEN - len);
-> +	return 0;
-> +}
-> +early_param("iommu.passthrough_devs", iommu_set_passthrough_devs);
-> +
->  static int __init iommu_dma_setup(char *str)
->  {
->  	int ret = kstrtobool(str, &iommu_dma_strict);
-> @@ -1750,14 +1775,45 @@ __iommu_group_alloc_default_domain(struct iommu_group *group, int req_type)
->  	return ERR_PTR(-EINVAL);
->  }
->  
-> +static bool iommu_is_passthrough_dev(struct device *dev)
-> +{
-> +	for (; dev; dev = dev->parent) {
-> +		const char *name = dev_name(dev);
-> +
-> +		if (name && *name &&
-> +		    parse_option_str(iommu_passthrough_devs, name))
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +static struct device *iommu_group_passthrough_dev(struct iommu_group *group)
-> +{
-> +	struct group_device *gdev;
-> +
-> +	if (!iommu_passthrough_devs[0])
-> +		return NULL;
-> +
-> +	for_each_group_device(group, gdev) {
-> +		if (iommu_is_passthrough_dev(gdev->dev))
-> +			return gdev->dev;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
->  /*
->   * req_type of 0 means "auto" which means to select a domain based on
-> - * iommu_def_domain_type or what the driver actually supports.
-> + * iommu.passthrough_devs, iommu_def_domain_type, or what the driver
-> + * actually supports.
->   */
->  static struct iommu_domain *
->  iommu_group_alloc_default_domain(struct iommu_group *group, int req_type)
->  {
->  	const struct iommu_ops *ops = dev_iommu_ops(iommu_group_first_dev(group));
-> +	unsigned int def_type = iommu_def_domain_type;
-> +	struct device *pt_dev = NULL;
->  	struct iommu_domain *dom;
->  
->  	lockdep_assert_held(&group->mutex);
-> @@ -1777,19 +1833,29 @@ iommu_group_alloc_default_domain(struct iommu_group *group, int req_type)
->  		return __iommu_group_alloc_default_domain(group, req_type);
->  
->  	/* The driver gave no guidance on what type to use, try the default */
-> -	dom = __iommu_group_alloc_default_domain(group, iommu_def_domain_type);
-> -	if (!IS_ERR(dom))
-> +	if (def_type != IOMMU_DOMAIN_IDENTITY) {
-> +		pt_dev = iommu_group_passthrough_dev(group);
-> +		if (pt_dev)
-> +			def_type = IOMMU_DOMAIN_IDENTITY;
-> +	}
-> +
-> +	dom = __iommu_group_alloc_default_domain(group, def_type);
-> +	if (!IS_ERR(dom)) {
-> +		if (pt_dev && dom != group->default_domain)
-> +			dev_info(pt_dev,
-> +				 "Setting default IOMMU domain to passthrough via command line\n");
->  		return dom;
-> +	}
->  
->  	/* Otherwise IDENTITY and DMA_FQ defaults will try DMA */
-> -	if (iommu_def_domain_type == IOMMU_DOMAIN_DMA)
-> +	if (def_type == IOMMU_DOMAIN_DMA)
->  		return ERR_PTR(-EINVAL);
->  	dom = __iommu_group_alloc_default_domain(group, IOMMU_DOMAIN_DMA);
->  	if (IS_ERR(dom))
->  		return dom;
->  
->  	pr_warn("Failed to allocate default IOMMU domain of type %u for group %s - Falling back to IOMMU_DOMAIN_DMA",
-> -		iommu_def_domain_type, group->name);
-> +		def_type, group->name);
->  	return dom;
->  }
->  
-> 
-> ---
-> base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
-> change-id: 20261106-b4-iommu-passthrough-devs-03b7c957ac69
-> 
-> Best regards,
-> -- 
-> Peter Griffin <peter.griffin@linaro.org>
-> 
+---
+Chris Mason (3):
+      hugetlbfs: do not grow a sealed file in mmap()
+      mm/hugetlb: keep surplus folios that are reserved
+      mm/hugetlb: fix reservation leak on min_size= mounts
+
+David Hildenbrand (Arm) (10):
+      hugetlbfs: fix integer overflow in fallocate()
+      mm/hugetlb: compare against persistent count when freeing lowmem folios
+      mm/hugetlb: preserve reservations when shrinking on HIGHMEM
+      mm/hugetlb: account temporary folios separately
+      mm/hugetlb: fix mremap() racing with page migration
+      mm/hugetlb: serialize page-cache allocations with truncation
+      mm/memfd: recheck the page cache before allocating a hugetlb folio
+      mm/hugetlb: count again if the reserve map shrank
+      mm/hugetlb: account restored reservations before freeing folios
+      mm/hugetlb: delay anon folio rmap removal until after the TLB flush
+
+Josef Bacik (2):
+      mm/hugetlb: keep surplus folios when the pool shrinks
+      hugetlbfs: fix unmapping folios from private VMAs
+
+ Documentation/mm/hugetlbfs_reserv.rst |  30 +--
+ arch/s390/include/asm/tlb.h           |   5 +-
+ fs/hugetlbfs/inode.c                  |  36 ++-
+ include/asm-generic/tlb.h             |   5 +-
+ include/linux/hugetlb.h               |  17 ++
+ mm/hugetlb.c                          | 424 ++++++++++++++++++++++------------
+ mm/hugetlb_internal.h                 |  24 ++
+ mm/hugetlb_sysfs.c                    |   2 +-
+ mm/internal.h                         |   9 +
+ mm/memfd.c                            |  17 ++
+ mm/mmu_gather.c                       |  16 +-
+ 11 files changed, 404 insertions(+), 181 deletions(-)
+---
+base-commit: fa4ad798f6f681031775266044ba1b0cf3c670bd
+change-id: 20261027-fixes_hugetlb-2c4f02ff6304
+
+Best regards,
+--  
+David Hildenbrand (Arm) <david@kernel.org>
+
