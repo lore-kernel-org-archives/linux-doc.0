@@ -1,106 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.60
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794830597;
-	b=ERArhe3Fubr0xAVSg7u28EPFE03hdB8ySac0wcEZvPgPxptxhTW//XKxrx1k0QeCvYvK
-	 Za43YC2fUq7EeIvklqkNWE8r1i+EJh75jTCJPFhRuOWkyKaVhZOvBFoCSLvdZfq3tCS7h
-	 BNwgMCMazBNAU3sT26SfL7RDgbamTb5y5v+gs9SzDZ2J2ZNU8COD5XjZKYx51Vh0HiTy3
-	 +n8dIkrH58Way/hWHJK+xjsndubdYVfJcuwFqyernsuqV7aGowjbkX/RkEZk+sU45xZii
-	 wQMHYmQy6TCHdJDIId0a5uOC91CrOBEeQcu4sCavLRFPib36GjYIN0WDoU0XSxS5K/g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794830597;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy:X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=I25oiglLrUzVRCEMM9jHZPyTbD7zyy/tDL/QDW30Qbs=;
-	b=m/Vn7tKWVR9O9k02R5cE10KtGiG1iTO9kjeeQUvdBnJLJP9AMS+7wyviJG1sF966zBdj
-	 H5fYcpdUn78fRLoTkAc8a6/o2PJyDB3QLGvrlT8ym38rkVKgw7gzKgINuU8qNLz0/IU3u
-	 EnF4lLcRHpmZ9WfPczNzxB7qcaHBC14RWQQvlxNi/VioFOsTSr1HSnMPbFJ2rAeM7dd/U
-	 7koAw93h/w8VSEgkDiYT35IBPOa4N1dnEDEFBIW7c3WhgnGQZKUBCdF13ebP4OsUmPktH
-	 TrafuTh4PgtOolg8fGj6Vx8Xsftlg061gF38wrDJ52G2w63nkYtGvAcXMlQh6Hl6omg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=q1wyvGcN;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.60
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011060.outbound.protection.outlook.com [52.101.57.60])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.178
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794830687;
+	b=oqjESf4tZgG1yVeXgp8u0AKOmxbAzFQLDSsdslji2mq2BPivZ7Xs/kKcI007U1JO/cor
+	 a+Xob7TBQI/pRAo1DF6GQLl9dIyOhCVVDrZkMf43HXTQjtIZ4SGURdJrnFwTiFbCT9Z/w
+	 Ycgu0pvaEekOtdwUMufhzXP2uwC4lle2z8XPOIRjBcXe88rrZG622XH5HGmLBDgAQ7/Vc
+	 oZy/fNxYR4MigDBbQ5q9Sl+AqcMK17XHgZAwZj2UJDyGRE07dvx4jUL4LAeXtK2LwPtrC
+	 9no/9OcSyvRV8JqRs0JHmR9AwZZ+bYW1KJBTuEdDAbxTyw5joL+7LygkRqlznwRM1OQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794830687;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:To:Cc:X-Mailer;
+	bh=w+hLSSBEQLeaadJ4ehRvrNvghPc5ZJYcY8eWYUFvqOA=;
+	b=VCltEobIyLiMHyAHy+5rEAuhq9ndI33F1+AvqSPYXgvEcJ6H0Ie+9fSkcKTxHGKKy8Mb
+	 zDpGizcid1ObMpPkKv5rsHgwW1rOa5lYRORmrYutd4smY9YX4dtlfCD7CuvnD47kCcwAD
+	 A+r7knmJjQwgAMfsNUfjOZczmz+/8rf1V2MFA8tSlifCL+Z8tmE44HpIkeHtG/D2jTAi+
+	 fqQWdIWz8cOSucVFXbrTJ8gC/G1gP2GEVMfNNNZ2rV+RbFMk6CSNAvZNBYUnM6CTj8JGe
+	 ukpBYGTvyJRJnHQZKs4GDsu0bTMNMRHIUlY0xz9WrlBKZcKZkipFvalcIPK2UUeT3Dw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=R6ZQDB61;
+	arc=none smtp.remote-ip=209.85.128.178
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52CB606A881;
-	Mon, 16 Nov 2026 12:03:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B52CB606A881
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC83606A32A
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 12:04:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AC83606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=q1wyvGcN
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vNNRLLmEuzqDrTosZ8e/QAzD9C6Kjb0W4Q5tujOrSlwY6h6WQFG+0wRX226ou7YEq+Mw3IT35BVZ5sNjlcTygixFe3zUowwMjhGTNLn0cTz4C/xxPbfo3299+bV8nyBrf4xFXVVYTcbpiYhOaartkGmsO4Z8SUrWt//hHsk0KV9ExBj+674ndds+H9vfbfwIJxScbKopTs4Lt/Wu8PtiXdUjaRAQnfxdvskgzlxJmlS3eOSit/HMu72U9iFWp3pw8A7jh3AXw+ECTcCfm+KfbKUT4TWXuUwoujUM0QGK/mV/P2rBfBsLBMNkYDEv/B6qGy/cILIsRXCGj7bI32m82w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I25oiglLrUzVRCEMM9jHZPyTbD7zyy/tDL/QDW30Qbs=;
- b=SkiISaJkgMSD0RvUfa4NwOG8vrd++91zfXXbnJNttdyW3NzOoq9zXNu1mYtXl/Shs2TDpXwCeJ/y4eUW0SnqVfQecU+R5/uq50oZVH+zAKZ52f1M9Po7QH7E6aYznVj0vrx/NGjDfgxlXyvB7DajUTjsAc31z5P7kTVAONHpSUvsh2BwCOsFphCPDbfKkUgpO5uU5f0nAYI4wzFV2pCZZ2jv0G5oxNCiyhjF1cXszaU+csG6UzEGSvd+0591J9yaB/Onp5jtO9dIIUXbUbfAHAu/V7RliWbZ0ftHgiVPK0fCR1AoJTBv25a/FdPk9Fy0v8yFQf8nPZHGc1dzY6AgNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I25oiglLrUzVRCEMM9jHZPyTbD7zyy/tDL/QDW30Qbs=;
- b=q1wyvGcNh6iBzkpoNPSGeIQ4Ihfv6HWZbySpacFFV9zJokb5b8oi9vfP7YRydR0DIYp9W3L/v9wGQjqUD1rkeCJ1P3t7v7UvO3uHp6i/Kn3y8p3Y/zujpJ3mB3xXxCcvbqANguWoaoQVWPbZ+cUjOVlLgwK/YiwEJ9wDNxce3e0=
-Received: from CY5PR15CA0057.namprd15.prod.outlook.com (2603:10b6:930:1b::32)
- by MW4PR12MB7335.namprd12.prod.outlook.com (2603:10b6:303:22b::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.13; Mon, 16 Nov
- 2026 12:03:10 +0000
-Received: from CY5PEPF00000E79.namprd02.prod.outlook.com
- (2603:10b6:930:1b:cafe::8c) by CY5PR15CA0057.outlook.office365.com
- (2603:10b6:930:1b::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.13 via Frontend Transport; Mon,
- 16 Nov 2026 12:03:10 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CY5PEPF00000E79.mail.protection.outlook.com (10.167.247.41) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Mon, 16 Nov 2026 12:03:10 +0000
-Received: from dcsm-trdripper1.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.57; Mon, 16 Nov
- 2026 06:03:06 -0600
-From: Akshay Gupta <Akshay.Gupta@amd.com>
-To: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-CC: <linux@roeck-us.net>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-	<conor+dt@kernel.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<rdunlap@infradead.org>, <arnd@arndb.de>, <gregkh@linuxfoundation.org>,
-	<naveenkrishna.chatradhi@amd.com>, <Anand.Umarji@amd.com>, Prathima Lk
-	<Prathima.Lk@amd.com>, Akshay Gupta <Akshay.Gupta@amd.com>
-Subject: [PATCH v1 4/4] Documentation: hwmon: document DIMM thermal sensor channels
-Date: Mon, 16 Nov 2026 17:32:28 +0530
-Message-ID: <20261116120228.865196-5-Akshay.Gupta@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261116120228.865196-1-Akshay.Gupta@amd.com>
-References: <20261116120228.865196-1-Akshay.Gupta@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=R6ZQDB61
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8b4cc793704so9889817b3.2
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 04:04:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794830685; x=1795435485; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=w+hLSSBEQLeaadJ4ehRvrNvghPc5ZJYcY8eWYUFvqOA=;
+        b=R6ZQDB61rzhvhYgQPcmWrTeolhLyLN32JqAJH7MI/omFjgFHMvVIpXo+zR84zcrSgw
+         qYz3BPAqeMsqfoyxQbCnXsC9BAzK35cZZLYTm75I8urB4qwsg10LYufBTuarq9IALGu8
+         pqj+ENF59L8XQJisukjrq2nksGwx+54ksp3C3KqTGKUASXuw9Nv5ihCKJC9Q4qD0qpS1
+         s1aam+e4pLVvCr6i93Nwg3Hc16/cbtIRGxNAu0/GronzX458ySXXfT05ncBDXiLR1/vk
+         U4sU6Xc7mJQPOfK/GxZqNYDLPHWdTEcs75sjI3WtpZJ2C24jEvsuSxgoC3YkrQLICpxI
+         zE9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794830685; x=1795435485;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=w+hLSSBEQLeaadJ4ehRvrNvghPc5ZJYcY8eWYUFvqOA=;
+        b=sFn4YUwrnH6TlpRICfo1S/fmIcU2VWhAb6t8KMAm4Ha1OgQD8BHdqKqcdAthOtV3c+
+         P7SFNIlhCHuLW0QQKHuwr9uMR7LkBXqxTuZIW2aTrhVRDZVkJo5kOLunA5gjRrXMfRMh
+         pH5IzyuWl+/1aJW6SB4NaRAAvUPhkf2OwF74y3uHomJVCaUkSv9Sy9F45YtSzCgJM7LT
+         WJe5cLgrAFEomDOEt01klIIItfgATr2VbsfiWbjpr2sgM+50E5WnSTjjpLWdaiV2yk2/
+         JpVfKN6tkbDUqwo1c7cNw9dfX1h4ye1ysG6kn0dmAjl6z3Xrh/cMvFcj9iXfj78glAhv
+         7K9A==
+X-Forwarded-Encrypted: i=1; AL+hErFqUzLB4BixB/TklDw35j8jqboiOM6Sb7uakHgQD6nXOV5OpZhmnhWEIuHdJ9GyXgRAYtH3bs9P+Cc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8uj+UkI5B63sCfs4K0C+7PVqiaRHZWSq1YEzjLeoSIFGs5NMjK
+	JHfktdEP67dHg3DEC1M+Ycc1oHyHV8VY/U5xbFGqS1cyLNAI31k74SVB
+X-Gm-Gg: AZFdTZfysFXIrxnleBHhIt2xSQBQwwMZ8x68Y8mGgP/XJIsnQgPBIPi9q9z61g7Fk0d
+	chxeFuvWlx678jrauSb0LgHXz7ua6Z3JNaSBEXgIYJ668fOybG/QM1ZiJZGRLqvYLZyk255WMUR
+	j8Y/pwcwr9+0ETxRuOwXItEWHEfd+cyAoMkXfhouBsooJRAuFGw42LiFGCPdnqx837j1Y3gNRZB
+	G4M3yiq89Wri8xiQGnKZzobxRjGI3Q58J6I+9ElqTUkQzB7jeKr/vombpjAn11g2Hncyn0GYHRJ
+	AIs+ygu0v3SicliKXwkFTRa2je75OsLNzcO2cMmVLbruCIn/n9sPXTKHnHLAlWWpJQqJPvoOHmB
+	9yO7icAkCFnGY77GCHOwR0mOztY/0H8SQbDnCT+1BQDxBfX2JIoJ+uTBPjVoeVRwsbqPzoMST/n
+	gXerBOdGCn4hG2fuWTIVS+GTgb3cm63cm31FOX27plc0bUaAYqzoxgESbaImpqJmZDsgnX36Ncz
+	GL8pl3aTdz/2dWuKDVFR7TfTgkl2sitBO2vcRpxVqfyfKysw8O8Ern9hDvBB+oFJnbbs3WLcEZa
+	GsYEr/RHD/AIq9qkNQVWUl5rqWV6gUjY3rqaaVsMrwt6eBvD
+X-Received: by 2002:a05:690c:3181:b0:8ae:1acc:ad33 with SMTP id 00721157ae682-8b4aa305fd1mr44071397b3.58.1794830685512;
+        Mon, 16 Nov 2026 04:04:45 -0800 (PST)
+Received: from localhost ([2a03:2880:30ff:71::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa9fae24sm83783927b3.41.2026.11.16.04.04.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 04:04:44 -0800 (PST)
+From: Daniel Zahka <daniel.zahka@gmail.com>
+Subject: [PATCH net-next v4 0/5] psp: support rekeying psp protected tcp
+ connections
+Date: Mon, 16 Nov 2026 04:04:35 -0800
+Message-Id: <20261116-psp-v4-0-1a599df2aefa@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -110,130 +92,223 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PEPF00000E79:EE_|MW4PR12MB7335:EE_
-X-MS-Office365-Filtering-Correlation-Id: 21f9c34b-7922-4747-5001-08df43d995b6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|376014|7416014|36860700016|23010399003|22082099003|18002099003|261009223027099003|3023799007|56012099006|11063799006|261102123227099003|261028144727099003|261026121527099003|261026140227099003|261021123027099003|261022105027099003|261021121427099003|261022075727099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	okW/2EVC9c+rsq8hTRKUxxNxkA3wyLeYUvgfzGFHYItEKyXcL4ttiip0okTKle8/9MwKUzu6nGz8lsLNERoavz7FODOYNzieyP7cgz6jl9gYHK2AvTq06RhD4SSkJySKjV/s6UAOwq5RRxF4lNrN4z7Is5S5wnrTQ6RNOHlHEURjb4Qu3h+1peRSwf0Mld+/4OH6et/PWlYLJZOQVyrI4Yc2Vv0/sHD2Kew/irjEV1B3ol+PYSjATtiwXVVCEvCt7jNjbAFlkK30RUnsKoX3VIYyz8a6ot+s/MH791GRx5Ox09ZU3iVVfnFFRiBFZdOXUxcD2EhyF24B9O7f9ECuvhGZ1l9cicyOpPRe+63+XNzQXTULPIK7DJB5KrL0P08nm67I3I8sV2OBu8cYC4JZeCTZE9cf+UbpXILBkCQNY44Kop3XDuc1Mhiu8kk1EkuXbZS3REMEFFLEyZdLC89iiJmUlebcAal3AljvdxVtbjFGAtipJbRf92Dyiea4FyzwEjcYF+Ib9zG/hTU476wj8+H++cuAdru5kp/vSjEN9Wkhi6+7flHOFTVg/ovNFJU91qLpnmhvqQ5BPA5XGFNnTJjwzmk/djxZx2WWqi8OEvRDmpXVNN72oyG56yxQgIbmzSsJnJaxehj1+DQrx8NkM3nfP47EJbF2GpsJzpWi+WfZ2Oyl4lHcy7knwCSnVFmGSNndTdqsmwiOiapy5jxGPw==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(7416014)(36860700016)(23010399003)(22082099003)(18002099003)(261009223027099003)(3023799007)(56012099006)(11063799006)(261102123227099003)(261028144727099003)(261026121527099003)(261026140227099003)(261021123027099003)(261022105027099003)(261021121427099003)(261022075727099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	T49PMM+AqIVAQLxY2CLx4E2l1B9LKia+AcBx48O5kCoAH9n7yUedS4WLa4gJltNXbFp3MEK3Pt3Nf6Q42YaeuQb/c5Ui+AkXig6AKosS8vbI7K2H7R/XX+Rcx9bLetrHug+qcGTNdwejIJaK10eLOOKlxf99TNEK9NQXa51bzbrVeEuy8OxwPZELBizqPgSfvQm1u8lUtqrkCNZTmVNziUMkvV4cNvxUh6AFhlOh/QwHCGNrDwTE6bvVbjyOwsZ35EIOuj4dUesvzO7sq0oPkC0g0e6VARBvkD62J9j73NcjUMvnQcIt0V2nNEEdMQNUNjGnEvTjCRHPRScx5VGCThFfn5yfRM54sSUy/rk7UJtdCQqi9akjw4GmjdB679QORcRLQg6IU+sR84On/8ah8Od48adPdrThX3CNOeE8w62W/tsHItxzKdT0nJi3F7b9
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 12:03:10.8028
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21f9c34b-7922-4747-5001-08df43d995b6
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY5PEPF00000E79.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7335
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFPx+moC/13MywrCMBAF0F8pWRtJ82rryv8QFzGZtAH7ICmhU
+ vrvxlQU3Qxc7py7ogDeQUCnYkUeogtuHFLghwLpTg0tYGdSRpRQSdLBU5gw0zVQK4UWmqP0OXm
+ wbskrFzTAjAdYZnRNTefCPPpHno9l7t9LPC/FEhMsLGEcqLGKyXPbK3c/6rHPPtKPKQlpdkNfR
+ jRS3QSxsqr+DfuaksjdsGRUbQyrrVAV/THbtj0BnDagwQgBAAA=
+To: Jakub Kicinski <kuba@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Donald Hunter <donald.hunter@gmail.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Willem de Bruijn <willemb@google.com>
+X-Mailer: b4 0.13.0
 
-From: Prathima Lk <Prathima.Lk@amd.com>
+A note on v3 and later:
+To keep this series short, I have split off some of the content that
+appeared in v2, and also have planned future work that will make this
+feature more robust, but not necessary to start. Here is the current
+queue of follow up series:
+ 1. core tracked tx-key-count stat and SADB drain test case (from v2). I
+    see this as able to stand alone as a series, and I also would like
+    to report key deletion errors, but will have to touch mlx5 for that.
+ 2. core to end grace period if BQL is stalled. I think this deserves
+    its own series for human discussion.
+ 3. Rate limiting rekey uAPIs. This has been suggusted by the bot, but
+    whether or not it is needed depends on a bit on the deployment
+    model.
 
-sbrmi.rst described only the power1_* attributes. Document the
-tempX_input and tempX_label attributes for the DIMM thermal sensors,
-the DIMM to temp index mapping for one and two DIMMs per channel, the
-DIMM_TS<t>_UMC<n> labels and the effect of amd,dimm-ids, and add a
-sysfs read example.
+Original cover letter:
 
-Also point to it from the SB-RMI section of
-Documentation/misc-devices/amd-sbi.rst, which listed only the power
-attributes.
+The PSP architecture spec states the need for rekeying connections in
+the event of a device key rotation. After a device key rotation has
+occurred, a new rx derived key needs to be generated and sent out to the
+other end of the connection sometime before the next device key rotation
+occurs.
 
-Signed-off-by: Prathima Lk <Prathima.Lk@amd.com>
-Signed-off-by: Akshay Gupta <Akshay.Gupta@amd.com>
+Because PSP connections involve two different keys at each endpoint,
+one for decrypting ingress traffic, and one for encrypting egress
+traffic, there are two types of rekeying events that need to be
+supported. From the perspective of one endpoint of the connection:
+
+1. rx rekey: we need to allocate a new spi + decryption key pair to
+   provide to our peer.
+
+2. tx rekey: our peer has provided us with a new spi + encryption key
+   pair which we should use for encrypting traffic immediately.
+
+In the case of rx rekeying, there is a period where it makes sense to
+accept packets authenticated from either the previous or current spi. To
+deal with that, we allow a psp_assoc to remember the last spi that was
+valid on a socket due to a rekey. If authentication state does not match
+the most recent assoc, the stored state from the previous assoc will be
+tried.
+
+In the case of tx rekeying, as soon as we install the new tx key, we
+have no use for the previous one, and it can be disposed of immediately.
+The only catch is in the case where hw uses a key handle in tx
+descriptor state, as opposed to inlining the key directly. In this
+case, psp core needs to be sure that any of these unaccounted for
+references to key state are gone by the time it tries to sync a deleted
+key to hw.
+
+To deal with this race condition, we introduce a different path to key
+deletion for psp_assocs removed from the socket during a tx rekey. psp
+core will use bql byte counters filled out by the driver to determine a
+conservative grace period where key handles can be disposed of.
+
+Lastly, some test cases for rekeying are included that go through key
+rotations and rekeying.
+
+There are some packetdrill tests that are queued for upstreaming [1].
+
+Future work can include a time based rate limit on the rx-assoc/tx-assoc
+uAPIs to prevent an untrusted user from creating lots of wasted PSP
+assocs and consuming SPIs, SADB space, etc. For now, users should use
+network namespaces, or otherwise not present PSP devices to users that
+could abuse this.
+
+[1]: https://github.com/danieldzahka/packetdrill/commits/psp-rekey/
+
+Signed-off-by: Daniel Zahka <daniel.zahka@gmail.com>
 ---
- Documentation/hwmon/sbrmi.rst          | 37 ++++++++++++++++++++++++++
- Documentation/misc-devices/amd-sbi.rst |  4 ++-
- 2 files changed, 40 insertions(+), 1 deletion(-)
+Changes in v4:
+- selftests: drv-net: psp: factor out psp connection setup
+  - drop closing the data socket on conn_setup_psp() failure;
+    preexisting and not needed by the series
+- selftests: drv-net: psp: add rekey tests
+  - reuse _recv_careful() and _req_echo() now in net-next instead of
+    redefining them
+- Link to v3: https://lore.kernel.org/r/20261106-psp-v3-0-a8dd38f5a727@gmail.com
 
-diff --git a/Documentation/hwmon/sbrmi.rst b/Documentation/hwmon/sbrmi.rst
-index 296049e13ac9..08859763658b 100644
---- a/Documentation/hwmon/sbrmi.rst
-+++ b/Documentation/hwmon/sbrmi.rst
-@@ -41,6 +41,8 @@ power on AMD platforms using mailbox command and resembles a typical 8-pin remot
- power sensor's I2C interface to BMC.
- 
- This driver implements current power with power cap and power cap max.
-+It also reports DIMM thermal sensor (TS0 and TS1) temperatures read with
-+the SB-RMI DIMM thermal mailbox command.
- 
- sysfs-Interface
- ---------------
-@@ -57,6 +59,28 @@ power1_cap       RW    Power limit can be set between 0 and power1_cap_max
- power1_cap_max   RO    Maximum powerlimit calculated and reported by the SMU FW
- ================ ===== ========================================================
- 
-+DIMM thermal sensors are reported as temperature channels:
-+
-+================ ===== ========================================================
-+Name             Perm   Description
-+================ ===== ========================================================
-+tempX_input      RO    DIMM thermal sensor temperature in milli-degrees Celsius
-+tempX_label      RO    Channel label, ``DIMM_TS0_UMCn`` or ``DIMM_TS1_UMCn``
-+                       (n = 0..15)
-+================ ===== ========================================================
-+
-+Each DIMM has two sensors, TS0 and TS1. DIMM ``n`` (0-15) is reported on
-+``temp(n+1)_*`` (TS0) and ``temp(n+17)_*`` (TS1). With one DIMM per memory
-+channel (the default), ``n`` is the memory channel and the labels are
-+``DIMM_TS0_UMCn`` and ``DIMM_TS1_UMCn``. With two
-+(``amd,dpc = /bits/ 8 <2>``), ``n`` is memory channel * 2 + slot,
-+the DIMM number on the board, with the same labels.
-+
-+The optional ``amd,dimm-ids`` firmware property lists the DIMM_ADDRESS of
-+each sensor (TS0 or TS1) and only those sensors are reported; without it,
-+all 16 DIMMs are reported. A read fails with an error if the DIMM or sensor
-+is not present or the firmware rejects the command.
-+
- The following example show how the 'Power' attribute from the i2c-addresses
- can be monitored using the userspace utilities like ``sensors`` binary::
- 
-@@ -77,3 +101,16 @@ Also, Below shows how get and set the values from sysfs entries individually::
-   # echo 180000000 > /sys/class/hwmon/hwmon1/power1_cap
-   # cat /sys/class/hwmon/hwmon1/power1_cap
-   180000000
-+
-+Reading the TS0 and TS1 sensors of the first DIMM without ``amd,dimm-ids``
-+(temperatures are in milli-degrees Celsius)::
-+
-+  # cat /sys/class/hwmon/hwmonN/temp1_label
-+  DIMM_TS0_UMC0
-+  # cat /sys/class/hwmon/hwmonN/temp1_input
-+  42000
-+
-+  # cat /sys/class/hwmon/hwmonN/temp17_label
-+  DIMM_TS1_UMC0
-+  # cat /sys/class/hwmon/hwmonN/temp17_input
-+  41750
-diff --git a/Documentation/misc-devices/amd-sbi.rst b/Documentation/misc-devices/amd-sbi.rst
-index 648d743903b7..a1ef4872c90f 100644
---- a/Documentation/misc-devices/amd-sbi.rst
-+++ b/Documentation/misc-devices/amd-sbi.rst
-@@ -34,7 +34,9 @@ among protocols as transactions may create race condition.
-    crw-------    1 root     root       10,  53 Jul 10 11:13 /dev/sbrmi-3c
- 
- apml_sbrmi driver registers hwmon sensors for monitoring power_cap_max,
--current power consumption and managing power_cap.
-+current power consumption and managing power_cap. It also reports the
-+TS0/TS1 DIMM thermal sensors as temperature channels; see
-+Documentation/hwmon/sbrmi.rst.
- 
- Characteristics of the dev node:
-  * Differnet xfer protocols are defined:
+Changes in v3:
+- psp: support rx rekey operation
+  - move the replaced assoc to psd->stale_assocs, so a rotation
+    racing with its free doesn't count it in stale-events
+  - drop the requirement that the new rx spi has the opposite phase
+    bit from the previous one
+  - keep prev_generation valid across a rotation when the prev SPI is
+    from the same generation
+  - document rx rekey in the rx-assoc op doc in psp.yaml
+- psp: support tx rekey operation
+  - move the replaced assoc to psd->stale_assocs, so a rotation
+    racing with its free doesn't count the socket twice in stale-events
+  - document that the previous rx SPI also stops being accepted once
+    its device key is rotated out
+  - drop the claim that the peer accepts both the old and new SPI
+    after a tx rekey
+  - document tx rekey in the tx-assoc op doc in psp.yaml
+- psp: defer tx key deletions for SADB drivers
+  - document that Tx descriptors must be completed or discarded
+    before psp_dev_unregister()
+- selftests: drv-net: psp: factor out psp connection setup
+  - take key lengths from the kernel's rx-assoc reply instead of a
+    per-version table
+  - close the data socket in psp_responder if conn_setup_psp() fails
+- selftests: drv-net: psp: add rekey tests
+  - drop test for rx rekey rejected without a device key rotation
+  - fail fast in _recv_careful() if the peer closes the connection
+  - in the basic rekey tests, run traffic across a rotation before the
+    rekey, and rotate again after it to verify the new key is in use
+  - drop unneeded key rotation from rekey_rx_version_mismatch()
+  - carry the key length in the responder's assoc message instead of
+    deriving it from the version
+- psp: add core tracked stat for outstanding tx keys
+  - moved to a follow-up series
+- selftests: drv-net: psp: add a tx rekey drain test for SADB drivers
+  - moved to a follow-up series
+- Link to v2: https://lore.kernel.org/r/20261009-psp-v2-0-5596ab50f677@gmail.com
+
+Changes in v2:
+- psp: support rx rekey operation
+  - copy old rx state by value instead of pointer to prev
+  - place non-datapath fields at end of struct psp_assoc
+  - disallow rx rekey when socket is not in full psp state, or
+    dev/version doesn't match
+  - require the new rx spi to have the opposite phase bit from the
+    previous one
+- psp: support tx rekey operation
+  - place new assoc on pas->assocs list instead of psd->active_assocs
+  - disallow tx rekey when socket is not in full psp state
+  - document rekeying in psp.rst
+  - reject tx rekey on SADB devices until deferred tx key deletion
+    lands
+- psp: defer tx key deletions for SADB drivers
+  - replaces "psp: add driver api for deferred tx key deletion"
+  - use bql byte counters instead of driver callback for grace periods
+  - only defer tx key deletion when socket outlives psp_assoc
+  - document driver requirements in psp.rst
+  - allow tx rekey on SADB devices
+- psp: add core tracked stat for outstanding tx keys
+  - replaces "psp: add core tracked stats for deferred key deletion"
+  - drop grace-periods stat
+  - rename tx-key-cnt to tx-key-count, only report it for SADB drivers
+  - warn about outstanding tx keys in psp_dev_unregister()
+- selftests: drv-net: psp: factor out psp connection setup
+  - split psp_responder conn_setup_psp() into rx_assoc() and tx_assoc()
+  - drop Reviewed-by from Willem due to psp_responder changes
+- selftests: drv-net: psp: add rekey tests
+  - add tests for rekeys rejected due to psp state and version
+    mismatch
+  - add test for rx rekey rejected without a device key rotation
+  - add rx-assoc, tx-assoc, and key-rotate rpcs to psp_responder
+- selftests: drv-net: psp: add a tx rekey drain test for SADB drivers
+  - new patch
+- mlx5: psp: implement deferred tx key deletion
+  - dropped, bql based grace periods need no driver callback
+- Link to v1: https://lore.kernel.org/r/20260204-psp-v1-0-5f034e2dfa36@gmail.com
+
+To: Daniel Zahka <daniel.zahka@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: David S. Miller <davem@davemloft.net>
+To: Eric Dumazet <edumazet@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>
+To: Simon Horman <horms@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>
+To: Shuah Khan <shuah@kernel.org>
+Cc: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+
+---
+Daniel Zahka (5):
+      psp: support rx rekey operation
+      psp: support tx rekey operation
+      psp: defer tx key deletions for SADB drivers
+      selftests: drv-net: psp: factor out psp connection setup
+      selftests: drv-net: psp: add rekey tests
+
+ Documentation/netlink/specs/psp.yaml               |   8 +-
+ Documentation/networking/psp.rst                   |  68 +++++-
+ include/net/psp/functions.h                        |  10 +-
+ include/net/psp/types.h                            |  35 ++-
+ net/psp/Kconfig                                    |   1 +
+ net/psp/Makefile                                   |   2 +-
+ net/psp/psp.h                                      |   8 +-
+ net/psp/psp_deferred_del.c                         | 231 +++++++++++++++++++
+ net/psp/psp_main.c                                 |  22 +-
+ net/psp/psp_sock.c                                 | 114 +++++++++-
+ tools/testing/selftests/drivers/net/psp.py         | 251 ++++++++++++++++++++-
+ .../testing/selftests/drivers/net/psp_responder.c  | 192 ++++++++++++++--
+ 12 files changed, 886 insertions(+), 56 deletions(-)
+---
+base-commit: 7ccc5e05043b1bb84326b19a2b05938d8f7a2ae6
+change-id: 20260202-psp-3c8e2f65c5c4
+
+Best regards,
 -- 
-2.34.1
+Daniel Zahka <daniel.zahka@gmail.com>
 
