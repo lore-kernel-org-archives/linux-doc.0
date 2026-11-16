@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794856224;
-	b=sGhcfAW6IFNUxrh2fmDrlqXvd7Khqu9d8O68fMTTDAjIiDW/SEVx5s5fql079qidKBfr
-	 CAVKd20pgnyhNKsRvJU+MJOQB75+DR2TrBYyfEAGB6vke3yY7JqyCr3V12Me09MaKca5h
-	 9vg5n2/w/zwsJhIwfw9jDs1ss2+hGpmgNV6DFVXfyHALmGI/bCKUIRsMmd6yeyLy9SZEN
-	 mWOu8b4ebTh8qxCVzOtWlAmKca6JrHUr8cP1Y9LZ/A8oZGng7AjJsHEB2Kteitw0XzWVo
-	 zUHLIX7Oi3qLa2gQuKfikP+oz0A+P8BInb4jm/Z2R/xXNbiX79CrwC2IdqGYXfvpyEw==
+	t=1794856222;
+	b=UNicKylMBpl1JMGGSx9I3V6jZcGDufvDVtAUHnraF3SaQ+H+eU56DG5zSPlO42ipzRKI
+	 oESN9uaqjKV2d4qL3gSu72uJw8boicMBAH5V1P+BC4tB/uJTSLAenyrO/kLvCLDUWcQ92
+	 Wtbp1U7fpBgmdAS4qDpxTuJuwfWg4P27hMydFkyFzYGHALBVQEYd+aG+AHixnFSzIkjIR
+	 ZWl+ntlX648YIz8mSrp6wHp32DNFy8KKNRfxWRn6BtQaq8iU3kRVTUdwNB3nn1P+HJAzj
+	 GvMErSu8y3vxnfVK2iPiJ51VbjijT0+PceA9pPweo4TBAEbpRenk+OBvGBsJhEg/pjw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794856224;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794856222;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=5ymyID5yWGQWOMH6t/cr1gAlkP/MvA7c8+VMex67FU4=;
-	b=ie7P4t6BHPfJGngmkAzezZdzcmk48KIc7hoSsHSBQML+FIpJmA1D4KQC8CWh9MSUev39
-	 WTLQ0gIFknevYjAmK9HOA2URmXK/SVsdyr5Q4Lz1igfnp5SjvaeHoQqD+rGtmuvfyPONM
-	 L33NEcrcbE7/i2YBIXEKaVQ/QhzhYknqBVXjP7oIic87JZHcnhdmWsvvI7OZbmAwTpH8c
-	 2ikGIix9pUay9VDIhnW35qii4V5Lk3okFvdsN3Z2l3i9GBKN/1iitG+2TL6PTlGOii9yp
-	 XpQiNFpsjCHaCkVvMW9mqI5qLeElWBqC5co4X0cL94CWP9nLkUeBEFlT1zvM31ZXzrQ==
+	bh=Wz3i43bWbACcxDrn6IQ1R0IGDWvmDnWNIz0h7uvXbkg=;
+	b=vgSZ3aMcDpaOUN3fnR0iqg4dG0Lajdynv5NbfeGEPV/y08VFThfgRHIxhVXxx6LFGR0j
+	 GWYGCCjg0ElyOHDXzkbsnXxQaTh4/qo5EARp683J7hczZNqTn/v7gUaewibWfOPDdnZ2L
+	 XZ/nrgo21dMnK9graSsZr9+oKhTcU5Qjiut3O/H2SQCAZsuD0vYzVOTK1UjvEAClbQ9y0
+	 gzX2/0FZGSvCXYrH155vjZS3h0DvzA3+V8X3BPAd9Tus1Ok63CrylNvO4yXMFrrqQTM4E
+	 BVlaredJiHbC5t3HfoIRG0OElevj8h3DSE3z0OxBzsXHEbkR11PfEClDBht60Crz3sA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bjG0ezQZ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n2zSs5vd;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB37606A887;
-	Mon, 16 Nov 2026 19:10:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6D2606A33A;
+	Mon, 16 Nov 2026 19:10:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bjG0ezQZ
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n2zSs5vd
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794856224;
-	b=qULEkZaU5EZ4gCL0jcBG1du68dm/Zj+llvss1dyvXrtsvPIl7z5EK+w7SPY2iIVCYImI
-	 oAy0zAQ8th1fMZey5YTLvamcckHJFy78AIVEzvdVFwXsvd9B63HuZqEBRrL2UweOYNln7
-	 AwIrhvw1yjOjzao3zaQuQRzITh1umewYZ8lBj8TmKFKxfp+Z+QIWtHbtfnvkL91BeSYtv
-	 5baQQstGdeey3z50kLGx7LuGBlcXds2xPRwJ+UYjaE+RxPZuNxYlUzIz6Lv0BCOqz5Dbm
-	 +JvwQYHTS4UQDhirZsDB2EDR7j7uoLwVqH+rhjkCM+HoI8ikqpx+sFqOP6wbYUEnNxw==
+	t=1794856222;
+	b=htnaw3LAsFo/9Rn04Ccjq6yLTlEBa8gkMcKss2DR0hKX+R4Js1r/82dLJh9X9ljTkmuy
+	 Kl9fps42TeUApB1JTXKRfzZjtCeNFWKWEeii2d0cUU4vRBNQrapMNG1ehxx7/byr1Pn+Z
+	 /qd8PC8XB/fPegoTjFsdJFddTl2oRlFKnKVInhR/FFl+wiJlbMTUXSZ3AToOMbMga5ueW
+	 FLImL5BTVPDhTm/dYiXI7oCHUOpbenxR+8aoYVlLt3ey74Fq2AMu2852x2e+fUEHrLmvp
+	 4KTYk70cV6VQWuVLd+jg64pqmci/CT5fvCM1pZ7DSMTurDowYl2tezMvcs9T5KwfCnQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794856224;
+	c=relaxed/relaxed; t=1794856222;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=5ymyID5yWGQWOMH6t/cr1gAlkP/MvA7c8+VMex67FU4=;
-	b=WCR0tHxqCbdsOgi6nM6eL+GVxCoP0GG5VFnc2bDwTgjArIq1s8C+kBkIxhrzu1pxkbgK
-	 juDd23skSRDmbinkId380IXd0nOwb/RfShuWnH249lCyTPkS91C2lvXei1gUhX2BdONrW
-	 gruFC9hqiqBTIUdaDvZN2NSIUTmfqcnM4HKsRE/TxqumtLIJwGaPirI9owKzLZdWwXUHp
-	 n40ENBqOUt6V7YrXMEdDG+/az1ujZcYq17ELYmgoleeBrsVmumKhRNUekttqwyZkuL8c/
-	 dVVt4WECwgehXs81corz0L9gLfiAWcfs32u8m/etHxveZEGs5YI0snmw7p8pCY18J/A==
+	bh=Wz3i43bWbACcxDrn6IQ1R0IGDWvmDnWNIz0h7uvXbkg=;
+	b=a8eGcGtsO4hDNQseLLmgqzUGn2CXZTJ0e7wmIKQ7LqODXEvuIvueRSGDwzs5wEJuhYLJ
+	 LH//1vFfYJttiyNaPMsXbFZ0TtA/TERHsrmZOBLuLEbXUqxer1FVVDGCrnY5fNaB1sLOa
+	 Q8Oipv75zxPOlwdGoFey5QyYCz8BihS3MzOULDY0AzdolX19wK28Bq71G2H8rNHILg5iQ
+	 rd1SgTq8A426aIVtk6rRVqFA31pCBObrLhvJwq6l6R6LPmznOjoQ3b93qj+MfVQWR+a7p
+	 z7K3GsUBViVBZx39REbExyRqu2p0hPYuWph+79D2wdUtnDJSx4wA2g04ca2F5oUyeAg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 222E61F000CF;
-	Mon, 16 Nov 2026 19:10:22 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 17A291F000C4;
+	Mon, 16 Nov 2026 19:10:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794856224;
-	bh=5ymyID5yWGQWOMH6t/cr1gAlkP/MvA7c8+VMex67FU4=;
+	s=k20260515; t=1794856222;
+	bh=Wz3i43bWbACcxDrn6IQ1R0IGDWvmDnWNIz0h7uvXbkg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=bjG0ezQZ+fnVbyojelDEgz9QF/RbN+Yvuh+moB7bWehPFGvQav/M1aSWiOVb6aa7T
-	 Jt2RkbSVdU4/NwYpwtqI7jizCRHdG8/C7k7KFsMQjfPgVyG42R55pw8SLAynV/wN3M
-	 kLji8rzA1sg9eYV1eLaH7/L6R3SXxmrTOe3FhejTWK7eygJWzMDSnoS5R3wNGm0Dxn
-	 XdXCSQw6Tom9dwmIcxIerhEtv4VojIOKt4Ah6oSQp0hyGI/gwKhtW4Ae+Dr5tup3fr
-	 IIwoAREYzAmrkH0Ra3PQO57MQ8MZiQep63l5nurq5iLJIQ/o0keqqvck/1rbMV6Sfu
-	 bhEAiFfrfnKXg==
+	b=n2zSs5vdSdMdudyhPG79tYKxSODhCv60mMS4VS0e0KcAwzghprh2JN3lx8hLjOp1s
+	 swOF3WgFec0q9DafwkDo2rBh5mUnWbcnTCrYdr8UBNC7sYPVfM86BG5G9uph+TMV/f
+	 O/JUt83jWVg41Us3LAqB//s7aXQOGZbHIeAVHfnEZlvzLBqwf3ykfJJec043lGAFfB
+	 cQbWnttj7YsgAzmVPRx5FV0gMElp3dEeZMbB7ScDTIPMQ0c9sB2JNLdc77Lnp+Pbig
+	 9CylRlVQXc2KiJiamL0EiciODNH0WhgVBtGbSN5LRAYC2pZpijgCcaKFgGKVNkYdpS
+	 8OHYZ6wc3zk5A==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id C02F14A5A9;
+	by lkml.kernel.org (Postfix) with ESMTP id 947684A5A1;
 	Mon, 16 Nov 2026 19:10:20 +0000 (UTC)
 From: Mattathias Pinchover via B4 Relay <devnull+mattathias.pinchover.uber.com@kernel.org>
-Date: Mon, 16 Nov 2026 19:10:09 +0000
-Subject: [PATCH 6/6] Docs/ABI/damon: update for sz_ops_filter_passed_last
+Date: Mon, 16 Nov 2026 19:10:07 +0000
+Subject: [PATCH 4/6] Docs/mm/damon/design: update for
+ sz_ops_filter_passed_last
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,7 +84,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261116-damon-sz-ops-b4-v1-6-1cffe7227e6d@uber.com>
+Message-Id: <20261116-damon-sz-ops-b4-v1-4-1cffe7227e6d@uber.com>
 References: <20261116-damon-sz-ops-b4-v1-0-1cffe7227e6d@uber.com>
 In-Reply-To: <20261116-damon-sz-ops-b4-v1-0-1cffe7227e6d@uber.com>
 To: SJ Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
@@ -93,11 +94,11 @@ Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, 
  Mattathias Pinchover <mattathias.pinchover@uber.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794856219; l=1281;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794856219; l=2118;
  i=mattathias.pinchover@uber.com; s=20261113; h=from:subject:message-id;
- bh=90a1wbT2PC+F+rhsnr9WMD8Unb+N/GP+Z2kT1pcYBmY=;
- b=hi4tgZIxtxR6RtG6s3uQhhJYxlS2HNzATbhpnuiqcnw5erFek5+RS0MAPJiH9qov+piDgHtK6
- oCziTYlozDbCijoYbcVkeCIhYexh+1IIvvma8bp8NvnmpRTf9a0dgFu
+ bh=nwHjZVHHDRBT1eHlqqDWBt5BJ2Vcy+5/DHoQlewkkIE=;
+ b=b0tvkQypc2c7AsnCXE+pq9rOaYIeO3iDB0Oj8qy+Oo2BDDoOAEgQn7E9EZf8uFy1tHQ24VVWB
+ X5KJIE6CiWvBDh8V8PfnZmpjaQE2zudNNk0YZuofHhRxEiKtyhq8L1E
 X-Developer-Key: i=mattathias.pinchover@uber.com; a=ed25519;
  pk=6Bh6OEwWiU6dpON0CVcoipq8fXtEgvhsM1Tmm9CTmtY=
 X-Endpoint-Received: by B4 Relay for mattathias.pinchover@uber.com/20261113
@@ -108,33 +109,44 @@ Content-Transfer-Encoding: 7bit
 
 From: Mattathias Pinchover <mattathias.pinchover@uber.com>
 
-Update DAMON ABI document for the newly added DAMOS stat file,
-sz_ops_filter_passed_last.
+Update DAMON design document for the newly added DAMOS stat,
+sz_ops_filter_passed_last.  Also explain that, unlike other
+stats, it is not accumulated from the beginning of the scheme's
+execution but shows the value of the last apply interval.
 
 Assisted-by: Claude:claude-opus-5-5
 Signed-off-by: Mattathias Pinchover <mattathias.pinchover@uber.com>
 ---
- Documentation/ABI/testing/sysfs-kernel-mm-damon | 7 +++++++
- 1 file changed, 7 insertions(+)
+ Documentation/mm/damon/design.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-damon b/Documentation/ABI/testing/sysfs-kernel-mm-damon
-index 4acb2015c2f4..92348178e48a 100644
---- a/Documentation/ABI/testing/sysfs-kernel-mm-damon
-+++ b/Documentation/ABI/testing/sysfs-kernel-mm-damon
-@@ -623,6 +623,13 @@ Contact:	SJ Park <sj@kernel.org>
- Description:	Reading this file returns the total size of memory that passed
- 		DAMON operations layer-handled filters of the scheme in bytes.
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index b676be697158..e40b8c1a3461 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -876,6 +876,8 @@ scheme's execution.
+ - ``sz_tried``: Total size of regions that the scheme is tried to be applied.
+ - ``sz_ops_filter_passed``: Total bytes that passed operations set
+   layer-handled DAMOS filters.
++- ``sz_ops_filter_passed_last``: Bytes that passed operations set
++  layer-handled DAMOS filters in the last ``apply_interval``.
+ - ``nr_applied``: Total number of regions that the scheme is applied.
+ - ``sz_applied``: Total size of regions that the scheme is applied.
+ - ``qt_exceeds``: Total number of times the quota of the scheme has exceeded.
+@@ -903,6 +905,13 @@ to exclude anonymous pages and the region has only anonymous pages, or if the
+ action is ``pageout`` while all pages of the region are unreclaimable, applying
+ the action to the region will fail.
  
-+What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/stats/sz_ops_filter_passed_last
-+Date:		Nov 2026
-+Contact:	SJ Park <sj@kernel.org>
-+Description:	Reading this file returns the size of memory that passed DAMON
-+		operations layer-handled filters of the scheme in bytes, in the
-+		last apply interval of the scheme.
++Unlike other stats, ``sz_ops_filter_passed_last`` is not
++accumulated from the beginning of the scheme's execution.  It is updated at the
++end of each :ref:`apply_interval <damon_design_damos>` with the amount of
++``sz_ops_filter_passed`` increase in the interval.  Hence it shows the size of
++memory that passed the operations set layer-handled filters in the last
++completed ``apply_interval``.
 +
- What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/stats/qt_exceeds
- Date:		Mar 2022
- Contact:	SJ Park <sj@kernel.org>
+ Unlike normal stats, ``max_nr_snapshots`` is set by users.  If it is set as
+ non-zero and ``nr_snapshots`` equals or is greater than ``max_nr_snapshots``,
+ the scheme is deactivated.  Note that, unlike watermarks, even if a scheme's
 
 -- 
 2.54.0-uber3
