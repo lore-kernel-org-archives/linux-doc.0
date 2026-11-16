@@ -1,71 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794871582;
-	b=EDG9NOeSRHbg4q+9WgtfpbNwLjp9xTrgk06mN2IBfhay1Z2Qq0jWQckNhl0fcr/bk0QJ
-	 gxQ1sqvE+81PeBcD1e2FjeFQ3Af2vk77PTpcbE670eTuZqLpWgRzTlaNWzH26W4kUttGl
-	 sdiU0w4D76OATFEp3Y71UWq3hfqVFGwHaKYEpUHzLPBzg8CY6AWQW4y7BMr1EkbWbiH96
-	 lw2gLch/RpPqCiF9TAE9buOLAF6dcSkJa1VJOHVEUN7wj4IKpOcY2/dfHeA7sZKcvM9pJ
-	 ZYdiApvzr6kuZcNEsDDOWXtxTFGnDAVGnEyO6ONxbNmJmFzhyLSJCVy1Zt1B8L8thsQ==
+	t=1794872519;
+	b=U4f0oRuQi8gJxenFJAmoNE5CgBImhRDijX5eGA+t7bVL6V/vY/SlGfVe/XTwem6P7Srh
+	 m35b2VdPH0ogcTscmwZ2Ls7fplAQ8f9tSsRCSSfA4SMH8kHWeUguJK4k8Ii/BzdS6Q3K2
+	 ry0jllUrJ5la3G/IVdfM6NZOz4/pJoIlF4rOGPA1/broQ7cSe4ymOmiAQKwsZL+f7aGag
+	 wmgujsOx9fNBxpraRnpbNmsBkhAlnVEzYhaw7u05ZqN3XFTtA+RqppYhCdxCW1+abOOmo
+	 fayU6Ixllmq4M7BJ4tPn8Tfl8C+vq2eUGcd8YS6GjpI3wBSWoewg9zo7D1i4PwQ1gIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794871582;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-Rspamd-Queue-Id;
-	bh=2dx3GFxjCIPVJ9bHnj9H11xbn7VrbLtedlP0fOfqO1c=;
-	b=ttnjXHFWLhYU4b4SYg+dCpiysd52VGjpzP3NSdQ0GsOizNbBR1hZ1Ds+MSW7gtS5CnBp
-	 jnEBfCRNIQi4RGWIzthXucy+qTvKZ4yOFrZYiY1ggJaaJKjqMKbe1FJ2HoAzG9wTW+8rM
-	 QE7mKkm02e4kiXJP5BLRI4pWh4cK5Fxx560WQaw1UvO5VuksLYO3srbznURqsurVq+vVF
-	 p5ATAbEcFkXpimDklWYe+cJrpJV5pRNUobKKRP0t1LJ3i8wXAx4Ts7+HFkq/HK7UCDuOg
-	 YJvylDBxDqOuLHrOyLppsLebOP/YqFK/C9dArLnCW4bnTt1EYMB0l+AoLi+j/5DYGNw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794872519;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=LfK0P8wpQhjKU73faMZJ7aS0+N+WOnHsL569QrZcsKU=;
+	b=gE7A59NJJffnB2kPbAtGeCf1zXxK2X0xLHl97ts3AhHCxp7Rpm+q9Dunnpt3zxi+C5vG
+	 o7uYj6gMyJhwPjHP0K1AWrcv0bfFi5uU9liZXAhjomLq5djtyJAZJodD8OwOuHxYPFne5
+	 vHWG3vkMjX3HSClcTS6WwkNufzz25325lr3xjc6fp19Bzs3lJll2OuH40eC4trOyqXoCn
+	 G15i2aeOu0ki1UcRTNET3HYBAC6i4UY9zPcjeFGPd136AeHcmuAkPXF+dKhoqdVwPgmV/
+	 oVaDgYUFhRfM1CRXAu0VOXabVIpoj1qroKgCDeb0LxmlkY0l4DD2UCfi2YtSF+/MHgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bojanowski.me;
-	spf=pass smtp.mailfrom=bojanowski.me;
-	dkim=pass header.d=bojanowski.me header.i=@bojanowski.me header.a=rsa-sha256 header.s=MBO0001 header.b=Si63RNlt;
-	arc=none smtp.remote-ip=80.241.56.151
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=JdtTDxg2;
+	arc=none smtp.remote-ip=209.85.208.42
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1511E606A31C;
-	Mon, 16 Nov 2026 23:26:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1511E606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bojanowski.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bojanowski.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD28B606A31C
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 23:41:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD28B606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bojanowski.me header.i=@bojanowski.me header.a=rsa-sha256 header.s=MBO0001 header.b=Si63RNlt
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4jT3s53K5dz8v3N;
-	Tue, 17 Nov 2026 00:26:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bojanowski.me;
-	s=MBO0001; t=1794871577;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2dx3GFxjCIPVJ9bHnj9H11xbn7VrbLtedlP0fOfqO1c=;
-	b=Si63RNltlgPRF79Z2qcUKUKIktl27Z/994TpS7z7nCTaFgxXaIrGAyd8QlE8ofjAYOSLUF
-	hBcln9+tQyqi0C9SDrZSY1fXSFsh89UuEwzM+XJvtqu+VNA65154cJQke6OqQxjR7sL44H
-	Vudzj/vJc2hRfMkC63s+GAlOgdPOlimUKszjlNBE+3ykgq1a8C9YlhR/K5OSKzHkjzyR4p
-	tMW5ZinImZKhVQR01peyV5dPz+AmtIKSEykGqJEdGrQPWWuhE7WC3MS2S6r4IE3fwWZ8TK
-	6gaXKBs1rERQnfpCfr9qh2wSRW2SfgIr/hPjo2FaFTYZhuBhANoiEBzejZknoA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of tomasz@bojanowski.me designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=tomasz@bojanowski.me
-From: Tomasz Bojanowski <tomasz@bojanowski.me>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org,
-	Hamza Mahfooz <someguy@effective-light.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (nct6683) Make pwmN_auto_channels_temp of NCT6687D-R writable
-Date: Tue, 17 Nov 2026 00:26:12 +0100
-Message-ID: <20261116232612.501586-1-tomasz@bojanowski.me>
-X-Mailer: git-send-email 2.56.1
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=JdtTDxg2
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b2237b596cso9041590a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 15:41:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1794872516; x=1795477316; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LfK0P8wpQhjKU73faMZJ7aS0+N+WOnHsL569QrZcsKU=;
+        b=JdtTDxg2OshVl5HbGUg/g/K8tqtpzSXsRw+dWKvLKKXmTrDoJenmWSadRI/ljuJccf
+         7wk0mZn38OFN2LDLLbyGrlHWWq6f5pwNt2qbKdRXPXUQMeSDZjij66Y9MaJPPfn34Nrm
+         n2hV7TprcOLQ34PZpxKvGrWxA2Qjg+J+mm+F7BysHJoYt0ZpHVZ0VRkSH1EH3JJ42tde
+         7P2cLOnRkwBjiOlI28fM/z9y1dUJVzdkS5+UnzrzIryL6R8xGgDH4deKFO+FPqqo5759
+         MfozIS3U46rx+lkCDA8uTpidJQmKhl3cp2CAliW7D+h+kNkntoC6DR728pbgrgLn+jDF
+         4WTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794872516; x=1795477316;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LfK0P8wpQhjKU73faMZJ7aS0+N+WOnHsL569QrZcsKU=;
+        b=vj62NASkPMl3fLmAdd1cxiIC9q+elPtyr8v1JmuCSaCImIi3zR/+gbdFO2TvMwxG1i
+         XfIgcrcpweOjkRtpsB7Doiyuw9492Ke+X84UOUmreXDN150hkeR820OwExIsl83MjC5Y
+         4h0mCO2T4PJ7AO7IiB3qsqQB1a8+RkVvSduHX7ObHayLTOpsepTp8LmDQ9uLOBZ1UKBH
+         z5TM2tTCwY/GA2wh5QbQ3xf2WhVZS/KjHUraWZQZ6xVfja3x8dqxblTVgOIU7ZoqszjN
+         5ABvo4y5GislxGGTyyxOAiYQ8TwRhig/QC02QDadIiHHE1oxT+qPTjk98X38altr9/JI
+         YOjA==
+X-Forwarded-Encrypted: i=1; AL+hErEix9qWCtnjw1xZLGFrCyIVEEnGI2ioQfsp6dJyvlOPQUX1WusTJFVKSYFkuZyYmUR4NZZ9vn2e6Wo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Ana6O3FdWWFYpUf3+vLhPPv/rpmfcJ9F0Et9teAT9GRVjoMmn
+	Zi7ajzKtBgIfXZl0/v9ijUZzq92XzT/kULKVffJbTO7YcRNU/i3ymx7SP+mCTIUOj7I=
+X-Gm-Gg: AYBFou28t/1vfd/dJAOao2STpr09BiHTesu/5JnCMHhpoRjGQjUOlx4WhgSNc0eqC/L
+	RzgZiNkPBCOW9Nm/YtdmLQUvX7K8oic/8Or2rlfBqnHYbmY/of8bKurbb23yiPW0V6OaaDZELR5
+	+2dLVYVGcAdNDKl3q4vvGEvaOAYLSWW2R4N0veKa2wsZnOEh3EJfOB8jNE3aovLp2ZHOMjliGuR
+	C1nYOoc5Nc7a5AsKg54o2Rhv8L1zuaEohiqFubnWMKIVKTlNh5bTzLo+LNfh1UAcdALoDal3zHT
+	1sDu0E8ZET7N5eyUKQHTAfXQHoJUeJYCVyZcohOaMvRi3E+otm96Gkyrekv74ijln1djYbcN4Yx
+	LE5wrAJpaeSZxW6leRVpukC1bZmqrHxgeBCQqJFFzlVVni3R35+7O4tj21D5HL1SaNp/4IxdeoK
+	TptmmXKbcpTf/7+dlmc99gcJie1syZQxiDK8Ff0nMibQrY3z1qgkCFCLwKRHWQViVCMATnG+9K/
+	nt5M6p4etp8OO11RsXFIGFkrb6jlh4IG2UwaKN+xHP5JRqcga86SBF9kwFDec7AWjlXqAqKOFx6
+	rBn+DYUFKnTiYTutFEwkVX6FQkNRpdGTT1g7Gnng3lIS
+X-Received: by 2002:a17:907:3e13:b0:c2e:3ed7:7db4 with SMTP id a640c23a62f3a-c5096340feamr1038815166b.23.1794872516213;
+        Mon, 16 Nov 2026 15:41:56 -0800 (PST)
+Received: from [172.16.0.229] ([159.196.52.54])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b3ac2550e1sm1103294a91.3.2026.11.16.15.41.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Nov 2026 15:41:53 -0800 (PST)
+Message-ID: <fc1f9f58-71ad-410e-bf03-8b27e607ab76@suse.com>
+Date: Tue, 17 Nov 2026 10:11:46 +1030
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,329 +92,101 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] btrfs: assemble a multi-device root filesystem
+ without an initrd
+To: Ismael Luceno <ismael@iodev.co.uk>, linux-kernel@vger.kernel.org,
+ linux-btrfs@vger.kernel.org
+Cc: David Sterba <dsterba@suse.com>, Chris Mason <mason@kernel.org>,
+ Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20261116224316.11237-10-ismael@iodev.co.uk>
+Content-Language: en-US
+From: Qu Wenruo <wqu@suse.com>
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJq3ujyBQkUpLw5AAoJEMI9kfOh
+ Jf6o8OIH/0mqW+TQM4m2x3hCsnK+oB4yJH1qnGvIhFF/Lhs48wI02sGh6/4aA0hkCDfd9LHQ
+ +ci4FUepZ9y4VS01+oIExbg/8ytzGYTzLtb44jK2GBOBVSJkMiha6jp22XFt7WUkT/tvbreu
+ WWdGsaJIRQaZChy7xsMI8lqQ2WdmluZJ4LT0wD3l/l6QU1ZseMGySebdY9sVOQEOJNV7Qj92
+ /KOAFNmeZshV/qDI8Iw1RTs6TvLqCcqmlZLCmJkYSVhT1RonWRren8xIRcFEgMe004IDnt7V
+ qdQhk/nhTS9x9MBAhMRl0TTE1VKDLvVALsud3iZLrmmtYvwPApzGJk052f0m28vOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJq3ukKBQkUzDspAAoJEMI9kfOhJf6o
+ SNsH/1ysUWOKmzY0rGS3ZdS61QgqMGhSWD/EJ4UiPw+xO4l4+GtX0fOAqxqsmBKqje3vyhBa
+ Z5o/1Y+gNiN+E6RBcSz4b1TAd78sQ2bvT5DWOvBjeeVxHdiuQMIn4S8xk5ZpySBw5ifjoiuL
+ 0M33UVtJOzM8yfAeL+d/Rp4leJw72SutjkLyZTG/gJIp4pJGD/kFHn24OLL0IxEcO0gOekNZ
+ os5e1R6jAJ2ILk7+MDnvU8wXHcCiVzuDhJLI1tih1uUIE50muHQJWbYuVBbdJeu8WlIDDssx
+ UOCxLylNG3gDXV5MhLubPTOpp9OiFc/XC37nvkgEcrlmlOFBv4/NJCbECpo=
+In-Reply-To: <20261116224316.11237-10-ismael@iodev.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4jT3s53K5dz8v3N
 
-Allow selecting the temperature used by a fan curve on MSI boards with
-an NCT6687D-R (customer ID 0x20d), in manual and in automatic mode.
 
-On an MSI MAG B850M MORTAR WIFI, the BIOS setup offers four temperature
-sources for the fans: CPU Core, System, MOS and Chipset A. Reading the EC
-before and after selecting them shows that each sets a single bit in the
-lowest byte of the fan's source register, the bit of the monitoring
-channel of temp1, temp2, temp3 and temp4 respectively, and that nothing
-else in the fan curve registers changes. The other bytes were never seen
-in use, and how the EC would combine several bits is not known, so only
-a single temperature reported by the driver on the first eight monitoring
-channels can be selected; other values return -EINVAL. The range can be
-extended if a board needs it.
 
-The attribute is writable if, when the driver is loaded, the curve uses
-one such temperature. Before each write the driver checks that this is
-still the case and returns -EIO otherwise, so that it does not overwrite
-a source which could not be selected again.
+在 2026/11/17 09:13, Ismael Luceno 写道:
+> A multi-device btrfs root filesystem is normally assembled by the device
+> scanner that an initrd runs before mounting the root.
 
-The source is written in a configuration phase and read back, as the
-curve points are. If that fails while the EC responds, the previous
-source is written again. Sources selected through sysfs are restored on
-resume, after the curves and before manual mode.
+What is the problem here?
 
-Tested on an MSI MAG B850M MORTAR WIFI (MS-7E61) with pwm16 and a test
-curve rising by 10 per degree Celsius around the measured temperatures.
-After selecting temp2, temp3 and temp4 in turn in automatic mode, the
-duty cycle followed the curve for the newly selected temperature. Invalid
-values returned -EINVAL and left the source unchanged. A source selected
-in manual mode took effect after switching back to automatic mode. After
-suspend to RAM, the source and the curve were the same as before, and
-manual mode was still restored. With the driver unloaded during suspend,
-the BIOS restored its own curve but the EC kept the selected source, so
-restoring the source on resume could not be tested on this board.
+Is generating an initramfs really that complex?
 
-Signed-off-by: Tomasz Bojanowski <tomasz@bojanowski.me>
----
-I used an AI assistant (Claude Code) during development, including for
-the test scripts and for comparing the EC register dumps. I reviewed all
-of the changes, ran the tests on the hardware described above, and take
-responsibility for them.
+Multi-device filesystems/storage solution requires initramfs to do the 
+scan, no matter if it's btrfs or device-mapper, it's already the common 
+knowledge.
 
- Documentation/hwmon/nct6683.rst |  18 +++-
- drivers/hwmon/nct6683.c         | 158 +++++++++++++++++++++++++++++++-
- 2 files changed, 168 insertions(+), 8 deletions(-)
+I just see no strong reasons to do this at all.
 
-diff --git a/Documentation/hwmon/nct6683.rst b/Documentation/hwmon/nct6683.rst
-index e72c037442e6..79b239dd6939 100644
---- a/Documentation/hwmon/nct6683.rst
-+++ b/Documentation/hwmon/nct6683.rst
-@@ -76,7 +76,7 @@ the following attributes, if the curve sets a duty cycle:
-     millidegrees Celsius
-   * pwmN_auto_point[1-7]_pwm: duty cycle of the curve point (0-255)
-   * pwmN_auto_channels_temp: temperature channels used by the curve, as a
--    bitmap (1 is temp1, 2 is temp2, 4 is temp3 etc.), read-only
-+    bitmap (1 is temp1, 2 is temp2, 4 is temp3 etc.)
- 
- The fan curve is initially the one configured in the BIOS setup. A fan with
- Smart Fan disabled in the BIOS setup has a flat curve, with its fixed duty
-@@ -95,9 +95,21 @@ Celsius and duty cycles to 0-255, and both to the values of the adjacent
- points, so the points have to be written from point 7 to point 1 to raise
- a curve and from point 1 to point 7 to lower it.
- 
-+pwmN_auto_channels_temp is writable if, when the driver is loaded, the
-+curve uses a single temperature which can be selected; otherwise it is
-+read-only. A temperature can be selected if it is reported by the driver
-+and measured on one of the first eight monitoring channels of the chip; on
-+the MSI MAG B850M MORTAR WIFI, these are temp1 to temp4. Writing a value
-+which does not have exactly one bit set, or a temperature which cannot be
-+selected, returns -EINVAL. Writing returns -EIO if the curve no longer uses
-+a single temperature which can be selected or if the EC does not take the
-+new temperature. It can be written in manual and in automatic mode.
-+In manual mode, the new temperature is used after switching to automatic
-+mode.
-+
- The BIOS may restore its own settings when resuming from suspend, so the
--driver restores the curves written through it. They are kept when the
--driver is unloaded.
-+driver restores the curves written and the temperatures selected through
-+it. They are kept when the driver is unloaded.
- 
- Tested Boards and Firmware Versions
- -----------------------------------
-diff --git a/drivers/hwmon/nct6683.c b/drivers/hwmon/nct6683.c
-index 078ec9023851..f979ca3a958b 100644
---- a/drivers/hwmon/nct6683.c
-+++ b/drivers/hwmon/nct6683.c
-@@ -187,6 +187,8 @@ superio_exit(int ioreg)
- #define NCT6687DR_REG_CURVE_OUT_HI(x, p) (0xb07 + (x) * 0x18 + (p) * 2)
- #define NCT6687DR_REG_CURVE_OUT_LO(x, p) (0xb08 + (x) * 0x18 + (p) * 2)
- #define NCT6687DR_REG_CURVE_SRC(x)	(0x910 + (x) * 4)	/* 32 bit */
-+/* Monitoring channels which can be selected as the source of a fan curve */
-+#define NCT6687DR_CURVE_SRC_CHANNELS	8
- #define NCT6687DR_REG_CURVE_MODE(x)	(0xa08 + (x))		/* channels 0-7 */
- #define NCT6687DR_REG_CURVE_MODE_SYS(x)	(0x240 + (x) - 10)	/* channels 10-15 */
- #define NCT6687DR_CURVE_MODE_PWM	0x40
-@@ -384,6 +386,7 @@ struct nct6683_data {
- 	u16 have_fan_ctrl;		/* channels supporting fan control */
- 	u16 have_curve;			/* channels with a duty cycle curve */
- 	u16 curve_writable;		/* channels with a writable curve */
-+	u16 src_writable;		/* channels with a writable curve source */
- 
- #ifdef CONFIG_PM
- 	/* Remember extra register values over suspend/resume */
-@@ -397,6 +400,10 @@ struct nct6683_data {
- 	/* Fan curves set through sysfs, restored on resume */
- 	u16 curve_set;
- 	struct nct6687dr_curve curve[NCT6683_NUM_REG_FAN];
-+
-+	/* Temperature sources of fan curves set through sysfs, as above */
-+	u16 src_set;
-+	u32 src[NCT6683_NUM_REG_FAN];
- };
- 
- struct nct6683_sio_data {
-@@ -1435,19 +1442,26 @@ store_pwm_auto_point_pwm(struct device *dev, struct device_attribute *attr,
- 	return err ? err : count;
- }
- 
-+/* Read the temperature source of a fan curve */
-+static u32 nct6687dr_src_read(struct nct6683_data *data, int ch)
-+{
-+	u16 reg = NCT6687DR_REG_CURVE_SRC(ch);
-+
-+	return (u32)nct6683_read16(data, reg) << 16 |
-+	       nct6683_read16(data, reg + 2);
-+}
-+
- static ssize_t
- show_pwm_auto_channels_temp(struct device *dev, struct device_attribute *attr,
- 			    char *buf)
- {
- 	struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
- 	struct nct6683_data *data = dev_get_drvdata(dev);
--	u16 reg = NCT6687DR_REG_CURVE_SRC(sattr->index);
- 	u32 src, channels = 0;
- 	int i;
- 
- 	mutex_lock(&data->update_lock);
--	src = (u32)nct6683_read16(data, reg) << 16 |
--	      nct6683_read16(data, reg + 2);
-+	src = nct6687dr_src_read(data, sattr->index);
- 	mutex_unlock(&data->update_lock);
- 
- 	/* Bit n of the source register selects monitoring channel n */
-@@ -1465,8 +1479,109 @@ show_pwm_auto_channels_temp(struct device *dev, struct device_attribute *attr,
- 	return sysfs_emit(buf, "%u\n", channels);
- }
- 
--SENSOR_TEMPLATE(pwm_auto_channels_temp, "pwm%d_auto_channels_temp", 0444,
--		show_pwm_auto_channels_temp, NULL, 0);
-+/*
-+ * Return the index of the temperature attribute which a temperature source
-+ * selects, or -1 if it does not select exactly one temperature attribute of
-+ * the monitoring channels which can be selected.
-+ */
-+static int nct6687dr_src_temp(struct nct6683_data *data, u32 src)
-+{
-+	int i;
-+
-+	for (i = 0; i < data->temp_num; i++) {
-+		if (data->temp_index[i] < NCT6687DR_CURVE_SRC_CHANNELS &&
-+		    src == BIT(data->temp_index[i]))
-+			return i;
-+	}
-+
-+	return -1;
-+}
-+
-+struct nct6687dr_src_ctx {
-+	int ch;
-+	u32 src;
-+};
-+
-+static void nct6687dr_src_write(struct nct6683_data *data, void *ctx)
-+{
-+	const struct nct6687dr_src_ctx *sc = ctx;
-+	u16 reg = NCT6687DR_REG_CURVE_SRC(sc->ch);
-+
-+	nct6683_write(data, reg, sc->src >> 24);
-+	nct6683_write(data, reg + 1, sc->src >> 16);
-+	nct6683_write(data, reg + 2, sc->src >> 8);
-+	nct6683_write(data, reg + 3, sc->src);
-+}
-+
-+/* Write a temperature source and check that the EC has taken it */
-+static int nct6687dr_src_apply(struct nct6683_data *data, int ch, u32 src)
-+{
-+	struct nct6687dr_src_ctx sc = { .ch = ch, .src = src };
-+	int err;
-+
-+	err = nct6687dr_fan_cfg_transaction(data, nct6687dr_src_write, &sc);
-+	if (err)
-+		return err;
-+
-+	return nct6687dr_src_read(data, ch) == src ? 0 : -EIO;
-+}
-+
-+/*
-+ * Select the temperature used by a fan curve. The previous temperature
-+ * source is restored if that fails while the EC responds.
-+ */
-+static ssize_t
-+store_pwm_auto_channels_temp(struct device *dev, struct device_attribute *attr,
-+			     const char *buf, size_t count)
-+{
-+	struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
-+	struct nct6683_data *data = dev_get_drvdata(dev);
-+	int ch = sattr->index;
-+	unsigned long val;
-+	u32 old, src;
-+	int err;
-+
-+	err = kstrtoul(buf, 10, &val);
-+	if (err)
-+		return err;
-+
-+	/* Exactly one temperature which can be selected */
-+	if (!is_power_of_2(val) || __ffs(val) >= data->temp_num)
-+		return -EINVAL;
-+	src = BIT(data->temp_index[__ffs(val)]);
-+	if (nct6687dr_src_temp(data, src) < 0)
-+		return -EINVAL;
-+
-+	mutex_lock(&data->update_lock);
-+
-+	/* Do not touch a source which could not be selected again */
-+	old = nct6687dr_src_read(data, ch);
-+	if (nct6687dr_src_temp(data, old) < 0) {
-+		err = -EIO;
-+		goto unlock;
-+	}
-+
-+	err = nct6687dr_src_apply(data, ch, src);
-+	if (err) {
-+		/* The EC does not respond, so do not try the old source */
-+		if (err == -ETIMEDOUT)
-+			goto unlock;
-+		if (nct6687dr_src_apply(data, ch, old))
-+			dev_err(dev, "Temperature source of pwm%d in unknown state\n",
-+				ch + 1);
-+		goto unlock;
-+	}
-+
-+	data->src_set |= BIT(ch);
-+	data->src[ch] = src;
-+unlock:
-+	mutex_unlock(&data->update_lock);
-+
-+	return err ? err : count;
-+}
-+
-+SENSOR_TEMPLATE(pwm_auto_channels_temp, "pwm%d_auto_channels_temp", 0644,
-+		show_pwm_auto_channels_temp, store_pwm_auto_channels_temp, 0);
- SENSOR_TEMPLATE_2(pwm_auto_point1_temp, "pwm%d_auto_point1_temp", 0644,
- 		  show_pwm_auto_point_temp, store_pwm_auto_point_temp, 0, 0);
- SENSOR_TEMPLATE_2(pwm_auto_point1_pwm, "pwm%d_auto_point1_pwm", 0644,
-@@ -1513,6 +1628,8 @@ static umode_t nct6683_pwm_is_visible(struct kobject *kobj,
- 	if (nr >= 2) {	/* fan curve */
- 		if (!(data->have_curve & BIT(pwm)))
- 			return 0;
-+		if (nr == 2)	/* pwm_auto_channels_temp */
-+			return (data->src_writable & BIT(pwm)) ? attr->mode : 0444;
- 		return (data->curve_writable & BIT(pwm)) ? attr->mode : 0444;
- 	}
- 
-@@ -1803,6 +1920,21 @@ static void nct6683_setup_sensors(struct nct6683_data *data)
- 	}
- }
- 
-+/*
-+ * The temperature source of a fan curve is writable if it selects one
-+ * temperature which can be selected. This needs the temperature attributes.
-+ */
-+static void nct6687dr_setup_src(struct nct6683_data *data)
-+{
-+	unsigned long curves = data->have_curve;
-+	int ch;
-+
-+	for_each_set_bit(ch, &curves, NCT6683_NUM_REG_FAN) {
-+		if (nct6687dr_src_temp(data, nct6687dr_src_read(data, ch)) >= 0)
-+			data->src_writable |= BIT(ch);
-+	}
-+}
-+
- /*
-  * Hand the fans the driver switched to manual mode back to the EC, so that
-  * they do not stay at a fixed duty cycle once nobody is left to adjust it.
-@@ -1886,6 +2018,7 @@ static int nct6683_probe(struct platform_device *pdev)
- 	nct6683_init_device(data);
- 	nct6683_setup_fans(data);
- 	nct6683_setup_sensors(data);
-+	nct6687dr_setup_src(data);
- 
- 	/* Register sysfs hooks */
- 
-@@ -1994,6 +2127,21 @@ static int nct6683_resume(struct device *dev)
- 		}
- 	}
- 
-+	/* Then the temperature sources of the curves */
-+	set = data->src_set;
-+	for_each_set_bit(ch, &set, NCT6683_NUM_REG_FAN) {
-+		if (nct6687dr_src_read(data, ch) == data->src[ch])
-+			continue;
-+		err = nct6687dr_src_apply(data, ch, data->src[ch]);
-+		if (err) {
-+			dev_warn(dev, "Failed to restore temperature source of pwm%d: %d\n",
-+				 ch + 1, err);
-+			/* The EC does not respond, skip everything else */
-+			if (err == -ETIMEDOUT)
-+				goto out;
-+		}
-+	}
-+
- 	/* The BIOS may switch the fans back to automatic mode */
- 	manual = data->pwm_manual;
- 	for_each_set_bit(ch, &manual, NCT6683_NUM_REG_FAN) {
-
-base-commit: 7feb288cbe29b58a8bc9c7be3040f4537427cfcb
--- 
-2.56.1
+And Sashiko is already reporting over 10 high level problems, which is 
+not a good sign either.
+>  Without an initrd
+> nothing runs that scanner, so the root mount names a single device and
+> the rest of the array is left out.
+> 
+> This series lets btrfs assemble such a root filesystem in the kernel:
+> 
+>    * mount devtmpfs on the initial root before the root filesystem, so
+>      device nodes exist to open the other devices by name (init);
+>    * let a filesystem tell whether it is mounting the root device and read
+>      rootwait, and resolve root=UUID=/root=LABEL= values that name the
+>      filesystem rather than a partition (init/VFS);
+>    * scan all block devices for the remaining members of a btrfs root
+>      filesystem, and wait for all of them to appear before mounting.
+> 
+> The scan and wait are gated on CONFIG_BTRFS_ROOT_SCAN (default y) and
+> only act on the root mount when the user asked for it with rootwait, so
+> non-root mounts and systems without the option are unchanged.
+> 
+> 
+> Ismael Luceno (8):
+>    btrfs: add config options for the root device scan
+>    init: mount devtmpfs before the root filesystem
+>    init: let filesystems ask whether they are mounting the root device
+>    btrfs: add a helper to scan all block devices
+>    btrfs: wait for the root filesystem to have all its devices
+>    Documentation: btrfs: document waiting for the root filesystem devices
+>    init: let a filesystem resolve a root device by UUID or label
+>    btrfs: resolve root=UUID= and root=LABEL=
+> 
+>   Documentation/filesystems/btrfs.rst |  31 +++++
+>   fs/btrfs/Kconfig                    |  25 ++++
+>   fs/btrfs/super.c                    | 165 +++++++++++++++++++++++
+>   fs/btrfs/volumes.c                  | 196 ++++++++++++++++++++++++++++
+>   fs/btrfs/volumes.h                  |  25 ++++
+>   fs/filesystems.c                    |  37 ++++++
+>   include/linux/fs.h                  |  10 ++
+>   include/linux/root_dev.h            |  14 ++
+>   init/do_mounts.c                    |  51 +++++++-
+>   9 files changed, 553 insertions(+), 1 deletion(-)
 
