@@ -1,56 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.230
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.35
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794788426;
-	b=EShdNyL+wQ7qvVyMO5MLjEj2iKCeZHJEJJvvl2Cj92Da3uoRBEXFH1qRIGaA3FtoGiRt
-	 yyLTVQQjBQz47Iy+kKy5EDj4qKYrHN5Wxzv8+iYSNS1GgzyDYpoajOdpQFbmglUrfBN2L
-	 n046Yui8qhONy+RhwfCLavTOTcx+P41v2mgEpA4+obNtcVG3dlINsRUy3+7f5hDqtzX4a
-	 aH644yp6pw5Zd8dsbw7CqTiMegF3OoLW94kj/dBImg+OX/R+MkgiMILXziFeaKoakoVu1
-	 gdNktJvhHWimOtRQgrMBFTtKhmxB9ClDXkAtUthvyu7rg0U6kK1NZ5MuyQva8mZJmiA==
+	t=1794789711;
+	b=GS3IYSUiXLLrwqz0GpINp5kLhcnIePP5zJU9nnVViAEwz4WMcXXwakmssVf1ELD4Is8S
+	 H++tAIdsgmNQ9x49Hmmw1wC6Nh1CG+lXVx5ugyf1nhW+MwZQTOOjXJLYP+YcVvH0qWrXh
+	 faGeAiAOdR+rK7BhOxvwqmA1H+e2jwRYUkeqbrkqj68XMDwyLvj0b9pSboZfU6HnFuNr4
+	 hrsBHSkaHZrt95+VjEOTysHQAWesfDK+PzkPIf+bIrHkDHqY1vZMn70KMZOcmy2VDiOZ3
+	 hQxMjWnCQqZPuqeqFJS7slrZlRSOtXKVLfCut1Isp6sW3cyscwSFE3a2/xLN9gLdh5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794788426;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer;
-	bh=4eG5CVxVnNeWp3KUkHiU/UFqeHQnVoeyxI1ZUaXIdH8=;
-	b=kwRYP4czgTK3NOcwpnAOlcMwFCi6KmGtAk3W4ha5c3docnocYiHdyU/9UqwWrsEyPOvr
-	 U4DVCb/qYYo3GWYkl0hRZMhygJmcbCmDzTtoCTBodqh9Ixme+rtbU9lHLJNPW/hIDoo9I
-	 joXZ1jsgGi9/ySVxFjmcYdk+gcGcxXpslMC/gpF23tWiLyhvrQDlX9zM+aoPs0bW4Q+Lk
-	 MXqCiT/iOaOh9BF+i/Zq4YwQ1aQ6HYYNpD48f/GwSQi/6iIgjxWG8avNPnJ5qqNFPTud8
-	 LvFtE0BxfUnn1oOqW2Bw9EjWK9tJLGf/JUs8Edl1JvLyNcsh/M6HEHHi2qK8GtWqaOA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794789711;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
+	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=IsW7atzSQ2E7F85ASunl7GLsIyH64EFl27HfndOmRKU=;
+	b=GL6xUHEyNcSubYB0IKXVlZtkwWcfAiIMIAQE1W9BO/BEQaAkD4nQNn8bS6drc0qS69NZ
+	 hA9jVof/t8ZDvWrTSrcJg3L+fC1QdUvZAF8R8rPx61dOoxdmgWojhxpdlR9lzCI1Guhyt
+	 BjLjv7/tHP/V7+fzzyWc0tCqtieac/MWlNma9xCHhEmvD6Ar+9iDGuY175bzPB3eXtt3m
+	 Ru5NozUqTvy5GznH9GKYUcMEWkdBjlk0gcylbAHSGJLwoS/VqbFLyjiUcn/ypHLcFIc/T
+	 ltROqnpGyZfBfIDDr175cyL2mQaZm5/cD1KKiO8ycXkGnQmuhZOv5G4La0A4tN3J08w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ud9VT9cy;
-	arc=none smtp.remote-ip=95.215.58.230
-Received: from mta1.migadu.com (out-230.mta1.migadu.com [95.215.58.230])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=vnPowUs9;
+	arc=none smtp.remote-ip=35.89.44.35
+Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F034D606A335
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 00:20:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F034D606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46071606A323
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 00:41:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46071606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ud9VT9cy
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=KWOMiOdqLTUcS7AFYWTNaPVfHdHsr6JQcL0b0AXvC5o=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794788424; v=1; x=1795393224;
- b=ud9VT9cyYHo+Pv+wHlKsQYj3Bjh6MwjV/AhsjBSJaa0+aap/OjlKuksZvr/n5vY/OfgjrphL
- A1VODyO75aThf3kv8uHyy0bAf/ox6+NvKxJPaGXsinDYG0GNC4AWBtZ1ZhuqUm23a7+wGnztYP7
- S9P2m3d3hMhdaTgXly8gWCiQ=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 67c85e73c015bfed;
-	Mon, 16 Nov 2026 00:20:23 +0000
-X-Mizu-Trace-ID: 67c85e73c015bfed
-X-Migadu-Flow: FLOW_OUT
-From: Qiliang Yuan <qiliang.yuan@linux.dev>
-Date: Sun, 15 Nov 2026 19:18:11 -0500
-Subject: [PATCH RFC 18/18] Documentation: target: Describe the uring
- backstore
+	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=vnPowUs9
+Received: from eig-obgw-5001b.ext.cloudfilter.net ([10.0.29.181])
+	by cmsmtp with ESMTPS
+	id STHWxIgNnRiNxSkn8xIkmu; Mon, 16 Nov 2026 00:41:51 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id Skn8xkFLtxmi7Skn8xsoT2; Mon, 16 Nov 2026 00:41:50 +0000
+X-Authority-Analysis: v=2.4 cv=KuFN2XWN c=1 sm=1 tr=0 ts=6afa514e
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
+ a=ydwNUxKNuv6kypV7TxIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=IsW7atzSQ2E7F85ASunl7GLsIyH64EFl27HfndOmRKU=; b=vnPowUs9wTU8
+	B79yjVoUVUrbx2/ujA8AXHNkPyruHCMpsIN3AKu+e1D871DV5GbIOdnwL/4mFDNJSFMohdL5VqVzY
+	BV4POrSQfqkGW9qJXO2PM/V2GExnZrk90XLOjCPPLT0krp00lslks5TbB88BFFpdmfoD3378vQu7I
+	wEH2GHOuAyxh2kzd4KpAbgOR+mX9uqNA/WGulFftKZTEqHiuotrJ9/IDzGR6tyAQK4TVFAG34P5Cf
+	nyPUm0uBU0RLQD6ATW2DaTvnzk/c4N6jARp0O8R9v/gv4ACutw2pkbWM2t7D5tE6Xo80n/MDwRoU6
+	DtlPAWNe9DX7nIe2I8VpYQ==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:47236)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xSkn6-00000001htp-3vOy;
+	Mon, 16 Nov 2026 06:11:49 +0530
+Message-ID: <68615d41-eedf-4178-ac0f-8d9599f24e12@roeck-us.net>
+Date: Sun, 15 Nov 2026 16:41:47 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -60,138 +76,143 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261115-feat-target-core-uring-v1-18-28cdc137eac6@linux.dev>
-References: <20261115-feat-target-core-uring-v1-0-28cdc137eac6@linux.dev>
-In-Reply-To: <20261115-feat-target-core-uring-v1-0-28cdc137eac6@linux.dev>
-To: "Martin K. Petersen" <mkp@kernel.org>, Shuah Khan <shuah@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org, 
- target-devel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, 
- io-uring@vger.kernel.org, Mike Christie <michael.christie@oracle.com>, 
- Bodo Stroesser <bostroesser@gmail.com>, Ming Lei <tom.leiming@gmail.com>, 
- Qiliang Yuan <qiliang.yuan@linux.dev>
-X-Mailer: b4 0.13.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] hwmon: (adt7475) Convert to
+ hwmon_device_register_with_info()
+To: =?UTF-8?Q?Dav=C3=AD=C3=B0_Steinn_Geirsson?= <david@dsg.is>
+Cc: Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ linux-pwm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261114004110.328050-1-david@dsg.is>
+ <20261114004110.328050-3-david@dsg.is>
+ <d28f392e-82ea-44d6-83e5-9593b341a722@roeck-us.net> <avm-tbgWgTJNFTBj@dsg.is>
+ <62350363-b796-4637-a102-c668037bbbdd@roeck-us.net> <avo1IWkXBQ2fHgKx@dsg.is>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <avo1IWkXBQ2fHgKx@dsg.is>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xSkn6-00000001htp-3vOy
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:47236
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 2
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfDp2sE1hUm+ObVyCy8/8gsX5ExDJCx1XOYxItsJjUr6aOqR8P1PvC75i5dkJXutRSMqXCJyK8BuvrQ/TJtykKJ0ydzY6LWSGheaHVuS9Zou8cmhqV9e2
+ A6pzsgKxhVo+ZzYp3cTm7zLJPclSs0uWmi8TxB2GcoEQ25CKtn4yy3/YDWko++ejzBZ90TnRYPLfuAs/9VbdCrFHeMoYuPqgOqyZC6nXXf9zSI8qUkdZ6Pzb
 
-target_core_uring is a new LIO backstore served by a userspace process.
+On 11/15/26 14:41, Davíð Steinn Geirsson wrote:
+...
+> Apologies if that's how it came off, that was not the intent. I
+> understand your earlier guidance that new drivers need to use the hwmon
+> subsystem lock for this kind of thing. The reason I mentioned those
+> other drivers was to try to explain why I believe this is a novel issue
+> other hwmon drivers have not hit before.
+> 
 
-Its configfs parameters and the protocol between the kernel and the
-server are only described by the uAPI header and the code.
+The pwm maintainer (Wolfgang) insists that all chips with pwm output,
+including fan controllers like this one, register with the pwm subsystem
+as pwm controllers. I resisted that for a long time because I find that
+it adds pointless complexity, but that time is gone. People now find
+reasons, such as claiming that they want to connect LEDs instead of fans,
+to those pwm outputs. This results in recursive calls into the hwmon
+subsystem, for example if such a pwm output is indeed connected to a fan
+and the pwm-fan driver is used to control it. Yes, this is novel. I never
+imagined that this would ever be the case. That happens when new and
+more complex use cases are introduced into a system.
 
-Add tcm-uring.rst, which explains how the backstore differs from
-TCM/USER, how to create a device and what a server has to do.
+...
 
-Signed-off-by: Qiliang Yuan <qiliang.yuan@linux.dev>
----
- Documentation/target/index.rst     |  1 +
- Documentation/target/tcm-uring.rst | 84 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 85 insertions(+)
+> 
+>>
+>> Anyway, you want to add the complexity of getting the pwm subsystem and
+>> the pwm-fan driver involved, even though this could as well be handled
+>> in the adt7475 driver, so you'll have to suffer the consequences.
+> 
+> I have no attachment to this implementation, in truth I just expected an
+> adt7475 driver registering cooling devices itself would be rejected. If
 
-diff --git a/Documentation/target/index.rst b/Documentation/target/index.rst
-index 51fa8ebc652ef..253b5fe422732 100644
---- a/Documentation/target/index.rst
-+++ b/Documentation/target/index.rst
-@@ -8,5 +8,6 @@ TCM Virtual Device
-     :maxdepth: 1
- 
-     tcmu-design
-+    tcm-uring
-     tcm_mod_builder
-     scripts
-diff --git a/Documentation/target/tcm-uring.rst b/Documentation/target/tcm-uring.rst
-new file mode 100644
-index 0000000000000..2911d80721f75
---- /dev/null
-+++ b/Documentation/target/tcm-uring.rst
-@@ -0,0 +1,84 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================
-+TCM io_uring backstore
-+======================
-+
-+target_core_uring is a LIO backstore whose block commands are served by a
-+userspace process, like TCM/USER (see tcmu-design.rst). It differs from
-+TCM/USER in three ways:
-+
-+- The kernel emulates the SCSI commands. The server only reads, writes,
-+  flushes and unmaps blocks and never parses a CDB.
-+- A device has several queues. Each queue is served through its own
-+  io_uring, so that queues do not contend with each other.
-+- Data is copied once, with pread() and pwrite(), or not at all when the
-+  server registers the data pages of a command as a fixed buffer.
-+
-+Creating a device
-+=================
-+
-+A device is created through configfs like any other backstore::
-+
-+    mkdir -p /sys/kernel/config/target/core/uring_0/disk0
-+    cd /sys/kernel/config/target/core/uring_0/disk0
-+    echo "dev_size=1073741824,nr_queues=4,queue_depth=128" > control
-+    echo 1 > enable
-+
-+The ``control`` file takes these parameters:
-+
-+``dev_size``
-+    Size of the device in bytes. It must be a multiple of the block size.
-+
-+``block_size``
-+    Logical block size in bytes, 512 by default.
-+
-+``nr_queues``
-+    Number of queues, 1 by default. A command goes to the queue selected by
-+    the CPU it was submitted on.
-+
-+``queue_depth``
-+    Number of commands the server can work on per queue, 128 by default.
-+
-+``cmd_time_out``
-+    Seconds after which a command the server has not completed fails. 30 by
-+    default; 0 waits forever.
-+
-+Once the device is enabled, the ``info`` file shows the character device
-+the server has to open, for instance ``/dev/tcmur0``.
-+
-+Serving a device
-+================
-+
-+The interface is defined in ``include/uapi/linux/target_core_uring.h``.
-+Only one process can open the character device at a time. The server:
-+
-+1. Reads the geometry with the ``TCMUR_GET_DEV_INFO`` ioctl.
-+2. Maps the descriptors of each queue read-only, at offset
-+   ``q_id * TCMUR_DESC_AREA_SIZE``. The area holds one
-+   ``struct tcmur_io_desc`` per tag.
-+3. Issues one ``TCMUR_IO_FETCH`` io_uring command (``IORING_OP_URING_CMD``)
-+   per tag. A fetch command completes with 0 once the descriptor of its tag
-+   holds a command.
-+4. Handles the command and issues ``TCMUR_IO_COMMIT_AND_FETCH`` with the
-+   result, which also waits for the next command of the tag.
-+
-+The server owns a tag from the completion of the fetch command until it
-+commits the result. Meanwhile it accesses the data of the command in one of
-+two ways:
-+
-+- pread() and pwrite() on the character device at the position returned by
-+  ``tcmur_buf_pos()``. Reading returns the data of a write command; writing
-+  fills the data of a read command.
-+- ``TCMUR_IO_REGISTER_BUF`` registers the data pages as a fixed buffer of
-+  the io_uring, which the server then passes to ``IORING_OP_READ_FIXED`` or
-+  ``IORING_OP_WRITE_FIXED`` on its backing store. The buffer has to be
-+  removed with ``TCMUR_IO_UNREGISTER_BUF``; the command only completes once
-+  it is gone.
-+
-+Commands that arrive while no tag is waiting stay queued in the kernel.
-+When the server exits, the commands it was working on fail and the queued
-+ones wait for the next server, until they time out.
-+
-+``tools/testing/selftests/target_core_uring/tcmur_server.c`` is a small
-+server that implements all of the above.
+It appears that you had no problems finding examples for drivers not (or rather
+not yet) using the hardware monitoring subsystem lock. Yet, it seems that you
+had trouble finding hardware monitoring drivers which also register cooling
+devices (besides pwm-fan). Here are some for reference.
 
--- 
-2.43.0
+$ git grep devm_thermal_of_child_cooling_device_register
+amc6821.c:              return PTR_ERR_OR_ZERO(devm_thermal_of_child_cooling_device_register(dev,
+aspeed-pwm-tacho.c:     cdev->tcdev = devm_thermal_of_child_cooling_device_register(dev, child,
+emc2305.c:              devm_thermal_of_child_cooling_device_register(dev, fan_node,
+gpio-fan.c:     fan_data->cdev = devm_thermal_of_child_cooling_device_register(dev, np,
+max6650.c:              cooling_dev = devm_thermal_of_child_cooling_device_register(dev, dev->of_node,
+npcm750-pwm-fan.c:      cdev->tcdev = devm_thermal_of_child_cooling_device_register(dev, child,
+pwm-fan.c:              cdev = devm_thermal_of_child_cooling_device_register(dev, dev->of_node,
+qnap-mcu-hwmon.c:               cdev = devm_thermal_of_child_cooling_device_register(dev, to_of_node(hwm->fan_node),
+tc654.c:                cdev = devm_thermal_of_child_cooling_device_register(dev, dev->of_node,
+
+Of those, amc6821, emc2305 and max6650, are quite similar to adt7475.
+
+Anyway, I instructed my AI agent to look into the problem and fix it,
+so I'll send a patch to fix the problem shortly.
+
+Thanks,
+Guenter
 
