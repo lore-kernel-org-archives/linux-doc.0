@@ -1,71 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.37
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794797218;
-	b=5TiTjdg6ANIxzQo0R6LjDB5wb9g7PPG8cCNCH9wWRIXQZuZ4OvZzty1uQaV2vqfCezrF
-	 dmEyiL57FxO2DSAr+Yn9R/aO887lhwkdeYFedFvTTzZ7bb7hUzDMAELKr1MY18ntoWLoU
-	 vpx6luXe9idM0SB+atHkXywDdPIeKqP7VZrtr7WH+VMHAWSVxb1ErapgXzx8LYR9EMWpX
-	 7jnyOamsbb4e0NVpRgZIUDFoJOHUmNjKcSd7NoQlRPpgInRwejeC2pcX7qbHIVNIerWHF
-	 EfATD2DJCw1aGKRnEFnVU5+o1xBhUtP7wsPpCOG/E0gfw+aUzLk5JG/lelLboJuJ1ug==
+	t=1794798424;
+	b=ZeNQQTTeGKx0CcCai9sXRg0X3KvVpMdy+uStdZkGA0h40R/+np/QvTFDYgNGUXbzpF18
+	 OD/9MfBHz2Pjnr5ea0w+XVgj/zVsgmMvuuMB38AjyNqxDS96LSV3vm3Axd+0mjLlhpiv8
+	 xGsZb239egFJMDcOrDZC5RCzflgQy/87lPdGPmHSyJsiC6296zWuZ96H2FR/86RQzAcIW
+	 NNMDUBR4ONuhw0Su1adPBptipP54wiFiapuo2S4nHkw7Xap8LeUMyW1RhmHUwFuf48VOp
+	 I+snUpvodJaLbv7tvNb5ydTprUTf9bjFZdXsg9ITn030X/JMfR8O1BuEpum8FN+arTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794797218;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
-	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
-	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
-	bh=bJ6zQJ+d4ghqmxHcyVoo4p8quIchGY2srwMKzAjG3lo=;
-	b=SKsjI+iiOkChnYsnQ/nVojVzQbUT4pEZ3/q2Kl9OCzPRdWa8Fha2FgWhGj3G75RnX6lF
-	 MdrM9dHjL2LHTDKcK/Twyq3Y6tSfioz8kUHf0/RAj8uxXhKZX5D2Nzk0d5Z/9meTLAKNU
-	 7tdjsfy75Mc16fySvKgKcZPME7tHUdqTUpiah/bSmBSazP7WM4N7+e36VVXoSem725mU3
-	 09H/040qj/+t+HdT/ziy38BwHWafFRJGpaFHQQBI12L8ktdxeewaT1dXL/1Bb58aFlq5v
-	 DuPSfdeuYHTGotyy0IYDlzrGdEHjLviSrdLcaCEGiFmxPqsUKJMymMEKyVW6sulVOIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794798424;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=DfVzAJ8JYr3tOeyUpGtQ08wEF3tJXXOK1aQTqHdgZsE=;
+	b=eIWzvd18yX04DgQOSfLEc2O/9gGvexBrDd9Tv8jXWIZnd2KsLHCTsNYiEZu4mvJQtXom
+	 JcwFicl/LozTiKjjGbMCcovr5dPVxFAHIeC24Hv4aNOOOIz+fxWXSCVEXwwqZ9yEHdzYR
+	 /m2/37SdF5ON6NUr8t1pJbg+ETPiKGDXyPFwWYM7LQNMGkczl0Kmu9bMAO77jNd2AAdT8
+	 MyUl6BEDZCUMq5T1YUY9CXFgqpuDfP3hhvKrWDQ0zsokuBJUZwwZXR/cdFLM0NPna9O7e
+	 /TZQuZuByumR3GCTf2AMIzACvGPzbfsLU9GN+UbI2aYxMWE8807B5a5Gv8zydiFVY4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=w9dmxDnR;
-	arc=none smtp.remote-ip=35.89.44.37
-Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kaqr0bjN;
+	arc=none smtp.remote-ip=209.85.215.169
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0840F606A31F
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 02:46:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0840F606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B07606A321
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 03:07:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3B07606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=w9dmxDnR
-Received: from eig-obgw-6007b.ext.cloudfilter.net ([10.0.30.166])
-	by cmsmtp with ESMTPS
-	id SfhixNw4MVK9USmkDxtHY8; Mon, 16 Nov 2026 02:46:57 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id SmkCxCsXj3nNNSmkDxb7ZK; Mon, 16 Nov 2026 02:46:57 +0000
-X-Authority-Analysis: v=2.4 cv=TuLmhCXh c=1 sm=1 tr=0 ts=6afa6ea1
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
- a=L0PWDpQY-NtK-K_AShAA:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
-	List-Archive; bh=bJ6zQJ+d4ghqmxHcyVoo4p8quIchGY2srwMKzAjG3lo=; b=w9dmxDnRfDNu
-	rI7YGuRtFLY5GnNnhQlkSTY64XfPXJ+TcQ90gi4SUE6sklbuNQvtQlu1CIO+wfBm56mn1uCfOy8OZ
-	cawOYs9R34mTPSXLti1YaI0ds+0DfbY7FJC0NnxBmje9QBrd54vyQJv4zQU/7GYUXp91maJvd6yEE
-	wZ9gs64PYIqT0t8WdBFYH+pPdY0mB2Yp+Lphhvy7Drk3Id1+gxLBiJgx88jgBAV6lxhc/kKhe0WDz
-	bZLW9hYDbgdpL2xse5TWxzbBc95kRydGxKgGMGE0Mp/R+8pMSo7n/gZhD2AGL/X75wGA6fHt9egIO
-	ptci6IopfO2o03qSphTTZQ==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:41278)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xSmkC-00000002Yqg-2fjc;
-	Mon, 16 Nov 2026 08:16:56 +0530
-Message-ID: <a0f9b726-d877-42cd-aebe-7cd727a6c98c@roeck-us.net>
-Date: Sun, 15 Nov 2026 18:46:55 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kaqr0bjN
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cdb2dfcca94so1311357a12.1
+        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 19:07:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794798423; x=1795403223; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DfVzAJ8JYr3tOeyUpGtQ08wEF3tJXXOK1aQTqHdgZsE=;
+        b=kaqr0bjN+QHNZOPTQJ2d0gdtYA5vBPiqzZjkPR3gzLC/zAlsFH7Dd5VLunDlMve6mh
+         m/+tPJ2oXxfrm6ah/ZOBKfKMB/AK1QyfTjV0SSZQJ6QvP6PAoQ7ndUVzPbCTJhObF+a4
+         euxOdqg+nVo3UpwlpWc3+BlSsZW6mzMZpzHzneuntMiQRsYl1thsjuk+t2CNmH1QI2Bp
+         w7lj0D6kZ+WCTWUd534xL7Xx8UDAPM6BQ52NDMRIRaJX++lwOUKfwP7hMOYdcQhVYyhv
+         4ok84pCIKmUsj8pon+pT70i13BLxPHBMqb8/nGy5CsiKYLoBLesG3FM2cYBXpiicSX+p
+         xE8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794798423; x=1795403223;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DfVzAJ8JYr3tOeyUpGtQ08wEF3tJXXOK1aQTqHdgZsE=;
+        b=Qpv2uXoEIE2rrM9PKTCBKOUGA21W1rJ5IKBRYeIlTfW0GCQaGyil+MC7OQiVRmxpf0
+         cyxDVaub303g12hqq/NozHnFwfjJNt/bkR1/gHMLWiniY0qobodC95CP2ujHXADhPLWf
+         KzkVpYMDJfo25y4jWWENcAs6uyJ8Z2RdE1IHqhj6vnifdcku5+tj0kybYsqod4gzXkdH
+         F3Ltt/QDK9WGtXHrafnJ7wZCQ10iP0Fou8W39t/a6MxcXDOL7/xZJedrFkE/h+L2uMuT
+         2Q0MshHcch9ZF2NQ/wZ3dMwQcY9Y75pt1L/JfryazuIJDwgHqJPpao8hJgmrx4ICO0Zy
+         rTCg==
+X-Forwarded-Encrypted: i=1; AL+hErE6mOcGOW42m9NMWTi4KjI0SjIIyF5PGEWe8h6qmZ097tQ2M48u2UNzPwNAGr0ObhV/vl32s0+0Ttw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8av1RKIixgj/2Q6PpIuLFAXMSpbBGMaU+UgJ/jKBabTPw64U74
+	S9Lz+X63DZHzDZ1A+F8dmUxOc9K6TiKZgWVwBDA7KIOollbM7DdaQSqg
+X-Gm-Gg: AYBFou3Png+BTuxoFkS8rh4bBZc8V9H0ROChu0AQp3C2SdxkCgtJPFmaMIiHgGgeI9a
+	9MuKFEsQI5LISJFdReirhoOK8Cqzz8JYXQukReEDmHiwkuAk+tgxpDr+O+Y7cL9RaLXMRnx6akE
+	wyEDo6XEePpifoVDqnNFCNDmW0enBZDaiBooiOqHaWnJXMPd5h18vyif1K+CymhqBM02dmCD9z7
+	DR21HX6V0LXfy+YwYS/japfDEYqNIfr/+15tyNyzPKAJLyKqhKJquDRHjYNnBLQlXeXcFzWarHn
+	VhczrQsEDGNzMaNSD1su0PdeBj5IJIxIGVA0nBjsJ8W7nKPpfAdYJ5YlgIuutPnkijM7UGKN9yQ
+	GMdS+IhZV1DjAly0tcjChZ5H2cUh/cCiEZb/oI/mMYAhggoAybaCGp+zRqp7wIgIO2P8hT3gtEB
+	f/O3QEhf5B+TpaQFgBlqMX5hk8AMDzoDbQBk1iLeQMQkNkcuYRmdTFucwl8Nef8AAwsiuSux8P0
+	mmvm5TkbvUq0RXascuGT4uD51jsmWHgC8zxScwRz8Z+odYtCPzOSotjdgPPZAK4Z4ZRdkiVigRr
+	1lscndMGbHWJzhvzL87NugNLPDldyYEImyMOfVxtRxC1bAAwOw==
+X-Received: by 2002:a17:90b:5627:b0:3ab:189b:6980 with SMTP id 98e67ed59e1d1-3b1b0a37140mr9756701a91.39.1794798422744;
+        Sun, 15 Nov 2026 19:07:02 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1aeb18b73sm14150263a91.3.2026.11.15.19.07.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 19:07:01 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id A907E423BF1B; Mon, 16 Nov 2026 10:06:57 +0700 (WIB)
+Date: Mon, 16 Nov 2026 10:06:57 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jan Kara <jack@suse.cz>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] fs: porting.rst: use literal string to avoid warning
+Message-ID: <avpzSippbZRkaki9@archie.me>
+References: <20260924183915.400588-1-rdunlap@infradead.org>
+ <hyk4puvpheleitf4kt74aamqex2ytuxpda2iki5bgzoteldf23@pccvy6sdmerx>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,100 +102,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] hwmon: add three more board models
-To: Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261115143708.492883-1-eugene.shalygin@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20261115143708.492883-1-eugene.shalygin@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xSmkC-00000002Yqg-2fjc
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:41278
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 2
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfHIHb8EgSr3EmYPezGAGMCNIk5hYf+dil2MzMAwfdUW3CnpeuZOZplUlglGPaxic6EC/7R5LCoLNUSCCN5W+2Pr20jVHaoQtQIyEzE/1qtbGiRcRRj9P
- BgQ35JyFhm54yhxEbem4i27xh4rRHGn2rjfL0lFyJqpWI4fNhSG3BGq57OK9g4omsM0TgNcdOTjhml6z44oCr9MhsCMyQq2BrHXAIhUrvdrPZd6rEayvZwWj
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2aSM361HPXJ12lPa"
+Content-Disposition: inline
+In-Reply-To: <hyk4puvpheleitf4kt74aamqex2ytuxpda2iki5bgzoteldf23@pccvy6sdmerx>
 
-On 11/15/26 06:25, Eugene Shalygin wrote:
-> Add three boars, submitted by users via GitHub repo.
-> 
-> Eugene Shalygin (1):
->    hwmon: (asus-ec-sensors) add ROG CROSSHAIR X870E DARK HERO
-> 
-> John Roden (1):
->    hwmon: (asus-ec-sensors) add ROG STRIX X670E-F GAMING WIFI
-> 
-> Kostiantyn Korn (1):
->    hwmon: (asus-ec-sensors) Add support for PRIME Z590-A
-> 
->   Documentation/hwmon/asus_ec_sensors.rst |  3 +++
->   drivers/hwmon/asus-ec-sensors.c         | 34 +++++++++++++++++++++++++
->   2 files changed, 37 insertions(+)
-> 
-Series applied.
+--2aSM361HPXJ12lPa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Guenter
+On Fri, Sep 25, 2026 at 11:32:43AM +0200, Jan Kara wrote:
+> On Thu 24-09-26 11:39:15, Randy Dunlap wrote:
+> > Avoid the docutils warning:
+> >=20
+> > Documentation/filesystems/porting.rst:1417: WARNING: Inline emphasis st=
+art-string without end-string. [docutils]
+> >=20
+> > by quoting the const pointer in literal quotation marks.
+> > (Adding a space between the '*' and the '.' also works but it looks odd=
+=2E)
+> >=20
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202609231806.ILZP6Fy0-lkp=
+@intel.com/
+> > Fixes: 025756ee7b47 ("fs: port mnt_idmap() and file_mnt_idmap() to cons=
+t mnt_idmap")
+> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>=20
+> Thanks! Looks good. Feel free to add:
+>=20
+> Reviewed-by: Jan Kara <jack@suse.cz>
 
+I still see the warning on current docs-next, though. Has the patch not
+been applied yet?
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--2aSM361HPXJ12lPa
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCavpzSgAKCRD2uYlJVVFO
+o2fxAP0awLC/NOAhUdn3hqtAYhGUjdvzKU295bC5dTxWWiP9pwD/c/ih5Jvt+/xO
+1xbWcqLtQkEpyne9Ow5zvgkmhh7JTQc=
+=tb6M
+-----END PGP SIGNATURE-----
+
+--2aSM361HPXJ12lPa--
