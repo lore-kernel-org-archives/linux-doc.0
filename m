@@ -1,82 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.136.65.225
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794799393;
-	b=HpWLsvQ+5RpK20gIYlnH+i3YvHNiliPIxMljnCWtqaPktcAKGlqA+tppiyRzjc+0Qvo2
-	 B1R6lFTvhJyk/f1Q5dfmOttgPwqWMDCI4JE9SVgQ1Ti7AAmgbQzyHPgqBdZDbn3hV2G4u
-	 owDke8gRGcU3g72Uy8l0HTiKRZLB//H/MiIMpYPNCwhxl9DEsydqy/o59tQcOtdXpe9yp
-	 lX6t8+6XLuPzIy3Xi3ONXPx74fUQdBZRgGK5y49i4lBTKVlJaErstvficSbkf8ai+Qs5o
-	 CNx8AX6HnJlSd1PPHJdrEuM9oaF3TuY62oFUEDEzPZTXg16Y+wGeektLnqeSrJ1LjyA==
+	t=1794801473;
+	b=VLBXTBsumgsCbqNA9m5U4Zp4ZQWGeC2i1Lmju9vBw1W3vGwhKe/lvp7puS04AEpHPRZU
+	 smhWuu0/82QtGXVn+kGwtUwFak6azlQ2LMsf8VURgG4fbbDGNa1Q3/EOZHjr/+rfk+xxQ
+	 gfp574W1ibUAFyS64cGYOkbc5X06b+jZSACAUYQKT6V1VtmaaBu6JuKIfiGtI7YI8KqsO
+	 hih2XjeaQbAxYIJefiFMQaTRCPQoYnZYXMVg43Gr9B5rpFn9hWhxYsxvAqrqQAo1gkagl
+	 ce2bzSnZSrWG15IPCDbwinGRZyojIpV7eMzqss7BQxKnUXbfloAolebvARttWKFxh+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794799393;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Flowmailer-Platform:Feedback-ID;
-	bh=vuaY7FImZE75sRdiBasv0Tsa2qzXujkTJsfP+X+hpsE=;
-	b=39jQa2tzGa6IGMvDdOMPAit/gQUcodLAyCXzwevaJ1IpUn1NeDUsjV1X5e/CFg6S4Bk0
-	 WD1rPSlu1vUOI9kbqUKnZ+J276J5rVWYn2Ojag2RhgnghLOh5z7U4P2M+E8m2OHYjMNuJ
-	 c+hrWdYGb+b2YS89heUdLi+YQ2JCRez8/2D2YDLrKs0WouuYyCZVR1lRt3wFWhBfSe04l
-	 TTIfpKMfiMOyOzvc9jyfQdZgmjT81X4ZIW+S1HPLmzHXfrDTh9OwL86iAlNzfM4pQFa9Q
-	 669xSss3vtLd4MHRhdYmG4YwLpuedjIJE2+tEoUJ7hwlLBID4qHLbTlO+/sPYW4e1FQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794801473;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:Message-ID:From:Subject:To:Cc:MIME-Version:Content-Type:
+	 Content-Disposition:User-Agent;
+	bh=iwVZGsgKAQDdbtbiaa6vbIgpmM6oKh5tzoDRi/Aw59E=;
+	b=dvrPmsVHTvJBwqDMVgQpTdfgogEyEwcWf/01lha0j8seA7roOj0NWzCs2jDZb+eIYWxm
+	 xWr20zHDTyvjQtJ1rUSXu1I8UjW7UQluJ8JV/5PWZfSQMl9NE6Kmhv0K9TZEicA/rXjNb
+	 iuGLOcYYtfOPYeJrWnFVtOaj81yGX4ouryzXIBYOMkQhQgass8zT2uey1ZVkm5lEmMKlL
+	 fd1m5cOETHq40Xz9SmsgGAzh93AfrqoWIG9UnNfLyMD80vLmi9VfzyJuswXQ4Eonmtdjo
+	 an+CSt8jR/2Im3Z8ZdWDmuPpzSFxFyh16cgx1v8Ao0an9mCUyaPlOh5ApCsY0oGXFLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=siemens.com;
-	spf=pass smtp.mailfrom=rts-flowmailer.siemens.com;
-	dkim=pass header.d=siemens.com header.i=meng.ding@siemens.com header.a=rsa-sha256 header.s=fm1 header.b=HQQZot2Z;
-	arc=none smtp.remote-ip=185.136.65.225
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=pXUuGH1T;
+	arc=none smtp.remote-ip=74.125.82.170
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3783C606A31C
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 03:23:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3783C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F44C606A32C
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 03:57:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F44C606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=siemens.com header.i=meng.ding@siemens.com header.a=rsa-sha256 header.s=fm1 header.b=HQQZot2Z
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202611160323028dee11b131000207ac
-        for <linux-doc@vger.kernel.org>;
-        Mon, 16 Nov 2026 04:23:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=meng.ding@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Cc:References:In-Reply-To;
- bh=vuaY7FImZE75sRdiBasv0Tsa2qzXujkTJsfP+X+hpsE=;
- b=HQQZot2Z8h36ijQln+msDhv9gcSYj5SfMiT/N6XRhq1xugtUNdMn/fUxA9qBarw0//j8Na
- Qp5FuiVGhxMPO9cC993IMWDRG3jL5qroVt1jz0dpBcib5J1XqAsug55FaOn/UyJlwDW3+4/Z
- SnqUPMfUPAFyJz26D8x3C+E+NxXIWN8DlZk93cowvaGSNioXssPo/2gJc+UIv9QXzmXIx35U
- NMhKnIdWTs+/JSI01xzO9af0qK0O6sX7kqp73KReA2Smg8mZnL2c/2jAK8tKE3YieXUoBvbc
- ix9Kc3VFdeZvjHKk09TilgE806fp1YWk96vwKdP6iRMZZyoFc6l9hW+w==;
-Date: Mon, 16 Nov 2026 11:22:46 +0800
-From: Ding Meng <meng.ding@siemens.com>
-To: Gerhard Engleder <gerhard@engleder-embedded.com>
-Cc: Paul Moses <p@1g4.org>, Jakub Kicinski <kuba@kernel.org>,
- netdev@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, Tony Nguyen
- <anthony.l.nguyen@intel.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>, Andrii
- Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
- Kartikeya Dwivedi <memxor@gmail.com>, Richard Cochran
- <richardcochran@gmail.com>, florian.bezdeka@siemens.com,
- jan.kiszka@siemens.com, wq.wang@siemens.com, Jason Xing
- <kerneljasonxing@gmail.com>, Simon Horman <horms@kernel.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, Martin KaFai Lau
- <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
- <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
- <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, John
- Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-trace-kernel@vger.kernel.org,
- bpf@vger.kernel.org
-Subject: Re: [PATCH] net: mark skb NAPI IDs independently of busy polling
-Message-ID: <tuwyyxeexvnd4ckncfhdg3grlh2xd6d2rym7vhx2uzdspjopmk@quzaz3gdurlz>
-References: <20261105071706.7043-1-meng.ding@siemens.com>
- <20261110134539.12d860ef@kernel.org>
- <4pqljild2fp6eotiicvwbwu2wfw66fzd4qamwt6utirdjxlaok@iiu2f3k7azrp>
- <Fhn2gT70aJ-2_eak73NBZYuXuKtVb64PoD8VQ9jwm-S-K0RhZilAg9iwSBJ0RlaiSrRvM1vPw1aHvGPjcktu9GmdBuvFk9244-q2IVOrFu0=@1g4.org>
- <1ab53072-b9ee-464b-b5b3-cbb578059b49@engleder-embedded.com>
+	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=pXUuGH1T
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-3791619605cso5852948eec.0
+        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 19:57:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google; t=1794801472; x=1795406272; darn=vger.kernel.org;
+        h=user-agent:content-disposition:content-type:mime-version:cc:to
+         :subject:from:message-id:date:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=iwVZGsgKAQDdbtbiaa6vbIgpmM6oKh5tzoDRi/Aw59E=;
+        b=pXUuGH1T9exwQcrwhbSZrLclSn0IWrK+PCRBc/KdKoTlWFPxdjgreeQ1+APKhspKwS
+         HmqF1BZdKZR9OP7azT5beKtMmat/vhp6olqwbUZeGf5u/1b39oKZbvVK9EqEv5J8rQID
+         24wNYBs8s+ihpD/hp4t8V0NvT5OMsgDTX4FQw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794801472; x=1795406272;
+        h=user-agent:content-disposition:content-type:mime-version:cc:to
+         :subject:from:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=iwVZGsgKAQDdbtbiaa6vbIgpmM6oKh5tzoDRi/Aw59E=;
+        b=LuW3lHvd7dfH29XWTRWNZq7/43s1bvmXVvYWEn32sTiaMQs9wpn5CjOMQ0AuueSZpa
+         cVBK0UTSQrjp7bBjSrvsEcazuxPapsQ8Zzlk7vqV1MC0y/TjHInlDWydNB4NTAmOZ8y9
+         /WO8MZG83WOc8LsQxMlvq0rXWKCwjyhXpSTIj0gUwPyNb9695WrNVZtU0Hvq0lRv+Wtt
+         h1Xyf+oE9F3/WZacjR3xVo69ntCRjTdfFqij74KsiCuUurq4dFuEQVwTFJgHKiR64sUy
+         Jpm0k4K0wq5wcP73dii2zcxXprNJO5RIw0gqgowasSAqlsgwSj+3iDXdDpsKzGqw9hUf
+         JJ0w==
+X-Forwarded-Encrypted: i=1; AL+hErFoXdTYft6reGB/zYbZSDRh4jMjDmE/i7ec63wJnS59QJu1KiLEBTyUJJkG9r0Rjq5vVL981lRWlYA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Oom/vw5oFTiUKMxc64I6spn0nRW5rNvSar2ShZM/FblMIpmcD
+	1Bz5/V7HEQIz5N0l2OZ2iB+JJ6Nmir5CXBvG+fM31RyTy+sXbJ9PHOLFex2Nso5SBHM=
+X-Gm-Gg: AYBFou3e8UogJ0ErzuKcxXPmodd2o9Efi/3Rgqaw86Uqabp80duJvmeeZNBg8ysg45n
+	zFZphmRJDUj8/QrJLC1P7+hnYxsAbjkvBn7HBOkShN2J1hXst5A6kQ0pCRxzJaiLgtBndwgUSTJ
+	nrTqW7HJdoqXNtL/fuCGTr5aFJxIr8oaYfCRvIh8B+XACcM2ISOK8tQMWBnBx7wwGls8W/dZrFY
+	ShGTT4rLBNHHMCSj5nZIUodLxPRQysscyCGy5oxzbyGHZvesxgAU73CJGhYtYHchxjJgPQJlmJR
+	RPTTLnZn1tWxvOb1fPI1+XF8bXCYrs8XZvuSdqRPP+J716D4gu521UvZq4qXaDNaw7TK0umxlSs
+	1lJwjONMs0Zb2iT5SCzRZ62PnakL2r+hp0fzi9mJHb15bouctD03+9ngMrZtHz6zOEVhZYhuwEK
+	w3V0vJEDqpUbeOReIJmXOLcTMJTOU8GiiPMwyGxsW2HjH/bZ4mz9CKSpKUrnw19hLPTAdZOw6TX
+	U1s7Fb8weDkWpgmxm9RSWpnG6H3MQJ/U3ZiWRo2rHXRRfaNr5GDTqPz8yaYgYc1sxgIiP1f1dGH
+	8zr4aNvldpODyHV+dopEURoEJ+druXVWm4x3atHzG3+t9cjTYDDDQgdDIRwLhQI6980p6mELQeF
+	Df4juzBXEIUe6Wm0SYY9StZoOykbglQH7957grk/Vgs0HoCwPTX+iMJrzGZg4Nand/b93LxtR4l
+	HzwMizSLUOnmV1sWxiZpTkT216ky6i6clNIr6pG02JruSgjmoCjdriUtp+ZzgXYpc6
+X-Received: by 2002:a05:7301:b06:b0:36a:1089:9836 with SMTP id 5a478bee46e88-3796628ce32mr8377652eec.15.1794801472427;
+        Sun, 15 Nov 2026 19:57:52 -0800 (PST)
+Received: from [172.18.0.2] ([172.56.232.151])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37956bb0919sm29451214eec.29.2026.11.15.19.57.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 19:57:51 -0800 (PST)
+Date: Sun, 15 Nov 2026 19:57:48 -0800
+Message-ID: <a8474f0e2d0ef5ea9d53aa6649c7e9c9ea6f15c2.1794800574.git.chris@chrisdown.name>
+From: Chris Down <chris@chrisdown.name>
+Subject: [PATCH v2] proc/kcore: allow disabling /proc/kcore at boot
+To: Omar Sandoval <osandov@osandov.com>,
+    Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+    Shuah Khan <skhan@linuxfoundation.org>,
+    Randy Dunlap <rdunlap@infradead.org>,
+    linux-debuggers@vger.kernel.org,
+    linux-fsdevel@vger.kernel.org,
+    linux-doc@vger.kernel.org,
+    linux-kernel@vger.kernel.org,
+    kernel-team@meta.com
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,45 +100,96 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1ab53072-b9ee-464b-b5b3-cbb578059b49@engleder-embedded.com>
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1335312:519-21489:flowmailer
+User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-On Fri, Nov 13, 2026 at 09:59:17PM +0100, Gerhard Engleder wrote:
-> On 13.11.26 09:29, Paul Moses wrote:
-> > 
-> > > 
-> > > Then, drivers that use deferred timestamp conversion (e.g. igc, engleder) must
-> > > specify a busy poll dependency if they want to obtain the original net
-> > > device upon consuming the skb. However, this dependency is far from
-> > > obvious, and annotating it for future features of this kind will be very
-> > > hard to discover.
-> > 
-> > The "deferred timestamp conversion" was incomplete is what I'm saying.
-> > 
-> > This started with 97dc7cd92ac6, 0abb62b68252 and 069b142f5819 were built upon
-> > it, so maybe Gerhard should decide the path forward?
-> 
-> The deferred timestamp conversion is a niche feature for TSN to solve
-> the working clock / global time problem in TSN networks. IMO there is
-> no need to make it working as soon as igc or tsnep drivers are enabled.
-> It would be ok to fall back to normal vclock behavior like all other
-> drivers if CONFIG_NET_RX_BUSY_POLL=n. For me it is ok that NETCONSOLE
-> is not possible for PREEMPT_RT in combination with this feature.
-> 
-> There are already so many things to consider to get TSN working. To
-> not enable NETCONSOLE on PREEMPT_RT for deferred timestamp conversion
-> would be just one of many.
-> 
-> @Ding Meng: Do you actually need the NETCONSOLE in this combination?
-> On productive systems likely not these days due to CRA.
-> 
-> Gerhard
-OK, understand. Thanks for your comments, Gerhard. Actuallly, we solved
-this issue by disabling netconsole and enabling busy poll. This is
-indeed a quite rare scenario, but when it happens, it is a bit difficult
-to figure out that this was the root cause.
+/proc/kcore lets any process with CAP_SYS_RAWIO read all of kernel
+memory. That's a pretty large read primitive for anyone who obtains
+CAP_SYS_RAWIO (and it also gives away the KASLR layout).
 
-Ding Meng
+For this reason on some hosts we want to turn /proc/kcore off. In terms
+of what it can read, /proc/kcore isn't any more concerning than other
+ways to read kernel memory, like BPF with CAP_BPF and CAP_PERFMON. The
+distinction is that a process with CAP_SYS_RAWIO doesn't necessarily
+have CAP_BPF and CAP_PERFMON, because CAP_SYS_RAWIO may be needed for
+hardware access without necessarily wanting to grant general RAM access.
+CONFIG_STRICT_DEVMEM already makes that possible for /dev/mem, but
+/proc/kcore gives the same capability to do general purpose RAM reading
+anyway.
+
+However, on a kernel built with CONFIG_PROC_KCORE=y the only ways to
+block it today are lockdown=confidentiality (which also disables many
+other things we perhaps don't want to disable, like kprobes and
+bpf_probe_read_kernel()), or an LSM. That's annoying, because on the
+majority of hosts we do want it on for things like drgn/crash, so today
+we build two separate kernels.
+
+Let's add a "kcore=" boot parameter so that this can be disabled at
+boot, which lets us preserve those choices while using the same kernel
+image.
+
+Signed-off-by: Chris Down <chris@chrisdown.name>
+---
+v1 at https://lore.kernel.org/r/auAmuqZyUodq3iqk@chrisdown.name
+
+v2: Give more justification in changelog (Omar)
+
+ Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
+ fs/proc/kcore.c                                 | 12 ++++++++++++
+ 2 files changed, 18 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 0b3c140babd9..b4c43d2cae03 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2902,6 +2902,12 @@ Kernel parameters
+ 			parameter KASAN will print report only for the first
+ 			invalid access.
+ 
++	kcore=		[KNL,EARLY]
++			Enable or disable /proc/kcore on kernels built with
++			CONFIG_PROC_KCORE=y.
++			Format: <bool>
++			Default: on
++
+ 	keep_bootcon	[KNL,EARLY]
+ 			Do not unregister boot console at start. This is only
+ 			useful for debugging when something happens in the window
+diff --git a/fs/proc/kcore.c b/fs/proc/kcore.c
+index 3264c99bd68a..4251a9ef868b 100644
+--- a/fs/proc/kcore.c
++++ b/fs/proc/kcore.c
+@@ -69,6 +69,7 @@ static size_t kcore_notes_len;
+ static size_t kcore_data_offset;
+ DEFINE_STATIC_PERCPU_RWSEM(kclist_lock);
+ static int kcore_need_update = 1;
++static bool kcore_enabled __initdata = true;
+ 
+ /*
+  * Returns > 0 for RAM pages, 0 for non-RAM pages, < 0 on error
+@@ -722,8 +723,19 @@ static void __init add_modules_range(void)
+ }
+ #endif
+ 
++static int __init parse_kcore(char *str)
++{
++	return kstrtobool(str, &kcore_enabled);
++}
++early_param("kcore", parse_kcore);
++
+ static int __init proc_kcore_init(void)
+ {
++	if (!kcore_enabled) {
++		pr_info("/proc/kcore disabled on command line\n");
++		return 0;
++	}
++
+ 	proc_root_kcore = proc_create("kcore", S_IRUSR, NULL, &kcore_proc_ops);
+ 	if (!proc_root_kcore) {
+ 		pr_err("couldn't create /proc/kcore\n");
+
+base-commit: 7e1392a42ea288d70a266f6553fe06f57f8647ea
+-- 
+2.56.1
+
