@@ -1,77 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=12.32.117.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794924249;
-	b=E4Kr1hRW6r/ObQ5lGWZdHsVokcpAeTx8izZ62ExvFU/F91OFsrMwCYihhxg/eptXMO/C
-	 KBnf4hUzhgNjTBKHiLFwXfVVTtN8wR0QY6FDLq39aDfHc4gbZfWEvfcLp9FiF9yB+s3n1
-	 xZCVZLYiVHItrAX13EkeSLwnK8vFYaz4J0PKD952TIYDMqYr7ycfUgHxA5W8IjPeEO1dC
-	 XaXdhvO4KLryPmWTeK78lYwBhYWVbdAJC9via14c5DIwBXO4q58YI94bWGV0E00vG5jkq
-	 LKa/sYNWwaSMQQTbJjb34JJb8uUKkAwbGj1Ft1P5JbReZG7aaFDsUgT9WNvdVbTKULQ==
+	t=1794924562;
+	b=C0KSiZq/fMcGV0VlJSC2CHTi/jSuxyjKX7y1kQ8zbnW7vIzzCbUHXeeQRNbLLg2zu/A6
+	 7G2cj2r1nm6Heyw1sI/TyuJdsidr3VkM6bXxoj3HAAuxO2sMtxu/cMYJ9vsOvMU77R9B0
+	 4yFHTEEVfxt3edGvxXUst8GLfpEk6iHyLcS/JcwERff3DDRUo4NI4AROdXQKLxVXf2htt
+	 sFa/2EynRIeYlpmhRbJCGQPFHU5AZeWabvSjA0DIud9Q7G3Dzyf4qWqNNQv0jMFNJGFdT
+	 lXbFV5kiORskamziaWjmFWSGy9kCeuM3bjUBr3g+FikqiAsEYPAbvWv8kty/ttS1nhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794924249;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=5jGqKMzpHIBt9HmpwpDrqu2DhhE4x8wUp8p1Drn43Ak=;
-	b=GXhW2Hyc8lzPRv5b+cuGGhEwSBrftY1+GdkAGrlDSu53QOJ0aL7W2/k1nJWy2HX3BrfY
-	 42e+8PcaWstZpthN48U70pkIXiGOb1rA0HOYEqU/oxI++ThBrjWDJCNsNFG/AfXhO/zkV
-	 zWMJy+ISVqNoh4qfRSah4W4pPbPYInGbaeay7zJkOEYlES4OmJzm97TqklIB8Ss7zPV7R
-	 uK5KhJz6QsG8H286aNxk0q9zk9nj5i0loHsVgtvNnZIsK6Xdy03c8qh2UBHH4rsRwIz7N
-	 Oz7VPyOBtdVk/tsD28c6vXoX71j2FhVOp0Brw1k2PGuDGLs3ctT6WWPVj4NyB6LUKfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794924562;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=IS5A69DN3etoBCzAim4M2YEDkR7TO4KkrjqVc99lAhQ=;
+	b=HrrNI7oLKOXTtM5UMkSipNVeygS0n4Rlh4KI6GYLx+R9BpGoLABVmTI6xNm8K2Z6TtyB
+	 urghJUQ7J5vdnkG8pp/exDV4I4pchnZkcSS9U4yQKysVEt3GwPnS2SJLkyTCi3x8Vx20x
+	 PplkRBjX1beTEO2YRDcY+Ekh2g2JHX4if0Rj56WjHe/PYLBbHT/5/sV9cWeLJi5tBX+Tk
+	 nLIUr4HyKFB60qP46Rv3SxSde402I3aMJxHUip7Ewrv0J6W64Z6IzlyQdM848BoF85OgT
+	 3YNU3qiahLDgl8aOIiWHXMy4vKcmUb9frLADzmRfuDjvkDNkrp63kY1g/1QQ2Kq54bA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PUf2W3uw;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dmarc=pass header.from=chelsio.com;
+	spf=pass smtp.mailfrom=chelsio.com;
+	arc=none smtp.remote-ip=12.32.117.8
+Received: from stargate.chelsio.com (unknown [12.32.117.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E103606A339
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 14:04:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E103606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PUf2W3uw
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794924250; x=1826460250;
-  h=date:from:to:cc:subject:message-id;
-  bh=hQN8welQxv9k4rl4HD+iCMs6hNmuTmKOI3f0qQcpOpg=;
-  b=PUf2W3uwqSyxnCg7hb00qAysF2L8DDjXEOzg/ocglf7HTjEnp2r6bfoz
-   gbX7Oyt7eEVeijDqtFT7d4UR3qv2+cQcqIIazG5eEnL+nke88J3dgZ+fd
-   KwQNLmLUry4fm1gRwBPrAfz8o7/IS7aoYXf8Z4Xahri+hQP8CHujD0XAg
-   c6b9YsQrwmdSGYnbZUxLwvwVivQNKzntYD6VUEWh1taOz9tTsXfY8Zx7X
-   Oqxg40KsAnQSWNv/e6hjWRIaDNgjAXdlcIDCxPNgO3kDdS0oIJyv0jyRl
-   e2zBdqixh86QPSybBR27AJydd6wSgY4Da2XQBNYAOYebmE2C06HHHWoIj
-   Q==;
-X-CSE-ConnectionGUID: 82tRHrWKQ/qr7k74+GSeag==
-X-CSE-MsgGUID: n5i8HbwOQbiwTvwbbcsxGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3733223"
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3733223"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 06:04:09 -0800
-X-CSE-ConnectionGUID: eAe5XsJiRA29BNDpe+NEcA==
-X-CSE-MsgGUID: tZurIZY4SJWrtowJmB12KQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="10236403"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Nov 2026 06:04:07 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xTJn3-00000000386-1TPl;
-	Tue, 17 Nov 2026 14:04:05 +0000
-Date: Tue, 17 Nov 2026 15:03:16 +0100
-From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [mhiramat:topic/bootconfig-multiple 5/9] htmldocs:
- Documentation/admin-guide/bootconfig:415: ./lib/bootconfig.c:1256: WARNING:
- Block quote ends without a blank line; unexpected unindent. [docutils]
-Message-ID: <20261117150234.wWb8ZTnT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C2B606A323;
+	Tue, 17 Nov 2026 14:09:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37C2B606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chelsio.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chelsio.com
+Received: from localhost ([10.193.191.19])
+	by stargate.chelsio.com (8.14.7/8.14.7) with ESMTP id 6AHE5ZYp013372;
+	Tue, 17 Nov 2026 06:05:36 -0800
+Date: Tue, 17 Nov 2026 19:35:02 +0530
+From: Potnuri Bharat Teja <bharat@chelsio.com>
+To: Alexandre Cassen <acassen@corp.free.fr>
+Cc: Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+        Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+        Jamal Hadi Salim <jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Michael Chan <michael.chan@broadcom.com>,
+        Pavan Chebbi <pavan.chebbi@broadcom.com>,
+        Donald Hunter <donald.hunter@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, David Ahern <dsahern@kernel.org>,
+        Ido Schimmel <idosch@nvidia.com>, Shuah Khan <shuah@kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "oss-drivers@corigine.com" <oss-drivers@corigine.com>
+Subject: Re: [PATCH net-next v2 02/10] cxgb4: flower: refuse a tunnel key
+ wider than the VNI
+Message-ID: <avxfDps1eq4i4Zj8@chelsio.com>
+References: <20261117092915.255194-1-acassen@corp.free.fr>
+ <20261117092915.255194-3-acassen@corp.free.fr>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,36 +66,60 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117092915.255194-3-acassen@corp.free.fr>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/bootconfig-multiple
-head:   1f638abe94c9f0d98d017e0aaf27a76982b7d8b9
-commit: 1646c45f5190170cc1c9eb1379dc94e7e8cabec5 [5/9] bootconfig: Add multi-config ID helpers and xbc_init_configs() support
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.23, Python 3.13.5, on linux)
-sphinx: sphinx-build 9.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20261117/20261117150234.wWb8ZTnT-lkp@intel.com/reproduce)
+On Tuesday, November 11/17/26, 2026 at 14:59:05 +0530, Alexandre Cassen wrote:
+> cxgb4 holds a 24 bit VNI and truncates the key and the mask of enc_key_id.
+> An exact key above bit 23 already selects the wrong VNI. Flower is about
+> to accept partial masks. A mask that only covers bits above 23 would then
+> clear the VNI mask and encap_vld. The rule would match any traffic its
+> other keys allow. Refuse a key that no VNI can match and a mask that
+> leaves no VNI bit.
+> 
+> Found by an AI code review agent while auditing the users of enc_key_id.
+> Confirmed by code inspection. The wrong match was not triggered. Build
+> tested only.
+> 
+> Fixes: 98f3697f8d41 ("cxgb4: add tc flower match support for tunnel VNI")
+> Signed-off-by: Alexandre Cassen <acassen@corp.free.fr>
+> ---
+>  .../net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c  | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c
+> index 3307e5042681..467f055e318c 100644
+> --- a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c
+> +++ b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c
+> @@ -316,6 +316,21 @@ static int cxgb4_validate_flow_match(struct netlink_ext_ack *extack,
+>  		return -EOPNOTSUPP;
+>  	}
+>  
+> +	if (flow_rule_match_key(rule, FLOW_DISSECTOR_KEY_ENC_KEYID)) {
+> +		struct flow_match_enc_keyid match;
+> +		u32 key, mask;
+> +
+> +		flow_rule_match_enc_keyid(rule, &match);
+> +		key = be32_to_cpu(match.key->keyid);
+> +		mask = be32_to_cpu(match.mask->keyid);
+> +		if (key >> ENCAP_VNI_BITWIDTH ||
+> +		    !(mask & GENMASK(ENCAP_VNI_BITWIDTH - 1, 0))) {
+> +			NL_SET_ERR_MSG_MOD(extack,
+> +					   "Tunnel key does not fit the 24 bit VNI");
+> +			return -EOPNOTSUPP;
+> +		}
+> +	}
+> +
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261117150234.wWb8ZTnT-lkp@intel.com/
+Thanks for the change. the 24-bit vni bitfield silently truncated wider keys and masks.
 
-All warnings (new ones prefixed by >>):
-
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
-   Documentation/ABI/testing/sysfs-class-power-rt9467:1: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/admin-guide/bootconfig:415: ./lib/bootconfig.c:1255: ERROR: Unexpected indentation. [docutils]
->> Documentation/admin-guide/bootconfig:415: ./lib/bootconfig.c:1256: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->> Documentation/admin-guide/bootconfig:415: ./lib/bootconfig.c:1258: WARNING: Inline strong start-string without end-string. [docutils]
->> Documentation/admin-guide/bootconfig:415: ./lib/bootconfig.c:1258: WARNING: Inline strong start-string without end-string. [docutils]
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:387: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
-   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:410: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
-   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
-   Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: ERROR: Unexpected section title.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Potnuri Bharat Teja <bharat@chelsio.com>
+>  	if (flow_rule_match_key(rule, FLOW_DISSECTOR_KEY_BASIC)) {
+>  		struct flow_match_basic match;
+>  
+> -- 
+> 2.43.0
+> 
+> 
