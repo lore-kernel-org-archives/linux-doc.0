@@ -1,79 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794902959;
-	b=Iq3FSIQG+SbQ6jSly2tcoyb84lCKcTEetkQNsoRnOS3slv6H7XjgRXsS3bX21eO5hHBf
-	 Iz/HJJgFRnypQDzQNSll0KdB6K8MbuHqSxwyIH1a+Kr+vPdU7Cb7XvjMFBVIACLJmMa90
-	 YG2m6skpM16n9bvWDGFPoJiY4TCbygSuW0b2sI9uuE6gx2Om66nF58JgQHGhhzXjf0rQo
-	 hYTHo3GJWIW0sPJQXLwUTOTmHrx78SuUO3qN0hqOAedpH8Wf4SpB9v24cwsd/1aD2vo1L
-	 PQOQOpi84pFnMzRld7xwsRafNtHXybjEDo0bp7UPAl2y4Gor81NV5JNTyT4/BOmhUrA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794902959;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=2AsFSmPkJrfcSU2iokgB2aDPRWQeYmtyi73lpLnFe7k=;
-	b=Cna5jxsCQt1rResN7O27Qo9vNVTygckmrKvfmuZ2Bz3N5NBuVO9Ayd53ed10cU6tB9y6
-	 AZmjz8UJObwIA82Y+DxVJUGyKhs4UNrn6QwtmEdPEwXoWOrybhCPZrp6Ql/iFwtNmJxIL
-	 sUhe1LYZ7+dWe3b/GE6O+XimXnuIe/HriQgl4qsIKH1l5WaCbIYUj5wPPyK0r9LI0yZFz
-	 T8V0xW6hELXVLzocJddD0Tc/IxeLxuHQc6nV5/bl0vkTODgRm/ZtQTTic9MYIfrjequRb
-	 qzw0kcsTsCGN/9hh08vF/i/pSVoQe+0J5SaXbJS5n+qpKV0VWPfrV11GoV9zSntCQWw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oRrKgAzH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF74F606A323;
-	Tue, 17 Nov 2026 08:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794903140;
+	b=PrxIIDgeMD/+IRPmHbwudna5NaBb6FJokFo6EdBeUDidXXIEd6Fq+X8u/A1+e5v7C6hD
+	 ExSwzHeVsvjYTvUKyEVR9vXBhV1qLF4Yr0ATFDCIYR1928tVRp0unYEsbEpWOv5eGUkeb
+	 vFpdg/8TXSUWNHOJpIa2Ja4URH5Dc/S9TJwDFdQgP7Kb54Ix9mOIFFiWw7Wy1wql93U8Q
+	 u2q0q/G6ZZtor86fI3TFiqNG41VohygF8cb9RRIrEE2UV8LBlvD7hT8acJxFirE762VYV
+	 ek04uKlFH860SH/25yq4276izk07Tib0Kik9hzEEG78GtIlH91uP23ghMD/1wt03nqQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794903140;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-Spam-Status:X-Spam-Checker-Version;
+	bh=3Q56oJu3Qvbb8a5JtiwHd6x9aRZnKCgnczofHs62bK8=;
+	b=hqShsea0ZmMd2hHJ3YLuipP1rzkzsVsmJMonqRofs20d3Udb8WkkvXS2tpnxRTbJWH+q
+	 cUpsZ74CnVwlW2usjkWRrm0rzJCAvraGdYM6n2PE/TIMsnPxWICz6sE7H55qVNdqbCwN7
+	 fPGjqYl1x8roOa91sjF3X+B62dYA7e5UrHbPSXr7bPLCfovFz0KXNVovTVTdGDO/f0MnO
+	 N/h9pfIdRnHaNynhdgGym8v2W30SpZV2agY2pgp2E7vN26pt5VWpOLTn6Oo5DMmv4s4Uo
+	 QLY3Aw4GHXOZMtUhCnr/xPex/QidaAaYXe6GxVbWphEdwdvSBc1plIqIAniaUps9/yw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=Y9tcVMbS;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D873A606A31C;
+	Tue, 17 Nov 2026 08:12:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D873A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oRrKgAzH
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794902958;
-	b=K0lJdGFsKqxiNzhZWDFG198RLjJn0xrJKBchxWuRdtnByzO6VPdtnIZIX4N45t2n8pB+
-	 kMiKw51WhSZ+ENMb/q1AGA0broTMDq6UkHAnAHxG/jOuw8xNm/7jDZ+AgUsxvDlRKrBvf
-	 u2iIs55y4xT/yJrENuXELW62BGaQKR+VTwWqaKQcACsmtSGUP54cTakAxbnB5f2Atz62I
-	 V6XrTxcDgVxqS2pLsgMRwnz96IzxwxsFBawxoEVpne6faEUwHf/th1w0W3VkqNN6cev9W
-	 Ollf1JSY8pCp/idmn4+jT0qSxCbzMTCfQ5Tel4oBKuMBpRKmbPZReB/UOmBKpF39Ufg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794902958;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=2AsFSmPkJrfcSU2iokgB2aDPRWQeYmtyi73lpLnFe7k=;
-	b=HBG3XeKIuVrhjwKTt45u1yjUyLyNmlgbJqaJQ8oSl4tuvBEOy+f9r4KN+wxJDSu0/klW
-	 unNv4+m9SuCJFo+hZIvOOYvGCru2Uya/iDMZ9ful6DvlsMejFFGGKibrcd908xZdAlA/C
-	 4XjsgEv7HMHtYgYa6ZL338A/dLuqvNVjT9QNkCNu4VrgjH+Pw9WYylroFsWXiQxiJ+1sj
-	 F4HAtwokppwqdYbzB2t3XyaTIy+ZdeJyBtbx+JYTJ8oTgpjz5FZ2bqZbA5KMGi5l6JvMO
-	 A2mlF3cHdlnnigmnCAyI7PY5M+F9XbmjJm6USRpXsYIZ493Yw64QtsBOQq1dd613bew==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0D5A61F000C4;
-	Tue, 17 Nov 2026 08:09:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794902958;
-	bh=2AsFSmPkJrfcSU2iokgB2aDPRWQeYmtyi73lpLnFe7k=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=oRrKgAzHDxmScWMEsZU6cbXEBwrbgsQkA63+xe+9dYB9ru+fq664nJGGJZoxTwDpU
-	 EPftifQEr9vkFLCFUaIXE2seVbn05yn7HtSdzzV9yGU6ZJC+62eyj/cK6DUmSKpx7w
-	 ixzPFUdzxcc5Hv42OaU/EE21LG93+BwTmApW3R/AhgFJlfS/o+EPlBOECkk6p2rTsW
-	 6NFmt3/aUn5+6GU7MOpztzl7t1owS+M4SxnT7oGi1S3ZIrYQ5//reZ4zUmQFc5oRjI
-	 x2xQylkFY9EBs232dIsPT6x7H778dpge0UeXETobUSyE1MCFSe2BtBkNTVfQpZXeLM
-	 GSRtOTSez3crg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 622A64A747;
-	Tue, 17 Nov 2026 08:09:17 +0000 (UTC)
-From: Yongjian Wang via B4 Relay <devnull+echoowall.gmail.com@kernel.org>
-Date: Tue, 17 Nov 2026 16:09:16 +0800
-Subject: [PATCH net-next] tcp: document black hole detection for
- tcp_mtu_probing
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=Y9tcVMbS
+Received: from CPC-namja-026ON.localdomain (unknown [4.213.232.23])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 635C320B7169;
+	Tue, 17 Nov 2026 00:12:15 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 635C320B7169
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794903138;
+	bh=3Q56oJu3Qvbb8a5JtiwHd6x9aRZnKCgnczofHs62bK8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Y9tcVMbST1MOnDSd7vJyGUU7DbRbUFCN4sgjNlW6uaqZEv18t49SZWrlDyewbiNNw
+	 PRVS2k55hd8avGQAgUqHAtN96AQz1gLmcL12Exp2KqNxffGq0Br2hTX9xtSSBr5c/1
+	 9CHVmwDYla8pjesczn26HlKXdI/BFokxxojJtkRc=
+From: Naman Jain <namjain@linux.microsoft.com>
+To: haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	namjain@linux.microsoft.com,
+	mhklinux@outlook.com,
+	muislam@microsoft.com,
+	anbelski@linux.microsoft.com,
+	linux-hyperv@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] mshv_vtl: Add a per-CPU transition statistics ioctl
+Date: Tue, 17 Nov 2026 08:12:11 +0000
+Message-ID: <20261117081211.2063781-1-namjain@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,92 +68,323 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261117-tcp-mtu-probing-doc-v1-v1-1-552ae04de4ef@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAKsL/GoC/yWM0QrCMAwAf2Xk2YDZnAV/RXxYs2xGsC1tNgZj/
- 27Vx+O426FIVilwa3bIsmrRGCrQqQF+DmEW1LEytOf2SkQOjRO+bcGUo9cw4xgZV8KuJ/auv0y
- D81DjlGXS7Te+QxDDIJvB42/K4l/C9v3CcXwAl7FO74QAAAA=
-X-Change-ID: 20261117-tcp-mtu-probing-doc-v1-351cb754fa7b
-To: corbet@lwn.net, pabeni@redhat.com, edumazet@kernel.org, 
- davem@davemloft.net, kuba@kernel.org
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, kuniyu@google.com, 
- rdunlap@infradead.org, horms@kernel.org, ncardwell@google.com, 
- linux-doc@vger.kernel.org, skhan@linuxfoundation.org, 
- Yongjian Wang <echoowall@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794902956; l=2370;
- i=echoowall@gmail.com; s=20261026; h=from:subject:message-id;
- bh=uFO+5f2+BsqKYlZQnC2908gTApJQjYev79CULLrFyVs=;
- b=CTFRsXj4zsCMBDDo033TASmfOhkpWF8sCLe3jBnz3Qrz0p1qrRih9+UYwaftb9K38pxZJd4/f
- c15nntriJSoAe9rckuW1XmJPrcLXwr80ROaq2bwkr9FY2/TxNZncrLI
-X-Developer-Key: i=echoowall@gmail.com; a=ed25519;
- pk=9XP6JhqjjPsHCF6UZZZTeqTRnXIa4+ufggnxXtTJ+no=
-X-Endpoint-Received: by B4 Relay for echoowall@gmail.com/20261026 with
- auth_id=1323
-X-Original-From: Yongjian Wang <echoowall@gmail.com>
-Reply-To: echoowall@gmail.com
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-From: Yongjian Wang <echoowall@gmail.com>
+The VTL driver does not expose per-CPU transition counts or timing.
+This information is important to track number of VTL transitions based
+on the use-case, debug issues where a VP gets stuck in VTL2 etc.
+Add MSHV_GET_VTL_STATS IOCTL so userspace can query them and print this
+information periodically or on error handling paths. Report entry and
+return counts, the latest timestamps, and total and maximum interval
+durations. Include the last observed state so userspace
+can calculate the age of an unfinished interval. These are elapsed times,
+not exclusive CPU execution times.
 
-ip-sysctl.rst says that tcp_mtu_probing=1 enables MTU probing once an
-ICMP black hole is detected, but not when that happens or what TCP
-does then.
+While at it, remove the unused num_vtl0_transitions counter.
+Add documentation in a generic VTL interface file. Documentation for
+existing ioctls is outside the scope of this patch.
 
-Describe both, as implemented in tcp_write_timeout() and
-tcp_mtu_probing(). Also add the missing defaults of tcp_mtu_probing
-and tcp_base_mss.
-
-Signed-off-by: Yongjian Wang <echoowall@gmail.com>
+Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
 ---
-This describes the behavior checked by the black hole detection tests
-added in commit 8a83f21ad75d ("selftests/net: packetdrill: add TCP black
-hole detection tests").
----
- Documentation/networking/ip-sysctl.rst | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ Documentation/virt/hyperv/index.rst    |  1 +
+ Documentation/virt/hyperv/mshv-vtl.rst | 98 ++++++++++++++++++++++++++
+ drivers/hv/mshv_vtl_main.c             | 72 ++++++++++++++++++-
+ include/uapi/linux/mshv.h              | 35 +++++++++
+ 4 files changed, 204 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/virt/hyperv/mshv-vtl.rst
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 0b7bfbd98a92..a11baf04758c 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -412,6 +412,8 @@ tcp_base_mss - INTEGER
- 	Path MTU discovery (MTU probing).  If MTU probing is enabled,
- 	this is the initial MSS used by the connection.
+diff --git a/Documentation/virt/hyperv/index.rst b/Documentation/virt/hyperv/index.rst
+index c84c40fd61c91..9fcff8c0f7db8 100644
+--- a/Documentation/virt/hyperv/index.rst
++++ b/Documentation/virt/hyperv/index.rst
+@@ -13,3 +13,4 @@ Hyper-V Enlightenments
+    vpci
+    hibernation
+    coco
++   mshv-vtl
+diff --git a/Documentation/virt/hyperv/mshv-vtl.rst b/Documentation/virt/hyperv/mshv-vtl.rst
+new file mode 100644
+index 0000000000000..c8038dbdf3ff5
+--- /dev/null
++++ b/Documentation/virt/hyperv/mshv-vtl.rst
+@@ -0,0 +1,98 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++MSHV VTL userspace interface
++============================
++
++The MSHV VTL driver allows a userspace VMM running in VTL2 to manage
++and run a lower VTL.
++
++The ioctls described below operate on a VTL file descriptor returned
++by ``MSHV_CREATE_VTL``.
++
++MSHV_GET_VTL_STATS
++------------------
++
++Return a snapshot of transition counts and timing for one Linux CPU.
++
++Set the ``cpu`` field in ``struct mshv_vtl_stats`` before calling the
++ioctl. All other fields are output. Possible CPUs are accepted even when
++offline. Statistics are shared across VTL file descriptors and accumulate
++for the lifetime of the loaded driver.
++
++.. kernel-doc:: include/uapi/linux/mshv.h
++   :identifiers: mshv_vtl_stats
++
++Accounting
++~~~~~~~~~~
++
++Each lower-VTL switch attempt increments ``entry_count``. Its return to
++VTL2 increments ``exit_count``. Every switch in an in-kernel re-entry loop
++is counted separately. Work or cancellation before a switch does not
++add a transition.
++
++All timestamps and durations use CLOCK_MONOTONIC nanoseconds.
++
++* Lower-VTL intervals run from an entry attempt to its return.
++* VTL2 intervals run from a return to the next entry attempt.
++* Totals and maxima include completed intervals only.
++* The initial VTL2 interval before the first entry is not measured.
++
++The statistics work without tracing. They measure elapsed time,
++including switch overhead and descheduling, not exclusive CPU
++execution time. Only switches made through this driver's x86-64 Hyper-V
++return path are measured. Intervals are not split by target VTL.
++
++There is no reset, histogram, or transition-history buffer. Accounting
++adds two clock reads and short per-CPU critical sections to each switch.
++
++Current interval
++~~~~~~~~~~~~~~~~
++
++The ``state`` field reports the last observed software state:
++
++* UNKNOWN: No switch has been recorded. Do not calculate an interval age.
++* VTL2: Use ``snapshot_ns - last_exit_ns``.
++* LOWER_VTL: Use ``snapshot_ns - last_entry_ns``.
++
++Counts, durations, and transition timestamps are zero before the first
++switch. The state does not prove that the CPU is currently executing in
++that VTL. An offline CPU retains its last recorded statistics.
++
++Errors
++~~~~~~
++
++* ``EINVAL``: The CPU number is outside the possible CPU set.
++* ``EAGAIN``: The statistics are busy. Retry later.
++* ``EFAULT``: The userspace buffer could not be accessed.
++
++Reading another CPU's statistics does not send an IPI to that CPU.
++The per-CPU lock is never held across lower-VTL execution.
++
++Example
++~~~~~~~
++
++Using an existing VTL file descriptor::
++
++    struct mshv_vtl_stats stats = { .cpu = 0 };
++
++    if (ioctl(vtl_fd, MSHV_GET_VTL_STATS, &stats) == -1) {
++        perror("MSHV_GET_VTL_STATS"); /* Retry later on EAGAIN. */
++        return -1;
++    }
++
++    printf("cpu=%u state=%u\n"
++           "entry_count=%llu exit_count=%llu\n"
++           "last_entry_ns=%llu last_exit_ns=%llu\n"
++           "lower_vtl_total_ns=%llu lower_vtl_max_ns=%llu\n"
++           "vtl2_total_ns=%llu vtl2_max_ns=%llu\n"
++           "snapshot_ns=%llu\n",
++           stats.cpu, stats.state,
++           (unsigned long long)stats.entry_count,
++           (unsigned long long)stats.exit_count,
++           (unsigned long long)stats.last_entry_ns,
++           (unsigned long long)stats.last_exit_ns,
++           (unsigned long long)stats.lower_vtl_total_ns,
++           (unsigned long long)stats.lower_vtl_max_ns,
++           (unsigned long long)stats.vtl2_total_ns,
++           (unsigned long long)stats.vtl2_max_ns,
++           (unsigned long long)stats.snapshot_ns);
+diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
+index 2d4fe24cecbff..1e21380b04355 100644
+--- a/drivers/hv/mshv_vtl_main.c
++++ b/drivers/hv/mshv_vtl_main.c
+@@ -19,6 +19,8 @@
+ #include <linux/poll.h>
+ #include <linux/rcupdate.h>
+ #include <linux/file.h>
++#include <linux/spinlock.h>
++#include <linux/timekeeping.h>
+ #include <linux/vmalloc.h>
+ #include <asm/debugreg.h>
+ #include <asm/mshyperv.h>
+@@ -102,7 +104,16 @@ static union hv_register_vsm_page_offsets mshv_vsm_page_offsets;
+ static union hv_register_vsm_capabilities mshv_vsm_capabilities;
  
-+	Default: 1024
+ static DEFINE_PER_CPU(struct mshv_vtl_poll_file, mshv_vtl_poll_file);
+-static DEFINE_PER_CPU(unsigned long long, num_vtl0_transitions);
 +
- tcp_mtu_probe_floor - INTEGER
- 	If MTU probing is enabled this caps the minimum MSS used for search_low
- 	for the connection.
-@@ -711,6 +713,20 @@ tcp_mtu_probing - INTEGER
- 	- 1 - Disabled by default, enabled when an ICMP black hole detected
- 	- 2 - Always enabled, use initial MSS of tcp_base_mss.
++struct mshv_vtl_cpu_stats {
++	raw_spinlock_t lock;
++	struct mshv_vtl_stats stats;
++};
++
++static DEFINE_PER_CPU(struct mshv_vtl_cpu_stats, mshv_vtl_stats) = {
++	.lock = __RAW_SPIN_LOCK_UNLOCKED(mshv_vtl_stats.lock),
++};
++
+ static DEFINE_PER_CPU(struct mshv_vtl_per_cpu, mshv_vtl_per_cpu);
  
-+	A black hole is detected when the retransmission timer fires after
-+	the handshake and retransmissions have stayed unacknowledged for as
-+	long as tcp_retries1 retransmissions would take with the minimum
-+	RTO, which is 3 seconds with the default tcp_retries1.
+ static const union hv_input_vtl input_vtl_zero;
+@@ -649,6 +660,36 @@ static int mshv_vtl_get_set_reg(struct hv_register_assoc *regs, bool set)
+ 	return 1;
+ }
+ 
++static void mshv_vtl_record_transition(bool entering)
++{
++	struct mshv_vtl_cpu_stats *cpu_stats = this_cpu_ptr(&mshv_vtl_stats);
++	struct mshv_vtl_stats *stats = &cpu_stats->stats;
++	u64 now, elapsed;
 +
-+	With value 1, the first detection enables MTU probing and the MSS
-+	falls back to tcp_base_mss. Each later detection, or any detection
-+	with value 2, lowers search_low to half its MSS, keeping it at most
-+	tcp_base_mss and at least tcp_mtu_probe_floor and tcp_min_snd_mss.
-+	Once MTU probing is enabled, the connection also probes for a larger
-+	MSS, as with value 2.
++	raw_spin_lock(&cpu_stats->lock);
++	now = ktime_get_ns();
 +
-+	Default: 0
++	if (entering) {
++		if (stats->state == MSHV_VTL_STATS_STATE_VTL2) {
++			elapsed = now - stats->last_exit_ns;
++			stats->vtl2_total_ns += elapsed;
++			stats->vtl2_max_ns = max(stats->vtl2_max_ns, elapsed);
++		}
++		stats->entry_count++;
++		stats->last_entry_ns = now;
++		stats->state = MSHV_VTL_STATS_STATE_LOWER_VTL;
++	} else {
++		elapsed = now - stats->last_entry_ns;
++		stats->lower_vtl_total_ns += elapsed;
++		stats->lower_vtl_max_ns = max(stats->lower_vtl_max_ns, elapsed);
++		stats->exit_count++;
++		stats->last_exit_ns = now;
++		stats->state = MSHV_VTL_STATS_STATE_VTL2;
++	}
 +
- tcp_probe_interval - UNSIGNED INTEGER
- 	Controls how often to start TCP Packetization-Layer Path MTU
- 	Discovery reprobe. The default is reprobing every 10 minutes as
-
----
-base-commit: 6ff4c5942a301675eb12e5b49d53a81e604624a1
-change-id: 20261117-tcp-mtu-probing-doc-v1-351cb754fa7b
-
-Best regards,
---  
-Yongjian Wang <echoowall@gmail.com>
-
++	raw_spin_unlock(&cpu_stats->lock);
++}
++
+ static void mshv_vtl_return(struct mshv_vtl_cpu_context *vtl0)
+ {
+ 	struct hv_vp_assist_page *hvp;
+@@ -672,7 +713,9 @@ static void mshv_vtl_return(struct mshv_vtl_cpu_context *vtl0)
+ 		       min_t(u32, offset, sizeof(hvp->vtl_ret_actions)));
+ 	}
+ 
++	mshv_vtl_record_transition(true);
+ 	mshv_vtl_return_call(vtl0);
++	mshv_vtl_record_transition(false);
+ }
+ 
+ static bool mshv_vtl_process_intercept(void)
+@@ -725,7 +768,6 @@ static int mshv_vtl_ioctl_return_to_lower_vtl(void)
+ 		local_irq_restore(irq_flags);
+ 
+ 		hvp = hv_vp_assist_page[smp_processor_id()];
+-		this_cpu_inc(num_vtl0_transitions);
+ 		switch (hvp->vtl_entry_reason) {
+ 		case MSHV_ENTRY_REASON_INTERRUPT:
+ 			if (!mshv_vsm_capabilities.intercept_page_available &&
+@@ -807,6 +849,29 @@ mshv_vtl_ioctl_set_regs(void __user *user_args)
+ 	return ret;
+ }
+ 
++static long mshv_vtl_ioctl_get_stats(struct mshv_vtl_stats __user *user_stats)
++{
++	struct mshv_vtl_cpu_stats *cpu_stats;
++	struct mshv_vtl_stats stats;
++	unsigned long flags;
++	u32 cpu;
++
++	if (get_user(cpu, &user_stats->cpu))
++		return -EFAULT;
++	if (cpu >= nr_cpu_ids || !cpu_possible(cpu))
++		return -EINVAL;
++
++	cpu_stats = per_cpu_ptr(&mshv_vtl_stats, cpu);
++	if (!raw_spin_trylock_irqsave(&cpu_stats->lock, flags))
++		return -EAGAIN;
++	stats = cpu_stats->stats;
++	stats.cpu = cpu;
++	stats.snapshot_ns = ktime_get_ns();
++	raw_spin_unlock_irqrestore(&cpu_stats->lock, flags);
++
++	return copy_to_user(user_stats, &stats, sizeof(stats)) ? -EFAULT : 0;
++}
++
+ static long
+ mshv_vtl_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ {
+@@ -826,6 +891,9 @@ mshv_vtl_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ 	case MSHV_RETURN_TO_LOWER_VTL:
+ 		ret = mshv_vtl_ioctl_return_to_lower_vtl();
+ 		break;
++	case MSHV_GET_VTL_STATS:
++		ret = mshv_vtl_ioctl_get_stats((void __user *)arg);
++		break;
+ 	case MSHV_ADD_VTL0_MEMORY:
+ 		ret = mshv_vtl_ioctl_add_vtl0_mem(vtl, (void __user *)arg);
+ 		break;
+diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
+index 32ff92b6342b2..a15d6eb3b95ab 100644
+--- a/include/uapi/linux/mshv.h
++++ b/include/uapi/linux/mshv.h
+@@ -365,6 +365,40 @@ struct mshv_vtl_set_poll_file {
+ 	__u32 fd;
+ };
+ 
++#define MSHV_VTL_STATS_STATE_UNKNOWN	0
++#define MSHV_VTL_STATS_STATE_VTL2		1
++#define MSHV_VTL_STATS_STATE_LOWER_VTL	2
++
++/**
++ * struct mshv_vtl_stats - arguments for MSHV_GET_VTL_STATS
++ * @cpu: Input Linux CPU number; all other fields are output.
++ * @state: Last observed MSHV_VTL_STATS_STATE_* software state.
++ * @entry_count: Number of lower-VTL switch attempts.
++ * @exit_count: Number of switch calls that returned to VTL2.
++ * @last_entry_ns: CLOCK_MONOTONIC timestamp of the last entry attempt.
++ * @last_exit_ns: CLOCK_MONOTONIC timestamp of the last return.
++ * @lower_vtl_total_ns: Total duration of completed entry-to-return intervals.
++ * @lower_vtl_max_ns: Maximum duration of a completed entry-to-return interval.
++ * @vtl2_total_ns: Total duration of completed return-to-next-entry intervals.
++ * @vtl2_max_ns: Maximum duration of a completed return-to-next-entry interval.
++ * @snapshot_ns: CLOCK_MONOTONIC timestamp of this snapshot.
++ *
++ * Durations are elapsed nanoseconds, not exclusive CPU execution time.
++ */
++struct mshv_vtl_stats {
++	__u32 cpu;
++	__u32 state;
++	__u64 entry_count;
++	__u64 exit_count;
++	__u64 last_entry_ns;
++	__u64 last_exit_ns;
++	__u64 lower_vtl_total_ns;
++	__u64 lower_vtl_max_ns;
++	__u64 vtl2_total_ns;
++	__u64 vtl2_max_ns;
++	__u64 snapshot_ns;
++};
++
+ struct mshv_vtl_hvcall_setup {
+ 	__u64 bitmap_array_size; /* stores number of bytes */
+ 	__u64 allow_bitmap_ptr;
+@@ -392,6 +426,7 @@ struct mshv_sint_mask {
+ #define MSHV_ADD_VTL0_MEMORY	_IOW(MSHV_IOCTL, 0x21, struct mshv_vtl_ram_disposition)
+ #define MSHV_SET_POLL_FILE		_IOW(MSHV_IOCTL, 0x25, struct mshv_vtl_set_poll_file)
+ #define MSHV_RETURN_TO_LOWER_VTL	_IO(MSHV_IOCTL, 0x27)
++#define MSHV_GET_VTL_STATS	_IOWR(MSHV_IOCTL, 0x41, struct mshv_vtl_stats)
+ #define MSHV_GET_VP_REGISTERS		_IOWR(MSHV_IOCTL, 0x05, struct mshv_vp_registers)
+ #define MSHV_SET_VP_REGISTERS		_IOW(MSHV_IOCTL, 0x06, struct mshv_vp_registers)
+ 
+-- 
+2.43.0
 
