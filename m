@@ -1,49 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794915484;
-	b=ZbsUNOFdGR84s2LZWtyKQprwfUGs18/ASzhXoj44itZi/OluWv2yg9Czt2JAx3KABFXa
-	 teQDw4lKDL9LoqtxzHPsBVb0VQOy/3I7ARX6oVjkOE04IKqRj/PbC3YUUjyRi3AVCfsnG
-	 yjI0tCQRWecJp4vGOsBN0CUQhB9qnKfeFa9EHfbD7S5XLMtqd/KDIY34lEg5fkuT+dDd7
-	 +J6AZJFpafzAbHkrTG9qfDROm9I7llbDbiIkp8S5PGBOJudpZ3r01PpZbIjqc15yQS7u2
-	 7Ur1kAXnjLtkAXwF9PpvD+AjWXGOULH2NK2Ut01FK7uqWd/662a5XKnBPpeJ2SusmnA==
+	t=1794916420;
+	b=rm6tPlSr9YGoYmfOAf5zYyM0xyN5y/6dSIc5u3JJnM3wowryXqTKVJQMt40rS7jCNW6b
+	 xt40oNQbE7ugsjgOBygCkRVKNqUkV1iN1fEaEjSueOohW9ze5Gl0nrkuOsvuhTZ+3zQ1x
+	 0q3HLFjRgvTIS5nRFe6eUvZMOBouf+ecla1ojxSxxA5enfNFf9eRt8LiZAmhv56qM0LaO
+	 lQsjtf0LPX4gB61qg/Uo8peFdJEZGDZW4p8YuY30ytxJGb/iohdggBeBx8n1zNcE6/mfX
+	 NF4qnpqTjWjtozr/4eYsQVt4TUlI4eHAcDxmj3vQKwaXtRviUEjEbFIn/Ixt6B+CMlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794915484;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:References:Content-Language:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=eIYBOu8NOjBweHBBxJRRDa0T52jYDT0KDxk8L0BX5C8=;
-	b=VXrWv8oXT09lZJvj0UVP0OWaj2S/DsWjwoKbu3KX0HfaFUUmh5obnNHpGI+Yc6fQQk0W
-	 9RItFOuxY9YBmIe6BDUUC5xM463YgNih/ExkHHstj+Xb19AzTjyBakWxLsyOa6iVTkNjJ
-	 fnqjFNmXcE6oySkTS93e81d1usZDFStelAUvcGw6Tj+go7Ww7VGQa65wE/vCchcKjXuCt
-	 zeT4HYqoommKRd67N9DbPAc5T+R0K0TXOfRSgR5c+bQr/wi/mLG0us/Tu+LcgpQpzYIqt
-	 mKN0bz0uGudq2fPronzyupWBrbjqn0r4HLDNcAn52aMZAp6rzPgqxH0iHYm6Lld/BOQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794916420;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=fCqZ0Zd4HVCI/jRgXBSCy8S8OFyXtFOLF3BsI1zh8Sg=;
+	b=uJEqQmKnKPxU6mpJ785qLHFQmrYG6GH9E9CfX6HOdj4ENcQYOznumOjjWI4TdHUwY9c9
+	 CS6UmmPcI4CkGGocLP8UBJvEvTAZkmFOo8ptVHImygqykCgpbTAErpM0etZMvwuu2FcUt
+	 0wueb/XblRL9ugpsCyK0SV8mMRATQHB3TAKOKr0IwAvEY9OSXgfWw7bHzYT+5+dUoDUFn
+	 eAH80SfR77GG3qGTh/so1cdyyrNlTH5zBm+uvxuEz+LafVpN5F5kz3N5Ovg1j8++bw/i0
+	 PR7nfDmlU3acInPfcu1qRlYSaIMb7YgF1y18pHy3gZaJ99BRz/3zyTquddicKvultkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=V6EarTva;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4489C606A31C;
-	Tue, 17 Nov 2026 11:38:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4489C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=V6EarTva
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 730EE1476;
-	Tue, 17 Nov 2026 03:38:00 -0800 (PST)
-Received: from [10.211.55.3] (unknown [10.57.17.180])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6C27C3F763;
-	Tue, 17 Nov 2026 03:37:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794915483; bh=BgAOTNAkBrQ6qkPH8d+k2fV/l3kdC26sO5jr0Y5R7A0=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=V6EarTvaETOeLdQZd+aqGjlopQk+supKhGblViLgC0Wct0yYAcfhhYEVYxXZTyMKZ
-	 akbmRoUdV2LV2RPvBuuelXC1MoEZhy9rqCuh5f18KmmM7ev0P0I3cPrQu8+hf9QHHm
-	 3fxZZ8kCbomjDCvqRuT32if0Kw8P/Ms9ClYqrvOo=
-Message-ID: <1defc561-e7bc-4864-90ad-6aa3fb6be7da@arm.com>
-Date: Tue, 17 Nov 2026 11:37:57 +0000
+	dmarc=none header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.221.169
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858EA606A339
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 11:53:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 858EA606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5ec6f271883so3985774e0c.3
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 03:53:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794916418; x=1795521218;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=fCqZ0Zd4HVCI/jRgXBSCy8S8OFyXtFOLF3BsI1zh8Sg=;
+        b=bOry6nUg6PzDBqPfZmZ/BKurMGZmQdPXPClGs402UzMQEuFiT2+i7RZeppxHy0hpo2
+         Wuk0E8qoPsFjS1vy5ITkpHffFVw5n3DdCjwmu1c2eJw1PpmBB0lDwmSubB/+0waBQ7A3
+         oHvRkFNYAL3/6jmYYtVMf/UNKN/LlqLniFwcFgLHNQe5AezkktmXylNuFLXcVpxKmqcg
+         bCNWcWdyLmgIW6KTCUxzqDYVYTEpyby2tKwm+vgiRyBjcooTODAsR9eBS/ji7mNuH5tM
+         Fg3TNiXPwEp69XJDceqejBv21oxdRxZjt27ErtBc+mMGLcFVbQn990sM3Fs7X8kh3b1b
+         KoMw==
+X-Forwarded-Encrypted: i=1; AL+hErEezXaC2rnkc66DSOOTkbZVvM6saLkl5kZI9YTczf3IqP4Ico4y9sqx4wU+CprzUq2+uJt9ixTDWM8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+EO7w/26/OOHX1T+T7SEpyux1T0odVwaWHgC5emu204gD/iHfr
+	DMk4eEBM6IXgc1YAUN6cow/ZiaG7xA/x+ihta8+H7bd9Bt+C3cRHynYaU2Bq0d0r
+X-Gm-Gg: AYBFou2SfpHVmWtQ70H9U+vzfpk/uyVaxsYN2E0MXOXcXU4KH2F+Sv1IzjPRNXJ4BQ1
+	WZtGWbBAr5YQh63jjkxV0FjaqfdzxjtK8TobJVKmu3gvNJp6loGvKxPZWRQbS3genOjy6Qeaivd
+	+1o7M4TAs+RN67DTNXtsyfjw7dRgDGms6umW4K60xBgcgBplmbeV8Bi4r73Rp7jiVoOaE47fyml
+	ZvZvUBYYFAqzsN+zEXpMP1H8Sd/fZJe89k5NRt0lrxPm0qXb9XbqNWg2pHnGQ0ie97Hxzp2aDua
+	nMX+crHtAnDk67TuESOsucBQdifH70U9HSNhfG2ozV4eK999vcfgD15Fr9rLlvyRINS4GWKQ3Ru
+	9OCHgLUWhhScNKG8924JDlRkpLsKXRmSt2bg1eygyWm7YLITlD3c7rTKVpREtxEximrgerH6/ck
+	xrComipKJqhcmG/cNenYjB1gfPjji/+m3RVnporitiGip8bUvnyXcaruXWWdBl3IkWxv+9RbcHG
+	qvk7TWYyXy7dHvjqoSya4fDCHs+0BkXW4mXcMxuaTj3KdJZl4QnKcD+0VLwLXICsDXcVRSurXkx
+	EvU5OFscxGxJA66u3LCTaP1H1y4hTbrCGlHMHWv+tiFp+gOaNpBqSGLfUJbBKX1Aub9KnuNs
+X-Received: by 2002:a05:6122:d17:b0:5ee:19bb:f8ad with SMTP id 71dfb90a1353d-5ee34ad85d5mr5348351e0c.17.1794916418432;
+        Tue, 17 Nov 2026 03:53:38 -0800 (PST)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ee3e11d3c2sm6671360e0c.15.2026.11.17.03.53.38
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Nov 2026 03:53:38 -0800 (PST)
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5ec6f271883so3985772e0c.3
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 03:53:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErG80MSz5aIZR5lwGwzRM86TDWmQ92PMfpjpVqeHjRuJp6kS/a0aSsTJA5TwA5pUGDjPGf3tOfOzoJg=@vger.kernel.org
+X-Received: by 2002:a05:6102:578c:b0:7d2:c786:5a95 with SMTP id
+ ada2fe7eead31-7d64d69dc95mr4808481137.13.1794916104363; Tue, 17 Nov 2026
+ 03:48:24 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,209 +80,94 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Thunderbird Daily
-Subject: Re: [RFC PATCH v2 5/9] fs/resctrl: Allow mba_MBps with assignable MBM
- counters
-To: Jinjie Ruan <ruanjinjie@huawei.com>, tony.luck@intel.com,
- reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- babu.moger@amd.com, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, hpa@zytor.com, fenghuay@nvidia.com,
- tan.shaopeng@fujitsu.com, quic_jiles@quicinc.com, x86@kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20261112131255.4043381-1-ruanjinjie@huawei.com>
- <20261112131255.4043381-6-ruanjinjie@huawei.com>
-Content-Language: en-US
-From: Ben Horgan <ben.horgan@arm.com>
-In-Reply-To: <20261112131255.4043381-6-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20261024223501.1420953-1-daniel.lezcano@oss.qualcomm.com> <20261024223501.1420953-2-daniel.lezcano@oss.qualcomm.com>
+In-Reply-To: <20261024223501.1420953-2-daniel.lezcano@oss.qualcomm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Nov 2026 12:48:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXJOpcC3a6wMXF_m=uNjuqSO1Z3kyM7Az1uP_2GBurOvA@mail.gmail.com>
+X-Gm-Features: Aa3M54o4xtj3bYccvEv51xwUP0A3vPBfjxtiJtpZqQUGyQco56wW9LsC221L5Po
+Message-ID: <CAMuHMdXJOpcC3a6wMXF_m=uNjuqSO1Z3kyM7Az1uP_2GBurOvA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] platform profile: Extract the core from ACPI
+To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Cc: rafael@kernel.org, Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Maximilian Luz <luzmaximilian@gmail.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Armin Wolf <W_Armin@gmx.de>, 
+	Jai Luthra <jai.luthra@ideasonboard.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jack Wu <jackbb_wu@compal.com>, 
+	"Mario Limonciello (AMD)" <superm1@kernel.org>, linux-acpi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Jinjie,
+Hi Daniel,
 
-On 12/11/2026 13:12, Jinjie Ruan wrote:
-> The controller needs a counter for the event selected by mba_MBps_event
-> in every monitoring group, so mba_MBps is refused when MBM counters are
-> assignable. On MPAM a group's monitor is assigned from a fixed pool
-> when the group is created, and users can otherwise only pick a
-> percentage of a maximum that firmware does not report.
-> 
-> Allow the controller when the architecture has a fixed assignment mode
-> and assigns counters when a group is created. Keep mbm_assign_on_mkdir
-> enabled while the controller is in use, restore its previous value
-> when the controller is disabled, and refuse to unassign the
-> controller's counter meanwhile.
+On Sun, 25 Oct 2026 at 00:56, Daniel Lezcano
+<daniel.lezcano@oss.qualcomm.com> wrote:
+> Platform profile providers already use device-based callbacks and do not
+> need ACPI types. The core is nevertheless confined to the ACPI build and
+> refuses to initialize when ACPI is disabled.
+>
+> Move the implementation to drivers/platform/profile and introduce the
+> firmware-independent PLATFORM_PROFILE symbol. Update all provider
+> selectors. Keep provider-specific ACPI dependencies and the
+> platform_profile module name.
+>
+> Isolate access to the legacy ACPI kobject in an optional compatibility
+> object linked into the same module. Retain the legacy ABI on active ACPI
+> systems, and initialize the class even when ACPI is absent or disabled.
+>
+> Use subsys_initcall_sync so the class is ready before built-in thermal
+> and CPUFreq providers, but after ACPI has initialized its compatibility
+> kobject.
+>
+> Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
 
-I'm afraid there has been some miscommunication here. What I was trying
-to suggest is that MPAM could when using the software controller use the
-default mbm_assign_mode as is used in intel systems. All the counters
-are allocated up front and there is one of each supported type per
-monitor group. Using mbm_assign_on_mkdir doesn't always give you
-guaranteed assigned counters as you point out in your
-patch "arm_mpam: resctrl: Use the domain's counter ID". I haven't
-thought through all the abi consideration but it seems plausible, what
-do you think?
+Thanks for your patch, which is now commit 699041135f75b13a
+("platform profile: Extract the core from ACPI") in pm/linux-next/
 
-Thanks,
+> --- a/drivers/platform/Kconfig
+> +++ b/drivers/platform/Kconfig
+> @@ -1,4 +1,20 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> +config PLATFORM_PROFILE
+> +       tristate "Platform profile support"
 
-Ben
+I guess this can be invisible (perhaps "... if COMPILE_TEST"?), as
+you have updated all provider selectors?
 
-> 
-> Only MPAM has this mode; other systems keep the previous behavior.
-> 
-> Suggested-by: Ben Horgan <ben.horgan@arm.com>
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->  Documentation/filesystems/resctrl.rst |  7 +++++--
->  fs/resctrl/monitor.c                  | 25 ++++++++++++++++++++++
->  fs/resctrl/rdtgroup.c                 | 30 +++++++++++++++++++++------
->  3 files changed, 54 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-> index b52795e03303..d70aec6f7096 100644
-> --- a/Documentation/filesystems/resctrl.rst
-> +++ b/Documentation/filesystems/resctrl.rst
-> @@ -471,7 +471,8 @@ with the following files:
->  	Determines if a counter will automatically be assigned to an RMID, MBM event
->  	pair when its associated monitor group is created via mkdir. Enabled by default
->  	on boot, also when switched from "default" mode to "mbm_event" counter assignment
-> -	mode. Users can disable this capability by writing to the interface.
-> +	mode. Users can disable this capability by writing to the interface. While the
-> +	MBA software controller is enabled, auto assignment cannot be disabled.
->  
->  	"0":
->  		Auto assignment is disabled.
-> @@ -704,7 +705,9 @@ When monitoring is enabled all MON groups may also contain:
->  	   mbm_total_bytes:0=e;1=e
->  	   mbm_local_bytes:0=e;1=e
->  
-> -	Assignments can be modified by writing to the interface.
-> +	Assignments can be modified by writing to the interface. While the
-> +	MBA software controller is enabled, the counter of the event the
-> +	controller uses cannot be unassigned.
->  
->  	Examples:
->  
-> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
-> index 8f3b8c3e3010..5a67c8089615 100644
-> --- a/fs/resctrl/monitor.c
-> +++ b/fs/resctrl/monitor.c
-> @@ -1210,6 +1210,12 @@ ssize_t resctrl_mbm_assign_on_mkdir_write(struct kernfs_open_file *of, char *buf
->  		goto out_unlock;
->  	}
->  
-> +	if (!value && is_mba_sc(NULL)) {
-> +		rdt_last_cmd_puts("mbm_assign_on_mkdir is required by the software controller\n");
-> +		ret = -EBUSY;
-> +		goto out_unlock;
-> +	}
+If not, I guess this needs a "depend on X86 || COMPILE_TEST", so people
+configuring kernels for different architectures do not see this option?
+
+> +       help
+> +         Provide a common sysfs interface for selecting platform power,
+> +         performance and cooling profiles. Platform-specific provider drivers
+> +         map their operating modes onto standard profile names, independently
+> +         of the firmware interface they use.
 > +
->  	r->mon.mbm_assign_on_mkdir = value;
->  
->  out_unlock:
-> @@ -1776,6 +1782,19 @@ static struct mon_evt *mbm_get_mon_event_by_name(struct rdt_resource *r, char *n
->  	return NULL;
->  }
->  
-> +/*
-> + * Return the event the MBA software controller uses as its input for @rdtgrp.
-> + * A monitor group has no event of its own: its bandwidth is summed into the
-> + * parent control group, which is the group with the mba_MBps_event setting.
-> + */
-> +static enum resctrl_event_id rdtgrp_mba_mbps_event(struct rdtgroup *rdtgrp)
-> +{
-> +	if (rdtgrp->type == RDTMON_GROUP)
-> +		return rdtgrp->mon.parent->mba_mbps_event;
+> +         The core exposes per-provider controls under /sys/class/platform-profile/.
+> +         A provider driver must register before profile attributes become
+> +         available. ACPI is not required; on ACPI systems the legacy system-wide
+> +         interface under /sys/firmware/acpi/ is also provided.
 > +
-> +	return rdtgrp->mba_mbps_event;
-> +}
+> +         To compile this as a module, choose M here: the module will be called
+> +         platform_profile.
 > +
->  static int rdtgroup_modify_assign_state(char *assign, struct rdt_l3_mon_domain *d,
->  					struct rdtgroup *rdtgrp, struct mon_evt *mevt)
->  {
-> @@ -1789,6 +1808,12 @@ static int rdtgroup_modify_assign_state(char *assign, struct rdt_l3_mon_domain *
->  		ret = rdtgroup_assign_cntr_event(d, rdtgrp, mevt);
->  		break;
->  	case '_':
-> +		if (is_mba_sc(NULL) &&
-> +		    mevt->evtid == rdtgrp_mba_mbps_event(rdtgrp)) {
-> +			rdt_last_cmd_puts("Counter is in use by the software controller\n");
-> +			ret = -EBUSY;
-> +			break;
-> +		}
->  		rdtgroup_unassign_cntr_event(d, rdtgrp, mevt);
->  		break;
->  	default:
-> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-> index b32831871f70..518d89b0c67d 100644
-> --- a/fs/resctrl/rdtgroup.c
-> +++ b/fs/resctrl/rdtgroup.c
-> @@ -2610,10 +2610,9 @@ static void mba_sc_domain_destroy(struct rdt_resource *r,
->   * The MBA software controller is supported only if MBM is supported and MBA is
->   * in linear scale, and the MBM monitor scope is the same as MBA control scope.
->   *
-> - * The software controller cannot be supported when the MBM counters are
-> - * assignable.  There is no guarantee that MBM counters are assigned to the
-> - * event backing the software controller in all monitoring domains of all
-> - * monitoring groups.
-> + * The controller needs a counter for its event in every monitoring group.
-> + * With assignable counters that requires a fixed assignment mode, with
-> + * counters assigned automatically while the controller is in use.
->   */
->  static bool supports_mba_mbps(void)
->  {
-> @@ -2623,9 +2622,13 @@ static bool supports_mba_mbps(void)
->  	return (resctrl_is_mbm_enabled() &&
->  		r->alloc_capable && is_mba_linear() &&
->  		r->ctrl_scope == rmbm->mon_scope &&
-> -		!rmbm->mon.mbm_cntr_assignable);
-> +		(!rmbm->mon.mbm_cntr_assignable ||
-> +		 rmbm->mon.mbm_cntr_assign_fixed));
->  }
->  
-> +/* mbm_assign_on_mkdir before the software controller forced it on. */
-> +static bool mba_sc_saved_assign_on_mkdir;
-> +
->  /*
->   * Enable or disable the MBA software controller
->   * which helps user specify bandwidth in MBps.
-> @@ -2633,6 +2636,7 @@ static bool supports_mba_mbps(void)
->  static int set_mba_sc(bool mba_sc)
->  {
->  	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_MBA);
-> +	struct rdt_resource *rmbm = resctrl_arch_get_resource(RDT_RESOURCE_L3);
->  	u32 num_closid = resctrl_arch_get_num_closid(r);
->  	struct rdt_ctrl_domain *d;
->  	unsigned long fflags;
-> @@ -2643,6 +2647,20 @@ static int set_mba_sc(bool mba_sc)
->  
->  	r->membw.mba_sc = mba_sc;
->  
-> +	/*
-> +	 * The controller needs its event counted in every monitoring group:
-> +	 * force automatic assignment on, and restore the user's setting when
-> +	 * the controller is disabled.
-> +	 */
-> +	if (rmbm->mon.mbm_cntr_assignable) {
-> +		if (mba_sc) {
-> +			mba_sc_saved_assign_on_mkdir = rmbm->mon.mbm_assign_on_mkdir;
-> +			rmbm->mon.mbm_assign_on_mkdir = true;
-> +		} else {
-> +			rmbm->mon.mbm_assign_on_mkdir = mba_sc_saved_assign_on_mkdir;
-> +		}
-> +	}
-> +
->  	rdtgroup_default.mba_mbps_event = mba_mbps_default_event;
->  
->  	list_for_each_entry_rcu(d, &r->ctrl_domains, hdr.list, lockdep_is_cpus_held()) {
-> @@ -3352,7 +3370,7 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
->  		ctx->enable_cdpl2 = true;
->  		return 0;
->  	case Opt_mba_mbps:
-> -		msg = "mba_MBps requires MBM (mbm_event mode not supported) and linear scale MBA at L3 scope";
-> +		msg = "mba_MBps requires MBM and linear scale MBA at L3 scope";
->  		if (!supports_mba_mbps())
->  			return invalfc(fc, msg);
->  		ctx->enable_mba_mbps = true;
+>  source "drivers/platform/mips/Kconfig"
+>
+>  source "drivers/platform/loongarch/Kconfig"
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
