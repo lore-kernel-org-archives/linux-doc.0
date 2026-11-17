@@ -1,54 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=103.117.158.91
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794902511;
-	b=4q8AiZ4zKBdXH/T5c/SFDTvArOoH0UXRMUF/+Z6vyXudtLW/LYNFyoZVTV5GOLheD3wS
-	 z9nFuWLmQ6sUyPvnVHypkwmEzfpz2KRzJMKGB2TUM+46OglihwfEma5Fu22sszH2Qz3ck
-	 AKDlJ0jiXWnruyB5rC2JwmBQv7SzyTWGE35nIzBEPTolZWqNhf+R/kZiTzPr05OFmYQp+
-	 58SvfzEwc2Io6tuo3JQg5Jy3ilKrJ8hTXNJaDyZm/4UqQSEQ5BCyNetnttjdOelcT5E+Y
-	 plLIfDdVDOp2lWZoc+e4f3lREfNJPEuzn6N6RJ4N1RBUCg5lYaC2N/YkgCYzwUlrhvw==
+	t=1794902959;
+	b=Iq3FSIQG+SbQ6jSly2tcoyb84lCKcTEetkQNsoRnOS3slv6H7XjgRXsS3bX21eO5hHBf
+	 Iz/HJJgFRnypQDzQNSll0KdB6K8MbuHqSxwyIH1a+Kr+vPdU7Cb7XvjMFBVIACLJmMa90
+	 YG2m6skpM16n9bvWDGFPoJiY4TCbygSuW0b2sI9uuE6gx2Om66nF58JgQHGhhzXjf0rQo
+	 hYTHo3GJWIW0sPJQXLwUTOTmHrx78SuUO3qN0hqOAedpH8Wf4SpB9v24cwsd/1aD2vo1L
+	 PQOQOpi84pFnMzRld7xwsRafNtHXybjEDo0bp7UPAl2y4Gor81NV5JNTyT4/BOmhUrA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794902511;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ZohoMailClient;
-	bh=7URRG9JImOynmwbw8ccE41h3MMYLK0ullK2SAwBmlS4=;
-	b=sqFCAF/rJMwmKRDGaRqvsCBX4BezsnJ0PyQVJVzqmDxnCOf9hUiDLGgzBMQ9nkSL5W/6
-	 ZokkfGdXo79ZzCv34xaf9UV/5tR3fOrrh3ltwggEyllSqWAF5lOgnuHR/t/9pNDzDJhUN
-	 HND88fz/402uwAB1I9j608i/Seud6fJ/FvgyCjTG9A0XB1j8NPoiikTO91u2IYZyk7PLm
-	 62LXzr5TJSS2ezxYf68le7PS/3pcRex9ltSkwtyjOHT4O2ELzLoFeuvLWxds20y1nucWl
-	 m10Ykbghgm+jNMX+4pzzi2ESXRmo81HH9h8JphmXE0A2dlje/nSKDE7cCjC4F1/f1aw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794902959;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=2AsFSmPkJrfcSU2iokgB2aDPRWQeYmtyi73lpLnFe7k=;
+	b=Cna5jxsCQt1rResN7O27Qo9vNVTygckmrKvfmuZ2Bz3N5NBuVO9Ayd53ed10cU6tB9y6
+	 AZmjz8UJObwIA82Y+DxVJUGyKhs4UNrn6QwtmEdPEwXoWOrybhCPZrp6Ql/iFwtNmJxIL
+	 sUhe1LYZ7+dWe3b/GE6O+XimXnuIe/HriQgl4qsIKH1l5WaCbIYUj5wPPyK0r9LI0yZFz
+	 T8V0xW6hELXVLzocJddD0Tc/IxeLxuHQc6nV5/bl0vkTODgRm/ZtQTTic9MYIfrjequRb
+	 qzw0kcsTsCGN/9hh08vF/i/pSVoQe+0J5SaXbJS5n+qpKV0VWPfrV11GoV9zSntCQWw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=zohomail.in;
-	spf=pass smtp.mailfrom=zohomail.in;
-	dkim=pass header.d=zohomail.in header.i=@zohomail.in header.a=rsa-sha256 header.s=zoho header.b=HwbSgQT5;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=103.117.158.91
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oRrKgAzH;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF74F606A323;
+	Tue, 17 Nov 2026 08:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oRrKgAzH
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794902958;
+	b=K0lJdGFsKqxiNzhZWDFG198RLjJn0xrJKBchxWuRdtnByzO6VPdtnIZIX4N45t2n8pB+
+	 kMiKw51WhSZ+ENMb/q1AGA0broTMDq6UkHAnAHxG/jOuw8xNm/7jDZ+AgUsxvDlRKrBvf
+	 u2iIs55y4xT/yJrENuXELW62BGaQKR+VTwWqaKQcACsmtSGUP54cTakAxbnB5f2Atz62I
+	 V6XrTxcDgVxqS2pLsgMRwnz96IzxwxsFBawxoEVpne6faEUwHf/th1w0W3VkqNN6cev9W
+	 Ollf1JSY8pCp/idmn4+jT0qSxCbzMTCfQ5Tel4oBKuMBpRKmbPZReB/UOmBKpF39Ufg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794902958;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=2AsFSmPkJrfcSU2iokgB2aDPRWQeYmtyi73lpLnFe7k=;
+	b=HBG3XeKIuVrhjwKTt45u1yjUyLyNmlgbJqaJQ8oSl4tuvBEOy+f9r4KN+wxJDSu0/klW
+	 unNv4+m9SuCJFo+hZIvOOYvGCru2Uya/iDMZ9ful6DvlsMejFFGGKibrcd908xZdAlA/C
+	 4XjsgEv7HMHtYgYa6ZL338A/dLuqvNVjT9QNkCNu4VrgjH+Pw9WYylroFsWXiQxiJ+1sj
+	 F4HAtwokppwqdYbzB2t3XyaTIy+ZdeJyBtbx+JYTJ8oTgpjz5FZ2bqZbA5KMGi5l6JvMO
+	 A2mlF3cHdlnnigmnCAyI7PY5M+F9XbmjJm6USRpXsYIZ493Yw64QtsBOQq1dd613bew==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26BF606A31C;
-	Tue, 17 Nov 2026 08:01:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A26BF606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=zohomail.in header.i=@zohomail.in header.a=rsa-sha256 header.s=zoho header.b=HwbSgQT5
-ARC-Seal: i=1; a=rsa-sha256; t=1794902425; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=AgsbymWTlSHa8QCVJ9C4dlFXwNfBr00OTo6cjb7oWbohYX1PZsfAIkC4E2tytbiI0cNicbtKShhYr2l0l86qdeGk6pbrh719H9b+bYX1utoqUQdHNV5Wig6a7yNzJpNSQSUBGzcw729wwJqOxRDQ2YjghyMK2u+lX7pQLxlJ4hc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1794902425; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=7URRG9JImOynmwbw8ccE41h3MMYLK0ullK2SAwBmlS4=; 
-	b=Pi8v7ynYHEnK2vG9/MjIwgpor6WT9R5hVdxqCisaOb6HrWOGCHkSGJ3lp900hE+meoYyeUhpam8Zxy14ibe0ghECX53eY/bMfSFVtZEs5Ptyouupp8nRsCMlwuPgu0uIHEEs64fOOXacYSWnIykYG2Kly8eEWb1YcxRVuK6kKw0=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=shivamkalra98@zohomail.in;
-	dmarc=pass header.from=<shivamkalra98@zohomail.in>
-DKIM-Signature: a=rsa-sha256; b=HwbSgQT50o7AhF9B8QFV8DLt4v6+QRQxC+Pz1ndpJUSvO/0D4BqjG3wL13AJ0YDZ5Mn0qomaKErUE45tZFHHT88IA92myqaR+caban3GbzzbU5G+uSImdY4O7XNcf140YZtPhsLCp90/dt38dWx8kjPc8PR+Fj9kmG61UrZdIN8=; c=relaxed/relaxed; s=zoho; d=zohomail.in; v=1; bh=7URRG9JImOynmwbw8ccE41h3MMYLK0ullK2SAwBmlS4=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zoho.in with SMTPS id 17949024245771010.9301360744533;
-	Tue, 17 Nov 2026 13:30:24 +0530 (IST)
-Message-ID: <be487787-e342-418e-a5a3-5770ee816e7c@zohomail.in>
-Date: Tue, 17 Nov 2026 13:30:22 +0530
+	by smtp.kernel.org (Postfix) with ESMTPS id 0D5A61F000C4;
+	Tue, 17 Nov 2026 08:09:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794902958;
+	bh=2AsFSmPkJrfcSU2iokgB2aDPRWQeYmtyi73lpLnFe7k=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=oRrKgAzHDxmScWMEsZU6cbXEBwrbgsQkA63+xe+9dYB9ru+fq664nJGGJZoxTwDpU
+	 EPftifQEr9vkFLCFUaIXE2seVbn05yn7HtSdzzV9yGU6ZJC+62eyj/cK6DUmSKpx7w
+	 ixzPFUdzxcc5Hv42OaU/EE21LG93+BwTmApW3R/AhgFJlfS/o+EPlBOECkk6p2rTsW
+	 6NFmt3/aUn5+6GU7MOpztzl7t1owS+M4SxnT7oGi1S3ZIrYQ5//reZ4zUmQFc5oRjI
+	 x2xQylkFY9EBs232dIsPT6x7H778dpge0UeXETobUSyE1MCFSe2BtBkNTVfQpZXeLM
+	 GSRtOTSez3crg==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 622A64A747;
+	Tue, 17 Nov 2026 08:09:17 +0000 (UTC)
+From: Yongjian Wang via B4 Relay <devnull+echoowall.gmail.com@kernel.org>
+Date: Tue, 17 Nov 2026 16:09:16 +0800
+Subject: [PATCH net-next] tcp: document black hole detection for
+ tcp_mtu_probing
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,191 +83,92 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/6] drm/amd/display: Commit panel_power_savings writes
- from the kernel
-To: hugo@hsal.es, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: Mario Limonciello <mario.limonciello@amd.com>, Ray Wu <ray.wu@amd.com>,
- Alex Hung <alex.hung@amd.com>, Bhawanpreet Lakha
- <bhawanpreet.lakha@amd.com>, Ivan Lipski <ivan.lipski@amd.com>,
- Chenyu Chen <chen-yu.chen@amd.com>, David Weber <weber.aulendorf@gmail.com>,
- Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261116-abm-sysfs-commit-v3-0-7a3d84a5328e@hsal.es>
-Content-Language: en-US
-From: Shivam Kalra <shivamkalra98@zohomail.in>
-In-Reply-To: <20261116-abm-sysfs-commit-v3-0-7a3d84a5328e@hsal.es>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261117-tcp-mtu-probing-doc-v1-v1-1-552ae04de4ef@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAKsL/GoC/yWM0QrCMAwAf2Xk2YDZnAV/RXxYs2xGsC1tNgZj/
+ 27Vx+O426FIVilwa3bIsmrRGCrQqQF+DmEW1LEytOf2SkQOjRO+bcGUo9cw4xgZV8KuJ/auv0y
+ D81DjlGXS7Te+QxDDIJvB42/K4l/C9v3CcXwAl7FO74QAAAA=
+X-Change-ID: 20261117-tcp-mtu-probing-doc-v1-351cb754fa7b
+To: corbet@lwn.net, pabeni@redhat.com, edumazet@kernel.org, 
+ davem@davemloft.net, kuba@kernel.org
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, kuniyu@google.com, 
+ rdunlap@infradead.org, horms@kernel.org, ncardwell@google.com, 
+ linux-doc@vger.kernel.org, skhan@linuxfoundation.org, 
+ Yongjian Wang <echoowall@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794902956; l=2370;
+ i=echoowall@gmail.com; s=20261026; h=from:subject:message-id;
+ bh=uFO+5f2+BsqKYlZQnC2908gTApJQjYev79CULLrFyVs=;
+ b=CTFRsXj4zsCMBDDo033TASmfOhkpWF8sCLe3jBnz3Qrz0p1qrRih9+UYwaftb9K38pxZJd4/f
+ c15nntriJSoAe9rckuW1XmJPrcLXwr80ROaq2bwkr9FY2/TxNZncrLI
+X-Developer-Key: i=echoowall@gmail.com; a=ed25519;
+ pk=9XP6JhqjjPsHCF6UZZZTeqTRnXIa4+ufggnxXtTJ+no=
+X-Endpoint-Received: by B4 Relay for echoowall@gmail.com/20261026 with
+ auth_id=1323
+X-Original-From: Yongjian Wang <echoowall@gmail.com>
+Reply-To: echoowall@gmail.com
 Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
 
-On 16/11/26 19:31, Hugo Sales via B4 Relay wrote:
-> A write to panel_power_savings stores the ABM level and sends a hotplug
-> uevent, but the level reaches the hardware only on the next atomic commit
-> that includes the eDP connector. Hyprland adds the connector to a commit
-> only on a modeset or when a connector property it sets changes, so on my
-> laptop the file read back the new level and the backlight never changed.
-> power-profiles-daemon writes this file on every profile, AC and battery
-> change, so none of its ABM changes applied
-> 
-> This shouldn't need a fix in every compositor. The file is for writers
-> that aren't the DRM master, like power-profiles-daemon, and they can't
-> commit anything themselves. Today they depend on the master taking a
-> generic hotplug uevent as a cue to commit the connector again. Nothing
-> documents that, and a compositor has no reason to read a hotplug event as
-> "a property you never touched has changed". A compositor that wants to own
-> ABM sets the 'adaptive backlight modulation' property, and from then on
-> the file returns -EBUSY. The file has to work without the master's help.
-> The backlight device already does: a brightness write goes straight to DC,
-> with no commit at all
-> 
-> This series makes the write commit the level itself:
-> 
->    1. Render the existing kernel-doc, which no rst file included
->    2. Add the CRTC's planes to a commit that changes the ABM level, which
->       the forced modeset used to do. With VRR active, such a commit would
->       otherwise carry only the primary plane
->    3. Stop forcing a modeset when the connector's ABM level changes. DM
->       already sends a new level as a stream update, and the commit that
->       added the modeset flag also added the CRTC, which is all that update
->       needs
->    4. Move the store tests onto a full pipe the store can commit to
->    5. Commit the level from the store through a duplicated connector
->       state. The write returns the commit's error and no longer sends a
->       uevent
->    6. KUnit cases for a connector with the CRTC on, off and failing
->       atomic check
-> 
-> Patch 3 also asks, below its cut, whether scaling can leave the same
-> check
-> 
->  From my reading, other commits that add the CRTC but no planes, like a
-> change of the HDR metadata, can drop an overlay the same way while VRR is
-> active. That needs a fix in the CRTC check that pulls in only the primary
-> plane, which I'll send as a separate series
-> 
-> Hamza's v1 of the 2024 patch that added this file had no flush [1], and
-> Mario found that the level only took effect on the next modeset [2].
-> That patch's v2 changelog says "force an atomic commit" [3], but what
-> was merged, commit 63d0b87213a0 ("drm/amd/display: add
-> panel_power_savings sysfs entry to eDP connectors"), sends a hotplug
-> event instead
-> 
-> Commit 8d20a066fa9b ("drm/amd/display: change the panel power savings
-> level without a modeset") later applied the level outside atomic. It
-> broke igt abm_gradual, and commit 95aaa207e9ef ("Revert "drm/amd/display:
-> change the panel power savings level without a modeset"") reverted it.
-> The objections back then were to sysfs overriding the DRM master at all
-> [4], which the property above now covers. I didn't find any discussion
-> that rejects an internal atomic commit
-> 
-> A write now returns the commit's error instead of storing a level the
-> hardware may never get. power-profiles-daemon logs the error and tries
-> again on its next profile, AC or battery change. Nothing I found reads
-> the uevent for more than a cue to commit the connector, which the kernel
-> now does itself
-> 
-> The commit is blocking, so a write can hold the CRTC locks for up to a
-> frame while a compositor commit waits
-> 
-> Tested on my laptop (ASUS ROG Flow X13 GV301QH, DCN 2.1) with v3 on
-> 7.3.4, under Hyprland with no modeset during the run:
-> 
->    - 25 writes cycling levels 0 to 4 all succeeded and read back, with
->      nothing in the kernel log. A write sends no uevent
->    - I wrote 4, 0, 4, 0, 2 and 0 six seconds apart and read
->      amdgpu_current_backlight_pwm and amdgpu_target_backlight_pwm every
->      half second. After each 0, the backlight was back at full PWM by the
->      next sample. After each 4 or 2, the target dropped, to 25% of full at
->      4 and 52% at 2, and the backlight ramped down to it
->    - This series on top of "drm/amd/display: Leave self-refresh before an
->      ABM level update", with the panel in self-refresh before each write:
->      all five writes that changed the level took the panel out of
->      self-refresh for the update
->    - Writes of the current level return without a commit, so they leave
->      the panel in self-refresh
-> 
-> On a text console, igt amd_abm passed all five subtests. I also ran an
-> IGT test that puts an overlay plane over the primary plane and turns VRR
-> on, so the CRTC idles at the panel's 40 Hz minimum. On v2, a write took
-> the overlay off the screen until the next flip. With v3, the overlay
-> stayed. With VRR off, it stayed on both
-> 
-> [1] https://lore.kernel.org/amd-gfx/20240126222300.119292-1-hamza.mahfooz@amd.com/
-> [2] https://lore.kernel.org/amd-gfx/1162e59e-3f53-4c84-b186-bb2f4642216b@amd.com/
-> [3] https://lore.kernel.org/amd-gfx/20240202152837.7388-1-hamza.mahfooz@amd.com/
-> [4] https://lore.kernel.org/amd-gfx/b117ccc0-6569-4753-9cb9-c304f9e50d30@amd.com/
-> 
-> Changes in v3:
-> - New patch 2: add the CRTC's planes to a commit that changes the
->    level. Without the modeset, such a commit with VRR active carried only
->    the primary plane, and DC dropped an active overlay until the next
->    flip. Sashiko's finding, reproduced on v2
-> - Patch 3: credit David Weber, who sent the same condition change in
->    August (Chenyu)
-> - Patch 5: say that a compositor commit waits for the write instead of
->    failing with -EBUSY, in the kernel-doc and below the cut (Chenyu)
-> - Link to v2: https://lore.kernel.org/r/20261113-abm-sysfs-commit-v2-0-5808d17a7e89@hsal.es
-> 
-> Changes in v2:
-> - Patch 3 (v2's 2): name commit b05e2c5e81f9 ("drm/amd/display: Update
->    ABM crtc state on non-modeset") as the one that lets the non-modeset
->    path carry the level, say the KMS property loses its modeset too, and
->    say "drm/amd/display: Leave self-refresh before an ABM level update"
->    has to go first
-> - Patch 4 (v2's 3): set level 2 before the test that writes 0, so the
->    write changes the level
-> - Patch 5 (v2's 4): return without a commit when the level doesn't
->    change (Harry). A write that changes nothing, or that the DRM master
->    forbids, no longer wakes the GPU. A write that a signal interrupts
->    restarts instead of failing with -EINTR
-> - Patch 6 (v2's 5): test a write of the current level, check that it and
->    a forbidden write leave a runtime-suspended GPU suspended, and fold
->    the CRTC on and off cases into one parameterised test
-> - Link to v1: https://lore.kernel.org/r/20261102-abm-sysfs-commit-v1-0-e5addfd9539a@hsal.es
-> 
-> ---
-> Hugo Sales (6):
->        drm/amd/display: Render the panel power savings kernel-doc
->        drm/amd/display: Add the CRTC's planes when the ABM level changes
->        drm/amd/display: Don't force a modeset when the ABM level changes
->        drm/amd/display: Give the panel_power_savings store tests a full pipe
->        drm/amd/display: Commit panel_power_savings writes from the kernel
->        drm/amd/display: Test panel_power_savings commits
-> 
->   .../gpu/amdgpu/display/display-manager.rst         |   3 +
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  17 +-
->   .../amd/display/amdgpu_dm/amdgpu_dm_backlight.c    | 118 ++++++++-
->   .../amdgpu_dm/tests/amdgpu_dm_backlight_test.c     | 271 ++++++++++++++++++++-
->   4 files changed, 390 insertions(+), 19 deletions(-)
-> ---
-> base-commit: ba496bb837882eb1af58f41572fc289e46c77b8c
-> change-id: 20261101-abm-sysfs-commit-96a38de1ac66
-> prerequisite-change-id: 20261113-amdgpu-psr-abm-update-next-de20bc23b12c:v2
-> prerequisite-patch-id: c6cbeb4671914753ab7526369c2612039ae16504
-> prerequisite-patch-id: efc64b5a0a1bc2d46494d4797b0d25447b174076
-> prerequisite-patch-id: 496307c9687a947cfbfdcf1b6d0ad6ba1b6d4089
-> 
-> Best regards,
-> --
-> Hugo Sales <hugo@hsal.es>
-> 
-> 
-Hi Hugo,
+From: Yongjian Wang <echoowall@gmail.com>
 
-Tested this v3 series on top of your self-refresh v2 series on Rembrandt
-(DCN 3.1.2), running 7.1.0-hugo-abm. All five amd_abm subtests, including
-abm_gradual, passed on A/C.
+ip-sysctl.rst says that tcp_mtu_probing=1 enables MTU probing once an
+ICMP black hole is detected, but not when that happens or what TCP
+does then.
 
-My panel reports Sink support: no and Driver support: no [0xffffffff],
-so I couldn't exercise the PSR-active case Chenyu requested.
+Describe both, as implemented in tcp_write_timeout() and
+tcp_mtu_probing(). Also add the missing defaults of tcp_mtu_probing
+and tcp_base_mss.
 
-Tested-by: Shivam Kalra <shivamkalra98@zohomail.in>
+Signed-off-by: Yongjian Wang <echoowall@gmail.com>
+---
+This describes the behavior checked by the black hole detection tests
+added in commit 8a83f21ad75d ("selftests/net: packetdrill: add TCP black
+hole detection tests").
+---
+ Documentation/networking/ip-sysctl.rst | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index 0b7bfbd98a92..a11baf04758c 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -412,6 +412,8 @@ tcp_base_mss - INTEGER
+ 	Path MTU discovery (MTU probing).  If MTU probing is enabled,
+ 	this is the initial MSS used by the connection.
+ 
++	Default: 1024
++
+ tcp_mtu_probe_floor - INTEGER
+ 	If MTU probing is enabled this caps the minimum MSS used for search_low
+ 	for the connection.
+@@ -711,6 +713,20 @@ tcp_mtu_probing - INTEGER
+ 	- 1 - Disabled by default, enabled when an ICMP black hole detected
+ 	- 2 - Always enabled, use initial MSS of tcp_base_mss.
+ 
++	A black hole is detected when the retransmission timer fires after
++	the handshake and retransmissions have stayed unacknowledged for as
++	long as tcp_retries1 retransmissions would take with the minimum
++	RTO, which is 3 seconds with the default tcp_retries1.
++
++	With value 1, the first detection enables MTU probing and the MSS
++	falls back to tcp_base_mss. Each later detection, or any detection
++	with value 2, lowers search_low to half its MSS, keeping it at most
++	tcp_base_mss and at least tcp_mtu_probe_floor and tcp_min_snd_mss.
++	Once MTU probing is enabled, the connection also probes for a larger
++	MSS, as with value 2.
++
++	Default: 0
++
+ tcp_probe_interval - UNSIGNED INTEGER
+ 	Controls how often to start TCP Packetization-Layer Path MTU
+ 	Discovery reprobe. The default is reprobing every 10 minutes as
+
+---
+base-commit: 6ff4c5942a301675eb12e5b49d53a81e604624a1
+change-id: 20261117-tcp-mtu-probing-doc-v1-351cb754fa7b
+
+Best regards,
+--  
+Yongjian Wang <echoowall@gmail.com>
+
+
