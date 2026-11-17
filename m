@@ -1,94 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.99
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794952221;
-	b=SXHmT0PjMBFzwlA3IqrFYM568RxhF9Y5ZRgj9sHsUPoAwuJrzT+6HO89ZorOcoNNv9AR
-	 gLGAL6f0KKxzUkGNr+WZGGcObuxuEq6tfRekuRWVnP4xnz4N1qtgZNHZ/Tl9jiD5Q0MiH
-	 m39dwNxhyG//kztuDI90sz4luyrafgSOFaKBig1NUe0ZHx5ifcvlT8J98GGLrSQJVxmgq
-	 ALcyE+O4gGJwadgtwvZ8C0kXBxs9G/dgoLzJ5pBXvlaUwIwavjcrWiQk7qkmV5SSOSwl3
-	 JAty81QRcvsnCL5H76QqY8uR6ddYYc5wVMbRlt8OjCd577fjgd36/bvh51OA0mZtAIw==
+	t=1794952746;
+	b=Y94aXmi0wY3Q08D9x1kuypAQbt2I3vBiBkqso7BgKslkDRYDHZbVQnjdwScRF83fwfOc
+	 HKzTZk7X6dId/YzU2JCwi9tYZoZpN4lG7dGL8s8aPnhn0pQ+N/BNqr4MeCP8ptK+oEK4r
+	 XtcT/VidF+tI6q7ZRWjoQhhZWqJsOyRxog0yNRYgfbksYc+L67iynpQ77XiYFFzRcdivS
+	 9tCXPW4QGckPuXnnFHd0KV7y9S0AwiC26/s1k5YBGLUtpPyHPD4de1U59YsxrzpBgBwBS
+	 B0tFEpWdiObknqhazRPNFq3HA+3+ysSKW2ldNxyVQQ1fJCyrvwQiqahxLziCHPR9CgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794952221;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
-	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Received:X-Received:MIME-Version:References:In-Reply-To:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:X-DetectorID-Processed:
-	 Content-Type;
-	bh=/zw4ZFpao2KaC/G/RQJd+vvWZP+1s7W5XvGegPhFGM8=;
-	b=VyklCBc0THnvE1Vb2eHUHFaGHmLpbtQBHPVMmS8D0jIB6dcE90hY3Fo2NRN7zMet8d17
-	 Tn6pGl/QdTfwNjw26Kxptngj7nKEoD6H5Kbsql+xszisfzQv7WrbtOzRQVYSF9y2A3VeQ
-	 C5GeZY8zCC6lPxqi7MhjTFhnbD/zpYHQCLgXY2CLDHnecyiHQdHkWzQq1ROvysPW7iz31
-	 rNiSy9SlM8DstvxbHGx21UrFQ7egFGyqK4LLo3YndYOj9prGYAd9WptO/H/TehjiaxJpb
-	 r+a6piP2/P8Jf7hLoan0WCw3dfWSxpHDdmQ3XeAT5ujYtKGrNxDwqX2Wzd7YpF2Ac2g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794952746;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=6ppas4HZ2NGOZcFcrTWA/+6VjpboNZmJZl+VQIcgy64=;
+	b=oNU8yRIGWHnlDpcz2qYZ2I73YOmltkOMrWQ0iFdP5VD1g0oDboLauZK5WtRsVHDgimK6
+	 rZg+6AU+f1FZXLIL39LZuzH0yyCAZPFHAHSbiEJS9xGfz/emX9uuDSjZMp4BVqrxz6iX9
+	 OQ1gGwa2n79GYly8C3BXJjGw2X+w44M6J5NHC1CShD9Va4STWGiIND1cf5bgjLdaXuDv1
+	 TkqRsdGYNnxIvEdIELKOHxgckx7jTOvN2lRR14sRim7DJ3q6JpTsK0Bnxz8GVF/JFihe6
+	 gdexsrF14lZN6v4HO1TqPNZBcCcfkaeM0ZwteVI1WufY9Hs0kIGoYcOnGalaoj7uHVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=broadcom.com;
-	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=SSc1S0xB;
-	arc=none smtp.remote-ip=209.85.216.99
-Received: from mail-pj1-f99.google.com (mail-pj1-f99.google.com [209.85.216.99])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EfJXDMRe;
+	arc=none smtp.remote-ip=209.85.214.173
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BDC606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 21:50:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2BDC606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17C0606A32C
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 21:59:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B17C0606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=SSc1S0xB
-Received: by mail-pj1-f99.google.com with SMTP id 98e67ed59e1d1-3b155f50c24so169346a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 13:50:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794952220; x=1795557020;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:dkim-signature:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/zw4ZFpao2KaC/G/RQJd+vvWZP+1s7W5XvGegPhFGM8=;
-        b=kn1itmuJ2O/feIkisbzFItonwrV17XsL/hRBG7QmHByduB7SWeCqcV0js7Cc3YsFSd
-         kOYO4NOpgubVtPFMhoK7mI+qzaXX+ct6Yns1gwgSONkOYCSoN1saJpDXxywqLG+PHrOu
-         75eKq4GOFd+FmtWMAB0pU6lqcInbeJ1JnJC2XA0dGG6XrN+NJ9vDxgfD7I1RyZOrYlTc
-         cNlAfo6LHre4ptrb0h0rc1glF1KduZsWkwYu9UU5BIEqmsr+gUevhzPH9lPqsIvDId8q
-         fl8nF5rmc2VIzj7TAJAkCW7+knxPlz+nQJ3nL4DJDXpctk2q5l3o+E0ZgPqfI2FGZ+kl
-         ykjA==
-X-Forwarded-Encrypted: i=1; AL+hErFFLLkOt4KY53VhcEsVgqNAoMqkkW6rBKXPW01Qmu2vEizMCMTl9vCRGlNZAYvfaxY7iNu08Ec2PaU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/rGp3ekpU/klqdTfx5Eeo5vGUV0LHw3WgxdBhHnW6eKmKTvHh/
-	KtOxh0pogscbQtaUusTmuVqZAWUMRMICTOMyRgzxCBX8+crqEU31uKYUudJXQlRmlnYU05m6QC4
-	XNOn5SOgwSEhIFStzw8gW419Smaz/piCHVlIzooHEAw5SvsGo9YTfTTxhATdGksLWYTj96gchKp
-	luj0KnSVFxbm4SfeXamM65qLAdbBRPBqWqarTvL3qd1eKkEXyCZ82tLQZh9cQKBPYo+KI1CLzbr
-	Q3u2BCBL0Bh
-X-Gm-Gg: AZFdTZdW9b7VPnwTolS2dHUQ0InQCL8Za+BxBnr/KjWyRNzJX32Y0umfTYEYU0uAg10
-	0c/DPM5qWGrecc6ftTXVsicv1Miq/WYTK17NMOPMXRGSMm9d5RwlgkEgHu3OGQkhavSzqLb/uj9
-	+/Gh6RAsFT0c0qIvY7BAFFXpKgW8j1h1XraI9B9idLBQsvK4/ysoBalwLvK9m8MSDPHzZxLqKg8
-	GbcgShZ5ggnS0YbR17UzL5NuvOewk6QUxPdBN1a4ZTw6QigbTNWzp/bhJsGpFhJ2hqP5lmtk6jT
-	WdedukbskeQSmbIc8rMJ14UjEnczgBs0Vvr24xCIGg/1/c/Jd6eRvSOv6g516quvuUaww6YRw4u
-	rph6onfnBTfJt1DGZ6AYCvDRIVLfWIIA01TiO4MTkhDeY3s4XLoVzjdhuZua+oIyI0oYsw2B5Hh
-	tjje3XL0fY0Jep59m9xZwC/xRF5lpBmnMA
-X-Received: by 2002:a17:90a:d886:b0:3b0:9e2c:9b57 with SMTP id 98e67ed59e1d1-3b3d06a425cmr760409a91.4.1794952219999;
-        Tue, 17 Nov 2026 13:50:19 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-28.dlp.protect.broadcom.com. [144.49.247.28])
-        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b3d19c23e2sm188547a91.0.2026.11.17.13.50.19
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 17 Nov 2026 13:50:19 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-3ae3cce89a4so1954591fa.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 13:50:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EfJXDMRe
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2e9f6a16afcso6415ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 13:59:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1794952217; x=1795557017; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20260707; t=1794952745; x=1795557545; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6ppas4HZ2NGOZcFcrTWA/+6VjpboNZmJZl+VQIcgy64=;
+        b=EfJXDMRe6em8z635NUEChDgMdqWOKqo0Ntv8rvsuf/jUawXGDGUYrN9oAIqxv1+c0U
+         ZENiouw7xqD64r/dkBosaSnCVTs5QOI8dP8jqaoMnGyIHsAv5DAoyCovx0fieD13wagD
+         UjV8/gdiVoChlZxwDASL07PfN1GyMbRWcyVl6jwlymYaGWs2bhlIHwLr1yyQXZ4cR8y9
+         KtZrqL5WlnWD6iJ1pKsZCa2RHH6jbyLcG30nTBHmV3sf/MINwUM/StzUdO484WOWfkP4
+         U61AJKGxSjv4tnnVb4bvEcfbFPIllJKH6t7RrFpnDC+nwYAFsHDYMBaCLf7UQsJX1Iqw
+         26rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794952745; x=1795557545;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/zw4ZFpao2KaC/G/RQJd+vvWZP+1s7W5XvGegPhFGM8=;
-        b=SSc1S0xBCmb0ubFsI1KtyFuRWZyipz9Uf5KP9rteT8HWuRdEaQZ9MJLJkqf/ss5OX+
-         f9OGZDWU5kvG11FBl66tYnrL+6waBa6UDXIQlIPHmgV0ZPoTGRRIzWTMCTY/Y6L/yJ+h
-         1iqsAlEBWhFXYffBK4iRYZlQIOnsBQqbT3E3Q=
-X-Forwarded-Encrypted: i=1; AL+hErHUw+zuKzPwSIc8KkY1NqvImDNJ8BMvQNvxuTGDNQBkRH97WR4WaHR1rH6VaXVgU29Xq4d/z06GZ2o=@vger.kernel.org
-X-Received: by 2002:a05:651c:1615:b0:3aa:f42a:b78 with SMTP id 38308e7fff4ca-3ae671e58ddmr1423201fa.20.1794952217365;
-        Tue, 17 Nov 2026 13:50:17 -0800 (PST)
-X-Received: by 2002:a05:651c:1615:b0:3aa:f42a:b78 with SMTP id
- 38308e7fff4ca-3ae671e58ddmr1423141fa.20.1794952216895; Tue, 17 Nov 2026
- 13:50:16 -0800 (PST)
+        bh=6ppas4HZ2NGOZcFcrTWA/+6VjpboNZmJZl+VQIcgy64=;
+        b=EGbIQ47ja9hNJZcx8Qvv1Q1ldze/Lmaqcrm+VPcbmEbFs1hBHMd7zDm94G3ZTfDBN8
+         q+9meUo8WeUyRPEXxNtQRKaPnNhBTU4U0ZiJUlgUGJdGFLS2HdbTKlKKw5e0G+Z4OtF4
+         4Z7E3bNoabTfklIJ9/ET4o1jOIKkk3KpphcElfiZLGGpvAqAS1dyjWCyR04l6exI6WCZ
+         0eHyEHzeKBUNI/IEchoJn+/1t9TftHN1DLY1JxsPoD2CaBupza7YdeLGXR2vCgoR9Gsh
+         mr9Q5dSa3L/UnqQL/AOeO3OwFzgSRqS92WNGN7wb/EAMSK6CptstCSujiaKClm8Ef1dY
+         hXXQ==
+X-Forwarded-Encrypted: i=1; AL+hErGNLlCItp81Ln17kTM4FfXgu8wIuKt/rRPzM5Rf2TKMS63f3wSQGl+tpX424BSLRa72Yhk/eQhOl6I=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+iFUw3OfRUWBiDT1LCpQJ1ZUFAOxJ1fc/In3iWNi0W8snG6RwJ
+	uS1qCRzImrvxomydLrEL1o4lOCdS4qknVfRAEwy1gOYgKv4srMd3gFf616VYgvvWYg==
+X-Gm-Gg: AZFdTZfMTsf8wP61qBHwSaM5V0iVJrNOUb6m6zEJGkZF0hJ1nqulKA3AJuYrpBrmphm
+	iYLIvU/0x7sPDkyc3fU8VgLAi28ex+UhV+cnsFNmINtP4LLMjqFiIf19D+urFyVpbLE88h/8nNE
+	bZSh7kfycUD+k8LiRgIFidJmTmBMm4XHZ09pCneYAeoTXUSZm0Zq+x3KKR0UE8GIJ1maJcwzXRo
+	mEPKp1BNpkIvB+8K9Jeq31p0HOEI+VdcrYYxRKadz5zYzWB1rTLoFZfn/vwOJfpk4qv29vS73bD
+	SzMGLkMT5VmmpXtJxvUoiFAaqJ86zMPbQ70ZsvLLcVsQ0XjOw/VWPMnvIvkX5kI3xMGQHHbSRhW
+	tMv3PwM9MPo803toz8ElrnQA3f7+IHpRUEnFocKrJC9pgTX3hBdAjPfjDzrdGs6/lJkX7UCWk67
+	JMpITn6HcAXzYcEEYDvQ9DTcptDOk1+tLSMX9vyI4+tYuzrw+n5clmRU76h3aqKgURdVbPfRdsC
+	G2QOgbNfxzPmKkg16I7PrAH2eoMTkcqyreoGWTVx57ArOrxHFfGKavYjOFtz/XsdpSrwGAcx1Lv
+	FUb2ufFR0P4qVOIeY+fAqnSvleeR8q3nZN1FDLnRvL1KmQfxcVnXHOauQT8KN0cVfoX69/UrAzC
+	qJHSCIxZuhgPE
+X-Received: by 2002:a17:903:3d0e:b0:2df:96ca:d7c7 with SMTP id d9443c01a7336-2eff98e2025mr646525ad.10.1794952744396;
+        Tue, 17 Nov 2026 13:59:04 -0800 (PST)
+Received: from google.com (176.13.105.34.bc.googleusercontent.com. [34.105.13.176])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eff623c4c6sm2756405ad.54.2026.11.17.13.59.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 13:59:03 -0800 (PST)
+Date: Tue, 17 Nov 2026 13:59:00 -0800
+From: Vipin Sharma <vipinsh@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, linux-pci@vger.kernel.org, ajayachandra@nvidia.com, 
+	alex@shazbot.org, amastro@fb.com, ankita@nvidia.com, apopple@nvidia.com, 
+	bhelgaas@google.com, chrisl@kernel.org, christian.koenig@amd.com, corbet@lwn.net, 
+	graf@amazon.com, jacob.pan@linux.microsoft.com, jgg@nvidia.com, jgg@ziepe.ca, 
+	jrhilke@google.com, julianr@linux.ibm.com, kees@kernel.org, kevin.tian@intel.com, 
+	leon@kernel.org, leonro@nvidia.com, lukas@wunner.de, mattev@meta.com, 
+	michal.winiarski@intel.com, parav@nvidia.com, pasha.tatashin@soleen.com, praan@google.com, 
+	pratyush@kernel.org, rananta@google.com, rdunlap@infradead.org, rientjes@google.com, 
+	rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com, schnelle@linux.ibm.com, 
+	skhan@linuxfoundation.org, skhawaja@google.com, vivek.kasireddy@intel.com, witu@nvidia.com, 
+	yanjun.zhu@linux.dev, yi.l.liu@intel.com
+Subject: Re: [PATCH v6 07/27] vfio/pci: Preserve vfio-pci device files across
+ Live Update
+Message-ID: <20261117003405.GA4153658.vipinsh@google.com>
+References: <20261102153656.1431701-1-vipinsh@google.com>
+ <20261102153656.1431701-8-vipinsh@google.com>
+ <auzVEUpFEoWltpVg@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -98,178 +111,125 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <cover.1794374897.git.zack.rusin@broadcom.com> <4dca09deb85d2d5db157888ae4a2de7cbf6421d2.1794374897.git.zack.rusin@broadcom.com>
- <CALMp9eSARNY=K-bXSoV6sBBaWoKQGHtym1VrjnHtBQhFvsb2gQ@mail.gmail.com>
-In-Reply-To: <CALMp9eSARNY=K-bXSoV6sBBaWoKQGHtym1VrjnHtBQhFvsb2gQ@mail.gmail.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Tue, 17 Nov 2026 16:50:03 -0500
-X-Gm-Features: AclHuK807et2ZoWk0xCaxLbuvndRbqzO3WiuIVD3kOgv5LnNqlCtYteaCfGFLgE
-Message-ID: <CABQX2QNy0nZJtvJJdBTrKTTZB=gYpRGpy6Gmx=NF8mGc40b_wA@mail.gmail.com>
-Subject: Re: [PATCH v3 09/12] KVM: selftests: Port VMware backdoor coverage
-To: Jim Mattson <jmattson@google.com>
-Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
-	Doug Covelli <doug.covelli@broadcom.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	Shuah Khan <shuah@kernel.org>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	David Woodhouse <dwmw2@infradead.org>, Paul Durrant <paul@xen.org>, Xin Li <xin@zytor.com>, 
-	Francesco Lavra <flavra@baylibre.com>, =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>, 
-	Liran Alon <liran.alon@oracle.com>, Arbel Moshe <arbel.moshe@oracle.com>, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000533af806607fe178"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <auzVEUpFEoWltpVg@google.com>
 
---000000000000533af806607fe178
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Nov 05, 2026 at 07:12:17PM +0000, David Matlack wrote:
+> On 2026-11-02 07:36 AM, Vipin Sharma wrote:
+> >  * TOCTOU synchronization: vfio_pci_dev_is_frozen() is checked locklessly
+> >    on entry to the ioctl, read/write and mmap paths, and re-checked under
+> >    a lock that freeze() holds before any operation that could change the
+> >    device or vconfig: under vdev->igate in vfio_pci_ioctl_set_irqs() and
+> >    around every config-space write in vfio_pci_config_rw_single(), under
+> >    vdev->memory_lock in vfio_pci_runtime_pm_entry(),
+> >    vfio_pci_ioctl_reset() and the SR-IOV enable path of
+> >    vfio_pci_core_sriov_configure(), and under dev_set->lock in
+> >    vfio_pci_dev_set_hot_reset(). A racing operation thus either completes
+> >    before freeze() takes its snapshot or fails, while existing BAR mmaps,
+> >    ioeventfds and dma-bufs keep working. Serializing config writes on
+> >    igate covers the PCI_COMMAND, INTx disable emulation, power state and
+> >    FLR paths at one point (the INTx disable emulation now uses the
+> >    igate-held __vfio_pci_intx_mask() and __vfio_pci_intx_unmask()
+> >    helpers), and also serializes the irq_type and virq_disabled accesses
+> >    of config writes with VFIO_DEVICE_SET_IRQS.
+> 
+> I think there's a simpler way to do this. Checking the frozen flag
+> locklessly and then re-checking it under whichever lock covers each
+> path spreads the synchronization across igate, memory_lock and
+> dev_set->lock. That makes it hard to convince yourself every path that
+> can change the device is covered. It also makes every config space
+> write take igate, for all vfio-pci users, even when
+> CONFIG_VFIO_PCI_LIVEUPDATE=n.
+> 
+> Instead, I suggest adding a per-device rw_semaphore to struct
+> vfio_device in the VFIO core, e.g. liveupdate_rwsem, that protects a
+> liveupdate_frozen flag:
+> 
+>  - vfio_device_fops_unl_ioctl(), vfio_device_fops_read() and
+>    vfio_device_fops_write() take liveupdate_rwsem for read and fail
+>    with -EIO if the device is frozen. That covers every device ioctl in
+>    one place, including the ones handled by the VFIO core
+>    (VFIO_DEVICE_FEATURE, VFIO_DEVICE_GET_REGION_INFO and
+>    VFIO_DEVICE_{ATTACH,DETACH}_IOMMUFD_PT). This patch doesn't block
+>    the last two at all today.
+> 
+>  - freeze() and unfreeze() take liveupdate_rwsem for write, before any
+>    other lock, and flip the flag. preserve() doesn't need it since it
+>    only serializes state that doesn't change after the device is
+>    opened.
+> 
+> Putting this in the VFIO core also means other VFIO drivers can reuse
+> it if they add Live Update support in the future.
+> 
+> The lock order then becomes:
+> 
+>   liveupdate_rwsem -> dev_set->lock -> igate -> memory_lock
+> 
+> freeze() can still take igate and memory_lock to check irq_type,
+> pm_runtime_engaged and sriov_active. But the ioctl, read and write
+> paths no longer need to re-check anything under those locks. So you
+> can drop the igate change in vfio_pci_config_rw_single(), the
+> open-coded vfio_pci_zap_and_down_write_memory_lock() in
+> vfio_pci_runtime_pm_entry() and vfio_pci_ioctl_reset(), and the
+> smp_load_acquire()/smp_store_release() pair.
+> 
+> Two paths still need their own handling because they don't go through
+> the device's file:
+> 
+>  - vfio_pci_core_sriov_configure() is reached through sysfs. Take
+>    liveupdate_rwsem for read around the frozen check and the
+>    sriov_active update.
+> 
+>  - VFIO_DEVICE_PCI_HOT_RESET issued on one device also resets the other
+>    devices in its dev_set. Keep the check in
+>    vfio_pci_dev_set_hot_reset() under dev_set->lock. freeze() sets the
+>    flag while holding both liveupdate_rwsem and dev_set->lock, so
+>    holding either one is enough to read it. Please don't take the other
+>    devices' liveupdate_rwsem there, since that would invert the lock
+>    order relative to freeze().
+> 
+> I don't think mmap needs to be blocked at all. Creating a new mapping
+> doesn't change the device or any of the state that gets preserved, and
+> existing mappings already keep working while the device is frozen.
+> Leaving mmap alone also avoids taking liveupdate_rwsem under mmap_lock,
+> which could deadlock: the ioctl, read and write paths can fault on user
+> memory (taking mmap_lock) while holding liveupdate_rwsem for read, and
+> freeze() may be waiting for the write lock. Please update the comment
+> in freeze() and the DOC section to match.
+> 
 
-On Thu, Nov 12, 2026 at 1:37=E2=80=AFPM 'Jim Mattson' via
-BCM-KERNEL-FEEDBACK-LIST,PDL
-<bcm-kernel-feedback-list.pdl@broadcom.com> wrote:
->
-> On Tue, Nov 10, 2026 at 10:08=E2=80=AFPM Zack Rusin <zack.rusin@broadcom.=
-com> wrote:
-> >
-> > Add vmware_backdoor_test, adapted from KVM-unit-tests' vmware_backdoors
-> > test.  From CPL3, with CR4.PCE clear and no I/O permission bitmap in
-> > the TSS, read the VMware pseudo-PMCs with RDPMC and issue backdoor
-> > commands on the backdoor port with IN.  Verify that the pseudo-PMC
-> > reads succeed and the port accesses exit to userspace only when the
-> > backdoor is enabled and raise #GP otherwise, and that other PMC indices
-> > and ports always raise #GP.  Repeat the pseudo-PMC checks at CPL3 with
-> > CR4.PCE set and at CPL0, where RDPMC doesn't fault before KVM handles
-> > it.  Skip the pseudo-PMC checks if KVM doesn't virtualize a PMU, as KVM
-> > then injects #GP for every RDPMC.
-> >
-> > Run the checks for a VM that relies on the enable_vmware_backdoor
-> > default and for a VM that enables KVM_VMWARE_ENABLE_BACKDOOR, and
-> > verify that KVM_CAP_X86_VMWARE rejects every flag it doesn't report.
-> > KVM-unit-tests can only cover the module parameter, which applies to
-> > every VM, while the selftest also covers the per-VM capability.
-> >
-> > Suggested-by: Sean Christopherson <seanjc@google.com>
-> > Link: https://lore.kernel.org/r/aIEoNpe-LFoH6LBm@google.com
-> > Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-> > ---
->
-> [ ... ]
->
-> > +static struct insn_result guest_inl(u16 port, u32 command)
-> > +{
-> > +       struct insn_result result;
-> > +       unsigned long rax =3D VMPORT_DEFAULT_RETVAL;
->
-> Shouldn't %rax be VMWARE_MAGIC?
+Thanks for suggestion, this is indeed simpler.
 
-Yes, good catch! Thanks. The KUT test loads the magic value there and
-I must have lost in the port. KVMs L1 backdoor only looks at the port,
-which is why the test was passing, but I'll fix in the next version.
-Again, thanks for looking at this.
+> > diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_pci_config.c
+> > index 9914f3ac69ae..1f1ac7a798aa 100644
+> > --- a/drivers/vfio/pci/vfio_pci_config.c
+> > +++ b/drivers/vfio/pci/vfio_pci_config.c
+> > @@ -644,10 +644,10 @@ static int vfio_basic_config_write(struct vfio_pci_core_device *vdev, int pos,
+> >  
+> >  		if (virt_intx_disable && !vdev->virq_disabled) {
+> >  			vdev->virq_disabled = true;
+> > -			vfio_pci_intx_mask(vdev);
+> > +			__vfio_pci_intx_mask(vdev);
+> >  		} else if (!virt_intx_disable && vdev->virq_disabled) {
+> >  			vdev->virq_disabled = false;
+> > -			vfio_pci_intx_unmask(vdev);
+> > +			__vfio_pci_intx_unmask(vdev);
+> >  		}
+> >  	}
+> 
+> With the rwsem, config writes no longer need igate, so this change
+> isn't needed. If config writes and VFIO_DEVICE_SET_IRQS really do race
+> on irq_type and virq_disabled today, that's unrelated to Live Update.
+> Please send it as a separate fix.
+> 
 
-z
+This will go away.
 
---000000000000533af806607fe178
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+> Lastly, please add the freeze infrastructure and the checks in their
+> own commit ahead of this one, e.g. "vfio: Add infrastructure to freeze
+> devices for Live Update". Then this patch only has to implement
+> freeze() and unfreeze() on top of it, which will make both easier to
+> review.
 
-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
-6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
-SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
-uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
-s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
-SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
-QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
-fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
-iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
-3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
-91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
-06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
-b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
-VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIFLx
-Tb9m7nzsimqC6t0kgAYV36Amc4ovvGqgrnqQl1p9MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI2MTExNzIxNTAxN1owXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAHM91zEWWnY5VLC5Doy35uNLiZ/k6T7oZHP4P8VU
-e5zc1DykZUQR1b/E6QeO3N4l/O1eabDpZR62VQax+GpMVqtxW2ES3JWwsm8OYOaTChLrSd4cFXV6
-62JQSDkqezRlHByvyfN6/zjeVqu/buQm2umIRSLTbkA9eerjIfojQo5H1RWoAhcuCpxIBIpaLMR7
-oYW6LlraANm5abpahCf13i9R+KhuzxJ+x68gwMmF7GvLsznbf/FseUcBxdezo7w/SsA+OEI8BRVB
-6n8JvtgUxt931L0ktFpoMp039ZE2B8CKUHDep2WEL9Ha1c5X0UYunPPV7u5HOHfKRHs9h00E5Tg=
---000000000000533af806607fe178--
+Sounds good. Thanks for the review.
