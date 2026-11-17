@@ -1,70 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794935415;
-	b=vgYjJpFrpq20Hq16mLRb8t8yF/38vasZb0UrasPyp9Ap5q5ukfK5jcEb6IRvsV8ojWv3
-	 w2/hkGhIy3xPfJkCSZiOSu8pUi/s97jZgTpt0cmipwBx+mbTQdbssz82+4OzDqWeYrXC6
-	 FswwW01dxOERyYV4VdJYHfLxwf93VrTAK7b95Lu4rR6JoLvhaiZNHvsyl+ARV101ERUov
-	 b6ydZraE0Id91ErIttged1vVlcd0d2dKkyNuVto+BwsLuBmpIs66n80B8E8hiiMMz1C2j
-	 54jmgd/JxdyfV6AjIAMfZbjL1zjidSvK5+YLF4MfT+oYpna2PZx88sUpkJ6e/mlIEYQ==
+	t=1794935647;
+	b=heMBlxDOUa+Xv6b5dIR8ZXUL34Hq5hZvzRZEzcugHzyB1zWSs0RT+Nk3k62/1hb6NhNq
+	 Seu0S+3mf1U2yXG9/3P0tTDUC6z6j+Lzl13+SIUTLX7OQlU1/90UpZ3PttduiycrFtkuJ
+	 VRxlI1ptXE0EuvEUz6ev0GUqmZCAbM8RKhuxOsVneRhutBEAUdE2gmp1LzqKKjTjlNsfM
+	 fIHAVQHfORd7JJosWrXr5UC+iMNmSjqKgY3eMP5S9y3gy9/QNsouqHwtKjgwbX7bDuwtn
+	 Lba0W8q9NYZ/98P9JUUk9ezS1WuYu64i4MwIeqaLgBRLKofutS2MSJ6AkESPt/FowMg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794935415;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=UNMoeiPf59zYewdyjbUj2KK7jui/9PboPaDgtiTNze4=;
-	b=2Dgbyha1rDpF/cFLJBhsvR0yQLVd2jQQStgQkSbPoaDQCU3uOg3mrHvrGhmqas//v9Lt
-	 L4lm2Yk/zzUDwBYqsCiOZaa/cbZ/lMircZKXFOQ2uLB4iNLmNxqMHknob6nHH+hd6PIZU
-	 +T/M/kqAL8tMrmqx/M8zP2WjQdpHNx/3Ago6hupHmY5gIWkzETi31VXUegcVpfDAsTYaN
-	 anpg0uyrJH0+WzjADHLxgdqlIghYxczx68fB5LHgIzB6nHY07f3WiZ7UQPOT1z0mBCfjY
-	 RG5dOqn71Hd9i4cpEfWEkYPK4xpPRwYaEoEFJ7y1+Nj9AgeC0VWMQ7j+FPB++yTE5kQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794935647;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=NRyU0VXlTkdP1/qvlbXfSzmeB6PM6cbuXEo4V1pctGY=;
+	b=4o0M1A629nW4WQ2646DyW7W/Q7mgkWZRFblBxRmcjlw6D7wvhQLOVKSsHCPln8jmcrj7
+	 Pwzo2K8Cn6IBulPYvG6rXTexlFCZPZzdMgEB6I8KxT6mbtSAqJ+RIp6I9ECVmaRhdP5Eh
+	 j7Iy9+1Wso4zXkPVLPKZmKH0ARlT4sV3k/8zi1ng1ucN1PerYYS11SgKQ6nNUXuIbvw8N
+	 WSDj1FxA0gew55UThnK6chOb2d3ODj8WgH69PTb2VD7/HERN9DNEVh14XN2LviYnQIxed
+	 5TqXaMgPG5vI70zyyEzenzi0EBtnwUKUi/lIurSb12KQ+GI4lQEhnxLDX+E4AXKgmvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J8VNHL7O;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="TNwd9t9/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3ED606A332;
-	Tue, 17 Nov 2026 17:10:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85ECB606A31C;
+	Tue, 17 Nov 2026 17:14:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J8VNHL7O
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A691F000D0;
-	Tue, 17 Nov 2026 17:10:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TNwd9t9/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4F061F000C5;
+	Tue, 17 Nov 2026 17:14:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794935415;
-	bh=UNMoeiPf59zYewdyjbUj2KK7jui/9PboPaDgtiTNze4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=J8VNHL7O5Di6/5Eh1Hsa+2mJVMo1E4BgTzxJeLjEeRaGuZEk9jNTJE4r92Gt/IR4C
-	 jUVSpDoz1E9Ldg18one5LIpmAS/ZAxLV76EiCm7MDKwEkez+ViOzmRM5aq3mYEdpJH
-	 W0ECfaxzMRCXp9yeztZUsAVgb+IjecnR1Foy2EEuS78w3iVfK5Sr6UBlExFQhYtpI8
-	 O3D0PHyNhZpFsj+TDn9Ea6mKRR/NTIV7KspXMRPadByng4fsko6iUVU8+K8LLYIByg
-	 7UIYHxKTDgTdIZC4nFwDTgAnX/SQrTQQEDztyvpn/GTLqGWLakEX0FoxwttTA/pIov
-	 +6HPHfzqw2Frw==
-Date: Tue, 17 Nov 2026 18:10:07 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: "Hallgrimur H. Gunnarsson" <halg@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>, 
-	Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
-	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
-	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-Message-ID: <20261117-rational-ohnehin-unbeugsam-e5c04759a156@brauner>
-References: <20261028221705.3915340-1-halg@google.com>
- <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
- <20261106-befreien-addieren-eislauf-e09212803534@brauner>
- <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
- <avM41a80aig2de-R@google.com>
- <20261111-behagen-faktisch-entgegen-e2e714373895@brauner>
- <CALCETrUjW=kXxyggDUvEN+Pxc-pE98eVbdW8XBU8JzfqXj_voA@mail.gmail.com>
+	s=k20260515; t=1794935647;
+	bh=NRyU0VXlTkdP1/qvlbXfSzmeB6PM6cbuXEo4V1pctGY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=TNwd9t9/XGKlncwoxJPsyje6+O4dpP5ku58Mpp7QpykW21hRU24e7OyhFQOFLciD3
+	 29wDKM5s9fQuNCM01MGCMTwcBZHTKwQdsNtqa7KbaUKomgmrOjw4ONVzwknMHgSKWG
+	 1/ngYLQ7fkk6zwnEFmvEkhsBFU0rrWBDVK01KIhZAY8wwmSD8BfUnHzr3O6ECtL3IE
+	 u1gWEaoZknei2o6RPefiK6Y9Pv118lQd9Tbgj+OxIU/l4ZeNMJUeOk7Seiwb4Z23fa
+	 avUcbgeGAljAO6nP3GxtzkHh3NhCflawy+bc6tSkh2Am7hoM2GVwuD99dWB//R/78k
+	 9Tnxc6+M677Ag==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>, Magnus Karlsson
+ <magnus.karlsson@intel.com>, Maciej Fijalkowski
+ <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
+ kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
+ Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
+ Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
+ Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
+ <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
+ netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org,
+ Mina Almasry <almasrymina@google.com>
+Cc: "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi
+ <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, David
+ Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Stuart Clark
+ <stuclar@meta.com>
+Subject: Re: [PATCH net-next v1 11/11] eth: fbnic: Support AF_XDP page pool
+ zero copy
+In-Reply-To: <6303b161-0f35-47ee-ab70-ebd4e802ae09@gmail.com>
+References: <20261110102039.1002605-1-bjorn@kernel.org>
+ <20261110102039.1002605-12-bjorn@kernel.org>
+ <6303b161-0f35-47ee-ab70-ebd4e802ae09@gmail.com>
+Date: Tue, 17 Nov 2026 18:14:04 +0100
+Message-ID: <87se0z1iub.fsf@all.your.base.are.belong.to.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,71 +83,58 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CALCETrUjW=kXxyggDUvEN+Pxc-pE98eVbdW8XBU8JzfqXj_voA@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 16, 2026 at 09:15:18AM -0800, Andy Lutomirski wrote:
-> On Wed, Nov 11, 2026 at 7:20 AM Christian Brauner <brauner@kernel.org> wrote:
-> > * a task that setns()es in later gets
-> >   ns->cap_bset & (cred->cap_userns | cred->cap_permitted)
-> 
-> I'm not sure this is ideal.  If a task has cap_userns & CAP_NET_ADMIN,
-> then there is no attack surface issue with allowing it to enter a
-> namespace and be NET_ADMIN there even if the namespace itself has
-> CAP_NET_ADMIN cleared from cap_bset.  But any exemption here would
-> need to be a new API so that it isn't used by accident.
-> 
-> I'm mostly saying this because container managers might want to
-> restrict cap_userns within their containers but still have it
-> themselves for management.  But maybe there isn't any need to enter
-> the userns for this purpose.
+Dimitri Daskalakis <dimitri.daskalakis1@gmail.com> writes:
 
-I don't think there is. A manager that holds the capabilities itself can
-just do most things from the outside. I think it's nice that once you're
-inside a namespace you're bound by its capabiltiy set. Otherwise the set
-isn't a property of the namespace anymore. If someone comes up with a
-real need to enter we can add an explicit opt-in later?
+> On 11/10/26 2:20 AM, Bj=C3=B6rn T=C3=B6pel wrote:
+>> Header and payload rings share one provider page pool, so refills even
+>> them out, and a short pool does not starve one of them. Payload
+>> buffers start at chunk offset 0, and the UMEM headroom rules require
+>> headroom only in the first buffer. A chunk is one 4 KiB device page,
+>> also with larger kernel pages, so rings fed by the provider post one
+>> descriptor per chunk.
+>>=20
+> [...]
+>>  	qt->sub0.page_pool =3D pp;
+>> +	fbnic_bdq_set_page_size(&qt->sub0, xsk ? rx_page_size : PAGE_SIZE);
+>>  	qt->hdr_max =3D 0;
+>>  	if (!page_pool_supports_frag(pp))
+>> -		qt->hdr_max =3D fbnic_whole_hdr_max(FBNIC_RX_HROOM);
+>> +		qt->hdr_max =3D fbnic_whole_hdr_max(qt->rx_hroom);
+>>  	if (netif_rxq_has_unreadable_mp(fbn->netdev, rxq_idx)) {
+>>  		pp_params.order =3D get_order(rx_page_size);
+>>  		pp_params.max_len =3D rx_page_size;
+>>  		pp_params.flags |=3D PP_FLAG_ALLOW_UNREADABLE_NETMEM;
+>>  		pp_params.dma_dir =3D DMA_FROM_DEVICE;
+>>=20=20
+>> +		pp =3D page_pool_create(&pp_params);
+>> +		if (IS_ERR(pp))
+>> +			goto err_destroy_sub0;
+>> +	} else if (xsk && !xsk_pool_uses_sg(xsk)) {
+>> +		pp_params.flags &=3D ~PP_FLAG_MEM_PROVIDER;
+>> +		pp_params.rx_roles =3D 0;
+>> +		pp_params.max_len =3D PAGE_SIZE;
+>> +		rx_page_size =3D PAGE_SIZE;
+>> +
+>>  		pp =3D page_pool_create(&pp_params);
+>>  		if (IS_ERR(pp))
+>>  			goto err_destroy_sub0;
+>
+> Maybe I'm misunderstanding, but why is it necessary to create a new page =
+pool for
+> sub1 if !sg? All frames should be sent to sub0, and the buffers in sub1 s=
+hould sit idle.
 
-> > * Root in a container has caps as well so for containers the exemption
-> >   would be wrong.
-> >
-> >   So here we need a a lockable SECURE_NO_USERNS_CAP_RAISE bit thingy.
-> >   This turns off the exemption and prevents raising the mask.
-> >
-> >   Docker lowers the mask, sets and locks the bit, and
-> >   unshare(CLONE_NEWUSER) in the container doesn't hand out CAP_NET_ADMIN
-> >   anymore.
-> 
-> Can you clarify this part a bit?  I'm not seeing why Docker should be
-> special.  Shouldn't the inside of a Docker container work as much like
-> a normal non-container system as possible?  What's the use case?
+(BTW, the reply to your other mail didn't show up on lore for some
+reason, but I hope you got it! If not, holler!)
 
-I picked Docker because you brought it up, and your goal of allowing
-user namespaces even in Docker is kinda the use case. Docker can only
-drop the CLONE_NEWUSER block from its seccomp profile if nested user
-namespaces can't get more caps than root/Docker wants to give them.
+You're right, it is not needed. I'll fix this in the next version. Every
+frame fits in one chunk on the header ring, and the device drops bigger
+frames. With SG, both rings share one pool.
 
-But the bit isn't at all Docker specific. Any privileged task that wants the
-mask to apply to itself would benefit. With just the exemption this wouldn't be
-possible:
+I first tried sharing the pool for non-SG too. But then up to 255 chunks
+sit unused in the payload ring :P
 
-(1) A runtime that holds full capabilities gives a 
-    user namespace it creates all bits.
-    It can just set the bit before creating it.
 
-(2) In a container without a user namespace container root has host-level
-    capabilities. Any user namespace it creates gets them through this
-    exemption thing. So it can also add them back to its mask. And the mask is
-    inherited. So every process it starts can then create user namespaces with
-    them.
-
-    by raising the bit we stop both. The locked bit keeps container root which
-    also has CAP_SETPCAP from clearing it.
-
-On the host none of that matters as the mask is root's own policy there.
-
-> In any event, the ptrace access checks also need to be updated.  If
-> we're adding cap_userns, then one should not be able to
-> PTRACE_MODE_ATTACH a task with higher cap_userns.
-
-Yeah, I mentioned that in my reply earlier.
+Bj=C3=B6rn
