@@ -1,69 +1,136 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794877555;
-	b=l2rVuJzuwed9qq2EUEY/kJIpuU0OlLldQE+a1rfURb6MsrrliruC8ufCWDtQDY9oQyLy
-	 FpIHM59id7mtJtb4AUWUVCFODJuQfH5cY9p+rq7sTjykN1YLIYPlbK3YJ+NUSGkfZBNVf
-	 ayKT/Wp4rtENvm5+0MWvc73nWd4JKgb9C/EzWsj+rp1unyadHGLb+1XWIf/Xk5OsAZ0Pr
-	 agkzH+P6LBhLqhrgG4bjJ+zHEsphdjwRZ453WtPiAocvSiIUEa7iCjhygHua80IrZgFgM
-	 tZsqvvH4darDEafwHT7qKz91Ry0b7zbZIQUOTADgI94wto5pcGaY4PThg8ChiK8mvZw==
+	t=1794877795;
+	b=aRAZh5IuTxN/OW+Fm6Ibzj0NT2LnKve3XCa7Vu30sfoCwehChc8LWOQ8cwtnBKVNdFvw
+	 jyIhMrFI9zxLyn9wyrHiAyC5MDBsCEIISOVcNOnEkFiFXUkA0+6tjpcUHuvXOBdgmUCPL
+	 pH0hN9mY1z0SpAMU3u4DfKJ3XTJC1dSa4Yxk3Bg0liXjkpwrHwcpDD/7aTNKrGo0el0VF
+	 jJDSrFRX0lvAsBHvL3EwLiDZFocL6/IxEsNhr0o5Usk7Ii8UrEhT4A+ObbuU7o4cHHRMQ
+	 M/GqmVvP7toVzRYyMtToqaQ78G9plmeyiK0oADj0FXKClH+stDvQj132fkl19YZzYjw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794877555;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 X-Zmail-TransId:X-Mailer:Message-ID:In-Reply-To:References:Date:
-	 Mime-Version:From:To:Cc:Subject:Content-Type:X-MAIL:X-TLS:
-	 X-ENVELOPE-SENDER:X-SOURCE-IP:X-CLEAN:X-Fangmail-Anti-Spam-Filtered:
-	 X-Fangmail-MID-QID;
-	bh=67HakQsonwhSsl3u3/d1uMd+cF2cdPKxF0LdS+EmnIY=;
-	b=KgfmFjCmh5bHyYO9htA2js6Xx2FUzi/5jkY5gtqlfw7DrM/x+u74HPcQEU5fRI8gqQG4
-	 0sY8P8ALMgX1kAYYd7zd6wk97uLdxdwk1+bxosYa9gik0zqW5v18Bgitd9jEmBCY7X/LH
-	 ot6IgoB28rWa+cOBFCAGIoDz3dbHdoTZzO6LeJhLteeGUhIa+I8sqRc7+fOqhQaQJb9h/
-	 V/8KK2lHjNW0nR6rBhmFxVk+J4A0QBbQ08Mdv6IeN3/mz+jGo6MfVbv3SaTNpZtZPz7wP
-	 LJjuZtL25VrmFOlbM6RU18TDDMjMDjQ8sjxLhySdgRdI9EJIT0A5nDxiKPNLNCwCUCQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794877795;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=tixrKvDlE8HOBCT+YKZFYawn5B7wVxaXbSBVfB7YWRc=;
+	b=fIWL8ZdYvX29t5Keol6M0G4cVf3djxyD12iKrO5NZuikt3V0pLr99w/JK6rik91QCTaS
+	 z40FR19D3KpA276Vby2dJHf6iEH7462W3ElFMITf1t4bZf9y6u3vWjCZ1ygSF4oIKSl+I
+	 r3doilRPmfXoEyyOV/UwNTeCK8g8WGMMWFafUL9DVgqDGuWGvlst0TB1nGwpo6uQHQtLd
+	 d9/+oJsrUVlEEKDRLBn9iKGPQL7Oq2UklkTkxDcGKWSWvXuI9MzgjbIj9TBULmSYsWnAA
+	 GFlJaWp3VBWENvmZUkgEahoRt5R3jI3/9TW6+mEEsAso+OEI4uHbOXu61BjD58x+y9g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=zte.com.cn;
-	spf=pass smtp.mailfrom=zte.com.cn;
-	dkim=pass header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=S8beuHQ8;
-	arc=none smtp.remote-ip=183.62.165.209
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+	dmarc=pass header.from=shazbot.org;
+	spf=pass smtp.mailfrom=shazbot.org;
+	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=Yv7w+f4a;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Z6Bw6rdn;
+	arc=none smtp.remote-ip=202.12.124.151
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFE0606A32C;
-	Tue, 17 Nov 2026 01:05:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FFE0606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB57606A329
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 01:09:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3BB57606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=S8beuHQ8
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4jT63r3q6Pz4xPS4;
-	Tue, 17 Nov 2026 09:05:44 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
-	s=z202610; t=1794877544;
-	bh=eK5E2C1gB1pbXLRVgMuMbHXe4380hqcm/+aZjqAUdl0=;
-	h=In-Reply-To:References:Date:From:To:Cc:Subject;
-	b=S8beuHQ8gfA3noXxzl7235RjGXG6Z/l5NAt/PMPXtDQ7aqcm8PZTrCCw7CWYto0VY
-	 1VX537IluFZEKratI/6NAPzlvxpYOzEXm1bZxKeP9VTod9FOfISfcwR/XGEkN0UACJ
-	 fXXZ7OX7VSAy7H6QDgMkCQubCIRdvOqbSlVkMnYgzxP13LAK6TMpLZXyLBSbH/W0nO
-	 Ou/KAmH2ypGFZ3MY3Hcvd7QGHS/WrAzaNFLu/lBiOHKytRd9nXJ41sus4aynNSGlCb
-	 BYFj5A1Ne63q/3PECH1UOdtCGrVvLWfVjGwQlibMOUl2qs207Wt4CabU4CHz19IoYY
-	 /lY9RSrlgD4hA==
-Received: from szxl2zmapp05.zte.com.cn ([10.1.32.37])
-	by mse-fl2.zte.com.cn with SMTP id 6AH15JQS050373;
-	Tue, 17 Nov 2026 09:05:24 +0800 (+08)
-	(envelope-from lv.yating@zte.com.cn)
-Received: from mapi (szxlzmapp03[null])
-	by mapi (Zmail) with MAPI id mid16;
-	Tue, 17 Nov 2026 09:05:25 +0800 (CST)
-X-Zmail-TransId: 2b056afba855930-0933c
-X-Mailer: Zmail v1.0
-Message-ID: <20261117090525032emq-t-XCAI7RO1PaX9577@zte.com.cn>
-In-Reply-To: <20261116160310759KXBV_Mm-mVT-XuE_01dgU@zte.com.cn>
-References: 20261116160310759KXBV_Mm-mVT-XuE_01dgU@zte.com.cn
-Date: Tue, 17 Nov 2026 09:05:25 +0800 (CST)
+	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=Yv7w+f4a;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Z6Bw6rdn
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 350781D001A8
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 20:09:53 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Mon, 16 Nov 2026 20:09:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1794877792;
+	 x=1794964192; bh=tixrKvDlE8HOBCT+YKZFYawn5B7wVxaXbSBVfB7YWRc=; b=
+	Yv7w+f4a7yLZ7pS+fyZ1mVYAgiXOLpWpxo2CVDHwqDXl1vmhcWHDd7sJ3U3MKPPw
+	b900vTAsW6wjs4L2LutPUaxBWa/Qn+BQmwQd/m6zPjDPzFUpnv94lexz09UlBaPB
+	4jIQgonKLK1QAPiav7YLgLYJWarwcoFH9yajuhIMpvgJQOo+zHcp31DR4kECfsGq
+	xjuHkHZ/GM04/N1ow/0nrNVJU/0z4RVhJfWNOvZW2BR8OJxVRAihb2Zj+41v4g9b
+	w9ntpIBlfE4+I6F2d3K2aw01bleVd2TVKA5f1LtVf+X0tilSuWr5qJfPtIppMWEg
+	m+FKe7rKC1vJcfJ1ec01Cw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794877792; x=
+	1794964192; bh=tixrKvDlE8HOBCT+YKZFYawn5B7wVxaXbSBVfB7YWRc=; b=Z
+	6Bw6rdny28CStS9ZT3Ge1pcIJzCxZPjOGEeotkhaDXB76lZzXQVOEEA9uz69AlmO
+	ktDLvuJFsZIstAbTniNobym5xQsD14TsOxA7omojaqc/7hQdqIyQnpoW7p7Z9UHr
+	xzk1bQMh3ZH0/pgyLEcpUO5OjRCps5DdizS4UplTSSn7ILKmeLeNwywTb1YnIT16
+	FhQeMiUzYg8PU9PXtOUfyZDQKMZ4Bc7EiO/QztVEfSkcw8ppZqUHXBpqORuiyiox
+	Dg/fxONsnp/GfEL9detq2rE2hNQzhZSIqdfzWe5oKF/Z3kjT3cdySUJLJ3tWLOta
+	82YUe9SKSzCoIYwFd5G2g==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=shazbot.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794877792; d=shazbot.org;
+	mf=PGFsZXhAc2hhemJvdC5vcmc+;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm2:rsa-sha256:IfwMC9FrxppBMynkRLOcGVgbOuCgSr1eEDzkR8zg4DJ9FPf
+	YHeXtdmHUYBcB6v2TW+S7SJ/GKRuj2d3HQt8Ml/cCq+UEWIel+dTYmxn/RdBVTar
+	KKveRVvdDSC3Uf7ER06JHdlkaVtjxt10se3DTGdv+mXEiwRGe+IfeTU4tgtyAWF/
+	4sj76+IU6Nk17Ts4yKAHJDI3uF3HYJTEjDMX3UGcRbMxSRGqHqIMuZ6tucKQAv6u
+	H6kbC4ojmIAz8c+qo8HgpPtnbD4AzeVSQwk9zyYMn7/dmgKJDSPcRc4IJMmel1Ef
+	oysJpt6khSZI7rmXv37Zv3aukXSmGUTNsiU0pWQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:D0E/4PDZJPnu1t1li8k5W6N3FEXxA0th0UdXIYFCnkI=:SydkCMeTxoLNHBfx2E/TOjZe/1v8iut1quLwh6idvL4=;
+X-ME-Sender: <xms:X6n7aq-MELGOqApgzAuMrkTsb2N0K7bxZ-PDs_CLglWbaWoElny0zg>
+    <xme:X6n7ahoiWK_hO5Os-hng9Ddr4HcKn0SYwJ1jtC5ZKj9Ign1n0JkCKjjC0Sd59vI-l
+    6Yt9XzAYSZlK65O9ldNC6hrpsnuqUavUm2gcXsv_9wYYACkKHjHgw>
+X-ME-Received: <xmr:X6n7ameM4l76dFyIO59e4sdYekMZU0fiH62OC-VQXZBZ2WsCgX31D5cQxLe-Cg>
+X-ME-Proxy-Cause: dmFkZTEgxcyEJ/ZnG+FHJ0CeWRTo2IzLSs3YDikR2toXXr8YQ23eVsIcbtKGIr8dsYfpSa
+    LXeDk0iE0EXpMXzwzGTeRQ9j5J9u+Y/kN5PEXjXKhAxlrQ+XnOqTVfcXWKSTj9ZwQI6NFt
+    nWkN/0BGkOxhAFMzEq7TJyoPp0a5IKkOnAKFKvLkihhprjY/MxysB59sktE1WCqtN5PgTQ
+    SnTb80Z9a/uOlWSDz/15bhAxELk/SWPPs2ghsECGsLkSVuycQlhdSpe8VXxyfPXAW75WaW
+    frJZw3qgLH2lC2BdrR3XorZoD8XBtGOBwHPMDhK96xr9VsEfauZHSr0oy9IaOexJSDcAjw
+    xN7TBzFE5JNfdE1GIgrSJZi1xzEFa9rGHe5zVJbssExAzaS/Lt3+Py/6fNwLNIitko60X1
+    4rH21PkMwyD1ZtUoIHjwuRAXXAJoeks6OsVwhy45gpOOCNYW8+yBLZXr07sq1BwvBQQo0P
+    T6PzYSWDajzebmuer1vwRzMIVtiFClpaccd6SwneVO4nHIEG510UwwcK16+Lw28lgHVUgt
+    WuLvcZUtCFDiOW4pfYOCunMmCmDJr9Xji5ak/6Tcjshf9GoUA+Bwpv8eEqnt0C9z/covJe
+    Rp/YI+G59Qqt/9h7XifbSXO9yrFLdiJlZjWF1ItoCZkyTNHqeVh0pZrW4liA
+X-ME-Proxy: <xmx:X6n7ag9bAfMSkHhDhUH57dOOoFU9HsD08wM3T6A4pGeVFSXqzzQd_w>
+    <xmx:X6n7agZv_NBVVCgjpSpQvnMGPdhb_azohY2xBadIeMpTqr_DNVQtig>
+    <xmx:X6n7ar0_YZomJQm4F8zl_QTYN74iEKENrohAmiuueEJ5iBSUKIQX5Q>
+    <xmx:X6n7ah00up13RCEJtSlDuJomE_dnJdnVfPC6NeFhBgJKtp8Xq_HdGA>
+    <xmx:YKn7agwWCfdaBDaP3evcCkByMYUCzWlaYiqTrO-xd1Zgv8YME2QH-Sra>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 16 Nov 2026 20:09:45 -0500 (EST)
+Date: Mon, 16 Nov 2026 17:09:42 -0800
+From: Alex Williamson <alex@shazbot.org>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>,
+ Alexander Graf <graf@amazon.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, Jacob
+ Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Leon
+ Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike
+ Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, Pasha Tatashin
+ <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja
+ <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma
+ <vipinsh@google.com>, William Tu <witu@nvidia.com>, Yi Liu
+ <yi.l.liu@intel.com>, alex@shazbot.org
+Subject: Re: [PATCH v10 09/13] PCI: liveupdate: Adopt ACS controls in
+ incoming preserved devices
+Message-ID: <20261116170942.720b06fd@shazbot.org>
+In-Reply-To: <20261013162529.1928093-10-dmatlack@google.com>
+References: <20261013162529.1928093-1-dmatlack@google.com>
+	<20261013162529.1928093-10-dmatlack@google.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,247 +139,213 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-From: <lv.yating@zte.com.cn>
-To: <lv.yating@zte.com.cn>
-Cc: <pjw@kernel.org>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-        <alex@ghiti.fr>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-        <rdunlap@infradead.org>, <linux-riscv@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <liu.qingtao2@zte.com.cn>,
-        <he.yilin@zte.com.cn>, <ye.zhihao1@zte.com.cn>,
-        <zhang.cheng35@zte.com.cn>, <hu.shengming@zte.com.cn>,
-        <linux-doc@vger.kernel.org>, <wang.yechao255@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIFJFU0VORCAyLzJdIHJpc2N2OiBod3Byb2JlOiBBZGQgTGVhcFJpc2UgdmVuZG9yIGV4dGVuc2lvbiBmcmFtZXdvcmsKIHN1cHBvcnQ=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 6AH15JQS050373
-X-TLS: YES
-X-ENVELOPE-SENDER: lv.yating@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Tue, 17 Nov 2026 09:05:44 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AFBA868.002/4jT63r3q6Pz4xPS4
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Lv Yating <lv.yating@zte.com.cn>
+On Tue, 13 Oct 2026 16:25:25 +0000
+David Matlack <dmatlack@google.com> wrote:
 
-Add RISCV_HWPROBE_KEY_VENDOR_EXT_LEAPRISE_0 (key 17) and the
-supporting vendor extension framework entries for Beijing LeapRise
-Technology.
+> Adopt Access Control Services (ACS) controls on all incoming preserved
+> devices (endpoints and upstream bridges) during a Live Update.
+> 
+> Inheriting ACS flags avoids changing routing rules while memory
+> transactions are in flight from preserved devices. This is also strictly
+> necessary to ensure that IOMMU group assignments do not change during or
+> after Live Update.
+> 
+> The adopted controls are recorded by the pci_save_state() call in
+> pci_bus_add_device(), which runs before drivers bind, so they are
+> automatically reapplied by pci_restore_state() if the device is reset.
+> If that save buffer could not be allocated there is nowhere to record
+> the adopted controls, and they would be silently lost by the first
+> reset. Program ACS from scratch in that case, which is a better outcome
+> than leaving ACS disabled.
+> 
+> To simplify ACS inheritance, reject preserving any devices that require
+> quirks to enable ACS as those quirks would also have to take Live Update
+> into account.
+> 
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>  drivers/pci/liveupdate.c | 78 ++++++++++++++++++++++++++++++++++++++++
+>  drivers/pci/liveupdate.h |  6 ++++
+>  drivers/pci/pci.c        |  5 +++
+>  3 files changed, 89 insertions(+)
+> 
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> index 8d5ad26e948c..1d2324d339da 100644
+> --- a/drivers/pci/liveupdate.c
+> +++ b/drivers/pci/liveupdate.c
+> @@ -123,6 +123,9 @@
+>   *
+>   *  * The device cannot be a Virtual Function (VF).
+>   *
+> + *  * The device cannot require device-specific quirks to enable Access
+> + *    Control Services (ACS).
+> + *
+>   * Driver Binding
+>   * ==============
+>   *
+> @@ -174,6 +177,18 @@
+>   * bus, since the bus numbers of the failed bridge can no longer be read from
+>   * hardware and handing them to another bridge would let an unrelated device
+>   * inherit the BDF of a preserved device.
+> + *
+> + * Handling Preserved Devices
+> + * ==========================
+> + *
+> + * The PCI core treats preserved devices differently than non-preserved devices.
+> + * This section enumerates those differences.
+> + *
+> + *  * The PCI core adopts all ACS controls enabled on incoming preserved devices
+> + *    rather than assigning new ones. This ensures that TLPs are routed the same
+> + *    way after Live Update and ensures that IOMMU groups do not change. Note
+> + *    that a device will use its adopted ACS controls for the lifetime of its
+> + *    struct pci_dev (i.e. even after pci_liveupdate_finish()).
+>   */
+>  
+>  #define pr_fmt(fmt) "PCI: liveupdate: " fmt
+> @@ -189,6 +204,7 @@
+>  #include <linux/slab.h>
+>  
+>  #include "liveupdate.h"
+> +#include "pci.h"
+>  
+>  /**
+>   * struct pci_liveupdate_global - Global state for PCI Live Update support
+> @@ -520,6 +536,16 @@ static int pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing,
+>  		return -EINVAL;
+>  	}
+>  
+> +	/*
+> +	 * Do not preserve devices that rely on device-specific ACS equivalents
+> +	 * (for now) since that would complicate keeping ACS constant across
+> +	 * Live Update.
+> +	 */
+> +	if (pci_need_dev_specific_enable_acs(dev)) {
+> +		pci_warn(dev, "Refusing to preserve device that relies on ACS quirks\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	/*
+>  	 * Endpoint devices should not be preserved more than once.
+>  	 * Bridges are preserved once for every downstream device that
+> @@ -844,6 +870,58 @@ void pci_liveupdate_finish(struct pci_dev *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(pci_liveupdate_finish);
+>  
+> +/**
+> + * pci_liveupdate_adopt_acs() - Adopt ACS controls
+> + * @dev: The PCI device to adopt ACS controls for
+> + *
+> + * For devices preserved across a Live Update, leave the ACS controls
+> + * established by the previous kernel alone instead of programming new ones.
+> + * The adopted controls are recorded by the pci_save_state() call in
+> + * pci_bus_add_device(), so they are reapplied by pci_restore_state() if the
+> + * device is subsequently reset.
+> + *
+> + * Return: 0 on success, or -EINVAL if the device was not preserved, requires
+> + * device-specific quirks, or has nowhere to record the adopted controls.
+> + */
+> +int pci_liveupdate_adopt_acs(struct pci_dev *dev)
+> +{
+> +	/*
+> +	 * Check if the device was preserved over a previous Live Update (even
+> +	 * if it has already gone through pci_liveupdate_finish()). This ensures
+> +	 * that the device continues to use the ACS controls established by the
+> +	 * previous kernel.
+> +	 */
+> +	if (!dev->liveupdate.was_incoming)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * The previous kernel should not have preserved any devices that
+> +	 * require device-specific quirks to enable ACS, but if such a device is
+> +	 * detected (e.g. new device-specific ACS quirk in the current kernel),
+> +	 * log a big warning and fall back to the normal enable ACS path.
+> +	 */
+> +	if (pci_need_dev_specific_enable_acs(dev)) {
+> +		pci_warn(dev, "Device-specific quirk required to enable ACS!\n");
+> +		WARN_ON_ONCE(true);
+> +		return -EINVAL;
+> +	}
 
-The key is recognized by riscv_hwprobe() and reports an empty
-bitmask for now: no LeapRise vendor extensions are defined yet.
-Recognizing the key allows userspace to distinguish a kernel that
-supports LeapRise vendor extension probing (empty bitmask) from an
-older kernel that does not know the key at all (key set to -1), so
-LeapRise userspace libraries can be prepared ahead of the first
-hardware shipping vendor extensions.
+This looks pretty unsafe and the comment is only explaining how we
+might get here, not why we shouldn't panic.  IIUC, the IOMMU lho
+support requires singleton groups, but I'm not sure what it does if a
+group becomes non-singleton in the new kernel (such as via a new quirk).
 
-Follow-up patches will register extensions as they are defined.
+Is a warning related to what might be a parent bridge rather than the
+endpoint device, really sufficient here?  Thanks,
 
-Signed-off-by: Lv Yating <lv.yating@zte.com.cn>
----
- Documentation/arch/riscv/hwprobe.rst          |  4 ++++
- arch/riscv/Kconfig.vendor                     | 14 +++++++++++++
- arch/riscv/include/asm/hwprobe.h              |  1 +
- .../include/asm/vendor_extensions/leaprise.h  | 11 ++++++++++
- .../asm/vendor_extensions/leaprise_hwprobe.h  | 20 +++++++++++++++++++
- arch/riscv/include/uapi/asm/hwprobe.h         |  1 +
- arch/riscv/include/uapi/asm/vendor/leaprise.h |  3 +++
- arch/riscv/kernel/sys_hwprobe.c               |  4 ++++
- arch/riscv/kernel/vendor_extensions/Makefile  |  2 ++
- .../riscv/kernel/vendor_extensions/leaprise.c |  7 +++++++
- .../vendor_extensions/leaprise_hwprobe.c      | 18 +++++++++++++++++
- 11 files changed, 85 insertions(+)
- create mode 100644 arch/riscv/include/asm/vendor_extensions/leaprise.h
- create mode 100644 arch/riscv/include/asm/vendor_extensions/leaprise_hwprobe.h
- create mode 100644 arch/riscv/include/uapi/asm/vendor/leaprise.h
- create mode 100644 arch/riscv/kernel/vendor_extensions/leaprise.c
- create mode 100644 arch/riscv/kernel/vendor_extensions/leaprise_hwprobe.c
+Alex
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 8454a6ae6fd1..336a2c5b05d9 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -431,3 +431,7 @@ The following keys are defined:
-   * :c:macro:`RISCV_HWPROBE_EXT_ZIC64B`: The Zic64b extension is supported,
-     as defined in the RISC-V Profiles specification starting from commit
-     b1d80660 ("Updated to ratified state.")
-+
-+* :c:macro:`RISCV_HWPROBE_KEY_VENDOR_EXT_LEAPRISE_0`: A bitmask containing the
-+  leaprise vendor extensions that are compatible with the
-+  :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_IMA`: base system behavior.
-diff --git a/arch/riscv/Kconfig.vendor b/arch/riscv/Kconfig.vendor
-index 3c1f92e406c3..d8d7c4b39229 100644
---- a/arch/riscv/Kconfig.vendor
-+++ b/arch/riscv/Kconfig.vendor
-@@ -16,6 +16,20 @@ config RISCV_ISA_VENDOR_EXT_ANDES
- 	  If you don't know what to do here, say Y.
- endmenu
+> +
+> +	/*
+> +	 * Adopting the previous kernel's controls depends on them being
+> +	 * captured in the ACS save buffer, so that they are reapplied if the
+> +	 * device is later reset. Without that buffer, e.g. because it could
+> +	 * not be allocated under memory pressure, the adopted controls would
+> +	 * be silently lost by the first reset. Program ACS from scratch
+> +	 * instead, which is a better outcome than leaving ACS disabled.
+> +	 */
+> +	if (dev->acs_cap && !pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_ACS)) {
+> +		pci_err(dev, "No ACS save buffer, not adopting ACS controls\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * pci_liveupdate_is_incoming() - Check if a device is incoming-preserved
+>   * @dev: The PCI device to check
+> diff --git a/drivers/pci/liveupdate.h b/drivers/pci/liveupdate.h
+> index e5d2a19d2ca2..d4721ffcecb2 100644
+> --- a/drivers/pci/liveupdate.h
+> +++ b/drivers/pci/liveupdate.h
+> @@ -15,6 +15,7 @@ void pci_liveupdate_setup_device(struct pci_dev *dev);
+>  void pci_liveupdate_cleanup_device(struct pci_dev *dev);
+>  bool pci_liveupdate_preserve_bus_numbers(void);
+>  bool pci_liveupdate_refuse_bus_numbers(struct pci_bus *bus, struct pci_dev *dev);
+> +int pci_liveupdate_adopt_acs(struct pci_dev *dev);
+>  #else
+>  static inline void pci_liveupdate_setup_device(struct pci_dev *dev)
+>  {
+> @@ -34,6 +35,11 @@ static inline bool pci_liveupdate_refuse_bus_numbers(struct pci_bus *bus,
+>  {
+>  	return false;
+>  }
+> +
+> +static inline int pci_liveupdate_adopt_acs(struct pci_dev *dev)
+> +{
+> +	return -EINVAL;
+> +}
+>  #endif
+>  
+>  #endif /* DRIVERS_PCI_LIVEUPDATE_H */
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 944590fdef48..650d7f92f93a 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -35,6 +35,8 @@
+>  #include <linux/aer.h>
+>  #include <linux/bitfield.h>
+>  #include <linux/suspend.h>
+> +
+> +#include "liveupdate.h"
+>  #include "pci.h"
+>  
+>  DEFINE_MUTEX(pci_slot_mutex);
+> @@ -1164,6 +1166,9 @@ void pci_enable_acs(struct pci_dev *dev)
+>  	bool enable_acs = false;
+>  	int pos;
+>  
+> +	if (!pci_liveupdate_adopt_acs(dev))
+> +		return;
+> +
+>  	/* If an iommu is present we start with kernel default caps */
+>  	if (pci_acs_enable) {
+>  		if (pci_dev_specific_enable_acs(dev))
 
-+menu "LEAPRISE"
-+config RISCV_ISA_VENDOR_EXT_LEAPRISE
-+	bool "LEAPRISE vendor extension support"
-+	select RISCV_ISA_VENDOR_EXT
-+	default y
-+	help
-+	  Say N here to disable detection of and support for all LEAPRISE vendor
-+	  extensions. Without this option enabled, LEAPRISE vendor extensions
-+	  will not be detected at boot and their presence not reported to
-+	  userspace.
-+
-+	  If you don't know what to do here, say Y.
-+endmenu
-+
- menu "MIPS"
- config RISCV_ISA_VENDOR_EXT_MIPS
- 	bool "MIPS vendor extension support"
-diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-index 9b04377c0f98..b153dedc8c10 100644
---- a/arch/riscv/include/asm/hwprobe.h
-+++ b/arch/riscv/include/asm/hwprobe.h
-@@ -25,6 +25,7 @@ static inline bool hwprobe_key_is_bitmask(__s64 key)
- 	case RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0:
- 	case RISCV_HWPROBE_KEY_VENDOR_EXT_MIPS_0:
- 	case RISCV_HWPROBE_KEY_VENDOR_EXT_SIFIVE_0:
-+	case RISCV_HWPROBE_KEY_VENDOR_EXT_LEAPRISE_0:
- 		return true;
- 	}
-
-diff --git a/arch/riscv/include/asm/vendor_extensions/leaprise.h b/arch/riscv/include/asm/vendor_extensions/leaprise.h
-new file mode 100644
-index 000000000000..abac6adc240c
---- /dev/null
-+++ b/arch/riscv/include/asm/vendor_extensions/leaprise.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+
-+#ifndef _ASM_RISCV_VENDOR_EXTENSIONS_LEAPRISE_H
-+#define _ASM_RISCV_VENDOR_EXTENSIONS_LEAPRISE_H
-+
-+#include <linux/types.h>
-+
-+/* LeapRise vendor extensions: none defined yet */
-+
-+#endif
-diff --git a/arch/riscv/include/asm/vendor_extensions/leaprise_hwprobe.h b/arch/riscv/include/asm/vendor_extensions/leaprise_hwprobe.h
-new file mode 100644
-index 000000000000..d98a383cfb72
---- /dev/null
-+++ b/arch/riscv/include/asm/vendor_extensions/leaprise_hwprobe.h
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef _ASM_RISCV_VENDOR_EXTENSIONS_LEAPRISE_HWPROBE_H
-+#define _ASM_RISCV_VENDOR_EXTENSIONS_LEAPRISE_HWPROBE_H
-+
-+#include <linux/cpumask.h>
-+
-+#include <uapi/asm/hwprobe.h>
-+
-+#ifdef CONFIG_RISCV_ISA_VENDOR_EXT_LEAPRISE
-+void hwprobe_isa_vendor_ext_leaprise_0(struct riscv_hwprobe *pair, const struct cpumask *cpus);
-+#else
-+static inline void hwprobe_isa_vendor_ext_leaprise_0(struct riscv_hwprobe *pair,
-+						 const struct cpumask *cpus)
-+{
-+	pair->value = 0;
-+}
-+#endif
-+
-+#endif
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 9a121ee3b436..6907ca4648ef 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -124,6 +124,7 @@ struct riscv_hwprobe {
- #define		RISCV_HWPROBE_EXT_ZA64RS	_BITULL(5)
- #define		RISCV_HWPROBE_EXT_B		_BITULL(6)
- #define		RISCV_HWPROBE_EXT_ZIC64B	_BITULL(7)
-+#define RISCV_HWPROBE_KEY_VENDOR_EXT_LEAPRISE_0	17
-
- /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
-
-diff --git a/arch/riscv/include/uapi/asm/vendor/leaprise.h b/arch/riscv/include/uapi/asm/vendor/leaprise.h
-new file mode 100644
-index 000000000000..9ee13f1ca559
---- /dev/null
-+++ b/arch/riscv/include/uapi/asm/vendor/leaprise.h
-@@ -0,0 +1,3 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+
-+/* LeapRise vendor extensions: none defined yet */
-diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-index cd7cf272e6e1..e60facabdd86 100644
---- a/arch/riscv/kernel/sys_hwprobe.c
-+++ b/arch/riscv/kernel/sys_hwprobe.c
-@@ -15,6 +15,7 @@
- #include <asm/uaccess.h>
- #include <asm/unistd.h>
- #include <asm/vector.h>
-+#include <asm/vendor_extensions/leaprise_hwprobe.h>
- #include <asm/vendor_extensions/mips_hwprobe.h>
- #include <asm/vendor_extensions/sifive_hwprobe.h>
- #include <asm/vendor_extensions/thead_hwprobe.h>
-@@ -364,6 +365,9 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 	case RISCV_HWPROBE_KEY_VENDOR_EXT_MIPS_0:
- 		hwprobe_isa_vendor_ext_mips_0(pair, cpus);
- 		break;
-+	case RISCV_HWPROBE_KEY_VENDOR_EXT_LEAPRISE_0:
-+		hwprobe_isa_vendor_ext_leaprise_0(pair, cpus);
-+		break;
-
- 	/*
- 	 * For forward compatibility, unknown keys don't fail the whole
-diff --git a/arch/riscv/kernel/vendor_extensions/Makefile b/arch/riscv/kernel/vendor_extensions/Makefile
-index bf116c82b6bd..1f76fd4050c7 100644
---- a/arch/riscv/kernel/vendor_extensions/Makefile
-+++ b/arch/riscv/kernel/vendor_extensions/Makefile
-@@ -1,6 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0-only
-
- obj-$(CONFIG_RISCV_ISA_VENDOR_EXT_ANDES)	+= andes.o
-+obj-$(CONFIG_RISCV_ISA_VENDOR_EXT_LEAPRISE)	+= leaprise.o
-+obj-$(CONFIG_RISCV_ISA_VENDOR_EXT_LEAPRISE)	+= leaprise_hwprobe.o
- obj-$(CONFIG_RISCV_ISA_VENDOR_EXT_MIPS)  	+= mips.o
- obj-$(CONFIG_RISCV_ISA_VENDOR_EXT_MIPS)  	+= mips_hwprobe.o
- obj-$(CONFIG_RISCV_ISA_VENDOR_EXT_SIFIVE)	+= sifive.o
-diff --git a/arch/riscv/kernel/vendor_extensions/leaprise.c b/arch/riscv/kernel/vendor_extensions/leaprise.c
-new file mode 100644
-index 000000000000..08265f147092
---- /dev/null
-+++ b/arch/riscv/kernel/vendor_extensions/leaprise.c
-@@ -0,0 +1,7 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <asm/cpufeature.h>
-+#include <asm/vendor_extensions.h>
-+#include <asm/vendor_extensions/leaprise.h>
-+
-+/* LeapRise vendor extensions: none defined yet */
-diff --git a/arch/riscv/kernel/vendor_extensions/leaprise_hwprobe.c b/arch/riscv/kernel/vendor_extensions/leaprise_hwprobe.c
-new file mode 100644
-index 000000000000..e7ffa57db4ab
---- /dev/null
-+++ b/arch/riscv/kernel/vendor_extensions/leaprise_hwprobe.c
-@@ -0,0 +1,18 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <asm/vendor_extensions.h>
-+#include <asm/vendor_extensions/leaprise.h>
-+#include <asm/vendor_extensions/leaprise_hwprobe.h>
-+#include <asm/vendor_extensions/vendor_hwprobe.h>
-+
-+#include <linux/cpumask.h>
-+#include <linux/types.h>
-+
-+#include <uapi/asm/hwprobe.h>
-+#include <uapi/asm/vendor/leaprise.h>
-+
-+void hwprobe_isa_vendor_ext_leaprise_0(struct riscv_hwprobe *pair,
-+				   const struct cpumask *cpus)
-+{
-+	pair->value = 0;
-+}
--- 
-2.27.0
