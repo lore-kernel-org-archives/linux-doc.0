@@ -1,95 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.226
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794927456;
-	b=EEfOqu4jEm1w3Dzjtq9KelZsbU1T1XswM0eERwUPXpl4LGCn6UZScFljsLvgHfQUPIl5
-	 HfGer1cKIAq9eoc6U7mlDcmuECwkH6d2FrFZCx86XcQ4rcwiqlE3uJ5UFUTKvOYnhYEnQ
-	 513kURNVt+mqKU4Vvciw3FfTCv8FMF/qCBoqBb93g+gDO1do4E5vCJ4jwftiwdVyBCAHZ
-	 tyDP/3v7r6DtEEIckHdViHxMVFMGgdUHKKs9DsjCzRUdPwVoEKTS+I15OUFEJ+GuD0uQt
-	 oXsA3i5qcvb74JrU4HMLI3rU7OO5X6AOnL+14tDUYjKD8J/X9mJCPrx3uC7WooreTPg==
+	t=1794928070;
+	b=WkZ0PVK7tZ3pngsVOEoPxDO0IDO1BGcBWcjD0D1iKw01De3qudp6vFByZbsrXQ7oVCxM
+	 PX/3tPZtM0Iq5huKWSx397FeEQ7ATe/ZF2bn4SbFBva/TY+O2Syt+kTZDfX6MjPIRD3jf
+	 xE0hqe4OntQtsiOpiv0+6Jg+CPJwnX8446Fz1mO6V0MnYkuv+4gfye2b1JlbnRnHb0X6L
+	 tQUqLw6h99Op1ktJn9pYzGnX4vxyzgScQ/qtCV3aUwnUlUNbZsQNShw2r68iB9UBjiMgs
+	 xV7efiXWmux0LmzvjwXC+sn4eB9OQp7tJfyExZx5hoD5OGwU4eRHx5wP29AxdUgFD2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794927456;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
-	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Received:X-Received:MIME-Version:References:In-Reply-To:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type:
-	 Content-Transfer-Encoding:X-DetectorID-Processed;
-	bh=VaHYdskxBgJ5f/Er/TW8oHSSBf5pSt0lOXwfBFfdPtk=;
-	b=o+QiWkzvxpwzNNU+Noiw1iYsX6l5XkbRwtQVFmFkNpxbSIuSZyJz6Ej88kwnJXobBz0Q
-	 x6OFAqXAShS2uAicYhBe8d32NQ1tGf8sRIsH3LZt/cwXfJ2Jeb7liO8RHSetbQkUECIfk
-	 xL+Je1M5Pr2dUr5M53QrQxxUotdYIhjoBnAKIiIu+vCosP7ScsOOkXisSufBJhuugTIR/
-	 yzxcLrLrqCd4A49eakS+QweD++E3MPkNqa6MdrikQ07wrgqoDGwr6JoeaK7v4hQGpQfhx
-	 yVTlFH8tbN09//KgAIG8Ic0pDNedDrOswAzVztxx/g23k09PiIq+pV6CPGsOzThD/RA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794928070;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=ZPn2FXf8wRtQPu/fYDQbD47IkGLvCOhsivsvxNGUt5I=;
+	b=KFATVB2qhNNj/uQaPkVVh2z4L2Xyj9kSlnaIBBSQ3TV6N6V8Z1CXh+p+maEPQuGAY23i
+	 DoSx39FwFc++I2PnCSuwqL4QZd/0JplM1C6pZNSyGnC/AIrhn6LAn14RWu20/z0zMxDRA
+	 4yy3ByIZZQGrLjNjfG8uC175aaj3mPJBiKGkMbU4sr/FnNkcQfaMf+t+tzLlZGqSiWDSG
+	 ihQFzQJzTp3BfXyC64dwoxNzxKfd7/VLhi21xftQ1/w1NX9ZDm/VhnLEoSvnvYoou1DBd
+	 f4O6kAhshjAgB08AY2VLLvTsakIX9DCUoZ9zKVf3ugZgl91N6unJM1dDQnZL5E3JMBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=broadcom.com;
-	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=MQXzxndD;
-	arc=none smtp.remote-ip=209.85.215.226
-Received: from mail-pg1-f226.google.com (mail-pg1-f226.google.com [209.85.215.226])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SRRHrh85;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B49E606A32F
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 14:57:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B49E606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C8C606A31C;
+	Tue, 17 Nov 2026 15:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=MQXzxndD
-Received: by mail-pg1-f226.google.com with SMTP id 41be03b00d2f7-cdba1bbde0bso1772104a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 06:57:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794927456; x=1795532256;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=VaHYdskxBgJ5f/Er/TW8oHSSBf5pSt0lOXwfBFfdPtk=;
-        b=oJAc50GqbUFvLK36rMzEQk5U11Saa6iJdj5W++8ne89D6HHHxIV9nXK1y/AitLSUA+
-         uVQAwHaba1xZLneEiuTs+ohatg+zJMhBMTqkqZd6ubFeeJ+5cEP/FbzgdAK7Z8vkasjZ
-         TAPHZPsBD4fm8zpqnnHaRJLLaVXvNVFQ17LcQ8ziCq7s4tOe8X83Trixt3EqwJv6azHN
-         xfm/Vtt/3jFgcF9A2qmMCo/pI8sJh6zm//ArJ/peVTfIv5Es9DpzudgK574DtMHFaSne
-         MPPfUx8+75pzxcGk/KTspOqExGeDhesYk2fMXr0Oexg6BEX6XkckGfoOttQWOHLXyzi4
-         Gi0A==
-X-Forwarded-Encrypted: i=1; AL+hErG2P4q/GHKV5idkAVjikLKvvJSWnRywSt6D5rjaV6JcB/9pyjBPq9Y37gadEHFI4MhRbPvldChb2HQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/yiXrSOco5tX6zVw0m2hyu61JSFZP7ZxP1hglDtNP9eV0nFj3R
-	AqQCMKXJoeyFV0KEd+9LEwdNuLCzALzUYyf2gcgDdHaYqzMOH07fWIGAjQON/tqq16ewYXvpfQH
-	5fErynDtkXfN0P/LXxWdPjq1tO8dQXNGxKVl3AfAtv8Z4BZp2YfhSxDZWgzkYFhfM1I6TgChxof
-	1dNoKF25TOKhPibsM1sJHoqoIQ/eodnwTX9O4XHBgOo7iDcNN9DICrw+Mu1Gx1BT1mcW8cdCSqs
-	89Q4xqX3wGZBvhWkw==
-X-Gm-Gg: AZFdTZd/ghvNsqXPC7ViBfKfDdr4u18IxEWgiypU7rJ/pZXrfS0hZZh13cZ+5X2DRD2
-	Czme1vgrZTyca7SzycPs8xablSRgC3BpwwJzTHEgxUFafAA+q9Ku9W20KsrF3zHgDSV+guvNzYj
-	PfRInqj4bgT+2UfwkLqTP/u6TuwJe2RyRKTT53mSfBPc1VF6XBAeA3SwhqFSImSX5SYXHIBsLBm
-	kOvjx/KLhuDKLm677oKeplbC3Oe3ZMDx+PcsSmq1D0zKBj6BYWt7STDEa8pJre5Ers1GA9MYxyU
-	XCEcEYR6cF7oxxQPNSkWrqw/1+IAPm+afZYa/0j5F6g0omnl6T8EWgXShhYp7qX4KDTPoeppoNT
-	kg0GC/OjHaC/HSlWOPsprdcN7VgyVmziCOj6nR7vGXMrAo/8Gjd4rvAg5i5CElPgsGfEPsB9JlJ
-	7NHj/scb23gbgdT+DRxwrRcQPJ3WQu8mYYbHOpQQ==
-X-Received: by 2002:a17:90a:e710:b0:3a8:92a3:8baa with SMTP id 98e67ed59e1d1-3b1b0a428b8mr12097988a91.27.1794927455650;
-        Tue, 17 Nov 2026 06:57:35 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-26.dlp.protect.broadcom.com. [144.49.247.26])
-        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b3ac02cce6sm1954726a91.7.2026.11.17.06.57.35
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 17 Nov 2026 06:57:35 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-4a3705ea6ccso916732f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 06:57:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1794927454; x=1795532254; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VaHYdskxBgJ5f/Er/TW8oHSSBf5pSt0lOXwfBFfdPtk=;
-        b=MQXzxndDtFgWOGjBJYZcm7FR2WUsUwITGci+9Hz7iVjEdMoDstOQCTgoMBzKwFUy+m
-         ojMMilr8N8FCjFCyJebAs/tYY2n+GrqerUKnVmGdWJqANHbIncSV0qbP7RrQ1izH/AR8
-         5nwWuK8yGVWtCObLASWh3w9XMlYy6S9RLejNc=
-X-Forwarded-Encrypted: i=1; AL+hErEWIGs5PfngS4I4H/g7kYdSUyi6gWmAV/HkoQ2r5KpJim3T6GsHlqYevd8KsNBdJaI65x7Qk07BDR8=@vger.kernel.org
-X-Received: by 2002:a05:600c:4f4e:b0:4bb:6f45:2a77 with SMTP id 5b1f17b1804b1-4bb6f452d39mr188021335e9.11.1794927453473;
-        Tue, 17 Nov 2026 06:57:33 -0800 (PST)
-X-Received: by 2002:a05:600c:4f4e:b0:4bb:6f45:2a77 with SMTP id
- 5b1f17b1804b1-4bb6f452d39mr188020445e9.11.1794927452733; Tue, 17 Nov 2026
- 06:57:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SRRHrh85
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FA471F000C5;
+	Tue, 17 Nov 2026 15:07:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794928070;
+	bh=ZPn2FXf8wRtQPu/fYDQbD47IkGLvCOhsivsvxNGUt5I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SRRHrh857S6A3MqguuuG8FaD+W/SmXP+TWQNtuZUkaI+h4FRpt+EB4ggsZ1Bu/fxp
+	 Irxg+EGPmQeDlfAHUkVFdmaCeeVaUV31q7qXBCjAyfhrY+bDRAsMQK7DPvRwOJqcJE
+	 7QgXLCG3Z7IWKLzs96d5zsF/9OAzD1/RYFfCJWd7U6SlPzbacrhIU8EzRzsBp+GkiT
+	 s0w20s5rijZiv4hImBq8lrMN6U7gaIp1iNfuFSlCgjFLpJO4CKq7TCHLJ/UU6eruj4
+	 NP9sdGXf4IMJxcuyW8j+G4ska7It28NGsN4cMf9ex6n25E5KPNniFGetM6qO61mP5i
+	 irzZjDVR5c4yg==
+Date: Tue, 17 Nov 2026 10:07:49 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
+ user-visible impact
+Message-ID: <avxtxScVa9KvUH_K@laps>
+References: <20261116200515.352387-1-sashal@kernel.org>
+ <20261117092723.GA124972@unreal>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -99,45 +64,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261116074849.475815-1-stefan.chulski@broadcom.com>
- <CAKYAXd9KT=1vLYsnRKxmiM6pLJQNACXuodD8wNQzb8S5apiuRQ@mail.gmail.com>
- <CA+Fu+LPL7xqpV_vjjjehedOFtuuBqgZHZTSqJ+FgweUpYo2uBw@mail.gmail.com>
- <CAKYAXd--x9UajLQwzRUwxRZ7PFW5T02xyHdSAnThAo326p_kxw@mail.gmail.com>
- <CA+Fu+LPnXMd9rMtywkZL77XzLq8n+8AiBW2T8Cau10YnVbofiQ@mail.gmail.com>
- <CAKYAXd-xM=gmpjz7g0+n+ZBA4Vb0Sz2i7B89Cs7XdHUY7U6WdA@mail.gmail.com> <1840b905-479a-46e3-97a9-b2f40cd50c29@kylinos.cn>
-In-Reply-To: <1840b905-479a-46e3-97a9-b2f40cd50c29@kylinos.cn>
-From: Stefan Chulski <stefan.chulski@broadcom.com>
-Date: Tue, 17 Nov 2026 16:57:19 +0200
-X-Gm-Features: Aa3M54q6UrvDJCXyy-Tq8up-xKFoPuFafstRfqFIuifIOUygyu9m1cZGcxONfis
-Message-ID: <CA+Fu+LNry=dgUdEpULq6vZhnLRdVX39syn4E0Qafia36dHTn8w@mail.gmail.com>
-Subject: Re: [PATCH RFC v1] ksmbd: add use_unbound_wq module parameter for the
- ksmbd-io workqueue
-To: Huiwen He <hehuiwen@kylinos.cn>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Tom Talpey <tom@talpey.com>, ChenXiaoSong <chenxiaosong@chenxiaosong.com>, 
-	linux-cifs@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Ilya Lifshits <ilya.lifshits@broadcom.com>, 
-	Gil Benamar <gil.benamar@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	bcm-kernel-feedback-list@broadcom.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20261117092723.GA124972@unreal>
 
-On Tue, Nov 17, 2026 at 4:40=E2=80=AFPM Huiwen He <hehuiwen@kylinos.cn> wro=
-te:
+On Tue, Nov 17, 2026 at 11:27:23AM +0200, Leon Romanovsky wrote:
+>On Mon, Nov 16, 2026 at 03:05:15PM -0500, Sasha Levin wrote:
+>> "Describe your changes" already asks for the user-visible impact of a
+>> change, but changelogs for fixes still tend to say what the code does,
+>> why that's wrong and what the patch changes, and stop there. Whoever
+>> has to decide if the fix needs backporting is left to work out what
+>> the bug does to a running system.
+>>
+>> Say what that means for a bug fix, in two parts. For users who aren't
+>> looking for the bug: what a normal workload is likely to run into, and
+>> separately the worst case and what it takes to get there. For someone
+>> triggering it on purpose: whether an unprivileged user could do it and
+>> what that would take, since a race that no real workload loses can
+>> still be won by a program written to win it. Give the paragraph a
+>> label so people can be pointed at it.
+>>
+>> Coding assistants are told to commit a fix with a message that
+>> describes the problem and the solution. Add the user-visible impact to
+>> that list and point them at the section.
+>>
+>> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+>> Link: https://lore.kernel.org/r/20261111171055.527b4bf3da705367bc78a64c@linux-foundation.org
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> Acked-by: Andrew Morton <akpm@linux-foundation.org>
+>> Reviewed-by: Willy Tarreau <w@1wt.eu>
+>> ---
+>> Changes since v1:
+>> - Split the bug-fix paragraph into users who aren't looking for the bug
+>>   and someone triggering it on purpose (Andrew, Willy).
+>>
+>> v1: https://lore.kernel.org/r/20261116191436.188098-1-sashal@kernel.org
+>>
+>>  Documentation/process/coding-assistants.rst  |  6 +++--
+>>  Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
+>>  2 files changed, 27 insertions(+), 2 deletions(-)
 >
-> Hi Namjae, Stefan,
+>Sasha,
 >
-> Simply routing WRITE requests to an unbound workqueue is not sufficient,
-> as I've observed performance regressions across a number of workloads.
-> I've since developed a more complete approach and will post it soon.
->
-> Thanks,
-> Huiwen
+>Since you're already making changes in that area, could you add a sentence
+>asking reporters to provide the full dmesg stack trace?
 
-Sounds good, please cc me on the new patchset when you post it.
-I originally tried to keep my changes as simple as possible, but I
-look forward to seeing your approach.
+In this doc, we already ask them not to [1] :)
 
-Regards,
-Stefan
+>Many AI-generated patches reduce it to one or two lines, which gives no
+>indication of whether the report is genuine or fabricated. Early in the AI
+>era, I saw some completely fabricated stack traces.
+
+Is it still an issue? We could add something explicit in coding-assistants.rst,
+like:
+
+   Evidence
+   ========
+
+   Every claim an AI assistant makes about the kernel's behavior at runtime,
+   including backtraces, log excerpts, test results and measurements, **MUST** be
+   backed by an observation from a real run.
+
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst#n760
+
+-- 
+Thanks,
+Sasha
