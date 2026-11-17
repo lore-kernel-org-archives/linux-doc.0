@@ -1,82 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.58.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794895128;
-	b=mGjHN+2KabErfTchL+Z2SLFTRoRf4TBi/kc30iQiXlcTzph5mjfeZOD0p/aVS2NyN2dA
-	 JWe1psj/F10pNbOHSMJu2YtpHVDyYm/kK6/hG3asEJ6qSyXSFCAKwVNCEM2NVL1tsIznK
-	 Eml2bI6OepkpP0dpMq5QENEPvcuXrlkmXjQAGsaplaUMEFGhgdmsTwAdC+GObwSI7jUEZ
-	 eAYuEokKfVkA1AsjfE4sLBIfxumQR5TeIFMDsMpLu+REqcdwG3F1CQsbxfbTJe67kenqZ
-	 IigQ7JVFapXrymuYLqnSfhaeN7QTfoFBMZr4+5rM/gOFS0aB3B1nIIOwGW5wNLZermA==
+	t=1794895967;
+	b=WBgOnHWy145GwIPMYaLK82b03OhznRKgVqNpov5ePpacfJ+snpBhYB41Bv70lSL/a6ag
+	 3yIWOt1MsBOH+YvdKJuSRvI6Sape4I63rgtHPRb198OWHjsGnYNDsnNmjSNCdGchxTBqG
+	 hMmuRqbwiE8xLg+ZSwD+Faxlm120nYtviFNgboWiClNV5BJ5ypRBJiMx0rfxe1c645Kkq
+	 cp0R06obgP+VBo+bLtsuJmEFg74+41HV/LSeslY4scfqrZmWxPrjFZaAvSL158MDS9UPg
+	 ZZeBoltW2zCZaINBwOjut3x7VFITVnlDsxcMbN9UC6ctZKeffqziSPVnJfgeck9jrug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794895128;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Spamd-Result:X-Spam-Score:X-Spam-Level:
-	 X-Spam-Flag;
-	bh=eWyiJtFXT9YSFf9KIFExZuZIeXWnvK+oaOE1JwdHLEk=;
-	b=v1XMqwNjJmYVxkKuGk2antfwvRauYKNy7yeGm4DmFSEkXrh8M5gEBQ4+Cc05D/yYG5S6
-	 Q6H9cfwcRCkElxT6WR3id94NLP/wCdzPy3AdqrCym8JmF5IE/zx6X5D45cbWAJZzoSvEm
-	 l5Wl1TEfBsXLd/raz4y2rPmdN+Vue24uupe+5J7jyh6T0rJnpMtpF0u7BbHdk2nK7+RfD
-	 SVqdi/bXf1O/xRkAbyHrYQ6MhWCcN/kBCKjOQZ7keaAxYTzB1Hl1t03HGgoQlLhc6zRkI
-	 0Vgv8dGEulFM/UqrHi2gZo7wTekjb7rVgXISazqzKWDqSRi1USjtOfdONDd3kGWIxxQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794895967;
+	h=DMARC-Filter:DKIM-Signature:X-QQ-XMRINFO:X-QQ-XMAILINFO:From:To:Cc:
+	 Subject:Mime-Version:Content-Type:Content-Transfer-Encoding:Date:
+	 X-Priority:Message-ID:X-QQ-MIME:X-Mailer:X-QQ-Mailer:References:
+	 In-Reply-To:X-QQ-mid;
+	bh=3vsxfZ2MDOq/K41CQAgTtWIJsNxDIx0dtdlSnCViIUM=;
+	b=MpC0t+M5PpJA6djg1RLgt5/tlXEZtBxXrrYhTJRyNtE5gMRutIhApZ8+nldSid0Fnb11
+	 3dZym4wQYUc4Q6tUABYyCLN8jIyf4rd15NE20ZibAgawZTTdp6Ci/C+fQXpaDKrJMX7/p
+	 1bBoJjk9I8Deevu+aOR541vs/43IlFRjSa4dtruPiX+nRY7wwMpwJUt3YYUd163HRswOq
+	 ujAe88TkP4VG/jNDl7NvD7XJuAmJt3OUMwXc2p8qbE6/IXCI0DhEIFcFwBjL+8Ln0mOHC
+	 I7ehQTK7erRIBPltKaIgjLXWCmYtfyoMAJxIiUMR1GA1grkm9vEnX0A2qD9SQbihvnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=OhhsPDYA;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=OhhsPDYA;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=LyNyvH8P;
+	arc=none smtp.remote-ip=162.62.58.211
+Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E93606A31C;
-	Tue, 17 Nov 2026 05:58:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52E93606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92283606A323;
+	Tue, 17 Nov 2026 06:12:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92283606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=OhhsPDYA;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=OhhsPDYA
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4225022330;
-	Tue, 17 Nov 2026 05:58:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1794895119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=eWyiJtFXT9YSFf9KIFExZuZIeXWnvK+oaOE1JwdHLEk=;
-	b=OhhsPDYAo7Mob2DRKuNV08jQcslAIjY79md6KqZwpy7PW8YmLI8FeRQkAzTVzx8opOpSL4
-	djV+3piWkVn3hx8pNh1IQXC7b2v6ZDd73ztbu7M5NsyOlGIWbcBWh6ToTDhG7E6lYClEve
-	b3GuCtf7vcpku3fa43VfzRDzB+jSRSA=
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1794895119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=eWyiJtFXT9YSFf9KIFExZuZIeXWnvK+oaOE1JwdHLEk=;
-	b=OhhsPDYAo7Mob2DRKuNV08jQcslAIjY79md6KqZwpy7PW8YmLI8FeRQkAzTVzx8opOpSL4
-	djV+3piWkVn3hx8pNh1IQXC7b2v6ZDd73ztbu7M5NsyOlGIWbcBWh6ToTDhG7E6lYClEve
-	b3GuCtf7vcpku3fa43VfzRDzB+jSRSA=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 23DF713302;
-	Tue, 17 Nov 2026 05:58:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0iMMHQzt+2piJwAAD6G6ig
-	(envelope-from <wqu@suse.com>); Tue, 17 Nov 2026 05:58:36 +0000
-From: Qu Wenruo <wqu@suse.com>
-To: linux-btrfs@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] btrfs: add a per-subsystem agent file
-Date: Tue, 17 Nov 2026 16:28:18 +1030
-Message-ID: <df1c1fa031ba7e66486348dc37d1a7be53c18e43.1794894953.git.wqu@suse.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=LyNyvH8P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1794895961; bh=3vsxfZ2MDOq/K41CQAgTtWIJsNxDIx0dtdlSnCViIUM=;
+	h=From:To:Cc:Subject:Date:References:In-Reply-To;
+	b=LyNyvH8PlKSUawdsGsOJNsSYwia0oQw1KWMwpPOmWCU0doc8vKci7gimMC+Tr93Kf
+	 zLTpdNPtIIKdJysfsoVRWwf9V3vNIV07EGv3EoXVIY7v457oSOBHNXOZoYvXNgpjNB
+	 9/xOarpcfIpa0HIK16NkmE2QcmueiFTRe8GeXgf4=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+X-QQ-XMAILINFO: Nco5cZgmLIi8YM/CBblmom27fNnvM6KwZ5pAr8uzyhJr2gXKCLA0OBKW05HmXh
+	 AXEIczDfcgO27RPMZ52osd/uemxiqp+la7U99Hs1eR2eB6TLGrjjSZrUG7F1T/QVApZlePcq6Ivuw
+	 klBROncxPutQEM1KSmQxkmJkEsFcGj63zxv2sz3lZybhN7EeM6ss4wnCGf5cuHVYXf+ghDg7FaD7u
+	 7OPApDlLttlc1Lk4qkRKEgIWHy4gVoHEuRPhOUxnvtkH/oAxLItSl6s5JpFdaDFuEtPkqPSIolsuC
+	 GtpCz14ZaeZhfpXbQEt/8hTDJBNLq17E8VFnGAepn0xtCz9K3GGKBQoD6nhfv0DiemGTS74NaLZz/
+	 T5Ji8IcYELJRwLloxXOcjqlfoVRZihI5J/aI07/V9OUyD/OEO1D0RxVLe8vbLQoZnYzPXrMu//Ae1
+	 mQA1otiXE2irSF7A2X6p3Ot2LyUv64gj1CpHVA8dsn6TxWvlEq223ph4wbLVYYaQDNKfdBs3Cx2M/
+	 TVeMikPLNg4oCjwtzUWYKku5G89cLvbQGUags3MbORX57XV7KWjht/5SCW2FStCp9Hp/ic3l6Dw7H
+	 4rw7Oy1Xm4ycnL+9XOwPx+vDls0p8FRqAdMUJa3tkflKvhu387vdZJfzIp9OSd+zl5P+Vpe7Vc8TI
+	 jWd5Y9M3lMIGZ/NKsoBVkkt2hfJess3YTLDuZ3DecplJaGtYjCvxK6v3tBags20u9R1Cj33W+l8/i
+	 orcXtrhvrnHmKY6Vd0BjsbNGpoEmwBlc5j6vSKPylVUjmk8KJ+0tydh+ZYpdR2EDds7vokucHyZf/
+	 w1GTsKNlAbIBQCpV1O6vUTA8wgnji0szdmVoZDkc34D2JZhj7CDpNr90LLN4bBVDz9DY53saGt/Kh
+	 x01+S5AlyH+H4ZgwmlhSmzI/2fQplGhnlQf7fLgctpXjwQ6cv0BaPss3TStTi5qaGIjo5tsf7h0eP
+	 VGxAnCjP0DNQwVBOr1SEkmQRaN3cVFcPC/wm/Y4dkZoZ+P4UBdAttClPyHK+hEH9CPjnOzBSQ8qnC
+	 tm6BZ2jX/DUKqoeGNXJULQjojqed2tC1/tKwB2kbqY+9AcvU=
+From: "=?utf-8?B?Q3VuaGFvIEx1?=" <1579567540@qq.com>
+To: "=?utf-8?B?bmV0ZGV2LWJvdCtzYXNoaWtv?=" <netdev-bot+sashiko@kernel.org>
+Cc: "=?utf-8?B?bWts?=" <mkl@pengutronix.de>, "=?utf-8?B?a2VybmVs?=" <kernel@pengutronix.de>, "=?utf-8?B?bWFpbGhvbA==?=" <mailhol@kernel.org>, "=?utf-8?B?aGVpa28=?=" <heiko@sntech.de>, "=?utf-8?B?c29ja2V0Y2Fu?=" <socketcan@hartkopp.net>, "=?utf-8?B?ZGF2ZW0=?=" <davem@davemloft.net>, "=?utf-8?B?ZWR1bWF6ZXQ=?=" <edumazet@kernel.org>, "=?utf-8?B?a3ViYQ==?=" <kuba@kernel.org>, "=?utf-8?B?cGFiZW5p?=" <pabeni@redhat.com>, "=?utf-8?B?aG9ybXM=?=" <horms@kernel.org>, "=?utf-8?B?Y29yYmV0?=" <corbet@lwn.net>, "=?utf-8?B?c2toYW4=?=" <skhan@linuxfoundation.org>, "=?utf-8?B?cmR1bmxhcA==?=" <rdunlap@infradead.org>, "=?utf-8?B?d2c=?=" <wg@grandegger.com>, "=?utf-8?B?bGludXgtY2Fu?=" <linux-can@vger.kernel.org>, "=?utf-8?B?bGludXgtYXJtLWtlcm5lbA==?=" <linux-arm-kernel@lists.infradead.org>, 
+	"=?utf-8?B?bGludXgtcm9ja2NoaXA=?=" <linux-rockchip@lists.infradead.org>, "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>, "=?utf-8?B?bGludXgtZG9j?=" <linux-doc@vger.kernel.org>, "=?utf-8?B?c3RhYmxl?=" <stable@vger.kernel.org>
+Subject: Re: [PATCH net v9 04/10] can: dev: check netif_running() before bus-off recovery
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -85,204 +68,38 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-11.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,sashiko.dev:url,suse.com:email];
-	URIBL_BLOCKED(0.00)[suse.com:email,sashiko.dev:url,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -11.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
+Date: Tue, 17 Nov 2026 14:12:38 +0800
+X-Priority: 3
+Message-ID: <tencent_CF62B15F445313CD974C5502DCC84F000B06@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+References: <20261111-rockchip-canfd-restart-close-v9-4-6643f3825ba3@qq.com>
+	<179452272955.488853.2430789088711910750@kernel.org>
+In-Reply-To: <179452272955.488853.2430789088711910750@kernel.org>
+X-QQ-mid: xmsezb41-0t1794895958twn8o40ok
 
-I believe btrfs is not the most affected sub-system, but a lot of
-newbies without common senses are doing more harm than help.
-E.g. wasting a lot of human review time on very low value fixes, filled
-with long paragraphs and useless test steps/results.
-
-So it would be better to let those agents to stop being stupid and
-follow the more common practices here, and hopefully those newbies can
-build some common sense.
-
-I hope the agent file is clear and short enough, that is not only
-readable for LLMs, but also for humans who want to be long term
-contributers.
-
-Signed-off-by: Qu Wenruo <wqu@suse.com>
----
-Reason for RFC:
-
-Some practices are my personal preferences, like prefer ASCII charts
-over long paragraphs, and short sentences/paragraphs.
-
-But I guess some of btrfs developers may not even agree on my
-preferences.
-
-Thus feed back from well known btrfs developers are always appreciated.
----
- fs/btrfs/AGENTS.md | 136 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 136 insertions(+)
- create mode 100644 fs/btrfs/AGENTS.md
-
-diff --git a/fs/btrfs/AGENTS.md b/fs/btrfs/AGENTS.md
-new file mode 100644
-index 000000000000..d527b862d9bc
---- /dev/null
-+++ b/fs/btrfs/AGENTS.md
-@@ -0,0 +1,136 @@
-+Btrfs patch guidelines
-+======================
-+
-+These rules apply to any code, commit message or cover letter touching
-+fs/btrfs. They come on top of the top-level AGENTS.md and
-+Documentation/process/coding-assistants.rst.
-+
-+Code comments
-+-------------
-+
-+* Add a comment only when the code is not obvious by itself, e.g. a locking
-+  rule, an ordering requirement or a non-trivial reason for a workaround.
-+* Keep it as short and simple as possible, but do not cut the reasoning a
-+  reader needs, e.g. for locking rules or races.
-+* Do not restate what the code does. Do not narrate the change, and do not
-+  add comments like "fix for ..." or "new helper to ...".
-+* Remove any comment that does not carry information, but only in the lines
-+  being added or touched. Do not drop unrelated existing comments.
-+* Add kernel-doc only for complex functions. Do not bother for simple helpers
-+  whose function and parameter names are self-explaining.
-+
-+Commit messages and cover letters
-+---------------------------------
-+
-+Human readability comes first. A reviewer should be able to understand the
-+problem and the fix from the message.
-+
-+* Use short and simple sentences. One idea per sentence.
-+* Skip filler and long background.
-+* Prefer a small chart or call trace over a long paragraph, see "Visual aids"
-+  below.
-+* Drop any sentence the reviewer does not need to understand the change.
-+* Do not use the [BUG], [CAUSE] and [FIX] section tags for simple bugs. Write
-+  plain paragraphs instead. Keep the tags only for complex bugs, where the
-+  symptom, the cause and the fix each need several paragraphs.
-+* Follow the style of well-known btrfs developers:
-+  * The subject starts with "btrfs: ", is lower case after that, and is
-+    imperative and specific, e.g. "btrfs: fix use-after-free when ...".
-+  * Keep lines within 75 columns. Quoted text (dmesg, error messages, stack
-+    traces) has no limit and must not be folded.
-+  * Check `git log -- fs/btrfs` for recent examples before drafting.
-+
-+Visual aids
-+-----------
-+
-+Prefer anything that makes the message easier for a human to read. An ASCII
-+chart is a good choice when it explains the problem faster than prose, e.g.:
-+
-+* A race. Show the race window, do not describe it in prose only.
-+* An error handling bug in a function, seen from several call sites.
-+* A call chain across layers, where the bug only shows on a certain path.
-+* The order of steps in a transaction commit or a log replay.
-+
-+Chart rules:
-+
-+* Function names only, no file paths or line numbers.
-+* Show only the functions that matter.
-+* Describe a state or outcome with plain text under the function name.
-+* For a race, use one column per racing context (CPU, task, endio), side by
-+  side.
-+
-+Follow the style of the examples below.
-+
-+Example, a race:
-+
-+```
-+ CPU0 (endio)                       CPU1 (fsync)
-+ end_bbio_data_write()
-+ |-btrfs_folio_clear_writeback()
-+ |                                  btrfs_sync_file()
-+ |                                  |-filemap_fdatawait_range()
-+ |                                  | Returns after writeback finished
-+ |                                  |
-+ |                                  \-test_and_clear_bit(COW_WRITE_ERROR)
-+ |                                    Still 0, skips waiting
-+ \-set_bit(COW_WRITE_ERROR)
-+   Too late.
-+```
-+
-+Example, an error handling bug, from commit c9583ada8cc4. The callee cleans up
-+on error, then the caller cleans up again:
-+
-+```
-+ btrfs_do_readpage()
-+ |-submit_extent_page()
-+ | \-submit_one_bio()
-+ |   \-btrfs_submit_data_bio()
-+ |     \-bio_endio()
-+ |       Calls end_page_read() and unlock_extent().
-+ |
-+ \-end_page_read() and unlock_extent()
-+   Cleaned up again, the subpage reader count underflows.
-+```
-+
-+Versioned patches
-+-----------------
-+
-+* Always provide the full history, not only the changes of the last version.
-+* List every version, newest first, e.g.:
-+
-+  ```
-+  v3:
-+  - Rename the helper to xxx()
-+  - Add a missing lock in yyy()
-+
-+  v2:
-+  - Fix the build failure on 32-bit
-+  ```
-+
-+* Put the history in the cover letter, or after the "---" line for a single
-+  patch. Do not put it in the commit message body.
-+* For a series, keep the cover letter history complete. For a patch changed
-+  in a later version, also keep that patch's own history after its "---" line.
-+
-+Sashiko review
-+--------------
-+
-+Sashiko posts AI-generated review for patches sent to the mailing list. The
-+btrfs list is at https://sashiko.dev/#/?list=org.kernel.vger.linux-btrfs
-+
-+* The submitter should check Sashiko for bug reports on the posted patches.
-+* If a report is valid, address it in a newer version.
-+* If a report is wrong, it can be ignored. A reply on the mailing list only
-+  makes sense when the report is complex or the reason is not obvious.
-+
-+Testing steps
-+-------------
-+
-+* For minor and simple bugs, there is no need to add any testing steps. This
-+  applies to the commit message and to the text after the "---" line.
-+* A minor bug is one that does not affect normal use cases, e.g. an
-+  unlikely error path, a corner case that needs fault injection, a tracepoint
-+  or a debug-only problem.
-+* Testing steps are only appropriate for a complex bug that can be hit in
-+  normal use or have a deep impact, and also when they help the reviewer to
-+  reproduce it.
--- 
-2.56.0
+PiBUaGFua8KgeW91wqBmb3LCoHlvdXLCoGNvbnRyaWJ1dGlvbiHCoFNhc2hpa2/CoEFJwqBy
+ZXZpZXfCoGZvdW5kwqAzwqBwb3RlbnRpYWwKPiBpc3N1ZShzKcKgdG/CoGNvbnNpZGVyLgo+
+IAo+IENyaXRpY2FsOsKgMMKgwrfCoEhpZ2g6wqAywqDCt8KgTWVkaXVtOsKgMMKgwrfCoExv
+dzrCoDEKPiAKPiBJZsKgeW91wqBiZWxpZXZlwqBub25lwqBvZsKgdGhlwqBpc3N1ZXPCoGFy
+ZcKgbGVnaXRpbWF0ZSzCoHBsZWFzZcKgcmVwbHnCoHRvwqBlYWNoCj4gaXNzdWXCoG9mwqBN
+ZWRpdW3CoHNldmVyaXR5wqBvcsKgaGlnaGVywqBhbmTCoGV4cGxhaW7CoHdoecKgdGhlwqBB
+ScKgaXPCoHdyb25nLgo+IElmwqBhbnnCoG9mwqB0aGVtwqBhcmXCoGxlZ2l0aW1hdGXCoGFu
+ZMKgeW91wqBwbGFuwqB0b8KgcmVzcGluLMKgcGxlYXNlwqBsZXTCoHBhdGNod29yawo+IGtu
+b3fCoGJ5wqBpbmNsdWRpbmfCoCJwdy1ib3Q6wqBjciLCoGFzwqBhwqBzZXBhcmF0ZcKgbGlu
+ZcKgYXTCoHRoZcKgZW5kwqBvZsKgeW91csKgcmVwbHkKPiAob25lwqBzdWNowqByZXBsecKg
+cGVywqBzZXJpZXPCoGlzwqBlbm91Z2gpLgo+IAo+IC3CoFtIaWdoXcKgSW7CoGNhbl9idXNf
+b2ZmKCnCoChkcml2ZXJzL25ldC9jYW4vZGV2L2Rldi5jOjI3NC0yODUpLMKgdGhlwqBuZXcK
+PiDCoMKgcnVubmluZ8KgY2hlY2vCoGFuZMKgdGhlwqBzY2hlZHVsZV9kZWxheWVkX3dvcmso
+KcKgY2FsbMKgYXJlwqB0d2/CoHNlcGFyYXRl4oCmCj4gLcKgW0hpZ2hdwqBUaGXCoG5ld8Kg
+bmV0aWZfcnVubmluZygpwqBjaGVja8KgaW7CoGNhbl9yZXN0YXJ0KCkKPiDCoMKgKGRyaXZl
+cnMvbmV0L2Nhbi9kZXYvZGV2LmM6MjAxKcKgcnVuc8KgZnJvbcKgdGhlwqByZXN0YXJ0wqBk
+ZWxheWVkwqB3b3JrwqBvbuKApgo+IC3CoFtMb3ddwqBUaGXCoG5ld8KgdGV4dMKgaW7CoERv
+Y3VtZW50YXRpb24vbmV0d29ya2luZy9jYW4ucnN0wqBtYWtlc8KgYW4KPiDCoMKgdW5jb25k
+aXRpb25hbMKgcHJvbWlzZcKgYWJvdXTCoHJlc3RhcnQtbXMuCgpwdy1ib3Q6IGNy
 
