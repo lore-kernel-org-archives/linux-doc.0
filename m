@@ -1,73 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.72.192.75
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794905317;
-	b=FGH/zjJ5ry5IKXjvC7zVhYiekECk3caBMIqdrxAXbbNgD48nLNggBogk9H8vBpK60YbO
-	 A6NoOGZbKZdDV+z0BcNHOAPQC2pcQkDIPq9m+aMlz7YCVReX9DHOTU/4H7xazBlrKHcAJ
-	 N4IT+tfGktS/LvVMbP0Uv+S7op1GDw2B1N/cMHfozEPlomAqXEtqc6Dg9yhz+g4qcbZur
-	 FNFWF5FyhmXBYMHRINKsF5oPo4BIfWXDwLTeYOyxrdEePqU4J+0L8NbD5SojcwtrtGE7V
-	 TQRBUq7WrTAA8I9knP2L45+azHfyTNPg8LDKCHoEOD9UnGPaQL0pH4ieaChNF3Xh4Iw==
+	t=1794905381;
+	b=tKFksHUyjHomh78pgIJVxtvMFC7+0ftBSB4Q501pZCeMOy8f4GMO5uIURJl2ePh9iHcY
+	 O6d03emkL6A+YozhbASOyd8w/kHXJV619toczm+NUoZ36xKWxtERx7w70p30/yGlWw2FC
+	 Gd64QEx9GFNoDM02RMmxQIErLr6r7H15eQv9ges6PIixHeUghEVXRl6PP5W2kNhiBpLnK
+	 7kgUB59hxvk4a6un27mWkBDUQbRU89jAFN8IDXVaZD+6Jc9GgVfKYrvJIcGQSyokkvY1X
+	 2IlbbTtkJg/26ms3CpM2cqzBPcrZjCUEYHmEtYJ81PfuAcBK8yU1zbTSKs9u1ZfKnlA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794905317;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794905381;
 	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
 	 X-UI-Sender-Class:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-Provags-ID:
-	 X-Spam-Flag:UI-OutboundReport;
-	bh=P1ClmoZsqJJJpB1373+KjFp+S9/BiM8sayDfKuWge9U=;
-	b=kOphmStlpAfwIUuDN6hzFre2iwMyUyGBXWT18/kl61sihPrXyXjDZHi1G8/3GIUfvTOw
-	 3lyV37wSwJVttNg1hYkWKpN66wYlnj5DEYDwkQP6fhdPLqHnn0iGPzKsnJVn3xRmswZzA
-	 qzix3sq3CVSUC+qGzX2STzgerUwtdUwDef0+ONnW0v223p5ANW3uf7kZ8CLMJJYHvt3+C
-	 Dn6asIgk7pTPyFsh+tPYtRNd2LmPMYb8APlv6+PEZQelW2KP4uIIo29m+F1hclcV66ody
-	 D6HAWcTqg1rXUC0ZXVlDIA4IAqiiYOrEXvxGfBXfoHxCbdUz2Gphx8zc0VJbV9xJ2Mg==
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:UI-OutboundReport;
+	bh=dDphXepmTf/DSdA6L5iPJVxN4NKPCh9r42nuQhCZVoM=;
+	b=GUDomVWA3ibiZonzQi2GFgjjds7C0hh0OpI7bcYHLHwSmCc4/SLktCNqEoc/AEHb6/iE
+	 P74G5HmXRUy4p9hZwc7Gi/49a5LhCNAk9aZrs8HNqvSQtrzXmb9uKKFzSr5vQ42WrIAbR
+	 zSOHy0dl4zKbTnN6lGeEm7h/P5K3dxoYMImlraKNuy1PMenn8O/ygoo2OAbcnttRH55YQ
+	 UzZFEEa+4fVu8Jsi3ExjKdF4/NUcwm14HAFCWXqrJjPHy9dAyMOuwwoQ1fPOBDdXsbSJy
+	 /eUpYkBKtPHrZhzrj2neghpyXmRYtvPWqKFfyco9WOxNoGpnS+40NelZ8KglxoXNlOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=jonasjelonek.de;
 	spf=pass smtp.mailfrom=jonasjelonek.de;
-	dkim=pass header.d=jonasjelonek.de header.i=jonas@jonasjelonek.de header.a=rsa-sha256 header.s=s1-ionos header.b="l6r+CFU/";
-	arc=none smtp.remote-ip=212.227.17.10
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+	dkim=pass header.d=jonasjelonek.de header.i=jonas@jonasjelonek.de header.a=rsa-sha256 header.s=s1-ionos header.b=hWPvmLjd;
+	arc=none smtp.remote-ip=217.72.192.75
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8CE606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 08:48:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA8CE606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A666F606A333
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 08:49:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A666F606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jonasjelonek.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jonasjelonek.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=jonasjelonek.de header.i=jonas@jonasjelonek.de header.a=rsa-sha256 header.s=s1-ionos header.b=l6r+CFU/
-DKIM2-Signature:  i=1; m=1; t=1794905304;
+	dkim=pass (2048-bit key, unprotected) header.d=jonasjelonek.de header.i=jonas@jonasjelonek.de header.a=rsa-sha256 header.s=s1-ionos header.b=hWPvmLjd
+DKIM2-Signature:  i=1; m=1; t=1794905362;
  mf=PGpvbmFzQGpvbmFzamVsb25lay5kZT4=;
  rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
  d=jonasjelonek.de;
- s=s1-ionos:rsa-sha256:RDbfdPsJ/ZTVF0qD8RZoLdd3+BRF
-   fZvzbWW77Wbgur4lwlq5NPBjiCgpYo2qM4eQZ2wmC0H/H0AnhL6Gg1xSTQL7xyn5bp34IB+z+2b
-   87tJhcTGokKSXUxZX7BYUaw0t/jqvJKimp18qwkJDKyJZPpc+hA88wq9dzs3O1LkDF9up04OOMa
-   B3CVb+hhhhWZVSvNKay85THvfkDa17n82nxAOvi7XG6ceTAPzEZanGyUkMc89AQcVCgo9g9ejNQ
-   TAXf9nrVNmHZWctUNjXFS6uDSmN+LX8lPjZU2rY2GCk9oaURxCxWq1Uyfs+zO/2pi1AH7JYD4Am
-   xVXrCQQ/47++4Q==;
+ s=s1-ionos:rsa-sha256:WZyGjsvs5zH45ISl2+KQWekuk+z0
+   sbbGxiZOLrmvUck11eaE8jYcnJZB7WyJavwPAU7Bh/JFXj79VfTBqu/zxhvwudqSkJ4u07u7KOT
+   DaabVbbLSnk5ujLiBDQhFUlWskTYh02j7gi6YlBSGAPWlSCf3v4GvHUrY3SjNRuGQYy4VyQwxMH
+   bpSab3EjjBjTKPTVuK98CCwO5zfK/DQ111so9A4hveOrkBrqam2fyDJe+znuwSTvwdDTmNqD++X
+   9wnjKZ8dVULFTart+SpdwRoFv4BQvpRuO4H08+w9cdXJz3NFIRO4AAsxXya0ak5haBHpdkXxRij
+   8/ahXD/1IqD9hg==;
 Message-Instance:  m=1;
  h=sha256:
-   GBdWDsheRq8mCFgtA7++7ixj32vPZ8ox+KokO93kgLA=:
-   ruHLTqrJ6FvrdfHca1vZQ9opy49MkaA+bRfzrIZf7BU=,
+   6jSxRpdrKNFVuIJ1JFQ1jjEIC0YmNnOqBgkrA5Q5wEo=:
+   5S00Mf9YRv4dtSRWDlxv3uk7E45ViznI6QfTF+tEijk=,
   sha512:
-   RFExPx2pEJ1UoBeq0Z3U05JLTrGWQpmXUMU5KN9j3oTDG43G/PDMzxsq9ib6X9yx7DmhhvjyowI/mI+fAK9JAQ==:
-   9nnMmCMz+WLgYWtWtngRCg1zUgOLylTSn0isAjNOP5EuiNI2I81oqO9r21TqAks7u1Z0R0yUw+h8rutY10xq+A==;
+   EkuheOQNW+OQ3I1aJQ8tRMsfu+y1ZJUgykHrq+dE6SV60J1vpMMAC+hZgLy1nWfYCC7DNGvYWkHfq5X8zI5soQ==:
+   KvRlFwS9eEU7srxHQ848tEa/sX1K6k+NT2fJBt0+NcJn9Joh4Av1HHpHC3TvJ2egsdpa0os18PxoaCbkagH2Ng==;
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jonasjelonek.de;
-	s=s1-ionos; t=1794905279; x=1795510079; i=jonas@jonasjelonek.de;
-	bh=P1ClmoZsqJJJpB1373+KjFp+S9/BiM8sayDfKuWge9U=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
-	 MIME-Version:Content-Transfer-Encoding:cc:
+	s=s1-ionos; t=1794905281; x=1795510081; i=jonas@jonasjelonek.de;
+	bh=dDphXepmTf/DSdA6L5iPJVxN4NKPCh9r42nuQhCZVoM=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=l6r+CFU/1U7RmV565vXfxTwfGrxrgrSRbtuTOYCQ80PtVHwpBh3szw7O8ra2P+Ig
-	 OZ9P6N7tN52C1Vj2cUIf6PKYoRIQbj3csk6uAT9GdexuWr2mWgW0qXgC8E7e7QNGd
-	 DYHDXcNFo+DwJ9nvkvbCNT98aBPFZR2PTdyQPWUBcj7l3OobfTO94Kqe5qLiYq8J/
-	 amBC/strsmuN6yxOAzjTmWeKmrdFzKWkVL8UlWljK1M3NdYMbugvM0WAnhmO7RnO9
-	 lwVonfv0JinSRqzbLvJqcRieTSpTmgHO2YDLoqKa/WxPeWcxXr4xWxxwmqQMOgH7a
-	 JjnureTEN1/NQeX1fQ==
+	b=hWPvmLjd7hsKZd+j618UV+7+A+G8R9K4bQSyHSsFqDr/f6ApXd52M/69gvKeLktx
+	 c670jf3vGb6qNW16aMWdc8Wol9sd9cw/BKbs0RSH/D3CqErQ4/Zt1l8xVE6X2U0wS
+	 J22cuJbv2tTIltjmBs7PZQ+1Ehjl4Wsx/r5UZUSH8D4qN3WBnr+FG6Zwaugnrex7L
+	 R2CVEQ7Zbb//miw46JqpaxKoHNIwSm4k++f1eyxO973KJBcHKmtqsXlTEE5CACQNP
+	 7xUSEuP0/0URcePIF4/But8rFMWLor3I424CnUl0OQTZs2CohZfCb/crfuf/MdZKH
+	 uvUGeNiXkMSZe219+g==
 X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
 Received: from client.hidden.invalid by mrelayeu.kundenserver.de (mreue108
- [213.165.67.113]) with ESMTPSA (Nemesis) id 1MdNPq-1wuB5T27A8-00c5d7; Tue, 17
- Nov 2026 09:47:59 +0100
+ [213.165.67.113]) with ESMTPSA (Nemesis) id 1N4yyQ-1wSmJg3WMe-013gdd; Tue, 17
+ Nov 2026 09:48:01 +0100
 From: Jonas Jelonek <jonas@jonasjelonek.de>
 To: Andrew Lunn <andrew+netdev@lunn.ch>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
@@ -88,10 +88,12 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	Jonas Jelonek <jonas@jonasjelonek.de>
-Subject: [RFC PATCH net-next 0/2] Add Realtek XSGMII interface mode
-Date: Tue, 17 Nov 2026 08:47:46 +0000
-Message-ID: <20261117084748.2387647-1-jonas@jonasjelonek.de>
+Subject: [RFC PATCH net-next 1/2] dt-bindings: net: add Realtek XSGMII interface mode
+Date: Tue, 17 Nov 2026 08:47:47 +0000
+Message-ID: <20261117084748.2387647-2-jonas@jonasjelonek.de>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261117084748.2387647-1-jonas@jonasjelonek.de>
+References: <20261117084748.2387647-1-jonas@jonasjelonek.de>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,186 +104,93 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XsOEw+7eWlSUf6jt9+H8MZzG3ZlVp0G/nbVmWm2fQBmo8hrxt0F
- ACuZCtIDhAZGo5zFEa2pvbVTdumlMaol29Na3FdM2hS1I3UDLl1jkHCSaaUJNU9MxGZAH5d
- KnDTtxbMQwrgg01QV3e3h5VptyZUmSvjdOnyfZRzzdO8xTZw0OLte881nRVTeELByECDGzn
- XF+Cf1lJt1L4+VRxOlyJQ==
+X-Provags-ID: V03:K1:rBcdlKiuMzWqqMqMx3j3k1snq8RgXxY6R4WvEE8/UO5VKiSjYP1
+ kS6Umd45dbsyGH+W3/UcgT0Hil1paPtJxYU/jlIi8d/PQHBxzcF5PCO7ymy7oiMBN5UoLwH
+ 8D1XkIYZ7C/VXGmlU3dHlYtJlv+nxBYeOc7+EAz9ALRgJIK0JENs37LIWpF6xyypYizIvI4
+ 8ohxmgdGuEbPp+NSz3daA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ur9Ef8TBnto=;Dny9pf0tdX5h8mxiCzEicXxcO26
- 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
+UI-OutboundReport: notjunk:1;M01:P0:k/KB5u+1Fqk=;LvhFHHapjoWbfsknFWLvmzbcCdh
+ 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
+ DFw==
 
-Hi,
+Add xsgmii to the supported MAC-PHY connection types. Realtek's
+proprietary XSGMII interface carries eight 10/100/1000 Mbps ports over a
+single 10.3125 Gbaud SerDes lane and is distinct from USXGMII and
+10G-QXGMII.
 
-This RFC adds an explicit PHY interface mode for Realtek's proprietary
-XSGMII transport. It carries eight 10/100/1000 Mbps ports over one
-10.3125 Gbaud SerDes lane. Each logical port remains limited to 1 Gbps;
-the aggregate serial rate is not a per-port Ethernet speed.
-
-Motivation
-=2D---------
-
-The motivating users are downstream Realtek PCS/PHY drivers for OpenWrt,
-including RTL930x/RTL931x switches connected to RTL8218D/E octal PHYs.
-Their XSGMII connections currently use phy-mode =3D "usxgmii", with the PC=
-S
-driver inferring the actual transport from the number of described ports.
-
-Not only is this a misuse of USXGMII mode, covering two very different
-modes with a single name. It also starts to fall apart in several cases.
-A specific switch being currently worked on uses an RTL8218E PHY but
-only with 4 of the 8 ports actually wired and used. The device tree also
-only has those 4 ports but the PHY still talks in XSGMII mode to the
-switch SoC. This causes a mismatch, the switch SoC using USXGMII
-(because of the assumption that 4 ports -> USXGMII, not XSGMII) but the
-PHY using XSGMII.
-
-Protocol identity and naming
-=2D---------------------------
-
-XSGMII is the name Realtek uses for this interface. Calling it simply
-"octal SGMII" would describe its capacity without identifying its
-protocol. Existing modes such as QSGMII and PSGMII already distinguish
-multiplexed MAC-PHY transports; the PSGMII introduction is an example of
-adding the generic mode definitions separately from a driver user [1].
-
-Cisco USGMII is a relevant comparison, but equivalent port capacity does
-not establish interoperability. Cisco defines Q-USGMII for four ports
-over 5.0 Gb/s and O-USGMII for eight ports over 10.0 Gb/s, using 8b/10b
-coding and a packet-control header [2]. Linux already represents the
-quad variant as "qusgmii", with its own control-word decoding [3].
-
-Realtek documents XSGMII and O-USGMII as separate RTL8218E interfaces:
-XSGMII runs at 10.3125 Gb/s and O-USGMII at 10.0 Gb/s, with different
-hardware strap selections [4]. The SDK also distinguishes them in
-phy_8218e_macIntfSerdesMode_get() and applies separate initialization
-tables. Realtek's O-USGMII is therefore the candidate for comparison
-with Cisco's octal USGMII; it is not evidence that XSGMII can be renamed
-to USGMII. Compatibility of those O-USGMII implementations would need
-separate confirmation.
-
-This proposal retains the vendor's XSGMII name rather than assigning an
-existing protocol name to a distinct hardware configuration. It does
-not assume a particular XSGMII line encoding merely from the line rate.
-
-Scope and compatibility
-=2D----------------------
-
-Patch 1 adds "xsgmii" to the Ethernet controller binding. Patch 2 adds
-PHY_INTERFACE_MODE_XSGMII, its string mapping, the eight-port capacity,
-per-port speed capabilities, phylink handling and a short interface
-description. The enum value is appended before PHY_INTERFACE_MODE_MAX,
-preserving existing enum values.
-
-The phylink change classifies XSGMII with the SGMII-like PHY-status
-interfaces and uses 1 Gbps as the maximum per-port speed. This generic
-classification does not prescribe a Clause 22 register layout or a
-control-word decoder for a particular PCS implementation.
-
-There is no in-tree driver conversion in this RFC. The intent is to
-establish the interface representation before converting the downstream
-Realtek PCS/DSA drivers and the affected DT descriptions. Existing
-"usxgmii" and "10g-qxgmii" meanings are unchanged. Real users of this
-mode will land once PCS and PHY drivers are submitted
-
-Feedback
-=2D----------------------
-
-I would appreciate feedback on:
-
-  - Whether a distinct "xsgmii" mode is the appropriate representation,
-    given the differences from USXGMII and O-USGMII.
-  - Whether the proposed per-port capabilities and phylink PHY-status
-    classification accurately capture the intended generic semantics.
-  - Whether introduction of a user of this mode is needed alongside
-    adding this new mode, or whether those can be considered separately.
-
-References
-=2D---------
-
-[1] 83b5f0253b1e ("net: phy: Introduce PSGMII PHY interface mode")
-    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com=
-mit/?id=3D83b5f0253b1ef352f4333c4fb2d24eff23045f6b
-[2] Cisco USGMII specification, Table 1 and section 2.2.3; downloads:
-    https://developer.cisco.com/site/usgmii-usxgmii/
-[3] 923454c0368b ("net: phylink: use a dedicated helper to parse usgmii
-    control word")
-    https://git.kernel.org/linus/923454c0368b8092e9d05c020f50abca577e7290
-[4] RTL8218E-CG datasheet, rev. 0.1, sections 6.2, 6.3, 6.6, 7.12 and 7.14=
-.
-    https://github.com/jameywine/realtek-doc/blob/main/datasheets/RTL8218E=
--CG_Datasheet.pdf
-
-Thanks,
-Jonas
+Signed-off-by: Jonas Jelonek <jonas@jonasjelonek.de>
 =2D--
-Jonas Jelonek (2):
-  dt-bindings: net: add Realtek XSGMII interface mode
-  net: phy: add Realtek XSGMII interface mode
+ Documentation/devicetree/bindings/net/ethernet-controller.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../devicetree/bindings/net/ethernet-controller.yaml       | 1 +
- Documentation/networking/phy.rst                           | 7 +++++++
- drivers/net/phy/phy-core.c                                 | 2 ++
- drivers/net/phy/phy_caps.c                                 | 1 +
- drivers/net/phy/phylink.c                                  | 3 +++
- include/linux/phy.h                                        | 4 ++++
- 6 files changed, 18 insertions(+)
-
-
-base-commit: 7ccc5e05043b1bb84326b19a2b05938d8f7a2ae6
+diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.yam=
+l b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+index 30b2a335116e..e9406ddd0fc0 100644
+=2D-- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
++++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+@@ -45,6 +45,7 @@ properties:
+       - psgmii
+       - qsgmii
+       - qusgmii
++      - xsgmii
+       - tbi
+       - rev-mii
+       - rmii
 =2D-=20
 2.53.0
+
