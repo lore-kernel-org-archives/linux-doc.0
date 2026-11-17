@@ -1,72 +1,130 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794873417;
-	b=FkKtokx6Rvfh+cWCyPNCIV0hHS46TFIROvdXFLkn6AxXJT+SoXAbkGHdC3OA1iA2VLlL
-	 FNjhvZcbTZP+tGg1JwxUqKKlIkN86medVuBFOb7rYR6ZLqdkwvA5FI2bHCOBodokZmJqN
-	 GFssBwsD/IeuBTd6deYhBh1vIqB2OiFksqwu4dO+HyoLVcMcb3mWNP7ctxT2SGR6SXXya
-	 usddaqnJKQz9cUyKOFNUnLHnSJM9c63zH042dwRfvIewyy47hep4LDQcIofTLyIGR57Sh
-	 3cSvNbMvig91BchH4n9aIZhmPbhHWL2OaVHYKRQLio0os+e99TjBetKucUQOJo6Kl2A==
+	t=1794873921;
+	b=RPdfLAaLNJA23SSfTtQeSg1fqFlzxRh/G/kHfmUJIVgX/UniQBVzIMaQUuawXj0WCWfH
+	 lHe0h/njxZQGLe7/FpffUijfhpQz+dqW0+iXcFpL9p6Z8cqwff836iTiJ0hoPbzTLI+5U
+	 3/wxva730RCU/SbrBK352Ct6CrgdEV0OSriQfW7TkRoK1hv99cHRdqxx4Ao2kpb1bRvcG
+	 TzpKDujBs25NswARsXXgRMAezR5EZaVUbG/coA8D+rQiJ6RqBCw/aEn5OCHg9EQnTMzE1
+	 tXurxhjsEmyyQH7WOL+9ffbPUaBII4wwftslp9OaGFR6hmQuZ4ArwtWwd8eBm6ISg1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794873417;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:CC:Subject:
-	 User-Agent:In-Reply-To:References:Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-SRS-Rewrite;
-	bh=VDQ8XKp98/IUabUksJNwRsl5hTpuGniKvWNPUNAUVJs=;
-	b=GA3NXbN1cCv17HuMTsqrAX3BaUEQYCpRX5+vlnievax54mRdISDrbqG8mVVrHseu4b17
-	 LmCe9/AUHDv8hFdzXFkfl3UPvk0V7s1i2mQZuEi8V+OZq0DX5+1NmNzrX+3CkBXCsZfdZ
-	 jdHpGcb1ruEjF/KnFjyHYW8eFeINY9aLWpgInsporYWWeEw2FUScKxno4WDf8f7HuShs/
-	 PKlEwiGHCkHd/acN5u/Wl+Fttjvm9w7QIkvLBSM5y4VUSgnkaTzBq7B/eKfrqV+Y0i4DZ
-	 OciJffgaas9UiZLOkbZG+FuCKhSJvM2VKPQNxzrjKYOYbsNtZCbUmhS8E9Vphq/IgiQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794873921;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=eMx+CTkXv1VoOtSvi+6D1nYsmWu0vpvPd8N8huVVt6c=;
+	b=hKANz3Ut8fOh9QRrgzYeOhByO4ZqbdQRecwymqu7Y3QL4H+S1k6meOGyyhRaTM4JoEXW
+	 /vpzcciWHL0P2WRFZsb2C5ib+/p9s5jXkHebde6ypU5gm2j9UT+ohFCeD0+0IzfndCM+v
+	 7vLVsTl1nHf0NXUEjlWH+V8VljPr3SOrCLFqsUICwQSL+6E1RvIplV/X28dRpmOJUDwi5
+	 BGdb/Xvq5pcoR24FqFu3YwhkQ/eNJzoUAANPrAnLQOoW9I8/sz+B1corXpW00tU6b0HoN
+	 /UQvQyERA5IFZzYs8KZn6Ywt9dP/+DTeZFCy5CoNb7yP6Kwvw22OjWY6RbeukqxRSSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=desiato.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=bAwGBnT5;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=o+1molFf;
+	arc=none smtp.remote-ip=209.85.222.179
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5540A606A31C;
-	Mon, 16 Nov 2026 23:56:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5540A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2638A606A32C
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 00:05:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2638A606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=bAwGBnT5
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=VDQ8XKp98/IUabUksJNwRsl5hTpuGniKvWNPUNAUVJs=; b=bAwGBnT5GwP1cL3P3kxxd+Tt4p
-	RTDaT0Oyl71V25VcnfUc1TJsIvvkfVFF6tQ7cjAsdBRjhaNhVfROk11PZQ2Lqp9H080zmEhNxAUWS
-	2845Sqt5jD1hB3QkEXAuvA7zWzvgVWcCtoq4A+B1ou32/iKhaZsoaAgBPrjc9SGhhsNX56JBiO8I7
-	Bc4gc4TPwyVghj71V2WVE2j61jwGFsmpNg3XUV4E+wbwhSTecpnZFeqAKhqzvB6pBB6N+mR0wooU5
-	0SOKcOhLC9DuvMxgdFebRU8VgFgPZXIqt3KE3NaXJiKF6ke8hcLAeS4IC8G+z/mXzaEm9DAasDAbV
-	V5XT4lxw==;
-Received: from [2a00:23ee:2960:2262:e6b2:75b6:9515:3c16] (helo=ehlo.thunderbird.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xT6Z2-0000000EQr2-3zpq;
-	Mon, 16 Nov 2026 23:56:44 +0000
-Date: Mon, 16 Nov 2026 23:56:42 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: Sean Christopherson <seanjc@google.com>
-CC: Zack Rusin <zack.rusin@broadcom.com>, Paolo Bonzini <pbonzini@redhat.com>,
- kvm@vger.kernel.org, Doug Covelli <doug.covelli@broadcom.com>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- Shuah Khan <shuah@kernel.org>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Paul Durrant <paul@xen.org>, Xin Li <xin@zytor.com>,
- Francesco Lavra <flavra@baylibre.com>,
- =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 06/12] KVM: x86: Forward VMware hypercalls to userspace
-User-Agent: K-9 Mail for Android
-In-Reply-To: <avuDUNAU_a933zvp@seanjc-mac.roam.internal>
-References: <cover.1794374897.git.zack.rusin@broadcom.com> <90467782be23b83fd3e9a6afe2f1d2149eaf9db9.1794374897.git.zack.rusin@broadcom.com> <876c4f4fc442116c9bff8abd8c34f99fcfa65531.camel@infradead.org> <CABQX2QNd7DehBsH-pGL=EJK4b5vC60PymL_YP27xDxGT6_6=uQ@mail.gmail.com> <1bae109338ab6ff1ff14eac811f7e86ced785b22.camel@infradead.org> <CABQX2QNhRZP1Td_HQ6QpMzw-_TjqhbooipWYg3VTgTOq2_U9+w@mail.gmail.com> <ca9dffb64656a392965f95d35b9d13d829f34076.camel@infradead.org> <avuDUNAU_a933zvp@seanjc-mac.roam.internal>
-Message-ID: <78F8FDAE-31A5-416B-9A97-DB8D5E7271FA@infradead.org>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=o+1molFf
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-94937a33cfbso433827285a.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 16:05:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1794873920; x=1795478720; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eMx+CTkXv1VoOtSvi+6D1nYsmWu0vpvPd8N8huVVt6c=;
+        b=o+1molFffc9e6T9ddIDnNeseSjzEf2bQKujHs4vpOVw4OzSSGS4YQo8BJrSN9kd667
+         k9JFBOotGGRYa0PkAFx2E0FiQp1pgsnwgn6pcnUL3Eya4+1ObVIZXwVWtTnGOXsLpAKM
+         Qm4w4F5jBIoZdwaJAnrycuNhvr/nMKvlaRPWeoY+KemZwqtCHlIRV3pKlOZAan8ZiPyk
+         dg+rWFVtziAEodqueYjujOY8FQIiLOIqi0nCOki4SNuEx/vo4myxz/px2YhfTxnQyYx8
+         5SnT2fX1BMMsw9KBqqyDMrnK6kEETUe11lAAN+nPzvpxO9VlnJiaiLVZSGU+NSdcdbag
+         q8ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794873920; x=1795478720;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eMx+CTkXv1VoOtSvi+6D1nYsmWu0vpvPd8N8huVVt6c=;
+        b=Kyb7ThRxyRT1Ru5Q3m4fj1c+oapD4NCEsa+3HD1JmyclX2Q0vk7eZgXGy9BkDLiznK
+         mwbO04Qjdm4uR+YHxyRVM6A464ZjvrHNpHJzhCxjJpL11A80oWg7J4fjRfoxuUHeJtD/
+         +Fmdbw3DCeKY4w5Tv40cyInEtVCsG1laEmK3fNOHRWqb6u0xF/nqtg0rS41Ft2iGxVho
+         J3QQt/tpHUCFmcckEsa9nf5SJvC1CcSrLSda1S4kODzhZ0RB8Cot2giywfGvHj9ahM66
+         fIYL1Glz3QoaIRt+HJbozZT1WkJ6yxmgbsu35fHX7o1Jqkxctb0yOQCr3s8vvNWt/+R2
+         js1A==
+X-Forwarded-Encrypted: i=1; AL+hErEDDXVuXXmRB+e8GAvlGWQCcfUYvKWJ020no+heT+6PD4wUhXdjDDrDN23YnAP2JnCCYYMhY2hutwo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8K/IIEOU5mLOo1E+nsWX3LT/IRVp1UmTG+IW2MOYOrL2D653Xd
+	rvYG/S2Xf5E/Adt9lg+3nCcnYS/MnjDzB6qwsAbaCkaOFjp+jkcoyjaLymQnlIBYlz4=
+X-Gm-Gg: AYBFou1DnJ9F0Ulc6Qi7uQcu0NNEnPo7ZxPiFQ7lqYQ3hdHar1n4fMP1wtFfb7NCnHL
+	3gXFxv9dOPnGEXatmeNnCIXnp2O3j826BlToVwA+CjAPCuuToQ97IVUOKUc4GlUnfMcT/IbTmdW
+	Z5CSbiFcXPlw9oWeqmd+XdxwUbgfTo52sc7y4oUo3gw/MXYbI09JglWRo6+BiR+RB3nRPEfTpYT
+	BanjO1p+pddJMDVXo/GADB2RlsdWH2mv0BqIIZTjIoGqFKegXLsnMtoXrbxP8uW/z+9g7oXJpiY
+	Q5MikhfkvqQqIU8bzuex+RlCW7K3KlBEQaYzTNyZPTTVdRzpX4s4gQfNAvqW8MCwXbZSuSIIS86
+	+VVRKsClAYxxWlPD8EUnNX4m2j4QXeksv//AHL3M1oyKnFLZU7r3ldcRCxpELYPUrNmB3Qe8B4Q
+	toThEqAAbwwdNQDLxcEA/gtapCs3tKw+pH7Mh4rgwXjnT+WzNLhBsu2YAoiifSAJp7LwggSTNmN
+	ltduxEHNp3Jv9VUcJ3ZvQvjaA71kaOwEk5dgWGoo2L6k8cI8u61s9/MiOngnu1uDBZ2os1+w2Xd
+	wk3iiQ==
+X-Received: by 2002:a05:620a:aa0b:b0:949:7473:b1a5 with SMTP id af79cd13be357-9497473c077mr807892285a.55.1794873920005;
+        Mon, 16 Nov 2026 16:05:20 -0800 (PST)
+Received: from ziepe.ca ([142.166.156.71])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c8b889csm969866585a.32.2026.11.16.16.05.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 16:05:10 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xT6h7-0000000Apgy-1pGN;
+	Mon, 16 Nov 2026 20:05:05 -0400
+Date: Mon, 16 Nov 2026 20:05:05 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH v2 18/19] PCI: Replace untrusted state with device trust
+Message-ID: <20261117000505.GA2488304@ziepe.ca>
+References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+ <d0999161-3b27-4c3b-9d66-1d117c4836fd@arm.com>
+ <20261110122237.GG8635@unreal>
+ <b4c2538f-8021-4abc-be2e-fcd1596f84ca@arm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,87 +134,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b4c2538f-8021-4abc-be2e-fcd1596f84ca@arm.com>
 
-On 16 November 2026 22:27:28 GMT, Sean Christopherson <seanjc@google=2Ecom>=
- wrote:
->On Fri, Nov 13, 2026, David Woodhouse wrote:
->> On Fri, 2026-11-13 at 01:33 -0500, Zack Rusin wrote:
->> > > Userspace *already* needed to
->> > > know about those=C2=B9 because it can't migrate while those are pen=
-ding;
->> > > it has to do at least one more run, even if it's with the immediate=
-_exit
->> > > flag set=2E
->> >=20
->> > True, but, again afaict, that rule exists because those completions
->> > have to run, so I don't think it tells us they can be dropped=2E
->> >=20
->> > > If it's deemed clearer, I'd also be OK with an explicit
->> > > KVM_VCPUEVENT_CANCEL_HCALL which cancels *only* hypercalls=2E But I=
- don't
->> > > really see the point; userspace shouldn't be getting confused when =
-it
->> > > was actually some other kind of completion that was active anyway=
-=2E
->> > >=20
->> > > =C2=B9 https://lore=2Ekernel=2Eorg/all/20250111012450=2E1262638-1-s=
-eanjc@google=2Ecom/
->> > >=20
->> > > Looks something like this in my Hyper-V hcall series (except I alre=
-ady
->> > > shouted at the agent for stupid struct layout and made it go run pa=
-hole
->> > > on everything it's working on)=2E
->> >=20
->> > FWIW, restricting cancellation to explicitly marked completions looks
->> > good to me=2E=C2=A0 If Sean/Paolo prefer that, I'm happy to mark our
->> > completion cancellable and drop our exception fields=2E
->>=20
->> I posted that as
->> https://lore=2Ekernel=2Eorg/kvm/20261113170535=2E79246-3-dwmw2@infradea=
-d=2Eorg/T/#u
->> and caught both Paolo and Sean here at KVM Forum and both seem OK with =
-it
->> (although acquiescence when badgered at a conference doesn't necessaril=
-y
->> translate to applying the patch=2E=2E=2E :)
->
->Heh, you jinxed yourself=2E
+On Mon, Nov 16, 2026 at 05:13:59PM +0000, Robin Murphy wrote:
+> Even with the slightly dubious argument that this series only intends to
+> shuffle the existing PCI code around rather than fully introduce the generic
+> abstraction that it claims to, if the PCI behaviour is still just based on
+> propagating the internal "untrusted" flag plus the new global override, both
+> of which *are* known at add_device time into the common trust state, then
+> there seems little excuse for not doing that up-front so that the new API
+> *can* just work as expected.
 
+The desired iommu flow is to start out as blocking and create the
+default domain only right before driver binding when we have the
+correct trust level.
 
-Yeah, none of us had really had the time to consider it deeply=2E
+If we try to do that without this series then we have to do it all the
+time, which I'm really scared will break some embedded thing that
+expects scanout to work or something like that. My hope was this
+becomes opt-in based on the new command line stuff in this series.
 
-For VMware and Huper-V I do believe we need to raise the fault *on* the in=
-struction, not after it=2E But that's achievable=2E
+On the other hand this series works properly on systems without an
+iommu, which is pretty much all CC VMs today.
 
-I had also added a third user of the same cancellation today =E2=80=94 we =
-need to intercept certain control register writes and need to raise various=
- exceptions for those too=2E
+There are probably around 15 series to complete all of this PCI device
+attestation. Without everything it isn't really usable, IMHO. I'm not
+that worried about the series ordering.
+> > We have two levels: policy - that describes the default of all devices
+> > for that bus. level - actual decision on how that device is going to be
+> > operated.
+> > 
+> > "Disabled" prevents driver probing until the device is authorized,
+> > "Adversary" permits probing and requests the available protections
+> > for operating an untrusted device.
+> > 
+> > Both need conservative initial IOMMU setup: a disabled device may later
+> > be authorized as adversary, and authorization does not rebuild its IOMMU
+> > domain.
+> 
+> Urgh, I can be absolutely certain I'm not the only one who is going to be
+> confused this way... I see "disabled" and instinctively take it to mean
+> disabling the device_trust *mechanism*, as the logical thing that people
+> will reach for in terms of "I don't care what this new thing is, just get it
+> out of my way and let my drivers work like they always used to; I want to
+> disable the new thing."
 
-WIP of that at=20
-https://git=2Einfradead=2Eorg/users/dwmw2/linux=2Egit/shortlog/refs/heads/=
-vsm3/regwr-filter-v5
+Maybe "isolated" is a better word?
 
-I think I would still prefer to use KVM_SET_VCPU_EVENTS rather than shoe-h=
-orning the same facility into the return part of various different kvm_run =
-exit structs=2E But I won't fight for KVM_SET_VCPU_EVENTS to do the cancell=
-ation=2E How about we just give each of the exit types a way to indicate wh=
-ether to advance the RIP because the instruction is completing) or not (bec=
-ause the instruction is faulting)?
-
-
->If the exception is communicated through some other means, then (a) that =
-needs
->to be explained in detail, and (b) we should be able to use the same appr=
-aoch,
->just with new "ret" field or whatever in kvm_hyperv_exit=2Eu=2Ehcall=2E
-
-I do think it is a full 64-bit return value *or* an exception=2E My friend=
- did originally abuse bit 63 of the return value and I may have thrown my t=
-oys out of the pram at it a little bit=2E=2E=2E they can type fast, but my =
-God they are stupid sometimes=2E
-
+Jason
