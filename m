@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794881777;
-	b=nQDykHK3CscYf1vwUoc9wYEUTBUBnwxFxke9CaShjVpIardw/6wRCj7hugL6yMDbKb1f
-	 wq2ifyBidSwa7OF4FfBADY/yNfDIh8iTdAFZO3CveDsYn0HtmgU7JD4Zoir+wbs81YnLx
-	 yVvSzvGrTw9PXRtwnWjeUKPZtrJ5TA9oxkFVEvpD0zCt8SLGndCUNfilg4RxULO99wvdQ
-	 S/HX4qvS3Ck71gtFWm+zvGXienkrPoFQzDdv26TxpIpoANUie+bjKY0aB8FlHDKKTh7iJ
-	 ibrUBxuZg7WHZDeSUjiaAFf+PiE4Lx10Ef8Fqb+EsNpl57romkoBXze6Dx4i7W28guw==
+	t=1794881837;
+	b=4Qr6Cv3tbFrdVGPJjDZkZpAkTN21goDZKl3xTbBlJAfIW9KtObmeoXgzv0Yx6ZfDl9nR
+	 NASB/YpbkW1sIyjehFvmeflSafZDqt9o/9WrVScfBJCMgLqBfI9iaBegA8MqEGE1PdhYb
+	 VaYpW2If5w2t1wGP6rY569wAOutGw7uzDwIcVqxjbEeCLF7b7c14fEr8bx/JXOOmoKyNW
+	 qW5CWzzhWzfO3a5pmYOzI1CUpIh57uoffOFlNjfrpbwBFeX5QLOSdQC4HRXxGi28KdKUi
+	 mgnjChsVF7r3pTasSVll+HrTlkH72lXSjnF2eUQk8FmmkRyMCtwa1cNinVAbSIoTMsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794881777;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794881837;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=yt13tp/rvLvexjlMPma+hJFiFj/qQmugNFpZecZf8sw=;
-	b=nwniPakvwUB1mboEFUynxweQpUIlU63A3tpYnDV62sPqDi3vEPmuCh1NeURW6zJtWA38
-	 kJ/hecwQPCjtzQCcmkGRKL6NV8a9KR2/BfeE58JuEQAm+0e0UvcVDduJd64XpWJGungyJ
-	 5Fmzuz+bLpQ8ScTX8alIufD7IKo7Rtu4pRUYNhj7Ky/6Z+6hgAdDiftLxbqTqzqCVRMAJ
-	 xOUaadE2m4oWE5csd9opMcX/k86STHiB0Lob6bfUCwGD7eXyKT/gt8eWvhHpi2giLKhhr
-	 frKGg0+v/ACxmPSXP1Qn2k68BDFA0/LkcvmKaYfjJHc+9lQkJ541dnSwrcXmUxATamQ==
+	bh=e0nFLX3kmOFtLmTXd4F3aVcB+6sTaFXFNO+asoKn3JA=;
+	b=3PgW0z+RNX/YOFtmPP6Lm8fFZr14fHnul1IkcGVgsIg6CFWduG+SX6Jt7VsPvHFvKJcU
+	 7iW71WngKVMct2gDNYsQoAStekvmvT93EsbT132I2fQjGvkQ5BEjAkZiBKF5ITwV8hFkq
+	 EGYhcwpiF97RPlBrVjPA+8Hti/fK+I37AkNFA8YmXPRSQqt4oDtDiuzDqe7l5BXgA++4A
+	 /1Bka8kBIoMQjqfzlYYD4sSseUIVf74dpaIMAB/tZ+iHcM3Bgvugpa5oo3FOBZEysmded
+	 rpTvJMCn0pRHaYGFH4heYSLkKRn5GOa/pDV4HxQoitunt8RoepxE1EG5cYoRBVxvF4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BRGHWZ4Z;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i7YQBMkJ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A20E606A31C;
-	Tue, 17 Nov 2026 02:16:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2115C606A333;
+	Tue, 17 Nov 2026 02:17:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BRGHWZ4Z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FE141F000C4;
-	Tue, 17 Nov 2026 02:16:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i7YQBMkJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D58F61F000C5;
+	Tue, 17 Nov 2026 02:17:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794881776;
-	bh=yt13tp/rvLvexjlMPma+hJFiFj/qQmugNFpZecZf8sw=;
+	s=k20260515; t=1794881836;
+	bh=e0nFLX3kmOFtLmTXd4F3aVcB+6sTaFXFNO+asoKn3JA=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=BRGHWZ4ZG4Pk2S9yip/TgmH+UX3gPqHKvnmbx3WYO7WVHx6DhUQ+VsoehKTeDLcXa
-	 HfIpHmKlYHL+glR7sOXidda/KfRzP92NpnD5Qgaz7KxTd6/RoJkovp8ACrNUjGdH1y
-	 h0J2TUX11aSyEF4NIZWzlVGvDlSP1J2rUn05r1B9c7IgNtYX4Hs/2ATUuMRhndrtaZ
-	 YoBBog8btT2sLVSEba+91hEz7SrOcJSU72MYMaYDb/9H+aMNdA0oDSmM4/v4Cjbjek
-	 AcgyM2tnelMvoJ1NSgrtuXp+LkgNrChuOIOPi6Wj4qFYbHmnTxVIe1uzGAOP30TgHu
-	 Am4Mw8VifKZYQ==
-Date: Mon, 16 Nov 2026 18:16:12 -0800
+	b=i7YQBMkJmtxEWd0fJ7GFx+gqgPsREc03S5UyeUvVjwEr8hPAlAN8lSuNSjxZ8cJki
+	 yQVmbPeDDDtG9wNXEMA/+0pwgxvpAmfbwwBAAZZx6owXZ1YMtJuXG14QCXmiiLU9Gk
+	 YoivBhBIY9N1PVaFuLVd+gzJsjNv33qN/Bik8Q0Grbf6e+UZMPvnyjUr8A73t1R9ts
+	 J2m8d55yhQkKtOpZwel4XXiIqigxSVfAwJRSgC/gfwKfHdsulC4omCz98VKjw8IuGa
+	 B058zZxF2ykQeSLXHA+veWENR2AJUhr1O20lOxo3UQ4LG+4M3ZhrZxvzRZV3SQ36mq
+	 +ofYpwaUdrJ+w==
+Date: Mon, 16 Nov 2026 18:17:15 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Ivan Vecera <ivecera@redhat.com>
 Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
@@ -58,9 +58,10 @@ Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
  Toukan <tariqt@nvidia.com>, Petr Oros <poros@redhat.com>
 Subject: Re: [PATCH net-next v2 0/9] dpll: do not serialize driver callbacks
  under global dpll_lock
-Message-ID: <20261116181612.107a4b57@kernel.org>
-In-Reply-To: <20261111164021.273409-1-ivecera@redhat.com>
+Message-ID: <20261116181715.6f7d7f09@kernel.org>
+In-Reply-To: <de304923-783b-4533-8507-514a15b3556e@redhat.com>
 References: <20261111164021.273409-1-ivecera@redhat.com>
+	<de304923-783b-4533-8507-514a15b3556e@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -73,17 +74,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 11 Nov 2026 17:40:11 +0100 Ivan Vecera wrote:
-> dpll_lock protects topology and object lifetime, but it also serializes
-> all driver callbacks in the system, so one slow device stalls every other
-> DPLL device, whichever driver it belongs to. mlx5 callbacks issue firmware
-> commands with a 60 s default timeout, and zl3073x callbacks can wait
-> seconds on a driver lock held across ToD writes and phase steps.
+On Mon, 16 Nov 2026 09:24:39 +0100 Ivan Vecera wrote:
+> v2 no longer applies to net-next since net was merged in. It conflicts
+> with 7a3837929d04 ("dpll: notify about a reference sync pair only if it
+> was added") in dpll_pin_ref_sync_pair_add(). Patches 3 and 4 fail on
+> the same lines and the rest applies cleanly. After patch 4 the
+> resolution is:
 
-Can you provide some real life data of how much this actually helps?
-Real device topology + scenario you hit?
-
-For the cross-domain pins - shouldn't we stretch the domain to cover
-all interconnected objects on the system instead of hoping people get
-lock ordering right? You documented some rules in the doc, admittedly,
-but not sure how enforceable and practical they are.
+What makes you think we'd rebase your patches for you?
+-- 
+pw-bot: cr
