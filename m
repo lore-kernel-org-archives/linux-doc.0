@@ -1,96 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794940487;
-	b=J0cHa47DTqp3i522I0T++g1NWOIUjECmzzXle5gQE8F7nXBB+1CMeutgBXEN/Kkhl2iW
-	 LTFfQWA3Or9Q/MKJBvcIio/46QtA9yM0yVXt4yszVQKrnFuAn2lytfi6F7fpUAZ0YRTK9
-	 FM2HyB/49vGkEDzp56hdXBcjV6ab4sQDMm+4YYN955QGXMeVK2X9zhnAwo4GDDN8cl9bC
-	 /vhBECA7NEm0wwIgtG4NpzTe9ESfqjVdMlb9i3b5BVGLPmsAn3cs11RathtPcWvBoRz6P
-	 1cSNOb+L4XHuOJEFQipHSQtez29ti72kkGZEv9Mltv0jrt2+6CFKXpEGyEOe+dVqidw==
+	t=1794940878;
+	b=GH0SUuGJIK47lfZswv/RZwygwVbAY/M9BCRFP7bk9vWTytaf70vPJFBjU+W6BsbNtIn2
+	 KAjsAzWH1k//Jon78/ou9bQKuXx7VvNurj9MjjufFwrmMcvQAUURWWlYQ5wXWum/dOd5i
+	 suq49JIe/gDW9fkubTgX9C2C2CyxS9V3aXP+hb2nPA+1NybfXszlG6yxe3agWzQwdel3r
+	 B1rttGnI2cxGAFQLu/Q/64Zh0rOdkIFHTqkwtr/TWHQpfuq9xnNAYSTGT2J/aXUw9kg6B
+	 DQV6DJdPc0mi8KHWMh7gdon4+UTqcvvkz0LGFEYFrEVgjlqRrJqONDeBfbimkbO+Iew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794940487;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:Sender;
-	bh=bCqN24fhlU/vFMOwXW3CAsd4iYMzraL5WEN3Qxc6Tj0=;
-	b=ClK8Z7wjZ+3PzTokwV0IE6KdhBxJ293fT0Q/AMQXbbZvn9RB7XF0eHvvoqIl5uadFE0c
-	 fRyJmc6nuIQuxWP9T2LBX7Mmp7s/qRZ1SMqFuhB2lmXK6RIbKFr8pEWJNu0SisaBG6D7g
-	 G7Zc3zE+neMfmbaYVnR32xsIBPzfaUgq8zPvGMxC+ti4Zh6g9bSok/PB44KA9d8Azvjz/
-	 PA4bNm9RxhylZbdeptOljsU7xLGrpYD8qvfTomAJzdjK2J1gwClxdxihDH/K0p/r61mlh
-	 iUqxOA0ZKqn4PbnWtQry4k6vZHcLqJt7c6/Gt4QiKgcq3dbWQ1H4JqdkvC+6dU+6TBw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794940878;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:
+	 X-Source-L:X-Exim-ID:X-Source:X-Source-Args:X-Source-Dir:
+	 X-Source-Sender:X-Source-Auth:X-Email-Count:X-Org:X-Source-Cap:
+	 X-Local-Domain:X-CMAE-Envelope;
+	bh=uzgMGuJH7y9PpdqDVrfWe+YpxihFKk8NBF5FqP0/B48=;
+	b=P+BWIP5xmnSF5EKLrZEYRnk4xT+HNky1oh01Qn4yoly48Gs5FaNolxWbIOBe3mh26lYN
+	 u//9eHtSaABSX38bm1JTwX5dNbLojHJFbp05YhUqTXbaS54ap648yW4mqD6ZpjoMbM0ut
+	 F6DOS7bVc6rTI08AXgEqJmgXlaPQTjm9VuVoocIGCxiiGjN/oWDWwnmnD6J42aZBeboPq
+	 t9dPrnyNbrKOV/XIpeRlgQ6hibFUP/xyQZHy/aWodN7KM0f5s2E5Kv9O1WnXK4qNu6fC2
+	 MnvcHnnvatbuOrf8tVW4uHhATyWp92DSkkG5HbdEMBeSSAz9syhTjEZOvkMa+CwcecA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=zeniv.linux.org.uk;
-	spf=none smtp.mailfrom=ftp.linux.org.uk;
-	dkim=pass header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b="b4xkjYo/";
-	arc=none smtp.remote-ip=62.89.141.173
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=YFDmMSQ6;
+	arc=none smtp.remote-ip=35.89.44.37
+Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E3E606A32C;
-	Tue, 17 Nov 2026 18:34:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75E3E606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364C2606A338
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 18:41:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 364C2606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=b4xkjYo/
+	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=YFDmMSQ6
+Received: from eig-obgw-5002b.ext.cloudfilter.net ([10.0.29.226])
+	by cmsmtp with ESMTPS
+	id TMgAxWn7OVK9UTO7DxAaFZ; Tue, 17 Nov 2026 18:41:12 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id TO7CxyoICb2qJTO7Dxi7n3; Tue, 17 Nov 2026 18:41:11 +0000
+X-Authority-Analysis: v=2.4 cv=A7tsP7WG c=1 sm=1 tr=0 ts=6afc9fc7
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10 a=gAnH3GRIAAAA:8
+ a=EUspDBNiAAAA:8 a=3OfnbWqpRXkE7MXKp-4A:9 a=CjuIK1q_8ugA:10
+ a=KPbNTLLc3YvdawN95zVk:22
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=bCqN24fhlU/vFMOwXW3CAsd4iYMzraL5WEN3Qxc6Tj0=; b=b4xkjYo/irgxqXEeyvuS6RET2Q
-	Whn8EonVLrp0V9ItlQ0voD1HDID1cvVEpP7A3CfJTg6G51OusAOucbJ9vMuC+hwavs9aqumbwV1z6
-	uJCyMBPN4/7baj9nmdxiHNVKPt3jZOckq5vWJ+ySpASrwVz868UZS2e41eOZNnw1goYX5RDcNyRPP
-	rTVU/SAULfsU7iich6yV29MIYYq+nZApu6guoXj8p4xIjatJ2U6mzBQmkx8xbXMRyf4N7JaVOLGCI
-	E/e2O0QyfWY/guzEqwfbYXpbbPJldSiQm8KAz4X+FlxeHQW6Crnmj63J9lAWOshzxFC3oZeKQshJ8
-	4NuPWfgw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTO0u-00000002MNT-3B2S;
-	Tue, 17 Nov 2026 18:34:40 +0000
-Date: Tue, 17 Nov 2026 18:34:40 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Cai Xinchen <caixinchen1@huawei.com>
-Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com,
-	brauner@kernel.org, jack@suse.cz, amir73il@gmail.com,
-	andrii@kernel.org, apparmor@lists.ubuntu.com, ast@kernel.org,
-	axboe@kernel.dk, bpf@vger.kernel.org, casey@schaufler-ca.com,
-	cel@kernel.org, cem@kernel.org, chenxiaosong@chenxiaosong.com,
-	code@tyhicks.com, corbet@lwn.net, Dai.Ngo@oracle.com,
-	dakr@kernel.org, daniel@iogearbox.net, dhowells@redhat.com,
-	dlemoal@kernel.org, dmitry.kasatkin@gmail.com,
-	driver-core@lists.linux.dev, dsterba@suse.com,
-	ecryptfs@vger.kernel.org, eddyz87@gmail.com, emil@etsalapatis.com,
-	eric.snowberg@oracle.com, exfat@lists.linux.dev,
-	georgia.garcia@canonical.com, gregkh@linuxfoundation.org,
-	hch@lst.de, hirofumi@mail.parknet.co.jp, hyc.lee@gmail.com,
-	ihor.solodrai@linux.dev, jlayton@kernel.org, jmorris@namei.org,
-	johan@kernel.org, john.fastabend@gmail.com,
-	john.johansen@canonical.com, jolsa@kernel.org, kpsingh@kernel.org,
-	linkinjeon@kernel.org, linux-api@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-xfs@vger.kernel.org, liubaolin12138@163.com,
-	martin.lau@linux.dev, mason@kernel.org,
-	mathieu.desnoyers@efficios.com, matt@bobrowski.net,
-	memxor@gmail.com, mhiramat@kernel.org, miklos@szeredi.hu,
-	neil@brown.name, netfs@lists.linux.dev, ntfs@lists.linux.dev,
-	okorniev@redhat.com, omosnacek@gmail.com,
-	penguin-kernel@i-love.sakura.ne.jp, rafael@kernel.org,
-	rdunlap@infradead.org, roberto.sassu@huawei.com,
-	rostedt@goodmis.org, selinux@vger.kernel.org,
-	senozhatsky@chromium.org, serge@hallyn.com, sj1557.seo@samsung.com,
-	skhan@linuxfoundation.org, song@kernel.org,
-	stephen.smalley.work@gmail.com, takedakn@nttdata.co.jp,
-	tom@talpey.com, yonghong.song@linux.dev, yuezhang.mo@sony.com,
-	zohar@linux.ibm.com, utilityemal77@gmail.com, lujialin4@huawei.com
-Subject: Re: [PATCH -next -v4 01/17] fs: pass struct path to notify_change()
-Message-ID: <20261117183440.GQ989762@ZenIV>
-References: <20261117150542.1169451-1-caixinchen1@huawei.com>
- <20261117150542.1169451-2-caixinchen1@huawei.com>
- <20261117183059.GP989762@ZenIV>
+	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=uzgMGuJH7y9PpdqDVrfWe+YpxihFKk8NBF5FqP0/B48=; b=YFDmMSQ6njJ7g3TGwyqyWG6HbD
+	VSUs5xReDgoBDPjfuNVzXMpkDWlDX/66hznqmy1hiwlGvrhHVLfoIqNb9Ba7058Fj6B3Q3Caud8S/
+	RW4Y2jcPocH/FzHoCD50S6gLiVL8jpsaYxgL5l4OQ1Q5cOVPJ0DFG/WWDTvYQFb1AXOYJgsiFNtwm
+	irFQAVbPn8u3m8Nr4ILti1/hOWXmj/wc+qwyZYYxG6QAHRK80Bz2d9EgvK8t+nqCigZhOSMU5dwck
+	hdNbtLBqmKlatziwPdDFz8+mwwxOXQ0TELj9ZWxiKMzSOemDfCMfTvTmSh7mK4LAV+uRtCpespuTU
+	OD6atnNA==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:45336 helo=server.roeck-us.net)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xTO7B-000000006da-1bIQ;
+	Wed, 18 Nov 2026 00:11:09 +0530
+Date: Tue, 17 Nov 2026 10:41:08 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Christopher de Guzman <christopher.deguzman@analog.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: hwmon: ltc2978: Add support for
+ LT7175 and LT7176P
+Message-ID: <ea14de95-c079-4302-8a65-86c4c65a8e12@roeck-us.net>
+References: <20261110-upstream-lt7175-lt7176p-v2-0-dd60d28383bf@analog.com>
+ <20261110-upstream-lt7175-lt7176p-v2-1-dd60d28383bf@analog.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,29 +91,36 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261117183059.GP989762@ZenIV>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20261110-upstream-lt7175-lt7176p-v2-1-dd60d28383bf@analog.com>
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xTO7B-000000006da-1bIQ
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (server.roeck-us.net) [108.223.40.66]:45336
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 1
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfADKNZgNgQp1f98ob9eSu1mCCpXe2bZGKfUoQzl9qJEwuW0Y4sW8C5vcum0UzokYwegh5uwHzGGkiroSnHw+QdbMlpExBjuYwMyuaudT7+iw3DIeebdq
+ yPyDAccfOkkZetcWKKgGOnl5qkq9/1tvoLdFMVI7reDFNDNWZOCEr3IHuqIZjE0EUBjItpZHiOaRdHThaTxaUgLHTw3uphj+HkYLiMkWoa/9Ok5f/TxfB4kT
 
-On Tue, Nov 17, 2026 at 06:30:59PM +0000, Al Viro wrote:
-> On Tue, Nov 17, 2026 at 11:05:26PM +0800, Cai Xinchen wrote:
+On Tue, Nov 10, 2026 at 06:00:40PM +0800, Christopher de Guzman wrote:
+> Document the compatible strings for the LT7175 and LT7176P PMBus buck
+> regulators supported by the ltc2978 driver.
 > 
-> > +notify_change() and do_truncate() now take a const struct path * instead
-> > +of a struct dentry *.  They use path->dentry, so callers that only have a
-> > +dentry must provide a struct path.  struct iattr has a new ia_path member,
-> > +which notify_change() sets for the duration of the call; it must not be
-> > +stored beyond that.  Filesystems that forward a change to another inode
-> > +can use notify_change_target() to update the target dentry while keeping
-> > +the caller-supplied path in ia_path.
-> 
-> That needs a bit along the lines of "path MUST be consistent - don't combine
-> a dentry from one filesystem with mount of another".  All in-kernel callers
-> might have appropriate struct mount references on hand, but for out-of-tree
-> code that might be not true and we'd better be upfront about the headache
-> we are inflicting.
-> 
-> I'm not sure we really want to provide those mount references, TBH - it does
-> add a constraint not just on out-of-tree callers, but upon the future uses
-> in the kernel.  If NTFS is the only reason... ugh.
+> Signed-off-by: Christopher de Guzman <christopher.deguzman@analog.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Incidentally, will the mount reference you are supplying in case of overlayfs
-upper layer be any good for LSM users?
+Applied.
+
+Thanks,
+Guenter
