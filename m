@@ -1,84 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794942656;
-	b=dzHuaQuaUbL/bvXSWRr9+yzcoc7F01b6KcrCSIo6iSwN8ek5DhKkplWN4uaBZhZY5H/3
-	 UCH6QE+7cPSbowhgyFz9BOYM/ze9Di+xizhMKxPQUUHbaJhdq6SPxtjb4apc+OSzjiglS
-	 p5HfiNk2BcyGIfjujnzb4WVjydRJXL68Q1dlCRP6miBGzcXrVPJ/AYSvoj8FOpm+3SiWr
-	 LdkhgDl59JhVWDE6CH08a5KrxYPB7pCYVj4MhzKgfREAjrrLMN+MdKsPU+2lTp/zk+Gng
-	 SxoQ3pRswYNOniWNsO7vvQ2n1VpnbRsjSpvJDKwHGewFXkWF1MTnbLJoVbBEeHyBd3Q==
+	t=1794945180;
+	b=t3XQ8Twnb75h4g5RzE36CCl1UXgXZ5DAz4tqzRtlwkMUN2NzMlAPB2DsNLxJ13luvdW3
+	 0+hzlBnjaCKDRSmO9RIVZ9UoSEuBnC/wwz5RkMrl/DKgkh3oX0lByTHCcVudI3CX2AiC/
+	 yaa4BazbwzYE+ZV0JhZRHd0GQLvqZCJeJn3EimejpXDuoWzPKp0OITDekioD0/+lb8z9I
+	 jfp+akOoWTDHL/zS16OQAb8oD7PQInV5EhQ/oo2QcQ/9qM5ykTXfss/h7yUtOjlsX//wC
+	 iAOP9fzjbqKtE5Lf9ss9mfBHMY1GnQfR1KEj/sNIHF5Mox2S3zIfvT9xEoZ67Fyz9WQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794942656;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=QNfr1N4SlD4nY5lF2k9NOu1qbIPKIuO18d/t7UojEjc=;
-	b=h0SsOLOQJSK6FqR5bJwYggTGtW/lfnar/WIVDmGXSS9TUXGfC4y5uMAF+C24f9mMQzMV
-	 AuLSSaMMgWzPY1eJjif3+Kp5GzF6hUGvnnzsLDNh5lrzM5utfmFvhcC6PpcaxP3XGHebV
-	 k0GmLDEgegwZz4QGJfCgbA92qvjhnGklrcpdWQdQjB0nsUBY+QpT4WzBRyD9FX++5OJop
-	 gjbKQkOoAz51XJi37+xjKynMmXWzF6NyvMN4x+VbQzan2gNQMB8Tz43SkAhPnkZUuMTpg
-	 tpZoV1yqGvkJMXDBbVAnaiWv1gslBtaNyVdl8pYIY4toxsTFsNEag6QJePOc6oaOryw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794945180;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=I6ImuqJ1TBz34pmM904YumuDCbtIEcFDFISvSJC+gD8=;
+	b=mjlrC5kuPRLrr0q8H5JDqqLO27h3IfA9XTyc3rGClaJuTQxFeylj63F3f/Ed9yHq/VEv
+	 YYHqpDJr+d2artJI6hrTS98ANkE0frbuuNEp8Eogxc6uh/R4fWg5FAoE+RXb7cfimJ5WS
+	 Lpch4+b2pjMKmq9nnXDX16wVpV9MRcSfrV3tvez+GGkcldHgnVps5AcdtCPSZv5Usgjsy
+	 rtGoCT1wih/o18MhI/CQv+n3mMaEc1lqMdBbm/d+lnmegpXDTKaZK8kpjzhD8+i/sq4QJ
+	 g2mKI+rKJRXgvT3c6BrBj5sUwC28mpLI/MU5Npm22TzuPDbffssR0xCEGTUvyW2UzIw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TMG9hdFI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FWZnLEpx;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id E624B606A31C;
-	Tue, 17 Nov 2026 19:10:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41232606A31C;
+	Tue, 17 Nov 2026 19:53:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TMG9hdFI
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id F13BF1F000C5;
-	Tue, 17 Nov 2026 19:10:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FWZnLEpx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA55E1F000C4;
+	Tue, 17 Nov 2026 19:52:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794942655;
-	bh=QNfr1N4SlD4nY5lF2k9NOu1qbIPKIuO18d/t7UojEjc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=TMG9hdFI1EiKm12mX2UfRyknIADhNhlisQjyVgB+nCZZIPENEdznv9MneSRYCr7Jv
-	 HMIiYw0QYp+qamQPfqOrdhty/ANjv5b9t7CPGrzmhSWmN0XeNjxDExZisM1vNvkZvB
-	 UpFB4zHnjkbCr/HfYSCFcCYHjOMWmCUI8BqO2hltxJwBEOdKZRFeWWXCvOnxV672ni
-	 hHG6+lRX18Q4qayZUEfaQ5BY2rNuiw3UDZQHStPfEkyhjUU3Pa3cZ+aY5TyWhz3hm2
-	 x85mHaTn5JdLS3Brs0i5acaJvE7jsp6MiQ19Qk5biIFf1aBXXwe2VxmXxpdXZJxtFy
-	 ROeBDjhz/LeQw==
-Date: Tue, 17 Nov 2026 21:10:52 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-security-module@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ben Segall <bsegall@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vlastimil Babka <vbabka@kernel.org>
-Subject: Re: [RFC PATCH 00/13] Namespace for namespace roots
-Message-ID: <avymvCZGVcEp8mHu@kernel.org>
-References: <20261117050841.3289652-1-jarkko@kernel.org>
- <CALCETrUBUnJVhiMkft6hTZZMe8nTpMBRTGY2v=9x5ETBSvmPZQ@mail.gmail.com>
- <avyhl79pygUmV3hr@kernel.org>
+	s=k20260515; t=1794945180;
+	bh=I6ImuqJ1TBz34pmM904YumuDCbtIEcFDFISvSJC+gD8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=FWZnLEpxdq5xWgp0cR0ZXCwbR8AboQwvrfKlf7eNOquJlPdww/RbV4AZsVaCYJoqD
+	 XCOI+2PjsItypzRVY5Wg8GTyfN9vrVHv4EgJ3NUQAYx7gVLev0mvSd/eRQ0a8pw5NT
+	 bge20me0fDcbpfNB4X9ekN/3dUThiAcZAyFRBoYZR8NCrvw2W55y1IQmosUqG71aBP
+	 NwtMYCszF5PR2C1WDbc3+noA+6vDOw5/ALYah+ioRkc7LNBQrVOdzvBecicbqlttlU
+	 6yOEzM3Bwm5yh8MG1Q+N7e+eAeA9a02t8/46OURB3PqfCl6niC0UDtBYfLKiV2Skk+
+	 qVw4gd9VYs6Zw==
+Subject: Re: [PATCH net-next v11 03/14] net: ethernet: oa_tc6: Move oa_tc6.c
+ to its own directory
+From: netdev-bot+sashiko@kernel.org
+To: Selvamani.Rajagopal@onsemi.com
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, kuba@kernel.org,
+ pabeni@redhat.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ parthiban.veerasooran@microchip.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, richardcochran@gmail.com,
+ andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+ edumazet@kernel.org, piergiorgio.beruto@gmail.com, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, jerry.ray@microchip.com, ciprian.regus@analog.com
+Date: Tue, 17 Nov 2026 19:52:58 +0000
+Message-ID: <179494517841.3136.8719060372434310357@kernel.org>
+In-Reply-To: <20261113-s2500-mac-phy-support-v11-3-7a186141952c@onsemi.com>
+References: <20261113-s2500-mac-phy-support-v11-3-7a186141952c@onsemi.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,48 +68,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <avyhl79pygUmV3hr@kernel.org>
 
-On Tue, Nov 17, 2026 at 08:48:59PM +0200, Jarkko Sakkinen wrote:
-> On Tue, Nov 17, 2026 at 09:44:43AM -0800, Andy Lutomirski wrote:
-> > Can you clarify what this new API actually does?  I've read this three
-> > times, and the best understanding I've come up with is that you've
-> > designed a way to create a group of namespaces identified by an fd and
-> > you're adding an API to configure and enter them cleanly.  Which
-> > sounds very sensible.  But I'm completely confused as to why a
-> > namespace needs to be owned by a "rootns" or why that ownership
-> > affects even newly created sub-namespaces.
-> 
-> I think this would postulate the patch set:
-> 
-> 1. A subset of detached namespaces.
-> 2. A dedicated PID namespace for spawning into, signaling members, and
->    polling/waiting on init exit.
-> 3. Initially an empty mount mount namespace that must be populated
->    before going live.
-> 
-> I had to do some head scratching for the second question as I've worked
-> seriously on this already some time ago but I think it was as follows.
-> 
-> If recall it correctly, rootns ownership tracking was meant to stop
-> processes inside a rootns from calling setns() into host or other
-> namespaces of the other containers.
-> 
-> However, user_namespace already enforces namespace ownership for
-> setns(), and adding a separate rootns check prevents legitimately
-> entering a shared external namespace (such as a pre-created netns).
-> 
-> I will drop the rootns ownership tracking.
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-While the patch set itself is manually coded, I got inspired by LLM
-agents back then. It was quite clear that in the near future OCI
-runtimes should try to minimize the live configuration surface.
+Low priority / nit picks for your consideration:
 
-Another force was that whatever the solution ever can be it should be
-made migration friendly for OCI runtimes. This led to the conclusion
-that we need yet another namespace instead of a fully parallel
-framework.
+- [Low] The commit message for "net: ethernet: oa_tc6: Move oa_tc6.c to
+  its own directory" ends with: "This patch series adds two files, one…
 
-Br, Jarkko
+--
+
+net: ethernet: oa_tc6: Move oa_tc6.c to its own directory
+
+This commit moves drivers/net/ethernet/oa_tc6.c into a new
+drivers/net/ethernet/oa_tc6/ directory and renames it to oa_tc6_main.c.
+The module is still built as oa_tc6.ko. The OA_TC6 Kconfig entry moves
+into its own Kconfig file, and the Makefile and MAINTAINERS entries are
+updated to match.
+
+> This patch series adds two files, one for hardware
+> timestamp related functions and one for PTP related APIs.
+
+[Severity: Low]
+This isn't a bug, but should this paragraph be reworded?
+
+This commit doesn't add either of those files. It only renames oa_tc6.c to
+oa_tc6/oa_tc6_main.c and adds the new oa_tc6/Kconfig and oa_tc6/Makefile.
+
+The hardware timestamp and PTP files (oa_tc6_tstamp.c and oa_tc6_ptp.c)
+come in later patches of the series, such as "net: ethernet: oa_tc6:
+Support for hardware timestamp".
+
+Once this commit is in git history, "this patch series" no longer points
+to anything. Could this text go in the cover letter instead? Another
+option is a forward-looking line, for example "Subsequent patches will add
+files for hardware timestamping and PTP support."
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261113-s2500-mac-phy-support-v11-0-7a186141952c%40onsemi.com
