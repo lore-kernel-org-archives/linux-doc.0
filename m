@@ -1,101 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.53
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794946370;
-	b=zL+1x1YggsVXs2N1gS2cu5zB9MkNeYyD+kS0VUCUfote+wpaKWdN8Pgkx8pq7WAvfNJX
-	 rMpyMQieR+RYYwNagLCvLw7QxVDvmXLYlb+nFRXZKRqDQ+muUQtoz2KNcfhnnVSps7O9m
-	 q46bnwuVxlkOaa3bo43CPP3BtMaC+LK9lg+uDX8l8lGOQSolIGQtOq43Xl88wgTvrpF1h
-	 al/sH6F9h9Vyh8pS9gxzWPogXzvBM8/F0Tbg/gPQCJHxlczLKaRou7utKsCvhZV49M63k
-	 5Pj52wLfNLxBh1UiTn+6rL9D1drqt5rMulVP60j+XfxbJEQbR/oBAE/Elx5oEZiMo8g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794946370;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=dsWpC8hNFHdeBhWsKEhxBowEJkkinJKfFh6H6OuOq3k=;
-	b=bt8IIwm38DGbqZk/n30T0w2iicOD3/TYu6tpx2MJFto3oScPzLHj5MFm3e63XVyfzet8
-	 9/9vluS0HgOrHM68UbEhXmc0QpTTFvV4dNHMCpDw6NuuJfjE+LBJER6O9w7BCOkoKrhx8
-	 aH881dNAvy5/W8GfPH/zk/Y3vAddrwdupgrtULSh+LDyy/+kZEU7oA76F7A1dW9rKoI4M
-	 bTdxgnKqd91R7xyXcyFkr646JXPZXYaAKmFH5k5dQbgGJxazUWn4l2XTyVCCglhSjG/vp
-	 uq0Fu21+QnYIVqJWkTh8gX+jd0aBcv7CPi4yRexvv4A51x6pmKjlewz2CvYQPqccZHg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=K6D+D51+;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.53
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794946970;
+	b=BH2aDOXIcIChhTfRSCv8xrwoltc8kvtjz4bnob8N7CNiejBfOb2LlFH/4fWQjVdEps+X
+	 vkgzVy93nuKKJvd6FfYXkALpan5s7EUshhHSlX/IKjOqpzdLmbNS6RXRZwpwvB3YHGwEz
+	 mG+h0jN06OJfqdvMEuVjE3OU7aQ24c+s17MqJE/15LfGB+HwfqIju7Q6cEzwtmg17U6wv
+	 14HLjkoQffc+8tdqGSFsUYZWrWvhDhA7Zvys5I4/9rp9lq20V0REpoiD0ospKJfbR766/
+	 R1mJJ0TZtBxZWARYmRPDKzn426UFSnawGg/eoQU4v7Ge2aurl1j+7ryycLOUOWs1LZw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794946970;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=ZtQeR/ddy21JbXrMZ+LXpeOqWubRGUzX5o5Gn48azrs=;
+	b=AoleDGEzde0BZEDQrC9Hxh1bl7kMXzF1XcAUeIp5IatsQeXly+htVH7guqvJDKLKHZTI
+	 8cZvCQLXHdXMgfZAeLjkV+vbLL6GF6EgnUUTlOIYCo+3306d566oYFQeIfQrwmFRuIITh
+	 3BR0g4+MZ9tltDKSV6RP0lzWf8LHdnVN2FM/UdvvqBadO0lL0sJt3fh7vAzNNbSwAz6We
+	 YKUe/uSf5PZVdQZudJjI/9AFDH3p2fJEggnF55MRaPiwq2T23sNPxhftfBvJ8libp+j7r
+	 V+SkoDoFBYnUrskkKWpa/u8UejJLNH4UyfJfT1qhbA/gJucgBJghUKpsW8M+bGecCgw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="FG4I/h8l";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CB4606A32C
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 20:12:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88CB4606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB8E606A32C
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 20:22:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=K6D+D51+
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6b70880c0a4so357054a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 12:12:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794946368; cv=none;
-        d=google.com; s=arc-20260327;
-        b=FkRM6zUPleYy2OjgD3We/1G3erlhY9xmsHmJ5GniBDFMdL+7lQh3SUAf79I74StiBQ
-         cCUKRj7jTwjRit797p+wbzOT9VXuRIsvvB2K22pVurLS+xVEH6vihwbrQ7Iq2YIIlWM5
-         iG7KyjZ5UYaQqxRozYaFm/iaKsVqvr8BdtNTeTzyYrPdbxnyyLxVJvM/g5zJYQyCLWVk
-         znYMfI30LmFeiG+cG9q3uCblfE+JyjkcVeCvtcDZ7j7+Z9HpUQ9CN5DiYzyPc5H1ZHmP
-         1IPWYhxb4M4RWzyLcEN8v8Odv9kFgBRJ/B5/Ct39tiJZFDGFWGRIVKhYec6Givj6MLYc
-         e2/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dsWpC8hNFHdeBhWsKEhxBowEJkkinJKfFh6H6OuOq3k=;
-        fh=UJjl6aA+ru3HA7zTERvgC31/JEQubmJILx+6XCoSuR8=;
-        b=l2UVxys+D/1U3YbnfqK58Mts6O38KnqlSNIU++DRihhwOF62DNfW20K95KmoyVo+xY
-         BlOIpWWD8f4EKmK+aZqCmL4QgJclRoTxGEM2/ZMVznua5TFiGgrgBhTKkLTbvD1UTYrS
-         HSHeqNwBjV/6+Yih8K2OpTbTcTIJZUv43huUlZsEIpK/zUeJgqSRLZrXEUTa1lnlprWt
-         a+2t9CjQk2UbkVzgjThXpoVNVhoyt/Ln3zpdzI+6mL1WweMFwjGvTvnVlcm+XYeZc2+X
-         2Z5TQtD7smVKNvIsB8OunlP0xHsB/55QHxOSRV4aXphIoCInlB9mju2IFJki/0lze1mn
-         btpw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794946368; x=1795551168; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dsWpC8hNFHdeBhWsKEhxBowEJkkinJKfFh6H6OuOq3k=;
-        b=K6D+D51+XSTzYist+UzhJnGY6R3eGYB75bwKa5XnEwaaNA9Iou6XEjQr+MM4qF1i1d
-         rrUqHdNcBJUN1vERSaitJUZzO4rYrgNWo7yW+UmCPcRcXpZtM02jU/oI3TFJclmvZnXM
-         YQoBZRJJ5ivIDzbD+p7SJB1ohrZ7ZoxiyuxrD210CvfAB4Ytsh3whrzRJj5MK0zxiT/C
-         iFi5BwdHz2/gcud/45+trXqF+YdinQUPnlCUK09p8t4M6kZTCMREu8hxdoT/Uxy+/TWA
-         LUMWuUI7CHpcFM6MoqbQqs21aAjSbCEQBCqnd1JpMHpK7a311zszl05ZrLocPXqeVYms
-         HemA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794946368; x=1795551168;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dsWpC8hNFHdeBhWsKEhxBowEJkkinJKfFh6H6OuOq3k=;
-        b=CNshaSLU48D53uRhfZ5LmPlQ34Kvleg8NfjcGY8lCP3I7BAfo1UVS/98j4oq/gH3Mn
-         GvTZg3w2gg+Di3/1ONE/pJNl1G7e0CXkLJKXQF6K2RPyyUa0oE8XvBEgFlNiIeeHiotU
-         35b9g6VYeP5uUMi76cvSTLE0UNEU/9BwE8OagBHboz4dQ5Om3Phk5TpzVmlZktcEIy36
-         wPxF86bhD88M6Hmd+NgFD/Jv2RUTM36NNfomtdhqW6Y+r46fA/s8fOmHq2yv5BKfc2+8
-         oyx5Kc6NhFWd311m8SYEJFrQ1JiIYRM1tOcILO4nTGTxlxMK9OKeeZDWLWsSX++53fEG
-         rwhw==
-X-Forwarded-Encrypted: i=1; AL+hErEkNdrojEEvpzEZcuMH18kYWFXwOrXDL9nXAvrH3zMkeIbJlcrckAuI2VYfJKLtO1PY/8bA8R/tPiY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/hY6ptqD+cmcyhQyDCrmgodx4No8CtMSeN0hm7E8u/qprVNvsW
-	cYu0NZjZB5Iwp4mjDBF4olQByhLxBXVLJ+sQXOu5eDfPpQVIeSuTbK8Nu9bV1hr4ZwQwNCuE+4A
-	j11M5/ce+2b1R92iYcZLqDtPB7+pJ5AE=
-X-Gm-Gg: AYBFou0Tdme29yLK6q7Al6+fKigZLiM469RUVdj/JsHm0uzOjVE8w4qB/msrAFCVPss
-	i2od+ew7/cBnu/ly0rIGyE823z8XcDedOSTDLHkXuRGVueDF6I4hHg7lqLqkY5d/hziYGvqPOuX
-	zoKK8IgWhI1LTfeJuIZkKoE9nOhzU76Vjifm87rus7PY/K+nXYHN/so/tMJOb/49BCh/uQDxhpp
-	arcq2m1jWFycx81YNzjHPa73IHDAlEqCEUc/QjOjpJOy1pYB1niKC0Yat/YDnRtMyeFFCWZvN7x
-	DwAadWVnhh6XCDPemCRrThBAB/aMEyaQMkUGYJ57wi1SXycZ+rrsC+eOyPRtbzoU0u+MUDUK9cG
-	ErwFH7WD4nD8zMFZpHyg5mRVpLtrY9Wd1f6NBMTrY/IjE8hgiRgEdlZ1wZldDUNdDQ1u8BcwH58
-	3lpquYc9KpYuovOzHJNZ9fNhA=
-X-Received: by 2002:a05:6402:42cb:b0:6b5:8695:f839 with SMTP id
- 4fb4d7f45d1cf-6b887f1be04mr267366a12.45.1794946367691; Tue, 17 Nov 2026
- 12:12:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FG4I/h8l
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86A581F000CE
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 20:22:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794946970;
+	bh=ZtQeR/ddy21JbXrMZ+LXpeOqWubRGUzX5o5Gn48azrs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=FG4I/h8ljRamYVPM7NsX+kdiQFbGzR7sN38whq50p+nPWuDu4Bqo+zDGqjemxLt4f
+	 s8srbgyrZXTHeA7LCHCYt7TfmQF2A+LVZL2BnKbBe93f8wiqMbw0ib46ReZHdw6OvT
+	 aTPykAkJ6EU7ZLVoTEYZnxaOLYdJzDGqosSzDSvwObTvSViReIIxMNl3JTR3MJiLlo
+	 QOv5rIcgg2cBdecPh3A4Qz3Wuco5PAMPuRtXeerYPOxJkTkXB4LWpopeQY6VeTfH4j
+	 xKSW4rQjykZPyB5W+lS1ufJ9BbyzvHf1kYzFIvXxiXLuZav6xfY4IWC3pqvjmQciUg
+	 xsCanBYATnnbg==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5c126f80426so153013e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 12:22:50 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGz0gYzesOwkn8KQiqdjgD2qAlztizVwgc+LhDf3bzdz75ds/kAJ+cBehzZ+R9fneFLxBXK4PHB0/c=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+9BUSiLuVnV7Dg0DdlkHizWFA8GkwCnSP/ls+0zQ2PDvc+rlkM
+	gfb5/9b8lJQEwpDP7RV6usyqfp0Td6tdqGWewNsyhnA3ld5EplOzWco/WgNF7QvDroCJHTVCDg2
+	PhUqmvWPrGzx4lVf6j2AKsiietlIn8DY=
+X-Received: by 2002:a05:6512:308c:b0:5c1:4e66:7bbe with SMTP id
+ 2adb3069b0e04-5c1a9c25e4cmr84934e87.29.1794946968890; Tue, 17 Nov 2026
+ 12:22:48 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,227 +59,108 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261117-marvel-env-v3-0-0edc370fdca9@gmail.com> <20261117-marvel-env-v3-3-0edc370fdca9@gmail.com>
-In-Reply-To: <20261117-marvel-env-v3-3-0edc370fdca9@gmail.com>
-From: Magnus Lindholm <linmag7@gmail.com>
-Date: Tue, 17 Nov 2026 21:12:36 +0100
-X-Gm-Features: AclHuK9UJHZpjj1pwmTs5vNVuvzEV8p-zx9UHIBTQLk_eJ3QQQd8LKACJqv-Qfs
-Message-ID: <CA+=Fv5Q7FHfnsd5+uCG8mR0dR_U_ca8sw+NrB=of81OiHqdxkg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/7] alpha: marvel: refresh environmental readings
- through the console
-To: Matt Turner <mattst88@gmail.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, Guenter Roeck <linux@roeck-us.net>, 
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20261024223501.1420953-1-daniel.lezcano@oss.qualcomm.com>
+ <20261024223501.1420953-2-daniel.lezcano@oss.qualcomm.com>
+ <CAMuHMdXJOpcC3a6wMXF_m=uNjuqSO1Z3kyM7Az1uP_2GBurOvA@mail.gmail.com>
+ <0de1444a-a0ba-4e16-a480-74a39c865ab6@oss.qualcomm.com> <CAMuHMdWfH+_4ijxko=LS_P6b1Y76WWDc8m4xL6qW1H+qKRQ98A@mail.gmail.com>
+ <CAB9z6xC4c=o1DwVARBek7ozDxaCON9rpwTmJ810sDGyP0XYQDA@mail.gmail.com>
+In-Reply-To: <CAB9z6xC4c=o1DwVARBek7ozDxaCON9rpwTmJ810sDGyP0XYQDA@mail.gmail.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Tue, 17 Nov 2026 21:22:37 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0jg61_W6hgtMzKdMa+f27ApaNunnpkzM0MoYxN+aV-xog@mail.gmail.com>
+X-Gm-Features: AclHuK_c_NJ9owiTS0vj6s42B-axpqzhO3Kp4-jOW_Jw2rhEoqZi8QT4VogQuuA
+Message-ID: <CAJZ5v0jg61_W6hgtMzKdMa+f27ApaNunnpkzM0MoYxN+aV-xog@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] platform profile: Extract the core from ACPI
+To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Maximilian Luz <luzmaximilian@gmail.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Armin Wolf <W_Armin@gmx.de>, 
+	Jai Luthra <jai.luthra@ideasonboard.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jack Wu <jackbb_wu@compal.com>, 
+	"Mario Limonciello (AMD)" <superm1@kernel.org>, linux-acpi@vger.kernel.org, 
+	"open list:CLOCKSOURCE, CLOCKEVENT DRIVERS" <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	Linux PM mailing list <linux-pm@vger.kernel.org>, PDx86 <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Matt,
-
-On Tue, Nov 17, 2026 at 7:13=E2=80=AFPM Matt Turner <mattst88@gmail.com> wr=
-ote:
+On Tue, Nov 17, 2026 at 7:27=E2=80=AFPM Daniel Lezcano
+<daniel.lezcano@oss.qualcomm.com> wrote:
 >
-> The SRM console keeps the readings of the temperature, fan, voltage and
-> power supply sensors in the power and environment (P&E) nodes of the
-> config tree (GCT), and refreshes those of one node when asked through
-> config tree callback 0x28, function 0x1f. The Alpha Architecture
-> Reference Manual reserves every callback code it does not list, so this
-> is a Marvel console extension; its code and function number come from
-> Tru64 UNIX. Define CCB_CFGTREE in asm/console.h, and add the callback
-> and marvel_cfgtree_partial_update() for a sensor driver to use,
-> retrying, as Tru64 UNIX does, while the console reports busy.
 >
-> On an ES47 the callback takes 13 to 300 ms per node with interrupts
-> disabled. The console callbacks are not reentrant: a refresh on one CPU
-> while another printed to the SRM console killed the second CPU, and the
-> service processor reset the partition. So export the srmcons callback
-> lock and hold it around the call. The lock is declared even when SRM
-> support is not built; there alpha_using_srm is the constant 0, and the
-> call is compiled out.
 >
-> Tru64 UNIX makes this and its other runtime config tree callbacks only on
-> the master CPU, and the Marvel PAL TOY calls are already known to work
-> only on the boot CPU, so make the call there as well.
->
-> Signed-off-by: Matt Turner <mattst88@gmail.com>
-> ---
->  arch/alpha/include/asm/console.h    |  5 ++++
->  arch/alpha/include/asm/marvel_env.h | 12 ++++++++++
->  arch/alpha/kernel/core_marvel.c     | 48 +++++++++++++++++++++++++++++++=
-++++++
->  arch/alpha/kernel/proto.h           |  1 +
->  arch/alpha/kernel/srmcons.c         |  3 ++-
->  arch/alpha/lib/callback_srm.S       |  1 +
->  6 files changed, 69 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/alpha/include/asm/console.h b/arch/alpha/include/asm/co=
-nsole.h
-> index 1cabdb6064bb..4f5cf589aff7 100644
-> --- a/arch/alpha/include/asm/console.h
-> +++ b/arch/alpha/include/asm/console.h
-> @@ -4,6 +4,9 @@
->
->  #include <uapi/asm/console.h>
->
-> +/* Not architected: a Marvel console extension, as used by Tru64 UNIX. *=
-/
-> +#define CCB_CFGTREE            0x28
-> +
->  #ifndef __ASSEMBLER__
->  extern long callback_puts(long unit, const char *s, long length);
->  extern long callback_getc(long unit);
-> @@ -15,6 +18,8 @@ extern long callback_read(long channel, long count, con=
-st char *buf, long lbn);
->  extern long callback_getenv(long id, const char *buf, unsigned long buf_=
-size);
->  extern long callback_setenv(long id, const char *buf, unsigned long buf_=
-size);
->  extern long callback_save_env(void);
-> +extern long callback_cfgtree(long func, unsigned long arg1, unsigned lon=
-g arg2,
-> +                            unsigned long arg3, unsigned long arg4);
->
->  extern int srm_fixup(unsigned long new_callback_addr,
->                      unsigned long new_hwrpb_addr);
-> diff --git a/arch/alpha/include/asm/marvel_env.h b/arch/alpha/include/asm=
-/marvel_env.h
-> new file mode 100644
-> index 000000000000..16ccd2002a11
-> --- /dev/null
-> +++ b/arch/alpha/include/asm/marvel_env.h
-> @@ -0,0 +1,12 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef __ALPHA_MARVEL_ENV_H
-> +#define __ALPHA_MARVEL_ENV_H
-> +
-> +/*
-> + * Ask the console to refresh the environmental readings of the GCT node=
- at
-> + * @offset from the start of the GCT. Returns the console status, which =
-is 1
-> + * or -0x4a on success.
-> + */
-> +long marvel_cfgtree_partial_update(unsigned long offset);
-> +
-> +#endif /* __ALPHA_MARVEL_ENV_H */
-> diff --git a/arch/alpha/kernel/core_marvel.c b/arch/alpha/kernel/core_mar=
-vel.c
-> index 92e3312e786e..bd918028b410 100644
-> --- a/arch/alpha/kernel/core_marvel.c
-> +++ b/arch/alpha/kernel/core_marvel.c
-> @@ -20,10 +20,13 @@
->  #include <linux/string.h>
->  #include <linux/module.h>
->  #include <linux/memblock.h>
-> +#include <linux/workqueue.h>
->
->  #include <asm/ptrace.h>
->  #include <asm/smp.h>
->  #include <asm/gct.h>
-> +#include <asm/console.h>
-> +#include <asm/marvel_env.h>
->  #include <asm/tlbflush.h>
->  #include <asm/vga.h>
->
-> @@ -1094,3 +1097,48 @@ marvel_agp_info(void)
->
->         return agp;
->  }
-> +
-> +/*
-> + * The console refreshes the environmental packets of a GCT node through
-> + * config tree callback function 0x1f, returning -26 while it is busy. T=
+> Le mar. 17 nov. 2026, 17:39, Geert Uytterhoeven <geert@linux-m68k.org> a =
+=C3=A9crit :
+>>
+>> Hi Daniel,
+>>
+>> On Tue, 17 Nov 2026 at 17:03, Daniel Lezcano
+>> <daniel.lezcano@oss.qualcomm.com> wrote:
+>> > On 11/17/26 12:48, Geert Uytterhoeven wrote:
+>> > > On Sun, 25 Oct 2026 at 00:56, Daniel Lezcano
+>> > > <daniel.lezcano@oss.qualcomm.com> wrote:
+>> > >> Platform profile providers already use device-based callbacks and d=
+o not
+>> > >> need ACPI types. The core is nevertheless confined to the ACPI buil=
+d and
+>> > >> refuses to initialize when ACPI is disabled.
+>> > >>
+>> > >> Move the implementation to drivers/platform/profile and introduce t=
 he
-> + * callback runs for up to 300 ms with interrupts disabled. Hold the con=
-sole
-> + * callback lock: a concurrent callback from another CPU, such as SRM co=
-nsole
-> + * output, kills that CPU. Make the call on the boot CPU, as Tru64 UNIX =
-does
-> + * for its config tree callbacks; the PAL TOY calls also work only there=
-.
-> + */
-> +#define CFGTREE_PARTIAL_UPDATE 0x1f
-> +#define CFGTREE_BUSY           (-26)
-> +
-> +static long marvel_cfgtree_partial_update_local(void *arg)
-> +{
-> +       unsigned long flags;
-> +       long status;
-> +
-> +       spin_lock_irqsave(&srmcons_callback_lock, flags);
-> +       status =3D callback_cfgtree(CFGTREE_PARTIAL_UPDATE, (unsigned lon=
-g)arg,
-> +                                 0, 0, 0);
-> +       spin_unlock_irqrestore(&srmcons_callback_lock, flags);
-> +
-> +       return status;
-> +}
-> +
-> +long marvel_cfgtree_partial_update(unsigned long offset)
-> +{
-> +       long status;
-> +       int tries;
-> +
-> +       if (!alpha_using_srm)
-> +               return -ENODEV;
-> +
-> +       for (tries =3D 0; tries < 100; tries++) {
-> +               status =3D work_on_cpu(boot_cpuid,
-> +                                    marvel_cfgtree_partial_update_local,
-> +                                    (void *)offset);
-> +               if (status !=3D CFGTREE_BUSY)
-> +                       break;
-> +               usleep_range(10000, 20000);
-> +       }
-> +
-> +       return status;
-> +}
-> +EXPORT_SYMBOL_GPL(marvel_cfgtree_partial_update);
-> diff --git a/arch/alpha/kernel/proto.h b/arch/alpha/kernel/proto.h
-> index c418333d0b89..dc4ae0e0ed05 100644
-> --- a/arch/alpha/kernel/proto.h
-> +++ b/arch/alpha/kernel/proto.h
-> @@ -111,6 +111,7 @@ extern void * __init move_initrd(unsigned long);
->  extern struct screen_info vgacon_screen_info;
->
->  /* srmcons.c */
-> +extern spinlock_t srmcons_callback_lock;
->  #if defined(CONFIG_ALPHA_GENERIC) || defined(CONFIG_ALPHA_SRM)
->  extern void register_srm_console(void);
->  extern void unregister_srm_console(void);
-> diff --git a/arch/alpha/kernel/srmcons.c b/arch/alpha/kernel/srmcons.c
-> index d19e51ec711d..45a10d539f19 100644
-> --- a/arch/alpha/kernel/srmcons.c
-> +++ b/arch/alpha/kernel/srmcons.c
-> @@ -24,7 +24,8 @@
->  #include "proto.h"
+>> > >> firmware-independent PLATFORM_PROFILE symbol. Update all provider
+>> > >> selectors. Keep provider-specific ACPI dependencies and the
+>> > >> platform_profile module name.
+>> > >>
+>> > >> Isolate access to the legacy ACPI kobject in an optional compatibil=
+ity
+>> > >> object linked into the same module. Retain the legacy ABI on active=
+ ACPI
+>> > >> systems, and initialize the class even when ACPI is absent or disab=
+led.
+>> > >>
+>> > >> Use subsys_initcall_sync so the class is ready before built-in ther=
+mal
+>> > >> and CPUFreq providers, but after ACPI has initialized its compatibi=
+lity
+>> > >> kobject.
+>> > >>
+>> > >> Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+>> > >
+>> > > Thanks for your patch, which is now commit 699041135f75b13a
+>> > > ("platform profile: Extract the core from ACPI") in pm/linux-next/
+>> > >
+>> > >> --- a/drivers/platform/Kconfig
+>> > >> +++ b/drivers/platform/Kconfig
+>> > >> @@ -1,4 +1,20 @@
+>> > >>   # SPDX-License-Identifier: GPL-2.0-only
+>> > >> +config PLATFORM_PROFILE
+>> > >> +       tristate "Platform profile support"
+>> > >
+>> > > I guess this can be invisible (perhaps "... if COMPILE_TEST"?), as
+>> > > you have updated all provider selectors?
+>> > >
+>> > > If not, I guess this needs a "depend on X86 || COMPILE_TEST", so peo=
+ple
+>> > > configuring kernels for different architectures do not see this opti=
+on?
+>> >
+>> > The goal of this series is to make the platform profile firmware
+>> > agnostic so it is available for all architectures
+>>
+>> Sure... Are there any users of it on these architectures?
 >
 >
-> -static DEFINE_SPINLOCK(srmcons_callback_lock);
-> +/* The console callbacks are not reentrant. */
-> +DEFINE_SPINLOCK(srmcons_callback_lock);
->  static int srm_is_registered_console =3D 0;
->
->  /*
-> diff --git a/arch/alpha/lib/callback_srm.S b/arch/alpha/lib/callback_srm.=
-S
-> index 36b63f295170..6d3c9ce6b815 100644
-> --- a/arch/alpha/lib/callback_srm.S
-> +++ b/arch/alpha/lib/callback_srm.S
-> @@ -94,6 +94,7 @@ CALLBACK(reset_env, CCB_RESET_ENV, 4)
->  CALLBACK(save_env, CCB_SAVE_ENV, 1)
->  CALLBACK(pswitch, CCB_PSWITCH, 3)
->  CALLBACK(bios_emul, CCB_BIOS_EMUL, 5)
-> +CALLBACK(cfgtree, CCB_CFGTREE, 6)
->
->  EXPORT_SYMBOL(callback_getenv)
->  EXPORT_SYMBOL(callback_setenv)
->
-> --
-> 2.56.1
->
+> ARM64 is about to (patches are cooked)
 
-Nice, Marvel kernel without SRM builds again.
+Geert has a point though.  There are arches that don't need to see this at =
+all.
 
-Reviewed-by: Magnus Lindholm <linmag7@gmail.com>
+You can add ARM64 to the list while adding support for this to it.
+
+> Others IDK
+
+Well, exactly.
