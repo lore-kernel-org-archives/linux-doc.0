@@ -1,71 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.143
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794899814;
-	b=ZwBaaiZh2aKmi/Vv+js9ajh3OIjg5pifsYDFZdUP0PD/w2i1eVAG16C4lIaWTvTQKHcH
-	 FFW+JlDbciAasCcjVI8LzwBGKXTyYn9375BxkeAYVAmUmLCtczo45nZtYC/OjMaq+uX7D
-	 5y0qyPxGCAOXheq8HC2MR1ITktS/OlF0A5X9ty4qROLSM+4tvSVkKlA7eEMntJ1xFFFxW
-	 o+03yZjVjyikf/Ox2HrP21j6IY6RRClrZ8BNnq2Vg1rAN24Dkws9XbgFrSwW1y/MzPjRF
-	 7B2TNGt0fQPIgV44IN12QcaXdfadSPDdoyuX8U2gfN4kLOmMjzqi9EYUd6o145brsZg==
+	t=1794901475;
+	b=Lz0Lw8ARjQBYmO3RTOlFOAc7cwKGAs3xu+/MUKdod+xcnCKl/iHFPE3QXKgm5ucWPxZ6
+	 WbsmmsyYfu84q3pn39qmFkYjcbXbawLzJzfRo7satTJiL8j4Jyvt7lAolTmpr9mplWdBX
+	 JxR7mOkIHcgkp1/AoGUGcpRjVXGevf5Q6O1Odo8T63wJOTRE8s2CQAPo2kxWCxBQu7n2C
+	 j6s8Oq7UtrEGjqHQAUgsFbj5S9eJdqnRH2szsOE5g2DMtkvtCgia2jSsfT2OuUgJU6wvR
+	 YkFBLLUxCyrfkpSr1VMA1RfhHo6k5ZESG5tk5y6KwQsLts9+yGVeSr6IgB4abNk+Acw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794899814;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-Rspamd-Queue-Id;
-	bh=ghlwcRdUv8BJx6TAkH6mqpsTPpkoTPRZ22GT5OhmSSM=;
-	b=SOh77EeHbjdWwDKRYDHDkP3hbVUmTeon0x1W0ohEXgtvv4TaxGmoKm+Ow1KfW7rBQK+g
-	 OkmoP3oeoiarpJTS6wEwl7EpzpzI1ZxOHykE66ipv6ykwLD9wUis52yK+vVQTO7eI22f3
-	 dlov/BrJRASSW2ucOZN3SW6wkScgSI6NmWU6rkhAoB1SES6acTSuO6fhuvEZGINU1+whu
-	 xVH/rGbmsmnVaQLQHbBehu59GLjVs6n64oeWIxwU3OusQWjOXncMNcgQQNXwdTP/HBN40
-	 k5LgmrIjo3OV73HWMfbklS42J4g49iIUcB1DPMRqogXQj9bC93at8mSaWlRkfMX8HVA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794901475;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=nJTrCNw3zk+mXzjZgUU06g5zrC28b74qTBb4oPoWMbI=;
+	b=RKkGD6GQKcPcJK+ui7AIsbWsNFD07sd2zy+cbd5FQYu3dB24Q7JMulMKY51nIXC9O2qs
+	 SPXVbL+cbMuywhk6w9oYvCIP8YsIKFe022xoG/1zd1o+BZm5uGfANP0kocdFVxn1j1ROn
+	 V4aHSTbmQXdvRz9tMY6r5KVeUdMaz5qHIQTSZ96hwN/NMChVBi0hFAeAVYkm7K97oL53C
+	 8As4hyPJHXJ/6YtIxyJ/YptVovXrevK4O6dpJ4JKC674Db9/uq0q1WBF1Me/FDXe6vE9Q
+	 U9l9gaCQ7XvYow1RYc3Y73YN+3FTW22jNAEcmApGRzXq93Ay0Jy4IZR/vYqByvLvoVg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bojanowski.me;
-	spf=pass smtp.mailfrom=bojanowski.me;
-	dkim=pass header.d=bojanowski.me header.i=@bojanowski.me header.a=rsa-sha256 header.s=MBO0001 header.b=ZGiDUE2m;
-	arc=none smtp.remote-ip=80.241.56.172
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LcnE2VaX;
+	arc=none smtp.remote-ip=95.215.58.143
+Received: from mta1.migadu.com (out-143.mta1.migadu.com [95.215.58.143])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487B6606A31C;
-	Tue, 17 Nov 2026 07:16:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 487B6606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bojanowski.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bojanowski.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E97D606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 07:44:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E97D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bojanowski.me header.i=@bojanowski.me header.a=rsa-sha256 header.s=MBO0001 header.b=ZGiDUE2m
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4jTGJ00ZPpzMlmL;
-	Tue, 17 Nov 2026 08:16:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bojanowski.me;
-	s=MBO0001; t=1794899808;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ghlwcRdUv8BJx6TAkH6mqpsTPpkoTPRZ22GT5OhmSSM=;
-	b=ZGiDUE2m0L+X9lhzdNvX+fEEyDyv2qsG0Ja/fQLQwiKXb53hhcL+rN8mn+fYlB3wve+lNo
-	sK7hBL4ApPbPQHbqkvGWPrsCjFpvi6vnvl11qa4VYvVFafhMO/T48roPrNFqeuje1Hwqvy
-	asYGjMyqa3OEzD4pu0/2g1fGFtFFExoIwdety9g+89yDY5ascKmGaR+ws8USFX76fe6n1o
-	lBTivnmubsHCeIJQGPvsDtbZ9WWDP4Pmui7saz9ph4PMscOpo/xL0ckJf6YSZrCopXTFpp
-	AYvzE7KtdKnFZ+YOfNvBMuvRgkePDGar6qhO1mYG8zXiVNAsD1HOXAvrWMzpqA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of tomasz@bojanowski.me designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=tomasz@bojanowski.me
-From: Tomasz Bojanowski <tomasz@bojanowski.me>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org,
-	Hamza Mahfooz <someguy@effective-light.com>,
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LcnE2VaX
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=jVZ0So2orIv5BaxqX0IyQ9plkTtzDC6ZmcHPOd8EIw8=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794901471; v=1; x=1795506271;
+ b=LcnE2VaXEP+TPqzgXkMdVBNZgvqDYPebl0F/CaOo2PK3AKIjTNMEuYpvb49G+0UkSOWXZmUv
+ vh8Y62g58sZuKdq6b2U6yBhCRR0U2qhJkRVhWaeJbya9W+XUFsJ0tFp3Yey7pmdC0nJZ/VI+jPH
+ IhstGmJ1C8EdVtz/lL3Gitlw=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id d5bc28d01129cadc;
+	Tue, 17 Nov 2026 07:44:31 +0000
+X-Mizu-Trace-ID: d5bc28d01129cadc
+X-Migadu-Flow: FLOW_OUT
+From: Fuad Tabba <fuad.tabba@linux.dev>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>
+Cc: kvm@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] hwmon: (nct6683) Make pwmN_auto_channels_temp of NCT6687D-R writable
-Date: Tue, 17 Nov 2026 08:16:45 +0100
-Message-ID: <20261117071645.587863-1-tomasz@bojanowski.me>
-X-Mailer: git-send-email 2.56.1
+	Isaku Yamahata <isaku.yamahata@intel.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	kvmarm@lists.linux.dev,
+	Wei-Lin Chang <weilin.chang@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Fuad Tabba <tabba@google.com>
+Subject: [PATCH v2 0/2] KVM: Bound KVM_PRE_FAULT_MEMORY by the vCPU's dirty ring
+Date: Tue, 17 Nov 2026 07:44:26 +0000
+Message-ID: <20261117074428.7544-1-fuad.tabba@linux.dev>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,335 +79,58 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4jTGJ00ZPpzMlmL
 
-Allow selecting the temperature used by a fan curve on MSI boards with
-an NCT6687D-R (customer ID 0x20d), in manual and in automatic mode.
+Hi folks,
 
-On an MSI MAG B850M MORTAR WIFI, the BIOS setup offers four temperature
-sources for the fans: CPU Core, System, MOS and Chipset A. Reading the EC
-before and after selecting them shows that each sets a single bit in the
-lowest byte of the fan's source register, the bit of the monitoring
-channel of temp1, temp2, temp3 and temp4 respectively, and that nothing
-else in the fan curve registers changes. The other bytes were never seen
-in use, and how the EC would combine several bits is not known, so only
-a single temperature reported by the driver on the first eight monitoring
-channels can be selected; other values return -EINVAL. The range can be
-extended if a board needs it.
+Changes since v1 [1]:
+  - Switched the check to kvm_dirty_ring_check_request(). (Sean)
+  - The test checks that each page is reported exactly once, whatever
+    the order. (Lorenzo)
+  - Fixed the test on 64K-page arm64 hosts by sizing its range in host
+    pages.
+  - Various fixes. (Lorenzo)
+  - Dropped Lorenzo's Reviewed-by on patch 1, since the check changed.
 
-The attribute is writable if, when the driver is loaded, the curve uses
-one such temperature. Before each write the driver checks that this is
-still the case and returns -EBUSY otherwise, so that it does not overwrite
-a source which could not be selected again.
+KVM_PRE_FAULT_MEMORY never checks the vCPU's dirty ring, so one call
+over a large enough range of populated, dirty-logged pages overflows
+it. The first patch stops the loop at the soft limit, as KVM_RUN does.
+The second patch adds the case to pre_fault_memory_test.
 
-The source is written in a configuration phase and read back, as the
-curve points are. If that fails while the EC responds, the previous
-source is written again. Sources selected through sysfs are restored on
-resume, after the curves and before manual mode.
+Pre-faulting isn't the only ioctl that can push past the ring's
+reserve. On x86, KVM_SET_MSRS does too when it writes the wall clock or
+the Hyper-V hypercall page. A guest can also push past the reserve
+within one exit, for example through the arm64 ITS. What those paths
+should do when the ring fills is an open question for the dirty ring
+API, which I don't think belongs in this series.
 
-Tested on an MSI MAG B850M MORTAR WIFI (MS-7E61) with pwm16 and a test
-curve rising by 10 per degree Celsius around the measured temperatures.
-After selecting temp2, temp3 and temp4 in turn in automatic mode, the
-duty cycle followed the curve for the newly selected temperature. Invalid
-values returned -EINVAL and left the source unchanged. A source selected
-in manual mode took effect after switching back to automatic mode. After
-suspend to RAM, the source and the curve were the same as before, and
-manual mode was still restored. With the driver unloaded during suspend,
-the BIOS restored its own curve but the EC kept the selected source, so
-restoring the source on resume could not be tested on this board.
+I didn't include the kvm_dirty_ring_check_request() rewrite that Sean
+sketched on v1, since I think it can lose a request. It tests the
+request first and clears it afterwards. If the vCPU is scheduled out in
+between, loongarch sets the PV preempted flag in guest memory and x86
+updates a Xen guest's runstate area, either of which pushes an entry.
+When that push makes the ring soft full, the request it makes is then
+cleared, and the vCPU runs with the ring soft full until its next push.
+Clearing first and re-setting, as the code does now, doesn't have that
+window.
 
-Signed-off-by: Tomasz Bojanowski <tomasz@bojanowski.me>
----
-v2: Return -EBUSY instead of -EIO if the curve no longer uses a
-temperature which can be selected (Guenter). I had followed the fan
-curve points, which return -EIO in the same case; I can send a separate
-patch to change that to -EBUSY as well.
+Based on Linux 7.4-rc2 (7475ea8b58616; also applies to kvm-x86/next
+cbe54fc3462b3 with git am -3).
 
-v1: https://lore.kernel.org/linux-hwmon/20261116232612.501586-1-tomasz@bojanowski.me/
+Cheers,
+/fuad
 
-I used an AI assistant (Claude Code) during development, including for
-the test scripts and for comparing the EC register dumps. I reviewed all
-of the changes, ran the tests on the hardware described above, and take
-responsibility for them.
+[1] https://lore.kernel.org/all/20261110110724.3614412-1-fuad.tabba@linux.dev/
 
- Documentation/hwmon/nct6683.rst |  18 +++-
- drivers/hwmon/nct6683.c         | 158 +++++++++++++++++++++++++++++++-
- 2 files changed, 168 insertions(+), 8 deletions(-)
+Fuad Tabba (2):
+  KVM: Stop KVM_PRE_FAULT_MEMORY when the vCPU's dirty ring is full
+  KVM: selftests: Test KVM_PRE_FAULT_MEMORY against a full dirty ring
 
-diff --git a/Documentation/hwmon/nct6683.rst b/Documentation/hwmon/nct6683.rst
-index e72c037442e6..1afdf4788d82 100644
---- a/Documentation/hwmon/nct6683.rst
-+++ b/Documentation/hwmon/nct6683.rst
-@@ -76,7 +76,7 @@ the following attributes, if the curve sets a duty cycle:
-     millidegrees Celsius
-   * pwmN_auto_point[1-7]_pwm: duty cycle of the curve point (0-255)
-   * pwmN_auto_channels_temp: temperature channels used by the curve, as a
--    bitmap (1 is temp1, 2 is temp2, 4 is temp3 etc.), read-only
-+    bitmap (1 is temp1, 2 is temp2, 4 is temp3 etc.)
- 
- The fan curve is initially the one configured in the BIOS setup. A fan with
- Smart Fan disabled in the BIOS setup has a flat curve, with its fixed duty
-@@ -95,9 +95,21 @@ Celsius and duty cycles to 0-255, and both to the values of the adjacent
- points, so the points have to be written from point 7 to point 1 to raise
- a curve and from point 1 to point 7 to lower it.
- 
-+pwmN_auto_channels_temp is writable if, when the driver is loaded, the
-+curve uses a single temperature which can be selected; otherwise it is
-+read-only. A temperature can be selected if it is reported by the driver
-+and measured on one of the first eight monitoring channels of the chip; on
-+the MSI MAG B850M MORTAR WIFI, these are temp1 to temp4. Writing a value
-+which does not have exactly one bit set, or a temperature which cannot be
-+selected, returns -EINVAL. Writing returns -EBUSY if the curve no longer
-+uses a single temperature which can be selected, and -EIO if the EC does
-+not take the new temperature. It can be written in manual and in automatic
-+mode. In manual mode, the new temperature is used after switching to
-+automatic mode.
-+
- The BIOS may restore its own settings when resuming from suspend, so the
--driver restores the curves written through it. They are kept when the
--driver is unloaded.
-+driver restores the curves written and the temperatures selected through
-+it. They are kept when the driver is unloaded.
- 
- Tested Boards and Firmware Versions
- -----------------------------------
-diff --git a/drivers/hwmon/nct6683.c b/drivers/hwmon/nct6683.c
-index 078ec9023851..36565afe8297 100644
---- a/drivers/hwmon/nct6683.c
-+++ b/drivers/hwmon/nct6683.c
-@@ -187,6 +187,8 @@ superio_exit(int ioreg)
- #define NCT6687DR_REG_CURVE_OUT_HI(x, p) (0xb07 + (x) * 0x18 + (p) * 2)
- #define NCT6687DR_REG_CURVE_OUT_LO(x, p) (0xb08 + (x) * 0x18 + (p) * 2)
- #define NCT6687DR_REG_CURVE_SRC(x)	(0x910 + (x) * 4)	/* 32 bit */
-+/* Monitoring channels which can be selected as the source of a fan curve */
-+#define NCT6687DR_CURVE_SRC_CHANNELS	8
- #define NCT6687DR_REG_CURVE_MODE(x)	(0xa08 + (x))		/* channels 0-7 */
- #define NCT6687DR_REG_CURVE_MODE_SYS(x)	(0x240 + (x) - 10)	/* channels 10-15 */
- #define NCT6687DR_CURVE_MODE_PWM	0x40
-@@ -384,6 +386,7 @@ struct nct6683_data {
- 	u16 have_fan_ctrl;		/* channels supporting fan control */
- 	u16 have_curve;			/* channels with a duty cycle curve */
- 	u16 curve_writable;		/* channels with a writable curve */
-+	u16 src_writable;		/* channels with a writable curve source */
- 
- #ifdef CONFIG_PM
- 	/* Remember extra register values over suspend/resume */
-@@ -397,6 +400,10 @@ struct nct6683_data {
- 	/* Fan curves set through sysfs, restored on resume */
- 	u16 curve_set;
- 	struct nct6687dr_curve curve[NCT6683_NUM_REG_FAN];
-+
-+	/* Temperature sources of fan curves set through sysfs, as above */
-+	u16 src_set;
-+	u32 src[NCT6683_NUM_REG_FAN];
- };
- 
- struct nct6683_sio_data {
-@@ -1435,19 +1442,26 @@ store_pwm_auto_point_pwm(struct device *dev, struct device_attribute *attr,
- 	return err ? err : count;
- }
- 
-+/* Read the temperature source of a fan curve */
-+static u32 nct6687dr_src_read(struct nct6683_data *data, int ch)
-+{
-+	u16 reg = NCT6687DR_REG_CURVE_SRC(ch);
-+
-+	return (u32)nct6683_read16(data, reg) << 16 |
-+	       nct6683_read16(data, reg + 2);
-+}
-+
- static ssize_t
- show_pwm_auto_channels_temp(struct device *dev, struct device_attribute *attr,
- 			    char *buf)
- {
- 	struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
- 	struct nct6683_data *data = dev_get_drvdata(dev);
--	u16 reg = NCT6687DR_REG_CURVE_SRC(sattr->index);
- 	u32 src, channels = 0;
- 	int i;
- 
- 	mutex_lock(&data->update_lock);
--	src = (u32)nct6683_read16(data, reg) << 16 |
--	      nct6683_read16(data, reg + 2);
-+	src = nct6687dr_src_read(data, sattr->index);
- 	mutex_unlock(&data->update_lock);
- 
- 	/* Bit n of the source register selects monitoring channel n */
-@@ -1465,8 +1479,109 @@ show_pwm_auto_channels_temp(struct device *dev, struct device_attribute *attr,
- 	return sysfs_emit(buf, "%u\n", channels);
- }
- 
--SENSOR_TEMPLATE(pwm_auto_channels_temp, "pwm%d_auto_channels_temp", 0444,
--		show_pwm_auto_channels_temp, NULL, 0);
-+/*
-+ * Return the index of the temperature attribute which a temperature source
-+ * selects, or -1 if it does not select exactly one temperature attribute of
-+ * the monitoring channels which can be selected.
-+ */
-+static int nct6687dr_src_temp(struct nct6683_data *data, u32 src)
-+{
-+	int i;
-+
-+	for (i = 0; i < data->temp_num; i++) {
-+		if (data->temp_index[i] < NCT6687DR_CURVE_SRC_CHANNELS &&
-+		    src == BIT(data->temp_index[i]))
-+			return i;
-+	}
-+
-+	return -1;
-+}
-+
-+struct nct6687dr_src_ctx {
-+	int ch;
-+	u32 src;
-+};
-+
-+static void nct6687dr_src_write(struct nct6683_data *data, void *ctx)
-+{
-+	const struct nct6687dr_src_ctx *sc = ctx;
-+	u16 reg = NCT6687DR_REG_CURVE_SRC(sc->ch);
-+
-+	nct6683_write(data, reg, sc->src >> 24);
-+	nct6683_write(data, reg + 1, sc->src >> 16);
-+	nct6683_write(data, reg + 2, sc->src >> 8);
-+	nct6683_write(data, reg + 3, sc->src);
-+}
-+
-+/* Write a temperature source and check that the EC has taken it */
-+static int nct6687dr_src_apply(struct nct6683_data *data, int ch, u32 src)
-+{
-+	struct nct6687dr_src_ctx sc = { .ch = ch, .src = src };
-+	int err;
-+
-+	err = nct6687dr_fan_cfg_transaction(data, nct6687dr_src_write, &sc);
-+	if (err)
-+		return err;
-+
-+	return nct6687dr_src_read(data, ch) == src ? 0 : -EIO;
-+}
-+
-+/*
-+ * Select the temperature used by a fan curve. The previous temperature
-+ * source is restored if that fails while the EC responds.
-+ */
-+static ssize_t
-+store_pwm_auto_channels_temp(struct device *dev, struct device_attribute *attr,
-+			     const char *buf, size_t count)
-+{
-+	struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
-+	struct nct6683_data *data = dev_get_drvdata(dev);
-+	int ch = sattr->index;
-+	unsigned long val;
-+	u32 old, src;
-+	int err;
-+
-+	err = kstrtoul(buf, 10, &val);
-+	if (err)
-+		return err;
-+
-+	/* Exactly one temperature which can be selected */
-+	if (!is_power_of_2(val) || __ffs(val) >= data->temp_num)
-+		return -EINVAL;
-+	src = BIT(data->temp_index[__ffs(val)]);
-+	if (nct6687dr_src_temp(data, src) < 0)
-+		return -EINVAL;
-+
-+	mutex_lock(&data->update_lock);
-+
-+	/* Do not touch a source which could not be selected again */
-+	old = nct6687dr_src_read(data, ch);
-+	if (nct6687dr_src_temp(data, old) < 0) {
-+		err = -EBUSY;
-+		goto unlock;
-+	}
-+
-+	err = nct6687dr_src_apply(data, ch, src);
-+	if (err) {
-+		/* The EC does not respond, so do not try the old source */
-+		if (err == -ETIMEDOUT)
-+			goto unlock;
-+		if (nct6687dr_src_apply(data, ch, old))
-+			dev_err(dev, "Temperature source of pwm%d in unknown state\n",
-+				ch + 1);
-+		goto unlock;
-+	}
-+
-+	data->src_set |= BIT(ch);
-+	data->src[ch] = src;
-+unlock:
-+	mutex_unlock(&data->update_lock);
-+
-+	return err ? err : count;
-+}
-+
-+SENSOR_TEMPLATE(pwm_auto_channels_temp, "pwm%d_auto_channels_temp", 0644,
-+		show_pwm_auto_channels_temp, store_pwm_auto_channels_temp, 0);
- SENSOR_TEMPLATE_2(pwm_auto_point1_temp, "pwm%d_auto_point1_temp", 0644,
- 		  show_pwm_auto_point_temp, store_pwm_auto_point_temp, 0, 0);
- SENSOR_TEMPLATE_2(pwm_auto_point1_pwm, "pwm%d_auto_point1_pwm", 0644,
-@@ -1513,6 +1628,8 @@ static umode_t nct6683_pwm_is_visible(struct kobject *kobj,
- 	if (nr >= 2) {	/* fan curve */
- 		if (!(data->have_curve & BIT(pwm)))
- 			return 0;
-+		if (nr == 2)	/* pwm_auto_channels_temp */
-+			return (data->src_writable & BIT(pwm)) ? attr->mode : 0444;
- 		return (data->curve_writable & BIT(pwm)) ? attr->mode : 0444;
- 	}
- 
-@@ -1803,6 +1920,21 @@ static void nct6683_setup_sensors(struct nct6683_data *data)
- 	}
- }
- 
-+/*
-+ * The temperature source of a fan curve is writable if it selects one
-+ * temperature which can be selected. This needs the temperature attributes.
-+ */
-+static void nct6687dr_setup_src(struct nct6683_data *data)
-+{
-+	unsigned long curves = data->have_curve;
-+	int ch;
-+
-+	for_each_set_bit(ch, &curves, NCT6683_NUM_REG_FAN) {
-+		if (nct6687dr_src_temp(data, nct6687dr_src_read(data, ch)) >= 0)
-+			data->src_writable |= BIT(ch);
-+	}
-+}
-+
- /*
-  * Hand the fans the driver switched to manual mode back to the EC, so that
-  * they do not stay at a fixed duty cycle once nobody is left to adjust it.
-@@ -1886,6 +2018,7 @@ static int nct6683_probe(struct platform_device *pdev)
- 	nct6683_init_device(data);
- 	nct6683_setup_fans(data);
- 	nct6683_setup_sensors(data);
-+	nct6687dr_setup_src(data);
- 
- 	/* Register sysfs hooks */
- 
-@@ -1994,6 +2127,21 @@ static int nct6683_resume(struct device *dev)
- 		}
- 	}
- 
-+	/* Then the temperature sources of the curves */
-+	set = data->src_set;
-+	for_each_set_bit(ch, &set, NCT6683_NUM_REG_FAN) {
-+		if (nct6687dr_src_read(data, ch) == data->src[ch])
-+			continue;
-+		err = nct6687dr_src_apply(data, ch, data->src[ch]);
-+		if (err) {
-+			dev_warn(dev, "Failed to restore temperature source of pwm%d: %d\n",
-+				 ch + 1, err);
-+			/* The EC does not respond, skip everything else */
-+			if (err == -ETIMEDOUT)
-+				goto out;
-+		}
-+	}
-+
- 	/* The BIOS may switch the fans back to automatic mode */
- 	manual = data->pwm_manual;
- 	for_each_set_bit(ch, &manual, NCT6683_NUM_REG_FAN) {
+ Documentation/virt/kvm/api.rst                |   9 +-
+ include/linux/kvm_dirty_ring.h                |   5 +
+ .../selftests/kvm/pre_fault_memory_test.c     | 101 ++++++++++++++++++
+ virt/kvm/kvm_main.c                           |   5 +
+ 4 files changed, 118 insertions(+), 2 deletions(-)
 
-base-commit: 7feb288cbe29b58a8bc9c7be3040f4537427cfcb
 -- 
-2.56.1
+2.47.3
 
