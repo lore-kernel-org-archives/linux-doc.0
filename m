@@ -1,72 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919419;
-	b=rS/GdHGFuM283nr4LwN0b4EuJWJEQvrByC5CwyVQVq2J22HWOLQ4zXePE3XDGi5FaK++
-	 Uw2zGVPz7YQf8DlwVXIVsSMEjvNPGmw7KPIDiD+k2WrDf5Us7UgXah35sSJvMRALvFhDK
-	 XlY4rU4lcNcjGYCwp7eDnS4TuUVknM40Cnfv4w2zUKZzkKN2PiBpKaNEAkEdWObPwEQ1/
-	 3vw+aKrdXFUC2whEsNEKIFYnB2fdlQM9kGQSWfipbxk1uXd5OpmZdpzEWhiMTMx6toKAw
-	 GBE+By/FDNeLVPFKcYFVhwlXipFGFBXqaS3/YZJTrJ5H94E5IaWpn+4oSn1L8oj4diQ==
+	t=1794919658;
+	b=rGkQhjkTvE3EG/cUA+lztQPrMJX2u3qWVtn1JTUTyDJnf8CCwXYppEo9sxsQc2kGcBml
+	 vuDEdzf62SFaWuKR7F9WxFN71ZgG2xXVyh4oosWRF096TQFVoDBV+o8OlQF+C9gepqZ2z
+	 QCcpwgvXPYPIZYUBIuLgnLIKCEyPqy30441f+b2mJtQFpuU6Ve36Xma5SzlSu8bVlZfu8
+	 v/5+6rAP1d+JV3JAMjamu++53PIvx7FuCDTtqOTsTwjNb1RfCCOpiY65oP0RtUtoK8Buf
+	 CXGgbrdZhLI2ljv0U88IWwD9GC/IZdocXdLHEYIHYkwiVnKjW62QTXb5hAMPMoD7IMg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919419;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:Auto-Submitted:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=oj2zs7YpNjut+Fle9NDI2/nVbuq1xcuWOh/20pAlrQ0=;
-	b=XaUQ+Hz7LWKdW7tww8BU5TIlSCF9jq9TzJDir8QTBvgFHBsuq1L+3jLQpU1S9XXW2oml
-	 qh8MhjTk8hI0K/KqWqW9Y0xYRLvrl6RKSjgPfh6fyWyBKRQMNNc1XUfqDm003mCUlNTAr
-	 JNj45LxbY1Nlc+hEuuXuarw5qEyDi5BrUQsF+CdYppdTtKecZYQV0/mutRXqNFge/+vTV
-	 SXUHTWR6OA9I9J64O68/DeEoFBmfa5Bgap2JxKbRCXraZT/CsTJ4w/fq9/KZCr4UfEIo7
-	 iwh9CZZAU3H7fGsfwyE7OK1jwyOLjwuxkWy+9iKoqDez1gS1wmLsJ/gh/t1uVq6BzZw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919658;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:X-Google-Original-Message-ID:Date:From:To:Cc:Subject:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=IDaAvYVXZ58edhDcqT25CtUAFfFh9zrLMuk/nutn9Sg=;
+	b=qtxPhfjFcv//eCm38ZgvWF8gD+VXPu7TrLzN5X0RHIXH+jKFKXhH4VA8pL9N3XPk/2PK
+	 fa1KxBH2xLm+D/KbiT5SSFaJW6cMxsrF/5y0jUqDlsMWHKslEzpSpFZRY4CTcTZl6+sAR
+	 1OhZvp0yItnPQoYE3UdlLKZaPEA5FHairDh4tsWUNAxrnmCK3V3SE8t0Bu7Kqbn2Js46D
+	 oJpO4DzZ5h2rUYkdH3Wo4cvSfv53nkJSEIZ4x6373lxfIKmj0jG7b99qGQ7mWygv1A7XK
+	 OaA5qLb3Tg4vicKxkI7PEdCRgqcpJptVQjd/s8lBZFgpeX9WMaWgyEeRYaehnY6Y/gQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F0ZJZSxj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="GR//esP/";
+	arc=none smtp.remote-ip=209.85.208.51
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22993606A31C;
-	Tue, 17 Nov 2026 12:43:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095EC606A338
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 12:47:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 095EC606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F0ZJZSxj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 531451F000C4;
-	Tue, 17 Nov 2026 12:43:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794919418;
-	bh=oj2zs7YpNjut+Fle9NDI2/nVbuq1xcuWOh/20pAlrQ0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=F0ZJZSxjVOeL7JI36iP3N5KmCRyTdKxGy4h01DD0QtpjhX38HONSEFdXyV0KyHRZJ
-	 kWrsnpi2pzMhgPlK/V2c0eO6aaf5WyUhuK62ERJdt5L7cPzxZjTbXW5ZjVLMM4nfee
-	 PRuhR/Ywc72hQV/m9h4Kge6Jw1rRgPFAaUpdu7rHq7K3mzfBdeK+OohYwNHXCp+h+w
-	 ySKZcj+G8WYbxgO7DgepXgNdP97DMaD7AlYMjW3dY5+aAwoh2sVNhWNFmF1yNObUiz
-	 rDNuEETZY5ikvWQHgjMnGmBqgW2P9GrDqenOGzgkvWoiJDrDc/BWAPS5Crf98cesYe
-	 8hk9wsBmDsVrw==
-From: netdev-bot+sinfo@kernel.org
-To: Christian Marangi <ansuelsmth@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GR//esP/
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6b4bd3d98bfso6248516a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 04:47:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794919656; x=1795524456; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:subject:cc:to:from:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=IDaAvYVXZ58edhDcqT25CtUAFfFh9zrLMuk/nutn9Sg=;
+        b=GR//esP/c4jjW7kiru6z01qnxOfaFo6rWysyC+LikP/1AVwDdpHcQqSz+pIcMSZZLL
+         rGUV3uBrN/ccnmzI8R52Z4Oeg81aVtcX3vBb2DF0cDUxgjk/DXT+msphxH1pfVcr0lsQ
+         yDvdqxlzl80F0AdPjBiECfnY0M0O9euYkDkZxrG9V8PqqSLIuANgdUsb4eDMZOsjqE7i
+         QWVyyrPvamr6xPGKmSQQBuzXyrQJby/WFvm7nHdgO0G1Uvk2MX4MXJwdwBXXWKBv/DrA
+         PJ2GLNHpXXGTG2b2JjZy0uSFrWV2Oh1i7GlvXxKrGOGIZZU4eeELgJR3VfZ/TBqqZdR4
+         S3JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794919656; x=1795524456;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:subject:cc:to:from:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IDaAvYVXZ58edhDcqT25CtUAFfFh9zrLMuk/nutn9Sg=;
+        b=CbfveubpISrxWCbuzQ2nEgYa+jkClcaqQehEQH9CRiFS3KHx6ZrjTDAmxJPq/+PoND
+         fN6k42KfiqK0nBDDboiW7L/6wOsMLX9Mr5UmsPkcq4rvGJOE4ZAU8dU7AMu2IP56/+Rq
+         fhD7vdkLZ6xHtM1DoaoaivYa2CpDlgHx1wGTi1l6nGnwMVCIofTtw1RYeoyLSdsEf1w1
+         l8Kt6nZ1pjo5eSM6lK69/c3tE1U3kk3VA7sCpDKRfbN4RfZf7l7Z2JdJ7PJ3O1NfIXaU
+         wJ0UiwRJI79BoXCgTYpuzFJDTVXsOKJsegJpJOg3KV0WTuxoMKnitlR1S7XH3wnDFu/h
+         ywmQ==
+X-Forwarded-Encrypted: i=1; AL+hErEafvmflBW71USX54AgVfw2oi+iQo2Hwc7LIRZhwULSKbmRuChWn5pGyn25lTGgPsnQ3DwDuxUTows=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/yPVz4cwCxu/xrCXtc8TsMT7+DhedTv7pDxkyVbWwT2RwppO8A
+	JmtxFTAjtVey+IC3p4EoSFGJLmkhQyqiIKiJDCYHLRpIOt7Jfvf7E+ft
+X-Gm-Gg: AYBFou3tvL40tQ2pQYLwET0cpSh3hjXq+e73ZoCvR9zI1ltb2BAt2OAC4SKHHB0iD/5
+	vQ7mz7HuHVUV26IYFU/Au4esMcjbcvSbVHzk62WrHRBTsuRYTRdncDy/EVCS/nLeTvujzL+lWzB
+	/Tdkfe/zgdinLn0eRPqE5U9pH0kjo8uK4P9qiPm7Yr9e0K6UCj1jE9cQH6O7PRvmi26+ZTFdM9u
+	KqGLlf1zCfu3nIs1Jely3LbvNJNddAdCOXv1aiKT6/TrARNRrdbT5FZBTxmL0shIh2Nw73G0r71
+	vziGnP5HVFXQrnGyzQXPn+dM+GSOfRGLpRC2o+16gOkEK2mTvOCCSuhwISSfDeDBWHsvXzr0Qf/
+	Dmk3DxyxjHQ2+hmXyuqz1Ou3GrAGHsVbORboEUn1rkTkcdUXuUMJHX5i9xqdPonbqjeNFX+BhfW
+	MebVZTXzlwyPlOwYaKabXmcbKLLG5UGLQiwYvFCWHLA6b1DO/Fsi/AizDw25PAmW1o0Y1PUAP9s
+	18Y+0Pyd+RgtaZwf8lF3NaBgEe5PuTRAxPtOa/EsvZzAIZSSVhT/6BkztK0ZHviKql1skGYqTq5
+	SLZMMjpomSW5XnOgbcyMpmYA/Lj7FPk9pbM4GK3EjM+tRJnR8dFMUk9P8uXahZx9jO6n7HrKuDe
+	Oa2xwjbqGU/O4gsL4
+X-Received: by 2002:a05:6402:2347:b0:6b8:7d2b:4dcb with SMTP id 4fb4d7f45d1cf-6b87d2b5390mr750722a12.14.1794919656177;
+        Tue, 17 Nov 2026 04:47:36 -0800 (PST)
+Received: from Ansuel-XPS. (93-34-92-103.ip49.fastwebnet.it. [93.34.92.103])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b87368c70fsm430430a12.23.2026.11.17.04.47.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 04:47:35 -0800 (PST)
+Message-ID: <6afc4ce7.4b925a68.31e7c.7768@mx.google.com>
+X-Google-Original-Message-ID: <avxM5Ldccuc6TgM_@Ansuel-XPS.>
+Date: Tue, 17 Nov 2026 13:47:32 +0100
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: netdev-bot+sinfo@kernel.org
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>,
- "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
-Subject: 
- Re: [PATCH net-next v22 00/15] net: pcs: Introduce support for fwnode PCS
-Date: Tue, 17 Nov 2026 12:43:36 +0000
-Message-ID: <179491941687.3291.11313796890436002644@kernel.org>
-In-Reply-To: <20261117123956.11981-1-ansuelsmth@gmail.com>
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
+Subject: Re: [PATCH net-next v22 00/15] net: pcs: Introduce support for
+ fwnode PCS
 References: <20261117123956.11981-1-ansuelsmth@gmail.com>
-Auto-Submitted: auto-generated
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ <179491941687.3291.11313796890436002644@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,26 +122,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <179491941687.3291.11313796890436002644@kernel.org>
 
-Hi!
+On Tue, Nov 17, 2026 at 12:43:36PM +0000, netdev-bot+sinfo@kernel.org wrote:
+> Hi!
+> 
+> This is an automated message. This series looks like a fix, but its
+> commit messages seem to be missing some information:
+> 
+>  - How the issue was discovered, e.g. hit in production, hit during
+>    development, syzbot report, manual code inspection, LLM or static
+>    analysis tool scan.
+> 
+>  - Whether the issue was actually triggered, or is only theoretical
+>    (e.g. found by LLM and not proven at runtime). If it was triggered
+>    please include the symptoms, like the stack trace or kernel messages.
+> 
+> Please do not repost the series just to address the above. Instead,
+> reply to this email with the missing information, so that reviewers
+> can take it into account.
+> 
+> *IMPORTANT*: If you do repost (for other reasons) - please include
+> the relevant info in the cover letter or commit messages.
+> -- 
+> The evaluation is done by an LLM so it may be wrong, if you think
+> that is the case please reply and explain.
 
-This is an automated message. This series looks like a fix, but its
-commit messages seem to be missing some information:
+The RCU """bug""" was found while evaluating the code. It's hardly possible
+to have such bug on real world scenario since PCS and MAC are currently
+tightly coupled. Nonetheless with VERY BAD PROGRAMMING it's still possible
+to trigger it.
 
- - How the issue was discovered, e.g. hit in production, hit during
-   development, syzbot report, manual code inspection, LLM or static
-   analysis tool scan.
+It's both a fix and a prerequisite for having standalone PCS support.
 
- - Whether the issue was actually triggered, or is only theoretical
-   (e.g. found by LLM and not proven at runtime). If it was triggered
-   please include the symptoms, like the stack trace or kernel messages.
+(hope I don't have to repeat this message for the next gozillion revision
+of this series...)
 
-Please do not repost the series just to address the above. Instead,
-reply to this email with the missing information, so that reviewers
-can take it into account.
-
-*IMPORTANT*: If you do repost (for other reasons) - please include
-the relevant info in the cover letter or commit messages.
 -- 
-The evaluation is done by an LLM so it may be wrong, if you think
-that is the case please reply and explain.
+	Ansuel
