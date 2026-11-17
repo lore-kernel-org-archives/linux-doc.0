@@ -1,131 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.9
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794921710;
-	b=CxajiCpxNj2eZ8BMuWXQFz9+gbWp77crzAn2q+PDwkhrX6ncvKgNMIJXIQgOUfVX8pDB
-	 qbe6nbh1m8z8GJxk8NKlyNYFuuXVORo+DUmpVuoesmAmiRW+W8dlt5C4DXQ/L/towOxr2
-	 w981FBB9H7CvP+ma5VErxTfo0d+xUVtq6TQZ9fJC1YZNmLNPOdJf0v10oND+/ZidKgfgQ
-	 Xq5Dvfrpijo9o9ySN9/fofPkcjR/opp6ni/TPvqakTTs3oBbX2XAQJo62jMfo841Fm19a
-	 HmL1smBOVqd64t8p+FPvk/I2KOBeK7jezKH9jU7GNitwoIhGvYvxcuJkpdbrAQQ7Y+w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794921710;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=GGyFE5sVF+SgwZiMhtRoMLBV1bstRUW/abu3cH5hqmk=;
-	b=diOzNU3jM0uZyH7GDl7pt/lKAY8YAgwPnVqJsHpD4MQbkOy1xriQksXPP3w2+lnpf4X6
-	 0lqQiYM9dUafD7+XcX3dd7pA5RdQfUUqTaX0B2XGLvv8lD+9vvEMooDhB4fvnsw8s9B9R
-	 IvGA+gp+QUr+FkT4EsUEMN1d8F43t5AWQ3JVCoTnjDCcek3qIHOAl5tzo1u2O9MZfHLVz
-	 abUzGqHpFK5joJC5PmLk1tYNC8AiTwgSk/Pg5rN8w5/Wv0lBz68+wUQN24kRP8cs8Z2EX
-	 ibnLjZYD/ZhPZNkvUEGDeELdJsCfigLBbBGBW56emoS36ZxWSWwb18pMWro3Ooy9ABA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mobileye.com;
-	spf=pass smtp.mailfrom=mobileye.com;
-	dkim=pass header.d=mobileye.com header.i=@mobileye.com header.a=rsa-sha256 header.s=selector1 header.b=DctW+dZA;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.9
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010009.outbound.protection.outlook.com [52.101.69.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD7F606A323;
-	Tue, 17 Nov 2026 13:21:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFD7F606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=mobileye.com header.i=@mobileye.com header.a=rsa-sha256 header.s=selector1 header.b=DctW+dZA
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P2cn+a23ns7DJ4s40KSGOcaDCpwx+VmPCbiV1ZNMxsKYLMZfOkcyVx178AA20xPy0k5gX/mAM/p9jFy4ufGoRYW2Vmu2kk2NlOhQVVqPOP1S7TTe4kiG/izjsDRbQg2QTcoaYSDchtPNew3hqGC1oF2k3m90mhy0Nt0k/3YQRqsOjDLZqp9fuZwLlz8FMJcVi8ndbYH91R1tDF+fnOB+m0djl9euHGeyFDNOOqQzplnMyLeLMgIIBpn+iwO2sOLKqDkMk9aRgZlHKJd1+mTYK+Woj/fkhEZG64Rm/tFdWdIZVeNrlAuDZYXos1Fyg23BfhjfaVFAjL3C3Kzgx4hMTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GGyFE5sVF+SgwZiMhtRoMLBV1bstRUW/abu3cH5hqmk=;
- b=hIXsWZ1gRzLeeS+HjNNMx0T73bnsjKuT/u2XrMsCphRY21K4v07kOVPP6YWOqM/k82zSaQE3Zbl0ScZruQuFDrGb0ATBTTDCOobv1hSLOu2EfDBviXa6Sg2KO3oQmMy3eHxJjVp44oYqpAKtj55wn2vqO7/PyoliSoOM2Jv4uCUtSkVHV903dSP1PIEkU8FqK+X85FeWIv77j9dVxvsF/ZetPIafvq1R2jSgQxOozSFw8IbYBB/aD/1VepF4iQ6zvMiNZ4daN/EpsRtol6D/w9YMc0OZZ7MlzJRtjdNn3h0SMbTT4X2mKO5Ef2Md9zvrLo/pV2JtEeDO9Fic4BbRzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mobileye.com; dmarc=pass action=none header.from=mobileye.com;
- dkim=pass header.d=mobileye.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mobileye.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GGyFE5sVF+SgwZiMhtRoMLBV1bstRUW/abu3cH5hqmk=;
- b=DctW+dZAPUMnVpv5Vfba58xFsgUrKgudlBhtupBhcf7mOyA88b9MlesutOp0Y/mKPNSvjC/bem6YRdIaal+efRif7W4F7B022rOR86/cOOB011R/4Hoq8dhdRKnQvxiL8c+T84QvKURrvr4h5dvg3UmsLRu9F3hizhFdY1QlJak=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mobileye.com;
-Received: from ZR6PR09MB889505.eurprd09.prod.outlook.com
- (2603:10a6:910:e0::22) by AM7PR09MB3749.eurprd09.prod.outlook.com
- (2603:10a6:20b:108::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Tue, 17 Nov
- 2026 13:21:43 +0000
-Received: from ZR6PR09MB889505.eurprd09.prod.outlook.com
- ([fe80::9006:1164:b51f:23a2]) by ZR6PR09MB889505.eurprd09.prod.outlook.com
- ([fe80::9006:1164:b51f:23a2%4]) with mapi id 15.21.0615.013; Tue, 17 Nov 2026
- 13:21:43 +0000
-Message-ID: <cf698431-8660-4dfd-8062-c54fc710c25a@mobileye.com>
-Date: Tue, 17 Nov 2026 15:21:38 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/6] riscv: build kernel atomics from LR/SC when Zaamo
- is disabled
-To: Conor Dooley <conor@kernel.org>
-Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Mark Rutland <mark.rutland@arm.com>, Gary Guo <gary@garyguo.net>,
- Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Chao-ying Fu <chao-ying.fu@globalfoundries.com>,
- Conor Dooley <conor.dooley@microchip.com>, torvalds@linux-foundation.org,
- olof@lixom.net, aleksa.paunovic@htecgroup.com, arikalo@gmail.com,
- Boqun Feng <boqun@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
- Emil Tsalapatis <emil@etsalapatis.com>,
- Ihor Solodrai <ihor.solodrai@linux.dev>, Luke Nelson
- <luke.r.nels@gmail.com>, Xi Wang <xi.wang@gmail.com>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- Pu Lehui <pulehui@huawei.com>, Puranjay Mohan <puranjay@kernel.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
- Miguel Ojeda <ojeda@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
- <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>,
- Charlie Jenkins <thecharlesjenkins@gmail.com>, Nam Cao
- <namcao@linutronix.de>, rust-for-linux@vger.kernel.org
-References: <20261110-lrsc-only-v6-0-bafc3cc0fcae@mobileye.com>
- <20261110-lrsc-only-v6-2-bafc3cc0fcae@mobileye.com>
- <20261110-revivable-saint-9bcfaa2fd0e7@spud>
- <3308062b-9d0f-436f-a22a-217cc1c59aed@mobileye.com>
- <20261116-manifesto-edginess-7f1663f9a76b@spud>
-Content-Language: en-US
-From: Vladimir Kondratiev <Vladimir.Kondratiev@mobileye.com>
-In-Reply-To: <20261116-manifesto-edginess-7f1663f9a76b@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TLZP290CA0012.ISRP290.PROD.OUTLOOK.COM
- (2603:1096:950:9::10) To ZR6PR09MB889505.eurprd09.prod.outlook.com
- (2603:10a6:910:e0::22)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.204.27.37
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794921855;
+	b=eKCq8jlqgim4PP7R7Mx/TFd0DZXPCZEGKP2jlhb19CDQlxlIhSlLVWRw9IvE22FcEH5a
+	 GcrZMBgBTsxnH9bYhM32RupUL0Tbwu58HROr2qz3yO92lCmFY9k9vKiTETQLavySoseIp
+	 sYoI5TiG0XaWjT0VuE1nMOmMiR9VzUyAWsj+s3MfazjLvc45kDQMvE0OdW7BtiXHPDfmi
+	 uNdNjSDJzKoO5HNRg6j5Yk9JabIKRyD3/hnOgUOko8Z5QAflMk106fx+CGNFNfl9bXle8
+	 uwLLBUQ+f5Suw4ClIvLfzIQD31n6ELMFRKCagwABT3B46NWs4KRZ0ea5hIQuwkURYOg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794921855;
+	h=DMARC-Filter:Received:Received:Received:Received:From:To:CC:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type:X-Originating-IP:X-ClientProxiedBy;
+	bh=WgHIUGWl/QxLO6GUBLCNn2+1xcczHU88aoHvaa5zjk4=;
+	b=aL18qNSFh1UYNHyXGbyvV2ng8oPCBGd4lFUQO2Nf1u8if3LeQXovxYeM8X+TTX06sY0o
+	 2nY7uBtg1U2Om2nkXEk8qEMQm8/jYxO+ro2QJqK54fgyMOfK/zlVe8aqadM3SDSOjX3oL
+	 tQDSsRCiaiQtqbwWMwDthtQ2AzR6ibHIQ8ZXNNQ9wcpyZd3yimhMzvIBaJdYcdQ7EiB4K
+	 VrfXVGtu8CY5mnd3q201K+qzuWmCboS8L70++cm876OfVdG0ZN5WQg1RT7TySBknF3Nt7
+	 TxAYYojz04h4F0Jdyx0ip+uTDgfm8cmH9dBjgXMaAnXL7C7anaxXTppvw6cHiwc6kIQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=hygon.cn;
+	spf=pass smtp.mailfrom=hygon.cn;
+	arc=none smtp.remote-ip=101.204.27.37
+Received: from spam01.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77D74606A31C;
+	Tue, 17 Nov 2026 13:24:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77D74606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jTQRV5FGnzVcBC;
+	Tue, 17 Nov 2026 21:23:50 +0800 (CST)
+Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jTQRS1PTSzVcB7;
+	Tue, 17 Nov 2026 21:23:48 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp2.hygon.cn (Postfix) with ESMTPS id 608BB3237CF8;
+	Tue, 17 Nov 2026 21:22:49 +0800 (CST)
+Received: from jianyong.hygon.cn (172.19.20.52) by cncheex04.Hygon.cn
+ (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Tue, 17 Nov
+ 2026 21:23:45 +0800
+From: Jianyong Wu <wujianyong@hygon.cn>
+To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
+	<vincent.guittot@linaro.org>
+CC: Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt
+	<rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman
+	<mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak
+	<kprateek.nayak@amd.com>, Tim Chen <tim.c.chen@linux.intel.com>, Chen Yu
+	<yu.c.chen@intel.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<wujianyong@hygon.cn>, <jianyong.wu@outlook.com>, <wangfengyu@hygon.cn>,
+	<zhongyuan@hygon.cn>, <huangsj@hygon.cn>
+Subject: [PATCH] sched/topology: Add new kernel parameter to tune NUMA domain flags
+Date: Tue, 17 Nov 2026 21:18:54 +0800
+Message-ID: <20261117131854.924760-1-wujianyong@hygon.cn>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -135,110 +66,285 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZR6PR09MB889505:EE_|AM7PR09MB3749:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3fa92227-22b9-4e13-eae7-08df44adb8cf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|366016|18002099003|6133799003|22082099003|261009223027099003|4143699003|56012099006|11063799006|261102123227099003|261028144727099003|261026140227099003|261026121527099003|261021121427099003|261022105027099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	gUmEIBPoBgQ9u/qbozAL6OXPQ24JZCnHfU6WfS5RNOxy4sV1wE2iKu+xBCzwxXpuCsdUhEGclidRqPPe/pAMCMW5/sBOBjlgr2SIj1WAjeVdoMStkwmzYrWAfCyoFvLCCAcEEIP+/70yLUHz+V3VWUuCKr4lDpwA3v4qSK29eTaYBZg7KplZoTeGtFAsMDnRAfoFX1yDxl2/81WZa1QLpxl+ZshEUQs8nmlMNZQwvNu4aLxYvDhFZFk6CsUUVPhuYvFAczR/MF8XfFE3vXYIuIV3z0mH0eeAd0CuR+qn9I+1HwKCyAi0xv1WnGKG4ClJBVHme20OU0lBVOJ9Z2RAQ3ydBTy8MON3hWRVJssA7fvJxvN7JIZSWX8oQsTnbIAkhUOlVY1OLEO7nekpmRU1+w/rLKbWJaD5M0aUymofE2ihS5OvDpWqdhmjaylRPuvocNSCJR/pNKPkFLdjNJsX8SWmYuz1BTkjYHKQ4QxsD8AvbrjLvsIw9f6Jft6rmVclgOBSreXk701AeDhuaYLf7BTV93ZvrpE/Zxv28t3v7iRrOTElVpNbt++JlBkA6e5ZWgjcMRPBnzQLqtn8et8Fc0I3EQSFgGfet6rUCUj8krI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZR6PR09MB889505.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(366016)(18002099003)(6133799003)(22082099003)(261009223027099003)(4143699003)(56012099006)(11063799006)(261102123227099003)(261028144727099003)(261026140227099003)(261026121527099003)(261021121427099003)(261022105027099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cDFQekx2NytrTTN0WnFKOEZXNzJjTGkvcThYRFVkV1ZZbUFYa2syWnNDdXNz?=
- =?utf-8?B?cnJiK3Y5Tkd2UWdXeTBuZWZLRFk2c29RcmdscHNiR3M2WDNtTjV3WWNWS3pB?=
- =?utf-8?B?MjhvTHF0Y3d0U2NNOW9QbmhvZ2tQTU5Ib2hFOFB0RmhCaFc0N1UrcWlNKzhw?=
- =?utf-8?B?ZWdYRnFwdHErRjFYc2Zhayt0Yk9KellqSlhvVEZnSWtNaXcyRVgzbDhxSHNp?=
- =?utf-8?B?NG9TUjJhUWo1WWY5dks5QXltbDloaHZKdTVDb2IxaVJGMS9MSENoTTZ3NVY4?=
- =?utf-8?B?c20vWHozMFRoNUI4eDlFOUh0dXFpRnpSSVhKU1h3TGU0Y3BscFV5Q01SZUYz?=
- =?utf-8?B?d3JESzNiL0ZYR0djeGdmWjc2Ni95aEFXTjI0TVpvU0RPMGNvZHRpUW9CZDkz?=
- =?utf-8?B?STZ3emllSDU3YkxrSGFkc1dWR0Vsa3ZWVmx2b3pQbDA4K2FSNEhZTkZUNEtD?=
- =?utf-8?B?bFM3MFNsemZtS1hFakNjM0FDQlZEdm0rdWZ5MUo5U1JPcmxYeituUDI4TTI0?=
- =?utf-8?B?eHBrY2ZPUFR2SEVtZzYzTGhYVGhZakw0VjJ0clV0ZjZOYkQvTjltQ3U4SGZu?=
- =?utf-8?B?dVNyUHB4SEF3NTYyVnpVM3NKdWg4K1AyKy96MHNIQ2pHcGd3SHhOQkxzbkFU?=
- =?utf-8?B?aEpYS0orWEc1Ym1Hanh6c3RPMG1GUittSWdSV2ExQlZGa09NbWVzMTl5ZHhM?=
- =?utf-8?B?UzErdkJvUm1tYVF0eHJ3Nm8yRktmcWZlV2I3TlFWTklGV29xMXA0NWIrR3ZE?=
- =?utf-8?B?TXkxVmJqRnZsU0tFQnBrbUNUc3NFWEQ1eHp0N2x3UlhXdmlSOURwZmk1MGRD?=
- =?utf-8?B?RVBob0d6TCtDYzRDeUhLSTZqcjlOYzdVWkJCMXE1OURPT3A5SVRwSjFqaWlN?=
- =?utf-8?B?RURnZGhEbVlJeG1haWtPUWdpa2g5cHU2VGZQK1E4N2N0Qi9sWUw4OFhUY2p3?=
- =?utf-8?B?ZFFXQnNXa2h1MlplSjhYU0lZUHBwQUd1aFRQMFFxYVdiaVAyV3RBOFUzU1RT?=
- =?utf-8?B?ZFZGN3B3Qit1SWNXQzJhUHFKZ3RZdEpiTndBKzlxS2g0VkcxRHhjS0ZkM1R4?=
- =?utf-8?B?dTNLVTNtZEluSk9pa3BBRTVpUXJ0TUJ2d3d3QW45enJtNkNQQlVKNWZkSXR3?=
- =?utf-8?B?K3VzOUR1WDJXczRhNHVneDhUQVVTQmQyTGVmZ0M5dXM3bUd0VElERnB3R0NK?=
- =?utf-8?B?Zzl2QjdCY0RqTUw2dHcxYmlNUVQzNFpNbFNTaFRlV0E4SERzSUE5b1lUZkVG?=
- =?utf-8?B?S01UcEVUUW8wa1lLQ3Vic0VvZTNOV050cDFMZENSTlBDNnk0eWZIZWgwbFpH?=
- =?utf-8?B?V2xERzVDamo1SEJ0MHkzdjE1OFdIVW15YVljZ1UrY05sMVlmMTJRRlBzbnY3?=
- =?utf-8?B?ZDJZcHJZNm4rdU9pQWk4TkhqSGcwUEpQU1hDbkEyM2lkdjZXVUNINGxQRVg0?=
- =?utf-8?B?TC8xa0ZGbnZDdmoxRkJtNDY3eCs5MmhoZnVpeXVnVlVxVS9CVlpqbzNOTmto?=
- =?utf-8?B?MnpDM0RiUHEvcjVoT2VSLy9rNFl4QlRuNVhKSFdEa1Z2SlJCdUFYL0dpZEox?=
- =?utf-8?B?TVVrUitRQkVNOTBmQ0kxV1BXV0RwdzFib2FXcEh4V0RSRGdrNDI3eWZDUDhC?=
- =?utf-8?B?RXVKc0tlSmdFSmx6U0F2Q2RCOUFRZE5Ud285MXpGZS9NamIrQW40eWF6M1Vt?=
- =?utf-8?B?NVlYeE5KN3RyKzI5NXhsdGcvNW00Qk1tWUV1NVFvOEJpWnA3QUpDeFpJOTFH?=
- =?utf-8?B?aTExSGRqOHAwaXB5WVpHSGlXeXVWKzdtRDNHMW1NVEtETDRObkl4M1BWSy9j?=
- =?utf-8?B?Sm1sMlhtbmRrZ0VJOG9xTXNKeUVrdS9scWVDSHlUVks4Q2t5bkRIcE0rTENC?=
- =?utf-8?B?TjNIQmQ0RnE3b1ZHQ3JzZTdxSGdFTk1oMFQ0OHFkbXVZMGlWbWsra3lQTHJk?=
- =?utf-8?B?WGR2eEdxSk1YQk5JbWluTm1GNGNGYWVDMjZKUHQyTzZXK2J6eURsVlBsU2cz?=
- =?utf-8?B?c0J5Tk1XVGdpOUhWNkVQTTdVWWRuUW1NcHdtZHVpcExuS1FmUEIwaTlpTzNi?=
- =?utf-8?B?VTNkN0xVSXFLR1BpSnhPcWFZMWFqcHB0VVRqZ0RTSUhTajRaRHBDU1hJY0tP?=
- =?utf-8?B?RzNDckF1cTdkVXM3S0lBdVpqeXluQ2FNM29wc1pwdHQvRUVmK2twT1o4SDhP?=
- =?utf-8?B?dm1vcTd2UjBUMXhaaFR5cWtPZkUraHM3QzVKYUhSUlY5bjBvSCtHVzdxVjlV?=
- =?utf-8?B?Nis5Y2cxeDZiaEMzTHQ5bitINEpicndGdXBXL21pTjhEY3hsK1h0UytUWDNu?=
- =?utf-8?B?R3pSVW9sWWlsejNjd0JGdXFLbG5iTVcrTEVpL2xSMldQbUpwMGlhUT09?=
-X-OriginatorOrg: mobileye.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3fa92227-22b9-4e13-eae7-08df44adb8cf
-X-MS-Exchange-CrossTenant-AuthSource: ZR6PR09MB889505.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2026 13:21:43.1779
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f85ba13-6953-46a6-9c5b-7599fd80e9aa
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OnyiLZ/cUiCm+B6TpOuQm0eryN0B+/LpDcNYWelt7qmUdIlFLO/8JQFExbxMzcLYGUCueMd28L4UIhknm9hUmw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR09MB3749
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-On 11/16/26 19:14, Conor Dooley wrote:
-> On Wed, Nov 11, 2026 at 08:37:23AM +0200, Vladimir Kondratiev wrote:
->> On 11/10/26 21:02, Conor Dooley wrote:
->>> I had a quick glance at this revision, and I think you've at least tried
->>> to resolve the things I was pointing out. Did I miss something, or why
->>> have you kept the NAK after having resolved the things that I was
->>> objecting to?
->>
->> I'll be happy to remove it. Was not feeling right to do this without
->> your permission.
-> 
-> IMO, if you sort out what the NAK was complaining about, you can drop it
-> without permission. Worth calling out in the cover maybe.
+Sched domain flags can largely affect performance on systems with
+multiple NUMA levels, especially SD_BALANCE_FORK, SD_BALANCE_EXEC,
+SD_WAKE_AFFINE and SD_BALANCE_NEWIDLE.
 
-Sure, will mention in cover
+SD_BALANCE_FORK and SD_BALANCE_EXEC decide how far the slow path of
+select_task_rq_fair() searches. Stripping them from the high NUMA levels
+reduces the number of CPUs to traverse and speeds up fork/exec.
+SD_WAKE_AFFINE decides the wakeup scope: if the waker and the wakee are
+farther apart than the highest level carrying it, the wakee cannot be
+pulled next to the waker on wakeup, which may hurt performance. However,
+these three flags are all controlled by a single static threshold,
+node_reclaim_distance, which can neither tell them apart nor be changed.
+Different workloads on the same system favour different settings, so no
+single static value fits them all.
 
-> 
-> I'll take another look at this later in the week..
+The same applies to SD_BALANCE_NEWIDLE, which is set on every NUMA level
+and cannot be stripped. Newidle balance on a high NUMA level can take a
+long time, even when there is no task in the system to pull.
 
-I have v7 in preparation. Need to complete test cycle before sending it.
-In order to save your time, these are changes planned.
+Introduce a new kernel parameter, sched_numa_flag_distance, to let users
+tune the flags above separately on the NUMA levels. A group is stripped
+from the levels whose node distance is greater than the given value;
+once set, this overrides the default for that group:
 
-    Changes in v7:
-    - remove patch rejecting probes inside LR/SC block (was patch 1),
-      submitted on its own
-      Link:
-https://patch.msgid.link/20261111-probes-in-lrsc-v1-1-4f99ddea5f68@mobileye.com
-    - Drop Conor Dooley's Nacked-by from patch 1, as agreed on the v6
-      thread.
-    - hwprobe reports RISCV_HWPROBE_BASE_BEHAVIOR_IMA only when every
-      selected hart has A, so a Zalrsc-only hart is not described as IMA
-      (patch 2).
-    - BPF JIT: the fetch and xchg LR/SC loops are fully ordered the way
-      emit_cmpxchg() is, plain lr, sc.rl and a trailing fence rw,rw,
-      instead of lr.aqrl/sc.aqrl (patch 4).
-    - New patch 5: refresh the vDSO hwprobe data after the boot-time
-      speed probes; fixes the stale MISALIGNED_*_PERF values in the vDSO
-      since v7.3-rc1.
-    - AMO speed probe: refresh the vDSO data when done, report a CPU
-      without Zaamo as unsupported even with amo_speed= on the command
-      line, and return 0 from the __setup() handler on a bad value
-      (patch 6).
+  sched_numa_flag_distance=forkexec:<d>,newidle:<d>,wakeaffine:<d>
+
+Signed-off-by: Jianyong Wu <wujianyong@hygon.cn>
+---
+
+Notes:
+    Test results
+    
+    All results are normalized to the default (no parameter) = 1.00.
+    UnixBench: higher is better; latency and time: lower is better.
+    kernel.numa_balancing=0 for all tests.
+    
+    Machine A: Hygon, 2 sockets, 256 CPUs, 8 nodes. All NUMA levels (15,
+    25, 27) are below node_reclaim_distance, so by default every NUMA level
+    has fork/exec, newidle and wake_affine.
+    
+      node   0   1   2   3   4   5   6   7
+        0:  10  15  15  15  25  27  27  27
+        1:  15  10  15  15  27  25  27  27
+        2:  15  15  10  15  27  27  25  27
+        3:  15  15  15  10  27  27  27  25
+        4:  25  27  27  27  10  15  15  15
+        5:  27  25  27  27  15  10  15  15
+        6:  27  27  25  27  15  15  10  15
+        7:  27  27  27  25  15  15  15  10
+    
+    Each setting was tested in its own boot of the same kernel:
+    forkexec:10 drops fork/exec balancing on every NUMA level, newidle:20
+    drops newidle balancing at distance 25 and 27. The default column is
+    the average of two boots without the parameter.
+    
+    forkexec:10, tested with C2 disabled on all CPUs
+    (echo 1 > /sys/devices/system/cpu/cpu*/cpuidle/state2/disable). The
+    two default boots differ by at most 2.9%.
+    
+    UnixBench (byte-unixbench), 1 copy, average of 3 rounds:
+    
+      ./Run -c 1 -i 3 execl spawn shell1 shell8
+    
+                                    default  forkexec:10
+      Execl Throughput                 1.00      1.27
+      Process Creation                 1.00      1.29
+      Shell Scripts (1 concurrent)     1.00      1.35
+      Shell Scripts (8 concurrent)     1.00      2.07
+    
+    Time spent in select_task_rq_fair() (function_graph) while one task
+    forks and reaps 10000 children, then forks 5000 children that exec
+    /bin/true, 3 times:
+    
+                                    default  forkexec:10
+      fork                             1.00      0.05
+      exec                             1.00      0.05
+    
+    newidle:20, tested with all C-states enabled. The two default boots
+    differ by at most 1%.
+    
+    schbench (git.kernel.org/pub/scm/linux/kernel/git/mason/schbench.git),
+    8 message threads with 32 workers each, i.e. 256 worker threads, 30s
+    run after a 5s warmup, average of 3 runs:
+    
+      schbench -m 8 -t 32 -r 30 -w 5
+    
+                                    default  newidle:20
+      p99 wakeup latency               1.00      0.56
+      requests per second              1.00      1.00
+    
+    Machine B: Hygon, 2 sockets, 384 CPUs, 12 nodes. The NUMA levels at 32,
+    35 and 38 are beyond node_reclaim_distance, so by default they have no
+    fork/exec and no wake_affine.
+    
+      node   0   1   2   3   4   5   6   7   8   9  10  11
+        0:  10  19  15  12  15  12  32  35  32  29  38  35
+        1:  19  10  12  15  12  15  35  32  35  38  29  32
+        2:  15  12  10  12  15  12  32  35  38  35  32  35
+        3:  12  15  12  10  19  15  29  38  35  32  35  32
+        4:  15  12  15  19  10  12  38  29  32  35  32  35
+        5:  12  15  12  15  12  10  35  32  35  32  35  38
+        6:  32  35  32  29  38  35  10  19  15  12  15  12
+        7:  35  32  35  38  29  32  19  10  12  15  12  15
+        8:  32  35  38  35  32  35  15  12  10  12  15  12
+        9:  29  38  35  32  35  32  12  15  12  10  19  15
+       10:  38  29  32  35  32  35  15  12  15  19  10  12
+       11:  35  32  35  32  35  38  12  15  12  15  12  10
+    
+    Booted with sched_numa_flag_distance=wakeaffine:255, i.e. wake_affine
+    on every NUMA level.
+    
+    hackbench from rt-tests (v2.20), pipes, each group being 20 senders and
+    20 receivers (40 tasks), 3 rounds of 3 runs:
+    
+      hackbench -p -g 4 -l 5000          (processes, 160 tasks)
+      hackbench -p -g 16 -l 1500         (processes, 640 tasks)
+      hackbench -p -T -g 4 -l 5000       (threads, 160 tasks)
+      hackbench -p -T -g 16 -l 1500      (threads, 640 tasks)
+    
+      time                          default  wakeaffine:255
+      processes, 4 groups              1.00      0.80
+      processes, 16 groups             1.00      0.69
+      threads, 4 groups                1.00      0.77
+      threads, 16 groups               1.00      0.69
+    
+    Open question
+    
+    This version only adds a boot parameter. Since the best setting follows
+    the workload, a runtime knob would be more useful. Would one be
+    acceptable, and if so, where: sysfs, or debugfs next to the other
+    scheduler tunables? Changing it at runtime would rebuild the sched
+    domains.
+
+ .../admin-guide/kernel-parameters.txt         | 15 +++
+ kernel/sched/topology.c                       | 92 ++++++++++++++++++-
+ 2 files changed, 102 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 6169787d3805..e4d504992cce 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6798,6 +6798,21 @@ Kernel parameters
+ 			cost of significant additional memory use for tables.
+ 
+ 
++	sched_numa_flag_distance= [KNL,NUMA]
++			Format: <group>:<distance>[,<group>:<distance>...]
++			Strip a group of scheduler balance flags from the
++			NUMA sched domain levels whose node distance is
++			greater than <distance>. <group> is one of:
++			forkexec   - SD_BALANCE_FORK and SD_BALANCE_EXEC,
++				     default: node_reclaim_distance
++			newidle    - SD_BALANCE_NEWIDLE, default: never
++			wakeaffine - SD_WAKE_AFFINE,
++				     default: node_reclaim_distance
++			node_reclaim_distance is 30 (RECLAIM_DISTANCE), or
++			32 on AMD Zen. A distance of 255 keeps the group on
++			every NUMA level.
++			Example: sched_numa_flag_distance=forkexec:10,newidle:20
++
+ 	sched_proxy_exec= [KNL]
+ 			Enables or disables "proxy execution" style
+ 			solution to mutex-based priority inversion.
+diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+index 919d0fb00bd9..3bcf0db0800a 100644
+--- a/kernel/sched/topology.c
++++ b/kernel/sched/topology.c
+@@ -1947,6 +1947,92 @@ static struct cpumask		***sched_domains_numa_masks;
+ 	 SD_NUMA		|	\
+ 	 SD_ASYM_PACKING)
+ 
++#ifdef CONFIG_NUMA
++/*
++ * sched_numa_flag_distance=<group>:<distance>[,...]
++ *
++ * Strip a group of balance flags from the NUMA sched domain levels whose
++ * node distance is greater than <distance>. Groups left unset keep the
++ * default: fork/exec and wake_affine are stripped beyond
++ * node_reclaim_distance, newidle is never stripped.
++ *
++ * Node distances grow with the level, so a group is stripped from a level
++ * and every level above it, as the SDF_SHARED_CHILD flags require.
++ */
++enum {
++	SD_DIST_FORKEXEC,
++	SD_DIST_NEWIDLE,
++	SD_DIST_WAKEAFFINE,
++	SD_DIST_NR,
++};
++
++static const struct {
++	const char	*name;
++	unsigned int	flags;
++} sd_dist_groups[SD_DIST_NR] = {
++	[SD_DIST_FORKEXEC]	= { "forkexec",	  SD_BALANCE_FORK | SD_BALANCE_EXEC },
++	[SD_DIST_NEWIDLE]	= { "newidle",	  SD_BALANCE_NEWIDLE },
++	[SD_DIST_WAKEAFFINE]	= { "wakeaffine", SD_WAKE_AFFINE },
++};
++
++/* -1: not set on the command line. */
++static int sd_dist[SD_DIST_NR] __ro_after_init = { -1, -1, -1 };
++
++static int __init setup_sched_numa_flag_distance(char *str)
++{
++	int dist[SD_DIST_NR] = { -1, -1, -1 };
++	char *tok;
++	int i;
++
++	while ((tok = strsep(&str, ",")) != NULL) {
++		char *val = strchr(tok, ':');
++		int d;
++
++		if (!val)
++			goto invalid;
++		*val++ = '\0';
++
++		for (i = 0; i < SD_DIST_NR; i++) {
++			if (!strcmp(tok, sd_dist_groups[i].name))
++				break;
++		}
++		if (i == SD_DIST_NR || kstrtoint(val, 10, &d) || d < 0)
++			goto invalid;
++
++		dist[i] = d;
++	}
++
++	memcpy(sd_dist, dist, sizeof(sd_dist));
++	return 1;
++
++invalid:
++	pr_warn("sched_numa_flag_distance=: invalid entry \"%s\", ignored\n", tok);
++	return 1;
++}
++__setup("sched_numa_flag_distance=", setup_sched_numa_flag_distance);
++
++/* Balance flags to strip from a NUMA level of node distance @distance. */
++static unsigned int sd_numa_strip_flags(int distance)
++{
++	unsigned int flags = 0;
++	int i;
++
++	for (i = 0; i < SD_DIST_NR; i++) {
++		int d = sd_dist[i];
++
++		if (d < 0) {
++			if (i == SD_DIST_NEWIDLE)
++				continue;
++			d = node_reclaim_distance;
++		}
++		if (distance > d)
++			flags |= sd_dist_groups[i].flags;
++	}
++
++	return flags;
++}
++#endif /* CONFIG_NUMA */
++
+ static struct sched_domain *
+ sd_init(struct sched_domain_topology_level *tl,
+ 	const struct cpumask *cpu_map,
+@@ -2030,11 +2116,7 @@ sd_init(struct sched_domain_topology_level *tl,
+ 
+ 		sd->flags &= ~SD_PREFER_SIBLING;
+ 		sd->flags |= SD_SERIALIZE;
+-		if (sched_domains_numa_distance[tl->numa_level] > node_reclaim_distance) {
+-			sd->flags &= ~(SD_BALANCE_EXEC |
+-				       SD_BALANCE_FORK |
+-				       SD_WAKE_AFFINE);
+-		}
++		sd->flags &= ~sd_numa_strip_flags(sched_domains_numa_distance[tl->numa_level]);
+ 
+ #endif /* CONFIG_NUMA */
+ 	} else {
+-- 
+2.34.1
+
 
