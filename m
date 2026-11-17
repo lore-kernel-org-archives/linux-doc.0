@@ -1,79 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794920821;
-	b=Ow5PHVeuYIx4nMTizx7oAni7obaoAhXPGJaP2iuYZh4QVAR9CRlSDKlxMIyYT8ELBczG
-	 kOhisUEdez+CA45dJVNQL4Zk7Jk50JL+DNqaoMZVOHgxJ5SARUnss3bQE671P8tQ54GLG
-	 yUKDyVI6rrxIfvvhw9z9UQkekyEdcNDmJp2PcGjlKpfaO3IHur/eKP5RbpKTIL+jmXO7v
-	 VpIlOeEjwbCJFGAq1Usr4At0gCVUMG/8t5kzTkeRjrv3qeOkWWHPv/Z4gPg1sdlQKlQJg
-	 JH8N1rbWySyxLYbbo/EcaVAEYfz9b1GOprQpuIQe+JXIJAyGhHTP9GFTuaGYstmHZ7g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794920821;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=xNTRXT4JFl70Z7ejY4MINNO6Blxotnrh+iJtF7S8zJw=;
-	b=4VTxfesP8UbAGxlZNjlIsdvSHpMpWf8IbbKaUDRQr0OT9l6eqEpX5gup9s83xjlFNDVu
-	 Fattdcbtjv8MsORb9+jyLJH1CgaeLlLYbUxgk6bEaW55RozdpfKxqiEx0t7YWbqtmJoSD
-	 TREdZcY3sQSSeOg5dKrPkVPA1aSDYjRNOn91ieut/j1iomQPxfVftQFsJY7bLshdiyjRR
-	 tciRw7LczTR4xjqYwZ8xXFbxDWy0FEfn1YDo8euOD/dUG74C8/dTmZF7AHKgybP1V/Ppi
-	 7yuBhPDNj0wpl89lCnWjS7yaR6NqbSLLeo5CrYhotbL3iXbmPwLIQgG0Pj0PC2S+0+w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UWYu3Qsy;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97AB606A896;
-	Tue, 17 Nov 2026 13:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794921033;
+	b=YZov6eg3FGce3sz7Ip+7yvFvyHrrTNLjU/xaibdUwrQoF5d8r5ScnnuRw/kaBwKdaCpa
+	 694OaBBGalcsUEwcUIg7t6xRGY6YcH9UD7Dq02KFuL4QxH3V2wsG27D/ICKlSazBiYnfF
+	 0oPcYsX8YYoaWYQxCDSxTN/RVmoxsYNBN9SBIn1mTeUqZ/x0Trfjxubcy3i4eDUOsFh+V
+	 x4QMwz5Wt9jm+EiDtC92S+v4+ublSxUuyOLvTfFszJXySZd/2K3uaoeTAeFT6o70xOOM0
+	 G/5UYqxJRb1244vEwKy54uIvEzHttpKRGjQKn1lLxY6dVVvQzb9z09Q3g7DHHgdw0Xw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794921033;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=D4tW1TAfFvOxEpv444o0Uj+/5uyvixONHdxp9CLi34M=;
+	b=NFagQf0R4zdMGo2+JyMow5Ww+0gt0B5DfbI2pxaImAG4oZ5CvL0mi2UdSlzQPdgrfFyy
+	 0UyYr0C+UShK4qr7oVHlMajO11Ms9a/CzFecqfdzGOd12QDuZCUHrZWDiaxqM7aNzCdrY
+	 yexjvP1myag1q7Ppj0S56Q84b4v+LG9FIjeDJzIemGCTnAC0Xwf+VfGK4CjnKoFhqa422
+	 9QuUoFQD37zZEgmDFTizcFDkLr8UMbgLZ/FlML/jQaqFCw0z3EClkEb+jNJ7wXD37KJ9b
+	 D1pb5mwdJ0fdLY2PkhLYp25qxm1fR29K0FWzr2Psh7H9XxvLqUvmEBt5H+I4fHBdfWA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=eBvNZkSo;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D181606A329;
+	Tue, 17 Nov 2026 13:10:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D181606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UWYu3Qsy
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794920820;
-	b=P2xQFcvMwlBUyGD60rBUSTHXu0GD57aYz4yfTIsTqCShivqkEvZ/05bevwCl8r6Y51gz
-	 vvtvGYt9AUWMWYQ9HTNy6YRqEnLjJKkLKGsBZp2u1JaoLZYsuaDtbQBYrbRy01OeNwHso
-	 bgbgATIlq0tCkjJAS9YmF9z5iJ2s6YMAEUF5ONcPybPbZcHwv1ILVboSHpagX2mVnjDbW
-	 KHA8roeHlZ6UN3F+KgPSWeAvi9+HfbdJZl7eRMaAYBCfVhSqjFased9Vr3QcpGLK/jUPQ
-	 ASGMcr8SpVAlcqJLjRQNEpYKqbKcKu/meBfCTK6jRwyiSWl0jQpHv4ukjQ6qOAE9pfw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794920820;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=xNTRXT4JFl70Z7ejY4MINNO6Blxotnrh+iJtF7S8zJw=;
-	b=D9XGiyd5RASYyuBWuqh4FW8UUbAXFT0wiFvurVa+8WC8c2AMOpLGCKZPLfVPcURLUrLn
-	 g9mHV8rG/XRemmIM35amVYU3fh4fKXrLcvzxK0SFFFG2iHB/5GClEPMHORcsD4eQCDuNF
-	 +8+A4YB3uCU7TaOLwjEmskL4r6u0tbzT6DUzbliPKsFVRAueEaOEGpLkoD/WoaccMN76L
-	 1rZCoQAUnE4M1jkQ7ZhImQVWpvteNrww8xIYsAuH5EYDlPDdOt3rKDGffx+pZdRFOykuv
-	 N1z/mAC0j0quqcfgCJPRzwFgo12cl1rlAgnee/57wAEWsOmv5to04pRpYzz7Y2wqqaw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 5E1501F000C8;
-	Tue, 17 Nov 2026 13:06:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794920820;
-	bh=xNTRXT4JFl70Z7ejY4MINNO6Blxotnrh+iJtF7S8zJw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=UWYu3QsyUfmjwDSaGFC1pZkuYjDV6QzKHm0wxrdgtIKs2FajGFqWeqflPCcJKXAAO
-	 tPbrDIVb/ZpW1oyAbhz3pDTE2N0lXdUNseG9t156JJXIKwttfr+IO9FzalliXMd4Dm
-	 +ZDHAOa1a1EpyVzRBnOdYJYHtgcdmgGNvA0AAGuUFoT/cQDxrWPbLA7olkfhIcoH4W
-	 K7HUSvIHceM30xPGtoVgKwSCJ+ICJrAXV+8YrSxuLAdTTsyA0Ta5kfZVBw3dBfOW8l
-	 Uw4tz+0qW71zt97qvaHrJ8NYJ2a4+kvSQZn0IL5PpeJO+2qvyH7xVala3Y0YzG9eU8
-	 vhKhb4LquOwDQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id DD1DF4A987;
-	Tue, 17 Nov 2026 13:06:58 +0000 (UTC)
-From: yy-Local-LLM via B4 Relay <devnull+yogo.0917.sabu.gmail.com@kernel.org>
-Date: Tue, 17 Nov 2026 22:06:53 +0900
-Subject: [PATCH RFC 3/6] clocksource: add the SiRF AT550 counter and match
- timer
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=eBvNZkSo
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2631A1476;
+	Tue, 17 Nov 2026 05:10:28 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A67823F632;
+	Tue, 17 Nov 2026 05:10:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794921031; bh=3rwAxBhio7Lo7SXHtTbUlWdUnStP/TP/HJl8yyAZ1Ko=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eBvNZkSoC+giD1oPcrvkal1qQXxhc3EDROAUYlay2fNQ588mgreUOmmYlC/SRUE6y
+	 iX95SjBgz57o8Q7TAQVp0RGcVWNMaTbsaOMC1bgvnFXEtaax8RDiMCraXoOr+X287g
+	 SlBegSaBetAKuZjoTVrtEmVczfzjjcTvbjPTibCo=
+Date: Tue, 17 Nov 2026 13:10:20 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com,
+	jonathan.cameron@oss.qualcomm.com, elif.topuz@arm.com,
+	lukasz.luba@arm.com, philip.radford@arm.com, david@kernel.org,
+	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 00/35] Introduce SCMI Telemetry support
+Message-ID: <avxSPGYrREHtzjXi@pluto>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+ <20261117-enchanted-neat-donkey-8393a9@sudeepholla>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,232 +68,134 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261117-at550-rfc-v1-v1-3-5879573cb825@gmail.com>
-References: <20261117-at550-rfc-v1-v1-0-5879573cb825@gmail.com>
-In-Reply-To: <20261117-at550-rfc-v1-v1-0-5879573cb825@gmail.com>
-To: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
- Ulf Hansson <ulfh@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
- Adrian Hunter <adrian.hunter@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Russell King <linux@armlinux.org.uk>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Linus Walleij <linusw@kernel.org>, Drew Fustini <fustini@kernel.org>, 
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-mmc@vger.kernel.org, linux-doc@vger.kernel.org, soc@lists.linux.dev
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794920817; l=5834;
- i=yogo.0917.sabu@gmail.com; s=ypl514-20261117; h=from:subject:message-id;
- bh=ETnHCFnrQOc5dNmQFYU+aTNoQG8/ZwXDsoAYIswUf6E=;
- b=dIOyyBR7WZH/1ujHK4BwhT4rMdQZ6erwty2NNU5YvMEMNA7Kbjve6uy6UlNluR2QyyC1AzwzJ
- J3gd1YBO4tgBQLX2BMGw7v00k1DVaHTu2XaTwPgXbOut/xOWkI8prN7
-X-Developer-Key: i=yogo.0917.sabu@gmail.com; a=ed25519;
- pk=TIQ8Tk4xQrxyn8rmk3GI2f5qg/kO6g2KZm7YOOyBHeg=
-X-Endpoint-Received: by B4 Relay for
- yogo.0917.sabu@gmail.com/ypl514-20261117 with auth_id=1550
-X-Original-From: yy-Local-LLM <yogo.0917.sabu@gmail.com>
-Reply-To: yogo.0917.sabu@gmail.com
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117-enchanted-neat-donkey-8393a9@sudeepholla>
 
-From: yy-Local-LLM <yogo.0917.sabu@gmail.com>
+On Tue, Nov 17, 2026 at 12:43:15PM +0000, Sudeep Holla wrote:
+> On Mon, Nov 09, 2026 at 09:11:46AM +0000, Cristian Marussi wrote:
+> > Hi all,
+> > 
 
-Use the low 32-bit counter as clocksource/sched_clock and match zero as
-a one-shot clockevent. Obtain its rate through the common clock
-framework. Preserve the firmware counter/divider and refuse a running
-watchdog. Unwind IRQ, clock and I/O resources if initialization fails.
+Hi,
 
-Signed-off-by: yy-Local-LLM <yogo.0917.sabu@gmail.com>
----
- MAINTAINERS                       |   1 +
- drivers/clocksource/Kconfig       |   6 ++
- drivers/clocksource/Makefile      |   2 +
- drivers/clocksource/timer-at550.c | 134 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 143 insertions(+)
+> -- 
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index acb6fde49..3fea2160a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -25855,6 +25855,7 @@ F:	Documentation/devicetree/bindings/input/touchscreen/sirf,at550-ts.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/sirf,at550-intc.yaml
- F:	Documentation/devicetree/bindings/mmc/sirf,at550-sdhci.yaml
- F:	Documentation/devicetree/bindings/timer/sirf,at550-timer.yaml
-+F:	drivers/clocksource/timer-at550.c
- F:	drivers/irqchip/irq-at550.c
+[snip]
+
+>    + hardened core iterator parsing of multi-part reply
+> > 
+> 
+> You can drop the change log for earlier versions(just last 3 should suffice)
+> in the future postings and add links to them instead if anyone is really
+> interested to go back. Don't worry about older links now, just do that
+> in the future.
+> 
+
+Ok.
+
+> [...]
+> 
+> As mentioned in one of the thread, this is quite big series with not
+> much feedback on the UABI part apart for Jonathan. So we need to take
+> an approach of merging this in smaller parts initially.
+>
+
+Yes I have already split put unused features from V16 both from the
+protocol layer and from the driver.
+
+ - no GROUPS
+ - no NOTIFICATION
+ - no SAMPLE READ (async delayed response)
+
+This way the series is roughly 6500 lines (without docs/ksft/test tool)
+
+...now I was starting going through residual Sashiko bugs of the initial
+part of the series (at least), assuming more discussion are needed around
+the ABI anyway (still to reply to latest Jonathan mail)
+
+
+> > Cristian Marussi (34):
+> >   firmware: arm_scmi: Harden iterators state parsing
+> 
+> The above looks good.
+> 
+> >   firmware: arm_scmi: Add new SCMIv4.0 error codes definitions
+> >   firmware: arm_scmi: Introduce a dedicated SCMI Errors header
+> 
+> As pointed out, better to swap the order of above 2.
+>
+
+Ok.
  
- SIS 190 ETHERNET DRIVER
-diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
-index da8348329..ed73947bd 100644
---- a/drivers/clocksource/Kconfig
-+++ b/drivers/clocksource/Kconfig
-@@ -835,4 +835,10 @@ choice
- 
- endchoice
- 
-+config CLKSRC_AT550
-+	bool
-+	depends on ARM
-+	select TIMER_OF
-+	select CLKSRC_MMIO
-+
- endmenu
-diff --git a/drivers/clocksource/Makefile b/drivers/clocksource/Makefile
-index 464ec6690..0f3d4fb1c 100644
---- a/drivers/clocksource/Makefile
-+++ b/drivers/clocksource/Makefile
-@@ -97,3 +97,5 @@ obj-$(CONFIG_RALINK_TIMER)		+= timer-ralink.o
- obj-$(CONFIG_NXP_STM_TIMER)		+= timer-nxp-stm.o
- obj-$(CONFIG_RTK_SYSTIMER)		+= timer-realtek.o
- obj-$(CONFIG_RZN1_TIMER)		+= timer-rzn1.o
-+
-+obj-$(CONFIG_CLKSRC_AT550) += timer-at550.o
-diff --git a/drivers/clocksource/timer-at550.c b/drivers/clocksource/timer-at550.c
-new file mode 100644
-index 000000000..a47dadfb9
---- /dev/null
-+++ b/drivers/clocksource/timer-at550.c
-@@ -0,0 +1,134 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* SiRF AT550 free-running counter and match channel 0. */
-+#include <linux/clk.h>
-+#include <linux/clockchips.h>
-+#include <linux/clocksource.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/of_address.h>
-+#include <linux/of_irq.h>
-+#include <linux/sched_clock.h>
-+
-+#define AT550_MATCH0	0x08
-+#define AT550_STATUS	0x20
-+#define AT550_ENABLE	0x24
-+#define AT550_WATCHDOG	0x28
-+#define AT550_DIVIDER	0x2c
-+
-+static void __iomem *at550_timer;
-+static struct clock_event_device at550_event;
-+
-+static u64 notrace at550_sched_read(void)
-+{
-+	return readl_relaxed(at550_timer);
-+}
-+
-+static int at550_shutdown(struct clock_event_device *event)
-+{
-+	writel(0, at550_timer + AT550_ENABLE);
-+	return 0;
-+}
-+
-+static int at550_next_event(unsigned long delta,
-+			    struct clock_event_device *event)
-+{
-+	u32 target = readl(at550_timer) + delta;
-+
-+	writel(0, at550_timer + AT550_ENABLE);
-+	writel(1, at550_timer + AT550_STATUS);
-+	writel(target, at550_timer + AT550_MATCH0);
-+	writel(1, at550_timer + AT550_ENABLE);
-+	if ((s32)(target - readl(at550_timer)) <= 0) {
-+		writel(0, at550_timer + AT550_ENABLE);
-+		return -ETIME;
-+	}
-+	return 0;
-+}
-+
-+static irqreturn_t at550_timer_interrupt(int irq, void *data)
-+{
-+	struct clock_event_device *event = data;
-+
-+	if (!(readl(at550_timer + AT550_STATUS) & 1))
-+		return IRQ_NONE;
-+	writel(0, at550_timer + AT550_ENABLE);
-+	writel(1, at550_timer + AT550_STATUS);
-+	event->event_handler(event);
-+	return IRQ_HANDLED;
-+}
-+
-+static int __init at550_timer_init(struct device_node *node)
-+{
-+	struct clk *clk;
-+	unsigned long rate;
-+	unsigned int irq;
-+	int ret;
-+
-+	if (at550_timer)
-+		return -EINVAL;
-+	at550_timer = of_iomap(node, 0);
-+	if (!at550_timer)
-+		return -ENOMEM;
-+	/* Do not disturb a running firmware watchdog or unknown divider bits. */
-+	if (readl(at550_timer + AT550_WATCHDOG) ||
-+	    readl(at550_timer + AT550_DIVIDER) > 0xffff) {
-+		ret = -EBUSY;
-+		goto unmap;
-+	}
-+	clk = of_clk_get(node, 0);
-+	if (IS_ERR(clk)) {
-+		ret = PTR_ERR(clk);
-+		goto unmap;
-+	}
-+	ret = clk_prepare_enable(clk);
-+	if (ret)
-+		goto put_clock;
-+	rate = clk_get_rate(clk);
-+	if (!rate) {
-+		ret = -EINVAL;
-+		goto disable_clock;
-+	}
-+	irq = irq_of_parse_and_map(node, 0);
-+	if (!irq) {
-+		ret = -EINVAL;
-+		goto disable_clock;
-+	}
-+	writel(0, at550_timer + AT550_ENABLE);
-+	writel(0x3f, at550_timer + AT550_STATUS);
-+	at550_event.name = "at550-match0";
-+	at550_event.features = CLOCK_EVT_FEAT_ONESHOT;
-+	at550_event.rating = 200;
-+	at550_event.set_next_event = at550_next_event;
-+	at550_event.set_state_shutdown = at550_shutdown;
-+	at550_event.set_state_oneshot = at550_shutdown;
-+	at550_event.tick_resume = at550_shutdown;
-+	at550_event.cpumask = cpumask_of(0);
-+	at550_event.irq = irq;
-+	ret = request_irq(irq, at550_timer_interrupt, IRQF_TIMER,
-+			 "at550-match0", &at550_event);
-+	if (ret)
-+		goto dispose_irq;
-+	ret = clocksource_mmio_init(at550_timer, "at550-counter", rate, 200,
-+				   32, clocksource_mmio_readl_up);
-+	if (ret)
-+		goto free_irq;
-+	/* Firmware has configured the divider; the supplied clock is its output. */
-+	sched_clock_register(at550_sched_read, 32, rate);
-+	clockevents_config_and_register(&at550_event, rate,
-+					max(32UL, rate / 10000), 0x7fffffff);
-+	return 0;
-+
-+free_irq:
-+	free_irq(irq, &at550_event);
-+dispose_irq:
-+	irq_dispose_mapping(irq);
-+disable_clock:
-+	clk_disable_unprepare(clk);
-+put_clock:
-+	clk_put(clk);
-+unmap:
-+	iounmap(at550_timer);
-+	at550_timer = NULL;
-+	return ret;
-+}
-+TIMER_OF_DECLARE(at550, "sirf,at550-timer", at550_timer_init);
+> >   firmware: arm_scmi: Allow registration of unknown-size events/reports
+> >   firmware: arm_scmi: Refactor __scmi_event_handler_get_ops helper
+> >   firmware: arm_scmi: Introduce protocol instance notifiers
+> 
+> All the above 3 refactor the code, so better to fix the Sashiko reported
+> bugs around them before go for such additions/refactoring IMO.
+>
 
--- 
-2.56.0
+I dropeed protocol protocol instance support and notification as
+discussed, the new series layout is roughly (with docs/ksft/tool still
+to apply split):
 
+c1266f348da4 firmware: arm_scmi: Enable autoloading for System Telemetry driver
+8ff6d68673ff firmware: arm_scmi: Add System Telemetry driver
+2ab95adf4c0d uapi: Add ARM SCMI Telemetry definitions
+8a79c0ca1d11 firmware: arm_scmi: Expose per-instance identifier
+ec676846f78c firmware: arm_scmi: Add Telemetry debugfs ABI documentation
+6798c6701682 firmware: arm_scmi: Add Telemetry debugfs SHMTI dump support
+58cba74addfd firmware: arm_scmi: Add common per-protocol debugfs support
+fdfd27649a6e firmware: arm_scmi: Add Telemetry boot-on support
+6737d7a797c0 firmware: arm_scmi: Add Telemetry Single/Bulk DEs reads
+5507b8b44d15 firmware: arm_scmi: Add Telemetry global configuration support
+7aa4c04a61a8 firmware: arm_scmi: Add Telemetry DEs configuration support
+e2eec907cddc firmware: arm_scmi: Add Telemetry TDCF parsing for UUID lines
+d3c453be30c6 firmware: arm_scmi: Add Telemetry TDCF parsing for BLK_TS lines
+328be9a8b32b firmware: arm_scmi: Add Telemetry TDCF areas parsing support
+e5d64de593ee firmware: arm_scmi: Add Telemetry SHMTI areas enumeration
+d5f25597262d firmware: arm_scmi: Add Telemetry global update intervals enumeration
+e23dffd6a103 firmware: arm_scmi: Add Telemetry resources enumeration
+dac0f7d33c76 firmware: arm_scmi: Add Telemetry basic attributes enumeration
+fa02803cbb1a include: trace: Add Telemetry trace events
+4b510f42e44d dt-bindings: firmware: arm,scmi: Add support for telemetry protocol
+11f799fe30a4 firmware: arm_scmi: Refactor __scmi_event_handler_get_ops helper
+3a2706fedd66 firmware: arm_scmi: Allow registration of unknown-size events/reports
+5d196fe1290e firmware: arm_scmi: Introduce a dedicated SCMI Errors header
+1877db16c4f5 firmware: arm_scmi: Add new SCMIv4.0 error codes definitions
+38e65d778a52 firmware: arm_scmi: Harden iterators state parsing
 
+...BUT especially the removal of GROUPS led to considerable rework so
+the above commits does NOT really match the same commit in V15
+
+> >   dt-bindings: firmware: arm,scmi: Add support for telemetry protocol
+> >   include: trace: Add Telemetry trace events
+> >   firmware: arm_scmi: Add Telemetry basic attributes enumeration
+> >   firmware: arm_scmi: Add Telemetry resources enumeration
+> >   firmware: arm_scmi: Add Telemetry groups initialization
+> >   firmware: arm_scmi: Add Telemetry update intervals enumeration
+> >   firmware: arm_scmi: Add Telemetry SHMTI areas enumeration
+> >   firmware: arm_scmi: Add Telemetry TDCF areas parsing support
+> >   firmware: arm_scmi: Add Telemetry TDCF parsing for BLK_TS lines
+> >   firmware: arm_scmi: Add Telemetry TDCF parsing for UUID lines
+> >   firmware: arm_scmi: Add Telemetry configuration operations
+> >   firmware: arm_scmi: Add Telemetry DataEvent read capabilities
+> >   firmware: arm_scmi: Add Telemetry reset logic
+> >   firmware: arm_scmi: Add Telemetry notification support
+> >   firmware: arm_scmi: Add Telemetry boot-on support
+> >   firmware: arm-scmi: Add Telemetry generic event support
+> >   firmware: arm_scmi: Add Telemetry generation counter event
+> 
+> I am thinking of initially merging upto the above commit initially so that
+> no user ABI is established. I haven't done the thorough review yet.
+
+Beside a lot of stuff that I removed (like groups all over) there are
+outstanding Sashiko issue in the V15/V16 code that I was going to
+address now.
+
+Given that, as I understood the agreement was to shed a lot of still
+unused features the current V15 and next V16 will be sensibly different.
+
+Thanks,
+Cristian
