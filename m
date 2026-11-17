@@ -1,77 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.175
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794901483;
-	b=a3u4jevUdhAEwMUA0QiSZY6G/HmeOrKE6J2v2EnhNV8Qg/LtOt7LtViJFNqjc763/P6M
-	 8K2SsGEP37KaOa73MX/XMDn092jXs56jlMLk2/EnI6u8pDTzXkuBaGUjavgXvhfVozHLm
-	 wkbjPtNXo9pnaj7WdbwzTNXGKJg7SN2zu1iH4mjiELRtqH8hwA9glFLEiR3L+iL3/RfGp
-	 jqBRrdiGLQGS5L2tbHzF6XiUxxc3tEsQdcFh+QUvnIueAjQhgxs8hqHe7hUj1SFSaAVxU
-	 Nu0ENRwETUCiCvdCd8KHDcVJyUhzEaC0vk0enQqTyiSVahIlvnr4m9cC7qBGnu7buvw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794901483;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=tXiO5EarY27CkofXoR84oUPiSJOHxCIl3llp7XgcGS4=;
-	b=0ZGl3rAm7oMMz51sj7umQBT4S/IivmeQg2/6lbUvX+fi7DoLCRrui1AkNPB0AXS8NR/H
-	 CRBF1bR4SyIWqhI/RWQw/C1PUbUPctEjsaGmxduQqgvhaQDRbjR+h92MRZeV239MiOf8V
-	 CPXif9yTjt021q2kR8JN2A/pG1cRNpcH+PVL3P1eKswstYca62cVcVaLlqWqBYAP8Vxxj
-	 kyzd0mHz6zRIPLqRSmvLFgx2+JJ4Wrlnn6KO9HE8W5Hg3X77yaoKOKBcBD8LdAn0Wcqlr
-	 Qg27M9HqWr6non3b2RngMxe81IuSMquRDoNo27ynGNudHWbeGpAYQsTgRm1MIUL2svg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EyRArXIN;
-	arc=none smtp.remote-ip=95.215.58.175
-Received: from mta1.migadu.com (out-175.mta1.migadu.com [95.215.58.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=103.117.158.91
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794902511;
+	b=4q8AiZ4zKBdXH/T5c/SFDTvArOoH0UXRMUF/+Z6vyXudtLW/LYNFyoZVTV5GOLheD3wS
+	 z9nFuWLmQ6sUyPvnVHypkwmEzfpz2KRzJMKGB2TUM+46OglihwfEma5Fu22sszH2Qz3ck
+	 AKDlJ0jiXWnruyB5rC2JwmBQv7SzyTWGE35nIzBEPTolZWqNhf+R/kZiTzPr05OFmYQp+
+	 58SvfzEwc2Io6tuo3JQg5Jy3ilKrJ8hTXNJaDyZm/4UqQSEQ5BCyNetnttjdOelcT5E+Y
+	 plLIfDdVDOp2lWZoc+e4f3lREfNJPEuzn6N6RJ4N1RBUCg5lYaC2N/YkgCYzwUlrhvw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794902511;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ZohoMailClient;
+	bh=7URRG9JImOynmwbw8ccE41h3MMYLK0ullK2SAwBmlS4=;
+	b=sqFCAF/rJMwmKRDGaRqvsCBX4BezsnJ0PyQVJVzqmDxnCOf9hUiDLGgzBMQ9nkSL5W/6
+	 ZokkfGdXo79ZzCv34xaf9UV/5tR3fOrrh3ltwggEyllSqWAF5lOgnuHR/t/9pNDzDJhUN
+	 HND88fz/402uwAB1I9j608i/Seud6fJ/FvgyCjTG9A0XB1j8NPoiikTO91u2IYZyk7PLm
+	 62LXzr5TJSS2ezxYf68le7PS/3pcRex9ltSkwtyjOHT4O2ELzLoFeuvLWxds20y1nucWl
+	 m10Ykbghgm+jNMX+4pzzi2ESXRmo81HH9h8JphmXE0A2dlje/nSKDE7cCjC4F1/f1aw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=zohomail.in;
+	spf=pass smtp.mailfrom=zohomail.in;
+	dkim=pass header.d=zohomail.in header.i=@zohomail.in header.a=rsa-sha256 header.s=zoho header.b=HwbSgQT5;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=103.117.158.91
+Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3687B606A331
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 07:44:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3687B606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26BF606A31C;
+	Tue, 17 Nov 2026 08:01:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A26BF606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EyRArXIN
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=IW5ynYIfi6Xr6T0cE9YbEpif7QMM3ckaJbRURkeLx6M=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794901479; v=1; x=1795506279;
- b=EyRArXINeSswu1l1XnoTJArpiAVzjsKXhAXbde9QyZ1UVAR+AttMBN8hPWF1Gn6277d8MUz7
- VvTR4NmlN29of7IY4od3MQjS2+WvPwbVTXxVIuNryuCEKPdHwLDZlnnPylMFmhL4+m4h7u7Xu9G
- hNPLilohDyarlu96UqDqzOkE=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 9a9bc6f3d3d80109;
-	Tue, 17 Nov 2026 07:44:39 +0000
-X-Mizu-Trace-ID: 9a9bc6f3d3d80109
-X-Migadu-Flow: FLOW_OUT
-From: Fuad Tabba <fuad.tabba@linux.dev>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>
-Cc: kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Isaku Yamahata <isaku.yamahata@intel.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>,
-	kvmarm@lists.linux.dev,
-	Wei-Lin Chang <weilin.chang@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Fuad Tabba <tabba@google.com>
-Subject: [PATCH v2 2/2] KVM: selftests: Test KVM_PRE_FAULT_MEMORY against a full dirty ring
-Date: Tue, 17 Nov 2026 07:44:28 +0000
-Message-ID: <20261117074428.7544-3-fuad.tabba@linux.dev>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261117074428.7544-1-fuad.tabba@linux.dev>
-References: <20261117074428.7544-1-fuad.tabba@linux.dev>
+	dkim=pass (1024-bit key, unprotected) header.d=zohomail.in header.i=@zohomail.in header.a=rsa-sha256 header.s=zoho header.b=HwbSgQT5
+ARC-Seal: i=1; a=rsa-sha256; t=1794902425; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=AgsbymWTlSHa8QCVJ9C4dlFXwNfBr00OTo6cjb7oWbohYX1PZsfAIkC4E2tytbiI0cNicbtKShhYr2l0l86qdeGk6pbrh719H9b+bYX1utoqUQdHNV5Wig6a7yNzJpNSQSUBGzcw729wwJqOxRDQ2YjghyMK2u+lX7pQLxlJ4hc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1794902425; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=7URRG9JImOynmwbw8ccE41h3MMYLK0ullK2SAwBmlS4=; 
+	b=Pi8v7ynYHEnK2vG9/MjIwgpor6WT9R5hVdxqCisaOb6HrWOGCHkSGJ3lp900hE+meoYyeUhpam8Zxy14ibe0ghECX53eY/bMfSFVtZEs5Ptyouupp8nRsCMlwuPgu0uIHEEs64fOOXacYSWnIykYG2Kly8eEWb1YcxRVuK6kKw0=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=zohomail.in;
+	spf=pass  smtp.mailfrom=shivamkalra98@zohomail.in;
+	dmarc=pass header.from=<shivamkalra98@zohomail.in>
+DKIM-Signature: a=rsa-sha256; b=HwbSgQT50o7AhF9B8QFV8DLt4v6+QRQxC+Pz1ndpJUSvO/0D4BqjG3wL13AJ0YDZ5Mn0qomaKErUE45tZFHHT88IA92myqaR+caban3GbzzbU5G+uSImdY4O7XNcf140YZtPhsLCp90/dt38dWx8kjPc8PR+Fj9kmG61UrZdIN8=; c=relaxed/relaxed; s=zoho; d=zohomail.in; v=1; bh=7URRG9JImOynmwbw8ccE41h3MMYLK0ullK2SAwBmlS4=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by smtp.zoho.in with SMTPS id 17949024245771010.9301360744533;
+	Tue, 17 Nov 2026 13:30:24 +0530 (IST)
+Message-ID: <be487787-e342-418e-a5a3-5770ee816e7c@zohomail.in>
+Date: Tue, 17 Nov 2026 13:30:22 +0530
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,152 +58,191 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/6] drm/amd/display: Commit panel_power_savings writes
+ from the kernel
+To: hugo@hsal.es, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Mario Limonciello <mario.limonciello@amd.com>, Ray Wu <ray.wu@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Bhawanpreet Lakha
+ <bhawanpreet.lakha@amd.com>, Ivan Lipski <ivan.lipski@amd.com>,
+ Chenyu Chen <chen-yu.chen@amd.com>, David Weber <weber.aulendorf@gmail.com>,
+ Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261116-abm-sysfs-commit-v3-0-7a3d84a5328e@hsal.es>
+Content-Language: en-US
+From: Shivam Kalra <shivamkalra98@zohomail.in>
+In-Reply-To: <20261116-abm-sysfs-commit-v3-0-7a3d84a5328e@hsal.es>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-Pre-fault more populated, dirty-logged pages than the vCPU's dirty ring
-holds, and check that each call stops before the ring overflows, that a
-retry returns ENOSPC without progress, and that each page is reported
-exactly once. A read pre-fault can map a page read-only, or
-access-tracked on x86 without EPT A/D bits, so skip the case if
-pre-faulting doesn't dirty any page.
+On 16/11/26 19:31, Hugo Sales via B4 Relay wrote:
+> A write to panel_power_savings stores the ABM level and sends a hotplug
+> uevent, but the level reaches the hardware only on the next atomic commit
+> that includes the eDP connector. Hyprland adds the connector to a commit
+> only on a modeset or when a connector property it sets changes, so on my
+> laptop the file read back the new level and the backlight never changed.
+> power-profiles-daemon writes this file on every profile, AC and battery
+> change, so none of its ABM changes applied
+> 
+> This shouldn't need a fix in every compositor. The file is for writers
+> that aren't the DRM master, like power-profiles-daemon, and they can't
+> commit anything themselves. Today they depend on the master taking a
+> generic hotplug uevent as a cue to commit the connector again. Nothing
+> documents that, and a compositor has no reason to read a hotplug event as
+> "a property you never touched has changed". A compositor that wants to own
+> ABM sets the 'adaptive backlight modulation' property, and from then on
+> the file returns -EBUSY. The file has to work without the master's help.
+> The backlight device already does: a brightness write goes straight to DC,
+> with no commit at all
+> 
+> This series makes the write commit the level itself:
+> 
+>    1. Render the existing kernel-doc, which no rst file included
+>    2. Add the CRTC's planes to a commit that changes the ABM level, which
+>       the forced modeset used to do. With VRR active, such a commit would
+>       otherwise carry only the primary plane
+>    3. Stop forcing a modeset when the connector's ABM level changes. DM
+>       already sends a new level as a stream update, and the commit that
+>       added the modeset flag also added the CRTC, which is all that update
+>       needs
+>    4. Move the store tests onto a full pipe the store can commit to
+>    5. Commit the level from the store through a duplicated connector
+>       state. The write returns the commit's error and no longer sends a
+>       uevent
+>    6. KUnit cases for a connector with the CRTC on, off and failing
+>       atomic check
+> 
+> Patch 3 also asks, below its cut, whether scaling can leave the same
+> check
+> 
+>  From my reading, other commits that add the CRTC but no planes, like a
+> change of the HDR metadata, can drop an overlay the same way while VRR is
+> active. That needs a fix in the CRTC check that pulls in only the primary
+> plane, which I'll send as a separate series
+> 
+> Hamza's v1 of the 2024 patch that added this file had no flush [1], and
+> Mario found that the level only took effect on the next modeset [2].
+> That patch's v2 changelog says "force an atomic commit" [3], but what
+> was merged, commit 63d0b87213a0 ("drm/amd/display: add
+> panel_power_savings sysfs entry to eDP connectors"), sends a hotplug
+> event instead
+> 
+> Commit 8d20a066fa9b ("drm/amd/display: change the panel power savings
+> level without a modeset") later applied the level outside atomic. It
+> broke igt abm_gradual, and commit 95aaa207e9ef ("Revert "drm/amd/display:
+> change the panel power savings level without a modeset"") reverted it.
+> The objections back then were to sysfs overriding the DRM master at all
+> [4], which the property above now covers. I didn't find any discussion
+> that rejects an internal atomic commit
+> 
+> A write now returns the commit's error instead of storing a level the
+> hardware may never get. power-profiles-daemon logs the error and tries
+> again on its next profile, AC or battery change. Nothing I found reads
+> the uevent for more than a cue to commit the connector, which the kernel
+> now does itself
+> 
+> The commit is blocking, so a write can hold the CRTC locks for up to a
+> frame while a compositor commit waits
+> 
+> Tested on my laptop (ASUS ROG Flow X13 GV301QH, DCN 2.1) with v3 on
+> 7.3.4, under Hyprland with no modeset during the run:
+> 
+>    - 25 writes cycling levels 0 to 4 all succeeded and read back, with
+>      nothing in the kernel log. A write sends no uevent
+>    - I wrote 4, 0, 4, 0, 2 and 0 six seconds apart and read
+>      amdgpu_current_backlight_pwm and amdgpu_target_backlight_pwm every
+>      half second. After each 0, the backlight was back at full PWM by the
+>      next sample. After each 4 or 2, the target dropped, to 25% of full at
+>      4 and 52% at 2, and the backlight ramped down to it
+>    - This series on top of "drm/amd/display: Leave self-refresh before an
+>      ABM level update", with the panel in self-refresh before each write:
+>      all five writes that changed the level took the panel out of
+>      self-refresh for the update
+>    - Writes of the current level return without a commit, so they leave
+>      the panel in self-refresh
+> 
+> On a text console, igt amd_abm passed all five subtests. I also ran an
+> IGT test that puts an overlay plane over the primary plane and turns VRR
+> on, so the CRTC idles at the panel's 40 Hz minimum. On v2, a write took
+> the overlay off the screen until the next flip. With v3, the overlay
+> stayed. With VRR off, it stayed on both
+> 
+> [1] https://lore.kernel.org/amd-gfx/20240126222300.119292-1-hamza.mahfooz@amd.com/
+> [2] https://lore.kernel.org/amd-gfx/1162e59e-3f53-4c84-b186-bb2f4642216b@amd.com/
+> [3] https://lore.kernel.org/amd-gfx/20240202152837.7388-1-hamza.mahfooz@amd.com/
+> [4] https://lore.kernel.org/amd-gfx/b117ccc0-6569-4753-9cb9-c304f9e50d30@amd.com/
+> 
+> Changes in v3:
+> - New patch 2: add the CRTC's planes to a commit that changes the
+>    level. Without the modeset, such a commit with VRR active carried only
+>    the primary plane, and DC dropped an active overlay until the next
+>    flip. Sashiko's finding, reproduced on v2
+> - Patch 3: credit David Weber, who sent the same condition change in
+>    August (Chenyu)
+> - Patch 5: say that a compositor commit waits for the write instead of
+>    failing with -EBUSY, in the kernel-doc and below the cut (Chenyu)
+> - Link to v2: https://lore.kernel.org/r/20261113-abm-sysfs-commit-v2-0-5808d17a7e89@hsal.es
+> 
+> Changes in v2:
+> - Patch 3 (v2's 2): name commit b05e2c5e81f9 ("drm/amd/display: Update
+>    ABM crtc state on non-modeset") as the one that lets the non-modeset
+>    path carry the level, say the KMS property loses its modeset too, and
+>    say "drm/amd/display: Leave self-refresh before an ABM level update"
+>    has to go first
+> - Patch 4 (v2's 3): set level 2 before the test that writes 0, so the
+>    write changes the level
+> - Patch 5 (v2's 4): return without a commit when the level doesn't
+>    change (Harry). A write that changes nothing, or that the DRM master
+>    forbids, no longer wakes the GPU. A write that a signal interrupts
+>    restarts instead of failing with -EINTR
+> - Patch 6 (v2's 5): test a write of the current level, check that it and
+>    a forbidden write leave a runtime-suspended GPU suspended, and fold
+>    the CRTC on and off cases into one parameterised test
+> - Link to v1: https://lore.kernel.org/r/20261102-abm-sysfs-commit-v1-0-e5addfd9539a@hsal.es
+> 
+> ---
+> Hugo Sales (6):
+>        drm/amd/display: Render the panel power savings kernel-doc
+>        drm/amd/display: Add the CRTC's planes when the ABM level changes
+>        drm/amd/display: Don't force a modeset when the ABM level changes
+>        drm/amd/display: Give the panel_power_savings store tests a full pipe
+>        drm/amd/display: Commit panel_power_savings writes from the kernel
+>        drm/amd/display: Test panel_power_savings commits
+> 
+>   .../gpu/amdgpu/display/display-manager.rst         |   3 +
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  17 +-
+>   .../amd/display/amdgpu_dm/amdgpu_dm_backlight.c    | 118 ++++++++-
+>   .../amdgpu_dm/tests/amdgpu_dm_backlight_test.c     | 271 ++++++++++++++++++++-
+>   4 files changed, 390 insertions(+), 19 deletions(-)
+> ---
+> base-commit: ba496bb837882eb1af58f41572fc289e46c77b8c
+> change-id: 20261101-abm-sysfs-commit-96a38de1ac66
+> prerequisite-change-id: 20261113-amdgpu-psr-abm-update-next-de20bc23b12c:v2
+> prerequisite-patch-id: c6cbeb4671914753ab7526369c2612039ae16504
+> prerequisite-patch-id: efc64b5a0a1bc2d46494d4797b0d25447b174076
+> prerequisite-patch-id: 496307c9687a947cfbfdcf1b6d0ad6ba1b6d4089
+> 
+> Best regards,
+> --
+> Hugo Sales <hugo@hsal.es>
+> 
+> 
+Hi Hugo,
 
-Signed-off-by: Fuad Tabba <fuad.tabba@linux.dev>
----
- .../selftests/kvm/pre_fault_memory_test.c     | 101 ++++++++++++++++++
- 1 file changed, 101 insertions(+)
+Tested this v3 series on top of your self-refresh v2 series on Rembrandt
+(DCN 3.1.2), running 7.1.0-hugo-abm. All five amd_abm subtests, including
+abm_gradual, passed on A/C.
 
-diff --git a/tools/testing/selftests/kvm/pre_fault_memory_test.c b/tools/testing/selftests/kvm/pre_fault_memory_test.c
-index 3082fe09b95fa..72c501afc873b 100644
---- a/tools/testing/selftests/kvm/pre_fault_memory_test.c
-+++ b/tools/testing/selftests/kvm/pre_fault_memory_test.c
-@@ -5,6 +5,9 @@
-  * Author:
-  * Isaku Yamahata <isaku.yamahata at gmail.com>
-  */
-+#include <asm/barrier.h>
-+#include <linux/bitmap.h>
-+#include <linux/bitops.h>
- #include <linux/sizes.h>
- 
- #include <test_util.h>
-@@ -17,6 +20,8 @@
- /* Arbitrarily chosen values */
- #define TEST_BASE_SIZE		SZ_2M
- #define TEST_SLOT		10
-+/* Large enough for the entries every architecture reserves. */
-+#define TEST_RING_SIZE		SZ_64K
- 
- /* Storage of test info to share with guest code */
- struct test_config {
-@@ -281,6 +286,101 @@ static void test_pre_fault_memory(unsigned long vm_type, enum vm_mem_backing_src
- 	for_each_guest_mode(__test_pre_fault_memory, &p);
- }
- 
-+/*
-+ * Pre-fault more dirty-logged pages than the ring holds: each call has to stop
-+ * before the ring overflows, and no entry may be lost.
-+ */
-+static void test_pre_fault_dirty_ring(void)
-+{
-+	const u64 entries = TEST_RING_SIZE / sizeof(struct kvm_dirty_gfn);
-+	const u64 npages = entries + entries / 4;
-+	struct kvm_pre_fault_memory range, left;
-+	struct kvm_dirty_gfn *gfns, *cur;
-+	u64 harvested = 0, size;
-+	struct kvm_vcpu *vcpu;
-+	unsigned long *seen;
-+	int ret, stops = 0;
-+	struct kvm_vm *vm;
-+	u32 fetch = 0;
-+	gpa_t gpa;
-+
-+	if (!kvm_has_cap(KVM_CAP_DIRTY_LOG_RING) && !kvm_has_cap(KVM_CAP_DIRTY_LOG_RING_ACQ_REL)) {
-+		pr_info("Skipping the dirty ring test: no dirty ring\n");
-+		return;
-+	}
-+
-+	vm = vm_create(1);
-+	vm_enable_dirty_ring(vm, TEST_RING_SIZE);
-+	vcpu = vm_vcpu_add(vm, 0, NULL);
-+	gfns = vcpu_map_dirty_ring(vcpu);
-+
-+	/* A ring entry is a host page. */
-+	size = npages * getpagesize();
-+	gpa = align_down(vm->max_gfn * vm->page_size - size, SZ_2M);
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS, gpa, TEST_SLOT,
-+				    vm_num_guest_pages(vm->mode, npages), KVM_MEM_LOG_DIRTY_PAGES);
-+
-+	/* Populate the pages, so that pre-faulting can map them writable. */
-+	memset(addr_gpa2hva(vm, gpa), 1, size);
-+
-+	seen = bitmap_zalloc(npages);
-+	TEST_ASSERT(seen, "Failed to allocate the bitmap of reported pages");
-+
-+	range = (struct kvm_pre_fault_memory) { .gpa = gpa, .size = size };
-+	while (range.size) {
-+		u64 n;
-+
-+		vcpu_ioctl(vcpu, KVM_PRE_FAULT_MEMORY, &range);
-+
-+		if (range.size) {
-+			left = range;
-+			ret = __vcpu_ioctl(vcpu, KVM_PRE_FAULT_MEMORY, &range);
-+			TEST_ASSERT_VM_VCPU_IOCTL(ret == -1 && errno == ENOSPC,
-+						  KVM_PRE_FAULT_MEMORY, ret, vm);
-+			TEST_ASSERT(range.gpa == left.gpa && range.size == left.size,
-+				    "KVM_PRE_FAULT_MEMORY made progress on a full ring");
-+			stops++;
-+		}
-+
-+		for (n = 0; ; n++) {
-+			cur = &gfns[fetch % entries];
-+			/* Pairs with the smp_wmb() in kvm_dirty_ring_push(). */
-+			if (smp_load_acquire(&cur->flags) != KVM_DIRTY_GFN_F_DIRTY)
-+				break;
-+
-+			TEST_ASSERT(cur->slot == TEST_SLOT && cur->offset < npages,
-+				    "Ring entry %u: slot %u offset 0x%llx, expected slot %u offset < 0x%lx",
-+				    fetch, cur->slot, cur->offset, TEST_SLOT, npages);
-+			TEST_ASSERT(!__test_and_set_bit(cur->offset, seen),
-+				    "Ring entry %u: offset 0x%llx reported twice",
-+				    fetch, cur->offset);
-+			/* Pairs with kvm_dirty_gfn_harvested()'s smp_load_acquire(). */
-+			smp_store_release(&cur->flags, KVM_DIRTY_GFN_F_RESET);
-+			fetch++;
-+		}
-+
-+		/* A read pre-fault can map a page read-only, or access-tracked on x86. */
-+		if (!n && !harvested && !range.size) {
-+			pr_info("Skipping the dirty ring test: pre-faulting dirtied no pages\n");
-+			bitmap_free(seen);
-+			kvm_vm_free(vm);
-+			return;
-+		}
-+		TEST_ASSERT(n, "KVM_PRE_FAULT_MEMORY pushed nothing to the ring");
-+		TEST_ASSERT(kvm_vm_reset_dirty_ring(vm) == n,
-+			    "KVM_RESET_DIRTY_RINGS didn't reset %lu entries", n);
-+		harvested += n;
-+	}
-+
-+	TEST_ASSERT(harvested == npages, "%lu ring entries for %lu pages", harvested, npages);
-+	TEST_ASSERT(stops, "KVM_PRE_FAULT_MEMORY never stopped for a %lu-entry ring", entries);
-+	pr_info("Pre-faulted %lu pages through a %lu-entry ring, stopping %d times\n",
-+		npages, entries, stops);
-+
-+	bitmap_free(seen);
-+	kvm_vm_free(vm);
-+}
-+
- static void help(char *name)
- {
- 	puts("");
-@@ -320,5 +420,6 @@ int main(int argc, char *argv[])
- 	test_pre_fault_memory(KVM_X86_SW_PROTECTED_VM, backing, false);
- 	test_pre_fault_memory(KVM_X86_SW_PROTECTED_VM, backing, true);
- #endif
-+	test_pre_fault_dirty_ring();
- 	return 0;
- }
--- 
-2.47.3
+My panel reports Sink support: no and Driver support: no [0xffffffff],
+so I couldn't exercise the PSR-active case Chenyu requested.
 
+Tested-by: Shivam Kalra <shivamkalra98@zohomail.in>
