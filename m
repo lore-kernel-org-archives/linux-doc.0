@@ -1,62 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.251
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794935191;
-	b=aQ8HBtXgzEty50nC4QIJN+v8PPbbZn7upBhpX775jhcHQPJ23NJxkgl6ig1CTySz1qrx
-	 MzT/t/+eegG9eRRJGd03IGjH/122obAUmlW0ZHaWU5aQRBo79r7QK1h4T+cnmuB/6q3wW
-	 wb2/KEdmlhRO03XE5PoozYBjDaRZzqv4STKdzrwOia9t7zcDd77rX5HiF4aTG9WlQlpG7
-	 UiTKvmJvhzK0DQo5CHaKE0nNcGkNq+YvHJM5iNEsonE1cbabJa62nb8I/R7U/jtz0Dute
-	 BQRMtAtyjHJnZHKNcpf+JNxXCauAOIMrmRy/CUn52q7TcKOhCwLJNGSrmWcF4R0yHMQ==
+	t=1794935215;
+	b=cNy6dqcKPXcRwJ24yByTtVv9qRcrTlX1/XdG2Z/ZmeJoo6kX+ycbUrFYQJOB/2QhNaVe
+	 CrYr1ERYoGEYbHQzC/z0upv2OzdmwaLjqFZWaDb9e9CBpJXtjAQuDYoOnK+TlkSYxodWC
+	 jVjURMLJJFE+R53iMcqQbV/OecfdoULv45cu0LOHezgOq/0yZk0ppqoelp98I8ro+cP6u
+	 4Va/eoRKRS/8Z0NyLFYeJ11HfLUtqv+ceDl2Z3jvPI4mXZ0bGOWoJSN8oa8/zD0w2ewge
+	 xSlxds3fiBlFkvkIpcJaDPmYtkzdZFzPc0HzkFGjE5XUEVCw32OdI44toHk4Me2mKGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794935191;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=hixzDBYjex72mbAqfdJ0BMP0XnPJdhglkhJ+5expOLw=;
-	b=SydjMNDp81CWpue+KwR13gv3Fhw7gP3UgwCfd46qoTaXdESMP2YMwLT6H+/n/fqVqsRN
-	 Nwrww1a0YkUg1/x2ksJ1VU/WDlVnQZKXbcpUAgjF6PNZ6MhBWhjfNcnMHmGhLHvHDOxH9
-	 cggO6mlYsYDpOLq/fDs2GodntmmuaZyuAKRTAJ8bp41SCsf78/ECzvApZDH+Nd6w0Z4aT
-	 uiFUXMqCJwckce/AGUI4JgSB4ucBhVKf/a00Hfsh+rasCGnfkjh6vjfiRCIiVk3f60Ni+
-	 DfB2YWahAsDQxdB4k0elswI9KqCR5ILOWW1+aZz3pzfaMAp6R1r8kCRIZqdSLw4ktZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794935215;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=3x+0jlSrgAaHaiAOabPc8qLStc9/QqPozrpSv+XIEh0=;
+	b=XwK5V1e/sJXQUP5Mj6pxTxr5EuBlikX90BHtBL+1n31ioUwXuamwQGMSJJQrIia2rBuY
+	 szdohztqufBPDaVfR0vId1pQ7Q6aVBLrEJtF3ljI4RM8NyFU2W1884FE8963RhPsy2jm7
+	 SDKORORQ1EUzNeqPuribsa5nbbYzNAg7wLbCK8ImWBh22K1wHETDbr+joUkkjwUr62Kx4
+	 S5Bp+ofxBAzD1G7UhkzTcISIz9wAA/Z0yl5sYf5YGfAUv1dafiK3eE7H4MP4FsOpRUqKS
+	 XTR9pWRgqz3GAoVzbzW3eGgdmVTM0oSFk9cCNNBLSum1FNTbYt9UeSEn71QprO0dv6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=PYuoHGcf;
-	arc=none smtp.remote-ip=91.218.175.251
-Received: from mta0.migadu.com (out-251.mta0.migadu.com [91.218.175.251])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P1CFB4aJ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1FF606A33E
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 17:06:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E1FF606A33E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC16606A880;
+	Tue, 17 Nov 2026 17:06:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=PYuoHGcf
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=CuWYfoaIeUOLVmPy0v9FnC5ISe1ZRoIopzCKCHIxYjE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794935189; v=1; x=1795539989;
- b=PYuoHGcfaIqg1ON5AgkQMRg14SJoeAWvCbVwfioCDejarEbFCDrjUDIZvAAgM+Yt1xiMeKQv
- zGzn45+RLoAZw/B1Jqrl2zRcHLu2cd01qtn6+1h9lQJQklf7JlqQXMNkuC8QROhHkEMVqeaHKDz
- DEUnTx/b3JLnLTyurptijuFM=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id d2701c4c3be2a889;
-	Tue, 17 Nov 2026 17:06:29 +0000
-X-Mizu-Trace-ID: d2701c4c3be2a889
-X-Migadu-Flow: FLOW_OUT
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5be58ad9600so11303e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 09:06:27 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFJkdOPxYJoynAorfdKuGULvZP9qN2zoA1e6OQCqABKvKkv3YVCOIz+0pyHg3XSdQNYd1yANkpJaTk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8gRl/PbarBMs3PVEL7+y2xgFyb2tifFDQl27MHgX252G5s/xF7
-	ydUZLV3Mnw+kXe/8Vo0i5XvT6ARAPl7/Sn2r6oio+oDd/rmv4i34kH/XY6C9gbjojqNat0WT5x5
-	Y7owKRVG2sKeF1CYBwVeo0wQlmwdUGCRr+uOCmkaL
-X-Received: by 2002:a05:6512:b8d:b0:5bf:f0fb:2c9c with SMTP id
- 2adb3069b0e04-5c1a189bda1mr156069e87.5.1794935186033; Tue, 17 Nov 2026
- 09:06:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P1CFB4aJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1EC61F000C5;
+	Tue, 17 Nov 2026 17:06:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794935215;
+	bh=3x+0jlSrgAaHaiAOabPc8qLStc9/QqPozrpSv+XIEh0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=P1CFB4aJGuX0QRQ3pAADWjoP02+tKboFVQQ03fUP+1g3874UOV1Dpkehu7J0kv3oZ
+	 QESyyaeevXRFo87s6sdstC4TY8S1xeMtU0fa3VEfzwsqQ43p9h5dIVADe6sONUAV+D
+	 Odc7FepYb4Jam0Ha00wlGoNW/2eFNfFc+CW2RXzqFOYWD8rYbjeKAlcUREHZLjA9P3
+	 de01no0XzXMKJk2hhYrjl0X0QGgOjofLHCB2NFjoWIUV9VtD9ZU1gI35uwSG+SowfV
+	 fg+GSWh5zVKjOXRZ1TnttX8oiib8kdCqMZBDLmKEXaP366RKvOcSjN+SZEEKD/xkGo
+	 ++lP1oIISjMnQ==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
+ <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
+ kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
+ Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
+ Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
+ Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
+ <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
+ netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org,
+ "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi
+ <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, David
+ Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Stuart Clark
+ <stuclar@meta.com>
+Subject: Re: [PATCH net-next v1 02/11] net: Add memory provider capabilities
+In-Reply-To: <CAHS8izNVDU8+JzeuwDBmF24C-XqkO+ox01qnTvK665Y8pyWNLA@mail.gmail.com>
+References: <20261110102039.1002605-1-bjorn@kernel.org>
+ <20261110102039.1002605-3-bjorn@kernel.org>
+ <CAHS8izMaAv6gX1NeJR+QCf43CL+DC4DgePRNNxSLoE31jxHU0g@mail.gmail.com>
+ <87fqx2j5jx.fsf@all.your.base.are.belong.to.us>
+ <CAHS8izNVDU8+JzeuwDBmF24C-XqkO+ox01qnTvK665Y8pyWNLA@mail.gmail.com>
+Date: Tue, 17 Nov 2026 18:06:52 +0100
+Message-ID: <87zev71j6b.fsf@all.your.base.are.belong.to.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,128 +82,102 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261117074428.7544-1-fuad.tabba@linux.dev> <20261117074428.7544-2-fuad.tabba@linux.dev>
- <avxfgWNePsGPK9mm@gremlin>
-In-Reply-To: <avxfgWNePsGPK9mm@gremlin>
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Tue, 17 Nov 2026 17:05:49 +0000
-X-Gmail-Original-Message-ID: <CA+EHjTzUrDxLSMEo6X66XhKtQ-=ew3zZhMdFWR6U9Ga17WLWkw@mail.gmail.com>
-X-Gm-Features: AclHuK8hlW_ShztJ0BsSWqDzcCkcDDTWK01dR1LguEsZLGP95yN_yfyBcMKgMpA
-Message-ID: <CA+EHjTzUrDxLSMEo6X66XhKtQ-=ew3zZhMdFWR6U9Ga17WLWkw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] KVM: Stop KVM_PRE_FAULT_MEMORY when the vCPU's
- dirty ring is full
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexandru Elisei <alexandru.elisei@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, kvmarm@lists.linux.dev, 
-	Wei-Lin Chang <weilin.chang@arm.com>, Will Deacon <will@kernel.org>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Lorenzo,
+Mina Almasry <almasrymina@google.com> writes:
 
-On Tue, 17 Nov 2026 14:23:09 +0000, "Lorenzo Stoakes (ARM)"
-<ljs@kernel.org> wrote:
-[...]
-> > The check also sets run->exit_reason, and arm64's KVM_RUN completes a
-> > pending MMIO exit only if exit_reason is still KVM_EXIT_MMIO. If a
-> > pre-fault stops on a full ring while an MMIO exit is pending, the next
-> > KVM_RUN doesn't complete the exit and the guest repeats the MMIO
-> > access. Userspace can avoid that by completing the exit with KVM_RUN
-> > before it pre-faults.
+> On Sun, Nov 15, 2026 at 10:47=E2=80=AFAM Bj=C3=B6rn T=C3=B6pel <bjorn@ker=
+nel.org> wrote:
+>>
+>> Mina Almasry <almasrymina@google.com> writes:
+>>
+>> > On Tue, Nov 10, 2026 at 2:21=E2=80=AFAM Bj=C3=B6rn T=C3=B6pel <bjorn@k=
+ernel.org> wrote:
+>> >>
+>> >> The core treats every memory provider as unreadable: installing one
+>> >> needs header split and no XDP program, and any page pool that allows
+>> >> unreadable netmem takes it. An AF_XDP UMEM provider is readable, needs
+>> >> XDP, and hands out whole buffers.
+>> >>
+>> >> Describe providers by MP_CAP_READABLE and MP_CAP_FRAG; devmem and
+>> >> io_uring keep their behavior with MP_CAP_FRAG. A page pool takes a
+>> >> readable provider only with the new PP_FLAG_MEM_PROVIDER:
+>> >
+>> > Why do we need this? I thought whatever creates the pool actually
+>> > shouldn't get to pick whether the pool picks up the memory provider. I
+>> > thought if core has configured the rxq for a memory provider then the
+>> > pool is forced to take it.
+>>
+>> Thanks for looking at series, Mina. ...this needed some thinking.
+>>
+>> It isn't forced today either: only pools with
+>> PP_FLAG_ALLOW_UNREADABLE_NETMEM take the queue's provider. Drivers set
+>> it on the pool that holds payloads, and keep headers in host memory: in
+>> a separate pool (fbnic, bnxt), or outside the page pool (gve, mlx5).
+>> That works because every provider so far backs payloads only.
+>>
+>> UMEM doesn't. The socket gets whole packets, so UMEM has to back the
+>> header buffers, and with multi-buffer the payloads too. The flag was my
+>> way to get it there, but you're right that it's the wrong knob: it lets
+>> the driver opt in, where it should only say what each pool holds.
+>>
+>> How about this instead. Both sides use the rx_roles bits from patch 5,
+>> HEAD and PAYLOAD:
+>>
+>>  - The provider says which buffers it backs, next to rx_page_size in
+>>    pp_memory_provider_params: devmem and io_uring zcrx PAYLOAD, AF_XDP
+>>    HEAD, or HEAD|PAYLOAD with multi-buffer.
+>>  - The driver says what each pool holds, in rx_roles. A pool without
+>>    roles but with PP_FLAG_ALLOW_UNREADABLE_NETMEM holds PAYLOAD, so
+>>    existing drivers don't change.
+>>  - page_pool_create() gives the provider to a pool whose roles are all
+>>    backed; the others get host pages. No opt-in.
+>>  - After ndo_queue_mem_alloc(), the core checks that the new pools that
+>>    took the provider cover everything it backs, or fails the restart.
+>>
+>> With fbnic's header and payload pools:
+>>
+>>   devmem:                header pool host, payload pool devmem
+>>   AF_XDP single-buffer:  header pool UMEM, payload pool host
+>>   AF_XDP multi-buffer:   one shared pool, UMEM
+>>
+>> A shared pool on a devmem queue doesn't take devmem, since devmem
+>> doesn't back HEAD, so the check fails and the driver has to split.
+>> That's the "headers in host memory" rule, without the driver asking
+>> which provider it is.
+>>
+>> Wdyt?
+>>
 >
-> That's also true for riscv:
+> Hmm, I think maybe the exsiting knobs PP_FLAG_ALLOW_UNREADABLE +
+> CAP_READABLE covers your needs.
 >
->         switch (run->exit_reason) {
->         case KVM_EXIT_MMIO:
->                 /* Process MMIO value returned from user-space */
->                 ret = kvm_riscv_vcpu_mmio_return(vcpu, vcpu->run);
->                 break;
->         case KVM_EXIT_RISCV_SBI:
->                 /* Process SBI value returned from user-space */
->                 ret = kvm_riscv_vcpu_sbi_return(vcpu, vcpu->run);
->                 break;
->         case KVM_EXIT_RISCV_CSR:
->                 /* Process CSR value returned from user-space */
->                 ret = kvm_riscv_vcpu_csr_return(vcpu, vcpu->run);
->                 break;
->         }
+> The pp says whether the memory it provides is readable or not via
+> CAP_READABLE (or !CAP_UNREADABLE).
 >
-> (note that it skips CSR, SBI also with a changed exit_reason).
-
-Ack.
-
-> But the overflow bug only applies to x86 (see below), so is this something
-> we should worry about at all?
-
-The ring overflows on arm64 too (below). As for exit_reason, I asked
-Sean about the arm64 MMIO case on v1, and his answer was that a VMM
-that pre-faults between a KVM_EXIT_MMIO return and the next KVM_RUN
-"gets to deal with the fallout" [1]. I think the same goes for riscv's
-exits.
-
-[...]
-> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-[...]
-> >  The dirty ring can get full.  When it happens, the KVM_RUN of the
-> > -vcpu will return with exit reason KVM_EXIT_DIRTY_RING_FULL.
-> > +vcpu will return with exit reason KVM_EXIT_DIRTY_RING_FULL, and
-> > +KVM_PRE_FAULT_MEMORY on the vcpu will process no more pages until the
-> > +ring has been harvested and reset.
+> The driver says whether it will allow unreadable memory for this pool.
+> For header pools, it doesn't specfiy PP_FLAG_ALLOW_UNREADABLE and for
+> paylaod pools it specifies ALLOW_UNREADABLE.
 >
-> Maybe worth mentioning the exit_reason thing if we keep this arch-generic?
+> The change I think you need to make is: today we disallow any
+> providers if the caller did not specify ALLOW_UNREADABLE (because we
+> assume mp's are unreadable). After your series we only need to
+> disallow memory providers if the mp is unreadable and the caller said
+> it's not fine with unreadable.
 
-Sure, I'll document that userspace should complete a pending exit with
-KVM_RUN before it pre-faults on that vCPU.
+I'm all in on making v1 simpler -- I'll try this path! So, an unreadable
+provider still goes only to pools that set ALLOW_UNREADABLE. A readable
+provider goes to all RX pools of the queue. The roles and
+PP_FLAG_MEM_PROVIDER are gone.
 
-[...]
-> I wonder if this shouldn't just be an x86-only fix, since no other arch is
-> impacted AFAICT.
->
-> arm64 and riscv never map a dirty-logged memslot writable, so they're never
-> pushed to the rin, and s390 doesn't have a dirty ring at all:
->
-> arm64:
->
-> static int kvm_s2_fault_compute_prot(const struct kvm_s2_fault_desc *s2fd,
->                                      const struct kvm_s2_fault_vma_info *s2vi,
->                                      enum kvm_pgtable_prot *prot)
-> {
->         ...
->         if (s2vi->map_writable && (s2vi->device ||
->                                    !memslot_is_logging(s2fd->memslot) ||
->                                    kvm_s2_fault_is_write(s2fd)))
->                 *prot |= KVM_PGTABLE_PROT_W;
->         ...
-> }
+One addition: a driver must opt in with a readable_mp flag in its
+queue ops. Without it, its pools don't look for a provider. The reason
+is that today only ALLOW_UNREADABLE pools must set queue_idx and be
+created under the instance lock. Other pools may not, so they could
+pick up the wrong queue's provider. Maybe there's a better way?
 
-arm64 does map a logged slot as writable today. memslot_is_logging()
-tests memslot->dirty_bitmap, which isn't allocated when only the dirty
-ring is enabled, and patch 2's selftest triggers the WARN in
-kvm_dirty_ring_push() on arm64 without patch 1. Wei-Lin's fix to
-memslot_is_logging() [2] is in kvmarm/fixes, not in mainline yet.
+Thanks!
 
-With it, the s2vi->device case above still maps a device page writable
-on a read fault in a logged slot. kvm_arch_prepare_memory_region()
-rejects logging on a VM_PFNMAP VMA, so that requires userspace to map
-the device under the slot after creating it (I haven't tested it).
 
-So I think the check should be in the generic loop.
-
-[...]
-> An x86-only version would be pretty simple, something like the below.
->
-> This also covers off the retry (RET_PF_RETRY) loop which a generic version
-> doesn't.
-
-True. To overflow there, the retries for one page would have to push
-more entries than the ring has in reserve (at least 64), and I don't
-see a way to get that, so I left it alone.
-
-Cheers,
-/fuad
-
-[1] https://lore.kernel.org/all/avs5UD79FB_DG1Vs@seanjc-mac.roam.internal/
-[2] https://lore.kernel.org/all/20261029175238.3214788-2-weilin.chang@arm.com/
+Bj=C3=B6rn
