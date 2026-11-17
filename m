@@ -1,45 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794911803;
-	b=5YeyEbAoJ4OVgNcIhlNnVaM5+8to8r0Bes9gWb1WBN9zk65+GnHwdtCe7YKGJCS1y3f+
-	 BiBRGRPG9AJ+AX/AmtS6Z1p6NxOqbN8uxw1e+ddkWx1gl7G8tCYHUujew7yRv9SMVEy1o
-	 C0y1episBl5AIdNouuQv2dr2vkKYGo1CE/5bAstZKlH9BqIMi5+HH3MZ7O4M8dumTCvUX
-	 +CqDc3i5Ntj4uI3o54v3A/U6zLiwck9V7jZhR4cManvIzgMmVsHdYN1ouUY8+d1jhM70n
-	 qnsth/B/dO0MyDtJhw94KItUViqFGS2Ng3MPr2jFUexY7v5W9haGXONNCUU2lrmArDQ==
+	t=1794912076;
+	b=ivhGG+3rKWsGtXB73dbhS5p7gOpQ5U88lbdoxP8iDeHksFkTpu9Wejen/FeRAtD6t/UD
+	 nPu2xUSkcmNNMiWkkeT7NDruCe7KA9cT7to+rneExdvZcOtu4yIsEtoCQzaGA4dxpPKhz
+	 0xolzDGfWGPU0ZEn3CVMTzKKgRKzmlFSCM5cTwQmI/kdUW3FMZgFsCsgGTQajj/FC37ya
+	 f/b6USzJ5xK+HteGduywErK7ULkOR3gga3v+tpBX0IYluHqAjrVmKq31BM08waxu03+tJ
+	 fgiBl3wwJZOqdK0gjLC4onf4VHFmdDl3vaApcpukBnDepO4XHcKefXI7S4yre9kv61w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794911803;
-	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
-	 In-Reply-To:References:Subject:From:To:Cc:Date;
-	bh=W7/QaHpkHyTfOK9xU5LhKZLTEQkM2Ku0OEx+IVzZMX4=;
-	b=Vbox4y17yQOSun7s+4TsxObdu4nT/vI9uUYFW7z2fL0Nx6j1w2FXCvQDZG1YHmE3XBLa
-	 TroKS0O6wLyo9UFHBEWXG6dqs05LSlMkKsK0QuWfx039RJ/H7TG3nObiwt6vq5YmrfVqn
-	 ZRyAFFIqQU1ET8gKUhnyrAykbTty+nJoUYYOTmwUh83ZxDCpiGjm5QkbeiRE2vlnqc3AF
-	 qTgMZ+1v7l568GaQLe+yZp++M53GkX6Mj+ny+eZk2cUDLla9TR6PdgVdCppZazo3k+5fw
-	 nXyg7EyTKOIQW2N1/1t+SLq0qUX+54IdOeW4Fv3/pEpKzvZtn7jrwB8vzLlanQq1x6Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794912076;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=imUJWBchit9SuVHDzuMNjlSPoobNZbAUtuLMrGVWVHg=;
+	b=gejWY9vtjt3zPCZGOB6oFJuj91t0fTBwxw4FPs9LUZ6YRhkisctg47rBsm2GkChqgcrm
+	 7ZbAd9+0JA1g2H2F2VkWICvxZEkjZbALsuKP0PGbrJSMZGhP+a9ZY4a2ktcfubOFIjuy5
+	 UfKFKBqmPgGE5hexf/3Ub1MQv5ljTuybJTQWCyNuhwgzwxCdidtCMTgJZE7cUFjKyBs3k
+	 ftRklq20/+ERA5VcT43wClijgMs8hO2axfHouqYyGzxz8l7mNwcO8l+HKWfTmU2HtCSrE
+	 98vQawHlCMJQ2khBZMCrRnhCGiJ0EBaOZqPt+I4wGTz6SM6Wi3gMCM16QCFfUZaJAxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="W/v1YVZF";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CVNFSdox;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F966606A333;
-	Tue, 17 Nov 2026 10:36:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B23606A31C;
+	Tue, 17 Nov 2026 10:41:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W/v1YVZF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E87761F000C5;
-	Tue, 17 Nov 2026 10:36:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CVNFSdox
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A95B1F000C4;
+	Tue, 17 Nov 2026 10:41:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794911802;
-	bh=W7/QaHpkHyTfOK9xU5LhKZLTEQkM2Ku0OEx+IVzZMX4=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=W/v1YVZFlJz5yB+18UCRiF+kRuXtBh6JtwtFIgtu0xwblRXGDHHEdULz42uN9CUf0
-	 gwZxE7J8vRe8/uox/AwWfKwR9arlpQD/lzIq+1LU3NMEBy/SqiZfi3gvtbRpKD9wyC
-	 r6d4hZuv+c6KgwLBc8oWjnlE8cgQwdQ73p7kZFnqZQLFHLxCe/aGzcIsMw8XYvKB2H
-	 bI575yp6At7xfQgYVQkN6AFRCDaOnjx1VcAr3yJ0u3Pm02b7cpWBuZ+PH1dK7V0wHZ
-	 ja5xalKQB8zEKw0ImYll5rNCCSZYe4fu/LA7EgeAug/ZS05GCh0IdCroENonrXopnV
-	 eCcGPz9T9u5Yg==
-Content-Type: multipart/mixed; boundary="===============4015773494338833298=="
+	s=k20260515; t=1794912076;
+	bh=imUJWBchit9SuVHDzuMNjlSPoobNZbAUtuLMrGVWVHg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=CVNFSdoxu4l/nj9Mm2t0iUMPrhaOa4wgFFHGazUP4pNZG3iVJogqLdJRtgEQF9czH
+	 m4snTDqFKQ3MkIbWzh75EhHd7RnhaUXlGRkmsSWK112fFsCxKPzMuuvptHfqjccnnH
+	 tnzU+NfrXZvW1AvcjOKxICz+exYDTNTQ142SIYK3sfM2NPToO2s8hPj3GUpd5AOGUF
+	 1NUYkeSmlrz4EDqLtJXzjVXoH52BxzV3TDyAvmeSzGON/Bgtc+8wbu8p94EZ8BP/l+
+	 IwkQq2f0NbmR4zpxS7teFcFqKIhRYFA5/ELcuVo73JX7yC2H+qT7BbYZYlTwqY4T54
+	 WQXZrrz9MeoBw==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: "Pasha Tatashin" <pasha.tatashin@soleen.com>
+Cc: "Pratyush Yadav" <pratyush@kernel.org>,  "Mike Rapoport"
+ <rppt@kernel.org>,  "Alexander Graf" <graf@amazon.com>,  "Jonathan Corbet"
+ <corbet@lwn.net>,  "Shuah Khan" <skhan@linuxfoundation.org>,  "Randy
+ Dunlap" <rdunlap@infradead.org>,  "Andrew Morton"
+ <akpm@linux-foundation.org>,  "Tarun Sahu" <tarunsahu@google.com>,  "David
+ Matlack" <dmatlack@google.com>,  "Samiullah Khawaja"
+ <skhawaja@google.com>,  <kexec@lists.infradead.org>,
+  <linux-mm@kvack.org>,  <linux-doc@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>,  <linux-kselftest@vger.kernel.org>
+Subject: Re: [RFC PATCH 2/5] kho: build KHO objects into a single kho.o
+In-Reply-To: <DMWWRQTLNYH6.1LJ2K5HT60LK8@soleen.com> (Pasha Tatashin's message
+	of "Mon, 16 Nov 2026 15:13:23 -0500")
+References: <20261116134013.1636689-1-pratyush@kernel.org>
+	<20261116134013.1636689-3-pratyush@kernel.org>
+	<DMWWRQTLNYH6.1LJ2K5HT60LK8@soleen.com>
+Date: Tue, 17 Nov 2026 11:41:11 +0100
+Message-ID: <2vxz5wxvhha0.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -49,100 +68,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-Id: <146c493fb3b8d5f5171ad146cdc23e4f2693e1e142ad11ca67db5eae60cd4abb@mail.kernel.org>
-In-Reply-To: <20261117095110.2736779-1-visitorckw@gmail.com>
-References: <20261117095110.2736779-1-visitorckw@gmail.com>
-Subject: Re: [PATCH v10] m68k, bpf: Add initial BPF JIT compiler support
-From: bot+bpf-ci@kernel.org
-To: visitorckw@gmail.com,corbet@lwn.net,geert@linux-m68k.org,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,gerg@linux-m68k.org
-Cc: skhan@linuxfoundation.org,rdunlap@infradead.org,martin.lau@linux.dev,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,emil@etsalapatis.com,ihor.solodrai@linux.dev,marscheng@google.com,eleanor15x@gmail.com,jserv@ccns.ncku.edu.tw,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org,linux-m68k@lists.linux-m68k.org,bpf@vger.kernel.org,visitorckw@gmail.com,daniel@thingy.jp,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Tue, 17 Nov 2026 10:36:39 +0000 (UTC)
+Content-Type: text/plain
 
---===============4015773494338833298==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Mon, Nov 16 2026, Pasha Tatashin wrote:
 
-> m68k, bpf: Add initial BPF JIT compiler support
+> On Mon Nov 16, 2026 at 8:40 AM EST, Pratyush Yadav wrote:
+>> From: "Pratyush Yadav (Google)" <pratyush@kernel.org>
+>>
+>> kho_block.o is part of the KHO infrastructure, but is currently built as
+>> part of luo.o, which ties it to CONFIG_LIVEUPDATE.
+>>
+>> Group all KHO objects into a composite kho.o, built for
+>> CONFIG_KEXEC_HANDOVER, the same way the LUO objects are grouped into
+>> luo.o. This also gives a single place to add new KHO objects.
+>>
+>> Signed-off-by: Pratyush Yadav (Google) <pratyush@kernel.org>
+>> ---
+>>  kernel/liveupdate/Makefile | 12 ++++++++----
+>>  1 file changed, 8 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
+>> index d9f4694625567..bc679905ce3f2 100644
+>> --- a/kernel/liveupdate/Makefile
+>> +++ b/kernel/liveupdate/Makefile
+>> @@ -1,13 +1,17 @@
+>>  # SPDX-License-Identifier: GPL-2.0
+>>  
+>> +kho-y :=								\
+>> +		kexec_handover.o				\
+>> +		kho_block.o
+>> +
+>> +kho-$(CONFIG_KEXEC_HANDOVER_DEBUGFS) += kexec_handover_debugfs.o
+>> +
+>> +obj-$(CONFIG_KEXEC_HANDOVER)		+= kho.o
+>> +
+>>  luo-y :=								\
+>> -		kho_block.o						\
+>>  		luo_core.o						\
+>>  		luo_file.o						\
+>>  		luo_flb.o						\
+>>  		luo_session.o
+>>  
+>> -obj-$(CONFIG_KEXEC_HANDOVER)		+= kexec_handover.o
+>> -obj-$(CONFIG_KEXEC_HANDOVER_DEBUGFS)	+= kexec_handover_debugfs.o
+>> -
+>>  obj-$(CONFIG_LIVEUPDATE)		+= luo.o
+>
+> Please send it as a separate patch. I have the same change included as 
+> part of the kho-ro series, but let's fix it outside of both series 
+> instead as a standalone fix. Also, maybe rename kexec_handover_debugfs.c 
+> to kho_debugfs.c and kexec_handover.c to kho_core.c for consistency, now 
+> that they are not shared with the rest of the kexec_* files in kernel/*?
 
-TL;DR: bpf_int_jit_compile() has no check for an already-JITed prog, so
-jit_subprogs()'s second pass may leak the first executable image, e.g. with an
-exception_callback tag, letting a CAP_BPF user exhaust JIT memory.
+Sure, makes sense. I have a few other misc cleanups in mind like
+re-organizing some of the KHO headers. I can do that all in a single
+"misc cleanups" series.
 
-> diff --git a/arch/m68k/net/bpf_jit_comp.c b/arch/m68k/net/bpf_jit_comp.c
-> --- /dev/null
-> +++ b/arch/m68k/net/bpf_jit_comp.c
-
-[ ... ]
-
-> +struct bpf_prog *bpf_int_jit_compile(struct bpf_verifier_env *env, struct bpf_prog *prog)
-> +{
-> +	struct bpf_binary_header *header;
-> +	struct jit_ctx ctx;
-> +	unsigned int image_size;
-> +	u8 *image_ptr;
-> +
-> +	if (!prog->jit_requested)
-> +		return prog;
-> +
-
-[ ... ]
-
-> +	header = bpf_jit_binary_alloc(image_size, &image_ptr, 2, jit_fill_hole);
-> +	if (!header)
-> +		goto out_off;
-
-[ ... ]
-
-> +	prog->bpf_func = (void *)ctx.target;
-> +	prog->jited = 1;
-> +	prog->jited_len = image_size;
-> +	goto out_off;
-
-If jit_subprogs() calls bpf_int_jit_compile() a second time on a func[i]
-that is already JITed, doesn't this allocate a new header and overwrite
-prog->bpf_func, leaving the first image unfreed?
-
-jit_subprogs() in kernel/bpf/fixups.c calls bpf_int_jit_compile() twice
-for every subprog, once in the first loop and again in the extra pass:
-
-    old_bpf_func = func[i]->bpf_func;
-    tmp = bpf_int_jit_compile(env, func[i]);
-    if (tmp != func[i] || func[i]->bpf_func != old_bpf_func) {
-        verbose(env, "JIT doesn't support bpf-to-bpf calls\n");
-        err = -ENOTSUPP;
-        goto out_free;
-    }
-
-On the second call only prog->jit_requested is checked, which is still
-set, so both passes run again.  bpf_jit_binary_alloc() returns a new
-header and prog->bpf_func is overwritten.  The out_free path then calls
-bpf_jit_free(func[i]), which frees only the header that
-bpf_jit_binary_hdr(func[i]) finds, i.e. the new one.  The first image
-and its bpf_jit_charge_modmem() charge are never released.
-
-Rejecting BPF_PSEUDO_CALL in emit_call() and BPF_PSEUDO_FUNC in
-build_insn() doesn't cover every path to the extra pass.  A program whose
-main function has an "exception_callback:" BTF decl tag gets a second
-subprog via bpf_find_exception_callback_insn_off() -> add_subprog() in
-kernel/bpf/verifier.c.  The main program doesn't need to call that
-subprog or use bpf_throw().  Both functions JIT successfully in the first
-loop since they contain no calls, and the extra pass then leaks func[0]'s
-first image on every load.  A CAP_BPF user (needed for BTF) loading such
-programs repeatedly could leak executable memory without bound and keep
-growing bpf_jit_current.
-
-The JITs that support bpf-to-bpf calls (x86, arm64, riscv, powerpc,
-loongarch, parisc, arc) detect the extra pass via prog->jited or jit_data
-and reuse the image.  Would an early return when prog->jited is already
-set work here?  jit_subprogs() would then see the same bpf_func and
-finish, and that seems safe because any real call or callback has already
-made the first pass fail.
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/44061095782
---===============4015773494338833298==--
+-- 
+Regards,
+Pratyush Yadav
