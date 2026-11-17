@@ -1,85 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794903253;
-	b=IZbBCmlvulqnIOLOPi3mnz5cTGo9yZcJt/eLS/VTq35mmG/xo9stKR0yFNJ8eluIHv09
-	 guOo6MlxGA8Ds+qRmwsB6WeWY6KBz3Y43tUeMTswtrLWOw1mhpf8r7JIJVUOHCAAXVCwZ
-	 SslG9q03hGTtfzfJ/PgKyXyQXqTXQnKJYLUX8u8mTZLas/kYrKoNhbaLxH+GcWZmYyMHz
-	 lkUZgS2nIZfegRosdXlAQHNMFOB4Xf15uqvZwnviKKLu/PRzlWjguxKFjKc2NPPaPxeWl
-	 qavxI07p6NE/PMaa8S0JfGH8gFQcGy9GtS2fJqKiRJmzTMJ3x8pk2IoDgRg/BsWB3qg==
+	t=1794903488;
+	b=FO0lvjWUdTqSCZkUJOFS3qwg3otVC5ULxyd7TQ6arxu+VvIzcaR2Sz9x3dc9Fzpmgg0B
+	 WjzJSifWheLxgFlg+jaFDoHazmrjcOHh97w1Z509XFnNUlPCG+opzwgCSS41V9CBrxwbC
+	 OBa6t4uzDoGgeIaEGdnj/sH9SxB4UAK8nUdPFfs7kEF6UiEfoOvny2vXhamHR47qfss2R
+	 pp1TsF6ENXCpPnFqeeUKzd02oa3u9IXWwDf6QQ0KprNy35xWmYZAj5zG0ydqJF07z1FdP
+	 I5Vi52pMO/ZHw2bLNDBeTHAys+oABljSOpODk/lR0tus/nA6B2taJ6hp+mvPa85bz4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794903253;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=fpQH2XklQvxbA0SCPjoqZpnVJxorf9+kCLsX6Cm+jf4=;
-	b=GvRzjrYSs+EoK7Dy94+0qqJyEyDGRP/EQyTi73GkVpbJZS1s4i2u1WnSTlXRvxh40+RT
-	 0zslMtEcyBIm+FfJC9u2HIb3P11uGl7UHZmnrFssAQVSyItaN4mydfgiJhyRc7jjhFOQA
-	 HXLUfJk9OrxCypmqC6r8HkL3ZAjaZf5qrFOeHglQvdv3yUNdHUT9YhyibPjyR77Dx2bdw
-	 dDULbTyywGVfbyWrsoUlH0z8Jcs6+E4p0P+riWWtEwkODasjHN0J+OSKimn5Vab3PO5UT
-	 4s7B0m3dxSEa/N1mN3uFCgvqpWt7YyWG5GFvff11LxLL6kZRMPGf1H52Y36piZMFjEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794903488;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=jY+9TWBtAeF2CFQwS+xjxt4ZJ04a32EQCLLfMF6sC9o=;
+	b=EFpX3JKnzMIoimsJb9asQbqUg9fSL1599sFrqZZmVCZYYcn7r4E3ImC0hqAb5pRg39KZ
+	 iydmrNUJAbtHJXhNoIkAQwbfJS4cYj6D8iWqFyqeSiNfPA9JTCm1t8acp7/qLfVMGejAj
+	 SNPVcRgvVXtbAkEv3oQ8OnOlFYIcbnJSQaJ0fP+bAwofiTU4/d37NkK3J1MkxG02rtedv
+	 GEvH6Ypy2D0OQkzZJ88F+SF/eRDld0JsBQxL4UfBghjfl0qKkNlrhHvbsIadF1UWheOYU
+	 4A7QrqqQaZLWXg8ek0iKDlH18pVmeWUdRUAArog2x3Wf/s/E15ywG8USGZnlmMli8VA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=NdrTQgDT;
-	arc=none smtp.remote-ip=209.85.222.174
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F0F+SFTQ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAEF606A323
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 08:14:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1EAEF606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BAFD606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 08:18:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=NdrTQgDT
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-94960131b30so293300185a.0
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 00:14:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794903251; x=1795508051; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=fpQH2XklQvxbA0SCPjoqZpnVJxorf9+kCLsX6Cm+jf4=;
-        b=NdrTQgDTSZJRgv4GdN3+kP3VmEnoZSusnjp5ffZS9k9eyYQpSxQhoC3GfRfguClSnz
-         0DVzDtsZInrKl12qDzqg13nTFAtzGBsQjqzQTHhzLLUP1zZAeaLKa/iqfCN2DJQ37GbC
-         C7e+IfQpzoHT3blg7XCXnJsRlkrpgUM9DfhBZR3MXAtnQmJeIF8p28Zj2cex5YMxMiMF
-         ZGrAkcgzIRkz5rO+sVH4bC1LRPebD9bsrU2VEwa27s6mbJZS1rij47J38S64RFyGJsih
-         NHmJZohuIqjDAFZVaJB4CRi2d/EjsvhHAdQCXJexjiVzPbPoT2s+IPYmZPyTNQb4Xw2J
-         mvYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794903251; x=1795508051;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fpQH2XklQvxbA0SCPjoqZpnVJxorf9+kCLsX6Cm+jf4=;
-        b=QvMD8botSDaSunQGsUa/O8PJQAfIi9GjdyaN9wFPK7EESExV3qrw3KJtrE+RCoDfrc
-         cgRZh8s08I4yavQXnSvIi6Uo7P002oIP1sOx4DNxJGvKyDD67HDa/cwvjMV9tIqGc5kh
-         9LBEx1DPvQqPFCeKnoCGLvU8SHtPyUpyeyIgTxWgJlEogXWnGV7TPRmyB1+30aVWnHSg
-         q/rmfkrmTHAXaVjxvhKoggEQPNY9i4Jxn2p3IpMwXa4jvFf/pugEM8EZAM8zpcJC6fZn
-         LJmacJG7BoPkCnaxW0n69UyUptTP7T4gatsrfda93Il6cqjYNry/n9qmRaHCkTcYL9uF
-         VCyw==
-X-Forwarded-Encrypted: i=1; AL+hErEB1i2IDqJYgP0md9ZTfBcsJ0GjtdgNdmm0NNEj+aX1rWqwGjHNmRbuV7/+8OMykxrONT9yi8kGecw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8IpWREM1DkxFDWhliknO7Z0JlEZzM/IiOsoCM5YClNHQfhWT5/
-	tqM4zTR5d5Hi2O2boCm0EQSkRPVTMpv7ZYsTzw229XggbfYZtHG41ac1W/SKXtfWQFk=
-X-Gm-Gg: AYBFou1Zbvtano7dfeViQlAplrUMd1UxSdZ4GAV0sb/mRxUcoMwaS/EXJYpCRfVENFa
-	NFGcT1sMZJqbXuPr0bojjqR5AzNKpdAHO1nAslH1ZyHZr9FCR15vGLdsu7y3w/Djxf4A7YtquYO
-	lctE1sHRQZ7hdVkfkMNA7sqdn7i+W7YJviPPzVzq/srB1eHdAAeriQR+hdMKnl6UkKX1TgsvVQH
-	cLltbjMnZfsJRExpRmmcTHXNd7bpH061s0e6+86s3jT/sZQMH39Xe4sIV3grqySKfzNVzXTXczX
-	3WRuDrg8pHyHvXFzeyFejFfPtSumCIxu6cWEkONBsxRzcj5U/e3uCoZOe/HY/X8XWmGSDxpH68u
-	gpnn+gFYvPZlPfUN2wavF4V6eyX/fOjcZrytPo3BlVPKUEuhQzDbEy8BDKhp1WR6I+JNPvE3B5v
-	/uOAz0uqa07jKTdX3EWQ6yYJfj+SfIHPpMb7FfKeULQkvDLQQBxbS1GsT+zdgf9yulO9Nx1oSmx
-	pdnWuNhaPy2wFsMILnC1i1ds1A4fmSQ6kI5pApevwJr0MFtNlOyJccWY7NT5Z6XDkxcAPZjnqzt
-	sDLdYoim5yfrvHYDDXnpV7Sv+IP5PuhyP7RIawx2+Jcz8fIudK+U4RaCLODczhSIT6r7A1AqKcA
-	IAHfPjHI=
-X-Received: by 2002:a05:620a:2a06:b0:93e:b0c3:388d with SMTP id af79cd13be357-9494b9432demr2192163085a.11.1794903250936;
-        Tue, 17 Nov 2026 00:14:10 -0800 (PST)
-Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c5fd154sm1021436485a.2.2026.11.17.00.14.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 00:14:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F0F+SFTQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47EA81F000C9
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 08:18:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794903488;
+	bh=jY+9TWBtAeF2CFQwS+xjxt4ZJ04a32EQCLLfMF6sC9o=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=F0F+SFTQzuYttdly0uM6MzzLasG95AmEGRDXvibMqR8tsUbmZ4DYCQxL2OQoq4PhC
+	 OMMTv/DjuQGYu8ez39GaP74iMDBDbWoxVXt7CbHstA0dxW6wr5qOa0HHKEdE9lFydt
+	 3l5Lpt2/Kq2OWgUE9HeiRupFevUZYS/AZo+ev4jexdL5m6SJtYdZz7UN4Z51pE67xt
+	 2Q6n2+FwzHXM/AzQQqbTrZcjlupf1D7/10cXmxOP2IMdNBiKlX8N6BehBj7AotyR76
+	 tF1w8qJqFi8KGVMr9ubHi8AG0qugG6vpLvdrJ9IzVLlbybNJfhvqq1ifeJZnK/oY06
+	 pNikoNHVC/kxQ==
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-71acdd32a53so1248021eaf.3
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 00:18:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFWp90+3k3ctTQY0XDY7ZQ2KgQncCWTe+fEy/2ubEyGfXpHPsH/KS6gVfc0OAmQyM9CPtia0i5rF7E=@vger.kernel.org
+X-Gm-Message-State: APuU4Z93LlWBgeu+Jd+mkSqiafgDqvyGLOKf9a+bC0e5C2S+gP7AP9Iy
+	cNRxpNBCTGiQxnQ7k/8ia1trYxqtj/X1xP9zG7gGtCWMQiCG+zEhsOc5lsy7yCPzrXEFJUvtpsC
+	DaWBr7evF2Z7hTeACoJ/6w0rLAWMa6Ew=
+X-Received: by 2002:a05:6820:2219:b0:71a:dd74:1ee5 with SMTP id
+ 006d021491bc7-71add742771mr5182800eaf.43.1794903487596; Tue, 17 Nov 2026
+ 00:18:07 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,102 +59,117 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 04/15] mm/hugetlb: account temporary folios
- separately
-From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- Naoya Horiguchi <nao.horiguchi@gmail.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Mel Gorman <mgorman@suse.de>, 
- Andy Whitcroft <apw@canonical.com>, Miaohe Lin <linmiaohe@huawei.com>, 
- Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>, 
- Hugh Dickins <hughd@google.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Vivek Kasireddy <vivek.kasireddy@intel.com>, 
- Dave Airlie <airlied@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Peter Xu <peterx@redhat.com>, 
- Breno Leitao <leitao@debian.org>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- Gerd Hoffmann <kraxel@redhat.com>, linux-doc@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org, stable@kernel.org, 
- Josef Bacik <josef@toxicpanda.com>
-In-Reply-To: <20261116-fixes_hugetlb-v2-4-4dd9e94ea9ac@kernel.org>
-References: <20261116-fixes_hugetlb-v2-0-4dd9e94ea9ac@kernel.org>
- <20261116-fixes_hugetlb-v2-4-4dd9e94ea9ac@kernel.org>
-Date: Tue, 17 Nov 2026 03:14:09 -0500
-Message-Id: <179490324902.482102.8381563244741940633.b4-reply@b4>
-X-Mailer: b4 0.17-dev
+References: <20261117-tcp-mtu-probing-doc-v1-v1-1-552ae04de4ef@gmail.com>
+In-Reply-To: <20261117-tcp-mtu-probing-doc-v1-v1-1-552ae04de4ef@gmail.com>
+From: Eric Dumazet <edumazet@kernel.org>
+Date: Tue, 17 Nov 2026 09:17:56 +0100
+X-Gmail-Original-Message-ID: <CAL4WiirGY0a-ybU9YQF=DUwvT=LwYQ3T-Xum69m1jvUJZgmAbw@mail.gmail.com>
+X-Gm-Features: AclHuK8Gl49qsnZUNoWiS5IYuX-GT6usEXRrdpt-iZywYA4rtgmzbRoXuglD4fw
+Message-ID: <CAL4WiirGY0a-ybU9YQF=DUwvT=LwYQ3T-Xum69m1jvUJZgmAbw@mail.gmail.com>
+Subject: Re: [PATCH net-next] tcp: document black hole detection for tcp_mtu_probing
+To: echoowall@gmail.com
+Cc: corbet@lwn.net, pabeni@redhat.com, davem@davemloft.net, kuba@kernel.org, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, kuniyu@google.com, 
+	rdunlap@infradead.org, horms@kernel.org, ncardwell@google.com, 
+	linux-doc@vger.kernel.org, skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-11-16 19:29 +0100, David Hildenbrand (Arm) wrote:
-> Hugetlb migration might have to allocate a temporary folio through
-> alloc_migrate_hugetlb_folio(). Such folios are currently accounted in
-> "nr_huge_pages" but not in "surplus_huge_pages". persistent_huge_pages()
-> can mistake them as persistent huge pages, as it merely calculates the
-> difference.
-> 
-> If set_max_huge_pages() shrinks the pool at the wrong time, it will turn
-> hugetlb folios into surplus folios until persistent_huge_pages() returns
-> the desired number.
-> 
-> After the migration (successful or unsuccessful) either the new (temporary)
-> folio or the old folio gets freed: this will reduce "nr_huge_pages" but
-> not "surplus_huge_pages", to undo what was done when allocating a
-> temporary folio.
-> 
-> This can result in having more surplus folios than actually allocated
-> folios:
-> 
->   HugePages_Total:       0
->   HugePages_Surp:        1
-> 
-> From then on persistent_huge_pages() returns garbage.
-> 
-> To fix it, add internal temporary counters and subtract them when
-> calculating persistent pool sizes. Update persistent_huge_pages() and add
-> persistent_huge_pages_node() to make the code easier to read.
-> 
-> Count migration targets and rejected surplus allocations as temporary.
-> Transfer the per-node temporary count along with the temporary flag on
-> migration, such that folio freeing will always do the right thing.
-> 
-> Take care of calling account_new_hugetlb_folio() only after setting the
-> folios to be temporary.
-> 
-> For now, keep temporary folios in nr_huge_pages, so HugePages_Total and
-> Hugetlb continue to include them and overcommit accounting remains
-> unchanged. The new temporary counters are internal for now and are not
-> exported to userspace.
-> 
-> Fixes: ab5ac90aecf5 ("mm, hugetlb: do not rely on overcommit limit during migration")
-> Cc: stable@kernel.org
-> Reported-by: Josef Bacik <josef@toxicpanda.com>
-> Acked-by: Muchun Song <muchun.song@linux.dev>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+Le mar. 17 nov. 2026 =C3=A0 09:09, Yongjian Wang via B4 Relay
+<devnull+echoowall.gmail.com@kernel.org> a =C3=A9crit :
+>
+> From: Yongjian Wang <echoowall@gmail.com>
+>
+> ip-sysctl.rst says that tcp_mtu_probing=3D1 enables MTU probing once an
+> ICMP black hole is detected, but not when that happens or what TCP
+> does then.
+>
+> Describe both, as implemented in tcp_write_timeout() and
+> tcp_mtu_probing(). Also add the missing defaults of tcp_mtu_probing
+> and tcp_base_mss.
+>
+> Signed-off-by: Yongjian Wang <echoowall@gmail.com>
+> ---
+> This describes the behavior checked by the black hole detection tests
+> added in commit 8a83f21ad75d ("selftests/net: packetdrill: add TCP black
+> hole detection tests").
+> ---
+>  Documentation/networking/ip-sysctl.rst | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/netwo=
+rking/ip-sysctl.rst
+> index 0b7bfbd98a92..a11baf04758c 100644
+> --- a/Documentation/networking/ip-sysctl.rst
+> +++ b/Documentation/networking/ip-sysctl.rst
+> @@ -412,6 +412,8 @@ tcp_base_mss - INTEGER
+>         Path MTU discovery (MTU probing).  If MTU probing is enabled,
+>         this is the initial MSS used by the connection.
+>
+> +       Default: 1024
+> +
+>  tcp_mtu_probe_floor - INTEGER
+>         If MTU probing is enabled this caps the minimum MSS used for sear=
+ch_low
+>         for the connection.
+> @@ -711,6 +713,20 @@ tcp_mtu_probing - INTEGER
+>         - 1 - Disabled by default, enabled when an ICMP black hole detect=
+ed
+>         - 2 - Always enabled, use initial MSS of tcp_base_mss.
+>
+> +       A black hole is detected when the retransmission timer fires afte=
+r
+> +       the handshake and retransmissions have stayed unacknowledged for =
+as
+> +       long as tcp_retries1 retransmissions would take with the minimum
+> +       RTO, which is 3 seconds with the default tcp_retries1.
 
-My only commentary on this set is that "Surplus" is a horribly confusing
-name :|
+"minimum RTO" is ambiguous in this file: readers will think of
+tcp_rto_min_us or the per-route rto_min. retransmits_timed_out() uses
+the TCP_RTO_MIN constant here, so I would spell out 200 ms.
 
-I was able to replicate Patch 4 and 5 bugs together pretty trivially
-with migrations, leaving the surplus counters out of sync.
+It might also be worth saying that this time is counted from the first
+retransmission, and only checked when the timer fires. For a flow with
+a 200 ms RTO, the detection happens at the fifth timeout, about
+6 seconds after the original transmission.
 
-Nice to see these accounting bugs finally fixed, we've seen them in
-production for far too long without an obvious resolution.
+(The 3 seconds also assume the default tcp_rto_max_ms, but I do not
+think this needs to be documented.)
 
-Tested-by: Gregory Price (Meta) <gourry@gourry.net>
-Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+> +
+> +       With value 1, the first detection enables MTU probing and the MSS
+> +       falls back to tcp_base_mss. Each later detection, or any detectio=
+n
 
--- 
-~Gregory
+The MSS is only lowered: tcp_sync_mss() uses
+min(mss, search_low mss), so a connection already below tcp_base_mss
+keeps its MSS.
 
+"Each later detection" could be "Each further retransmission timeout",
+since tcp_mtu_probing() is called on every RTO once the threshold has
+been reached.
+
+> +       with value 2, lowers search_low to half its MSS, keeping it at mo=
+st
+> +       tcp_base_mss and at least tcp_mtu_probe_floor and tcp_min_snd_mss=
+.
+> +       Once MTU probing is enabled, the connection also probes for a lar=
+ger
+> +       MSS, as with value 2.
+> +
+> +       Default: 0
+> +
+>  tcp_probe_interval - UNSIGNED INTEGER
+>         Controls how often to start TCP Packetization-Layer Path MTU
+>         Discovery reprobe. The default is reprobing every 10 minutes as
+>
+> ---
+> base-commit: 6ff4c5942a301675eb12e5b49d53a81e604624a1
+> change-id: 20261117-tcp-mtu-probing-doc-v1-351cb754fa7b
+>
+> Best regards,
+> --
+> Yongjian Wang <echoowall@gmail.com>
+>
+
+Reviewed-by: Eric Dumazet <edumazet@kernel.org>
