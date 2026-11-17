@@ -1,66 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.1
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794888637;
-	b=AVSAIYAHV4tnJLT5rVwQOnsEGMqJ9QjxN0FPyZ+SM+5vqC4tTA7lf437Akz6AhiDK7g5
-	 jXpKL0M/220MHwY2Yfbirq3AZ02OcNPdbkJ2AIfGaprhL1FwwRBUgLGZciZQh7uxDbPTh
-	 SXnT/UWSW1pfjrzy7yzhnubsLt1tOgd3Y2aMhyZXOSH0BRZwD0VDWHby9LgC7pc6Yo0ix
-	 VkFWt3Yr+u5neW0Zeh0b4/z9YKWX08SUUMFHhr07JXJ3a3WSqY01iQPGLBscVvqnZSlds
-	 Xv67k9oldcccDCRaChV6FGm1u0YzQ6+usPemZnGV9n+TOz+SDty/K/raj0W7lwpltMw==
+	t=1794891034;
+	b=B67gz5VW3iPYKNzeUv2h87/1DRMFS+9NVrc1RRrcgcOsUUGc+fsAuViNC508BsinESGL
+	 jgIEPz6k6QkGScK0vMYfvF4dfIihJJQpdldIhZdpIMQKybHwXRgVchQQepYOG2/9DT/NR
+	 krt0ipTKMUqotXLCg4Qkrh2CGc4Vz6QTZot1DTj94UskQfz2jfpvsH05qiyx3ToVche4d
+	 5L27oSTZ63QfwCuAVOjtSIOkcH6qwKOIadeD/o8prpRfie5eBxGfQUAjUntOYPqurCYbG
+	 nyVCf4R4OgwSTblZSf2mNQkPbSTGHvY64Ds+2Jyca7GeC/t/59tRAdNxE9orcI717wQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794888637;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=ibQmu7prqH/c3bNgVVFgFUz4JcJ031GLjvXREo43OSs=;
-	b=r7+dRJ/AqGkVfO8rxXxq18YBiCCs5srNY3t3qmJdjm4Eq5fKjVmkmP6S10h97wlUZhNp
-	 8ZGeS6dTgdmGPCUzjYkJbg+oI0eLk7Aoc/LRTfOEBbfxcRxKB6EPEqHV59dksyWJ67ThV
-	 2wKwKUJ6MG7TSETxVZhv5SPYp3cWPXH0TJyxccZZ7RPd74/BLZBWqX1Ayyf6Xqk1quLP9
-	 u8NEKYCnb04FKsmP3WGU6MqpHSugXB9ACyzgoug3+gaX7PN1wGwv/bm4FX7Hz8R/GGMwt
-	 wcyeHpD3bZnIrSWA8k0cRpTUlvxZ6ekBMl2A0ABOr0NdHt1bc34CVkMie5zLJIp+KNQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794891034;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:Message-ID:User-Agent;
+	bh=yUYUZ2LlOsiIpdrbhk1wJZRY3ayR3Noi9TQPGtDKtP8=;
+	b=gon49ZOAAnSGg/t+SBmq0BcXmEfLKbGeHw1pGLc0dmU6CfnupJYo4qdgWsr7qJ+QrfBA
+	 IGNDZw9v0fvKIH13gPGWpmTUld4PjJO7ocYf1JG8L27hi3pZzc2XVXQnqDC+Ne05a58ta
+	 NATDNUsWg2znrHktI6RnkmGwht1pskSW6VC0wDiQHgEEveldZTPv7cmZ5FCnRE2o1eVE0
+	 w43RGgCFB10vmFvTQEDZkc7NHuuv1SVixe14brmq9PjkD+Rsu8y+uiM+N60PsB38p17+i
+	 7bLpLEN/pdRsdG1aiBYuqY5EMEkt2YWQkgRpB2IQyp/jmyIPemsFkPSzGvZDBvi7J0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=gnE0EC1Z;
-	arc=none smtp.remote-ip=95.215.58.1
-Received: from mta1.migadu.com (out-1.mta1.migadu.com [95.215.58.1])
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=xGusYjGi;
+	arc=none smtp.remote-ip=74.125.82.49
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052D9606A886
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 04:10:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 052D9606A886
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57510606A339
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 04:50:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57510606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=gnE0EC1Z
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=zwzcM4eEKCdUMq16Xl3ov1WsQoaO2CCle4zev0kkTuc=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794888634; v=1; x=1795493434;
- b=gnE0EC1ZHS1kQ0ibY7byeWuVqBraLZf7yp8Cxm4yC1JCwsXS9nG0SWhwpuxMfY5PAZBCoVlf
- fvoAC8qXgchi7HDZo0wmK3ij8JISN8WDZYDu1sUscoQtDKRPQdPlzcnvSOPPHxCK/m0BsJWROuf
- 0p9M5IIsAQ1sZhKWIsVva2MYxOy+jxk+6WNQOL96yb6BgVeXnd1M+5DLziZMaQWEnhgGwghEjWk
- rIqLIOnGMuwzKJHMgYo1VPqfX7k0AgqFQFEIjfIpMc3c9pBi7aNY9lKTquQXcABaEtU3hopTMx5
- WwOHpNVBjer1ykaIDXtDaRgE21kPO2aDE05WgDFAWgBig==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 782ab6c198d99c83;
-	Tue, 17 Nov 2026 04:10:29 +0000
-X-Mizu-Trace-ID: 782ab6c198d99c83
-X-Migadu-Flow: FLOW_OUT
-Date: Tue, 17 Nov 2026 12:10:21 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Weijie Yuan <kernel@wyuan.org>, linux-doc@vger.kernel.org,
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: Re: What's cooking in Chinese docs (Nov 2026, #04)
-Message-ID: <avvTrX08RRhkpiEW@wyuan.org>
-References: <avcRFzlQQTOra-fr@wyuan.org>
- <b930b5f3-8571-42a6-a8d4-433ace854f3f@hust.edu.cn>
- <avsgnLlkyQZ2U7d7@wyuan.org>
- <8663b8ae-9bc7-46ab-ad12-c9ed97a8096a@hust.edu.cn>
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=xGusYjGi
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1b3b4bcbfc9so5018745c88.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 20:50:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google; t=1794891033; x=1795495833; darn=vger.kernel.org;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yUYUZ2LlOsiIpdrbhk1wJZRY3ayR3Noi9TQPGtDKtP8=;
+        b=xGusYjGiAdnGxncVaBVneIpjK1Ph9eHqEeeWt7lnJOkMFdfkTt1BtipRJ++rtd7axm
+         TNY7mXokRzpdPDScm4nkTWyZVHSDCLj45TjHq4Sbviprep7R07QzTsdMPDa4KrXp2Rvn
+         8lsnvqGG1oEchDAwidDM03GPkgBCly20w/qqQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794891033; x=1795495833;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yUYUZ2LlOsiIpdrbhk1wJZRY3ayR3Noi9TQPGtDKtP8=;
+        b=gnV+YnZRuNZ5dNaCKb3/jRdRLreFFS3Iw64C0YQcakstEn2C2Nf3w1p8m0G1amE6WO
+         cWiR/mJxCpj7IecTLLIKtuohvaSfzSglUrkQe9Bqk0MyF5HEnw39kfbNViIXf8c6y9jJ
+         R2bwQVaiV0IK8y/Eq/htC+L7zgZuNBUSjPxiums6l1Mc5ikede0NKQ1UxAxIBfPIIVrE
+         JY/sjQPA5Z5k7BBDFmVPswprVDXAXz16eD2fYAlVfCEOFzH4rBHMYvcv4+zoiAxdpf1x
+         nqAGBCyqJAW00EKH7OjXZHOp6M/x0oFz3wWGcy+UHk4A8lr18ROqCEStrEZmlCvalKOb
+         9m8A==
+X-Forwarded-Encrypted: i=1; AL+hErFWpptxcyRZKroIvNdmTF4eWM76xnjLp38X8v8azjVQmAPp7Ux+nha6L2gXhnOYuuIyvm759Rbb8IQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+n6lXf1/NzLllfjPad/OJnwIvnNjxl2RnDNCUkYu0A1U6d9DyP
+	5N67nEuK0cIG+fZs/+exzGvKgroTGBbT2pa7EVDNvWO+Tt9imyoPThUXe3+n1Bqyopw=
+X-Gm-Gg: AYBFou0ANf4mwlQbEu5vq0l13sCFwaXVg0+7l1X+uAEUg2JUPQ3nvENRHglnrulf85H
+	N1t5oJEJrGO7ZAAIOswJBhwDijhD5CUQg0YoFFuQxdSweCWo0cd6m1W6LIWy0FGoc4HUto12xvX
+	HJP6+Q0KlCLhYPw5ZgQu1SncQRKO/GJ/3tbolvlJENR9/yGcE48XcxibAB8jFgG+j1LG3ugg/gq
+	afsygpOvFhW4MLwclD159tM8z3ZTrkFd8hMVda5QlkjrvyyM3OG0H5BSryfgJ1lRhvtKMqTUQmR
+	D6R+FBjXVV4Npxs8ZBgrbhsWZU6rHBEMdkoDsdvBmU4uSHCY0FePAIBoMmQP+qF/DnYntWNj5Y9
+	R3kDU28yWXDRfR9PFVfrXidxLV8PmS87GadAUNGO4Bq49hAcyg4Y2Gd5tzlwvAbYVq46dyUqfn2
+	HQhsaMoLh+5P4iFPqw5+Oaht/F1Wj5GhV1VbDOrnXoDQLueHAK6Vd+ElWWRElNfO3TOyoOPZNbU
+	MpY52XIlNjURGnVNZT9Km8oPylhCi64ZYDATKIUXXVzwFwwkeoz0WJimEFazokKBsn2THgQ7rS2
+	aBX+2i7d10vOILsMc/PXftL2az28oqVjdGzpu0lGNcK6hKJIaemnm/D5CGbZT+iJb0VYz+xOz1h
+	s/xirfnQx67mKMSA4PF+OEtyVUWVSVKymT/Q2m3mtyPTv46Ccr4UbdxrH66Vq0NE32jm0PYPHul
+	hNRkj4k9d9FO88c+EVQqH/dYFodJ4C/zVPftJpd0pnif5+sOPRTaF5JOsDHPfkhFZz
+X-Received: by 2002:a05:7022:1583:b0:1ac:1343:fa54 with SMTP id a92af1059eb24-1b503112a8cmr13989391c88.14.1794891033256;
+        Mon, 16 Nov 2026 20:50:33 -0800 (PST)
+Received: from [172.20.0.3] ([172.56.235.113])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5031468b7sm43375533c88.5.2026.11.16.20.50.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 20:50:32 -0800 (PST)
+Date: Mon, 16 Nov 2026 20:50:28 -0800
+From: Chris Down <chris@chrisdown.name>
+To: Jiaqi Yan <jiaqiyan@google.com>
+Cc: linmiaohe@huawei.com, muchun.song@linux.dev, nao.horiguchi@gmail.com,
+	william.roche@oracle.com, ljs@kernel.org, vbabka@kernel.org,
+	tony.luck@intel.com, wangkefeng.wang@huawei.com, willy@infradead.org,
+	akpm@linux-foundation.org, osalvador@suse.de, rientjes@google.com,
+	duenwen@google.com, jthoughton@google.com, jgg@nvidia.com, ankita@nvidia.com,
+	peterx@redhat.com, sidhartha.kumar@oracle.com, ziy@nvidia.com,
+	skhan@linuxfoundation.org, corbet@lwn.net, david@kernel.org,
+	dave.hansen@linux.intel.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] mm: memfd/hugetlb: memfd-based userspace HugeTLB
+	MFR policy
+In-Reply-To: <20261115160105.2507650-2-jiaqiyan@google.com>
+References: <20261115160105.2507650-1-jiaqiyan@google.com>
+	<20261115160105.2507650-2-jiaqiyan@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,75 +106,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8663b8ae-9bc7-46ab-ad12-c9ed97a8096a@hust.edu.cn>
+Message-ID: <avvdFHtnw2BlE5Vq@chrisdown.name>
+User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-On Tue, Nov 17, 2026 at 12:03:34AM +0800, Dongliang Mu wrote:
-> > > > -------------------------------------------------------------------
-> > > > [Cooking]
-> > > > 
-> > > > * Yikun Wei 2026-11-13
-> > > >     [PATCH] docs/zh_CN: Add deprecated translation
-> > > > 
-> > > >     Needs review.
-> > > >     source: <20261113122844.24838-1-YikunWei@126.com>
-> > > > 
-> > > > 
-> > > > * Yikun Wei 2026-11-13
-> > > >     [PATCH] docs/zh_CN: Add contribution maturity model translation
-> > > > 
-> > > >     Needs review.
-> > > >     source: <20261113112200.16790-1-YikunWei@126.com>
-> > > > 
-> > > > 
-> > > > * Xiongwei Song 2026-11-13
-> > > >     [PATCH 0/2] Add RCU docs Chinese translation
-> > > >     [PATCH 1/2] docs/zh_CN: Add RCU/index.rst translation
-> > > >     [PATCH 2/2] docs/zh_CN: Add RCU/whatisRCU.rst Chinese translation
-> > > > 
-> > > >     Needs review.
-> > > >     source: <20261113013054.5662-1-xiongwei.song@linux.dev>
-> > > > 
-> > > > 
-> > > > * Weijie Yuan 2026-11-09
-> > > >     [PATCH v3 0/2] docs/zh_CN: update maintainer/configure-git.rst
-> > > >     [PATCH v3 1/2] docs/zh_CN: sync maintainer/configure-git with upstream
-> > > >     [PATCH v3 2/2] docs/zh_CN: improve maintainer/pull-requests translation
-> > > > 
-> > > >     Needs review.
-> > > >     source: <20261109-configure-git-v3-0-d7807bb8e8c7@wyuan.org>
-> > > The above four patch/patchset are reviewed. New contributors still need to
-> > > pay more attention to how-to.rst.
-> > Oh btw, once this patch from Konstantin is merged, we'll only have the
-> > linux-doc list, and no more LKML:
-> > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?h=mm-nonmm-hotfixes-unstable&id=24e311b72f31fddbbb1e2f6fc3232f3ac523d929
-> > 
-> > Therefore our free Sashiko review will stop soon because linux-doc is
-> > not registered in Sashiko.
-> > 
-> > I noticed that support for triggering reviews based on specific file
-> > paths, without enabling them for the entire linux-doc mailing list,
-> > seems to have landed on Sashiko´s main branch, but isn't in the latest
-> > release yet. If folks would appreciate an extra pair of eyes, I'll take
-> > another look and kindly ask Roman to enable it for us.
-> 
-> Just do it. No lost, but more issues with another round of review.
+Hi Jiaqi,
 
-OK, copied. ;-)
+This generally looks reasonable in principle, but some comments.
 
-> >   I'll do that after this weekend's CLK conference. What do you
-> >   think?
-> 
-> If you are in Hangzhou at the weekend, maybe we can have a talk there.
+Jiaqi Yan writes:
+>+			if (!mapping_mf_keep_ue_mapped(mapping)) {
+>+				ret = VM_FAULT_HWPOISON_LARGE |
+>+				      VM_FAULT_SET_HINDEX(hstate_index(h));
+>+				goto backout_unlocked;
+>+			}
 
-Sure, my pleasure! I've signed up for this.
+This doesn't look right to me. For example, hugetlb_mfill_atomic_pte() also
+checks folio_test_hwpoison(), so UFFDIO_CONTINUE on such a folio still fails
+with -EIO. Also, do_migrate_range() calls unmap_poisoned_folio() on any
+mapped folio with HWPoison set, so offlining the memory block unmaps the
+hugepage after all.
 
-> I will go to Hangzhou this weekend since my student will have a talk in the
-> ebpf subsystem of CLK conference.
+>+	folio_put(folio);
+>+
+>+	/* Refcount now should be zero and ready to dissolve folio. */
+>+	ret = dissolve_free_hugetlb_folio(folio);
+>+	if (ret)
+>+		pr_err("failed to dissolve hugetlb folio: %d\n", ret);
 
-Yeah, I noticed that talk, so I knew you were coming. ;-)
+This isn't a good idea when somebody else still holds a reference, such as
+a long term pin from io_uring or iommufd (Jason was asking about the latter
+in [1]). dissolve_free_hugetlb_folio() returns -EBUSY, and when that last
+reference goes away later, free_huge_folio() puts the folio on the free list
+with HWPoison still set. Now, while this sketchy page may well never be
+handed out again, it is nevertheless counted in free_huge_pages, so a later
+mmap() can end up getting its reservation against it, and as a result, a
+SIGBUS when it faults. That seems like a real problem for a VMM with
+passthrough devices.
 
-Thanks.
+I didn't check in detail, but since the folio has to be dissolved when its
+last reference goes, wherever that happens, perhaps one way to fix this
+would be to do it from free_huge_folio() instead, and treat a HWPoison folio
+there much like a surplus one? That would cover the pinned case, and I think
+it would also let you drop filemap_offline_hwpoison_folio() and the
+folio_batch changes in remove_inode_hugepages() entirely.
+
+>+		if (hugetlb_should_keep_hwpoison_mapped(folio, mapping))
+>+			/* A new raw HWPoison page in a still mapped hugepage. */
+>+			ret = MF_HUGETLB_IN_USED;
+
+This also looks a little wrong, because a 2nd error now gets past here and
+reaches the hwpoison_filter() check in try_memory_failure_hugetlb(), which
+calls folio_clear_hugetlb_hwpoison() when the page is filtered. That clears
+HWPoison for the whole folio, earlier errors included. I'd suggest instead
+that it only undoes what this call added.
+
+Thanks!
+
+Chris
+
+[1] https://lore.kernel.org/r/20250120172626.GO5556@nvidia.com
