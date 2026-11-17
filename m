@@ -1,71 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.39
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794896550;
-	b=lBMNlJ7U9tzLFb3dh4s2RFTQPEmcVbnqyrrFSeqM12tu2nbiv97mEc/NEW9NYvod/yIN
-	 QAkkj8jd1fg094X5Uhdw2At0Szm1mD1D7ESADX5D1V1BnmORK7T2+kULQqDK7rDQ2LBgz
-	 G1IKMjrdhYa1QqVyP6PMvCiVZbVUACCRUG+buwGuf+azZGaz5J3I/x2kG2VaQ+21a3acW
-	 nBVPkhr1LGb9HqpNb28qBnTc+4nAe/OSCVZ76JgRrVhQ6V+LTpwRAD23A8E9CUWFFYN1K
-	 cuQLwZZ789uQD6FqWnKgfTCfm/7iBChqHZ5dwEMo2cjh98l7hN884uXTyse8WGQe+pw==
+	t=1794896817;
+	b=Bllg2+j+9jem6s248yUjivQHf6otqenlQYK6AXlFy6o4HKRtzdZ2NTrdyTfst5vQxmcA
+	 1IezwaNnMM58B1F0gBaH59PUcrz0WwJU3X4pcXhw6bXiTX+UkJpbXSSRptG+Ny/RpO0jM
+	 RLMdgFoyZz/iH4liiAuueEOdNbtKHza4WgBSzOB3ur9cuHnbtmPPr5n7PYD3/mvL8L4aJ
+	 kzZ9Cyv/frUPHsvfOIVWhjJiBjODlOCbV8FwDBIy7sVq1rApcUOsBkY9koctxbo8WX4JR
+	 CVdAvGHILtaE8QVMAtNLtaZ2naSksL5nEK2jPiuMZO26esg1nCE8XF0xKR0N9cbBaeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794896550;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
-	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
-	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
-	bh=trvDkV6vvUmb0PBXlBu21SjsOugrgLJkdgdnA7x9QNA=;
-	b=G2yFBl0nkJIwjZrT98nUaLJJz4hmi8Vsds4kZuNjUzgY3+MlNeT0DE+CE+JTTVGUgU84
-	 vf8pimXocvfikF/j/QkgvEklh3uCwhW9MvfYdrTn1l4PhDaS4f2IRubhG0DzgAAhe7Lhr
-	 UriCQzOWZj9V5H20z+l6GlBjKLIyYRMkIQLeXEPK737l9Pcdvalz1H8R1/i1gIWtTTuyL
-	 ncO72tPb8M6yrIOjyL0tPl39ZacHj0m5VsxvTWDkKPvN7e5byky/aRe0x4SNPx5O6SEeX
-	 ZXs4ks3IZfV7atcK3rHyQ6Eng8/rMGh53iQjpLHLCwcpKQFN21MbWhYRs+pWNGv8Inw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794896817;
+	h=DMARC-Filter:X-UUID:X-CTIC-Tags:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:
+	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=zHwZTRyJcBmNm9HrK6+bkhzSPesMy8LyuWBdlQWUWI0=;
+	b=ws0wB4RT5wW8ApmtwgTVknAbDOwrRcMeZYfT62/VjagxHkPiI69ML/b7mUm6ObTQba+8
+	 s4pSCtWdCUhDf5QHIaZbp/Glr/iASsXxf+vCZQoH6u6z295EjlgGcjiWqx1Vgwxbbs5eJ
+	 ApvVPZESUguhIKSPkoPysBK/+GE/wT5jSZ+1JUUhqJ0+20O+9IpdczIsX2qWDB/niUP01
+	 +b5fjXFNHWCGf6zHEc0iEbvqcGpAQmrMhDTlS9sNjNPTx3Tnl+zd/3uzZHLaPrZ2btlwl
+	 E+OhxVGCKE0yTfd1xp3Tm1fPAcJ64JrW8JJb6T75vDaYi5bmUsiy7/iWCnH1WFWCAnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=nGP3zQ1m;
-	arc=none smtp.remote-ip=44.202.169.39
-Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1EF606A323
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 06:22:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D1EF606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=nGP3zQ1m
-Received: from eig-obgw-5002b.ext.cloudfilter.net ([10.0.29.226])
-	by cmsmtp with ESMTPS
-	id T8L3xlsDKOOJnTCaFxDEYx; Tue, 17 Nov 2026 06:22:23 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id TCaFxa5ojb2qJTCaFxLVdG; Tue, 17 Nov 2026 06:22:23 +0000
-X-Authority-Analysis: v=2.4 cv=A7tsP7WG c=1 sm=1 tr=0 ts=6afbf29f
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
- a=BSQcJpztpYULdWzIOREA:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
-	List-Archive; bh=trvDkV6vvUmb0PBXlBu21SjsOugrgLJkdgdnA7x9QNA=; b=nGP3zQ1m1y+D
-	36JExZJSgLs/LCuuSzZ9Ncd7FVmQOSYxlWghINdPMYPsHScYl2SZR1STwA8ZekBWAoQ5pyWRcqDdO
-	3Dg9ggWLmKfivr7y4CJFBw/5OIL4ReHCT69AVePgtMbjJ5SkdARvuN/gq+ckul7pVddf+X+R+iVpV
-	jUkZNNcQHpVGr2GD2WnivXEZ+N4BqpbUhlvYJ4h8S8iPH9T/I8OPhG1EATzfcEJ79tqdITv6LbWnj
-	vZ7r8ZsbsBtQJZTHPzXObx+D+dC7qwVo9bYVo6pHl09ksH8ysG34yOSkWo2wet+3Gyvu8ESoq4TrJ
-	c0R6MFCIDFwDtEnnma0tJQ==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:48780)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xTCaE-00000002TXJ-3Xz2;
-	Tue, 17 Nov 2026 11:52:22 +0530
-Message-ID: <982b217f-eb02-4d87-8e7c-0cb7e7c3a387@roeck-us.net>
-Date: Mon, 16 Nov 2026 22:22:21 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6AC606A31C;
+	Tue, 17 Nov 2026 06:26:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E6AC606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: dc784252e24f11f19a56ed5b684f684d-20261117
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, SA_UNTRUSTED, SA_LOWREP
+	SA_EXISTED, SN_UNTRUSTED, SN_LOWREP, SN_EXISTED, SPF_NOPASS
+	DKIM_NOPASS, DMARC_NOPASS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:1d7932d1-1a0d-41c8-954b-034d9213316c,IP:10,
+	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:35
+X-CID-INFO: VERSION:1.3.19,REQID:1d7932d1-1a0d-41c8-954b-034d9213316c,IP:10,UR
+	L:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:35
+X-CID-META: VersionHash:7db8b62,CLOUDID:b662959fe0d3c8d2f6a5fe0e09797485,BulkI
+	D:261117141047PSRW0JV4,BulkQuantity:1,SF:17|19|38|66|78|102|127|153|865|89
+	8,TC:nil,Content:0|15|50|99,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:40,QS:n
+	il,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC
+	:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: dc784252e24f11f19a56ed5b684f684d-20261117
+X-User: yumiao@kylinos.cn
+Received: from kylinos.cn [(114.244.3.119)] by mailgw.kylinos.cn
+	(envelope-from <yumiao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 2132674618; Tue, 17 Nov 2026 14:26:45 +0800
+From: Yu Miao <yumiao@kylinos.cn>
+To: cgroups@vger.kernel.org,
+	tj@kernel.org,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: jiayuan.chen@shopee.com,
+	nphamcs@gmail.com,
+	Yu Miao <yumiao@kylinos.cn>
+Subject: [PATCH] Docs/admin-guide/cgroup-v2: add missing npn tags to zswap stats
+Date: Tue, 17 Nov 2026 14:26:20 +0800
+Message-ID: <20261117062620.346767-1-yumiao@kylinos.cn>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,107 +88,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hwmon: (nct6683) Make pwmN_auto_channels_temp of
- NCT6687D-R writable
-To: Tomasz Bojanowski <tomasz@bojanowski.me>
-Cc: linux-hwmon@vger.kernel.org, Hamza Mahfooz <someguy@effective-light.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261116232612.501586-1-tomasz@bojanowski.me>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20261116232612.501586-1-tomasz@bojanowski.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xTCaE-00000002TXJ-3Xz2
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:48780
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 2
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfIvr9fr54zHvc51Se4tkFxUP8FVfIgpXu5do0y2eUjpz6Bv2MQE2rBdDO0VtzkwUpaXkoWCFHwOec/RtYRAWXJl0YlQKm9s0gbdGueAdfxHANs7jP4J3
- 5ssm5nChV4V3hsFFUe8nmOADguFBEMF0Q9cVD/g75iIqv+i4W4UzuGkGhYvqGvrtw4RvWybFs+2tQnSG+Bivhwu/hWZGgIsfXehpi8Y21TAVSsxWl5WRtAes
+Content-Transfer-Encoding: 8bit
 
-On 11/16/26 15:26, Tomasz Bojanowski wrote:
-> Allow selecting the temperature used by a fan curve on MSI boards with
-> an NCT6687D-R (customer ID 0x20d), in manual and in automatic mode.
-> 
-> On an MSI MAG B850M MORTAR WIFI, the BIOS setup offers four temperature
-> sources for the fans: CPU Core, System, MOS and Chipset A. Reading the EC
-> before and after selecting them shows that each sets a single bit in the
-> lowest byte of the fan's source register, the bit of the monitoring
-> channel of temp1, temp2, temp3 and temp4 respectively, and that nothing
-> else in the fan curve registers changes. The other bytes were never seen
-> in use, and how the EC would combine several bits is not known, so only
-> a single temperature reported by the driver on the first eight monitoring
-> channels can be selected; other values return -EINVAL. The range can be
-> extended if a board needs it.
-> 
-> The attribute is writable if, when the driver is loaded, the curve uses
-> one such temperature. Before each write the driver checks that this is
-> still the case and returns -EIO otherwise, so that it does not overwrite
-> a source which could not be selected again.
-> 
+The zswap, zswapped and zswap_incomp entries never show up in
+memory.numa_stat, so add the 'npn' tag to all three.  Also move
+zswap_incomp, currently listed between the zswpwb and thp_fault_alloc
+counters, next to the zswap and zswapped entries it belongs with.
 
-Why -EIO (I/O error) ? I could imagine -EBUSY or maybe -EINVAL, but I don't
-see why this could be considered to be be an I/O error.
+Signed-off-by: Yu Miao <yumiao@kylinos.cn>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-Guenter
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 9e3c67b02ae2..3f698f109d89 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1608,12 +1608,18 @@ The following nested keys are defined.
+ 		Amount of cached filesystem data that is swap-backed,
+ 		such as tmpfs, shm segments, shared anonymous mmap()s
+ 
+-	  zswap
++	  zswap (npn)
+ 		Amount of memory consumed by the zswap compression backend.
+ 
+-	  zswapped
++	  zswapped (npn)
+ 		Amount of application memory swapped out to zswap.
+ 
++	  zswap_incomp (npn)
++		Amount of memory used by incompressible pages currently
++		stored in zswap without compression. These pages could not
++		be compressed to a size smaller than PAGE_SIZE, so they are
++		stored as-is.
++
+ 	  file_mapped
+ 		Amount of cached filesystem data mapped with mmap(). Note
+ 		that some kernel configurations might account complete
+@@ -1765,11 +1771,6 @@ The following nested keys are defined.
+ 	  zswpwb
+ 		Number of pages written from zswap to swap.
+ 
+-	  zswap_incomp
+-		Amount of memory used by incompressible pages currently stored in zswap
+-		without compression. These pages could not be compressed to
+-		a size smaller than PAGE_SIZE, so they are stored as-is.
+-
+ 	  thp_fault_alloc (npn)
+ 		Number of transparent hugepages which were allocated to satisfy
+ 		a page fault. This counter is not present when CONFIG_TRANSPARENT_HUGEPAGE
+-- 
+2.43.0
 
