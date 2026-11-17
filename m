@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.225
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.225
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794959481;
-	b=zTqw35OqBI/ys2zex6SWwSHQOG3fqEbIXqArRb+RFQI/W2y6N8UdMArmLuXWY1dEVewA
-	 JwrqO6UhIV4LkVv2w1J0GEu4MaXCig8kWI9sciRdO0HYfugi5n7kTUH39WefDrZ+0GJE7
-	 TtiMaDheiIDHa/GYHR4LBX9HlicqZJG1tiMSlD0gQdb2Kw8jBDa/xKbd0f5ocbG/0ODk5
-	 WmdvZqOJeGkEtIkdg5QF09zocnKzQHI1eAWWUMJADA/H6/BZaIHqbuwVVwPBCqiMr3obO
-	 UOfevavs8/qJFLzBe9lRnkI7SA+xMAc+w5t1x10LUD2fp2M4b/k9jNflv5L3OZOWUzA==
+	t=1794959851;
+	b=unM9kQu5fNQDeZnDnf6t3IlTrsYWO4yNkPY3lvfN/iOjpc+/TLK3M6sLJWbfX0NqewTv
+	 D9DwO71fEEF+wZgMR8TN1qeRqGJ/6DGvpZoN47eNHeg/3HqaDoOADbF5X6oyfaFqs0nWZ
+	 twc+GwvcczSiiDdzNRXmnNcbgTreszU+mv3PmGKGahMDbq83LB4jtphv6Ttg/592RzcRg
+	 43jZ9nCPI9FUjlBNwq1D5qe4oXhT8jOGfmAHIHgzIi1KAkKkPGqQDXaLR+eqsx9tPmYrp
+	 /6yRsbX1cWaQQbcXKASYYS2w7ICB0gqOkiz2X/8C/bajliEgfMS07DsCs+QRY5tTN9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794959481;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794959851;
 	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
 	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
@@ -15,88 +15,88 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
 	 In-Reply-To:Content-Type:Content-Transfer-Encoding:
 	 X-DetectorID-Processed;
-	bh=WdjoIKvowHyosl1CXA8daiIeSKMARXblpVs58QxNO6E=;
-	b=SbRx98xcb14yzzVvfyBpEd8YOElpAjeznZ5PNYAs2vRTo2B7sjiNF+D/8OWyE0IpujdE
-	 gn6By4A3nPMZbt5jT2zIy5yQrP/+YEKVh97Is0s9Rq4ETqWM03W/9ZcNDXSvQINbTdFc2
-	 51ZcLKBkHSOQNgvJ0mw9KeGCK7zysp/bagGvUm0wsyzJAk2q3I01u+Pt2J6TPEpVrDB3A
-	 0p+CipotspXxgqxvyCa2obMulBl/P2M2vjBPDCda+QG4no9EUnI736/IIXyqfV1t/sVti
-	 qlqFRyFILS8RbxdLyjl8lHdEdlnJNjnQVWsqMaQEpW681PzU1a6pIWsc7VsCkvYE5LQ==
+	bh=oLrBNLG0hX6sgbYQVZZuBInuSRFzwVDllACR+Rvkm4I=;
+	b=yaAznKIbHLgnR1wRcSiHFVwFckamr8OfRfKmJq1Y8PH/mT347b4lObW0bO/TFdotFJlk
+	 AHMNMU1k9/7vFwcOZYnMvOMiypvQsXxYIBHYNeiQo03GxsJXRHZ8+DJu4ZbYM0S55zDbz
+	 Suom3e85ZhoqHeepXXHQDR/x9f+aJ7EYVDj84KXcLXWJOObgF6C4dR/hmnyPlsHjE1ZHw
+	 G0kC6CtRyNelfFGyXXNwQcJkeoe0sKXn02GyWWf5RIQZNxz4z3P3kIq6O2IivNjvg+Aib
+	 DVH+1DhVGblgiTWA/oJK1UZNO7+K7QBAdj9GI5OhwrHl6sNTqwENrTqpx5bao92gwKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=broadcom.com;
 	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=QwVoIyPA;
-	arc=none smtp.remote-ip=209.85.128.225
-Received: from mail-yw1-f225.google.com (mail-yw1-f225.google.com [209.85.128.225])
+	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b="VVoUo/O7";
+	arc=none smtp.remote-ip=209.85.215.225
+Received: from mail-pg1-f225.google.com (mail-pg1-f225.google.com [209.85.215.225])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF893606A32A
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 23:51:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF893606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3122606A882
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 23:57:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3122606A882
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=QwVoIyPA
-Received: by mail-yw1-f225.google.com with SMTP id 00721157ae682-8b315dd057bso2397287b3.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 15:51:20 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=VVoUo/O7
+Received: by mail-pg1-f225.google.com with SMTP id 41be03b00d2f7-cdb15cd8558so257763a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 15:57:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794959480; x=1795564280;
+        d=1e100.net; s=20260707; t=1794959850; x=1795564650;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:dkim-signature:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=WdjoIKvowHyosl1CXA8daiIeSKMARXblpVs58QxNO6E=;
-        b=QanoDMfGB3RmMnA0pM1eT81JT4XrjeK4XdyUjXXpEvuW5Y6PSPEdrgvOPdDj5NISvU
-         gcdcuQHAOSCAk9Xw1kBk+ojqig5K9v62vFj0/FAXR2DmBDsGM/ZZrmL/RYuwZuVEk7cP
-         bWEk5oymspSyDjEl8g693dDPfbzThVlJ556x94cVE9Sef2TJawRSstqXtns0s/B3mbdO
-         RnwvY+9MCSZ99n96dgcfIKv+vE11fDNiLXdZ9QX8qF0gF3Q/Glt4U3lCHPUJXpQx+zm4
-         V04NsQliAhVYoiQa3cW5QBDEzgjX9n6m4ziJtXnvSbeW+BSHua0QieJWpXSt7ZAjjkR7
-         YCkA==
-X-Forwarded-Encrypted: i=1; AL+hErEEZOPT7FGnOEkEi8TcDKvaX8yHthFp46iaNQ/RAbguvT8p3+QJz9gGxfCtNWR/gP+gEi424aZ51QE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8gfsrzf9mFEhtbYdFJMJ99+PA7WwwD6Q6G6sxUmPdCswN1zDco
-	9A2FQHp0J8C/RqmwHk9V/HQKPgSo0GUUzJ4LIViPq4TvJnQC+xtD8KiEL8avlcf7fMYuRwvCAPC
-	RJmhxEYkThE2HZTSOyhYUa8Rl1HYQztPfKaXl4MaDrXsrvsSEjGGU/DPMqkbX1lQfSe6y9uvh2m
-	MFrFugYMypyY1LylMd1dAnAdU18+LyUUCHl2F11yF+HNFaZDQThLgT98Z+7rqlAFGyMehc1+chM
-	vSdGImuri5xJw8yIN5k
-X-Gm-Gg: AZFdTZcyWZ2SuD6frkojs0B/+OSqFpSzb0Mi1+rW/QHfAlKxGA2q39GSGThvcK9qFSa
-	5d6lR+I9K32OFapzjy4nQra1xPrzD10Y5w5YPwlZOY1KhUzT5tchtiAahkoeEc7Sjmzy/G4aPmc
-	YiIDvNbQH7bI7/AsgtYe10MftE8Qy52gdvV/i6QaHv311cAemTSYBJN//dHsAsohuyV/fg0+T4k
-	afFx8coAzrNH4hFNwgw5l1qFK/BdZyKGPf87YU7spMzlgLlVBJPYENL9JIiBNax+5SjklRydD1s
-	G8HRkS+9LfiXU5HsSIuTeNY28/MISLdrneibOZ0Qb0eNz/6ZIeONyJ2rj2ScpyCskHqcBTjnhlm
-	asZC4rPcKgpY/ApJqfyNq3Tib/dtowJf4O0Kon0uxO1ob7k2oL0P474FDGkHJx7sXzn7i+UuVcD
-	b/ZH+TJoYHeogQ/2k7i23wNA1RTDKpsRVXQXQHrMB5
-X-Received: by 2002:a05:690e:13ca:b0:67c:1d44:7893 with SMTP id 956f58d0204a3-67dd3d4f880mr506307d50.9.1794959479736;
-        Tue, 17 Nov 2026 15:51:19 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-26.dlp.protect.broadcom.com. [144.49.247.26])
-        by smtp-relay.gmail.com with ESMTPS id 956f58d0204a3-67dd582159csm8029d50.28.2026.11.17.15.51.19
+        bh=oLrBNLG0hX6sgbYQVZZuBInuSRFzwVDllACR+Rvkm4I=;
+        b=db51OJL6C0iLQ4HOR+drDMa83nqrUpFbvRUZH7wJuZRJX45Kmk6Yb95B8/4YS3J/So
+         4f65qgQI4Nt7mqS2vDHr6Ir9KFUccSQkKbR5Hm9wFEFjj598zzRQdonIgfv/jxphWEaj
+         bcVTjJT0TJXdwGOpP2eDKTz9NxYYDevo6psKY326ihO2eOD7wYUkPkfY5VkNk1n7pwZD
+         7EZNasZ82tOxKNFMKlCsqMM6ckX63IUXLWyLdOkQb7bLlGyKd7m17C0tIoPhQ4IMkVpw
+         +panfmRRM0tn4ymh2SP+eWjq0R81bv8neSWB18qDdVGiLzPlIGZwmBd7WIaSfzid5qoE
+         /wbA==
+X-Forwarded-Encrypted: i=1; AL+hErFctRnsivE0Qgd0fDC0PTqW/Am7G4GinqG1QwxHqFjsVcepNHzfcJz3tvmE9LyTiX5DjJzFTb9KivA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8DGwWBIYVPhJauMjKdGkG5vSOT20qrWemPEf+bAQ+iJykDsgVh
+	/4M5aC6jYkZJDdDzzy1f5php1EGAiDojDoyvF61SpXlG0E7MMegptwU/c2TpeUhxL22Df07TEgP
+	MsrY4x/selcDWD0NRLZhdg6m2GtFAKemdl4Eq8CfAz0v+sxB5CHCyN2Lnh/Z2UAD+mWDC0sV87k
+	kk71zMVQsvyojRAv6Kt78RU00uDlxF5gIKGRwqRuX/FWfpDvV0wuvqHiD1HhcYueQeLvR9p82IU
+	ryQWznL9i3PACWKvmyF
+X-Gm-Gg: AZFdTZcuFsF/SUcr3wDLlta7zmMR+ErJB4cL5Hhsq0DEn2DmJG/exa3R33/4LQ+CAjy
+	uJt7qD5xaXBQNKCSfqUQATVrWIMJbT3sVnEaHvVoRBd7HtMjxM8eRxSE4vRkFcBJwsERkpCnp+u
+	VIafx6d8Dpq6ndbPEbxbjCepTFef7gpBjm+Aps/3MwjvIxuNubSdNDdkGK85NILvdIgJPpxIxIs
+	aS1KmqngfJYIBwxBYewfxPXmNPQI5r3NsqX6RJKD6s4FhWmwsmC5DOpmrl/a4d1/388wk1ee0zo
+	/TJ5KLjmtGY9rVe4L0LpTHULGQgz6Y+nILGMh232s4luGIUkvsTL8N750Kf7N+cZzNzm2oZv7Et
+	yWmacYc1hw4lCeMNbT3iGhC8uOKypIILV2Ge1f8Whg/01yFcaOxGu2Vb0qDUWUvrlcG2HgOynaH
+	UYe71eleVeVY0rw621wzqVaudq9t23ko6AguUUSc8R
+X-Received: by 2002:a17:90b:3c04:b0:3ac:adce:60ad with SMTP id 98e67ed59e1d1-3b3d079ffb7mr745182a91.22.1794959850254;
+        Tue, 17 Nov 2026 15:57:30 -0800 (PST)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-28.dlp.protect.broadcom.com. [144.49.247.28])
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b3d14463c6sm594336a91.6.2026.11.17.15.57.28
         for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 17 Nov 2026 15:51:19 -0800 (PST)
+        Tue, 17 Nov 2026 15:57:30 -0800 (PST)
 X-Relaying-Domain: broadcom.com
 X-CFilter-Loop: Reflected
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-92101559a2bso4652346d6.3
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 15:51:19 -0800 (PST)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-33713e5e6daso137292eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 15:57:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1794959479; x=1795564279; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1794959847; x=1795564647; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=WdjoIKvowHyosl1CXA8daiIeSKMARXblpVs58QxNO6E=;
-        b=QwVoIyPA7dt1oxl1ZdWzWz6FASErNhWk22eYH4Y7egzEAkdsFdpfy4yQc1swl7nYwH
-         5psJMhjHs6g33TbgC9ByZ+mnbMlO76CCi6oJYA//GLp2NuLUqm3mSjPDGkvrUO8iO3tm
-         u2at2sQDOdGgd7gwMTf/6ckhonwgPfCKqcn34=
-X-Forwarded-Encrypted: i=1; AL+hErHmp1JBAuqJoX4k1kTuqG/m0iu2Vmi9q50K8vAEHBGRNN/dLn6qYdL1aTEor6D9hcBG/jjXDEoineQ=@vger.kernel.org
-X-Received: by 2002:a05:6214:4112:b0:91f:ee9:c557 with SMTP id 6a1803df08f44-92114ea4b99mr13598486d6.44.1794959478618;
-        Tue, 17 Nov 2026 15:51:18 -0800 (PST)
-X-Received: by 2002:a05:6214:4112:b0:91f:ee9:c557 with SMTP id 6a1803df08f44-92114ea4b99mr13598016d6.44.1794959477951;
-        Tue, 17 Nov 2026 15:51:17 -0800 (PST)
+        bh=oLrBNLG0hX6sgbYQVZZuBInuSRFzwVDllACR+Rvkm4I=;
+        b=VVoUo/O7GYJfuKE5PaO654WHyhlqGDHSy/vM7QiuMg7loMYBjyuC2ZErbmM0KV+kUW
+         6v2tBmVTlI2S1V/IeYR/2Hac9dA13vINqs87+AePXTvYOg49Dh7V54SeoOyUXiWh0p8G
+         7VeMwie2Ehm3BgrPKyPayA0BPZDc7YrqPdLTM=
+X-Forwarded-Encrypted: i=1; AL+hErEgnnyu7lsF+hKGCi5hQzZGF49lQt0fzNHCTBA5cN7i17QlvdLAR4OMoumym0ufW/7P1IwW/mlswGo=@vger.kernel.org
+X-Received: by 2002:a05:701b:458e:20b0:1ac:d029:70cb with SMTP id a92af1059eb24-1b543cfaf3emr911541c88.30.1794959847253;
+        Tue, 17 Nov 2026 15:57:27 -0800 (PST)
+X-Received: by 2002:a05:701b:458e:20b0:1ac:d029:70cb with SMTP id a92af1059eb24-1b543cfaf3emr911494c88.30.1794959846336;
+        Tue, 17 Nov 2026 15:57:26 -0800 (PST)
 Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-92114d98adbsm6389176d6.40.2026.11.17.15.51.14
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5447dc596sm1434831c88.10.2026.11.17.15.57.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Nov 2026 15:51:17 -0800 (PST)
-Message-ID: <04a0bf1d-7807-47f1-81e7-d57a27e8599e@broadcom.com>
-Date: Tue, 17 Nov 2026 15:51:13 -0800
+        Tue, 17 Nov 2026 15:57:25 -0800 (PST)
+Message-ID: <85be0d5e-918c-48cc-999a-3193154ecfad@broadcom.com>
+Date: Tue, 17 Nov 2026 15:57:23 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,8 +107,8 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 2/9] netfilter: flowtable: reject non-host IPv4
- packets before lookup
+Subject: Re: [PATCH net-next 3/9] netfilter: flowtable: retain offload
+ ownership until deletion completes
 To: netdev-bot+sashiko@kernel.org
 Cc: netdev@vger.kernel.org, rafal@milecki.pl,
  bcm-kernel-feedback-list@broadcom.com, andrew+netdev@lunn.ch,
@@ -118,8 +118,8 @@ Cc: netdev@vger.kernel.org, rafal@milecki.pl,
  pablo@netfilter.org, fw@strlen.de, phil@nwl.cc, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-References: <20261116222519.1416501-3-florian.fainelli@broadcom.com>
- <179495815781.3136.11457762484354834526@kernel.org>
+References: <20261116222519.1416501-4-florian.fainelli@broadcom.com>
+ <179495815956.3136.7417407587662864290@kernel.org>
 Content-Language: en-US, fr-FR
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
@@ -154,16 +154,16 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <179495815781.3136.11457762484354834526@kernel.org>
+In-Reply-To: <179495815956.3136.7417407587662864290@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
 On 11/17/26 15:29, netdev-bot+sashiko@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 3 potential
+> Thank you for your contribution! Sashiko AI review found 6 potential
 > issue(s) to consider.
 > 
-> Critical: 0 · High: 2 · Medium: 0 · Low: 1
+> Critical: 0 · High: 0 · Medium: 4 · Low: 2
 > 
 > If you believe none of the issues are legitimate, please reply to each
 > issue of Medium severity or higher and explain why the AI is wrong.
@@ -171,153 +171,373 @@ On 11/17/26 15:29, netdev-bot+sashiko@kernel.org wrote:
 > know by including "pw-bot: cr" as a separate line at the end of your reply
 > (one such reply per series is enough).
 > 
-> - [High] The new early return in nf_flow_offload_ip_hook()
->    (net/netfilter/nf_flow_table_ip.c:915) checks skb->pkt_type at netdev…
-> - [High] The fix only covers IPv4.
-> - [Low] The commit trailer reads 'Signed-off-by: FLorian Fainelli
->    <florian.fainelli@broadcom.com>', but the author is 'Florian Fainelli'…
+> - [Medium] Moving IPS_OFFLOAD_BIT out of flow_offload_teardown() means
+>    the lockless check in nf_flow_table_extend_ct_timeout() can no longer…
+> - [Medium] This patch reverses the central change of the commit in its
+>    Fixes: tag but does not say so, and it does not mention the later…
+> - [Medium] The patch's ownership argument ('For hardware flows, GC
+>    reaches this point only after hardware deletion is complete ...…
+> - [Medium] The patch now releases IPS_OFFLOAD (re-admission) in
+>    flow_offload_del() once NF_FLOW_HW_DEAD is set, and the commit…
+> - [Low] The new KUnit test nf_flow_test_hardware_retirement() and the
+>    NF_FLOW_TABLE_KUNIT_TEST help text say they check that hash removal…
+> - [Low] The new Documentation/networking/nf_flowtable.rst text (and the
+>    commit message) list the visible side effects of keeping IPS_OFFLOAD…
 > 
 > --
 > 
-> netfilter: flowtable: reject non-host IPv4 packets before lookup
+> netfilter: flowtable: retain offload ownership until deletion completes
 > 
-> This commit makes nf_flow_offload_ip_hook() return early when pkt_type is
-> not PACKET_HOST. Those packets then go to the normal IPv4 stack before the
-> flowtable lookup. The goal is to apply the same PACKET_HOST check that the
-> classic IPv4 forwarding path uses.
+> This patch moves the clearing of IPS_OFFLOAD_BIT from
+> flow_offload_teardown() to flow_offload_del(), after both hash entries have
+> been removed. The goal is that a replacement flow can't be admitted on the
+> same conntrack while the old owner's cleanup is still pending. It also
+> documents the transient status and adds KUnit tests for the ownership
+> lifetime.
 > 
->> Fixes: 97add9f0d66d ("netfilter: flow table support for IPv4")
->>
->> Signed-off-by: FLorian Fainelli <florian.fainelli@broadcom.com>
+>> diff --git a/Documentation/networking/nf_flowtable.rst b/Documentation/networking/nf_flowtable.rst
+>> index d757c21c10f2d..b9b4444357758 100644
+>> --- a/Documentation/networking/nf_flowtable.rst
+>> +++ b/Documentation/networking/nf_flowtable.rst
+>> @@ -205,6 +205,19 @@ refers to the software offload mode, so there is a distinction between [OFFLOAD]
+>>   which refers to the software flowtable fastpath and [HW_OFFLOAD] which refers
+>>   to the hardware offload datapath being used by the flow.
+>>   
+>> +During teardown, software fastpath lookups immediately stop matching the
+>> +flow. Packets reaching software follow the classic forwarding path, while
+>> +hardware deletion may still be pending. The OFFLOAD status
+>> +bit remains set until hash removal and asynchronous hardware deletion are
+>> +complete, preventing a new owner from racing the old owner's cleanup. As a
+>> +result, conntrack dumps can temporarily retain [OFFLOAD] or [HW_OFFLOAD]
+>> +and omit the TCP state after a FIN or RST has returned to the slow path.
 > 
 > [Severity: Low]
-> This isn't a bug, but the Signed-off-by name has a typo ("FLorian") and
-> does not match the author name ("Florian Fainelli"). There is also an
-> extra blank line between the Fixes: tag and the Signed-off-by: tag.
+> Is this list of side effects complete? Several in-tree users of
+> IPS_OFFLOAD_BIT now see the bit set for the whole GC and async DESTROY
+> window.
 > 
->> diff --git a/net/netfilter/nf_flow_table_ip.c b/net/netfilter/nf_flow_table_ip.c
->> index 19cafae748abe..98bade1b82994 100644
->> --- a/net/netfilter/nf_flow_table_ip.c
->> +++ b/net/netfilter/nf_flow_table_ip.c
->> @@ -911,6 +911,10 @@ nf_flow_offload_ip_hook(void *priv, struct sk_buff *skb,
->>   	};
->>   	int ret;
->>   
->> +	/* The ingress hook runs before IPv4 rejects non-host Ethernet frames. */
->> +	if (unlikely(skb->pkt_type != PACKET_HOST))
->> +		return NF_ACCEPT;
+> ctnetlink_dump_info() skips the timeout as well as the protoinfo:
 > 
-> [Severity: High]
-> Could this turn off the software fast path for flows that pass through a
-> bridge or VLAN upper device?
-> 
-> This hook runs at netdev ingress on the lower device. At that point
-> pkt_type still holds what eth_type_trans() set by comparing h_dest with
-> the lower device's own MAC. In __netif_receive_skb_core(), nf_ingress()
-> runs before both places that reclassify the frame:
-> 
-> __netif_receive_skb_core()
->      nf_ingress()          <- nf_flow_offload_ip_hook() runs here
->      vlan_do_receive()
->      rx_handler()          <- br_handle_frame()
-> 
-> net/8021q/vlan_core.c:vlan_do_receive() {
+> net/netfilter/nf_conntrack_netlink.c:ctnetlink_dump_info() {
 >      ...
-> 	if (unlikely(skb->pkt_type == PACKET_OTHERHOST)) {
-> 		/* ... */
-> 		if (ether_addr_equal_64bits(eth_hdr(skb)->h_dest, vlan_dev->dev_addr))
-> 			skb->pkt_type = PACKET_HOST;
+> 	if (!test_bit(IPS_OFFLOAD_BIT, &ct->status) &&
+> 	    (ctnetlink_dump_timeout(skb, ct, false) < 0 ||
+> 	     ctnetlink_dump_protoinfo(skb, ct, false) < 0))
+>      ...
+> }
+> 
+> ct_seq_show() hides the expires field in the same way. As a result, the
+> repaired timeout mentioned in the next paragraph can't be seen during this
+> interval.
+> 
+> nf_nat_used_tuple_harder() also reads the bit as "entry is offloaded":
+> 
+> net/netfilter/nf_nat_core.c:nf_nat_used_tuple_harder() {
+>      ...
+> 	static const unsigned long flags_offload = IPS_OFFLOAD | IPS_HW_OFFLOAD;
+>      ...
+> 	if (nf_ct_kill(ct))
+> 		taken = flags & flags_offload;
+>      ...
+> }
+> 
+> A torn-down TCP entry in CLOSE or TIME_WAIT that has gone back to the slow
+> path would now be evicted but still reported as taken.
+> 
+> The UAPI comment for IPS_OFFLOAD_BIT in nf_conntrack_common.h still says
+> "Conntrack has been offloaded to flow table", but this text redefines the
+> bit as ownership pending cleanup.
+> 
+> Should these effects be documented here too?
+> 
+> [ ... ]
+> 
+>> diff --git a/net/netfilter/nf_flow_table_core.c b/net/netfilter/nf_flow_table_core.c
+>> index 2aa2647ed9df0..4c82097cd50bc 100644
+>> --- a/net/netfilter/nf_flow_table_core.c
+>> +++ b/net/netfilter/nf_flow_table_core.c
+>> @@ -393,12 +393,15 @@ static void flow_offload_del(struct nf_flowtable *flow_table,
+>>   	rhashtable_remove_fast(&flow_table->rhashtable,
+>>   			       &flow->tuplehash[FLOW_OFFLOAD_DIR_REPLY].node,
+>>   			       nf_flow_offload_rhash_params);
+>> +	/* Release admission only after both hashes and async hardware state
+>> +	 * have gone. An older owner must not clear its replacement's status.
+>> +	 */
+>> +	clear_bit_unlock(IPS_OFFLOAD_BIT, &flow->ct->status);
+> 
+> [Severity: Medium]
+> The commit message says "For hardware flows, GC reaches this point only
+> after hardware deletion is complete" and "Holding the admission bit
+> prevents overlapping owners".
+> 
+> Can a datapath reader still queue a FLOW_CLS_REPLACE for this flow after
+> its DESTROY has completed?
+> 
+> flow_offload_lookup() checks NF_FLOW_TEARDOWN once. The later
+> flow_offload_refresh() only looks at NF_FLOW_CLOSING and NF_FLOW_HW:
+> 
+> net/netfilter/nf_flow_table_core.c:flow_offload_refresh() {
+>      ...
+> 	if (likely(!nf_flowtable_hw_offload(flow_table)) ||
+> 	    test_bit(NF_FLOW_CLOSING, &flow->flags))
+> 		return;
+> 
+> 	if (test_bit(NF_FLOW_HW, &flow->flags))
+> 		nf_flow_offload_refresh(flow_table, flow);
+> }
+> 
+> nf_flow_offload_work_alloc() is gated only by NF_FLOW_PENDING.
+> flow_offload_work_handler() clears that bit after flow_offload_work_del()
+> has set NF_FLOW_HW_DEAD. One possible sequence:
+> 
+> reader                      gc / offload work
+> flow_offload_lookup()
+>    TEARDOWN not set
+>                              flow_offload_teardown()
+>                              nf_flow_offload_del()
+>                              flow_offload_work_del()
+>                                set_bit(NF_FLOW_HW_DEAD)
+>                              NF_FLOW_PENDING cleared
+> flow_offload_refresh()
+>    nf_flow_offload_refresh()
+>      REPLACE queued
+>                              flow_offload_work_add()
+>                                set_bit(IPS_HW_OFFLOAD_BIT)
+>                              flow_offload_del()
+>                                clear_bit_unlock(IPS_OFFLOAD_BIT)
+>                                flow_offload_free()
+> 
+> After this, the re-installed hardware rule is keyed by a freed cookie, and
+> IPS_HW_OFFLOAD stays set on the ct. nft_flow_offload_eval() or act_ct can
+> then admit a replacement owner through test_and_set_bit(IPS_OFFLOAD_BIT).
+> 
+> With PREEMPT_RCU or PREEMPT_RT, the reader's RCU section could span
+> flow_offload_del(). Could the queued REPLACE work then use the flow after
+> flow_offload_free_rcu() has freed it?
+> 
+> The lookup/refresh window existed before this patch, but the new ownership
+> argument depends on it being closed. Later patches in the series don't
+> touch flow_offload_refresh() or nf_flow_offload_refresh().
+> 
+> [Severity: Medium]
+> Does NF_FLOW_HW_DEAD really mean the device removed the rule?
+> flow_offload_work_del() sets it unconditionally:
+> 
+> net/netfilter/nf_flow_table_offload.c:flow_offload_work_del() {
+> 	clear_bit(IPS_HW_OFFLOAD_BIT, &offload->flow->ct->status);
+> 	flow_offload_tuple_del(offload, FLOW_OFFLOAD_DIR_ORIGINAL);
+> 	if (test_bit(NF_FLOW_HW_BIDIRECTIONAL, &offload->flow->flags))
+> 		flow_offload_tuple_del(offload, FLOW_OFFLOAD_DIR_REPLY);
+> 	set_bit(NF_FLOW_HW_DEAD, &offload->flow->flags);
+> }
+> 
+> flow_offload_tuple_del() throws away the return value of
+> nf_flow_offload_tuple(..., FLOW_CLS_DESTROY, ...), and
+> nf_flow_offload_tuple() skips callbacks that return errors.
+> 
+> A driver's DESTROY can fail and leave the rule programmed, for example
+> bnxt_tc_del_flow() after a firmware HWRM failure. In that case
+> flow_offload_del() still releases IPS_OFFLOAD and frees the flow, and the
+> flow's tuplehash[dir].tuple is the driver cookie.
+> 
+> Could a replacement owner then program a second rule for the same tuple
+> while the stale rule, with the old route or NAT, stays in hardware with no
+> way to delete it?
+> 
+> The ignored DESTROY result predates this patch. However, the ownership
+> serialization described in the commit message depends on deletion having
+> completed.
+> 
+>>   	flow_offload_free(flow);
+>>   }
+>>   
+>>   void flow_offload_teardown(struct flow_offload *flow)
+>>   {
+>> -	clear_bit(IPS_OFFLOAD_BIT, &flow->ct->status);
+>>   	if (!test_and_set_bit(NF_FLOW_TEARDOWN, &flow->flags))
+>>   		flow_offload_fixup_ct(flow);
+>>   }
+> 
+> [Severity: Medium]
+> Without this clear_bit(), can the flowtable GC overwrite the timeout that
+> flow_offload_fixup_ct() just repaired?
+> 
+> nf_flow_offload_gc_step() samples NF_FLOW_TEARDOWN once and doesn't check
+> it again before calling nf_flow_table_extend_ct_timeout(). The only guard
+> left in the extend helper is the IPS_OFFLOAD_BIT re-test:
+> 
+> net/netfilter/nf_flow_table_core.c:nf_flow_table_extend_ct_timeout() {
+> 	u32 ct_timeout = READ_ONCE(ct->timeout);
+>      ...
+> 	if (!refcount_inc_not_zero(&ct->ct_general.use))
+> 		return;
+> 
+> 	/* load ct->status after refcount increase */
+> 	smp_acquire__after_ctrl_dep();
+> 
+> 	if (nf_ct_is_confirmed(ct) &&
+> 	    test_bit(IPS_OFFLOAD_BIT, &ct->status)) {
+>      ...
+> 			cmpxchg(&ct->timeout, ct_timeout, new_timeout);
+>      ...
+> }
+> 
+> That re-test now always passes until flow_offload_del() runs. Consider:
+> 
+> CPU0                                CPU1
+> nf_flow_offload_gc_step()
+>    teardown = false
+>                                      flow_offload_teardown()
+>                                        set NF_FLOW_TEARDOWN
+>                                        flow_offload_fixup_ct()
+>                                          nf_ct_refresh()
+> nf_flow_table_extend_ct_timeout()
+>    READ_ONCE(ct->timeout)
+>      /* repaired, below 5 min */
+>    test_bit(IPS_OFFLOAD_BIT)
+>      /* still set */
+>    cmpxchg(&ct->timeout, ct_timeout,
+>            now + NF_CT_DAY)
+> 
+> CPU1 can be the datapath after a failed dst check or a missing outdev, act_ct
+> on FIN/RST, or nf_flow_table_cleanup() on netdev events.
+> 
+> The refcount, smp_acquire__after_ctrl_dep() and re-test sequence from
+> commit 03428ca5cee9 depends on teardown clearing the bit before
+> flow_offload_fixup_ct() repairs ct->timeout.
+> 
+> flow_offload_del() doesn't repair the timeout again. A UDP flow with no
+> further packets would therefore keep its conntrack entry for NF_CT_DAY
+> instead of seconds or minutes.
+> 
+> Doesn't this contradict "TCP state and timeout repair run at first
+> teardown" in the commit message? Later patches in the series leave
+> flow_offload_teardown(), nf_flow_offload_gc_step() and
+> nf_flow_table_extend_ct_timeout() unchanged.
+> 
+> [Severity: Medium]
+> This undoes the main change of the commit named in the Fixes: tag:
+> 
+>      Fixes: e5eaac2beb54 ("netfilter: flowtable: fix TCP flow teardown")
+> 
+> e5eaac2beb54 moved this clear_bit() from flow_offload_del() into
+> flow_offload_teardown(). The reason was that conntrack gc could race to
+> undo the packet path's timeout adjustment, leaving the entry with the
+> one-day offload timeout.
+> 
+> Moving it back looks safe on mainline only because commit 03428ca5cee9
+> ("netfilter: conntrack: rework offload nf_conn timeout extension logic")
+> removed this block from gc_worker():
+> 
+> 	if (test_bit(IPS_OFFLOAD_BIT, &tmp->status)) {
+> 		nf_ct_offload_timeout(tmp);
+> 		...
+> 		continue;
 > 	}
->      ...
-> }
 > 
-> net/bridge/br_input.c:br_handle_frame() {
->      ...
-> 	if (ether_addr_equal(p->br->dev->dev_addr, dest))
-> 		skb->pkt_type = PACKET_HOST;
->      ...
-> }
+> 03428ca5cee9 has no Fixes: or stable tag. Suppose this patch is backported
+> to a stable tree that has e5eaac2beb54 but not 03428ca5cee9.
 > 
-> The flowtable supports DEV_PATH_BRIDGE and DEV_PATH_VLAN paths.
-> nft_dev_path_info() puts the upper device's dev_addr in h_source, but the
-> ingress ifindex is the lower port. Hosts therefore send routed traffic to
-> the bridge or VLAN MAC.
+> Wouldn't gc_worker() then reset ct->timeout to now + NF_CT_DAY during the
+> whole window from teardown to flow_offload_del()? flow_offload_del() would
+> then clear the bit without another repair. For closed TCP and expired UDP
+> entries, that brings back the bug e5eaac2beb54 fixed.
 > 
-> Two setups hit this:
+> Could the commit message say that it reverts part of e5eaac2beb54 and
+> depends on 03428ca5cee9?
 > 
->    - A bridge port whose MAC differs from the bridge MAC. This is common in
->      a multi-port bridge, because the bridge takes one port's MAC.
->    - A VLAN device with its own MAC.
+> [ ... ]
 > 
-> In both cases, every packet of an offloaded flow would be PACKET_OTHERHOST
-> at this hook. It would return NF_ACCEPT before nf_flow_offload_lookup().
-> The IPv4 stack later sees PACKET_HOST and forwards these packets.
+>> diff --git a/net/netfilter/nf_flow_table_core_test.c b/net/netfilter/nf_flow_table_core_test.c
+>> new file mode 100644
+>> index 0000000000000..378a1c60b50b9
+>> --- /dev/null
+>> +++ b/net/netfilter/nf_flow_table_core_test.c
+>> @@ -0,0 +1,86 @@
 > 
-> Given that, does the patch keep "the IPv4 input path's forwarding
-> decision", as the commit message says? Would it work better to compare
-> h_dest with the address the flow expects (for example after the tuple
-> lookup) rather than test the lower device's raw pkt_type?
+> [ ... ]
 > 
->> +
->>   	if (!nf_flow_skb_encap_protocol(&ctx, skb))
->>   		return NF_ACCEPT;
->>   
+>> +	flow_offload_teardown(flow);
+>> +	/* nft_flow_offload must not admit another owner during async DESTROY. */
+>> +	KUNIT_EXPECT_TRUE(test, test_and_set_bit(IPS_OFFLOAD_BIT, &ct->status));
+>> +	flow_offload_teardown(flow);
+>> +	KUNIT_EXPECT_TRUE(test, test_bit(IPS_OFFLOAD_BIT, &ct->status));
+>> +	/* Model completed hardware deletion before the GC removes the hashes. */
+>> +	clear_bit(IPS_HW_OFFLOAD_BIT, &ct->status);
+>> +	set_bit(NF_FLOW_HW_DEAD, &flow->flags);
+>> +	rcu_read_lock();
+>> +	flow_offload_del(&table, flow);
 > 
-> [Severity: High]
-> Is the same bypass still open for IPv6? In the same file,
-> nf_flow_offload_ipv6_hook() has no pkt_type check. It goes straight to the
-> lookup, forward and nf_flow_queue_xmit6() steps:
+> [Severity: Low]
+> Does this test cover the ordering it describes? The Kconfig help says
+> "Require hash and asynchronous hardware deletion before re-enrolment".
+> However, the only code that makes deletion wait for hardware removal is in
+> nf_flow_offload_gc_step():
 > 
-> net/netfilter/nf_flow_table_ip.c:nf_flow_offload_ipv6_hook() {
->      ...
-> 	if (!nf_flow_skb_encap_protocol(&ctx, skb))
-> 		return NF_ACCEPT;
+> 	if (test_bit(NF_FLOW_HW, &flow->flags)) {
+> 		if (!test_bit(NF_FLOW_HW_DYING, &flow->flags))
+> 			nf_flow_offload_del(flow_table, flow);
+> 		else if (test_bit(NF_FLOW_HW_DEAD, &flow->flags))
+> 			flow_offload_del(flow_table, flow);
 > 
-> 	if (unlikely(ctx.ether_type != htons(ETH_P_IPV6)))
-> 		return NF_ACCEPT;
+> This test sets NF_FLOW_HW_DEAD by hand and calls flow_offload_del()
+> directly, and flow_offload_del() reads neither flag. If the
+> HW_DYING/HW_DEAD gating were removed or broken, neither case would fail.
 > 
-> 	tuplehash = nf_flow_offload_ipv6_lookup(&ctx, flow_table, skb);
->      ...
-> }
+> Both cases also use IPPROTO_ICMP, so flow_offload_fixup_ct() returns
+> immediately. The TCP state and timeout repair at first teardown is never
+> exercised. nf_flow_test_teardown_repeat() only checks that
+> flow_offload_teardown() no longer touches IPS_OFFLOAD_BIT.
 > 
-> Classic IPv6 forwarding drops these frames:
-> 
-> net/ipv6/ip6_output.c:ip6_forward() {
->      ...
-> 	if (skb->pkt_type != PACKET_HOST)
-> 		goto drop;
->      ...
-> }
-> 
-> nf_flow_offload_inet_hook() sends ETH_P_IPV6 to the unpatched hook. With
-> this patch, an inet flowtable would reject non-host frames for IPv4. For
-> IPv6 it would still forward frames sent to an unrelated unicast,
-> broadcast or multicast MAC, as long as the 5-tuple matches an installed
-> flow.
+> Later in the series the Kconfig help is reworded to "Test flowtable
+> ownership during asynchronous hardware deletion", so the gap seems to
+> remain in the final state.
 > 
 
-[High] pkt_type breaks bridge/VLAN offload
+[Medium] extend_ct_timeout() racing with teardown
 
-Agreed. The hook runs on the lower device before vlan_do_receive() and
-br_handle_frame() reclassify skb->pkt_type, so frames sent to a bridge
-or VLAN MAC are PACKET_OTHERHOST at this point and every such flow would
-fall back to the slow path.
+Agreed. With IPS_OFFLOAD kept until flow_offload_del(), the re-test of
+the bit in nf_flow_table_extend_ct_timeout() no longer detects a 
+teardown that already repaired ct->timeout. v2 passes the flow to the 
+helper and checks NF_FLOW_TEARDOWN after sampling ct->timeout (teardown 
+sets the flag before repairing the timeout), before the cmpxchg. A KUnit 
+case covers it.
 
-v2 drops the early pkt_type test. After the flow lookup it compares the
-Ethernet destination with the address the peers of the flow send to,
-i.e. the source MAC recorded for the reverse direction, which is the MAC
-of the upper device for bridge and VLAN paths. If the reverse direction
-carries no MAC, or the device is not Ethernet, it falls back to
-skb->pkt_type, since the hook then runs on the routing device itself.
+[Medium] Reverts part of e5eaac2beb54, depends on 03428ca5cee9
 
-[High] IPv6 not covered
+Agreed. The commit message now says this moves the clear_bit() back to 
+flow_offload_del(), that this is only safe since 03428ca5cee9 removed 
+the IPS_OFFLOAD handling from gc_worker(), and that the patch must not 
+be backported to trees without it.
 
-Agreed. v2 applies the same check in nf_flow_offload_ipv6_hook() and 
-adds a Fixes: tag for the IPv6 flowtable support.
+[Medium] "Hardware deletion is complete"
 
-[Low] Signed-off-by typo
+Agreed on the wording. GC reaches flow_offload_del() once the DESTROY
+work has run (NF_FLOW_HW_DEAD), not once the device is known to have 
+removed the rule, since the DESTROY result is not propagated. v2 words 
+it that way. Making DESTROY failures visible is a separate, pre-existing 
+limitation of the hardware offload code and not addressed here.
 
-Will be fixed in v2.
+[Medium] Refresh queued after DESTROY
+
+The lookup/refresh window in flow_offload_refresh() predates this patch
+and is independent of when IPS_OFFLOAD is released, so I'd rather not
+change it here. I will look at it separately.
+
+[Low] Documentation and KUnit
+
+v2 documents the other effects of the bit remaining set (ctnetlink and
+/proc omit the timeout as well as the TCP state, NAT does not reuse the 
+tuple), makes the retirement test go through nf_flow_offload_gc_step() 
+so the HW_DYING/HW_DEAD gating is covered, and describes in Kconfig only 
+what the tests check. The TCP/UDP timeout repair itself is still not
+covered by them.
+
+Pre-existing issues from the first review
+
+The use-after-free in flow_offload_work_handler() and the missing GRE
+timeout fixup in flow_offload_fixup_ct() are not introduced by this
+patch. I will follow up on them separately.
 
 pw-bot: cr
 -- 
