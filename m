@@ -1,122 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919243;
-	b=HoiK1+cq5DDG4zZUpseb7l5Ujgp+ru2HwHgBg9C0wDZKBd4gb/CtNYo1rb37BcyQ26Mr
-	 oj1eHOTFMFoTSzpRs0Qt/VhBTAAx15dXBQaVwLadYmODhNdb7vfiNsXu9LCzvjDR5cnYY
-	 pfbzlurJxiFWeFk29BtQ0a6EoX6hY3D4V2t+QSJ7LE3BdDABdeHpWILcAOOAJQikLibW7
-	 mksYxFeYO8ynXSyYQMg5PrgoywR5XAsTCbjIhbZ1GFwPztgNrMKJiURIvUNDEM4xE6Ptz
-	 WlBqkis+aUt96iWdT3qKskpo5sel30gKeslRv0d5EbjSz5L0siMr3Iyj0QM3tFSWpNg==
+	t=1794919402;
+	b=RpePDnA4MbpVIVO001nY84w8FpqP1D2DBlJYJGRkXEygtg9o8SfiL5woDNOwcsGHmhwD
+	 vO3Ry61wICPAsqg7IgW9oKLhnLl2Uid9aVE6uvyO5FFUaV2uLPeglGPTl3xHMBuoxdKAh
+	 mWQcBFr66MjOo1vXlq81vNDOVAnL+wqFVU75nLDGe8ppl1/bQ9oNwsS9Q0WkbsrjfbYbA
+	 WKxPmkIsbyRGqHltWSXNpYm303BzODfSM845+qN7X8/LaP5qCBOSNRhR3h9gO0XcuXIYW
+	 dD0O9r4p1nkz+qFbI0xpMXvMIbrXuHQcCjQZ3gJ6swv3Uccn78IFnIfGOiFUjrMqDeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919243;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=/hJZMelRQgMs3hvX0d5jzLkgEBIcpWObh/LbMjm7k2k=;
-	b=wgTLkns1QhAC4Rn+zqyB1qSFCGnQ1nDnL57RGX9pNJcUX0IDejXdE6nwSCX76W28S0v5
-	 FZEuTIpsqMgD5OBzC5NK5WcGx8hfIWzsgh3Xz4UZ0+4LqxEF3sX9sX9piARD1GKQlEsEK
-	 Uu5H3Bf2cSouo5S4zM+7tT/upEPOAIgyhpEkTEGzQy/Y48HniAI03YFIaxCZZkNKBYHSc
-	 nXUpG/loHi9ySYUs5juarfrTsizzWKAc0jzpaZ3D5ZUvuLPdLjww+ycFbUP9Ksl6SRKgE
-	 nV2peOKfhkT1JTknz8ui52Qv4AS4LyjLgHFf6jmnTdvy7h86UyJkQuP3Lzei9l1/IoA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919402;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=S2hD3AssaoCe364ORRgKVIvE0aPgBt8GeEIN9bUh1nk=;
+	b=4SA9F5Z87u+IZUO137Op9LKnYSMGf+wCuzSkwu1TDpPbz7fJSowUGZ5EiSsnY3RJ4ty6
+	 2KYeAAp+d18LVI04b6lnT9uPHE5Iv+cahNNjWC3uIfpKyGRDgGy5dDMX8CyevI8sOoVvP
+	 gO6iowixM6IlxNR5SvUg+Ikd2UdtdqxlXREKE/74kQIbccpiyGwrKc/MD9JzKHgI7nopp
+	 cMYTt9Hu6NkG9mZrXshvnv/cevu91XnMbPhOALEEYXZRFLc27319JzVlHl5G5UxzAH1R/
+	 qLGi9CioKZjPpVSfKjspXhivEwRk7btS3XkVFrAvi7LfkxyoIxcIFV9yZTTKKiKY2WA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UOVkw0Sy;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XcJGzxAA;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50CB60A3809
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 12:40:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C50CB60A3809
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3226606A32A;
+	Tue, 17 Nov 2026 12:43:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UOVkw0Sy
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a210470b49so38111785e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 04:40:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794919239; x=1795524039; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/hJZMelRQgMs3hvX0d5jzLkgEBIcpWObh/LbMjm7k2k=;
-        b=UOVkw0SyPDLD/epFvKHLOAVZRGvDnSbbHHbYs5/HX+XLzgrwQKU/HN108YvkwCsgHr
-         nFFC/N739NBJ5PbY+yJEPP2+TucolSV/Fflnso0xCPPblSfyWjKml38YKk2gPOEVPGJt
-         DkVnrpNCr9iVPexkuqxaSP2sIXftOsAgMX845ql+tf7YaHV1d0aoNNaGPjSfIReoBSIp
-         7xa2kLL9Z5+od3zMXYLI860WVIgndWIGxxHllY+gOG/i7Z+AbG2FcR/w6sN359s0ySQA
-         6qju0QM+iCi/RZWgmrSYA1jn0ei2MQbxUxGvQ6ErvpAjqICXQjYEfS2Mem/SCUKH2skf
-         Zldg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794919239; x=1795524039;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/hJZMelRQgMs3hvX0d5jzLkgEBIcpWObh/LbMjm7k2k=;
-        b=PdflJZPhYH6Yu2lWEtr3FdBbMKWjpV8sBrOZ3BNyInDMXvMafp7kDb1L1448D61MR8
-         XWw4cKbyu7T7VF1EfIZkwY8D2NZUdQIK/zG6o1OXFHYb3B7bAUDvo2UtQEpXaYgNolSs
-         ecMPAYXITMyz8Pxt6K7Y2qS0caLw//GaS4dJxZBmvtrf5WrLodNg8Cx7NWaRLPP485DV
-         kDnlO8hus5blXoTfZPYZXWJl+8Q5i7wBDKL/DsG0DDE17fKh8gcr/ihrHE/axKa82RvO
-         kJPkDYWeUNFI9q3FwmCbsdUASF1X6SA2+S6FhCqYxhv0miI1IBs65FxWGgyT7x5WTscB
-         TMOA==
-X-Forwarded-Encrypted: i=1; AL+hErEm+e8y00OIcgvxPcMSxnPB0ZyvYrlj008YTKYfIqmic4pDpU15k5vnTjsE6EP1dHcF+1dCYvLaAbY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+elYlamx9Hsn8O2RLS8qfTUoxyxvxKoAq7X0Q8KJZ05KSWTM4O
-	FCktF2hgx68P2q047tHj9+cFN4w7CVKPgFVpMGm8agq3guAOQDoERZwH
-X-Gm-Gg: AYBFou3Ib7H/7jugv+nSjNruR2TDGy0bO2MXrA91gDJCkO74tTh+Mv0qjy7n3s30fp1
-	briQ6CR75rMFIa5t8ueeO0e91sL2jQwWSGqtQWtN/WIZjkHIrfQUMQRemKQQQOq9fhQzlb5Oioi
-	DbVLD3vz35hrEHQPip3hqhwC0HV9N+Aq7ePkOh3WeeFTewql+TAyWQMBQDMzpzF2mtov4vtdtuu
-	1z+YDsuKvfMiMpXjx3U9n87jEvcADZytVDog9nYugKH96gfVlTQJQcJ2z+kO4AQS7GPWqJ9liie
-	1sjiNAHUWY/N20q2uY2m+ZcRzTirKP1YDvszNvzX52dgsRtmN+megVXMbEisR+L6paHlqFg8ap8
-	G210hBdpS+T6vB+ISybxManI1h6GQz+O8zrtXMwG4GdanWM+4zcisHCpP9UITVTzrPD6pAGHP9J
-	gq1PAD8USZ3UGXXrirZBnQybUcGwkXiCQ/X/MsXniH0hmH4MxqvrRlpRPDNBzuMQA5gyHCV3vyE
-	oRevcyD9snxPXGx0OALcvUsjlq6fV0t7LWpuEDiB9tfYzdB0hCjLxzotmHZp25TyqrNnNy5gJzu
-	t9jhM0fuP7pilEbkiooQUcCfcNuqD3hkHoJI/HdGMXR+GspZcdyOVrfly6i7yvaFCWlGuPRLClk
-	eXyQu6vuaRCArHuwHWYFrtOy8KNuz5sU5Iw==
-X-Received: by 2002:a05:600c:3551:b0:4a1:992f:d0e7 with SMTP id 5b1f17b1804b1-4bb55a99d21mr298675325e9.16.1794919238852;
-        Tue, 17 Nov 2026 04:40:38 -0800 (PST)
-Received: from Ansuel-XPS24.localdomain (93-34-92-103.ip49.fastwebnet.it. [93.34.92.103])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4bb78386902sm73367065e9.1.2026.11.17.04.40.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 04:40:38 -0800 (PST)
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	llvm@lists.linux.dev
-Cc: Zhengping Zhang <zhengping.zhang@airoha.com>
-Subject: [PATCH net-next v22 15/15] net: airoha: add phylink support
-Date: Tue, 17 Nov 2026 13:39:55 +0100
-Message-ID: <20261117123956.11981-16-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261117123956.11981-1-ansuelsmth@gmail.com>
-References: <20261117123956.11981-1-ansuelsmth@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XcJGzxAA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC7B81F000C4;
+	Tue, 17 Nov 2026 12:43:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794919401;
+	bh=S2hD3AssaoCe364ORRgKVIvE0aPgBt8GeEIN9bUh1nk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XcJGzxAAmq3rBc5y7Cg4SwluQAraUaH9e7eko9SRwCgUJC1ipJ6Ui3tF8xfNJKQuY
+	 JXjG7xKQc6DltAyisTBAR1/6WQkB5Ta1KkzWLy+xa9lbE0+YDT2bVa2V1Y1Cv5GcVa
+	 xUws9dVQ/kkkIE0CyMTDo9Hk1J95Yz9auOfEkFALunH8bpzYRSzVnOGi6D69F4JEOA
+	 UIyW8JI2TNXz4cqcjS5Ti0p72SOL9T/LV+OguM+cW8/fi1vmUyKsfOI8/jGN+U4l2X
+	 yFj9dSgOODHdGoGOcO+sod38YRlcSWclTs9zukx7kUIM+PAngG6Npveha+9qUg1aLs
+	 BLTO+PVuuXU9w==
+Date: Tue, 17 Nov 2026 12:43:15 +0000
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Sudeep Holla <sudeep.holla@kernel.org>, arm-scmi@vger.kernel.org,
+	linux-doc@vger.kernel.org, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	d-gole@ti.com, jonathan.cameron@oss.qualcomm.com,
+	elif.topuz@arm.com, lukasz.luba@arm.com, philip.radford@arm.com,
+	david@kernel.org, souvik.chakravarty@arm.com, leitao@kernel.org,
+	kas@kernel.org, puranjay@kernel.org, usama.arif@linux.dev,
+	kernel-team@meta.com
+Subject: Re: [PATCH v15 00/35] Introduce SCMI Telemetry support
+Message-ID: <20261117-enchanted-neat-donkey-8393a9@sudeepholla>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -126,376 +64,219 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109091221.2532706-1-cristian.marussi@arm.com>
 
-Add phylink support for each GDM port. For GDM1 add the internal interface
-mode as the only supported mode. For GDM2/3/4 add the required
-configuration of the PCS to make the external PHY or attached SFP cage
-work.
+On Mon, Nov 09, 2026 at 09:11:46AM +0000, Cristian Marussi wrote:
+> Hi all,
+> 
+> [TLDR Summary]
+>  [V15 highlights]
+>  - general cleanup and hardening driven by reviews
+>  - improved TDCF access routines to minimize lost samples under load
+>  - completed ABI docs
+> 
+>  [V16 TODO]
+>   - address any remaining V15 outstanding Sashiko/reviewers issues
+> 
+> The upcoming SCMI v4.0 specification [0] introduces a new SCMI protocol
+> dedicated to System Telemetry.
+> 
+> In a nutshell, the SCMI Telemetry protocol allows an agent to discover at
+> runtime the set of Telemetry Data Events (DEs) available on a specific
+> platform and provides the means to configure the set of DEs that a user is
+> interested into, while reading them back using the collection method that
+> is deeemed more suitable for the usecase at hand. (...amongst the various
+> possible collection methods allowed by SCMI specification)
+> 
+> Without delving into the gory details of the whole SCMI Telemetry protocol
+> let's just say that the SCMI platform/server firmware advertises a number
+> of Telemetry Data Events, each one identified by a 32bit unique ID, and an
+> SCMI agent/client, like Linux, can discover them and read back at will the
+> associated data value in a number of ways.
+> 
+> Data collection is mainly intended to happen on demand via shared memory
+> areas exposed by the platform firmware, discovered dynamically via SCMI
+> Telemetry and accessed by Linux on-demand, but some DE can also be reported
+> via SCMI Notifications asynchronous messages or via direct dedicated
+> FastChannels (another kind of SCMI memory based access): all of this
+> underlying mechanism is anyway hidden to the user since it is mediated by
+> the kernel driver which will return the proper data value when queried.
+> 
+> Anyway, the set of well-known architected DE IDs defined by the spec is
+> limited to a dozen IDs, which means that the vast majority of DE IDs are
+> customizable per-platform: as a consequence, though, the same ID, say
+> '0x1234', could represent completely different things on different systems.
+> 
+> Precise definitions and semantic of such custom Data Event IDs are out of
+> the scope of the SCMI Telemetry specification and of this implementation:
+> they are supposed to be provided using some kind of JSON-like description
+> file that will have to be consumed by a userspace tool which would be
+> finally in charge of making sense of the set of available DEs.
+> 
+> IOW, in turn, this means that even though the DEs enumerated via SCMI come
+> with some sort of topological and qualitative description provided by the
+> protocol (like unit of measurements, name, topology info etc), kernel-wise
+> we CANNOT be completely sure of "what is what" without being fed-back some
+> sort of information about the DEs by the afore mentioned userspace tool.
+> 
+> For these reasons, currently this series does NOT attempt to register any
+> of these DEs with any of the usual in-kernel subsystems (like HWMON, IIO,
+> PERF etc), simply because we cannot be sure which DE is suitable, or even
+> desirable, for a given subsystem. This also means there are NO in-kernel
+> users of these Telemetry data events as of now.
+> 
+> So, while we do not exclude, for the future, to feed/register some of the
+> discovered DEs to/with some of the above mentioned Kernel subsystems, as
+> of now we have ONLY modeled a custom userspace API to make SCMI Telemetry
+> available to userspace tools.
+> 
+> With V5 we adopted a pure chardev/IOCTL ABI approach, refining the IOCTL
+> based interface already present with the previous FS-based ABI.
+> 
+> INTERFACES
+> 
+> For each discovered SCMI Instance a character device named tlm_<N> is
+> created under /dev/scmi/ subtree.
+> 
+> The IOCTL interface described at 'include/uapi/linux/scmi.h' is made
+> available to enumerate and configure Telemetry resources: Telemetry data
+> can be collected using a few different IOCTls, depending on the required
+> granularity.
+> 
+> Alternatively it is possible to obtain a list of the file descriptors
+> referencing directly the underlying SCMI Telemetry SHMTI memory areas and
+> implement in user space an SCMI Telemetry parser accessing directly the
+> SHMTI, while staying in compliance with the SCMI TDCF format.
+> 
+> NOTE THAT from v3 onwards the firmware interface level NOW supports ONLY
+> the latest SCMI v4.0 specification [0].
+> 
+> Based on V7.4-rc2, tested on an emulated setup and AGI HW.
+> 
+> This series is available also at [1].
+> 
+> If you still reading...any feedback welcome :P
+> 
+> Thanks,
+> Cristian
+> 
+> ---
+> v14 --> v15
+>  - rebased on v7.4-rc2
+>  - [STLM]
+>    + add lazy enumeration
+>    + add des/info cmdline options
+>    + add missing SIGTERM handling
+>  - [SYS/TLM]
+>    + harden/simplify batch helpers
+>    + fix shmti mmap size check to include offset
+>    + simplify session_unsubscribe cleanup on exit/unbind
+>    + added missing kref.h include
+>    + expose TLM EVENTS capabilities ONLY IF CONFIG_EVENTFD
+>    + mmap: improved check to avoid WRITE/EXEC mapping
+>    + reject non zero vm_pgoff
+>    + drop usage of guard(srcu) to avoid races with put_device
+>  - [TLM]
+>    + avoid genration counter reset on TLM RESET
+>    + add an overflow check on NOTIF payload lines parsing
+>    + convert to Linux errno before building notification report
+>    + use better startm/endm initial markers in tdcf_de_payld_get
+>    + trigger resource enumeration also on de_data_read
+>    + skip unitialized FCs on reads and return -EPROTO
+>    + check FC size on enumeration (big enough to hold TS ?)
+>    + introduce localized single DE snapshot on single DE data read
+>    + widen tde->mtx locking in msg_payld_process
+>    + refactor msg_payld_process
+>    + unlink BLK_TS on DE disable
+>    + update linked BLK_TS on enable
+>    + update TDE location ONLY after successfull linked lines processing
+>    + trigger resource enumeration on state_get
+>    + trigger resource enumeration on colletion configure only for groups
+>    + widen tde->mtx locking section on state_set
+>    + refactor UUID/BLK_TS lines processing in enable
+>    + introduce BLK_TS localized snapshot during enable
+>    + check line type at de_offs
+>    + sanitize requested mode on collection conf
+>    + use snapshots to collect UUIDs during full scans
+>    + stop tracking UUIDs lines singularly (useless overhead)
+>    + use UUIDs line hashing for lookup
+>    + use snapshots to track and collect BLK_TS during full scan bulk reads
+>    + account for tstamped TDE during discovery
+>    + correct SHMTI overflow off-by-one
+>    + rework TDE cache hit/miss logic
+>    + introduce snapshots on full scan reads
+>    + validate DE location also on SCAN_UPDATE
+>    + fix TDCF prologue/epilogue endianity struct definitions
+>    + rework SHMTI initialization and allocation
+>    + add snapshot suppport data structures
+>    + added alignment checks on SHMTII length size
+>    + fixed error string formatting
+>    + warn if less than expected SHMTIs are enumerated
+>    + improve memory area sanity checks
+>    + added missing initialization of intrvs->grp_id
+>    + bailout from group initialization when NO DEs were found
+>    + better handling of error path on groups init
+>    + drop usage of devres for FC iomapping
+>    + trigger full enumeration of DE lookups
+>    + new IS_TDE_TS_ macro helpers
+>    + add a dedicated scmi_telemetry_free_tdes_add helper
+>    + dropping needless __must_check
+>    + flag as fully enumerated only when ALL declared des were found
+>    + reworked error path in scmi_allocate_pending_event_handler
+>    + hardened core iterator parsing of multi-part reply
+> 
 
-These needs to be defined in the GDM port node using the pcs-handle
-property.
+You can drop the change log for earlier versions(just last 3 should suffice)
+in the future postings and add links to them instead if anyone is really
+interested to go back. Don't worry about older links now, just do that
+in the future.
 
-Update and provide a .get/set_link_ksettings function that use phylink
-for ethtool OPs now that we fully support phylink.
+[...]
 
-Tested-by: Zhengping Zhang <zhengping.zhang@airoha.com>
-Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
----
- drivers/net/ethernet/airoha/Kconfig       |   2 +
- drivers/net/ethernet/airoha/airoha_eth.c  | 197 +++++++++++++++++++++-
- drivers/net/ethernet/airoha/airoha_eth.h  |   5 +
- drivers/net/ethernet/airoha/airoha_regs.h |  12 ++
- 4 files changed, 213 insertions(+), 3 deletions(-)
+As mentioned in one of the thread, this is quite big series with not
+much feedback on the UABI part apart for Jonathan. So we need to take
+an approach of merging this in smaller parts initially.
 
-diff --git a/drivers/net/ethernet/airoha/Kconfig b/drivers/net/ethernet/airoha/Kconfig
-index 1f6640a15fc9..3c7403870aa8 100644
---- a/drivers/net/ethernet/airoha/Kconfig
-+++ b/drivers/net/ethernet/airoha/Kconfig
-@@ -20,6 +20,8 @@ config NET_AIROHA
- 	depends on NET_DSA || !NET_DSA
- 	select NET_AIROHA_NPU
- 	select PAGE_POOL
-+	select FWNODE_PCS
-+	select PHYLINK
- 	help
- 	  This driver supports the gigabit ethernet MACs in the
- 	  Airoha SoC family.
-diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/ethernet/airoha/airoha_eth.c
-index 044ad0302ef3..e41dfad58b25 100644
---- a/drivers/net/ethernet/airoha/airoha_eth.c
-+++ b/drivers/net/ethernet/airoha/airoha_eth.c
-@@ -6,6 +6,7 @@
- #include <linux/of.h>
- #include <linux/of_net.h>
- #include <linux/of_reserved_mem.h>
-+#include <linux/pcs/pcs.h>
- #include <linux/platform_device.h>
- #include <linux/tcp.h>
- #include <linux/u64_stats_sync.h>
-@@ -2194,10 +2195,18 @@ static int airoha_dev_open(struct net_device *netdev)
- 		return -EBUSY;
- 	}
- 
-+	err = phylink_of_phy_connect(dev->phylink, netdev->dev.of_node, 0);
-+	if (err) {
-+		netdev_err(netdev, "could not attach PHY: %d\n", err);
-+		return err;
-+	}
-+
-+	phylink_start(dev->phylink);
-+
- 	netif_tx_start_all_queues(netdev);
- 	err = airoha_set_vip_for_gdm_port(dev, true);
- 	if (err)
--		return err;
-+		goto err_phy_stop;
- 
- 	if (netdev_uses_dsa(netdev))
- 		airoha_fe_set(qdma->eth, REG_GDM_INGRESS_CFG(port->id),
-@@ -2219,6 +2228,12 @@ static int airoha_dev_open(struct net_device *netdev)
- 		airoha_dev_lro_enable(dev);
- 
- 	return 0;
-+
-+err_phy_stop:
-+	phylink_stop(dev->phylink);
-+	phylink_disconnect_phy(dev->phylink);
-+
-+	return err;
- }
- 
- static int airoha_dev_stop(struct net_device *netdev)
-@@ -2226,6 +2241,8 @@ static int airoha_dev_stop(struct net_device *netdev)
- 	struct airoha_gdm_dev *dev = netdev_priv(netdev);
- 	struct airoha_gdm_port *port = dev->port;
- 
-+	phylink_stop(dev->phylink);
-+
- 	netif_tx_disable(netdev);
- 	airoha_set_vip_for_gdm_port(dev, false);
- 
-@@ -2239,6 +2256,8 @@ static int airoha_dev_stop(struct net_device *netdev)
- 	if (netdev->features & NETIF_F_LRO)
- 		airoha_dev_lro_disable(dev);
- 
-+	phylink_disconnect_phy(dev->phylink);
-+
- 	return 0;
- }
- 
-@@ -2829,6 +2848,24 @@ airoha_ethtool_get_rmon_stats(struct net_device *netdev,
- 	} while (u64_stats_fetch_retry(&dev->stats.syncp, start));
- }
- 
-+static int
-+airoha_ethtool_get_link_ksettings(struct net_device *netdev,
-+				  struct ethtool_link_ksettings *cmd)
-+{
-+	struct airoha_gdm_dev *dev = netdev_priv(netdev);
-+
-+	return phylink_ethtool_ksettings_get(dev->phylink, cmd);
-+}
-+
-+static int
-+airoha_ethtool_set_link_ksettings(struct net_device *netdev,
-+				  const struct ethtool_link_ksettings *cmd)
-+{
-+	struct airoha_gdm_dev *dev = netdev_priv(netdev);
-+
-+	return phylink_ethtool_ksettings_set(dev->phylink, cmd);
-+}
-+
- static int airoha_qdma_set_chan_tx_sched(struct net_device *netdev,
- 					 int channel, enum tx_sched_mode mode,
- 					 const u16 *weights, u8 n_weights)
-@@ -3696,7 +3733,8 @@ static const struct ethtool_ops airoha_ethtool_ops = {
- 	.get_drvinfo		= airoha_ethtool_get_drvinfo,
- 	.get_eth_mac_stats      = airoha_ethtool_get_mac_stats,
- 	.get_rmon_stats		= airoha_ethtool_get_rmon_stats,
--	.get_link_ksettings	= phy_ethtool_get_link_ksettings,
-+	.get_link_ksettings	= airoha_ethtool_get_link_ksettings,
-+	.set_link_ksettings	= airoha_ethtool_set_link_ksettings,
- 	.get_link		= ethtool_op_get_link,
- };
- 
-@@ -3752,6 +3790,155 @@ bool airoha_is_valid_gdm_dev(struct airoha_eth *eth,
- 	return false;
- }
- 
-+/* Nothing to do in MAC, everything is handled in PCS */
-+static void airoha_mac_config(struct phylink_config *config, unsigned int mode,
-+			      const struct phylink_link_state *state)
-+{
-+}
-+
-+static void airoha_mac_link_up(struct phylink_config *config, struct phy_device *phy,
-+			       unsigned int mode, phy_interface_t interface,
-+			       int speed, int duplex, bool tx_pause, bool rx_pause)
-+{
-+	struct airoha_gdm_dev *dev = container_of(config, struct airoha_gdm_dev,
-+						  phylink_config);
-+	struct airoha_gdm_port *port = dev->port;
-+	struct airoha_eth *eth = dev->eth;
-+	u32 frag_size_tx, frag_size_rx;
-+
-+	/* TX/RX frag is configured only for GDM4 */
-+	if (port->id != AIROHA_GDM4_IDX)
-+		return;
-+
-+	switch (speed) {
-+	case SPEED_10000:
-+	case SPEED_5000:
-+		frag_size_tx = 8;
-+		frag_size_rx = 8;
-+		break;
-+	case SPEED_2500:
-+		frag_size_tx = 2;
-+		frag_size_rx = 1;
-+		break;
-+	default:
-+		frag_size_tx = 1;
-+		frag_size_rx = 0;
-+		break;
-+	}
-+
-+	mutex_lock(&port->link_lock);
-+
-+	/* Configure TX/RX frag based on speed */
-+	if (dev->nbq == 1) {
-+		airoha_fe_rmw(eth, REG_FE_GDM4_TMBI_FRAG,
-+			      GDM4_SGMII1_TX_FRAG_SIZE_MASK,
-+			      FIELD_PREP(GDM4_SGMII1_TX_FRAG_SIZE_MASK,
-+					 frag_size_tx));
-+
-+		airoha_fe_rmw(eth, REG_FE_GDM4_RMBI_FRAG,
-+			      GDM4_SGMII1_RX_FRAG_SIZE_MASK,
-+			      FIELD_PREP(GDM4_SGMII1_RX_FRAG_SIZE_MASK,
-+					 frag_size_rx));
-+	} else {
-+		airoha_fe_rmw(eth, REG_FE_GDM4_TMBI_FRAG,
-+			      GDM4_SGMII0_TX_FRAG_SIZE_MASK,
-+			      FIELD_PREP(GDM4_SGMII0_TX_FRAG_SIZE_MASK,
-+					 frag_size_tx));
-+
-+		airoha_fe_rmw(eth, REG_FE_GDM4_RMBI_FRAG,
-+			      GDM4_SGMII0_RX_FRAG_SIZE_MASK,
-+			      FIELD_PREP(GDM4_SGMII0_RX_FRAG_SIZE_MASK,
-+					 frag_size_rx));
-+	}
-+
-+	mutex_unlock(&port->link_lock);
-+}
-+
-+/* Nothing to do in MAC, everything is handled in PCS */
-+static void airoha_mac_link_down(struct phylink_config *config, unsigned int mode,
-+				 phy_interface_t interface)
-+{
-+}
-+
-+static const struct phylink_mac_ops airoha_phylink_ops = {
-+	.mac_config = airoha_mac_config,
-+	.mac_link_up = airoha_mac_link_up,
-+	.mac_link_down = airoha_mac_link_down,
-+};
-+
-+static int airoha_fill_available_pcs(struct phylink_config *config,
-+				     struct phylink_pcs **available_pcs,
-+				     unsigned int num_possible_pcs)
-+{
-+	struct device *dev = config->dev;
-+
-+	return fwnode_phylink_pcs_parse(dev_fwnode(dev), available_pcs,
-+					num_possible_pcs);
-+}
-+
-+static int airoha_setup_phylink(struct net_device *netdev)
-+{
-+	struct airoha_gdm_dev *dev = netdev_priv(netdev);
-+	struct device_node *np = netdev->dev.of_node;
-+	struct airoha_gdm_port *port = dev->port;
-+	struct phylink_config *config;
-+	phy_interface_t phy_mode;
-+	struct phylink *phylink;
-+	int err;
-+
-+	err = of_get_phy_mode(np, &phy_mode);
-+	if (err) {
-+		dev_err(&netdev->dev, "incorrect phy-mode\n");
-+		return err;
-+	}
-+
-+	config = &dev->phylink_config;
-+	config->dev = &netdev->dev;
-+	config->type = PHYLINK_NETDEV;
-+
-+	/*
-+	 * GDM1 only supports internal for Embedded Switch
-+	 * and doesn't require a PCS.
-+	 */
-+	if (port->id == AIROHA_GDM1_IDX) {
-+		config->mac_capabilities = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-+					   MAC_10000FD;
-+
-+		__set_bit(PHY_INTERFACE_MODE_INTERNAL,
-+			  config->supported_interfaces);
-+	} else {
-+		config->mac_capabilities = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-+					   MAC_10 | MAC_100 | MAC_1000 |
-+					   MAC_2500FD | MAC_5000FD | MAC_10000FD;
-+
-+		config->num_possible_pcs = fwnode_phylink_pcs_count(dev_fwnode(config->dev));
-+		config->fill_available_pcs = airoha_fill_available_pcs;
-+
-+		__set_bit(PHY_INTERFACE_MODE_SGMII,
-+			  config->supported_interfaces);
-+		__set_bit(PHY_INTERFACE_MODE_1000BASEX,
-+			  config->supported_interfaces);
-+		__set_bit(PHY_INTERFACE_MODE_2500BASEX,
-+			  config->supported_interfaces);
-+		__set_bit(PHY_INTERFACE_MODE_10GBASER,
-+			  config->supported_interfaces);
-+		__set_bit(PHY_INTERFACE_MODE_USXGMII,
-+			  config->supported_interfaces);
-+
-+		phy_interface_copy(config->pcs_interfaces,
-+				   config->supported_interfaces);
-+	}
-+
-+	phylink = phylink_create(config, of_fwnode_handle(np),
-+				 phy_mode, &airoha_phylink_ops);
-+	if (IS_ERR(phylink))
-+		return PTR_ERR(phylink);
-+
-+	dev->phylink = phylink;
-+
-+	return 0;
-+}
-+
- static int airoha_alloc_gdm_device(struct airoha_eth *eth,
- 				   struct airoha_gdm_port *port,
- 				   int nbq, struct device_node *np)
-@@ -3815,7 +4002,7 @@ static int airoha_alloc_gdm_device(struct airoha_eth *eth,
- 	dev->nbq = nbq;
- 	port->devs[index] = dev;
- 
--	return 0;
-+	return airoha_setup_phylink(netdev);
- }
- 
- static int airoha_alloc_gdm_port(struct airoha_eth *eth,
-@@ -3851,6 +4038,7 @@ static int airoha_alloc_gdm_port(struct airoha_eth *eth,
- 
- 	port->id = id;
- 	spin_lock_init(&port->stats_lock);
-+	mutex_init(&port->link_lock);
- 	eth->ports[p] = port;
- 
- 	err = airoha_metadata_dst_alloc(port);
-@@ -4046,6 +4234,8 @@ static int airoha_probe(struct platform_device *pdev)
- 			netdev = netdev_from_priv(dev);
- 			if (netdev->reg_state == NETREG_REGISTERED)
- 				unregister_netdev(netdev);
-+			if (dev->phylink)
-+				phylink_destroy(dev->phylink);
- 			of_node_put(netdev->dev.of_node);
- 		}
- 		airoha_metadata_dst_free(port);
-@@ -4084,6 +4274,7 @@ static void airoha_remove(struct platform_device *pdev)
- 
- 			netdev = netdev_from_priv(dev);
- 			unregister_netdev(netdev);
-+			phylink_destroy(dev->phylink);
- 			of_node_put(netdev->dev.of_node);
- 		}
- 		airoha_metadata_dst_free(port);
-diff --git a/drivers/net/ethernet/airoha/airoha_eth.h b/drivers/net/ethernet/airoha/airoha_eth.h
-index d270729e22ff..909e75fec279 100644
---- a/drivers/net/ethernet/airoha/airoha_eth.h
-+++ b/drivers/net/ethernet/airoha/airoha_eth.h
-@@ -612,6 +612,9 @@ struct airoha_gdm_dev {
- 	 * QDMA migration.
- 	 */
- 	spinlock_t txq_lock[AIROHA_NUM_NETDEV_TX_RINGS];
-+
-+	struct phylink *phylink;
-+	struct phylink_config phylink_config;
- };
- 
- struct airoha_gdm_port {
-@@ -621,6 +624,8 @@ struct airoha_gdm_port {
- 
- 	/* protect concurrent hw_stats accesses */
- 	spinlock_t stats_lock;
-+	/* protect concurrent GDM4 register access */
-+	struct mutex link_lock;
- 
- 	struct metadata_dst *dsa_meta[AIROHA_MAX_DSA_PORTS];
- };
-diff --git a/drivers/net/ethernet/airoha/airoha_regs.h b/drivers/net/ethernet/airoha/airoha_regs.h
-index 07dd04859fde..94d53d4c3ab7 100644
---- a/drivers/net/ethernet/airoha/airoha_regs.h
-+++ b/drivers/net/ethernet/airoha/airoha_regs.h
-@@ -371,6 +371,18 @@
- #define IP_FRAGMENT_PORT_MASK		GENMASK(8, 5)
- #define IP_FRAGMENT_NBQ_MASK		GENMASK(4, 0)
- 
-+#define REG_FE_GDM4_TMBI_FRAG		0x2028
-+#define GDM4_SGMII1_TX_WEIGHT_MASK	GENMASK(31, 26)
-+#define GDM4_SGMII1_TX_FRAG_SIZE_MASK	GENMASK(25, 16)
-+#define GDM4_SGMII0_TX_WEIGHT_MASK	GENMASK(15, 10)
-+#define GDM4_SGMII0_TX_FRAG_SIZE_MASK	GENMASK(9, 0)
-+
-+#define REG_FE_GDM4_RMBI_FRAG		0x202c
-+#define GDM4_SGMII1_RX_WEIGHT_MASK	GENMASK(31, 26)
-+#define GDM4_SGMII1_RX_FRAG_SIZE_MASK	GENMASK(25, 16)
-+#define GDM4_SGMII0_RX_WEIGHT_MASK	GENMASK(15, 10)
-+#define GDM4_SGMII0_RX_FRAG_SIZE_MASK	GENMASK(9, 0)
-+
- #define REG_MC_VLAN_EN			0x2100
- #define MC_VLAN_EN_MASK			BIT(0)
- 
+> Cristian Marussi (34):
+>   firmware: arm_scmi: Harden iterators state parsing
+
+The above looks good.
+
+>   firmware: arm_scmi: Add new SCMIv4.0 error codes definitions
+>   firmware: arm_scmi: Introduce a dedicated SCMI Errors header
+
+As pointed out, better to swap the order of above 2.
+
+>   firmware: arm_scmi: Allow registration of unknown-size events/reports
+>   firmware: arm_scmi: Refactor __scmi_event_handler_get_ops helper
+>   firmware: arm_scmi: Introduce protocol instance notifiers
+
+All the above 3 refactor the code, so better to fix the Sashiko reported
+bugs around them before go for such additions/refactoring IMO.
+
+>   dt-bindings: firmware: arm,scmi: Add support for telemetry protocol
+>   include: trace: Add Telemetry trace events
+>   firmware: arm_scmi: Add Telemetry basic attributes enumeration
+>   firmware: arm_scmi: Add Telemetry resources enumeration
+>   firmware: arm_scmi: Add Telemetry groups initialization
+>   firmware: arm_scmi: Add Telemetry update intervals enumeration
+>   firmware: arm_scmi: Add Telemetry SHMTI areas enumeration
+>   firmware: arm_scmi: Add Telemetry TDCF areas parsing support
+>   firmware: arm_scmi: Add Telemetry TDCF parsing for BLK_TS lines
+>   firmware: arm_scmi: Add Telemetry TDCF parsing for UUID lines
+>   firmware: arm_scmi: Add Telemetry configuration operations
+>   firmware: arm_scmi: Add Telemetry DataEvent read capabilities
+>   firmware: arm_scmi: Add Telemetry reset logic
+>   firmware: arm_scmi: Add Telemetry notification support
+>   firmware: arm_scmi: Add Telemetry boot-on support
+>   firmware: arm-scmi: Add Telemetry generic event support
+>   firmware: arm_scmi: Add Telemetry generation counter event
+
+I am thinking of initially merging upto the above commit initially so that
+no user ABI is established. I haven't done the thorough review yet.
+
 -- 
-2.55.0
-
+Regards,
+Sudeep
