@@ -1,99 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794878622;
-	b=JANKLik8wMNkvy+nwJE22msNe666KdvvT1oI/UfF8Rl/vwzCJWUF7ANQg+oc/HsYSu0t
-	 zZqNuy67fKYifqiVHfrYMGCrORLDDO2sZgpDb7qmRrZG8vaT4FoHvObSr+p/VAe68v6vb
-	 YeoFcngYMiPcrKsKwvhQFU6VIZ7bxf/IO6XhTL+bEaWNRz06vZczPFiPvcCupbOIOSxj2
-	 SakmiyaprnlvfwfeZeyNJefN+RpXwtiwEQfL/y427lpkHIMt9yz8OpHHzWGtvYagFiG5o
-	 ADwnAMkRtDncWfVdG2U++b2K+GQm/VU8oKCUce5XR1axwUXJlzP4tUl7xURPk2XDaLg==
+	t=1794879268;
+	b=lzra6FnDojehyynoQFwcfoKIgq444UmZ71ivjmzKQLAkq7z3UaEJQqXoPcZkE/NvniA4
+	 kGnAHgDerZBabNZTsaSkZbf94hOdI5PUf/U3PdyujD9Tt+HdrOfs/OHt7kOXe4TZyX/0/
+	 SAkvKFZtWbFOpHe9S+Z6lldyM8vsetef0KbM1logxOR+z3pSj4uKwS9GwsaRIMW+vmTN7
+	 PPh4fvXDA9D+Z+PeKgEVQSWrfVGn6y5ehnMwjrro9xgVtduc39g3EbiToAIIT2vGGivIN
+	 UW0eu+pzjjtvLXLpmDjOIm+aR0i1yyoq6R1CUxf6Qwws1DfDf/WTL8nYagASHJCh6AQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794878622;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Date:From:To:
-	 CC:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Originating-IP:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Virus-Version;
-	bh=6RCPXUXfIxo+y2UnkG/bhthPFYIMWnxtExJ5BNdZHk0=;
-	b=3SDSEoEG5x+LeCQmaZEQiaowtI08g3v7pTL/zchTp77Or2iTRLQKWhEbMpi2BST65tyO
-	 UCqCt8hsdJLZFH8mBVw28fzmRFb71JRlaN8XrVnI0J85LCKGg8uYdveQ+2eEnOtRx/Fci
-	 ED7HO3yx5YVleVmW4j3nj/MmB+HF/Z2xw0SuOC1qOQt+4x+giz/gDQS0cjSoyJPA1phiZ
-	 dVQ+DPdzKJxw0DXL91oHY7Ge8PUSuzKqDgXan8EanDR4fIwWXmpxcitBaHn+SD1x1JwYC
-	 OEvFQZux/hJWJGbMGh+Z1T3EjXOuYaHGnwn0c6DYnUuygGEE6Pvkomishl2+yXqui7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794879268;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=6NFvMXt49n0aMhQ+tPrYzjCU429v93v4p/pcosygBN4=;
+	b=wpEI65G9uhSnvtV/Cxgu38XaXexdt0UXL+6ysBdyaqctBZq08MJU40G1N0cg5g2eAcls
+	 FlQ3EhNv3Wjn8RmFdBIhjQLcNgvjNnukCJBR77bEXNunUwm0uWDEgIzikZj711RJ+9BQ+
+	 BzQQ5Sz7kfDwpkT+4V1sdMsY8tjGVmZKscMnuImwQL7BacOjQ0s7ekEnTjwpvndWqyh6E
+	 Bug0qsFT8jDU68/8U2UJ5IXoty6bNbMmU1hmV1QXQsBxmR0dMiJteGIbThZTgNG8ZuIVQ
+	 9TSqJxKIcuZcjRSVcy8Szd4LXsSQsQ8Px7vS5qpAdRX9g1bnNrOLVqCNneOp/syyzFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=meta.com;
-	spf=pass smtp.mailfrom=meta.com;
-	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=SDswVXvu;
-	arc=none smtp.remote-ip=67.231.145.42
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TXyO5odc;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8854D606A31C;
-	Tue, 17 Nov 2026 01:23:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8854D606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB72606A329
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 01:34:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=SDswVXvu
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AGNOqqu1978717;
-	Mon, 16 Nov 2026 17:23:12 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pps82601-s2048-2026-q3; bh=6RCPXUXfIxo
-	+y2UnkG/bhthPFYIMWnxtExJ5BNdZHk0=; b=SDswVXvuAUI8muhYNcUukufeX/8
-	D0GSKX1dQ5mDP6hG9AJk7bmtYcsUtAXz/xqd+GyP3Czju46I9wy6c81vEzz3d+nr
-	3zzWn80O8v8Z//Bt3Pq6YemXWZ0MwbwZYeU/1VhOf3fZQlUgHarY5yfEBh1btC+q
-	FAEuQzvBZTF0bygBuW5y94wMAvw4GNVIlqD8p/O8obf0jZlUjDaNT1qoH5z5NDad
-	udafcX4jcAM+RT8yaHcFlFBzwJmYcfgYnJq+YvvLZN9xNojTZL3F/iVpC9mftDU9
-	15DSOQ7bujgsnTXW9BMI8AYcDHAkQNQ/vVw+bpDl3x68XTwDzvSFxFRHscA==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hxku5xbr2-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 16 Nov 2026 17:23:12 -0800 (PST)
-Received: from localhost (2620:10d:c085:208::7cb7) by mail.thefacebook.com
- (2620:10d:c08b:78::c78f) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Tue, 17 Nov
- 2026 01:23:11 +0000
-Date: Mon, 16 Nov 2026 17:23:10 -0800
-From: Bobby Eshleman <bobbyeshleman@meta.com>
-To: Michal Luczaj <mhal@rbox.co>
-CC: Stefano Garzarella <sgarzare@redhat.com>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>,
-        Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Stefan Hajnoczi
-	<stefanha@redhat.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang
-	<jasowangio@gmail.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        Eugenio
- =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-        Shuah Khan
-	<shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Donald Hunter
-	<donald.hunter@gmail.com>,
-        Eric Dumazet <edumazet@kernel.org>,
-        George Zhang
-	<georgezhang@vmware.com>, Andy King <acking@vmware.com>,
-        Dmitry Torokhov
-	<dtor@vmware.com>, <virtualization@lists.linux.dev>,
-        <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>, <sargun@sargun.me>,
-        <jlinbox@meta.com>
-Subject: Re: [PATCH net-next v6 1/8] vsock: only undo SS_CONNECTING when
- connect() fails
-Message-ID: <avusfpnZuzMV3WxB@devvm29614.prn0.facebook.com>
-References: <20261113-vsock-guest-ns-v6-0-3737ce4673c0@meta.com>
- <20261113-vsock-guest-ns-v6-1-3737ce4673c0@meta.com>
- <6bdfe6f7-aba8-4fb8-ac24-62fe020e1422@rbox.co>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TXyO5odc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E96231F000C8
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 01:34:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794879267;
+	bh=6NFvMXt49n0aMhQ+tPrYzjCU429v93v4p/pcosygBN4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=TXyO5odcsAp87+zayuxVviAd5mVihReFEhyekjHo/UnS0k0+VPdXzGwVjFDNLN6Bn
+	 RYzRcIVIS5WhSh6hOqI1qO2BkY4cGsMpYm3/tQXY+wgtxDW/wAAXeuwV2q+UHg3Dsm
+	 20RUhPHB/6HK6gLQys1EbpJfGQfrJx8snGqz4ZqRKMLUAboBZqQpDE54/1RWytJ9hY
+	 BvWnqm+BffC8Wnnl+NZ590ly+bia+USZKVL1G6kP48uHNG2UOxxXJufuDp+AJxOkuJ
+	 9usGjjazXJR4mz0y81QovlVKWhjZLxkXYFBNYlP50Ts/QdX2lCfa0OfkTFZidtGGMp
+	 H6HT8lMBi4g3Q==
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6b6f42095bcso5768803a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 17:34:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGFj/bS/nCiIu9ou0/DYIeP5aPrzrsLqHLTUG4xSHoA+Nw7yxvg2tKStkhofS55P+GxjXPZVFtsnMI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/4WWKH3wv8FIuWLzJzrh1FfaXQI4HToFZ8Su2C5MN1BT9ih/A6
+	E18pmgp0wDe4tJTWOzx04CK74ylHTkXGxDcka1KUUZs/SZSzlt2JD0xbhpq15c3LCDnax96EHuv
+	gWQr2U36tcvgOi8AcGB8xbauznJ+jQoM=
+X-Received: by 2002:a17:906:c14d:b0:c50:5cd7:2901 with SMTP id
+ a640c23a62f3a-c509640bfa8mr990170866b.23.1794879266573; Mon, 16 Nov 2026
+ 17:34:26 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,75 +59,92 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <6bdfe6f7-aba8-4fb8-ac24-62fe020e1422@rbox.co>
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE3MDAwNCBTYWx0ZWRfXw+sA7WyR5fAw
- TXovZZcIazZICOswjUfauPnRZHKFDpY4OamNG3a9JpkvewckKGNTvzKwEdnOguhJtqIYtYFUORE
- Oaf8zJKi9lKXWEz7SKlSSR6GOGUZ/9s=
-X-Proofpoint-ORIG-GUID: KMXLMYJs4-5j-kqvUpTGAlw7R4_j3K2w
-X-Proofpoint-GUID: KMXLMYJs4-5j-kqvUpTGAlw7R4_j3K2w
-X-Authority-Analysis: v=2.4 cv=SuoFe/O0 c=1 sm=1 tr=0 ts=6afbac80 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=7x6HtfJdh03M6CCDgxCd:22 a=8elwO82fXORLTBIkMd32:22 a=VwQbUJbxAAAA:8
- a=VabnemYjAAAA:8 a=LG5T7v2SAAAA:8 a=He0p99DsmHbbqY9DTv8A:9 a=CjuIK1q_8ugA:10
- a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE3MDAwNCBTYWx0ZWRfX7m85Y5zQnTEb
- cMVAlqDIp0L2XulWWy+37PM46rNDD2UY88oV3B2zR4ZtJPzZP+9UGqIVwRIIlZXTvIQx3EiZDC4
- gnkFY9xidHqSP4RoTbA661mzuoizyd7SYwiNmLi1KDMmkzkgvlQ4Kp61rXBcobVCl/zKyBVil60
- 7am3E8oOWIzMZlEajob5IKnlA3kjYWd5+OTUfZg7Wa/QtQBIWSXnfLK7a1ng8uVvNECyQ0aqPDD
- UH6C+hqMkjYARmkePb09z0KEEQ85Tg1J1V/c8BTRcJnODLrf2uy/E5mHretdmt9JQuCEKwf63G+
- 4lCbtvEVGeaZ3Bt2v1anQCC47V5lYoFsR5hPoMxkbtl86hPzsvl7VC9+9h4ir4te1TUs3X5BUNa
- tGwOB75rcksb/sblhi6g3vr6FErZTmmr8tAv5tODQC+Gg5tnvGhAZVQDMsqHhMfWVpDYLdPgNV+
- a7jxS+n385ic9UFqJEQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-16_07,2026-11-16_01,2025-10-01_01
+References: <20261116074849.475815-1-stefan.chulski@broadcom.com>
+ <CAKYAXd9KT=1vLYsnRKxmiM6pLJQNACXuodD8wNQzb8S5apiuRQ@mail.gmail.com> <CA+Fu+LPL7xqpV_vjjjehedOFtuuBqgZHZTSqJ+FgweUpYo2uBw@mail.gmail.com>
+In-Reply-To: <CA+Fu+LPL7xqpV_vjjjehedOFtuuBqgZHZTSqJ+FgweUpYo2uBw@mail.gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 17 Nov 2026 10:34:13 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd--x9UajLQwzRUwxRZ7PFW5T02xyHdSAnThAo326p_kxw@mail.gmail.com>
+X-Gm-Features: AclHuK-kfPqc8Bh37Jzng9-4IO0zn_61dopqd1mYNeZxWXG2ijut7JfpzpvArRM
+Message-ID: <CAKYAXd--x9UajLQwzRUwxRZ7PFW5T02xyHdSAnThAo326p_kxw@mail.gmail.com>
+Subject: Re: [PATCH RFC v1] ksmbd: add use_unbound_wq module parameter for the
+ ksmbd-io workqueue
+To: Stefan Chulski <stefan.chulski@broadcom.com>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, Tom Talpey <tom@talpey.com>, 
+	ChenXiaoSong <chenxiaosong@chenxiaosong.com>, linux-cifs@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Ilya Lifshits <ilya.lifshits@broadcom.com>, Huiwen He <hehuiwen@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 16, 2026 at 12:10:19AM +0100, Michal Luczaj wrote:
-> On 11/14/26 04:14, Bobby Eshleman wrote:
-> > vsock_connect() sleeps with the socket unlocked. Meanwhile the transport
-> > can complete the handshake, setting sock->state to SS_CONNECTED, and then
-> > reset the connection, e.g. in vhost_vsock_reset_orphans(),
-> > virtio_vsock_reset_sock() or vmci_transport_handle_detach(). When
-> > connect() gets the lock back, it finds sk_err set and moves the socket
-> > back to SS_UNCONNECTED. Userspace can then connect() the socket again,
-> > and a connect() to a CID on another transport makes
-> > vsock_assign_transport() release the transport the socket was connected
-> > on.
-> > 
-> > Only move the socket back to SS_UNCONNECTED if it is still
-> > SS_CONNECTING. A socket that got connected stays SS_CONNECTED, and
-> > another connect() fails with -EISCONN.
-> > 
-> > Fixes: d021c344051a ("VSOCK: Introduce VM Sockets")
-> > Suggested-by: Michal Luczaj <mhal@rbox.co>
-> > Link: https://lore.kernel.org/netdev/179447093204.2199510.8895677421994612994@kernel.org/
-> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
-> 
-> Reviewed-by: Michal Luczaj <mhal@rbox.co>
-> 
-> Thanks! To be precise, the Link: above is more of Sashiko's musings on
-> what's wrong with Jerome's (not merged) patch. The patch of yours makes it
-> moot.
-> 
-> I believe the first time lore mentions the issue at hand:
-> Link:
-> https://lore.kernel.org/netdev/20260909-vsock-connect-reset-closing-v1-1-50298b9ccfbf@rbox.co/
-> 
-> And there was at least one report off-list, so:
-> Reported-by: Kyle Zeng <kylebot@openai.com>
-> 
-> BTW, I've noticed Sashiko already commented on this patch. I feel I'm
-> responsible for that wall of text, so I took the liberty to reply. Hope
-> this will help.
-> 
+On Mon, Nov 16, 2026 at 9:52=E2=80=AFPM Stefan Chulski
+<stefan.chulski@broadcom.com> wrote:
+>
+> On Mon, Nov 16, 2026 at 2:10=E2=80=AFPM Namjae Jeon <linkinjeon@kernel.or=
+g> wrote:
+> >
+> > On Mon, Nov 16, 2026 at 4:49=E2=80=AFPM Stefan Chulski
+> > <stefan.chulski@broadcom.com> wrote:
+> > >
+> > > The "ksmbd-io" workqueue has always been per-CPU. Commit 69635d7f4b34
+> > > ("fs: WQ_PERCPU added to alloc_workqueue users") only made that
+> > > default explicit as part of the treewide transition to unbound-by-def=
+ault;
+> > > it was not a ksmbd-specific decision.
+> > >
+> > > Per-CPU work keeps request processing on the CPU that queued it, whic=
+h
+> > > is good for cache locality, but it also runs work on CPUs that were
+> > > isolated from workqueue noise (isolcpus=3D, nohz_full=3D) and prevent=
+s the
+> > > scheduler from placing blocked or long-running workers elsewhere.
+> > > Which behaviour is better depends on the workload and platform.
+> > >
+> > > Add a boolean use_unbound_wq module parameter. It defaults to false, =
+so
+> > > behaviour is unchanged unless it is set; when true, "ksmbd-io" is
+> > > allocated with WQ_UNBOUND instead of WQ_PERCPU. The "ksmbd-break"
+> > > workqueue is already WQ_UNBOUND and is not affected.
+> > >
+> > > Document the parameter in ksmbd.rst.
+> > >
+> > > Signed-off-by: Stefan Chulski <stefan.chulski@broadcom.com>
+> > Hi Stefan,
+> >
+> > Do you have numbers comparing the per-CPU and unbound queues,
+>
+> Yes, on our systems we observed up to an 18% performance improvement
+> when using the unbound workqueue.
+>
+> The primary reason for this improvement is that with the default
+> per-CPU workqueue, ksmbd-io work can sometimes start on a CPU that is
+> already heavily loaded. Because it is bound to that specific CPU, the
+> scheduler cannot move it to a less loaded or idle CPU, leading to
+> bottlenecks. By using WQ_UNBOUND, the scheduler is free to migrate the
+> work to less loaded CPUs, which significantly improves our CPU cycle
+> efficiency.
+>
+> > How does this compare with the earlier following RFC ?
+> >
+> > https://lore.kernel.org/linux-cifs/20261022092514.2590010-1-huiwen.he@l=
+inux.dev/
+> >
+> > Thanks.
+>
+> While both address the underlying scheduling limitations of per-CPU
+> workqueues for ksmbd, my patch introduces the `use_unbound_wq` module
+> parameter rather than changing the behavior unconditionally. Because
+> the optimal behavior (cache locality vs. load balancing) heavily
+> depends on the specific workload and platform, this approach keeps the
+> existing per-CPU behavior as the default while allowing platforms to
+> easily opt-in to the unbound workqueue when it yields better
+> performance.
+Could you provide the benchmark setup and actual results? If
+WQ_UNBOUND generally performs better across representative workloads,
+We could make it the default and provide a module parameter to opt
+into WQ_PERCPU instead.
 
-Got it, will address this. And I think I will actually break this out
-into a separate fix for net instead of net-next.
-
-Yes, I much appreciated you responding in the Sashiko thread! Thanks!
-
-Best,
-Bobby
+Thanks!
+>
+> Thanks,
+> Stefan
