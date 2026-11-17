@@ -1,57 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794916570;
-	b=e8LJvpnHWF/Hbi78ptZHec2mtMAAG+y36Qo4kOvkck7kmSyieIBOWaP0gErrXr2meZsK
-	 wZq70Mdt/6a8Yfg/d7HdL2HQMEe/626x0ZkSUApBwNd8X8KyF6LruXP5+AEPFvN2zVR+1
-	 u9mY0UZjGAF1huudVcTI1zu3HBzb6XcSuGab+Ht955s52nmQxftOOS5BWyyCTy24ngb34
-	 +MKQE/lNMHOKBG3+mR5s4soYw/uky6G6L3mJyHp+fMu1nxlk9bBNxjfyyaeOflG1gr/Ek
-	 01CuBOMCAuLkW2grBpLiv3oyP2E4Ss2g5FaiZ0JXYL40PqPWEQ0fRCMUDDO/mYUGTrA==
+	t=1794916579;
+	b=AjyT+0/t912kKJkHMb5cl7FN4Dpp1sLOcTeCrp7k5JkpwvY1AkurxoESd5txE3vMyQYs
+	 uGFLPlM6iwI8Hg+KFjUlcJDcE1gfIgk54jVUqo5ooZ0A6u1uu1HUfbcZfmBqPl8SMrKyU
+	 HVX8YmzA/0L2jzWehkle/bDd5+D6T4KwJqlPHguy4IMSwRl5WwoTdHb4fdjxXn6R5gUeu
+	 g+K2gAF9cVoXBYCGc+nnQL5ZcNlIcRYh6nu21JVL5xjeuAl7DpGiAOyW9a6gyYbQe+IP8
+	 J0FJY/x81Wbj6aFB8XabJwLOxwcgjeyiHwzrAtBSgWKSEK8yV9kjKr5hKj5YcIPqogA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794916570;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794916579;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
 	 X-Originating-IP:X-CM-SenderInfo;
-	bh=J0LL+hij50AYwqPo+1Ay5jQ5XTYIvpSSc0XtOV1GEmA=;
-	b=M8SiXcN1Y1E8Tb4hk9ssM9NXNXRuKKmmIrdPr7cPGjVMfjARstOikc6nr6rEcP4pDiHI
-	 EOAoa1U/YCCKuZsvTthX453zCn5UDccMqCZKjaO0+6AJbW1I2oB8ScViq7evnECA2DYjB
-	 5hpygerEIejBOSpz0Ph7K7S859zF77H8S0xjZjEDKce9pLHlMpQVQGYdB4o4NrdCwtJQO
-	 Kr6HcIa6ldPMtty2cXu1IJdR8DIa+GfsrVbs+9lkL8/eEyrCU1uxXUVtILZO3icabw0Ih
-	 9Y8A9Uq6FOTGzZVpQ0C7iu+aihu2QK3Js6aWidAQT3u7Cq5KxaMZ7vMi/HeLcMoMMtA==
+	bh=38TZLmmyGViyCrkVlxwNTQqthrsOR8AakMKDuHQcjXM=;
+	b=MGySBwKnkjdawRX6s6EVxajLkxV7YjpQ7PWlXbSo0LvRDEsBCk3BRPCS98ARClWzPIgQ
+	 yFhLvSEnLYlurmGnHCjut7uDbeOoFkAE5jFbERNqkHimr/S3swc3+PY2Naz9AT80KdKw2
+	 dnBJ6+/DFSTkBzJPJ/jtDe8jTn2sBHAl3DJb9lCQ7evjJPkxqK+dXWHBk+x3HJ2QhScRC
+	 aUPCii8jclfQZ1K/L/4+ceLRy90Kf7QQ+ylVgsyxkYufuQs0MP/JAhZeBWWcVsCBiDdbv
+	 2d+l5s2TOePVGq0ylCwuil8VKiqf0mJE6pcf4DYM3CbdR7tc3F6rKlyj1rJzblhpA+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=126.com;
 	spf=pass smtp.mailfrom=126.com;
-	dkim=pass header.d=126.com header.i=@126.com header.a=rsa-sha256 header.s=s110527 header.b=cV1AotUX;
-	arc=none smtp.remote-ip=117.135.210.8
-Received: from m16.mail.126.com (m16.mail.126.com [117.135.210.8])
+	dkim=pass header.d=126.com header.i=@126.com header.a=rsa-sha256 header.s=s110527 header.b=E+dilgtB;
+	arc=none smtp.remote-ip=117.135.210.6
+Received: from m16.mail.126.com (m16.mail.126.com [117.135.210.6])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49BA3606A33B
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 11:56:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49BA3606A33B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA57606A32A
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 11:56:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1EA57606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.a=rsa-sha256 header.s=s110527 header.b=cV1AotUX
+	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.a=rsa-sha256 header.s=s110527 header.b=E+dilgtB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
 	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version:
-	Content-Type; bh=J0LL+hij50AYwqPo+1Ay5jQ5XTYIvpSSc0XtOV1GEmA=;
-	b=cV1AotUXbjNARNLp7zFHIbygkruQFN7fVI03EeP/Qbmy/mUDGdGuPagksVqQb9
-	7hgamXJAeAHpD2ooqutY62odFgsUWXWBwsRNQKH+FYMJsejTrjjT/LeSU3lYgyBO
-	+qfveLqk+hzblqInYg3MTz2VX6H+QYd5MJuKTPAPVVmvE=
+	Content-Type; bh=38TZLmmyGViyCrkVlxwNTQqthrsOR8AakMKDuHQcjXM=;
+	b=E+dilgtBM2o9hD81ey6sxJZhQ/61UyzC+zv8qIXsDl+Lp9v5paT9NMl1aA1fBp
+	7uR2RVs59rhyhxZ73DrgyWLKXqxVGrabXTMwcrNXXPifgulPivXpjg/S3U6hFpl0
+	mTRX1wMV8jmGQE/I6HAxystiNptWBN1yjIN4Pq5dIN61E=
 Received: from peter-desktop.. (unknown [])
-	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wDnj9KxQPxqdB4NDQ--.49363S4;
-	Tue, 17 Nov 2026 19:55:35 +0800 (CST)
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wDnj9KxQPxqdB4NDQ--.49363S6;
+	Tue, 17 Nov 2026 19:55:50 +0800 (CST)
 From: YikunWei <YikunWei@126.com>
 To: alexs@kernel.org
 Cc: si.yanteng@linux.dev,
 	dzm91@hust.edu.cn,
 	linux-doc@vger.kernel.org,
 	Yikun Wei <YikunWei@126.com>
-Subject: [PATCH v2 2/4] docs/zh_CN: Add deprecated translation
-Date: Tue, 17 Nov 2026 19:55:23 +0800
-Message-ID: <20261117115527.27937-3-YikunWei@126.com>
+Subject: [PATCH v2 4/4] docs/zh_CN: Add botching-up-ioctls translation
+Date: Tue, 17 Nov 2026 19:55:25 +0800
+Message-ID: <20261117115527.27937-5-YikunWei@126.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261117115527.27937-1-YikunWei@126.com>
 References: <20261117115527.27937-1-YikunWei@126.com>
@@ -66,412 +66,238 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnj9KxQPxqdB4NDQ--.49363S4
-X-Coremail-Antispam: 1Uf129KBjvAXoW3Cry7Wr1xGr43uF1DAF1kXwb_yoW8WFWxto
-	WIvrs8uw48Wrn8GFWFyrWrGF4UXwn7GF18X3yUuF95u342qa4rZa4fJr4rWFy5WrWYyF47
-	Zry3Jay7J347AFs5n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxU2JPiUUUUU
-X-CM-SenderInfo: p1ln30xzhlqiyswou0bp/xtbBqBwZG2r8QLzilwAA3p
+X-CM-TRANSID:_____wDnj9KxQPxqdB4NDQ--.49363S6
+X-Coremail-Antispam: 1Uf129KBjvJXoW3ury5tFWkAr4DKr13Aw43Jrb_yoWDuw4fpF
+	n3CrySqw18C342k34xWF48GF1UC3WxCay3WF40yryrX3Z5uw40vFZrK3Z5CFyfGryfCFyk
+	XryFvrWFgw1rZr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UN_-PUUUUU=
+X-CM-SenderInfo: p1ln30xzhlqiyswou0bp/xtbBlQcbHWr8QMfHyAAA3K
 
 From: Yikun Wei <YikunWei@126.com>
 
-Translate Documentation/process/deprecated.rst into Chinese.
+Translate Documentation/process/botching-up-ioctls.rst into Chinese.
 
 Update translations/zh_CN/process/index.rst to reference the new
 translation and drop the item from the TODOLIST.
 
 Signed-off-by: Yikun Wei <YikunWei@126.com>
 ---
- .../translations/zh_CN/process/deprecated.rst | 361 ++++++++++++++++++
+ .../zh_CN/process/botching-up-ioctls.rst      | 186 ++++++++++++++++++
  .../translations/zh_CN/process/index.rst      |   2 +-
- 2 files changed, 362 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/process/deprecated.rst
+ 2 files changed, 187 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/process/botching-up-ioctls.rst
 
-diff --git a/Documentation/translations/zh_CN/process/deprecated.rst b/Documentation/translations/zh_CN/process/deprecated.rst
+diff --git a/Documentation/translations/zh_CN/process/botching-up-ioctls.rst b/Documentation/translations/zh_CN/process/botching-up-ioctls.rst
 new file mode 100644
-index 000000000000..1f1f19871481
+index 000000000000..0e8985a9fcb6
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/process/deprecated.rst
-@@ -0,0 +1,361 @@
++++ b/Documentation/translations/zh_CN/process/botching-up-ioctls.rst
+@@ -0,0 +1,186 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/process/deprecated.rst
++:Original: Documentation/process/botching-up-ioctls.rst
 +
 +:翻译:
 +
 + Yikun Wei <YikunWei@126.com>
 +
-+.. _cn_deprecated:
++.. _cn_botching_up_ioctls:
 +
-+=====================================================================
-+已弃用的接口、语言特性、属性与约定
-+=====================================================================
++=================================
++（如何避免）搞砸 ioctl
++=================================
 +
-+在一个理想的世界里，我们可以在单个开发周期内把某个已弃用 API 的所有用法都转换成
-+新 API，并彻底移除旧 API。然而，由于内核规模庞大、维护者层级分明，再加上时机问题，
-+这类转换往往无法一次性完成。这意味着，在旧用法被移除的同时，新的用法可能又悄悄混
-+进内核，结果只是让移除该 API 的工作量越积越多。为了让开发者了解哪些东西已被弃用、
-+以及为什么被弃用，我们整理出这份清单，当有人想把被弃用的东西加进内核时，就可以
-+拿它来作为依据。
++From: https://blog.ffwll.ch/2013/11/botching-up-ioctls.html
 +
-+__deprecated
-+------------
++By: Daniel Vetter, Copyright © 2013 Intel Corporation
 +
-+尽管这个属性在视觉上确实能将一个接口标记为“已弃用”，但它已经不会再在构建过程中
-+产生警告了，原因在于内核长期以来的目标之一就是“零警告构建”，而实际上并没有人在
-+真正着手移除这些被弃用的接口。虽然使用 __deprecated 可以方便地在头文件里标注某个
-+旧接口，但这并不是完整的解决方案。这类接口要么必须被彻底从内核中移除，要么应当被
-+写进本文件，以劝阻他人在将来继续使用它们。
++过去几年里，内核图形领域的开发者们得到一个明确的认识：试图设计一套统一的接口，
++在完全不同的 GPU 上管理执行单元和内存，是徒劳的。所以如今每个驱动都有自己一套
++ioctl 来分配内存、向 GPU 提交任务。这挺好的，因为不再有那种假通用、实际却只用
++一次的蹩脚接口。但明显的缺点是，把事情搞砸的可能性大大增加了。
 +
-+BUG() 与 BUG_ON()
-+-----------------
++为了避免把所有同样的错误再犯一遍，我写下一些在为 drm/i915 驱动干活（并把事情
++搞砸）的过程中学到的经验教训。其中大多数只涉及技术细节，而非大局问题，比如
++命令提交 ioctl 究竟应该长什么样。学习这些教训，恐怕是每个 GPU 驱动都得自己走
++一遍的过程。
 +
-+请改用 WARN() 与 WARN_ON()，并尽可能优雅地处理这种“不可能发生”的错误状况。BUG()
-+系列接口最初被设计成一种“绝不该出现”的断言，用来“安全地”干掉某个内核线程，但
-+事实证明它们风险实在太大。（比如：“锁到底该按什么顺序释放？各种状态是否已经恢复？”
-+）使用 BUG() 极其常见地会让系统变得不稳定，甚至彻底崩溃，从而让人无从调试，连一份
-+像样的崩溃报告都拿不到。Linus 对这一点有着 `非常强烈
-+<https://lore.kernel.org/lkml/CA+55aFy6jNLsywVYdGp83AMrXBo_P-pkjkphPGrO=82SPKCpLQ@mail.gmail.com/>`_
-+的 `看法
-+<https://lore.kernel.org/lkml/CAHk-=whDHsbK3HTOpTF=ue_o04onRwTEaK_ZoJp_fjbqq4+=Jw@mail.gmail.com/>`_。
 +
-+请注意，WARN() 系列只应当用于“预期不可达”的情形。如果你想对“可达但不希望出现”
-+的情况发出警告，请改用 pr_warn() 系列函数。系统管理员可能设置了 *panic_on_warn*
-+这个 sysctl，以确保系统在遇到“不可达”状况时不会继续运行。（例如，参见类似 `这个
-+提交
-+<https://git.kernel.org/linus/d4689846881d160a4d12a514e991a740bcb5d65a>`_ 中的改动。）
-+
-+分配器参数里的明文算术
-+----------------------
-+
-+动态尺寸的计算（尤其是乘法）不应当直接写在内存分配器（或类似函数）的参数里，因为
-+存在溢出的风险。这可能导致数值回绕，从而分配出比调用者预期更小的内存块。使用这类
-+分配结果，可能造成堆内存的线性溢出以及其他各种异常行为。（唯一的例外是字面值，此时
-+编译器可以在可能溢出时发出警告。不过即便如此，推荐的做法仍是按下面建议的方式重构
-+代码，以避免这种明文算术。）
-+
-+例如，不要像下面这样把 ``count * size`` 当作参数使用::
-+
-+	foo = kmalloc(count * size, GFP_KERNEL);
-+
-+应当改用分配器的“双因子”形式::
-+
-+	foo = kmalloc_array(count, size, GFP_KERNEL);
-+
-+具体来说，kmalloc() 可以替换为 kmalloc_array()，而 kzalloc() 可以替换为 kcalloc()。
-+
-+如果没有对应的双因子形式，则应当使用“溢出饱和”辅助函数::
-+
-+	bar = dma_alloc_coherent(dev, array_size(count, size), &dma, GFP_KERNEL);
-+
-+另一个应当避免的常见情形，是计算“末尾带有其他结构体数组”的结构体大小，例如::
-+
-+	header = kzalloc(sizeof(*header) + count * sizeof(*header->item),
-+			 GFP_KERNEL);
-+
-+应当改用辅助函数::
-+
-+	header = kzalloc(struct_size(header, item, count), GFP_KERNEL);
-+
-+.. note:: 如果你在一个“以零长度数组或单元素数组作为末尾成员”的结构体上使用
-+        struct_size()，请重构这种数组用法，改用 `灵活数组成员
-+        <#zero-length-and-one-element-arrays>`_。
-+
-+对于其他计算，请组合使用 size_mul()、size_add() 与 size_sub() 这几个辅助函数。
-+例如，对于下面这种情况::
-+
-+	foo = krealloc(current_size + chunk_size * (count - 3), GFP_KERNEL);
-+
-+应当改用辅助函数::
-+
-+	foo = krealloc(size_add(current_size,
-+				size_mul(chunk_size,
-+					 size_sub(count, 3))), GFP_KERNEL);
-+
-+更多细节，另请参考 array3_size() 与 flex_array_size()，以及相关的
-+check_mul_overflow()、check_add_overflow()、check_sub_overflow() 与
-+check_shl_overflow() 这一系列函数。
-+
-+simple_strtol()、simple_strtoll()、simple_strtoul()、simple_strtoull()
-+-------------------------------------------------------------------
-+
-+simple_strtol()、simple_strtoll()、simple_strtoul() 与 simple_strtoull()
-+这几个函数会明确地忽略溢出，这可能给调用者带来意料之外的结果。对应的
-+kstrtol()、kstrtoll()、kstrtoul() 与 kstrtoull() 通常才是正确的替代函数，不过要
-+注意，它们要求字符串必须以 NUL 或换行符结尾。
-+
-+strcpy()
++前提条件
 +--------
 +
-+strcpy() 不会对目标缓冲区做边界检查。这可能导致缓冲区末尾之后的线性溢出，从而引发
-+各种异常行为。虽然开启 `CONFIG_FORTIFY_SOURCE=y` 以及使用各种编译器标志有助于降低
-+使用该函数的风险，但没有理由再引入它的新用法。安全的替代函数是 strscpy()，不过对于
-+原先使用了 strcpy() 返回值的地方要格外小心，因为 strscpy() 返回的不是指向目标的
-+指针，而是已拷贝的非 NUL 字节数（或者在发生截断时返回负的 errno）。
++首先是前提条件。缺了这些你就已经失败了，因为你将需要添加一个 32 位兼容层：
 +
-+strncpy()
-+---------
++ * 只使用固定大小的整数。为避免与用户空间的 typedef 冲突，内核提供了 __u32、
++   __s64 这样的特殊类型。请使用它们。
 +
-+strncpy() 已经从内核中移除，所有原先的调用者都已被迁移到更安全的替代方案。
++ * 让所有内容按自然大小对齐，并使用显式填充。32 位平台不一定把 64 位值按
++   64 位边界对齐，但 64 位平台会。所以我们总是需要按自然大小填充，才能把它
++   做对。
 +
-+strncpy() 无法保证目标缓冲区以 NUL 结尾，这会导致线性读溢出以及其他异常行为。它
-+还会无条件地把目标填充 NUL，对于只使用以 NUL 结尾字符串的调用者而言，这是一种无谓
-+的性能损耗。由于这些行为各不相同，它成了一套含义模糊的 API，让人难以判断作者在做
-+这次拷贝时真正的意图是什么。
++ * 如果结构体包含 64 位类型，就把整个结构体填充到 64 位的整数倍——否则结构体
++   大小在 32 位和 64 位上会不同。当把结构体数组传给内核时，或者当内核检查
++   结构体大小时（例如 drm 核心就会这么做），结构体大小不一致会造成麻烦。
 +
-+strncpy() 的替代方案包括：
++ * 指针用 __u64，在用户空间侧与 uintptr_t 相互转换，在内核侧与 void __user *
++   相互转换。务必尽量不要推迟这种转换，更糟糕的是别把原始的 __u64 在你的代码
++   里到处乱传，因为那会削弱 sparse 之类检查工具的作用。内核里可以用
++   u64_to_user_ptr 宏来避免关于整数和指针大小不同的警告。
 +
-+- strscpy()：当目标必须是以 NUL 结尾时使用。
-+- strscpy_pad()：当目标必须是以 NUL 结尾，且需要零填充时（例如跨越特权边界的
-+  结构体）。
-+- memtostr()：当源是定宽、非 NUL 结尾，而目标是 NUL 结尾时使用（源需带有
-+  ``__nonstring`` 属性）。
-+- memtostr_pad()：同上，但进行零填充。
-+- strtomem()：当目标是定宽、非 NUL 结尾时使用（目标需带有 ``__nonstring`` 属性）。
-+- strtomem_pad()：当目标非 NUL 结尾、且还需要零填充时使用。
-+- memcpy_and_pad()：当目标大小是运行时值、且源可能未以 NUL 结尾的有界拷贝时使用。
 +
-+strlcpy()
-+---------
++基础
++----
 +
-+strlcpy() 会先读取整个源缓冲区（因为它的返回值要与 strlen() 保持一致）。这种读取
-+可能会超出目标的大小限制。这既低效，又可能在源字符串未以 NUL 结尾时导致线性读溢出。
-+安全的替代函数是 strscpy()，不过对于原先使用了 strlcpy() 返回值的地方要格外小心，
-+因为 strscpy() 在发生截断时会返回负的 errno。
++免去了编写兼容层的乐趣之后，我们可以看看一些基础性的错误。忽视这些会让向后和
++向前兼容性变成真正的痛苦。而且由于第一次尝试就做对几乎是不可能的，所以对于任何
++一个给定的接口，你都会有第二次迭代，或者至少是一次扩展。
 +
-+%p 格式说明符
-+-------------
++ * 要有清晰的方法让用户空间判断某个内核是否支持你的新 ioctl 或 ioctl 扩展。
++   如果你不能指望旧内核拒绝新的标志位/模式或 ioctl（因为过去这一点被搞砸了），
++   那么你需要在某处提供一个驱动特性标志或版本号。
 +
-+传统上，在格式字符串里使用 "%p" 会导致在 dmesg、proc、sysfs 等地方频繁暴露地址，
-+从而形成漏洞。我们没有任由这些漏洞被利用，而是把内核里所有的 "%p" 都改成打印成
-+哈希后的值，使其无法被用于定位地址。不应再往内核里添加新的 "%p" 用法。对于文本地址，
-+使用 "%pS" 可能更合适，因为它会输出更有用的符号名而非地址。除此之外，绝大多数情况
-+干脆就不要再加 "%p"。
++ * 要有一个用新标志位或在结构体末尾新增字段来扩展 ioctl 的计划。drm 核心会
++   检查每次 ioctl 调用传入的大小，并对内核与用户空间之间的不一致做零扩展。
++   这有帮助，但不是一个完整的解决方案，因为旧内核上的新用户空间不会注意到
++   末尾新增的字段被忽略了。所以这仍然需要一个新的驱动特性标志。
 +
-+转述 Linus 目前给出的 `指引
-+<https://lore.kernel.org/lkml/CA+55aFwQEd_d40g4mUCSsVRZzrFPUJt74vc6PPpb675hYNXcKw@mail.gmail.com/>`_：
++ * 检查所有未使用的字段和标志位、以及所有填充位是否为 0，若不是则拒绝该
++   ioctl。否则你那个漂亮的未来扩展计划就泡汤了，因为总会有人提交一个 ioctl
++   结构体，其尚未使用的部分塞满了随机的栈垃圾。这随后就把 ABI 固化成：这些
++   字段除了垃圾之外永远不能用于其他用途。这也是为什么你必须显式填充所有
++   结构体，即使你从不把它们用在数组里——编译器可能插入的填充位也许含有垃圾。
 +
-+- 如果哈希后的 "%p" 值毫无意义，不妨自问这个指针本身是否重要。也许它本就该被彻底
-+  删掉？
-+- 如果你确实认为真实的指针值很重要，那为什么某些系统状态或用户特权级别会被视为
-+  “特殊”？如果你觉得自己能在注释和提交日志里给出足够充分的理由、经得起 Linus 的
-+  审视，那么或许可以使用 "%px"，同时务必确保你拥有合理的权限控制。
++ * 为以上所有情况准备简单的测试用例。
 +
-+如果你在调试时遇到 "%p" 哈希造成的问题，可以在启动时临时加上调试参数
-+"`no_hash_pointers
-+<https://git.kernel.org/linus/5ead723a20e0447bc7db33dc3070b420e5f80aa6>`_"。
 +
-+变长数组（VLA）
++错误路径的乐趣
 +--------------
 +
-+在栈上使用变长数组（VLA）会比使用静态大小的栈数组产生差得多的机器码。尽管仅凭这些
-+不小的 `性能问题
-+<https://git.kernel.org/linus/02361bc77888>`_ 就足以成为消除 VLA 的理由，但它们
-+同时也是安全风险。栈数组的动态增长可能会超出栈段中剩余的内存。这可能导致崩溃、可能
-+覆盖栈末尾的敏感内容（在未开启 `CONFIG_THREAD_INFO_IN_TASK=y` 构建时），或者覆盖
-+栈相邻的内存（在未开启 `CONFIG_VMAP_STACK=y` 构建时）。
++如今我们再也找不到借口让 drm 驱动变成精巧的本地提权漏洞了。这意味着我们既需要
++完整的输入校验，也需要可靠的错误处理路径——GPU 总会在最古怪的边界情况下死掉：
 +
-+switch case 的隐式贯穿（fall-through）
-+-------------------------------------
++ * ioctl 必须检查数组溢出。还需要检查整数值的上溢/下溢和截断问题。常见的例子
++   是精灵（sprite）定位值被直接喂给硬件，而硬件只有大约 12 位。这本来工作得
++   很好，直到某个古怪的显示服务器懒得自己做截断，光标就绕回到屏幕另一边了。
 +
-+C 语言允许在 switch 的某个 case 末尾缺少 "break" 语句时，自然地“贯穿”到下一个
-+case。然而，这会在代码中引入歧义，因为那个缺失的 break 究竟是有意为之还是 bug，
-+并不总是清楚。例如，单看代码并不显然 `STATE_ONE` 是否是有意设计为贯穿进入
-+`STATE_TWO`::
++ * 为 ioctl 中每一种输入校验失败的情况准备简单的测试用例。检查错误码是否符合
++   预期。最后要确保你在每个子测试里只测试单一的错误路径，提交的数据在其他方面
++   都完全有效。否则，前面某个检查可能早就拒绝了这个 ioctl，从而遮蔽了你真正
++   想测试的代码路径，隐藏了 bug 和回归。
 +
-+	switch (value) {
-+	case STATE_ONE:
-+		do_something();
-+	case STATE_TWO:
-+		do_other();
-+		break;
-+	default:
-+		WARN("unknown state");
-+	}
++ * 让你所有的 ioctl 都可重启（restartable）。首先 X 非常喜欢信号，其次这将让
++   你只需不断用信号打断主测试套件，就能测试 90% 的错误处理路径。多亏了 X 对
++   信号的偏爱，对于图形驱动来说，你几乎可以免费获得所有错误路径的出色基础
++   覆盖率。另外，处理 ioctl 重启的方式要保持一致——例如 drm 在其用户空间库中
++   有一个小小的 drmIoctl 辅助函数。i915 驱动在 set_tiling ioctl 上搞砸了这一点，
++   现在我们在内核和用户空间里都被某些晦涩的语义永远困住了。
 +
-+由于历史上出现过一长串因缺少 "break" 语句 `而导致的缺陷
-+<https://cwe.mitre.org/data/definitions/484.html>`_，我们不再允许隐式的贯穿
-+（fall-through）。为了标识那些有意为之的贯穿，我们采纳了一个伪关键字宏
-+"fallthrough"，它会展开为 gcc 的扩展 `__attribute__((__fallthrough__))
-+<https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html>`_。（当 C17/C18 的
-+``[[fallthrough]]`` 语法被 C 编译器、静态分析器和 IDE 更广泛地支持后，我们就可以
-+把宏这个伪关键字切换成那种语法了。）
++ * 如果你无法让某条代码路径可重启，至少要让卡住的任务可被杀死。GPU 就是会死机，
++   如果你的驱动把整台机器都挂住（通过一个杀不掉的 X 进程），用户可不会更喜欢你。
++   如果状态恢复仍然太棘手，就加一个超时或 hangcheck 安全网作为最后手段，以防
++   硬件彻底发疯。
 +
-+所有的 switch/case 代码块必须以以下几种之一结尾：
++ * 为错误恢复代码中真正棘手的边界情况准备测试用例——在 hangcheck 代码和等待者
++   之间造成死锁，实在太容易了。
 +
-+* break;
-+* fallthrough;
-+* continue;
-+* goto <label>;
-+* return [expression];
 +
-+零长度数组与单元素数组
-+----------------------
++时间、等待与错过
++----------------
 +
-+内核中经常需要一种方式，用来声明“结构体末尾带有动态大小元素集合”。这类情形，内核
-+代码应当始终使用 `"灵活数组成员"
-+<https://en.wikipedia.org/wiki/Flexible_array_member>`_。较早的“单元素数组”或
-+“零长度数组”写法不应再被使用。
++GPU 绝大部分工作都是异步完成的，所以我们需要给操作计时、并等待尚未完成的操作。
++这可是件相当棘手的事；目前 drm/i915 支持的 ioctl 没有一个是完全做对了这一点的，
++这意味着这里还有大量的教训等着我们去学。
 +
-+在较早的 C 代码里，动态大小的末尾元素是通过在结构体末尾声明一个单元素数组来实现的::
++ * 始终使用 CLOCK_MONOTONIC 作为你的参考时间。如今这是 alsa、drm 和 v4l 默认
++   采用的。但要让用户空间知道，哪些时间戳来自不同的时钟域，比如你的主系统时钟
++   （由内核提供）或别处某个独立的硬件计数器。只要看得足够仔细，时钟总会对不上，
++   但如果性能测量工具掌握这些信息，它们至少可以做出补偿。如果你的用户空间能够
++   拿到某些时钟的原始值（例如通过命令流内的性能计数器采样指令），不妨考虑把这些
++   值也暴露出来。
 +
-+        struct something {
-+                size_t count;
-+                struct foo items[1];
-+        };
++ * 用 __s64 秒加 __u64 纳秒来指定时间。这不是最方便的时间表示方式，但基本是
++   事实上的标准。
 +
-+这导致借助 sizeof() 得出的大小计算十分脆弱（必须先减掉那个末尾单元素的大小，才能
-+得到“头部”的正确尺寸）。后来引入了 GNU C 扩展，允许使用零长度数组，以避免这类尺寸
-+问题::
++ * 检查输入的时间值是否已归一化，若否则拒绝。注意内核原生的 struct ktime 对秒
++   和纳秒都使用有符号整数，所以要当心。
 +
-+        struct something {
-+                size_t count;
-+                struct foo items[0];
-+        };
++ * 对于超时，使用绝对时间。如果你是个好人、把 ioctl 做成了可重启的，那么相对
++   超时往往太粗糙，会因为每次重启时的取整而无限延长你的等待时间。尤其是当你的
++   参考时钟是显示帧计数器这种非常慢的东西时。从一个钻牛角尖的规范律师角度看，
++   这不算 bug——毕竟超时总是可以被延长的——但如果用户漂亮的动画因此开始卡顿，
++   他们肯定会恨死你。
 +
-+但这又带来了别的问题，而且也没有解决两种写法共有的某些毛病，比如无法察觉这种数组
-+在什么时候被意外地用在了结构体“非末尾”的位置（这可能直接发生，也可能在该结构体被
-+放进联合体、结构体的结构体等情况下发生）。
++ * 考虑干脆抛弃所有带超时的同步等待 ioctl，改为在一个可 poll 的文件描述符上
++   投递异步事件。这样能更好地融入事件驱动应用的主循环。
 +
-+C99 引入了“灵活数组成员”，其数组声明完全不带数字尺寸::
++ * 为边界情况准备测试用例，尤其是已经完成的事件、成功的等待和超时的等待这几种
++   情况的返回值是否都合理、且符合你的需要。
 +
-+        struct something {
-+                size_t count;
-+                struct foo items[];
-+        };
 +
-+这正是内核期望用来声明动态大小末尾元素的方式。它让编译器能在灵活数组没有出现在
-+结构体最后时直接报错，从而有助于避免某些 `未定义行为
-+<https://git.kernel.org/linus/76497732932f15e7323dc805e8ea8dc11bb587cf>`_ 的 bug 被
-+无意中引入代码库。它还能让编译器正确分析数组尺寸（通过 sizeof()、`CONFIG_FORTIFY_SOURCE`
-+与 `CONFIG_UBSAN_BOUNDS`）。举例来说，没有任何机制会警告我们：下面这种对零长度数组
-+使用 sizeof() 运算符，结果永远为零::
++不泄漏资源
++----------
 +
-+        struct something {
-+                size_t count;
-+                struct foo items[0];
-+        };
++一个完整的 drm 驱动本质上实现了一个小型操作系统，只不过是专用于特定 GPU 平台的。
++这意味着驱动需要向用户空间暴露大量不同对象和其他资源的句柄。要把这件事做对，
++自有其一套小小的陷阱：
 +
-+        struct something *instance;
++ * 始终把动态创建资源的生命周期绑定到某个文件描述符的生命周期上。如果你的资源
++   需要跨进程共享，可以考虑采用 1:1 的映射——通过 UNIX 域套接字传递 fd 也能简化
++   用户空间的生命周期管理。
 +
-+        instance = kmalloc(struct_size(instance, items, count), GFP_KERNEL);
-+        instance->count = count;
++ * 始终支持 O_CLOEXEC。
 +
-+        size = sizeof(instance->items) * instance->count;
-+        memcpy(instance->items, source, size);
++ * 确保不同客户端之间有充分的隔离。默认情况下选择私有的、每 fd 一个的命名空间，
++   强制任何共享都必须显式进行。只有当对象确实是设备唯一的时候，才采用更全局的
++   每设备命名空间。drm modeset 接口里有一个反例：per-device 的 modeset 对象（如
++   connector）与 framebuffer 对象共享同一个命名空间，而后者大多根本不共享。为
++   framebuffer 单独设一个默认私有的命名空间会更合适。
 +
-+在上面代码的最后一行，``size`` 的结果其实是 ``zero``（零），而人们往往以为它代表
-+刚刚为末尾数组 ``items`` 动态分配的那段内存的总字节数。这个问题有 `示例一
-+<https://git.kernel.org/linus/f2cd32a443da694ac4e28fbf4ac6f9d5cc63a539>`_、
-+`示例二
-+<https://git.kernel.org/linus/ab91c2a89f86be2898cee208d492816ec238b2cf>`_ 两个例子。
-+相反，灵活数组成员具有“不完整类型”，因此 sizeof() 运算符不能作用于它，于是任何对此
-+类运算符的误用都会在构建时被立即发现。
++ * 想清楚用户空间句柄的唯一性要求。例如对大多数 drm 驱动来说，在同一次命令提交
++   ioctl 里两次提交同一个对象是用户空间的 bug。但如果对象是可共享的，用户空间
++   就需要知道自己是否已经见过某个从别的进程导入的对象。我自己还没试过这个做法，
++   因为缺一类新的对象，但可以考虑用共享文件描述符的 inode 号作为唯一标识符——
++   真正的文件也是这样区分的。可惜这需要在内核里实现一个完整的文件系统。
 +
-+关于单元素数组，必须清楚地认识到：这类数组占用的空间至少等同于该类型的一个对象，
-+因此它会增大外围结构体的尺寸。每当人们想要计算“含有此类数组作为成员的结构体”所需
-+分配的动态内存总大小时，都很容易出错::
 +
-+        struct something {
-+                size_t count;
-+                struct foo items[1];
-+        };
++最后但并非最不重要
++------------------
 +
-+        struct something *instance;
++并非每个问题都需要一个新的 ioctl：
 +
-+        instance = kmalloc(struct_size(instance, items, count - 1), GFP_KERNEL);
-+        instance->count = count;
++ * 仔细想想你是否真的想要一个驱动私有接口。当然，推送一个驱动私有接口，比为了
++   一个更通用的方案展开漫长讨论要快得多。偶尔搞一个私有接口来为某个新概念打头阵，
++   也确实是需要的。但最终，一旦通用接口出现，你将不得不无限期地维护两个接口。
 +
-+        size = sizeof(instance->items) * instance->count;
-+        memcpy(instance->items, source, size);
++ * 考虑 ioctl 之外的其他接口。对于每设备设置，或者对于生命周期相当静态的子对象
++   （比如 drm 里带各种检测覆盖属性的输出连接器），sysfs 属性要好得多。又或许只有
++   你的测试套件需要这个接口，那么用 debugfs 更合适，它本身就声明了不保证稳定的
++   ABI。
 +
-+在上面的例子里，使用 struct_size() 辅助函数时必须记得计算 ``count - 1``，否则就会
-+——无意中——为多出来的一个 ``items`` 对象分配内存。最干净、最少出错的写法，是使用
-+灵活数组成员，配合 struct_size() 与 flex_array_size() 辅助函数::
-+
-+        struct something {
-+                size_t count;
-+                struct foo items[];
-+        };
-+
-+        struct something *instance;
-+
-+        instance = kmalloc(struct_size(instance, items, count), GFP_KERNEL);
-+        instance->count = count;
-+
-+        memcpy(instance->items, source, flex_array_size(instance, items, instance->count));
-+
-+有两种特殊情况在替换时需要用到 DECLARE_FLEX_ARRAY() 辅助宏。（注意，在 UAPI 头文件中
-+它名为 __DECLARE_FLEX_ARRAY()。）这两种情况是：灵活数组要么单独存在于某个结构体中，
-+要么作为联合体的一部分。这两点在 C99 规范里是被禁止的，但其实并没有什么技术上的理由
-+（从这类数组在这些地方既有的使用、以及 DECLARE_FLEX_ARRAY() 所采用的变通写法中都
-+可以看出）。例如，要把下面这样改写::
-+
-+	struct something {
-+		...
-+		union {
-+			struct type1 one[0];
-+			struct type2 two[0];
-+		};
-+	};
-+
-+就必须使用辅助宏::
-+
-+	struct something {
-+		...
-+		union {
-+			DECLARE_FLEX_ARRAY(struct type1, one);
-+			DECLARE_FLEX_ARRAY(struct type2, two);
-+		};
-+	};
-+
-+结构体对象的明文 kmalloc 赋值
-+----------------------------
-+
-+直接手写 kmalloc() 系列的内存分配赋值，会妨碍内核（以及编译器）检查被赋值变量的类型，
-+从而限制那些有助于对齐、回绕防护以及额外加固的相关内省能力。kmalloc_obj() 系列宏
-+提供了这种内省能力，可用于单对象、数组对象以及灵活对象的常见分配写法。例如，下面这
-+些手写赋值::
-+
-+	ptr = kmalloc(sizeof(*ptr), gfp);
-+	ptr = kzalloc(sizeof(*ptr), gfp);
-+	ptr = kmalloc_array(count, sizeof(*ptr), gfp);
-+	ptr = kcalloc(count, sizeof(*ptr), gfp);
-+	ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
-+	ptr = kmalloc(sizeof(struct foo), gfp);
-+
-+分别改写为::
-+
-+	ptr = kmalloc_obj(*ptr [, gfp] );
-+	ptr = kzalloc_obj(*ptr [, gfp] );
-+	ptr = kmalloc_objs(*ptr, count [, gfp] );
-+	ptr = kzalloc_objs(*ptr, count [, gfp] );
-+	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
-+	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
-+
-+参数 gfp 是可选的，默认值为 GFP_KERNEL。如果 ``ptr->flex_member`` 标注了
-+``__counted_by()``，那么当 ``count`` 大于与 ``flex_member`` 关联的计数成员所能表示的
-+最大值时，该分配会自动失败。
++最后，这场游戏的要点是第一次就把它做对，因为如果你的驱动流行起来、硬件平台又
++长命百岁，那么你就基本上会被某个 ioctl 永远困住。你可以尝试在更新一代的硬件上
++弃用那些糟糕的 ioctl，但一般来说这要花上好几年。然后还要再等好几年，直到最后
++一个还能抱怨回归的用户也消失为止。
 diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
-index 4fbc2c4eb605..cd02cce21bf0 100644
+index 0913e0f5e72a..9f657597b3f9 100644
 --- a/Documentation/translations/zh_CN/process/index.rst
 +++ b/Documentation/translations/zh_CN/process/index.rst
-@@ -67,12 +67,12 @@ TODOLIST:
-    submit-checklist
-    researcher-guidelines
-    contribution-maturity-model
-+   deprecated
+@@ -85,13 +85,13 @@ TODOLIST:
+    applying-patches
+    volatile-considered-harmful
+    backporting
++   botching-up-ioctls
+    ../arch/riscv/patch-acceptance
+    ../core-api/unaligned-memory-access
  
  TODOLIST:
  
- * changes
- * kernel-docs
--* deprecated
- * maintainers
+ * adding-syscalls
+-* botching-up-ioctls
+ * clang-format
  
- 
+ .. only::  subproject and html
 -- 
 2.43.0
 
