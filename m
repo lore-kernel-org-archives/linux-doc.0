@@ -1,50 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794907774;
-	b=F++MMqJN1cicfdZCYLORbAbu1XxOvjQsp96oxRHcGXTYno9jlu8vKL+edR9MDjIbsxhf
-	 rkp8XNCH/i5wIbWSfNHzDfYTXdcZH1aVaz2ad6Kb/uRYIcT4mQWYstgHxABooWw0du0/b
-	 ObpU2C6Cj6/dc37jwH2JqlnMB31X7tELt2f51c0kxq4JTpyRgBCzXlsibm/5IHmlk1SL1
-	 eZFAfB6YW08Smg10oA8vtf7PxtopbM4Nb0av0rrXlFb5gGWyDbv+Okn4HbesQkhiGrXY1
-	 D4vm7COPjTpuptVE4yK+F0D/vb3IzOfLwZJq7+RH8UnR9WFtDgTqhg6wLvav3oVDC5A==
+	t=1794907771;
+	b=yZJxxbg5mP1TefB7gUMZNydDTjzgFSarZmEl2ft8KULJd+Rzoqxk/YHtvRVvwfMH0vE9
+	 94Z+9WIfITTtFq+I0ZGDYZixIklay5avHzPNKqZ3SSV2KTZAgLtUDKkbB/Wvu3Kf6oNkJ
+	 YJkhKV4gpCCB84VdGRkCtbikCyHZ/KLtLeCRtfh4w0EEn4FPt8WVpJGlGhQY9sZQ5/fD8
+	 FUWkmhu6ws+k+gAAmN4J4wLvB16FzRGAulUb+TXuYM+DkbTkRsR9gOJ26L2gX1e1I1N+M
+	 tYjC6+pJbcNxsSgZ19nmegWcC98zCsWcClkqgmO42g7vMlSwMfeHF3sOrUuZxwNtvBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794907774;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794907771;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=lVrc4oHsxDCDJa3Hp3qUem7EegpD7+yTpsfWRSyZgHs=;
-	b=n4x7UxBEutCIDJJqPIEnxna+lZtwrG/Q+IaMxRSLTHVSKtDVLCV3YibXQrAA/rnyCAQe
-	 qIx9AYrv6OYaHl7ZKFvtBNSVXXUobJYl0KQi4Q+G/MWSAue8VXvWdXR87yEruJMWGhx8N
-	 mzzODqw/+XGlZ3vDavoZZtV2ZOdGxzQaCLu6vWKg/BJHPFl8wfnkfCZ1SZDl1sojTmWP7
-	 PoNNEEJzJyys4eaQE8cPoQDdftEff0/3tB/5kgRSGz62+gUYa9sXpOts4Hl0jifnl7xMY
-	 7lz9e+xh6HqwWGjYynCz2ncvIT0B08SzbVBMbijWBF1R2jthUIkeKbh12eOOypwikhg==
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=YE7hb6EJ8MnZjqeIFG8zu2TxBYRPi6yG8xDT6an+A0I=;
+	b=m04iYqtivEvt4bjk5GSGIh50HjXCOJklpIaK6v+JduyO5R9WRlMX0jIrOv4mgz27xeUF
+	 psI7AeSonAl/SgsQnPoFoHMwnhRnqHBOdslpxD/MkosltB4Q3IRpwSexPrNgsiWLOvqyC
+	 qrL/jBnzLyk40Wz54ipqJJDDJ6CoDcEhhmbs03iaawj/BuB34K9Q1d+6L5h35zowCCAe9
+	 NfzqChdkILiZCiBNwT5Qe7EtXUeIKcHrHzEPjQUIcADoCtmsJH9Wy5Xfuqjo6Q6ikc0vp
+	 wg7Owjm/D0wsgnXFsri/bh2w8vb3ecHITb+u8cvxcxkik7TS58eBCje6ZJt7aWzr2ag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=corp.free.fr;
 	spf=pass smtp.mailfrom=corp.free.fr;
-	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=DOWVf6Gp;
+	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=SiOqTfVw;
 	arc=none smtp.remote-ip=212.27.60.169
 Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3698B606A8AA;
-	Tue, 17 Nov 2026 09:29:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3698B606A8AA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE7E606A33A;
+	Tue, 17 Nov 2026 09:29:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFE7E606A33A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=DOWVf6Gp
+	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=SiOqTfVw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
-	t=1794907765; bh=K4Llhg1hmaw8g5dzoUBJThs+VMah2kSFZeuFKLz69pI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DOWVf6GpipRv9xFZ0LaKuSjkTaITR+HUa8BZSAhPA1+kSdPC0Bj2TbExGhzvYl7Fs
-	 IOOk6AvBwMcFTz8upmL+b3ytmT6DKaqSQjvoLeqfnBq9WBT5YQfYGNFwaFBY45rb8D
-	 14rjZsIwN9D4GnvSfTAyPngPrlgmTm6dTmybu96YUa3kaU4YOaj1N3Umuy/dWCFzge
-	 bWw+jFRNFBtcd2POSfhs4tiwQmB27HplZ6rGxQII4HatUtlgjyeoQGVzz3Fn+uY5yH
-	 ClYiqRojRnIy2R2gvAnZDm8ouKiFTjriPBrqmIgzjwTjitXqfDoNjVuvyO35Uye1J8
-	 9dJd5sO3ZEqxQ==
+	t=1794907762; bh=iLmIdYcI+NQQ9aOw3zP2Rr0bm+RPSvskVZvNhW00Cv0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SiOqTfVw9EXhZWKeAAvzAA4gEMDrVvlB/HNB51gC/QrMG7qsxvGiZtgDAgKJ/CuLz
+	 RIRb2v66dM7eMQOMYPaiVon6juCybF0iW57uCoo9hXlzZK84ba5GqEaUNxG+PN8zX4
+	 kspe5IeN/sI2jKWvQxLAB7btKabncL6n6dZ30rFAEkYS4TrsmYAp+aXN8qq1vUh9bF
+	 EI5zTdR7VSnQKFzJTnCpilzZg+ThurdH8dsz8Jqov9hxIw1kfnAV3+dTV3aiAT+xmI
+	 8b6xfTl64KvXO4S085MfX5k8UvW7xtllA3VPMpHm1mbxFpaEGQJD66WpQuhxyqaa3e
+	 408qJGRBtfgGw==
 Received: from lnxos-dev.home (82-66-150-212.subs.proxad.net [82.66.150.212])
-	by rcs.proxad.net (Postfix) with ESMTPSA id 89F4B44C0B5D;
-	Tue, 17 Nov 2026 10:29:24 +0100 (CET)
+	by rcs.proxad.net (Postfix) with ESMTPSA id 7606444C017F;
+	Tue, 17 Nov 2026 10:29:21 +0100 (CET)
 From: Alexandre Cassen <acassen@corp.free.fr>
 To: Saeed Mahameed <saeedm@nvidia.com>,
 	Leon Romanovsky <leon@kernel.org>,
@@ -74,12 +73,10 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	linux-kselftest@vger.kernel.org,
 	oss-drivers@corigine.com,
 	=?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <ast@fiberby.net>
-Subject: [PATCH net-next v2 06/10] net/sched: cls_flower: add enc_key_id mask
-Date: Tue, 17 Nov 2026 10:29:09 +0100
-Message-ID: <20261117092915.255194-7-acassen@corp.free.fr>
+Subject: [PATCH net-next v2 00/10] tc flower: tunnel key partitioning for RX queue steering
+Date: Tue, 17 Nov 2026 10:29:03 +0100
+Message-ID: <20261117092915.255194-1-acassen@corp.free.fr>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261117092915.255194-1-acassen@corp.free.fr>
-References: <20261117092915.255194-1-acassen@corp.free.fr>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,87 +88,101 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Flower only matches enc_key_id exactly. A block of tunnel keys takes one
-filter per key. Add an optional mask. Without one the match stays exact.
+RSS cant spread GTP-U traffic between a few endpoints. The outer headers
+barely vary and mlx5 does not hash the TEID. One flower rule per TEID does
+not scale.
 
-  tc filter add dev <dev> ingress protocol ip flower \
-      enc_key_id 0x100/0xf00 action ...
+Add a mask to the flower enc_key_id key and offload it on mlx5e NIC flows
+with skbedit queue_mapping. One rule then steers a block of tunnel keys to
+an RX queue. This "tunnel key partitioning" supports fine-grained session
+placement. In a 5G mobile network, the UPF can place a session on a CPU by
+allocating its TEID from the right block [1]. Any scheduling algorithm can
+then pick that block.
 
-cxgb4, mlx5 and nfp program the mask. sfc does when its firmware supports
-it. hns3 and ice reject a partial one. The previous patches make bnxt and
-mlx5 tunnel mapping reject it too. i40e and iavf never program the value
-of enc_key_id, with or without this patch.
+  tc filter add dev eth0 ingress protocol ip flower skip_sw \
+      ip_proto udp dst_port 2152 enc_key_id 0x40000000/0xc0000000 \
+      action skbedit queue_mapping 1 skip_sw
 
-Hardware holding a 24 bit VNI truncates the mask too. This is correct when
-the key fits the VNI. The previous patches enforce this on cxgb4, nfp and
-mlx5. On cxgb4 a mask without a VNI bit would also drop the tunnel match,
-and the cxgb4 patch refuses it.
+This series generalize an earlier GTP-U work [2] to other tunnels that the
+ConnectX family can steer: GRE, VXLAN and GENEVE.
 
-Signed-off-by: Alexandre Cassen <acassen@corp.free.fr>
----
- Documentation/netlink/specs/tc.yaml | 4 ++++
- include/uapi/linux/pkt_cls.h        | 2 ++
- net/sched/cls_flower.c              | 5 +++--
- 3 files changed, 9 insertions(+), 2 deletions(-)
+Patches 1 to 5 refuse a partial mask or a key wider than the VNI where a
+driver cant honor them. Patches 6 and 7 add the flower mask and its test.
+Patch 8 adds queue mapping to mlx5e NIC flows. Patch 9 adds the tunnel key
+match to mlx5e NIC and eswitch flows without a tunnel device. Patch 10
+documents the result.
 
-diff --git a/Documentation/netlink/specs/tc.yaml b/Documentation/netlink/specs/tc.yaml
-index b6ccc645b0e3..a20fa42e6715 100644
---- a/Documentation/netlink/specs/tc.yaml
-+++ b/Documentation/netlink/specs/tc.yaml
-@@ -2908,6 +2908,10 @@ attribute-sets:
-         byte-order: big-endian
-         enum: flower-key-ctrl-flags
-         enum-as-flags: true
-+      -
-+        name: key-enc-key-id-mask
-+        type: u32
-+        byte-order: big-endian
-   -
-     name: flower-key-enc-opts-attrs
-     name-prefix: tca-flower-key-enc-opts-
-diff --git a/include/uapi/linux/pkt_cls.h b/include/uapi/linux/pkt_cls.h
-index 28d94b11d1aa..fcaf06c6892d 100644
---- a/include/uapi/linux/pkt_cls.h
-+++ b/include/uapi/linux/pkt_cls.h
-@@ -560,6 +560,8 @@ enum {
- 	TCA_FLOWER_KEY_ENC_FLAGS,	/* be32 */
- 	TCA_FLOWER_KEY_ENC_FLAGS_MASK,	/* be32 */
- 
-+	TCA_FLOWER_KEY_ENC_KEY_ID_MASK,	/* be32 */
-+
- 	__TCA_FLOWER_MAX,
- };
- 
-diff --git a/net/sched/cls_flower.c b/net/sched/cls_flower.c
-index 23eba4a00a94..dd248a335402 100644
---- a/net/sched/cls_flower.c
-+++ b/net/sched/cls_flower.c
-@@ -661,6 +661,7 @@ static const struct nla_policy fl_policy[TCA_FLOWER_MAX + 1] = {
- 	[TCA_FLOWER_KEY_VLAN_PRIO]	= { .type = NLA_U8 },
- 	[TCA_FLOWER_KEY_VLAN_ETH_TYPE]	= { .type = NLA_U16 },
- 	[TCA_FLOWER_KEY_ENC_KEY_ID]	= { .type = NLA_U32 },
-+	[TCA_FLOWER_KEY_ENC_KEY_ID_MASK] = { .type = NLA_U32 },
- 	[TCA_FLOWER_KEY_ENC_IPV4_SRC]	= { .type = NLA_U32 },
- 	[TCA_FLOWER_KEY_ENC_IPV4_SRC_MASK] = { .type = NLA_U32 },
- 	[TCA_FLOWER_KEY_ENC_IPV4_DST]	= { .type = NLA_U32 },
-@@ -2110,7 +2111,7 @@ static int fl_set_key(struct net *net, struct nlattr *tca_opts,
- 	}
- 
- 	fl_set_key_val(tb, &key->enc_key_id.keyid, TCA_FLOWER_KEY_ENC_KEY_ID,
--		       &mask->enc_key_id.keyid, TCA_FLOWER_UNSPEC,
-+		       &mask->enc_key_id.keyid, TCA_FLOWER_KEY_ENC_KEY_ID_MASK,
- 		       sizeof(key->enc_key_id.keyid));
- 
- 	fl_set_key_val(tb, &key->enc_tp.src, TCA_FLOWER_KEY_ENC_UDP_SRC_PORT,
-@@ -3680,7 +3681,7 @@ static int fl_dump_key(struct sk_buff *skb, struct net *net,
- 		goto nla_put_failure;
- 
- 	if (fl_dump_key_val(skb, &key->enc_key_id, TCA_FLOWER_KEY_ENC_KEY_ID,
--			    &mask->enc_key_id, TCA_FLOWER_UNSPEC,
-+			    &mask->enc_key_id, TCA_FLOWER_KEY_ENC_KEY_ID_MASK,
- 			    sizeof(key->enc_key_id)) ||
- 	    fl_dump_key_val(skb, &key->enc_tp.src,
- 			    TCA_FLOWER_KEY_ENC_UDP_SRC_PORT,
+Without a tunnel device nothing decapsulates. enc_key_id reads the tunnel
+header on the wire like on cxgb4 and hns3. On mlx5 the plain ip_proto and
+dst_port keys select the match register. A rule without a tunnel device
+used to ignore enc_key_id and now matches it or gets refused. I can rework
+patch 9 on a dedicated key if that looks cleaner.
+
+Tested on ConnectX-7 with firmware 28.48.1000 in NIC mode. Also tested on
+the uplink and VF representors in dmfs, smfs and hmfs. This includes
+redirect to a VF. GTP-U needs flex parser profile 3 and GENEVE profile 0.
+The bnxt, cxgb4 and nfp patches are build tested only. So is the min
+inline check of patch 9, because ConnectX-7 needs no inlining. The selftest
+passes under User-Mode Linux and fails on a kernel without the mask.
+
+Multiple AI tools were used to test this feature. They found the problems
+fixed by patches 1 to 5.
+
+The iproute2 support is posted separately.
+
+v2:
+- cxgb4: also refuse a mask that leaves no VNI bit.
+- cxgb4, nfp and mlx5: add Fixes tags.
+- selftest: run the enc_key_id mask test in software only.
+- mlx5 queue mapping: refuse it after any terminating action.
+- mlx5 outer key: refuse other tunnel keys and representors that need
+  inlining.
+- docs: drop a wrong sentence about skip_sw and name the tunnel ports.
+- nfp and selftest: wrap two lines over 80 columns.
+The first six follow the Sashiko review of v1 [3].
+
+v1: https://lore.kernel.org/netdev/20261109131039.959438-1-acassen@corp.free.fr/
+[1] https://gtp-guard.org/articles/5g-upf-pump-up-the-volume/#benefits-of-range-partitioning
+[2] https://github.com/acassen/research/tree/main/UPF-flow-steering
+[3] https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261109131039.959438-1-acassen%40corp.free.fr
+
+Alexandre Cassen (10):
+  bnxt_en: require an exact tunnel id in TC flows
+  cxgb4: flower: refuse a tunnel key wider than the VNI
+  nfp: flower: refuse a tunnel key wider than the VNI
+  net/mlx5e: TC, refuse a tunnel key wider than the VNI
+  net/mlx5e: TC, reject a partial tunnel key with tunnel mapping
+  net/sched: cls_flower: add enc_key_id mask
+  selftests: forwarding: tc_flower: test the enc_key_id mask
+  net/mlx5e: TC, offload RX queue mapping in NIC flows
+  net/mlx5e: TC, match the tunnel key without a tunnel device
+  docs: networking: describe tunnel key partitioning in TC queue
+    filtering
+
+ Documentation/netlink/specs/tc.yaml           |   4 +
+ Documentation/networking/tc-queue-filters.rst |  22 ++++
+ drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c  |   7 ++
+ .../ethernet/chelsio/cxgb4/cxgb4_tc_flower.c  |  15 +++
+ .../net/ethernet/mellanox/mlx5/core/Makefile  |   6 +-
+ .../mellanox/mlx5/core/en/tc/act/act.c        |   1 +
+ .../mellanox/mlx5/core/en/tc/act/act.h        |   1 +
+ .../mellanox/mlx5/core/en/tc/act/rx_queue.c   |  67 +++++++++++
+ .../ethernet/mellanox/mlx5/core/en/tc_tun.c   | 110 ++++++++++++++++++
+ .../ethernet/mellanox/mlx5/core/en/tc_tun.h   |  14 +++
+ .../mellanox/mlx5/core/en/tc_tun_geneve.c     |  46 ++++++++
+ .../mellanox/mlx5/core/en/tc_tun_gre.c        |  31 +++++
+ .../mellanox/mlx5/core/en/tc_tun_gtp.c        |  36 ++++++
+ .../mellanox/mlx5/core/en/tc_tun_vxlan.c      |  45 +++++++
+ .../net/ethernet/mellanox/mlx5/core/en_tc.c   |  19 +++
+ .../net/ethernet/mellanox/mlx5/core/en_tc.h   |   1 +
+ .../ethernet/netronome/nfp/flower/offload.c   |  22 ++++
+ include/uapi/linux/pkt_cls.h                  |   2 +
+ net/sched/cls_flower.c                        |   5 +-
+ .../selftests/net/forwarding/tc_flower.sh     |  54 +++++++++
+ 20 files changed, 504 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/rx_queue.c
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_gtp.c
+
 -- 
 2.43.0
 
