@@ -1,85 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794945818;
-	b=gOWJEERc7FwKnWm6s+Qbkup6BLQQSezyJlSSEQOcz3ivPKpXI0xsCICYkrdAmSX6EcPX
-	 JI098OIfleCpY9lzmiC84uMwolsyHuF+WB8pSiEv+AZtTYYukP3XqKzBFaBL9eC/DWczu
-	 E3oDF0TaTdGjN9a8dVXDQYIdcGamIuwNhNFSzZY5gfAvWtDZf0DwPFQy/8y7KSaiWKOGO
-	 W0EQ6bNLrZAnGGrqDfmuYhK1UauMFzZ/uxMUi4NR+DcwUboMqeS42RoHpNIciQTMQu385
-	 GkAK4/YHMt7N2HJBGqDTHVcvYjyzEQL1f5/cvPCkZTbCe5B0zgM/ej8KpY4wfKFJzcg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794945818;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=A7F9vGUwuGm89Sq7Z6BKmbqulj1taVMbbgDwWzUX518=;
-	b=E52aRgDAxEXCxwlDBwlfahW7WG6fJCs0Q/8p8RT/CtFDrJzw/0wI0ts6kgtsGhCP7cVL
-	 Isf1+6h/WR4xvEuW4FRXa55F6Nnjq0JhsHXza59CnEzzrLG/+IwYEVt8w1lcrOYUsWACs
-	 tYIpjtdLrblSeDc2p8pjBgB5KYf9jxhz6gj82EqMsgcOBK4oh5McckytWuSCbtIB6R5Y9
-	 pg7H73OhR6NsKD7o57ZPhPvzK3XXCUJbc2ALtWN07C8MDpmeA7auML5wC9+OIvTEMQVas
-	 m6AYFE7BU+l4r2bwna8arCcFrOLdVWqys5pJYvHj/RLB2Cfcj8XJmO+0cToVvJdAb1A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GgZV8Wvz;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.53
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794946275;
+	b=KD7w847te2knVTCoqPnSs3W5jFeghAni1M+/eKGRJmEtJOndoGD8H9GDWz0OcVaND/Xk
+	 YgQpIVoytg5ruxUopQKNiln3ESS/sUTsqiAym4JHEjpGns0HYYrm+tghJZni4GwRy89l0
+	 2KmUlvbIzfC7GmUGJTSW6yjoXoMHuy1S5VI2vc2n6xuo6i+RlCKjq07xzY5CMawg3BTMo
+	 /TrnZ8d5rQWUf3QBvU65a5DCPgvCImtR24TstTSQwqHs67luueWwtUKtHPrkWg3T5IF/r
+	 j34QXpO/et5568bNg8PEAK15pU710Rb6splrHuJrdvtOD3f0hjQjEfjBWKpV5KpzAkQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794946275;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=TLCtbRBV1PGHwelDPw3GRpng9bhYRh7QH8AhnaQQo6Q=;
+	b=r/GBq4d6ASSNNFzfmS7l5FEJLH8PmGPTlliuoAHNia6rk4AYtqKWS4kzzFeVPARzmuUD
+	 i0otx610H7EKWvOmpoEc3besOKrt5dvp4YNYFKlwr52a/8UeK/Pqs2BlGCgR5L8dyoEhV
+	 Q9VApsN0+aO4uS/wGLhTAmlZ6j9xxBQSQ2Tdd7HMh8wJAOiRKUU++LWUFV/emK+S4jRpx
+	 ZlT/kbGN5dYm3AkPuOLfAIWgKhM56InygH3tTH1PEed4A3XnIqF7R95/48RCUM0zM+j+K
+	 gFyPqipflsm+SELkFrBdZjUC9KIeA2Jp+UAHTajJajVS9g4WKYCoJl3BvEiKy+D6MHg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="qUYi/5Le";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.53
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 22C55606A32A;
-	Tue, 17 Nov 2026 20:03:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038D4606A32C
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 20:11:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 038D4606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GgZV8Wvz
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 453F21F000C4;
-	Tue, 17 Nov 2026 20:03:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794945818;
-	bh=A7F9vGUwuGm89Sq7Z6BKmbqulj1taVMbbgDwWzUX518=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GgZV8WvzcdepSUadf6SySKEgnAJgIRXVt6j0ej7g1R4olLseL6+Kzp1GDlNhnKddU
-	 si3ENXKDzBgoKGmWrIX3uc1Sac5ouCqJQSgNT3cFQm4mHP3Op6nnesr9x6wuTbSNwC
-	 opviFh71CCcLK/BQ4wakf+n49QvI41MbVWUMeEiOrXYmzsI1zneVe9ACOd+n8fYxZl
-	 JRTGLazZCNCNDGqYr1YZJS6Mvt6nuNW5zYSK6SBBhT7qvnpO+92T7nRH12ryNYsJrg
-	 VL3JfrdW6rXtfQM5Cptxm/f7P0nTVIk+gGrufpzNmsw1p2eOUUX/0WwilkUXBWliZS
-	 VwFOOPHxJc4LQ==
-Date: Tue, 17 Nov 2026 22:03:34 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-security-module@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ben Segall <bsegall@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vlastimil Babka <vbabka@kernel.org>
-Subject: Re: [RFC PATCH 07/13] rootns: Add rootns_enter() system call
-Message-ID: <avyzFnKQrNOid25y@kernel.org>
-References: <20261117050841.3289652-1-jarkko@kernel.org>
- <20261117050841.3289652-8-jarkko@kernel.org>
- <CALCETrWtbUFQGDOCHkxAN9O4i29ixfL5KKF1Cqw2-CjxKwC6gQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qUYi/5Le
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6ae305e3bd9so491221a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 12:11:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794946273; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Wxxw7D/kOr8u/s19S+aZrGZl6qoQOWmgxhL2dLbprIEvzAlfT4Z6+BcTUuLaemhVNG
+         4mQh4tCrlS674Gf7UHowohwEq8JsgrbwTEwwZaj+2vCuZgWelPUQJ/FC3RKXWTPDxzlm
+         fR+XvR+WwBO1MuQIl/phGXGN2OMCOmt4wAZ37zXwdxskTQ6imHbGVG/RNa0vW2FlhBEC
+         uIFwz1WIJ2Xy4BzC0mqiZ7BplgduV0KUCFChygRWv8j8LNFol3tmBSPh108pGo0wPl9G
+         P7KGuMfUwMSxHCobJXwzprccYG6FC/BV2SGLIkftiSc63o78uG4R0fjbOnEkKWevfXwX
+         1IdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=TLCtbRBV1PGHwelDPw3GRpng9bhYRh7QH8AhnaQQo6Q=;
+        fh=epJLgSFsxsL6SALxTVdie+sgcgfNGmJF0DkXmg5c05g=;
+        b=ntbzrCFmBO3lF5ILPP0YrdHYJipw31Dmsahd5xg4vyLz0I3cfqiyH5xdUqdvmLdcBY
+         JZuSipX/BX3M645d0UBQgKbYnBXM1z+TNjiacIBVJpzGSHLpu+idRCmhixenmHTUZHWO
+         GhAkaTgRVNOl2dYfHqGMAkxnOAOFc48GrMm+pE2P+t7JC+ddRu53GEfoNU8XAsPtFU8H
+         rD4kE8K6RuV5wmibge7GCq3SDyySaq3j//P3xMDLOK1kvKv6F88vHo6WTcuteA7QOe3e
+         j6IEuuf4cE371qBGNVtwraspAzdaV5iB+azpyTOi5C7ZJr6d68T3NKgluCbVoRUvrYLl
+         Y/Cg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794946273; x=1795551073; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TLCtbRBV1PGHwelDPw3GRpng9bhYRh7QH8AhnaQQo6Q=;
+        b=qUYi/5LegcyQhwlyDIHJSec0Wq3K+2MDjMtllRf2GD5+J5Uig/9eXAdGiQqKo8/rkQ
+         UZY0yqFZJmXO5C+fY26YLqJTbicpoAFPaJne0z8tdr73jeA/O2peN0eoZQcjhpUXqVvW
+         tAguCwDvHD48dKuWDUvRTubsfVcr5EjJrOWnWZ/j5/NTQVb87KZo5z9P8J1rVPZL7Y1c
+         HhM6ygFFx0bpOQOkzjfHIHOd/Wp8IxoLnVzNadw9xrLc0YiACFGTCSdIxM2ydYHCOQ0A
+         4Ikl7srSRBUzfzX30kFmwKpbgGeBSk4v5zhjeQwEF8VcqpIO+zaYvtltHJ2V41XuVmtM
+         Xj0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794946273; x=1795551073;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TLCtbRBV1PGHwelDPw3GRpng9bhYRh7QH8AhnaQQo6Q=;
+        b=KEkdfuer25kpqWLuPi475ElpwNJaRpTKhd7r4DdWsYJb9k20LFbU9yG6M5X1Y4g0P3
+         Mx9ZoYxw78Q4S6O84pSrRuTwpX1aqUmH3DGQSrtbyjkm9GzGoh0iQA2qXry+4LsdyCLj
+         o8sg9hxF1fT8D098ciTddMwYOM7+LvR07i3rpMWmFVtLDZDwoe+Qwp2s/jar5Yd/L73Q
+         TRArovQBdpG7O1ZtB1BIgtkvkXrXV7hVUHEpU37sdNxUGadNdJWSyEeqwTV/oYIwgWG5
+         lRuqHaenUSHjqYQYlYZEszvJbzel3qA+j+4HHTuCQZ8avm62UL4k69jkcG87tc2BJITX
+         +wGQ==
+X-Forwarded-Encrypted: i=1; AL+hErFKujtz8Z8Fohuh9fPyoIE1TaPXyES1bRNp12eNb2KAkEyy82qYYOhRRqWdhSlQxXgoAoqxxRVKaMQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+J+TTLnpbeA94yxu/eV702UNviCCHJhL97CYBvHW4YeCJX6wZT
+	M2jkSlNY7BjFUJco5WYsaCJerPQBd1Nzurw6pRY5UDSuQ1XK1PFAHVWl/3uWzPs6g4BtnJGoGKj
+	SZbwQEe7PMqNZ51ihA1QwUHdYsbVVCX4=
+X-Gm-Gg: AYBFou00cgLl0p+B3Yw/J3ve8oKnfqH7SLwiI7EuQpAYCA5Ei7Xwrf4wqPrt8dPEUwf
+	ZDNwjm8uVIefpPdPmlfRepwUMIjPfcWuZfPR20BJReQJ3EvBW1fiCaFT5Qlho3CEaDBm55pHSS6
+	eQ+59xi+GkQl3YCbbooIX5D/B/KziIuQHVqEdLO0CQrIu3R+6LJl8ooHyeJrWPOTHLWYEgZ7/Hg
+	4XrTc2ybsrEyvIayKrR3Cx0fcMYAMGITZ3Ez0aLTDDXtNLftklCOZ0ntOVqT5G/Z8Lrq6yqYwah
+	Gao8eLafwawJsaXMoknKkL6RmD9CdQnzNShMGrfGaietHqrmSb8FL/1ur2CFSW6wSoNgCmGfpG2
+	ZctmHoHg60dMnbvyGGACvD3/rR6KRW2somYyoYvm0gjGimOevNXAWY3u5CfLDJtSfAttqfKDXv8
+	b9rH6jjQ6k65wkAmos5OyBT8gM
+X-Received: by 2002:a05:6402:1598:b0:6b7:164a:7228 with SMTP id
+ 4fb4d7f45d1cf-6b888111f83mr296086a12.41.1794946273014; Tue, 17 Nov 2026
+ 12:11:13 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,57 +105,137 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrWtbUFQGDOCHkxAN9O4i29ixfL5KKF1Cqw2-CjxKwC6gQ@mail.gmail.com>
+References: <20261117-marvel-env-v3-0-0edc370fdca9@gmail.com> <20261117-marvel-env-v3-1-0edc370fdca9@gmail.com>
+In-Reply-To: <20261117-marvel-env-v3-1-0edc370fdca9@gmail.com>
+From: Magnus Lindholm <linmag7@gmail.com>
+Date: Tue, 17 Nov 2026 21:11:01 +0100
+X-Gm-Features: AclHuK_Xa5-PlkYMr0Ybe8c0xscp1fzE_6udpNRIkvpkKayBgek5aLFyZAumq5Y
+Message-ID: <CA+=Fv5SFdf9Gr0zTGXJSW0GVB0eFoyp4a6PCWQ4PY2q3LGZTcw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/7] alpha: marvel: fix the environmental subpacket layout
+To: Matt Turner <mattst88@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, Guenter Roeck <linux@roeck-us.net>, 
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 17, 2026 at 09:42:26AM -0800, Andy Lutomirski wrote:
-> On Mon, Nov 16, 2026 at 9:09 PM Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> >
-> > Multithreaded userspace daemons cannot call setns(CLONE_NEWUSER) or
-> > safely mutate process-wide filesystem state in place before spawning a
-> > child into a target namespace set.
-> >
-> > Add the rootns_enter() system call to fork a child process directly into
-> > a rootns whose root mount has been installed. Transition the rootns from
-> > ROOTNS_READY through ROOTNS_FORKING to ROOTNS_RUNNING for the first
-> > process so it becomes PID 1, serialize concurrent entrants on waitq
-> > until bootstrap resolves, and admit subsequent callers into the running
-> > PID namespace until teardown begins.
-> >
-> > Require CAP_SYS_ADMIN in the target user namespace, forbid credential or
-> > PR_SET_NO_NEW_PRIVS privilege escalation
-> 
-> Why are you disallowing this if no_new_privs?
+Hi Matt,
 
-For no any good reason at all apparently: no_new_privs is inherited by
-the child and only restricts privilege gain across execve(), whereas
-user_namespace transitions are allowed under it.
+On Tue, Nov 17, 2026 at 7:13=E2=80=AFPM Matt Turner <mattst88@gmail.com> wr=
+ote:
+>
+> struct ev7_pal_environmental_subpacket does not match what the MBM and
+> CMM firmware (V2.7) put in system event frames, which is:
+>
+>   +0   cabinet
+>   +2   drawer
+>   +8   PE (the power and environment node holding the sensor)
+>   +10  sensor index
+>   +14  state: 0 ok, 1 warning, 2 fault, 0xfffe unknown, 0xffff removed
+>
+> So the byte printed as "Condition" was half of the sensor index, and the
+> state was never printed. Use the firmware's layout and print the state
+> along with the sensor's key. This matches the frames in the error log of
+> an ES47.
+>
+> Signed-off-by: Matt Turner <mattst88@gmail.com>
+> ---
+>  arch/alpha/include/asm/err_ev7.h | 16 ++++++++++++----
+>  arch/alpha/kernel/err_marvel.c   | 30 +++++++++++++++++++-----------
+>  2 files changed, 31 insertions(+), 15 deletions(-)
+>
+> diff --git a/arch/alpha/include/asm/err_ev7.h b/arch/alpha/include/asm/er=
+r_ev7.h
+> index ab17e6333764..5d30af0221fb 100644
+> --- a/arch/alpha/include/asm/err_ev7.h
+> +++ b/arch/alpha/include/asm/err_ev7.h
+> @@ -147,17 +147,25 @@ struct ev7_pal_io_subpacket {
+>   *        class PAL (14), type POWER_SUPPLY (14)
+>   *        class PAL (14), type LAN (15)
+>   *        class PAL (14), type HOT_PLUG (16)
+> + *
+> + * Cabinet, drawer, PE and sensor are the keys of the sensor's GCT packe=
+t.
+>   */
+>  struct ev7_pal_environmental_subpacket {
+>         u16 cabinet;
+>         u16 drawer;
+>         u16 reserved1[2];
+> -       u8 module_type;
+> -       u8 unit_id;             /* unit reporting condition */
+> -       u8 reserved2;
+> -       u8 condition;           /* condition reported       */
+> +       u16 pe;
+> +       u16 sensor;
+> +       u16 reserved2;
+> +       u16 state;              /* EV7_ENV_STATE_* */
+>  };
+>
+> +#define EV7_ENV_STATE_OK       0
+> +#define EV7_ENV_STATE_WARNING  1
+> +#define EV7_ENV_STATE_FAULT    2
+> +#define EV7_ENV_STATE_UNKNOWN  0xfffe
+> +#define EV7_ENV_STATE_REMOVED  0xffff
+> +
+>  /*
+>   * Convert environmental type to index
+>   */
+> diff --git a/arch/alpha/kernel/err_marvel.c b/arch/alpha/kernel/err_marve=
+l.c
+> index c0c0ccefc467..9304ae74877d 100644
+> --- a/arch/alpha/kernel/err_marvel.c
+> +++ b/arch/alpha/kernel/err_marvel.c
+> @@ -21,6 +21,21 @@
+>  #include "err_impl.h"
+>  #include "proto.h"
+>
+> +#ifdef CONFIG_VERBOSE_MCHECK
+> +static const char *
+> +marvel_env_state(u16 state)
+> +{
+> +       switch (state) {
+> +       case EV7_ENV_STATE_OK:          return "ok";
+> +       case EV7_ENV_STATE_WARNING:     return "warning";
+> +       case EV7_ENV_STATE_FAULT:       return "fault";
+> +       case EV7_ENV_STATE_UNKNOWN:     return "unknown";
+> +       case EV7_ENV_STATE_REMOVED:     return "removed";
+> +       default:                        return "unrecognized";
+> +       }
+> +}
+> +#endif /* CONFIG_VERBOSE_MCHECK */
+> +
+>  static void
+>  marvel_print_680_frame(struct ev7_lf_subpackets *lf_subpackets)
+>  {
+> @@ -50,17 +65,10 @@ marvel_print_680_frame(struct ev7_lf_subpackets *lf_s=
+ubpackets)
+>                 if (!env)
+>                         continue;
+>
+> -               printk("%s**%s event (cabinet %d, drawer %d)\n",
+> -                      err_print_prefix,
+> -                      ev_packets[i].name,
+> -                      env->cabinet,
+> -                      env->drawer);
+> -               printk("%s   Module Type: 0x%x - Unit ID 0x%x - "
+> -                      "Condition 0x%x\n",
+> -                      err_print_prefix,
+> -                      env->module_type,
+> -                      env->unit_id,
+> -                      env->condition);
+> +               printk("%s**%s %s (cabinet %u, drawer %u, PE %u, sensor %=
+u, state %#x)\n",
+> +                      err_print_prefix, ev_packets[i].name,
+> +                      marvel_env_state(env->state), env->cabinet,
+> +                      env->drawer, env->pe, env->sensor, env->state);
+>         }
+>  #endif /* CONFIG_VERBOSE_MCHECK */
+>  }
+>
+> --
+> 2.56.1
+>
 
-So yeah, it's a spurious check, and thus I'll drop it.
+Thanks, this builds on its own now with VERBOSE_MCHECK=3Dn.
 
-> This isn't necessarily a showstopper, but fork() is really quite slow
-> in many cases.  It would be nice to have a more spawn-like API
-> available.  I assume it's possible to open a file in the target's
-> mountns by some sane API even without entering that mountns, as a side
-> effect of how the fsopen / move_mount mechanism works.
-
-
-If the caller retains the O_PATH fd returned by fsmount() for "/", it is
-able to open files inside the target mount tree via openat2(...,
-RESOLVE_IN_ROOT) w/o entering the mount namespace, and pass the
-resulting fd to execveat().
-
-For avoiding full fork(), there are (at least) two options:
-
-1. A rootns flag in clone3() (e.g., CLONE_INTO_ROOTNS) and a rootns fd
-   in struct clone_args (disallowing incompatible CLONE_NEW*, CLONE_FS,
-   CLONE_THREAD, ...), and callers can pair it with CLONE_VM | CLONE_VFORK.
-2. A flags parameter in rootns_enter() (e.g., ROOTNS_ENTER_VFORK), which
-   would map directly to CLONE_VM | CLONE_VFORK.
-
-> 
-> --Andy
-
-Br, Jarkko
+Reviewed-by: Magnus Lindholm <linmag7@gmail.com>
