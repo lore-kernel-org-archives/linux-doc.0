@@ -1,52 +1,85 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919687;
-	b=QruwmnGUxQR3peFSdlcNj8zTmv4kLn+g8MajyHJ/+0JJGEVqMwW8+MK5aTXrteyXRm4q
-	 kx1SX9YwAq/PumKFzzAy1tbV5a+q9AlDAULBaBbJW3kcEQB3AG01uLbC7X9kq73bw3Uzx
-	 V6wsfjkofVBFpir7os4qiZDuXoEU6GiXN3PaejKp1FyCdXsuUu+qlCzmAu/99pFX25RMf
-	 PJWcOKjmFrFu9rw/d+uxtutcoBzua5tUPDteMZ4P2h50/ZZKbimQxlFmnPkVUuBP3HFVk
-	 r4wh8KxSAgwKq80t6Ck0iG8jWjDx2AP7ZtS9dPNoGgJ1Gw6Ik0DFnm/OrwGM0q5G2zA==
+	t=1794919690;
+	b=Z84WDz/I0WmWVd8GRrRGhvydDCRgSi1hxkPMR7S5nCuwLalpVzovY+TLj98roxo6OoAJ
+	 020zRL0fqeMb6Tx56r4RLmCzhMfG7cRHumL+SKDPVOpVJvFdDGB/K1SvGtW/lMLrxqEN1
+	 wHGaR4BmDcWbdTBMgvFmN0DTvMv2bpsB5GZDLzpZA0w+BdkWDmo0P8sVErCoROM+1BKdc
+	 irFEsEJbxoTswUrkZ+1ewxl65kCKsPLU+xCSeaJxpFtNnCbvXRu2MqZxigmSPAFYGJ0K1
+	 bCrGkU2FhQZqBVw+2hHOwJXmQAifja6jNn+pJ8JvSIf9JyFYUheqtVXhdmwD0XsHWdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919687;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919690;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=h+LNhrt9j/b/RBbUIJw2rBJ8YAb7yE512bAtckM4qj8=;
-	b=Ie0JmaF3T0QS1hlarbB4s4VOYHddA+hLfZG1dIvQcmGv7NVpWR36oCww28BKzR77Ctqa
-	 fpqjpb6rxxWcPNVRmSij/c475+LOf3LolhDc5LdkFrNVArL5wug6LFgNmzsh3DcIXSY9y
-	 cDZPv0uMEy/QrztKELih1UAodwvLMz5s/vH6AYkRXS41Gzc6U5x0uuqPJSbfgt+wKjGza
-	 kHqa+iixoOczAYgm0D4zE9x7kyyxWH1Xm06xVjniY7HcTeY+4jNWxAZoQ/PX/UbZgKsnq
-	 4cj0tC3Vfq/I8Cg52FO1riVayBVPr9ky9pUl1V9w++/lYAUi1+apNjLiHOhLBcpOgqQ==
+	bh=sHHP4lrQVbjQV4OnOd6y3l0XQnPgN/Sz+31TccHLwkc=;
+	b=KvHXVeQPTJQBa9B9wfnBi8qMv7hvEB7Zk8cZ6FXQGzpxfdxNfgpFqQUH2MavPjhM9Iqw
+	 X5q1h/AAHfv7bTmhialJbce+Sk4U5itOkWI+4GtmIqYyxa6gUBWP6QbEphoTmQT/6PX9B
+	 8LonSaxbR/dnrLJfak9O+BRSdqy5+TFoP3u8eL+nSx7FM1fxCzaM5NbnNCYRN43RxLElg
+	 eTg7nYRpna+XwRMsfji79/wUbw5e62fpVsSGeAWvzOQTriibEXB0sYrHKKGsV7/TpaXxe
+	 ioD+1b241WKvHdbxaMIUnwDkkHzvdeK40kUnUB88ytXhy8t15eoSsKMiK3LU518ZaCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oGMLG9M2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YHKbFcMn;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C2B606A31C;
-	Tue, 17 Nov 2026 12:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C4C606A331;
+	Tue, 17 Nov 2026 12:48:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oGMLG9M2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE0B21F000C5;
-	Tue, 17 Nov 2026 12:48:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YHKbFcMn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F9751F000C5;
+	Tue, 17 Nov 2026 12:48:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794919686;
-	bh=h+LNhrt9j/b/RBbUIJw2rBJ8YAb7yE512bAtckM4qj8=;
+	s=k20260515; t=1794919690;
+	bh=sHHP4lrQVbjQV4OnOd6y3l0XQnPgN/Sz+31TccHLwkc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oGMLG9M29TDqNoeM+yuPjKo5c4seh1igfIH9fgAYAGpOoHF+2aJgNXbh9vXAiyMuM
-	 AfmRvGTOA6liS3jHoUkorFO1IJDf6loVBLdA8cR1acVeSqc0RRyja8jk+rEKYaBWAJ
-	 q2wskywmb7FHcjm3j8rNDvT1xvvReG8aYtbCTCdKpdVfK7dU5h7rZiP8RL2z3T+IvC
-	 Ild3az7V+Iagp0CtQJsmhxZc2ymG/O8rm4qTA5E8+NUIrgIc6PdlSrKjsvQqrlA/X4
-	 hzEj6D0JkRX19QaRx1u48HD+eqj4wnYC2nvL3LOKeCDsPoQc46EdSB/mev/AQU/QDK
-	 rmFCD2svCgKzQ==
-Date: Tue, 17 Nov 2026 11:37:42 +0200
+	b=YHKbFcMnmmbORQCbLlMN/d6gVnT4XJqvrtWRg+cUmoX1WTtse7Nw3HxwLvSDXopIL
+	 k6zEjl08Eyhhx7lJFNyZwg8DqTaaNM/Y37vvyOiW0NubvkUdOV/YP3b/AbLVDSpYvw
+	 ow64ZOBeqGWrf73HjBfqPMB5aBpCr86DfSZGxtaMgPLJkAfLgXhfepmkTzgR/ecQ6N
+	 wxxJkfTTQz6irDAkfCGqoDQzLVw7JbgD6irSR8EqiMnWDqi+F3m6YaDtk+SmZzD0TS
+	 JhcPaIdcyi6jB/KTuJHjRIHgT2gOL+MtmGW9IwqRQr2PD2rpJ5Bk/lnMk61Yt1RU1N
+	 s3VTQfBntVZ5A==
+Date: Tue, 17 Nov 2026 14:48:01 +0200
 From: Leon Romanovsky <leon@kernel.org>
-To: Qu Wenruo <wqu@suse.com>
-Cc: linux-btrfs@vger.kernel.org, workflows@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] btrfs: add a per-subsystem agent file
-Message-ID: <20261117093742.GC124972@unreal>
-References: <df1c1fa031ba7e66486348dc37d1a7be53c18e43.1794894953.git.wqu@suse.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v2 18/19] PCI: Replace untrusted state with device trust
+Message-ID: <20261117124801.GD124972@unreal>
+References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+ <d0999161-3b27-4c3b-9d66-1d117c4836fd@arm.com>
+ <20261110122237.GG8635@unreal>
+ <b4c2538f-8021-4abc-be2e-fcd1596f84ca@arm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,186 +91,182 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <df1c1fa031ba7e66486348dc37d1a7be53c18e43.1794894953.git.wqu@suse.com>
+In-Reply-To: <b4c2538f-8021-4abc-be2e-fcd1596f84ca@arm.com>
 
-On Tue, Nov 17, 2026 at 04:28:18PM +1030, Qu Wenruo wrote:
-> I believe btrfs is not the most affected sub-system, but a lot of
-> newbies without common senses are doing more harm than help.
-> E.g. wasting a lot of human review time on very low value fixes, filled
-> with long paragraphs and useless test steps/results.
+On Mon, Nov 16, 2026 at 05:13:59PM +0000, Robin Murphy wrote:
+> On 10/11/2026 12:22 pm, Leon Romanovsky wrote:
+> > On Mon, Nov 09, 2026 at 01:53:02PM +0000, Robin Murphy wrote:
+> > > On 09/11/2026 7:33 am, Leon Romanovsky wrote:
+> > > [...]
+> > > > diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> > > > index b486b8bbd1fcd..8be2a246d4903 100644
+> > > > --- a/drivers/iommu/iommu.c
+> > > > +++ b/drivers/iommu/iommu.c
+> > > > @@ -1879,7 +1879,7 @@ static int iommu_get_def_domain_type(struct iommu_group *group,
+> > > >    static int iommu_get_default_domain_type(struct iommu_group *group,
+> > > >    					 int target_type)
+> > > >    {
+> > > > -	struct device *untrusted = NULL;
+> > > > +	struct device *restricted = NULL;
+> > > >    	struct group_device *gdev;
+> > > >    	int driver_type = 0;
+> > > > @@ -1901,14 +1901,15 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
+> > > >    		driver_type = iommu_get_def_domain_type(group, gdev->dev,
+> > > >    							driver_type);
+> > > > -		if (dev_is_pci(gdev->dev) && to_pci_dev(gdev->dev)->untrusted) {
+> > > > +		if (dev_is_pci(gdev->dev) &&
+> > > > +		    pci_dev_default_is_restricted(to_pci_dev(gdev->dev))) {
+> > > 
+> > > I think this should be the generic device_is_adversarial(gdev->dev) now - in
+> > > fact probably all the dev_is_pci()/to_pci_dev() stanzas aren't conceptually
+> > > PCI-specific, just an artefact of the current "untrusted" flag being so.
+> > 
+> > I wanted to do the same, but iommu_get_default_domain_type() may be called
+> > before the PCI device's trust level has been set. At that point, we are
+> > still in "disabled" mode, whereas device_is_adversarial() checks for
+> > "adversarial" mode.
+> > 
+> > The below is from AI, I asked to present me the path for that:
+> > --------------------------------------------------------------------------------
+> > For a newly discovered PCI device with an available IOMMU and a new IOMMU group:
+> > pci_scan_single_device()
+> >    pci_device_add()
+> >      device_add()
+> >        bus_notify(dev, BUS_NOTIFY_ADD_DEVICE)
+> >          blocking_notifier_call_chain()
+> >            notifier_call_chain()
+> >              iommu_bus_notifier()
+> >                iommu_probe_device(dev)
+> >                  __iommu_probe_device(dev, NULL)
+> >                    iommu_setup_default_domain(group, 0)
+> >                      iommu_get_default_domain_type(group, 0)
+> > 
+> > For a device whose initial policy is adversary, its state during that call is:
+> > dev->trust_policy          = DEVICE_TRUST_POLICY_ADVERSARY
+> > dev->trust_level           = DEVICE_TRUST_DISABLED
+> > dev->trust_committed_level = DEVICE_TRUST_DISABLED
+> > dev->driver               = NULL
+> > 
+> > device_is_adversarial(dev) = false
+> > 
+> > The active level changes later, during binding:
+> > really_probe()
+> >    device_trust_prepare()
+> >      __device_trust_prepare()
+> >        WRITE_ONCE(dev->trust_level, DEVICE_TRUST_ADVERSARY)
+> >    dev->bus->dma_configure()
+> >    call_driver_probe()
 > 
-> So it would be better to let those agents to stop being stupid and
-> follow the more common practices here, and hopefully those newbies can
-> build some common sense.
-> 
-> I hope the agent file is clear and short enough, that is not only
-> readable for LLMs, but also for humans who want to be long term
-> contributers.
-> 
-> Signed-off-by: Qu Wenruo <wqu@suse.com>
-> ---
-> Reason for RFC:
-> 
-> Some practices are my personal preferences, like prefer ASCII charts
-> over long paragraphs, and short sentences/paragraphs.
+> OK, that seems less than ideal. Feels like it would be better if bus code
+> set the initial device state prior to device_add, so then it only ever
+> changes later as a result of an explicit attestation/acceptance process. If
+> the initial IOMMU probe still has to poke into bus-specific code to avoid
+> always making a worst-case assumption, doesn't that rather defeat the point
+> of having a generic abstraction?
 
-It looks like general descriptions to me and can fit other subsystems too.
+As Jason said, this is part of a very large series. Each series is an
+adventure in itself. Even Greg's seemingly simple request to convert the
+USB authorization knob to this new scheme has been extremely painful
+because of AI reviews. They keep pointing out bugs and gaps that are
+automatically attributed to me simply because I'm touching that part of
+the code.
+
+> 
+> Even with the slightly dubious argument that this series only intends to
+> shuffle the existing PCI code around rather than fully introduce the generic
+> abstraction that it claims to, if the PCI behaviour is still just based on
+> propagating the internal "untrusted" flag plus the new global override, both
+> of which *are* known at add_device time into the common trust state, then
+> there seems little excuse for not doing that up-front so that the new API
+> *can* just work as expected.
+
+I would prefer to keep both PCI and USB out of this series on device trust
+levels. Let's see what people say if I drop them in v3.
+
+> 
+> > > 
+> > > >    			/*
+> > > > -			 * No ARM32 using systems will set untrusted, it cannot
+> > > > -			 * work.
+> > > > +			 * No ARM32 using systems select a restricted trust
+> > > > +			 * policy; it cannot work.
+> > > >    			 */
+> > > >    			if (WARN_ON(IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)))
+> > > >    				return -1;
+> > > > -			untrusted = gdev->dev;
+> > > > +			restricted = gdev->dev;
+> > > >    		}
+> > > >    	}
+> > > [...]
+> > > > @@ -616,6 +608,28 @@ static inline struct pci_dev *to_pci_dev(const struct device *dev)
+> > > >    {
+> > > >    	return container_of(dev, struct pci_dev, dev);
+> > > >    }
+> > > > +
+> > > > +static inline bool
+> > > > +pci_dev_default_is_restricted(const struct pci_dev *pdev)
+> > > > +{
+> > > > +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
+> > > > +
+> > > > +	return policy == DEVICE_TRUST_POLICY_DISABLED ||
+> > > > +	       policy == DEVICE_TRUST_POLICY_ADVERSARY;
+> > > > +}
+> > > 
+> > > Unless I've wildly misunderstood, I'm not sure this is right - if the user
+> > > has set DEVICE_TRUST_POLICY_DISABLED to explicitly override the bus-default
+> > > behaviour, but that leads to the IOMMU layer special-casing all PCI devices
+> > > as adversarial and thus force-*enabling* all their trust-model restrictions,
+> > > isn't that pretty much the complete opposite of what was asked for?
+> > 
+> > We have two levels: policy - that describes the default of all devices
+> > for that bus. level - actual decision on how that device is going to be
+> > operated.
+> > 
+> > "Disabled" prevents driver probing until the device is authorized,
+> > "Adversary" permits probing and requests the available protections
+> > for operating an untrusted device.
+> > 
+> > Both need conservative initial IOMMU setup: a disabled device may later
+> > be authorized as adversary, and authorization does not rebuild its IOMMU
+> > domain.
+> 
+> Urgh, I can be absolutely certain I'm not the only one who is going to be
+> confused this way... I see "disabled" and instinctively take it to mean
+> disabling the device_trust *mechanism*, as the logical thing that people
+> will reach for in terms of "I don't care what this new thing is, just get it
+> out of my way and let my drivers work like they always used to; I want to
+> disable the new thing."
+
+I completely agree. I was under the impression that these names had already
+been decided, since I picked up where Dan left off.
+
+> 
+> From there it then also makes perfect self-consistent sense that
+> "device_trust=full" would be the opposite end of the scale as in "Apply the
+> explicit trust model 'fully', to all devices regardless of their bus-level
+> default."
+> 
+> Now I guess you could name it something like "device.default_trust_level" to
+> attempt to make it clearer that it represents a value the value represents
+> the "trust" *of* each individual device itself, but TBH it's still liable to
+> look backwards to many users - similarly it's hard to guess that
+> FOO_POLICY_DISABLED might mean something entirely different from "don't
+> enforce the policy for FOO.", thus rather than try to contort the naming of
+> everything, I'd still be much more inclined to just flip the meanings to be
+> more intuitive from the outsider perspective.
+> 
+> Say you upgrade your kernel and find your boot is broken because it now
+> flibbles, but at least there is a "flibble" parameter whose values are
+> "disabled", "wibble" and "frobble". Are you really going to spend time
+> straight off reading up on what flibbling is to understand what wibbles and
+> frobbles mean? Or is your instinct just going to be to try the seemingly
+> obvious way of disabling flibbling, and then getting positively annoyed if
+> that only makes it flibble harder?
+
+What about: blocked, adversarial and unrestricted
+instead of: disabled, adversarial and full
 
 Thanks
 
 > 
-> But I guess some of btrfs developers may not even agree on my
-> preferences.
-> 
-> Thus feed back from well known btrfs developers are always appreciated.
-> ---
->  fs/btrfs/AGENTS.md | 136 +++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 136 insertions(+)
->  create mode 100644 fs/btrfs/AGENTS.md
-> 
-> diff --git a/fs/btrfs/AGENTS.md b/fs/btrfs/AGENTS.md
-> new file mode 100644
-> index 000000000000..d527b862d9bc
-> --- /dev/null
-> +++ b/fs/btrfs/AGENTS.md
-> @@ -0,0 +1,136 @@
-> +Btrfs patch guidelines
-> +======================
-> +
-> +These rules apply to any code, commit message or cover letter touching
-> +fs/btrfs. They come on top of the top-level AGENTS.md and
-> +Documentation/process/coding-assistants.rst.
-> +
-> +Code comments
-> +-------------
-> +
-> +* Add a comment only when the code is not obvious by itself, e.g. a locking
-> +  rule, an ordering requirement or a non-trivial reason for a workaround.
-> +* Keep it as short and simple as possible, but do not cut the reasoning a
-> +  reader needs, e.g. for locking rules or races.
-> +* Do not restate what the code does. Do not narrate the change, and do not
-> +  add comments like "fix for ..." or "new helper to ...".
-> +* Remove any comment that does not carry information, but only in the lines
-> +  being added or touched. Do not drop unrelated existing comments.
-> +* Add kernel-doc only for complex functions. Do not bother for simple helpers
-> +  whose function and parameter names are self-explaining.
-> +
-> +Commit messages and cover letters
-> +---------------------------------
-> +
-> +Human readability comes first. A reviewer should be able to understand the
-> +problem and the fix from the message.
-> +
-> +* Use short and simple sentences. One idea per sentence.
-> +* Skip filler and long background.
-> +* Prefer a small chart or call trace over a long paragraph, see "Visual aids"
-> +  below.
-> +* Drop any sentence the reviewer does not need to understand the change.
-> +* Do not use the [BUG], [CAUSE] and [FIX] section tags for simple bugs. Write
-> +  plain paragraphs instead. Keep the tags only for complex bugs, where the
-> +  symptom, the cause and the fix each need several paragraphs.
-> +* Follow the style of well-known btrfs developers:
-> +  * The subject starts with "btrfs: ", is lower case after that, and is
-> +    imperative and specific, e.g. "btrfs: fix use-after-free when ...".
-> +  * Keep lines within 75 columns. Quoted text (dmesg, error messages, stack
-> +    traces) has no limit and must not be folded.
-> +  * Check `git log -- fs/btrfs` for recent examples before drafting.
-> +
-> +Visual aids
-> +-----------
-> +
-> +Prefer anything that makes the message easier for a human to read. An ASCII
-> +chart is a good choice when it explains the problem faster than prose, e.g.:
-> +
-> +* A race. Show the race window, do not describe it in prose only.
-> +* An error handling bug in a function, seen from several call sites.
-> +* A call chain across layers, where the bug only shows on a certain path.
-> +* The order of steps in a transaction commit or a log replay.
-> +
-> +Chart rules:
-> +
-> +* Function names only, no file paths or line numbers.
-> +* Show only the functions that matter.
-> +* Describe a state or outcome with plain text under the function name.
-> +* For a race, use one column per racing context (CPU, task, endio), side by
-> +  side.
-> +
-> +Follow the style of the examples below.
-> +
-> +Example, a race:
-> +
-> +```
-> + CPU0 (endio)                       CPU1 (fsync)
-> + end_bbio_data_write()
-> + |-btrfs_folio_clear_writeback()
-> + |                                  btrfs_sync_file()
-> + |                                  |-filemap_fdatawait_range()
-> + |                                  | Returns after writeback finished
-> + |                                  |
-> + |                                  \-test_and_clear_bit(COW_WRITE_ERROR)
-> + |                                    Still 0, skips waiting
-> + \-set_bit(COW_WRITE_ERROR)
-> +   Too late.
-> +```
-> +
-> +Example, an error handling bug, from commit c9583ada8cc4. The callee cleans up
-> +on error, then the caller cleans up again:
-> +
-> +```
-> + btrfs_do_readpage()
-> + |-submit_extent_page()
-> + | \-submit_one_bio()
-> + |   \-btrfs_submit_data_bio()
-> + |     \-bio_endio()
-> + |       Calls end_page_read() and unlock_extent().
-> + |
-> + \-end_page_read() and unlock_extent()
-> +   Cleaned up again, the subpage reader count underflows.
-> +```
-> +
-> +Versioned patches
-> +-----------------
-> +
-> +* Always provide the full history, not only the changes of the last version.
-> +* List every version, newest first, e.g.:
-> +
-> +  ```
-> +  v3:
-> +  - Rename the helper to xxx()
-> +  - Add a missing lock in yyy()
-> +
-> +  v2:
-> +  - Fix the build failure on 32-bit
-> +  ```
-> +
-> +* Put the history in the cover letter, or after the "---" line for a single
-> +  patch. Do not put it in the commit message body.
-> +* For a series, keep the cover letter history complete. For a patch changed
-> +  in a later version, also keep that patch's own history after its "---" line.
-> +
-> +Sashiko review
-> +--------------
-> +
-> +Sashiko posts AI-generated review for patches sent to the mailing list. The
-> +btrfs list is at https://sashiko.dev/#/?list=org.kernel.vger.linux-btrfs
-> +
-> +* The submitter should check Sashiko for bug reports on the posted patches.
-> +* If a report is valid, address it in a newer version.
-> +* If a report is wrong, it can be ignored. A reply on the mailing list only
-> +  makes sense when the report is complex or the reason is not obvious.
-> +
-> +Testing steps
-> +-------------
-> +
-> +* For minor and simple bugs, there is no need to add any testing steps. This
-> +  applies to the commit message and to the text after the "---" line.
-> +* A minor bug is one that does not affect normal use cases, e.g. an
-> +  unlikely error path, a corner case that needs fault injection, a tracepoint
-> +  or a debug-only problem.
-> +* Testing steps are only appropriate for a complex bug that can be hit in
-> +  normal use or have a deep impact, and also when they help the reviewer to
-> +  reproduce it.
-> -- 
-> 2.56.0
-> 
-> 
+> Robin.
