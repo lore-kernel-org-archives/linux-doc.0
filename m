@@ -1,75 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.58
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794883611;
-	b=f+Tfci4IIneLC1W3z4BkEUqC+fCYmj+HXOLZ4dxgQHZtsbVcGO0HQlWXWV/d98hw4apI
-	 ynb3KF5g5XGgRjoB+unwTUaopYMq08DC4q3ch5JXL0b7tU2pZR4EP3yD0ZSn5w2HsVDZg
-	 v+WQ8PSwy9d8eGvYlsZXJn7XfpoCdfEGB71EqWdIrA/ivJRCXgHuJfxAoOIdBd1pUdVGn
-	 G7HkA5eCosDvFulvbjQIYWIRmUCirxzmU683pdIGs+tdSpSltA5iDbneMmqgRt2kVfBrE
-	 iuH5S9qXB3zvRgYEx2ylA+l96Atanekb9YgyuzeareBrJOIa9O7DI0NdxewhauM5wPg==
+	t=1794884352;
+	b=k6bXzMSeja48qsJXfkSFIVaSNfU7NzlY8QTM8bm3jyyPHcj6FwENDQv8K+lzTAnOt+3Q
+	 t7+gv7FBOIl4PR31WJOA4A6b0OWDqtj0tdp2p+py7L6BvUdacBknL20kpFaMOZhb3csgG
+	 1dA9F01Zk1YFEa6AZu9KpFRaZLAtfJ2VyIodlN3eEsGyRWdCP5AZMmpCFzvSXXxpRATPU
+	 Qm9+EXJ0T22NlT6YNQVDCrndDGPsfSD8P5mg+MqsPV45ZBZKep9coLH/ABkqVbp6MZnvk
+	 gaxrbWP8wCqUfNs3sDF2WqnH9MhE8oOmgxaBXmAubuzvEyjRn9OjXeqyPsWgn51E5Jg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794883611;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=7czWWVAT5JV9Hgu1J/we5C/Mmw86nPPn7DAH8Olg8dI=;
-	b=oa2xAKHEYsCB0ZT8kF1xQUoCjK4+aYBTgvHX56AXN6L4Qs1YCDK+SZzki8DHrPoOe8ZS
-	 oFAn+92z+aR2TqVmYjsLdkN7WlJytFlUEXu8oEeBhBu9WNu0r4JVwbkooIa0xpRy5FM6T
-	 7An3D9VJbOvx7SHnScU+sm+zlFTolCtCorj6wqzLkdJRarAM3W5f9y48XtFXgmRIb4h6t
-	 YToN7eUVKoz41DV5PenDgvPkoFiDOdOcBRWBqzvOr7Yy0c/IrbZ0prgfnXTUzLvZRm1lB
-	 g5vkYrg0LOonUsv2avbKDsNViBCK8sv7vY40hKSWWAIPj54V/cGSFKz+pfSxjLVsS2g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794884352;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=slhAC7n0qqOkMBcIxUMzZVPcbaUbXiJAGexBTZo7f90=;
+	b=zjUgza2aGmzFmt51OXBWlmKyiKJmTqXOPSOe9AB5D02NpKl/bgCldnV4p5tKhnEjvGm+
+	 FOU0cOcRlxfdPPPr1rEvoY8PHUp83NZbMPo45lpIBcOi7DBwcoDagj0VaQ61OtBK/xro+
+	 tKTK8CtgRQ8IxMFyrD33uYYb9JTwD7fTjuiTQDE+9sRCN/G4gWPN9JZZIf+xEbJhGz3fQ
+	 t9PwoZ205cebm2N0RakJuZXmFIU6BgXcjdmO7s6BLzeW8EysWvDRz46chpX8T998A/dv0
+	 92AMNnfIhVlrpWxDxh56b/lceVrV/F2TvUx9HL4wS/6ruxnCVYwiEeE2C9ZN6PZKAow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Eoe2YQDc;
-	arc=none smtp.remote-ip=95.215.58.58
-Received: from mta1.migadu.com (out-58.mta1.migadu.com [95.215.58.58])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dQoZW17j;
+	arc=none smtp.remote-ip=209.85.128.176
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273FB606A335
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 02:46:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 273FB606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B28606A329
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 02:59:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70B28606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Eoe2YQDc
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=+lyCNsOGqBEwZGBZXNbbfgivTSkomZxjKHS28V8jHeM=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794883609; v=1; x=1795488409;
- b=Eoe2YQDcrs37v0hCU297WOF3bnEyAH/TMkkjhWVpjtIfopIe2Rr5hf/Ol10oyukvWybRQB5q
- IAM4nErB/BWWJQM1DcJuIkn1eSFLL3Hug3L3ilQ6DC3bcNxW0O14Tf1pTtCeKzzpyEyE+FrtcC1
- Q66sxA48nc9HdXHl8OsKufw0=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id de5ce04a605127d5;
-	Tue, 17 Nov 2026 02:46:48 +0000
-X-Mizu-Trace-ID: de5ce04a605127d5
-X-Migadu-Flow: FLOW_OUT
-From: Qiliang Yuan <qiliang.yuan@linux.dev>
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: Qiliang Yuan <qiliang.yuan@linux.dev>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-kernel@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	io-uring@vger.kernel.org,
-	Mike Christie <michael.christie@oracle.com>,
-	Bodo Stroesser <bostroesser@gmail.com>
-Subject: Re: [PATCH RFC 00/18] scsi: target: Add target_core_uring, an io_uring based user backstore
-Date: Mon, 16 Nov 2026 21:46:40 -0500
-Message-ID: <20261117024640.3184554-1-qiliang.yuan@linux.dev>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <avprIhtn1TuYLX1b@fedora-laptop>
-References: <20261115-feat-target-core-uring-v1-0-28cdc137eac6@linux.dev> <avprIhtn1TuYLX1b@fedora-laptop>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dQoZW17j
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8b4d26094beso16650887b3.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 18:59:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794884351; x=1795489151; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=slhAC7n0qqOkMBcIxUMzZVPcbaUbXiJAGexBTZo7f90=;
+        b=dQoZW17jiNebFuE6azQ83jmKtjqcxcl5zox5/c9ay6PslDfs/OuTxMsQK+M93ZKxLu
+         CyJYN8ep/zcVgJmJyDSjHdmSyO8In/0hZGEXZXgl188jmnl8t7EW4jrx2miND6RHUCGB
+         CgJW+Q/Bf4JgPuTefi0kDMTb7iEg+i8irfbYxbN64//aJaiyIUsEG+siLRDJs0dpCndY
+         CdzY5+RJF9PvDX9DgMSx0PK0f9olnMNJc8gppLDlmu23HGwYc2L7nHo2Y5I6ywE0mHNy
+         31yP+aUy91KVf6nZ32brydM00jb9uxJAKYSP0ghepC3RbnV2VUvM1l7wM1KjfUWbyzDO
+         u3aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794884351; x=1795489151;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=slhAC7n0qqOkMBcIxUMzZVPcbaUbXiJAGexBTZo7f90=;
+        b=odtmnH0khy4zuZc262BgRh8PnergX+oYw0nzQdwZpWb0sOAjPAk12vG85xNijx6D6l
+         XVBizEw/CnOZgvv0wGYlJ/ZeBAFIDfY17uiSLBYbc0OIyt82QrD4ZG8LBn0pUaVMyo9s
+         1ngXj0SdoCKJJcP6DcVK6rSFbnlGK+buGOx06z+Owox2r72hQNkLtQCETpWpOdwEpfWd
+         nwdc7FH7u1BHuRyUxlXw0AQwjqVZqWWrDxjKRAUW/wkenyEBDKSe3321u3tUJO/5zGhV
+         bxpVyrIDmiFQtjhcVsBDX1mYLpMN6SljgdywHGr/RNM4a7Z7waZJqX0qAEhPoViGzoNa
+         taGw==
+X-Forwarded-Encrypted: i=1; AL+hErHBRHYNm0pih0J3nCLEsXTWZFZWAWI/RdeyxJz8U+A09XLzNQeZZNIRRlLO4PZ32qyOXSr8eKwts7A=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9aZ4IZEtPHRGuytBPi41bryoB8MrbfaNjaR5YDQMtZBnTrczyv
+	3TpIIHSR+zEB8ptS0305hAzj+yzdaRkbP0hJ5aMc/gMKPaGfHlBtqW7ZGBrmR83RJCI=
+X-Gm-Gg: AZFdTZfQmlitMTO5fEVtRAg7IXko4NsnMCiyke4HtyXciQB9oJAg0LFnkrsY4Lwy9dm
+	h95EdjXqSHWDa8myjO5RHU3hQ/0WW6aUHrplaIHQ4S92byjC/2J3yRLBIV8IevdgLLpgDr+6tpA
+	Niqsfco37qHXydR9+gfq5+/lnFahsvGz2sP3a5YJGikn9kfmA/+2HiEjKvX9J+vZmslJflORWIq
+	0jGL4d9rKBUPLOL0ETdqVahfHkZ5bNNhFbjw4DXiZfNw7EgRWSs0IY3n7PPum2c1jJVNlR6tm9J
+	3LBF8Rwh49O5GKgUB28J2QEhoOO0rh7J+V+Z9WQGnGizouISwOz7WpYETkXathyfU/pWWTz2LoV
+	9RtXE7Q9+gZGhjTuZZrhp/QgOLYWarMNjDuZyzv/kUAN1uLrrctVx3hiLioLfABz5YtQTeZbi9/
+	o7IB2wkxIPVm5tyeW+YSLote4uTWV94HLR564qfsQq6WnRlicCOOvHOVZbuIf93V1LfwUY/XO0m
+	G57kfZA41joLce2XZYnaG4pFlzQttEZRrD7tFUXZfdVaOVCHBcSPmPx1hLqROxKPPITuQKJw3Be
+	P/iF5RqY5O6JnNdMdUpnbIwLWyqQeK407Ac25nSuvt8ojaIaRqGgkIi2YU6105HdGkxVxVSnJiE
+	dYbXucSrRryWGS4oZQdX7NTQCLQsTb7980HCNpq7krwxpbSefPhjOHc7KTX68LN+2XPf7WadFFK
+	ZvbdYsCf3DVvvt6qJEAA==
+X-Received: by 2002:a05:690c:ec5:b0:8ab:4c8f:2844 with SMTP id 00721157ae682-8b4aa2a0f51mr73400777b3.39.1794884351354;
+        Mon, 16 Nov 2026 18:59:11 -0800 (PST)
+Received: from localhost (107-220-129-194.lightspeed.chrlnc.sbcglobal.net. [107.220.129.194])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4ec065f84sm14469217b3.29.2026.11.16.18.59.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 18:59:10 -0800 (PST)
+From: Matt Turner <mattst88@gmail.com>
+Subject: [PATCH v2 0/7] alpha: marvel: environmental sensors
+Date: Mon, 16 Nov 2026 21:59:07 -0500
+Message-Id: <20261116-marvel-env-v2-0-ef614eb2e7f1@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,139 +94,116 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22NyQ6CMBRFf4W8tTUdkGnlfxgWpTzhGQbTYqMh/
+ Xdb3Lo8ybnn7uDQEjposh0senK0LhHkKQMz6mVARn1kkFwWQoiczdp6nBgunvVcVrUpVdFpBXH
+ wtHin9xG7tT92r+6BZkuFZIzkttV+jjcvkvc37AXjrKq5khXmXYmX6zBrms5mnaENIXwBKOuc4
+ 7YAAAA=
+X-Change-ID: 20261114-marvel-env-d0289c736ba3
+To: Richard Henderson <richard.henderson@linaro.org>, 
+ Magnus Lindholm <linmag7@gmail.com>, Guenter Roeck <linux@roeck-us.net>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Matt Turner <mattst88@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4421; i=mattst88@gmail.com;
+ h=from:subject:message-id; bh=2N/yDN2Wcz2QGAy54x4oEamhIu757IC6EK7THi85BJc=;
+ b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLJ+H/qzetuVvIoC36zY7Wp/JHPDE9069+2S91qsMs2uz
+ mTrw/PbOj6yMIhxMcwUU2SJW6/IMqttx1Kf09K/YOawMoEMkRZpYAACFga+3MS8UiMdIz1TbUM9
+ QyBDxygeIqfHoJFZXFyaWqSbVlDkkJdfkliSmZ9XrJdfkJpXkF6gl5aZVpKRkV9UnAo0Qi8vtcT
+ U1dHNyNDAxNLRwszJwtHUxNnZydDJzdHR2dXJyNLcxMDZ0tHE1dKcgYtTAOaa5EKG/xmWhp8D69
+ iDJVPk5pfFlyZecviS9/LQ9jZLC6aXNpYOBYwMH21/XNZ/Ha52r7HnW2zxNcuUpg9XXkQIMD1QW
+ HUm8OpyFgA=
+X-Developer-Key: i=mattst88@gmail.com; a=openpgp;
+ fpr=3BB639E56F861FA2E86505690FDD682D974CA72A
 
-On Sun, Nov 15, 2026 at 08:32:02PM -0600, Ming Lei wrote:
-> This is ublk's uapi re-implemented inside LIO: FETCH/COMMIT_AND_FETCH
-> per tag, pread()/pwrite() with (qid, tag) in the offset, and buffer
-> registration via io_buffer_register_bvec().
+The service processors of the Marvel AlphaServers (GS1280, ES80, ES47)
+monitor temperatures, fans, voltages and power supplies. Linux can't read
+these sensors, and the events the firmware raises when one changes state
+are printed only with CONFIG_VERBOSE_MCHECK, and then decoded wrongly.
 
-Yes, the interface is modelled on ublk on purpose.
+Patches 1 and 2 fix the event reporting. Patch 3 adds the SRM callback
+that refreshes the readings of one config tree node, patch 4 passes the
+firmware's events to a notifier chain, and patch 5 registers a platform
+device. Patch 6 is the hwmon driver, which polls, and patch 7 makes it
+reread the sensors and notify userspace when the firmware reports an
+event.
 
-> 1) If LIO is required (vhost-scsi, FC, SRP, iSER), serve the device
-> with ublk and export it via target_core_iblock. Same per-queue
-> io_uring, same user copy and zero copy path, no new uapi. Please
-> benchmark that configuration, with UBLK_F_USER_COPY and with
-> UBLK_F_AUTO_BUF_REG, same 32 queues and threads.
+The hwmon patches depend on the alpha ones, so I'd suggest the whole
+series go through the alpha tree with an ack from Guenter.
 
-Done, with kublk from selftests/ublk (loop target, -q 32 -d 128, "-u"
-and "--auto_zc") behind target_core_iblock, against this series with 32
-queues. Both serve the same 2 GiB file on tmpfs. Same VM (32 CPUs) and
-fio jobs as in the cover letter, three alternating runs, median.
+Tested on an ES47, where sensors(1) shows the temperatures, fans,
+voltages and power supply status. Disconnecting AC from one of its two
+power supplies raised a system event that set the supply's in_fault and
+woke poll() and udev, and reconnecting it cleared the fault the same
+way. No voltage is out of range, so the voltage alarms were checked by
+forcing the warning and failure states in the console's packets.
 
-Over tcm_loop:
+I used Claude Code to help write this series: working out the packet
+layout, drafting the code and changelogs, and checking the firmware
+documentation. I reviewed and tested the result.
 
-  User copy (UBLK_F_USER_COPY against pread()/pwrite()):
-  workload               ublk + iblock (MB/s) this series (MB/s)  change
-  4k randread, 1 job                      201                358    +78%
-  4k randread, 4 jobs                     614               1440   +135%
-  4k randread, 16 jobs                   4456               5899    +32%
-  4k randwrite, 16 jobs                  1206               2077    +72%
-  1M read, 4 jobs                        6444              15465   +140%
-  1M write, 4 jobs                       5638               6941    +23%
+Signed-off-by: Matt Turner <mattst88@gmail.com>
+---
+Changes in v2:
+- hwmon: report the firmware's states by their documented meaning: a
+  sensor's warning and failure states are its reading reaching the
+  warning and failure limits, not a broken sensor (Guenter)
+- hwmon: report power supplies as in channels with only a fault
+  attribute instead of power alarms (Guenter)
+- hwmon: depend on !ALPHA_LEGACY_START_ADDRESS for generic kernels,
+  which leave out core_marvel.o (Sashiko)
+- hwmon: drop the private mutex, rely on the hwmon core lock and take
+  hwmon_lock() in the event work (Sashiko)
+- hwmon: notify each alarm attribute whose value changed, and only those
+  (Sashiko, Magnus)
+- hwmon: report a voltage outside its limits as in_min_alarm and
+  in_lcrit_alarm or in_max_alarm and in_crit_alarm, by comparing it with
+  the nominal voltage in the console's packet (Guenter, Magnus)
+- alpha: define CCB_CFGTREE in asm/console.h instead of the uapi header,
+  since it is a Marvel console extension, and say it comes from Tru64
+  (Magnus)
+- hwmon: return -ENODATA from every alarm of a sensor that became unknown
+- alpha: drop the unreachable SRM check from
+  marvel_cfgtree_partial_update(), and move the GCT node type and
+  subtype the driver uses to asm/gct.h
+- Reorder: fix the event layout before printing it unconditionally, and
+  put the alpha patches first
+- Drop the Assisted-by trailers, describe tool use here instead (Guenter)
+- Link to v1: https://patch.msgid.link/20261114-marvel-env-v1-0-890328e4b7e5@gmail.com
 
-  Zero copy (UBLK_F_AUTO_BUF_REG against fixed buffers):
-  workload               ublk + iblock (MB/s) this series (MB/s)  change
-  4k randread, 1 job                      195                330    +69%
-  4k randread, 4 jobs                     621               1674   +170%
-  4k randread, 16 jobs                   4051               5773    +43%
-  4k randwrite, 16 jobs                  1140               1952    +71%
-  1M read, 4 jobs                       27568              49666    +80%
-  1M write, 4 jobs                       5326               7262    +36%
+---
+Matt Turner (7):
+      alpha: marvel: fix the environmental subpacket layout
+      alpha: marvel: report environmental events without VERBOSE_MCHECK
+      alpha: marvel: refresh environmental readings through the console
+      alpha: marvel: notify environmental events
+      alpha: marvel: register a platform device for the environmental sensors
+      hwmon: Add driver for Marvel AlphaServer environmental sensors
+      hwmon: (marvel-env) Notify userspace of environmental events
 
-Over iSCSI on 127.0.0.1 (iscsi_target_mod and iscsi_tcp in the same
-VM, 16 sessions, one fio job per session):
+ Documentation/hwmon/index.rst       |   1 +
+ Documentation/hwmon/marvel-env.rst  |  76 ++++
+ MAINTAINERS                         |   8 +
+ arch/alpha/include/asm/console.h    |   5 +
+ arch/alpha/include/asm/err_ev7.h    |  16 +-
+ arch/alpha/include/asm/gct.h        |   2 +
+ arch/alpha/include/asm/marvel_env.h |  17 +
+ arch/alpha/kernel/core_marvel.c     |  56 +++
+ arch/alpha/kernel/err_marvel.c      |  39 +-
+ arch/alpha/kernel/proto.h           |   1 +
+ arch/alpha/kernel/srmcons.c         |   3 +-
+ arch/alpha/lib/callback_srm.S       |   1 +
+ drivers/hwmon/Kconfig               |  12 +
+ drivers/hwmon/Makefile              |   1 +
+ drivers/hwmon/marvel-env.c          | 690 ++++++++++++++++++++++++++++++++++++
+ 15 files changed, 909 insertions(+), 19 deletions(-)
+---
+base-commit: 0b4cadbe7c39d830dec35c4a2655483de0dae568
+change-id: 20261114-marvel-env-d0289c736ba3
 
-  User copy (UBLK_F_USER_COPY against pread()/pwrite()):
-  workload               ublk + iblock (MB/s) this series (MB/s)  change
-  4k randread, 1 job                      136                154    +13%
-  4k randread, 4 jobs                     578                698    +21%
-  4k randread, 16 jobs                   2516               2412     -4%
-  4k randwrite, 16 jobs                  1512               1739    +15%
-  1M read, 4 jobs                         613                716    +17%
-  1M write, 4 jobs                       3747               5218    +39%
+Best regards,
+--  
+Matt Turner <mattst88@gmail.com>
 
-  Zero copy (UBLK_F_AUTO_BUF_REG against fixed buffers):
-  workload               ublk + iblock (MB/s) this series (MB/s)  change
-  4k randread, 1 job                      145                153     +6%
-  4k randread, 4 jobs                     576                679    +18%
-  4k randread, 16 jobs                   2740               2222    -19%
-  4k randwrite, 16 jobs                  1716               1508    -12%
-  1M read, 4 jobs                         778                805     +3%
-  1M write, 4 jobs                       5235               5262     +1%
-
-Through vhost-scsi to a nested KVM guest (16 vCPUs, 16 virtqueues,
-worker_per_virtqueue=on), fio running in the guest:
-
-  User copy (UBLK_F_USER_COPY against pread()/pwrite()):
-  workload               ublk + iblock (MB/s) this series (MB/s)  change
-  4k randread, 1 job                      335                213    -36%
-  4k randread, 4 jobs                    1436                844    -41%
-  4k randread, 16 jobs                   2341               2651    +13%
-  4k randwrite, 16 jobs                  1467               1640    +12%
-  1M read, 4 jobs                        8077              21991   +172%
-  1M write, 4 jobs                       5006               6943    +39%
-
-  Zero copy (UBLK_F_AUTO_BUF_REG against fixed buffers):
-  workload               ublk + iblock (MB/s) this series (MB/s)  change
-  4k randread, 1 job                      339                306    -10%
-  4k randread, 4 jobs                    1521               1030    -32%
-  4k randread, 16 jobs                   2589               1987    -23%
-  4k randwrite, 16 jobs                  1518               1669    +10%
-  1M read, 4 jobs                       37494              39978     +7%
-  1M write, 4 jobs                       4519               8240    +82%
-
-So this series is ahead over tcm_loop, about even over iSCSI, and
-behind ublk + iblock for 4k with few jobs through vhost-scsi. I have
-not found out yet where the time goes in the vhost-scsi case. With zero
-copy and 16 jobs ublk is ahead on both fabrics, which I attribute to
-auto buffer registration saving the two extra commands per I/O that
-this series needs.
-
-> 32 threads against one, over tcm_loop with data in memory, measures
-> only the hand-off. Please run a real fabric and explain the -13%
-> single job result.
-
-Same fabrics, data in memory, TCM/USER against this series with one
-queue (one server thread) and with 32. Over iSCSI:
-
-  workload               TCM/USER  1 queue          32 queues
-                           (MB/s)   (MB/s)  change     (MB/s)  change
-  4k randread, 1 job          138      157    +14%        155    +12%
-  4k randread, 4 jobs         538      679    +26%        685    +27%
-  4k randread, 16 jobs        720     1101    +53%       2631   +265%
-  4k randwrite, 16 jobs       859     1228    +43%       2161   +152%
-  1M read, 4 jobs             756      799     +6%        765     +1%
-  1M write, 4 jobs           2263     6075   +168%       5379   +138%
-
-1M reads over iSCSI are limited by the loopback TCP connection for
-every backend here (retransmits and zero window stalls), so that row
-says nothing about the backstores.
-
-And through vhost-scsi:
-
-  workload               TCM/USER  1 queue          32 queues
-                           (MB/s)   (MB/s)  change     (MB/s)  change
-  4k randread, 1 job          201      237    +18%        238    +18%
-  4k randread, 4 jobs        1095      902    -18%        843    -23%
-  4k randread, 16 jobs        957     1119    +17%       2865   +199%
-  4k randwrite, 16 jobs       749     1098    +47%       2599   +247%
-  1M read, 4 jobs            5373    15317   +185%      56532   +952%
-  1M write, 4 jobs           2064    10948   +430%      27074  +1212%
-
-On the single job over tcm_loop: one fio job submits from one CPU, so
-only one queue and one server thread are in use and it is one thread
-against one. The TCM/USER handler finds the data area in its mmap and
-takes a whole batch per wakeup, while the server here issues one
-pwrite() per read on top of the io_uring_enter(). Counted over the
-whole system during that job, that is 1.1 system calls and 0.27 context
-switches per I/O for TCM/USER against 2.2 and 0.39 for this series.
-
-> 2) If the goal is iSCSI for userspace storage, keep the kernel out of
-> the data path entirely.
-
-The goal is the fabrics LIO already has, vhost-scsi and tcm_loop as
-much as iSCSI, for setups that run TCM/USER today.
-
-Thanks,
-Qiliang
