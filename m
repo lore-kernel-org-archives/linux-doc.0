@@ -1,94 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.228
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.97
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794951752;
-	b=dBiNgOOT8aP/ZqbZrrUm6kS7YwE4dEqQf9w1VwI0+03GY2qVpNqqEejN8JtT3+SLA53l
-	 I9ZEIVbw5BIePMw6bGHSitz3mI7oX9XFqobjjF/psuMhDlOI9gtK6PHVWRsxtmZcLVXGk
-	 5xMNvMRigQUaxV30hI3ouyOTL+pyXjQCw7JWPSZktU9hpBv2Q8C140BcfaBVL7XzJyOqi
-	 Rf3tEEhzSBbtgiu2+2rpAXlOvFHBfa7OuDjA05S6HEoUWgO85Wz3+omDacJoyCy9pwzDq
-	 JrQsJAGEShRnnFVrQTdTmyoB49MSLnFdqi+8OXk8sC+sb2VzVR3u4uQdFyIaGYyMStg==
+	t=1794951899;
+	b=v8eQqOoJL6A3uTtdQEnaXo6AB6bpLSKM27Fb/R0sl+psWT+O6OQf00HthNvIBq/VjoZt
+	 DgpwEC2nv7Fj/UpWJ6N2I0MXgH+a6+UF+GXN+nEBHh/Phu3JwpkUMNMtwAUxOk/gQw1w2
+	 meGah9Iulw2/wh7wD5WHAk0/fZBCbs+x14lOOTohAxUbPYor0V5LZVEDryhCd78uhLToN
+	 qUvnh9mwMgJ4ymsCkFGd9Sm5AJk96g+0KIkmhwaN1boMyRSx61PvdD7FIcUkTCsHHf6Hb
+	 q6SlPmKKmTlhJh5XTk7f3ODlKIPcfDkoGoX0GkoXsUHDkk98uIDSdM5+AHx5eJlmU3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794951752;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794951899;
 	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
 	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Received:X-Received:MIME-Version:References:In-Reply-To:From:Date:
 	 X-Gm-Features:Message-ID:Subject:To:Cc:X-DetectorID-Processed:
 	 Content-Type;
-	bh=ZazWSLuiOMRJcxcwrcvpUUNbNad7f7sLsAmAjY/Yg5I=;
-	b=LjDTYmu9YK120XbniiwbwDwaW4qS+HmHAt2TsOdDVXibSuv4cO28isZtn9fzrIWx1PTL
-	 HAIsD4eY61EB639aBIdfRPH0uvWMguX4vAGM3sA+QikfgHsH5tODBk/7i+GvedcNhxM3D
-	 Lv5Gicc/wLG9C76ROsTySTlLxvmHOFo6x919bujZeHFZ3Fhg/R0Z8fxd/67VmrQuVyiMn
-	 TacjaI6sp583OCtKPYsDThyJ3SVmQjmF9aXzI58EbUmMV0cJCKdZLkc5Tbr35AwTSGpO6
-	 z9jJWd1LCA5NRu/RmTbfei1Y1MccBxwqTyYYyTkOznZABpkaLwmS5+LjarZPUzpxcuQ==
+	bh=9cGXPN9Xsufdh9AasB+UEPqTKnTzAKw7VWh5LPTJssM=;
+	b=VtNsWVjbTZM5VO1DiBrwnwTZ+6tMyO2yvCpm7ylWN9Lm9uffrggwZOI3Zd0q7vdJ15EW
+	 2FI4aFMxrXcKGOn5vTCSHBHqvdw3Bvwd08DD30papwjpfCOlhz2xKVYA1d0YmA/RBwzFQ
+	 yH/3GVO+DJ9jzNY9sAc1hb+SzlWx722FnjC84xmD+KMwboUcy3Fcl9MZ3VRn/jJvzne1j
+	 1QAG0CC7c7VaAnjR6Rn2wWnThECvXoR4T7YWPH388ss4oMHKOFfVclSz5nltxZKhK6Trz
+	 Bm9R1jvPxT9eJ+F5wv5vyFiHoi68/m2HcZT8+RUITtsMhY3tQV4RQUF3GqgmlW7Tmug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=broadcom.com;
 	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b="Jh8F/p6s";
-	arc=none smtp.remote-ip=209.85.215.228
-Received: from mail-pg1-f228.google.com (mail-pg1-f228.google.com [209.85.215.228])
+	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=dOBUIZJ2;
+	arc=none smtp.remote-ip=209.85.216.97
+Received: from mail-pj1-f97.google.com (mail-pj1-f97.google.com [209.85.216.97])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D46606A331
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 21:42:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59D46606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBC6606A32F
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 21:44:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4DBC6606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=Jh8F/p6s
-Received: by mail-pg1-f228.google.com with SMTP id 41be03b00d2f7-cdba1b5ed8dso103888a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 13:42:32 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=dOBUIZJ2
+Received: by mail-pj1-f97.google.com with SMTP id 98e67ed59e1d1-3b3b75aae4cso174102a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 13:44:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794951752; x=1795556552;
+        d=1e100.net; s=20260707; t=1794951899; x=1795556699;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:dkim-signature:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZazWSLuiOMRJcxcwrcvpUUNbNad7f7sLsAmAjY/Yg5I=;
-        b=kNABCYIiBSYji03L6PPjYlED4wdw7wLA9vK0fUy9w7ecD44QUygXawSwo71zZBTol8
-         FGaah26UTQ2TPMc96FD8Nfm5WOshcBZGH0hW43uyUh4E5RX0SGABzk/3Qx0p0AJ98CEJ
-         C33YBWJ22qHtPDP7YkvbHV7ihVqDuZqUcTkf4ZwMidWMp+b64C3q3nOYX6U0BuhOEPOm
-         YdVNHcWcQx+1x3n/+ltQvH6HKlO4SSIFLyGOyOIGVKdKJNjDYsyVGd6+L232TA9lPADb
-         Wn0KUojBD19XJ2oGV1r68Gq2K6bbQjbyQtgV5G6shAmpKa7WjQmRBwtnUW8XTEvyeYBj
-         2AZg==
-X-Forwarded-Encrypted: i=1; AL+hErGWg6ICX8NY6Ta4gyVX1fhsJXdpg88zv+abiWez1Yc+df6pVn9uCxSkuhAKGVKL/4XmZje+8cEt58k=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9V+ELtFLQeuRNHuaznQEpLJFMgvbFjTMiNdsGSqBM6aAIsht+V
-	b513bJjXQZZP4yUrCo3atpGnKw4DpFcUrtQc1bD6sH93401barXgo0TgFjXsrcV815j8q+RUdpU
-	/cCaNDNV3H962eJRP/xiSt9JIBQ2inRR6Zx7HnNHZgSTpWcVR2Y0VzQ8Ai7LCxJa8FOyPXerxBV
-	SLiH4qWMiHNU5AWEKlsnhgGZc4tyTPWFB1IGwpoMAKja9zrV7oQ5zaInnWdhuOH3LEABYhDvPNL
-	vz55CH8iXz5
-X-Gm-Gg: AZFdTZcG/w7a4R3EA9ww5EITflv2hzmSVkCDqEXT8Qs8Loab6Vl+KLlA8H36svvdfr5
-	Bz5h7Ju6S5XxApdV7Sx25pVAhjKTJAiz+WJaqzyS4QcTmKsqF0Xvm057f9D03lcX3DKpR9mYY4V
-	Xk0T05saHsmoIdxb6VADaRQ9Kde8juykZqX/1Nt1XEa0Ap1PsbY0adONHzi3aDQygUD3UvXe2lm
-	6RM4wawPr/e1A8aNUC6a0NYtcILV1H6m7aXLTXw+SWz5gx+4bh5YHLbUHAT2P/ypUAScvFXXtmA
-	yOq25+dkIYhcO1Ac6TndMu8lritmZwUZC4RXpy9aNz6L0TeSsvAQ93xAtUqvNKl4/B5fcfEdqfW
-	bR1mLWL03uBg86U7WITaFuQzk5qR4UFu6x+72XLnFBZOABXj4ttvtuZkR+vQ7zZlKK+UzJNIZRp
-	5D/oqnFe7MkCxngsg/Qf9RvrrIXcGbx+DAULU=
-X-Received: by 2002:a17:90b:5848:b0:3a4:b509:88bd with SMTP id 98e67ed59e1d1-3b3d063dbcbmr428588a91.2.1794951751468;
-        Tue, 17 Nov 2026 13:42:31 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-123.dlp.protect.broadcom.com. [144.49.247.123])
-        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b3d14463c6sm378058a91.6.2026.11.17.13.42.30
+        bh=9cGXPN9Xsufdh9AasB+UEPqTKnTzAKw7VWh5LPTJssM=;
+        b=jaVlwOSupVNFCOs9v9+D70oAKoOkL5HF7NEM+AakgREyIoUcko7TnCkIgdCmJmkDmP
+         +o8nDXWnCcwVRecBWGu8qWeWHZNg67ABkbaJRCaPsSkeBX7Y34XOw4wi0Azhm7+qjm1s
+         YkZNFcIVGcQEPu1WHVV1nq9VROqK0wLcdA5XIwYFG4PNZ2kgp2ikVvqy3fEMdAmMHb++
+         LJWpkcIF4KN3ecvkqois24Ng0llqpde3T9Ikwl3q72TxwCESI/7XPYtuFBB4Wwn6e1dF
+         bBUbtVjiv0ybcK17OAeiObkAbGNgvvQUgy6bYBY1dwYi6QF5Gp8dugsWtlYip7LehoJk
+         k/4g==
+X-Forwarded-Encrypted: i=1; AL+hErEg/9shbOTaYiNqGO1MTBh/9p5aeLysgibXQiMbZ1P/fL6wg5eLip432FD6LsD48vXJGeHXQVBu98o=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9BNpP4tUSZQcU5fHqXz0gWYiDFQXEztdN8wOGPPcstOg8Bcoak
+	Vxr9vIpI1dTRkoZ+mll72dEsC+N4+4ou1txiKPL28/unYJjKZ+fLIexr1w9FPZgvHSRcbPWgAEg
+	0oDCOwzoIZOmLJoG7tkUZalgL2KRqz51GqO4G6CP5Rh6ccdGNAJ6IKjHilvaliH/l+d2nttR+tg
+	YtAMTN7LLJNurvl2yJQ60/2rFi7hj80zUtXwm2wKx1K6SG9wVTOtM8QzxQRqXSl+qMG/mxqa1ln
+	B6CdFxf++Y8
+X-Gm-Gg: AZFdTZd0wRhfE7SHRcRs54ffWXcTlHEJRXA/L1vUYjA255muMbF/VIIduPGL7TrVAPj
+	ioMvmWF5y7HRZiwoH116NosflAZ+xnE4HzvzaraAMunKEWDnQjxb9wRGUKOwSQyJ9q+wqZiFUAt
+	igCBe2kLmiHyoas0ZkGl2wn7/eXRzueb0oPtf38SrJPfVd93o2sAzc6wok2qs8L6S09dL31p8t3
+	82Usyyq5sQUIcPCHQHfSEpWs1d/k4joOInAEqB2ijIZ0w2/nxFB4zD5VNXlpS7+IPzZnoJ+TLOe
+	iE0uKPm0d0BpW0oyIBN4N4KxK3UwwYZt84pubs2VgrWCr79hpiVwIT5GlJzStMn4yvFHsPfLNiI
+	rpx2cWxR/MJYh9LW/61cvyy9EsSIOJ3zzufkt6Wj/r/DylIMW52fCj1vWKAbT4IiG4+bcmHY+ww
+	9Wo3QwYEFoe4vxkMI+KDs1FgvlS0DicxJ3
+X-Received: by 2002:a17:90b:580f:b0:3b3:b6c3:ff5b with SMTP id 98e67ed59e1d1-3b3d0768981mr602792a91.36.1794951898457;
+        Tue, 17 Nov 2026 13:44:58 -0800 (PST)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-26.dlp.protect.broadcom.com. [144.49.247.26])
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b3d1423c73sm429314a91.3.2026.11.17.13.44.57
         for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 17 Nov 2026 13:42:31 -0800 (PST)
+        Tue, 17 Nov 2026 13:44:58 -0800 (PST)
 X-Relaying-Domain: broadcom.com
 X-CFilter-Loop: Reflected
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-3accf0b1addso1206321fa.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 13:42:30 -0800 (PST)
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-3ad36e654f1so2498831fa.3
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 13:44:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1794951749; x=1795556549; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1794951896; x=1795556696; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZazWSLuiOMRJcxcwrcvpUUNbNad7f7sLsAmAjY/Yg5I=;
-        b=Jh8F/p6sd70yhtaQQ7uH6Pj5dXvf0EGl1dnd1Aq1fox1lQ4hGGosovgVmJBh/Njm1X
-         rRihKX24PguiunWum4drGwDaOGKa/iqBg3m7kkd3fTVtlicznQ+5+TumaLfl1dHeZ4ef
-         pDyTp4ZyIRBn9eoGPJyfp56geA6+0ohuGESBA=
-X-Forwarded-Encrypted: i=1; AL+hErHAo4waSF/b5GZDtPZg+KhPPRQ6WcNlxcPKyEe/mq+Fsqbs7rlxOoB4dCW3DzAcpiqukrnYCk9+VB0=@vger.kernel.org
-X-Received: by 2002:a2e:a881:0:b0:3ae:62ba:1eb with SMTP id 38308e7fff4ca-3ae67210cf7mr1245641fa.22.1794951749064;
-        Tue, 17 Nov 2026 13:42:29 -0800 (PST)
-X-Received: by 2002:a2e:a881:0:b0:3ae:62ba:1eb with SMTP id
- 38308e7fff4ca-3ae67210cf7mr1245581fa.22.1794951748591; Tue, 17 Nov 2026
- 13:42:28 -0800 (PST)
+        bh=9cGXPN9Xsufdh9AasB+UEPqTKnTzAKw7VWh5LPTJssM=;
+        b=dOBUIZJ2O2JLkc5GjuXxiPCAsgvVbtaslBXv8UiQyfEYddwNAwELfDJSDJHcbgVAYe
+         nTJ1R8pp2TO3Kmk4OMcG0AgyoywAHF5oCNttzwT4UdI5CJ/a8Bes734QBUYMrA5O7e+2
+         24IXnD6TtHlY5Oo5LyLzH3wubVKD87BsVdZCU=
+X-Forwarded-Encrypted: i=1; AL+hErGNH+yWNXTCtjvWSvJ5O6FeLJbGZlBUqvVDYKvHIoUipu/d3Zy4JnSzqYjvkRO2nRxz139xQiTdz6w=@vger.kernel.org
+X-Received: by 2002:a05:6512:3ca7:b0:5bf:6c4c:62ce with SMTP id 2adb3069b0e04-5c1aa03d10cmr156159e87.55.1794951895858;
+        Tue, 17 Nov 2026 13:44:55 -0800 (PST)
+X-Received: by 2002:a05:6512:3ca7:b0:5bf:6c4c:62ce with SMTP id
+ 2adb3069b0e04-5c1aa03d10cmr156136e87.55.1794951895405; Tue, 17 Nov 2026
+ 13:44:55 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -99,111 +99,63 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 References: <cover.1794374897.git.zack.rusin@broadcom.com> <90467782be23b83fd3e9a6afe2f1d2149eaf9db9.1794374897.git.zack.rusin@broadcom.com>
- <876c4f4fc442116c9bff8abd8c34f99fcfa65531.camel@infradead.org>
- <CABQX2QNd7DehBsH-pGL=EJK4b5vC60PymL_YP27xDxGT6_6=uQ@mail.gmail.com>
- <1bae109338ab6ff1ff14eac811f7e86ced785b22.camel@infradead.org>
- <CABQX2QNhRZP1Td_HQ6QpMzw-_TjqhbooipWYg3VTgTOq2_U9+w@mail.gmail.com>
- <ca9dffb64656a392965f95d35b9d13d829f34076.camel@infradead.org> <avuDUNAU_a933zvp@seanjc-mac.roam.internal>
-In-Reply-To: <avuDUNAU_a933zvp@seanjc-mac.roam.internal>
+ <CALMp9eTF3WtzGGaV=sCYLqm=8oHNbqg2pYUr_qtcXJaAKjc9bQ@mail.gmail.com>
+In-Reply-To: <CALMp9eTF3WtzGGaV=sCYLqm=8oHNbqg2pYUr_qtcXJaAKjc9bQ@mail.gmail.com>
 From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Tue, 17 Nov 2026 16:42:15 -0500
-X-Gm-Features: AclHuK-KWeqy5VzeL7Bo9rHzZFPnr6LuoEzDmXM7PjTOPqqceUaeSocS3Bbt3EI
-Message-ID: <CABQX2QOssTmg38M-SKDQBzwObbziTu7shrRKnnLPV+Wjek7StA@mail.gmail.com>
+Date: Tue, 17 Nov 2026 16:44:40 -0500
+X-Gm-Features: AclHuK8Uus290_Q06_UE2bHYakRlG_bLEeTgE9DVUB1X6orAgAVuvkcOrMMolx4
+Message-ID: <CABQX2QPMMORjW9y5DinfDJEw15hp0uDk48Xr9J9OcxUz_AC_Rw@mail.gmail.com>
 Subject: Re: [PATCH v3 06/12] KVM: x86: Forward VMware hypercalls to userspace
-To: Sean Christopherson <seanjc@google.com>
-Cc: David Woodhouse <dwmw2@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
+To: Jim Mattson <jmattson@google.com>
+Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
 	Doug Covelli <doug.covelli@broadcom.com>, Thomas Gleixner <tglx@kernel.org>, 
 	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
 	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
 	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	Shuah Khan <shuah@kernel.org>, Vitaly Kuznetsov <vkuznets@redhat.com>, Paul Durrant <paul@xen.org>, 
-	Xin Li <xin@zytor.com>, Francesco Lavra <flavra@baylibre.com>, 
-	=?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>, 
+	Shuah Khan <shuah@kernel.org>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	David Woodhouse <dwmw2@infradead.org>, Paul Durrant <paul@xen.org>, Xin Li <xin@zytor.com>, 
+	Francesco Lavra <flavra@baylibre.com>, =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>, 
 	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
 	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
 X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000068b5ab06607fc58d"
+	boundary="0000000000002b878c06607fcec0"
 
---00000000000068b5ab06607fc58d
+--0000000000002b878c06607fcec0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 16, 2026 at 5:27=E2=80=AFPM Sean Christopherson <seanjc@google.=
+On Thu, Nov 12, 2026 at 1:53=E2=80=AFPM Jim Mattson <jmattson@google.com> w=
+rote:
+>
+> On Tue, Nov 10, 2026 at 10:05=E2=80=AFPM Zack Rusin <zack.rusin@broadcom.=
 com> wrote:
-> On Fri, Nov 13, 2026, David Woodhouse wrote:
-> > On Fri, 2026-11-13 at 01:33 -0500, Zack Rusin wrote:
-> > > > Userspace *already* needed to
-> > > > know about those=C2=B9 because it can't migrate while those are pen=
-ding;
-> > > > it has to do at least one more run, even if it's with the immediate=
-_exit
-> > > > flag set.
-> > >
-> > > True, but, again afaict, that rule exists because those completions
-> > > have to run, so I don't think it tells us they can be dropped.
-> > >
-> > > > If it's deemed clearer, I'd also be OK with an explicit
-> > > > KVM_VCPUEVENT_CANCEL_HCALL which cancels *only* hypercalls. But I d=
-on't
-> > > > really see the point; userspace shouldn't be getting confused when =
-it
-> > > > was actually some other kind of completion that was active anyway.
-> > > >
-> > > > =C2=B9 https://lore.kernel.org/all/20250111012450.1262638-1-seanjc@=
-google.com/
-> > > >
-> > > > Looks something like this in my Hyper-V hcall series (except I alre=
-ady
-> > > > shouted at the agent for stupid struct layout and made it go run pa=
-hole
-> > > > on everything it's working on).
-> > >
-> > > FWIW, restricting cancellation to explicitly marked completions looks
-> > > good to me.  If Sean/Paolo prefer that, I'm happy to mark our
-> > > completion cancellable and drop our exception fields.
 > >
-> > I posted that as
-> > https://lore.kernel.org/kvm/20261113170535.79246-3-dwmw2@infradead.org/=
-T/#u
-> > and caught both Paolo and Sean here at KVM Forum and both seem OK with =
-it
-> > (although acquiescence when badgered at a conference doesn't necessaril=
-y
-> > translate to applying the patch... :)
+> > Add KVM_VMWARE_ENABLE_HYPERCALL.  When it is enabled, exit to userspace
+> > with KVM_EXIT_VMWARE when an L1 vCPU executes VMCALL or VMMCALL with
+> > VMware's magic value in EAX, and let userspace complete the call by
+> > updating the guest's registers or by having KVM inject #UD, #GP or #PF.
 >
-> Heh, you jinxed yourself.
+> It's not clear to me if this paragraph implies that VMCALL and VMMCALL
+> are supported cross-vendor. If so, it may not be true.
 >
-> Adding something to KVM_SET_VCPU_EVENTS is complete overkill, and will cr=
-eate a
-> confusing ABI for hypercalls versus MSR exits.  For the latter, KVM lets =
-userspace
-> signal success/failure, and injects a #GP on failure.
+> In arch/x86/kvm/emulate.c, group7_rm0[1] (VMCALL) has the Priv flag
+> set. When an AMD guest executes VMCALL at CPL > 0, x86_emulate_insn()
+> sees Priv && cpl > 0 and injects #GP(0) before ever reaching
+> em_hypercall(). The other direction should be fine, since
+> group7_rm3[3] (VMMCALL) does not have the Priv flag set.
 >
-> The VMware case in particular is a bit different since that case needs to=
- inject
-> a variety of faults, with a payload, but the concept is the same: give us=
-erspace
-> a way to cancel/reject the hypercall/action.  And that's dead simple, e.g=
-.
->
->   static int complete_vmware_hypercall_exit(struct kvm_vcpu *vcpu)
->   {
->         if (vcpu->run->vmware.ret)
->                 return 1;
->
->         return kvm_skip_emulated_instruction(vcpu);
->   }
+> In any case, if cross-vendor hypercall instructions are supposed to be
+> supported, you should add them to the selftests.
 
-That sounds good to me. In the next version I'll replace the exception
-fields with ret.  A non-zero ret will leave RIP at the hypercall, and
-I think the userspace can queue the fault through vCPU events.  For
-partial progress it can pass REGS and EVENTS together on the next
-KVM_RUN.  I'll keep the linear-RIP check.
+I meant the native instruction only.  When the hypercall backdoor is
+enabled, we advertise VMCALL to Intel guests and VMMCALL to AMD guests
+in CPUID leaf 0x40000010, ECX.  You're right about #GP(0) for VMCALL
+at CPL > 0 on AMD.  I'll clarify the commit message and API docs.
 
 z
 
---00000000000068b5ab06607fc58d
+--0000000000002b878c06607fcec0
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -295,13 +247,13 @@ iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
 b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
 VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
 VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEID5d
-8pI8F7IDmvtX9BG51sVnnYOEB1c4euX+MwGyj2v8MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI2MTExNzIxNDIyOVowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIBAp
+VjnktPh6sj4ZQQO7CMSeyzt3kkjQCCivmRraee4YMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI2MTExNzIxNDQ1NlowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
 ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAHTLeUJFePPNLQSW7gwKH8jcbv7F6/537iiSHiIO
-9UdJbIw8Fo6WDHhDtFAba2zm45laS1oIu7myM5DQwvyfb/WUuTcblF1KUkezit7YY9GOk+eKbf9b
-2fRoig7Ri8/eCqQTHowGFB9F/HRl0r9yHMO3qboqYe4ytmXDAGi/7Mr5hEtltZJF5lbAMgtCeu7h
-9BtKvnYU8nocUeokv8DaH1Wpvta4OldXjGQOjOyr7qL7wcpLmnvcgDqu7OgDgDeAdtMn5ngAqif7
-0T2pD/07AJte0qod3wVt9bYtwjpicBHoHxjHfiSGwZMJq5w6rWqWBdDB/zBp/vaPv55PR26wAew=
---00000000000068b5ab06607fc58d--
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAIXUD4TnI3Ls73aU5WfA3krQmb8uF1V101RQK3Jk
+HPETb79pRmuzFnlKYulB16UsDTqtOHFFtmVJd/nI2xuDC5NSDnFiQHhyynUsTf2PmOYXKSAffJB0
+rxoH+09RlJ6Hv4hsopO8c5DlSIDJBuJRWmWVSWyZ3FrInOg08FnozsFNJrfQuJdKwxroyosSi0y9
+Q+QD+NgmH/hC09LTAVShijw/acv7+KWF8x7HM3p6Mn0p/pow5mmEATdYoYVFQhtnv38fmTJ9QKZb
+zKVDqcP6N/2HHtK6Lnz2AGEbiaRsa8pJrL8tJxAJLdChdaBZY2froM/QS7jh4rfPTOx6Djg2hrQ=
+--0000000000002b878c06607fcec0--
