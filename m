@@ -1,84 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.221
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794907780;
-	b=ef7wV5jRQf3tUxqltyibsCwpPRFo4h8w7/VFnceY1dE7te06V5DH6yD5iUzINQ4Vhu5d
-	 EmZiq+gvBOQY2tDjwX+l0t1nEqdAvRMxqh3bu5Rj/zC3Zd6y/Xvl/x5OiGmds9oS2HdHT
-	 UhTw0APm/19DdNeCrG8EWxA8suaPDd51zwRjJ4O1B0dGyq9JIaknuiWVr3EHq/fJHbdzt
-	 /XQ8C+RZ0QlaLcPfLEoTqwBKotQwV153DSM66LmJBiheNdOwHVGz/4DR70VhLoQ4wQ5Ov
-	 65TuJ1mZYZqjdL5tqhEdXl0YhbYvKcEm3+O2z6L2Kbu7bJSPcSUhemJ4JgR1xzg8rUQ==
+	t=1794907952;
+	b=lfD2etFBtq3iuxDq1//ehISGWjK4DROuUoNJY6paSqZy2r0Jw2LYSX+1hEnd+3oUpHYU
+	 Lsropf5T/1XJJKO8+evIPoctAxa+z/+YQs0JvFaA+3zn4ccbsuD6Jt2WqwwCOH+BtZHxu
+	 PZCQw3uANXGvW6TlmQme2k2pJub0jWF4yTa6IVPOewOFVp3bsiNVhsQUJbzVCbSCTBJ/d
+	 dJvtyqHT1Hv5UBMpF78oYPwZbmH9OiK9VnmygNdAubv9Rl4H1zTz0xeuCExmqxVEm3jXl
+	 tNf13xU9gkRPaWHIjj/7aSskoZKpuTsC2HNjLmN98KqQy+8aHYVQQE+bt7WfBFZBRGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794907780;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=xqQWfWKatMYIK2o9eLxPURKMr0Gqkug9p556vmmLLro=;
-	b=3UgUqx0h3TaRMy3c5ET3QCeC+kkhSNbZlvEa620VAb2bwRtpz42DWSU6UdoGjpLIrYYO
-	 TCYYZsM7k43sKjg5fE3ozbTiQj6/3/WnfZhvTszLHYAiXlUNZCUJQW4b5YQqS2WMcqHg2
-	 lJamQ6x9qItS0QvlI/D/YbW+G7vsaUubKcGQCAKmL1LDLhsmZ/i8XKUCrSRb+11Lqlwjy
-	 25Vc+kO8oOWkoaEy8bQlClrBFsPvDsy65mz82InevTIe00iK0MbNhm6WI+bTuPltfG5A7
-	 Mib/iQQCX30VrHxat0lPwe5E4XqOJpsDmxKVyoTPFGJS6OXYZJzvYp5swP/eFf59qxA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794907952;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=kXfjSX8A0sMCwSrc1NZ9DdCD8p1mIiqPqqCInt2hce0=;
+	b=4V4UUjPCl0AyIkKsxv4ANGceFPJf8nmvg049yRi64iIbemoOWnoexyyTTedTKk9UU4EC
+	 5oOPx0LhhuCygaU8M81NVY90/5TyyCFcXNp5ryIOnkUQAYxnBDNN3u9NuJRDH6nfmVEyl
+	 s4aOHiK8ehLHd4PA2jSfaKRR+cShB2kNzSNpmjWZZkdV72fxkuxHwTFRdkkpLg6t4Y6nI
+	 DmcB01pikFLV2KgdmpWK/hn2sKkWdauLMtoLnSZDa852R6SK6v1fJqIT7Mbdt9MWPL8so
+	 aX+q1L4l4u90Rw5jYZ6COuB1gaByMavC5MLYr8ADB9bcxKxeRRj8AXz6cXtGxg8PXhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=corp.free.fr;
-	spf=pass smtp.mailfrom=corp.free.fr;
-	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=Sj+fDnbN;
-	arc=none smtp.remote-ip=212.27.60.169
-Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=akHKDD3X;
+	arc=none smtp.remote-ip=113.46.200.221
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653C460A2623;
-	Tue, 17 Nov 2026 09:29:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 653C460A2623
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0C9606A32C;
+	Tue, 17 Nov 2026 09:32:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F0C9606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=Sj+fDnbN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
-	t=1794907764; bh=qPmG8P+hFAtTUxkbaEcSp1PyPgXZo0DXS68/FvOLOG8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Sj+fDnbNzmtSvk5xqSC3Y8E9IhXqSNQk6YlG3JZSdyb5InDNl19tyx/SqnCjWcCno
-	 PvQ0YdWlio/UH+c78gRkKf5HTpMBjiuaO1IiMofsrs5dYp/dEoeHnSAIpEEKE94Jnd
-	 y0XZdKH+uGHgXJSDboluV4yL87IuEE2uz1O5dosrnEaWAO3riQH96jpTCyi/IXtg4w
-	 xv8x90TN/ycoAFOdGNaI0NZmIT97xHWBXxJW7Fy8EPzHUgzo6LxssneAnqphEM35zw
-	 jgK67lwL7GSmQ0Fd7/4/E8iy2TAesTZyd1cX/va0PCelb36f7B3iKxL7xWgICora5S
-	 jOx1OJGdSxXLQ==
-Received: from lnxos-dev.home (82-66-150-212.subs.proxad.net [82.66.150.212])
-	by rcs.proxad.net (Postfix) with ESMTPSA id 8CADB44C0B5A;
-	Tue, 17 Nov 2026 10:29:23 +0100 (CET)
-From: Alexandre Cassen <acassen@corp.free.fr>
-To: Saeed Mahameed <saeedm@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Mark Bloch <mbloch@nvidia.com>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Jiri Pirko <jiri@resnulli.us>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>,
-	Potnuri Bharat Teja <bharat@chelsio.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	David Ahern <dsahern@kernel.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	Shuah Khan <shuah@kernel.org>,
-	netdev@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	oss-drivers@corigine.com
-Subject: [PATCH net-next v2 04/10] net/mlx5e: TC, refuse a tunnel key wider than the VNI
-Date: Tue, 17 Nov 2026 10:29:07 +0100
-Message-ID: <20261117092915.255194-5-acassen@corp.free.fr>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=akHKDD3X
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=kXfjSX8A0sMCwSrc1NZ9DdCD8p1mIiqPqqCInt2hce0=;
+	b=akHKDD3XFur+jgEm7qdeoTDQvtUIj3wMYu3N0UKMq91NlUGx2dBznwEFvtCsCCn9/iyCcX/A7
+	pH8DowUtdDJ20EZLRab6ImOXhhKPaRGe0ZNw6+SGzwl3qr2It3xOXSGjJwU5d5Qg8V+C4WxjbM4
+	EtkRZJz/82xI+rt0JH3IkVY=
+Received: from mail.maildlp.com (unknown [172.19.162.197])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4jTKJF1tByzRhT6;
+	Tue, 17 Nov 2026 17:32:13 +0800 (CST)
+Received: from kwepemo200009.china.huawei.com (unknown [7.202.195.26])
+	by mail.maildlp.com (Postfix) with ESMTPS id 398054057D;
+	Tue, 17 Nov 2026 17:32:27 +0800 (CST)
+Received: from localhost.localdomain (10.50.159.234) by
+ kwepemo200009.china.huawei.com (7.202.195.26) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Tue, 17 Nov 2026 17:32:26 +0800
+From: Long Wei <longwei27@huawei.com>
+To: <rppt@kernel.org>, <pasha.tatashin@soleen.com>, <pratyush@kernel.org>,
+	<akpm@linux-foundation.org>
+CC: <graf@amazon.com>, <leitao@debian.org>, <corbet@lwn.net>,
+	<rdunlap@infradead.org>, <linux-mm@kvack.org>, <kexec@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<hewenliang4@huawei.com>, Long Wei <longwei27@huawei.com>
+Subject: [PATCH 0/2] kho: expose incoming sub-blob metadata instead of contents
+Date: Tue, 17 Nov 2026 17:29:49 +0800
+Message-ID: <20261117092951.4017931-1-longwei27@huawei.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261117092915.255194-1-acassen@corp.free.fr>
-References: <20261117092915.255194-1-acassen@corp.free.fr>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,79 +72,35 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemo200009.china.huawei.com (7.202.195.26)
 
-VXLAN and GENEVE flows truncate the key and the mask of enc_key_id to a 24
-bit VNI. An exact key above bit 23 already selects the wrong VNI. Flower
-is about to accept partial masks. A mask that only covers bits above 23
-would then match any VNI. Refuse a key that no VNI can match. GRE keeps
-its 32 bit key.
+Incoming sub-blob pages under kho/in/sub_fdts are owned by their consumers
+and have independent lifetimes.  Consumers restore and free them at their own
+initcall level, which is always earlier than kho_init() (fs_initcall) where
+the debugfs view is built.  LUO, for example, frees its state in
+early_initcall, so in/sub_fdts/LUO ends up pointing at a page that has
+already been returned to the page allocator.  Reading the file then triggers
+a KASAN use-after-free in _copy_to_user(), with the backing page already
+marked page_type: f0(buddy).
 
-Found by an AI code review agent while auditing the users of enc_key_id.
-Confirmed by code inspection. The wrong match was not triggered. Tested
-on ConnectX-7 with firmware 28.48.1000 in switchdev mode on VXLAN, GENEVE
-and gretap devices.
+KHO does not own these pages, so it cannot safely expose their contents at
+any point.  Instead of trying to track which blobs are still alive, replace
+the raw blob nodes with a read-only in/blobs file that reports the name,
+physical address and size of every sub-blob referenced by the incoming FDT.
+The FDT itself is reserved by KHO and remains available as in/fdt.
 
-Fixes: bbd00f7e2349 ("net/mlx5e: Add TC tunnel release action for SRIOV offloads")
-Fixes: 9272e3df3023 ("net/mlx5e: Geneve, Add support for encap/decap flows offload")
-Signed-off-by: Alexandre Cassen <acassen@corp.free.fr>
----
- drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun.h       | 3 +++
- .../net/ethernet/mellanox/mlx5/core/en/tc_tun_geneve.c    | 8 ++++++++
- drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_vxlan.c | 8 ++++++++
- 3 files changed, 19 insertions(+)
+The first patch does the change, the second updates the documentation.
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun.h b/drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun.h
-index 6873c1201803..d7c778bbb2ef 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun.h
-@@ -13,6 +13,9 @@
- 
- #ifdef CONFIG_MLX5_ESWITCH
- 
-+/* VXLAN and GENEVE match registers hold a 24 bit VNI */
-+#define MLX5E_TC_TUN_N_VNI BIT(24)
-+
- enum {
- 	MLX5E_TC_TUNNEL_TYPE_UNKNOWN,
- 	MLX5E_TC_TUNNEL_TYPE_VXLAN,
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_geneve.c b/drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_geneve.c
-index bf969212cc77..ee04fcdca6ff 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_geneve.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_geneve.c
-@@ -141,6 +141,14 @@ static int mlx5e_tc_tun_parse_geneve_vni(struct mlx5e_priv *priv,
- 	if (!enc_keyid.mask->keyid)
- 		return 0;
- 
-+	if (be32_to_cpu(enc_keyid.key->keyid) >= MLX5E_TC_TUN_N_VNI) {
-+		NL_SET_ERR_MSG_MOD(extack,
-+				   "Tunnel key does not fit the 24 bit VNI");
-+		netdev_warn(priv->netdev,
-+			    "Tunnel key does not fit the 24 bit VNI\n");
-+		return -EOPNOTSUPP;
-+	}
-+
- 	if (!MLX5_CAP_ESW_FLOWTABLE_FDB(priv->mdev, ft_field_support.outer_geneve_vni)) {
- 		NL_SET_ERR_MSG_MOD(extack, "Matching on GENEVE VNI is not supported");
- 		netdev_warn(priv->netdev, "Matching on GENEVE VNI is not supported\n");
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_vxlan.c b/drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_vxlan.c
-index 467fbe43b89e..33911e72d20d 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_vxlan.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_vxlan.c
-@@ -173,6 +173,14 @@ static int mlx5e_tc_tun_parse_vxlan(struct mlx5e_priv *priv,
- 	if (!enc_keyid.mask->keyid)
- 		return 0;
- 
-+	if (be32_to_cpu(enc_keyid.key->keyid) >= MLX5E_TC_TUN_N_VNI) {
-+		NL_SET_ERR_MSG_MOD(extack,
-+				   "Tunnel key does not fit the 24 bit VNI");
-+		netdev_warn(priv->netdev,
-+			    "Tunnel key does not fit the 24 bit VNI\n");
-+		return -EOPNOTSUPP;
-+	}
-+
- 	if (flow_rule_match_key(rule, FLOW_DISSECTOR_KEY_ENC_OPTS)) {
- 		int err;
- 
+Long Wei (2):
+  kho: expose incoming sub-blob metadata instead of contents
+  docs: kho: describe the in/blobs debugfs file
+
+ Documentation/admin-guide/mm/kho.rst       |  6 +--
+ kernel/liveupdate/kexec_handover_debugfs.c | 83 +++++++++++++++---------------
+ 2 files changed, 45 insertions(+), 44 deletions(-)
+
 -- 
 2.43.0
 
