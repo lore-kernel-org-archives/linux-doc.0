@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794945189;
-	b=oVa1Z1hCgL/b5rZD9WnZQtbFpJ5Axqlc0h3dB6UfpICCD7gW24DXZkXRA0POGMf3MBb3
-	 LtwXKjTzCudZ8WQGPccHYrpIIObAOF65CfCyecEN/7Z4yLxcqhJcSp8qN84gSx84wryqb
-	 iagkGo182lP6gtdbeM4fLFJ71dtNQVe+kZy8rM0t7B01LtRu8GWzj1T44A+s6kHMrPIXM
-	 KGZ6gYvdA8QdnF5dZ4AIbRlijuyphmUwMVW0IN0mn4WKnWgrN9JsZXbEpNM0o5R+5fizH
-	 BevfjslfwEgHknFDM2g3fRKYXa5WpWNNOs+MaHPsLKhWkGEQjB9Ry6MT++4I/QC0NLg==
+	t=1794945186;
+	b=0XfxTgjaPTmyjX9nAaH6i2FsrWqokwIEisTnP+DaxCV9LADau6yb+im/nHqVQSnTpSYO
+	 yOj6ygbV3A964vLFSdB/GejNQGOJ4wiHSP8kZcdVWZsqyVpiii+bosvwqhsPy4jOArjhn
+	 JyV/hqU1QawyB9beo42SEoizqD0bXhGmQeirPFf5sqRzJY+tA7UJ6EG+OxrCzcvxGdqyu
+	 oGCt2A7fd3cZF1ScmQ3udnKT16S4ilOqNdjjP8/iJ2JZDL16afOhVC3C3/VJYGhjuN8nT
+	 YniPO2ZBUUfQTiYgFGWFDXWZfOY+WJFY4X/Ml7V1eoXX4rNo9iUmkPEz6m+UijD18jA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794945189;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794945186;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=UXNpEjorEXEGBzkz6frYBkjwt0vJlTwPI7hpnjwUJms=;
-	b=ga3hmEGQVCBTs0cWHSc3dnWh7tDVtA2BDRBKLQQAQOZEsqF2FokJPaMjX4Pp2LwZUa5L
-	 /xv8Id0TBG+gRZByVxOjEk9GsZCsuuT3DZYRFiOX3FD3d0eRWEaXWdsamJkAa2rjd4VHm
-	 WCO5C9J4eyW1jVeOEDeEWwUn0l+Lfnd+L4LFx9GHhBOiKzuUYprscI8yTID+i/w3Zqj//
-	 rWQINnuIzzAM34C8XQCacI15XbETRKKiNG8BjeU45q0gVfsyn4iM2B3YFWKO03DBUUhWl
-	 N2xY3z1vmSKyakdxidhwE8Lg6G9veK/6rQHOAEmG/nlFGk0JY7PVjL0qsMbYwvnQbjg==
+	bh=uhe4pcuFQQBrgruJxfFIvK3IwTRis9Cusm7BBq0QP3E=;
+	b=CfixcG94Dno+JLAkAk0UmOOjVlfu5T00r9nPS/BQs+Ynt/I4JCLUataOU56ACyXDwbWN
+	 w6OIt28i631DsJsmmXbPZbd4Rk3xmlui3Y6Gvq0mKYjLpykkDFCI8Mm+3Ts84Tt8zTfEh
+	 dbRQ6O7K5wDWU+Gzu0W6MdumeRv06h64/SYf3iOmw36ZbjIRJRk4RvhEfRJ4UZZu2wX/G
+	 78tx0xbWVlHVD0IHHir81agBv9eY8P5+NQakfLEYSKY/anIyad1dd8RP08/kZhZGc48u6
+	 AEMTmpt8U+8sA1Yq4zWVteTcRaE/jS0lDDlUV8NnhOjnWRV6zukrpvr/BiptZP1/H9g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f7HkA83m;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OyJtv9gO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCE4606A335;
-	Tue, 17 Nov 2026 19:53:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BD9606A33F;
+	Tue, 17 Nov 2026 19:53:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f7HkA83m
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50F291F000C7;
-	Tue, 17 Nov 2026 19:53:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OyJtv9gO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87F691F000D0;
+	Tue, 17 Nov 2026 19:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794945189;
-	bh=UXNpEjorEXEGBzkz6frYBkjwt0vJlTwPI7hpnjwUJms=;
+	s=k20260515; t=1794945185;
+	bh=uhe4pcuFQQBrgruJxfFIvK3IwTRis9Cusm7BBq0QP3E=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=f7HkA83mZ2hkM6q5TflbOk3rGTRu14yimlNgeL9Rt21X1OIUQ2TXijOI5T2HYAU9I
-	 wTOXIWvJ3SIIcz5FUhC7h1BWqagxFJe/cKzdqMt/k/GmEsjGMX16exVaPmmjwOfqog
-	 pHD6OtU+9Fx/dF9O7Lwhsb5AvXNZbAC/NGYWUfHIWKBVmrTxeBd47astNsG28swxrW
-	 pWOa+ZVt4c0I3ISxrb6MpfF/a10DgcGFxBpi3SRqXM/2y+mWP0cyZr77VuxyPlOgu2
-	 IAV8/WgQ0BKBfqDCIe9/xhAe0HlXl5G/uLcgNqXJd/UdA0PUoiTJ2ufskZnxqmxoWI
-	 Buc8DxXJNiXUA==
-Subject: Re: [PATCH net-next v11 13/14] net: phy: ncn26000: Support for
- onsemi's S2500 internal phy
+	b=OyJtv9gOyihBHYWaFzM3POKGEme/NSpQ51NsbjMjecngK56HkQzdZsy2Nj6vr+lRF
+	 S7kG/gdnltYadG9PVfHFFVSRzlQjF5H+Djl7ZZPJtxo1feu8Y2g6wA6OmxWYjT8MLt
+	 XUq9g9+o26wdR8Eqr28Z1VQi19WgovElhzhBxswyOlJqF+vavWMBuetZ7E5xFk8OAJ
+	 ndxvIOw2btQQ/CIWmmGS7uoqXzDORmjB+GAcIq2UtQQXEBBN9rtdPZu+7fXZfcGBX2
+	 CKx4MBsbO+5A7zRO+DQ0ysEE29YLuTY4+UABFKc2agP5VSj0b+FFfPwVmvWKqTOjlm
+	 3x3gbKoCXabNg==
+Subject: Re: [PATCH net-next v11 08/14] net: ethernet: oa_tc6: Drop frames if
+ footer has FD bit set
 From: netdev-bot+sashiko@kernel.org
 To: Selvamani.Rajagopal@onsemi.com
 Cc: andrew+netdev@lunn.ch, davem@davemloft.net, kuba@kernel.org,
@@ -52,11 +52,11 @@ Cc: andrew+netdev@lunn.ch, davem@davemloft.net, kuba@kernel.org,
  edumazet@kernel.org, piergiorgio.beruto@gmail.com, netdev@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, jerry.ray@microchip.com, ciprian.regus@analog.com
-Date: Tue, 17 Nov 2026 19:53:07 +0000
-Message-ID: <179494518788.3136.14432777334635452577@kernel.org>
-In-Reply-To: <20261113-s2500-mac-phy-support-v11-13-7a186141952c@onsemi.com>
-References: <20261113-s2500-mac-phy-support-v11-13-7a186141952c@onsemi.com>
-X-sashiko-severity: Low
+Date: Tue, 17 Nov 2026 19:53:04 +0000
+Message-ID: <179494518411.3136.11012925273881298159@kernel.org>
+In-Reply-To: <20261113-s2500-mac-phy-support-v11-8-7a186141952c@onsemi.com>
+References: <20261113-s2500-mac-phy-support-v11-8-7a186141952c@onsemi.com>
+X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -69,82 +69,117 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-Low priority / nit picks for your consideration:
+Critical: 0 · High: 0 · Medium: 1 · Low: 1
 
-- [Low] The new S2500 entry in ncn26000_driver[]
-  (drivers/net/phy/ncn26000.c) sets `.set_plca_cfg =…
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [Medium] In oa_tc6_prcs_rx_chunk_payload()
+  (drivers/net/ethernet/oa_tc6/oa_tc6_main.c), frames the MAC-PHY marks…
+- [Low] This concern is retained only because it requires validation.
 
 --
 
-net: phy: ncn26000: Support for onsemi's S2500 internal phy
+net: ethernet: oa_tc6: Drop frames if footer has FD bit set
 
-This patch adds a phy_driver entry for the internal PHY of the onsemi
-S2500 MAC-PHY to the ncn26000 driver. The NCN26000 TO_TIMER workaround is
-skipped on the S2500, and the new entry gets its own config_aneg. It also
-adds SQI, OATC14 cable test, loopback and direct C45 MMD access callbacks.
+This patch adds handling for the Frame Drop (FD) bit in the receive data
+chunk footer in oa_tc6_prcs_rx_chunk_payload(). When the last chunk of a
+frame has FD set, any partially assembled rx_skb is freed and the dropped
+frame's data is skipped. If the same chunk also carries the start of a
+new frame, that new frame is still processed.
 
-> diff --git a/drivers/net/phy/ncn26000.c b/drivers/net/phy/ncn26000.c
-> index 888d74b831256..0e2c978b73d49 100644
-> --- a/drivers/net/phy/ncn26000.c
-> +++ b/drivers/net/phy/ncn26000.c
+> diff --git a/drivers/net/ethernet/oa_tc6/oa_tc6_main.c b/drivers/net/ethernet/oa_tc6/oa_tc6_main.c
+> index 2b31370da2d2b..5d01ef5a13ad0 100644
+> --- a/drivers/net/ethernet/oa_tc6/oa_tc6_main.c
+> +++ b/drivers/net/ethernet/oa_tc6/oa_tc6_main.c
 
 [ ... ]
 
-> @@ -162,6 +179,25 @@ static int ncn26000_config_intr(struct phy_device *phydev)
->  }
+> @@ -1159,6 +1160,25 @@ static int oa_tc6_prcs_rx_chunk_payload(struct oa_tc6 *tc6, u8 *data,
+>  	if (tc6->wait_until_start_valid)
+>  		return 0;
 >  
->  static struct phy_driver ncn26000_driver[] = {
-> +	{
-> +		PHY_ID_MATCH_MODEL(PHY_ID_S2500),
-> +		.name                  = "S2500",
-> +		.features              = PHY_BASIC_T1S_P2MP_FEATURES,
-> +		.config_init           = ncn26000_config_init,
-> +		.config_aneg           = s2500_config_aneg,
-> +		.read_status           = ncn26000_read_status,
-> +		.set_loopback          = genphy_loopback_no_speed,
-> +		.set_plca_cfg          = ncn26000_c45_plca_set_cfg,
+> +	/* Drop the frame, if footer sets FD bit. Checking FD bit
+> +	 * becomes important, when cut-through operation is enabled.
+> +	 */
 
 [Severity: Low]
-Does bit 7 of VEND2 register 0x8001 also mean Enhanced Noise Immunity on
-the S2500?
+The only scenario the commit message gives for FD being set is RX
+cut-through:
 
-The S2500 entry reuses ncn26000_c45_plca_set_cfg(). After the generic PLCA
-setup, that function also writes the NCN26000-specific ENI bit:
+  With RX cut-through enabled, the MAC-PHY can start forwarding a frame
+  before it knows the frame is bad, and uses FD to tell the host to
+  discard it.
 
-drivers/net/phy/ncn26000.c:ncn26000_c45_plca_set_cfg() {
-    ...
-	eni_cfg = (plca_cfg->enabled) ? NCN26000_PHYCFG1_ENI : 0;
-	return phy_modify_mmd(phydev, MDIO_MMD_VEND2,
-			      NCN26000_REG_PHYCFG1,
-			      NCN26000_PHYCFG1_ENI, eni_cfg);
+At this commit nothing enables cut-through. struct oa_tc6 has no
+cut-through state yet, and nothing writes OA_TC6_CONFIG0_RXCTE.
+
+The later S2500 patch in this series adds ctc_capable,
+oa_tc6_rx_cut_through_enable() and the OA_TC6_CONFIG_RX_CUT_THROUGH
+quirk. That makes this patch groundwork for that change, and the ordering
+looks fine.
+
+Can the existing MAC-PHYs (LAN865x and others) also set FD in their
+default store-and-forward mode? If so, frames marked FD would currently
+reach the stack through oa_tc6_submit_rx_skb()->netif_rx(). Should this
+then carry a Fixes: tag? If not, could the commit message say that
+cut-through is enabled by a later patch in the series?
+
+> +	if (end_valid && frame_drop) {
+> +		oa_tc6_cleanup_ongoing_rx_skb(tc6);
+> +
+> +		/* Full frame in this chunk. Nothing to free. Move on to
+> +		 * next chunk.
+> +		 */
+> +		if (start_valid && start_byte_offset < end_byte_offset) {
+> +			tc6->netdev->stats.rx_dropped++;
+> +			return 0;
+> +		}
+
+[Severity: Medium]
+Should frames with FD set be counted in rx_errors rather than only in
+rx_dropped?
+
+For a frame that fits in one chunk, this block increments only
+rx_dropped. For a frame that spans several chunks, the
+oa_tc6_cleanup_ongoing_rx_skb() call above also increments only
+rx_dropped:
+
+static void oa_tc6_cleanup_ongoing_rx_skb(struct oa_tc6 *tc6)
+{
+	if (tc6->rx_skb) {
+		tc6->netdev->stats.rx_dropped++;
+		kfree_skb(tc6->rx_skb);
+		tc6->rx_skb = NULL;
+	}
 }
 
-The S2500 MAC driver gives the same MMS4 register a different name, and
-does not define an ENI bit for it:
+The kernel-doc for struct rtnl_link_stats64 in
+include/uapi/linux/if_link.h defines these counters as follows:
 
-drivers/net/ethernet/onsemi/s2500/s2500_hw_def.h:
-#define S2500_REG_VS_TWEAKS1		0x8001
+  @rx_errors: Total number of bad packets received on this network device.
+  @rx_dropped: Number of packets received but not processed,
+    e.g. due to lack of resources or unsupported protocol.
 
-The commit message covers one PLCA difference between the two parts (the
-TO_TIMER default). It does not say whether TWEAKS1[7] has the same ENI
-meaning on the S2500.
+The commit message describes FD frames as frames the MAC-PHY "knows the
+frame is bad". These are bad frames from the wire, not host-side drops.
 
-If the meaning differs, each ethtool PLCA enable or disable would toggle
-an unrelated vendor tuning bit through this path:
+With cut-through enabled on S2500 later in the series, would every
+corrupted frame on the segment show up as rx_dropped in ip -s link while
+rx_errors stays at 0?
 
-phy_ethtool_set_plca_cfg()->ncn26000_c45_plca_set_cfg()->phy_modify_mmd()
-
-Could this be confirmed in the commit message or in a comment? If the bit
-is different on the S2500, the entry could call genphy_c45_plca_set_cfg()
-directly instead.
-
-> +		.get_plca_cfg          = genphy_c45_plca_get_cfg,
-> +		.get_plca_status       = genphy_c45_plca_get_status,
-> +		.soft_reset            = genphy_soft_reset,
+> +
+> +		/* The chunk carries only the end of the dropped frame. */
+> +		if (!start_valid)
+> +			return 0;
+> +	}
+> +
 
 [ ... ]
 
