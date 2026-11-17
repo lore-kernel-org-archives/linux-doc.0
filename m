@@ -1,59 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794883163;
-	b=1ILfqwsOoFtjS6u9ncIGYf+k42aBVHHIXciYw+puubLOV8qlQVNpYGMSMCHe6h5Gww1z
-	 LNqrujRgc75tdxh8SmmgllZva8gf3h0NNkocqqXhuKBqBzvFWNv1fdw4ecPgSPp8rXxvW
-	 3+CAF4j9IngD1Ey92Zg5ZNzvvZNfLvPWGpuGavAJjE9wIY+TYpSssyPl8HojexyQh/Ith
-	 1u9lO6rZwXMGdyWMm4XOQCO3CwDXzQN07Dn+FLKw65rfrvxO8LOPMR186LRqyQSr9xezj
-	 TAaaHCy16AalgzDP7HqFGTOVabHhDXYprhALwvUy/2UAx1M2D6rZ2H1KFekSwSJMs6Q==
+	t=1794883359;
+	b=d52JXaix97hW56nC0m4+77anL7D4Ltrr+EHIR+aRlvcSdvKcPri1ZVLypFhLbjL/ZXDy
+	 bsXZNhjvu+P8auMX3h3710suyd9IftkZbiNvrYQZWwrXY50f1UAUJR8k14pYEoQy8LFkJ
+	 b6rXLcH02vybioO4PaEO2z8YTtoatS7uGvszYy5rgQ7O3negxiPL+sAYY+D+wA4F2jgKa
+	 6bUlk0w/O9DB6/aiJfyL1+ti4V13lO2+VgrtK2oFc/6ytnCk1U5uptUVJWkOrcLg1XDlT
+	 NohXY0+EFUP/kJagMKErY1HxkUaX9YqfTHPVoDt52dLbYyUWfWuSwJPtU29HvG3Qj7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794883163;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=8XYv1cpvvrmmfi8wFGVX41Eu2iBwCsdWTtiDpoQvKOc=;
-	b=3jXXwW196iCTAh5OWt4X8bk6hb0JHX82IsyA5qGmgxyAhuQD25z7fD6jBwr5AHvFLd9g
-	 6OjAhXhGIgSl1VDcCn/PuyTaBpiNOHx2cHzeC/75eH2qYZ902s4aTRzgHMnOLIk1RdWdF
-	 +css42a9Bsy/2oZPuyzqNEKlSA919VOog11xYqDmZKvjUaDW1b2W6eRrsBc2JxYP0YY7N
-	 3TKX0BQ08nrsLWpkDbmlJzX3HAZFVaEhxdZ6HU/v0k8AU5qkLMo9nNAm0Rpn/Sz3l4evR
-	 byuOV2PZUgYQh8gkhK2BYgmxg8Ig03Ys0QnNVPkUXsoCmI5fMlbR3RFVt8KIlWvnDeA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794883359;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=CV/8yQe2iMIuyGyk1G/Q/QXie74bXsaHYJKwVGXVxoc=;
+	b=qTritq5hYPkyLVQxoBsCi8lTrTjbL2yXeMLUl3eSv7gN/jQHp0GTmWl2yMmqpj8mqezj
+	 DSQJoVreplbdaCAhTisUSzc7Bv7vp8+B9LnfNNbB62PbXLO9O/2traUbTFkOQY+Ls4LXk
+	 ElMuVdMZxr56g9o4J+YakdwY1x1gK6AeTWh2urqBUXw492bfftlDKiNIsREyi9CsMyLPQ
+	 nFRZjH9DNHAc4pBXHZ2KaWHWkf1eBMx+152sRbesZVw6wZA3PtpxsDbgBSuiR2lctUV7t
+	 0gGhZg7g1udcbHoaPUpwXUE704T7dIDz76fWrVqpvLRs+efyFPbv1WRiI3yG6Zktbag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WSuSgw6v;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YOB5Wdz9;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8F1606A329;
-	Tue, 17 Nov 2026 02:39:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4E5606A31C;
+	Tue, 17 Nov 2026 02:42:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WSuSgw6v
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0E9D1F000C4;
-	Tue, 17 Nov 2026 02:39:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YOB5Wdz9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C115E1F000C6;
+	Tue, 17 Nov 2026 02:42:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794883163;
-	bh=8XYv1cpvvrmmfi8wFGVX41Eu2iBwCsdWTtiDpoQvKOc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=WSuSgw6v/Fm9A7iMTMtCXAQPd3+xVpGD9yytWPCaKDQtdStgDOc5IBBTgs+7T2vBY
-	 1bYzMdOfQrCBKPhmVwsk6SBk65iMsmEW9yAXSXySdEcTQ3Hs9vZwSRun7NtlIWDJdi
-	 B1I4unntAjEuDt3k7/CBUjQgAVEupr//CQhxccKv+4xsDXl//Xv0HXfzI3wfc/IDg2
-	 x/nmXIKo6jr1kpx8PjK2d9w2OMg2ecFeGj07f+hvQ7B10t1YUuRJplf6t+8VX1Juvy
-	 Acy7pD63u4rmkkoTpDiaDOA7d0SL/KRteEMnZkdY+MxY+gBt6YD2rfhuT7QnWlybjH
-	 nnJoWjKo3I2kg==
-Date: Mon, 16 Nov 2026 18:39:21 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: netdev-bot+sashiko@kernel.org
-Cc: hangbin.liu@linux.dev, dsahern@kernel.org, idosch@nvidia.com,
- davem@davemloft.net, edumazet@kernel.org, pabeni@redhat.com,
- horms@kernel.org, donald.hunter@gmail.com, wessel@jacobi.pw,
- rdunlap@infradead.org, linux-doc@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, liuhangbin@kylinos.cn
-Subject: Re: [PATCH net-next] netlink: specs: rt-route: move fixed-header to
- operations list
-Message-ID: <20261116183921.50286c0f@kernel.org>
-In-Reply-To: <179460807877.2199510.9635428422960175112@kernel.org>
-References: <20261112-ynl_fixed_header-v1-1-8475ea19e409@kylinos.cn>
-	<179460807877.2199510.9635428422960175112@kernel.org>
+	s=k20260515; t=1794883359;
+	bh=CV/8yQe2iMIuyGyk1G/Q/QXie74bXsaHYJKwVGXVxoc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=YOB5Wdz9H1jgHIcXmTMbNCpa7DHT2t6ztkS13qf8w1JHlrggkQ6+xUM+9g9p2akeC
+	 ZbS3uzAb+yDQUc73pxgdy+3cQ5rBZfKaP834GbR5Jwzhut7BzfiNCH4EGJGLf+9Ndv
+	 o4MMnFDITh3Wbv7U0qifeQW6hWs9ovjP02qGOImwwiT0kkSmpLmVkQQnHVKBeC0a/v
+	 fZnrGVBTA37azhKsPz/f1uS852hkZGmgaG4hPjg11i+OdX/mFMJ+7GEj51Y2T+32xP
+	 Lpk5iEI+s/hSJdBu4TwwRPzn2EYvWi8tDDUvtEdewEOfI9UqLd/sRWzjKwRYD8IxBJ
+	 +XWZLPk7CqOTw==
+From: SJ Park <sj@kernel.org>
+To: Mattathias Pinchover via B4 Relay <devnull+mattathias.pinchover.uber.com@kernel.org>
+Cc: SJ Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Mattathias Pinchover <mattathias.pinchover@uber.com>
+Subject: Re: [PATCH 0/6] mm/damon: add sz_ops_filter_passed_last DAMOS stat
+Date: Mon, 16 Nov 2026 18:42:31 -0800
+Message-ID: <20261117024231.113721-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261116-damon-sz-ops-b4-v1-0-1cffe7227e6d@uber.com>
+References: 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,11 +66,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, 13 Nov 2026 22:14:38 +0000 netdev-bot+sashiko@kernel.org wrote:
-> [Severity: High]
-> Should this be fixed in the doc generator rather than in the spec?
+Hello Mattathias,
 
-=F0=9F=91=8F=EF=B8=8F good AI. I was about to ask this...
+On Mon, 16 Nov 2026 19:10:03 +0000 Mattathias Pinchover via B4 Relay <devnull+mattathias.pinchover.uber.com@kernel.org> wrote:
+
+> DAMOS stat sz_ops_filter_passed shows the total bytes that passed
+> operations layer-handled DAMOS filters, accumulated from the beginning
+> of the scheme's execution.  Users who want the amount for only the
+> latest apply interval, e.g., the size of a workload's anonymous memory
+> that is cold as of now, have to keep the previous value in user space
+> and compute the difference.  To know how many apply intervals a
+> difference covers, they have to rely on nr_snapshots.  But nr_snapshots
+> is increased once per target per apply interval, so the computation is
+> complicated for contexts having multiple targets.
+> 
+> This series introduces a new DAMOS stat, sz_ops_filter_passed_last.  It
+> shows the amount of sz_ops_filter_passed increase in the last apply
+> interval of the scheme.  It is updated at the end of each apply
+> interval, and kept unchanged until the next apply interval is
+> completed.  Like the other DAMOS stats, it is exposed under the stats/
+> directory of the scheme in the DAMON sysfs interface, and refreshed
+> together with the other stats when refresh_ms expires or
+> update_schemes_stats is written.
+
+Thank you for this series!
+
+> 
+> Patches sequence
+> ================
+> 
+> Patch 1 introduces the stat to the DAMON core.  Patch 2 exposes it via
+> the DAMON sysfs interface.  Patch 3 adds a kunit test.  Patches 4-6
+> update the design, usage, and ABI documents, respectively.
+
+I left a few comments.  Maybe patch 3 needs a change that might deserve
+respinning.  Could you please address all the comments?
+
+> 
+> Tests
+> =====
+[...]
+> Tool use
+> ========
+> 
+> Claude (Anthropic) assisted with the code, kunit test, documents, and
+> changelogs of this series, as noted by the Assisted-by: tags.  I
+> reviewed all of it and ran the tests listed above.
+
+Knowing what tests are already passed and what tool is used is helpful for
+reviewing.  Thank you for sharing those, Mattathias.  FWIW, Assisted-by: tag is
+no more required [1].  I don't mind having it, though.
+
+[1] 1e035297ffda ("docs: remove Assisted-by references")
+
+
+
+Thanks,
+SJ
+
+[...]
