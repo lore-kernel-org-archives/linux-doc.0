@@ -1,62 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794881468;
-	b=YsohvTw6/j8e6ejvNv9GN69ebV8egqjLl41adBvwEvjMZPXDQ/W0NqlixQuGFRMWT16U
-	 fWC9K2wI5S8bnHBTL78UzqeI8ke304yX5RZDcSmjmaW7fVfaqRlAdV2GGPm4AOipywa35
-	 I61gzCT1ErTFcPMIuSWKzzW1CuUC/e4lnypUz26lab/HtHa617jdUET3njKU15jCBIPP7
-	 /JSicST4ob8pHzZBVkBbbDcj7kclAY1OufpmnSBUP13uFWTACz3ZrWA7/T40htHQhC9Po
-	 g3Dk2I59lV7zhwa4ajeFkANsBBBEEk290NzQiR3nLx4R5OlYCVQUd60j3ucJkvAty3g==
+	t=1794881777;
+	b=nQDykHK3CscYf1vwUoc9wYEUTBUBnwxFxke9CaShjVpIardw/6wRCj7hugL6yMDbKb1f
+	 wq2ifyBidSwa7OF4FfBADY/yNfDIh8iTdAFZO3CveDsYn0HtmgU7JD4Zoir+wbs81YnLx
+	 yVvSzvGrTw9PXRtwnWjeUKPZtrJ5TA9oxkFVEvpD0zCt8SLGndCUNfilg4RxULO99wvdQ
+	 S/HX4qvS3Ck71gtFWm+zvGXienkrPoFQzDdv26TxpIpoANUie+bjKY0aB8FlHDKKTh7iJ
+	 ibrUBxuZg7WHZDeSUjiaAFf+PiE4Lx10Ef8Fqb+EsNpl57romkoBXze6Dx4i7W28guw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794881468;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=OIU3JLNWHpOdjhC1oWugb/pA68zhrZ3nKPJMqP131yI=;
-	b=FzirN+nRzXMy/x5x/6wpdR2YopzaYrsFmQ4F8XHCO7qP9S+ZSTIEYA34wBk4L9La/d76
-	 9T9EMyN1Sshtq2i0Mt3ylwuqg4O7taUQCV7EjY5NW1Z2mkHcQb1Xuab1NlThHjeawWDS+
-	 /g5GO+aYZBeFiCCcGp/Z/8EYDm9FPvjWlWkDaoyOQJDm/FJ0/yHBvz3jwjnCqubUMCiEy
-	 oxthhFmPL4GUpwzS5EgE198HR6K2yxp99WNO+HAl1zH2OQpE0Wj8ol/jpHLPsjgTw9h5C
-	 JAhZFbxAqSi/lzit69MvUeRguQp+TJTCoRuFgx0qxzwohAcNlP5HqYqHQiq2lciyUtw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794881777;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=yt13tp/rvLvexjlMPma+hJFiFj/qQmugNFpZecZf8sw=;
+	b=nwniPakvwUB1mboEFUynxweQpUIlU63A3tpYnDV62sPqDi3vEPmuCh1NeURW6zJtWA38
+	 kJ/hecwQPCjtzQCcmkGRKL6NV8a9KR2/BfeE58JuEQAm+0e0UvcVDduJd64XpWJGungyJ
+	 5Fmzuz+bLpQ8ScTX8alIufD7IKo7Rtu4pRUYNhj7Ky/6Z+6hgAdDiftLxbqTqzqCVRMAJ
+	 xOUaadE2m4oWE5csd9opMcX/k86STHiB0Lob6bfUCwGD7eXyKT/gt8eWvhHpi2giLKhhr
+	 frKGg0+v/ACxmPSXP1Qn2k68BDFA0/LkcvmKaYfjJHc+9lQkJ541dnSwrcXmUxATamQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aaCv0r6x;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BRGHWZ4Z;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABEA0606A31C;
-	Tue, 17 Nov 2026 02:11:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A20E606A31C;
+	Tue, 17 Nov 2026 02:16:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aaCv0r6x
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFCD01F000C4;
-	Tue, 17 Nov 2026 02:11:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BRGHWZ4Z
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FE141F000C4;
+	Tue, 17 Nov 2026 02:16:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794881468;
-	bh=OIU3JLNWHpOdjhC1oWugb/pA68zhrZ3nKPJMqP131yI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=aaCv0r6x0VGJLSAZ8LFq+GzvYSLaiP72qGaZOkYrzPNMoULqActDR/Aa7+Tj3GBUs
-	 RNdlgyuNRW29fJnli8IXGFb6reLbapmp9cwiRSXrsPdJSXbuLMmEowGS2gjtQr4xlX
-	 yqaJdxmBT63IKgHHhI2UY4yfk5EAipfdiKAi1P9ZFrdREXdUitqiDOifb2jOJKYvA5
-	 kbAkJtug1feq9gVaoFxEILGPE0ScTUXmBvU+hM/Mbq+flHarDD8rorfXrsKDOdcMpr
-	 7dghR6L1ao7Rum25NfXLIr9FTLRdGFuZqqTHAm8gDvNUtxwVliePyBZZpslvvW//Jh
-	 IE+COOfIQ0WRQ==
-From: SJ Park <sj@kernel.org>
-To: Mattathias Pinchover via B4 Relay <devnull+mattathias.pinchover.uber.com@kernel.org>
-Cc: SJ Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Mattathias Pinchover <mattathias.pinchover@uber.com>
-Subject: Re: [PATCH 2/6] mm/damon/sysfs-schemes: add sz_ops_filter_passed_last file
-Date: Mon, 16 Nov 2026 18:10:54 -0800
-Message-ID: <20261117021055.110011-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261116-damon-sz-ops-b4-v1-2-1cffe7227e6d@uber.com>
-References: 
+	s=k20260515; t=1794881776;
+	bh=yt13tp/rvLvexjlMPma+hJFiFj/qQmugNFpZecZf8sw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=BRGHWZ4ZG4Pk2S9yip/TgmH+UX3gPqHKvnmbx3WYO7WVHx6DhUQ+VsoehKTeDLcXa
+	 HfIpHmKlYHL+glR7sOXidda/KfRzP92NpnD5Qgaz7KxTd6/RoJkovp8ACrNUjGdH1y
+	 h0J2TUX11aSyEF4NIZWzlVGvDlSP1J2rUn05r1B9c7IgNtYX4Hs/2ATUuMRhndrtaZ
+	 YoBBog8btT2sLVSEba+91hEz7SrOcJSU72MYMaYDb/9H+aMNdA0oDSmM4/v4Cjbjek
+	 AcgyM2tnelMvoJ1NSgrtuXp+LkgNrChuOIOPi6Wj4qFYbHmnTxVIe1uzGAOP30TgHu
+	 Am4Mw8VifKZYQ==
+Date: Mon, 16 Nov 2026 18:16:12 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Ivan Vecera <ivecera@redhat.com>
+Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko
+ <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Min Li
+ <min.li@microchip.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek
+ Kitszel <przemyslaw.kitszel@intel.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org, Grzegorz
+ Nitka <grzegorz.nitka@intel.com>, Karol Kolacinski
+ <karol.kolacinski@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq
+ Toukan <tariqt@nvidia.com>, Petr Oros <poros@redhat.com>
+Subject: Re: [PATCH net-next v2 0/9] dpll: do not serialize driver callbacks
+ under global dpll_lock
+Message-ID: <20261116181612.107a4b57@kernel.org>
+In-Reply-To: <20261111164021.273409-1-ivecera@redhat.com>
+References: <20261111164021.273409-1-ivecera@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,43 +70,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 16 Nov 2026 19:10:05 +0000 Mattathias Pinchover via B4 Relay <devnull+mattathias.pinchover.uber.com@kernel.org> wrote:
+On Wed, 11 Nov 2026 17:40:11 +0100 Ivan Vecera wrote:
+> dpll_lock protects topology and object lifetime, but it also serializes
+> all driver callbacks in the system, so one slow device stalls every other
+> DPLL device, whichever driver it belongs to. mlx5 callbacks issue firmware
+> commands with a 60 s default timeout, and zl3073x callbacks can wait
+> seconds on a driver lock held across ToD writes and phase steps.
 
-> From: Mattathias Pinchover <mattathias.pinchover@uber.com>
-> 
-> Introduce a new DAMON sysfs interface file for exposing the newly added
-> DAMOS stat, sz_ops_filter_passed_last.  The file has the same
-> name as the stat and is placed under the DAMOS stats directory.  Like
-> other stats files, it is updated when the stats are refreshed via
-> refresh_ms or the update_schemes_stats command.
+Can you provide some real life data of how much this actually helps?
+Real device topology + scenario you hit?
 
-Looks good to me.
-
-> 
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Mattathias Pinchover <mattathias.pinchover@uber.com>
-> ---
->  mm/damon/sysfs-schemes.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-[...]
-> @@ -485,6 +495,10 @@ static struct kobj_attribute damon_sysfs_stats_sz_applied_attr =
->  static struct kobj_attribute damon_sysfs_stats_sz_ops_filter_passed_attr =
->  		__ATTR_RO_MODE(sz_ops_filter_passed, 0400);
->  
-> +static struct kobj_attribute
-> +damon_sysfs_stats_sz_ops_filter_passed_last_attr =
-
-Seems the above two lines could be in a single line without breaking the 80
-characters per line limit.  Could we just do so and save one line?
-
-Other than that,
-
-Reviewed-by: SJ Park <sj@kernel.org>
-
-
-Thanks,
-SJ
-
-[...]
+For the cross-domain pins - shouldn't we stretch the domain to cover
+all interconnected objects on the system instead of hoping people get
+lock ordering right? You documented some rules in the doc, admittedly,
+but not sure how enforceable and practical they are.
