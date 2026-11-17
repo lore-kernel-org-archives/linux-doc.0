@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794958158;
-	b=YcA0GcuqlIkLsoDI4QAHX4++msBZijDHpmTx10ldUlXhtsFLVxyLIQmOIgnMbfjltUNV
-	 PhCyYtz1521cfw8w+2iABpj/wezrJSxtB06uq0abCuUbjIFPkol5slmvlpsWkdIYS/6f7
-	 2qNoBGFfJ4521d0SF/IQFemh0ImtfRqLmkbdvrDnCw8zAiZ4hVJHXKP6ZRCAGYfKQUdLi
-	 mM/zy6rIE/BA+Fj0jkrT2v5RNYVO0gbjb7pEdssLLhv5EKmvG6hUj3m43R9UflOLyU0Kr
-	 OJoyy0KvNlC5NSJahtqmv/t70YbZdvOGpdNpVIXL0p10g58re8vGZ11edovZdtyTXsA==
+	t=1794958163;
+	b=GaDos1lruJgX1m6bb45rWKC7FKJSQzN/4x/ZZMmoZv+IZMi0vuNTELT7Ea0NBSbCRlwy
+	 +vY5VSxx8Hnvtq06xj5A5jjsUATKMWMwUJ91GmgUWNIlUHqhrICO/XkneY9xyJIk/kwpI
+	 TxHjlyNgNVwDSayn3q2/Ta5lqZsh+QkgkSPteAgQidjGj+nhDVyTf/NJiI/kwgItvXO1w
+	 ZaxQ8Ds/l4bVPXFT2ABqXn42bBlgAiOXgqlUYyU27Kc38i2ZvTFTBeXA9lETqCzUcxczY
+	 s9vlG8zn24VA1pcspz8s3xz7EYXhyljoVBM8HOH54PF3gRHK15dhI9XDw9xhUnajtZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794958158;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794958163;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=2b458MopEXa7uB2O3RLfHV+wzOt6YVuNArYwPbFLSA4=;
-	b=WA6Xu47SkvH08o2/1cvi+CpPLIY26Z3yoY+1m8A0J7d8DUdpIN8vO3S0y7TkOgs8QK2n
-	 xZle65ePCkVsMJ9K/xLlCDtk2Rqs2OhiUFSqTPorBoPAO+5um3uwcPWVbX9Ux53Iyb6dg
-	 6ZoaHqNxmCmXHTiPfo4CVUqmpHFriBd2x8FNPh4I5aeoU1hrXMl2yN3X0sADeX4D5nMuk
-	 wHB4bIS0D8ljfhtbppYb2594gd5qQlUU58GEJmNVW0H9dlg+aagYgjHochsbudeEx/7Tc
-	 Ko9vaxFNsCF9ZD1JP03vt/FicC8yQLwd/POAmZfJTO2IdUsmvAo4XQc5QBXBgoSWnmg==
+	bh=7czCLb61MQ7e2lVrfFvuytX7334qaL/vl9LcdBlRFs4=;
+	b=XDzfqnNE9dcNkd4+iTb/rELtMjCSiN/kAAXgcxtnh9T8G+sy1QN5jumGqWqQtgSTNRkU
+	 f6PL7xdw1H/NF6d8IBIwpXxT/dK8PtAee/aTZhX1es8CkbbkVg7ym4mxkheuTys/RECPA
+	 0/dhLyYzPGRLcjrVu3v3aQUbZbkEY7Q6G4ppOqaJ2yc+ZU4zXKrRkUM4homyKsu5ZfFZv
+	 G83IU9+wBF+BQopgIDRTol48ZNPqKb0kNpfSKcxaQaa/xQOQDRsIauEdkKGiiYzGgnllq
+	 jhgSBVIYhmhISIDtKsEqeAdTIj8JFRRh4uDlBsWJX5PYVpg1b62H59yVIQquRm0oZ0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WcZqd4vr;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HY7fticU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9DF606A31C;
-	Tue, 17 Nov 2026 23:29:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAD0606A33F;
+	Tue, 17 Nov 2026 23:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WcZqd4vr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B3891F000C5;
-	Tue, 17 Nov 2026 23:29:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HY7fticU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF4811F000C4;
+	Tue, 17 Nov 2026 23:29:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794958157;
-	bh=2b458MopEXa7uB2O3RLfHV+wzOt6YVuNArYwPbFLSA4=;
+	s=k20260515; t=1794958163;
+	bh=7czCLb61MQ7e2lVrfFvuytX7334qaL/vl9LcdBlRFs4=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=WcZqd4vr7CaaogZNmgRfWRKTwEKa+bpOUUxlWfd6laABE9Yy3P52bl4jiVZ/YVqyE
-	 k5Iuf97WZlNhaNkrSZAF6oVj9nb9sYpgvLrP91kVpqUrklYeKv0Vxt94AQOb3VDjhY
-	 T8nZNH5hyr8VKgJLanjOxNXUGiEtHKiB2sDl1iYC9phKDaEKK24x5dV/kH79nJEdFx
-	 hxLhxvPLrP3Lld0F4EMIjai1gXyq1USdkc2A4ruvKvbcsE+tXZHwE+DRgeRhRcACvW
-	 BQYNX6ZJlm4NSWzCOD3rH6h6+zLRlZR4cERmF0Ek0hAdMZR2wQzTvgExYZNTKuSCt+
-	 /XD5tsp2OGPAQ==
-Subject: Re: [PATCH net-next 1/9] net: ethernet: bgmac: validate RX length
- against the DMA packet capacity
+	b=HY7fticU0ncnVtnMX8BdBAlFhAwzYEMRXLhpGcJ75TxgcuftNn0RVTD3YF/TlwVQW
+	 M1uFQddpe6EM4kh9ZAp381qbW2Jc16telpftmXHXrHfFfTqgYpX0ybNdEqNs8zYmTn
+	 hP/yYKveNH/sEmMfLukd0yV6A9LQ3xD3wV2FliPa3LfPeQNUC2Zf//xlJeBNE7vXuw
+	 2dp/5SjfsQDjijd7yVUZhZS3ZrF1VnEGl9IawXgaxJiBBg4Xa+OCLw/RLbrog0Kuw/
+	 /O5rAg7TkAm9ZTGAvrR/Gf+yjOBl6AjNAHV51kRNo+hnt7AdzHddF+IGKeMc6G4t4c
+	 Dzc3d+W0gkU9w==
+Subject: Re: [PATCH net-next 4/9] dt-bindings: net: describe the Northstar
+ flow accelerator
 From: netdev-bot+sashiko@kernel.org
 To: florian.fainelli@broadcom.com
 Cc: netdev@vger.kernel.org, rafal@milecki.pl,
@@ -52,10 +52,10 @@ Cc: netdev@vger.kernel.org, rafal@milecki.pl,
  pablo@netfilter.org, fw@strlen.de, phil@nwl.cc, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Date: Tue, 17 Nov 2026 23:29:15 +0000
-Message-ID: <179495815587.3136.10288920701294421777@kernel.org>
-In-Reply-To: <20261116222519.1416501-2-florian.fainelli@broadcom.com>
-References: <20261116222519.1416501-2-florian.fainelli@broadcom.com>
+Date: Tue, 17 Nov 2026 23:29:21 +0000
+Message-ID: <179495816151.3136.14110323389854628043@kernel.org>
+In-Reply-To: <20261116222519.1416501-5-florian.fainelli@broadcom.com>
+References: <20261116222519.1416501-5-florian.fainelli@broadcom.com>
 X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -69,10 +69,10 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 3 potential
 issue(s) to consider.
 
-Critical: 0 · High: 0 (1) · Medium: 1 · Low: 1
+Critical: 0 · High: 0 · Medium: 1 · Low: 2
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -80,151 +80,162 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] In bgmac_dma_rx_read()
-  (drivers/net/ethernet/broadcom/bgmac.c:463), the patch now treats…
-- [Low] The commit message is accurate but leaves out the user-visible
-  impact of the bugs this patch fixes in bgmac_dma_rx_read().
-
-Pre-existing issues:
-- [High] This problem wasn't introduced by this patch, but it is High
-  severity, and the new check does not close it.
+- [Medium] The flow-accelerator register resource in brcm,bcm4708-fa.yaml
+  is modelled as a standalone MMIO block with only `compatible` and…
+- [Low] The new brcm,bcm5301x-gmac.yaml schema is selected only when the
+  `brcm,flow-accelerator` property is present (`select: required:…
+- [Low] The FA binding description calls switch port 5 'IMP5' ('Switch
+  port 5 (IMP5), connected to GMAC0, ...').
 
 --
 
-net: ethernet: bgmac: validate RX length against the DMA packet capacity
+dt-bindings: net: describe the Northstar flow accelerator
 
-This patch changes the upper bound of the RX length check in
-bgmac_dma_rx_read() from BGMAC_RX_ALLOC_SIZE to BGMAC_RX_MAX_FRAME_SIZE.
-It also rejects lengths shorter than ETH_FCS_LEN. Invalid lengths are
-reported through a rate-limited netdev_err() and counted in rx_length_errors
-and rx_errors.
+This commit adds a binding for the register block of the
+BCM4708/BCM53011/BCM53012 flow accelerator. It also adds a schema for the
+brcm,flow-accelerator phandle on the GMAC2 BCMA Ethernet node. The
+description covers the second CPU path, port 5 to GMAC0, for exceptions
+that bypass the accelerator.
 
-> BGMAC_RX_ALLOC_SIZE includes skb_shared_info and alignment space beyond
-> the DMA receive buffer. An invalid completion length can pass that check
-> and reach skb_put() with more data than the skb tailroom permits.
->
-> Limit received frames to BGMAC_RX_MAX_FRAME_SIZE and reject lengths too
-> short for the FCS subtraction.
+> diff --git a/Documentation/devicetree/bindings/net/brcm,bcm4708-fa.yaml b/Documentation/devicetree/bindings/net/brcm,bcm4708-fa.yaml
+> new file mode 100644
+> index 0000000000000..f744b23433c46
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/brcm,bcm4708-fa.yaml
+> @@ -0,0 +1,45 @@
+
+[ ... ]
+
+> +description: |
+> +  The flow accelerator is inline between GMAC2 and switch port 8 (IMP0).
+> +  GMAC0 and GMAC1 bypass it. The GMAC2 BCMA Ethernet node references this
+> +  register block through a brcm,flow-accelerator phandle. Miss packets carry
+> +  a prepended accelerator descriptor in place of the embedded switch tag.
+> +
+> +  Switch port 5 (IMP5), connected to GMAC0, provides a second CPU path for
 
 [Severity: Low]
-This isn't a bug, but could the commit message state the user-visible
-impact of what is being fixed?
+Should this say IMP1 instead of IMP5? The b53 SRAB code calls the two IMP
+ports IMP0 (port 8) and IMP1 (port 5):
 
-For len < ETH_FCS_LEN, the u16 subtraction "len -= ETH_FCS_LEN" wraps to
-65532..65535. The skb_put() that follows then ends in skb_over_panic() and
-BUG().
+drivers/net/dsa/b53/b53_srab.c:
+#define  B53_SRAB_IMP1_SLEEP_TIMER	BIT(10)
+#define  B53_SRAB_P7_SLEEP_TIMER	BIT(11)
+#define  B53_SRAB_IMP0_SLEEP_TIMER	BIT(12)
 
-Lengths between the skb tailroom limit (about 1602 bytes with
-NET_SKB_PAD=64) and BGMAC_RX_ALLOC_SIZE also reach skb_over_panic().
+This description already uses IMP0 for port 8.
 
-Lengths from 1537 up to that tailroom limit got through skb_put(). They
-delivered bytes past the 1536-byte DMA-mapped frame area. Those bytes come
-from the non-zeroed netdev_alloc_frag() buffer, and the device never wrote
-them.
+> +  exceptions that must bypass the accelerator, including TCP control,
+> +  low-TTL and oversized packets. Describe that CPU port with an ethernet
+> +  phandle to GMAC0 and an internal, 1 Gbps full-duplex fixed link in the
+> +  switch's ports node. Port 8 remains the data connection to GMAC2.
 
-The message names the tailroom and FCS cases. It does not say that they
-end in a kernel BUG(), and it does not mention the stale data delivery.
+[ ... ]
 
-> diff --git a/drivers/net/ethernet/broadcom/bgmac.c b/drivers/net/ethernet/broadcom/bgmac.c
-> index 9ef239bc487d7..1c502bd64d7df 100644
-> --- a/drivers/net/ethernet/broadcom/bgmac.c
-> +++ b/drivers/net/ethernet/broadcom/bgmac.c
-> @@ -457,10 +457,14 @@ static int bgmac_dma_rx_read(struct bgmac *bgmac, struct bgmac_dma_ring *ring,
->  				break;
->  			}
->  
-> -			if (len > BGMAC_RX_ALLOC_SIZE) {
-> +			/* The allocation also contains headroom and skb_shared_info;
-> +			 * only the mapped packet area may be supplied by the DMA.
-> +			 */
-> +			if (unlikely(len > BGMAC_RX_MAX_FRAME_SIZE || len < ETH_FCS_LEN)) {
->  				if (net_ratelimit())
-> -					netdev_err(bgmac->net_dev, "Found oversized packet at slot %d, DMA issue!\n",
-> -						   ring->start);
-> +					netdev_err(bgmac->net_dev,
-> +						   "Invalid RX length %u at slot %d (flags %#x)\n",
-> +						   len, ring->start, flags);
+> +  reg:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    flow-accelerator@18027c00 {
+> +        compatible = "brcm,bcm53011-fa";
+> +        reg = <0x18027c00 0xc0>;
+> +    };
 
 [Severity: Medium]
-Does this new bound drop frames that the driver itself tells the MAC to
-accept, and whose MTU it advertises?
+Can the flow accelerator be treated as a standalone MMIO block? The example
+address 0x18027c00 falls inside the 4 KiB BCMA window of GMAC core unit 3.
+bcm-ns.dtsi already describes that core under the 0x18000000 axi bus:
 
-bgmac_chip_init() sets the MAC max frame length to 1550:
+arch/arm/boot/dts/broadcom/bcm-ns.dtsi:
+		gmac3: ethernet@27000 {
+			reg = <0x27000 0x800>;
+		};
 
-	bgmac_umac_write(bgmac, UMAC_MAX_FRAME_LEN, 32 + ETHER_MAX_LEN);
+The binding allows only compatible and reg. It has no clocks or resets
+and no link to the GMAC3 core. It also does not say that the hosting core
+must be out of reset and clocked.
 
-bgmac_change_mtu() sets it to 32 + mtu, which can be as large as 1564:
+Later in the series, bcm_ns_fa_init() in
+drivers/net/ethernet/broadcom/bcm-ns-fa.c maps this node and writes to it
+straight away:
 
-	bgmac_umac_write(bgmac, UMAC_MAX_FRAME_LEN, 32 + mtu);
-
-bgmac_enet_probe() sets max_mtu without subtracting ETH_HLEN or VLAN_HLEN:
-
-	net_dev->max_mtu = BGMAC_RX_MAX_FRAME_SIZE - ETH_FCS_LEN;
-
-The driver accepts any MTU from 1519 to 1532. At those MTUs a full-sized
-frame can be up to 14 + 1532 + 4 = 1550 bytes. Such a frame is now always
-dropped, logged as an invalid RX length, and counted in rx_length_errors.
-
-Before this patch these frames were delivered with stale tail bytes, so
-dropping them is safer. However, the new comment and the commit message
-assume that len > BGMAC_RX_MAX_FRAME_SIZE can only come from a DMA error.
-
-Should max_mtu and/or UMAC_MAX_FRAME_LEN also be clamped to the
-per-descriptor capacity? One option for max_mtu is
-BGMAC_RX_MAX_FRAME_SIZE - ETH_HLEN - ETH_FCS_LEN, possibly minus VLAN_HLEN.
-Could the commit message also mention that these frames are now dropped?
-
-[Severity: High]
-This is a pre-existing issue, and the new check does not appear to close
-it. Can a remote sender get stale buffer contents delivered as a received
-frame through an overflow-continue slot?
-
-bgmac_dma_rx_ring_enable() turns on overflow-continue:
-
-	ctl |= BGMAC_DMA_RX_OVERFLOW_CONT;
-
-Each descriptor holds only BGMAC_RX_BUF_SIZE, which is 30 + 1536 bytes.
-The MAC accepts frames up to 1550 bytes by default, and up to 1564 bytes
-after an MTU change.
-
-With overflow-continue, the DMA64 engine writes the rest of an oversized
-frame as raw data at offset 0 of the next descriptor's buffer. That buffer
-has no RX status header. brcmsmac's dma_rx() drives the same engine with
-the same 0x400 bit, and it handles these continuation buffers explicitly:
-
-	resid = len - (di->rxbufsize - di->rxoffset);
+	np = of_parse_phandle(parent->of_node, "brcm,flow-accelerator", 0);
 	...
-	while ((resid > 0) && (p = _dma_getnextrxp(di, false))) {
-		pkt_len = min_t(uint, resid, di->rxbufsize);
+	fa->regs = devm_ioremap_resource(parent, &res);
+	...
+	writel(0, fa->regs + FA_STATUS_MASK);
 
-bgmac_dma_rx_read() treats every slot as an independent frame. The new
-check drops the first slot when len > 1536. The next slot is then parsed
-as a fresh frame:
+Nothing in bgmac or bcm-ns-fa calls bcma_core_enable() on core unit 3.
+bgmac_probe() also rejects core_unit 3 when that core has no MAC address,
+so it never gets enabled there.
 
-	len = le16_to_cpu(rx->len);
-	flags = le16_to_cpu(rx->flags);
+Suppose the bootloader leaves the GMAC3 wrapper in reset or clock-gated.
+Could bgmac_probe() for GMAC2 -> bcm_ns_fa_init() -> writel() then take
+an imprecise external abort or hang the bus? And if something later resets
+the GMAC3 wrapper, would that wipe the programmed FA state?
 
-In that slot, rx->len and rx->flags are frame bytes 1536..1539, which the
-sender controls. A value in [4, 1536] passes both the poison check and the
-new bound. build_skb() and skb_put() then deliver up to about 1532 bytes
-starting at buffer offset 30.
+This is inferred from how AI wrappers usually behave. I have not checked
+it against the Northstar register map, so I can't confirm that GMAC3
+hosts the FA. On BCM53012 boards where CFE leaves core 3 enabled, it may
+work as is.
 
-DMA wrote only the first (frame_len - 1536) bytes of that buffer in this
-round, which is at most 28 bytes. The rest is stale netdev_alloc_frag()
-memory, because bgmac_dma_rx_skb_for_slot() only writes the poison header.
-The resulting skb goes to eth_type_trans() and napi_gro_receive(). From
-there it can be processed locally, bridged, or forwarded.
+Should the binding describe how the FA relates to its hosting core, or
+the clocks and resets it depends on?
 
-The old BGMAC_RX_ALLOC_SIZE check let through an even wider range of
-lengths. This patch narrows that range but does not remove it.
+> diff --git a/Documentation/devicetree/bindings/net/brcm,bcm5301x-gmac.yaml b/Documentation/devicetree/bindings/net/brcm,bcm5301x-gmac.yaml
+> new file mode 100644
+> index 0000000000000..76fbe2abf5152
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/brcm,bcm5301x-gmac.yaml
+> @@ -0,0 +1,27 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/brcm,bcm5301x-gmac.yaml#
 
-Could multi-descriptor frames be tracked so the continuation slots are
-dropped too? Alternatively, could UMAC_MAX_FRAME_LEN and max_mtu be capped
-at the single-buffer capacity?
+[ ... ]
 
->  				put_page(virt_to_head_page(buf));
->  				bgmac->net_dev->stats.rx_length_errors++;
->  				bgmac->net_dev->stats.rx_errors++;
+> +select:
+> +  required:
+> +    - brcm,flow-accelerator
+> +
+> +properties:
+> +  brcm,flow-accelerator:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      Phandle to the BCM4708, BCM53011 or BCM53012 inline flow accelerator.
+> +      Only GMAC2 (BCMA Ethernet core unit 2) has this connection.
+> +
+> +additionalProperties: true
+
+[Severity: Low]
+The "Only GMAC2" restriction exists only in the description text. The
+schema is selected purely by the presence of the property, and it sets
+additionalProperties: true. Wouldn't a DT that puts brcm,flow-accelerator
+on gmac0 (ethernet@24000), gmac1 or gmac3 still pass dt_binding_check and
+dtbs_check?
+
+Nothing checks that the phandle points to a brcm,*-fa node either.
+
+Later in the series, bgmac_probe() in bgmac-bcma.c enforces the rule at
+runtime:
+
+	if (of_property_present(core->dev.of_node, "brcm,flow-accelerator") &&
+	    core->core_unit != 2)
+		return -EINVAL;
+
+So a misplaced phandle makes that GMAC fail to probe, and dtbs_check gives
+no warning beforehand.
+
+Separately, the file name and $id suggest a brcm,bcm5301x-gmac compatible,
+but the BCMA GMAC nodes have no compatible. Is that naming intended?
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261116222519.1416501-1-florian.fainelli%40broadcom.com
