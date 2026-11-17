@@ -1,106 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794949470;
-	b=JwoQ7djSQMyu7NuGTKP68pHM8fctb4cNH0mqw2ObCjpTO1QL78cHNSxIE6mpP/C0F9Mb
-	 uDQ5qYU7mMJ2lK2trTN5YdyYv5eNi1Qzqger62MeZwPRWWoDcvjArl5jW/+RzRMdMZ7rB
-	 MswhW96Ur/rC7C78CnvI2dfZHUo2KOIXaKrHbvOAi1jYadH8LZ1Rvzi5PFn9pBCLKpxi9
-	 NaFnAhEMUyjfyj4u+Uo1ZzXRwCJ7LFa2JgE+i3vEX3MoFTWDf+WZg5/PMkYAfUC9ap6BZ
-	 WkZ6cRyIBOMvqRxTRdLQzxK/KPQDeiMZENNKIB4RK9gTYmH8c2/WU5gWNz+tyIg36rw==
+	t=1794950185;
+	b=r4yeWKUsb/XLyzxjNKCy4NQgJOOGy1AHSa1BZ/HFNeKvuFRFzz02cCFxJP4HueUuW4PP
+	 g+eDM3f1ypgjZ1pECBZS8FmyseijCa4/oH56s0Ky1ZulaTPCDtbgI/nx4LzJQk5BGIDV6
+	 48HWPHltCcc8BArCQmG+qeiM2oIXNOhhnWKX2BJ4qWWx5wVyq6pcT9f3qJ3jdjnj6uj2k
+	 XQ6BVTcJROaaqLTX8WeXfE5HGRZnslveT5xoVhacbSUKB2LWRdB5PBVips9G7/Gt4HpIK
+	 0dHFutgiwm32DOhFzCjglW2BR/64SvaOHRk74uE2CiDf1q43vuMjZ8P3UFdZwvgQUGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794949470;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794950185;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=DClN/PQCUc+e7hhJbYiQYreXFIiImxiZvex/Oaj/4wo=;
-	b=n6+t5wDb4zEltFFwOmsZhucXnrXGDz7DoRaGlgmogI7p2EK7n0gU6nHmB0UHl8DTTKTu
-	 3YnuEyIrZgcr/qVaYAUG1K1W+AZO6g/gNnU6ZS+T9mOnDBwSh0rWzLuQRdb3o5DWLbFi4
-	 V3X2hEFpoiOUmIIvmRKmo9lI2+YgCjVzKCEFpGYCZE2p/Ge/6oD8DY8IJtCB7RXcbAdz1
-	 rKxZtOz7vuWx8i3tJ3N74AWKdg9tjfaXnxKFXKaE261qGKIJYpWO760ZYuUUgdufVNOQK
-	 YG5bF6pWYnwSrzlGX6NKAHn+ZnZy9kSoFjbfaqGI7AqUchwku83YUwImFDit3QGputA==
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 To:Cc:Subject:From:X-Mailer:References:In-Reply-To;
+	bh=Ays1EfzTLcRjTY+4yI71x15YxEo2laYpKiSTCWHUOoo=;
+	b=4YmyvLDLi7F4S+dPwA3UnochWBqfpgfrq7WQa9Uc1XUZCb/KfdT/hhRCS/AlGFxtKsae
+	 8bqUdMG9vCerxV1zRy/9S/YlixrNKYkRmMdZCrfCljRLDLk+f/9voHQ65hWkni9kcb50c
+	 hm1Aa91kgQIJRqB0cbuW4F41CJCvaODskkyxZh3s9h85I3IpmkRqkrwKkp38K/zQz/giY
+	 Ylmogtr1dgel/xg1JoK+55wmel8bafn6vfE3etZ1btgOmXmjpJ3siqoS5Nd7U1bAWhP2u
+	 d5nvhu5tNWMZbnP5XLv03MOQk5pnWhNT8cotfoNPN9CRbuMWoPfviSXLAJglhu6JN1w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hdlF3F6h;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=S9eb+zZ+;
+	arc=none smtp.remote-ip=209.85.210.180
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFFF606A32A
-	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 21:04:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4EFFF606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92FFA606A334
+	for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 21:16:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92FFA606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hdlF3F6h
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4ba013938d7so2918235e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 13:04:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=S9eb+zZ+
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8a05b210703so149349b3a.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 13:16:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794949467; x=1795554267; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DClN/PQCUc+e7hhJbYiQYreXFIiImxiZvex/Oaj/4wo=;
-        b=hdlF3F6hlfaTBcKaXU98op7XPtSwO/hzqXy092m1pZkq+0XvRDWhrsMvWpEJ4h/5yT
-         +4DPeis7eUTjKpfu6XnnpWYxw6fWV4WI1W9R5jaOq7pNcTtxYSBBV+7BjWL9f0HPDTsW
-         ebFdOdO9dAqqhJ+s/AQOalJI01E7xMmRzihIhJoWtPMK4s5bCPUqfKraGDNltcUD8tQ0
-         ByNbxT8se7e+55rxgLw/Q4MNztinCCyW7jqaDChLLn8Mm6ETqKd/rlajfHLcNswO5G0B
-         hTFThcE28oaGqjcdgMJAQbhPJNO+ylrIW43whoD104Ki7EIZd6gzu5h7/qiJ7qLyrDzB
-         VVdw==
+        d=google.com; s=20260707; t=1794950184; x=1795554984; darn=vger.kernel.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Ays1EfzTLcRjTY+4yI71x15YxEo2laYpKiSTCWHUOoo=;
+        b=S9eb+zZ+PJvunm63i/fXDlCBqZsN39Q9h2grW/i2SIKOr71F+NwBup8zef5dQt+gcB
+         Q/0rrjVlc8gUSkw9ZVn3EhHFV5fx2Tm9FW3M8fA4i0Ww3PzuTovXl+iTx9BCBASvwUWr
+         pova27Z7YfhEiaxRjzF4dHotz1kC2zngiDdDONWYPDQmPivP3oQ4ytGKGpMIekSGYGM3
+         3FAs/qBVWevcJX2GmN7YxTm56VsKILYGaDVDI4AeaxrcywybDiXOgsR2HYISBBCTznCb
+         Ka9llwU/+pcYfEhEoANG49K58AY7OFrkbMwVaDPlLMxHF6QpnNJ2BOd0wBZvfFmxEQK6
+         B8YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794949467; x=1795554267;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DClN/PQCUc+e7hhJbYiQYreXFIiImxiZvex/Oaj/4wo=;
-        b=HhW2gxSWX7UqKT6bZ95FP133V6hh7kZ1uo0ExjslXJVEuf/T19MCbjUOj6ZPvKpB9A
-         eV8cJcstlBZ5SVLPuYWjEciHvBDqadd+l0bgIRfLB5QEuW+BxCDBZilgcnIvCOXIKRJj
-         VSQly5dEShWfs2aVoPMzRO4DxKexE35I0W4K1b+zy1bMJBYACh6FjT+xkcz/6xeJxKsS
-         bYH6sqFcZOq80mT8SOHFQh8mgvhAA2RpLoMBn6GYHc8wepVqk15QpptwB6BymoH+p4wZ
-         TxSzbAqjhCC6fqFKKWNTy3Gdb5uik+WWkulGoFCoQLquGYk2oU/nAEL0RTXc/4JU7U2F
-         zFjQ==
-X-Forwarded-Encrypted: i=1; AL+hErG5iFE1P26KVH0mh1yJjfCHzykROCi4Fj0oM6NmL4RTuuclpGgeSr9o/fjc20IYqaotc88LfIct7Cw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8QodwGK9ZSt/he3102Tac4QgMc2CxjAWDC60q3JDT85d1MhFe1
-	gb/3S2U7T8NeJ9i5YgTXt6neqVXmF0VoH6IMoF07/0IcbxqNuN0KjcGD
-X-Gm-Gg: AYBFou2UXZ68BK5ctkQl5OJERqH5UEU3fK2bKuBLj2S+8e8SrlmeWp2Du/BZ+ja/fGX
-	OznACJ+QF7wXpJIGfLQBuNmvv0/koJsEDnWefnJjxf6uQm9EwzfW7ZLradqdcKdarbzrWGpbD6L
-	AJ8DkxMG7L3/Fay8htlptXXfWiaxi65Y45zgL73T8FeflzQg/u7S4dzImt4G6wXWPTpSP4mG00u
-	BHhB1m27A0Iec+YRPhPKJ3SsWgeN6zmsw3REOg03+FmoSJdGf1x6Z2+qi+UCUcCl+noDNGqtPuQ
-	RTXlvbAm+406yk6lRBbgJiHbSi4rN0zzkDBSNVL3oTTuELNZqOBD1eR9RwCksutVwn/zeSS4uhv
-	FqX8kP7eFYcyEyCurYbkbAFhyyBGDFKI700CVVCccZFJprFsEbX2hpuCiCdb3g3549HSEp1/jfp
-	WFEKWMI3PRfp2qcMaQ39k0IatID9Xtg2SpM63frS8q26ZPKedDTg0mJaskkMh6ctkXPbZJ7ms9S
-	dMy/dEMccD+KP2IR8xs7JpVlSY7MWj3LGRgNLMNReVmD1W9cPbnrnoS+HQyQO/bHYTID0VcqdR9
-	ZyeS9/pousDIIdOHiH8D1WlDufRcM2xePpo=
-X-Received: by 2002:a05:600c:6208:b0:4a1:da58:1ee with SMTP id 5b1f17b1804b1-4bb7da46178mr7111145e9.31.1794949467262;
-        Tue, 17 Nov 2026 13:04:27 -0800 (PST)
-Received: from nobara ([83.231.69.9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7ddd4614sm3902895e9.6.2026.11.17.13.04.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 13:04:26 -0800 (PST)
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Peter Xu <peterx@redhat.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Tal Zussman <tz2294@columbia.edu>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	"Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-Subject: [PATCH v3] Documentation/userfaultfd: document RWP behavior when the PTE is dropped
-Date: Tue, 17 Nov 2026 22:04:10 +0100
-Message-ID: <20261117210423.11598-1-azpijr@gmail.com>
-X-Mailer: git-send-email 2.56.0
+        d=1e100.net; s=20260707; t=1794950184; x=1795554984;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ays1EfzTLcRjTY+4yI71x15YxEo2laYpKiSTCWHUOoo=;
+        b=SY3fS5lsj3S2ltjETvnDeDA4zzoWPtVcrQ8zrsK83oxqKNGaMnBIymhEp7aePcoQ7M
+         WV5K6HdBMc6KcD1ANbUwd/DzZAdhnzj51g3iFrOG5LjiSOk01Sf6H9gB+4E3MeVWpPq8
+         RNOoJxFbLn65tKIE/m2qI8xYML/8mGUvLFdrUp8uY1i+zVvLRYr+w7CS+WvQaCD1wwG/
+         UxpcQZnJMfNKyI7OZdNG+1V30/4iRiCO7wFTBdlv5W9X4DSScR/X36/SQosnA96JwXfa
+         B5n8q5q9PhWFuupo9sNFzOGUagIZuOo/Zj5B5gsVrFJyjMYVlqhsWbp4dXdz2t1Cxjnx
+         7aAg==
+X-Forwarded-Encrypted: i=1; AL+hErEfrAbuoOuIQ3JdCsnrvWcJzzTIbpTBlstnKZRRuLn+MDe0cbcqlKDlFClPogy4W6ah1TzeHC8ioLk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+GpWiRbSaRhBhXJV7ksZUQuqCQTZMw315rK1FK0dBtShAcGVOB
+	Ma1IPqg+zX57D8H3+OBNpwEej6g6lPPqI9UehcHirVK9gApE1yOQK8e7DLm9b+5mWg==
+X-Gm-Gg: AZFdTZfuCP9dZ1UBfdYwJR6YYJbOC9D3RTvL3eRvdrpokEh+aTX8whUQBM2dcCrxNN4
+	DP+kwR53vC1wyI6dxEKXbI1mXcXcC9ddMpL7s7xyZOGH6VvPBartmm8xj67LtqqdsAXoRTjmdqQ
+	4ekNx+P+9ubPUVq67AlKMcZFw7k1OQPWc0ohbuIFvAhSLtHyaGi7ylpn/HbiHeCIe3mU04iDFOY
+	9Z0jNEwcxm8CVtxvqNJAelHmuuD1aP7m+UdH3oMZ0LCFtwDkh1FT9j0pAipaNV4j0NVgor1nHiI
+	onxCsSXQd/IlVSUkSwmj0eo0l535IM5o5HbgDtRCZm32AbXN5S8oyPDmcY73LIlQlmj+8A63BdX
+	30xPUcBRwp2t3pguzx6W5o9PWtwEf0+hnBe9TLZR/BF0nZfQ5rwmfYPy2BVMaWX8FjHHyICxSET
+	U8Wxy2DtiLVj03onaiRXGpO0oW/MFHpa5vyT9u3WF3AD4SGWgez82uyY2m7ZepU7zCmDg6U+NDa
+	fGx7ItLMyu+H6+WSAE+UM5slHuVcxsgeGkRVYOFPKQccYkOynxqU9OxujkjHmXaf32UWRYY+oHv
+	5W1w9A1R7g3tQvZGTpeNO8UMhCfmUIBclKZRYGp18aLyQ/WqZszkZs7G0lkGEXU8iJ7XkvvqVeR
+	sy70QEPg+gw==
+X-Received: by 2002:a17:902:f790:b0:2e9:460e:ca57 with SMTP id d9443c01a7336-2eff7529757mr5030915ad.15.1794950183338;
+        Tue, 17 Nov 2026 13:16:23 -0800 (PST)
+Received: from localhost (33.79.127.34.bc.googleusercontent.com. [34.127.79.33])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eff61841aasm2714705ad.34.2026.11.17.13.16.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Nov 2026 13:16:22 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -109,173 +88,129 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Tue, 17 Nov 2026 13:16:21 -0800
+Message-Id: <DMXSQHZG5L27.2NIIT7F6FW0ME@google.com>
+To: "Alex Williamson" <alex@shazbot.org>, "David Matlack"
+ <dmatlack@google.com>
+Cc: <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-pci@vger.kernel.org>, "Adithya Jayachandran"
+ <ajayachandra@nvidia.com>, "Alexander Graf" <graf@amazon.com>, "Bjorn
+ Helgaas" <bhelgaas@google.com>, "Chris Li" <chrisl@kernel.org>, "David
+ Rientjes" <rientjes@google.com>, "Jacob Pan"
+ <jacob.pan@linux.microsoft.com>, "Jason Gunthorpe" <jgg@nvidia.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Josh Hilke" <jrhilke@google.com>,
+ "Leon Romanovsky" <leonro@nvidia.com>, "Lukas Wunner" <lukas@wunner.de>,
+ "Mike Rapoport" <rppt@kernel.org>, "Parav Pandit" <parav@nvidia.com>,
+ "Pasha Tatashin" <pasha.tatashin@soleen.com>, "Pranjal Shrivastava"
+ <praan@google.com>, "Pratyush Yadav" <pratyush@kernel.org>, "Randy Dunlap"
+ <rdunlap@infradead.org>, "Saeed Mahameed" <saeedm@nvidia.com>, "Samiullah
+ Khawaja" <skhawaja@google.com>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Vipin Sharma" <vipinsh@google.com>, "William Tu" <witu@nvidia.com>, "Yi
+ Liu" <yi.l.liu@intel.com>
+Subject: Re: [PATCH v10 09/13] PCI: liveupdate: Adopt ACS controls in
+ incoming preserved devices
+From: "David Matlack" <dmatlack@google.com>
+X-Mailer: aerc 0.21.0
+References: <20261013162529.1928093-1-dmatlack@google.com>
+ <20261013162529.1928093-10-dmatlack@google.com>
+ <20261116170942.720b06fd@shazbot.org>
+In-Reply-To: <20261116170942.720b06fd@shazbot.org>
 
-"Scope of protection" lists only the PTE drops requested by the user and
-says the range has to be re-armed afterwards. On shmem the kernel can drop
-the PTE at any time (page reclaim and collapse are examples), and RWP has
-no marker by design: the next access is a minor or a missing fault, and
-the user is expected to register for those. Document this, together with
-the modes that sync and async tracking need.
+On Mon Nov 16, 2026 at 5:09 PM PST, Alex Williamson wrote:
+> On Tue, 13 Oct 2026 16:25:25 +0000
+> David Matlack <dmatlack@google.com> wrote:
+>> +int pci_liveupdate_adopt_acs(struct pci_dev *dev)
+>> +{
+>> +	/*
+>> +	 * Check if the device was preserved over a previous Live Update (even
+>> +	 * if it has already gone through pci_liveupdate_finish()). This ensur=
+es
+>> +	 * that the device continues to use the ACS controls established by th=
+e
+>> +	 * previous kernel.
+>> +	 */
+>> +	if (!dev->liveupdate.was_incoming)
+>> +		return -EINVAL;
+>> +
+>> +	/*
+>> +	 * The previous kernel should not have preserved any devices that
+>> +	 * require device-specific quirks to enable ACS, but if such a device =
+is
+>> +	 * detected (e.g. new device-specific ACS quirk in the current kernel)=
+,
+>> +	 * log a big warning and fall back to the normal enable ACS path.
+>> +	 */
+>> +	if (pci_need_dev_specific_enable_acs(dev)) {
+>> +		pci_warn(dev, "Device-specific quirk required to enable ACS!\n");
+>> +		WARN_ON_ONCE(true);
+>> +		return -EINVAL;
+>> +	}
+>
+> This looks pretty unsafe and the comment is only explaining how we
+> might get here, not why we shouldn't panic.  IIUC, the IOMMU lho
+> support requires singleton groups, but I'm not sure what it does if a
+> group becomes non-singleton in the new kernel (such as via a new quirk).
+>
+> Is a warning related to what might be a parent bridge rather than the
+> endpoint device, really sufficient here?  Thanks,
 
-The VMM example registers guest_mem with RWP and MISSING only, so a vCPU
-write to an offset that is not mapped there can be lost during eviction.
-Add MINOR to the registration, describe how the handler treats faults on
-offsets that are being evicted, and fix the step 1 comment, since minor
-faults block even in async mode.
+It's not necessarily safe. The new quirk could change how TLPs are being
+routed while a downstream preserved device is still sending memory
+transactions.
 
-Link: https://lore.kernel.org/linux-mm/856cdf21-7982-475a-b244-a7ceff4eb6aa@kernel.org/
-Link: https://lore.kernel.org/linux-mm/avWnaR7VVEGa7yNp@thinkstation/
-Suggested-by: Tal Zussman <tz2294@columbia.edu>
-Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
----
-Changes in v3:
-- registration is not fixed. MINOR can be added before switching to
-  sync and dropped after switching back
+I think a better approach would be for a preserved device to always
+adopt the ACS controls left by the previous kernel, and keep them
+across resets through the ACS save state. So a new device-specific quirk
+for the device is ignored, apart from logging a warning. IOW, new ACS
+quirks only take effect on cold boot.
 
-Changes in v2:
-- keep the migration sentence out of the anonymous-only paragraph, it
-  applies to shmem and hugetlbfs too, and say "uffd bit", not "marker"
-- state the rule instead of listing the operations that drop the PTE
-- say that a context switching to sync with UFFDIO_SET_MODE needs the
-  sync registration, and fix the step 1 comment, since minor faults
-  block in async mode
-- add {} around the comment-only if body in the example
-- make RWP and minor faults on any offset this pass will evict wait
-  until that offset is punched
+If a preserved device has an ACS capability but no save state (i.e. the
+allocation failed), then we can panic, since its adopted controls would
+be lost by the first reset..
 
-v2: https://lore.kernel.org/20261116101004.15322-1-azpijr@gmail.com
-v1: https://lore.kernel.org/20261113112806.109578-1-azpijr@gmail.com
+Roughly:
 
- Documentation/admin-guide/mm/userfaultfd.rst | 89 ++++++++++++++++----
- 1 file changed, 71 insertions(+), 18 deletions(-)
+	int pci_liveupdate_adopt_acs(struct pci_dev *dev)
+	{
+		if (!dev->liveupdate.was_incoming)
+			return -EINVAL;
 
-diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
-index 97daea83b7f1..cdc92b40aa65 100644
---- a/Documentation/admin-guide/mm/userfaultfd.rst
-+++ b/Documentation/admin-guide/mm/userfaultfd.rst
-@@ -384,17 +384,54 @@ normal missing path (``do_anonymous_page()``, ``do_swap_page()``,
- the population itself, co-register the range with
- ``UFFDIO_REGISTER_MODE_MISSING``.
+		if (pci_need_dev_specific_enable_acs(dev))
+			pci_warn(dev, "Ignoring ACS quirk, adopting ACS controls from previous k=
+ernel\n");
 
--Protection is preserved across page reclaim: a page swapped out while
--RWP-protected carries the marker on its swap entry, and swap-in restores
--the PROT_NONE state so the first access after swap-in still faults. The
--same applies to pages temporarily replaced by migration entries.
--
--Operations that drop the PTE entirely — ``MADV_DONTNEED`` on anonymous
--memory, hole-punch on shmem, truncation of a file mapping — also drop the
--RWP marker: the next access re-populates the range without protection.
-+Protection is preserved while a page is temporarily replaced by a
-+migration entry: the migration entry keeps the uffd bit, and the PROT_NONE
-+state is restored when migration completes. This holds for anonymous,
-+shmem and hugetlbfs memory alike.
-+
-+Protection of anonymous memory is also preserved across page reclaim: a
-+page swapped out while RWP-protected keeps the uffd bit on its swap entry,
-+and swap-in restores the PROT_NONE state so the first access after swap-in
-+still faults.
-+
-+Any operation that drops the PTE also drops the RWP protection. On shmem
-+the kernel can drop the PTE at any time while the page stays in the page
-+cache or in swap; page reclaim and collapse into a huge page are examples.
- Unlike WP (which persists via ``PTE_MARKER_UFFD_WP``), there is no
--persistent RWP marker today. The user needs to re-arm the range with
--``UFFDIO_RWPROTECT`` after any operation that explicitly frees PTEs.
-+persistent RWP marker, and this is intentional: once the PTE is gone, the
-+next access takes a page fault that userfaultfd can deliver, and that fault
-+is the notification. Which fault it is depends on what happened to the
-+page:
-+
-+- The page is still in the page cache or in swap: the access is a minor
-+  fault, delivered if the range is co-registered with
-+  ``UFFDIO_REGISTER_MODE_MINOR``.
-+
-+- The page is gone: the access is a missing fault, delivered if the range
-+  is co-registered with ``UFFDIO_REGISTER_MODE_MISSING``.
-+
-+WP cannot use the same scheme — a minor fault would trap reads as well as
-+writes — which is why it needs a marker.
-+
-+Without the matching mode the page is mapped back silently and without
-+protection, so what to co-register depends on the tracking mode:
-+
-+- Sync mode: the access would be lost. Co-register shmem and hugetlbfs
-+  ranges with ``UFFDIO_REGISTER_MODE_MINOR`` (and
-+  ``UFFDIO_REGISTER_MODE_MISSING`` if the file can have holes), and
-+  anonymous ranges, where minor faults are not available, with
-+  ``UFFDIO_REGISTER_MODE_MISSING``.
-+
-+- Async mode: neither is needed. A page faulted back in is mapped without
-+  the uffd bit, so ``PAGEMAP_SCAN`` reports it as accessed.
-+
-+The registration does not follow the tracking mode: a context that
-+switches to sync mode with ``UFFDIO_SET_MODE``, as the workflow below
-+does, needs ``UFFDIO_REGISTER_MODE_MINOR`` while it is in sync mode.
-+Minor faults are always synchronous, so keeping it registered makes
-+them block in async mode as well. Re-registering the range to add
-+``UFFDIO_REGISTER_MODE_MINOR`` before switching to sync, and to drop
-+it after switching back, avoids that.
+		if (dev->acs_cap && !pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_ACS))
+			panic("%s: No ACS save state for preserved device\n",
+			      pci_name(dev));
 
- **Fault Handling:**
+		return 0;
+	}
 
-@@ -484,17 +521,24 @@ never traps on its own ::
-         .features = UFFD_FEATURE_RWP | UFFD_FEATURE_RWP_ASYNC,
-     };
-     ioctl(uffd, UFFDIO_API, &api);
--    if (!(api.features & UFFD_FEATURE_RWP))
-+    if (!(api.features & UFFD_FEATURE_RWP)) {
-         /* RWP unavailable on this kernel/arch -- fall back. */
-+    }
-+    /*
-+     * MINOR: an offset in the page cache but not mapped in guest_mem
-+     * would be mapped back without a fault, and a vCPU write between
-+     * the pwrite() and the hole punch in step 4 would be lost.
-+     */
-     ioctl(uffd, UFFDIO_REGISTER, &(struct uffdio_register){
-         .range = { guest_mem, guest_size },
-         .mode = UFFDIO_REGISTER_MODE_RWP |
--                UFFDIO_REGISTER_MODE_MISSING,
-+                UFFDIO_REGISTER_MODE_MISSING |
-+                UFFDIO_REGISTER_MODE_MINOR,
-     });
+The panic would only happen if allocating the save state fails. Ideally
+I'd like save state allocation failures to cause the whole device setup
+to fail. That's something I'm hoping to do in the future on top of the
+pci_save_state rework [1], and then we can remove this panic. Until
+then, the panic is constrained to Live Update, and the allocation
+shouldn't fail in practice.
 
-     /* Tracking loop */
-     while (vm_running) {
--        /* 1. Detection phase (async -- no vCPU stalls) */
-+        /* 1. Detection phase (RWP faults async, minor faults still block) */
-         ioctl(uffd, UFFDIO_RWPROTECT, &(struct uffdio_rwprotect){
-             .range = full_range,
-             .mode = UFFDIO_RWPROTECT_MODE_RWP });
-@@ -544,11 +588,20 @@ never traps on its own ::
-                   .enable = UFFD_FEATURE_RWP_ASYNC });
-     }
+As for IOMMU groups: Sami's IOMMU Live Update series refuses to let any
+device join a group that contains a preserved device, in both the
+outgoing and incoming kernel (__iommu_probe_device() fails with -EBUSY)
+[2][3]. So if the new kernel considers the path less isolated than the
+previous kernel did, e.g. because of a new quirk, the group grows and
+the IOMMU core refuses the second device rather than putting both in
+one group. The system comes up with that device unavailable, which can
+be debugged and recovered by rebooting, instead of panicking.
 
--During step 4, a vCPU that accesses a ``guest_mem`` offset being evicted
--blocks with a ``UFFD_PAGEFAULT_FLAG_RWP`` fault while the eviction is in
--progress. After ``fallocate()`` punches the page out and ``UFFDIO_WAKE``
--fires, the vCPU retries the access, faults as ``MISSING``, and the
--handler resolves it with ``UFFDIO_COPY`` from storage.
-+During step 4, a vCPU that accesses an offset this pass will evict blocks
-+with a ``UFFD_PAGEFAULT_FLAG_RWP`` fault, or with a
-+``UFFD_PAGEFAULT_FLAG_MINOR`` fault if the offset is not mapped in
-+``guest_mem``. The handler leaves the fault pending until that offset has
-+been punched out, even if step 4 has not reached it yet: resolving it
-+earlier would let a vCPU write land between the ``pwrite()`` and the hole
-+punch, and the write would be lost. After ``fallocate()`` punches the page
-+out and ``UFFDIO_WAKE`` fires, the vCPU retries the access, faults as
-+``MISSING``, and the handler resolves it with ``UFFDIO_COPY`` from storage.
-+
-+Faults on any other offset are resolved right away: RWP faults with
-+``UFFDIO_RWPROTECT``, minor faults with ``UFFDIO_CONTINUE``. A page mapped
-+by ``UFFDIO_CONTINUE`` does not carry the uffd bit, so the next scan reports
-+it as accessed.
+[1] https://lore.kernel.org/linux-pci/20261106004218.604799-1-dmatlack@goog=
+le.com/
+[2] https://lore.kernel.org/linux-iommu/20261110040828.1774343-6-skhawaja@g=
+oogle.com/
+[3] https://lore.kernel.org/linux-iommu/20261110040828.1774343-13-skhawaja@=
+google.com/
 
- This workflow targets shmem and hugetlbfs (both support a private
- ``io_mem`` mapping over the same fd). Anonymous-memory backings need a
---
-2.56.0
-
+Does that sound reasonable?
