@@ -1,100 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=67.231.145.42
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1795023977;
-	b=Ecy8LuG4MxBJfjW3mjWbl/tgq/uB/bbVpsXg8nbWhkxWlsA7Ojh6uYZK4r9AvUUGWbFW
-	 X0CgnybTUPeHOK7XVYcOBkZM4v6jDbJA0N6VT1xImNry8+ocuLKZYzteOhCcsVpylQE1X
-	 JK5W9wk5xUrguy1GHD1oX9ItiNlaVUYX59PDNkV5JII7umgoVTbJexnkySLf6jjorLmJx
-	 k0jPe/pZIStU8tOjhVW7HfMgXO6NDv33uv2qIJ/79Lyps1CsC0qVhwknmCkSrSHKtNweQ
-	 NVFtY+NX+ClGBodMnA34+DkrDzd/i1zEAl1Yf0bQ6eisg399QFqAKkQLsnXqCiTga2g==
+	t=1795024002;
+	b=NiEVQr6CYEx9jfLpExoXe1funQnZH7qYGnksEkBkR44wdUsDnzwbcySaJT/r0n2X1RoD
+	 +q9c7z9YlNviJMcfXXVmaR+okfGW0XhmuEP5L6yTkKU/daNF4qCStSIGwwvlCo7OppiX1
+	 xYOlWq7qOIG0ySFcSZw9m+XA+QJNnJCKFBh0we1mdSwTgoINSU17WeTfSJvvSSmkTOA+u
+	 xtCyaI68VQVKMzFDEpAEk8pJZFKug3tiYsVEusO7Ee8PCOScoJf9ZVA+xh3htHb0gUW9e
+	 fEtJ0Vadu+1oPpnSBn6wcPTbENjvBzLr0Hups4wc1KDIjSkXvVYpofB/8MoWqyXnnvw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795023977;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=SIiWqHkbikiw9/PSo57TK7nq7ydcL7CNJ2g4TYGph1w=;
-	b=OtH9nCyBU7I9+ROCum44cZXLtDMpDpovgPf5b77Yy28aW8/pbYn6Fls3/jBPZmDVN1T5
-	 o5c+FfCVmVzxDOCkZYCO6+osMd4dt5tt98/pfPm9JGXMXVO+Xrf8jfpS/lSxvmBJ4h+c6
-	 iFRwuj/3eTb/BmO3aJVkJCALC8PznkLHHFHPp8czsoNHGUSvABJTsClWoh43RB1yaE6Ky
-	 BTDZMSqQBpmW6WYJYhYAc7nDzrFTJMnn3WACqZ6EhMnJhUa1rClfiVA4+kSYgFcL5f39U
-	 T23rJcMwqczQd011TyUn8S/2s7rMW0BUzxYrc64Gpd4D8gYX1Y66B9rI6pnwTg/3L3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795024002;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 X-Google-DKIM-Signature:X-Forwarded-Encrypted:X-Gm-Message-State:
+	 X-Gm-Gg:X-Received:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version;
+	bh=3ykO91BHuXIQ6tsZKZrYbUoukzNZTCZ58wQfRBP+nBg=;
+	b=QnTr0e4I2BijNYgkNGJ9vc5mzyTPQQzcHJO2QndO+TZ2+KdnUhfVOyxKWTPnjJBffhgp
+	 nrRwl+pxluCdeErK08EWd+6RbCzFrDcYFWLS7OqXydMjAjoJFQ4R6TM07brpGXFNaUGHd
+	 yfengM7EF4CTt3m9F2YIVFsaMDcRUDeIcM2lD20f2H3ZMZCzNnnaE3+JTaz/yUILPemhV
+	 V7s9Fx38vyWZS2RqFI1F7Dw/vpj5Vd3K3co35S1sHA4NeZ/9wHJB4Kkf0CbUKuI3e2oSg
+	 Td52igU6jlnO++Z8bddftdiirAJRF4+OBA8kcBs0CiPpcAqhX6pESwQDSJ3i/DEieuw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amacapital.net;
-	spf=pass smtp.mailfrom=amacapital.net;
-	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="KSkreA/l";
-	arc=fail smtp.remote-ip=209.85.208.173
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=mR5cWZhH;
+	arc=fail smtp.remote-ip=67.231.145.42
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD89F606A320
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:46:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD89F606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F99606A337
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:46:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4F99606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=KSkreA/l
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3ae25d9e2fdso14640941fa.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 09:46:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795023975; cv=none;
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=mR5cWZhH
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIHGHF7531514
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 09:46:41 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pps82601-s2048-2026-q3; bh=3ykO91BHuXI
+	Q6tsZKZrYbUoukzNZTCZ58wQfRBP+nBg=; b=mR5cWZhHSGlgX9Kp6sEX3IH0+vZ
+	7DhjCpS6kNifZvDX+8X4OeETq3AcTzE9isy0aS2loX670ry+7TN75kVbI8yRo1Q6
+	gq+x5l6yhhuU6Wk3IRlOTXzEW1O8Kj3CPXaW7nmZ2iZTsfulilCriD9DhvSNbOFV
+	+LEfsYSD8WgJDdr759A/H/ZR2SrSVA+o6i8qGD/4Jzx/vvk0c2DA1O8WtVgovNWz
+	mS4mSF17IRuXojKZUPJgIbCJz3yts0xln4eo1+Af/NfhEOcjMVu4kVfu/pGgrgga
+	CqMpmoyU6vuiNbRC90iCXLfbCcUEM1uT0uRPofW0D9uZzMwYVDSoS0KcRNQ==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4j0yu6fewf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 09:46:41 -0800 (PST)
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-cd0cf3b1c70so960393a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 09:46:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795024000; cv=none;
         d=google.com; s=arc-20260327;
-        b=skugW5Bqo8AU3WNStP6okyrfx4tTn7OVZbgotaLbur6awdryMGcraTbjoo08Aaed1J
-         oYEptbHuTCHxXZ0lz+RvQvTWQRIRw3Qhl9po+BPAKB1NGKdnXB8juiU+VhIL8mQqOgXV
-         BNt501owU41oAjKvTSYEexW3TBtIlv4U3g7CkqVSpaVsU96Nn2FMcciT61xXQHFMUZ38
-         eCXbCt7Gs4X8cWth/ia7t7FszGVrKWwZKjaGwCPnmpwEl9oXoM7xqnbKFWvqS6P27/aY
-         shz5M5n8w1lVHwh2viru3XM7Y5xkdf2ogg3ZLjQGuKohMM/GcnlNlocflAnSMD/tOzSs
-         WpOg==
+        b=K9npD2UCZ8kNV7bg43ukq/O5N3xJ2blSWeMf/d/9wyOfMcEtwfmAkIqKekkG3JmvrG
+         JKRtCLwAJ3z6BaVOKlU+5Qj5oxFpuKuW4uySycnfyfyNBb54nYcB/luwZssPzacAid/N
+         lH6hJ3r5glW29ScaintyvfsKifAIpWiOV7iaK62wGD3dP0WSPaI7qB7Vt3fyjpsFbxtM
+         NobpSmT60DB8wVcALNGDMmPOOaO3DB7ZyWFeJyHql7OBsQfglTrsqTbb8c0IoxdpmbvR
+         2waY+w7Lxb6A/3uTRuruK7OXEND6ob3fn649PFCKLknbigJyNopshmfoWaC4M/oembaA
+         M6+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=SIiWqHkbikiw9/PSo57TK7nq7ydcL7CNJ2g4TYGph1w=;
-        fh=TkAmuyM833pwzebrXyXS+2QVvieeb6ce0h11YEwisp0=;
-        b=Tx029lucrFPFGULdHHY/vZtGkymuAozH04UcSDQ7mgqZdAJe8nc+CgpnbeiEdT4FPU
-         YvgR9Pn/m95jizembrvo9Pap/1T5MJniLiwosuAwc+wK1hmiSlRFdMuoot8ZhEjv4x3i
-         KRxsN/22WeXakgYl1f+vDVczSgOyc89zBiK3oZJmgm24b66G0juWGEPlbv3BMP9yA410
-         1VAvOrvvp1bQMIMkSw62PEc/fk3nAB37qwy2kmqKUz8E82zLtT4MNSLg3DYdNysZRA7T
-         RQwlWDrBSG7zJ7k48AX4wCGekQysqylY3/Ikb5fexmF0fjRJl9i9xW/a1n8BWFeVrKhK
-         iCAw==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version;
+        bh=3ykO91BHuXIQ6tsZKZrYbUoukzNZTCZ58wQfRBP+nBg=;
+        fh=pIg4n7wVlQ/cTefkakufCZ3nsZeTzJPpfqVy5EUaypE=;
+        b=Aho+4Xc9vLLfLiT2Y3QGfy4Gk4JIc2HpBzEgsiKUbnZAmetE1rYZZttMSEtOq57hjG
+         9qxzvJf2NZ1yGNa6bgXZ9dDM95AFkKkZA3m0zcL8JR5yeWL9LC6dz8ZLTXsdtsqrYwdD
+         0RdBOpSLcWRI9MBpd7xaNnLNQLSmHU+jUeeEH4z9KD882XeUaaa/c5MFvizFXXBYoCav
+         BZYvUc8UaNWT4rGblvxgAeJs0McwusEuht4kjQyy1+cRB3S/Tc28vtKK6qyMSfJrDXpZ
+         i2ZwVaQtZzcMQdV4bfPEoEBGp/NB/JT18bvTkXmmKNMaGGncrAY9t6WlLUawX0NiuoMx
+         RflA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1795023975; x=1795628775; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=SIiWqHkbikiw9/PSo57TK7nq7ydcL7CNJ2g4TYGph1w=;
-        b=KSkreA/lv4ezsG6FIG+0z6ugqaPZfz/K227G/b9zqB4WbfNBD3XL8nHiuC3RHSDVop
-         r5WQO1yWZkBKMg+zBj6fpTWLOgpJt9bMFVDdhzBzxpnWtkhvlsv4/E5kXo+obO4szmr+
-         nFnhBGrEd0bPzAozYpmaEhgJtA45FnEzG5/HZEZEyKNuYbIbPoPWq9RPDZYH3gY4NHNi
-         I3IElP7vq/+9MvKb/InmOXdTWMpefUYfbAAhC3j8k1680QGt9U/5fB8JA17w2EOZ287i
-         CuVr1tTToajDP4e2jNTAGYhUjIUDF7CvDim1WkQKv5tAZUDy/kdf5WduxQLtE+TgPH5v
-         7k/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795023975; x=1795628775;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SIiWqHkbikiw9/PSo57TK7nq7ydcL7CNJ2g4TYGph1w=;
-        b=fZbpMw5A+jFMGphmM5pyF8yikM1n3j2bWPAYVFrgqx03SMwzmjTcdJi9ofb7rZdemD
-         EwwkCRRDlUo8/yPB3vpJynGRrufRk9iwfMfWCvz5bSBrM2A/Z3nN6BukQ9F5TBq+xWud
-         J+borMDd95C5qJcXmdGG//mul4heQX7+OVqcjCVPLPE9NoI5FquwvHXtMX7B3o/9I8V2
-         AUoexbuntTo44/YNG1LsVx4rIxCmHnPXeuiLnXX/enebTQhPU7Ki5pHPSpI71eLqqbkq
-         2n8FnZtKjom79+aCaJWx9h6YYqd1FigZg1X+1p5hyj446BI0DOCW65bnleDXHBDTY8mc
-         5bvw==
-X-Forwarded-Encrypted: i=1; AL+hErGdpmb/JdQiSb66BpYv5UIKeffk6UdvqLPsPjfdKrCkF7dxXbxTpn+ykBiL8ZhO2vB9qxU0WqKORnY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9JWiSfZ1VO8rJp5ct9yRCCkQB2vVEogKIlwRqwuSHgVTwItriU
-	yI51KlhL3XA1KJEoyf1lPozm17Qp8OAvaDyCLHGHIk1Jay2BvPlD9ogunRPKun2Cs5S3OC4TZVa
-	SwbAm/WGFtnhL9r6XMbrDzTjQI2CHlX3CPP1yKt40
-X-Gm-Gg: AYBFou3BW6Na37SDmzZY9CETx9jYVr3x99C8sgg4tSnhpgMqC+hTxvQ77NecRUWonNj
-	K+tZvBER8XnZ+jLpI36pgxYe0t8pWNOAez9sRFWjSIpVH7fr76FzYdsWmME7sJ69OuGug89FOaN
-	d9UlzcXp8zx4KZe74ipl4kFTDgnhjTsuSel4bdPzVZa87yfkKAkultq+Dxk+xMV8TFWXhj2oDGf
-	iiQfHZxX8bNXLf5d5DPL22lafSkadhaybwUhKgKwH1VG7TkhNMavnIGiD1f4iAjjIGErXSJLjy2
-	jD9J2tAOH6ApSJYHgNyLz+5hKR5CODz9x8araeqXXfadXlrEjWUr5xx57UgDy41zGyRcG2AYT3B
-	nZ3DgZOWgU+rS3l87aaBeClAUS7yRhyh30A==
-X-Received: by 2002:a05:6512:8346:b0:5c1:ac84:c105 with SMTP id
- 2adb3069b0e04-5c1ac84c2a0mr745576e87.57.1795023975125; Wed, 18 Nov 2026
- 09:46:15 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795024000; x=1795628800;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=3ykO91BHuXIQ6tsZKZrYbUoukzNZTCZ58wQfRBP+nBg=;
+        b=GSc6lVCFV2WFsPFG/HCjAC9RGzSPsQQSm7Fd2nr08kyuqWtsi4oJ589ICZn4pA93ea
+         vxiHCpgjLPH+sY2T0RN0elaIjA1uhrf/5cyi2AvrT4deRMawL989Z1iiTPqIRpNI9xfF
+         WjQaO1NddpvxqOqjneVf4TBDeEInWbs1ARJSgY5obc48H7jJ+Wg+SviegcemvDsdj31p
+         gxWpGSNXfV4ahqKjGcX+Sr70O1Ee3KrP7dci9ZtQJHnhfdfYeWcQd64qWXAsiUpr2uNZ
+         fToVabxMs8AL8CeBMtdbzCPkWAncEaa6ai3xeN01g0qMYsI12H/D58sExa4R+EP44oCC
+         7o0Q==
+X-Forwarded-Encrypted: i=1; AL+hErG5YJcCBgpGs+U7/LI1wGrU+LoNUlOnwD7uJsDL/XoXdbRKf9ucyRlxiB7Zxqr/dyKmjHU2fO8Lpss=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8I8Fkx43IWo+IK0Mvv3c7HqWR79IdEW5jl5M4ooIEciIofJr9r
+	9eBE1CsOdyGkqjx1VI86vjIA/JUyD/zn2C83IceClE/jH631UMyBn9vRrjzOrVTsYSla/BBCB86
+	3B5VqSaUYlETtuhJipagkMDiRG/S6246Dj8ExZNT8Ilqhq7/PZ0qhQGjjfm2cvt9GvTIaSifjPC
+	PucI8kisw8xYcWlc0rHI47s94njozApZhGDFU=
+X-Gm-Gg: AYBFou3BZ5zteEjCoC/4kz8bUczQMrGlh6MknAwzjlaqEUYVEGZpRnVr3AABIrLn7jI
+	tvkMLh2baI63wVGPlVd7WWINwVwxjMo3CI+ftd5WJ22xbVYmeQJDYnGxZIoLISU2DjMpERcNb8D
+	cmDKqWJVSXQNV4QQFSCQv6Cp7/TsiZzefjJ8ZSVRqkEEjNQVdDbVkWbJ6EfgamTHh9zFtJ7vV+z
+	LTNmmg3lt200Go+f9zIcO0aUn/MMyg8
+X-Received: by 2002:a05:6a21:7e83:b0:3e2:a849:64c5 with SMTP id adf61e73a8af0-3fe970fb016mr3350998637.19.1795024000250;
+        Wed, 18 Nov 2026 09:46:40 -0800 (PST)
+X-Received: by 2002:a05:6a21:7e83:b0:3e2:a849:64c5 with SMTP id
+ adf61e73a8af0-3fe970fb016mr3350979637.19.1795023999775; Wed, 18 Nov 2026
+ 09:46:39 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,182 +111,71 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261117231352.3816603-1-jarkko@kernel.org> <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
- <av3akYFOYaeQZauZ@kernel.org> <av3bkDnwmjunTleX@kernel.org>
-In-Reply-To: <av3bkDnwmjunTleX@kernel.org>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Wed, 18 Nov 2026 09:46:02 -0800
-X-Gm-Features: Aa3M54rqJXQt69c6byOctTWRaXx3nXcFQskBrnHvxsTyM3qw4EOZDCkVbvK6iJk
-Message-ID: <CALCETrXPLeUgxyhjP4XuWS46FKB0TUHF5PcMkdMf+qeEXbyXRA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
-	Ben Segall <bsegall@google.com>, Christian Brauner <brauner@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, David Howells <dhowells@redhat.com>, 
-	Davidlohr Bueso <dave@stgolabs.net>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
-	John Johansen <john.johansen@canonical.com>, Juri Lelli <juri.lelli@redhat.com>, 
-	Kees Cook <kees@kernel.org>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Manfred Spraul <manfred@colorfullife.com>, Mel Gorman <mgorman@suse.de>, 
-	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>, 
-	Paul Moore <paul@paul-moore.com>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Serge Hallyn <sergeh@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Valentin Schneider <vschneid@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+References: <20261111005533.6436-1-toddfreed@meta.com> <20261111005533.6436-8-toddfreed@meta.com>
+ <ea8a18e0-12cc-48e0-903e-325a8ece5a0f@iogearbox.net>
+In-Reply-To: <ea8a18e0-12cc-48e0-903e-325a8ece5a0f@iogearbox.net>
+From: Todd Bert Freed <toddfreed@meta.com>
+Date: Wed, 18 Nov 2026 09:46:29 -0800
+X-Gm-Features: AclHuK933nJ--reKuON_iU7qOJYXtOh-j2OhgmEp3HOYoG1ZpPxZFsfMEYfL2v0
+Message-ID: <CADh2yMxffQ3cywT3aNg3SkVfog5CFnUSp34F1esyun-xUBVa9g@mail.gmail.com>
+Subject: Re: [PATCH net-next v1 07/15] bpf: don't redirect decrypted skbs from
+ egress to ingress
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        bpf@vger.kernel.org, Daniel Zahka <daniel.zahka@gmail.com>,
+        Donald Hunter <donald.hunter@gmail.com>,
+        Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Jamal Hadi Salim <jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>,
+        John Fastabend <john.fastabend@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-rdma@vger.kernel.org, Martin KaFai Lau <martin.lau@linux.dev>,
+        Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+        Simon Horman <horms@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+        Wei Wang <weiwan@google.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: CFVa_MIkFHPnZ6TNC4NqIuG5FbpVkmBa
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA3MCBTYWx0ZWRfX+r6AYIUsxzC0
+ e/gZ6Bdt3ka2HyI2WiYdGbEBaZJHMBIs8uzy4iXWdfCl6eWC8tq9KvSUkBftiHnkHOFS3CCJH+B
+ g8rh84V78fXsaLzmaJK7MxKKX4ogNz0=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA3MCBTYWx0ZWRfXxCWAWo6sXTSb
+ yjgWMzsO+x42+XkQ36TJXhgyimTJZWbNwfqDBtSgjKpHjT06tHxV3Za8tmPEqhonkxZ7vdF1K8V
+ YLhQbJn8SsFCMiZEv5Zo3shuFp3QKET9slIUS8mFGWd2Lf+AvOH3gprR7CJpSSBDPwEA0NJE0JY
+ v7a/iPOiEL1wmQGG1M7lX0FNsUR/EJqUUVz38rgnZKd3LJaYRNspUod60oSpMa/zcdOb/aDwWTE
+ mDeVklIbs2LClry+hZjJsdn+xyqYUQrEhxMQk2wBoa5BVtEQNIwXb8JlltlmdB8X8WBiHNYVdWv
+ xUA4X9wQWyR89AyhdPIgY+Hh6cVj1e003ulDXEq29Q/WaaO9AtBOtv3AlgnVsJguAkR8kt7XRJl
+ odE6Yh7dJEAlSMf/AwaCqpkhB1CLeKhxqqGKRIkBfkhopwwIYXnz9n5EuI03rH+U8XDpkF6uTHz
+ s/WafuQvGb8r1/9lCSg==
+X-Authority-Analysis: v=2.4 cv=H6JOUOYi c=1 sm=1 tr=0 ts=6afde481 cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=tpM8CJlwf7uhpglF1g9U:22
+ a=XWTshytv-yXGdKsk3gQA:9 a=QEXdDO2ut3YA:10 a=x9snwWr2DeNwDh03kgHS:22
+X-Proofpoint-ORIG-GUID: CFVa_MIkFHPnZ6TNC4NqIuG5FbpVkmBa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-18_05,2026-11-16_01,2025-10-01_01
 
-On Wed, Nov 18, 2026 at 9:08=E2=80=AFAM Jarkko Sakkinen <jarkko@kernel.org>=
- wrote:
+> > +     /* On transmit, decrypted asks the device to encrypt the packet. Sent
+> > +      * to ingress, the packet would read as decrypted by the device.
+> > +      */
+> > +     if (unlikely((flags & BPF_F_INGRESS) && !skb_at_tc_ingress(skb) &&
+> > +                  skb_is_decrypted(skb))) {
+> > +             kfree_skb(skb);
+> > +             return -EINVAL;
 >
-> On Wed, Nov 18, 2026 at 07:04:21PM +0200, Jarkko Sakkinen wrote:
-> > On Wed, Nov 18, 2026 at 08:59:39AM -0800, Andy Lutomirski wrote:
-> > > On Tue, Nov 17, 2026 at 3:14=E2=80=AFPM Jarkko Sakkinen <jarkko@kerne=
-l.org> wrote:
-> > > >
-> > > > OVERVIEW
-> > > > =3D=3D=3D=3D=3D=3D=3D=3D
-> > > >
-> > > > A root namespace (rootns) is a kernel object backed by a file descr=
-iptor
-> > > > that binds together:
-> > > >
-> > > > 1. A full or partial set of detached namespaces.
-> > > > 2. A dedicated PID namespace for spawning processes into, signaling
-> > > >    members, and polling or waiting on PID 1 exit.
-> > > > 3. An initially empty mount namespace (CLONE_EMPTY_MNTNS) that must=
- be
-> > > >    populated before going live, without inheriting host mount-tree
-> > > >    ancestors.
-> > > >
-> > > > Work on this feature started in 2025 from David Howells' container =
-object
-> > > > patch set [1], which I turned into a namespace for namespace roots =
-and
-> > > > rebuilt around that premise.
-> > > >
-> > > > While the patch set is manually written, the original motivation ca=
-me
-> > > > from isolating LLM agents. Running untrusted agent workloads made i=
-t
-> > > > clear that OCI runtimes need to minimize their live configuration
-> > > > surface.
-> > > >
-> > > > Assembling mounts, credentials, and namespaces inside helper proces=
-ses
-> > > > with a half-configured container is what I see as the main challeng=
-e,
-> > > > and the existential debate around namespaces and container objects =
-is an
-> > > > unfocused discussion topic.
-> > >
-> > >
-> > > I've skimmed some of the series, and I see a bunch of good ideas that
-> > > involve using an fd to manage a thing.  But I'm wondering how much of
-> > > the value is added by that and how much is added by having a new
-> > > *type* of thing: the "rootns".
-> > >
-> > > How much of the value comes from the rootns vs the new APIs to
-> > > configure namespaces without entering them first?
-> > >
-> > > For that matter, the cells series also seems to contain a (possibly
-> > > very similar) variant of the same thing.
-> > >
-> > > Would it make sense to come up with a patchset that does *just* the
-> > > configure-a-namespace-by-fd part?  It seems to me that this should be
-> > > an easier thing to agree on, and it's a big part of the complexity of
-> > > all of this, and it solves a real problem even without
-> > > cells/rootnses/jails/whatever.
-> >
-> > Is it  more accurately scope the part that is "just the fd-part" and
-> > what you consider as "extra cruft"?
+> This check should rather live in the bpf_redirect (and friends) helper e.g. after
+> we check for invalid params, etc, rather than here which feels off. Also, it would
+> probably make sense to refactor this condition into a small inline helper so you
+> don't have to open code it multiple times.
 
-I'm not actually trying to say that anything is "extra cruft".  What I
-mean is: there seems to be somewhat of a core that is pretty similar
-between the two patchsets, and that core seems independently useful.
+Sounds good I will move this check into the two callers
+(bpf_clone_redirect() and
+skb_do_redirect()) under a helper.
 
-> >
-> > I.e., where do you draw the border?
->
-> I'm asking this because I had similar thoughts when I started this back
-> in 2025. David had some good ideas but it did more than having a fd
-> that does not go live before everything is set up properly.
+FYI this patch was moved to the net series "net: don't redirect
+decrypted skbs to
+ingress, psp time-wait validator", so you will see this applied to v3 there.
 
-I don't know that I have a very clear border, but here's an example:
-
-rootns has MOVE_MOUNT_T_ROOTNS_ROOT.
-
-cells has:
-
-+What else goes into the tree is mounted on it before it becomes a
-mount namespace.  A
-+filesystem for the cell to write to is mapped in the same way:
-+
-+.. code-block:: c
-+
-+   fs =3D fsopen("tmpfs", 0);
-+   fsconfig(fs, FSCONFIG_SET_STRING, "mode", "1777", 0);
-+   fsconfig(fs, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-+   mnt =3D fsmount(fs, 0, MOUNT_ATTR_NOSUID | MOUNT_ATTR_NODEV);
-+   mount_setattr(mnt, "", AT_EMPTY_PATH, &attr, sizeof(attr));
-+   move_mount(mnt, "", tree, "tmp", MOVE_MOUNT_F_EMPTY_PATH);
-
-(Source: https://lore.kernel.org/all/20261105-b4-cells-v3-2-bc9095937a84@to=
-xicpanda.com/)
-
-I feel like you are both *so close* to something that would stand
-alone and make perfect sense.  I also feel like, if that's a goal,
-then both series are slightly off from the bulls-eye.  (Keep in mind
-that I've spend a total of about ten minutes looking at the relevant
-parts of the series.)
-
-If I've understood the two series correctly, and if I'm thinking of
-these abilities as something that can stand alone, then I see the
-following things that I'd improve.
-
-rootns: Why can't I use a *mountns* fd to so the configuration?  Maybe
-I'm misunderstanding something.
-
-cells: The dance where I create an anonymous mountns, mount stuff into
-it, and then attach it to the cell is cute.  But I think the userns
-interaction is wrong: you are making me assemble all the mounts in
-*my* userns and then clone the entire tree into a fresh, non-anonymous
-mountns bound to the current userns.  And that clone operation is not
-free and serves no actual practical purpose.
-
-Why can't there be some variant of these where I can either create an
-anonymous mount tree that is genuinely unbound from a userns or that
-lives in *the target userns* or that *is already the final mountns*,
-using just mount-related APIs?  In pseudocode:
-
-int mountns_control_fd =3D create_mountns(either userns-free or with a
-userns_control_fd);
-fsopen, move_mount, , open_tree, etc;
-
-Finally:
-
-cells: I find it *incredibly annoying* that one generally cannot put
-new mounts into an existing container using most existing container
-managers.  I hit this on a surprisingly regular basis.  You seem to be
-baking this into the whole cells design.  Why?
-
-both of you: Can we please make it possible to do the parts of this
-that oughtn't require privilege without privilege?  If the cap_userns
-thing ever lands, cap_userns & CAP_SYS_ADMIN ought to be more than
-sufficient to permit creating fresh mounts even without creating a
-userns as long as we don't do anything that affects privileges within
-our own userns.  Or let us create a userns, *not enter it*, and do all
-the mounting without actually having CAP_SYS_ADMIN in the permitted
-set.
-
-
---=20
-Andy Lutomirski
-AMA Capital Management, LLC
+-Todd
