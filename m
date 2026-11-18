@@ -1,109 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.56.87.1
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.49
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795020803;
-	b=axBWoPiIpLz7Kx1ubZwqekgOwqeRWs7b5gMrbz2Yz/Z00bNvpH7QAWMdT1IEg5CT4yW4
-	 9jov+46hUsaGi0PWkmo0tn1yvbwZuaHcQ7T6U01eEsAzZB0IEZHmrHJQspzFV7nSX9H9q
-	 W3ybMzjAXd/9XMyjAr5M7qBlTmPTzGrfQnGXOCQ535WYIaV5A/PE8EOHzCghmPlomRNzQ
-	 IxwxhqbJ8Q623utNSo1QT+RdomKMsWD/Y3NupD52+4ZELBnipfRZQOMElsjYlSrZlO1E3
-	 v0NPtrtUlrMakut42oazxmPCwHTaYcql/nwUH891MFzRAf4LeQV0/X9ih+/SUW9v3wg==
+	t=1795021194;
+	b=GvrT0gqdqVPCZBFRSzGOHbIlCyPhUZ0fFQqJpIWF4PY0osfzDSrXZLO3YaxsKIBFguxl
+	 IzrqSYIi/8a8iMQ7Jh4HEW1/JW7f3oSfB9gNlmlrQhamzZBOm41Fl0J3uZ3hjDuyknj8I
+	 oTnAiKmKW12gnrldpexgMdWm7NkH/6e8bfET4to4Q8TK4glaPhN/FPnCLhFUR3BsOLY2s
+	 cbR5HDZG3Sv0khGzgm02RPjl4+HXdnpRSGDt9M9LNb5bKZNnGWvhs5WB4WneIPOC/eYI1
+	 ucl/Jl8eUpGVSGEEwW8BHGXnDarkNSstq4FFnWAJqjUBAe/w5yHhYs1JiB1XTm/xcEA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795020803;
-	h=DMARC-Filter:DKIM-Signature:Received:DKIM-Signature:Received:Date:
-	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-Source:X-Source-Args:X-Source-Dir:
-	 X-SGantispam-id:X-AntiAbuse:AntiSpam-DLS:AntiSpam-DLSP:AntiSpam-DLSRS:
-	 AntiSpam-TS:CFBL-Address:CFBL-Feedback-ID;
-	bh=s49vQAT48BxIZLfMkEXtnKafHZS3S30w7qy4wPSK4ME=;
-	b=otBlGrxOS/gRXGeZO7Qtc7Ysr+MvpzjuOjexvYq/mpVQ5rgsQxAXJpI0PK/u8YF5pXcf
-	 HyA0iKMGZr9SPSbWuTG9LR9MiihGLg9P6HR6zKPVKqfNNRwVZQtnAAIhTXE95LeNqnBcH
-	 fpz8tYhnU8ww3OO6ZkYXZKC8uMVcNDG97PhDPFr2YvOQSPwusxO3amcRz1+LyiX4r6Olb
-	 G05gYaBMWfkdLx8+9f6HQgwzG8OmebCdxcoz4fnE4h2ac7EwZ9oAIieSdYRJidwtG23tO
-	 Tm7l2RFkdeZxuCNhMFucgAmGcT6myxx4q18fyU+jDlaZZKItIOIA7rtMtGZflxCWrBg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795021194;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=+eo4FKNzNbHf/eH43g1C8Z3to6Do7+2E27gt4uDxW08=;
+	b=2PxQ1SpLRcbxXVhuNm0MLHQVeWNFgK4/Sdp7sfYlGPRx+xMpwT37R85YJnBqZXc1JGRm
+	 2TGATA9/exwi6qgikS156aa8k3XKG/mH7DpmQTgxbQlETtXEUvGKPYCTY3ArWwiHrJsir
+	 DlYD8741FJe0dEnX1KeSt0JG+9Zys8GdRlSWhEyJ1n+XFFI++e/PaPovJhOsuGXj60VdU
+	 mSQrL/gC03WieyVzmGrkvYmgGyKPkxWBnzcN2KbG136Tf5oyGjc+S5a/otDVgHMS1ZlqM
+	 LXTvovZeQpGgVMNnRgK5O10j5m1bJcN0hscrIHL935wAoIapDrfTaMF0tEFM3K5d9bA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=valla.it;
-	spf=pass smtp.mailfrom=valla.it;
-	dkim=pass header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=A6intZbK;
-	dkim=pass header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=UEg0TeVF;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=185.56.87.1
-Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=amacapital.net;
+	spf=pass smtp.mailfrom=amacapital.net;
+	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="tsb3jtv/";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.49
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7866606A330;
-	Wed, 18 Nov 2026 16:53:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7866606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valla.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valla.it
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5281E606A337
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 16:59:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5281E606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=A6intZbK;
-	dkim=pass (1024-bit key, unprotected) header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=UEg0TeVF
-ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-4zq2.prod.antispam.mailspamprotection.com; s=arckey; t=1795020802;
-	 b=tK+jGjDrYzZwiUDkabbFkJxUkT19sThE29n4ddG+6MEzgEMAuLhRDKbpq7Xu03Fbpv5FtqUEUu
-	  N898+aY1C5ibVRLLjkXu5pqmJw/GkI1NmivuOr5CAW6p/ZHEZ4R4NesAVmFPw9psxMleOMGCdG
-	  X7dqiHHUi8heFVjTGd+rZZH2ygmdq9zTmil65UL0zGOrL/DastFbdB3aUd3a95BQWzJyorLMWa
-	  BF3kofbPF94zI652cZz6y4NxL7Xm5umVP/VIrOxNVendpKwTemyPCWRJ2UbuAojEQiGXKfooEO
-	  /rytFYOk6KJSN0beegJ4cQ4EX5JS4xH1Z7m67UjAoPElZQ==;
-ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-4zq2.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
-	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
-	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
-	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
-	arc=none
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-4zq2.prod.antispam.mailspamprotection.com; s=arckey; t=1795020802;
-	bh=hq59j9MIUVaImvVcxyR40iCL7QyC1S8ejdHje+eHY8Q=;
-	h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:
-	  From:Date:DKIM-Signature:DKIM-Signature;
-	b=jnljhki0zbVbLYA+ygjnK2eKPsOboC4EkQSodJvM7/CnwU9RtZGVCVBeg+wjcXre2yuL7Bfplw
-	  RSjxb2LKGPJNEUYkTk+pcytcxWIhbF+iYUzTo1+CTc65vobOcp9tslOGXFuAbrDWm29RTpChAB
-	  5GpFv8fVn4Y4ZLBJVSrNSBNFE19evtzFSXLkphWCOHimg4xk73cxzO/CrxBKFmz1nTjuScS57c
-	  GHxTiNASfdb1z9SpYTAJGocPTPfITe853E38FCBmvL2q3k7TNQXH8xv3SvLCI3EMpewAhIyekr
-	  igPVztPi7gJ0wV4rPyBh7Shj/eodcyp3D9hAW1phziO+WQ==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
-	:Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	List-Unsubscribe:Content-Transfer-Encoding;
-	bh=s49vQAT48BxIZLfMkEXtnKafHZS3S30w7qy4wPSK4ME=; b=A6intZbKqfhOk/eTaNcvmTqTXy
-	WT+K4LV2B6SdAxAAFHTs8Jcj3KBVCwt7IIE6XAtgHkDA1LdMYdXxIkA7UG5wiwxkOw1QKS3A/T6KC
-	/K5DNYaoocoRVcnadRatYXhe2CTVgqPQ9UG/eBJci2rBm9TaXFEndbGVadwW/s1gRdA8=;
-Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
-	by instance-europe-west4-4zq2.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <francesco@valla.it>)
-	id 1xTiuO-00000000cKu-26Ro;
-	Wed, 18 Nov 2026 16:53:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
-	s=default; h=Subject:Cc:To:From:Date:list-help:list-unsubscribe:
-	list-subscribe:list-post:list-owner:list-archive;
-	bh=s49vQAT48BxIZLfMkEXtnKafHZS3S30w7qy4wPSK4ME=; b=UEg0TeVF31O2xVuW3Qw4fUKuWq
-	22O0c+RoE43yXb2K1fcEGcj4yLs39qyWMdbnThi3UjcTjDy9fjjzecG0xypXBoVvkqR0gQywrnrpy
-	7aRCBZeCKAMrhgnP2KZqp4EmLuTXsa4adOHWK4o1SFGw482Eo5u6z+Uo4965hkzS3Fmw=;
-Received: from [95.251.96.187] (port=64594 helo=bywater)
-	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <francesco@valla.it>)
-	id 1xTiu4-00000000OYn-0kDy;
-	Wed, 18 Nov 2026 16:53:00 +0000
-Date: Wed, 18 Nov 2026 17:52:58 +0100
-From: Francesco Valla <francesco@valla.it>
-To: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, Robin Murphy <robin.murphy@arm.com>, 
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH RFC v2 05/11] remoteproc: virtio: report
- VIRTIO_F_ACCESS_PLATFORM when required
-Message-ID: <av3XR-APUl0ENo_n@bywater>
-References: <20261102-remoteproc_virtio_map-v2-0-26b300e01c62@valla.it>
- <20261102-remoteproc_virtio_map-v2-5-26b300e01c62@valla.it>
- <avs6XQpoQmY_MNYx@p14s>
- <avzQI6R9LubGP7-d@bywater>
- <av3HVh5jlMsyaiq7@p14s>
+	dkim=pass (2048-bit key) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=tsb3jtv/
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5c14f7768acso896107e87.3
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 08:59:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795021192; cv=none;
+        d=google.com; s=arc-20260327;
+        b=U3vUaLagggTqDtJbIp42TijCu56gSCAQnFjXzAgynWLEN95k3Axrpm0rs1eByLbw7R
+         B9G4+28+IVKJmyWhKVAnBeX7Zl+WUXLrUMekUsuPAGNGmJEx+BJIXpMwQX6thL20V2tw
+         nazinXTawFvUyOpjf1zizW8COn5Sf52MhSfzrZyZPjgJx9+GPMbmbhwMmQkbD1XALI5S
+         3WuAWzmIlhklUFcDuHTXIYicJcbwVTfiMP/iidQCKI0SK6q+eBPbKHLpkBdPmxy4/Tc4
+         yGDBTU4bKFaUyPw/jfBAT2L4tKfLacFhP1VpdGLP68KxIQdXv9nNykMGYgExPXom9yVn
+         /2Bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+eo4FKNzNbHf/eH43g1C8Z3to6Do7+2E27gt4uDxW08=;
+        fh=trOI2ANMz7Sy+XTN0ZgdOkMonLLoKuMd0MHk7saW98w=;
+        b=Zg/S9bCF0EIp5qbdnAvS2PkbxI+M/jsa4+rb27TR2FUwRcQKnAGRc/ksfy0h96QznE
+         Ykb9nBEb4DcEZEutirX2iV6ynZG2yLY+urzNoImsVIyEdXzThKeC1nMWUrrVmF5eFSSv
+         gLBXPAoa+N0qIarEUJVYAd31J3gHit2Xso0GhdxwgYJGbR0Cny0NbYK9pzWsBB8G4OpH
+         AyvCdBq8wp27HqYznIYoJJDTFeADIsrZJ9F7w1fVuqnh6WqFTspNPIX/IAkEI3HX5kZY
+         YXxkQgFFSEZS/Q2WXULhuw/TAeRZhXu0/82gLaIKkK6po5GC4oNuAeMejomUFPs/cS5+
+         Z7AQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1795021192; x=1795625992; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+eo4FKNzNbHf/eH43g1C8Z3to6Do7+2E27gt4uDxW08=;
+        b=tsb3jtv/d+zI1r94mKuk01oFSXaGJ5VfBd68Dm3Rzy3k/9SLJEJI9zvC5ERx83P8mh
+         L/1k5WahXt+pRRzhHcYHDMSRuJM1TjD5VHtPSmgdvcsE7bgjMsIlMo+YJOsxodt6BDKE
+         WgZi0KNeAOjP6r2GiyTfd+fHBUESbduG4DYdClB/Bqst6T6AYc3Y24sbaheI8lu+qMGX
+         3hhYwGZJIpgbaepiYwepZXr+V9cZ/bQz35fnXnkTNzQzPv5ISz2zAb8tKPjJ5JQ0vFBn
+         iosrC4gHAY/nVJ74V0i+yTKb1wxgWpU8SzcVufvUcALVry0duvdDvm8V8jy8r4h1xcDj
+         iTDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795021192; x=1795625992;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+eo4FKNzNbHf/eH43g1C8Z3to6Do7+2E27gt4uDxW08=;
+        b=mRtnOADLlRbRkhKqLYWLAEdYqfTz6KQqoszj1bjRNNjlKtN7G7sBXRWg0fkozJ/wIc
+         ph7K0XWrjKAqabEtdxqoZo0ptKf4mLYJOslY74o/bHUoGaOiKs2Aj2MHfLaG2bATJdkp
+         gj0sKuBnot7xAGkekyX4wZ7rg2WLJGCRX/lN+xMOk0xk0eIcSrAFcdyW5vFhzxFMFxFY
+         SvSHayYzgzBEfqd7VmrOsTvyWmQYFOgs6WEtPsTGuGGonLJEF8yJvDjzs8Jj2tkonPzX
+         so5HyIB+hmoI4HQyGNJ890AW+UetqxIw7jvYgQg2N4o+rIDWeh95V8qX3ah6DISFosBV
+         NukQ==
+X-Forwarded-Encrypted: i=1; AL+hErEmNXrGBZOb8keagB6U+rkijGJ9ixcYBvLBh+xC2MQS/2x0Y3LyKIx4rzzH15KkDC3sgwFUcEkWQYc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8MNIDgTgiowHrmYkCr7jwQKa3Zn3AB9MVUY8WLID8Kut9Egy8B
+	QxUY+Npuyt7U7Ui3OnaMVgul+sDxjKmXSg+Fs7JxZJVgYk8RWx8YAmAdJGh3XqZihAEHDsnz4nk
+	OnSzs679O4wddzTx5W3L/3GGeQYUwrz0NXa0n3PXX
+X-Gm-Gg: AYBFou1agYJfaEVaHcbmf/HWe4FsW9FeV1o62Nz4InIqEU3UVT4X16tbCQ7J9Sa5aC+
+	DLoi/f7zd6tKBBLW75OQmuqvfJH5vWw9knDBLcU8e/0H7ZlAPsxDUQOY0P/y0ZOWBVQdw6YiDbE
+	k6h1k5+F799Xiws72jxTtcQvzD/W+uw8nT3eCesccot/cb+pUgY1bYk8XQZLb2JN8kWMR9YgjBS
+	z14xWInbKCzbVJL4BU+xmbsxpI32vyn6l9rCUGnKkABNy5iqtOn2UhUv8/ATYDFLVW3SMa5GlO3
+	68WcbiP9MAU0CVm8UhbJKsHNjItKnHaVvUDlznXObwHmQRspgZ8ADQPB2cpXo+NpUQE+OfxgA1D
+	zdsyMo5FDeha9+hOymRhInwTJaue2uSd2Zw==
+X-Received: by 2002:a05:6512:318a:b0:5c1:4e41:3cdf with SMTP id
+ 2adb3069b0e04-5c1a9c09ccemr1012943e87.12.1795021192313; Wed, 18 Nov 2026
+ 08:59:52 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -113,161 +104,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <av3HVh5jlMsyaiq7@p14s>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - esm19.siteground.biz
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - valla.it
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-SGantispam-id: 6539a5dfb74856654e00ae33859689f8
-X-AntiAbuse: ID - 6539a5dfb74856654e00ae33859689f8
-AntiSpam-DLS: false
-AntiSpam-DLSP: 
-AntiSpam-DLSRS: 
-AntiSpam-TS: 1.0
-CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1xTiuO-00000000cKu-26Ro-feedback@antispam.mailspamprotection.com
-Authentication-Results: outgoing.instance-europe-west4-4zq2.prod.antispam.mailspamprotection.com;
-	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
-	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
-	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
-	arc=none
+References: <20261117231352.3816603-1-jarkko@kernel.org>
+In-Reply-To: <20261117231352.3816603-1-jarkko@kernel.org>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Wed, 18 Nov 2026 08:59:39 -0800
+X-Gm-Features: Aa3M54p70wvOKpegO09-C-J-9l2I7cJO4B_J5hynU_tjApdK664yCTjVeFp42MQ
+Message-ID: <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
+To: Jarkko Sakkinen <jarkko@kernel.org>, josef@toxicpanda.com
+Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Ben Segall <bsegall@google.com>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, David Howells <dhowells@redhat.com>, 
+	Davidlohr Bueso <dave@stgolabs.net>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	John Johansen <john.johansen@canonical.com>, Juri Lelli <juri.lelli@redhat.com>, 
+	Kees Cook <kees@kernel.org>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Manfred Spraul <manfred@colorfullife.com>, Mel Gorman <mgorman@suse.de>, 
+	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+	Paul Moore <paul@paul-moore.com>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Serge Hallyn <sergeh@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Valentin Schneider <vschneid@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 18, 2026 at 09:42:14AM -0600, Mathieu Poirier wrote:
-> On Tue, Nov 17, 2026 at 11:18:03PM +0100, Francesco Valla wrote:
-> > On Mon, Nov 16, 2026 at 11:16:13AM -0600, Mathieu Poirier wrote:
-> > > On Mon, Nov 02, 2026 at 12:26:42AM +0100, Francesco Valla wrote:
-> > > > Depending on the driver originating them, data buffers used for virtio
-> > > > communication can either:
-> > > > 
-> > > >   - already be allocated from the coherent memory area that is
-> > > >     accessible by the remote processor; this is the case of
-> > > >     remoteproc-specific virtio devices, i.e., rpmsg and rproc-serial;
-> > > >   - be allocated from generic kmem, and thus not necessarily accessible
-> > > >     directly by the remote processor.
-> > > > 
-> > > > In the second case, the DMA APIs can be exploited to obtain a
-> > > > functional communication, since they will take care of cache maintenance
-> > > > and - if required - bounce buffering. The VIRTIO_F_ACCESS_PLATFORM
-> > > > feature flag can be used for this purpose: with it set, the virtio
-> > > > framework will use the aforementioned DMA APIs to map and unmap buffers.
-> > > > 
-> > > > Bounce buffering will be transparently used in two cases:
-> > > > 
-> > > >   - if the buffer address supplied by the virtio driver is not suitable
-> > > >     for DMA transfers, or
-> > > >   - if the reserved memory associated to the vdev is a
-> > > >     restricted-dma-pool; in this case, *all* buffers will be bounced to
-> > > >     and from this pool.
-> > > > 
-> > > > With this support in place, any kind of virtio device can be supported
-> > > > through the remoteproc-virtio transport, at least from a data exchange
-> > > > standpoint.
-> > > > 
-> > > > Note that remote processors behind an IOMMU need da == pa for the memory
-> > > > region(s) the buffers are allocated from.
-> > > 
-> > > I'm not sure to understand the da == pa requirement - can you expand more on
-> > > that?
-> > > 
-> > 
-> > Yes! With a caveat: the IOMMU usage by the remoteproc framework and how
-> > it can integrate with this work is the main reason this is an RFC, as
-> > stated in the cover letter, because I'm not sure I understand all of it.
-> > See for example the dma-to-da conversion in [1] or the comment in [2].
-> >
-> 
-> The remoteproc subsystem was written a _very_ long time ago and the context of
-> some artefacts, such as [1] and [2], is long lost.
->  
-> > That said: all the IOMMU setup that is done today by the remoteproc core
-> > is linked to the *remoteproc* device, not to the rproc_vdev (i.e., the
-> > device backing the virtio device). For that reason, the DMA subsystem
-> > should not be able to know that setup even exists, in particular while
-> > performing swiotlb operations. Hence, the requirement to have a 1:1
-> > mapping between da (i.e., the address the device uses) and pa (the
-> > physical memory map).
-> 
-> I would like to reserve the current remoteproc IOMMU design for handling legacy
-> rproc-virtio devices, i.e rpmsg and serial, and only use the modern
-> virtio/swiotlb API to handle authentic rproc-virtio devices.
+On Tue, Nov 17, 2026 at 3:14=E2=80=AFPM Jarkko Sakkinen <jarkko@kernel.org>=
+ wrote:
 >
-
-Agreed. I'll come up with a proposal there. In the mean time I found a
-multi-core system *with* an IOMMU that I can use for further testing in
-that area.
-
-> Based on what I see here [3], I think above sentence:
-> 
-> "Note that remote processors behind an IOMMU need da == pa for the memory..."
-> 
-> should be replaced with:
-> 
-> "Note that remote processors not behind an IOMMU need da == pa for the memory..."
-> 
-> [3]. https://elixir.bootlin.com/linux/v7.4-rc1/source/drivers/remoteproc/remoteproc_core.c#L703 
-> 
-> > 
-> > > > 
-> > > > Existing use cases (e.g., rpmsg and virtio-console) are not impacted as
-> > > > they are explicitly excluded.
-> > > > 
-> > > > Signed-off-by: Francesco Valla <francesco@valla.it>
-> > > > ---
-> > > >  drivers/remoteproc/remoteproc_virtio.c | 10 ++++++++--
-> > > >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/remoteproc/remoteproc_virtio.c b/drivers/remoteproc/remoteproc_virtio.c
-> > > > index f1b362158a9c..1496659ddff9 100644
-> > > > --- a/drivers/remoteproc/remoteproc_virtio.c
-> > > > +++ b/drivers/remoteproc/remoteproc_virtio.c
-> > > > @@ -280,9 +280,14 @@ static u64 rproc_virtio_get_features(struct virtio_device *vdev)
-> > > >  	 * All non-remoteproc-specific virtio devices are assumed to be
-> > > >  	 * compliant with virtio specifications 1.x; there is no other method
-> > > >  	 * to transmit this capability from the remote processor to the host.
-> > > > +	 *
-> > > > +	 * Virtio devices that are specific for remoteproc usage take care on
-> > > > +	 * their own to allocate memory from the device's coherent pool; use
-> > > > +	 * the DMA APIs for the others through VIRTIO_F_ACCESS_PLATFORM.
-> > > >  	 */
-> > > >  	if (!rproc_virtio_rsc_vdev_rproc_specific(rsc))
-> > > > -		features |= (1ULL << VIRTIO_F_VERSION_1);
-> > > > +		features |= ((1ULL << VIRTIO_F_VERSION_1) |
-> > > > +			     (1ULL << VIRTIO_F_ACCESS_PLATFORM));
-> > > >  
-> > > >  	return features;
-> > > >  }
-> > > > @@ -312,7 +317,8 @@ static int rproc_virtio_finalize_features(struct virtio_device *vdev)
-> > > >  	features = vdev->features;
-> > > >  
-> > > >  	if (!rproc_virtio_rsc_vdev_rproc_specific(rsc))
-> > > > -		features &= ~(1ULL << VIRTIO_F_VERSION_1);
-> > > > +		features &= ~((1ULL << VIRTIO_F_VERSION_1) |
-> > > > +			      (1ULL << VIRTIO_F_ACCESS_PLATFORM));
-> > > >  
-> > > >  	if (WARN_ON((u32)vdev->features != features))
-> > > >  		return -EINVAL;
-> > > > 
-> > > > -- 
-> > > > 2.56.0
-> > > > 
-> > > 
-> > 
-> > Thank you!
-> > 
-> > Reagrds,
-> > Francesco
-> > 
-> > [1] https://elixir.bootlin.com/linux/v7.4-rc1/source/drivers/remoteproc/remoteproc_core.c#L716
-> > [2] https://elixir.bootlin.com/linux/v7.4-rc1/source/drivers/remoteproc/remoteproc_core.c#L461
-> > 
+> OVERVIEW
+> =3D=3D=3D=3D=3D=3D=3D=3D
 >
+> A root namespace (rootns) is a kernel object backed by a file descriptor
+> that binds together:
+>
+> 1. A full or partial set of detached namespaces.
+> 2. A dedicated PID namespace for spawning processes into, signaling
+>    members, and polling or waiting on PID 1 exit.
+> 3. An initially empty mount namespace (CLONE_EMPTY_MNTNS) that must be
+>    populated before going live, without inheriting host mount-tree
+>    ancestors.
+>
+> Work on this feature started in 2025 from David Howells' container object
+> patch set [1], which I turned into a namespace for namespace roots and
+> rebuilt around that premise.
+>
+> While the patch set is manually written, the original motivation came
+> from isolating LLM agents. Running untrusted agent workloads made it
+> clear that OCI runtimes need to minimize their live configuration
+> surface.
+>
+> Assembling mounts, credentials, and namespaces inside helper processes
+> with a half-configured container is what I see as the main challenge,
+> and the existential debate around namespaces and container objects is an
+> unfocused discussion topic.
 
-Regards,
-Francesco
 
+I've skimmed some of the series, and I see a bunch of good ideas that
+involve using an fd to manage a thing.  But I'm wondering how much of
+the value is added by that and how much is added by having a new
+*type* of thing: the "rootns".
+
+How much of the value comes from the rootns vs the new APIs to
+configure namespaces without entering them first?
+
+For that matter, the cells series also seems to contain a (possibly
+very similar) variant of the same thing.
+
+Would it make sense to come up with a patchset that does *just* the
+configure-a-namespace-by-fd part?  It seems to me that this should be
+an easier thing to agree on, and it's a big part of the complexity of
+all of this, and it solves a real problem even without
+cells/rootnses/jails/whatever.
+
+--Andy
