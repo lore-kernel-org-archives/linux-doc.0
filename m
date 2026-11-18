@@ -1,86 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.2.64.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795014028;
-	b=flJfkvMK6GVzHEJ14Qyygd/S/3UJ8iM4/d0FX99OwmlJuPtWLj5qr/siZLgxyuV4EX3Y
-	 rHhWisrZnmhEQ59MW6E7urMHixb9W1YkTZiekyhf07d/Zrez+lHRgKpwQGQ4LeQOB0MNX
-	 JOBgeC2GMBhZF17vJhgT3qD9ttIoPIYD1YE6FvysGX5G4D8HIvW3nckY05sri/SE6ghud
-	 08QyFe/8NQp6pI2kSpYsn3fgwRJlVbAxwHerkl6pVD7o1JqiUKXWK73FVuj5k1uipq2kG
-	 oQPFLwwxBJ9wvVqO4uFKLlaNCIqyA9yDFmo9qWm3aG4qFrySe2zxYgBvIPbUSlHP/VA==
+	t=1795014316;
+	b=u25Wj+XGPHfXRWV5aYfel2IF1w1NEQDm88qqy8S/CEte8iO+CHfsMjXfSg/DOlVsIKQM
+	 jzK1A5rebZu6cpLVUJ22XFIy3lpEusbndb10DCFZQkB8Wr0b+61AYB+LiXnsG3E8DCllX
+	 CwCankWCYchnML94ME3ICHzsQMhQxQY+M+nZAGoFZnf7BLFIu7+wqPKhYLMfNqDpmiAzt
+	 RHrp66Z1O+4+7UjXBpb2GXH42hI9P3401/irnaxFqQTlMRm7n61sRiGAHCCME4A4/mm7f
+	 SVvZ9RAdQ2IcKqLxdsFwW/0oYPLXXQnvir/RhnyOwKOJaBJNSmooi9YVM3+kXVzc5AA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795014028;
-	h=DMARC-Filter:DKIM-Signature:X-SONIC-DKIM-SIGN:X-YMail-OSG:X-Sonic-MF:
-	 X-Sonic-ID:Received:Received:From:To:Cc:Subject:In-Reply-To:
-	 References:Content-Type:Content-Transfer-Encoding:MIME-Version:Date:
-	 Message-ID:X-Mailer;
-	bh=xIqP9DW0MNb8cbUSMB4qwOLD6IctYX6wVFr0Jt4lshg=;
-	b=qgK0LigBwQ4cT496olk9OHkdpqZk80/SZ4v1IT2GM5AW2nziLr5usQvD7GT9RJHKFkBC
-	 FAqDH3aRV6nPm5/35IAmT4vn0jixRpBByOy4k/g8TCttiTd89gLoZpEx0uhnNt/6BtVJ6
-	 KlYNbc3akPZFU2dIEhGO2g8MImz8UCQwJMppG/iOKf28EA20GVsnyB7ILVAbvx8eErBQL
-	 +lLMelJnJ3C0q4EWhBlkYdv6pDOSGEW8BXIfTstifb3PQw1KI/J0KEZ9ylUD1Y9ox+BLY
-	 4xDyyKGOqPtJXiStkwsFEVFoKpotR4drZLqnBsVtcIGikpIfrGbD2tIphqijhrCFhqg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795014316;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=Lz1QdUMe27LCdf6G1Y1DFNn2GN9+azDTK9VSxTlk49k=;
+	b=0V2uSvKhqsxmDN+yKPCQhc/y+b7yNuW27lgeu+SKZtC53gIrMaslboZs0Q1phT5hkMhb
+	 VaJ96Zd+j8CM8jFk1fGHLsaY1fgFUFJ9yexp7imJpDcH0ek+o8EqeWbRhm5VH3UsdJC2e
+	 M+Ov2oHWS8GC4lWCtpshPqVCqjR40w3oEyorDb43048rie+Dn/5nSDDgT+4VrYoRL+cgw
+	 mDFFkB4DlJUT3NohWgR1NHMo0hn2GhX1C5ytYZRNHSN80CxChKxTdkzYx2T05oD+B5bu1
+	 3G6yJQPerAiAhJClSk75couYXRJQiyv7ZsJGd87mQA0bFRMSVD86OwWW0h9ElRz5YBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=yahoo.com;
-	spf=pass smtp.mailfrom=yahoo.com;
-	dkim=pass header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=EwfrE1wC;
-	arc=none smtp.remote-ip=34.2.64.18
-Received: from sonic.asd.mail.yahoo.com (sonic-usea1-0019.asd.mail.yahoo.com [34.2.64.18])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="JG/Pgo8g";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFE2606A320
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 15:00:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AAFE2606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B29606A331
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 15:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=EwfrE1wC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1795014026; bh=xIqP9DW0MNb8cbUSMB4qwOLD6IctYX6wVFr0Jt4lshg=; h=From:To:Cc:Subject:In-Reply-To:References:Content-Type:Date:From:Subject:Reply-To:Content-Type; b=EwfrE1wCkMIAcRR52/xuNkW0E0Ov6fHUpOiyxLAC/lctf1qGNJAW2luqgTHKGLlftnB2fhdAze4QhaOAQn5tfjkruKWER9trRMmf/BqGUnD+u4dz2tcJP04CbCD3YaOzojlNeCj9DumqtkeGQytfQ4Py/LLTNoZS0C5m/o5hsiQkim4DAJ5t7HoZQ8q93BloJ/yTobH6e+GZQWs4tCsHCYAzs3QuwU8nmdzxySYTLqe0GXtuy1WrYZsVrZEE9FKDYpIpPpciNRvd4CmiycFWUh71gdGe/Q7sXO4ts5G7T3RN6yIhd8PSNo/HtTl+1tnd4Osljb5HKE9jVmeHL8o4eg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1795014026; bh=RCiGym3CU8r0C6LVzkksbr0t+PRx3iPkDnpOh/F0JH/=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=IlTqul6xKUFAiLZIi4rLoN6m92Gkkwke1N3kthHmAfbx2DPRmmVgc2Aq0FhgqRf8WmzbwqCvglXsHsYQXznpE3Y8RBsOdyFm0vFSoEYrLIFf5i3gpkYusUulcJRe1KnHLNz9Jg4jE8B6uay1otHYXze3caLZDk3vtd/XUTnVPGO+yALIDW3pKlwXfghzDAB9YPlwz8k2Bpq/N+RCCUjZK+e6WGZ+KY9bBE121UeYj3f45ecarKFD14H+e8iAzZkNmoJxAdrovjOwT8f0b8VND45uIvigmS4qHAsz1ABsMJb3tRyegYGb2+jsLFn4zYbxVulyeC7OsmrZol+NBTw+Xw==
-X-YMail-OSG: zaODDQ8VM1m9mxg_ufJDXxMzGJbO2SaJab0zLytJvodbZTOCEywBLhb9WAbpj3d
- b2LrtS9VpZAWpHGf89y78SzazHRDGJWLya45YxJWLM34WoJR03KBoKiGG3fKxUpLfda3E5YimCs6
- AYal_2A4fUh8OXB5zgZM_YEsJMHAKhJY4DEKEuqHbdPBIbwH.dW_mo42dumYV6SK21JqHiCRntIj
- GJtFf1qFLXF6BuHpksgB9MJheAi2MYSu2S8lRID5yKz8SUd4vcMDm6zzEhOX41yCOyZu8iJOvvgQ
- .SqV60DDDFT7MqkGHHGenfRGGWV33uZDptIN8BfhbAZiD6NNMbKEn.SXZI4LXvz4HcETexf_F6EF
- yLp589K9KziCyi7CZ_bEJhXnjroAt7Ix4xBbE.Da1WiwtPUD9s0GwHScdry4kXIT88NmMhZ6nsEt
- eoGCdC1nkNa6UeJnqtW9T2jnsAyDsclJNX0WAPwjWHn5ovNYBXqk0fvtelKXaV2R0s64grL2L6qe
- 73Vja.OlgInt6OexGTGN7sjG9TRiJw5FnbQIVgnAjOyiPbMEsWKSAMqZf2Bk._SV8XKkCgaw883D
- 7t65GCWnBp0D03j2aYaJr7a.dfGgK0SeV0ifUaqW8KdFG79dEKfm9S0bC3grxpN2y5JWDC0nWYfm
- VQC7T_3Gw9HBfgLnjVTSkTgN.PlO7Zcfix4242ouynu4tw2KJ_79S9ju.F2AjpbSP5FAPzwqDgcE
- 8Kdd59VRj_P3HCf9B2TxGCn10nqViKbSTBZbYNtUW1zu4df7L9Roz6feZ5iQpr5xirc87vdmBQ94
- 5o_zeLV.4rBLTDJk1d_zMQ2PdkUrfBCGg5F1E.qoRRbZ5CCoRy0fNrqhjF9Tebt0lPtUaNc._dNn
- 2WBF3_0dbBuz18dCCvNzf0K0Imj.AHPhkHKZeZl2HslEk_7cf_EckNgJKlnqKTahxedpAt8kuBPX
- INTIJXjIUOGUUmpyDD8d86GnfTHeGI87jNM3gIyxc46XXfx7S5Yw78djbUD_cyGWmZAd0mIssH4d
- LLlPJUzDByc3OkTzIk4jAc0bfIZ2lRzeGxKEwiVIXnUdbxuUp3v9smxKBwX5qrja0WgB4EaIlYkH
- qN0TwEfCuJjxlzAaJ8yG8xB70bZHMlyj.erX6xMy3wd.oV8UcJMx7pja3D.h740PnpvaBlmj7beT
- Po8QmZSkEefjRjxq8ttHsviw_5zJbMBL7eV2O70QJ6TxXydrUmihQ5T8S0Hru97rbEuuRS_EfN4j
- 1hgHEe5VJ8O6YuYeMBg.W67BvWySaJr08FKkG2LyC2V_8Z4WKCBFbEIITeoDh08uY8mLGyofOmu8
- dEtCHVxCMA6tI.V9Sfi13p7OoPMsQZUOT5XgnvPNUQAhbVWwbT8TPCJZZv8yYE8kgkWRERaPol8F
- gZ3763n4Baydyp7AyCO2N_qWmdQ2LuaWS5_71SdJf3LI7DJZdcHDByMkLL9gkd9p_pI_SIATcyL.
- QSEI9agH.hnndAd0RGKins9y0zIryqxqBEstsQUSlN2buss5V2..R.j5tKaArc_MZb7C3WGOBD0_
- QBjUUVZgOxBNi2EOwtZu9CQcq58nipN7RlcRi6HxCWoP33wbDHvJiulcRlo9noXj51YvphrpS9xn
- p.eoCbOhz87rsxBzggTzO31YCCToT3ZhBvxwEyGcwJQ09tjSAYCcIvo02dNpzqMrJRZmobkQOHc5
- a1Kgok3COxRF6EeaMqzdXEK9MHNYfFwXY0r3iRxl0NXZk2aioJiECEBYXCLXx2TdVJBr1TccKZJp
- MzSSy3pJwGvG4GEghvQ3OSPntal3QPppTEMgJXzBTLiQ.lWHsc1yEIr8yqDlLAl9AT5Rmjhqe83n
- 56IBv9Z7rxd.ku1E9j5Qi63Pye2kWlmUEWTrYYPYyEo7I_JCpxRwQdy9lGUcQDDutYpfIqNtehsA
- OQJQGVt93dQdhk5PiCdSAvYs5Cq656SZle73ZztDQYk1bd1iKsUUHVLNG1qrrw0Gc5d1quTBrJq7
- yf6ZLgcVN_wGB
-X-Sonic-MF: <capitain_jack@yahoo.com>
-X-Sonic-ID: b63a302d-7415-4630-ad1f-8e1de52c2318
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-usea1-prod-sonicconsumer-svc-102 with HTTP; Wed, 18 Nov 2026 15:00:26 +0000
-Received: from dip20.lsn.bf1.yahoo.com ([67.195.177.29])
-          by hello (SMTP) with SMTP ID 18b76bb473d01ac89d7404256b7eb674;
-          Wed, 18 Nov 2026 15:00:20 +0000 (UTC)
-From: Daniel Campos Ramos <capitain_jack@yahoo.com>
-To: Tomasz =?utf-8?q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-Cc: dmitry.torokhov@gmail.com, corbet@lwn.net, jikos@kernel.org,
- bentiss@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, vi@endrift.com, linux-kernel@altimeter.info,
- peter.hutterer@who-t.net, Ricardo Esteves <ricardo.lopes.esteves@oracle.com>
-Subject: Re: [RFC PATCH 0/6] Input: New EV_BTN event for generic buttons
-In-Reply-To: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
-References: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JG/Pgo8g
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D77B81F000C6
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 15:05:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795014315;
+	bh=Lz1QdUMe27LCdf6G1Y1DFNn2GN9+azDTK9VSxTlk49k=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=JG/Pgo8gq5RRuSQIIC/oWtlyuaLjVTXUMApB/FzwjyuvGbjJ5wBxWtqTaD1s8LXYM
+	 DaE7qoKV2BpLPGJjGusUhCLmcvgDyoUv92i3ZAfk3NbOE+TaII+s8jR+qF2JjUfeD+
+	 SXsjgAHOb4e90orULfw4au9xxURZzyWuHIsQAYMPjf/sdL1vDGsW4maYFzaEXEwslZ
+	 b9kIqgXfcoRZH43QOcECH1OBRK6d3ybxEhdIsU2AFSfanldRpJmKJ6EToi2cAT+zUn
+	 gvjnaLE4wcVQRzOAN07fTxCsLqoUoZceIezuoMglooKc2Xgw9+9gwBkXbKFjPBzxjY
+	 AkfJkTINQyoag==
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-71ada4644f8so670356eaf.0
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 07:05:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGnH5WaA0gGWEf/H6UBBw549qKzYB8gaACZJ1Rrt3yEeehpuia4e768E5eyzpp+WDwsduECItsuoV4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/xx0CdAmgdZul+J3GKEb2+vcOrjAzF6cJqhW/yAAPzdebyodDZ
+	Q+MlSxGva2DRo4fKhVQxPuQKA/XBp5JwOMbiePbG867hPPIbxSuO7A3YLfXlkQTms1qciKOtoYj
+	NNeXd4Z3BXwWcx+Xr3FCfZ4OlE7JPbsM=
+X-Received: by 2002:a05:6820:c3c8:b0:717:da:ba3e with SMTP id
+ 006d021491bc7-71b1843987dmr1511462eaf.19.1795014315202; Wed, 18 Nov 2026
+ 07:05:15 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,74 +59,96 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Wed, 18 Nov 2026 12:00:15 -0300
-Message-ID: <179501401503.113617.9596561330028866042@yahoo.com>
-X-Mailer: WebService/1.1.27017 mail.core.serving.mcws.prd.acl:role.token.mcws.jsmtp.yahoo
+References: <20261118144249.358481-1-jiayuan.chen@linux.dev>
+In-Reply-To: <20261118144249.358481-1-jiayuan.chen@linux.dev>
+From: Eric Dumazet <edumazet@kernel.org>
+Date: Wed, 18 Nov 2026 16:05:03 +0100
+X-Gmail-Original-Message-ID: <CAL4Wiiqo2f7WxE0uccUOvGyLMhu66cwYWSFS1ZCQU=Lkaxp1Bg@mail.gmail.com>
+X-Gm-Features: Aa3M54piHjPwp_y_R61vPpndNd95o_tqH2TJpVGd8jo1PrAJ9sbocGNqFSQPXG4
+Message-ID: <CAL4Wiiqo2f7WxE0uccUOvGyLMhu66cwYWSFS1ZCQU=Lkaxp1Bg@mail.gmail.com>
+Subject: Re: [PATCH net v3 1/2] tcp: fix shift-out-of-bounds in SYN-ACK
+ retransmit timers
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: netdev@vger.kernel.org, stable@vger.kernel.org, 
+	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tomasz,
+Le mer. 18 nov. 2026 =C3=A0 15:43, Jiayuan Chen <jiayuan.chen@linux.dev> a =
+=C3=A9crit :
+>
+> req->num_timeout counts the SYN-ACK timeouts of a request and is used as
+> a shift amount:
+>
+>         /* tcp_reqsk_timeout() */
+>         u64 timeout =3D (u64)req->timeout << req->num_timeout;
+>         /* tcp_fastopen_synack_timer() */
+>         req->timeout << req->num_timeout
+>
+> Once it climbs past the width of the shifted type the shift is UB. Seen
+> with tcp_synack_retries=3D255 and a peer that never completes the
+> handshake:
+>
 
-Your EV_BTN series has a home. I carry the six patches as posted in
-the kernel of Sparky Stereo OS, my edition of SparkyLinux, in all
-three flavours we build (normal, x86-64-v3 and PREEMPT_RT), on 7.3.4.
-Your SDL pull request 14758 and your Wine merge request 9853 are in
-our SDL and Wine packages beside it.
+> The sysctl is not needed: TCP_SYNCNT=3D127 on the listener gets there
+> too, and the TFO shift is 32-bit, so it is UB from num_timeout 32.
+>
+> The value can also wrap to 0 before the shift count is out of range,
+> which arms a zero-length timer. E.g. with HZ=3D1000 and req->timeout =3D=
+=3D
+> 1000, (u64)1000 << 61 and (u32)1000 << 29 are both 0.
+>
+> num_timeout is a 7-bit field. Once a retransmit limit is above 127 the
+> "num_timeout >=3D limit" check can never be true, the request is never
+> expired by that limit, and after the field wraps to 0
+> reqsk_timer_handler() decrements queue->young again on the next expiry.
+>
+>  - split tcp_reqsk_timeout() into tcp_reqsk_timeout_sk() and cap the
+>    shift at 32 there, same as inet_csk_rto_backoff() in the next patch.
+>    req->timeout << 32 is already above tcp_rto_max(), so the clamped
+>    result does not change.
+>  - cap max_retries / max_syn_ack_retries at MAX_TCP_SYNCNT (127), the
+>    largest value the field can hold. The sysctl range is left alone:
+>    narrowing it would make setups that write 128..255 fail with
+>    -EINVAL, and the caps are needed anyway for TCP_DEFER_ACCEPT and the
+>    TFO "+ 1". 128..255 now act as 127.
+>  - cap the TCP_DEFER_ACCEPT conversion in secs_to_retrans() at 127 too;
+>    larger values kept an acked request from ever expiring. getsockopt()
+>    now reports at most 14527 instead of 29887 seconds.
+>  - route the TFO path through the same helper.
+>  - document that tcp_synack_retries values above 127 act as 127.
+>
+> Found by checking sysctl ranges against their users. Reproduced in a VM
+> with UBSAN: tcp_synack_retries=3D255 and tcp_rto_max_ms=3D1000 on the
+> server, and an iptables rule dropping the final ACK of the handshake.
+> The splat shows up after about 64 seconds, and is gone with this patch.
+>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Fixes: e6c022a4fa2d ("tcp: better retrans tracking for defer-accept")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+> ---
+> v2 -> v3:
+>  - drop READ_ONCE(req->timeout), cap the shift at 32, reuse
+>    MAX_TCP_SYNCNT, simplify the doc text (Neal)
+>  - changelog: mention TCP_SYNCNT, the wrap to 0, why the sysctl range
+>    is not narrowed, how it was found and tested (Neal)
+>  - add Fixes: 1da177e4c3f4, the shift was already there
+> v1 -> v2: reworded the commit message, no code change.
+> v2: https://lore.kernel.org/netdev/20261026123244.239766-1-jiayuan.chen@l=
+inux.dev/
+> v1: https://lore.kernel.org/netdev/20261023064915.401112-1-jiayuan.chen@l=
+inux.dev/
+> ---
 
-Thank you for this work. Thanks also to Ivan Gorinov and Ricardo
-Esteves, whose patches of December and February went at the same
-limit from the other side.
+Note this might conflict with Chris series, which changes __tcp_set_rto():
 
-Why I wanted it: more than 80 buttons is ordinary hardware now. Sim
-racing and flight cockpits, button boxes, control surfaces and
-accessibility devices built from many switches all pass that number.
-Linux can be the platform for these, and today it stops at button 80.
+https://lore.kernel.org/netdev/20261118005048.53393-2-mason@kernel.org/
 
-What I measured, with a virtual HID joystick (uhid) of 128 buttons,
-eight hats and twelve axes:
+No big deal, just FYI.
 
-  With the series:
-    EVIOCGBTNCNT gives 128.
-    All 128 buttons arrive as EV_BTN, the first 80 also as EV_KEY.
-    SDL3 with pull request 14758 reads 128 buttons, and so do SDL2
-    programs through sdl2-compat.
-    Wine with merge request 9853 gives DirectInput 128 buttons, by
-    the udev backend and by the SDL bus.
-  Without the series:
-    80 buttons as EV_KEY, and SDL reads 79.
-
-Two notes on those results. The SDL number is with one small fix on
-top of the pull request: built against kernel headers that have no
-EV_BTN, its fallback define never asks the kernel, and SDL stays at
-79 buttons. The Wine number needed two small fixes in Wine itself,
-outside your merge request. Both belong to those projects and not to
-this thread.
-
-One thing for a next version. A report that changes many buttons at
-once overflows the evdev client buffer. With all 128 buttons changing
-in one report the client received 44 of the 128 EV_BTN events and a
-SYN_DROPPED. input_estimate_events_per_packet() makes room for "KEY
-and MSC events" with a constant 7 and does not count EV_BTN. Counting
-one event per button when the device has EV_BTN gives 128 of 128 and
-no SYN_DROPPED here:
-
- 	/* Make room for KEY and MSC events */
- 	events += 7;
- 
-+	/* Every generic button can change in one report */
-+	if (test_bit(EV_BTN, dev->evbit))
-+		events += dev->button_count;
-+
- 	return events;
-
-It only makes sense on top of your patch 2, so take it into the
-series if it is useful.
-
-Benjamin's review of patches 3 and 4 reads to me as the way to a
-next version. The test device's descriptor and the result tables are
-available to anyone who wants them.
-
-I work with AI partners on this distribution. I read and ran what is
-reported here and I answer for it.
-
-Daniel Campos Ramos
-Sparky Stereo OS
-https://github.com/Sparky-OS/sparky-stereo-os
+Reviewed-by: Eric Dumazet <edumazet@kernel.org>
