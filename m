@@ -1,99 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=130.133.4.66
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794986415;
-	b=NcEc/1yOuU0UlFh/uVD+CDkEK6VRVCci95bYM76wdNCdbCblpE+ok9Gqim/ahrjEVWWb
-	 8je+/VZHSygLKlMQppNdXXNM3F9SwBnMXLPhSWE25ZpJptbjrDT/zGRhXwzKrkEXTXakj
-	 5mHzZ4+R0T5moDJAwXDLl+WV7Z0we68D4rsK6hRJQYSjKyyItJUGFSDT96IpLN6QASycc
-	 F0vbrBahxr9SGRlU5Q+HuHxTsWhLZ5+DMeX45ULaPhQCoC5XqCsMAIrkUMVAn2Q0+WDGd
-	 MbJDfoaGp9mKqAuugEBoXrxzDTQxLa2kggN9GVE3vNi8sB0h+aYdfkevM+7hNXz4LjA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794986415;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Subject:
-	 From:To:Cc:Date:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version:X-Original-Sender:
-	 X-Originating-IP:X-ZEDAT-Hint;
-	bh=BP5uJPFEij5TgQlQa0MnVpdjGYnsN3jkV0Ck605J8vA=;
-	b=gtoD6P/x0a/oyyEZhY90THNb6hLED+V8WGAiCVXQPDycbaCjJUbQBcxFSXOAbBy4VDpk
-	 8cVE5UEDF1OFQjmTDjsl4S5CoQFpW6O634xovab9zSYNch3KIY8SWlKU/OM/22ejBz/88
-	 qRL7pD8luB1Oje0Sasew3K5ZA7gnmQ8ls0mpMJZAiafFzjnw746Ms3hdrUHfXFBSuySHr
-	 E+zNTQH4xdWOxNm+0w6lRItr9Akqsdzx2MPevKLKkxnxXulWbBkxADTPrU6LVFxJyzmMS
-	 vq3zh+2yPfdX3Z3H77OFWTnc/UPlMhboW7itsiLKJI3saRXUOiyeJ6Hwx8euhbOM4jA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=physik.fu-berlin.de;
-	spf=pass smtp.mailfrom=zedat.fu-berlin.de;
-	dkim=pass header.d=fu-berlin.de header.i=@fu-berlin.de header.a=rsa-sha256 header.s=fub01 header.b=NVIV5AZx;
-	arc=none smtp.remote-ip=130.133.4.66
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.64
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794987146;
+	b=W/RfQFG53oNPEIT59psdu/pKluRXCF50W3VCSXZg54ohgKifHYB/8ryRxjmGb4GerzYq
+	 ABdQ3QRCI0YNGdWrIRmnoEXl8TjZzbM3DHFT+nGLzOVk++EpGIc3RPmMep7/kU9swJ4Yv
+	 nMzZRMOmuYA/ngKIGufvtCc9gA43qqKTEPPJupJ5lMfkdLuYBH93kfFyggf+QqFx453sc
+	 OgQyRNu5UU7V7tbu+mstbg/8mKLaqBHVnzLvyphFzp7yrBt+dozMi6ANfizmBvTyoq0/a
+	 NdDFMqzluscXlPx6G/WITVUn4rlrPSEGnqF1mD7ShVpN2R/gW4Eol5s8r/F78rdxedQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794987146;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=3LcPghvT4MlsKigSrisYfhCeWXY5hpBEtnXJWO3z5a4=;
+	b=25kmxDkcjwvUceSPuEtg8fiov+CUnOmujlYvvDJL/H7ps6J0KY1tDNjcLKIbsAEOVlb2
+	 O3eJMyoY3kpX3GHaSg5ahv2q29Oflu7mvV+kBy0/6ErMh+Je2SBJs5Sl9j7mxTYExZ3K9
+	 SIyJTvzJ1ZFU2fDgz+IMORD4t4JBG3q8vawf/a6lZs9uGS8mI4WaEcrk1vsu/ZNmWXNqD
+	 sQgCWKXso+vP7hQXmjolf+YphTmOUPwX5slI9DfPXAA1bC+0JKxQ/v8EWrpQWRHIVeDSz
+	 LPFuHVOCGheBJvGLnaYNp4moBQTEqdR5jEIkABA5M2TrISDJep6dht4K7YOzxoNEZ2A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=EMCproY3;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.64
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012064.outbound.protection.outlook.com [40.93.195.64])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347BF606A31C;
-	Wed, 18 Nov 2026 07:20:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 347BF606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB59606A31C;
+	Wed, 18 Nov 2026 07:32:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8EB59606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.a=rsa-sha256 header.s=fub01 header.b=NVIV5AZx
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
-	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=BP5uJPFEij5TgQlQa0MnVpdjGYnsN3jkV0Ck605J8vA=; t=1794986415;
-	x=1795591215; b=NVIV5AZxUiLiZeysWsuiw4TVDW8kKs6h5+50BSjLWqaE6wJWn+nWIm5HCfv3Q
-	FSCMgg0V623TN0IzaiSFtarP0Wg0bjgMEIhw5s+h0PExnQBReb8stY1uNrqXwBaIQooUaCFyE18TH
-	0N6DK15zqyqGuv3ApY3IX2xhao4XQBUMjuZZ3tX1OiSqgfGx5y3KNQUFGOtcmjFgGUxCV3ky6KVf3
-	sJQVqSuld5Tmhwi1i/NV6u8aZZdlkOVDYD1HIs4fGBVqQQzd9+CsRCpar8fLV0xTyw9AGa405uTzm
-	ecmAqL5QrPiXcAcv/OCITy0eppkMKKkHVy3ybnSJLt8ZbShbDg==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.100)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1xTZxc-00000000Itt-3izf; Wed, 18 Nov 2026 08:20:04 +0100
-Received: from p57bd95b5.dip0.t-ipconnect.de ([87.189.149.181] helo=[192.168.178.61])
-          by inpost2.zedat.fu-berlin.de (Exim 4.100)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1xTZxc-00000000GfQ-25vy; Wed, 18 Nov 2026 08:20:04 +0100
-Message-ID: <88645597bb3aeae8d36a7b5c499a0a6d74b4acc4.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH v3 3/9] sh: sq: Add missing kobject release callback to
- ktype_percpu_entry
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Ian Rogers <irogers@google.com>, Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kees Cook
- <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>
-Cc: Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman	
- <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
-	 <chleroy@kernel.org>, Nayna Jain <nayna@linux.ibm.com>, Srish Srinivasan	
- <ssrish@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>, Yoshinori Sato	
- <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, Juergen Gross	
- <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, Oleksandr
- Tyshchenko <oleksandr_tyshchenko@epam.com>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers	 <ndesaulniers@google.com>, Viresh
- Kumar <viresh.kumar@linaro.org>, Zhongqiu Han	
- <zhongqiu.han@oss.qualcomm.com>, Alexander Aring <aahringo@redhat.com>, 
- Felix Kuehling <felix.kuehling@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>,  Zhihao Cheng <chengzhihao1@huawei.com>,
- Sumanth Korikkar <sumanthk@linux.ibm.com>, Bill Wendling	
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	driver-core@lists.linux.dev, llvm@lists.linux.dev, 
-	linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-pm@vger.kernel.org, 	linuxppc-dev@lists.ozlabs.org,
- linux-sh@vger.kernel.org, 	linux-s390@vger.kernel.org,
- gfs2@lists.linux.dev, xen-devel@lists.xenproject.org, 
-	linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Wed, 18 Nov 2026 08:20:02 +0100
-In-Reply-To: <20261108223913.3624571-4-irogers@google.com>
-References: <20261108223913.3624571-1-irogers@google.com>
-	 <20261108223913.3624571-4-irogers@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.1 
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=EMCproY3
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CRlZcoaLNUNmdLBg7q3fErwzx/M9Vc26E6PgswXMjeYxzmiYrB0v7rj7foJfk6Cq7k3w7Ms+k74MS2jX+Co4oi3AJnw4cOi0/Kxt1XdNQlQXLhQgEyXU0fX8EQuOgV0ZhZYQGOEOLFU08n5mTEE+50m/gqlusnuBmAMnE9pOOtXs1MY8qbP+i32jpVZvl8L55BziI6sBhUD19AA6BqOeg9So0z32BFC5vb4bihEQlY9qdao7omh24PVjwA+HTGODnpi+99jKxnPbVHiVvyV2iGauI62WdD5VyjHVkSI0HmhrxjwL+QkgR0LgtyAB1YC9SjpiSK9L7RFMZX8Pmj4k6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3LcPghvT4MlsKigSrisYfhCeWXY5hpBEtnXJWO3z5a4=;
+ b=u9H50C+mO6Kel5IX3vaEEdGh5jrzI6vKOfghphg/gr864gckoaR06xhXQieUoxfWVzGqZPO/5MTuNbCVMZ1/uIT+X217MzQ6F3bHPk1n8qynU5NHkjS6eB6df7tH3n3xRaHNU1lI3ZnYzY0DTHMUhEVFHAoOhN90t/KrcebQJa3uC8cLrF2cj4jjw5J5xJ4MqzFXzMa7UO3zvix6jFpF3EfK3Y6fv0kFwhQzysHeZFAxwSYDux3W6+aR3WAXQPBOgG7Uc00LNXM8pmPxoaqZKdm666r/0cgkSTFahLhf1JTV/9hsjXoRQhzWATZiMCEXP7x2waus9oEeecXDTNJ7uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3LcPghvT4MlsKigSrisYfhCeWXY5hpBEtnXJWO3z5a4=;
+ b=EMCproY3imkOlFX32G8SkpaamXpqCgBWS56nsZou/m5iKpmysno0LDxS6snbvgDBNNM6F5+cHP9XylG4F/zgO25wzruw2gXdgyP0zFYyoKiMKduGiYCpkbqeFpGlkBGeACuwsmmKJtHt60TX2Tzl62cDrlWaZx+3LWBhCy+y340Aak49wK56re+cqkcjvjIGrsA8hmiYGcwpS7tKI65gL6R1LOsnl0syeOCtfLNfczgJJlUhp8VqZGWwvZh1piriyCu1pRQB9ihrRIQwICLzifERTEQBDnz92DAr56Vu+t4aXQWDICXbz6qjG0Dt+gmOggXrd/viuBL1+BDDX1gguw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB2370.namprd12.prod.outlook.com (2603:10b6:207:47::27)
+ by SA5PPF6407DD448.namprd12.prod.outlook.com (2603:10b6:80f:fc04::8ce) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
+ 2026 07:32:17 +0000
+Received: from BL0PR12MB2370.namprd12.prod.outlook.com
+ ([fe80::86cf:c3ec:2cf5:74c8]) by BL0PR12MB2370.namprd12.prod.outlook.com
+ ([fe80::86cf:c3ec:2cf5:74c8%5]) with mapi id 15.21.0615.009; Wed, 18 Nov 2026
+ 07:32:16 +0000
+Date: Wed, 18 Nov 2026 15:32:10 +0800
+From: Richard Cheng <icheng@nvidia.com>
+To: "Gregory Price (Meta)" <gourry@gourry.net>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com, 
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev, linux-serial@vger.kernel.org, 
+	linux-pm@vger.kernel.org, damon@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	akpm@linux-foundation.org, david@kernel.org, liam@infradead.org, vbabka@kernel.org, 
+	rppt@kernel.org, surenb@google.com, mhocko@suse.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, dakr@kernel.org, johan@kernel.org, jirislaby@kernel.org, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, baoquan.he@linux.dev, 
+	baolin.wang@linux.alibaba.com, yury.norov@gmail.com, linux@rasmusvillemoes.dk, pavel@kernel.org, 
+	lenb@kernel.org, hannes@cmpxchg.org, brendan.jackman@linux.dev, ziy@nvidia.com, 
+	sj@kernel.org, muchun.song@linux.dev, osalvador@suse.de, nico.pache@linux.dev, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	kas@kernel.org, xu.xin@linux.dev, chengming.zhou@linux.dev, 
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, ying.huang@linux.alibaba.com, 
+	matthew.brost@intel.com, byungchul@sk.com, apopple@nvidia.com, rientjes@google.com
+Subject: Re: [PATCH 13/22] mm/hugetlb: restrict pool growth to common memory
+Message-ID: <av1PyBvUVJcy_Psd@MWDK4CY14F>
+References: <20261114070959.3490008-1-gourry@gourry.net>
+ <20261114070959.3490008-14-gourry@gourry.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261114070959.3490008-14-gourry@gourry.net>
+X-ClientProxiedBy: SI2PR01CA0044.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::8) To BL0PR12MB2370.namprd12.prod.outlook.com
+ (2603:10b6:207:47::27)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,52 +110,216 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-ZEDAT-Hint: PO
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2370:EE_|SA5PPF6407DD448:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a7c70fd-d85c-4c61-2031-08df454611f2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|366016|261026121527099003|261022105027099003|11063799006|4143699003|56012099006|261021123027099003|10067099003|261009223027099003|261021121427099003|261102123227099003|261026140227099003|261028144727099003|18002099003|22082099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	KuxMocrdiR4cSCCljhzUZz37PKhbYoREWO0kCZ+FyD4JOayPWOp+wSONX4W0Q+3+BgaPgLh2xTDGGtj2lt5D4VJCakwFdyycPiLduYN+RZbyWC7chala/x+7LlVVcsrNOMyY/6jR4SOjHTQrE8Q6uV029kGHJNB6b0hZYxsf7Y5P5gsVDNPy8bzQQmk0QodLOGgMtv1KXPV7on27IFNbHhBc0Bx2JcKE4ShA+MSu03rh3bZVYnTLg44OoZkSWPjTrzTRRWPq4lH2TxDzbORXD2TSOsfJ3Md3oDGsJm3K5E/yIiSoUzjvMJkz7YTZt90YMbUIsw8pAiwqKJu332EbTkVoE+FXcFKAQLJOZcWBRWCB/WatKyizXGSijyDhiWvp7Mn2NuiveOVth84ZLh8rDd30hCqsyl091tPIxJoPFZ5Hu0Qe9NXdrMBhi5HRVXjDGoAarSH8QByTihMgXapJOwC8PKh5OmM68t7ZTpgINPv2BVeoqQeT+9RyhNlA7xcqNwCNGw9+nLv6lHs2GBQJVe62hKfASAEosPHLSNPXS049rHrnjeUsdVGRoCZVsXDWzP8gj2l4FWNKLaTFQOevw3B+X4hfDi1fs72a7viIPAhvvYPolNUaRwpmsTUsIk+PEI2D+AlUTKCKcS4qMxSbkN0qUxmOPsgBZDNNdSE78Yc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2370.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(366016)(261026121527099003)(261022105027099003)(11063799006)(4143699003)(56012099006)(261021123027099003)(10067099003)(261009223027099003)(261021121427099003)(261102123227099003)(261026140227099003)(261028144727099003)(18002099003)(22082099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?gTr2q+cJZG+ehgUPLBb1axE2BtSw8Rfuxv2xnIAWIlM7EsTEZ+YYghFGfsTk?=
+ =?us-ascii?Q?I749o1yI6albDvGA9jRaORPLSME/AVYYn3ySuNFgjZeRLOkoZ5mBzt95+wA+?=
+ =?us-ascii?Q?GAE127OjyXoewNtODJqygptCJtcsz/jBeEmMAmdJpj31OobzuOj926Q2xtng?=
+ =?us-ascii?Q?pDrAB0ijr45EGGLBa0etSFXPcyaq4ymiaR8r3FCGXgmqW9nMkdM4kVXBYkYJ?=
+ =?us-ascii?Q?ySJR33QWsaiVOJYfJNxXDJQVbZqXvfzC2Z6l305i6CiMoSBUQ9m+e6CJyfez?=
+ =?us-ascii?Q?0BQlD3t49L52ssOeHO4DSWNm5RM6xqBLp2adimH+IezHMEI7lYfFSgz16SY7?=
+ =?us-ascii?Q?+hNR7hJiDXlrHIkRpdXLoQuDWL3gxuEYvuIzrscU+c/ZV/QGgl0GjjYXbcWl?=
+ =?us-ascii?Q?e0OOCaHkhr2dHWaE+B8bPS2j0hXUlqbWfdxs+a+EbEyomC9GMRTe6Et+GMyM?=
+ =?us-ascii?Q?wUwWB+74s7waJhcq/b2W4J5wFvUOlfF8fm8QOclkn7pCsnnSxOgjAXaNw3W3?=
+ =?us-ascii?Q?7w8DIa0KhTnUXQMHjTkCQvqxm0D33fLnQhq4YzAUNFnpFw80gfxXx+V9L4Sm?=
+ =?us-ascii?Q?vwQ9m1PwfKd79hIoa+mm3PVmJ97i1eWs22IQLtTiRojJj6/IynDIRaWPpVaM?=
+ =?us-ascii?Q?QShOgP8q/Ymdb1xZ+Rv7a9LYcHbaNRXeXAAkn4YrTFbRBPjd/pPzsyeY4HrK?=
+ =?us-ascii?Q?Y8Aj1s9/M+3UZxYHdxd46vZq1sxj9oXtD5PLTcZh+JqMaLKp/m6fLvhsJM6N?=
+ =?us-ascii?Q?TBTvLyE+rzCsvMl+YHn3FfKEBaY7EtcVOLjV25GTP0cCJFesKd2ik+O0ud0z?=
+ =?us-ascii?Q?Ow7trTtTAan0Q9fynn5QYbT0yiGekxjXzjfsx2uovZs9cuCUblUWtodav2Vw?=
+ =?us-ascii?Q?RWxuoYgnZDpHC26P9R7tJSIPx9+tPuwoYQLOo5PQZFubYEbobZMbXuqG5M6Y?=
+ =?us-ascii?Q?T8MssjmAoRcS+xbRewnXgbwmP3gCtilzDleCGOeqwYLpXXI88BHSKRpfgnxX?=
+ =?us-ascii?Q?oyMGloUy1qh9YgcKeppf/aD1ETiiR4KvddgMIxpjeRB+YA2cj+x5t4CKlobS?=
+ =?us-ascii?Q?Xpc1mrVEU6s5z1JU/Sxh4PNWGF+x2rtsgYjkDztl1gaEXNCE+zk1IcCBEp24?=
+ =?us-ascii?Q?UDaVeaMN8UtyRd6mpqbbjERRfIDc2EkuaBNlX45tFKzSLb2fUgSc29X/k/V1?=
+ =?us-ascii?Q?x2GBkgubY27EmfE7ObigKJhZPGFQSlTHoJgiGX56Y6YY/DBlWDWptFxRFNo2?=
+ =?us-ascii?Q?yEr06BNB815qHfxuIUyAu0m8AH/IdvmMULzeXTHUIfgpSUycboUFfTXAqojY?=
+ =?us-ascii?Q?84WBd+7SxUEHTMtSFOPVn/teRDSZICWwcPcXgdEawggNfzrR6uaRwKI41UWg?=
+ =?us-ascii?Q?wUHDoyAdK2C49rrrlPYpExqoe16pQKpvN6HGXkW2fAbkEHnI7lfUc0tQeMe0?=
+ =?us-ascii?Q?bc7onrr1tEjRrgU4vdANaroOUCw9k66wYmJ/nIOn0BZTepbR8KJI/KFGam3I?=
+ =?us-ascii?Q?Euqsk7petQhv6cwgZM6YPA884R4BqoHBkVtuOFliUHWxcEEJRUtMd2wNg/gg?=
+ =?us-ascii?Q?vLzFcSHZmGvoiXEUsG36kHd0g1taQuFV0Wf963d4UIQByzFBSlHUOZtaoLCd?=
+ =?us-ascii?Q?zVDVYHxM4/RxBBPAOP5QRQSuChXrL/6dtppK5LNwC2TnQ9pAlYyU5CtU5KHE?=
+ =?us-ascii?Q?Ry0AlQn+miLCGk+T//22CXF4QmW9zjJSouhTf23Qb4u20udg?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a7c70fd-d85c-4c61-2031-08df454611f2
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 07:32:16.5203
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QfL5HJnpkoa9GxEImLInmfxafEKnWD7MnigAjS0faMRzQDMFbZsOcW+ui6rP8Iez72Kew/mC6bX9lamPxIwQPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPF6407DD448
 
-Hi Ian,
-
-On Sun, 2026-11-08 at 14:39 -0800, Ian Rogers wrote:
-> In sq_dev_add(), sq_kobject[cpu] is dynamically allocated with
-> kzalloc_obj() and initialized with ktype_percpu_entry. When
-> sq_dev_remove() calls kobject_put(kobj), the kobject is never freed
-> because ktype_percpu_entry lacks a .release callback.
->=20
-> Provide a sq_kobj_release() callback that calls kfree(kobj).
->=20
-> Fixes: d7c30c682a27 ("sh: Store Queue API rework.")
-> Signed-off-by: Ian Rogers <irogers@google.com>
+On Sat, Nov 14, 2026 at 02:09:50AM +0800, Gregory Price (Meta) wrote:
+> Fresh HugeTLB pool folios come from ordinary allocations, which only
+> N_MEMORY_COMMON nodes serve.
+> 
+> Restrict HugeTLB allocations and pool-growth to N_MEMORY_COMMON nodes.
+> 
+> Keep the original allowed mask for pool shrinking and demotion so
+> existing pool folios can still be found on any online-memory node.
+> 
+> The result of this change is that hugepage allocations will fail on
+> nodes without N_MEMORY_COMMON.  This restriction can be loosened later
+> when/if it grows a user.
+> 
+> All memory is common at this point, so behavior is unchanged.
+> 
+> Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
 > ---
->  arch/sh/kernel/cpu/sh4/sq.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/arch/sh/kernel/cpu/sh4/sq.c b/arch/sh/kernel/cpu/sh4/sq.c
-> index 908a8e09113b..f33864958487 100644
-> --- a/arch/sh/kernel/cpu/sh4/sq.c
-> +++ b/arch/sh/kernel/cpu/sh4/sq.c
-> @@ -331,7 +331,13 @@ static const struct sysfs_ops sq_sysfs_ops =3D {
->  =09.store=09=3D sq_sysfs_store,
->  };
-> =20
-> +static void sq_kobj_release(struct kobject *kobj)
-> +{
-> +=09kfree(kobj);
-> +}
+>  mm/hugetlb.c | 44 ++++++++++++++++++++------------------------
+>  1 file changed, 20 insertions(+), 24 deletions(-)
+> 
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index cb2de24affdc4..cc1468f68901b 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -3452,13 +3452,13 @@ static void __init hugetlb_hstate_alloc_pages_onenode(struct hstate *h, int nid)
+>  			gfp_t gfp_mask = htlb_alloc_mask(h) | __GFP_THISNODE;
+>  
+>  			folio = only_alloc_fresh_hugetlb_folio(h, gfp_mask, nid,
+> -					&node_states[N_MEMORY], NULL);
+> +					&node_states[N_MEMORY_COMMON], NULL);
+>  			if (!folio && !list_empty(&folio_list) &&
+>  			    hugetlb_vmemmap_optimizable(h)) {
+>  				prep_and_add_allocated_folios(h, &folio_list);
+>  				INIT_LIST_HEAD(&folio_list);
+>  				folio = only_alloc_fresh_hugetlb_folio(h, gfp_mask, nid,
+> -						&node_states[N_MEMORY], NULL);
+> +						&node_states[N_MEMORY_COMMON], NULL);
+>  			}
+>  			if (!folio)
+>  				break;
+> @@ -3528,7 +3528,7 @@ static void __init hugetlb_pages_alloc_boot_node(unsigned long start, unsigned l
+>  			prep_and_add_allocated_folios(h, &folio_list);
+>  			INIT_LIST_HEAD(&folio_list);
+>  		}
+> -		folio = alloc_pool_huge_folio(h, &node_states[N_MEMORY],
+> +		folio = alloc_pool_huge_folio(h, &node_states[N_MEMORY_COMMON],
+>  						&node_alloc_noretry, &next_node);
+>  		if (!folio)
+>  			break;
+> @@ -3672,13 +3672,12 @@ static void __init hugetlb_init_hstates(void)
+>  
+>  	for_each_hstate(h) {
+>  		/*
+> -		 * Always reset to first_memory_node here, even if
+> -		 * next_nid_to_alloc was set before - we can't
+> -		 * reference hugetlb_bootmem_nodes after init, and
+> -		 * first_memory_node is right for all further allocations.
+> +		 * Always reset the allocation cursor here, even if it was set
+> +		 * before: hugetlb_bootmem_nodes cannot be referenced after init,
+> +		 * and further pool allocations use common memory.
+>  		 */
+> -		h->next_nid_to_alloc = first_memory_node;
+> -		h->next_nid_to_free = first_memory_node;
+> +		h->next_nid_to_alloc = first_node_state(N_MEMORY_COMMON);
+> +		h->next_nid_to_free = first_node_state(N_MEMORY_COMMON);
+>  
+>  		/* oversize hugepages were init'ed in early boot */
+>  		if (!hstate_is_gigantic(h))
+> @@ -3802,23 +3801,21 @@ static int set_max_huge_pages(struct hstate *h, unsigned long count, int nid,
+>  	unsigned long allocated;
+>  	struct folio *folio;
+>  	LIST_HEAD(page_list);
+> -	NODEMASK_ALLOC(nodemask_t, node_alloc_noretry, GFP_KERNEL);
+> +	NODEMASK_ALLOC(struct nodemask_scratch, scratch, GFP_KERNEL);
+>  
+> -	/*
+> -	 * Bit mask controlling how hard we retry per-node allocations.
+> -	 * If we can not allocate the bit mask, do not attempt to allocate
+> -	 * the requested huge pages.
+> -	 */
+> -	if (node_alloc_noretry)
+> -		nodes_clear(*node_alloc_noretry);
+> -	else
+> +	/* Scratch masks for allocation eligibility and per-node retries. */
+> +	if (!scratch)
+>  		return -ENOMEM;
+> +	nodes_clear(scratch->mask2);
+>  
+>  	/*
+>  	 * resize_lock mutex prevents concurrent adjustments to number of
+>  	 * pages in hstate via the proc/sysfs interfaces.
+>  	 */
+>  	mutex_lock(&h->resize_lock);
 > +
->  static struct kobj_type ktype_percpu_entry =3D {
-> +=09.release=09=3D sq_kobj_release,
->  =09.sysfs_ops=09=3D &sq_sysfs_ops,
->  =09.default_groups=09=3D sq_sysfs_groups,
->  };
+> +	/* Fresh pool pages come from the ordinary allocation domain. */
+> +	nodes_and(scratch->mask1, *nodes_allowed, node_states[N_MEMORY_COMMON]);
 
-Looks good to me, thanks!
+For a global request the caller passes &node_states[N_MEMORY], so before this patch
+the grow loop read the live mask on every alloc_pool_huge_folio().
+Now the mask is sampled once, before the loop.
 
-Acked-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+The loop drops hugetlb_lock and can run for a long time. If a node gets its first
+memoroy in that window, the old code would start using it. The new code won't, until
+the next write to nr_hugepages.
 
-Adrian
+So the pool can end up uneven, or smaller than requested if the other nodes are full.
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+I think the nodes_and() should be placed inside the loop to keep the old behavior ?
+
+Best regards,
+Richard Cheng.
+
+
+>  	flush_free_hpage_work(h);
+>  	spin_lock_irq(&hugetlb_lock);
+>  
+> @@ -3855,7 +3852,7 @@ static int set_max_huge_pages(struct hstate *h, unsigned long count, int nid,
+>  		if (count > persistent_huge_pages(h)) {
+>  			spin_unlock_irq(&hugetlb_lock);
+>  			mutex_unlock(&h->resize_lock);
+> -			NODEMASK_FREE(node_alloc_noretry);
+> +			NODEMASK_FREE(scratch);
+>  			return -EINVAL;
+>  		}
+>  		/* Fall through to decrease pool */
+> @@ -3873,7 +3870,7 @@ static int set_max_huge_pages(struct hstate *h, unsigned long count, int nid,
+>  	 * within all the constraints specified by the sysctls.
+>  	 */
+>  	while (h->surplus_huge_pages && count > persistent_huge_pages(h)) {
+> -		if (!adjust_pool_surplus(h, nodes_allowed, -1))
+> +		if (!adjust_pool_surplus(h, &scratch->mask1, -1))
+>  			break;
+>  	}
+>  
+> @@ -3889,9 +3886,8 @@ static int set_max_huge_pages(struct hstate *h, unsigned long count, int nid,
+>  		/* yield cpu to avoid soft lockup */
+>  		cond_resched();
+>  
+> -		folio = alloc_pool_huge_folio(h, nodes_allowed,
+> -						node_alloc_noretry,
+> -						&h->next_nid_to_alloc);
+> +		folio = alloc_pool_huge_folio(h, &scratch->mask1, &scratch->mask2,
+> +					      &h->next_nid_to_alloc);
+>  		if (!folio) {
+>  			prep_and_add_allocated_folios(h, &page_list);
+>  			spin_lock_irq(&hugetlb_lock);
+> @@ -3978,7 +3974,7 @@ static int set_max_huge_pages(struct hstate *h, unsigned long count, int nid,
+>  	spin_unlock_irq(&hugetlb_lock);
+>  	mutex_unlock(&h->resize_lock);
+>  
+> -	NODEMASK_FREE(node_alloc_noretry);
+> +	NODEMASK_FREE(scratch);
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.53.1-Meta
+> 
+> 
