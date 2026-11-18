@@ -1,106 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794984950;
-	b=M69mDRIn+HUI2AIqKODXwy9LlqzU4EHqNadt3vmPHyZjfER1CvHzlvNiXdLgTrQ+oX0O
-	 y4Ivkv99N1aE9MgKALmyVT2dHhNrI0GCHs/FfmGn75ZWuC4ShLqLaNHjQFfAs/AEpHI6I
-	 kvmleh1phQTHf6UxlALALKJ7KRCVuSzCDS0Y/ZmI0TiDjQX798TKt6r86zYji+wdS1m6I
-	 MY3IXy7iSW0A4XQKTo29ZypmjiNexc6CWz6thJuTAPB3mBo6n3k9x6TJ5QCDQaX90Hjty
-	 kKnMJGlRWk4C/BLXTwVF5rX32buVtkPNs50z2buJE5IPHY5d2qODyiGg2sxKar8SayQ==
+	t=1794985222;
+	b=Vt1AfNDnWB3TQee/Bk3uIyc8XXQelYzDTkyzkYZieiKvuK/nJfrA+b7IazQypJXEd0BN
+	 tWo7bvk54/ne9bcE9gw+vT3Iic5qj53Xxf4YRmA0a//DnvYQXC5OYIR2L1ObroTQU7AlF
+	 u9Th3afCDcF4NI9jyXnGefGdNphVX9MbjdSsuUE5kMmD2pUSP1V9lQzzOxVh6T1ZKFP82
+	 tX6AhfnF93pVeqwdRGWpqDtnOuJsXS4uEU9Yo55GhTZMz08zyfxcxdkIKCKnj0mTFEDS5
+	 RPg4OkfByuUuD10AENHS5+jqCZ7VgE9N2wPwXWnpnw/cRKv3tiioWx154hK0PAG229w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794984950;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794985222;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=D3IFWTA7ou2igClaDYSbsGTVSgzRWm+OXVAzSzama/M=;
-	b=5gfudTMaHnbh90Qqul6LvZr7EmV3HoVHd6pPmPqynzjhcNAXPIom8GGRCTqngmavXYgt
-	 skV7rhOL0pmYCPCtdFrZGP1dz9iQCAwXW7zg8n5Wty3VfkGs9Gq+qYEYrzMofDvWGsWtz
-	 ypxA07cKwsw8sw+c3EsnixJa4avpeB1nS4lkUEnhoCxzspXqneR9KQNtmhmyIvtsc1Zf9
-	 zKzGtVdRBJE/SPadMFuX9/t06vORUOE0jcLrCDmZp1Q8cd8L0rRgrbZP4l06FADVtSp6i
-	 z7Vcm4hC4QzCPC6m+Fw/pvviZr5ZrDfzHxVypvSZILI6ApsbDIbzlbu9m47wZaQPZIg==
+	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:Message-ID:User-Agent;
+	bh=0V4gHLbmmxLCmFwABtKMRTJRoH0Xzn0d+2gsbwvgOkM=;
+	b=O0P9mCXte3zCGRI3VbtrKPyT0tQpzczkkQLb4VhCqBm178DBUKvLbsIXKjczR3wtS3d2
+	 9EQi6ZF4pMRs2OlAgwMFFf/j6PS5bVhPx+5TWFLadeXmV88yMZItgAGnjTsBJ2s99zx1a
+	 CJVyTE9R+W1OnEnILn/aY2Avj+jJ6NpgBu88WBr0MzL4NAxRe3ArcniHeIc1ft/BDfc/W
+	 cnGzDEvRZLZUVB0k/WrJ/HvJAbKgu4kuy7WoDKhkcEJLPDywI/DgDLPOm9FJM35hZKWDp
+	 aIgwJN8vEK1f9HLpc+l7qAOzmthQ3DDP4CfcmyDDyMy1SAkGjqJGRSKnk+rhHE0zq4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=nM+9DlRr;
-	arc=none smtp.remote-ip=209.85.214.178
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=OVWGRyeF;
+	arc=none smtp.remote-ip=209.85.215.179
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D18F606A31C
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 06:55:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D18F606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C01606A332
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 07:00:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39C01606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=nM+9DlRr
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2efc4a84e75so28945ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 22:55:49 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=OVWGRyeF
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cd69954c755so563112a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 23:00:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794984949; x=1795589749; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=chrisdown.name; s=google; t=1794985213; x=1795590013; darn=vger.kernel.org;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=D3IFWTA7ou2igClaDYSbsGTVSgzRWm+OXVAzSzama/M=;
-        b=nM+9DlRrSc+VH8u2ub3VdFxYKqtFiGInc/JZw8T73N7OAqXa44YAOksg8x7jKYkkuF
-         yOwhOSelLbR3ciacjrREpqKFfhwK5r7r/lk1Uuk8xfjoCoH/lNZCee8mUf7VWzgC2Bpb
-         tu4epm3+IlJ0ND44vTbQq5ss3XdQK9+PEMFYKwhU6O5AlBrQKFaQWO73Goy4f29mqVNF
-         kOuWgxQrag89XkFP2hXkoPYCBeCCPY7IogUEhAraGQ1G4jNGdi2k90Bcg85Nv9zDziAx
-         kxmiwEPofn984RQ60OOeumbDhK4iguBvHixxVMsJ3QgsnlDAMgH23D0cSlu0yXLJ2j5K
-         Zj3A==
+        bh=0V4gHLbmmxLCmFwABtKMRTJRoH0Xzn0d+2gsbwvgOkM=;
+        b=OVWGRyeFxxDRpNW7KWJCLbWei4gHffCAidQTaSERnk/N7Ey4ap+vKQB0LEUiBIxmKh
+         xPGbw0lCTucgL3/rxvZ5Dy8y1+Y8avdQ+WZ+P8Gr9gr57tOAcMRfjNf5HxHhcIaHxBM4
+         NGlrnqsJ1vP8UMeneSTEuJpOlXHqAZrkOG3Wc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794984949; x=1795589749;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1794985213; x=1795590013;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=D3IFWTA7ou2igClaDYSbsGTVSgzRWm+OXVAzSzama/M=;
-        b=qqOJT70bJTYKeAo2pUcDjWgtuWqLYpGgISshu6PpIrPq2lS5K5dzFpwFunKasqow5G
-         2EhWdxloRgfzux+5Y9Bahm03vKd+1+THth3gbRgDilg4aOpcgDtBfhAcoOVI0Kxo36xU
-         2HTi8ncS1MNgFH2u/jaQ7unBJOCAaV5RoCuRmiz531xeZLT+3x3TBPBNNTWVF+Sq8vYz
-         LTGLYhsD3venu5BWH9RLQxkt2J6swhZnmdh5sKbmSSOy0dMzZU3hR21hBcFHGDke6IqU
-         +HY5z12mcrHGCQHDBZGTGsqld+GaVGwlaHVNv6fa2O6XUFXh14fJkzvsFM6Q0Ch2zLBn
-         36Fw==
-X-Forwarded-Encrypted: i=1; AL+hErEV9Eaav9UjospXhrBEWLsbhEVtB7HNeK9Ke5WN7yVkL/nh7Vxc39pj1lv9svyzmFKFIFhqY8MgY6Q=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/39icVIC0d+NhZDWt3D8Xydc6mm34grRxFREFQLAD2oOnnSnO5
-	5kBzpBXTNRH2NaanZiHjvwjwoAbA5XBPGgbwvX/ZcbqgjUw3qXAWf8WIPITw3vJWrg==
-X-Gm-Gg: AZFdTZc0QumQPXEGGeAEx/pCbn1YICujpCVQtyGbLU1Qf3aCQzx8BIt4mLa2DvroBhC
-	fEqYzS76ildTNyX6WcCecBva74Kwksg5w95eH+35izWqPbECqFqhxQZHPf71pSWTqhAmkSHydlE
-	T5Nc1q31cKGmHrRQnB5656i1hM2xRnAkssjuiBxfZduy4ecy8qhvJa7Zmh71xhCwmswDnk+l3OJ
-	70MgFSMRpABhax8DRCOqgZuIdhKOnUUXBKdpS7JPTHBROoORCVidptDjGhtHgIPaxtLeaGjmqS0
-	LWWN3c5K+LcMH/1yzG7aCeskP5vBPWtRBkzhcjzYXnXqm++bz7OnZHpenP5LT3+wICckUMuUkmz
-	Dt5zQ4IGZSdBWRbnbih2FPRVeHM6ufoi4bpqsq6eb2INfRmG7IRNJQctSZ9W7I8D4gCS6/rmq6/
-	3hfUgmA8XtS6M7ChdsddRnnVciLzVp+qpOfg6EJgLhP0dA4izEUvJPQpPblZRPi1mc5M0iKzd7S
-	l3FJxjuXKiGZB8a62TH1QuX+u8uYGir7h6Myg1tjIVHEO5ikXbdU/P/oS5VlrNh5om9h/eV68LX
-	ACoZ7bZ51XZQVWSWQ4ESuq4Cv80c53h8Dhcl/HXH/JxvNIk8GD6GIsmu+KNQMf2n
-X-Received: by 2002:a17:902:ce10:b0:2e9:73e0:2a6e with SMTP id d9443c01a7336-2eff9952062mr2886095ad.17.1794984948419;
-        Tue, 17 Nov 2026 22:55:48 -0800 (PST)
-Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c5ca5bf959sm657169b3a.20.2026.11.17.22.55.47
+        bh=0V4gHLbmmxLCmFwABtKMRTJRoH0Xzn0d+2gsbwvgOkM=;
+        b=ykg3wMW+enJRVFPQ51IyZB4QZhP4zKpNkRIcLP3YE/+a/+WH5kcMVN75TPyapEW7nc
+         7HZtPo4CnCG6/e82PpU3B2jg9+V6bCg8T/C6uhLRQhSDNibeCrwRs92tnoSXsjoqylUk
+         fwTz3zZe06xV5NCqaHhGympe9FKFyiuZiC8W79ve54BNHgBmzTd1ltHdZ+HoiEMR/92z
+         PqKtGpKW+iK9/0HFrngO8Mxj/3j0H8xS3cMigbtEfj1czhrD8vub6mTyb2QjTftDGo5p
+         gok3MceWCVJSUhC2xYuWCzF4iCvpQ/mcxZEQdmFjaamBqNSQ8dp3s+iAK8Uea3qJudqG
+         fs2A==
+X-Forwarded-Encrypted: i=1; AL+hErEceoAaEn92/A7WWCByuFITzbZzna7OrIg8VaFllq+l9D/0PDxysvG9H13rtOj/5tCd9wB+8+348Uo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/rypF9/sI7wDVf0GoeVKrrJaqe6ppK2X6xwGOp5TgFGqM7SRvL
+	U4gKdI/OpfxBUQ6AarTeKI5dGzZVKyDKXhnrGUecm42ynJmk/+1aPuTCTsv/6H1bIXs=
+X-Gm-Gg: AYBFou25eTvlF7FiuGnaKNsLS8R/MbwvUG7Th/VhRx4NFKpEFW/T7QHZ8y/+VXLdx3H
+	sh3b0XtLRz0yqLn0xubrzQmw7rwk+wS/kyKhDDMfRTDRNrzTJyRjkJ7Gscq6gEKhIgFADax//no
+	XhNA8t+b128Bw3md0WgEq8zaa9uSDZfesuUmpX9ZWIzHLxkrDYqlq0CdkHewFMZd1+iAtQaptYA
+	8xHx4rRpH9NoPufDLiKFTUdJMHUQcljReduDSQW0eBANhFfwcUu4DE4r5HQxdL+iIX4q9o1oN15
+	/Szfkvh0Q2sNR3t2Izp3kNFdWIm8zudbiWEFuzYHyE7nuyK6aGrGp5jz/mlawuNVUULeUevw42j
+	OPvVG+anFXXxHrTBQTldhMx4X1j9eBTI0fTMLNv3Z0ZyOMbLobv1ajYjSymlfN5P6G52atR//7L
+	qmAyQJu9GUeTGSw7BrpuWLxe9aghY6c/H5UrxlKMqlDfwFotzhzD1+hmtzQZc/aTd1p9H2lEYTy
+	vJaf9sfcU6JF2bxjoHWdPFhWcoZfd1OFYWLQiyElWHnmnnvfs91uxR4ZB6LDy6AS9+6dYrWW1FX
+	iHioXYu7wozP7WUGYB65P4z0dMtNotx7LQGzdydJ68OJRc3eaYMTYRCX01g6PnGqrvHQlwXL60L
+	ZVRVu/fJpwarDfmn+4Jk91ePxXYsEySZfLmG/wRblpn95xmQUBbaAjG1Wd2zA4dnxO0yDJ4vjm7
+	XNfMm+9BVSHbQueb6csY2Qk6V+KpDSaO1OOaXG8pjKHKAziGY9JIFYoy8nbvUo+ocl
+X-Received: by 2002:a05:6a20:6a26:b0:3e1:8890:8400 with SMTP id adf61e73a8af0-3fe892fd632mr2082401637.15.1794985213105;
+        Tue, 17 Nov 2026 23:00:13 -0800 (PST)
+Received: from [172.20.0.2] ([172.56.235.113])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cde3c4bc20asm635004a12.27.2026.11.17.23.00.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 22:55:47 -0800 (PST)
-Date: Tue, 17 Nov 2026 22:55:44 -0800
-From: Vipin Sharma <vipinsh@google.com>
-To: Samiullah Khawaja <skhawaja@google.com>
-Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, linux-pci@vger.kernel.org, ajayachandra@nvidia.com, 
-	alex@shazbot.org, amastro@fb.com, ankita@nvidia.com, apopple@nvidia.com, 
-	bhelgaas@google.com, chrisl@kernel.org, christian.koenig@amd.com, corbet@lwn.net, 
-	dmatlack@google.com, graf@amazon.com, jacob.pan@linux.microsoft.com, jgg@nvidia.com, 
-	jgg@ziepe.ca, jrhilke@google.com, julianr@linux.ibm.com, kees@kernel.org, 
-	kevin.tian@intel.com, leon@kernel.org, leonro@nvidia.com, lukas@wunner.de, 
-	mattev@meta.com, michal.winiarski@intel.com, parav@nvidia.com, 
-	pasha.tatashin@soleen.com, praan@google.com, pratyush@kernel.org, rananta@google.com, 
-	rdunlap@infradead.org, rientjes@google.com, rodrigo.vivi@intel.com, rppt@kernel.org, 
-	saeedm@nvidia.com, schnelle@linux.ibm.com, skhan@linuxfoundation.org, 
-	vivek.kasireddy@intel.com, witu@nvidia.com, yanjun.zhu@linux.dev, yi.l.liu@intel.com
-Subject: Re: [PATCH v6 07/27] vfio/pci: Preserve vfio-pci device files across
- Live Update
-Message-ID: <20261118064707.GD2250529.vipinsh@google.com>
-References: <20261102153656.1431701-1-vipinsh@google.com>
- <20261102153656.1431701-8-vipinsh@google.com>
- <au5VMy7zhOb65xIE@google.com>
+        Tue, 17 Nov 2026 23:00:11 -0800 (PST)
+Date: Tue, 17 Nov 2026 23:00:06 -0800
+From: Chris Down <chris@chrisdown.name>
+To: Muchun Song <muchun.song@linux.dev>
+Cc: Muchun Song <songmuchun@bytedance.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>, Marco Elver <elver@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, David Hildenbrand <david@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
+	Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
+	Joerg Roedel <joerg.roedel@amd.com>, Lu Baolu <baolu.lu@linux.intel.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Ketan <ketan.kishore@oss.qualcomm.com>, Mostafa Saleh <smostafa@google.com>,
+	Sang-Heon Jeon <ekffu200098@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Sashiko <sashiko-bot@kernel.org>, kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 5/7] mm/page_ext: allocate page extensions early for
+	SPARSEMEM
+In-Reply-To: <3C50E682-848F-4788-9238-923D5E292DEE@linux.dev>
+References: <20261117120627.50601-1-songmuchun@bytedance.com>
+	<20261117120627.50601-6-songmuchun@bytedance.com>
+	<avzsFxVqO27Vf4Db@chrisdown.name>
+	<3C50E682-848F-4788-9238-923D5E292DEE@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -110,62 +113,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <au5VMy7zhOb65xIE@google.com>
+Message-ID: <av1M9itGiTF1Akqi@chrisdown.name>
+User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-On Fri, Nov 06, 2026 at 10:35:27PM +0000, Samiullah Khawaja wrote:
-> On Mon, Nov 02, 2026 at 07:36:36AM -0800, Vipin Sharma wrote:
-> > +/**
-> > + * struct vfio_pci_core_device_ser - Serialized state of a single VFIO PCI
-> > + * device.
-> > + *
-> > + * @domain: The device's PCI domain number (segment).
-> > + * @bdf: The device's PCI bus, device, and function number.
-> > + * @cfg_size: Size in bytes of the device's PCI configuration space
-> > + *            (``PCI_CFG_SPACE_SIZE`` or ``PCI_CFG_SPACE_EXP_SIZE``).
-> > + * @size: Total size in bytes of this serialized buffer, equal to
-> > + *        ``sizeof(struct vfio_pci_core_device_ser) + 2 * @cfg_size + @saved_state_size``.
-> > + * @flags: Bitmask of ``VFIO_PCI_SER_*`` flags; unknown bits are rejected.
-> > + * @saved_state_size: Size in bytes of the serialized &struct pci_saved_state_ser
-> > + *                    blob stored in @data after ``config_map``, or 0 if none.
-> > + * @reserved: Reserved for future use; must be 0.
-> > + * @data: Variable-length payload containing, in order:
-> > + *        1. ``u8 vconfig[@cfg_size]`` - VFIO virtualized config space snapshot
-> > + *           captured during ``freeze()``.
-> > + *        2. ``u8 config_map[@cfg_size]`` - VFIO capability map snapshot
-> > + *           captured during ``freeze()``.
-> > + *        3. ``u8 saved_state[@saved_state_size]`` - serialized
-> > + *           &struct pci_saved_state_ser captured during ``preserve()``.
-> > + */
-> > +struct vfio_pci_core_device_ser {
-> > +	u32 domain;
-> > +	u16 bdf;
-> > +	u16 cfg_size;
-> > +	u32 size;
-> > +	u32 flags;
-> > +	u32 saved_state_size;
-> 
-> We will need space for iommufd_token when we preserve that, we should
-> probably add it now as otherwise the compatibility would be broken when
-> we add it? Is the reserved here for that?
+Hi Muchun,
 
-No, reserved was just to align data[] to 4 bytes boundary.
+Muchun Song writes:
+>Mike's suggestion considerably simplifies the code, and early page_ext is
+>only needed by optional debugging and instrumentation users. I would prefer
+>to keep this approach.
 
-Based on David's suggestion, I am gonna get rid of variable length
-data[]. This whole serialization struct will be fixed length.
+You're probably right. But can I cheekily suggest something in the middle
+perhaps? :-)
 
-I think it will be fine to extend this struct by adding a new field at
-the end of struct in your series along with updated flag when you add
-iommufd support. 
+Given the zones are already set up before page_ext_alloc() runs, perhaps
+you can pass the start of the node's ZONE_MOVABLE as max_addr to
+memblock_alloc_try_nid() when the node has one. The general idea is:
 
-iommufd preserved vfio device cannot be rollbacked to this kernel where
-there is no support for iommufd preservation, so, flags will be correct
-to reject the change.
+     struct zone *movable = &NODE_DATA(nid)->node_zones[ZONE_MOVABLE];
+     phys_addr_t max_addr = MEMBLOCK_ALLOC_ACCESSIBLE;
 
-Do you have some other concerns when yiou compatibility would be broken?
+     if (!zone_is_empty(movable))
+             max_addr = PFN_PHYS(movable->zone_start_pfn);
+     addr = memblock_alloc_try_nid(size, PAGE_SIZE, __pa(MAX_DMA_ADDRESS),
+                                   max_addr, nid);
+     if (!addr && max_addr != MEMBLOCK_ALLOC_ACCESSIBLE)
+             addr = memblock_alloc_try_nid(size, PAGE_SIZE,
+                                           __pa(MAX_DMA_ADDRESS),
+                                           MEMBLOCK_ALLOC_ACCESSIBLE, nid);
 
-> > +	u32 reserved;
-> > +	u8 data[];
-> > +} __packed;
-> > +
+I briefly tried that and it seems to work quite nicely.
+
+But I don't object to it even without that, so feel free to add either way:
+
+Reviewed-by: Chris Down <chris@chrisdown.name>
+
+Thanks!
+
+Chris
