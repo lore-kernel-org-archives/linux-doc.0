@@ -1,68 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795035059;
-	b=wUs0f6TanTTctTZLG9jaAiob6QkJfOh4umzuvumZc5hU9mTdpMfYJw7EQPEAxGAhASyo
-	 hUWpGSIulByy6I13HIF+xABrtYcruby2jTsYlZS9/bpNEACjQ+yfQlWRhu4fTnOYHpySi
-	 gSiZm06xbS4WPmnJV46RdQTT/nGnRLBE9IVHbF8fjSYcw645vj/9fuffrSoW9OK+4Awq9
-	 RishGLuuIW0Zhtvnbp87apggvmnWjEYh9X/pmy7ENJ7cxl1F+ZSVILTzGwiV5rub+uCA0
-	 H0XBoVWLLcIyUlKwN9kbJXwRddT7TZVDFuLTA5TKJEdcV9CyBOHKgLLzhbYxdt+Agbw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795035059;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=0aMgbQQmw1MPLXYBpDbUKS5IgiG3zEQxMu5gz/miA1Y=;
-	b=Pr9VeHX8XlGwvPQFaPrtFjETimeGTIMz16EneEn0IbvxW3upSApEz1/+UloMlAt7y/gk
-	 tVKU4HgTB5PfM0WYlB8lNfHe9Ygs+Np2Z2oBOaV+hzW3Ghb1doh4Yzq+aDy29WG1+Mv1h
-	 yq7E0r/2htzy3qjGxJoIb7iiLuWsW+yEgbtqXqdri5x4wZAfw7ytqguQzEKXu3AABYNj6
-	 7eK8c4nkzNJRR5rEUMuagHBHX2z9l4slr4FS2yHrlyyx5G47sqYvQ5ZyHFFVUnOyRu9eu
-	 BM/LImaqCaSFRm6X++zQrt3iH9iyGWHArwkrNZzNLt+B3ifidJeM/9MrJvtR+jPkj5Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D9H2bQLM;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.179
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795035349;
+	b=KQS9ua3cSnwIg/vwRRoK7ZL+hLuTtKGPRPKSZdE9V6gySaGLMgZmB/D3Nz15fC0rmpmW
+	 +ZmDzt26+/gROQR11Y1tzNImyhOAEQFPDyy0wvdTgU80gxIUFrheDwhnrnqxPA27PTVgq
+	 JbdvhP/C+rTV1IrX+amxbqubN2gF85TqIyVGs8YzvQBYAyrxI0tayHu+pQMtZ2v1kIoca
+	 I+MHQyAEHqhM8TJlvUEvyHPfG5M2DaOWxPa5kMU+SrRfcaTmZHV5Y7PqYJlifnBz8Oof9
+	 7G6pT4qcTI8p/9hfRYaLWMkqGF8yM0Wwt7QoA7B6T8oM0W5LRxfRltC8Zu4VkZDAxdw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795035349;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=9QJl621iF3UbAv+4qSrysOcC68FhiDlj4uSYelJCLVw=;
+	b=gjb6wV/Cf5AUo/w4LuD693ClHQY8il7ni8DZ7gCpoPbfjfKypMSUIUFQDmSwBD4Hxvqc
+	 lr37Lool6xo8ZTD+pVK+pJjNWUJ+FNGNV87sKlboyslaG1DCAP2Lh8mKFV/VrLu0yHxEz
+	 yT5v0xdkRmbPI102qFxn7S6pJ2/K3kRE3Sd2TaO9rUXtztM553l03gGXTKfIiYXc2FcXn
+	 dmW4/lf/oDYa4+UZP1rRdMWxdJwpHobJFJ5f9O5NzvwaTz69LMZIj68NMpTX+AFKPuLzH
+	 3FmfgWNrEuA/JBrDzuRn9A86aQIdGEQwcZ9AWcG5dZHea3OTh78cC4klWlesRciNA9w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pMvG3eK2;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.179
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2F0606A320;
-	Wed, 18 Nov 2026 20:50:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30252606A330
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 20:55:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30252606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D9H2bQLM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 212241F000C4;
-	Wed, 18 Nov 2026 20:50:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795035059;
-	bh=0aMgbQQmw1MPLXYBpDbUKS5IgiG3zEQxMu5gz/miA1Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=D9H2bQLMpNjY6yIUL4eRNe9xtgDcK4QHGxXWLYzlvB1bmUo8C+4C6H57Z6jg9sUA4
-	 KI2MfNZWHMF0hbxVFAJ4MbtoVerLZ8UCGf2jV4yN0WNM83SnHWTl5kcf6+9BmecA9C
-	 IR0ruJ0M3TZlseY9cOHVO+iRxj4W52ZhRlcTe1jTuvyyFF4rkiRGxbwbj80laq823k
-	 sOcXFUIbefvYS3SiHJo54xS8UrUoQKer4+6ur1h7Ye26LX07X6NmyiPvizyO0GovtJ
-	 ElEuzkCk84eFx59EadSVPsP+OrgTdyY+X8s8oUb5aHLo4Pf+umJYh0Ni2alCtb4A1m
-	 PeHU9oYDdRbqg==
-Date: Wed, 18 Nov 2026 14:50:56 -0600
-From: Rob Herring <robh@kernel.org>
-To: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Amit Kucheria <amitk@kernel.org>,
-	Thara Gopinath <thara.gopinath@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Abel Vesa <abelvesa@kernel.org>, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Amit Kucheria <amit.kucheria@oss.qualcomm.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: thermal: thermal-zones: add
- hardware-binning trip properties
-Message-ID: <20261118205056.GA839455-robh@kernel.org>
-References: <20261113-thermal_bin-v3-0-878df6eef8bc@oss.qualcomm.com>
- <20261113-thermal_bin-v3-1-878df6eef8bc@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pMvG3eK2
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5365d725440so14035191cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 12:55:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795035348; cv=none;
+        d=google.com; s=arc-20260327;
+        b=X5z9Ac0HxHQg2wIKOdtf8cVuvQyF8wW8RLsiEMJy+x9FeDF4AynIOT+FinCIM8Zt+l
+         z3IpMglQJYtESQTOLjSRgoUQnUepmLgUGVVnOZjp01mkqQvSCdFvPgqjWpMiNwwK7xZu
+         s4xXp7mNMuaXeu8zwXMCvgLvj2cvbVSA+5+wNwDBHPhc2eYVHp4Nk8TlNZBIIrvMY7Nz
+         ac21zjONLOeZJQi649pxfUfaw2bfRjVsmplmxgbroTCcdsEw29kXByN6oI1ItzcaEzYe
+         VxPangHKB+SztplETviZTl8T+ypdJkiJZjTgH1kJocjLR1z4t7i1wE4gzfcx4L3w/dSl
+         tFbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9QJl621iF3UbAv+4qSrysOcC68FhiDlj4uSYelJCLVw=;
+        fh=NJsm9z+NRtuZ9vHk67uwqJun3jeuLFyLBr8SdBwLJrk=;
+        b=kvQLUL9a+mICne4m+KgI7Y1upe5Bu6BlxXQZRyRngzK0o6r08GU4MPQhELGzg84Exl
+         4KVqPLecj/o8k8wDaU1yQ9qEQEF7PAA0xBXcdu26ErG8dC84/adyh3qWjuJRHLGJsCoH
+         wYjLtEHLYhDqrjozO7seDGv9ht0Wt5xXjw8JHMkaEK2Ac6BRt2ger0dVm93QKqSTPlTx
+         jkHjqXq3rR8awX7XJa4cPlnOMUL/r0bPSx8EGtZJHpopDfg2bVeLRANMXy69wyGeiqzk
+         Gs8T+KGqnLM5ECLBkYgTnIYfkb4TLix+aRgDB+UZSFLq3GK7ypAmxlCXNl3ZmjFGBsEa
+         YBOg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795035348; x=1795640148; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9QJl621iF3UbAv+4qSrysOcC68FhiDlj4uSYelJCLVw=;
+        b=pMvG3eK2aogC2094P8BxtFGVGw293e8DdAnCtmwV4/ccDI7oFw8bf27i1rafYOyEyH
+         UScSXoO37zMScoqsh8SFOSaoOg7T1R8UkmY4dEDC86Z9RHndvxy/MNb2aZjmHC2JgHVg
+         DJ2r2u/dbJmzln7n/h0b1p8ybAPbVEuiFCZO7MCfjOszY7+LzzVpOdR0WQUtG9g7t89d
+         JfFgn988ZtXxMY7AtF0SdLN5VmjKT5KEJX+qxBFUWSWmwZvebrWFMctLbr7K8E5iqWJM
+         i9YkA3Ix1P7fExqfh3TpsLAQ0QGONZqKAWlyWx4X5spRwqwaFV1J8NG1x1voh2Qaj1dU
+         /URQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795035348; x=1795640148;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9QJl621iF3UbAv+4qSrysOcC68FhiDlj4uSYelJCLVw=;
+        b=vpelH7PMQl3S/M229a2cMm4OqllAZga8CRvzY7OOBVQ+O1c5NzVeHore90Ynw6Znft
+         lUIoHPpQuVJSAeS1mgRt8J6fK+JhGgumVXRgrwXHXB74z3HWS0itAhTf4jyV1MqoWAoI
+         F8yGLqCIujyqVkSGfgS/XWClP2a5cs7tYb3KRJILMVOAPyxVqKcTSV0S4a9Vu4e9BSkP
+         MHbp5fgrIdKpU3/rTYIkZYUhMZtaEQmOWfVrk1xS0D0G5ZHrCsxPYnfgs8F8gLpOErg2
+         dh04q+EOa75QQ4/bIR8B5lytzLqBGxB1B6ZAUFEvbkSarcP0qx0IQo/AsAM1M7J7xVzA
+         Kitg==
+X-Gm-Message-State: APuU4Z/IESNdyGFplJmerhcBSta0adecsV17rCZ7MFw7MVQ9cxBnypFr
+	rWu6H6PLyXN1RNoW+vyuBeDyH6iJ2h8y2I96FowxyubwgaUf+/FfuxxKBU9Emwk7Ej9db5hNhfc
+	Onm93OmsHTkQyRaM0bPmMQd5Q8tdKkOk=
+X-Gm-Gg: AYBFou1Zu8Wvn/GJroW43+Ozbnr1wK/pwwuxMgvkdNRJAjlvgYvrcnXdz5JPpBmoTRX
+	Vppx/ZhIdLoCHSbh1k6XH1NO+xAKk4n1uKv0wYCyhA4b+7j2vvRl+HM+dUxdPBqU0ffpbizabO3
+	95RXQdCorEB+sy6nqVGx1dGjnIvW49NDXu/EPM8zdQZhrS0A1VRYsWpBEOX/LqXDVx+sb68sxZ3
+	PcSKcCclI3sKJtnWo/Tz/XmSghhm5ClYChRkZtupEJcrKpJMZMsCn1TCNGcgaH48o8R0yybXYAz
+	4Fxi/ltZZLPSQXtT+O0YtavKqbQcFZdtmYt57hHALo47z+VIindP1uObanqgCfaOaRAIfVoIj6k
+	t3ec2JQI2CkNxzDd1yjybhqMXsG0Hu5SmMM48QDGjrOHEe0YfYioauymqy7CQT01dknj1e+c/xD
+	gBMNLgpmDf30se23L1tECGBUAw3tNhDA/JdaXDT/EonQrGcqyQEiuG0qRV8lC0QWc+6O/LWwI5B
+	ySBWHcogHOYekFCepdXbCzk
+X-Received: by 2002:a05:622a:40b:b0:55d:37d8:5037 with SMTP id
+ d75a77b69052e-55d5a75b268mr57892941cf.77.1795035347887; Wed, 18 Nov 2026
+ 12:55:47 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,53 +105,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113-thermal_bin-v3-1-878df6eef8bc@oss.qualcomm.com>
+References: <20261115140631.70601-1-ic.gabrielribeiro@gmail.com>
+In-Reply-To: <20261115140631.70601-1-ic.gabrielribeiro@gmail.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Wed, 18 Nov 2026 17:55:37 -0300
+X-Gm-Features: Aa3M54rVivx-ML4dxqs1VpuRKkdym9eRYRSCdvf3byQfdD2fvFb5_szmJ4VAN5U
+Message-ID: <CAMAsx6ftHy7DPPcDXXCaOsEFA-xyGtgLD079PmzJst7c+-YvCg@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: translations: pt_BR: add researcher guidelines
+To: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
+Cc: linux-doc@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
+	rdunlap@infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 13, 2026 at 02:13:44PM +0530, Gaurav Kohli wrote:
-> From: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
-> 
-> Differences in SoC packaging can be used to provide multiple SoC SKUs at
-> different thermal and performance characteristics. The underlying SoC
-> remains the same except for how much heat the packaging can dissipate,
-> thereby influencing the critical trip point at which an SoC SKU needs to
-> be throttled. This SKU-specific data is typically burned into fuses
-> during manufacturing and can be read back at runtime.
-> 
-> Add two optional trip-point properties to describe this:
-> 
->   - 'temperature-bin': an array of per-bin trip temperatures, used
->     instead of 'temperature' when the trip depends on the hardware
->     revision encoded in fuses.
-> 
->   - 'thermal-hw-bin': one or more bitmask groups describing the hardware
->     revisions for which a trip point is valid, modeled on the
->     'opp-supported-hw' property of the OPP framework.
-> 
-> Signed-off-by: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
-> Signed-off-by: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
+Em dom., 15 de nov. de 2026 =C3=A0s 11:07, Gabriel Ribeiro
+<ic.gabrielribeiro@gmail.com> escreveu:
+>
+> Translate the kernel researcher guidelines into Brazilian Portuguese and
+> link the page from the pt_BR process index.
+>
+> Signed-off-by: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
 > ---
->  .../devicetree/bindings/thermal/thermal-zones.yaml | 60 +++++++++++++++++++++-
->  1 file changed, 59 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> index 999ad40a20d5..cb9a8c96d053 100644
-> --- a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> @@ -152,6 +152,58 @@ patternProperties:
->                  situation where the trip gets constantly triggered soon after
->                  cooling action is removed.
->  
-> +            temperature-bin:
+> Changes in v2:
+> - Preserve the existing toctree indentation when adding the new entry.
+>
+Hi Gabriel,
 
-Use the standard unit suffix. 
+Thanks for the translation. I compared it with the original and I'm happy
+with it as is.
 
-> +              $ref: /schemas/types.yaml#/definitions/int32-array
-> +              items:
-> +                minimum: -273000
-> +                maximum: 200000
+I'm working on a separate series to keep only the plain filenames in the
+pt_BR process index toctree. That doesn't need to block this patch, and we
+can standardize it in your next contributions.
 
-minItems: 2
-maxItems: 32 ?
-
+Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
