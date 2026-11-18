@@ -1,13 +1,13 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.201.28
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795029907;
-	b=d5METa0pXRf8O5HzxIo7qrL7WlTZa1VYP/pKzKPwb7PuceHf4u5rlNf50iRQoHDwi+4m
-	 yOoBi8Xp7QNdgeSJLQI8gEzMRbS00YTfuhWqxxjTRaf3jnwSD48p0+YFY5gvBTMWhjz1X
-	 gxdr86jQXKWJ9WQE4c9J3CK+RgHQL3z+WtL7ey+gHRlzwNXwvHF2CQxaXN2Dcp+6W0qGh
-	 rO0lQVsdhUsnOFdpH14wh7I+tI8FReeCAsri59OwGv5f93Ka3G2kz6sT9BAcGFj9eQPyA
-	 bb6DX8mu4QhlkxSCWhwVky3GmZwmc0HLhOE/6ygPEtABujjBb8k1kXkOsyAmhm75CGg==
+	t=1795029903;
+	b=EPKH4BagavEdkFyUTbgE4R5pwb/FOcOVyGSJwRWTQcYZNX3SrS7KsjrRvQbZtIe/ZC1b
+	 cIB68GFPUoKYHgSHfw+lytDa7DZra0FCxa2oK4B4sclvhq/XLBsi3SXdNtVgMSjiunMBc
+	 UEAHhhde9U/OLudSBer5wMDTxpaoOWhb9iR9T2dYlaO1/hmzsZtcRVj0tn/szLrXUo3Xh
+	 yDFHt7FfW7Nfr19uqsfNKUTtz8TOx59JBGJlmnNeiETXB43/wKyWrvJYUZKBr8IIzUBcF
+	 III8XL+Sh5pjtN32wgaMJXQhTYyrvPPLR+eX9W2ou4Bo1wZ25YYwUr6rq8iwiYKGDIw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795029907;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795029903;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
 	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
 	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
@@ -25,52 +25,52 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
 	 X-MS-Exchange-CrossTenant-userprincipalname:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=JcTok4/mS1r8EiPrD1iHcrGiorXO1Np5ls3LVz2jeEM=;
-	b=vljFKtPsLfWneefINr1vWBdZ5jQ0BeslVUwYN2a9INlW29FYAdJnYRqNh1M3ywiRU+84
-	 qjfZFTHgttOfxu77Svu+Luaurv9BZeIOOTvROFoH2wsmopi/QhnEF3vKQUaiQVQcqW4Yc
-	 IffBK6aeFDyP019ea1vAB6Uy5RKkPkXkPzPsMrjLTuc8v01cBzfyC/fygA83zUKB39d3+
-	 VP/XirqpzfLRDdQ/bFEcM7s4fvcZl0fE1AtdiuZKdkI3urD+4sBQ2FjFbJ/GlswFPCl0g
-	 K+jzesQTqN6lJIftaa/G10+VK6hIAZ5lda4m10q0kelCVYH2mvM7fq8YvbS5DzEgtLg==
+	bh=gtGFlhPLyBmWmNJl+9YBPAwU+sYCzTZsq/qU+GGh5HY=;
+	b=KbHj383uO9xXNAHzqgieqkYXwAuujV7U72wpfJ4dBPo6BaypX3X5ifhpRr8r2JFfUuZT
+	 UzNZNTM0EKghn0CgsjgEtCXyyNva4Zaz++ErHqHg9umWvycy+298DVto+usDaCez5Pcnm
+	 kdF7W8HhbS2I23mg+hWLF0rRlOk5vIs8SJz/VrYVkdZxBEusO6vxrslMNiTKJV+FgsO7v
+	 4s6sK8st/kTXDSDEuZaeyWErqk5Xbg6h/OEsj9V4lMsIe+Nz8SaZqVaFRalQIlS8qcBLO
+	 QtU2zT80DqoASYY5yV39kEf0C4y7dS2PfBncffJWHC/1vLGfBR2AHn8x6pT+Q+trbkQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=nvidia.com;
 	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=gFLusLZQ;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=ihXqSS9g;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.201.28
 Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013028.outbound.protection.outlook.com [40.107.201.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E915060A5BC0;
-	Wed, 18 Nov 2026 19:25:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E915060A5BC0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A5A606A32F;
+	Wed, 18 Nov 2026 19:25:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 19A5A606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=gFLusLZQ
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=ihXqSS9g
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aqRg0RgXpAGpB6PUhmGMNgCWoNml1T/Rc4g6u+l/hX6SmGikI02btqqLFjtjpDhs6wE6HM1oH1XaJTbOiHDRQw+/Y5mJOqJI17cxNF+gwHRS90gLGsDA/jd0jhczelY9tCXRJSo0qGtiB74JaP58HxEU2UpzscctwKgYVg0zbqvombpwvCcZHEKWCjrhc23dGNvnWe5zrobIW2CDl4TBgjdYFr4AHHTIGfNcnzJQ9nlDvHhp69G9WzRJjl3YfKd0wfdIbsHt0C76dOO4oouYABCOh7qzdtG/lBHdazKG6j+0oZ4j3AVtYEJrxw3F73td3Bx4KNaNPy93yGAFaajCsg==
+ b=Ozr+XT8UYdZZuTeRrIqYUxSLg02vc5U8LLoE9Oq5/db4VWPrkFHLiZ+qGVuTwSd/WmrZH2295BSSrh+wFHEmUvxFxst3qeR/eZU2vNw0lo+JiRoBcuArdBndyegtmdkpGrOeaSKyPf0HsEgV8alqfCrDKlYv5/Wm1v3287Yld1pOFjDzkZvUs5B6FohvUYIt92RgUe1hmGHHiIqiHepRloci4p5fDfCsBrx5IZeoG61kAVtb0GtooVJz/g9JhQjwURYMfq8vFxFHOR6/wO5ohX4zyV3ERRNAh18HxmkhVbivbEuvvsLj/fySbnLajUerGtpy6styuX+b6AaBP8xlaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JcTok4/mS1r8EiPrD1iHcrGiorXO1Np5ls3LVz2jeEM=;
- b=vhHr4mzxyvpto83nMlMf/BOjez3M+rpK4hijCyPoGZPisbViqp4P77WjcC4nBIQxMCt4Z8479vUGtZh36ACrOu4hAXqARVc23X9K8DdIQSlRavndBlGWti8ka9iIgf0dDq7E1JO4CvnENOeLtw9DbAsMfs5lO+nrE7jX/XLNwYPxdbN8FESXrv56H8UVhJyShAdauf2gdcODezSoKZARJxrp/EAVG6qGGxZfilbYzdNM2PRZlpq9liweuaBPh3VoFbPXTU/6AgbJBM7otKGVTjonBdtOTDhj+HqaH574moBTAKU/nbAc8fC2/+rsRzmc/lWUV2kEaqUYpeI18kF+tQ==
+ bh=gtGFlhPLyBmWmNJl+9YBPAwU+sYCzTZsq/qU+GGh5HY=;
+ b=Rt+/tjEI/Sx4KptYn1D+j8PCjFM5I4Gk71zR5NmDUcbTIlkoLXhxzvtFNX+v/2SAV2I2Lfu4rZdpR0catmz+WHmR2mmLmZaZYP3mqlZputI84WIJsxVdiVgAwZHfiVZw1Z7ChyXrvt/1Bhh/wkbUwrhkYzwVG52NSCChvaJMYLNXIEv8JkROHxb753xThl8WisBYwAf6VIFDQzVpZdrtZ0yGjcQX3lo+1YraCXrY6Yen92O5GcrtP9VGjQdeG8xT/LDz1eCm5GXpOcxwr/Gr5VnvlrTEt36fO51B9Q/NDUXvDyxE2jNgedfW5wi8Ohoj1NllEi5mFGSpTHjCfoAXTQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JcTok4/mS1r8EiPrD1iHcrGiorXO1Np5ls3LVz2jeEM=;
- b=gFLusLZQZX8EWS1EYTtkrLwNwikGXcYJlJxjmSpsRLbp+uaSmjOrCGQVgJtw+Uq+ATL/LEVkP0475FnIg9+a/HJagDtZIVvz0byFDVYnt79c3fWho6qwLwY7pvLGhASxuR9C3DlEiSur2ZKHmMRmZlJUDauegWtiaI4TGjTPRRidkFOJAAY3cfPNlyUEEWoTsEdXU310syAvDK0TU4N4ZlRmOq9Urh/7yOVgkQWxs9pJnijyvr1SHIMH7uSkN2K+mCpvwpvMMXdLPuLbTKDzGQjLFwIS6b8a6jNZ2nEnpqHgOtc9qdaExELv+JRNRdhIJaX4QGePTmgjcQAySYuq0g==
+ bh=gtGFlhPLyBmWmNJl+9YBPAwU+sYCzTZsq/qU+GGh5HY=;
+ b=ihXqSS9g49q0/9C7oa61X1rVF5Fn9X5D9RB+l/jmqSKSi2ebVlfQ6GMJCEnPHBjYieYQbDRzIl1iG9cLqWpEuqIwSFQbCF9z+zbWWHwMFIUApdMXelhheYYSxmxDJfnsTKjQmwSap86kgsDclVNZm9f7+Wkm1aXPFMnPixVNKdBmYwhVE9b4S38DRhOe8fJuR96D87tgs7qTv7QoLJFe2wpR80pN1956NKdv2xLthOQtnf0ipycDM+pwpXnopCYIlEIu3p4PPgyit78QE+FPm/CqNhxeOT6vC9tEjzIt9n0pt6BE84NMR6uz+J4slgafp0XTCeAh3t2UAMgLss0AEA==
 Received: from IA1PR12MB9030.namprd12.prod.outlook.com (2603:10b6:208:3f2::22)
  by CH3PR12MB9455.namprd12.prod.outlook.com (2603:10b6:610:1c1::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
- 2026 19:24:56 +0000
+ 2026 19:24:51 +0000
 Received: from IA1PR12MB9030.namprd12.prod.outlook.com
  ([fe80::2c1d:ed27:b53a:97d2]) by IA1PR12MB9030.namprd12.prod.outlook.com
  ([fe80::2c1d:ed27:b53a:97d2%6]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
- 19:24:55 +0000
+ 19:24:51 +0000
 From: Manish Honap <mhonap@nvidia.com>
 To: Alex Williamson <alex@shazbot.org>
 CC: "jgg@ziepe.ca" <jgg@ziepe.ca>, Ankit Agrawal <ankita@nvidia.com>,
@@ -95,18 +95,18 @@ CC: "jgg@ziepe.ca" <jgg@ziepe.ca>, Ankit Agrawal <ankita@nvidia.com>,
 	<linux-pci@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
 	<linux-kselftest@vger.kernel.org>, "linux-hardening@vger.kernel.org"
 	<linux-hardening@vger.kernel.org>, Manish Honap <mhonap@nvidia.com>
-Subject: RE: [PATCH v6 03/31] cxl: Move component register defines to
- uapi/cxl/cxl_regs.h
-Thread-Topic: [PATCH v6 03/31] cxl: Move component register defines to
- uapi/cxl/cxl_regs.h
-Thread-Index: AQHdXYozg3lnUnLESEiCMrXc74qPr7cetCUAgBWidNA=
-Date: Wed, 18 Nov 2026 19:24:55 +0000
+Subject: RE: [PATCH v6 05/31] PCI: Refuse bus and slot reset below a CXL port
+ with SBR masked
+Thread-Topic: [PATCH v6 05/31] PCI: Refuse bus and slot reset below a CXL port
+ with SBR masked
+Thread-Index: AQHdXYo9vGXFFcs/vE6c0Ds0paz9cbcetEWAgBWqfvA=
+Date: Wed, 18 Nov 2026 19:24:43 +0000
 Message-ID:
- <IA1PR12MB90305D1AC497D9811765D1A8BD7A2@IA1PR12MB9030.namprd12.prod.outlook.com>
+ <IA1PR12MB9030454B9C28C1FA0C596696BD7A2@IA1PR12MB9030.namprd12.prod.outlook.com>
 References: <20261016161839.2765592-1-mhonap@nvidia.com>
-	<20261016161839.2765592-4-mhonap@nvidia.com>
- <20261104165256.09860477@shazbot.org>
-In-Reply-To: <20261104165256.09860477@shazbot.org>
+	<20261016161839.2765592-6-mhonap@nvidia.com>
+ <20261104165323.78b45467@shazbot.org>
+In-Reply-To: <20261104165323.78b45467@shazbot.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -115,46 +115,46 @@ authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: IA1PR12MB9030:EE_|CH3PR12MB9455:EE_
-x-ms-office365-filtering-correlation-id: f9acf41d-8044-479b-c37a-08df45a9a0bd
+x-ms-office365-filtering-correlation-id: ae6d0255-8ae7-48e0-65d8-08df45a99de5
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|366016|22082099003|18002099003|261009223027099003|4143699003|56012099006|11063799006|261026121527099003|261028144727099003|261026140227099003|261022105027099003|261022113327099003|38070700021|10067099003;
+ BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|366016|6133799003|22082099003|18002099003|261009223027099003|4143699003|261102130727099003|56012099006|11063799006|261026121527099003|261102123227099003|261028144727099003|261026140227099003|261021121427099003|261022105027099003|38070700021|261021123027099003|261022075727099003|10067099003;
 x-microsoft-antispam-message-info:
- FonsKeLOBbvDaSRbpLUga4jHBbAuYFuqbdMvLqHXilxgk9TLKO7zE0t1YzFtP9WuPu+UeRiuNaUfPGRd6B+6kSBgqTFtF9PsFx72+nE3JNHrWqEmFgHM80Icc0jElHi1dyP+r/vm8cjAB3csvcWcbdDiBfqIxkK8kqAYN4SefIRazdxbxCUw1erTk5xihwRkttTBM4YxwdG69/FafOMaVIHRQdzrA9DVN/jhgOxJU7z1jG3b+P1ggxg+B2LINc+04IOvsFJVo17BvCo0eeuolI/pQARhxivB+TN5L91kOTtco+PsVSEBdwY1xbNMQmdNiseghudM9fg8t/ry9ZVOTfVZDrasUkMMcR4rjMfOE5lbPxdIidX2GPypBX71pjeFR5boc/ugX2enr3AxUTqdki5bDdWp21arF9frg59sVUud7U8/zlOlkpJYHtGfIm+w+bFQG+9dywEN19HWCRUtITtFK6zx66g/4In3coHqeDzFUQ8MApLymqDacSF0PVCiojuH+3vquSFVAmhQprNS+TbislEPiLO2R3w/KRozP4kn+zszSNTm5bgiFp3uJQtsapyFkg56vgEl6rXTibPeyPlGCe5xZjgFJD9siW2gRJjscSVIf4YGqQejzkDJD+Q5SohYL8KSCT4KT+QjlA4WPvbYLY7eFqVbRjOrhgTuLdrAIP+XMTHrshVEBHMv8778U1K5s/GZjIIc3h5yvX4Awtwi/X2KCNTD2poET8HQs94=
+ CDwYgek+Oruao2WJ/vUz1CH+jJKQ/UmtbpJ24XM0EelMtx9EuLuobWsugxayalGWu8nzzbhZR8q6coF07FywznvVXKCLjOtElZlF4+OmsFBAToE4wTch0C9gQRzxTP6V+n4P3nh1/pcvPjTvJlnw9nP38O7mfEFnIoIERNDA+b/H1D9iNx1wSF05bHfZEwL1s0GEk75Ylc+nC7HJO+AFtThGuyz6qnhVwhKnR0/xqB7rkGAjN5Rqti0eTLCz8ot9NLNGJNOquVtkNt+uWWG0/sLkzwh2g/VpSm90o4YjDg1u1YMCvdKQpbV45SRuonva2xuTFU7CnV6qCcxWXE/n4quFy64+1z8fe3shBKi0SGCv8F5XYQzeJjEQ9hpFMKGfbEYh+9K/5UEhlQ+7EmMoxty/LuFJQKMkQw8pE3hTVxdVOoZ8J3a1V+G8ddJRr6CU30yVh6nb4ISvux6kcBRIzjgkVBXg7Noci/6yQFpxOraDxoJL0Jv6MsSXbpCcq2nubO1V3pWyddgJZuQgOIiG990J73SU5WW+dAKr+B10Vmyl2jlCqM11lRF7zsN85QS+5C0wecVSLHYcr6Zq60MHBu9n5/6RPztbvYhMPOcX387UBIRUAs5IR4tRzp2rpRPXZbIEMZri4moWfDtpWOiwNLOxI08UReMuPfZVTznMw31bZJTjm9PE2AGpb4CxLk4Ehs4LM4jbG4Pk/Q694HBAjjYGzeE6lIzGdL5BOHc+Be4=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB9030.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(366016)(22082099003)(18002099003)(261009223027099003)(4143699003)(56012099006)(11063799006)(261026121527099003)(261028144727099003)(261026140227099003)(261022105027099003)(261022113327099003)(38070700021)(10067099003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB9030.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(366016)(6133799003)(22082099003)(18002099003)(261009223027099003)(4143699003)(261102130727099003)(56012099006)(11063799006)(261026121527099003)(261102123227099003)(261028144727099003)(261026140227099003)(261021121427099003)(261022105027099003)(38070700021)(261021123027099003)(261022075727099003)(10067099003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?AzXbLUmAdN6hacKM45rOPhZDgzrfhcKl5+7h8jWuXXmg12aJYJ5knBC2dvdQ?=
- =?us-ascii?Q?zhNrymfKj0bocVwd9kck+8YvSMqeDzk6VG8/pXEYwJsEU+eBLe6Qp0tCCwYI?=
- =?us-ascii?Q?Ixg1OqJP8EQcaGSrYtIPwD2nPfburr6K/zQRD9I+IfqDSuuoSIuN0i29Chhr?=
- =?us-ascii?Q?AJ3Ev9q156LJwxvf8M2ggTEZFWI/PLfGO/vUw3VAILOYeHmCrasf6Ae/4+Xf?=
- =?us-ascii?Q?UQBQ7G6VVxkMpNy/u5q3P3JlBH+nFVDkxH1gBXIj2xLvoW158+jApJnoA3DX?=
- =?us-ascii?Q?QSHH59WF0dnFHAcUXXBFbCM9KvCpbVEkN7n469rFsD2SGxsYLARxkiPX0iPa?=
- =?us-ascii?Q?OTQQ4AzxGa1z8raMdAEjDZ0PaqXuoWE1g8669N+9uxkmeSHjCm2oWzpUthRm?=
- =?us-ascii?Q?to92/I09uEx23jcnZXzgjoKQ+i0lQVJZPHjmJ0zNm5zlrRASnDMBdU+Puf+D?=
- =?us-ascii?Q?sPIswva3OvViosa8R6ssr8H1T2o6i7bTGgpqJbkuMrXXC3Z9usrUNttVTs7h?=
- =?us-ascii?Q?jqEziDX7mKdwr9XGaQ2CVDQvP1Jj2uUvCjX3kzgczJR0mzVw1zkrG9j9+Ouy?=
- =?us-ascii?Q?sm4xpjxXXZAPDwwtu3H4zlCrGKPimKhgyuoUCMsMylhCd3TkJiUOMKWLfoew?=
- =?us-ascii?Q?k/cWLtfqGvUsYkfXPYJdPrlGsw0DZdcpcjb8Qp2dlYp7TLgssoM0QjVb2t47?=
- =?us-ascii?Q?9/DjjgKz3uJDEVo57WuzTnEEgRtSSooiNfeTK3hqYLCA8FamxhAEiaSGCdUi?=
- =?us-ascii?Q?Ilv7TmhDCIhXO+ZP09NyKhpjZkdIedtaD5ASztpTcWUEh5I/C28dKFwQVyyR?=
- =?us-ascii?Q?ZptggyDi4PKGz0kMvxIv3OHJhWOu8OJSpioaRR2RtZoG+fzSTAFM8H93Vifj?=
- =?us-ascii?Q?C87dMMCBPAr+FlMEdy5SANNN5NJaa3ietqDYJ40kePfSE+9gUlYj3rlYE+nY?=
- =?us-ascii?Q?RRGY5yJLbSJXosoDtb3C+CIVxcBJKLjaZOuvUCxi32C+V1Eke0ZBHcDUJTxi?=
- =?us-ascii?Q?exf42wKfLVUWNR9S0W+TPPj6w6UUx/4xcf69Z6q4dWf5nLS0F97QV4u0IxGk?=
- =?us-ascii?Q?t8Bjrbpoj65/wInBbBLej6+SEQf+GCTwKomWR5kmBZclM3K7VJKgJvn/F+Aq?=
- =?us-ascii?Q?NVLSDKtLm/nBKicrom5bGqDlEeIUnOuEVZKSRa/e9m2TB1BSTERDmUUVdqlA?=
- =?us-ascii?Q?wwGC0kTJERQ4L4/G9dH4QvRkULqp8Qy0Cb5Ru/yYOp57MtK8drZOGhxqbSrs?=
- =?us-ascii?Q?/5Pdc0TRABVIIZewIcBrgi2CF1xQhUxhlWmR5TwRrQm67HsY4XGDEEDQgWlA?=
- =?us-ascii?Q?LOp2sEXOWkqCtBGh8tlzSuavzqbtNu0g1QJX3R/+mDqNSEBv6gG9sHaa1Ymh?=
- =?us-ascii?Q?71ReRscJLUFXQXyX9NVkHwsfFqun3/p96QI1dZuMt1xKQwpvdZ/MIjM9w+lr?=
- =?us-ascii?Q?Qz3UB2ATm6m4kQsgeHdtSGhT9EfB5tfd/wzrhu1YYGzgMpP8DUONN5H/Wsao?=
- =?us-ascii?Q?WsKHafIqwOQTlKM4alPCvxm0IHfvtpHH+MicJaH/OFUySE8KkzVCnZZ6XHv1?=
- =?us-ascii?Q?V4jm+G9E9rlPEhUF6tgTTOm0LNGOuntw7pIw0MM2SsAaizwaWdU4zL8u7uZZ?=
- =?us-ascii?Q?BU5RShVBDO5vnKIkXuNUmknGNbBj4WtHMZl5OmCxsxog2vv1i3UcfpGpyNA6?=
- =?us-ascii?Q?WgYd9BrKoLpYBsjU1el6r/TIafz5MrwOAoX+8KfCxWggvL1q?=
+ =?us-ascii?Q?7+YV9MP+B23MkM95+m8GyIf58qlnceVM5vIhzPYCKcQedrYeZKvvae8X+mZz?=
+ =?us-ascii?Q?/YxOW8ocjisZEfulcJae6U7FEHtZvUuKLaChdvLBBj7xpgOjosdX5K7ZKr2a?=
+ =?us-ascii?Q?qQioWaGKmda6hbgWVKhcLIksXKbsG1ZeG/bEvdznbjD9eh9ebtzXPbcm3R3e?=
+ =?us-ascii?Q?OdiggisNFSaHrrm2zMkqJmn/ADsd+13JluEOndCs+4QoVEhBOsMbZxdxDeiu?=
+ =?us-ascii?Q?JeYaAj4kiHw1BdBPbwFUi9RGDWvtcuCXhikHXJUdnGu8pAjb6xvmIGw4UF6p?=
+ =?us-ascii?Q?MttjFgQWZFCqkdv4+pFW+veF4d9fOkNGUyW6l4HzrXIS5eltfPatq/7l6ebo?=
+ =?us-ascii?Q?v+rBb41eZtIDCTd3/bzp1z4JfjuPmpc6dkjFmDoLwP8bExPtCjwv/UPTDc05?=
+ =?us-ascii?Q?scYdnEowxg+eoudyFqLFPpoKdvfZHIa4UjvVgSajDDeVbf37aJEMRmCo/diM?=
+ =?us-ascii?Q?K/inwjnJmcDK0BQP6eO2SchBvJ5yBJMl49Yo5eDdokLh0vCcaSkD9QhbsV7j?=
+ =?us-ascii?Q?fw8kutECDLp7VPk1Mr7815yvR+KEBGCZDZ9pE/UEHgXEweImV3M+KGi0RoN5?=
+ =?us-ascii?Q?A/JzCqlQZXvLCj1iagljoBEXXNO5JLl++bWFkxoSbcprgKCPLrKQe+GMxupg?=
+ =?us-ascii?Q?yorvJK5yIB5jLdN6rUthhBa5ZrP6oE9FL+wKYkh/XYYYtsOnXQl3kZwfoKyb?=
+ =?us-ascii?Q?zLh4O5ZFf/2UuLGXgF4Umh2bG2BiI/1nI9VNhjAIis/AA8ztUwWQAKtkYLpA?=
+ =?us-ascii?Q?IrLWp4CK4HJRJ7/JEhgbQfWYVp2dFMibFCthpv6XlrL23DCOfp+QmlO1CPi8?=
+ =?us-ascii?Q?lGq3EJpdrlWAa6+3qjnm+QpUz82juENdiiKEM0SWeP2SY85akdbGx3A/bKoh?=
+ =?us-ascii?Q?ZJI1YU0P5a8o+zR3TCrPGYIaR5L2q9HNAfmaK5VrRd+84EqmmJMzrAKYgkI1?=
+ =?us-ascii?Q?+IIkkgAohU3YM+osZMTo1tSYDGapT5z30UQXWpxq08k5lIcnljbLWuHk14aI?=
+ =?us-ascii?Q?yxhpjkin7OWEIUcmHt61h0aHaa9gxc1/7GZPHGd7b9Aw0RWmeV/50E9a3gjr?=
+ =?us-ascii?Q?jIVjPeTeJzd/h5rqrxLHMuD2k3UBhacVC4XVSbHpqsurUDM1C7gZfBym8KJx?=
+ =?us-ascii?Q?eEihDbYAXd9MlmNZM0DyV77tQzKDTDgT1HW/LSVpiP1XDMTST9hMOz2z8wNv?=
+ =?us-ascii?Q?5Btbx9AvoL2bTqpSZzOqCDaoAGFozWJYOV+WrqdCuNMbEDtER7NWTfXAROV1?=
+ =?us-ascii?Q?u6325UuexcBftlZK20+cohyvgGUdB/bckghFfjhEPccxBcOwVoqoYYYmbEdR?=
+ =?us-ascii?Q?/a0SG3VZCIvaJ4KqC4v3b6vOflvrcObWgKzcN61NOw3Mpt0Dt6maUkP1fimr?=
+ =?us-ascii?Q?l9OIAigPe/9mztuQHW2g7CgxyGYecu0lH2zk9KQbuSGvJQ7UIj6RH6+Kw7xA?=
+ =?us-ascii?Q?iHgo8uRaDvTXKl1gRNXRs9W/tPOfOoBHqtUB/MpjlJtBRLe0dI2Zyu/wUjNj?=
+ =?us-ascii?Q?ltDOP5RoYyZQtAumZwkFez+rzsqFw9Z4w0FFvBdjBcbAVKp7LPvHa+YObgns?=
+ =?us-ascii?Q?eiBILq6AR8/WX/+FCD8fHAUj71wOBOGODb4f5jK7QixZtaUvuKMB4/Qk5fUQ?=
+ =?us-ascii?Q?FYj796PnTc/97If3w76SfrGwSFHVunzGzlKHDbgnxzPDUSR/MtBKjfSizUI+?=
+ =?us-ascii?Q?nOfocYrSgC0tPVT6+SAqN9CNAE90JmDslJjQrFYRK1Okm8rc?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -169,13 +169,13 @@ MIME-Version: 1.0
 X-OriginatorOrg: Nvidia.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB9030.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9acf41d-8044-479b-c37a-08df45a9a0bd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2026 19:24:55.8010
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae6d0255-8ae7-48e0-65d8-08df45a99de5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2026 19:24:43.5673
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rbLFx3US/MQ9MCQB4wOHf++u0kI3hLDdhG9dFg20JMUbFZuz5nw/a3iTqj9OOhbX17rKUZQ70Vk5MKMG15GBnQ==
+X-MS-Exchange-CrossTenant-userprincipalname: DcRTZJnJDz9yiJ/lAvBwjN3b4yoqmcd/i6j2U4CA2nGsJPr6QKd0oe7MbTVL+kG1Axlopy+0COF2MglF4Bmg0Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9455
 
 
@@ -185,11 +185,11 @@ X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9455
 > Sent: Thursday, November 5, 2026 5:23 AM
 > To: Manish Honap <mhonap@nvidia.com>
 > Cc: jgg@ziepe.ca; Ankit Agrawal <ankita@nvidia.com>; jic23@kernel.org;
-> dave.jiang@intel.com; alejandro.lucero-palau@amd.com; Srirangan
-> Madhavan <smadhavan@nvidia.com>; corbet@lwn.net;
-> skhan@linuxfoundation.org; dave@stgolabs.net; alison.schofield@intel.com;
-> vishal.l.verma@intel.com; iweiny@kernel.org; ming.li@zohomail.com; Yishai
-> Hadas <yishaih@nvidia.com>; Shameer Kolothum Thodi
+> dave.jiang@intel.com; alejandro.lucero-palau@amd.com; Srirangan Madhavan
+> <smadhavan@nvidia.com>; corbet@lwn.net; skhan@linuxfoundation.org;
+> dave@stgolabs.net; alison.schofield@intel.com; vishal.l.verma@intel.com;
+> iweiny@kernel.org; ming.li@zohomail.com; Yishai Hadas
+> <yishaih@nvidia.com>; Shameer Kolothum Thodi
 > <skolothumtho@nvidia.com>; kevin.tian@intel.com; bhelgaas@google.com;
 > dmatlack@google.com; kees@kernel.org; gustavoars@kernel.org; Neo Jia
 > <cjia@nvidia.com>; Krishnakant Jaju <kjaju@nvidia.com>; Vikram Sethi
@@ -198,50 +198,181 @@ X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9455
 > linux-cxl@vger.kernel.org; linux-pci@vger.kernel.org; linux-
 > kselftest@vger.kernel.org; linux-hardening@vger.kernel.org; alex@shazbot.=
 org
-> Subject: Re: [PATCH v6 03/31] cxl: Move component register defines to
-> uapi/cxl/cxl_regs.h
+> Subject: Re: [PATCH v6 05/31] PCI: Refuse bus and slot reset below a CXL =
+port
+> with SBR masked
 >=20
 > External email: Use caution opening links or attachments
 >=20
 >=20
-> On Fri, 16 Oct 2026 21:48:10 +0530
+> On Fri, 16 Oct 2026 21:48:12 +0530
 > <mhonap@nvidia.com> wrote:
-> > diff --git a/include/uapi/cxl/cxl_regs.h b/include/uapi/cxl/cxl_regs.h
-> > new file mode 100644 index 000000000000..276f9361c840
-> > --- /dev/null
-> > +++ b/include/uapi/cxl/cxl_regs.h
-> > @@ -0,0 +1,56 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > +/* Copyright (c) 2026 NVIDIA Corporation & Affiliates */
-> > +
-> > +#ifndef _UAPI_CXL_REGS_H_
-> > +#define _UAPI_CXL_REGS_H_
-> > +
-> > +#include <linux/bits.h>
-> > +#include <linux/const.h>
-> > +
-> > +/* CXL r4.0 sec 8.2.3 Component Register Layout and Definition */
-> > +#define CXL_COMPONENT_REG_BLOCK_SIZE 0x10000
-> > +
-> > +/* CXL r4.0 sec 8.2.4 CXL.cache and CXL.mem Registers */ #define
-> > +CXL_CM_OFFSET 0x1000 #define CXL_CM_CAP_HDR_OFFSET 0x0
-> > +#define   CXL_CM_CAP_HDR_ID_MASK __GENMASK(15, 0)
 >=20
-> A local sashiko review asks if this new uapi header should include
-> asm/bitsperlong.h since __GENMASK requires __BITS_PER_LONG.  We include
-> the other two header dependencies, but not this one, so it's a bit self-
-> inconsistent.
+> > From: Manish Honap <mhonap@nvidia.com>
+> >
+> > A CXL port ignores the Secondary Bus Reset bit in Bridge Control
+> > unless Unmask SBR is set in its CXL Port DVSEC (CXL r4.0 sec 8.1.5.2).
+> > pci_reset_bus_function() already returns -ENOTTY in that case.
+> > pci_reset_bus(), pci_probe_reset_bus() and the slot variants do not,
+> > so they report success for a reset that reached no device below the por=
+t.
+> >
+> > vfio-pci uses these for VFIO_DEVICE_GET_PCI_HOT_RESET_INFO and
+> > VFIO_DEVICE_PCI_HOT_RESET. A user is then told a hot reset happened
+> > while a CXL device below a masked port kept its state.
+> >
+> > Return -ENOTTY from pci_probe_reset_slot() and pci_probe_reset_bus()
+> > when the bridge above the bus is a CXL port with SBR masked.
+> > pci_reset_bus() and pci_try_reset_bridge() probe before they reset, so
+> > they refuse too.
+> >
+> > Users see this in three places:
+> > - the vfio hot reset ioctls fail (vfio reports -ENODEV when neither pro=
+be
+> >   succeeds),
+> > - the reset_subordinate sysfs attribute returns -ENOTTY,
+> > - vfio-pci groups a device in a hotplug slot below such a port by bus
+> >   instead of by slot.
+> >
+> > Every other pci_reset_bus() caller, including the vfio bus reset at
+> > close, is refused the same way. With one device per CXL port both
+> > groupings have the same members.
+> >
+> > Leave pci_bus_error_reset() as it is. AER and host bridge error
+> > recovery call it without saving or restoring state and only map its
+> > result to recovered or disconnect. Failing it below a masked port
+> > would turn recovery of every CXL device there, memory expanders
+> > included, into a disconnect; that is a CXL error handling decision, not=
+ part of
+> this fix.
+> >
+> > Assisted-by: LLM
+> > Signed-off-by: Manish Honap <mhonap@nvidia.com>
+> > ---
+> >  drivers/pci/pci.c | 31 ++++++++++++++++++++++++++++---
+> >  1 file changed, 28 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c index
+> > cecf8e681e69..87fe9de81acf 100644
+> > --- a/drivers/pci/pci.c
+> > +++ b/drivers/pci/pci.c
+> > @@ -4984,6 +4984,20 @@ static bool cxl_sbr_masked(struct pci_dev *dev)
+> >       return true;
+> >  }
+> >
+> > +/*
+> > + * A secondary bus reset below a CXL port with SBR masked does not
+> > +reach the
+> > + * devices on the bus, so a bus or slot reset there would report
+> > +success for
+> > + * a reset that did not happen. The probes and the save/restore
+> > +resets that
+> > + * pci_reset_bus() and reset_subordinate use refuse it; error
+> > +recovery
+> > + * (pci_bus_error_reset()) keeps its existing behavior.
+> > + */
 >=20
+> Reads like AI over-explaining a fairly obvious concept.
 
-Okay, I will add it in v7.
+I will drop this.
 
-> BTW, current guidance on the Assisted-by tag: 1e035297ffda ("docs:
-> remove Assisted-by references").  Thanks,
 >=20
-> Alex
+> > +static bool pci_bus_cxl_sbr_masked(struct pci_bus *bus) {
+> > +     struct pci_dev *bridge =3D bus->self;
+> > +
+> > +     return bridge && pcie_is_cxl(bridge) && cxl_sbr_masked(bridge);
+> > +}
+> > +
+> >  static int pci_reset_bus_function(struct pci_dev *dev, bool probe)  {
+> >       struct pci_dev *bridge =3D pci_upstream_bridge(dev); @@ -5615,6
+> > +5629,9 @@ static int pci_slot_reset(struct pci_slot *slot, bool probe)
+> >   */
+> >  int pci_probe_reset_slot(struct pci_slot *slot)  {
+> > +     if (slot && pci_bus_cxl_sbr_masked(slot->bus))
+> > +             return -ENOTTY;
+>=20
+> Why would this be open coded here instead of pci_slot_resettable()?
+>=20
+> > +
+> >       return pci_slot_reset(slot, PCI_RESET_PROBE);  }
+> > EXPORT_SYMBOL_GPL(pci_probe_reset_slot);
+> > @@ -5638,7 +5655,7 @@ static int pci_try_reset_slot(struct pci_slot
+> > *slot)  {
+> >       int rc;
+> >
+> > -     rc =3D pci_slot_reset(slot, PCI_RESET_PROBE);
+> > +     rc =3D pci_probe_reset_slot(slot);
+>=20
+> Also suggests it's tested in the wrong place.
+>=20
+> >       if (rc)
+> >               return rc;
+> >
+> > @@ -5685,7 +5702,7 @@ static int pci_try_reset_bus(struct pci_bus
+> > *bus)  {
+> >       int rc;
+> >
+> > -     rc =3D pci_bus_reset(bus, PCI_RESET_PROBE);
+> > +     rc =3D pci_probe_reset_bus(bus);
+>=20
+> And again.
+>=20
+> >       if (rc)
+> >               return rc;
+> >
+> > @@ -5726,8 +5743,13 @@ static int pci_reset_bridge(struct pci_dev
+> *bridge, bool restore)
+> >       if (list_empty(&bus->slots))
+> >               goto bus_reset;
+> >
+> > +     /*
+> > +      * Probe without the CXL SBR mask check: error recovery keeps its
+> > +      * reset path below a masked CXL port, and pci_try_reset_slot() a=
+nd
+> > +      * pci_try_reset_bus() refuse the restore path there.
+> > +      */
+>=20
+> More AI?  This function is not designated as exclusive to error recovery.=
+  If sbr is
+> masked, slot reset doesn't generate an error and doesn't effect a reset,
+> regardless of who called it.  If we're including a new condition for a bu=
+s/slot
+> reset to be effective, it needs to be applied universally.
+>=20
+> >       list_for_each_entry(slot, &bus->slots, list)
+> > -             if (pci_probe_reset_slot(slot))
+> > +             if (pci_slot_reset(slot, PCI_RESET_PROBE))
+> >                       goto bus_reset;
+> >
+> >       list_for_each_entry(slot, &bus->slots, list) { @@ -5773,6
+> > +5795,9 @@ int pci_try_reset_bridge(struct pci_dev *bridge)
+> >   */
+> >  int pci_probe_reset_bus(struct pci_bus *bus)  {
+> > +     if (pci_bus_cxl_sbr_masked(bus))
+> > +             return -ENOTTY;
+> > +
+> >       return pci_bus_reset(bus, PCI_RESET_PROBE);  }
+> > EXPORT_SYMBOL_GPL(pci_probe_reset_bus);
+>=20
+> Redux, pci_bus_resettable().  Thanks,
 
-Okay, I will drop this in v7 and update the cover letter as per new guidanc=
-e.
+After giving more thought for this patch, I am inclined towards drop of thi=
+s patch.
+AER and host bridge recovery of every CXL device below a port with SBR mask=
+ed
+ends in a disconnect instead of a reported recovery.
+That is a CXL error handling change I do not want to make inside this serie=
+s.
+
+This will also change what I wrote on v5 22/27: below a masked port
+VFIO_DEVICE_PCI_HOT_RESET keeps returning success without resetting
+the device. vfio-cxl does not rely on it. It resets the device with
+CXL Reset at open/close/VFIO_DEVICE_RESET.
+After any reset vfio-cxl did not start the device memory stays closed
+until a CXL Reset through vfio succeeds. I will document this part in v7.
 
 Thanks,
 Manish
+
+>=20
+> Alex
