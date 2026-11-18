@@ -1,86 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795021461;
-	b=cz2P0/Txlf2GfPtGl39+CsdCpR4Z6oo4XZwVS+jhUiDcvkbeAe0y5bMFiHxXTAiPoc5f
-	 chr88ewhMcfy96KoAOcRvX4mNgHNlqZCqlgH5Fii7ZdPHNBJFsOQ04soikUMp9AKzN/oI
-	 hBbrGmS6J8je+BvFWMVp3amTCq7y9jrIsdVBPaP+86k4bIpNKC6mZRMXIJtrUL1FA4ZJs
-	 Jct7qUD5w4UjvI+xb0GZAlMzk5J01Hpu5Hw+0yYAXkAPwk7A3nVEV4il6hXjBWdmToGqy
-	 FKMnggfz2bVDFq9fRNu3mmT6/hRW49/xYgqWHoIeBOI6yUBGkSkY0fQXWcz17Uhd0zQ==
+	t=1795021689;
+	b=YZaF/+e/J+3gI0OknKe7WKceRuBHUMcvKNjwXPwcEkujVP+WR+ZOjWRnHENQWGR+DPFq
+	 rk2XkaI7GYCteiH495zxDX2NlJX+gI6n+kP0qrBL1AK5bWcs95vNgHdCu4+cblK/ifv4f
+	 6X8y4eks2Dy+YKsVX4nvRhAprPbIeelVh82ZIQzY8aFUAQGBtFQB6qVikrK1Yi7ICXpZB
+	 Gl3v4RpcxiYc8hXNdaKgIgDMtbfTPSqPRHBzYd2SIdLngp1CA/dxeMgNPAUa/dtZTphyV
+	 P1625BxJniWCBmlQHeefQDyb9ITwhMip9K2zLJzYKkxisZXM6MMDbjpP3XrImfUCyWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795021461;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=Hn/h1bRzbBm5D3N53UiS46oHXc8DeYJZVEs6ylWsGuM=;
-	b=ZkIwi4PkGGKU/smnwiVCfRiVsfFtnTcGRPGUoV2vT0brBOH/YHsSrvlBMLsbDiNXrTf1
-	 mOr2rMCWU9mRxX29MWt9rn41fs42e5M2PR32VqKfCyVVrYDMB1Rks/exvy18OwByRiaSB
-	 cWDwUoINMrHikiq7vRboVQakmv+Umlbkmh8/+c36TneG0w7zeR2QR4UHqq46vriRWk3N3
-	 /gQSERmRmIpbo2gKck+n1joTeqE5ieAG2PhZG2m/fuoJzYHskRnmD1Z1kUSR4R7uw+rY6
-	 EEceZHyOXrPUBTWuwriqA/Yvtn8fVfS+a8ukcY1yQFPXWHkwCtfKUao8n7NwRAJ0bhw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795021689;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=TOy6Rp+SHX253BVVCK7BxgoCgOVIqjjf5EEKxqzkVDw=;
+	b=CaTM2Kq/HQ1vE9lyUmhp383fQHok6CX30lt+y0RpMInZqKtLcdu20x0OwLBG/eYj2f6X
+	 kLCmQGrVDb+cf1aaEObybV1bExDn1ELYoW4tiqwsd3Po1SsM6vGzVxDhJB2ZFk6uM2NJ8
+	 PFsMRIZmjALROo/MZ1OKhwscOxNav7WldxmrLwIHHwUl5C++ZhtHh7kbQwmT3ivixgtVp
+	 EdATIf+/NIg/vXYoNDkorFYqAkC+x1UrOsKzHi06Rz1i4DxV8gOpNHWzzn6CdF7zurtYY
+	 tZ3ARM9h9zgPUvSULm5ohGIkoqwmFSf1qsdbATisE4oK7prPCl1Z9wjPULH4XAXngFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gRdhtVPR;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bTTRTyXa;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id A20DA60A3811;
-	Wed, 18 Nov 2026 17:04:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDF1606A331
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:08:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FDF1606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gRdhtVPR
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id B9B401F000C6;
-	Wed, 18 Nov 2026 17:04:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795021461;
-	bh=Hn/h1bRzbBm5D3N53UiS46oHXc8DeYJZVEs6ylWsGuM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gRdhtVPRVGpWi7iegmc9niJiev9/dezHn8c46qqykKLiB9HRwZZzGoHpH1vyXv2KW
-	 WFMn4B83h6Gbp8NrCYOounPjZeu44Vsk90yF7oCuvfSeoxCz+waTCkalOLGF+SWHWW
-	 PiZ/vuDcyF2asBN+6a0Zoq9n6AenEf1JpvjbIDqdtDcITPLZ0ntxQARKal2cwpCd8M
-	 uWfRzMzyXcBAErCbYnj7156qfhH4uPAv5yDtMjXycJxYWAAtl2wkCzmORf+I4Fb1v0
-	 F9yGOFTnVyWDiF1irHNxmq0Znq85hxojQ1sH1hokHi8fYRnupxH1MmQt6M7ItYPqb6
-	 g0SKocHpDEQ/w==
-Date: Wed, 18 Nov 2026 19:04:17 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: josef@toxicpanda.com, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ben Segall <bsegall@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Johansen <john.johansen@canonical.com>,
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
-Message-ID: <av3akYFOYaeQZauZ@kernel.org>
-References: <20261117231352.3816603-1-jarkko@kernel.org>
- <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bTTRTyXa
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795021689; x=1826557689;
+  h=date:from:to:cc:subject:message-id;
+  bh=7BgtQytgClffo55bh3tN0xto9a1fHoF02AITgnNbZu4=;
+  b=bTTRTyXav2gir84OK72NXvOZuvRjIxdsPY3i+1ExVg2b1Cd/by+/ZHcN
+   LrWoXx+LAxLxMcjwFaDXLKhgkRUSM510ziY5V2KAe0DHIiDYLNKfZ4tez
+   Oy/n3jXZNu9LKPKYqgnR4E4u5TKaspVqu6UMJ+8EZedinLaVYYjEXstGC
+   51SBvdgZ+bdN/VSJvUsq9zkCa4XEZzX24/PrBLWVnZeIyyXZyuGqhPbJX
+   sTvC4yvcuaWZ8dtdDoT1nhm9xTJtmGvE06YIp9g+7nwXrps9wzoCWXDq8
+   oJgLgVEVS2qDFMDzzsy0ahbJorcbso76hyplDae4p62rk0rAJH4gQWDvZ
+   w==;
+X-CSE-ConnectionGUID: CsaBI1EPTziaE7KaO0BXkw==
+X-CSE-MsgGUID: 1E2XIqxjS7y5HHAs6oPFiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3724756"
+X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
+   d="scan'208";a="3724756"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 09:08:08 -0800
+X-CSE-ConnectionGUID: ZKqKzDxcSz2T7s/AOUPKQA==
+X-CSE-MsgGUID: 1PruIKKASVK8yeb12KeMsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
+   d="scan'208";a="12140044"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa013.fm.intel.com with ESMTP; 18 Nov 2026 09:08:06 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xTj8e-000000003Qs-1mx3;
+	Wed, 18 Nov 2026 17:08:04 +0000
+Date: Wed, 18 Nov 2026 18:07:23 +0100
+From: kernel test robot <lkp@intel.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [davidhildenbrand:b4/skb_refcount_overflow 2/5] htmldocs:
+ Documentation/networking/kapi:26: ./net/core/skbuff.c:3915: WARNING: Block
+ quote ends without a blank line; unexpected unindent. [docutils]
+Message-ID: <20261118180045.xkMPPkgU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,66 +80,28 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
 
-On Wed, Nov 18, 2026 at 08:59:39AM -0800, Andy Lutomirski wrote:
-> On Tue, Nov 17, 2026 at 3:14 PM Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> >
-> > OVERVIEW
-> > ========
-> >
-> > A root namespace (rootns) is a kernel object backed by a file descriptor
-> > that binds together:
-> >
-> > 1. A full or partial set of detached namespaces.
-> > 2. A dedicated PID namespace for spawning processes into, signaling
-> >    members, and polling or waiting on PID 1 exit.
-> > 3. An initially empty mount namespace (CLONE_EMPTY_MNTNS) that must be
-> >    populated before going live, without inheriting host mount-tree
-> >    ancestors.
-> >
-> > Work on this feature started in 2025 from David Howells' container object
-> > patch set [1], which I turned into a namespace for namespace roots and
-> > rebuilt around that premise.
-> >
-> > While the patch set is manually written, the original motivation came
-> > from isolating LLM agents. Running untrusted agent workloads made it
-> > clear that OCI runtimes need to minimize their live configuration
-> > surface.
-> >
-> > Assembling mounts, credentials, and namespaces inside helper processes
-> > with a half-configured container is what I see as the main challenge,
-> > and the existential debate around namespaces and container objects is an
-> > unfocused discussion topic.
-> 
-> 
-> I've skimmed some of the series, and I see a bunch of good ideas that
-> involve using an fd to manage a thing.  But I'm wondering how much of
-> the value is added by that and how much is added by having a new
-> *type* of thing: the "rootns".
-> 
-> How much of the value comes from the rootns vs the new APIs to
-> configure namespaces without entering them first?
-> 
-> For that matter, the cells series also seems to contain a (possibly
-> very similar) variant of the same thing.
-> 
-> Would it make sense to come up with a patchset that does *just* the
-> configure-a-namespace-by-fd part?  It seems to me that this should be
-> an easier thing to agree on, and it's a big part of the complexity of
-> all of this, and it solves a real problem even without
-> cells/rootnses/jails/whatever.
+tree:   https://github.com/davidhildenbrand/linux b4/skb_refcount_overflow
+head:   489a68ccaede05a4e7a94bda9052caaed9ea199c
+commit: 3c7472c30f7a0080454073070f1f62fa07d3c43d [2/5] net: skbuff: limit folio refcount when copying skb frag references
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.23, Python 3.13.5, on linux)
+sphinx: sphinx-build 9.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20261118/20261118180045.xkMPPkgU-lkp@intel.com/reproduce)
 
-Is it  more accurately scope the part that is "just the fd-part" and
-what you consider as "extra cruft"?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261118180045.xkMPPkgU-lkp@intel.com/
 
-I.e., where do you draw the border?
+All warnings (new ones prefixed by >>):
 
-> 
-> --Andy
+   Checksumming on output with GSO
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
+   Documentation/networking/kapi:26: ./net/core/skbuff.c:3914: ERROR: Unexpected indentation. [docutils]
+>> Documentation/networking/kapi:26: ./net/core/skbuff.c:3915: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/networking/kapi:107: ./include/net/net_shaper.h:76: ERROR: Unexpected section title.
 
-Br, Jarkko
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
