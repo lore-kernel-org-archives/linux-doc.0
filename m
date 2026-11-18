@@ -1,71 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.150
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.157.188.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795012995;
-	b=wh+NtgSchNMxw1IbbkodA7C0VbR22ahH7roB8giNTnM7qMPGOSZJI14G7LGw4onikxXA
-	 5VQ5gRtVt5yUsm5QuOF+PnCFfTKe+mZUKQAZR22NnOkuGwCZJZQs/8YO6HV82ewhT00CA
-	 DNcnGDpJq7TYHcs9+9S/0IdykaG5G5bihnE/4HWNwA2z4IWglEhyK03ZRZHEmUNx18yCT
-	 966J5GfQ6XLcbEdVsUF+C6kQeH85RiLnr5F4fYhdVxJt2QG7OpshAeAN25yvPZt69DerP
-	 qblXM0EvBcfwqhBMulijhj525uP/fINePkZgT7dPxquyyGRvRHIgISTdGB6dIkYwkLQ==
+	t=1795013001;
+	b=rHu8cuYAbbfJWpMDsIBm0aNS0SDetNoGy+eBFADz0aT0178ZyyxAfTiZeBNBXT9ZMX1p
+	 oULCErBLH0JgtHbedFvv6RFpaXWIs/RaZFNpZDJ1iF5LhHAOcvxAU4aALi4KK8ap4mNCh
+	 PyzgkiHt+GDytTT9nJI78e1s8//IrkOab3f7SWSeD4JbP8qD7Cnc7XcMEIsL7CEk2n+Tu
+	 Wc34cXycM5e8PGhU8vwmBaamdydp4uv+iDnl4eIXhOEtZDJEOyB7XzPfT45S3itD9Pugp
+	 +6WOh2UTCROIHxEp+VADTjRnjQmKMwyjJUk183B0ujXwiMR8c/Zp+o3TolyIbEkEEMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795012995;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=4kyiXEVHnEq96nV0xkvtnyuEM+U+bqA5NzQcRaSrYP4=;
-	b=XECosXFMjHHpD2N40fxRbePmV15GXcA8z9D7Fn7ElU4H0N8VTIAwlDE2Fw/ExC9Nmc5Y
-	 YqmAZGpvdPvnTdq6EQLR1kOgNHrxTWd7kQrIStjEnpA9Mi2KR8gviBOhcG5MBvfwTQnIc
-	 StJd0zV+m4NHwNmsj3qZN3ns13NqJ8n3s4Fp1JBxopHJuKivGz/xL7Tt+th7MDiDcW0rj
-	 +Os8ZxZnJv4A4aEn1kijbiBe5NoO64J5dSd1fQ3t5j2clmM4L+noEjaaIwg2mxFdwgN8F
-	 4SeNNf+liQGlTSf7ZTyN0LpojylIPGiuZfsPK4/xBLIAPvzRSMzfRN8m/UPFrl9esKw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795013001;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 X-Infomaniak-Routing;
+	bh=M6QIKb9uK+rYlKgFv0M8IDY5COdkGlTIaO9ytGUAZX0=;
+	b=gIgcLNzoo1U6f6oCBRfOJ+pX2SxM5+yx+BSC+AbbikiNNH22dW6zXZwCCTrfiIL8ohDS
+	 rODY5LX0y6/0A4ECFPFGqWXK2llZ3Be6EBPzGlntAUxA2PwUvK5hX0r24OXKlgMTHjYS/
+	 Hxeh/pjIDMXQGkD3CdzXqXsrpIx1VHMiwMMpyuthsKKlRYv6S+feL9L6wqH7Vce867iIy
+	 2/kl14uRsojHwTAGfgnrL/I2Bnfhw4gM5t5May2rljCMeuhewC0x2cr7nDPyEcWj8WUos
+	 NqIP3Yu8861h82aC94zuPZmgCCI+nAWM3uNkAHcsbUCufkpbvKH0rnXLfNfC12Ryqsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=J9Qrx44R;
-	arc=none smtp.remote-ip=91.218.175.150
-Received: from mta0.migadu.com (out-150.mta0.migadu.com [91.218.175.150])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=digikod.net;
+	spf=pass smtp.mailfrom=digikod.net;
+	dkim=pass header.d=digikod.net header.i=@digikod.net header.a=rsa-sha256 header.s=20191114 header.b=FgUMxLDk;
+	arc=none smtp.remote-ip=45.157.188.11
+Received: from smtp-bc0b.mail.infomaniak.ch (smtp-bc0b.mail.infomaniak.ch [45.157.188.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B2A606A32A
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 14:43:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56B2A606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4224606A337
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 14:43:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4224606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=J9Qrx44R
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=aUndDEiuHa+xg264iTWBHeme8bosu3XwdgWQ9NWKR1s=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795012992; v=1; x=1795617792;
- b=J9Qrx44RmUB0CmJmJ2Km1ORVuzdNH8Ju680fjuxz0Q/ax8zFv3rVlSRWRXHJQc6kTMKUPVxU
- dVDa/CZQHWMYb+OyVxouYJt6LzgfY/5UEYrn16eFdj9MHGvr9hKXEtIFeBy87br/80t+LoHBgUu
- rvkIe0ZBNOyWFeCYkBlb0LGo=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 0b13aa2a19314f58;
-	Wed, 18 Nov 2026 14:43:12 +0000
-X-Mizu-Trace-ID: 0b13aa2a19314f58
-X-Migadu-Flow: FLOW_OUT
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: netdev@vger.kernel.org
-Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
-	stable@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net v3 1/2] tcp: fix shift-out-of-bounds in SYN-ACK retransmit timers
-Date: Wed, 18 Nov 2026 22:42:37 +0800
-Message-ID: <20261118144249.358481-1-jiayuan.chen@linux.dev>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.a=rsa-sha256 header.s=20191114 header.b=FgUMxLDk
+Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4jV48b1XfvzmKT;
+	Wed, 18 Nov 2026 15:43:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1795012990;
+	bh=M6QIKb9uK+rYlKgFv0M8IDY5COdkGlTIaO9ytGUAZX0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FgUMxLDkPqSmwZ6EcBTblOHEUd3cgQPaQjH7r9+HN4HyCZJeS3aKGBU7y63C5PQm4
+	 oahgWtSJtuYQnKjYsDzintXkET56emKP/Mku2uupkeQGot2oHw2ebluUA1miq883PB
+	 QdiuiYDN13+67tWQ3e8v1w4PYHRkbyYyag7nc3PM=
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4jV48V68V3zPlr;
+	Wed, 18 Nov 2026 15:43:06 +0100 (CET)
+Date: Wed, 18 Nov 2026 15:43:03 +0100
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: "Hallgrimur H. Gunnarsson" <halg@google.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>, 
+	Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
+	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+Message-ID: <20261118.faiBee9Taigh@digikod.net>
+References: <20261028221705.3915340-1-halg@google.com>
+ <20261107.aighieG4Ami1@digikod.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,177 +76,212 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261107.aighieG4Ami1@digikod.net>
+X-Infomaniak-Routing: alpha
 
-req->num_timeout counts the SYN-ACK timeouts of a request and is used as
-a shift amount:
+Hallgrimur, could you please explain why your use case would not work
+with Landlock?  The capability split or new clone flags would be
+complementary of course.
 
-	/* tcp_reqsk_timeout() */
-	u64 timeout = (u64)req->timeout << req->num_timeout;
-	/* tcp_fastopen_synack_timer() */
-	req->timeout << req->num_timeout
-
-Once it climbs past the width of the shifted type the shift is UB. Seen
-with tcp_synack_retries=255 and a peer that never completes the
-handshake:
-
-  UBSAN: shift-out-of-bounds in ./include/net/tcp.h:917:34
-  shift exponent 64 is too large for 64-bit type 'long long unsigned int'
-  Call Trace:
-   <TASK>
-   dump_stack_lvl+0xc1/0xf0
-   dump_stack+0x10/0x20
-   __ubsan_handle_shift_out_of_bounds+0x1d1/0x390
-   reqsk_timer_handler.cold+0x1c/0x5d
-   call_timer_fn+0x17d/0x510
-   __run_timers+0x662/0xab0
-   run_timer_softirq+0xdf/0x260
-   handle_softirqs+0x204/0x9b0
-   __irq_exit_rcu+0x13c/0x220
-   irq_exit_rcu+0xe/0x20
-   sysvec_apic_timer_interrupt+0x40/0xd0
-   asm_sysvec_apic_timer_interrupt+0x1b/0x20
-
-The sysctl is not needed: TCP_SYNCNT=127 on the listener gets there
-too, and the TFO shift is 32-bit, so it is UB from num_timeout 32.
-
-The value can also wrap to 0 before the shift count is out of range,
-which arms a zero-length timer. E.g. with HZ=1000 and req->timeout ==
-1000, (u64)1000 << 61 and (u32)1000 << 29 are both 0.
-
-num_timeout is a 7-bit field. Once a retransmit limit is above 127 the
-"num_timeout >= limit" check can never be true, the request is never
-expired by that limit, and after the field wraps to 0
-reqsk_timer_handler() decrements queue->young again on the next expiry.
-
- - split tcp_reqsk_timeout() into tcp_reqsk_timeout_sk() and cap the
-   shift at 32 there, same as inet_csk_rto_backoff() in the next patch.
-   req->timeout << 32 is already above tcp_rto_max(), so the clamped
-   result does not change.
- - cap max_retries / max_syn_ack_retries at MAX_TCP_SYNCNT (127), the
-   largest value the field can hold. The sysctl range is left alone:
-   narrowing it would make setups that write 128..255 fail with
-   -EINVAL, and the caps are needed anyway for TCP_DEFER_ACCEPT and the
-   TFO "+ 1". 128..255 now act as 127.
- - cap the TCP_DEFER_ACCEPT conversion in secs_to_retrans() at 127 too;
-   larger values kept an acked request from ever expiring. getsockopt()
-   now reports at most 14527 instead of 29887 seconds.
- - route the TFO path through the same helper.
- - document that tcp_synack_retries values above 127 act as 127.
-
-Found by checking sysctl ranges against their users. Reproduced in a VM
-with UBSAN: tcp_synack_retries=255 and tcp_rto_max_ms=1000 on the
-server, and an iptables rule dropping the final ACK of the handshake.
-The splat shows up after about 64 seconds, and is gone with this patch.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Fixes: e6c022a4fa2d ("tcp: better retrans tracking for defer-accept")
-Cc: stable@vger.kernel.org
-Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
----
-v2 -> v3:
- - drop READ_ONCE(req->timeout), cap the shift at 32, reuse
-   MAX_TCP_SYNCNT, simplify the doc text (Neal)
- - changelog: mention TCP_SYNCNT, the wrap to 0, why the sysctl range
-   is not narrowed, how it was found and tested (Neal)
- - add Fixes: 1da177e4c3f4, the shift was already there
-v1 -> v2: reworded the commit message, no code change.
-v2: https://lore.kernel.org/netdev/20261026123244.239766-1-jiayuan.chen@linux.dev/
-v1: https://lore.kernel.org/netdev/20261023064915.401112-1-jiayuan.chen@linux.dev/
----
- Documentation/networking/ip-sysctl.rst |  2 +-
- include/net/tcp.h                      | 14 ++++++++++----
- net/ipv4/inet_connection_sock.c        |  1 +
- net/ipv4/tcp.c                         |  2 +-
- net/ipv4/tcp_timer.c                   |  3 ++-
- 5 files changed, 15 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 3cc80d9b024b..468d3df998a5 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -956,7 +956,7 @@ tcp_stdurg - BOOLEAN
- 
- tcp_synack_retries - INTEGER
- 	Number of times SYNACKs for a passive TCP connection attempt will
--	be retransmitted. Should not be higher than 255. Default value
-+	be retransmitted. Values above 127 are treated as 127. Default value
- 	is 5, which corresponds to 31seconds till the last retransmission
- 	with the current initial RTO of 1second. With this the final timeout
- 	for a passive TCP connection will happen after 63seconds.
-diff --git a/include/net/tcp.h b/include/net/tcp.h
-index 25d11fab1b03..39ee5c250bae 100644
---- a/include/net/tcp.h
-+++ b/include/net/tcp.h
-@@ -920,12 +920,18 @@ static inline u32 __tcp_set_rto(const struct tcp_sock *tp)
- 	return usecs_to_jiffies((tp->srtt_us >> 3) + tp->rttvar_us);
- }
- 
--static inline unsigned long tcp_reqsk_timeout(struct request_sock *req)
-+static inline unsigned long tcp_reqsk_timeout_sk(const struct sock *sk,
-+						 const struct request_sock *req)
- {
--	u64 timeout = (u64)req->timeout << req->num_timeout;
-+	/* timeout << 32 is already above tcp_rto_max(). */
-+	u64 timeout = (u64)req->timeout << min_t(u8, req->num_timeout, 32);
-+
-+	return (unsigned long)min_t(u64, timeout, tcp_rto_max(sk));
-+}
- 
--	return (unsigned long)min_t(u64, timeout,
--				    tcp_rto_max(req->rsk_listener));
-+static inline unsigned long tcp_reqsk_timeout(struct request_sock *req)
-+{
-+	return tcp_reqsk_timeout_sk(req->rsk_listener, req);
- }
- 
- u32 tcp_delack_max(const struct sock *sk);
-diff --git a/net/ipv4/inet_connection_sock.c b/net/ipv4/inet_connection_sock.c
-index 5807067083c9..02a472d44ea5 100644
---- a/net/ipv4/inet_connection_sock.c
-+++ b/net/ipv4/inet_connection_sock.c
-@@ -1071,6 +1071,7 @@ static void reqsk_timer_handler(struct timer_list *t)
- 	net = sock_net(sk_listener);
- 	max_syn_ack_retries = READ_ONCE(icsk->icsk_syn_retries) ? :
- 		READ_ONCE(net->ipv4.sysctl_tcp_synack_retries);
-+	max_syn_ack_retries = min_t(int, max_syn_ack_retries, MAX_TCP_SYNCNT);
- 	/* Normally all the openreqs are young and become mature
- 	 * (i.e. converted to established socket) for first timeout.
- 	 * If synack was not acknowledged for 1 second, it means
-diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index d510e982dcea..45ecc97e164f 100644
---- a/net/ipv4/tcp.c
-+++ b/net/ipv4/tcp.c
-@@ -358,7 +358,7 @@ static u8 secs_to_retrans(int seconds, int timeout, int rto_max)
- 		int period = timeout;
- 
- 		res = 1;
--		while (seconds > period && res < 255) {
-+		while (seconds > period && res < MAX_TCP_SYNCNT) {
- 			res++;
- 			timeout <<= 1;
- 			if (timeout > rto_max)
-diff --git a/net/ipv4/tcp_timer.c b/net/ipv4/tcp_timer.c
-index 00debcba122b..814fadb30749 100644
---- a/net/ipv4/tcp_timer.c
-+++ b/net/ipv4/tcp_timer.c
-@@ -468,6 +468,7 @@ static void tcp_fastopen_synack_timer(struct sock *sk, struct request_sock *req)
- 	 */
- 	max_retries = READ_ONCE(icsk->icsk_syn_retries) ? :
- 		READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_synack_retries) + 1;
-+	max_retries = min_t(int, max_retries, MAX_TCP_SYNCNT);
- 
- 	if (req->num_timeout >= max_retries) {
- 		tcp_write_err(sk);
-@@ -489,7 +490,7 @@ static void tcp_fastopen_synack_timer(struct sock *sk, struct request_sock *req)
- 	if (!tp->retrans_stamp)
- 		tp->retrans_stamp = tcp_time_stamp_ts(tp);
- 	tcp_reset_xmit_timer(sk, ICSK_TIME_RETRANS,
--			  req->timeout << req->num_timeout, false);
-+			     tcp_reqsk_timeout_sk(sk, req), false);
- }
- 
- static bool tcp_rtx_probe0_timed_out(const struct sock *sk,
--- 
-2.43.0
-
+On Sat, Nov 07, 2026 at 01:43:53PM +0100, Mickaël Salaün wrote:
+> Hi,
+> 
+> I think this is mostly solved with Landlock (kernel v7.4), see
+> https://docs.kernel.org/userspace-api/landlock.html#capability-and-namespace-restrictions
+> and
+> https://lore.kernel.org/all/20261014082718.1435842-1-mic@digikod.net/
+> 
+> This approach is agnostic to UID, cgroups, or other ways to identify
+> processes, so it should fit any use case.
+> 
+> What is missing is a split of capabilities (e.g. CAP_NET_ADMIN) that
+> makes sense from a security and (user) namespace point of view.
+> 
+> Regards,
+>  Mickaël
+> 
+> On Wed, Oct 28, 2026 at 10:16:57PM +0000, Hallgrimur H. Gunnarsson wrote:
+> > When an unprivileged process creates a new user namespace, it is granted
+> > a full set of capabilities (CAP_FULL_SET) scoped to that namespace.
+> > While these capabilities are isolated to the namespace, they allow
+> > unprivileged local users to reach deep kernel subsystems (most notably
+> > networking configuration and raw sockets via CAP_NET_ADMIN and
+> > CAP_NET_RAW) that historically assumed a trusted caller and have
+> > accounted for a large share of local privilege escalation
+> > vulnerabilities.
+> > 
+> > Many workloads and sandboxes use unprivileged user namespaces strictly
+> > for basic UID/GID, mount, PID, or network isolation and never need
+> > high-risk capabilities like CAP_NET_ADMIN or CAP_NET_RAW. Likewise,
+> > system administrators often want a host-wide policy ceiling restricting
+> > which capabilities unprivileged user namespaces may acquire, without
+> > disabling unprivileged user namespaces altogether.
+> > 
+> > Prior work by Jonathan Calmels [1] proposed addressing this via a sixth
+> > per-thread capability set (cap_userns) alongside a global sysctl mask.
+> > During that discussion [1, 2], feedback (e.g. from Casey Schaufler)
+> > suggested that rather than adding another per-thread capability set and
+> > prctl() interface, capability restrictions could be integrated directly
+> > into struct user_namespace and configured via clone3(). At the same
+> > time, as noted in [1], a clone3() flag alone is not sufficient for
+> > administrators who need to enforce a host-wide ceiling on unprivileged
+> > user namespaces without modifying every userspace callsite.
+> > 
+> > This series combines both pieces of feedback: it embeds a capability
+> > bounding set (cap_bset) directly into struct user_namespace, reusing
+> > the existing task cap_bset, cap_permitted, and cap_effective sets on
+> > namespace entry, and provides both a system-wide sysctl ceiling for
+> > unprivileged user namespaces and a CLONE_NEWUSER_BSET flag for
+> > voluntary per-namespace restriction via clone3().
+> > 
+> > In addition, because restricting CAP_NET_ADMIN at user namespace
+> > creation time prevents userspace from bringing up the loopback
+> > interface in new network namespaces, the series first introduces
+> > an opt-in flag to automatically enable loopback on network namespace
+> > creation:
+> > 
+> > 1. Opt-in loopback activation on netns creation (Patch 1)
+> > 
+> >   New network namespaces start with the loopback interface (lo) DOWN by
+> >   default, requiring CAP_NET_ADMIN over the owning user namespace to
+> >   bring it up. To block external network access while preserving
+> >   localhost networking, sandboxes commonly create an isolated network
+> >   namespace with only the loopback interface enabled.
+> > 
+> >   However, requiring a sandbox to hold CAP_NET_ADMIN in a new user
+> >   namespace solely to bring loopback up conflicts with reducing the
+> >   CAP_NET_ADMIN attack surface. Today, an unprivileged sandbox must
+> >   start with CAP_NET_ADMIN to bring loopback up, drop it, and then
+> >   block CAP_NET_ADMIN from being regained in nested user namespaces
+> >   (e.g. via seccomp or max_user_namespaces limits). Conversely, when
+> >   CAP_NET_ADMIN is restricted at user namespace creation time (via the
+> >   sysctl ceiling or CLONE_NEWUSER_BSET introduced in Patches 2-3, or
+> >   via LSMs such as Landlock), tasks inside the new namespace never
+> >   acquire CAP_NET_ADMIN and cannot bring loopback up from userspace,
+> >   breaking localhost networking for unprivileged sandboxes.
+> > 
+> >   Introduce the CLONE_NEWNET_LOOPBACK flag for clone3() and the
+> >   corresponding UNSHARE_NEWNET_LOOPBACK flag for unshare(), which imply
+> >   CLONE_NEWNET and automatically bring the loopback device up in
+> >   copy_net_ns() before returning the new network namespace. Making this
+> >   an explicit opt-in preserves default network namespace semantics
+> >   while allowing unprivileged sandboxes to create an isolated network
+> >   namespace with functional localhost networking without ever holding
+> >   CAP_NET_ADMIN.
+> > 
+> > 2. Per-user-namespace capability bounding set & sysctl ceiling (Patch 2)
+> > 
+> >   Add cap_bset to struct user_namespace (initialized to CAP_FULL_SET in
+> >   init_user_ns) and introduce a system-wide sysctl ceiling for
+> >   unprivileged users at:
+> >     /proc/sys/kernel/unprivileged_userns_caps_allowed
+> >   (defaulting to CAP_FULL_SET).
+> > 
+> >   When a new user namespace is created:
+> >   - Privileged creators (holding CAP_SYS_ADMIN in the parent user
+> >     namespace) inherit cap_bset from the parent user namespace.
+> >   - Unprivileged creators (lacking CAP_SYS_ADMIN in the parent user
+> >     namespace) have the child namespace's bounding set constrained by
+> >     the sysctl ceiling combined with any effective capabilities the
+> >     creator already holds in the parent namespace:
+> >         child_bset = parent_bset & (sysctl_ceiling | creator_effective)
+> >     Allowing the creator to retain capabilities it already holds in the
+> >     parent namespace ensures that a process granted a specific
+> >     capability (e.g. CAP_NET_ADMIN) does not lose it when creating a
+> >     nested user namespace.
+> > 
+> >   When a task enters a user namespace via clone()/unshare() or
+> >   setns(), its cap_bset, cap_permitted, and cap_effective sets are
+> >   clamped to user_ns->cap_bset. In addition, cap_capable_helper() is
+> >   updated so that implicit capabilities granted to the parent-namespace
+> >   owner of a user namespace are likewise bounded by the owned
+> >   namespace's cap_bset.
+> > 
+> > 3. Per-namespace restriction via clone3() (Patch 3)
+> > 
+> >   Introduce CLONE_NEWUSER_BSET and add cap_bset to struct clone_args.
+> >   When specified alongside CLONE_NEWUSER, the new user namespace's
+> >   bounding set is further intersected with the requested cap_bset mask,
+> >   allowing container runtimes and sandboxes to drop unneeded capabilities
+> >   from a user namespace at creation time even when permitted by the
+> >   global sysctl.
+> > 
+> > 4. Introspection via NS_USER_GET_INFO (Patch 4)
+> > 
+> >   While tasks inside a user namespace see their initial ceiling in
+> >   /proc/<pid>/status (CapBnd), threads may subsequently drop
+> >   individual capabilities from their per-thread bounding set. Add
+> >   an extensible NS_USER_GET_INFO ioctl on userns file descriptors
+> >   to allow userspace to directly query a user namespace's cap_bset.
+> > 
+> > 5. Selftests (Patches 5-8)
+> > 
+> >   Add kselftest suites covering CLONE_NEWNET_LOOPBACK, the sysctl
+> >   ceiling, creator capability retention, nested monotonicity,
+> >   parent-owner bounding, CLONE_NEWUSER_BSET and NS_USER_GET_INFO.
+> > 
+> > [1] https://lore.kernel.org/all/20240609104355.442002-1-jcalmels@3xx0.net/
+> > [2] https://lwn.net/Articles/978846/
+> > 
+> > Note on tree routing:
+> > 
+> > While Patch 1 (CLONE_NEWNET_LOOPBACK) touches net/core/net_namespace.c,
+> > most of its changes add clone3()/unshare() flag plumbing in
+> > include/uapi/linux/sched.h, kernel/fork.c, and kernel/nsproxy.c, which
+> > Patch 3 (CLONE_NEWUSER_BSET) builds directly on top of. To avoid
+> > merge conflicts in kernel/fork.c and include/uapi/linux/sched.h, it
+> > may be simplest to route the entire series through a single tree, e.g.
+> > a namespace branch in vfs.git with Acked-by from the netdev and
+> > capabilities/credentials maintainers, or whichever tree the maintainers
+> > prefer.
+> > 
+> > Hallgrimur H. Gunnarsson (8):
+> >   net: introduce CLONE_NEWNET_LOOPBACK to auto-enable loopback
+> >   userns: introduce capability bounding set for user namespaces
+> >   userns: allow restricting capability bounding set via clone3()
+> >   nsfs: add NS_USER_GET_INFO ioctl to inspect user namespace
+> >     capabilities
+> >   selftests/net: add test suite for CLONE_NEWNET_LOOPBACK
+> >   selftests/capabilities: tests for user namespace capability bounding
+> >     set
+> >   selftests/capabilities: add clone3() tests for CLONE_NEWUSER_BSET
+> >   selftests/nsfs: add tests for NS_USER_GET_INFO ioctl
+> > 
+> >  Documentation/admin-guide/sysctl/kernel.rst   |  37 ++
+> >  fs/nsfs.c                                     |  29 +
+> >  include/linux/cred.h                          |   3 +-
+> >  include/linux/sched/task.h                    |   1 +
+> >  include/linux/user_namespace.h                |  20 +-
+> >  include/uapi/linux/nsfs.h                     |  17 +
+> >  include/uapi/linux/sched.h                    |   9 +
+> >  kernel/cred.c                                 |  10 +-
+> >  kernel/fork.c                                 |  38 +-
+> >  kernel/nsproxy.c                              |   9 +
+> >  kernel/user.c                                 |   1 +
+> >  kernel/user_namespace.c                       | 100 +++-
+> >  net/core/net_namespace.c                      |  11 +
+> >  security/commoncap.c                          |   8 +-
+> >  .../testing/selftests/capabilities/.gitignore |   1 +
+> >  tools/testing/selftests/capabilities/Makefile |   2 +-
+> >  .../capabilities/userns_bounding_set_test.c   | 566 ++++++++++++++++++
+> >  .../selftests/clone3/clone3_selftests.h       |   1 +
+> >  .../selftests/filesystems/nsfs/.gitignore     |   1 +
+> >  .../selftests/filesystems/nsfs/Makefile       |   4 +-
+> >  .../selftests/filesystems/nsfs/userns.c       | 120 ++++
+> >  tools/testing/selftests/net/.gitignore        |   1 +
+> >  tools/testing/selftests/net/Makefile          |   1 +
+> >  tools/testing/selftests/net/loopback_netns.c  | 103 ++++
+> >  24 files changed, 1069 insertions(+), 24 deletions(-)
+> >  create mode 100644 tools/testing/selftests/capabilities/userns_bounding_set_test.c
+> >  create mode 100644 tools/testing/selftests/filesystems/nsfs/userns.c
+> >  create mode 100644 tools/testing/selftests/net/loopback_netns.c
+> > 
+> > 
+> > base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+> > -- 
+> > 2.56.0.313.g2479322e68-goog
+> > 
+> > 
