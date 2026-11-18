@@ -1,75 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.254.200.128
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794993611;
-	b=p11ZlEsAxKLZItlgNhyXZpO9YWVMWVGcxx5UpopUrm5HNpDe5ucaMyWxDW338F23Wy09
-	 jIoh7uJo9lR23jghwHxOuc403sGLZYQ0Qr3OThxRz3Qfy9gtrE//rcXu/BiXqONnYapnj
-	 Q4V/KKXmM1s3tE9KMIdYk0jkjICDukOZw3wMMN6QFMUCFWqIKf3Cc5H2QHBjV9hXUz+VD
-	 qjbOFSI06ZndScr23BCq4hm5FziLPHNbY5+mtdb115BXQzlSaGetYiHaC8h3N++w/exDR
-	 XDBOiIK6k0nKO/1dsxa2HX0HYi721zLRI+z9fO2l7yDR2spjc+Dmvn6unwlWKl38I3A==
+	t=1794994431;
+	b=cNTd5GnFqqnnGVFHmeAuQrgm6EuT9+MFGqsb+CoA66Eteqj9ioqtWZCiaqg1m0ikrbfU
+	 SIupaZwMYwsa7e+cINI4hNuFQM8eCb/ipZEMHUGV9yCQQxYkK2WTr9rr1/9t/bNBYcJts
+	 mWxI/svv9bTKv64OUxHKeofNWJOX/Ua97cqouwq3OSVeNbZa2AeKApkxt3VN+ZQ2BzLgl
+	 yRA8lmFi2DNwL5SKWrpI3Zaj29BdfcPTW2W7yCjDWj80AtQPiNqzKiRrneUh+Y1JQIiTF
+	 Ij6F/l+zbIhad7MOCiMaeib359wcuuxa+dhbP+bSnQiFqu2vKoUueCYUr/9vrCXTBFw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794993611;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
-	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=/RT9EeL7ji2hmMv3LbgGRfUUnKv+b38QkNlxTETqKtI=;
-	b=GWeQiw7mqT/Z/Hb8VCJszLWmr0j0RHf62kGGrOpocSKebabNKEvdWv7O1BVXCrE1y1sA
-	 WtKpWR0aOqMngYmCaML0vVRa7Ri2UNLjYGy0Qnd+17u+ll/lb8NrELdwXslg9mliySJPS
-	 dlwYcVEoi2WNqcQoTl5lxj+hs2o7W4RIt2fteqPL2p5Hl261nptB6ChE7rBrMgIfd94r2
-	 /K/sCxWSKZYimRoPXv8jIJeU8HV909pHehjY3iwUlAcLRkhUhP/5smhFfOH3UfpEL9gHU
-	 R3xcTNmrhcg5owBcNNQFY+LwvkdtR3uMrpy54BupkjkjZl0+xiClnlHaKte1HYyRvIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794994431;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=v4oyJAcjpJiwNXBHZwPl/3+4CGx9WMQZB2UQe5zRmoM=;
+	b=MtmWMgYYLGkAhgbzQvpbvC+PoyTK9swlPLD1lz+Ftc6W0VwSp8v/YJhZnf4YYyVtFRdp
+	 XmieQvXnhfHJo1NOeCKHs6uJO9juFkJJwa4MKziQs5MhL+AEhWGYaOzrKbKWukMMWB23S
+	 COJTrtIyZA3bgRonvLXKYN/2IiTJO1QbxldTlgK5uoxfr9/Zw3e/1MQyM01+qmfXTxJNk
+	 hj+1z4RN5tM9GP0PwuPGfiXir4Hn0Qtq6C4z3KdT9wZKrLRVqrvsOdVdL/zELQsnr5N+F
+	 F8VTGMHrZ1I0TOSA/12+OOYK8eLn5IucAjOBFUwVqdPHTi46xIGwlcqwEJ7Cn/llcwA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=uniontech.com;
-	spf=pass smtp.mailfrom=uniontech.com;
-	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=GwfvFYIA;
-	arc=none smtp.remote-ip=54.254.200.128
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kFmp1jWz;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41679606A31C;
-	Wed, 18 Nov 2026 09:20:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41679606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD95606A31C;
+	Wed, 18 Nov 2026 09:33:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=GwfvFYIA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1794993599;
-	bh=/RT9EeL7ji2hmMv3LbgGRfUUnKv+b38QkNlxTETqKtI=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=GwfvFYIA7ln/PPRp6ROhqJRgvOG/tc001EEYQFYqFlIf891ktU3EmyYe8ZuvUuiQI
-	 BMLv89ItbTiHIlmFitUGbtgZHFRjPZOylGafK6WpzUijgeafEDL+FIufyVnvV5zfg7
-	 OmONp1Mg/DjzlrsjiGTE2bk4W/Xr5hUz4/COdaDA=
-X-QQ-mid: esmtpgz15t1794993582tbf0479e5
-X-QQ-Originating-IP: 3YK9IcMNkk1Tp97SCHpvldHX7zURvlorPi+rZRCCm1A=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 18 Nov 2026 17:19:40 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 10124214066944920201
-EX-QQ-RecipientCnt: 15
-From: raoxu <raoxu@uniontech.com>
-To: socketcan@hartkopp.net
-Cc: mkl@pengutronix.de,
-	davem@davemloft.net,
-	edumazet@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	corbet@lwn.net,
-	horms@kernel.org,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-can@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	raoxu@uniontech.com
-Subject: [PATCH can-next v2] can: bcm: Document cyclic transmission failures
-Date: Wed, 18 Nov 2026 17:19:38 +0800
-Message-ID: <75785AF83A9D9B09+20261118091938.3365557-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kFmp1jWz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC201F000C4;
+	Wed, 18 Nov 2026 09:33:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794994430;
+	bh=v4oyJAcjpJiwNXBHZwPl/3+4CGx9WMQZB2UQe5zRmoM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kFmp1jWz2Ee1E6p6UVNNWTIGWPPPLKx+sGTMxlE5eHQo5tOcIWf9ZtwjTQX0EtsCb
+	 sAirKMKholPBHnbEb9EoUL8IlfxeTSkZljqzXOBYeeKZrUn/XeJRsxQUKK+Nhqm2TZ
+	 nASdbr76yAgHux1xVZI5zjOSZEn1N5fioVBQTHawiAypd0UFWzR4497pavHMnJpMBt
+	 4XMPhCvTNVqls+2btf8vsMVvnBveue2fuxcDNtI+08d/D5/jTCmxkRJGuSXev81rR7
+	 4sx+VnMxDFkOAJjpl/2m/DA1cF7m+Jbv38m8J8MSnLsR0luFfHRplUznuNqOSXkqsE
+	 QEw/IbDt/pxKg==
+Date: Wed, 18 Nov 2026 09:33:44 +0000
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Sudeep Holla <sudeep.holla@kernel.org>, arm-scmi@vger.kernel.org,
+	linux-doc@vger.kernel.org, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+	philip.radford@arm.com, david@kernel.org,
+	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 00/35] Introduce SCMI Telemetry support
+Message-ID: <20261118-poetic-robust-raptor-bcff2b@sudeepholla>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+ <20261117170709.00002088@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,80 +66,85 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MxdW4jxL6NvXjZ0qWDpfrMwtPCDrN5doXGNnERIuprLdTmHByeIp05Ou
-	29YFNzrwFwbqEZcIMN2lPW9TrWOSaXI9g7Ny1Aql74YQPTuuaLFa/0qeVGUk6vUnYXOmsRq
-	qkvVVdDTp9uSrjIyp59+bSHExqN26YlbS1a4e4pyvdj23B+bCZD+pd/OGXCxhIoaCxRo97U
-	y4y7la4nLbW6raqjBw1nso02PYxPLvuasHheClIR7BAC7vM0ZMVCZjlwcgfVN+LcAMpq8I5
-	0ElHw/rFY4PSOeeNIfUWG0ouenVStXaY+VDDOaA3/3ngtwRnG9IrnYj8WGmoU8w7CIQxBEd
-	HGjoBqeIElK7usmt4+JMZy0uPUR55lpTSo5omo6KUoz4dfl8PRASePqpafK7Dm+3yNCU0r4
-	PTbqBZ2FIGJ8rFc6K5MqrmtYWbPXBUZKJZpOz7CNx0s8ImVU81vJtR3mCjQ6PsuQ1Rrft0z
-	OPVRBVhSwS6v0Bdx4DGYFPlvkJ+qPj/C3g9dKO6ijGE2KQVUxnKIO+fvwODP5bsXEdPM8YH
-	A1rElu5kWBtNxCqR86PRFuGz47o22xjZRFgE0eECb8gq/KsMnbIOOpO5fg7hdkdEprF8eon
-	2uxeaZkMHbOAqPZ1dFfUXeYSOuQGQIzEMHxIM0WKcmaGHyKGDKXPKaD5+NHBM9lVnLPpJfK
-	rspuFa4THj4IrJJXOzb29VP/b0TLVwXAfRFku9qDhzy4OAqHk+66TxDUHtgmf1aHd/oS9yR
-	6/LScF4EJ5FJXvo3w+9rG9qEcd2PfPqF41Y5IXuOMSglVwgGoqAUR/NAXJOdsr3YGR7DdQ0
-	YvY7k361gyfwSnPn59Y0dvgDN6vYsLTAjFmEfLGn5M1KIb1h47s/DBlybPb3pPa+IN+B0Cj
-	llWtB8A8khhXGGd0HBNmm+ymBRoj8Fz3mzkkevg8sBsLPyQaK2II7PCIW+io1X6lojvkpEp
-	hpH3rGKrFwxw3j+QHWfjE587WhYIiUeQFA9K6bAcggVeVNujPHjm1XYBrmL9a44wgm7J+QZ
-	SizK6dwiiMAX8I5wMv5YtrXy/2gw24ywxG+Wt/Gw==
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-RECHKSPAM: 0
+In-Reply-To: <20261117170709.00002088@oss.qualcomm.com>
 
-From: Xu Rao <raoxu@uniontech.com>
+On Tue, Nov 17, 2026 at 05:07:09PM -0800, Jonathan Cameron wrote:
+> On Mon,  9 Nov 2026 09:11:46 +0000
+> Cristian Marussi <cristian.marussi@arm.com> wrote:
+> 
+> > Hi all,
+> > 
+> > [TLDR Summary]
+> >  [V15 highlights]
+> >  - general cleanup and hardening driven by reviews
+> >  - improved TDCF access routines to minimize lost samples under load
+> >  - completed ABI docs
+> > 
+> >  [V16 TODO]
+> >   - address any remaining V15 outstanding Sashiko/reviewers issues
+> > 
+> > The upcoming SCMI v4.0 specification [0] introduces a new SCMI protocol
+> > dedicated to System Telemetry.
+> 
+> This is one from the family of issues you find when reviewing ones own
+> (well LLM generated) emulation, realizing it doesn't match the spec,
+> and yet works.
+> 
+> This works fine without the required SCMI protocol property in ACPI.
+> 2.2.2 of ACPI for System Control and Management Interface 1.0
+> Platform Design Document. 111115A 1.0
+> 
+> Now, in here is an informative statement...
+> 
+> Protocols not listed using a property may not be enumerate by the operating system.
+> 
+> But they are... 
+>
 
-The CAN broadcast manager continues its configured cyclic transmission
-schedule even when a CAN frame cannot be passed to the configured
-network interface.
+Correct, I intentionally left that out. I do have a patch that restricts it
+strictly to the listed property. However, I held off on pushing it because of
+an issue we saw on an internal test platform.
 
-Such failures are not reported to user space. The failed transmission
-is not retried by the broadcast manager, the timing remains unchanged,
-and a non-zero count is decremented.
+On that platform, the firmware advertised the protocol to the OSPM via the
+base protocol, even though it wasn't functional at all. Once they realized
+this, they simply dropped the entry from the ACPI SCMI device as a workaround
+instead of properly fixing the base protocol discovery. While understandable,
+relying on that workaround delays proper firmware fixes.
 
-As a result, a TX_EXPIRED notification requested with TX_COUNTEVT
-indicates that the configured transmissions at ival1 have been
-processed, not that they were successfully sent.
+That is why I went with the non-mandatory "may not be" wording. I am happy to
+merge that restriction patch if a real production platform actually needs it,
+but until then, leaving it open helps catch and fix broken firmware
+implementations 😄.
 
-Document this behavior to prevent applications from treating TX_EXPIRED
-as confirmation of successful transmission.
+> So, obviously we can ignore informative spec lines but that is a pretty strong
+> sentence. I can't immediately think of what would go wrong if we ignored it
+> - maybe we'd not pick an exclusive PCC and fallback to a common one the firmware
+> doesn't want us to use?  But if it doesn't want us to use it why make Telemetry
+> discoverable on it.
+> 
 
-Suggested-by: Oliver Hartkopp <socketcan@hartkopp.net>
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
----
-Changes in v2:
-- Target can-next as requested by Oliver Hartkopp.
-- Adopt Oliver's suggested wording describing transmission failures
-  from the user's perspective.
-- Clarify the TX_EXPIRED notification semantics and scope the lack of
-  retries to the broadcast manager.
-- Remove implementation details and redundant descriptions.
+Indeed, falling back to the common channel lets us uncover any underlying
+issues in the firmware implementation. That is the exact scenario we hit on
+the test platform, which convinced me to hold back the patch.
 
-This documentation-only update follows the review of v1. The earlier
-proposal to change BCM transmission accounting was dropped.
+> Should that be wired through from the ACPI parsing code?
+> 
 
- Documentation/networking/can.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/networking/can.rst b/Documentation/networking/can.rst
-index 51bc70748f75..ae47f40bf456 100644
---- a/Documentation/networking/can.rst
-+++ b/Documentation/networking/can.rst
-@@ -892,6 +892,14 @@ only one timer is needed 'count' is set to zero and only 'ival2' is used.
- When SET_TIMER and START_TIMER flag were set the timers are activated.
- The timer values can be altered at runtime when only SET_TIMER is set.
+As mentioned, we certainly can, though I'm not sure we should. The "may not
+be" phrasing simply leaves the choice up to the OSPM rather than mandating a
+strict restriction.
 
-+If a CAN frame cannot be passed to the configured CAN network interface
-+(e.g. due to a full transmit queue or the interface being down), this
-+failure is not reported to user space. The transmission sequence
-+continues as configured: the frame is not retried by the broadcast
-+manager, the timing remains unchanged, and a non-zero ``count`` is
-+decremented anyway. Therefore, a ``TX_EXPIRED`` notification (requested
-+with ``TX_COUNTEVT``) only indicates that the ``count`` transmissions
-+at ``ival1`` have been processed, not that they were successfully sent.
+> Anyhow, not something I care that much about but thought I'd call it out
+> as an oddity.
+> 
 
- Broadcast Manager message sequence transmission
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-2.50.1
+Thanks and well spotted. Much appreciated as it brought the information out
+which otherwise would have just got lost.
+
+-- 
+Regards,
+Sudeep
