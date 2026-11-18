@@ -1,62 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794967636;
-	b=XtnhXkDHNLGPxdg7UJo4j/2H4XJtmJKZbSIQCDm094fa5zEeWdG14imAusrd0WJLw+/1
-	 W6l8/rK/0FDJr2WgijOWME36XSN3vVTHKc+ARwW9+VzCKnNo5RZF9RFZ1yP54S5Ph+9S7
-	 sBg/HcTz/V9qjAQqKgpeFOjbnNpVjgkyCwgO70EqhZK08bsPwoKciTxBgIvrXSCpXAmJz
-	 D9aVjxly70JjrnL49Cy9MGtZzfxNna//6/Hbt/UmNvhe6wcghnzLqilOxBTQY8mzPWXVO
-	 JZcYaUwEE5379qqZk+4Z/xfLhm/9rjsxtPlTEpT+v2KA8opF5Yt0LfeWMZy5cY974hg==
+	t=1794967811;
+	b=Jf/FATVXurPwUm+KfTx3uQHYkF+VLq0Vq8qVbXxyvWz+nsNaPJ57DIMw595GTOQUAXOm
+	 bffys9dE7U/TfqUvlUcD4zXZqvqTQj2FYNOotRxXCt0SUEwNFXFqgkrJZD6zs4BF/KFM0
+	 iYRHzisJ0PR3IyxAcUSXVDhWYfBdmkedrxr33ByGd8Cteb8/fyXyu23ntmxQUxwn4vmmO
+	 TSoM4JeJI+/InRf7fK7tSCPIxG2z3EKGvDwzUOjekERdw+AHoUHOykbLV9EIOaH9R78JP
+	 WODxsHdIqIEGCzcCwdr3Lng3arsOveucGEleHD47C6rJOb0ek4GgAyKSBSDG9kdAxgw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794967636;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=SfJwYwm5e4vsMzXCNz9yx/bfvNCh4e6ZadaT7dtFFCc=;
-	b=jfjA1dt8/EZY2SxNwVw3bH8E+zCmRq4WqyInQYt1cc0RhNRfdiIpfuR7jOxCz7Z21FQ0
-	 Fk7zxRN6eZxfck0HBSA46kbqFn/jypn/0DNrO8pruB9FVaZypMe1zkty6UMeREw/uCky9
-	 jY+LOn62vpvpCz6168TbdenNzWlaJRdg1/yv83om7wH1GqH/sxRLLSySsYs1B1QJ8tZUE
-	 Y6x9KuZq1krCovRfTkOJSN2WYUudGAIrXnk+pw73G+73qtsfwJCDMbGXlBbLra1n1q/zY
-	 g/DFmJ8ZUb7HV9el9sKvdtrL57Hj/xYA9AZnVPV2rpTZjld9sj/di1PMp//slUA4mRA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794967811;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=KC2+vMIdgBSKayVHc7Ws+U3uVp6Z3Ak+J6WEhPtRw3w=;
+	b=rENVcHc4oZaZFz9tKk+Y6IVthf2VpsJJ+MqKt9cT7qOZr7zME2APUET7PFEfRTzDtZWz
+	 ELsEtEUEtsNYATG5zK56HrokSpMRhEc3z4FdQAqKkBld0cSmtY6xeIJBkVM0WwFNaOMmV
+	 lTYbBM7AKZrqeSffdFkZVKGYu9HWhyTfQnWTHkSieyoLfiJhBD+fQuvatKjmBzY65gFR0
+	 8Ie+a0bjaHEb+/P02wAq8IthQO7ajWskCmDEaDIlr9LRRuRv+/5WGFmnSGFi6/8EyOI00
+	 lWzP/0KPj2WmnSGRkXh/9xLjGuxEJNTC95lM7dL2VGX9B3VPYZ9hTyMKHrnQjmNffDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OxS0Otyy;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="GNRjM7l/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B03606A31C;
-	Wed, 18 Nov 2026 02:07:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FEF606A325;
+	Wed, 18 Nov 2026 02:10:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OxS0Otyy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA9151F000C4;
-	Wed, 18 Nov 2026 02:07:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GNRjM7l/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 868E01F000C4;
+	Wed, 18 Nov 2026 02:10:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794967636;
-	bh=SfJwYwm5e4vsMzXCNz9yx/bfvNCh4e6ZadaT7dtFFCc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=OxS0OtyyAIerLsAhqGBRZ+KTdGsIkmq3EWg7V/diqU8vep8orjnhHHMpfi8HdS/e8
-	 5CmV4owJrPu9fVMDWqrP3PXnFDuGAFxOaWbl9nbawe5aBx8OmbUcTRdGCuN+8szwLm
-	 DzEqrqHJvaQSXYaDpZsKoIjy+ePZyuap0aQ1vEfQgM6F47xKF/ewaUbsZyqE56eT1o
-	 sSZIdd8GUjB2BZqHlC4ABa4Wpfnx49lcjt5R3KAAiANpXhY/jtbLp+zRzJYnEaoAau
-	 PpPfsxAlxmuqUWpmLp45IjLc1wrfkR2ugyBHxexfl7s/cEMqNpWaGj2HapQa9pzGe3
-	 ou5Yf9OOHZUkA==
-From: SJ Park <sj@kernel.org>
-To: Mattathias Pinchover via B4 Relay <devnull+mattathias.pinchover.uber.com@kernel.org>
-Cc: SJ Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Mattathias Pinchover <mattathias.pinchover@uber.com>
-Subject: Re: [PATCH v2 0/6] mm/damon: add sz_ops_filter_passed_last DAMOS stat
-Date: Tue, 17 Nov 2026 18:07:08 -0800
-Message-ID: <20261118020709.97589-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261117-damon-sz-ops-b4-v2-0-439888fa04ac@uber.com>
-References: 
+	s=k20260515; t=1794967810;
+	bh=KC2+vMIdgBSKayVHc7Ws+U3uVp6Z3Ak+J6WEhPtRw3w=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=GNRjM7l/xiy50HWgh62L1YdW8sTHtRbdW7BJgH3kVHokLU72Uu48Qi2eipucXdD7Z
+	 fpiu+JuToo5pTrHbWLdjPapPOE2TD3nUT6oSsHfqgVsBDmlqZ/cHjQehUjBOTF6hvz
+	 1wxnJfQC7B1iHuGHEmucs+CVNODFT64QEntH6F0wcl/V62cTVq52wnugnQ1BnNRQI9
+	 59zPsCADDyW1k5MMnDFQYcOMeHjNj8DxjxPjVoByN7DnFyHbm569zBZ+vUNrNvPHaR
+	 kJM21pF2eK3H2ax6kiTPsbI92BUncQTT2O8KJ/HyhDOzR8L9MxUKYGMHHZ/0VMyYd2
+	 BD8HWZtO8JlNg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 77400392B1FF;
+	Wed, 18 Nov 2026 02:10:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,52 +54,45 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v13] net: reduce ARFS flow updates by checking
+ LLC
+ affinity
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179496780902.1408948.5643474909251504479.git-patchwork-notify@kernel.org>
+Date: Wed, 18 Nov 2026 02:10:09 +0000
+References: <20261113125643.2255-1-nashuiliang@gmail.com>
+In-Reply-To: <20261113125643.2255-1-nashuiliang@gmail.com>
+To: Chuang Wang <nashuiliang@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, sdf.kernel@gmail.com, daniel@iogearbox.net,
+ kuniyu@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 
-On Tue, 17 Nov 2026 23:22:14 +0000 Mattathias Pinchover via B4 Relay <devnull+mattathias.pinchover.uber.com@kernel.org> wrote:
+Hello:
 
-> DAMOS stat sz_ops_filter_passed shows the total bytes that passed
-> operations layer-handled DAMOS filters, accumulated from the beginning
-> of the scheme's execution.  Users who want the amount for only the
-> latest apply interval, e.g., the size of a workload's anonymous memory
-> that is cold as of now, have to keep the previous value in user space
-> and compute the difference.  To know how many apply intervals a
-> difference covers, they have to rely on nr_snapshots.  But nr_snapshots
-> is increased once per target per apply interval, so the computation is
-> complicated for contexts having multiple targets.
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Fri, 13 Nov 2026 20:56:34 +0800 you wrote:
+> When an application migrates to a different CPU, RFS records the new
+> CPU in the global rps_sock_flow_table via rps_record_sock_flow().  On
+> the next packet of a flow, get_rps_cpu() notices the change and calls
+> set_rps_cpu() to update the per-queue flow entry.  With Accelerated
+> RFS (ARFS), set_rps_cpu() also invokes the driver's ndo_rx_flow_steer()
+> callback so that the NIC steers the flow to a queue close to the new
+> CPU.
 > 
-> This series introduces a new DAMOS stat, sz_ops_filter_passed_last.  It
-> shows the amount of sz_ops_filter_passed increase in the last apply
-> interval of the scheme.  It is updated at the end of each apply
-> interval, and kept unchanged until the next apply interval is
-> completed.  Like the other DAMOS stats, it is exposed under the stats/
-> directory of the scheme in the DAMON sysfs interface, and refreshed
-> together with the other stats when refresh_ms expires or
-> update_schemes_stats is written.
-[...]
-> Changes in v2:
-> - Patch 2: join the attribute declaration onto one line 
-> - Patch 3: call damos_set_filters_default_reject() before adding the
->   scheme 
-> - Patch 4: keep only the stats list bullet, dropping the explanation
->   that the stat is not accumulated 
-> - Patch 5: wrap the stats line in the usage document
-> - Link to v1: https://patch.msgid.link/20261116-damon-sz-ops-b4-v1-0-1cffe7227e6d@uber.com
+> [...]
 
-Thank you for addressing all comments I added to v1.  However, you didn't
-directly reply to the comments on the v1 thread.  That might confuse some
-future readers.  From the next time, please make sure the previous version
-thread is complete by replying to all comments and waiting sufficient time to
-let any other chime in if they have opinions.
+Here is the summary with links:
+  - [net-next,v13] net: reduce ARFS flow updates by checking LLC affinity
+    https://git.kernel.org/netdev/net-next/c/1a0dd3c7c4ac
 
-All patches in this version look good to me.
-
-This series is applied to damon/next [1] tree.  I will repost it soon (~1 week)
-as an mm.git merge request.  So, no action from your side is needed for now.
-
-[1] https://origin.kernel.org/doc/html/latest/mm/damon/maintainer-profile.html#scm-trees
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-Thanks,
-SJ
-
-[...]
