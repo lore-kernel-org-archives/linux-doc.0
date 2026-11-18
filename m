@@ -1,55 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795045740;
-	b=zzaEbQytiaUAFl5zQ8L/TfPvmTz5bW4knKxlPX5nKZ27s7cDxdmIOBORlMXakNWjKMTs
-	 NDaWoJR6BQZ/vDJf5G1c+ZlFEkWbVjRePzRJft1+yffuzpXn7C4QMR019cFjblg7MxKvy
-	 /gkTjI+LOj4KwZWGAMt4XrldHH//BeNJwDEiwxWHO33wDm5GTXZ+FF6dv2EL8XN+g86Sz
-	 h6M5qKipYkzglz1lx8GhA/ouWhYVmqFcL1oRdv62q5TMr0fHmlRY3GM4jr2/mZUfScJ/U
-	 TRK++SjuYSfjyskfYmqSD/Y8JT8LcdNU3kVdxegUkprvFvVSXy1pM7rqEjdx1nYZGUw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795045740;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=JokRczt5mVEgHxRUZJg6jCnvGvoAs9YtaIgcq2+6nkw=;
-	b=UsHkG9UeFv/7s4hBPIPBhqNMQu+hwsM70IDlwqR6bcG/rSfw68M2pv0RJ2DN01ZCHHxB
-	 rNwefBIDbZNcU+YLtMKXc5ffpuDvYV/qDKqAk3KbKThFTPZFQBzQis681rx9eWZhJ41Vr
-	 bWw2zrnVOPpQWnY1mML0PIG0SJ+kKlyxzkWnGatvgCuHsejvrzdYEksKrqSpevGg998VQ
-	 kq3QInxQLct7+ZLfeTfQUr/LfSCy/YK0EI1ylGkFg0V3JVkcm0GPJUasRJmnLWvW9SFoO
-	 9J7j+/nEiZz3KWKGKE6sNYJdQW+h1U5QS0b6teX5f73X5NHTUVoZdiUpscVvd1Ohm/Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QRzAvX+G;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.39
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795046202;
+	b=fK/K1P7CP7dS90Dd33WEylm6bj3f73L8dLkkCEhPMehuujOHUf0PPCZI9t1B2P4ppn3R
+	 SXJ6sEoBRy0Oh/j4jJpW/wCfeZBgma7KAcyZ9VHl+AtZ8WL5M/SvD2GYnFQzI1r627cJ4
+	 ngxCdZxdmidzQBD7dXvN9xxcLNu56E6640lK1+yMwXpEPtwuUpIrmRD8/7ArYkyA/k3Pr
+	 fGbJPxaaeC4sJVm0MkaEwFqmsOjEzLdkbah5ZRn9jH3XezYIYA2T+Fu9p6Xa1cN8gfRtQ
+	 mpTkGfmQXew3kUnWb/H0tgDv+5bAkCUrvnoi7XsktWYQce03bLTiqSf+tPAAbaShM/A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795046202;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=gy7//yMxaWvv7C+aFAPpXUHRrmg6qOgFJmGgOvc2Tig=;
+	b=chtv6azlfoB/UIDacZ0E90mDzEA9DjMAT12HJ5ItPm1KwL1JCsiLp3mxKRk1LCtcfkHX
+	 1x5H++/+VeB1FsnoRwyCzWx9ioefBuMBHyyiEj709s97Pzfs2Ok7EnIOJExB8IZ7htspB
+	 BRXscTIW4k5p+yh52C5/9fPwH5ssppAp6tUMrcGHMM9u1RlOUE/8oMNwcIp2m65RvgxFa
+	 dWwthnd9RVgj2WD7Okhf2ZENR511sa9gZm4gKtHz3ZbP7OpF1B9EsV4+uwNlpA+vyRrXF
+	 F06zPvfYpSNCEN0fl69MUcJItpOVMkA5mtLdrsgnzRxEAaLUBTEKNtwOruEaT0MvJNQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=gNFmT6Yv;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.39
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011039.outbound.protection.outlook.com [52.101.57.39])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9B7606A330
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 23:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA29606A325;
+	Wed, 18 Nov 2026 23:56:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DA29606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QRzAvX+G
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 003531F000D2
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 23:49:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795045740;
-	bh=JokRczt5mVEgHxRUZJg6jCnvGvoAs9YtaIgcq2+6nkw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=QRzAvX+GjIXVj5+Hx8Av5Mt96NukUSriYFWx33adE98bNh3aqW5ZBbTkdyuI6uVes
-	 AZ2BpGNU4bG0idO6iWixvbACU6nv1xDZxEKdh79PNgNA2ZyIKe+rufUMjwRZ3l+Jog
-	 o5taUCxSyqcATkv/IZWLVwKCWKxIB09nTmDFe5S/jhjhbcYkQb6N2TvYk3ghlFtECo
-	 mszmZnlh6uEBfFK11E4rUAg5amCv8XAKURFyHS8or/C7+Fl22UeCuuUCP6NO4QVn+o
-	 XSpf6Kq7jiyCphDjybDyyacHCLnTlLnLU3VQDgdeWAUt6vXpHi9UkEE42dFg2tjRZT
-	 PxZsCRVA+Boww==
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-9497a167a6aso45330685a.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 15:48:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErGfdIWA3rD5oAPyvklefZutOsDumW++qb9CCZyIOnbRO9UsTv21TmvmXjZoNhSelEq8oqjAR3eR+yo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/oIAZyCvOpCTsRrMRuh8WI0OqATTFDzR4VPqoeFCgdJkvv8llD
-	tz4fnseMZYrQCB6JW4wdb2lL0dwW5kV+gxsW33kFySYEiitfA2hOGJf16B0eTiT52yeKBOq8EPQ
-	cnvS104Vppn6XBtAyyK5S6pPRSLnlxQg=
-X-Received: by 2002:a05:620a:260a:b0:949:6b5e:33ee with SMTP id
- af79cd13be357-949ad938bc0mr22211185a.31.1795045738801; Wed, 18 Nov 2026
- 15:48:58 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=gNFmT6Yv
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Bhmfko3Z7OzO3FzpKq/MX23MVgf3yUzjjfrwcjEHFjlpbI0xF7x9/pTA2FnVKEEth9hMo9nS0q/QvwM8AP+U5cu1hyhnvDCcHXEaL5orvf1m7kJuSBNmUsvb7sI+JMjpXMY2GkT7hyqpzfuCxp1YHaVpLmN9ccvrgL6UWi6w1nRyVYQSGWzyhtXALW1QfZ8Ct29FDQ9Nwqld3HjWfoi2ZNCcAcVOTM9u7SUZ02T67wt5i+fgRegEsbYTZ+5euU8j3Kjp6ngXor6AdWj5R1EqTzVgaMdWBthsGiQDLSEnJTwEbAkGJPBBoYU6jQDAqGMIGnzTVbZQcS1QCXADznPs2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gy7//yMxaWvv7C+aFAPpXUHRrmg6qOgFJmGgOvc2Tig=;
+ b=bFVzDbkKsuxJCvWhWQ2GPh/OcTPts62DC5L3ZUVSxbyakxRmRsHpcU+77MAQDLuDmzGKeSfw473i3Bnrl2eirJN5K8Sk2mHum73YcNGpsrhzdv+QmkIXIZb2pxcnH1JHojYgpuLXlpRekiUKKzxRHdy5aO7ESZYhDx6Q2m57Br5wUyRTSVte+pEbIxYLOKYWUI8DK0BTH0n4uVkjYbn1/UTCt2YLsn5kVf+EDUm9aEC0fArqWnsHm3Vf5HBNcKySXSkajVpikDqLKDAxzL1Qm81BaLdciat6wIoWuuZDLNfGpHF5XQfoVyZzGCcy2JG5qOxtD9Ocdw9+fcTGhweBCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gy7//yMxaWvv7C+aFAPpXUHRrmg6qOgFJmGgOvc2Tig=;
+ b=gNFmT6YvPv/sLn9z1fU4zxsvsYrIaIpUsit19bRu26cw/pcIr2yMM+bKICO4Ncjj7tJhs6k/AZ7/vRBmbqczpc8BZx909m1ijbjgZbuyzShv/yXV3psi8NqpwJg+6dEOvJGQJtwHJOzfDnEmRHOtcRJ/81eyXJZBggS9IBpkwyI=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3485.namprd12.prod.outlook.com (2603:10b6:208:c9::22)
+ by SJ2PR12MB9161.namprd12.prod.outlook.com (2603:10b6:a03:566::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
+ 2026 23:56:35 +0000
+Received: from MN2PR12MB3485.namprd12.prod.outlook.com
+ ([fe80::7ac:5acc:f8b7:65c9]) by MN2PR12MB3485.namprd12.prod.outlook.com
+ ([fe80::7ac:5acc:f8b7:65c9%7]) with mapi id 15.21.0615.009; Wed, 18 Nov 2026
+ 23:56:35 +0000
+Message-ID: <cd29a3c1-445e-46a9-99fa-131983ce7a72@amd.com>
+Date: Wed, 18 Nov 2026 15:56:31 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 3/3] ionic: add devlink param for command
+ timeout
+To: netdev-bot+sashiko@kernel.org, nikhil.rao@amd.com
+Cc: brett.creeley@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ abhijit.gangurde@amd.com, allen.hubbe@amd.com, jgg@ziepe.ca,
+ leon@kernel.org, jiri@resnulli.us, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-doc@vger.kernel.org, eric.joyner@amd.com, ArunKumar.Prakash@amd.com
+References: <20261105-b4-ionic-cmd-timeout-v2-3-35a9a2aa48b1@amd.com>
+ <179431289941.994134.11663452629837334156@kernel.org>
+Content-Language: en-US
+From: "Rao, Nikhil" <nikhirao@amd.com>
+In-Reply-To: <179431289941.994134.11663452629837334156@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PH0P220CA0015.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:d3::26) To MN2PR12MB3485.namprd12.prod.outlook.com
+ (2603:10b6:208:c9::22)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,60 +103,182 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com> <20261119-mglru-fg-v5-1-9eee2fe97a2d@tencent.com>
-In-Reply-To: <20261119-mglru-fg-v5-1-9eee2fe97a2d@tencent.com>
-From: Barry Song <baohua@kernel.org>
-Date: Thu, 19 Nov 2026 07:48:47 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4yUH9EG=kPWkkp_jm2Fy7e1D20f+uod1_9fUypW1G5sgg@mail.gmail.com>
-X-Gm-Features: AclHuK8u8pAmVqW9yFgv9yKvnlXrt2QgHUMeTnuokLmXwaR9lnc-LtRTxLtZGq8
-Message-ID: <CAGsJ_4yUH9EG=kPWkkp_jm2Fy7e1D20f+uod1_9fUypW1G5sgg@mail.gmail.com>
-Subject: Re: [PATCH v5 01/17] mm/mglru: rename the generation offset in lru_gen_folio_seq()
-To: kasong@tencent.com
-Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>, 
-	Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
-	Gregory Price <gourry@gourry.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
-	SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, Yu Zhao <yuzhao@google.com>, 
-	Vernon Yang <vernon2gm@gmail.com>, Zicheng Wang <wangzicheng@honor.com>, 
-	Chen Ridong <chenridong@xiaomi.com>, Tal Zussman <tz2294@columbia.edu>, 
-	Kairui Song <ryncsn@gmail.com>, Xiang Liu <liuxiang.277@bytedance.com>, 
-	Ehab Ababneh <ehab.ababneh@intel.com>, Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, 
-	Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, linux-kernel@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3485:EE_|SJ2PR12MB9161:EE_
+X-MS-Office365-Filtering-Correlation-Id: 508c711d-0aa0-4c57-6a4d-08df45cf93b9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|23010399003|261026140227099003|261022105027099003|261026121527099003|261028144727099003|56012099006|4143699003|261021123027099003|11063799006|10067099003|261021135927099003|261009223027099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	aUF1LOrfR5+d6RPbqIYXxsFMH9XBZJ4RzvomjwDisP+7VkuO+Ez7/9hLvjI5P4SJnGHeT9SZezSsCBv6qHGrX+dmzyul7Xno4uMMp8UL3sgpRLNUmGMJL4GZQbTojiUxcOGcxxBKK7p+U/5CSlWvfB3a5IUHtjrBv/Nov0qMRjiSm5iCJu1xEXPFu5HWfqQBwU9HTQ44EJzdeDHQvuqaNrpN5f2CG7qqzl6em8WGkRPTddNKHTKsaSHtERLIaX1EQ/+srUNkpho2f+IXOw9yEMd+XvsD+oQ8KkrBwk1Kwf97I1BDO4tthohdERlq8ywj+aBXVUoHT90Td+6oDTP1pGbqg6xigi0qlqfMVxYOUt8dAN5VE0F7sU+tupvMxaI7jlEgBQr8U+LWoL/loP99DBlkW8NNQ/sMLzj1uLucnZIi90L8lu45Ajnp0Pcte6M5FaG9afb0QmBpiL9bC+CHy80CRB6Ntu3HGFBVV2ZwznEhyAOxypLzA9VTrzHzjbu5daS6KCwqq/bt5KVu243gGLHWzzu0GVvgpmWz/YRa9HuzXpYOlOEZnzN3OFczDKmYVQUi15HVnLclSSpNTqgAI/WDCY3nYSV8GcBWI3uA0C/nwsu40ZkOKxi/TIfZqZK/LUSY814bpe65f8ddEBB337fEcMh2wL71mcLgiu4dBzA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3485.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(23010399003)(261026140227099003)(261022105027099003)(261026121527099003)(261028144727099003)(56012099006)(4143699003)(261021123027099003)(11063799006)(10067099003)(261021135927099003)(261009223027099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VVE4TlBkc0JMUXlCWTJSYzBaTDhZcDBnMG82aUNNb1o1MTEvVHdPMHFEdFhZ?=
+ =?utf-8?B?MkxUSTBXL1g3UlNHU2NzNEdaN1BRL2lKZmJ2cHVtaFpXYnBhRU11d1VXTngw?=
+ =?utf-8?B?bkp1eDg4dHJqK1V5V3dCR082aFNpUGlKTEdmVUN6UkJzTXNra0MxVWxYVC9I?=
+ =?utf-8?B?NDhhZSt6aUFOcUZ3VkJXUlNBUDVZL1lMdjQ1SU1FN1hKR2loWTN5bmQwUFhx?=
+ =?utf-8?B?SnRaelkxSWUrejY1QmlqMkhUMGFGVGtRejJIS0pvWGdSbG8ybFVWRlFESXUw?=
+ =?utf-8?B?eXROZHRRRmZZeW00V0xkVFNadzVoMUIwYmpqRDNoVTV4dzh5dEIxM1BlbTIv?=
+ =?utf-8?B?ZjFVNFZvV09GVDdPSEU3cU1kbVdMS1dCNkJSY1pJU282ZGxta2Y0SGpTMnpJ?=
+ =?utf-8?B?KzFYZGxzRmw0RUU4RWJGYzZkRmNIVVdmclJCMld4ZlRpVWVhWmJHelBSSkk4?=
+ =?utf-8?B?V0dVRjhzOVR0QnFnOUtZaHllVVlnNTRId3dGMWxjc2ZVQkVUeDdLMGNibDcr?=
+ =?utf-8?B?Y2lrQWhSYUt0UXI4L2JreExTTVA2VXdLRE9aWTREMVlaWFVKRDBaWXJyeHhI?=
+ =?utf-8?B?NEZtV2d2Z0lnK0M3Q0hIek5ETHhwRlpKZmJMejM5NTFKTVZibkxpY0NiWXFU?=
+ =?utf-8?B?ZUVtTDdGeXgyc3dFRy9oWHVFNXhERXFPbGVibWZiaW5HSlk2VndyRWRYK0p3?=
+ =?utf-8?B?TnF6bXpQdlZvOWNGM011VEwzYTUwZGp4d3djK3lXZE16L2UyTUhQdkZNaXZO?=
+ =?utf-8?B?blZUblNDVktjQlZlclJjamh5dW9wb2dyT0o1WnMzak9EUWhJbnM5bXpWQWVp?=
+ =?utf-8?B?WjArZVRDTjNTQlVrTzVmMVFjM1Bub0x5alMzS2RQbEt3d2hYTUNoclFvejhi?=
+ =?utf-8?B?aHBqL3JNd082TnZrWmdqQ041ejMya3Rqbkx1eU9SN1ZXKzd0VkRIZWgyU29G?=
+ =?utf-8?B?QXVoK1JjMitYSjBVKzdVaUZYMlB2UnBlcm51cXVhd2RGWVRGaXVQTzk3cTBk?=
+ =?utf-8?B?Sjlzdzc5R1FDbnVmU2xRYU5udDg1MWpNNG5wMjk0dDM3SWJDamNBWlVRWGZ2?=
+ =?utf-8?B?MW9QMmJtUURZelhISURFeFNnUjVuUlREcnNLNVlVS0JYclcrZHliZ01DcWR0?=
+ =?utf-8?B?eVZFTWR6cUd6UzlNWEZzNENZMkxnUUZlSnY0WnVHeFhFK1phUUdhQ25EaUYr?=
+ =?utf-8?B?aTQwZlJWdWtzNXJaSXcydCticGtPMjR6cEpLdml6UzBWdlVtc0pEWHBnRUtj?=
+ =?utf-8?B?MFE4VFBkNStOUW9od0FuR0VFdEJPT3lJcWliV1BzcnNraWdsdkhwUUE0MTd5?=
+ =?utf-8?B?TlpNV1hoemxPUzIxZlVxUDlRN1RNSjlaMGp6NDJTSUFvZEROZHI5dHdSKzN5?=
+ =?utf-8?B?bkVZdnRpYjNNcmMwN2lKMHBBcDdpVTlzZEJsSUNxeUVWYkVXbTd4eWIzZ08x?=
+ =?utf-8?B?SWphN2E2RTVBelNIZmprMjRzK0ZBd3AvWjEwS09tTGJYNVZiVHJsQmVleFRk?=
+ =?utf-8?B?Skh0NXQwK2JwTHZKN01GVjMwODcxbDFROHZZTjlwem41MExUU09BcXRLU2hy?=
+ =?utf-8?B?ZGlEU3FrTng2VHl0MHRmMTFWN25aL3BmTnhxWmNyZXZMZ2tNbDFOZFYxTjMr?=
+ =?utf-8?B?Ly9BZDhTbzZwQ0xrYjVwRk1EZm9DT2JPRFU5TjBUR3hBOUdXMkYrNUtnNWZE?=
+ =?utf-8?B?NnFPclR2WEhzMEdXNWFhdVByeGRQcEpnK1ZzTFNyNzk0STBNTExHdDF1amY3?=
+ =?utf-8?B?R2FSUnZYdlA2M0x3bFFnTWRwZ1ZlNldJRnF6UG9RYjVxTm5oR3FHdzBTQy9J?=
+ =?utf-8?B?SHFtYVAyTnJ1QXVzaXlEbk5TdHpuRFIvTGhCNG5NajVrMFhGUWxBME1xVnhP?=
+ =?utf-8?B?OTd6bXRXNHlyZ0VPTkxFVXEzSnByQVc0aUd3TFV0cVl4cGRCREtKS0FJTFZz?=
+ =?utf-8?B?VG4xQ21wNGl2STdlSEduZlVLSksyOGdwKzV1WGNKbWp1bDhNRmpPT1pwT2Vu?=
+ =?utf-8?B?Q3J5aW5VSGRVbXRXK1NCUGZNNU0zSFNRdHY3VTNobkFHOHpUTXNWY2dBWFMy?=
+ =?utf-8?B?MzZncTNOek1VNGcvWFpYNXpybGZscGZwbWJ1eFVSUDE2MlBheHZvV2J3N0di?=
+ =?utf-8?B?d09VK1Y1amYweU5zR3Q0dERma3gzSHpzN3oxdDBzSGFBcnl4TUFya1hIWDVB?=
+ =?utf-8?B?Nmw4Q2xpZzRnWHJzS29FTkFCTVNZb3BqVktmVmVkS0RrNFUzekg4SlA0eTFn?=
+ =?utf-8?B?T3hRdVl1MkM5UFhYNVNkMS91REk2Y3B1aHlsOWtWUDZCMlk0VDE5QTRZdTBY?=
+ =?utf-8?B?WXMvODRRTEFuOUNFRkZkOXpBWVNZRCtFcEMyeXF6S0tHWURQT1Zudz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 508c711d-0aa0-4c57-6a4d-08df45cf93b9
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3485.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 23:56:35.0772
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qQuX2GKhqLRyWvAQkiW2pcUUylyE2p3cJM34VsOxWdBqQM59F9gKLmMGBf+WUu8o++71VmYoPI1hcdR0BxP1Ww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9161
 
-On Thu, Nov 19, 2026 at 5:03=E2=80=AFAM Kairui Song via B4 Relay
-<devnull+kasong.tencent.com@kernel.org> wrote:
->
-> From: Ridong Chen <chenridong@xiaomi.com>
->
-> lru_gen_folio_seq() computes how many generations below max_seq a folio
-> should be added to, but stores it in a variable named "gen". Elsewhere in
-> MGLRU "gen" means an index into lrugen->folios[], i.e. seq % MAX_NR_GENS,
-> so reusing the name for a relative offset is confusing.
->
-> Rename it to "age", which matches what the value means: the newest
-> generation is age 1, and a larger age is an older generation.
->
-> No functional change.
->
-> [kasong: dropped the comment table part, the series rewrites it]
-> Signed-off-by: Ridong Chen <chenridong@xiaomi.com>
-> Signed-off-by: Kairui Song <kasong@tencent.com>
-> ---
 
-LGTM,
-Reviewed-by: Barry Song <baohua@kernel.org>
+
+On 11/10/2026 4:14 AM, netdev-bot+sashiko@kernel.org wrote:
+>> +static int ionic_dl_cmd_timeout_get(struct devlink *dl, u32 id,
+>> +                                 struct devlink_param_gset_ctx *ctx,
+>> +                                 struct netlink_ext_ack *extack)
+>> +{
+>> +     struct ionic *ionic = devlink_priv(dl);
+>> +
+>> +     /* devlink fills PARAM_DEL with this on PCI reset; no FW_RESET check */
+>> +     return ionic_dev_getattr_cmd_timeout(ionic, &ctx->val.vu8);
+> 
+> [Severity: Medium]
+> Is the comment above accurate for every caller that reaches this getter
+> through PARAM_DEL?
+> 
+> When a devlink monitor is listening, the unregister path calls this getter
+> to fill the notification:
+> 
+> ionic_lif_handle_fw_down()
+>    ionic_devlink_params_unregister()
+>      devl_params_unregister()
+>        devlink_param_unregister()
+>          devlink_param_notify(DEVLINK_CMD_PARAM_DEL)
+>            devlink_nl_param_fill()
+>              devlink_param_get()
+>                ionic_dl_cmd_timeout_get()
+>                  ionic_dev_getattr_cmd_timeout()
+> 
+> On the watchdog path, ionic_lif_handle_fw_down() only runs after fw_status
+> has lost IONIC_FW_STS_F_RUNNING. ionic_reset_prepare() is also reached from
+> ionic_pci_error_detected() for io_frozen, where MMIO reads return 0xff. In
+> both cases the firmware cannot answer the GETATTR.
+> 
+> __ionic_dev_cmd_wait() then prints the warning and returns -ENXIO. do_msg
+> does not gate this warning, so the _nomsg variant still prints it:
+> 
+>          if (!done && !fw_up) {
+>                  ionic_dev_cmd_clean(ionic);
+>                  dev_warn(ionic->dev, "DEVCMD %s (%d) interrupted - FW is down\n",
+>                           ionic_opcode_to_str(opcode), opcode);
+>                  return -ENXIO;
+>          }
+> 
+> devlink_param_notify() drops the message on that error:
+> 
+>          err = devlink_nl_param_fill(msg, devlink, port_index, param_item, cmd,
+>                                      0, 0, 0, NULL);
+>          if (err) {
+>                  nlmsg_free(msg);
+>                  return;
+>          }
+> 
+> So no PARAM_DEL is sent, but ionic_restart_lif() sends PARAM_NEW again on
+> FW-up. Monitors would see two PARAM_NEW events with no PARAM_DEL between
+> them, and a spurious warning is logged on every FW-down.
+> 
+> There is also the case where FW-down starts while fw_status still reads
+> running (a generation change, or IONIC_EVENT_RESET) and the restarted
+> firmware does not complete the command. Could the getter then block the
+> deferred FW-down work for up to ionic->cmd_timeout? This patch raises that
+> limit to as much as 255 seconds.
+> 
+Fixed in v3: the parameter is registered once at probe and no longer
+unregistered on FW-down or PCI reset, so no PARAM_DEL is sent on reset,
+and get no longer sends a device command
+
+> [Severity: Medium]
+> Can an unprivileged user use this getter to tie up the device command
+> mailbox?
+
+Fixed in v3: get returns the value read at the last probe or reset,
+or stored by a later set, without a device command.
+
+> [ ... ]
+> 
+>> +void ionic_devlink_params_unregister(struct ionic *ionic)
+>> +{
+>> +     struct devlink *dl = priv_to_devlink(ionic);
+>> +
+>> +     devl_lock(dl);
+>> +     if (ionic->dl_params_registered) {
+>> +             devl_params_unregister(dl, ionic_dl_params,
+>> +                                    ARRAY_SIZE(ionic_dl_params));
+>> +             ionic->dl_params_registered = false;
+>> +     }
+>> +     devl_unlock(dl);
+>> +}
+> 
+> [Severity: Low]
+> This adds devl_lock to two paths that did not take it before:
+>
+Fixed in v3: the reset paths no longer register or unregister the
+parameter
+> [ ... ]
+
+> [Severity: Low]
+
+> The new documentation only says:
+> 
+>    The value is stored in device NVM and takes effect on the next driver
+>    probe or device reset. Only available when the device firmware supports
+>    it.
+> 
+> The design may be reasonable, since the capability can change after a
+> firmware update. Should the commit message and ionic.rst say that the
+> parameter is absent while a reset is in progress, and stays absent if
+> recovery fails?
+> 
+In v3, the parameter is registered once at probe and not unregistered on 
+reset, so a reset, including one whose recovery fails,
+does not remove it. While a reset is in progress or after it failed,
+set returns -EBUSY and get reports the last value read.
+
+Nikhil
