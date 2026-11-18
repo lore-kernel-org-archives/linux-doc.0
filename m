@@ -1,106 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.72.100
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795006017;
-	b=BkfKMzQP8UfBYgKnOZ9nQy6GlDk8PyekeBgMVnVz7EGWdF1O4hePpfvn2r/z/0eibaBY
-	 Cp26MZA3jTknav+l3SEqbebneP2xObV/XE7XmwwxfzaYu4qnx6gNuc3j1aSpGrSgE9cvU
-	 Apn32pMI1gclSTl1XWAwj+juBgrWMnbhmksma9vevljWkxUD3N5GWScFyLfXlQpKsoEgd
-	 iJ3Azi3PZzr3JncB6XYx92pL+fRE/6flHboVo+zNMuel3oGwuOrk3YSLiN157R9na2qLs
-	 lRBs21MmFs4OUnw8wNsCmRkbu1QZ+br5XpMPzP4PnLheoU/QpLMb++jfuHL1an7oe4Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795006017;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.133.104.62
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795006729;
+	b=Co9dTaOVCfqnULECVAvXSgk1DvCydVj/gT33bNQKNclW7utGkg8LZQaT9Vs9wN3Uu6yQ
+	 QjTS+EGs7XE8E8UkHcFqJj3lx04GfvTEAXtHmPt9MSOBFSp1z0cfvYpJMmLcb7sUBM8wR
+	 bKvO1rFtnhFYVe/xIc3YWAxP2S6N4WaWK3JHwgzFH6PJgrn/uI+IkGRcJLRrXuLsEaAQ2
+	 IKvtL1T8JaY7NVYvDs/YwpzkUCiH5W/eASYLgrVVs4meEHITMpwN2Fg/HZpn3ApDTa+xh
+	 CoF01U4IVUiDQJcqsa0/vlSYRkg8qogFl9EdmyQR5A676ydEDxxOy6cxpEOU9FpYDCA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795006729;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:From:To:Cc:References:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=li65XB04WseXUq8cuZWYwEHkNArGTVKVnfLUbCTETGs=;
-	b=wE3kRJ/DglXnYZEr59SJ4UXpPrCdOFgSdjaBwfletnsNrQ2sDY3rw/vvHYCi6LFWH4Ds
-	 KZs5j+0G7056TJ8f/L/Qq5VIpGZ4UbyT89q6FrPNA6B7rpBoZEHkWwMOvdM7mrBZUhyb3
-	 NEicn2oZ86UrJtvOHmz3tE19rFAsRrCP+rrq7NPAyh8lQDYNCqHCNy81Z/CZSfkY7ji9G
-	 IDtPY9jVI6KC43Fz0wW2wUEHHZnevGndAzSL6ISgN0cyUJ3wR7QGG7C4LhnIcmb3bupDo
-	 vaZMJLMKDiNLTLCs95jVMb0BUKf3ihBmqgR5dZavW8Lr7Jyhu+gcG4sLnBB3a0xwIGA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kontron.de;
-	spf=pass smtp.mailfrom=kontron.de;
-	dkim=pass header.d=kontron.de header.i=@kontron.de header.a=rsa-sha256 header.s=selector1 header.b=Mtnv5zc6;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.72.100
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11023100.outbound.protection.outlook.com [52.101.72.100])
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Virus-Scanned;
+	bh=zmvoEpqpabGUDsHZXTw1VbdurVjwfR2E9sHZpTo3HYM=;
+	b=WKmPttozYCo1Wp7TV45T+E+PUvBptnxDcEEZphLzFlEk94mVYS3OWdUfm0v3jZ3KGxqq
+	 XG+t5FUXYHAkMtALlo0fBpOiPSNgLAFPCcznsUsSaJjEsFhu4XJvDDHXHtqQzGuRs0pfz
+	 MRopzYTXSeLgNCzFXNAYgccrHtwkvvkAFc8GAfWqlj3+eFFGT6z3eLQ6bzxlMZEg6EYI+
+	 FQE7X8wHKneW3Xi+cmgxrR6ckZyYypWxQAjNkGYieUvVx8u6x0okegxVP6wVRYF0gLGCB
+	 1ylGJ/4IimIWkIF5gxurNrEhQ41yzzpzfANicabmJnfAWN3QRv9oep5JQFWkM/LUcNw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=iogearbox.net;
+	spf=pass smtp.mailfrom=iogearbox.net;
+	dkim=pass header.d=iogearbox.net header.i=@iogearbox.net header.a=rsa-sha256 header.s=default2302 header.b=IMyNwftp;
+	arc=none smtp.remote-ip=213.133.104.62
+Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101D9606A335;
-	Wed, 18 Nov 2026 12:46:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 101D9606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kontron.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kontron.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2101F606A31C;
+	Wed, 18 Nov 2026 12:58:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2101F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iogearbox.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kontron.de header.i=@kontron.de header.a=rsa-sha256 header.s=selector1 header.b=Mtnv5zc6
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s9VuuxN8boBa9Tqutycp5jxINfMyYV2HZCcicoAY0FKRa8WkHSGTFPFJ+1i97Acf7zjUsfMGD3jB9GPXgqDkCUTHkAfe+j0QVcqYlPdMThK54/BSMKjb2a16XZZch/5dUZ2fu2W7vtpHlSVf1FaHR0P3toEJb6fXx1s1MUpdROq3+lxphGmDLD78Yf3i78BI2kxxg6+eRAhuyhJ0eqW7ui/bX4W3bfH2J1YRjJz3aqe+oZZ0vXhpShptbCy0mnZ3RIileCt9H8CPkhqF6ml34fyeV/jsPef2gokecQEp11ZL/4xP+ZCZ7TfE1zl4tDKTMnugPVBJt6mTqnqaM0d6qw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=li65XB04WseXUq8cuZWYwEHkNArGTVKVnfLUbCTETGs=;
- b=ZTTBK69+N/2Gh4QdQiOAEpl+ab87/XX0lfWqhb8hfPbqXMiwLLxr86PK43+hT1CoYQWeaKHl5MVEzfa2lJm0l/w3neLb5O093CQP+PrUuex0zoUc0Kl5t3p/C94GRrOrkPOWqN9EW5lY2NZ8i8y9GdMhrh5sEy98LMLfoXcNTkF8A1kJTcX0CLUAcFVm9nWOikpFI9buzFCp0F1TleLSqtdUWWJsWNosn8jbxNIj7/ClNLeDIb1WN0uSoKci8MoOkwqgiZlv08tFHQFpxgMrewRJD5cHNDqNnuwtjXan5I6a3f/c5F4/kehMklCNp084j2KJvX+9pMZUet6emJSeKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kontron.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=li65XB04WseXUq8cuZWYwEHkNArGTVKVnfLUbCTETGs=;
- b=Mtnv5zc6cN/BUEPpsxiwZXZzf8MBL6qF5udebUndjcr3YusB4h/xAGEPoezHoa1RYxwm6eH27Dw5CaVqVZfofBHUPXySu9fEtaMk2ckrk13O+JVH2QZDHYRuY6/0H/5WAakdowg+caGEcVMj2ynmvahJPwtb0NE+QdbsxfCG2+cKgPH/2WHi8FED31Flws8ONcwhpQX66QYiIPvgiquGyyvzQkzSfzcLjvEnkQzpInVyPp7dD2Ijmc1soHg8ixV7m3b4avdLbuUvk/kwGuFDA9xzRB/rgVSwd4mb0tdYqIyrj3F96Ef2v1Hh8KoX9yfWUqdoS4sGK+dtTg71uftHKg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1fb::23)
- by GV1PR10MB679331.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:3be::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.8; Wed, 18 Nov
- 2026 12:46:47 +0000
-Received: from AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a276:4ad7:962:da22]) by AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a276:4ad7:962:da22%3]) with mapi id 15.21.0639.006; Wed, 18 Nov 2026
- 12:46:47 +0000
-Message-ID: <180d2335-e328-48a4-b376-a90464279027@kontron.de>
-Date: Wed, 18 Nov 2026 13:46:45 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v51 5/7] firmware: imx: adds miscdev
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-To: Frank Li <Frank.li@oss.nxp.com>
-Cc: pankaj.gupta@oss.nxp.com, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Pankaj Gupta <pankaj.gupta@nxp.com>,
- Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- Arnd Bergmann <arnd@arndb.de>, Peng Fan <peng.fan@nxp.com>
-References: <20260915-imx-se-if-v51-0-4a7dac612cb5@nxp.com>
- <20260915-imx-se-if-v51-5-4a7dac612cb5@nxp.com>
- <2034fb2f-f169-46a5-85e8-fa723ddb0360@app.fastmail.com>
- <aqqqDnOMmlfqit6u@SMW015318>
- <f3e1e3de-6abf-48cb-aba7-7b231c38ec5c@kontron.de>
-Content-Language: en-US, de-DE
-In-Reply-To: <f3e1e3de-6abf-48cb-aba7-7b231c38ec5c@kontron.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PA7P264CA0171.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:36f::20) To AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:1fb::23)
+	dkim=pass (2048-bit key, unprotected) header.d=iogearbox.net header.i=@iogearbox.net header.a=rsa-sha256 header.s=default2302 header.b=IMyNwftp
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=zmvoEpqpabGUDsHZXTw1VbdurVjwfR2E9sHZpTo3HYM=; b=IMyNwftpJQEBaOtzIEomo/t7jA
+	vkVKeXPQoA7pYiC+2twrNnhLQd0YAs50KQTXzTqZiThLSUfCT1V4bIO7I5nMCrTp/q3y126Ybxpxc
+	ZMTMSnsF6ALNVgk7NgX+3RbTNP3WiPz2npr/YzHgA0+l3ke+Z609hcLwKu4Iy6BGCSTtfB/AFrSI5
+	hIh/fW5DPOyJSsCCTwsSeNRzviEHBJ8FA6IHpNfLZKc4EZ+EkVuYyRoYck4Yse4V6JB0cLquUNXpE
+	UZduZCDYsp+NWVFgNswnfYTezTQ6PBxc45a+Ic7sGpfxKmSVwd7Hwh/XuxD3cn3RHh5IxdTd8AdxK
+	TchBa8SQ==;
+Received: from sslproxy01.your-server.de ([78.46.139.224])
+	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1xTfF7-000KaM-0J;
+	Wed, 18 Nov 2026 13:58:29 +0100
+Received: from localhost ([127.0.0.1])
+	by sslproxy01.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1xTfF6-000PVf-0a;
+	Wed, 18 Nov 2026 13:58:27 +0100
+Message-ID: <ea8a18e0-12cc-48e0-903e-325a8ece5a0f@iogearbox.net>
+Date: Wed, 18 Nov 2026 13:58:26 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -110,119 +68,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR10MB4277:EE_|GV1PR10MB679331:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc4105a3-89fa-4356-7977-08df457201fe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|23010399003|366016|22082099003|18002099003|4143699003|11063799006|56012099006|261026121527099003|261028144727099003|261026140227099003|261021135927099003|261022105027099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	Ky0PdT6lBXaqUqjecjl5xWVsDN41TJKrUDSUO8Q2g/q+iJRpN941SVEYlWJTWVlzl2bqZgMbRwyNb2xkaqeeJMjN/MxaltNb1uUE8rar3ccSjY5P467z5ScWItxp7yJePRhNMA5a+eN1wDpyZsQWh/uoBTpYbmViuP6xv5LLxpZiEdqlYbjFmMcQRXvkAgdr2CcSNFD9kLs51aNDwHp7TH4M7pvIo5Wjl5sWacndVY3KQ6+IZYl0uKHn5hoWPxYNnQygRdxls9INa4y5ZbWqJw0szvE51YqfaMp2PFZXiZqSorIVIpXsweeCO8s53ynE8T2czxO/JNDP9pgfmDnqgrZ9HbrVqumSU7DdWfyKzj4hgfRMCuo0sKPi0UztvGMaaEc/oaX4FimhpjAMr9WH7+KZEeT722haq0WlTp1jHYTEIny3uouOmyGuBbTKstfmM3j8iwMhGzisKVtOr0pEsVelgQKlIe5nljq1Nsc1xlKJq0P7GA9zlM9GFxnCncRrWPybGmFrKTuA+kNb+LTVzipdPxMAuGiZFjG7KoA9yP4/4nXltoyYoK0X/FT+sPkPr3USAq/wjSDOtGwhrZqTwWFHQlllTQT1ADGlp/oX+AsLNvDsIE61dx3uHhbfC7GNUYhC51fLF/obQZX+3ul0VPxPcSSsSyYqw+xUrh2j4gg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(23010399003)(366016)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006)(261026121527099003)(261028144727099003)(261026140227099003)(261021135927099003)(261022105027099003)(10067099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NVJHV05KOHBValhCVGN5d1NqQWRFRkhseG9aWmJMTmRhYnltbzBmYUlJL0Rl?=
- =?utf-8?B?WUJhVC91QWV3dElTSFN1WGNaVmcxanZsSUxQUC9CbE0rMU5DNDRoMU5CLzRE?=
- =?utf-8?B?ZU1qdnh6TXZieGNEc1V2WHVNbVBnRTdOU3pwc1RObytyT3h1c0RoaEYxaEU4?=
- =?utf-8?B?elJKMW5UdjZ4TnltaFRYRXpxK20vSXFOMlIyQVdTL3RucWVKeWxjSHhTcWxr?=
- =?utf-8?B?UDVvcTYyazh4WG43akM2RVBlZ3NMd2R2emJzZjBQUTlRWFEweHp0Y3FhSHE5?=
- =?utf-8?B?UGJXUEt1ejRNKzVRNGp0dlI1azhWajlIajNwOGFNR3lPOUVIUjc4L0tJZ3da?=
- =?utf-8?B?S1pxWG4veHRTazQ4Yld6eFBvUkhvNkR4Y1JEV3RnY3h6T1JTTmlsV3MrTW5s?=
- =?utf-8?B?UkxpZndJNk5NMHUrdHFxT21iZ3ppRXBkRENpNkx4T2Vtd2F0bDFLVSt1alMw?=
- =?utf-8?B?U0xWZ0VkNGwxZy9HVG1reWlWc2M3RVJlL0Y5bmpOSjJLaXBTK0VyNjUvSzBK?=
- =?utf-8?B?d1ZGL2UwRFI3dW4vOTVaQzRzVmhrMy9YdU40MDBENURtaUZlNHBHdUdIalo5?=
- =?utf-8?B?R0g3cndoYnBPOVN3QjJoUnllN0tuSlF2VFh5TUFlYUpMZkdHQ2xabUtNZGky?=
- =?utf-8?B?aUJBL1pya2FXM3A1elprcnRBZGNFeTh5Y3NGMXJ5V3YrODc3N2tXWlNaN0hR?=
- =?utf-8?B?d1RSeUNmbVI5UlNxZ09tbURwQ2tad0NBUGFMVlJxWGQxc2ZjeS9DeThUdSt1?=
- =?utf-8?B?ZCtsQ1FLd2dBNm55Ylc2NWFySVBVY3JRZGNsMTF1dEpVb2hNTzd0SUtldGM1?=
- =?utf-8?B?RHgySWJaeDNLVjNEbjZqaTdIL1NNTXVoU3dpdlhxTVVxZTF0MHp3eXk2OE5v?=
- =?utf-8?B?THFRcXl1eDZnY0pvNUNxUFlFQ2M5T3NqOUE3U3J1Y2Vud3lEKzZRZUZKTlV4?=
- =?utf-8?B?ZG9Ld3Myd3cwOGNUVGdWLzRMNk5mb29mcnhNdUFyUzlyZ2x1a2pBK09tWkdo?=
- =?utf-8?B?Y3lvMDNKRWNkNXNQMENGRG91aXBTeWRwNEl4L3p0RVRYWUtDeERkdnJmajhu?=
- =?utf-8?B?bWVKSlUyWHNHa3k3eDlSaWdseXNwNUgzaUtIOUQxSU1DbEJYaEJBcVh1Ty9O?=
- =?utf-8?B?SUhsV0s2VHZ4b2FpM3FicHZzU09tOXJMandjMlFvVWUza2hNaG11ekhVbklo?=
- =?utf-8?B?T0YwN2dsWEMzcmpWUUlab3R3MnNJQ1JmT0F1K1dGaEVtY0UrT3gzNEV4VFZs?=
- =?utf-8?B?UTVsSHlvWDZscFlqdTkzMG8vWUk1NDQ3ZjFSSE5sS2JEbi80ajlWbG9MTW9M?=
- =?utf-8?B?eVB2OU1RVHV2L0JVUURjZWMzSmxOYmdYaUJFV283UkZucHZIQVJ0MGJIamRR?=
- =?utf-8?B?ZWVNb0tFQkR3NFNHbWJEQ29LM1NFVlo3Vm15cWRuRVEzcjVLRDBkRHVoS3RU?=
- =?utf-8?B?aVNVTEVnOUlpOTFMajVPU3R1YWhKTXFUdU9icjNRV2NVaEdjeEV1R2xiSkZM?=
- =?utf-8?B?MUlrZWZmR2J6am9ZV1hyK2NQSE5iWGc1ckFJZ0RqSkY4ZTBPK1pVd0VUajRy?=
- =?utf-8?B?R0dMUnE1MVpwQ3VSSGN2S1RzL3F0b3RWSVM4MHhQbDVDaC9HNjE0U1pwY3NJ?=
- =?utf-8?B?NlFtNnB5QXI0SnJ0QXhKMXZyN2xnQ1ZoNmF0eEJxZWM3VjhqR2RVVGVLUHcy?=
- =?utf-8?B?Z3o1ek9oTUpWMElHSEJVR1FoTEFDTnIzendhTzlBbW43bHBOeGFCQ2xuK0ZD?=
- =?utf-8?B?Ti9rTXM0anV6d1VYMGllSDB4a3RiMlo1bFhoMFRJSkViZnZia1Q2YWtYN2Nh?=
- =?utf-8?B?SG9Nem16Wmtac08wcjRhdHZsMW1jTUpKTEdBblNTT0dOb0JpeEFSZytjVGto?=
- =?utf-8?B?NE9kemp4dnIybU84Y0h1M3RtMTl2eStLeWFXTnEwbmtmZU01NDE3Y1JGZVli?=
- =?utf-8?B?eUsxMGdKaTd6QnJad3JLR091RmhJUHZNMzgxQkVQOVU1UDh4bFdXSk1DV05u?=
- =?utf-8?B?cHYxdW1oNGhNNkhpVlVWc2tvRTFEVjVxaWdYNGR4eTJnVFo3cy9KNnZiZ25l?=
- =?utf-8?B?UFFVMG1jdHlzTWE3NDFDY3RMYlEreGJ5dHYreUtmRVVBZnVKY1lRTG96S3lR?=
- =?utf-8?B?YnAyTHltZTZqcVVJUTFPQWFLUmNCVkpHMnd4TGsveDNUdXhPL0J6ZXVsVThx?=
- =?utf-8?B?MTVhZkh4QW9wNmJLVVA5QXVENGZuNXdtK0d5aUtTQTBwbWVtS2E3eVlvbnR4?=
- =?utf-8?B?aXd3OWYrSGVDWnpGcDkzV1dYT08yL0xaVzEydHI5RG9jNk1DenA2aTBDVDEr?=
- =?utf-8?B?WXFDSHFNMHo4R1ZvTVJkSk13bzB4UVJ1WkJFbnozV25ORGRBSnN4RGYzZXhZ?=
- =?utf-8?Q?ym4JyVX74TapihdA=3D?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc4105a3-89fa-4356-7977-08df457201fe
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 12:46:47.3108
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fLpQ6Fjvh90elOHSSvl5GYtc9+A/5KkBfklhC0Lw9uQaLSnwa5ki3UxIySswKbbcYLAhiMKEE2Ahw04E7Shb+SRN1qZ150XWGHrfE+pmKbE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB679331
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v1 07/15] bpf: don't redirect decrypted skbs from
+ egress to ingress
+To: Todd Freed <toddfreed@meta.com>, netdev@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+ <bjorn@kernel.org>, bpf@vger.kernel.org,
+ Daniel Zahka <daniel.zahka@gmail.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Jamal Hadi Salim <jhs@mojatatu.com>,
+ Jiri Pirko <jiri@resnulli.us>, John Fastabend <john.fastabend@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
+ Martin KaFai Lau <martin.lau@linux.dev>, Paolo Abeni <pabeni@redhat.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Simon Horman <horms@kernel.org>,
+ Tariq Toukan <tariqt@nvidia.com>, Wei Wang <weiwan@google.com>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+References: <20261111005533.6436-1-toddfreed@meta.com>
+ <20261111005533.6436-8-toddfreed@meta.com>
+Content-Language: en-US
+From: Daniel Borkmann <daniel@iogearbox.net>
+In-Reply-To: <20261111005533.6436-8-toddfreed@meta.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: Clear (ClamAV 1.4.6/28187/Wed Nov 18 07:28:39 2026)
 
-+Cc: Peng
-
-Hi NXP developers,
-
-On 05.10.26 16:28, Frieder Schrempf wrote:
-> On 16.09.26 16:39, Frank Li wrote:
->> On Wed, Sep 16, 2026 at 03:16:13PM +0200, Arnd Bergmann wrote:
->>> On Mon, Sep 14, 2026, at 21:40, pankaj.gupta@oss.nxp.com wrote:
->>>> From: Pankaj Gupta <pankaj.gupta@nxp.com>
->>>>
->>>> Adds the driver for communication interface to secure-enclave, that
->>>> enables exchanging messages with NXP secure enclave HW IP(s)
->>>> like EdgeLock Enclave, from:
->>>> - User-Space Applications via character driver.
->>>>
->>>> ABI documentation for the NXP secure-enclave driver.
->>>
->>> I just saw this in linux-next, where it has caused a build failure
->>> for a missing include of linux/slab.h. I hadn't see the series
->>> before (even though it is a v51, which seems crazy), but I am
->>
->> It is in linux-next about v37, but build bot find many problems, I dropped
->> it and request to fix it. And sashiko is online recently and also find many
->> risk. I request to clean up it, and local AI environment have difference
->> with sashiko, so bump to v51.
->>
->> I put to linux-next again to make sure that pass all build test.
->>
->> Other two problems, need more time to check whole review history. reply
->> you later.
+On 11/11/26 1:55 AM, Todd Freed wrote:
+> on transmit, skb->decrypted means the device must encrypt the packet.
+> For example, a packet of a ktls or psp offload socket, or, with the tc
+> psp action added later in this series, one which psp encap attached a
+> tx association to.
 > 
-> So this is still in linux-next, but was not sent in the pull request for
-> 7.4. It's rather confusing to me that maintainers add stuff to
-> linux-next for build-testing and then leave it there, neither removing
-> it, nor continuing the mainlining process.
+> on receive, skb->decrypted means the device decrypted the packet.
 > 
-> Frank, what is the plan?
+> bpf_redirect() and bpf_clone_redirect() with BPF_F_INGRESS send the
+> packet to a device's receive path with the bit still set, where it
+> indicates the packet was decrypted by the device.
 > 
-> I'm currently rebasing my work for the NVMEM driver onto linux-next, but
-> as there have been so many iterations and this whole thing took so long,
-> I want to make sure that this is not another dead end where I'm wasting
-> my time on.
+> this is less of a problem with socket offloads, whose packets are by
+> definition generated locally; more of a problem with socket-less psp,
+> which can also apply to forwarded traffic.
+> 
+> in addition, the redirect drops the dst (skb_scrub_packet()), which for
+> socket-less psp carries the tx association.
+> 
+> drop decrypted skbs which bpf redirects from egress to ingress. this
+> matches the behavior of mirred, since the previous patch.
+> 
+> Signed-off-by: Todd Freed <toddfreed@meta.com>
+> ---
+>   net/core/filter.c | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+> 
+> diff --git a/net/core/filter.c b/net/core/filter.c
+> index aca8160b26a1..a178a9dd3007 100644
+> --- a/net/core/filter.c
+> +++ b/net/core/filter.c
+> @@ -2226,6 +2226,15 @@ static int __bpf_redirect_common(struct sk_buff *skb, struct net_device *dev,
+>   static int __bpf_redirect(struct sk_buff *skb, struct net_device *dev,
+>   			  u32 flags)
+>   {
+> +	/* On transmit, decrypted asks the device to encrypt the packet. Sent
+> +	 * to ingress, the packet would read as decrypted by the device.
+> +	 */
+> +	if (unlikely((flags & BPF_F_INGRESS) && !skb_at_tc_ingress(skb) &&
+> +		     skb_is_decrypted(skb))) {
+> +		kfree_skb(skb);
+> +		return -EINVAL;
 
-I need to ping here, again. What is the plan at NXP to move on with
-this? This is blocking multiple features that depend on ELE firmware
-support for i.MX9 and similar platforms from being upstreamed.
+This check should rather live in the bpf_redirect (and friends) helper e.g. after
+we check for invalid params, etc, rather than here which feels off. Also, it would
+probably make sense to refactor this condition into a small inline helper so you
+don't have to open code it multiple times.
 
-Thanks for your support in advance!
+> +	}
+> +
+>   	if (dev_is_mac_header_xmit(dev))
+>   		return __bpf_redirect_common(skb, dev, flags);
+>   	else
 
-Best regards
-Frieder
