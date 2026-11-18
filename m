@@ -1,151 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.15
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794996105;
-	b=aASBHDXWpx8No5DusHI8OWWYXzquW8Xsu0EFAXXycW/7DpYbEafdzdYyVIaAPgQj8Rgs
-	 MkF44E6pwIGt70SmC0zQf6Htm/um1t/052Nu143kqqSBdY+sj+uNTyWdTR75zpU1Uwgua
-	 fh85j7DbNfr9AO7oaYGdVV2yhwXVQlcLit0lBlxFuUVK0927DCelN+QfV5V/aJGHYWvBp
-	 1eaylH3rfOIhlYtiyt+MmWWpoB+Lg2/Omj9z9ndV9iG6csCuqsVXx7ovRzYcioCb6yyyN
-	 /cIRC+CBd1XMxU28M60947VVOm8Ej+Hx69CZ+GgTHJ/5rv+zn9eJ0DOPNuoGyPEL+Bg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794996105;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:DKIM-Signature:Received:Received:Message-ID:Date:User-Agent:
-	 Subject:Content-Language:To:CC:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=p12lkhC7FXrxblgIXJozAe7t1duiM/m5iM7/Y8MMs3Y=;
-	b=Bm5I4ORCv8eGdaVHgMxoB/5MHLP6jQ9PtfsDn3eFlHEtCNOqQ7Jxi7kJ5O2Vm7y8047W
-	 4x3W4E4c+MB1Nrxv+L1Hah/Uj9q3kGaVLN+v3Cv1aPkygubq3eeEWhSdZBnmNHMBxFu3k
-	 +j50fEXgR5oWtR/AftPBBD+1LQSOgpfoEkgHyIZ7CLFisWlgqNeGJZSOdX3hQulR+2GXC
-	 VMhHE1No0NUeEIxanlPfBetfXAUpSf/iAEt+7s0A4gutrWz4H0TY6t8KH/Zu0+bqVgNGF
-	 vs2O8aW8EDbx37PvpDdZmjndQ2HtRgjzNevh6JDHd2QJ30PwSxRhpBuPMHhTEF2qEQQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R83AjDOj;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=selector1 header.b=k0w7UkSY;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794997327;
+	b=v+29KtQlzNHRczSotZV4gYMFzkqzd9x5no8upeqo4ripaWP5JyprGi2PqWBUoiwfHUFu
+	 89nRtwKz9vGHgwrncdKkyFL8LeRorrOai6gW9vliwGe4XDA4ztuWIy8yQt62nS/b7mlL+
+	 g0jduY5TsWmaosJomi5rOH51hNAuAWNqUKXQgmfgVe8HjQ0DT1ZfBdkebvYl4qNa7Z6x9
+	 YiMcMb9MtrqAZvw2TzTe4DbJeEOSn/ZchPvCjXhcPAc/KLUD8Hf2djRwWTRldxdRxtxB2
+	 qzspC2Riv6H62ygvYAs/0qDSy2k9i7EnTrmkM08FPLVp0hAp4aOcYd+2iDJsSkOsGwQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794997327;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=VyI0JOmPAdt2iJBvWvYtuzWRsKEvaX39Ad8ehcsibZM=;
+	b=g47+mTQWA8Eo9Gcv5ITfOqz6bN4XPVjrZIJy6DGqVPi4QrkHD4QyJQe0IJvZoagk0zKA
+	 PuuPIEPXFQjuNPccaRADDFOt4HuP+gol7rTxvW+eDRNXbWaTVhzR33gv1oEKzQrpMZi46
+	 EZsds7WDhA179vyIZi8//oq/qSRJxIJH1KcNjc9eKAjswZpHZynVtk36r9LmB4UpnHv7M
+	 shLbX0rwdborJTNjCNyHJ0dGeNR5V1iVQ0OA9LMJPSUyYZdWkzd7sMSi18aAHUPiYGWoH
+	 X1dW7fHqEGGPU6DtlNGIGVghcNqU2O7g0RsFoMRUPisNaMfGdC8XaAUTraScJ+84XtQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HXjwcxoa;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05063606A31C;
-	Wed, 18 Nov 2026 10:01:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05063606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A87606A31C;
+	Wed, 18 Nov 2026 10:22:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R83AjDOj;
-	dkim=pass (1024-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=selector1 header.b=k0w7UkSY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794996105; x=1826532105;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=SGHxktkOFebvvYqMt8jgC2/2HURRnqYxiBLMkOUsLKQ=;
-  b=R83AjDOjQvrEfViU3T8EUl1bwJ75OtQ/rdDHfbDjounytxz3YyWzcVcw
-   sQa2yz5+Cv/AGLyHmRm7Kf5gobIJ/EgdMQJJcT8nZ4+qckfs7ltLOwess
-   TGeJibH1iU4fM4vBUgeFjWEqYCKR6M+vtZLBvio/obAxBuUri4Ngt6oRX
-   OWpOGVsThDZNCHEVD++XQbHTTnqlLnhExoU15+G0Mj8kOaUNk2vbSCt30
-   UiiIhV8x9dHNAUoP26PIdBCs4s/n16ZckN4wN9ZMqLM1K43Kh102Rzyoh
-   fKGVkE4pfX0/iqLQhAgOVcSeM1lkR5oz5vVsomg+MPzbbuUz+ijbSMQiA
-   Q==;
-X-CSE-ConnectionGUID: XclwBo5tTHKbIfML3G7MbA==
-X-CSE-MsgGUID: Hq+znRGAQbaeM7Whu2gXSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3809019"
-X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3809019"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 02:01:43 -0800
-X-CSE-ConnectionGUID: bPqfiB8CSF+MWgTo9f7xMQ==
-X-CSE-MsgGUID: DaMVf2vHRnWVm8qPPf1+cg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="10245935"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 02:01:43 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Wed, 18 Nov 2026 02:01:43 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56 via Frontend Transport; Wed, 18 Nov 2026 02:01:43 -0800
-Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.17) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Wed, 18 Nov 2026 02:01:43 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RaFqWdIuhP4+/rukXtY9kyY212ZOvmwzr81oTFKVlEpJPBpdxC9DhLgZHCW0jYC9U/S7F9lzjNO3uOFYdQSiakO2nQEJEbpud/qSff5R8Y8kOHvehCXJtHIeTP/WVr59Oc9BbhkPhg5z+xoOXcWK9s3bQzeLkcwtaafrYW1zX4NYR2JQsz9FYt56wSXSWlYZBOTVKnu0cJWyzrJVZCZC0SNel1xW0+tYavQIdFQGQmPrLLCmJ2IVWD3faVrBNcqyfn1se/Q+s12utVU51+SjeCTR7ePiZah7VrlCgdTxtmcAEJOJeBRL0MQ5nIGn6g9VKf+4/SLB1qyr/DU6x1R+lg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p12lkhC7FXrxblgIXJozAe7t1duiM/m5iM7/Y8MMs3Y=;
- b=jAgmSAjSI3GD4O3fbEdLa4aZC5PwJIhlucNbtLcl2vonbomXHzUpM4n3is6urrlFSSSAmiTwzlxEyz63SaOSI4dOc6mmk/Cvf5p+Ji8HFckZ4OcNuaf31lJS95p1ze1nSiaUUqtW901BHv3TTFVSrud/KkCbQ4u+rpX+5eTlIiyet+7abzFBQmuJklJjSjWdVaasnzMUxu2NnYXibZvzbthZ2+HpIZ5+76VzXPu3t98bmj47U4MZ/mHr1oCRuDQmS4PbHkngjQjMMVCyCeIUmkdbmK5+Rdkc8JkoFBQw8zPjIAL8OapdQkSuukbZwvlw6OtBy0MXyOc7jvPr8Uswzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p12lkhC7FXrxblgIXJozAe7t1duiM/m5iM7/Y8MMs3Y=;
- b=k0w7UkSYLX6njRL/B9a32EUe2cqmeHogaqg5nxvrlosV8WV7jjCtnc1kRZvoQKeO7xcZsvYOIOGCyYPSCXY9p3/fPNXe2ct5QxYyHtVlBEmxWIE2es6FIlkBFJmnBP3jxkKs97ar6cByyjX3sPTkcIsJZLtXEmSUXwXNvjZ/il0=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY8PR11MB7846.namprd11.prod.outlook.com (2603:10b6:930:79::14)
- by IA3PR11MB9206.namprd11.prod.outlook.com (2603:10b6:208:574::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
- 2026 10:01:41 +0000
-Received: from CY8PR11MB7846.namprd11.prod.outlook.com
- ([fe80::cae0:d05c:b2fc:c395]) by CY8PR11MB7846.namprd11.prod.outlook.com
- ([fe80::cae0:d05c:b2fc:c395%7]) with mapi id 15.21.0615.009; Wed, 18 Nov 2026
- 10:01:41 +0000
-Message-ID: <12f686a4-a9f8-4347-a7f4-c0f893addfb9@intel.com>
-Date: Wed, 18 Nov 2026 02:01:37 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 00/28] KVM: Enable FRED support with KVM VMX
-Content-Language: en-US
-To: "Chang S. Bae" <chang.seok.bae@intel.com>, <kvm@vger.kernel.org>,
-	<x86@kernel.org>
-CC: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
-	<seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, Xin Li
-	<xin@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra
-	<peterz@infradead.org>, Andrew Cooper <andrew.cooper3@citrix.com>, "Tom
- Lendacky" <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
-	Shivansh Dhiman <shivansh.dhiman@amd.com>, David Woodhouse
-	<dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>, Binbin Wu
-	<binbin.wu@linux.intel.com>, Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed
-	<yosry@kernel.org>, David Matlack <dmatlack@google.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>
-References: <20260911213659.2025974-1-sohil.mehta@intel.com>
- <609c2e22-db8f-417a-93b6-c4fcafe79bc1@intel.com>
-From: Sohil Mehta <sohil.mehta@intel.com>
-In-Reply-To: <609c2e22-db8f-417a-93b6-c4fcafe79bc1@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BY5PR04CA0024.namprd04.prod.outlook.com
- (2603:10b6:a03:1d0::34) To CY8PR11MB7846.namprd11.prod.outlook.com
- (2603:10b6:930:79::14)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HXjwcxoa
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB1211F000C4;
+	Wed, 18 Nov 2026 10:21:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794997326;
+	bh=VyI0JOmPAdt2iJBvWvYtuzWRsKEvaX39Ad8ehcsibZM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=HXjwcxoaSOqZABRPB3fK3y+dBLkJc2kHYfI8Rg/t9SmJ48QgGuPd+Yqk42/FM6LJ+
+	 csz56INbPTFK9D2mECMKVo2BHstGNMdWQfQ6/PMZbtAeGo65QNM5zggzAFU5obGwIy
+	 2MgM/c69qnedcr5vKGGaeumvvOrHQ6W6NI2sFiHXKaCNxkvH8nAtjxrHn3P56Jcycg
+	 Y+4dT78FzjgUrtAGGmV3ZFNz1WiqBqPYJXSp3qJSdPEPVlAoDlE0zK11ZMJHrvOPyM
+	 fPOgQT0/HuzxnFRaKdfqhPEmLd5mId6joM3PBtgr4pY3GS39ZDFFDpelDANMqBs8PD
+	 Az7JoNEqqNw9A==
+Date: Wed, 18 Nov 2026 11:21:57 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: "Hallgrimur H. Gunnarsson" <halg@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>, 
+	Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
+	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+Message-ID: <20261118-stapeln-eckpunkte-lesbar-ee73537f474d@brauner>
+References: <20261028221705.3915340-1-halg@google.com>
+ <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
+ <20261106-befreien-addieren-eislauf-e09212803534@brauner>
+ <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
+ <avM41a80aig2de-R@google.com>
+ <20261111-behagen-faktisch-entgegen-e2e714373895@brauner>
+ <CALCETrUjW=kXxyggDUvEN+Pxc-pE98eVbdW8XBU8JzfqXj_voA@mail.gmail.com>
+ <20261117-rational-ohnehin-unbeugsam-e5c04759a156@brauner>
+ <CALCETrWhuOnBy0N0KznmczD4S2XEK0fbr0C=1KFQqTnoTJbQbg@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -155,165 +77,197 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY8PR11MB7846:EE_|IA3PR11MB9206:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3dbb12c5-997e-4fe0-40bc-08df455af118
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|366016|261026121527099003|4143699003|11063799006|56012099006|261021123027099003|10067099003|261102130727099003|261022075727099003|261022113327099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: JGI4H0nkqq9Tux7stRMiAi4eTTPV0vAy8htS8NZBW9MytHF9hOd0mvQz/tu/hpR7aMLjjSIW2+vVKUdFs/F5NgtpSEdqLzq737RlDpgrC7gIPSUmnrJSubTqLwZXfQWs6BkfLsxp6xLPnKhsvW59ChjFtdPlIDzPB2DAeYAaf2fhG2vNn27R8JF1nCoAAPHxjzmNgD0IypsPuyE4ck3DKKJ8dB9WxFYZKQyquCEqUgZqw2UNArZud80t9V0ow7O29h1rEA0jkrN9QLxrbTHfUy6mndU35dTNA0YF7KtwTnrak+gjy3LWXe0D6ljBfe0EQazfP8NasTh1cq9+DdTuBGnmarXcYCgelEtTkt3E/t/vH7NsuHmeZfmdAH/2CLzd0KCZY0EzwDyAmLnY3ymGnOePbs9oJi/0Rvn9ORUQ3XZUlabyYz79/UBAOkj8PCjc473VSLBmMrQCynxdqor23iRgYHXxAgl6G/RJKS9zybKxrXEQCxzMCWmXgiWRDjBLaHFS+uCcjGB/jSs6EWGc1JMI5TtPMUL+OPnohIi548AUMEsesEzCLHlMcFaVCN6/3HUfvm+WhSX3E7Rlh7W5pUH7wbIp0PVssRTmsEJqWPvz+RI1/FCvkdtLtInuan1WJiIeUXlBOdOBGaxI42YmtibyXBBi1RwyKiEVYlfxoRk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7846.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(366016)(261026121527099003)(4143699003)(11063799006)(56012099006)(261021123027099003)(10067099003)(261102130727099003)(261022075727099003)(261022113327099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ejhmTmh3UjNOUklCRmNtb1FLRkNxVXZ1cDUxN0VWa0hJb2ROVkpxcGZUdU53?=
- =?utf-8?B?TFRXdExzcE5za2dFQW44UStwcWsyWllvSGx3TkZ0RzExc0lnSjZtNUhyTEpH?=
- =?utf-8?B?dzRCblkxTzliTTVuemtLWFlRUTlDWkJnSE1vMTNNdzZrOVdtcFRWZWhHejh4?=
- =?utf-8?B?MjFwTmZLOUZhRlYrKzF4N2N2WE9sNVl0Z2dKWFZyVVExcU8zZ0VVUjBSbEVL?=
- =?utf-8?B?RW5aV3NqV0U4Tlk5QkZ2TTExcjNqZENwME96Y1JEWWphcWtrUW93SUY3WDZs?=
- =?utf-8?B?dHpKRzBqYWEzNlp2MnMvSUtUSFQxcnMzZkh5YmovYWJ2RnI0ZVlYaHUwL29k?=
- =?utf-8?B?cEdGaTRQMlYzcml2K1hVRlFZYkZHcEFoYlBZc1ZlV1pGbTRyNnJnNVpqaUpn?=
- =?utf-8?B?emROalh5NXBacjZ3aXFacGh6RVVxVElmUFJxcUZCUXo4Q2VpWHRONmF0OWU3?=
- =?utf-8?B?MVhRUGZoSm1wM2p6RGxHNnh0ckRwTGxhOGw4S3cyZ1Q0UVJOYVlhSERBTG5P?=
- =?utf-8?B?bm1uTit0YUxnZXBrc3JERzJjcXhTZ1lkR3BsQnpaNDFGQmpqMEExSm9XUW90?=
- =?utf-8?B?enJqMk1ENTdqNTcvNlNJbFIzU2pmdmYyaGplVm81ekxuYjNManBlMXVKTDNi?=
- =?utf-8?B?TGhobDQ0N055K1BIc1R4S3BsV2lLMnhub0dmNXBFbnQwcUxUalNVdW8yYTFL?=
- =?utf-8?B?VEcyalNMYm5GOVpFekZmbzlmSVgzQStPSExjcVVSTDBtOVdnd0ZESU03M0ps?=
- =?utf-8?B?c0J3WTlvNzJCYlhGdVV4aTBmRmRtYkVRSkZZS1JUNkZJVlYrbHZaSVc1S0Jq?=
- =?utf-8?B?M3FHWitabTdBakdhRDN3VGtZd2hHTXFadmtOUlg0UTBFdHdqNGd6ZzBxTm5r?=
- =?utf-8?B?NzVBemNxV3BpZkZtdFI5WjdOY0xoekhOWnhwbG9QSklBOFZ0ZE5EbkVRR0Ey?=
- =?utf-8?B?bVYyL0Z2Y1hhQWlmWXVhNHFzb1l3elJpcWJwdGEyMFd5akxJdUN3ejJTLys4?=
- =?utf-8?B?azl5SkRwQWhSM01lUUxVRVE3OFN2dS9RNXozdTNpNkw4TTM3elRtUVNNZTJZ?=
- =?utf-8?B?cUsvVWgrUU5oNjhROTB5Qk56U0NpZ0VRWUc4cHcyUTJ2a2RscHdhbTZLcWpS?=
- =?utf-8?B?dTBzbU5wdXJMRG5saDVOblFCUkcraUN3S2NBbmlPckpyTnJSWjh6V0p5dExL?=
- =?utf-8?B?Z1N4eEU2WTNRMnR2WEl1bjVNNDhsWmFJSlhwTXBKa3NNQlZCTWhUVlh6dGg5?=
- =?utf-8?B?Q3pvMVZ1Y1Fzdk04dVozZ0V3dlJhaXFnRXMwdEF4N0FGaXpZdFRKajNjSEVE?=
- =?utf-8?B?RDBiQ1FDa0xBM3NwNHJ1M3ozdkRhTlZVak1SWEFHSldkSUlZRzdTU1kyODg2?=
- =?utf-8?B?bXJQZXZPbkY1MlV1WlFxN3pUSW1hYXdzNXUraC9oaElxUWVRdHNPTGQ5bGcr?=
- =?utf-8?B?Smlub2Q2TmNRVXpZeEluY2xFbWZuek9obGFMT2c0Mk5zWW9HVWY2TjFrTVcx?=
- =?utf-8?B?RzVGdWdlVEJLOStOSWdNWmhCSm10WUM2ODJHenF5Z1g5QTVUaEwraTkzM2Jq?=
- =?utf-8?B?b1gwWW95QnE5WEZwTnJVU1JyMU8ra2ZPZSsybmhvWHdwTVU3cTdDclZ2d21B?=
- =?utf-8?B?MitlcXpZU1h1ZExxVDU0VGR1TVJacHl2RThudHBKWHByaG9GMjc1MENheEZX?=
- =?utf-8?B?azZ4d05QMW5QODQzdDd3c29sOHd4QnhaOU9yR3c4ZmwwYThKOGNCSEpielN3?=
- =?utf-8?B?b2l6SlczMVVydkNaeUEvTGkwcFlaTlY2U2JhZHl4eVRweHlJbmdJMlhqQjM5?=
- =?utf-8?B?SkhsUXhtUW5MaG5JVmk2Z3lIUDU5SnVpaFYrSE9RT284WjJlL0FhcVFTMWUv?=
- =?utf-8?B?Q2IrU0hIU3g0L0lNYnBwdTVRbjMzQXFqNUw1aUQ0Z2diaXN2ckxJcmcwVGJq?=
- =?utf-8?B?ODhyU0VUTFBCRjhmc21qdjRZVjdtQXdTTU5UbjdObkZJUXMveXZoeE5Zdndv?=
- =?utf-8?B?RTF2N2pWVkwzN09iaStCVTV2M1FyNElZbTE0VTZ4Qnk4RHhaYTBaWlJVWVRh?=
- =?utf-8?B?eHRLbVhUd25YM0FpTVBTTVZoZmFnMzAwajhSWGF6REM3Q09NdGY1NUZTeVBP?=
- =?utf-8?B?Y2plNE9jKy9mZ09hTXNBNWpHVDBhSStJZjJiWFl6M2gwVHFwVUwyaGN2STJy?=
- =?utf-8?B?Y2EyQ3UrakdTYmpPb2JXRkozajc0Zm5JbEpnQlRINXZ6b0UyNy96NVpYbGZx?=
- =?utf-8?B?ZW9iUU5JL0xLa1k3cTRtSVJtS0gxRXVtVFhpWll3dndwcThBck14RHBrd1c3?=
- =?utf-8?B?ZkpiMHc1WWlWVy8zcm1nSzJIL3FRQm85QnRFZFFtbGRLUFlEemVTZz09?=
-X-Exchange-RoutingPolicyChecked: PTwdDWMuUBEE64+KFp0Ak7E/iXzgBH6Iw/Y39p/WT3SD77QlXF4Y9pB+o6jwRwxATbOxmL1Ugc+9V3vQ4J79PMMH0tfcKYaQkOsnFrhzMLT0fwBuGJB6XcevIK6Z3kS+DUvaWZ/AHpAGnn6VD5figA/R94owIw0mGBlFjfU297NTql7pIJolGLkBhD5irpP3rvjpEwEfgZOmSHqInOCZTGu/Np165GE7G9VF060sNLNTimr2Bv4Ttta09oYLKmc8T4sQiVniCAW/dg7dqRsRc2sJhekJmOK7fe/pUbm+BxWpGLIl6oUudrS9eE1BNdA39IaeCnUmkibKZyHK7Vnkuw==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3dbb12c5-997e-4fe0-40bc-08df455af118
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7846.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 10:01:41.0816
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: O7127w90OOIRb0WbaqZ0FE6+F3NGsnT30Zyuebc+J8laWj+CSfxAv4Op9DYYR/0GN912GQGBQT0AnaepXCwjag==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9206
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrWhuOnBy0N0KznmczD4S2XEK0fbr0C=1KFQqTnoTJbQbg@mail.gmail.com>
 
-On 10/30/2026 1:53 PM, Chang S. Bae wrote:
-> On 9/11/2026 2:36 PM, Sohil Mehta wrote:
->>
->> Patch structure
->> ---------------
+On Tue, Nov 17, 2026 at 09:37:19AM -0800, Andy Lutomirski wrote:
+> On Tue, Nov 17, 2026 at 9:10 AM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > On Mon, Nov 16, 2026 at 09:15:18AM -0800, Andy Lutomirski wrote:
+> > > On Wed, Nov 11, 2026 at 7:20 AM Christian Brauner <brauner@kernel.org> wrote:
+> > > > * a task that setns()es in later gets
+> > > >   ns->cap_bset & (cred->cap_userns | cred->cap_permitted)
+> > >
+> > > I'm not sure this is ideal.  If a task has cap_userns & CAP_NET_ADMIN,
+> > > then there is no attack surface issue with allowing it to enter a
+> > > namespace and be NET_ADMIN there even if the namespace itself has
+> > > CAP_NET_ADMIN cleared from cap_bset.  But any exemption here would
+> > > need to be a new API so that it isn't used by accident.
+> > >
+> > > I'm mostly saying this because container managers might want to
+> > > restrict cap_userns within their containers but still have it
+> > > themselves for management.  But maybe there isn't any need to enter
+> > > the userns for this purpose.
+> >
+> > I don't think there is. A manager that holds the capabilities itself can
+> > just do most things from the outside. I think it's nice that once you're
+> > inside a namespace you're bound by its capabiltiy set. Otherwise the set
+> > isn't a property of the namespace anymore. If someone comes up with a
+> > real need to enter we can add an explicit opt-in later?
 > 
-> So I'm more interested in how those pieces could be organized to make
-> easier to follow, review, and integrate going forward.
+> Fair enough.  Also you've written infinitely more nontrivial container
+> managers than I have (I've written container managers, too, but
+> they're all special-purpose things that don't do much in the way of
+> actual managing).
 
-Thanks! This is good feedback. I've been thinking about splitting and
-making this easier to review as well.
+So I think this is another instance where we're bitten by the complexity
+of the whole namespace api. In a perfect world our answer would be "Yes,
+the owner of the userns is definitely capable of performing all relevant
+actions from outside the userns.". But we're actually not able to say
+that because there's so many different ways how some <object> is set up
+or configured for a container and nobody ever sat down and defined the
+model how a container and it's various resoures are set up.
 
+So once again, here we are guessing our way to a decent decision...
+Thanks for helping with thinking this through.
+
+> > > > * Root in a container has caps as well so for containers the exemption
+> > > >   would be wrong.
+> > > >
+> > > >   So here we need a a lockable SECURE_NO_USERNS_CAP_RAISE bit thingy.
+> > > >   This turns off the exemption and prevents raising the mask.
+> > > >
+> > > >   Docker lowers the mask, sets and locks the bit, and
+> > > >   unshare(CLONE_NEWUSER) in the container doesn't hand out CAP_NET_ADMIN
+> > > >   anymore.
+> > >
+> > > Can you clarify this part a bit?  I'm not seeing why Docker should be
+> > > special.  Shouldn't the inside of a Docker container work as much like
+> > > a normal non-container system as possible?  What's the use case?
+> >
+> > I picked Docker because you brought it up, and your goal of allowing
+> > user namespaces even in Docker is kinda the use case. Docker can only
+> > drop the CLONE_NEWUSER block from its seccomp profile if nested user
+> > namespaces can't get more caps than root/Docker wants to give them.
+> >
+> > But the bit isn't at all Docker specific. Any privileged task that wants the
+> > mask to apply to itself would benefit. With just the exemption this wouldn't be
+> > possible:
+> >
+> > (1) A runtime that holds full capabilities gives a
+> >     user namespace it creates all bits.
+> >     It can just set the bit before creating it.
+> >
+> > (2) In a container without a user namespace container root has host-level
+> >     capabilities. Any user namespace it creates gets them through this
+> >     exemption thing. So it can also add them back to its mask. And the mask is
+> >     inherited. So every process it starts can then create user namespaces with
+> >     them.
+> >
+> >     by raising the bit we stop both. The locked bit keeps container root which
+> >     also has CAP_SETPCAP from clearing it.
+> >
 > 
->> Patches   1-6: Enable the VMX controls and export the host stacks
+> I'm still not 100% sure I'm following this.  By "exemption" are you
+> talking about the cred->cap_premitted term here?
+
+Yes.
+
+> ns->cap_bset = parent->cap_bset &
+>                        (cred->cap_userns | cred->cap_permitted);
 > 
-> These seem to be preparatory changes for supporting the state and
-> extending event delivery later in this series.
+> (As as aside, as formulated, the parent->cap_bset term should be
+> irrelevant, no?  cred always refers to a task in parent, and this
+
+(
+I don't think it i.s
+cap_userns is full by default. Entering a namespace doesn't change it.
+A task inside a namespace with a reduced cap_bset still has the full
+mask. Without the term a child namespace gets more caps than its parent
+had.
+
+cap_permitted can grow through a setuid-root exec in the parent
+namespace. And that exec is bounded by the tasks bounding set and not
+by the namespace bounding set.
+
+So that term ensures that the namespace bounding set shrinks
+monotonically by construction.
+
+I think it would only be redundant if exec would be clamped by cap_bset.
+I'm not sure if the patchset does this.
+
+/me looks...
+
+Ah, ok... this patch series already clamps exec to the namespace
+bounding set. So yes, you're right.
+)
+
+> whole thing is defined so that cap_userns and cap_permitted are always
+> subsets of parent's cap_bset, right?)
 > 
-> Would it make sense to put the x86 core preparation up front rather than
-> having it in the middle of the KVM changes?
+> I think I agree that there needs to be a way to turn the cap_permitted
+> thing on and off (and I'm also not sure whether cap_permitted is
+> better than cap_effective), but I'm not convinced that an inheritable
+
+The effective set can be raised from the permitted set at will. So I
+think permitted is just more correct.
+
+> and lockable bit is necessary or wise.
 > 
-
-Sure, I can move the x86 preparatory changes to the front of the series.
-
-Actually, some of the x86 patches are good cleanups independent of the
-FRED KVM support. I am thinking of posting them separately and maybe
-those can be merged sooner to reduce the load on this series.
-
-As you suggested below, it would be great if we can separate out the
-nested VMX support as well. But there are issues (like the one discussed
-in patch 19) that link the L1 guest support with the nested support.
-
-I believe if we separate out the secondary VM-exit controls
-infrastructure (L1 and nested - independent of FRED) then it will get
-rid of the dependency.
-
-Here's the rough structure I am working towards:
-
-Part 1) Core x86 prep (3 patches)
-Part 2) Secondary VM-exit control infra (3-4 patches)
-Part 3) FRED guest support (16–18 patches)
-Part 4) Nested FRED support (5-7 patches)
-
-Parts 1 and 2 are independent of each other and can be posted and
-reviewed in parallel. The selftests can be posted with the relevant
-parts if appropriate.
-
->> Patches  7-19: Virtualize the FRED context and advertise it to userspace
+> How about changing the rule to:
 > 
-> I think there are a few sub-groups here:
->  (1) patch07-10: Support FRED state context switching
->  (2) patch11-14: Extend event delivery
->  (3) patch15-17: Handle CR4
->  (4) patch18-19: Advertise the feature, etc.
+> child->cap_bset = parent->cap_bset & soft_cap_userns &
+> (cred->cap_userns | cred->cap_permitted)
 > 
+> a) (ugly but easier) A non-inheritable prctl-controlled mask
+> soft_cap_userns, changing the rule to parent->cap_bset &
+> soft_cap_userns & (cred->cap_userns | cred->cap_permitted).
+> soft_cap_userns would be reset to all ones on on fork and exec to
+> avoid creating new inheritable security-relevant state.
 
+So both let the creator pick. But the bit is for the creator when it
+wants to self-restrict: container-root without a user namespace.
 
-> At glance, (2) looks a little difficult to follow. Patch 13/14 in
-> particular appear to mix the FRED support itself with some preparatory
-> changes. IIUC, the code is saying everything outside of the
-> is_fred_enabled() path has no functional change.
+It's the same reason that securebits and no_new_privs are inheritable
+and lockable. Afaict, a) is reset on exec so it doesn't control the next
+exec. b) covers namespace creation but not unsharing a user namespace.
+
+> b) A whole new create-a-namespace API where the caller chooses
+> soft_cap_userns at the time they create the namespace.
 > 
-
-Sure, I'll try to incorporate this.
-
-> Perhaps, the changes outside of is_fred_enabled() could be separated
-> out. That would make the actual is_fred_enabled() path easier to follow.
-> Also, the part introduces the ABI immediately after adding
-> is_fred_enabled(), before showing up the callsite of is_fred_enabled().
-> This flow is a bit abrupt.
+> > On the host none of that matters as the mask is root's own policy there.
 > 
+> I'm still not seeing how there's a difference between host vs
+> init-userns-container vs separate-userns-container.  After all, in
 
-Yes, I have identified a couple of simplifications to make the flow easier.
+I think the difference is simply whether the restricting task holds the
+capabilities itself. Unprivileged users on the host don't and so they're
+not subject to the exemption. The bit is for that case where the task
+holds the caps.
 
-> For example, extending kvm_requeue_exception() alone could be one step.
-> The next step could add the code under is_fred_enabled(), initially with
-> is_fred_enabled() as a placeholder that simply returns false. I think
-> that would better highlight which parts are actually FRED-specific and
-> why this dynamic check is needed.
-> 
+But ok, if we really don't want to bother with container without user
+namespaces the bit vs a) thing can also go into a follow-up series.
 
-I am not sure if the is_fred_enabled() false placeholder would buy us
-anything. is_fred_enabled() is expected to be false until the feature is
-advertised to guest. But I get the gist - Separating the non
-FRED-specific parts would make it easier to follow the FRED-specific ones.
+> Unfortunately we don't live in this world, and I'm not convinced that
+> can credibly even approximate it, because people really like their
+> setuid programs working inside a userns.  It still bugs me that we're
+> designing permission systems designed to work in the POSIX model that
+> I think we all kind of agree is fundamentally rather messed up.
 
->> Patches 20-25: Extend FRED virtualization to nested VMX
-> 
-> Since nVMX support comes after exposing the feature, does that also mean
-> the series could be partitioned into two parts, one up through the
-> advertisement (and tests) and another for nVMX support? Splitting up a
-> complex series like this may make review and integration easier going
-> forward.
-> 
+I don't think all hope is lost. We have slowly been pushing in this
+direction. systemd allows to set NoNewPrivileges= in it's global config
+so it's possible to enable it for the whole system easily.
 
-Yes, I am working towards making this possible.
+There's been a ton of work to get rid of classic setuid-exec stuff:
 
-> Thanks,
-> Chang
+* run0 instead of sudo (with sudo compat), and systemd-ptybrokerd for
+  interactive shells
+* nsresourced for user namespaces with delegated ranges, mountfsd for
+  unprivileged image mounts
+* outside of systemd: pwaccessd/pwupdd/newidmapd replacing unix_chkpwd,
+  passwd and newuidmap/newgidmap, polkit without a setuid helper, and
+  su/sudo/pkexec wrappers on top of ptybrokerd
 
+But yes, containers are the sore spot. no_new_privs inherited from PID
+1 breaks setuid inside of containers.
+
+My idea has been to make this dynamic:
+
+* deny privilege gain on exec in the initial user namespace and allow it
+  in nested ones. I mused about this in
+  https://github.com/uapi-group/kernel-features/pull/38
+
+Also, since v7.1 there's CLONE_NNP to spawn a child without no_new_privs
+set.
