@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.13
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.53.30
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795029882;
-	b=z7ipeIZJnaqwXmLzOdoym6xHEJMP25o/5T1GsMz13tyJbBXHDDgD+eqk93GMKfQJXGRK
-	 2U5LiBO6rIeoln8dsb7kvNYRECXDU23ijSDfh6Tu2WgJAnqyQwmo4dljSjtpqLB41S1Ei
-	 yLeAsT9KnHv6Q8FjjwtSvZ339E8lS2b/OjaV8SY+oscmIQUIpWHiBL7mL/Sa5nJHu8Aom
-	 JazJp9pXxkrLb8mOwZwFO9z5alfLwLlDHQXq4OBAUtlJYLGBZM7w6kRYgFZQAwpCakGg4
-	 WZbyjY/CFK2EThhD2ixAbTB9l22lBts3If4P0DlW2WAsrwQQATnop77xUn7iNUFbANA==
+	t=1795029888;
+	b=wlDjzIna+weZ9A8T4AwMGinpud42TjamhS6oSB5ju5vFF0jCbC4L4XJNA4DHaoOlGLFF
+	 8c6vleh1ce6dKDY3c6Lu3gpqaYRl1JmXpKvJmyawumKW6CiXFINpakgAKAUHZS5ZTZWXs
+	 aKcs5ce6QxoVYw//AHlufpqdg6naAEMODxRoInAQG4rUZvcj207fYObueLa5FDYaVksL5
+	 FEVdp7OheMi6Fp+eq0BIEwMiOmxB3FtVZJ/dewQcFtHEErX8K7ljHkhsAflizitSSHnaQ
+	 j347WmLeQX12stZbNYm/l3jUIwP3nSmPu6XHOyl0eMIsUX5KE9NAcLMVHgW1q84CxCA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795029882;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795029888;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
 	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
 	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
@@ -25,52 +25,52 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
 	 X-MS-Exchange-CrossTenant-userprincipalname:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=vukqaLcc1TEhHMl8RiBg3pPYeSnA6dF1i0mTTjpSK0E=;
-	b=PDa9e3gklvWP1hnClqvIkE8x4wnddOhFWxpiAVb/EHH0EpWoWem7UR3i4B6LnST2GUL2
-	 H+s1kKFf/CxaYDQa9jU/ABM36cRK9UACMYR0H9iK4FvKsCUEJNIFlr8Ir2pEM6B0S708Q
-	 bcA+JLljzKW3FCHEj21GJPPjE+wEwVOixnsxpoY3LixXykntPWXmtc0pUYlv0Io1NfTLs
-	 eYfzdtxVm5ZL0JjXIE2cG+Kf880LYPHNOjy5ygM8TXPQFCDe+Y/kF368nyJr2x7ypLppa
-	 aR8ZVXePKkrQOfktlIElDXZbAgFzBhCEo1V9Dx5KOhFOg+PqHp4LyT520B2FKmsS5hg==
+	bh=xuf1NetK4nINTUTkARUuMmpRGS/5/3arYBvLu2zglww=;
+	b=b2K6i9cyFlknuqUl6hI1IA4KBqzhZomibLjoERNYJsPBjX1MqEfWRhBHKoy5b6N+5smO
+	 g+h/Vn+XbwN+3/Sqm9aZQ+i/ztL/gpYotCOPKqDY8eo5t9Y9Z4oXb+5k6hJA2AkDziaI/
+	 FQwNhA0g6gTp07qFZCTY0bJ/q70krC4DsIfNJI84DtoRve7AO3wpUS60VtOfPEySR0ZqZ
+	 dJpTVVj0k/lObLk96ErBHeDSq36rrJlsKiwxLpoPLTBwK3qzPoj7kzLZK12JeR4lDq+Fb
+	 1ynEgSIeNoZiLs0+ymtiHqTfJy/p5fiQQhtaXUIujKSAzsESprmdCo8ki+HK11WwkLA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=nvidia.com;
 	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=GSKNUSME;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.13
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010013.outbound.protection.outlook.com [52.101.201.13])
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=sbD1OyYE;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.53.30
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012030.outbound.protection.outlook.com [52.101.53.30])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DA4606A31C;
-	Wed, 18 Nov 2026 19:24:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2DA4606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CDB60A2637;
+	Wed, 18 Nov 2026 19:24:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02CDB60A2637
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=GSKNUSME
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=sbD1OyYE
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SvI9m2BdBmLHFZj/oKdGBkD7C3nHAGNa2hOVaSO4MX5rbQujD6Jb/LDnserreKCHgiOk85f+hB2LM4MKR0HGZZ0c8oJPnMqsMDqbJtr74RtOJyiFQXUnB7va7jT3Gtx9JYY//RyNKTH7EQzmzW+liLhKS3jpFAS2ZXvV3+/1srdoDKRjrmzXR1p2Xk6S7oO14GM/q2k6ScC/paxAgniY9whzqJ49N5L9St98+d54RBXwfp4MFBHOSPU3yXebLyMNjf0a3wRhPBcRnYgkxx3XLEF0vjK0MM2EwTSg/5KsO+jA4x8ivoUgbfPjLxOYwRiv8A2wcx9akdoRZh8GQYdEzQ==
+ b=U8NdaCZHQTgMouevPG4rIxm91uCt+sFWdKqMXmFS6FqANcZnkN/UQUyeXuWjVV7CRlZxjSp7vkpKzb6GP7a9W4RdPGEoqdk3kAnEmDSMkye1nD2IV7dtP0s9i2DIC7ZtuQw9XRnfFrfbZd58uqVf2+ZWNivumPvrgNPucgaHfCvn/0QxGUuuYNQjEDObqGVgPAxiq61FstG11HvERFBQpe2BH3YPPcwx0CAO53E/UrNNDHEq2lMbDse6QBIKd6aVvZSMBef3cpM+O99vDfl/AHCbcQN2uPp+I/drDj9qPuLyMvb2q6WB2Y1rFTQK3pZIr4lozbuQuWyNfAcRx3OB/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vukqaLcc1TEhHMl8RiBg3pPYeSnA6dF1i0mTTjpSK0E=;
- b=kQw+w6juX0cXP+Pn1h/L2zMZ+Zzz9huvx7qXjfCLyHinP4CWR7Or36QWO7QkdjmRSLHs33ykLdyfRo5/Rp3QyKkAeKn1XJ5d+fPBEbgj+8Kw9uJIEaJERFuwFJtXmoSASdxzodqF/mf5qFAfSdZxgZoFUtyVHjko9B94nJFOx9K21xbkOudKRBIZrrhASwVXOYOcMEwmr6v4PjR7J3Vkl3yaCTndUx60U2MV8miWSQdS+RIXB++JiAC2Q3pCneYQk/AW/HMWCVSxajElrb01kAnqpbCQAQhMISj6xyToo1RyVxCKGc8XUVBsOH94ReufTKfvtxYKdTTV9kVR7gDmUA==
+ bh=xuf1NetK4nINTUTkARUuMmpRGS/5/3arYBvLu2zglww=;
+ b=NznKtD/8KtoYPRihbredasB31QNZ/l6J5VyjMeBp7OMUqQ7eez1wnP/amPp9ugTQqz4XMS6L274ph03NGNMC+6Yj6qbYRZQ21+j/9nBSyawcL1JMOUOaLsTYf26fNj8F0rbnQoNooyFTpDN4yUEkk4m5/M5W0t/6jRu9IEjSHz/CGy3DRLVatuv2/UBQWrlEFUxxztQr6riNxfD0Y/+ECHREebyWBeGgzyTV94elNQZMAr0gCo7G2YFj4dqNQXR2PpHL5A/82GEQr0STfTw9DIbW4U+mEGCHrZzghbJZ1B1AJ0qn9kE/DoCDs2M96H/J/C4Tn5jBcLGPLqiqYjYl9w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vukqaLcc1TEhHMl8RiBg3pPYeSnA6dF1i0mTTjpSK0E=;
- b=GSKNUSMEgbtI8Wxt6AcJjtyQa7opMH4Y9pjNX8Ge5MUf6WFaMu2X9Np2W1VVTa3gDO+6zI3YkbBFzLhRtPHAakRSQJtVrpCiAsJAwPF8+b5tffcDVyP6C0QUf5Uj9DHbpnvi247atV77h2KxGYO8gjFjXPm2yCaiG8iGXtBQr+Ld7QlzVifNVywj4OkTLxV+0yuCRmivCt2S6lTOIGsiUg9kpBkdT6Uh1hazWgJrpZY/Y1NUX1PKHjzrIdqlk5rmIn4iFq4bvqe+IelbOl2qVIpTru3lwjw1OYpKdE7uXwm4idVs9P1e6duSOFBOPy8PsF4eVOtT/6TPHFyDO2y2xw==
+ bh=xuf1NetK4nINTUTkARUuMmpRGS/5/3arYBvLu2zglww=;
+ b=sbD1OyYEuPyjVrhZRjJwNWDlrUz1lsGJNheFM4NTURS+6PhF/KgIhiElgR0zQFDfIB248YxxKHwdnfVFFAnLkvYgPZ3apn7ByFU8hZDDJjRBQ/KMaKyPtMiSz5HAJt56LskPsJpXOMZGzHe79ad3gwLZlplHz9BnTbyMgvKfYJs2nQkuds6y+n9/WM+2YMJTGY2llwBMUMlwwsHwvl2p8UfN24e693EDczgdN2xLLzB/slKKI5SPVwOd98++wMHQmszUVnoz50dHZ2Pzs8LLXDG7SnGoe/FMiBv0XBLP+vr2OhQlxDvffr+1yQlQ9ZsMeqp8NESMIyHtisvsDf5OzA==
 Received: from IA1PR12MB9030.namprd12.prod.outlook.com (2603:10b6:208:3f2::22)
  by CH3PR12MB9455.namprd12.prod.outlook.com (2603:10b6:610:1c1::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
- 2026 19:24:25 +0000
+ 2026 19:24:37 +0000
 Received: from IA1PR12MB9030.namprd12.prod.outlook.com
  ([fe80::2c1d:ed27:b53a:97d2]) by IA1PR12MB9030.namprd12.prod.outlook.com
  ([fe80::2c1d:ed27:b53a:97d2%6]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
- 19:24:25 +0000
+ 19:24:36 +0000
 From: Manish Honap <mhonap@nvidia.com>
 To: Alex Williamson <alex@shazbot.org>
 CC: "jgg@ziepe.ca" <jgg@ziepe.ca>, Ankit Agrawal <ankita@nvidia.com>,
@@ -95,18 +95,18 @@ CC: "jgg@ziepe.ca" <jgg@ziepe.ca>, Ankit Agrawal <ankita@nvidia.com>,
 	<linux-pci@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
 	<linux-kselftest@vger.kernel.org>, "linux-hardening@vger.kernel.org"
 	<linux-hardening@vger.kernel.org>, Manish Honap <mhonap@nvidia.com>
-Subject: RE: [PATCH v6 13/31] vfio/pci: Bracket PCI resets with the CXL reset
- hooks
-Thread-Topic: [PATCH v6 13/31] vfio/pci: Bracket PCI resets with the CXL reset
- hooks
-Thread-Index: AQHdXYpkTge0tadFUkKQBGmeopvbmbch1nCAgBJ4n/A=
-Date: Wed, 18 Nov 2026 19:24:24 +0000
+Subject: RE: [PATCH v6 09/31] vfio/pci: Advertise the mmap areas around
+ excluded ranges
+Thread-Topic: [PATCH v6 09/31] vfio/pci: Advertise the mmap areas around
+ excluded ranges
+Thread-Index: AQHdXYpTezTnjj3Ve0mb9zYUP89N07chorcAgBKlyxA=
+Date: Wed, 18 Nov 2026 19:24:36 +0000
 Message-ID:
- <IA1PR12MB9030A85A328C20ED230AC4B0BD7A2@IA1PR12MB9030.namprd12.prod.outlook.com>
+ <IA1PR12MB90302EAAFF3790797BF796A6BD7A2@IA1PR12MB9030.namprd12.prod.outlook.com>
 References: <20261016161839.2765592-1-mhonap@nvidia.com>
-	<20261016161839.2765592-14-mhonap@nvidia.com>
- <20261106164427.51791193@shazbot.org>
-In-Reply-To: <20261106164427.51791193@shazbot.org>
+	<20261016161839.2765592-10-mhonap@nvidia.com>
+ <20261106133920.144f0665@shazbot.org>
+In-Reply-To: <20261106133920.144f0665@shazbot.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -115,46 +115,46 @@ authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: IA1PR12MB9030:EE_|CH3PR12MB9455:EE_
-x-ms-office365-filtering-correlation-id: 51619563-0c4e-44ca-26d8-08df45a98e60
+x-ms-office365-filtering-correlation-id: 7da99955-9e82-4f00-ea30-08df45a9956e
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|366016|6133799003|22082099003|18002099003|261009223027099003|3023799007|4143699003|261102130727099003|56012099006|11063799006|261026121527099003|261102123227099003|5023799004|261028144727099003|261026140227099003|261021121427099003|261022105027099003|38070700021|261021123027099003|261022075727099003|10067099003;
+ BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|366016|22082099003|18002099003|261009223027099003|4143699003|56012099006|11063799006|261026121527099003|261102123227099003|261028144727099003|261026140227099003|261021121427099003|261022105027099003|38070700021|261022075727099003|10067099003;
 x-microsoft-antispam-message-info:
- MlmONAcfQHBDZ3oKT7rAplfkOrS1bifS2B6pS2pcujQjyMLIycfr2j2FlByniuJDktS6q+CM+54ANhTyaklx3D4aTF9R18a2Rt2qj6PML1PA8nKPk+5VO6CNfZuuet/ggduBu5R6ve8bveyxeVY6cuLl1IAGAhCpnhybgjhIYUuvc8rb0R2MnFmcWlinPIb2CA6p7x8C0hP74Gnj4W/3n2vsORu9HJiqNm1CchdGaWIG2Miqx1Xind1zrMVQMhpZkU0fC8i4N7dDkAYoSlaknCfM8HMeIPpwxld3NT9Eln/D9LDno+YpOwUqF0cWCtrRfrn4aBB5fCLZDxB2qD9EKve5QHC6PojYWJEwHkuKsbVKOtXbEr+Dsz5lFOS6Lrfo/tv+iesShvp+R4lBGlMdW1rDaszO2lDQhkN2dcj47pLDvPIpb9NJSFJgX2V62FgsM+pvsgn08K9V8yKWPbV/apZUL9QPACi+nqT7B4VgX5deVxUbsAp4SSEXb2bLhpTlLU5KjQQj5+YtilXPdedR9MLBLfcK7OrYs0Vi/ZjcjuvD/oLblC5Ds5HjpvD/Q56ppR77KnvcwB5FF3bKF/073cCqyjpiOql2PvvoS5Yv2oHy+Gx7g5Mx9gFOugUIjRNuRBifSLU9x4wdRo+AUY/1Cd03oHg471liz+lpDzDe7KQrzxUApz3eGbW+hLg7dfQYWRMhuyh5SxgFvL+3+PtGgXLewZHngBC199rp54W8YyA=
+ 1hTz71Cw5SE7+i/Zwn9R0HXhXi9YnPqA0KBqFcSwGO+NvzekaZ0/ztIGHwnEtoYBB5AU+J2pdhSNVqpv62qt40q7tL8lSoVbnyKHQO1st1fWF/JJajThMa28mpUc/n+IiOEaJF3Z6+oPpH3H15aFuJpsy5Mo1gq/SlIOWNVG7hd5FWoXR25ezlmR93HhHKE443fS9FHYIb1CN1iY4X5dgqxyOmGEU41ogv4NEjgjcXEevlZQgnyh4xpmYG6BFbsumqZzChDyx9gIhoRL3GT2njWMqj8RxBwZw1a5zWatzaiV6lIAXDZnpIr7eOTuQaVK+yQJECu+ethDdgwqy4/4gGyLWHRX32PJOVIBhFsTN16N0i/P92vKTf1ETiiGRKj0TY/8rzNO2l3Xc2XGeNfUag4u21avXtd3Ca1JJPpUlum6FK60uVNEqzXYeoT//3FGlf3DuwqS1O/Vie0/RYqPVnQZ6fbvr/xIzzECd2/ufERg6ZC6a3EexeHAsz+SEFyLovjRBYLx4zoyWx24KHyxXlTyR31OnjwLd83hp4aJrz7+4zZS8Nn2whxthPsHPp6nWDFNqXT0//f17PTVmbi8QCONAK/03xEF9rge2vyTxabWPPDa8Kz9ipAge+n9Qp0NsROPycizUEV3j5WnFkbzwVx32AzyiOPYJH3cebGZh7FPAAmGygQiJW1ZVzlEovxA1P3d9yS1QifWw7MeyH6I0kzIJwTI2sq9oz+ATtyD2C8=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB9030.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(366016)(6133799003)(22082099003)(18002099003)(261009223027099003)(3023799007)(4143699003)(261102130727099003)(56012099006)(11063799006)(261026121527099003)(261102123227099003)(5023799004)(261028144727099003)(261026140227099003)(261021121427099003)(261022105027099003)(38070700021)(261021123027099003)(261022075727099003)(10067099003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB9030.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(366016)(22082099003)(18002099003)(261009223027099003)(4143699003)(56012099006)(11063799006)(261026121527099003)(261102123227099003)(261028144727099003)(261026140227099003)(261021121427099003)(261022105027099003)(38070700021)(261022075727099003)(10067099003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?rDSCHbfAND9UKi9KJ6EhTNvl78We8UWQiSvrX5en6ZP4xbaLT6o+26oafNEi?=
- =?us-ascii?Q?LJghClHMfRnFD13auEWUM+inLRXEC+TkKXMtrZ/C/qMjD/i36dtLkO094K/6?=
- =?us-ascii?Q?1+xswzIzyFZ5NKradtH7rlPHEV1LC+igPyVgvtmoNfg8om++otvfozrnzMys?=
- =?us-ascii?Q?rZhaIFjc4eWRrl4IjEnOU8ZE0SJIDQ7nAnWhWeHvw7/uGDKzgLfLeH13TIJb?=
- =?us-ascii?Q?XFXr+g3Qw/nS/aVzF3FwwuYK11XEs6mPhLNvIkTJ5hDy79uB6v1uqovDobrs?=
- =?us-ascii?Q?vD/lIGDkh96n9PAOv+8+7cose+ZQF2o4FBCW9Oy/tFS8AWlrYi/iMde+W1/4?=
- =?us-ascii?Q?cuPQ5jBJd8Iw21A0xsycJsflAWIvgzNgtoIFHiRlai+aZuJyizD/ZZtQ/Bk6?=
- =?us-ascii?Q?n+8JPdKS5CiJspMyR2QIY6UzBCKuuWXEiKMjXtxj926+CI7sda5OW5evSZYQ?=
- =?us-ascii?Q?iRAO0egANuMuIhj0eV3rnoYcRivfbDeOuP/cGRWrvS68N6FbbqxvW0uQIjI8?=
- =?us-ascii?Q?2E2JKiRQ3b8JeUJwjcZlOvjt//eVFU70yeUpLGejMS1b2ow/E6cjnpQijncz?=
- =?us-ascii?Q?/zJAuIk8dpTpllnM6POshVQ1zy+5rULaBawUV4zeezr+5U4lp5VTYJvcWy07?=
- =?us-ascii?Q?N+1NpKLQSz0D4nBvqEL0UDD/Wn3V/lLvIPNfF7w1rc69e3pbPUJEwhVjpbzT?=
- =?us-ascii?Q?adXSvsOkYSmVE/PQzM66la9WnVmFKA4VZaq7tEhLl3VmqudxVTr4wDSMRk0S?=
- =?us-ascii?Q?wkbLNIGdVyUzHFsJhYUz3oSm1f7n3XmeFAPZ+Ns4lY2YwRjQXQRbglz/uz7u?=
- =?us-ascii?Q?jGsJIuzbZh5vNob/lrtgr3URHzWB3eFDfK+3Bsdg8nRAP2MA6cKKWFtwZYVe?=
- =?us-ascii?Q?rHmSqcsmkahrLK6R/2DQ3YEE9m8If4kCVZWDJyMvFi62AE88uNMJeW44qy67?=
- =?us-ascii?Q?DtsqMy9Xk+hhRI/yVte+gA/zjsxHmilf8/XaS0GUekEnDecCMXB9Px1h+r+y?=
- =?us-ascii?Q?7atQmHSxnHqSMLn0ALmf7J06lARqCj0/g5J6RZumMtiRo6ARsoYvuTmPa0Vj?=
- =?us-ascii?Q?OZ43NaIQX1teWyEbwLcKSq/EgkEaQq8WFvJbh833Bq2biAHmqi1/jkwfkIeI?=
- =?us-ascii?Q?kHkyKXETRSykZPb0uV3BHqfnPEdrdHvKgbfK6vHjhiHXL/kYt8EeVaOwQFCW?=
- =?us-ascii?Q?Da2Emw0+/+4ZpJw3zSZhiRzxi4FuP3kr5sWVyX7zUrjALm/SQLpZQY21rmhC?=
- =?us-ascii?Q?/6POWlkVwtg6dUGFnqiY6IEx5VOW519L7+saa0gDUVU1EgeTiEtMGGWUAZ2d?=
- =?us-ascii?Q?hgnU1jSRjeXXKyQbQLhiHMULGHd0cSf2K8uTgH3UL4rDNBvRFoI9HdOo805n?=
- =?us-ascii?Q?ZAh2D8cM2SySDBcd/UhvtdOk4MIbXRvVHoHwgoygcwTF3D2qh4p0+ouQHoBi?=
- =?us-ascii?Q?oR56/Ni5OAixInDekOTu/VKdtdCxo5fXNMN00Dkp9JFKKsn6e2K/RZKQW56t?=
- =?us-ascii?Q?VU+L4/fNLR7tr/8y+8e3q9oR5sqLlnqNj3gsg6ssCfg6C1FHuIA0PdNlvq0I?=
- =?us-ascii?Q?iNgddRPqm461cijUb1uxMZKVWI67GoH/rthmd/tP9Z131gGjzb8HbxAIOQ+y?=
- =?us-ascii?Q?jZ8UIZ2hLy0Nb8U3iqu7/73bH/M33GDyWOU87UokPcMgnaB1zx0HFA2lOTH2?=
- =?us-ascii?Q?ZKVA6ClBFoISbhv1mgXRM1mq/jOjfDCnr3tGIhOQ5I5OciQZ?=
+ =?us-ascii?Q?qIO9R2wBYzIEOZXtHdjkbpi/Imd1XAbXhBQOhcQWuvcKKm7U+YJKh80/cDxA?=
+ =?us-ascii?Q?pCRIthwQ1Kqf50HzYLTLJKzl0wzUpFJQMjaPrKOGJiKKRn8d2E3i+pXJiJmT?=
+ =?us-ascii?Q?s1Rx2dsEeCddbpSjsVMNSYDmZZdgVeuMOye/Q52KcWQQw5G4mjq4LeTOxTsA?=
+ =?us-ascii?Q?Uke2yK5v2LeeUoD8R76XjnsYok1kcBM655eID7Bsb4qOmxA1zW2JzeE42mFq?=
+ =?us-ascii?Q?Dw2d5pSa4g8RWG/ntYEBIPLy+/zxNIn/AFypZxYzKuvqRi+eIyglAblzRPx5?=
+ =?us-ascii?Q?2RNhmY8qknAlgAlH1thosSe/RSkLhsPdrj4jRddaiKkbUy2dEYz6v6ffhpq+?=
+ =?us-ascii?Q?ux5l9meDlZNAUISd6pDbSzCItObUgRrQII3BL8PL3nkTbxruNGkM9j0LydJv?=
+ =?us-ascii?Q?uJQ6fzToMEmXYfDZa44IGVweb56ABb3SPq6Z4L7ZJ2BF0LAsX5VlKt/ZRJjo?=
+ =?us-ascii?Q?Q8N9Um3xU8b+nU6gm9P9Y5pFAnstZVz+IOwcYmz7MI6ISj2IWE/c8IemVGyE?=
+ =?us-ascii?Q?8l7qy6nwpmoARlf7C9//3uTOncPb6Ai69I5M5cLEY5eSBuo1v4rqraJhYA3D?=
+ =?us-ascii?Q?y8BIv406RkbHuOyqVUZcp61D5AtSwk5uL0JJczh/wP5RBfsOHUo3c33M/hfk?=
+ =?us-ascii?Q?pJTwWw43mt2jFRmGmRpjiuAAr3E8P5qSYkfRcplj5HOPkbhy4N0tem0HsaWK?=
+ =?us-ascii?Q?O2FyrmM5dqZpueWsjKe+uRoI0zMNvOf2rXVKfpsAWQW88bzROmfW2UPh1ph2?=
+ =?us-ascii?Q?vmA+w0kK7fLKWjJYkyuglYV1B0EAzFI5ulwUWWTg6YTkhuEqGa+3GedCZlK3?=
+ =?us-ascii?Q?RyMjqxRoik4Y4a6FYN8NGv5r8xGAA7g28mkeO3I41yNwM2xjX7xdS04rdwgd?=
+ =?us-ascii?Q?3BazdEN4fQlqUvsjNPHBPZui0seBVVrpfjDSazLnWMFFxDuCDMVUrmjt/rqw?=
+ =?us-ascii?Q?vYElCrNDkzzV8oG/rf0DdvcQCtpAfC80JATxiQ44FzjqG4PCZlTjHTaRI07A?=
+ =?us-ascii?Q?/d5ZUItarkK4foX9N6tvYWrd6ACqI5lafGG9sFocW2mC0lr4O3vBnE9jhwnI?=
+ =?us-ascii?Q?53BvmP+r2sgv7hfS0CrBczMnfmGURaJfKVep8OL1H0tK1dpIxflog7dl7fPr?=
+ =?us-ascii?Q?wtaRjUr39ZUctOKdkiqAers81GNj2almk43MzgttrFxS2jR5Mbp0F61xYAt5?=
+ =?us-ascii?Q?wzGUeVJYGmfcEIfPN2no9H424AgVO8rBQiLwfwRzkrPlZ0LIrNIohwLAxJlC?=
+ =?us-ascii?Q?H6ocYc0ja6sC/5zQq0BQrxIC8u7hcFB0+kK3hT9VEuU8CPfenqdhc2rRZ5VG?=
+ =?us-ascii?Q?Sp1hzqXE+LBoAajOb9lX3UEQGikLTbUcGBPk6bkhmfa7m+neDhbS5lp9sBkx?=
+ =?us-ascii?Q?iHAT/5/AzIOcerj7xd4X3A7gowO1nW/vBeXpdX0qeHywKvtu4BS5m0FLfsiV?=
+ =?us-ascii?Q?UyQbEZGGjf0ySKtwDwN/sxl6Zc3APQ4PJQEpO+zrxY6+bC/YFIx7gcAfAjXp?=
+ =?us-ascii?Q?S4xnoBEqJx9SYSLUqYZdllWY0rrxSsBtJFPrls45a7CLPMA+SaD+M/YttMEH?=
+ =?us-ascii?Q?mM06UcHD9OCabIvVnm/ZDPPG0C4/hKB9dLWPDLcYx0r73fjgg+sc3erw//y4?=
+ =?us-ascii?Q?rwdRt5nooFQXNdWgMJqRJ/5+VjMXIjfidGG8s1Qv/Him2FqdZxtsO9Aw9gCO?=
+ =?us-ascii?Q?EoyFFPZdm3PKbyt5SRsbb5Yw8/E98LzgEEMQ4QcOy8RcQVki?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -169,20 +169,20 @@ MIME-Version: 1.0
 X-OriginatorOrg: Nvidia.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB9030.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51619563-0c4e-44ca-26d8-08df45a98e60
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2026 19:24:24.9446
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7da99955-9e82-4f00-ea30-08df45a9956e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2026 19:24:36.5329
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Nvni1VBtHZvO6MaXBCa5rANmkTaQ6KVKw2nxIBJbiEVnz7mjy4FwXtgPQr4twWNuEOYTAdtyYe6EdZ7Oel1tOQ==
+X-MS-Exchange-CrossTenant-userprincipalname: FPpKyk09ZMatqr32aGQvcV9FjXxov3xxijJrv2vlYcHLyaq5joMG81iGrCgFaADSplCK9xpOUnmv7/1mBZZu2g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9455
 
 
 
 > -----Original Message-----
 > From: Alex Williamson <alex@shazbot.org>
-> Sent: Saturday, November 7, 2026 5:14 AM
+> Sent: Saturday, November 7, 2026 2:09 AM
 > To: Manish Honap <mhonap@nvidia.com>
 > Cc: jgg@ziepe.ca; Ankit Agrawal <ankita@nvidia.com>; jic23@kernel.org;
 > dave.jiang@intel.com; alejandro.lucero-palau@amd.com; Srirangan Madhavan
@@ -198,465 +198,201 @@ X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9455
 > linux-cxl@vger.kernel.org; linux-pci@vger.kernel.org; linux-
 > kselftest@vger.kernel.org; linux-hardening@vger.kernel.org; alex@shazbot.=
 org
-> Subject: Re: [PATCH v6 13/31] vfio/pci: Bracket PCI resets with the CXL r=
-eset
-> hooks
+> Subject: Re: [PATCH v6 09/31] vfio/pci: Advertise the mmap areas around
+> excluded ranges
 >=20
 > External email: Use caution opening links or attachments
 >=20
 >=20
-> On Fri, 16 Oct 2026 21:48:20 +0530
+> On Fri, 16 Oct 2026 21:48:16 +0530
 > <mhonap@nvidia.com> wrote:
 >=20
 > > From: Manish Honap <mhonap@nvidia.com>
 > >
-> > A CXL Type-2 device must quiesce its coherent link before any reset
-> > and restore its HDM decoder state afterward, or a reset can leave the
-> > device mastering the bus over decoders that are no longer valid. This
-> > has to happen around every reset the PCI core drives for the device,
-> > not only the ones VFIO issues directly, and around AER and DPC
-> > recovery, which can reset the link without the reset callbacks.
+> > A range excluded from mmap must not be reachable through an mmap of
+> > its BAR. Refuse an mmap that overlaps such a range, and advertise the
+> > BAR with a sparse mmap capability that lists the areas between the
+> > excluded ranges, so a VMM maps those and traps the rest.
 > >
-> > Add:
-> > - reset_prepare
-> > - reset_done
-> > - an optional error_resume to the CXL ops
+> > mmap is page granular, so each range is rounded out to whole pages,
+> > and ranges that meet after rounding form one hole. The sorted list
+> > gives the areas in two walks: the first counts them and the second fill=
+s them.
 > >
-> > Export:
-> > - vfio_pci_core_reset_prepare()
-> > - vfio_pci_core_reset_done()
-> > - vfio_pci_core_error_detected()
-> > - vfio_pci_core_error_resume()
-> > which take the vfio device.
+> > A BAR without mmap-excluded ranges gets no new capability. The MSI-X
+> > table is excluded from read and write only, so the MSI-X BAR is
+> > unchanged.
 > >
-> > vfio-pci calls them from its own pci_error_handlers, which resolve the
-> > driver data it owns. A variant driver that binds CXL devices calls
-> > them from its own handlers the same way; a driver without
-> > reset_prepare, reset_done, error_detected and resume callbacks gets no =
-CXL
-> support.
-> >
-> > The provider hooks run with memory_lock held for write: vfio-pci-core
-> > already holds it across its own hot reset, and
-> > vfio_pci_core_reset_prepare() takes it for a reset started anywhere
-> > else until vfio_pci_core_reset_done(). The hot reset records its task,
-> > so a reset that another task starts meanwhile waits for memory_lock
-> > instead of skipping it. pci_dev_lock() blocks user config access,
-> > which a PCI_COMMAND write can be waiting for while it holds
-> > memory_lock, so reset_prepare lets config access through while it
-> > waits. reset_done returns an error when the provider could not restore
-> > its device, and VFIO_DEVICE_PCI_HOT_RESET returns that error; for any
-> > other reset the provider logs it.
->=20
-> Cryptic.  Seems like we're skipping updating all the variant drivers to m=
-ake use
-> of the new reset and error hooks, which seems wrong.
->=20
-> This also needs to be rebased to the the new drvdata handling in v7.4-rc.
-
-Okay, I will handle both the flagged items. I will check the new drvdata ha=
-ndling.
-
->=20
-> I'm also not sure why the "provider" terminology has snuck into this seri=
-es with
-> this level of prevalence.  There's only one cxl ops "provider", it's vfio=
--cxl.
-
-Okay, for v7, I will mention this as vfio-cxl.
-
->=20
 > > Assisted-by: LLM
 > > Signed-off-by: Manish Honap <mhonap@nvidia.com>
 > > ---
-> >  drivers/vfio/pci/vfio_pci.c      |  39 +++++++-
-> >  drivers/vfio/pci/vfio_pci_core.c | 154
-> +++++++++++++++++++++++++++++++
-> >  include/linux/vfio_pci_core.h    |  22 +++++
-> >  3 files changed, 214 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-> > index 830369ff878d..286244059569 100644
-> > --- a/drivers/vfio/pci/vfio_pci.c
-> > +++ b/drivers/vfio/pci/vfio_pci.c
-> > @@ -223,13 +223,50 @@ static const struct pci_device_id
-> > vfio_pci_table[] =3D {
-> >
-> >  MODULE_DEVICE_TABLE(pci, vfio_pci_table);
-> >
-> > +static void vfio_pci_reset_prepare(struct pci_dev *pdev) {
-> > +     struct vfio_pci_core_device *vdev =3D dev_get_drvdata(&pdev->dev)=
-;
-> > +
-> > +     vfio_pci_core_reset_prepare(vdev);
-> > +}
-> > +
-> > +static void vfio_pci_reset_done(struct pci_dev *pdev) {
-> > +     struct vfio_pci_core_device *vdev =3D dev_get_drvdata(&pdev->dev)=
-;
-> > +
-> > +     vfio_pci_core_reset_done(vdev);
-> > +}
-> > +
-> > +static pci_ers_result_t vfio_pci_error_detected(struct pci_dev *pdev,
-> > +                                             pci_channel_state_t
-> > +state) {
-> > +     struct vfio_pci_core_device *vdev =3D dev_get_drvdata(&pdev->dev)=
-;
-> > +
-> > +     vfio_pci_core_error_detected(vdev);
-> > +     return vfio_pci_core_aer_err_detected(pdev, state); }
-> > +
-> > +static void vfio_pci_error_resume(struct pci_dev *pdev) {
-> > +     struct vfio_pci_core_device *vdev =3D dev_get_drvdata(&pdev->dev)=
-;
-> > +
-> > +     vfio_pci_core_error_resume(vdev); }
-> > +
-> > +static const struct pci_error_handlers vfio_pci_err_handlers =3D {
-> > +     .error_detected =3D vfio_pci_error_detected,
-> > +     .reset_prepare =3D vfio_pci_reset_prepare,
-> > +     .reset_done =3D vfio_pci_reset_done,
-> > +     .resume =3D vfio_pci_error_resume, };
-> > +
-> >  static struct pci_driver vfio_pci_driver =3D {
-> >       .name                   =3D "vfio-pci",
-> >       .id_table               =3D vfio_pci_table,
-> >       .probe                  =3D vfio_pci_probe,
-> >       .remove                 =3D vfio_pci_remove,
-> >       .sriov_configure        =3D vfio_pci_sriov_configure,
-> > -     .err_handler            =3D &vfio_pci_core_err_handlers,
-> > +     .err_handler            =3D &vfio_pci_err_handlers,
-> >       .driver_managed_dma     =3D true,
-> >  };
+> >  drivers/vfio/pci/vfio_pci_core.c | 91
+> > ++++++++++++++++++++++++++++++++
+> >  1 file changed, 91 insertions(+)
 > >
 > > diff --git a/drivers/vfio/pci/vfio_pci_core.c
 > > b/drivers/vfio/pci/vfio_pci_core.c
-> > index 3d4e01eea7b1..f1e1ec36eec7 100644
+> > index bee3d1b4d8d2..f099a294af34 100644
 > > --- a/drivers/vfio/pci/vfio_pci_core.c
 > > +++ b/drivers/vfio/pci/vfio_pci_core.c
-> > @@ -2462,6 +2462,7 @@ static bool vfio_pci_is_cxl_type2(struct pci_dev
-> *pdev)
-> >   */
-> >  static int vfio_pci_core_cxl_init(struct vfio_pci_core_device *vdev)
-> > {
-> > +     const struct pci_error_handlers *err_handler;
-> >       const struct vfio_cxl_ops *ops;
-> >       int ret;
-> >
-> > @@ -2473,6 +2474,23 @@ static int vfio_pci_core_cxl_init(struct
+> > @@ -1106,6 +1106,88 @@ static void vfio_pci_free_excluded_ranges(struct
 > vfio_pci_core_device *vdev)
-> >       if (!ops)
-> >               return IS_BUILTIN(CONFIG_VFIO_CXL) ? -EPROBE_DEFER : 0;
+> >       }
+> >  }
 > >
-> > +     /*
-> > +      * The provider must see every PCI core reset of the device and e=
-very
-> > +      * AER or DPC recovery. A driver without reset_prepare, reset_don=
-e,
-> > +      * error_detected and resume callbacks gets no CXL support; the d=
-river's
-> > +      * callbacks must call vfio_pci_core_reset_prepare(), _reset_done=
-(),
-> > +      * _error_detected() and _error_resume().
-> > +      */
-> > +     err_handler =3D vdev->pdev->driver ? vdev->pdev->driver->err_hand=
-ler :
-> NULL;
-> > +     if (!err_handler || !err_handler->reset_prepare ||
-> > +         !err_handler->reset_done || !err_handler->error_detected ||
-> > +         !err_handler->resume) {
-> > +             pci_info(vdev->pdev,
-> > +                      "driver lacks PCI reset or error recovery hooks,=
- continuing
-> without CXL support\n");
-> > +             vfio_pci_put_cxl_ops(ops);
-> > +             return 0;
+> > +/* True when [start, start + len) on @bar overlaps a range with any
+> > +of @flags. */ static bool vfio_pci_bar_range_excluded(struct
+> vfio_pci_core_device *vdev,
+> > +                                     int bar, u64 start, u64 len, u32
+> > +flags) {
+> > +     struct vfio_pci_excluded_range *range;
+> > +
+> > +     /* Only BARs have excluded ranges; a device-specific region has n=
+one. */
+> > +     if (bar >=3D PCI_STD_NUM_BARS)
+> > +             return false;
+> > +
+> > +     list_for_each_entry(range, &vdev->excluded_ranges[bar], entry) {
+> > +             if (range->start >=3D start + len)
+> > +                     break;
+> > +             if ((range->flags & flags) &&
+> > +                 start < range->start + range->size)
+> > +                     return true;
 > > +     }
 > > +
->=20
-> Just implement them in all the variant drivers and make them validated in
-> vfio_pci_core_register_device().
-
-Okay, I will check this part.
-
->=20
-> >       ret =3D ops->init(vdev);
-> >       /*
-> >        * A provider that is not ready yet (for example its CXL port
-> > has not @@ -2759,6 +2777,128 @@ int
-> > vfio_pci_core_sriov_configure(struct vfio_pci_core_device *vdev,  }
-> > EXPORT_SYMBOL_GPL(vfio_pci_core_sriov_configure);
-> >
+> > +     return false;
+> > +}
+> > +
 > > +/*
-> > + * Take memory_lock for a reset that the PCI core runs on a locked dev=
-ice.
-> > + * pci_dev_lock() also blocks user config access, and
-> > +vfio_basic_config_write()
-> > + * holds memory_lock while its pci_user_*_config() calls wait for
-> > +that block
-> > + * to clear. Waiting for memory_lock with config access blocked would
-> > +hang
-> > + * both tasks, so let user config access through while waiting: the
-> > +PCI core
-> > + * calls reset_prepare before it saves or touches the device. The
-> > +caller holds
-> > + * the device lock, so a block found set is the caller's own.
+> > + * Advertise a BAR with mmap-excluded ranges as the mmap-able areas
+> > +between
+> > + * them. mmap is page granular, so each range is rounded out to whole
+> > +pages;
+> > + * ranges that meet after rounding merge into one hole. The first
+> > +walk counts
+> > + * the areas and the second fills them.
 > > + */
-> > +static void vfio_pci_reset_lock_memory(struct vfio_pci_core_device
-> > +*vdev) {
-> > +     struct pci_dev *pdev =3D vdev->pdev;
+> > +static int vfio_pci_excluded_sparse_cap(struct vfio_pci_core_device *v=
+dev,
+> > +                                     int bar, struct vfio_info_cap
+> > +*caps) {
+> > +     struct vfio_region_info_cap_sparse_mmap *sparse __free(kfree) =3D=
+ NULL;
+> > +     u64 bar_len =3D pci_resource_len(vdev->pdev, bar);
+> > +     struct vfio_pci_excluded_range *range;
+> > +     u32 nr_areas =3D 0;
+> > +     bool holes =3D false;
+> > +     u64 pos =3D 0;
+> > +     u32 i =3D 0;
 > > +
-> > +     if (down_write_trylock(&vdev->memory_lock))
-> > +             return;
-> > +
-> > +     /* The caller did not block config access: nothing to release. */
-> > +     if (pci_cfg_access_trylock(pdev)) {
-> > +             pci_cfg_access_unlock(pdev);
-> > +             down_write(&vdev->memory_lock);
-> > +             return;
+> > +     list_for_each_entry(range, &vdev->excluded_ranges[bar], entry) {
+> > +             if (!(range->flags & VFIO_PCI_EXCLUDE_MMAP))
+> > +                     continue;
+> > +             holes =3D true;
+> > +             if (ALIGN_DOWN(range->start, PAGE_SIZE) > pos)
+> > +                     nr_areas++;
+> > +             pos =3D max(pos, ALIGN(range->start + range->size, PAGE_S=
+IZE));
 > > +     }
-> > +
-> > +     pci_cfg_access_unlock(pdev);
-> > +     down_write(&vdev->memory_lock);
-> > +     pci_cfg_access_lock(pdev);
-> > +}
-> > +
-> > +/**
-> > + * vfio_pci_core_reset_prepare() - prepare a device for a PCI core
-> > +reset
-> > + * @vdev: vfio PCI device about to be reset
-> > + *
-> > + * Call from the driver's pci_error_handlers.reset_prepare callback.
-> > + */
-> > +void vfio_pci_core_reset_prepare(struct vfio_pci_core_device *vdev) {
-> > +     if (!vdev->cxl_ops)
-> > +             return;
-> > +
-> > +     /*
-> > +      * vfio-pci-core holds memory_lock across its own hot reset. Hold=
- it
-> > +      * across a reset started anywhere else too, until reset_done. Te=
-st
-> > +      * the owner, not just a flag: another task can reset the device =
-while
-> > +      * a hot reset holds memory_lock and has not yet locked the devic=
-e.
-> > +      */
-> > +     if (READ_ONCE(vdev->hot_reset_task) !=3D current)
-> > +             vfio_pci_reset_lock_memory(vdev);
-> > +
-> > +     vdev->cxl_ops->reset_prepare(vdev);
-> > +}
-> > +EXPORT_SYMBOL_GPL(vfio_pci_core_reset_prepare);
+> > +     if (!holes)
+> > +             return 0;
+> > +     if (pos < bar_len)
+> > +             nr_areas++;
 >=20
+> The number of sparse ranges is bounded by (num_mmap_excluded_ranges +
+> 1).  We're dealing with a very low number of excluded ranges, bounded by
+> insertion via kernel drivers and core.  It seems worthwhile to avoid the
+> duplication with a simple list walk that counts the mmap excluded ranges,=
+ then
+> all of the alignment happens once, and the resulting nr_areas is calculat=
+ed as
+> we fill.
 >=20
-> This is all super sketchy.  Sashiko triggers multiple critical issues.
-> Having different locking behavior across CXL vs non-CXL device is not
-> acceptable.  These callbacks occur even if the device is reset through sy=
-sfs or
-> AER while the device is not opened.  Inferring whether the lock is held o=
-r not is
-> very hacky.  Thanks,
+> Note that with the use of __free, it's generally recommended to allocate =
+at the
+> point it's declared and mixed declarations and statements are allowed for=
+ this.
+> We can therefore do the declaration and allocation after we've done the s=
+imple
+> version of the counting loop.
+> Thanks,
+>=20
 
-Okay, I will recheck this part. For my review I was only using review-promp=
-ts
-kernel md file instructions for my LLM review. I will setup local sashiko a=
-nd
-verify this with complete runs.
-
-What vfio-cxl needs from these callbacks is to keep the device memory
-unmapped from reset_prepare until the device decodes it again.
-memory_lock was the convenient lock for that, not a requirement: CXL
-memory decode does not depend on the Memory Space bit. So, in v7
-I will serialize vfio-cxl memory region with its own lock and take it
-in its hooks.
-vfio-pci-core will not take lock in the hooks, so its locking
-is the same for every device, and hot_reset_task and reset_done_err
-will go away.
+okay, I will update this. count the mmap-excluded ranges, allocate count + =
+1
+areas at the declaration, then align and fill in one walk and take nr_areas
+from what was filled.
 
 Thanks,
 Manish
 
->=20
 > Alex
 >=20
 > > +
-> > +/**
-> > + * vfio_pci_core_reset_done() - restore a device after a PCI core
-> > +reset
-> > + * @vdev: vfio PCI device that was reset
-> > + *
-> > + * Call from the driver's pci_error_handlers.reset_done callback.
-> > + */
-> > +void vfio_pci_core_reset_done(struct vfio_pci_core_device *vdev) {
-> > +     int ret;
+> > +     sparse =3D kzalloc_flex(*sparse, areas, nr_areas);
+> > +     if (!sparse)
+> > +             return -ENOMEM;
 > > +
-> > +     if (!vdev->cxl_ops)
-> > +             return;
+> > +     sparse->header.id =3D VFIO_REGION_INFO_CAP_SPARSE_MMAP;
+> > +     sparse->header.version =3D 1;
+> > +     sparse->nr_areas =3D nr_areas;
 > > +
-> > +     ret =3D vdev->cxl_ops->reset_done(vdev);
+> > +     pos =3D 0;
+> > +     list_for_each_entry(range, &vdev->excluded_ranges[bar], entry) {
+> > +             u64 hole =3D ALIGN_DOWN(range->start, PAGE_SIZE);
 > > +
-> > +     /*
-> > +      * hot_reset_task cannot change since reset_prepare: setting it n=
-eeds
-> > +      * memory_lock, which this task or the hot reset task holds.
-> > +      */
-> > +     if (READ_ONCE(vdev->hot_reset_task) =3D=3D current) {
-> > +             /* VFIO_DEVICE_PCI_HOT_RESET returns the error. */
-> > +             vdev->reset_done_err =3D ret;
-> > +             return;
+> > +             if (!(range->flags & VFIO_PCI_EXCLUDE_MMAP))
+> > +                     continue;
+> > +             if (hole > pos)
+> > +                     sparse->areas[i++] =3D (struct vfio_region_sparse=
+_mmap_area) {
+> > +                             .offset =3D pos,
+> > +                             .size =3D hole - pos,
+> > +                     };
+> > +             pos =3D max(pos, ALIGN(range->start + range->size, PAGE_S=
+IZE));
 > > +     }
+> > +     if (pos < bar_len)
+> > +             sparse->areas[i] =3D (struct vfio_region_sparse_mmap_area=
+) {
+> > +                     .offset =3D pos,
+> > +                     .size =3D bar_len - pos,
+> > +             };
 > > +
-> > +     /*
-> > +      * Nobody waits for the result of a reset started elsewhere. A pr=
-ovider
-> > +      * that failed has logged it and keeps its device memory out of u=
-se
-> > +      * until a later reset restores the device.
-> > +      */
-> > +     up_write(&vdev->memory_lock);
-> > +}
-> > +EXPORT_SYMBOL_GPL(vfio_pci_core_reset_done);
+> > +     return vfio_info_add_capability(caps, &sparse->header,
+> > +                                     struct_size(sparse, areas,
+> > +nr_areas)); }
 > > +
-> > +/**
-> > + * vfio_pci_core_error_detected() - prepare a device for AER or DPC
-> > +recovery
-> > + * @vdev: vfio PCI device the recovery reports an error on
-> > + *
-> > + * Call from the driver's pci_error_handlers.error_detected callback.
-> > +The
-> > + * recovery may reset the device without reset_prepare and
-> > +reset_done, so a
-> > + * provider takes its device memory out of use here.
-> > + */
-> > +void vfio_pci_core_error_detected(struct vfio_pci_core_device *vdev)
-> > +{
-> > +     if (!vdev->cxl_ops)
-> > +             return;
-> > +
-> > +     guard(rwsem_write)(&vdev->memory_lock);
-> > +     vdev->cxl_ops->reset_prepare(vdev);
-> > +}
-> > +EXPORT_SYMBOL_GPL(vfio_pci_core_error_detected);
-> > +
-> > +/**
-> > + * vfio_pci_core_error_resume() - resume a device after AER or DPC
-> > +recovery
-> > + * @vdev: vfio PCI device the recovery resumes
-> > + *
-> > + * Call from the driver's pci_error_handlers.resume callback. A
-> > +provider puts
-> > + * its device memory back if the device still decodes it; otherwise
-> > +the memory
-> > + * stays out of use until the user resets the device.
-> > + */
-> > +void vfio_pci_core_error_resume(struct vfio_pci_core_device *vdev) {
-> > +     if (!vdev->cxl_ops || !vdev->cxl_ops->error_resume)
-> > +             return;
-> > +
-> > +     guard(rwsem_write)(&vdev->memory_lock);
-> > +     vdev->cxl_ops->error_resume(vdev);
-> > +}
-> > +EXPORT_SYMBOL_GPL(vfio_pci_core_error_resume);
-> > +
-> >  const struct pci_error_handlers vfio_pci_core_err_handlers =3D {
-> >       .error_detected =3D vfio_pci_core_aer_err_detected,  }; @@ -2915,=
-6
-> > +3055,8 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set
-> *dev_set,
-> >                       ret =3D -EBUSY;
-> >                       break;
+> >  int vfio_pci_core_register_dev_region(struct vfio_pci_core_device *vde=
+v,
+> >                                     unsigned int type, unsigned int sub=
+type,
+> >                                     const struct vfio_pci_regops *ops,
+> > @@ -1254,6 +1336,10 @@ int vfio_pci_ioctl_get_region_info(struct
+> vfio_device *core_vdev,
+> >                               if (ret)
+> >                                       return ret;
+> >                       }
+> > +                     ret =3D vfio_pci_excluded_sparse_cap(vdev, info->=
+index,
+> > +                                                        caps);
+> > +                     if (ret)
+> > +                             return ret;
 > >               }
-> > +             WRITE_ONCE(vdev->hot_reset_task, current);
-> > +             vdev->reset_done_err =3D 0;
 > >
-> >               vfio_pci_dma_buf_move(vdev, true);
-> >               vfio_pci_zap_bars(vdev); @@ -2940,6 +3082,17 @@ static
-> > int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
+> >               break;
+> > @@ -1947,6 +2033,11 @@ int vfio_pci_core_mmap(struct vfio_device
+> *core_vdev, struct vm_area_struct *vma
+> >       if (req_start + req_len > phys_len)
+> >               return -EINVAL;
 > >
-> >       ret =3D pci_reset_bus(pdev);
-> >
-> > +     /* A provider that could not restore its device fails the hot res=
-et. */
-> > +     if (!ret) {
-> > +             list_for_each_entry(vdev, &dev_set->device_list,
-> > +                                 vdev.dev_set_list) {
-> > +                     if (vdev->reset_done_err) {
-> > +                             ret =3D vdev->reset_done_err;
-> > +                             break;
-> > +                     }
-> > +             }
-> > +     }
+> > +     /* An excluded sub-range is reachable only through its trap, not =
+mmap. */
+> > +     if (vfio_pci_bar_range_excluded(vdev, index, req_start, req_len,
+> > +                                     VFIO_PCI_EXCLUDE_MMAP))
+> > +             return -EINVAL;
 > > +
-> >       vdev =3D list_last_entry(&dev_set->device_list,
-> >                              struct vfio_pci_core_device,
-> > vdev.dev_set_list);
-> >
-> > @@ -2948,6 +3101,7 @@ static int vfio_pci_dev_set_hot_reset(struct
-> vfio_device_set *dev_set,
-> >                                        vdev.dev_set_list) {
-> >               if (vdev->vdev.open_count && __vfio_pci_memory_enabled(vd=
-ev))
-> >                       vfio_pci_dma_buf_move(vdev, false);
-> > +             WRITE_ONCE(vdev->hot_reset_task, NULL);
-> >               up_write(&vdev->memory_lock);
-> >       }
-> >
-> > diff --git a/include/linux/vfio_pci_core.h
-> > b/include/linux/vfio_pci_core.h index 6520a2dcfd4a..881e51c42414
-> > 100644
-> > --- a/include/linux/vfio_pci_core.h
-> > +++ b/include/linux/vfio_pci_core.h
-> > @@ -72,6 +72,21 @@ struct vfio_cxl_ops {
-> >       void    (*release)(struct vfio_pci_core_device *vdev);
-> >       int     (*open_device)(struct vfio_pci_core_device *vdev);
-> >       void    (*close_device)(struct vfio_pci_core_device *vdev);
-> > +     /*
-> > +      * Optional. Called with memory_lock held for write when AER or D=
-PC
-> > +      * recovery resumes the device, after reset_prepare was called fo=
-r the
-> > +      * error. Config space is as the recovery left it.
-> > +      */
-> > +     void    (*error_resume)(struct vfio_pci_core_device *vdev);
-> > +     /*
-> > +      * Called around a PCI core reset of the device with memory_lock =
-held
-> > +      * for write; reset_prepare also when AER or DPC recovery reports=
- an
-> > +      * error. reset_done returns an error if the provider could not
-> > +      * restore the device; VFIO_DEVICE_PCI_HOT_RESET returns it, and =
-for
-> > +      * any other reset the provider logs it.
-> > +      */
-> > +     void    (*reset_prepare)(struct vfio_pci_core_device *vdev);
-> > +     int     (*reset_done)(struct vfio_pci_core_device *vdev);
-> >       /* Pinned per bound CXL device so vfio-cxl cannot unload under us=
-age */
-> >       struct module *owner;
-> >  };
-> > @@ -166,6 +181,9 @@ struct vfio_pci_core_device {
-> >       struct vfio_pci_core_device     *sriov_pf_core_dev;
-> >       struct notifier_block   nb;
-> >       struct rw_semaphore     memory_lock;
-> > +     /* Task running VFIO_DEVICE_PCI_HOT_RESET while it holds
-> memory_lock */
-> > +     struct task_struct      *hot_reset_task;
-> > +     int                     reset_done_err;
-> >       struct list_head        dmabufs;
 > >       /*
-> >        * Excluded BAR sub-ranges, one list per BAR, sorted by start
-> > and not @@ -207,6 +225,10 @@ void vfio_pci_core_release_dev(struct
-> > vfio_device *core_vdev);  int vfio_pci_core_register_device(struct
-> > vfio_pci_core_device *vdev);  void
-> > vfio_pci_core_unregister_device(struct vfio_pci_core_device *vdev);
-> > extern const struct pci_error_handlers vfio_pci_core_err_handlers;
-> > +void vfio_pci_core_reset_prepare(struct vfio_pci_core_device *vdev);
-> > +void vfio_pci_core_reset_done(struct vfio_pci_core_device *vdev);
-> > +void vfio_pci_core_error_detected(struct vfio_pci_core_device *vdev);
-> > +void vfio_pci_core_error_resume(struct vfio_pci_core_device *vdev);
-> >  int vfio_pci_core_sriov_configure(struct vfio_pci_core_device *vdev,
-> >                                 int nr_virtfn);  long
-> > vfio_pci_core_ioctl(struct vfio_device *core_vdev, unsigned int cmd,
+> >        * Ensure the BAR resource region is reserved for use.
+> >        */
 
