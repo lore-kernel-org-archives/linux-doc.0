@@ -1,133 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.158
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795045508;
-	b=e0Nbj3AVWXeGN31GuGmjAVqP+YPSlW3w0BFf2wpNRRXmUJP9oGtbmFfKm7msJTpxEHpt
-	 wgMxPiwp8GLfxD1LFnyq+VhAMK6+RJbBEsgoFDJEEDOMIQmy10Ad4HxXyAeTmFyPbDgQs
-	 FYCMSkppSKbifvRrxSWwEcdjqEPiu/+U4/TzrN41pGEmdWBD+YGPG6gqg0yKfAhnIqZgn
-	 +am8CQzDx329/V5qjn72KNKdhPpsxGYBt88Pcdd6HHDaosgZg3Ivl24eP4yzg+8368A4q
-	 Vv63Uz8y1fm/tUqazBxZFPsiMkCGZ+yeef0MHDay+beOQwxtVJFTfL+tFjBqCmiHkwQ==
+	t=1795045740;
+	b=zzaEbQytiaUAFl5zQ8L/TfPvmTz5bW4knKxlPX5nKZ27s7cDxdmIOBORlMXakNWjKMTs
+	 NDaWoJR6BQZ/vDJf5G1c+ZlFEkWbVjRePzRJft1+yffuzpXn7C4QMR019cFjblg7MxKvy
+	 /gkTjI+LOj4KwZWGAMt4XrldHH//BeNJwDEiwxWHO33wDm5GTXZ+FF6dv2EL8XN+g86Sz
+	 h6M5qKipYkzglz1lx8GhA/ouWhYVmqFcL1oRdv62q5TMr0fHmlRY3GM4jr2/mZUfScJ/U
+	 TRK++SjuYSfjyskfYmqSD/Y8JT8LcdNU3kVdxegUkprvFvVSXy1pM7rqEjdx1nYZGUw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795045508;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=SlvQ2VgnsFjXe3sW9Yw5Vu92DAnxWZkCnZJbEo3k38A=;
-	b=eMTFCOHjD63LwmoGPJEsBDQWQtCRqbAyham8GtaNXlFrgNHoHhfXT6QO5bz1COgSUqDN
-	 W3Xwu6I/e7M10u/WrHmbrffWPDUwSg4rpSuxxt17iIcZIMOjc5cdd6WJjIEeDuTFXVXQc
-	 qmbXdsVB4Imy9hI/F35ddwcwYqcvLyf4uBXMwc4TJJgo+ED9b+J4J5OGqOWsrDxCv7k4+
-	 zWS8IVJPfaFS4PvSlGE6eGWuNIqnnRxtGhvsrxKjxuBjFgQx7fKndtYC8wkp8h25wivM3
-	 OwN4dgqsHZJmfVXZyWSP4E/kX9GDFK/eJnJ3sbNiqT+g520mWKggUKTu//I56rGUM6A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795045740;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=JokRczt5mVEgHxRUZJg6jCnvGvoAs9YtaIgcq2+6nkw=;
+	b=UsHkG9UeFv/7s4hBPIPBhqNMQu+hwsM70IDlwqR6bcG/rSfw68M2pv0RJ2DN01ZCHHxB
+	 rNwefBIDbZNcU+YLtMKXc5ffpuDvYV/qDKqAk3KbKThFTPZFQBzQis681rx9eWZhJ41Vr
+	 bWw2zrnVOPpQWnY1mML0PIG0SJ+kKlyxzkWnGatvgCuHsejvrzdYEksKrqSpevGg998VQ
+	 kq3QInxQLct7+ZLfeTfQUr/LfSCy/YK0EI1ylGkFg0V3JVkcm0GPJUasRJmnLWvW9SFoO
+	 9J7j+/nEiZz3KWKGKE6sNYJdQW+h1U5QS0b6teX5f73X5NHTUVoZdiUpscVvd1Ohm/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=flapping.org;
-	spf=pass smtp.mailfrom=flapping.org;
-	dkim=pass header.d=flapping.org header.i=@flapping.org header.a=rsa-sha256 header.s=fm2 header.b=dP2PLzA7;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=hB8+2G5A;
-	arc=none smtp.remote-ip=202.12.124.158
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QRzAvX+G;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2168D606A320
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 23:45:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2168D606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=flapping.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flapping.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9B7606A330
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 23:49:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=flapping.org header.i=@flapping.org header.a=rsa-sha256 header.s=fm2 header.b=dP2PLzA7;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=hB8+2G5A
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 7DDF37A02D5
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 18:45:06 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Wed, 18 Nov 2026 18:45:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flapping.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm2; t=1795045503; x=1795131903; bh=SlvQ2VgnsFjXe3sW9Yw5V
-	u92DAnxWZkCnZJbEo3k38A=; b=dP2PLzA79OGnxZTiZT4meX2Jm/8OzMHkC3frv
-	Q61M0XFL/zJqi11M9D3Y3E0ptf5dz2FA2ADj4Uer5pEsq8fDPWTeLLKYblTp7TZ6
-	GcCJ2Zu8Tonosyc0eiOdUBSMpOD+N5ciJ1rirAvCLfknBLtc9aBBz8mvyWRrIj2k
-	btPLX778qRqDuN6aKZwOJg78iY/dMns9qd8yw4pbMGZSw6ZPuxGGKBoXb7na1N+2
-	gt5FxYIEBrOXCV/iXtHIxcocrzuwb4dCh/Q4iSyIkdYkcJnU+F8a+pexwqgLUuj5
-	WEWc/jk3lLoZsuQQZpYfTI0iSuJroDkjgmvWFdbK/ehUedheQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1795045503; x=1795131903; bh=SlvQ2VgnsFjXe3sW9Yw5Vu92DAnxWZkCnZJ
-	bEo3k38A=; b=hB8+2G5Ati8KEnUIhjtPkTZFUJO/pSWajZ+YUJPWEnjkSIMDprC
-	OYnGnyxqYyrhHGJN9PxUaGA7Z+64E3TIugasxOvfrzSRTGZUNJlfBpmdsWAgUkw8
-	89JYj7b3T2gyYBAfqFXleWoAOkZSZJfTR5ds95APr2B4ZQVCnylyBn1zAHdY7aWt
-	6oDnr/kW4BucEAQrb/h7nW9udXE3VQ4D5BcHMI6tAXd8PCoDNz9+cUDNnkiR7LHE
-	YUQy+IiwC7FAPhOT+iwrR5CKFv30VBLGMHROgOUcOJz+qD+wLIk3BTiG0vx9XCvK
-	9UPMBSPYoA8wb4qJ846FULI4KkeodJIyXpw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=flapping.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795045503; d=flapping.org;
-	mf=PHRvbW9AZmxhcHBpbmcub3JnPg==;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm2:rsa-sha256:kQm+hXl9BJaF8oUxzA6qV74f2Je/XVeMoep8kvwdxmuo5YM
-	zA5zBapsxM1iOFvCk7LVsDph6vWEO43iNtutOPOMg0awbcMBlBgfkX8E5rxrbBcv
-	0BdU/qUdUY/TQzhVgubmyK+CdtMSeDP3Y+0SDy7O1aOPmMFrvyxdGC67vCGH2NlD
-	BSREGbhuA2Ws2BKH9FY0GCzsgouU0pU89kYYYDzTEB9lQ3wHE3C2oOG1xx9llLcP
-	25nv5eUzE0o4C6Owh9fR/HAQ7AanhIow5zLg9ToOlzD7hqfJKYTVXC1144Iia6xg
-	ipXhtSEj7JNx/Cs6SO2pdg1BgwTGpQ5jODIhfLA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=9;
-	hn=cc,content-transfer-encoding,date,feedback-id,from,
-	message-id,mime-version,subject,to;
-Message-Instance: m=1; h=sha256:VdK/h2229Xpb2Ouscnrfx8QTL45tR//+A8G4qFlcrpY=:2WvQt4hIn1L1IHyMFwABT1ha26mfGUfohMSdBTOTfMo=;
-X-ME-Sender: <xms:fjj-avZ64KCbFei3aOGwdbcvgdPjQSCncLsGHbNEWPe7QAgNGMpkDg>
-    <xme:fjj-aiUejHhMbkA2gn004jcbIyEeKf3uYqVMcNNYxf8eUrtmZqQKhqEKfyrVwQVVC
-    4K93QvkDWnkIbL2V3RQqDEFhhAQIudsB7eGbJi7ysE_3Xfa7bx9Tho>
-X-ME-Received: <xmr:fjj-amjK0Bo7RKgknAsc4SK9R9W8-aVFqmklnLonKM7dOpcxHce_mBoWoxAhUAXGS5h3AWX-4XDe66UsQTk>
-X-ME-Proxy-Cause: dmFkZTE3oiK/yCDjq/eR3tM8m07M9PLaqebQ60WoFpU8jQdGzwP5oG0KL77CbdXuNDVoxI
-    sNSobQBHfttlSTReoIBJCx5Oehf/7s8D+PMbiJskxJyRp2H545FxU+JC0U2to3P8DzSvm4
-    SmwehFw25/0ctu9/Zijqq2VNS5qplPqILZGGp1NG15PU8QxXJGqfZpfp7JlCOM0uJx7auH
-    3kpKTRSqeThx44OEZk4V7MN0KXixv7SP3/qTStUheREYrdRg/d6FDbkSKHDPvDXFbW09yH
-    iaYKJ2BNI8EI7UMjXNWmy9VRpMvQTHtjWlD4/60FwmnOPYxMPfqtu/wkepZuYyV4Uwr/jh
-    /q/AGzmazt/fhKlgfieFAk9gC//RTZVQNKmcEJ84gTmIVVfH//UsHv51O5mBetj69ZnszR
-    ZMOBLzJ1qgriR4nMUvqt7RyCikZuGSfjxECpvMTF/R/org0GWJ2EXQJHJn6RD/P/yLlBTr
-    U1q2T42WPCaOn/d33ynZG+j6kOeYJHr4kd+FVX6tPlXfgQC0iLPhP7JFQmYzBOq0DNxnpM
-    j5jvPUOHlgdyKdSGLsOMmiajaMDZaN4jLZDrDKmfkz8uBrXkmHknqfe8g9ah3vA9zk4YSY
-    MBt7oVGiLygogNu8DkL/Auf+KTzUZ/iZJ8KB9/FHFkGCh3x/R2GhU85D5d4w
-X-ME-Proxy: <xmx:fjj-atmnRd4z3Do6G3bCS1oeHsk9_BWIFihzvkMVYS9UiCb7TQrFXA>
-    <xmx:fjj-avzKZDfGqkFhr7Lx3D7VICYkkdEET2tapXqFZh0Eb-ERvalSkg>
-    <xmx:fjj-aosniH5Brm1yuozVvFVpQ-yrJqnammLEbot6zKQCob97lxLHAg>
-    <xmx:fjj-akvwWVaUxIDKXGzk388LiZaoTbpakjTYOTneSOB-BsfBu59MDA>
-    <xmx:fzj-asnPD-Y6v37dU7qcx85DOCL6FSL8RJ-hhxIshELOLFTJWJ9OGdLv>
-Feedback-ID: i51fe4b43:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Nov 2026 18:44:57 -0500 (EST)
-From: FUJITA Tomonori <tomo@flapping.org>
-To: corbet@lwn.net,
-	ojeda@kernel.org
-Cc: a.hindborg@kernel.org,
-	acourbot@nvidia.com,
-	aliceryhl@google.com,
-	bjorn3_gh@protonmail.com,
-	boqun@kernel.org,
-	dakr@kernel.org,
-	daniel.almeida@collabora.com,
-	gary@garyguo.net,
-	lossin@kernel.org,
-	rdunlap@infradead.org,
-	skhan@linuxfoundation.org,
-	tamird@kernel.org,
-	tmgross@umich.edu,
-	work@onurozkan.dev,
-	linux-doc@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>
-Subject: [PATCH v1] docs: rust: mention #[track_caller] for functions that panic
-Date: Thu, 19 Nov 2026 08:44:51 +0900
-Message-ID: <20261118234452.2621985-1-tomo@flapping.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QRzAvX+G
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 003531F000D2
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 23:49:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795045740;
+	bh=JokRczt5mVEgHxRUZJg6jCnvGvoAs9YtaIgcq2+6nkw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=QRzAvX+GjIXVj5+Hx8Av5Mt96NukUSriYFWx33adE98bNh3aqW5ZBbTkdyuI6uVes
+	 AZ2BpGNU4bG0idO6iWixvbACU6nv1xDZxEKdh79PNgNA2ZyIKe+rufUMjwRZ3l+Jog
+	 o5taUCxSyqcATkv/IZWLVwKCWKxIB09nTmDFe5S/jhjhbcYkQb6N2TvYk3ghlFtECo
+	 mszmZnlh6uEBfFK11E4rUAg5amCv8XAKURFyHS8or/C7+Fl22UeCuuUCP6NO4QVn+o
+	 XSpf6Kq7jiyCphDjybDyyacHCLnTlLnLU3VQDgdeWAUt6vXpHi9UkEE42dFg2tjRZT
+	 PxZsCRVA+Boww==
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-9497a167a6aso45330685a.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 15:48:59 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGfdIWA3rD5oAPyvklefZutOsDumW++qb9CCZyIOnbRO9UsTv21TmvmXjZoNhSelEq8oqjAR3eR+yo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/oIAZyCvOpCTsRrMRuh8WI0OqATTFDzR4VPqoeFCgdJkvv8llD
+	tz4fnseMZYrQCB6JW4wdb2lL0dwW5kV+gxsW33kFySYEiitfA2hOGJf16B0eTiT52yeKBOq8EPQ
+	cnvS104Vppn6XBtAyyK5S6pPRSLnlxQg=
+X-Received: by 2002:a05:620a:260a:b0:949:6b5e:33ee with SMTP id
+ af79cd13be357-949ad938bc0mr22211185a.31.1795045738801; Wed, 18 Nov 2026
+ 15:48:58 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -137,39 +59,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com> <20261119-mglru-fg-v5-1-9eee2fe97a2d@tencent.com>
+In-Reply-To: <20261119-mglru-fg-v5-1-9eee2fe97a2d@tencent.com>
+From: Barry Song <baohua@kernel.org>
+Date: Thu, 19 Nov 2026 07:48:47 +0800
+X-Gmail-Original-Message-ID: <CAGsJ_4yUH9EG=kPWkkp_jm2Fy7e1D20f+uod1_9fUypW1G5sgg@mail.gmail.com>
+X-Gm-Features: AclHuK8u8pAmVqW9yFgv9yKvnlXrt2QgHUMeTnuokLmXwaR9lnc-LtRTxLtZGq8
+Message-ID: <CAGsJ_4yUH9EG=kPWkkp_jm2Fy7e1D20f+uod1_9fUypW1G5sgg@mail.gmail.com>
+Subject: Re: [PATCH v5 01/17] mm/mglru: rename the generation offset in lru_gen_folio_seq()
+To: kasong@tencent.com
+Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>, 
+	Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
+	Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
+	Gregory Price <gourry@gourry.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
+	SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, Yu Zhao <yuzhao@google.com>, 
+	Vernon Yang <vernon2gm@gmail.com>, Zicheng Wang <wangzicheng@honor.com>, 
+	Chen Ridong <chenridong@xiaomi.com>, Tal Zussman <tz2294@columbia.edu>, 
+	Kairui Song <ryncsn@gmail.com>, Xiang Liu <liuxiang.277@bytedance.com>, 
+	Ehab Ababneh <ehab.ababneh@intel.com>, Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, 
+	Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, linux-kernel@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: FUJITA Tomonori <fujita.tomonori@gmail.com>
+On Thu, Nov 19, 2026 at 5:03=E2=80=AFAM Kairui Song via B4 Relay
+<devnull+kasong.tencent.com@kernel.org> wrote:
+>
+> From: Ridong Chen <chenridong@xiaomi.com>
+>
+> lru_gen_folio_seq() computes how many generations below max_seq a folio
+> should be added to, but stores it in a variable named "gen". Elsewhere in
+> MGLRU "gen" means an index into lrugen->folios[], i.e. seq % MAX_NR_GENS,
+> so reusing the name for a relative offset is confusing.
+>
+> Rename it to "age", which matches what the value means: the newest
+> generation is age 1, and a larger age is an older generation.
+>
+> No functional change.
+>
+> [kasong: dropped the comment table part, the series rewrites it]
+> Signed-off-by: Ridong Chen <chenridong@xiaomi.com>
+> Signed-off-by: Kairui Song <kasong@tencent.com>
+> ---
 
-When a function panics, the panic message shows a line inside the
-function, not the caller. Adding #[track_caller] makes the message show
-the caller's location.
-
-Add a sentence to the "# Panics" guideline: a function that may panic
-should also be marked with #[track_caller].
-
-Signed-off-by: FUJITA Tomonori <fujita.tomonori@gmail.com>
----
- Documentation/rust/coding-guidelines.rst | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/rust/coding-guidelines.rst b/Documentation/rust/coding-guidelines.rst
-index 3198be3a6d63..c7404ea7ba13 100644
---- a/Documentation/rust/coding-guidelines.rst
-+++ b/Documentation/rust/coding-guidelines.rst
-@@ -241,6 +241,10 @@ in the kernel:
- - While not shown here, if a function may panic, the conditions under which
-   that happens must be described under a ``# Panics`` section.
- 
-+  Such a function should also be marked with ``#[track_caller]``, so that
-+  the panic message shows the location of the caller instead of a line
-+  inside the function.
-+
-   Please note that panicking should be very rare and used only with a good
-   reason. In almost all cases, a fallible approach should be used, typically
-   returning a ``Result``.
-
-base-commit: aebb7274476403040d582c61478df8f4a7bf9cd3
--- 
-2.43.0
-
+LGTM,
+Reviewed-by: Barry Song <baohua@kernel.org>
