@@ -1,90 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.149.156.91
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795010992;
-	b=mrICJoMYF7ZygtRp0hj2KsrF7H5zlsgkZtVpf08W8L369vr7/hLwgL6uAjCrOLjZsBMh
-	 hyMhWsIqfC57dFtcnE+PJdEYwHNh8pbTOhsy+FaFPch9jpkC6op6rSyanjRe1+Ux7Yn5c
-	 MRglSYfg/Lh4ql9DtxEn/564tf4VDTjJ2omec5wX3OQvAOBxY64njJ8MukrAapvzuuMVT
-	 +TEjRInOyCB2T70k1SnfcsLRXxO/V/iUPmJr623waQcf5Z6h1P7+HZm2sNOGHQVRgPZoK
-	 DjDm1E6ATfIFYWAaycvuvlMOff8D8w4vcEcZIfllKe08f8Z7wQCd13+Vr7+eIfhitdQ==
+	t=1795010994;
+	b=5rMec1lVZZMJLIGpd/PxH04s3VG4eC/5TMgyGqJmmXd8FM4lPyVuvVluoIZ+IoNG4j84
+	 qqqaXHayz7h6IFb70UPuRG7bo8obD+oqjxsClxpL6syXuNQZGXmLaOyTkCiI7u61wkxqg
+	 dMnjuAEsVVRU1Mi3D0AN7FaMj2JB0miLR/C87raVsmXm004NgNo0VOYtsvFaVsqZv5NK7
+	 L9rR7n7fHXKj/v5v9vAW/yr093OPkBtvc2Mx6zUbyVLcax5TKd2BiPRltZhHKKajoGrLR
+	 VUcWnrNrW2N5+H+wm1QX7jVCYfFecDbNXrqemmKg6nu1eDx5kR3N0clpITHdGBUF7TQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795010992;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CMAE-Envelope;
-	bh=T1qvRLtkirmgKXEavAQCYElsIkpIGZmynR3Whc+7Ebc=;
-	b=gaB95fyXjEgC8gWXhOUkx2/pBmqeYd4kaDbq4EY0G4BM7FnYJmAVTYK6BbkdanJ7Co3P
-	 Wl1o+J2tJx0Rpb2nl8D+sZo3cX7fbIisX/HgnUMPQKvJNP1MfLjUMao9W0m4DnPZq29cc
-	 PqwP8+alOsetU6o3/EwnoAmROhbCWWNGKueol8mxu4kX7UK9H/92tkcb7bUE4/S44N5zG
-	 a90LkdmvNTL1vaPnQjZxLPJjYozQr4cJlc8KG7inLiju2gUHCzr9/6fU193IDg/Dt0Ypn
-	 /jlGHc548j/HXUzL7WJYaUnata/TXQK4Pq99trYBPSgUOrBfK79lJque4ADyFoQy+fQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795010994;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
+	bh=XAheLrxIyzbdT9JPYIudMidPXsJvcTTt6MqGrybJiMo=;
+	b=qN7uAcbZH8OxXo1AJ/F5LoMUh5cRg/AYK6iWIzBpfhTjkV2gnhss25oBGL6NgQw3tn1J
+	 EHmXlwdSlXAARvLFi+G/n78dhv5CeCNbEPA1X4jLQ2KY2/dZrAxlGRvnidYI+NbEUoK3Z
+	 L/G87Ck7mUp2LLamRFeFr0RlK7LD34Fo8wAY8pp1mx7YFxRXAYX9pPW6Z2jyX9niGsDW8
+	 8fgoMkuYuN1ZRqNQJVX2jX9AG+ctRYVjYVy0qfTqZd0xAo1IwEY9JhvhhVRRuKwPbuuwc
+	 /jSBHg9GMZ49THogQ0bZXKFODeCQTsrUllLj0zPnqLv6z64wIu036y8Bj7tZjX9wXlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=enneenne.com;
-	spf=pass smtp.mailfrom=enneenne.com;
-	dkim=pass header.d=aruba.it header.i=@aruba.it header.a=rsa-sha256 header.s=a1 header.b=MFTygGwd;
-	arc=none smtp.remote-ip=62.149.156.91
-Received: from smtpcmd0991.aruba.it (smtpcmd0991.aruba.it [62.149.156.91])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jT9z8ZUs;
+	arc=none smtp.remote-ip=209.85.161.53
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BF0606A337
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 14:09:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11BF0606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AC260A2624
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 14:09:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0AC260A2624
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.a=rsa-sha256 header.s=a1 header.b=MFTygGwd
-Received: from polimar.tail4f75e6.ts.net ([101.57.122.26])
-	by Aruba SMTP with ESMTPSA
-	id TgM6xLP476q8sTgM6xc97L; Wed, 18 Nov 2026 15:09:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1795010987; bh=XZv05H9A0y4JWx4C2kfVEJYBBhLV1Q9ClegJUUM5OIE=;
-	h=From:To:Subject:Date:MIME-Version;
-	b=MFTygGwdCJZ8dpJvyJST8MwHh46EfjwD8kJhmEijTWLZPxxhase+OwFsh7lq4cxfB
-	 LvCzgmBzy5Sj0C+N8g+2EU6Pcu6B9geb94MQEOAaldHnVjX4NbEFpnu9yCVc7RVqVI
-	 +/AlMwU46kB64xB6rlOg11YsetCkK56NQCCud9ukyLEjGxv8FI2EFtwtCzI88HVCUM
-	 B6NkgyZorcsWSf/nTrtd3tpjpBJsBiLJVblcOmVSQ+xtE2OkhSr6Xp9ZjC4W2kKWsf
-	 BdIKUCSta0s0GrqoJrElz2rqMIPfoGeQMGuaO7S4Jm0PYmBD6xJ5cqhofu31zEpuIG
-	 sgCvnIdr8afqw==
-From: Rodolfo Giometti <giometti@enneenne.com>
-To: David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	keyrings@vger.kernel.org
-Cc: Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jens Wiklander <jenswi@kernel.org>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	op-tee@lists.trustedfirmware.org,
-	=?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>,
-	Pankaj Gupta <pankaj.gupta@nxp.com>,
-	Sahil Malhotra <sahil.malhotra@nxp.com>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Richard Weinberger <richard@nod.at>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Demi Marie Obenour <demiobenour@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-crypto@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	Rodolfo Giometti <giometti@enneenne.com>
-Subject: [RFC PATCH 6/9] KEYS: keycrypt: Add the engine tier
-Date: Wed, 18 Nov 2026 15:09:42 +0100
-Message-ID: <20261118140942.611715-1-giometti@enneenne.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261118140421.584086-1-giometti@enneenne.com>
-References: <20261118140421.584086-1-giometti@enneenne.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jT9z8ZUs
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-703be215729so488583eaf.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 06:09:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795010989; x=1795615789; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XAheLrxIyzbdT9JPYIudMidPXsJvcTTt6MqGrybJiMo=;
+        b=jT9z8ZUsVYiBGxipChoWzCY5tmzAdRWCz0HJ5IWSPRXPhff3OUE3AEatyqayMpOLJU
+         RRiJkKJOdnxGRlt2G0k5oQTp71Amz2gjMnh4qxTstm/wN2zaUWOddOvNayM6Q+SNKJeE
+         QrZvpM1lQcEICLhxAY3C70lWW3DrbLS7dlTRoVXop8L+2EG6M5rlvzqkxzTeDwa1BZNW
+         FXIEkuIS8MiTISs0xlkpuM8zWg5Plh99tFe6dCX4Ie8fm0VKJuB5dg02y8xkNmUW4vC0
+         nXOHPRSdHB1o4tRteJBiv2MyOQhKVrQog/0Fn3aWEQZ4V3mGXrvUSZQ1dZKzjIp9X9zK
+         p5UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795010989; x=1795615789;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XAheLrxIyzbdT9JPYIudMidPXsJvcTTt6MqGrybJiMo=;
+        b=tAuGocfwMWjJTGP3/tb1TYDUV2VgQZTzHo47GBowNq4pMkoBF0b0OUx31QU2kWwUm+
+         nclQcUHDvdNkd8YC80JtZ8ZqWUsDjvSDZIWpMLiU40dYCj28TIN3426j/kuQDF3SSpR+
+         DxQggfFj3k+fwPo8FxTbtFSy8uyC+9YlQiKNsT3uYizramtquGsJIr/kzEmmqBdiE2yl
+         sT7+w1AFPSS3rYtI4PTrkbuFiFrJ8vY3QrrGlNL60eU7EUBr/4sqlnyPjkftWtWe6+y1
+         r5xHdwwVxZxsic+fplFoohyB4gkTgzRRwNNoN/PVbSL2a3NB5fRQi77pCUcZUH7VeMuR
+         U59g==
+X-Forwarded-Encrypted: i=1; AL+hErEQJdGMmfv/bklltDF17gAecw6cqKecLE/vsEA03jCB0aqMiQxf93w2BkgCyadwj9VXPDqMpaUWwtU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z80hcpYJ2yea7ZgyrpUODkWXmQY6dTGoQbtxgGvFNAH8oc4sX8l
+	+vOzNwX3EPaCh+NLSlkHTebXMsLC/LrVw/UKPK8Kdkn5RyzFkJiAubGQUq8gq3dH
+X-Gm-Gg: AYBFou389GIh7CqTYnN/SdnUO8wVtU/BMza1O9qvuvurD+OED3v6UkctdAxZSPFARnw
+	vpGrrXVuK2G/bBa6vBGrf2O40Uok/jg+RLsZLk3lSE3x8TuTUcxlEtNMdkRzJrY3WRJKFzVdirC
+	anYBfg848XH7+P6y0p9jMXFRggPO7Uaa0uRgHTkQupAtxBHOrLDlhkIFSSBiQ0XMJ3zYFqoSARD
+	1/hl+eAR5W+QtXdm/3ofGG88TNsP+o2GWlJ+cQqtU1VSIB5XGrfbTxFR0C7VjOVwmdMe52el0ub
+	vM/w01O7RQLLSVZ4R4g/iMywX1HMUYy2WhQO8sOb/uWw+4rmqnAhcEELNDM6XYMF8aQHMBAOqyS
+	squWnnYBYohEzBwErjO3ns4pfenZh01HBVlMAgQyIR6eWpqRA+Jx+26+IrTUnXrTTGviBjRIlOo
+	OfI+mRWYACjzyj3acMxH8mzsZ2xr1naJGpTOM85sCg2E4zPee2n/QJe+of0+eEWvsywRRY3WwYh
+	sIB7lDlp5UwbGA3OINoiq9h3b16L4Pj9KP1UWYQecn1mqIMQEv0CZzIev76YZSd8b5rIyNvgxc7
+	Q8g0R0L12ReqXRHSTt7EYmTLIw==
+X-Received: by 2002:a05:6820:55d6:20b0:6cd:3ffc:64cd with SMTP id 006d021491bc7-71b18600d04mr1037879eaf.72.1795010989519;
+        Wed, 18 Nov 2026 06:09:49 -0800 (PST)
+Received: from localhost ([2a03:2880:30ff:1::])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4b744126dfdsm2294761fac.10.2026.11.18.06.09.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 06:09:49 -0800 (PST)
+From: Daniel Zahka <daniel.zahka@gmail.com>
+Date: Wed, 18 Nov 2026 06:08:07 -0800
+Subject: [PATCH net-next v5 5/6] selftests: drv-net: psp: factor out psp
+ connection setup
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -94,235 +92,190 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfFtUaTfzPhMStwlKWj88S+iQKFn5wIBaG0bPK9UENjParNezD2h+kZm7q4GYiByZEdzsQH74S0KbPsFg8L7xfVpZZUnjhY3pvc+kJ0BI7LAXIm58qdb9
- bmkkzJji62ZNTiCaxMVfpuHS4eJ/IXnFce4WrfNK4ImC4JclA+7r7fNiS6xXF3F9kUC91n5svOz1wzWSghT5q6XEf53LyZNPrrc/noqYJn3OAMFe3Pcb7d+Z
- lRjzZ3rJpEVlyaE6ZI2Wxa4zh+XsUDK06eYDCydSJelXQvFXJ/WcWw5zkZJmJbm+vSiBAWnHsm2ItB4NZD5IeudmMrhZuKOXH7fJAO1LJTX3f0+sCHzRh9Xa
- n6jRK7VYKmcuD36NmPcE5a5qQ/DRV4vSOdUvPRrj/YvrPiea5MQ272QjO9qYLF/tix30iyVpguDSK2HRDa5zWr9oHu/AmEqOnLHKbVlXBpjLAdAazGEbIdth
- HLdXtums/t6kZMih5f2171UZiUULMzQNNsA94fCJdyDrVNFgPi8QHEXi6Y6xttQhUmXYmmZ4AuvnmL3kqMJn7s1upMk6hz9BbrqmMr4MMqaJVK30Jdysnt3f
- aRE8ya2QcCJtLQZr2RKmA4za1+IDt3smFwyvwU0c0r7cklwl8k5m34d/3+v0wnQc3OYnJcu1eSKZC7iiFg5RCwiMaeE4GI9gOFJDyvCaAFdyRFcCpRjXKm/u
- GnIMoCQUZ5cJbIXmH42HgeB9Mom/HM5zjf0AlDmQtFWyjsKOawX6s1W3KoFBLp0q0/5py+RkiRvnGJj0OMMIa9p3PYucVRq6lNq9gjio7BegbgMgdi8r8j/d
- xoJQ/GXQOWY68hvg/ZjD3OLU7hzNveMPkTCK96+gF/kzvrwVR+Ov6eIIfrB54gLPMnycFVr8wlY9Ouj04WoukiONU0ZPwhpz+SloxyLiXmGFuthIFr8FhsfS
- 0eWaDGWHGPkp/suwdEXROQaeuYznS1LzoE24Vp3dBHi6YHa/fK4JF7yMGmMjjJSkbdNO9q5+x8865SHF0fA8CjK0jlLmZcGf6DM0Kiite82qeySAORG2OHJj
- tsqmLYj7eCkPBqaXElyOd10BiBW5+l71PrgU6PmJ01lz1dfGGYbyi0hh2O084BQyoFb51+EX8oC0fOneRnlTf5YqiiOyj8W3ITzlZC4yuRDvls9YeeraZcew
- 16RkCXAhbo/9u1wjwqAT+RTjXNHh+RgruILUwr6hGEZ6T7PcMQzrNneKZec16tMsxqCQ1dH6MW6E9jAeCvsC9SIXyrfSWdpa1/TFF9zOmXIA7d6cP1Vrkwvq
- /dvjANn24zLCUQGaJId5m7U3wjKNz3IJB5tye/7AjlK9e0p9aQ0=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261118-psp-v5-5-b9ec840e0296@gmail.com>
+References: <20261118-psp-v5-0-b9ec840e0296@gmail.com>
+In-Reply-To: <20261118-psp-v5-0-b9ec840e0296@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Donald Hunter <donald.hunter@gmail.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>
+Cc: Daniel Zahka <daniel.zahka@gmail.com>, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, Willem de Bruijn <willemb@google.com>
+X-Mailer: b4 0.13.0
 
-Some crypto engines hold a key so that the kernel never reads it once
-sealed, yet run whatever operation the kernel asks of it: the CAAM's
-black keys are of this kind. A key there is better kept than in
-kernel memory, but its use is no more checked than the kernel
-tier's.
+Lift out connection setup and PSP assoc uapi code in psp.py and
+responder, so that the key exchange sequence can be used in other test
+cases that start with a key exchange, but might choose to perform
+additional tx/rx assoc calls afterwards.
 
-Add the engine tier, 15, between kernel and tee, for such backends:
-tier=engine and min-tier=engine choose them, accepted-min-tier=engine
-and KEYCTL_CRYPT_OPEN's accepted_min_tier take them, and
-CONFIG_KEYCRYPT_SYSTEM_TIER_ENGINE makes it the system tier at boot.
-The core warns in the kernel log when a backend registers at it, since
-the protection its name may suggest stops short of the use of the key.
-
-No backend in the kernel declares this tier yet; the keycrypt CAAM
-backend proposed with it does.
-
-Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
+Reviewed-by: Willem de Bruijn <willemb@google.com>
+Signed-off-by: Daniel Zahka <daniel.zahka@gmail.com>
 ---
- .../admin-guide/kernel-parameters.txt         |  2 +-
- Documentation/security/keys/keycrypt.rst      | 42 ++++++++++++-------
- include/uapi/linux/keycrypt.h                 |  2 +
- security/keys/keycrypt/Kconfig                | 11 ++++-
- security/keys/keycrypt/core.c                 |  4 ++
- security/keys/keycrypt/keycrypt.h             |  2 +
- 6 files changed, 46 insertions(+), 17 deletions(-)
+v4:
+- drop closing the data socket on conn_setup_psp() failure; preexisting
+  and not needed by the series
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 62d44a5225e4..0cacb7d1ca1d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2947,7 +2947,7 @@ Kernel parameters
- 	keycrypt.system_tier=	[KEYS] Lowest protection tier a keycrypt key
- 			may be used at; keys of a lower tier can still
- 			be created and loaded.
--			Format: { kernel | tee | hsm }
-+			Format: { kernel | engine | tee | hsm }
- 			Default: the CONFIG_KEYCRYPT_SYSTEM_TIER_*
- 			choice, kernel unless set. Can only be raised,
- 			here or later through the
-diff --git a/Documentation/security/keys/keycrypt.rst b/Documentation/security/keys/keycrypt.rst
-index 17af3b041000..ac393a0bc97d 100644
---- a/Documentation/security/keys/keycrypt.rst
-+++ b/Documentation/security/keys/keycrypt.rst
-@@ -26,6 +26,10 @@ The tiers, lowest first:
- ========== =========================================================
- ``kernel`` the key is in clear in kernel memory while loaded; the
-            kernel enforces its use
-+``engine`` a crypto engine the kernel drives keeps the key, never in
-+           clear in the kernel once sealed; the kernel decides its use
-+           (a secure element that does not check a key's use is an
-+           engine too)
- ``tee``    a trusted execution environment keeps the key and checks
-            every use against the purpose it bound (an OP-TEE TA)
- ``hsm``    as ``tee``, in dedicated hardware apart from the CPU running
-@@ -34,7 +38,9 @@ The tiers, lowest first:
-            policy)
- ========== =========================================================
+v3:
+- take key lengths from the kernel's rx-assoc reply instead of a
+  per-version table
+- close the data socket in psp_responder if conn_setup_psp() fails
+---
+ tools/testing/selftests/drivers/net/psp.py         | 14 ++++-
+ .../testing/selftests/drivers/net/psp_responder.c  | 73 ++++++++++++++--------
+ 2 files changed, 59 insertions(+), 28 deletions(-)
+
+diff --git a/tools/testing/selftests/drivers/net/psp.py b/tools/testing/selftests/drivers/net/psp.py
+index 7c8fb2200b39..a6b46acf6bf8 100755
+--- a/tools/testing/selftests/drivers/net/psp.py
++++ b/tools/testing/selftests/drivers/net/psp.py
+@@ -467,10 +467,11 @@ def assoc_twice(cfg):
+             ksft_eq(len(tx), 0)
  
--Each tier holds the guarantees of those before it.
-+Each tier holds the guarantees of those before it. Keys of the ``engine``
-+tier, such as the CAAM's protected keys, are used by the kernel, which
-+cannot read them once sealed.
  
- The backends of this document: ``sw``, of tier ``kernel``, where the
- kernel's own software uses the key (`The sw backend`_); and ``optee``,
-@@ -55,7 +61,9 @@ sw backend the secret is the trusted master each key names with
- master (`The sw backend`_).
+-def _data_basic_send(cfg, version, ipver):
+-    """ Test basic data send """
+-    _init_psp_dev(cfg)
++def _establish_psp_conn(cfg, version, ipver=None):
++    """Establish a PSP connection and return after key exchange
  
- A backend of tier ``tee`` or ``hsm`` also declares that it meets
--`Backend requirements`_.
-+`Backend requirements`_; one that keeps a sealed key out of the kernel's
-+reading but leaves its use to the kernel is ``engine``. The core says
-+so in the kernel log when an ``engine`` backend registers.
- 
- A backend registers with ``keycrypt_register_backend()``
- (``include/keys/keycrypt.h``) under a name that is stored in every blob it
-@@ -96,10 +104,13 @@ itself does what the core has no way to check:
- A backend declares its own tier at ``keycrypt_register_backend()``; the
- core stores and compares it wherever a tier is checked, but never
- confirms that the backend is actually a TEE or hardware rather than
--ordinary kernel code claiming to be one. The ``kernel`` tier meets
--none of the above: its key material is in clear in kernel memory (`The
--sw backend`_), so there every property above is only as strong as the
--kernel itself.
-+ordinary kernel code claiming to be one. The ``engine`` and ``kernel``
-+tiers meet none of the above: an ``engine`` backend leaves the key's
-+use to the kernel, and the kernel tier's key material is in clear in
-+kernel memory (`The sw backend`_), so there every property above is
-+only as strong as the kernel itself. What an ``engine`` backend keeps
-+against a compromised kernel is only that a sealed key is not in clear
-+in kernel memory, as far as its hardware's own properties hold.
- 
- Metadata
- ========
-@@ -187,7 +198,7 @@ Any other ``<option>=<value>`` is passed to the backend; the core refuses
- an option the backend does not declare and an option given twice. The
- one option a backend of this document takes from user space is
- ``master=``, the sw backend's: it needs a master to seal its keys, while from
--``tee`` up a backend's own mechanisms protect the key. A command for
-+``engine`` up a backend's own mechanisms protect the key. A command for
- the kernel tier therefore reads ``tier=kernel master=<name>``; the kernel
- tier chosen without ``master=``, or ``master=`` given to a backend of
- another tier, is refused with ``EINVAL``.
-@@ -451,10 +462,11 @@ so that a kernel compromised enough to lie about the operation or the
- key's metadata still cannot open, say, an encryption context on a
- decrypt-only key; the sw backend has no such check of its own, since
- a compromised kernel already has that backend's key material in clear
--(`The sw backend`_), and relies on the core's check alone. Across
--every tier it is the kernel, not any backend, that decides who may open
--a context on a key, since Search permission is the core's own check; a
--compromised kernel can
-+(`The sw backend`_), and relies on the core's check alone; neither
-+does an ``engine`` backend, whose key's use the kernel decides
-+(`Tiers and backends`_). Across every tier it is the kernel, not any
-+backend, that decides who may open a context on a key, since Search
-+permission is the core's own check; a compromised kernel can
- therefore still open a context on a key of any tier and use it for a
- purpose the key already has, but, for a backend of tier ``tee`` or
- ``hsm`` meeting `Backend requirements`_, it can neither read that key
-@@ -603,8 +615,8 @@ the capability); neither touches a context already open at the time
- they change.
- 
- ``kernel.keys.keycrypt_system_tier`` is the system tier, the lowest tier
--a key may be used at: one of ``10`` (``kernel``), ``20`` (``tee``)
--or ``30`` (``hsm``), the same values as
-+a key may be used at: one of ``10`` (``kernel``), ``15`` (``engine``),
-+``20`` (``tee``) or ``30`` (``hsm``), the same values as
- ``KEYCRYPT_TIER_*`` (`Tiers and backends`_). It can only be raised,
- never lowered (``EPERM`` on a lower value, ``EINVAL`` on anything
- else). It applies to use only: ``KEYCTL_CRYPT_OPEN`` refuses a key
-@@ -630,8 +642,8 @@ already loaded is affected, imported or not. With
- rather than this one.
- 
- Each has a boot parameter setting its starting value before either sysctl
--is ever written: ``keycrypt.system_tier=`` (``kernel``, ``tee`` or
--``hsm``) and ``keycrypt.import=`` (a boolean). An invalid
-+is ever written: ``keycrypt.system_tier=`` (``kernel``, ``engine``,
-+``tee`` or ``hsm``) and ``keycrypt.import=`` (a boolean). An invalid
- value, or one that would lower what is already set, is ignored, with a
- kernel warning, rather than failing the boot. An administrator who
- wants either policy fixed from the very start, before any user-space
-diff --git a/include/uapi/linux/keycrypt.h b/include/uapi/linux/keycrypt.h
-index c03348579f62..71209a08c924 100644
---- a/include/uapi/linux/keycrypt.h
-+++ b/include/uapi/linux/keycrypt.h
-@@ -13,6 +13,8 @@
- 
- /* Protection tiers, lowest first; the gaps leave room for more */
- #define KEYCRYPT_TIER_KERNEL	10	/* the kernel itself */
-+/* a crypto engine the kernel drives; the kernel decides its use */
-+#define KEYCRYPT_TIER_ENGINE	15
- #define KEYCRYPT_TIER_TEE	20	/* a trusted execution environment */
- /* as TEE, in dedicated hardware apart from the CPU running the kernel */
- #define KEYCRYPT_TIER_HSM	30
-diff --git a/security/keys/keycrypt/Kconfig b/security/keys/keycrypt/Kconfig
-index e61922933bd7..a6d8a0fa6d29 100644
---- a/security/keys/keycrypt/Kconfig
-+++ b/security/keys/keycrypt/Kconfig
-@@ -56,11 +56,20 @@ config KEYCRYPT_SYSTEM_TIER_KERNEL
- 	  A system with no backend of the kernel tier built has no key of
- 	  that tier to use.
- 
-+config KEYCRYPT_SYSTEM_TIER_ENGINE
-+	bool "Engine"
-+	help
-+	  Only keys whose backend declares them never in clear in the
-+	  kernel once sealed can be used: a key of the kernel tier is
-+	  refused at every KEYCTL_CRYPT_OPEN; the engine, tee and hsm tiers
-+	  can be used. For a system that must never use a key held in clear
-+	  by the kernel.
++    Requires _init_psp_dev() to have been called first.
++    """
+     # Version 0 is required by spec, don't let it skip
+     if version:
+         name = cfg.pspnl.consts["version"].entries_by_val[version].name
+@@ -495,7 +496,14 @@ def _data_basic_send(cfg, version, ipver):
+                         "version": version,
+                         "tx-key": tx,
+                         "sock-fd": s.fileno()})
++    return s
 +
- config KEYCRYPT_SYSTEM_TIER_TEE
- 	bool "TEE"
- 	help
- 	  Keys whose use a trusted execution environment or the hardware
--	  checks: keys of the kernel tier are refused at every
-+	  checks: keys of the kernel and engine tiers are refused at every
- 	  KEYCTL_CRYPT_OPEN; the tee and hsm tiers can be used. For a
- 	  system where OP-TEE or an hsm backend holds the keys.
++
++def _data_basic_send(cfg, version, ipver):
++    """ Test basic data send """
++    _init_psp_dev(cfg)
  
-diff --git a/security/keys/keycrypt/core.c b/security/keys/keycrypt/core.c
-index debd0845621e..4a2609c6830f 100644
---- a/security/keys/keycrypt/core.c
-+++ b/security/keys/keycrypt/core.c
-@@ -40,6 +40,7 @@ static const struct keycrypt_name keycrypt_algs[] = {
++    s = _establish_psp_conn(cfg, version, ipver)
+     data_len = _send_careful(cfg, s, 100)
+     _check_data_rx(cfg, data_len)
+     _req_echo(cfg, s)
+diff --git a/tools/testing/selftests/drivers/net/psp_responder.c b/tools/testing/selftests/drivers/net/psp_responder.c
+index a26e7628bbb1..411a23be78d5 100644
+--- a/tools/testing/selftests/drivers/net/psp_responder.c
++++ b/tools/testing/selftests/drivers/net/psp_responder.c
+@@ -37,20 +37,15 @@ static struct {
+ 	unsigned char rx;
+ } psp_vers;
  
- static const struct keycrypt_name keycrypt_tiers[] = {
- 	{ KEYCRYPT_TIER_KERNEL,		"kernel" },
-+	{ KEYCRYPT_TIER_ENGINE,		"engine" },
- 	{ KEYCRYPT_TIER_TEE,		"tee" },
- 	{ KEYCRYPT_TIER_HSM,		"hsm" },
- };
-@@ -441,6 +442,9 @@ int keycrypt_register_backend(struct keycrypt_backend *b)
- 		b->handle = h;
+-static int conn_setup_psp(struct ynl_sock *ys, struct opts *opts, int data_sock)
++#define PSP_MAX_KEY_LEN		32
++
++static int
++rx_assoc(struct ynl_sock *ys, __u32 *spi, char *key, unsigned int *key_len,
++	 int data_sock)
+ {
+ 	struct psp_rx_assoc_rsp *rsp;
+ 	struct psp_rx_assoc_req *req;
+-	struct psp_tx_assoc_rsp *tsp;
+-	struct psp_tx_assoc_req *teq;
+-	char info[300];
+-	int key_len;
+-	ssize_t sz;
+-	__u32 spi;
+ 
+-	dbg("create PSP connection\n");
+-
+-	// Rx assoc alloc
+ 	req = psp_rx_assoc_req_alloc();
+ 
+ 	psp_rx_assoc_req_set_sock_fd(req, data_sock);
+@@ -64,29 +59,28 @@ static int conn_setup_psp(struct ynl_sock *ys, struct opts *opts, int data_sock)
+ 		return -1;
  	}
- 	mutex_unlock(&keycrypt_lock);
-+	if (!ret && b->tier == KEYCRYPT_TIER_ENGINE)
-+		pr_warn("backend %s registered at tier engine: the use of its keys is checked by the kernel only\n",
-+			b->name);
- 	if (ret)
- 		kfree(h);
- 	return ret;
-diff --git a/security/keys/keycrypt/keycrypt.h b/security/keys/keycrypt/keycrypt.h
-index 5a41a68c48fa..40487eb3e139 100644
---- a/security/keys/keycrypt/keycrypt.h
-+++ b/security/keys/keycrypt/keycrypt.h
-@@ -143,6 +143,8 @@ bool keycrypt_tier_valid(u32 tier);
- #define KEYCRYPT_BOOT_SYSTEM_TIER	KEYCRYPT_TIER_HSM
- #elif IS_ENABLED(CONFIG_KEYCRYPT_SYSTEM_TIER_TEE)
- #define KEYCRYPT_BOOT_SYSTEM_TIER	KEYCRYPT_TIER_TEE
-+#elif IS_ENABLED(CONFIG_KEYCRYPT_SYSTEM_TIER_ENGINE)
-+#define KEYCRYPT_BOOT_SYSTEM_TIER	KEYCRYPT_TIER_ENGINE
- #else
- #define KEYCRYPT_BOOT_SYSTEM_TIER	KEYCRYPT_TIER_KERNEL
- #endif
+ 
+-	// SPI exchange
+-	key_len = rsp->rx_key._len.key;
+-	memcpy(info, &rsp->rx_key.spi, sizeof(spi));
+-	memcpy(&info[sizeof(spi)], rsp->rx_key.key, key_len);
+-	sz = sizeof(spi) + key_len;
++	*key_len = rsp->rx_key._len.key;
++	memcpy(spi, &rsp->rx_key.spi, sizeof(*spi));
++	memcpy(key, rsp->rx_key.key, *key_len);
+ 
+-	send(data_sock, info, sz, MSG_WAITALL);
+ 	psp_rx_assoc_rsp_free(rsp);
+ 
+-	sz = recv(data_sock, info, sz, MSG_WAITALL);
+-	if (sz < 0) {
+-		perror("ERROR: failed to read PSP key from sock");
+-		return -1;
+-	}
+-	memcpy(&spi, info, sizeof(spi));
++	return 0;
++}
++
++static int
++tx_assoc(struct ynl_sock *ys, __u8 version, __u32 spi, char *key,
++	 unsigned int key_len, int data_sock)
++{
++	struct psp_tx_assoc_rsp *tsp;
++	struct psp_tx_assoc_req *teq;
+ 
+-	// Setup Tx assoc
+ 	teq = psp_tx_assoc_req_alloc();
+ 
+ 	psp_tx_assoc_req_set_sock_fd(teq, data_sock);
+-	psp_tx_assoc_req_set_version(teq, psp_vers.tx);
++	psp_tx_assoc_req_set_version(teq, version);
+ 	psp_tx_assoc_req_set_tx_key_spi(teq, spi);
+-	psp_tx_assoc_req_set_tx_key_key(teq, &info[sizeof(spi)], key_len);
++	psp_tx_assoc_req_set_tx_key_key(teq, key, key_len);
+ 
+ 	tsp = psp_tx_assoc(ys, teq);
+ 	psp_tx_assoc_req_free(teq);
+@@ -99,6 +93,35 @@ static int conn_setup_psp(struct ynl_sock *ys, struct opts *opts, int data_sock)
+ 	return 0;
+ }
+ 
++static int conn_setup_psp(struct ynl_sock *ys, struct opts *opts, int data_sock)
++{
++	char info[sizeof(__u32) + PSP_MAX_KEY_LEN];
++	unsigned int key_len;
++	ssize_t sz;
++	__u32 spi;
++
++	dbg("create PSP connection\n");
++
++	if (rx_assoc(ys, &spi, &info[sizeof(spi)], &key_len, data_sock))
++		return -1;
++
++	// SPI exchange
++	memcpy(info, &spi, sizeof(spi));
++	sz = sizeof(spi) + key_len;
++
++	send(data_sock, info, sz, MSG_WAITALL);
++
++	sz = recv(data_sock, info, sz, MSG_WAITALL);
++	if (sz < 0) {
++		perror("ERROR: failed to read PSP key from sock");
++		return -1;
++	}
++	memcpy(&spi, info, sizeof(spi));
++
++	return tx_assoc(ys, psp_vers.tx, spi, &info[sizeof(spi)], key_len,
++			data_sock);
++}
++
+ static void send_ack(int sock)
+ {
+ 	send(sock, "ack", 4, MSG_WAITALL);
+
 -- 
-2.43.0
+2.52.1
 
