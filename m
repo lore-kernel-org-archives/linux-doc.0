@@ -1,73 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795021804;
-	b=Uvax4lz6xFbUJWPKK8tG1pKuL4qWdkyH80W6ygpPalWWtJW/KDxv/0r1ehX3XmL/9pLE
-	 aHlD3pfpFYuMbrjPjmfSsU4vOQOk2rck43++zYkSl1ZmPMfaj2otV7t/FgH7dHS+7qBCa
-	 f50Ut8RXQ9nMgRFpiUalcQXKSTuvoFpBlFGwq9nsy1wi9yc1jsQFUpH7Lz8Tl3LYpj0Cd
-	 Y0MHRbNWtZpteJC3X0mVOFubXQT2Zf+qiIvZAGkgnH+50biA2RHYdYQwmpguDpVK/AEnD
-	 Akd3hV/GlgyvhD1TGeQPns/ydx9GUUzyW6c0bRqYY7F91Lyg0AonSwGoHQk8sgtbY5g==
+	t=1795021807;
+	b=zmqwI4VvVPO2nkezQLFBdAQHxQFoatqfDi8tdQG/4H1gYrU6vFeqJUMNydoR5laGKadR
+	 UPUhD6kpPtP9bDqziyLIuOsnht7vAGLjF1JjGc+GgSIYzy33oIwO73krUlUQICfkhOzr3
+	 zu/7rvYvGik3dLXL9murj5pfuPvw4Mw+tis9oQot0+9bu4v/Cwp07P5KiUvyetrsbQZsi
+	 hc+ImEwxGDmJnBi/+r4LV8hyBXb7SwfVDCEVAjQPaY19qKXHGz2mquLa0DK8plQnJi3tA
+	 BwREan1xQ9EEtESf9fBfFgUv8DJmH0l9CZLDujMFVPh7TcCKN4sbLZZIpb38EXfFt4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795021804;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795021807;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
-	 X-B4-Tracking:X-Change-Id:X-Developer-Key:X-Developer-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Developer-Key:X-Developer-Signature:
 	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=mBINZO8SI4MpYZqVki+lomnJt57kbnNhtrWtWttDyyg=;
-	b=oRzvLITbneZZ/4U9L4bCfy0ZKRAFUsb5TY8JHx2oNF3VbGpdaMUobgo9WYKxymycqDHn
-	 58ZLF+z4dC+fmONbXK6l5+E88LFxrpyflG0w0UHC8wm2r6+fFqmaJg+TGxmWvHCw/XOZA
-	 4H3O0b0FAIKKGWqm88084zQsFyVrMJzmFQQYN7YACmNztl41BVFTMo2VUpwcv54BhkwPO
-	 hfoS0Kh05LUH8CB7vWu4UkwUQ/XEiCi3TtBpIZ7x7mSjzUdWyqZahKgz6Wi0kN2FfvTKs
-	 c5CuK+N2EpMleVTCC7YY+dF7/OpgiJEdLs4F+pNXucMg38/tTcqXBE+aN0k4YD5GmWw==
+	bh=ZBQLeUFC+EGxTcD0YG8dcZStfxcjShj56XwSxsyD+4E=;
+	b=QVMjtDRQgVQRrieZllWCcFKZvXY+UX/hHOizPWyyUFbW5ExRo3cnYR7XIXik4P4y8HIk
+	 6EwngfWW7hIneusb7uUgA9NsXhbbzJ4L0MlzZMEn7aUPI4oKVpQLT5P4rg+F86pSRcsg4
+	 peJWjPQ4VrWdVdFGgqZxNQfBqi4/5lxVoqb8voDWIDVz1TSwP+PMh4oauUwoViFsXPt7c
+	 tapmNk/RJIGYHPnYLJAhX6CT68xmt1F8pJZCFjel1BeKgvNbT+lb8csMz5IihmtJdfrTj
+	 MSNgexwmusqCfFKjxfoIXeFx/hXPD9PX1OVCnMpg48E8+YEDT3m69c3MIbfVeI4rP1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NQRD6l1T;
-	arc=none smtp.remote-ip=209.85.128.70
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=fpThBKW6;
+	arc=none smtp.remote-ip=209.85.221.72
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com [209.85.221.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17356606A32F
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:10:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17356606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA90260A2613
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:10:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA90260A2613
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NQRD6l1T
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a359b714f8so8076835e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 09:10:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=fpThBKW6
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-49205554e17so925847f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 09:10:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795021802; x=1795626602; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mBINZO8SI4MpYZqVki+lomnJt57kbnNhtrWtWttDyyg=;
-        b=NQRD6l1TEtmIkjHWuz75N2co3p+FwDO9v10vBOx3armYpgWNct7q4TXvfe+q4eiCFU
-         K7fsXwLRgj96NcAqLdAtMd8bmPp+j7SaF0lt973TUT1EscM6flsDNztdVahjV6YZn13h
-         Uu0AVW4rEq8gi8umm3a9VhwbyyGSDq+rbimt41v5mYKm7Js7LqHdxKdE/LlB+bJiZSv6
-         RAvcZMnizV/Pp6qJFfMpQFPiJYOi0SvoCXmW7MIY/OEZUYI09VE6iaGwIK1SfdHGBhwh
-         GVBY0EEth0Z8NBZT8gCzlHQm0xH/la8rl7HpSpUsTaLD2Hfbe5wdYhP1N0bLTwFQR/Wj
-         SC9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795021802; x=1795626602;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20260707; t=1795021805; x=1795626605; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=mBINZO8SI4MpYZqVki+lomnJt57kbnNhtrWtWttDyyg=;
-        b=Q3B2kg5tnfKmDKM2YK1sRXw+4ox6pDMC9AJqgDeh9WL8EfKaHkGPSq/Uq9APaxNrPt
-         DnebdPjcazNt8/1KVDi+1Z0YPS8PT4JqDNTj45F/u82V7rpqS34STlC//RE3wavCd7dh
-         nvt4KxaSrbA24srQu+sFoYZWXqlAUzqAplKOf2rv7cNDGz47JiVAi7lOYbXqjR2hpybB
-         N6rd5mgKqALYg18Pw03bTLAFem/dZ4C3zQk8/IxAIqQjs7c4CGaDU9Y3sL5ZbATVEbPx
-         AjiHtp0CJMQhQe9g7O/L4KdlBfTAhmXQVUBCINQB7AZxD0KfUpHQbBVl7BkaWiwajLMK
-         Yc5g==
-X-Forwarded-Encrypted: i=1; AL+hErGS356c5c+SKoLABj/YqfzMak5J377hcMrEyoBFj02AeJ6H+woGvqbUcVCjcwUkRYdRmwvVlCcow6s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+bfA4PcinD/gqNvFza+2yZ0Ns/2J3TGlORH+PWZ3j5T+/w0BIJ
-	3V+SsUO62ix/qgi/3DmQdHg4n3bxUUnmfzpKnU7BhkWOf5Wbj/5Yr+QSr8lWKMye2Ia4brLTEkI
-	O/uE3BFQBJf0pWLiLLA==
-X-Received: from wmdn7.prod.google.com ([2002:a05:600c:2947:b0:4a2:8ef:a5af])
+        bh=ZBQLeUFC+EGxTcD0YG8dcZStfxcjShj56XwSxsyD+4E=;
+        b=fpThBKW6Ucp49BkAtu1yrDrrmBmJ5XOsrJ3J/E85pZxxibX9Zt4awEOqQ9QF4LPsz2
+         T3z6hepivAJ+jqk9gl9aIMjGOX9+NNNNznXXtPmICPppdEcNEShd+Tl3+cv+jh2XJint
+         5iE8zxkvaCzz5RmZwCWXcQQypQaWR60qBSEZc8AEhBfyz/yvGbR8WVmklkR9zwc4ziS9
+         jPxVn+uWp/h6J24CWUmjFbshNBN+icTfsTGRJL/WoBEl0qxYU686icasrqrrMbOkafcG
+         zIpjD71p7A3H9wWn6HWbCQXVP8BH0EDqUEWOoTQ9EtuqC8p+3Lw+iWOzL0eCQzfnUNRV
+         NSGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795021805; x=1795626605;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZBQLeUFC+EGxTcD0YG8dcZStfxcjShj56XwSxsyD+4E=;
+        b=i2fIUYxjL0aAi2bjXW1e+hkXGCc4wNns0rM6lKulqqswqZYSvmM6MOobqEwjicdqxX
+         1YtrAhdkmHwdiRxA3yxPWEzB8Olrc9j5WLky6DhYA1mAfMVXz1gT2XLM/Fl0WLpweRhN
+         S5TbaWjZEkw8i2xP070NbaHFpIU7nQGXnAN2xlMoZqUscLBFSLNWKVB4Fp4a+pxgKGXl
+         9W+0rGnmPKDQmZXHvbl5wDJUBnmyFp8bHSPqxIFzUUDQVuIzLrmopsuzducOjOrF2fCP
+         yCMav8Zy9k78gxf7i5WNnBmuD4M3SnZ9wdzCE45c9XCV4VEeTf3hQp8M7jV6DOS7hn9c
+         +Ldw==
+X-Forwarded-Encrypted: i=1; AL+hErGsYj2fMBpNzDO5UzW2DoMOCoDsW+b4iUF0PcKNH5khzespA0IARS16bpfnw8rgrJq1IOO9dvWja2Q=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Nv/xVWkPcr49fYVwjYIc3g1gnHjAtsv7fAjMKrR0PThfPCR0Z
+	YbvHAdV1V9c83hdrnZdLGgezrKCT6FkrcFV1WoG1q7gOG9oacb7C0pC2/7Yr3kGjZfV7tiok8qi
+	Xj9rgEzBfrvnaqnL17A==
+X-Received: from wrmy18.prod.google.com ([2002:adf:e6d2:0:b0:48e:8481:c6ad])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:4ecf:b0:4bb:7007:4a5a with SMTP id 5b1f17b1804b1-4bb7da2eaa2mr68357745e9.23.1795021801887;
- Wed, 18 Nov 2026 09:10:01 -0800 (PST)
-Date: Wed, 18 Nov 2026 17:09:50 +0000
+ 2002:a05:6000:2210:b0:48f:d7cd:a5ac with SMTP id ffacd0b85a97d-4a62d6d4ca5mr7655574f8f.0.1795021804316;
+ Wed, 18 Nov 2026 09:10:04 -0800 (PST)
+Date: Wed, 18 Nov 2026 17:09:51 +0000
+In-Reply-To: <20261118-ordered-wq-cancel-v1-0-916e01f9affe@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,27 +79,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAN/b/WoC/x3MQQqEMBAF0atIr21IosjgVcRFTL5Og0TtgAri3
- SfM8i2qHspQQaa+ekhxSpYtFdi6ovD1aQFLLCZnXGet/fCmEYrI18HBp4CVu2YyDmaGDy2Vblf Mcv+fw/i+P1fPKTRjAAAA
-X-Change-Id: 20261118-ordered-wq-cancel-63b02e0feac4
+References: <20261118-ordered-wq-cancel-v1-0-916e01f9affe@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=733; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=2c+b7t2eSKRSZikSFPwO4mhMOW0PlzZoNYa5IB1loN4=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBq/dvjWZXjaqIG7+QNZMRPjUaudgg03nhqwuouf
- rjtcynuV8aJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCav3b4wAKCRAEWL7uWMY5
- RqEvD/4jQXgzC7AXJ3txLaMqfqDu96CDUPsiDmb2Os7FDvR8CQzsd+E4vkv8pqnLpUoVUbHTKxn
- 2LWXPUTEOHgIv87yjdfM6ZAPpx7qtx6Tv4I8U84NucamP86rLQ6mMPLBua5EDNbRmvslVhFLomy
- +SxNbhkFbEBHwBbNfU7FLV1P2TCLuBnhqYAQ8uiAHXkWUtYcsnF0alwTgCbe6NV9wQqIiYY2VV3
- 9a/6bCBumEP6JkrPczQHfL1ELRfX4M/A6CWQuChk4HiNMWIW3zL5YFlLMJQAHRFu53FWr1hpjwg
- Lx0jF3cHrOX1gTGF2y3XnaDi+6vo7n5etmR7Vtm1x07Is7Bb9S12OuZit9LmasPyB6ZHdY0LU/9
- 9YoUtddS6nhAA01UysT7bPMBRhEpgNEI4FrQILcfCB5Fi9DqPto6wRHdJGYbsZVQa6rmWu0RtYm
- 3s3UYTrJq5b6jPzkx+q/9SdB4Y2nwTaj22UrRHQ1ia+sox6qbd7JXg40xcmUcA+Aipul3211n0Z
- 3lwyL8KPBHQjpButhNYkOP59y5KlQxPxpWRxM44d1bBEvIky2FvViYro4fWZhuvW7ZpTECXAvto
- CLULfePyLLxPbarsGy4z0VZr30J8rc62G1h1bCYvVQ6/3QrO/pHY77KqTrT8uNnvmNWUGbU3G+c FR2c8om07K578Ng==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4299; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=utE9D0DUrvzxak4uVxnykRd3EoPT8zB0LcKz7hGMs34=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBq/dvo0nIOWmUoYahY2hKEfcj5qkiNkVGFSyQY+
+ Nzw6sJHkT+JAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCav3b6AAKCRAEWL7uWMY5
+ RqNcD/9nMuAC9ogBuQ+g/67v1kbmFenSkpIBWciyy4iighlDS+WYaVya6OR4wOHbcA501p0jsAS
+ G9eRzbRUma7y/lDNGAcH21acegjrMFDG4wIpCc+3K1SwTSCRw9udPAAgbSLuZsTTuC5OWpMaaJD
+ JsO53Tf1oPjD/Bi/AQjxYfabEkDerQcO0lqGxh7HQ/9r/Pn1TnUz4pOAy393i6A+AOkUOGi/0If
+ FQ5Fot3eWtXdA+BLsS0bJBZhnkpBdgvNj9f5bVe1LMNzZk2lJXHXKrpC0s81dSfjYIpyubFCgYG
+ elpiusD3N9kNTgdO/+8wPCnS8nHa7FbjzS1EhuSZOVMvOaQUmEEEI9XrsRZJrCR4WrcRcov5T4V
+ 8tu8BznsK35tULFKkgvXjaIWShOo1yo/fyyYvE+xs3dCrBwTCNpSNlczyugia2tPZ1t2DcxZKKt
+ /Xvm1sIfIB7E4qyxlvxq2SNtvUxYiKCDUkXxy4mPrzCGQktMyCbcU4YXh3BX59Cr71mJZBXaxeD
+ rsd23Bdw3TtKmvl90D8VzTw5hGuiprT+nGiqRd33M647/pzbJBXDrkm/JkFcpLAbkJ+dI6o66BG
+ BH1XnO6hq0f5c2dByxtSOcaREQ/sHtvNsFplRPCbfLTubji9HeO+kt3jDfl7qFs5z3mQf1UfM/J luL72X5xY4k9ONg==
 X-Mailer: b4 0.14.3
-Message-ID: <20261118-ordered-wq-cancel-v1-0-916e01f9affe@google.com>
-Subject: [PATCH 0/2] workqueue: fix cancel_work_sync() on ordered workqueues
- and clarify docs
+Message-ID: <20261118-ordered-wq-cancel-v1-1-916e01f9affe@google.com>
+Subject: [PATCH 1/2] workqueue: fix cancel_work_sync() on ordered workqueues
 From: Alice Ryhl <aliceryhl@google.com>
 To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
 	Jonathan Corbet <corbet@lwn.net>
@@ -114,24 +113,99 @@ Cc: Boqun Feng <boqun@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
 	Alice Ryhl <aliceryhl@google.com>
 Content-Type: text/plain; charset="utf-8"
 
-Please see the commit message of patch 1 for details.
+There is currently a scenario where cancel_work_sync() /
+disable_work_sync() does not wait for the work to finish execution on an
+ordered workqueue (__WQ_ORDERED). This is because ordered workqueues
+contain multiple workqueues internally (pwqs). Consider the following
+scenario:
 
-This came up while figuring out what to do about this sashiko review:
-https://sashiko.dev/#/patchset/20261020-rust-workqueue-v3-0-ea7c74d02068%40google.com
+1. @work starts executing on pwq A (pool A), the oldest and only
+   unplugged pwq in wq->pwqs.
+2. Writing a new cpumask to /sys/devices/virtual/workqueue/cpumask
+   allocates a new dfl_pwq (pwq B, backed by pool B) with
+   pwq->plugged = true and appends it to wq->pwqs behind pwq A.
+3. While @work is still executing on pool A, it is re-queued to the same
+   ordered workqueue. Unlike normal workqueues, __queue_work() skips
+   last_pool redirection on ordered workqueues so re-queued items do not
+   jump ahead of work already waiting on pwq B, so @work is placed on
+   pwq B->inactive_works and work->data is overwritten to point to
+   pwq B.
+4. cancel_work_sync() or disable_work_sync() steals @work from pwq B,
+   and try_to_grab_pending() records pwq B->pool->id (pool B) in
+   work->data.
+5. start_flush_work() only inspects the single pool recorded in
+   work->data (pool B, where @work has never executed), finds no worker
+   running @work, and returns while @work is still executing on pool A.
 
+Unfortunately, this scenario can lead to UAF if a driver uses
+cancel_work_sync() and then frees the work item (or resources used by
+the work item). And this happens on ordered workqueues in practice:
+
+- drm/sched: drm_sched_wqueue_stop() calling cancel_work_sync() on
+  work_run_job and work_free_job before scheduler teardown.
+- drm/xe: gt_worker_disable() calling disable_work_sync() on
+  gt->reset.worker and gt->wedge.worker.
+- drm/panthor: panthor_device_suspend() calling cancel_work_sync() on
+  ptdev->reset.work before suspending hardware.
+
+Thus, fix try_to_grab_pending() to record the pool of the oldest pwq in
+wq->pwqs when stealing a pending work item from an ordered workqueue, so
+start_flush_work() flushes pool A and waits for @work to finish. If
+@work is not actually executing on pool A, find_worker_executing_work()
+simply returns NULL.
+
+It is also needed for the soundness of the upcoming Rust ScopedWork
+abstraction, which binds a work item to a single workqueue and relies on
+cancel_work_sync() in Drop to guarantee that data borrowed by the work
+item is no longer accessed once drop() returns.
+
+Cc: stable@vger.kernel.org
+Fixes: 58629d4871e8 ("workqueue: Always queue work items to the newest PWQ for order workqueues")
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
-Alice Ryhl (2):
-      workqueue: fix cancel_work_sync() on ordered workqueues
-      workqueue: doc: clarify cancel_work_sync() cross-workqueue behavior
+ kernel/workqueue.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
- Documentation/core-api/workqueue.rst |  7 ++++++-
- kernel/workqueue.c                   | 37 +++++++++++++++++++++++++++++-------
- 2 files changed, 36 insertions(+), 8 deletions(-)
----
-base-commit: aebb7274476403040d582c61478df8f4a7bf9cd3
-change-id: 20261118-ordered-wq-cancel-63b02e0feac4
+diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+index af845214e78b..d7acedfb8b27 100644
+--- a/kernel/workqueue.c
++++ b/kernel/workqueue.c
+@@ -2263,6 +2263,7 @@ static int try_to_grab_pending(struct work_struct *work, u32 cflags,
+ 	pwq = get_work_pwq(work);
+ 	if (pwq && pwq->pool == pool) {
+ 		unsigned long work_data = *work_data_bits(work);
++		struct worker_pool *offq_pool = pool;
+ 
+ 		debug_work_deactivate(work);
+ 
+@@ -2288,9 +2289,24 @@ static int try_to_grab_pending(struct work_struct *work, u32 cflags,
+ 		/*
+ 		 * work->data points to pwq iff queued. Let's point to pool. As
+ 		 * this destroys work->data needed by the next step, stash it.
++		 *
++		 * For ordered workqueues, __queue_work() skips last_pool
++		 * redirection so @pwq may be plugged while @work is still
++		 * executing on the oldest pwq after a cpumask update. Only the
++		 * oldest pwq is unplugged and can be executing @work, so record
++		 * its pool instead.
+ 		 */
+-		set_work_pool_and_keep_pending(work, pool->id,
+-					       pool_offq_flags(pool));
++		if (unlikely(pwq->wq->flags & __WQ_ORDERED)) {
++			struct pool_workqueue *oldest_pwq =
++				list_first_or_null_rcu(&pwq->wq->pwqs,
++						       struct pool_workqueue,
++						       pwqs_node);
++
++			if (oldest_pwq)
++				offq_pool = oldest_pwq->pool;
++		}
++		set_work_pool_and_keep_pending(work, offq_pool->id,
++					       pool_offq_flags(offq_pool));
+ 
+ 		/* must be the last step, see the function comment */
+ 		pwq_dec_nr_in_flight(pwq, work_data);
 
-Best regards,
 -- 
-Alice Ryhl <aliceryhl@google.com>
+2.56.1.703.gf848ed807c-goog
 
