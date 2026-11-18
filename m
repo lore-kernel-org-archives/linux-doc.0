@@ -1,85 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.218.115.239
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794987543;
-	b=yFiwjJ5tV8hUzekvKVZROUy0eZSXutEBA6zaNCP7Ec1VPyo6j60U0seydsV0JtPzj7Q5
-	 lcz5f2KU3VdJvPh2efQlZg9NFBYZSBjtr2l/5VZMszrLhi694F28Wh5G1LYmjar9IKU1Q
-	 h7rlZYmptvWclxgrKevuJ1D/j9VJVu113LSRVbrM2Tttxq4GHFX7K/NcEwIUHLRk+9Bov
-	 5F6RhT3W5B+YhM8V58DcvAVYd0oDPeuuKhhgXp/7/QVWpS0KKm2HTxfGurXYZ/MUXfNz2
-	 yOd9Y9152RdVw6Ep5v+Luu1c1aeOuVfzHcc7l2f/R2rj8qqT58q8dUJkXJmC6JdrWSQ==
+	t=1794987832;
+	b=DvlBLaIYLkfptLJtghi7cF5AIQ2h3FcOLu7eJJM2MWLKbJh1CLDdiqhaZ7rp+LWPHeJI
+	 VBXxPl2KsdNZxjIgabW5VE+M3jQJyNNeoXXm498+GxGUr5pd+8yQsvd+TSPpe7ZG0MHjl
+	 rAp8zu3uciJlVLlkb+t+pXgNLV2PM2gtJ8V0tGT8YJjyBTpkGj3lerY7+veJC+NWhmgvd
+	 qk/8STzSuxsBgvl9Tckc/vyyNaeB/giyPLJ4ZtXTtPcGdloq6jOKItCmfWXaKxZ/muIeL
+	 94GnF2YsdYoTN90bKfFUGL8cOmlNJ8wKoGYwvPqMWat8Ajec9bWTUJzgHPmxHGbJWeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794987543;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
-	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=/Duw7FWdjjcfTeTy38nlUJPJCof8LUY2CFos66lZLKk=;
-	b=wr8F+M468c0Fn8PbpFH78NecRA71bxIFa8zmsm3ZQP/wg6li2wlqgkQ21fPihWdYXthT
-	 HYkNzT76+Y4ygyP5VfyG55XPol/1ZuIAS3Mr8S66dCUSB0oi1wLKNhYSGkFJr1FiiD8mb
-	 B0USDhrhdFfIk/yhy4v+TJuuPKSrm5/I5hTeIuhiM77rDltSAtyPFc79WRY8s0b0g/eBN
-	 n/pTtL9fgP3icHd4D9U33958Q5i5+o97srmiZuLo4SnbEpQAD6gkI/eoNhmm5RPywqkEH
-	 Kap4EDKgXvmzJny7rY1LF+jjCR4UFyTiQVX/LfD5tTxoIVBDb2WiNRR4G6DOc8wjZpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794987832;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=ZnHY355Lmina/i/sthQaqZuymWw1SBJp8dmE6kjbEPE=;
+	b=JR0j9BTSQ4BCM3GRz9iCrKVd27BWDZo+Ukvgt607n/Qg+S2tQVwkk7qLe/A9yRQw7/Du
+	 YQXqYX+IjeX0AkIMgR3d3IAOeBhTn0DhvNn1GVvNm2FTTnOymLL0qnPAfc46fyaNrrCDx
+	 gHYBnGfVfSBa39lMCUrwTiwN1/WO4S6Agfcr3eCdSIpv23SHD+DWWgAdVKH69hzRsVR24
+	 72PV6GNZ3Kd2gTaW+M6t1eqy8MiB7wxpv3ujvADmooHRVuwuBLojJnRPJRIRBMxZq+da4
+	 cH91eEt1KTFSrl+jqe7vUKKfTQv9Jf0xKBOuLOKUBp0TPSx7NJksSa50C1lCKTGUp/w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amazon.com;
-	spf=pass smtp.mailfrom=amazon.com;
-	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=ZUQ6gTGD;
-	arc=none smtp.remote-ip=34.218.115.239
-Received: from pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com [34.218.115.239])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=WpWuB4tE;
+	arc=none smtp.remote-ip=209.85.221.43
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B9A606A891;
-	Wed, 18 Nov 2026 07:39:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9B9A606A891
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0172D606A331
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 07:43:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0172D606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=ZUQ6gTGD
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=WpWuB4tE
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4a2f4ca0dcfso277827f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 23:43:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1794987542; x=1826523542;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=/Duw7FWdjjcfTeTy38nlUJPJCof8LUY2CFos66lZLKk=;
-  b=ZUQ6gTGDJohf/HnuUySNWxO0RqCT7gdL8kO4wHrRvsFstASHm5wJWCwM
-   xqkFZNwGYJJ/6HlkFIdYNu40EzztGbp20l3W8FKCFLwtix2mTL4LibjYy
-   mU1P2VbKdhZeQhvA16rBv6t7yfkhcqAh3AQgmXBS2eN5MjO//BoEa20Vb
-   bYTEqOAVnlhPuQAGIbTYA8/dZacm+2UozJyhamZihUXJL0lbXXu1noeFd
-   rcz2tg2yLDAvvWUAXbfsG6l1DNZaHa8jV8G4tAyWy41oci8Mk3EpEmSFS
-   CB8R11lZRpRBsSTl8CmXQVemPDJkeVC8UBZV9Xo7eAVVvmzGjJmlIQxQI
-   g==;
-X-CSE-ConnectionGUID: 0iKDV3UMQMmVNsovtQ2nqA==
-X-CSE-MsgGUID: HZgzsWzhTXyytgytKUShwQ==
-X-IronPort-AV: E=Sophos;i="6.27,219,1787011200"; 
-   d="scan'208";a="34240132"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 07:38:59 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.178:12579]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.46.128:2525] with esmtp (Farcaster)
- id f7f0fdeb-fe19-4a15-aeb5-52094f1d39b5; Wed, 18 Nov 2026 07:38:58 +0000 (UTC)
-X-Farcaster-Flow-ID: f7f0fdeb-fe19-4a15-aeb5-52094f1d39b5
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Wed, 18 Nov 2026 07:38:58 +0000
-Received: from dev-dsk-surenkj-2b-416930d2.us-west-2.amazon.com (10.169.26.94)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Wed, 18 Nov 2026 07:38:57 +0000
-From: Surendran Kanagaraj <surenkj@amazon.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>, Peter Huewe <peterhuewe@gmx.de>
-CC: Jason Gunthorpe <jgg@ziepe.ca>, <linux-integrity@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
-	<linux-doc@vger.kernel.org>, Jonathan McDowell <noodles@earth.li>, "Breno
- Leitao" <leitao@debian.org>, <nh-open-source@amazon.com>, Alexander Graf
-	<graf@amazon.de>, Gunnar Kudrjavets <gunnarku@amazon.com>, Josh Levinson
-	<joshlev@amazon.com>
-Subject: [RFC PATCH v4 4/8] tpm: Bound core and CRB waits by the limits table
-Date: Wed, 18 Nov 2026 07:38:48 +0000
-Message-ID: <20261118073852.81107-5-surenkj@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261118073852.81107-1-surenkj@amazon.com>
-References: <20261118073852.81107-1-surenkj@amazon.com>
+        d=baylibre.com; s=google; t=1794987829; x=1795592629; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZnHY355Lmina/i/sthQaqZuymWw1SBJp8dmE6kjbEPE=;
+        b=WpWuB4tEuz5eDTzgRMqfwCsaPFnT3I15+vdfIn2Uk3cbYgtMmrQdRquS/GF9Tbkq/Q
+         dR0ngIvaa3Cc2RRmzlHUp7911UQhJJvHV/Fs//eh8jZA8APDItUN1P+QsT9pokDyLPzs
+         2jSeF5+4MtVYpIIr020Ce8SwRIFG8QyGOjWnOtAqKBhL1IB/15f6sJeMMLMuqIEgd+Nw
+         wMj4Lmu/3Bymdzbw0QpqUZGEwAdhozDReHammO9/WMYHrdbTOcVIqXhE/crYQwgMha4z
+         Mb5j9p2VK+aLTtu8yCCcQbh1vp80kisF93kzJUHD+8pampEZDp6U8NIw0+g89gjuTdP4
+         UC3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794987829; x=1795592629;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZnHY355Lmina/i/sthQaqZuymWw1SBJp8dmE6kjbEPE=;
+        b=z/A6ouklnTDHGmflF1XiLp1PqHhvRryJDYZJmF35IqX/3dOm9Sn552HfSOuq5xOXdM
+         IC8DcbKN/s9200P66AtL2FSBW3xj0OI32QYgl2u0Apjn/fdETVmPlMQliRBN8UwqB1y6
+         FkXpFjuclLdyUFa5JmFlpVLhhlQVDz/td6GAQDOASQcaKRe3b0oEmxu7mAgnfXrhbX0i
+         X6DdBR/QqB5u1DhWzxwLwE0kyyWD99nNdfQf+tsXxxuJWCkJhLHqmql6ZQB0dY8rCnQe
+         RM4UShKz3IY4R7AdI1xSNvuuA1V2PnC9+WbUHKFM6Ja1buAV9NXS1dYoRk6yasdjz3Yn
+         6wmQ==
+X-Forwarded-Encrypted: i=1; AL+hErFhSzf8D3CuD8xRSrBo0jmgv9GAFREpHgbn8cQJlIi/hBZSxS8lRSp3hQ19zL8LoG+zygCGZ4Rjpck=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8VozAqrBucm6A9dGsK2VU/ys6VWhZWB1Znk3EC7uqpdg8XV7T2
+	pfarUhUkJyz/uoukZSYd6kmG0Y8UNMdVPDakdARdukjkzkiLEhg1ZGtpbvMXOQcOOhc=
+X-Gm-Gg: AZFdTZeJbUwCaYy9oSb4GtfkZgaKb7fc/Cabq6MXW5X469DzKBs8/3+YqSE4wkNdsJ9
+	B4qXsKPuSnGVEbSOj4y0Y0UdyRsP+QU3FDa2amyrua5R2os4xz4a/xH2iVfP7FCU+0GQpm4TlZS
+	8TaQGT9UW08CZlA7wNBfEpyUKV5r+hy/rTZ8PtHMrB2MA6Nr3ryDBGBifVXgtSJInWvygW+AfCU
+	WP2z62Bn/2sAr4cWbNEy89ktMQFbNVxYa9pSFjgpshydhnQn/h2gUja/630/y9gmKlFLiAFZPm5
+	BIC5GA7oO9SCmqdjAdQSp670S07/SSmbdBvjC5QVJ/Vwlg/UxHy9dWmyAAUvp3620W0y1lODkq6
+	l8Z24HBwSM/xvuD6FAaXEpzklY02gIMcSm2ZCRBneuzkFbYlXwyxKP44QxU0Q6Vwqil885TKWp7
+	0ygNMOKmpy51qtiBYYZ50mcNLHpYDCMx2mgItnbPeX8Pp5nIrkmuV4RrjmYfy0k2gcX+Z7newjP
+	U6poHAYNf4eE5woQnUKqonfBq39evNisywGpUk9GKQm6fxUxM7Hm4sIi/OtnKtbjY+hZY9pM4NN
+	mHe8e93u514Amnar7kOnr8ohrzsh+Uk+/H6njKGDU4NP2RNF/tMrp34GxVuzd2vfRbvJot3uOdv
+	MY73GRmMhvsoCdSI=
+X-Received: by 2002:a05:6000:2c02:b0:493:bd29:a6e3 with SMTP id ffacd0b85a97d-4a63c6582f1mr3348907f8f.15.1794987829259;
+        Tue, 17 Nov 2026 23:43:49 -0800 (PST)
+Received: from localhost (p200300f65f19a904dea20c2220232395.dip0.t-ipconnect.de. [2003:f6:5f19:a904:dea2:c22:2023:2395])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4a656c11f4bsm3197026f8f.51.2026.11.17.23.43.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 23:43:48 -0800 (PST)
+Date: Wed, 18 Nov 2026 08:43:46 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, David Lechner <dlechner@baylibre.com>, 
+	Armin Wolf <W_Armin@gmx.de>, Thierry Reding <thierry.reding@kernel.org>, 
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Karl Mehltretter <kmehltretter@gmail.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
+	Marco Elver <elver@google.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
+	Jeff Layton <jlayton@kernel.org>, Bradley Morgan <brads@mainlining.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	Pnina Feder <pnina.feder@mobileye.com>, Mete Durlu <meted@linux.ibm.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Rio <rioo.tsukatsukii@gmail.com>, 
+	Feng Tang <feng.tang@linux.alibaba.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "driver-core@lists.linux.dev" <driver-core@lists.linux.dev>, 
+	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Alex Williamson <alex@shazbot.org>
+Subject: Re: [PATCH] driver core: Disable driver overriding by default
+Message-ID: <av1UwuDq9JJkEYkN@monoceros>
+References: <20261116110853.3418077-2-u.kleine-koenig@baylibre.com>
+ <MN2PR02MB6863F6E744D2651D2520A238D47A2@MN2PR02MB6863.namprd02.prod.outlook.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,364 +115,217 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWC003.ant.amazon.com (10.13.139.252) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="v3mgawp7jou3triv"
+Content-Disposition: inline
+In-Reply-To: <MN2PR02MB6863F6E744D2651D2520A238D47A2@MN2PR02MB6863.namprd02.prod.outlook.com>
 
-Polls in tpm_try_transmit() still use fixed 1 ms sleeps and
-tpm_transmit() stops retrying once the next backoff would pass
-TPM2_DURATION_LONG and tpm_crb always waits TPM2_TIMEOUT_C.
-A value set through ->adjust_limits() reaches neither the retry
-loop nor the crb waits.
 
-Poll for completion with tpm_poll_timeout(). Its sleeps start at 100 us
-and double up to 1 ms. It checks the condition once more after the
-deadline and an expired wait logs the limit and where its value came
-from. Bound the total sleep of the retry loop  by the LONG duration,
-whose 3 s TPM 2.0 default keeps the current seven retries. Until the
-timing query sets the family, LONG holds the 120 s TPM 1.x default,
-so the loop uses the TPM 2.0 one instead. tpm_crb waits on TIMEOUT_C
-through tpm_poll_timeout(). The Pluton doorbell's completion wait,
-which no spec names keeps its 200 ms through tpm_poll_timeout_us().
+--v3mgawp7jou3triv
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] driver core: Disable driver overriding by default
+MIME-Version: 1.0
 
-Two waits behave differently. Completion polling first sleeps at most
-100 us instead of 1 ms. Until tpm2_get_timeouts() runs, tpm_crb waits
-up to 750 ms for TIMEOUT_C, the larger of the two families' defaults,
-instead of 200 ms. From then on it waits 200 ms as before.
+On Wed, Nov 18, 2026 at 05:51:29AM +0000, Michael Kelley wrote:
+> From: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com> Sent: Monday, Nov=
+ember 16, 2026 3:09 AM
+> >=20
+> > Driver overriding is useful only in a very limited set of situations
+> > and then only with very few drivers that are designed to support that.
+> >=20
+> > Disallow matching via driver_override unless the driver explicitly
+> > allows it or the safe guard is disabled using the
+> > "allow_driver_override=3D1" kernel parameter.
+> >=20
+> > There are many drivers that don't expect to be force-bound and often
+> > doing it anyhow results in a NULL pointer exception. To make debugging
+> > such cases easier, add a new taint if such a forced match happens.
+>=20
+> As noted by Alex Williamson [1], there's also the new_id mechanism
+> that can force bogus matches and result in the same kind of NULL
+> pointer exceptions. What's your thinking about covering that case
+> as well?
+>=20
+> [1] https://lore.kernel.org/lkml/20261028094139.12ea7c16@shazbot.org/
 
-Signed-off-by: Surendran Kanagaraj <surenkj@amazon.com>
----
- drivers/char/tpm/tpm-interface.c | 57 +++++++++++++-------------
- drivers/char/tpm/tpm-limits.c    | 19 +++++++++
- drivers/char/tpm/tpm.h           |  2 +-
- drivers/char/tpm/tpm_crb.c       | 70 +++++++++++++++++---------------
- 4 files changed, 87 insertions(+), 61 deletions(-)
+I didn't look into pci's new_id a lot. It sounds as if it should also be
+guarded with a similar mechanism as the one from this patch for
+driver_override. As my experience and testing capability with PCI is
+limited, I'd not add it to this effort, but leave it for someone in a
+better position than me.
 
-diff --git a/drivers/char/tpm/tpm-interface.c b/drivers/char/tpm/tpm-interface.c
-index 8cb4cbc9e2a6..abd16e71f79c 100644
---- a/drivers/char/tpm/tpm-interface.c
-+++ b/drivers/char/tpm/tpm-interface.c
-@@ -103,6 +103,16 @@ static void tpm_go_idle(struct tpm_chip *chip)
- 		chip->ops->go_idle(chip);
- }
- 
-+/* Poll condition: the command completed or was canceled. */
-+static bool tpm_cmd_done(struct tpm_chip *chip, void *arg)
-+{
-+	u8 *status = arg;
-+
-+	*status = tpm_chip_status(chip);
-+	return tpm_transmit_completed(*status, chip) ||
-+	       tpm_chip_req_canceled(chip, *status);
-+}
-+
- DEFINE_FREE(tpm_go_idle, struct tpm_chip *, if (_T) tpm_go_idle(_T))
- 
- static ssize_t tpm_try_transmit(struct tpm_chip *chip, void *buf, size_t bufsiz)
-@@ -112,7 +122,7 @@ static ssize_t tpm_try_transmit(struct tpm_chip *chip, void *buf, size_t bufsiz)
- 	int rc;
- 	ssize_t len = 0;
- 	u32 count, ordinal;
--	unsigned long stop;
-+	u8 status;
- 
- 	if (bufsiz < TPM_HEADER_SIZE)
- 		return -EINVAL;
-@@ -173,31 +183,19 @@ static ssize_t tpm_try_transmit(struct tpm_chip *chip, void *buf, size_t bufsiz)
- 	if (chip->flags & TPM_CHIP_FLAG_IRQ)
- 		goto out_recv;
- 
--	stop = jiffies + tpm_calc_ordinal_duration(chip, ordinal);
--	do {
--		u8 status = tpm_chip_status(chip);
--		if (tpm_transmit_completed(status, chip))
--			goto out_recv;
--
--		if (tpm_chip_req_canceled(chip, status)) {
--			dev_err(&chip->dev, "Operation Canceled\n");
--			return -ECANCELED;
--		}
--
--		tpm_msleep(TPM_TIMEOUT_POLL);
--		rmb();
--	} while (time_before(jiffies, stop));
--
--	/*
--	 * Check for completion one more time, just in case the device reported
--	 * it while the driver was sleeping in the busy loop above.
--	 */
--	if (tpm_transmit_completed(tpm_chip_status(chip), chip))
--		goto out_recv;
-+	if (tpm_poll_timeout(chip, tpm_duration_limit(chip, ordinal),
-+			     tpm_cmd_done, &status)) {
-+		tpm_chip_cancel(chip);
-+		dev_err(&chip->dev, "Operation Timed out\n");
-+		return -ETIME;
-+	}
-+	/* Read the response only after the status reported completion. */
-+	rmb();
- 
--	tpm_chip_cancel(chip);
--	dev_err(&chip->dev, "Operation Timed out\n");
--	return -ETIME;
-+	if (!tpm_transmit_completed(status, chip)) {
-+		dev_err(&chip->dev, "Operation Canceled\n");
-+		return -ECANCELED;
-+	}
- 
- out_recv:
- 	len = chip->ops->recv(chip, buf, bufsiz);
-@@ -220,8 +218,8 @@ static ssize_t tpm_try_transmit(struct tpm_chip *chip, void *buf, size_t bufsiz)
-  * @bufsiz:	length of the TPM command buffer
-  *
-  * A wrapper around tpm_try_transmit() that handles TPM2_RC_RETRY returns from
-- * the TPM and retransmits the command after a delay up to a maximum wait of
-- * TPM2_DURATION_LONG.
-+ * the TPM and retransmits the command after a doubling delay, for as long as
-+ * the sleeps fit in the chip's LONG duration limit.
-  *
-  * Note that TPM 1.x never returns TPM2_RC_RETRY so the retry logic is TPM 2.0
-  * only.
-@@ -236,6 +234,7 @@ ssize_t tpm_transmit(struct tpm_chip *chip, u8 *buf, size_t bufsiz)
- 	/* space for header and handles */
- 	u8 save[TPM_HEADER_SIZE + 3*sizeof(u32)];
- 	unsigned int delay_msec = TPM2_DURATION_SHORT;
-+	unsigned int slept_msec = 0;
- 	u32 rc = 0;
- 	ssize_t ret;
- 	const size_t save_size = min(sizeof(save), bufsiz);
-@@ -263,7 +262,8 @@ ssize_t tpm_transmit(struct tpm_chip *chip, u8 *buf, size_t bufsiz)
- 		if (rc == TPM2_RC_TESTING && cc == TPM2_CC_SELF_TEST)
- 			break;
- 
--		if (delay_msec > TPM2_DURATION_LONG) {
-+		if ((slept_msec + delay_msec) * USEC_PER_MSEC >
-+		    tpm_limits_retry_us(chip)) {
- 			if (rc == TPM2_RC_RETRY)
- 				dev_err(&chip->dev, "in retry loop\n");
- 			else
-@@ -272,6 +272,7 @@ ssize_t tpm_transmit(struct tpm_chip *chip, u8 *buf, size_t bufsiz)
- 			break;
- 		}
- 		tpm_msleep(delay_msec);
-+		slept_msec += delay_msec;
- 		delay_msec *= 2;
- 		memcpy(buf, save, save_size);
- 	}
-diff --git a/drivers/char/tpm/tpm-limits.c b/drivers/char/tpm/tpm-limits.c
-index 5b984cb636f0..bdaa0339195e 100644
---- a/drivers/char/tpm/tpm-limits.c
-+++ b/drivers/char/tpm/tpm-limits.c
-@@ -259,6 +259,25 @@ void tpm_limits_driver_set(struct tpm_limits *p, enum tpm_limit limit, u32 us)
- }
- EXPORT_SYMBOL_GPL(tpm_limits_driver_set);
- 
-+/**
-+ * tpm_limits_retry_us() - the total sleep allowed between resubmissions
-+ * @chip:	the TPM chip
-+ *
-+ * The LONG duration bounds how long tpm_transmit() keeps resubmitting a
-+ * command the TPM asked to retry. Until the timing query sets the family,
-+ * LONG holds the larger TPM 1.x default, so use the TPM 2.0 one: only a
-+ * TPM 2.0 chip asks for a retry.
-+ *
-+ * Return: the bound in microseconds.
-+ */
-+u32 tpm_limits_retry_us(struct tpm_chip *chip)
-+{
-+	if (chip->limits.family == TPM_FAMILY_UNKNOWN)
-+		return tpm2_defaults[TPM_LIMIT_LONG];
-+
-+	return chip->limits.entry[TPM_LIMIT_LONG].time_us;
-+}
-+
- /**
-  * tpm_limits_us() - the value of a limit
-  * @chip:	the TPM chip, or NULL before tpm_chip_alloc()
-diff --git a/drivers/char/tpm/tpm.h b/drivers/char/tpm/tpm.h
-index 223998f99386..b3dc5c7161cf 100644
---- a/drivers/char/tpm/tpm.h
-+++ b/drivers/char/tpm/tpm.h
-@@ -40,7 +40,6 @@ enum tpm_timeout {
- 	TPM_TIMEOUT = 5,	/* msecs */
- 	TPM_TIMEOUT_RETRY = 100, /* msecs */
- 	TPM_TIMEOUT_RANGE_US = 300,	/* usecs */
--	TPM_TIMEOUT_POLL = 1,	/* msecs */
- 	TPM_TIMEOUT_USECS_MIN = 100,      /* usecs */
- 	TPM_TIMEOUT_USECS_MAX = 500      /* usecs */
- };
-@@ -79,6 +78,7 @@ unsigned long tpm_calc_ordinal_duration(struct tpm_chip *chip, u32 ordinal);
- void tpm_limits_init(struct tpm_chip *chip);
- void tpm_limits_update(struct tpm_chip *chip, const u32 *reported);
- void tpm_limits_driver_set(struct tpm_limits *p, enum tpm_limit limit, u32 us);
-+u32 tpm_limits_retry_us(struct tpm_chip *chip);
- u32 tpm_limits_us(struct tpm_chip *chip, enum tpm_limit limit);
- int __tpm_poll(struct tpm_chip *chip, u32 timeout_us, enum tpm_limit limit,
- 	       bool (*cond)(struct tpm_chip *chip, void *arg), void *arg);
-diff --git a/drivers/char/tpm/tpm_crb.c b/drivers/char/tpm/tpm_crb.c
-index 8585c73fb25b..5f29eabf2413 100644
---- a/drivers/char/tpm/tpm_crb.c
-+++ b/drivers/char/tpm/tpm_crb.c
-@@ -111,6 +111,7 @@ struct crb_priv {
- 	u8 ffa_flags;
- 	u8 ffa_attributes;
- 	u32 intf_id;
-+	struct tpm_chip *chip;	/* NULL until tpmm_chip_alloc() */
- };
- 
- struct tpm2_crb_smc {
-@@ -134,6 +135,12 @@ struct tpm2_crb_pluton {
- 	u64 reply_addr;
- };
- 
-+struct crb_reg_wait {
-+	u32 __iomem *reg;
-+	u32 mask;
-+	u32 value;
-+};
-+
- /*
-  * Returns true if the start method supports idle.
-  */
-@@ -144,39 +151,40 @@ static inline bool tpm_crb_has_idle(void)
- 		 tpm2_acpi_start_method == ACPI_TPM2_COMMAND_BUFFER_WITH_ARM_SMC);
- }
- 
--static bool crb_wait_for_reg_32(u32 __iomem *reg, u32 mask, u32 value,
--				unsigned long timeout)
-+static bool crb_reg_matches(struct tpm_chip *chip, void *arg)
- {
--	ktime_t start;
--	ktime_t stop;
-+	struct crb_reg_wait *w = arg;
- 
--	start = ktime_get();
--	stop = ktime_add(start, ms_to_ktime(timeout));
--
--	do {
--		if ((ioread32(reg) & mask) == value)
--			return true;
-+	return (ioread32(w->reg) & w->mask) == w->value;
-+}
- 
--		usleep_range(50, 100);
--	} while (ktime_before(ktime_get(), stop));
-+/* Wait up to TIMEOUT_C for the @mask bits of @reg to read as @value. */
-+static bool crb_wait_for_reg_32(struct crb_priv *priv, u32 __iomem *reg,
-+				u32 mask, u32 value)
-+{
-+	struct crb_reg_wait w = { .reg = reg, .mask = mask, .value = value };
- 
--	return ((ioread32(reg) & mask) == value);
-+	return !tpm_poll_timeout(priv->chip, TPM_LIMIT_C, crb_reg_matches, &w);
- }
- 
- static int crb_try_pluton_doorbell(struct crb_priv *priv, bool wait_for_complete)
- {
-+	struct crb_reg_wait w = {
-+		.reg = priv->pluton_start_addr, .mask = 0xffffffff, .value = 0,
-+	};
-+
- 	if (tpm2_acpi_start_method != ACPI_TPM2_COMMAND_BUFFER_WITH_PLUTON)
- 		return 0;
- 
--	if (!crb_wait_for_reg_32(priv->pluton_reply_addr, ~0, 1, TPM2_TIMEOUT_C))
-+	if (!crb_wait_for_reg_32(priv, priv->pluton_reply_addr, ~0, 1))
- 		return -ETIME;
- 
- 	iowrite32(1, priv->pluton_start_addr);
- 	if (wait_for_complete == false)
- 		return 0;
- 
--	if (!crb_wait_for_reg_32(priv->pluton_start_addr,
--				 0xffffffff, 0, 200))
-+	if (tpm_poll_timeout_us(priv->chip, 200 * USEC_PER_MSEC,
-+				crb_reg_matches, &w))
- 		return -ETIME;
- 
- 	return 0;
-@@ -218,10 +226,9 @@ static int __crb_go_idle(struct device *dev, struct crb_priv *priv, int loc)
- 	if (rc)
- 		return rc;
- 
--	if (!crb_wait_for_reg_32(&priv->regs_t->ctrl_req,
-+	if (!crb_wait_for_reg_32(priv, &priv->regs_t->ctrl_req,
- 				 CRB_CTRL_REQ_GO_IDLE/* mask */,
--				 0, /* value */
--				 TPM2_TIMEOUT_C)) {
-+				 0 /* value */)) {
- 		dev_warn(dev, "goIdle timed out\n");
- 		return -ETIME;
- 	}
-@@ -272,10 +279,9 @@ static int __crb_cmd_ready(struct device *dev, struct crb_priv *priv, int loc)
- 	if (rc)
- 		return rc;
- 
--	if (!crb_wait_for_reg_32(&priv->regs_t->ctrl_req,
-+	if (!crb_wait_for_reg_32(priv, &priv->regs_t->ctrl_req,
- 				 CRB_CTRL_REQ_CMD_READY /* mask */,
--				 0, /* value */
--				 TPM2_TIMEOUT_C)) {
-+				 0 /* value */)) {
- 		dev_warn(dev, "cmdReady timed out\n");
- 		return -ETIME;
- 	}
-@@ -308,8 +314,8 @@ static int __crb_request_locality(struct device *dev,
- 			return rc;
- 	}
- 
--	if (!crb_wait_for_reg_32(&priv->regs_h->loc_state, value, value,
--				 TPM2_TIMEOUT_C)) {
-+	if (!crb_wait_for_reg_32(priv, &priv->regs_h->loc_state, value,
-+				 value)) {
- 		dev_warn(dev, "TPM_LOC_STATE_x.requestAccess timed out\n");
- 		return -ETIME;
- 	}
-@@ -342,8 +348,8 @@ static int __crb_relinquish_locality(struct device *dev,
- 			return rc;
- 	}
- 
--	if (!crb_wait_for_reg_32(&priv->regs_h->loc_state, mask, value,
--				 TPM2_TIMEOUT_C)) {
-+	if (!crb_wait_for_reg_32(priv, &priv->regs_h->loc_state, mask,
-+				 value)) {
- 		dev_warn(dev, "TPM_LOC_STATE_x.Relinquish timed out\n");
- 		return -ETIME;
- 	}
-@@ -428,9 +434,8 @@ static int tpm_crb_recv_chunks(struct tpm_chip *chip, u8 *buf, size_t count,
- 		if (rc)
- 			return rc;
- 
--		expired = !crb_wait_for_reg_32(&priv->regs_t->ctrl_start,
--						CRB_START_NEXT_CHUNK, 0,
--						TPM2_TIMEOUT_C);
-+		expired = !crb_wait_for_reg_32(priv, &priv->regs_t->ctrl_start,
-+						CRB_START_NEXT_CHUNK, 0);
- 		if (expired) {
- 			dev_err(&chip->dev,
- 				"Timeout waiting for backend response\n");
-@@ -587,9 +592,9 @@ static int tpm_crb_send_chunks(struct tpm_chip *chip, u8 *buf, size_t len)
- 			rc = tpm_crb_start(chip, CRB_START_NEXT_CHUNK);
- 			if (rc)
- 				return rc;
--			expired = !crb_wait_for_reg_32(&priv->regs_t->ctrl_start,
--							CRB_START_NEXT_CHUNK, 0,
--							TPM2_TIMEOUT_C);
-+			expired = !crb_wait_for_reg_32(priv,
-+							&priv->regs_t->ctrl_start,
-+							CRB_START_NEXT_CHUNK, 0);
- 			if (expired) {
- 				dev_err(&chip->dev,
- 					"Timeout waiting for backend to consume chunk\n");
-@@ -1021,6 +1026,7 @@ static int crb_acpi_probe(struct platform_device *pdev)
- 		goto out;
- 	}
- 
-+	priv->chip = chip;
- 	dev_set_drvdata(&chip->dev, priv);
- 	chip->acpi_dev_handle = device->handle;
- 	chip->flags = TPM_CHIP_FLAG_TPM2;
--- 
-2.47.3
+> > Implementation detail: device_match_driver_override() isn't a static
+> > inline any more. It grew a certain complexity (e.g. a pr_info()) and so
+> > was made a regular exported function.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+> > ---
+> > Hello,
+> >=20
+> > this is a rebase to current next of the series
+> > https://lore.kernel.org/all/cover.1790612298.git.u.kleine-koenig@baylib=
+re.com/
+> > . It combines the functionality of former patches #2 and #3 (#1 was a
+> > fix that was already applied). I also addressed sashiko's comments. I t=
+hink
+> > this matches what most people want in the previous discussion.
+> >=20
+> > As the rebase wasn't trivial and I merged the two patches, I didn't
+> > apply the review tags I already received for v3.
+> >=20
+> > If this patch is accepted, a number of drivers that are supposed to be
+> > force-bound need to get their .support_driver_override property set. I'm
+> > aware of the following:
+> >=20
+> >  - spidev_spi_driver in drivers/spi/spidev.c
+> >  - stub_driver in drivers/pci/pci-stub.c
+> >  - uio_dmem_genirq in drivers/uio/uio_dmem_genirq.c
+> >  - uio_pci_driver in drivers/uio/uio_pci_generic.c
+> >  - uio_pdrv_genirq in drivers/uio/uio_pdrv_genirq.c
+> >  - vfio_amba_driver in drivers/vfio/platform/vfio_amba.c
+> >  - vfio_ccw_sch_driver in drivers/s390/cio/vfio_ccw_drv.c
+> >  - vfio_pci_driver in drivers/vfio/pci/vfio_pci.c
+> >  - vfio_platform_driver in drivers/vfio/platform/vfio_platform.c
+>=20
+> drivers/uio/uio_hv_generic.c also probably needs to be in this list.
+> It's used for running DPDK against the Hyper-V VMBus synthetic
+> NIC device.
 
+Noted.
+
+> [...]
+> > +static bool __read_mostly allow_driver_override;
+> > +
+> > +static int __init allow_driver_override_setup(char *str)
+> > +{
+> > +	if (!str || kstrtobool(str, &allow_driver_override) < 0)
+>=20
+> If the kernel boot line parameter has a bogus value that doesn't
+> map to "true" or "false", kstrtobool returns -EINVAL and
+> allow_driver_override is set to true. Seems like a bogus value
+> should default to false. If no value at all is supplied and str
+> is NULL, it's debatable as to whether defaulting to true is OK.
+> Seems like might want to insist on a value that indicates
+> "true".
+
+Well, the default without passing allow_driver_override=3D$anything is
+false. Initially I wanted to have just
+
+	allow_driver_override
+
+on the commandline to disable the safe-guard but sashiko wailed about it
+(well, more about how I implemented it). Maybe I'm going back to that
+approach.
+
+> > +		allow_driver_override =3D true;
+> > +
+> > +	return 1;
+> > +}
+> > +__setup("allow_driver_override=3D", allow_driver_override_setup);
+> > +
+> > +/**
+> > + * device_match_driver_override() - Match a driver against the device'=
+s driver_override.
+> > + * @dev: device to check
+> > + * @drv: driver to match against
+> > + *
+> > + * Returns > 0 if a driver override is set and matches the given drive=
+r, 0 if a
+> > + * driver override is set but does not match, or < 0 if a driver overr=
+ide is not
+> > + * set at all.
+>=20
+> Additionally, returns < 0 if a matching override exists but is disallowed.
+
+Yeah, that comment is just taken unmodified from the old location of
+device_match_driver_override(). Indeed needs adaption.
+=20
+> > + */
+> > +int device_match_driver_override(struct device *dev,
+> > +				 const struct device_driver *drv)
+> > +{
+> > +	guard(spinlock)(&dev->driver_override.lock);
+> > +	if (dev->driver_override.name) {
+> > +		int ret =3D !strcmp(dev->driver_override.name, drv->name);
+> > +
+> > +		if (ret > 0 && !drv->support_driver_override) {
+>=20
+> Using "ret > 0" seems a bit odd since the value is essentially Boolean.
+> Suggest using just "ret".
+
+ok
+
+> > +			if (allow_driver_override) {
+> > +				add_taint_module(drv->owner,
+> > +						 TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
+> > +			} else {
+> > +				/*
+> > +				 * If you hit this warning and you need to
+> > +				 * quickly workaround this check, boot with
+> > +				 * allow_driver_override=3D1 on the kernel
+> > +				 * commandline. The right fix is to set the
+> > +				 * driver's .support_driver_override property.
+> > +				 */
+> > +				dev_warn(dev, "Suppressed driver override binding to %s.\n", drv->=
+name);
+>=20
+> Maybe "Disallowed" instead of "Suppressed" in the message? Even better,
+> could the name of the device be provided? For example,
+>=20
+> "Disallowed bind of driver %s to device %s using driver override"
+
+dev_warn() emits the device name.
+
+> [...]
+> > diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-c=
+hktaint
+> > index e1571c04afb5..56215e0f5112 100755
+> > --- a/tools/debugging/kernel-chktaint
+> > +++ b/tools/debugging/kernel-chktaint
+> > @@ -211,6 +211,15 @@ else
+> >  	addout "J"
+> >  	echo " * fwctl's mutating debug interface was used (#19)"
+> >  fi
+> > +
+> > +T=3D`expr $T / 2`
+> > +if [ `expr $T % 2` -eq 0 ]; then
+> > +	addout " "
+> > +else
+> > +	addout "Z"
+> > +	echo " * A device was matched using driver_override to a driver not s=
+upporting that (#20)"
+>=20
+> The messages in kernel-chktaint usually word-for-word match the text
+> in Documentation/admin-guide/tainted-kernels.rst. Any reason not to
+> do the same for this one?
+
+no, will adapt.
+
+> > +fi
+> > +
+> >  echo "Raw taint value as int/string: $taint/'$out'"
+> >=20
+> >  # report on any tainted loadable modules
+
+Thanks for the feedback.
+
+Uwe
+
+--v3mgawp7jou3triv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmr9VzAACgkQj4D7WH0S
+/k4x8Qf+L/hWtqlrgV77gKjkQ3o8g15MeCaKb8qCFvTvBbXXBo8rkw7NzS3wgss8
+dRpsoTD8At5OtGl/6aGkB4RuygBxQg27jXRPPKVG1AilLnzSVM3hIyOpy3BwR/BD
+/t1iXYWgfyEjnS3/s0knXZjJKQtRMhSmurudhbU8ecCq4sxjj4QqYAB5/cUitW8P
+rVVRhzXG4rTyA1J4MH3NLynXrDW4cMh7GYZyRCO9qLYRNq1XEZDYxKWRYzk9B8Xb
+Aa/QqtZSgnUNkoh3cwwkAJdFWjLh417nVzFA5e7YRIRMqzbR7Au9+b40/vS++4d0
+a+EPr7Jty/qPVQ0cG6+31pQCliB06Q==
+=V3Pv
+-----END PGP SIGNATURE-----
+
+--v3mgawp7jou3triv--
