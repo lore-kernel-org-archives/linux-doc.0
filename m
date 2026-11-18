@@ -1,62 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794994431;
-	b=cNTd5GnFqqnnGVFHmeAuQrgm6EuT9+MFGqsb+CoA66Eteqj9ioqtWZCiaqg1m0ikrbfU
-	 SIupaZwMYwsa7e+cINI4hNuFQM8eCb/ipZEMHUGV9yCQQxYkK2WTr9rr1/9t/bNBYcJts
-	 mWxI/svv9bTKv64OUxHKeofNWJOX/Ua97cqouwq3OSVeNbZa2AeKApkxt3VN+ZQ2BzLgl
-	 yRA8lmFi2DNwL5SKWrpI3Zaj29BdfcPTW2W7yCjDWj80AtQPiNqzKiRrneUh+Y1JQIiTF
-	 Ij6F/l+zbIhad7MOCiMaeib359wcuuxa+dhbP+bSnQiFqu2vKoUueCYUr/9vrCXTBFw==
+	t=1794994563;
+	b=uige0oKgeJWHNoG03Q1AnC9RbaARJdL19qZ9Cg6wcaiovz6lJg0OI4jSfLdshI6pv/KA
+	 jNTbX25cpcj4qJwBTfPw+8JDoufK3Fvp/jbnvx0D+tUohfBDDtOjT6dOISs3ecs2GGbYo
+	 G5AThHr8o3ab/U7fSBbVlYmKRXC77kzPLvdQgTB7LxWQH9yN/WhNIVZugbODndFujLfNz
+	 mBMbC3/TqZPWxIx7G3SPse7KNk8zpjbUjizLLu+bDk9ihboeT//pRIrBRvxjDfgQgjgpS
+	 zYvse4vQKSHZ1TPSXiDV5BeuXCMzxHxJKoPJumVuTsxW5B82CRCALk/SKsDf13HgYPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794994431;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794994563;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=v4oyJAcjpJiwNXBHZwPl/3+4CGx9WMQZB2UQe5zRmoM=;
-	b=MtmWMgYYLGkAhgbzQvpbvC+PoyTK9swlPLD1lz+Ftc6W0VwSp8v/YJhZnf4YYyVtFRdp
-	 XmieQvXnhfHJo1NOeCKHs6uJO9juFkJJwa4MKziQs5MhL+AEhWGYaOzrKbKWukMMWB23S
-	 COJTrtIyZA3bgRonvLXKYN/2IiTJO1QbxldTlgK5uoxfr9/Zw3e/1MQyM01+qmfXTxJNk
-	 hj+1z4RN5tM9GP0PwuPGfiXir4Hn0Qtq6C4z3KdT9wZKrLRVqrvsOdVdL/zELQsnr5N+F
-	 F8VTGMHrZ1I0TOSA/12+OOYK8eLn5IucAjOBFUwVqdPHTi46xIGwlcqwEJ7Cn/llcwA==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=oEtrs9YN++TIvppEtfu/diqt2HKppGf1oq8L8HaJ3VE=;
+	b=JHHT6GeaZBO6zG1NBYKWec1cXinR97AX7khOViQRUydYGKs8oRGE8KnVjaK8LhOUL+ZW
+	 rYalF4yIvB1/GcW3Gh6XFeHnIQQU1RrVXzJKOiPSF/tmESHYxAltdbu8PyNrFbZKEOwoW
+	 ieHmCdmJqFi16QijcxgD4pZ7esxPiMB3xrxcFcFAMWg8QhqrDXE/hVlLi7NE9PhfQa48N
+	 m0UHIkDkylbLWRYiv7HzD98MIKFWkl4feBVjd+nwcBXkE1hu2exRzTREtQqK1NE7gs8si
+	 zlGbHK7KLZ6EWISue9p52Vro7wvl3vAtremgw33zWnDqWGo+aPs65LeSnimlleR9NSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kFmp1jWz;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nahPYjtB;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD95606A31C;
-	Wed, 18 Nov 2026 09:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8235B606A31C;
+	Wed, 18 Nov 2026 09:36:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kFmp1jWz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC201F000C4;
-	Wed, 18 Nov 2026 09:33:46 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nahPYjtB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48F321F000C4;
+	Wed, 18 Nov 2026 09:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794994430;
-	bh=v4oyJAcjpJiwNXBHZwPl/3+4CGx9WMQZB2UQe5zRmoM=;
+	s=k20260515; t=1794994563;
+	bh=oEtrs9YN++TIvppEtfu/diqt2HKppGf1oq8L8HaJ3VE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kFmp1jWz2Ee1E6p6UVNNWTIGWPPPLKx+sGTMxlE5eHQo5tOcIWf9ZtwjTQX0EtsCb
-	 sAirKMKholPBHnbEb9EoUL8IlfxeTSkZljqzXOBYeeKZrUn/XeJRsxQUKK+Nhqm2TZ
-	 nASdbr76yAgHux1xVZI5zjOSZEn1N5fioVBQTHawiAypd0UFWzR4497pavHMnJpMBt
-	 4XMPhCvTNVqls+2btf8vsMVvnBveue2fuxcDNtI+08d/D5/jTCmxkRJGuSXev81rR7
-	 4sx+VnMxDFkOAJjpl/2m/DA1cF7m+Jbv38m8J8MSnLsR0luFfHRplUznuNqOSXkqsE
-	 QEw/IbDt/pxKg==
-Date: Wed, 18 Nov 2026 09:33:44 +0000
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Sudeep Holla <sudeep.holla@kernel.org>, arm-scmi@vger.kernel.org,
-	linux-doc@vger.kernel.org, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-	d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
-	philip.radford@arm.com, david@kernel.org,
-	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
-	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 00/35] Introduce SCMI Telemetry support
-Message-ID: <20261118-poetic-robust-raptor-bcff2b@sudeepholla>
-References: <20261109091221.2532706-1-cristian.marussi@arm.com>
- <20261117170709.00002088@oss.qualcomm.com>
+	b=nahPYjtBD1Iaas2FHy09zfnsVzzPWV2xfnaZM4o2uDixquvqwuHvQ+/o6Lx3RmcT7
+	 A5MLlaaWHi5zeDFe6Pr6Zu/1tZf365UdM7zLPXtacuahcYasmLgD5icYRCqSxPoOAQ
+	 apSPaDPnXbhT/Rjv6/c4yyGGAb3a6EIjZs+gpHbG4KtSnFEboWn87xat6LJyla++Jd
+	 yjbLXh2HQKcIglQe/QgOIjdxO0MlY4PzADbD2mLPuxiLGazQOP1N6OqiCY11zDd0cS
+	 +PtK7soRS49YQWtEbo0XhLlRb2q60FYLSeh5q1DNqhKbRWl7YpSpO779dHK9eKPFp5
+	 s/bgKJ6Xw8nfA==
+Date: Wed, 18 Nov 2026 10:35:40 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, mic@digikod.net, gnoack@google.com, 
+	paul@paul-moore.com, jack@suse.cz, amir73il@gmail.com, andrii@kernel.org, 
+	apparmor@lists.ubuntu.com, ast@kernel.org, axboe@kernel.dk, bpf@vger.kernel.org, 
+	casey@schaufler-ca.com, cel@kernel.org, cem@kernel.org, chenxiaosong@chenxiaosong.com, 
+	code@tyhicks.com, corbet@lwn.net, Dai.Ngo@oracle.com, dakr@kernel.org, 
+	daniel@iogearbox.net, dhowells@redhat.com, dlemoal@kernel.org, 
+	dmitry.kasatkin@gmail.com, driver-core@lists.linux.dev, dsterba@suse.com, 
+	ecryptfs@vger.kernel.org, eddyz87@gmail.com, emil@etsalapatis.com, 
+	eric.snowberg@oracle.com, exfat@lists.linux.dev, georgia.garcia@canonical.com, 
+	gregkh@linuxfoundation.org, hch@lst.de, hirofumi@mail.parknet.co.jp, hyc.lee@gmail.com, 
+	ihor.solodrai@linux.dev, jlayton@kernel.org, jmorris@namei.org, johan@kernel.org, 
+	john.fastabend@gmail.com, john.johansen@canonical.com, jolsa@kernel.org, 
+	kpsingh@kernel.org, linkinjeon@kernel.org, linux-api@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, liubaolin12138@163.com, 
+	martin.lau@linux.dev, mason@kernel.org, mathieu.desnoyers@efficios.com, 
+	matt@bobrowski.net, memxor@gmail.com, mhiramat@kernel.org, miklos@szeredi.hu, 
+	neil@brown.name, netfs@lists.linux.dev, ntfs@lists.linux.dev, okorniev@redhat.com, 
+	omosnacek@gmail.com, penguin-kernel@i-love.sakura.ne.jp, rafael@kernel.org, 
+	rdunlap@infradead.org, roberto.sassu@huawei.com, rostedt@goodmis.org, 
+	selinux@vger.kernel.org, senozhatsky@chromium.org, serge@hallyn.com, 
+	sj1557.seo@samsung.com, skhan@linuxfoundation.org, song@kernel.org, 
+	stephen.smalley.work@gmail.com, takedakn@nttdata.co.jp, tom@talpey.com, yonghong.song@linux.dev, 
+	yuezhang.mo@sony.com, zohar@linux.ibm.com, utilityemal77@gmail.com, 
+	lujialin4@huawei.com
+Subject: Re: [PATCH -next -v4 02/17] LSM: pass struct path to the
+ inode_setsecctx hook
+Message-ID: <20261118-nordlicht-badeort-daumen-813a1e9fd0b3@brauner>
+References: <20261117150542.1169451-1-caixinchen1@huawei.com>
+ <20261117150542.1169451-3-caixinchen1@huawei.com>
+ <20261117184342.GR989762@ZenIV>
+ <20261118001641.GA1669148@ZenIV>
+ <bdc22808-9f22-46f7-b42d-e6bd8e1eeaca@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,83 +89,22 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261117170709.00002088@oss.qualcomm.com>
+In-Reply-To: <bdc22808-9f22-46f7-b42d-e6bd8e1eeaca@huawei.com>
 
-On Tue, Nov 17, 2026 at 05:07:09PM -0800, Jonathan Cameron wrote:
-> On Mon,  9 Nov 2026 09:11:46 +0000
-> Cristian Marussi <cristian.marussi@arm.com> wrote:
-> 
-> > Hi all,
-> > 
-> > [TLDR Summary]
-> >  [V15 highlights]
-> >  - general cleanup and hardening driven by reviews
-> >  - improved TDCF access routines to minimize lost samples under load
-> >  - completed ABI docs
-> > 
-> >  [V16 TODO]
-> >   - address any remaining V15 outstanding Sashiko/reviewers issues
-> > 
-> > The upcoming SCMI v4.0 specification [0] introduces a new SCMI protocol
-> > dedicated to System Telemetry.
-> 
-> This is one from the family of issues you find when reviewing ones own
-> (well LLM generated) emulation, realizing it doesn't match the spec,
-> and yet works.
-> 
-> This works fine without the required SCMI protocol property in ACPI.
-> 2.2.2 of ACPI for System Control and Management Interface 1.0
-> Platform Design Document. 111115A 1.0
-> 
-> Now, in here is an informative statement...
-> 
-> Protocols not listed using a property may not be enumerate by the operating system.
-> 
-> But they are... 
+On Wed, Nov 18, 2026 at 04:59:29PM +0800, Cai Xinchen wrote:
+> There are two places that violate (1), both introduced by this series of
+> patches in ksmbd:
 >
+> smb2_parent_compressed() and smb_inherit_dacl() pair the directory entry
+> returned by dget_parent()
+>
+> with path->mnt, and problems arise once that directory entry becomes the
+> root of its mount point.
 
-Correct, I intentionally left that out. I do have a patch that restricts it
-strictly to the listed property. However, I held off on pushing it because of
-an issue we saw on an internal test platform.
+No, (1) holds there. dget_parent() never leaves the superblock so the
+parent has the same ->d_sb as path->dentry.
 
-On that platform, the firmware advertised the protocol to the OSPM via the
-base protocol, even though it wasn't functional at all. Once they realized
-this, they simply dropped the entry from the ACPI SCMI device as a workaround
-instead of properly fixing the base protocol discovery. While understandable,
-relying on that workaround delays proper firmware fixes.
-
-That is why I went with the non-mandatory "may not be" wording. I am happy to
-merge that restriction patch if a real production platform actually needs it,
-but until then, leaving it open helps catch and fix broken firmware
-implementations 😄.
-
-> So, obviously we can ignore informative spec lines but that is a pretty strong
-> sentence. I can't immediately think of what would go wrong if we ignored it
-> - maybe we'd not pick an exclusive PCC and fallback to a common one the firmware
-> doesn't want us to use?  But if it doesn't want us to use it why make Telemetry
-> discoverable on it.
-> 
-
-Indeed, falling back to the common channel lets us uncover any underlying
-issues in the firmware implementation. That is the exact scenario we hit on
-the test platform, which convinced me to hold back the patch.
-
-> Should that be wired through from the ACPI parsing code?
-> 
-
-
-As mentioned, we certainly can, though I'm not sure we should. The "may not
-be" phrasing simply leaves the choice up to the OSPM rather than mandating a
-strict restriction.
-
-> Anyhow, not something I care that much about but thought I'd call it out
-> as an oddity.
-> 
-
-Thanks and well spotted. Much appreciated as it brought the information out
-which otherwise would have just got lost.
-
--- 
-Regards,
-Sudeep
+What happens at the root of a mount is that the parent isn't below
+path->mnt->mnt_root anymore. That's a different property and struct path
+doesn't guarantee that (open_by_handle_at(), nfsd with
+no_subtree_check). So there's nothing to fix for (1) in those two.
