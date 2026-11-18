@@ -1,76 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795009447;
-	b=ih3qjSgzpw2sN9UG+ZNXQ/hymf9U1aRve21mjXtXuuvMPRiVkDQ7xFTe5HaDBLpHIMDx
-	 l2ZjrQcLfvB24InxFZ8m/E5OzQ/7neZ7UPqyHLdrGa/dLFMis+8/99YB+oAN6VjxYPfZY
-	 4le0o/LOk+1o+MRIMBWC0qdXu9V2C0fkDFazaQN7UbObLcWZNR6SfwQvtuVcQshWmU2s3
-	 16X0mUNygWNHsebRUP1eE9kz7wFvFwK32+XwBBoWDemXBNS662DLv6bMqYzdpRfhcE/Ym
-	 C5o307xdSq5TlGjw9nvR55FkdNu78GeQ2ycmc6cjNDZ8Uvc2l+HdaXn97fhpXXR74vw==
+	t=1795009937;
+	b=eFzyygeKeRFoD3TyA7VJhFnltCF17HgNHfavOFQTMPvv1RXjogNKtx7A0cmbMT/mE0XO
+	 scfG3CAvmNYH8/vNI0VbiGSJORXU6R1JdfqEp1Lw3zM5hmeMP2QgTjqq3aoRH7PwhUIbr
+	 VY8SAuOzqg4Wq0pRjB+CWsFrp4JiPiWxQ3I7BxRJofFgwapIK4cTMekU6ZoMT5siCOgBo
+	 12aRg4e+WKib7T2x7Hidx2K1bVNI3UbkcuOLkFbmugaVc1Z/B4LoAC45quu4DbbUg5tcR
+	 3DdOInrQf4fLYwd4uE9erWjXQJkgh5J7S+63sjv8JmE8B6YrYTiGb8+QcvRDXt5tArw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795009447;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=i7muLzDvY71Op61wz/dzqvbrdFL+H8lMJhwiD/Ishso=;
-	b=XNGtsOQQSozOm5XrtDzRG3Ni2a+vIzYExl7jhxSiNNFlZTPBnfLxdTfM34VQBktmeWYp
-	 eJQ/UnOalH3n2IlPtuV3thuhbj4JqPbHpjSoPeMKoLDwQdABGGN8ePnS8gy+39r5QYmBu
-	 nylsOIm50bxMB5FW4DRVSoV+gGU27zqwRTd9ma90VNv8xsGmfKWkML86KOLuhzSKb+vuI
-	 LzBCj2sXP8zuDIaa7UGjE62WsArgtnifCnCAiT5tuIdYFi9He6d1ZpTXIGizXL3Aff6gb
-	 cbyg0OxSC1iNY0cuM24Zs9RvV0OsbWmJbXXgUh5UnQz0RloDH6lAG8VAOlOXMJVX05g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795009937;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=fadJbRdwnT01mpVtOTOr/DR2sXf6oKH2cpwR7oHbpKE=;
+	b=crs9vI9bFP4N6B9iZ8ygHyDjq54OxuN6UKgehbHPzAzqgAYVRJEPuardeJhJWzMXcwkT
+	 rmbKj6ueCVvEIk6mjX3wJFBW+4qlbMwK9EnYfX3bChRmIza1J9yX+psQGhi2jJKpOhWxr
+	 xWlXmBKc+IqCWpN04Tw6uUvhROircSxMEmZ+BdBAI21YaXrHny8dIM2sX+S8y8MhYKy5D
+	 L+Wzfu82ixVEeN3LUsGCDYAqCYR9JUpUPG6hXes7FS8Nk3UvhAvtx75OI+X3qk96FZYHL
+	 MWTiJYz6n6DPeQf8Mnlhne2PCu/SBe1Ffqo52NT7f63eEC7ZuFcPt1aCszLl/GjSo3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WIhFuaoR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cAFLfsLi;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746AF606A31C;
-	Wed, 18 Nov 2026 13:44:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976AE606A31C;
+	Wed, 18 Nov 2026 13:52:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WIhFuaoR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7A001F000C4;
-	Wed, 18 Nov 2026 13:44:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cAFLfsLi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C6C1F000CE;
+	Wed, 18 Nov 2026 13:52:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795009447;
-	bh=i7muLzDvY71Op61wz/dzqvbrdFL+H8lMJhwiD/Ishso=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WIhFuaoR0sVGQ4CGc810tZgfErcle3/jziLI10fXcW2UoIYclG/UxL+Mh0UOq5x5Q
-	 Yb7cq0GQYKV1LZv4Qz0S+Yv7Ms+8UyIrjyuy1eInXqTtpYi57PQOVn2F/0DlQit2Bx
-	 UGrZ8VrN5+UmI3I7qqiV5gljE+AivMOLxZJzVVYNoPC1viCfumE42QkoHBuqpu+2+X
-	 kLhdnBeaizi9RnLUZoDfmf5tW/poinJNe6rkyQzzngyrS8DllVODDpEpXg39DZE1Du
-	 PRwv/P3FQtnT5OS3LkSrGgn2L1Y+RH1hPz5IReplZQYVUtzt3KLGTn8kwOlENgWYgi
-	 oPysx/jPTL8aQ==
-Date: Wed, 18 Nov 2026 15:43:57 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Muchun Song <songmuchun@bytedance.com>
-Cc: Alexander Potapenko <glider@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Chris Down <chris@chrisdown.name>,
-	David Hildenbrand <david@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Zi Yan <ziy@nvidia.com>, Muchun Song <muchun.song@linux.dev>,
-	Joerg Roedel <joerg.roedel@amd.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Ketan <ketan.kishore@oss.qualcomm.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	Sang-Heon Jeon <ekffu200098@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sashiko <sashiko-bot@kernel.org>, kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 3/7] mm/page_ext: always use vmalloc for section page
- extensions
-Message-ID: <av2rneuRc94nGid-@kernel.org>
-References: <20261117120627.50601-1-songmuchun@bytedance.com>
- <20261117120627.50601-4-songmuchun@bytedance.com>
+	s=k20260515; t=1795009937;
+	bh=fadJbRdwnT01mpVtOTOr/DR2sXf6oKH2cpwR7oHbpKE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=cAFLfsLi2bo7R6VadIkjGduO1sPGao/qItOHf7NFXu0NFytl0TQeGSYusNFviTAyS
+	 gx8be/Rcg0I8YmeC+3B+r4fUpjZFzuMhOhZaLNK8dVXIR8NZwiUwHKBFZ88hhH0o38
+	 tRmponS529HAy+EZg6vsZ0Kv5f36iXtQK+o+rBBfJZOSurojFdoZ4a22lmMWCmWqfh
+	 dMYf5q8VhiCfdoEbKETWqPcE4hWtkp4gdLH+qtDeLI58F6cZe0ebFV4TklkvnX0vwh
+	 rIHO72nUB6an6sF8zhQzLgalweDfcKjstsNjpGC4I6xRjOtHBbWZlzhxCTQAhCMKs7
+	 mtCl6/3J3C68g==
+From: Christian Brauner <brauner@kernel.org>
+To: willy@infradead.org, jack@suse.cz, corbet@lwn.net, 
+ mohamedalibouhaouala@gmail.com
+Cc: skhan@linuxfoundation.org, rdunlap@infradead.org, 
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-doc@vger.kernel.org
+In-Reply-To: <20261115001334.23026-1-mohamedalibouhaouala@gmail.com>
+References: <20261115001334.23026-1-mohamedalibouhaouala@gmail.com>
+Subject: Re: [PATCH v3 0/1] docs: filesystems: update VFS locking
+ documentation
+Message-Id: <20261118-anzweifeln-umtriebe-mittragen-88527e288aaf@brauner>
+Date: Wed, 18 Nov 2026 14:52:13 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,33 +61,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261117120627.50601-4-songmuchun@bytedance.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-04696
 
-On Tue, Nov 17, 2026 at 08:06:23PM +0800, Muchun Song wrote:
-> SPARSEMEM currently tries to allocate each section's page extensions
-> from the buddy allocator before falling back to vmalloc.  Boot-time
-> section allocation happens after vmalloc is available, and memory
-> hotplug allocations do not require physically contiguous backing.
+On Sun, 15 Nov 2026 01:13:33 +0100, mohamedalibouhaouala@gmail.com wrote:
+> From: Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
 > 
-> Use vzalloc_node() directly and remove the buddy-specific allocation,
-> free, and kmemleak bookkeeping.  This leaves one runtime backing type
-> and lets a later change add memblock as the distinct boot-time path
-> to simplify the code.
+> Apologies, I accidentally sent v2 instead of v3 in my previous email.
 > 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Please disregard the previous submission. This email contains the corrected v3, rebased onto the latest upstream master and including Jan's Reviewed-by tag.
+> 
+> Thanks,
+> Mohamed Ali
+> 
+> [...]
 
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Applied to the vfs-7.5.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.5.misc branch should appear in linux-next soon.
 
-> ---
-> v2:
-> - Add a preparatory cleanup that always uses vmalloc for SPARSEMEM
->   section page extensions (suggested by Mike Rapoport)
-> ---
->  mm/page_ext.c | 21 +++------------------
->  1 file changed, 3 insertions(+), 18 deletions(-)
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
--- 
-Sincerely yours,
-Mike.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.5.misc
+
+[1/1] docs: filesystems: update VFS locking documentation
+      https://git.kernel.org/vfs/vfs/c/fa7f1d6a9213
+
