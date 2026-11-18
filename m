@@ -1,109 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795032338;
-	b=PnRyIKKl2o0ryplNikzAEmXJvPHGUUDIqhP5KVmr21Je/yXUAEHPeDPiwHBj0yMeL4Mp
-	 s1zQ9Go5o8lyoPONPx4ec9930J2VPTkHlyuRxvaRMyOTPGeTMbvlrjeqcA0KkWigg9+zT
-	 grng6czy6bd7S/TAkTpYyfUjI1/tZhMr6W+GoapBq52d3K6XM5w2Zo6QNyYAWcgyZlUrB
-	 6H2oB+6QxXceLwFJl5lkI+QZmXe/FAbrxJEV8c2o0/fjgcDZHekS7pODCwJaH2pstZKOP
-	 RdLBItL/PeNmHMHW/ogtJMGScJHNDtFTa72kQmRbGvHdLQKVbyZwUXKqd1NsIq7MhDQ==
+	t=1795032599;
+	b=3tG9qJpAiEou+UKMF7D35Cl0Uv6hBKPAyTTTd0YBh0PvHpFc7IeoL/FqgFrdWy9eJaxw
+	 O9tdaIre0UFgYoQ4Dc2JJ2Q6JWR8pWsjoi70yuqp4oMoRAKNpvsepv7ZtGeOpyPC4sUJG
+	 jc7IXD0GLcLcDwSMNtUmfmYDmQzHc2v3EQSBcsWTK1sXNYtkmyk8QSml92jh5AFQZVqeb
+	 ZSp89DRp5GTH9x1OWKNA6eG7+u6dpqFmIkt1SfI08e1c/Zs81jUHD1d2xQPxcAmxqck5/
+	 j3rT7CbONJThvyRkJ7ddYEAp53bEjS1MIV3ItIzTF95z/tiO3GIP+O/39XKIsMnH3Lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795032338;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=sT8BXmWr3ZtRZWaM79NQqvkyqTyjCTuzoolorXg8m8g=;
-	b=dpvRSr0Valo2WTJ3oI/23+NIo7891vAXPs4Zsaz4XdDRzXNFGvaV8wVPa61DYHjs18UF
-	 B2FZh+6YT1NMRJWFQuWxTooZEVsiGSb2tDsjyKi/FlQOwDmFGW3rzU50SbdctW8FJEuAf
-	 +LrY253SCfCg+B2T64eVEcNv4PuPsfs29gBV6bTPddW7AE4fN82CU0q5ZAiBgDNeSZI0B
-	 t7D5Z8wCoat0TNo+/6r3JZm7laftDcQlJFO7q7Lp5My+BCVS975Nx2/quni2iFMqFetqO
-	 vXytg230UcyyUJ/upoHttp48ACSTLnGs8FXGJWcJcUNlEEE/KVzjiG3NyL+W675fjvg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795032599;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:Mime-Version:Content-Transfer-Encoding:
+	 Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:X-Authority-Analysis:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=Yelw5l1vTgIT3KQe49PZmxknXqCh77sINouzym+k2+4=;
+	b=MnAHUcxjJ0X8zXfZjQLGWWLslz17ygkeAAtlLglR482V2vayDok0CtMlyNuFytd5ihTI
+	 sSmv7MTLIx5h/D4w+7qqZsR8iOe7+5/Q2P8qLPVnftYNzfGIFEk5T3g6btMa3S5RS6sTf
+	 ZrDlg3KQ61wKlc0PtcuMpvq00OfUEU0GMVaD9BKJEtIZwWRnx+KZpAh/gMkufV0J0iH3N
+	 CBJ9w/QyG0PGs2QN/YwsNP6ZiEeSi4p0KxTkrVGnLO5ZRQgYU741MHB9Va40SWeDgI7EL
+	 4AdzwL+PqhYGY09iZ53yzsC2WfhXQn9IB3KdHq4lanw4K6dqWQxEQqLvfJNVq9Yzzaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="XlcqI/WD";
-	arc=none smtp.remote-ip=74.125.82.175
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ZPXpFQzU;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=jAxJEw2v;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DD160A2622
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 20:05:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3DD160A2622
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F96606A33B
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 20:09:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91F96606A33B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XlcqI/WD
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-382c3c9671fso1728848eec.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 12:05:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ZPXpFQzU;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=jAxJEw2v
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIJN1Yp3700295
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 20:09:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Yelw5l1vTgIT3KQe49PZmxknXqCh77sINouzym+k2+4=; b=ZPXpFQzUH6AbsOlY
+	tF+ixoIdQ0jj1ae9RM7RCJctNoMbRbIbkMVris6T9wG50ovBmYKYEXHpBN8fVsZN
+	B+hlLh1IKIylfzWhm069dLbohnT5QEkpRn/qgJP3A9cK6SQGxVDk4docSmvQgmFS
+	gr8o1vTmh0hl3gwg7hmFk/7LjZnJcScYD6A0u13mf8wGY0V9bsaGY7RUV2opoDG2
+	5qa8lXB54PX7bMhiQZ61HVmDa0vDI8jqXk8aTDUD3Lr5MHCTiWCDLbQF9VuVMZuj
+	NBTRTVKCXtI9u6oLZabbjJNzUI7COsbnFQ1e4d+c4CDlPwuUkDU0gqrN3nXDozug
+	mE1tTQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j1etns82t-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 20:09:57 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-948d83322f6so256171885a.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 12:09:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795032337; x=1795637137; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sT8BXmWr3ZtRZWaM79NQqvkyqTyjCTuzoolorXg8m8g=;
-        b=XlcqI/WDSL40sFhRfuRWgVgFbUDcqd4dc89nkRX5hq+S6M8QdNcniDdhvF5vb59JR9
-         +24b2dBI34OdoIn/aYyBvSwB9tz2lynON+qJxamsUAXHpVmYD/3ZKBFhNp3ecyO+jlfH
-         yLH7pY8+TH7FTvuT5+ik8N0FN9+di52g35SX1/oNpSBHggxVrH/KYVnpZPxnnGG7tPAK
-         ijRQX/dWp/4oznE3o52u/IE1GSe+QjU5+euXF7w4YEyxGh1/eE5NSDL7B9b1dtmhE3RB
-         XHUDBQWdTuTfQpILYYqp1x29wahndXSFG4yJo9XWSRArReOv4M9bjUoseDYx8yWpnopP
-         7jSQ==
+        d=oss.qualcomm.com; s=google; t=1795032597; x=1795637397; darn=vger.kernel.org;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Yelw5l1vTgIT3KQe49PZmxknXqCh77sINouzym+k2+4=;
+        b=jAxJEw2vw7mj84svelmur3y1n+7Hh73fck/3cfbjwdeSBBRA99sfVkwHwSJnQCI//W
+         MojkDTZdQGggmER9wnpKxyDfcrudAljYmUfuZBpgnF248FzrcSPmkPSn/RIIGzI5jv8e
+         nm7YuOxJwiDAlOaMNKQ2LUqXUn6tkfl8YwbXhxDjn2iJgphkTj7tdIlXGdKrEkmjD9ab
+         LNZH+TzFdfOnSkY0IjOyjw90IjHKnA8gSyA7Ujs/+NAXnMom0VSui9i1Ie6naiFxwPWX
+         9IPT2w/bT3JgDiWs5E1MkCSA9+wtO/xVn0jP6a3GUK5M6IB9YVkZCHJJqsRMW42Ffqx7
+         liMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795032337; x=1795637137;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sT8BXmWr3ZtRZWaM79NQqvkyqTyjCTuzoolorXg8m8g=;
-        b=FOEbZKAmJw91jiQRZzknFVm/3ha6LBwYEZIxlrI/QRbh7gHITbK3bCZMoEcYZzB6Re
-         cES6Y5nf7lzNiEJNP4fVXVrkJhfSBGWAgMmcuOqG5wa19XymRy3iEo7gvKPvLGKBaUNF
-         FijC2CSpTZetYKW4L1VjHrMXZCzai0tAVrr2zTEV/XaNNKv6mhuhgh70b+Sx5Nr843of
-         Xg12nipOKSfIFSMiZvptwy7hotCzDjFcyrB4XeEi/gz0d0249rjMZT9UHUcCWvVkt3Yo
-         wPoNLTOr1IZ/xYGq5fLdGp8490BgHvSsDTBpsY4zChfqtVBB6GtcKUPdqZGnZkpjtfnv
-         ldWg==
-X-Forwarded-Encrypted: i=1; AL+hErH5puJtOs86EQ0i9oAq5z2ixi0h/piRmxrKVdImwOKcB6wiwcfX12ESSszWJ1N3PI0xRYtZN/KgCsA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+yzWmTGv5pewOb7MQoejTLmonTNlFrmoSdJ/Bfa+46pcgwXJP8
-	AlAqWFA92dDbjCL3TdbLDt0P1sbFd8mvuTF1b601vnH6wzzJolqdVW9X
-X-Gm-Gg: AZFdTZcVKNeh4GqiLR5OSrKYzXvUgTdpfL/4TbOJBBQamy2sAbi0RdU76UG+aZGaU2O
-	BdFnJDTR1KZYEefyWix6hwYReGSam2V9QH1rvZ9wQkNGjsiPmdYCZdcGp6ZaVEKm/rEJV0gRmw5
-	07SBySMYmspnJacOYg6qZs786cgEryMP7X3Xn4AzVfJbs8Q+SahdzB9KAETcVfbAJ1Z5LAUlXPo
-	u1tkeGKuDVnEDEUH8fqiD7YtMoTY8TKmTBJWYEfA8BEU9+ekjR+WJfdpZcJoTB6L4l6HF7JyGq1
-	Fss+jl8OuIDyUc6TuyoyzPEZG2uFUEkr0ci1FzmSMfn3+05Bz1BHb+MQEAvBQLUMyV+EHt+TYiH
-	fi9NEc5suE0Crdf2iNGV5QuOa+cONlB3vSY4A+wyV2WScEaR/GbtWH/b0jdL9FIBYVC0D0BIPPO
-	axmvP4x6vN09r+o6HuIjw7oc07FZiNZtkxFylHgnfZVMKSI4HS1vn5IzRRhxTqoQI6n+G6IdnpF
-	xdfixcLi+wTaQoItUzpOiW9ij+XxUb6HGIF3Onm9MlnHENI5NpCDbLWqOIVdLBA9eR5oU/LCtta
-	NefV5Qqtpj0y0JCU13ESTHzh/YZF6/j/WlV+mT1bnN40Q6Ez6msW/usaHmnSzo6tp5LQ4rYaEIn
-	xjri+cgqSOeWqSzZ+2GHdoTaYyDIz
-X-Received: by 2002:a05:693c:83d4:10b0:36a:5126:a8aa with SMTP id 5a478bee46e88-38281025978mr3395503eec.27.1795032336889;
-        Wed, 18 Nov 2026 12:05:36 -0800 (PST)
-Received: from Mac.localdomain ([12.162.234.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a72eb2f3sm11752204eec.18.2026.11.18.12.05.35
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 18 Nov 2026 12:05:36 -0800 (PST)
-From: Ahmad Byagowi <ahmadexp@gmail.com>
-To: netdev-bot+sashiko@kernel.org
-Cc: andi.shyti@kernel.org,
-	andrew+netdev@lunn.ch,
-	corbet@lwn.net,
-	davem@davemloft.net,
-	edumazet@kernel.org,
-	horms@kernel.org,
-	jiri@resnulli.us,
-	kuba@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	rdunlap@infradead.org,
-	richardcochran@gmail.com,
-	skhan@linuxfoundation.org,
-	vadim.fedorenko@linux.dev
-Subject: Re: [PATCH net-next v3 3/3] ptp: ocp: support the WiWi revision 02 Time Card
-Date: Wed, 18 Nov 2026 12:05:34 -0800
-Message-ID: <20261118-timecard-common-301f823ddd-r3-ahmadexp@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <179502617840.3136.12704245716223038161@kernel.org>
-References: <20261116-wiwi-v3-87afa10a8-3-ahmadexp@gmail.com> <179502617840.3136.12704245716223038161@kernel.org>
+        d=1e100.net; s=20260707; t=1795032597; x=1795637397;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Yelw5l1vTgIT3KQe49PZmxknXqCh77sINouzym+k2+4=;
+        b=YnKRVHL1+ftKpvfhZDvpkhFPaisI0ro+vfjFq0sn+2Qo5BUsrBlJjoqAf9GC49AoZU
+         f6jDDWJ5tc49R+XnEOmyY3xL2lEIJBRFw6XUkpu4rA6O/s7YsGt/sgVJZa1jnaxlb6uW
+         cGB/OKb5fyxfHPyhf6wlHKAcavd/NcEyzdpJkJBZH5SRvj3cmMwxmt+JTEbqH8bQB0Pe
+         u7QrpxAlUZcSKpedVxhL9I102/G+AWtzGDrxImtgit8Fodh2esNfTLASTSSfLHwfL1+f
+         JMvv1OsD7mAEt0peEeC/qHrhL2tPCsBnKeNO1AU2R3/sxNkQBQ5SG3Bj8i7Hi2jNm9n1
+         Yqfw==
+X-Gm-Message-State: APuU4Z9g9QYDzSJl8Nz9vEOdQ2ab8wolroSG2XLp7mn3qBcv4rsPLpK2
+	9JhSOktPlnXRs+t2MF4WIhPMtyk73rhX4ymPn5a7eGslX7BqldIL5/DaMfRiCHVcdvXiCs+KygX
+	73XkRKXJJmX6ZwYyvxetWaYVYGdAzIBsJQOc88iKxlK8K3tb4mk6aiAXc3MRY/BU=
+X-Gm-Gg: AYBFou2AoD3eyqS+0MGA6SdKIerK7q8bUrfAwB1xdLqhuHnzaCkcYB1s/gZ7zcNWjlu
+	zJCsBzpgUAkY9jNHJ70nM0dQVTllb0kKD9YTMsIBwne+FpnbovaDM3tLMB/VIXmV2HzLUlSrJUe
+	nlwDmrSlOYknWth2j1pb1i2J65upN2KgT640tUsQkazBB0l2fpq4yODmK9YRDmRJkSTS6f3XGOi
+	ARtMM6v7vrlH56YchDUudsLycG0G+C2LU94v2UMKjFVhLCSmTHu3e89DmM4rTqVmACkutpysjC2
+	eoqzwPGU5JOoXEV0J4k/UIt/eOCowLvc2Uy8YCkgHzljfwpoSvt69zROsXK+95aJx/nEM7BqMCl
+	6XMwIJfrpLyKjHLMRKRXAc6l3AlOElWiZ30dDxx+2BGxcrz9dXCfFIgXwupE5pNZbQ3qValxpzP
+	EVUm05wBeYyT0YJw==
+X-Received: by 2002:a05:620a:808c:b0:943:b019:f011 with SMTP id af79cd13be357-9499965c44cmr677402685a.28.1795032596733;
+        Wed, 18 Nov 2026 12:09:56 -0800 (PST)
+X-Received: by 2002:a05:620a:808c:b0:943:b019:f011 with SMTP id af79cd13be357-9499965c44cmr677395085a.28.1795032596062;
+        Wed, 18 Nov 2026 12:09:56 -0800 (PST)
+Received: from localhost (ip-62-245-98-165.bb.vodafone.cz. [62.245.98.165])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a656b1cfdfsm6840078f8f.47.2026.11.18.12.09.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 12:09:55 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -112,49 +110,93 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Nov 2026 21:09:53 +0100
+Message-Id: <DMYLY5JOE18Z.2CQQGB4INJ4RH@oss.qualcomm.com>
+Subject: Re: [PATCH] riscv: cfi: parse riscv_nousercfi before
+ riscv_fill_hwcap()
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, "Conor Dooley" <conor@kernel.org>,
+        "Charlie Jenkins" <thecharlesjenkins@gmail.com>,
+        "Andy Chiu"
+ <tchiu@tenstorrent.com>,
+        "Anup Patel" <anup@brainfault.org>, <kvm-riscv@lists.infradead.org>
+To: "Guodong Xu" <guodong.xu@oss.qualcomm.com>,
+        "Jonathan Corbet"
+ <corbet@lwn.net>,
+        "Shuah Khan" <skhan@linuxfoundation.org>,
+        "Randy Dunlap"
+ <rdunlap@infradead.org>,
+        "Paul Walmsley" <pjw@kernel.org>,
+        "Palmer Dabbelt"
+ <palmer@dabbelt.com>,
+        "Albert Ou" <aou@eecs.berkeley.edu>,
+        "Alexandre
+ Ghiti" <alex@ghiti.fr>,
+        "Deepak Gupta" <debug@rivosinc.com>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?=
+ <radim.krcmar@oss.qualcomm.com>
+References: <20261108-nousercfi-early-param-v1-1-ea22d3a60683@oss.qualcomm.com>
+In-Reply-To: <20261108-nousercfi-early-param-v1-1-ea22d3a60683@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=b8UncdGx c=1 sm=1 tr=0 ts=6afe0615 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=Sz50MssrUYSuVvM2sb41rg==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M51BFTxLslgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=_3qaHc-GLK8r7rxdq84A:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-GUID: HjDPT1eEMTNDpOEHvC2sVvIe1wdUrYv0
+X-Proofpoint-ORIG-GUID: HjDPT1eEMTNDpOEHvC2sVvIe1wdUrYv0
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA3NyBTYWx0ZWRfX/l3Q4BJ1xmHn
+ Th8ZpwzTWpdtQNGowqAOYtYcVvStVICjkrEBOzJ48ayXcz+CHAx7d1eybo3rwgIrHiFFyDp9nCq
+ q/Gqg3ELsnhi4uP6A2HaMoFF3o8fzRk=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA3NyBTYWx0ZWRfX0G+E0m7mnuwg
+ Od3sTSAxZxHASolwr07XaUPWCdrbsrPQubkTk2dyATES9a/qgNAHpHsZ1tb4/wy9hu67wldXd5U
+ ZB819ahxNOyLKVSkToT2C0EhGJRew6c+5aySChfA3M0+tyOhQXDFlic0qo3rHkZtfhcmXyThc4s
+ ySKHGq6/IMUNLBhJt+vT+KumenlExDK06k4RzuGlrBm06vSzk0iEeKZB3UoFpiJijj7xscluVV4
+ 6CmecblpighBUXFaaM6gETTKja6fGTzbLRfd2jZutrAGCJ8z93/doB4gKahvgFLGHjTnXilAdoz
+ PapYazmJXFGj/P8iKoY6OIxjPOCwwCXtbk5siQUBXSzqeAgswPxzWXvJeV7WQPo0rG+Qe7F0Cg6
+ hYbLzpRFGohQk+6Ng2bYJNbS5eTXqgjKvYPxCRkRaPcwZ/Jb9M0STCAm4WNgvbacDCKafYsw44c
+ v8xUU3DWaFkX6+CnK7w==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-18_06,2026-11-16_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 malwarescore=0 adultscore=0 spamscore=0
+ clxscore=1015 phishscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611180077
 
-Thanks. I have prepared separate common-driver fixes and a WiWi v4 draft.
+2026-11-08T04:42:01-05:00, Guodong Xu <guodong.xu@oss.qualcomm.com>:
+> ISA bitmaps don't honour riscv_nousercfi because the ISA bitmaps are
+> composed during setup_arch(), while riscv_nousercfi is a __setup()
+> parameter, and those are parsed from start_kernel() after setup_arch()
+> has returned.
+>
+> As a consequence, the riscv_nousercfi test in riscv_cfilp_validate() and
+> riscv_cfiss_validate() always sees zero, and Zicfilp and Zicfiss stay in
+> the ISA bitmaps even when user CFI is disabled on the kernel command
+> line.
 
-The common fixes use tbl[i].value for all boards, mask SMA_ENABLE on
-frequency readback, report disabled inputs through the None/0 Hz entry,
-and correct the common DCF output frequency to 77500 Hz. The selector,
-disabled-input and frequency fixes carry Fixes: 09eeb3aecc6c.
+(I thought that was the intention.)
 
-The WiWi table also uses 77500 Hz. Its new init replaces unsupported
-output selections, including GNSS2, with the connector's default output.
-It leaves valid outputs, inputs, directions and neighboring mux fields
-alone. The normal sysfs read therefore names a supported signal. If an
-unsupported output value appears later outside the driver, the read
-returns -EIO; the ABI document describes this instead of adding the
-unwritable "unavailable" token.
+riscv_nousercfi definintely should disable the hwprobe reporting of
+those features (my series did that), and prevent their enablement in
+user-mode.
 
-The removal concern is real at the source level. An EXTTS request can
-rearm a channel after detach disables it but before the POSIX clock is
-revoked, without assigning a PTP_PF_EXTTS pin. Clearing readiness alone
-does not serialize an enable that has already passed the check.
+Why disable Zicfilp and Zicfiss in the ISA bitmaps by setting nousercfi,
+though?  Aren't the validate functions just misusing riscv_nousercfi
+instead of defining a clear detection mechanism?
 
-The separate teardown fix uses a mutex shared by timestamp enable and
-disable. Detach sets a permanent stopping flag under that mutex, then
-disables and synchronizes all timestamp IRQs before unregistering the
-clock. New enables return -ENODEV; an enable already in progress must
-finish before stopping is published. Disables remain available to the
-PTP core. The IRQ handler does not acquire the mutex. This is a common
-fix with Fixes: 627366c51145, not a WiWi-only gate change.
+I think the ISA bitmaps should consider whether Linux has the
+extensions, which with standard SBI means a successfuly executed FWFT
+set/get.
 
-A source-derived pthread/MMIO harness reproduces the rearm window with
-the old code. The revised code passes late-enable, in-flight-enable and
-active-IRQ-drain cases for timestamps and combined PPS/EXTTS requests.
-The tests run under ASan/UBSan; DPLL and routing tests also pass, including
-negative controls. Both driver objects compile with W=1 and -Werror.
-These are software tests with stubbed I/O, not an in-kernel UAF or a
-physical removal test. The card is currently reserved for Windows HLK.
+Linux can then use the ISA bitmap to decide whether to use CFI for
+kernel code, allow it in KVM guests, report it as available hardware
+feature, or allow it in user mode.
 
-I have sent the four common fixes to net as a separate series:
-https://lore.kernel.org/r/20261118-timecard-common-301f823ddd-0-ahmadexp@gmail.com
+nousercfi seems like it should only restrict use of CFI in user mode.
 
-WiWi v4 remains unsent. I will rebase it after the fixes reach
-net-next, so the feature series will not duplicate them.
-
-pw-bot: changes-requested
+Thanks.
