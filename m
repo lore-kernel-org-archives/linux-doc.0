@@ -1,89 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795016812;
-	b=Z/vYluohUtTsU8xGhXqOK+zQotJmtNVqgU2JEsu55Jq3BnPae5vUb3UEfc6l6eVeLIbf
-	 U/auHycZlra4ifpQGYVj2XZAnCcy6emXQ7s3vBATyVppTIeaFb99mepuWnJUgv9FuNPz5
-	 r7ddIE0vHT9Qcjioj98HkHuqKkwgqGsji98C1Dch3cR6yrARN2EYBJWXiK6jqFbL3BShc
-	 f7ZgFbaZ7Mfwo67xHt3NHtA1Yyg8rGFflp+p/14tSN9253FpnT2bGAtWfn3tJ2TQCdUEq
-	 8lRB+mQHCjW0s3/gFakgNR4e6Nri/M2uVGrNZQXOGwndgk9UXFrR7exp2ZGaLKHzPig==
+	t=1795017082;
+	b=lxcU05aJGelu3S7TmIlGiR/Dfa8QEWTMS+NYadH3lTAG+6/5alTWUs5nJjHIt2cL+yzc
+	 MD2aNrDWKjch05+VvO55+uX8Mh6JBIeA3yIt7ejCIFlj3is/sPTSBCO+EuhvhCG/oVLox
+	 Ec04hCtbp4+s3XKsNKzutFDvu5hK1tdzZG6G/KpJpZlSB8o2UajRCwxsWYwsczY4cSv23
+	 6qAYeqRpr32QYXK9L6SoWAFYNr0WoM6FFXuKkKFqDTq1gW2ePZZ9FmkSgf0IUcDkS5DT4
+	 Z4n8Q0Wvnp/60v9lv+kyEg80jKywjI+ZNzSaI7yJQb71dG47xbkcqI3jr3Qnyzxkfag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795016812;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Yq7h0/bdeIgVdHwxIZvW/WAXXX6JzsrZsXwYUvWhQj0=;
-	b=fxhYMp9UiYaIGa8vFU5irIrWJ0qhU/a8BQnfVVeHHFXj4TttxtbaHobjQjo1LIvHsRHb
-	 HElqFz1Ea6UY0aqiwhAFaSdx5KHaUHX936/eXHqxRDsgaujWlhMcorfNiQRsipoatucan
-	 1Q65QGKuriMj3ebt9gpmfLYufeQaw85yKd3kilT8SI4lmdvPEGUOa6Wk00tpOuTv+Hsuk
-	 CPups4KleZpSW194dFDbiss/BWoLSTCQCF/Iw2ueypFm4ED2scQDNxnbsDRrhETmOyWZT
-	 +Opgc1tFupda60jzz3Efzsnook5IncivoDrvKLnTPINrGNvHusn3DE9F8WNDd7c2obg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795017082;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=rtu+dm+kZUdeiLu+ztbJ6g6Gzpa+7bPUZ/F65mvaYZ4=;
+	b=TPNSq/w7iKDCBxyG2klWTezZiU7L0YYMMIqip8DqnAgIQePYrXB0CUp3LNr3wSI/reVR
+	 h3Bpt9X30pj+LmkNyUEfe6ojWjlIzoQ4BTTpBXzv/5tDWK2cvgjZ5H4vWRJj3em1XsF2G
+	 wkpXEIcc+y3Vtu+1AT3L21XfQobpzThIgdjBSpz5+zrEMZSu1a6KX19dMN2tCIRmeHN4v
+	 TqEDchPi9nSJTSmzoSfIrhGNawj6vqVFqHXEiRLrFNBRlexEbJ5VMEyKOnfX/HFTMAUZf
+	 YYEaRBkLOD7BhMufIvSO4MhP36QvcVxbagotwRNsqF3YqdnuddkZua2GOaZMu0SY9kw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EXUa+MkZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=CqFB5PkO;
+	arc=none smtp.remote-ip=209.85.222.182
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id EF371606A325;
-	Wed, 18 Nov 2026 15:46:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106BE60A2605
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 15:51:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 106BE60A2605
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EXUa+MkZ
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id AD8611F000C4;
-	Wed, 18 Nov 2026 15:46:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795016811;
-	bh=Yq7h0/bdeIgVdHwxIZvW/WAXXX6JzsrZsXwYUvWhQj0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EXUa+MkZ8fF06bmTmwLNd20zxEY9MBiiXX3/inLnec+f3eiqv7AFpfp0RH1t8WMYg
-	 07CRxJbvqQzFs79L2fxYmiB+GR4+a2juvf3E/xr2joNJED6DqFsGIRBDrb6+B2ex4E
-	 sg6324IqU/NJun40bRWU9DIoQ3Mo45I4I9aqgNnl26gSlTAwOU2rfIBT3J7mwlm413
-	 UJVrWzSWKUooQDs+lkwH4rZclpp4/PrgxpZq4RUvzVBa9Zs21JNDTqT58QxIZiaVTm
-	 FXz1sMD+7Og8a/cFS0ljKI59wReWg936/UQp9l6X3OLAdeUDi4zCHOdxxm9cSZA5GW
-	 Ra3dfEdI9ZjQg==
-Date: Wed, 18 Nov 2026 17:46:47 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-security-module@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Ben Segall <bsegall@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Johansen <john.johansen@canonical.com>,
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>,
-	alex@amutable.com
-Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
-Message-ID: <av3IZ_ZXKJWHdAl0@kernel.org>
-References: <20261117231352.3816603-1-jarkko@kernel.org>
- <wdwc3b5edgtgvrgqfhlzhrachr5hrqb7ahipcuqdz5pffxlc5b@662cpwhxwjer>
- <av3EBpSuzn_TcrDk@kernel.org>
- <av3Gv3MwP40bqvnG@kernel.org>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=CqFB5PkO
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-93f20c3aaa5so109986085a.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 07:51:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1795017081; x=1795621881; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=rtu+dm+kZUdeiLu+ztbJ6g6Gzpa+7bPUZ/F65mvaYZ4=;
+        b=CqFB5PkOnM+jvAv7ro+HFL8RPRzHIJTyl492dti2dljQd3wyAFFyu9HAkhm+anbp8B
+         uvCfhGnk7pw9Hf6Wxwj+qknoup+tslME/SAC9BSsgKXdywMvXRtsJxl5jXwIbkgrtw0H
+         YsXSfwi9ZAXFWkd5QYdFiQUdjvwEGBhFNFkmhoPD0FUTS6O2P2cZNimb4nldmy0cUb1L
+         YbzAnXtxIxAeadwaWNpbGyFPOrJLj5xyUbMxiZgzYgX8IDb94l+D7JpA9zYEjT7BrNqm
+         pvy8ZFOnH0w+IS7vnDR9ueJvC97X/SQf0ycgblv03SriCllJZcoeAMyBnVHfCbECHmFj
+         AxfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795017081; x=1795621881;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rtu+dm+kZUdeiLu+ztbJ6g6Gzpa+7bPUZ/F65mvaYZ4=;
+        b=Mcnn/GUcYHr4vhZoraqFhLI7huzAhNaebF37ABAsAUVsKtOT6DR9prLUSKs6RLGHvs
+         KIy5tNZp36w/IwoBC07OnxYgsRlcLbf7PI1AhzKyVajnAe7qtsgCfAYno87fMixARt5F
+         Act080Os8iMK4uleILDagfhF0AGM3Az3mnke1BuiaTFqXFWBSoVYIWJ0V/UHw16C53st
+         Uz/NsXJQjgdxmksKeIKtEwWB9myacT7zpwIpCTlGG2DdP3nd5HlGOvhPNn70UJrfLL8u
+         Zx0snBp7xpSCWXecpFgU8+6Q3ITtOS9XDXCZiHxH7TFYCMV3eLwoyQ0V2iyJ0k90kJG7
+         oqSQ==
+X-Forwarded-Encrypted: i=1; AL+hErFpLkTiBAPwQQNgPfVRRB1J7A62x9ZD83b/tndpQLCmq1s3ajX9UxOPqTeiHnEHEh9TVSunKGj/haw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+wh9G5LNvtKIb7FsiW+ATpWsAs3DN5y702WLsRIxy2o+EEn0zU
+	MphxFeFv6TMuhST85VW7PmuV5KpaD9vrv2xBlhQrQgv5YkIG1oQbY1a3+Lqxx/qkXaY=
+X-Gm-Gg: AYBFou2qHAUCD04106HTX2AFj+I6WJY95NdqLRorBkqP15WeP66Qh/6tLQIBiJY3s8e
+	2dg7NTvi3SN+VqzJjjySU1EuHYkI7VRFkGEoQlyWwSR1JNFx6Jspba2uE7hg+7Oa/IQd/PKJJIF
+	crmq5YYtNotKHlLdEjx1E0BEq1kLxwgiHNwVtQLUfYt/InIADzczy0m3nnJXM6UWdvYBD5rWOyW
+	vazMkESmxCPadA2YOpx2469C9Czj1Z3EofXU7PsWSsRTE+4+CblMGWxYREuxg6dQvyV29YeqFJG
+	fwsaGjPYgVQUav69HLTRShwk7Zhr5qvFN81oFUWNOhfHxMjdu/5Zir1l3kWVMeRGBYDMFg8laFJ
+	1/TLNdD0lzTksvv3K19tA05cEL/n/b7XWAfOEFNVLGK7MPcoS3eJ7y5PBeHy2zwKvqNdYU1089o
+	OrJjX5XcXSphITa9QDh0ML9LOKqiD9yuZf8DuUPa+DGu1Do/ZK0bnKrCbANOHP6rOjM67XcdSpo
+	4IO6BVyJ0+QDBXEhg7zqJQMuSSQ5cIGvexY4SZHNYz8/04bNmvuwtOBr03EAF3bOCRLcVwOUggY
+	jXM67aTJos+G/WNmZl1/9MCRbfUm4bPqzHrDCsg0swOTbYruXe0+BlDalhntiohOnwKvGcdXLPx
+	cKvdbmEk=
+X-Received: by 2002:a05:620a:8086:b0:93f:2938:48ba with SMTP id af79cd13be357-949997ac21amr514417285a.55.1795017080864;
+        Wed, 18 Nov 2026 07:51:20 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9499b454facsm210842185a.5.2026.11.18.07.51.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 07:51:20 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,68 +89,79 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <av3Gv3MwP40bqvnG@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 03/22] mm: introduce the common-memory node state
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Richard Cheng <icheng@nvidia.com>
+Cc: "Gregory Price (Meta)" <gourry@gourry.net>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, kernel-team@meta.com, 
+ linux-doc@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-serial@vger.kernel.org, linux-pm@vger.kernel.org, 
+ damon@lists.linux.dev, linux-cxl@vger.kernel.org, akpm@linux-foundation.org, 
+ david@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
+ surenb@google.com, mhocko@suse.com, corbet@lwn.net, 
+ skhan@linuxfoundation.org, rdunlap@infradead.org, 
+ gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+ johan@kernel.org, jirislaby@kernel.org, kasong@tencent.com, 
+ qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+ axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
+ baoquan.he@linux.dev, baolin.wang@linux.alibaba.com, yury.norov@gmail.com, 
+ linux@rasmusvillemoes.dk, pavel@kernel.org, lenb@kernel.org, 
+ hannes@cmpxchg.org, brendan.jackman@linux.dev, ziy@nvidia.com, 
+ sj@kernel.org, muchun.song@linux.dev, osalvador@suse.de, 
+ nico.pache@linux.dev, ryan.roberts@arm.com, dev.jain@arm.com, 
+ lance.yang@linux.dev, usama.arif@linux.dev, kas@kernel.org, 
+ xu.xin@linux.dev, chengming.zhou@linux.dev, joshua.hahnjy@gmail.com, 
+ rakie.kim@sk.com, ying.huang@linux.alibaba.com, matthew.brost@intel.com, 
+ byungchul@sk.com, apopple@nvidia.com, rientjes@google.com
+In-Reply-To: <av2_8Z2sdM_9zUEL@MWDK4CY14F>
+References: <20261114070959.3490008-1-gourry@gourry.net>
+ <20261114070959.3490008-4-gourry@gourry.net> <av2_8Z2sdM_9zUEL@MWDK4CY14F>
+Date: Wed, 18 Nov 2026 10:51:19 -0500
+Message-Id: <179501707902.1206716.2408532904937875068.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-On Wed, Nov 18, 2026 at 05:39:47PM +0200, Jarkko Sakkinen wrote:
-> On Wed, Nov 18, 2026 at 05:28:10PM +0200, Jarkko Sakkinen wrote:
-> > On Wed, Nov 18, 2026 at 02:47:34PM +0000, Josef Bacik wrote:
-> > > On Wed, Nov 18, 2026 at 01:13:39AM +0200, Jarkko Sakkinen wrote:
-> > > > OVERVIEW
-> > > > ========
-> > > > 
-> > > > A root namespace (rootns) is a kernel object backed by a file descriptor
-> > > > that binds together:
-> > > > 
-> > > > 1. A full or partial set of detached namespaces.
-> > > > 2. A dedicated PID namespace for spawning processes into, signaling
-> > > >    members, and polling or waiting on PID 1 exit.
-> > > > 3. An initially empty mount namespace (CLONE_EMPTY_MNTNS) that must be
-> > > >    populated before going live, without inheriting host mount-tree
-> > > >    ancestors.
-> > > 
-> > > This is what cells is doing https://lwn.net/Articles/1102593/, you may
-> > > want to take a look at that work. Christian, Lennart, Alex, myself
-> > > and others are working towards this in a more wholistic way. There's a
-> > > lot more that goes into this outside of just the object itself. I've got
-> > > my version deployed inside Anthropic for securing containers and I've
-> > > tripped over a lot of pre-work that needs to come because we can tackle
-> > > this. Alex has my rough outline for kuid64 for example, which is
-> > > necessary for making sure we don't overlap UID's on the system and
-> > > create holes this way. The cells work/anything that wants to have clear
-> > > security boundaries is going to require that as a pre-requisite. If
-> > > you'd like I can include you in our planning so we can get something
-> > > that will solve all of our problems. Thanks,
-> > > 
-> > > Josef
+On 2026-11-18 23:24 +0800, Richard Cheng wrote:
+> On Sat, Nov 14, 2026 at 02:09:40AM +0800, Gregory Price (Meta) wrote:
+> > N_MEMORY is overloaded with two meanings:
+> >   1) a node has memory.
+> >   2) a node's memory is reachable via ordinary allocation or
+> >      an arbitrary MM service may use that memory.
 > > 
-> > No it's not doing the same, and this why I sent the patch set.
+> > Allow N_MEMORY to mean #1, and introduce N_MEMORY_COMMON to mean #2.
 > > 
-> > I don't see cells fighting with rootns and given that rootns has a small
-> > surface and it leverages already battle-tested code, instead of
-> > reinventing the wheel, it also has benefits. It neither doubles the
-> > number of container frameworks in kernel.
+> > N_MEMORY_COMMON nodes contain "common memory" capable of being managed
+> > arbitrarily by the kernel MM based solely on zone membership. Following
+> > commits convert relevant N_MEMORY users to N_MEMORY_COMMON.
 > > 
-> > What I'm not claiming is that this is better. I just wanted to fact
-> > correct "this is what cells is doing". It is not true. It could be
-> > better solution but still that statement is untrue.
+> > Add folio_is_common_memory() and page_is_common_memory() for MM services
+> > that walk folios. Following commits convert folio_is_zone_device() and
+> > page_is_zone_device() callers accordingly.
+> > 
+> > Expose the state via `has_common_memory` so userspace can identify
+> > the memory available to ordinary allocations and common MM services.
+> > 
+> > Add has_memory to the docs while we're here.
+> > 
+> > Every node with memory is common, so N_MEMORY_COMMON equals N_MEMORY
+> > and there is no behavioral change.
+> >
 > 
-> For better or worse, cells does a lot more; just looking at the patch set
-> size.
-> 
-> For rootns one can point out with a finger its possible problems BUT here's
-> the thing: it does not haven unknown unknowns. Even if cells had less
-> of known problems; we have zero idea what will come up if that ever
-> lands. The possible consequence have less predictability.
-> 
-> Also, as per integration, they actually are not fighting features, as
-> they are in different layers. There's no same thing at all.
+> This sentense kind of blurred me, you state that N_MEMORY_COMMON is meant
+> to isolate the concept of #2 from N_MEMORY, I expect something
+> making clear distinction between common memory and private memory ?
 > 
 
-Yeah, and there is no obvious causality either that would result a
-zero sum game. Rootns is something OCI runtime, any of them, can
-quickly adapt to the existing framework. Cells takes longer, but
-could be very worth of price. It's called "defense in depth".
+Sorry, basically as of this set:
+  node_state[N_MEMORY] == node_state[N_MEMORY_COMMON]
 
-Br, Jarkko
+Later, we'll introduce N_MEMORY_PRIVATE and the sets become disjoint.
+
+I realize posting this series in isolation was a mistake now, and I am
+going to post the entire v6 of private nodes with the reworks you
+suggested instead.
+
+-- 
+~Gregory
+
