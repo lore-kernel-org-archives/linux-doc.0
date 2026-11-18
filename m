@@ -1,75 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.160
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795013011;
-	b=QudJKqJNVhBx+XwnZYFUTc+E5FtmcPX4G5q/J2DZiDdsfv8W23qzqJRBdGxoh8psfW9i
-	 dA3zGulaYrtzHyqaEqs35c9lYF+TF4fJb0VJb2NQ7AnPU/awg7auVSld/6YEapTh0Lbvl
-	 eEXIFdIADgKhwM1GgvA+eg1UlpX9THUt3KtB+5JI4eB5VSLq7Kl+f0bgTv4GP+tJFfaCY
-	 AyeTH+tK0GrpXvB1K4R8BVCxBpI4EzC/AXFxjUtTjBAhJw8zCbFv8+i0ind4dRa8DGG/X
-	 Da1iILhQowlzo1CZ5B6FAl4hkE+xOh9UUlmnCTAs/vxxEhcywiYRNuJRmGVExStJy6g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795013011;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=nQI31A8nM1HFXrWHagb8jBMaXz6oHhOttNUJXUBc14I=;
-	b=RdL+9ioXjgLub6psTI9BZr1RQLj4SOGR6CkoPSF3hvjj4qhAGbd3aY7UzTF+3u/4YD+q
-	 6sWpI2uFG4xrVanvZbYqWDM3aGjl1Hag+waK27xGbVPQhfPIRiuAyurNnf9BqpNuMNYnN
-	 mpws+jEwTKT4l0ysvAApyvIBg+GJ6ul0+54k/Rf/4qJVMsjDM7qfjP3NSaxFn4Azgu/O2
-	 ydGc/fkaWlpF5A9ljmai8O64joivR3r5xNSg57PFQooX/Q7ZqqUZY0j9D0oz1I8bF5fTQ
-	 I/syPhX1x/0KnMAEdEO0EVTrpd+RlrtzUYihOXGENrGLnzG/5oVePy1tTBLhtHInKhQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=GdqpYixL;
-	arc=none smtp.remote-ip=91.218.175.160
-Received: from mta0.migadu.com (out-160.mta0.migadu.com [91.218.175.160])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.70.128
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795013016;
+	b=uHgDfeRBnaGw4m4c4L/KrKsslJk+OmKFcCAmcHXlOAjvl2nhW9umnD5o9mA7ZDih3m1I
+	 J3/9FhquYCTohqkowYE58eom+EzcAUelsHYJiekJ7Vc4C5+a0Sxg1lRc1zdrKp5KsRx11
+	 045PF49GNLIq/nQtA3D8K9F9Jn/S4LB31devVzEysvzW7K1BlOjn/GXt838w0q7ezzfzM
+	 v2FZ8mi0+rBomKDD3j11jXfkjMvbqpRf+AGrH/EL3z+PoALKOpVL1QSI0P5HTa0L/8rOf
+	 +tZrF5G/uk1FX7mUPPQJ/Kix0AHMAtNx5cRWlP3zOK3p7qOZ/56i9xSyRToTC49SLyQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795013016;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:From:To:Cc:References:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=ud3LUPWviqrkNe/6Y9W998nhZrksDrjzieWE/+DBwl8=;
+	b=Z4HDd3IRC/OWiKTS8e+z7bzmIktKGM4I3CGjXgiEswd5w6jOxwz/WFv8M5OymVT2jF7E
+	 W+8/1F/CVEmcJf1hASYxFMMl/XppAxqw61e+fGdCAdD3ZJusj71uLdfz2ZxoPzqJXjj3F
+	 lQUAnlow0zKuwsFAY0wHP4xNv8sMvtE46H5Q3e9D5ARO8yv/JLEBLER3aZp0X4LvH2N24
+	 9i5cOt6MGxoW2uuD3zpGTFa8Rdf7mCDlB5/3MmpDecyUAjaKpyuXUq7SOUgU9fgrLCqgT
+	 JdOUHRYHRCPlww8YDTTXL6bNtI2GJaKiM7MeCtubaUXuMFy48wzSkC2EDkZRsrm73UQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=kontron.de;
+	spf=pass smtp.mailfrom=kontron.de;
+	dkim=pass header.d=kontron.de header.i=@kontron.de header.a=rsa-sha256 header.s=selector1 header.b=QOJwJpdh;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.70.128
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11021128.outbound.protection.outlook.com [52.101.70.128])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39F2606A32C
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 14:43:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A39F2606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DF0606A32F;
+	Wed, 18 Nov 2026 14:43:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1DF0606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kontron.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kontron.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=GdqpYixL
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=AppivPbRx09iLKxx7zqp6xlSPgYNyfP4WN/ejwBB+TY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795013008; v=1; x=1795617808;
- b=GdqpYixLK04rGvDIEpCcezWIcHXU3SMQs31qVddNTfQp+dpXq+gLTdkPJ0+1SoRhHPLjE6U2
- vwGTAyamXhW6BQTKONX/64YmNVODcGx4hA7afq0awKVodT7wCuwEPASK9FgtIQy10cjxtQkB+U8
- fJFdyGsdPn8AqAvTqls88lnY=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 1d825a135c3023ab;
-	Wed, 18 Nov 2026 14:43:28 +0000
-X-Mizu-Trace-ID: 1d825a135c3023ab
-X-Migadu-Flow: FLOW_OUT
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: netdev@vger.kernel.org
-Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
-	Kyuwon Cho <kyuwoncho18@gmail.com>,
-	Eric Dumazet <edumazet@kernel.org>,
-	stable@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net v3 2/2] tcp: fix shift-out-of-bounds in inet_csk_rto_backoff()
-Date: Wed, 18 Nov 2026 22:42:38 +0800
-Message-ID: <20261118144249.358481-2-jiayuan.chen@linux.dev>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261118144249.358481-1-jiayuan.chen@linux.dev>
-References: <20261118144249.358481-1-jiayuan.chen@linux.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=kontron.de header.i=@kontron.de header.a=rsa-sha256 header.s=selector1 header.b=QOJwJpdh
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XirDRV+zZM4YIgDfU42eTiX1tKMiAekMT5Je82Ff6NWg4C8cFrI2zEdZCAVJBcTbJy585U96d+g7V6OlTqZY0C+458K2Ew9/cJV6ObQyJnEvGA4u3Uh2OcykvNGHtU9HxB06BON44907XQ8Tx6/1gsKbea/KntUlfa1wGUWXwWfJlEDfgGZ4nXzAgEpjDbVwv5L32YbianenK28VrXPTYc6rym2kIaGl96PAgWS5dzBXhWeK7sXYJ7hQQ1DzhC69yckANksRCmD+quveVuRP8uSHi8/q8WW5gsiFLgJqmfB/vW/lTG1qp6GQ0pL2sWA/PQPv9PeLUdQz6vbdhJB2zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ud3LUPWviqrkNe/6Y9W998nhZrksDrjzieWE/+DBwl8=;
+ b=U86h/Wc9oPLhVMwUp7EgClSQ2zH8cXdV0Sm2YjmRJ3+cETDaEWUuZ6c2ADCZk+hnEO751V+fnoroEslRGPdJQ1xLd28c1RZ9YWeiBq7cyCvMeuTwaQ20VeVdxxSK0jNu/mITbNDCpY70q/ZKfCpS9pP2JZcxwDNyBaysllrbdy5TD9L0uHZUVKtyTivhxcMJsOK3sTdn/R6f16DaAkiDdCin5UGcbHPfm3o35vAs0pcAgrC1AfhSQqfOCCja/uC+ewvouaFFU+SkKsouHnZww73SzJCdPdEoRAk96yey/cJALd0/OmRnlJ6aU5Cttr2yEDFdoBSyqEFWGWg5woPrSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kontron.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ud3LUPWviqrkNe/6Y9W998nhZrksDrjzieWE/+DBwl8=;
+ b=QOJwJpdhCD2UbLggq0oA5PrpvltPVSiIjgsH9W4glS8Tbbk7l0ozOjuJ5mLxNMRWfDFO8MPmVC4BPG/pyvCJ5mbxuZ8pq0pjUnac83TS7THUw0RCEVsQWASjipjzRlBURGZfrr6pszqF3BpgH7xbYy7e+NfQ2pAOWEryiv+yuLNP8G3cfhpCvc1viVe2LoBDax4CLgqjHp6W4yrv0cj4HIL22k+Oq2/NAXhrMM2/QDVGp9I7eG2fwZzCnfNQZG9XYndOndDUrMCkVGi9ghGerIUf99upWVB9kEllUCDhamwD5htZNybfocEeogeqwW6Kv9RLwxYmmtX67tIX/a/BWQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1fb::23)
+ by PA1PR10MB9385.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:4fb::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.7; Wed, 18 Nov
+ 2026 14:43:29 +0000
+Received: from AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a276:4ad7:962:da22]) by AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a276:4ad7:962:da22%3]) with mapi id 15.21.0639.006; Wed, 18 Nov 2026
+ 14:43:29 +0000
+Message-ID: <3acc652b-d2e2-4a18-b70a-2656b309d798@kontron.de>
+Date: Wed, 18 Nov 2026 15:43:28 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v51 5/7] firmware: imx: adds miscdev
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+To: Frank Li <Frank.li@oss.nxp.com>, Arnd Bergmann <arnd@arndb.de>,
+ pankaj.gupta@oss.nxp.com
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Pankaj Gupta <pankaj.gupta@nxp.com>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Peng Fan <peng.fan@nxp.com>
+References: <20260915-imx-se-if-v51-0-4a7dac612cb5@nxp.com>
+ <20260915-imx-se-if-v51-5-4a7dac612cb5@nxp.com>
+ <2034fb2f-f169-46a5-85e8-fa723ddb0360@app.fastmail.com>
+ <aqqqDnOMmlfqit6u@SMW015318>
+ <f3e1e3de-6abf-48cb-aba7-7b231c38ec5c@kontron.de>
+ <180d2335-e328-48a4-b376-a90464279027@kontron.de>
+Content-Language: en-US, de-DE
+In-Reply-To: <180d2335-e328-48a4-b376-a90464279027@kontron.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0113.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::8) To AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:1fb::23)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,101 +111,132 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR10MB4277:EE_|PA1PR10MB9385:EE_
+X-MS-Office365-Filtering-Correlation-Id: 56ac1683-2708-4e6e-4690-08df45824fa2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|23010399003|366016|261026140227099003|261022105027099003|261026121527099003|4143699003|11063799006|56012099006|10067099003|261009223027099003|261021135927099003|261022075727099003|261028144727099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	x5KB99ir7SnITgR9ViZwjqfspHicvH0tofO2STxmX7RtibfvYi/fG7GqZOAEjoDWSTlsxU1NUQKyJxvGkzS/1cfc1yhrjxpg4wid/ajrNVo5+19a3085vHZKwP3Fodz9xrwAK9Nu4FFntfvxiFLGI1mIfn6kqzNRavVa7Pz2a2SQY12Xu+y5PWeekT1iQ5qkGS7MudmLcyUAOAEKYySVMKUQqQXZ3bGDMTwojZR7Gdvxwv9zfRzJmi8jCnZ7zDU90E+y/4UkLTDrpxWgxZEbXjrr6/ZXJJTYWbVwHdLATnHtoEwWi3aZvbE/Vj8KinBq6I1esfEZarz+VIgVmA+D7rPG8m2OVedRWZJ7G+UoPdmd5/t68ivKrvbU18VMaiZaA+6gWihGZgIKjPtzxRihQGI7ezAXdvuvGg8GizNbuH8JmCPG0PVvovXVNVJR7jOdf/aaBTk+vpZ12BP8l4flQKGKEZhZbdO4FEMUzF1UB1nGGFDXzTqbW7ub0W3RXyzkIpcRzVDzG5XoJIdhKVEA8aakVGUXHUlhVF5QJCj+aeG3ULO+RaD2+r2bkqZ0LtyCM1pZ76CS0wFWFREPJ0AJR0/MZJ7Wy0ogmJe5NRIJ6/YpkZL3KgZ10IoHzXe2+D/Q
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(23010399003)(366016)(261026140227099003)(261022105027099003)(261026121527099003)(4143699003)(11063799006)(56012099006)(10067099003)(261009223027099003)(261021135927099003)(261022075727099003)(261028144727099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WDF0c0FITWNkc0trTzJCbG92QVg0TjFJVEJFODNvZUdZTnR1RERoK2dXTXZY?=
+ =?utf-8?B?MlBUcHMzY3BPTitsMWEwSDB1T3BFOWdGV1FhZ0VNYmY1WVA5dmJoSGtrUjVz?=
+ =?utf-8?B?dzNtNzhvQUdQTEN1ZEp5MmVoYjlQa2szRHhiYzFBTCt4MWZidDJ1RkYzeXor?=
+ =?utf-8?B?WnZFb0lhVW1xaW8reGo0cmVSblN2RlF6T1Y1VDFDODdYZUdjcndsYjlBUWNB?=
+ =?utf-8?B?cFV5dC9GRWlUZWJSdlhPeGkxdnVtdVlQVW13L3dDQTkrSHIydE1yR3QrZWtv?=
+ =?utf-8?B?Zk9US0JHUnB3QlhHdVUxdExoMHNMNnVrdGdDNG43M2pYSkZqR1Y3S2Z1eXRq?=
+ =?utf-8?B?cE5tQlNvekEwSzVRMVBZblZUQW1HenNRb0hmSHV2ZVB6TmNtOHhGVmZPaHB2?=
+ =?utf-8?B?MkNEVlpoQTdBNDI5S05BOXlIditCTHljZFFkL1hKa3BGcjNwNERjcm1QcGsy?=
+ =?utf-8?B?YlZhZjZVVU9hTnZxcHNKQ05OMUtBZCtEWkc4QlJkaHBrOGd3Mk9GU3dSbVRx?=
+ =?utf-8?B?aHIwd1pXU0hNTWROeHBnUU5yUTlnT1pIUEJmRUUvS0xodlBwTjQwejRYb1hp?=
+ =?utf-8?B?bkVjc2xUMWlkMDNIcE5TeXVyY1hSdXpMdmdZZXNJdW9DUnc5cTg3YVBpV0Vh?=
+ =?utf-8?B?QnF5UEJMQVdzZTk4amdqbXpGOFRJMTRhTzhVUHJzNW9tUmVreEZiWTdGenVq?=
+ =?utf-8?B?QUVRMGZhVSt3VXhpWTJ0VW5oRGJvdU1UbU5SREprQXJmYkdZWWVlWUVOSVBv?=
+ =?utf-8?B?b3B4eXhKc1F0c3hwbW9hUVVZUnVVbUtZTzJLTVAvSUdJTGRMRUlhSm1oVnRl?=
+ =?utf-8?B?VXViLytaakFmSG9BT1QrdTA5cU56cXVwNTNuT25WamVBVVpTblJucHpCUE1j?=
+ =?utf-8?B?QUR2aExvbUpLR2Jya0VEbmJwNDF5SUZTTCtsT1ZVR2tkOXVHNmNucGNvdS9D?=
+ =?utf-8?B?aEhoZ3FERCtkd2FQcmI5ZEMxUU5halpGc3J4eHZMQjM2dFhiK0ZmVU5SV0Zq?=
+ =?utf-8?B?L0RCcUdVVGl4QWsyVG1jbDV1M0g4V09OVHkxRlhvS2FiZ2ZFY0NZaStNZVJs?=
+ =?utf-8?B?NENiS1p6WjdTNHIxWFFJeU9lMkxCbnZvYXZINUpLeWh1Y1NvUzh2SE0zMXlh?=
+ =?utf-8?B?ZXFwZkpJUHJaYlBFU3NFUUxYNGUxRW1yY0V1WGgzVm9xcGtNV2FGVFQwNDhW?=
+ =?utf-8?B?SjBvSTd5cUd4N0p5MlhnSlVzd2FwVFJvMG9PQngxSWpQUmtadmNEV05FWEFI?=
+ =?utf-8?B?OG42bERsbXNEN1hSeXpBNmZWbUpFem9TaHFRam9UNEd1MEZhZS9taENTejV0?=
+ =?utf-8?B?TEVPTFFJbVZsall3MnF6QjVHeGtYSDFVV0VlR0JTVlJiaEFVcmVCMU9lN2hS?=
+ =?utf-8?B?V0pSK3JrRHcvelhyc3BYVnQ3ZHltNlNuVkhMWUlYUFVVbmVYdkF6MnFJeExy?=
+ =?utf-8?B?L1lyMHc2MGF1d29QYmcrM0ZMU0lHZktSdnYrMEtiaVVuYzZ5TDl0eUpMWEsv?=
+ =?utf-8?B?TDFvYzdDZ1RlZTdFV3JoRVpWWldmQ2xqZ1JJV1lWa3o5NmZJQjJQVFRQY2cx?=
+ =?utf-8?B?Q1ZUakNjaVBrYXRLRW0xRkVoQXpLczhESXhNTXQ0TWpNcUw5eHlhRGFEYnJs?=
+ =?utf-8?B?WnQ1cmdCYkJFSWpkVTFDOE0xb1pLMDVQdGh0YktYQ2tUOGpBMWpZaTdMQ0RD?=
+ =?utf-8?B?dGlXcUFrTk1IdUk1ZUw2UmhCT1VDTUp0STdDNEIxQzdEQnVzU2M4RFBzc01l?=
+ =?utf-8?B?VUJwRWlvTGhKMk9mRndObk9KNnBONk1tN2pGay90cmkxaVRQYjI3RlhJTVM4?=
+ =?utf-8?B?TEJzTkcydDI3QUxHVmp1eWlpdi82Y05VMjVEM1poS1VQNXZzK013eUY2bVVN?=
+ =?utf-8?B?UVlVL0dEOXNLUURINldWVFVWUGc3amt2VXRoYmxBckpFV3RYR2ZpRmtBNnI5?=
+ =?utf-8?B?RXEwT0dJR0YyTTc1cCtlZmwwTjY1M3MrSUE4Rkd5TjQ1YVlpYjBOVVpMdDlT?=
+ =?utf-8?B?Y09SeDh2YXZiV0xOTmdmTXJsYnNTTU1NaVdhSHZ6Z3RnMFR5aXlYZkxNTXU4?=
+ =?utf-8?B?RzA2TG53TktKVExCbGt0ZUlEUWEvdlZRM0tvZWJVWS9TeG01aFdFQ1NyRGhn?=
+ =?utf-8?B?bGE3OFFjSG13ZXRkbXpzYXNOc3N3MlJWcTdtcXp5VEpxM1FRUk11czdIVkN6?=
+ =?utf-8?B?NTdncE1MY24yN1J1d2htU0FXMUY0Q0ExWktkL29OTlVWVDREb0Z0YkJPV29R?=
+ =?utf-8?B?M0xXbEljQzdLS2VtMnU4Rm5VdXBNbm95ZnFqUitSYmVWTk9UVDBmeVBuOVFt?=
+ =?utf-8?B?OENoZlpySDRsT2t2QkRXdEVHYWl0dHlieDlIRFl4VGF5RXJEWmRUczRtRm1T?=
+ =?utf-8?Q?BHBZKwfR8SqxMpqA=3D?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56ac1683-2708-4e6e-4690-08df45824fa2
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 14:43:29.6168
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BB//Y3QV7hoeNPAvbTGk/R2R3s5cWgPa7ma9Sndl+Chv4yGycC8CElS0gHL1Vm+0aXHdTEQxi4CTTcQPhrA4ZaeHaobdJsTVcY4k2j/7uvo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR10MB9385
 
-icsk_backoff is used as a shift amount in inet_csk_rto_backoff():
+On 18.11.26 13:46, Frieder Schrempf wrote:
+> +Cc: Peng
+> 
+> Hi NXP developers,
+> 
+> On 05.10.26 16:28, Frieder Schrempf wrote:
+>> On 16.09.26 16:39, Frank Li wrote:
+>>> On Wed, Sep 16, 2026 at 03:16:13PM +0200, Arnd Bergmann wrote:
+>>>> On Mon, Sep 14, 2026, at 21:40, pankaj.gupta@oss.nxp.com wrote:
+>>>>> From: Pankaj Gupta <pankaj.gupta@nxp.com>
+>>>>>
+>>>>> Adds the driver for communication interface to secure-enclave, that
+>>>>> enables exchanging messages with NXP secure enclave HW IP(s)
+>>>>> like EdgeLock Enclave, from:
+>>>>> - User-Space Applications via character driver.
+>>>>>
+>>>>> ABI documentation for the NXP secure-enclave driver.
+>>>>
+>>>> I just saw this in linux-next, where it has caused a build failure
+>>>> for a missing include of linux/slab.h. I hadn't see the series
+>>>> before (even though it is a v51, which seems crazy), but I am
+>>>
+>>> It is in linux-next about v37, but build bot find many problems, I dropped
+>>> it and request to fix it. And sashiko is online recently and also find many
+>>> risk. I request to clean up it, and local AI environment have difference
+>>> with sashiko, so bump to v51.
+>>>
+>>> I put to linux-next again to make sure that pass all build test.
+>>>
+>>> Other two problems, need more time to check whole review history. reply
+>>> you later.
+>>
+>> So this is still in linux-next, but was not sent in the pull request for
+>> 7.4. It's rather confusing to me that maintainers add stuff to
+>> linux-next for build-testing and then leave it there, neither removing
+>> it, nor continuing the mainlining process.
+>>
+>> Frank, what is the plan?
+>>
+>> I'm currently rebasing my work for the NVMEM driver onto linux-next, but
+>> as there have been so many iterations and this whole thing took so long,
+>> I want to make sure that this is not another dead end where I'm wasting
+>> my time on.
+> 
+> I need to ping here, again. What is the plan at NXP to move on with
+> this? This is blocking multiple features that depend on ELE firmware
+> support for i.MX9 and similar platforms from being upstreamed.
+To be more constructive, here is a proposal: let's get the
+kernel-internal part of this series merged first (patch 2-4, DT patches
+6-7, doc patch 1 reduced to kernel side). I currently don't see any
+objections or issues with those.
 
-	u64 when = (u64)icsk->icsk_rto << icsk->icsk_backoff;
+This would unblock drivers using the in-kernel API, such as the NVMEM
+driver and this is also the part I already tested when working on [1].
 
-It can go past 63 on the paths of both callers:
+The somewhat more controversial uAPI in patch 5 can then be further
+discussed until there is a consensus on it.
 
- - RTO: tcp_retransmit_timer() increments it on every backed-off RTO
-   with no cap of its own, then an ICMP unreachable goes through
-   tcp_ld_RTO_revert().
- - zero window probe: tcp_send_probe0() increments it up to
-   tcp_retries2, and tcp_probe_timer() calls the helper in its orphan
-   check. commit 6d4634d1b091 ("net: Limit logical shift left of TCP
-   probe0 timeout") clamped tcp_probe0_when() but not this one.
+Arnd, Frank, would that work for you?
 
-Seen on the RTO path with tcp_retries2=255 and a silent peer:
+Pankaj, can you prepare such a reduced series?
 
-  UBSAN: shift-out-of-bounds in ./include/net/inet_connection_sock.h:258:40
-  shift exponent 73 is too large for 64-bit type 'long long unsigned int'
-  Call Trace:
-   <IRQ>
-   dump_stack_lvl+0xc1/0xf0
-   dump_stack+0x10/0x20
-   __ubsan_handle_shift_out_of_bounds+0x1d1/0x390
-   tcp_ld_RTO_revert.cold+0x16/0x92
-   tcp_v4_err+0xdb3/0x13e0
-   icmp_socket_deliver+0x1a7/0x390
-   icmp_unreach+0x2dd/0xe50
-   icmp_rcv+0x93e/0xe30
-   ip_protocol_deliver_rcu+0x36b/0x3e0
-   ip_local_deliver_finish+0x37d/0x620
-   ip_local_deliver+0x165/0x1d0
-   ip_rcv+0x284/0x320
-   __netif_receive_skb_one_core+0x16b/0x1c0
-   __netif_receive_skb+0x21/0x150
-   process_backlog+0x37e/0x1200
-   __napi_poll.constprop.0+0xa5/0x5e0
-   net_rx_action+0x4c0/0xf70
-   handle_softirqs+0x204/0x9b0
-   __irq_exit_rcu+0x13c/0x220
-   irq_exit_rcu+0xe/0x20
-   sysvec_apic_timer_interrupt+0x92/0xd0
-   </IRQ>
-
-The zero window probe path gives the same splat from tcp_probe_timer().
-
-On x86-64 the shift count is masked, and the u64 can already be 0
-before that (e.g. icsk_rto == 200 and icsk_backoff == 61). An orphan
-that should be dead can then be seen as alive in tcp_probe_timer(), and
-tcp_ld_RTO_revert() can end up with a smaller RTO than intended.
-
-Cap the shift at 32: any non-zero icsk_rto << 32 exceeds TCP_RTO_MAX, so
-the min_t() result is what the unbounded math would give. The
-ilog2(TCP_RTO_MAX / TCP_RTO_MIN) + 1 bound of tcp_probe0_when() does not
-fit here, as icsk_rto has no TCP_RTO_MIN floor the way tcp_probe0_base()
-has.
-
-Found by checking sysctl ranges against their users. Reproduced the RTO
-path in a VM with UBSAN: a - r - b netns, tcp_retries2=255 and
-tcp_rto_max_ms=1000 on a, blackhole route on r for 75s, then switch it
-to unreachable. With this patch the splat is gone on both paths.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Reported-by: Kyuwon Cho <kyuwoncho18@gmail.com>
-Closes: https://lore.kernel.org/netdev/179499954853.1440581.6627074959099619480@gmail.com/
-Suggested-by: Eric Dumazet <edumazet@kernel.org>
-Link: https://lore.kernel.org/netdev/CANn89i+=QRibXsm6tw-eVwhB3wjOtgF-MtVu0G--K5=oWP97+A@mail.gmail.com/
-Cc: stable@vger.kernel.org
-Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
----
-v2 -> v3: mention the zero window probe path, add Reported-by/Closes
-(Eric) and Suggested-by/Link (Neal), say how it was found and tested,
-point Fixes at 1da177e4c3f4. No code change.
----
- include/net/inet_connection_sock.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
-index 903499581db7..562e12033a5d 100644
---- a/include/net/inet_connection_sock.h
-+++ b/include/net/inet_connection_sock.h
-@@ -255,9 +255,10 @@ static inline unsigned long
- inet_csk_rto_backoff(const struct inet_connection_sock *icsk,
- 		     unsigned long max_when)
- {
--        u64 when = (u64)icsk->icsk_rto << icsk->icsk_backoff;
-+	u8 backoff = min_t(u8, 32U, icsk->icsk_backoff);
-+	u64 when = (u64)icsk->icsk_rto << backoff;
- 
--        return (unsigned long)min_t(u64, when, max_when);
-+	return (unsigned long)min_t(u64, when, max_when);
- }
- 
- struct sock *inet_csk_accept(struct sock *sk, struct proto_accept_arg *arg);
--- 
-2.43.0
-
+[1]
+https://patchwork.kernel.org/project/linux-arm-kernel/cover/20260727-upstreaming-next-20260609-imx-ocotp-ele-v4-0-1a515de33093@kontron.de/
