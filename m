@@ -1,83 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794992648;
-	b=qmWlQD6woUrzWEFutCRTMXrvPoeelRcL7sm5uM9wz0yC0zfUjRv5Yti0FwXsn79kruYY
-	 06poPN/QVWcN2abxZUra2yGdO/9huGhMRZewkFSOnSBMO0LoShLJtSDsR8KWAhPB/V/ih
-	 qn4q7K2RxD+UcDzHTKQXaZloKDl85Zf25zb8mZR9ZsfTB17YetyHWMV5Xm7pPKKvwoV3F
-	 Bivzsn8KkeEJAndIajzuJkd0vGni2g8XcwSop2yGWo/nm/wipR/P/mriLh9m+VgwYP7Ez
-	 2UdL2uunNeUcM7eYHOmRd/I/v/cHtEinDYmn3oxd1CavUfZaOtFCKzyhaFrwu6LiI5A==
+	t=1794992986;
+	b=btptwSKDHRzKBGKtmNfOHWjdkbCktnqgKCDrmtGypstCvqLDLkApv9XlS8x7FA83xVNy
+	 nXeyYeQUZCtkpL+Q81SH/yL8n/XpDS+r/w47Zm6H3kje/tL9+ROnFwQQ2O0qi616mIovd
+	 mnzI3bkgdSPzUOHQc1QABoCabpf+wn2fseqm+plrRjYt5yUHuCAIcwRJGSUi7UPOh1sGR
+	 GiM1fKNqgcWzOL72zEK2XvLpUwW4AYr6dMyzp3WoDsMkdqFLB0tw0rfqZJQAxiQcajUJA
+	 IPz+XGDpc3tAJ0j5asiV0eP+ER564CU1KSjPCb1bRIHPTZMubMVuN5TgAnAOzDbq6rQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794992648;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=/ILw4EFux7bTkf5RNu3Ik+2UTxpkbYziGgraDHdKyo4=;
-	b=C6GXyioPCa1qq8jmosDq37gyRofZ/1TMDoYTzBBztStwUVrXzcX3CxV0Hzx4UZGlE8T9
-	 e0XKuKBJ6cIKVAug7KdSmDOYUe2L/R1+2efKjCyfma7h8i2+3VG1d/ooPIK4H73oYLuN+
-	 8518zDMqlt2FB1XlMZHNudoFUGNB3a3xcq6sChbbHVIV1hvSTs9Q7JVwmPbsl2iWvAWq+
-	 gj53wHKoA1JB49ZAKEg5l4jUCLLrGJ06bC66ujWps0mu60JxR+aOpKFX5A/I0p5VdChq4
-	 jwpXpwqYph8+cKqbtFB7EqZFv65R551A7bQgC8wtI6xPy8fjYBL3VkZJJ7wx+bIb//g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794992986;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=UCFK2XrxT4aYumhmLixld0RBAVN3HTGK74ZaNmsbpF8=;
+	b=tNXoUSNUi8vBKaYdtN1OEjuEi5gicS24wYnQVQe5CuSxAiL6oJcxKMrQcrhH9bCtgbER
+	 +Fzi6gYpzwv0dNxeMiMrfQcceySNPsHpEjpYnDX1j7pHODOPSCV87MI896F5OXLuw9yOp
+	 tvjS2SVHKuG+Ly5gmQ4U8MJ45Rg7JtpLANZpk/89lhXc0nN2av1PUhYLa07amypAwp1j9
+	 Q3oDZu8BGbh/R9NYM9ZIdVI2HfcLyb2gfMY5PRMztggrasrBxo0gJwv/8ttITy/yZ9j6v
+	 X1bHsTA8SdKuHMyUK4slPFZFy+HqNZkrSnEPOFGxLg5KukhZyD7Mpzw+c1wQtjCechQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GxLWD3N7;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB0F606A31C;
-	Wed, 18 Nov 2026 09:04:08 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=DlSl4ORP;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6A89606A31C;
+	Wed, 18 Nov 2026 09:09:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6A89606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GxLWD3N7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40C9E1F000CE;
-	Wed, 18 Nov 2026 09:03:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794992647;
-	bh=/ILw4EFux7bTkf5RNu3Ik+2UTxpkbYziGgraDHdKyo4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GxLWD3N73udbUDoNblg7Ifu79ktDf2tMPQZBPZqOeRhnEGWEZm7cUXVyjJ1dnGv5i
-	 l3BIwO3wcRqh/opIRo3nC8VYsRjIQHTV2Z4Wp8Fk3nsEgpEC9o77OtjcDP3eGFN7Fb
-	 n0MZW/am2GOXPaqhqQa+rFDYtnX3TblWDpKMk25PbbLNOINBG12hHwFhiI9ihwCobM
-	 VY5YhSvOPK+r9knEQz2YZCvaUHzkAa7KgIXsQ7UnIahtmy9PqzvnfJTtC767GGKR4j
-	 o18rv44b5AyfSff3CIXYD7OvaDKnLyI1Tg9wwp9KU2+/ayRnE1vvZxgnUG/oEapTsr
-	 jDapuh74AaHyA==
-Date: Wed, 18 Nov 2026 10:03:52 +0100
-From: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mel Gorman <mgorman@suse.de>, Andy Whitcroft <apw@canonical.com>,
-	Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>,
-	Rik van Riel <riel@surriel.com>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Dave Airlie <airlied@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Peter Xu <peterx@redhat.com>,
-	Breno Leitao <leitao@debian.org>, Will Deacon <will@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Nick Piggin <npiggin@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	Gerd Hoffmann <kraxel@redhat.com>, linux-doc@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
-	Josef Bacik <josef@toxicpanda.com>, stable@kernel.org,
-	Daehyeon Ko <4ncienth@gmail.com>
-Subject: Re: [PATCH v2 07/15] hugetlbfs: fix unmapping folios from private
- VMAs
-Message-ID: <av1p-MN1hMfZDuBL@localhost.localdomain>
-References: <20261116-fixes_hugetlb-v2-0-4dd9e94ea9ac@kernel.org>
- <20261116-fixes_hugetlb-v2-7-4dd9e94ea9ac@kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=DlSl4ORP
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 75E2A1596;
+	Wed, 18 Nov 2026 01:09:41 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EDB283F673;
+	Wed, 18 Nov 2026 01:09:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794992984; bh=eSz0PxGeBD26st5Qjfax1QZdj5MFOwsoVrD4nzHQPhE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DlSl4ORPTXrotbsKlAhxDE48kJ0JGL6ujGN1vMNgdmYl3DQ3KXQAoJ9yZSyxKIgoe
+	 j0XLNhCqYcr3Nl6UFGeBFOCgwc7X4cjPyGZK5ocYiRRqpYUCat1na6NhoBQnqMD5r9
+	 Co2fHoUKkTN/0dEsQRTpRvwL2wEsLHyFnt/H6NYU=
+Date: Wed, 18 Nov 2026 09:09:33 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+	philip.radford@arm.com, david@kernel.org,
+	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 10/35] firmware: arm_scmi: Add Telemetry resources
+ enumeration
+Message-ID: <av1rTY1cZjRbxzD6@pluto>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+ <20261109091221.2532706-11-cristian.marussi@arm.com>
+ <20261112100145.00000560@oss.qualcomm.com>
+ <avYZ2t_GoT7BN2nU@pluto>
+ <20261116133638.00006cc3@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,35 +74,140 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261116-fixes_hugetlb-v2-7-4dd9e94ea9ac@kernel.org>
+In-Reply-To: <20261116133638.00006cc3@oss.qualcomm.com>
 
-On Mon, Nov 16, 2026 at 07:29:28PM +0100, David Hildenbrand (Arm) wrote:
-> From: Josef Bacik <josef@toxicpanda.com>
+On Mon, Nov 16, 2026 at 01:36:38PM -0800, Jonathan Cameron wrote:
+> On Thu, 12 Nov 2026 19:56:10 +0000
+> Cristian Marussi <cristian.marussi@arm.com> wrote:
 > 
-> hugetlb_unmap_file_folio() assumes vm_private_data points to a struct
-> hugetlb_vma_lock when hugetlb_vma_trylock_write() fails. Since hugetlb VMA
-> locking was extended to private VMAs, this can also happen when
-> vm_private_data contains a resv_map pointer; treating it as a
-> hugetlb_vma_lock corrupts memory and can cause crashes or hangs.
-> 
-> Only take the VMA lock when a shareable lock exists, as additional locking
-> is only needed for PMD table sharing. The fault mutex and i_mmap_rwsem
-> already provide the required protection for private VMAs.
-> 
-> Fix generated by an LLM and sent by Josef Bacik in private.
-> 
-> Fixes: bf4916922c60 ("hugetlbfs: extend hugetlb_vma_lock to private VMAs")
-> Cc: stable@kernel.org
-> Tested-by: Daehyeon Ko <4ncienth@gmail.com>
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> [ david: simplify description and comment ]
-> Acked-by: Muchun Song <muchun.song@linux.dev>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Acked-by: Oscar Salvador (SUSE) <osalvador@kernel.org>
+Hi,
 
+> > On Thu, Nov 12, 2026 at 10:01:45AM -0800, Jonathan Cameron wrote:
+> > > On Mon,  9 Nov 2026 09:11:56 +0000
+> > > Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > >   
+> > > > Add basic Telemetry allocation and initialization routines, introducing and
+> > > > wiring-up the logic needed to enumerate all the SCMI Telemetry resources
+> > > > optionally using a lazy on-demand scheme: this approach factors in the
+> > > > flexibility needed to minimize the amount of initialization work based on
+> > > > the effective access pattern used by the upper layer ABI.
+> > > > 
+> > > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>  
+> > > 
+> > > Hi Cristian,
+> > > 
+> > > This stretches across the patch set but first elements related to it are
+> > > in this patch.  How do we handle larger values of de_data_sz?
+> > >   
+> > 
+> > We dont. This was somethig that was on my todo list initially, but then
+> > I realized that there was NO FW-side plan to actually implement anything
+> > larger than 64bit.
+> 
+> Understood, some set of firmware that you have isn't doing this. I don't
+> necessarily mind not supporting it initially but like the other features
+> it is very useful to have an implementation to make sure it doesn't break
+> the ABI. I don't want to go through a 'move to version 2 ABI if you want
+> this feature' path.
+>
+
+Agreed that it would be better if avoided.
  
+> Let's just say I hit this for a reason. Whether that reason makes it into
+> a production firmware is an open question at the moment.
+> 
+> FWIW I have both QEMU based emulation (I'm working through the process to be
+> able to share that) and the changes to fit in via what I think is the
+> cleanest ABI change. Kernel / userspace change below.
+> I modified this from my original proposal to take into account the
+> desire to add it later (even if to me it smells like papering over a bug
+> rather than adding a feature!).  See below for what that required.
+> Not only shmti is tested.  The LLM found bugs in it's own fast channel
+> code, so take that with a pinch of salt!
+>
 
--- 
-Oscar Salvador
-SUSE Labs
+I skimmed through your patch and it is mostly in line with what I was
+imagining (not even protyped though), i.e. in a nutshell
+
+ - an ABI feature bit to add MUTIWORD support
+ - a flag bit to activate this feature on all _READ IOCTLs at will
+ - a repurpose of the pad field in scmi_tlm_sample
+
+What I find awkward is the usage of pad as an index: that will expose
+a lot of duplicate data since all DEs multi-words are now scattered
+through a number of sample with the same ID and TS, and a bit cumbersome
+to handle in userspace to reconstruct the multi-word value.
+
+My non-tested-nor-prototyped idea was instead to repurpose the pad field
+as a length, so as to pack all the multi-words payload as the trailing
+part of a flexible array member (an extrnal array really being an ABI)
+and use a single structure to read a complete DE.
+
+In this case the problem would be to maintain backward compatibility
+with the current scmi_tlm_de_sample.
+
+At first I was thinking that we could simply introduce a new alternative
+scmi_tlm_de_multi_sample structure that is used in place of the current
+scmi_tlm_de_sample ONLY when feataure bits is available AND requested: so
+userspace knows that when sets flag.MULTIWORD it has to use the
+multi-word structure in input where pad is a length and there are multipe vals.
+
+While this would work for all the bulk ops since they take a __u64 pointer
+to a payload structure really (so it does NOT really matter what they are
+carrying as long as it is consistent with the advertised feature bits and
+request flag),  it CANNOT work for DE_READ where scmi_tlm_de_sample is
+used directly...so a change in the current, not-merged, ABI would be
+needed anyway....
+
+Then...I thought that maybe we dont even need this...and this part could be
+judged horrific maybe, so feel free to stop reading if your eyes starts
+bleeding :P
+
+Currently we have
+
+struct scmi_tlm_de_sample {                                                      
+        __u32 id;                                                                
+        __u32 pad;                                                               
+        __u64 tstamp;                                                            
+        __u64 val;                                                               
+};                     
+
+with pad being unused and the whole structure that can be used alone
+or packed into a container struct.
+
+WHAT IF... when MULTIWORD feature is enabled AND requested we repurpose
+the meaning NOT ONLY of <pad> but also of <val> and use this latter NOT
+as a payload for a single value returned but as a pointer to an external
+array of words counted by pad ?
+
+The structure size remains the same, while its interpretation vary based
+on the requested flag when such feature is available.
+
+It may be a bit cumbersome still on userspace for bulk requests since
+scmi_tlm_batch will contain a pointer to an array of possibly varied
+sized items, so item_sz represents the common basic scmi_tlm_de_sample
+size which in turn carries the sizing inside the repurposed <pad>
+field inside for each single sample item
+
+...so you can anyway check the provided user-input sizes it is just
+scattered all over and as a consequence also the user provided data
+would have to be a bit fragmented since 
+
+ - batch points to an array of scmi_tlm_de_sample sized by items_sz
+ - each sample in turn points to its array of values sized by <pad>
+ - you can really mix both kind of DEs in the same request: some
+   can carry the single word value embedded in val, multiwords can
+   point to teh <pad> sized external array.
+
+...mmm sort of start liking this hoorr...or I am missing something ?
+
+... O_o ... it would need a tad of documentation of course ...
+
+If you have not fainted in despair, I (and some LLM) could prototype
+something like this in one of the next series ... certainly not in V16.
+
+... thoughts ? insults ? :P
+
+Thanks,
+Cristian
