@@ -1,85 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.182
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795017082;
-	b=lxcU05aJGelu3S7TmIlGiR/Dfa8QEWTMS+NYadH3lTAG+6/5alTWUs5nJjHIt2cL+yzc
-	 MD2aNrDWKjch05+VvO55+uX8Mh6JBIeA3yIt7ejCIFlj3is/sPTSBCO+EuhvhCG/oVLox
-	 Ec04hCtbp4+s3XKsNKzutFDvu5hK1tdzZG6G/KpJpZlSB8o2UajRCwxsWYwsczY4cSv23
-	 6qAYeqRpr32QYXK9L6SoWAFYNr0WoM6FFXuKkKFqDTq1gW2ePZZ9FmkSgf0IUcDkS5DT4
-	 Z4n8Q0Wvnp/60v9lv+kyEg80jKywjI+ZNzSaI7yJQb71dG47xbkcqI3jr3Qnyzxkfag==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795017082;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=rtu+dm+kZUdeiLu+ztbJ6g6Gzpa+7bPUZ/F65mvaYZ4=;
-	b=TPNSq/w7iKDCBxyG2klWTezZiU7L0YYMMIqip8DqnAgIQePYrXB0CUp3LNr3wSI/reVR
-	 h3Bpt9X30pj+LmkNyUEfe6ojWjlIzoQ4BTTpBXzv/5tDWK2cvgjZ5H4vWRJj3em1XsF2G
-	 wkpXEIcc+y3Vtu+1AT3L21XfQobpzThIgdjBSpz5+zrEMZSu1a6KX19dMN2tCIRmeHN4v
-	 TqEDchPi9nSJTSmzoSfIrhGNawj6vqVFqHXEiRLrFNBRlexEbJ5VMEyKOnfX/HFTMAUZf
-	 YYEaRBkLOD7BhMufIvSO4MhP36QvcVxbagotwRNsqF3YqdnuddkZua2GOaZMu0SY9kw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=CqFB5PkO;
-	arc=none smtp.remote-ip=209.85.222.182
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.130.13
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795017237;
+	b=2T6GBg6XXhd7j5tkoo7OU/mi5HuDiXpGRzElvArv2gwjRupJ6FrPJv8I7QekFAHqs2Wq
+	 81gWwrar5/bddSHcBwpJ58Clo7ZXDlKtE/tS6QYvYZGD81MJNWRr/XT/stQciLAXZVpiA
+	 b8vgol9qh1kiLRqc7KkchEONY4IFuY/7ADmNgv9g5eFiE6g+KMiygXmX8QlmIJUn6N6Z2
+	 7Hio+GT+EAxlF/4+eHILGScdqr+bMiyIEb6gQ5aD7hqH3Omn9EbKMWSGAz7gQ+x49SukL
+	 Uxr8erhIER/Txzt3HMSgSJGrKUZapM7qZpjKl2oozvhSUOJIBVYSnbwvhr+zsg9JEcw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795017237;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=DhA6yzgN5A0/FBAJ/Yj8T3bHCtQqCLayO+WITfNdeHk=;
+	b=y7A8hh7rIKAraR6PuuB2kliZfehB2pzkgSlXd6ZSLXDlIYTLaPPvTk7fEB9RNCSiTMR4
+	 puYYzNLly+XlrJp8rupgWlVCVom1huBbmez3ZNy7Sc1kHxNOLHQCrbBWObggb0I1KbfmX
+	 Ha3hboRBcQvyr29bhNmprBHgvz6buFHxteupBFHq11mvxV9BdS63svB/rz76gAU/Zg2gv
+	 XwNPFdHQwsZ3tv9J2xCmBOCYWXspdecqed9Px7TauN6gBeaB7Us8QURLlFkwmV2sj4SvK
+	 9afe/jP/2mHsLzoHdCnV50CVgEtX1IdwW0GD3MDXAsBEnWckyyhCY1JxzuikaKCB5fA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.nxp.com;
+	spf=pass smtp.mailfrom=oss.nxp.com;
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=d4btl8c7;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.130.13
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011013.outbound.protection.outlook.com [40.107.130.13])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106BE60A2605
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 15:51:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 106BE60A2605
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F6A606A330;
+	Wed, 18 Nov 2026 15:53:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7F6A606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=CqFB5PkO
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-93f20c3aaa5so109986085a.2
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 07:51:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1795017081; x=1795621881; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=rtu+dm+kZUdeiLu+ztbJ6g6Gzpa+7bPUZ/F65mvaYZ4=;
-        b=CqFB5PkOnM+jvAv7ro+HFL8RPRzHIJTyl492dti2dljQd3wyAFFyu9HAkhm+anbp8B
-         uvCfhGnk7pw9Hf6Wxwj+qknoup+tslME/SAC9BSsgKXdywMvXRtsJxl5jXwIbkgrtw0H
-         YsXSfwi9ZAXFWkd5QYdFiQUdjvwEGBhFNFkmhoPD0FUTS6O2P2cZNimb4nldmy0cUb1L
-         YbzAnXtxIxAeadwaWNpbGyFPOrJLj5xyUbMxiZgzYgX8IDb94l+D7JpA9zYEjT7BrNqm
-         pvy8ZFOnH0w+IS7vnDR9ueJvC97X/SQf0ycgblv03SriCllJZcoeAMyBnVHfCbECHmFj
-         AxfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795017081; x=1795621881;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rtu+dm+kZUdeiLu+ztbJ6g6Gzpa+7bPUZ/F65mvaYZ4=;
-        b=Mcnn/GUcYHr4vhZoraqFhLI7huzAhNaebF37ABAsAUVsKtOT6DR9prLUSKs6RLGHvs
-         KIy5tNZp36w/IwoBC07OnxYgsRlcLbf7PI1AhzKyVajnAe7qtsgCfAYno87fMixARt5F
-         Act080Os8iMK4uleILDagfhF0AGM3Az3mnke1BuiaTFqXFWBSoVYIWJ0V/UHw16C53st
-         Uz/NsXJQjgdxmksKeIKtEwWB9myacT7zpwIpCTlGG2DdP3nd5HlGOvhPNn70UJrfLL8u
-         Zx0snBp7xpSCWXecpFgU8+6Q3ITtOS9XDXCZiHxH7TFYCMV3eLwoyQ0V2iyJ0k90kJG7
-         oqSQ==
-X-Forwarded-Encrypted: i=1; AL+hErFpLkTiBAPwQQNgPfVRRB1J7A62x9ZD83b/tndpQLCmq1s3ajX9UxOPqTeiHnEHEh9TVSunKGj/haw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+wh9G5LNvtKIb7FsiW+ATpWsAs3DN5y702WLsRIxy2o+EEn0zU
-	MphxFeFv6TMuhST85VW7PmuV5KpaD9vrv2xBlhQrQgv5YkIG1oQbY1a3+Lqxx/qkXaY=
-X-Gm-Gg: AYBFou2qHAUCD04106HTX2AFj+I6WJY95NdqLRorBkqP15WeP66Qh/6tLQIBiJY3s8e
-	2dg7NTvi3SN+VqzJjjySU1EuHYkI7VRFkGEoQlyWwSR1JNFx6Jspba2uE7hg+7Oa/IQd/PKJJIF
-	crmq5YYtNotKHlLdEjx1E0BEq1kLxwgiHNwVtQLUfYt/InIADzczy0m3nnJXM6UWdvYBD5rWOyW
-	vazMkESmxCPadA2YOpx2469C9Czj1Z3EofXU7PsWSsRTE+4+CblMGWxYREuxg6dQvyV29YeqFJG
-	fwsaGjPYgVQUav69HLTRShwk7Zhr5qvFN81oFUWNOhfHxMjdu/5Zir1l3kWVMeRGBYDMFg8laFJ
-	1/TLNdD0lzTksvv3K19tA05cEL/n/b7XWAfOEFNVLGK7MPcoS3eJ7y5PBeHy2zwKvqNdYU1089o
-	OrJjX5XcXSphITa9QDh0ML9LOKqiD9yuZf8DuUPa+DGu1Do/ZK0bnKrCbANOHP6rOjM67XcdSpo
-	4IO6BVyJ0+QDBXEhg7zqJQMuSSQ5cIGvexY4SZHNYz8/04bNmvuwtOBr03EAF3bOCRLcVwOUggY
-	jXM67aTJos+G/WNmZl1/9MCRbfUm4bPqzHrDCsg0swOTbYruXe0+BlDalhntiohOnwKvGcdXLPx
-	cKvdbmEk=
-X-Received: by 2002:a05:620a:8086:b0:93f:2938:48ba with SMTP id af79cd13be357-949997ac21amr514417285a.55.1795017080864;
-        Wed, 18 Nov 2026 07:51:20 -0800 (PST)
-Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9499b454facsm210842185a.5.2026.11.18.07.51.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 07:51:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=d4btl8c7
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fkJ/vDGW5c0y1Vn9X8Rlk4BRlMIDyJI87flaNOXlO/BJ/sB0XsTGLvil6Wk4lHLnjJVVbukNj9tuomCxyq7NyLfWMZHC3KP2HKkh9AZCa0mnsLO6xPDY6jJbTb2ckn6nC2BZjPH/pEhGVaV6dnpzbJ0/4gjCnPnZ1voTIJHXVuUWjVEc15Gk1PANuWLJ6AW9cQwunK7vMSY7cGHmn4ccPzjG6GcMQohAITRyXq18sOt+vF21Vt9b15LkYE4GQnqCeCXOpOamkprOabvbYvuZVDutg5bnj4D3Bik6kKRYSwtJxlzOlQvDMt5Jt8bgU+4socpeV5AWq+Q3Zr39ziM0TA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DhA6yzgN5A0/FBAJ/Yj8T3bHCtQqCLayO+WITfNdeHk=;
+ b=o/WnlDjnFv7AdOV3O6ZDfBTmox4XilRfv+U8Sp09ImeHvXc5DT4f+8XmyJoMIHpL21bgv3HO2z/gAkh4o/IkuAEyXM8OFPUsYl+ku0OlmboE+uU7u/ZQVnx+QfynfJw5/3IETtSInDhSPlpvOiuuY8vrjhy1HBf4l3dCBR67bOukpLMxJevPJNTBtTHj2+Y+098mjPOddPh9kkM+lAQYrmV0cXYoM6XrtxTymJDo2J65Us+/3qPjJp9eu9nmPBm7b1+DRCmDhloQyEnL50aUgFa8rEb4nS9scYAiPO5LOashJtgmdDdMLRMA/y/YxRd9RZvDvfXE5ZP+lO6ly00+dg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DhA6yzgN5A0/FBAJ/Yj8T3bHCtQqCLayO+WITfNdeHk=;
+ b=d4btl8c7xjoGfd9bBjzneCWuMJuRbEiS8izXucMUPKR7LAH1sqZSB1D7arRh9njaJ2ym3AaoOKQEkcleh9EU36e7OTtUCskSnrb8+CKsQSrAayENmDltcS44X8t6rAd4FVdqOl0a9Hd+uU9cKDBvK/rLm/zIi25d89gCMEAqgNDNCr44N81TEsXXjL0bia8M2yOKZN8TN6ixsFybpaSpN3+ohk2/InwDaLA+/Ll3XkE39o5jQoTjX+G5mknl+cqU05qwJ2xsICLu7DjmGQr7tHJnxoxo+RWBIHf1aMJ+gVRqzuA9UmRA25d18SiUKYcyyCnZVJv7fJo8urzCxooQoQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com (2603:10a6:290:76::14)
+ by DU4PR04MB10695.eurprd04.prod.outlook.com (2603:10a6:10:580::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
+ 2026 15:53:50 +0000
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b]) by MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b%4]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
+ 15:53:50 +0000
+Date: Wed, 18 Nov 2026 09:53:39 -0600
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Frieder Schrempf <frieder.schrempf@kontron.de>
+Cc: Arnd Bergmann <arnd@arndb.de>, pankaj.gupta@oss.nxp.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Pankaj Gupta <pankaj.gupta@nxp.com>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH v51 5/7] firmware: imx: adds miscdev
+Message-ID: <av3KA89WuUc5GdZj@SMW015318>
+References: <20260915-imx-se-if-v51-0-4a7dac612cb5@nxp.com>
+ <20260915-imx-se-if-v51-5-4a7dac612cb5@nxp.com>
+ <2034fb2f-f169-46a5-85e8-fa723ddb0360@app.fastmail.com>
+ <aqqqDnOMmlfqit6u@SMW015318>
+ <f3e1e3de-6abf-48cb-aba7-7b231c38ec5c@kontron.de>
+ <180d2335-e328-48a4-b376-a90464279027@kontron.de>
+ <3acc652b-d2e2-4a18-b70a-2656b309d798@kontron.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3acc652b-d2e2-4a18-b70a-2656b309d798@kontron.de>
+X-ClientProxiedBy: PH7P221CA0033.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:510:33c::25) To MI3PR04MB12438.eurprd04.prod.outlook.com
+ (2603:10a6:290:76::14)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,79 +113,128 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 03/22] mm: introduce the common-memory node state
-From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: Richard Cheng <icheng@nvidia.com>
-Cc: "Gregory Price (Meta)" <gourry@gourry.net>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, kernel-team@meta.com, 
- linux-doc@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-serial@vger.kernel.org, linux-pm@vger.kernel.org, 
- damon@lists.linux.dev, linux-cxl@vger.kernel.org, akpm@linux-foundation.org, 
- david@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
- surenb@google.com, mhocko@suse.com, corbet@lwn.net, 
- skhan@linuxfoundation.org, rdunlap@infradead.org, 
- gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
- johan@kernel.org, jirislaby@kernel.org, kasong@tencent.com, 
- qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
- axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
- baoquan.he@linux.dev, baolin.wang@linux.alibaba.com, yury.norov@gmail.com, 
- linux@rasmusvillemoes.dk, pavel@kernel.org, lenb@kernel.org, 
- hannes@cmpxchg.org, brendan.jackman@linux.dev, ziy@nvidia.com, 
- sj@kernel.org, muchun.song@linux.dev, osalvador@suse.de, 
- nico.pache@linux.dev, ryan.roberts@arm.com, dev.jain@arm.com, 
- lance.yang@linux.dev, usama.arif@linux.dev, kas@kernel.org, 
- xu.xin@linux.dev, chengming.zhou@linux.dev, joshua.hahnjy@gmail.com, 
- rakie.kim@sk.com, ying.huang@linux.alibaba.com, matthew.brost@intel.com, 
- byungchul@sk.com, apopple@nvidia.com, rientjes@google.com
-In-Reply-To: <av2_8Z2sdM_9zUEL@MWDK4CY14F>
-References: <20261114070959.3490008-1-gourry@gourry.net>
- <20261114070959.3490008-4-gourry@gourry.net> <av2_8Z2sdM_9zUEL@MWDK4CY14F>
-Date: Wed, 18 Nov 2026 10:51:19 -0500
-Message-Id: <179501707902.1206716.2408532904937875068.b4-reply@b4>
-X-Mailer: b4 0.17-dev
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MI3PR04MB12438:EE_|DU4PR04MB10695:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6a73ca4c-f6a6-4a0d-0a86-08df458c238f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|7416014|19092799006|261009223027099003|261022075727099003|10067099003|261026140227099003|56012099006|4143699003|11063799006|261021135927099003|261026121527099003|261028144727099003|261022105027099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	R+3F4m82xFgAFXnBVYRdn3Di3SVLWxroeMGkeiP5XDyswDJy0aea5c7pJYQF9s4GqpKCQ0sEzpgxDjF29G4FEZMlbktulTwS8ijnTNkfUYAzNBjdL2aoIYRuMctZECT6tDk1HJ0vimQvIoeONLn8LJqUnXVORK+HBLA6+8jza2O2Db4xuP+25IJwuxXD+OrIN7iKSNm4N3lmoPa6AXbat/+YRPo14RVM5FHuDo6rcbCY8pPTE77itbUlc//wOGmnIa0vnTdmtjux/SRoF106lRCbzSsCDMqcFKOva5gvjZDOdEu2nSAgrz9hAziyy+/w5cB8WHNnkSb3WtymhkzIV0TQpHyGBnD+8UyuHjy4mac2oL7Lpi3BBjpycx3R2G+okCxoUTDS9pYlaMa0TfD5XeJLHpyddwbRpWCqS6ngR/nqMXeW0KIJEGzzuQs7JHNX6tw/lXHs0QioeAXIV+UsTzt7uS0+GDRoMuwIY63lc73FTeejIcyCsKYBkMAPX2RE/IFVDc4RhIPv+7TEA9uosWKY7qd4QqW53zpPHmJlOwS9IxCK/LCVpvvrs59gibGiCqlU2j8Fb6IsXG9U8rMeaYbaS3uLEPHkVZlMASLhHTi6tlvqr0PUowlrSaTl5BXY
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI3PR04MB12438.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(7416014)(19092799006)(261009223027099003)(261022075727099003)(10067099003)(261026140227099003)(56012099006)(4143699003)(11063799006)(261021135927099003)(261026121527099003)(261028144727099003)(261022105027099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?jzBlHpTbZzeig0VX/tUPBCmuQV6Mw5tdGTc5XCMzzyeUTn8dfs6U02/Rjk7+?=
+ =?us-ascii?Q?8uGQd++0l8p71sdk5xexkJTBXoYPuBHXy4w7Ol50U8OK+KN2htm8TKoEfj2W?=
+ =?us-ascii?Q?l4jSTunX5DeurTbz2uT0rcR8IQ91SR0mEYazcNIWxgtdccZAfpJ+A5dT4+Lz?=
+ =?us-ascii?Q?moEpUcXC8oguzJN6DAbe7KwKvwltvaeXYmjnv9Np1/Z+KBJLeDCD97LeyCkU?=
+ =?us-ascii?Q?0kV75SxXLWTFr5G53gKNw5NF7iBljPCi0B+a5Js+qWs37mdJov9dx6ZFd9dd?=
+ =?us-ascii?Q?cCGvVTVVTkVuro2exqNrdJiRlMZVd6dTuPBeybrjq/Imw3DTjK1w9l/dIcWS?=
+ =?us-ascii?Q?w4hpJc/Hsc+/AZH0DR/qeHuD4iZBxzj1L+CQROlDzSMZ4vAfUClpUvnkH4Qx?=
+ =?us-ascii?Q?hWl0hvURvpifJYvaFuAwiX4MJWVmSlRHW3CPuUAUjHHqM+gTZs9BjDCEMStA?=
+ =?us-ascii?Q?5aV5283d77CYYRC+qY8ZucJg6/KvBpzFj6MlPAzB/h/rKmaoHsEBNbYH0IiI?=
+ =?us-ascii?Q?NAHP6LavlCjcuN427dPRt2DGFWs2s2FXKkWFlpN542lbyOJ0//LhOsV/zBn/?=
+ =?us-ascii?Q?PJ8h5aWXpV4qCk9s1uifdUnLiQER+kOaUfqW7/srDs/1rdRMwSvTo1swSaN3?=
+ =?us-ascii?Q?0UvXXMRsrj/mIcltm2awDpHOlXI9mGG5GHd8Q6w0eHqBptYA+CwLV8bexItg?=
+ =?us-ascii?Q?QlWtcKp5Onpe2JOfmsm89WUOyunZArsQOacH05R9KMg1ZhXcjLvB7h56FnOJ?=
+ =?us-ascii?Q?T6iw/27iDWfD627a5VQm1yIkx+TmuCzGCwVRLxAYS3+diCrz7+h0rl237Dq8?=
+ =?us-ascii?Q?k3ICWxgr+jkZlqk6DaKdEqib8LNEvKLIH06Q6dLQTKuTYrJYDFkqxem93iWa?=
+ =?us-ascii?Q?XSEmBqim1cDOSVDuzndnH8h6th/20yxIsOd1iDLinyGSicperjcvZmc7LIXh?=
+ =?us-ascii?Q?9icj8Lb3fyQhLahKUF7G3W+4qls3bCR8kWHaoZsX8xmzwtpr+RZ8/Bkv7FfM?=
+ =?us-ascii?Q?+yVXeDjO+AK6nQhdwhvQWojeDcwjiqUrZBr5H9KWSwX1BE7h25V6CDV4/oA0?=
+ =?us-ascii?Q?Kq0qdHzegji4bQWQJvbEncFuoVmbpW6s7lloyAT46b0PROYNylX5M/C0sZYY?=
+ =?us-ascii?Q?EE6ax2OF5jQ7I3sHKMgLZSXEE0AYKsNMNlbF7poNeQ7V80IWVGdfyDW32IrU?=
+ =?us-ascii?Q?4+khZtu/Z3KMCweBC51okFMP2HtNSDAx6wYaDPmxHCHCT+jsus7uVyvi5zO8?=
+ =?us-ascii?Q?7regY3qXXD4NCOU8P3AkEwDyKnbVYgBXVlmCtOVHHkHgKA0y0fit5ZVkMTJv?=
+ =?us-ascii?Q?0L+n9oxllEnMrDAE5/RIL0WhGtob+40Qp3XTWU6LEvThUHtF32mcXt8YkyR7?=
+ =?us-ascii?Q?fSZOJj7kHhmN+JGPm3/dRRQYwjs+S+RZ8mvL4CZNg0horq+zEwZgdObme5FD?=
+ =?us-ascii?Q?n962BBTAXFimnABwU366qnOyi9PEV5hx04mdHue3fnTiKEljeuuhybQs7u1Z?=
+ =?us-ascii?Q?F/4g0hHGtVa2hzSUghEdSa1ppJqwEWIpD8ShXQOhEMoZ+LpzYxXa2xVBCRQr?=
+ =?us-ascii?Q?VUG448oRtSz9SSXv6zdEtuNDWGzqjLqtOOSa1Tbg/iexYt92pWhTZq/aYKuR?=
+ =?us-ascii?Q?Zpidpa6CcsT5edF5eM5Fj3CH2jTOf+24oj1q111IxaEEJsjh67d98yoTnmk1?=
+ =?us-ascii?Q?YSFpbXkcHrcrbhnciFyk7eJ+kHoAULtzV5iZxYxqV/td9quQ9VM/X+Q8Bqm9?=
+ =?us-ascii?Q?Ql9uWo7+AnGu/q9s7aMJ7Hxxj3E1LmTNE9XWEn5dADa293XOsCx3?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a73ca4c-f6a6-4a0d-0a86-08df458c238f
+X-MS-Exchange-CrossTenant-AuthSource: MI3PR04MB12438.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 15:53:50.6690
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wl+TVT9JYbTdtEWUGfd8asumkBNqTJL9ZQ1/lJzIBkMIzMEQ7gWPDck7S4XK70ZBr9XGZAOBGCw9Apk8DZ6tEvxE48sSqsOc3aym+M9AHHkT7Qwv4qbNfe5+XspbknZm
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10695
 
-On 2026-11-18 23:24 +0800, Richard Cheng wrote:
-> On Sat, Nov 14, 2026 at 02:09:40AM +0800, Gregory Price (Meta) wrote:
-> > N_MEMORY is overloaded with two meanings:
-> >   1) a node has memory.
-> >   2) a node's memory is reachable via ordinary allocation or
-> >      an arbitrary MM service may use that memory.
-> > 
-> > Allow N_MEMORY to mean #1, and introduce N_MEMORY_COMMON to mean #2.
-> > 
-> > N_MEMORY_COMMON nodes contain "common memory" capable of being managed
-> > arbitrarily by the kernel MM based solely on zone membership. Following
-> > commits convert relevant N_MEMORY users to N_MEMORY_COMMON.
-> > 
-> > Add folio_is_common_memory() and page_is_common_memory() for MM services
-> > that walk folios. Following commits convert folio_is_zone_device() and
-> > page_is_zone_device() callers accordingly.
-> > 
-> > Expose the state via `has_common_memory` so userspace can identify
-> > the memory available to ordinary allocations and common MM services.
-> > 
-> > Add has_memory to the docs while we're here.
-> > 
-> > Every node with memory is common, so N_MEMORY_COMMON equals N_MEMORY
-> > and there is no behavioral change.
+On Wed, Nov 18, 2026 at 03:43:28PM +0100, Frieder Schrempf wrote:
+> On 18.11.26 13:46, Frieder Schrempf wrote:
+> > +Cc: Peng
 > >
-> 
-> This sentense kind of blurred me, you state that N_MEMORY_COMMON is meant
-> to isolate the concept of #2 from N_MEMORY, I expect something
-> making clear distinction between common memory and private memory ?
-> 
+> > Hi NXP developers,
+> >
+> > On 05.10.26 16:28, Frieder Schrempf wrote:
+> >> On 16.09.26 16:39, Frank Li wrote:
+> >>> On Wed, Sep 16, 2026 at 03:16:13PM +0200, Arnd Bergmann wrote:
+> >>>> On Mon, Sep 14, 2026, at 21:40, pankaj.gupta@oss.nxp.com wrote:
+> >>>>> From: Pankaj Gupta <pankaj.gupta@nxp.com>
+> >>>>>
+> >>>>> Adds the driver for communication interface to secure-enclave, that
+> >>>>> enables exchanging messages with NXP secure enclave HW IP(s)
+> >>>>> like EdgeLock Enclave, from:
+> >>>>> - User-Space Applications via character driver.
+> >>>>>
+> >>>>> ABI documentation for the NXP secure-enclave driver.
+> >>>>
+> >>>> I just saw this in linux-next, where it has caused a build failure
+> >>>> for a missing include of linux/slab.h. I hadn't see the series
+> >>>> before (even though it is a v51, which seems crazy), but I am
+> >>>
+> >>> It is in linux-next about v37, but build bot find many problems, I dropped
+> >>> it and request to fix it. And sashiko is online recently and also find many
+> >>> risk. I request to clean up it, and local AI environment have difference
+> >>> with sashiko, so bump to v51.
+> >>>
+> >>> I put to linux-next again to make sure that pass all build test.
+> >>>
+> >>> Other two problems, need more time to check whole review history. reply
+> >>> you later.
+> >>
+> >> So this is still in linux-next, but was not sent in the pull request for
+> >> 7.4. It's rather confusing to me that maintainers add stuff to
+> >> linux-next for build-testing and then leave it there, neither removing
+> >> it, nor continuing the mainlining process.
+> >>
+> >> Frank, what is the plan?
+> >>
+> >> I'm currently rebasing my work for the NVMEM driver onto linux-next, but
+> >> as there have been so many iterations and this whole thing took so long,
+> >> I want to make sure that this is not another dead end where I'm wasting
+> >> my time on.
+> >
+> > I need to ping here, again. What is the plan at NXP to move on with
+> > this? This is blocking multiple features that depend on ELE firmware
+> > support for i.MX9 and similar platforms from being upstreamed.
+> To be more constructive, here is a proposal: let's get the
+> kernel-internal part of this series merged first (patch 2-4, DT patches
+> 6-7, doc patch 1 reduced to kernel side). I currently don't see any
+> objections or issues with those.
+>
+> This would unblock drivers using the in-kernel API, such as the NVMEM
+> driver and this is also the part I already tested when working on [1].
+>
+> The somewhat more controversial uAPI in patch 5 can then be further
+> discussed until there is a consensus on it.
+>
+> Arnd, Frank, would that work for you?
 
-Sorry, basically as of this set:
-  node_state[N_MEMORY] == node_state[N_MEMORY_COMMON]
+It needs at least one user for the in-kernel API.
 
-Later, we'll introduce N_MEMORY_PRIVATE and the sets become disjoint.
+Frank
 
-I realize posting this series in isolation was a mistake now, and I am
-going to post the entire v6 of private nodes with the reworks you
-suggested instead.
-
--- 
-~Gregory
-
+>
+> Pankaj, can you prepare such a reduced series?
+>
+> [1]
+> https://patchwork.kernel.org/project/linux-arm-kernel/cover/20260727-upstreaming-next-20260609-imx-ocotp-ele-v4-0-1a515de33093@kontron.de/
