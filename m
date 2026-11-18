@@ -1,55 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795014422;
-	b=5Fdb9AdTEzbHOam9QeDQZaZoyofgmld/V5l9oR6hMJI2a5TFSJW3yiniTfaS0F7Tek4s
-	 RPNbaiH7NdxHRzvzAkV/kq7yju6L01cztVBGP1S0L5IlWBhYf3/ed6hWl/t0GQLLALjFq
-	 aXBoFY475oL0P42xiFbecOcwRJg5u48SzebL3k0S78qoID33rbRxyCGtQ4VJtXmtvKrXw
-	 qX3q1lir7V2KSr/Yah+4fGRSi/Jour1Urmh0tyq4qMUvIqV7DRzYr1YkRHB3MBIqtBqMy
-	 uo/AkGAvtD9gCNOC1WfiNQTAa2dx3hn9pTt2VyDtaA1KHqJblN7DMWsF8YjS4NEYSAA==
+	t=1795014471;
+	b=i7xHja6TX4k2vyKVkTIxxZGJ9X9lDgKZeyQUGHeWihz2Ayxl0RJZBmawedv75lma9zWN
+	 8i/Nk7u7ojiSdk3GT8y0gnfvysRsokmn528PV12JIq+d2SOzFlk0CZoezrMWTTfN6FRuK
+	 vsfzB9qbFbMRUBrzKJVi/dmZyWZyELWSvdLB62kRJDEue3TVxZ/JCW3qac0Q9HblL9/jO
+	 3foVhJi/A85J1O5Pcq+u4VywX2CUOwbX13s7CvOzuoRz753TDtiI0OGLXgeI63Y/6olKy
+	 PKGUmYuJ/Q59N+5GbZUsj9c7DFu70rOHiIN2gjpWhMV45L8rQRiod4SvfDAVWgN3/8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795014422;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=FLLgoY4vzpl3VeoTzJ1Eki0KKKvfGT0/D/rtdudkmNU=;
-	b=zCzUAQjoTTXw5Bv+S3x3dPfknAhDtK8NRF+uwQP3u93eCyWpjzn2gbOO7UO1svpChEaf
-	 0Eq/N3MwNlS29ITkIFSKvNAfPyumaE7pK1sBkuxaJFbfyShlA0LG9Sci71YXficSsLAeo
-	 8X3+EM+Em/YqLKpT4rzwMRxhHXwTQYUqFv9YRUACs3EHu4o7GHGu+sRVAbfr6ZwlWmbBP
-	 n4vcIBeLPXqxalPYNXHORcOeqF0P0EUMTe2zTbpHdDG4oKuec+02TZXdf6aZxpfn2DX95
-	 UhqLN77mOYSTCZhAfF5kug/SHYGE/TasGJxyL202SzTXWjIcWBYbOm/Mc7mWibu72/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795014471;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=WpNvKlvQgWs4nlBDzrAzqY0K1wpz+T9bN3CMOunjYys=;
+	b=Fl/TV1qL8pXXYwQtwzaPISgKZqc9cgUbzPKdsyvhlL1vaPsX09DGzchUesLj8AqWekO6
+	 grFoSgSx3PEW1Fl6fN/1K/CPXsrj6jsXmYVQ7FDfex42qBz/4g+jxeIAR1LRyK34Po7oL
+	 fZ2sLD+g02DwI/Upn28HXV4tzv65YR46g6RHkGKIpiXoKRHjJhFXxC7FY217hpK5Dcm3D
+	 JoMIbttbo/E/0gTy+AF6FxrPQVHA5mqr8ePxveg9SGM7+R/7MSIUk4UsxVQXGmbkKV6vA
+	 wuPiyahEJTeeRXqrJM2HPCneGJbfJK0ubTpu0UZHZblMXQBLFKkSVJZzUf1T5PRfLyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KiyeB1Fu;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ik0wB+4P;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE8F606A337
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 15:07:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id CE5E0606A32A;
+	Wed, 18 Nov 2026 15:07:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KiyeB1Fu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBD871F000C5
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 15:07:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ik0wB+4P
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C01C41F000C4;
+	Wed, 18 Nov 2026 15:07:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795014421;
-	bh=FLLgoY4vzpl3VeoTzJ1Eki0KKKvfGT0/D/rtdudkmNU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=KiyeB1FuKANKheiwNKWWrLntCZ1zpria8hiMsmm6kDNS1SSSoDwX8H7ZHpxspvan8
-	 7tcL9t3gHcQ2p/hrpQ+hcKKFPT2WUTZH/R6clrP2VI4RALEBLzPNRDXVfM/ioqTbe9
-	 hEhRZRLOmSqhCO4neP4vqxMuiEvv0h9lWsFlp8fMJmgyK8+9M2DL6JAJ/p3AIM16r9
-	 f1ypW/wBmu8svD0Uhd2ZXj9gaMSqZUuzTYsvFQ4T4139tVjq35t9lUocitpHogmrLp
-	 7JyLLQ19e8Lvx7d2unhqZi7zrFIYYV6z5VvE8uU5deD3J624LQbFsP7teaeDnVZYen
-	 bUuWX8uVFCu4w==
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-702dedeb70dso697100eaf.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 07:07:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErGk/RPcUvtr7EFdQumnkBw+f8y4zyt2N+lIU20YmXl9RSDc1+nwbb+j9/ZNtwFOzSGtCM+ZpFsqb3s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9MhYNCc+YT2A2Qzwp6LsfNJlmp3lwcpb7C164vo2Amz1bzwjaR
-	M3jeXfV6lydxIfMpk+QTX9yvTIlaFJSKufJLhkVIn/CFyE929/V9GYl6KYkiTTRQGUdXlaN0zhf
-	xKJHsakx7pNq7H9L83kqgNkF0c0n/Hf8=
-X-Received: by 2002:a05:6820:7095:10b0:6f8:fcce:a410 with SMTP id
- 006d021491bc7-71b18552c41mr1594981eaf.55.1795014421167; Wed, 18 Nov 2026
- 07:07:01 -0800 (PST)
+	s=k20260515; t=1795014471;
+	bh=WpNvKlvQgWs4nlBDzrAzqY0K1wpz+T9bN3CMOunjYys=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ik0wB+4PWOYL2hmQiNwFTeBBvupZ2nUcJiZ54iyfaa2tU77mnLlpFifyj8n1RAoxc
+	 JiFr1whbKGn9jctVHgQHsWlXlRxqGaOAejYgryvppYJ1hYUJPmJajsbl1RZNJZ2urH
+	 fAR3taWBeKxDwuMnnlsPRwbWW5GR06M9hA5dv1M1pEA51yEPNLWXKWfBsoGOA85JWU
+	 RdSwiNfRnISgDS/zRQ8IFyTjSctGJRDAEhTnp4ENDN8HwGtDmIypnNR9Lro8os8drC
+	 gH5m26+2mcTSgygYysYIO2BPjm0gAz6kctoO3OxBWgeB2Wg89nS8C+lhRUQ+5galCW
+	 RrUE6ZrvqIprA==
+Date: Wed, 18 Nov 2026 17:07:46 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Cc: Rodolfo Giometti <giometti@enneenne.com>,
+	David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jens Wiklander <jenswi@kernel.org>,
+	Sumit Garg <sumit.garg@kernel.org>,
+	op-tee@lists.trustedfirmware.org,
+	Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+	Pankaj Gupta <pankaj.gupta@nxp.com>,
+	Sahil Malhotra <sahil.malhotra@nxp.com>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Richard Weinberger <richard@nod.at>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Demi Marie Obenour <demiobenour@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-crypto@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: Re: [RFC PATCH 0/9] KEYS: keycrypt: keys that user space can use but
+ never read
+Message-ID: <av2_QoJHp1gMTFMp@kernel.org>
+References: <20261118140421.584086-1-giometti@enneenne.com>
+ <mvyqqjhvfka3kkumztixzozrthutkq6mfakkonxqbpm5gvzb62@eitzzleeyioe>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,48 +83,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261118144249.358481-1-jiayuan.chen@linux.dev> <20261118144249.358481-2-jiayuan.chen@linux.dev>
-In-Reply-To: <20261118144249.358481-2-jiayuan.chen@linux.dev>
-From: Eric Dumazet <edumazet@kernel.org>
-Date: Wed, 18 Nov 2026 16:06:50 +0100
-X-Gmail-Original-Message-ID: <CAL4WiipSzUmvGxRM5PMBugXJ0qjAnobT6+pNuEJhUqTVrVR1Uw@mail.gmail.com>
-X-Gm-Features: AclHuK915aJOXi82aBAcq1O_eeNA6-6Devxm-s0eHQNf5wtCOhOKeEZz0_kjdHc
-Message-ID: <CAL4WiipSzUmvGxRM5PMBugXJ0qjAnobT6+pNuEJhUqTVrVR1Uw@mail.gmail.com>
-Subject: Re: [PATCH net v3 2/2] tcp: fix shift-out-of-bounds in inet_csk_rto_backoff()
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: netdev@vger.kernel.org, Kyuwon Cho <kyuwoncho18@gmail.com>, stable@vger.kernel.org, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <mvyqqjhvfka3kkumztixzozrthutkq6mfakkonxqbpm5gvzb62@eitzzleeyioe>
 
-Le mer. 18 nov. 2026 =C3=A0 15:43, Jiayuan Chen <jiayuan.chen@linux.dev> a =
-=C3=A9crit :
->
-> icsk_backoff is used as a shift amount in inet_csk_rto_backoff():
->
->         u64 when =3D (u64)icsk->icsk_rto << icsk->icsk_backoff;
->
-> It can go past 63 on the paths of both callers:
->
->  - RTO: tcp_retransmit_timer() increments it on every backed-off RTO
->    with no cap of its own, then an ICMP unreachable goes through
->    tcp_ld_RTO_revert().
->  - zero window probe: tcp_send_probe0() increments it up to
->    tcp_retries2, and tcp_probe_timer() calls the helper in its orphan
->    check. commit 6d4634d1b091 ("net: Limit logical shift left of TCP
->    probe0 timeout") clamped tcp_probe0_when() but not this one.
->
-> Seen on the RTO path with tcp_retries2=3D255 and a silent peer:
->
+On Wed, Nov 18, 2026 at 03:57:27PM +0100, Marco Felsch wrote:
+> These are basically the trusted-key purpose.
 
-Nit: tcp_retries2 does not need to be changed for the RTO path.
-TCP_USER_TIMEOUT and TCP_RTO_MAX_MS on the socket are enough, since
-retransmits_timed_out() then only looks at the elapsed time.
+This is it.
 
-No need to respin only for this.
+If I was adding something like this, I would at least:
 
-Reviewed-by: Eric Dumazet <edumazet@kernel.org>
+1. Discuss the solution that would extend trusted keys to the level
+   that makes it crystal clear that this is won't work out too
+   well.
+2. Then show how the new thing addresses all of this.
+
+If there is any gist this should not require whole a lot of text
+dump.
+
+AI assistance should not be really even mentioned the cover letters in
+my opinion. It's equal to text editor; or smoke signals. It does not
+level down anything i.e., I'm equally dissatified however this was
+produced :-) 
+
+Br, Jarkko
