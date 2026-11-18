@@ -1,88 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.149.156.91
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795010989;
-	b=BqdEezDGSxVgze3PdMfltR1OqXcb6rH9EdkTR31f6jYZoniBgMD5GMmGoeVHKsca+YRc
-	 iVPi5y5cYFQK96eay4+s4ta0beYb7brgWw2Ufs88k40Pm94By82UwZwOt9Rq/MvnBUk5v
-	 D8kk+yN2DzzwlPcMcUgE8jWRnJRFNgMdj87YOHD9qzHZvF76fGvZoanUd27fklgg6Fr4J
-	 cFvQQa9c9PL4VN3FEOrzwkFSQSzchdZ/LPFToEGSi+GfWrLXSyw439dXKGV0Frn/k0PR1
-	 BEj26eZ2Af4bK6vJs8FkgA3r+TQCinpGN00dtYAyNQsgachg2j4GL8doWJvZ0BdWTmg==
+	t=1795010992;
+	b=mrICJoMYF7ZygtRp0hj2KsrF7H5zlsgkZtVpf08W8L369vr7/hLwgL6uAjCrOLjZsBMh
+	 hyMhWsIqfC57dFtcnE+PJdEYwHNh8pbTOhsy+FaFPch9jpkC6op6rSyanjRe1+Ux7Yn5c
+	 MRglSYfg/Lh4ql9DtxEn/564tf4VDTjJ2omec5wX3OQvAOBxY64njJ8MukrAapvzuuMVT
+	 +TEjRInOyCB2T70k1SnfcsLRXxO/V/iUPmJr623waQcf5Z6h1P7+HZm2sNOGHQVRgPZoK
+	 DjDm1E6ATfIFYWAaycvuvlMOff8D8w4vcEcZIfllKe08f8Z7wQCd13+Vr7+eIfhitdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795010989;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=yZCkizolyAVKMK4/2ALDW/1erdTmZwOxyhHtP+ECgyc=;
-	b=ibgWRdea6kPOkWNaI4lYYKb1ugxWDtaugdNe7iOadnFptxxqCdijqIq4KEx8vBbadoAw
-	 cPjJCekxXbJq5ER8KDC4PhFtzl+31fMNsSFVsShNV9fVWA8uCE+8sguisRq3G0TYELyG/
-	 XjaFsiR9fXmemhBqwMzBIQUZ1dw/AOPdPvjDpi+I1NoJQOCehXqUoir73bGMiH5vM4EIG
-	 IcSf0UL/dLuHRXov31XD8kc06NFsW5JYU3RdpAYpdbPxr0mCi43g04hNXmv/1KgWd/5bD
-	 zTnl0+WzcAIsCK54LdScYRJi/9FS0FYHY20bcDQ98y7FGDUWSII6eKD8016XEUJultw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795010992;
+	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CMAE-Envelope;
+	bh=T1qvRLtkirmgKXEavAQCYElsIkpIGZmynR3Whc+7Ebc=;
+	b=gaB95fyXjEgC8gWXhOUkx2/pBmqeYd4kaDbq4EY0G4BM7FnYJmAVTYK6BbkdanJ7Co3P
+	 Wl1o+J2tJx0Rpb2nl8D+sZo3cX7fbIisX/HgnUMPQKvJNP1MfLjUMao9W0m4DnPZq29cc
+	 PqwP8+alOsetU6o3/EwnoAmROhbCWWNGKueol8mxu4kX7UK9H/92tkcb7bUE4/S44N5zG
+	 a90LkdmvNTL1vaPnQjZxLPJjYozQr4cJlc8KG7inLiju2gUHCzr9/6fU193IDg/Dt0Ypn
+	 /jlGHc548j/HXUzL7WJYaUnata/TXQK4Pq99trYBPSgUOrBfK79lJque4ADyFoQy+fQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YdxWSs9f;
-	arc=none smtp.remote-ip=209.85.210.49
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=enneenne.com;
+	spf=pass smtp.mailfrom=enneenne.com;
+	dkim=pass header.d=aruba.it header.i=@aruba.it header.a=rsa-sha256 header.s=a1 header.b=MFTygGwd;
+	arc=none smtp.remote-ip=62.149.156.91
+Received: from smtpcmd0991.aruba.it (smtpcmd0991.aruba.it [62.149.156.91])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FB560A3803
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BF0606A337
 	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 14:09:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73FB560A3803
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11BF0606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YdxWSs9f
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-8629ef8613aso400191a34.3
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 06:09:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795010987; x=1795615787; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yZCkizolyAVKMK4/2ALDW/1erdTmZwOxyhHtP+ECgyc=;
-        b=YdxWSs9fTeNhMct595/oVLiqo4SORe9IZRf2m8BIulFoNjelWGz3xxKz/0uNqyrWl6
-         wIzJKUTM8CjnEhCcnqMD+1LV0RwB91mxHek4mpx0nvDFLbowzBoVWbSHjHYbq0TpxmFD
-         XJhn5g4hwSe9EmuDvXrMiFDLDEvPvl3FjljJOtuR/TeUsC5u4QrYzpRgDXIAyA1swFXC
-         Eo/3EN+d3uVlCYetbfxkJK3YzuAjAAD1d3xcn5+49qLvDD9PJzuKZaIgHPBEAYjJbh0m
-         nbACq/u6aE+kGjfzjSxjx8kjXcANZOYgMXTDrbIKNxJJXKIRZOCs7s4mnYlVdRVBlqiu
-         z+Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795010987; x=1795615787;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yZCkizolyAVKMK4/2ALDW/1erdTmZwOxyhHtP+ECgyc=;
-        b=0SB3VVhn0R5EV7rndLq7GYBHr49RGg68uudHUWZSQ+aSAsxeFZcvWKdEH1EAL9qbBz
-         32/ZybrMb90GngjMqJvmfkreaD+kB594zezWaSNqpiU9SJEbwnFOnnKVvK04DnXsQCiT
-         8ma1EWrtR9A0S3v+hPJeOMpp08+zRPPoe72lIjl84Qe1yY3IpcEAc9dilJRSvbhAJ8V6
-         59IHhecbFRAMFPTiW33kRbXgRKAPEUWjhInqKMCKvcf6MVQirzO5DDoY/SaqmNdym6RD
-         QDVGk8bV27fcLsnpxR62pefFY9Z2S0lZ3/D6uHNDKofg8HetHwR4lTDARUy77+VwzYVX
-         vMzA==
-X-Forwarded-Encrypted: i=1; AL+hErGwd8F+4jYlSwcKvIqVzX2mLJwJvgEJdglFJEeDkwDAJOZkmoCcf5FmacE56OeHI/Y/r0TEGfurUWo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+0xTpS1bE1x6WoaQbX6K/aOHJXa65liQOwcTrIIFLTWDy4u/6E
-	qu3YKsi4SuDFnHi28vbQqqdNhsNbwv0ym5S86asFy1dNHOrQwVFL7Twb
-X-Gm-Gg: AYBFou1t7kRGXqb9RuqhRL6gnXNIVlv2eHymWQQ/+eSxzqqWhO5krvCLtWtxOcFE4Xp
-	pXTRLyFieYIVw3lhwt5RQc7NhRWyXt9uz1DfT8U6AnUxngFavRRJNALEZaZ2KQ7xldsd9TV/pIi
-	xzHJRMvHs7KOJ3Lltq6jDp0gA/uy82u5LzBHNJ7jxhmvGJf7E9W/ipI4L1bdIu0uvu2kwQD8V+J
-	bFREvGoPt+Q0HLzwDvb93vQ9hptXxFzwT7hNAzWtPwUE3jF7dsp+gVgp9ynn6wACUxvCMIAulrT
-	DfBY9J3VgV/b+8GYWWEvF3gifYWzNc677tX5ZFDh9/b4fktzbKJgWhY9ZVineMoO/gYsw5y00gO
-	jMRoi/RxDWxcP+7PT5mcTRgX7aMTYEdsVyTroE1lmpDESR3iJOm0t85AyNMgO/gZNWTauBjcXJj
-	35oHU/0ysy9CT5VCNjYfi4Xqnd1hOyS1xUeZqbXf8hvh2+aOopB7ne75mRgUao0/Pp816MnDRN8
-	fr4DW4kO4B1hFWjRDq5zGCvZ9M6D1QiW8Tf4+zhz5wex4Wokg2hxw6c1y6CzuBKH4gen4Vr6N44
-	ecn9ETgqaBmF+MpcgyHQzlgxow==
-X-Received: by 2002:a05:6830:440a:b0:862:e7cf:187b with SMTP id 46e09a7af769-862f08fa17bmr2758111a34.7.1795010987177;
-        Wed, 18 Nov 2026 06:09:47 -0800 (PST)
-Received: from localhost ([2a03:2880:30ff:2::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-862f021295csm2161023a34.15.2026.11.18.06.09.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 06:09:46 -0800 (PST)
-From: Daniel Zahka <daniel.zahka@gmail.com>
-Date: Wed, 18 Nov 2026 06:08:06 -0800
-Subject: [PATCH net-next v5 4/6] psp: defer tx key deletions for SADB
- drivers
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.a=rsa-sha256 header.s=a1 header.b=MFTygGwd
+Received: from polimar.tail4f75e6.ts.net ([101.57.122.26])
+	by Aruba SMTP with ESMTPSA
+	id TgM6xLP476q8sTgM6xc97L; Wed, 18 Nov 2026 15:09:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1795010987; bh=XZv05H9A0y4JWx4C2kfVEJYBBhLV1Q9ClegJUUM5OIE=;
+	h=From:To:Subject:Date:MIME-Version;
+	b=MFTygGwdCJZ8dpJvyJST8MwHh46EfjwD8kJhmEijTWLZPxxhase+OwFsh7lq4cxfB
+	 LvCzgmBzy5Sj0C+N8g+2EU6Pcu6B9geb94MQEOAaldHnVjX4NbEFpnu9yCVc7RVqVI
+	 +/AlMwU46kB64xB6rlOg11YsetCkK56NQCCud9ukyLEjGxv8FI2EFtwtCzI88HVCUM
+	 B6NkgyZorcsWSf/nTrtd3tpjpBJsBiLJVblcOmVSQ+xtE2OkhSr6Xp9ZjC4W2kKWsf
+	 BdIKUCSta0s0GrqoJrElz2rqMIPfoGeQMGuaO7S4Jm0PYmBD6xJ5cqhofu31zEpuIG
+	 sgCvnIdr8afqw==
+From: Rodolfo Giometti <giometti@enneenne.com>
+To: David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	keyrings@vger.kernel.org
+Cc: Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jens Wiklander <jenswi@kernel.org>,
+	Sumit Garg <sumit.garg@kernel.org>,
+	op-tee@lists.trustedfirmware.org,
+	=?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>,
+	Pankaj Gupta <pankaj.gupta@nxp.com>,
+	Sahil Malhotra <sahil.malhotra@nxp.com>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Richard Weinberger <richard@nod.at>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Demi Marie Obenour <demiobenour@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-crypto@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	Rodolfo Giometti <giometti@enneenne.com>
+Subject: [RFC PATCH 6/9] KEYS: keycrypt: Add the engine tier
+Date: Wed, 18 Nov 2026 15:09:42 +0100
+Message-ID: <20261118140942.611715-1-giometti@enneenne.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261118140421.584086-1-giometti@enneenne.com>
+References: <20261118140421.584086-1-giometti@enneenne.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,588 +94,235 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261118-psp-v5-4-b9ec840e0296@gmail.com>
-References: <20261118-psp-v5-0-b9ec840e0296@gmail.com>
-In-Reply-To: <20261118-psp-v5-0-b9ec840e0296@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Donald Hunter <donald.hunter@gmail.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>
-Cc: Daniel Zahka <daniel.zahka@gmail.com>, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Willem de Bruijn <willemb@google.com>
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfFtUaTfzPhMStwlKWj88S+iQKFn5wIBaG0bPK9UENjParNezD2h+kZm7q4GYiByZEdzsQH74S0KbPsFg8L7xfVpZZUnjhY3pvc+kJ0BI7LAXIm58qdb9
+ bmkkzJji62ZNTiCaxMVfpuHS4eJ/IXnFce4WrfNK4ImC4JclA+7r7fNiS6xXF3F9kUC91n5svOz1wzWSghT5q6XEf53LyZNPrrc/noqYJn3OAMFe3Pcb7d+Z
+ lRjzZ3rJpEVlyaE6ZI2Wxa4zh+XsUDK06eYDCydSJelXQvFXJ/WcWw5zkZJmJbm+vSiBAWnHsm2ItB4NZD5IeudmMrhZuKOXH7fJAO1LJTX3f0+sCHzRh9Xa
+ n6jRK7VYKmcuD36NmPcE5a5qQ/DRV4vSOdUvPRrj/YvrPiea5MQ272QjO9qYLF/tix30iyVpguDSK2HRDa5zWr9oHu/AmEqOnLHKbVlXBpjLAdAazGEbIdth
+ HLdXtums/t6kZMih5f2171UZiUULMzQNNsA94fCJdyDrVNFgPi8QHEXi6Y6xttQhUmXYmmZ4AuvnmL3kqMJn7s1upMk6hz9BbrqmMr4MMqaJVK30Jdysnt3f
+ aRE8ya2QcCJtLQZr2RKmA4za1+IDt3smFwyvwU0c0r7cklwl8k5m34d/3+v0wnQc3OYnJcu1eSKZC7iiFg5RCwiMaeE4GI9gOFJDyvCaAFdyRFcCpRjXKm/u
+ GnIMoCQUZ5cJbIXmH42HgeB9Mom/HM5zjf0AlDmQtFWyjsKOawX6s1W3KoFBLp0q0/5py+RkiRvnGJj0OMMIa9p3PYucVRq6lNq9gjio7BegbgMgdi8r8j/d
+ xoJQ/GXQOWY68hvg/ZjD3OLU7hzNveMPkTCK96+gF/kzvrwVR+Ov6eIIfrB54gLPMnycFVr8wlY9Ouj04WoukiONU0ZPwhpz+SloxyLiXmGFuthIFr8FhsfS
+ 0eWaDGWHGPkp/suwdEXROQaeuYznS1LzoE24Vp3dBHi6YHa/fK4JF7yMGmMjjJSkbdNO9q5+x8865SHF0fA8CjK0jlLmZcGf6DM0Kiite82qeySAORG2OHJj
+ tsqmLYj7eCkPBqaXElyOd10BiBW5+l71PrgU6PmJ01lz1dfGGYbyi0hh2O084BQyoFb51+EX8oC0fOneRnlTf5YqiiOyj8W3ITzlZC4yuRDvls9YeeraZcew
+ 16RkCXAhbo/9u1wjwqAT+RTjXNHh+RgruILUwr6hGEZ6T7PcMQzrNneKZec16tMsxqCQ1dH6MW6E9jAeCvsC9SIXyrfSWdpa1/TFF9zOmXIA7d6cP1Vrkwvq
+ /dvjANn24zLCUQGaJId5m7U3wjKNz3IJB5tye/7AjlK9e0p9aQ0=
 
-Devices that store tx keys in an SADB can hold references to key
-handles in tx descriptor state. PSP core needs to make sure all of
-these tx descriptors have been completed before calling
-psp_dev_tx_key_del(). Before rekeying, this was ensured by skbs
-holding references to skb->sk, and sk->psp_assoc being cleared only in
-the socket destructor.
+Some crypto engines hold a key so that the kernel never reads it once
+sealed, yet run whatever operation the kernel asks of it: the CAAM's
+black keys are of this kind. A key there is better kept than in
+kernel memory, but its use is no more checked than the kernel
+tier's.
 
-Rekeying introduces a code path where a psp_assoc is detached from its
-socket and may be freed while the socket is still alive. This means
-skbs may exist in the driver ring that were rendered into descriptors
-using that old psp_assoc. We cannot delete the key from the SADB until
-we know these descriptors have been completed.
+Add the engine tier, 15, between kernel and tee, for such backends:
+tier=engine and min-tier=engine choose them, accepted-min-tier=engine
+and KEYCTL_CRYPT_OPEN's accepted_min_tier take them, and
+CONFIG_KEYCRYPT_SYSTEM_TIER_ENGINE makes it the system tier at boot.
+The core warns in the kernel log when a backend registers at it, since
+the protection its name may suggest stops short of the use of the key.
 
-After a psp_assoc has all references drained (refcount and rcu), PSP
-core records the BQL queued count for each active TX queue and starts a
-descriptor grace period. It then polls the queued and completed byte
-counts until all data outstanding at the start of the grace period has
-completed. After that point, any keys queued for deletion before the
-start of the grace period can be deleted from the SADB.
+No backend in the kernel declares this tier yet; the keycrypt CAAM
+backend proposed with it does.
 
-Make CONFIG_INET_PSP depend on CONFIG_BQL.
-
-Drivers which install Tx keys must meet the requirements in
-Documentation/networking/psp.rst.
-
-The deferred deletion work takes psp_dev::lock before the netdev
-instance lock, following the order documented in the previous patch.
-
-Adding a time based rate limit per socket for tx-assoc to prevent
-wasting SADB or deferred deletion queue space is possible for future
-work. For now, users should avoid presenting PSP devices to users they
-don't trust to abuse this.
-
-Reviewed-by: Willem de Bruijn <willemb@google.com>
-Signed-off-by: Daniel Zahka <daniel.zahka@gmail.com>
+Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
 ---
-v5:
-- take a psd reference across mutex_unlock() in psp_assoc_free() after
-  handing the assoc to the deferred queue
-- move the psp_dev_unregister() locking rule to a separate patch
+ .../admin-guide/kernel-parameters.txt         |  2 +-
+ Documentation/security/keys/keycrypt.rst      | 42 ++++++++++++-------
+ include/uapi/linux/keycrypt.h                 |  2 +
+ security/keys/keycrypt/Kconfig                | 11 ++++-
+ security/keys/keycrypt/core.c                 |  4 ++
+ security/keys/keycrypt/keycrypt.h             |  2 +
+ 6 files changed, 46 insertions(+), 17 deletions(-)
 
-v3:
-- document that Tx descriptors must be completed or discarded
-  before psp_dev_unregister()
-
-v2:
-- move grace period mechanism to use bql instead of driver callback.
-- allow tx rekey on SADB devices
----
- Documentation/networking/psp.rst |  42 +++++++
- include/net/psp/types.h          |  18 +++
- net/psp/Kconfig                  |   1 +
- net/psp/Makefile                 |   2 +-
- net/psp/psp.h                    |   5 +
- net/psp/psp_deferred_del.c       | 231 +++++++++++++++++++++++++++++++++++++++
- net/psp/psp_main.c               |  22 +++-
- net/psp/psp_sock.c               |  22 +++-
- 8 files changed, 334 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/networking/psp.rst b/Documentation/networking/psp.rst
-index 43f222b38d3d..ceb1e232317f 100644
---- a/Documentation/networking/psp.rst
-+++ b/Documentation/networking/psp.rst
-@@ -202,6 +202,48 @@ Drivers must use ``psp_skb_get_assoc_rcu()`` to check if PSP Tx offload
- was requested for given skb. On Rx drivers should allocate and populate
- the ``SKB_EXT_PSP`` skb extension, and set the skb->decrypted bit to 1.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 62d44a5225e4..0cacb7d1ca1d 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2947,7 +2947,7 @@ Kernel parameters
+ 	keycrypt.system_tier=	[KEYS] Lowest protection tier a keycrypt key
+ 			may be used at; keys of a lower tier can still
+ 			be created and loaded.
+-			Format: { kernel | tee | hsm }
++			Format: { kernel | engine | tee | hsm }
+ 			Default: the CONFIG_KEYCRYPT_SYSTEM_TIER_*
+ 			choice, kernel unless set. Can only be raised,
+ 			here or later through the
+diff --git a/Documentation/security/keys/keycrypt.rst b/Documentation/security/keys/keycrypt.rst
+index 17af3b041000..ac393a0bc97d 100644
+--- a/Documentation/security/keys/keycrypt.rst
++++ b/Documentation/security/keys/keycrypt.rst
+@@ -26,6 +26,10 @@ The tiers, lowest first:
+ ========== =========================================================
+ ``kernel`` the key is in clear in kernel memory while loaded; the
+            kernel enforces its use
++``engine`` a crypto engine the kernel drives keeps the key, never in
++           clear in the kernel once sealed; the kernel decides its use
++           (a secure element that does not check a key's use is an
++           engine too)
+ ``tee``    a trusted execution environment keeps the key and checks
+            every use against the purpose it bound (an OP-TEE TA)
+ ``hsm``    as ``tee``, in dedicated hardware apart from the CPU running
+@@ -34,7 +38,9 @@ The tiers, lowest first:
+            policy)
+ ========== =========================================================
  
-+Deferred Tx key deletion
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Drivers which implement ``tx_key_add`` and ``tx_key_del`` may hold key
-+references in their Tx rings, so PSP core waits until descriptors
-+containing these references are completed before removing the key from
-+the underlying device. PSP core uses accounting based on Byte Queue Limits
-+(BQL) to wait for a suitable grace period before asking the driver to
-+remove the key.
-+
-+Drivers which implement the Tx key callbacks must meet the following
-+requirements:
-+
-+* The driver must be "ops locked"
-+  (see Documentation/networking/netdevices.rst).
-+* A PSP skb accepted by ``ndo_start_xmit()`` must remain socket-owned until
-+  every Tx descriptor referencing its PSP key has been completed or otherwise
-+  made incapable of using the key. The driver must not orphan the skb before
-+  that point. Otherwise, the socket destructor may free the Tx key while key
-+  references remain in the Tx ring.
-+* Every PSP packet accepted by ``ndo_start_xmit()`` must be included in BQL
-+  queued bytecount before the function returns.
-+* Completion bytecounts must exactly match enqueue bytecounts and preserve
-+  queue order. A later packet must not be reported as completed while an earlier
-+  packet can still reference its key.
-+* Before calling ``dql_reset()`` on a queue, the driver must ensure that all
-+  outstanding descriptors containing key references have been completed or
-+  discarded. If called under the netdev instance lock, then descriptors can
-+  remain outstanding after the reset as long as they are completed or
-+  discarded before the instance lock is released.
-+* When decreasing ``real_num_tx_queues``, the driver must ensure that every
-+  outstanding descriptor on the queues at or above the new Tx queue count
-+  has been completed or otherwise made incapable of using its PSP key
-+  before the netdev instance lock is released.
-+* The BQL state of a queue below ``real_num_tx_queues`` must reflect all
-+  bytes completed or be reset after the queue has been quiesced. Failure to
-+  do so will stall the grace period algorithm.
-+* Before calling ``psp_dev_unregister()``, the driver must ensure that all
-+  outstanding Tx descriptors containing key references have been completed
-+  or discarded. PSP core deletes all remaining Tx keys during
-+  unregistration without waiting for a grace period.
-+
- Kernel implementation notes
- ---------------------------
+-Each tier holds the guarantees of those before it.
++Each tier holds the guarantees of those before it. Keys of the ``engine``
++tier, such as the CAAM's protected keys, are used by the kernel, which
++cannot read them once sealed.
  
-diff --git a/include/net/psp/types.h b/include/net/psp/types.h
-index 9eb89d2d680c..f3e1fe97224e 100644
---- a/include/net/psp/types.h
-+++ b/include/net/psp/types.h
-@@ -6,6 +6,7 @@
- #include <linux/bits.h>
- #include <linux/mutex.h>
- #include <linux/refcount.h>
-+#include <linux/workqueue.h>
- #include <net/net_trackers.h>
+ The backends of this document: ``sw``, of tier ``kernel``, where the
+ kernel's own software uses the key (`The sw backend`_); and ``optee``,
+@@ -55,7 +61,9 @@ sw backend the secret is the trusted master each key names with
+ master (`The sw backend`_).
  
- struct netlink_ext_ack;
-@@ -81,6 +82,11 @@ struct psp_assoc_dev {
-  *			device key
-  * @stale_assocs:	associations which use a rotated out key, or were
-  *			superseded by a rekey
-+ * @tx_del:		deferred TX key deletion state
-+ * @tx_del.active:	TX keys to be deleted after the current grace period
-+ * @tx_del.next:	TX keys queued for deletion during current grace period
-+ * @tx_del.work:	delayed work item for periodic grace period checking
-+ * @tx_del.txq_state:	TX queue state for deferred deletion grace periods
-  *
-  * @stats:	statistics maintained by the core
-  * @stats.rotations:	See stats attr key-rotations
-@@ -110,6 +116,13 @@ struct psp_dev {
- 	struct list_head prev_assocs;
- 	struct list_head stale_assocs;
+ A backend of tier ``tee`` or ``hsm`` also declares that it meets
+-`Backend requirements`_.
++`Backend requirements`_; one that keeps a sealed key out of the kernel's
++reading but leaves its use to the kernel is ``engine``. The core says
++so in the kernel log when an ``engine`` backend registers.
  
-+	struct {
-+		struct list_head active;
-+		struct list_head next;
-+		struct delayed_work work;
-+		struct psp_txq_state *txq_state;
-+	} tx_del;
+ A backend registers with ``keycrypt_register_backend()``
+ (``include/keys/keycrypt.h``) under a name that is stored in every blob it
+@@ -96,10 +104,13 @@ itself does what the core has no way to check:
+ A backend declares its own tier at ``keycrypt_register_backend()``; the
+ core stores and compares it wherever a tier is checked, but never
+ confirms that the backend is actually a TEE or hardware rather than
+-ordinary kernel code claiming to be one. The ``kernel`` tier meets
+-none of the above: its key material is in clear in kernel memory (`The
+-sw backend`_), so there every property above is only as strong as the
+-kernel itself.
++ordinary kernel code claiming to be one. The ``engine`` and ``kernel``
++tiers meet none of the above: an ``engine`` backend leaves the key's
++use to the kernel, and the kernel tier's key material is in clear in
++kernel memory (`The sw backend`_), so there every property above is
++only as strong as the kernel itself. What an ``engine`` backend keeps
++against a compromised kernel is only that a sealed key is not in clear
++in kernel memory, as far as its hardware's own properties hold.
+ 
+ Metadata
+ ========
+@@ -187,7 +198,7 @@ Any other ``<option>=<value>`` is passed to the backend; the core refuses
+ an option the backend does not declare and an option given twice. The
+ one option a backend of this document takes from user space is
+ ``master=``, the sw backend's: it needs a master to seal its keys, while from
+-``tee`` up a backend's own mechanisms protect the key. A command for
++``engine`` up a backend's own mechanisms protect the key. A command for
+ the kernel tier therefore reads ``tier=kernel master=<name>``; the kernel
+ tier chosen without ``master=``, or ``master=`` given to a backend of
+ another tier, is refused with ``EINVAL``.
+@@ -451,10 +462,11 @@ so that a kernel compromised enough to lie about the operation or the
+ key's metadata still cannot open, say, an encryption context on a
+ decrypt-only key; the sw backend has no such check of its own, since
+ a compromised kernel already has that backend's key material in clear
+-(`The sw backend`_), and relies on the core's check alone. Across
+-every tier it is the kernel, not any backend, that decides who may open
+-a context on a key, since Search permission is the core's own check; a
+-compromised kernel can
++(`The sw backend`_), and relies on the core's check alone; neither
++does an ``engine`` backend, whose key's use the kernel decides
++(`Tiers and backends`_). Across every tier it is the kernel, not any
++backend, that decides who may open a context on a key, since Search
++permission is the core's own check; a compromised kernel can
+ therefore still open a context on a key of any tier and use it for a
+ purpose the key already has, but, for a backend of tier ``tee`` or
+ ``hsm`` meeting `Backend requirements`_, it can neither read that key
+@@ -603,8 +615,8 @@ the capability); neither touches a context already open at the time
+ they change.
+ 
+ ``kernel.keys.keycrypt_system_tier`` is the system tier, the lowest tier
+-a key may be used at: one of ``10`` (``kernel``), ``20`` (``tee``)
+-or ``30`` (``hsm``), the same values as
++a key may be used at: one of ``10`` (``kernel``), ``15`` (``engine``),
++``20`` (``tee``) or ``30`` (``hsm``), the same values as
+ ``KEYCRYPT_TIER_*`` (`Tiers and backends`_). It can only be raised,
+ never lowered (``EPERM`` on a lower value, ``EINVAL`` on anything
+ else). It applies to use only: ``KEYCTL_CRYPT_OPEN`` refuses a key
+@@ -630,8 +642,8 @@ already loaded is affected, imported or not. With
+ rather than this one.
+ 
+ Each has a boot parameter setting its starting value before either sysctl
+-is ever written: ``keycrypt.system_tier=`` (``kernel``, ``tee`` or
+-``hsm``) and ``keycrypt.import=`` (a boolean). An invalid
++is ever written: ``keycrypt.system_tier=`` (``kernel``, ``engine``,
++``tee`` or ``hsm``) and ``keycrypt.import=`` (a boolean). An invalid
+ value, or one that would lower what is already set, is ignored, with a
+ kernel warning, rather than failing the boot. An administrator who
+ wants either policy fixed from the very start, before any user-space
+diff --git a/include/uapi/linux/keycrypt.h b/include/uapi/linux/keycrypt.h
+index c03348579f62..71209a08c924 100644
+--- a/include/uapi/linux/keycrypt.h
++++ b/include/uapi/linux/keycrypt.h
+@@ -13,6 +13,8 @@
+ 
+ /* Protection tiers, lowest first; the gaps leave room for more */
+ #define KEYCRYPT_TIER_KERNEL	10	/* the kernel itself */
++/* a crypto engine the kernel drives; the kernel decides its use */
++#define KEYCRYPT_TIER_ENGINE	15
+ #define KEYCRYPT_TIER_TEE	20	/* a trusted execution environment */
+ /* as TEE, in dedicated hardware apart from the CPU running the kernel */
+ #define KEYCRYPT_TIER_HSM	30
+diff --git a/security/keys/keycrypt/Kconfig b/security/keys/keycrypt/Kconfig
+index e61922933bd7..a6d8a0fa6d29 100644
+--- a/security/keys/keycrypt/Kconfig
++++ b/security/keys/keycrypt/Kconfig
+@@ -56,11 +56,20 @@ config KEYCRYPT_SYSTEM_TIER_KERNEL
+ 	  A system with no backend of the kernel tier built has no key of
+ 	  that tier to use.
+ 
++config KEYCRYPT_SYSTEM_TIER_ENGINE
++	bool "Engine"
++	help
++	  Only keys whose backend declares them never in clear in the
++	  kernel once sealed can be used: a key of the kernel tier is
++	  refused at every KEYCTL_CRYPT_OPEN; the engine, tee and hsm tiers
++	  can be used. For a system that must never use a key held in clear
++	  by the kernel.
 +
- 	struct {
- 		unsigned long rotations;
- 		unsigned long stales;
-@@ -158,9 +171,14 @@ struct psp_key_parsed {
-  * enum psp_assoc_flags - flags of struct psp_assoc
-  * @PSP_ASSOC_SKIP_TX_KEY_DEL: Do not delete Tx key from psp_dev. It was
-  *	copied to a newer psp_assoc during an Rx rekey.
-+ * @PSP_ASSOC_DEFER_TX_KEY_DEL: Send Tx key to psp_dev's deferred deletion
-+ *	queue. This psp_assoc was detached from its socket during a Tx rekey
-+ *	and requires device descriptor state referencing this key to be
-+ *	drained.
-  */
- enum psp_assoc_flags {
- 	PSP_ASSOC_SKIP_TX_KEY_DEL	= BIT(0),
-+	PSP_ASSOC_DEFER_TX_KEY_DEL	= BIT(1),
+ config KEYCRYPT_SYSTEM_TIER_TEE
+ 	bool "TEE"
+ 	help
+ 	  Keys whose use a trusted execution environment or the hardware
+-	  checks: keys of the kernel tier are refused at every
++	  checks: keys of the kernel and engine tiers are refused at every
+ 	  KEYCTL_CRYPT_OPEN; the tee and hsm tiers can be used. For a
+ 	  system where OP-TEE or an hsm backend holds the keys.
+ 
+diff --git a/security/keys/keycrypt/core.c b/security/keys/keycrypt/core.c
+index debd0845621e..4a2609c6830f 100644
+--- a/security/keys/keycrypt/core.c
++++ b/security/keys/keycrypt/core.c
+@@ -40,6 +40,7 @@ static const struct keycrypt_name keycrypt_algs[] = {
+ 
+ static const struct keycrypt_name keycrypt_tiers[] = {
+ 	{ KEYCRYPT_TIER_KERNEL,		"kernel" },
++	{ KEYCRYPT_TIER_ENGINE,		"engine" },
+ 	{ KEYCRYPT_TIER_TEE,		"tee" },
+ 	{ KEYCRYPT_TIER_HSM,		"hsm" },
  };
- 
- struct psp_assoc {
-diff --git a/net/psp/Kconfig b/net/psp/Kconfig
-index 84d6b0f25460..36c12493784f 100644
---- a/net/psp/Kconfig
-+++ b/net/psp/Kconfig
-@@ -5,6 +5,7 @@
- config INET_PSP
- 	bool "PSP Security Protocol support"
- 	depends on INET
-+	depends on BQL
- 	select SKB_DECRYPTED
- 	select SKB_EXTENSIONS
- 	select SOCK_VALIDATE_XMIT
-diff --git a/net/psp/Makefile b/net/psp/Makefile
-index eb5ff3c5bfb2..40decd8fe050 100644
---- a/net/psp/Makefile
-+++ b/net/psp/Makefile
-@@ -2,4 +2,4 @@
- 
- obj-$(CONFIG_INET_PSP) += psp.o
- 
--psp-y := psp_main.o psp_nl.o psp_sock.o psp-nl-gen.o
-+psp-y := psp_main.o psp_nl.o psp_sock.o psp_deferred_del.o psp-nl-gen.o
-diff --git a/net/psp/psp.h b/net/psp/psp.h
-index 92d7b92acaed..0cfc82c6c711 100644
---- a/net/psp/psp.h
-+++ b/net/psp/psp.h
-@@ -18,6 +18,11 @@ int psp_dev_check_access(struct psp_dev *psd, struct net *net, bool admin);
- bool psp_has_assoc_dev_in_ns(struct psp_dev *psd, struct net *net);
- int psp_attach_netdev_notifier(void);
- 
-+int psp_deferred_del_init(struct psp_dev *psd);
-+void psp_deferred_del_stop(struct psp_dev *psd);
-+void psp_deferred_del_uninit(struct psp_dev *psd, bool unpublished);
-+void psp_deferred_del_queue(struct psp_dev *psd, struct psp_assoc *pas);
-+
- void psp_nl_notify_dev(struct psp_dev *psd, u32 cmd);
- void psp_nl_notify_disassoc(struct psp_dev *psd, struct net *net);
- 
-diff --git a/net/psp/psp_deferred_del.c b/net/psp/psp_deferred_del.c
-new file mode 100644
-index 000000000000..cfbac72577e9
---- /dev/null
-+++ b/net/psp/psp_deferred_del.c
-@@ -0,0 +1,231 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/bitmap.h>
-+#include <linux/jiffies.h>
-+#include <linux/list.h>
-+#include <linux/netdevice.h>
-+#include <linux/slab.h>
-+#include <net/netdev_lock.h>
-+#include <net/psp.h>
-+
-+#include "psp.h"
-+
-+#define PSP_TX_GRACE_POLL_MS	1000
-+
-+struct psp_txq_state {
-+	unsigned int num_tx_queues;
-+	unsigned long *drained_queues;
-+	unsigned int to_complete[];
-+};
-+
-+static void psp_txq_state_free(struct psp_txq_state *state)
-+{
-+	if (!state)
-+		return;
-+
-+	bitmap_free(state->drained_queues);
-+	kvfree(state);
-+}
-+
-+static struct psp_txq_state *
-+psp_txq_state_alloc(unsigned int max_tx_queues)
-+{
-+	struct psp_txq_state *state;
-+
-+	state = kvzalloc_flex(*state, to_complete, max_tx_queues);
-+	if (!state)
-+		return NULL;
-+
-+	state->drained_queues = bitmap_zalloc(max_tx_queues, GFP_KERNEL);
-+	if (!state->drained_queues) {
-+		psp_txq_state_free(state);
-+		return NULL;
-+	}
-+
-+	return state;
-+}
-+
-+static void psp_tx_grace_start(struct psp_dev *psd)
-+{
-+	struct psp_txq_state *state = psd->tx_del.txq_state;
-+	struct net_device *dev = psd->main_netdev;
-+	unsigned int i;
-+
-+	netdev_assert_locked(dev);
-+
-+	/* Any instances of ndo_start_xmit() that observed these keys through
-+	 * psp_skb_get_assoc_rcu() must already be accounted in BQL's queued
-+	 * byte count. ndo_start_xmit() runs with BHs disabled, which forms an
-+	 * implicit RCU read-side critical section, and we are now at least one
-+	 * grace period after any of these psp_assocs have been cleared from
-+	 * sk->psp_assoc.
-+	 */
-+	state->num_tx_queues = dev->real_num_tx_queues;
-+	bitmap_zero(state->drained_queues, state->num_tx_queues);
-+	for (i = 0; i < state->num_tx_queues; i++) {
-+		struct netdev_queue *txq = netdev_get_tx_queue(dev, i);
-+
-+		state->to_complete[i] = READ_ONCE(txq->dql.num_queued);
-+	}
-+}
-+
-+static bool psp_tx_grace_done(struct psp_dev *psd)
-+{
-+	struct psp_txq_state *state = psd->tx_del.txq_state;
-+	struct net_device *dev = psd->main_netdev;
-+	bool all_completed = true;
-+	unsigned int i;
-+
-+	netdev_assert_locked(dev);
-+
-+	if (dev->real_num_tx_queues < state->num_tx_queues)
-+		state->num_tx_queues = dev->real_num_tx_queues;
-+
-+	for (i = 0; i < state->num_tx_queues; i++) {
-+		struct netdev_queue *txq = netdev_get_tx_queue(dev, i);
-+		unsigned int completed;
-+		unsigned int queued;
-+
-+		if (test_bit(i, state->drained_queues))
-+			continue;
-+
-+		/* Drivers must meet the requirements documented in
-+		 * Documentation/networking/psp.rst to guarantee forward
-+		 * progress and avoid ending the grace period prematurely.
-+		 *
-+		 * We snapshotted num_queued in psp_tx_grace_start() and need
-+		 * to determine whether num_completed has since reached or
-+		 * passed that mark. For a given queue, we can consider first
-+		 * whether or not dql_reset() was called at any point between
-+		 * when we read num_queued until we read num_completed and
-+		 * num_queued here and then separate the space of possible
-+		 * states based on that.
-+		 *
-+		 * Not reset: num_queued and num_completed only increase, and
-+		 * dql keeps num_queued - num_completed <= INT_MAX at all
-+		 * times. We can form three exhaustive sub cases:
-+		 *
-+		 * (int)(to_complete - completed) <= 0: completion reached or
-+		 * passed the mark. At the time to_complete was read,
-+		 * completed was in [to_complete - INT_MAX, to_complete].
-+		 *
-+		 * (int)(to_complete - queued) > 0: to_complete and queued are
-+		 * both snapshots of num_queued, so queued has advanced more
-+		 * than INT_MAX + 1 past to_complete. num_completed lags
-+		 * queued by at most INT_MAX, so num_completed must have
-+		 * crossed to_complete.
-+		 *
-+		 * Otherwise the mark may still be in flight, so poll again.
-+		 *
-+		 * Reset: By the driver conditions laid out in
-+		 * Documentation/networking/psp.rst, if a dql_reset()
-+		 * occurred, and we are holding the instance lock, then we
-+		 * know the actual state of the queue is drained. The check
-+		 * below is then conservative because there is no risk of
-+		 * falsely declaring the queue drained. As long as dql makes
-+		 * forward progress the check should eventually report
-+		 * drained.
-+		 */
-+		completed = READ_ONCE(txq->dql.num_completed);
-+		queued = READ_ONCE(txq->dql.num_queued);
-+
-+		if ((int)(state->to_complete[i] - completed) <= 0 ||
-+		    (int)(state->to_complete[i] - queued) > 0)
-+			__set_bit(i, state->drained_queues);
-+		else
-+			all_completed = false;
-+	}
-+
-+	return all_completed;
-+}
-+
-+static bool psp_tx_grace_active(struct psp_dev *psd)
-+{
-+	return !list_empty(&psd->tx_del.active);
-+}
-+
-+static void psp_deferred_del_work(struct work_struct *work)
-+{
-+	struct delayed_work *dwork = to_delayed_work(work);
-+	struct psp_assoc *pas, *tmp;
-+	bool need_reschedule;
-+	struct psp_dev *psd;
-+	LIST_HEAD(to_free);
-+
-+	psd = container_of(dwork, struct psp_dev, tx_del.work);
-+
-+	mutex_lock(&psd->lock);
-+	netdev_lock(psd->main_netdev);
-+
-+	if (psp_tx_grace_active(psd) && psp_tx_grace_done(psd))
-+		list_splice_init(&psd->tx_del.active, &to_free);
-+
-+	if (!psp_tx_grace_active(psd) && !list_empty(&psd->tx_del.next)) {
-+		psp_tx_grace_start(psd);
-+		list_splice_init(&psd->tx_del.next, &psd->tx_del.active);
-+	}
-+
-+	netdev_unlock(psd->main_netdev);
-+
-+	list_for_each_entry(pas, &to_free, assocs_list)
-+		psp_dev_tx_key_del(psd, pas);
-+
-+	need_reschedule = psp_tx_grace_active(psd);
-+	mutex_unlock(&psd->lock);
-+
-+	if (need_reschedule)
-+		mod_delayed_work(system_percpu_wq, &psd->tx_del.work,
-+				 msecs_to_jiffies(PSP_TX_GRACE_POLL_MS));
-+
-+	list_for_each_entry_safe(pas, tmp, &to_free, assocs_list) {
-+		list_del(&pas->assocs_list);
-+		psp_dev_put(psd);
-+		kfree(pas);
-+	}
-+}
-+
-+int psp_deferred_del_init(struct psp_dev *psd)
-+{
-+	INIT_LIST_HEAD(&psd->tx_del.active);
-+	INIT_LIST_HEAD(&psd->tx_del.next);
-+	INIT_DELAYED_WORK(&psd->tx_del.work, psp_deferred_del_work);
-+
-+	if (!psd->ops->tx_key_del)
-+		return 0;
-+
-+	psd->tx_del.txq_state =
-+		psp_txq_state_alloc(psd->main_netdev->num_tx_queues);
-+
-+	return psd->tx_del.txq_state ? 0 : -ENOMEM;
-+}
-+
-+void psp_deferred_del_stop(struct psp_dev *psd)
-+{
-+	disable_delayed_work_sync(&psd->tx_del.work);
-+}
-+
-+void psp_deferred_del_uninit(struct psp_dev *psd, bool unpublished)
-+{
-+	struct psp_assoc *pas, *next;
-+
-+	lockdep_assert(unpublished || lockdep_is_held(&psd->lock));
-+
-+	psp_txq_state_free(psd->tx_del.txq_state);
-+	psd->tx_del.txq_state = NULL;
-+
-+	list_splice_init(&psd->tx_del.active, &psd->tx_del.next);
-+	list_for_each_entry_safe(pas, next, &psd->tx_del.next, assocs_list) {
-+		list_del(&pas->assocs_list);
-+		psp_dev_tx_key_del(psd, pas);
-+		psp_dev_put(psd);
-+		kfree(pas);
-+	}
-+}
-+
-+void psp_deferred_del_queue(struct psp_dev *psd, struct psp_assoc *pas)
-+{
-+	lockdep_assert_held(&psd->lock);
-+
-+	list_move_tail(&pas->assocs_list, &psd->tx_del.next);
-+	schedule_delayed_work(&psd->tx_del.work, 0);
-+}
-diff --git a/net/psp/psp_main.c b/net/psp/psp_main.c
-index ba44154cf8dc..789315dae237 100644
---- a/net/psp/psp_main.c
-+++ b/net/psp/psp_main.c
-@@ -3,8 +3,10 @@
- #include <linux/bitfield.h>
- #include <linux/list.h>
- #include <linux/netdevice.h>
-+#include <linux/slab.h>
- #include <linux/xarray.h>
- #include <net/net_namespace.h>
-+#include <net/netdev_lock.h>
- #include <net/psp.h>
- #include <net/udp.h>
- 
-@@ -75,7 +77,8 @@ psp_dev_create(struct net_device *netdev,
- 		    !psd_ops->rx_spi_alloc ||
- 		    !psd_ops->get_stats ||
- 		    (!psd_ops->tx_key_add != !psd_ops->tx_key_del) ||
--		    (psd_caps->assoc_drv_spc && !psd_ops->tx_key_add)))
-+		    (psd_caps->assoc_drv_spc && !psd_ops->tx_key_add) ||
-+		    (psd_ops->tx_key_add && !netdev_need_ops_lock(netdev))))
- 		return ERR_PTR(-EINVAL);
- 
- 	psd = kzalloc_obj(*psd);
-@@ -94,13 +97,16 @@ psp_dev_create(struct net_device *netdev,
- 	INIT_LIST_HEAD(&psd->stale_assocs);
- 	refcount_set(&psd->refcnt, 1);
- 
-+	err = psp_deferred_del_init(psd);
-+	if (err)
-+		goto err_free_psd;
-+
- 	mutex_lock(&psp_devs_lock);
- 	err = xa_alloc_cyclic(&psp_devs, &psd->id, psd, xa_limit_16b,
- 			      &last_id, GFP_KERNEL);
- 	if (err) {
- 		mutex_unlock(&psp_devs_lock);
--		kfree(psd);
--		return ERR_PTR(err);
-+		goto err_uninit_deferred_del;
+@@ -441,6 +442,9 @@ int keycrypt_register_backend(struct keycrypt_backend *b)
+ 		b->handle = h;
  	}
- 	mutex_lock(&psd->lock);
- 	mutex_unlock(&psp_devs_lock);
-@@ -116,6 +122,12 @@ psp_dev_create(struct net_device *netdev,
- 	mutex_unlock(&psd->lock);
- 
- 	return psd;
-+
-+err_uninit_deferred_del:
-+	psp_deferred_del_uninit(psd, true);
-+err_free_psd:
-+	kfree(psd);
-+	return ERR_PTR(err);
- }
- EXPORT_SYMBOL(psp_dev_create);
- 
-@@ -142,6 +154,8 @@ void psp_dev_unregister(struct psp_dev *psd)
- 
- 	lockdep_assert_not_held(&psd->main_netdev->lock);
- 
-+	psp_deferred_del_stop(psd);
-+
- 	mutex_lock(&psp_devs_lock);
- 	mutex_lock(&psd->lock);
- 
-@@ -154,6 +168,8 @@ void psp_dev_unregister(struct psp_dev *psd)
- 	xa_store(&psp_devs, psd->id, NULL, GFP_KERNEL);
- 	mutex_unlock(&psp_devs_lock);
- 
-+	psp_deferred_del_uninit(psd, false);
-+
- 	list_splice_init(&psd->active_assocs, &psd->prev_assocs);
- 	list_splice_init(&psd->prev_assocs, &psd->stale_assocs);
- 	list_for_each_entry_safe(pas, next, &psd->stale_assocs, assocs_list) {
-diff --git a/net/psp/psp_sock.c b/net/psp/psp_sock.c
-index d497f41c483e..8de313805af0 100644
---- a/net/psp/psp_sock.c
-+++ b/net/psp/psp_sock.c
-@@ -114,8 +114,23 @@ static void psp_assoc_free(struct work_struct *work)
- 
- 	mutex_lock(&psd->lock);
- 	if (psp_dev_is_registered(psd)) {
--		if (psp_assoc_needs_tx_key_del(pas))
-+		if (psp_assoc_needs_tx_key_del(pas)) {
-+			if (pas->flags & PSP_ASSOC_DEFER_TX_KEY_DEL) {
-+				psp_deferred_del_queue(psd, pas);
-+
-+				/* The deferred queue now owns pas's reference
-+				 * on psd and may drop it as soon as psd->lock
-+				 * is released. Take another reference to psd
-+				 * to ensure that psd isn't freed until
-+				 * mutex_unlock() returns.
-+				 */
-+				psp_dev_get(psd);
-+				mutex_unlock(&psd->lock);
-+				psp_dev_put(psd);
-+				return;
-+			}
- 			psp_dev_tx_key_del(psd, pas);
-+		}
- 		list_del(&pas->assocs_list);
- 	}
- 	mutex_unlock(&psd->lock);
-@@ -287,10 +302,6 @@ psp_sock_tx_rekey(struct sock *sk, struct psp_dev *psd, struct psp_assoc *pas,
- 	struct psp_assoc *new;
- 	int err;
- 
--	if (psp_dev_has_sadb(psd)) {
--		NL_SET_ERR_MSG(extack, "Tx rekey not supported on this device");
--		return -EOPNOTSUPP;
--	}
- 	if (!pas->peer_tx) {
- 		NL_SET_ERR_MSG(extack, "Socket PSP state is not fully established");
- 		return -EBUSY;
-@@ -322,6 +333,7 @@ psp_sock_tx_rekey(struct sock *sk, struct psp_dev *psd, struct psp_assoc *pas,
- 	list_move(&pas->assocs_list, &psd->stale_assocs);
- 
- 	rcu_assign_pointer(sk->psp_assoc, new);
-+	pas->flags |= PSP_ASSOC_DEFER_TX_KEY_DEL;
- 	psp_assoc_put(pas);
- 
- 	return 0;
-
+ 	mutex_unlock(&keycrypt_lock);
++	if (!ret && b->tier == KEYCRYPT_TIER_ENGINE)
++		pr_warn("backend %s registered at tier engine: the use of its keys is checked by the kernel only\n",
++			b->name);
+ 	if (ret)
+ 		kfree(h);
+ 	return ret;
+diff --git a/security/keys/keycrypt/keycrypt.h b/security/keys/keycrypt/keycrypt.h
+index 5a41a68c48fa..40487eb3e139 100644
+--- a/security/keys/keycrypt/keycrypt.h
++++ b/security/keys/keycrypt/keycrypt.h
+@@ -143,6 +143,8 @@ bool keycrypt_tier_valid(u32 tier);
+ #define KEYCRYPT_BOOT_SYSTEM_TIER	KEYCRYPT_TIER_HSM
+ #elif IS_ENABLED(CONFIG_KEYCRYPT_SYSTEM_TIER_TEE)
+ #define KEYCRYPT_BOOT_SYSTEM_TIER	KEYCRYPT_TIER_TEE
++#elif IS_ENABLED(CONFIG_KEYCRYPT_SYSTEM_TIER_ENGINE)
++#define KEYCRYPT_BOOT_SYSTEM_TIER	KEYCRYPT_TIER_ENGINE
+ #else
+ #define KEYCRYPT_BOOT_SYSTEM_TIER	KEYCRYPT_TIER_KERNEL
+ #endif
 -- 
-2.52.1
+2.43.0
 
