@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795035832;
-	b=P57Hq0/+xtq40YCqH5F9OWZfQS737NyTgFLsRnuRtysoC32ZT9qjHPh/Mcxv7h28Crd2
-	 gX/5iLn2pH36FkkgLizWwaeyAhNVGTHPDW4kdmnkBdFctBE5EiT2M9lXCQTmYW/EnjlzJ
-	 E7DBQnVB2oi5QS+pzjTWPgGSzxEN0F+lKr2lGi4lDAkA4xWHiKVMchYCS0pu5H1sqfVVL
-	 9D60IHs6BvWQ+vqUakboU1nFN18cwdqNOFAgDC3P1Flk31cRuG1cbJtMajGnMiYfMdHC6
-	 j0LyOYbcXB1lCuo4EcOnSGDUv5pLk95FkFRKgM6BNf2LByDJYEhK3qnP7PUP+jSgKrg==
+	t=1795035837;
+	b=NowFb1uwaQkAk8jcIR3wBFrncCyV/3HYq00n3OZcbW1aOXtdKen/qCKu5VFwCYVLO4tb
+	 Ip9ksn5mV8R41M5Rkgum+glBDpvE3zIGbteMHSHD5KqIaxOjQpwng1ABU9cWqWvlzzY6O
+	 fLBTO0Rw1C+WsTpyuW7QqeqM5XnRPBZKFArL4wiPhSEYK+k2YK/zEOrHZjr3pNDE6oUfW
+	 xga5d4alfCGCTNeP+lNIUFxzGzz0oUoVLGfDmo7UbTqTBb7D8VSnwCZ8NMPp8MZhPFiKQ
+	 jKFvg4KNmGgXr6/7Oxh+n6+fbUR2zQaAawgd2Ts5MBvojFIlufQn9u6n1Y7kF14U/bg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795035832;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795035837;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=41vfnI0ZoD897IEdGdgzDciDJt9MzpCIhSsZSG2H/IA=;
-	b=tD6CNxuguczh5c10ESogSaMthOl6EU+BHmlIkFK6Pz/3pEIriUZnHH31oxkqiap1YlZq
-	 d+jWWQWbCk8N2k6o72oWrLc1yRrBGk/0P5t8mpeEOX1LbxxhqAZ3gB1l8IWy1+cDlZ3ZK
-	 hN/5X6WJ6Vvb9fIjeM4vJUNvc9DpzoKDKIyXct/99/Mo64YBHPwRBs6kGf2XQMUmbqm1i
-	 5Recxp5SMRgs0+iTd9z/9L0eMeRRiS7+1JKuj/uc7OLBf9wB+Fjs1CbP4p+RWYXoRpRrM
-	 0MKf4eSxNFdpTU4eWBpa7Wc3N2gNp3IgVIkNo/kwjripDru0y+7r+EoxKTE7m2JfeXw==
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=9lfMIxrq3hRipEynq2/JnfZMxHCxW1AecXQL4pdwryY=;
+	b=lLDsGJlUpuI9BaWnOsN2i6tMNfbNfQElzlgtvpWan20vdDiIyiVoxDF7S6SDaMSp6Kxo
+	 FOUKPOXEcLnVyJm14aawTSQxXZSP1vC32pk3BrIPP6V71g97xOKJ5MAtCl5RbAoPMpDLQ
+	 51rTvsF+rEFC3zivYTfGLVtgoDj6TrSqXfAW/iD7rqT1aDDnYV3jPINxjRLNY3iO10quB
+	 t94oMEpLHgSAAtyrQrY5knNYWJv5E8aLwA7rzC2/XQvsjziJK432fVH0Se4E1zwzQ6Ia5
+	 5v6Cpb38j+tRtpckPEBIOQDK+jjB7go7yxxQrpjd2e9pUGlHz3bpMbNJGUTMmV3wYYA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="FNV/h4F3";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AZ1rX3p3;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F0460A2619;
-	Wed, 18 Nov 2026 21:03:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DFE60A263D;
+	Wed, 18 Nov 2026 21:03:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FNV/h4F3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AZ1rX3p3
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795035831;
-	b=Y+oTfttcPpcmZPqcaQ+Uh/B40XsOrN9wqp2t51s0EPoIJS11TzUHjNlwmeQO+Iz3tbTy
-	 6RAA38J5MKvsm31BC0nC1RkDVsORErDJCYlRIsmHBZ/+td511TpBMvbMOAtX+NwdLot0G
-	 sF4UVmLx4L3GyioAMoD85bNjZf6SZGh1xVzq3CjzR5b6g4z0xX/jMVCDCk6gyGZVTGD59
-	 WAcvKoKGDvZ/emE73wHMZj/hSgMdsF7MWe/yEOv23RfxrJg46Xiij7Tu1XvPDwU5nqwew
-	 082Kg1vZTCLM6VqFRKGUQy9M3rIA7BYonChF4zfPouLQJTHZULP/m5kXlwKXuII+jMg==
+	t=1795035837;
+	b=EC1HRUyUhREtP/bIwRo1L3doBapD+1n/yp+0zIqGk5zmgzwX2nZqd3gtA8yr/BfMaI3X
+	 erSdlwgUsIqgJUvL5HF1xc82/8nHIHk5OJ3lLyqquuQzVHU5vAxkSdGJQ1oLfKn8cR1Lc
+	 BOIFBdH1uJND9RvJQjXULW7FVf1y2UVG+3eYKN2km7zD6CtABgHDtuyqs2SR+rxFs6Krp
+	 HA/6kOTnAOmwfzniZbOOKL3emG/U6fhZ77a20qdW89Wf+4wSmxQ/b1m4hUgnLJPFpr5x3
+	 hn8H9UuM7nGX66uPjNbJ+IAUIh9fr6kn3994/OORIwVT0JhC0if8F4LF+kpRu3svuUg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795035831;
+	c=relaxed/relaxed; t=1795035837;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=41vfnI0ZoD897IEdGdgzDciDJt9MzpCIhSsZSG2H/IA=;
-	b=swMVbQAwP+KsEUz5d/r5r7kQapafdGXXbE0TkFDnKCci4cb+HyZXbVHNuUxbh6/HPS1u
-	 mNHvwVP4giFqS/uQHDQHqhNd35Q8w7+azhJ4ZZ34TOaznvfz/pgyf7Gp9N/eZAK1uSXnn
-	 y8Xwx6DpBQjEK+sHW/NErZetysMhcUiXC92ZYsoaB1QXBDWo6Wq8YC2XbpE2lxDks7vTC
-	 C1MaW+zC7tN5FWm9fQpU5EzuTTScWHhyI8JmiC+p2I8jczZNoHwsS2Rduy/srLoYusp9S
-	 BmVuS9Wxiy+xNA+rdBUttPyiDaKukH8XkDBkTHcpTs6uw9YXP+Ne7MZVzEfmX05mMRA==
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=9lfMIxrq3hRipEynq2/JnfZMxHCxW1AecXQL4pdwryY=;
+	b=nRfNwtipSqltSsbMhgb+xRsOmzBSuXhohVThUCGxx4rFyzMFJAudwV3LXzdyDnmWtnqK
+	 7K5qwbrSunkOzrsuIVTerj2xcLDok0kiuGufMBA1z30lHWbyVRsqBrUVdFr9yCIlsHtbY
+	 O50EyneceefqYoU3YKMgqznnvUTkUg/yg2MBoUZtJeyAIunY7DXKym7I63yu4l6QHS1D8
+	 CZrYJr6VU733ulyZ985HAz0C3ifYL7ipuyR2HVR/Z2I7CgFf7C5w30ag4OBve3LxQ8hgf
+	 4q8s0UgSkii0LU7rDYgtvp3LJj6zjlJ+rbsY/X0Oo7yKmDOA6xczK6VSFOI/Uc9Gskg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A54FF1F000CB;
-	Wed, 18 Nov 2026 21:03:47 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id EA5941F000CA;
+	Wed, 18 Nov 2026 21:03:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795035831;
-	bh=41vfnI0ZoD897IEdGdgzDciDJt9MzpCIhSsZSG2H/IA=;
+	s=k20260515; t=1795035837;
+	bh=9lfMIxrq3hRipEynq2/JnfZMxHCxW1AecXQL4pdwryY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=FNV/h4F3Z8UzmG4/YD0ypGY2S7UDaw+Sh9r5YKdXjCwy42yB6c3QPJ4eUNjtVpBdQ
-	 1FLETznddO+HUKlplYrCqhW9HbptqeAETF5wtZmY4Vohyklxy6HHk8gnP7aNL/tR+P
-	 YTDMH1yNo7hY92i0LIzIJvsoyvBu7vdPPrq/dtwCZuN/uOQpaaSyvTvxPF0HDiLe+c
-	 IN9gWrPuPBX5+M0h5w9NXsfzonlkSuBFk4Jwi+zf3Gx1pX1mmnOEtlwwhK0InL7yVp
-	 1O80EaC+//Gej9ZjOGnCaa89b1AwmEThZOczqqwwJIUUO05TsHVba7G0OT4ghufJP4
-	 rDEnmxK8TLZHw==
+	b=AZ1rX3p3qZ148Ucw/lPIMI8pF6Mhzpc7ghBtxme34TWQtOQGcsu+ZmKN1GqLK3BVr
+	 uOo8wbSiKDWpJoqTcPNxsOM2ZI65VTei5D/8sOA7sff9vnVowociSqHbWl0DPipk4s
+	 zITMm+V9OJunXo3SGnNHa+WfF4XWNqN0TVm+KFIDb08oLvMprGg52+b8LY00v7RxJk
+	 a0rsIcHGvIMKYIvVspGskeSjmCaiCp6C6X0RZXL2PiDIc4g61ipWsX0ZZ1lI7u7wd+
+	 0pCOy2h8jUpkinMhWeQ3wyQ0jkl5bimdcOzqT3hh7FeEoir6no+UwGEUdAbN6p+K6Y
+	 kaY+48f3B74YQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 998694AF98;
-	Wed, 18 Nov 2026 21:03:43 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 6CAC64AFB8;
+	Wed, 18 Nov 2026 21:03:44 +0000 (UTC)
 From: Kairui Song via B4 Relay <devnull+kasong.tencent.com@kernel.org>
-Date: Thu, 19 Nov 2026 05:03:37 +0800
-Subject: [PATCH v5 05/17] mm/mglru: skip the flags cmpxchg when nothing
- changes
+Date: Thu, 19 Nov 2026 05:03:45 +0800
+Subject: [PATCH v5 13/17] mm/madvise: adapt for LRU refs based operations
+ for MGLRU
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,8 +84,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261119-mglru-fg-v5-5-9eee2fe97a2d@tencent.com>
+Message-Id: <20261119-mglru-fg-v5-13-9eee2fe97a2d@tencent.com>
 References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com>
 In-Reply-To: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com>
 To: linux-mm@kvack.org
@@ -119,107 +118,132 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  damon@lists.linux.dev, linux-doc@vger.kernel.org, 
  Kairui Song <kasong@tencent.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795035819; l=3975;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795035820; l=4228;
  i=kasong@tencent.com; s=kasong-sign-tencent; h=from:subject:message-id;
- bh=rKjtT9cTVQE3kB+eFzFZdlThrfxXKVi5B+1GEDGHtjw=;
- b=eXy1GT3doCWx4eA2MrHyusXF+V13z0BHWbZolJceGwJbmMtsa+zI9QRCGuCTBY1Rom264jpeW
- FKGD+ZvzktJA6h8Yvwm38iMU9RTQym7XK1PfXQXh4ylDSTy6KSdhsZ9
+ bh=e2/wJGzz7UG796pvpeTdS9931gFtuVmfWc7pwiPH3QE=;
+ b=+qZfN5m6KQraLSxPw2LvM1FrBRrXilTuqXKSet3TJOUvO75N6rGPtiesIIjGUXb2O85Wj3jA2
+ F91Iy7qUcOWDYAZfWjd36BhpmJykCLiDEadB3E+6w5bq5f9AbyMuM1i
 X-Developer-Key: i=kasong@tencent.com; a=ed25519;
  pk=kCdoBuwrYph+KrkJnrr7Sm1pwwhGDdZKcKrqiK8Y1mI=
 X-Endpoint-Received: by B4 Relay for kasong@tencent.com/kasong-sign-tencent
  with auth_id=562
 X-Original-From: Kairui Song <kasong@tencent.com>
 Reply-To: kasong@tencent.com
+Content-Transfer-Encoding: 7bit
 
-From: Ridong Chen <chenridong@xiaomi.com>
+From: Kairui Song <kasong@tencent.com>
 
-folio_update_gen() and folio_set_lru_refs() always end with a
-try_cmpxchg() on folio->flags, even when the new value equals the old
-one. The locked instruction still takes the struct page cacheline in
-exclusive state.
+For the active/inactive LRU, madvise clears PG_referenced so that one more
+access is not enough to reactivate a folio, and keeps PG_workingset on a
+folio demoted out of the active list so its refault is still accounted as
+a workingset refault (PSI).
 
-That is common in practice: a folio mapped by many processes is visited
-once per mm during a page table walk, and after the first visit it is
-already in the youngest generation with refs cleared and PG_workingset
-set. isolate_folio() and the eviction paths also call
-folio_set_lru_refs(folio, 0) on folios whose refs are already zero.
+MGLRU keeps that history in the folio's refs count instead, which now
+lives in PG_referenced, PG_workingset and LRU_REFS_MASK, so writing to
+those bits directly corrupts the count. The two hints want different
+things:
 
-Break out of the loop when the flags would not change. The update is
-complete at the point of that read: the flags already hold the target
-value, and a concurrent change to them is ordered after it. When the
-cmpxchg would have succeeded, the value written is the same, so no new
-state becomes reachable.
+- MADV_COLD resets the count in folio_deactivate(), which also requests
+  deactivation.
+- MADV_PAGEOUT clears non-workingset refs and caps the rest at
+  LRU_REFS_WORKINGSET after isolation, before handing the folio to
+  reclaim_pages(). The hint marks the folio as cold, so the
+  eviction shadow records the capped count and does not inflate the
+  eviction/refault counters of the hot tiers that drive aging, while
+  folios at or above the workingset threshold keep their PSI
+  classification.
 
-What the patch drops is the retry. A retry re-reads the flags and
-recomputes new_flags from the newer value, so it overwrites a concurrent
-update with what this CPU wanted. For folio_update_gen(), a walker that
-read an older max_seq can lose the cmpxchg against a promotion done by
-another CPU, and then write its older generation back on the retry.
-folio_set_lru_refs() can likewise clear a refs increment that raced with
-it. Breaking out keeps the newer state.
+PG_young is cleared for both LRUs as before, so the referenced walk does
+not count stale history as a recent access.
 
-No caller relies on the full barrier that the locked instruction
-implied on the skipped path: the eviction and isolation callers run
-under the LRU lock, and the others (page table walks,
-folio_mark_accessed(), lru_gen_clear_refs()) only care about the
-resulting flags value, which is already in place. Note that
-lru_gen_inc_refs() already returns without any atomic when refs is at
-LRU_REFS_MAX and the folio is in the workingset.
-
-Tested on an i7-13700HX with turbo disabled and the performance
-governor. N processes map the same 2GiB tmpfs file (huge=never) and
-read every page, then one aging pass is triggered on their memcg
-through /sys/kernel/debug/lru_gen ("+ <memcg_id> 0 <max_seq> 200 1").
-Time per aging pass in ms, median of 5 runs of 10 passes each, averaged
-over 2 boots of each kernel:
-
-  processes    base   patched
-          1    32.9      31.7   -3.5%
-          8   195.1     160.2  -17.9%
-         32   755.8     592.2  -21.7%
-         64  1597.2    1260.6  -21.1%
-
-With one process, every visit changes the generation, so there is
-nothing to skip. Before the patch, perf annotate attributes 53-58% of
-the walk_update_folio() samples to the lock cmpxchg in the inlined
-folio_update_gen() in this test.
-
-[kasong: folio_update_gen() is replaced by folio_inc_lru_refs_walk()
-later in the series, which keeps the same early exit.]
-Reviewed-by: Kairui Song <kasong@tencent.com>
-Signed-off-by: Ridong Chen <chenridong@xiaomi.com>
 Signed-off-by: Kairui Song <kasong@tencent.com>
 ---
- include/linux/mm_inline.h | 2 ++
- mm/vmscan.c               | 2 ++
- 2 files changed, 4 insertions(+)
+ mm/madvise.c | 54 ++++++++++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 40 insertions(+), 14 deletions(-)
 
-diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
-index 46beded51c7d..2571b3f01226 100644
---- a/include/linux/mm_inline.h
-+++ b/include/linux/mm_inline.h
-@@ -233,6 +233,8 @@ static inline void folio_set_lru_refs(struct folio *folio, unsigned int refs)
- 	do {
- 		new_flags = old_flags;
- 		lru_set_refs_flags(&new_flags, refs);
-+		if (new_flags == old_flags)
-+			break;
- 	} while (!try_cmpxchg(folio_flags(folio, 0), &old_flags, new_flags));
+diff --git a/mm/madvise.c b/mm/madvise.c
+index 2d54cb9863ea..7486c492f437 100644
+--- a/mm/madvise.c
++++ b/mm/madvise.c
+@@ -360,6 +360,42 @@ static inline int madvise_folio_pte_batch(unsigned long addr, unsigned long end,
+ 				     FPB_MERGE_YOUNG_DIRTY);
  }
  
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 8d14831cdf83..0f24b6ebc1eb 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -3274,6 +3274,8 @@ static int folio_update_gen(struct folio *folio, int new_gen, int *type,
- 		lru_set_gen_flags(&new_flags, new_gen);
- 		lru_set_refs_flags(&new_flags, 0);
- 		new_flags |= BIT(PG_workingset);
-+		if (new_flags == old_flags)
-+			break;
- 	} while (!try_cmpxchg(folio_flags(folio, 0), &old_flags, new_flags));
++static void madvise_cold_prep_folio(struct folio *folio)
++{
++	/*
++	 * VM couldn't reclaim the folio unless we clear PG_young.
++	 * As a side effect, idle-page tracking loses recent referenced history.
++	 */
++	folio_test_clear_young(folio);
++
++	/*
++	 * For the active/inactive LRU, a folio demoted out of the active
++	 * list should have PG_workingset so its refault is still accounted
++	 * as a workingset refault, and the referenced bit always needs to
++	 * be cleared even for inactive folios. For MGLRU, MADV_COLD clears
++	 * refs in folio_deactivate(); MADV_PAGEOUT handles refs after isolation.
++	 */
++	if (!lru_gen_enabled()) {
++		folio_clear_referenced(folio);
++		if (folio_test_active(folio))
++			folio_set_workingset(folio);
++	}
++}
++
++static void madvise_pageout_prep_folio(struct folio *folio)
++{
++	unsigned int refs = folio_lru_refs(folio);
++
++	/*
++	 * For MGLRU, clear refs below LRU_REFS_WORKINGSET and cap
++	 * the rest at it: MADV suggests the folio is cold, so the eviction shadow
++	 * should not record its hotness in the high tier counters, but
++	 * the workingset classification is preserved for PSI.
++	 */
++	if (lru_gen_enabled())
++		folio_set_lru_refs(folio, refs >= LRU_REFS_WORKINGSET ? LRU_REFS_WORKINGSET : 0);
++}
++
+ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
+ 				unsigned long addr, unsigned long end,
+ 				struct mm_walk *walk)
+@@ -434,12 +470,10 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
+ 			tlb_remove_pmd_tlb_entry(tlb, pmd, addr);
+ 		}
  
- 	*type = folio_flags_is_file_lru(&old_flags);
+-		folio_clear_referenced(folio);
+-		folio_test_clear_young(folio);
+-		if (folio_test_active(folio))
+-			folio_set_workingset(folio);
++		madvise_cold_prep_folio(folio);
+ 		if (pageout) {
+ 			if (folio_isolate_lru(folio)) {
++				madvise_pageout_prep_folio(folio);
+ 				if (folio_test_unevictable(folio))
+ 					folio_putback_lru(folio);
+ 				else
+@@ -544,18 +578,10 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
+ 			tlb_remove_tlb_entries(tlb, pte, nr, addr);
+ 		}
+ 
+-		/*
+-		 * We are deactivating a folio for accelerating reclaiming.
+-		 * VM couldn't reclaim the folio unless we clear PG_young.
+-		 * As a side effect, it makes confuse idle-page tracking
+-		 * because they will miss recent referenced history.
+-		 */
+-		folio_clear_referenced(folio);
+-		folio_test_clear_young(folio);
+-		if (folio_test_active(folio))
+-			folio_set_workingset(folio);
++		madvise_cold_prep_folio(folio);
+ 		if (pageout) {
+ 			if (folio_isolate_lru(folio)) {
++				madvise_pageout_prep_folio(folio);
+ 				if (folio_test_unevictable(folio))
+ 					folio_putback_lru(folio);
+ 				else
 
 -- 
 2.56.1
