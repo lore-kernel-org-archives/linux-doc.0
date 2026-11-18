@@ -1,54 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.57
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795016295;
-	b=o6l0g49YhXbi64jTcT4i0AdRaiuwb8u5ARNVzjc7whOAaSfGA9wov6Hkt8lYWLUgb/8a
-	 n01CjdtzQ2fYDMgzg2h3Zt27sSSM6Fw7eGqiusOnF+D2zywfjHFNOzuH6/lhwxe/h/Q0s
-	 SsWUmUrAsSxdx3sE7CpAsaw7W/qmU8ws6QUZbhIKyByYiPfatogpF23KPbRHhxTWeKaIr
-	 OZeTAlqGQmNhhhCHHKkUIYEPItTO5wCPmBy84ZO/4VNq2X5XPKTyMRmU5Y5CyolmZ2LjZ
-	 Dlht9VN3X3I3zttCev19L5llM9QrnhkuX/MxAvLYxNiO13nY8Y6ghanC7oOiH6xCsdA==
+	t=1795016387;
+	b=jmakDu3LjE9NSRK+4ecB8GCCPY2c9vXRDY5DwczS11fo9tC8+Y8EwufnNLcl1Df+WOp4
+	 6007jr6aWzQ808xKaxxNiBqY9uXcC8v58wL+WOQOYCG3in20cabE6ZVl6uczrpYDc2ayU
+	 n2DAu4uvXQI87M4Ct+Xr5srw7KVKX51vNrwp2CuIcdwwemZeVXcX7fDLZUFeSoSDr3t4u
+	 bHJ9gH+PZ5O2OxlDHmnAqeQHtNQ60WowZ3q4d08G6pvKgRE5hhJxc7zMMAsnrTn1rh9mn
+	 tzpJWszWIbvKAompooZ9GoRaTH2PEugJQauxUgPiTz0Way0sF+JpcjOoZCU5uypHiMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795016295;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=RMWtXfOrBMUlXo3JAA8nnmiVWIJTNT38o6/ayrisqnY=;
-	b=jHI0JrELALh9gLKuyYfGH127VlSpiJVr6rUMJMY0N3xXGSII1RHbM0omtUyMoQF8fBst
-	 tc6XkrStbjbf/BYtgW9OVJy7aQexJCjBUS/ZhFI6j8rJzd4fXV+SG2nNLNv5N+jUUs0gb
-	 s5qno1wp021qFg+VrmyBjfZsmnVE36LGgh68Du+FwoAxgdEXwwO9cSnq9p6edxlEfdsLg
-	 oHPPWej2d8n3WFt9sD3OYsSMARUNrQ50ZMixy7THx31/hBRYVB9df7fPdVzc+w45PtOY3
-	 8p+Pqu1/K+djYsFd0JpwX51ogQ5atTLhsj0fI/iq/0yP8NVFOd4ulHB5tt+g3swa53w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795016387;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=+05d7QYBTtK1JZ1EQU9jtzeT6f65KemfkCy86aAw/hc=;
+	b=4jUjy5dyG8au6xmjXGt9Z03mzRyIO43UgUcAnhGbQMJijy+viTCeakrEHc279JrjsZ4y
+	 Uljy1LLdDvTuyw/fGHstROjYJ3Z23v0sdqE0NWhE7TGnNA1kuf3mcABPbR/bNRikh5+dX
+	 CfkyI0iZodhX8jL+5aaGO85HHVATXi6xHNpMYpyDQeIe79wzw2imkKaIbaV9jwhcqf9RC
+	 X0w9X57VgP2o8Q5hf6kEvN8j73G9tHiwQcB5giERYR4Qn3wqS53+2hzt/qnPaix2H+en2
+	 bC28sMHZ/f1Ehxs8OcvaA4PwygsZezoFzxfPEXJL8ApwcSaByM30D7Tuh6RDjFNbJyw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=juZk+Boh;
-	arc=none smtp.remote-ip=95.215.58.57
-Received: from mta1.migadu.com (out-57.mta1.migadu.com [95.215.58.57])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QL9BK19y;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6004960A2626
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 15:38:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6004960A2626
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 87EE360A3804;
+	Wed, 18 Nov 2026 15:39:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=juZk+Boh
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=tf0h0de4cYP6cKKbFkMbewM2Fg/9uzvPBvnWQQYHpdg=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795016291; v=1; x=1795621091;
- b=juZk+BohpBKtZxmXEqY9oZSjFzYWzOUsKub/zu36mdnJ5CdFfAhwRmSemFjcYqd23Hkgp850
- 80MfpW9+CzlGXe55dimQGW3ZEurB0gtvPtXxY8s9Nt9I4OOURjh2dRhVwdwQH+nnG/CNgzSkn37
- YpUS+z5h932+VR58utuYRec0=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id dbede086751ede28;
-	Wed, 18 Nov 2026 15:38:11 +0000
-X-Mizu-Trace-ID: dbede086751ede28
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <2e9faec6-9152-40ec-8c63-f262dc26e059@linux.dev>
-Date: Wed, 18 Nov 2026 23:37:57 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QL9BK19y
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A1F7F1F000C8;
+	Wed, 18 Nov 2026 15:39:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795016387;
+	bh=+05d7QYBTtK1JZ1EQU9jtzeT6f65KemfkCy86aAw/hc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QL9BK19yEFO48QBM8Oed0W9oi92dO17PMdCUfI4Ave2mN8VCby8UeUADTDtlBlnhl
+	 8956S5U32BRlMxLcxEy6IAMqj9bT2tV2nflNwCBhCavrWkNEoQkheI2gLQvRKTpI8D
+	 OZYSUCXLOErgiBwyPwpylot9xQFP/t/vCgNg8r4flgC0gqU4eMWbyhVsOGh1EyDmdT
+	 AturQVWjzfd6JHA+/q4WxYoguSu3eaa6rEnmd+YHCgTTQhv/n26rd7Wd7ZKXXpuZ4A
+	 bPwYGWM6BkAgAblBCTxgHP1gaY/o5KKvkEmIc2++SxtdNNn83/E5nsgC10+wJUhAdr
+	 VrrU/x5wTXzoQ==
+Date: Wed, 18 Nov 2026 17:39:43 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+	linux-security-module@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Ben Segall <bsegall@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Johansen <john.johansen@canonical.com>,
+	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Manfred Spraul <manfred@colorfullife.com>,
+	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	Paul Moore <paul@paul-moore.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>,
+	alex@amutable.com
+Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
+Message-ID: <av3Gv3MwP40bqvnG@kernel.org>
+References: <20261117231352.3816603-1-jarkko@kernel.org>
+ <wdwc3b5edgtgvrgqfhlzhrachr5hrqb7ahipcuqdz5pffxlc5b@662cpwhxwjer>
+ <av3EBpSuzn_TcrDk@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,101 +92,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/7] mm/page_ext: allocate page extensions early for
- SPARSEMEM
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Muchun Song <songmuchun@bytedance.com>,
- Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka
- <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
- Joerg Roedel <joerg.roedel@amd.com>, Lu Baolu <baolu.lu@linux.intel.com>,
- Pranjal Shrivastava <praan@google.com>,
- Ketan <ketan.kishore@oss.qualcomm.com>, Mostafa Saleh <smostafa@google.com>,
- Sang-Heon Jeon <ekffu200098@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Sashiko <sashiko-bot@kernel.org>,
- kasan-dev@googlegroups.com, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Chris Down <chris@chrisdown.name>
-References: <20261117120627.50601-1-songmuchun@bytedance.com>
- <20261117120627.50601-6-songmuchun@bytedance.com>
- <avzsFxVqO27Vf4Db@chrisdown.name>
- <3C50E682-848F-4788-9238-923D5E292DEE@linux.dev>
- <av1M9itGiTF1Akqi@chrisdown.name> <av2zkUpYGmGWPx8T@kernel.org>
-Content-Language: en-US
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <av2zkUpYGmGWPx8T@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <av3EBpSuzn_TcrDk@kernel.org>
+
+On Wed, Nov 18, 2026 at 05:28:10PM +0200, Jarkko Sakkinen wrote:
+> On Wed, Nov 18, 2026 at 02:47:34PM +0000, Josef Bacik wrote:
+> > On Wed, Nov 18, 2026 at 01:13:39AM +0200, Jarkko Sakkinen wrote:
+> > > OVERVIEW
+> > > ========
+> > > 
+> > > A root namespace (rootns) is a kernel object backed by a file descriptor
+> > > that binds together:
+> > > 
+> > > 1. A full or partial set of detached namespaces.
+> > > 2. A dedicated PID namespace for spawning processes into, signaling
+> > >    members, and polling or waiting on PID 1 exit.
+> > > 3. An initially empty mount namespace (CLONE_EMPTY_MNTNS) that must be
+> > >    populated before going live, without inheriting host mount-tree
+> > >    ancestors.
+> > 
+> > This is what cells is doing https://lwn.net/Articles/1102593/, you may
+> > want to take a look at that work. Christian, Lennart, Alex, myself
+> > and others are working towards this in a more wholistic way. There's a
+> > lot more that goes into this outside of just the object itself. I've got
+> > my version deployed inside Anthropic for securing containers and I've
+> > tripped over a lot of pre-work that needs to come because we can tackle
+> > this. Alex has my rough outline for kuid64 for example, which is
+> > necessary for making sure we don't overlap UID's on the system and
+> > create holes this way. The cells work/anything that wants to have clear
+> > security boundaries is going to require that as a pre-requisite. If
+> > you'd like I can include you in our planning so we can get something
+> > that will solve all of our problems. Thanks,
+> > 
+> > Josef
+> 
+> No it's not doing the same, and this why I sent the patch set.
+> 
+> I don't see cells fighting with rootns and given that rootns has a small
+> surface and it leverages already battle-tested code, instead of
+> reinventing the wheel, it also has benefits. It neither doubles the
+> number of container frameworks in kernel.
+> 
+> What I'm not claiming is that this is better. I just wanted to fact
+> correct "this is what cells is doing". It is not true. It could be
+> better solution but still that statement is untrue.
+
+For better or worse, cells does a lot more; just looking at the patch set
+size.
+
+For rootns one can point out with a finger its possible problems BUT here's
+the thing: it does not haven unknown unknowns. Even if cells had less
+of known problems; we have zero idea what will come up if that ever
+lands. The possible consequence have less predictability.
+
+Also, as per integration, they actually are not fighting features, as
+they are in different layers. There's no same thing at all.
 
 
-
-On 2026/11/18 22:17, Mike Rapoport wrote:
-> On Tue, Nov 17, 2026 at 11:00:06PM -0800, Chris Down wrote:
->> Hi Muchun,
->>
->> Muchun Song writes:
->>> Mike's suggestion considerably simplifies the code, and early page_ext is
->>> only needed by optional debugging and instrumentation users. I would prefer
->>> to keep this approach.
->> You're probably right.
-> I think so :)
-> The memap_alloc() that essentially allocates the memory map does
->
-> 	memblock_alloc_try_nid_raw(size, align, min_addr,
-> 				   MEMBLOCK_ALLOC_NOLEAKTRACE, nid);
->
-> so we anyway may end up with reserved memory in ZONE_MOVABLE.
->
-> Until recently we had memory map allocation before the zones were setup, so
-> there wasn't much we could do about it, but ...
->
->> But can I cheekily suggest something in the middle perhaps? :-)
->>
->> Given the zones are already set up before page_ext_alloc() runs, perhaps
->> you can pass the start of the node's ZONE_MOVABLE as max_addr to
->> memblock_alloc_try_nid() when the node has one. The general idea is:
->>
->>      struct zone *movable = &NODE_DATA(nid)->node_zones[ZONE_MOVABLE];
->>      phys_addr_t max_addr = MEMBLOCK_ALLOC_ACCESSIBLE;
->>
->>      if (!zone_is_empty(movable))
->>              max_addr = PFN_PHYS(movable->zone_start_pfn);
->>      addr = memblock_alloc_try_nid(size, PAGE_SIZE, __pa(MAX_DMA_ADDRESS),
->>                                    max_addr, nid);
->>      if (!addr && max_addr != MEMBLOCK_ALLOC_ACCESSIBLE)
->>              addr = memblock_alloc_try_nid(size, PAGE_SIZE,
->>                                            __pa(MAX_DMA_ADDRESS),
->>                                            MEMBLOCK_ALLOC_ACCESSIBLE, nid);
-> ... with zone extents known we could take it even further :)
->
-> page_ext is treated as the memory map in many ways, so we can allocate the
-> early page_ext sections with memmap_alloc().
-> And since the latter always runs after zones are set up it could include
-> this change.
->
-> But I think this should come as a separate series that also could move
-> memmap_boot_pages_add to memmap_alloc().
-
-Agreed. Using memmap_alloc() for early page_ext allocations and
-teaching it to avoid ZONE_MOVABLE sounds cleaner. I'll keep this
-series as is and handle that in a separate series.
-
-Thanks!
-
->   
->> I briefly tried that and it seems to work quite nicely.
->>
->> But I don't object to it even without that, so feel free to add either way:
->>
->> Reviewed-by: Chris Down <chris@chrisdown.name>
->>
->> Thanks!
->>
->> Chris
-
+Br, Jarkko
