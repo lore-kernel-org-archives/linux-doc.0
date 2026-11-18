@@ -1,62 +1,89 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795026177;
-	b=b0XLLYR2gnwzmQHPg2SdjIApjWyG0O8CLshYmq9bhVYWgeGxpL+7adGNFLLnM5vqO1ZX
-	 8ENmnE6TZhomQfh8DnzF0XJrWCykg78087QGYN3dhx9wMYbD1uOi0dcg43ZYnEZrrmECe
-	 pWVlpYz50BHOXCD6njh2YgPehJj1W/3B/ufnY2f1xINwX496ilm8/G4fDI/dk8/3PLj/e
-	 gKunmRauFYORq5Jt7Cu0j1f16cs/3VHmkY8+CfEz913Suc+D1jF1u7gfe5qeS/0XXVxn+
-	 Tmf8W+pce3wRNNDpyGWwjPcMpnhzIh5wCPEUmQrcMmgXJX94XNUxDlzpE5G8a4UXnaw==
+	t=1795026190;
+	b=ijhw2C9JvKQNQbTH/qbKcCeOmdfZAiULIYL3vz518z3KJBNbE2MgIpCjBspyULZFjxsd
+	 6mKfOrrw0aVYCCCuzJ2oIox3lzHW7xwmW56ufKwZC1vh0LAnJtQo8fDmETJUygX6kSTVc
+	 zk7UHYmqiJKq5q48JZYvqN0OmejFitemse+MNC2i+yfSSlTGNZyGELC8J4gYpL5BG4a0z
+	 7WbloL2kkf35w8LSOMOk85zBC7LqR8lB0Fs0napYRen/hv4mrP80S0SQLp4MTcpd2i8pF
+	 i2rJTHsw/18lw62DkIqXWIBn2sqhCNJfJ6+57hWQGp7d9DZC44pUPA7etqMlDq6SAOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795026177;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=h61PfhcBe+DMs3O1zi49O1Oj5TJ4u6zGftAUCUm0Yw4=;
-	b=HUVJr36Q8/R5eXSzI6PFdjBqreOOg3qE9J8aZ3OvAkaAgyYBypgupbLbaRDljaee7b/r
-	 otXQzhEZhZCuTRhYbONKqsEfExYDTKAlfwawuXrUzSO/kZzNVEj0wA9Ur3iqWr4V1laWE
-	 bxVUsKC0NirfcU3T8tYWrUNr5uaQbiC6VonrtW26h0VkcUNt4DBoU0C/H3ZTKUhWlOEFc
-	 /HKh/M7PxBTiSNS3nvUR2IwTOvwrtgYzdwOIurUaBEu3RXlBfh4gyog+oWQIzl1kZZSMf
-	 bLYT4gH+Chci+QrcGy4iKDO8PxfP9pV0x3/ymXKQgdFYaF8OMtl/XwpqYqZ2riA83zQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795026190;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=foArwJppdw7wxwAIXrJloa09SFBAq+aNRAw3uRfRo00=;
+	b=gKJySiLWvCbKmRGb1s3OjUxYuSdEhi8fLUnkrQzC6DQmC73ZH3gZRmNhGPy8vxKhcoiF
+	 QD7+BAAeQGZo5rBUH073kO7BsZeaj4mdDfsZqtXH753/UMFLBFY46WEeZTAsPudce6THr
+	 yTj7Xh39PgW5/G0mXCfHrd4b+i510ECr6ka2PegzbEdTObLd2Q5HdIbkgej1thV3IW9wi
+	 0qjn7/bW1Tq+JbMoFNrgcwG5TRdrCWjpfYjMhhqqQA0vU/4js9aSr80qwtk1Zh11Ie/js
+	 yG8yRN6wiGWpq9CTr5jT41t9XZLoqik1CUfBV/gt6AiIzSdZVBd4sK7tRDnHbZDjNJw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Iasr3mdk;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SSexoLIK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C3C606A339;
-	Wed, 18 Nov 2026 18:22:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id E676360A2601;
+	Wed, 18 Nov 2026 18:23:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Iasr3mdk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD4BC1F000C4;
-	Wed, 18 Nov 2026 18:22:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SSexoLIK
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 6DD3E1F000C5;
+	Wed, 18 Nov 2026 18:23:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795026176;
-	bh=h61PfhcBe+DMs3O1zi49O1Oj5TJ4u6zGftAUCUm0Yw4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Iasr3mdk0AKFIO3+dZ2tvHrk79f/1jiQx0zK4tVnYkfDbEF6b5MvBIgjqbLa8LW0z
-	 9GjhOAa3uspo/P3kXqzq1V+qh7dCNV8LanDx+1KAFEeBmR5nrNdt2Ev2ArwQZ/6Vgn
-	 ur/VetQwgpTfPvwnRox30OYgzJiXT9U8sIZcxS2C42TEZk7A3jLh5X24jeEy/c3Yzb
-	 9tkU/5T2xh6K27wUdyJQrOrKLtQgkFPGikU16AOKsxGuiwMY1l9YKAX9MuWxOAiCMv
-	 w5fp5kjoIQdpnT5tmjVcyWu0lTRVSmyZc7Vagrr7/OkwIHfASgW9HEP1ho2Cd78o5Y
-	 FIJf0UuHqFDdQ==
-Subject: Re: [PATCH net-next v3 1/3] i2c: xiic: allow platforms to require
- 32-bit register accesses
-From: netdev-bot+sashiko@kernel.org
-To: ahmadexp@gmail.com
-Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev, andi.shyti@kernel.org,
- andrew+netdev@lunn.ch, corbet@lwn.net, davem@davemloft.net,
- edumazet@kernel.org, horms@kernel.org, jiri@resnulli.us, kuba@kernel.org,
- linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, pabeni@redhat.com, rdunlap@infradead.org,
- richardcochran@gmail.com, skhan@linuxfoundation.org
-Date: Wed, 18 Nov 2026 18:22:55 +0000
-Message-ID: <179502617544.3136.16911407487347494512@kernel.org>
-In-Reply-To: <20261116-wiwi-v3-87afa10a8-1-ahmadexp@gmail.com>
-References: <20261116-wiwi-v3-87afa10a8-1-ahmadexp@gmail.com>
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1795026189;
+	bh=foArwJppdw7wxwAIXrJloa09SFBAq+aNRAw3uRfRo00=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SSexoLIKwBoPiLX/UCNvXMAvv4Xqx3dXaulr2O2mznCKKpg7Gl+XFyR5jDdZdWAUN
+	 Bm2Ym5u52HNVVRFXbz+lZpqqUqdI0QIVX/BnBolTVOjdqbWIRa9ZL/AQfHb7tP0tHy
+	 Bo3R6lGQHJTvQrtUZUBLV22APvmXIw2J9PMILe+xCzHOUZKAi5UWfm9zvRyK2Mg+0I
+	 M+H6ts9MMhrB3C9VnwqV5X6yDzwsL/MkVrIZfX8RVMJAzd9mqBMK3WoZuQhU6CTmSZ
+	 37+m6Xg9yYUbnkS2hE09G723J8T6okkYA03L/UmQUJFycH5/CD9SmRDukHGn7s1/6U
+	 Jq9Ur6XjHy3ig==
+Date: Wed, 18 Nov 2026 20:23:05 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: josef@toxicpanda.com, linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ben Segall <bsegall@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Johansen <john.johansen@canonical.com>,
+	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Manfred Spraul <manfred@colorfullife.com>,
+	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	Paul Moore <paul@paul-moore.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
+Message-ID: <av3tCT5lQTu7qBMz@kernel.org>
+References: <20261117231352.3816603-1-jarkko@kernel.org>
+ <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
+ <av3akYFOYaeQZauZ@kernel.org>
+ <av3bkDnwmjunTleX@kernel.org>
+ <CALCETrXPLeUgxyhjP4XuWS46FKB0TUHF5PcMkdMf+qeEXbyXRA@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,68 +93,118 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrXPLeUgxyhjP4XuWS46FKB0TUHF5PcMkdMf+qeEXbyXRA@mail.gmail.com>
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+On Wed, Nov 18, 2026 at 09:46:02AM -0800, Andy Lutomirski wrote:
+> On Wed, Nov 18, 2026 at 9:08 AM Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> >
+> > On Wed, Nov 18, 2026 at 07:04:21PM +0200, Jarkko Sakkinen wrote:
+> > > On Wed, Nov 18, 2026 at 08:59:39AM -0800, Andy Lutomirski wrote:
+> > > > On Tue, Nov 17, 2026 at 3:14 PM Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> > > > >
+> > > > > OVERVIEW
+> > > > > ========
+> > > > >
+> > > > > A root namespace (rootns) is a kernel object backed by a file descriptor
+> > > > > that binds together:
+> > > > >
+> > > > > 1. A full or partial set of detached namespaces.
+> > > > > 2. A dedicated PID namespace for spawning processes into, signaling
+> > > > >    members, and polling or waiting on PID 1 exit.
+> > > > > 3. An initially empty mount namespace (CLONE_EMPTY_MNTNS) that must be
+> > > > >    populated before going live, without inheriting host mount-tree
+> > > > >    ancestors.
+> > > > >
+> > > > > Work on this feature started in 2025 from David Howells' container object
+> > > > > patch set [1], which I turned into a namespace for namespace roots and
+> > > > > rebuilt around that premise.
+> > > > >
+> > > > > While the patch set is manually written, the original motivation came
+> > > > > from isolating LLM agents. Running untrusted agent workloads made it
+> > > > > clear that OCI runtimes need to minimize their live configuration
+> > > > > surface.
+> > > > >
+> > > > > Assembling mounts, credentials, and namespaces inside helper processes
+> > > > > with a half-configured container is what I see as the main challenge,
+> > > > > and the existential debate around namespaces and container objects is an
+> > > > > unfocused discussion topic.
+> > > >
+> > > >
+> > > > I've skimmed some of the series, and I see a bunch of good ideas that
+> > > > involve using an fd to manage a thing.  But I'm wondering how much of
+> > > > the value is added by that and how much is added by having a new
+> > > > *type* of thing: the "rootns".
+> > > >
+> > > > How much of the value comes from the rootns vs the new APIs to
+> > > > configure namespaces without entering them first?
+> > > >
+> > > > For that matter, the cells series also seems to contain a (possibly
+> > > > very similar) variant of the same thing.
+> > > >
+> > > > Would it make sense to come up with a patchset that does *just* the
+> > > > configure-a-namespace-by-fd part?  It seems to me that this should be
+> > > > an easier thing to agree on, and it's a big part of the complexity of
+> > > > all of this, and it solves a real problem even without
+> > > > cells/rootnses/jails/whatever.
+> > >
+> > > Is it  more accurately scope the part that is "just the fd-part" and
+> > > what you consider as "extra cruft"?
+> 
+> I'm not actually trying to say that anything is "extra cruft".  What I
+> mean is: there seems to be somewhat of a core that is pretty similar
+> between the two patchsets, and that core seems independently useful.
+> 
+> > >
+> > > I.e., where do you draw the border?
+> >
+> > I'm asking this because I had similar thoughts when I started this back
+> > in 2025. David had some good ideas but it did more than having a fd
+> > that does not go live before everything is set up properly.
+> 
+> I don't know that I have a very clear border, but here's an example:
+> 
+> rootns has MOVE_MOUNT_T_ROOTNS_ROOT.
+> 
+> cells has:
+> 
+> +What else goes into the tree is mounted on it before it becomes a
+> mount namespace.  A
+> +filesystem for the cell to write to is mapped in the same way:
+> +
+> +.. code-block:: c
+> +
+> +   fs = fsopen("tmpfs", 0);
+> +   fsconfig(fs, FSCONFIG_SET_STRING, "mode", "1777", 0);
+> +   fsconfig(fs, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
+> +   mnt = fsmount(fs, 0, MOUNT_ATTR_NOSUID | MOUNT_ATTR_NODEV);
+> +   mount_setattr(mnt, "", AT_EMPTY_PATH, &attr, sizeof(attr));
+> +   move_mount(mnt, "", tree, "tmp", MOVE_MOUNT_F_EMPTY_PATH);
+> 
+> (Source: https://lore.kernel.org/all/20261105-b4-cells-v3-2-bc9095937a84@toxicpanda.com/)
+> 
+> I feel like you are both *so close* to something that would stand
+> alone and make perfect sense.  I also feel like, if that's a goal,
+> then both series are slightly off from the bulls-eye.  (Keep in mind
+> that I've spend a total of about ten minutes looking at the relevant
+> parts of the series.)
 
-Low priority / nit picks for your consideration:
+Thanks, there was still a lot of relevant feedback to address.
 
-- [Low] In drivers/i2c/busses/i2c-xiic.c, this patch extends the block
-  comment above the register accessors (lines 281-290), but the…
+And who knows, perhaps there's a sweet spot intersection. I would not
+mind that, as I only pursue for something simple and practical.
 
---
+For the time being, I'll update this series simply because there's less
+to change, and polish the implementation. That does not hurt even if
+cells were the ultimate solution. Part of this series can still be
+useful.
 
-i2c: xiic: allow platforms to require 32-bit register accesses
+> 
+> 
+> -- 
+> Andy Lutomirski
+> AMA Capital Management, LLC
 
-This patch adds a force_32bit_access flag to the xiic platform data. When
-the flag is set, the byte and halfword register accessors issue aligned
-32-bit accesses, still in the detected endianness. The first user is the
-WiWi Time Card, whose LitePCIe bridge cannot handle subword MMIO.
-
-> diff --git a/drivers/i2c/busses/i2c-xiic.c b/drivers/i2c/busses/i2c-xiic.c
-> index ab7916745ad39..edb5e271c8cde 100644
-> --- a/drivers/i2c/busses/i2c-xiic.c
-> +++ b/drivers/i2c/busses/i2c-xiic.c
-
-[ ... ]
-
-> @@ -282,52 +284,68 @@ static int xiic_i2c_runtime_resume(struct device *dev)
->   * Only the least significant byte [doublet] of the register are ever
->   * accessed. This requires an offset of 3 [2] from the base address for
->   * big-endian systems.
-> + * Some bridges only support aligned 32-bit accesses. For these, access the
-> + * entire register in its detected byte order, without a read-modify-write:
-> + * reading or writing a FIFO register must perform exactly one transaction.
->   */
-
-[Severity: Low]
-This isn't a bug, but the first sentence of this comment now contradicts
-the new mode. It still says only the least significant byte [doublet] is
-"ever accessed", using a +3 [+2] offset on big-endian.
-
-When i2c->force_32bit_access is set, xiic_setreg8() and xiic_setreg16()
-zero-extend the value and write the whole 32-bit register at the base
-offset, with no +3/+2 adjustment:
-
-    if (i2c->force_32bit_access) {
-        xiic_setreg32(i2c, reg, value);
-        return;
-    }
-
-In the same mode, xiic_getreg8() reads the full register through
-xiic_getreg32() and truncates the result.
-
-Could the first sentence be changed so it only describes the default
-accessors?
-
-The comment also doesn't say what the new mode relies on. The registers
-written through xiic_setreg8() and xiic_setreg16() (XIIC_CR_REG_OFFSET,
-XIIC_RFD_REG_OFFSET, XIIC_DTR_REG_OFFSET) now get zeros in their upper
-bits. Should the comment note that those upper bits must be reserved or
-ignored on write?
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261116-wiwi-v3-87afa10a8-0-ahmadexp%40gmail.com
+Br, Jarkko
