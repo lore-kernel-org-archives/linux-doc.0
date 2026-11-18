@@ -1,88 +1,128 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795023025;
-	b=QhZ7jnzkJeU3CGZhg5+/lKzubMfFL/gcm/HJIA7iwwIeElCO8CWaQH4ZIcvbaPIkjkmG
-	 rtyGnvZN+HEVJ15AbeyaA2roU5SOq1sBzHVdjxknfK84Ba7K5+iM3c2LttOZ3nSbwGOOK
-	 fkv9HquYSSqqbAm92a7BToImadTtTMM/g7y9oL8xV1vQKY/NN35dQdgugeK3uh57Oa7mp
-	 /Z6LUpmP6fC77Aa/3SVoYJ4hphbhVyUVuGcBOyPvy8vtTxjflPxW5gdSzHq+77eyowPy6
-	 CBEPkZBhEZ1Ein3xG+qIbVoTi7eTiO1/HD7qptR9WSSpLQp2G5NjZKLjsSbbP3vDsSg==
+	t=1795023130;
+	b=QVfM4uz5tV53ciuTjiAiZ02m6EWWfmEWyTQNt8Zqc7pe500l4jHlL2AwMkGp6M8NK55Q
+	 /dx4NLEtdh2vEG4BxFKbFbVR/rykT+fTqgUI2STW2EEn+J01YT7nmTSi20NBKHsAi10TR
+	 guyvLBSwwpfcjEfJzHv/G29Q3DlS3n0QfRMVPe/qi2Ap+F3s+gqzuCHxSsnZUk4sw1+Vb
+	 9Fn8jKOFG+MRSEoG63hLwTJ9ing9OQItYDcBAh+jVBadteCcvjNmNkIVRMWWje++mCb5Z
+	 hr7vdgAwLF32jewjLnYFj/WPIgOehg6lCASJvdulsnYiKoraxlop6lAx3NEt1qCX4Sg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795023025;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=AXyr34eZLB1bS8MATPL8FPR/LLqo+MrnU3tB91TSYQo=;
-	b=MgzHzLb4qmVeSH6oIYDt+VXlXlh5+E+0/VHmmfCdLrFu7G8sVSP26FuPYTU2199hvONs
-	 df7O9zPw7nhc8sE9BlF6/c3X2CCwvlVnd1zj6oa6poCoZqjgX4Sihvlc6u/DQsoRfTgk/
-	 6rbyFq7lgAM3jZDl3NvJJTEryCQO7oW52Rk4495/RX/fo0hOHdKGgXDkDbEdv6XoYqHSK
-	 iflxKtzdLCnvTKY0cpBSzf1s93WdWsctjFJrK+wdXydwhP/1iDG4qfzm7SAUpQZoFGgow
-	 ddmve1CY6Jz4uCbKxaSeM8W2S35jxnXkdYQnirQ3vAtNi7CUGVP3Jt1rdizkthdWAfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795023130;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=sIHU3OVQcJmZgw72w0jml0JK+bFdjHCcLJtdZKnwGXA=;
+	b=qK/uD/iN4TnC1H79sKmOTO6eNY3prbVIj33pHZPSaz2MwogOy8ulpWiQ5SESYnr4o/GJ
+	 JW3RhlgtMgZo/X02KXPQipx8b5sRcbvnUdfow8AvDwzWASk5i/zUVIVCl/8XwSW5+t0j3
+	 ys/tMsDTjvXpuq5u9FzpQBzM6zgaIdvmBvqraQXPh6IAmNY4+6iZsPrzLXTFOQBXJADRT
+	 NgLglHMQRX483zbxZLAPh1ADk1i4M+A/IbWZlJl1ToYOt7KQjXqLC7x53EM1LrpowCSsT
+	 Pg4+1fIVOxtHMSGtdg6fXkR/coJGeIprMGMrZDl35NEbBo8fURcScXUBm5levgVXDdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=djw2K2od;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pFkwc1Iy;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=DYmHiRSY;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id E8548606A320;
-	Wed, 18 Nov 2026 17:30:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF53606A32A
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:32:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFF53606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=djw2K2od
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 142AF1F000C4;
-	Wed, 18 Nov 2026 17:30:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795023024;
-	bh=AXyr34eZLB1bS8MATPL8FPR/LLqo+MrnU3tB91TSYQo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=djw2K2odyCnHPUAoZZ3QMzDgwKhcnKfCVolEDh7zqTyPwLHrWwWgrXoaKOMifxeQB
-	 PgA8i2s3h5GY9GH6UgyJRCnufAKqxM+DK7OrqT6iwZZayXJSuMLirY6EZLYMetmPZP
-	 xHwqm2IO9NHoInWN3XwvKTAuj4wPHcJw+Rz48D7XjH7KB1TAck71C0Awt/Oofy0Tqy
-	 +TMVLuo0zS5w2qngKq6+nTM7SmxR+FenCGhNkse+bueiZMaT+cpR4UM8EMprS6IO/s
-	 V9Cw1fpesTrfw+QK3tQlIs2+d5U6WxpY/Iaqw0nIvP08ZxP0ZlS9mSoa5MHbLW2qSI
-	 1k7w52jwbTcvA==
-Date: Wed, 18 Nov 2026 19:30:20 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: josef@toxicpanda.com, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ben Segall <bsegall@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Johansen <john.johansen@canonical.com>,
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
-Message-ID: <av3grNWlMRsZrqaq@kernel.org>
-References: <20261117231352.3816603-1-jarkko@kernel.org>
- <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
- <av3akYFOYaeQZauZ@kernel.org>
- <av3bkDnwmjunTleX@kernel.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pFkwc1Iy;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=DYmHiRSY
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIHGBOb2745611
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:32:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	sIHU3OVQcJmZgw72w0jml0JK+bFdjHCcLJtdZKnwGXA=; b=pFkwc1Iyuzm6QtDB
+	jpsJ240F2OsnqEDyuEM9eL3utOmm39sagvXqEk1Sui825XGU+BgTf1jsT4Y7HC+K
+	USyfrnC+eNY7LltVz+nv00s5wEZXbWjT2SmSF+TAEMe+cClCjyR1Jnl1q7OZnPZc
+	kghsxF/P/OH3kEMGdkapkioydXTlexe4fLYVy+xli5AwkPdTLhdcKUXKOPpLT9zJ
+	xet04GqFXxPV6kHKKudVoccNsnXfRXGcCsD1Qgna+TdHOU3WczSnxzjz5H9jQozY
+	P/T+GbLcRBg+RbhjISf2YB45doJUOSzNg9Ud7jKvNdEgPCMoBTi1lemTxk2KpLjW
+	7CVkQw==
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j1fpng8rf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:32:08 +0000 (GMT)
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-381dc4b8f40so1496376eec.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 09:32:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1795023128; x=1795627928; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=sIHU3OVQcJmZgw72w0jml0JK+bFdjHCcLJtdZKnwGXA=;
+        b=DYmHiRSYvGa2j/22qQPBU9+R5TD5sWvJIIIVr5F+SB5O4QEgrasJwlNCufAQNX5UYm
+         Di9n8427xArfRH5XDC/JwjgYuubvauN4/JOdcEN5yu8+V/ohV1EPiXx1PKCzgPbUcPy6
+         /qsRsrMqntNskxqVbz4r0pXp2KhDmtOZ9spCNhJCRYtlKjiyoNg+7MIRBdT4bCTyHABH
+         5PQixdrsoziVV+5/hSbwOsGg1kqqHF04UA2mzVSCI8InkAANxJRvab5tciu/mA1rWEjB
+         NoVVRBzV+JfDE0PbC/y/TcHFpT9B4CbZuv9BYQLH42rDnlSpn+gM/yv/gKc4GldeC2g6
+         KyzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795023128; x=1795627928;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sIHU3OVQcJmZgw72w0jml0JK+bFdjHCcLJtdZKnwGXA=;
+        b=NAvM1DHQH+aRaJTV2J6OtK6PuCj3DnYOHKEYk5se4MbD0fAFzZNl11JtMdS4GBCagQ
+         xV8LCGcrEtbehr4DkZvolcHxcHf1TFVMX5yuaOGwGT+Uvq86pxsbJ4YbuARSIQat7Gck
+         NlTBPdhaAlHSkNLx2hHfmdRT93fy6d16PqtS2mIPf9CesvGp3m7ns592g20mlFWKUPBp
+         Zoy7OQD9vB4abAKPpZzGup4xXAERrBT77WRZI7HkCdAd+bJLSEhPSza+aiiv5ti5WQ0/
+         HUNNO2paAUIp1C7dJQ3H+fRoqdsKc3+JPxbJPqilAe1siaYUCOZaf9WAWprNj2Kq6s8a
+         Ko/A==
+X-Forwarded-Encrypted: i=1; AL+hErH8gAjdI0sPZYnlCJu5wxNOnuPB/mSAkBI1KrBrk7y+bxSox6QKbj6GBHR49bXJgQRv2zand7tvaKU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/MME+nXGwpK7tX1+aWPRmu0s+TZQ+JMR518udhVtZRqRG2beMz
+	P9BRvuTPbcKRGLCzcqKh2pnOs3DCOF/L/X+TasI3x8pR1R+GKwmKn4ulsgVE1nFRQw+6OXP0HKA
+	TmtOTXtjF+hFcNqrFKKPZF6DCGSGJK8F1KuEGX10ugo131vPIqBmaMayTvsYl9ts=
+X-Gm-Gg: AZFdTZdzEcB5CuKGFHb5O+PidPqY5Br2bnMU4o0OaAzxu0m0W4P5Zm0n42KDTiWQr6D
+	tSeA+yjwOIm/JppZKm01fFGoroFXOoYe7kcoqFcmXZJ0PmxTZsoji6VexC2BORTU5CO2whqTEWT
+	9A7hloDjAI++lEq8ziZkDEWR3LxZ0tvJUbaxPhvIdi9G/GsTgbFmiwS9fAT8cJhdvhtNQPbIdNv
+	d8P3Ywd2bRSfg2SFDjOCGM0K0Jcs1C9rnQlBEsDOKPXCDTR9qhiyTiZqvrJBDTRQTcBzOwc+e+c
+	mgHeC466wGCSxXBITu76/r/mfQeyYuhzRzNNxUaD5Yyhq9rh/+YJqa721trezKRfNyecwXv7I1K
+	Qbuip604J0m9NrCkLnkIrGrdZEFjyXSnjWJM5rde0zAr+kFyIX+2zt2ZWmug/S5ouA15MVehMZi
+	Gh5UgIu5OO+BWjc1YLzCugH+ItwIig
+X-Received: by 2002:a05:7300:d210:b0:380:f8fd:d19c with SMTP id 5a478bee46e88-3828181369cmr3425931eec.35.1795023128078;
+        Wed, 18 Nov 2026 09:32:08 -0800 (PST)
+X-Received: by 2002:a05:7300:d210:b0:380:f8fd:d19c with SMTP id 5a478bee46e88-3828181369cmr3425903eec.35.1795023127474;
+        Wed, 18 Nov 2026 09:32:07 -0800 (PST)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a63059e3sm13849129eec.5.2026.11.18.09.32.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 09:32:07 -0800 (PST)
+Date: Wed, 18 Nov 2026 09:32:03 -0800
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
+        linux-doc@vger.kernel.org, james.quinlan@broadcom.com,
+        f.fainelli@gmail.com, vincent.guittot@linaro.org,
+        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+        d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+        philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
+        leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
+        usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 00/35] Introduce SCMI Telemetry support
+Message-ID: <20261118093203.000069f1@oss.qualcomm.com>
+In-Reply-To: <20261118-poetic-robust-raptor-bcff2b@sudeepholla>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+	<20261117170709.00002088@oss.qualcomm.com>
+	<20261118-poetic-robust-raptor-bcff2b@sudeepholla>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,62 +133,138 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <av3bkDnwmjunTleX@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: pAgDOVyuM3X0mNTdQkkuI-cU0lJBpiOS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA2OSBTYWx0ZWRfX/61C5ZckEBKW
+ Is6TOiw3FPBffEwEDKAp+oxi3MIUtRyJshTpZlSJ2T2FdavUKnvt1oDD1aA4DdBaIjexikFH2HZ
+ fwpdLAH70CJ2GGEfVMwxwiFmWlCq3WwZ8rore2s3zV1PjNAjw09VkCt9JQdOK//cwmRIzijYikH
+ faIQ5FigDH+h3Grzl5WihtP8St+ZN86O5SZEDN8tqNQM+qLSqOIEwCi2dY4QBvcjxEh2Ro1gZfN
+ WLBeIR0AovTgO/BPe5++vrOl9j9GwLU4Bms54gye3jMx2qdh2EhGun5GaoewKng9/bHMLnnKTuW
+ rYAIVV4/ZxYQsmitBd+F8DnJZ9ZVJI0OGcpnwcadLC44ED4Kt3kqn5i8V/xv9rmnqxf6pHnRdrD
+ 5BCmGR9wNdNtC4vqBj9/UdYdtb0k8QSsm04VgItasaEJ0MpGo6jzmLnSzU5UHhTIPAsk9/5mKVz
+ hOK/or4jXaeF8IrU4zA==
+X-Proofpoint-ORIG-GUID: pAgDOVyuM3X0mNTdQkkuI-cU0lJBpiOS
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA2OSBTYWx0ZWRfXwfBc5AGxcEmA
+ mWr7i9R2InjKH3AnDLxvbz9PDESk00LG+rTCLCT0uezQbJuv85vNWQg0VYfSUfkAkK6zqD/k2WT
+ xiqAjccJCZLMDJ6GLQ08cFSgdR3rpBQ=
+X-Authority-Analysis: v=2.4 cv=PJ6aavqC c=1 sm=1 tr=0 ts=6afde118 cx=c_pps
+ a=Uww141gWH0fZj/3QKPojxA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=VwQbUJbxAAAA:8 a=7CQSdrXTAAAA:8 a=ZJvAkwxlLmQLexqbkCwA:9 a=QEXdDO2ut3YA:10
+ a=PxkB5W3o20Ba91AHUih5:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-18_05,2026-11-16_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0
+ priorityscore=1501 phishscore=0 spamscore=0 adultscore=0 impostorscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611180069
 
-On Wed, Nov 18, 2026 at 07:08:36PM +0200, Jarkko Sakkinen wrote:
-> On Wed, Nov 18, 2026 at 07:04:21PM +0200, Jarkko Sakkinen wrote:
-> > On Wed, Nov 18, 2026 at 08:59:39AM -0800, Andy Lutomirski wrote:
-> > > On Tue, Nov 17, 2026 at 3:14 PM Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > > Would it make sense to come up with a patchset that does *just* the
-> > > configure-a-namespace-by-fd part?  It seems to me that this should be
-> > > an easier thing to agree on, and it's a big part of the complexity of
-> > > all of this, and it solves a real problem even without
-> > > cells/rootnses/jails/whatever.
-> > 
-> > Is it  more accurately scope the part that is "just the fd-part" and
-> > what you consider as "extra cruft"?
-> > 
-> > I.e., where do you draw the border?
-> 
-> I'm asking this because I had similar thoughts when I started this back
-> in 2025. David had some good ideas but it did more than having a fd
-> that does not go live before everything is set up properly.
-> 
-> Then I thought that, I guess people who proactively on the topic do
-> something more lean and compact, and never sent roonts patches.
-> I'm not seeing anything more lean and compact.
+On Wed, 18 Nov 2026 09:33:44 +0000
+Sudeep Holla <sudeep.holla@kernel.org> wrote:
 
-What if "A full or partial set of detached namespaces" would be changed
-into "full set of detached namespaces"?
+> On Tue, Nov 17, 2026 at 05:07:09PM -0800, Jonathan Cameron wrote:
+> > On Mon,  9 Nov 2026 09:11:46 +0000
+> > Cristian Marussi <cristian.marussi@arm.com> wrote:
+> >  =20
+> > > Hi all,
+> > >=20
+> > > [TLDR Summary]
+> > >  [V15 highlights]
+> > >  - general cleanup and hardening driven by reviews
+> > >  - improved TDCF access routines to minimize lost samples under load
+> > >  - completed ABI docs
+> > >=20
+> > >  [V16 TODO]
+> > >   - address any remaining V15 outstanding Sashiko/reviewers issues
+> > >=20
+> > > The upcoming SCMI v4.0 specification [0] introduces a new SCMI protoc=
+ol
+> > > dedicated to System Telemetry. =20
+> >=20
+> > This is one from the family of issues you find when reviewing ones own
+> > (well LLM generated) emulation, realizing it doesn't match the spec,
+> > and yet works.
+> >=20
+> > This works fine without the required SCMI protocol property in ACPI.
+> > 2.2.2 of ACPI for System Control and Management Interface 1.0
+> > Platform Design Document. 111115A 1.0
+> >=20
+> > Now, in here is an informative statement...
+> >=20
+> > Protocols not listed using a property may not be enumerate by the opera=
+ting system.
+> >=20
+> > But they are...=20
+> > =20
+>=20
+> Correct, I intentionally left that out. I do have a patch that restricts =
+it
+> strictly to the listed property. However, I held off on pushing it becaus=
+e of
+> an issue we saw on an internal test platform.
+>=20
+> On that platform, the firmware advertised the protocol to the OSPM via the
+> base protocol, even though it wasn't functional at all. Once they realized
+> this, they simply dropped the entry from the ACPI SCMI device as a workar=
+ound
+> instead of properly fixing the base protocol discovery. While understanda=
+ble,
+> relying on that workaround delays proper firmware fixes.
+>=20
+> That is why I went with the non-mandatory "may not be" wording. I am happ=
+y to
+> merge that restriction patch if a real production platform actually needs=
+ it,
+> but until then, leaving it open helps catch and fix broken firmware
+> implementations =F0=9F=98=84.
 
-That would simplify the patch set a lot.
+You can't merge it safely as at a later date because chances are high
+someone is relying on the current behavior and not presenting that
+(currently pointless) package in ACPI for some protocol or other.
 
-By pratical means we would take this:
+I'm fine with a permanent decision not to check this but I don't see it
+as a thing that can ever change (except maybe now whilst there are not
+that many platforms out there using it!)
 
-enum rootns_flags {
-	ROOTNS_CGROUP		= 0x00000001,
-	ROOTNS_UTS		= 0x00000002,
-	ROOTNS_IPC		= 0x00000004,
-	ROOTNS_USER		= 0x00000008,
-	ROOTNS_NET		= 0x00000010,
-	ROOTNS_KILL_ON_CLOSE	= 0x00000100,
-	ROOTNS_CLOSE_ON_EXEC	= 0x00000200,
-	ROOTNS_ALL_NAMESPACES	= 0x0000001f,
-	ROOTNS_ALL_FLAGS	= 0x0000031f,
-};
+Jonathan
 
-And outcome would be:
+>=20
+> > So, obviously we can ignore informative spec lines but that is a pretty=
+ strong
+> > sentence. I can't immediately think of what would go wrong if we ignore=
+d it
+> > - maybe we'd not pick an exclusive PCC and fallback to a common one the=
+ firmware
+> > doesn't want us to use?  But if it doesn't want us to use it why make T=
+elemetry
+> > discoverable on it.
+> >  =20
+>=20
+> Indeed, falling back to the common channel lets us uncover any underlying
+> issues in the firmware implementation. That is the exact scenario we hit =
+on
+> the test platform, which convinced me to hold back the patch.
+>=20
+> > Should that be wired through from the ACPI parsing code?
+> >  =20
+>=20
+>=20
+> As mentioned, we certainly can, though I'm not sure we should. The "may n=
+ot
+> be" phrasing simply leaves the choice up to the OSPM rather than mandatin=
+g a
+> strict restriction.
+>=20
+> > Anyhow, not something I care that much about but thought I'd call it out
+> > as an oddity.
+> >  =20
+>=20
+> Thanks and well spotted. Much appreciated as it brought the information o=
+ut
+> which otherwise would have just got lost.
+>=20
 
-enum rootns_flags {
-	ROOTNS_KILL_ON_CLOSE	= 0x00000001,
-	ROOTNS_CLOSE_ON_EXEC	= 0x00000002,
-	ROOTNS_ALL_FLAGS	= 0x00000003,
-};
-
-If I was using this I would at any time just take em all. "Partial" is
-just something that I've been just carrying since probably David's
-original patches i.e., it simply has not been considered that much.
-
-Br, Jarkko
