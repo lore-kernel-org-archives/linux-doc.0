@@ -1,141 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.97
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794982117;
-	b=JM5joIUGm+T/Q4Dk/cCCn75FTWN32pudMuC3k8y9rfI64rmlAAJqhNt9CprAWVxHlwfl
-	 vJU8DjMe+ptYfvPePqCeRoZzOhHq48qzcvC8ncAFw57lxmPNuqvjH0K0keZalYhqktBDW
-	 IxRI1xcCwOZF+0z/ltBhZMDtDXFpJUucimMaE2OCidJ44CO1IIK5qC3yY5PynjBcFH/OT
-	 tfkbNVpsyml3lrJi/ged5xCV0/Ue+o8mAVr1FnoLGosURpTnCK2fiC+cWFEoS4+2tKrlX
-	 0kIjf5DIIpz9QaV6qHOhRIs1S1mfjMd5Totvq1/JFxc6BxImfqqgr845+5QPutnWGnA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794982117;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
-	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Received:X-Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-DetectorID-Processed;
-	bh=hDAVKUxd5qtHRxyEIWChofvlPqSC6zajAOsizwKxViY=;
-	b=LU/anegSM5JieHVeUuFOG9Tsc13mzOqZDW4vY4wqs9v5XjV3Cu6LC2NusJJM0ykv2VkQ
-	 qpq0VsRzc0FKcZ6HjxcY1xPSL0hGDWVgpPtnmwpUosmiEDL+MJESbCcojWrdKHNNsuNC7
-	 +PItWE73Re1mxvYxoeEmvbOvft9/x6X+tgCJ6d10Irl5u7LrZS0CeB++lbd1AOkjIsZUx
-	 LuYVl22Wa8VXP9QqykbXk4ue+V2uaI4Sh7KDazzh7Q+zaPPrH3vacImpbFP5RFRd+DOEY
-	 FWbrrlAj34kuIWjhGdcuFCdJPcvzYurFohVEWJsMz/VOUsi0EWoAaz9N/x6ECoaP9rA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=broadcom.com;
-	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=f3T48mLl;
-	arc=none smtp.remote-ip=209.85.217.97
-Received: from mail-vs1-f97.google.com (mail-vs1-f97.google.com [209.85.217.97])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.228.136
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794983194;
+	b=SGgR73IeiTOW1rbsodnkKUz/adad9Rvmt7Tx76qWw+Y+gJEYvVH+yQO9lgVsIWzXZmBa
+	 v8S0oiCOqgWYoTCJSeQ2Kh1LcLWkW47uIGmUKLGN1Heq4tETgNqQWtxpVUDRAxyCVzKof
+	 8duXd2eGsgBLwm/7pJQz5CGVbTejMcLuxQ1SWtjrArGihQvV1/a1OVVVlbavFnvU0mhBG
+	 vE5vO/vf5JsFUL+eOxNovoYzKpgiriVT1x+sQlCRHtxwOtZ+ZKfuUVy/UXAOB+aUrQXNg
+	 vY0LjLpbdK/uJo75UfHtXJxmmTiANTJY/2dXLjRsJ76FAPrGEkSjnJY9T8JfhfH083Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794983194;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=Ww5buphj/9ocJ1N48f4JcsXP+VQP934a+3geOYkT/uk=;
+	b=ojljCUKXf6IIkagtsD1wDM6gD8LO3M4R++Vn/7H/5e2X9svLHkBNorv9zX/H9GjSFfA2
+	 ndDqffVpAo2D2h7Iu7CkAR64lImYq8UzcSfuqK2znmWe62JlT1dZyeFCWQmhX68CrzLQK
+	 aHlgG7NlU14UAMXATt/qhUjHL5MUZ/q9ax75erwX1b79rVlQfYuTQqYUWUquZrY2nmkDb
+	 hi/nic+r/Vrg6nLUqZeJ9Jn6/CdO1DgGwfu4FZSeLuT6hu4m3yO71tQ5yxUW2LJ0J4xWY
+	 HQl9EEy79IZwKo4rbUCusHtYcKILa4My83qrsI3G9QtRbgzjJGajjxss7Zau1Kc64rg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=valinux.co.jp;
+	spf=pass smtp.mailfrom=valinux.co.jp;
+	dkim=pass header.d=valinux.co.jp header.i=@valinux.co.jp header.a=rsa-sha256 header.s=selector1 header.b=NbxqGTie;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.228.136
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11020136.outbound.protection.outlook.com [52.101.228.136])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4D8606A31C
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 06:08:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F4D8606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E2C606A325;
+	Wed, 18 Nov 2026 06:26:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06E2C606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=f3T48mLl
-Received: by mail-vs1-f97.google.com with SMTP id ada2fe7eead31-7d6a6776719so331023137.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 22:08:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794982116; x=1795586916;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hDAVKUxd5qtHRxyEIWChofvlPqSC6zajAOsizwKxViY=;
-        b=m/H+tnGRenExI59h75gqAkDPTTzfS7gnUfxz0JsbWS175+vCK3EFMG7f0dKcOmwRBr
-         wIXDEt9khlUmeAN/31SNmeORTF+VrF0Jv77XUSGYpj0brc2KjF85fkUQ8QMXWNh3mOqK
-         oSHZD08IsZ2IpPOgUbbOscYUJx2bgH5+gsrLW57DQk9b0sf5u87ZD09fLcsFIpNtBABX
-         z5n986gILDMSP4g1ZQRG3aBTxj8D4OgrQWbfmo4mRvQKa08Lpr0gt03clVXhd5TnmB7d
-         hZw1yfOXWvXA81EcS+XS4pK3HHASZARroAIdew4gyBWGAl3UB8SQR+7fkqKtNKIJxx4I
-         WSqg==
-X-Forwarded-Encrypted: i=1; AL+hErHgQPpDLlPUX2z3s7phZZZkV3s//5qNTvSRYKVF+cMpQAEEwMrBeMFjFsdynUGUEElYGsv/axSMzT8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+kMa9O+L0SHD++UF2bvkwaCr1PKlSrpRnC2tMoSOkdWx2UYhJU
-	fMf24xuk5RTa0qUGhpt9ILulCjv7xlS93JJuTschax40TdAeMaaf3Wr/W1zM/z1l7/sy7TGyPN1
-	ApXPo+WyOWbv3XpHaMiIuHly1NgTEllod2UEw+EzTRIUJNeXZY409QnLY9uTsfxKbAXDHTV6KLa
-	w1iU0uuIA5Fd2Zit1a2u/VpadNJGcLpLRQ8sQ9BMf+ineeDINmqV1pyEKSd9jOVMn5J5hs5jZEL
-	o6OznU9k2Pd
-X-Gm-Gg: AYBFou1qoCHKcRI/Z0oFE3prOExM2kCNDsMv2I7SRrgstIQRgxz5P+uXpKaF3QloEyB
-	H58MYCvpt+4to3wskfXXxsRHhp1z7h5B5xhNUf1UDa2D98+6NLy+stzP1NPoaS1XCr85mDQcJ3h
-	Ukrsr5G78arrpafBHCBHkQz/Pia6iyiMeA2/pU7SGLlrcRtJl3hUm33Z0pQhB0vrfGnOH08ObVx
-	icZLRF7eFMCo2tEFxjjyLf7ISx6bCpbS5eSOSpglaGEQ09kVv04dWwES4Ern4mwLab6/x/M/aqM
-	xNCxU8ebovwiC3UkI95ZgfztZuhWT9qsBdHVKbJttd0xJCt3v9gVmt564zqZtdnwGE6RKBJbmgZ
-	6Rl43yGoujZ9QPzJ27yAH0PxneKlnxmohCgugrEmWYy94nrjzv3iO2d4eFuJ+Um1LKIQ42H+Uq/
-	B44uRwOvut5WasYJ2rkacHwt1M7LEJ5FZ2
-X-Received: by 2002:a05:6102:1608:b0:7b4:879c:bb76 with SMTP id ada2fe7eead31-7d6ba45bc9fmr540893137.21.1794982116189;
-        Tue, 17 Nov 2026 22:08:36 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-26.dlp.protect.broadcom.com. [144.49.247.26])
-        by smtp-relay.gmail.com with ESMTPS id a1e0cc1a2514c-99e4a656fa1sm166400241.19.2026.11.17.22.08.35
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 17 Nov 2026 22:08:36 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-5eab0467c89so718107e0c.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 22:08:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1794982115; x=1795586915; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hDAVKUxd5qtHRxyEIWChofvlPqSC6zajAOsizwKxViY=;
-        b=f3T48mLlt+Dop6dB+mrXeEZjCaiRkYvmnueKwAjrFe75Z5EUcTWjA2tJjsIbqGfJmq
-         Y0UTVcwxH41wJzQ5pTaAt6J7BH4xFhOXJ3wDO72r0rX5yIMMGzLNYeIQcue5FIktX/Qr
-         ktPtvGihB2RZnIeAy3BOTBg7KVoj3Oi4dmWNM=
-X-Forwarded-Encrypted: i=1; AL+hErE/6CkO+dAQfexXXhq18NPc4ZFJLIagngiFKpklGS+VFjCCN/vgrFPNmxQyFrpWvlLGpzP5kfg/R6s=@vger.kernel.org
-X-Received: by 2002:a05:622a:50e:b0:55b:8632:6d42 with SMTP id d75a77b69052e-55d5a539184mr26035521cf.23.1794981730228;
-        Tue, 17 Nov 2026 22:02:10 -0800 (PST)
-X-Received: by 2002:a05:622a:50e:b0:55b:8632:6d42 with SMTP id d75a77b69052e-55d5a539184mr26035081cf.23.1794981729786;
-        Tue, 17 Nov 2026 22:02:09 -0800 (PST)
-Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net. [173.49.113.140])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d58ff0065sm14886841cf.5.2026.11.17.22.02.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 22:02:05 -0800 (PST)
-From: Zack Rusin <zack.rusin@broadcom.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Dave Young <ruirui.yang@linux.dev>
-Cc: Borislav Petkov <bp@alien8.de>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	x86@kernel.org,
-	Joel Granados <joel.granados@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	virtualization@lists.linux.dev,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	John Ogness <john.ogness@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bo Gan <bo.gan@broadcom.com>,
-	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>,
-	kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Ian Forbes <ian.forbes@broadcom.com>,
-	Bradley Morgan <brads@mainlining.org>
-Subject: [PATCH v4 3/4] x86/vmware: Add the vmware_record_panic_msg sysctl
-Date: Wed, 18 Nov 2026 01:01:50 -0500
-Message-ID: <4c5de34b10f579368b890eaa9333a2755886bad3.1794980455.git.zack.rusin@broadcom.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1794980455.git.zack.rusin@broadcom.com>
-References: <cover.1794980455.git.zack.rusin@broadcom.com>
+	dkim=pass (1024-bit key, unprotected) header.d=valinux.co.jp header.i=@valinux.co.jp header.a=rsa-sha256 header.s=selector1 header.b=NbxqGTie
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rKK4szGDaEbZvCZtVnN28DybmGJHhc9aXrRzA4Ei21UpOd0SRWToc7EXMQIsx1AbfjYnaWTgJMh0YRg9eOrrCxSKVDaR6nyZ6EfPLHastuDR+1o7n7SfpugcODrfDg5r2ugGfhrI8Z0G+UviDY7G5bFPYea8/+weTlpUgpj4nHEGjstIRb0Yk7tEKn7YRUPTQeiLI81LHpNpGU2kqsWRgo2V2qzjiOtx+mGLaZDMnD/3fs7qgdJPRCQ3vC/xoxWvcK4+C0R990bdNHqidVbe0SzA28PO3SaZmnpyJJrgxO755zltsI/sUzjwDPwDwc/5D5m3mX80g+y2MhKMDUZj/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ww5buphj/9ocJ1N48f4JcsXP+VQP934a+3geOYkT/uk=;
+ b=UK/3aE6QcU+EEBvTzNVF6c+H67oY5WdpL3ooFm9B8PguTJoe61xXqGYr6L6xGwf2d72QtqtFUfHhHd+3a9gCwxE4IRhDwyEEj3KUCBNE+Ah8t3HuBH23O0FNEjcGQXkYTGSKbI7tQYRNVsK+VrnplyXSqBlEjcBE6EYmfPI4Sr7hSHPaglwm42Zxc6IwdDTh/tojRcaq9sqReVliDlsn8EXz4tm54Venw2E6DPIHjjzM5ExJboPc0hccG7GdRAFRqwynx4YGQt4whSHoWwirSIrowDhCXgqwNCFfQ5Z+3rLVxBM52H1NkCebS8nPRfvxAYRnvj6y9Vv9qVjjCq8VOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ww5buphj/9ocJ1N48f4JcsXP+VQP934a+3geOYkT/uk=;
+ b=NbxqGTie/IvOQvSblGjsb1tqr25L0tjx1LE5ucAYmYFmVQaCEZfIKSVP7Q2W2+MRzULfnG6aULfn6CHHIMXCqwOULrz30cRfesFHem3ekHUDlHibfvAZ8xZba4uGIVtj++s9ru9tpmmUW5c/Bc2gR16erL6GBmWhh1WWpYYyyJo=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:325::11)
+ by OS9P286MB6324.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:40b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
+ 2026 06:26:31 +0000
+Received: from TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::cce5:2aa8:53f9:dba9]) by TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::cce5:2aa8:53f9:dba9%5]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
+ 06:26:31 +0000
+Date: Wed, 18 Nov 2026 15:26:31 +0900
+From: Koichiro Den <den@valinux.co.jp>
+To: Dave Jiang <dave.jiang@intel.com>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Frank Li <Frank.Li@kernel.org>, Jon Mason <jdmason@kudzu.us>, 
+	Allen Hubbe <allenbh@gmail.com>
+Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>, linux-pci@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, ntb@lists.linux.dev
+Subject: Re: [PATCH v10 00/10] PCI: endpoint: Remote DMA support via vNTB
+Message-ID: <xuv3q66fdxsp5vjg3dsl4n2rfiinfdunkd2sjtuekcrrf6k5ht@zc3b4ocuq5w6>
+References: <20261113132935.4152566-1-den@valinux.co.jp>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261113132935.4152566-1-den@valinux.co.jp>
+X-ClientProxiedBy: TY6P301CA0001.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:3be::12) To TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:325::11)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -145,101 +102,249 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY7P286MB6866:EE_|OS9P286MB6324:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6a279823-582a-4595-569f-08df453ce2ee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|1800799024|10070799003|376014|366016|23010399003|56012099006|261022105027099003|261102130727099003|261021121427099003|10067099003|261026140227099003|261026121527099003|261022075727099003|261026135527099003|261028144727099003|261102123227099003|261021123027099003|261009223027099003|18002099003|6133799003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	IX9qg1YVWZcwWdgfhojAkScjLIgyPA3VxkThWQGLRBm5dd44GbA/GP2WIxqgR16Ufg5hwWWOc9RM/Ez32FyynTuUwFy6oHoVWqzMRky91Zb1OdfVCkmARx2wgM81zwj0MuHbhPv+u9Wb0BIzSsK4QnjImgHfaHB6apuweRFa24n9QAU7R8spKCfZNBx2lqTvo6NBaLpTNKgdEiQPBDCiRx4UEkhXVy1Br22b+F/Kzd3PupdTaBq0QIBLM0uP4ssOKVGK/f0RznNoEB0hjXfPWjReDkDFnQX0a+I3UITG3hnKJpQtno77p4XNBy1V3WrITDQpQ+njfk/eESx90Z2mpIWw5dWZQLVLY7zBNt/Rm0WUtNADU2pYNLtWOMUxgFHdJFpETDN5M8GiGQHCnOdBz0xDxMjzNVlqtRyxi53e819cfBDGryimmjHI8jPAqCVvzoMKJhG8efOn6D56u2OnNOFGaE9CCDXIVBbo5wXnoiH3TdYkHrnvs4vmKkDwJCqNIAXCtrZpcNQ9Xh68TwtxwELlUrIyHr9nlcMZSod80b4sryyb6G2ymc4u1rJGuBPFdM/6Z/D7a0YbaTMHrzfJ+Qh+SHBC/w3VCAP3PODmG8GBpsOSFu+dhGWLlX6cxd9R
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(10070799003)(376014)(366016)(23010399003)(56012099006)(261022105027099003)(261102130727099003)(261021121427099003)(10067099003)(261026140227099003)(261026121527099003)(261022075727099003)(261026135527099003)(261028144727099003)(261102123227099003)(261021123027099003)(261009223027099003)(18002099003)(6133799003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?IJKFCBSBM5u/mg6gnSBs7rbiCKfX8IOiLcMM/hMDhQ5zrnkZeaVvjXY7irKE?=
+ =?us-ascii?Q?YNkU0tpD7XyP5PjQ+3X8tLgJC6JmvgkZ52/drsk2ye2HK1M5nnruvTAalUSu?=
+ =?us-ascii?Q?jA8v9cdxS9KKbS7VangFsSBjzVee3qrsNH7+wz2XCeJGSD0kQbxJHrNZybBE?=
+ =?us-ascii?Q?zGZiL0Kn8S8hX/i23GWx2qumkjMgo+Ju/Ln0Q7mfIle7hEnaUZlACz3QLyTe?=
+ =?us-ascii?Q?HTZVCZH13aR0CX7fzmNTggPsoUBXxeiIfSQGyjIfS++SDoNGd9UCmT6OXpDS?=
+ =?us-ascii?Q?Q7bNKBW+CZwd2H+I5wfK0dxUsi1uTxQwmN3UgcmIZiBqVNvcqTwyP2C/j92e?=
+ =?us-ascii?Q?tUWheiXShE6EmFJPO+uGdlAEYt1l/yk5ybGzu/5Pu5YSVphE/AmUl++vDG3+?=
+ =?us-ascii?Q?MMLhz7NeItO73aisAKkM2R4DcruZSLASaJlD11tJAbENHlYf519+H1Hy2Ciy?=
+ =?us-ascii?Q?i+ZQ629VTHwXvnOmzHX1bmgLmjle7vBkTRoBHpjS2j7UmqS3P+s5/b+GIeXx?=
+ =?us-ascii?Q?JTdyn8niCVRxqf3ZqTjfzwcA544tXKHMJMKKINlgwbVVwB37YQBJZwlLJK51?=
+ =?us-ascii?Q?D56HgsJVWQCsdxw7hU+7GIVC/N6j3CL+5n4M8hXbW3XhU2U8XWNBuuecYpMJ?=
+ =?us-ascii?Q?X6whBoIcXTt5gCUaILZMP1sBWVURIvHW4xryGhNjVjSUnZjmdD3iZUAU85L4?=
+ =?us-ascii?Q?GL1+qxsE7EmcSVvOhl0XCl0dctRH9btj8yX3NAmFLNL1zzbtwODzMiPyK96v?=
+ =?us-ascii?Q?fXl0ntz56+TEN0LDDXAIL3LOYNyC5+4+MMDDiyUCuAWWAbBbVK0g/Q4BS7nf?=
+ =?us-ascii?Q?ML6kEBm4Jo7We3oB82Pqnhw7tyCJFjR/NYEznEvFNJD3868HJddobRRmybXH?=
+ =?us-ascii?Q?iwGqzn4BL2Gp5OK/jUp8oIp453Gl4+4F0Gh3FwVXtwaqyGCursMJC7Oq0Wyw?=
+ =?us-ascii?Q?KHyzF9lp3qBubZd7GxN/+4Cz38BxZjTpvBYgr2j764RrAux5s/+h7RIkUA8J?=
+ =?us-ascii?Q?VOnkQF1SOchLfDpNtbkFLA2MHkfyoTtFDnY3OmbDoQ9ethOe+2pAPG3Pug5g?=
+ =?us-ascii?Q?ipTmTbFAEswWsG8t0ACD+lHhmrQaB1NklJCarleRczR70s2Tqh+FLabgcEeJ?=
+ =?us-ascii?Q?cRrzIf1YXlYWZfI1kWJCZ5eDQuXrlhoLPvD4MSCKj38B7/1vel2zDmwtoD9C?=
+ =?us-ascii?Q?0rejDfjEq/B9/9XhDtUtsS15OdkMPw/kiop+1N3h8iUgi4d5fim83o2pMG2a?=
+ =?us-ascii?Q?JJyN5rzDOFC22t6Hz+0ENtxtqT1M3iG2T9AaTgJDo66zYLcEY1gyj97tf+Qc?=
+ =?us-ascii?Q?uRZ4OkV2wfe57MOSoYM5IW8TFTcYJgsnxGS0uSmPDi+4cAzeU7qTyfRdD6Rb?=
+ =?us-ascii?Q?scQNJqkqaEJVDUMcsPKGt8DV9zmBHTgmwhq4334R3jJtSpmsJr0lhhHSc5ea?=
+ =?us-ascii?Q?7ReYE2HEMEDc7OX8AFdUVm25jW72p7APqve5gqGqfJIe4F+iBeaCz8VOs+HC?=
+ =?us-ascii?Q?w+H9jCXskdDGIDhOAjUd10ke/ywM+VBq2a4vKw5qeFslTmpaLGlH5lvaNNAL?=
+ =?us-ascii?Q?vaOe6AOTIPbAEVeYSFsq/c387avAgpuCLA0gUaASt8+ToNO1JFOggrUQTP1O?=
+ =?us-ascii?Q?xlNYOUp2B24dapefuK9pUWrEyQ0hjaN3a5LZ1PuCHBz7n9j8N/NM/y/V3boz?=
+ =?us-ascii?Q?SSWiPzCEEJsROT15WrJ60daWVrHcVCZXW3kk0zEZhZm3p33b5ty49oqaT1ov?=
+ =?us-ascii?Q?1dclEIN/GcrMgChKsE09Np6YCKjYpTXRvjWq3yQWCFRxBvj6HNt3?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a279823-582a-4595-569f-08df453ce2ee
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 06:26:31.8442
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: laerY8nJs1rFNvC3CiSq69qEL3+Qswkm4rPjRptp8cHEbmtMQfcK9ceDuJj3EolntIjjvBEAIsIO+L2Ujzkg4w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9P286MB6324
 
-Allow administrators to disable host log transfer on ordinary guests or
-opt in on encrypted guests. Expose the boolean recording policy through
-kernel.vmware_record_panic_msg using proc_dobool(), as Joel suggested.
-Zero disables recording, nonzero integers enable it, and reads return
-0 or 1.
+On Fri, Nov 13, 2026 at 10:29:25PM +0900, Koichiro Den wrote:
+> Hi,
+> 
+> This series lets host Linux use EPC-local DMA read (RC-to-EP) channels
+> through vNTB. I also tried a separate PCI DMA EPF, which reached v7 [1],
+> but came back to this vNTB-embedded approach after discussion.
+> 
+> An EPC-local DMA engine can use host DMA addresses (IOVAs when an IOMMU
+> is enabled) as PCI addresses to reach any host buffer mapped for the
+> endpoint. Letting the RC side drive its read channels also gives the RC
+> a direct path into endpoint-local buffers.
+> 
+> A major motivation is direct TX in ntb_transport. Both sides could use
+> the same dmaengine-based TX path (ie. symmetric), sending directly to RX
+> buffer DMA addresses supplied by the peer. This would avoid MW bounce
+> buffers and per-transfer MW remapping for payloads in both directions.
+> 
+> This assumes both sides trust each other. The RC side still programs DMA
+> over PCIe MMIO, so this is expected to pay off for large data transfers.
+> 
+> DesignWare eDMA is the only supported dmaengine backend for now. Other
+> EPC-local DMA engines can be added if there is a need and they have a
+> suitable programming interface.
+> 
+> This series does not include a consumer for the dmaengine channels exposed
+> to RC Linux. Native HDMA support is also left out to keep the series from
+> growing too large. I plan to send a follow-up series,
+> "PCI: endpoint: Support native HDMA for vNTB DMA",
+> once this series is acked or merged.
+> 
+> Setting pci-epf-vntb's 'dma_bar' configfs attribute enables DMA export.
+> The default is -1, which leaves it disabled. pci-epf-ntb only switches to
+> the shared control layout header and is functionally unchanged.
+> 
+> Based on v7.4-rc1. No external patch dependencies.
+> 
+> v10 uses the previously unused IRQ slot 1 for DMA, so enabling DMA no
+> longer takes a doorbell vector. EP behavior and the wire format are
+> unchanged.
+> 
+> Patch 9 needs another review. Using slot 1 makes the changes to
+> ntb_epf_init_isr() much smaller than in v9.
+> 
+> 
+> Proposed merge plan
+> ===================
+> 
+> Patches 1-7 are for the PCI tree, and patches 8-10 for the NTB tree.
+> The NTB patches need the shared header as updated by patches 4-6.
 
-Register the sysctl only after the logger is ready. A registration failure
-leaves the internal default in force. Document that the log is sent
-before kdump, and that disable_panic_notifiers_platform_list also skips
-it.
+To Dave, Jon, Allen:
 
-Link: https://lore.kernel.org/r/4e73yd2ofpdzl6rptzvd74no3hnyfblknoq7wzxlw7f3zjbz7c@srfabx6lsusj
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
----
-v4: No change.
+  Could you please take a look at patches 4 and 8-10?
+  Patch 4 adds include/linux/pci-epf-ntb.h and lists it under "NTB DRIVER CORE"
+  in MAINTAINERS, so I'd like to have your ack on it as well if they look fine.
 
-v3: Document the platform list ordering and the disable switch, and fix
-the short section-title underline reported by Sashiko. No code change
-from v2.
+To Mani (Cc: Jon):
 
- Documentation/admin-guide/sysctl/kernel.rst | 20 ++++++++++++++++++++
- arch/x86/kernel/cpu/vmware.c                | 15 +++++++++++++++
- 2 files changed, 35 insertions(+)
+  I wrote "patches 8-10 for the NTB tree" in the cover letter,
+  but I'm also fine with them going PCI tree if that is easier.
+  And of course, if you have any concerns, please let me know.
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 608055d7ccc4..be2d5aa52362 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -1680,6 +1680,26 @@ entry will default to 2 instead of 0.
- = =============================================================
- 
- 
-+vmware_record_panic_msg
-+=======================
-+
-+Controls whether kmsg data is written to the host's ``vmware.log`` on
-+panic. This setting does not control the separate VMware guest-crash
-+event. Writing zero disables recording; writing a nonzero integer
-+enables it. Reads return 0 or 1.
-+
-+= ==============================================================
-+0 Do not write kmsg data to ``vmware.log``. This is the default
-+  for encrypted guests.
-+1 Write kmsg data to ``vmware.log``. This is the default for
-+  ordinary guests.
-+= ==============================================================
-+
-+The data is written by a platform panic notifier: early in panic,
-+before kdump, and also when a fatal oops enters kdump without a panic.
-+Setting ``disable_panic_notifiers_platform_list`` skips it as well.
-+
-+
- warn_limit
- ==========
- 
-diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index 0c6f7248a665..8c8b6dd7c3e8 100644
---- a/arch/x86/kernel/cpu/vmware.c
-+++ b/arch/x86/kernel/cpu/vmware.c
-@@ -33,6 +33,7 @@
- #include <linux/reboot.h>
- #include <linux/sizes.h>
- #include <linux/static_call.h>
-+#include <linux/sysctl.h>
- #include <linux/wordpart.h>
- #include <linux/sched/cputime.h>
- #include <asm/div64.h>
-@@ -260,6 +261,16 @@ static int vmware_log_rpc(const char *buffer, size_t length)
- static struct page *vmware_panic_page;
- static bool vmware_record_panic_msg;
- 
-+static const struct ctl_table vmware_panic_sysctls[] = {
-+	{
-+		.procname	= "vmware_record_panic_msg",
-+		.data		= &vmware_record_panic_msg,
-+		.maxlen		= sizeof(vmware_record_panic_msg),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dobool,
-+	},
-+};
-+
- static int vmware_panic_log_notify(struct notifier_block *nb,
- 				   unsigned long action, void *data)
- {
-@@ -311,6 +322,10 @@ static int __init vmware_panic_log_init(void)
- 		vmware_panic_page = NULL;
- 	}
- 
-+	if (vmware_panic_page && IS_ENABLED(CONFIG_SYSCTL) &&
-+	    !register_sysctl("kernel", vmware_panic_sysctls))
-+		pr_err("failed to register panic log sysctl\n");
-+
- 	return 0;
- }
- early_initcall(vmware_panic_log_init);
+To Frank:
+
+  Thank you for your patient and thorough reviews!
+
+Best regards,
+Koichiro Den
+
+> 
+> 
+> Compatibility matrix
+> ====================
+> 
+> "Old" means v7.4-rc1 without this series, and "new" means with it
+> applied. The table describes expected behavior.
+> 
+>   EP                              | Old host     | New host
+>   --------------------------------+--------------+----------
+>   Old                             | OK*          | OK*
+>   New (dma_bar = -1)              | OK*          | OK*
+>   New (dedicated DMA BAR)         | OK*          | OK
+>   New (shared MW/DMA BAR)         | OK**         | OK
+> 
+>   *  NTB works without DMA.
+>   ** NTB works without DMA. An "Old" host treats the whole shared BAR
+>      as an MW, so the EP falls back to that layout at LINK_UP and the
+>      DMA ranges are no longer mapped.
+> 
+> 
+> Testing with v10
+> ================
+> 
+> The existing MW-based ntb_netdev path worked with DMA export disabled
+> (dma_bar = -1) and enabled with the following EP-side BAR settings:
+> 
+> * Dedicated DMA BAR configuration on RK3588 Rock 5B:
+> 
+>   ctrl_bar = 0
+>   mw1_bar  = 2
+>   db_bar   = 4
+>   dma_bar  = 5
+> 
+> * MW-shared DMA BAR configuration on R-Car S4 Spider:
+> 
+>   ctrl_bar = 0
+>   mw1_bar  = 2
+>   dma_bar  = 2
+>   db_bar   = 4
+> 
+> The ntb_netdev tests covered all matrix cases above involving a new
+> kernel (i.e. everything except the Old x Old pair).
+> 
+> Since this series includes no DMA consumer, the tests above are
+> regression tests for the existing MW path. With an out-of-tree NTB
+> transport that uses the exported DMA channels, I also confirmed that the
+> slot 1 DMA IRQ works.
+> 
+> 
+> Best regards,
+> Koichiro
+> ---
+> Changes in v10:
+>   - Share IRQ slot 1 across DMA channels instead of taking a doorbell
+>     vector, and remove the spare-vector fallback. (Sashiko)
+>   - Add Frank's R-b tag for patch 6 and drop it from patch 9 after
+>     changing IRQ allocation.
+>   - Retest the compatibility matrix on R-Car S4 and RK3588.
+>   - Link to v9: https://lore.kernel.org/r/20261110082459.1798763-1-den@valinux.co.jp/
+> 
+> Changes in v9:
+>   - Rebase on v7.4-rc1. All prerequisites are now upstream.
+>   - Fix shared-MW size and alignment handling, and validate the shared
+>     BAR at bind time. (Sashiko)
+>   - Reject SETUP_DMA_BAR when DMA export is disabled. (Sashiko)
+>   - Retest the compatibility matrix on R-Car S4 and RK3588.
+>   - Link to v8: https://lore.kernel.org/r/20261022082230.3164834-1-den@valinux.co.jp/
+> 
+> Changes in v8:
+>   - Fall back to exposing the whole shared BAR as an MW for hosts
+>     without MW/DMA boundary support (ie. "Old" Host), instead of
+>     rejecting LINK_UP. (Frank)
+>   - Link to v7: https://lore.kernel.org/r/20261021042229.2280937-1-den@valinux.co.jp/
+> 
+> Changes in v7:
+>   - Split and reorder the patches for the PCI and NTB trees. (Frank)
+>   - Reject LINK_UP from hosts without MW/DMA boundary support when
+>     a BAR is shared. (Frank)
+>   - Link to v6: https://lore.kernel.org/r/20261020054948.1218370-1-den@valinux.co.jp/
+> 
+> Changes in v6:
+>   - Add a prep patch that moves the control region layout to
+>     include/linux/pci-epf-ntb.h, shared by pci-epf-ntb, pci-epf-vntb and
+>     ntb_hw_epf. (Frank)
+> 
+> For earlier changes, see v5:
+> https://lore.kernel.org/r/20261009045949.1109871-1-den@valinux.co.jp/
+> 
+> [1] Superseded approach, PCI DMA EPF, v7:
+>     https://lore.kernel.org/r/20260813063757.3131865-1-den@valinux.co.jp/
+> 
+> 
+> Koichiro Den (10):
+>   PCI: endpoint: Add DMA auxiliary resource metadata
+>   PCI: dwc: Expose endpoint DMA resources
+>   PCI: endpoint: pci-epf-vntb: Move epf_ntb_is_bar_used() up
+>   PCI: endpoint: Add pci-epf-ntb.h for the shared NTB control layout
+>   PCI: endpoint: pci-epf-vntb: Export endpoint DMA channels
+>   PCI: endpoint: pci-epf-vntb: Allow DMA and MW to share a BAR
+>   Documentation: PCI: endpoint: Document vNTB DMA export
+>   NTB: ntb_hw_epf: Use the shared NTB control layout
+>   NTB: ntb_hw_epf: Discover vNTB-embedded DMA
+>   NTB: ntb_hw_epf: Support DMA and MW sharing a BAR
+> 
+>  Documentation/PCI/endpoint/pci-vntb-howto.rst |  33 +-
+>  MAINTAINERS                                   |   1 +
+>  drivers/ntb/hw/epf/ntb_hw_epf.c               | 396 +++++++--
+>  .../pci/controller/dwc/pcie-designware-ep.c   | 107 ++-
+>  drivers/pci/endpoint/functions/pci-epf-ntb.c  |  85 +-
+>  drivers/pci/endpoint/functions/pci-epf-vntb.c | 840 +++++++++++++++---
+>  include/linux/pci-epc.h                       |  34 +-
+>  include/linux/pci-epf-ntb.h                   |  90 ++
+>  8 files changed, 1311 insertions(+), 275 deletions(-)
+>  create mode 100644 include/linux/pci-epf-ntb.h
+> 
+> 
+> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+> -- 
+> 2.54.0
+> 
+> 
