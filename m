@@ -1,118 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.70
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794987246;
-	b=OLKTijIE+awogd6egd1TZWsnwIEh9wqKn0zbKQUTGTq84MuMaNxYbKISBKtZeAiPKxwh
-	 feHo3hTJxkk5b5ecm1mLf0H3hKktt4DxmBPetWLI+lhbjy9evq5x47COVySOTf6/1b7rT
-	 +NYsZxUfaTBlhBbD+R7gWJ7xGbx4Rz6PAVU5vur0x5SsuvGHpMt4duaxtbyBmXZ7tzgbH
-	 foTrFb1bGzknqeaYJyvQELR2H+lCE/If/nZTjv8bwlsXQIT0d78u8AB9VodgNg4sxKzN0
-	 +n/UZtUXozMEdjGCIRQs50/EqQdGryOH1TwpqQnMv5FzdOeFZN17KzuLmm+cz701tGA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794987246;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=71OmnO+FWbA4EhJ7EN+OTkAqWLzkAt6SqNvR5q45ls0=;
-	b=eWFzZylNDUN9G/EPJL1xJTIJ9NectpbAuXk2oFVzMpwEqdVPKO01h6RMNDog5v7/dd3K
-	 VxbojwFCH8+k68MU2r46Y41xgYmaBtxav9S0WK5B0Be3CjAxSITohoHOtkYfgBdq46kr1
-	 7Ima2+J7ytlOjn8wNKZNbTJVKbQtColiBh5eRNH3bECTxd4BcnX3oci0io1tOUp9DDdX0
-	 mko2FY4ikOmB+P3n1oApbCifrGd9tUGrieVvhO6WSaXpaODz5o5Jc+BjgjI/pAVegz736
-	 IeofS5CTHrjuqiTPwuTTnogqz7HSX8dmR5+kCpNcIcHalFf1N9G+ge/D2qYfI2zYxYw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=oKSIu2Qc;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.70
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013070.outbound.protection.outlook.com [40.93.201.70])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.26.1.71
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794987541;
+	b=FcNZU6QmtJViQSImjFrKlcw2tw2Rl5grF+mQst+3VE6/bKDVbBv7ZSPW/esmgNxOCICV
+	 nq71rDwomFNtucDnMMjNV6iAux0/tib6LWEEKVaPLpLy1umeNq/HAp0kGlIdnfFzyZk2k
+	 NE19u80laUiXQ1ltjl2Vhu/+yWnuUKManlU2BYyaZrkx6J8KfqttewFUWya4pxiZbVFNM
+	 yNheyChrZAjGBivNJ4B91xrVmw3OMrKKMlGqEp43D1AXYCv+l+sLdVbvhCKVRmfQL4U9N
+	 W8IbXFm8oSXjnEcS5w+nqcdsNFLE62YGVHFeCgmkX2xPbMNgfU3jiXMv9NN2pAVJ9sA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794987541;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=OJgQQYxJs0Sb7LZKdrxdw/6+xeL6InZ2RrNS/V3saLk=;
+	b=SkH462/UReJ+LtWsyUIiJwyOAYY9mo+Z/1GLqjVqR5KxX0zcfVH3/QOSCuobuMgWEE9r
+	 MQuMEv1927A/zR9Ge1s5vF6igEnoLRmqWujmlHfWg93ASeMG5aGW2zxXQsCQaxDM31VPr
+	 uG8w7LBcbqQuUlxCGcgo3Kip+D4GOvNK52vyOZucjcVtjjmPILwFBH3fYvfclXwIi/3BE
+	 sDAKqwh1BROja++am65mr7fceDhSlBONwfscgGZ+uhl4w4XTmglj9pFnJbYT0WB6z2r3a
+	 8WFnV87morXb7hzF0bAemyz7giRMDjaP6SAc3F1ZPe0Kl/sY3YIPK8FGjByL8xlvKVw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.com;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=T5cwlpCS;
+	arc=none smtp.remote-ip=52.26.1.71
+Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EBA606A31C;
-	Wed, 18 Nov 2026 07:34:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85EBA606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F92606A325;
+	Wed, 18 Nov 2026 07:39:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94F92606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=oKSIu2Qc
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wdKAIEGnqdhU/EHEpEmLwUWftF30FTizR18CjiJZl5OBIk0Mt9CG67kYJR7Gk6R4buzoOL87F3MjSjywAeZS093GSZZSUk+vaIR1zn0ny0+uCoW5e+cr8PfgmP6mOvgkc1DJIXmN0cXEme6LPs6hBcSED8TWSjSVE1zwYRxXP4CqSA94cthB3bYSfbtHFvR75mVyAWA34Yc5M9WEb5AadMEcyr5j+ThXOjxGw6X1pqWl0YDncXC65EE4l4ZBhgQbFwZHzwgWdT8iBJYJcDalRyI6SX0nN3oNNT5J9Yq8ty83n1RxQiyDhuYolL9TtFgC3J1YLxuyDfDtlXUs5Zjbew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=71OmnO+FWbA4EhJ7EN+OTkAqWLzkAt6SqNvR5q45ls0=;
- b=PFJQTaorj+btu/GQHbdEdVWzRzrAdxnBaERWNdmr7kgPjY5VAd0aYP52PJObcll1c52ye2vQmfVuiusrB/R1yKMWTd2j1N93dL/3pSSEnt7z5J1C564dcgDEARaK9gCRy448OInC9kpTqvIA+E65nsl0+Xt6dGNdpYVYr/XnUCTNigBIX0GPzp8HP/C5aO4bOfbIyViVc5T0jEKRZ69h7DHso00WLVuJQZVN6JH+ikur98bH3Jk7dcjVFves2a3PRZA8l+W7G5dN95mMKuBELdVrlRGyaHbDYCDmIJhouZeFJx4gnuJt3JNNfWqn6zd69w2XW7z6rgAJoWBDnFCKyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=71OmnO+FWbA4EhJ7EN+OTkAqWLzkAt6SqNvR5q45ls0=;
- b=oKSIu2QcuIBY3gBoAslJAehQIUbvqoFOn3cbCza/8IKjn4ieDrICYeaK9yZQKCjJwJRoBNEdSeDR1UrRMfis5tYqVwhvBj913hy0sRevca8+7okw961lmfbzmJllF/Um0IqrFliEZEpdmLrRpNKGpW+VQxiitsfyZHTk1N+OLm0=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA1PR12MB999228.namprd12.prod.outlook.com
- (2603:10b6:806:4db::10) by SJ2PR12MB7866.namprd12.prod.outlook.com
- (2603:10b6:a03:4cc::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Wed, 18 Nov
- 2026 07:34:01 +0000
-Received: from SA1PR12MB999228.namprd12.prod.outlook.com
- ([fe80::4dba:119e:8e7c:37b3]) by SA1PR12MB999228.namprd12.prod.outlook.com
- ([fe80::4dba:119e:8e7c:37b3%6]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
- 07:34:01 +0000
-Message-ID: <fd25ed52-e3ea-41a2-9f62-2397d5d9e8c8@amd.com>
-Date: Wed, 18 Nov 2026 18:33:45 +1100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 18/19] PCI: Replace untrusted state with device trust
-To: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
- David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
- Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-input@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev,
- Jason Gunthorpe <jgg@ziepe.ca>
-References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
- <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
- <d0999161-3b27-4c3b-9d66-1d117c4836fd@arm.com> <20261110122237.GG8635@unreal>
- <b4c2538f-8021-4abc-be2e-fcd1596f84ca@arm.com>
- <20261117124801.GD124972@unreal>
-From: Alexey Kardashevskiy <aik@amd.com>
-Content-Language: en-US
-In-Reply-To: <20261117124801.GD124972@unreal>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SY6PR01CA0131.ausprd01.prod.outlook.com
- (2603:10c6:10:1b9::7) To SA1PR12MB999228.namprd12.prod.outlook.com
- (2603:10b6:806:4db::10)
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=T5cwlpCS
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1794987540; x=1826523540;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OJgQQYxJs0Sb7LZKdrxdw/6+xeL6InZ2RrNS/V3saLk=;
+  b=T5cwlpCSeZFPTiF5VOKaisk5K2Zx6UBNOJ4HMAgytHL1003xWCTyPqn4
+   t6bjw3ACbpOm9m1HkrZaPI50SlXeEK23YWFKDerXjUGkFmy+6ySWXE9Yl
+   cC13GaZSgAwptC7SXbIund24isTA2V7jEOU62f2ruucaWdeT4dB7AaNk3
+   i9culIkVDctl83m8ALACZSrdMym3yNrmIKv1GjbXJPzikNgqaInfNsk5I
+   EwyFsxXiIHTSMzXg8atsXR1j5UNBdBh7fJ1eqSWNZsbTQ8i9lZv/engp0
+   klOqlm6tvA1KgRnfKqpymsXpK1Qgpgqmz+YfQiC0AJdkFdAP2fy1IOsV6
+   w==;
+X-CSE-ConnectionGUID: wsIhGAYsTb6lBq+7A+eYqg==
+X-CSE-MsgGUID: bEHT4r7PRCuqWzjp0L+Khw==
+X-IronPort-AV: E=Sophos;i="6.27,219,1787011200"; 
+   d="scan'208";a="34489208"
+Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
+  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 07:38:58 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.178:12579]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.46.128:2525] with esmtp (Farcaster)
+ id bdf68e22-b966-4573-a584-d8d0f21a771c; Wed, 18 Nov 2026 07:38:57 +0000 (UTC)
+X-Farcaster-Flow-ID: bdf68e22-b966-4573-a584-d8d0f21a771c
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 18 Nov 2026 07:38:57 +0000
+Received: from dev-dsk-surenkj-2b-416930d2.us-west-2.amazon.com (10.169.26.94)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 18 Nov 2026 07:38:57 +0000
+From: Surendran Kanagaraj <surenkj@amazon.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>, Peter Huewe <peterhuewe@gmx.de>
+CC: Jason Gunthorpe <jgg@ziepe.ca>, <linux-integrity@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+	<linux-doc@vger.kernel.org>, Jonathan McDowell <noodles@earth.li>, "Breno
+ Leitao" <leitao@debian.org>, <nh-open-source@amazon.com>, Alexander Graf
+	<graf@amazon.de>, Gunnar Kudrjavets <gunnarku@amazon.com>, Josh Levinson
+	<joshlev@amazon.com>
+Subject: [RFC PATCH v4 0/8] tpm: Rework timeout and duration handling
+Date: Wed, 18 Nov 2026 07:38:44 +0000
+Message-ID: <20261118073852.81107-1-surenkj@amazon.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -122,259 +87,196 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR12MB999228:EE_|SJ2PR12MB7866:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd85bdef-bc7f-4f4b-6fb7-08df454650ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|376014|23010399003|366016|261026140227099003|56012099006|10067099003|11063799006|261009223027099003|261026121527099003|5023799004|4143699003|261028144727099003|261022075727099003|261022105027099003|261021121427099003|261102123227099003|261021123027099003|22082099003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	kZxqGkqBkyBWGddz7J43Pl2uxsBLycER/2T8xvGeAlMFBYBrqILCeo2xLkvd7irsvHU3dkvMSuLYf8YFAGzYLW5ITQqs7VrwHfg6ge9RLBWA2rmzvXDJfIi+MQarPcP8BLXI5lLOEReRYrxmkgxEKTO5X4dRXJvXy9iYHC+W3Q3eIKuc7qPScMtYS4mt4k5ydQcu8Gmn0ZrZ1gnFrMQGDEvMhHZGJh/GzQyYtkuxknydptTCtMEIcOgbvKz9911rwFxWWvBgWpCgHkn6yQYLvXdEXuE4EG2OZWZ6fx7xSL+UyyUFQVtUgjP9539uPO/lf6g+GMFPTFgT6VoNqio9L1ZqJmf9ABYL4V8mkKK5SLCrJSWdWD9+wzlmgOnk0mY5zbVQMj7ICC5KgJBsg0h5eTNtOvza4IjsxYwVqWTNzsm9c7XbeppZdFHC9gP1RAKywD/PeHoJjmWA9d3jLvRViv6LihiaFYlzln9Cv+HOgLXkUcenh6cZcL48JPafpaRfO4RVUE5qUEuXvt54ePYY5SslDAT/VJ8+zA+uS/FoZE+zXfqT2RV7Ad9CclhY7Zkb5Ofs587wGOoiFn4CdF1cEkDeJXpN+6Mormj5WThJej3v0ZlWEKW1kyMxVysEzZuGCt8Z9uWhM0Xji146/E8TgFiYQfla2tgcOJxcOPKtbZk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR12MB999228.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(23010399003)(366016)(261026140227099003)(56012099006)(10067099003)(11063799006)(261009223027099003)(261026121527099003)(5023799004)(4143699003)(261028144727099003)(261022075727099003)(261022105027099003)(261021121427099003)(261102123227099003)(261021123027099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?djU3N2JoaG5SRnpKelptR3lmL2dSdG4zTEE5enJuUVhWQ3ZIa0dpYmQzekdC?=
- =?utf-8?B?NGhLM1AxN2tWV0hFNnJJZW51cnNGS1dLeFY2d1lxQVlsNG1YeDhjT044RTFa?=
- =?utf-8?B?aWxhSjRCUHNERXJPczJFZDZaU056UkJEZUFFYlFMbEdqWDVIbElsZG1PUTls?=
- =?utf-8?B?MVRZWEJGbjlQSzE4M25qeENiNXhpaHBmYVVOT3QzQi9QZm0rYmxCbnMvM2FW?=
- =?utf-8?B?UmpBSWRZSUwxTjJMM2RsNzJtYzBrZmJJZCt5UkhFRVo1OEZjTXF4TmJ2anI1?=
- =?utf-8?B?V1hrQWRTUjkzMHZYenh5UVlrYkdPNHVUNTVGWFZSUnNUYyt0ekh5d0loUzRu?=
- =?utf-8?B?K0NUcm10TENvekVtWTNjZlUwMjlaL0cwQmp3VlNsSzJBbHFpUW5CNFlnOWNH?=
- =?utf-8?B?eHNuQWhCMWdJVGpWTzBmek9qeStINTFWR1k1OUxia1RzUkxrRFQwSzRpRnZS?=
- =?utf-8?B?NW5RNHhsd254Qm1UcFM2OUhiUWphdVZxU1Jzbi9vK2xTa1pMU01iRXR0c210?=
- =?utf-8?B?NGpzNmlaS1RCdHUwYmVLWDdsSHNCc2tWbWF1NWhrZkFJbWV5UFRMMDhKMFN4?=
- =?utf-8?B?MUxOWW5mTjhwYitQMXpCdDRYSFc4Rm9CaWtqTjBVUEd2SzlROU83NGhQdjlG?=
- =?utf-8?B?bVZ5c2hBNmI5NCtLTHY1QkFRTldKVlJzeHYwNFAzS0M0Mkk5OGNScTg0M1Bo?=
- =?utf-8?B?Zlp6anduTUFjUVFUeGVtYVc1RzRXMlZQSHFoSTlVQlZGTVA0a2xxWldJRkI3?=
- =?utf-8?B?NG5zL1IrREZLWU1PZ3RIQ1F3T3Zmd3Z5Mjl0cHh1S05xSno2NlNHTTBWVWJ0?=
- =?utf-8?B?OUl1V2srdkJzai8xbS9BcUlGWUFRalJKTVZtM2NCMUYvM08yc2FIUVFjSzFJ?=
- =?utf-8?B?Q2JKcVlQMnVHMXd5ZG5xRzdFb2x0ZVVWNHRxcE1kU2hsMEQySHpwQ1JFemcy?=
- =?utf-8?B?Mkg3V3I0MkZScVVJSEhjb2YySDI1L0NiTmlNSnU2NlUvTHR3TFJxbFFsSXAr?=
- =?utf-8?B?d1RIaTB2NzBrNjlCR1hDZ0k0NVd3MFRDRjRWWXdLTVVyWGdkNGpIRDRNODF5?=
- =?utf-8?B?bXk1VmJ5NVFKR1BGbm1NRkRpM0VnNjlBakRYQ2twZG1GRTV2Z1dJQ1Z1WXJj?=
- =?utf-8?B?bGRMeGsrWnpnYzFQTnVkUnZSMEl5YWs2bmpiZjZ2TUNyMjV0aTAxb0tqWXV3?=
- =?utf-8?B?Z3lPcEZpdzZIR3FUMmg4eXpyaHdBdmEzTGZSMFZ0ZzM1dWloMnlMR0FGa21z?=
- =?utf-8?B?N3laVWhZZU9vcGpTQitqS2xydzJhQ3VLeW5GRzR2VXZUa1NmZmhISWNldDZB?=
- =?utf-8?B?cUpDT0d1cXpIckpjT3AyNE1UNW81dVdEZ0dhaHlldmh5NFVKcmNhOEZ2VFRX?=
- =?utf-8?B?L0REb3QxSnR6aTVucXJ5elZvcXZGTHBxUHFnWTJEQkowbjFDdG5FQkp4dE5q?=
- =?utf-8?B?NWhlb1AxSGNwVVk4ZGJKcU1hd3NlRWNNTHRmMFZ5cVBROEhvdUxocjk0bmNu?=
- =?utf-8?B?NVBUOUpkMTNQd3YwZFJ2MkxXK3YvWnh6UGhETDAwNmZtNGxOei9Oak5pY3Mx?=
- =?utf-8?B?L3lOVWZSdVZiekZhUnFlak9tZFovbVRJLzJGcDB5c0ppOTNmbDhFbzB3WnJx?=
- =?utf-8?B?bmRXYllkYjJoUEZTa0tjOU0zbVVpL0MrdXRtUHJVSWFJT0VRc0N5TGhoNElT?=
- =?utf-8?B?VFBQQk5ZZXJlbjAzcnVuem1qT3JFMGhoMjZmS3pFR1AvTHBibVQ1Q3FEbmsv?=
- =?utf-8?B?M05tZERoZWxyVjUvbUhNRHRuOFMxaFc4VVI3R0V2dHpiK1FvYjhvU0E3ZDJz?=
- =?utf-8?B?MTRSUmVUTDlsbFp4WkFOM211UUtyMU9mckllRFM5M054a1I4YXlWQmJMUGM4?=
- =?utf-8?B?SnNhVTdlbUxrYVFyNVVUNVZuN0VNVGlqc3lhdk5GYWp1Y2ZvWEJjN2hSSHhI?=
- =?utf-8?B?aDd6WG1NajdIVWtiSGRrejBSL3U2K2pITmsxNWJYcHRobjFxMGI3ek5FWk9O?=
- =?utf-8?B?aXUzYjdGZU5FV21veUxidXpVN3IyNkpxeExGOS83eEZXaWcrd2V1Q3pxYUVI?=
- =?utf-8?B?RUE2SjJ2M1paWTRPbndkS3JmVTlNOWhXMEpRTzltVlh0TS9qYlNzclh4amhO?=
- =?utf-8?B?eGFteFZDZlhHN3BmT2xoaG14d00ycTF0enB1ampSL3VYNUlIa2ZJNVF3OVF3?=
- =?utf-8?B?aFlRV0Zxa2UrZEM4SjBkT3FZd1JMTkhuQmtTaEtCb1VkdnN6UkdnVjVyVDFG?=
- =?utf-8?B?ZXNnYXQxS243MkwxTjhvVTU4akRremwyemlkbjE5OUdLVkhsQlFvQVZibjdj?=
- =?utf-8?Q?2pFLH8CnXLePCKoejg?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd85bdef-bc7f-4f4b-6fb7-08df454650ad
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB999228.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 07:34:01.4690
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1CclyQk6YPOQ+Exb7LflDSdMYo57jIk9mtHPrVn1FJzl+16k1BeAm8LItqcpegYfmjW3EVUh2jaWqFXUiteQxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7866
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWC003.ant.amazon.com (10.13.139.252) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On 17/11/26 23:48, Leon Romanovsky wrote:
-> On Mon, Nov 16, 2026 at 05:13:59PM +0000, Robin Murphy wrote:
->> On 10/11/2026 12:22 pm, Leon Romanovsky wrote:
->>> On Mon, Nov 09, 2026 at 01:53:02PM +0000, Robin Murphy wrote:
->>>> On 09/11/2026 7:33 am, Leon Romanovsky wrote:
->>>> [...]
->>>>> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
->>>>> index b486b8bbd1fcd..8be2a246d4903 100644
->>>>> --- a/drivers/iommu/iommu.c
->>>>> +++ b/drivers/iommu/iommu.c
->>>>> @@ -1879,7 +1879,7 @@ static int iommu_get_def_domain_type(struct iommu_group *group,
->>>>>     static int iommu_get_default_domain_type(struct iommu_group *group,
->>>>>     					 int target_type)
->>>>>     {
->>>>> -	struct device *untrusted = NULL;
->>>>> +	struct device *restricted = NULL;
->>>>>     	struct group_device *gdev;
->>>>>     	int driver_type = 0;
->>>>> @@ -1901,14 +1901,15 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
->>>>>     		driver_type = iommu_get_def_domain_type(group, gdev->dev,
->>>>>     							driver_type);
->>>>> -		if (dev_is_pci(gdev->dev) && to_pci_dev(gdev->dev)->untrusted) {
->>>>> +		if (dev_is_pci(gdev->dev) &&
->>>>> +		    pci_dev_default_is_restricted(to_pci_dev(gdev->dev))) {
->>>>
->>>> I think this should be the generic device_is_adversarial(gdev->dev) now - in
->>>> fact probably all the dev_is_pci()/to_pci_dev() stanzas aren't conceptually
->>>> PCI-specific, just an artefact of the current "untrusted" flag being so.
->>>
->>> I wanted to do the same, but iommu_get_default_domain_type() may be called
->>> before the PCI device's trust level has been set. At that point, we are
->>> still in "disabled" mode, whereas device_is_adversarial() checks for
->>> "adversarial" mode.
->>>
->>> The below is from AI, I asked to present me the path for that:
->>> --------------------------------------------------------------------------------
->>> For a newly discovered PCI device with an available IOMMU and a new IOMMU group:
->>> pci_scan_single_device()
->>>     pci_device_add()
->>>       device_add()
->>>         bus_notify(dev, BUS_NOTIFY_ADD_DEVICE)
->>>           blocking_notifier_call_chain()
->>>             notifier_call_chain()
->>>               iommu_bus_notifier()
->>>                 iommu_probe_device(dev)
->>>                   __iommu_probe_device(dev, NULL)
->>>                     iommu_setup_default_domain(group, 0)
->>>                       iommu_get_default_domain_type(group, 0)
->>>
->>> For a device whose initial policy is adversary, its state during that call is:
->>> dev->trust_policy          = DEVICE_TRUST_POLICY_ADVERSARY
->>> dev->trust_level           = DEVICE_TRUST_DISABLED
->>> dev->trust_committed_level = DEVICE_TRUST_DISABLED
->>> dev->driver               = NULL
->>>
->>> device_is_adversarial(dev) = false
->>>
->>> The active level changes later, during binding:
->>> really_probe()
->>>     device_trust_prepare()
->>>       __device_trust_prepare()
->>>         WRITE_ONCE(dev->trust_level, DEVICE_TRUST_ADVERSARY)
->>>     dev->bus->dma_configure()
->>>     call_driver_probe()
->>
->> OK, that seems less than ideal. Feels like it would be better if bus code
->> set the initial device state prior to device_add, so then it only ever
->> changes later as a result of an explicit attestation/acceptance process. If
->> the initial IOMMU probe still has to poke into bus-specific code to avoid
->> always making a worst-case assumption, doesn't that rather defeat the point
->> of having a generic abstraction?
-> 
-> As Jason said, this is part of a very large series. Each series is an
-> adventure in itself. Even Greg's seemingly simple request to convert the
-> USB authorization knob to this new scheme has been extremely painful
-> because of AI reviews. They keep pointing out bugs and gaps that are
-> automatically attributed to me simply because I'm touching that part of
-> the code.
-> 
->>
->> Even with the slightly dubious argument that this series only intends to
->> shuffle the existing PCI code around rather than fully introduce the generic
->> abstraction that it claims to, if the PCI behaviour is still just based on
->> propagating the internal "untrusted" flag plus the new global override, both
->> of which *are* known at add_device time into the common trust state, then
->> there seems little excuse for not doing that up-front so that the new API
->> *can* just work as expected.
-> 
-> I would prefer to keep both PCI and USB out of this series on device trust
-> levels. Let's see what people say if I drop them in v3.
+Review of v2 [1] asked to redesign how the timeouts and durations are
+handled across TPM families and drivers. This series is my attempt
+at it.
 
+- Interface timeouts live in four fields, TPM1.x duration in an array
+which uses duration class and TPM2.0 in a different map with raw time
+values and other duration macros. Move interface timeouts and duration
+classes to a new struct called struct tpm_limits embedded in struct
+tpm_chip so that core and most drivers read them from one place.
 
-I'd rather you did not as it is going to make experiments with CoCo VMs harder.
+- Currently it's left up to the driver to initialize the timeout values.
+During probe, core/driver runs tpm_get_timeouts() which on TPM1.x
+queries the TPM for timeout values. The transmit function used for this
+request uses these timeouts for the state changes which can be zero at
+this time. I found a case with xen-tpmfront where it calls tpm get
+capability with TIMEOUT_C at zero. Hence the limit table is initialized
+with default value which is highest among both TPM1.x and TPM2. This
+makes sure driver is not missing to initialize during probe.
 
+- Add module param option for all duration and timeouts. This gives an
+option of passing these values via kernel command line.
 
-> 
->>
->>>>
->>>>>     			/*
->>>>> -			 * No ARM32 using systems will set untrusted, it cannot
->>>>> -			 * work.
->>>>> +			 * No ARM32 using systems select a restricted trust
->>>>> +			 * policy; it cannot work.
->>>>>     			 */
->>>>>     			if (WARN_ON(IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)))
->>>>>     				return -1;
->>>>> -			untrusted = gdev->dev;
->>>>> +			restricted = gdev->dev;
->>>>>     		}
->>>>>     	}
->>>> [...]
->>>>> @@ -616,6 +608,28 @@ static inline struct pci_dev *to_pci_dev(const struct device *dev)
->>>>>     {
->>>>>     	return container_of(dev, struct pci_dev, dev);
->>>>>     }
->>>>> +
->>>>> +static inline bool
->>>>> +pci_dev_default_is_restricted(const struct pci_dev *pdev)
->>>>> +{
->>>>> +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
->>>>> +
->>>>> +	return policy == DEVICE_TRUST_POLICY_DISABLED ||
->>>>> +	       policy == DEVICE_TRUST_POLICY_ADVERSARY;
->>>>> +}
->>>>
->>>> Unless I've wildly misunderstood, I'm not sure this is right - if the user
->>>> has set DEVICE_TRUST_POLICY_DISABLED to explicitly override the bus-default
->>>> behaviour, but that leads to the IOMMU layer special-casing all PCI devices
->>>> as adversarial and thus force-*enabling* all their trust-model restrictions,
->>>> isn't that pretty much the complete opposite of what was asked for?
->>>
->>> We have two levels: policy - that describes the default of all devices
->>> for that bus. level - actual decision on how that device is going to be
->>> operated.
->>>
->>> "Disabled" prevents driver probing until the device is authorized,
->>> "Adversary" permits probing and requests the available protections
->>> for operating an untrusted device.
->>>
->>> Both need conservative initial IOMMU setup: a disabled device may later
->>> be authorized as adversary, and authorization does not rebuild its IOMMU
->>> domain.
->>
->> Urgh, I can be absolutely certain I'm not the only one who is going to be
->> confused this way... I see "disabled" and instinctively take it to mean
->> disabling the device_trust *mechanism*, as the logical thing that people
->> will reach for in terms of "I don't care what this new thing is, just get it
->> out of my way and let my drivers work like they always used to; I want to
->> disable the new thing."
-> 
-> I completely agree. I was under the impression that these names had already
-> been decided, since I picked up where Dan left off.>>
->>  From there it then also makes perfect self-consistent sense that
->> "device_trust=full" would be the opposite end of the scale as in "Apply the
->> explicit trust model 'fully', to all devices regardless of their bus-level
->> default."
->>
->> Now I guess you could name it something like "device.default_trust_level" to
->> attempt to make it clearer that it represents a value the value represents
->> the "trust" *of* each individual device itself, but TBH it's still liable to
->> look backwards to many users - similarly it's hard to guess that
->> FOO_POLICY_DISABLED might mean something entirely different from "don't
->> enforce the policy for FOO.", thus rather than try to contort the naming of
->> everything, I'd still be much more inclined to just flip the meanings to be
->> more intuitive from the outsider perspective.
->>
->> Say you upgrade your kernel and find your boot is broken because it now
->> flibbles, but at least there is a "flibble" parameter whose values are
->> "disabled", "wibble" and "frobble". Are you really going to spend time
->> straight off reading up on what flibbling is to understand what wibbles and
->> frobbles mean? Or is your instinct just going to be to try the seemingly
->> obvious way of disabling flibbling, and then getting positively annoyed if
->> that only makes it flibble harder?
-> 
-> What about: blocked, adversarial and unrestricted
+Current flow:
 
-yes, that's better.
+  tpm_chip_alloc()             Each driver sets its own default timeouts
+                               or none
+  tpm1_get_timeouts()          reported values, ->update_timeouts()
+                               and ->update_durations(), into
+                               jiffies fields and chip->duration[]
+  tpm2_get_timeouts()          fixed TPM2_TIMEOUT_A..D, no driver hook
+  tpm_calc_ordinal_duration()  chip->duration[] on TPM 1.x, a fixed
+                               per-ordinal map on TPM 2.0
+  tpm_transmit()               resubmits on TPM2_RC_RETRY until the
+                               delay passes TPM2_DURATION_LONG
 
-> instead of: disabled, adversarial and full
+The limit table is built in fixed order starting with family
+defaults, reported by TPM chip, ->adjust_limits, tpm.limits= parameter
+and finally the validation that checks the bounds. This also adds
+a visibility to the source which sets the limit eg: default, TPM,
+driver, param etc.
 
-may be simplify: blocked, restricted, unrestricted? Thanks,
+The flow after this series:
+
+  tpm_chip_alloc()
+    tpm_limits_init()          larger of the TPM 1.x and 2.0 defaults,
+                               tpm.limits= and bounds check
+  tpm1_get_timeouts(), tpm2_get_timeouts()
+    tpm_limits_update()        family defaults
+                               reported values (TPM 1.x)
+                               ->adjust_limits()
+                               tpm.limits=
+                               bounds check
+  readers of chip->limits
+    tpm_try_transmit()         polls for completion up to the command's
+                               duration class
+    tpm_transmit()             resubmits on TPM2_RC_RETRY up to the
+                               LONG duration
+    drivers                    tpm_poll_timeout(), or the limit in
+                               jiffies where a driver counts jiffies
+    sysfs                      timeouts and durations, on TPM 2.0 too
+
+This changes some of the existing behaviour:
+
+  - TPM2_VerifySignature waits DEFAULT 120 s instead of 30 s.
+  - Completion polling first sleeps at most 100 us instead of 1 ms.
+  - Until the timing query runs, tpm_crb waits up to 750 ms for
+    TIMEOUT_C instead of 200 ms, xen-tpmfront 750 ms instead of 0, and
+    st33zp24, tpm_i2c_infineon and tpm_i2c_nuvoton up to 4 s for
+    TIMEOUT_B instead of 2 s.
+  - On TPM 1.x, an ordinal with no class waits DEFAULT, which is never
+    shorter than LONG, so a chip that reports LONG above two minutes
+    waits longer than the old fixed two minutes.
+  - The timeouts and durations sysfs files now print exact
+    microseconds, and their "[adjusted]" marker also covers a value
+    changed by validation. TPM 2.0 chips now get both files too, in
+    /sys/class/tpm/tpmX/. tpm.limits= is documented in
+    kernel-parameters.txt.
+  - tpm_atmel, tpm_nsc and tpm_infineon never query the TPM for its
+    timeouts and durations, so their sysfs files now show the
+    defaults, marked "[original]", instead of zero timeouts and an
+    empty durations file.
+
+I ran each patch in QEMU with swtpm, on TPM 2.0 over CRB and TIS and
+on TPM 1.2 over TIS. Every boot answered commands and the TPM 1.2
+sysfs output stays the same across the series. I also fed tpm.limits=
+values below the floor, above the ceiling and malformed, and with a
+local test hook held the TPM in TPM2_RC_RETRY and stalled completions
+to see each wait end where the table says.
+
+On an EC2 instance with Amazon NitroTPM, I ran a GetCapability and hwrng
+loop through repeated periods of TPM unavailability. Kernel without
+these changes logged "tpm2_load_context: failed with a TPM error 0x0922"
+and every later TPM command failed. With this series applied, no command
+failed.
+
+The idea for this series is mine. An LLM coding assistant helped draft
+the code and I reviewed every patch myself.
+
+[1] https://lore.kernel.org/linux-integrity/atLD-d1v1B8ARv7x@kernel.org/
+
+Surendran
+
+V3 -> V4:
+- Add a header comment to tpm-limits.c describing the limits table
+- Export __tpm_poll() and make tpm_poll_timeout() and
+  tpm_poll_timeout_us() static inline in tpm.h
+- Drop tpm_limits_apply_quirks() and struct tpm_limits_quirk
+- Keep the existing tpm_tis timeout override table, and set the
+  NitroTPM limits in tpm_crb with tpm_limits_driver_set()
+- Drop HW_ERR from the "Adjusting reported" logs
+- Document the TPM 2.0 timeouts and durations paths in sysfs-class-tpm
+
+V2 -> V3:
+- Replace the TPM 2.0 duration override with one limits table for both
+  TPM families, built in a fixed order and validated
+- Replace ->update_timeouts() and ->update_durations() with
+  ->adjust_limits()
+- Bound the tpm_transmit() retry loop by the LONG duration instead of
+  TPM2_DURATION_LONG
+- Add tpm.limits=, and show the timeouts and durations files for
+  TPM 2.0 chips
+- Move the NitroTPM values to a tpm_crb quirk table, raise its SHORT
+  and MEDIUM durations to 30 s and its LONG duration to 45 s
+
+V1 -> V2:
+- Drop chip->busy_timeout_ms. TPM2 durations and the TPM2_RC_RETRY
+  budget now come from chip->duration.
+- Map TPM2_CC_SELF_TEST and TPM2_CC_VERIFY_SIGNATURE to TPM_LONG with
+  floors of 3s and 30s since their durations do not fit SHORT, MEDIUM,
+  LONG durations.
+- Keep the TPM2 defaults for commands sent before tpm2_get_timeouts()
+  has run such as the one in tpm2_probe() and keep the 2s retry
+  budget for TPM 1.x chips.
+- Keep the first TPM2_RC_RETRY wait at TPM2_DURATION_SHORT instead of
+  chip->duration[TPM_SHORT]. No TPM2 command maps to TPM_SHORT today
+  and a driver that raises TPM_SHORT for its commands should not also
+  lengthen the first retry wait.
+- Return early from tpm_tis_update_durations() for TPM2 chips, since
+  its overrides are for TPM 1.x.
+- Raise TPM_SHORT, TPM_MEDIUM and TPM_LONG to 30s for NitroTPM.
+- Replace the vendor quirk table in tpm_crb with a plain vendor ID
+  check.
+- Use the TPM_CRB_ prefix for the new tpm_crb macros.
+- Rename the patches from "tpm: Add per-chip timeout for transient
+  unavailability" and "tpm_crb: Raise timeouts for Amazon NitroTPM".
+
+v3: https://lore.kernel.org/linux-integrity/20261112163846.97654-1-surenkj@amazon.com/
+v2: https://lore.kernel.org/linux-integrity/20261016043733.30589-1-surenkj@amazon.com/
+v1: https://lore.kernel.org/linux-integrity/20260923142834.16786-1-surenkj@amazon.com/
+
+Surendran Kanagaraj (8):
+  tpm: Add a single table for all TPM wait limits
+  tpm: Wire the timing setup to the limits table
+  tpm: Take command durations from the limits table
+  tpm: Bound core and CRB waits by the limits table
+  tpm: Drop the jiffies timing fields from struct tpm_chip
+  tpm: Add the tpm.limits= parameter
+  tpm: Show timeouts and durations for TPM 2.0 chips
+  tpm_crb: Raise the limits for Amazon NitroTPM
+
+ Documentation/ABI/stable/sysfs-class-tpm      |  38 +-
+ .../admin-guide/kernel-parameters.txt         |  13 +
+ drivers/char/tpm/Makefile                     |   1 +
+ drivers/char/tpm/st33zp24/st33zp24.c          |  28 +-
+ drivers/char/tpm/tpm-chip.c                   |   1 +
+ drivers/char/tpm/tpm-interface.c              |  72 +-
+ drivers/char/tpm/tpm-limits.c                 | 427 +++++++++++
+ drivers/char/tpm/tpm-sysfs.c                  |  29 +-
+ drivers/char/tpm/tpm.h                        |  63 +-
+ drivers/char/tpm/tpm1-cmd.c                   | 669 +++++++++---------
+ drivers/char/tpm/tpm2-cmd.c                   |  80 ++-
+ drivers/char/tpm/tpm_crb.c                    | 107 ++-
+ drivers/char/tpm/tpm_i2c_atmel.c              |   9 -
+ drivers/char/tpm/tpm_i2c_infineon.c           |  25 +-
+ drivers/char/tpm/tpm_i2c_nuvoton.c            |  32 +-
+ drivers/char/tpm/tpm_tis_core.c               | 168 ++---
+ drivers/char/tpm/tpm_tis_i2c_cr50.c           |  15 +-
+ drivers/char/tpm/xen-tpmfront.c               |  10 +-
+ include/linux/tpm.h                           |  66 +-
+ include/linux/tpm_ptp.h                       |   9 -
+ 20 files changed, 1179 insertions(+), 683 deletions(-)
+ create mode 100644 drivers/char/tpm/tpm-limits.c
 
 
-> 
-> Thanks
-> 
->>
->> Robin.
-
+base-commit: 8054cba7f0619486c237b21bd257a4544b5de455
 -- 
-Alexey
+2.47.3
 
