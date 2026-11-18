@@ -1,88 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795019653;
-	b=3NLZrG+97XeW8Kli7G5YNMFdaEzYjLvBZQEofbS9LtDawFrYTg3L9MuK7tTE05D6Ldg3
-	 sdpsuiKr9CCxHl+anV02Rh3rCcJQSgVViDHrUbTWhYUv7bvR7l1IdQBLZQp1W1CwxyzSE
-	 asGwOlePRx5UPsnHDs8btn5PjJVNgp+yNxpYnKzA/1fdj9p4hB8+J04tV6pvFL5oJfbj9
-	 AfLy9pQmI+Ym8yjEVcE58sT0Wb5s8NUHEZutwlOl1gWKpJ6YWzV+S1DyfUKkQJ6b44T3Q
-	 OKRncsd434t+kJrjl9V0O4+cocfG6HSrXSZyj4GoJ/ZfClWXA3yS3k8kyb1WRlPQptA==
+	t=1795019901;
+	b=hhLenftDoYIW7L4aEaudushVeGkIUeuA2GEiAMtKpemuoERshymMs+NEK5Xtm6VY5Z02
+	 huSpqUad4ocRrRVZB4llJOiMlNFDtTaBPssNCUm2PVejJ04xpZyqHW8Ay7fBN0HURv2Hu
+	 FVgVfajZFJLiQ3lJ+NJXqNumT7jcyzc273IcEkrjFuNPMjKUlPYM8CpG8dCneif1qiDac
+	 VwFg5iCZr7sgjxJyeKEKklSpr+CW8ndOFAX5IAJ7NVEcE/IG7PwC/80/2OEt9AHiT5NY5
+	 L4ms16caH/7v/rhPIesrNJoqsAOocrn1Y7FYMA7+JRxNqHaSbMqWLhuGui6+yXJtHaQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795019653;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795019901;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=C0uQO4m5AZQuZD/qmLkcdjegER6bbbPKAATaLMex7+s=;
-	b=JRWf+2rt/9MFErPogXBU/DqJP68kcuvW+6uZXEBNPzOgW2VW3HIKrLy4Ogtxdq281t6Q
-	 tnlUO/cvV2o98cuD3n4BPN62wOXVHe3DWM4UdUJ1TdI7UpKyS7oeCFI/IteQ0dFu5htK7
-	 SVTUaH6mCkcLcpgaXfPNFVkkfS9uXQgDcRzNd4v/g2aFLd1cF/FW4CrOIRYrO+5sZFn4H
-	 sRZVlQkDHgq1f83QroecukCA46FTuRT9x6Uo+XnA+HmRGflzkVruqy8b+T1UgKr2xDO7T
-	 xf9aZUHu1dnXFoP/DWrQwLVkjW2nP2ctKwPLGTUOJimtNaMJxni5jYslHmNiAh2DIuw==
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=LYnPwXVs5q7hiylo9HLvXwft8EbUR8+QNtfkEA01owo=;
+	b=3nJIa1W6Iglzb5Jn87zMPyu8E6yMFvuHm37QmnW1103skAKEsqsm+np0KYDghqMNK6Ei
+	 pJRrQwBExIjT/f3HFHIXPVMgGhIZJkTVn7BNZjiCcYrDlVavDSsfXsidoVxhIQrGnCP6Z
+	 ZT3HN5dX9gIHCCfzlYG+wPXP2L2VPfvbsmll+zZV3Zx7ox4VdGkk/SaL91OBeBhVjoVcM
+	 qg8ECPvkPB4i8PoBw3moLgMHmfMcQ/GeP1d0xx8PRXFl80K47VgrUJQ2ZquxqKj1JvFFz
+	 2wSrF61ZnZ8cj5HRZhTqd9SgKivXQzsnUoBwG++xGa4sIh+6lrp+LZ6HM+Dhvnersbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ursulin.net;
-	spf=pass smtp.mailfrom=ursulin.net;
-	dkim=pass header.d=ursulin.net header.i=@ursulin.net header.a=rsa-sha256 header.s=google header.b=Zw6qWe1d;
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	dmarc=pass header.from=soleen.com;
+	spf=pass smtp.mailfrom=soleen.com;
+	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=QPGxmnC1;
+	arc=none smtp.remote-ip=209.85.217.43
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43216606A7C2
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 16:34:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43216606A7C2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ursulin.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EBD606A32F
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 16:38:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27EBD606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ursulin.net header.i=@ursulin.net header.a=rsa-sha256 header.s=google header.b=Zw6qWe1d
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-49a92144733so562049f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 08:34:11 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=QPGxmnC1
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-7cc0ccc2fddso429876137.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 08:38:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ursulin.net; s=google; t=1795019650; x=1795624450; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=C0uQO4m5AZQuZD/qmLkcdjegER6bbbPKAATaLMex7+s=;
-        b=Zw6qWe1dklum+Q3iocRUaXuOiybw8tOrFbJZ9YlFPUIvClKNgcXXbCyqkBZ7R9bQ4q
-         xPGmBQEfYtaHInvo6M4pZ0MDN7fWysAmKwK9Xcc0mIuCV0BWRmTKKPpFH3jwoi49SeXI
-         KLYyVV3B770TjhIO07zL8xXqS4DqaOjPcvTKr98LrdYgC/fzDEs9ECyYfXN46ZbX5BUj
-         gL8oCcJNAyDIHpbzRTu0STpvmYS2bqf4GPKISOeJDEqIxlIruksj+nHs/cGSgjtCZDdr
-         aXq4T+KRavv1NcZ5zrOIzBxH7cl6xvxMYoWwcCKK/Yu09Be6V92sZC5KiPATpgyU23ju
-         k0nQ==
+        d=soleen.com; s=google; t=1795019900; x=1795624700; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=LYnPwXVs5q7hiylo9HLvXwft8EbUR8+QNtfkEA01owo=;
+        b=QPGxmnC1MIKGvE/vzRa1zJVCw1yF2DPdCEjwi1OiyfqWVdjQXoQaqq4ZpovebRrelq
+         US17RpTZ+Uzfo3OWCyd5YMD8bq52PJZD2Muct7K0eAIFNeFfXu6wgru+UBA6sgKtaRZS
+         0b9MVDRgr2VxKFnpEMOLMgFYNq9iOOVRaT35J9gyp4Yaa5FkyTY4CkmwXmfIQ8WBZlwh
+         FbWZ2NGLN9S2mivv77OafDgT1NOUggehsiq6xLEzEgC7ZwoXatqJLJw+t+NPJ3FkUwql
+         2Ljnfuv2qvRrtHouHRaEPTZMC3Dkt5KLw10WpNnWS31sgR1pDdCheRklJg6bhyuXsgui
+         5eCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795019650; x=1795624450;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=C0uQO4m5AZQuZD/qmLkcdjegER6bbbPKAATaLMex7+s=;
-        b=EsMFdByZoa2F4W0pk/t1HWpNKzpK9HmxY0gjbwovcpeEylTbg0jqqFtTrMqWtOyjHQ
-         PTBat2WR4G4YCA+p3PcyU/RQLaNKT0z62MhTWLkpbk2iXYVqneslAbvyjekiGJ8dlFOe
-         S4HWJn88kuigI0+gy1Wd3u9w8NxZToW00XnQ3v5g5PBrX8OeeuKSEaWLv+bf5Rwd/FVb
-         rBL+rZBBId4ntU94+rgVqJzyF3MaAgTjSUdPlDi0BjgSWokMn94cav/o4R2DMf9sApui
-         nRLdSMi3INjI7PiXfGOXDURp+F02E00Z5QnQEJbGt2FAJov5yVBFH0ufkrtIHIuqEN0d
-         Y8tA==
-X-Forwarded-Encrypted: i=1; AL+hErHYn4SpbS620mhm8fuvig4uX0mq/tr5IEzoD4AnMZDDM+dp/7Y0xTxZBBgFv/aa0XDLnWKdcbg9xC8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9LZxgJAGJvA8w7T/QevHm1azZmN6n01oAqn/fCyeAY/bagS5D8
-	m6N63frbbjQ/KzE0zHT/qBudAARnTesqOQM5clXZofNk9YyfwROM0I9u6xG5iQXWQZ4=
-X-Gm-Gg: AZFdTZc4p56ebNSPoADy8ZkiVkAHAuXgF7KM7Lu73tARH8U410qahKNOwuct1WTLmH8
-	MTZJojkEp+e7TXSnAbxvQQ5thSkPi4pLwbubIcIXjRGZ8qztft0tzH6HOm5aFEtc3dr1HFf+NAV
-	i/abfN3QvMWvSROKV5W67XXyBdm0/MpH+jyUNsTEooRhF1+vEwA4ggaMrxLOorGb/DslGGL1rs0
-	/E4XnE4RwF5dj6Yeze998KDShdaJ2k9Kr9HPq7Z/1GtUdQwoLXAkuOefHVK0fXU/zaEyduwH+Tq
-	4umcryaF7x9oYf2lrBdZFWEdZlA9itf01t5feY/IcydVcbLw8xZP8bdHWyIumaNMggCKcI1tsoF
-	SPiLiGsPi+19091QKC48iEFbmJ3rWNTjeSiOoOx94YQ83XDV92h/G9LbskRHr5syWtLIJDT1B2Y
-	A7PpQe1Mg0Wx4WDnxgdkAjykNoM273EPZ1dSv3uUI7CI0bLq0ttHLdGrLeGIqp0XVE2g2/0gZkV
-	6BaIKrxGxLE99gZVeqH9EwQBh/Rr0gMK2OY5p8Sr+VRu8aGpYqjaOKs1D3dkMvI8BOvnGRgrrnZ
-	Lg2glrZlEoe01t74ozMCnP10Z4++5QhMQf9mHNY/+wOa5w==
-X-Received: by 2002:a05:6000:1610:b0:491:e062:383d with SMTP id ffacd0b85a97d-4a63d1daa1fmr4563395f8f.57.1795019650348;
-        Wed, 18 Nov 2026 08:34:10 -0800 (PST)
-Received: from [192.168.0.116] ([81.79.79.1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a650d2e26csm5659578f8f.4.2026.11.18.08.34.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Nov 2026 08:34:09 -0800 (PST)
-Message-ID: <598d80dc-1269-44ff-8852-b63b6ab57ea5@ursulin.net>
-Date: Wed, 18 Nov 2026 16:34:09 +0000
+        d=1e100.net; s=20260707; t=1795019900; x=1795624700;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LYnPwXVs5q7hiylo9HLvXwft8EbUR8+QNtfkEA01owo=;
+        b=Jf50Dzz4qPsMf1JZm60GhyhU3b+JugiDRtYgvgyDW95x9PcNkchW3Z2G7nt7AeH3q7
+         J5S8moqa+S1jC+HQsFcWnLd6pVVZvHCb8VdQ7AdxPCHOoUF8tdm31gbtBtHQLg/vCoiu
+         WYaJg27ObjEHW1t3m1YJAmc5q0z3hmJVGwPODpzhZk7rxJMVWWHAnVnTG7SQDsHESur2
+         h9R7XxYocN7OrzQHNXM32WXAjN66tZFnZ1P8MsRy0KIqMXGSa1l7Rlantps9xLjuG02v
+         afwSis16XH0eyF4IpOD421dux6gZOT8zUMqAsnqacUVT3YM/2seH9aVu0rpcFnw7GqGg
+         F24g==
+X-Forwarded-Encrypted: i=1; AL+hErFH/JbZv/ddTtQlz+E1OJjGQRnKitBCixzstATFq63PhiS8kTuIS/ZSl5Gt/v2549iJ9IGBnugNf5w=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/6OP2BYv7lA7GF9Mup5iXFTQosA6orxXFDYgsy47xQ2RZi9u9B
+	pjVOWtl4RTGu5Gkxnaoje1tabc32DPigu+Cu1NUptrq8K9ZeM0/jpn8bUo+DL+oj+0rNh124iC8
+	82iLR
+X-Gm-Gg: AYBFou2azmlk8/uqEmZD/3VwMnPxry55TXx1VqHCF0A5U6GOv50N41iPiEDPoBnq08N
+	VdTliUY7lkJss0TTfBID2zmqSCviTqtupn1kclZq7ZlXLhiTcupi0Snjte95QU03r11PP8c8bd8
+	eRsGAjg1q1zXD1Il2VY992v8GP3BII14sHqxhvmsUDxxITiDFauscoLnbhbg9A+0lwJPL0g0Jqp
+	kMeuNXLog8Bjkd0XiG82drkbJgjgxxx7Tuf3CzLrR/+8m/uTs2QVLxP04ZokSIqtJEXADHGgsgS
+	TvmuNU5NG7gmcSsXDem8gS31jTOJvgRoPeIWseDXujwTGewTbkmZiYZi1qTFgP6crM/2TofxFPA
+	Jjdt2kX7+s0ZuSUXtSkcJzXcOWnlxdSyQ11kDN7Sbh1aIgdWSYmwji32ImdP2pMRqOpUqbQAJnk
+	rpeAqMR1VPmTvCT6BGAT0VOrQD+eg/RgGXoOM0V4ZypBJPwuZt4usbdccsnVUOVF/FrAUnkZx44
+	V94sCz70AwF8texHUQtXuzQXfAITM3+BFbffZHZYyp7+b9aW6IZ6kOwu6vYbjuFM/3wZ3tQDVzi
+	LAJi8N3jnTgLsbvcg82qsJDvUIjr2u9l4Su5PoNFCF+TfUbFIFuCF4DuXsPGznHZztLcI6qC4rn
+	rRgTcId9KFLcbgWLPDe1mLfk5VsSZJU99v3GIDy2J512FfNs=
+X-Received: by 2002:a05:6102:91b:b0:7d0:9587:1b99 with SMTP id ada2fe7eead31-7d6b9ee48fcmr1231586137.0.1795019899949;
+        Wed, 18 Nov 2026 08:38:19 -0800 (PST)
+Received: from soleen.c.googlers.com (57.233.150.34.bc.googleusercontent.com. [34.150.233.57])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d6b9318565sm2190742137.9.2026.11.18.08.38.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 08:38:19 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,96 +91,106 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] drm/sched: Add drm_sched_entity_get_runtime()
-To: Sidong Yang <sidong.yang@furiosa.ai>, Tomeu Vizoso
- <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>,
- Philipp Stanner <phasta@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, ckoenig.leichtzumerken@gmail.com
-Cc: mcanal@igalia.com, Heiko Stuebner <heiko@sntech.de>,
- Gyeyoung Baek <gye976@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261112171144.3151554-1-sidong.yang@furiosa.ai>
- <20261112171144.3151554-2-sidong.yang@furiosa.ai>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20261112171144.3151554-2-sidong.yang@furiosa.ai>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 1/2] kho: expose incoming sub-blob metadata instead of
+ contents
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: Long Wei <longwei27@huawei.com>
+Cc: rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org, 
+ akpm@linux-foundation.org, graf@amazon.com, leitao@debian.org, 
+ corbet@lwn.net, rdunlap@infradead.org, linux-mm@kvack.org, 
+ kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, hewenliang4@huawei.com
+In-Reply-To: <20261117092951.4017931-2-longwei27@huawei.com>
+References: <20261117092951.4017931-1-longwei27@huawei.com>
+ <20261117092951.4017931-2-longwei27@huawei.com>
+Date: Wed, 18 Nov 2026 11:38:16 -0500
+Message-Id: <179501989658.250261.5046056769256366161.b4-review@b4>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2796;
+ i=pasha.tatashin@soleen.com; h=from:subject:message-id;
+ bh=s2TgceZsirNjgZI66wNzdrJjtsGvWS0+fdcYU2Wc8h4=;
+ b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBq/dR6HI5GpH/4iewvFIx9U9up3jTt1CD0OiBfM
+ tAYaHZwb4eJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCav3UegAKCRC7dyhM23N6
+ 3kzeEACFJCS4M3n+dkgQTJYjctdNWWkW46rsV15OpDqGSLVsafiGK5V9DqS/YbDDUzAIL82H8ek
+ ad5sQrHuBJHAawArjrrZvPvZzsjJ7BoW0DhpOcm/qpi9kWBcHFsENdJnsNI+sEKtS7RbbYWQK9j
+ vUVdUL11miluOI0kgYxpgF5qaZ4UwPGOft9U1q/ZL8XoMA/wEeCWMJjAzYczqn5NlEwwa+0AB2q
+ 6rV9wl/qqH3k5YypOi1mJyaSbV5EkYQGGi5oaRrSDgGgUPPySAGgd2qpPcV4/nA19UkULW5+Ytn
+ maeDoReb2TGTx071O1D61DRaAQroMbESBa98ybnPDi7kYDDQ8CLtcbsoJT531hV/Rb9vSyMfua0
+ WYp/jw8p6CI8ckRZakilQLC6NoROctxmAW8dgqsN7qz7E8zFTylOcMwvBnWCVv/OmeVNt//PGSZ
+ 4pvr57QAYJHdwmcY+nTXPkmo8Ah6AewPJfQdfcObc/6kbkiKd/1d8lPhhzK25hDvF00YlLVIPNR
+ 9tWH7znV/vhJaE8IssOJda4n+3fjfU5Kdq/BeEciQ7PR4m3bZU3IgMli5bnUzkHVn/orX7MMm3Y
+ Z7klzrAJ9WeT+Ujk7U5HYuOOt2IHqPSL3QETXW/TOkr9Z1Ev36XHxJTep93cKMnaV5yhNLmn8bY
+ /EvS9/hwGM3L8Hw==
+X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
+ fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-
-On 12/11/2026 17:11, Sidong Yang wrote:
-> The scheduler accumulates the time each entity's jobs spend on the
-> hardware for the fair policy, but drivers cannot read it. Export it so
-> drivers can report per-client engine time through fdinfo without
-> keeping their own counter.
+> Incoming sub-blob pages are owned by their consumers and have independent
+> lifetimes.  Some consumers, such as LUO, restore and free their state in
+> early_initcall, i.e. before kho_init() (fs_initcall) builds the debugfs
+> view:
 > 
-> The stats object is refcounted and held by the entity and its jobs, so
-> unlike commit df622729ddbf ("drm/scheduler: track GPU active time per
-> entity"), which was reverted, accounting a job does not touch the
-> entity.
+>   early_initcall: luo_early_startup()
+>                     -> kho_retrieve_subtree("LUO")
+>                     -> kho_restore_free(luo_ser)   /* page is freed */
 > 
-> Suggested-by: Tvrtko Ursulin <tursulin@ursulin.net>
-> Signed-off-by: Sidong Yang <sidong.yang@furiosa.ai>
-> ---
->   drivers/gpu/drm/scheduler/sched_entity.c | 25 ++++++++++++++++++++++++
->   include/drm/gpu_scheduler.h              |  1 +
->   2 files changed, 26 insertions(+)
+>   fs_initcall:    kho_init()
+>                     -> kho_in_debugfs_init()
+>                          -> phys_to_virt(luo_ser_phys)
+>                          -> debugfs_create_blob("LUO", ...)
 > 
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 03e68b4102d5..ac040f95876a 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -238,6 +238,31 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
->   }
->   EXPORT_SYMBOL(drm_sched_entity_error);
->   
-> +/**
-> + * drm_sched_entity_get_runtime - Get the time an entity's jobs have run
-> + * @entity: scheduler entity
-> + *
-> + * Returns the time the jobs of @entity have spent on the hardware, measured
-> + * from the scheduled to the finished fence of each job. A job is accounted
-> + * when the scheduler frees it.
-> + *
-> + * The caller must ensure @entity has not been finalized.
-> + *
-> + * Return: Accumulated runtime in nanoseconds.
-> + */
-> +u64 drm_sched_entity_get_runtime(struct drm_sched_entity *entity)
-> +{
-> +	struct drm_sched_entity_stats *stats = entity->stats;
-> +	ktime_t runtime;
-> +
-> +	spin_lock(&stats->lock);
-> +	runtime = stats->runtime;
-> +	spin_unlock(&stats->lock);
-> +
-> +	return ktime_to_ns(runtime);
-> +}
-> +EXPORT_SYMBOL(drm_sched_entity_get_runtime);
-> +
->   static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
->   					  struct dma_fence_cb *cb);
->   
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 3b0978fa8cf0..96a3401d4c88 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -730,6 +730,7 @@ void drm_sched_entity_destroy(struct drm_sched_entity *entity);
->   void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
->   				   enum drm_sched_priority priority);
->   int drm_sched_entity_error(struct drm_sched_entity *entity);
-> +u64 drm_sched_entity_get_runtime(struct drm_sched_entity *entity);
->   void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
->   				   struct drm_gpu_scheduler **sched_list,
->   				   unsigned int num_sched_list);
+> debugfs therefore ends up pointing at a page that was already handed back
+> to the page allocator, and reading the file triggers a use-after-free:
+> 
+>   # cat /sys/kernel/debug/kho/in/sub_fdts/LUO
+>   ==================================================================
+>   BUG: KASAN: use-after-free in _copy_to_user+0x37/0x60
+>   Read of size 32 at addr ffff88810309c000 by task cat/27436
+> 
+>   Call Trace:
+>    <TASK>
+>    kasan_report+0xb9/0xf0
+>    kasan_check_range+0x100/0x1b0
+>    _copy_to_user+0x37/0x60
+>    simple_read_from_buffer+0x77/0xd0
+>    read_file_blob+0x75/0xa0
+>    vfs_read+0x12d/0x520
+>    ksys_read+0xc3/0x160
+>    do_syscall_64+0x97/0x4b0
+>    entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>    </TASK>
+> 
+>   The buggy address belongs to the physical page:
+>   page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x1fd
+>   pfn:0x10309c
+>   flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
+>   page_type: f0(buddy)
+>   ==================================================================
+> 
+> The page is already in the buddy allocator (page_type: f0(buddy),
+> refcount 0), which confirms it was freed before the debugfs view was
+> created.
+> 
+> KHO does not own these pages, so it cannot safely expose their contents at
+> all.  Drop the in/sub_fdts raw blob nodes and replace them with a
+> read-only in/blobs metadata file that lists the name, physical address and
+> size of every incoming sub-blob.  The FDT itself is reserved by KHO and is
+> still exposed as in/fdt.
 
-LGTM.
+I suggest we simply remove in/sub_fdts without adding in/blobs. All of 
+the metadata you are proposing to expose via in/blobs is already present 
+in in/fdt (and can be parsed from userspace if needed), so I do not 
+think it warrants adding another kernel debugfs interface. Keeping this 
+to just removing in/sub_fdts (and updating the doc) also keeps the fix 
+minimal for -rc.
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> 
+> Fixes: 062dd306d99c ("kho: fix kho_in_debugfs_init() to handle non-FDT blobs")
 
-Regards,
+This UAF has been there since in/sub_fdts was first added, so I think 
+this should be: Fixes: c609c144b0e8 ("kexec: add KHO parsing support")
 
-Tvrtko
+-- 
+Pasha
 
