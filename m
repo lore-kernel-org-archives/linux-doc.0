@@ -1,91 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.50
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794997719;
-	b=nuJzu+ml7z3kwNZTRdasYcTgLVtk5BNhjQ0iNd7vYRsAa6yps1VWV6E72QH/sFCXv2yt
-	 HojzhsKD+6nmZsFRVleSDkH76Ur8/SfSDiQMttVTZ6ObbAasPuZQspNJEcSxdbdldRjYI
-	 bISDin5kpvhLs4uH6xdW+itsOeHZOiMPvSdGCZR3Pan0lyAR26b6z1guBLyD+D64o0v98
-	 SUKaj6RssnoiZiwFGx3iceJYKnMqU4ebNOsjTWoFBhTtQFK3HCSoid3/0lSQskxLIwIQ7
-	 86QeNrlseI/y0I0wKcXQU+1VC0IvzuMwVXzTfLBy7NgECdRtks5PDYFK0SevIKLozow==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794997719;
-	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=7g6QQxsHo/KD2ZuYZ/qNr5ltEL4M5F15oOG71dYxc3s=;
-	b=veiU6knkZGSSR/0wyLJmXhSSIcTxAbJsLRze9rr0PlXh164ItAdDA6Q5Fslz1FQnCHHu
-	 MwWznC7TNyKHPWs5icSbV2DHDan6nutxNnpvSVOp535nAJigtCvGusaAs1M8OBaP/F9hd
-	 7Qm1zsLZdXEiDoGIe7lEnvfmxNewvikyWia+MJfDhrF/eihNefkFtbE5tTqkYIeoUSNEM
-	 oJAXM6ZQqiBCbiJJ++CwNxRcK8weSFv4T72hzHMzvOqWd9Rgkyizn2j0AXyyXankd/CPg
-	 7cLhApRa/1r2D1khd6R7T0ReFCenzyNOaBGjoi95C8JGTjp2UGoFNS/3XJFJNeBZ9/g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=hartkopp.net;
-	spf=fail smtp.mailfrom=hartkopp.net;
-	dkim=pass header.d=hartkopp.net header.i=@hartkopp.net header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=lDG9J8mG;
-	dkim=pass header.d=hartkopp.net header.i=@hartkopp.net header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=222K0LPy;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.50
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.50])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.218
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795000833;
+	b=nzdbWQsXyvTIZIfmBVxTd+QHjpXrNavJpXvMJK9+2eZyU+TCc5zKki8dylkuVkXhNoUq
+	 97apiYQ9twtTOn+fFDpXCImeZpqfaZQ4shfEqLm7g6q/Bt/bqBEQ2ova5dvWi5EVlrlZF
+	 K4pv5WVxA66n4OKvke2q2HM9jjJL4g84rQ8+8NX69L1gbpJ/s8XKaqTVRCwwBgPUTCUXw
+	 00/NhIhwz/PI7ntqEy/Jt8H/dLjAY/p+0z1p4dYW11d/WNdoj1t/AFtvl4Cus/V7PxYRk
+	 Pa9mqnUCLHsSl2793r6dEC/4UedqOcKrol842rMwbxqbm3o/eoT3ehvUbO73eZ6QUkQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795000833;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=WCGda7Yi6ICFHF3lVnoaDjct+Xu4pD4VEyrxvRKr9y4=;
+	b=0zuT1qaVFtGRbmytKYYrAD6T5GZKxtkuVMcwVyizPAtJdhItnYMYA5f6q668Ti5Tua9O
+	 MG7JYaOMezQfghN6wzPDZWXkpMysgbcKi2YjXwLKcBVZQV4i1AKWKh8YdQ37xuqCbTSKT
+	 xNl5o4/gCtlsNdb7aJ4Rs3Qm3bPyjWWlCFn0IBmNJ31Tj+khsZazf90zNs8EBrZBjDTqo
+	 nCu2tLaEEbjcMr2/Iw7kWDa5DrMHMJmd0F81nwzK3e0TytslKTHEx3q4jGMDkUeePny5v
+	 lxWBjxQRQhW6qmgTghPNvIACYrGfXCvk0PGbQrzvSiqvl24JZY2c3OCNhdwM/ZC631Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=5kHsqnz5;
+	arc=none smtp.remote-ip=113.46.200.218
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46F2606A334;
-	Wed, 18 Nov 2026 10:28:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C46F2606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hartkopp.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hartkopp.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B674606A31C;
+	Wed, 18 Nov 2026 11:20:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B674606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hartkopp.net header.i=@hartkopp.net header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=lDG9J8mG;
-	dkim=pass header.d=hartkopp.net header.i=@hartkopp.net header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=222K0LPy
-ARC-Seal: i=1; a=rsa-sha256; t=1794997714; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=T0oG06Hasto73lK69x61uGBrhtqGnNFBa+C1mkaqvH11Y/vXWbEahYixMEI4R0zV45
-    To1NjurFZhBhaCc3cNM47sySnIhQykA5mOPVdaMcN+38lr+KCwKFPgU8GNtlakH7zWRe
-    +eySaMuQ4HAVW0W6iNV9TPT3cHa/2dgkhcnpQP+Pj8P9A2mZX4dzkXLG9Nh6+DdtrTmB
-    nOdU8XymawSiPh1vArtxUbltKV9/MbdbsHHGJZl9bxE5/eHT3Conn6JwvnXaHsREInHL
-    1PVnVRpmEbs0IUaPkqar3QBdUy3lXqYGWFxwQpPDZDqh/mUvZQcsGVaBqxju9NJ313ov
-    39fw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1794997714;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=7g6QQxsHo/KD2ZuYZ/qNr5ltEL4M5F15oOG71dYxc3s=;
-    b=bb2ueOovuYxjLdsBZIYMu82QszoGh6PLGKUCOa6w8/v8iPGPwgtpF5trGKtS8h8ZbN
-    qAzSGUAsdWvnWPrw9zzsYbbRI0E2HLtlGjwCKISdi1qlPWNNkyys0+A8iUtXxuncG84c
-    IA2vm3w1yDqZytqJ27E+TQ/hPastQTvY+2L/UWfoyXOnX2cTwr9WISWJfqAwfomNCJbq
-    KfPrtg5lwVMTRD2jnaIUFcsE2W16SIcJJMPkOxvVPi/HVs4sNB2llBp3A1/yMLi8qlaf
-    WzzaS32q6FFox5eAQHM1MTxk5mN778tqsLjAZLOdpC7jLQ2e5gHWoLg5hBfEOKBQfgj0
-    aXSw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1794997714;
-    s=strato-dkim-0002; d=hartkopp.net;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=7g6QQxsHo/KD2ZuYZ/qNr5ltEL4M5F15oOG71dYxc3s=;
-    b=lDG9J8mG9/fgAF3U6xqk1cDW5Fr2J9m7gOeFDbMWw/FKR1U24O/bRBdCDam5378j6+
-    O/8nJl24sjX3IkEj63oYVrFcHGlXMjjOM8iOSsHF1vxoucXUCdBPSauLUD18+7altBmb
-    zmHdvTTx+ikM4jns2lRqKg8wLleRieua7v9+7OuJ/wQyR+pdjEcQm3k9DWZZn/dpzAnG
-    SNOeLjW63zMQwKB/b+jeZ8wpVMQ4id7AlSwwwPw0+dxMx7ZwKqSQ9XLMtdW6lBciVuCR
-    NkicXY3WldO7NMWiolTUYeQSmwTi5Av34B0YsGIqAf3WjD0i5A/NDG3rB5fJqgiNTOaM
-    CKhw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1794997714;
-    s=strato-dkim-0003; d=hartkopp.net;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=7g6QQxsHo/KD2ZuYZ/qNr5ltEL4M5F15oOG71dYxc3s=;
-    b=222K0LPyRcXb5rR5wPa448LSKh9eOkw8Tls2plCXCsq/hEGmR7tQre9PkcdanGWgSE
-    DusmpnyK8vbh8EdKHSCA==
-X-RZG-AUTH: ":P2MHfkW8eP4Mre39l357AZT/I7AY/7nT2yrDxb8mjH4JKvMdQv2tTUsMrZpkO3Mw3lZ/t54cFxeEQ7s8bDup0Q=="
-Received: from [IPV6:2a00:6020:4a38:6810::989]
-    by smtp.strato.de (RZmta 55.6.3 AUTH)
-    with ESMTPSA id Kfdf2a2AIASYFIt
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Wed, 18 Nov 2026 11:28:34 +0100 (CET)
-Message-ID: <5884daae-c820-4e2b-b5d1-7ac2dfb6013a@hartkopp.net>
-Date: Wed, 18 Nov 2026 11:28:29 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=5kHsqnz5
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=WCGda7Yi6ICFHF3lVnoaDjct+Xu4pD4VEyrxvRKr9y4=;
+	b=5kHsqnz5vUnXJbAcby0sF9bYvD9os3t1Fr7YG/p8PvknYvtnDKP4oaFePFqIROZocj2J0ILy0
+	kq0s5K4LXoGwSAdGBqaku5++SQvTBX344AcgW7zjrqDHQa5ujtKTv64XyggAcr3ILxldqJMhOYH
+	sdio4PpMRlJmF1gPTmtW8yE=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4jTzdh5crwzpSv5;
+	Wed, 18 Nov 2026 19:19:36 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id CEA2840561;
+	Wed, 18 Nov 2026 19:20:26 +0800 (CST)
+Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 18 Nov
+ 2026 19:20:25 +0800
+Message-ID: <449bb402-9620-493d-9e2b-85d093ad1401@huawei.com>
+Date: Wed, 18 Nov 2026 19:20:24 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -96,84 +63,100 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH can-next v2] can: bcm: Document cyclic transmission
- failures
-To: raoxu <raoxu@uniontech.com>
-Cc: mkl@pengutronix.de, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net, horms@kernel.org,
- skhan@linuxfoundation.org, rdunlap@infradead.org, linux-can@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <75785AF83A9D9B09+20261118091938.3365557-1-raoxu@uniontech.com>
-Content-Language: en-US
-From: Oliver Hartkopp <socketcan@hartkopp.net>
-In-Reply-To: <75785AF83A9D9B09+20261118091938.3365557-1-raoxu@uniontech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v5 RESEND 5/7] fs/resctrl: Release the limbo RMIDs when
+ the CDP state changes
+To: Ben Horgan <ben.horgan@arm.com>, Reinette Chatre
+	<reinette.chatre@intel.com>, <tony.luck@intel.com>, <Dave.Martin@arm.com>,
+	<james.morse@arm.com>, <babu.moger@amd.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <fenghuay@nvidia.com>, <tan.shaopeng@fujitsu.com>,
+	<will@kernel.org>, <gshan@redhat.com>, <zengheng4@huawei.com>,
+	<jic23@kernel.org>, <x86@kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+References: <20261110133938.3768632-1-ruanjinjie@huawei.com>
+ <20261110133938.3768632-6-ruanjinjie@huawei.com>
+ <3c48dac2-78af-44c9-b546-e5fcf7bbd8d6@intel.com>
+ <7aa50421-6e92-4ea6-be39-88045e682a9f@arm.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <7aa50421-6e92-4ea6-be39-88045e682a9f@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
 
 
-On 18.11.26 10:19, raoxu wrote:
-> From: Xu Rao <raoxu@uniontech.com>
+在 2026/11/13 5:18, Ben Horgan 写道:
+> Hi Reinette, Jinjie,
 > 
-> The CAN broadcast manager continues its configured cyclic transmission
-> schedule even when a CAN frame cannot be passed to the configured
-> network interface.
+> On 11/11/2026 18:33, Reinette Chatre wrote:
+>> Hi Jinjie,
+>>
+>> On 11/10/26 5:39 AM, Jinjie Ruan wrote:
+>>
+>>> still carry those RMIDs are accounted to the next user of each RMID.
+>>>
+>>> The CDP state that matters is the one that changes the PARTIDs used by
+>>> the monitors, which is not necessarily the CDP state of the L3
+>>> resource. MPAM gives every CLOSID two PARTIDs in all MSCs while CDP is
+>>> enabled on any resource, so enabling CDP on L2 alone also changes the
+>>> PARTIDs the L3 monitors use. Add resctrl_arch_mon_cdp_enabled() to let
+>>> the architecture report this. Only MPAM can be affected, so the RMIDs
+>>> are only released where the RMID depends on the CLOSID. On x86 the
+>>> RMID does not depend on the CLOSID, and resctrl_arch_mon_cdp_enabled()
+>>> returns false.
+>>
+>> nack. The helper name and value returned on x86 is the first hint that this
+>> is not right. For x86 the value is not a statement about x86: CDP exists on
+>> x86 and can be enabled, so a function called resctrl_arch_mon_cdp_enabled()
+>> returning false reads as wrong until the comment above it explains that what
+>> is really being reported is whether CDP changes the IDs the monitors use.
 > 
-> Such failures are not reported to user space. The failed transmission
-> is not retried by the broadcast manager, the timing remains unchanged,
-> and a non-zero count is decremented.
+> The invariant that the limbo handler is currently relying on is that the
+> mapping of rmid index to the underlying hardware monitor index is fixed.
+> For MPAM, if cdp is enabled at all then the mapping is changed and so
+> the invariant does not hold between mounts. MPAM's emulation of CDP is
+> why it breaks the invariant. resctrl shouldn't need to care about this
+> MPAM specific reason and should only care whether or not the invariant
+> is upheld or not. In the future, MPAM may use more than the two existing
+> indexing schemes. For instance, if we wanted to have one memory
+> bandwidth monitor per monitor group, without assignment, then we would
+> need to limit the number of monitor groups.
 > 
-> As a result, a TX_EXPIRED notification requested with TX_COUNTEVT
-> indicates that the configured transmissions at ival1 have been
-> processed, not that they were successfully sent.
+>>
+>> Every architecture now needs to match this. This looks more like forcing
+>> every architecture to indicate whether it has the same quirk as MPAM.
+>>
+>> If there is no way to handle this in MPAM driver then handling this should at
+>> least be contained between resctrl filesystem and MPAM driver. This should not
+>> be forced on all architectures.
 > 
-> Document this behavior to prevent applications from treating TX_EXPIRED
-> as confirmation of successful transmission.
+> I don't see a way for the MPAM to keep the same RMID for when it is
+> emulating CDP and when it's not.
 > 
-> Suggested-by: Oliver Hartkopp <socketcan@hartkopp.net>
-> Signed-off-by: Xu Rao <raoxu@uniontech.com>
+>>
+>> I trust the MPAM folks to say whether it can or cannot be done in MPAM driver.
+>> If this is not possible in MPAM driver then it looks like this needs to go back
+>> to include the L2 CDP check as was done in previous version. With this check 
+>> gated by IS_ENABLED(CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID) it does hint "MPAM"
+>> but would also need a comment to explain why that is done.
+>>
+> 
+> Would something like an rmid indexing generation count be any better or
+> is that just overthinking it?
+> 
+> int resctrl_arch_rmid_indexing_generation(void);
+> 
+> If the indexing never changes the arch could always return 1 and if it
+> does change the architecture can bump the number on every change. It
+> would still never change when resctrl is mounted.
 
-Acked-by: Oliver Hartkopp <socketcan@hartkopp.net>
+As Renette suggeted, maybe we could include the L2 CDP check as was done
+in previous version to make the fix simple?
 
-Many thanks,
-Oliver
-
-> ---
-> Changes in v2:
-> - Target can-next as requested by Oliver Hartkopp.
-> - Adopt Oliver's suggested wording describing transmission failures
->    from the user's perspective.
-> - Clarify the TX_EXPIRED notification semantics and scope the lack of
->    retries to the broadcast manager.
-> - Remove implementation details and redundant descriptions.
 > 
-> This documentation-only update follows the review of v1. The earlier
-> proposal to change BCM transmission accounting was dropped.
+> Thanks,
 > 
->   Documentation/networking/can.rst | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/Documentation/networking/can.rst b/Documentation/networking/can.rst
-> index 51bc70748f75..ae47f40bf456 100644
-> --- a/Documentation/networking/can.rst
-> +++ b/Documentation/networking/can.rst
-> @@ -892,6 +892,14 @@ only one timer is needed 'count' is set to zero and only 'ival2' is used.
->   When SET_TIMER and START_TIMER flag were set the timers are activated.
->   The timer values can be altered at runtime when only SET_TIMER is set.
-> 
-> +If a CAN frame cannot be passed to the configured CAN network interface
-> +(e.g. due to a full transmit queue or the interface being down), this
-> +failure is not reported to user space. The transmission sequence
-> +continues as configured: the frame is not retried by the broadcast
-> +manager, the timing remains unchanged, and a non-zero ``count`` is
-> +decremented anyway. Therefore, a ``TX_EXPIRED`` notification (requested
-> +with ``TX_COUNTEVT``) only indicates that the ``count`` transmissions
-> +at ``ival1`` have been processed, not that they were successfully sent.
-> 
->   Broadcast Manager message sequence transmission
->   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> --
-> 2.50.1
-> 
+> Ben
 
