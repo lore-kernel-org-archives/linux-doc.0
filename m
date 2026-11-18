@@ -1,54 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.89.141.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794960938;
-	b=gkKYxpCMjtKc7I9gkBS9FS+F5cFnARpAE62fFdyi37sKZLvj/gmN69bb5pyaEXQWGMwH
-	 GCkc747S1n73c4WnBOMjKD2wx2ELy6JiuoJHR4NzKk7VGEKkjSDPzMyVjXa0QRvjz7UoS
-	 fcvJ30iCx8YHY2ukAkZpoQc/l2111sbIzAPoe86ATZ43qLiSkeLz5zY8feQFvCBbda+1L
-	 4HEgrjSsuA7CbQyJp7pN0oQjhfpL3r878ihqmnWHaP2+s8HhvTr0Wqz4tx3bV6l/WH30k
-	 oUh/hrEVT2HEjKFIU3VAf8PFLdL/ulSZKBy2CjBDbIzpiwwZwF1zCYtPA1sUvq6ScdQ==
+	t=1794961022;
+	b=OAqjhafzEdE99D+pQR6x4+7LWi0EwfWZ3lVM18LnzwnLQDr7QRhfNAKrWYn2QGTQ15uv
+	 Xv6VEqVQ9PXkzt/u1MDPHJyoe1TruJEdDSW83DUGHiXI1AwqPTb+fZBcs4MJ7+1DY8qgI
+	 HzvyAcEX7ImnDDiCqIrSD6plxMArjM0b8ka2ij2JNABkM6IPmwtcLLCQwYlwEYVnfxhmC
+	 W+OZv3Nrk/vm4CytQt3OocY1I83afGV260EoOgTGS/cDmN5HrXUYAgmAy3umgNkx/8qNn
+	 b0NYizs6p4+e2FHmBaCEsbw0jHTRXrzLsQCpVbp5N/9kp+xMS8elus1Wql1pmAkNxkQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794960938;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=puz2MD6IzLtgWuVVO4WYgEs0B9YB2hwh+dWrVCbmaMQ=;
-	b=cCisXqDjfxjQmZ8G/wyMT4JvPql9LOqKAK1oTX6G9R1sPytWcI4tJam3IWUizPHUU3BF
-	 Hr5p/jPO0RPfDkDAXlRMaOsGHofTRw2R2ZBt7IDN8QS11/WfTPoflCcIwYG1ScoGlBoFB
-	 3aS+E3uSgagqdpLyw2881ogvJm3xCGuagZpS9MOAa5no7u6dt1y+dGC32+3R+VZeT/uYD
-	 CAvOtdDyf5Uf+TgVqVZaCqfijq48Gx6Gack7KxY/i6+sn/IB/IIsY4wytXQ8RMovzCqaO
-	 7iRH2sBoCByDmhLrLoM55TMmCbafkzhyBefkK6nFkhtz5pfYXnCNqFcthV2Jjt5F9ZA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794961022;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:Sender;
+	bh=7Cn7kvyEpPF81PEysHmt35Ci8fEqAoER3KXkfxx0oq8=;
+	b=vluiF4KKqBji1epkz8wi0C5Zr1RD/UccLBmYVBvzjHMW0Rsb1jsfIuYs9Jleglh/6LDE
+	 66ry5GQuO0QVghEvmWVwTCTLIJOQSKA/HBlIsRj1NQkPO/loIBLA54Qx2RyQASc+A8T52
+	 wStDvwk66otjeQCarZ+Lb8dXyHlxk3nKAhFDEQevcCGkZ0hdOhqhdo7PbM5+16/OP0ejm
+	 pgRcjI85jjBFbIQn6aIDoBFwiEv0RXHPDgHKSX5HlnV4aT+8NAlegfS1x/y6v74IR9/KM
+	 OEP5Jx/xx10fKSlWzSZFhazn+dpplMSUvlFsg9dXqB+XWrz2EY2CCIukPbO6xSeOThg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=OzTvHFu9;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dmarc=pass header.from=zeniv.linux.org.uk;
+	spf=none smtp.mailfrom=ftp.linux.org.uk;
+	dkim=pass header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=CHOH2EIm;
+	arc=none smtp.remote-ip=62.89.141.173
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E575606A31C;
-	Wed, 18 Nov 2026 00:15:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E575606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D3C606A31C;
+	Wed, 18 Nov 2026 00:17:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14D3C606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=OzTvHFu9
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=CHOH2EIm
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=puz2MD6IzLtgWuVVO4WYgEs0B9YB2hwh+dWrVCbmaMQ=; b=OzTvHFu9uZdJN3jCGivzn/LJpU
-	X4AzDK8a9A28j6YRhoRHhLnSIDhSIzbCp+Z6VAXpoYU56BUJdsv+DlDJ4vWxDvvGSXe+FUmybC7Vb
-	JOGNgEbq/hrPVXjyQbSUJPx4BIzn2/0a2XBoBjF/83i4qavxyRvJecJEP5y/cWGKVEzWCCvh2OfS1
-	3wymQV28AHBU4rjKsk/I68d+Ogb9Z+ac854zqJaOByS+u9Vy7uTNNSFl1C1+BCk40REYe7F9nhYSN
-	dJw4zAujpSPh3HQQrEBfILhJBO1RfLtEcvySVpWuxqJRsaQbg104G0m+zm7vhiTrYypEK+9eI4H1m
-	LovuUYjQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTTKq-00000007LBS-0KzP;
-	Wed, 18 Nov 2026 00:15:36 +0000
-Message-ID: <eaecfa26-bb29-45ad-9bed-9c766f3c7b62@infradead.org>
-Date: Tue, 17 Nov 2026 16:15:34 -0800
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=7Cn7kvyEpPF81PEysHmt35Ci8fEqAoER3KXkfxx0oq8=; b=CHOH2EImE32MCKC26QN/24GUrd
+	FBPcI8h/GIcU5ew7o/3rkJXl0BLdIeW7EOEQtMJdSJPzYII29UlVG2JTS5LXEJMYNgr1FvxHbgpd0
+	wrs3m/Xk7A7WTFbuCZuerSAToP2t1LgF0RJCQ1l4R5X2F8IxOGOhv0wJjpZ72x7SvOPqh8bMSNxFM
+	Q1x1tZUC1HinlKerwu2CcDccLmVm8IDK8gfVV57Chx/qlWsowc8nemFxbIXaBkhIjYmr72boTXSUL
+	GuwNXIlWTYrsD2IP9qolOSmjGc0P8Whak/ciC2rL8MnPtzJtyKRrxH3G3ntipwi7x8qAZ5yTkvBLb
+	NA4Y86WQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xTTLt-00000007BaR-1POq;
+	Wed, 18 Nov 2026 00:16:41 +0000
+Date: Wed, 18 Nov 2026 00:16:41 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com,
+	brauner@kernel.org, jack@suse.cz, amir73il@gmail.com,
+	andrii@kernel.org, apparmor@lists.ubuntu.com, ast@kernel.org,
+	axboe@kernel.dk, bpf@vger.kernel.org, casey@schaufler-ca.com,
+	cel@kernel.org, cem@kernel.org, chenxiaosong@chenxiaosong.com,
+	code@tyhicks.com, corbet@lwn.net, Dai.Ngo@oracle.com,
+	dakr@kernel.org, daniel@iogearbox.net, dhowells@redhat.com,
+	dlemoal@kernel.org, dmitry.kasatkin@gmail.com,
+	driver-core@lists.linux.dev, dsterba@suse.com,
+	ecryptfs@vger.kernel.org, eddyz87@gmail.com, emil@etsalapatis.com,
+	eric.snowberg@oracle.com, exfat@lists.linux.dev,
+	georgia.garcia@canonical.com, gregkh@linuxfoundation.org,
+	hch@lst.de, hirofumi@mail.parknet.co.jp, hyc.lee@gmail.com,
+	ihor.solodrai@linux.dev, jlayton@kernel.org, jmorris@namei.org,
+	johan@kernel.org, john.fastabend@gmail.com,
+	john.johansen@canonical.com, jolsa@kernel.org, kpsingh@kernel.org,
+	linkinjeon@kernel.org, linux-api@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	linux-xfs@vger.kernel.org, liubaolin12138@163.com,
+	martin.lau@linux.dev, mason@kernel.org,
+	mathieu.desnoyers@efficios.com, matt@bobrowski.net,
+	memxor@gmail.com, mhiramat@kernel.org, miklos@szeredi.hu,
+	neil@brown.name, netfs@lists.linux.dev, ntfs@lists.linux.dev,
+	okorniev@redhat.com, omosnacek@gmail.com,
+	penguin-kernel@i-love.sakura.ne.jp, rafael@kernel.org,
+	rdunlap@infradead.org, roberto.sassu@huawei.com,
+	rostedt@goodmis.org, selinux@vger.kernel.org,
+	senozhatsky@chromium.org, serge@hallyn.com, sj1557.seo@samsung.com,
+	skhan@linuxfoundation.org, song@kernel.org,
+	stephen.smalley.work@gmail.com, takedakn@nttdata.co.jp,
+	tom@talpey.com, yonghong.song@linux.dev, yuezhang.mo@sony.com,
+	zohar@linux.ibm.com, utilityemal77@gmail.com, lujialin4@huawei.com
+Subject: Re: [PATCH -next -v4 02/17] LSM: pass struct path to the
+ inode_setsecctx hook
+Message-ID: <20261118001641.GA1669148@ZenIV>
+References: <20261117150542.1169451-1-caixinchen1@huawei.com>
+ <20261117150542.1169451-3-caixinchen1@huawei.com>
+ <20261117184342.GR989762@ZenIV>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,85 +101,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] vt: modify a constant prefix that looks like a ReST
- target
-To: linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, linux-serial@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org
-References: <20261104182258.3226665-1-rdunlap@infradead.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261104182258.3226665-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117184342.GR989762@ZenIV>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-ping?
+On Tue, Nov 17, 2026 at 06:43:42PM +0000, Al Viro wrote:
+> On Tue, Nov 17, 2026 at 11:05:27PM +0800, Cai Xinchen wrote:
+> > The inode_setsecctx hook and its security_inode_setsecctx() caller in
+> > fs/nfsd operate on a dentry even though both have a struct path
+> > available.  Pass a const struct path so that the coming conversion of the
+> > xattr helpers can be reflected in the implementations; for now SELinux
+> > and Smack keep passing path->dentry and &nop_mnt_idmap to
+> > __vfs_setxattr_locked().
+> > 
+> > Also document in lsm_hook_defs.h what a struct path argument may be used
+> > for: it can be passed to VFS helpers taking a struct path, but nothing is
+> > guaranteed about path->mnt.
+> 
+> No, with the side of Hell, No.
+> 
+> > + * Hooks that take a struct path argument: the VFS only sanctions passing
+> > + * the path to VFS helpers that take a struct path (e.g. notify_change());
+> > + * it makes no guarantees with regard to path->mnt, whose layout and
+> > + * implementation details are subject to change.  Implementations must
+> > + * not rely on its properties.
+> 
+> NAKed-by: Al Viro <viro@zeniv.linux.org.uk>
+> 
+> If that kind of stuff actually does get passed to any existing hooks, we need
+> to fix that ASAP.  If not, consider that a blanket NAK on any patch series
+> that would introduce such.
+> 
+> We are not going there.  At all.  "Must not rely on its properties" ==
+> "must make sure that no existing functions with struct path * arguments
+> ever have such malformed instances passed to them".  Which is not going
+> to be feasible to enforce.  And yes, that very much includes any VFS helpers.
 
-On 11/4/26 10:22 AM, Randy Dunlap wrote:
-> Use CUR_* (could also be something like CUR_x) instead of just "CUR_"
-> because the ending '_' indicates a documentation target name, so
-> unconfuse the name.
-> Precede it with '%' to indicate that it is a constant.
-> 
-> Prevents these warnings:
-> 
-> Documentation/driver-api/tty/console:36: drivers/tty/vt/vt.c:275: ERROR: Unknown target name: "cur". [docutils]
-> Documentation/driver-api/tty/console:36: drivers/tty/vt/vt.c:317: ERROR: Unknown target name: "cur". [docutils]
-> Documentation/driver-api/tty/console:36: drivers/tty/vt/vt.c:353: ERROR: Unknown target name: "cur". [docutils]
-> 
-> Fixes: 1438d00569c4 ("vt: Add cursor-size helpers")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> v2: Precede "CUR_*" with a '%' to indicate constant. (Jiri)
-> 
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jiri Slaby <jirislaby@kernel.org>
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-serial@vger.kernel.org
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: linux-doc@vger.kernel.org
-> 
->  drivers/tty/vt/vt.c |    6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> --- linux-next-20261102.orig/drivers/tty/vt/vt.c
-> +++ linux-next-20261102/drivers/tty/vt/vt.c
-> @@ -273,7 +273,7 @@ EXPORT_SYMBOL_GPL(vc_font_size);
->   * vc_cursor_valid_size - Computes a valid cursor size from the given value
->   * @cursor_size: The size constant of cursor pattern
->   *
-> - * The argument given in @cursor_size is one of the CUR_ constants, as stored
-> + * The argument given in @cursor_size is one of the %CUR_* constants, as stored
->   * in struct @vc_data.vc_cursor_type. For unknown values, the helper draws the
->   * default cursor or an underline dash.
->   *
-> @@ -317,7 +317,7 @@ EXPORT_SYMBOL_GPL(vc_cursor_valid_size);
->   *
->   * The parameter @cell_height is the height of the character cell as
->   * displayed by the console. The argument given in @cursor_size is one
-> - * of the CUR_ constants. See vc_cursor_valid_size() for how to get a
-> + * of the %CUR_* constants. See vc_cursor_valid_size() for how to get a
->   * valid cursor-size constant.
->   *
->   * Returns:
-> @@ -353,7 +353,7 @@ EXPORT_SYMBOL_GPL(vc_cursor_start);
->   *
->   * The parameter @cell_height is the height of the character cell as
->   * displayed by the console. The argument given in @cursor_size is one
-> - * of the CUR_ constants. See vc_cursor_valid_size() for how to get a
-> + * of the %CUR_* constants. See vc_cursor_valid_size() for how to get a
->   * valid cursor-size constant.
->   *
->   * Returns:
-> 
+To elaborate a bit: correctness of quite a few places does depend upon the
+following invaraint:
+	path->mnt->mnt_sb == path->dentry->d_sb		(1)
+for all struct path pointers they might possibly run into.  _Some_
+functions might _currently_ be safe to call with that constraint violated;
+there's neither a list of such functions nor any promise whatsoever that
+call that is currently safe in such conditions will remain safe at any
+later point.
 
--- 
-~Randy
-
+_IF_ you can guarantee that (1) is not violated, we have something to
+talk about; otherwise, don't call your object struct path and don't
+pass it to anything that expects to deal with struct path.
