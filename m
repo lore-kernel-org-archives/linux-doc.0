@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794981909;
-	b=Kp3l4+zDjHSdP8O8BlZtQwKFzki15Z07xu4esXUGug820McVerMwnxwauOaqS/Zrfgu9
-	 tQVo1AvHbHjUijTRFK9D0tgIGmbpV29Hqptzgn0kII3+bBnUKGDf7W6AbgN2iZluoIEkj
-	 u+756vKh7o26rH0mV43nnhJ9+sqA6EsaL5pJ0CI3CCouJpf337N6QZEhnHuzlwzl+wfHO
-	 iLYSfSUUqAFSm8cjjFOE55BgvQR9tCHS840AGriCTUjh13xWLlb3aEc88R5+QXKaTgody
-	 L0su0cGT8rKhtauP2RFlV5jquRFmH+MnvTKCxUn9qYdy3StozZzrtFVqSz9mKk/SRzg==
+	t=1794981906;
+	b=OxeDLGxxwnDfZCg2WL8SurpxD4HA4XbRJDUZvWVb/e3JFbQtGAs0T9on+IdZK12ys2ZX
+	 uJDDGsqGXPImRSoz+M9k7nYvcNH1JkESQZOtLbiaQeVRtKvoeqliD84gr1Z8rPoTTRC7a
+	 lsH9X1jK+QnU/+Gu/XrexLGLPiEntPsYKfrpBkruugLH/QPqL1qby75eYMjmOcdZfUOOC
+	 rcMMTsILti0DOEiyJ5TGfxVO/9J7JtCJnXYqCNkENHzzzBeZeQmltw8lhuvIDnRzQ5oym
+	 ihrqC1sPapt+bMh1RT3SwB0AR4w9/kAF8N79dBppDqZqFgY19U4+jIGA38eYsLQj5vg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794981909;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794981906;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=lGFzuVMblmHWoaPkkq3H1BogaS0iZ4fIz8Y5I6dlU/E=;
-	b=MgN8icMJdS2hJzJcv3eTHGutXImwc9sbLNgo3OtGYFby96RtrxVXKtoSfyscmJyYg3i/
-	 ConNn35MWMvmnwRISVMGMBF2vBrywjCPAAo5hWm7pf+rK5+HYvLN34lqDMYTBhDOYjCzA
-	 W7K+yw5t+/qMWjitesBy/4wiqOwUoHXIoK9/6SAFDjM3bw/UN/yZWSa5Rt1Wc+XI5xOlf
-	 HCybkzHD67UviLqt3a03ixaNwPFTNWtt0lPVfn3eBHtS/YmX33GkuuFRyrpfrgLucp5KW
-	 HOeiCqeedCIsNyy7OsGvVvfMR65bfqh0TFYOyIa1S8Wdlprf8kMJraG4LBxjXAlHNVQ==
+	bh=8UxOlUwurvltrL8LywXYchF60RvSL244Iq18WBoKZQU=;
+	b=xGjSCqdfjGr1aOt4cHzChJq/LPGnUvYzxVsA/n07pS/ipBMdLB/mFEj9w7WPFETS0wXr
+	 ezeuvLKSKcbmY8Jb0nUxWRbgkL1xQbHzJkc1oi+oh98FiEWuIIBtx/3n/oxJjBC6CdRQ7
+	 l7LY7s4VkkHn8lrUtKOalGeDzN3dHBL2mhTyPT3MPkENsM//RtgqL1i4hNzbEIBhDQq9E
+	 jArVuqF4xBfEKdPyFg2A9M+rBi9iAClwx2kidHoAu6SI9XdYha5v14xexW2bXveOUH79f
+	 ullCMMGATynXwFNUjhXeGLGD8xk3h8kq2gyx2h5stzGMUiOIpgl2RZ5ZKgFrrgSGePQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DB8KjKpT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="dg/Om8Tj";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E596606A881;
-	Wed, 18 Nov 2026 06:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2E9606A332;
+	Wed, 18 Nov 2026 06:05:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DB8KjKpT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0783F1F000CB;
-	Wed, 18 Nov 2026 06:05:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dg/Om8Tj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AF061F000C6;
+	Wed, 18 Nov 2026 06:05:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794981908;
-	bh=lGFzuVMblmHWoaPkkq3H1BogaS0iZ4fIz8Y5I6dlU/E=;
+	s=k20260515; t=1794981906;
+	bh=8UxOlUwurvltrL8LywXYchF60RvSL244Iq18WBoKZQU=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=DB8KjKpTNQFjBNQDf87cb6e9y2kT2fpOzEV5Jq0WNGgGRLq8k5/6lmaNXDm3tJ5RR
-	 0an+eadBaBhmVE7jpb7NAvvygRg5X0BEzfanvXUVKgkjDA/8L+Vssni8gIUCiu/7Pu
-	 oUi+1irOxQEaM+G1W/3EWXshEymnPGipxaQGPzs2kbwn3PkSn/9MFOQXEHAyJ7RRBL
-	 92Gh6LoAV5d3N93n6VJgizkp3YDRriBP8Im8hRJH0T1rZyib/qjlsozG0NyTncjo/A
-	 sKV5fbCzeryfndB1ZTwhjQs2P9ekES6skUvLd2e9Pmng7m26PlI3QS34PavdQPq8ME
-	 aB/ikdaZlAF7A==
-Subject: Re: [PATCH net-next v4 5/5] selftests: drv-net: psp: add rekey tests
+	b=dg/Om8TjN11NRsuZFFRkEdgzh6GRD86UQQJstuppFBw1A0AtU/WC0jQhsDE/7H3tk
+	 UBVR3Haq5Hu89t7qSg6hniWwfO/o93o2Ih0Z/0CR+EjftOnlCC2/7TF/dOfEnK4ETC
+	 960QN7yGod/Qg+YAEdlf5U/HefDcoeYnh4EmwKf6hQ4kWnine5SoiRSNm9HHpETUHD
+	 pZ01eB1HnCe3Is8HY08WdWdMapbFu5WA1fEw7RxGDd97RSmMR6M1WdDOdnNrRlUyev
+	 P3yHic00Gh039y6+ISl1Yy5p0dlhMwxjcMLLES7WhEOUn1yTcQArFFluaybigEWTW6
+	 umqXmsmYEYFGg==
+Subject: Re: [PATCH net-next v4 2/5] psp: support tx rekey operation
 From: netdev-bot+sashiko@kernel.org
 To: daniel.zahka@gmail.com
 Cc: kuba@kernel.org, willemdebruijn.kernel@gmail.com, davem@davemloft.net,
@@ -49,10 +49,10 @@ Cc: kuba@kernel.org, willemdebruijn.kernel@gmail.com, davem@davemloft.net,
  andrew+netdev@lunn.ch, shuah@kernel.org, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, willemb@google.com
-Date: Wed, 18 Nov 2026 06:05:07 +0000
-Message-ID: <179498190761.3136.2442491896816949702@kernel.org>
-In-Reply-To: <20261116-psp-v4-5-1a599df2aefa@gmail.com>
-References: <20261116-psp-v4-5-1a599df2aefa@gmail.com>
+Date: Wed, 18 Nov 2026 06:05:04 +0000
+Message-ID: <179498190470.3136.17804985440456720671@kernel.org>
+In-Reply-To: <20261116-psp-v4-2-1a599df2aefa@gmail.com>
+References: <20261116-psp-v4-2-1a599df2aefa@gmail.com>
 X-sashiko-severity: Low
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -72,61 +72,114 @@ you want to address the nit picks below when you respin.
 
 Low priority / nit picks for your consideration:
 
-- [Low] The patch changes the existing shared helper _recv_careful() in
-  tools/testing/selftests/drivers/net/psp.py, and the commit message…
+- [Low] In the commit "psp: support tx rekey operation", the
+  documentation and the code disagree.
+
+Pre-existing issues:
+- [Low] Retired PSP key material is freed without being zeroized.
 
 --
 
-selftests: drv-net: psp: add rekey tests
+psp: support tx rekey operation
 
-This commit adds selftests for rekeying PSP connections. The tests cover
-rx-assoc and tx-assoc rejections caused by a PSP version mismatch or by
-the PSP state. It also adds rx-assoc, tx-assoc and key-rotate RPC
-endpoints to psp_responder.
+This commit lets tx-assoc be called on a socket that already has a Tx
+key. A new psp_assoc is allocated with the same Rx state and the new Tx
+key, then published to the socket with rcu_assign_pointer(). For now,
+devices that store Tx keys on the device (SADB) get -EOPNOTSUPP.
 
-> diff --git a/tools/testing/selftests/drivers/net/psp.py b/tools/testing/selftests/drivers/net/psp.py
-> index ce0ab66666030..bd0283f9c9c02 100755
-> --- a/tools/testing/selftests/drivers/net/psp.py
-> +++ b/tools/testing/selftests/drivers/net/psp.py
+> diff --git a/net/psp/psp_sock.c b/net/psp/psp_sock.c
+> index c1e38845f08c3..d497f41c483e1 100644
+> --- a/net/psp/psp_sock.c
+> +++ b/net/psp/psp_sock.c
+> @@ -280,6 +280,53 @@ psp_sock_set_tx_key(struct sock *sk, struct psp_dev *psd, struct psp_assoc *pas,
+>  	return err;
+>  }
+>  
+> +static int
+> +psp_sock_tx_rekey(struct sock *sk, struct psp_dev *psd, struct psp_assoc *pas,
+> +		  struct psp_key_parsed *key, struct netlink_ext_ack *extack)
+> +{
+> +	struct psp_assoc *new;
+> +	int err;
+> +
+> +	if (psp_dev_has_sadb(psd)) {
+> +		NL_SET_ERR_MSG(extack, "Tx rekey not supported on this device");
+> +		return -EOPNOTSUPP;
+> +	}
+
+[Severity: Low]
+Should the documentation updated in this patch mention this restriction?
+
+The tx-assoc doc in psp.yaml now says, with no condition:
+
+    If the socket already has a Tx association, rekey its Tx direction.
+
+psp.rst says tx-assoc "installs a new Tx key, which takes effect
+immediately". The only rekey errors it lists are -EINVAL and -EBUSY.
+
+psp_dev_has_sadb() is true for mlx5, which sets
+.tx_key_del = mlx5e_psp_assoc_del. So at this commit, a Tx rekey on the
+only in-tree hardware driver always fails with -EOPNOTSUPP, and the docs
+never mention that errno.
+
+The next patch in the series, "psp: defer tx key deletions for SADB
+drivers", removes this check and adds deferred Tx key deletion. After it,
+the code and the docs agree. The mismatch only exists between these two
+patches, and the commit message calls it out ("return -EOPNOTSUPP for
+now").
+
+> +	if (!pas->peer_tx) {
+> +		NL_SET_ERR_MSG(extack, "Socket PSP state is not fully established");
+> +		return -EBUSY;
+> +	}
 
 [ ... ]
 
-> @@ -126,7 +157,10 @@ def _recv_careful(s, target, timeout=2):
->      end = time.monotonic() + timeout
->      while time.monotonic() < end:
->          try:
-> -            data += s.recv(target - len(data), socket.MSG_DONTWAIT)
-> +            chunk = s.recv(target - len(data), socket.MSG_DONTWAIT)
-> +            if not chunk:
-> +                raise KsftFailEx(f"peer closed after {len(data)} of {target} bytes")
-> +            data += chunk
->              if len(data) == target:
->                  return data
->          except BlockingIOError:
+> +	memcpy(&new->rx, &pas->rx, sizeof(new->rx));
+> +
+> +	err = psp_assoc_set_tx(psd, new, key, extack);
+> +	if (err) {
+> +		kfree(new);
+> +		return err;
+> +	}
+> +
+> +	psp_dev_get(new->psd);
+> +	list_add(&new->assocs_list, &pas->assocs_list);
+> +	list_move(&pas->assocs_list, &psd->stale_assocs);
+> +
+> +	rcu_assign_pointer(sk->psp_assoc, new);
+> +	psp_assoc_put(pas);
 
 [Severity: Low]
-This isn't a bug, but this hunk changes _recv_careful(), a helper that
-existed before this patch. The commit message doesn't mention it.
+This isn't a bug introduced by this patch, but should the retired key
+material be wiped before it is freed?
 
-Existing tests reach it through _req_echo(), for example
-_data_basic_send(). So the change affects more than the new rekey tests:
+The replaced association still holds the old Tx key in pas->tx and the Rx
+key in pas->rx. It is released through:
 
-    _req_echo()
-        ksft_eq(_recv_careful(s, 5), b'echo\0')
+psp_assoc_put()
+  call_rcu(&pas->rcu, psp_assoc_free_queue)
+    psp_assoc_free()
+      kfree(pas);
 
-Before this patch, when the peer closed the socket, recv() returned b''.
-The loop then spun without sleeping until the 2 second timeout and
-failed with "short read, got N of M bytes".
+The kfree(new) on the psp_assoc_set_tx() error path also frees an object
+that already holds a copy of the live Rx key.
 
-With this patch it fails at once with "peer closed after N of M bytes".
+Neither path uses kfree_sensitive() or memzero_explicit(), so the keys
+stay in freed slab memory until that memory is reused. Since a rekey can
+now happen while the connection stays up, this can repeat many times on
+one socket.
 
-The only place this is described is the v3 note "fail fast in
-_recv_careful() if the peer closes the connection". That note is below
-the --- line, so it won't be kept in git history.
+The same pattern already existed before this patch, in psp_assoc_free()
+and in the kfree(dummy) in psp_dev_tx_key_add(). Nothing in net/psp
+zeroizes key material today. Reading these keys would also need a
+separate kernel memory disclosure bug.
 
-Could the commit message say that _recv_careful() now fails fast when
-the peer closes the connection? Alternatively, this could go in a
-separate patch.
+>  int psp_sock_assoc_set_tx(struct sock *sk, struct psp_dev *psd,
+>  			  u32 version, struct psp_key_parsed *key,
+>  			  struct netlink_ext_ack *extack)
+
+[ ... ]
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261116-psp-v4-0-1a599df2aefa%40gmail.com
