@@ -1,110 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795017301;
-	b=dQ9fAH0/QPMuAkjVF6sDl9iWCIESp6SQZTf6yFcL5MRujZ47gKde4Mp4z4iJyi3T59Ds
-	 wKIdsgOZ24/yl073AthWXGVulQFIb7RXbBmq3dGek1yWnM5FLzMSHYlKFpQrN07nVmc8U
-	 T5KJ3Zb4i170AScC+BQPueu0LW6fvXtH3FZXuvQ+lYBI6LM1ZAuByb0OaDUXEMFWYxExs
-	 VZdImepI5F1t9vW3upMOiQb4E94Ani45OTTmpYpZfppEhQzPXNT1td84Dta0tAOpBLB9G
-	 ajJFtVFZq6zbHzT4I+R7xBEEumkyXhfuifm2K65F6OwfDQBKXEMKqnCluLa0lMzOhSg==
+	t=1795017377;
+	b=YP5FKMnKvSi43zJwtinNaP4t5cZmyk5nmkzfIgtA18gORkctshsab7+ipgK5vG4R7uBg
+	 rhZYfWTfPirZAYTqIk02bd9p4IIGjQbVefD3VdKrtbhGDvdNtFSp0yUSpOav5ryH4bQiO
+	 ahKUgH+sre4H9MtH893TSjpKJBUwj1UV4dP1Tn5Gvv7/y6vtpyRaemZMdZ/p70IluBGx0
+	 QBAGJfL0jGQXXYsVgocVfTpq35mrtS/XCgcyv2cqxmbZpGy3DtJLSNjsVXq0fkbJbwApA
+	 jjFk9QrRD5tpLsC2hUPittadBGOj5PyDrgr5IZSGYZU/ubcWL6/ZO5B3Wn9w2DAMzHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795017301;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795017377;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=qYegP4uULHLbb4rYN9EEt/ZV0VWypeovKGqy+rkk7so=;
-	b=lB/IbJA5Np2O8qjXtZuzXhnyPwsn7H261OmzguPkIFA9lsgz+0F8EuUPB5X6gu5VaVR1
-	 pI+X6+A7Jrcs5dMhS8n3/XaRWD5EXXLx3yjqRWoegHUAHKo1pZULzpy61Bf0J9XV+a/n/
-	 8ms6ADqZ4WbCQJZAEa1NCu7Qn6cmov0uQ1GxdZMtbOw5pIhHMuzcQosyT/ON1Bk7ikWMB
-	 6a+xMIePg7vjur6S5n2ti4S/9j9bYtBxE7OTy2SQxf0kx/eM5ubQdBMbecqn663nRKHKE
-	 SNnI7nWTLFaQK2Vp5HwUPSEv15jRL2jHM0kMXzb/Vzz1ly/QJ/PLE6EQgJXwo1CFvpg==
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=3bQBfuPo4+GA4H58G8tofWZlnWMcm4hxNRzjXZBoZg0=;
+	b=lgZIk7KHedZX7khbvH2S731m7wS/xltZZ28fsP9OaS7siD3KVxYX+asLUaTjYXTHZxZe
+	 fHwOWREH8nazaNgl4OguV1TL1vN98daVS1ELxEnBBqtki3fjX9xPzIKTkj/byQI1ly5hK
+	 +bUgOXxwvs0UXd3OjbrSclN1GHKouf1YR8N1xMVkJSy6WwOCvZR0/2jz1kctWDFzQIXu3
+	 97HRzJr63uYw/yZdlFNj9enBwaBarLqspx1knoy+zXKaFLi046xoky8me0+kp2JKDQKVo
+	 hzU8kxJ+Toucu9dxm3YlzMrS6cvNeZ8SDQzwhYC2HUgOJFWBM/O7KnyC7Txhh9SwTug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linaro.org;
-	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=XXowsTec;
-	arc=none smtp.remote-ip=209.85.218.50
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=gFIxxdDt;
+	arc=none smtp.remote-ip=209.85.219.47
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C444F606A333
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 15:55:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C444F606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D59606A334
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 15:56:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3D59606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=XXowsTec
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c51239b0e3bso25672266b.2
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 07:55:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=gFIxxdDt
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-91ef011e338so5495456d6.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 07:56:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1795017299; x=1795622099; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qYegP4uULHLbb4rYN9EEt/ZV0VWypeovKGqy+rkk7so=;
-        b=XXowsTecBEc1yVTP/SGAQPtMfrRnZ1p1ga3D1SZP2gtvhzZZUKZxMlkyBdRkw4YcEP
-         NnWS/4tdnNQuSW7Kv9FpHMtgm2C1B+P8BakhwvKBeweq5SI0rlHgCkajgnCvmFOi35nL
-         0ybtCKWg9PKlkuLqYj4Lrr5Wj7I+AJQrpXaZFSNJggUQfOQWaQaysysTRNlL9M508/0I
-         KrReBVEVq4lpl7+zC9uvFLb8+X1sLILOg9GngO1R5MIQh8xnt59yBvbLQTotFlL8M5Cn
-         gbQC1FDxYIZ81/nC+0N+bqfP4MXLJzxI+rkvVDFRYeSWT/zmRY9t9EfqjDSvnASIV95t
-         5avA==
+        d=gourry.net; s=google; t=1795017376; x=1795622176; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=3bQBfuPo4+GA4H58G8tofWZlnWMcm4hxNRzjXZBoZg0=;
+        b=gFIxxdDtcqDrBFkqgwEzkN+bVHfcVbrm/mKFYHBw/aX+aK3i6yXT3iOHNNcy/dVpjR
+         beX1ypC799ntnSOEXoyuWI9KAiYigmUzM2ktWAUGq14UH6bdfs19Po3EeuhNmuPBICwQ
+         4fygV7vNlH+8kA4gHVrwCXXCMRXtK3og0Bhew+zJDF8jtO9O5fvmBFacfYtyQB0ZICfH
+         uto7MDRpcWiyf9+vJZQn3ZyabRKAjiAEnbjmVD+LqH03jEVrnsuMJqNm4PPeRi2PD0kM
+         0m9hgfLivrz1Z3dH1OiBWSOIUeexNiv0u7ws6tg5Gw4PB2Xal1+xCiI4FGHOyO/4c+dY
+         QURw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795017299; x=1795622099;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1795017376; x=1795622176;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=qYegP4uULHLbb4rYN9EEt/ZV0VWypeovKGqy+rkk7so=;
-        b=h1VjqC83mimYRYjHUPy9l8P9P3PDFD6flHYYkNRVdRJuqCJF0tbsLyI9Gr3jdtJ9MC
-         thlnr1Y1OB1cQW9KHhR1fcM22n6nYMCiyvILiDbyB0sZgGt0txp8hPwFapyCL5XWoEJv
-         0HznblI94CpAyhCakGMIM7sdSxi22H40iAfplU1V+U5ha+lyEmMZjPPS3YFM8UcxgmRt
-         4EA5S2JQIeIW+PfjU7dSf2zIR+AlHoSG39lQKWKRpKxzWDDfcawRyFyyYABBBmrlRxyq
-         Gf/TCfVgEtbq32Z2aKDJVrlN59+EmUOaHwlCBtP91sQB7ZwyXFKd/JzFLS9DHJdmNMgm
-         HW9g==
-X-Forwarded-Encrypted: i=1; AL+hErHEtGhvpxvk1C9bSOrLE8bJxjGKP32M7PdQVvedu2HZ7LvI8IemBDsE17+9B4BWwh4hwhNMpLPMY5o=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8CAMxFzEGAVXK8UOkTBslnD+cNkPoyTd9GnoETxM6ZBW6z24c5
-	z8RiiKjKabnQzue/DhoEbdJ2cwC7TZ7EhfPtf1kLzt60zJ59TxPRboJBMgy9fcSg4o8=
-X-Gm-Gg: AYBFou0CNW8j0LivY4GlW/Mkp6gxGYCJGWt7MaHZUx5SDN++OmyMIMf8/vNVFTN8iX+
-	k0zJx5WU0OsAPf2oaZXzeXgdicXkAOpnGkBGyzJOd5Rt2FJqnMdVRehgX4dHGCHbsSE5xq4aTxz
-	k1uOcIIOoeE9JKP9pn+PanheP2w4bn273+vXs40Yii+vSQjtg5HxVrF9760ch6+kufzYJ3c39Uy
-	fE+m/yyckzDUhWCPppR5/MQrmtop3A5s8Dzx9gFjfz/b2d463PSTrHaCs6pf532mdaxoP2KYauY
-	NONSYP64G0cIVKCe/Ys4ZShxbxpqoIl4+HXP1njLhz+ReXFZqkngFK5THD4te75cQeavjDgdyXc
-	kCz0sEHudGm8q6J6G4gDg69SF8bzX5Kl+W0s5IaLwXjx7bRgvgrUxtbCfZYNNTikFu1A1HycB07
-	W9igD3Wh0BwCobGV9ogevcHnYQscxLwjOCsc80qRwFsHg1v86PyR4nWaOtbdYnHHoUASf27ZL3q
-	VOfguAncYb5PUqh60nddIB30nm1M8rxqX/93lSKmiy4ICzn2dxxPeKq2z2t2uC6txve+f7RuNBL
-	jbvfGfZoBIMW8jFW0E42ohkHrqxC52lw
-X-Received: by 2002:a17:906:c14e:b0:c50:a7ff:f880 with SMTP id a640c23a62f3a-c510e28dfcamr310805266b.34.1795017299066;
-        Wed, 18 Nov 2026 07:54:59 -0800 (PST)
-Received: from p14s ([2604:3d09:148c:c800:9f37:bd39:7f19:3b3c])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c51231bc1a2sm20902066b.5.2026.11.18.07.54.51
+        bh=3bQBfuPo4+GA4H58G8tofWZlnWMcm4hxNRzjXZBoZg0=;
+        b=CWHkF6CCh26Uv0+2S9caEqd01o1MIgSEREnyYnuyKP1Kp/H4Fdxpkdg99FFXbV6CCU
+         mFIbBpzAKsXTfi0lC6ZubAQNTBPMs5FZtkM84I0I0wf3o1KH4ZJyRw1OGvttDDUlaAGQ
+         9r9RbTsozizPLKb868UpPdvkonkcyPRLAQ/sutzEFk2KumsiBi2DkJwVJOFGqFpxwQtY
+         Ogis7lCG9wWgePNuXOckjZ+4t+aIJW6dXSTb18fyOEFQwBaBy/m4Iyk4SxLSqAz9N2iV
+         CAI5xQk0zuuAfG+QbKv8NOGAIqHH6mrBqyHIqxAWX0RvxNI7gEDm4c0F5jWQK/UciW46
+         TZaw==
+X-Forwarded-Encrypted: i=1; AL+hErFDML9O/4BwtkX+GEQKINKOWo3++pak/ucAZoDjk0zw64p0pXMbwiQNCvUWL5d4puG1ComjalvDUN4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8Po3pSgiO+RwOjJ6vOQuAZsa/5xjNY0XIx/ZvXhkrD2G9U1552
+	FnI6CFO77OrBQwIbLVdh/HAwxmT0SwxLrjaswYY8OrDaooTOLySJuEO75p/7PXBjkvQ=
+X-Gm-Gg: AZFdTZc1GIRwQFXsS7kbWRLmcFdIs/+82V+D+sYVeCJwCx36UjZJhFU8Gac7mjH92dg
+	T+l0tTzrzNFJK/7px6Y9nTDq0lvUXlNrzIPpgyRRndHz3kDv2nHfebvOLngZJkHvu0f0OxLiw13
+	uyqXopidVEL8Owz0H6UgQ+XDl+kxvHXk8tBesuHqDNSBXHg+cx4MK3jrd2pfwfmGHECTTrFH0on
+	8TEchIRM4Opo5vk2urGvJxN7yvWY6gp4t0SN2/h7GeT35vcCHz/8enmhJJBV1q9xiwxYh/Upy7t
+	dCyi9eG8ZYnjEMUlxE4rc94GmPlWdlzYL076kvD16vtEya7A9i2q9W5hz95x919e2+EriEPI5CE
+	b2OB6Zpx2+jKPNP6c+8pwTQvSDWVb0i9FlKvOlCuqjeu0WAsHZYpbLX1Of2S+sAU+CjqSiPhtV2
+	Pv3fhp+EsaATXE37z7RNQ232WINRMt2mYccXu5I0WJPLsintNuY9OeTyN9oMNLLAbTySfj5YBQY
+	3yqdN/IUWs1UdiwDSDG6/HpxjQhxhLEJ+9kVf7aAu1/UhYy4BgG3Ih0R6dNuFy2Wh/dkvtK+QRU
+	NPTgpN3S9qZCikCwjn3tl86hJdUXm8tlIf+NY0a1m/4HX8TRLslNh4aLRGi3F7+7k6HXUbnPetJ
+	PrrtyaDghBLxf5I8TnSR35x8Gu4Bj
+X-Received: by 2002:a05:6214:8013:b0:921:1890:b77f with SMTP id 6a1803df08f44-9211890b87emr29798426d6.47.1795017375668;
+        Wed, 18 Nov 2026 07:56:15 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-92114d28215sm24719106d6.16.2026.11.18.07.56.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 07:54:58 -0800 (PST)
-Date: Wed, 18 Nov 2026 09:54:49 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Francesco Valla <francesco@valla.it>
-Cc: Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH RFC v2 07/11] remoteproc: assign fwnode during vdev
- registration
-Message-ID: <av3KSXqeGyazaMR9@p14s>
-References: <20261102-remoteproc_virtio_map-v2-0-26b300e01c62@valla.it>
- <20261102-remoteproc_virtio_map-v2-7-26b300e01c62@valla.it>
- <avyAtmxdbfEBbZ87@p14s>
- <avzS1DiNGmL1Pqmn@bywater>
+        Wed, 18 Nov 2026 07:56:15 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -114,257 +89,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <avzS1DiNGmL1Pqmn@bywater>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 05/22] mm/mempolicy: keep interleave and tmpfs mount
+ policies on common memory
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Richard Cheng <icheng@nvidia.com>
+Cc: "Gregory Price (Meta)" <gourry@gourry.net>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, kernel-team@meta.com, 
+ linux-doc@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-serial@vger.kernel.org, linux-pm@vger.kernel.org, 
+ damon@lists.linux.dev, linux-cxl@vger.kernel.org, akpm@linux-foundation.org, 
+ david@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
+ surenb@google.com, mhocko@suse.com, corbet@lwn.net, 
+ skhan@linuxfoundation.org, rdunlap@infradead.org, 
+ gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+ johan@kernel.org, jirislaby@kernel.org, kasong@tencent.com, 
+ qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+ axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
+ baoquan.he@linux.dev, baolin.wang@linux.alibaba.com, yury.norov@gmail.com, 
+ linux@rasmusvillemoes.dk, pavel@kernel.org, lenb@kernel.org, 
+ hannes@cmpxchg.org, brendan.jackman@linux.dev, ziy@nvidia.com, 
+ sj@kernel.org, muchun.song@linux.dev, osalvador@suse.de, 
+ nico.pache@linux.dev, ryan.roberts@arm.com, dev.jain@arm.com, 
+ lance.yang@linux.dev, usama.arif@linux.dev, kas@kernel.org, 
+ xu.xin@linux.dev, chengming.zhou@linux.dev, joshua.hahnjy@gmail.com, 
+ rakie.kim@sk.com, ying.huang@linux.alibaba.com, matthew.brost@intel.com, 
+ byungchul@sk.com, apopple@nvidia.com, rientjes@google.com
+In-Reply-To: <av3EGWuHX2JDdlrx@MWDK4CY14F>
+References: <20261114070959.3490008-1-gourry@gourry.net>
+ <20261114070959.3490008-6-gourry@gourry.net> <av3EGWuHX2JDdlrx@MWDK4CY14F>
+Date: Wed, 18 Nov 2026 10:56:13 -0500
+Message-Id: <179501737390.1206716.11014097946405277594.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-On Tue, Nov 17, 2026 at 11:29:01PM +0100, Francesco Valla wrote:
-> On Tue, Nov 17, 2026 at 10:28:38AM -0600, Mathieu Poirier wrote:
-> > On Mon, Nov 02, 2026 at 12:26:44AM +0100, Francesco Valla wrote:
-> > > The virtio subsystem already supports a fwnode describing a vdev; search
-> > > for a specific node during vdev registration and supply it to the
-> > > rproc-virtio platform device that is being registered.
-> > > 
-> > > A memory-region specified inside that node is also used for the virtio
-> > > device if a carveout was not supplied for it through the parent device's
-> > > node.
-> > > 
-> > > Signed-off-by: Francesco Valla <francesco@valla.it>
-> > > ---
-> > >  drivers/remoteproc/remoteproc_core.c   | 48 +++++++++++++++++++++++++++++++---
-> > >  drivers/remoteproc/remoteproc_virtio.c | 41 +++++++++++++++++++++++++++++
-> > >  2 files changed, 85 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-> > > index c946ecd980a5..e833853ae7f6 100644
-> > > --- a/drivers/remoteproc/remoteproc_core.c
-> > > +++ b/drivers/remoteproc/remoteproc_core.c
-> > > @@ -440,6 +440,33 @@ void rproc_remove_rvdev(struct rproc_vdev *rvdev)
-> > >  	if (rvdev)
-> > >  		list_del(&rvdev->node);
-> > >  }
-> > > +
-> > > +static struct fwnode_handle *rproc_get_vdev_fwnode(struct device *dev, u32 idx)
-> > > +{
-> > > +	struct fwnode_handle *group, *child;
-> > > +	u32 reg;
-> > > +	int ret;
-> > > +
-> > > +	group = device_get_named_child_node(dev, "virtio");
-> > > +	if (!fwnode_device_is_available(group)) {
-> > > +		fwnode_handle_put(group);
-> > > +		return NULL;
-> > > +	}
-> > > +
-> > > +	fwnode_for_each_available_child_node(group, child) {
-> > > +		ret = fwnode_property_read_u32(child, "reg", &reg);
-> > > +		if (ret)
-> > > +			continue;
-> > > +
-> > > +		if (idx == reg)
-> > > +			break;
-> > > +	}
-> > > +
-> > > +	fwnode_handle_put(group);
-> > > +
-> > > +	return child;
-> > > +}
-> > > +
-> > >  /**
-> > >   * rproc_handle_vdev() - handle a vdev fw resource
-> > >   * @rproc: the remote processor
-> > > @@ -475,7 +502,16 @@ static int rproc_handle_vdev(struct rproc *rproc, void *ptr,
-> > >  	struct device *dev = &rproc->dev;
-> > >  	size_t rsc_size;
-> > >  	struct rproc_vdev_data rvdev_data;
-> > > +	struct platform_device_info pdev_info = {
-> > > +		.parent = dev,
-> > > +		.name = "rproc-virtio",
-> > > +		.id = PLATFORM_DEVID_AUTO,
-> > > +		.data = &rvdev_data,
-> > > +		.size_data = sizeof(rvdev_data),
-> > > +	};
-> > >  	struct platform_device *pdev;
-> > > +	struct fwnode_handle *fwnode;
-> > > +	int ret = 0;
-> > >  
-> > >  	/* make sure resource isn't truncated */
-> > >  	rsc_size = struct_size(rsc, vring, rsc->num_of_vrings);
-> > > @@ -498,20 +534,24 @@ static int rproc_handle_vdev(struct rproc *rproc, void *ptr,
-> > >  	rvdev_data.rsc_offset = offset;
-> > >  	rvdev_data.rsc = rsc;
-> > >  
-> > > +	fwnode = rproc_get_vdev_fwnode(dev->parent, rvdev_data.index);
-> > > +	pdev_info.fwnode = fwnode;
-> > > +
-> > >  	/*
-> > >  	 * When there is more than one remote processor, rproc->nb_vdev number is
-> > >  	 * same for each separate instances of "rproc". If rvdev_data.index is used
-> > >  	 * as device id, then we get duplication in sysfs, so need to use
-> > >  	 * PLATFORM_DEVID_AUTO to auto select device id.
-> > >  	 */
-> > > -	pdev = platform_device_register_data(dev, "rproc-virtio", PLATFORM_DEVID_AUTO, &rvdev_data,
-> > > -					     sizeof(rvdev_data));
-> > > +	pdev = platform_device_register_full(&pdev_info);
-> > >  	if (IS_ERR(pdev)) {
-> > >  		dev_err(dev, "failed to create rproc-virtio device\n");
-> > > -		return PTR_ERR(pdev);
-> > > +		ret = PTR_ERR(pdev);
-> > >  	}
-> > >  
-> > > -	return 0;
-> > > +	fwnode_handle_put(fwnode);
-> > > +
-> > > +	return ret;
-> > >  }
-> > >
-> > >  /**
-> > > diff --git a/drivers/remoteproc/remoteproc_virtio.c b/drivers/remoteproc/remoteproc_virtio.c
-> > > index 1496659ddff9..950d65480be5 100644
-> > > --- a/drivers/remoteproc/remoteproc_virtio.c
-> > > +++ b/drivers/remoteproc/remoteproc_virtio.c
-> > > @@ -13,10 +13,12 @@
-> > >  #include <linux/dma-map-ops.h>
-> > >  #include <linux/dma-mapping.h>
-> > >  #include <linux/export.h>
-> > > +#include <linux/of.h>
-> > >  #include <linux/of_reserved_mem.h>
-> > >  #include <linux/platform_device.h>
-> > >  #include <linux/remoteproc.h>
-> > >  #include <linux/rsc_table.h>
-> > > +#include <linux/swiotlb.h>
-> > >  #include <linux/virtio.h>
-> > >  #include <linux/virtio_config.h>
-> > >  #include <linux/virtio_ids.h>
-> > > @@ -394,6 +396,23 @@ static void rproc_virtio_dev_release(struct device *dev)
-> > >  	put_device(&rvdev->pdev->dev);
-> > >  }
-> > >  
-> > > +/*
-> > > + * Attach the memory region declared inside the vdev's own devicetree node.
-> > > + *
-> > > + * A restricted-dma-pool region is attached by of_dma_configure() when the
-> > > + * platform device is probed, but it is released together with the virtio
-> > > + * device (see rproc_virtio_dev_release()); attach it again if needed, e.g.
-> > > + * when the remote processor is restarted during a crash recovery.
-> > > + * Any other kind of region (e.g., shared-dma-pool) is attached only here.
-> > > + */
-> > > +static int rproc_virtio_init_vdev_mem(struct device *dev)
-> > > +{
-> > > +	if (is_swiotlb_for_alloc(dev))
-> > > +		return 0;
-> > > +
-> > > +	return of_reserved_mem_device_init_by_idx(dev, dev->of_node, 0);
-> > > +}
-> > > +
-> > >  /**
-> > >   * rproc_add_virtio_dev() - register an rproc-induced virtio device
-> > >   * @rvdev: the remote vdev
-> > > @@ -410,6 +429,7 @@ static int rproc_add_virtio_dev(struct rproc_vdev *rvdev, int id)
-> > >  	struct device *dev = &rvdev->pdev->dev;
-> > >  	struct virtio_device *vdev;
-> > >  	struct rproc_mem_entry *mem;
-> > > +	bool has_mem_region;
-> > >  	int ret;
-> > >  
-> > >  	if (rproc->ops->kick == NULL) {
-> > > @@ -417,11 +437,24 @@ static int rproc_add_virtio_dev(struct rproc_vdev *rvdev, int id)
-> > >  		return -EINVAL;
-> > >  	}
-> > >  
-> > > +	has_mem_region = of_property_present(dev->of_node, "memory-region");
-> > > +
-> > >  	/* Try to find dedicated vdev buffer carveout */
-> > >  	mem = rproc_find_carveout_by_name(rproc, "vdev%dbuffer", rvdev->index);
-> > >  	if (mem) {
-> > >  		phys_addr_t pa;
-> > >  
-> > > +		if (has_mem_region) {
-> > > +			/*
-> > > +			 * The carveout takes precedence: drop the region that
-> > > +			 * of_dma_configure() might have attached at probe time.
-> > 
-> > I don't understand this part - why would someone configure vdevXbuffer with the
-> > same name at the rproc and rproc-virtio level?  This should be an error.
-> >
+On 2026-11-18 23:30 +0800, Richard Cheng wrote:
+> On Sat, Nov 14, 2026 at 02:09:42AM +0800, Gregory Price (Meta) wrote:
+> > -	for_each_online_node(nid) {
+> > -		if (!node_state(nid, N_MEMORY))
+> > -			continue;
+> > -
+> > +	for_each_node_state(nid, N_MEMORY_COMMON) {
 > 
-> The carveout might come from the remote processor's resource table. I
-> was unsure on how to treat it (warning or error) - if you advise for
-> the second I'll go that route.
+> Maybe I overlooked or somehow, but when do we have the assumption
+> that common memory is definitely onlined ?
 > 
 
-Ok, so this is also related to my for patch [5/11], i.e handling of authentic
-rproc-virtio device should follow modern practices.   
+For this particular case it's not particularly relevant.
 
-> > > +			 */
-> > > +			dev_warn(dev,
-> > > +				 "vdev%dbuffer carveout found, ignoring memory-region\n",
-> > > +				 rvdev->index);
-> > > +			of_reserved_mem_device_release(dev);
-> > 
-> > Who would have called of_reserved_mem_device_init_by_XYZ()?  The remoteproc core
-> > or virtio core?  
-> > 
-> The of_dma_configure() call that is part of the platform DMA
-> configuration automatically associates to the device the first
-> restricted-dma-pool node referenced by memory-region; see [1].
-> 
-> This is actually beneficial to the proposed solution, but current
-> implementation requires this step to avoid leaking the association (this
-> will be required also in case of error, because of_dma_configure() is
-> called during the probe).
-> 
+This code only runs at init time, so it's either got memory or it
+doesn't.  If the memory is present but offline, it still wants weights.
 
-Ok
+There isn't really a bug here, but the existing code could also just
+check N_MEMORY and end up with the same result.  If the memory is
+hotplugged later, it still gets weights accordingly.
 
-> > > +		}
-> > > +
-> > >  		if (mem->of_resm_idx != -1) {
-> > >  			struct device_node *np = rproc->dev.parent->of_node;
-> > >  
-> > > @@ -451,6 +484,14 @@ static int rproc_add_virtio_dev(struct rproc_vdev *rvdev, int id)
-> > >  				return ret;
-> > >  			}
-> > >  		}
-> > > +	} else if (has_mem_region) {
-> > > +		/* Use the memory region declared in the vdev's own node */
-> > > +		ret = rproc_virtio_init_vdev_mem(dev);
-> > > +		if (ret) {
-> > > +			dev_err(dev, "Can't associate vdev memory-region: %d\n",
-> > > +				ret);
-> > > +			return ret;
-> > > +		}
-> > 
-> > Mixing the initialisation of the legacy rproc-virtio and authentic rproc-virtio
-> > devices is very confusing.  I think there is value in splitting them, even if it
-> > entails some code duplication.
-> > 
-> 
-> Ok, I'll split them for V3.
-> 
+-- 
+~Gregory
 
-Please move forward on that.  Since it will introduce a fair amount of churn, I
-will simply stop reviewing the current set and wait for V3.  You can remove the
-"RFC" tag, we are well past that now.
-
-
-> > Thanks,
-> > Mathieu
-> > 
-> > >  	} else {
-> > >  		struct device_node *np = rproc->dev.parent->of_node;
-> > >  
-> > > 
-> > > -- 
-> > > 2.56.0
-> > > 
-> >
-> 
-> Thank you!
-> 
-> Regards,
-> Francesco
-> 
-> 
-> [1] https://elixir.bootlin.com/linux/v7.4-rc1/source/drivers/of/device.c#L35
-> 
