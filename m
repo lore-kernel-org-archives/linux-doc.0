@@ -1,70 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795027398;
-	b=oHoy4TTXPmispVNt7sxhwgmqxGpa1H8BT9e5+0Lvmj/01Bn5mhfEaj+7x5iZAuV40gWa
-	 3AKlNO11+g+vLz8HiOQKy+RiNJifTXT6IA9UD/s8F+QoYhS3gfqR2gEvld8m0LxwyL4In
-	 S1pWYLjKy0/Uw2Ta2wmbxAaRlw/4hzETPzrJs4anKXQM1ql8vYVqXQynmftMDM4j+aafo
-	 RcpyXpS6C5DzDBDrIiR8o8LIh8y9kh9XNevxUGYLMT2NuVjgt3ZnmiHMhTCw7JyvzCWyW
-	 y/FiydCfrhghQtU86PLu+SYf01s8Bve3RdvHR+4oNYOpZwCuhT0yovzzbvBDUGyRt9Q==
+	t=1795028643;
+	b=aFVFhRolbwQREBobjZVP2VEXQE41+0Gln5SaN0eli3UwfJ3BHgykXkGOe/wnaXKo5Qdk
+	 B4CWJYkavK+S8rQ5Wn+3dqoEVV9cDoWzBXM5VQfeZCOGdspB6LsfzYYqckFnyfp+b0b82
+	 kB6hgLirYFrJX4WAUGvAYfglBmWPQThjs7bCAlyc7BRAAoRC8jZL6Sj/sKWuOQ6ws3JHs
+	 EPg296L444k7OYMFJVW7v7dxoNxFJ32gLsgzWSijAYpKKOPe2wXsYenjqVVaIDI4w8+kB
+	 XFFsbBJ4n0sYxwDkqqEZGJcXz/Ek5xLov5+AEquInQc/7lA7zQJwUh4kciyKAaB/brQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795027398;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=tPrZMxN6HNDViBgH4QPO+jnvPIWWDODS2KOm5lvzuzI=;
-	b=qzeN1wl2LmiNPeOG9rMnFj7hVXqMhO6JkDxEMf5NTR+EPhW7p7nN0S8nQkJP80Hlj1qB
-	 f1h2u1wo5IdnGMVLrR5PzDYUEeRUiyYoO10kUaOGCFR7d+0KFt84dtJ+OeNqxK8RDpEpp
-	 k9N/4z3htII1aMT04NTOyLkLE/CxoLE9e7rpklupDghLhXEjP9U9xxyvVjUHb8XaYq5zz
-	 IjQ8fwkBbMexCPpjx7WVr/70iG82Gq3BIDc/e+Sb8iGciiAxJThlLgGqf2XtWwGsWkk+l
-	 VsjtFVEFkACfcvoc2PaIc8DVc+n2bckX+Jg8Rp67JDhy5OEVAVuyqMB0I+XuLoTZQAQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795028643;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Q8TBn9ubKDLYTz56NEzeNdxWEl3UJisiQtWy9Az8Fes=;
+	b=P6ftI7EAdUdUEkmnQfT1P5fNocQb8QSDjQhUGwMF4sjD1tGxRz2YMBwtAfy9SqSBCDcu
+	 BioSPt9VGoRpkAufMdv/Q9WCjgyUX7gmu3MP8TIQa1lShBt14fNSpYcXFYViSya4NcIaE
+	 ynMP5bg8jQCyzJC+4k4hQzAvvnyLRceJXQWy3edFvMwihWqZRFiHarg22YHMEy3imDjdE
+	 djR/1UDM6YyAsiy3wEZeUskP72J173EWpf80plrlbmZPH67F4C4y2fWSRXT4AsmDcfZ/k
+	 JVHfsC+cEP/pfcc0KQgdRDtfopHnHg6Uz1dcVm40zGo1fu2B1e3o44f1E52Zd1Ne3Hg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=NyAqW7IN;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 920A360A2611;
-	Wed, 18 Nov 2026 18:43:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 920A360A2611
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="hf/HT3xD";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E86606A320;
+	Wed, 18 Nov 2026 19:04:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=NyAqW7IN
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 97DBA1477;
-	Wed, 18 Nov 2026 10:43:10 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 77F893F673;
-	Wed, 18 Nov 2026 10:43:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795027393; bh=FoMcxbF+SEsG1nE2T7ocNvyh8bjhDBTZTst+coiAAFg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NyAqW7INkZ1JifAMUjoZztv/g0S4trt6yB3JNIpJAl2Zg5STQixxbrwYl/P4VNaCv
-	 m6V+bbtDakidQWGVItqMZZ0JedrdK8LPZ6d+2RpsXWr9tFWiDvVzcQ2FtrQ947qHF8
-	 6hKmKKrVDkXPsuszcMqb9HlIcts5vjMmA4UR98+M=
-Date: Wed, 18 Nov 2026 18:43:06 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-	d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
-	philip.radford@arm.com, david@kernel.org,
-	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
-	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 10/35] firmware: arm_scmi: Add Telemetry resources
- enumeration
-Message-ID: <av3xuj6lcgvlXEOt@pluto>
-References: <20261109091221.2532706-1-cristian.marussi@arm.com>
- <20261109091221.2532706-11-cristian.marussi@arm.com>
- <20261112100145.00000560@oss.qualcomm.com>
- <avYZ2t_GoT7BN2nU@pluto>
- <20261116133638.00006cc3@oss.qualcomm.com>
- <av1rTY1cZjRbxzD6@pluto>
- <20261118092623.00000cc4@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hf/HT3xD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 153DC1F000C5;
+	Wed, 18 Nov 2026 19:03:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795028642;
+	bh=Q8TBn9ubKDLYTz56NEzeNdxWEl3UJisiQtWy9Az8Fes=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hf/HT3xDB2Pi3lfXWtso17LwDxUnrHlSV61cn70iJMfDo0CMpHaClOs/z09FJNAzT
+	 3JOTEDkxPohQigfU5UkFK6cGTmPJT5xXWQk0ujZI7KiJVC8YbNcVbSrkGGJPxwe+xr
+	 Mh1+shtCkM83jgtfy2fVf3x6DZ+T12QstaIgvKdSfK7whOr4UrPrYNLpTUxwVlzytW
+	 Qc67JPOt0UqfuFdhngtW4MmODE7597ZsjHCBxBcnh42oERDV6ucAJ2UMPLOnn3696Q
+	 dw/VTwIgI6blwV2Ejya7jYgO3KkAIwvqbjHEWfppyz5ojLv+W547233hDCoS5yDUxK
+	 p5dGd3uWal6jQ==
+Date: Wed, 18 Nov 2026 21:03:50 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Muchun Song <muchun.song@linux.dev>
+Cc: Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Chris Down <chris@chrisdown.name>,
+	David Hildenbrand <david@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Zi Yan <ziy@nvidia.com>, Joerg Roedel <joerg.roedel@amd.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Ketan <ketan.kishore@oss.qualcomm.com>,
+	Mostafa Saleh <smostafa@google.com>,
+	Muchun Song <songmuchun@bytedance.com>,
+	Sang-Heon Jeon <ekffu200098@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sashiko <sashiko-bot@kernel.org>, kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 5/7] mm/page_ext: allocate page extensions early for
+ SPARSEMEM
+Message-ID: <av32ls56XJmaAO8C@kernel.org>
+References: <20261117120627.50601-1-songmuchun@bytedance.com>
+ <20261117120627.50601-6-songmuchun@bytedance.com>
+ <av20jiGZH5uYV6LT@kernel.org>
+ <7f651049-f0dd-4053-a666-ea1c5d49669e@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,188 +84,87 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261118092623.00000cc4@oss.qualcomm.com>
+In-Reply-To: <7f651049-f0dd-4053-a666-ea1c5d49669e@linux.dev>
 
-On Wed, Nov 18, 2026 at 09:26:23AM -0800, Jonathan Cameron wrote:
-> On Wed, 18 Nov 2026 09:09:33 +0000
-> Cristian Marussi <cristian.marussi@arm.com> wrote:
+On Wed, Nov 18, 2026 at 11:13:29PM +0800, Muchun Song wrote:
 > 
-> > On Mon, Nov 16, 2026 at 01:36:38PM -0800, Jonathan Cameron wrote:
-> > > On Thu, 12 Nov 2026 19:56:10 +0000
-> > > Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > >   
-> > 
-> > Hi,
-> > 
-> > > > On Thu, Nov 12, 2026 at 10:01:45AM -0800, Jonathan Cameron wrote:  
-> > > > > On Mon,  9 Nov 2026 09:11:56 +0000
-> > > > > Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > > > >     
-> > > > > > Add basic Telemetry allocation and initialization routines, introducing and
-> > > > > > wiring-up the logic needed to enumerate all the SCMI Telemetry resources
-> > > > > > optionally using a lazy on-demand scheme: this approach factors in the
-> > > > > > flexibility needed to minimize the amount of initialization work based on
-> > > > > > the effective access pattern used by the upper layer ABI.
-> > > > > > 
-> > > > > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>    
-> > > > > 
-> > > > > Hi Cristian,
-> > > > > 
-> > > > > This stretches across the patch set but first elements related to it are
-> > > > > in this patch.  How do we handle larger values of de_data_sz?
-> > > > >     
-> > > > 
-> > > > We dont. This was somethig that was on my todo list initially, but then
-> > > > I realized that there was NO FW-side plan to actually implement anything
-> > > > larger than 64bit.  
+> 
+> On 2026/11/18 22:22, Mike Rapoport wrote:
+> > On Tue, Nov 17, 2026 at 08:06:25PM +0800, Muchun Song wrote:
+> > > KMSAN needs page extensions when kmsan_init_shadow() installs per-page
+> > > metadata, before memblock_free_all() releases memory to the buddy
+> > > allocator.  FLATMEM makes page extensions available by this point,
+> > > whereas SPARSEMEM initializes them later in boot.
 > > > 
-> > > Understood, some set of firmware that you have isn't doing this. I don't
-> > > necessarily mind not supporting it initially but like the other features
-> > > it is very useful to have an implementation to make sure it doesn't break
-> > > the ABI. I don't want to go through a 'move to version 2 ABI if you want
-> > > this feature' path.
-> > >  
-> > 
-> > Agreed that it would be better if avoided.
-> >  
-> > > Let's just say I hit this for a reason. Whether that reason makes it into
-> > > a production firmware is an open question at the moment.
+> > > Allocate boot-time SPARSEMEM page extensions from memblock to match
+> > > FLATMEM's initialization timing.  This gives early clients the same
+> > > page_ext availability guarantee across both memory models, while runtime
+> > > memory hotplug continues to use vmalloc.
 > > > 
-> > > FWIW I have both QEMU based emulation (I'm working through the process to be
-> > > able to share that) and the changes to fit in via what I think is the
-> > > cleanest ABI change. Kernel / userspace change below.
-> > > I modified this from my original proposal to take into account the
-> > > desire to add it later (even if to me it smells like papering over a bug
-> > > rather than adding a feature!).  See below for what that required.
-> > > Not only shmti is tested.  The LLM found bugs in it's own fast channel
-> > > code, so take that with a pinch of salt!
-> > >  
-> > 
-> > I skimmed through your patch and it is mostly in line with what I was
-> > imagining (not even protyped though), i.e. in a nutshell
-> > 
-> >  - an ABI feature bit to add MUTIWORD support
-> >  - a flag bit to activate this feature on all _READ IOCTLs at will
-> >  - a repurpose of the pad field in scmi_tlm_sample
-> > 
-> > What I find awkward is the usage of pad as an index: that will expose
-> > a lot of duplicate data since all DEs multi-words are now scattered
-> > through a number of sample with the same ID and TS, and a bit cumbersome
-> > to handle in userspace to reconstruct the multi-word value.
-> > 
-> > My non-tested-nor-prototyped idea was instead to repurpose the pad field
-> > as a length, so as to pack all the multi-words payload as the trailing
-> > part of a flexible array member (an extrnal array really being an ABI)
-> > and use a single structure to read a complete DE.
-> > 
-> > In this case the problem would be to maintain backward compatibility
-> > with the current scmi_tlm_de_sample.
+> > > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 > 
-> Indeed, that's what drove the just using an index approach.
+> Thanks for reviewing.
 > 
 > > 
-> > At first I was thinking that we could simply introduce a new alternative
-> > scmi_tlm_de_multi_sample structure that is used in place of the current
-> > scmi_tlm_de_sample ONLY when feataure bits is available AND requested: so
-> > userspace knows that when sets flag.MULTIWORD it has to use the
-> > multi-word structure in input where pad is a length and there are multipe vals.
+> > with a nit below
 > > 
-> > While this would work for all the bulk ops since they take a __u64 pointer
-> > to a payload structure really (so it does NOT really matter what they are
-> > carrying as long as it is consistent with the advertised feature bits and
-> > request flag),  it CANNOT work for DE_READ where scmi_tlm_de_sample is
-> > used directly...so a change in the current, not-merged, ABI would be
-> > needed anyway....
-> > 
-> > Then...I thought that maybe we dont even need this...and this part could be
-> > judged horrific maybe, so feel free to stop reading if your eyes starts
-> > bleeding :P
-> > 
-> > Currently we have
-> > 
-> > struct scmi_tlm_de_sample {                                                      
-> >         __u32 id;                                                                
-> >         __u32 pad;                                                               
-> >         __u64 tstamp;                                                            
-> >         __u64 val;                                                               
-> > };                     
-> > 
-> > with pad being unused and the whole structure that can be used alone
-> > or packed into a container struct.
-> > 
-> > WHAT IF... when MULTIWORD feature is enabled AND requested we repurpose
-> > the meaning NOT ONLY of <pad> but also of <val> and use this latter NOT
-> > as a payload for a single value returned but as a pointer to an external
-> > array of words counted by pad ?
-> > 
-> > The structure size remains the same, while its interpretation vary based
-> > on the requested flag when such feature is available.
-> > 
-> > It may be a bit cumbersome still on userspace for bulk requests since
-> > scmi_tlm_batch will contain a pointer to an array of possibly varied
-> > sized items, so item_sz represents the common basic scmi_tlm_de_sample
-> > size which in turn carries the sizing inside the repurposed <pad>
-> > field inside for each single sample item
+> > > ---
+> > > v2:
+> > > - Allocate all boot-time SPARSEMEM page extensions from memblock
+> > >    (suggested by Mike Rapoport)
+> > > - Keep memblock allocations above DMA and suppress per-section free
+> > >    messages (suggested by Chris Down)
+> > > ---
+> > >   include/linux/page_ext.h |   9 +--
+> > >   mm/mm_init.c             |   4 --
+> > >   mm/page_ext.c            | 119 +++++++++++++++++++--------------------
+> > >   3 files changed, 60 insertions(+), 72 deletions(-)
+> > > 
+> > > +static __ref void *alloc_page_ext(size_t size, int nid)
+> > >   {
+> > >   	void *addr;
+> > > +	if (!slab_is_available()) {
+> > > +		addr = memblock_alloc_try_nid(size, PAGE_SIZE, __pa(MAX_DMA_ADDRESS),
+> > > +					      MEMBLOCK_ALLOC_ACCESSIBLE, nid);
+> > > +		if (addr)
+> > > +			memmap_boot_pages_add(size / PAGE_SIZE);
+> > I think it should be DIV_ROUND_UP().
 > 
-> Are they variable sized, or indirections?   Today I think
-> scmi_tlm_data_read() simply points to an array of scmi_tlm_de_sample.
-> In this scheme it continues to do that but some of those then have
-> pointers on to additional storage.  That's a more complex beast
-> to manage. 
+> size is currently page-aligned by init_section_page_ext(), so both forms are
+> equivalent here. Is the suggestion to avoid relying on this caller-side
+> invariant and make it more robust? If so, I'll use DIV_ROUND_UP() for both
+> accounting calls.
+
+Yeah, keeping it here does not cost much and whatever
+init_section_page_ext() does we still count the pages right.
+
+Especially if we move the whole thingy to memmap_alloc().
+ 
+> Thanks,
+> Muchun
 > 
 > > 
-> > ...so you can anyway check the provided user-input sizes it is just
-> > scattered all over and as a consequence also the user provided data
-> > would have to be a bit fragmented since 
+> > > +		return addr;
+> > > +	}
+> > > +
+> > >   	addr = vzalloc_node(size, nid);
+> > >   	if (addr)
+> > > -		memmap_pages_add(DIV_ROUND_UP(size, PAGE_SIZE));
+> > > +		memmap_pages_add(size / PAGE_SIZE);
+> > And here too.
 > > 
-> >  - batch points to an array of scmi_tlm_de_sample sized by items_sz
-> >  - each sample in turn points to its array of values sized by <pad>
-> I read this as implying they all do this including the small ones.
-> 
-> >  - you can really mix both kind of DEs in the same request: some
-> >    can carry the single word value embedded in val, multiwords can
-> >    point to teh <pad> sized external array.
-> 
-> But nope.  It is a grab bag of different types that happen to be
-> the same length.
-> 
-> > 
-> > ...mmm sort of start liking this hoorr...or I am missing something ?
-> > 
-> > ... O_o ... it would need a tad of documentation of course ...
-> 
-> Quite a bit!  And probably a helper library.
-> 
-> > 
-> > If you have not fainted in despair, I (and some LLM) could prototype
-> > something like this in one of the next series ... certainly not in V16.
-> > 
-> > ... thoughts ? insults ? :P
-> 
-> It's an option.  More compact than the index one, though overheads of
-> allocations might undo that unless they tend to be many line DEs
-> and does avoid duplication of the metadata and timestamp (if there) which
-> are guaranteed to match in every line.  Give we are trending towards
-> basically having this breaking ABI change (be it with an opt in)
-> it maybe comes down to invasiveness of changes in userspace that would
-> be needed to accommodate it.
-> 
-> Probably a case for a prototype and see what it looks like.
+> > >   	return addr;
+> > >   }
+> > > @@ -304,7 +300,7 @@ static int __meminit init_section_page_ext(unsigned long pfn, int nid)
+> > >   	if (section->page_ext)
+> > >   		return 0;
+> > > -	table_size = page_ext_size * PAGES_PER_SECTION;
+> > > +	table_size = PAGE_ALIGN(page_ext_size * PAGES_PER_SECTION);
+> > >   	base = alloc_page_ext(table_size, nid);
+> > >   	/*
 > 
 
-I will protype this later on in the coming weeks/series and see how much
-painful it is to support this schema with my test tool as a starter...
-
-> Anyhow, I guess now we have two options on the table we can conclude
-> it is 'probably' going to be a safe ABI extension to make in a follow
-> up series.  Not ideal, but I'd rather this didn't substantially slow
-> down the progress to getting to full feature set.
-> 
-
-Yes it does not seem anyway something that breaks backward compatibility
-in one way or another by using ABIT features bits and flags.
-
-...but I need to prototype something for my own peace of mind :D
-
-Thanks,
-Cristian
+-- 
+Sincerely yours,
+Mike.
