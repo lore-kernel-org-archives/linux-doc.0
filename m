@@ -1,102 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.228
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.133.104.62
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795026358;
-	b=m7wq958gtlGOW3mgHUnat6oPdNsWqPMB8sahBTUkCU1tQNo4l3lpDU8o/peadmikPWDR
-	 suBeBkYiTrc1YAygGBDMcyHL2gktqq+Laa0VIDuTpL3It0xXE3ptPODDbtxS4zPgXp2v5
-	 CUBieaq5NyXLYrgMrNNRZX2C4JmEB6uuVcmsQMAHlR0BEI0zE6Ol7cKzpLXtsYGtb+Rlt
-	 Jwtxq47kbplJXSe/kYAojwl1prTX/3ZXMK1QHplhdqD7ffIdFxgcAjqu22B2G6YCHnkoa
-	 3pec9u3SeW9lMfRedTO/TP6toth26u2jrVHH4gXHeenmCycc7PWGviLdDCtcSecfD8Q==
+	t=1795026432;
+	b=0N35oAWhC4pVtaUakTVdTGRV85kl9jHfZM7VMHBU1yv+BHxFz0aFQ6ZOHwMLqdqg9pLk
+	 BdrGWZ7XI/+cQzXID4qWakGGwa6ADJ/OIDcilYb0jQG2+zr6qZIc3slWfXEq3tO+oAOBP
+	 MeRm0Nbpiva0fA/PPebwikqnM+7I+mUSI7vBRAky+kPoatGjwpM2PhQ/Gi4BjY2G/IHp0
+	 7y4yWZnygaswJClU9QRJSQ89IjEfrVUil4U9QYBcjSPWr7r+iUE1zkNPpt+O9i34/Z/Qa
+	 Aj1yaZ9zyEnAUfrGLUdf/tBB6cMfXu5ufP1pCKcq61llUOn6VW5Nxfa8M18vwJhe6WA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795026358;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
-	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-DetectorID-Processed;
-	bh=u00XawEdYv28je6l9Cy2re3mAXMzuZHBJZyPkG7B0Do=;
-	b=n+Gj9HWORqXpXT51uLly9AGde/cKFs1H7eBL/0DlvQweTM0L9miMc+bN64fsXmFBCab6
-	 mrt2YOtRld/Sj+rQpGpZDFEgmtBLEjPANheSfKUw16gmx9TnKj8CYdKJ/Y9UO2QxQspFv
-	 kr2lWiQ1GRC8K8hbMTja+R+7muWLFaVyUvHCHXnoZ13dlEKzvzE+7IICELsO8wZPWBAxX
-	 KOtq/UwK/XTk5sIJWUXwZAVcaWvvVe3fsHkqf5jk5JC7sYFyLpOF5KM1DLM4kJB73UASt
-	 O3bB+27f3uHA+pNspZ8tShMT4txKy6UwN4Nss2XSC6TmxI+WvrDeDERDJ1cZzvtOa8Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795026432;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Virus-Scanned;
+	bh=kQ8DyF1/v6HIM+JWWjYVxIs1gLifqeg4BwJopfCzUy8=;
+	b=kE2GRsv8QwhxMVuWWRtyBaRtD4bpJCcdKdBAAHbhIAEHY4TABf00xZJhNM6hWW+Rml54
+	 vaPUArVeGNBYYjmrn0pptHB7xQCIqz3WygG/9BySsa6yrpFLzhvHkqszcDT+InaKxlS7/
+	 5bPiqMDiW0OervUWebzdLGsMT+vggOa+lcrk4EsKI2RRtepvK2IXXyOpo6cuBWLr1YqgP
+	 Hi80qP7n262Sxy8lsemtPEqSLDNlrSTANEoQHt73Tt7RSYTqC+wXt/MqR4NNubp0Qej0n
+	 SLjTZt4MGB6h0xYT+Sftd0sHc4vf+t/FZSktwA2Gch0xtYTNqt+8VlFq5vKKmtLAWkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=broadcom.com;
-	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=JxmHniew;
-	arc=none smtp.remote-ip=209.85.210.228
-Received: from mail-pf1-f228.google.com (mail-pf1-f228.google.com [209.85.210.228])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=iogearbox.net;
+	spf=pass smtp.mailfrom=iogearbox.net;
+	dkim=pass header.d=iogearbox.net header.i=@iogearbox.net header.a=rsa-sha256 header.s=default2302 header.b=pcPNb8Ve;
+	arc=none smtp.remote-ip=213.133.104.62
+Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952A5606A325
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 18:25:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 952A5606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF44606A337;
+	Wed, 18 Nov 2026 18:27:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BF44606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iogearbox.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=JxmHniew
-Received: by mail-pf1-f228.google.com with SMTP id d2e1a72fcca58-8c4cc85a315so969172b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 10:25:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795026356; x=1795631156;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:dkim-signature:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=u00XawEdYv28je6l9Cy2re3mAXMzuZHBJZyPkG7B0Do=;
-        b=xZNg9aCaszssosatkgzBJOxS7saFjAMbNQe/OPrZb2kfHCs6V+EmKAIaf3p1tF/ppX
-         Ky6eNUE1g3LmE263UfLHBFjBfGyyFkQwKVZwjhFv1tCchIcev++r0K67zvb4SWo9+gmE
-         sDY9rgiqIXrrCiekSoQXM4VMCNklaQwLmei1lM1uYDFzebHQZ9rHxg+Nqu+VxIGvZLv9
-         HpJHIXeHCoW02DUHPHMD0eefdvFwq1bIGlXLLyXZG1K+HXay98tQrDc+occACQgn4+dr
-         ZEwacAcSSsdYYlhnhW1Ewpy5ob0CdihYsZlqoluR1VExwrzneVGLHfBd/6oYG3KpvWEG
-         nehA==
-X-Forwarded-Encrypted: i=1; AL+hErGsywT4XYZemo8YdOFBxecKaKtnwXGmshj8+e+aQJQVBhIxqrvosJRQiQVrbhUDjOlyvYhKwSLb478=@vger.kernel.org
-X-Gm-Message-State: APuU4Z93Xa7bZzEu2MCWtLlJM7w7n41+r5Xjm203wOGJBRwgcisLEdYm
-	HQO4D5sA2GjbIpzeXBfojk63ILRfg2eSsgEwreMEq5VC0QscybBGtajRcxhSHpBE2vXD2xv7h4+
-	P72TaCVVdCd7T55W3UeVnML6QhwsSkD3mQSEidXNpTekm8w5jHbAzvk6Jjd5NYFtZGOxgl1Btbv
-	/mjjr7YN3BHlK3BG5GhzkVArU8gZZzx5PPLjmTeUSOmILljJDuPnsWK8rm7rh8cbCON3h75d4x6
-	s/LaVIt3EETJv256E6k
-X-Gm-Gg: AYBFou3cofJoPSZKHNj9oxVoHBJp7vdjT9gFSDx834n1gUrvXrdzNCNsAOwapwoxrZ7
-	6MPpmuoQg89xqA3kvPYGqw2HcyGXkDY5JjZXLjC7usMvmp9KidjVz0CXfMj74vVkEmLFsLg49wX
-	wcKRywBncJiaCrNyAaaFGlEgPLc8DQahN+R+Z2xhCdWk8P1/H+G3UwE/+M5fcm6C1jJ3Q93i1Eq
-	/Aj1vqInTQEb2BHslN4IBAcZWwP0HDy5cVNWJ07A+e745Mf8V2X3YgEgGMArovZEEpG+DO8NnCV
-	eF4IpGds5rxOj39nZ3QMcMF+D2+WvUrqKMZ4KhiAxqnfpjpyseCMy6OQQVNZt9h70/cgdTflXHj
-	XR3IG+UnbzKzaABO0hl6gM8hkpgeyskMald8e/sC0OElVV9Frh6Bu8YhsqlxlvGmJwx1ZG5bDVz
-	E8AgYNaCOkA/XWs/8xC1WWfpUBNFAvB0+j4Cj2f/33uBA=
-X-Received: by 2002:a05:6a20:549c:b0:3eb:4283:6099 with SMTP id adf61e73a8af0-3fe89a0fc5emr3307375637.26.1795026355913;
-        Wed, 18 Nov 2026 10:25:55 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-123.dlp.protect.broadcom.com. [144.49.247.123])
-        by smtp-relay.gmail.com with ESMTPS id 41be03b00d2f7-cde534abbd4sm9796a12.21.2026.11.18.10.25.55
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 18 Nov 2026 10:25:55 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-55d2c49c3d9so18493361cf.3
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 10:25:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1795026354; x=1795631154; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=u00XawEdYv28je6l9Cy2re3mAXMzuZHBJZyPkG7B0Do=;
-        b=JxmHniew/LY+5mTcU/34RAHKXqimE7vDXfCOas41jXaCNxHNVuiu4T7+9ervGTQygo
-         KTy2bqsElvn6le4DY4eeoGQdUigwMCyfr+pyMUA3BxXXk+9zFnQuHQ9VEBsgzW155Wrg
-         j/E6/HdaKV3kfJKW/xXOKb3Y7XjW/oDQcltb0=
-X-Forwarded-Encrypted: i=1; AL+hErFkw/CPl2F8J3zaxwymrU84oyledWp3OGCJt8KcpVHcs+8HJvL1CO5kRbUzYUO2DTIyfEYyQ9dm41s=@vger.kernel.org
-X-Received: by 2002:a05:622a:590b:b0:55d:3764:8787 with SMTP id d75a77b69052e-55d5a592f86mr54747741cf.25.1795026353591;
-        Wed, 18 Nov 2026 10:25:53 -0800 (PST)
-X-Received: by 2002:a05:622a:590b:b0:55d:3764:8787 with SMTP id d75a77b69052e-55d5a592f86mr54746961cf.25.1795026352708;
-        Wed, 18 Nov 2026 10:25:52 -0800 (PST)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d66c52318sm5441881cf.29.2026.11.18.10.25.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Nov 2026 10:25:52 -0800 (PST)
-Message-ID: <563a68b7-c300-4ec8-9594-9a79fe4c37d5@broadcom.com>
-Date: Wed, 18 Nov 2026 10:25:48 -0800
+	dkim=pass (2048-bit key, unprotected) header.d=iogearbox.net header.i=@iogearbox.net header.a=rsa-sha256 header.s=default2302 header.b=pcPNb8Ve
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=kQ8DyF1/v6HIM+JWWjYVxIs1gLifqeg4BwJopfCzUy8=; b=pcPNb8Ve0lfmKj5OjcQoE5P4F8
+	Wc3bdDQWed8zDgTEnKafoYEkUR8YDZrP4sVmPz62AWiOBALYxPbZshN2fpAbWqjcd0ujNh0WUg5Im
+	taBJOdHVWjUrOYSlRkuwGPtuoH3NArKN9ocuTwt1yVi59h8Gb8PvGlpgMi1dWwAvypaNQmAdPR+Dh
+	v93C+3chhfmjLoB9Zf+mN3BiSvIyIIDob8K2gwDeaD9/bPqoW9bNq5x4x176cUqh5X/NWxkdl/pYL
+	PclxpqOvNTkiTjNLR49M6XWYm/JOazfBHWZiylBcQHqXMqBT+bXm+MY+uq2oxbs9DIrOO1EtnTWJY
+	5EFpXrew==;
+Received: from sslproxy07.your-server.de ([78.47.199.104])
+	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1xTkMx-0004Wo-1d;
+	Wed, 18 Nov 2026 19:26:55 +0100
+Received: from localhost ([127.0.0.1])
+	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1xTkMw-000Hvj-08;
+	Wed, 18 Nov 2026 19:26:54 +0100
+Message-ID: <4d271539-b2f5-4fb9-a4dd-32becd02ce5e@iogearbox.net>
+Date: Wed, 18 Nov 2026 19:26:53 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,386 +69,79 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 9/9] docs: net: document Northstar FA setup and
- NAT qualification
-To: netdev-bot+sashiko@kernel.org
-Cc: netdev@vger.kernel.org, rafal@milecki.pl,
- bcm-kernel-feedback-list@broadcom.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
- pabeni@redhat.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- horms@kernel.org, corbet@lwn.net, jonas.gorski@gmail.com, olteanv@gmail.com,
- pablo@netfilter.org, fw@strlen.de, phil@nwl.cc, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-References: <20261116222519.1416501-10-florian.fainelli@broadcom.com>
- <179495817095.3136.15574702882079067890@kernel.org>
-Content-Language: en-US, fr-FR
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <179495817095.3136.15574702882079067890@kernel.org>
+Subject: Re: [PATCH net-next v1 07/15] bpf: don't redirect decrypted skbs from
+ egress to ingress
+To: Todd Bert Freed <toddfreed@meta.com>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+ <bjorn@kernel.org>, bpf@vger.kernel.org,
+ Daniel Zahka <daniel.zahka@gmail.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Jamal Hadi Salim <jhs@mojatatu.com>,
+ Jiri Pirko <jiri@resnulli.us>, John Fastabend <john.fastabend@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
+ Martin KaFai Lau <martin.lau@linux.dev>, Paolo Abeni <pabeni@redhat.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Simon Horman <horms@kernel.org>,
+ Tariq Toukan <tariqt@nvidia.com>, Wei Wang <weiwan@google.com>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+References: <20261111005533.6436-1-toddfreed@meta.com>
+ <20261111005533.6436-8-toddfreed@meta.com>
+ <ea8a18e0-12cc-48e0-903e-325a8ece5a0f@iogearbox.net>
+ <CADh2yMxffQ3cywT3aNg3SkVfog5CFnUSp34F1esyun-xUBVa9g@mail.gmail.com>
+Content-Language: en-US
+From: Daniel Borkmann <daniel@iogearbox.net>
+In-Reply-To: <CADh2yMxffQ3cywT3aNg3SkVfog5CFnUSp34F1esyun-xUBVa9g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: Clear (ClamAV 1.4.6/28187/Wed Nov 18 07:28:39 2026)
 
-On 11/17/26 15:29, netdev-bot+sashiko@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 6 potential
-> issue(s) to consider.
+On 11/18/26 6:46 PM, Todd Bert Freed wrote:
+>>> +     /* On transmit, decrypted asks the device to encrypt the packet. Sent
+>>> +      * to ingress, the packet would read as decrypted by the device.
+>>> +      */
+>>> +     if (unlikely((flags & BPF_F_INGRESS) && !skb_at_tc_ingress(skb) &&
+>>> +                  skb_is_decrypted(skb))) {
+>>> +             kfree_skb(skb);
+>>> +             return -EINVAL;
+>>
+>> This check should rather live in the bpf_redirect (and friends) helper e.g. after
+>> we check for invalid params, etc, rather than here which feels off. Also, it would
+>> probably make sense to refactor this condition into a small inline helper so you
+>> don't have to open code it multiple times.
 > 
-> Critical: 0 · High: 0 · Medium: 4 · Low: 2
-> 
-> If you believe none of the issues are legitimate, please reply to each
-> issue of Medium severity or higher and explain why the AI is wrong.
-> If any of them are legitimate and you plan to respin, please let patchwork
-> know by including "pw-bot: cr" as a separate line at the end of your reply
-> (one such reply per series is enough).
-> 
-> - [Medium] The reference nftables ruleset in
->    Documentation/networking/device_drivers/ethernet/broadcom/bcm-ns-…
-> - [Medium] bcm-ns-fa.rst (lines 130-131) says "Every IPv4 FIB route, rule
->    and nexthop change flushes all FA-owned flows".
-> - [Medium] B53 and the FA backend decide independently whether FA
->    metadata mode is active, and they use different tests.
-> - [Medium] The FA block is at 0x18027c00 (reg <0x18027c00 0xc0>), which
->    is offset 0xc00 inside the GMAC3 BCMA core aperture (gmac3:…
-> - [Low] The 'Automated validation' section runs kunit.py with the suite
->    filter `'*fa*'` against drivers/net/ethernet/broadcom/.kunitconfig.
-> - [Low] The commit message for "docs: net: document Northstar FA setup
->    and NAT qualification" ends with "Keep campaign history and review…
-> 
-> --
-> 
-> docs: net: document Northstar FA setup and NAT qualification
-> 
-> This adds documentation for the Broadcom Northstar flow accelerator. It
-> covers the supported GMAC2/GMAC0 topology, the device tree and kernel
-> configuration, and how route and neighbour invalidation works. It also
-> describes a three-host NAT qualification procedure, fault injection tests
-> and KUnit validation, and adds the new file to the index and MAINTAINERS.
-> 
->> validation from the driver's incomplete FIB eligibility probe. Keep
->> campaign history and review status in the accompanying package.
-> 
-> [Severity: Low]
-> This isn't a bug, but what does "the accompanying package" refer to? The
-> patch only adds bcm-ns-fa.rst, an index entry and a MAINTAINERS line.
-> Nothing in the tree matches that description.
-> 
-> Could this sentence go in the cover letter or below the --- line instead
-> of the permanent changelog?
-> 
->> diff --git a/Documentation/networking/device_drivers/ethernet/broadcom/bcm-ns-fa.rst b/Documentation/networking/device_drivers/ethernet/broadcom/bcm-ns-fa.rst
->> new file mode 100644
->> index 0000000000000..2bc6cc5d94cea
->> --- /dev/null
->> +++ b/Documentation/networking/device_drivers/ethernet/broadcom/bcm-ns-fa.rst
->> @@ -0,0 +1,507 @@
-> 
-> [ ... ]
-> 
->> +Netdevice shutdown, address/MTU changes, new active switch ports, and upper
->> +interface changes flush entries. Every IPv4 FIB route, rule and nexthop change
->> +flushes all FA-owned flows, including unrelated prefixes and local-table
->> +entries. This is intentional: the rule does not carry enough routing-policy
->> +context to prove that an event cannot affect an installed path. Work is
->> +coalesced, but even unrelated routing churn can reduce offload residency.
-> 
-> [Severity: Medium]
-> Can the IPv4 FIB notifier actually provide this guarantee? fa_fib_event()
-> in drivers/net/ethernet/broadcom/bcm-ns-fa.c is the only route
-> invalidation path. The same promise appears in its comment. However,
-> fib_table_insert() only notifies when the new alias is the first one for
-> that prefix and table:
-> 
-> net/ipv4/fib_trie.c:fib_table_insert() {
->      ...
-> 	if (fib_find_alias(&l->leaf, new_fa->fa_slen, 0, 0, tb->tb_id, true) ==
-> 	    new_fa) {
-> 		enum fib_event_type fib_event;
->      ...
-> }
-> 
-> The NLM_F_REPLACE branch and the delete path work the same way:
-> 
-> net/ipv4/fib_trie.c:fib_notify_alias_delete() {
->      ...
-> 	/* Do not notify if we do not care about the route. */
-> 	if (fib_find_alias(fah, slen, 0, 0, tb_id, true) != fa_to_delete)
-> 		return;
->      ...
-> }
-> 
-> Aliases are sorted by descending DSCP. If a prefix also has a
-> DSCP-specific alias (ip route ... tos X), the DSCP-0 alias that ordinary
-> traffic uses is not first. Adding, replacing or deleting that alias raises
-> no notifier event. As a result, neither fa_invalidate_locked() nor
-> fa_mtu_route_update() runs.
-> 
-> Flowtable GC doesn't catch this for hardware flows either, because
-> validation-only references are skipped:
-> 
-> include/net/netfilter/nf_flow_table.h:nf_flow_dst_check() {
-> 	/* A driver-only reference must not change direct-path/GC semantics. */
-> 	if (!tuple->dst_cache || tuple->dst_validation_only)
-> 		return true;
->      ...
-> }
-> 
-> nf_flow_offload_validate() only runs at admission.
-> 
-> Suppose the DSCP-0 route is replaced with a blackhole, moved to another
-> next hop, or given an MTU below 1500 as a non-first alias. Would the
-> hardware rows keep forwarding on the old path while counter activity keeps
-> refreshing them? The same gap applies to the later claim that flows stay
-> in software while any route has an MTU below 1500. The blackhole and MTU
-> 1200 qualification steps only use first-alias routes, so they would pass
-> anyway.
-> 
-> A minor point: fa_fib_event() also handles FIB_EVENT_ENTRY_ADD and
-> FIB_EVENT_ENTRY_APPEND, which IPv4 never emits.
-> 
-> [ ... ]
-> 
->> +For a BCM53012 board, add the following node under the root address space
->> +(adjust the compatible to ``brcm,bcm53011-fa`` for BCM53011)::
->> +
->> +  / {
->> +      fa: flow-accelerator@18027c00 {
->> +          compatible = "brcm,bcm53012-fa";
->> +          reg = <0x18027c00 0xc0>;
->> +      };
->> +  };
-> 
-> [ ... ]
-> 
->> +Remove any other conflicting CPU assignments for this test. B53 selects ``brcm-fa``
->> +when it finds the enabled accelerator through this phandle. Do not set
->> +``dsa-tag-protocol``: B53 does not implement the runtime protocol-change
->> +operation. No existing board is enabled automatically by this series.
-> 
-> [Severity: Medium]
-> Is this the whole condition? B53 and the FA backend each decide on their
-> own whether FA metadata mode is active, and they use different tests:
-> 
-> drivers/net/dsa/b53/b53_common.c:b53_uses_fa_tag() {
->      ...
-> 		enabled = IS_ENABLED(CONFIG_BCM_NS_FA) && of_device_is_available(fa) &&
-> 			  (dev->chip_id == BCM53011_DEVICE_ID ||
-> 			   dev->chip_id == BCM53012_DEVICE_ID ||
-> 			   (is5301x(dev) && of_device_is_compatible(fa, "brcm,bcm4708-fa")));
->      ...
-> }
-> 
-> drivers/net/ethernet/broadcom/bcm-ns-fa.c:bcm_ns_fa_init() {
->      ...
-> 	if (!of_device_is_compatible(np, "brcm,bcm4708-fa") &&
-> 	    !of_device_is_compatible(np, "brcm,bcm53011-fa") &&
-> 	    !of_device_is_compatible(np, "brcm,bcm53012-fa")) {
-> 		of_node_put(np);
-> 		return ERR_PTR(-ENODEV);
-> 	}
->      ...
-> }
-> 
-> bcm_ns_fa_init() ignores the chip. It then always enables FA_BRCM_HDR
-> processing and clears FA_CTL_BYPASS.
-> 
-> Take the brcm,bcm53012-fa node from the example above on a 5301x switch
-> whose runtime chip_id is BCM53010, BCM53018 or BCM53019. The backend would
-> switch GMAC2 RX to the FA descriptor format. B53 would keep the ordinary
-> brcm tagger on port 8 and skip the CFP exception guards. Would conduit RX
-> on port 8 then be misparsed or dropped?
-> 
-> An available FA node with any other compatible makes bcm_ns_fa_init()
-> return -ENODEV. That fails the whole GMAC2 probe:
-> 
-> drivers/net/ethernet/broadcom/bgmac.c:bgmac_enet_probe() {
->      ...
-> 	bgmac->fa = bcm_ns_fa_init(net_dev);
-> 	if (IS_ERR(bgmac->fa)) {
-> 		err = PTR_ERR(bgmac->fa);
-> 		bgmac->fa = NULL;
->      ...
-> }
-> 
-> Also, "brcm,bcm4708-fa" turns on FA mode for any 5301x chip. That includes
-> parts the binding, the Kconfig help and this document do not list as
-> supported.
-> 
-> Could B53 and the backend share one predicate, and could the document
-> state the actual conditions?
-> 
->> +
->> +The FA resource is outside the GMAC3 DMA register window. It is managed by
->> +the GMAC2 consumer; it does not need a separate platform driver or character
->> +device. Leave the accelerator disabled or omit the GMAC2 phandle to retain
->> +the existing board configuration.
-> 
-> [Severity: Medium]
-> What state does the GMAC3 core need to be in? The FA block at 0x18027c00
-> is at offset 0xc00 inside the GMAC3 BCMA core aperture (gmac3:
-> ethernet@27000 in bcm-ns.dtsi). bcm_ns_fa_init() maps and programs it from
-> GMAC2 without checking or enabling the core that hosts it.
-> 
-> If the FA shares GMAC3's reset or clock domain, two cases look like
-> problems.
-> 
-> First, when GMAC3 is disabled in DT, nothing releases the core's reset:
-> 
-> drivers/bcma/main.c:bcma_register_devices() {
->      ...
-> 		np = core->dev.of_node;
-> 		if (np && !of_device_is_available(np))
-> 			continue;
->      ...
-> }
-> 
-> Could FA register accesses then abort, or hit the FA_INIT_DONE poll
-> timeout, depending on what the bootloader left behind?
-> 
-> Second, when GMAC3 is enabled, bgmac_probe() in bgmac-bcma.c only rejects
-> the phandle on a core other than unit 2. GMAC3 therefore still probes, and
-> bgmac_enet_probe() unconditionally calls:
-> 
-> 	bgmac_clk_enable(bgmac, 0);
-> 
-> This reaches bcma_core_enable(), which pulses the GMAC3 core reset. If
-> that happens after GMAC2 has initialized the FA, does it wipe FA_CTL and
-> the table state? The GMAC2 side would still believe its flows[] and
-> next-hop bookkeeping match the hardware. BGMAC_FEAT_NO_RESET suppresses
-> the reset in open/close, but not this probe-time enable.
-> 
-> The setup steps only cover GMAC0 and GMAC2. Should they say whether GMAC3
-> must be enabled, disabled or left alone?
-> 
-> [ ... ]
-> 
->> +  table inet fa_test {
->> +      flowtable ft {
->> +          hook ingress priority 0;
->> +          devices = { lan1, wan };
->> +          flags offload;
->> +          counter;
->> +      }
->> +      chain forward {
->> +          type filter hook forward priority 0; policy drop;
->> +          meta l4proto udp ct state established flow add @ft
->> +          ct state established,related counter accept
->> +          iifname "lan1" oifname "wan" udp dport 5001 counter accept
->> +          iifname "wan" oifname "lan1" udp dport 5001 ct status dnat counter accept
->> +      }
->> +      chain prerouting {
->> +          type nat hook prerouting priority dstnat; policy accept;
->> +          iifname "wan" udp dport 15001 dnat ip to 192.0.2.2:5001
->> +      }
->> +      chain postrouting {
->> +          type nat hook postrouting priority srcnat; policy accept;
->> +          iifname "lan1" oifname "wan" ip saddr 192.0.2.2 snat ip to 198.51.100.1:45000
->> +      }
->> +  }
-> 
-> [Severity: Medium]
-> Will this table load with nft -f? The snat rule in the postrouting chain
-> asks for a port mapping. However, iifname, oifname and ip saddr don't set
-> a transport protocol. nft rejects such a rule with "transport protocol
-> mapping is only valid after transport protocol match". nft -f loads the
-> file as one transaction, so the whole fa_test table would be rejected.
-> 
-> The dnat rule is fine because udp dport 15001 comes first. Would a meta
-> l4proto (or tcp/udp) match before the snat statement fix this? The
-> in-tree nft_flowtable.sh and nft_nat.sh selftests do that.
-> 
-> Separately, the forward chain only handles UDP:
-> 
->            meta l4proto udp ct state established flow add @ft
->            iifname "lan1" oifname "wan" udp dport 5001 counter accept
-> 
-> With policy drop, wouldn't a new TCP SYN match no accept rule and be
-> dropped? The text below says "run a UDP or TCP echo server". Later
-> sections ask for the SNAT, DNAT, pressure, fallback and aging tests to be
-> repeated with TCP, but no TCP ruleset is given.
-> 
-> [ ... ]
-> 
->> +  ./tools/testing/kunit/kunit.py run --arch=x86_64 \
->> +      --kunitconfig=drivers/net/ethernet/broadcom/.kunitconfig \
->> +      --build_dir=/tmp/bcm-ns-fa-kunit '*fa*'
-> 
-> [Severity: Low]
-> Does the '*fa*' filter skip suites that this kunitconfig builds?
-> drivers/net/ethernet/broadcom/.kunitconfig also sets
-> CONFIG_NF_FLOW_TABLE_KUNIT_TEST=y. That builds the nf-flow-lifetime suite
-> (net/netfilter/nf_flow_table_core_test.c) and the nf-flow-path suite
-> (net/netfilter/nf_flow_table_offload_test.c). Neither name contains "fa",
-> so the documented command builds them but never runs them.
-> 
-> nf-flow-path covers the cached route and neighbour validation in
-> nf_flow_offload_validate() that the commit message relies on.
-> 
-> Should the filter include these suites? Should the text below also
-> mention CONFIG_NF_FLOW_TABLE_KUNIT_TEST next to the three suites it lists?
-> 
-> [ ... ]
-> 
+> Sounds good I will move this check into the two callers
+> (bpf_clone_redirect() and
+> skb_do_redirect()) under a helper.
 
-[Medium] FIB notifications
+But why under skb_do_redirect? I meant just here:
 
-Agreed: only the first alias of a prefix is notified, so changes to 
-non-first aliases (DSCP routes) are not seen. v2 documents the limit and 
-that DSCP-specific routes must not be used with FA.
+diff --git a/net/core/filter.c b/net/core/filter.c
+index 532405988fd9..ba112111de22 100644
+--- a/net/core/filter.c
++++ b/net/core/filter.c
+@@ -2471,6 +2471,8 @@ BPF_CALL_3(bpf_clone_redirect, struct sk_buff *, skb, u32, ifindex, u64, flags)
+  
+         if (unlikely(flags & (~(BPF_F_INGRESS) | BPF_F_REDIRECT_INTERNAL)))
+                 return -EINVAL;
++       if (...cond...)
++               return -EOPNOTSUPP;
+  
+         /* BPF test infra's convert___skb_to_skb() can create type-less
+          * GSO packets. gso_features_check() will detect this as a bad
+@@ -2563,6 +2565,8 @@ BPF_CALL_2(bpf_redirect, u32, ifindex, u64, flags)
+         if (unlikely(!bpf_net_ctx_get() ||
+                      (flags & (~(BPF_F_INGRESS) | BPF_F_REDIRECT_INTERNAL))))
+                 return TC_ACT_SHOT;
++       if (...cond...)
++               return TC_ACT_SHOT;
+  
+         ri = bpf_net_ctx_get_ri();
+         ri->flags = flags;
 
-[Medium] B53 and the backend deciding differently
+> FYI this patch was moved to the net series "net: don't redirect
+> decrypted skbs to
+> ingress, psp time-wait validator", so you will see this applied to v3 there.
+> 
+> -Todd
 
-Both now accept the same compatibles (patch 6), on a BCM5301x switch. v2 
-documents the actual conditions and what happens for an enabled node 
-with another compatible.
-
-[Medium] GMAC3
-
-GMAC3 is not probed by bgmac without a MAC address, so its core is not 
-reset by the driver. Whether the accelerator registers are accessible
-depends on the bootloader state; v2 documents it, and makes reading them
-the first step of the hardware validation.
-
-[Medium] nftables ruleset
-
-Agreed, v2 matches the protocol before the NAT statements and covers TCP 
-as well as UDP.
-
-[Low] kunit filter, commit message
-
-Fixed in v2.
-
-pw-bot: cr
--- 
-Florian
