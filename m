@@ -1,58 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794993223;
-	b=ouYoLaIkyQk96IUstm+X2QO4RdLuUajOMYKIcdoOqKGtvLApMr7ODAq7Ai8w2TGJ15Au
-	 y3a5kicmhV55e5jvggxZCuKSZUox9WChYp3K/ZVd64UjSbpP/nrJ5ruxuXxy+8zAobcjj
-	 B87pudA7SJUkkeQMEooGhbKX0fKQd582rNWwFoE/9Vy09rJ8WjUesAf6QvRNn1wf1Ba9s
-	 q6DdW4kt1uc98L+x6pQVdhHEW3KM6LX6nOLj+ix6Oj7OcA9RjgV0Eeqqpu4J7urpVgmc3
-	 uJDoTkCZN+oBHRyh0Q17OlTf0a3Omo6RnOtfY/uRt/J8FWDP84gBQoAhub+PvX+nlDw==
+	t=1794993302;
+	b=PuhNT0utCxr8b3E0TIZPnUoPgscZxlxxJ1YdPtOC0c9YFXXxLRSdlOzP1oTVJlPU2GVu
+	 oO6X9Tfg0V118wtt+WJkqlY6ykmRpzPsCueSrPfOQjj9Euzsn7twhzdjeMUPFSeG7mW62
+	 hSM9DJwCk/rx9cjFa8KYYmeI0EvbsSkUYoWoXyLQqB8O+p17VxpcTxRNBUUFLTQ6vqt9o
+	 MNRUxemrPMRyxuH3h6PPndaPwyMWzoMbvHPz8V3vR09jHFRVTbovExUYR/z0a86ehh37u
+	 nktGIilKT3ePAlej6VONj0b8IkciNlHOcTOWL91EMBjntO2LYfWJ4lpjRthjAbS6Tzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794993223;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-	bh=gqPBU5vSzctPXUMsg32k86Yb/Qp3EYKKyTavFdf5sH8=;
-	b=cq8NLcIpxDrs6FZXJ9TmlxhEruIKvkgPI1uREp7kORsNKvIzr7w6MNgcrrT96NxzcYuO
-	 UdxiG0DqjmtyfxWX9acvL98DQxDQfV6MfYrunjlHx+rLiZ5Oq8tAV0Pxr9PyVzaD9fiuz
-	 7+iwMIHDotrBwpcQox45wAdZI+9yUyUjf8+kHf0tOJmfSb1I6llmNroVY8DoLLmGhL8w5
-	 XKXixs+alpq1dCuozqBfVN//awQAAf/IOCuWeMZQRDzwPuP5dMncRxpelRBZJIpr0KTZt
-	 yXZbkJYVUHkOyQHQMho/01zCDgA6hQZ7fcTeroPzT0xxZepZ8CSKhWAonW57cJLwLkQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794993302;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=g/9ZH6DNMENaUgvjOSvQCfo6co4d5atT2nU3ht73jxo=;
+	b=exzDdP0Mj8PRQEbxBAYfPf8wo+Nw/g3Nhmq6U2eB7uGKxGaAPwd5CVAn4s5kbS+MYsDQ
+	 gVj9ZJDxdmiZcMWsTQG7+Imq1yHP/+BUOhkg2wERqtDVzz4V/NMUW8o12RwHqoVKf0zqu
+	 wFMmJnQe9kxIXHx+i6BQ2gkk40n1mWcKPvPJe+8IZYlOxhrvZ7knqg5qGnnLbylnX9b6E
+	 YCOmNSCeveIzClg6ztpv0IaG5ujh30vr1hFtzyneebsrNvDB0CfbNZR6ePAERYgU7BL5Y
+	 +xUXzcSdnKjHoFiFnf9XE+DwjAcCy5raqSVxUR8xPDDajgQFUWPtZ3YZ8O8TwzpB3Xw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=u7vlY2Tx;
-	arc=none smtp.remote-ip=113.46.200.224
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615CE606A336;
-	Wed, 18 Nov 2026 09:13:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 615CE606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=id5o74cC;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E64DF606A32A;
+	Wed, 18 Nov 2026 09:15:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E64DF606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=u7vlY2Tx
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=gqPBU5vSzctPXUMsg32k86Yb/Qp3EYKKyTavFdf5sH8=;
-	b=u7vlY2TxckHQP+tYQthSmXBs8/AgddjDNh8bkjwDxaHhPAcGONyr849lvDagg0uq2tPODQr+O
-	RNkZ/GSkSnHrw23pVJBgD4eBpcXClBJwejVje/VjYL1bZHv0QSts4KMpbezyGFZ04qUx8679+NR
-	1cZfatNyiz6HsIFs9LF+vZQ=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jTwr04b2Pz1cyPH;
-	Wed, 18 Nov 2026 17:13:20 +0800 (CST)
-Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6D73B40561;
-	Wed, 18 Nov 2026 17:13:40 +0800 (CST)
-Received: from [10.67.110.140] (10.67.110.140) by
- whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Wed, 18 Nov 2026 17:13:33 +0800
-Message-ID: <32b8d9c9-27d2-4da9-8618-ccfc44dee7a3@huawei.com>
-Date: Wed, 18 Nov 2026 17:13:31 +0800
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=id5o74cC
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 300BC1596;
+	Wed, 18 Nov 2026 01:14:58 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 977943F673;
+	Wed, 18 Nov 2026 01:14:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794993301; bh=hXuGwUcvD/JxHCPow69F+CSxS8aDisV0O4ydUJG851A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=id5o74cClBTwYA2qK9D22IG2CfqVOTH+tVR0uCcoXDwqhljGpYqufMaxuFWvI/Jc8
+	 uHq/NEp8JLsQM5PEOXTAIYZxhqiQs6g4fV6iXt2pXLq90vmDCWv49R0ziKh/zIUaJb
+	 q7vwdiFckE/oyB07oCYPbHuBDUSN2w7VAuh3ESK0=
+Date: Wed, 18 Nov 2026 09:14:55 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+	philip.radford@arm.com, david@kernel.org,
+	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 00/35] Introduce SCMI Telemetry support
+Message-ID: <av1sj-UEhz_F7R44@pluto>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+ <20261117170709.00002088@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,81 +68,63 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next -v4 01/17] fs: pass struct path to notify_change()
-To: Al Viro <viro@zeniv.linux.org.uk>
-CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
-	<brauner@kernel.org>, <jack@suse.cz>, <amir73il@gmail.com>,
-	<andrii@kernel.org>, <apparmor@lists.ubuntu.com>, <ast@kernel.org>,
-	<axboe@kernel.dk>, <bpf@vger.kernel.org>, <casey@schaufler-ca.com>,
-	<cel@kernel.org>, <cem@kernel.org>, <chenxiaosong@chenxiaosong.com>,
-	<code@tyhicks.com>, <corbet@lwn.net>, <Dai.Ngo@oracle.com>,
-	<dakr@kernel.org>, <daniel@iogearbox.net>, <dhowells@redhat.com>,
-	<dlemoal@kernel.org>, <dmitry.kasatkin@gmail.com>,
-	<driver-core@lists.linux.dev>, <dsterba@suse.com>,
-	<ecryptfs@vger.kernel.org>, <eddyz87@gmail.com>, <emil@etsalapatis.com>,
-	<eric.snowberg@oracle.com>, <exfat@lists.linux.dev>,
-	<georgia.garcia@canonical.com>, <gregkh@linuxfoundation.org>, <hch@lst.de>,
-	<hirofumi@mail.parknet.co.jp>, <hyc.lee@gmail.com>,
-	<ihor.solodrai@linux.dev>, <jlayton@kernel.org>, <jmorris@namei.org>,
-	<johan@kernel.org>, <john.fastabend@gmail.com>,
-	<john.johansen@canonical.com>, <jolsa@kernel.org>, <kpsingh@kernel.org>,
-	<linkinjeon@kernel.org>, <linux-api@vger.kernel.org>,
-	<linux-block@vger.kernel.org>, <linux-btrfs@vger.kernel.org>,
-	<linux-cifs@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-nfs@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <linux-unionfs@vger.kernel.org>,
-	<linux-xfs@vger.kernel.org>, <liubaolin12138@163.com>,
-	<martin.lau@linux.dev>, <mason@kernel.org>, <mathieu.desnoyers@efficios.com>,
-	<matt@bobrowski.net>, <memxor@gmail.com>, <mhiramat@kernel.org>,
-	<miklos@szeredi.hu>, <neil@brown.name>, <netfs@lists.linux.dev>,
-	<ntfs@lists.linux.dev>, <okorniev@redhat.com>, <omosnacek@gmail.com>,
-	<penguin-kernel@i-love.sakura.ne.jp>, <rafael@kernel.org>,
-	<rdunlap@infradead.org>, <roberto.sassu@huawei.com>, <rostedt@goodmis.org>,
-	<selinux@vger.kernel.org>, <senozhatsky@chromium.org>, <serge@hallyn.com>,
-	<sj1557.seo@samsung.com>, <skhan@linuxfoundation.org>, <song@kernel.org>,
-	<stephen.smalley.work@gmail.com>, <takedakn@nttdata.co.jp>, <tom@talpey.com>,
-	<yonghong.song@linux.dev>, <yuezhang.mo@sony.com>, <zohar@linux.ibm.com>,
-	<utilityemal77@gmail.com>, <lujialin4@huawei.com>
-References: <20261117150542.1169451-1-caixinchen1@huawei.com>
- <20261117150542.1169451-2-caixinchen1@huawei.com>
- <20261117183059.GP989762@ZenIV>
-Content-Language: en-US
-From: Cai Xinchen <caixinchen1@huawei.com>
-In-Reply-To: <20261117183059.GP989762@ZenIV>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- whupemk100010.china.huawei.com (7.152.184.41)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117170709.00002088@oss.qualcomm.com>
 
-On whether we want the mount references at all: they are not for NTFS.
-The path-based LSM hooks need them - Landlock's check walks the hierarchy
-up from the object with path->mnt->mnt_root and follow_up(), for every
-layer, and the idmap we pass has to be the one of the mount the path was
-checked in.  NTFS is only the reason for ia_path/notify_change_target():
-->setattr() has no path argument, so a change forwarded to the base inode
-would otherwise lose the mount.
+On Tue, Nov 17, 2026 at 05:07:09PM -0800, Jonathan Cameron wrote:
+> On Mon,  9 Nov 2026 09:11:46 +0000
+> Cristian Marussi <cristian.marussi@arm.com> wrote:
+> 
+> > Hi all,
 
-On 11/18/2026 2:30 AM, Al Viro wrote:
-> That needs a bit along the lines of "path MUST be consistent - don't combine
-> a dentry from one filesystem with mount of another".  All in-kernel callers
-> might have appropriate struct mount references on hand, but for out-of-tree
-> code that might be not true and we'd better be upfront about the headache
-> we are inflicting.
->
-> I'm not sure we really want to provide those mount references, TBH - it does
-> add a constraint not just on out-of-tree callers, but upon the future uses
-> in the kernel.  If NTFS is the only reason... ugh.
+Hi,
 
-ok, I will change in v5
+> > 
+> > [TLDR Summary]
+> >  [V15 highlights]
+> >  - general cleanup and hardening driven by reviews
+> >  - improved TDCF access routines to minimize lost samples under load
+> >  - completed ABI docs
+> > 
+> >  [V16 TODO]
+> >   - address any remaining V15 outstanding Sashiko/reviewers issues
+> > 
+> > The upcoming SCMI v4.0 specification [0] introduces a new SCMI protocol
+> > dedicated to System Telemetry.
+> 
+> This is one from the family of issues you find when reviewing ones own
+> (well LLM generated) emulation, realizing it doesn't match the spec,
+> and yet works.
+> 
+> This works fine without the required SCMI protocol property in ACPI.
+> 2.2.2 of ACPI for System Control and Management Interface 1.0
+> Platform Design Document. 111115A 1.0
+> 
+> Now, in here is an informative statement...
+> 
+> Protocols not listed using a property may not be enumerate by the operating system.
+> 
+> But they are... 
+> 
+> So, obviously we can ignore informative spec lines but that is a pretty strong
+> sentence. I can't immediately think of what would go wrong if we ignored it
+> - maybe we'd not pick an exclusive PCC and fallback to a common one the firmware
+> doesn't want us to use?  But if it doesn't want us to use it why make Telemetry
+> discoverable on it.
+> 
+> Should that be wired through from the ACPI parsing code?
+> 
+> Anyhow, not something I care that much about but thought I'd call it out
+> as an oddity.
+> 
 
-> BTW, why not something like
->
-> 		notify_change(&nop_mnt_idmap,
-> 			      &(struct path){.mnt = path.mnt, .dentry = dentry},
-> 			      &newattrs, NULL);
-> instead of that named local?  Same question for other places like that...
+AFAICR, I think this is really down to some ambiguity elsewhere in the
+ACPI/PCC spec for SCMI, so the implementation deviates a bit from the
+behaviour we have on devicetree based SCMI systems where instead a non
+DT listed protocol is NOT activated even if provided by FW.
 
+Sudeep has more details on this.
 
+Thanks,
+Cristian
