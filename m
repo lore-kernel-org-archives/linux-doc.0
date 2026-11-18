@@ -1,47 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794989665;
-	b=RQ6Y45JIguvkyLtj6zIjEkayeWQERwfjbRGSwELb0QWTZBE/Ebb6BsBbZr+CRNsnaX12
-	 oBcUxM7RR2dbXnFPC6+r4H6C0HlxakStYlG9dqPuQKusKXPG5E5FRe6tm7N824RY40nJa
-	 qGGw7hnqvJjWVgvKYxYMn94yiICamF4kjR1arLx/chZPjqZz2PdGZN40M65bemBebJJMz
-	 Ai8qE46uOBARbc1oBq/cgr2jx3oZsDFkx+0VI5LMNcCsChziBhMLrZgyPiOarY5HQsbj+
-	 UeXNNTZCSUsjZUCxyL53+xLsvgTMNX3qAbzolMRgkK+iVwYjNAEBKOqMFWWIPp/e7fA==
+	t=1794989995;
+	b=Uwgyi3sriYE5kF6y+ARpXhYnevOYStS1vGwjZgKmnyunUMsar6S10ns1glloA8wLaT63
+	 YMjbbLO0WML6L8P3rrYF56FBAbE2lJCQzk7RW6qH1GisnuGTisjrjjiulDQ8uJjAjBZ7X
+	 eKznezYLQfwznwXXcn9aWbM/7Mt2MRUEMQYOJkVc4R2hr9BbOq1GVpzJDbkq6Zq/e3wkq
+	 JrDX360RWFZiFCwqlbmITq6JcBMetvkd/8EpH4IKgc3Ww19woSfDGek69WSRoY89jp40m
+	 PMZRPlkmwsR4JwQjHH1HhSS3vKHSEYYHH24KhvKvoufFbeUFUNnA1tr2m5HYcwpN7og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794989665;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=0d+s6cAn6uhV0VhVs39P/ZxCWEh9RIa/jJ/8Nk9ZNIA=;
-	b=JSa93B02HxmQNl1x0DzOLSRl3j81p+8MnDjxW2urDriIf9M/e5XFHofGXAV9REzv1G2e
-	 e89sytSpphaezallYjRVWYkIDNBCVgNQQr/HMmfv/DdsZ6Z5IE/L4mzxeif3jPV3rts4t
-	 j1SLGC+fMJeNKuWX5fXcqOGET3ZAkexUV+3twpNd05yi4Mm4N0THsyCI5VFw3noCI4fbs
-	 3ySibPlwDF5yJLsTuFL7f3EnOEZPZoMA7f9Ak92vgrzhpBd0N+qqLVL1hqjuMQkuRdgvF
-	 6Hlk0okn0JOTp1VLeQfxl0mOvPh/29j1y0RE2vUki5qkmvIwtOLw41DQ1kAIOmiJW9Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794989995;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-Spam-Details-Enc:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=NZ2DiUYcYA6riJMrquv0S0uzwR3KjlESIdF8oXXvnq4=;
+	b=Xh3Jp8WBtyQUNCce4DgKaBeHDdQJLoa7vvHoBISzTcmYru563qtwkCSyskzMO7SmFSK0
+	 jJ2wm9nsOOlXTqC5rnwfYb566NrjAS2Vn02aAKjBFRGe96OfwXjSC28Hp7TEANUzv7CHt
+	 K/DW1JaccI0/dIOiooDPruqWS3SBGFzYXFk4JwdD4O1rm3ChN5KvYQV9yrvgUYVos5qcg
+	 yhp7vgjTGyX0EkAeHurUcX6DHFR3VeOsorVJj5cvRDFHgpxneOWVyLJ/1msgu6OTBG4Oc
+	 Ik8+eRBcKNl+vTMZo2ZsJhDIWtFRcGvzyHh/Fa8T2nBMtk1/KvA1X6xURmOZO/Wxm9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hSTCRHYO;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=CHYLikr7;
+	arc=none smtp.remote-ip=148.163.156.1
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A2D606A31C;
-	Wed, 18 Nov 2026 08:14:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17718606A31C;
+	Wed, 18 Nov 2026 08:19:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17718606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hSTCRHYO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D781F000C7;
-	Wed, 18 Nov 2026 08:14:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794989665;
-	bh=0d+s6cAn6uhV0VhVs39P/ZxCWEh9RIa/jJ/8Nk9ZNIA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hSTCRHYO3JhiIIlJxXllrrSefZtvXl07Amkpx95zDAEi6XykgLdseep+C0CUF0y6u
-	 NWvJMPvunO7y5/VgZuW4QAuzE3K9sm07QYVWvOrzZAWq7FJ5zf+epYxTa7MttoBMmH
-	 sg6nmkDfYUPJEFem4xoQIIhFBjmz73NNd1pjzP+TrbL1d9Dr0bb/fUbUq6TxPTB5D4
-	 Vye1+GYwoE6gaaVlJTW8B22dhZYeMA8GkwcWEaBanoAPjqUq/IUkrk5ax2I2Ic1FEm
-	 D8aDDKG/wpA9TmLKw6pbkW80CF2vNel2Och8j695ViMHGf+9RBDrWrhpbKy97b3z/K
-	 oGfpm0nudAi3A==
-Message-ID: <4ae5596c-281b-476c-b656-1e03ae7409b3@kernel.org>
-Date: Wed, 18 Nov 2026 09:14:17 +0100
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=CHYLikr7
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AI2SM6x032357;
+	Wed, 18 Nov 2026 08:17:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=NZ2DiU
+	YcYA6riJMrquv0S0uzwR3KjlESIdF8oXXvnq4=; b=CHYLikr74UQY3xDY0mK1ln
+	UItMzkTfsxSuJmhUcOAg25lgq/Of3U/OWPyIqfvLwQJ5EO59MWPJqU/lkOiOw00F
+	QiaAQBtE4k4Hc9WrB/lQuSIre+I1HQTnaoDHCIqDtNuktjoUHG6jjFYNEL+AYOWp
+	AkwsM8SEMvfiFPLYfswocUBfLnLW6kY91l7jwFy16irUd2Hyu43GUzzYEquNSQXo
+	UyK4S+t3uNsLdoaGXVScfZ1Y9C4vhqTpxzeoQRyohmRx50QrMikRGXZr1iamvt6U
+	CdORrNAtH07XBbOCxsGRMb7C0/KVmFR39RPr9LZDxeNhQaaVAWzIQkbMBJPj7Smg
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j105n9h67-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 18 Nov 2026 08:17:32 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AI8GsLG2766497;
+	Wed, 18 Nov 2026 08:17:31 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hyxwt7qfs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Nov 2026 08:17:31 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AI8HTxD34734796
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 Nov 2026 08:17:30 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C966458052;
+	Wed, 18 Nov 2026 08:17:29 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 971BB5805D;
+	Wed, 18 Nov 2026 08:17:14 +0000 (GMT)
+Received: from [9.123.14.23] (unknown [9.123.14.23])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 18 Nov 2026 08:17:14 +0000 (GMT)
+Message-ID: <f201c30a-6fa9-4d9a-a77b-74d39f89f2d9@linux.ibm.com>
+Date: Wed, 18 Nov 2026 13:47:12 +0530
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -52,88 +87,121 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 6/6] ARM: add the SiRF AT550 platform and YPL514si
- board
-To: yogo.0917.sabu@gmail.com, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
- Ulf Hansson <ulfh@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>,
- Adrian Hunter <adrian.hunter@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Russell King <linux@armlinux.org.uk>,
- Arnd Bergmann <arnd@arndb.de>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Linus Walleij <linusw@kernel.org>, Drew Fustini <fustini@kernel.org>,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-doc@vger.kernel.org, soc@lists.linux.dev
-References: <20261117-at550-rfc-v1-v1-0-5879573cb825@gmail.com>
- <20261117-at550-rfc-v1-v1-6-5879573cb825@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v3 2/9] powerpc/secvar: Add missing kobject release
+ callback to secvar_ktype
+To: Ian Rogers <irogers@google.com>, Danilo Krummrich <dakr@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook
+ <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <chleroy@kernel.org>,
+        Nayna Jain <nayna@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>,
+        Yoshinori Sato
+ <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini
+ <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>,
+        Alexander Aring <aahringo@redhat.com>,
+        Felix Kuehling <felix.kuehling@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Zhihao Cheng <chengzhihao1@huawei.com>,
+        Sumanth Korikkar <sumanthk@linux.ibm.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev,
+        llvm@lists.linux.dev, linux-hardening@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-s390@vger.kernel.org, gfs2@lists.linux.dev,
+        xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+References: <20261108223913.3624571-1-irogers@google.com>
+ <20261108223913.3624571-3-irogers@google.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261117-at550-rfc-v1-v1-6-5879573cb825@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Srish Srinivasan <ssrish@linux.ibm.com>
+In-Reply-To: <20261108223913.3624571-3-irogers@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDAzMSBTYWx0ZWRfX6HgVMZTRPl85
+ Jn18W+xXyZCi92S6DV05FbfcOPNGJFHWP78E/tejMVWymJnqf6YRWa3lQfegmn4iFOJICQoFNbC
+ 8fh77AnL+jCvHbyG7D8dqSe73s/x570g9zzXuT6BEhlr8jl3r0noGCIl5NBmBZT3KVNvrFD+dKM
+ jmrjNQeA0euaud80lISJyfYHrs3jCYZTQa4ayAz9gFDK104eYk/TZg18Gqwd/J5Ixj5j5H+Mg2I
+ ON9WlD8PFML3ou1bPmQl5abk01ve2XueAz/SPNj8iUQ/gnppB0P6G6CBLt3MEDM4SwAoGy7KId5
+ yxw54L/3ILMaq2PyBoQpvOYAK35zGDxe3Y12powlrnXTOf7DqHPX9d2RKDcqN2WywfEZZZHqYGK
+ e0tqtovVEX+A89Y42Kz3zAXdwVaBquDU9m+1ZF0j3UqpHYy7om6XFvFQQwEB9vdTA/NhCTJnATW
+ AUOI0KD9i8Rc7/c3tuQ==
+X-Authority-Analysis: v=2.4 cv=HN9WhYtv c=1 sm=1 tr=0 ts=6afd5f1d cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=1XWaLZrsAAAA:8
+ a=VnNF1IyMAAAA:8 a=UWczDWbm3HpFH-zmGUoA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: f4vCixBvRS1iziYkzXDAyNtWHqcSULbu
+X-Proofpoint-ORIG-GUID: OYeOqBGP-BuxJLy49XGYjOXqV8575ClT
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDAzMSBTYWx0ZWRfX6D4JeSBiVpo/
+ 1SUsT7QUnarJqrFd/whI1VbYytmfTPlmOafAXSjzDWGt8A4WgXnRmkoTMU5NO0iqVRltJs6vVFH
+ VSWDbLyBnOCi2lpPYRK0hG7fndYLOWg=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-18_01,2026-11-16_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 suspectscore=0 malwarescore=0
+ adultscore=0 phishscore=0 lowpriorityscore=0 clxscore=1011 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611180031
 
-On 17/11/2026 14:06, yy-Local-LLM via B4 Relay wrote:
-> From: yy-Local-LLM <yogo.0917.sabu@gmail.com>
-> 
-> Add a minimal DT machine using standard IRQ, timer and simplefb paths.
-> Describe the SoC and the firmware-configured YPL514si display. Leave
-> usable memory and the divided counter rate for the bootloader to
-> populate. Keep optional peripheral nodes disabled until firmware hands
-> them over. Disable unvalidated board suspend; limit this board to SD PIO
-> at 25 MHz. Document the RAM-boot contract and the missing
-> cold-boot/clock-tree support.
-> 
-> Signed-off-by: yy-Local-LLM <yogo.0917.sabu@gmail.com>
 
-Awesome, you did not want to even read what LLM told you?
+On 11/9/26 4:09 AM, Ian Rogers wrote:
+> In add_var(), a struct kobject is dynamically allocated with
+> kzalloc_obj() and initialized with secvar_ktype. If kobject_add() or
+> sysfs_create_file() fails, kobject_put(kobj) is called to clean up.
+> However, secvar_ktype does not define a .release callback, which results
+> in a memory leak of kobj (and a pr_debug warning in kobject_cleanup()
+> when CONFIG_DEBUG_KOBJECT_RELEASE is enabled).
+>
+> Provide a secvar_release() callback that calls kfree(kobj).
+>
+> Fixes: bd5d9c743d38 ("powerpc: expose secure variables to userspace via sysfs")
+> Signed-off-by: Ian Rogers <irogers@google.com>
 
-Best regards,
-Krzysztof
+
+LGTM,
+thank you!
+
+Reviewed-by: Srish Srinivasan <ssrish@linux.ibm.com>
+
+
+> ---
+>   arch/powerpc/kernel/secvar-sysfs.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>
+> diff --git a/arch/powerpc/kernel/secvar-sysfs.c b/arch/powerpc/kernel/secvar-sysfs.c
+> index 395399bbab2c..f3f6ac25ea78 100644
+> --- a/arch/powerpc/kernel/secvar-sysfs.c
+> +++ b/arch/powerpc/kernel/secvar-sysfs.c
+> @@ -126,7 +126,13 @@ static const struct attribute_group secvar_attr_group = {
+>   };
+>   __ATTRIBUTE_GROUPS(secvar_attr);
+>   
+> +static void secvar_release(struct kobject *kobj)
+> +{
+> +	kfree(kobj);
+> +}
+> +
+>   static const struct kobj_type secvar_ktype = {
+> +	.release	= secvar_release,
+>   	.sysfs_ops	= &kobj_sysfs_ops,
+>   	.default_groups = secvar_attr_groups,
+>   };
