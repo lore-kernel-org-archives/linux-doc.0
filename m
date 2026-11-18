@@ -1,85 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.34.181.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794988190;
-	b=Fe5jtm3FpamOwm7tyycaPKzndpBdtyKwTbKAtbdKSc2NervQDg6WalPjL0bRNCpqaSOL
-	 VRKrV0aViMJfPKEkya/tJwCOTYx4EN5Ce9u28iCYiK1VyNH8m44/FXu1+PcBCvbpYJk3k
-	 enSAz3jDsw8R8/ZXg2cfVufUQfvsH1Oh8eaNSp8kQhARE80AwebLvU6h4BATJyQeiUdMA
-	 Ds6eVUoQ0K4DiJCDNcZiHw8Dza2E1Cr61br0itk8u6eG5vGNSbb0fy5XLHZSVPBQgKdIk
-	 QJvWux//YyxtgTV+GfHq9b+DHUZFHTnUBbSsKGNzJ/hK3t83Bc6vQUtNSaRyxqx6lSA==
+	t=1794988293;
+	b=TJ7CqOWvmYr63LDzI5CoIsHBnBBO4dEp274jO6gPVq7n+e+pd49lQg55Wj5k+OTmZPJa
+	 9TPMFT8P2V0d3eiaGC+DXScEGn6XCrR/qmt2LiTOvh/O7yjzjI5ZH0wZc2yFzJy9ZM8MJ
+	 DjY639GOboJAMp/wHJBXrhIzYuvsnQ1AShohww8m98U0Q1TLZmJEgcaOCdNSzbjItDzAm
+	 BX8gIVohsrMq9EaL2+HYq6PjWi8P6/x3cCb/9DmmvepbOYPqLfUP3yA+rMpoZ/HCgWK13
+	 aCzCvo4ktrAgnfup5O7mSLK5lE1iH5LGYW/FBFNn1rdY/ce24vl2fivzxjzTCfbtKtQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794988190;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
-	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=bkoESdRYxl9U+aKFr3D57OW3pCZJhVLHVeNl5Ly2gb8=;
-	b=wOxicTqetN+Nfeo99X2Lolf0ZBXXBLN/0YfwM09QM2a/qiUfsQYe5Kl0/zhmxRUj4Bvb
-	 kMeOaoDUa9Zlis3Fk1K3tsjDgqhJW0DolLKSTf22KMFoM7o6KkpxnbhzQgm00TUQrqpMV
-	 E6tZOnngDvdJty5XjkjTylgzLpsZEiFh8WIMCduvAXjgHlSj6uSSp1BXvpxUY3+sWfrTi
-	 ld74CLv1yud/vWvkjBmvJHgQeU5cHQH6w3hIjNWcFdCGkHwwNW0ytN0Hl73+OvY3itorz
-	 +omgtZ97pY9lM0vAet3K5UMpl3L7cJz7k2Gp9XecBX2FpsJJbwMwuh5ml1UzYwUY4Rg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794988293;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=r1RbWjqFm7axK1WA6d2qj68hL+HcVofiqBMMK2TnnVw=;
+	b=OO4Q4h3dxtzr4EARTMlcEu/JzNQXzu5X3cZJhk6YRrm9C5Ap4sUoAetUfhGP7P94H7i3
+	 VK7XcQDoNaO0xFiEQ1GZHBcp4puY+S8PeJhOzTks3CeRQRkXf2L4vFgkRXRnsEF7DKoXG
+	 hy9m4RbNFje81UMf1pbc4XZROBsSLZqgHJ3rQoN/kqnfATJsvn6Qxm2Dk4XHpU3HjKh89
+	 SJ/sdlUTsMaBeEa7S7GQ4eAQievSwqzkMPMoKdhpAGWOtedFEHFXU6tcaLZP3KPfMq3dU
+	 wyBxzrxzEm+mU3jpxpv21+BQQV5QtsJUibr1B1jL/i5Ui66FlXdQte8iCBz47gakjtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amazon.com;
-	spf=pass smtp.mailfrom=amazon.com;
-	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=lRNfWbq3;
-	arc=none smtp.remote-ip=52.34.181.151
-Received: from pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.34.181.151])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LUoPGOVC;
+	arc=none smtp.remote-ip=209.85.214.181
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25735606A31C;
-	Wed, 18 Nov 2026 07:49:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25735606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2CC606A334
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 07:51:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC2CC606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=lRNfWbq3
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LUoPGOVC
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2efc4a84e75so31155ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Nov 2026 23:51:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1794988190; x=1826524190;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=bkoESdRYxl9U+aKFr3D57OW3pCZJhVLHVeNl5Ly2gb8=;
-  b=lRNfWbq3moSDygnO3bZWqBDCEVp1KHKVWPvRF4mTZYWWy0/4nA9oEdkD
-   xi/icK05zN5sJd7XsZZXKRXO0Yr4lqvuG7d1i3Jpda07b8K/9vjayNAWH
-   SVDfd2Gw52KWAJsQfQHW4tywpx8RgY+8qnDpZgKloi7fRhFioxRQWLyyk
-   /gmgC5Azq+Gwe4Luih20VoRY86W6K2nPs2MauaWffANLyRhimGcRXvbkG
-   vMOP2XFoX61f6qsJWqv1wgws2HfsS9OLBYnZEqjFaPidInM1btBTq32dH
-   D9LdtSuEeEMAQ4u48q2RrMvCSQBAvFquvKtUhYvLfqgdDA0TgcEDuhaMd
-   w==;
-X-CSE-ConnectionGUID: cKI70s/ZQSqAIYmy5NAEQQ==
-X-CSE-MsgGUID: 7jL979ZdTGq4XphSGNKZBw==
-X-IronPort-AV: E=Sophos;i="6.27,219,1787011200"; 
-   d="scan'208";a="34415360"
-Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 07:49:38 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:15939]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.50.212:2525] with esmtp (Farcaster)
- id 56a30b5d-85c7-415b-ac6e-094fc94bf93c; Wed, 18 Nov 2026 07:49:37 +0000 (UTC)
-X-Farcaster-Flow-ID: 56a30b5d-85c7-415b-ac6e-094fc94bf93c
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Wed, 18 Nov 2026 07:49:37 +0000
-Received: from dev-dsk-surenkj-2b-416930d2.us-west-2.amazon.com (10.169.26.94)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Wed, 18 Nov 2026 07:49:37 +0000
-From: Surendran Kanagaraj <surenkj@amazon.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>, Peter Huewe <peterhuewe@gmx.de>
-CC: Jason Gunthorpe <jgg@ziepe.ca>, <linux-integrity@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
-	<linux-doc@vger.kernel.org>, Jonathan McDowell <noodles@earth.li>, "Breno
- Leitao" <leitao@debian.org>, <nh-open-source@amazon.com>, Alexander Graf
-	<graf@amazon.de>, Gunnar Kudrjavets <gunnarku@amazon.com>, Josh Levinson
-	<joshlev@amazon.com>
-Subject: [RFC PATCH v4 8/8] tpm_crb: Raise the limits for Amazon NitroTPM
-Date: Wed, 18 Nov 2026 07:49:04 +0000
-Message-ID: <20261118074904.60624-4-surenkj@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261118073852.81107-1-surenkj@amazon.com>
-References: <20261118073852.81107-1-surenkj@amazon.com>
+        d=google.com; s=20260707; t=1794988292; x=1795593092; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=r1RbWjqFm7axK1WA6d2qj68hL+HcVofiqBMMK2TnnVw=;
+        b=LUoPGOVCxwIAV8eWwoj8F3n1uK5UqmtzFRao+C0cCZUHq9IsJxO9vTwDbY2zSYPI8p
+         1qfumvCJfVUCN5vKDO1spF1y7T91lMRReIpLQbHWsxPfGc/nbjXdqXvs2CQUZLMzNBj1
+         aBFV1zfO2nYpMyw6C7gOvO9658HCrQbGItVnradArYhcMNZoTKTZ7QcGuKxMwyE4Bb+7
+         V4gS2B6y5+UoHy28L9hMkvKhoYBVR1FS3LZ1S/Ut9d5YoLGHmEwTuoPwPJ4bqAArFBGs
+         vHIkUJrjVYAoPkaNmVt9+FCPEOvYIHehWIWX3F+AosUqz6qs8XVD1oxRPHrsGj44E7gx
+         Y5NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794988292; x=1795593092;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=r1RbWjqFm7axK1WA6d2qj68hL+HcVofiqBMMK2TnnVw=;
+        b=k9zIahc0N2gMYgYK1ErKSGRUXHvHf7gh99xPYYXivB8ao1NA6BWSaFylfRR4p4Fw5P
+         Gusj0I1ona9+L8qC7cUGssltTSMGrE+BoJ11KSy8CHbvnOnNuS8hkhao21L6RW04GXwS
+         onGHWZYucK07le1w00WGCCeGy/sejKFR6VDy/Vi05xsPW4KLmeaPO3sxJaXqi3Jafc9Z
+         nUKBbFD1bNgrwyFbR8hp5l7twtcskbI71vGWhW6+dkYTVCIEk5j/X0VQQHcIiIOZJwzS
+         vS7ke2D7zrbw1ZAkSCL4vSbO2eJcFG0QV3UBfS80YAOnG+eSLxr275yfrAOww9uPUmkH
+         4hww==
+X-Forwarded-Encrypted: i=1; AL+hErEDIFel8ULCB6y++IJS1gj44KD2c8vT2FJ0RipohvEOWMjH61onzAcvQCroKVa6Tnha2Ptj2zapSZ8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9uqIN70JMLhvhRw9ZKd3WDrcZYISqto77sw8ng8v9u7QtXQA/P
+	j+lWRbCFtBpDDFQfNA5+/WL47O0pNy6YF1Gv6OPW8vzfKdEQbJ4Ri0i5Kkz7RKqwtM5Ut9PZKPp
+	vg4be/Vaa
+X-Gm-Gg: AZFdTZf81hhYXAEbqHei8MjYemhTnYxBiucaUV1ld+fPQt316YKVaovQKmcOVZB9e2c
+	zzUM/3qHR+tJvAdEsMnczQqO/hwYJP3YhcMpJtMm9rAt3hmEt2kqGdlRKV5ScFZ3y/E72Pl9lMG
+	BVYltEly7uPqTl7fq9FBDmFvcYc5t7RFkV76J+U88uT6UBCjy0DMEPj0WNkux90DHRspR9kZe6o
+	4Fe2ccokhNB85+7pHEoOLb5QFM6YVYO/A2t3TwBjiL+HdG1NV3ti0F8ews/9OmePdChWFaWyaNN
+	TWBzPVyML/Lw3dmeMFA3ur4qX5V2a9f3mBGAbEUVn7KglAl1+OwG/2qMEUMvsNOQPoctm1omYgQ
+	UktDkGzglOqpkfH/QgihBr9TNMHlLJkSZAbk9sLxxcmEjJmapmK0k0NdnBUJ/lFb0ggze+HTcJT
+	AtYet4BLjrDaCAL27xprJrWRkEu9v1fq53shn806XdUdN/Fem/LgVT1y0wUmTNooWLlKNW5WJIH
+	1EQokPQAg4mUZOhcd/Hbcj7zpAzIxSjjvbrfFZGruqzlm7mIo0eezzODg3Ue5OsO+YFDt7SeLMg
+	RRethR8RAEM0RQo/BTa1Js1rcygoVZJlUP6ZVzv/ckQqEKuiFpjRWDMPFt4V5wXJwg==
+X-Received: by 2002:a17:902:d544:b0:2e6:d25:d874 with SMTP id d9443c01a7336-2eff98d30f9mr2984215ad.10.1794988291451;
+        Tue, 17 Nov 2026 23:51:31 -0800 (PST)
+Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b3d56ab352sm1000229a91.2.2026.11.17.23.51.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 23:51:30 -0800 (PST)
+Date: Tue, 17 Nov 2026 23:51:26 -0800
+From: Vipin Sharma <vipinsh@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, linux-pci@vger.kernel.org, ajayachandra@nvidia.com, 
+	alex@shazbot.org, amastro@fb.com, ankita@nvidia.com, apopple@nvidia.com, 
+	bhelgaas@google.com, chrisl@kernel.org, christian.koenig@amd.com, corbet@lwn.net, 
+	graf@amazon.com, jacob.pan@linux.microsoft.com, jgg@nvidia.com, jgg@ziepe.ca, 
+	jrhilke@google.com, julianr@linux.ibm.com, kees@kernel.org, kevin.tian@intel.com, 
+	leon@kernel.org, leonro@nvidia.com, lukas@wunner.de, mattev@meta.com, 
+	michal.winiarski@intel.com, parav@nvidia.com, pasha.tatashin@soleen.com, praan@google.com, 
+	pratyush@kernel.org, rananta@google.com, rdunlap@infradead.org, rientjes@google.com, 
+	rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com, schnelle@linux.ibm.com, 
+	skhan@linuxfoundation.org, skhawaja@google.com, vivek.kasireddy@intel.com, witu@nvidia.com, 
+	yanjun.zhu@linux.dev, yi.l.liu@intel.com
+Subject: Re: [PATCH v6 11/27] vfio/pci: Retrieve preserved device files after
+ Live Update
+Message-ID: <20261118065653.GE2250529.vipinsh@google.com>
+References: <20261102153656.1431701-1-vipinsh@google.com>
+ <20261102153656.1431701-12-vipinsh@google.com>
+ <DMOAT4VV939P.2DI8CEOMMSKMY@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,123 +111,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWC002.ant.amazon.com (10.13.139.212) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DMOAT4VV939P.2DI8CEOMMSKMY@google.com>
 
-In rare scenarios NitroTPM can enter a mode where it either sends
-TPM2_RC_RETRY for longer than LONG duration or delays
-command completion for longer than the TPM 2.0 durations allow.
-When this happens during auth session start, the driver disables
-the chip and every subsequent request fails:
+On Fri, Nov 06, 2026 at 05:19:28PM +0000, David Matlack wrote:
+> On Mon Nov 2, 2026 at 3:36 PM UTC, Vipin Sharma wrote:
+> > During retrieve():
+> >  * Validate the handed-over struct vfio_pci_core_device_ser header,
+> >    sizes, and flags.
+> >  * Locate the registered vfio-pci device matching the serialized domain
+> >    and BDF (requiring device->ops == &vfio_pci_ops) under the device
+> >    lock. vfio-pci registers the vfio device before its probe completes,
+> >    and the probe holds that lock, so a device that is still being probed
+> >    is not returned.
+> [...]
+> >  * Open and return an anonymous VFIO cdev file via
+> >    vfio_device_liveupdate_cdev_open().
+> 
+> Here's an idea for how the device file could be created on retrieve,
+> which I'd like to hear your thoughts on.
+> 
+> The patches from Pasha at [1] lets userspace pass a
+> file-handler-specific argument to LIVEUPDATE_SESSION_RETRIEVE_FD. In the
+> next version of the tmpfs series, I'm planning to use that to have
+> userspace create the file and pass it in the argument, and the kernel
+> then restores the preserved file into it.
+> 
+> I wonder if VFIO should work the same way, e.g.:
+> 
+>   struct liveupdate_vfio_retrieve_arg {
+>           __u32 size;
+>           __s32 fd;
+>   };
+> 
+> Userspace would open /dev/vfio/devices/noiommu-vfioX itself and pass
+> the fd. retrieve() would check that it's an unbound vfio-pci cdev file
+> for the preserved device (domain/BDF, noiommu, incoming, cfg_size),
+> attach the incoming state to that file, and LUO would track that file
+> as the retrieved file. VFIO_DEVICE_BIND_IOMMUFD would then take over the
+> device as it does now. Since VFIO preservation is new, the argument
+> could simply be required.
+> 
+> I think this could get rid of some of the special handling:
+> 
+>  - There'd be no need to fake a cdev open with an anonymous inode, so
+>    PATCH 09 and PATCH 10 could probably be dropped.
+> 
+>  - retrieve() wouldn't need to look up the device by BDF, or reason
+>    about racing with probe under the device lock. If userspace was able
+>    to open the cdev, the device is registered and probed.
+> 
+>  - The device file would be opened through the normal cdev path, so the
+>    usual permission and LSM checks on the device node would apply.
+> 
+>  - It would be the same model across file types.
+> 
+> A few things I think would need care if you go this way. The file check
+> and the attach would need to happen under dev_set->lock so they can't
+> race with a concurrent VFIO_DEVICE_BIND_IOMMUFD on the same fd. And the
+> incoming state should probably be tied to that specific
+> vfio_device_file rather than just the vdev, so only the file passed to
+> RETRIEVE_FD can take over the device.
+> 
+> It would also change PATCH 12. Opening the cdev of an incoming device
+> would have to succeed, so the check would move to the first open of the
+> device instead: fail with -EBUSY if the device is incoming and the file
+> being bound doesn't have the incoming state attached. That one check in
+> vfio-pci would also cover VFIO_GROUP_GET_DEVICE_FD, which opens the
+> device right away, so vfio_liveupdate_incoming_is_preserved() and its
+> dev_is_pci() special case could be dropped from the VFIO core.
+> 
+> The next tmpfs version will also add a way for a file handler to say a
+> failed retrieve can be retried, and a helper to claim an existing file
+> before restoring into it (so a file LUO already manages, e.g. one that
+> is preserved in an outgoing session, is rejected). Both seem useful
+> here too, e.g. so that a mistake in the argument (wrong fd, an fd for
+> another device, an already bound fd) doesn't make the device
+> unretrievable. I'll Cc you when I send it, and I'm happy to share the
+> branch before then.
+> 
+> What do you think?
 
-    tpm tpm0: in retry loop
-    tpm tpm0: tpm2_load_context: failed with a TPM error 0x0922
+Overall, I agree with the strategy. I think VFIO cdev retrieval should
+happen as the flow you mentioned above. I want to hightlight two things:
 
-Add an ->adjust_limits() hook to the CRB driver that reads the vendor
-ID from the interface ID register. For NitroTPM, raise the SHORT and
-MEDIUM durations to 30 s, which covers the longest unavailability with
-some headroom, and LONG to 45 s. With the back-off doubling from 20 ms,
-a 45 s LONG duration lets the driver resubmit a command for about
-40.9 s, so the retry loop covers the entire unavailability window.
+1. This will lead to lot of code changes happening in vfio core. This
+   means VFIO PCI live update code change will spill in vfio core.
+   Should I create a config VFIO_LIVEUPDATE for VFIO core code. It will
+   not be visible menuconfig option but selected when
+   VFIO_PCI_LIVEUPDATE is enabled.
+2. List of other inflight series that this series will depend on is
+   increasing. It will be 3 (reset function, pci saved state, and
+   restore into fd).
 
-These are upper bounds, not expected waits. A command that completes
-sooner ends the wait as soon as the poll sees it. Add TPM_VID_AMZN
-next to the vendor ID list in tpm.h.
-
-Tested on an EC2 instance with NitroTPM by inducing multiple
-unavailability windows with no TPM errors, and in QEMU with swtpm by
-holding the TPM in TPM2_RC_RETRY and stalling command completion for
-longer than 2s.
-
-Signed-off-by: Surendran Kanagaraj <surenkj@amazon.com>
----
- drivers/char/tpm/tpm_crb.c | 37 +++++++++++++++++++++++++++++++++++++
- include/linux/tpm.h        |  1 +
- 2 files changed, 38 insertions(+)
-
-diff --git a/drivers/char/tpm/tpm_crb.c b/drivers/char/tpm/tpm_crb.c
-index 5f29eabf2413..81e6593911dc 100644
---- a/drivers/char/tpm/tpm_crb.c
-+++ b/drivers/char/tpm/tpm_crb.c
-@@ -13,6 +13,7 @@
- 
- #include <linux/acpi.h>
- #include <linux/highmem.h>
-+#include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/rculist.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-@@ -26,6 +27,14 @@
- #define ACPI_SIG_TPM2 "TPM2"
- #define TPM_CRB_MAX_RESOURCES 3
- 
-+/* TPM_CRB_INTF_ID_x vendor ID field, bits 47:32 of the 64-bit register */
-+#define TPM_CRB_INTF_ID_VID(intf_id)	(((intf_id) >> 32) & 0xffff)
-+
-+/* Longest NitroTPM unavailability, with some headroom */
-+#define TPM_CRB_AMZN_LIMIT_US		(30 * USEC_PER_SEC)
-+/* LONG also bounds the retry loop: 45 s lets it resubmit for 40.9 s */
-+#define TPM_CRB_AMZN_LONG_US		(45 * USEC_PER_SEC)
-+
- static const guid_t crb_acpi_start_guid =
- 	GUID_INIT(0x6BBF6CAB, 0x5463, 0x4714,
- 		  0xB7, 0xCD, 0xF0, 0x20, 0x3C, 0x03, 0x68, 0xD4);
-@@ -662,6 +671,33 @@ static bool crb_req_canceled(struct tpm_chip *chip, u8 status)
- 	return (cancel & CRB_CANCEL_INVOKE) == CRB_CANCEL_INVOKE;
- }
- 
-+/*
-+ * Read the vendor ID from the interface ID register. Returns -ENODEV when
-+ * the head registers are not mapped for this start method.
-+ */
-+static int crb_vendor_id(struct crb_priv *priv)
-+{
-+	u64 intf_id;
-+
-+	if (!priv->regs_h)
-+		return -ENODEV;
-+
-+	intf_id = lo_hi_readq(&priv->regs_h->intf_id);
-+
-+	return TPM_CRB_INTF_ID_VID(intf_id);
-+}
-+
-+static void crb_adjust_limits(struct tpm_chip *chip, struct tpm_limits *p)
-+{
-+	struct crb_priv *priv = dev_get_drvdata(&chip->dev);
-+
-+	if (crb_vendor_id(priv) == TPM_VID_AMZN) {
-+		tpm_limits_driver_set(p, TPM_LIMIT_SHORT, TPM_CRB_AMZN_LIMIT_US);
-+		tpm_limits_driver_set(p, TPM_LIMIT_MEDIUM, TPM_CRB_AMZN_LIMIT_US);
-+		tpm_limits_driver_set(p, TPM_LIMIT_LONG, TPM_CRB_AMZN_LONG_US);
-+	}
-+}
-+
- static const struct tpm_class_ops tpm_crb = {
- 	.flags = TPM_OPS_AUTO_STARTUP,
- 	.status = crb_status,
-@@ -673,6 +709,7 @@ static const struct tpm_class_ops tpm_crb = {
- 	.cmd_ready = crb_cmd_ready,
- 	.request_locality = crb_request_locality,
- 	.relinquish_locality = crb_relinquish_locality,
-+	.adjust_limits = crb_adjust_limits,
- 	.req_complete_mask = CRB_DRV_STS_COMPLETE,
- 	.req_complete_val = CRB_DRV_STS_COMPLETE,
- };
-diff --git a/include/linux/tpm.h b/include/linux/tpm.h
-index b88c7b133bdd..6d90861a1047 100644
---- a/include/linux/tpm.h
-+++ b/include/linux/tpm.h
-@@ -214,6 +214,7 @@ static inline enum tpm2_mso_type tpm2_handle_mso(u32 handle)
- #define TPM_VID_STM      0x104A
- #define TPM_VID_ATML     0x1114
- #define TPM_VID_IFX      0x15D1
-+#define TPM_VID_AMZN     0x0EC2
- 
- enum tpm_chip_flags {
- 	TPM_CHIP_FLAG_BOOTSTRAPPED		= BIT(0),
--- 
-2.47.3
-
+For '2', should I send v7 without changes you are recommending in this
+patch and future version of this series can transition to the approach
+you are suggesting after LUO changes are landed. VFIO liveupdate series
+will go through more iterations, so we will have opportunity to make the
+change. WDYT?
+> 
+> [1] https://lore.kernel.org/kexec/20261103010216.3447716-1-dmatlack@google.com/
