@@ -1,128 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795023130;
-	b=QVfM4uz5tV53ciuTjiAiZ02m6EWWfmEWyTQNt8Zqc7pe500l4jHlL2AwMkGp6M8NK55Q
-	 /dx4NLEtdh2vEG4BxFKbFbVR/rykT+fTqgUI2STW2EEn+J01YT7nmTSi20NBKHsAi10TR
-	 guyvLBSwwpfcjEfJzHv/G29Q3DlS3n0QfRMVPe/qi2Ap+F3s+gqzuCHxSsnZUk4sw1+Vb
-	 9Fn8jKOFG+MRSEoG63hLwTJ9ing9OQItYDcBAh+jVBadteCcvjNmNkIVRMWWje++mCb5Z
-	 hr7vdgAwLF32jewjLnYFj/WPIgOehg6lCASJvdulsnYiKoraxlop6lAx3NEt1qCX4Sg==
+	t=1795023558;
+	b=FOcbF1wJR9j8xpA7cofSsUY2UBf7UL22n7e9AJ6bqawCgf2uwDtYLWz6eKQoIqL/L3/z
+	 fre64BEKRuV8PlrqFBpYU22FkI/YkRnFkZVdFn51cvEU5co3rt8MO7YnHP3TFbByWe2y8
+	 cWRqyEWmsEXYxrhvt6qC/nT1txd8M5uLnl47IMb/mJ2kGAIvZe0xJWZDPO2mNmtlz//k0
+	 SCLzTa/meEw5IIYE+SVwjKZJjn5JDfSILZn5Gzq3Gi+WO9NwJD/Vqr6BCZI2ElT2W2LKr
+	 iGKyN8euxP70sGOFP9BIfHKRXfOhyfxTocb7Hb8nd9Ja0vikBZLoo3f/O0lfN8eYxLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795023130;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
-	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=sIHU3OVQcJmZgw72w0jml0JK+bFdjHCcLJtdZKnwGXA=;
-	b=qK/uD/iN4TnC1H79sKmOTO6eNY3prbVIj33pHZPSaz2MwogOy8ulpWiQ5SESYnr4o/GJ
-	 JW3RhlgtMgZo/X02KXPQipx8b5sRcbvnUdfow8AvDwzWASk5i/zUVIVCl/8XwSW5+t0j3
-	 ys/tMsDTjvXpuq5u9FzpQBzM6zgaIdvmBvqraQXPh6IAmNY4+6iZsPrzLXTFOQBXJADRT
-	 NgLglHMQRX483zbxZLAPh1ADk1i4M+A/IbWZlJl1ToYOt7KQjXqLC7x53EM1LrpowCSsT
-	 Pg4+1fIVOxtHMSGtdg6fXkR/coJGeIprMGMrZDl35NEbBo8fURcScXUBm5levgVXDdw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795023558;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=xAcgPMTJEReMCd2gp7JdMZhRq7Vy/sK0KQgL6Ave2gA=;
+	b=QqQv0zO2fqdWQRUVdkunYw4TC0jmMy9eX9P2VCjaQrv86eGg8xm143ObthAQzSolDezN
+	 QUFabz4M98xso2v1QGngooBSQ8fxP+RjPKjnzF1erlviznBpopdB37YuWtZY43V0rFO7d
+	 +kSWWxFVOmtXuDAjYLLRAjSCJ2XlQgzio9V5DTKzmmyuy3LfcmtRmZy5UNhH+R9gAZ7hN
+	 8Ke+UZ5hY3FZQ2oHt0ImvN/+9Nu+myKP7Kuy+GFrZIUh6ODiCJ610W7A3ijHJw2zTJHna
+	 Smng0yrKB+LqAy43zXbvJAU6fjLLqTIaN+OiRV/2DkdpBdk/4Ms9KrKvHdSuhRBlx8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pFkwc1Iy;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=DYmHiRSY;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dmarc=pass header.from=igalia.com;
+	spf=pass smtp.mailfrom=igalia.com;
+	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=nYH9lPDk;
+	arc=none smtp.remote-ip=213.97.179.56
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF53606A32A
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:32:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFF53606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781F7606A32C;
+	Wed, 18 Nov 2026 17:39:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 781F7606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pFkwc1Iy;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=DYmHiRSY
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIHGBOb2745611
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:32:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	sIHU3OVQcJmZgw72w0jml0JK+bFdjHCcLJtdZKnwGXA=; b=pFkwc1Iyuzm6QtDB
-	jpsJ240F2OsnqEDyuEM9eL3utOmm39sagvXqEk1Sui825XGU+BgTf1jsT4Y7HC+K
-	USyfrnC+eNY7LltVz+nv00s5wEZXbWjT2SmSF+TAEMe+cClCjyR1Jnl1q7OZnPZc
-	kghsxF/P/OH3kEMGdkapkioydXTlexe4fLYVy+xli5AwkPdTLhdcKUXKOPpLT9zJ
-	xet04GqFXxPV6kHKKudVoccNsnXfRXGcCsD1Qgna+TdHOU3WczSnxzjz5H9jQozY
-	P/T+GbLcRBg+RbhjISf2YB45doJUOSzNg9Ud7jKvNdEgPCMoBTi1lemTxk2KpLjW
-	7CVkQw==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j1fpng8rf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:32:08 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-381dc4b8f40so1496376eec.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 09:32:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795023128; x=1795627928; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=sIHU3OVQcJmZgw72w0jml0JK+bFdjHCcLJtdZKnwGXA=;
-        b=DYmHiRSYvGa2j/22qQPBU9+R5TD5sWvJIIIVr5F+SB5O4QEgrasJwlNCufAQNX5UYm
-         Di9n8427xArfRH5XDC/JwjgYuubvauN4/JOdcEN5yu8+V/ohV1EPiXx1PKCzgPbUcPy6
-         /qsRsrMqntNskxqVbz4r0pXp2KhDmtOZ9spCNhJCRYtlKjiyoNg+7MIRBdT4bCTyHABH
-         5PQixdrsoziVV+5/hSbwOsGg1kqqHF04UA2mzVSCI8InkAANxJRvab5tciu/mA1rWEjB
-         NoVVRBzV+JfDE0PbC/y/TcHFpT9B4CbZuv9BYQLH42rDnlSpn+gM/yv/gKc4GldeC2g6
-         KyzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795023128; x=1795627928;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sIHU3OVQcJmZgw72w0jml0JK+bFdjHCcLJtdZKnwGXA=;
-        b=NAvM1DHQH+aRaJTV2J6OtK6PuCj3DnYOHKEYk5se4MbD0fAFzZNl11JtMdS4GBCagQ
-         xV8LCGcrEtbehr4DkZvolcHxcHf1TFVMX5yuaOGwGT+Uvq86pxsbJ4YbuARSIQat7Gck
-         NlTBPdhaAlHSkNLx2hHfmdRT93fy6d16PqtS2mIPf9CesvGp3m7ns592g20mlFWKUPBp
-         Zoy7OQD9vB4abAKPpZzGup4xXAERrBT77WRZI7HkCdAd+bJLSEhPSza+aiiv5ti5WQ0/
-         HUNNO2paAUIp1C7dJQ3H+fRoqdsKc3+JPxbJPqilAe1siaYUCOZaf9WAWprNj2Kq6s8a
-         Ko/A==
-X-Forwarded-Encrypted: i=1; AL+hErH8gAjdI0sPZYnlCJu5wxNOnuPB/mSAkBI1KrBrk7y+bxSox6QKbj6GBHR49bXJgQRv2zand7tvaKU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/MME+nXGwpK7tX1+aWPRmu0s+TZQ+JMR518udhVtZRqRG2beMz
-	P9BRvuTPbcKRGLCzcqKh2pnOs3DCOF/L/X+TasI3x8pR1R+GKwmKn4ulsgVE1nFRQw+6OXP0HKA
-	TmtOTXtjF+hFcNqrFKKPZF6DCGSGJK8F1KuEGX10ugo131vPIqBmaMayTvsYl9ts=
-X-Gm-Gg: AZFdTZdzEcB5CuKGFHb5O+PidPqY5Br2bnMU4o0OaAzxu0m0W4P5Zm0n42KDTiWQr6D
-	tSeA+yjwOIm/JppZKm01fFGoroFXOoYe7kcoqFcmXZJ0PmxTZsoji6VexC2BORTU5CO2whqTEWT
-	9A7hloDjAI++lEq8ziZkDEWR3LxZ0tvJUbaxPhvIdi9G/GsTgbFmiwS9fAT8cJhdvhtNQPbIdNv
-	d8P3Ywd2bRSfg2SFDjOCGM0K0Jcs1C9rnQlBEsDOKPXCDTR9qhiyTiZqvrJBDTRQTcBzOwc+e+c
-	mgHeC466wGCSxXBITu76/r/mfQeyYuhzRzNNxUaD5Yyhq9rh/+YJqa721trezKRfNyecwXv7I1K
-	Qbuip604J0m9NrCkLnkIrGrdZEFjyXSnjWJM5rde0zAr+kFyIX+2zt2ZWmug/S5ouA15MVehMZi
-	Gh5UgIu5OO+BWjc1YLzCugH+ItwIig
-X-Received: by 2002:a05:7300:d210:b0:380:f8fd:d19c with SMTP id 5a478bee46e88-3828181369cmr3425931eec.35.1795023128078;
-        Wed, 18 Nov 2026 09:32:08 -0800 (PST)
-X-Received: by 2002:a05:7300:d210:b0:380:f8fd:d19c with SMTP id 5a478bee46e88-3828181369cmr3425903eec.35.1795023127474;
-        Wed, 18 Nov 2026 09:32:07 -0800 (PST)
-Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a63059e3sm13849129eec.5.2026.11.18.09.32.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 09:32:07 -0800 (PST)
-Date: Wed, 18 Nov 2026 09:32:03 -0800
-From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
-        linux-doc@vger.kernel.org, james.quinlan@broadcom.com,
-        f.fainelli@gmail.com, vincent.guittot@linaro.org,
-        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-        d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
-        philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
-        leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
-        usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 00/35] Introduce SCMI Telemetry support
-Message-ID: <20261118093203.000069f1@oss.qualcomm.com>
-In-Reply-To: <20261118-poetic-robust-raptor-bcff2b@sudeepholla>
-References: <20261109091221.2532706-1-cristian.marussi@arm.com>
-	<20261117170709.00002088@oss.qualcomm.com>
-	<20261118-poetic-robust-raptor-bcff2b@sudeepholla>
-Organization: Qualcomm
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (2048-bit key, unprotected) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=nYH9lPDk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:From:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:From:Reply-To;
+	bh=xAcgPMTJEReMCd2gp7JdMZhRq7Vy/sK0KQgL6Ave2gA=; t=1795023557; x=2110383557; 
+	b=nYH9lPDkJs243EA4mFrtaYwNBWIoh4YHhXgOyj+zB1mK/h/yJ5cdD8+VgRfqFK2KMjB7IAHY2YV
+	sDjcOilaW/ZWej5WAdvHFGELsrGwZRjUPL/v8liTvFF/ADkhgroImxnZ2mvh6qQKKlK1p+MxAPhTm
+	hXaPkTRSqLoXOrrSJMvPW4mDaqK7rUB/STrHdjaoypN56srkbE2sTikzICZN5xAhvRRxgb9Y9OPA2
+	n4Yk5DdthJdJfg9dFQLCs5/ZvHloxvag2uaqi51cUKdLMT1H9emxluBGHyyxHdfrxWR4WMFwR5Tqn
+	+JTxiuuGirwCWo6j/5dSY+BKfiWn8ttHa1lQ==;
+Received: from [179.105.94.163] (helo=[192.168.0.4])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1xTjcl-000000017le-0NqJ;
+	Wed, 18 Nov 2026 18:39:11 +0100
+Message-ID: <1b78ef4b-011e-4174-800e-425c94fddf3a@igalia.com>
+Date: Wed, 18 Nov 2026 14:39:05 -0300
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -132,139 +58,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-GUID: pAgDOVyuM3X0mNTdQkkuI-cU0lJBpiOS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA2OSBTYWx0ZWRfX/61C5ZckEBKW
- Is6TOiw3FPBffEwEDKAp+oxi3MIUtRyJshTpZlSJ2T2FdavUKnvt1oDD1aA4DdBaIjexikFH2HZ
- fwpdLAH70CJ2GGEfVMwxwiFmWlCq3WwZ8rore2s3zV1PjNAjw09VkCt9JQdOK//cwmRIzijYikH
- faIQ5FigDH+h3Grzl5WihtP8St+ZN86O5SZEDN8tqNQM+qLSqOIEwCi2dY4QBvcjxEh2Ro1gZfN
- WLBeIR0AovTgO/BPe5++vrOl9j9GwLU4Bms54gye3jMx2qdh2EhGun5GaoewKng9/bHMLnnKTuW
- rYAIVV4/ZxYQsmitBd+F8DnJZ9ZVJI0OGcpnwcadLC44ED4Kt3kqn5i8V/xv9rmnqxf6pHnRdrD
- 5BCmGR9wNdNtC4vqBj9/UdYdtb0k8QSsm04VgItasaEJ0MpGo6jzmLnSzU5UHhTIPAsk9/5mKVz
- hOK/or4jXaeF8IrU4zA==
-X-Proofpoint-ORIG-GUID: pAgDOVyuM3X0mNTdQkkuI-cU0lJBpiOS
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA2OSBTYWx0ZWRfXwfBc5AGxcEmA
- mWr7i9R2InjKH3AnDLxvbz9PDESk00LG+rTCLCT0uezQbJuv85vNWQg0VYfSUfkAkK6zqD/k2WT
- xiqAjccJCZLMDJ6GLQ08cFSgdR3rpBQ=
-X-Authority-Analysis: v=2.4 cv=PJ6aavqC c=1 sm=1 tr=0 ts=6afde118 cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=VwQbUJbxAAAA:8 a=7CQSdrXTAAAA:8 a=ZJvAkwxlLmQLexqbkCwA:9 a=QEXdDO2ut3YA:10
- a=PxkB5W3o20Ba91AHUih5:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-18_05,2026-11-16_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0
- priorityscore=1501 phishscore=0 spamscore=0 adultscore=0 impostorscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611180069
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/2] drm/sched: Add drm_sched_entity_get_runtime()
+To: phasta@kernel.org, Sidong Yang <sidong.yang@furiosa.ai>,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ ckoenig.leichtzumerken@gmail.com
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>, Heiko Stuebner <heiko@sntech.de>,
+ Gyeyoung Baek <gye976@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261112171144.3151554-1-sidong.yang@furiosa.ai>
+ <20261112171144.3151554-2-sidong.yang@furiosa.ai>
+ <34494226eb920bdbd7f3257ef6f9b20f4e8ffd6a.camel@mailbox.org>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Content-Language: en-US
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
+ /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
+ gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
+ SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
+ G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
+ AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
+ dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
+ P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
+ O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
+ GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
+ 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
+ FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
+ TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
+ Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
+ 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
+ LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
+ T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
+ wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
+ zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
+ it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
+ Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
+ uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
+ raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
+In-Reply-To: <34494226eb920bdbd7f3257ef6f9b20f4e8ffd6a.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 18 Nov 2026 09:33:44 +0000
-Sudeep Holla <sudeep.holla@kernel.org> wrote:
 
-> On Tue, Nov 17, 2026 at 05:07:09PM -0800, Jonathan Cameron wrote:
-> > On Mon,  9 Nov 2026 09:11:46 +0000
-> > Cristian Marussi <cristian.marussi@arm.com> wrote:
-> >  =20
-> > > Hi all,
-> > >=20
-> > > [TLDR Summary]
-> > >  [V15 highlights]
-> > >  - general cleanup and hardening driven by reviews
-> > >  - improved TDCF access routines to minimize lost samples under load
-> > >  - completed ABI docs
-> > >=20
-> > >  [V16 TODO]
-> > >   - address any remaining V15 outstanding Sashiko/reviewers issues
-> > >=20
-> > > The upcoming SCMI v4.0 specification [0] introduces a new SCMI protoc=
-ol
-> > > dedicated to System Telemetry. =20
-> >=20
-> > This is one from the family of issues you find when reviewing ones own
-> > (well LLM generated) emulation, realizing it doesn't match the spec,
-> > and yet works.
-> >=20
-> > This works fine without the required SCMI protocol property in ACPI.
-> > 2.2.2 of ACPI for System Control and Management Interface 1.0
-> > Platform Design Document. 111115A 1.0
-> >=20
-> > Now, in here is an informative statement...
-> >=20
-> > Protocols not listed using a property may not be enumerate by the opera=
-ting system.
-> >=20
-> > But they are...=20
-> > =20
->=20
-> Correct, I intentionally left that out. I do have a patch that restricts =
-it
-> strictly to the listed property. However, I held off on pushing it becaus=
-e of
-> an issue we saw on an internal test platform.
->=20
-> On that platform, the firmware advertised the protocol to the OSPM via the
-> base protocol, even though it wasn't functional at all. Once they realized
-> this, they simply dropped the entry from the ACPI SCMI device as a workar=
-ound
-> instead of properly fixing the base protocol discovery. While understanda=
-ble,
-> relying on that workaround delays proper firmware fixes.
->=20
-> That is why I went with the non-mandatory "may not be" wording. I am happ=
-y to
-> merge that restriction patch if a real production platform actually needs=
- it,
-> but until then, leaving it open helps catch and fix broken firmware
-> implementations =F0=9F=98=84.
 
-You can't merge it safely as at a later date because chances are high
-someone is relying on the current behavior and not presenting that
-(currently pointless) package in ACPI for some protocol or other.
+On 18/11/26 14:13, Philipp Stanner wrote:
+> On Fri, 2026-11-13 at 02:11 +0900, Sidong Yang wrote:
+>> The scheduler accumulates the time each entity's jobs spend on the
+>> hardware for the fair policy, but drivers cannot read it. Export it so
+>> drivers can report per-client engine time through fdinfo without
+>> keeping their own counter.
+>>
+>> The stats object is refcounted and held by the entity and its jobs, so
+>> unlike commit df622729ddbf ("drm/scheduler: track GPU active time per
+>> entity"), which was reverted, accounting a job does not touch the
+>> entity.
+> 
+> In general looks good to me, no objections.
+> 
+> But a question below:
+> 
+>>
+>> Suggested-by: Tvrtko Ursulin <tursulin@ursulin.net>
+>> Signed-off-by: Sidong Yang <sidong.yang@furiosa.ai>
+> 
+> 
+>> +u64 drm_sched_entity_get_runtime(struct drm_sched_entity *entity)
+>> +{
+>> +	struct drm_sched_entity_stats *stats = entity->stats;
+>> +	ktime_t runtime;
+>> +
+>> +	spin_lock(&stats->lock);
+>> +	runtime = stats->runtime;
+>> +	spin_unlock(&stats->lock);
+>> +
+>> +	return ktime_to_ns(runtime);
+> 
+> Why not return it as ktime_t?
+> 
+> ktime_t, I suppose, is the universal time unit in the kernel, and the
+> user can use one of the converters to turn it into whatever is desired.
+> 
+> With ns you would have to write the converters yourself.
 
-I'm fine with a permanent decision not to check this but I don't see it
-as a thing that can ever change (except maybe now whilst there are not
-that many platforms out there using it!)
+Considering that the main use of this function by the drivers would be
+fdinfo, I believe that ns makes more sense. Otherwise, all drivers would
+need to convert to ns locally.
 
-Jonathan
+Maybe we could name it drm_sched_entity_get_runtime_ns()?
 
->=20
-> > So, obviously we can ignore informative spec lines but that is a pretty=
- strong
-> > sentence. I can't immediately think of what would go wrong if we ignore=
-d it
-> > - maybe we'd not pick an exclusive PCC and fallback to a common one the=
- firmware
-> > doesn't want us to use?  But if it doesn't want us to use it why make T=
-elemetry
-> > discoverable on it.
-> >  =20
->=20
-> Indeed, falling back to the common channel lets us uncover any underlying
-> issues in the firmware implementation. That is the exact scenario we hit =
-on
-> the test platform, which convinced me to hold back the patch.
->=20
-> > Should that be wired through from the ACPI parsing code?
-> >  =20
->=20
->=20
-> As mentioned, we certainly can, though I'm not sure we should. The "may n=
-ot
-> be" phrasing simply leaves the choice up to the OSPM rather than mandatin=
-g a
-> strict restriction.
->=20
-> > Anyhow, not something I care that much about but thought I'd call it out
-> > as an oddity.
-> >  =20
->=20
-> Thanks and well spotted. Much appreciated as it brought the information o=
-ut
-> which otherwise would have just got lost.
->=20
+Best regards,
+- Maíra
+
+> 
+> P.
 
