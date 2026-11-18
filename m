@@ -1,172 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.52
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795030130;
-	b=GhnxVNacmlG48VCBTFHiJs9BC9jnxn24/Bbdk+aST6SN2gnylS0xChM3tlJIDkHAoIR2
-	 3xGbxMR518cU3z9sRRozf2nppdaFCK7LvH8wQUEO1sgrWetoLzQ+AuRPsc7XwhsjHVPQ3
-	 FRUGuRhwRruRyGEaYqBcnu3fQaTLlLrtOfvi+nB0LqtssyyN/2KjVD0Ar+H4kp2KZ6mit
-	 EwkM/f4745BNS8RNefPGvdXfM0xT8NjtO8qGaEgcbNF9V/iVviYEyrfdtF8p69hmrFpiE
-	 YP/8T7hZJpmHczaP2MuWcSPoMHeQzxKK34jO9ZfEmdN2SKiEfgyiK35oUlL1Nz5s4Dw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795030130;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=3IwbV79RgaqCz9SqnIPG9RzgKgWNOoSHzoNf5y5P0vU=;
-	b=Q+AoX1P0QzuOnkE8COce4tInP9s/YfTKrsubU+qriidXP2ufighLfHgbB5odEl/nDu9+
-	 dqxEwWwQlMNYsg4Tt4PvnSLD/b1yfHiGj3CieAbpD8y7Q7djGTYkS0H4OIYVJSQAuCM/P
-	 Fvxewq12ZI4vU9D2WVijBXQSJdNm1HUl71dgIyhB/0eVWJfE6tO+4LtipVHwKDFHgpSAy
-	 czOXca08LEsSliEh/kUDWmsr2ls2LJ4qjy5sbXoCZIc9Y8hba5Vxt/cVum7OhAG9FuVdM
-	 K0bE+MPi//nFUpIffy/KpKwQ7vDo340reWP8V4Qu7TYSj50mPmAjDZZxyf4C+67SrFQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=pcv+0vUH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.52
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010052.outbound.protection.outlook.com [52.101.201.52])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795030133;
+	b=UKI6PnzQ8dja858e6CuBkth5G+eyz/Ca7xAlggjdlCMQbdpoBg1PRA9L1lIJZagysQxu
+	 OjwPo1lMh7H9Z+BABnI8ICjhaJWz4LU58iE53kQ9ZR4wmQKzyzoP6e0OVa/ohWzIT4+vC
+	 UQdyaxj/k2ZIAHQR/C6QFa27EYLlhThtz7Nn0rLBIIA4biJ3erssULtC9EM1WzeSxIt9W
+	 Yyc+NTwp6a9Zq7LrlZ0O/ffr7Zd3TbZXHAWsNFL2tRg+vmtj8rlojEX1sof/rARcDlbVX
+	 k4Mu3CVLgFguRKG1gy9xCZr1At1PFCgIQBT+k8vy1PQfY+IMb7v0KZ3NKTZiGaqddtQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795030133;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
+	 Content-Transfer-Encoding;
+	bh=8ql7Gs6IPvDUW+2y3xzhQuwvMgWp9DTIXsnZOX9sE1g=;
+	b=o+2lrTpDy8M3lPO3fAp22/iFMEGksW08AuNvsK5G/GH4UPk0GcydxG/CUPI/F9BXTTBc
+	 NXNevq9yaSIi8sLJvZFti/1Ra4+9uhHQBzEYwbwtZKyl7EcNJW1OIM7rP0hn6cPASio0s
+	 tm/HvaO45olg51W785aNj2Qe16XMUqtHbBrluJg03FzG9re6sqRQFKKYiPo1e25TGj9uN
+	 z0k17fMq9Yn+aygrOAKBqq3mKce8mTJjcaSqd4CK+cxBIGFY3+BwEDKg7XHNJep5FzHQR
+	 ZCwz0LjI8O50wWePD9G5GzK/NLBbjy6g8fXcxfxMWG/xw0U131q7hu030TmWTFjiY+Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qsr5VKX7;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFDB606A7C1;
-	Wed, 18 Nov 2026 19:28:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5DFDB606A7C1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781E6606A33D;
+	Wed, 18 Nov 2026 19:28:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=pcv+0vUH
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F29I+pT48mWBljpDqpnS/vRq9yumXk1yU+moDjm6UE6ff3i12qCLwxleOr/RY7nC9cZ4viOm1lgGWfvZXcKHhOHu5F+/2EDKuiqFZJDAU/XNqt4hddKq4eceq4chuIMpYQ8SLdUaIRIXfnuaI4HgWf8oHDynkVACCdQt8t1NG43MXGvPj31/MBNwBtrzwdRJpBi+AHKmx8fJxrct9gzxtkKHiVSLOc1fF8VFr/my21ATF9zNL9aSh9theYW5eLM32UjoBm6KgTvFCWx/Eeq7Ff1+tg/8w59xTOwOcfsbcQJa1C5+8pwenkImiP8EJoozBucKekwELcYxy7h/pbSsJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3IwbV79RgaqCz9SqnIPG9RzgKgWNOoSHzoNf5y5P0vU=;
- b=BduJzMrcEr3Ty50Kvicfy3IxyMuSHWDHN1IfLUq6xmy96NL+BFjRQgSXjt2HW1t8JZxnezXXCyYfXxAzVo9X//NPcCaVe8ijS3YElunuxrPCORNolgbg6tuIltjxyrtctUi4q37mBzQvONarDNlpRdeifLWcdo7oTVKW9NyS3gX3anBD2q6EcXBJ/7wX5dWcZiQ6DXeQrR5BK3z8COu6J6zMgI4Iv2ZOM6fkUIwpQNbYdOPpQZ2rslv5+D6zNAWahs4d0WhAjTEEOkzgIbneY4LjggmvQ0Hd9T0xLwXu8QH++RE0hRE+zk+KyfBBu+i/ZxgJOPWV0sMjGvD+nFBYAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3IwbV79RgaqCz9SqnIPG9RzgKgWNOoSHzoNf5y5P0vU=;
- b=pcv+0vUHK3BczRKIKfgIzRWYlJXL/L9yb1l/DSluzT7xAncn8bPEw25/9fSMnM8zsdsjltivom0J14ZtDy8tvVHjnWWhk5HI3iis24Tx3I0wcweTsGkB1nzMesiAi0T2YDKtL0VxHHgwLdqrF7d7qJ06F14TIrb5byn4rZn9RxQVgJPRoA9jNRtKxh1vpnkrro9L+e0U4/PNticNXWPCeHov8bl6ZHPyfS0hw/na5UTU71tg/YD/OOKFepssNecx6Zblesx1Wo3EKGHaym7vaxFK7G6/KcTKBHaORnXhiIxrGXS2eyLCNVcyLFaOgc6+feag7URrX3cFhvxZzG5yZw==
-Received: from IA1PR12MB9030.namprd12.prod.outlook.com (2603:10b6:208:3f2::22)
- by CH3PR12MB9455.namprd12.prod.outlook.com (2603:10b6:610:1c1::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
- 2026 19:26:36 +0000
-Received: from IA1PR12MB9030.namprd12.prod.outlook.com
- ([fe80::2c1d:ed27:b53a:97d2]) by IA1PR12MB9030.namprd12.prod.outlook.com
- ([fe80::2c1d:ed27:b53a:97d2%6]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
- 19:26:36 +0000
-From: Manish Honap <mhonap@nvidia.com>
-To: David Matlack <dmatlack@google.com>, "alex@shazbot.org"
-	<alex@shazbot.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, Ankit Agrawal
-	<ankita@nvidia.com>, "jic23@kernel.org" <jic23@kernel.org>,
-	"dave.jiang@intel.com" <dave.jiang@intel.com>,
-	"alejandro.lucero-palau@amd.com" <alejandro.lucero-palau@amd.com>, Srirangan
- Madhavan <smadhavan@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "dave@stgolabs.net"
-	<dave@stgolabs.net>, "alison.schofield@intel.com"
-	<alison.schofield@intel.com>, "vishal.l.verma@intel.com"
-	<vishal.l.verma@intel.com>, "iweiny@kernel.org" <iweiny@kernel.org>,
-	"ming.li@zohomail.com" <ming.li@zohomail.com>, Yishai Hadas
-	<yishaih@nvidia.com>, Shameer Kolothum Thodi <skolothumtho@nvidia.com>,
-	"kevin.tian@intel.com" <kevin.tian@intel.com>, "bhelgaas@google.com"
-	<bhelgaas@google.com>, "kees@kernel.org" <kees@kernel.org>,
-	"gustavoars@kernel.org" <gustavoars@kernel.org>
-CC: Neo Jia <cjia@nvidia.com>, Krishnakant Jaju <kjaju@nvidia.com>, Vikram
- Sethi <vsethi@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-cxl@vger.kernel.org"
-	<linux-cxl@vger.kernel.org>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "linux-hardening@vger.kernel.org"
-	<linux-hardening@vger.kernel.org>, Manish Honap <mhonap@nvidia.com>
-Subject: RE: [PATCH v6 31/31] selftests/vfio: Add CXL Type-2 passthrough tests
-Thread-Topic: [PATCH v6 31/31] selftests/vfio: Add CXL Type-2 passthrough
- tests
-Thread-Index: AQHdXYrJ4yhPlF0PnEqY87jPKRkvNrcxK4YAgAMmnQA=
-Date: Wed, 18 Nov 2026 19:26:36 +0000
-Message-ID:
- <IA1PR12MB90306AD9AFF8F8C3D09C14A8BD7A2@IA1PR12MB9030.namprd12.prod.outlook.com>
-References: <20261016161839.2765592-1-mhonap@nvidia.com>
- <20261016161839.2765592-32-mhonap@nvidia.com>
- <DMWTS6IPSI2R.3EJQC130JYVW3@google.com>
-In-Reply-To: <DMWTS6IPSI2R.3EJQC130JYVW3@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1PR12MB9030:EE_|CH3PR12MB9455:EE_
-x-ms-office365-filtering-correlation-id: fe625acc-7563-4b9e-79c8-08df45a9dca0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|366016|22082099003|18002099003|261009223027099003|921020|4143699003|261102130727099003|56012099006|11063799006|261026121527099003|261102123227099003|261028144727099003|261026140227099003|261021121427099003|261022105027099003|38070700021|261021123027099003|261022075727099003|10067099003;
-x-microsoft-antispam-message-info:
- +Hsn/Wdvrv9ZzDEtMRIcpZRZcceH4G45/9g3oStCchhePBJQXuE6DKTig7JEIArj/nCMMft3p/x/zg15H2FHWkA+EjtpYNzILJWCCK7trxj6uM8ftQgAzUR3nH/beH1lv6v5Xqt5UCcoRXXhHgqW39KVfpggq0YpOT4V2AgWsbA6iVupQ6yHIckYFOFfPvqaJOFM+hSp/eY+Bxz+Qe2Df126WMhxUvjtzDuq6y8QXuuR6dc/eaFE0t+NqKBjoBap/hNi4pP8ixn2Tql+Hkd2tZlQXld8pjLK8Ng7EJ4KzR36k8CjIr3GQAsWmOsTqC/Hc0QHee7ZIFrqPo/gbAYClBQf9QpA0JNbd8L8TeKoXbWFnSC3Dx4mBbwXTANgIiTO33Akwlm+GWfv3f8MA1PJ4Xcjz02dlrEa44y/Woh4BhccmA9kxRoAYqZPu8aSShUdUV+TGXR2vZrGBcvD71H6IwmHE5pBeoPP3k85tilkX651hF2GeiTxnpIAOUYy9RXKeZXQkKZTjBQhansAwmMSul/soJYfD0aumSdvGea3yyTLcopFUZo/8F6bziHNtw8P8G/Lknz9mHyiZh2JwqOCRVVy0C7UnbN/8WfyXqEkqczuP+P7Ba31VBC3nZ9YjG7D9ikUSbHv7MJ5aSwu6WLmsgDwOF0rQWSRz/dbGE76ofYxT6hgx3KYqabHOwegaq6hwHrP4mYWXVog4HtMbPiXmlX/3BnNIIGSllFF/jCXNVx/PcL6R/rvQcI21I8bO/Ie
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB9030.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(366016)(22082099003)(18002099003)(261009223027099003)(921020)(4143699003)(261102130727099003)(56012099006)(11063799006)(261026121527099003)(261102123227099003)(261028144727099003)(261026140227099003)(261021121427099003)(261022105027099003)(38070700021)(261021123027099003)(261022075727099003)(10067099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?Rzh4ZWtKTi9mV1BSM2Y4Q2QxM2hXaHErZjJEbTVHM016dm85VmZVc3NycjVU?=
- =?utf-8?B?Tk9RQ3lmZWMvTlhSWFhDSXRZNis5enlQZTgrb2lPSHpVdnQ5NGs2QWsxMFZ3?=
- =?utf-8?B?M2xWK2RnYXJHYzhpSWpLd09WcEpiTDQ3TS8wV2xKNDYzMjRsOFV0YzJTWHVi?=
- =?utf-8?B?UU9oaU12YUMwVGk5MVVhVW5CejZKM1BPQWFnVGsrRXZGSDV2aWlKNWhHWitO?=
- =?utf-8?B?bDNML2hxd21TOHR3bkxZSnAvZFRDVVdyRWdHZzlTejcyYkR6dzdoVDlPZklY?=
- =?utf-8?B?Z2ZSNWdmU3FBcXc1S2trNUJMVG5rQ0twaThkc08vVEp6S0xHTU9kbWl5WmlW?=
- =?utf-8?B?c0JuZVZzdGwxNnZNQjJFOUFPZ0RMR1QycS83YkFtVnQzS0pYQlVuOXp1U0VW?=
- =?utf-8?B?elVndnFHaGhZZDBZVDV4djlzbWdyd3QvWGN6cy9EcHM2cWlxOHJja1F5MUlB?=
- =?utf-8?B?SDZmSzEwcGlQdWZQNFRMYThKbU5Edmx2cnhUVmxVS09RY2NrUWw0SGk1cGhZ?=
- =?utf-8?B?Qk02NmJxZHNxQkdzSGJWZHFVVWVra3hiYXlkeWMvOEdjR0thYjZNM3RDUFFC?=
- =?utf-8?B?YVZnNElhMTgyWWdHblZieHRuOVFqLzZOdUZHMHcrNTFnWVNaYVdCd2NKQW8v?=
- =?utf-8?B?TFdIZ2t1RlFoMXJRQ0pYMFh4TVNBUnI5eTA4SCtBSkN2MjNVYk5lejdxS0R5?=
- =?utf-8?B?UTVsbVhzZDRzcTJvY1BQUmV2R3pFZWgwbHF4NDVCWUxyWERYUkk5UW1RNjNK?=
- =?utf-8?B?bGQ2UWQzQ2JoUG82a0hyaVMrUU92dU5lZ0Q1Z1puRG9RR3hMSTVNVHJjelFh?=
- =?utf-8?B?dU1obi9FMmFTSnlYSkpNdERtOFY2RU9LMURkTWZxcGFMaEZOTWVhamVqdGhT?=
- =?utf-8?B?Um5KcHFCZnl1RGVTb25xYWhpZzZGbXVOTS9JM2VpYkRpbDVJUEVRNkRiT1BS?=
- =?utf-8?B?WUl2UFVodnF2MUd0TDVMTkhYUWRwNlFRbnB3c2s2SW9JdDNqVzlPMXhWcnpn?=
- =?utf-8?B?YmtWdU1wVW9aUFZNNHpNK0N3dUJYa3ZIWEoxZ3doeFBYaGNXbTVWclc0eWx6?=
- =?utf-8?B?Q2R0YTZ1cWRranNnb2Z1YmNyZVF0VVVybmtBNzZJYnIyanZjckNtUXFaOVN2?=
- =?utf-8?B?aDRrMGVYczhJc2lzd1ljUlltTy9HKzAvRWYrV1UvbzZ3UDhsa05mcFEzL05B?=
- =?utf-8?B?RkJpaSt6eENTeXI1OVpUQlVIeU5UTnVTN2RDRnlYUzZSUDRKcHg0TmdkYnJw?=
- =?utf-8?B?ZkZyUGl1RnJrR0ZWcVhjazV4YVNBTFVLT2ZaZjhiY2hUUlZHY21VUms4SThL?=
- =?utf-8?B?U3lRUTMwS2IyQjAwWjlORFl6RU1MTFY0elR2eEhkNFVvTjdlaFpUY09QYkkr?=
- =?utf-8?B?OEF0R2ZqSHM3cjVES1lwTitoK1BaS25OdmhUSmNNdjNSVUdjRmxjakF6ZmV5?=
- =?utf-8?B?Kzg5MXI5THdFRzY2NTRxMHRZK0plTThjcFdLcFk3SS9xL1B2dU5zeEU4dTUy?=
- =?utf-8?B?TGdBRit6Nkk3SThyTXVEcUMrVXBSS0d6SnRQNXV2QzlzOHdPd3VUYkdDZHlw?=
- =?utf-8?B?Z1ZQSWYxYU9zb3FpS2ZvNUM2eHp4bWFNaHY0bExQQnFNUktTZjRYTXcwZDFK?=
- =?utf-8?B?djh2QzQrRm1WaVZQSjlZMkxORVgwWUxVR1NaMGRiRXFzTXU3b01zV1pid0x5?=
- =?utf-8?B?NW0raEZWb2pEbDVNSGtIS3Y4SEJvbjZDUVZKZENRbDNaR0VXeXRZdVJFQ2hk?=
- =?utf-8?B?MFNQYTEzQVdBT0NyeVVIUmc3L3ZxT2FTNm1pYnd3T29HR0F4TnQzM2k5NU1N?=
- =?utf-8?B?WFoxOHRwOVI2MC9ZTjkvMFAxLzYyS2tsenV3V3FMeitLN1d3aUkvM3Yxc1J6?=
- =?utf-8?B?YzhUUjVxVzEzSzZ5Q2VBSEtUQVVhRnB2a3VkM2V0aVNHUVk1RUlIaXNqcWdH?=
- =?utf-8?B?cWxjZGZ1dXBiTlVtMERkUGNKaE1FSE0yK0lSQWo1b3JYL0tNdEZNMFVtUEhI?=
- =?utf-8?B?czdUcEpGektqYXIrZHhod2hpRi93U3lSYXZZWlJ2QWFNSXNQVWd6TFhlU0RL?=
- =?utf-8?B?TTRTWG13NXJSSUdscDU1QTd6YzA2aVM0c2V4SE5ZZFhQQ0hpaDVvOTlNaDlU?=
- =?utf-8?B?Nk9jOHU5dWRiSk5WZ1EvV0RmOEdMOUJvdUFEY1d1aVBtQ2p1azlQMVpLYTEy?=
- =?utf-8?B?ejQwaVkvNDI4Yk45ZStvQzFTRE5FWCtEUkg2ejFsNDNrT3l3NXRpTSt6dm5U?=
- =?utf-8?B?Qkw3WGc0d1NIcTZMVzN2TGRWbkZKOHI4U1ZrUnJEQUNVUGRLcnZSR2QraUty?=
- =?utf-8?Q?VhN1FScwqD2vxMqpSo?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qsr5VKX7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE431F000CA;
+	Wed, 18 Nov 2026 19:28:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795030133;
+	bh=8ql7Gs6IPvDUW+2y3xzhQuwvMgWp9DTIXsnZOX9sE1g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Qsr5VKX7dEHW6nEP/mXkYfFjekNc43hPvpq/jbgU3kkZJ8KveVWrhEptPbINSdOJX
+	 pzbunSL5gp/6veEIwGYXkKkyiYekdGKD5H14CqFpQnWSNQYi5qB3ngc7HnZaq6Lvyw
+	 ha0s1nwXRPKzYhY12Bq5usLxZm+dvL+6CQt+kXRmGe/oTznJeKt+5HOWpcFRTNpVxu
+	 MtEBqafEgP1ZA+x06kl/1aXql2EWAmsXlDodZbuXK6/yuk+aQ+k2qOq8PbwAlz/6cs
+	 wK8Br1GB502oGBece2uXydKfwbaSSXeXBa1biPzTRzxKsdLumaxniiCQlBDRkTKX1m
+	 /gaoIt4/hxXjA==
+From: Leon Romanovsky <leon@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	Chris Lu <chris.lu@mediatek.com>,
+	Mans Rullgard <mans@mansr.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Cornelia Huck <cornelia.huck@de.ibm.com>,
+	Andrew Morton <akpm@osdl.org>,
+	Jeff Garzik <jeff@garzik.org>
+Cc: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-coco@lists.linux.dev,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Greg Kroah-Hartman <gregkh@suse.de>,
+	linux-sound@vger.kernel.org,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: [PATCH v3 25/31] driver core: Document trust admission and initrd authorization
+Date: Wed, 18 Nov 2026 21:26:55 +0200
+Message-ID: <20261118-device-trust-core-v3-25-d655875c4bfb@nvidia.com>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
+References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -176,258 +111,369 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB9030.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe625acc-7563-4b9e-79c8-08df45a9dca0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2026 19:26:36.2431
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bouupcqyspYPGjYczsnkV1UOgWWlskyGwPAIwhdRNPUA4yLXBLi34tHuIheclsYaf6FCfylFvQUlcdVq9EkekQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9455
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.15-dev-18f8f
+Content-Transfer-Encoding: 8bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogRGF2aWQgTWF0bGFjayA8
-ZG1hdGxhY2tAZ29vZ2xlLmNvbT4NCj4gU2VudDogTW9uZGF5LCBOb3ZlbWJlciAxNiwgMjAyNiAx
-MToyMyBQTQ0KPiBUbzogTWFuaXNoIEhvbmFwIDxtaG9uYXBAbnZpZGlhLmNvbT47IGFsZXhAc2hh
-emJvdC5vcmc7IGpnZ0B6aWVwZS5jYTsNCj4gQW5raXQgQWdyYXdhbCA8YW5raXRhQG52aWRpYS5j
-b20+OyBqaWMyM0BrZXJuZWwub3JnOyBkYXZlLmppYW5nQGludGVsLmNvbTsNCj4gYWxlamFuZHJv
-Lmx1Y2Vyby1wYWxhdUBhbWQuY29tOyBTcmlyYW5nYW4gTWFkaGF2YW4NCj4gPHNtYWRoYXZhbkBu
-dmlkaWEuY29tPjsgY29yYmV0QGx3bi5uZXQ7IHNraGFuQGxpbnV4Zm91bmRhdGlvbi5vcmc7DQo+
-IGRhdmVAc3Rnb2xhYnMubmV0OyBhbGlzb24uc2Nob2ZpZWxkQGludGVsLmNvbTsgdmlzaGFsLmwu
-dmVybWFAaW50ZWwuY29tOw0KPiBpd2VpbnlAa2VybmVsLm9yZzsgbWluZy5saUB6b2hvbWFpbC5j
-b207IFlpc2hhaSBIYWRhcw0KPiA8eWlzaGFpaEBudmlkaWEuY29tPjsgU2hhbWVlciBLb2xvdGh1
-bSBUaG9kaQ0KPiA8c2tvbG90aHVtdGhvQG52aWRpYS5jb20+OyBrZXZpbi50aWFuQGludGVsLmNv
-bTsgYmhlbGdhYXNAZ29vZ2xlLmNvbTsNCj4gZG1hdGxhY2tAZ29vZ2xlLmNvbTsga2Vlc0BrZXJu
-ZWwub3JnOyBndXN0YXZvYXJzQGtlcm5lbC5vcmcNCj4gQ2M6IE5lbyBKaWEgPGNqaWFAbnZpZGlh
-LmNvbT47IEtyaXNobmFrYW50IEphanUgPGtqYWp1QG52aWRpYS5jb20+OyBWaWtyYW0NCj4gU2V0
-aGkgPHZzZXRoaUBudmlkaWEuY29tPjsgWmhpIFdhbmcgPHpoaXdAbnZpZGlhLmNvbT47IGxpbnV4
-LQ0KPiBkb2NAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBr
-dm1Admdlci5rZXJuZWwub3JnOw0KPiBsaW51eC1jeGxAdmdlci5rZXJuZWwub3JnOyBsaW51eC1w
-Y2lAdmdlci5rZXJuZWwub3JnOyBsaW51eC0NCj4ga3NlbGZ0ZXN0QHZnZXIua2VybmVsLm9yZzsg
-bGludXgtaGFyZGVuaW5nQHZnZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY2
-IDMxLzMxXSBzZWxmdGVzdHMvdmZpbzogQWRkIENYTCBUeXBlLTIgcGFzc3Rocm91Z2ggdGVzdHMN
-Cj4gDQo+IEV4dGVybmFsIGVtYWlsOiBVc2UgY2F1dGlvbiBvcGVuaW5nIGxpbmtzIG9yIGF0dGFj
-aG1lbnRzDQo+IA0KPiANCj4gT24gRnJpIE9jdCAxNiwgMjAyNiBhdCA5OjE4IEFNIFBEVCwgbWhv
-bmFwIHdyb3RlOg0KPiA+IEV4ZXJjaXNlIHRoZSB2ZmlvLWN4bCBjb250cmFjdCBvbiBhIGJvdW5k
-IFR5cGUtMiBkZXZpY2U6IHRoZSBDWEwNCj4gPiBkZXZpY2UtaW5mbyBmbGFnIGFuZCB0aGUgdHdv
-IHZlbmRvci10eXBlIHJlZ2lvbnMsIHRoZSBIRE0gbWVtb3J5IG1tYXANCj4gPiAoaW5jbHVkaW5n
-IGEgMiBNQiBodWdlIGZhdWx0KSwgdGhlIHJlYWQtb25seSB0cmFwcGVkIGRlY29kZXIgcmVnaW9u
-DQo+ID4gYWdhaW5zdCB0aGUgbGl2ZSBob3N0LWNvbW1pdHRlZCBkZWNvZGVyLCBhbmQgdGhlIGd1
-ZXN0J3MgRFZTRUMgcmVzZXQNCj4gPiBkb29yYmVsbCBhbmQgbWFudWFsIEhETSBkaXNjb3Zlcnku
-DQo+IA0KPiBJIHRyaWVkIHJ1bm5pbmcgdGhpcyB0ZXN0IGluIGEgVk0gd2l0aCB0aGUgZW11bGF0
-ZWQgY3hsLXR5cGUyIGRldmljZSBmcm9tIHlvdXINCj4gUUVNVSBSRkMgWzFdLCBvbiBhbiB4ODYg
-cTM1IG1hY2hpbmUgd2l0aCBpbnRlbC1pb21tdS4gT3V0IG9mIHRoZSBib3ggdGhlDQo+IGRldmlj
-ZSBiaW5kcyBhcyBwbGFpbiB2ZmlvLXBjaSBhbmQgdGhlIGZpeHR1cmUgc2tpcHMgZXZlcnl0aGlu
-Zy4gdjYgbm93IHJlcXVpcmVzDQo+IHRoYXQgdGhlIGhvc3QgY2FuIGRvIENQVSBjYWNoZSBpbnZh
-bGlkYXRpb24gZm9yIENYTCBSZXNldCwgYW5kDQo+IGNwdV9jYWNoZV9oYXNfaW52YWxpZGF0ZV9t
-ZW1yZWdpb24oKSByZXR1cm5zIGZhbHNlIGluIGEgVk0gKHg4NiByZWZ1c2VzIGl0DQo+IHVuZGVy
-IGEgaHlwZXJ2aXNvciwgYW5kIGFybTY0IGhhcyBubyBjYWNoZSBtYWludGVuYW5jZSBwcm92aWRl
-ciBpbiBhIGd1ZXN0KS4NCj4gDQo+IFRoZSBRRU1VIFJGQyByZXBvcnRzIDE5LzE5IHBhc3Npbmcg
-aW4gYW4gQXJtIGd1ZXN0LCBidXQgdGhhdCB3YXMgYWdhaW5zdCB2NSwNCj4gd2hpY2ggZGlkbid0
-IGhhdmUgdGhpcyByZXF1aXJlbWVudC4gSG93IGRpZCB5b3UgcnVuIHRoZSB2NiB2ZXJzaW9uIG9m
-IHRoaXMgdGVzdA0KPiB3aXRob3V0IGhhcmR3YXJlPyBEaWQgeW91IHVzZSBzb21ldGhpbmcgbGlr
-ZQ0KPiBDT05GSUdfQ1hMX1JFR0lPTl9JTlZBTElEQVRJT05fVEVTVD8gVGhhdCBvcHRpb24gb25s
-eSBjb3ZlcnMgcmVnaW9uDQo+IG1hbmFnZW1lbnQgaW4gZHJpdmVycy9jeGwvY29yZS9yZWdpb24u
-YywgYW5kIGRlcGVuZHMgb24gQ1hMX1JFR0lPTiwgc28gaXQNCj4gZG9lc24ndCBoZWxwIGhlcmUu
-DQoNClRoYW5rcyBmb3IgcnVubmluZyBpdC4gSSBkaWQgbm90OiB0aGUgMjcgcmVzdWx0cyBpbiB0
-aGUgdjYgY292ZXINCmxldHRlciBhcmUgZnJvbSBoYXJkd2FyZSBvbmx5LCBhbiBhcm02NCBob3N0
-IHdpdGggdGhlIFNNQ0NDIGNhY2hlDQpwcm92aWRlciBhbmQgZmlybXdhcmUgdGhhdCBpbXBsZW1l
-bnRzIHRoZSBjYWNoZSBvcGVyYXRpb25zLiBZb3UgYXJlDQpyaWdodCB0aGF0IHRoZSAxOS8xOSBp
-biB0aGUgUUVNVSBSRkMgd2FzIHRoZSB2NSB0ZXN0Lg0KDQo+IA0KPiBJIGFkZGVkIGEgbG9jYWwg
-dGVzdC1vbmx5IGJ5cGFzcyAoYSBDT05GSUdfQ1hMX1JFU0VUX0lOVkFMSURBVElPTl9URVNUDQo+
-IHRoYXQgc2tpcHMgdGhlIGludmFsaWRhdGlvbiBpbiBjeGxfcmVzZXRfY2hlY2soKSBhbmQNCj4g
-Y3hsX2hkbV9xdWllc2NlX3ByZXBhcmUoKS9jeGxfaGRtX3Jhbmdlc19pbnZhbGlkYXRlKCkpLCBJ
-IGdldCAyNiBwYXNzZXMgYW5kDQo+IDEgc2tpcCAocG1fZDNob3RfcmVzdG9yZXNfZGVjb2Rlciwg
-c2luY2UgY3hsLXR5cGUyIGhhcyBubyBQTSBjYXBhYmlsaXR5IGluDQo+IFFFTVUpLiBJIHRoaW5r
-IHNvbWV0aGluZyBsaWtlIHRoYXQgYmVsb25ncyBpbiB0aGUgY3hsX3Jlc2V0IHNlcmllcy4gT3Ro
-ZXJ3aXNlDQo+IHRoaXMgdGVzdCBjYW4gb25seSBiZSBydW4gYnkgcGVvcGxlIHdpdGggcmVhbCBU
-eXBlLTIgaGFyZHdhcmUuDQo+IA0KDQpHb29kIHRvIHNlZSAyNiBwYXNzIG9uIHg4Ni4gY3hsX3Jl
-c2V0IHYxNyBhbHJlYWR5IGhhcyB0aGlzOiBpdHMgcGF0Y2gNCjEzIGxldHMgQ09ORklHX0NYTF9S
-RUdJT05fSU5WQUxJREFUSU9OX1RFU1Qgc2tpcCB0aGUgbWlzc2luZyBDUFUgY2FjaGUNCmludmFs
-aWRhdGlvbiBmb3IgQ1hMIFJlc2V0IHRvbywgYW5kIGl0cyBjb3ZlciBsZXR0ZXIgcnVucyB0aGUN
-CmN4bC10eXBlMiBkZXZpY2UgaW4gYSBxMzUgZ3Vlc3Qgd2l0aCB0aGF0IG9wdGlvbiBzZXQ6DQoN
-Cmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyNjExMDUxODU5MTcuMjY2NzY1Ni0xNC1zbWFk
-aGF2YW5AbnZpZGlhLmNvbQ0KDQp2NyBvZiB0aGlzIHNlcmllcyB3aWxsIGJlIGJhc2VkIG9uIHYx
-NyAob3IgcG9zc2libHkgdjE4KSwgc28gYSBndWVzdCBrZXJuZWwNCndpdGggQ1hMX1JFR0lPTiBh
-bmQgdGhhdCBvcHRpb24gc2hvdWxkIHJ1biB0aGUgdGVzdCB3aXRob3V0IGEgbG9jYWwgYnlwYXNz
-Lg0KSSB3aWxsIGNoZWNrIHRoYXQgYmVmb3JlIHBvc3RpbmcgYW5kIHB1dCBpdCBpbiB0aGUgdGVz
-dCBkb2N1bWVudGF0aW9uLg0KDQo+IFsxXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1j
-eGwvMjAyNjExMDYwMzU5MTEuMTI4MDA2Ni0xLQ0KPiBtaG9uYXBAbnZpZGlhLmNvbS8NCj4gDQo+
-ID4gQ2hlY2sgdGhhdCB0aGUgZGVjb2RlciByZWdpc3RlciByZWdpb24gcmVhZHMgZmFpbCB3aXRo
-IEVJTyB3aGlsZQ0KPiA+IE1lbW9yeSBTcGFjZSBpcyBkaXNhYmxlZCwgYW5kIHRoYXQgdGhlIGRl
-Y29kZXIgcmVhZHMgYmFjayBjb21taXR0ZWQNCj4gPiBhbmQgSERNIGFjY2VzcyB3b3JrcyBhZnRl
-ciBsb3cgcG93ZXIgZW50cnkgYW5kIGV4aXQuDQo+IA0KPiBUaGUgc2VyaWVzIHNheXMgYSBUeXBl
-LTIgZGV2aWNlIGxvc2VzIGl0cyBjb21taXR0ZWQgSERNIGRlY29kZXIgaW4gRDNob3QgYW5kDQo+
-IEQzY29sZCAocGF0Y2hlcyAxNyBhbmQgMzApLCBidXQgdGhlIGVtdWxhdGVkIGN4bC10eXBlMiBk
-ZXZpY2UgaW4geW91ciBRRU1VDQo+IFJGQyBoYXMgbm8gUE0gY2FwYWJpbGl0eSwgc28gb24gaXQg
-dGhlc2UgdGVzdHMgbmV2ZXIgdGFrZSB0aGUgZGVjb2RlciByZXN0b3JlDQo+IHBhdGggaW4gdmZp
-b19jeGxfcG93ZXJfdXAoKS4gUGxlYXNlIG1ha2UgdGhlIGVtdWxhdGVkIGRldmljZSBiZWhhdmUg
-dGhlDQo+IHNhbWUgd2F5IGFzIHRoZSByZWFsIGhhcmR3YXJlIGFjcm9zcyBEM2hvdCAoUE0gY2Fw
-YWJpbGl0eSwgTm9fU29mdF9SZXNldCwNCj4gYW5kIHdoZXRoZXIgdGhlIGRlY29kZXIgaXMgbG9z
-dCksIHNvIHRoYXQgdGhlIHNlbGZ0ZXN0IGV4ZXJjaXNlcyB0aGUgc2FtZSB2ZmlvLWN4bA0KPiBj
-b2RlIHBhdGhzIGluIGEgVk0gYXMgaXQgZG9lcyBvbiBoYXJkd2FyZS4NCg0KT2theSwgSSB3aWxs
-IGhhbmRsZSB0aGlzIGluIG5leHQgY3hsLXR5cGUyIHZlcnNpb24gdG8gaGF2ZSBhIG1vcmUgZmFp
-dGhmdWwgaGFyZHdhcmUNCnZhbGlkYXRpb24uDQoNCj4gDQo+IFRvIGhlbHAgZ2V0IHRoYXQgcmln
-aHQ6IHdoYXQgZG9lcyBsc3BjaSAtdnYgc2hvdyBmb3IgdGhlIFBNIGNhcGFiaWxpdHkgb2YgdGhl
-DQo+IGRldmljZSB5b3UgdGVzdGVkIHdpdGggKE5vU29mdFJzdCsgb3IgTm9Tb2Z0UnN0LSksIGFu
-ZCBkaWQgeW91IG9ic2VydmUgdGhlDQo+IGRlY29kZXIgYWN0dWFsbHkgYmVpbmcgbG9zdD8NCj4g
-DQoNCk5vU29mdFJzdCssIGFuZCBuby4gVGhlIHN0YXRlbWVudCBpbiAxNyBhbmQgMzAgaXMgd3Jv
-bmcgZm9yIHRoZSBkZXZpY2UNCkkgdGVzdGVkLCBhbmQgSSB3aWxsIGNvcnJlY3QgdGhpcyBpbiB2
-Ny4NCg0KbHNwY2kgc2hvd3MgIlN0YXR1czogRDAgTm9Tb2Z0UnN0KyBQTUUtRW5hYmxlLSIuDQpP
-biBoYXJkd2FyZSB0aGUgdGVzdCBvbmx5IHRvb2sgdGhlIHBhdGggd2hlcmUgdGhlIGRlY29kZXIg
-aXMgc3RpbGwNCmNvbW1pdHRlZDsgdGhlIHJlc3RvcmUgcGF0aCBpbiB2ZmlvX2N4bF9wb3dlcl91
-cCgpIGhhcyBub3QgcnVuIHRoZXJlIGVpdGhlci4NCg0KPiA+IEFkZCBhIHBhcnRpYWwtbW1hcCBw
-YXRoIHRvIHRoZSB2ZmlvIHNlbGZ0ZXN0IGxpYnJhcnkgc28gdGhlIHRyYXBwZWQNCj4gPiBjb21w
-b25lbnQgQkFSIG1hcHMgaXRzIHNwYXJzZSByYW5nZXMsIGFuZCBhbiBfX2lvbW11X21hcF9maWxl
-KCkgaGVscGVyDQo+ID4gZm9yIHRoZSBkbWEtYnVmIG1hcHBpbmcuDQo+IA0KPiBQbGVhc2Ugc3Bs
-aXQgdGhlIGxpYnJhcnkgY2hhbmdlcyBpbnRvIHNlcGFyYXRlIGNvbW1pdHMgYWhlYWQgb2YgdGhl
-DQo+IHRlc3Q6IF9faW9tbXVfbWFwX2ZpbGUoKSwgdGhlIHNwYXJzZSBtbWFwIHN1cHBvcnQgaW4g
-dmZpb19wY2lfYmFyX21hcCgpLA0KPiBhbmQgZWFjaCBvZiB0aGUgbmV3IGxpYnZmaW8gaGVscGVy
-cyBzdWdnZXN0ZWQgYmVsb3cuIFRoYXQgd2F5IGVhY2ggb25lIGNhbiBiZQ0KPiByZXZpZXdlZCBv
-biBpdHMgb3duLCBhbmQgdGhlIGZpbmFsIGNvbW1pdCBvbmx5IGFkZHMgdGhlIHRlc3QsIGl0cyBN
-YWtlZmlsZQ0KPiBlbnRyeSwgYW5kIHRoZSBNQUlOVEFJTkVSUyBsaW5lLg0KDQpPa2F5LCBmb3Ig
-djcsIHRoZSBsaWJyYXJ5IGNoYW5nZSB3aWxsIGJlIHNwbGl0IG91dCBhaGVhZCBvZiB0aGUgdGVz
-dCwgb25lDQpwZXIgaGVscGVyLg0KDQo+IA0KPiBUaGlzIHNlcmllcyBpcyBhbHJlYWR5IHF1aXRl
-IGxvbmcgKDMxIHBhdGNoZXMpLCBhbmQgd2l0aCB0aGUgbGlicmFyeSBjaGFuZ2VzIHNwbGl0DQo+
-IG91dCB0aGUgc2VsZnRlc3QgY2hhbmdlcyB3aWxsIGdyb3cgdG8gc2V2ZXJhbCBwYXRjaGVzLg0K
-PiBDb25zaWRlciBzZW5kaW5nIGFsbCB0aGUgVkZJTyBzZWxmdGVzdHMgcGF0Y2hlcyBhcyBhIHNl
-cGFyYXRlIHNlcmllcyB0aGF0DQo+IGRlcGVuZHMgb24gdGhpcyBvbmUuDQoNCkkgd291bGQgbGlr
-ZSB0byBrZWVwIHRoZSBsaWJyYXJ5IGFuZCB0aGUgdGVzdCBhdCB0aGUgZW5kIG9mIHRoaXMgc2Vy
-aWVzIGZvciB2NywNCnNvIHRoZSB0ZXN0IGFycml2ZXMgd2l0aCB0aGUgY29kZSBpdCBjb3ZlcnMg
-YW5kIGVhY2ggdmVyc2lvbiBjYW4gYmUgY2hlY2tlZA0KYWdhaW5zdCBpdC4NCg0KPiANCj4gPiAr
-LyogUmV0dXJuIHRoZSBzcGFyc2UtbW1hcCBjYXBhYmlsaXR5IGluIEBpbmZvLCBvciBOVUxMIGlm
-IHRoZSByZWdpb24NCj4gPiAraGFzIG5vbmUuICovIHN0YXRpYyBzdHJ1Y3QgdmZpb19yZWdpb25f
-aW5mb19jYXBfc3BhcnNlX21tYXAgKg0KPiA+ICt2ZmlvX3BjaV9zcGFyc2VfbW1hcF9jYXAoc3Ry
-dWN0IHZmaW9fcmVnaW9uX2luZm8gKmluZm8pIHsNCj4gPiArICAgICBzdHJ1Y3QgdmZpb19pbmZv
-X2NhcF9oZWFkZXIgKmhkcjsNCj4gPiArICAgICB1MzIgb2Zmc2V0Ow0KPiA+ICsNCj4gPiArICAg
-ICBpZiAoIShpbmZvLT5mbGFncyAmIFZGSU9fUkVHSU9OX0lORk9fRkxBR19DQVBTKSkNCj4gPiAr
-ICAgICAgICAgICAgIHJldHVybiBOVUxMOw0KPiA+ICsNCj4gPiArICAgICBmb3IgKG9mZnNldCA9
-IGluZm8tPmNhcF9vZmZzZXQ7IG9mZnNldDsgb2Zmc2V0ID0gaGRyLT5uZXh0KSB7DQo+ID4gKyAg
-ICAgICAgICAgICBoZHIgPSAodm9pZCAqKWluZm8gKyBvZmZzZXQ7DQo+ID4gKyAgICAgICAgICAg
-ICBpZiAoaGRyLT5pZCA9PSBWRklPX1JFR0lPTl9JTkZPX0NBUF9TUEFSU0VfTU1BUCkNCj4gPiAr
-ICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIChzdHJ1Y3QgdmZpb19yZWdpb25faW5mb19jYXBf
-c3BhcnNlX21tYXAgKiloZHI7DQo+ID4gKyAgICAgfQ0KPiA+ICsNCj4gPiArICAgICByZXR1cm4g
-TlVMTDsNCj4gPiArfQ0KPiANCj4gVGhpcyB3YWxrcyB0aGUgcmVnaW9uIGluZm8gY2FwYWJpbGl0
-eSBjaGFpbiBsb29raW5nIGZvciBvbmUgSUQsIHdoaWNoIGlzIHRoZSBzYW1lDQo+IHRoaW5nIGZp
-bmRfcmVnaW9uX2NhcCgpIGRvZXMgaW4gdGhlIHRlc3QuIFBsZWFzZSBhZGQgb25lIGdlbmVyaWMg
-bGlidmZpbyBoZWxwZXINCj4gdGhhdCBsb29rcyB1cCBhIHJlZ2lvbiBpbmZvIGNhcGFiaWxpdHkg
-YnkgSUQsIGFuZCB1c2UgaXQgaW4gYm90aCBwbGFjZXMuDQo+IA0KDQpPa2F5LCBJIHdpbGwgdXBk
-YXRlIHRoaXMuDQoNCj4gPiArICogVXNhZ2U6IC4vdmZpb19jeGxfdHlwZTJfdGVzdCA8QkRGPiAg
-KG9yIGV4cG9ydA0KPiBWRklPX1NFTEZURVNUU19CREY9PEJERj4pLg0KPiA+ICsgKiBUaGUgZGV2
-aWNlIG11c3QgYmUgYm91bmQgdG8gdmZpby1wY2kgd2l0aCB0aGUgdmZpby1jeGwgbW9kdWxlIGF2
-YWlsYWJsZS4NCj4gDQo+IFBsZWFzZSBkb2N1bWVudCBob3cgdG8gcnVuIHRoaXMgdGVzdCBpbiBt
-b3JlIGRldGFpbDogdGhlIGhhcmR3YXJlDQo+IHJlcXVpcmVtZW50cywgaG93IHRvIHNldCB1cCB0
-aGUgZW11bGF0ZWQgUUVNVSBkZXZpY2UsIGFuZCB0aGUga2VybmVsIGNvbmZpZw0KPiBuZWVkZWQg
-KFZGSU9fQ1hMLCBJT01NVUZELCBhbnkgdGVzdC1vbmx5IGJ5cGFzcyksIHNvIG90aGVycyBjYW4g
-cmVwcm9kdWNlDQo+IHlvdXIgcmVzdWx0cy4NCj4gDQoNCk9rYXksIEkgd2lsbCB1cGRhdGUgdGhp
-cyB3aXRoIHRoZSBxZW11IGNvbW1hbmQgbGluZSBhbmQgZ3Vlc3Qga2VybmVsIGNvbmZpZy4NCg0K
-PiA+ICsvKiB2ZmlvLXBjaSByZWdpb24tb2Zmc2V0IHBhY2tpbmcgaXMga2VybmVsLWludGVybmFs
-LCBub3QgVUFQSTsNCj4gPiArZGVmaW5lIGxvY2FsbHkuICovICNpZm5kZWYgVkZJT19QQ0lfT0ZG
-U0VUX1NISUZUDQo+ID4gKyNkZWZpbmUgVkZJT19QQ0lfT0ZGU0VUX1NISUZUICAgICAgICAgICAg
-ICAgIDQwDQo+ID4gKyNlbmRpZg0KPiA+ICsjaWZuZGVmIFZGSU9fUENJX0lOREVYX1RPX09GRlNF
-VA0KPiA+ICsjZGVmaW5lIFZGSU9fUENJX0lOREVYX1RPX09GRlNFVChpKSAgKCh1aW50NjRfdCko
-aSkgPDwNCj4gPiArVkZJT19QQ0lfT0ZGU0VUX1NISUZUKSAjZW5kaWYNCj4gDQo+IEFzIHRoZSBj
-b21tZW50IHNheXMsIHRoaXMgaXMga2VybmVsLWludGVybmFsIGFuZCBub3QgdUFQSSwgc28gdGhl
-IHRlc3Qgc2hvdWxkbid0DQo+IGRlcGVuZCBvbiBpdC4gUGxlYXNlIHVzZSB2ZmlvX3JlZ2lvbl9p
-bmZvLm9mZnNldCBmcm9tDQo+IFZGSU9fREVWSUNFX0dFVF9SRUdJT05fSU5GTyBpbnN0ZWFkLCBh
-cyBjb21wX2Jhcl9zcGFyc2VfbW1hcCBhbHJlYWR5DQo+IGRvZXMgZm9yIHRoZSBCQVIuIEJldHRl
-ciB5ZXQsIHVzZSByZWdpb24gYWNjZXNzIGhlbHBlcnMgaW4gbGlidmZpbyB0aGF0IHRha2UgYQ0K
-PiByZWdpb24gaW5kZXggYW5kIGFwcGx5IHRoZSBvZmZzZXQgaW50ZXJuYWxseSAoc2VlIGJlbG93
-KSwgc28gdGhlIHRlc3QgbmV2ZXINCj4gY29tcHV0ZXMgcmVnaW9uIG9mZnNldHMgaXRzZWxmLg0K
-DQpPa2F5LCBJIHdpbGwgdXNlIHRoZSByZWdpb24gaGVscGVyIGZvciB0aGlzLg0KDQo+IA0KPiA+
-ICsvKiBGaW5kIGEgQ1hMIHJlZ2lvbiBieSBzdWJ0eXBlOyByZXR1cm5zIHRoZSByZWdpb24gaW5k
-ZXggb3IgLTEsIEBidWYNCj4gPiArbGVmdCBob2xkaW5nIGl0cyBpbmZvLiAqLyBzdGF0aWMgaW50
-IGZpbmRfY3hsX3JlZ2lvbihpbnQgZmQsIHVpbnQzMl90IG5yZWdpb25zLA0KPiB1aW50MzJfdCBz
-dWJ0eXBlLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICB2b2lkICpidWYsIHNpemVfdCBi
-dWZzeikgew0KPiA+ICsgICAgIHVpbnQzMl90IGk7DQo+ID4gKw0KPiA+ICsgICAgIGZvciAoaSA9
-IDA7IGkgPCBucmVnaW9uczsgaSsrKSB7DQo+ID4gKyAgICAgICAgICAgICBzdHJ1Y3QgdmZpb19y
-ZWdpb25faW5mbyAqcmkgPSBidWY7DQo+ID4gKyAgICAgICAgICAgICBjb25zdCBzdHJ1Y3QgdmZp
-b19yZWdpb25faW5mb19jYXBfdHlwZSAqdDsNCj4gPiArICAgICAgICAgICAgIGNvbnN0IHN0cnVj
-dCB2ZmlvX2luZm9fY2FwX2hlYWRlciAqaGRyOw0KPiA+ICsNCj4gPiArICAgICAgICAgICAgIG1l
-bXNldChidWYsIDAsIGJ1ZnN6KTsNCj4gPiArICAgICAgICAgICAgIHJpLT5hcmdzeiA9IGJ1ZnN6
-Ow0KPiA+ICsgICAgICAgICAgICAgcmktPmluZGV4ID0gaTsNCj4gPiArICAgICAgICAgICAgIGlm
-IChpb2N0bChmZCwgVkZJT19ERVZJQ0VfR0VUX1JFR0lPTl9JTkZPLCByaSkpDQo+ID4gKyAgICAg
-ICAgICAgICAgICAgICAgIGNvbnRpbnVlOw0KPiANCj4gVGhpcyBpcyBhIGdlbmVyaWMgbG9va3Vw
-IG9mIGEgcmVnaW9uIGJ5IHR5cGUgYW5kIHN1YnR5cGUuIE9ubHkgdGhlIENYTCB2ZW5kb3IgSUQN
-Cj4gaXMgc3BlY2lmaWMuIFBsZWFzZSBtYWtlIGl0IGEgbGlidmZpbyBoZWxwZXIgKGUuZy4NCj4g
-dmZpb19wY2lfZmluZF9yZWdpb24oZGV2aWNlLCB0eXBlLCBzdWJ0eXBlKSkgYnVpbHQgb24gdGhl
-IGV4aXN0aW5nIHJlZ2lvbiBpbmZvDQo+IGNvZGUgaW4gbGlidmZpby4NCj4gDQo+IE1vcmUgZ2Vu
-ZXJhbGx5LCBwbGVhc2UgcmVwbGFjZSB0aGUgcmF3IGlvY3RsKCkgY2FsbHMgdGhyb3VnaG91dCB0
-aGUgdGVzdCB3aXRoDQo+IGxpYnZmaW8gaGVscGVyczogVkZJT19ERVZJQ0VfR0VUX0lORk8sIFZG
-SU9fREVWSUNFX0dFVF9SRUdJT05fSU5GTywNCj4gYW5kIFZGSU9fREVWSUNFX0ZFQVRVUkUgZm9y
-IERNQV9CVUYgYW5kIExPV19QT1dFUl9FTlRSWS9FWElULg0KPiBQbGVhc2UgZm9sbG93IHRoZSBl
-eGlzdGluZyBjb252ZW50aW9uLCBlLmcuIF9fdmZpb19wY2lfZGV2aWNlX3Jlc2V0KCkgYW5kDQo+
-IHZmaW9fcGNpX2RldmljZV9yZXNldCgpOiBhIGRvdWJsZS11bmRlcnNjb3JlIHZhcmlhbnQgdGhh
-dCByZXR1cm5zIC1lcnJubyBmb3INCj4gdGhlIHRlc3RzIHRoYXQgZXhwZWN0IGZhaWx1cmVzIG9y
-IHNraXAgd2hlbiBzb21ldGhpbmcgaXNuJ3Qgc3VwcG9ydGVkLCBhbmQgYQ0KPiBwbGFpbiB2YXJp
-YW50IHRoYXQgYXNzZXJ0cyBzdWNjZXNzLg0KDQpBY2suIEkgd2lsbCB1cGRhdGUgdGhpcy4NCg0K
-PiANCj4gPiArLyogV2FsayB0aGUgUENJIGV4dGVuZGVkIGNhcGFiaWxpdHkgbGlzdCBmb3IgdGhl
-IENYTCBEZXZpY2UgRFZTRUMuICovDQo+ID4gK3N0YXRpYyB1aW50MTZfdCBmaW5kX2N4bF9kdnNl
-YyhzdHJ1Y3QgdmZpb19wY2lfZGV2aWNlICpkZXYpIHsNCj4gDQo+IFNhbWUgaGVyZSwgdGhlIGV4
-dGVuZGVkIGNhcGFiaWxpdHkgd2FsayBhbmQgdGhlIERWU0VDIG1hdGNoIGFyZW4ndCBDWEwtDQo+
-IHNwZWNpZmljLiBQbGVhc2UgY29uc2lkZXIgdmZpb19wY2lfZmluZF9leHRfY2FwYWJpbGl0eSgp
-IGFuZA0KPiB2ZmlvX3BjaV9maW5kX2R2c2VjKGRldmljZSwgdmVuZG9yLCBpZCkgaGVscGVycyBp
-biBsaWJ2ZmlvLCB3aXRoIHRoZSB0ZXN0IHBhc3NpbmcNCj4gaW4gdGhlIENYTCBJRHMuDQoNCk9r
-YXksIHdpbGwgZG8uDQoNCj4gDQo+ID4gKy8qIFJlYWQgY29uZmlnIHNwYWNlIGZyb20gc3lzZnMs
-IHdoaWNoIGlzIHRoZSBoYXJkd2FyZSwgbm90IHRoZSB2ZmlvDQo+ID4gK3ZpZXcuICovIHN0YXRp
-YyBpbnQgc3lzZnNfY29uZmlnX3JlYWQodWludDMyX3Qgb2ZmLCB2b2lkICpidWYsIHNpemVfdA0K
-PiA+ICtsZW4pIHsNCj4gPiArICAgICBjaGFyIHBhdGhbMTI4XTsNCj4gPiArICAgICBzc2l6ZV90
-IG47DQo+ID4gKyAgICAgaW50IGZkOw0KPiA+ICsNCj4gPiArICAgICBzbnByaW50ZihwYXRoLCBz
-aXplb2YocGF0aCksICIvc3lzL2J1cy9wY2kvZGV2aWNlcy8lcy9jb25maWciLA0KPiA+ICsgICAg
-ICAgICAgICAgIGRldmljZV9iZGYpOw0KPiA+ICsgICAgIGZkID0gb3BlbihwYXRoLCBPX1JET05M
-WSk7DQo+ID4gKyAgICAgaWYgKGZkIDwgMCkNCj4gPiArICAgICAgICAgICAgIHJldHVybiAtZXJy
-bm87DQo+ID4gKyAgICAgbiA9IHByZWFkKGZkLCBidWYsIGxlbiwgb2ZmKTsNCj4gPiArICAgICBj
-bG9zZShmZCk7DQo+ID4gKyAgICAgcmV0dXJuIG4gPT0gKHNzaXplX3QpbGVuID8gMCA6IC1FSU87
-IH0NCj4gDQo+IFRoaXMgYW5kIHN5c2ZzX2NvbmZpZygpIGZ1cnRoZXIgZG93biBkbyB0aGUgc2Ft
-ZSB0aGluZy4gUGxlYXNlIHJlcGxhY2UgYm90aA0KPiB3aXRoIG9uZSBzeXNmcyBjb25maWcgYWNj
-ZXNzIGhlbHBlciBpbiBsaWIvc3lzZnMuYywgbW9kZWxlZCBhZnRlciB0aGUgZXhpc3RpbmcgdmZp
-bw0KPiBjb25maWcgaGVscGVyczogYSBzeXNmc19jb25maWdfYWNjZXNzKGJkZiwgd3JpdGUsIG9m
-ZnNldCwgc2l6ZSwgZGF0YSkgY29yZSB3aXRoDQo+IHN5c2ZzX2NvbmZpZ19yZWFke2IsdyxsfSgp
-IGFuZA0KPiBzeXNmc19jb25maWdfd3JpdGV7Yix3LGx9KCkgd3JhcHBlcnMgdGhhdCBhc3NlcnQg
-b24gZmFpbHVyZSwgbGlrZQ0KPiB2ZmlvX3BjaV9jb25maWdfYWNjZXNzKCkgYW5kIHZmaW9fcGNp
-X2NvbmZpZ19yZWFke2IsdyxsfSgpLg0KPiANCj4gVGFraW5nIHRoZSBCREYgYXMgYSBwYXJhbWV0
-ZXIgYWxzbyBnZXRzIGhlbHBlcnMgb2ZmIHRoZSBkZXZpY2VfYmRmIGdsb2JhbC4NCj4gUGxlYXNl
-IG9ubHkgdXNlIGRldmljZV9iZGYgd2hlcmUgdGhlIGRldmljZSBpcyBvcGVuZWQNCj4gKEZJWFRV
-UkVfU0VUVVAoKSBhbmQgY2xvc2VfcmVzdG9yZXNfb3Blbl90aW1lX2NvbW1hbmQpLiBFdmVyeXdo
-ZXJlDQo+IGVsc2UgY2FuIHVzZSBzZWxmLT5kZXYtPmJkZi4NCg0KQWdyZWUgZm9yIGJvdGguIEkg
-d2lsbCB1cGRhdGUgdGhpcy4NCg0KPiANCj4gPiArLyogVGhlIHRyYXBwZWQgYmxvY2sgc3RhcnRz
-IGF0IHRoZSBIRE0gZGVjb2RlciByZWdpc3RlcnM7IENUUkwgMA0KPiA+ICtyZWFkcyBiYWNrLiAq
-LyBURVNUX0YodmZpb19jeGwsIGNvbXBfcmVnc19oZG1fcmVhZCkgew0KPiA+ICsgICAgIHVpbnQ2
-NF90IGN0cmwgPSBzZWxmLT5jb21wX29mZiArIENYTF9IRE1fREVDT0RFUjBfQ1RSTF9PRkZTRVQo
-MCk7DQo+ID4gKyAgICAgdWludDMyX3QgdmFsID0gMDsNCj4gPiArDQo+ID4gKyAgICAgQVNTRVJU
-X0dFKHNlbGYtPmNvbXBfc2l6ZSwgQ1hMX0hETV9ERUNPREVSMF9DVFJMX09GRlNFVCgwKSArDQo+
-IDQpOw0KPiA+ICsgICAgIEFTU0VSVF9FUSgoc3NpemVfdClzaXplb2YodmFsKSwNCj4gPiArICAg
-ICAgICAgICAgICAgcHJlYWQoc2VsZi0+ZGV2LT5mZCwgJnZhbCwgc2l6ZW9mKHZhbCksIGN0cmwp
-KTsgfQ0KPiANCj4gUGxlYXNlIGFkZCByZWdpb24gYWNjZXNzIGhlbHBlcnMgdG8gbGlidmZpbyBp
-bnN0ZWFkIG9mIG9wZW4tY29kaW5nDQo+IHByZWFkKCkvcHdyaXRlKCkvbW1hcCgpIG9uIHRoZSBk
-ZXZpY2UgZmQsIHdoaWNoIHRoaXMgdGVzdCBkb2VzIGluIGFib3V0DQo+IDUwIHBsYWNlcy4gU29t
-ZXRoaW5nIG1vZGVsZWQgb24gdGhlIGNvbmZpZyBzcGFjZSBoZWxwZXJzOg0KPiBfX3ZmaW9fcGNp
-X3JlZ2lvbl9hY2Nlc3MoZGV2aWNlLCBpbmRleCwgd3JpdGUsIG9mZnNldCwgc2l6ZSwgZGF0YSkg
-cmV0dXJuaW5nIHRoZQ0KPiBudW1iZXIgb2YgYnl0ZXMgb3IgLWVycm5vLCB2ZmlvX3BjaV9yZWdp
-b25fYWNjZXNzKCkgYXNzZXJ0aW5nIHN1Y2Nlc3MsIGFuZA0KPiB0eXBlZCB2ZmlvX3BjaV9yZWdp
-b25fcmVhZHtiLHcsbCxxfSgpIGFuZA0KPiB2ZmlvX3BjaV9yZWdpb25fd3JpdGV7Yix3LGwscX0o
-KSB3cmFwcGVycy4gVGhlbiB0aGlzIGJlY29tZXM6DQo+IA0KPiAgICAgICAgIHZhbCA9IHZmaW9f
-cGNpX3JlZ2lvbl9yZWFkbChzZWxmLT5kZXYsIHNlbGYtPmNvbXBfaWR4LA0KPiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBDWExfSERNX0RFQ09ERVIwX0NUUkxfT0ZGU0VUKDAp
-KTsNCj4gDQo+IFRoZSBkb3VibGUtdW5kZXJzY29yZSB2YXJpYW50IGNvdmVycyB0aGUgZXhwZWN0
-ZWQgZmFpbHVyZXMsIGxpa2UNCj4gY29tcF9yZWdzX3JlYWRfbmVlZHNfbWVtb3J5IGFuZCB0aGUg
-dW5hbGlnbmVkIGFuZCBvdXQgb2YgcmFuZ2UgdGVzdHMuDQo+IHZmaW9fcGNpX2NvbmZpZ19hY2Nl
-c3MoKSBjb3VsZCBiZWNvbWUgYSB3cmFwcGVyIGFyb3VuZCB0aGUgc2FtZSBjb2RlIHVzaW5nDQo+
-IFZGSU9fUENJX0NPTkZJR19SRUdJT05fSU5ERVguIGxpYnZmaW8gd291bGQgbmVlZCB0byBjYWNo
-ZSB0aGUgcmVnaW9uIGluZm8NCj4gZm9yIGFsbCByZWdpb25zLCBub3QganVzdCBjb25maWcgc3Bh
-Y2UgYW5kIHRoZSBCQVJzLCBzbyBpdCBjYW4gYXBwbHkgdGhlIG9mZnNldA0KPiByZXBvcnRlZCBi
-eSBWRklPX0RFVklDRV9HRVRfUkVHSU9OX0lORk8uDQo+IA0KPiBTaW1pbGFybHksIF9fdmZpb19w
-Y2lfcmVnaW9uX21tYXAoKSBhbmQgdmZpb19wY2lfcmVnaW9uX21tYXAoKSBjb3VsZCBjb3Zlcg0K
-PiB0aGUgSERNIHJlZ2lvbiBtYXBwaW5ncyBhbmQgdGhlIGV4cGVjdGVkIG1tYXAgZmFpbHVyZXMg
-b3ZlciB0aGUgZGVjb2Rlcg0KPiBibG9jaywgYW5kIHZmaW9fcGNpX2Jhcl9tYXAoKSBjb3VsZCBi
-ZSBidWlsdCBvbiB0aGVtLg0KPiANCj4gPiArLyogRmluZCBhIHN0YW5kYXJkIGNhcGFiaWxpdHkg
-dGhyb3VnaCB0aGUgdmZpbyBjb25maWcgdmlldy4gKi8gc3RhdGljDQo+ID4gK3VpbnQ4X3QgZmlu
-ZF9zdGRfY2FwKHN0cnVjdCB2ZmlvX3BjaV9kZXZpY2UgKmRldiwgdWludDhfdCBpZCkNCj4gDQo+
-IFBsZWFzZSBtYWtlIHRoaXMgYSBsaWJ2ZmlvIGhlbHBlciB0b28sIGUuZy4NCj4gdmZpb19wY2lf
-ZmluZF9jYXBhYmlsaXR5KGRldmljZSwgY2FwX2lkKS4NCg0KT2theTsgSSB3aWxsIHVwZGF0ZSB0
-aGlzLg0KUmVnaW9uIGFjY2VzcyBhbmQgbW1hcCBoZWxwZXJzIHdpdGggZG91YmxlLXVuZGVyc2Nv
-cmUgdmFyaWFudHMgZm9yIHRoZQ0KZXhwZWN0ZWQgZmFpbHVyZXMsIHJlZ2lvbiBpbmZvIGNhY2hl
-ZCBmb3IgZXZlcnkgcmVnaW9uLCBhbmQNCnZmaW9fcGNpX2NvbmZpZ19hY2Nlc3MoKSBhbmQgdmZp
-b19wY2lfYmFyX21hcCgpIGJ1aWx0IG9uIHRoZW0uDQoNClRoYW5rcywNCk1hbmlzaA0K
+From: Leon Romanovsky <leonro@nvidia.com>
+
+Allowing a driver to bind does not establish device identity or prevent DMA
+initiated by the hardware. An initrd that treats those as equivalent could
+authorize a device before attestation or containment is ready.
+
+Document the authorization workflow and the division of responsibility
+between userspace, driver core and bus infrastructure. Explain which
+decisions survive probe failure and unbind, and when queued probes may
+start, so policy agents can prepare the device before granting access.
+
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ .../driver-api/driver-model/device-trust.rst       | 323 +++++++++++++++++++++
+ Documentation/driver-api/driver-model/index.rst    |   1 +
+ 2 files changed, 324 insertions(+)
+
+diff --git a/Documentation/driver-api/driver-model/device-trust.rst b/Documentation/driver-api/driver-model/device-trust.rst
+new file mode 100644
+index 0000000000000..5c06f3a3340c2
+--- /dev/null
++++ b/Documentation/driver-api/driver-model/device-trust.rst
+@@ -0,0 +1,323 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============
++Device trust
++============
++
++Device trust controls how the kernel uses a device. It does not verify the
++device's identity or firmware. Driver core tracks the requested policy,
++permission to bind, and active trust level separately.
++
++Policy and active trust
++=======================
++
++The writable ``trust_policy`` attribute accepts ``default``, ``blocked``,
++``adversary``, or ``unrestricted``. The bus may set the initial policy;
++otherwise it starts as ``default``. Boot options can override it for all
++devices, a named driver, or an individual device. See `Boot policy`_ for
++precedence.
++
++The read-only ``trust`` attribute reports the active trust level:
++
++``DEVICE_TRUST_BLOCKED`` (``blocked``)
++  There is no active driver setup or binding. The requested policy decides
++  whether a later bind is allowed.
++
++``DEVICE_TRUST_ADVERSARY`` (``adversary``)
++  The device is classified as potentially malicious. Protections depend
++  on bus, DMA, and driver support; classification alone adds none.
++
++``DEVICE_TRUST_UNRESTRICTED`` (``unrestricted``)
++  The device uses the normal privileges allowed by the bus and DMA policy.
++
++Policy resolution
++=================
++
++A bus can implement ``bus_type::trust_resolve`` to choose the active level
++from the device, candidate driver, and requested policy. For ``default``,
++it may use topology or firmware information. Other policies must resolve
++to the matching level or fail.
++
++The callback must not enable the device or grant DMA access. Those steps
++belong in setup callbacks, after resolution and before probe.
++
++Without this callback, ``default`` and ``unrestricted`` resolve to
++``DEVICE_TRUST_UNRESTRICTED``, and ``adversary`` to
++``DEVICE_TRUST_ADVERSARY``. Explicit ``blocked`` blocks binding.
++Enforcement is provided separately by bus, DMA, and driver code.
++
++Admission and policy writes
++===========================
++
++Authorization is userspace's choice of adversary or unrestricted for a blocked
++device. Commitment happens when the kernel accepts a policy and operating
++level, before starting driver setup. Both limit later policy changes.
++
++Without device trust boot options, legacy unrestricted mode preserves bus
++defaults and existing bus authorization. Buses can use
++``device_trust_enabled()`` to distinguish this mode from boot opt-in.
++Changes through ``trust_policy`` are disabled. An explicit
++``device_trust.default=default`` enables them while preserving bus
++defaults; device and driver boot rules also opt in.
++
++With ``device_trust.default=unrestricted``, runtime policy changes are
++unavailable for every device, including devices with a boot policy
++exception. Writing a different policy returns ``-EBUSY``. Writing the
++current policy succeeds without changing state or suppressing a pending
++driver boot rule. Boot device and driver rules retain their precedence.
++
++When enabled, runtime policy writes follow the internal states
++below; these are not additional sysfs values.
++``P`` is the requested policy and ``L`` is the committed operating level.
++
++.. list-table:: Admission states
++   :header-rows: 1
++   :widths: 25 40 35
++
++   * - State
++     - Meaning
++     - Policy writes
++   * - SELECTABLE
++     - The device has not been authorized or committed.
++     - Any policy is allowed. Selecting blocked enters WAITING.
++   * - WAITING
++     - Policy is blocked - no operating level is committed.
++     - Choose adversary or unrestricted to enter AUTHORIZED(P).
++   * - AUTHORIZED(P)
++     - Userspace has chosen adversary or unrestricted from WAITING.
++     - The policy cannot change, even before setup begins.
++   * - COMMITTED(P, L)
++     - The kernel has accepted P and L for setup.
++     - Neither the policy nor the operating level can change.
++
++Bus defaults and boot options set the initial state: blocked starts in
++WAITING; other policies start in SELECTABLE. Driver boot rules apply later,
++when a matching driver attempts to bind. They may still replace this
++initial state, including WAITING, unless a per-device boot entry or a
++successful policy write takes precedence.
++
++Userspace cannot move WAITING back to SELECTABLE by writing ``default``.
++Choosing adversary or unrestricted from WAITING locks that policy immediately.
++
++After boot initialization, the state transitions are::
++
++  SELECTABLE ----select blocked----> WAITING
++      |                                 |
++      |                             authorize
++      |                       adversary/unrestricted
++      |                                 |
++      |                                 v
++      |                            AUTHORIZED(P)
++      |                                 |
++      +------ permitted resolution -----+
++                       |
++                       v
++                 COMMITTED(P, L)
++
++Binding and device lifetime
++============================
++
++A manual bind that reaches WAITING returns ``-EPERM`` before driver or DMA
++setup. Automatic matching skips the rejected driver and tries the next
++candidate. Rejected attempts leave the device waiting for authorization
++through an enabled policy interface.
++
++Active trust stays at L through DMA setup, probe, operation, removal, and
++``bus_type::dma_cleanup``. It returns to blocked only after cleanup ends.
++
++The state lasts for the device object's lifetime, including the switch
++from initrd to the root filesystem. Unbinding and rebinding a registered
++device does not reset it. A removed device cannot be registered again; a
++new object starts with bus and boot policy.
++
++Bus code that operates a device before ``device_add()`` must call
++``device_trust_prepare(dev, drv)`` with the device lock held before driver
++setup. Registration preserves the admitted policy and commitment. After
++setup fails or the claimant stops using the device, call
++``device_trust_clear()`` under the same lock to clear active trust while
++retaining the commitment.
++
++Compatibility attachment
++========================
++
++This compatibility API **must not be used in any new code**. Its
++unrestricted-only restriction prevents devices from using the device trust
++authorization infrastructure. New code must use ``device_driver_attach()``.
++
++``device_driver_attach_unrestricted()`` supports manual attachment with the
++caller's existing subsystem serialization. It requires a policy that
++resolves to unrestricted and either no device trust boot options or an
++explicit ``device_trust.default=unrestricted``. Other configurations return
++``-EPERM`` before calling the driver. The legacy case preserves bus
++defaults. Buses implementing ``trust_resolve`` must use
++``device_driver_attach()``.
++
++Per-device boot exceptions still apply: blocked and adversary reject
++attachment. If a ``device_trust.driver=`` list is configured, the device
++must also have an explicit ``device_trust=`` entry; otherwise this API
++returns ``-EPERM``. That entry prevents a concurrent driver rule from
++changing the policy.
++
++The caller provides the subsystem's existing manual-binding serialization
++and excludes bus-specific policy changes. Binding and removal are
++serialized separately; an overlapping transaction returns ``-EBUSY``.
++Holding the device lock alone does not prevent attachment. The API takes
++neither the device nor parent lock, commits unrestricted before the probe
++callback, and publishes the binding after probe succeeds. It does not
++perform normal driver-core DMA, pinctrl, or power-domain setup. A failed
++probe or binding clears active trust but retains the unrestricted
++commitment.
++
++Boot policy
++===========
++
++Built-in drivers can probe before userspace starts. Use boot options to
++set their initial policy. All three options accept default, blocked,
++adversary, and unrestricted.
++
++Any option in the ``device_trust`` namespace selects blocked as the
++implicit default, including missing values and unrecognized options.
++The bare ``device_trust`` option enables this default without device entries.
++``device_trust.default=`` overrides this default regardless of option
++order; the last valid value wins. Explicit default preserves bus policy.
++Other values replace bus policy, including topology and removability
++defaults.
++
++``device_trust=`` sets policy for individual devices using a comma-separated
++list of ``<bus>:<device>=<policy>`` entries. Names must match
++``/sys/bus/<bus>/devices/<device>`` exactly. The first colon separates the
++bus name; later colons are part of the device name. Names cannot contain
++whitespace, control characters, commas, equals signs, or double quotes.
++Wildcards are not supported.
++
++A device entry overrides driver rules, the global setting, and bus policy,
++regardless of option order. Explicit default asks the bus or generic
++resolver to choose a level, even if the global setting is blocked. The
++last entry for a device wins. If the option is repeated, the last valid
++list replaces all earlier lists. A malformed list is ignored in full,
++with a warning.
++
++``device_trust.driver=`` sets policy by driver name using a comma-separated
++list of ``<bus>:<driver>=<policy>`` entries. Use exact names from
++``/sys/bus/<bus>/drivers/<driver>``, not module names or aliases. Driver
++names may contain spaces; quote the option when they do. Other name
++restrictions and list handling are the same as for device entries. The two
++lists are independent. Driver rules cover built-in drivers, modules, and
++hotplug.
++
++The first bind attempt with a matching driver rule applies it before
++resolution and setup. It overrides bus and global defaults, including
++global blocked. It cannot override a per-device entry or an existing
++authorization or commitment. A successful sysfs policy write also takes
++precedence, except for a no-op write with
++``device_trust.default=unrestricted``. The rule applies only once per
++device object, even if resolution or setup fails.
++
++After a blocked driver rule applies, rejected probes and driver changes
++leave the device in WAITING. Userspace can authorize it unless the global
++mode is unrestricted. A driver without a matching rule follows the device's
++current policy.
++
++An initrd can hold devices with ``device_trust.default=blocked`` and use
++boot exceptions for devices and suppliers needed to reach the initrd and
++perform attestation. These exceptions allow operation before fresh initrd
++attestation. Devices without an exception stay blocked even if their bus
++would normally choose adversary or unrestricted.
++
++Global and per-device rules apply before device registration. Buses that
++need policy earlier call ``device_trust_init()`` after setting the bus,
++name, and initial policy. Driver rules apply later, when a candidate driver
++is known.
++
++All boot rules remain available for newly discovered devices. Initialize
++boot policy before device registration. These options are not runtime
++controls or proof of hardware identity. Blocked blocks early binding and,
++outside global unrestricted mode, allows later authorization. Adversary and
++unrestricted permit early binding without fresh initrd attestation.
++
++DMA containment
++===============
++
++Blocked blocks driver binding, not DMA that hardware starts on its own.
++The bus and IOMMU must provide containment while a device waits for
++authorization.
++
++Adversary does not require an IOMMU. Without an IOMMU group, or with IOMMU
++support compiled out, binding uses the platform's normal DMA configuration.
++Adversary policy alone does not provide DMA isolation.
++
++Device trust admission does not change DMA handling, IOMMU domain selection,
++or ATS permission according to active trust. Those remain governed by existing
++bus and platform mechanisms. Integrating them with admission is separate
++work. A setup failure after commitment leaves the chosen mode fixed; it
++cannot fall back to unrestricted.
++
++Drivers that manage DMA themselves must provide their own containment.
++Drivers that do not use DMA need no domain.
++
++Initrd attestation sequence
++===========================
++
++Drivers with init-only probe callbacks cannot retry a binding held by
++blocked policy. They need a boot exception or a persistent probe callback.
++
++For a device that uses normal driver attachment:
++
++1. Boot with ``device_trust.default=blocked`` to hold all devices. To
++   hold selected devices, use ``device_trust.default=default`` with
++   per-device blocked rules. Add exceptions needed to reach the initrd
++   and provide DMA containment while waiting. Blocked attempts remain
++   in WAITING, including attempts by built-in drivers.
++
++2. In the initrd, control probing and attest the current device through a
++   transport that works without its functional driver. Keep policy blocked
++   during verification and preparation. Leave it blocked if verification
++   fails or is unavailable. Removal or replacement invalidates the result;
++   a reused bus address is not proof of identity. Repeat attestation if a
++   reset or preparation step invalidates the evidence.
++
++3. Once all checks and preparation are complete, write adversary or
++   unrestricted to ``trust_policy``. This locks the choice and allows
++   binding.
++
++4. Request binding through ``drivers_probe`` or another attach path. The
++   kernel commits the operating level before setup. Retries keep the same
++   policy and level. Retry if the interface reports ``-EAGAIN``. A scan
++   can skip rejected candidates without returning an error, and a
++   successful ``drivers_probe`` write need not wait for a concurrent probe.
++
++The ``driver`` link appears before probe completes. To observe successful
++binding, start monitoring ``bind`` uevents before authorization and
++correlate them with the current device lifetime, or use a successful
++synchronous per-driver bind operation. Link visibility alone is not a
++completion signal.
++
++Queued or concurrent probes may start as soon as step 3 completes, before
++step 4. Evidence must still be valid when authorizing the device.
++Boot exceptions that permit adversary or unrestricted allow early operation
++without fresh initrd attestation.
++
++The kernel interface provides neither an attestation transport nor a verifier.
++
++Driver use and independent properties
++=====================================
++
++Drivers read active trust with ``device_get_trust_level()`` or
++``device_is_adversarial()``. They may cache it while bound, but must not
++change requested policy or treat trust as proof of other security
++properties. Use the adversary check for paths that bypass the DMA API.
++General DMA containment belongs in bus and IOMMU code.
++
++Code that needs the level fixed for the device's lifetime can use
++``device_get_committed_trust_level()``. It returns blocked before
++commitment and the fixed level afterwards, including after failed setup
++or unbind. It does not permit operation while unbound.
++
++Trust does not describe transport protection, encryption, verified
++identity, memory privacy, or DMA addressability. Keep these properties
++independent of the requested policy and active trust level.
++
++Policy writes cannot revoke authorization or switch an operating device
++between adversary and unrestricted. Stopping it requires a separate
++procedure to quiesce the driver, tear down DMA, and contain the device on
++its bus.
+diff --git a/Documentation/driver-api/driver-model/index.rst b/Documentation/driver-api/driver-model/index.rst
+index abeb4b36636b6..af547cd13b2c4 100644
+--- a/Documentation/driver-api/driver-model/index.rst
++++ b/Documentation/driver-api/driver-model/index.rst
+@@ -9,6 +9,7 @@ Driver Model
+    bus
+    design-patterns
+    device
++   device-trust
+    devres
+    driver
+    overview
+
+-- 
+2.56.1
+
