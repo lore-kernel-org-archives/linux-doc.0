@@ -1,79 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.54
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795034161;
-	b=EAsgwUe7iDNADFw3jWetY3BKV4mdpy57gA/328kpiLoS/mKVDP8Wryl2+O+MEmgooZHx
-	 fwNqzcsBCU7XtcVEX4LQktErKW5P7RpeVyDRlDi1ZtAD6HxA56ZC7RHLkBC5DW9uLPQ7+
-	 zPHz8U/5OcSfFtp9PxyP50DEkNxKim7XKyzbDe+eD9ghgg88t8hNeWxZEHMFPfkqY4qVR
-	 /3dHEn0RnSp4KzeuFWlyl777q+kGTRoSScAbmgXug051m8T0YwxlYfH37HEU27kJzfjOd
-	 xktf3rntuBl/Cv2wNptWNyG0DfqBPCjfQ8Khm3dsq+REDirhc9dOCtAsoMYINvZsYgg==
+	t=1795034443;
+	b=BgI93nEwwtrAjUYtOIEdsnwaf3TmNTzfR/MQK8KCwnfrCdO+rTH+hL2VksNxrx/6vt5l
+	 QSolC8DOyZUJwj/MuNcQWC1CwlqHyTaCBcAdlPVtHcfD40/LcFcEBujIegf+xm03nVYNt
+	 3MtQZitxeQzsQD/Ayp5P0ACVg5M7stlzXKv+N3VD/iv1im2tp1fkZfSxg9H/t7CW42BLA
+	 z+rEZfGqk9X0C/9nKvEToOsv3gMy7NdmqB+UZ76RD9vXTt+luNnh3je8E/osD1H0RKwRk
+	 WpOw04H3JdZnRrF1qE8RcyhtOyWOBJc3zxw/GqaCVvaxSAmc/tRlsaLw85SELWJ9cHw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795034161;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=aFuWMoz82HMnoLNvtMfPFgB6snl13AtaRt+tp+1eHwo=;
-	b=jiRIsn8+gNULm2FL67+tCkuLse3c4WCAbxq2Pf8v8g4lLCaHmWo6Aj4XtyXzyXKKoMMX
-	 xDBGQ1TL2ETy+m3nVR4zTTeNHLRyVWJ+vMIKOgrnr33BjYT+pIXUI1aSX7vsidu5aSEN4
-	 WqDKe3ZSSKDdXJUNTgfh541cg9osM7dOmnllta7hS7BMvjibmukdO0WJpqqv+0scncCef
-	 2vtRONidthrChvJ/bUveWerW2OJbZRBS0m2HYHhQV3UonF8g3rlsUYkBQTr6dv1NjAGX3
-	 +Wp95R4mtWATQnu9z7KiAE7Yeku6Wr/YSUNvk6/CXAAsLFEINpwFz5Cev2Btzu3l4+Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795034443;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=bjaPw4jPdWxt1bJx8dGwdcFSJPPCd+UffAYI08DckI8=;
+	b=d6oKDYMJkBS80k6lVzGupDG9aMM76tsFpsLVjuKWNI+edaQQuPekxrmAXlOBO9YFgrsC
+	 63XfWIRB3qm6BeZJTlnuZax2ttutNVOb1FcAjVyIbN8ubtdI8yU/DWp0RwyzXLpm/qHNT
+	 88UQugL9lHMtNVOr0WBq5gs7vHdnWfoeqg0sAi33KXK7BmLZ6/O7kv6X3/ohnmZarVX0g
+	 4gHRrMNR0bgcOYgqdnuxIwdhAPQcafQoTnWTQVgu/XeyUmH6StHskQnh/Z+66FKbXeiAH
+	 d8GQEsQrKNvAM2V/fAv/7mWou1EfigTKTBYHvInyqHXsk8jM3hOuzZViFX8bBPUscEg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hzyGSikA;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAE4606A31C;
-	Wed, 18 Nov 2026 20:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hzyGSikA
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795034161;
-	b=3DWq2SrwnVpZEVmKwDUEQKWeEzhYGDUgi+8u9lGDewJGuYVtCGX2myHkSvgHl1Auen+1
-	 4HYclmJUFs4VGzv2QU0APQTjRTQk+BmlhOp/lpbUz+N4owsYtojXwkICEpRJkdGa3t7K7
-	 lYmFAf+MKZKq3IwbYjTbnCunOxDHaT6Q5tfkW0qUBjDvmayG/jkRBW0vIRfKV8TaMTLK6
-	 EHBm8CiGTDsM/GXX1ElQfOtyr2YqOyTjRKPaQGXIP2v9Q5Qb/0vkTiDSlhaqsrSS/m4ob
-	 SnDjBEZS45LIqbYWtSWj3WTs1XtU5N8TCvDXW9njjjiZa8Y3xoUqFbso9tkf5/mTKRA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795034161;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=aFuWMoz82HMnoLNvtMfPFgB6snl13AtaRt+tp+1eHwo=;
-	b=MS//hcu9lPdoUbdrCmCyvWU1XmEsiHx5eWb4EvdghNl+OUokSoR/Eh8Wm6Dch6E/25iW
-	 yQf+IePR1miOKfn58lYV73efy6KZgusdQmMm97T8mqgAcSbEDn66+eQqg7oTjz/+ApbW5
-	 CwXZeUm0KBnibIS47wyCsbPpxCdocKF3TWb6h5pQCmM7WXuTPdt961pYqT/M9XQLt41H2
-	 3PjQOMDHJPmOlgvr0lYD9OZ1veBZe2hcSryPFI9nv4g1eK6/vVeE8RdAn2fBtIim+oq+6
-	 +zpxYZXMyZYlP067OmVyEOJa3NFwK3BXh81p3tzRmlloLTTNJktZolmGaIcUQrneP4Q==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AClX9dlh;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.54
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id BBAAE1F000C6;
-	Wed, 18 Nov 2026 20:36:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795034161;
-	bh=aFuWMoz82HMnoLNvtMfPFgB6snl13AtaRt+tp+1eHwo=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=hzyGSikAfVyV15dngxufMbyW+JbR/3e8GkFlrRC5DH7DTUZiwBA9smVmnbxER0h/2
-	 9IDzeE+/EEY+sd8xYJU0m3PM4bM4nXPRbO6SlXIUjgwrvl1eJFZE4zLg3Muq8TQY2v
-	 YDTt++pTkCzh8g0wwzSSIvY3PwVRPa988QMeFdA8B1JkQy9hRaqhG31VSxLvKFDvI7
-	 nss4W5AghIrHu8oq9oMkTcRkZQSefbuhGooC3Jh0PZG+U7BCSMPRPN5fRA/sToon5+
-	 iCSQgtc0+VC2EkqjEDKnAflpf56+cpj1rXjCxK8LQ7UicN1q2nGutRtMFtP1MO73gh
-	 RM7EalioDZi2g==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 0A1BF4AF76;
-	Wed, 18 Nov 2026 20:36:00 +0000 (UTC)
-From: Felipe Pereira Stival via B4 Relay <devnull+v0idpwn.gmail.com@kernel.org>
-Subject: [PATCH net 0/2] tls: don't hide a queued KeyUpdate from poll()
-Date: Wed, 18 Nov 2026 17:35:47 -0300
-Message-Id: <20261118-v0idpwn-tls-poll-parked-keyupdate-v1-0-8e25101e7be6@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F7B606A32A
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 20:40:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79F7B606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AClX9dlh
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-92100b756b0so9939556d6.3
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 12:40:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795034442; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nz4YWQZrZRKD9RqtE2E19YdBTG5LVvjfjBaJc5Q6TjskpMH210HuUzCMa2gDHHDs81
+         HvuRarEbvpT5bftKBYQ4gJMguvLIEDZpZEvuw+Pro4S38K4CicfFEHlX5PdXYtsMFeF+
+         QnbPwBCewCa5+YAjgwhGr+ELP620vRygg63uU1yKAarNjK51iqyC8ECW8A1RMBh/zkaq
+         Dwo6TxhttiJlcmaZ/AZSfM3dgVMgKdWdXF+k5Y3bDRfa5Gey65/uedpIgqOM4z3i+h8g
+         JmPxHBqFpInhxmOsCfq2ixlY/PN8lnVMd3t+KoJhJqSSK52WcGumUFp2k0mVvHkHyXAc
+         emDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bjaPw4jPdWxt1bJx8dGwdcFSJPPCd+UffAYI08DckI8=;
+        fh=NJty93EYCWooUTYcnLHL/GZm6oy3Nh+Hy0ZPXIVHTJQ=;
+        b=Q76D0ETufbKa1Sdsw50WTX9YoTToMER4lkTtOuF6mM3Ha9AFfgc2RT9b1VYfg/UmQQ
+         XZsnJvkl2STOXUw8AU+oVf69wQ+qhHqSRqBFcnl5wi/FmdKWGZwsqxXqi+3OfON56DTO
+         7KR3Ct/KQxW53VMBOSEOrCFmgL4m3a6cdlbm7z26MGNp2+36ZgYyMj29M7W7mtylYLHr
+         ra6sQxJ1R0CeGjnYdG3HVhwN9qNIsGTMuRkO0RVkvXtV5/UQawa8OC+6KZ9Hd4MxUPDv
+         2YKCJYqPo2+ezs2EixLmZzczFuLvvFoUXGC4JAg7p3LIQaGvtse1rSdHUKxS6OLMMlS4
+         64Gw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795034442; x=1795639242; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bjaPw4jPdWxt1bJx8dGwdcFSJPPCd+UffAYI08DckI8=;
+        b=AClX9dlhdmMRGePI7QFzY5q8xMGB4l+/DkfG+5WkBX1Ug3J50fNjaCtJG+WrOBkxUi
+         RpHpBHKQO3BOaJIA3rYtAoBgR7d2wQ+acoyMq5F8NKt7uv+HbII7X+fClzODwFObxloS
+         GRV4mLMt9bTstaPayiOlyBhWopjyBJlxG6ULjOGyFAIHQ56FyVgxP9lTEW5GhZv6pOl/
+         eCUTwsvSIzWeHOFHoarybztEl4fTLLO3MtYDiY9P8le5fRhjzTICZMHvxBAq2ZNvIgPg
+         wvf6yooXXvwQCQyRZI33L/Htza1paEzeFiZP5EYacLhzeK7DNVdQP7RGKRzt5NFH5wxF
+         FMvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795034442; x=1795639242;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bjaPw4jPdWxt1bJx8dGwdcFSJPPCd+UffAYI08DckI8=;
+        b=vknnEhxJ7lUnOAjfBRvxik2rKarCh4AK/jf+b4T/hnVQ/2JyPuH/w3FKYLlNVADw+a
+         5SgitmsA1lsUQx7LEB7Mv52uzIpaiVNCcO2/zqebMHeLlvu1c/YiNufkFGAGaQrwOVAq
+         1IKqsEZYHX2FhKpZgyf+N7L8O9XR/ZrnAQqREtg5exwN65kpnwRX5OMQwtJfgz6v46gm
+         xcD4PKGC1I899qzpgIUIVtU0umkVtchid7nvq1dJ8JW+j9UHDGDDGL2VpM5Lg9S7MZ32
+         h3lQapoLYtnrHrq5iY7d9rYBIsJbs53S4szxBLpTuSrPljnJlH5tSbPaROukgJ6ihZnn
+         DIhA==
+X-Forwarded-Encrypted: i=1; AL+hErE2gUZEkVrj1YLTan+Km2arRrMBCKdgajzrGjgoK4axZf+fnbqJfgqU2QAraK6EyoMPK7dNqFPVqus=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+ryWRDFEWkz9PKf6OsnvySel8e92LHKwmjG8sZFXyAsy9Cb4XY
+	yX2kEV5WDrWKRK4kxF8Hfgy8VFemnBIAlKW/CsAEfapXLWn+lyVDnJucLuVUjd98F5nP+0/BJ47
+	Z9uS22voC1Z+dzS70UW1etJVEPAly11w=
+X-Gm-Gg: AZFdTZddzGM0kG9ewo6NoMkt0id7JWilGj6wJMCncgQyXcvbaqDZpZIJjeSnegLvqAe
+	gvNG/L6u0MH7siQuLVgvfsVtjtqswAskHK6UrrjqzEfwFxTOErwuIDXO/ToCDPr88+2p0mt6DLO
+	7vNrGhQh5vMgDVZYQpI/PAjgmch/vNLdu27aVY1Qhrx348eUVZcanGrM19a9+KP1ltp5IhT1d0i
+	FYY6Q6hFA+eYephk+vws6AHOECpoPLiF6cmraVKdeCV+PxqILlCqd/eBEH6tRRtuxifRJFAlDV4
+	WE8pInkNH9GdLOJw5k2cq5S2LH+djQ21Ag8CpaxYqNag+uKB1asw+tmUFQ+IH/geayvi11/tXdJ
+	xNvYx5KEIrvJT51YSZwK49WXtT+8WO/QF5wkXdcrmOOuZ4lcCplU3sD4OEAoLcpVEwSKtshXIHv
+	Hb9+qh0rzmEgAiU96lvcvRpvE0ftc9DKRDficUiA+CfSzyi9ZtP7manNucImdjCvEN+/oYUgPsU
+	4o6HL6AmjVx4sX2VYlua7q6
+X-Received: by 2002:a05:6214:478b:b0:921:1e95:2f39 with SMTP id
+ 6a1803df08f44-9211e95565cmr26397616d6.28.1795034442203; Wed, 18 Nov 2026
+ 12:40:42 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,73 +106,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWNQQ7CIBQFr9L8tT8pLGr1KsYFhVf9llACtGqa3
- l3U5cxiZqOMJMh0bjZKWCXLHCqoQ0P2bsINLK4y6VZ3Sqme11ZcfAYuPnOcvedo0gTHE95LdKa
- AtTqe9NDbEZ2j2okJo7x+jwsFFLr+ZV6GB2z51mnfPzRA006KAAAA
-X-Change-ID: 20261118-v0idpwn-tls-poll-parked-keyupdate-21792b8cfe6d
-To: John Fastabend <john.fastabend@gmail.com>, 
- Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Felipe Pereira Stival <v0idpwn@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795034159; l=1813;
- i=v0idpwn@gmail.com; s=20261118; h=from:subject:message-id;
- bh=DIS1qpGeSGsJAZlzQeuErG2MWJN2BgtKvOVfJIEtLu4=;
- b=oamRd5Y6T31xLNPKrToNJ8oIMDJqzpC85j6F6RcOJIa758qXllk7jhlCBwJ1yjMpdArZTga56
- gd5sFCzdTuVBR3/E6WVpdX6/dE8AH0cj8Qrj6zspgATfD7V/ToXYRQU
-X-Developer-Key: i=v0idpwn@gmail.com; a=ed25519;
- pk=dy+Py1JexopmEarZT58aUO9PMt7zs+cB62CS+N7NWTw=
-X-Endpoint-Received: by B4 Relay for v0idpwn@gmail.com/20261118 with
- auth_id=1562
-X-Original-From: Felipe Pereira Stival <v0idpwn@gmail.com>
-Reply-To: v0idpwn@gmail.com
+References: <20261117223335.111220-1-igorgphotoarte@gmail.com>
+In-Reply-To: <20261117223335.111220-1-igorgphotoarte@gmail.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Wed, 18 Nov 2026 17:40:31 -0300
+X-Gm-Features: Aa3M54op0YIBrliHol3Mlc8wtKvr7NtV95bZyqRsSD4Pdht1ncNL6HO39vbZMlY
+Message-ID: <CAMAsx6dbXRHY+bYads72Zh-jBWh73PQ8ZA39A7Gsm-owX-o+kA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] docs: pt_BR: process: translate driver development
+ debugging guide
+To: Igor Giamoniano <igorgphotoarte@gmail.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-A kTLS reader that waits for a read event before each recv() can stall
-after the peer sends a TLS 1.3 KeyUpdate. I ran into this while testing
-a kTLS patch for Erlang/OTP.
+Em ter., 17 de nov. de 2026 =C3=A0s 19:36, Igor Giamoniano
+<igorgphotoarte@gmail.com> escreveu:
+>
+> Translate the driver development debugging guide
+> (Documentation/process/debugging/driver_development_debugging_guide.rst)
+> into Brazilian Portuguese and add it to the pt_BR debugging index,
+> removing it from the Todolist.
+>
+> References to documents that already have a pt_BR translation point to
+> the translated versions; the remaining ones still point to the English
+> originals.
+>
+Hi Igor,
 
-Erlang does one recv() per read event, with level-triggered epoll.
-When application data is followed by a KeyUpdate, one recv() can
-decrypt both records, return the data without an error, and leave the
-KeyUpdate queued. Because a rekey is now pending, poll() no longer
-reports the socket as readable. Without another read event, the reader
-never calls recv() again, never sees the -EIO for the KeyUpdate, and
-never provides the new key.
+Your patch series is missing a cover letter, which makes it a bit
+difficult to get a clear overview of what the series is about.
 
-Patch 1 keeps the socket readable until the reader has consumed the
-KeyUpdate. As before, poll() doesn't report records after the
-KeyUpdate until userspace provides the new key. Patch 2 adds a
-selftest, which fails without patch 1.
-
-I worked on this with an AI coding assistant (Claude). It wrote the
-first drafts of the code and the commit messages, and I reviewed and
-reworked them. I directed the whole process, from tracing the missing
-read event to tls_sk_poll() to checking how other kinds of readers
-are affected and testing in QEMU/KVM.
-
-Signed-off-by: Felipe Pereira Stival <v0idpwn@gmail.com>
----
-Felipe Pereira Stival (2):
-      tls: don't hide a queued KeyUpdate from poll()
-      selftests: tls: add a poll test for a queued KeyUpdate
-
- Documentation/networking/tls.rst  |  7 ++++---
- net/tls/tls_main.c                |  6 +++---
- tools/testing/selftests/net/tls.c | 40 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 47 insertions(+), 6 deletions(-)
----
-base-commit: 2a324a58a084c5cfd7e5a2f55e0786bee170a4a5
-change-id: 20261118-v0idpwn-tls-poll-parked-keyupdate-21792b8cfe6d
-
-Best regards,
---  
-Felipe Pereira Stival <v0idpwn@gmail.com>
-
-
+Could you please prepare a proper cover letter and resend the series?
