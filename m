@@ -1,87 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795021716;
-	b=FB+wv+mmD5Iiv+KTYSowvVVpd/bE7O9gMpjzE5Tjy+GsSaWK5NUk4v+s19IU6JEi5SVN
-	 AT66201R7mSFeyIipqfjcV8TwxSoKDoEGiDmDjhTfJFSaqcTDNUlwstAir9XTjt/7SxOJ
-	 5NFHHFD1g8GS3CI/3szQ0+pNn4CvUUWq6kv1/G1z2Lr7gOkS3tx9c/aBU/K/HtdGlFVvd
-	 gsMsgdjYdCgviScTWczyGhF+o7sIKNBfvtRxLmXM6WLjmXDEe7lShaPgMrugt96Z6FHdX
-	 vpKqZx7Vm+GixYfYLi/oNLEA6UzOjJ0lwkGxvlYPKo4RemIu6LnSvvkchpFQ72MLfMg==
+	t=1795021804;
+	b=Uvax4lz6xFbUJWPKK8tG1pKuL4qWdkyH80W6ygpPalWWtJW/KDxv/0r1ehX3XmL/9pLE
+	 aHlD3pfpFYuMbrjPjmfSsU4vOQOk2rck43++zYkSl1ZmPMfaj2otV7t/FgH7dHS+7qBCa
+	 f50Ut8RXQ9nMgRFpiUalcQXKSTuvoFpBlFGwq9nsy1wi9yc1jsQFUpH7Lz8Tl3LYpj0Cd
+	 Y0MHRbNWtZpteJC3X0mVOFubXQT2Zf+qiIvZAGkgnH+50biA2RHYdYQwmpguDpVK/AEnD
+	 Akd3hV/GlgyvhD1TGeQPns/ydx9GUUzyW6c0bRqYY7F91Lyg0AonSwGoHQk8sgtbY5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795021716;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=zINOi7QPXEvi98cbqP6TjwwtqfWoUArKawL5JYAavAU=;
-	b=kg5HCxech1uO+62kY+Va49GwEugkM/31UGlftPXBcNj6eUyvcZ9D1V4Ae7Srt6xz4/Nw
-	 g8JbI/o+V4x22PRJmZ/zxd4g2psQmvVv3ZcVL00KL7fck5JJ+Q5VrcMUmp8mu4jjKBuwA
-	 9FTRwcs85/nK/FNtsYyMljcR16VMS6vQcKPlSyGZ6Bv7n35kxY+SHcBDMBmAUyIrNbTdB
-	 hEmBH0fgBcOMsT4MGPdBvDOK2+nJv8mkE43m9U+iqX1lLJkmEZOv0jK11SBAqdhVYuXhV
-	 H4rD/O35mM2I/jWKRquXzUMcjP+N0Kax2ZZ7DJ1+t8FilhP2dN8flkisqsUas+XHSng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795021804;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-B4-Tracking:X-Change-Id:X-Developer-Key:X-Developer-Signature:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=mBINZO8SI4MpYZqVki+lomnJt57kbnNhtrWtWttDyyg=;
+	b=oRzvLITbneZZ/4U9L4bCfy0ZKRAFUsb5TY8JHx2oNF3VbGpdaMUobgo9WYKxymycqDHn
+	 58ZLF+z4dC+fmONbXK6l5+E88LFxrpyflG0w0UHC8wm2r6+fFqmaJg+TGxmWvHCw/XOZA
+	 4H3O0b0FAIKKGWqm88084zQsFyVrMJzmFQQYN7YACmNztl41BVFTMo2VUpwcv54BhkwPO
+	 hfoS0Kh05LUH8CB7vWu4UkwUQ/XEiCi3TtBpIZ7x7mSjzUdWyqZahKgz6Wi0kN2FfvTKs
+	 c5CuK+N2EpMleVTCC7YY+dF7/OpgiJEdLs4F+pNXucMg38/tTcqXBE+aN0k4YD5GmWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ai7InkSx;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NQRD6l1T;
+	arc=none smtp.remote-ip=209.85.128.70
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id CE4C8606A31C;
-	Wed, 18 Nov 2026 17:08:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17356606A32F
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:10:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17356606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ai7InkSx
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CEC651F000C6;
-	Wed, 18 Nov 2026 17:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795021716;
-	bh=zINOi7QPXEvi98cbqP6TjwwtqfWoUArKawL5JYAavAU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ai7InkSxjpjgivgeXU6eK1BzM9SMFaBHZ97FKtVTgzZrgbTvyMLm/yoQ5iDK2F15o
-	 iTRkDOM5FMMC7Su4PQB1NNwWaeJVN/3Q/mYacYUCeTZRfLZiNbc0Psa/woPxI9priV
-	 o794AiIxzMMqwmGdfxK1sVY51lnnoLeRxopyMxm3Fw2Wn75jZxgMjWDWGbfvJwR/F7
-	 55uapbzqrx1sE6psi4VAyHUC+D/mArx5ooB7wwR90Jm3Q5Q2x2m32mx71CpDNud7Ql
-	 0+EGSljYTSewzaz+DAbOKH8by3wxtDmKxsjPI2frMrPXcPdOdqYqLiNXz6oTJsS+vw
-	 QjKJcR1CdMiUg==
-Date: Wed, 18 Nov 2026 19:08:32 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: josef@toxicpanda.com, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ben Segall <bsegall@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Johansen <john.johansen@canonical.com>,
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
-Message-ID: <av3bkDnwmjunTleX@kernel.org>
-References: <20261117231352.3816603-1-jarkko@kernel.org>
- <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
- <av3akYFOYaeQZauZ@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NQRD6l1T
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a359b714f8so8076835e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 09:10:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795021802; x=1795626602; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mBINZO8SI4MpYZqVki+lomnJt57kbnNhtrWtWttDyyg=;
+        b=NQRD6l1TEtmIkjHWuz75N2co3p+FwDO9v10vBOx3armYpgWNct7q4TXvfe+q4eiCFU
+         K7fsXwLRgj96NcAqLdAtMd8bmPp+j7SaF0lt973TUT1EscM6flsDNztdVahjV6YZn13h
+         Uu0AVW4rEq8gi8umm3a9VhwbyyGSDq+rbimt41v5mYKm7Js7LqHdxKdE/LlB+bJiZSv6
+         RAvcZMnizV/Pp6qJFfMpQFPiJYOi0SvoCXmW7MIY/OEZUYI09VE6iaGwIK1SfdHGBhwh
+         GVBY0EEth0Z8NBZT8gCzlHQm0xH/la8rl7HpSpUsTaLD2Hfbe5wdYhP1N0bLTwFQR/Wj
+         SC9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795021802; x=1795626602;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mBINZO8SI4MpYZqVki+lomnJt57kbnNhtrWtWttDyyg=;
+        b=Q3B2kg5tnfKmDKM2YK1sRXw+4ox6pDMC9AJqgDeh9WL8EfKaHkGPSq/Uq9APaxNrPt
+         DnebdPjcazNt8/1KVDi+1Z0YPS8PT4JqDNTj45F/u82V7rpqS34STlC//RE3wavCd7dh
+         nvt4KxaSrbA24srQu+sFoYZWXqlAUzqAplKOf2rv7cNDGz47JiVAi7lOYbXqjR2hpybB
+         N6rd5mgKqALYg18Pw03bTLAFem/dZ4C3zQk8/IxAIqQjs7c4CGaDU9Y3sL5ZbATVEbPx
+         AjiHtp0CJMQhQe9g7O/L4KdlBfTAhmXQVUBCINQB7AZxD0KfUpHQbBVl7BkaWiwajLMK
+         Yc5g==
+X-Forwarded-Encrypted: i=1; AL+hErGS356c5c+SKoLABj/YqfzMak5J377hcMrEyoBFj02AeJ6H+woGvqbUcVCjcwUkRYdRmwvVlCcow6s=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+bfA4PcinD/gqNvFza+2yZ0Ns/2J3TGlORH+PWZ3j5T+/w0BIJ
+	3V+SsUO62ix/qgi/3DmQdHg4n3bxUUnmfzpKnU7BhkWOf5Wbj/5Yr+QSr8lWKMye2Ia4brLTEkI
+	O/uE3BFQBJf0pWLiLLA==
+X-Received: from wmdn7.prod.google.com ([2002:a05:600c:2947:b0:4a2:8ef:a5af])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:4ecf:b0:4bb:7007:4a5a with SMTP id 5b1f17b1804b1-4bb7da2eaa2mr68357745e9.23.1795021801887;
+ Wed, 18 Nov 2026 09:10:01 -0800 (PST)
+Date: Wed, 18 Nov 2026 17:09:50 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,78 +76,62 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <av3akYFOYaeQZauZ@kernel.org>
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAN/b/WoC/x3MQQqEMBAF0atIr21IosjgVcRFTL5Og0TtgAri3
+ SfM8i2qHspQQaa+ekhxSpYtFdi6ovD1aQFLLCZnXGet/fCmEYrI18HBp4CVu2YyDmaGDy2Vblf Mcv+fw/i+P1fPKTRjAAAA
+X-Change-Id: 20261118-ordered-wq-cancel-63b02e0feac4
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=733; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=2c+b7t2eSKRSZikSFPwO4mhMOW0PlzZoNYa5IB1loN4=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBq/dvjWZXjaqIG7+QNZMRPjUaudgg03nhqwuouf
+ rjtcynuV8aJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCav3b4wAKCRAEWL7uWMY5
+ RqEvD/4jQXgzC7AXJ3txLaMqfqDu96CDUPsiDmb2Os7FDvR8CQzsd+E4vkv8pqnLpUoVUbHTKxn
+ 2LWXPUTEOHgIv87yjdfM6ZAPpx7qtx6Tv4I8U84NucamP86rLQ6mMPLBua5EDNbRmvslVhFLomy
+ +SxNbhkFbEBHwBbNfU7FLV1P2TCLuBnhqYAQ8uiAHXkWUtYcsnF0alwTgCbe6NV9wQqIiYY2VV3
+ 9a/6bCBumEP6JkrPczQHfL1ELRfX4M/A6CWQuChk4HiNMWIW3zL5YFlLMJQAHRFu53FWr1hpjwg
+ Lx0jF3cHrOX1gTGF2y3XnaDi+6vo7n5etmR7Vtm1x07Is7Bb9S12OuZit9LmasPyB6ZHdY0LU/9
+ 9YoUtddS6nhAA01UysT7bPMBRhEpgNEI4FrQILcfCB5Fi9DqPto6wRHdJGYbsZVQa6rmWu0RtYm
+ 3s3UYTrJq5b6jPzkx+q/9SdB4Y2nwTaj22UrRHQ1ia+sox6qbd7JXg40xcmUcA+Aipul3211n0Z
+ 3lwyL8KPBHQjpButhNYkOP59y5KlQxPxpWRxM44d1bBEvIky2FvViYro4fWZhuvW7ZpTECXAvto
+ CLULfePyLLxPbarsGy4z0VZr30J8rc62G1h1bCYvVQ6/3QrO/pHY77KqTrT8uNnvmNWUGbU3G+c FR2c8om07K578Ng==
+X-Mailer: b4 0.14.3
+Message-ID: <20261118-ordered-wq-cancel-v1-0-916e01f9affe@google.com>
+Subject: [PATCH 0/2] workqueue: fix cancel_work_sync() on ordered workqueues
+ and clarify docs
+From: Alice Ryhl <aliceryhl@google.com>
+To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Boqun Feng <boqun@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	"=?utf-8?q?Christian_K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>, 
+	"=?utf-8?q?Thomas_Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, 
+	Liviu Dudau <liviu.dudau@arm.com>, "=?utf-8?q?Onur_=C3=96zkan?=" <work@onurozkan.dev>, 
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, Nov 18, 2026 at 07:04:21PM +0200, Jarkko Sakkinen wrote:
-> On Wed, Nov 18, 2026 at 08:59:39AM -0800, Andy Lutomirski wrote:
-> > On Tue, Nov 17, 2026 at 3:14 PM Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > >
-> > > OVERVIEW
-> > > ========
-> > >
-> > > A root namespace (rootns) is a kernel object backed by a file descriptor
-> > > that binds together:
-> > >
-> > > 1. A full or partial set of detached namespaces.
-> > > 2. A dedicated PID namespace for spawning processes into, signaling
-> > >    members, and polling or waiting on PID 1 exit.
-> > > 3. An initially empty mount namespace (CLONE_EMPTY_MNTNS) that must be
-> > >    populated before going live, without inheriting host mount-tree
-> > >    ancestors.
-> > >
-> > > Work on this feature started in 2025 from David Howells' container object
-> > > patch set [1], which I turned into a namespace for namespace roots and
-> > > rebuilt around that premise.
-> > >
-> > > While the patch set is manually written, the original motivation came
-> > > from isolating LLM agents. Running untrusted agent workloads made it
-> > > clear that OCI runtimes need to minimize their live configuration
-> > > surface.
-> > >
-> > > Assembling mounts, credentials, and namespaces inside helper processes
-> > > with a half-configured container is what I see as the main challenge,
-> > > and the existential debate around namespaces and container objects is an
-> > > unfocused discussion topic.
-> > 
-> > 
-> > I've skimmed some of the series, and I see a bunch of good ideas that
-> > involve using an fd to manage a thing.  But I'm wondering how much of
-> > the value is added by that and how much is added by having a new
-> > *type* of thing: the "rootns".
-> > 
-> > How much of the value comes from the rootns vs the new APIs to
-> > configure namespaces without entering them first?
-> > 
-> > For that matter, the cells series also seems to contain a (possibly
-> > very similar) variant of the same thing.
-> > 
-> > Would it make sense to come up with a patchset that does *just* the
-> > configure-a-namespace-by-fd part?  It seems to me that this should be
-> > an easier thing to agree on, and it's a big part of the complexity of
-> > all of this, and it solves a real problem even without
-> > cells/rootnses/jails/whatever.
-> 
-> Is it  more accurately scope the part that is "just the fd-part" and
-> what you consider as "extra cruft"?
-> 
-> I.e., where do you draw the border?
+Please see the commit message of patch 1 for details.
 
-I'm asking this because I had similar thoughts when I started this back
-in 2025. David had some good ideas but it did more than having a fd
-that does not go live before everything is set up properly.
+This came up while figuring out what to do about this sashiko review:
+https://sashiko.dev/#/patchset/20261020-rust-workqueue-v3-0-ea7c74d02068%40google.com
 
-Then I thought that, I guess people who proactively on the topic do
-something more lean and compact, and never sent roonts patches.
-I'm not seeing anything more lean and compact.
+---
+Alice Ryhl (2):
+      workqueue: fix cancel_work_sync() on ordered workqueues
+      workqueue: doc: clarify cancel_work_sync() cross-workqueue behavior
 
-> 
-> > 
-> > --Andy
-> 
-> Br, Jarkko
+ Documentation/core-api/workqueue.rst |  7 ++++++-
+ kernel/workqueue.c                   | 37 +++++++++++++++++++++++++++++-------
+ 2 files changed, 36 insertions(+), 8 deletions(-)
+---
+base-commit: aebb7274476403040d582c61478df8f4a7bf9cd3
+change-id: 20261118-ordered-wq-cancel-63b02e0feac4
 
-Br, Jarkko
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
+
