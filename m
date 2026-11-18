@@ -1,107 +1,96 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795030162;
-	b=H02fUXr4PS14D5X8rJ4K+l/YocePioZWW7bHE+RU7Idt1NQROi0AMF9OV1bFf/7ZWssW
-	 36jE8zGl4ZRETwKVoKNDUGgYd06gd5Hflcny36aV1b0NrLtl5Xb74t2J3GXWziPGiSyEw
-	 JKzT0AXqt8gk+clkCbyfqxhQCB9wWKiPaEF1jdiCgZZwsgUg71aviH3OpHEUMwV5uRsdm
-	 A1qRdtKdmuUTX4vI6EuNtyQQRh+mJ9qsmqUjXr4OW4TtiBVyeVEFd2n6u/2XH1kIyxyyo
-	 tZU8Isa5EFdsH3+QOYvGCplxddQ12KNeLHh4svXvWK3FcqC5cYjyVdx4dkKy9F/BVZw==
+	t=1795030549;
+	b=HgGeZ92xIopzwXZxv5hOe/oYR+8DAEoPIQZpXiE8NOzjgTf5WEPEvSr+iH8w1S+8BeAp
+	 JHEn5t9UNMYkupXrG8Cy0a2aDdudrDoI7DnC0naeVDHeu6hECbFAdMgsJ1EXMpasp04Dv
+	 w4MxnppdDLQlkARie0GOS4vI7HgAv+yfQzlZPKiEqbOLgv/8zwvGh5XFrGe9uN3N2ssS7
+	 VgJF2bX7VPgL/RpkOoRz/3+w8JlMwrXmTyhBDR/GEALocmfGr7EwcQvntyL+cBp4nTRDs
+	 Fh1KN703UuX/2Z6Zmr3d/PCxixeYS/bfSLhZPuSzwochIHqBHtX/Y+MLCuNRIH6MUBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795030162;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795030549;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 Content-Transfer-Encoding;
-	bh=izaoDFFlfbOL5o2AeSm9ffJ1CFTRgMmeFIApGBCueOM=;
-	b=hZcm7q6Dlug/YsyiD23dperFf+HJESmqxXDxCUh2OHt+QmEJVUAXagAncEViaki6e40Q
-	 vy8zGncOZVEC79w3z3SldaabivhF9Q77fOr5OlSR2f22NAN2rUyIhduMoxQGn3DxGsXIe
-	 ShHFqPCPMbFUECbTNPdzvosD2Cn3eiJ7CqkyS1XeJRLIjuRFxqRSRhJdF5FC/+4NI+2PF
-	 6r4/frQy2bb7Vs9Fth1SN0XX2iWAQ4h7v0sqE/IQNsXryQy8fcql2XCiQt6JJi46N9h6F
-	 SceOGvQqJbudoQ5HzWLvV+ipwTqs42V22I9DMNS3q/wXv7HKtHB1L4+hUkPWFQ4BP8Q==
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Xbv8g5bxpp2Fv6cOGTi8DfU9uX0lynk14/2FpTbovbA=;
+	b=hjIzt9DVJfg/3RixWS5TmWrpg4UPKtaBOQw8Gdruzou26QdPsAfpSCXnv/Pdb5iyuxgo
+	 jmVq6OsBvHo6BKaPxdL7l62e/avTRbZojHN3DB78ki8CcHr3JILmu7rHgDgw2lXFYRbKO
+	 Hw8XJTtXEBG/7UVlQOZyYTB+ukXoO2HY1d9/ln+3TufQPq+jADv0SrP4LiafYRGKgakvR
+	 3h2GAEN8TVIVAU21vgVS4dmqNOCUbv/r+5wh+OVPwjVw5BAZIIg9PUw18f02SVPSXshhC
+	 I0LydfyI8+rYwzp9alWt8VQsFWKjGRUiL0RFsFV/3uDbmcogwN5/PLgeGtpfahFhVkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XUBWeYSk;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NcK7Vsdt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76BF606C718;
-	Wed, 18 Nov 2026 19:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 59CE0606A32A;
+	Wed, 18 Nov 2026 19:35:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XUBWeYSk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC2AE1F000C6;
-	Wed, 18 Nov 2026 19:29:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NcK7Vsdt
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 737FB1F000C4;
+	Wed, 18 Nov 2026 19:35:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795030161;
-	bh=izaoDFFlfbOL5o2AeSm9ffJ1CFTRgMmeFIApGBCueOM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=XUBWeYSkdFLuQxucZ3b0go3s7CrVcxZ9UvMssUSShGSltmRmQnC5bZE6Zxln+wBx9
-	 PTYYuY4j7u9YAxAwixjxxwGaZjxX3BDJ/PX/7dl7H49TgUSGZoUXDO4wYC3nnn0OCN
-	 xfpO/BHVb8j7fO4GWedms5W7YE9L1hAKLabqLKS1eofblH0HRrQe5Dws5tXzNTDOf7
-	 qET96OZ6XY8g+ZM1Qypj/mCx3dcJagkIakQBlGKGD6Ku86l6H93cNNy0Um2fY+Xcay
-	 FJyu6SVLOOI2L7Y1Z4nxFG2vSg3jBVufXxpR9L9YaIriJFoMjSIq7WHXV63zJ6maFR
-	 Ie/RqNFr05XTA==
-From: Leon Romanovsky <leon@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Chris Lu <chris.lu@mediatek.com>,
-	Mans Rullgard <mans@mansr.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Cornelia Huck <cornelia.huck@de.ibm.com>,
-	Andrew Morton <akpm@osdl.org>,
-	Jeff Garzik <jeff@garzik.org>
-Cc: linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
+	s=k20260515; t=1795030549;
+	bh=Xbv8g5bxpp2Fv6cOGTi8DfU9uX0lynk14/2FpTbovbA=;
+	h=From:To:Cc:Subject:Date;
+	b=NcK7VsdtvHoJgcXaV0TXp0y8rUaVA1fHsvuAI0bdUxLAiNbpOHaKUUKDr+kaQXuNN
+	 GJd6qLHrw9kqqA44KUimbBJzkuHXOzB4mDLIPEgmydmjED+CFkPpXEB1GcJ57xRCms
+	 dwEX+7UjRdt27DhXVp1zTfCqNaDf6luApDpvkC13ga1d0TMEGFHMh/xUmvwwem85NZ
+	 +2+rQKqMKSMg1ww54PcDaWQHqQ02YEUTQ3O4mILCODtFpd6HNf9bBfBkDJ3au9VcaP
+	 zDP1f8/UlQdjPhp5NkA3S6VgR8ITsGH7oB0gkGrC7WhacgFyv+wR5L/qum7/RoaQqF
+	 4Wtpqkxr1fSQQ==
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: David Howells <dhowells@redhat.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>,
+	linux-api@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-coco@lists.linux.dev,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	linux-sound@vger.kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH v3 29/31] USB: Retain the result of configuration requests
-Date: Wed, 18 Nov 2026 21:26:59 +0200
-Message-ID: <20261118-device-trust-core-v3-29-d655875c4bfb@nvidia.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
-References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-security-module@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Ben Segall <bsegall@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jan Kara <jack@suse.cz>,
+	John Johansen <john.johansen@canonical.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Manfred Spraul <manfred@colorfullife.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Neal Gompa <neal@gompa.dev>,
+	Paul Moore <paul@paul-moore.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: [RFC PATCH v3 00/13] Namespace for namespace roots
+Date: Wed, 18 Nov 2026 21:35:26 +0200
+Message-ID: <20261118193539.240065-1-jarkko@kernel.org>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -111,85 +100,240 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.15-dev-18f8f
 Content-Transfer-Encoding: 8bit
 
-From: Leon Romanovsky <leonro@nvidia.com>
+OVERVIEW
+========
 
-The generic USB device driver can bind successfully even when setting its
-configuration fails. Authorization that attaches this driver therefore
-cannot use the attachment result to report configuration errors or decide
-whether setup can be retried.
+A root namespace (rootns) is a kernel object backed by a file descriptor
+that binds together:
 
-Retain the last configuration result for callers holding the device lock.
-Keep driver binding successful so userspace can recover by selecting
-another configuration.
+1. A full set of detached namespaces owned by a fresh user namespace.
+2. A dedicated PID namespace for spawning processes into, signaling
+   members, and polling or waiting on PID 1 exit.
+3. An initially empty mount namespace (CLONE_EMPTY_MNTNS) populated
+   directly in its target user namespace before going live, without
+   inheriting host mounts or cloning staged trees, while still allowing
+   new mounts to be attached at runtime.
 
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/usb/core/message.c | 12 +++++++++++-
- include/linux/usb.h        |  2 ++
- 2 files changed, 13 insertions(+), 1 deletion(-)
+Work on this feature started in 2025 from David Howells' container object
+patch set [1], which I turned into a namespace for namespace roots and
+rebuilt around that premise.
 
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index b8e2d864faa46..0a022ce8739c2 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -2042,6 +2042,8 @@ static bool usb_has_claimant(struct usb_device *dev,
- 	return false;
- }
- 
-+static int usb_set_configuration_internal(struct usb_device *dev, int configuration);
-+
- /*
-  * usb_set_configuration - Makes a particular device setting be current
-  * @dev: the device whose configuration is being updated
-@@ -2089,6 +2091,15 @@ static bool usb_has_claimant(struct usb_device *dev,
-  * drivers currently known to the kernel.
-  */
- int usb_set_configuration(struct usb_device *dev, int configuration)
-+{
-+	int ret = usb_set_configuration_internal(dev, configuration);
-+
-+	dev->config_error = ret;
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(usb_set_configuration);
-+
-+static int usb_set_configuration_internal(struct usb_device *dev, int configuration)
- {
- 	int i, ret;
- 	struct usb_host_config *cp = NULL;
-@@ -2349,7 +2360,6 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
- 	usb_autosuspend_device(dev);
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(usb_set_configuration);
- 
- static LIST_HEAD(set_config_list);
- static DEFINE_SPINLOCK(set_config_lock);
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index a5e706f67f33a..d372712eba34c 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -599,6 +599,7 @@ struct usb3_lpm_parameters {
-  * @descriptor: USB device descriptor
-  * @bos: USB device BOS descriptor set
-  * @config: all of the device's configs
-+ * @config_error: Result of the last configuration request.
-  * @actconfig: the active configuration
-  * @ep_in: array of IN endpoints
-  * @ep_out: array of OUT endpoints
-@@ -686,6 +687,7 @@ struct usb_device {
- 	struct usb_host_config *config;
- 
- 	struct usb_host_config *actconfig;
-+	int config_error;
- 	struct usb_host_endpoint *ep_in[16];
- 	struct usb_host_endpoint *ep_out[16];
- 
+While the patch set is manually written, the original motivation came
+from isolating LLM agents. Running untrusted agent workloads made it
+clear that OCI runtimes need to minimize their live configuration
+surface.
 
--- 
-2.56.1
+Assembling mounts, credentials, and namespaces inside helper processes
+with a half-configured container is what I see as the main challenge,
+and the existential debate around namespaces and container objects is an
+unfocused discussion topic.
+
+[1] https://lore.kernel.org/all/155059610368.17079.2220554006494174417.stgit@warthog.procyon.org.uk/
+
+IMPLEMENTATION
+==============
+
+rootns_create() allocates a rootns instance backed by a pollable
+anonymous inode fd, creating a fresh owning user namespace and a full set
+of detached namespaces: empty mount (CLONE_EMPTY_MNTNS), PID, UTS, IPC,
+network, cgroup, and time. ioctl(rootnsfd, ROOTNS_GET_NSFD, nstype)
+returns nsfs file descriptors for individual member namespaces when
+standalone namespace operations are needed.
+
+Superblocks are configured directly in the target user namespace via
+fsopen(), FSCONFIG_SET_ROOTNS, and fsmount(), allowing unprivileged
+callers to assemble FS_USERNS_MOUNT filesystems without holding
+CAP_SYS_ADMIN in their own user namespace or entering the target user
+namespace first. move_mount(..., MOVE_MOUNT_T_MNTNS) operates on any
+non-anonymous mount namespace fd: on an empty mount namespace it installs
+"/" onto the nullfs root once, and it attaches relative submounts both
+before entry and into live mount namespaces.
+
+Once "/" is installed, processes are spawned into the rootns via clone3()
+with CLONE_INTO_ROOTNS and struct clone_args.rootns, without mutating the
+caller in place. Pairing CLONE_INTO_ROOTNS with CLONE_VM | CLONE_VFORK
+and opening the target binary via openat2(..., RESOLVE_IN_ROOT) on the
+retained "/" mount fd allows spawning with execveat() without copying
+page tables.
+
+The first entrant becomes PID 1; once it exits and
+zap_pid_ns_processes() reaps all members, poll() reports EPOLLHUP and
+rootns_wait() returns init's exit status and rusage. rootns_kill() walks
+pid_ns->idr under tasklist_lock to signal member thread groups.
+
+CHANGES
+=======
+
+v3:
+- The patch set size increased predominantly because the coverage of
+  kselftest had to widened to cover the introduced changes.
+- Replace MOVE_MOUNT_T_ROOTNS_ROOT with MOVE_MOUNT_T_MNTNS targeting
+  mnt_ns nsfs fds, and add ioctl(ROOTNS_GET_NSFD) to open member
+  namespace fds (Andy Lutomirski).
+- Allow unprivileged fsopen(), FSCONFIG_SET_ROOTNS, and fsmount() to
+  configure and mount FS_USERNS_MOUNT filesystems directly in the target
+  user namespace without entering it first (Andy Lutomirski).
+- Fix locking, refcounting, credential/dumpability/timens setup,
+  pivot_root() lookup, and cross-userns mount checks across copy_rootns(),
+  CLONE_INTO_ROOTNS, rootns_kill(), FSCONFIG_SET_ROOTNS, and move_mount()
+  (Sashiko).
+- Mark PowerPC rootns syscalls nospu (Sashiko).
+- Update documentation and kselftests.
+
+v2:
+- Drop rootns provenance tracking (rootns_id and rootns_may_setns()) and
+  rely on user_namespace ownership for setns() isolation (Andy
+  Lutomirski).
+- Replace the rootns_enter() system call with clone3(CLONE_INTO_ROOTNS)
+  and struct clone_args.rootns (CLONE_ARGS_SIZE_VER3), allowing
+  CLONE_VM | CLONE_VFORK and compatible per-child clone3() flags (Andy
+  Lutomirski).
+- Drop the spurious task_no_new_privs() check in may_enter_rootns_creds()
+  (Andy Lutomirski).
+- Update documentation, Kconfig, syscall tables, and kselftests for
+  CLONE_INTO_ROOTNS.
+
+VERSIONS
+========
+
+v2: https://lore.kernel.org/linux-fsdevel/20261117231352.3816603-1-jarkko@kernel.org/
+v1: https://lore.kernel.org/linux-fsdevel/20261117050841.3289652-1-jarkko@kernel.org/
+
+Cc: linux-api@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-security-module@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc: Ben Segall <bsegall@google.com>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>
+Cc: David Howells <dhowells@redhat.com>
+Cc: Davidlohr Bueso <dave@stgolabs.net>
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc: Frederic Weisbecker <frederic@kernel.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: John Johansen <john.johansen@canonical.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: Kees Cook <kees@kernel.org>
+Cc: K Prateek Nayak <kprateek.nayak@amd.com>
+Cc: "Liam R. Howlett" <liam@infradead.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Manfred Spraul <manfred@colorfullife.com>
+Cc: Mel Gorman <mgorman@suse.de>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Neal Gompa <neal@gompa.dev>
+Cc: Paul Moore <paul@paul-moore.com>
+Cc: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Serge Hallyn <sergeh@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Thomas Gleixner <tglx@kernel.org>
+Cc: Valentin Schneider <vschneid@redhat.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Vlastimil Babka <vbabka@kernel.org>
+Cc: Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+
+Jarkko Sakkinen (13):
+  nsproxy: Pass nsproxy to create_new_namespaces()
+  rootns: Add core infrastructure for root namespaces
+  rootns: Track init lifecycle via copy_process() and pid_namespace
+  rootns: Add rootns_create() system call
+  rootns: Add rootns_wait() system call
+  rootns: Add rootns_kill() system call
+  fork: Support CLONE_INTO_ROOTNS in clone3()
+  fs: Support FSCONFIG_SET_ROOTNS in fsconfig()
+  fs: Support MOVE_MOUNT_T_MNTNS in move_mount()
+  arch: Wire up rootns system calls
+  docs: Document root namespace uAPI
+  selftests/rootns: Add root namespace test suite
+  MAINTAINERS: Add entry for ROOT NAMESPACE
+
+ Documentation/userspace-api/index.rst         |    1 +
+ .../userspace-api/ioctl/ioctl-number.rst      |    1 +
+ Documentation/userspace-api/rootns.rst        |   47 +
+ MAINTAINERS                                   |   11 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |    3 +
+ arch/arm/tools/syscall.tbl                    |    3 +
+ arch/arm64/tools/syscall_32.tbl               |    3 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |    3 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |    3 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |    3 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |    3 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |    3 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |    3 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |    3 +
+ arch/s390/kernel/syscalls/syscall.tbl         |    3 +
+ arch/sh/kernel/syscalls/syscall.tbl           |    3 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |    3 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |    3 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |    3 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |    3 +
+ fs/filesystems.c                              |   15 +
+ fs/fs_context.c                               |   20 +-
+ fs/fsopen.c                                   |  121 +-
+ fs/internal.h                                 |    6 +
+ fs/namespace.c                                |  245 ++-
+ fs/nsfs.c                                     |   64 +
+ fs/proc/root.c                                |   18 +
+ include/linux/compat.h                        |    4 +
+ include/linux/cred.h                          |    4 +-
+ include/linux/fs_context.h                    |    5 +
+ include/linux/mnt_namespace.h                 |    2 +
+ include/linux/nsfs.h                          |    2 +
+ include/linux/nsproxy.h                       |    9 +-
+ include/linux/pid_namespace.h                 |    4 +
+ include/linux/rootns.h                        |   91 +
+ include/linux/sched/task.h                    |    8 +
+ include/linux/syscalls.h                      |    4 +
+ include/linux/time_namespace.h                |   21 +
+ include/linux/user_namespace.h                |    7 +
+ include/uapi/asm-generic/unistd.h             |   10 +-
+ include/uapi/linux/mount.h                    |    4 +-
+ include/uapi/linux/rootns.h                   |   44 +
+ include/uapi/linux/sched.h                    |    5 +
+ init/Kconfig                                  |    9 +
+ ipc/mqueue.c                                  |   13 +
+ kernel/Makefile                               |    2 +
+ kernel/cred.c                                 |   31 +-
+ kernel/fork.c                                 |   97 +-
+ kernel/nsproxy.c                              |   44 +-
+ kernel/pid_namespace.c                        |    2 +
+ kernel/rootns.c                               |  609 ++++++
+ kernel/sys_ni.c                               |    6 +
+ kernel/time/namespace_vdso.c                  |    8 +
+ kernel/user_namespace.c                       |   12 +-
+ scripts/syscall.tbl                           |    3 +
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/rootns/.gitignore     |    2 +
+ tools/testing/selftests/rootns/Makefile       |    5 +
+ tools/testing/selftests/rootns/config         |   10 +
+ tools/testing/selftests/rootns/smoke.c        | 1934 +++++++++++++++++
+ 60 files changed, 3529 insertions(+), 80 deletions(-)
+ create mode 100644 Documentation/userspace-api/rootns.rst
+ create mode 100644 include/linux/rootns.h
+ create mode 100644 include/uapi/linux/rootns.h
+ create mode 100644 kernel/rootns.c
+ create mode 100644 tools/testing/selftests/rootns/.gitignore
+ create mode 100644 tools/testing/selftests/rootns/Makefile
+ create mode 100644 tools/testing/selftests/rootns/config
+ create mode 100644 tools/testing/selftests/rootns/smoke.c
+
+--
+2.47.3
 
