@@ -1,58 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.245.243.92
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794973942;
-	b=dEhU7/uponkiYm7S7SO0IHI8kxjhHfFA6LEZs7N+4ffTpAOzz6ngnKJg0IOteV/Yh0PV
-	 xJCb188eMJe0/HCL4Cob/8voMx5T8rNFlccja/0RgnaaoafHL3d2odOTwCQE1g8XlRx7I
-	 mMwfHLtfIyhFXLbcm2wRgyHb3sUbB7oUA6ktVM77EcjsNTv5uLqJuR9Ts9sVHlX2nhap1
-	 nZrwVuQuBEBBBOV+5HZ3AINjO669HRqzhoDmYcz+ekRwi5Sw2+t1RF+BFRfNQ5FXnmNKk
-	 PACpwulxTMm4Gl48eO8uBGL2Dszv+4CpbNB+O/rLEEPY5Ao/tSc/E1ZeAr2KBbSusHw==
+	t=1794975171;
+	b=gZqla5U/hiSq9pwtp+SZjabf9WN4iTD/ihf6256MGG+tyD82S6unW/1+x/No6W+q9gow
+	 mEM+kr2RywGK1zxlq20AxOrdhEgLQkjTSrQpSpWJzF/gGuHGrGrQqQczC/fAwaTAqEK7+
+	 jw6MfVjiMhIgtmcaI/6gA76AYFBQWEHakK83schKnTm0W+pap1ChEINPo2S5B5VWHmlcr
+	 rugalq5K19VlX5TmRNxj66uLKc+1q8Jm2K0Bc3fRJsW52Q3SWTp7OyYtVwdM5cOt0pfIG
+	 UmCJ7QsoqM7F4p/u6r9+KudbKOwF2vfuzqXWnIQP/AyQ4loIWAVF4H/ZsC1UEwaxxog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794973942;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794975171;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
 	 X-ClientProxiedBy;
-	bh=yG/FKg76CiUcJKWaH+8tq1QDfHjGO2G7vSVSe7/ADac=;
-	b=H4qIZr3vKQ7izXpvJiXZkPbYuArjMAUI9V/aRJu9vrDAUncyMDlrq84oJ9QMkVUEPg5g
-	 p/L5xi/XefBAA5dUh70tjWwEqawtm3YYUEieEy1TQxg6YBvdZv9lCSd9jfUNK9P7xHVsl
-	 32sAcXFgFLCg/NA7Zbbs2fTg7c0okxO9T5S6yAPe0yX9yvx+tFq91FJ0+u5XTj8M18QxJ
-	 9gYqVTRT3PuOkpLKhJCRNdJETT1g7HgMJs8nJC+1bnF75tGvXWzDY3Ggz28YpsDuJ+UC/
-	 aKEDRLlwX9agCICk3Yh8/h5FCOvVSXvGUGYkSrz9SbbWA738aSRaHRTIFhtL6jA8wNA==
+	bh=XTe+KZ5Ux9lwqeXnYcQPUxG0JCkCjz9HLO0KkgWlVrs=;
+	b=vW9fA8DZzGroouTtxbUUbrDQ6Ibju0MdcPjrxneL6Dk3rqus2nqqxr6+y3qJ5BA05mCt
+	 y2T5hy10pnrVK7GukIPIEaV3JuV9cVefSakHINyCQcM263uUkMG1dG5K6d6PYoRRyZ6C7
+	 MZ8+bOsKNo/wIfLqliw2/LrSzTchvWpbQ5+dQkkeN/DZ9+ZObbMg6O2bF+nciWduMRFi3
+	 X9NSOqzqMNp8hYqd9u4GguYZsygH/LYeaFLh38Bsw95iHsf0ZadC2dIr8kwVNeFjcCMqK
+	 UoGU0og4JjR3btASlgbfihsE1vnyLtitmqDwm7sEb+hHSG1VTOMAX24HanFUppQfwbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=m99wPDmF;
-	arc=none smtp.remote-ip=113.46.200.221
-Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.com;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=k6yCZzBX;
+	arc=none smtp.remote-ip=44.245.243.92
+Received: from pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.245.243.92])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A916A606A31C;
-	Wed, 18 Nov 2026 03:52:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A916A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138F0606A31C;
+	Wed, 18 Nov 2026 04:12:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 138F0606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=m99wPDmF
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=yG/FKg76CiUcJKWaH+8tq1QDfHjGO2G7vSVSe7/ADac=;
-	b=m99wPDmF0ZQexDD0I08LqhStYxozE2iagG6vCbgomP/qCf6MtLJ1eiwS7KTqquIsD4iucrnJg
-	EQiDRNzboxuP2GZOytTCaPnAI/TP8YrTFpqcJyID3EIfQNOiPxWL9TmXnAj2z9Lrs3yi1G1bDKA
-	0sCN3KIVMQt40/IMAr6x0ag=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4jTnjC37FjzRhRQ;
-	Wed, 18 Nov 2026 11:51:59 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id D3D8D4057D;
-	Wed, 18 Nov 2026 11:52:13 +0800 (CST)
-Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 18 Nov
- 2026 11:52:12 +0800
-Message-ID: <e814cf3a-61ee-466e-ae2b-6abf8db16dc0@huawei.com>
-Date: Wed, 18 Nov 2026 11:52:12 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=k6yCZzBX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1794975171; x=1826511171;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XTe+KZ5Ux9lwqeXnYcQPUxG0JCkCjz9HLO0KkgWlVrs=;
+  b=k6yCZzBXoYvUHhMQzsOYddX905XC/HQeakmuteCNbh66/nPBRPqXDAtL
+   YRsEPHsGBlCwx68zBuwd56YpDM9B8RL+A9CN0Gj7XjbSLxRfahDu8RiWR
+   3Y+LPNnRHZIpq+lLhbpgkyhFv2I+fF03zl/sUCMn/OWXEmCSTidwNHhpH
+   Wu2CaXUi3Q3cUYmLba/A3TtRS9A4uWL8a9oWJSDd8WQl4v5qPnpzEXjMH
+   DM7vPE7w/uVPLzQ8eu0wa0DyNDSkizdaPNOpnRiojCzSNtiso7FairIuk
+   RH/Vm0l9odOaZcB6+VxTW2vBrtFw8lzTKvwtcXbKfmHiTUdbKCtCFI3h2
+   A==;
+X-CSE-ConnectionGUID: VCgvj08NSDKRTfbcYrIcDQ==
+X-CSE-MsgGUID: NkSbELtRSf6HdHf+bEc7Vg==
+X-IronPort-AV: E=Sophos;i="6.27,219,1787011200"; 
+   d="scan'208";a="33944177"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 04:12:48 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:9900]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.5.141:2525] with esmtp (Farcaster)
+ id 686a2e21-38cd-44d4-a41a-420cb83cafba; Wed, 18 Nov 2026 04:12:47 +0000 (UTC)
+X-Farcaster-Flow-ID: 686a2e21-38cd-44d4-a41a-420cb83cafba
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 18 Nov 2026 04:12:47 +0000
+Received: from dev-dsk-evostrov-1a-14f749d5.eu-west-1.amazon.com
+ (10.253.90.84) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56; Wed, 18 Nov 2026
+ 04:12:45 +0000
+From: <evostrov@amazon.com>
+To: <netdev@vger.kernel.org>
+CC: Evgeny Ostrovsky <evostrov@amazon.com>, Jakub Kicinski <kuba@kernel.org>,
+	David Arinzon <darinzon@amazon.com>, Shay Agroskin <shayagr@amazon.com>,
+	Arthur Kiyanovski <akiyano@amazon.com>, Gal Pressman <gal@nvidia.com>, Michal
+ Kubiak <michal.kubiak@intel.com>, Paolo Abeni <pabeni@redhat.com>, Eric
+ Dumazet <edumazet@google.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, Shai
+ Brandes <shaibran@amazon.com>, <linux-doc@vger.kernel.org>
+Subject: [RFC] net: ena: use tx-push-buf-len while tx-push is off
+Date: Wed, 18 Nov 2026 04:12:37 +0000
+Message-ID: <20261118041238.14396-1-evostrov@amazon.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,258 +87,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 5/9] fs/resctrl: Allow mba_MBps with assignable MBM
- counters
-To: Ben Horgan <ben.horgan@arm.com>, <tony.luck@intel.com>,
-	<reinette.chatre@intel.com>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
-	<babu.moger@amd.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<rdunlap@infradead.org>, <tglx@kernel.org>, <mingo@redhat.com>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>, <hpa@zytor.com>,
-	<fenghuay@nvidia.com>, <tan.shaopeng@fujitsu.com>, <quic_jiles@quicinc.com>,
-	<x86@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-References: <20261112131255.4043381-1-ruanjinjie@huawei.com>
- <20261112131255.4043381-6-ruanjinjie@huawei.com>
- <1defc561-e7bc-4864-90ad-6aa3fb6be7da@arm.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <1defc561-e7bc-4864-90ad-6aa3fb6be7da@arm.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWA002.ant.amazon.com (10.13.139.96) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
+From: Evgeny Ostrovsky <evostrov@amazon.com>
 
+We want to confirm one point before sending the driver patches:
+we would like to allow setting the tx-push-buf-len when tx-push is off,
+but the name is problematic so we are not sure what will be the correct way
+to achieve this.
 
-在 2026/11/17 19:37, Ben Horgan 写道:
-> Hi Jinjie,
+Current state:
+- ethtool has tx-push and tx-push-buf-len.
+- tx-push on means the driver writes the packet header into device memory.
+- tx-push-buf-len is the length of that header.
+- Today the driver uses tx-push-buf-len only when tx-push is on.
 
-Hi Ben,
+We are adding a new LLQ mode to ENA: pull mode.
+- In pull mode the header stays in host memory and the device reads it.
+- So tx-push is off.
+- We still need to tell the device how many header bytes to pull.
+- We want to use tx-push-buf-len for this, with tx-push off.
 
-> 
-> On 12/11/2026 13:12, Jinjie Ruan wrote:
->> The controller needs a counter for the event selected by mba_MBps_event
->> in every monitoring group, so mba_MBps is refused when MBM counters are
->> assignable. On MPAM a group's monitor is assigned from a fixed pool
->> when the group is created, and users can otherwise only pick a
->> percentage of a maximum that firmware does not report.
->>
->> Allow the controller when the architecture has a fixed assignment mode
->> and assigns counters when a group is created. Keep mbm_assign_on_mkdir
->> enabled while the controller is in use, restore its previous value
->> when the controller is disabled, and refuse to unassign the
->> controller's counter meanwhile.
-> 
-> I'm afraid there has been some miscommunication here. What I was trying
-> to suggest is that MPAM could when using the software controller use the
-> default mbm_assign_mode as is used in intel systems. All the counters
-> are allocated up front and there is one of each supported type per
-> monitor group. Using mbm_assign_on_mkdir doesn't always give you
+ENA is the only in-tree driver that uses tx-push-buf-len, so this does
+not change any other driver.
 
-In this case, it is unnecessary to restrict that mbm_assign_on_mkdir
-cannot be disabled during the soft controller is enabled
+Example on a device that supports pull mode:
 
-> guaranteed assigned counters as you point out in your
-> patch "arm_mpam: resctrl: Use the domain's counter ID". I haven't
+ethtool -G <dev> tx-push off tx-push-buf-len 224
+ethtool -g <dev> -> TX Push: off, TX push buff len: 224
 
-Yes, that patch is addressing the related issues.
+The core already allows this. net/ethtool/rings.c checks only the
+capability bit and that the length is not above the max. It does not tie
+tx-push-buf-len to tx-push.
 
-> thought through all the abi consideration but it seems plausible, what
-> do you think?
+In a 2023 review Gal Pressman suggested using tx-push-buf-len only when
+tx-push is on. That was never added as code or written as a rule.
+Link: https://lore.kernel.org/netdev/30cb3990-80ce-ca07-6d73-cdc00d0ad7b8@nvidia.com/
 
-I like the "default mbm_assign_mode" idea which I think achieved through
-the closid and rmid trimming discussed earlier, while
-mbm_assign_on_mkdir is only a best-effort.
+Request: Please confirm this is fine or if not can you please suggest another
+way of achieving the pull mode len setup functionality.
 
-I have a few questions as below:
-
-1、Should report MPAM as the default mode only during the mba_MBps
-mounting?
-
-In this way, when remount without "MBps", the default behavior can be
-restored instead of permanently trimming the number of control groups
-and monitoring groups based on the hardware's mbw counter count.
-
-2、 Should the resctrl files remains unchanged in the ABI?
-
-mbm_assign_mode is displayed as [default], and the semantics of
-assignments/available is still "not enabled".
-
-And update the document about the changes in the mode and
-num_closids/num_rmids caused by the MBps mount option.
-
-Whether num_mbm_cntrs should still be displayed during the default period?
-
-Whether mpam allocates the monitor during group creation or lazily when
-the first read occurs?
-
-Perhaps we only need to align with the default behavior of resctrl and
-x86 default mode?
-
-Best regards,
-Jinjie
-
-> 
-> Thanks,
-> 
-> Ben
-> 
->>
->> Only MPAM has this mode; other systems keep the previous behavior.
->>
->> Suggested-by: Ben Horgan <ben.horgan@arm.com>
->> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->> ---
->>  Documentation/filesystems/resctrl.rst |  7 +++++--
->>  fs/resctrl/monitor.c                  | 25 ++++++++++++++++++++++
->>  fs/resctrl/rdtgroup.c                 | 30 +++++++++++++++++++++------
->>  3 files changed, 54 insertions(+), 8 deletions(-)
->>
->> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
->> index b52795e03303..d70aec6f7096 100644
->> --- a/Documentation/filesystems/resctrl.rst
->> +++ b/Documentation/filesystems/resctrl.rst
->> @@ -471,7 +471,8 @@ with the following files:
->>  	Determines if a counter will automatically be assigned to an RMID, MBM event
->>  	pair when its associated monitor group is created via mkdir. Enabled by default
->>  	on boot, also when switched from "default" mode to "mbm_event" counter assignment
->> -	mode. Users can disable this capability by writing to the interface.
->> +	mode. Users can disable this capability by writing to the interface. While the
->> +	MBA software controller is enabled, auto assignment cannot be disabled.
->>  
->>  	"0":
->>  		Auto assignment is disabled.
->> @@ -704,7 +705,9 @@ When monitoring is enabled all MON groups may also contain:
->>  	   mbm_total_bytes:0=e;1=e
->>  	   mbm_local_bytes:0=e;1=e
->>  
->> -	Assignments can be modified by writing to the interface.
->> +	Assignments can be modified by writing to the interface. While the
->> +	MBA software controller is enabled, the counter of the event the
->> +	controller uses cannot be unassigned.
->>  
->>  	Examples:
->>  
->> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
->> index 8f3b8c3e3010..5a67c8089615 100644
->> --- a/fs/resctrl/monitor.c
->> +++ b/fs/resctrl/monitor.c
->> @@ -1210,6 +1210,12 @@ ssize_t resctrl_mbm_assign_on_mkdir_write(struct kernfs_open_file *of, char *buf
->>  		goto out_unlock;
->>  	}
->>  
->> +	if (!value && is_mba_sc(NULL)) {
->> +		rdt_last_cmd_puts("mbm_assign_on_mkdir is required by the software controller\n");
->> +		ret = -EBUSY;
->> +		goto out_unlock;
->> +	}
->> +
->>  	r->mon.mbm_assign_on_mkdir = value;
->>  
->>  out_unlock:
->> @@ -1776,6 +1782,19 @@ static struct mon_evt *mbm_get_mon_event_by_name(struct rdt_resource *r, char *n
->>  	return NULL;
->>  }
->>  
->> +/*
->> + * Return the event the MBA software controller uses as its input for @rdtgrp.
->> + * A monitor group has no event of its own: its bandwidth is summed into the
->> + * parent control group, which is the group with the mba_MBps_event setting.
->> + */
->> +static enum resctrl_event_id rdtgrp_mba_mbps_event(struct rdtgroup *rdtgrp)
->> +{
->> +	if (rdtgrp->type == RDTMON_GROUP)
->> +		return rdtgrp->mon.parent->mba_mbps_event;
->> +
->> +	return rdtgrp->mba_mbps_event;
->> +}
->> +
->>  static int rdtgroup_modify_assign_state(char *assign, struct rdt_l3_mon_domain *d,
->>  					struct rdtgroup *rdtgrp, struct mon_evt *mevt)
->>  {
->> @@ -1789,6 +1808,12 @@ static int rdtgroup_modify_assign_state(char *assign, struct rdt_l3_mon_domain *
->>  		ret = rdtgroup_assign_cntr_event(d, rdtgrp, mevt);
->>  		break;
->>  	case '_':
->> +		if (is_mba_sc(NULL) &&
->> +		    mevt->evtid == rdtgrp_mba_mbps_event(rdtgrp)) {
->> +			rdt_last_cmd_puts("Counter is in use by the software controller\n");
->> +			ret = -EBUSY;
->> +			break;
->> +		}
->>  		rdtgroup_unassign_cntr_event(d, rdtgrp, mevt);
->>  		break;
->>  	default:
->> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
->> index b32831871f70..518d89b0c67d 100644
->> --- a/fs/resctrl/rdtgroup.c
->> +++ b/fs/resctrl/rdtgroup.c
->> @@ -2610,10 +2610,9 @@ static void mba_sc_domain_destroy(struct rdt_resource *r,
->>   * The MBA software controller is supported only if MBM is supported and MBA is
->>   * in linear scale, and the MBM monitor scope is the same as MBA control scope.
->>   *
->> - * The software controller cannot be supported when the MBM counters are
->> - * assignable.  There is no guarantee that MBM counters are assigned to the
->> - * event backing the software controller in all monitoring domains of all
->> - * monitoring groups.
->> + * The controller needs a counter for its event in every monitoring group.
->> + * With assignable counters that requires a fixed assignment mode, with
->> + * counters assigned automatically while the controller is in use.
->>   */
->>  static bool supports_mba_mbps(void)
->>  {
->> @@ -2623,9 +2622,13 @@ static bool supports_mba_mbps(void)
->>  	return (resctrl_is_mbm_enabled() &&
->>  		r->alloc_capable && is_mba_linear() &&
->>  		r->ctrl_scope == rmbm->mon_scope &&
->> -		!rmbm->mon.mbm_cntr_assignable);
->> +		(!rmbm->mon.mbm_cntr_assignable ||
->> +		 rmbm->mon.mbm_cntr_assign_fixed));
->>  }
->>  
->> +/* mbm_assign_on_mkdir before the software controller forced it on. */
->> +static bool mba_sc_saved_assign_on_mkdir;
->> +
->>  /*
->>   * Enable or disable the MBA software controller
->>   * which helps user specify bandwidth in MBps.
->> @@ -2633,6 +2636,7 @@ static bool supports_mba_mbps(void)
->>  static int set_mba_sc(bool mba_sc)
->>  {
->>  	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_MBA);
->> +	struct rdt_resource *rmbm = resctrl_arch_get_resource(RDT_RESOURCE_L3);
->>  	u32 num_closid = resctrl_arch_get_num_closid(r);
->>  	struct rdt_ctrl_domain *d;
->>  	unsigned long fflags;
->> @@ -2643,6 +2647,20 @@ static int set_mba_sc(bool mba_sc)
->>  
->>  	r->membw.mba_sc = mba_sc;
->>  
->> +	/*
->> +	 * The controller needs its event counted in every monitoring group:
->> +	 * force automatic assignment on, and restore the user's setting when
->> +	 * the controller is disabled.
->> +	 */
->> +	if (rmbm->mon.mbm_cntr_assignable) {
->> +		if (mba_sc) {
->> +			mba_sc_saved_assign_on_mkdir = rmbm->mon.mbm_assign_on_mkdir;
->> +			rmbm->mon.mbm_assign_on_mkdir = true;
->> +		} else {
->> +			rmbm->mon.mbm_assign_on_mkdir = mba_sc_saved_assign_on_mkdir;
->> +		}
->> +	}
->> +
->>  	rdtgroup_default.mba_mbps_event = mba_mbps_default_event;
->>  
->>  	list_for_each_entry_rcu(d, &r->ctrl_domains, hdr.list, lockdep_is_cpus_held()) {
->> @@ -3352,7 +3370,7 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
->>  		ctx->enable_cdpl2 = true;
->>  		return 0;
->>  	case Opt_mba_mbps:
->> -		msg = "mba_MBps requires MBM (mbm_event mode not supported) and linear scale MBA at L3 scope";
->> +		msg = "mba_MBps requires MBM and linear scale MBA at L3 scope";
->>  		if (!supports_mba_mbps())
->>  			return invalfc(fc, msg);
->>  		ctx->enable_mba_mbps = true;
-> 
-
+Thank you
