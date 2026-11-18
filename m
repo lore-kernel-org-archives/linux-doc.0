@@ -1,62 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794966828;
-	b=fN3XK9yX51Rw6MUOGvtr/hmTqw6X8EFQdKr6IbVx7YSXZ7VeBdEsb9JzxGXJmCwXTXM2
-	 NQ+wlp+Q/fTAh9QtgOQ/KgMVZ46RwNahEaloz9G/8Rp7cpb4+5DSXn41WXLNjb03O6U26
-	 CFfh1UItc9CV0W2758N41ndIDTRr9WzvYXBCu4kuirDq2RzEU44A4xE+oIfFO/WylQVra
-	 2uDlwME7REx60zmrB6C8bVfrCybSh8vMDlmIkm/BHw88Ust2HXoVgsieD0DUWjySUDXnw
-	 KqO0G/43L4YZsIkAyxj7y+0lyXQ/xULu8P9Ln0sjSkTk7vHUJ69Putim+nQ1yolvrXg==
+	t=1794966928;
+	b=bSSA3VCcaC5Ne3RMAM3DIsJfB+hOqGsKX0U9Kk3hh5gHGHM2kY/htC3XUFtfrpojXN9S
+	 ztwG4zqpEOLWipe1mmz26BMtzw9ltXbMPgfkbQ6pB9V6lGJNzuHhnYAdNCz8ETXuy9I4K
+	 jTIsRrJ4wzMoSNk3vrVgk2vkjoKwO7PKzPsc4v8LXZSIYYNZ9E1HCv2ZkBp5qcl695Rgu
+	 XFRAHyNxDjYZ/vo3V2bod9n7nerOdISu6eJa6ro1G+SUioax4d8ry7R6AcMCq8ofXAgkx
+	 EyqO/E2KZQtFNOB4AcEoth97MWeanwSMuTzvJyIY5kYXHqiabH0mvh/wqWmrnwo9/YA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794966828;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=ftEokabaZG7Wg3nlwTH07C9whZDOJt3FfBUJuOwVvUA=;
-	b=zfDmPXxfeOn1uSck8UKKZD0Cd/1NwP7AJFeLoDcjaMoytuNYgWrxZ2JOg4Cm1ZGQzZjD
-	 v2dguSCmmDr+A4WsTTcxdKhi4veRQxGr/V+8b9SmRTRhRvOH66ri47Pu20/rXaOR9ApHQ
-	 fEdU7x7qNWGXxYvMTeE4BQK8nTVPOTgVZquciZurffLyqjRzZ7JBnjdwzlsKT8rHbIyFQ
-	 1xG4+8yD4JICplK5jpbx7s8mAi0x4IEVO9evrB4zKB9CgmajkrEdakx9zNCgXKzHIWsIr
-	 u7geuj9jZhftdfT2buPaj48v6B14IPiSYcEmXzKnKf8kDyHtPQgcIm/0AVgb/9zI/4A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794966928;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:From:Date:
+	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-ID:References:In-Reply-To:To:CC:X-Mailer:X-Originating-IP:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Virus-Version;
+	bh=rM+PXP8JJcUMybNdJI1OSHiTvgbrlHQWSRXWArsiwAg=;
+	b=pjujHYZSZV8zWpYb+og4ZNQGr6xf3e2BwiOah2sHXgiw9UmP6cqDboqIYrcFqcnMivr+
+	 +pKkYBYk+K6VgF7JlOMBoIKifPdaMDec3X5X+Rdz1UUDMQyO+SGp2VIV1KcvLJ+ViKOKd
+	 X4mP1/WP5ZTxCZUCTYjTro3CIonSa51c7biZF4BNdHK64qElh1FvxqY7rRAumyzaxQE/o
+	 Q0Ulb/4AKQur1OtHB19vhX12fqW5fuPH6ylRPb2QwIEhrOplPBKtVu4oRyXuq/l4+2T9/
+	 d7Fz1I471QGrHSKQpbH3G8LlCyrkMEOLhZh6m7RQeRS2fEsI24TcqSL6l+XdIbvcBdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K9DazTgq;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=NgyrMkgn;
+	arc=none smtp.remote-ip=67.231.153.30
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9B7606A325;
-	Wed, 18 Nov 2026 01:53:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FCF606A32A;
+	Wed, 18 Nov 2026 01:55:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71FCF606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K9DazTgq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9357F1F000C5;
-	Wed, 18 Nov 2026 01:53:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794966827;
-	bh=ftEokabaZG7Wg3nlwTH07C9whZDOJt3FfBUJuOwVvUA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=K9DazTgqbQKHgVajtXTFzbTQKVx12pPjQm+tfHT9KrXHFThADgzFOKResZyT2ZDKi
-	 MS7XL0zgHSMNNDLts0JOvcdaQdpg69P4Q5Tsgm2/Vwi5DDCbL9mL+kw8w7faod1z0U
-	 7AGnvNzmm11g6BXEUaARQsIL6jVGHW/mPcDhHFbENnVe1CK+5/lH1CB5jBOkhXHRz1
-	 UXianG+0TiuHCri9qBivWl3l1JMd8PrWA4H4cjGi9eKuVgHcuXG6e8HnNVg10pKQlB
-	 U/cll1ahEQV13mj5UPGsjAdVkrHSx8uZi/Sj/BPFi50TlKOaGVkO1uqOv7ma/L8VfP
-	 hZy3vqyeQ6UPw==
-From: SJ Park <sj@kernel.org>
-To: Mattathias Pinchover via B4 Relay <devnull+mattathias.pinchover.uber.com@kernel.org>
-Cc: SJ Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Mattathias Pinchover <mattathias.pinchover@uber.com>
-Subject: Re: [PATCH v2 2/6] mm/damon/sysfs-schemes: add sz_ops_filter_passed_last file
-Date: Tue, 17 Nov 2026 17:53:40 -0800
-Message-ID: <20261118015340.96006-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261117-damon-sz-ops-b4-v2-2-439888fa04ac@uber.com>
-References: 
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=NgyrMkgn
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+	by m0089730.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 6AI11qOJ492445;
+	Tue, 17 Nov 2026 17:55:05 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	pps82601-s2048-2026-q3; bh=rM+PXP8JJcUMybNdJI1OSHiTvgbrlHQWSRXWA
+	rsiwAg=; b=NgyrMkgn7zoJAejeX7xHRk/oQWDQLUDUzfZj8fdElA2XyuiX9rZT7
+	fYGZQge5cmW5hh9p6cuJkhvrwFHYWpP+RfKG7Cewiq5y4rVprUNCDL0obHYWHExO
+	E1MZOlVIMSHt+3MvpRJiNhPItno1xZQ8GssYg68be7xsvpqLAi0ATDqWFr0NoE46
+	RzrHcbM1YfD/M9bvuD0laJHTtikVgrZtY+8QG9BVBJDWONKmGZDIEpNYvp4PraYc
+	fhBAe4jyes7zAQHjvdoZ+8mBn1TwmF8+f96hbHxeGYOY2c0WZCwCyQ5ODl2Iwn0B
+	HyLOlKGspd0kdkgHzp1PBnkiHdFLgsXeg==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by m0089730.ppops.net (PPS) with ESMTPS id 4j0yu5hcsc-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 17 Nov 2026 17:55:04 -0800 (PST)
+Received: from localhost (2620:10d:c0a8:fe::f072) by mail.thefacebook.com
+ (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Wed, 18 Nov
+ 2026 01:55:03 +0000
+From: Bobby Eshleman <bobbyeshleman@meta.com>
+Date: Tue, 17 Nov 2026 17:54:45 -0800
+Subject: [PATCH net-next v7 2/7] vsock: rename the vsock pernet operations
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,25 +69,133 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20261117-vsock-guest-ns-v7-2-7e522ea9dd9b@meta.com>
+References: <20261117-vsock-guest-ns-v7-0-7e522ea9dd9b@meta.com>
+In-Reply-To: <20261117-vsock-guest-ns-v7-0-7e522ea9dd9b@meta.com>
+To: Stefano Garzarella <sgarzare@redhat.com>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>,
+        Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Stefan Hajnoczi
+	<stefanha@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang
+	<jasowangio@gmail.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+        Shuah Khan
+	<shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Donald Hunter
+	<donald.hunter@gmail.com>,
+        Eric Dumazet <edumazet@kernel.org>,
+        George Zhang
+	<georgezhang@vmware.com>, Andy King <acking@vmware.com>,
+        Dmitry Torokhov
+	<dtor@vmware.com>, Eric Dumazet <edumazet@kernel.org>
+CC: <virtualization@lists.linux.dev>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <kvm@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <sargun@sargun.me>, <jlinbox@meta.com>,
+        Bobby Eshleman <bobbyeshleman@gmail.com>,
+        Bobby Eshleman
+	<bobbyeshleman@meta.com>
+X-Mailer: b4 0.14.3
+X-Authority-Analysis: v=2.4 cv=EqFHPicA c=1 sm=1 tr=0 ts=6afd0578 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=855S8uPTkML1Oy45N9_h:22 a=20KFwNOVAAAA:8
+ a=VabnemYjAAAA:8 a=-BBy4ptD6Xa2-Mryg3AA:9 a=QEXdDO2ut3YA:10
+ a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDAwNyBTYWx0ZWRfX24btXMYEUauj
+ mBazeTyfil3Iv7ihLkyarcYJ8/VBzLw0uzMmFVbXoLVswgkZIRmh44BKJZ5PtaEr4WVJLPDhjtj
+ KHao9RxrAmRXieasF4FIsqRXfBR7Z+s=
+X-Proofpoint-ORIG-GUID: 8GRUW8R3u0AxQ7M7fwEbViQ7m8jifeDN
+X-Proofpoint-GUID: 8GRUW8R3u0AxQ7M7fwEbViQ7m8jifeDN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDAwNyBTYWx0ZWRfXxMkPNEKAXDcu
+ mJI3Tfzq46NMeGhqbsTOeRG+kORPOj+I7hPZrAjY9/zbZgJ7Ttnvr6WajyBmOpC5+um74ronJ/t
+ 9eBMGh+Q3sQvMv71PCirns17NwX5AGakuLGlmeC9GyEik9lY5/QvkmWAEOki+UCm9MYXs+bJFFQ
+ yHBi2RzCcJqEqrl+D7VvLDcW2Xc7Zui2GK6PAH/NrC3wHaDCB4VsIUxi+IyOKdvLbzXnCGqoHfG
+ qJECJ1ly9lUJIoQf2gyAyyGiFL3R+BHbBkHhN9xuaewNLQcNuikkX3oq3bgkBmQZD74I45uMR3A
+ lfuB6ANTp6z9sj/ok8uoiLk3n/1pnYDSgfHjlUSgRw4XlazM719DnUBVhglcIoIjmkxHjxQ0mEv
+ qFugf0uyyax3vPyeQOWkqQ6tJVE4UvBHdBZ02FxXAUbyhi4J8exCdptD2SSlXZo3LMWrtRw02mO
+ Y/OCcdhxdQiW7FIeH1Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-17_05,2026-11-16_01,2025-10-01_01
 
-On Tue, 17 Nov 2026 23:22:16 +0000 Mattathias Pinchover via B4 Relay <devnull+mattathias.pinchover.uber.com@kernel.org> wrote:
+vsock_sysctl_ops and its two callbacks are named for the sysctl tables
+they register, but the init callback already does more than that: it
+also initialises the per-namespace vsock state through vsock_net_init().
 
-> From: Mattathias Pinchover <mattathias.pinchover@uber.com>
-> 
-> Introduce a new DAMON sysfs interface file for exposing the newly added
-> DAMOS stat, sz_ops_filter_passed_last.  The file has the same
-> name as the stat and is placed under the DAMOS stats directory.  Like
-> other stats files, it is updated when the stats are refreshed via
-> refresh_ms or the update_schemes_stats command.
-> 
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Mattathias Pinchover <mattathias.pinchover@uber.com>
+Rename them to vsock_pernet_ops, vsock_pernet_init and
+vsock_pernet_exit, so that later per-namespace work can be placed here
+too.
 
-Reviewed-by: SJ Park <sj@kernel.org>
+No functional change.
 
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+---
+ net/vmw_vsock/af_vsock.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Thanks,
-SJ
+diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+index a5c805f3b29e..100570d83e75 100644
+--- a/net/vmw_vsock/af_vsock.c
++++ b/net/vmw_vsock/af_vsock.c
+@@ -3117,7 +3117,7 @@ static void vsock_net_init(struct net *net)
+ 	net->vsock.g2h_fallback = 1;
+ }
+ 
+-static __net_init int vsock_sysctl_init_net(struct net *net)
++static __net_init int vsock_pernet_init(struct net *net)
+ {
+ 	vsock_net_init(net);
+ 
+@@ -3127,14 +3127,14 @@ static __net_init int vsock_sysctl_init_net(struct net *net)
+ 	return 0;
+ }
+ 
+-static __net_exit void vsock_sysctl_exit_net(struct net *net)
++static __net_exit void vsock_pernet_exit(struct net *net)
+ {
+ 	vsock_sysctl_unregister(net);
+ }
+ 
+-static struct pernet_operations vsock_sysctl_ops = {
+-	.init = vsock_sysctl_init_net,
+-	.exit = vsock_sysctl_exit_net,
++static struct pernet_operations vsock_pernet_ops = {
++	.init = vsock_pernet_init,
++	.exit = vsock_pernet_exit,
+ };
+ 
+ static int __init vsock_init(void)
+@@ -3164,7 +3164,7 @@ static int __init vsock_init(void)
+ 		goto err_unregister_proto;
+ 	}
+ 
+-	if (register_pernet_subsys(&vsock_sysctl_ops)) {
++	if (register_pernet_subsys(&vsock_pernet_ops)) {
+ 		err = -ENOMEM;
+ 		goto err_unregister_sock;
+ 	}
+@@ -3188,7 +3188,7 @@ static void __exit vsock_exit(void)
+ 	misc_deregister(&vsock_device);
+ 	sock_unregister(AF_VSOCK);
+ 	proto_unregister(&vsock_proto);
+-	unregister_pernet_subsys(&vsock_sysctl_ops);
++	unregister_pernet_subsys(&vsock_pernet_ops);
+ }
+ 
+ const struct vsock_transport *vsock_core_get_transport(struct vsock_sock *vsk)
 
-[...]
+-- 
+2.53.1-Meta
+
