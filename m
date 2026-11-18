@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795041442;
-	b=jsjdzDgJCvdxjTTvb+vJTtygOeiEhiodUCmm7UyVYfWVWtirhPH5qOD6vByN1ztrU42W
-	 r5QtjQHQLf6n4rWwWwHZOzxaJ8osImPEDrStYDnItgZlUUx7uBURdBZLzi43kjXgV/jBO
-	 +RGs5vMAW5bcVPkPctE+vyR7RN4iL5wXYkIDqSdUd2ZUreRwxpm2Rr/UK049jcF1GLhY7
-	 LnNry8y8IL7BXCjRQvWjCIcTKYUaU6d6Q0M9fJNAqc9VgDADMLeFfB4Dcy5RznWxCoDCN
-	 tm0tWWlN4KagdkNPzzX7UZPdZg6ZuprNZvFesNVBln4FHzsLlkXPKEHkJ56Y6hSvhSg==
+	t=1795041447;
+	b=vjI/V1XluCI7MX9tevsO5AKiuYGn6ysU/wjX63l+WMCREr2PQEMq+IoD28rCmI1lLUbt
+	 bchqn4HeBwCwfVpgQJbgPd/W4s6N+gm2EayHy7AeiVSBQxlmJZDoSbsNmh8q4YwxASsHQ
+	 bfwhh9nsROlVO8M8774+lxH8wQMIuqhQ07/okwmWiEIuAPmCf6GEDNKlu61GW8LWxjd0w
+	 74uAe/xPUUmQFrW9I4k90beC2Kd31xgp+LDZf8XBvhRZ8iu794nPu5GCd3D3oT1FoIdLe
+	 cDsrAflBzP6NxY0h4rpwNZK7JjH3lhvLdnOFg5Caj0FNxz/8GhUiPfnLiI6eNt5jWyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795041442;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795041447;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=HNkkfP2cevkFVfIGomWPdBlTDGkki6pISPgO29QlZFU=;
-	b=HNW8SgeBQcnmXUPt+v0otYTEBf+iGRd1TIY5nGFewpvhynN/Gw6QoS6waoZG5ug9DxS/
-	 0ysHdJRAw6LPRhImLuuKDq4bpf9oAhEOY5plx713P8TUO0a5Umdhsv1ps8g4cYKymAdmT
-	 VdGgpvaM8BnY0b5smgs4gKVxA7qka8IkYyoxnjRMvLSz3z1nFXCTT+nA8XwekCgErqKct
-	 poNTs0W9/30YQIo5p3sEhEK2/6hIphaE526yhKVLV8MRZcVgngHlphNM09JHJ90cPABbT
-	 2vYxGApiR4HW7Id+xVjrhF/tQPhmaeU5sObmnr817mGMNnKp1MizVxpC6grvlWp5ddg==
+	bh=vtujdpaU40al4T5ZdD8VivFKSuVoB9aJ5CGlvJ4l578=;
+	b=fkAqRDkLvWIsyE037gQ6jEBIbd1/oSk+JUImkdOryC+BXGeTmwWeu4Ln3U50rCkNDAZN
+	 xFHeEAbjp1mFyy9/wPmXd5AX7OeA22Fj7IeZCu0eqfibLJcEgDdqKosaO3dd5u1kIh31o
+	 QH76BGrD+8s4OFQafQ8sYkvixiA2R1O8c4js+YRKe+0LGZR1vgmpZNvkxh35ujLfDXARS
+	 RJKhT+bSs5R2DxpmnXlRe36WY8q8Kkr0HJ4dKjZLS5W4PA88u+QCuJjgn6KcYRIrON2uQ
+	 vsPF5yTwwyl6hWvOBbeZXVj7NuJSYSW7BcBZRSzPYz06z3fy4O5mD0sq8EV+8QpHi5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=GKZ3TwgD;
-	arc=none smtp.remote-ip=209.85.167.200
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UCkWdhmk;
+	arc=none smtp.remote-ip=209.85.167.199
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4025760A382D
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 22:37:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4025760A382D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1DA606A996
+	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 22:37:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA1DA606A996
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=GKZ3TwgD
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-5384e381fbbso1172151b6e.2
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 14:37:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UCkWdhmk
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4b597558c4cso1653484b6e.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 14:37:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795041441; x=1795646241; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1795041446; x=1795646246; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=HNkkfP2cevkFVfIGomWPdBlTDGkki6pISPgO29QlZFU=;
-        b=GKZ3TwgDVpOhVv4K2Yl13YrEs3+5DcsK77RtcT2ZRw0y8zVT5a0R5AhqhOKIk1j5ac
-         tq5L9VkTF9MK6W6KHgSaIupcuMsIMzB3Na3ESPZwp6MToNsCjzpG1mW9dnC6Q+0gzNig
-         jiXgITzuE2ymGwiba/4S1Y60bbqifLP1j4UnMWrgxi7BeujxYwkqounc2/WBn/tov4PI
-         taSelONdCawtt1M89XTOAaOxsLuNSIwvCNi6OLlDmLyg8C8OXGGcCwB5eFd40MKscY8s
-         W9u2s6MxvtoeHnzU3ngfvlCArrNipao2cgGFLBGFv14hi0CZOVyllYCnLhdJw+XsDu5V
-         WL6g==
+        bh=vtujdpaU40al4T5ZdD8VivFKSuVoB9aJ5CGlvJ4l578=;
+        b=UCkWdhmkNToAqzBuAZIqNBHEJM7rm+H9Zh7cIkX7PfF0jiS26HDO0jUbwchxm1CuIr
+         uzEOwKxW8lyVkOBgQ5D5C2B4XszDmLGny78iQmPI24gMe22WfCjq1LDE9KJlYwGovg+A
+         MhXRUNpSi/9eD/h1uqojO+B9TsGJzkz5FjiG0q4aZbHDGvGXS/pL+DKc9n5U3K4l7cGa
+         pFOdUHV/czu4WqM7CSgbVcrauDXYJPeZSupdH28DmhKinlPsKZAvvoo2mGWlnwCtue15
+         rISFylo3OQHfQy4mRTEG+E7c33k7AZn9aAI2GYEriRQIHlON5jpWy7egX4k0mg4cRRO1
+         esCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795041441; x=1795646241;
+        d=1e100.net; s=20260707; t=1795041446; x=1795646246;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=HNkkfP2cevkFVfIGomWPdBlTDGkki6pISPgO29QlZFU=;
-        b=X/KDygQ5nDaCNou/cZjbcUcGVwMSe/vl3h+JLCIsqBP09GkUSiBAGUDIiUnUbIglCr
-         yaOsZ1VyMa3Q3qWoXrNR52AMXPeiCxuZvBWw5rRRuwLJH9wmw/2/LlAm20mFbUNuuV0x
-         BIYWcOhn4Z/t/R2iXMlpZX7ghAJTTe7qbmecj1Rvo/F5KmOgaVlCm4uA3lZ2qjUGycLi
-         hJkBDKjlo0r4LX8w0mNeuTqAXaKKGAEIXnVZs9oAopmo0PlahGTiRSmRyKp9BCSz1s0e
-         3vY4FiVOrJXzxB6Dcar/FGKVC80rnaOA64HbzQk/lbEx4n3UTO3BoZOPGLEWA+Bqhkyb
-         olwA==
-X-Forwarded-Encrypted: i=1; AL+hErFk3sTRk6DHWRYppgtvJXdN0J8EQXPEZV6V2+IGAerlhrMnHKtUGo0A6ZquoVrOjH4VtTRgf369310=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+syc3hw2mUZBizHhlvdZExJjk2QYu4XLYmKZO3l86owgRK+qGs
-	sqOn/M7mxpSAgtn0CNKwC3q+RIFlCJnsTp/CKsW05hBPErWWQjsKbWr3kzc5fg9aDdDD0Pa4spz
-	B63mW2OXxb1BeCQ==
-X-Received: from ilbek7-n2.prod.google.com ([2002:a05:6e02:4f07:20b0:549:da41:90bc])
+        bh=vtujdpaU40al4T5ZdD8VivFKSuVoB9aJ5CGlvJ4l578=;
+        b=SNEehwyNtddydVSXG9eLXWANSXCAIY4qO+vyKMF2UYGEhTD9eEHKr+pWVyxen/T7gH
+         LJK1cR9qEye4b9Pzln+KRxmGmi8KgOU7wgsMksMcbnRfFB6I+8UkoEtGLMPaUwC8WbCi
+         KZt8LDg1Cw59J/uMAhrHVqKn8VRux53+ve5udUbatEGmnC4mnI9d/RFvG9L59zDLLbFi
+         tE40fAxGziE1aCJNoVjtm/OfpVLVN2/r4dw6eKrzBscIG64vYdpi4SnSVLKYz5k7kmTU
+         dbFUhMyYN++QDJTEjC3G4ExRl3S925cneT10qp7JLMm2q5ITMZkcaK2qUJ0vx2Puh/6u
+         dkIg==
+X-Forwarded-Encrypted: i=1; AL+hErE8TJG7jRuaRp86uCPgC/511DbPZ73tHdD8D8xLFz5VuI2ylrHWo7jhqHtjcLEth0Ix/sXA0/By6+g=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9gQdkgjQXCezpY962UC4DyxtzszovB84qsys716yrtxbf6lzCn
+	d5ecguWKB0b8kak8eTFgftDlu6cnWD5P1mTNRH7cCB0nFCiNEoKwFh/zFtUYJWk8hg7NImupOPQ
+	kB1gb5/RXjMW6Fw==
+X-Received: from iocre7-n1.prod.google.com ([2002:a05:6602:87c7:10b0:9e8:de6c:a5a3])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:3385:b0:4c4:9f7e:92ce with SMTP id 5614622812f47-57741723d34mr4740022b6e.38.1795041441133;
- Wed, 18 Nov 2026 14:37:21 -0800 (PST)
-Date: Wed, 18 Nov 2026 22:37:02 +0000
+ 2002:a05:6808:1925:b0:55c:888:30ff with SMTP id 5614622812f47-5774240c0a2mr4971244b6e.45.1795041445551;
+ Wed, 18 Nov 2026 14:37:25 -0800 (PST)
+Date: Wed, 18 Nov 2026 22:37:04 +0000
 In-Reply-To: <20261118223704.3286085-1-dmatlack@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261118223704.3286085-1-dmatlack@google.com>
 X-Mailer: git-send-email 2.56.1.708.g77570a6a1d-goog
-Message-ID: <20261118223704.3286085-12-dmatlack@google.com>
-Subject: [PATCH v11 11/13] PCI: liveupdate: Freeze preservation status during shutdown
+Message-ID: <20261118223704.3286085-14-dmatlack@google.com>
+Subject: [PATCH v11 13/13] Documentation: PCI: Add documentation for Live Update
 From: David Matlack <dmatlack@google.com>
 To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org
@@ -100,140 +100,93 @@ Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.
 	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Freeze a device's outgoing preservation status (preserved or not
-preserved) during shutdown. This enables the PCI core and drivers to
-safely make decisions based on the device's preservation status during
-shutdown.
-
-The PCI core freezes every device in pci_device_shutdown(), not just
-preserved ones, so that no device can be preserved or unpreserved after
-its shutdown starts.
+Add Documentation/PCI/liveupdate.rst, which pulls in the kernel-doc from
+drivers/pci/liveupdate.c and include/linux/kho/abi/pci.h, and link it
+from the PCI index and the Live Update Orchestrator documentation.
 
 Signed-off-by: David Matlack <dmatlack@google.com>
 Reviewed-by: Pranjal Shrivastava <praan@google.com>
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
 Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/pci/liveupdate.c       | 19 +++++++++++++++++++
- drivers/pci/liveupdate.h       |  5 +++++
- drivers/pci/pci-driver.c       |  2 ++
- include/linux/pci_liveupdate.h |  3 +++
- 4 files changed, 29 insertions(+)
+ Documentation/PCI/index.rst           |  1 +
+ Documentation/PCI/liveupdate.rst      | 35 +++++++++++++++++++++++++++
+ Documentation/core-api/liveupdate.rst |  1 +
+ MAINTAINERS                           |  1 +
+ 4 files changed, 38 insertions(+)
+ create mode 100644 Documentation/PCI/liveupdate.rst
 
-diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
-index a45ad86370d5..e26d2f5c2338 100644
---- a/drivers/pci/liveupdate.c
-+++ b/drivers/pci/liveupdate.c
-@@ -126,6 +126,9 @@
-  *  * The device cannot require device-specific quirks to enable Access
-  *    Control Services (ACS).
-  *
-+ * In addition, a device cannot be preserved or unpreserved once the PCI core
-+ * has started shutting it down (pci_device_shutdown()).
-+ *
-  * Driver Binding
-  * ==============
-  *
-@@ -520,6 +523,11 @@ static int pci_liveupdate_unpreserve_device(struct pci_flb_outgoing *outgoing,
- {
- 	struct pci_dev_ser *dev_ser = dev->liveupdate.outgoing;
- 
-+	if (dev->liveupdate.frozen) {
-+		pci_warn(dev, "Cannot unpreserve device after it is frozen!\n");
-+		return -EINVAL;
-+	}
+diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
+index 5d720d2a415e..23fb737ac969 100644
+--- a/Documentation/PCI/index.rst
++++ b/Documentation/PCI/index.rst
+@@ -20,3 +20,4 @@ PCI Bus Subsystem
+    controller/index
+    boot-interrupts
+    tph
++   liveupdate
+diff --git a/Documentation/PCI/liveupdate.rst b/Documentation/PCI/liveupdate.rst
+new file mode 100644
+index 000000000000..96b1d7f5df3a
+--- /dev/null
++++ b/Documentation/PCI/liveupdate.rst
+@@ -0,0 +1,35 @@
++.. SPDX-License-Identifier: GPL-2.0-or-later
 +
- 	if (!dev_ser) {
- 		pci_warn(dev, "Cannot unpreserve device that is not preserved\n");
- 		return -EINVAL;
-@@ -569,6 +577,11 @@ static int pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing,
- 		return -EINVAL;
- 	}
- 
-+	if (dev->liveupdate.frozen) {
-+		pci_warn(dev, "Cannot preserve device after it is frozen!\n");
-+		return -EINVAL;
-+	}
++===========================
++PCI Support for Live Update
++===========================
 +
- 	if (dev_ser) {
- 		/*
- 		 * Endpoint devices can only be preserved once. Bridges are
-@@ -784,6 +797,12 @@ void pci_liveupdate_cleanup_device(struct pci_dev *dev)
- 		pci_WARN(dev, 1, "Destroying incoming-preserved device!\n");
- }
- 
-+void pci_liveupdate_freeze(struct pci_dev *dev)
-+{
-+	guard(rwsem_write)(&pci_liveupdate.rwsem);
-+	dev->liveupdate.frozen = true;
-+}
++.. kernel-doc:: drivers/pci/liveupdate.c
++   :doc: PCI Live Update
 +
- static int pci_liveupdate_finish_device(struct pci_ser *ser, struct pci_dev *dev)
- {
- 	if (!dev->liveupdate.incoming) {
-diff --git a/drivers/pci/liveupdate.h b/drivers/pci/liveupdate.h
-index e1c1d2fa00e4..03211dbebc7b 100644
---- a/drivers/pci/liveupdate.h
-+++ b/drivers/pci/liveupdate.h
-@@ -13,6 +13,7 @@
- #ifdef CONFIG_PCI_LIVEUPDATE
- void pci_liveupdate_setup_device(struct pci_dev *dev);
- void pci_liveupdate_cleanup_device(struct pci_dev *dev);
-+void pci_liveupdate_freeze(struct pci_dev *dev);
- bool pci_liveupdate_preserve_bus_numbers(void);
- bool pci_liveupdate_refuse_bus_numbers(struct pci_bus *bus, struct pci_dev *dev);
- int pci_liveupdate_adopt_acs(struct pci_dev *dev);
-@@ -31,6 +32,10 @@ static inline void pci_liveupdate_cleanup_device(struct pci_dev *dev)
- {
- }
- 
-+static inline void pci_liveupdate_freeze(struct pci_dev *dev)
-+{
-+}
++Driver API
++==========
 +
- static inline bool pci_liveupdate_preserve_bus_numbers(void)
- {
- 	return false;
-diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
-index 7efe808cdf0c..8b11bd3dc5bc 100644
---- a/drivers/pci/pci-driver.c
-+++ b/drivers/pci/pci-driver.c
-@@ -21,6 +21,7 @@
- #include <linux/acpi.h>
- #include <linux/dma-map-ops.h>
- #include <linux/iommu.h>
-+#include "liveupdate.h"
- #include "pci.h"
- #include "pcie/portdrv.h"
++.. kernel-doc:: drivers/pci/liveupdate.c
++   :export:
++
++Internal API
++============
++
++.. kernel-doc:: drivers/pci/liveupdate.c
++   :internal:
++
++Live Update ABI
++===============
++
++.. kernel-doc:: include/linux/kho/abi/pci.h
++   :doc: PCI File-Lifecycle Bound (FLB) Live Update ABI
++
++.. kernel-doc:: include/linux/kho/abi/pci.h
++   :internal:
++
++See Also
++========
++
++ * :doc:`/core-api/liveupdate`
++ * :doc:`/core-api/kho/index`
+diff --git a/Documentation/core-api/liveupdate.rst b/Documentation/core-api/liveupdate.rst
+index b3c689e633c1..2bce2644eba2 100644
+--- a/Documentation/core-api/liveupdate.rst
++++ b/Documentation/core-api/liveupdate.rst
+@@ -74,3 +74,4 @@ See Also
  
-@@ -559,6 +560,7 @@ static void pci_device_shutdown(struct device *dev)
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
- 	struct pci_driver *drv = pci_dev->driver;
- 
-+	pci_liveupdate_freeze(pci_dev);
- 	pm_runtime_resume(dev);
- 
- 	if (drv && drv->shutdown)
-diff --git a/include/linux/pci_liveupdate.h b/include/linux/pci_liveupdate.h
-index d45a5b524909..bb79348769b7 100644
---- a/include/linux/pci_liveupdate.h
-+++ b/include/linux/pci_liveupdate.h
-@@ -21,11 +21,14 @@
-  *                set up, i.e. it was matched to state preserved by the previous
-  *                kernel. Unlike @incoming, this is never cleared, so it stays
-  *                true after the device finishes participating in Live Update.
-+ * @frozen: True if the outgoing preservation status of this device is frozen
-+ *          and thus cannot be changed.
-  */
- struct pci_liveupdate {
- 	struct pci_dev_ser *outgoing;
- 	struct pci_dev_ser *incoming;
- 	bool was_incoming;
-+	bool frozen;
- };
- 
- struct pci_dev;
+ - :doc:`Live Update uAPI </userspace-api/liveupdate>`
+ - :doc:`/core-api/kho/index`
++- :doc:`PCI </PCI/liveupdate>`
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6b7c5f3a64d3..1572f6c905aa 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -21554,6 +21554,7 @@ L:	kexec@lists.infradead.org
+ L:	linux-pci@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux.git
++F:	Documentation/PCI/liveupdate.rst
+ F:	drivers/pci/liveupdate.c
+ F:	drivers/pci/liveupdate.h
+ F:	include/linux/kho/abi/pci.h
 -- 
 2.56.1.703.gf848ed807c-goog
 
