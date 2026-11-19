@@ -1,68 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795097325;
-	b=24qaEoeAnoNhJ/avfn/0+w5BGBhud0EpaTQMDwxkIHsElEeJNzchBr4VEsScibqsKBJb
-	 L/mY0SZFtRkwCAm9wbH2ubIE5BR/6cyz86Wce2acpBtcAGw6LXVYzTztiTcoukzJpTFJ2
-	 0MyqdtX4OvYz58lvb8zLWpNE5/igqwC4R6d7o+jGvrPMEUmfcX/myyBwooUYIob+6jhf3
-	 w0DcHQWWmNTE9zg4SGykcQPm1GeW6nWkhRoPhfob5SkMMO6vSB84qsOOJK6vKFwdLCeWt
-	 Rz2fmUACVM4dxZ4acNE5tUbo/n53UviEys+FRM2/Wd6Z7u0LzlCXhywTe4s1I6RWbPQ==
+	t=1795097483;
+	b=aw5Fm3ej+tFpU8wCvSuV8gdvYmgg27CM4t9M8iDKcg8BpjJmyrzI3irqxXOiqaZopNt3
+	 sjcVZD1WQbpVz4Wa4BdfLUmbKb3vP4INDUa6hEIhLrKoL1fGA4n/bFjZfboHiAYAPF88M
+	 BXduIHI9B9JoxnRzw6fYpSMmW1KTHQWv1D/Ez+/0hvpdzrbeHSXjr/A3j3ySIWGj67gqh
+	 /t5pkC6rnSqTQtF8U31OqOZjhWtHE/zhpmhNNMkP/NSuA28kZtO+9xObJSooHgMckqVYD
+	 mF8+p2jY1R95ex3d1KZXzaj9J+MivGQOf5tjonzvDrW3W/cWk+bcX9pEcudJ6q3rvUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795097325;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795097483;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition:
 	 Content-Transfer-Encoding:In-Reply-To;
-	bh=deLFcMvvltUgOBB0nzekqT3DRM7PlPpuRsUgmgE0xJs=;
-	b=tpozhdCkIbrCmRCUQT/JMXUO6jhIvss6p9q/a9ZdiwvG+Bau1V9yxQiyF2Vd4hinVmHu
-	 GcafOyOPJ/zJQDMQr4RrUUSzkVhncJ79vV4g227GC+Ui7Ky6+7fpNDn8xJgw5oQ8wWkQS
-	 adEy6f4FYLozzmax7pBVKHdgoMm1AmO+T23muQrOCENWC2aZVQl7feVqAZVK84rmA8E+N
-	 YxpiFiq1U12oYXWunC6WEfZDTgM7FgvUsSzJSuhpPwkHm5nMcE45MbZlrXS76XNk73dTa
-	 eIIwLdHR40Fxzd45m/oHwIDon8dVXvXCHKcnMzZtvwOus1Ui0kewOuIJPaduMJv9Njg==
+	bh=28OwL7LMN9BNWrZxvtunkM472yJRAdMErQfbeGnmfC8=;
+	b=bVxakQrrj3OXTqngbq+M8AMjLeQyf2PHfT3YA9z73iPmubHOLf9xpO0SdIfDNfjnmRYT
+	 DXnOZsYTNeokU3jivdXn2uzxprTM61Jck3mchTAspt5g49w9RE5aJieff44FTIA0A65Vg
+	 VPXXJLMpgvQW60uGx6E3xfgYvlv7Q9VQfg/ojJNfljW+4eP38od23jX03DgTlYSelB3kX
+	 TPJx9ohOGU+rFZIVznvxWdsl46RP4HaRq1QiI6o8rxslZmCvjQlfypu46MUrTiLx8Ec6w
+	 owkdpldJLXDj4CJzs5cCCwsryjG0zhqKhM5mPhWwoAHTB8zoQvJg/g2/51KITqVFpBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="VGT6CPW/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Vjp9KtHD;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EAA606A320;
-	Thu, 19 Nov 2026 14:08:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06C9606A320;
+	Thu, 19 Nov 2026 14:11:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F06C9606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VGT6CPW/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B6D61F000C4;
-	Thu, 19 Nov 2026 14:08:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795097325;
-	bh=deLFcMvvltUgOBB0nzekqT3DRM7PlPpuRsUgmgE0xJs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VGT6CPW/wtjf93Hbnt7vGTzxnm+m5tp5bIHpq29p+RgyV5QZXwZhn8vBEMLao+PYg
-	 PCUZ1usoGhC/buvHKCHBr+3FqpWcZI8hA+G/AnsZf0kqeyDDRcuNRnBdBdvUjV8AF5
-	 pbqd3WpW+PvZx1H0nHTPucGg+qChKpjfQL2yIPMnFVf3HQ8i7dLCper3SXG3Oq3Tnn
-	 ljERMRXcjxXOlrsqDe8qKB1/RchUjdc/mKVygZTSK9ZQSj+CKnOlXkNaufaWLk9PPC
-	 h14dMsVmUHWhkRabrbOfkgHJKFwhMsxJ0pXnGerIga4T/8beoldtWKWqL/RWlYosZL
-	 wgB1vSwgzeB9A==
-Date: Thu, 19 Nov 2026 15:08:37 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: "Hallgrimur H. Gunnarsson" <halg@google.com>
-Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>, 
-	Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
-	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
-	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-Message-ID: <20261119-bagger-sagst-saatgut-096a6c993e9e@brauner>
-References: <20261028221705.3915340-1-halg@google.com>
- <20261107.aighieG4Ami1@digikod.net>
- <20261118.faiBee9Taigh@digikod.net>
- <av7TsXKUE69lyiWl@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Vjp9KtHD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795097484; x=1826633484;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding:in-reply-to;
+  bh=nw7rQPipSkhtV/UQgw2LJ0rMDn1dGG0TaB4g5lNPeio=;
+  b=Vjp9KtHDrVhrYhO4VOxiY310vKfZD9wSWCSV/BWWmHQC97zeos0+qUHX
+   vLKH7MOy3qIccIEGyh0lnbk7tHaXaTXosTmWsEgLzXIEg4yJ82qYzLiLt
+   UCXL5+YCriXyKtXMHwrDoIw0X65B47VR/Hyl3pTgiQLireNng2coy8WPi
+   MWginHp/5Ppty0fC4KlNnQMhmxNm13g/nOnxQG7iQGPNwZN3hbnP366e7
+   mVSXal12vrkpELzueMTT9+wiXvIvzsyB8Bj9CWGhIUePFYn8koM3ZTaEE
+   p8g7VJtxvMQYWaCY0FJT5r7/Ar5iQnKqdNrUXfqI8ggMgsurNreXymUOa
+   w==;
+X-CSE-ConnectionGUID: FnLcogvvSf+h19prakT1CQ==
+X-CSE-MsgGUID: j1lgUwQcQ3ycfEB4EzUpbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3954949"
+X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
+   d="scan'208";a="3954949"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 06:11:23 -0800
+X-CSE-ConnectionGUID: Y7htxKcIQZqpqFq6wYNJhw==
+X-CSE-MsgGUID: FDK0PtvFRbC2gRpIiTQ4jw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
+   d="scan'208";a="10573856"
+Received: from ly-workstation.sh.intel.com (HELO ly-workstation) ([10.239.182.64])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 06:11:13 -0800
+Date: Thu, 19 Nov 2026 22:11:10 +0800
+From: kernel test robot <yi1.lai@intel.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org,
+	aubrey.li@linux.intel.com, yu.c.chen@intel.com, ltp@lists.linux.it,
+	cgroups@vger.kernel.org, rcu@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	luca abeni <luca.abeni@santannapisa.it>,
+	Yuri Andriaccio <yurand2000@gmail.com>,
+	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Qais Yousef <qyousef@layalina.io>,
+	John Ogness <john.ogness@linutronix.de>, yi1.lai@intel.com
+Subject: Re: [PATCH v3 6/8] sched: Limit sysctl sched_rt_{period|runtime}_us
+ to RT_GROUP_SCHED
+Message-ID: <202611192004.cca8bf73-lkp@intel.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,31 +112,149 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <av7TsXKUE69lyiWl@google.com>
+In-Reply-To: <20261113-sched_dl-v3-6-a76ffa1cdeee@linutronix.de>
 
-On Thu, Nov 19, 2026 at 10:47:13AM +0000, Hallgrimur H. Gunnarsson wrote:
-> On Wed, Nov 18, 2026 at 03:43:03PM +0100, Mickaël Salaün wrote:
-> > Hallgrimur, could you please explain why your use case would not work
-> > with Landlock?  The capability split or new clone flags would be
-> > complementary of course.
-> 
-> Apologies for the late reply.
-> 
-> Landlock's capability restrictions work well for self-sandboxing
-> applications and launchers. The main gap for our use case is setting a
-> host-wide default for unprivileged user namespaces while still permitting
-> exceptions. Because Landlock restricts all capability use (not just
-> capabilities acquired via user namespaces) and its domains are strictly
-> irrevocable, PID 1 cannot apply a default policy at boot without
-> locking out privileged services, file-capability helpers, and authorized
-> workloads. Using Landlock here would require explicit opt-in enforcement
-> at every unprivileged transition boundary (SSH, container/job launchers,
-> etc.), where missing any entrypoint leaves unprivileged user namespaces
-> unrestricted.
-> 
-> In v1 we had the global sysctl to tackle this. In v2 (based on Christian
-> and Andy's feedback), we combine per-cred cap_userns with per-userns
-> cap_bset), and PID 1 or a service manager can lower the default userns
 
-Plus, this is useful and improves security in general without having to
-use any LSM framework.
+Hello,
+
+kernel test robot noticed "ltp.proc_sched_rt01.fail" on:
+
+commit: 4f1021f29368df79a6e79ec87cafa29d99a4601a ("[PATCH v3 6/8] sched: Limit sysctl sched_rt_{period|runtime}_us to RT_GROUP_SCHED")
+url: https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/sched-deadline-Reject-debugfs-dl_server-writes-for-not-active-CPUs/20261113-115022
+patch link: https://lore.kernel.org/all/20261113-sched_dl-v3-6-a76ffa1cdeee@linutronix.de/
+patch subject: [PATCH v3 6/8] sched: Limit sysctl sched_rt_{period|runtime}_us to RT_GROUP_SCHED
+
+in testcase: ltp
+version: ltp-x86_64-686a331b6-1_20261114 with following parameters:
+
+	test: sched
+
+config: x86_64-rhel-9.4-ltp
+compiler: gcc-14
+test machine: 8 threads 1 sockets Intel(R) Core(TM) i7-4790T CPU @ 2.70GHz (Haswell) with 16G memory
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <yi1.lai@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202611192004.cca8bf73-lkp@intel.com
+
+
+PATH=/lkp/benchmarks/ltp:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/lkp/lkp/src/bin
+2026-11-19 03:55:21 cd /lkp/benchmarks/ltp
+2026-11-19 03:55:21 export LTP_RUNTIME_MUL=2
+2026-11-19 03:55:21 export LTPROOT=/lkp/benchmarks/ltp
+2026-11-19 03:55:21 kirk -f sched
+Host information
+	Hostname:   lkp-hsw-d05
+	Python:     3.13.5 (main, Jun 13 2026, 14:18:01) [GCC 14.2.0]
+	Directory:  /tmp/kirk.root/tmpmzwqb43l
+
+Connecting to SUT: default
+
+Suite: sched
+────────────
+ [1;37mpth_str01:  [0m [1;32mpass [0m  (0.016s)
+ [1;37mpth_str02:  [0m [1;32mpass [0m  (0.151s)
+ [1;37mpth_str03:  [0m [1;32mpass [0m  (0.017s)
+ [1;37mtime-schedule01:  [0m [1;32mpass [0m  (0.250s)
+ [1;37mtrace_sched01:  [0m [1;32mpass [0m  (0.021s)
+ [1;37mcfs_bandwidth01:  [0m [1;32mpass [0m  (15.085s)
+ [1;37mhackbench01:  [0m [1;32mpass [0m  (49.279s)
+ [1;37mhackbench02:  [0m [1;32mpass [0m  (19.554s)
+ [1;37mstarvation:  [0m [1;36mskip [0m  (0.076s)
+ [1;37mproc_sched_rt01:  [0m [1;31mfail [0m  (0.015s)
+ [1;37msched_cli_serv:  [0m [1;32mpass [0m  (5.043s)
+ [1;37msched_stress:  [0m [1;32mpass [0m  (1m 12s)
+ [1;37mautogroup01:  [0m [1;32mpass [0m  (0.075s)
+ [1;37msched_football:  [0m [1;32mpass [0m  (5.469s)
+
+Execution time: 2m 47s
+
+Disconnecting from SUT: default
+
+Target information
+──────────────────
+Kernel:   Linux 7.4.0-rc2+ #1 SMP PREEMPT Thu Nov 19 11:18:29 CST 2026
+Cmdline:  ip=::::lkp-hsw-d05::dhcp
+          root=/dev/ram0
+          RESULT_ROOT=/result/ltp/sched/lkp-hsw-d05/debian-13-x86_64-20250902.cgz/x86_64-rhel-9.4-ltp/gcc-14/4f1021f29368df79a6e79ec87cafa29d99a4601a/0
+          BOOT_IMAGE=/pkg/linux/x86_64-rhel-9.4-ltp/gcc-14/4f1021f29368df79a6e79ec87cafa29d99a4601a/vmlinuz-7.4.0-rc2+
+          branch=internal-devel/devel-hourly-20261117-024418
+          job=/lkp/jobs/scheduled/lkp-hsw-d05/ltp-sched-debian-13-x86_64-20250902.cgz-4f1021f29368-20261119-35324-11d62tm-0.yaml
+          user=lkp
+          ARCH=x86_64
+          kconfig=x86_64-rhel-9.4-ltp
+          commit=4f1021f29368df79a6e79ec87cafa29d99a4601a
+          intremap=posted_msi
+          max_uptime=7200
+          LKP_SERVER=internal-lkp-server
+          nokaslr
+          selinux=0
+          debug
+          apic=debug
+          sysrq_always_enabled
+          rcupdate.rcu_cpu_stall_timeout=100
+          net.ifnames=0
+          printk.devkmsg=on
+          panic=-1
+          softlockup_panic=1
+          nmi_watchdog=panic
+          oops=panic
+          load_ramdisk=2
+          prompt_ramdisk=0
+          drbd.minor_count=8
+          systemd.log_level=err
+          ignore_loglevel
+          console=tty0
+          earlyprintk=ttyS0,115200
+          console=ttyS0,115200
+          vga=normal
+          rw
+          keep_initrds=/osimage/pkg/debian-13-x86_64-20250902.cgz/ltp-x86_64-686a331b6-1_20261114.cgz
+          acpi_rsdp=0x000f0490
+Machine:  unknown
+Arch:     x86_64
+RAM:      14033756 kB
+Swap:     0 kB
+Distro:   debian 13
+
+────────────────────────
+      TEST SUMMARY
+────────────────────────
+Suite:   sched
+Runtime: 2m 47s
+Runs:    14
+
+Results:
+    Passed:   22
+    Failed:   3
+    Broken:   1
+    Skipped:  1
+    Warnings: 0
+
+ [1;31mBroken: [0m
+    • proc_sched_rt01
+
+ [1;31mFailures: [0m
+    • proc_sched_rt01
+
+Session stopped
+LTP test details
+----------------
+starvation: starvation.c:115: TCONF: Skip test due to slow kernel configuration
+proc_sched_rt01: proc_sched_rt01.c:45: TFAIL: echo 0 > /proc/sys/kernel/sched_rt_period_us expected EINVAL: EBADF (9)
+proc_sched_rt01: proc_sched_rt01.c:47: TFAIL: echo -1 > /proc/sys/kernel/sched_rt_period_us expected EINVAL: EBADF (9)
+proc_sched_rt01: proc_sched_rt01.c:53: TFAIL: echo -2 > /proc/sys/kernel/sched_rt_runtime_us expected EINVAL: EBADF (9)
+proc_sched_rt01: proc_sched_rt01.c:62: TBROK: Failed to open FILE '/proc/sys/kernel/sched_rt_period_us' for reading: ENOENT (2)
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20261119/202611192004.cca8bf73-lkp@intel.com
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
