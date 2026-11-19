@@ -1,58 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795059983;
-	b=QYt4A8VEMNU2nDiWBjzUQ7PEbKtbfaSd2D4AekzpAzCU4GvL+3+YoXkX6+g0vEvwzx9+
-	 Gf6lw0N0abtxb2Sid24/YKLVoBglkGEbv2POOON+Q7aAVGSfKg9ipmcJmRbOpm3XJ2CtY
-	 t++GrXGtHF4cXHxc0FSsPR+SYj1HwhQ9QbTjrgYGKPh4UOOADFtTAxrvZ3u0Rb9QqfgkB
-	 PfGCHwT1lM5PNwto0BLkoJcmgRqw9v4/4dgdihNEnKQlnpVfInOiyXrfzhDgCMhbWGDkC
-	 AUG0icYznYOT6p0xUdjrgX3PLZmeYtfAHEC8bVZkqoTmtiItMDEItwmMfXs2Bz9Xj0Q==
+	t=1795061557;
+	b=cNZCGMo3sHl3JGPS7f0eQKdNwFQPjcrB3hpij2zNg9pdIUmpN+9DmSi+ERtU2ai3YACD
+	 jZ/1tXztqW2PWCF6G842+AKt7CC531tXPLLNvwH6zXYUpk5CVU7iOzTSSs+Nrrq+CS7J5
+	 dt5kleJWc+/ICATBAjWtv10P9BhtX9BwtgwN6iAtlKvBJqpyJM58E5FOy+gMgnNzW26s7
+	 OSGICTlqu/oft+LKgYMT+iJhPeUAV4q14K+l9feJNyeaFoujAaof7QRIpcjPOqFQOXa+n
+	 QlWsxgDwss1et4ymMb1zf0iAC+Scg8EvmAVO3EF+5+slaf5NCkkLHHlMWD+mcl/zivQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795059983;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-	bh=OAbbp57riKGI1fZlq88CcOSg3koPqPRG3juTd/UX3uo=;
-	b=QaeNr5+xsg9u+Rf7J/e/9IDeo3uOfhzzOj8w1nwr4kfUk9+lX7pcWpnvwf4ki60o2Vxp
-	 waauT8pMaEmjFG6oMJwkIKgMuSK4SEPEIM8f5tBySDtSu/BZkC8dN9tQKto/F2a/WhWkQ
-	 puw01L5uYn+S3+hb4TM5Teq86DtGgKLpSqcsSIYtXIBD5Q+qNJAHTIUqiDB4DSXkfuKyu
-	 5xn8Z8hc3h6miOabyk83/zB8L5KNR1CbXYBK28HyMVCaAazkHH4TkK7kTzGv9MwsvfIMh
-	 o4flW/mnYDnxoiEyKn+x5Hu2XrwY2rwjlIabDzSvd5ZVIdlZDgBmE6N2ArXhodyDHeA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795061557;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=ThQIZ/0Cdw7/Fte0QHHM+pd7xnF8SH/AfbXD3VLonjw=;
+	b=L+bFG/TNdyu4VHaFkenQLH/vPHmy+DQELuT0NNiLcnmNwSamBU+9daenQkc0da/hiC/T
+	 DlweGrIKqIK+u1qBOXP2/EvG9J5nzRDgdMb3RA2WXfZFpg7wXdN0OQmLIKnAQ0EwLOBP6
+	 N5Frd/SwX8v0WMz3UBACK3sgYB0pnbtEiq31vTCmjgfq6d0Vw9q6rznArKRICKFjyCYXY
+	 yNzaldlP14o3+8TVUifWrMCIzxqpoAbLDVRLjEgKTCWAkro1aRvV8XcJ82SWcYX+FY7OK
+	 d9LtgcBgfu0B7x0eY70HFTA69ELuzloibDU44pKtv6ENzmXbQmjQ7pu5L54HkcvgVAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b="V/52GJjf";
-	arc=none smtp.remote-ip=113.46.200.224
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q372Zxnf;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA36606A325;
-	Thu, 19 Nov 2026 03:46:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CA36606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57BB60A2608
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 04:12:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A57BB60A2608
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=V/52GJjf
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=OAbbp57riKGI1fZlq88CcOSg3koPqPRG3juTd/UX3uo=;
-	b=V/52GJjfwvVK8DnDIvM5IQVRHWD6bWwP9aQgdIQW3zyiANrSaj0DY2j7nFjPaV7CdoJkRPEs9
-	j5P3307aBbCQKc9UtkmeUFvURRjxT+IUgrgDq+974N8dU9cb6StPqSQAXioAda0lAeeDVSXW/cF
-	zoa53Mrhki2F1QPx2mEV1j0=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jVPWm3pc4z1cyPH;
-	Thu, 19 Nov 2026 11:45:56 +0800 (CST)
-Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
-	by mail.maildlp.com (Postfix) with ESMTPS id C65134058E;
-	Thu, 19 Nov 2026 11:46:16 +0800 (CST)
-Received: from [10.67.110.140] (10.67.110.140) by
- whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Thu, 19 Nov 2026 11:46:09 +0800
-Message-ID: <9787bc85-5b1c-4f13-9b0c-cd027548efa0@huawei.com>
-Date: Thu, 19 Nov 2026 11:46:07 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q372Zxnf
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-38190551625so3138014eec.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 20:12:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795061556; x=1795666356; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ThQIZ/0Cdw7/Fte0QHHM+pd7xnF8SH/AfbXD3VLonjw=;
+        b=Q372Zxnfz9G3qwHtYJGkKfs/bWWacgMHKyYW6x6kH+YqKC1cIKtCqEM+EZMmOA7/xs
+         EYEKMT3XmMTypOqAPVY9RrQCiahsnEleXPrs/Rt7jNLfabgJaZlBDeZzwsURaEliHFl/
+         NmZBqc/csrcS/1gAZvOa53QRyxawb7my9RuMy1soq0TLgv2kmLVakkiCuSXI9cf0fH11
+         WLxE2npv0o4MP12kJ8tclmCGtEjQ1AI39k8/dnm0j/GgmFFDjPKGdkuIR5xfuqlUL6YH
+         WSrJBi6s2geVprzxxbUK2Ij7kEViJSGfOVpq1GRi9cDkBAcFgguPdLUTeF9a+AKSmfkb
+         Y4Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795061556; x=1795666356;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ThQIZ/0Cdw7/Fte0QHHM+pd7xnF8SH/AfbXD3VLonjw=;
+        b=v8RQk8XW69HF9mu/PaJO98L6QO2EfwVSc3FNufS4hXhaT3L3vSJOd3BOWsdxSuM+u3
+         eKJGTF9l/MOAhs35Iapf1Za52n5lM4wxscdQyoylZhxIecrUi0vFs4wB+dDRbgFPzUt/
+         1qSY8jm78tGyzvnL003oE5xOXXR1fkSK3jL4R3V7WbSajMpaw7qRdzLwxZ4pyHnHrFTw
+         E4mPXpVuRNFLX1tSeFzezImB4BiKGYwYHF2aU0go7zLukiXiXK0QjiZU6pyK4UORBWQ3
+         nRUPa3sQZ8bqs7p9Gt0lhIHh6BhRIUM/q9+CXB67Hn67vr4/NGOwC1SbQeBKM/v9VKB9
+         qdGQ==
+X-Forwarded-Encrypted: i=1; AL+hErEFa+U8JqNY24enSk/FEBdhH9GzxN07yChh0Tpmgsnq/b+zcjsKuScDn54h/KxleeJyC77+BLr0pk4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9XWlZuEakBwpYfmxTv1qgjmZLu4eje7h8rlgs4zdoB6ZgXQmPk
+	zl/Nga4ZSi6SoAO5h5dpI+GguCtqhOJ3bTR741ixduDdh4INH0UjbQV0
+X-Gm-Gg: AZFdTZfOMkdN3XwGiSkLwrKome+SovDVtc8fI+KRR5N0u7N+uyKYI/dviLgdzKFbpDI
+	+7sYBrl/iG0R/rdOUVRJVGPuCbZOnhs13hgxr2Tj0EbeHzy3sbSexBEqsFXGYLhuVJuClsJpmQy
+	GNTdmOkQ2UcTFGfbzMwqXmhTevygke9ZfJXXW9DsKhP7r+C9KMXEW2p4/CsIVV5KvorMwUPSHsW
+	nJ8FIzhRF7Hjr90U7MBZYEBOE4pgNQl36Vm+WTDAITTg3Ftv47coQQl7f+oTgdJ543j1CGc1JRg
+	xXQMAXXBIuwf2yPI63BDEHJ7wZa2ci13+H8mKFeaTl/5FSiizQLAamyV94djgjkXoWx90A5ogjm
+	RfuDfoVPnsho1cm4KwBpdaN1j6fPmx7zDe3cbxNznZDORSU5ofMUtwouz1jVnDbZ9HRPS2bOPbN
+	p4pxdc+IbULSQFov/kMFiXTlMV5cNL5e9mscX8PGB25OiW4viWulNaSJWhgqf6V9DDaRQMceEk/
+	clyygGsNrH0FNyUfeAJX94SsP6nm+t1QCNRPKdafCeSyuxzm5PAUg/zN7ytDvQZJ88DaxEHe8e/
+	EmO41h3lUXhRWr3irgUQFRnxhyr9tSGtdsmFmBXey2t15y915mptdt1g2b6/6jWJIo8MzPAQAkN
+	a6Qz9a6p1LskTu2SxxznbGoX5ZdWhoFzjZjMrUH8M1ToXalJIxtcfbImFlxmn+n18xumSxO5+CT
+	Dbkj528xT5/g==
+X-Received: by 2002:a05:7301:52cd:b0:375:2470:c754 with SMTP id 5a478bee46e88-3827f98f338mr4353099eec.12.1795061555646;
+        Wed, 18 Nov 2026 20:12:35 -0800 (PST)
+Received: from Daniel ([187.15.85.250])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a80bc19bsm12779716eec.29.2026.11.18.20.12.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 20:12:35 -0800 (PST)
+From: Daniel Pereira <danielmaraboo@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Chen-Yu Yeh <chenyou910331@gmail.com>,
+	Weijie Yuan <wy@wyuan.org>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Carlos Bilbao <carlos.bilbao@kernel.org>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Daniel Pereira <danielmaraboo@gmail.com>
+Subject: [PATCH v3 0/2] docs: add a guide for translators
+Date: Thu, 19 Nov 2026 01:10:07 -0300
+Message-ID: <20261119041009.63651-1-danielmaraboo@gmail.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,78 +108,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next -v4 02/17] LSM: pass struct path to the
- inode_setsecctx hook
-To: Christian Brauner <brauner@kernel.org>
-CC: Al Viro <viro@zeniv.linux.org.uk>, <mic@digikod.net>, <gnoack@google.com>,
-	<paul@paul-moore.com>, <jack@suse.cz>, <amir73il@gmail.com>,
-	<andrii@kernel.org>, <apparmor@lists.ubuntu.com>, <ast@kernel.org>,
-	<axboe@kernel.dk>, <bpf@vger.kernel.org>, <casey@schaufler-ca.com>,
-	<cel@kernel.org>, <cem@kernel.org>, <chenxiaosong@chenxiaosong.com>,
-	<code@tyhicks.com>, <corbet@lwn.net>, <Dai.Ngo@oracle.com>,
-	<dakr@kernel.org>, <daniel@iogearbox.net>, <dhowells@redhat.com>,
-	<dlemoal@kernel.org>, <dmitry.kasatkin@gmail.com>,
-	<driver-core@lists.linux.dev>, <dsterba@suse.com>,
-	<ecryptfs@vger.kernel.org>, <eddyz87@gmail.com>, <emil@etsalapatis.com>,
-	<eric.snowberg@oracle.com>, <exfat@lists.linux.dev>,
-	<georgia.garcia@canonical.com>, <gregkh@linuxfoundation.org>, <hch@lst.de>,
-	<hirofumi@mail.parknet.co.jp>, <hyc.lee@gmail.com>,
-	<ihor.solodrai@linux.dev>, <jlayton@kernel.org>, <jmorris@namei.org>,
-	<johan@kernel.org>, <john.fastabend@gmail.com>,
-	<john.johansen@canonical.com>, <jolsa@kernel.org>, <kpsingh@kernel.org>,
-	<linkinjeon@kernel.org>, <linux-api@vger.kernel.org>,
-	<linux-block@vger.kernel.org>, <linux-btrfs@vger.kernel.org>,
-	<linux-cifs@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-nfs@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <linux-unionfs@vger.kernel.org>,
-	<linux-xfs@vger.kernel.org>, <liubaolin12138@163.com>,
-	<martin.lau@linux.dev>, <mason@kernel.org>, <mathieu.desnoyers@efficios.com>,
-	<matt@bobrowski.net>, <memxor@gmail.com>, <mhiramat@kernel.org>,
-	<miklos@szeredi.hu>, <neil@brown.name>, <netfs@lists.linux.dev>,
-	<ntfs@lists.linux.dev>, <okorniev@redhat.com>, <omosnacek@gmail.com>,
-	<penguin-kernel@i-love.sakura.ne.jp>, <rafael@kernel.org>,
-	<rdunlap@infradead.org>, <roberto.sassu@huawei.com>, <rostedt@goodmis.org>,
-	<selinux@vger.kernel.org>, <senozhatsky@chromium.org>, <serge@hallyn.com>,
-	<sj1557.seo@samsung.com>, <skhan@linuxfoundation.org>, <song@kernel.org>,
-	<stephen.smalley.work@gmail.com>, <takedakn@nttdata.co.jp>, <tom@talpey.com>,
-	<yonghong.song@linux.dev>, <yuezhang.mo@sony.com>, <zohar@linux.ibm.com>,
-	<utilityemal77@gmail.com>, <lujialin4@huawei.com>
-References: <20261117150542.1169451-1-caixinchen1@huawei.com>
- <20261117150542.1169451-3-caixinchen1@huawei.com>
- <20261117184342.GR989762@ZenIV> <20261118001641.GA1669148@ZenIV>
- <bdc22808-9f22-46f7-b42d-e6bd8e1eeaca@huawei.com>
- <20261118-nordlicht-badeort-daumen-813a1e9fd0b3@brauner>
-Content-Language: en-US
-From: Cai Xinchen <caixinchen1@huawei.com>
-In-Reply-To: <20261118-nordlicht-badeort-daumen-813a1e9fd0b3@brauner>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- whupemk100010.china.huawei.com (7.152.184.41)
+Content-Transfer-Encoding: 8bit
 
-o, you are right, dentry is borned *self-parented*, and 
-d_alloc()/d_alloc_parallel allocate
-from parent->d_sb, __d_move only re-parent withon on sb. So 
-dget_parent() cannot
-leave the sb.
+The documentation has seven translations, but the English documentation
+has no guide on how to contribute to them; the only one that exists,
+Documentation/translations/zh_CN/how-to.rst, is in Chinese and covers
+zh_CN only.
 
-On 11/18/2026 5:35 PM, Christian Brauner wrote:
-> On Wed, Nov 18, 2026 at 04:59:29PM +0800, Cai Xinchen wrote:
->> There are two places that violate (1), both introduced by this series of
->> patches in ksmbd:
->>
->> smb2_parent_compressed() and smb_inherit_dacl() pair the directory entry
->> returned by dget_parent()
->>
->> with path->mnt, and problems arise once that directory entry becomes the
->> root of its mount point.
-> No, (1) holds there. dget_parent() never leaves the superblock so the
-> parent has the same ->d_sb as path->dentry.
->
-> What happens at the root of a mount is that the parent isn't below
-> path->mnt->mnt_root anymore. That's a different property and struct path
-> doesn't guarantee that (open_by_handle_at(), nfsd with
-> no_subtree_check). So there's nothing to fix for (1) in those two.
+Patch 1 adds Documentation/doc-guide/translations.rst, a guide that
+covers the whole workflow of a translation.
+
+Patch 2 translates the guide into Brazilian Portuguese.
+
+Both patches were checked with a full "make htmldocs" build, with no
+new warnings, and with scripts/checkpatch.pl --strict.
+
+Changes in v3:
+- State the path-mirroring rule explicitly, and exempt documents that
+  exist only in a translation, such as a glossary or a language-specific
+  how-to (Chen-Yu, Dongliang, Weijie).
+- Make ":Original:" optional, needed only when the path does not mirror
+  the original, and drop it from the header example (Jani, Weijie,
+  Dongliang).
+- Drop the sections that duplicated Documentation/doc-guide/sphinx.rst
+  and Documentation/process/submitting-patches.rst, keeping only the
+  points specific to translations, and link to those documents instead
+  (Federico, Jon).
+- Encourage translators to send a fix for the English original when
+  they find a problem in it while translating (Jon).
+- Mention b4 as an alternative for preparing and sending a patch series
+  (Weijie).
+- Carry Carlos Bilbao's Acked-by on the cover of v2 over to both
+  patches, even though patch 1 changed significantly; please shout if
+  you would rather re-review it.
+- Cc Jani Nikula directly, since v3 follows his suggestion.
+- Drop avadhut.naik@amd.com from the recipients; the address bounced
+  twice on v2.
+
+v2: https://lore.kernel.org/linux-doc/20261015125644.12908-1-danielmaraboo@gmail.com/
+v1: https://lore.kernel.org/linux-doc/20261013003702.5824-1-danielmaraboo@gmail.com/
+
+Daniel Pereira (2):
+  docs: doc-guide: add a guide for translators
+  docs: pt_BR: translate doc-guide/translations.rst
+
+ Documentation/doc-guide/index.rst             |   1 +
+ Documentation/doc-guide/translations.rst      | 652 +++++++++++++++++
+ Documentation/translations/index.rst          |   3 +
+ .../translations/pt_BR/doc-guide/index.rst    |  19 +
+ .../pt_BR/doc-guide/translations.rst          | 666 ++++++++++++++++++
+ Documentation/translations/pt_BR/index.rst    |  11 +
+ 6 files changed, 1352 insertions(+)
+ create mode 100644 Documentation/doc-guide/translations.rst
+ create mode 100644 Documentation/translations/pt_BR/doc-guide/index.rst
+ create mode 100644 Documentation/translations/pt_BR/doc-guide/translations.rst
+
+-- 
+2.56.1
+
