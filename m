@@ -1,56 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795070451;
-	b=08fAjkf5Y95nbmC9BgDX1lF8kmKOSNvuFgUVeuZJiWZrvrp1lbmljiqzG193McLv+i10
-	 KIm/7XeuK3qBgJY+PgX3TVnL+HHs7izjRG0OahrSGqN+quJqyv7bVUC+t5FCgiNpZK25v
-	 S3HsMKP0xZQ9GIlsBVX0YeSHBDs1wy2DZP3127srGvnh6k9eI9BqAWuf6/O2a754vieAN
-	 iadyDUyhbA0pBhIo5pLDLbsq1VBya5BbSTlfDKuijYttFSBwHvbCiG4W3LKbb9N37Q3pa
-	 Gs5uuDLV9NwY141ih1ghjtA/5uSqUd3xcrHGu8oed136dg+niGtbmKmg5RzxLL+blkw==
+	t=1795070454;
+	b=ipO6iWYLOZkultRiL9I0SkQLWZT0ePknyLVWJxxmItbX+g1KR+eyJ6aQyQgzTi/80E2u
+	 laJ1ZtENOGZWftndoO6rdk0HlOrDOBXiJVHjAGhATjQ0YphsyjbSNpF94MxtDxkg8/dv1
+	 cAB2jn3bcjCPasSDDEiU4TZu6v+9Ijuo0lyZcLRCN5MTklWH1DagnW/V0ML4gQzWepUQg
+	 IOtGXzhMqBXhfZDG6RzKrar71H+bo8jpdEO7oEUGrX3iV3rRzhieewYOxCI745oW+W2Pm
+	 M0STzO5mGN+JcTQoQDJ+iIOgMOYi/1IJKpNJ9DlkQrMBWqCSmvjZGkJg8JS2KydSeeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795070451;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795070454;
 	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
 	 X-ClientProxiedBy;
-	bh=qmyNQOgDSlHi7bLgEAYFmsoW4l6Q4fZQE6fLWxCxItw=;
-	b=nPuEO9ZEExyVDV2c+2rddFZSx6+Al3JNrfmUdSMVOrPBYhKMPQTPLgjxZCuyyMxRPsNb
-	 80nttkyvtgEupoqzXkeT4pc+YBglDzsBcZKY//5dwobY+9lgczJv9FUHrmti0/6iWDueb
-	 Lvy2poxc2WsA60MLXazCXi1UF5nHH814WXWbaOBSYzbzE56vZbVZKebQCszzb4lyrZ+qj
-	 tW3iIspYka7utw3YQB9fIn9l5DnmljnLt69hvgw/j64u1PykRRF4krncL0SzsGGZAKpke
-	 gwn//ymWSWnSKf8X/37dfuEUtNiWqKkSPkHIBuLkT5fg/Cg+gveHM8Vm6KxZBXkUXeQ==
+	bh=P6tm7LnDa5d5V2BsH/GMpXWLmcsqjeCKsjklUdm51D0=;
+	b=fyus5533V6I5c8RhCjuDq/NUb90hW7uP3bnC4a2aWnuIYsmZn8/JFlA7XedD7NXhvhtS
+	 511pB0AWGkyH5uz7Zf2Z/d0VUNQjP4FdKpRnJr7fCtp8jEyu0uge0jLRCeS5t+Dmb3lKN
+	 7kXljXKyugBWrsDrBDVzDNLQgTrWxU12PeZ4r7NLFVOUHudnKLRtOuCd653iAeY8Sh0bh
+	 A3h6ouEwntkPCkNeKLOHpUuSJwdLT9R5SEI2tIOL8yPMkprLqXV8lp7r0BXfAZk0x1V/T
+	 WX+1d4zxibmWJaUh+8+jd797dd7o+mKlrefmVYUnLU7nsDA9YkhR7LREwU6lvqz67Ag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=huawei.com;
 	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=W4uSz27O;
-	arc=none smtp.remote-ip=113.46.200.218
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=GrSmFFMN;
+	arc=none smtp.remote-ip=113.46.200.220
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CB2606A32F;
-	Thu, 19 Nov 2026 06:40:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88CB2606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF70560A2624;
+	Thu, 19 Nov 2026 06:40:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF70560A2624
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=W4uSz27O
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=GrSmFFMN
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=qmyNQOgDSlHi7bLgEAYFmsoW4l6Q4fZQE6fLWxCxItw=;
-	b=W4uSz27OCn1hv14o2GwFcqRRNsK4bkfn/keWtNk8SFs3aS5cQC/aXA8NrNCJBiXIS7NWYn3rB
-	am2gUnQr+JiglTJSQs/cy4O9g0qu8V6w1mUYELJ9F3e5Cv95XWWdjExwCPEvZ/SLq7sPq+wHIT4
-	7gVJPorGh8kEDTF1Bk3DywE=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4jVTNW2yFKzpSvH;
-	Thu, 19 Nov 2026 14:39:55 +0800 (CST)
+	bh=P6tm7LnDa5d5V2BsH/GMpXWLmcsqjeCKsjklUdm51D0=;
+	b=GrSmFFMN3PMyGzQB42WLWdiPokP3GC7aB/JDex7tzaXzJ7+LujTSMa5iTXIMbhgrCmy0da8I1
+	Rfqj9ZXXGlhq0rurZGTvm/1hBIe6BXZ8Ecem+RKe7F24AT/5yd/zn+wqMlEG0YJua4aKE7oo7FM
+	WFAiXhx95fHvEQA3MYMihno=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4jVTNZ1MN9z12LCr;
+	Thu, 19 Nov 2026 14:39:58 +0800 (CST)
 Received: from kwepemo200009.china.huawei.com (unknown [7.202.195.26])
-	by mail.maildlp.com (Postfix) with ESMTPS id DFA844056E;
-	Thu, 19 Nov 2026 14:40:46 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id E103140685;
+	Thu, 19 Nov 2026 14:40:49 +0800 (CST)
 Received: from localhost.localdomain (10.50.159.234) by
  kwepemo200009.china.huawei.com (7.202.195.26) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Thu, 19 Nov 2026 14:40:46 +0800
+ 15.2.2562.45; Thu, 19 Nov 2026 14:40:49 +0800
 From: Long Wei <longwei27@huawei.com>
 To: <rppt@kernel.org>, <pasha.tatashin@soleen.com>, <pratyush@kernel.org>,
 	<akpm@linux-foundation.org>
@@ -58,12 +58,13 @@ CC: <graf@amazon.com>, <leitao@debian.org>, <corbet@lwn.net>,
 	<rdunlap@infradead.org>, <linux-mm@kvack.org>, <kexec@lists.infradead.org>,
 	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<hewenliang4@huawei.com>, Long Wei <longwei27@huawei.com>
-Subject: [PATCH v2 0/2] kho: drop the incoming sub-blob debugfs view
-Date: Thu, 19 Nov 2026 14:37:58 +0800
-Message-ID: <20261119063800.698863-1-longwei27@huawei.com>
+Subject: [PATCH v2 1/2] kho: do not expose incoming sub-blob contents in debugfs
+Date: Thu, 19 Nov 2026 14:37:59 +0800
+Message-ID: <20261119063800.698863-2-longwei27@huawei.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261117092951.4017931-1-longwei27@huawei.com>
+In-Reply-To: <20261119063800.698863-1-longwei27@huawei.com>
 References: <20261117092951.4017931-1-longwei27@huawei.com>
+ <20261119063800.698863-1-longwei27@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,34 +79,140 @@ Content-Type: text/plain
 X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
  kwepemo200009.china.huawei.com (7.202.195.26)
 
-kho/in/sub_fdts exposes the raw contents of the sub-blobs described by
-the incoming KHO FDT.  KHO does not own those pages: they belong to the
-producers' consumers and have independent lifetimes.  LUO, for example,
-restores and frees its state in early_initcall, before kho_init()
-(fs_initcall) creates the debugfs view, so the blobs point at pages that
-are already back in the buddy allocator.  Reading them triggers a KASAN
-use-after-free in _copy_to_user().
+Incoming sub-blob pages are owned by their consumers and have independent
+lifetimes.  Some consumers, such as LUO, restore and free their state in
+early_initcall, i.e. before kho_init() (fs_initcall) builds the debugfs
+view:
 
-The same information is already available to user space from in/fdt,
-which KHO does own and which stays reserved.  Drop the directory rather
-than adding another interface to describe it, keeping the -rc fix small.
+  early_initcall: luo_early_startup()
+                    -> kho_retrieve_subtree("LUO")
+                    -> kho_restore_free(luo_ser)   /* page is freed */
 
-Patch 1 removes the interface, patch 2 drops its documentation.
+  fs_initcall:    kho_init()
+                    -> kho_in_debugfs_init()
+                         -> phys_to_virt(luo_ser_phys)
+                         -> debugfs_create_blob("LUO", ...)
 
-Changes in v2:
-- Drop the in/blobs metadata file entirely
-- Just remove in/sub_fdts to fix the UAF, no replacement interface
-- Update Fixes tag to c609c144b0e8 (the commit that first added sub_fdts)
-- Remove the now-unused #include <linux/io.h>
+debugfs therefore ends up pointing at a page that was already handed back
+to the page allocator, and reading the file triggers a use-after-free:
 
-Long Wei (2):
-  kho: do not expose incoming sub-blob contents in debugfs
-  docs: kho: drop kho/in/sub_fdts description
+  # cat /sys/kernel/debug/kho/in/sub_fdts/LUO
+  ==================================================================
+  BUG: KASAN: use-after-free in _copy_to_user+0x37/0x60
+  Read of size 32 at addr ffff88810309c000 by task cat/27436
 
- Documentation/admin-guide/mm/kho.rst       |  4 --
+  Call Trace:
+   <TASK>
+   kasan_report+0xb9/0xf0
+   kasan_check_range+0x100/0x1b0
+   _copy_to_user+0x37/0x60
+   simple_read_from_buffer+0x77/0xd0
+   read_file_blob+0x75/0xa0
+   vfs_read+0x12d/0x520
+   ksys_read+0xc3/0x160
+   do_syscall_64+0x97/0x4b0
+   entry_SYSCALL_64_after_hwframe+0x76/0x7e
+   </TASK>
+
+  The buggy address belongs to the physical page:
+  page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x1fd
+  pfn:0x10309c
+  flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
+  page_type: f0(buddy)
+  ==================================================================
+
+The page is already in the buddy allocator (page_type: f0(buddy),
+refcount 0), which confirms it was freed before the debugfs view was
+created.
+
+KHO does not own these pages, so it cannot safely expose their contents at
+all.  Drop the in/sub_fdts directory.  The incoming FDT is reserved by KHO
+and remains exposed as in/fdt, where the same metadata is available.
+
+Fixes: c609c144b0e8 ("kexec: add KHO parsing support")
+Signed-off-by: Long Wei <longwei27@huawei.com>
+---
  kernel/liveupdate/kexec_handover_debugfs.c | 47 +---------------------
- 2 files changed, 2 insertions(+), 49 deletions(-)
+ 1 file changed, 2 insertions(+), 45 deletions(-)
 
+diff --git a/kernel/liveupdate/kexec_handover_debugfs.c b/kernel/liveupdate/kexec_handover_debugfs.c
+index 7d74477da0b7..3a91c47ad7a6 100644
+--- a/kernel/liveupdate/kexec_handover_debugfs.c
++++ b/kernel/liveupdate/kexec_handover_debugfs.c
+@@ -10,7 +10,6 @@
+ #define pr_fmt(fmt) "KHO: " fmt
+ 
+ #include <linux/init.h>
+-#include <linux/io.h>
+ #include <linux/libfdt.h>
+ #include <linux/mm.h>
+ #include <linux/kho/abi/kexec_handover.h>
+@@ -97,8 +96,8 @@ DEFINE_SHOW_ATTRIBUTE(bootmem_len);
+ 
+ __init void kho_in_debugfs_init(struct kho_debugfs *dbg, const void *fdt)
+ {
+-	struct dentry *dir, *sub_fdt_dir;
+-	int err, child;
++	struct dentry *dir;
++	int err;
+ 
+ 	INIT_LIST_HEAD(&dbg->fdt_list);
+ 
+@@ -108,54 +107,12 @@ __init void kho_in_debugfs_init(struct kho_debugfs *dbg, const void *fdt)
+ 		goto err_out;
+ 	}
+ 
+-	sub_fdt_dir = debugfs_create_dir("sub_fdts", dir);
+-	if (IS_ERR(sub_fdt_dir)) {
+-		err = PTR_ERR(sub_fdt_dir);
+-		goto err_rmdir;
+-	}
+-
+ 	err = __kho_debugfs_blob_add(&dbg->fdt_list, dir, "fdt", fdt,
+ 				     fdt_totalsize(fdt));
+ 	if (err)
+ 		goto err_rmdir;
+ 
+-	fdt_for_each_subnode(child, fdt, 0) {
+-		int len = 0;
+-		const char *name = fdt_get_name(fdt, child, NULL);
+-		const u64 *blob_phys;
+-		const u64 *blob_size;
+-		void *blob;
+-
+-		blob_phys = fdt_getprop(fdt, child,
+-					KHO_SUB_TREE_PROP_NAME, &len);
+-		if (!blob_phys)
+-			continue;
+-		if (len != sizeof(*blob_phys)) {
+-			pr_warn("node %s prop %s has invalid length: %d\n",
+-				name, KHO_SUB_TREE_PROP_NAME, len);
+-			continue;
+-		}
+-
+-		blob_size = fdt_getprop(fdt, child,
+-					KHO_SUB_TREE_SIZE_PROP_NAME, &len);
+-		if (!blob_size || len != sizeof(*blob_size)) {
+-			pr_warn("node %s missing or invalid %s property\n",
+-				name, KHO_SUB_TREE_SIZE_PROP_NAME);
+-			continue;
+-		}
+-
+-		blob = phys_to_virt(*blob_phys);
+-		err = __kho_debugfs_blob_add(&dbg->fdt_list, sub_fdt_dir, name,
+-					     blob, *blob_size);
+-		if (err) {
+-			pr_warn("failed to add blob %s to debugfs: %pe\n",
+-				name, ERR_PTR(err));
+-			continue;
+-		}
+-	}
+-
+ 	dbg->dir = dir;
+-	dbg->sub_fdt_dir = sub_fdt_dir;
+ 
+ 	return;
+ err_rmdir:
 -- 
 2.43.0
 
