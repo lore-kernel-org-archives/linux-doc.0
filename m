@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795079691;
-	b=pYgJrGur/TrG0PbQBPtGpMaqDX+2DNhh+CaprsL2JlIIygBlx+tVTc8Yy14bWFdqGy4S
-	 6pU+zXxUnurOHmLlDiqu3WhxyhPdE5igqWWpI0KoW5MMb5Be9d8D/T+TdbQGeEGqk/+nf
-	 KkfpNew5X3/I3XZaXbZEtgabjNguxgUkiC7R9KiNT0LSSPQUz7Ek3em4RN6Ix75dhzGJI
-	 1jXWgM/pXC7bzXTDZilY4CPkI9s9NFm0lg9pDBFwGvhdHJIjwhzYhNjV11JXDnNy9O8NR
-	 86Tje2oZc/Zoo9+par1yP1YyBYDvCvhFp8BOG69NR/BrgwBv3ue3ktDH2ocp1sXvw+Q==
+	t=1795079996;
+	b=dcaNz1SKYCIqDRfua7062YB9+7ddj5yiC1IzQ4AOvS1YMcZPjpqiBkXBrYzl/fSKzoDx
+	 dwNPgi99RwhZHTLib+ueR/USIRo/tvo6CsASVR5V916ZEItrbPo8EkXSkzh0TAKsMGuK3
+	 KDBcjd2P8/+p4gdHeJwKo8fwhiWKSdGcYnqY+d5685LDzZtvos9XxaUIQIdjekhaPDsLJ
+	 miTGxIhOo0JENB2IRlpfsd2d18pWkfq7wgTQQDs9iUswRYyfHK5SLZaZRxZp+HYeBV+Ag
+	 HoWwiHnToy8VnE7NwZ8ut2nYp0PVxtakspSnSMzABx+sHu37vXtjqBqCa/jkkq4q8+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795079691;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=RCYCyxErggUfcOuYAaIWQu6Q2HbBr+qz7D8g/6lWPn0=;
-	b=il3lxirwI49VG1NQ7lWYwAK/q/XSdCVMsR4w10fg3UK8otnACtMZBFtXBlNqwMKJQxzg
-	 L4tNV18aajLPVx7g8yFqL5diwUfTsQv81wrkLdcw/3T6aDOdQbTfaKiwUt793rQj41PuQ
-	 es18KzlIUE8A2VN204Bfq5mo84o6CJT8hu3dP7nSUmwLOJ/nakEatb21bFeZwSnD+WRED
-	 ZhI5Mn+wGEoDbFrslEcz4XKS//lMKEXs69kcErc4JQIbFhquQUrr/R+42n1+Cz3OoaQku
-	 cRcnXx4ZvieECERDKMFIYsrPNsTom4DmvqHP8Js1bn7XuxQHjvVIdHXg2GqfN49zmPw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795079996;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=9F+PqeTKayL2InwlVERF9AhfXlGn4mSe033kr4lKz1o=;
+	b=yKqNOueAzKIPasuQLWsEmWU1ZY1YYFpOoF+LcGSIjDlGaSf9mP3z7ZRg536lZhd3wgJH
+	 /9Ap9gte2pCZnqQJIYDu5eg04YQdbbF9GQdTSOmDM0wupP5fiRuNAr4QJwky75HWXs4Rz
+	 bVmefDD0SpG9/vbeKzVk+bzGIBTnp4Sblm0QBytAt7Sjj35lipQsatziHmJrSpLfbsQ6F
+	 2ewUwVNrNrmcBnz2jzPJ+ZznJv+9HB2KcqiJMwmayuP6D+kUzEaUBd7ZQ2ygstbzbhlpx
+	 eY3c2skbq7mu8Vq0BfU1hdTElfMD8zeUpXm8B12uWY49qz27inuKm9siAYiZo5SDSBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=H7Df6owR;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=lKDHs6nO;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="BwGgpGq/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAEE6606A320;
-	Thu, 19 Nov 2026 09:14:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAEE6606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C36606A325;
+	Thu, 19 Nov 2026 09:19:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=H7Df6owR;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=lKDHs6nO
-Date: Thu, 19 Nov 2026 10:14:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1795079688;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RCYCyxErggUfcOuYAaIWQu6Q2HbBr+qz7D8g/6lWPn0=;
-	b=H7Df6owRQ7tQfgAlprNzYgMcQDHXW0qr8LdxenIrqSPk+96QXbnY9oVz6IRif3T49103jD
-	CdwjNWWTB2FYqY16B0QNzeFLR0FWkXgj7NoO7AYhikSckbDo0Qi3D1UaHq9vv2n19TCYH9
-	Z7s/ejCVDjjHekAEeyO6AKz82qKlgq1vnKiS4AgKDVXqNDa5KEprBjIBaeC0HmdBA7SAi/
-	nTRCVSxnb/G7rK84M6KTFr22qV0UZe7B/yV5t2ggeEPYYXvH95Nf8hBYjya8vMzk28dRMZ
-	+B7oAe31TZmhE32Z9McnoCu8J77mMrZa0sJq7T/6QnwTBTlPcs6+6zyWcPkybg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1795079688;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RCYCyxErggUfcOuYAaIWQu6Q2HbBr+qz7D8g/6lWPn0=;
-	b=lKDHs6nOLG8iGJrZHH5pJiQZhx6BW6wjowbbW5BZIFEy/jXSl8Herr/Bo4m5XZFYVOSn74
-	WCEkgNTRtyT8kDAg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Joel Fernandes <jfern@kernel.org>
-Cc: paulmck@kernel.org, rcu@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BwGgpGq/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 404C31F000CC;
+	Thu, 19 Nov 2026 09:19:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795079995;
+	bh=9F+PqeTKayL2InwlVERF9AhfXlGn4mSe033kr4lKz1o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BwGgpGq/s8LdaixY6UA2dpl6cyOlv1U26xLUHK3qsAmF6KXzFhdJnAytG8CXWrQBM
+	 XVeINsUMo6TefJjonhgO+dU2JDcGut71ZynTXwmmsacy26fqvKspQwAEe3pW9YxRYb
+	 SRVUpuAwBCNykQtoTyrgySODnUAnTtj+r6Z7KtbXyKiUSyXpa3s+UnhtCFOL6mULIv
+	 zw1B6CY2f91QpZTQOHg4aiwKYj5x1Ad1onk/4u3eM/C9w5Up2vCqXyTIjYc9NeP5b3
+	 YxNFrYfFFPs6Iajczpo3yenRQC+cX3+gHptB5mKZSBkRA8zyHVly+82sPqdzFKldFy
+	 gy+890bIbmpJA==
+Date: Thu, 19 Nov 2026 10:19:43 +0100
+From: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Mel Gorman <mgorman@suse.de>, Andy Whitcroft <apw@canonical.com>,
+	Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>,
+	Rik van Riel <riel@surriel.com>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Dave Airlie <airlied@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] rcutorture: Rewrite RCU priority-boost test
- around a CPU-hungry reader
-Message-ID: <20261119091446.PPYLd9B1@linutronix.de>
-References: <20261116194438.306618-1-jfern@kernel.org>
- <20261116194438.306618-2-jfern@kernel.org>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Peter Xu <peterx@redhat.com>,
+	Breno Leitao <leitao@debian.org>, Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Nick Piggin <npiggin@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	Gerd Hoffmann <kraxel@redhat.com>, linux-doc@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+	Chris Mason <mason@kernel.org>, stable@kernel.org,
+	"Gregory Price (Meta)" <gourry@gourry.net>
+Subject: Re: [PATCH v2 11/15] hugetlbfs: do not grow a sealed file in mmap()
+Message-ID: <av6_L080RpmFYham@localhost.localdomain>
+References: <20261116-fixes_hugetlb-v2-0-4dd9e94ea9ac@kernel.org>
+ <20261116-fixes_hugetlb-v2-11-4dd9e94ea9ac@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,27 +86,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20261116194438.306618-2-jfern@kernel.org>
+In-Reply-To: <20261116-fixes_hugetlb-v2-11-4dd9e94ea9ac@kernel.org>
 
-On 2026-11-16 14:44:32 [-0500], Joel Fernandes wrote:
-> The old boost test relies on RT throttling being disabled and on grace
-> periods taking too long, which is fragile.  Instead, each interval one
-> CPU runs a normal-priority reader that spins inside an RCU read-side
-> critical section until it has consumed test_boost_reader_ms of CPU time
-> (measured via sum_exec_runtime, so time spent preempted does not count),
-> while a SCHED_FIFO hog on the same CPU tries to starve it.  With RT
-> throttling enabled, an unboosted reader gets only about 5% of the CPU,
-> far less than it needs within test_boost_duration.  If the reader
-> finishes, boosting worked, otherwise it failed.
-=E2=80=A6
-> Signed-off-by: Joel Fernandes <jfern@kernel.org>
+On Mon, Nov 16, 2026 at 07:29:32PM +0100, David Hildenbrand (Arm) wrote:
+> From: Chris Mason <mason@kernel.org>
+> 
+> hugetlbfs_file_mmap() grows a file when a writable mapping extends beyond
+> EOF. We are missing seal checks similar to hugetlbfs_setattr() and
+> hugetlbfs_fallocate(), allowing a user to grow a file that has F_SEAL_GROW
+> set.
+> 
+> To fix it, skip the resize when F_SEAL_GROW is set; mmap() still succeeds
+> without growing the file.
+> 
+> We currently also allow CoW mappings to grow a file. Disallowing this,
+> maybe even only for read-only file descriptors, could break existing
+> userspace, so we have to be more careful. QEMU's file backend is an
+> example user that might rely on such things, and would suddenly start
+> getting SIGBUS when faulting in memory outside EOF.
+> 
+> So be careful and focus on F_SEAL_GROW for now.
+> 
+> Fix generated by an LLM and sent by Chris Mason in private.
+> 
+> Fixes: ff62a3421044 ("hugetlb: implement memfd sealing")
+> Cc: stable@kernel.org
+> Signed-off-by: Chris Mason <mason@kernel.org>
+> [ david: drop comment; simplify+extend description ]
+> Acked-by: Muchun Song <muchun.song@linux.dev>
+> Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-This is doing what I though it is doing in the first place :)
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Acked-by: Oscar Salvador (SUSE) <osalvador@kernel.org>
 
-I didn't run all the tests for it but did test it initially in my setup.
+> ---
+>  fs/hugetlbfs/inode.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+> index 7f64bdc07aa80..68761e1ed4d2e 100644
+> --- a/fs/hugetlbfs/inode.c
+> +++ b/fs/hugetlbfs/inode.c
+> @@ -157,7 +157,8 @@ static int hugetlbfs_file_mmap(struct file *file, struct vm_area_struct *vma)
+>  		goto out;
+>  
+>  	ret = 0;
+> -	if (vma_test(vma, VMA_WRITE_BIT) && inode->i_size < len)
+> +	if (vma_test(vma, VMA_WRITE_BIT) && inode->i_size < len &&
+> +	    !(HUGETLBFS_I(inode)->seals & F_SEAL_GROW))
+>  		i_size_write(inode, len);
+>  out:
+>  	inode_unlock(inode);
+> 
+> -- 
+> 2.56.1
+> 
 
-Sebastian
+-- 
+Oscar Salvador
+SUSE Labs
