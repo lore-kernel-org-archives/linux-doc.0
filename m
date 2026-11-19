@@ -1,67 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795091814;
-	b=mgLzV/HWnc95eKLyhz31zf0b8Lf7Fy+eZMxTlWFi7LComfiAEV1xr6dWxM63Pd9rz4DH
-	 /GWHZp/AxwIQPKXCNIIdqOM8B96GWgmU+8gW7BZSHRj8DrjFc85LPuP5rR9QtY39+T96f
-	 F+NiiuBnqUPl8jiRAzuu26Hr2auQsOYg60hODvbznBup3EMoYiagEWsFLN9prK+JMAroO
-	 FelPi9wbv8LNxieotNGypK3PuB4v4KDjHeFSLKeqo+eN84dh4K77zQt+IShBmoUwVZJbO
-	 nUxc2VlbQm9GG4PMlxfR0C3n54kXXoTGFUZL0KqmzBi4j4NuV+3oGMEJuS8MXo2Oyww==
+	t=1795092258;
+	b=SBjXzK6PYFqJ32BjQa0uHsXOxweptMce34m0jUuSl39XFUin1JjiccaQpj5ZehiI9+6g
+	 NWCRW+Vz0/ChyjKTdmckdUjaOD4cxE2KU1gtAFNcAAM0rTk2LejkMqTHKp/zkiGY5EWgd
+	 B/W0w0Ep8qKEmWLlALWHNA8biqgMtS0TFLutcbWFnZf3eiK57zzoQ7OKFWIaGfUMFcE9H
+	 j+o9hi7HhXmrhXK6BUhkfXukitdVMy5LZpwAaPp8SI0bt4p/nUsgej/JWtVpq0Y0gxGTS
+	 GGKFEtr2sk00gzJ01NHufAKttx0qfSRr9eJMQvfCvz/DxqGfKh+MFUAHQ87NED25yIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795091814;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=D3gc3lBIRXAtYhYG5AflsZ19kHb6SmB3Pp22CiAOTFA=;
-	b=GxIJ7YE/kowLmS5U3H75LyLevMgRjcUGsXPBL3B4WJkSV107q9JfLpvqHj1FPKc+h9eZ
-	 LMd7a8YZF4aQStgw7h4fyUw2Qca5v/mwwYnwFA/CqYmu+qGbecMWXZrf8leFiq6HsKViY
-	 v9Dk0vcKE68l1eaf8mcFhpRXFaYEWjTkarxJhXgFa8Ks8rQD0awo3YUjlPa6X+sA1EJKG
-	 uR6CCfJD0WsrWM9hmZy0qdPdthT46RGtocOaVsq8grlWLSeF/8se0k+N0enRskhCeJJ/P
-	 hkVz+o4HtFSDBAnG8RpE20iqQscrJdURMOXNWwecvpOXuTZznIdhAOutJ7HIKZPIusQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795092258;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=odGKjtuO2fcSEp2Bw94sYra7hu3Cvd+3dwpUXKWdflc=;
+	b=hNSbuL6acMELh+vXShggFHCXbm5DA23IU9KEw3cEftKKf5O/ktuGF1Wfaoevd7nP+vex
+	 YMDfSKzMpyTpFgHB1zcsEBK7XD1jAnLfO6szMK8tQMEAg7LGLHoK9STyb656doDi+PHG2
+	 SF2xxJBJTu+acn4KxdIwtszH6c6enf9tnBCcL9st36DnOsYrzCWpK+LieEYF/n8ohY6dP
+	 gm2CJuPDKVS7YgrvwwqKIfHHn71gpYJl7OGdg7i7JwzvafOZuH2mAGXVoB1XiaJZfa/8c
+	 yIR5+eh3JYXlwNTDiYfo4jvfqmWbNWq2CAMCLtVgHGSko/CuWha649Q1PYzRuoK+uew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=1wt.eu;
-	spf=pass smtp.mailfrom=1wt.eu;
-	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=Vl6sJpUh;
-	arc=none smtp.remote-ip=51.159.59.229
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=csPlpUoG;
+	arc=none smtp.remote-ip=91.218.175.170
+Received: from mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80D5606A32F;
-	Thu, 19 Nov 2026 12:36:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E80D5606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ADF860A2639
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 12:44:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5ADF860A2639
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=Vl6sJpUh
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1795091811; bh=D3gc3lBIRXAtYhYG5AflsZ19kHb6SmB3Pp22CiAOTFA=;
-	h=From:Message-ID:From;
-	b=Vl6sJpUhq5TdIupxtFNHscDA7VJtSC20Olg9+YkwnecXB6iWaXkR48Wg8YOcZ0ioi
-	 7EVmcD41qtqg5bbIOA7BJmk2/1yy56e/XwxdmNvUDaqwPeLlfmJGUnD264s4hE4+wF
-	 5r1ds+4QPMqshRR9ZJbFal1LuCo8cPh0Zqmnqw3M=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id C53A8C04AD;
-	Thu, 19 Nov 2026 13:36:51 +0100 (CET)
-Date: Thu, 19 Nov 2026 13:36:51 +0100
-From: Willy Tarreau <w@1wt.eu>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Leon Romanovsky <leon@kernel.org>, Sasha Levin <sashal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Theodore Ts'o" <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
- user-visible impact
-Message-ID: <av7tY64O34gbJvH_@1wt.eu>
-References: <20261116200515.352387-1-sashal@kernel.org>
- <20261117092723.GA124972@unreal>
- <220c5818-ad59-4003-9955-9821d09c0279@kernel.org>
- <20261119111902.GH162713@unreal>
- <04ff90ba-296a-4618-9d25-390f84f856ae@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=csPlpUoG
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=odGKjtuO2fcSEp2Bw94sYra7hu3Cvd+3dwpUXKWdflc=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795092255; v=1; x=1795697055;
+ b=csPlpUoGn3OMuKMRffkO422j18jyv2KjsrAKbyNhrUnO5TNOc2/ylUlzRqL89WItcZp1KY86
+ gF84eHs7SilytFwUSllTmm/IuLGgxnP2omI6cbfs4Xr/iUP65msDPxmYzEAyUjkzCDWFxjpGl8i
+ 3LUQ44t2Rpt1E4nKSQYNRqIQ=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 49027ade88d0b6e6;
+	Thu, 19 Nov 2026 12:44:15 +0000
+X-Mizu-Trace-ID: 49027ade88d0b6e6
+X-Migadu-Flow: FLOW_OUT
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5c00d7ac49dso5408e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 04:44:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHWYLbLkE3S9ijaFeT3TBSakBYox+eQe90vRUau7yhkNAxSCTyioKyHdWtui22izxQtg1awTPdP94s=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9uaaOSA4cqPa21yjpvaDAePRRMeiO+PY42rUYjiPjbkgAM5gff
+	PW9/5nyVH1+vWdpw6ByLrS+AXMkIE+1HjecRVvyvjtWOHlXB2oHAiBGkYBJB7oFtuHY5uUJ3mrD
+	f40tKyw13Fb4roOgjsAYknCNf2IW0yRx+Ncy2EBeL
+X-Received: by 2002:a05:6512:4011:b0:5c1:4d61:20ff with SMTP id
+ 2adb3069b0e04-5c1b6774040mr72185e87.10.1795092249237; Thu, 19 Nov 2026
+ 04:44:09 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,41 +66,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <04ff90ba-296a-4618-9d25-390f84f856ae@kernel.org>
+References: <20261117074428.7544-1-fuad.tabba@linux.dev> <20261117074428.7544-2-fuad.tabba@linux.dev>
+ <avxfgWNePsGPK9mm@gremlin> <CA+EHjTzUrDxLSMEo6X66XhKtQ-=ew3zZhMdFWR6U9Ga17WLWkw@mail.gmail.com>
+ <av5CBjbeidUUWiLq@seanjc-mac.roam.internal> <av7bYb1geEGzaj8e@gremlin>
+In-Reply-To: <av7bYb1geEGzaj8e@gremlin>
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Thu, 19 Nov 2026 12:43:32 +0000
+X-Gmail-Original-Message-ID: <CA+EHjTwzdsMKw2MFB9kpV=Xtm4JFpTbWRn0BOSwSB+x=RJhVMA@mail.gmail.com>
+X-Gm-Features: AclHuK9ExBlvjAlpEcQpW7OIX1pR4w0klOAvsUXwgDHyVbn5Bw8uFWJCaQ8SOYE
+Message-ID: <CA+EHjTwzdsMKw2MFB9kpV=Xtm4JFpTbWRn0BOSwSB+x=RJhVMA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] KVM: Stop KVM_PRE_FAULT_MEMORY when the vCPU's
+ dirty ring is full
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexandru Elisei <alexandru.elisei@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, kvmarm@lists.linux.dev, 
+	Wei-Lin Chang <weilin.chang@arm.com>, Will Deacon <will@kernel.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 19, 2026 at 01:04:32PM +0100, Krzysztof Kozlowski wrote:
-> On 19/11/2026 12:19, Leon Romanovsky wrote:
-> > On Thu, Nov 19, 2026 at 11:13:57AM +0100, Krzysztof Kozlowski wrote:
-> >>>> v1: https://lore.kernel.org/r/20261116191436.188098-1-sashal@kernel.org
-> >>>>
-> >>>>  Documentation/process/coding-assistants.rst  |  6 +++--
-> >>>>  Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
-> >>>>  2 files changed, 27 insertions(+), 2 deletions(-)
-> >>>
-> >>> Sasha,
-> >>>
-> >>> Since you're already making changes in that area, could you add a sentence
-> >>> asking reporters to provide the full dmesg stack trace?
-> >>
-> >> If so, then trimmed. We do not need all addresses and registers and the
-> >> [time markers], but rather the calltrace from decode_stacktrace.sh.
-> > 
-> > Regarding time markers, I agree. However, addresses are an important part of
-> > debugging information. These bugs are rare, but addresses are still useful for
-> > identifying incorrect pointer arithmetic or pointer assignments.
-> 
-> Depending on the case, e.g. some driver lockdep reports don't need them.
-> NULL ptr usually as well. The point is that dmesg should be trimmed to
-> relevant and useful information. If that includes addresses for that
-> particular case, then of course these should stay. But 75% of data here
-> in commit like 5b4bd13e0552926648a46c2c9a12a24dfaee3715 is not really
-> helping. In the same time undecoded call trace is useless, because these
-> addresses depends on the build. The dmesg should simply be the decoded
-> stacktrace ONLY for this case.
+Hi Lorenzo,
 
-Then just the 2-3 lines capture inline, and the full log attached could
-please everyone ?
+On Thu, 19 Nov 2026 11:18:48 +0000, "Lorenzo Stoakes (ARM)"
+<ljs@kernel.org> wrote:
+[...]
+> > > (note that it skips CSR, SBI also with a changed exit_reason).
+> >
+> > Ack.
+>
+> Probably worth referencing in commit msg I guess?
 
-Willy
+Will add one in v3.
+
+Cheers,
+/fuad
