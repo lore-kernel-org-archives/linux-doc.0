@@ -1,66 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795084682;
-	b=BQTXPALjHiuyOrP1tKHqSGG+COAFOUggi+234hSms2UBu56/iXmLoG1Kt58kPSDXIC1R
-	 JIsXWqO9WId9mKwt+b95ioaZ9thBK0Y1yaXuzkj9ilD4ozUowTZatjFnr/9bBDd/IB1W7
-	 by+qje+P3os0DSHjEgMmPtIq25eZ1IU1w4GMlaOGgFRg4yMsPnN/V+tRu50VX0xL2Jxdf
-	 qxOgo9Xqm6RDeJgGWg7HvwAD92CthXrgIdDQB2wj1kSNpnWeYWmubATksPZBI+Ms0YnAz
-	 ONSepK4ZwerXuC0hmugiWx6vD291mAejSvUbhdtjAFNhd4yQXrCEXLwgUVR8CCJv/ZA==
+	t=1795084973;
+	b=szH9ZTsAysr78ZIuizwtESSXEc8Duld9LkKV/98EgLaeLk7iYpkyVjLpQ3cfk4pInWak
+	 ZtrxfZYt3pKcc1UmNOkDO1k+emCtSMjfq/i9k/TKDqZ4DsyIOwjfCqu0Rt9lREd0r3aCV
+	 xneLdBEdcnacrINIzSxaWoMvuWQ66ebdokRHdqrPodyYjCWKmkl2FfKH/ywjxEPMOlbeE
+	 +mEvd8QzNhBDBBU116hsLSf/GRuOfGBFFvj3mQmHjdE2OyvYim/w5Hu/QsBMUbITBIl4q
+	 JvIvvIrk0i7zP5IUQhErEH59ij49RWMGUp8TABkZIei6UoF3Isj98uhsftjz1Njxz3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795084682;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=MIajatYlF3EIxVeTZSsEVZ7p5I2aamJkZ0k2TSCz95o=;
-	b=rORdaiDn10EosQexuUdJuhaWtQp060Hinh1kPKgpi6rwtSrNA+wfQ+elhlFscigtONWZ
-	 q9CAA7ngNihbxqJTw3ujVLmqRMHamt+Dz+GWCIpvPejsyQja7q0MpoiwJWU8Do4gS02M7
-	 oz4x0JJUl7HByDXN8iJk3uHYRkUUxiFcy0dMZTFLxVR91HrxnDdTox4krd+LpewYOsY7A
-	 pNj6sfKDzHf97aE774vQY5wYGy00ZqWkuQ6gyp8r/OocUN5diBs1Qaxr3fgEfRVMMLYaX
-	 UsnaN1u2QQDTqIaM19Kc9lt9CJzMDfmvVTlrFEthIQnVZcXR7wfZ79d+F9r7KOZUPdg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795084973;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=vMWbbWSOkcM/Z7Vh8kox11muEBd1XkiAo3xwlvt0N24=;
+	b=tcw/2yy5mG8zTXWGICF69kJ/nxlsRIZADkprVkxmB1LRXPuEBGAVtgfpIgGNyDxwmvHv
+	 ZGKOicI8s8tXj7k4c5o/cYExuvmR8DkNJXWGcS2ci+kXAke2U0pjPxTJFNNhLM5Kgy245
+	 STkHfC774TVIZaLzJa305sqSQ4QMCDuRlBPx+pMERC1tkqkh2fGgthoWCYO5ZPCpHMEAQ
+	 aD5DVMSBKt6sJW3tAvUWa7+KAznyBD0SdZKyVxXUF81XB1nGJCg2w7r5HpRPdEa3OJcEN
+	 tXyjFNpg9fzF1QolYNto13BXHs0veYZ9xiTnYjzNBPsOuCUXLmeeCVdP/yFmFLYoUTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="HB/N8k3T";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=oW11fiAh;
+	arc=none smtp.remote-ip=209.85.218.70
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99D9606A320;
-	Thu, 19 Nov 2026 10:38:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DAE60A2602
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 10:42:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44DAE60A2602
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HB/N8k3T
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 400D51F000C4;
-	Thu, 19 Nov 2026 10:37:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795084681;
-	bh=MIajatYlF3EIxVeTZSsEVZ7p5I2aamJkZ0k2TSCz95o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HB/N8k3TYSulYNMYpIbRhITmR8lZQfd4EIMz3JCkLqbJQ0kSoHs82/wZ4DqT9nMGw
-	 RJTDYoNzWb/T8/Urz5tv62Hz1QbGw6gFdPi6cXd5OUjIluokUGapMjSp1zQdMVEgQ3
-	 YDEulN6F30hYxsbQ1JFf94fElERuu87OB2sy8cN46G4aDcUrMsLc+KcHXRFJM6f2zd
-	 MAfSlP5LOTGY+6MgKO7Zts8KzeeTApeR1EJ0otA85TbtUxmy7n6h8lQlm1Sqxqs13b
-	 m6oXFSQSExIe8tqvy2AUkmmTjktvhwuG/f7fy70u4DfKo8ZKi6gwc8asF8AxgLnxlB
-	 WplMaulHqBIoQ==
-Date: Thu, 19 Nov 2026 10:37:55 +0000
-From: Lee Jones <lee@kernel.org>
-To: joseph@telaak.dev
-Cc: Pavel Machek <pavel@kernel.org>,
-	Griffin Kroah-Hartman <griffin@kroah.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 05/11] leds: rgb: ktd202x: Keep the unlit colors of a
- blinking LED off
-Message-ID: <20261119103755.GP98456@joneslee-macbookpro.roam.internal>
-References: <20261109-ktd202x-et6326-v2-0-56e97c226658@telaak.dev>
- <20261109-ktd202x-et6326-v2-5-56e97c226658@telaak.dev>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=oW11fiAh
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c50713860c0so181262166b.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 02:42:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795084970; x=1795689770; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vMWbbWSOkcM/Z7Vh8kox11muEBd1XkiAo3xwlvt0N24=;
+        b=oW11fiAh1fVsy6xgq5IQLkJN98zWoYddIagqZkzDkpueCJDM5RIhtOWVt2Ibp+QeE4
+         vLVz/VN3IfukbMIEgIcSxtqVOJdjFTy1kTkm+xYeScSIN0agEKjQzNIglCtubHhdZahM
+         gW2PO3wR6vduTj/PsGUzsQ16G6wt3LnAgQJ0PlyesozFr9xxEvViV95OZVtK6h8LF1uW
+         qlrnxlMEFynQwmpWIygxK29xxqFPiAzMQbI3oAVcqzzu7lhaDtqAqhBqv4kQ6GXBoYCy
+         WseF3F/odDo7mOODaKXMCIpmLHus2gdb4ou41qfyP4iiaDg+6kgjD2md05OsgrD+rxPp
+         LRBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795084970; x=1795689770;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vMWbbWSOkcM/Z7Vh8kox11muEBd1XkiAo3xwlvt0N24=;
+        b=h8aEuFWxTDs6Mqryc7jOB19PyaAXV/PjBHpId1Owp+vi6RcnLxJR5NdwM1ni3Mj9Sx
+         9n0gbfIxHB0AMeSr53750kBz+emcgHZEI/N5zQnC397f7uxL3s3bjPxWi+N7f4O4927l
+         +QwDA6Wazte8QTL+ua07vMpdec0ITWM/H0pQ5oDQvMH7kmvw7eMyx56pcwPxAnpEMRr/
+         4sr3VxLPnLBdws1hh/jTv/EE0Rj32K50mH7dWZuMEHfphHDdmbNP7sf73zXFXQOp9PZh
+         lt36Gv+L6X8YV6nNI1Xy6AIUHyO3EX3nfTMPKicTkVHb7haSxeqxOoVKUnS/zu73OuZh
+         GeKA==
+X-Forwarded-Encrypted: i=1; AL+hErGGen+caaO4Pq1Q8QIF2EPmcPHg+bqnLnNISWd2gU4CuLU8rqVbUEP2DTGVIn4AvuvpxEfyqUT0kIA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+2rCJQKSkZaFUj8YC281+TfOCsgbdGdQYVtalvcd6eK0dOwd1p
+	kdpHZ8Yu5q2A8LWNoy41bAelT+L6gN7tc1BHctXrXMjkgICztTf7HoYIgBlLTksemAlSfLDxrQ=
+	=
+X-Received: from ejak1.prod.google.com ([2002:a17:906:541:b0:c3f:7129:4c10])
+ (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a17:906:9f8a:b0:c41:61b9:6ef6
+ with SMTP id a640c23a62f3a-c510e376c7dmr532576166b.27.1795084969312; Thu, 19
+ Nov 2026 02:42:49 -0800 (PST)
+Date: Thu, 19 Nov 2026 10:42:04 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,65 +75,140 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109-ktd202x-et6326-v2-5-56e97c226658@telaak.dev>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.1.708.g77570a6a1d-goog
+Message-ID: <20261119104208.782900-1-halg@google.com>
+Subject: [PATCH v2 0/4] userns: per-namespace capability bounding set
+From: "Hallgrimur H. Gunnarsson" <halg@google.com>
+To: Christian Brauner <brauner@kernel.org>, Serge Hallyn <sergeh@kernel.org>, 
+	Andy Lutomirski <luto@kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, 
+	"=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?=" <mic@digikod.net>, Jonathan Calmels <jcalmels@3xx0.net>, Jann Horn <jannh@google.com>, 
+	"=?UTF-8?q?G=C3=BCnther=20Noack?=" <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Casey Schaufler <casey@schaufler-ca.com>, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, keyrings@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "Hallgrimur H. Gunnarsson" <halg@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 09 Nov 2026, Joseph Telaak via B4 Relay wrote:
+When an unprivileged process creates a new user namespace, it is granted
+a full set of capabilities (CAP_FULL_SET) scoped to that namespace.
+While isolated to the namespace, these capabilities allow unprivileged
+local users to reach deep kernel subsystems (most notably networking
+configuration and raw sockets via CAP_NET_ADMIN and CAP_NET_RAW) that
+historically assumed a trusted caller and have accounted for a large
+share of local privilege escalation vulnerabilities.
 
-> From: Joseph Telaak <joseph@telaak.dev>
-> 
-> blink_set() switches every channel of a multicolor LED to the flash
-> timer, or to always on when delay_off is 0, including the colors whose
-> brightness is 0. Their current register still holds the last brightness
-> they had, or the 10 mA default, so for example a red blink set with a
-> multi_intensity of "255 0 0" also blinks green and blue.
-> 
-> Leave the channels of the colors with no brightness off, as
-> brightness_set() does. A single color LED now passes its brightness too.
-> 
-> Fixes: 0ebdb7210943 ("leds: Add ktd202x driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Joseph Telaak <joseph@telaak.dev>
-> ---
->  drivers/leds/rgb/leds-ktd202x.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/leds/rgb/leds-ktd202x.c b/drivers/leds/rgb/leds-ktd202x.c
-> index feea33b7e885..042de16c28bc 100644
-> --- a/drivers/leds/rgb/leds-ktd202x.c
-> +++ b/drivers/leds/rgb/leds-ktd202x.c
-> @@ -284,6 +284,10 @@ static int ktd202x_blink_set(struct ktd202x_led *led, unsigned long *delay_on,
->  		int channel = subleds[i].channel;
->  
->  		ctrl_mask |= KTD202X_CHANNEL_CTRL_MASK(channel);
+Many sandboxes and workloads use unprivileged user namespaces strictly
+for UID/GID, mount, PID, or network isolation and never need high-risk
+capabilities like CAP_NET_ADMIN. Likewise, system administrators,
+service managers, and container runtimes often want to enforce a
+capability ceiling across descendant user namespaces while still
+permitting exceptions for authorized workloads.
 
-I won't say this again, but it should carry across to everywhere else.
+Prior work by Jonathan Calmels [1, 2] proposed a per-thread userns
+capability set (cap_userns), while v1 of this series [3] proposed a
+capability bounding set (cap_bset) in struct user_namespace configured
+via a global sysctl and clone3().
 
-'\n'
+During v1 review, both Christian Brauner and Andy Lutomirski had
+reservations about the sysctl and clone3() approach, and Andy pointed
+out the need to cover the single-deep container case. Christian then
+proposed combining per-cred cap_userns with the per-namespace cap_bset
+ceiling [4].
 
-> +		/* A color with no brightness stays off */
-> +		if (!subleds[i].brightness)
-> +			continue;
-> +
->  		ctrl_on |= KTD202X_CHANNEL_CTRL_ON(channel);
->  		ctrl_pwm1 |= KTD202X_CHANNEL_CTRL_PWM1(channel);
->  	}
-> @@ -359,6 +363,7 @@ static int ktd202x_blink_single_set(struct led_classdev *cdev,
->  	if (!*delay_on)
->  		return ktd202x_brightness_single_set(cdev, LED_OFF);
->  
-> +	info.brightness = cdev->brightness;
->  	info.channel = led->index;
->  
->  	return ktd202x_blink_set(led, delay_on, delay_off, &info, 1);
-> 
-> -- 
-> Git-155)
-> 
-> 
-> 
+This series implements that combined approach:
 
+1. Per-namespace cap_bset and per-cred cap_userns (Patch 1)
+   Introduce user_namespace->cap_bset and cred->cap_userns, controlled
+   via prctl(PR_CAP_USERNS) and SECBIT_CAP_USERNS_STRICT (named _STRICT
+   rather than SECURE_NO_USERNS_CAP_RAISE as it also disables the
+   default cap_permitted exemption). Clamp namespace creation,
+   set_cred_user_ns(), and parent-owner checks in cap_capable_helper()
+   against these ceilings.
+
+   One refinement over the v1 review sketch: set_cred_user_ns() also
+   intersects cred->cap_userns with user_ns->cap_bset on namespace
+   entry. Since userns transitions only move downward in the hierarchy,
+   excluded bits are permanently inert anyway. Clearing them keeps
+   CapUns and PR_CAP_USERNS_IS_SET accurate after setns() and gives all
+   six task capability masks a uniform user_ns->cap_bset subset
+   invariant.
+
+2. Ptrace and dumpability bounding (Patch 2)
+   Require the tracee's cred_userns_bset() to be a subset of the
+   tracer's in the same-namespace ptrace check (complementing the
+   cross-userns owner check in cap_capable_helper()), and update
+   cred_cap_issubset() so widening the effective userns ceiling resets
+   mm->dumpable and pdeath_signal.
+
+3. Introspection via /proc/<pid>/status (Patch 3)
+   Expose cred->cap_userns as CapUns in /proc/<pid>/status. Leave
+   AUDIT_CAPSET unchanged, as capset() never modifies cap_userns
+   (matching cap_bset, where prctl() changes are covered by syscall
+   auditing).
+
+4. Selftests (Patch 4)
+   Add kselftests covering PR_CAP_USERNS, CapUns, nested monotonicity,
+   creator capability retention, SECBIT_CAP_USERNS_STRICT, setns()
+   clamping, parent-owner bounding, ptrace restrictions, and dumpability
+   resets.
+
+Changes in v2:
+- Replace the global sysctl, CLONE_NEWUSER_BSET / struct clone_args
+  extension, and NS_USER_GET_INFO ioctl with per-cred cap_userns,
+  prctl(PR_CAP_USERNS), SECBIT_CAP_USERNS_STRICT, and CapUns in
+  /proc/<pid>/status.
+- Drop CLONE_NEWNET_LOOPBACK and UNSHARE_NEWNET_LOOPBACK to handle in a
+  separate series.
+- Clamp set_cred_user_ns() (including cred->cap_userns) against
+  user_ns->cap_bset and cred_userns_bset(cred).
+- In cap_capable_helper(), bound implicit parent-owner capabilities
+  by the owned namespace's cap_bset, and grant them only when that
+  cap_bset is a subset of cred_userns_bset(cred).
+- Bound same-namespace ptrace checks in cap_ptrace_access_check() and
+  cap_ptrace_traceme() and credential subset checks in
+  cred_cap_issubset() by userns capability ceilings.
+- Rebase onto v7.4-rc1, preserving SECURE_ALL_UNPRIVILEGED handling in
+  set_cred_user_ns().
+- Link to v1: https://lore.kernel.org/r/20261028221705.3915340-1-halg@google.com
+
+[1] https://lore.kernel.org/all/20240609104355.442002-1-jcalmels@3xx0.net/
+[2] https://lwn.net/Articles/978846/
+[3] https://lore.kernel.org/all/20261028221705.3915340-1-halg@google.com/
+[4] https://lore.kernel.org/all/20261111-behagen-faktisch-entgegen-e2e714373895@brauner/
+
+Hallgrimur H. Gunnarsson (4):
+  userns: introduce capability bounding set for user namespaces
+  capability: bound ptrace and cred subset checks by userns ceilings
+  proc: expose userns capability mask as CapUns in /proc/<pid>/status
+  selftests/capabilities: add userns capability bounding set tests
+
+ Documentation/filesystems/proc.rst            |    2 +
+ Documentation/security/credentials.rst        |   12 +-
+ fs/proc/array.c                               |    4 +-
+ include/linux/cred.h                          |   22 +
+ include/linux/user_namespace.h                |   12 +
+ include/uapi/linux/prctl.h                    |    7 +
+ include/uapi/linux/securebits.h               |   16 +-
+ init/init_task.c                              |    1 +
+ kernel/cred.c                                 |   13 +-
+ kernel/user.c                                 |    1 +
+ kernel/user_namespace.c                       |   33 +-
+ security/commoncap.c                          |   80 +-
+ security/keys/process_keys.c                  |    1 +
+ .../testing/selftests/capabilities/.gitignore |    1 +
+ tools/testing/selftests/capabilities/Makefile |    2 +-
+ .../capabilities/userns_bounding_set_test.c   | 1064 +++++++++++++++++
+ 16 files changed, 1246 insertions(+), 25 deletions(-)
+ create mode 100644 tools/testing/selftests/capabilities/userns_bounding_set_test.c
+
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 -- 
-Lee Jones
+2.56.1.708.g77570a6a1d-goog
+
