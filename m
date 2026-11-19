@@ -1,143 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795066552;
-	b=3pfCj5eDrOmBC+vdhXGZQjMrLSAO+CyqvWojF2dihpXoRfefoT9SLRDIC0riiC6AiwgQ
-	 EF6YoIpv2MMca61Efh6h+uAGnUbRBT5wSWUgsNjB7MoYxEOBzpBCJMIApYvXFSxqITR7s
-	 ijzJGoqXMEzg8eywsFfKo1KA7lD+yrV5a1E9sY/M2tYTP44ZWMCmEgfVpqKTMUI0dl1rU
-	 67cP+8g1fmLE2d+SCnDaGrjxxp33PQdgVt1/oI1aK6RNuqqlHYTFArWyHRAYc7+E56UC+
-	 kEOwD+4llWALk667M4mzoYO4AI+IBLBJxp2WCOUgMx6oSOd+Abz0jiBmAWffkMwYf1A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795066552;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=zaTgPA2ioXn8bej2IOl4WB8n/Qq2lc7VcV2P19XHg1w=;
-	b=GeMYCEyBkUSN3qs8Qs3feYGE31FvbEoznhWhYod6JHjbqMecSyqBARoyElcZ9hRXo8WD
-	 28prC8PAQaS9/Zc1ZNuyJQOptz+Jb0y+6ZwFFKD6M+JmWKCn3HY0B7pSW8YiQMN5Jazu5
-	 r97flBWM/hBw2JkTknvDvIkXLRM+ycj7X6+XHmi7KESl04NhakssKPAQ8tbsy9F8DG3OP
-	 wUjGCtU066phb375DfzRhd5hEcE2gGsNlaSt0n/sI+BWQuSdCmA46gAhm2cr79+S1EtDe
-	 5nYykM6JLgyTniFjEAEcUH3Mq0BouGdRqfHXBM9PWgA2aXDs22OvoXVG0vQqEe8UY4g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ds41J1Y9;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.177
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795067159;
+	b=eXeqL15Rn7M+G2p/BkwH5vVHoVJ90puj+GP780iV0GJYPlMbbBPSGMgy7Wh1o87Y9HEu
+	 tRqM28Yj3FtjxswzhiForvIdFrA7n+4PRGkRq+8iGtEkpAfdQpB39KhTCUpIKPq0DU77t
+	 nq07zd5LyEQhwNywaTEWkaFT5ymUdhVahLG2oRGgzW5h6934t5TiAr0SWNOrxkS8Gbetp
+	 9J2vmjLooQO1zyUC68K49qsXDLy0qlGeb4g+ljJl24TxpOHZNzfsLMb7VpciKiUrAhHiA
+	 dFfFa733sQosXDkKyapkI3mrNlpA1YChsjmkkpMVqZSwDu1kWm5yDMO/xPdhrVt0tPQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795067159;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=cIkoHsOVRZS7gIowPl6xkao6tH+bfcK9X/Z+HF8PGU0=;
+	b=1G4A2qbMJr8Lskz+j3nh176tennS81GyE3aKpT80mRHbA/LFk9or3mXL69/2nodOfd+w
+	 dLktF+dSbQGlgVvl1tQAEIfeGE2t5EwgvLdqRFiBlhejGqgZNd89mlhRWXnqiTwS/DWSR
+	 f4LAZDXlI3mKklHh4FMjGlefLpCEwKvlAJym6YqisFURDoy/MuH8a290ymWuD1WeTe74g
+	 kO6aO6WpoYc0nFH/5NdJ2Ca4LVzOEdNCHnhMSN1sqFtFcvrkqW+4c9kK23qWhXCPK4rrH
+	 YutialTwtjLcNwKqdtZk7lONTKU/7W6tv7W1lXOKPQkX6GFWqvj/JEtceCchdCN2xOA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=G9sTcZLh;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.177
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFC2606A339;
-	Thu, 19 Nov 2026 05:35:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BFC2606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237DF60A260C
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 05:45:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 237DF60A260C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ds41J1Y9
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=zaTgPA2ioXn8bej2IOl4WB8n/Qq2lc7VcV2P19XHg1w=; b=Ds41J1Y94G5phu/yjrxMx4KYs0
-	fd3xEflO7koDu9fjKtT0RrT6JXtuJE3ZGa/b7tv14vHbrsGtLa9cBI8rWCSO9JxiwR/EzHbJ4YyWH
-	8z4Lfo2FA3XkU/tifbzr7MvY35pYR9hWGECyuQjjenBjpJMzarej8UBGlp6AB5Cl5B9wZl2ct2hlr
-	yP4GZiRBHQWZ0GJWk0TzDbpYf/RtAtr+lznKLzz5QUj256D7TrUxLU7g8UYM2iIVWUk5ZdrVUV65b
-	sNHHYVEKZzdr+lQMzW/6WDGqL5WcSfqNg5neQakCI513B5k5l1uBxRkTPLb31FzLHo0nl7cBnoUgi
-	7Q0sWVXw==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTuoJ-0000000Aufu-00YY;
-	Thu, 19 Nov 2026 05:35:51 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	linux-mm@kvack.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	David Heidelberg <david@ixit.cz>,
-	oe-linux-nfc@lists.linux.dev,
-	Chas Williams <3chas3@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	Helge Deller <deller@gmx.de>,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	MPT-FusionLinux.pdl@broadcom.com,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	linux-scsi@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	linux-mtd@lists.infradead.org,
-	Neill Kapron <nkapron@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	xen-devel@lists.xenproject.org,
-	Hans de Goede <hansg@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	kvm@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	linux-ext4@vger.kernel.org,
-	Mike Marshall <hubcap@omnibond.com>,
-	devel@lists.orangefs.org,
-	Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	linux-cifs@vger.kernel.org,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org,
-	Matthew Brost <matthew.brost@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Subject: [PATCH v2 12/12] docs: ioctl-number: update DRM entries
-Date: Wed, 18 Nov 2026 21:35:13 -0800
-Message-ID: <20261119053514.255348-13-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261119053514.255348-1-rdunlap@infradead.org>
-References: <20261119053514.255348-1-rdunlap@infradead.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=G9sTcZLh
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-55be673e029so117291cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 21:45:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795067158; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JDEDW2AOimTOyOUdEQs+qm/U8LPukijxS79VlySBCTE8We++uG6hNYItQteCx9aYoS
+         KDCzWlBvZpRa22ybaB68lyY+1O9Xs7+57uXQvHsq+jyhkh9m08Pn0SwFlg9HfTgRc7H2
+         pUsOW5uF1Y4u/xY6uKa788Lo1L6e6ejO8qiNlcE9xB/arNpzDt2MO1gESJECm9BXE637
+         uCR8OxCEt1z/HFAfr2GsftKucHd8i9e2zp4hqs0+QbAwAl7eOjmDuZcpBwlG220NQNiA
+         dPVmLEOEhAB2omPdEqMuW6SH6KiGpaUaRW9TUMwcRglzsfmWWlSsbKw96RFyiLn3jcaE
+         M7Mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cIkoHsOVRZS7gIowPl6xkao6tH+bfcK9X/Z+HF8PGU0=;
+        fh=4qTTQZNqNMLNBoEdUlCoNV/a10P5YhRlyxYKcX8ga9Y=;
+        b=ntiJ/UxbZ8kawwgBmaCFTujj0ZTUpa6XP2LxvLSpkcMSUoVk3c/dPfOsyoNlJNPKDT
+         i81AjaADOiGyr+LrND30w1ZIXN3+0dLWJJ+3LPGy2Mlu3uUv8a78K1ElHuFs+0cPaRIy
+         36rLqaWv3TUff3Aw4kt0voW5AmtyB1xhSEuKxqBsOq8Z8fL9DaVUFBA8rQ5x1VWbd++c
+         r6svs2qtWJoRyXFIxpYM5vooE+9MwOgs/3m6vrH/CCUq4JNgOw72af2aeHg/zbxIJPib
+         J2O4UUHgya4XDtT4vahmW6uMevzO+RK16DwYa2WWJ5itoxjSTkERxNZyFVGfuwx0M5gH
+         PN2g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795067158; x=1795671958; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cIkoHsOVRZS7gIowPl6xkao6tH+bfcK9X/Z+HF8PGU0=;
+        b=G9sTcZLhDZovHsgCx5Yv7CDMxJM8G5FDawL5JBd36y8NAy88YZsvFaSPGxL2OJDQWl
+         D8l1zhaslplXpC+LH5CUyVM6fiya54hKkm3044CoRWwH6cYkMSxwEs9IE4R9vJJik3G9
+         PaGymfho5RIhVhS+d5TUg18WON8Y60WBZxMM5gYyXKhy/KCwkwn+iT9No3gldijeO5tx
+         xp5Gg8oePFUL/bdSJWKKtm4OA3cKKfEuUGn9FzCr/u57K1nN+6BjTy/XuUfYpf49AuBU
+         GF3mrNTIV4ZWpGu4KegbuhUlLkOSriAaKH7KHmdnomUVdJlrrfe8QiZH1hsMd7fqVOCf
+         HQmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795067158; x=1795671958;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cIkoHsOVRZS7gIowPl6xkao6tH+bfcK9X/Z+HF8PGU0=;
+        b=gEV7K5j1m53tbals2SXArpoxspDFaIxdnMOPQHbJ0+/J0xURdEMhv61VTkavt36kHl
+         RdMOtfzs/Cqb1cZ3/0ZEeLkWVdP3zmCkv9Gu6iwyM1Ma59aDPvER/LEE6Hb9+xX+Irja
+         Loo+TQ/CfdGiosF7LFSxTWenNaQmgPtr0USjqk3A/49xfWAeJgG8BHboCXGb3krU1/C7
+         oTI/xzHqlR2xD/FtQMtE40ZuegaaxIw+Y7xaboL9YETuyAyheBHjT4S8K2efmMBnKTOW
+         1CmgTvoB+lqjeATkZ/Xuyu76Vg2U8saqxNHbPp8Zmyk+ISh5RvdtpAvLTZX+tD/c18cS
+         lFJA==
+X-Forwarded-Encrypted: i=1; AL+hErGIacTvVLXatFlsTXIwPLVqukXxQ4C1etA+bNScxOiz0R6HpKXdfFE9BkX5VecYD47IZruYzSLoop8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+6mnu+Kymhz+uUMDqraeuwB3nGvBIW8JN9/zSsUCK8QZdjR4RW
+	5Tm3bJnvFiljyw/v2tz+Ci8TmYXrqW/BXXT7PFuz6gHFBsgr+h2I3dobSsv6EDdxQpfhLS+2MeE
+	afFbJfrKKDwOKVwoqpITGWFRQv3UOIggOCtGigV3D
+X-Gm-Gg: AYBFou3ZA6m1IamjZVW6nT8aK+KETxBnpM6Cm053bBATurRQ24LlJILA7xPQqDzkN3h
+	lPsjex7b5FgLI5hmodMJwr2sbPRxnrOXzgFmWP5vOryaxdE3vAFxp3xebFlBAeFxibY0ixkV+eB
+	lMZv4PAEu6xiyYbkluH6qj1ggZyQeTzp9xR762qRsVVYxZzHarp+yIX1A7QhWdBNbfWcxb+3j2q
+	4hbGaVT0sXmWbUSgEtcrk/RfY1O1cdNyfhICOzP6qk52oXrAkZIPvHJOGW8btxHvAG0unoFQ3uJ
+	dS4zUzyGQ1nMVjxZKeY48Ue9P2NQcQjLQCNY/ZKexsLlXYHsTbfwtCxTT3L94HA6DE3GQb0R5Ea
+	WF30uo5zr9erYHUBdf6am9CdXCozBtd04TmMk
+X-Received: by 2002:a05:622a:4808:b0:536:934f:7da2 with SMTP id
+ d75a77b69052e-55d6c7995f9mr6557911cf.2.1795067157461; Wed, 18 Nov 2026
+ 21:45:57 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -147,65 +104,109 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20261108223913.3624571-1-irogers@google.com> <20261108223913.3624571-10-irogers@google.com>
+ <DMYN979QJFNV.LM3T6O68OHW6@kernel.org>
+In-Reply-To: <DMYN979QJFNV.LM3T6O68OHW6@kernel.org>
+From: Ian Rogers <irogers@google.com>
+Date: Wed, 18 Nov 2026 21:45:45 -0800
+X-Gm-Features: Aa3M54p8GzPfKDPQ_HJcPbdLHGq3vwK7n9VGnVvnVB1ODjbFHeHwrlgOfVCaaEo
+Message-ID: <CAP-5=fXrMyfLFXq6CiqwWMSbtYVRNESxuDo-ddqNwDmq5Nm4SA@mail.gmail.com>
+Subject: Re: [PATCH v3 9/9] kobject: Require explicit initialization of struct kobj_type::release
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, Nayna Jain <nayna@linux.ibm.com>, 
+	Srish Srinivasan <ssrish@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Juergen Gross <jgross@suse.com>, 
+	Stefano Stabellini <sstabellini@kernel.org>, 
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, Alexander Aring <aahringo@redhat.com>, 
+	Felix Kuehling <felix.kuehling@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Zhihao Cheng <chengzhihao1@huawei.com>, Sumanth Korikkar <sumanthk@linux.ibm.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev, 
+	llvm@lists.linux.dev, linux-hardening@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org, 
+	linux-s390@vger.kernel.org, gfs2@lists.linux.dev, 
+	xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update the list of files where DRM ioctls are defined.
+On Wed, Nov 18, 2026 at 1:11=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> On Sun Nov 8, 2026 at 11:39 PM CET, Ian Rogers wrote:
+> >  static const struct kobj_type cpuregs_kobj_type =3D {
+> > +     /*
+> > +      * Pre-existing: info->kobj is embedded in per-CPU cpu_data;
+> > +      * cpuid_cpu_offline() only calls kobject_del().
+> > +      */
+>
+> All of these comments carry a =E2=80=9CPre-existing:=E2=80=9D prefix, but=
+ that doesn=E2=80=99t
+> distinguish cases with broken lifetime management from those where the st=
+orage
+> remains valid despite the API misuse.
+>
+> For example:
+>
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_xcp.c
+> > index ab14079d1c42..0847134a1391 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
+> > @@ -797,6 +797,11 @@ static const struct sysfs_ops xcp_cfg_res_sysfs_op=
+s =3D {
+> >  };
+> >
+> >  static const struct kobj_type xcp_cfg_res_sysfs_ktype =3D {
+> > +     /*
+> > +      * Pre-existing: xcp_res is embedded in struct amdgpu_xcp_cfg
+> > +      * rather than freed individually by kobject_put().
+> > +      */
+> > +     .release =3D NULL,
+>
+> Being embedded in another structure doesn't explain what guarantees that =
+the
+> enclosing allocation outlives the kobject=E2=80=99s final cleanup.
+>
+> Could you please drop the =E2=80=9CPre-existing:=E2=80=9D prefix and make=
+ that distinction
+> explicit? For broken cases, describe the lifetime problem and mark it as =
+needing
+> a follow-up fix. For cases where the lifetime is safe, explain what guara=
+ntees
+> that safety, while acknowledging that omitting release() still violates t=
+he
+> documented API contract.
+>
+> Also, do you plan to follow up on those cases?
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-v2: no change
+Makes complete sense, thanks Danilo!
 
-[Since having multiple maintainers trying to merge these would
-cause some conflicts, it would be more manageable for Jon to
-take all of these through the docs-next tree.]
+Auditing all 17 files in patch 9 with that distinction in mind:
+- Only 3 built-in sites (arm64 cpuinfo, ACPI hotplug profiles, and
+s390 sclp_mem) have backing storage that genuinely remains valid for
+the lifetime of the kernel.
+- The other 14 files either free/zero an enclosing dynamic or devm
+allocation without waiting for final kobject cleanup, or are tristate
+modules that unregister static kobjects/ksets on module_exit and can
+unmap module memory before delayed cleanup finishes.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: intel-xe@lists.freedesktop.org
+I've dropped the "Pre-existing:" prefix, documented the specific
+guarantee or FIXME lifetime hazard at each site in v4, and yes, I plan
+to send follow-up fixes to the respective subsystems once __must_init
+is in place.
 
- Documentation/userspace-api/ioctl/ioctl-number.rst |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Thanks,
+Ian
 
---- linux-next-20261116.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ linux-next-20261116/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -98,6 +98,7 @@ Code  Seq#    Include File
- 0x1b  all                                                              InfiniBand Subsystem
-                                                                        <http://infiniband.sourceforge.net/>
- 0x20  all    drivers/cdrom/cm206.h
-+0x20  00-01  drivers/gpu/drm/amd/amdgpu/amdgpu_umr.h
- 0x22  all    scsi/sg.h
- 0x3E  00-0F  linux/counter.h                                           <mailto:linux-iio@vger.kernel.org>
- '!'   00-1F  uapi/linux/seccomp.h
-@@ -268,7 +269,7 @@ Code  Seq#    Include File
- 'c'   08     drivers/scsi/ch.c                                         conflict!
- 'c'   80-9F  arch/s390/include/asm/chsc.h                              conflict!
- 'c'   A0-AF  arch/x86/include/asm/msr.h conflict!
--'d'   00-FF  linux/char/drm/drm.h                                      conflict!
-+'d'   00-FF  drm/drm.h                                                 conflict!
- 'd'   02-40  pcmcia/ds.h                                               conflict!
- 'd'   F0-FF  linux/digi1.h
- 'e'   all    linux/digi1.h                                             conflict!
-@@ -292,6 +293,8 @@ Code  Seq#    Include File
-                                                                        <mailto:zapman@interlan.net>
- 'h'   00-1F  linux/hpet.h                                              conflict!
- 'h'   80-8F  fs/hfsplus/ioctl.c
-+'i'   00-02  drm/i915_drm.h
-+'i'   00-04  drm/xe_drm.h
- 'i'   00-3F  linux/i2o-dev.h                                           conflict!
- 'i'   0B-1F  linux/ipmi.h                                              conflict!
- 'i'   80-8F  linux/i8k.h
+> Thanks,
+> Danilo
+>
