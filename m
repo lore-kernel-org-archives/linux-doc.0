@@ -1,70 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.220
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795081756;
-	b=E1KqSriFHC04pQcTCGrnkYHcL0jwBeq7C4HQLgK4HhEEjmQ70OdX9HQV4wzCKzVBp/1y
-	 uTo2vDEanhq1S2btIEIyOVEs1ZH7W29WX5wh9B4sZOufuC1Vgnwp3EX0ZhnT+wDpewRKS
-	 KY0trI9Jm0QmUYEcLmeOSzMVNKGPlnJdXU9MwsdRyqOAP3oUqyyNSll6dk6HrP4e6cAGf
-	 SGjyzLXbHoMxmq7+zF8UYyTaGNNStWXdfbiuH/VVaHEMeW7N9aN9JEs2TIz4Fw0wGQ2s/
-	 9ILajAuOd+9HWP6P7b33Wmm1Do+g9XBu9eBv/5+XO9OZZlFYSbT6L8EFc3tWNCLU2VA==
+	t=1795082535;
+	b=2LajdBN6dqCISpDf3fLZjXBXoXg/vnUGSnWsRnx2CCiaix+FVO3Nob0XklUArG4jO5dS
+	 yyDUF9lZWD0mSiDxXRlsn6nuFAWfrKOhucvrZ+qOJqhV+Tyc6QgHuglgOYHAzd0kj4E1O
+	 FdK4itmRVSPGvN8Gm9VyncDWUnV9lnNWqC5tlYSkqmDkniQMRXuIkQ8ui9GQ+xCyF+Z+A
+	 Ms2/4L0K/Mxa4LbGYXlHt1nT0O0CsPl/BFGO3gR8YeWTnz006uUp2qzRl0/d31ZxZ1lls
+	 Y2BAQWcllGmslj68IypNAvDIclvYgoAjBDBRU0JwwK8jJjELnSwUdzA2DFOBagM4cBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795081756;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795082535;
 	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
 	 X-ClientProxiedBy;
-	bh=F3w6a8qH/vlD5yf51YYGcA5bapYl0I+Worxupn7IWtI=;
-	b=5b46zk3oImogbHT9i+eXBfW7AQM0PggxiyQ+0ftwVQSIdDKAw2sfAI8LTYztGhWqZxt0
-	 woU0c0Y9SEczGqwarJaFCFpMilDU8RYs5HdAwD8qRDHOZ6npKD2HickeTP9BU2cfk3X3D
-	 X6cp+Xe3x21ZlW6Wyn98ELvYOee02mUj0fHiUAMm5ocQt0vhLQYNv7xuaKsH4Tma9pVW9
-	 2kIJUdoDQB5trhcCWYvZzQ2mcpi0811PQ+Cz99i4wQznWXiItjZnfmeFIwcYIom0OUhN9
-	 EHQEy/BjIdVA5N1MUXkGTraur3qd4XzqjRx+vFk79T3okOIirqi36mMwwzvixyxkb/Q==
+	bh=J1xrO2Y7n8BOFe6QC7CesVydiqyoOrVKZU9JIFCW6gc=;
+	b=ZUN3WhzyPpNEOc42tyMzFocI7UwwEux7kpP+sKFVU6WAd/71la7YrCQivo1gLFvoaIEV
+	 gPle0XYpP/DwHlszQ3sszjMVpedXbG2IDxkS+CzVrBGObwY/I33f+7y1v1PZDqfRy0Mrh
+	 9oD+5BxRVouj8fjuwM+TX2b3TlJAqiVLdIZZeBIaVFRkWTrhKgEblSGmYAHFEJLENrWDN
+	 HBdcJqix4dLUP9JFoRbgx3KU+JXxYEOS0xn9ZJXN6b2i2ssnSvsTaUZOLZqYHWZbDKXZV
+	 nFSVbdenGveqEMCOGTQzuy7TO7u8EOpZaJtIWXLCJ8KCoRRsVT7xSpJT2lXU+PyAH7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=huawei.com;
 	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b="nd/Zpj9s";
-	arc=none smtp.remote-ip=113.46.200.220
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=2VP9dmAA;
+	arc=none smtp.remote-ip=113.46.200.219
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78373606A330;
-	Thu, 19 Nov 2026 09:49:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78373606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE1660A260D;
+	Thu, 19 Nov 2026 10:02:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7DE1660A260D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=nd/Zpj9s
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=2VP9dmAA
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=F3w6a8qH/vlD5yf51YYGcA5bapYl0I+Worxupn7IWtI=;
-	b=nd/Zpj9sZJQe58GD8LAwOvkER4Oz9ruYX8u7kp+DN6BJmvJKjuF2lIiOQedScNAhClla98f+R
-	OXq0ZClpuKh18+5q3F2rfof2d121TyQK1eWiyVttvIdClyBvusxMieVbaR39IjYvSEPRxTrvaLK
-	CjPlq3zo5Qi+C1d7EzvBcyw=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4jVYYx2wQCz12LdS;
-	Thu, 19 Nov 2026 17:48:21 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 09AFC40575;
-	Thu, 19 Nov 2026 17:49:13 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 19 Nov
- 2026 17:49:12 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
-	<james.morse@arm.com>, <babu.moger@amd.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <bp@alien8.de>,
-	<tan.shaopeng@fujitsu.com>, <gshan@redhat.com>, <ben.horgan@arm.com>,
-	<jic23@kernel.org>, <fenghuay@nvidia.com>, <zengheng4@huawei.com>,
-	<x86@kernel.org>, <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH v6 4/6] fs/resctrl: Stop the limbo handler while resctrl is unmounted
-Date: Thu, 19 Nov 2026 17:48:56 +0800
-Message-ID: <20261119094858.813874-5-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261119094858.813874-1-ruanjinjie@huawei.com>
-References: <20261119094858.813874-1-ruanjinjie@huawei.com>
+	bh=J1xrO2Y7n8BOFe6QC7CesVydiqyoOrVKZU9JIFCW6gc=;
+	b=2VP9dmAANqSdFteXZIsBtMHxXgy3OCelrSi9r7RWeTV7SOEMBPKTGUoKrRxKXqaoIXu3LyLeO
+	b8VVekInQ4nT3Ag8LPC/ugpx+E1fiIenhdwfEuJmkQLW64hixhf+oeiszAi1+nxylfdzQa0EaIF
+	x9dI5GddupCRViCP9xMMLyo=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4jVYsd0Xf1z1prM1;
+	Thu, 19 Nov 2026 18:01:57 +0800 (CST)
+Received: from kwepemo200009.china.huawei.com (unknown [7.202.195.26])
+	by mail.maildlp.com (Postfix) with ESMTPS id 930A140561;
+	Thu, 19 Nov 2026 18:02:10 +0800 (CST)
+Received: from localhost.localdomain (10.50.159.234) by
+ kwepemo200009.china.huawei.com (7.202.195.26) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 19 Nov 2026 18:02:09 +0800
+From: Long Wei <longwei27@huawei.com>
+To: <rppt@kernel.org>, <pasha.tatashin@soleen.com>, <pratyush@kernel.org>,
+	<akpm@linux-foundation.org>
+CC: <graf@amazon.com>, <leitao@debian.org>, <corbet@lwn.net>,
+	<rdunlap@infradead.org>, <linux-mm@kvack.org>, <kexec@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<hewenliang4@huawei.com>, Long Wei <longwei27@huawei.com>
+Subject: [PATCH v3] kho: do not expose incoming sub-blob contents in debugfs
+Date: Thu, 19 Nov 2026 17:59:37 +0800
+Message-ID: <20261119095937.826980-1-longwei27@huawei.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,143 +73,174 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemo200009.china.huawei.com (7.202.195.26)
 
-A monitoring group's RMID is not returned to the free list when the
-group is removed. It stays in limbo until the cache occupancy still
-counted against it has dropped low enough for the RMID to be reused,
-which the limbo handler checks once a second.
+Incoming sub-blob pages are owned by their consumers and have independent
+lifetimes.  Some consumers, such as LUO, restore and free their state in
+early_initcall, i.e. before kho_init() (fs_initcall) builds the debugfs
+view:
 
-The limbo handler keeps running after resctrl is unmounted, where there
-is nothing for it to achieve. An RMID is only allocated when a group is
-created, which needs resctrl to be mounted, so no RMID the limbo handler
-returns to the free list can be used before the next mount, and that
-mount can check them itself. The MBM overflow handler already stops for
-this reason once resctrl_mounted is cleared.
+  early_initcall: luo_early_startup()
+                    -> kho_retrieve_subtree("LUO")
+                    -> kho_restore_free(luo_ser)   /* page is freed */
 
-Reading the RMIDs in limbo while resctrl is unmounted is not safe on
-every architecture. On MPAM the counter of an RMID is selected by the
-CLOSID that owns it, and the CLOSID depends on the CDP state. Unmount
-clears the CDP state, so the limbo handler that keeps running reads the
-RMIDs freed under CDP through the CLOSIDs of the cleared state.
+  fs_initcall:    kho_init()
+                    -> kho_in_debugfs_init()
+                         -> phys_to_virt(luo_ser_phys)
+                         -> debugfs_create_blob("LUO", ...)
 
-Stop the limbo handler while resctrl is unmounted, as the overflow
-handler does, and restart it after a mount on every domain that still
-has RMIDs in limbo. The worker can stay queued across the unmount, so
-cancel it before queuing it again.
+debugfs therefore ends up pointing at a page that was already handed back
+to the page allocator, and reading the file triggers a use-after-free:
 
-Fixes: 6789fb99282c ("arm_mpam: resctrl: Add CDP emulation")
-Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: <stable@vger.kernel.org>
+  # cat /sys/kernel/debug/kho/in/sub_fdts/LUO
+  ==================================================================
+  BUG: KASAN: use-after-free in _copy_to_user+0x37/0x60
+  Read of size 32 at addr ffff88810309c000 by task cat/27436
+
+  Call Trace:
+   <TASK>
+   kasan_report+0xb9/0xf0
+   kasan_check_range+0x100/0x1b0
+   _copy_to_user+0x37/0x60
+   simple_read_from_buffer+0x77/0xd0
+   read_file_blob+0x75/0xa0
+   vfs_read+0x12d/0x520
+   ksys_read+0xc3/0x160
+   do_syscall_64+0x97/0x4b0
+   entry_SYSCALL_64_after_hwframe+0x76/0x7e
+   </TASK>
+
+  The buggy address belongs to the physical page:
+  page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x1fd
+  pfn:0x10309c
+  flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
+  page_type: f0(buddy)
+  ==================================================================
+
+The page is already in the buddy allocator (page_type: f0(buddy),
+refcount 0), which confirms it was freed before the debugfs view was
+created.
+
+KHO does not own these pages, so it cannot safely expose their contents at
+all.  Drop the in/sub_fdts directory.  The incoming FDT is reserved by KHO
+and remains exposed as in/fdt, where the same metadata is available.
+
+The incoming sub-blob debugfs directory is gone, so remove its description
+from the KHO admin guide as well.
+
+Note that in/sub_fdts has exposed memory KHO does not own since
+commit c609c144b0e8 ("kexec: add KHO parsing support"), but the
+use-after-free only became reachable after commit d376e4b55c9a0
+("liveupdate: centralize state management into struct luo_ser") which
+added kho_restore_free()
+
+Fixes: d376e4b55c9a0 ("liveupdate: centralize state management into struct luo_ser")
+Acked-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+Signed-off-by: Long Wei <longwei27@huawei.com>
 ---
-v6:
-- Explain first why stopping the limbo handler is fine on every
-  architecture, and describe MPAM by CLOSID only (Reinette).
-- Rename resctrl_limbo_resume() to cqm_resume_limbo_handler() and declare
-  it with the other limbo handler helpers (Reinette).
-- Return early when the L3 resource is not mon_capable (Reinette).
-- Drop the stable version range, the Fixes tag already gives it.
----
- fs/resctrl/internal.h |  2 ++
- fs/resctrl/monitor.c  | 42 ++++++++++++++++++++++++++++++++++++++++--
- fs/resctrl/rdtgroup.c |  2 ++
- 3 files changed, 44 insertions(+), 2 deletions(-)
+Changes in v3:
+- Fold documentation removal into this patch (per Mike Rapoport)
+- Update Fixes tag to d376e4b55c9a0 (per Mike Rapoport)
 
-diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
-index 1c85e06f09bf..f52e0937702a 100644
---- a/fs/resctrl/internal.h
-+++ b/fs/resctrl/internal.h
-@@ -401,6 +401,8 @@ bool is_mba_sc(struct rdt_resource *r);
- void cqm_setup_limbo_handler(struct rdt_l3_mon_domain *dom, unsigned long delay_ms,
- 			     int exclude_cpu);
+Changes in v2:
+- Drop the in/blobs metadata file entirely (per Pasha Tatashin)
+- Remove unused sub_fdt_dir member and #include <linux/io.h>
+
+ Documentation/admin-guide/mm/kho.rst       |  4 --
+ kernel/liveupdate/kexec_handover_debugfs.c | 47 +---------------------
+ 2 files changed, 2 insertions(+), 49 deletions(-)
+
+diff --git a/Documentation/admin-guide/mm/kho.rst b/Documentation/admin-guide/mm/kho.rst
+index 902d171a780a..4281da6be5fa 100644
+--- a/Documentation/admin-guide/mm/kho.rst
++++ b/Documentation/admin-guide/mm/kho.rst
+@@ -117,7 +117,3 @@ stabilized.
+     kernel's state is in this file in the format of flattened
+     device tree. This file may disappear when all consumers of
+     it finished to interpret their metadata.
+-
+-``/sys/kernel/debug/kho/in/sub_fdts/``
+-    Similar to ``kho/out/sub_fdts/``, but contains sub blobs
+-    of KHO producers passed from the old kernel.
+diff --git a/kernel/liveupdate/kexec_handover_debugfs.c b/kernel/liveupdate/kexec_handover_debugfs.c
+index 7d74477da0b7..3a91c47ad7a6 100644
+--- a/kernel/liveupdate/kexec_handover_debugfs.c
++++ b/kernel/liveupdate/kexec_handover_debugfs.c
+@@ -10,7 +10,6 @@
+ #define pr_fmt(fmt) "KHO: " fmt
  
-+void cqm_resume_limbo_handler(void);
-+
- void cqm_handle_limbo(struct work_struct *work);
+ #include <linux/init.h>
+-#include <linux/io.h>
+ #include <linux/libfdt.h>
+ #include <linux/mm.h>
+ #include <linux/kho/abi/kexec_handover.h>
+@@ -97,8 +96,8 @@ DEFINE_SHOW_ATTRIBUTE(bootmem_len);
  
- bool has_busy_rmid(struct rdt_l3_mon_domain *d);
-diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
-index ae9ddd380515..ede1708b920e 100644
---- a/fs/resctrl/monitor.c
-+++ b/fs/resctrl/monitor.c
-@@ -852,6 +852,13 @@ void cqm_handle_limbo(struct work_struct *work)
- 	 */
- 	mutex_lock(&rdtgroup_mutex);
- 
-+	/*
-+	 * If the filesystem has been unmounted this work no longer needs to
-+	 * run. cqm_resume_limbo_handler() restarts it on the next mount.
-+	 */
-+	if (!resctrl_mounted)
-+		goto out_unlock;
-+
- 	/*
- 	 * Ensure the worker is dedicated to a CPU as intended and not
- 	 * relocated by workqueue subsystem as part of CPU going offline.
-@@ -1001,8 +1008,8 @@ int setup_rmid_lru_list(void)
- 	/*
- 	 * Called on every mount, but the number of RMIDs cannot change
- 	 * after the first mount, so keep using the same set of rmid_ptrs[]
--	 * until resctrl_exit(). Note that the limbo handler continues to
--	 * access rmid_ptrs[] after resctrl is unmounted.
-+	 * until resctrl_exit(). Note that the RMIDs in limbo stay in limbo
-+	 * across an unmount and are checked again after the next mount.
- 	 */
- 	if (rmid_ptrs)
- 		return 0;
-@@ -1033,6 +1040,37 @@ int setup_rmid_lru_list(void)
- 	return 0;
- }
- 
-+/**
-+ * cqm_resume_limbo_handler() - Restart the limbo handler after a mount.
-+ *
-+ * The limbo handler stops while resctrl is unmounted. Restart it on every
-+ * domain that still has RMIDs in limbo.
-+ */
-+void cqm_resume_limbo_handler(void)
-+{
-+	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
-+	struct rdt_l3_mon_domain *d;
-+
-+	lockdep_assert_cpus_held();
-+	lockdep_assert_held(&rdtgroup_mutex);
-+
-+	if (!r->mon_capable || !resctrl_is_mon_event_enabled(QOS_L3_OCCUP_EVENT_ID))
-+		return;
-+
-+	list_for_each_entry_rcu(d, &r->mon_domains, hdr.list,
-+				lockdep_is_cpus_held()) {
-+		if (!has_busy_rmid(d))
-+			continue;
-+
-+		/*
-+		 * The unmount may have left the worker queued. Cancel it so
-+		 * it is queued again on a CPU picked now.
-+		 */
-+		cancel_delayed_work(&d->cqm_limbo);
-+		cqm_setup_limbo_handler(d, 0, RESCTRL_PICK_ANY_CPU);
-+	}
-+}
-+
- void free_rmid_lru_list(void)
+ __init void kho_in_debugfs_init(struct kho_debugfs *dbg, const void *fdt)
  {
- 	if (!resctrl_arch_mon_capable())
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 3312637fb514..c7c4f618208d 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -3267,6 +3267,8 @@ static int rdt_get_tree(struct fs_context *fc)
- 						   RESCTRL_PICK_ANY_CPU);
+-	struct dentry *dir, *sub_fdt_dir;
+-	int err, child;
++	struct dentry *dir;
++	int err;
+ 
+ 	INIT_LIST_HEAD(&dbg->fdt_list);
+ 
+@@ -108,54 +107,12 @@ __init void kho_in_debugfs_init(struct kho_debugfs *dbg, const void *fdt)
+ 		goto err_out;
  	}
  
-+	cqm_resume_limbo_handler();
-+
- 	/*
- 	 * Ensure root remains accessible after mutex is unlocked so that
- 	 * kernfs_kill_sb() can run safely if called by kernfs_get_tree()'s
+-	sub_fdt_dir = debugfs_create_dir("sub_fdts", dir);
+-	if (IS_ERR(sub_fdt_dir)) {
+-		err = PTR_ERR(sub_fdt_dir);
+-		goto err_rmdir;
+-	}
+-
+ 	err = __kho_debugfs_blob_add(&dbg->fdt_list, dir, "fdt", fdt,
+ 				     fdt_totalsize(fdt));
+ 	if (err)
+ 		goto err_rmdir;
+ 
+-	fdt_for_each_subnode(child, fdt, 0) {
+-		int len = 0;
+-		const char *name = fdt_get_name(fdt, child, NULL);
+-		const u64 *blob_phys;
+-		const u64 *blob_size;
+-		void *blob;
+-
+-		blob_phys = fdt_getprop(fdt, child,
+-					KHO_SUB_TREE_PROP_NAME, &len);
+-		if (!blob_phys)
+-			continue;
+-		if (len != sizeof(*blob_phys)) {
+-			pr_warn("node %s prop %s has invalid length: %d\n",
+-				name, KHO_SUB_TREE_PROP_NAME, len);
+-			continue;
+-		}
+-
+-		blob_size = fdt_getprop(fdt, child,
+-					KHO_SUB_TREE_SIZE_PROP_NAME, &len);
+-		if (!blob_size || len != sizeof(*blob_size)) {
+-			pr_warn("node %s missing or invalid %s property\n",
+-				name, KHO_SUB_TREE_SIZE_PROP_NAME);
+-			continue;
+-		}
+-
+-		blob = phys_to_virt(*blob_phys);
+-		err = __kho_debugfs_blob_add(&dbg->fdt_list, sub_fdt_dir, name,
+-					     blob, *blob_size);
+-		if (err) {
+-			pr_warn("failed to add blob %s to debugfs: %pe\n",
+-				name, ERR_PTR(err));
+-			continue;
+-		}
+-	}
+-
+ 	dbg->dir = dir;
+-	dbg->sub_fdt_dir = sub_fdt_dir;
+ 
+ 	return;
+ err_rmdir:
 -- 
-2.34.1
+2.43.0
 
