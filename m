@@ -1,67 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795082535;
-	b=2LajdBN6dqCISpDf3fLZjXBXoXg/vnUGSnWsRnx2CCiaix+FVO3Nob0XklUArG4jO5dS
-	 yyDUF9lZWD0mSiDxXRlsn6nuFAWfrKOhucvrZ+qOJqhV+Tyc6QgHuglgOYHAzd0kj4E1O
-	 FdK4itmRVSPGvN8Gm9VyncDWUnV9lnNWqC5tlYSkqmDkniQMRXuIkQ8ui9GQ+xCyF+Z+A
-	 Ms2/4L0K/Mxa4LbGYXlHt1nT0O0CsPl/BFGO3gR8YeWTnz006uUp2qzRl0/d31ZxZ1lls
-	 Y2BAQWcllGmslj68IypNAvDIclvYgoAjBDBRU0JwwK8jJjELnSwUdzA2DFOBagM4cBg==
+	t=1795083155;
+	b=hi/vVsnFEr81SjSzfjOUMm57oIBfAOSgI5lctnZpli8sdnfLZv98hjIAyjXowhdGoRUR
+	 WYMG+X/YMgnTNX1jnxN7Aab7+X2n0nJmnjBmsc3sMMRGlKsEQhP0bOdHnPWf6HNrypbEl
+	 EKoTKpa8MSHCeBBMtiTV0jAe/wDo0CzzxXBsyEqaqj4aQhQenw2HnhXwHbwCIlJ9Io1Dp
+	 wwTM5dzrUTkWz2Ru2EZCdhgg9ZLKwcwKiW4RdEEHYp1RuvMfdqOPdoFPz9b6QzTlFpRUK
+	 /+u60zpf9fRuTai/Wtp5m79zrtgbWqPiL7dWAIepX8qpd3CGFlQxUwq0Zon0NRgwhLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795082535;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=J1xrO2Y7n8BOFe6QC7CesVydiqyoOrVKZU9JIFCW6gc=;
-	b=ZUN3WhzyPpNEOc42tyMzFocI7UwwEux7kpP+sKFVU6WAd/71la7YrCQivo1gLFvoaIEV
-	 gPle0XYpP/DwHlszQ3sszjMVpedXbG2IDxkS+CzVrBGObwY/I33f+7y1v1PZDqfRy0Mrh
-	 9oD+5BxRVouj8fjuwM+TX2b3TlJAqiVLdIZZeBIaVFRkWTrhKgEblSGmYAHFEJLENrWDN
-	 HBdcJqix4dLUP9JFoRbgx3KU+JXxYEOS0xn9ZJXN6b2i2ssnSvsTaUZOLZqYHWZbDKXZV
-	 nFSVbdenGveqEMCOGTQzuy7TO7u8EOpZaJtIWXLCJ8KCoRRsVT7xSpJT2lXU+PyAH7w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795083155;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=UgdmzRQCCQtdi5jLGq0W+95K40FqIfN0KQNxDFtfDCM=;
+	b=W+oLbvI9bKY3MxJe66+7GryEQUZS+VKd9Rae71HfZsfr8AEyjENd36oXhiAwgTWDYAEK
+	 H0J8OE9A4bIiMJtaWEd/Udf7DoD/0giZ2JQ2hZ//5xLQ03sxFzYz7BlHmWU0o+6wJ7M3G
+	 532s13820bjnVfY57SWladW72ubt7P/LBX2gLs9YZi2SDgDOzPaKTc7kDb2d9oEIotqnu
+	 4PAsvx2fn8AMbXHDPqs8Pi2YxU6VIBIuIOL6Gk3LXSWWKoLEDtswRl7pVWD30r1yV0jDm
+	 OeI3yctEAomkfPgFIMjh+29BbjA7baGPaxQCh0oU54Hb83VZMjCm/IjgimUycSezwZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=2VP9dmAA;
-	arc=none smtp.remote-ip=113.46.200.219
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gu2HGOTm;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE1660A260D;
-	Thu, 19 Nov 2026 10:02:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7DE1660A260D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B97F606A320;
+	Thu, 19 Nov 2026 10:12:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=2VP9dmAA
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=J1xrO2Y7n8BOFe6QC7CesVydiqyoOrVKZU9JIFCW6gc=;
-	b=2VP9dmAANqSdFteXZIsBtMHxXgy3OCelrSi9r7RWeTV7SOEMBPKTGUoKrRxKXqaoIXu3LyLeO
-	b8VVekInQ4nT3Ag8LPC/ugpx+E1fiIenhdwfEuJmkQLW64hixhf+oeiszAi1+nxylfdzQa0EaIF
-	x9dI5GddupCRViCP9xMMLyo=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4jVYsd0Xf1z1prM1;
-	Thu, 19 Nov 2026 18:01:57 +0800 (CST)
-Received: from kwepemo200009.china.huawei.com (unknown [7.202.195.26])
-	by mail.maildlp.com (Postfix) with ESMTPS id 930A140561;
-	Thu, 19 Nov 2026 18:02:10 +0800 (CST)
-Received: from localhost.localdomain (10.50.159.234) by
- kwepemo200009.china.huawei.com (7.202.195.26) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Thu, 19 Nov 2026 18:02:09 +0800
-From: Long Wei <longwei27@huawei.com>
-To: <rppt@kernel.org>, <pasha.tatashin@soleen.com>, <pratyush@kernel.org>,
-	<akpm@linux-foundation.org>
-CC: <graf@amazon.com>, <leitao@debian.org>, <corbet@lwn.net>,
-	<rdunlap@infradead.org>, <linux-mm@kvack.org>, <kexec@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<hewenliang4@huawei.com>, Long Wei <longwei27@huawei.com>
-Subject: [PATCH v3] kho: do not expose incoming sub-blob contents in debugfs
-Date: Thu, 19 Nov 2026 17:59:37 +0800
-Message-ID: <20261119095937.826980-1-longwei27@huawei.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gu2HGOTm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1B741F000C4;
+	Thu, 19 Nov 2026 10:12:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795083155;
+	bh=UgdmzRQCCQtdi5jLGq0W+95K40FqIfN0KQNxDFtfDCM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=gu2HGOTmaUVDrAICPvJfUxeAsexxppxvdGh6AzhSY+TmS5NQscx2PkQwb6eP+3RFE
+	 rlnRm7KhB8yFP6vPv3O54F7JL+bjRO/CWW8kFvAOwDtuziuS/RnAVVhxv+NwKjhHgr
+	 D7uB56/vVI0myt8xK4IjS7IP0YOb1uhd/FNRt1/gMOcQFLP9qlsxmIZmK9UxGoVsBr
+	 bwlGKe8KceiZ1KIRvXT7NaJi5LFEWNpocLB9KF3mVg/XsL1wmjXUuVTbPlZnGWku7n
+	 qp/lQZH8kgHUZlXE4U6nJPgW6Cl+Iy6oGfuQ/ps70wC/jk3BQ+p1jlT4x5TYFu4f/z
+	 JuyJCyVibpbeA==
+Message-ID: <484501b8-6b6f-4ec2-9324-ddaf52f811c3@kernel.org>
+Date: Thu, 19 Nov 2026 11:12:31 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,176 +51,94 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemo200009.china.huawei.com (7.202.195.26)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
+ user-visible impact
+To: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261116200515.352387-1-sashal@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20261116200515.352387-1-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Incoming sub-blob pages are owned by their consumers and have independent
-lifetimes.  Some consumers, such as LUO, restore and free their state in
-early_initcall, i.e. before kho_init() (fs_initcall) builds the debugfs
-view:
+On 16/11/2026 21:05, Sasha Levin wrote:
+> "Describe your changes" already asks for the user-visible impact of a
+> change, but changelogs for fixes still tend to say what the code does,
+> why that's wrong and what the patch changes, and stop there. Whoever
+> has to decide if the fix needs backporting is left to work out what
+> the bug does to a running system.
+> 
+> Say what that means for a bug fix, in two parts. For users who aren't
+> looking for the bug: what a normal workload is likely to run into, and
+> separately the worst case and what it takes to get there. For someone
+> triggering it on purpose: whether an unprivileged user could do it and
+> what that would take, since a race that no real workload loses can
+> still be won by a program written to win it. Give the paragraph a
+> label so people can be pointed at it.
+> 
+> Coding assistants are told to commit a fix with a message that
+> describes the problem and the solution. Add the user-visible impact to
+> that list and point them at the section.
+> 
+> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+> Link: https://lore.kernel.org/r/20261111171055.527b4bf3da705367bc78a64c@linux-foundation.org
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> Acked-by: Andrew Morton <akpm@linux-foundation.org>
+> Reviewed-by: Willy Tarreau <w@1wt.eu>
+> ---
 
-  early_initcall: luo_early_startup()
-                    -> kho_retrieve_subtree("LUO")
-                    -> kho_restore_free(luo_ser)   /* page is freed */
 
-  fs_initcall:    kho_init()
-                    -> kho_in_debugfs_init()
-                         -> phys_to_virt(luo_ser_phys)
-                         -> debugfs_create_blob("LUO", ...)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-debugfs therefore ends up pointing at a page that was already handed back
-to the page allocator, and reading the file triggers a use-after-free:
-
-  # cat /sys/kernel/debug/kho/in/sub_fdts/LUO
-  ==================================================================
-  BUG: KASAN: use-after-free in _copy_to_user+0x37/0x60
-  Read of size 32 at addr ffff88810309c000 by task cat/27436
-
-  Call Trace:
-   <TASK>
-   kasan_report+0xb9/0xf0
-   kasan_check_range+0x100/0x1b0
-   _copy_to_user+0x37/0x60
-   simple_read_from_buffer+0x77/0xd0
-   read_file_blob+0x75/0xa0
-   vfs_read+0x12d/0x520
-   ksys_read+0xc3/0x160
-   do_syscall_64+0x97/0x4b0
-   entry_SYSCALL_64_after_hwframe+0x76/0x7e
-   </TASK>
-
-  The buggy address belongs to the physical page:
-  page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x1fd
-  pfn:0x10309c
-  flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
-  page_type: f0(buddy)
-  ==================================================================
-
-The page is already in the buddy allocator (page_type: f0(buddy),
-refcount 0), which confirms it was freed before the debugfs view was
-created.
-
-KHO does not own these pages, so it cannot safely expose their contents at
-all.  Drop the in/sub_fdts directory.  The incoming FDT is reserved by KHO
-and remains exposed as in/fdt, where the same metadata is available.
-
-The incoming sub-blob debugfs directory is gone, so remove its description
-from the KHO admin guide as well.
-
-Note that in/sub_fdts has exposed memory KHO does not own since
-commit c609c144b0e8 ("kexec: add KHO parsing support"), but the
-use-after-free only became reachable after commit d376e4b55c9a0
-("liveupdate: centralize state management into struct luo_ser") which
-added kho_restore_free()
-
-Fixes: d376e4b55c9a0 ("liveupdate: centralize state management into struct luo_ser")
-Acked-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Signed-off-by: Long Wei <longwei27@huawei.com>
----
-Changes in v3:
-- Fold documentation removal into this patch (per Mike Rapoport)
-- Update Fixes tag to d376e4b55c9a0 (per Mike Rapoport)
-
-Changes in v2:
-- Drop the in/blobs metadata file entirely (per Pasha Tatashin)
-- Remove unused sub_fdt_dir member and #include <linux/io.h>
-
- Documentation/admin-guide/mm/kho.rst       |  4 --
- kernel/liveupdate/kexec_handover_debugfs.c | 47 +---------------------
- 2 files changed, 2 insertions(+), 49 deletions(-)
-
-diff --git a/Documentation/admin-guide/mm/kho.rst b/Documentation/admin-guide/mm/kho.rst
-index 902d171a780a..4281da6be5fa 100644
---- a/Documentation/admin-guide/mm/kho.rst
-+++ b/Documentation/admin-guide/mm/kho.rst
-@@ -117,7 +117,3 @@ stabilized.
-     kernel's state is in this file in the format of flattened
-     device tree. This file may disappear when all consumers of
-     it finished to interpret their metadata.
--
--``/sys/kernel/debug/kho/in/sub_fdts/``
--    Similar to ``kho/out/sub_fdts/``, but contains sub blobs
--    of KHO producers passed from the old kernel.
-diff --git a/kernel/liveupdate/kexec_handover_debugfs.c b/kernel/liveupdate/kexec_handover_debugfs.c
-index 7d74477da0b7..3a91c47ad7a6 100644
---- a/kernel/liveupdate/kexec_handover_debugfs.c
-+++ b/kernel/liveupdate/kexec_handover_debugfs.c
-@@ -10,7 +10,6 @@
- #define pr_fmt(fmt) "KHO: " fmt
- 
- #include <linux/init.h>
--#include <linux/io.h>
- #include <linux/libfdt.h>
- #include <linux/mm.h>
- #include <linux/kho/abi/kexec_handover.h>
-@@ -97,8 +96,8 @@ DEFINE_SHOW_ATTRIBUTE(bootmem_len);
- 
- __init void kho_in_debugfs_init(struct kho_debugfs *dbg, const void *fdt)
- {
--	struct dentry *dir, *sub_fdt_dir;
--	int err, child;
-+	struct dentry *dir;
-+	int err;
- 
- 	INIT_LIST_HEAD(&dbg->fdt_list);
- 
-@@ -108,54 +107,12 @@ __init void kho_in_debugfs_init(struct kho_debugfs *dbg, const void *fdt)
- 		goto err_out;
- 	}
- 
--	sub_fdt_dir = debugfs_create_dir("sub_fdts", dir);
--	if (IS_ERR(sub_fdt_dir)) {
--		err = PTR_ERR(sub_fdt_dir);
--		goto err_rmdir;
--	}
--
- 	err = __kho_debugfs_blob_add(&dbg->fdt_list, dir, "fdt", fdt,
- 				     fdt_totalsize(fdt));
- 	if (err)
- 		goto err_rmdir;
- 
--	fdt_for_each_subnode(child, fdt, 0) {
--		int len = 0;
--		const char *name = fdt_get_name(fdt, child, NULL);
--		const u64 *blob_phys;
--		const u64 *blob_size;
--		void *blob;
--
--		blob_phys = fdt_getprop(fdt, child,
--					KHO_SUB_TREE_PROP_NAME, &len);
--		if (!blob_phys)
--			continue;
--		if (len != sizeof(*blob_phys)) {
--			pr_warn("node %s prop %s has invalid length: %d\n",
--				name, KHO_SUB_TREE_PROP_NAME, len);
--			continue;
--		}
--
--		blob_size = fdt_getprop(fdt, child,
--					KHO_SUB_TREE_SIZE_PROP_NAME, &len);
--		if (!blob_size || len != sizeof(*blob_size)) {
--			pr_warn("node %s missing or invalid %s property\n",
--				name, KHO_SUB_TREE_SIZE_PROP_NAME);
--			continue;
--		}
--
--		blob = phys_to_virt(*blob_phys);
--		err = __kho_debugfs_blob_add(&dbg->fdt_list, sub_fdt_dir, name,
--					     blob, *blob_size);
--		if (err) {
--			pr_warn("failed to add blob %s to debugfs: %pe\n",
--				name, ERR_PTR(err));
--			continue;
--		}
--	}
--
- 	dbg->dir = dir;
--	dbg->sub_fdt_dir = sub_fdt_dir;
- 
- 	return;
- err_rmdir:
--- 
-2.43.0
-
+Best regards,
+Krzysztof
