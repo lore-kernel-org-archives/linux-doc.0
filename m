@@ -1,58 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.15.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795058874;
-	b=KlsZNrc9V7E4YNUjd0hcGsvu6YyEvqcaueiJ2EcZfL9OO1csGfqgAR/hjNaSUVUImdg8
-	 VhE7ecak/C370p0QbOO9egqocFmU3WjWkTCE9kCEovWm2O8oD6iCqu9nfx2dp5APL7+j+
-	 8RhqAxE0EGjPyx9+G47AAAg6IEViYDvh+SUu6TuQ/3oq+0IhB9bZAHWepO9w/s/fRYzjy
-	 IBhJwx5nhdkzD3LK2izp1P5TPrK/0uBU3dvAl7cbFqtYwvYR+BQpvr25Z/gSzaANUK08B
-	 FbpzwushvMG1QQsyc2o7OgptCZ2Xzo9pImGfuShrLk9/3qg0VTF0+G+lBdBzNt7E4zA==
+	t=1795059408;
+	b=UaKdX7gNEL5YtMjCMTIxXQcB1BZS/rqBd1aWuxOSmEmNgyCg+a3QkwCJeDJ7t/tQGw85
+	 lb8Q+EOxZIi3ucqG3njun0gRAWELk3NXwhQRVKWaRbHsoeX3EoJj+JfGpPadrmRgjaKOD
+	 yFfKTjQM9SVbfh17OB9IksyWepnmykTecO/MG6pD2B6yrnWkYXZQmW50O4FD0Xbc3RPzS
+	 gvv3TnLBcg3RoU7jsr2ujpW1lXEa7MhfS6jbiPgegFmnZCsK64UVcUuEDvj2YxE9uyqTS
+	 TH/xb/V0uqqB+nkzeDzmB/VkHxCjkEgQoAuayontnieXl5ohquqHfhHorHXmmXYVqww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795058874;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=zs8lGMNgF6WPKWDopP1bfUZUbhZl8Eh+8/rpdnMShD0=;
-	b=nYgJjOxmAcNcFhugz37LyK8LsKyUE0mMURar9zttsJdnwDz/AEZuaTwgaYyXDwuCLbIf
-	 VHobDIpxnjUIQOURuTPba2pW3ItS++IWjmY7zZZUaj4K30xHFxFJ3+NPWEqp78fluasYj
-	 vAKg3+dl0Kzc4YKzYCrpYvFURv8LRXXUZSVUql14KpYM7dDiUJts4OKmCsa0teiU/sccv
-	 UG5GcQQ1ndcs3U1CK5keNBiucwyAAXPAUfmZOcUKRbnlKBVLrfw9/tpDR6UlDX1CxkGS3
-	 G8jk05XUXALV/LR/beSfB5VoYpGFm+lNsj0h1xuGydT2iO2uO6LNncPG1i5IzOJ9kkA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795059408;
+	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
+	 X-UI-Sender-Class:Received:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:
+	 UI-OutboundReport;
+	bh=UOqEbJSCaTbpPv78bpI6sjyyINP3o44BKyJzpTyl3/U=;
+	b=nE7sx+yFWvGGNaDSXPhRhO/yIvmK9hu9CaRZkFa+PymA9Sq1BLllV2aptmJmbVxVNaU7
+	 RaTVjIKGFFKtN/Fr7tmqV17esxg6yo87A4dUQ4S4Y1wwEMSxe7XlhpINFtaOzg1Hifsp8
+	 mZyKClYtN3mK0kqerMXGz5gqm8FczwVYx9oCgdRHQdZlCBrGq8mJYs4fUCj9wljU57XWM
+	 2SGexqaFKbw9eRJIJ4BcPVK1wLar25vqwDlTEOXMmEo9VTMdkr8nq/nMR7eXC04ea96DE
+	 4KdilIPp2Xq/r1ZbPH2Fw6VZ0u9Ycei3Ev7ZuL33c+VxHPLDrzwHTjsXNWCr0MF/T6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=GuFFIi86;
-	arc=none smtp.remote-ip=113.46.200.224
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+	dmarc=pass header.from=gmx.de;
+	spf=pass smtp.mailfrom=gmx.de;
+	dkim=pass header.d=gmx.de header.i=w_armin@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=sHUH+fBI;
+	arc=none smtp.remote-ip=212.227.15.15
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1E4606A31C;
-	Thu, 19 Nov 2026 03:27:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A1E4606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C767606A326
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 03:36:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C767606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=GuFFIi86
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=zs8lGMNgF6WPKWDopP1bfUZUbhZl8Eh+8/rpdnMShD0=;
-	b=GuFFIi86+7YjNnFihRarfOEbsDyMMaO/D7Gsz7cyz9xHY9AXmxjKz5f8yhQqtCkGgy2DB7zso
-	sUNcurX0EN0sq1XcC4WuPKbZpOs00rdoytilzFL1ch/sDpzjUwDLI8gVPalptODq8i54tFHd12M
-	Z/qzdNU0ycWXunkMulGiD9o=
-Received: from mail.maildlp.com (unknown [172.19.163.214])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jVP6S5xP9z1cySs;
-	Thu, 19 Nov 2026 11:27:28 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 29CCC4056C;
-	Thu, 19 Nov 2026 11:27:49 +0800 (CST)
-Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 19 Nov
- 2026 11:27:47 +0800
-Message-ID: <00b6fe99-066c-480d-9c81-b1b244a8a310@huawei.com>
-Date: Thu, 19 Nov 2026 11:27:47 +0800
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=sHUH+fBI
+DKIM2-Signature:  i=1; m=1; t=1795059405;
+ mf=PFdfQXJtaW5AZ214LmRlPg==;
+ rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+ d=gmx.de;
+ s=s31663417:rsa-sha256:ZM6n+/n+PacPbXSyF3upaugxMGGP
+   RmiKjYc1ReN9xSrhHjYWDSZ27ra4rc24fRXRu2h4ASootsm2a0PeZfGZ2ZRMARN0q9PUW9C+l+C
+   F2V3lW+M32P0GaSRUxc26BPlJKxpwWmt97/IN2/7M2b1XuJFQyUteiaalSav7dfh7CJmRsDTTMN
+   SX2JOe8bSYLXEP2ku8noCAkMcK/wGSlZGoN4NlkIi+sb1VjLNU/P51cQYgqjA5REqtZrLW3/GQu
+   B1Us0+1uVNpL8q+yogXasUOStWga0svV1yAaCrIc+s80m26vaxVWs4neY96Fmf/cdiRy5E88hRw
+   M444lfKb5RoNog==;
+Message-Instance:  m=1;
+ h=sha256:
+   Or+MLQ9DVrPrGNvQloEu/Np+HgAYtoxM7NUH/WrDbc8=:
+   GxCryZjezdKf0mqsbLPIympORssyc/tZkbKbRTiRSIU=,
+  sha512:
+   CXAsaopMxtJSgydk8UGdpEq3Vzs20rCXo8W3powz1DHL6aTT7pm7EYX4hxSuE9nMb3rMGZxjx2YXoJbkD46zIw==:
+   RMzTwaxyGS9Et/xWXNf1wu895TBMFoP5oWeTP21nMTW/CGzER8es9aVu5SNE6OcYi2bz6PyljDMSM8dEWkNMXg==;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1795059339; x=1795664139; i=w_armin@gmx.de;
+	bh=UOqEbJSCaTbpPv78bpI6sjyyINP3o44BKyJzpTyl3/U=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=sHUH+fBIRQd8mwfGMyAW3Y71yNw/qPqiP8P3YwkYQi042vJSd5fUKuCR7CSVu6HA
+	 BHPPkkL5WhZZBtCoJZcRCjnOur92HtFWx62bbk6b9p3IA05IQdKCaMX8GEND0Q5VQ
+	 biv9nloysB2QV3w57uEO0RaoFXlvwAyfkaxTN07qOI97WycVBNz2arrQiXkdxrQXn
+	 YmTB9sy3bZjOkofNxN6s8QqsDqR9rj9yIv3ue8IpAhYjUdHx2R2lrTPVECdDNB4/8
+	 l5KMWS0/tfVt0jCUpP7XUVivmCgosVBt4UR62YK4MxbG076kVF95jqu/W6kS+yYcJ
+	 J8Pv9cYuEPVv8zxcgw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Md6Qr-1wuY361xyN-00g1v5; Thu, 19
+ Nov 2026 04:35:39 +0100
+Message-ID: <6662b50a-88fc-43a3-87ca-949989927acd@gmx.de>
+Date: Thu, 19 Nov 2026 04:35:30 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,123 +82,550 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 RESEND 5/7] fs/resctrl: Release the limbo RMIDs when
- the CDP state changes
-To: Ben Horgan <ben.horgan@arm.com>, Reinette Chatre
-	<reinette.chatre@intel.com>, <tony.luck@intel.com>, <Dave.Martin@arm.com>,
-	<james.morse@arm.com>, <babu.moger@amd.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <fenghuay@nvidia.com>, <tan.shaopeng@fujitsu.com>,
-	<will@kernel.org>, <gshan@redhat.com>, <zengheng4@huawei.com>,
-	<jic23@kernel.org>, <x86@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-References: <20261110133938.3768632-1-ruanjinjie@huawei.com>
- <20261110133938.3768632-6-ruanjinjie@huawei.com>
- <3c48dac2-78af-44c9-b546-e5fcf7bbd8d6@intel.com>
- <7aa50421-6e92-4ea6-be39-88045e682a9f@arm.com>
- <449bb402-9620-493d-9e2b-85d093ad1401@huawei.com>
- <7c0c29c6-55c9-412a-9620-e44d39a5a806@arm.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <7c0c29c6-55c9-412a-9620-e44d39a5a806@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+Subject: Re: [PATCH] driver core: Disable driver overriding by default
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ David Lechner <dlechner@baylibre.com>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ "Mike Rapoport (Microsoft)" <rppt@kernel.org>, Arnd Bergmann
+ <arnd@arndb.de>, Karl Mehltretter <kmehltretter@gmail.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>, "Borislav Petkov (AMD)"
+ <bp@alien8.de>, Dapeng Mi <dapeng1.mi@linux.intel.com>,
+ Marco Elver <elver@google.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Jeff Layton <jlayton@kernel.org>, Bradley Morgan <brads@mainlining.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
+ Pnina Feder <pnina.feder@mobileye.com>, Mete Durlu <meted@linux.ibm.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Rio <rioo.tsukatsukii@gmail.com>,
+ Feng Tang <feng.tang@linux.alibaba.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-trace-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Alex Williamson <alex@shazbot.org>
+References: <20261116110853.3418077-2-u.kleine-koenig@baylibre.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20261116110853.3418077-2-u.kleine-koenig@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:K56bgsV9lh3Q/WdZUIszXDFbgDMOad3YBRMp42uEkvw8qFcVS8v
+ oOozSIGSlPAfXBvbPUoecVbIrkgCPMVOJbQeSsnCaL6E4QNaKr4IWI3GLnsWXg03pUx4UlJ
+ rBuH9WvrdfjPKJLACzzBaQtl9xtuEuryjlEUC1yZSZ9dE66GMTx14HforuGulC4R7Rcv0j5
+ 6HDDXqU2MEbXRKSz+CcZg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:AS4lDRpVi6I=;f+c4tspnp6j/GiCO0g08Mi3by/H
+ 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
 
+Am 16.11.26 um 12:08 schrieb Uwe Kleine-K=C3=B6nig:
 
+> Driver overriding is useful only in a very limited set of situations
+> and then only with very few drivers that are designed to support that.
+>
+> Disallow matching via driver_override unless the driver explicitly
+> allows it or the safe guard is disabled using the
+> "allow_driver_override=3D1" kernel parameter.
+>
+> There are many drivers that don't expect to be force-bound and often
+> doing it anyhow results in a NULL pointer exception. To make debugging
+> such cases easier, add a new taint if such a forced match happens.
+>
+> Implementation detail: device_match_driver_override() isn't a static
+> inline any more. It grew a certain complexity (e.g. a pr_info()) and so
+> was made a regular exported function.
 
-在 2026/11/18 19:45, Ben Horgan 写道:
-> Hi Jinjie,
-> 
-> On 18/11/2026 11:20, Jinjie Ruan wrote:
->>
->>
->> 在 2026/11/13 5:18, Ben Horgan 写道:
->>> Hi Reinette, Jinjie,
->>>
->>> On 11/11/2026 18:33, Reinette Chatre wrote:
->>>> Hi Jinjie,
->>>>
->>>> On 11/10/26 5:39 AM, Jinjie Ruan wrote:
->>>>
->>>>> still carry those RMIDs are accounted to the next user of each RMID.
->>>>>
->>>>> The CDP state that matters is the one that changes the PARTIDs used by
->>>>> the monitors, which is not necessarily the CDP state of the L3
->>>>> resource. MPAM gives every CLOSID two PARTIDs in all MSCs while CDP is
->>>>> enabled on any resource, so enabling CDP on L2 alone also changes the
->>>>> PARTIDs the L3 monitors use. Add resctrl_arch_mon_cdp_enabled() to let
->>>>> the architecture report this. Only MPAM can be affected, so the RMIDs
->>>>> are only released where the RMID depends on the CLOSID. On x86 the
->>>>> RMID does not depend on the CLOSID, and resctrl_arch_mon_cdp_enabled()
->>>>> returns false.
->>>>
->>>> nack. The helper name and value returned on x86 is the first hint that this
->>>> is not right. For x86 the value is not a statement about x86: CDP exists on
->>>> x86 and can be enabled, so a function called resctrl_arch_mon_cdp_enabled()
->>>> returning false reads as wrong until the comment above it explains that what
->>>> is really being reported is whether CDP changes the IDs the monitors use.
->>>
->>> The invariant that the limbo handler is currently relying on is that the
->>> mapping of rmid index to the underlying hardware monitor index is fixed.
->>> For MPAM, if cdp is enabled at all then the mapping is changed and so
->>> the invariant does not hold between mounts. MPAM's emulation of CDP is
->>> why it breaks the invariant. resctrl shouldn't need to care about this
->>> MPAM specific reason and should only care whether or not the invariant
->>> is upheld or not. In the future, MPAM may use more than the two existing
->>> indexing schemes. For instance, if we wanted to have one memory
->>> bandwidth monitor per monitor group, without assignment, then we would
->>> need to limit the number of monitor groups.
->>>
->>>>
->>>> Every architecture now needs to match this. This looks more like forcing
->>>> every architecture to indicate whether it has the same quirk as MPAM.
->>>>
->>>> If there is no way to handle this in MPAM driver then handling this should at
->>>> least be contained between resctrl filesystem and MPAM driver. This should not
->>>> be forced on all architectures.
->>>
->>> I don't see a way for the MPAM to keep the same RMID for when it is
->>> emulating CDP and when it's not.
->>>
->>>>
->>>> I trust the MPAM folks to say whether it can or cannot be done in MPAM driver.
->>>> If this is not possible in MPAM driver then it looks like this needs to go back
->>>> to include the L2 CDP check as was done in previous version. With this check 
->>>> gated by IS_ENABLED(CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID) it does hint "MPAM"
->>>> but would also need a comment to explain why that is done.
->>>>
->>>
->>> Would something like an rmid indexing generation count be any better or
->>> is that just overthinking it?
->>>
->>> int resctrl_arch_rmid_indexing_generation(void);
->>>
->>> If the indexing never changes the arch could always return 1 and if it
->>> does change the architecture can bump the number on every change. It
->>> would still never change when resctrl is mounted.
->>
->> As Renette suggeted, maybe we could include the L2 CDP check as was done
->> in previous version to make the fix simple?
-> 
-> If the check stays cdp specific then I'd consider iterating through all the resources to make it
-> clear that the check is whether cdp is enabled on any resource or not at all. It seems likely that
+Reviewed-by: Armin Wolf <W_Armin@gmx.de>
 
-OK, will fix this way, and drop the last patch, thank you!
-
-> at some point an L4 resource will be added. The extra cache level would be useful for arm64 systems
-> with an L3 cache in the DSU and also a system level cache in the MCN.
-> 
-> Thanks,
-> 
-> Ben
-> 
->>
->>>
->>> Thanks,
->>>
->>> Ben
->>
-> 
-
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+> ---
+> Hello,
+>
+> this is a rebase to current next of the series
+> https://lore.kernel.org/all/cover.1790612298.git.u.kleine-koenig@baylibr=
+e.com/
+> . It combines the functionality of former patches #2 and #3 (#1 was a
+> fix that was already applied). I also addressed sashiko's comments. I th=
+ink
+> this matches what most people want in the previous discussion.
+>
+> As the rebase wasn't trivial and I merged the two patches, I didn't
+> apply the review tags I already received for v3.
+>
+> If this patch is accepted, a number of drivers that are supposed to be
+> force-bound need to get their .support_driver_override property set. I'm
+> aware of the following:
+>
+>   - spidev_spi_driver in drivers/spi/spidev.c
+>   - stub_driver in drivers/pci/pci-stub.c
+>   - uio_dmem_genirq in drivers/uio/uio_dmem_genirq.c
+>   - uio_pci_driver in drivers/uio/uio_pci_generic.c
+>   - uio_pdrv_genirq in drivers/uio/uio_pdrv_genirq.c
+>   - vfio_amba_driver in drivers/vfio/platform/vfio_amba.c
+>   - vfio_ccw_sch_driver in drivers/s390/cio/vfio_ccw_drv.c
+>   - vfio_pci_driver in drivers/vfio/pci/vfio_pci.c
+>   - vfio_platform_driver in drivers/vfio/platform/vfio_platform.c
+>
+> This is not needed for the userspace i2c driver.
+>
+> As the flag to set is only introduced in this patch and assuming this
+> patch is accepted, I suggest to create an immutable branch for it to
+> allow setting the needed flags in driver trees. Alternatively let all
+> these go together via a single tree or branch.
+>
+> Best regards
+> Uwe
+>
+>   .../admin-guide/kernel-parameters.txt         |  6 +++
+>   Documentation/admin-guide/tainted-kernels.rst | 54 ++++++++++---------
+>   drivers/base/bus.c                            | 50 +++++++++++++++++
+>   include/linux/device.h                        | 19 +------
+>   include/linux/device/driver.h                 |  2 +
+>   include/linux/panic.h                         |  3 +-
+>   include/trace/events/module.h                 |  3 +-
+>   kernel/panic.c                                |  3 +-
+>   tools/debugging/kernel-chktaint               |  9 ++++
+>   9 files changed, 104 insertions(+), 45 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documenta=
+tion/admin-guide/kernel-parameters.txt
+> index 85804cfe7ef6..aabc97feef9b 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -424,6 +424,12 @@ Kernel parameters
+>   			do not want to use tracing_snapshot_alloc() as it needs
+>   			to be done where GFP_KERNEL allocations are allowed.
+>  =20
+> +	allow_driver_override=3D
+> +			When set to 1 allow matching drivers without
+> +			.support_driver_override =3D true to devices using
+> +			driver_override. This is a dangerous operation in
+> +			general allowing root to oops the kernel.
+> +
+>   	allow_mismatched_32bit_el0 [ARM64,EARLY]
+>   			Allow execve() of 32-bit applications and setting of the
+>   			PER_LINUX32 personality on systems where only a strict
+> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentati=
+on/admin-guide/tainted-kernels.rst
+> index fcb8b9734548..e6bab575ccef 100644
+> --- a/Documentation/admin-guide/tainted-kernels.rst
+> +++ b/Documentation/admin-guide/tainted-kernels.rst
+> @@ -74,35 +74,36 @@ a particular type of taint. It's best to leave that =
+to the aforementioned
+>   script, but if you need something quick you can use this shell command=
+ to check
+>   which bits are set::
+>  =20
+> -	$ for i in $(seq 0 19); do echo $i $(($(cat /proc/sys/kernel/tainted)>=
+>$i&1));done
+> +	$ for i in $(seq 0 20); do echo $i $(($(cat /proc/sys/kernel/tainted)>=
+>$i&1));done
+>  =20
+>   Table for decoding tainted state
+>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  =20
+> -=3D=3D=3D  =3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -Bit  Log  Number  Reason that got the kernel tainted
+> -=3D=3D=3D  =3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -  0  G/P       1  proprietary module was loaded
+> -  1  _/F       2  module was force loaded
+> -  2  _/S       4  kernel running on an out of specification system
+> -  3  _/R       8  module was force unloaded
+> -  4  _/M      16  processor reported a Machine Check Exception (MCE)
+> -  5  _/B      32  bad page referenced or some unexpected page flags
+> -  6  _/U      64  taint requested by userspace application
+> -  7  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
+> -  8  _/A     256  ACPI table overridden by user
+> -  9  _/W     512  kernel issued warning
+> - 10  _/C    1024  staging driver was loaded
+> - 11  _/I    2048  workaround for bug in platform firmware applied
+> - 12  _/O    4096  externally-built ("out-of-tree") module was loaded
+> - 13  _/E    8192  unsigned module was loaded
+> - 14  _/L   16384  soft lockup occurred
+> - 15  _/K   32768  kernel has been live patched
+> - 16  _/X   65536  auxiliary taint, defined for and used by distros
+> - 17  _/T  131072  kernel was built with the struct randomization plugin
+> - 18  _/N  262144  an in-kernel test has been run
+> - 19  _/J  524288  userspace used a mutating debug operation in fwctl
+> -=3D=3D=3D  =3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +=3D=3D=3D  =3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Bit  Log   Number  Reason that got the kernel tainted
+> +=3D=3D=3D  =3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +  0  G/P        1  proprietary module was loaded
+> +  1  _/F        2  module was force loaded
+> +  2  _/S        4  kernel running on an out of specification system
+> +  3  _/R        8  module was force unloaded
+> +  4  _/M       16  processor reported a Machine Check Exception (MCE)
+> +  5  _/B       32  bad page referenced or some unexpected page flags
+> +  6  _/U       64  taint requested by userspace application
+> +  7  _/D      128  kernel died recently, i.e. there was an OOPS or BUG
+> +  8  _/A      256  ACPI table overridden by user
+> +  9  _/W      512  kernel issued warning
+> + 10  _/C     1024  staging driver was loaded
+> + 11  _/I     2048  workaround for bug in platform firmware applied
+> + 12  _/O     4096  externally-built ("out-of-tree") module was loaded
+> + 13  _/E     8192  unsigned module was loaded
+> + 14  _/L    16384  soft lockup occurred
+> + 15  _/K    32768  kernel has been live patched
+> + 16  _/X    65536  auxiliary taint, defined for and used by distros
+> + 17  _/T   131072  kernel was built with the struct randomization plugi=
+n
+> + 18  _/N   262144  an in-kernel test has been run
+> + 19  _/J   524288  userspace used a mutating debug operation in fwctl
+> + 20  _/Z  1048576  a driver was forced on a non-matching device
+> +=3D=3D=3D  =3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  =20
+>   Note: The character ``_`` is representing a blank in this table to mak=
+e reading
+>   easier.
+> @@ -189,3 +190,6 @@ More detailed explanation for tainting
+>    19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_=
+DEBUG_WRITE
+>        to use the devices debugging features. Device debugging features =
+could
+>        cause the device to malfunction in undefined ways.
+> +
+> + 20) ``Z`` if a device was matched using the `driver_override` sysfs pr=
+operty
+> +     to a driver that didn't explicitly allow that.
+> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+> index 396097fdb316..5344b20488fd 100644
+> --- a/drivers/base/bus.c
+> +++ b/drivers/base/bus.c
+> @@ -603,6 +603,56 @@ int bus_add_device(struct device *dev)
+>   	return error;
+>   }
+>  =20
+> +static bool __read_mostly allow_driver_override;
+> +
+> +static int __init allow_driver_override_setup(char *str)
+> +{
+> +	if (!str || kstrtobool(str, &allow_driver_override) < 0)
+> +		allow_driver_override =3D true;
+> +
+> +	return 1;
+> +}
+> +__setup("allow_driver_override=3D", allow_driver_override_setup);
+> +
+> +/**
+> + * device_match_driver_override() - Match a driver against the device's=
+ driver_override.
+> + * @dev: device to check
+> + * @drv: driver to match against
+> + *
+> + * Returns > 0 if a driver override is set and matches the given driver=
+, 0 if a
+> + * driver override is set but does not match, or < 0 if a driver overri=
+de is not
+> + * set at all.
+> + */
+> +int device_match_driver_override(struct device *dev,
+> +				 const struct device_driver *drv)
+> +{
+> +	guard(spinlock)(&dev->driver_override.lock);
+> +	if (dev->driver_override.name) {
+> +		int ret =3D !strcmp(dev->driver_override.name, drv->name);
+> +
+> +		if (ret > 0 && !drv->support_driver_override) {
+> +			if (allow_driver_override) {
+> +				add_taint_module(drv->owner,
+> +						 TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
+> +			} else {
+> +				/*
+> +				 * If you hit this warning and you need to
+> +				 * quickly workaround this check, boot with
+> +				 * allow_driver_override=3D1 on the kernel
+> +				 * commandline. The right fix is to set the
+> +				 * driver's .support_driver_override property.
+> +				 */
+> +				dev_warn(dev, "Suppressed driver override binding to %s.\n", drv->n=
+ame);
+> +				return -1;
+> +			}
+> +		}
+> +
+> +		return ret;
+> +	}
+> +	return -1;
+> +}
+> +EXPORT_SYMBOL_GPL(device_match_driver_override);
+> +
+>   static void __bus_probe_device(struct device *dev)
+>   {
+>   	struct subsys_private *sp =3D bus_to_subsys(dev->bus);
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index 6b082c638d45..05413c1a9454 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -907,23 +907,8 @@ static inline bool device_has_driver_override(struc=
+t device *dev)
+>   	return !!dev->driver_override.name;
+>   }
+>  =20
+> -/**
+> - * device_match_driver_override() - Match a driver against the device's=
+ driver_override.
+> - * @dev: device to check
+> - * @drv: driver to match against
+> - *
+> - * Returns > 0 if a driver override is set and matches the given driver=
+, 0 if a
+> - * driver override is set but does not match, or < 0 if a driver overri=
+de is not
+> - * set at all.
+> - */
+> -static inline int device_match_driver_override(struct device *dev,
+> -					       const struct device_driver *drv)
+> -{
+> -	guard(spinlock)(&dev->driver_override.lock);
+> -	if (dev->driver_override.name)
+> -		return !strcmp(dev->driver_override.name, drv->name);
+> -	return -1;
+> -}
+> +int device_match_driver_override(struct device *dev,
+> +				 const struct device_driver *drv);
+>  =20
+>   /**
+>    * device_iommu_mapped - Returns true when the device DMA is translate=
+d
+> diff --git a/include/linux/device/driver.h b/include/linux/device/driver=
+.h
+> index 29fbc01ef06f..0153cfcbe1b9 100644
+> --- a/include/linux/device/driver.h
+> +++ b/include/linux/device/driver.h
+> @@ -56,6 +56,7 @@ enum probe_type {
+>    * @bus:	The bus which the device of this driver belongs to.
+>    * @owner:	The module owner.
+>    * @mod_name:	Used for built-in modules.
+> + * @support_driver_override: driver_override only works if this is true=
+.
+>    * @suppress_bind_attrs: Disables bind/unbind via sysfs.
+>    * @probe_type:	Type of the probe (synchronous or asynchronous) to use=
+.
+>    * @of_match_table: The open firmware table.
+> @@ -104,6 +105,7 @@ struct device_driver {
+>   	struct module		*owner;
+>   	const char		*mod_name;	/* used for built-in modules */
+>  =20
+> +	bool support_driver_override;
+>   	bool suppress_bind_attrs;	/* disables bind/unbind via sysfs */
+>   	enum probe_type probe_type;
+>  =20
+> diff --git a/include/linux/panic.h b/include/linux/panic.h
+> index 17e61b61c45f..009232511cc7 100644
+> --- a/include/linux/panic.h
+> +++ b/include/linux/panic.h
+> @@ -89,7 +89,8 @@ static inline void set_arch_panic_timeout(int timeout,=
+ int arch_default_timeout)
+>   #define TAINT_RANDSTRUCT		17
+>   #define TAINT_TEST			18
+>   #define TAINT_FWCTL			19
+> -#define TAINT_FLAGS_COUNT		20
+> +#define TAINT_DRIVER_OVERRIDE		20
+> +#define TAINT_FLAGS_COUNT		21
+>   #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
+>  =20
+>   struct taint_flag {
+> diff --git a/include/trace/events/module.h b/include/trace/events/module=
+.h
+> index e5a006be9dc6..d54ce3c7572b 100644
+> --- a/include/trace/events/module.h
+> +++ b/include/trace/events/module.h
+> @@ -26,7 +26,8 @@ struct module;
+>   	{ (1UL << TAINT_OOT_MODULE),		"O" },		\
+>   	{ (1UL << TAINT_FORCED_MODULE),		"F" },		\
+>   	{ (1UL << TAINT_CRAP),			"C" },		\
+> -	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" })
+> +	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" },		\
+> +	{ (1UL << TAINT_DRIVER_OVERRIDE),	"Z" })
+>  =20
+>   TRACE_EVENT(module_load,
+>  =20
+> diff --git a/kernel/panic.c b/kernel/panic.c
+> index 91e48d33b7db..81ea9ef9afb0 100644
+> --- a/kernel/panic.c
+> +++ b/kernel/panic.c
+> @@ -825,6 +825,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUN=
+T] =3D {
+>   	TAINT_FLAG(RANDSTRUCT,			'T', ' '),
+>   	TAINT_FLAG(TEST,			'N', ' '),
+>   	TAINT_FLAG(FWCTL,			'J', ' '),
+> +	TAINT_FLAG(DRIVER_OVERRIDE,		'Z', ' '),
+>   };
+>  =20
+>   #undef TAINT_FLAG
+> @@ -861,7 +862,7 @@ static void print_tainted_seq(struct seq_buf *s, boo=
+l verbose)
+>    * exact size is allocated dynamically; the initial buffer remains
+>    * as a fallback if allocation fails.
+>    *
+> - * The verbose taint string currently requires up to 327 characters.
+> + * The verbose taint string currently requires up to 348 characters.
+>    */
+>   #define INIT_TAINT_BUF_MAX 350
+>  =20
+> diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-ch=
+ktaint
+> index e1571c04afb5..56215e0f5112 100755
+> --- a/tools/debugging/kernel-chktaint
+> +++ b/tools/debugging/kernel-chktaint
+> @@ -211,6 +211,15 @@ else
+>   	addout "J"
+>   	echo " * fwctl's mutating debug interface was used (#19)"
+>   fi
+> +
+> +T=3D`expr $T / 2`
+> +if [ `expr $T % 2` -eq 0 ]; then
+> +	addout " "
+> +else
+> +	addout "Z"
+> +	echo " * A device was matched using driver_override to a driver not su=
+pporting that (#20)"
+> +fi
+> +
+>   echo "Raw taint value as int/string: $taint/'$out'"
+>  =20
+>   # report on any tainted loadable modules
+>
+> base-commit: 84abb955b1015477aa11a96e2f3ac1b938b77f48
