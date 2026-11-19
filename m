@@ -1,105 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795097483;
-	b=aw5Fm3ej+tFpU8wCvSuV8gdvYmgg27CM4t9M8iDKcg8BpjJmyrzI3irqxXOiqaZopNt3
-	 sjcVZD1WQbpVz4Wa4BdfLUmbKb3vP4INDUa6hEIhLrKoL1fGA4n/bFjZfboHiAYAPF88M
-	 BXduIHI9B9JoxnRzw6fYpSMmW1KTHQWv1D/Ez+/0hvpdzrbeHSXjr/A3j3ySIWGj67gqh
-	 /t5pkC6rnSqTQtF8U31OqOZjhWtHE/zhpmhNNMkP/NSuA28kZtO+9xObJSooHgMckqVYD
-	 mF8+p2jY1R95ex3d1KZXzaj9J+MivGQOf5tjonzvDrW3W/cWk+bcX9pEcudJ6q3rvUQ==
+	t=1795097524;
+	b=FmTGUy4NapmJ2rMbDp0FkFwqXVQu6BMELsMTRf8Q/G4vwj61QMa8DSxOGeYWq2VEClJO
+	 m0c0CY7AJYj0yIsx4EpaWNbUDCWAHSYgabrvoVI+FWVUYFvtWFPW6FfiQIqxLLEMTVNCm
+	 r2+1Fk4zImj/E2qWIHRztKa6QFSQMyHg+LrxnDK7TuevT9IzJpeSz+gWp02oHYaOENkmv
+	 WlvhHxwpyfaVIVAOwO4f/NPA07JTjQth/KSJ/hU5TT9CEW0GfWp2JihpL+mLn3YScE0/C
+	 vI15tWMsI0+rrML04G9w/bLTrN9zk5vH2dITZFH1iG/NVV5Uf4+dNJE/uTfKfGfNTmg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795097483;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795097524;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
 	 Content-Transfer-Encoding:In-Reply-To;
-	bh=28OwL7LMN9BNWrZxvtunkM472yJRAdMErQfbeGnmfC8=;
-	b=bVxakQrrj3OXTqngbq+M8AMjLeQyf2PHfT3YA9z73iPmubHOLf9xpO0SdIfDNfjnmRYT
-	 DXnOZsYTNeokU3jivdXn2uzxprTM61Jck3mchTAspt5g49w9RE5aJieff44FTIA0A65Vg
-	 VPXXJLMpgvQW60uGx6E3xfgYvlv7Q9VQfg/ojJNfljW+4eP38od23jX03DgTlYSelB3kX
-	 TPJx9ohOGU+rFZIVznvxWdsl46RP4HaRq1QiI6o8rxslZmCvjQlfypu46MUrTiLx8Ec6w
-	 owkdpldJLXDj4CJzs5cCCwsryjG0zhqKhM5mPhWwoAHTB8zoQvJg/g2/51KITqVFpBg==
+	bh=MQHaZcy4M7TRk7qJIlWd7f9aC4WemgzRf7tlGpH6x0U=;
+	b=ARWZ0trnyDOzUL2nUmKUziVlogqvZBupPTxJDBueb7Mg4H2r5cjaUA/++1YqPsCEHuPa
+	 AJvyz/mUySBLm3HViY2/TEg9Yu2kR+f3TSOsP1pAQ7Fjr051nHxIrBNTIf3iv1ShXk0jU
+	 hm3cmc+dWI7oAm+ahDW51s1JKIN3NNCOAaQosXb4dIpjrWcSxD6Hi2R3omMhGkJ77n4Sk
+	 r9WNf6+9frtHJSX1HJwN+V3p3w0TNIzFWnUp1rjRYoo6neWUEg2YrxwkPyYb+XfaXCRhk
+	 pzTdFfMS4kNcoQrB7dvXFRhZrSjnA5IV3HCc9ditgzYygD5ONKeKrD1tGUopVw9+w8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Vjp9KtHD;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IBoa3wxX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06C9606A320;
-	Thu, 19 Nov 2026 14:11:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F06C9606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1975A606A320;
+	Thu, 19 Nov 2026 14:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Vjp9KtHD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795097484; x=1826633484;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding:in-reply-to;
-  bh=nw7rQPipSkhtV/UQgw2LJ0rMDn1dGG0TaB4g5lNPeio=;
-  b=Vjp9KtHDrVhrYhO4VOxiY310vKfZD9wSWCSV/BWWmHQC97zeos0+qUHX
-   vLKH7MOy3qIccIEGyh0lnbk7tHaXaTXosTmWsEgLzXIEg4yJ82qYzLiLt
-   UCXL5+YCriXyKtXMHwrDoIw0X65B47VR/Hyl3pTgiQLireNng2coy8WPi
-   MWginHp/5Ppty0fC4KlNnQMhmxNm13g/nOnxQG7iQGPNwZN3hbnP366e7
-   mVSXal12vrkpELzueMTT9+wiXvIvzsyB8Bj9CWGhIUePFYn8koM3ZTaEE
-   p8g7VJtxvMQYWaCY0FJT5r7/Ar5iQnKqdNrUXfqI8ggMgsurNreXymUOa
-   w==;
-X-CSE-ConnectionGUID: FnLcogvvSf+h19prakT1CQ==
-X-CSE-MsgGUID: j1lgUwQcQ3ycfEB4EzUpbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3954949"
-X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="3954949"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 06:11:23 -0800
-X-CSE-ConnectionGUID: Y7htxKcIQZqpqFq6wYNJhw==
-X-CSE-MsgGUID: FDK0PtvFRbC2gRpIiTQ4jw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="10573856"
-Received: from ly-workstation.sh.intel.com (HELO ly-workstation) ([10.239.182.64])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 06:11:13 -0800
-Date: Thu, 19 Nov 2026 22:11:10 +0800
-From: kernel test robot <yi1.lai@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org,
-	aubrey.li@linux.intel.com, yu.c.chen@intel.com, ltp@lists.linux.it,
-	cgroups@vger.kernel.org, rcu@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	luca abeni <luca.abeni@santannapisa.it>,
-	Yuri Andriaccio <yurand2000@gmail.com>,
-	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Qais Yousef <qyousef@layalina.io>,
-	John Ogness <john.ogness@linutronix.de>, yi1.lai@intel.com
-Subject: Re: [PATCH v3 6/8] sched: Limit sysctl sched_rt_{period|runtime}_us
- to RT_GROUP_SCHED
-Message-ID: <202611192004.cca8bf73-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IBoa3wxX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD46D1F000C5;
+	Thu, 19 Nov 2026 14:11:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795097523;
+	bh=MQHaZcy4M7TRk7qJIlWd7f9aC4WemgzRf7tlGpH6x0U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IBoa3wxXSK0Ta5z1RdbHfJCc8veGjb+c4BUaoFtdufyEGBvyfAr0Yx+KMAxn8/c4Z
+	 zoOPzDnd3Ndoao0autV1KP/X3D109mWUmofKL12xO+tLGUMalkOtc2tWrmmOyHHaVy
+	 b74wpbn1ow0ykFP7iSA2dctJJ4mUiH2dvz79OwOOy3SJ0EwygzB644M8akqM/FMyb3
+	 6x4iug558KyZFlTdlQst8I/gOHxeWarFEk6QKU0h8IF0LYrRRloCNaF4UZo6ioBvA3
+	 KeecST4Ps/bS/rLT/FbyNserwyhl91gNR0PGKDizBfsyP96gs1Yt5Ptf2RmwuH7VAk
+	 zAuY1h1ye5L7Q==
+Date: Thu, 19 Nov 2026 14:11:57 +0000
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com,
+	elif.topuz@arm.com, lukasz.luba@arm.com, philip.radford@arm.com,
+	david@kernel.org, souvik.chakravarty@arm.com, leitao@kernel.org,
+	kas@kernel.org, puranjay@kernel.org, usama.arif@linux.dev,
+	kernel-team@meta.com
+Subject: Re: [PATCH v15 00/35] Introduce SCMI Telemetry support
+Message-ID: <20261119-gleaming-tuscan-avocet-ed68ed@sudeepholla>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+ <20261117170709.00002088@oss.qualcomm.com>
+ <20261118-poetic-robust-raptor-bcff2b@sudeepholla>
+ <20261118093203.000069f1@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -112,149 +72,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261113-sched_dl-v3-6-a76ffa1cdeee@linutronix.de>
+In-Reply-To: <20261118093203.000069f1@oss.qualcomm.com>
 
+On Wed, Nov 18, 2026 at 09:32:03AM -0800, Jonathan Cameron wrote:
+> On Wed, 18 Nov 2026 09:33:44 +0000
+> Sudeep Holla <sudeep.holla@kernel.org> wrote:
+> 
+> > On Tue, Nov 17, 2026 at 05:07:09PM -0800, Jonathan Cameron wrote:
+> > > On Mon,  9 Nov 2026 09:11:46 +0000
+> > > Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > >   
+> > > > Hi all,
+> > > > 
+> > > > [TLDR Summary]
+> > > >  [V15 highlights]
+> > > >  - general cleanup and hardening driven by reviews
+> > > >  - improved TDCF access routines to minimize lost samples under load
+> > > >  - completed ABI docs
+> > > > 
+> > > >  [V16 TODO]
+> > > >   - address any remaining V15 outstanding Sashiko/reviewers issues
+> > > > 
+> > > > The upcoming SCMI v4.0 specification [0] introduces a new SCMI protocol
+> > > > dedicated to System Telemetry.  
+> > > 
+> > > This is one from the family of issues you find when reviewing ones own
+> > > (well LLM generated) emulation, realizing it doesn't match the spec,
+> > > and yet works.
+> > > 
+> > > This works fine without the required SCMI protocol property in ACPI.
+> > > 2.2.2 of ACPI for System Control and Management Interface 1.0
+> > > Platform Design Document. 111115A 1.0
+> > > 
+> > > Now, in here is an informative statement...
+> > > 
+> > > Protocols not listed using a property may not be enumerate by the operating system.
+> > > 
+> > > But they are... 
+> > >  
+> > 
+> > Correct, I intentionally left that out. I do have a patch that restricts it
+> > strictly to the listed property. However, I held off on pushing it because of
+> > an issue we saw on an internal test platform.
+> > 
+> > On that platform, the firmware advertised the protocol to the OSPM via the
+> > base protocol, even though it wasn't functional at all. Once they realized
+> > this, they simply dropped the entry from the ACPI SCMI device as a workaround
+> > instead of properly fixing the base protocol discovery. While understandable,
+> > relying on that workaround delays proper firmware fixes.
+> > 
+> > That is why I went with the non-mandatory "may not be" wording. I am happy to
+> > merge that restriction patch if a real production platform actually needs it,
+> > but until then, leaving it open helps catch and fix broken firmware
+> > implementations 😄.
+> 
+> You can't merge it safely as at a later date because chances are high
+> someone is relying on the current behavior and not presenting that
+> (currently pointless) package in ACPI for some protocol or other.
+> 
 
-Hello,
+I agree, you have made a strong point.
 
-kernel test robot noticed "ltp.proc_sched_rt01.fail" on:
+> I'm fine with a permanent decision not to check this but I don't see it
+> as a thing that can ever change (except maybe now whilst there are not
+> that many platforms out there using it!)
+> 
 
-commit: 4f1021f29368df79a6e79ec87cafa29d99a4601a ("[PATCH v3 6/8] sched: Limit sysctl sched_rt_{period|runtime}_us to RT_GROUP_SCHED")
-url: https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/sched-deadline-Reject-debugfs-dl_server-writes-for-not-active-CPUs/20261113-115022
-patch link: https://lore.kernel.org/all/20261113-sched_dl-v3-6-a76ffa1cdeee@linutronix.de/
-patch subject: [PATCH v3 6/8] sched: Limit sysctl sched_rt_{period|runtime}_us to RT_GROUP_SCHED
+Indeed, I will push the change so that we can avoid any quirks we may need
+otherwise in the future.
 
-in testcase: ltp
-version: ltp-x86_64-686a331b6-1_20261114 with following parameters:
-
-	test: sched
-
-config: x86_64-rhel-9.4-ltp
-compiler: gcc-14
-test machine: 8 threads 1 sockets Intel(R) Core(TM) i7-4790T CPU @ 2.70GHz (Haswell) with 16G memory
-
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yi1.lai@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202611192004.cca8bf73-lkp@intel.com
-
-
-PATH=/lkp/benchmarks/ltp:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/lkp/lkp/src/bin
-2026-11-19 03:55:21 cd /lkp/benchmarks/ltp
-2026-11-19 03:55:21 export LTP_RUNTIME_MUL=2
-2026-11-19 03:55:21 export LTPROOT=/lkp/benchmarks/ltp
-2026-11-19 03:55:21 kirk -f sched
-Host information
-	Hostname:   lkp-hsw-d05
-	Python:     3.13.5 (main, Jun 13 2026, 14:18:01) [GCC 14.2.0]
-	Directory:  /tmp/kirk.root/tmpmzwqb43l
-
-Connecting to SUT: default
-
-Suite: sched
-────────────
- [1;37mpth_str01:  [0m [1;32mpass [0m  (0.016s)
- [1;37mpth_str02:  [0m [1;32mpass [0m  (0.151s)
- [1;37mpth_str03:  [0m [1;32mpass [0m  (0.017s)
- [1;37mtime-schedule01:  [0m [1;32mpass [0m  (0.250s)
- [1;37mtrace_sched01:  [0m [1;32mpass [0m  (0.021s)
- [1;37mcfs_bandwidth01:  [0m [1;32mpass [0m  (15.085s)
- [1;37mhackbench01:  [0m [1;32mpass [0m  (49.279s)
- [1;37mhackbench02:  [0m [1;32mpass [0m  (19.554s)
- [1;37mstarvation:  [0m [1;36mskip [0m  (0.076s)
- [1;37mproc_sched_rt01:  [0m [1;31mfail [0m  (0.015s)
- [1;37msched_cli_serv:  [0m [1;32mpass [0m  (5.043s)
- [1;37msched_stress:  [0m [1;32mpass [0m  (1m 12s)
- [1;37mautogroup01:  [0m [1;32mpass [0m  (0.075s)
- [1;37msched_football:  [0m [1;32mpass [0m  (5.469s)
-
-Execution time: 2m 47s
-
-Disconnecting from SUT: default
-
-Target information
-──────────────────
-Kernel:   Linux 7.4.0-rc2+ #1 SMP PREEMPT Thu Nov 19 11:18:29 CST 2026
-Cmdline:  ip=::::lkp-hsw-d05::dhcp
-          root=/dev/ram0
-          RESULT_ROOT=/result/ltp/sched/lkp-hsw-d05/debian-13-x86_64-20250902.cgz/x86_64-rhel-9.4-ltp/gcc-14/4f1021f29368df79a6e79ec87cafa29d99a4601a/0
-          BOOT_IMAGE=/pkg/linux/x86_64-rhel-9.4-ltp/gcc-14/4f1021f29368df79a6e79ec87cafa29d99a4601a/vmlinuz-7.4.0-rc2+
-          branch=internal-devel/devel-hourly-20261117-024418
-          job=/lkp/jobs/scheduled/lkp-hsw-d05/ltp-sched-debian-13-x86_64-20250902.cgz-4f1021f29368-20261119-35324-11d62tm-0.yaml
-          user=lkp
-          ARCH=x86_64
-          kconfig=x86_64-rhel-9.4-ltp
-          commit=4f1021f29368df79a6e79ec87cafa29d99a4601a
-          intremap=posted_msi
-          max_uptime=7200
-          LKP_SERVER=internal-lkp-server
-          nokaslr
-          selinux=0
-          debug
-          apic=debug
-          sysrq_always_enabled
-          rcupdate.rcu_cpu_stall_timeout=100
-          net.ifnames=0
-          printk.devkmsg=on
-          panic=-1
-          softlockup_panic=1
-          nmi_watchdog=panic
-          oops=panic
-          load_ramdisk=2
-          prompt_ramdisk=0
-          drbd.minor_count=8
-          systemd.log_level=err
-          ignore_loglevel
-          console=tty0
-          earlyprintk=ttyS0,115200
-          console=ttyS0,115200
-          vga=normal
-          rw
-          keep_initrds=/osimage/pkg/debian-13-x86_64-20250902.cgz/ltp-x86_64-686a331b6-1_20261114.cgz
-          acpi_rsdp=0x000f0490
-Machine:  unknown
-Arch:     x86_64
-RAM:      14033756 kB
-Swap:     0 kB
-Distro:   debian 13
-
-────────────────────────
-      TEST SUMMARY
-────────────────────────
-Suite:   sched
-Runtime: 2m 47s
-Runs:    14
-
-Results:
-    Passed:   22
-    Failed:   3
-    Broken:   1
-    Skipped:  1
-    Warnings: 0
-
- [1;31mBroken: [0m
-    • proc_sched_rt01
-
- [1;31mFailures: [0m
-    • proc_sched_rt01
-
-Session stopped
-LTP test details
-----------------
-starvation: starvation.c:115: TCONF: Skip test due to slow kernel configuration
-proc_sched_rt01: proc_sched_rt01.c:45: TFAIL: echo 0 > /proc/sys/kernel/sched_rt_period_us expected EINVAL: EBADF (9)
-proc_sched_rt01: proc_sched_rt01.c:47: TFAIL: echo -1 > /proc/sys/kernel/sched_rt_period_us expected EINVAL: EBADF (9)
-proc_sched_rt01: proc_sched_rt01.c:53: TFAIL: echo -2 > /proc/sys/kernel/sched_rt_runtime_us expected EINVAL: EBADF (9)
-proc_sched_rt01: proc_sched_rt01.c:62: TBROK: Failed to open FILE '/proc/sys/kernel/sched_rt_period_us' for reading: ENOENT (2)
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20261119/202611192004.cca8bf73-lkp@intel.com
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
+-- 
+Regards,
+Sudeep
