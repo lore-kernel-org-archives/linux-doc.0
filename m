@@ -1,61 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795089621;
-	b=NxZYT4Mu7TJxI4S1TkZL9R++XoXwCJmGzLHY28wQ5/2A/3ssXlPdIacO3Z+g5GDhhCK3
-	 OYN5VsJYaToyjUxX/kxtWI0bTqlyLcfOu/UPtgyC/M9TLhVHmL11evimTkQKpmmJz0EiX
-	 wh6yLble8LYAOeTT7OSQtfVugNiBaRrIMkxeHBOh+dNW6z3fYoV2or+krITx9634eYqMf
-	 xopmRjuyi0xYGIpybaPW6jhCT9cGHvOGkiUOnLDYqvgM6/uo/wl9KebqKY+VYqCpgJkfD
-	 XwQ9cpnAbOjo6uGLrz45doqcBnGuxTH/srk0luSxQpNKnlOcR26TC/bYqAIiAEoioaw==
+	t=1795089878;
+	b=x4obz3AvJ3spgq/Tily1jO5Cxn4dnC25OFc53Hr8xpGYzIWy2jmTz2bDGwTID1tgJ6C4
+	 v9XPDnoP4WEAHKSV9te81uXa906Ox3NKoZGvVgZUgPLImHnhnK0WrK9gTHJJPxefGRqej
+	 JPRpTZy2t9wVGOKI6UxouEdxG7uHl9DP4nZTvfK9YCYoMJXZGOIlEWJo3gNQiL1YBqP/y
+	 ptNJwBdk+CaV0QliX24So1OERU7w+0tZKuo+23YxNMtGaAruhbFW2luMOnCEqmIe3GK4X
+	 Dh1pOH/gwnWvrcPpyMObp/yfRtouAQVvg8pAE8c67HdVIptWhZByh/1nbzuqDT8xlAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795089621;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=gHihami8Hw3KiT1c9S+seF0Ysxwc1soMqoPWxdiIsBk=;
-	b=kOG0u92cL4rxmRgAzqQG7GYKZvi16mxtiWNHtbWM88D8iA0uek6W0GEDTIpGcVwaLxQY
-	 gAzeue703QwPVpoxG/cypb4nVk7+j/4CddlJr28j3VW2fEHkRECdxMD++Kf2rdpHCZnGW
-	 ueWj2eg379dcoX+t7SmHZLNdWQDKeXuTs7fSbSfdATPEy+Ykiso5eIR4uHwAXmviVABjQ
-	 ZUg70wxruZzH8UsC6bk3YpaiQoUsW97Q/BtqKBnpLdueTwP6ufxaTlgtuMxtGGgFOl4ik
-	 ttEP9Gxmw3z07RGR2cRPesdCtQJ0LbU1Z3QEI+r1f90PZgYT/BrnDu9bMPNz/NKwvlQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795089878;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=GOA/J5I9rv5yu70ULErbreyfKmQjDBAfhvcoTjeNzBg=;
+	b=D/2VakVl7yWv+XLeGFibVqCHdHCiehZxYr5nS4lnqJDo0hglbjqmMm914/1qteX7ASYk
+	 DliOM0dj5y4e09DvEhCGAmaZyaA9QHZs7O2MA0fpYW/I1DdKpx03bopT4hCYXYaesZxo/
+	 QdlTcx2aTDF5oBVXzfaaz6Qy9wskqVtJ1EfJN6RmwPMuPhQ1VNOSeNUIlhPpz4qkd4+Im
+	 spzjW8Y9WaiZjMtysW0E5WRS6ap8f22hHWGWoGhQvJNyLF33A1X2FInKG8bZZzJzejb8F
+	 xh4c3wg/nb98kuAJpmKiwk1IdmhE6nBNL01HFp9tueKsaQWR8O9Iy80cpYITbJPz5EA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k6NeyC1V;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f0gdXj1z;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AEBC60A260B;
-	Thu, 19 Nov 2026 12:00:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AB8606A320;
+	Thu, 19 Nov 2026 12:04:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k6NeyC1V
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 147D51F000C4;
-	Thu, 19 Nov 2026 12:00:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f0gdXj1z
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91BCD1F000C5;
+	Thu, 19 Nov 2026 12:04:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795089620;
-	bh=gHihami8Hw3KiT1c9S+seF0Ysxwc1soMqoPWxdiIsBk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=k6NeyC1V7QTcGlRo9j5JxTMLtcKGPG1jCO+hIPseEjsBPeOZr1+nZD5M4AY/c3QQB
-	 cZ1uIr0l185IXgx5yEBBCi59vTGshn2Y1sZ3c/TM3nbuvJsKx2gla104H2G1cz3NGv
-	 czUA6y/i6nOSeawwVrk4TR9nAAlStjzVa1MkYt16uE/gywoeX5ricXsclZQphOKCoL
-	 /p53QMU74w1gX3h2jFsHyCfTD0mP+vCntroGpm3yvDJTiqrMfHQhm/ihQ1LoC487UC
-	 3xXAiaoGUd2WyTYepQ8BO1fY702qt97vZL9SXs+djkcb8gtwkhJ8aJNcIhugHb7219
-	 pZgE+TVY8GOIg==
-Subject:
- Re: [PATCH net-next v6 3/3] net: phy: acx00: report receive statistics
-From: netdev-bot+sashiko@kernel.org
-To: james.hilliard1@gmail.com
-Cc: andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
- davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
- horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, o.rempel@pengutronix.de, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Thu, 19 Nov 2026 12:00:19 +0000
-Message-ID: <179508961966.3136.18071124735934068397@kernel.org>
-In-Reply-To: <20261116-submit-acx00-phy-stats-v1-v6-3-8feef8e76cd5@gmail.com>
-References: <20261116-submit-acx00-phy-stats-v1-v6-3-8feef8e76cd5@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1795089878;
+	bh=GOA/J5I9rv5yu70ULErbreyfKmQjDBAfhvcoTjeNzBg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=f0gdXj1zGX2PWbe2LcL561e2/v0+FF+y0FImDUvRGBH7r7LbhsBTMt32sj3tzbyJk
+	 JCTE2rliShI/dO10ApGKdzRQbe1UTso4Phaeel3BTBdC9kbooD58tn30wpV4Ag2c5I
+	 ennwdUNUP1cu/QO7ehHQu4BMXA0qyiRLKXaB1EEdGqLl3UQVIEGExBKsPjnE+Ly954
+	 C2zMsueiQD0sMWX+oHBwSfigYYbt89OFdZ4nMkLfBnyHeqeNatjN/1G5TicV79YGHL
+	 prGsbncuw8UzL4HXV63PrXxp3a7VRBzI53XX/+p5CGmVK1ldWm3FotnaWDqn0geOhV
+	 5kNL5NHbrakpw==
+Message-ID: <04ff90ba-296a-4618-9d25-390f84f856ae@kernel.org>
+Date: Thu, 19 Nov 2026 13:04:32 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,270 +51,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
+ user-visible impact
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261116200515.352387-1-sashal@kernel.org>
+ <20261117092723.GA124972@unreal>
+ <220c5818-ad59-4003-9955-9821d09c0279@kernel.org>
+ <20261119111902.GH162713@unreal>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20261119111902.GH162713@unreal>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issue(s) to consider.
+On 19/11/2026 12:19, Leon Romanovsky wrote:
+> On Thu, Nov 19, 2026 at 11:13:57AM +0100, Krzysztof Kozlowski wrote:
+>>>> v1: https://lore.kernel.org/r/20261116191436.188098-1-sashal@kernel.org
+>>>>
+>>>>  Documentation/process/coding-assistants.rst  |  6 +++--
+>>>>  Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
+>>>>  2 files changed, 27 insertions(+), 2 deletions(-)
+>>>
+>>> Sasha,
+>>>
+>>> Since you're already making changes in that area, could you add a sentence
+>>> asking reporters to provide the full dmesg stack trace?
+>>
+>> If so, then trimmed. We do not need all addresses and registers and the
+>> [time markers], but rather the calltrace from decode_stacktrace.sh.
+> 
+> Regarding time markers, I agree. However, addresses are an important part of
+> debugging information. These bugs are rare, but addresses are still useful for
+> identifying incorrect pointer arithmetic or pointer assignments.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 3
+Depending on the case, e.g. some driver lockdep reports don't need them.
+NULL ptr usually as well. The point is that dmesg should be trimmed to
+relevant and useful information. If that includes addresses for that
+particular case, then of course these should stay. But 75% of data here
+in commit like 5b4bd13e0552926648a46c2c9a12a24dfaee3715 is not really
+helping. In the same time undecoded call trace is useless, because these
+addresses depends on the build. The dmesg should simply be the decoded
+stacktrace ONLY for this case.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [Medium] Only the RX byte counter gets a plausibility check: samples >=
-  ACX00_RX_BYTES_WRAP are skipped without moving the baseline.
-- [Low] In __acx00_ephy_config_init() (drivers/net/phy/xpowers/acx00.c),
-  the new statistics baseline snapshot goes through…
-- [Low] In __acx00_ephy_update_stats(), stats_last[ACX00_STAT_RX_PACKETS]
-  and stats_start[ACX00_STAT_RX_PACKETS] only advance when…
-- [Low] Counter baselines are only invalidated inside
-  acx00_ephy_soft_reset() (and power-off/resume), under priv->state_lock.
-
---
-
-net: phy: acx00: report receive statistics
-
-This commit adds receive statistics to the AC200/AC300 PHY driver. It
-reports rx_packets, rx_errors and rx_bytes through get_phy_stats, using
-counters that update_stats samples from vendor page 9 and adds into
-64-bit totals with wrap handling. Baselines are invalidated across soft
-reset, power-off and resume, and deltas are discarded after gaps of 320
-seconds or more.
-
-> diff --git a/drivers/net/phy/xpowers/acx00.c b/drivers/net/phy/xpowers/acx00.c
-> index cee6c7ff0278e..0015816fad078 100644
-> --- a/drivers/net/phy/xpowers/acx00.c
-> +++ b/drivers/net/phy/xpowers/acx00.c
-
-[ ... ]
-
-> @@ -110,6 +138,169 @@ static int acx00_ephy_write_page(struct phy_device *phydev, int page)
-
-[ ... ]
-
-> +/* Return a mask of usable counters, or a negative MDIO error. */
-> +static int acx00_ephy_read_counts(struct phy_device *phydev, u32 *counts)
-> +{
-
-[ ... ]
-
-> +	/* Bracket the packet counter with an unchanged CRC count. */
-> +	for (i = 0; i < ACX00_COUNTER_READ_ATTEMPTS; i++) {
-> +		ret = acx00_ephy_read_counter(phydev, ACX00_PAGE9_RX_PACKETS_HIGH_REG,
-> +					      &packets);
-> +		if (ret < 0)
-> +			return ret;
-> +		if (ret)
-> +			break;
-> +		ret = acx00_ephy_read_counter(phydev, ACX00_PAGE9_RX_CRC_ERRORS_HIGH_REG,
-> +					      &errors);
-> +		if (ret < 0)
-> +			return ret;
-> +		if (ret)
-> +			break;
-> +		if (errors == counts[ACX00_STAT_RX_CRC_ERRORS]) {
-> +			/* Both hardware counters and their difference wrap at 2^32. */
-> +			counts[ACX00_STAT_RX_PACKETS] = packets - errors;
-> +			return BIT(ACX00_STAT_RX_PACKETS) | BIT(ACX00_STAT_RX_CRC_ERRORS);
-> +		}
-> +		counts[ACX00_STAT_RX_CRC_ERRORS] = errors;
-> +	}
-> +
-> +	/* Keep reporting errors even when no coherent packet sample is possible. */
-> +	return BIT(ACX00_STAT_RX_CRC_ERRORS);
-
-[Severity: Low]
-When the CRC count changes during all three bracket attempts, only the CRC
-bit is returned. This leaves stats_last[ACX00_STAT_RX_PACKETS] and
-stats_start[ACX00_STAT_RX_PACKETS] at their old values.
-
-On a link with a sustained high CRC-error rate, this could happen on every
-poll for 320 seconds or more:
-
-_phy_state_machine()->phy_update_stats()->acx00_ephy_update_stats()
-
-When a coherent pair finally arrives, __acx00_ephy_update_stats() checks
-the interval against the stale timestamp:
-
-	if ((priv->stats_valid & BIT(i)) &&
-	    ktime_ms_delta(ktime_get_boottime(), priv->stats_start[i]) <
-	    (s64)ACX00_STATS_MAX_INTERVAL_MS) {
-		...
-	}
-	priv->stats_last[i] = counts[i];
-	priv->stats_start[i] = start;
-
-The delta is dropped, but the baseline still moves forward. Wouldn't all
-good frames received since the last coherent sample then be permanently
-missing from rx_packets?
-
-That seems to conflict with the commit message:
-
-    A later coherent pair accounts for the intervening successful frames.
-
-The 320 second window comes from the 4e9 byte-counter modulus. At about
-148,810 frames/s at 100 Mb/s, the 32-bit packets-minus-errors value would
-take hours to wrap. Could the frame counters use a longer window?
-
-> +}
-
-[ ... ]
-
-> +	ret = acx00_ephy_read_counter(phydev, ACX00_PAGE9_RX_BYTES_HIGH_REG,
-> +				      &counts[ACX00_STAT_RX_BYTES]);
-> +	if (ret < 0)
-> +		goto out_restore_page;
-> +	if (!ret && counts[ACX00_STAT_RX_BYTES] < ACX00_RX_BYTES_WRAP)
-> +		valid |= BIT(ACX00_STAT_RX_BYTES);
-> +	ret = valid;
-> +
-> +out_restore_page:
-> +	ret = phy_restore_page(phydev, oldpage, ret);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	for (i = 0; i < ACX00_NUM_STATS; i++) {
-> +		u64 count;
-> +
-> +		if (!(ret & BIT(i)))
-> +			continue;
-> +		count = counts[i];
-> +
-> +		/* Include sleep and read time; unseen cycles cannot be recovered. */
-> +		if ((priv->stats_valid & BIT(i)) &&
-> +		    ktime_ms_delta(ktime_get_boottime(), priv->stats_start[i]) <
-> +		    (s64)ACX00_STATS_MAX_INTERVAL_MS) {
-> +			if (count < priv->stats_last[i])
-> +				count += i == ACX00_STAT_RX_BYTES ?
-> +					ACX00_RX_BYTES_WRAP : BIT_ULL(32);
-> +			priv->stats[i] += count - priv->stats_last[i];
-
-[Severity: Medium]
-Can a single non-monotonic frame or CRC sample permanently add about 2^32
-to rx_packets or rx_errors?
-
-Only the byte counter has a plausibility check: samples at or above
-ACX00_RX_BYTES_WRAP are skipped. For the CRC counter and the derived
-packets-minus-errors value, any sample below stats_last[] counts as a
-full 2^32 wrap, and the resulting delta has no upper bound.
-
-An all-ones read is one way this can happen. Suppose the PHY stops
-responding on an MDIO controller that returns 0xffff without an error.
-acx00_ephy_read_counter() then sees high == check == 0xffff and returns
-0xffffffff as a valid sample.
-
-The CRC count reads 0xffffffff on both bracket reads, so packets - errors
-is 0 and rx_packets gains 2^32 - N. The next good sample wraps again, and
-both totals stay around 2^32 too high.
-
-The other way is if the hardware updates the packet and CRC counters at
-different times for the same bad frame. The bracket in
-acx00_ephy_read_counts() could then see the frame in packets but not yet
-in errors, or the reverse:
-
-	if (errors == counts[ACX00_STAT_RX_CRC_ERRORS]) {
-		/* Both hardware counters and their difference wrap at 2^32. */
-		counts[ACX00_STAT_RX_PACKETS] = packets - errors;
-
-On the next sample, the -1 would become a jump of 2^32 - 1. Is it known
-that the two counters update together?
-
-The commit message bounds the rate at "one frame per received byte". Under
-that bound, any real frame delta within the 320 second window is below
-4e9. Could frame and CRC deltas in [4e9, 2^32) be rejected, the same way
-out-of-range byte samples are?
-
-> +		}
-> +		priv->stats_last[i] = counts[i];
-> +		priv->stats_start[i] = start;
-> +		priv->stats_valid |= BIT(i);
-> +	}
-
-[ ... ]
-
-> @@ -350,6 +545,10 @@ static int acx00_ephy_soft_reset(struct phy_device *phydev)
->  
->  	mutex_lock(&priv->state_lock);
->  
-> +	/* phylib may already have reset the counters before calling us. */
-> +	priv->stats_active = false;
-> +	priv->stats_valid = 0;
-> +
-
-[Severity: Low]
-Does this invalidation happen early enough when phy_mii_ioctl() triggers
-the reset?
-
-For SIOCSMIIREG on MII_BMCR with BMCR_RESET, drivers/net/phy/phy.c does:
-
-phy_mii_ioctl()
-	mdiobus_write(phydev->mdio.bus, prtad, devad, val);
-
-	if (prtad == phydev->mdio.addr &&
-	    devad == MII_BMCR &&
-	    val & BMCR_RESET)
-		return phy_init_hw(phydev);
-
-Neither call holds phydev->lock. _phy_state_machine() can therefore run
-phy_update_stats()->acx00_ephy_update_stats() after the raw reset write
-but before acx00_ephy_soft_reset() takes state_lock. stats_active and
-stats_valid are still set at that point.
-
-This comment assumes the reset clears the page 9 counters. If it does,
-the new values are lower than stats_last[], and __acx00_ephy_update_stats()
-treats them as a wrap:
-
-	if (count < priv->stats_last[i])
-		count += i == ACX00_STAT_RX_BYTES ?
-			ACX00_RX_BYTES_WRAP : BIT_ULL(32);
-
-The totals are kept across resets. Would rx_packets, rx_errors and
-rx_bytes then stay inflated by about 2^32 or 4e9?
-
-The window is narrow and needs CAP_NET_ADMIN.
-
-[ ... ]
-
-> @@ -475,10 +674,21 @@ static int __acx00_ephy_config_init(struct phy_device *phydev)
-
-[ ... ]
-
-> +	if (!priv->stats_active) {
-> +		/* Establish a new baseline after reset, retaining the software total. */
-> +		priv->stats_active = true;
-> +		acx00_ephy_snapshot_stats(phydev);
-> +	}
->  
-> -	return genphy_restart_aneg(phydev);
-> +	return 0;
->  }
-
-[Severity: Low]
-Should MDIO and page-restore errors from this snapshot be propagated?
-
-acx00_ephy_snapshot_stats() drops every negative return from
-__acx00_ephy_update_stats():
-
-	ret = __acx00_ephy_update_stats(phydev);
-	if (ret)
-		phydev_dbg(phydev, "failed to snapshot statistics: %pe\n", ERR_PTR(ret));
-
-That includes a phy_restore_page() failure after
-phy_select_page(phydev, ACX00_PAGE_9).
-
-__acx00_ephy_config_init() then returns 0, so acx00_ephy_config_init()
-skips its power-off path. phy_init_hw() and resume report success while
-the page register may still be on page 9. Later phy_select_page() calls
-would then save page 9 as oldpage and restore back to it.
-
-Every other paged access in config_init propagates the phy_restore_page()
-result. The commit message also says:
-
-    Real MDIO errors, including page-restoration failures, still propagate.
-
-That holds for the .update_stats callback, but not for this snapshot.
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261116-submit-acx00-phy-stats-v1-v6-0-8feef8e76cd5%40gmail.com
+Best regards,
+Krzysztof
