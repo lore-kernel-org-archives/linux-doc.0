@@ -1,119 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795109970;
-	b=gFNiZKu0v6d4VEdizkHjiFtV47NuKDiazrCyPgMMS/v8SFjQdlJ8T6lqlp/BE+VSwPV1
-	 3IHBGAutqEbyJqwG8f1dEOJpv9nC2Otx/6g5Lfbx/Ba1dgVMSAyt5oY6dAHBhrIxAoBEY
-	 qkRRnKHbk8Z8DdMhTsdbvMqUneijI3GOLGTnC0UahY2ZlK63/ufYvZUQtbSuUn2oRzVmE
-	 U87u0S/0RbeaeqCk3G8d0+zSO9W1ii95WsUBKFXGPUUtxTWekLgf3BfprdJ+6QzEL9BOY
-	 6FtVeSn2Xw0nE20IoghNt6sUbAoSWiElxtdG3GyzDI6zzLcne6YaF/dlfr5CCHO9PAA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795109970;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=MChaMpV0uPycHbMovYdnd18AIUFbI9qshKI8eEx7DoQ=;
-	b=cmHFI7T/JyORyo/IVEaQKjJKWQGAbevd0O/bqVIPDQeN10UdbDOLeF0+PQi+X0V4CC1I
-	 upYKsgzjhqQ5ROslYWJl1y9pjZ/BNQbXSq2LYEpOm5JMaOvv9AueiYrvvrpcVWm+py2ql
-	 Z0KVLl6hIpGnIquCagXo9svHN/SHqGF0CxesBhuUWF03HrsILa0hhdYNCuyw+i1IDSuca
-	 xAmt1s2V4+H26fFASF41/1v4+6/gy+6MJ8nbm86yoU08/+TDeOLYFfLfXm4OnE0ipS7qR
-	 /BObF7JuNmSn/ZhpGe2LAMrf/jk2MKwxX8szufO7eEYM8pWMgdJLyHSWZONwxnPDcCw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=P7ZK0m+N;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.51
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012051.outbound.protection.outlook.com [40.93.195.51])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.145.42
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795110147;
+	b=gCJVEGuGDrmUb4pm1QnZHReprCQ63rFYoehK9bYX4Ok+mNnQCJJlxozNG3RCBw/snYE/
+	 /3+5TP3BUE/SOAyeVrI6gf8eIkwyS36xpkK1PxgQgvIrF2wa+/JB3ex/R9D9277GYZBEt
+	 wmdOPUTF3FhPEu8Qh8mK8LNTzsOGJOO2lsxjsfeESNT8am0OnGJfnsEA7TUvakFP1d0Nl
+	 XRaEszTeF6Ib6kcnoSXNlP51w6qjydEi3w30e5qsyoneppzWXCnBvPlMNAvwLn3eWoM4w
+	 EyD18JRWvy1dnH2XviCIfqQG14GfdjjqR8apCog89Sl7HQ/BUjk8pBjQq5CgxQDhcTQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795110147;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Date:From:To:
+	 CC:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Originating-IP:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version;
+	bh=G2BOqqjoP0pazrgA6aUayConw0OIxAUKTfBLvDGlW30=;
+	b=DoLF8B6FTOtwio8iaVcmXg7vltL31ABPb79WgyhpdbMTY93rmuRE2kWis2apyLusCayh
+	 ivYmVBSOzvgGo3mv0xU9LK9K3Z2aHZQvdTZpkySH5C2Iz7KqfXUeYsA7M226fENcb9FM/
+	 WYxz/ilgmjjPC3iI+3LMqcdERegQ6YNEHfs+w3xCr+sMNCJ1gg4YtMB0pLVsGxwNVb/XH
+	 7P0dLazBW+/wKzRaky9qbhlncE51/VxAO6YUYJabsUu+WaZ6l8gLioKVQm2e5icLmlpUj
+	 +o1uuUx8GFoeV0rlo8OHsnHx7s5x6Odg7lRY+EW0tDv37D6IW4n3zSIAqxeD+bmhXeA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=f67K80ZS;
+	arc=none smtp.remote-ip=67.231.145.42
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A52606A326;
-	Thu, 19 Nov 2026 17:39:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14A52606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750E4606A325;
+	Thu, 19 Nov 2026 17:42:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 750E4606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=P7ZK0m+N
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IWZm6R0jQqK8q5j/RQK/kS2lRG+CMlrDt11UCTOZPSrY8504oO6wq7DCBI0KF7+3/WShOyH86uV3Y6zbUklj6K/1+8d6xRQp6zIHh5RaE1yMiCo7OFuOan4wRP7DhLekOeJECu5GywIdZ3OgPAX/C+yghsi1HBEsGPkE9MGkjr8jFYYxG8TZrYeS2Bbq7GVZsH9Y2cngB2VQiLjPl3WBc4WpXdLg9F/IwuwoVG5iG8AIEuTFrPZPw7zIcjdcixnEuYix6IfRyuutJVNGX4MW/I3z6Zycp29WTkZpriKn9kVTzTJ5a35smiGmolAehe/noM9CqYjq2DjgzFE7IXTyWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MChaMpV0uPycHbMovYdnd18AIUFbI9qshKI8eEx7DoQ=;
- b=muxQRpumFoQq7WfiUtMeTucbjxnkfX5VEp9oX+T5Z84IN3/iZsS8ruxhmqGDH5GUwCy31yhfmojI56raZcMTc3eG17Eaj0NAiZLZn+TUrS+L+KG04L5cjEkOqQ1oGtJrp2kLVkUcsh+ng0vjGO62Y4IXR0MBaMj+rsKQSLZQxHcMPn3q8eL9jUK9HYpuCmc5QwUGZl8cwZy4XiskUEWU8PkiV5Rvm/Eto2I2x/4cNUObcA/QzXiZTymyH4271508kSJW3Y1JfNINeecb8bqqT6RODt8Aan9VZVp/3slFRM9KAsWfNlZYfb1R/w5a9FT1abDBCy7/AHKUFkcf9bHf9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MChaMpV0uPycHbMovYdnd18AIUFbI9qshKI8eEx7DoQ=;
- b=P7ZK0m+NgXgrrSFlwAOGaUxczNfDyRrm6Pz5ZoIPMBmCOxqfRcqvnQo3Cpn/SAbFhLo/h9pCVcRXiGgZB+ZPHW2iaVTupqtunVN5pUCgdyyEGNGVLINrj11fDE9oOAkBpX5Bn4pkpeEWF1xLjkYKMWnfcpiOIw9YdPUlYx0RH5I6hEf1IZEadgyXjKWvu65P5MGNxpzi1B1kdn3BlkKPW3CH6ZguWunoPi62+Bix5kzTGDQNq486YVBxL3g5ygjZvB8Q8TS9TS9IgDoPF7kpsSwiolIQizu3uOiKItFGckwxnP4e7LnrjlGl0Q0jnXnlWguOSAGSU0MX6YPFB+kfdQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by PH8PR12MB6844.namprd12.prod.outlook.com (2603:10b6:510:1cb::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Thu, 19 Nov
- 2026 17:39:25 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0615.012; Thu, 19 Nov 2026
- 17:39:25 +0000
-Date: Thu, 19 Nov 2026 12:39:21 -0500
-From: Yury Norov <ynorov@nvidia.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Yury Norov <yury.norov@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Ilya Leoshkevich <iii@linux.ibm.com>,
-	Johan Hovold <johan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
-	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-s390@vger.kernel.org
-Subject: Re: [PATCH 6/7] virt: steal_governor: restart sampling immediately
- after CPU hotplug
-Message-ID: <av80SflNuKlReSEO@yury>
-References: <20261113184257.621707-1-ynorov@nvidia.com>
- <20261113184257.621707-7-ynorov@nvidia.com>
- <37a30a91-bd86-4dbb-ad12-8cbb509f7c4c@linux.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37a30a91-bd86-4dbb-ad12-8cbb509f7c4c@linux.ibm.com>
-X-ClientProxiedBy: BY3PR05CA0029.namprd05.prod.outlook.com
- (2603:10b6:a03:254::34) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=f67K80ZS
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJF8ilo3223786;
+	Thu, 19 Nov 2026 09:42:06 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pps82601-s2048-2026-q3; bh=G2BOqqjoP0p
+	azrgA6aUayConw0OIxAUKTfBLvDGlW30=; b=f67K80ZSKWqYAuowzLy9IVSzeoZ
+	Jhqpfjn7ERXrdfOGJtkZRJhqKb41AqVF0IukKEp4ZJWCAu/EMJpKJThcRR0j7p41
+	A0BYLgXK8jU8/BGuEZIzrWUQZNvT6OZckOevsR2QS0dJpb+O0CaSdMmJuNxljZwK
+	ZKiMMRV+SPUwiFWmJfRSkW3Hofcvus3oFPCZP0TAooTbYQw61pvul4wDahUio/0Q
+	+dUkR67nKYDctfo82jJfAH7fI+v7+VLhPHErPhhklqOhuLdDL/Szlu96h5uzocRD
+	DHmLsTQzZxj1CKqeU3g5W8i0t3+mbbdZH+6BnsTKoRtF7uCtY8C59wPa7Dw==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4j20a530um-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 19 Nov 2026 09:42:06 -0800 (PST)
+Received: from localhost (2620:10d:c085:108::150d) by mail.thefacebook.com
+ (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Thu, 19 Nov
+ 2026 17:42:05 +0000
+Date: Thu, 19 Nov 2026 09:42:04 -0800
+From: Bobby Eshleman <bobbyeshleman@meta.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: Stefano Garzarella <sgarzare@redhat.com>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan
+	<skhan@linuxfoundation.org>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        "Michael
+ S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowangio@gmail.com>,
+        Xuan Zhuo
+	<xuanzhuo@linux.alibaba.com>,
+        Eugenio =?iso-8859-1?Q?P=E9rez?=
+	<eperezma@redhat.com>,
+        Shuah Khan <shuah@kernel.org>, Randy Dunlap
+	<rdunlap@infradead.org>,
+        Donald Hunter <donald.hunter@gmail.com>,
+        "Eric
+ Dumazet" <edumazet@kernel.org>,
+        George Zhang <georgezhang@vmware.com>,
+        "Andy
+ King" <acking@vmware.com>, Dmitry Torokhov <dtor@vmware.com>,
+        <virtualization@lists.linux.dev>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <kvm@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <sargun@sargun.me>, <jlinbox@meta.com>
+Subject: Re: [PATCH net-next v7 0/7] vsock: assign the guest vsock device to
+ a network namespace
+Message-ID: <av807G4qhzToOIMT@devvm29614.prn0.facebook.com>
+References: <20261117-vsock-guest-ns-v7-0-7e522ea9dd9b@meta.com>
+ <20261118182846.4ab756d1@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -123,131 +101,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|PH8PR12MB6844:EE_
-X-MS-Office365-Filtering-Correlation-Id: bb2006d3-a7d2-4311-3e6c-08df46640d88
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|7416014|366016|1800799024|10070799003|261022113327099003|261022075727099003|261021123027099003|10067099003|56012099006|11063799006|4143699003|261021121427099003|261026121527099003|261102123227099003|22082099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	6PqatlCsyM4piKhjjxzf/e5ni+soDs8kTlkblQjp+LDbqJnK900qEZ6YFzf2dt5et83zh4jrhi0ix5ZqeSspmgr5Eifgc8U1XXGQHE7+k8JXgvGZRiv7z91TSBiv6sSAQujciptnHTCxrWjx6Vnap/uU83l5HYw6n6ri+r7k22laR+Nb2hgkBhVAaq1IzX1uOnHCau+8NNeD9HfH7SBRG1FAYcPnk1e4wCdS+P60rGv2YphRaOAMFSx7OIgB0/vb9lOCAlEC+F5uTBGR4SwN3NJh50w1KhWvhsbkf6u5mkuHdjCZRg5qrNuK+P5YpJM5OZaS87Y3O+alHhKipUoBIVxPzLCGfuiAFksyeB8wqxtxa9wI+JHbxYoYAufSIzDxth/fCnBtX2rcB2L+B5Dfq3wHD6NfzCdYn6avhTik3NwPiJuu5h8wdGNw0jFtM91zlZXQZMfxZQQzgr5r8Wt9I+9XiNGUsmECbYGCENem4BA0YhRsOFtgZUYWTlpwZMmRfJp0pcPt9UKFaWFNdBxr59yRY0ul6F4V4z5g5nwgmxGHDH74LAoophQeNJbI0Tl8wyFfLnFd6qyTo2m9a5sKSjHEGwV27Ehb8sRiXBzPRtYlu6PNDtii4Jj//BNzfv8o2di3YqDHndRqZEYc/44AcNmtIdTwRmrZMEvDU9CXAUA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(366016)(1800799024)(10070799003)(261022113327099003)(261022075727099003)(261021123027099003)(10067099003)(56012099006)(11063799006)(4143699003)(261021121427099003)(261026121527099003)(261102123227099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Fkj6QnYQOXP44pkmqOO/wjTEbLdfuLntZrPesfmtfnDacCiQ49s70SiRlL80?=
- =?us-ascii?Q?SRR/gmlXm2UWcLGc31kGpGEeSic43R7fFi+Fhespx+Ve/krni8ATRWrUaDMy?=
- =?us-ascii?Q?8yzraK3jriQA7bBN7Y4Q9ZVy5LvVb0W76BBLqXx55cjk0L6lGkhL2qg6qiDk?=
- =?us-ascii?Q?+0qsXERNNXgDnomxeUJLlqcvlQTrnQlRn3IH5yFRIVhWUG8yF8TLQ91OXCaW?=
- =?us-ascii?Q?RKzydeciJ+ONkbMoyl1PCnlrcRbcfficDGOs7BCKEM/sOPDdDDirhHREsbpd?=
- =?us-ascii?Q?wQfRby6G7cmjeWRpHNIm3fJzVpCWAshIc6w+j6OPVwySsf0u7KKXbOqve5Rd?=
- =?us-ascii?Q?uL9gBLjr3G0v5FQGQGyYTaPBcDHs+gBt1sqVZykN10V6T3zo2yaHFL7ohYtL?=
- =?us-ascii?Q?hXpPAm1H8T0AL9YoEq9roZTgunyCBbos4gXznt6fyYMKnHRsnImNU15LSQh3?=
- =?us-ascii?Q?ozi9xL/M0j2J17guqLRhLXQJtcZqQwt5sBhp2Cf7w79Cc2KOvDTyTia0c6VM?=
- =?us-ascii?Q?ndjV2jcNZdTdMg9vRb/zd83KvsBIIOhv8ExlyH5KB0SMp8NGlfBv6qFAY6Om?=
- =?us-ascii?Q?9buDN7/1EgBCcUav5+DUUumUAQzvTo4OpCnzMqK9yjz/6K0bX6Nv4HmBZD7Z?=
- =?us-ascii?Q?JAsFr/dkxLUu/WRKEb3nqqCPjUBRdvU0GpvqFOB8qgItAhULr322CdSpmLSf?=
- =?us-ascii?Q?IAm0z5UNSdDZXt/6JaM7bfXRKvkPEMoTUJSIf49x8E7nPxKv9vW6imLgNyfP?=
- =?us-ascii?Q?Q6l5ahiN25KZbEnQbepr5e6J1cMfY54W68xAASj2QDc25jufs2dNccx8Zz4H?=
- =?us-ascii?Q?3HQeVK7FqOE6GUGcyi5S5p4fsGiYTIy7jRaimiw9BOyLEmnDXmgr25D5ua0D?=
- =?us-ascii?Q?JK15BZXd1++floLpdT65pT8lDLA18it9KXILsf2eQw7309m5Kuynbb2+EnRk?=
- =?us-ascii?Q?E49s37fuIgyv3mu1+6Kbc0PMdlI+n0ORPmWptTvDZcMsvbkuheFSVw8POCVc?=
- =?us-ascii?Q?AKMWat5l3pGJV14HEOyXJr4S7dFcrx0T2bcv3Iy4W9vfY5SxPkCYQupLIVg7?=
- =?us-ascii?Q?R9W/w7wyTBnTU+iRmMqwJx4mRtD20hqD3O1CxPjgM+Q/p+dtnbE4+pNdPSVl?=
- =?us-ascii?Q?j8JtjE0oP/Ri9BBj5th4MuBKqB2pG1P4MRaYVImCb3PfPQQzeN7kpSAol6qN?=
- =?us-ascii?Q?zFHZ7xsrB9pEMO6aGyjYhZ925UZfUVN7DpiFisrZz6cxcADwpAyb4hnRLHTx?=
- =?us-ascii?Q?+7D5oxRrcyX2hYWdBB2qIB+24IehhvzL+IPBDHRRfv0NXCTFKvHPi+x6VmiR?=
- =?us-ascii?Q?0vSrP6MSyQZB0/F3UaT6BGN64I1XCnBUlEct0Nv3OaDzxt8eSSFHd4uqKtGf?=
- =?us-ascii?Q?tF+HZvOa6dq/4FRB0nBculPVwX0HizJuM3vI3IgWhxUzrZYn1R/7DxWa9yn8?=
- =?us-ascii?Q?i7Cl1aRSPnY9ZbyZV+VCgtUZYxhsra+FVTuIUGVIDtsbc8MvZDH83CB31pe1?=
- =?us-ascii?Q?7GQC3ZZvckcq+IpSQLUbGQWnDgA4pBgRg0uJQ8Js6U4nIlo4hxdxgtAPv1+1?=
- =?us-ascii?Q?l0ld2YqG8N/QTGoIHkAIi/9W+Dfm3WUooabsGLVjwFYgdr/4br06Kn+nDW0G?=
- =?us-ascii?Q?QC2UE8hX3UPuxtFFmVLtfcFVf08Dn9ZIdEKeJf+zlr1UHMf8LPFwHdwlGPsY?=
- =?us-ascii?Q?K0Cn0v6S3AvxRUP2LaBIMeEfqR1b9TDpXVh21mVS3HF2R0P0qz73HSGnSdaa?=
- =?us-ascii?Q?CtDjKELkNc8bsmlJLn4TAVozgUaNNqnAmjYc0B1apkinJVCN1orw?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb2006d3-a7d2-4311-3e6c-08df46640d88
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 17:39:25.0007
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IJwlVCOl+7Si1nLPChOEzXyhHmTfN6qNYE9ANqQqDPETIBMnMhwSYAZktNK6s9/8bpYTy3yYHFAFZNue1t6FAQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6844
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20261118182846.4ab756d1@kernel.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDA3MCBTYWx0ZWRfXyidvreKQk6wK
+ LlsF+SzTNY4ng9p5UNHi4tKeuhAuveilzAk/9KDdvz7cb/zyJffKxNKgHO+q8eFIyJZNfroiBIt
+ UlydNSUgnv+PcWKUhxFYJK8Tv4ycfpX7TqNh29IAyJ5JuoZvObkdT3mhZ79LR8dctDOmKhBrzdo
+ EiZuyCeCrOaL2GpTLBLBo2i1VID9Hw1Xu9QUxt04sc617I6tGq9oGcxYUYlR4VMVLBvnOrrHeAt
+ SkES8ZFl0wxhH96yl7klR7d6Wknofcd/ak5GkGU87mbXc1EtJ0VxEGuOLKT4gsSN1wWFfuaD86I
+ cf4HdvpcUTFzuPK/bxpG2miO6NjG3x2VEdVTKfb7a7YFcjfa3uTC4XKsW0MAPytKwVXwK6WmCFt
+ IPaGqZ0LQJv8W8b+KkSW54RiiFyxfPiVmTt/9G3uIYCpxWTUrrn4HlJTXbVtW5Z1Cv9+y8LYmGM
+ d0nXoppYzMXNES4U3XA==
+X-Authority-Analysis: v=2.4 cv=KrHYSmWN c=1 sm=1 tr=0 ts=6aff34ee cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=03ozwUkBphtHgyqjj1sw:22 a=VwQbUJbxAAAA:8
+ a=VabnemYjAAAA:8 a=dqsvmvxRPFBq9XHrJFsA:9 a=CjuIK1q_8ugA:10
+ a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-ORIG-GUID: HdmLTcJAmAU3n8_qiw1GLnU6knj5_445
+X-Proofpoint-GUID: HdmLTcJAmAU3n8_qiw1GLnU6knj5_445
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDA3MCBTYWx0ZWRfX5I3YUg6f0mmJ
+ ubh0ZySQpuSIiBufNJibvmMRLApct+aSRPOkI6tUzQfGpUUvPXeQc3o0S7aX7rrK+1rxydIxf+q
+ POEezORn5yAZnVmVQ15OF1eKcAvAaRo=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-19_04,2026-11-19_01,2025-10-01_01
 
-On Thu, Nov 19, 2026 at 11:36:46AM +0530, Shrikanth Hegde wrote:
-> Hi Yury.
+On Wed, Nov 18, 2026 at 06:28:46PM -0800, Jakub Kicinski wrote:
+> On Tue, 17 Nov 2026 17:54:43 -0800 Bobby Eshleman wrote:
+> > vsock network namespaces let a host put each VM in a namespace of its
+> > own. A guest has no equivalent yet. It has a single G2H device that
+> > cannot be assigned to a network namespace.
 > 
-> On 11/14/26 12:12 AM, Yury Norov wrote:
-> > CPU hotplug between samples can distort the calculated steal ratio because
-> > the governor divides accumulated steal time by the current active CPU
-> > count, even when that count changed during the sampling interval.
-> > 
-> > For example, assume a constant 3% steal rate on each CPU, with four active
-> > CPUs for 900ms followed by two active CPUs for 100ms. The accumulated
-> > steal time is:
-> > 
-> >      4 * 900ms * 3% + 2 * 100ms * 3% = 108ms + 6ms = 114ms
-> 
-> 
-> This example is not realistic. If you had 3% steal with 4 CPUs, and if they become 2,
-> your steal time will definitely increase. It will likely double. So
-> governor likely calculates 6%.
+> PW says this did not apply at the time of posting, pls respin
 
-You say it's not realistic, and then you confirm the math. So
-realistic or not?
+Ah I forgot to call out in the cover that this now depends on this fix in
+net:
 
-On my VM, there are 4 or 8 vCPUs, and the steal time hovers around 3%
-normally. Offlining half of them triggers steal governor pretty
-consistently.
- 
-> But yes, you can have realistic examples, where governor may calculate
-> the values which goes slightly above or below. But IMHO those examples are very
-> limited. Even in the above examples, the steal governor was supposed to trigger
-> high threshold since the steal time with 2 CPUs is 6%. So if not now, in the next
-> delta it would have triggered it anyways.
+https://lore.kernel.org/all/20261116-vsock-tap-net-v1-1-7e24f45adad3@meta.com/
 
-Sorry, I don't understand this. The governor is not supposed to
-trigger decrease_preferred_cpus() on offline event. If some system
-event skews steal ratio, the governor must adjust to that, or simply
-skip the iteration. This patch implements the 2nd approach, which is
-simpler IMO.
+In that thread Paolo is also wondering if it is really an improvement
+rather than a fix, which is a fair take, so unless there are objections
+I'll just pull that patch into this series.
 
-> Some examples are really corner cases. Maybe like
-> 
-> 60 CPUs 3% steal, and then 40 CPUs 5.1% steal = 4.55%
-> (Below threshold, but should have been high). One interval missed. But if you see
-> large duration was in low threshold, so it is agreeable to miss it.
-
-Don't understand this either. Can you elaborate on your case and math
-please?
- 
-> > The elapsed time is 1000ms. Using the final count of two active CPUs, the
-> > governor calculates:
-> > 
-> >      114ms / (2 * 1000ms) = 5.7%
-> > 
-> > This exceeds the default 5% high threshold, even though the actual steal
-> > rate stayed at 3%. Using the CPU counts over the whole interval gives:
-> > 
-> >      114ms / (4 * 900ms + 2 * 100ms) = 3%
-> > 
-> > Checking num_online_cpus() doesn't account for cases where CPUs go online
-> > and offline such that the total number of online CPUs doesn't change. So,
-> > implement the sampling restart on hotplug event.
-> > 
-> 
-> I am not sure if we really need to stress about hotplug cases. IIUC, when a user
-> does hotplug, systems are usually idle. (Atleast that is what we have observed in
-> real life use cases). And hotplug is really user driven, so user knows system is going
-> through some transitions and will be stable soon.
-
-The follow-up series brings a real counter example: Android daemon
-running on Qualcomm SoC offlines CPUs on thermal event. So, it's
-automatic and the offlined CPU is likely not idling.
-
-Thanks,
-Yury
+Best,
+Bobby
