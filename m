@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795090180;
-	b=Xnd8ap0QedOiI5KxOM6kkHg66zhuGIQH0h68yOxDhrulBZ+cyoK/y0gy5jCeCPMfB2NU
-	 fo7XKB2pxKGhyW0ONAB8LgYEwa7xPeqf0sAeLvVA0zuW381M0vKQPmVAwceloKu2p60gx
-	 pg+LgXWzbKhylSAqxN1TtGsMz5VRREZ3XhfrFkFbqy5jxaoE3gd//+sIrx+u/slyFtkZa
-	 RAXTpRMtu8SqdQnjKyxl7f8M/eYaOwJqW0fj+yJw2ih4aBwrUAjIjeYJWTE/Vq8hn66GZ
-	 enXL4wE0WiEYjq/QO0qamunxPPBEEHuuHcd5Jkahw7xYMn/pC87Nz297UGN1jjIdVqw==
+	t=1795090192;
+	b=SfEDeL14vQkOwryzDeqclqWYDsca1H27hgmYS2VvYSCTpfhC3k4m4i3bi+Tdw0x0Wd2R
+	 Io+Pei+3CKmJU2cdXcceWcfO4u66Uo8pwd17DPpF/P5zezjVhlnOIX/c11ru63phnALFr
+	 SN1hf6vo0vjiUhSt3zDuzzausDeQK2OZeZdL808QXGKa5v/0ePjjc4evb44mB+K73kfVH
+	 OGtwgVWEWWMm/nN4yNqvmC6QekGDVQJmjSU7uqT34buS/xZ0RFmZek/Fg9awPRUlRx+Hs
+	 HR8s1EAeLZqLOXsnGUDkKmsqy88to3eln25Tlln7x+dZR2hqsRgcpab/OmrT2BZDXig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795090180;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795090192;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=IMQKgMzK5koXpzwpAGfuvI2X9uFekTM0Brh0o9wzQHI=;
-	b=xdW0xB+7vt9rjHnZPazONVjvY5HhYq0wLP8kLbFTKi3MKs73Ymff4ZHMsemunSJRyuiv
-	 +BJcSYoh77EBqr0WEN+xU1FjfOfZUr+VOZYK7DBlJ2jwKf1lpomKZ+er3K0BOVvoieoJn
-	 3jBYvk0QRH/vZeAHgauzV+p1TD1L8mUmsLtLgd1dj5TawGR1HEHGKWD59U/o8+4NPOKio
-	 c8g2mdXb7+dUAKhIB3XyVbpNWXD2XfSnoGU0iaYUKpqtPLyUEVvl1dAa24SbKVE5sTEje
-	 anHRn0jSifvMZ5gOso56yFeCQ+1mqJtqNkFac0pZantJDDj6pgWP5b5TpWtsgOxfCIw==
+	bh=AcX7Wqr/NNBAMKWd7VnVp8UuB/cxD1Kkn3PfU1E+a6g=;
+	b=Aw4ga5+a1AQCz513l71S/m80FD7zrZHO7hCYmaqO5vk/zpfmRrx8ve2HM1Ux1p9pbEWk
+	 VpZZUznAXA4P8JkkobU5Sc+9VyvpBrjtky4FbX4LEkNe+vLuzbxPol5+ZXckK8XtR6CxM
+	 wqRm6qYpEwHaSAaClqaAnuxN0F1KZmHXXF43pqYtz6ZvA/BRKY2o1WY41z5ZZTGo28vPb
+	 cCq7iyZaB/iszAzK2M8/2WCEhbc/LsMw7r97EHGGCK8HBmaloatAw3R1PklVmsMOwrIhE
+	 enHkDm+AyevPt323kPu8h+vPiS3iA7DhkC3pHGgConi03WbXJsJ/qB/gvGGMJH+IWZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bytedance.com;
 	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=LM9bUZT8;
-	arc=none smtp.remote-ip=74.125.82.175
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b="i/y7IcXf";
+	arc=none smtp.remote-ip=74.125.82.50
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2FF606A324
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 12:09:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E2FF606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11A5606A333
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 12:09:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D11A5606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=LM9bUZT8
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-38431138772so1026610eec.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 04:09:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=i/y7IcXf
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-14394530ec6so3300177c88.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 04:09:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1795090179; x=1795694979; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1795090191; x=1795694991; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IMQKgMzK5koXpzwpAGfuvI2X9uFekTM0Brh0o9wzQHI=;
-        b=LM9bUZT8k3cGQJUUG7eD43z4pVutnUr27pPDXThESBxF7ZhMDdQUWhvcDgWnH9XxKH
-         mchcPcBrOACFSfMTAax9uGAMl/WAwjASV3Ow81p+FYSCxq5MHkXXSTlHHj7GmlZnx1VD
-         dtFMe9dqMhyJrWIOXEpz1ERAEf+nSyUbpXUlm0Me8lUKBbDn+pfiGZUhP3r/z1v4qmsX
-         wAVTe3e9+H36PDiUul3i2jiL6l9l9g1HcOenQ3o0BwbPmyLLJOLJRuQMFaLgg1fIek+i
-         xZZ56Jr2OEosC+Jpuz3NjANLOlP+wJ86nQAgEwllXqamti7QjNw7EJN3HDUb9/EHpvlt
-         yfdg==
+        bh=AcX7Wqr/NNBAMKWd7VnVp8UuB/cxD1Kkn3PfU1E+a6g=;
+        b=i/y7IcXf0zwGemgiNsqbgyLlyIpCBg5BrC6MYRFbLe0zMMYdR8CPiUInf+YtUvRT9B
+         aS4uZ8O9wweMkDuRslNIlBBlX82ZeDuEOtJCA9YrxpD3blREpKkin/J+UDO9DSEUPYex
+         Cdk3dIpVaSuZRKs+RJDPkVA5U64JWxulVXNjSTwbfq7S56j9A7IFy3SI9jesgcJQg/9H
+         vszmXt7E3onYqEHwJckgW8fgPKNcSdgQ2BVKtHfsAJRft3COEMgzzgfAOIxeb6ZBmkQU
+         tyBVnCqpSyAO4MzmPBgjynxwWdvW54oY1zvkPBoyh5eVbJcy1eUWJR5yBmK3ktI5ZJE3
+         09Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795090179; x=1795694979;
+        d=1e100.net; s=20260707; t=1795090191; x=1795694991;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IMQKgMzK5koXpzwpAGfuvI2X9uFekTM0Brh0o9wzQHI=;
-        b=P2P5nbRAWll77/JolEO5/9AJXQBMyY6Kgryio2NRa0A3bbJUJzu6oG03jBAvswgaDl
-         P4PwVhyjVQsIGJ01sAkksw6NKJ005Vyv5BOjj7Z1S86My5ZUQrrIFQ3+IryEae6+M2ro
-         ifGqW5tDWgYEXLTj0v/mckZo/GdXr8nrg8oOBYeIAzNC38hbN4HiQj89mJLOvPqlyBHL
-         1fX2qE4Otrb6XAEXL+YPimK/14MDRMQQlkKIWfOKzSPF9hAta5bO9uKjefJVFnJSRgjH
-         KS14d9dbpu5XYQAVKIIiFYSRBRKG91pFd3jhCHk2An82Dafvzw2S8OHfybEcf/vYbzwj
-         hWSg==
-X-Forwarded-Encrypted: i=1; AL+hErFWrMsj8fY545u1/N/qWxhFtjoUT0xk99/YbAnQn9x04IzURiwehsmU7Q1yRb7ljIQBTARvldsvW3g=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/bpjGkoHK2iFPU00KwCW14OxR4V+WJptbsf7pwtiDdDreKh570
-	bGRyeyOtqeecxG9fVnMV6HPNjMcuZKJAZYfdqodNp0GYUDbdHaER07PKOCBT1t/cS1E=
-X-Gm-Gg: AZFdTZeJtZWYz6Am/bjuBcTZBvl9tFESyDmVbEupRZJ8F71YK4nos+vo9eZL9jUtx9m
-	uVLiyxMzxo+2AKtc9hsl3py1ZadcH/vyK0KgCxqnqQxEuoZxYzVrt6yFCmB4JRTlwbReKUpbAwv
-	Atu2B9kU4egbBLcpOdTD1TBFAY1UqKbx35YB7eqq2RMxfDf2LtsCjbpduMM2rOYw8vfUXaIrW+4
-	AG1ym3q5Ws+PqD01rRIMdorl1WvEuc6G28p4TATHZOFXsHpLg1nn2Tyhj2raOCWKh0RQPOnWfu/
-	Q4FjAcpI6seoQ7ma0mR2j8D2LEOTze0HATlDY7OjC0HzB+qcKDzJWxb58sfOHe31vBN4fB6M53c
-	JUggOz/7XFqPv9lmqsTzpYx/4ubNASCUWmNmonaHUrwwOszddUVupKYlGaAVu0J1FRmjD6WkvdN
-	hD8aMYXzz1s2AYBNFcVR3nad/lkvwlNeoJRvA3aijcbGqHm1ozOPabHQQEgSd71buc6EUfQ0Y3D
-	Cjx27VIwst2igaOuzH4m6zu8PIeleiHCqObhuJeJUpBLFGWDTwitAXVMyihg6m0QEbBSJvfFdE1
-	Tr8NvzN/q72Z8jBrRi2UHoMtDb3Yvo4pqfbe3LQxoJk6/V+GSa6AQsUFQuSl3c01pCWG1KnpJO3
-	saDImrFc=
-X-Received: by 2002:a05:7300:b594:b0:381:5fe2:8008 with SMTP id 5a478bee46e88-38281eebbb1mr6614536eec.39.1795090179031;
-        Thu, 19 Nov 2026 04:09:39 -0800 (PST)
+        bh=AcX7Wqr/NNBAMKWd7VnVp8UuB/cxD1Kkn3PfU1E+a6g=;
+        b=WaumpHb9nCvsn0Sd1zMAMoxygQsBaJYh71lX376kMItUBhofweRN/5DYdDwpTx3jEJ
+         qAschNd65TN8GvTGK2BOQcWT56weSiR0WVsxvXbyti+4OcSJfaKU9kTKYet4jPBe0ZOM
+         k7N0fCWa+tTQmji98p1YrcN8liKoqtRhmPot2AqRAsII/MPuCP3ACilaiPwc7N0Uy9Ya
+         4/nugQGFLSNNdHh/yJ/HfWVYsYQllqajtAyFHUJk/Rb6Rt0K0cFs0tyVkoRvqdG/xO4p
+         L1QMZ7UMRgShXgFwY8dIZZnT6HdrTFz4pKZUFPXBGqVGY5ficQR20qOV1NqLVyM/r8DL
+         qZgQ==
+X-Forwarded-Encrypted: i=1; AL+hErF35osqA0VnPT/8QdCjNtZkicTPaZPg/z7j22XxFIBjvkVEiEPJGVQ/gNJAIhwWJYkm+uQ1jhNWeCI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8B2rWrYxTF3suGGC7pegwwUKS/fy2SYkvn2iYGLrdOYeKAcfFR
+	FBpNSxT8Lsdn4dY0wYmiQjhNgfkKhgYmlf7lqSd6PvITKexT306soJGnF+r03/FvhsY=
+X-Gm-Gg: AZFdTZc8Mwt/LyjanwV+UIvNM8YIIChx/KOTnBCup+p1mUn/e9tlt24Wx+5doY/lZ/O
+	2sieBSVLXk9Pm8dMT8afffI23d7epa+e00Ee3GStA2pum3xsXJL+LzAeXlMYurXqdvgPgZjPfLS
+	ay3mv1FM1M5nXFBv4wYY7ZfIm2mGLy5Pfw9WOXKdcPuH41UHCmiYrdb2Dh/469uhQZWZeC3xKTh
+	vNWxRykYEy0wa5JNESn3UKHK4uvtFSWOmtZtmlCyaPnxez1YcOHlLc1IdRWpFV8TxrHejQ9xNDq
+	swIhIONPFF6u/kDiRmK+Jn2AtmfGmv//uvEaZBD6Dd8YpOpZY2BAbr8vlWNs4u7fsH8jcmtbEAG
+	+SKboj8DVPG+M6Hz5n7lybKrovoCgmnWCVk79K/zUJYiYQeEWcoU0ODE7Vjitpt0HfwLptX1KJw
+	Q4L33X7+IHV0ImyErZFtKEd3vlc0GjsgdCg50yKpFy/PBUP/5jjn0qC3zBw91zGVJ0qYPeHiKzg
+	EljGiyooYAsHQf7/EdHXzKsRFQUxNAgj/kCEaAkv8k19aQxmaqy6g9srjAPif9vDbls6MhGuCwo
+	Dj4bXqvZxX/9aIA71WiVP5PBTeA5tjoxdu6/+QpskHVymJSKj7onREjCNWZKJfFl1T7Er69/LMs
+	OG+3o2nc=
+X-Received: by 2002:a05:7300:8288:b0:384:6487:b155 with SMTP id 5a478bee46e88-3846487bba9mr1500897eec.29.1795090190796;
+        Thu, 19 Nov 2026 04:09:50 -0800 (PST)
 Received: from FJ7FR2JRQ3.bytedance.net ([186.240.245.239])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a7bc05cfsm17604650eec.26.2026.11.19.04.09.27
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a7bc05cfsm17604650eec.26.2026.11.19.04.09.39
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 19 Nov 2026 04:09:38 -0800 (PST)
+        Thu, 19 Nov 2026 04:09:50 -0800 (PST)
 From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
 To: pjw@kernel.org,
 	palmer@dabbelt.com,
@@ -113,9 +113,9 @@ Cc: clement.leger@linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	zhangzhanpeng.jasper@bytedance.com
-Subject: [PATCH v13 05/11] riscv: mm: avoid enabling interrupts for nofault page faults
-Date: Thu, 19 Nov 2026 20:08:29 +0800
-Message-ID: <20261119120824.13969-18-zhangzhanpeng.jasper@bytedance.com>
+Subject: [PATCH v13 06/11] riscv: enable NMI-safe lockdep irqflags tracking
+Date: Thu, 19 Nov 2026 20:08:30 +0800
+Message-ID: <20261119120824.13969-19-zhangzhanpeng.jasper@bytedance.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20261119120824.13969-13-zhangzhanpeng.jasper@bytedance.com>
 References: <20261119120824.13969-13-zhangzhanpeng.jasper@bytedance.com>
@@ -130,92 +130,70 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-RISC-V enables interrupts in handle_page_fault() before checking whether
-the fault occurred with fault handling disabled. A nofault access from an
-atomic context can therefore run tracepoints and open an interrupt window
-before reaching the exception-table fixup.
+An SSE handler runs with interrupts masked, but can interrupt code whose
+lockdep hardirq state is enabled. Bare nmi_enter()/nmi_exit() do not
+update that state. Consequently, lockdep_assert_irqs_disabled() in the
+perf overflow path can report a warning despite interrupts being masked.
 
-Handle an exception-table entry before entering the generic fault path when
-fault handling is disabled. Also keep interrupts disabled until such a
-fault has been resolved.
-
-On 32-bit RISC-V the vmalloc mapping must still be synchronised into the
-current page table before that fixup runs: otherwise a nofault access to a
-not-yet-synced vmalloc address would take the exception-table fixup and
-fail spuriously instead of being resolved. Order the vmalloc
-synchronisation ahead of the nofault fixup. That synchronisation only
-copies an already-established kernel mapping, takes no locks and waits for
-no I/O, so it is safe in the nofault path; if the mapping does not exist it
-falls through to the existing no_context() error handling. This early
-return skips the page-fault tracepoints, as before.
-
-This makes RISC-V consistent with the expectation that an in-atomic
-nofault access does not enter the normal fault-handling path. It also
-removes one source of re-entry when perf sampling is delivered through an
-SBI Supervisor Software Event (SSE).
+Select TRACE_IRQFLAGS_NMI_SUPPORT so lockdep can update its hardirq state
+inside an NMI. Pair this with irqentry_nmi_enter()/irqentry_nmi_exit() in
+the SSE wrapper: these helpers save the previous tracked state, mark
+interrupts disabled on entry and restore the tracked state on exit.
+Selecting the configuration option alone does not perform those updates.
+This follows the entry helpers used by the other RISC-V NMI-like traps.
 
 Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
 ---
- arch/riscv/mm/fault.c | 32 ++++++++++++++++++++++++--------
- 1 file changed, 24 insertions(+), 8 deletions(-)
+ arch/riscv/Kconfig          | 1 +
+ arch/riscv/kernel/sbi_sse.c | 7 ++++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/arch/riscv/mm/fault.c b/arch/riscv/mm/fault.c
-index 04ed6f8acae4..3934248f7a27 100644
---- a/arch/riscv/mm/fault.c
-+++ b/arch/riscv/mm/fault.c
-@@ -294,19 +294,23 @@ void handle_page_fault(struct pt_regs *regs)
- 	if (kprobe_page_fault(regs, cause))
- 		return;
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index d2db8f40c616..5501c02a07eb 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -225,6 +225,7 @@ config RISCV
+ 	select SYSCTL_EXCEPTION_TRACE
+ 	select THREAD_INFO_IN_TASK
+ 	select TRACE_IRQFLAGS_SUPPORT
++	select TRACE_IRQFLAGS_NMI_SUPPORT
+ 	select UACCESS_MEMCPY if !MMU
+ 	select VDSO_DATASTORE if MMU
+ 	select VDSO_GETRANDOM if MMU && 64BIT
+diff --git a/arch/riscv/kernel/sbi_sse.c b/arch/riscv/kernel/sbi_sse.c
+index 032fcc07abcf..59e47a39589d 100644
+--- a/arch/riscv/kernel/sbi_sse.c
++++ b/arch/riscv/kernel/sbi_sse.c
+@@ -2,7 +2,7 @@
+ /*
+  * Copyright (C) 2025 Rivos Inc.
+  */
+-#include <linux/nmi.h>
++#include <linux/entry-common.h>
+ #include <linux/sched.h>
+ #include <linux/scs.h>
+ #include <linux/bitfield.h>
+@@ -36,9 +36,10 @@ void noinstr do_sse(struct sse_event_arch_data *arch_evt,
+ {
+ 	struct riscv_sse_interrupted_context context = { regs, hstatus };
+ 	struct riscv_sse_interrupted_context *previous;
++	irqentry_state_t state;
+ 	struct sbiret sret;
  
--	if (user_mode(regs))
--		trace_page_fault_user(addr, regs, cause);
--	else
--		trace_page_fault_kernel(addr, regs, cause);
--
- 	/*
- 	 * Fault-in kernel-space virtual memory on-demand.
- 	 * The 'reference' page table is init_mm.pgd.
- 	 *
-+	 * This only synchronises an already-established kernel vmalloc mapping
-+	 * into the current page table; it neither allocates memory nor waits for
-+	 * I/O, so it is safe in the nofault path. It must run before the
-+	 * exception-table fixup below: otherwise a nofault access to a
-+	 * not-yet-synced vmalloc address would take the fixup and fail
-+	 * spuriously instead of being resolved. If the mapping does not exist,
-+	 * vmalloc_fault() falls through to no_context() error handling.
-+	 *
- 	 * NOTE! We MUST NOT take any locks for this case. We may
- 	 * be in an interrupt or a critical region, and should
- 	 * only copy the information from the master page table,
--	 * nothing more.
-+	 * nothing more. This path returns early and therefore skips the
-+	 * trace_page_fault_*() tracepoints below.
- 	 */
- 	if ((!IS_ENABLED(CONFIG_MMU) || !IS_ENABLED(CONFIG_64BIT)) &&
- 	    unlikely(addr >= VMALLOC_START && addr < VMALLOC_END)) {
-@@ -314,8 +318,20 @@ void handle_page_fault(struct pt_regs *regs)
- 		return;
- 	}
+-	nmi_enter();
++	state = irqentry_nmi_enter(regs);
+ 	instrumentation_begin();
  
--	/* Enable interrupts if they were enabled in the parent context. */
--	if (!regs_irqs_disabled(regs))
-+	/*
-+	 * Nofault accesses must be resolved through the exception table before
-+	 * entering the generic fault path or enabling interrupts.
-+	 */
-+	if (unlikely(faulthandler_disabled()) && fixup_exception(regs))
-+		return;
-+
-+	if (user_mode(regs))
-+		trace_page_fault_user(addr, regs, cause);
-+	else
-+		trace_page_fault_kernel(addr, regs, cause);
-+
-+	/* Do not open an interrupt window before a nofault fixup completes. */
-+	if (!regs_irqs_disabled(regs) && !faulthandler_disabled())
- 		local_irq_enable();
+ 	/* Retrieve missing GPRs from SBI */
+@@ -84,7 +85,7 @@ void noinstr do_sse(struct sse_event_arch_data *arch_evt,
  
- 	/*
+ out:
+ 	instrumentation_end();
+-	nmi_exit();
++	irqentry_nmi_exit(regs, state);
+ }
+ 
+ static void *alloc_to_stack_pointer(void *alloc)
 -- 
 2.50.1 (Apple Git-155)
 
