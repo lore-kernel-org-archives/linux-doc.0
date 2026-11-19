@@ -1,88 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.244
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795095403;
-	b=OZCiLwcpoxxOTaDyvN7v2IH7nM8XvVwaZezseE7L4fzh/PCDeB+mNmHXpqLqeMp5/VCy
-	 1FknbLMN6qR14nTCwa5LgNbIyedNWImShpr24h5CUp6hDgmKEVNqw19gXiuPiP/U4PQjC
-	 +/a/uunRTSsNs0nNfBsrlcEH+I9TmPdwygJ60kh0MzgKvImp/UOaWlfoF+mdUwS60Dsiv
-	 uRhpD8Ft+P1sDY/rqeqRDJAFmd6haj96wXT44k4n/qCYwXXLpEz3OzrLzUGAtURRc2Pzv
-	 ElxVZNk7P06b+kA5ytzTI/cSeiuaqY5jpkUnfrtEdCpEaeKL02cX9zVcr4tGDnIB37A==
+	t=1795095866;
+	b=vZg1Ubzv1DiQ2xBvObrK246GPjCi+SJWVd2Y+ZThG3PGRmOrOTCjIet7U1mgP9n85xVJ
+	 bqo/Ym/kCWl60t/BddTj5U/8pYdeIaa9HGhU7F8MXAQ35Y/ocptKv0vbV2PEieyuEmM70
+	 FPtP+/h4eqBwK+0NolOfMWg/NFaIEBIOuIEGvuqb1XtLFlsi5lkEoLQSwPFdJjmeG9bTT
+	 PY2A6rsBpqHG4maVYULUdZIB4CAdo0mGGD/wIma9yeeUBwPOyUUhAAYSKCizVhlIk7IPD
+	 1pdikF2WfaennsD6wxnyS7v7Mg+4i+rpoNcjx57ABn+UhrHNzkEygB1AdqBZKnmZixw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795095403;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=DBKtZ8f4rQ06PM27Ke8dD/8/HlYVMBZ4lK4BrID9KOk=;
-	b=INUfaOYT3Noi4arIWwTBa3XSWsLDDrSqdAu0jAzBnRncZFPBe7g5nQOkywG4BVqieqLK
-	 fXgEAg6NwmQOjTNHDz7gAXPAUDpgKtmm70nMLCB0rd8e4l2pE4yjeebyJHN73GiSDskVf
-	 Q70a55vpWm/MlCPTmXrrBtGg6vctsO5e878SUxE0v1Zvcc3/NhBQ3oMUneAmsNFLbmrOC
-	 FwLEpoaJFTwPhL/cgdvIU2ukGNEhHT/k4i962p+ZaKf+UNL2S/m+t1M1OColFoEXesaHX
-	 N7QhrvaeSxDKbUQ/5lV8vShBXt14Ob5x6wwTZucqYroJF8PFxzv9ZUSPPjq4mEiZCxw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795095866;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=JFOr/HaA5M4ow4p4WMe/GDqNkmn9F87y18KWeoj8kmU=;
+	b=NN2s1Qbyaemsq9WBHWafX4MBJremXnpuBRa7rzr2eAcxEO3U8IJljhUvIGhMFcmB6Inx
+	 jCA7NzW4vC0TPSH137LAgqPYaOiOIWvKY0ppYvzvwA3o+DodytWPlRiTbjfX6StiwPo1A
+	 sKDnu6flxSv9Tar2fQw21wz06lJXSIj3xrGH/ClslzqYG/pso02dxiz2QGpjGXduO3fE6
+	 MuaeJRb+PBfr4ZEkqrRPM5BnsRwpPrsWYY6iAtuh6ZcZmg1RzZ5F0W18trOQIHpq+Pdkn
+	 p+6r3mg9vXONON0wnBB6ufUsG8J9HuiKF1xo4m66yUj7cicefyShALV7Nb4Dsub/P+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H4qQ+EJT;
-	arc=none smtp.remote-ip=209.85.221.45
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=E5PJ485w;
+	arc=none smtp.remote-ip=95.215.58.244
+Received: from mta1.migadu.com (out-244.mta1.migadu.com [95.215.58.244])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83990606A324
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 13:36:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83990606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F45606A326
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 13:44:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2F45606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H4qQ+EJT
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so2057883f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 05:36:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795095402; x=1795700202; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DBKtZ8f4rQ06PM27Ke8dD/8/HlYVMBZ4lK4BrID9KOk=;
-        b=H4qQ+EJT+0hEzIoPgYTz1jepaPSpvUK/Zo2h0MM0Yc8ArjFbvw3txZCErZzEUEz20m
-         Jxuaj7j+0GGFEgcSC9FleY2yDJJUrfnwJan1bCNbL++COhoLWFcy937uIX8McA5GUFoz
-         K8yP7BwMS+6veUjWGL+rnb2z1tjHgCy85x7sGKq1TMSamnbPxG61FSeVMNKN8uJMBLp1
-         yTYNnVRYDjkvB4OXlvDD3cmpJ6n0+zXDab6aNoBgUInA40BzSHcxG07KI+6V9yC3DLaN
-         3P6TrQVbiKC/UjCTg9+kHIIYMQyOrmmpqrCYDZYCQVMFDsW7D4BxaeaZeXbtlrhM/rHK
-         skdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795095402; x=1795700202;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DBKtZ8f4rQ06PM27Ke8dD/8/HlYVMBZ4lK4BrID9KOk=;
-        b=0q20Qkez7CD9ieRHbeKQE3v/gR6q7bt6WdvF0+E9oUQYXeB/GsXAtVD1KOmKtLVzEU
-         /luSzW1oy2yoe6YpMxqJtCLb73zZL+I454e6FYwA4k7IeHUlCMtgtiOTI2IyPvsDd0VV
-         YqNJVHxyF2f/qj/aXXyGAzrmetQMJ/zeot/FgEqm7eaKRmoA2w81ZQ/aE/aoLx3p2w7e
-         9nM0dCrgYQBaN/fy3neUfs0+Gasw/JmMVQW/e5n+lyQlbnQI5D0IkAW/uaG+wuBBPRMR
-         gXfGRyU9ltH5NMQst0BeS6I3t+BHGkfFAPOwKSVpMFm3fYGYSnJPVNPNuGive6o5myos
-         jH5A==
-X-Forwarded-Encrypted: i=1; AL+hErFNnaRGg30eYWuRN2NP+ULLMgJ9Oy5HepHI+dXmWWn5/FA6hvPa604TRLFbqumX/huWQXo35GZZyGY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/RDVCXTyH/K37++wn6E0zfrUyTjm9VRnAOO30weeiVjRAHZbRd
-	crBxMYIZW41/beWyv4t4VeO6d80UV0/ukmzILCbg6Gr24rOO3VDr+hCD
-X-Gm-Gg: AZFdTZcD9sxI1oaO/GzsnsIONv0HQIhi8Odc3wSmUOdLDhGo1fXH/oFgw/IujLwCBUZ
-	6LnVenJuR1bxtNXy3JXJZ3n938Wu9ZmlwBxok6JuGKGgWwNZ+86kBp+MiulaWOWxJ2IYhyZvM96
-	eG5cSvNrUMiDKKtWrIffdtGDdA9IlN2z8hs1aRHrSGKFgdak2qPKbNShfoV2qDQ9wc8hUVRiOMa
-	yzc2q/A94PVm+PSHE1irDKYCuEGk02KkFkmVY1+PoDiB1oGdp3GjCg0a0l/r/LmMkTMUvOEy40X
-	oe1/Ix2hOh72al6I3KS9caYaet/MpwF0eAvGGOUfzlqxCMBdcOz5QXsANFNWJSKqVWLYF47iFLk
-	Xr0TvMpO8Su/+piKYJFYwtUpcgywrQ3tGIVlzopqVlaZ0JQUVwKK/ZOpb4jZu1lyWVZIouQKak2
-	IgLpTbbxf8LxzsQf2Go7alrpVhLBv2OxLWP4ewVU7b3OgQ7z5lnYxeSRUSd9OEBz7yfQshqiuU2
-	2lCZdc9iWmurljjh0ydsBIZvxqi3RiWlGKKUFQZs5nMcQpbSHL8DmDDfPtkIlvfVsYYUO41VRZl
-	b5rOiW8E6/gC7nuLjsXrTDZ4+R34cnhzhr7CXWR0uA==
-X-Received: by 2002:a05:6000:299c:20b0:49c:9e8a:31ad with SMTP id ffacd0b85a97d-4a63ab743f8mr8922005f8f.42.1795095401941;
-        Thu, 19 Nov 2026 05:36:41 -0800 (PST)
-Received: from [10.111.176.198] ([2001:19f0:6c01:2c43:5400:5ff:fef6:1b30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a6573ba95csm11547911f8f.56.2026.11.19.05.36.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 05:36:41 -0800 (PST)
-From: Oarora Etimis <oaroraetimis@gmail.com>
-Date: Thu, 19 Nov 2026 14:36:04 +0100
-Subject: [PATCH v3 2/2] drm/vkms: queue the composer work under the output
- lock
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=E5PJ485w
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=GeacZfWtcOKsPTca8YX1CAhAl83TpLkh+Pna1MJGv8k=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795095863; v=1; x=1795700663;
+ b=E5PJ485wDF8oE5jTv1Rr41cNiZNzU0XeGUmmT39gnMH98TrS0u/0aV7yqDfFpLde4fRt0NCY
+ H24T4j+VZEVaF2ChPgk2T6Sf32pqCmpYceCHvzudkrQnOtE/zlUg9/sZBSno3UVKPrreBqaGjUo
+ 10Pj2RuMTOh+PV79Xh95P7uY=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 2b1b82f9378b37d8;
+	Thu, 19 Nov 2026 13:44:23 +0000
+X-Mizu-Trace-ID: 2b1b82f9378b37d8
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <0305b6b3-8292-4a4d-a473-dc26a39beca1@linux.dev>
+Date: Thu, 19 Nov 2026 14:44:18 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,63 +58,224 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261119-composer-v3-2-dd470a820303@gmail.com>
-References: <20261119-composer-v3-0-dd470a820303@gmail.com>
-In-Reply-To: <20261119-composer-v3-0-dd470a820303@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Melissa Wen <melissa.srw@gmail.com>, Oarora Etimis <oaroraetimis@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Liviu Dudau <liviu.dudau@arm.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.15.2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 03/11] riscv: sse: mask events during shutdown and
+ kexec
+To: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, pjw@kernel.org,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+ himanshu.chauhan@oss.qualcomm.com, conor@kernel.org,
+ anup.patel@oss.qualcomm.com
+Cc: cuiyunhui@bytedance.com, atish.patra@linux.dev, peterz@infradead.org,
+ mingo@redhat.com, acme@kernel.org, namhyung@kernel.org,
+ mark.rutland@arm.com, alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+ irogers@google.com, adrian.hunter@intel.com, james.clark@linaro.org,
+ will@kernel.org, tglx@kernel.org, corbet@lwn.net, rdunlap@infradead.org,
+ shuah@kernel.org, yuanzhu@bytedance.com, yang.susheng@zte.com.cn,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20261119120824.13969-13-zhangzhanpeng.jasper@bytedance.com>
+ <20261119120824.13969-16-zhangzhanpeng.jasper@bytedance.com>
+Content-Language: en-US
+From: Clement Leger <clement.leger@linux.dev>
+In-Reply-To: <20261119120824.13969-16-zhangzhanpeng.jasper@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-vkms_crtc_handle_vblank_timeout() reads output->composer_state under
-output->lock, then drops the lock and queues a work item that lives inside
-that state.  The commit that retires the state frees it after flush_work(),
-which does not wait for a work item that has not been queued yet, so the
-queue can land on freed memory.
 
-Hold the lock across the bookkeeping and the queue, so the state that was
-read is still the state that gets queued.
 
-Fixes: 88ad7f3a5660 ("drm/vkms: Reduce critical section in vblank_simulate")
-Signed-off-by: Oarora Etimis <oaroraetimis@gmail.com>
----
- drivers/gpu/drm/vkms/vkms_crtc.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+On 11/19/26 13:08, Zhanpeng Zhang wrote:
+> SSE delivery is independent of normal S-mode interrupts. Firmware may also
+> retain an event registration until Linux explicitly unregisters it. A hart
+> must therefore stop accepting SSE events before Linux stops servicing the
+> registered handler.
+> 
+> Mask SSE on the local hart before panic stop, CPU stop, restart, poweroff,
+> and crash shutdown paths. This prevents firmware from entering Linux-owned
+> handler state after the corresponding CPU or kernel context is no longer
+> valid.
+> 
+> A crash kernel cannot identify or take ownership of registrations
+> inherited from the crashed kernel. Reject a later normal kexec while such
+> SSE state may still exist, rather than transferring unknown firmware state
+> to another kernel.
+> 
+> The restriction is deliberately based on firmware SSE availability, not
+> CONFIG_RISCV_SBI_SSE or registrations made by the crash kernel. Disabling
+> SSE in the crash kernel does not establish that registrations left by the
+> crashed kernel are absent. Consequently, normal kexec from a crash kernel
+> is also rejected when firmware advertises SSE but no registrations were
+> actually left behind. This conservative restriction remains until a safe
+> way to establish or clear inherited firmware state is available.
+> 
+> Link: https://lore.kernel.org/r/as7-3PbWDxygadnJ@hu-himchau-blr.qualcomm.com/
+> Reviewed-by: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
+> Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+> ---
+>   arch/riscv/kernel/machine_kexec.c | 11 +++++++++++
+>   arch/riscv/kernel/reset.c         | 18 ++++++++++++++++++
+>   arch/riscv/kernel/smp.c           | 17 +++++++++++++++++
+>   3 files changed, 46 insertions(+)
+> 
+> diff --git a/arch/riscv/kernel/machine_kexec.c b/arch/riscv/kernel/machine_kexec.c
+> index 738df176ff6f..24e7affae70b 100644
+> --- a/arch/riscv/kernel/machine_kexec.c
+> +++ b/arch/riscv/kernel/machine_kexec.c
+> @@ -14,10 +14,13 @@
+>   #include <asm/set_memory.h>	/* For set_memory_x() */
+>   #include <linux/compiler.h>	/* For unreachable() */
+>   #include <linux/cpu.h>		/* For cpu_down() */
+> +#include <linux/crash_dump.h>
+>   #include <linux/reboot.h>
+>   #include <linux/interrupt.h>
+>   #include <linux/irq.h>
+>   
+> +#include <asm/sse.h>
+> +
+>   /*
+>    * machine_kexec_prepare - Initialize kexec
+>    *
+> @@ -36,6 +39,13 @@ machine_kexec_prepare(struct kimage *image)
+>   	unsigned int control_code_buffer_sz = 0;
+>   	int i = 0;
+>   
+> +	/* A crash kernel cannot tear down registrations inherited from firmware. */
+> +	if (is_kdump_kernel() && image->type != KEXEC_TYPE_CRASH &&
+> +	    riscv_sse_available()) {
+> +		pr_err("Normal kexec from a crash kernel is unsupported with SSE\n");
+> +		return -EOPNOTSUPP;
+> +	}
+ > +>   	/* Find the Flattened Device Tree and save its physical address */
+>   	for (i = 0; i < image->nr_segments; i++) {
+>   		if (image->segment[i].memsz <= sizeof(fdt))
+> @@ -127,6 +137,7 @@ void
+>   machine_crash_shutdown(struct pt_regs *regs)
+>   {
+>   	local_irq_disable();
+> +	riscv_sse_mask_current_hart();
+>   
+>   	/* shutdown non-crashing cpus */
+>   	crash_smp_send_stop();
+> diff --git a/arch/riscv/kernel/reset.c b/arch/riscv/kernel/reset.c
+> index 14eb08a6db85..fdab37e7ae52 100644
+> --- a/arch/riscv/kernel/reset.c
+> +++ b/arch/riscv/kernel/reset.c
+> @@ -6,6 +6,20 @@
+>   #include <linux/efi.h>
+>   #include <linux/reboot.h>
+>   #include <linux/pm.h>
+> +#include <linux/smp.h>
+> +
+> +#include <asm/sse.h>
+> +
+> +#ifndef CONFIG_SMP
+> +void __noreturn panic_smp_self_stop(void)
+> +{
+> +	riscv_sse_mask_current_hart();
+> +	local_irq_disable();
+> +
+> +	for (;;)
+> +		cpu_relax();
+> +}
+> +#endif
+>   
+>   static void __noreturn default_power_off(void)
+>   {
+> @@ -18,6 +32,8 @@ EXPORT_SYMBOL(pm_power_off);
+>   
+>   void machine_restart(char *cmd)
+>   {
+> +	riscv_sse_mask_current_hart();
+> +
+>   	/*
+>   	 * UpdateCapsule() depends on the system being reset via ResetSystem().
+>   	 */
+> @@ -30,12 +46,14 @@ void machine_restart(char *cmd)
+>   
+>   void machine_halt(void)
+>   {
+> +	riscv_sse_mask_current_hart();
+>   	do_kernel_power_off();
+>   	default_power_off();
+>   }
+>   
+>   void machine_power_off(void)
+>   {
+> +	riscv_sse_mask_current_hart();
+>   	do_kernel_power_off();
+>   	default_power_off();
+>   }
 
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 4e15abfd92a0..d2c6ffbad07c 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -27,9 +27,7 @@ static bool vkms_crtc_handle_vblank_timeout(struct drm_crtc *crtc)
- 		DRM_ERROR("vkms failure on handling vblank");
- 
- 	state = output->composer_state;
--	spin_unlock(&output->lock);
--
--	if (state && READ_ONCE(output->composer_users)) {
-+	if (state && output->composer_users) {
- 		u64 frame = drm_crtc_accurate_vblank_count(crtc);
- 
- 		/* update frame_start only if a queued vkms_composer_worker()
-@@ -49,6 +47,7 @@ static bool vkms_crtc_handle_vblank_timeout(struct drm_crtc *crtc)
- 		if (!ret)
- 			DRM_DEBUG_DRIVER("Composer worker already queued\n");
- 	}
-+	spin_unlock(&output->lock);
- 
- 	dma_fence_end_signalling(fence_cookie);
- 
 
--- 
-2.56.1
+Hi Zhanpeng,
+
+Can you please factor that out in a single function ? both functions are 
+doing the exact same thing.
+
+Thanks,
+
+Clément
+
+> diff --git a/arch/riscv/kernel/smp.c b/arch/riscv/kernel/smp.c
+> index 07027cfeba4b..5b05243e1deb 100644
+> --- a/arch/riscv/kernel/smp.c
+> +++ b/arch/riscv/kernel/smp.c
+> @@ -22,10 +22,13 @@
+>   #include <linux/irq.h>
+>   #include <linux/irq_work.h>
+>   #include <linux/nmi.h>
+> +#include <linux/panic.h>
+>   
+>   #include <asm/tlbflush.h>
+>   #include <asm/cacheflush.h>
+>   #include <asm/cpu_ops.h>
+> +#include <asm/sbi.h>
+> +#include <asm/sse.h>
+>   
+>   static const char * const ipi_names[] = {
+>   	[IPI_RESCHEDULE]	= "Rescheduling interrupts",
+> @@ -66,8 +69,18 @@ int riscv_hartid_to_cpuid(unsigned long hartid)
+>   	return -ENOENT;
+>   }
+>   
+> +void __noreturn panic_smp_self_stop(void)
+> +{
+> +	riscv_sse_mask_current_hart();
+> +	local_irq_disable();
+> +
+> +	for (;;)
+> +		cpu_relax();
+> +}
+> +
+>   static void ipi_stop(void)
+>   {
+> +	riscv_sse_mask_current_hart();
+>   	set_cpu_online(smp_processor_id(), false);
+>   	while (1)
+>   		wait_for_interrupt();
+> @@ -78,6 +91,7 @@ static atomic_t waiting_for_crash_ipi = ATOMIC_INIT(0);
+>   
+>   static inline void ipi_cpu_crash_stop(unsigned int cpu, struct pt_regs *regs)
+>   {
+> +	riscv_sse_mask_current_hart();
+>   	crash_save_cpu(regs, cpu);
+>   
+>   	atomic_dec(&waiting_for_crash_ipi);
+> @@ -241,6 +255,8 @@ void smp_send_stop(void)
+>   {
+>   	unsigned long timeout;
+>   
+> +	riscv_sse_mask_current_hart();
+> +
+>   	if (num_online_cpus() > 1) {
+>   		cpumask_t mask;
+>   
+> @@ -288,6 +304,7 @@ void crash_smp_send_stop(void)
+>   		return;
+>   
+>   	cpus_stopped = 1;
+> +	riscv_sse_mask_current_hart();
+>   
+>   	/*
+>   	 * If this cpu is the only one alive at this point in time, online or
 
