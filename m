@@ -1,62 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.170
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795092258;
-	b=SBjXzK6PYFqJ32BjQa0uHsXOxweptMce34m0jUuSl39XFUin1JjiccaQpj5ZehiI9+6g
-	 NWCRW+Vz0/ChyjKTdmckdUjaOD4cxE2KU1gtAFNcAAM0rTk2LejkMqTHKp/zkiGY5EWgd
-	 B/W0w0Ep8qKEmWLlALWHNA8biqgMtS0TFLutcbWFnZf3eiK57zzoQ7OKFWIaGfUMFcE9H
-	 j+o9hi7HhXmrhXK6BUhkfXukitdVMy5LZpwAaPp8SI0bt4p/nUsgej/JWtVpq0Y0gxGTS
-	 GGKFEtr2sk00gzJ01NHufAKttx0qfSRr9eJMQvfCvz/DxqGfKh+MFUAHQ87NED25yIQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795092258;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=odGKjtuO2fcSEp2Bw94sYra7hu3Cvd+3dwpUXKWdflc=;
-	b=hNSbuL6acMELh+vXShggFHCXbm5DA23IU9KEw3cEftKKf5O/ktuGF1Wfaoevd7nP+vex
-	 YMDfSKzMpyTpFgHB1zcsEBK7XD1jAnLfO6szMK8tQMEAg7LGLHoK9STyb656doDi+PHG2
-	 SF2xxJBJTu+acn4KxdIwtszH6c6enf9tnBCcL9st36DnOsYrzCWpK+LieEYF/n8ohY6dP
-	 gm2CJuPDKVS7YgrvwwqKIfHHn71gpYJl7OGdg7i7JwzvafOZuH2mAGXVoB1XiaJZfa/8c
-	 yIR5+eh3JYXlwNTDiYfo4jvfqmWbNWq2CAMCLtVgHGSko/CuWha649Q1PYzRuoK+uew==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=csPlpUoG;
-	arc=none smtp.remote-ip=91.218.175.170
-Received: from mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.173
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795092419;
+	b=uxpBJeZ94+jQzFXVQhBUa/VLQVlScZPaZZpQCbL46PWG19TaeduRwdyK1/QdLQrusfcC
+	 O7lFSA9d7pXE/9E3KC5qRrTXkj+Kun9DBIvyymXKVSHRfrffZqVPOiro04BTJgrX07Efx
+	 XmdLh1siMVFUkXRX0vQuKwWAhHuQGafryaVCO+VxE2eXKEcN83/BoAlqjarcVdexMo/JW
+	 FpqtqnBq5gBgvvVvyOPPppCW6Nn9kCyzVIRzJDZhM3cJ8fvscRVX5G86ZFgrDCj4g174P
+	 NDVo3+pyWixHZr+yY1HDI0y6GsAaxjg35WNGDJ3RPpNVMyskOGQHqh2L19fWaB/B9Hg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795092419;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 In-Reply-To:References:X-Original-From:From:Mime-Version:User-Agent:
+	 Date:X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=DQI1OZNYohFiuung2XmK2sEz1Uw+tUzC41KeP4vlNw8=;
+	b=XI6l/j4nxVXOxLcEnuqq3105C7dD0AgqJpKXvKJFCV9avFT+CrlCue6ISzopDtsO8Bua
+	 XWVmeaXKFuceQffFRPDXVNdmh0cKs6M1WEWJdR5w2BXPUuaXSEibqV806C8v5u+yfbY/s
+	 jXVGGtSfw9zNrPPeD8I4G6RVkb4UDmgBws5rGX6a7kbMJqX6V3GxIX/fozmViOlu/ImQZ
+	 C3I2mRTqyL4gWvkQTr9m07s82WQKtdGwG8+koPie7ubNDMLB1tPt1dXzwFGhoRY4G9U58
+	 MuoWqf34Go67B8KRjMZz6HaKCakwjy9bO7PNHJp4YHhewxKj5j015sbPh//C3EGUAgw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=bytedance.com;
+	spf=pass smtp.mailfrom=bytedance.com;
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=PVBcFpas;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.173
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ADF860A2639
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 12:44:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5ADF860A2639
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE39B606A325
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 12:46:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE39B606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=csPlpUoG
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=odGKjtuO2fcSEp2Bw94sYra7hu3Cvd+3dwpUXKWdflc=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795092255; v=1; x=1795697055;
- b=csPlpUoGn3OMuKMRffkO422j18jyv2KjsrAKbyNhrUnO5TNOc2/ylUlzRqL89WItcZp1KY86
- gF84eHs7SilytFwUSllTmm/IuLGgxnP2omI6cbfs4Xr/iUP65msDPxmYzEAyUjkzCDWFxjpGl8i
- 3LUQ44t2Rpt1E4nKSQYNRqIQ=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 49027ade88d0b6e6;
-	Thu, 19 Nov 2026 12:44:15 +0000
-X-Mizu-Trace-ID: 49027ade88d0b6e6
-X-Migadu-Flow: FLOW_OUT
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5c00d7ac49dso5408e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 04:44:10 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErHWYLbLkE3S9ijaFeT3TBSakBYox+eQe90vRUau7yhkNAxSCTyioKyHdWtui22izxQtg1awTPdP94s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9uaaOSA4cqPa21yjpvaDAePRRMeiO+PY42rUYjiPjbkgAM5gff
-	PW9/5nyVH1+vWdpw6ByLrS+AXMkIE+1HjecRVvyvjtWOHlXB2oHAiBGkYBJB7oFtuHY5uUJ3mrD
-	f40tKyw13Fb4roOgjsAYknCNf2IW0yRx+Ncy2EBeL
-X-Received: by 2002:a05:6512:4011:b0:5c1:4d61:20ff with SMTP id
- 2adb3069b0e04-5c1b6774040mr72185e87.10.1795092249237; Thu, 19 Nov 2026
- 04:44:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=PVBcFpas
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8b335eeb340so18995857b3.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 04:46:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795092418; cv=none;
+        d=google.com; s=arc-20260327;
+        b=le+zJ5PEMQa1LRneybsdt7GN5NOKUGQeuSQAnEpDimfxQM6AqkE+Ex2r/GZJibOLVe
+         sgdd6NWwXfS1rhZsfl9CfMVb0KeR48mAUV9Y1hGKWIaWieSuSdREGe2skHGlquRtkxI4
+         tKk6Zqiz4JpbyTzdr0BF1R/9X2OaTPX0YruRkkXnTZE2e2bZeyjbYw01C5i/3qZaP5yA
+         3M2wUwtQ8r5xOAi97jpFdEjiPtn/ZdgeXBXx8XjOyQmzndLnJKtfM+kONDrsE96Pv8fs
+         52wTJMTcJ43oT/D5RXp5i8k3F0SntimHWh7R5ASy8hn/UM+b3UuzafdqIX2rVCwt3fDQ
+         qkNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:user-agent:mime-version:from
+         :references:in-reply-to:dkim-signature;
+        bh=DQI1OZNYohFiuung2XmK2sEz1Uw+tUzC41KeP4vlNw8=;
+        fh=/MpHYTF3dXy8zhu45vey/xoKVjdhYCHwChihY5lh0RE=;
+        b=VH99SJpXJ0DWeOAYeKu0BOqyhzJcX3NTcGhX2JH84OHLp5EtTXBdoMzmWMqj2hLqOV
+         GgZCGs1s3pkJRMMLRwYcSCu1jQ0gWVdh0t7jrTCff1nYHHy67yr1ZI95oFsq7OIb+9s7
+         0Fwb3ILm3IoGf26LIKKAMyE95vlVbBjSFwFy+NxquPb8aOLWP4Wr0fMMsUKCNP57kAJb
+         AbdlPYfpTHXEQU2IdC1PxQMLJRPUZR0/6ymkfFpjoK4y6bE9kr7Og3eQvETkgugmw7HV
+         cYitjdjewrb152U/vV8KdgzPqiWm0cik/8INjtAIdT2hu5hXrg4HG8mPmNZ7aANQHqUl
+         T31Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1795092418; x=1795697218; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:user-agent:mime-version
+         :from:references:in-reply-to:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=DQI1OZNYohFiuung2XmK2sEz1Uw+tUzC41KeP4vlNw8=;
+        b=PVBcFpas1O8smDHU+vAfrzG+rYFHrAQDcyNbr5hyCzToAVKVsl0IlJXf1fAxNIbcMS
+         fFaMWPOIOO67Ge+lHCBqORfslCkWcgsu2TU0CDhp0qWnbg6+8wd7eFEzAt8d9VaDLdM2
+         pIjVG+zDtEvZo9sQ2wU79yJo/+foxmdaxtCiOxYBKT/lgB6jYwTQteAv7sk54loaJZia
+         mX5J+YP3UglKO1N9wQZ9BdscQDjZ++aBfNEbhKM2S5kXHY6gfg9HbHNxGiT/9zxGPwAu
+         Yem+qoolbm7IdPNK2zTIsK6XZBZs0XnAfsi3gMxB3mjZAeIml7J0XqLZc4D9Hma1qGqM
+         px/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795092418; x=1795697218;
+        h=content-type:cc:to:subject:message-id:date:user-agent:mime-version
+         :from:references:in-reply-to:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DQI1OZNYohFiuung2XmK2sEz1Uw+tUzC41KeP4vlNw8=;
+        b=HjBN2pl3uvAmYbDq8YU0C+JfnjgziIoUgqs4V/+/WRy9BVblgNp9a8+JJ20VwmST8b
+         N0IWKkUQe4yYdw8yYgRaf/TzHGtHBXK13s7ZcQjsb+XIu59JU48T4DMouEFw5wzFrk6x
+         TIAQoCXu7FxfiFyW0m40j8KSqIC/fF/RBYsO8sLv7poP3wKrt+UXjgNGZeUVzU72VpbF
+         H4p12YuCi8VBgq/0Nq+Tv/8xiKWMm9/J4XbuejKkQ4MQXDOm92s6eMsUXmLPe5NtzHrv
+         iySyZtE74i8QRyDaO7wK4hniW+L2k95JteIDkEPnUMbu2p8UMxoEjJGtd3f8sbe/7/2F
+         Imow==
+X-Forwarded-Encrypted: i=1; AL+hErHfKuCIQQuRBhi8zBV7S6+1yw/6oI7qBRBfuKr2F+jAYZIsv0jRS+2+6jBB7pJqkviEnWoObisndBM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+170vyFhASoGHMxQ3ZQXRQFGKDSTQAhHlpXNX93cNekvTE7GQR
+	U4gVAYZqxtTBM4MvAObnQGM9LNAmM38pUupqaxY+K+CfiDRSqKRvp3Ppq27g5EZAfZKODz0BwBD
+	WzX9XQBWCy5INKpIq1d4qqBBJGZQ7fnqRx4DlC8VN8w==
+X-Gm-Gg: AZFdTZfK1rPRqd2qBEOM5FxCX0kCOQcXLveuw0WMLulOzTqWWxciKE3uH+fZiC+uKml
+	Z5Khq8u0cIVeuegDPPrVFhqP4CjzbOQWIfYV6KeY/ablucmvshTBenct5HU1u3vPJ2Dx/2b8rVH
+	g3uoBnVvrQqEP/wVqQCUiB07bTbqiJmXNv87oZriXFCW23k3HvfBl5R+rUSwm2OAw2gFv5qOI/p
+	Zp3qo22WT30FP5nHpdjFwGiUxAVVDhXEcVlu7uyLZ7UN4t9h5UW56ladZM/GyF4kweNwj/YnZT3
+	cbXGFLqSzOK80QdveZr1fXCN3VYW6U+5aeYbVqgOg7/bOTObpxUek/lPG1U/oYHJUDV1cXX/joW
+	kyGXqpWRmWteJChNjYiaGzSszolVg0SueINJwlQ==
+X-Received: by 2002:a05:690c:7405:b0:8b3:3fe5:f6ab with SMTP id
+ 00721157ae682-8b4fecfa349mr19565437b3.24.1795092417770; Thu, 19 Nov 2026
+ 04:46:57 -0800 (PST)
+Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST;
+ Thu, 19 Nov 2026 04:46:57 -0800
+In-Reply-To: <29e631f0-c135-bea4-0a3b-81dd715cef54@kernel.org>
+References: <20260911121456.33223-1-zhangzhanpeng.jasper@bytedance.com> <29e631f0-c135-bea4-0a3b-81dd715cef54@kernel.org>
+X-Original-From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,40 +108,60 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261117074428.7544-1-fuad.tabba@linux.dev> <20261117074428.7544-2-fuad.tabba@linux.dev>
- <avxfgWNePsGPK9mm@gremlin> <CA+EHjTzUrDxLSMEo6X66XhKtQ-=ew3zZhMdFWR6U9Ga17WLWkw@mail.gmail.com>
- <av5CBjbeidUUWiLq@seanjc-mac.roam.internal> <av7bYb1geEGzaj8e@gremlin>
-In-Reply-To: <av7bYb1geEGzaj8e@gremlin>
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Thu, 19 Nov 2026 12:43:32 +0000
-X-Gmail-Original-Message-ID: <CA+EHjTwzdsMKw2MFB9kpV=Xtm4JFpTbWRn0BOSwSB+x=RJhVMA@mail.gmail.com>
-X-Gm-Features: AclHuK9ExBlvjAlpEcQpW7OIX1pR4w0klOAvsUXwgDHyVbn5Bw8uFWJCaQ8SOYE
-Message-ID: <CA+EHjTwzdsMKw2MFB9kpV=Xtm4JFpTbWRn0BOSwSB+x=RJhVMA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] KVM: Stop KVM_PRE_FAULT_MEMORY when the vCPU's
- dirty ring is full
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexandru Elisei <alexandru.elisei@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, kvmarm@lists.linux.dev, 
-	Wei-Lin Chang <weilin.chang@arm.com>, Will Deacon <will@kernel.org>, stable@vger.kernel.org
+Mime-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Date: Thu, 19 Nov 2026 04:46:57 -0800
+X-Gm-Features: AclHuK_VCp2Kj6TuYw_2lEwgIiu0LS1C49sX3AV2M1eYDrqr2PQ_yG1as_cK4Hg
+Message-ID: <CACnXVne49x1JEPZhCaQzofGDuZa65F6cRpE5Pzj=3s0rzpHUcg@mail.gmail.com>
+Subject: Re: [PATCH v10 0/9] riscv: add SBI Supervisor Software Events support
+To: Paul Walmsley <pjw@kernel.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>, 
+	Conor Dooley <conor@kernel.org>, Anup Patel <anup@brainfault.org>, 
+	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Yunhui Cui <cuiyunhui@bytedance.com>, Atish Patra <atish.patra@linux.dev>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	James Clark <james.clark@linaro.org>, Will Deacon <will@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
+	Yuanzhu <yuanzhu@bytedance.com>, Yicong Yang <yang.yicong@picoheart.com>, 
+	Susheng Yang <yang.susheng@zte.com.cn>, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Lorenzo,
+Hi Paul,
 
-On Thu, 19 Nov 2026 11:18:48 +0000, "Lorenzo Stoakes (ARM)"
-<ljs@kernel.org> wrote:
-[...]
-> > > (note that it skips CSR, SBI also with a changed exit_reason).
-> >
-> > Ack.
+On 10/6/26 6:21 PM, Paul Walmsley wrote:
+> Hi Zhanpeng Zhang,
 >
-> Probably worth referencing in commit msg I guess?
+> On Fri, 11 Sep 2026, Zhanpeng Zhang wrote:
+>
+>> [...]
+>
+> Thanks for taking this series forward.  Could you please rebase this
+> series against the current riscv/for-next branch and repost?  I tried
+> pulling the series in, but it needs quite a few updates since we've
+> queued up quite a few patches that touch SBI.
+>
 
-Will add one in v3.
+I've posted v13 [1], rebased onto riscv/for-next at 642fb67393c1. Could
+you pick it up for the next merge window?
 
-Cheers,
-/fuad
+I'll address the crash-kernel kexec restriction in a separate follow-up.
+
+Thanks,
+Zhanpeng
+
+[1]
+https://lore.kernel.org/r/20261119120824.13969-13-zhangzhanpeng.jasper@bytedance.com/
+
+> thanks,
+>
+>
+> - Paul
