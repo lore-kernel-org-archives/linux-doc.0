@@ -1,115 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795080911;
-	b=kH7YPJTyOLfE8ihkzaDy2EdzJgTi+huE5ZD46z6TrsM2fnj2MfAEPLxV6raSyJ9SeBdD
-	 pytGUuGlw55tx8Uk69w808LkJe0G11luTkqPeS0aB6KLaomMLRmbc6Z2rTBhTk+7uO2fY
-	 WxphTMiPsmRZPqykDf/O19FkBJ2KqDiTrrbYMYVwdohxMayI0FSOJEtfLg0D8yEspbTdV
-	 wjeEOMewKvtPkII5dgJvVDNDXWM1kO70xdi2Ee1r70HaxPWdLRhS0XWsYjVZqmbE8dCzl
-	 16T1bo0hxDs10QIKETnEEbzxFQarITQ5ApJbnuRPtXqEfrWCCuGJthgn5JDeiRR4FaQ==
+	t=1795080985;
+	b=RgVuJVHFyruR0WEe6L+4bfjgufQyZvx82VkVLoj/WP3qCRm2hjv7k+EKXOg/7J8MzSaZ
+	 s5hV+nXVHtzd0k6D48GPxKrwekCC9S8dEUKS39MmRDM4MiIssx+COHVgk6ibZiALLxcQR
+	 qN2gu0z5NcgvyRUpmArJ3whk5deJXEM1b09ZA/a4dBqzuoRx5fTvqjX1YWYRcOjlNEtVe
+	 GRS+ZbVkPnR+e+x1hDr1ogkBFVXxu6l6IKh26LPJl7KEFrtlW9aODuWuvuL/wJNLRTqgU
+	 6bwB8/3nuceBftQCMg9XVpcR5ZqEdr9vr8PD92P0gY5T1bnlNwmRBMCEMKp13OxDwRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795080911;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
-	 Subject:In-Reply-To:References:User-Agent:Date:Message-ID:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Last-TLS-Session-Version;
-	bh=CQyK9hhzQUtdCIaKwh8qFL6kiw3hBK7e02jXrxk3Q5M=;
-	b=EnQzhY4O/ZhrGSqMVaG5uNW5EszJXmpUWBioK8czzLqwzVXrROT+KnSSbdgnbQgVG/+R
-	 o8jDVZJp5nGGUn6pPPlfExvPjTRV/FTXcUkYehJ+YpizniIp4hb5JpbmTkuh1pSWJkHwu
-	 BUkBQXavbwOIWCL57UL9l/X/zx8R1VKpfZyTUXPOjvW4FsfsVSNjZ+Ewsz9AxcFMGq0+A
-	 AP4uS5vNbF63qX2c4Iocf+NlFNlJKIbwP59TXp/eK+0d9wdmbkuvaG30FHorsHi2BSrtd
-	 TmbldGiHm9O00WiNCI1dFrdIJiLZ/HGGIoZiv+hLAvg+k3OjpT5xCBQcQ2rxGhYWObA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795080985;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=xO2pdiJAnznJYS9IyGCtJ4fgt5Vc6SFkm4poXMVIIds=;
+	b=2YEKVM/zgkP9FwgfBbyU5fm4+mowQ+glPs1kgbcSoIfBm6XTmROwtPglXyZhTT1EtXd5
+	 dT/uwJ21NywgIOIMFjeEHMKMlyINah6VCVOZ0ZJeXayHu29a8LE+hoKN5scuUFpSIPbZJ
+	 seMLqoToYg63iLLL4LPMAYvqGExkyQ5ZErYsPLceXFCRX8DbjiL15VX3VnHILuzXYqymD
+	 dtqme32DKczUqhEz6sTaJwLGjJBxTfrxXpMdhIDObBYneWljMooyy/CYxNXFJDNBec9nx
+	 Eb+dQ/e3m5fBOLkDpkpdtZHz6jKqhyyJ1Wyu1wIEqNoDVe6w+JLXqc3RDGM8/tAAwRQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=trPf9+9S;
-	arc=none smtp.remote-ip=185.171.202.116
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b="IMJAGE/R";
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=UawDgz71;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719F9606A33E;
-	Thu, 19 Nov 2026 09:35:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 719F9606A33E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA19606A33B;
+	Thu, 19 Nov 2026 09:36:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FA19606A33B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=trPf9+9S
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 9242AC4CBEF;
-	Thu, 19 Nov 2026 09:35:13 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3D3E660237;
-	Thu, 19 Nov 2026 09:35:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 145C311BC315F;
-	Thu, 19 Nov 2026 10:34:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795080902; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=CQyK9hhzQUtdCIaKwh8qFL6kiw3hBK7e02jXrxk3Q5M=;
-	b=trPf9+9SmvXq7f3i06Ocu8PXp2wkKO6ORNKTA4/AjOKcQKVFePqcO/1BhMn+K4JKXgVetW
-	9Yr+85a0u4rw/+pGQPZDRSMsRMDGawEXfnQ9jCtNv2zr3C8ZQd4iUe048cU50ECPRyFurf
-	rsmMLyDo3rueQxG7RuwY+EBebjyTZuhqh1PyoyvCDfGRSYoPSTyfx/hwy85QgTWFsAil0Q
-	X6TU5TJA2EpRSA3/3QyU7eQBfCRlHqNmOlSA+ByZVazhopQuZSLgxPNhpRVe5QgDh43L/T
-	HBMPjxwGs9avJmS68J25IgXRGZqvRkZ+RC3EyDq//xlN7GCwXICCDykv7Bhitw==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org,  Jonathan Corbet <corbet@lwn.net>,  Shuah
- Khan <skhan@linuxfoundation.org>,  linux-doc@vger.kernel.org,  David
- Hildenbrand <david@kernel.org>,  Andrew Morton
- <akpm@linux-foundation.org>,  Jason Gunthorpe <jgg@nvidia.com>,  Leon
- Romanovsky <leonro@nvidia.com>,  linux-mm@kvack.org,  Jaroslav Kysela
- <perex@perex.cz>,  Takashi Iwai <tiwai@suse.com>,
-  linux-sound@vger.kernel.org,  Jens Axboe <axboe@kernel.dk>,
-  linux-block@vger.kernel.org,  Marcel Holtmann <marcel@holtmann.org>,
-  Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-  linux-bluetooth@vger.kernel.org,  Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>,  Jason Wang <jasowangio@gmail.com>,
-  David Heidelberg <david@ixit.cz>,  oe-linux-nfc@lists.linux.dev,  Chas
- Williams <3chas3@gmail.com>,  "David S. Miller" <davem@davemloft.net>,
-  Eric Dumazet <edumazet@kernel.org>,  Jakub Kicinski <kuba@kernel.org>,
-  Paolo Abeni <pabeni@redhat.com>,  netdev@vger.kernel.org,  Helge Deller
- <deller@gmx.de>,  linux-fbdev@vger.kernel.org,
-  dri-devel@lists.freedesktop.org,  MPT-FusionLinux.pdl@broadcom.com,
-  "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,  "Martin
- K. Petersen" <mkp@kernel.org>,  linux-scsi@vger.kernel.org,  Richard
- Weinberger <richard@nod.at>,  Vignesh Raghavendra <vigneshr@ti.com>,
-  Zhihao Cheng <chengzhihao1@huawei.com>,  linux-mtd@lists.infradead.org,
-  Neill Kapron <nkapron@google.com>,  Andrey Konovalov
- <andreyknvl@gmail.com>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-  linux-usb@vger.kernel.org,  Juergen Gross <jgross@suse.com>,  Stefano
- Stabellini <sstabellini@kernel.org>,  xen-devel@lists.xenproject.org,
-  Hans de Goede <hansg@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,
-  "Michael S. Tsirkin" <mst@redhat.com>,  Eugenio =?utf-8?Q?P=C3=A9rez?=
- <eperezma@redhat.com>,  Sean Christopherson <seanjc@google.com>,  Paolo
- Bonzini <pbonzini@redhat.com>,  kvm@vger.kernel.org,
-  virtualization@lists.linux.dev,  Jan Kara <jack@suse.cz>,
-  linux-fsdevel@vger.kernel.org,  "Theodore Ts'o" <tytso@mit.edu>,
-  linux-ext4@vger.kernel.org,  Mike Marshall <hubcap@omnibond.com>,
-  devel@lists.orangefs.org,  Paulo Alcantara <pc@manguebit.org>,  Namjae
- Jeon <linkinjeon@kernel.org>,  linux-cifs@vger.kernel.org,  Jaegeuk Kim
- <jaegeuk@kernel.org>,  Chao Yu <chao@kernel.org>,
-  linux-f2fs-devel@lists.sourceforge.net,  Florian Fainelli
- <florian.fainelli@broadcom.com>,  Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,  Tzung-Bi Shih
- <tzungbi@kernel.org>,  Benson Leung <bleung@chromium.org>,  David Airlie
- <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Alex Deucher
- <alexander.deucher@amd.com>,  Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
-  amd-gfx@lists.freedesktop.org,  Jani Nikula
- <jani.nikula@linux.intel.com>,  Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi <rodrigo.vivi@intel.com>,
-  Tvrtko Ursulin <tursulin@ursulin.net>,  intel-gfx@lists.freedesktop.org,
-  Matthew Brost <matthew.brost@intel.com>,  Thomas =?utf-8?Q?Hellstr=C3=B6?=
- =?utf-8?Q?m?=
- <thomas.hellstrom@linux.intel.com>,  intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v2 07/12] docs: ioctl-number: update MTD entries
-In-Reply-To: <20261119053514.255348-8-rdunlap@infradead.org> (Randy Dunlap's
-	message of "Wed, 18 Nov 2026 21:35:08 -0800")
-References: <20261119053514.255348-1-rdunlap@infradead.org>
-	<20261119053514.255348-8-rdunlap@infradead.org>
-User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Thu, 19 Nov 2026 10:34:37 +0100
-Message-ID: <87bj7lf9le.fsf@bootlin.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=IMJAGE/R;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=UawDgz71
+Date: Thu, 19 Nov 2026 10:36:17 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1795080979;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xO2pdiJAnznJYS9IyGCtJ4fgt5Vc6SFkm4poXMVIIds=;
+	b=IMJAGE/RmMKCiFanlj/FD2Ai1vM70Xgkk3jslQIjbo+GMNoY8hWbLM2zoK5pftpJnToImE
+	pA78Bc6KG904qKbrHr1GpF59kU/f2VGeIZ4+i0tguKl/fPvpPoj2S+0E102IqR20IQphl/
+	xOKTYbUqUOB0zI8dsGOd5l2MgyFQx1N/wo9LbqqxJG8R1jDtKB9H+uUwimDELqAN0czePn
+	ieqwRZVc4irSAANq6aa31sB3lwY7xna6X6EsxfV9URVuSFw/Bv6I3JluIWDa8ehgHy2JSf
+	8pssgXd8nuTpiWjFwlJ2eIUlc7tdE14vdlMOxsrkFsyMjL1IokATGyw/aBm9iQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1795080979;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xO2pdiJAnznJYS9IyGCtJ4fgt5Vc6SFkm4poXMVIIds=;
+	b=UawDgz71m/pFyii/qCCSf4Qd3VGRXH6vVvdxBP97iLTWp2v3iuvOkpQWlxkXd4xAYIR/DT
+	mX5mDpUZ+H/C3ZDw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Joel Fernandes <jfern@kernel.org>
+Cc: paulmck@kernel.org, rcu@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 3/7] rcutorture: Remove unused check_boost_failed hook
+Message-ID: <20261119093617._ZzpwlWf@linutronix.de>
+References: <20261116194438.306618-1-jfern@kernel.org>
+ <20261116194438.306618-4-jfern@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -120,25 +84,22 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Disposition: inline
+In-Reply-To: <20261116194438.306618-4-jfern@kernel.org>
 
-Hi Randy,
+On 2026-11-16 14:44:34 [-0500], Joel Fernandes wrote:
+> Nothing in rcutorture calls ->check_boost_failed() now that boost
+> failure is decided by whether the reader finished, so drop the hook
+> from struct rcu_torture_ops and its initializer.
+> 
+> That also leaves rcu_check_boost_fail() without any callers, so remove
+> it as well, along with its prototype and its CONFIG_TINY_RCU stub.
+> 
+> [ jfern: Apply feedback from Sebastian to drop stray sysctl.h include ]
+> [ jfern: Apply feedback from Sebastian to remove rcu_check_boost_fail() ]
+> 
+> Signed-off-by: Joel Fernandes <jfern@kernel.org>
 
-On 18/11/2026 at 21:35:08 -08, Randy Dunlap <rdunlap@infradead.org> wrote:
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-> Update the list of files where MTD ioctls are defined and update
-> the ranges of function numbers that are used.
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
-
-> [Since having multiple maintainers trying to merge these would
-> cause some conflicts, it would be more manageable for Jon to
-> take all of these through the docs-next tree.]
-
-Agreed.
-
-Thanks,
-Miqu=C3=A8l
+Sebastian
