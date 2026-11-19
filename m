@@ -1,67 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795091368;
-	b=ROEBJ1FgUzI/FuLOXT9tIIX6/77W8NMV/hnq2wsLpu25QjfIqXy3S5N99GlTwQyEgjSM
-	 PBJLRAOx1OulBFw4zeX46y4Y2jZ2dAwYq5Ruxog2sIKo8fOExHeNrAQA+OS9J0W49OmLg
-	 Qi5HbCcMOdE0FQ6tf8gIrpl//JjPsGjsYX1JTaD+nOZM1zSWbCjwfGrFE2sA+qKZzxtwY
-	 1+jFHkcu3Wj4WSWLEMYa3GWhwr3aKceguU3lrbY0PRSYwfHrIMouRiNvy1H9UFOgKFQMV
-	 JEKOrwRc2YqtbrXViAPrKsGht7eb6ePMxeLCd/EKpjfkjKYaIqnuAZ7MuMNbwTVPcFg==
+	t=1795091527;
+	b=jKtRevbI+ZOhFJIZ7X+GfPTctOhpW91aHYcDrn9vCIto1txGykBYfQMU1mEMZcbbT40W
+	 nN8gHK4fPrKAanBmqhjvmHX+H7GnEyLs7JGhQMMraaXWRZntr3fI6wgGPVVGoJ0N0oCa9
+	 BS/9DcqgMn+GoVurqsTwuFcW07yOb5XZgyae+1R3THDII38h8zZYvamv1ykr60FgB14ad
+	 /p1T0InfdW3/Hqd0XU93s8+ynO1ieW75imh00mCPGAaeqfQ2SvfUhRxJvyXQlnm61RyAe
+	 e1rGdSvoBfo84NZyxYWyGjjHZDQ6dUdrzifWkaat1ZQUbK4kaeGbfZ+nMHEur/0WTSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795091368;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
-	bh=26aI3dIJvKPWaIP7OH1UV6UOwwhdI4DXg4en2db6lzQ=;
-	b=S1cbCDyRjJ0IJrq+MifpTQRvRfSJ8EUkF+pX/nA23Dnrfl7oRO4p5UH0zYldU1UWWiH0
-	 Us6A6/mAtwkFEWKzqfbPDaJApHtBs2rREnezZAb7QLTvZUky5iEYwq+nUj36Xrl691jzt
-	 siTNmpAQmDf6wkIb8g6SV/HfAlmnoBbAp7tXa5NSM74Q36mRIQaMMgyLGoWW0XTOoBvSc
-	 wy5wPK6/D9Jv2dlqg0VmBKU0rg71tjxvputdc0msK6gJvunTXfcIyVtzLt7k2SOq7llkv
-	 Yh5bcGfl6A6tnqPopArGyMKmMM8ngUk+2NyGZqH37Bj9Y5CsM2IRCKtsM4fnVzmUq0A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795091527;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=UP5LDlhVIItu47WCxywUlkOjryJZgQSRQQPMaPepdNg=;
+	b=yMIetUY7gDCDWFOTsqu9llVrgYtXGSg4QQqsJIsN6kMQPHEz9zm2RJVByotLn03Pf4xL
+	 zRd8uEaJ2fmJDvAhwI5LFAxTh013xvKVitCj9CPqeLqBRa92HLjUqNqkIGy2pYH4QSbmK
+	 MzGkxXWKsBiRmheE7I4NN+KoUG5+p5GUdoxOz4vZ4pYpfWcaM3Y55hytsV2gLqfSlf6z4
+	 /8i18JgQj98tqQQf8UKlfaEHKMnK2s2pCPSSwWM97itPuBna2C4Yc/VqgnbvaygizLNVY
+	 9+HI1hqcey10t4ocpD7Pnt0KSpVGEg9q36roQa67VGs4estcdDcHt0FAR2nAbK1HfTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Qwvjdhwo;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dmarc=pass header.from=igalia.com;
+	spf=pass smtp.mailfrom=igalia.com;
+	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b="dkJ/yyyA";
+	arc=none smtp.remote-ip=213.97.179.56
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC7B606A325
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 12:29:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1DC7B606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65639606A326;
+	Thu, 19 Nov 2026 12:32:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65639606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Qwvjdhwo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795091367;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=26aI3dIJvKPWaIP7OH1UV6UOwwhdI4DXg4en2db6lzQ=;
-	b=QwvjdhwoYLrEjlxEGhw/gc5/SyMLpCSRyx+9ekcUm049pZaeKMe3pbF1ti7UYdiew8YMky
-	KIbaKH/dPE1zc3ghjcRg5zgWrvrh7WaEr3+352GdidRzN9xiTEQsj988gV1hxqH1xeSigh
-	2EYTPT+q0WcddZ8u8QC54vBLhsq1aQA=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-668-F6N0bqgfOKGGCYzO7xJ5Cg-1; Thu,
- 19 Nov 2026 07:29:23 -0500
-X-MC-Unique: F6N0bqgfOKGGCYzO7xJ5Cg-1
-X-Mimecast-MFC-AGG-ID: F6N0bqgfOKGGCYzO7xJ5Cg_1795091360
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C195218004DF;
-	Thu, 19 Nov 2026 12:29:19 +0000 (UTC)
-Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BEA221956041;
-	Thu, 19 Nov 2026 12:29:12 +0000 (UTC)
-Message-ID: <dd1d61d7-7bef-4a02-8518-e17d2f50369f@redhat.com>
-Date: Thu, 19 Nov 2026 13:29:11 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=dkJ/yyyA
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:From:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:From:Reply-To;
+	bh=UP5LDlhVIItu47WCxywUlkOjryJZgQSRQQPMaPepdNg=; t=1795091525; x=2110451525; 
+	b=dkJ/yyyA6wI+X3se9ALQh2nKZIrN+iokSWCbRd+W+cQsLe9fhChlcRfCy56L++S6DmP358c62eK
+	eYnq7m28IcBUqJNSa8a4U4AviP3DuX0PG0+Uhk3Y8ks5/VyQGtlXgzyXO1VIV3CV3ypemmAxR68bD
+	rLOQmkC28Y09HE8gA3vGYfS5Pg5IcS16D3u4UfU/75JfJ54Wh17Ttml56QKRzCfZBdpLK1+FnOJZw
+	z5YaVY7bJD9h22J21fgDhLXB/QlUlLXLiqTO/VEF2oSx9XbhoivGNm4Sr0q7F33NQmV15sv8P8oUf
+	L/Srt6zLaEzGUqxkqv2+qUGICSja7fhjUZpQ==;
+Received: from [179.105.94.163] (helo=[192.168.0.4])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1xU1J2-00000001Rqt-020k;
+	Thu, 19 Nov 2026 13:32:00 +0100
+Message-ID: <3c5f7694-e6fe-477d-bfeb-a130c363f431@igalia.com>
+Date: Thu, 19 Nov 2026 09:31:54 -0300
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,111 +59,82 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 0/9] dpll: do not serialize driver callbacks
- under global dpll_lock
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Min Li <min.li@microchip.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, Grzegorz Nitka <grzegorz.nitka@intel.com>,
- Karol Kolacinski <karol.kolacinski@intel.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
- Petr Oros <poros@redhat.com>
-References: <20261111164021.273409-1-ivecera@redhat.com>
- <20261116181612.107a4b57@kernel.org>
- <fe1dcdd5-ef75-4231-bf9f-03bf8536c2aa@redhat.com>
- <20261118174424.32e9f130@kernel.org>
+Subject: Re: [PATCH v5 2/2] accel/rocket: Report NPU usage through fdinfo
+To: Sidong Yang <sidong.yang@furiosa.ai>, Tomeu Vizoso
+ <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, ckoenig.leichtzumerken@gmail.com
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>, Heiko Stuebner <heiko@sntech.de>,
+ Gyeyoung Baek <gye976@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261112171144.3151554-1-sidong.yang@furiosa.ai>
+ <20261112171144.3151554-3-sidong.yang@furiosa.ai>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <20261118174424.32e9f130@kernel.org>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
+ /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
+ gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
+ SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
+ G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
+ AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
+ dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
+ P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
+ O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
+ GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
+ 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
+ FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
+ TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
+ Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
+ 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
+ LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
+ T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
+ wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
+ zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
+ it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
+ Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
+ uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
+ raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
+In-Reply-To: <20261112171144.3151554-3-sidong.yang@furiosa.ai>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Transfer-Encoding: 8bit
 
-On 11/19/26 02:44, Jakub Kicinski wrote:
-> On Wed, 18 Nov 2026 16:29:23 +0100 Ivan Vecera wrote:
->> A step of the zl3073x PHC, which ptp4l and ts2phc do at start and after
->> a large offset, waits for the next 1 PPS edge, up to 1 s, with the
->> channel lock held. A phase step can hold it for up to 3 s while it
->> waits for the previous one. A dpll callback of that channel waits for
->> the lock under dpll_lock, and every other DPLL request and notification
->> in the system waits behind it. With ToD writes running, requests to an
->> ice DPLL took 1448 ms in median and 3.9 s at most. With the series they
->> took 0.2 ms and 0.3 ms, the same as idle.
->>
->> The bigger reason are zl3073x callbacks we are working on, which have
->> to wait for the hardware themselves:
->>
->> - a device reset with resync waits for the fast lock, up to 1 s with a
->>     1 PPS input
->> - a glitchless stop or start of an output completes on an output edge,
->>     so it takes up to one period, 1 s for a 1 PPS output
->>
->> Holding the global dpll_lock for that long would stall every DPLL
->> device in the system. For the output state we tried an asynchronous
->> implementation, but then the callback returns success before it knows
->> the result.
-> 
-> Right, for these level of waiting async seems like the right direction,
-> at least naively/without knowing the HW.  Why does the device wait until
-> PPS to apply the step change? Is the programmed time supposed to
-> correspond to the pulse?
+Hi Sidong,
 
-Yes. The device has no immediate ToD write, it can only write the ToD
-on the next internal 1 Hz edge, the next input sync edge or the next
-internal 0.5 Hz edge. The written value is the time at that edge, so
-the seconds stay aligned with the 1 PPS outputs.
+On 12/11/26 14:11, Sidong Yang wrote:
+> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/ 
+> rocket_drv.c
+> index 5d7805c41dc3..351be60b1228 100644
+> --- a/drivers/accel/rocket/rocket_drv.c
+> +++ b/drivers/accel/rocket/rocket_drv.c
+> @@ -3,8 +3,10 @@
+>   
+>   #include <drm/drm_accel.h>
+>   #include <drm/drm_drv.h>
+> +#include <drm/drm_file.h>
+>   #include <drm/drm_gem.h>
+>   #include <drm/drm_ioctl.h>
+> +#include <drm/drm_print.h>
+>   #include <drm/rocket_accel.h>
+>   #include <linux/clk.h>
+>   #include <linux/err.h>
+> @@ -139,7 +141,23 @@ static const struct drm_ioctl_desc rocket_drm_driver_ioctls[] = {
+>   	ROCKET_IOCTL(FINI_BO, fini_bo),
+>   };
+>   
+> -DEFINE_DRM_ACCEL_FOPS(rocket_accel_driver_fops);
+> +static void rocket_show_fdinfo(struct drm_printer *p, struct drm_file 
+> *file)
+> +{
+> + struct rocket_device *rdev = to_rocket_device(file->minor->dev);
+> + struct rocket_file_priv *rocket_priv = file->driver_priv;
+> +
+> + drm_printf(p, "drm-engine-npu:\t%llu ns\n",
+> + drm_sched_entity_get_runtime(&rocket_priv->sched_entity));
+> + drm_printf(p, "drm-engine-capacity-npu:\t%u\n", rdev->max_cores);
 
-Looking at it again, the zl3073x holds the channel lock while it waits
-for the edge, although the dpll callbacks do not touch the ToD, TIE or
-phase step registers, and they already run while the device applies
-such an operation, because the PTP ops return right after issuing it.
-I will look at narrowing the lock in the driver.
+Does it make sense to expose the capacity of a core that it's not
+actually initialized and in use?
 
-For the resync, async is not only about reporting the result. Fast lock
-is a setting of the DPLL, not of a reference, and forcing it makes the
-DPLL ignore its frequency and phase error monitors. While an
-asynchronous resync is pending, everything else done to the DPLL runs
-in forced fast lock. A reference switch, whether from a priority or
-state change, a manual reference or the device itself in automatic
-mode, would follow the fast lock phase rate instead of the configured
-phase slope limit, and the resync would then report success on another
-reference. A switch to NCO would keep the force bit set until the work
-clears it. So every request changing the DPLL configuration would have
-to fail with -EBUSY, cancel the resync, or wait for it. With a lock per
-chip they simply wait, for at most 1 s.
-
->> A failure can only be reported by a later notification, and
->> the next request gets -EBUSY until the change completes. With a lock
->> per chip the callback can simply wait, and one chip cannot do these
->> operations in parallel anyway.
-> 
-> Do the failures only happen because of "unforeseen circumstances" / EIO,
-> or there may be more common errors reported? If it's just the former
-> a devlink health reporter could be an option.
-
-For the output start and stop, only EIO. The device does not report a
-stopped output and the driver can only wait for one period, so a health
-reporter would work there.
-
-
-For the resync, no. The wait ends with -ETIMEDOUT when the DPLL does
-not enter fast lock, for example because the selected reference lost
-its qualification in the meantime. That is a result of the input
-signal the user needs in the reply, not a device fault.
-
-Beyond the zl3073x, with the global lock any callback that waits for
-its device, for example an mlx5 firmware command with its 60 s timeout,
-stalls the DPLL devices of every other driver in the system.
-
-Thanks,
-Ivan
-
+Best regards,
+- Maíra
