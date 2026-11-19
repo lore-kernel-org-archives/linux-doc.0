@@ -1,62 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795087245;
-	b=iODWqSc+0gtXmrlsIUyHabLMVxJ06xDS7UPqmTe+/E12/nAITNJxdMHrZoABePSGnd+7
-	 6+u6A7pCLUM7nz9amtUk53YU5WtdWzGIe8poWU2/d+0UWtw1976LPk3SsiEhJLZ2MWhXl
-	 rhEhVMnNe9lurz3ErMdPr25vrDPx6uMMH1iM+rY39N4x63543Y161wxn14ZwAsec4jWOA
-	 sK3QsMNVBqUJz8+jyIwtVZYpa1y/mAl1Go9kXr2Na1MZj5SfYr72dA36PX2qtwDI17JYv
-	 z2fYXIP0jhDzJ/XlW6CB5tMBE5PwoGZD8QEc0I/Pj5wGClURT7U83GaIt+dbqGkO/SA==
+	t=1795087270;
+	b=bNOxkMx7LiJ+W06/q9DUyd4xgwT8fZJmH/Vjc4j6ZdUQCpvPPxhy6vMZFyL+3gsLgHpT
+	 lS942pS1JBT2FzcZOm2PLLieHX8Ge3wykY3vw9g+aWFHVk5AMmO+mVtq2RW0Iwn3RQtwO
+	 cyempIeA54Kvt/m9IcOFPenZDuWeZvENEY6BqacrL0mesYfke4Iof/uB+bX314F5zF8Ew
+	 FdB2DzL3ui6+itu7rjvZ9Z3SygjAblC/Yli0Ykz1eFbTNMnRr+W32yNu3XdjEF+5bQCup
+	 4U0PSYD2ByWLdIVmdcVbWGKTeYoBhSSvXzXGoH7XaCMWRRgFVnFfWhn532jcVgM8RLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795087245;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=/P5mabH0JHkQS/tGtMzwsxMvwb/yv9fD2MpxixKyD8U=;
-	b=ZBAX9nImM5qE7+kamuGX3kBQ6dbP9k5MhavUDjWUTIPSYftX9BxJr5BhqnuXvkbuD+/J
-	 oSx+FvwX4Nh1WEGeNhRhCsEtKIrJ9Yg6xNPNqnsKhDJGepvHYqSIyXuxt2va5r+ZWzo+J
-	 HgVirMh56G7k3rDdyuf9DgIXXOMQ123N3vxGx8unIpEUaiNNDXO5KHJyf4+zkns5ZISmQ
-	 e8h3aDXYHPMIDisV1rSFpAFMDjurlKYeS8RKb5v0aCPuUMjRDLTbFedoAHF+nqO9UG8Qc
-	 2xdKg6u+gdQGiXyAwhRyA1RnHPxa6PJqZCNapWjaolqmQR8Om8IAylXm0mioZyUR7rA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795087270;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:References:Content-Language:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=ha6DnhWQklD6WeWHrNkV2Ns/0/S4Aa7BC63XGyEQDOM=;
+	b=rktH+RrcWMaRhKsCvgNj+X6LTpA83HcfkrGQk1lR1KuLNB6sLqoQtBcGaSTOOy1T7ZnB
+	 GSXR81c2Ldsz63iu5uM8B2rWG/mYuPShRPxemx+wxqLVCGd9guguGIWwNgx06AjNE4VZz
+	 MHIKlwx8YPFlzTQfWdrlPSSQRV1hR+D+Kp3pTrqn3qUk+S7iFJ65MjU1tBzd3z1ACjBl7
+	 Uq18iB1KaCRv3pJGy6z9BFWA6Pg8E4ONIEUVqZu00SND/NJ6RD9FFME8ZIBmRn6prAMnn
+	 QLMj9x+ZNyHGTKkj6cQnTy9PVRxKpz1eLYk/PJTnimqUNvAMnWdxGMnpdY3oeIRTvuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J6QRnhqe;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07F7606A320;
-	Thu, 19 Nov 2026 11:20:45 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Ww59asfT;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03C16606A325;
+	Thu, 19 Nov 2026 11:21:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03C16606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J6QRnhqe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 320261F000C5;
-	Thu, 19 Nov 2026 11:20:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795087245;
-	bh=/P5mabH0JHkQS/tGtMzwsxMvwb/yv9fD2MpxixKyD8U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=J6QRnhqeiU7je1XkiTOaqNrgMzrdoqP/BPZSq+iaDn+oJkHi+orLkPCpF8TyD1CJw
-	 lIE0ZQgzfPutKfLZwqyvZguVZaw9OvPeTT/qEZsGxXTylHmdhhHW9qXcLM+Asinnil
-	 AABvpa8cMTRXIbsymHkB0WFv9VyoUftBs38JkcgsHR+xm0RaA1E0qqsBt6TCkTM6oX
-	 qR6iqG9DfHXJ2+YGHLWmNevEs5VG2yy+n3mtoZYWY/TtWu0Im0ExGSeuqrjEhBqwF7
-	 vRs93CTwLCONIKIsH7e8vNqdzBjiaNH01eBP3cb4bLKR7PSle64WJLqRjoky4S3MpZ
-	 tbJdB43hK8U5g==
-Date: Thu, 19 Nov 2026 11:20:38 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Fuad Tabba <fuad.tabba@linux.dev>, Paolo Bonzini <pbonzini@redhat.com>, 
-	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexandru Elisei <alexandru.elisei@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, kvmarm@lists.linux.dev, 
-	Wei-Lin Chang <weilin.chang@arm.com>, Will Deacon <will@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] KVM: Stop KVM_PRE_FAULT_MEMORY when the vCPU's
- dirty ring is full
-Message-ID: <av7bYb1geEGzaj8e@gremlin>
-References: <20261117074428.7544-1-fuad.tabba@linux.dev>
- <20261117074428.7544-2-fuad.tabba@linux.dev>
- <avxfgWNePsGPK9mm@gremlin>
- <CA+EHjTzUrDxLSMEo6X66XhKtQ-=ew3zZhMdFWR6U9Ga17WLWkw@mail.gmail.com>
- <av5CBjbeidUUWiLq@seanjc-mac.roam.internal>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Ww59asfT
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC0D61575;
+	Thu, 19 Nov 2026 03:21:05 -0800 (PST)
+Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4AF813F882;
+	Thu, 19 Nov 2026 03:21:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795087268; bh=+w/PeSpkV8fS5Gud1Ms9cg7smZ9ToeDeWc8CXszhPvQ=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=Ww59asfT/L0guyuN7+0C49D7Ybpph+RIpcplwoA/3QabqJIXRAxwbk6Rwoju+atGj
+	 LMWB8tl8PUFkvrMkFQos7ncUxT7a47GrWd/H/xlNuEMY4Y7StSbDVSBttVieOM1y4h
+	 Kd9TeGzyJUgbVCaR20zvpDdSPaBVOO0bJCl20/0o=
+Message-ID: <6b0ccb0d-487a-4985-ac7b-81808848fd0b@arm.com>
+Date: Thu, 19 Nov 2026 11:21:04 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,65 +53,96 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <av5CBjbeidUUWiLq@seanjc-mac.roam.internal>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/6] fs/resctrl: Clear the CDP state after the cleanup
+To: Jinjie Ruan <ruanjinjie@huawei.com>, tony.luck@intel.com,
+ reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ babu.moger@amd.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, bp@alien8.de, tan.shaopeng@fujitsu.com,
+ gshan@redhat.com, jic23@kernel.org, fenghuay@nvidia.com,
+ zengheng4@huawei.com, x86@kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20261119094858.813874-1-ruanjinjie@huawei.com>
+ <20261119094858.813874-4-ruanjinjie@huawei.com>
+Content-Language: en-US
+From: Ben Horgan <ben.horgan@arm.com>
+In-Reply-To: <20261119094858.813874-4-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 18, 2026 at 04:25:42PM -0800, Sean Christopherson wrote:
-> On Tue, Nov 17, 2026, Fuad Tabba wrote:
-> > > But the overflow bug only applies to x86 (see below), so is this something
-> > > we should worry about at all?
-> >
-> > The ring overflows on arm64 too (below). As for exit_reason, I asked
-> > Sean about the arm64 MMIO case on v1, and his answer was that a VMM
-> > that pre-faults between a KVM_EXIT_MMIO return and the next KVM_RUN
-> > "gets to deal with the fallout" [1]. I think the same goes for riscv's
-> > exits.
-> >
-> > [...]
-> > > > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> > [...]
-> > > >  The dirty ring can get full.  When it happens, the KVM_RUN of the
-> > > > -vcpu will return with exit reason KVM_EXIT_DIRTY_RING_FULL.
-> > > > +vcpu will return with exit reason KVM_EXIT_DIRTY_RING_FULL, and
-> > > > +KVM_PRE_FAULT_MEMORY on the vcpu will process no more pages until the
-> > > > +ring has been harvested and reset.
-> > >
-> > > Maybe worth mentioning the exit_reason thing if we keep this arch-generic?
-> >
-> > Sure, I'll document that userspace should complete a pending exit with
-> > KVM_RUN before it pre-faults on that vCPU.
->
-> If we're going to do a documentation update, I vote to keep it vague and scary,
-> otherwise readers might think the exception proves the rule.  I.e. if we say
-> that KVM_PRE_FAULT_MEMORY isn't supported, then userspace might think all other
-> ioctls are safe, which is most definitely not the case.  E.g. something like
+Hi Jinjie,
 
-Yes definitely, like drivers, users can get up to all sorts of mischief if not
-properly forewarned :>)
+On 19/11/2026 09:48, Jinjie Ruan wrote:
+> To support CDP, resctrl halves the number of CLOSIDs available to
+> resource groups and gives each remaining CLOSID two hardware
+> configurations instead of one, distinguished by index: 2 * CLOSID for
+> data and 2 * CLOSID + 1 for code. Without CDP a CLOSID has a single
+> configuration, at index CLOSID. Every architecture computes these
+> indices the same way.
+> 
+> Unmounting clears the CDP state before it undoes what the groups were
+> given, so the cleanup computes index CLOSID where the group was set up
+> with 2 * CLOSID and 2 * CLOSID + 1. The group's two configurations are
+> left in place and index CLOSID is cleared instead, which with CDP
+> enabled is a configuration of a different CLOSID. The architecture may
+> keep this state for as long as the resource exists.
+> 
+> Only MPAM can reach this today. Of everything the cleanup has to undo,
+> MPAM addresses only the MBM counter assignment by the translated CLOSID,
+> and it only began doing so when it implemented assignable counters. 
 
->
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index e95c9cda085d..45dc1e3c0b03 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -6971,10 +6971,13 @@ to the byte array.
->
->        The pending state of the operation is not preserved in state which is
->        visible to userspace, thus userspace should ensure that the operation is
-> -      completed before performing a live migration.  Userspace can re-enter the
-> -      guest with an unmasked signal pending or with the immediate_exit field set
-> -      to complete pending operations without allowing any further instructions
-> -      to be executed.
-> +      completed before performing a live migration.  In general, userspace should
-> +      exercise extreme caution when invoking ioctls other than KVM_RUN prior to
-> +      completing the original operation.
+This is clearly not ideal but even in MPAM we get away without any usable visible effect. Or am I
+missing something? We are left with some assigned counters from the MPAM driver point of view but
+the resctrl is in charge of the assignments and MPAM doesn't check if a counter is already assigned
+when resctrl asks for a new assignment. The change looks good to me.
+
+Thanks,
+
+Ben
+
+
+x86
+> addresses its counters by RMID alone.
+> 
+> Clear the CDP state after the cleanup, so that the cleanup runs with the
+> CDP state the groups were set up under.
+> 
+> Fixes: 6e0e538a75ce ("arm_mpam: resctrl: Add resctrl_arch_config_cntr() for ABMC use")
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> Cc: <stable@vger.kernel.org>
+> ---
+> v6:
+> - Describe the CDP indices as resctrl filesystem behavior that applies
+>   to every architecture, and the flow instead of the code (Reinette).
+> - Drop the stable version range, the Fixes tag already gives it.
+> ---
+>  fs/resctrl/rdtgroup.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+> index 5d0351453c2f..3312637fb514 100644
+> --- a/fs/resctrl/rdtgroup.c
+> +++ b/fs/resctrl/rdtgroup.c
+> @@ -3150,13 +3150,19 @@ static void resctrl_unmount(void)
+>  	cpus_read_lock();
+>  	mutex_lock(&rdtgroup_mutex);
+>  
+> -	rdt_disable_ctx();
+> -
+>  	/* Put everything back to default values. */
+>  	for_each_alloc_capable_rdt_resource(r)
+>  		resctrl_arch_reset_all_ctrls(r);
+>  
+>  	resctrl_fs_teardown();
 > +
-> +      Userspace can re-enter the guest with an unmasked signal pending or with
-> +      the immediate_exit field set to complete pending operations without
-> +      allowing any further instructions to be executed.
->
->  ::
+> +	/*
+> +	 * Clear the CDP state after the cleanup. The CDP state decides
+> +	 * which hardware configuration a CLOSID refers to, so the teardown
+> +	 * must run with the state the configuration was created under.
+> +	 */
+> +	rdt_disable_ctx();
+> +
+>  	if (resctrl_arch_alloc_capable())
+>  		resctrl_arch_disable_alloc();
+>  	if (resctrl_arch_mon_capable())
 
---
-Cheers, Lorenzo
