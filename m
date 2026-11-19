@@ -1,184 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=18.158.153.154
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1795091242;
-	b=L0ZbmDnITg/L5Znzt4SXlOME0x2RpYhwx+jaTZwjvkjT9GlRngqwErKaBCOj8aKIckqG
-	 i02/xmCDwpF9zpKHOSSvMoKuolD88o5r+I0xovKCpGX5k2sYpvqYi8FUEOku+gZfT1qmz
-	 3ZTd2UBOVe9urjEQQbIIeaAaBVveEe/7HoJVxoUf88Qln95uqUGXbXZYpgvf6g5OgTCQT
-	 e2NvwXK1HXHEObt35IeNHlBoMpR1izEQaud6Z2T9qHr1oC9vEk3/G0Vqi0WT6wV04/sv5
-	 lfue0JFflXsvlrlht6uFDZxU8nIVZUjV2qJJyRUe0s62RrWVxGZeVJID6g6taL8+Fxg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795091242;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
-	 Received:Received:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:
-	 Message-ID:References:In-Reply-To:Accept-Language:Content-Language:
-	 X-MS-Has-Attach:X-MS-TNEF-Correlator:x-ms-publictraffictype:
-	 x-ms-traffictypediagnostic:x-ms-office365-filtering-correlation-id:
-	 x-ms-exchange-senderadcheck:x-ms-exchange-antispam-relay:
-	 x-microsoft-antispam:x-microsoft-antispam-message-info:
-	 x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:Content-ID:
-	 Content-Transfer-Encoding:MIME-Version:
-	 X-Exchange-RoutingPolicyChecked:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=/R/VpeLN3pbU7BPC6gwoQbwCGvwbKwmvdLMCnVmc56w=;
-	b=MnsEfYlkpoWz190Qz/yfYi++DI/Ypyld5R02HleRTb9x6hYYz0YInuZsneebl/ZDnqXE
-	 +koCckDKqtyHfDXhf4yMt1pBUZXsyI7eyD+yXMg2QvE9Ueh80WY8DbpPH/9aGKhqZ8wlN
-	 F+4DiVlNDSlKz7+VPyCeT+bRELf8bwid/yE965Nmm6jxYOOtGSH6KOyRnVR3G+Tx3+tUe
-	 f0T5XK5VYpoeFEFjnYI7A6igCHv38qVdrsHeEX+HySHTK4JVxwtNiaXU8bRa5XB9O9ehY
-	 q+h4aDhjhTCKZvt6+1THUnru3XndzqUZv9qu93KtEGWqvWSup7BFjGeJi7+04+Inofg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amazon.de;
-	spf=pass smtp.mailfrom=amazon.de;
-	dkim=pass header.d=amazon.de header.i=@amazon.de header.a=rsa-sha256 header.s=amazoncorp2 header.b=FKHDTDy+;
-	arc=fail smtp.remote-ip=18.158.153.154
-Received: from fra-out-015.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-015.esa.eu-central-1.outbound.mail-perimeter.amazon.com [18.158.153.154])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795091368;
+	b=ROEBJ1FgUzI/FuLOXT9tIIX6/77W8NMV/hnq2wsLpu25QjfIqXy3S5N99GlTwQyEgjSM
+	 PBJLRAOx1OulBFw4zeX46y4Y2jZ2dAwYq5Ruxog2sIKo8fOExHeNrAQA+OS9J0W49OmLg
+	 Qi5HbCcMOdE0FQ6tf8gIrpl//JjPsGjsYX1JTaD+nOZM1zSWbCjwfGrFE2sA+qKZzxtwY
+	 1+jFHkcu3Wj4WSWLEMYa3GWhwr3aKceguU3lrbY0PRSYwfHrIMouRiNvy1H9UFOgKFQMV
+	 JEKOrwRc2YqtbrXViAPrKsGht7eb6ePMxeLCd/EKpjfkjKYaIqnuAZ7MuMNbwTVPcFg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795091368;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
+	bh=26aI3dIJvKPWaIP7OH1UV6UOwwhdI4DXg4en2db6lzQ=;
+	b=S1cbCDyRjJ0IJrq+MifpTQRvRfSJ8EUkF+pX/nA23Dnrfl7oRO4p5UH0zYldU1UWWiH0
+	 Us6A6/mAtwkFEWKzqfbPDaJApHtBs2rREnezZAb7QLTvZUky5iEYwq+nUj36Xrl691jzt
+	 siTNmpAQmDf6wkIb8g6SV/HfAlmnoBbAp7tXa5NSM74Q36mRIQaMMgyLGoWW0XTOoBvSc
+	 wy5wPK6/D9Jv2dlqg0VmBKU0rg71tjxvputdc0msK6gJvunTXfcIyVtzLt7k2SOq7llkv
+	 Yh5bcGfl6A6tnqPopArGyMKmMM8ngUk+2NyGZqH37Bj9Y5CsM2IRCKtsM4fnVzmUq0A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Qwvjdhwo;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8839606A334;
-	Thu, 19 Nov 2026 12:27:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8839606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC7B606A325
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 12:29:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1DC7B606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amazon.de header.i=@amazon.de header.a=rsa-sha256 header.s=amazoncorp2 header.b=FKHDTDy+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
-  t=1795091238; x=1826627238;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=/R/VpeLN3pbU7BPC6gwoQbwCGvwbKwmvdLMCnVmc56w=;
-  b=FKHDTDy+Fz0i+kF69iom8jPQE69bUpMTber9MR05WczCEYvpOjcYaNXi
-   5x92952jsMm1eyUtw6T7rZ4ndz8tWU/NY5tuo6aWVCIsqxNn88DuizSpY
-   mUje0X4poBiZHNahcEZOlmgwVMzTebhTNpIYOm+PCXrniB20a/t3MaJdI
-   aWBASAJ+xBafHQnOm46u9qFgpTAEQ3WOlp+N0iz6Lzt8UwF7Q1Xbmbo5t
-   33aM0Fse0mICGpA5E7ZG4YGd1GUsbP94CHLFuULCTVWAdCp1EiDFJX4pC
-   mJLffEZv0Emk0URCAIVU2QLKdlQ+QrmM8dTRzkYN1yJ9UlBnfwRp/VGe6
-   g==;
-X-CSE-ConnectionGUID: vEspxkZeS7eD9hkdah3mDw==
-X-CSE-MsgGUID: McR4CrK8RWiy20gmsMAyTA==
-X-IronPort-AV: E=Sophos;i="6.27,220,1787011200"; 
-   d="scan'208";a="23095631"
-Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
-  by internal-fra-out-015.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 12:27:13 +0000
-Received: from EX19MTAEUA002.ant.amazon.com [54.240.197.232:12439]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.23.156:2525] with esmtp (Farcaster)
- id c66ae11f-290e-4893-b10a-93a0a493fc7f; Thu, 19 Nov 2026 12:27:13 +0000 (UTC)
-X-Farcaster-Flow-ID: c66ae11f-290e-4893-b10a-93a0a493fc7f
-Received: from EX19EXOEUB002.ant.amazon.com (10.252.51.83) by
- EX19MTAEUA002.ant.amazon.com (10.252.50.124) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Thu, 19 Nov 2026 12:27:13 +0000
-Received: from FR4P281CU032.outbound.protection.outlook.com (10.252.50.44) by
- EX19EXOEUB002.ant.amazon.com (10.252.51.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56
- via Frontend Transport; Thu, 19 Nov 2026 12:27:13 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DXIkiDqPjH1+vTonF+VgRkKb/MxTrWh/KFJB7xrllnqVlTjmkWUlf0jKZOguTcbfaIoayu8e7noG2j5ZqfQ+mhLad7AZaODihpqBre59vNkUKVUX3ztIcwQaDnd0rR00tA+LC/yehfU0WRrIVb4uFFaOtfJ7Rw+IVd0BGUhsI/hiwaRokpjpQTmpNihSk+hfPhb2CSbvrM9UVi7/1bz408gVUVlrXylSeZRrQ2Z58kOy++e7S8oMce0H/zEJIYjLfixCCo6NNHlln125mjTMOrhSWdS1NumB+Hc4Tb55rNddn6Z9upgnURMegBnCgTZRWy9BQwbZcT0TDE24DOx4cA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/R/VpeLN3pbU7BPC6gwoQbwCGvwbKwmvdLMCnVmc56w=;
- b=na2evdTThiLce0qqMhYbGFXIKRFvrta3PCl+YL+61PO7agUu8hsKc+ufO84dR4L4c9hCx2Zs+/Y+vUWoFlemUNT1F49FGKY150CFu6H3w4SbtoGEZDxZsXLdYaG8y4ARhlgFBhb62lAZ9a2I1C+eBG2pQnD26pZswLA9WCiat+rSU7saeyboCbm4lDhts6LFJEma8A3NH/vdTa3kVscm2tr80b+nrYNSBFL5tQeRB567fFq4WuCz01cvZLSE4tmEOJCwM3IvReezAIxfdLz5HznLXwSXFS9Znhxd1J01qmkNbW0u6UuS73NYYuwkMYEZKIVHz4xaBhP6rZnh1xG6vw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amazon.de; dmarc=pass action=none header.from=amazon.de;
- dkim=pass header.d=amazon.de; arc=none
-Received: from FRVP281MB744463.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:20d::13) by FR3P281MB3069.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:5a::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.17; Thu, 19 Nov
- 2026 12:27:08 +0000
-Received: from FRVP281MB744463.DEUP281.PROD.OUTLOOK.COM
- ([fe80::7b1c:7a5d:c405:6c4d]) by FRVP281MB744463.DEUP281.PROD.OUTLOOK.COM
- ([fe80::7b1c:7a5d:c405:6c4d%5]) with mapi id 15.21.0615.017; Thu, 19 Nov 2026
- 12:27:08 +0000
-From: "Graf (AWS), Alexander" <graf@amazon.de>
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Robin Murphy <robin.murphy@arm.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, Andrew Morton
-	<akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, "Mike
- Rapoport" <rppt@kernel.org>, "nh-open-source@amazon.com"
-	<nh-open-source@amazon.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>, "The
- AWS Nitro Enclaves Team" <aws-nitro-enclaves-devel@amazon.com>
-Subject: Re: [PATCH v2] dma-contiguous: support percentage sizes in
- cma_pernuma= and numa_cma=
-Thread-Topic: [PATCH v2] dma-contiguous: support percentage sizes in
- cma_pernuma= and numa_cma=
-Thread-Index: AQHddEf7tYtxXLjQ9kue1WbqibxY3Lc1R0IAgAASw4A=
-Date: Thu, 19 Nov 2026 12:27:08 +0000
-Message-ID: <28a0f946-af4e-497f-a923-f11b79d94930@amazon.com>
-References: <CGME20261114145340eucas1p2f7699b88eae34f7904cf68109dc3eb4f@eucas1p2.samsung.com>
- <20261114145328.1307-1-graf@amazon.com>
- <fa38a878-1735-4682-b208-5de1616f7e4f@samsung.com>
-In-Reply-To: <fa38a878-1735-4682-b208-5de1616f7e4f@samsung.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amazon.de;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: FRVP281MB744463:EE_|FR3P281MB3069:EE_
-x-ms-office365-filtering-correlation-id: 6f687ec0-2f1e-422c-ddf8-08df46386ddc
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|23010399003|7416014|366016|1800799024|18002099003|22082099003|6133799003|3023799007|11063799006|5023799004|56012099006|4143699003|261022115727099003|261026140227099003|261028144727099003|261102123227099003|261026121527099003|261021121427099003|261022075727099003|261022105027099003|38070700021|10067099003;
-x-microsoft-antispam-message-info: ySlmZE1g03SGnDSpzhD6nsD0dXqJTG1n2FBXrZ3ZzL6Cr0N2hD2Dp6zTwafQG5HwKpYF2ssaO56fc48LXwLD6sfNSuN1AvTxm+0hodmuCfWXFcCyU4Gb8H/IKZHPq342aUNTqTkZitXpwfKnnEr+KbtsxfBwAMa8ES2xbWRt/Yl0atHJ6xURhuh48r1DGvS9p6Fr5ezR25BNwuy5WKzoxth/bVl9C5oEBwrQ+xfVSljQODjgIOeY6PIrcnPwM3lgF6WM+C85OtjbF4PxH+jjyfBVsfCg5wl93BG3vNPa1ksYChJWJIjY4DmwQPu2iykY1GRQdL3xUZpDbYQ8EY0WH+a22HcJkWc0GrNuc8QfHLnwpZNh0hJuYojz9tZvMQR6WHoEn21PmfA816GcVPVZiWz8c2bdZFU7K32NMviGqPYxdUth1zVynqNe2MVYbYPl3sksp82Z10r15nfqoxa06/ustG2VeJSv6+AoGSGA0gWCN+drILYOq7vJ3leWXt2MfcbMlyn6Mo+Jxwtv/iD8oybch5ldqLozWq6cH6P9+/LxQcO1GXZwl9l61M3hPDvipZ+5gYMP8jBW3gI6aWmD8SIJw/fWyoTWDO+t0FU40FfrOX6DwiPKqE45Y8SnGBujDBVkHqri8dceA7tJLiyDlJc6/VsFaoZz8JTmA/NhXHFh2lEzOlfx43+2FE5ZPbEScmmHNmkNJ6UoYmf/fVtRq+LQsIrP7fC/0rGKKyHmNjs=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FRVP281MB744463.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(366016)(1800799024)(18002099003)(22082099003)(6133799003)(3023799007)(11063799006)(5023799004)(56012099006)(4143699003)(261022115727099003)(261026140227099003)(261028144727099003)(261102123227099003)(261026121527099003)(261021121427099003)(261022075727099003)(261022105027099003)(38070700021)(10067099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?alpuS3ZoekZjem1pNVM5dmdDNURxL0ZMY1BFQ0htOEhjdnN4dnBWekU5TTJ6?=
- =?utf-8?B?TWlPTFQyVlV1VkxVeHZyQjJlRUppNzBxRWh3YXl2R2d4QUZSU3VuVUVWOGZx?=
- =?utf-8?B?NFJLYS9FVndrTC9YNTArOG9OZlFPYk5NSkpDYVp2SS92Vmxob1NuV2s1ZmY1?=
- =?utf-8?B?bUVHVGJPVWpjRkRDVndOZTVSaEhnODBzOU9YRXFXMFpUbXRJOWVObGlsWXJa?=
- =?utf-8?B?OXRqdDFJNUdwRGJXSXFHam90T0ZYVGFjc1ZvUXJLRndYZ3FQRnFNUjZ1U3R2?=
- =?utf-8?B?OFlsQUdLWnZLdnh6Z1VUT01ZajNGemRDUHR3L1M0eCsyUThwd0tPeE5JYVhC?=
- =?utf-8?B?SDl2QUN1T2pQV1dOM1BYd1BXUjZmRm01Q1RNVTV3SnB5aDF3NTN1U05HeVpJ?=
- =?utf-8?B?WnRkNGUwL0pHa2lSN2hIcStuSk9iVEhMU3R6bEtpVC9tMHNFbEd6RzZoRS90?=
- =?utf-8?B?cC9yQmZ1MFVsZU9vTTBVdEcwYitaRDdCTzlrVnRFTDh0RE5UbFRGdWRoYm9m?=
- =?utf-8?B?RjFzTkZNN1B0TWllczhveFVsZzc0Vi9vNFovMVpNWDUwWnRMMUp0Z1B0TVVT?=
- =?utf-8?B?Yk9VbnVVMzh3UkVtM3Fzd0xvb1FndTNVZWxxZk1kR1NTTDhMY3NGUDZ5UkxW?=
- =?utf-8?B?UWEvYmd0QitCcFQ5ZUZxR3dvTUFhaXlLYTlLN3VETWJydHBmdUFSTVFZbVVD?=
- =?utf-8?B?UUgycHB4UTV2TU0rL0Y4cVppcVZzYWpzQ3RYNjVrRk5hUEZ4Z1c2WU9zaXpr?=
- =?utf-8?B?QUdIajlUTHhPTm9ESlZWaGhnaGJjZi9vc3ViMUZWVHdDYVR3VWlmak9RS0dJ?=
- =?utf-8?B?VnhUblNGS2E0eGJhVXdiSFhDQjZlMVZSYzZmdzcybC9DaG1xYWFwaWhycVpR?=
- =?utf-8?B?K0VtSm1UVnFKOEFiaTAzMlNGVG9sT1gxNzBqa2lGUzhUU2s3cVhIWXA1NmhW?=
- =?utf-8?B?Y0tXcUFjeGkxMjJwcTFzWks0RklaRFB1MWNLb0cyeHNJcWxFVWJFMit5Wngv?=
- =?utf-8?B?WFVpdk9PU2oweEtMMWpCME5ITyt2b1pUc29QV0luQmMxQjVRR1F0U3pxZHVw?=
- =?utf-8?B?L0x6c0Fpa2lQMGhqb1lOQVZidW52bU5WVHNRMXM0M21PTUZta1N2a3ZvUFpU?=
- =?utf-8?B?dXE4blZjRk9DdVNXZXdBSnhNOWplY1R4bkNtaVBxZEpRd3p0Y0JONDd5cjVL?=
- =?utf-8?B?Ni9QNUQ5Nmo1b3dseHR2NTFoMFBwY2lmSG9BamtaRlZET1U1Z1A1eEk4TFpS?=
- =?utf-8?B?bTdqeDZJeVJjaTZ6OW9ZUTIvT3ZlN0lTVVdvaHVZNEJHRW9PM1pjRTJDdjdL?=
- =?utf-8?B?ZjRoUW12QU8yNzdJd3dnd3QwYlQrOVdZR1FNQ282bkJMVUp0M0hZdmRaTG82?=
- =?utf-8?B?VThLazlmUHdzM2YzclpSL0FIcllodGMzMk9LdzFjZVA2d1FDUTMxRHdzZFUy?=
- =?utf-8?B?NzNIZitmdUxkTU5oWHhWeUt6ZFZrRHVHM0UxUUxQTGl0RHJ4WVlmd29RZFRw?=
- =?utf-8?B?VnY5Y1J4dlVsVk1FQVZXczVXVzY4ajZYRUlGZlVhWXU5ams4RGNlVG9wUHVz?=
- =?utf-8?B?ODgvYmtCdUc2UUMzb3UxNWlUNk8zRDE1cGNodkV3b3ltQ1hwWVZnT3JtTzQ1?=
- =?utf-8?B?S3JtV1hCVXBGWEFnczBpQlBsdTNxdVh2WkMzSVlDekQ1SXphWUROWERQcmlM?=
- =?utf-8?B?L2NtcUJEZTBTM0o2bEpueHlSY2ZzUC81WW9zdlNVRHIyRVVyWk1HWmI0d2hZ?=
- =?utf-8?B?enRWdFRMQjhxQ0kzSHlIQWZTRHV3WjY5RS81bVIxeGc1cFFFVEQwTGVJVHVE?=
- =?utf-8?B?b2tHWWx1VnhjeE9JemtXRzk5Um9aT1VMY2RVVXdNRFJZM3d1cEJxRXZmZHlO?=
- =?utf-8?B?REQxcnNQMFVNSXM1TlRCZWk3eVEvSnlIbGh2TjFEOXpZUnhXTEpPdjVIRXJm?=
- =?utf-8?B?b3Uzc3FBbWRwR1BXTHlTTDlGYWNTOG9qMGJKQXJsaEZNcmY0cEZSL0FtMUxo?=
- =?utf-8?B?Y1hBVElvKzVkRzh1WmoyaUl6YnJmRXhCM0VXbERMRWhhb2VGZklqTHhkZ2Ra?=
- =?utf-8?B?ZkRJcjRpdDN0T21SWEYrM0NLemNhSkpCdkxlTngzdjgwWG5XamR4TXk4c1o3?=
- =?utf-8?B?cTdoMDEwZ2Z6YWJKc3V0WllrbFoxOHcxQTRLaVI1ckxkRHpJWml0a1BMcW9m?=
- =?utf-8?B?anJrcDNqQVl4UENtRU9NcFVWNUhEbXJrOXNIakZIbjR1WkpiSFd1a1FpL29l?=
- =?utf-8?B?NDYxVC9NbnFFS0dHRysyYnF2SmZlS2k2a2ZXUEJvTzZCQysrbUhyUE5kOTY5?=
- =?utf-8?Q?AopLogUQNs8RRd6aOj?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <61F572A20EAE2A48A277F05116F90715@DEUP281.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Qwvjdhwo
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795091367;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=26aI3dIJvKPWaIP7OH1UV6UOwwhdI4DXg4en2db6lzQ=;
+	b=QwvjdhwoYLrEjlxEGhw/gc5/SyMLpCSRyx+9ekcUm049pZaeKMe3pbF1ti7UYdiew8YMky
+	KIbaKH/dPE1zc3ghjcRg5zgWrvrh7WaEr3+352GdidRzN9xiTEQsj988gV1hxqH1xeSigh
+	2EYTPT+q0WcddZ8u8QC54vBLhsq1aQA=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-668-F6N0bqgfOKGGCYzO7xJ5Cg-1; Thu,
+ 19 Nov 2026 07:29:23 -0500
+X-MC-Unique: F6N0bqgfOKGGCYzO7xJ5Cg-1
+X-Mimecast-MFC-AGG-ID: F6N0bqgfOKGGCYzO7xJ5Cg_1795091360
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C195218004DF;
+	Thu, 19 Nov 2026 12:29:19 +0000 (UTC)
+Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BEA221956041;
+	Thu, 19 Nov 2026 12:29:12 +0000 (UTC)
+Message-ID: <dd1d61d7-7bef-4a02-8518-e17d2f50369f@redhat.com>
+Date: Thu, 19 Nov 2026 13:29:11 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -188,54 +71,112 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: ma88mklnTR6DumWOAc7/R8U5g80Iitm/QAr6D49pNgBp4F0SaTgqRDubWLhU8NNBkK22h1kapLoqTGCbStihyKl+RhgTTGQw4mRsDmEi8s0P1WzMxdLXToh1fIcsNcGOCr3aTZKvhJeWP51y91SZZrz8dKvXPpLvb4LKPRM7c842lo8G+XgYnP/KVuJ89sj+65YpZld6tWJSARa4C3qw73IjJti1h1bHQKIuvYSLCo8P6cz9o7HMqQELgTODwMp//bKOu6YHN6H6llPlugJVRhMQwS3+usuUdy0vWRBsWVfyBsRBtEBdqs8/GjP3v8AevgYBNqTqIXbHGsWoA3Zkgg==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: FRVP281MB744463.DEUP281.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f687ec0-2f1e-422c-ddf8-08df46386ddc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2026 12:27:08.4559
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5280104a-472d-4538-9ccf-1e1d0efe8b1b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yDau6bClN6ft+IRm9Dtx6zZeqSoUY4MERdx25CYthqWsSgfqUIgf9+qYDbhkamdN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR3P281MB3069
-X-OriginatorOrg: amazon.de
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 0/9] dpll: do not serialize driver callbacks
+ under global dpll_lock
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Min Li <min.li@microchip.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, Grzegorz Nitka <grzegorz.nitka@intel.com>,
+ Karol Kolacinski <karol.kolacinski@intel.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
+ Petr Oros <poros@redhat.com>
+References: <20261111164021.273409-1-ivecera@redhat.com>
+ <20261116181612.107a4b57@kernel.org>
+ <fe1dcdd5-ef75-4231-bf9f-03bf8536c2aa@redhat.com>
+ <20261118174424.32e9f130@kernel.org>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <20261118174424.32e9f130@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-DQpPbiAxOS4xMS4yNiAxMjoxOSwgTWFyZWsgU3p5cHJvd3NraSB3cm90ZToNCj4gT24gMTQuMTEu
-MjAyNiAxNTo1MywgQWxleGFuZGVyIEdyYWYgd3JvdGU6DQo+PiBXaGlsZSBDTUFfU0laRV9QRVJD
-RU5UQUdFIHN1cHBvcnRzIHBlcmNlbnRhZ2VzIGZvciBidWlsdC1pbiBkZWZhdWx0cywgdGhlDQo+
-PiBDTUEgYWxsb2NhdGlvbiBrZXJuZWwgcGFyYW1ldGVycyBjdXJyZW50bHkgb25seSB0YWtlIGEg
-Zml4ZWQgc2l6ZSBhcmd1bWVudC4NCj4+IFRoYXQgbWFrZXMgaXQgZGlmZmljdWx0IHRvIGhhdmUg
-YSBzaW5nbGUgc3lzdGVtIGltYWdlIHRoYXQgc2l6ZXMgaXRzIENNQQ0KPj4gYWxsb2NhdGlvbiBi
-YXNlZCBvbiB0aGUgYXZhaWxhYmxlIG1lbW9yeS4gVG8gdXNlIENNQSBhcyBiYWNraW5nIHBvb2wg
-Zm9yDQo+PiBsYXJnZSwgcGh5c2ljYWxseSBjb250aWd1b3VzIGd1ZXN0IG1lbW9yeSwgSSB3YW50
-IHRvIGJlIGFibGUgdG8gc2F5DQo+PiAiYWxsb2NhdGUgOTAlIG9mIHN5c3RlbSBSQU0gbWludXMg
-MSBHaUIgZm9yIENNQSIuIFBlciBOVU1BIG5vZGUuDQo+Pg0KPj4gRXh0ZW5kIHRoZSBDTUEgcGFy
-c2VyIGxvZ2ljIHRvIGFjY2VwdCBjb21tYW5kIGxpbmUgb3B0aW9ucyBsaWtlIHRoaXM6DQo+Pg0K
-Pj4gICAgY21hX3Blcm51bWE9ODAlIG51bWFfY21hPTA6OTUlLTFHLDE6NEcNCj4+DQo+PiBUbyBh
-dm9pZCBpbmNvbXBsZXRlIGFsbG9jYXRpb25zIG9uIHBhcnNpbmcgZXJyb3JzLCBjaGVjayBmb3Ig
-dGhlbQ0KPj4gYmVmb3JlIGFjdHVhbGx5IGFsbG9jYXRpbmcuDQo+DQo+IFRoaXMgbG9va3MgbGlr
-ZSBhbiBvdmVyLWVuZ2luZWVyZWQgZmVhdHVyZS4gSSBkb3VidCB0aGF0IGtlcm5lbCBpcyB0aGUg
-cmlnaHQNCj4gcGxhY2UgdG8gaW1wbGVtZW50IHN1Y2ggYWR2YW5jZWQgc2l6aW5nLiBJZiBZb3Ug
-bmVlZCB0byBleHBsaWNpdGx5IGNvbnRyb2wNCj4gdGhlIGFtb3VudCBvZiBDTUEgb24gdGhlIHRh
-cmdldCBtYWNoaW5lcywgbWF5YmUgWW91IGNvdWxkIGRvIGl0IGluIHNvbWUNCj4gc2NyaXB0cyBk
-ZXBsb3lpbmcgdGhlIGtlcm5lbCBjb25maWd1cmF0aW9uPyBDYWxjdWxhdGluZyBpdCB0aGVyZSBz
-aG91bGQgYmUNCj4gbXVjaCBtb3JlIGZsZXhpYmxlIGltaG8uLi4NCg0KDQpJdCBhbGxvd3MgdG8g
-cHVzaCBtb3JlIHBvbGljeSBpbnRvIGEgZ2VuZXJpYyBib290IGltYWdlLCB5ZXMuIEkgc3VwcG9z
-ZSANCndlIGNvdWxkIHB1c2ggdGhhdCBwb2xpY3kgaW50byBvdGhlciBiaXRzIG9mIHByZS1ib290
-IGxvZ2ljLCBzdWNoIGFzIHRoZSANCkxpbnV4IEVGSSBsb2FkZXIsIGJ1dCBJJ20gbm90IGNvbnZp
-bmNlZCBpdCdzIGEgbmV0IHdpbiBmb3Igc2ltcGxpY2l0eS4gDQpQdXNoaW5nIGl0IGludG8gYSBi
-b290IGxvYWQgd291bGQgbWVhbiBwdXNoaW5nIGludG8gVUtJIGZvciBVS0ktYmFzZWQgDQpib290
-IGZsb3dzLCB3aGljaCBtZWFucyBibG9hdGluZyBzeXN0ZW1kLWJvb3QuIEFnYWluLCBub3QgcmVh
-bGx5IGdyZWF0Lg0KDQpJZGVhbGx5IGFsbCBvZiB0aGlzIHdvdWxkIGJlIHBvbGljeSB0aGF0IG9u
-bHkgdGFrZXMgZWZmZWN0IGxhdGVyIGF0IA0KYm9vdCwgc28gdGhhdCB3ZSBkb24ndCByZXF1aXJl
-IHByZS1ib290IGxvZ2ljIG9yIGEgcmVib290LiBGb3IgdGhpcyB0byANCndvcmssIHdlIHdvdWxk
-IG5lZWQgdG8gaGF2ZSBMaW51eCByZXN0cmljdCBpdHMgbWVtb3J5IGFsbG9jYXRpb25zIHRvIGEg
-DQpzbWFsbCdpc2ggcmVnaW9uIGluc3RlYWQgb2Ygc3ByZWFkaW5nIHRoZW0sIG1heWJlIHRvIHRo
-ZSBLSE8gc2NyYXRjaCANCnJlZ2lvbiwgb3IgbWF5YmUgYnkgZmF2b3JpbmcgYWxsb2NhdGlvbnMg
-aW4gcGh5cyBhZGRyIG9yZGVyLiBBdCBsZWFzdCANCnVudGlsIHRoZSBib290IGlzIGF0IGEgcG9p
-bnQgd2hlcmUgeW91IGNvdWxkIHBlcmZvcm0gdGhlIGFsbG9jYXRpb24uIEFuZCANCnRoZW4gd2Ug
-d291bGQgYWxzbyBoYXZlIGxhcmdlIHBoeXNpY2FsbHkgY29udGlndW91cyBibG9ja3MgYXZhaWxh
-YmxlIHRvIA0KYWxsb2NhdGUgZnJvbSBhbmQgcG90ZW50aWFsbHkgY2hhbmdlIHRoZSB0YWcgdG8g
-Q01BLg0KDQpBbnkgdGhvdWdodHMgb24gaG93IHdlIGNvdWxkIGJlc3QgZG8gdGhpcz8NCg0KDQpB
-bGV4DQo=
+On 11/19/26 02:44, Jakub Kicinski wrote:
+> On Wed, 18 Nov 2026 16:29:23 +0100 Ivan Vecera wrote:
+>> A step of the zl3073x PHC, which ptp4l and ts2phc do at start and after
+>> a large offset, waits for the next 1 PPS edge, up to 1 s, with the
+>> channel lock held. A phase step can hold it for up to 3 s while it
+>> waits for the previous one. A dpll callback of that channel waits for
+>> the lock under dpll_lock, and every other DPLL request and notification
+>> in the system waits behind it. With ToD writes running, requests to an
+>> ice DPLL took 1448 ms in median and 3.9 s at most. With the series they
+>> took 0.2 ms and 0.3 ms, the same as idle.
+>>
+>> The bigger reason are zl3073x callbacks we are working on, which have
+>> to wait for the hardware themselves:
+>>
+>> - a device reset with resync waits for the fast lock, up to 1 s with a
+>>     1 PPS input
+>> - a glitchless stop or start of an output completes on an output edge,
+>>     so it takes up to one period, 1 s for a 1 PPS output
+>>
+>> Holding the global dpll_lock for that long would stall every DPLL
+>> device in the system. For the output state we tried an asynchronous
+>> implementation, but then the callback returns success before it knows
+>> the result.
+> 
+> Right, for these level of waiting async seems like the right direction,
+> at least naively/without knowing the HW.  Why does the device wait until
+> PPS to apply the step change? Is the programmed time supposed to
+> correspond to the pulse?
+
+Yes. The device has no immediate ToD write, it can only write the ToD
+on the next internal 1 Hz edge, the next input sync edge or the next
+internal 0.5 Hz edge. The written value is the time at that edge, so
+the seconds stay aligned with the 1 PPS outputs.
+
+Looking at it again, the zl3073x holds the channel lock while it waits
+for the edge, although the dpll callbacks do not touch the ToD, TIE or
+phase step registers, and they already run while the device applies
+such an operation, because the PTP ops return right after issuing it.
+I will look at narrowing the lock in the driver.
+
+For the resync, async is not only about reporting the result. Fast lock
+is a setting of the DPLL, not of a reference, and forcing it makes the
+DPLL ignore its frequency and phase error monitors. While an
+asynchronous resync is pending, everything else done to the DPLL runs
+in forced fast lock. A reference switch, whether from a priority or
+state change, a manual reference or the device itself in automatic
+mode, would follow the fast lock phase rate instead of the configured
+phase slope limit, and the resync would then report success on another
+reference. A switch to NCO would keep the force bit set until the work
+clears it. So every request changing the DPLL configuration would have
+to fail with -EBUSY, cancel the resync, or wait for it. With a lock per
+chip they simply wait, for at most 1 s.
+
+>> A failure can only be reported by a later notification, and
+>> the next request gets -EBUSY until the change completes. With a lock
+>> per chip the callback can simply wait, and one chip cannot do these
+>> operations in parallel anyway.
+> 
+> Do the failures only happen because of "unforeseen circumstances" / EIO,
+> or there may be more common errors reported? If it's just the former
+> a devlink health reporter could be an option.
+
+For the output start and stop, only EIO. The device does not report a
+stopped output and the driver can only wait for one period, so a health
+reporter would work there.
+
+
+For the resync, no. The wait ends with -ETIMEDOUT when the DPLL does
+not enter fast lock, for example because the selected reference lost
+its qualification in the meantime. That is a result of the input
+signal the user needs in the reply, not a device fault.
+
+Beyond the zl3073x, with the global lock any callback that waits for
+its device, for example an mlx5 firmware command with its 60 s timeout,
+stalls the DPLL devices of every other driver in the system.
+
+Thanks,
+Ivan
+
