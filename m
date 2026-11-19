@@ -1,60 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795087204;
-	b=EzPNy8OJBI5mBtKvj7cgqo0+63Hd8L1y/pfUD/eOWMvcACJsaFh3IG6Y4O2BljiO8Fsw
-	 AiQXaAblIbsfy+vc/XLVVQHxeY3Jr7UogOdxaWcQmDcqraFn6ARyE3xiF/j12C3gIJarv
-	 5PSG6XMcjWvEd3EMj1o/DXvIu/4mqCOSdgHoqpvAUZ+xmj+jQbnPdQs4+Y/VxutWX2l8t
-	 JY4AMBgCfaGKGZrPXmMeETOD3XhzS+9LWDkrr3pOgP9JmSqmFFmQ9wE8OBDt3PNuX7wEZ
-	 RL9k7Sss/SAYEZbaKAhQ7pJJt6wfIi2fYVroTgZquXJDYotg50W9VEhCygQC7JsqE+g==
+	t=1795087245;
+	b=iODWqSc+0gtXmrlsIUyHabLMVxJ06xDS7UPqmTe+/E12/nAITNJxdMHrZoABePSGnd+7
+	 6+u6A7pCLUM7nz9amtUk53YU5WtdWzGIe8poWU2/d+0UWtw1976LPk3SsiEhJLZ2MWhXl
+	 rhEhVMnNe9lurz3ErMdPr25vrDPx6uMMH1iM+rY39N4x63543Y161wxn14ZwAsec4jWOA
+	 sK3QsMNVBqUJz8+jyIwtVZYpa1y/mAl1Go9kXr2Na1MZj5SfYr72dA36PX2qtwDI17JYv
+	 z2fYXIP0jhDzJ/XlW6CB5tMBE5PwoGZD8QEc0I/Pj5wGClURT7U83GaIt+dbqGkO/SA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795087204;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 Content-Language:From:In-Reply-To:Content-Transfer-Encoding:
-	 X-CMS-MailID:X-Msg-Generator:Content-Type:X-RootMTR:X-EPHeader:
-	 X-CMS-RootMailID:References;
-	bh=QjhX4svqgENH27PAAoOn+DesXkt70aYnU/WTBMxaRlI=;
-	b=Z1P0YVcbYGi6vtWsalLbTfmLrS5HvbmM8UnKOnI7/KIfYSz10h+an3eggepSwPbzcwQW
-	 fMFEmMbHSfxWY6VgP+lRptmr5D1bISs5pPP4zS6aHT9/E2+h35u3pt8U1GB5hpXYKJkXN
-	 9eD34TclqOYnTJczoP7MmLl0aOnGvigz5iFmZT2Vl3GvytxSk+PLNLuVPQn+3tS6FNdqW
-	 DL3KJ+jtg+d7o/6YwPqJa0Gw1OrlL0jMd6M1ljgHr9JK9E6n0khBrlfxmfC6V9cUG70Os
-	 VecHQbi35WlhrHWe36n3BahzVT9bSmxOIBJPajE0OrYKKMD9qbZ4TFlxLiF85h7PgEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795087245;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=/P5mabH0JHkQS/tGtMzwsxMvwb/yv9fD2MpxixKyD8U=;
+	b=ZBAX9nImM5qE7+kamuGX3kBQ6dbP9k5MhavUDjWUTIPSYftX9BxJr5BhqnuXvkbuD+/J
+	 oSx+FvwX4Nh1WEGeNhRhCsEtKIrJ9Yg6xNPNqnsKhDJGepvHYqSIyXuxt2va5r+ZWzo+J
+	 HgVirMh56G7k3rDdyuf9DgIXXOMQ123N3vxGx8unIpEUaiNNDXO5KHJyf4+zkns5ZISmQ
+	 e8h3aDXYHPMIDisV1rSFpAFMDjurlKYeS8RKb5v0aCPuUMjRDLTbFedoAHF+nqO9UG8Qc
+	 2xdKg6u+gdQGiXyAwhRyA1RnHPxa6PJqZCNapWjaolqmQR8Om8IAylXm0mioZyUR7rA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=qPqvot4d;
-	arc=none smtp.remote-ip=210.118.77.12
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J6QRnhqe;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1AE606A325
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 11:20:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E1AE606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07F7606A320;
+	Thu, 19 Nov 2026 11:20:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=qPqvot4d
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20261119112000euoutp02b6c8019d69cf5ecaf3b34c4b22c1d783~pbkw_jS5w0917709177euoutp02-
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 11:20:00 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20261119112000euoutp02b6c8019d69cf5ecaf3b34c4b22c1d783~pbkw_jS5w0917709177euoutp02-
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1795087200;
-	bh=QjhX4svqgENH27PAAoOn+DesXkt70aYnU/WTBMxaRlI=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=qPqvot4d9oG/iUwx+maS5xSX5X6XoywUKZkobSFZ98vTznvDeQMcEYOwy0iWW8oWm
-	 /Gy9af7GwuNK0BXMNEWESJdOLJAtysBA3piqxHZOIWBPykY8Aye2lYL6YUzUmJLAhb
-	 IkRymHot4ISztBj69JwR4JvLdW7dhTwgmmqIM/Ro=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20261119111959eucas1p2bd4a85981864901886c2f6e9681855f3~pbkwmyhTr0716707167eucas1p2y;
-	Thu, 19 Nov 2026 11:19:59 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20261119111959eusmtip2279ca40ca3a7bf37097daea13deb112f~pbkv7OMEZ1620516205eusmtip2I;
-	Thu, 19 Nov 2026 11:19:59 +0000 (GMT)
-Message-ID: <fa38a878-1735-4682-b208-5de1616f7e4f@samsung.com>
-Date: Thu, 19 Nov 2026 12:19:58 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J6QRnhqe
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 320261F000C5;
+	Thu, 19 Nov 2026 11:20:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795087245;
+	bh=/P5mabH0JHkQS/tGtMzwsxMvwb/yv9fD2MpxixKyD8U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=J6QRnhqeiU7je1XkiTOaqNrgMzrdoqP/BPZSq+iaDn+oJkHi+orLkPCpF8TyD1CJw
+	 lIE0ZQgzfPutKfLZwqyvZguVZaw9OvPeTT/qEZsGxXTylHmdhhHW9qXcLM+Asinnil
+	 AABvpa8cMTRXIbsymHkB0WFv9VyoUftBs38JkcgsHR+xm0RaA1E0qqsBt6TCkTM6oX
+	 qR6iqG9DfHXJ2+YGHLWmNevEs5VG2yy+n3mtoZYWY/TtWu0Im0ExGSeuqrjEhBqwF7
+	 vRs93CTwLCONIKIsH7e8vNqdzBjiaNH01eBP3cb4bLKR7PSle64WJLqRjoky4S3MpZ
+	 tbJdB43hK8U5g==
+Date: Thu, 19 Nov 2026 11:20:38 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Fuad Tabba <fuad.tabba@linux.dev>, Paolo Bonzini <pbonzini@redhat.com>, 
+	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexandru Elisei <alexandru.elisei@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, kvmarm@lists.linux.dev, 
+	Wei-Lin Chang <weilin.chang@arm.com>, Will Deacon <will@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] KVM: Stop KVM_PRE_FAULT_MEMORY when the vCPU's
+ dirty ring is full
+Message-ID: <av7bYb1geEGzaj8e@gremlin>
+References: <20261117074428.7544-1-fuad.tabba@linux.dev>
+ <20261117074428.7544-2-fuad.tabba@linux.dev>
+ <avxfgWNePsGPK9mm@gremlin>
+ <CA+EHjTzUrDxLSMEo6X66XhKtQ-=ew3zZhMdFWR6U9Ga17WLWkw@mail.gmail.com>
+ <av5CBjbeidUUWiLq@seanjc-mac.roam.internal>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,70 +66,65 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v2] dma-contiguous: support percentage sizes in
- cma_pernuma= and numa_cma=
-To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Robin
-	Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
-	iommu@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, David
-	Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-	nh-open-source@amazon.com, linux-mm@kvack.org, The AWS Nitro Enclaves Team
-	<aws-nitro-enclaves-devel@amazon.com>
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20261114145328.1307-1-graf@amazon.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20261119111959eucas1p2bd4a85981864901886c2f6e9681855f3
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20261114145340eucas1p2f7699b88eae34f7904cf68109dc3eb4f
-X-EPHeader: CA
-X-CMS-RootMailID: 20261114145340eucas1p2f7699b88eae34f7904cf68109dc3eb4f
-References: <CGME20261114145340eucas1p2f7699b88eae34f7904cf68109dc3eb4f@eucas1p2.samsung.com>
-	<20261114145328.1307-1-graf@amazon.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <av5CBjbeidUUWiLq@seanjc-mac.roam.internal>
 
-On 14.11.2026 15:53, Alexander Graf wrote:
-> While CMA_SIZE_PERCENTAGE supports percentages for built-in defaults, the
-> CMA allocation kernel parameters currently only take a fixed size argument.
-> That makes it difficult to have a single system image that sizes its CMA
-> allocation based on the available memory. To use CMA as backing pool for
-> large, physically contiguous guest memory, I want to be able to say
-> "allocate 90% of system RAM minus 1 GiB for CMA". Per NUMA node.
+On Wed, Nov 18, 2026 at 04:25:42PM -0800, Sean Christopherson wrote:
+> On Tue, Nov 17, 2026, Fuad Tabba wrote:
+> > > But the overflow bug only applies to x86 (see below), so is this something
+> > > we should worry about at all?
+> >
+> > The ring overflows on arm64 too (below). As for exit_reason, I asked
+> > Sean about the arm64 MMIO case on v1, and his answer was that a VMM
+> > that pre-faults between a KVM_EXIT_MMIO return and the next KVM_RUN
+> > "gets to deal with the fallout" [1]. I think the same goes for riscv's
+> > exits.
+> >
+> > [...]
+> > > > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > [...]
+> > > >  The dirty ring can get full.  When it happens, the KVM_RUN of the
+> > > > -vcpu will return with exit reason KVM_EXIT_DIRTY_RING_FULL.
+> > > > +vcpu will return with exit reason KVM_EXIT_DIRTY_RING_FULL, and
+> > > > +KVM_PRE_FAULT_MEMORY on the vcpu will process no more pages until the
+> > > > +ring has been harvested and reset.
+> > >
+> > > Maybe worth mentioning the exit_reason thing if we keep this arch-generic?
+> >
+> > Sure, I'll document that userspace should complete a pending exit with
+> > KVM_RUN before it pre-faults on that vCPU.
 >
-> Extend the CMA parser logic to accept command line options like this:
->
->   cma_pernuma=80% numa_cma=0:95%-1G,1:4G
->
-> To avoid incomplete allocations on parsing errors, check for them
-> before actually allocating.
+> If we're going to do a documentation update, I vote to keep it vague and scary,
+> otherwise readers might think the exception proves the rule.  I.e. if we say
+> that KVM_PRE_FAULT_MEMORY isn't supported, then userspace might think all other
+> ioctls are safe, which is most definitely not the case.  E.g. something like
 
+Yes definitely, like drivers, users can get up to all sorts of mischief if not
+properly forewarned :>)
 
-This looks like an over-engineered feature. I doubt that kernel is the right
-place to implement such advanced sizing. If You need to explicitly control
-the amount of CMA on the target machines, maybe You could do it in some
-scripts deploying the kernel configuration? Calculating it there should be
-much more flexible imho...
-
-
-> Signed-off-by: Alexander Graf <graf@amazon.com>
-> ---
-> v1 -> v2:
 >
->   - Reject an empty numa_cma= and a trailing comma (Sashiko)
->   - Keep the last valid size for each option or node, so an explicit 0
->     now overrides a percentage (Sashiko)
->   - Parse percentages as plain decimal, and reject sizes that a 32-bit
->     phys_addr_t cannot hold
->   - Reject a bare cma_pernuma or numa_cma without "=", which mainline
->     dereferences as NULL
->   - Rework the kernel-parameters.txt text accordingly
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index e95c9cda085d..45dc1e3c0b03 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -6971,10 +6971,13 @@ to the byte array.
 >
-> v1: https://lore.kernel.org/all/20261111140440.43024-1-graf@amazon.com/
+>        The pending state of the operation is not preserved in state which is
+>        visible to userspace, thus userspace should ensure that the operation is
+> -      completed before performing a live migration.  Userspace can re-enter the
+> -      guest with an unmasked signal pending or with the immediate_exit field set
+> -      to complete pending operations without allowing any further instructions
+> -      to be executed.
+> +      completed before performing a live migration.  In general, userspace should
+> +      exercise extreme caution when invoking ioctls other than KVM_RUN prior to
+> +      completing the original operation.
+> +
+> +      Userspace can re-enter the guest with an unmasked signal pending or with
+> +      the immediate_exit field set to complete pending operations without
+> +      allowing any further instructions to be executed.
 >
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+>  ::
 
+--
+Cheers, Lorenzo
