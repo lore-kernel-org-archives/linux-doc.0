@@ -1,52 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.149.156.176
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795113213;
-	b=aRmlJkpiCBD/1JsDjknMgThIjo0/3NnqevknUZUScfuSeV7sLLUvtK466p8Ivni95PpQ
-	 E8hqKd2zgXF7TcNiIuilWvBNxFP6SUc0EtQqfUGW7bXTUjvcQNc2Zu8pF7AKiQtfa0NNp
-	 I5BTCDVF3hKxUYHUCzv7ip3QE9uH2pxnZm/Jz1eXncDP9cYPE867TU0yNFnmYEYQxk21D
-	 8lfwAQOAjSayW8ctYxZVlfwJXbTQs84kLrXBmkOiRrhq/UsmlesTf+d4W/A+1RXjKl1Ab
-	 U29gog+iRvT65cDFQSFMCLBUEyXnmZ41wmr2UHUoM/unOx0mz9dNEePAk9EXRVjLHbg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795113213;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:Content-Language:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-CMAE-Envelope;
-	bh=2TwysOH3jFptJLl7Zh65O6ibU0W1pO9RKYiZ6XUEe4o=;
-	b=MqWHOSlG8mKRpjZdfDyb3458HLysGevRlJoxSoxsOD8vz/eqS/NYKRiyH8zJNLDvtVkp
-	 E+a4ILRAXh5LK9CqXkFEZt/oCqXmWMvqT81kPOacIQNONFJlR0yXP7TWCPedpEFgfWbtY
-	 l/va6PKSwYR3l6tnNX2quwPZ3e3IgCmkwxadw0gJf0eNJPt8iKtruEw3/MSFgFLsoZdGU
-	 0S+Fth+S8fyJeKxP4N4mVVKtz0ScWbmh1VJuUP47V6W15CKhEDI7y2BKq5hZlqiMdtRBN
-	 L+jx2/vPUaHVZeN0Fm2pZuPPcFuD+7mpwF2vJb9EMni+OnwPnFmbTa//qrEdM0cJ/SA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=enneenne.com;
-	spf=pass smtp.mailfrom=enneenne.com;
-	dkim=pass header.d=aruba.it header.i=@aruba.it header.a=rsa-sha256 header.s=a1 header.b=iMCz4c4v;
-	arc=none smtp.remote-ip=62.149.156.176
-Received: from smtpcmd15176.aruba.it (smtpcmd15176.aruba.it [62.149.156.176])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.27
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795113363;
+	b=wKc2ZPhtBUS80/ib5O9FgTpcLqILzTth9K1lDZ2pS/YEvacd6/8QpBfxGSku8HmDLY5T
+	 xXymo0ASV7mdDU6hICAzeU4K4FwXX9193rOa/hBbAetfiSsmZOqKMRh8rGDG2JMxHaA6o
+	 HpNPpwuOybk8gC75jbMITuhGckVJ4dl7ZLHiQ1MkvKcaay6T7jFbEuKwW1nuIOwAZ6Rcf
+	 msdIv/b1Vo31tEpEKlUYeBHUQ3c773BXuIiKy22nlcnAunWfvz51yLNIk0Up2Jxb8CKPR
+	 pqUAdtWKG6dgarYLFPtbliTBMBa373HQq286M9pqSs+h33URG3KJvWedhein1BAc2fg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795113363;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-ID:X-B4-Tracking:X-Change-ID:To:CC:X-Mailer:X-Originating-IP:
+	 X-ClientProxiedBy:X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=od1GSfuoSqZWB/6QghNc7DN3SwX4fpXmjOoaiKX5Yxg=;
+	b=U1xibh+bjub7VCXg3gODVf4mNnXtbnK4QzO8CTN/XaIbw8i54/7wsf1UEwc5fo+FwKDS
+	 E7lgp7vXEcZKP3WdRRMCr6zu2nYPRmmKiB4t9zbX9BMpKDGQ4U6QH1V7dXu6+htWhIj4w
+	 78w/ykBV66uWGMmZAKjOIuGzSl0/UMzgugUqEk9tEkwQnBz2Ef2T8QH1Lly2XZDTETEh6
+	 BS4PQm0ZmksNgj4F5lz0crbR3XTzEGJydipwi9OgNKpDHZe2kYET1kMb95VrL0C4ppEz6
+	 6lfQ1aOD7M+Ez1Pxl2pMaMJ8Ohnod+gb1oRwH6IHcH53dq7SvkXFE7Rxrl2KhfDsWpw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=fHKToPNa;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.27
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011027.outbound.protection.outlook.com [40.107.208.27])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF00360A260A
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 18:33:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF00360A260A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1037606A325;
+	Thu, 19 Nov 2026 18:36:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1037606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.a=rsa-sha256 header.s=a1 header.b=iMCz4c4v
-Received: from [192.168.0.186] ([101.57.122.26])
-	by Aruba SMTP with ESMTPSA
-	id U6wix2IW175O9U6wix0Oma; Thu, 19 Nov 2026 19:33:23 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1795113203; bh=2t8AtcRowxFNGYE8HteZpHIn9jAWUm8DVCWA8vMMYBE=;
-	h=Date:MIME-Version:Subject:To:From:Content-Type;
-	b=iMCz4c4vXgNfjaVsNwvBuMF7tZY4Yy54lPGmuAGKY6P71MLCV/srwMTceBQ/GAt34
-	 IwJr1uqnf/dmNjlMZQB9cLgUTxbIw6iVRuT9buaKQVDbz3kaNVFEIoEpXvAkCgmyEI
-	 PSFVCiHj3v8SvBzh912x32zMoFnRUAiLuKuPzH9wjTX7qSHSKg+cusdAEfdyhakn6U
-	 MDZ+sXbJbEnEXvAx8A/4DselQVxkwI8uuu0bk6VUSPoq8UUhqONY29s9ATTEIL13dy
-	 Cw/3hrysPCKNiLyF9KsJstL/jDdfxcyJ3j39BP5mlGiBGtXHINn2jlUD38UGg+FRMw
-	 xxp9/W63RlIFw==
-Message-ID: <4ad95ed5-26b6-4871-bcb6-cfebfe73917a@enneenne.com>
-Date: Thu, 19 Nov 2026 19:33:20 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=fHKToPNa
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ljrVRr5eonz5ZIFKNBCru3Ld6qbVCc18bYEWh0WKT2AKE6OR5hERSOh0dgtIyYt/N86snhFsAmMauRx4S+1CBU+A4U3S9wKbN8QnyintV9GvEY5QTgysVCyUYKNN9/mHzrHkiBFN5aupsXiTYdRCSZficXJw82uJS7s4BSPUpxfLw23PFmtqYaVkojjVgmpcpBUZCa1l1sD7SHC2rT3iOAIWdMs+/5orVuM7fMuXWJEGsohFdvKX3Fn1jFyM3EUONijLAe8tRkaFPIHWMu7VpLFyVY3Pauwek1hAGSAyv/u5RaUt8OznodKnjV2SSFBkIcjmFzjZXNFoZHOecliqBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=od1GSfuoSqZWB/6QghNc7DN3SwX4fpXmjOoaiKX5Yxg=;
+ b=IIk3IDqjJoxMCntsvylvEE7yEz8wAT3yZWNWhSGUTVAQ+vjuFV3nEWpxYikKsLYSyiDZBSTaUJXHlhZv0AG/HWjAQmPQ6omI4KaKx51FJAo010qhk5OdAd1fFVWnZWKBsA7Vnn69hSSI3PByh+zPjt1eft1xA15QaQyWNYXOOLuRu6wPrBGaR732lEomOzmB8iP884Gkfy5I45yujgpeqK2oVYZXdJpUPK37II6DbkK/oARnWhbcYlY6fyHjEKKqCZnZ13Qbps6vnDJRtbdUSpbRRqwqxTKFRGngGf3tVEJuhDLu4vUREcwrsZjw8Q+FpwSZy9FZQTy6WaEyl6GnXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=od1GSfuoSqZWB/6QghNc7DN3SwX4fpXmjOoaiKX5Yxg=;
+ b=fHKToPNaZi19we8/4MvejOs1q82NrLWGan5LoAdzVRAs64CpVfaAsWVRkAn9e3GrzBF4ga1cwHTlGE13ErRZhYCbXlCJFMstkFm65IvcEr/ToiYjLqxZGCW5Rk/4PsXehKG5EuLiJrlkoH6zwSmq/Fy9nd446BL0l8eYMbDEReg=
+Received: from MW4PR04CA0354.namprd04.prod.outlook.com (2603:10b6:303:8a::29)
+ by PH9PR12MB145095.namprd12.prod.outlook.com (2603:10b6:510:415::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Thu, 19 Nov
+ 2026 18:35:55 +0000
+Received: from MWH0EPF000A672E.namprd04.prod.outlook.com
+ (2603:10b6:303:8a:cafe::ad) by MW4PR04CA0354.outlook.office365.com
+ (2603:10b6:303:8a::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.13 via Frontend Transport; Thu,
+ 19 Nov 2026 18:35:55 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ MWH0EPF000A672E.mail.protection.outlook.com (10.167.249.20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.639.5 via Frontend Transport; Thu, 19 Nov 2026 18:35:55 +0000
+Received: from [127.0.1.1] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.57; Thu, 19 Nov
+ 2026 12:35:54 -0600
+From: Mario Limonciello <mario.limonciello@amd.com>
+Date: Thu, 19 Nov 2026 12:35:47 -0600
+Subject: [PATCH v2] Documentation: amd-debugging: update amd-debug-tools
+ URL
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -56,77 +100,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/9] KEYS: keycrypt: keys that user space can use but
- never read
-Content-Language: en-US
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, Jens Wiklander <jenswi@kernel.org>,
- Sumit Garg <sumit.garg@kernel.org>, op-tee@lists.trustedfirmware.org,
- =?UTF-8?Q?Horia_Geant=C4=83?= <horia.geanta@nxp.com>,
- Pankaj Gupta <pankaj.gupta@nxp.com>, Sahil Malhotra
- <sahil.malhotra@nxp.com>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Richard Weinberger <richard@nod.at>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Eric Biggers <ebiggers@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-crypto@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-api@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- Demi Marie Obenour <demiobenour@gmail.com>
-References: <20261118140421.584086-1-giometti@enneenne.com>
- <650f89ef-9745-4f75-b254-80fa5ac4773d@gmail.com>
- <av5EyVHnNzT27dyK@kernel.org> <av8In0Xyd5iI9N7K@kernel.org>
-From: Rodolfo Giometti <giometti@enneenne.com>
-In-Reply-To: <av8In0Xyd5iI9N7K@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfDXtWOlFTYpyTg35cFi8NKxn6M8tXvqRpaK6Te9d9LP538qpRWPqyhYCRUO7FN90zeUALjH4Pv0kc5qTXvx9JqFIICyIFmy8AMREg/ZL7rPvrVR8BOUd
- cLloYWy2etZ8Iz2Dj35VuyDIDq5OJcXlqCU0GxFuELT2Ll0+SMmq0xT0b1NQ/mGJ1DRr6EgGHmwb1jcrz7jDiFyXggFkpjEOVUfCxm33Z+AP0WZg8zgrFJ0n
- ffHu26kwKFVQdawAYFWmaAXnHN1p0WPTc2eQub+iUcKYdh/LB+1TMtCynW4g+PFuL/Ox/uZYSQ3twHUYmoc0NljKoPOQdr9z82B634PV+Tl5rFaczqEJswvL
- RMT75ziH1aZFGiT3YGWODPXE3kKUfWeYw2ky9PgD86fbcUKc9YG7O6O4C555MM8R18YgP7zwMiMpC0MPLWUV4TYOFHuGzRI3nAMUWf2OAvcXsYsO9EJVC1dZ
- /CJBXkFCk64KKzxL3y8DwpvUb58jZOH5wiXqHdVhVBx7moWR2O7fcnAGvb0ROFigOOWFyNifYgQAUKvRx0Gjo0aKANKYhIDOo9FoNc3nTrLMB+wllSvU908i
- ZvkuwtX35joO+/L82trX60+HcodZHev58cbR0wIdppW64faoXjrD2ty6e3+iNo1wzj4r1WV6hSakPGcj+ITxJAyi+jIfJwOIVZnMMjwKHWWd276ZqiyPHgzR
- tHcGBXPnD0+Y4FdwbDCkcDNcPihbMtNcarY0ckxuc2T0QuwtA6V5JI+qd+13NzNwBNaSBd9q0vR4Houfn0O1tVDSLHjYJhYnCW1hfd8zibQ4R4JUQeDCsiso
- hDRhfUPbEdA73rTyHioYeBE2HST4BYaYzwzPHgFSowkALmKiOo3P6Y+sT2OdjUa1mi5YmmKKNIRc5pqRvd/Poq1X6e5PtLi+bMEeLu/tD0VuL3zYOGxE+sHW
- BTqxG0WyQtxpY++s7NY1cpcH0qqhtrXP08lJaeDotFcKwlEQgSTkroRSzbXG9NMpu/BmvKQiIhI/dqa4MxRp7JEEFN/QNVR7WEj2UU0vqJswExy2aYWzzdw+
- FkBYKTSapeFo97Im9jOUDeTGL1gcFhA/aHSIiD07c4PP/74NLMye+4RTaOnZlsrMaXjbB2/jn6s9k9AKtJfRSJPMFnBj3YyvI3YYi+xduehbptXY4hxkqo3D
- c5x2hRhHNjhs0zg+GpmJGknXwvGaK4l4a6zTOKWmfv7xMtgIZ/Vn9d4GsOJdkemp7e3WX6RGITrcgwSghHENodqP2MvCkuvhyBHE4/kY7pUMNCMYz3xNrYgX
- 6PdBjdKe
+Message-ID: <20261119-master-v2-1-00c5a7d76ef1@amd.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/zWNwQ6CMBBEf4X07Bq2Uaye/A/DocAKNZSSbks0h
+ H+3xZg5veTNzCqYvCEWt2IVnhbDxk0J5KEQ7aCnnsB0iYUsZYWIV7CaA3lQF005eJKNSPLs6Wn
+ e+9Cj/jHH5kVtyO1sDIaD85/9acHs/UcVcJzJWwRtO+ioiT0E50aG6EdYEFJKecaKlNKlvifr2
+ Dor6m3bvhQ60R/BAAAA
+X-Change-ID: 20261119-master-87aeaeae142b
+To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+	<x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+	<rdunlap@infradead.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Mario
+ Limonciello" <mario.limonciello@amd.com>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A672E:EE_|PH9PR12MB145095:EE_
+X-MS-Office365-Filtering-Correlation-Id: c02adf5b-b917-415e-b571-08df466bf297
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|82310400026|23010399003|1800799024|36860700016|261102123227099003|10067099003|261026121527099003|56012099006|261021135927099003|11063799006|261021121427099003|261026140227099003|261021123027099003|261021130227099003|261026130827099003|261022105027099003|261022115727099003|261021133027099003|261026135527099003|261028144727099003|261022075727099003|261022113327099003|261009223027099003|6133799003|18002099003|13003099007|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	pYbBn9KHotLA36jNE2o9d6jsU1qvocQyAwK9gqVpSUV7IVqdRXnpMDr/PkbnNiBphprH/owvks/C/f0X1wDTZ7Dx/ZpzOBqtcYV6KYZor13319NQnwHCocLuvHjAhPfPT+QIHnlnwzr+dIAPp/UC/YOnjvoaEpXYIFy+HHI8BQisWbaoUWR3gsdoQPqpzWDeI/uFn9UXTziXrdwpVKCItR1tgT4BtY5x+KpTeyfcaCN1NCtdRRLtW4cKNEynePSYR1iPktDWK7nmWeVyaiRiX/BQYILS7IypvFAg28nXgNFZ9S9ba/bsnPbDSpCoqeIy3TOWQ6QB6hNZiz/BdDbX8/LLzqnDUaXZDuOl+advHGPmG2h1xH0HOShIxQqqGkVAzM9gdd2m3fEjDc3gU4T9MTdAhA9pY+2sH5B84T7798gjU26ZpqD4V3zJPmdkVE9WpuLIOxSuFeRSapwi/8qgjRCCJowIbMdrLeSWTWnezeSZSIDrh8MRwxIZ+p/O3uu8Te6nNyRz8WMqgRacUeVqIY8VHA902LDOQ1o4sS35A4A5Zl18utg3vnsDl/qIJA+bGxpAyjRKev+oLilEmzEDmqIHaW4FtvexUQ4nbLgQEDMscI9RxN4cxjY2Dvep9rn5VXs7z5yYVdJLxt/VmIBVKNBcWASfjnh7/93nqE7yqj0=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(23010399003)(1800799024)(36860700016)(261102123227099003)(10067099003)(261026121527099003)(56012099006)(261021135927099003)(11063799006)(261021121427099003)(261026140227099003)(261021123027099003)(261021130227099003)(261026130827099003)(261022105027099003)(261022115727099003)(261021133027099003)(261026135527099003)(261028144727099003)(261022075727099003)(261022113327099003)(261009223027099003)(6133799003)(18002099003)(13003099007)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	cW5QM0D/UjkxlaQ4MV4ba5IM5YpRcV+x4XzXClh1JWBk9PtGxJfA7qTlWRaKE1fMoLrkgEzacrNhnR+zBil848b2QRuHQpyMRFtgl9SrpqG132dZ2PuHXPJWOTblenvNnoMMYZRfknsVpAEm6927h4U5Es+tDx0RYC4al93e4BgLmngGdMk1vWEuy4rzlSJ0hkjsGJ4hacNg5pHa9gfWRDF1ssZWBEUHTLMLhqPCctwSdQ1qUkIocdV1pIhrYdoufFC25b7u0FzhTYEVglY68hFzYB2bocmVEbfJYU0BbPS5t1sLKirO2P5AONyyO1bglIqTP1zh8EfAojrLSPew6EkonUFz0m+8aveVXZgXYk4eitGxwrlvHUjRCUrOWoPIIF046FTBDwUnhlI5keMcQEbeNPlZf+BqAPgxyGzPmBtW4EXjbcIE5c82i88tFXhU
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 18:35:55.4277
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c02adf5b-b917-415e-b571-08df466bf297
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000A672E.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH9PR12MB145095
 
-On 19/11/2026 15:33, Jarkko Sakkinen wrote:
+The amd-debug-tools project has moved development from git.kernel.org
+to GitHub so that it can take advantage of forge flows that don't
+exist at git.kernel.org.
 
-[snip]
+* pull requests
+* CI
+* automated PyPi releases
 
-> And yeah, we don't have projected problems. I.e. "no users" is always
-> NAK. You have to step on the nail at first.
+Update the link in the s2idle debugging tool section to point at the new
+location.
 
-A customer of mine stepped on it. Their product, on i.MX6, encrypts its
-rootfs with dm-crypt and a CAAM black key, never in clear. Its backups,
-though, are encrypted in user space with a key kept as a CAAM blob; to
-use it, the blob is opened and the key handed to user space in clear.
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+Changes in v2:
+- Correct second location (Sashiko, Dave)
+- Link to v1: https://patch.msgid.link/20261118-superm1-amd-debug-tools-url-v1-1-102516e88a0a@amd.com
+---
+ Documentation/arch/x86/amd-debugging.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The next generation is on i.MX93, and the customer now wants the
-backups and other encrypted archives protected like the rootfs: the key
-must never be in clear outside a secure world. The i.MX93 has no CAAM.
-OP-TEE can hold the key, but every way the mainline keyring offers to
-use it (a trusted key, through dm-crypt or AF_ALG) unseals its bytes
-into kernel memory, and AF_ALG no longer reaches hardware drivers.
-keycrypt's OP-TEE backend does not unseal it: a key it generates leaves
-the TA only sealed.
+diff --git a/Documentation/arch/x86/amd-debugging.rst b/Documentation/arch/x86/amd-debugging.rst
+index 3176a1240feeb..6ebb3c862dd3f 100644
+--- a/Documentation/arch/x86/amd-debugging.rst
++++ b/Documentation/arch/x86/amd-debugging.rst
+@@ -42,7 +42,7 @@ s2idle debugging tool
+ 
+ As there are a lot of places that problems can occur, a debugging tool has been
+ created at
+-`amd-debug-tools <https://git.kernel.org/pub/scm/linux/kernel/git/superm1/amd-debug-tools.git/about/>`_
++`amd-debug-tools <https://github.com/rocm/amd-debug-tools>`_
+ that can help test for common problems and offer suggestions.
+ 
+ If you have an s2idle issue, it's best to start with this and follow instructions
+@@ -321,7 +321,7 @@ Tool assisted Parsing
+ ---------------------
+ As mentioned above, parsing by hand can be tedious, especially with a lot of
+ messages.  To help with this, a tool has been created at
+-`amd-debug-tools <https://git.kernel.org/pub/scm/linux/kernel/git/superm1/amd-debug-tools.git/about/>`_
++`amd-debug-tools <https://github.com/rocm/amd-debug-tools>`_
+ to help parse the messages.
+ 
+ Random reboot issues
 
-Ciao,
+---
+base-commit: 8dac6df92a2e66e2098bbc69061964cfe7e8375b
+change-id: 20261119-master-87aeaeae142b
 
-Rodolfo
+Best regards,
+--  
+Mario Limonciello <mario.limonciello@amd.com>
 
--- 
-GNU/Linux Solutions                  e-mail: giometti@enneenne.com
-Linux Device Driver                          giometti@linux.it
-Embedded Systems                     phone:  +39 349 2432127
-UNIX programming
