@@ -1,78 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795046938;
-	b=xrj2Ixp67PjDOgpZIF+0lV1LSI42xi2dhJl87IX8/GnDofIYskLNQZf375cXpJN4b/Hk
-	 Xr5XhmLha5yV8ANnn5/MyEQApmAPAQB7H4AsfpZGKnkxp67cjO0kmltZdwVinXGdja4L6
-	 QYh3epCr819cjfsBxSRAG3fo7eE8WrtAAtWYmrRIOHpjIcWitEGULjoUj+rOi8JyXQ+MD
-	 9+tPv56Jhr3gyWPQQ0UgydY2j5p6ffr/eyNKg3MSwQFPL17G87NBaYR/53kAWm1SIHf3d
-	 uvbY2zIY/POsWs7UYu+BgzVCTXmSBOrb/IR7Ma1uLsxxWMJYAi6LYw7UDgmZd0ZR4Cw==
+	t=1795046990;
+	b=alcChFr30Sp92HJ6/iil3LBQ+fvGl0Q7H41jwGc7lwkARYk7AqxtppLAJVFYLOQdqeX+
+	 X1inYD7QgJ2cdRjyjNvqT9MzA2GxmbfzyEIy1q4SHpggw/+oxuEvS+WLLowgP2wgyBWwn
+	 WDCoV9LX81LW9QCbIjOL6IpMGIQNZpeQXpkzcPEzMJxCoZ+3qWHu7hFs79GETpIZ8OU9r
+	 zLq2LtXGKV+qz58SfZi5clEDuFYkb1agmGM7Ix9AoT9CIZIj8Wf2uTQCTCtbLy3mEp8+W
+	 FuwmDZqtMoa71nUSZ8UNydBY08MNmB/SIRZUfw+Arby//aq0WKTcYbltOSc8u54VXOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795046938;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=oCtb0rmvOejtjE2/BHaNuLkSWcxZ+u9oa3/QMh/gz8Y=;
-	b=uedWym/2iC7b+KqeBSvBZL8Km4injsyjCVCDp9Y9wTEEU6bBszVefoLaySBuFiAuimw9
-	 JOkYgYCcF0oqWL4ozsHacmVUhMP4vA//BOHwyq0rlkqjWdG/13acJY5dSrnrLfrG/aCM5
-	 EQy3VEp077OtH9ErBP+favCYt4QlyjUiMw//rWf/fHB6kG5Jy7trytmnlgO/A6MsXoFgp
-	 gDHYOqMaAo1Hl24PUd3h0Yrs+ZUV5YsR3GCKkzeGk63LfPoMCR377HaeCo9EqN3dQjDqd
-	 D4ovrNUoBz65zzHG/28Mf0VNIYjmXPNgMO64vZ5gbFjEfMwDPhCJXq7N7RhuUSCnH/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795046990;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=TzWdGjxwpb+Zzyy/9NnH7/G4pXIjsT4r2OhXz+T4/Sk=;
+	b=vV68uPUAxoG2VzJbR0IOeHe8BoMdJT2ZkEom+jY3GUPlL4/Oq/p5v7jlBfGh3y8EYDnw
+	 3/WbfCwlobood/TqHgeTWR7U18Fi0GUqp9aL8sXF148sZS91JFO1yKMY0bWcvljERx42C
+	 x+1osxxgbskmSJQDi21tR1NXR1xFOauiXYyV2kiNlnGxnDBKVrugxwXKX7CD+oQskrghJ
+	 7IrY3nzHzfdxYcLP4K0oZBoOnRbjltfSL1Pf346MMSQ2a3BvxOG5QW/DoCJ4W/qjeQLKP
+	 A7I2q5bozX24whgdcpT0Y1HLafDmj6CQPGGYjfKcZPotpdDdotSd6tNJNRGr4cW5FnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SlHl1Mci;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kNoqXfBo;
+	arc=none smtp.remote-ip=74.125.224.49
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2126606A32F;
-	Thu, 19 Nov 2026 00:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E02606A325
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 00:09:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97E02606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SlHl1Mci
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0F5F1F000C4;
-	Thu, 19 Nov 2026 00:08:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795046938;
-	bh=oCtb0rmvOejtjE2/BHaNuLkSWcxZ+u9oa3/QMh/gz8Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=SlHl1McigILCjwGqLBRVEYs44LEZkG27A3EF/tAmD2VvmyZKhzgkZy3BKB1j6XypZ
-	 mZUVdeSvC8y6ukb0YUQtoINI0F9Ld5Uc5Scouj/YvTTWTHLLQZICmZjH0Ee/9OJ+yZ
-	 Ss+4j4hUthyFUF7j5M4IBaZzqC0wmCQvpJk7tDinjxkEr2aayn6MX1jWTd0qBRa1CF
-	 lERVIYcl8+J776Ruy+yubAqvf5YcO2BBO9z9ltaY6WMqx2pgbVKImlh9BKaYt3SZR3
-	 +6xWb86OFrIc2DXlPWGm8K2/xkvlcVLc9Li3Cy/ogyhizIf8/rmKSvxD+wz5c/YoPc
-	 ELAgsr8wJGC7g==
-Date: Thu, 19 Nov 2026 00:08:46 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Drew Fustini <fustini@kernel.org>
-Cc: Adrien Ricciardi <aricciardi@baylibre.com>, Alexandre Ghiti
- <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>, Atish Patra
- <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, Ben Horgan
- <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, Chen Pei
- <cp0613@linux.alibaba.com>, Conor Dooley <conor.dooley@microchip.com>,
- Conor Dooley <conor+dt@kernel.org>, Dave Hansen
- <dave.hansen@linux.intel.com>, Dave Martin <Dave.Martin@arm.com>, Fenghua
- Yu <fenghuay@nvidia.com>, Gong Shuai <gong.shuai@sanechips.com.cn>, Gong
- Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn, James Morse
- <james.morse@arm.com>, Kornel =?UTF-8?B?RHVsxJliYQ==?=
- <mindal@semihalf.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- liu.qingtao2@zte.com.cn, Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, Palmer
- Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Peter Newman
- <peternewman@google.com>, Radim =?UTF-8?B?S3LEjW3DocWZ?=
- <radim.krcmar@oss.qualcomm.com>, Reinette Chatre
- <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, Samuel Holland
- <samuel.holland@sifive.com>, Sunil V L <sunilvl@oss.qualcomm.com>, Tony
- Luck <tony.luck@intel.com>, Weiwei Li <liwei1518@gmail.com>, yunhui cui
- <cuiyunhui@bytedance.com>, Zhanpeng Zhang
- <zhangzhanpeng.jasper@bytedance.com>, Catalin Marinas
- <catalin.marinas@arm.com>, Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>, Zeng
- Heng <zengheng@picoheart.com>, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, x86@kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v12 1/5] riscv_cbqri: Add capacity controller core
-Message-ID: <20261119000846.776930b3@jic23-hlaptop>
-In-Reply-To: <20261114-dfustini-atl-sc-cbqri-dt-v12-1-6ef1f627072d@kernel.org>
-References: <20261114-dfustini-atl-sc-cbqri-dt-v12-0-6ef1f627072d@kernel.org>
-	<20261114-dfustini-atl-sc-cbqri-dt-v12-1-6ef1f627072d@kernel.org>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kNoqXfBo
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-67be1e468a8so1368731d50.0
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 16:09:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795046988; x=1795651788; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=TzWdGjxwpb+Zzyy/9NnH7/G4pXIjsT4r2OhXz+T4/Sk=;
+        b=kNoqXfBo65MpIrB/oFrvmc8BqqMPxNb6PSV5GG4Xr6thXWCDu+DvA3c4lcs85+0AbE
+         7kPJm5IzlXO428M2jnpPj4WasQIw0SZUM02gY2qHM+G6uB8KyP/dGhY+7+ASzHxKpe9R
+         AOdD6S9AjAyP7+ZZjCdxoQQQJQ+wzy4kgj/F4hobhyDXawvMzdKArlm5hNFXsFGE2QYa
+         Z8LfAybEVlkJP7Y03oE1jGmTgExBDO3Ji/KL/QC+bIN/gL2cKLL5Iu1JVRMDBlvnK/3y
+         9C589FEEgFoXfhZgt5Tpno881chfVnxMSU604X2WUKwokDV7gIKNKrk29ADQElqySRY3
+         Masw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795046988; x=1795651788;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=TzWdGjxwpb+Zzyy/9NnH7/G4pXIjsT4r2OhXz+T4/Sk=;
+        b=K5NLrhu5M5BTiGDZhEZyC6BHNIGR7pMjPGSLjDS0AmyPWl7E4N+/ANZliv6sHVotHU
+         yTuSf1/DtKHjmrVF2MTxGHLbHd60JSqK6YOrO6/nqlvNCnyaTJZfQ9KVhTuiDEMZTUct
+         HAZqLRX88sbUHYIdS8sD9rDb6y91a+Xk215Ws59aCQaO1qFz9uSsgDm/z7S77WK+WZXG
+         2LjF3E1L/7ZMvxCOk3NHhP1jqNoUe97wVasLQrlLDDnvmwh9gASx01wvQzkaQLc+xTVT
+         nBCweAnmtPfeypWX6C3XhHFkd4UVrxZvtUoeXBkPjw95/3BMGaXMXquXE1W5Y3j4powq
+         SY/Q==
+X-Forwarded-Encrypted: i=1; AL+hErFpoRXu06zpZpaeYj7sAwqEESN7G1SRo1DcAFqJp7lEsKyVbwa9RS9KHX7VLUiSqE7IJM4pyNhG1Bk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8Pf8T/Mfy7TGtbuAyEgcdULGfTjyFCfgHLQDd9bpa9QjyES0wO
+	oKtg0yAtm53SH/qSxq/oMs9Chd5DVfLJCZS94qDfMZ8i2w8FrXGZp9iO
+X-Gm-Gg: AZFdTZcoPxA42e+nWAevJSpHQm33aXLD7z0zX3fnat/ZEz6WG1fmrO//5RE9SwYTAFF
+	FuZP9h7EB68xnjW0YyGHCI8qQzNuO4gpeRbw+nbYKSfdFG14sI1NSWj1P+hWq6Cm+soUs68D5R0
+	elM0TzNiwFb1bw5BsCw5tWUzcy3oKRkySrVl0Y/CeWvVO2pyiAiP+UlvXRaA5oF+h7SBcHUiFCp
+	dMFQZog9s8Sp416SwuMKMVdTmhPVckvCtoXvMZiEaFhqxK0DzFHNxE8TQ+oM0KI1UXK3/dZAG8G
+	BJy0RfxcAwJVas5nXEtun7pPLWXSjLvKWAnVNtUxeljO9EoYzDQGoUwnjtop5Y5FmEK2P9Svsyl
+	vD7xLKiKn0tg933dHOQBgeQIUTDVeSrx/TdCqx41qzQLIj9RuFO1swJgBFUNwJaZK31yTYvgCNV
+	nRmQwLXcHH5P6AFmWuJy2YXrH86DW1R1BZfOYjjKfeKLHHGJUaeQIPAuFFEdLQiI2bpebZgUV6c
+	abUPGivIEvxBGAb7npwYfGGjtcEILd9uGlsmF6Z86DbBH5fBsz8bvqcDR4+SI378PfYzkoi704f
+	P5+cPRSi0roN/zdvc8eNoOP4fiG3n1hqykp2EEaRAqHJQ98RJ6oUX6qetXTGMlYPgndgxCIeqY0
+	RfImpurlIRTlK0E8P0ydhFXMS6qf2I2vhMOx4l+BsHdai9wzsYuje7i8z9nNeMN12HFHWUrn/RW
+	mTlxClB6RJNUJMmxXZ7g==
+X-Received: by 2002:a05:690e:440e:b0:679:a252:70e7 with SMTP id 956f58d0204a3-67dd3fa4b1bmr1190009d50.22.1795046988479;
+        Wed, 18 Nov 2026 16:09:48 -0800 (PST)
+Received: from localhost (107-220-129-194.lightspeed.chrlnc.sbcglobal.net. [107.220.129.194])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67dd587fa60sm2479747d50.13.2026.11.18.16.09.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 16:09:47 -0800 (PST)
+From: Matt Turner <mattst88@gmail.com>
+Subject: [PATCH v4 0/7] alpha: marvel: environmental sensors
+Date: Wed, 18 Nov 2026 19:09:45 -0500
+Message-Id: <20261118-marvel-env-v4-0-200317e496c2@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -82,236 +94,137 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23NSw6CMBSF4a2Qjq3pA1tw5D6Mg7ZcoIaHabHRE
+ PZuixMwDk9yv//OyIOz4NE5m5GDYL0dhzjyQ4ZMq4YGsK3iRowwQSnNca9cgA7DEHBFWFEayYV
+ WHEXwcFDb1xq73r7bP/UdzJQK6aK1fhrde/0WaLr7Gw4UE1yUhLMCci3hdGl6ZbujGXuUwoFtq
+ dhRFinUguagGcia/lK+pXJHeaQEKsMlqSujyi1dluUDJpiCnCwBAAA=
+X-Change-ID: 20261114-marvel-env-d0289c736ba3
+To: Richard Henderson <richard.henderson@linaro.org>, 
+ Magnus Lindholm <linmag7@gmail.com>, Guenter Roeck <linux@roeck-us.net>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Matt Turner <mattst88@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5576; i=mattst88@gmail.com;
+ h=from:subject:message-id; bh=1eg0SKmNL7HF3/ydPc7qgVPBNZmKTXoRn0Pn707Didc=;
+ b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLL+2Xklhuz5ICIiFrt0wt7aR1kGpazXqydlHJ2tJ8eqZ
+ c4iXLG74yMLgxgXw0wxRZa49Yoss9p2LPU5Lf0LZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
+ BDJ0jOIhcnoMGpnFxaWpRbppBUUOefkliSWZ+XnFevkFqXkF6QV6aZlpJRkZ+UXFqUAj9PJSS0x
+ dHd2MDA1MLB0tzJwsHE1NnJ2dDJ3cHB2dXZ2MLM1NDJwtHU1cLc0ZuDgFYK6JmMvwT99Q+csji2
+ 8dkevyFB+sOHBy6g/BT193b5kef/J2dO2O5X8ZGXZ0Xlr78u+kJ49lPVtP6zF5ZVzjaJ1jF/5df
+ ONbzqPHWdkB
+X-Developer-Key: i=mattst88@gmail.com; a=openpgp;
+ fpr=3BB639E56F861FA2E86505690FDD682D974CA72A
 
-On Sat, 14 Nov 2026 14:06:21 -0800
-Drew Fustini <fustini@kernel.org> wrote:
+The service processors of the Marvel AlphaServers (GS1280, ES80, ES47)
+monitor temperatures, fans, voltages and power supplies. Linux can't read
+these sensors, and the events the firmware raises when one changes state
+are printed only with CONFIG_VERBOSE_MCHECK, and then decoded wrongly.
 
-> Add the core for RISC-V CBQRI capacity controllers: the register
-> layout, the capability probe, and the allocation operations that
-> program a capacity block mask for an RCID and read it back.
-> 
-> A discovery layer maps the register block and describes the controller
-> in a cbqri_controller_info descriptor. riscv_cbqri_register_cc() probes
-> the controller from that descriptor and adds it to the controller list,
-> which stays private to the core. The core owns the controller state
-> after registration, so nothing in it depends on how the controller was
-> discovered. The caller keeps the register mapping alive.
-> 
-> Tested-by: Zeng Heng <zengheng@picoheart.com>
-> Reviewed-by: Zeng Heng <zengheng@picoheart.com>
-> Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> Signed-off-by: Drew Fustini <fustini@kernel.org>
+Patches 1 and 2 fix the event reporting. Patch 3 adds the SRM callback
+that refreshes the readings of one config tree node, patch 4 passes the
+firmware's events to a notifier chain, and patch 5 registers a platform
+device. Patch 6 is the hwmon driver, which polls, and patch 7 makes it
+reread the sensors and notify userspace when the firmware reports an
+event.
 
-A couple more drive by comments.
+The hwmon patches depend on the alpha ones, so I'd suggest the whole
+series go through the alpha tree with an ack from Guenter.
 
-> diff --git a/drivers/resctrl/cbqri_devices.c b/drivers/resctrl/cbqri_devices.c
-> new file mode 100644
-> index 000000000000..5522872f5cc1
-> --- /dev/null
-> +++ b/drivers/resctrl/cbqri_devices.c
+Tested on an ES47, where sensors(1) shows the temperatures, fans,
+voltages and power supply status. Disconnecting AC from one of its two
+power supplies raised a system event that set the supply's in_fault and
+woke poll() and udev, and reconnecting it cleared the fault the same
+way. No voltage is out of range, so the voltage alarms were checked by
+forcing the warning and failure states in the console's packets.
 
+I used Claude Code to help write this series: working out the packet
+layout, drafting the code and changelogs, and checking the firmware
+documentation. I reviewed and tested the result.
 
-> +
-> +/* Read the configured CBM for closid on the AT half via READ_LIMIT. */
-> +int cbqri_read_cache_config(struct cbqri_controller *ctrl, u32 closid,
-> +			    u32 at, u32 *cbm_out)
-> +{
-> +	int err;
-> +
-> +	guard(mutex)(&ctrl->lock);
-> +
-> +	err = cbqri_cc_alloc_op(ctrl, CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT, closid, at, 0);
-> +	if (err == 0) {
-> +		/*
-> +		 * resctrl exposes the CBM as a u32 and cbqri_probe_cc() rejects
-> +		 * ncblks > 32, so the mask fits the low 32-bit word of the
-> +		 * cc_block_mask register.
-> +		 */
-> +		*cbm_out = readl(ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
-> +	}
-> +
-> +	return err;
-Unless this gets more complex in later patches I'd do
-	if (err)
-		return err;
+Signed-off-by: Matt Turner <mattst88@gmail.com>
+---
+Changes in v4:
+- 6/7: fix the empty-sensor check in probe, which still assumed a chip
+  channel and rejected systems reporting one sensor type (Magnus, Sashiko).
+- Collect Magnus's Reviewed-by on 1/7 and 3/7.
+- Link to v3: https://patch.msgid.link/20261117-marvel-env-v3-0-0edc370fdca9@gmail.com
 
-	/*
-	 * resctrl exposes the CBM as a u32 and cbqri_probe_cc() rejects
-	 * ncblks > 32, so the mask fits the low 32-bit word of the
-	 * cc_block_mask register.
-	 */
-	*cbm_out = readl(ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
+Changes in v3:
+- alpha: put marvel_env_state() under CONFIG_VERBOSE_MCHECK in patch 1,
+  so that patch builds on its own without it (Magnus)
+- alpha: declare srmcons_callback_lock unconditionally and restore the
+  SRM check in marvel_cfgtree_partial_update(), as in v1, which fixes
+  the build of a Marvel kernel without SRM support (Magnus, Sashiko)
+- hwmon: check the second walk of the config tree against the counts
+  from the first (Magnus)
+- hwmon: prefix every label with the cabinet and drawer if any unit is
+  outside cabinet 0, drawer 0, as documented (Magnus)
+- hwmon: drop the update_interval attribute and refresh a unit at most
+  once every 10 seconds, since update_interval is for intervals
+  programmed into the hardware (Guenter)
+- Link to v2: https://patch.msgid.link/20261116-marvel-env-v2-0-ef614eb2e7f1@gmail.com
 
-	return 0;
+Changes in v2:
+- hwmon: report the firmware's states by their documented meaning: a
+  sensor's warning and failure states are its reading reaching the
+  warning and failure limits, not a broken sensor (Guenter)
+- hwmon: report power supplies as in channels with only a fault
+  attribute instead of power alarms (Guenter)
+- hwmon: depend on !ALPHA_LEGACY_START_ADDRESS for generic kernels,
+  which leave out core_marvel.o (Sashiko)
+- hwmon: drop the private mutex, rely on the hwmon core lock and take
+  hwmon_lock() in the event work (Sashiko)
+- hwmon: notify each alarm attribute whose value changed, and only those
+  (Sashiko, Magnus)
+- hwmon: report a voltage outside its limits as in_min_alarm and
+  in_lcrit_alarm or in_max_alarm and in_crit_alarm, by comparing it with
+  the nominal voltage in the console's packet (Guenter, Magnus)
+- alpha: define CCB_CFGTREE in asm/console.h instead of the uapi header,
+  since it is a Marvel console extension, and say it comes from Tru64
+  (Magnus)
+- hwmon: return -ENODATA from every alarm of a sensor that became unknown
+- alpha: drop the unreachable SRM check from
+  marvel_cfgtree_partial_update(), and move the GCT node type and
+  subtype the driver uses to asm/gct.h
+- Reorder: fix the event layout before printing it unconditionally, and
+  put the alpha patches first
+- Drop the Assisted-by trailers, describe tool use here instead (Guenter)
+- Link to v1: https://patch.msgid.link/20261114-marvel-env-v1-0-890328e4b7e5@gmail.com
 
-Just to keep error handling out of line and that
-comment block less indented.
+---
+Matt Turner (7):
+      alpha: marvel: fix the environmental subpacket layout
+      alpha: marvel: report environmental events without VERBOSE_MCHECK
+      alpha: marvel: refresh environmental readings through the console
+      alpha: marvel: notify environmental events
+      alpha: marvel: register a platform device for the environmental sensors
+      hwmon: Add driver for Marvel AlphaServer environmental sensors
+      hwmon: (marvel-env) Notify userspace of environmental events
 
-> +}
+ Documentation/hwmon/index.rst       |   1 +
+ Documentation/hwmon/marvel-env.rst  |  73 ++++
+ MAINTAINERS                         |   8 +
+ arch/alpha/include/asm/console.h    |   5 +
+ arch/alpha/include/asm/err_ev7.h    |  16 +-
+ arch/alpha/include/asm/gct.h        |   2 +
+ arch/alpha/include/asm/marvel_env.h |  17 +
+ arch/alpha/kernel/core_marvel.c     |  59 ++++
+ arch/alpha/kernel/err_marvel.c      |  39 ++-
+ arch/alpha/kernel/proto.h           |   1 +
+ arch/alpha/kernel/srmcons.c         |   3 +-
+ arch/alpha/lib/callback_srm.S       |   1 +
+ drivers/hwmon/Kconfig               |  12 +
+ drivers/hwmon/Makefile              |   1 +
+ drivers/hwmon/marvel-env.c          | 678 ++++++++++++++++++++++++++++++++++++
+ 15 files changed, 897 insertions(+), 19 deletions(-)
+---
+base-commit: 0b4cadbe7c39d830dec35c4a2655483de0dae568
+change-id: 20261114-marvel-env-d0289c736ba3
 
-
-> +/**
-> + * riscv_cbqri_register_cc() - register a capacity controller
-> + * @info: registration descriptor. info->type must be CAPACITY. The resctrl
-> + *        glue maps info->cache_level to the L2/L3 resource and uses
-> + *        info->cache_id as the domain id.
-> + *
-> + * The caller resolves the cache level and id from its firmware description.
-> + * Domain membership is resolved per CPU at hotplug, so no cpu mask is stored.
-> + *
-> + * Return: 0 on success, -EEXIST when a controller for the same cache level
-> + * and id is already registered, or another negative errno on failure.
-> + */
-> +int riscv_cbqri_register_cc(const struct cbqri_controller_info *info)
-> +{
-> +	struct cbqri_controller *other;
-> +	int err;
-> +
-> +	if (!info->addr) {
-> +		pr_warn("skipping controller with invalid addr=0x0\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (info->type != CBQRI_CONTROLLER_TYPE_CAPACITY) {
-> +		pr_warn("register_cc called with non-capacity type %u\n",
-> +			info->type);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/*
-> +	 * SRMCFG encodes RCID in 12 bits. Reject an out-of-range count rather
-> +	 * than let FIELD_PREP(SRMCFG_RCID_MASK, closid) truncate it silently.
-> +	 */
-> +	if (info->rcid_count > FIELD_MAX(SRMCFG_RCID_MASK) + 1) {
-> +		pr_warn("CC at %pa has RCID count %u beyond the 12-bit SRMCFG field, skipping\n",
-> +			&info->addr, info->rcid_count);
-> +		return -EINVAL;
-> +	}
-> +
-> +	struct cbqri_controller *ctrl __free(kfree) =
-> +		kzalloc(sizeof(*ctrl), GFP_KERNEL);
-> +	if (!ctrl)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&ctrl->lock);
-> +
-> +	ctrl->base = info->base;
-> +	ctrl->addr = info->addr;
-> +	ctrl->size = info->size;
-> +	ctrl->type = info->type;
-> +	ctrl->rcid_count = info->rcid_count;
-> +	ctrl->cache.cache_id = info->cache_id;
-> +	ctrl->cache.cache_level = info->cache_level;
-> +
-> +	err = cbqri_probe_controller(ctrl);
-> +	if (err)
-> +		return err;
-> +
-> +	/*
-> +	 * alloc_capable comes from the probe above and rcid_count from the
-> +	 * discovery layer. Two RCIDs are the minimum for a useful system.
-> +	 * resctrl reserves RCID 0 for the default group, so one RCID has
-> +	 * nothing to allocate between, and CDP would halve it to zero.
-> +	 * Reject fewer than two.
-> +	 */
-> +	if (ctrl->alloc_capable && ctrl->rcid_count < 2) {
-> +		pr_warn("CC at %pa is alloc-capable but has fewer than 2 RCIDs, skipping\n",
-> +			&ctrl->addr);
-> +		return -EINVAL;
-> +	}
-> +
-> +	guard(mutex)(&cbqri_controllers_lock);
-> +
-> +	/* The resctrl glue keys its domains on cache_id, one controller each. */
-> +	list_for_each_entry(other, &cbqri_controllers, list) {
-> +		if (other->cache.cache_level == info->cache_level &&
-> +		    other->cache.cache_id == info->cache_id) {
-> +			pr_warn("CC at %pa duplicates the L%u cache id %u controller at %pa, skipping\n",
-> +				&ctrl->addr, info->cache_level, info->cache_id,
-> +				&other->addr);
-> +			return -EEXIST;
-> +		}
-> +	}
-> +
-> +	list_add_tail(&ctrl->list, &cbqri_controllers);
-> +	retain_and_null_ptr(ctrl);
-
-Common trick for this is something like:
-
-	list_add_tail(&no_free_ptr(ctrl)->list, &cbqri_controllers);
-
-because it couples ownership passing with stopping the autofree
-magic.  I'd personally only use retain_and_null_ptr() in cases where I need
-to check for success of the ownership being handed off.
-
-
-> +	return 0;
-> +}
-> diff --git a/drivers/resctrl/cbqri_internal.h b/drivers/resctrl/cbqri_internal.h
-> new file mode 100644
-> index 000000000000..c3e39e6d30c5
-> --- /dev/null
-> +++ b/drivers/resctrl/cbqri_internal.h
-
-> diff --git a/include/linux/riscv_cbqri.h b/include/linux/riscv_cbqri.h
-> new file mode 100644
-> index 000000000000..b0daa1a7e42f
-> --- /dev/null
-> +++ b/include/linux/riscv_cbqri.h
-> @@ -0,0 +1,49 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Public registration API for the RISC-V Capacity and Bandwidth QoS
-> + * Register Interface (CBQRI) core. Discovery layers call
-> + * riscv_cbqri_register_cc() to hand a capacity controller descriptor to
-> + * the core, which owns all subsequent state.
-> + */
-> +#ifndef _LINUX_RISCV_CBQRI_H
-> +#define _LINUX_RISCV_CBQRI_H
-> +
-> +#include <linux/errno.h>
-> +#include <linux/types.h>
-> +
-> +enum cbqri_controller_type {
-> +	CBQRI_CONTROLLER_TYPE_CAPACITY,
-> +};
-> +
-> +/**
-> + * struct cbqri_controller_info - registration descriptor
-> + * @addr:        MMIO base address of the controller's register interface
-> + * @size:        size of the MMIO region
-> + * @type:        controller type (capacity)
-> + * @rcid_count:  number of supported RCIDs
-> + * @cache_id:    cache id used as the resctrl domain id
-> + * @cache_level: cache level (2 or 3) the controller backs
-> + * @base:        mapped register block, which the caller keeps mapped for
-> + *               the life of the system
-Out of order documentation is unusual.  Why?
-
-> + */
-> +struct cbqri_controller_info {
-> +	phys_addr_t			addr;
-> +	phys_addr_t			size;
-> +	void __iomem			*base;
-> +	enum cbqri_controller_type	type;
-> +	u32				rcid_count;
-> +	u32				cache_id;
-> +	u32				cache_level;
-> +};
-> +
-> +#if IS_ENABLED(CONFIG_RISCV_CBQRI)
-> +int riscv_cbqri_register_cc(const struct cbqri_controller_info *info);
-> +#else
-> +static inline int
-> +riscv_cbqri_register_cc(const struct cbqri_controller_info *info)
-> +{
-> +	return -ENODEV;
-> +}
-> +#endif
-> +
-> +#endif /* _LINUX_RISCV_CBQRI_H */
-> 
+Best regards,
+--  
+Matt Turner <mattst88@gmail.com>
 
