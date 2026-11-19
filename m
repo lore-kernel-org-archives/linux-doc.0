@@ -1,54 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.216
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.227
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795048090;
-	b=lvDimNYmqz57cmHxZpN1oINpF1iu7vjSH1tYoTBMSgzMBU448QD3+PJbMy5dsqB/cDHX
-	 PBS+gfgOXE0pnKshJLpzDNQzhk2021o85wFukt93hVsZJqUhpFTvIi0+OppF0p/crd6kk
-	 daLjOkNKwf1zx+YNOmHKOtfzTfw1iwxdVNkuEjwUFesddWurzmwrf4PV15JtkaJnEgQw0
-	 ML4gujcEjBPhiG1ohW1goSfBIoO6k4pBoJbT8RiQTJY7FL1umLjrQolZ7kf7vkm/VOnnz
-	 oLzbpqv2MdhsRnQ7Ti898J4MEI11ObrisF3lZV4p5qHDVYtcW4Q0+Tk0c2eEM07DKYg==
+	t=1795048302;
+	b=3mDpYsWmr6UOQSoWW1U+dGtE7vBXWwcCawGZNUmuJTpu3GTojdsT1I8dYHNlSE15I/N4
+	 /4Z5K8oU9jdm8J/n5vGGN1SpCux9kbmBnF7Tr5kPVuAg/T9Xh8ZYMaWTAvz4CigD8rbt5
+	 MQyE+NCaimPY6MUguKo16ISZH6rGOtRSQIXTH23epRC73SJWTp3o5Xo8KWkW9vxdYqRYL
+	 SHh0OJekT6Ar1ITHKmiIkXV2yX21z+oyPFiuB4CfomxB+Cdm3CuPOg4c9DWdYBUUmo7Vb
+	 uvwBAq17RLqWBbzHQ3q0U+3dOe9Ic0J3jjW7cQM3wWkBms7RKyQPxcV4au+IEhTD0iw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795048090;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=qo523NBLwX8TKAi0GfmUCyFFt+JFHooaYZ5WinHIM7k=;
-	b=2D8LZspXTHbufkIdV+EPtlaeSTabN1h92MCvMBaGKVn+MJB0WGSqodPwamztZ4kwnLBs
-	 YwEXw1rbzudsckyQc2hNzBoHEOSQTJmM5dkVGwa3AQ/WyybFuvz/eN4P65FRNHIpe4be5
-	 5eczkd48HrhR7UBNl+3WOC8rxRtI0mA7D0zDF5UG6mN8xOWQmfvRPTVp9A0bsZYy7UZ/c
-	 VrmaEi6555z2mr+NKSm7GFebm2S4jbuB26UBruD1WeZ5XcFCzdkPr6fBZMneZGiTK7utt
-	 e7z6fYoC1NhXqPHi245RqmnRLh6JLGqf9IuE80h8uJioBH8/TFUS16avtNrKXlfgQYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795048302;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+	bh=mS6AFM8dfyEXp77ytOM5hV75MBkbYqRSRgafg5R5bBE=;
+	b=rm04wukh6EfcE4Kc0dV8n61F/hN+poR26WnQepXN871xwMPQwrTHhPCEuogACz4o3nY3
+	 Yawo8Ck8X8QyVbdx53BBn+CQSVxDCZyWvRyp4/6UA9eMwMgQikW0Kj5jJhZoOwq1lJwx7
+	 oeaFEZ491tgbkABtJ1wVIrRLJedzPcRqOfs9WDHYZfqr9wfCCp7i12z4+1aDq2bhgo6Zn
+	 eULiJvG0eWT0Ibo0U1+ypKIdNrywwUqTNfrTbivukQVzMcjzHHJRV2a6AbEajwzk5blQM
+	 Wv8ZQkf3dvDJDvRVWbYYGR0Fbd+4UITYV7zYUVD0FxQlCAeyWzPUOZU7uS2cJ8EISBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=XDFqOaV8;
-	arc=none smtp.remote-ip=95.215.58.216
-Received: from mta1.migadu.com (out-216.mta1.migadu.com [95.215.58.216])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Uf4NDLR7;
+	arc=none smtp.remote-ip=113.46.200.227
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B574E606A333
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 00:28:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B574E606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3502606A32A;
+	Thu, 19 Nov 2026 00:31:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3502606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=XDFqOaV8
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=lG/MGcmIGjodLXXmJpU9eLIP6wDLe2Yzh9mLwW1eU78=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795048086; v=1; x=1795652886;
- b=XDFqOaV8aEHSIXVlfKMnKN4sv//zRuvJTprQ2zaMwZFcbKOzWaHSbCWGnmoKm7f6Jh2wwMxs
- aKFKI94mfPhUFeNTCu429vGBOp0KvQNYMJHS/a/IWRfQsD0f7TqjpMYv2GnEW1dsxYcUbmdOauS
- 3U8jqa6DDNYMau5W2Ig7yR7o=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id e3a7dfbf43199f02;
-	Thu, 19 Nov 2026 00:28:05 +0000
-X-Mizu-Trace-ID: e3a7dfbf43199f02
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <1c13674a-6203-403e-91b6-7579e4d5c2d0@linux.dev>
-Date: Thu, 19 Nov 2026 08:27:50 +0800
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Uf4NDLR7
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=mS6AFM8dfyEXp77ytOM5hV75MBkbYqRSRgafg5R5bBE=;
+	b=Uf4NDLR7ECG6sRxoYs8M1iuCd5C3Ge2h6GRqiNHXlZzEZSAIqU86nEFd2nTJmnda2ueYp18oQ
+	X+Bwzm+UsOw2KZ55oHuOLWRrmMrvjYDv1qwXGpBfYcrL7reEj7zSrFtGBgDTKoUHABeo5whys5I
+	JPiTAsHlYa4tIOB0f0b1/hM=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4jVKBR2FNKznTYB;
+	Thu, 19 Nov 2026 08:30:39 +0800 (CST)
+Received: from kwepemo500009.china.huawei.com (unknown [7.202.194.199])
+	by mail.maildlp.com (Postfix) with ESMTPS id 12B8B4056C;
+	Thu, 19 Nov 2026 08:31:32 +0800 (CST)
+Received: from [10.67.121.161] (10.67.121.161) by
+ kwepemo500009.china.huawei.com (7.202.194.199) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 19 Nov 2026 08:31:31 +0800
+Message-ID: <28055dc3-13bf-49e1-bdbb-e825df9a0c49@huawei.com>
+Date: Thu, 19 Nov 2026 08:31:30 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,106 +63,38 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 01/17] mm/mglru: rename the generation offset in
- lru_gen_folio_seq()
-To: kasong@tencent.com, linux-mm@kvack.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>,
- Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>,
- Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
- Zi Yan <ziy@nvidia.com>, Gregory Price <gourry@gourry.net>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>,
- SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>,
- Yu Zhao <yuzhao@google.com>, Vernon Yang <vernon2gm@gmail.com>,
- Zicheng Wang <wangzicheng@honor.com>, Chen Ridong <chenridong@xiaomi.com>,
- Tal Zussman <tz2294@columbia.edu>, Kairui Song <ryncsn@gmail.com>,
- Xiang Liu <liuxiang.277@bytedance.com>, Ehab Ababneh
- <ehab.ababneh@intel.com>, Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>,
- Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>,
- Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- damon@lists.linux.dev, linux-doc@vger.kernel.org
-References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com>
- <20261119-mglru-fg-v5-1-9eee2fe97a2d@tencent.com>
-From: Ridong Chen <ridong.chen@linux.dev>
-In-Reply-To: <20261119-mglru-fg-v5-1-9eee2fe97a2d@tencent.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH RFC 2/3] PCI: Add per-device debugfs directories
+To: Wei Huang <wei.huang2@amd.com>, <bhelgaas@google.com>
+CC: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <skhan@linuxfoundation.org>,
+	<corbet@lwn.net>, <rdunlap@infradead.org>
+References: <20261001155551.4182899-1-wei.huang2@amd.com>
+ <20261001155551.4182899-3-wei.huang2@amd.com>
+Content-Language: en-US
+From: fengchengwen <fengchengwen@huawei.com>
+In-Reply-To: <20261001155551.4182899-3-wei.huang2@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemo500009.china.huawei.com (7.202.194.199)
 
+Acked-by: Chengwen Feng <fengchengwen@huawei.com>
 
-
-On 11/19/2026 5:03 AM, Kairui Song via B4 Relay wrote:
-> From: Ridong Chen <chenridong@xiaomi.com>
+On 10/1/2026 11:55 PM, Wei Huang wrote:
+> PCI features that export debug information have no common place to put it.
+> The only existing user, PTM, creates a "pcie_ptm_<device>" directory in the
+> debugfs root, which does not scale as more features follow and leaves each
+> user to invent its own lifetime rules and leaf names.
 > 
-> lru_gen_folio_seq() computes how many generations below max_seq a folio
-> should be added to, but stores it in a variable named "gen". Elsewhere in
-> MGLRU "gen" means an index into lrugen->folios[], i.e. seq % MAX_NR_GENS,
-> so reusing the name for a relative offset is confusing.
+> Add /sys/kernel/debug/pci/<device>/ directories owned by the PCI core.
+> pci_dev_debugfs_dir() returns the directory of a device, creating it and
+> the PCI root directory on first use, so devices without debug content do
+> not get an empty directory. pci_destroy_dev() removes the directory
+> recursively, so a feature that pins data in a debugfs file needs no removal
+> hook of its own: debugfs_remove_recursive() returns only once no operation
+> on those files is still running.
 > 
-> Rename it to "age", which matches what the value means: the newest
-> generation is age 1, and a larger age is an older generation.
+> No functional change for existing users; the next patch is the first
+> consumer.
 > 
-> No functional change.
-> 
-> [kasong: dropped the comment table part, the series rewrites it]
-> Signed-off-by: Ridong Chen <chenridong@xiaomi.com>
-> Signed-off-by: Kairui Song <kasong@tencent.com>
-> ---
->   include/linux/mm_inline.h | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
-> index f6f4bc9a704f..2395ca8ee305 100644
-> --- a/include/linux/mm_inline.h
-> +++ b/include/linux/mm_inline.h
-> @@ -302,7 +302,7 @@ static inline unsigned long lru_gen_folio_seq(const struct lruvec *lruvec,
->   					      const struct folio *folio,
->   					      bool reclaiming)
->   {
-> -	int gen;
-> +	int age;
->   	int type = folio_is_file_lru(folio);
->   	const struct lru_gen_folio *lrugen = &lruvec->lrugen;
->   
-> @@ -319,17 +319,17 @@ static inline unsigned long lru_gen_folio_seq(const struct lruvec *lruvec,
->   	 * |<---------------------------- MAX_NR_GENS ---------------------------->|
->   	 */
->   	if (folio_test_active(folio))
-> -		gen = MIN_NR_GENS - folio_test_workingset(folio);
-> +		age = MIN_NR_GENS - folio_test_workingset(folio);
->   	else if (reclaiming)
-> -		gen = MAX_NR_GENS;
-> +		age = MAX_NR_GENS;
->   	else if ((!folio_is_file_lru(folio) && !folio_test_swapcache(folio)) ||
->   		 (folio_test_reclaim(folio) &&
->   		  (folio_test_dirty(folio) || folio_test_writeback(folio))))
-> -		gen = MIN_NR_GENS;
-> +		age = MIN_NR_GENS;
->   	else
-> -		gen = MAX_NR_GENS - (folio_test_workingset(folio) || folio_test_referenced(folio));
-> +		age = MAX_NR_GENS - (folio_test_workingset(folio) || folio_test_referenced(folio));
->   
-> -	return max(READ_ONCE(lrugen->max_seq) - gen + 1, READ_ONCE(lrugen->min_seq[type]));
-> +	return max(READ_ONCE(lrugen->max_seq) - age + 1, READ_ONCE(lrugen->min_seq[type]));
->   }
->   
->   static inline bool __lru_gen_add_folio(struct lruvec *lruvec, struct folio *folio,
-> 
-
-Reviewed-by: Ridong Chen <ridong.chen@linux.dev>
-Thanks.
--- 
-Best regards
-Ridong
-
+> Signed-off-by: Wei Huang <wei.huang2@amd.com>
