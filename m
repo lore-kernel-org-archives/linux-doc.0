@@ -1,91 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.177
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795047003;
-	b=IF1XqsDVYv5dIJHrpUuQddMbVrUrjtHvQIZIDxWGG2mHpr+/0y3VFiBY8PFK35Oi96jr
-	 q7s71cx/a9weevt/7iPR05c+EpuAHXVm/mv3BJa/LXTr0UBBiABojNAFqwJFWxcy8JhiD
-	 Kds2HGKtumqyXcmbX1siGeqJr3qUL2//SaPaKrbw6pcGC9LR5uuUraYyA+v5no4QTnnwa
-	 pa13nzkJHyzbQEDuYerQwn+XnmMDrzlr/+/FSXJ/sxR5GPp/6q7nSyybw8DFxJtElLM+H
-	 vq6Lqy62r8puAHvAtyO90Dj2L2cVqNjKyMgNJKMf8fzds8TxgJKX0DmvUTh2tgziIOw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795047003;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=Cz6JhA4vgHQqGHllNtBlEMCpr/c5f2N6W+pIECb8wEI=;
-	b=oi096yMr+KjyLxKtnq+f2Cy14MimZmZup3NmlRFO1BghERsA075yq20sTFjKxgrh0zus
-	 kCsYumPUE06zI/V0DeSKBpmXCVkJRe3JU+I49s5a2bdXTYH0Iznq2hBgaXPJydTwCJ/gI
-	 oAADIpChJn7Z84/CQuo5y5yd5i4IRm31kGmXznTAMACHoz4AV9HIBOhc6mopAq0eAFsDZ
-	 G8I3Kdq9qEDOn5Xgt9Ak5ejXKTYm52PviPSLvu0NYNkisLrq0tAA9fI5Hl/uABQC82HJ2
-	 gfmoqqSLUcVGPiYO4Gncv3gWULOpG3/FONl+jxl7sO/FiYOTZnmOMfDHi7GZHR3VqzA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=T0HssYh2;
-	arc=none smtp.remote-ip=209.85.128.177
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.47
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795047171;
+	b=fyrnPenUfRwX3B9j8FRUNOivvFZzLCWccTVrV0zbVbVewoYZXA/whdcSnl188mObgEUI
+	 QnIkEcv0h3vk0BCBRs1o4QK84WYuU9+iOlqs5qjCX4uQI/uZfLSqZHWBUXCrQ7qyU+C0b
+	 2dbAUFWyDJs0E1lIq4pjmPgcSMynobVtzFs5u5nZSN5fnKstgP4vTddY23giBFuT1qial
+	 h8pwGbM3b8h3RRKbG0wfdjm5u+oP/vYQIDhnV48tMNvWCpVSLOGgeOVEC300uYt9FHGlU
+	 lRD2Ty07ZBDE24XDl8IG91U/pvZe0xEYgaly0xcNRG/QiuFV2LrAjAklAcv+hvApsXw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795047171;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=HSwmMFbMcuoGnbaPCp6Kzu+PXKVfQeQZKhHagsueKak=;
+	b=ZI6O577VnjSM7lQHWvJdSbUY1eKnsWKmVzae9nMAfsfF6NnheV6UF+SkPwfUy17tmR4y
+	 r5uYgxvTA5Bt+8vOEIcXxKM711szZ1WfMpHoa/RAN3fNfenM6ojZF1hxpRbO86czxBpGo
+	 IgX6SeolT7ceSVaU6mAl3Kz4DLuQ068Us7aHMAVPLKXRADF42dp8azyGAhbe4ayeCNI52
+	 Sq6E6ZJDUcKic7FUNJoPe1hJlh8Tp2Ms011EGooEflfpUC8gEngyYpPMhWn4uM3WveTSV
+	 mB5K0kfEDcgRth++JWKwm689QCCVt3iYVhNkZp4yiECRDmMTTmQVvt+SSS5ZhSvss5g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=pBqrXFZx;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.47
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010047.outbound.protection.outlook.com [52.101.201.47])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D58606A33A
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 00:10:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77D58606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ADE4606A32A;
+	Thu, 19 Nov 2026 00:12:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1ADE4606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=T0HssYh2
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-8b4fb5d96b3so6787287b3.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 16:10:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795047002; x=1795651802; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Cz6JhA4vgHQqGHllNtBlEMCpr/c5f2N6W+pIECb8wEI=;
-        b=T0HssYh2SSHWHrSuOXQ97kVsD2vAdVHgdABDUZORdNsFg9hXotQCamW/b67k/LRdkY
-         oPNq9O5RP9TDGOiVLO0O4j1HRnwaVJWs1ZlddnurfTtbfZWfOrPxrjc+0lQ2SoF655d9
-         6fEcL8IpZcxhUdfl5+ehGszFQO2SrXLc2gJ4gl0k6GQM9/IfWfEYfCpwBLqteoTV2uAF
-         VCNiWOSYS9GcYMZ1jrlPR9zXjMrrArSEPtNp/VLAo+ExjzvrVBguWhGL8qqxUVD84hC0
-         vZCLwQuSg3afgF/hvvz8fm0zMZ4RLnDfYZfxMQojLt+S0F3GMlFk8iDbOEXEq7W50LZr
-         pVCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795047002; x=1795651802;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Cz6JhA4vgHQqGHllNtBlEMCpr/c5f2N6W+pIECb8wEI=;
-        b=h7bpROMzAXBni326oc2wVvG76Ov9oKq9zfx9NV6nZEWMjhN/UqiX+sEVcLspF9dM9T
-         Xkq0dpkOoYnTa6OhRyP7gRNNMzgGv1EAFgurlyQtxi8A+VgKMuMPy+PmdN1GeJcc9kMK
-         htSfQKdORKJ8relapzeZi46GaSvrVDdPSBcb6GXuxzXsOr58CKAac7wuC5KfOCR2sCvC
-         YWWkGLqZ/UGMmeBquEIWjbDeL4UdWtzp5MSyfUGM+84GtdgchcaS8xgakuilfY4BBtln
-         JUhNAUb62YdVzC9i2QHQBPpeuob6+r3cAOdFokP2wBSBo0CLgr4h8zSW8P5FTYqkBt45
-         ApnQ==
-X-Forwarded-Encrypted: i=1; AL+hErFalk5vgYw3BCF2cAJem2axu6DLg13axz7yufwSlVi08eD8gOALPntq9RSzvSE8lpdnFLWHnjhmOz8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+D5v2jslro3jOGfrcbhFVufz84TtI3mNczhBOPgNkVKeoSqwXe
-	fQ2RWzphXHpaOsHTacXxB0/O+2A/mfCx9b80uU44tQl+CB1vXnSTeCbyVympUVnZ
-X-Gm-Gg: AZFdTZfriFPKPrsrBycTF0IONHfCK+m10tAwCP8fKBukWwmfa2GffddI3iPOhjKQn4K
-	a1KtiPU9eo8W18TRiGD9hU3K60/cPLPcGi1Vy+qbQHuO/qMPfWgvg6ZQecfAF22RiQQ6Sc7vgCD
-	9TLz5IekJbnFGmn4HBn9i6KHMSyDfL7cDJRQ2X9D7aM+cKpGi1I4+060sgXj2ADvlOvkmBfZCte
-	7IfAiLJ6tp9gqxHgFuu6DRbIt67A1FzFhEPQTDLWWshoA+ErVKZnaWpj8KHvkmhBZcj7/f/jky+
-	yv8yZJzIdDWPeiP9m57A1nMxGAgAm0F5MEA07HyKSZOwsc14mQ43LnJDlMl7ATPSiGEQOsgqYmC
-	WohyE69eI3UCEqH6Wy0mPsTEUjzDv1caVxocdE1UOPMytaNlwGkjwkjRj/C/TM9e1Y1zzRsVV0v
-	0tEbbs0ccv43GeJZK8MehtaScUgoMBYwAfnGx3WUccc5CndLsptcZRrYug3xL2/zfGf51naI75p
-	wYcGlueB9F5pD2sm6XOEqYmnp6sjC8DswqWKHKXccocEDWBV5eYythnMG5nL7o8ega6gK90fL4l
-	RULh3H8eUBtYnQS3GzRz4PFJ2YEFkcdGcMId+tN8cbw/cb+oL9CLJx9dgT0DQFHLnwqlPKEfoop
-	qnnqdZ8Vivw+ziJcTl+1FeW5Q6F2i3I0m7RhQrh4XdlzH0Nf5IuhB66FY79hnU9ZpN2rdutjizS
-	8ZNAf6G4urZfs9I4cDAA==
-X-Received: by 2002:a05:690c:4990:b0:8b5:2a0:606e with SMTP id 00721157ae682-8b513d44ceemr1089987b3.18.1795047002245;
-        Wed, 18 Nov 2026 16:10:02 -0800 (PST)
-Received: from localhost (107-220-129-194.lightspeed.chrlnc.sbcglobal.net. [107.220.129.194])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4fe0eb8d2sm25158667b3.36.2026.11.18.16.10.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 16:10:01 -0800 (PST)
-From: Matt Turner <mattst88@gmail.com>
-Date: Wed, 18 Nov 2026 19:09:52 -0500
-Subject: [PATCH v4 7/7] hwmon: (marvel-env) Notify userspace of
- environmental events
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=pBqrXFZx
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tYPY9aNZ9+VUFhuRTVWItXWe6LA1ELe8NyvJ7Ok2zx3/0wkPzK0mHPeU885hXGYmXDJDxuQ7BBu2RK5vqwb3eytMcmL0W1me1vzW7v5CHSymecosg/qx51eSl1E/fGuCzo8s5oOIAXKZulZcjM/K84iHGlGbfcyzpCrEXGqbNobqj7fX78oh1y2ze7pnQ/26A8PLfioBrS/gDfmzBjoI9xPTKup32u7c65t+vlMCASfDmTHV2rF/fgmmgFORd/yBm8+q6zFFdZ6mA5wOBveJJPS89vOsX8BlkS8gg67HR2MKaEJE0X9d840zGIlEjD9Ow4QcKvKQ2t6YiTjFeRK02g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HSwmMFbMcuoGnbaPCp6Kzu+PXKVfQeQZKhHagsueKak=;
+ b=fbYdftSE80tBLNnV/ez0jiIknAiZgPvNKRgmuK6YOosa31MsIyqxVPRQZ9mM9kMvG1oFnC1umFZmiFWKwovv3x7+uQmy+EVsMNqUq6MI+VXF7HCjwreDT9o5e1V4+BFULwuh/CN+eR+iwklotRHZdeh/qK0xTkwr4S9T4mBHeqNOlVlxtlnkMoBHZxJE2hurX6uC4DAiSQqnA2puFMscBDyHgGgvH6hAPmYD7oqkQE2hDGda9f8giyJSF7N3ik1PTpJJ7x3+WhbjV/omWcp7vpVpzQXUBZzXj8Sv2wef6377uq2TObmhBUsM6LevuA0veCJ6OqgaxOeLcKjA8rmnVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HSwmMFbMcuoGnbaPCp6Kzu+PXKVfQeQZKhHagsueKak=;
+ b=pBqrXFZxH5df2mkpkvSBs2ZBAVdHZFTMIcVKqU8gM0iPbLxwxoxum+60y9bhZPeYj0YxNhvDXmDtq7dhNlNygpdTdgLfS6W5K+1VIn601umtFZZKNAXhWo5RK+UlAzpQB54dVdVnk2PsvZhtn4ZBRV1DMnsBFDbqKWd9DmO4WaM=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5389.namprd12.prod.outlook.com (2603:10b6:5:39e::8) by
+ SJ2PR12MB9005.namprd12.prod.outlook.com (2603:10b6:a03:53d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.10; Thu, 19 Nov
+ 2026 00:12:47 +0000
+Received: from DM4PR12MB5389.namprd12.prod.outlook.com
+ ([fe80::1f4e:98f9:2c94:8e4e]) by DM4PR12MB5389.namprd12.prod.outlook.com
+ ([fe80::1f4e:98f9:2c94:8e4e%7]) with mapi id 15.21.0615.013; Thu, 19 Nov 2026
+ 00:12:46 +0000
+Message-ID: <f3be0259-80b5-4474-94b7-0f6e7591f499@amd.com>
+Date: Wed, 18 Nov 2026 16:12:38 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] vfio: Allow untainted use of driver_override
+To: Alex Williamson <alex@shazbot.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ David Lechner <dlechner@baylibre.com>, Armin Wolf <W_Armin@gmx.de>,
+ Thierry Reding <thierry.reding@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Karl Mehltretter <kmehltretter@gmail.com>,
+ "Paul E . McKenney" <paulmck@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Dapeng Mi <dapeng1.mi@linux.intel.com>, Marco Elver <elver@google.com>,
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>, Jeff Layton
+ <jlayton@kernel.org>, Bradley Morgan <brads@mainlining.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
+ Pnina Feder <pnina.feder@mobileye.com>, Mete Durlu <meted@linux.ibm.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Rio <rioo.tsukatsukii@gmail.com>,
+ Feng Tang <feng.tang@linux.alibaba.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-trace-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Longfang Liu <liulongfang@huawei.com>, Ankit Agrawal <ankita@nvidia.com>,
+ Brett Creeley <brett.creeley@amd.com>,
+ Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
+ Julian Ruess <julianr@linux.ibm.com>, Nipun Gupta <nipun.gupta@amd.com>,
+ Nikhil Agarwal <nikhil.agarwal@amd.com>, Eric Auger <eric.auger@redhat.com>,
+ Mostafa Saleh <smostafa@google.com>, Pranjal Shrivastava <praan@google.com>,
+ Ioana Ciornei <ioana.ciornei@nxp.com>, qat-linux@intel.com,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ kvm@vger.kernel.org
+References: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
+ <20261118235645.2907908-2-alex@shazbot.org>
+Content-Language: en-US
+From: "Creeley, Brett" <bcreeley@amd.com>
+In-Reply-To: <20261118235645.2907908-2-alex@shazbot.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0376.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1::21) To DM4PR12MB5389.namprd12.prod.outlook.com
+ (2603:10b6:5:39e::8)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -95,222 +127,142 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261118-marvel-env-v4-7-200317e496c2@gmail.com>
-References: <20261118-marvel-env-v4-0-200317e496c2@gmail.com>
-In-Reply-To: <20261118-marvel-env-v4-0-200317e496c2@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>, 
- Magnus Lindholm <linmag7@gmail.com>, Guenter Roeck <linux@roeck-us.net>
-Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- Matt Turner <mattst88@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6655; i=mattst88@gmail.com;
- h=from:subject:message-id; bh=qZd97RW9IxalQgdmkxJLFmDFqrpkV05FcdnVxnLWCBQ=;
- b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLL+2XlJfX753nl10dmpc/37opgy38RU8HLwzZXRzH0o5
- 7um7sTbjo8sDGJcDDPFFFni1iuyzGrbsdTntPQvmDmsTCBDpEUaGICAhYEvNzGv1EjHSM9U21DP
- EMjQMYqHyOkxaGQWF5emFummFRQ55OWXJJZk5ucV6+UXpOYVpBfopWWmlWRk5BcVpwKN0MtLLTF
- 1dXQzMjQwsXS0MHOycDQ1cXZ2MnRyc3R0dnUysjQ3MXC2dDRxtTRn4OIUgLnmqjQjwzXlfz//+G
- 2/+rxfSsn6Z13/ZyXf+qtn9s7I1vfYqv3lxDlGhitpGw5KN/FuDT4dXvhbJfDZri2+WzMu+h198
- euZ6X6FajYA
-X-Developer-Key: i=mattst88@gmail.com; a=openpgp;
- fpr=3BB639E56F861FA2E86505690FDD682D974CA72A
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5389:EE_|SJ2PR12MB9005:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef748d09-9e5b-4b0c-44af-08df45d1d5f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|23010399003|261026140227099003|261022105027099003|261028144727099003|56012099006|4143699003|261021123027099003|11063799006|261021121427099003|10067099003|261009223027099003|261102123227099003|261022075727099003|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	Q71K5ZIH7rsQeAfNKqqsD9kMUMPictFuHLsbFC1/vZLlN6oVeKs1hOnprAF7BRnSDO5eCMQ5JvSRyod0AmD4CERon511iXrAlTXWnx7oqCgYYKS4+TUBKBUiS+H02hiFlrE+b2BTwMS1e5rs4VgvBI/tf6G1SSgfLaVk7ONgHSB/eL+JX34B1EGQ8XN+ulRpTLKS1eMNPFww5qLu2fOdZkL1voMGA7A1mWuf1okXmUXy1GJRst9Wn6v2x4z7FE+Bc0ZM72Bfx/gumEo8pvqQmxjYHsYSQCnFSw2591bYwlq8JPKB0YBhO+DKO7dwmiHv/nzUP0IWC3TOCYQE7STufyQvDdgPQbbpjvoPHkpC26oJ70kLreacG1VjXQ0eLVE8ZeF+PkeKqswS4FoeYP+YLS9Iq8CDD3FCILT7CuhXLQST2743P/gVj3HNn1La66KZ3Opj78LMjsMawi9OqQE56YOxtV4ZO1g0DkS2kSvcGW3GDZLMj0kFS0JB1fC0dfRUpVyDTmE5bUZqAp3BLD/aQp9Bktqvussi+vnTT/Ca5iFpmKST0zhiS7uc1HmkriU3ARsGyvR2ChMqiznnLETjyN9eEe1RzNL9Xeminamm6A8fLwicQV0CDgu/d8i4Oy774+mMFMyUpla7wPOvSNlR7ytHi0gbTZ8XCMrS/kr0nvA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5389.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(23010399003)(261026140227099003)(261022105027099003)(261028144727099003)(56012099006)(4143699003)(261021123027099003)(11063799006)(261021121427099003)(10067099003)(261009223027099003)(261102123227099003)(261022075727099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YndLTnFQU0VsZmdsRy9MQm9VQ290OUpXblRhU3J6TUkxYWx5YjRXTmJrbmRo?=
+ =?utf-8?B?ME83cU5yNjc3SjBTWDYwVUh0aUFPbmJaeFZGMVA2TWtQbndtQTVzbzBxMDRC?=
+ =?utf-8?B?U0tFT1BiZHJsOVd4TWFjTk9CakFkMEhRMmFlRFB0cFNKQlRnTHgzdTkvNk0z?=
+ =?utf-8?B?bjE5N281emIwaE5Tb2JpRGR6di9ReTJFcUxmV0I2dm5yQ3NvNHhFSldOUitS?=
+ =?utf-8?B?YjJVRUlkUGJ4R0g1SDlVM3hZNGVJOVpESWZWS3o1OXR0RmNkdzgvK3ZSc3VU?=
+ =?utf-8?B?UmcvaUFCWTN1WVg2K2V0YjBSR0JwZjFJNkNkNWtsZWZvejVJalRQMlArbzRJ?=
+ =?utf-8?B?QlZFMFA3clpETkIwcExVM29CTUxRZGc5SVFWM1B0MGVuTGhBRUZ1YkUwellS?=
+ =?utf-8?B?U3l5eVkxMWtNQThJZ2VhVkxZbnBpWmVsQXRiU09VUEhkbkZlbHhiVlJrZGcy?=
+ =?utf-8?B?Ym9iRnhOTlh2MEU4ZjdyZ1pXZXBGUkswcGdEb1UwYjhFY1F3ZFNqTHhVTVBB?=
+ =?utf-8?B?R2k4ZzFiYi9NMEdQOEM2aFl3a0l3dmVoQ3RLaVAwajgxeitkN0JNUis5R1lY?=
+ =?utf-8?B?K3FlOGwwTGF1eXpQR1dNaXBSVUxKZGQrVEErWlk3TFZ6OUNYMzlRcnl2WG16?=
+ =?utf-8?B?WExCMVN5bkhCWFFXc1JsaGYyaHBqQ2RxMmJjWXhXYjRIaG9OVFY3NHVnYUxt?=
+ =?utf-8?B?NkVKRlpWTVhmaU9uRkNvWU1RNlpMSTVzQjkrZ2xwM3dYN0hDOWl1TFNLaUoy?=
+ =?utf-8?B?ek5jVnpHRHNuM2l5eVNGc3h3Wjgyd0FEWkoyUGdIUDRzeDhEUG1TSFhqMmQ1?=
+ =?utf-8?B?WnVnUk1UU3gzZzZDZE9qOUFDVFh6eGN1ckdnR1AzUldkT2tIMUlONWpLWnBC?=
+ =?utf-8?B?V0p6L3piMERzOG5GTTNwU0xDNEhHMmpSYWxUcFpuaXFIWm1UU3JTNklPTWZ5?=
+ =?utf-8?B?ODFoU09rT3pmZWVxT0xnMms1RG0zMm9mWTcvUnZqRFRUdzRSVStCVTNLcDlz?=
+ =?utf-8?B?QWFKNUlJMXQ1eENRZGY5ZGpUM0pRSFlGcWlZSWR4aTBMNWUwc2xpNDR1OE5T?=
+ =?utf-8?B?dzF1ZlJyd1gzNGpjaGlTYmlGNllSMjRPNnpJRHdBUmdUSHI1QUN4Z3NvcTJi?=
+ =?utf-8?B?dWUvN1F0SXFVTXVxWnBHOTIxUTE2TXFVL3JPSzhFQVc4dXZXWHIzNFd5NHlJ?=
+ =?utf-8?B?OC9DVUlnYUxNZnFMcDBJcGVFVFR5K1I2REloZTFsZ281Q2dTaWNzUEMyNExE?=
+ =?utf-8?B?Q3pqUWRLdUtyREVMM0ZWekEzWG1OTWRLZS9tRTdSZm96RXYrY2QweWhJREEy?=
+ =?utf-8?B?aGlVMFE0Tk5VUzZjbVhPOGoxcVZ0ZzdRZE5QNEtNTFc2bTdYaGY5YitnR2V1?=
+ =?utf-8?B?WEc3NHNCaTR3aXFxQm1mdURnclFaK2IxVE1reXpHM2dqNDRiLzJuR2laWHc3?=
+ =?utf-8?B?NUt0OVpmOTd0ZEp3VG1RUFRCeGIraEtPSGZlRHFBVmE4YWRTSHpqVHYyZnlE?=
+ =?utf-8?B?YXBqUnhhakR2Q3E2ZmxlL1JGSHNxZUJyb1EyOStodVRLd3hTbFlMN3dQaFJk?=
+ =?utf-8?B?b01VRDZEUWRGQlhEcEcxdTh2VmFuMXUxUlJtQlRSanlDQUh3ZkhqRnlPS3Fs?=
+ =?utf-8?B?NEc4Y3Ruc3BKMjdHMWJJNXZya2VaOXp4emhXMlRYUmVjRUszbUtqMjRqcUJF?=
+ =?utf-8?B?ZjN3MGhJQXBGUjc5cU56TkswbG1OVFpuTlg4SGU0V1ViT1I3QjJtb3JkMEJ2?=
+ =?utf-8?B?VkJHbUNpZ3VBNndVRHo2WWxxQ1k3eUw4bUxiM0MwNW96eGUxVjB3dkJiUGxu?=
+ =?utf-8?B?dzU5MDNEYmhDeGhDSElMSUViV1ZDWDZxMVhJTWRnRzFTNkpmbGpwVmxDdFpv?=
+ =?utf-8?B?MlZ4a1VrWVZYTnVrdGRScThYTEVqbHJaK1Ftc3lhSU85Z2EzMGQyaitKWTZP?=
+ =?utf-8?B?Y3pCcURvYVVYT3RBSXAvVGJmS2UvYnZpejJzKzh4bkxxN1N5Z2ZHUkVHaEtR?=
+ =?utf-8?B?T2xid1dIa3kzaHpLeHlSSXFDU1NhbnBHVzBqUUFLYWFaN0VCR29YMFlEaFBm?=
+ =?utf-8?B?dXFWVDIzUlJKVE85RXZ4SGJjNFpCUE9YSzg3NzhNakdSeTVPRWd3V1FZZ1l4?=
+ =?utf-8?B?N3VKOTBJNnJwalErNitOVzdMbVo5WEoxelEyc2RlTHNHU2Q0OURDUHVsamYv?=
+ =?utf-8?B?anZLTnF1aFNORUZHeGFyYjNJdGlheUd4VDcwT1ZkQ1ZWa244VEtqTXdwYmUw?=
+ =?utf-8?B?ekpJdzZYUWFhdVYzTWFCT2VycDBMdzFkOStuaWhUYmtWVEZzZlgvYXo0VE1F?=
+ =?utf-8?Q?os8m4OH8R/6p+fxIcF?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef748d09-9e5b-4b0c-44af-08df45d1d5f7
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5389.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 00:12:46.1099
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rtBuCPMdT9+dmHBDwWX5VxhpUlzh5eUWAR+6BWWwIBmohxPQ0v7ZkPE7zBmSsAbF5WUYtHwyuKHU6wTnVNnBqA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9005
 
-The firmware reports each change of a sensor's state as a system event
-machine check. On one, reread every node from a workqueue and notify
-userspace of each alarm attribute whose value changed. The notifier runs
-in machine check context, so it only queues an irq_work, which queues
-the work. The work takes the hwmon device lock to serialize the refresh
-with the sysfs callbacks.
 
-Signed-off-by: Matt Turner <mattst88@gmail.com>
-Reviewed-by: Magnus Lindholm <linmag7@gmail.com>
----
- Documentation/hwmon/marvel-env.rst |  4 ++
- drivers/hwmon/Kconfig              |  1 +
- drivers/hwmon/marvel-env.c         | 89 ++++++++++++++++++++++++++++++++++++--
- 3 files changed, 90 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/hwmon/marvel-env.rst b/Documentation/hwmon/marvel-env.rst
-index 02d5241749bc..4123c44fd2c1 100644
---- a/Documentation/hwmon/marvel-env.rst
-+++ b/Documentation/hwmon/marvel-env.rst
-@@ -26,6 +26,10 @@ cabinet and drawer numbers.
- A refresh keeps the boot CPU in the console with interrupts disabled for up
- to 300 ms per unit, so a unit is refreshed at most once every 10 seconds.
- 
-+The firmware also reports every change of state as a system event machine
-+check. When one arrives, the driver refreshes all units and notifies
-+userspace through the alarm attributes.
-+
- Sysfs entries
- -------------
- 
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index c0ce5591c82d..99c5d84c8752 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -1258,6 +1258,7 @@ config SENSORS_MACSMC_HWMON
- config SENSORS_MARVEL_ENV
- 	tristate "Marvel (EV7) AlphaServer environmental sensors"
- 	depends on ALPHA_MARVEL || (ALPHA_GENERIC && !ALPHA_LEGACY_START_ADDRESS)
-+	select IRQ_WORK
- 	help
- 	  If you say yes here you get support for the temperature, fan,
- 	  voltage and power supply sensors of Marvel AlphaServers (the
-diff --git a/drivers/hwmon/marvel-env.c b/drivers/hwmon/marvel-env.c
-index 8ec3dd7c0b23..effa70b3b35b 100644
---- a/drivers/hwmon/marvel-env.c
-+++ b/drivers/hwmon/marvel-env.c
-@@ -17,12 +17,15 @@
-  */
- 
- #include <linux/hwmon.h>
-+#include <linux/irq_work.h>
- #include <linux/jiffies.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/notifier.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/string.h>
-+#include <linux/workqueue.h>
- 
- #include <asm/gct.h>
- #include <asm/marvel_env.h>
-@@ -97,16 +100,21 @@ struct marvel_env_chan {
- 	unsigned int pkt;		/* packet offset in the node */
- 	bool ps;			/* power supply, as an in channel */
- 	bool present;			/* known when the driver loaded */
-+	u32 alarms;			/* alarm attributes last reported */
- 	char label[32];
- };
- 
- struct marvel_env_data {
- 	struct device *dev;
-+	struct device *hwmon;
- 	struct marvel_env_node *nodes;
- 	unsigned int nr_nodes, max_nodes;
- 	struct marvel_env_chan *chans[hwmon_max];
- 	unsigned int nr_chans[hwmon_max], max_chans[hwmon_max];
- 	bool multi_drawer;		/* label with cabinet and drawer */
-+	struct irq_work irq_work;
-+	struct work_struct work;
-+	struct notifier_block nb;
- };
- 
- static const char * const pe_names[] = {
-@@ -293,6 +301,7 @@ static void marvel_env_add_chan(struct marvel_env_data *data,
- 	c->ps = ps;
- 	status = marvel_env_status(type, c);
- 	c->present = env_status_valid(status);
-+	c->alarms = marvel_env_alarms(type, c, status);
- 
- 	if (data->multi_drawer)
- 		len = scnprintf(c->label, sizeof(c->label), "Cab%u Dra%u ",
-@@ -498,6 +507,72 @@ static u32 marvel_env_config(enum hwmon_sensor_types type,
- 	}
- }
- 
-+/* Reread everything after a system event and report changed alarms. */
-+static void marvel_env_event_work(struct work_struct *work)
-+{
-+	struct marvel_env_data *data =
-+		container_of(work, struct marvel_env_data, work);
-+	unsigned int i, k;
-+
-+	guard(hwmon_lock)(data->hwmon);
-+
-+	for (i = 0; i < data->nr_nodes; i++) {
-+		data->nodes[i].valid = false;
-+		marvel_env_refresh(data, &data->nodes[i]);
-+	}
-+
-+	for (k = 0; k < ARRAY_SIZE(marvel_env_types); k++) {
-+		enum hwmon_sensor_types type = marvel_env_types[k];
-+
-+		for (i = 0; i < data->nr_chans[type]; i++) {
-+			struct marvel_env_chan *c = &data->chans[type][i];
-+			unsigned long changed;
-+			unsigned int attr;
-+			u8 status;
-+			u32 alarms;
-+
-+			if (!c->present)
-+				continue;
-+			status = marvel_env_status(type, c);
-+			if (!env_status_valid(status))
-+				continue;
-+			alarms = marvel_env_alarms(type, c, status);
-+			changed = alarms ^ c->alarms;
-+			c->alarms = alarms;
-+			for_each_set_bit(attr, &changed, 32)
-+				hwmon_notify_event(data->hwmon, type, attr, i);
-+		}
-+	}
-+}
-+
-+static void marvel_env_irq_work(struct irq_work *irq_work)
-+{
-+	struct marvel_env_data *data =
-+		container_of(irq_work, struct marvel_env_data, irq_work);
-+
-+	schedule_work(&data->work);
-+}
-+
-+/* Runs in machine check context, so only queue the irq_work. */
-+static int marvel_env_event(struct notifier_block *nb, unsigned long action,
-+			    void *unused)
-+{
-+	struct marvel_env_data *data =
-+		container_of(nb, struct marvel_env_data, nb);
-+
-+	irq_work_queue(&data->irq_work);
-+	return NOTIFY_OK;
-+}
-+
-+static void marvel_env_unregister(void *arg)
-+{
-+	struct marvel_env_data *data = arg;
-+
-+	atomic_notifier_chain_unregister(&marvel_env_notifier, &data->nb);
-+	irq_work_sync(&data->irq_work);
-+	cancel_work_sync(&data->work);
-+}
-+
- static int marvel_env_probe(struct platform_device *pdev)
- {
- 	u32 *config[hwmon_max] = { };
-@@ -505,7 +580,6 @@ static int marvel_env_probe(struct platform_device *pdev)
- 	const struct hwmon_channel_info **info;
- 	struct marvel_env_data *data;
- 	struct hwmon_chip_info *chip;
--	struct device *hwmon;
- 	unsigned int i, k, nr_info = 0;
- 
- 	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-@@ -579,9 +653,16 @@ static int marvel_env_probe(struct platform_device *pdev)
- 	chip->ops = &marvel_env_ops;
- 	chip->info = info;
- 
--	hwmon = devm_hwmon_device_register_with_info(dev, DRVNAME, data, chip,
--						     NULL);
--	return PTR_ERR_OR_ZERO(hwmon);
-+	data->hwmon = devm_hwmon_device_register_with_info(dev, DRVNAME, data,
-+							   chip, NULL);
-+	if (IS_ERR(data->hwmon))
-+		return PTR_ERR(data->hwmon);
-+
-+	init_irq_work(&data->irq_work, marvel_env_irq_work);
-+	INIT_WORK(&data->work, marvel_env_event_work);
-+	data->nb.notifier_call = marvel_env_event;
-+	atomic_notifier_chain_register(&marvel_env_notifier, &data->nb);
-+	return devm_add_action_or_reset(dev, marvel_env_unregister, data);
- }
- 
- static struct platform_driver marvel_env_driver = {
+On 11/18/2026 3:56 PM, Alex Williamson wrote:
+> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
+>
+>
+> Driver overrides are the standard mechanism for binding vfio drivers
+> to devices.  With the introduction of the support_driver_override flag
+> in the core driver struct, it's now required for drivers to declare
+> themselves as driver_override compatible, otherwise driver_override
+> bindings will be denied or generate a kernel taint.
+>
+> Set the support_driver_override flag on the driver struct across all
+> vfio drivers.
+>
+> Cc: Yishai Hadas <yishaih@nvidia.com>
+> Cc: Longfang Liu <liulongfang@huawei.com>
+> Cc: Ankit Agrawal <ankita@nvidia.com>
+> Cc: Brett Creeley <brett.creeley@amd.com>
+> Cc: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+> Cc: Michał Winiarski <michal.winiarski@intel.com>
+> Cc: Julian Ruess <julianr@linux.ibm.com>
+> Cc: Nipun Gupta <nipun.gupta@amd.com>
+> Cc: Nikhil Agarwal <nikhil.agarwal@amd.com>
+> Cc: Eric Auger <eric.auger@redhat.com>
+> Cc: Mostafa Saleh <smostafa@google.com>
+> Cc: Pranjal Shrivastava <praan@google.com>
+> Cc: Ioana Ciornei <ioana.ciornei@nxp.com>
+> Cc: qat-linux@intel.com
+> Cc: virtualization@lists.linux.dev
+> Cc: intel-xe@lists.freedesktop.org
+> Cc: kvm@vger.kernel.org
+> Signed-off-by: Alex Williamson <alex@shazbot.org>
+> ---
+>
+> Uwe, this should cover all the vfio drivers that expect to use
+> driver_override.  Thanks,
+>
+> Alex
+>
+>   drivers/vfio/cdx/main.c                        | 1 +
+>   drivers/vfio/fsl-mc/vfio_fsl_mc.c              | 1 +
+>   drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c | 3 ++-
+>   drivers/vfio/pci/ism/main.c                    | 3 ++-
+>   drivers/vfio/pci/mlx5/main.c                   | 3 ++-
+>   drivers/vfio/pci/nvgrace-gpu/main.c            | 3 ++-
+>   drivers/vfio/pci/pds/pci_drv.c                 | 3 ++-
+>   drivers/vfio/pci/qat/main.c                    | 3 ++-
+>   drivers/vfio/pci/vfio_pci.c                    | 3 ++-
+>   drivers/vfio/pci/virtio/main.c                 | 3 ++-
+>   drivers/vfio/pci/xe/main.c                     | 3 ++-
+>   drivers/vfio/platform/vfio_amba.c              | 1 +
+>   drivers/vfio/platform/vfio_platform.c          | 1 +
+>   13 files changed, 22 insertions(+), 9 deletions(-)
+>
+> <...>
+>
+> diff --git a/drivers/vfio/pci/pds/pci_drv.c b/drivers/vfio/pci/pds/pci_drv.c
+> index cf7e33d4d17b..1fcef987f1b0 100644
+> --- a/drivers/vfio/pci/pds/pci_drv.c
+> +++ b/drivers/vfio/pci/pds/pci_drv.c
+> @@ -184,7 +184,8 @@ static struct pci_driver pds_vfio_pci_driver = {
+>          .id_table = pds_vfio_pci_table,
+>          .probe = pds_vfio_pci_probe,
+>          .remove = pds_vfio_pci_remove,
+> -       .driver = { .pm = pm_ptr(&pds_vfio_pm_ops) },
+> +       .driver = { .pm = pm_ptr(&pds_vfio_pm_ops),
+> +                   .support_driver_override = true },
+>          .err_handler = &pds_vfio_pci_err_handlers,
+>          .driver_managed_dma = true,
+>   };
+LGTM.
 
--- 
-2.56.1
+Reviewed-by: Brett Creeley <brett.creeley@amd.com>
 
