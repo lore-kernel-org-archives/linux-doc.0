@@ -1,142 +1,162 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.136
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795065278;
-	b=M8WbCd9vmCut0ax6fsZj92yLQ1grxSaQxFEpZjMa//QiQ0yDaufnKKCUBycEOwIHB4XB
-	 g/PocDgfnp0Ia1Qy7sSxF5HxF/ZStaePbzUIky/+Q7YpKK2pkLaNHK82A/8WmNhK5DMKg
-	 PX3LX2xg/l9NmR3hS7KlROB/fBttU8zJzg/F8wnvsFVK3IGYjKJCoTRZPrkh31M8Ov6O5
-	 DVG8KjR4NmncKAY9x62jsKuZ2G4ReOlaitwp5bjCvOP6fbMaiGsnwxTP2IB9/hZ6v/G4j
-	 ZtaMTIxC3Mtll3BcQZ9XMsI/QwFilUrrIt9L4GX5AIb05AYslan3lxn1yX17bC+3BcA==
+	t=1795065323;
+	b=ymEanNsPq9v3nE4tDhKiAauJnCI5Fvy+heJizeV0KbcQwpGHYV01ar28mbrO7psNPlji
+	 tERo7tnfUlq0BE2w7gYVErhQ8HAiltUxMPWB5qEPcs2PW6Mks0cXeqS/d1TB49HWXOVS8
+	 R3HXqUqGzt4n+8mI5xWuVT96hrVBSLdP/dYhsvB1oPrt8cpxiPyk2HnqKQnwbf5NwQ0Xt
+	 0A9QvAcMZ1qpA05x9DK/U4SwMt3cHgxPz0lQHsw84lbgrT3G3FaML5DwkWY7Kr0qPDdfg
+	 yUCrPxIgEIhS4SMYjl1QJxagk0TncdpKnX7BTWzFEqGM+suUzTE5jEVtAHASCvH4mLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795065278;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=wyxiWuQSWhgvdEtewWdluvJTi3FrncODBevXsHd/xk4=;
-	b=zsL9zDHNGyCNFBI3hGl70m8S2SrPkraL/nn1qni8BvknacS4U8F+A63QPP09Qq7LiDyV
-	 gbmV31CXPTtyJN+tmQeI0yjqEZJQHJ5bZWe3eq5qjKLvKCPQHtUiVBgGcaNyBD+DFObcn
-	 1lPxZYl52CBjrmUm/xE5d4kMh+ESV27NBVGnEPaKHrPtAD630XiskY8O/5qV/swGrG52t
-	 9REfy0j1GsCNYHcZv3fmRm3TxV1QEJUOW1m/2kdfj/NlmftFLGzDqBA6KHxkI/+2A2vm3
-	 pu9TgTt4foAda4BN7u5PxD1xaK3I/J6KHhIuFoexl0/FdboxeMnw6EQzHAv/HjAhJmQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795065323;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding;
+	bh=nB7NyMM3+R/ysxmgGPhpf3VtSpdLduKfuUDtKW50pjU=;
+	b=JmeKZFUSmTol+2/Ixis+j0TXriISogPTbcNE0DgrQn9NeDwg4Cx0oweFepp945n67YBn
+	 E+lFWkJAt/v372udpLR84pz76crWBQ9N2C7AJvfA2PLcaiJGD5xgcpbDQVKMCaSdCvA6R
+	 wj50T36Kd1Ipqgjy+ti4vgu7qQ0MjDznDLbFJ0IHI5z1hh8A6MT/KXGG8pc4nE0RRK4qp
+	 kTXyZPfTXTPIuFNYiSe4+/atopfY1etxKJh6aHnE69Ma6PpcAkjh/iti16uUM+Tm6nl24
+	 y2ks0VsUgFDdJFN6MT/eryuvo1AF4vl9nw2jIi3NqMnqZRzgxZIAsYEghRXeZ0PIKoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="IrY/U+3s";
-	arc=none smtp.remote-ip=209.85.215.176
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=shazbot.org;
+	spf=pass smtp.mailfrom=shazbot.org;
+	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=X+tuZ839;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=MapbBIfr;
+	arc=none smtp.remote-ip=103.168.172.136
+Received: from flow-a1-smtp.messagingengine.com (flow-a1-smtp.messagingengine.com [103.168.172.136])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAAA606A326
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 05:14:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4DAAA606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C17D606A32C
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 05:15:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C17D606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IrY/U+3s
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-cddc597d062so1114695a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 21:14:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795065278; x=1795670078; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=wyxiWuQSWhgvdEtewWdluvJTi3FrncODBevXsHd/xk4=;
-        b=IrY/U+3sMojwRsoCdIKNZ7+7w+rAuIZCaA8qG1HKoDyscOwi5hQSBJxg6rVJh5YU4r
-         OOi070XGHRZzdtbWslSZmzWvGpIzchWBiBpCfm4eKx58ktKoA02lKmlzoBXML4ClVLu1
-         c66BkNOjyg+0liDhrHMXjV3CMWM4ssuM5Z1psWUVA2SQQdNrf6QYi5Xymyhw5UbKjbHC
-         5g+CZd+CX3vxmqOaCv55f+9xZMncjLwzvLY+08HnXSfFxHCeqv720GXklLBDMdW6wywH
-         N88nHwaHtCa4KYZ4Pn7otDRQMvuHbx0LjfIXEKrcx8LNaiv/EbcNmJG0wg3dtXsVFWSo
-         Guiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795065278; x=1795670078;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wyxiWuQSWhgvdEtewWdluvJTi3FrncODBevXsHd/xk4=;
-        b=kOd68KKWbxtByoCMthiAvRLWJGS51ENQw1VSTIJR1CIMgTdJr27neIXZX04+Qr5AP/
-         HYTLGnCHg5rPTdFo2M+FSrAkkBq02izQYvwPcMY4azomIRkytlk+4i30M/OWBk1OePBh
-         WictqhKazix7EUUyhMPAIcxtzt/84IThUf3BaA4e1n5Af9znGIe8GBT1MqFqtZ4Y5ePG
-         oKO2hc48pIlQMKCWTyEawSs8eqkYXA2h062aGnpNTKPs/9R3jAClyFvVHAgMpkT19qo3
-         neNrtZ3Dq61xz+Z2Jt9S/PwxPGuF0CGLSPjvW2Ruo6coZTbL5d+GSjelA5Le1bIEF8x/
-         XoBw==
-X-Forwarded-Encrypted: i=1; AL+hErH7FxCUZnm/wG9xTBdOZ+ERsnA+rgfOOVf0Q29Yy+HabZIS5A/tD7uVOssbVcg8OEGyuH2p8wYvOG8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z88J2S/4uecLNq9iRcPurVEbyi6ckR7va7oYpwq3PgZHTiwbCSR
-	7TQwHVv8MC2QNqcYLugOea9AZxeZCFrzElUVAq9ISR1X4Nua1gB+psXU
-X-Gm-Gg: AZFdTZd+AUsGf5RjT0CG5ORFNXxCD/HS0+g1vKOHa4gN1XizmKovCvtH3ALtWPVwYkd
-	Nb2OzmPMSrMhOyb4sqBC3R6XGQeRQ1X00MRUrQ+CXC6gZ3f+BWjK5zhgBnQvvx+THr6hjPOiJqx
-	oZQmoj1yiReP3Ug4+Sv/OfGG7lC3oM6PjijKsX7lA798muo8nab93yeCy0blKWETIgLwFJ+jIEb
-	KB3hSpu5we0zpdsfdnDCSFmwfqweL7pt6VSdycu+qYRjWlvx5hDhSlS12zuP5RiGbck+hV70QWs
-	LiSNVVWcijSR5+V59YMJFrmdNCC3N2Q2c1VXdPGq5EtyVBJCZ7eqF0o12qjzE+VSCllghdxfGM2
-	KChQJcs0bcNesFUqzoegUi5wxfDCyQ/nPH6Z4lgCJNb91Rn3VInFvqAAHj425+/3QbdbvTb8EwX
-	Q3wD6LqSlI/xXnq0PvtbW+O0+zuYRbX2W4m119kSnV5ZqEGisIiVpGDBs4BS/Z5qYfP4vK8ZoVq
-	OC2WKrQPcy0p0TV/vcA8qQsS4XmWnkGQh3gg2ZoE6N+IcOBhr13jKe0ewjMUl78P9BfLCWmR7T7
-	JqLxYoctrbx7kEsMh1HSlfrz9GWXlrf/bRbn2xSVpIJR8wWJDEHbjktcXZzNaASf+84NkWM=
-X-Received: by 2002:a17:90b:4b86:b0:3ab:1b19:78f4 with SMTP id 98e67ed59e1d1-3b3d06a487emr5255430a91.6.1795065277522;
-        Wed, 18 Nov 2026 21:14:37 -0800 (PST)
-Received: from localhost.localdomain (vmi2317697.contaboserver.net. [85.239.239.233])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eff628b4ddsm23497315ad.62.2026.11.18.21.14.21
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 18 Nov 2026 21:14:37 -0800 (PST)
-From: Lian Wang <lianux.mm@gmail.com>
-To: Kairui Song <kasong@tencent.com>
-Cc: wang =?utf-8?q?lian=EF=BC=88ByteDance=EF=BC=89?= <lianux.mm@gmail.com>,
-	linux-mm@kvack.org,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Chris Li <chrisl@kernel.org>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Nico Pache <nico.pache@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Barry Song <baohua@kernel.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Gregory Price <gourry@gourry.net>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Lance Yang <lance.yang@linux.dev>,
-	Hugh Dickins <hughd@google.com>,
-	SJ Park <sj@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Yu Zhao <yuzhao@google.com>,
-	Vernon Yang <vernon2gm@gmail.com>,
-	Zicheng Wang <wangzicheng@honor.com>,
-	Chen Ridong <chenridong@xiaomi.com>,
-	Tal Zussman <tz2294@columbia.edu>,
-	Kairui Song <ryncsn@gmail.com>,
-	Xiang Liu <liuxiang.277@bytedance.com>,
-	Ehab Ababneh <ehab.ababneh@intel.com>,
-	Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Kunwu Chan <kunwu.chan@gmail.com>,
-	Hui Zhu <hui.zhu@linux.dev>,
+	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=X+tuZ839;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=MapbBIfr
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailflow.phl.internal (Postfix) with ESMTP id 83CDA1381B4C
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 00:15:21 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-11.internal (MEProxy); Thu, 19 Nov 2026 00:15:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1795065321; x=
+	1795072521; bh=nB7NyMM3+R/ysxmgGPhpf3VtSpdLduKfuUDtKW50pjU=; b=X
+	+tuZ839rtn44ra+tvX2/152CSn6sDJOi7eousXbFCygf3cj8uGPHOY9zUJba5huv
+	LCDQkU3Us9mEAnjbN5Ef+LAxHS1Pn9feoFU19N4WImH0CStAhcTDg0M0nF2CEbEU
+	1bVoUzI/sDEC8n07qqeXwanpSDwadkHK1wPasK1FW0h8ivlRmbuI/oVU4rMg8ZjE
+	BuNY+34UfeNjEbECb66jlcoUTPgDrySsv3b4nliyi3+1bHnjA7GATLSoIOlgesNw
+	kiDiz8RLAec8dWe2IzNJlMf3v5PDuycDgC4rzc+4mL6LbVjJ1y+yqLkeLGvjiRUf
+	JZVNPCJoN8mUsJIbxPlcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1795065321; x=1795072521; bh=n
+	B7NyMM3+R/ysxmgGPhpf3VtSpdLduKfuUDtKW50pjU=; b=MapbBIfr7L6+jr/nb
+	+T7Wbr7xE94G4iBTC7xM69GXLXTNZ1A+AMhCTT65P1yp+UI5192y2+nqRlnVySGY
+	//mKjxGvSOp9DRW0Eoa0qcpNvZo5e7pFU2B2QOaCHfreaRpvCWu0DfQXS56Jo6SM
+	goTpD2+y0TsyLTQw11fG6S7bnHMy5bRxV010QexQnDd7OwrU/TMNE6sQyiQBj76u
+	2sZM7G9KtRQKUgbqRdAlsWj9Dz1V79tDu5pKTcaaxrt255k2kGifMJC94A+o6550
+	ggPUrWfejInKfJ3ffJm1zGP9tSYuRjt8gOfaUdwP50AyD6Sx0h9cNONhcSYmYSds
+	JYEcw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=shazbot.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795065321; d=shazbot.org;
+	mf=PGFsZXhAc2hhemJvdC5vcmc+;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm2:rsa-sha256:hA2dw9CHV8u3b9SkHLNKiP8EuY2zQz+NZF1Fxn3j0unXNQz
+	O+YUcp8uHxNPS/s36kvg8gIh9VsIh/S+W7UH4fuzf8tLSwG8HS3UzpAAwQx1Qj/Q
+	6lSs40YXOizcHYtRRfrjbHL2eK+D8pB2mnb9CQp/ROs95O2b0ED1Z6pkQW//9fi8
+	FWYYNPJ60mgOFbRB4QNOYagUSXGvPkmfAQTwckjkpFICNEIwZ4po86/Gw03GJyxc
+	nvMgCBNMt++mG6HDqxDYJ2gEqiQLnYl8jJaOx2RsooRUoShgnt9zmBsrGdLfCWkB
+	j66U7qMYZuEI0x/8vAm0dpKMMkK9pLa+fCyHzqA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=11;
+	hn=cc,content-transfer-encoding,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:x//NWy/h1nXC+M2WEmBfJfyd3519ihGy7lPGHXQNuSc=:4+p7gG5BwT/2fGf8d6eViKD6hqgE7hcriyEtzB2mdtQ=;
+X-ME-Sender: <xms:54X-aho_4vnnPquv-OcJCaLJUPyMtmONCVPGAJperguEiPfYtqBbFg>
+    <xme:54X-atcUTrB8kgIfLeDTdVatV-K0OoF0ZP2r4ZX3WPEcQS0-XAgGTJkDkeG2oEuzj
+    rLO5fUGEpWY97rzBD5bw5Ko1FBnlKiAvko0o9rXX1TvfRn6ozMT1J8>
+X-ME-Received: <xmr:54X-apoG77N28j-gDtcYRM10JWcfECYA3P8FK6HQiJ7FHK3H0APXSHp88o2wH9nkevS322BTiQY>
+X-ME-Proxy-Cause: dmFkZTGhOmZn91BW8pxHvBMWXRqhbLMysp8Q4TvoI+VE9JbSYAz0c/4zd+rMp6yJOnzQo2
+    A5h1+Ma3DwwRz0lh04L5XOWbUr4LmVOSOkHzpY/w2yLXGwmcxZredAsP80hMCQrJRFodW6
+    fmevnh4d26BVXSXn55rBOjAyx+h1bESp7gOITB+AIkBvzyJYGo0ESemuyh5h9uJD60i+cs
+    SgAZ3CvmPdBrooaNlYfuH3M0HsG27/6DablfXZ89RfIZExguJZ8ORWOgjF0hFWp3UR9raT
+    3tReRAeuihRXAsm9oqtGE+5YCk876shunhrpseVaBMkz0D3wHUm1dvwS6tCtN64SczWLEn
+    DuDdQwcYEIyrIp3ndQyEaBgkuOsANeEsOYAmiMe5BKYSCCscMTQTaA7bUQTdT6x2SL99mc
+    EUQODC5AfuKbMNxP/Du61PY2puKdqVCkV3+Tj2MSc94/QSUyNMqYek+Yv0FJ1UbYiNlyrf
+    Dnot7ED3QRTkVgCtq9MaF7Q85ATJahP/UiowPn4G+To3EsPmA3oeh0AsCvZ4gVbYqU7hOJ
+    F7+WWByG6u6U+GL8WxBKjc6F/n6WShQdTeCvDenqqOMGya2CnkJ8dAWj319wv25W8G1+/8
+    rT7muG5iAUUuzY6DkFFkzKUn5f4NY69Kts+aQyf5MaAnpzKasBu+TSjoeOAA
+X-ME-Proxy: <xmx:54X-apS2YRuzof4jvWet_kxz44WkEnql4uUwPonuQ0QVH0sa7svGJA>
+    <xmx:54X-arx6inLsBrg-Tf1IxmB_y7hsOGZShniWqqg7vapbad7zq59tSQ>
+    <xmx:54X-aog9aBPY90lWo6IWsIbsmYaUsr_HqTTPBwRBXHY114KefCSlCw>
+    <xmx:54X-an-yVrgaL7OWQVQnQxZNCLETee9XviNCC5sg_XgPQyln9JvbIw>
+    <xmx:6YX-aobwTqTMr42AXmk7bvGgz7NskPIhynqV0CtdcbgTyOySumcUqW7H>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 Nov 2026 00:15:16 -0500 (EST)
+From: Alex Williamson <alex@shazbot.org>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Alex Williamson <alex@shazbot.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Armin Wolf <W_Armin@gmx.de>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Karl Mehltretter <kmehltretter@gmail.com>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	Marco Elver <elver@google.com>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Bradley Morgan <brads@mainlining.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Pnina Feder <pnina.feder@mobileye.com>,
+	Mete Durlu <meted@linux.ibm.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Rio <rioo.tsukatsukii@gmail.com>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 00/17] mm/mglru: frequency guided promotion (MGLRU-FG) and flag cleanup
-Date: Thu, 19 Nov 2026 13:13:33 +0800
-Message-ID: <20261119051404.14533-1-lianux.mm@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com>
-References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com>
+	driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Tony Krowiak <akrowiak@linux.ibm.com>,
+	Jason Herne <jjherne@linux.ibm.com>,
+	Eric Farman <farman@linux.ibm.com>,
+	Matthew Rosato <mjrosato@linux.ibm.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	linux-s390@vger.kernel.org
+Subject: [PATCH] s390/vfio: Allow untainted use of driver_override
+Date: Wed, 18 Nov 2026 22:15:04 -0700
+Message-ID: <20261119051507.3306075-1-alex@shazbot.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
+References: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -146,85 +166,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 8bit
 
-From: wang lian（ByteDance） <lianux.mm@gmail.com>
+The vfio_ap and vfio_ccw drivers bind devices through driver_override.
+With the introduction of the support_driver_override flag in the core
+driver struct, it's now required for drivers to declare themselves as
+driver_override compatible, otherwise driver_override bindings will be
+denied or generate a kernel taint.
 
-Hi Kairui,
+Set the support_driver_override flag on the vfio_ap and vfio_ccw driver
+structs.
 
-On Thu, 19 Nov 2026 05:03:32 +0800 Kairui Song <kasong@tencent.com> wrote:
+Cc: Tony Krowiak <akrowiak@linux.ibm.com>
+Cc: Jason Herne <jjherne@linux.ibm.com>
+Cc: Eric Farman <farman@linux.ibm.com>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>
+Cc: linux-s390@vger.kernel.org
+Signed-off-by: Alex Williamson <alex@shazbot.org>
+---
 
-> I also retested the LevelDB benchmark from the cache_ext paper [4].
-> Interestingly, mainline MGLRU already beats CLRU on this one after a
-> recent change in lru_gen_folio_seq that bumps new folios with refs == 1
-> to the second-oldest generation as discussed. That change accidentally
-> gave random reads a higher hotness level while making sequential reads
-> much colder as described before [13]. However it's unreliable and
-> incorrect because it depends on LRU drain timing, and hurts some workloads
-> as reported, or where the sequential part is actually hotter (any workload
-> involving hotter large file and many small cold files will be affected)
-> which is reproduced below.
-> 
-> This series improves it while covering ordinary workloads too and fixing
-> more regressions:
-> 
-> LevelDB Scan / Get, Throughput Total:
-> CLRU:         4708.3 ops/s
-> MGLRU:        5026.9 ops/s (faster than CLRU, but hurts other workloads)
-> MGLRU After:  5179.2 ops/s (even better in all cases, and no regression)
->
+Uwe, this should complete the vfio drivers needing driver override,
+covering the s390 specific drivers.  Thanks,
 
-We did observe a LevelDB regression in our earlier tests on our
-machine. The fixes and results discussed in your cover look promising,
-and may address our case too. I haven't retested v5 locally yet, so I'll
-rerun the workload on the current base to check whether the regression
-is resolved. I'll also look more closely at the access patterns and how
-MGLRU behaves with them.
+Alex
 
-The results on file-backed workloads have been especially encouraging.
-Next, I'd like to discuss some anonymous-memory workloads and potential
-fixes with you.
+ drivers/s390/cio/vfio_ccw_drv.c   | 1 +
+ drivers/s390/crypto/vfio_ap_drv.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-> Others
-> ======
-> 
-> Additionally, PSI, smaps, and readahead should all benefit from better
-> accuracy since this series unifies the flag usage between classical
-> LRU and MGLRU.
-> 
-> Other tests such as MySQL are looking fine, with no regressions. There is
-> also community test report [7].
-> 
-> Refault distance is not included yet, so MGLRU may respond more slowly to
-> workingset shifts. That can be added later, as previously demonstrated
-> [8], [9].
-> 
-> Extra note about future development: this series is actually highly
-> compatible with ideas like workingset reporting [10]. The "gen climbing
-> folio" design may appear to conflict with workingset reporting's idea,
-> but it doesn't. The solution is simple and straightforward: once we can
-> extend the generation number to a larger value (e.g. 64 or 128), the
-> refs-driven promotion can stop at a lower gen (e.g. oldest_gen + 16),
-> leaving the remaining newer generations as perfectly time-gap-separated
-> bins. These older gens can be considered as expiring gen.
-> 
-> The tier count is not fixed either, we'll need to find a way to tune it
-> if tiers go beyond 4 though, but that shouldn't be hard, not a blocker
-> either.
-> 
-> More details are in the individual commit messages. LLM is used to help
-> improve the comments and tests, all results are double checked.
->
+diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
+index 7546bd137e4e..77765cde87f7 100644
+--- a/drivers/s390/cio/vfio_ccw_drv.c
++++ b/drivers/s390/cio/vfio_ccw_drv.c
+@@ -375,6 +375,7 @@ static struct css_driver vfio_ccw_sch_driver = {
+ 	.drv = {
+ 		.name = "vfio_ccw",
+ 		.owner = THIS_MODULE,
++		.support_driver_override = true,
+ 	},
+ 	.subchannel_type = vfio_ccw_sch_ids,
+ 	.irq = vfio_ccw_sch_irq,
+diff --git a/drivers/s390/crypto/vfio_ap_drv.c b/drivers/s390/crypto/vfio_ap_drv.c
+index 8e69ed286bb9..2d47dc643269 100644
+--- a/drivers/s390/crypto/vfio_ap_drv.c
++++ b/drivers/s390/crypto/vfio_ap_drv.c
+@@ -62,6 +62,7 @@ static struct ap_driver vfio_ap_drv = {
+ 	.on_config_changed = vfio_ap_on_cfg_changed,
+ 	.on_scan_complete = vfio_ap_on_scan_complete,
+ 	.ids = ap_queue_ids,
++	.driver.support_driver_override = true,
+ };
+ 
+ static void vfio_ap_matrix_dev_release(struct device *dev)
+-- 
+2.54.0
 
-Thank you for this outstanding work! We've seen some really exciting
-gains in our tests, and we're very happy with the results. From our
-earlier private conversations, I know how much time and effort you've
-invested in this. You deserve all the praise for that dedication.
-
-I'll continue reviewing and testing the series and work with you on
-further improvements. I'll go through the patches one by one, and I'll
-share the workload scenarios and requirements from our side as we go.
-
-Thanks,
-Lian
