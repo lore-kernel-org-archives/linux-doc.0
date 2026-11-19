@@ -1,58 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795050003;
-	b=POuIfYu04Zg1lab8I25jylSlp0mMD61MMLPNACVYnIHYXvtvyfgJzoLX6GOLiDz1QNaQ
-	 PJOt/DeNAW7kt9LwfjE+6RXEzNEzgayKMi+jiVFanr1TKwEIGG84f6T4bizZXQRf3jQzF
-	 s3GfCIBB6z1e8WFykiS1c5mBs8JnLELEKguVuNzneRlyOkeZGronmqJUw4cx+ISk3VB3y
-	 D+GRUm335QSrhfzmD+9Hf/RU2BWWEjqKkERR9OJ02VQlgNyOO3DrAOELRm0VrSGhsq+G3
-	 yo6Q1HXJwOOaAFr4dawpigo3D0I3fD/kiC0j/EAGs5GicsEKBT3qs8uhJ1wtHiG6ICw==
+	t=1795050069;
+	b=W/g3lm9jTRdYo2hCcXaV1+V6W8Ap29zHjtRwZj2aOIByTQp0GusBPSvWVdnFz0TmQUSY
+	 vHjq7Lwpl1/v051Bl69ECVbOyVQrOeD5EnbsrhYQcVCj3X4GFqJZPBvKaTHJbfQekADpp
+	 nMoqhSOTtV9hcpdSMyLasbBrJQS5yQMAPJCCrg3yG9XTTbrUtereyoRQPopNH3G3qzHkM
+	 uSrtAHvzkMOovGYlJm0fe3vyHbfquBQGNbDY+chxn8fdgNYzNja4YClINyZ+CXF+PlGFs
+	 a/yNuncSbUak987zudP6Gv1VHIUWDUY8/uSqBg9tx3voB8AhqgtUKcUS2JoHa6cwcJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795050003;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-	bh=gYBZLlT9+eTfIVcY4yw0H/nwcJfUCT3G192Af+Y5LkY=;
-	b=mvGw2SZodZSBzS39TNL3PM55vSQB6HAvFPMTpjzrJxZQygqwO9pI4CHSYyVvXj89RnpV
-	 2iAatqZFCqhHbVSNOdFCJamIgAnz8OCIszDGkS2s777iTPSXADo1S+1mAR7VfhsIw9fgM
-	 sGi4HXo3jmpaCymKhqNUvp0me60GxEDmBJBVvcvMZ8dhE3uojb9eRoCwfwJDP+fnwB8Di
-	 xTBzdbwLb/Vpc5409Le54ZFqzFWmINP6GOOqku3noQWHsnRnRSsbQsGwSbk3dguIqqfeX
-	 EbTCtnQ8ou32p8wZkF8zyKMcJS1sl66q7hKc7S4ai/c6CiVl57zleKMFHWpD2EBppTg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795050069;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=49NXjUTbzL4+xbJpcXKoJd4omTTJA3SheYrgPCgGq84=;
+	b=vS5J49mB1ax80RDM8gC/lh5KXPnw5Alz1PGjohGWgeG0NQG3AaUICpe4JTLs6ZOtYMQY
+	 JwtWoEYj/pwWcIn2uBz01NeCUjDcMubbirjJnvAjhsAhAbW2GODBwJjw4Z6KfKxdoAjy1
+	 nD8hfBhY2fKfQjzmYH9MwB8tZjgHV6J5FQiGcdj+R3ScAXWnM9kc7yx1itInHgvYmmwc+
+	 QcvVjpalSuJSeZeBDcuJQQ9LZsRYZZka4cPXuAYEw/yb+1NDx1nYzspWxIEzv6wgC6ZX1
+	 nOLrurltHwy2yptCh5rDP/xlhaAGdbyL/ws+CDN84RfjlZdQHlp5Ja3PUwbhEIj7bKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=UZC09U8v;
-	arc=none smtp.remote-ip=113.46.200.219
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IQv06nro;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE35660A2604;
-	Thu, 19 Nov 2026 01:00:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE35660A2604
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 0E428606A332;
+	Thu, 19 Nov 2026 01:01:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=UZC09U8v
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=gYBZLlT9+eTfIVcY4yw0H/nwcJfUCT3G192Af+Y5LkY=;
-	b=UZC09U8vbHHntx9+CYN+9GShw4Lvxg7P8md4490ra3mANpr3fdoeEpVvrsXgMszlm3kIjE1mf
-	byzScLfs0mfjheiPsgmlonur5bZ1vq3zKoQfTnBSnDQRri8RwetaU8zONOUGvKC9qzIqSdXZX00
-	TDVrbVodF8GSxmBgvv7k4IU=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4jVKqw1SJ3z1prMf;
-	Thu, 19 Nov 2026 08:59:40 +0800 (CST)
-Received: from kwepemo500009.china.huawei.com (unknown [7.202.194.199])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7E98B202E6;
-	Thu, 19 Nov 2026 08:59:53 +0800 (CST)
-Received: from [10.67.121.161] (10.67.121.161) by
- kwepemo500009.china.huawei.com (7.202.194.199) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Thu, 19 Nov 2026 08:59:52 +0800
-Message-ID: <975e32a9-357f-4550-8309-54259b78c26a@huawei.com>
-Date: Thu, 19 Nov 2026 08:59:52 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IQv06nro
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 3E62E1F000C4;
+	Thu, 19 Nov 2026 01:01:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795050068;
+	bh=49NXjUTbzL4+xbJpcXKoJd4omTTJA3SheYrgPCgGq84=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IQv06nrofbIqNARVVWh9JrAgHaEyRWKOud9QvOcchO4KY4ScIzXSqs80rNJ/ht3b1
+	 Tsu7VMYrIh/2Fi+hRTl7qSSsKz4S7jM8ebpPVfo17lwtEFZMdAvwfZsxatV/ZsWAUp
+	 PJgwsXqU+KqK3LvIcvOGucx9P9jANzCFHIamLnf4sC5rVp+bvnrP0sCUChwGa++Hwx
+	 a7awEoAOqry4Xom2vSVycaB2NRS9vG06yCTtwmMYjMTvqtDoBc6hHSkU5Dk5pOb1Ih
+	 GIaqltmVlM6m491tKp84gsZmgrtTNr8xvyupIzrYmeeJ//m5Bn5hJKwuAsDqwP+LxE
+	 +hNKrozwFIXmA==
+Date: Thu, 19 Nov 2026 03:01:05 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Demi Marie Obenour <demiobenour@gmail.com>
+Cc: Rodolfo Giometti <giometti@enneenne.com>,
+	David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jens Wiklander <jenswi@kernel.org>,
+	Sumit Garg <sumit.garg@kernel.org>,
+	op-tee@lists.trustedfirmware.org,
+	Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+	Pankaj Gupta <pankaj.gupta@nxp.com>,
+	Sahil Malhotra <sahil.malhotra@nxp.com>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Richard Weinberger <richard@nod.at>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-crypto@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/9] KEYS: keycrypt: keys that user space can use but
+ never read
+Message-ID: <av5KUakRYdiaondn@kernel.org>
+References: <20261118140421.584086-1-giometti@enneenne.com>
+ <650f89ef-9745-4f75-b254-80fa5ac4773d@gmail.com>
+ <av5EyVHnNzT27dyK@kernel.org>
+ <61ca7c37-7b42-48a3-be2e-95deb4d999a2@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,59 +82,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 3/3] Expose the CPU/Steering Tag mapping via debugfs
-To: Wei Huang <wei.huang2@amd.com>, <bhelgaas@google.com>
-CC: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <skhan@linuxfoundation.org>,
-	<corbet@lwn.net>, <rdunlap@infradead.org>
-References: <20261001155551.4182899-1-wei.huang2@amd.com>
- <20261001155551.4182899-4-wei.huang2@amd.com>
-Content-Language: en-US
-From: fengchengwen <fengchengwen@huawei.com>
-In-Reply-To: <20261001155551.4182899-4-wei.huang2@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemo500009.china.huawei.com (7.202.194.199)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <61ca7c37-7b42-48a3-be2e-95deb4d999a2@gmail.com>
 
-Hi Wei,
-
-1. Should we consider cpu hotplug ? How about add cpus_read_lock() in start() and
-   release it in stop()
-2. Does this support RCiEP device?
-
-Other LGTM
-
-Thanks,
-Chengwen
-
-On 10/1/2026 11:55 PM, Wei Huang wrote:
-> Steering Tags (ST) are opaque, platform specific values obtained from the
-> ACPI ST _DSM, and are only visible to the driver that asks for them. That
-> makes it hard to validate whether firmware reports a sane mapping at all.
+On Wed, Nov 18, 2026 at 07:43:37PM -0500, Demi Marie Obenour wrote:
+> On 11/18/26 7:37 PM, Jarkko Sakkinen wrote:
+> > On Wed, Nov 18, 2026 at 06:42:15PM -0500, Demi Marie Obenour wrote:
+> >> On 11/18/26 9:04 AM, Rodolfo Giometti wrote:
+> >>> This RFC proposes a key type, "keycrypt", whose material user space can
+> >>> use for symmetric operations but never read: AES-256-CBC, HMAC-SHA256
+> >>> and an authenticated AES-256-GCM stream, through a file descriptor that
+> >>> KEYCTL_CRYPT_OPEN returns for one key and one operation.
+> >>
+> >> I haven't looked at the API, but from a cryptographic perspective,
+> >> this encourages very poor practices.  AES-GCM even allows userspace
+> >> to extract the secret authentication key.
+> >>
+> >> AES-256-CBC isn't a suitable mode on its own, unless it's combined
+> >> with a MAC in encrypt-then-MAC.  Even then, it has a 2^64 birthday
+> >> bound, so it should only be used 2^48 times with a single key unless
+> >> the key is ephemeral.
+> >>
+> >> AES-GCM is not a suitable algorithm either.  If you allow encrypting
+> >> with a key loaded from persistent storage, there is no way for the API
+> >> to ensure it is only used with a unique nonce.  Nonce reuse leaks the
+> >> authentication key and allows forgeries.  Using random nonces isn't
+> >> good enough either: NIST only allows 2^32 encryptions in this case,
+> >> and the API can't enforce that limit.
+> >>
+> >> For long-term keys, all of the following are much safer choices.
+> >> They have 192-bit nonces, which means that one can generate them
+> >> at random for each encryption without any problems.
+> >>
+> >> - XAES-256-GCM
+> >> - XChaCha20-Poly1305
+> >> - AEGIS-256
+> >>
+> >> AES-GCM-SIV is also okay, provided that you are fine with occasionally
+> >> leaking if two plaintexts are equal.  This happens whenever there is
+> >> a nonce collision, so with probability 2^-32 after 2^32 encryptions.
+> > 
+> > The exitential problem here is that KEYCTL_CRYPT_OPEN creates a circular
+> > relationship between the keyrings API and a specific key type.
+> > 
+> > At hardware level I did not see any support for TPM, which narrows down
+> > the potential user base.
+> > 
+> > The remaining potential user base is further reduced by those that use
+> > trusted keys; leaving out those who need to solve the assumed problem
+> > that only this patch set can presumebly sort out.
+> > 
+> > And we don't really know at this point that cut. This is pretty much
+> > the break down of what is wrong here.
+> > 
+> > If there is/was a problem to sort out, it should be so constrained that
+> > it should be as quick to describe as stepping over a nail really.
+> > 
+> > These are the main topics what I would focus on.
 > 
-> Expose the mapping read-only in the debugfs directory of each Root Port
-> that has ST _DSM support:
+> This whole patchset looks like a solution looking for a problem.
 > 
->   # cat /sys/kernel/debug/pci/0000:00:01.1/tph_cpu_st
->   cpu  vm_st  vm_xst vm_ph_ignore pm_st  pm_xst pm_ph_ignore
->   0    0x03   0x0103 0            -      -      0
->   1    0x03   0x0103 0            -      -      0
-> 
-> Each line holds the raw ST info the _DSM returns for one online CPU;
-> invalid tags and failed queries are reported as "-".
-> 
-> The interface is per Root Port because the _DSM is evaluated on the ACPI
-> device of the host bridge above it. A system with multiple host bridges may
-> return different tags for the same CPU, and the value that matters to a
-> driver is the one for the Root Port its device sits below. Root Ports below
-> the same host bridge report identical contents.
-> 
-> The file is created during enumeration and removed with the device's
-> debugfs directory in pci_destroy_dev(), which returns only once no read is
-> running, so the pci_dev the file refers to stays valid.
-> 
-> Signed-off-by: Wei Huang <wei.huang2@amd.com>
+> The usual solution to something like this is a userspace service
+> like ssh-agent.  Then you can do whatever key management you want.
+> That doesn't protect against root, but if someone can get root you
+> have bigger problems.
+
+This is true. Even if the code was like it is BUT it had a clear
+motivation, I would likely suggest to the author how to resolve the
+problem more properly.
+
+I.e. bar is not too high in initial code quality but it is steep
+from the get go in the "utility value".
+
+> -- 
+> Sincerely,
+> Demi Marie Obenour (she/her/hers)
 
 
+Br, Jarkko
