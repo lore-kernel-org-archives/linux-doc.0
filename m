@@ -1,55 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.148
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795117478;
-	b=V15fP21dW/hl7oTJiQ4+zQF0u4EePck+KNsEgIWmL71/VK7VdTlJsbow4ThxsVwxzMoh
-	 P0RcRe+erD1LnZCGiJFHJ30BgsD/Xfqf/s56YxZMKPCnBIYaKSED56J0exGXlfoJ/cdn9
-	 2iXYT2pjFAgsly34TCi+ax9SLOhXqQbsx8d/tiIgHU5ttWTEZ6crzvwEPwzEcaph+sDui
-	 Er4vOw2uSIdB7ZQ09lWdR4lUHgzAuQ/qm1SJjIdUGiX136s95vNoem/JasliA6Ox90GG1
-	 5m7cjlBPqjV1O3J0WdUFN7R1TA8wx1ZogtXAEQvoUZyzmvB/ENfv6rbps97xdWhyp5A==
+	t=1795117942;
+	b=kLJ+2uQ+Q32gUsyBPjwrqzyD6yXOdYcRVrZgEXCsbwGLtzF6WpDTweO6SsHs8iK7JomP
+	 bdYWj0Etl14UsdpsJryw9ijcHKTL9OQgu0O44ShTdEScVKY92M04tIeOe2wc1piuu5aKk
+	 VJfRbB42pIX0QOUjHEPhttzJi8TP5TKeW23DWqGk7yUnopyMtL0WoeJrbM3FYlKLeMoLv
+	 2t8z/lI1nSwQLpFrNSHP9OiEnSQYmIkF3ybB9SySeYRvKZAqgB16qGgNLQjOhYIu7nrfo
+	 XEDQu15RJvQvoctz6RhZltFEcxcbsYC8aAiTFhz7B6eAiy6qfIwSJqlcBzUMNQ8KSEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795117478;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=YKyrivJzo+Mben9cmzx8JhnXyAay12IuEg5j9gR3E6E=;
-	b=XlPJa+iGDRSNWJeZVDxdSFUiwr/26CzYVs9FDNDhS9E/bvuzp4HA52zth3UYLvkuYhTe
-	 xafDjeclERtRKr9YEAaF5Ayh9q1sahUakeOUNjFy02yxBz+w5kdaFIpfPlB5L7xMqa9C+
-	 KIkdI/hou0GRmNWmDvy7hWwSQBCHEQIY27nDNnPN7RVBCV3/X1CMPz5SajuDsmEBWBKJg
-	 uIOz1cuznFp8ZJGVHkfH554gzaTPbApH21Z4urSXbPsudJKe4pSn+OZ1wrZsoDKKCeBiQ
-	 ml/ptCXEQEtsuYm2TicuQVf4kn7wEYpA/2J8PCayKUDevV4CrBMswWCfUW7yzn8MSdQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795117942;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=5FjEiY2j0pqnJYqUO8LQZ01V4lTyJQIMaHfii/c8ujs=;
+	b=sKBF/modytgvjOq4BJ+Iyp4HKoHOjPegV7Z+G9kjGj5ORZbtePW+Ey6sTOtAbuxIvgPd
+	 X8KbbZvfNbuuNk7IxP7DSmsEZjqJQq2wRfHS0D+h4MafPRZcm8RgyxCyMlJrUrrCnqn3k
+	 cGgJ+LO5BjzoSckPTaBUcPkNbAI02febZXA+QSEKMmErA3OQ0SgrL5joZyNMi1ob7S0nq
+	 GruCJpmAcLuiWn8afSTGY6OhPOALdFVugKIVRPI4vA3BfOVanlOesVHHRRpDuPkSowwnW
+	 DT4Op3WeCSD6wo/snHHPaNqG4TL1K4ltaR3PSM0QktonwgIMvO7MFepnkka6dtfca8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VYT5UxV9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=seanlyon.dev;
+	spf=pass smtp.mailfrom=seanlyon.dev;
+	dkim=pass header.d=seanlyon.dev header.i=@seanlyon.dev header.a=rsa-sha256 header.s=fm1 header.b=A5NILQNp;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=DoEtj5dC;
+	arc=none smtp.remote-ip=103.168.172.148
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38313606A336
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 19:44:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031E9606A324
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 19:52:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 031E9606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=seanlyon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seanlyon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VYT5UxV9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D4C1F000C9
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 19:44:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795117478;
-	bh=YKyrivJzo+Mben9cmzx8JhnXyAay12IuEg5j9gR3E6E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=VYT5UxV9dN+i3zJxAoQ8miiBtqQbPBOELIeJMtelU4FWbjV7eXta8HQ01uZEdh4EQ
-	 hepC1bPs5K2YTakyR0GvxcH8SJC66O4nsxb1MTcfJIzVjuO9C87mHIsJn6IaJkei4Y
-	 fUmECLfL7BU9CF+Jan88vX/IweN6vpAmlfKjwqVCaPbMp2zLmNfkoy/TXDYu3GhjSy
-	 64Hz1b25H8HYOoMu5QOUSrFNCWZKpR8KZo2YTM/hM7PCb7XYkm9JlciKJW7Hwpqc+7
-	 igrLVO4T6N6cXC44KzjusVQT2kIUare5neNQjft/xuCtjKBi5jTxbHm/UNr88aopXl
-	 /q+DTwC6w7OeA==
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-9497a167a6aso159280385a.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 11:44:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErGM6kta99g1RSJbh2ytZyof+z836fOyOSAQlzVlLVFc5o7R4HPazIylda7iBEs+9vd7iql+Z1U+uBs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+a91tXBiaa23DzeGBF4jIuqGhw+SZilByhglao2N0JeD4iv4cb
-	Wdi7nmpcYYjLRlkQXpfe6oWWLTJspONY1po0q5Z3eg5vRa38F9AJSrb8h7/SgzIsjlIuWIajtsV
-	3DsQ3YmqrcxKdiAREq2DduNDFYwkT3Ec=
-X-Received: by 2002:a05:620a:261d:b0:93e:c12d:4ec7 with SMTP id
- af79cd13be357-949b3841debmr323824085a.39.1795117477060; Thu, 19 Nov 2026
- 11:44:37 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=seanlyon.dev header.i=@seanlyon.dev header.a=rsa-sha256 header.s=fm1 header.b=A5NILQNp;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=DoEtj5dC
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 31C06EC05B1
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 14:52:21 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Thu, 19 Nov 2026 14:52:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seanlyon.dev; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm1; t=1795117941; x=1795204341; bh=5FjEiY2j0pqnJYqUO8LQZ
+	01V4lTyJQIMaHfii/c8ujs=; b=A5NILQNpaqmb25B7qSoLYDA72SEndK4NYDQL5
+	tdE0tgYGxMz01qwYcHlr8xwJKS9UBqTbDJlNEvIBo4OmdfhAU6SidpJev8x1FLqB
+	1wZA49QqQkVC+NL8WW9TnfEuNAJvGw4B5mnGRrB5+om+YCU8QwjbqHsgl7Jp99l/
+	DFvO5n0WVmuc43GRDiw9AebtAAK2vrtgZlm7RZwPjdgcXtJSIoR2ny/b1Wy8AjEe
+	o05PtWEl8xxkKocB8iLHSovx+oDHPYMQ0z0vKe6hzq3qBfNsD8+z/jufN2Dp722C
+	6++GuWqgHBriRkbdZqjVIo/hfGZhLoEiK/Xgy4DzDr4phAmKw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1795117941; x=1795204341; bh=5FjEiY2j0pqnJYqUO8LQZ01V4lTyJQIMaHf
+	ii/c8ujs=; b=DoEtj5dCosVk6dWQukrqwF9KOM0CatNXHrFz3H3poJSKi1iYoRH
+	+07RIAdgSWDzmp1O1S9GtoyggrXCjcu6Of8PGO8GHDu3CaukZ4/TOAmWzrxDWtRV
+	SCx62UjIIp4ArChkzOtHSjRwtFV/wX6B+rWsu00YorFfuvS9eUVBTagVmebLYvlB
+	qQG9W2xe54V9CUUvWRqz+OZge/2bt7NLDhZtPlyRmEbRaIZVG0Nx0UDLh00N1h9u
+	uHJff6S0GqmpgmIHJpClOxV5FMMVXwI3MA4yc38xqOwHvOJgr6wUGfPrTLoakP30
+	z6cx1d9ELKtnP1Kvr8//z8nJ1K7VRBOfZNg==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=seanlyon.dev a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795117941; d=seanlyon.dev;
+	mf=PHNlYW5Ac2Vhbmx5b24uZGV2Pg==;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm1:rsa-sha256:tMmYF8WrSdK3o4XijuBx+545Ou6sltDUhrACcBf8CFcAdSJ
+	q+sosBD9idJpmPXnxJnf3go4PNl58eLZjRPKEBBnPAn0AUWs9waMFyUQ4X8O6FkI
+	AHSbLE2CjM4d5BTTYmCtAowbebPwZmixFjsYXyET6pHsAwEd1RXPgFJyyKQ48UkK
+	SrgI4cciPshOpmgybWTNU07zKa8NiPim7m0maMyrr3TrYdHCYUP4QlfMMe+RPDnt
+	juyFzgjz+aa16ilsCRZScDjMYQDXwFqShywAN9aB+3Fm/lgkACsKt0JpVosuzz9u
+	pso/4hTfHF+KMjQU3Y9ihE2i6KYKqycUr5Dj5TA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=9;
+	hn=cc,content-transfer-encoding,date,feedback-id,from,
+	message-id,mime-version,subject,to;
+Message-Instance: m=1; h=sha256:cAveVNDD+ew5zPUXkJJnNBxyXH3cvf95LA9N2pkyLxA=:cE8Cjx1Ug9f35OqIeaF0tCJO5wwoN3wrfbL7I76s6zE=;
+X-ME-Sender: <xms:dFP_ampPNPnB-zKAOo-pOsz7yA74DGhQ77GlnW9RVsMeagQycRTZ5Q>
+    <xme:dFP_at97RCAYOKW5ryu0eeYOkznZ4RJZTNinOS7h86XC9DDzmUZOqMwIrzUWE0M0v
+    CPLsbYPAyy5lq5ac5CBT0SQc89vEU_7pRufMscCs9NWQNTgLH1ukuUl>
+X-ME-Received: <xmr:dFP_aifnfD5YY0UT9sXrz1d7zitNItQnKSfRY7R3urEw9QD6UeAWZB6yRNIUNpkaV2nvL0DiThWVoAweHUfaQ_kUI1M>
+X-ME-Proxy-Cause: dmFkZTGau1atO3MrYD3qEN84EWdErHQgOJ0rluMbRKPREXP6FaJXy5yJ0tpk05a5GywC+v
+    TRicIgN+4SnX3mHFykaymQi8S/97vjstQNrCruN8pF4hRLJ1xYvRe6szYVPb03vEbSJK7P
+    88RFMe7CpYhYgaA2ijv8tRnf4U95UmpqmrTl1NryAxkXCxIcJMn1WnNO1kRf46Dfey/R2G
+    PsVB6k2kkKpDIm46sbTOsAWC4jrLaqV/l39TDXRroXb6cDpC6OirZD8K0koX6nVv0xPJ+2
+    3yEPhdUhJ3qK3Qn+h3rIYiKfVEKCjnDWBWKLRBCD+HohhxJbfwkyx/uT4S7rXi5QcygylD
+    xHRkQInGSc4coFgtqJeyc/JFSdcvjLcnqgrb+j++A5jIWFSLJj/ttZI11t2MWMkpsIdr4o
+    1VqBCkb5f4zn/zq86+o096jHZUKjndp9IVsKLwRcknVU5hlCWYBqHdZVU0z98OIELwJnSf
+    xg0HMHXaScWkNQBwqS4TkrR4NIlFx3fIbJJ8dgTBDwAdRJrR1uugjLe5twTpob4+mXngYi
+    suTAfJ4YYtTvFuUr45+GE47eb8pdGtjaEIo0GpLJPCHVIUBeZBFc9LGq73hrBg99NJLleE
+    C43MMc8REd9ja0XYKsBzmM6B1A89vcnvr10s4hUxoti3L7jgL5fqXkljrRDQ
+X-ME-Proxy: <xmx:dFP_anKU_0tC5418zfQP4NMexS0wasQ5hAsgelRwhLXmb74OhJQVYQ>
+    <xmx:dFP_aigXUb6SMMUvwSxC_HH_NQFXqPYa38e9L--AZdzICtb-CmhZrQ>
+    <xmx:dFP_alTQAutq3DNByuLUIIit1nkWmMULdaxOcOa9dDOf6kAuGbc8sA>
+    <xmx:dFP_asUHEmjRggO7tYO22MspYeVYkdCSrKEs0kscpOCyVk2xJ6dqrQ>
+    <xmx:dVP_akC2VUXLYuAMZ81Ri-bx5qOgxmxebDI2bhZiWcHJkmbCdJ81magw>
+Feedback-ID: i07c64b5b:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 Nov 2026 14:52:20 -0500 (EST)
+From: Sean Lyon <sean@seanlyon.dev>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sean Lyon <sean@seanlyon.dev>
+Subject: [PATCH] docs: conf.py: register sphinx_rtd_theme as an extension
+Date: Thu, 19 Nov 2026 14:51:17 -0500
+Message-ID: <20261119195117.32709-1-sean@seanlyon.dev>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,61 +124,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com> <20261119-mglru-fg-v5-3-9eee2fe97a2d@tencent.com>
-In-Reply-To: <20261119-mglru-fg-v5-3-9eee2fe97a2d@tencent.com>
-From: Barry Song <baohua@kernel.org>
-Date: Fri, 20 Nov 2026 03:44:24 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4xXdPsnHFX6SUff_1vbsEmGCHdZcXAmOumiN8EMar+KAA@mail.gmail.com>
-X-Gm-Features: AclHuK_KKF5P4wFEq4Ot8gOVbDoJlPrF_Qs2r1floMy82S2ahYTVnc8-alAnTWA
-Message-ID: <CAGsJ_4xXdPsnHFX6SUff_1vbsEmGCHdZcXAmOumiN8EMar+KAA@mail.gmail.com>
-Subject: Re: [PATCH v5 03/17] mm/mglru: make generation page counters atomic
-To: kasong@tencent.com
-Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>, 
-	Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
-	Gregory Price <gourry@gourry.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
-	SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, Yu Zhao <yuzhao@google.com>, 
-	Vernon Yang <vernon2gm@gmail.com>, Zicheng Wang <wangzicheng@honor.com>, 
-	Chen Ridong <chenridong@xiaomi.com>, Tal Zussman <tz2294@columbia.edu>, 
-	Kairui Song <ryncsn@gmail.com>, Xiang Liu <liuxiang.277@bytedance.com>, 
-	Ehab Ababneh <ehab.ababneh@intel.com>, Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, 
-	Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, linux-kernel@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 19, 2026 at 5:03=E2=80=AFAM Kairui Song via B4 Relay
-<devnull+kasong.tencent.com@kernel.org> wrote:
->
-> From: Kairui Song <kasong@tencent.com>
->
-> No feature change, convert them to atomic so we can update them without
-> holding the LRU lock. A temporary underflow is fine: readers clamp a
-> negative value to zero, and the counters only need to be eventually
-> consistent.
->
-> Tested-by: Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>
-> Signed-off-by: Kairui Song <kasong@tencent.com>
+The sphinx_rtd_theme sidebar has collapsible sections. The theme uses
+jQuery to add the toctree-expand buttons that control them.
 
-LGTM,
+Sphinx 6 stopped bundling jQuery. Since sphinx_rtd_theme 1.2.0, the
+theme's setup() enables the sphinxcontrib-jquery extension to load it,
+but setup() does not run when the theme is loaded through
+html_theme_path. Without jQuery, the buttons are never added, so sidebar
+sections cannot be collapsed.
 
-Reviewed-by: Barry Song <baohua@kernel.org>
+Register sphinx_rtd_theme as an extension so its setup() runs. The
+setup() also registers the theme, so html_theme_path is no longer
+needed, and sphinx_rtd_theme 3.0 warns that it is deprecated.
 
-> ---
->  include/linux/mm_inline.h |  6 ++----
->  include/linux/mmzone.h    |  2 +-
->  mm/vmscan.c               | 26 +++++++++++++-------------
->  mm/vmscan.h               |  2 +-
->  4 files changed, 17 insertions(+), 19 deletions(-)
+Signed-off-by: Sean Lyon <sean@seanlyon.dev>
+---
+Note for testers: with Sphinx >= 8.1, some pages (e.g. core-api/) expand
+more than one sidebar section. This also happens without this patch. It
+comes from documents included in multiple toctrees. Sphinx warns about
+these documents, but the warnings are only shown with make V=1 htmldocs.
+I'm looking into this separately and plan to send an RFC.
+
+Tested with sphinx_rtd_theme 3.1.0 and sphinx_rtd_dark_mode 1.3.0 on
+Sphinx 9.2.0, and on min_requirements.txt with sphinx_rtd_theme 1.3.0.
+No new build warnings, and the get_html_theme_path deprecation warning
+is gone.
+
+ Documentation/conf.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 5ab26ce89daf..ed15bb80ef87 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -385,7 +385,7 @@ if html_theme in ["sphinx_rtd_theme", "sphinx_rtd_dark_mode"]:
+     try:
+         import sphinx_rtd_theme
+ 
+-        html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
++        extensions.append("sphinx_rtd_theme")
+ 
+         # Add any paths that contain custom static files (such as style sheets) here,
+         # relative to this directory. They are copied after the builtin static files,
+
+base-commit: 2138148bf44fd84d3e0a863f0e8cb3627cdcc606
+-- 
+2.56.1
+
