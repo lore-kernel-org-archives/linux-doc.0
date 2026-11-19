@@ -1,108 +1,174 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795077095;
-	b=REPFtU1qQM2HKCrNETYDGLvNdFqW/tgNGGemfj9/C3GjUaE+MxqLzYwSA7LqR3B8ONdu
-	 6r2bbwkwC3+tTgEWV6ZNJ57+YPOw7B24cBT2a8xp2QWijHngYetF/UnlXfbgIJx8FA5yJ
-	 hZ3IR46hibxaBvYuZ6gJdpnyYTH/JPhrtbK1JqhgaTcX9mJeXecmRpcvtD5J9zVAUzRVY
-	 AcndHPwPJ/nKgll6QM2Oripu1ndoHPcFKnInShtaEYljxiS44Nl+CSClI7AYNcvh3gmaG
-	 62SCBnz8znnVF2k0gAnns+khKZdYzrIsJ1BmUKp9k0k7jkVqUMcCTde5oNFxnE0l+xA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795077095;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:
-	 To:Cc:References:Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=vaPFVpL/9If37STR/jB8Rs5zzcu3i/Qfukaxf8Ff5Jg=;
-	b=wRkE3XhaiLRsIofe8UEQI2+yhDCCQ1HHvCl87Gt7/iTweYc6D/Yw9JDIecwXn2wfjfRj
-	 HsayU0mwwgM44l+Jxw5HFODJ/pF3rSHadXDbB/zMUQ2PtbU1DjpGQopDIOUCoJlv2mgBP
-	 S2yc0wJQE3Dy95bpOz2O8we+EDKzjIL1rBCa7M8C5Byvuti29stnR0VJL75mpuF4Ppkdb
-	 nqeiRg05B+hopnHjYKTbDKt97tg1AcWxEt25CPOTapugNB6clDbLCii3xWmk6zDyaBvJc
-	 OqkhectwVega7gsm3kan8UwwXM/xdBsOJZ6KJW/3y0ygwH1PX2/kfWQ2FcyhZvOItlQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=GIx7CChS;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=H71ilNIZ;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.228.61
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795077219;
+	b=WEi2/l6A8cbq/fCFLj1S0WYPCEUdcVxBR/Cw8EvKoPBjOyE2YJFR90GHO6AL3x9suYB9
+	 kz+BvIEl4hoJ+5KNbGDTUYu2BYP3hKNsytm+Jtc+omWvCzV4CYaNuKkBlvz9eMcWGTEU4
+	 vpkmOjCDCUtVJW1ORqkSZcHGchPFz0rvcKRSQCUwEkCl5Witi22+7oJGY1SRK/fYUI6RS
+	 U/kRDtaVGr+cHKoZSQZehEhNQwVjysX26iVbd+zr0EfEy0UGZ+VIBRCd4UIpG3VzIrwpX
+	 SrcF0jhUlDOhtcZJyN7+d570+6eikDLzwT/U+WqlEcmluqMKrAvfAh2+S9sPMTlmdCA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795077219;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Deferred-Delivery:Message-ID:
+	 References:In-Reply-To:Accept-Language:Content-Language:
+	 X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
+	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:
+	 X-Exchange-RoutingPolicyChecked:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=ttm0gDuIKrA3Sg1LDmojVPqASUe8+Og0gkkEN7Hwod4=;
+	b=hKttX8R9ohRxSQm1raoKBvSKL70vYHCnwl8WpSsNOCAwg/+y6K82xspCp/8wF18vbZuq
+	 ZuKHZFzul0tOfihMlDwX9ObLaGO0C2YCen69eRGdT3FEUO0V7SUaKhUYrpZXDhnCkRut7
+	 6y/XVlZZ8BHRN2dEG3zd93yvlboGrqW/ydodc6uDUh3/tR7xOOQLKz4EFgZI8wq4MHL9d
+	 bLYrv41D+OfHsIw6q4mKzJSoY7WyJ+9h+/ICldQFtVasqOXYnh7lR974YIUFVKoUZ4XdC
+	 kLwFSuF3HUDoKCmBuq4/RJTi1b99a7TSIRSFMCcFxBcMumsdKS3FU6KFvtc79Ju7Pug==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=fujitsu.com;
+	spf=pass smtp.mailfrom=fujitsu.com;
+	dkim=pass header.d=fujitsu.com header.i=@fujitsu.com header.a=rsa-sha256 header.s=selector1 header.b=ZCbJ07Gd;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.228.61
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010061.outbound.protection.outlook.com [52.101.228.61])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDB2606A324
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 08:31:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9BDB2606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F61C606A320;
+	Thu, 19 Nov 2026 08:33:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F61C606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=GIx7CChS;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=H71ilNIZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795077093;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vaPFVpL/9If37STR/jB8Rs5zzcu3i/Qfukaxf8Ff5Jg=;
-	b=GIx7CChSRqmu7r4lIxiZkCphn8R/HMoGfQLPQIbCv0rn/linnVGwDAA/6jbPJu/Nmv3904
-	8SShlM2233GN1JHIMnKL7XnToeexZWP7ZsdN0cTd+PNNolfh/qUTvdDPyTIRnwJwJkzBmJ
-	Blc08t93zkhTr7mK9j1eg3SqnXuamF0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-140-25mWIGGpM0Wfdxuq-8EQSw-1; Thu, 19 Nov 2026 03:31:32 -0500
-X-MC-Unique: 25mWIGGpM0Wfdxuq-8EQSw-1
-X-Mimecast-MFC-AGG-ID: 25mWIGGpM0Wfdxuq-8EQSw_1795077091
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-49337a224a8so1307794f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 00:31:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1795077091; x=1795681891; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vaPFVpL/9If37STR/jB8Rs5zzcu3i/Qfukaxf8Ff5Jg=;
-        b=H71ilNIZiYQSYWQFSHTAVFLdeR/zdYUxy/I6kF+095WIJaeAaVRgVXliryYM7KlTCO
-         1ICPmhQ50M5KQw5cbXIT9IzsuncvdQhwon8eMBuJpZMHh5k9i3+GFEq2nkYNrPgCe670
-         kFMRCbzoiahF0K5nAJKsgG+Gt70brBR18AqRf3l1JX8fbLQPnBmXcrh7Rbsw4SK6F+Is
-         CO+pGiVuo7flmq9gamNZ2d4RyVtx9lv/LwHryf3c4eNh8/tqgJ1RhaqpC2Exg9l3pPSZ
-         4KV4rKmRN+vqhoGP4VTW5qdLd/7wKZVvgdmcZ6+t/zppFy8ptYho+iNeiQW9kRLat5Mp
-         shuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795077091; x=1795681891;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vaPFVpL/9If37STR/jB8Rs5zzcu3i/Qfukaxf8Ff5Jg=;
-        b=PcxcWJVLf7REwYijTY+dkevx/8ndpRVDTh/ndDtYwg2A1EWZt6A/F9D8eOrHMCCMKA
-         t2SXjSTb+zl5KVVO3DtIyzQzDZ3RP12I7dVlBBMrAwoMfOpBDZCMJE0kAMmjCQTVbYNo
-         lbVklnumU3quOhjNkPMAUqrODTdApDGmxibRnexBBkT8mQZH3CO7NwTkFuRP8XR11yvz
-         YNxejSq/jWY/ICtXtSYy1+CyYvxEvxk9xeYL0bgd2MPdqaf3PZKa2O6C9CGMUNEF5FTr
-         Ef9I7cOiqIKhhQygCGj+X4NkgRMr3s8npR32p3GFcMWz2a8eVXKOqZgBQK0IBfY6xZ09
-         6eIQ==
-X-Forwarded-Encrypted: i=1; AL+hErGVHQywpvuU3Nq/IDrSekLlIYOjuhX6BxrLGquhWuAWVisEHsT6u9OZgle70I7kJEl2FgVUbIu7Njs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9UEe1zi7RV4OvF9DCLsBK5bV5hdBvuIpcgIemTPzMYFc/b6cWW
-	+FkVhd4PdUkX76A5UZ02KPNJs/SQyvwubW7V84RX4xQWJSD+UhOOBzLmA48Y5hrMb8B+2Chh8em
-	Regew39v6Q+eYh7gUBXQYNZlCPnrkFm0mI05x5g2XndMbIGE3FePkMaeQVlzcHQ==
-X-Gm-Gg: AZFdTZfsu11SxwdVzVKkz0FcFXiGuUP+gnTtbiyOtPSUeyc40bhIUUKKpEDg2iLt0KZ
-	9SN62QQ8iovz3DkmchgHVPCq8wIHGbyRUnYGSkwzJvAhKPNHXrLHpGaD+pzZilMOFIJlPSZZX4n
-	Is0q5QyOFGyCU2jxoOcIOL1I7hj7Ieqe81YgZY4GbUE6IitewfgCzpBa4ZkLTQjOhMqGBEyMeQx
-	1zxMGoccBCNxfoI9/7ZT9HKW39RG8yfSX8yFlJB1wwis9jjqmmNI+5Dk8qKvWqKKYdqascxWHGZ
-	tcHFwPjLy+KyIHfLpcvYTU/ruXsU0a/DQEFR2ec4WJe3mkL20Jzq7DpGJi5CqE38dJ6FzDgrTVG
-	xlIuY5nqMggDgTuh2qUXSc4iQgKi9xpUAWGTYae3w5K4i125zrCplBd4BwigjO3jmC9eyXL7o5S
-	Fqcz1SdMWXaNmzxTdmzZTMHYMZselNHPIZ+Vk554MhPmW1
-X-Received: by 2002:a05:6000:430b:b0:4a7:790c:4a34 with SMTP id ffacd0b85a97d-4a7790c4b13mr8112495f8f.20.1795077090599;
-        Thu, 19 Nov 2026 00:31:30 -0800 (PST)
-X-Received: by 2002:a05:6000:430b:b0:4a7:790c:4a34 with SMTP id ffacd0b85a97d-4a7790c4b13mr8112361f8f.20.1795077089781;
-        Thu, 19 Nov 2026 00:31:29 -0800 (PST)
-Received: from [192.168.88.30] (ip231-128-192-82.pool-bba.aruba.it. [82.192.128.231])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654a8c37fsm9141506f8f.18.2026.11.19.00.31.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Nov 2026 00:31:29 -0800 (PST)
-Message-ID: <d0caebc6-07c0-4372-aaee-017cf22ef00a@redhat.com>
-Date: Thu, 19 Nov 2026 09:31:25 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=fujitsu.com header.i=@fujitsu.com header.a=rsa-sha256 header.s=selector1 header.b=ZCbJ07Gd
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jXxz1tNu8ms8gr3E4xXautFuMjiaRPDlkGBCfvtFFgb3SZtHYcm3eQMr1J7rsrZQaOmusd+ZyYC6jjB0N+TRrvO3kA3dT0j9Ccpb3DyhU8AVyMm9qVMjGW1evJrxau6Bl1Dhq4tH7ybwwogqqrW8TcuWD28ekG84Bupn3Ga90XDR9oMjYci7zs5/bDmwRtLbMj2Y5oe0DqgFAkrbhUZcsXNUslq7vVnPPysrV8Biqcis9F5v1u843hRSed0oITIKQMiyXyZZLWcsTVscM1NI2GemO2JAhopVmXZjlZlmo+geqUGeTicICcy6rs42wiM7w1nxYg4DBstARC1eZRPIhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ttm0gDuIKrA3Sg1LDmojVPqASUe8+Og0gkkEN7Hwod4=;
+ b=lh8iLWjJ6aDToqFuj9Aov/DaGOZdwLDriZ+SqTfCdYNK9ds+VqjhbzWQs4D+oCUMggv3yetpOyBbap50y015dTyvlbUTF9hStsC8G+Nx6EmpI87ey8ppaOhHqtS2KXqNoeRSWHT4ApBnsnwGJBz5HPK/TqPMd+6IuGIg7YXJWnOaExx1gl5GVEos74HcJYQXi+m5bbG65BIvjoBWKxmBipcstfUPxAtjdQgh/PdMKRWMGoG7uyNMtzyxIP0v8HTBaGPenYKGc2G1+h4rY+mbRGia74sPbWM2vEqFzjG40blTrui41kgamPaZ4J8aY/j1tkQBjOMxfcviZ509ZvoWww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ttm0gDuIKrA3Sg1LDmojVPqASUe8+Og0gkkEN7Hwod4=;
+ b=ZCbJ07GdGr93hknyfiEdeIFdlkxKprOAFJibCaqwFkMQJJxXVhBoccw5FulqA/1m7SvYALMhHapwQdSo1UTweHa85B94LzIYosZ2+lMFfLdKBllCoJKz/zk2Klg7raqRQl0phVX0m0pWkOkHom1GJWI4iFor5Tl1o636SHIojsw0z69VogYwnSq16VX3HtNd9K0pnIEVrBTpv/hACwpm7lUnpyhdPkqCzgYrJukKnQfZv/snFGHgpil7dXBm9jtLteSgImPs4yKJa5GNbrrMOgJu4wdbzVxu+uKYvSdgVCm6Zx2EjoMLzv06krqVMvsfCSPQZyMVbOZLTFH1Btxrpg==
+Received: from TY7PR01MB15746.jpnprd01.prod.outlook.com (2603:1096:405:290::6)
+ by TYCPR01MB10335.jpnprd01.prod.outlook.com (2603:1096:400:243::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.10; Thu, 19 Nov
+ 2026 08:33:36 +0000
+Received: from TY7PR01MB15746.jpnprd01.prod.outlook.com
+ ([fe80::bc79:d427:b0a9:a793]) by TY7PR01MB15746.jpnprd01.prod.outlook.com
+ ([fe80::bc79:d427:b0a9:a793%5]) with mapi id 15.21.0639.010; Thu, 19 Nov 2026
+ 08:33:36 +0000
+From: "Tomohiro Misono (Fujitsu)" <misono.tomohiro@fujitsu.com>
+To: 'Marc Zyngier' <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+CC: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Radu
+ Rendec <radu@rendec.net>, Oliver Upton <oupton@kernel.org>, Fuad Tabba
+	<fuad.tabba@linux.dev>, Joey Gouly <joey.gouly@arm.com>, Steffen Eiden
+	<seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
+	<yuzenghui@huawei.com>, "Kohei Enju (Fujitsu)" <enju.kohei@fujitsu.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-perf-users@vger.kernel.org"
+	<linux-perf-users@vger.kernel.org>, "kvmarm@lists.linux.dev"
+	<kvmarm@lists.linux.dev>
+Subject: RE: [PATCH v2 2/4] arm64: tlb: Add tlbi workaround for FUJITSU-MONAKA
+ Erratum E#030001
+Thread-Topic: [PATCH v2 2/4] arm64: tlb: Add tlbi workaround for
+ FUJITSU-MONAKA Erratum E#030001
+Thread-Index: AQHdXVVYZhIvVbstSUigINbLGWcO0LcADluAgAAMrgCANSF8kA==
+Date: Thu, 19 Nov 2026 08:33:17 +0000
+Deferred-Delivery: Thu, 19 Nov 2026 08:33:17 +0000
+Message-ID:
+ <TY7PR01MB15746879988FA46744145AE1CE5792@TY7PR01MB15746.jpnprd01.prod.outlook.com>
+References: <20261016-monaka-fix-for-upstream-v2-0-fc7ede7f9f48@fujitsu.com>
+	<20261016-monaka-fix-for-upstream-v2-2-fc7ede7f9f48@fujitsu.com>
+	<atIPeT7SLSLjQIcl@J2N7QTR9R3.cambridge.arm.com>
+ <86bj8t257n.wl-maz@kernel.org>
+In-Reply-To: <86bj8t257n.wl-maz@kernel.org>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_ActionId=5106d246-5fa0-4806-a8db-e8e1a1b6061b;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_ContentBits=0;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_Enabled=true;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_Method=Privileged;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_Name=FUJITSU-PUBLIC?;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_SetDate=2026-11-19T07:57:25Z;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_Tag=10,
+ 0, 1, 1;
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY7PR01MB15746:EE_|TYCPR01MB10335:EE_
+x-ms-office365-filtering-correlation-id: a03f50df-a043-4152-864e-08df4617cdcf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|23010399003|7416014|376014|1800799024|366016|22082099003|18002099003|3023799007|1580799027|11063799006|4143699003|5023799004|56012099006|10067099003|261026140227099003|261026121527099003|261028144727099003|261022105027099003|261021121427099003|261022075727099003|261102123227099003|38070700021;
+x-microsoft-antispam-message-info:
+ dJO1qvsUWwA8MeKRNt1VdhwCSAMeDMuM2fhjCfgziaGQI6jBcSgaDfafB9GuJc52wCkM1IpNAwylTvHakpRA4BLlyVdjO0EAIc+gbph8Xu1ySa0OPne9mp4Yvuqh4qHeiu3nE84HIr1mWEHSstPMK2W0eKIs++B3zlcMmt88E+cgLmfj/wCCoMng9z+JSYnbbVk6ozrtKXPzLJiEYLq8skqaFxgVpTxDQ9eQc8MBpKk0Sj3RCk5xdYuGZ2Ms4Y21K6+91+0D1k7PWpyUKzg0cQtaSzpGWcRySqyDIq45NqeLC4rJL+9HR2F7by5a7eoqRro+3uJmxscxr+UIrTH0+HfAgsaRuWN95fotL8wjg35HVn/cBKVCdKPl9+s2YtH5NPOHkCSWWRnzuWmMP2bE/E/KJqYbDiKbABssGsx8YXdnbCjkQwavjVx7AYcM6E0KVaTcKe5M8OB5BGQ7cCu4dRlq4BPPN6sk7hIS3XklkHBbN3+gxsUJDxIleDEg5phVUNlm0u2kpDDT6b8KSWwdDTAMuW/O2zLELUljNCSs2i1bgbRhNjVdEEYLQEJiTdoCkZ4+O5UXaX6zgnBOlyl0F3evoq2I33NP1OaoIbYIgISUGQX1US8MF7A4V38aev+Gcw04IaKnTPskPYQSls94XWCsGcYMbnbDCKNELeXtAmJTf13deIaqbwBxGihAhKWzVACtsiCf+VOeDV7x8LHGksKeKiS80pKaaoNurzgxjqUKdN5upUGdJl8F4wpuZvNG
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7PR01MB15746.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(1800799024)(366016)(22082099003)(18002099003)(3023799007)(1580799027)(11063799006)(4143699003)(5023799004)(56012099006)(10067099003)(261026140227099003)(261026121527099003)(261028144727099003)(261022105027099003)(261021121427099003)(261022075727099003)(261102123227099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-2022-jp?B?RktEU09qUXlIdndMaVE2S3dneUV6OGFMTHlqSmllQWQxek9RY1ljMTUw?=
+ =?iso-2022-jp?B?Ukc0ZmV4WWRxRk5MdEh5SVRJUGlWa0wvaXh2L2hFTlpFcU1POTdIL0x6?=
+ =?iso-2022-jp?B?bXZVazR5aTVJbzRpSUI0b0txY3NKWC9pcGJKcHlKWDViYVB2R1g0NENj?=
+ =?iso-2022-jp?B?b2twS1pjand1eUJqeStTMHVzT2FWNHRYYk4yVUgwTDkxVyt0ZlV6UXpv?=
+ =?iso-2022-jp?B?K1Y4WWhaSXM2UlVJRFZqY0lMaW1laGJ6NlIvMWdqWC9LcTVIb0dmdmFl?=
+ =?iso-2022-jp?B?MnBQNHdwWlA0RnZnVndONjJPbU9jR25UVTYxV2ZON0UydkdaZjNHTzJ5?=
+ =?iso-2022-jp?B?b25KTGJhc0ltTTJSdjJhR3hwb0RaRm1MV1p0UUFHMUZGS3JLelZYUzFt?=
+ =?iso-2022-jp?B?UHk3c2Fwd1J2bDFzeVBTTGtITDVwdjFJZ1JHOXg5MTRRZ2xsK0x3c2Fo?=
+ =?iso-2022-jp?B?dmhzTm5zYkFObExzcDJ4SlZBajlvdTErM2FJY25ac2tMMnRFZWdBTmpS?=
+ =?iso-2022-jp?B?VmwxMTQwZzhsRnd4NE45eEpxM0hEUzg5T3RpdDRPSlgweTUxRmxkMklp?=
+ =?iso-2022-jp?B?U0dES2NtSHcvSUhZYjJvVjcyNnVuUlprR25qVUl2VTRwaERoMllreWJG?=
+ =?iso-2022-jp?B?ZnpMV3RpdzNMV0MwL1h4Y08weFIxYnFwQkp1R1IxSW1tNW5nRFE5UHNi?=
+ =?iso-2022-jp?B?ZnNQNUo4Sk51ZWxZSlVuRU9nb2xSVEJqYVVsenp6VUttVmxzVS91YWtV?=
+ =?iso-2022-jp?B?eVVMTG1BM25qc1dURHB2Q294V0gzUmp0YmVJOGNZSG9ZRnpwYmhSU3Rz?=
+ =?iso-2022-jp?B?c2ZlR1ZtdE5aRHArKzY2dHZxVStUSzc5NVNEOFJRamZURU9UVjZISDJ6?=
+ =?iso-2022-jp?B?UlpWRW1yUSt1RUtSK3dsOVVhQVFIWDNOMnJPVFpQQjU3eFdGc1ZyN2ht?=
+ =?iso-2022-jp?B?THh6WEVoVkRCK0VHZ0FQTTREZlpsZTI2SkJ2ZGRmeEdLYkRIK25WMmVx?=
+ =?iso-2022-jp?B?VU9pV040bmZPaHlsZHFaZ1R3UlF1NTNwcmJ4VTRIRGNxQmFYMFlQSWIx?=
+ =?iso-2022-jp?B?Y2xKZXdKT082dTBtL2lnbG12Rit1aEhFSG1NN1hEWFpuS2ZUeGpITnM2?=
+ =?iso-2022-jp?B?RXFsQVZrWmcwYVU4d2cxVkpCKzFXOFdtTnVISUNMekZBNFRGdUl1ZUlE?=
+ =?iso-2022-jp?B?RUR5SVNEa2ltZjFUVUFBU3Z4L3d4aEhmbi9YTUI0U2Vubm1RK0wxMmVG?=
+ =?iso-2022-jp?B?MUk2MGFWZ2MxVnozQTZhdUgreHYrUEdrZ25PaDBacFBnSTFQU2t4M1FK?=
+ =?iso-2022-jp?B?QU82NW5ibDdEVDRyUmFyelpOWjRQRW5XalU1aFlMekttQVM4WG9WSHE3?=
+ =?iso-2022-jp?B?RXYrWWJEMDRTRHJZYWc5TU51ZWVIZnVhQXRaaWRGM0svNW1oNzhnT0xM?=
+ =?iso-2022-jp?B?bTMrMWJFcUhlbXRyOGt5all4R1BveXJqb3pla1Vpc0x6SGhaeDZ4U1dU?=
+ =?iso-2022-jp?B?YzRjb01lNGhmZyt4L0ovY21lb1FQWjVncEdUc2I0YnVLbUFISDQ5ek1C?=
+ =?iso-2022-jp?B?U0lTNFk1NXR0NGxETUpFUEFRTlhYYVBYaEJEMUJyNFZzU3ZJekxrblBp?=
+ =?iso-2022-jp?B?ci96alJOejAzTE9Cc24yNHNDdW0reVd2dCtTL2VxWG1pbzdBbHZjbENK?=
+ =?iso-2022-jp?B?aDcwS2M5SEJ1a0tsMXhYUUwvR2tmT1J0ZEszcGtDNnpIbUJWUSt6elA0?=
+ =?iso-2022-jp?B?b3hFSEVWczNTWk5jVXlDQktXWnRTazk1YjdxRWVxbHZCd2hBdVZJOVY1?=
+ =?iso-2022-jp?B?SUl3aFhBWTNGbnJJbW1aR1RhK3oxa3BEU3hSK3RReGpZRzhPU2RaMDRV?=
+ =?iso-2022-jp?B?MXYxOEpjcTYzcGJHb1BjeFBSQTdPYWZmQU5sRDNTYVY4S1FDUmVxN0pn?=
+ =?iso-2022-jp?B?QXp6OG1vQ21kNVBSbUF5UElxUlJwVlRNelpMODZyTWRkeDNYQTRyRWFh?=
+ =?iso-2022-jp?B?WXpBR0pLeUdxTlBKWHBVUVRneHNNSS9RK21HUGZZdng3cTlBbnBVcStC?=
+ =?iso-2022-jp?B?eHl5YkE3eVpIaWszMEt1Zm9Qb1NnVkErRWNEejFVWTB0U2NvVS9lTVBL?=
+ =?iso-2022-jp?B?SXVhckRtZUVhTGVId3JLcGg2Y2luMHBiYU9OSmdUa0xPa1BvMTI0ZGFk?=
+ =?iso-2022-jp?B?Q0t2dWdlRjZ4VVZnNkJycXlucFlzemdxeWZ1dkFKdUhzdm1PNnd5NFFn?=
+ =?iso-2022-jp?B?QXFIaGpKQnZPd1p5L1U4RFlSb2pXSFhrM2ZEZkdCQUpsa3IxK09pUjJU?=
+ =?iso-2022-jp?B?ZDlwSVJaVHY4a3MrMHRwODBkRFI3Ukp4RkNZeWYxd1YvYkpPcU5TYmRZ?=
+ =?iso-2022-jp?B?bG8yM2MyODJCVXhNQlIzcVRZVEtmbytQbXYveldzTlJ6RHR5MzNGVzJB?=
+ =?iso-2022-jp?B?clFZMllZamNUMFRhbTBhSTJSaWRoMTVyUGRaWGp1Q0c1aDVnUnFuQXJi?=
+ =?iso-2022-jp?B?L1Y5dWkzVWJNcG82WEdnSlplOExpM0o4OUVUbVVaNlEvNVRreGRDZUkr?=
+ =?iso-2022-jp?B?NERCL3Y3Zz0=?=
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -112,108 +178,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 11/11] selftests: net: tx_extra_headroom: test
- the veth attribute
-To: Tianyi Gao <tianyi@cloudflare.com>, netdev@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Simon Horman <horms@kernel.org>,
- David Keogh <dkeogh@amazon.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, David Woodhouse
- <dwmw2@infradead.org>, Dragos Tatulea <dtatulea@nvidia.com>,
- Nimrod Oren <noren@nvidia.com>, Alasdair McWilliam <alasdair@mcwilliam.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Stanislav Fomichev <sdf@fomichev.me>,
- Magnus Karlsson <magnus.karlsson@intel.com>, David Ahern
- <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
- Alexei Starovoitov <ast@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Donald Hunter <donald.hunter@gmail.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Breno Leitao <leitao@debian.org>,
- =?UTF-8?Q?Asbj=C3=B8rn_Sloth_T=C3=B8nnesen?= <ast@fiberby.net>,
- Danielle Ratson <danieller@nvidia.com>, Kuniyuki Iwashima
- <kuniyu@google.com>, bpf@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, kernel-team@cloudflare.com,
- nh-open-source@amazon.com, Stephen Hemminger <stephen@networkplumber.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- "Remy D. Farley" <one-d-wide@protonmail.com>,
- Amery Hung <ameryhung@gmail.com>, Andrii Nakryiko <andrii@kernel.org>,
- Andy Roulin <aroulin@nvidia.com>,
- Anil Kaushik <anilkaushikwireless@gmail.com>,
- Demos Ra <demosthenes.ra@gmail.com>, Eduard Zingerman <eddyz87@gmail.com>,
- Emil Tsalapatis <emil@etsalapatis.com>, Hangbin Liu <hangbin.liu@linux.dev>,
- Ihor Solodrai <ihor.solodrai@linux.dev>,
- Jiayuan Chen <jiayuan.chen@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
- Joe Damato <joe@dama.to>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Li RongQing <lirongqing@baidu.com>, Louis Scalbert
- <louis.scalbert@6wind.com>, Marc Kleine-Budde <mkl@pengutronix.de>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Martin Karsten <mkarsten@uwaterloo.ca>,
- Matt Bobrowski <mattbobrowski@google.com>,
- Michael Bommarito <michael.bommarito@gmail.com>,
- Nikolay Aleksandrov <razor@blackwall.org>, Runyu Xiao
- <runyu.xiao@seu.edu.cn>, Song Liu <song@kernel.org>,
- Thorsten Leemhuis <linux@leemhuis.info>, Wang Zhan <wang.zhan@smartx.com>,
- Yonghong Song <yonghong.song@linux.dev>, Zhou Qiuyue <n0ps1edzz@gmail.com>,
- Tianyi Gao <tianyi.gao@linux.dev>
-References: <20261119013830.36935-1-tianyi@cloudflare.com>
- <20261119013830.36935-12-tianyi@cloudflare.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20261119013830.36935-12-tianyi@cloudflare.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Exchange-RoutingPolicyChecked:
+	3al62UTYG7QHy/PJeSO4tWnIY/kSt/vUUMgeVZUaQclPHb0vKjR1eCIvRu9r4affa91R6kGxY22FF7s/BaPsbnrZnTzPAAtOoPn+OxqHbXhl7TeOHLSTMyPjm7j0tBDrgGgMP8rhybra6+OeykdnwAt2l9cxh5OzTltSpSu3wQ9FZ9x1a+eDIcY/J07IbG56J2AYBc1rLv8TWq2DKfIiXuaNgbbeF47aJdWY0bSQZTZ4ODoxAJN+f0a5KW8rOQjuMqiDdEozyDVH30Dm1qXvP81v7H4Rk2c9Bu44rnvG3MWHhMzawSwXq3SREzR9d218iZubib4ab6TxhnqnXRjujg==
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY7PR01MB15746.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a03f50df-a043-4152-864e-08df4617cdcf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2026 08:33:36.0713
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LfIY7iN6tkrfj1uqqsHMY7gFB1dE1SXzcvPuuuwiYBYGyVG5YhL3lp9laH5uS+wEvgchfna3syB/DF0yYFGjAy+QoSqw1a8YWBZ5D0pH44E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10335
 
-On 11/19/26 02:38, Tianyi Gao wrote:
-> Create a veth pair with VETH_INFO_TX_EXTRA_HEADROOM set to 64 bytes
-> through YNL and move the peer to another netns. Check that both ends
-> report 64, and that tx_extra_headroom of the sending end is 64. With XDP
-> on the peer it is 64 + 256, because the two values are added. Also check
-> that a value above 512 is rejected.
-> 
-> The helpers leave the RtnlFamily socket to garbage collection, as
-> link_netns.py does.
-> 
-> Signed-off-by: Tianyi Gao <tianyi@cloudflare.com>
-Self-tests are failing:
+> Subject: Re: [PATCH v2 2/4] arm64: tlb: Add tlbi workaround for FUJITSU-M=
+ONAKA Erratum E#030001
+>=20
+> On Fri, 16 Oct 2026 12:50:17 +0100,
+> Mark Rutland <mark.rutland@arm.com> wrote:
+> >
+> > On Fri, Oct 16, 2026 at 07:00:46PM +0900, Tomohiro Misono wrote:
+> > > FUJITSU-MONAKA Erratum E#030001 affects FUJITSU-MONAKA CPU
+> > > when using TLBI range operations.
+> > >
+> > > On affected FUJITSU-MONAKA CPUs, range-based TLBI operations
+> > > targeting a VA or IPA may fail to invalidate TLB entries when
+> > > addr[34:29] =3D=3D all 1 && addr[28:0] =3D=3D 0 for 512MB mappings.
+> > > The affected instructions are:
+> > >   RVA[L]E{1,2,3}*, RVAA[L]E1*, and RIPAS2[L]E1*.
+> > >
+> > > Work around the erratum by issuing additional non-range
+> > > TLBI instructions corresponding to the affected VA or IPA
+> > > range-based TLBI operations.
+> > >
+> > > Signed-off-by: Tomohiro Misono <misono.tomohiro@fujitsu.com>
+> >
+> > As Will and I suggested last time, we'd prefer to disable range
+> > operations on these parts (and ensure that the relevant ID field is
+> > hidden from KVM guests).
+> >
+> > Regardless of whether eventually accept the approach you propose here,
+> > we first need something simple to backport to stable trees (as I assume
+> > you'll want to run standard Linux distributions on this hardware). The
+> > TLB invalidation code has changed a lot over time, and I don't think
+> > it's practical or sensible to backport this patch.
+> >
+> > As a first step, I think we should simply disable the use of range
+> > operations on these parts, and ensure that KVM hides the relevant ID
+> > field. After that, we can consider optimizing the workaround, as you
+> > propose here.
+> >
+> > Marc, does that align with your expectations?
+>=20
+> Yes. I'd rather we start with a clean slate so that an unsuspecting
+> guest cannot get things wrong because it doesn't know about the
+> erratum. Anything else is icing on the cake that is not desirable at
+> this stage.
+>=20
+> > Is there an existing pattern to follow for hiding the ID field?
+>=20
+> Ideally, TLBI_RANGE would be removed from the ID_AA64ISAR0_EL1 copy
+> that the kernel has, and KVM would simply inherit this. I'm not sure
+> we have a good way to do that other than doing horrible things with
+> the override masks.
+>=20
+> Otherwise, something as simple as forcing the ID_AA64ISAR0_EL1 reset
+> value in sys_regs.c would work.
 
-# selftests: net: tx_extra_headroom.py
-# 0.06 [+0.06] TAP version 13
-# 0.06 [+0.00] 1..20
-# 0.15 [+0.09] # Exception| Traceback (most recent call last):
-# 0.16 [+0.00] # Exception|   File "/srv/vmksft/testing/wt-1/tools/testing/selftests/net/lib/py/ksft.py", line 440, in ksft_run
-# 0.17 [+0.01] # Exception|     func(*args)
-# 0.17 [+0.00] # Exception|     ~~~~^^^^^^^
-# 0.17 [+0.00] # Exception|   File "/srv/vmksft/testing/wt-1/tools/testing/selftests/net/./tx_extra_headroom.py", line 195, in test_peer_xdp
-# 0.18 [+0.01] # Exception|     map_id = _load_progs()
-# 0.18 [+0.00] # Exception|   File "/srv/vmksft/testing/wt-1/tools/testing/selftests/net/./tx_extra_headroom.py", line 83, in _load_progs
-# 0.19 [+0.01] # Exception|     bpftool(f"prog loadall {BPF_OBJ} {PIN_DIR}")
-# 0.20 [+0.00] # Exception|     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-# 0.20 [+0.00] # Exception|   File "/srv/vmksft/testing/wt-1/tools/testing/selftests/net/lib/py/utils.py", line 259, in bpftool
-# 0.21 [+0.01] # Exception|     return tool('bpftool', args, json=json, ns=ns, host=host)
-# 0.22 [+0.01] # Exception|   File "/srv/vmksft/testing/wt-1/tools/testing/selftests/net/lib/py/utils.py", line 252, in tool
-# 0.23 [+0.01] # Exception|     cmd_obj = cmd(cmd_str, ns=ns, host=host)
-# 0.23 [+0.00] # Exception|   File "/srv/vmksft/testing/wt-1/tools/testing/selftests/net/lib/py/utils.py", line 101, in __init__
-# 0.24 [+0.01] # Exception|     self.process(terminate=False, fail=fail, expect_fail=expect_fail,
-# 0.25 [+0.01] # Exception|     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-# 0.25 [+0.01] # Exception|                  timeout=timeout)
-# 0.26 [+0.00] # Exception|                  ^^^^^^^^^^^^^^^^
-# 0.26 [+0.00] # Exception|   File "/srv/vmksft/testing/wt-1/tools/testing/selftests/net/lib/py/utils.py", line 134, in process
-# 0.27 [+0.01] # Exception|     raise CmdExitFailure("Command failed", self)
-# 0.27 [+0.00] # Exception| lib.py.utils.CmdExitFailure: Command failed
-# 0.28 [+0.00] # Exception| CMD: bpftool prog loadall /srv/vmksft/testing/wt-1/tools/testing/selftests/net/tx_extra_headroom.bpf.o /sys/fs/bpf/tx_extra_headroom
-# 0.29 [+0.01] # Exception|   EXIT: 255
-# 0.29 [+0.00] # Exception|   STDERR: Error: failed to create dir '/sys/fs/bpf/tx_extra_headroom': No such file or directory
-# 0.30 [+0.01] # Exception|
+It seems this approach is simpler so I will implement this in v3.
+Thanks for the suggestion.
 
-full log here:
-
-https://netdev-ctrl.bots.linux.dev/logview.html?f=/logs/vmksft/net/results/917806/169-tx-extra-headroom-py/stdout
-
-I'm dropping the series from PW, please wait for AI review feedback before resubmit.
-
-/P
-
+Regards,
+Tomohiro Misono
