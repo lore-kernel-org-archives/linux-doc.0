@@ -1,102 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.160.182
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1795058753;
-	b=PMU1yLH2kcYbqHoI4z9VKcLKa2t0wo/tXkFwhYk1ywQWU2HSQuO2hhfDR9OIgL7kCtCC
-	 1osJVTCOfxL+UC0++ieTpOX9Ms4xO7oqZSmHbZbapssiMJDpEXhWT/Cx9UIRsLQgbyZPx
-	 sVFbjerIg9FhWF5iLh1nC6gNdyVg0sKTiIgs7OLJ8w6L5LKUZ4Y60s0yKDYt3NkflFJmf
-	 sugxXnB1UQwOGJlYgjeVkDHeB++novsJ5lywx9vQyaCSLIU+3LotsHAobltjJiId0nFB7
-	 /apKskq1frxKsuSmJim0i4AQgnVPqPjlBdi7WKR6HA/aPTNryN1y0DfBmrQESX5yEIg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795058753;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=VYFehJNjVBKZDZJbFVr1UAFxWBTOgQ9HruW0YhVUrYQ=;
-	b=0yX+kLoPbgMGgY4Ozr4NlApbNOgfiScJBHf9mAa8Rbhb+DW9EU9X81wTp71Z58kY1y/s
-	 jgNkDz60l+vxrruJ6rMzuG2Ryhd3C6RFhIiOaM6GxVAcPSITyAGzZ/sUcihZmkrIridyf
-	 LrqynhlKafpbaBRmhqIZbCnNHN5kgSj/tePun2a4kHCaPG85U6ZIM2umpbP9ZbsH6pEXK
-	 eaNp30TLw+FISUzaJR1ZpvQCQUIMekVA0NUoTd33Zge2oATOH0gXZE7mKulaHU0JtrvAK
-	 4bcaydCeBbs7tYQlJy7XRPg7AHUJkPO4glOA2eqMknCm/bItH0I80nqIf5cQyvOgntA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yAQIFdMj;
-	arc=fail smtp.remote-ip=209.85.160.182
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795058874;
+	b=KlsZNrc9V7E4YNUjd0hcGsvu6YyEvqcaueiJ2EcZfL9OO1csGfqgAR/hjNaSUVUImdg8
+	 VhE7ecak/C370p0QbOO9egqocFmU3WjWkTCE9kCEovWm2O8oD6iCqu9nfx2dp5APL7+j+
+	 8RhqAxE0EGjPyx9+G47AAAg6IEViYDvh+SUu6TuQ/3oq+0IhB9bZAHWepO9w/s/fRYzjy
+	 IBhJwx5nhdkzD3LK2izp1P5TPrK/0uBU3dvAl7cbFqtYwvYR+BQpvr25Z/gSzaANUK08B
+	 FbpzwushvMG1QQsyc2o7OgptCZ2Xzo9pImGfuShrLk9/3qg0VTF0+G+lBdBzNt7E4zA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795058874;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=zs8lGMNgF6WPKWDopP1bfUZUbhZl8Eh+8/rpdnMShD0=;
+	b=nYgJjOxmAcNcFhugz37LyK8LsKyUE0mMURar9zttsJdnwDz/AEZuaTwgaYyXDwuCLbIf
+	 VHobDIpxnjUIQOURuTPba2pW3ItS++IWjmY7zZZUaj4K30xHFxFJ3+NPWEqp78fluasYj
+	 vAKg3+dl0Kzc4YKzYCrpYvFURv8LRXXUZSVUql14KpYM7dDiUJts4OKmCsa0teiU/sccv
+	 UG5GcQQ1ndcs3U1CK5keNBiucwyAAXPAUfmZOcUKRbnlKBVLrfw9/tpDR6UlDX1CxkGS3
+	 G8jk05XUXALV/LR/beSfB5VoYpGFm+lNsj0h1xuGydT2iO2uO6LNncPG1i5IzOJ9kkA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=GuFFIi86;
+	arc=none smtp.remote-ip=113.46.200.224
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86288606A320
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 03:25:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86288606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1E4606A31C;
+	Thu, 19 Nov 2026 03:27:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A1E4606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yAQIFdMj
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-55c48582654so17737241cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 19:25:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795058752; cv=none;
-        d=google.com; s=arc-20260327;
-        b=mw24tZKjDdOFT+35nsKNBKe28ahCA/EiRKPuY+wE22FBPoq3W47NTgEjzVuzVDSm8f
-         i8S3ozRJJ9+u1DsSurltAAS0dJrkLQ9BdxwBuMuafz0AMYZ3V9QGHNa4kB3Emrff/wxR
-         yCb12iV8ee6rNwiQpX+TqbWLM/irpcfXqS9OG7ujppl4DKKhgATKlzlzAe9SorVlvF3T
-         vrXyxkI1b2P0rkzUHSu8fELE3Lb4rv41x/k3miRGkQrP4Yq36Vw0R7w2VI35LbgZHQ/y
-         zh2lSqzva+c3IvlMlB2mrqOFQ11y3nui0FsvmJDuL+LB7cPmyRTI+ZhlCT9aSWko7phL
-         1e0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VYFehJNjVBKZDZJbFVr1UAFxWBTOgQ9HruW0YhVUrYQ=;
-        fh=ktIENtcV8HFQERMFAaEoY02OLPdiWo2e5uuU+b+Pvy0=;
-        b=nM4ZIvAOuqnwaBvSkl5GIFv0eqr/OLRQq7T7bBTDfavo8u4DwPnBqUU6zyOZ7WnN4q
-         N62hx/W7m1l3rg1Ai4c95ogxYkf/ZIlmu9EDeBbJhFLaqYwHSjqqRRiBsO929p2FnmR8
-         mKlvJggTzT1UcHnrTSMef+WzgQAqii1ssoak3qqnBzzqnftilGkIytdjBf/y3rGpnysV
-         KJfuwlDFM/PQqnV9Ay8qHzUmI6JLyGFv7ubweV4/WzHnzkN2D4qMRDm6CJwLQ1ZVE5rn
-         pJ+sVsNe2CBX841wy676x/9QPtJb9f3YwSpsPwscgfljPpacybj/DseSnn8ZGmA6hZkg
-         sgyQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795058752; x=1795663552; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VYFehJNjVBKZDZJbFVr1UAFxWBTOgQ9HruW0YhVUrYQ=;
-        b=yAQIFdMjzIAVbCGnIcrJ307cyttMywjCpxY6iuB9DHCfyyoc9x7EK2BAN3H+WU9JjC
-         +j5h2QJE1mITRwFVcQNP0iiOJTN0CJNygLBp9PmTV8IZeKT5Rv1uZ6uvrbU9iBC4lVbX
-         bwxkI1vjee6gr6dNtJii/0J/kt5L5/KM2Arhd45mhkruBZaz7ET0QVrseoiAbAA7XDpE
-         IGJO2L+Zpg/fCJzRfO8iNmGWUk16SJvm/4jh7SFOr3dsog3fkzzcbITrEfhHwdR/Hds1
-         UH4WfmEnxOtRXcoSywA0itqcOrwZTZetvLDXb2SERn0j9Mtlez9kWQr801I8mF7+VW+o
-         b2jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795058752; x=1795663552;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VYFehJNjVBKZDZJbFVr1UAFxWBTOgQ9HruW0YhVUrYQ=;
-        b=HLOY0/hfWQuiU5GzXk4QXI+lStizpFiLx18zJRW1NiUyaG06ObDwWFYflkegiPj3v9
-         UAQBIhPQW9sCGX6tFPPWH+UuYI4hcR9F/hdyzEXfqc5dUdRQU0XlZ9WIaZ9/yEcVcgJk
-         gsMTjqb3bQB7pFpZ4a7eym9ZuFiRI2qmnQ5ba97UOIOSXhAZIU6zbzgMXYcL+gJqW0+O
-         q1snWAKE0D3Jr2AbafJP0YkOfURrcT0OXEs7lKgkCt3TegniqWwGU8n9jsTNa8zZkztE
-         Ydr239ny+8vo++rq9lXp6cJdBL6PmXbVgVJRbxghWmh/PhEnswGBe1argOhrNZpietGu
-         L7KA==
-X-Forwarded-Encrypted: i=1; AL+hErEYFyMfJxBZJY0ifL/a2wQTc5c8bHrV4SVw0ccbNQIuIW7lU0gIybG+unUB3w6tVq88dNM+CG3B0Vw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/cpZDDDeQQI1/fkliwXmXbypUFDXMI9NaNuT7RpdrR0tkg21tO
-	3yAh828wWyHPyZZlQGRCRow7w03J8Jvkba6+r8q2oKL9DrBm/OmIf5yMV8TfYCgGwdHagCdlH4W
-	zJIfArNhNih90PoQrnavA16bgQ7ZOMMM=
-X-Gm-Gg: AYBFou2N4u18Hpi4Vu8zhd7aCV4qCKfgbsq6kO7kq+9kO44NxNsWbGp491zqTiwX5Pq
-	LbBpGjpQSGYyOpOe4MGqUAyPS7qMuHFxOW342MOgkG4xT7bhTJ9GzDlYKMNi2htO6cMRrrLBjBd
-	iuvdVlOagixVxc/cnqVAiQQysIRB/0osJTv+Ktrex0gFZtY2Yhp/zsEbWKlsJLMHhFVvQca0cKC
-	LpZZ5LHoLZwjI8ZtSSCh6ORqhHwer38gsXomuKJNJHvQyOUhWZO7iPrNNlPZrs2b+1oOTyYYBwS
-	RnMlzmCbwKKSBcRswek1ubS6fPTUS2M9pLUcdpCU4xIhs9ycsnjME2ABO4qD9V15oLIP5VjboXF
-	v6sVdC5/hmJ0fJVuVGk3H5vynRv8t3VfZ5KWrWd0IhOa+y03r1+Q95yvY72smD65Uja85qrmF6Q
-	0AcmYKBnE/hYq4UfP0AhPwxArsXid/ZoRe9durID21drDPGHakYdQFdOIKkNqhtwG1l9ZE42qHj
-	Nf0gkVsZqZ1Pkd49naNXLYY
-X-Received: by 2002:ac8:5a4d:0:b0:55d:3350:d262 with SMTP id
- d75a77b69052e-55d5a63e3b0mr69700321cf.52.1795058752488; Wed, 18 Nov 2026
- 19:25:52 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=GuFFIi86
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=zs8lGMNgF6WPKWDopP1bfUZUbhZl8Eh+8/rpdnMShD0=;
+	b=GuFFIi86+7YjNnFihRarfOEbsDyMMaO/D7Gsz7cyz9xHY9AXmxjKz5f8yhQqtCkGgy2DB7zso
+	sUNcurX0EN0sq1XcC4WuPKbZpOs00rdoytilzFL1ch/sDpzjUwDLI8gVPalptODq8i54tFHd12M
+	Z/qzdNU0ycWXunkMulGiD9o=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jVP6S5xP9z1cySs;
+	Thu, 19 Nov 2026 11:27:28 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 29CCC4056C;
+	Thu, 19 Nov 2026 11:27:49 +0800 (CST)
+Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 19 Nov
+ 2026 11:27:47 +0800
+Message-ID: <00b6fe99-066c-480d-9c81-b1b244a8a310@huawei.com>
+Date: Thu, 19 Nov 2026 11:27:47 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,35 +62,124 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260923025148.35637-1-vinicius.m1821@gmail.com>
- <20261001013833.29002-1-vinicius.m1821@gmail.com> <CAMAsx6f5hMH8FF4ykRp42AJ7AxbuOJw=g-VL9PCFYYOAW1-SvA@mail.gmail.com>
-In-Reply-To: <CAMAsx6f5hMH8FF4ykRp42AJ7AxbuOJw=g-VL9PCFYYOAW1-SvA@mail.gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Thu, 19 Nov 2026 00:25:41 -0300
-X-Gm-Features: Aa3M54qqRPi2vYj3K4TQgQmNkd_5ndEw0-ORb-otvUVGtjOUYPaZSO9eoqnK1bo
-Message-ID: <CAMAsx6cJvNhzxcVfrprHVpvRfi2=ncjWP6pfsNgCevpyutdTiA@mail.gmail.com>
-Subject: Re: [PATCH v5] docs: translations: pt_BR: translate threat-model.rst
-To: vinihsr <vinicius.m1821@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 RESEND 5/7] fs/resctrl: Release the limbo RMIDs when
+ the CDP state changes
+To: Ben Horgan <ben.horgan@arm.com>, Reinette Chatre
+	<reinette.chatre@intel.com>, <tony.luck@intel.com>, <Dave.Martin@arm.com>,
+	<james.morse@arm.com>, <babu.moger@amd.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <fenghuay@nvidia.com>, <tan.shaopeng@fujitsu.com>,
+	<will@kernel.org>, <gshan@redhat.com>, <zengheng4@huawei.com>,
+	<jic23@kernel.org>, <x86@kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+References: <20261110133938.3768632-1-ruanjinjie@huawei.com>
+ <20261110133938.3768632-6-ruanjinjie@huawei.com>
+ <3c48dac2-78af-44c9-b546-e5fcf7bbd8d6@intel.com>
+ <7aa50421-6e92-4ea6-be39-88045e682a9f@arm.com>
+ <449bb402-9620-493d-9e2b-85d093ad1401@huawei.com>
+ <7c0c29c6-55c9-412a-9620-e44d39a5a806@arm.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <7c0c29c6-55c9-412a-9620-e44d39a5a806@arm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-Em qua., 30 de set. de 2026 =C3=A0s 23:13, Daniel Pereira
-<danielmaraboo@gmail.com> escreveu:
-> Hi Vini,
->
-> Thanks for v5, the translation looks good to me.
->
-> The link to admin-guide/reporting-issues still points to the English
-> page, but that is fine since there is no pt_BR translation of it yet.
->
-> Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
->
+
+
+在 2026/11/18 19:45, Ben Horgan 写道:
+> Hi Jinjie,
+> 
+> On 18/11/2026 11:20, Jinjie Ruan wrote:
+>>
+>>
+>> 在 2026/11/13 5:18, Ben Horgan 写道:
+>>> Hi Reinette, Jinjie,
+>>>
+>>> On 11/11/2026 18:33, Reinette Chatre wrote:
+>>>> Hi Jinjie,
+>>>>
+>>>> On 11/10/26 5:39 AM, Jinjie Ruan wrote:
+>>>>
+>>>>> still carry those RMIDs are accounted to the next user of each RMID.
+>>>>>
+>>>>> The CDP state that matters is the one that changes the PARTIDs used by
+>>>>> the monitors, which is not necessarily the CDP state of the L3
+>>>>> resource. MPAM gives every CLOSID two PARTIDs in all MSCs while CDP is
+>>>>> enabled on any resource, so enabling CDP on L2 alone also changes the
+>>>>> PARTIDs the L3 monitors use. Add resctrl_arch_mon_cdp_enabled() to let
+>>>>> the architecture report this. Only MPAM can be affected, so the RMIDs
+>>>>> are only released where the RMID depends on the CLOSID. On x86 the
+>>>>> RMID does not depend on the CLOSID, and resctrl_arch_mon_cdp_enabled()
+>>>>> returns false.
+>>>>
+>>>> nack. The helper name and value returned on x86 is the first hint that this
+>>>> is not right. For x86 the value is not a statement about x86: CDP exists on
+>>>> x86 and can be enabled, so a function called resctrl_arch_mon_cdp_enabled()
+>>>> returning false reads as wrong until the comment above it explains that what
+>>>> is really being reported is whether CDP changes the IDs the monitors use.
+>>>
+>>> The invariant that the limbo handler is currently relying on is that the
+>>> mapping of rmid index to the underlying hardware monitor index is fixed.
+>>> For MPAM, if cdp is enabled at all then the mapping is changed and so
+>>> the invariant does not hold between mounts. MPAM's emulation of CDP is
+>>> why it breaks the invariant. resctrl shouldn't need to care about this
+>>> MPAM specific reason and should only care whether or not the invariant
+>>> is upheld or not. In the future, MPAM may use more than the two existing
+>>> indexing schemes. For instance, if we wanted to have one memory
+>>> bandwidth monitor per monitor group, without assignment, then we would
+>>> need to limit the number of monitor groups.
+>>>
+>>>>
+>>>> Every architecture now needs to match this. This looks more like forcing
+>>>> every architecture to indicate whether it has the same quirk as MPAM.
+>>>>
+>>>> If there is no way to handle this in MPAM driver then handling this should at
+>>>> least be contained between resctrl filesystem and MPAM driver. This should not
+>>>> be forced on all architectures.
+>>>
+>>> I don't see a way for the MPAM to keep the same RMID for when it is
+>>> emulating CDP and when it's not.
+>>>
+>>>>
+>>>> I trust the MPAM folks to say whether it can or cannot be done in MPAM driver.
+>>>> If this is not possible in MPAM driver then it looks like this needs to go back
+>>>> to include the L2 CDP check as was done in previous version. With this check 
+>>>> gated by IS_ENABLED(CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID) it does hint "MPAM"
+>>>> but would also need a comment to explain why that is done.
+>>>>
+>>>
+>>> Would something like an rmid indexing generation count be any better or
+>>> is that just overthinking it?
+>>>
+>>> int resctrl_arch_rmid_indexing_generation(void);
+>>>
+>>> If the indexing never changes the arch could always return 1 and if it
+>>> does change the architecture can bump the number on every change. It
+>>> would still never change when resctrl is mounted.
+>>
+>> As Renette suggeted, maybe we could include the L2 CDP check as was done
+>> in previous version to make the fix simple?
+> 
+> If the check stays cdp specific then I'd consider iterating through all the resources to make it
+> clear that the check is whether cdp is enabled on any resource or not at all. It seems likely that
+
+OK, will fix this way, and drop the last patch, thank you!
+
+> at some point an L4 resource will be added. The extra cache level would be useful for arm64 systems
+> with an L3 cache in the DSU and also a system level cache in the MCN.
+> 
 > Thanks,
-> Daniel
+> 
+> Ben
+> 
+>>
+>>>
+>>> Thanks,
+>>>
+>>> Ben
+>>
+> 
 
-Hi Jon,
-
-Just a ping on this patch.
