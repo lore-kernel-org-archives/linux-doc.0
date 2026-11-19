@@ -1,52 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.149.156.116
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795083572;
-	b=TuPzXQ55K7FMQ1djkp+dq/NRvY2pfhPnb3GTHyaxQAjwDIgoYDkRJbS6kXGkHIacoAGm
-	 WLdSwnjksIE7J9Zkgskl51BBfp3wUHxT3tqNFWU1q+oNvyMWRwhCI+NsoXtEyVR6mc4Bh
-	 uab8wHi+tm0i4DQ08/JLffzeCT41RgoiyTAfUmDaLFoPXaiLYthKsVq3PtulDsDrAAmHq
-	 boMHAfFmzxo7X96FU548MP0clhmTaud1ke4eePnp6U4OOInMjAV3aKPK1o00vf84pJmo1
-	 4QEi9VVtc/d8Wspv+XVbSGqAxh3h6lnI/WOZqIh0pjWxSbe3yQ6aoir2FS+f8Qg/rQg==
+	t=1795083629;
+	b=UYb4BXVPOgNhlNRLlXR58ohJSOTfJYRx9vUK+nmmSXDD2mKOinF+2PxQwEAHRFqmliBs
+	 JQi4/4BgABmWGhH46xtT7WL808HT/YNj7Z/mUJ2S8OPMqw/Xs8sNoh6aKfT6jYsmsQCgn
+	 n3gwxx8tJEXKe9jR4oyCxCpGgvDRi5gb03Ixl2MVmzw9ggvUCxKghF7jM8E+aNXc/0cUu
+	 EGwFAHKdRxiOsTYdXl2t7p92EtPcrpX18HRnja2g6edjRbtw50wCdpuE9o/bufEriGVNU
+	 l4uFBoyAeWG4ZH/BDLtO6g+AqAWWYMpFmu92avvHkZI6YEznj1ohA/U1aTxrqUR6Ozg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795083572;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:Content-Language:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-CMAE-Envelope;
-	bh=qoTfovvGGzpx6qWwGgUcp8ZrLCtEAOaZqm/XAVRtgu8=;
-	b=riDUUkeqoguIdkfdFGa+GbM12OV7+ZPGwcButUxzWZfFz4X/H5wyP7p+FA+rl42fj9sn
-	 xeCBYd2v4XFxNoJSbsz04n/ZO6/oLrLAQyGkQeDGR+rbc8LObIR9vema5JS5HXEH/pT8o
-	 vXm6dHMwDlVDC077UiovNibbU5lHDh+5h/g3e1q7Kokgp5oRGetjItgZmqzABEE99vuCe
-	 iZLoca52PcJantZAj0QjKFGxspnjCNeU9rpC0+IvO7Esrk5RNRSm6QhDOSR6zXvUm93iq
-	 0uScdfpLjn++j+w1ap+46ByfkjsWDZwDe6tJfCj/EwgXOi0mXt9NRNq6emgnyG+7tJQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795083629;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-AI-Review-Draft;
+	bh=ABXSZKmNiqLdMK47+/A83SXKzYR7ftZl826z93RHeCo=;
+	b=Iac0NnyX7HTSNZKZ1DP+HaGiOzAxevg6AAEWH5k6ZoGFbFgDwkFlZRtrMRNaF1L7SRhc
+	 7xTe+IZiJbq+hImdthByrHKLweL5Rj4R7I+R7RfWHPbm9KmQF/zLyr1CQVwW1+ipDlC5z
+	 uk6M7NtHrKOjddgQeQL+Sl50SUjxCuJDg6f5kgqrdR7nz2wP+/xCHGU7mHnwXZCsSrOvT
+	 k3AYKqhPPx7IdYSGdteo9jb0RRvVbs4cifOY7hYbm+GKvkn9+x/P80k8xAv4a45clxqYi
+	 U5BgZIeHvnF+vzRygqj+AZQ8cy7OY5ctGdSTS0+EL34WgGg3D/G/6QFfbcam78Sj13w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=enneenne.com;
-	spf=pass smtp.mailfrom=enneenne.com;
-	dkim=pass header.d=aruba.it header.i=@aruba.it header.a=rsa-sha256 header.s=a1 header.b="YbUT/4nB";
-	arc=none smtp.remote-ip=62.149.156.116
-Received: from smtpcmd11116.aruba.it (smtpcmd11116.aruba.it [62.149.156.116])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lt4iC3Le;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5F360A2600
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 10:19:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC5F360A2600
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D15C606A32A;
+	Thu, 19 Nov 2026 10:20:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.a=rsa-sha256 header.s=a1 header.b=YbUT/4nB
-Received: from [192.168.0.186] ([101.57.122.26])
-	by Aruba SMTP with ESMTPSA
-	id TzEoxCjbX6VShTzEoxQo8b; Thu, 19 Nov 2026 11:19:31 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1795083571; bh=xVDB/U48+KhBs5UAsVUdiYW+qscID3emDO8ims3vEAk=;
-	h=Date:MIME-Version:Subject:To:From:Content-Type;
-	b=YbUT/4nBgfoaIXJwrMhQeMlvt9sIO8ewa18oowgWvXyRXmLc2FHqa2uE+1ff4WSTf
-	 +SlwXjDXm5+E/qUhmEoIB20CoCnXl3yFBCAfguB9RFKweMi7UXcT5bvO6X6JzcKsVY
-	 YdpDu59seHkq9sF+x9RNqBAoaQVUMas1goxW3myB1EgiT3nhghCefk4/uA0S5tFFps
-	 TKVA8foIHclyKVCWFHy5lEMDBTPNoWtxVHid8dwSdINvi25UgNeSV0dcPqLyfphhGR
-	 kGKvJwZviyVJAXY+tsejDtlxxsZooEEM2WPMcXCcmF3vDQZeiDtSbhOPjEWtT1DFPA
-	 jFwJQ9Lcm3lfg==
-Message-ID: <6fc1eaee-3a60-49d9-a5a0-74b662f2232f@enneenne.com>
-Date: Thu, 19 Nov 2026 11:19:30 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lt4iC3Le
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC5FD1F000C6;
+	Thu, 19 Nov 2026 10:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795083628;
+	bh=ABXSZKmNiqLdMK47+/A83SXKzYR7ftZl826z93RHeCo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lt4iC3LeliMuTdzXDklXWS6yTbQz2txMHPO+q+mqU160j56xquoEbgnKO0NiK4uJ9
+	 jju/FRlYnAgb5g0mUlWCIyk/mdAYIkordrTrwsgVemJIftQX47ATrxbcDUwrQGee/m
+	 wB89Akx/kkDaSm6Ugfmd1tMHM3ZPGC5zjCoy2m1BWE7a5x3ml5qNGb7Sce6dNUwoEc
+	 P93Bf3Ofh/j4ZBZp7EWQJNZ7VpvJWkUtj6Qpdggmjyg12kDNc93lKN4Q0vkosAo3my
+	 saPsWCJjCTE2mC3CxkCFev0PtgC1R9/SAE4KotzyMcO0cl2wJ+k2JguEawVe6RWd/T
+	 Id0H83bF7beRw==
+Date: Thu, 19 Nov 2026 10:20:23 +0000
+From: Lee Jones <lee@kernel.org>
+To: joseph@telaak.dev
+Cc: Pavel Machek <pavel@kernel.org>,
+	Griffin Kroah-Hartman <griffin@kroah.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 08/11] leds: rgb: ktd202x: Add hardware pattern support
+Message-ID: <179442094690.44545.1110363952713450132@kernel.org>
+References: <20261109-ktd202x-et6326-v2-0-56e97c226658@telaak.dev>
+ <20261109-ktd202x-et6326-v2-8-56e97c226658@telaak.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -56,99 +69,387 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/9] KEYS: keycrypt: keys that user space can use but
- never read
-Content-Language: en-US
-To: Jarkko Sakkinen <jarkko@kernel.org>,
- Demi Marie Obenour <demiobenour@gmail.com>
-Cc: David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, Jens Wiklander <jenswi@kernel.org>,
- Sumit Garg <sumit.garg@kernel.org>, op-tee@lists.trustedfirmware.org,
- =?UTF-8?Q?Horia_Geant=C4=83?= <horia.geanta@nxp.com>,
- Pankaj Gupta <pankaj.gupta@nxp.com>, Sahil Malhotra
- <sahil.malhotra@nxp.com>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Richard Weinberger <richard@nod.at>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Eric Biggers <ebiggers@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-crypto@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-api@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-References: <20261118140421.584086-1-giometti@enneenne.com>
- <650f89ef-9745-4f75-b254-80fa5ac4773d@gmail.com>
- <av5EyVHnNzT27dyK@kernel.org>
-From: Rodolfo Giometti <giometti@enneenne.com>
-In-Reply-To: <av5EyVHnNzT27dyK@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfNmI1DIntSdZQogEw4CF+ExsMW52Dv4KVdQXYoEI2SlV11eEe+IxA80+xUydMG7wJYG2UEM6OiD9fNlRWY7iZyyfEynPQDNyEEdFhZWKfwj8abUd2CVm
- Lq49bpZ8Z2hgx71DU6sYhhPLl43jb2ht+KlVBI2Wws/GNH5B314G6kSkVXdUI0zRZd2gi9GuTGtx9GWmWncQRI4c/1+DT6GPQBX8WtlSvd+6+m3S0U28wDVb
- 9Hs0soZ49fsX6dkU30YublBd1jh16ccPykwFzi0QXARm/rgb+5uK/CGYB48nylkVg/Iou536TAACMpiIFEXZHeWUt50k8OfWaF0zaM+UpvSSdAus9yIAxvfo
- TN94jAoBEVnYhfDi4/82Wy353ZJ1o5Gj7OLddeLFkBJpl5Wzw5rMleizI45QkQxnhWD9ETOrQetS561qT7M5CxMYKxPdP2CZdtSrbjcXhI6YyhaQFk/VhuOD
- xGbNMNlUIo4efMC8Jcl4US1dtNwkfWg/BpgPT1zm36hQYfAnbrypJsoCkLgDERPLHDlxy3WHcdLrwjTHDhF152PUwUN3+0cXJP+rpQt4cnKrbJOd8mbnMBA5
- EMXx6ob9CMe6mj+soYJG99NcZl4tQ0l+s5hpHAPsuc526bT/lm5wQJkL1AqL3CRNSBp8R47j5nwfQayZ+tYMift/3GXo8dIjA1+x5Yvr6vMNcofIH7i/59ur
- Cr0sge9wRuaNCXPdPiwh8reCg0jcdmIDUSmDeezWJ/vVEu0ZRJk6A0sox8LZ4P6BOT1DZRkpwpiVSc8FzhApAGo7gQFx9BodEBr1xaKmgy0lQPUfofalbEII
- C6SljIGeSVkINsuuIJIc4xdBFC7WWD/A2Sc+c78UHrVkV0MV4yXYbaTvr9wNBVTgrAwp3+Y2tyceUQ++SVMYBYF0Ep10RMiXXsCHHx8Ag3zq5QoaPh3C5Ewb
- Xi3Ngl0pycbj6Q70Q43aVHp4xi3eUQlhWi1FOWVON921NfgQcZmZwXdeGWDCESlVLmbWInKcpIgUO2tNtllaYf9/CQP+sPgnyHv17dhDWbS3pxvLllfyiCb3
- ok3jS7JCxO6vaFDZQLPPhhR/83ZbJ2KLWnwLSR3vhTJoHsFu1MSbYvLxA49eoVbSM//x+PpbPS6efabzTOuqyXJypu2VSbiPywrJvlCcYgz8HkYiOp/KN/7w
- 5+vVhbHV+6327zrFt84ZC5MvsP6W7QnSoCxLdbTLlHwV7lXCyMgyzPaAh/4+68Unc1/0NALeZ2REnwOiT7xXoxkV85CK2tGeb5X9z7vGZH0Jh1i15QTOZRXm
- iZpFWF2L
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109-ktd202x-et6326-v2-8-56e97c226658@telaak.dev>
+X-AI-Review-Draft: <20261109-ktd202x-et6326-v2-8-56e97c226658@telaak.dev>
 
-On 19/11/2026 01:37, Jarkko Sakkinen wrote:
+On Mon, 09 Nov 2026, Joseph Telaak via B4 Relay wrote:
 
-[snip]
+> From: Joseph Telaak <joseph@telaak.dev>
+>
+> The KTD202x and the ET6326 can ramp the LED current up and down on
+> their own: the flash timer that already does blink_set also has rise
+> and fall times of up to 1.92 s. Without them, a breathing light needs
+> the software pattern trigger, which is an I2C write every 50 ms.
+>
+> Implement pattern_set and pattern_clear for the pattern trigger's
+> hw_pattern. A pattern is the one breathing cycle the hardware has,
+> "0 rise brightness high brightness fall 0 low", which the software
+> pattern trigger plays as the same breath, repeated forever.
+>
+> blink_set now clears the ramp times, so a blink after a pattern stays
+> sharp.
+>
+> Signed-off-by: Joseph Telaak <joseph@telaak.dev>
+> ---
+>  Documentation/leds/index.rst        |   1 +
+>  Documentation/leds/leds-ktd202x.rst |  41 ++++++++
+>  drivers/leds/rgb/leds-ktd202x.c     | 191 ++++++++++++++++++++++++++++++++++--
+>  3 files changed, 226 insertions(+), 7 deletions(-)
 
-> The exitential problem here is that KEYCTL_CRYPT_OPEN creates a circular
-> relationship between the keyrings API and a specific key type.
+Nearly there.  Last push?
 
-Agreed: it should be a key_type operation, dispatched the way
-KEYCTL_PKEY_* dispatches to asym_eds_op, so that keyctl knows no key
-type.
+> diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+> index 23fa9ff7aaf4..54d1c73684ad 100644
+> --- a/Documentation/leds/index.rst
+> +++ b/Documentation/leds/index.rst
+> @@ -19,6 +19,7 @@ LEDs
+>     leds-blinkm
+>     leds-cht-wcove
+>     leds-el15203000
+> +   leds-ktd202x
+>     leds-lm3556
+>     leds-lp3944
+>     leds-lp5521
+> diff --git a/Documentation/leds/leds-ktd202x.rst b/Documentation/leds/leds-ktd202x.rst
+> new file mode 100644
+> index 000000000000..cb9bc9326241
+> --- /dev/null
+> +++ b/Documentation/leds/leds-ktd202x.rst
+> @@ -0,0 +1,41 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +=============================================
+> +Kinetic KTD2026/7 and Etek ET6326 LED driver
+> +=============================================
+> +
+> +The chips have a hardware timer that blinks or breathes the LEDs without the
+> +CPU. The timer trigger uses it for blinking, and the pattern trigger uses it
+> +for breathing through the ``hw_pattern`` file.
+> +
+> +The hardware pattern is one breathing cycle of four steps, which repeats
+> +forever::
+> +
+> +    "0 rise brightness high brightness fall 0 low"
+> +
+> +rise
+> +    Ramp-up time in ms, from 0 to 1920 in steps of 128 ms.
+> +
+> +high
+> +    Time spent at the brightness in ms.
+> +
+> +fall
+> +    Ramp-down time in ms, from 0 to 1920 in steps of 128 ms.
+> +
+> +low
+> +    Time spent off in ms.
+> +
+> +The first and the last brightness must be 0, and the two in the middle must be
+> +equal and not 0. ``repeat`` must be -1, its default.
+> +
+> +The sum of the four times is the flash period. The driver rounds it up to the
+> +next step of 128 ms, between 256 ms (128 ms on the ET6326) and 16384 ms.
+> +
+> +The flash period, the on time and the ramp times are shared by all LEDs of a
+> +chip. When several LEDs blink or breathe at once, they all follow the timing
+> +that was set last.
+> +
+> +For example, to breathe with a period of 4 seconds::
+> +
+> +    echo pattern > /sys/class/leds/blue:status/trigger
+> +    echo "0 1000 192 1000 192 1000 0 1000" > /sys/class/leds/blue:status/hw_pattern
+> diff --git a/drivers/leds/rgb/leds-ktd202x.c b/drivers/leds/rgb/leds-ktd202x.c
+> index 2650573b6c5a..daa04f8ecefd 100644
+> --- a/drivers/leds/rgb/leds-ktd202x.c
+> +++ b/drivers/leds/rgb/leds-ktd202x.c
+> @@ -62,12 +62,20 @@
+>
+>  /* Register 5 */
+>  #define KTD202X_RAMP_TIMES_2_MS			0x00
+> +#define KTD202X_RAMP_TRISE(x)			(x)
+> +#define KTD202X_RAMP_TFALL(x)			((x) << 4)
 
-> At hardware level I did not see any support for TPM, which narrows down
-> the potential user base.
+Please define the shift value (with a '_SHIFT' suffix) rather than using a magic
+'4'.
 
-On a TPM system the sw backend can take its master from a TPM-sealed
-trusted key, but there keycrypt adds little over a trusted key. The
-users are SoCs with a TEE and often no TPM, OP-TEE on i.MX for one.
+>
+>  /* Register 6-9 */
+>  #define KTD202X_LED_CURRENT_10_mA		0x4f
+>
+>  #define KTD202X_FLASH_PERIOD_STEP_MS 128
+>  #define KTD202X_FLASH_ON_MAX 256
+> +#define KTD202X_RAMP_STEP_MS 128
+> +#define KTD202X_RAMP_MAX_STEPS 15
+> +
+> +/* rise, high, fall and low */
 
-> The remaining potential user base is further reduced by those that use
-> trusted keys; leaving out those who need to solve the assumed problem
-> that only this patch set can presumebly sort out.
-> 
-> And we don't really know at this point that cut. This is pretty much
-> the break down of what is wrong here.
-> 
-> If there is/was a problem to sort out, it should be so constrained that
-> it should be as quick to describe as stepping over a nail really.
+Nit: I don't see any reason to keep rise lowercase?
 
-The nail: a device must encrypt and decrypt its own files, also from
-a minimal initramfs, with a key that root or a kernel exploit can use
-on the device but never copy off it. Trusted keys hand their users the
-key's bytes (dm-crypt, encrypted keys and AF_ALG read them). CAAM's
-"pk" option is the one exception, but even there a new key is drawn
-in kernel memory before the CAAM wraps it, and user space reaches it
-only through AF_ALG, which the kernel calls insecure and deprecated
-(Documentation/crypto/userspace-if.rst, and "Userspace interface
-(deprecated)" in crypto/Kconfig), privileged by default, with no
-purpose bound to the key. The i.MX93 has no CAAM at all: there the key
-can live in OP-TEE, and keycrypt lets the keyring use it without it
-ever leaving the TA.
+> +#define KTD202X_PATTERN_LEN 4
+> +#define KTD202X_PATTERN_MAX_MS 16384
+>
+>  #define KTD202X_MAX_BRIGHTNESS 192
+>
+> @@ -294,6 +302,23 @@ static int ktd202x_brightness_mc_set(struct led_classdev *cdev,
+>  	return ret;
+>  }
+>
+> +static unsigned int ktd202x_flash_period_steps(const struct ktd202x_info *info,
+> +					       unsigned long period_ms)
+> +{
+> +	if (period_ms < info->flash_period_min_ms)
+> +		return 0;
+> +
+> +	return min_t(unsigned long, info->flash_period_max_steps,
+> +		     (period_ms - info->flash_period_min_ms) /
+> +		     KTD202X_FLASH_PERIOD_STEP_MS);
+> +}
+> +
+> +static unsigned long ktd202x_flash_period_ms(const struct ktd202x_info *info,
+> +					     unsigned int num_steps)
+> +{
+> +	return num_steps * KTD202X_FLASH_PERIOD_STEP_MS + info->flash_period_min_ms;
+> +}
+> +
+>  static int ktd202x_blink_set(struct ktd202x_led *led, unsigned long *delay_on,
+>  			     unsigned long *delay_off, struct mc_subled *subleds,
+>  			     unsigned int num_channels)
+> @@ -332,12 +357,7 @@ static int ktd202x_blink_set(struct ktd202x_led *led, unsigned long *delay_on,
+>  	/* Integer representation of time of flash period */
+>  	if (check_add_overflow(*delay_on, *delay_off, &delay_total_ms))
+>  		delay_total_ms = ULONG_MAX;
+> -	if (delay_total_ms < info->flash_period_min_ms)
+> -		num_steps = 0;
+> -	else
+> -		num_steps = min_t(unsigned long, info->flash_period_max_steps,
+> -				  (delay_total_ms - info->flash_period_min_ms) /
+> -				  KTD202X_FLASH_PERIOD_STEP_MS);
+> +	num_steps = ktd202x_flash_period_steps(info, delay_total_ms);
+>
+>  	/*
+>  	 * Integer representation of percentage of LED ON time. A value of 0
+> @@ -347,7 +367,7 @@ static int ktd202x_blink_set(struct ktd202x_led *led, unsigned long *delay_on,
+>  	on = clamp(on, 1, KTD202X_FLASH_ON_MAX - 1);
+>
+>  	/* Actually used delay_{on,off} values */
+> -	delay_total_ms = num_steps * KTD202X_FLASH_PERIOD_STEP_MS + info->flash_period_min_ms;
+> +	delay_total_ms = ktd202x_flash_period_ms(info, num_steps);
+>  	/*
+>  	 * Rounded to the nearest ms, so that the delays give the same on time
+>  	 * when written back. Rounded down, 1/256 of the 128 ms ET6326 period
+> @@ -366,6 +386,12 @@ static int ktd202x_blink_set(struct ktd202x_led *led, unsigned long *delay_on,
+>  	if (ret)
+>  		goto out;
+>
+> +	/* Drop the ramps a hardware pattern may have left behind */
+> +	ret = regmap_write(led->chip->regmap, KTD202X_REG_TRISE_FALL,
+> +			   KTD202X_RAMP_TIMES_2_MS);
+> +	if (ret)
+> +		goto out;
+> +
+>  	ret = regmap_update_bits(led->chip->regmap, KTD202X_REG_CHANNEL_CTRL,
+>  				 ctrl_mask, ctrl_pwm1);
+>  out:
+> @@ -431,6 +457,153 @@ static int ktd202x_blink_mc_set(struct led_classdev *cdev,
+>  				 mc->num_colors);
+>  }
+>
+> +/*
+> + * The hardware pattern is a single breathing cycle that repeats forever:
+> + *
+> + *   "0 rise brightness high brightness fall 0 low"
+> + *
+> + * The LED ramps up for the rise time, stays at the brightness for the high
+> + * time, ramps down for the fall time and stays off for the low time.
+> + */
+> +static int ktd202x_pattern_check(struct led_classdev *cdev,
+> +				 struct led_pattern *pattern, u32 len,
+> +				 int repeat)
+> +{
+> +	/*
+> +	 * Only forever: the pattern trigger passes -1, or 0 when repeat
+> +	 * has not been written since the trigger was set.
+> +	 */
+> +	if (len != KTD202X_PATTERN_LEN || repeat > 0)
+> +		return -EINVAL;
+> +
+> +	if (pattern[0].brightness || pattern[3].brightness ||
+> +	    pattern[1].brightness != pattern[2].brightness ||
+> +	    pattern[1].brightness <= 0 ||
+> +	    pattern[1].brightness > cdev->max_brightness)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ktd202x_pattern_program(struct ktd202x_led *led,
+> +				   struct led_pattern *pattern,
+> +				   struct mc_subled *subleds,
+> +				   unsigned int num_channels)
+> +{
+> +	const struct ktd202x_info *info = led->chip->info;
+> +	unsigned int t[KTD202X_PATTERN_LEN];
 
-The stream of patch 9 has no user yet and can go.
+Avoid single letter variables if you can.
 
-Ciao,
+The nomenclature should be self-describing.
 
-Rodolfo
+> +	unsigned int rise, fall, num_steps, on;
+> +	unsigned long period_ms, ton_ms;
+> +	u8 ctrl_mask = 0;
+> +	u8 ctrl_pwm1 = 0;
+> +	int ret;
+> +	int i;
+
+Nit: Please declare loop counters inside the 'for ()' statement.
+
+> +
+> +	for (i = 0; i < KTD202X_PATTERN_LEN; i++)
+> +		t[i] = min_t(u32, pattern[i].delta_t, KTD202X_PATTERN_MAX_MS);
+> +
+> +	rise = min_t(unsigned int, KTD202X_RAMP_MAX_STEPS,
+> +		     DIV_ROUND_CLOSEST(t[0], KTD202X_RAMP_STEP_MS));
+> +	fall = min_t(unsigned int, KTD202X_RAMP_MAX_STEPS,
+> +		     DIV_ROUND_CLOSEST(t[2], KTD202X_RAMP_STEP_MS));
+> +
+> +	/* Round the period up so that the fall ramp is not cut short */
+> +	period_ms = t[0] + t[1] + t[2] + t[3];
+> +	num_steps = ktd202x_flash_period_steps(info, period_ms +
+> +					       KTD202X_FLASH_PERIOD_STEP_MS - 1);
+
+Does this (and other lines, not fit on one 100-char line?
+
+> +	period_ms = ktd202x_flash_period_ms(info, num_steps);
+> +
+> +	/* The on time includes the rise time */
+> +	ton_ms = t[0] + t[1];
+> +	on = clamp_t(unsigned long,
+> +		     DIV_ROUND_CLOSEST(ton_ms * KTD202X_FLASH_ON_MAX, period_ms),
+> +		     1, KTD202X_FLASH_ON_MAX - 1);
+
+What is 1?  Magic numbers make the code hard to read.
+
+> +	mutex_lock(&led->chip->mutex);
+> +
+> +	for (i = 0; i < num_channels; i++) {
+> +		int channel = subleds[i].channel;
+> +
+> +		ctrl_mask |= KTD202X_CHANNEL_CTRL_MASK(channel);
+
+Why are we squishing these lines together?
+
+Perhaps it's just me but I find nicely spaced-out code much easier to parse.
+
+> +		/* A color with no brightness stays off */
+> +		if (!subleds[i].brightness)
+> +			continue;
+> +
+> +		ctrl_pwm1 |= KTD202X_CHANNEL_CTRL_PWM1(channel);
+> +	}
+> +
+> +	ret = regmap_write(led->chip->regmap, KTD202X_REG_FLASH_PERIOD, num_steps);
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = regmap_write(led->chip->regmap, KTD202X_REG_PWM1_TIMER, on);
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = regmap_write(led->chip->regmap, KTD202X_REG_TRISE_FALL,
+> +			   KTD202X_RAMP_TFALL(fall) | KTD202X_RAMP_TRISE(rise));
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = regmap_update_bits(led->chip->regmap, KTD202X_REG_CHANNEL_CTRL,
+> +				 ctrl_mask, ctrl_pwm1);
+> +out:
+> +	mutex_unlock(&led->chip->mutex);
+
+Don't we have guards to prevent gotos now?
+
+> +	return ret;
+> +}
+> +
+> +static int ktd202x_pattern_single_set(struct led_classdev *cdev,
+> +				      struct led_pattern *pattern, u32 len,
+> +				      int repeat)
+> +{
+> +	struct ktd202x_led *led = container_of(cdev, struct ktd202x_led, cdev);
+> +	struct mc_subled info;
+> +	int ret;
+> +
+> +	ret = ktd202x_pattern_check(cdev, pattern, len, repeat);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ktd202x_brightness_single_set(cdev, pattern[1].brightness);
+> +	if (ret)
+> +		return ret;
+> +
+> +	info.brightness = cdev->brightness;
+> +	info.channel = led->index;
+> +
+> +	return ktd202x_pattern_program(led, pattern, &info, 1);
+> +}
+> +
+> +static int ktd202x_pattern_single_clear(struct led_classdev *cdev)
+> +{
+> +	return ktd202x_brightness_single_set(cdev, LED_OFF);
+> +}
+> +
+> +static int ktd202x_pattern_mc_set(struct led_classdev *cdev,
+> +				  struct led_pattern *pattern, u32 len,
+> +				  int repeat)
+> +{
+> +	struct led_classdev_mc *mc = lcdev_to_mccdev(cdev);
+> +	struct ktd202x_led *led = container_of(mc, struct ktd202x_led, mcdev);
+> +	int ret;
+> +
+> +	ret = ktd202x_pattern_check(cdev, pattern, len, repeat);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ktd202x_brightness_mc_set(cdev, pattern[1].brightness);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ktd202x_pattern_program(led, pattern, mc->subled_info,
+> +				       mc->num_colors);
+> +}
+> +
+> +static int ktd202x_pattern_mc_clear(struct led_classdev *cdev)
+> +{
+> +	return ktd202x_brightness_mc_set(cdev, LED_OFF);
+> +}
+> +
+>  static int ktd202x_setup_led_rgb(struct ktd202x *chip, struct fwnode_handle *fwnode,
+>  				 struct ktd202x_led *led, struct led_init_data *init_data)
+>  {
+> @@ -482,6 +655,8 @@ static int ktd202x_setup_led_rgb(struct ktd202x *chip, struct fwnode_handle *fwn
+>  	cdev = &led->mcdev.led_cdev;
+>  	cdev->brightness_set_blocking = ktd202x_brightness_mc_set;
+>  	cdev->blink_set = ktd202x_blink_mc_set;
+> +	cdev->pattern_set = ktd202x_pattern_mc_set;
+> +	cdev->pattern_clear = ktd202x_pattern_mc_clear;
+>
+>  	return devm_led_classdev_multicolor_register_ext(chip->dev, &led->mcdev, init_data);
+>  }
+> @@ -503,6 +678,8 @@ static int ktd202x_setup_led_single(struct ktd202x *chip, struct fwnode_handle *
+>  	cdev = &led->cdev;
+>  	cdev->brightness_set_blocking = ktd202x_brightness_single_set;
+>  	cdev->blink_set = ktd202x_blink_single_set;
+> +	cdev->pattern_set = ktd202x_pattern_single_set;
+> +	cdev->pattern_clear = ktd202x_pattern_single_clear;
+>
+>  	return devm_led_classdev_register_ext(chip->dev, &led->cdev, init_data);
+>  }
+>
+> -- 
+> Git-155)
+>
+>
+>
 
 -- 
-GNU/Linux Solutions                  e-mail: giometti@enneenne.com
-Linux Device Driver                          giometti@linux.it
-Embedded Systems                     phone:  +39 349 2432127
-UNIX programming
+Lee Jones
