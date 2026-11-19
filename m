@@ -1,54 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.244
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795095866;
-	b=vZg1Ubzv1DiQ2xBvObrK246GPjCi+SJWVd2Y+ZThG3PGRmOrOTCjIet7U1mgP9n85xVJ
-	 bqo/Ym/kCWl60t/BddTj5U/8pYdeIaa9HGhU7F8MXAQ35Y/ocptKv0vbV2PEieyuEmM70
-	 FPtP+/h4eqBwK+0NolOfMWg/NFaIEBIOuIEGvuqb1XtLFlsi5lkEoLQSwPFdJjmeG9bTT
-	 PY2A6rsBpqHG4maVYULUdZIB4CAdo0mGGD/wIma9yeeUBwPOyUUhAAYSKCizVhlIk7IPD
-	 1pdikF2WfaennsD6wxnyS7v7Mg+4i+rpoNcjx57ABn+UhrHNzkEygB1AdqBZKnmZixw==
+	t=1795095997;
+	b=ZOfxzxc7L0cr7GGTUZzN40Bqinni8QpaLjGEOMBILaMLnJjZYtjVCgqUYbkgBBYXfXEi
+	 ZWr44sBJ6I6mH05F1DUci9VKJhyX2vniCTngCLtYH67IPzIUFjsZQNNVHeFWIYhHI7/O+
+	 6CMe6/DWqRJT+0Z/MbSMG4wyrg3rzAZafZFoz20dNhSCRxGHjWNzmwPklTQFcLyE8ujSy
+	 M40Drsj2fRA+7J7QBLERoPUAdtl4rNSk03eIBsllvTMYf/tIsZ1NoOPTXOZ2nHjLtgCB1
+	 N3caLrtfpq/TDnY76Sy2gzxcLiXR90fzqLoblXbi10wFupz7v2sngPfUUN9PJjW0nmg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795095866;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=JFOr/HaA5M4ow4p4WMe/GDqNkmn9F87y18KWeoj8kmU=;
-	b=NN2s1Qbyaemsq9WBHWafX4MBJremXnpuBRa7rzr2eAcxEO3U8IJljhUvIGhMFcmB6Inx
-	 jCA7NzW4vC0TPSH137LAgqPYaOiOIWvKY0ppYvzvwA3o+DodytWPlRiTbjfX6StiwPo1A
-	 sKDnu6flxSv9Tar2fQw21wz06lJXSIj3xrGH/ClslzqYG/pso02dxiz2QGpjGXduO3fE6
-	 MuaeJRb+PBfr4ZEkqrRPM5BnsRwpPrsWYY6iAtuh6ZcZmg1RzZ5F0W18trOQIHpq+Pdkn
-	 p+6r3mg9vXONON0wnBB6ufUsG8J9HuiKF1xo4m66yUj7cicefyShALV7Nb4Dsub/P+w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795095997;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=K6c48fOGAG/eR5AK65D44dlpQvLqtxWSyQFSKksC/vo=;
+	b=bdtxhfVaUj33R1JHDKP9NJMAMN9bKSnlQh+zs1/4NdziyvQRGwf4weYsi4Ake6QGK2PQ
+	 SfdZrO4M/ylhhhU+X5NXQBh+bEM+UMyjgLXCgTpUL4n76IuZ5Q+AHMBvCr6rsclyZyNmY
+	 mTs8AOwOn6fAQBUrEevEGtrEuWMYXr5E/b8V4SD7nhQ2ENqAxVgDX1VyB0dXBu58t30cd
+	 ZGbw9aGIHsz32oA55TURpiPemPnJQAHYeC4vMJ4lT4LS8gtl0YxhTTEljdF37lAG+/R9Y
+	 wn7n2mjfB54rjaAYODNxMvJ/xWOGxCT5drjF9jraeF6DLifnXCM9ZKRvCdvacpWVTwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=E5PJ485w;
-	arc=none smtp.remote-ip=95.215.58.244
-Received: from mta1.migadu.com (out-244.mta1.migadu.com [95.215.58.244])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f1+TuU4u;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F45606A326
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 13:44:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2F45606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D988606A339;
+	Thu, 19 Nov 2026 13:46:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=E5PJ485w
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=GeacZfWtcOKsPTca8YX1CAhAl83TpLkh+Pna1MJGv8k=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795095863; v=1; x=1795700663;
- b=E5PJ485wDF8oE5jTv1Rr41cNiZNzU0XeGUmmT39gnMH98TrS0u/0aV7yqDfFpLde4fRt0NCY
- H24T4j+VZEVaF2ChPgk2T6Sf32pqCmpYceCHvzudkrQnOtE/zlUg9/sZBSno3UVKPrreBqaGjUo
- 10Pj2RuMTOh+PV79Xh95P7uY=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 2b1b82f9378b37d8;
-	Thu, 19 Nov 2026 13:44:23 +0000
-X-Mizu-Trace-ID: 2b1b82f9378b37d8
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <0305b6b3-8292-4a4d-a473-dc26a39beca1@linux.dev>
-Date: Thu, 19 Nov 2026 14:44:18 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f1+TuU4u
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 642A91F000C5;
+	Thu, 19 Nov 2026 13:46:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795095997;
+	bh=K6c48fOGAG/eR5AK65D44dlpQvLqtxWSyQFSKksC/vo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=f1+TuU4u5pQY0jlxM4FxicBn9e3x+JEPVAJoBXMJQPCA7r4sIu08tDq/G3USbMOMx
+	 unmVpNXoTEzJCOslI1jCYxOSiTVipGJzd0mU1yu2bG1KsTrdO9fn4hOx3OV3Pc+TYC
+	 EnPqgztpgXWXjDuTlYUH6GD7YCdVacVJlcrS3CZ8MMKD9hqXPn0Twmc2kuAXqlt9bG
+	 AX+eyjaEZPtQoDAlp9cMKEXoLXNcReaFccZ6knlIC+Jcw/MRW0izkof37GZSGwJaY3
+	 1+BWQeEXtoJwhpHGpyrvlxhDjJdh7h9svpGoUGPmi6ndaX37BKm3EqI3OKo2E/6eja
+	 m9ammzn2xPOOw==
+Date: Thu, 19 Nov 2026 13:46:31 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
+ user-visible impact
+Message-ID: <2d232c34-b111-4228-a049-6f037370c17e@sirena.org.uk>
+References: <20261116200515.352387-1-sashal@kernel.org>
+ <20261117092723.GA124972@unreal>
+ <220c5818-ad59-4003-9955-9821d09c0279@kernel.org>
+ <20261119111902.GH162713@unreal>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,224 +68,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 03/11] riscv: sse: mask events during shutdown and
- kexec
-To: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, pjw@kernel.org,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
- himanshu.chauhan@oss.qualcomm.com, conor@kernel.org,
- anup.patel@oss.qualcomm.com
-Cc: cuiyunhui@bytedance.com, atish.patra@linux.dev, peterz@infradead.org,
- mingo@redhat.com, acme@kernel.org, namhyung@kernel.org,
- mark.rutland@arm.com, alexander.shishkin@linux.intel.com, jolsa@kernel.org,
- irogers@google.com, adrian.hunter@intel.com, james.clark@linaro.org,
- will@kernel.org, tglx@kernel.org, corbet@lwn.net, rdunlap@infradead.org,
- shuah@kernel.org, yuanzhu@bytedance.com, yang.susheng@zte.com.cn,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <20261119120824.13969-13-zhangzhanpeng.jasper@bytedance.com>
- <20261119120824.13969-16-zhangzhanpeng.jasper@bytedance.com>
-Content-Language: en-US
-From: Clement Leger <clement.leger@linux.dev>
-In-Reply-To: <20261119120824.13969-16-zhangzhanpeng.jasper@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Gz+MSdAl/y4DDapf"
+Content-Disposition: inline
+In-Reply-To: <20261119111902.GH162713@unreal>
+X-Cookie: I'm into SOFTWARE!
 
 
+--Gz+MSdAl/y4DDapf
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 11/19/26 13:08, Zhanpeng Zhang wrote:
-> SSE delivery is independent of normal S-mode interrupts. Firmware may also
-> retain an event registration until Linux explicitly unregisters it. A hart
-> must therefore stop accepting SSE events before Linux stops servicing the
-> registered handler.
-> 
-> Mask SSE on the local hart before panic stop, CPU stop, restart, poweroff,
-> and crash shutdown paths. This prevents firmware from entering Linux-owned
-> handler state after the corresponding CPU or kernel context is no longer
-> valid.
-> 
-> A crash kernel cannot identify or take ownership of registrations
-> inherited from the crashed kernel. Reject a later normal kexec while such
-> SSE state may still exist, rather than transferring unknown firmware state
-> to another kernel.
-> 
-> The restriction is deliberately based on firmware SSE availability, not
-> CONFIG_RISCV_SBI_SSE or registrations made by the crash kernel. Disabling
-> SSE in the crash kernel does not establish that registrations left by the
-> crashed kernel are absent. Consequently, normal kexec from a crash kernel
-> is also rejected when firmware advertises SSE but no registrations were
-> actually left behind. This conservative restriction remains until a safe
-> way to establish or clear inherited firmware state is available.
-> 
-> Link: https://lore.kernel.org/r/as7-3PbWDxygadnJ@hu-himchau-blr.qualcomm.com/
-> Reviewed-by: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-> Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-> ---
->   arch/riscv/kernel/machine_kexec.c | 11 +++++++++++
->   arch/riscv/kernel/reset.c         | 18 ++++++++++++++++++
->   arch/riscv/kernel/smp.c           | 17 +++++++++++++++++
->   3 files changed, 46 insertions(+)
-> 
-> diff --git a/arch/riscv/kernel/machine_kexec.c b/arch/riscv/kernel/machine_kexec.c
-> index 738df176ff6f..24e7affae70b 100644
-> --- a/arch/riscv/kernel/machine_kexec.c
-> +++ b/arch/riscv/kernel/machine_kexec.c
-> @@ -14,10 +14,13 @@
->   #include <asm/set_memory.h>	/* For set_memory_x() */
->   #include <linux/compiler.h>	/* For unreachable() */
->   #include <linux/cpu.h>		/* For cpu_down() */
-> +#include <linux/crash_dump.h>
->   #include <linux/reboot.h>
->   #include <linux/interrupt.h>
->   #include <linux/irq.h>
->   
-> +#include <asm/sse.h>
-> +
->   /*
->    * machine_kexec_prepare - Initialize kexec
->    *
-> @@ -36,6 +39,13 @@ machine_kexec_prepare(struct kimage *image)
->   	unsigned int control_code_buffer_sz = 0;
->   	int i = 0;
->   
-> +	/* A crash kernel cannot tear down registrations inherited from firmware. */
-> +	if (is_kdump_kernel() && image->type != KEXEC_TYPE_CRASH &&
-> +	    riscv_sse_available()) {
-> +		pr_err("Normal kexec from a crash kernel is unsupported with SSE\n");
-> +		return -EOPNOTSUPP;
-> +	}
- > +>   	/* Find the Flattened Device Tree and save its physical address */
->   	for (i = 0; i < image->nr_segments; i++) {
->   		if (image->segment[i].memsz <= sizeof(fdt))
-> @@ -127,6 +137,7 @@ void
->   machine_crash_shutdown(struct pt_regs *regs)
->   {
->   	local_irq_disable();
-> +	riscv_sse_mask_current_hart();
->   
->   	/* shutdown non-crashing cpus */
->   	crash_smp_send_stop();
-> diff --git a/arch/riscv/kernel/reset.c b/arch/riscv/kernel/reset.c
-> index 14eb08a6db85..fdab37e7ae52 100644
-> --- a/arch/riscv/kernel/reset.c
-> +++ b/arch/riscv/kernel/reset.c
-> @@ -6,6 +6,20 @@
->   #include <linux/efi.h>
->   #include <linux/reboot.h>
->   #include <linux/pm.h>
-> +#include <linux/smp.h>
-> +
-> +#include <asm/sse.h>
-> +
-> +#ifndef CONFIG_SMP
-> +void __noreturn panic_smp_self_stop(void)
-> +{
-> +	riscv_sse_mask_current_hart();
-> +	local_irq_disable();
-> +
-> +	for (;;)
-> +		cpu_relax();
-> +}
-> +#endif
->   
->   static void __noreturn default_power_off(void)
->   {
-> @@ -18,6 +32,8 @@ EXPORT_SYMBOL(pm_power_off);
->   
->   void machine_restart(char *cmd)
->   {
-> +	riscv_sse_mask_current_hart();
-> +
->   	/*
->   	 * UpdateCapsule() depends on the system being reset via ResetSystem().
->   	 */
-> @@ -30,12 +46,14 @@ void machine_restart(char *cmd)
->   
->   void machine_halt(void)
->   {
-> +	riscv_sse_mask_current_hart();
->   	do_kernel_power_off();
->   	default_power_off();
->   }
->   
->   void machine_power_off(void)
->   {
-> +	riscv_sse_mask_current_hart();
->   	do_kernel_power_off();
->   	default_power_off();
->   }
+On Thu, Nov 19, 2026 at 01:19:02PM +0200, Leon Romanovsky wrote:
+> On Thu, Nov 19, 2026 at 11:13:57AM +0100, Krzysztof Kozlowski wrote:
 
+> > That's often review feedback, btw, people just paste huge bunch of dmesg
+> > without thinking what is useful there.
 
-Hi Zhanpeng,
+> It=E2=80=99s still better than AI-generated prose peppered with short, tw=
+o- or
+> three-line stack traces intended to trick me into merging a patch. I=E2=
+=80=99d
+> rather trim the description myself than rely on random submitters to
+> provide exactly the right amount of information=E2=80=94no more, no less.
 
-Can you please factor that out in a single function ? both functions are 
-doing the exact same thing.
+Honestly, it's generally just as bad - it's usually multiple screenfuls
+of irrelevant noise which doesn't visually fit the format for a
+changelog.  Half the time people put them in the middle of the changelog
+which doesn't help anything.  With the generated changelogs at least you
+know to skim read the whole thing and not trust a word that's in there.
 
-Thanks,
+--Gz+MSdAl/y4DDapf
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Clément
+-----BEGIN PGP SIGNATURE-----
 
-> diff --git a/arch/riscv/kernel/smp.c b/arch/riscv/kernel/smp.c
-> index 07027cfeba4b..5b05243e1deb 100644
-> --- a/arch/riscv/kernel/smp.c
-> +++ b/arch/riscv/kernel/smp.c
-> @@ -22,10 +22,13 @@
->   #include <linux/irq.h>
->   #include <linux/irq_work.h>
->   #include <linux/nmi.h>
-> +#include <linux/panic.h>
->   
->   #include <asm/tlbflush.h>
->   #include <asm/cacheflush.h>
->   #include <asm/cpu_ops.h>
-> +#include <asm/sbi.h>
-> +#include <asm/sse.h>
->   
->   static const char * const ipi_names[] = {
->   	[IPI_RESCHEDULE]	= "Rescheduling interrupts",
-> @@ -66,8 +69,18 @@ int riscv_hartid_to_cpuid(unsigned long hartid)
->   	return -ENOENT;
->   }
->   
-> +void __noreturn panic_smp_self_stop(void)
-> +{
-> +	riscv_sse_mask_current_hart();
-> +	local_irq_disable();
-> +
-> +	for (;;)
-> +		cpu_relax();
-> +}
-> +
->   static void ipi_stop(void)
->   {
-> +	riscv_sse_mask_current_hart();
->   	set_cpu_online(smp_processor_id(), false);
->   	while (1)
->   		wait_for_interrupt();
-> @@ -78,6 +91,7 @@ static atomic_t waiting_for_crash_ipi = ATOMIC_INIT(0);
->   
->   static inline void ipi_cpu_crash_stop(unsigned int cpu, struct pt_regs *regs)
->   {
-> +	riscv_sse_mask_current_hart();
->   	crash_save_cpu(regs, cpu);
->   
->   	atomic_dec(&waiting_for_crash_ipi);
-> @@ -241,6 +255,8 @@ void smp_send_stop(void)
->   {
->   	unsigned long timeout;
->   
-> +	riscv_sse_mask_current_hart();
-> +
->   	if (num_online_cpus() > 1) {
->   		cpumask_t mask;
->   
-> @@ -288,6 +304,7 @@ void crash_smp_send_stop(void)
->   		return;
->   
->   	cpus_stopped = 1;
-> +	riscv_sse_mask_current_hart();
->   
->   	/*
->   	 * If this cpu is the only one alive at this point in time, online or
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmr+/bcACgkQJNaLcl1U
+h9AgAwf9FryBvv/AjLFiJUm2t+yRQAPDmd+W+LDj7Ux+kVL+2QlvZYudoAQXj2d5
+odV8kewKa2I7e/ZNshnfLrDtOoYEHvO+OW0xIejKpyAWFaYcNbv+2QKh2tYLmAsu
+DXzU5qQKOzIRbECO930rHRPtPe5yflUTkPWIQ095jgizzDn1ubfZgjD+cdK3sX3S
+RjlyKIXJEYHRJBMNIfhkjXjBx4neDuvhFOcQkENAb6sD4H2a+7ui4ffNtIRmO6zY
+2bNI6ZSRel/2Ojj28qvNXheklWCJ8KqTtTNTifu3tE0Bf+8MdG0mOpdmk1giP0f/
+cKOZf9z9qVdiMkfi3DUJaM/N9oL+cg==
+=UiHy
+-----END PGP SIGNATURE-----
 
+--Gz+MSdAl/y4DDapf--
