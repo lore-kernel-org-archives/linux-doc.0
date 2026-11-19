@@ -1,119 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.1
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795106808;
-	b=O+J5hs7sAvmFa/rP9Js1sjENZAUR2gqA0zZxWkaYr37y+/BOv4iMchGXD8R1QognG3Ew
-	 g/Cx7OlBq7Jf0ptO0AF4C6oud9XW2rURFi0M+lFYbGWS9Hx/YhI3BYJpI2A+UPodjVUB1
-	 QqbT1ue53WDAx0MVJ5/hagnH63udiBFoDOrl5rTv8hnHavL50GX9IV+wyBy5NAKJEVQg5
-	 G5pXRYvKOrHz8KWle1M+lRqjdvkGk8ZfJPKuXopuHXraQNZRZ/2WmikzvzYNjAgSqAUCM
-	 RaSb/xNweG6eO9IAC9lksh1/k3a4E7ORRW84JsEWSazywHBNy0Sv0hnxplQHwbMrZtQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795106808;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=ft1spQKXCgQJQ1xFtLoGbitlsXUxIm7g72sNOwl9Qow=;
-	b=yLwNnCwE7koceFX2tzh+nOweUo48xaWsMK4hqq2ElnK3VMZwDTJPIw3yY/QEoR4FXchL
-	 qH/8xyvNn+O1TSNgQwZH94dvvS0nvXGP1h66qpBA67ULVxytU0oT+xDiE5V4ybUDS5ke2
-	 wZF/e8dsRzxM1n2SmdnAFcj92+3rh8LszAnrnUWvQr5AXzjq8Rz9jtdt8phyendwe4cPJ
-	 KHjLB7oZgPQnubdmkOhktWnwtJKRYWB7kwaVBUMsq5C/F13LNd1ky37T6YdtitSBxhazk
-	 VxMlOHFwdFncTYDK1iJ9qz1vtPRTyn/AHKo5kuMVGCX5W8QtC4ElGV3B3J8yUwrnV0g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=cBSqeNOb;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.1
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010001.outbound.protection.outlook.com [40.93.198.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3CC660A261E;
-	Thu, 19 Nov 2026 16:46:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3CC660A261E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795106973;
+	b=5bf/M09P8+3TrPRuTurI9ZCbsiqURQXGYg0STHd1vhYkAjfoLtSE1whvKPsag0Pb9bR/
+	 09asBXestbuFQy7SBVwMUUwhly5lFlDogvSu8VIVsxqwRisoQrS6Qu0PxYNzh5EaMdCaH
+	 CkU6OMM8gyNeNkDe/a0uQNgAOZRIPeyEpTEJwxpCJnurPl2hmk0TQdaiJqPmTQ6UWLMXK
+	 VtHJ1VXFlY1PYbdP9iw1GNH7WCVHZ3cTSu+eKfge3f9+ap8unt67k+rdqY812wXNCDt1m
+	 DAhB2O2oItuRSZ+1HKNVxeReo0Etob9VaIcLDqpMicp+bpjpwwENfJTO4DVAM35Dgdw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795106973;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:References:Content-Language:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=ESAMsJHxn+ZoCwUy5zBmDpp0pvhaqxCCvqXgkqfb5QU=;
+	b=Rr2Iez0nVdaL4K9i+SpIEpVbn1sFekyjnj9u7cDckDepCVWPEC1ftT4FHVfVHgn/M36C
+	 bZONRuJE0PExVTUH/LRo7EOb316ZW9vZtiylL+9/G6K5htjzjFN4ibf59AukQbiXU9oKj
+	 IY6g04VhbrA2tYYq8PI32p9uqr4nwVSJt8iLuuHx4U892+atkOqO6of2tDPN9UVObIo32
+	 bmCJn4pd1ArgH21y5HCmiW+AFoDPzkwlRUuOS8VbU4qo4ee4vqtk/FnWyYwX5Z6odKxVA
+	 sW7mQS3trKOVmfY29TTRy8guFSiJWkgY9j+o6nB3BB4kvVe7Kgnlt8RJ/Ey0DqVC4ZQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="B3kk/OBj";
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 976AB60A2611;
+	Thu, 19 Nov 2026 16:49:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 976AB60A2611
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=cBSqeNOb
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NRRuBX9VAPyse3wpaXu9S6B3HK7Ie8+3WsdWc3ENii8yQ/IZgv869O/UlURxfOWP/7Hz2p5OGgLmMy86VJffpo00z+u8Qs3GyTf3e+RuZhHS/1X2frQsGTbZS/2S/GpB/elwRc/Y//2coecHOGqyAISmEmo4Y6WC2oaA6va54HJqbS6W55NNmMPVuuf3Nmx0Gvpw5hEUOqFbmkWMlHB03AU93q0qXm1h9bfBPlC6BFBp+zLUFioNnAXTvnDSXjocucpzsdT0gt6MEUdRG9mxYg6AV1T6UwQvXXLgCl+BrMd0blqNXpVYT6QesJn3tH4qwuUS+NRfPhKQ21Ge1qrpew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ft1spQKXCgQJQ1xFtLoGbitlsXUxIm7g72sNOwl9Qow=;
- b=NB1feN7qGD2bqf277xsMb+SLuKFJmGK6lThNXiU+WpnFkwRl+1i1LyVeKOgzywv+sbcoKt4+oSnaTC2JrvhPyx90olBqETEIVspcZ9A58MavoROM9goa3m+f3jrNPm7Xc4JTqHL4POxOwmRLp0KoC9nDWg7JCLL1CGXYzkyt/7paxOCmPce6GDjx1GWTqQPeKQii2FR+1GbaJdjHh1QOB7lX2atj3l75NoyZ3l5yhtZtBJoWdbL6hkPmSEdPthqqFBBSr70LQ7zP0fZUCic99Y2r2MohRzyDlKP9fCl47eGT8pdVRRbP+hrPCEMrk+hDwADr6rVP2dMcvM7NjQ/+vQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ft1spQKXCgQJQ1xFtLoGbitlsXUxIm7g72sNOwl9Qow=;
- b=cBSqeNObBg9jpGUkZ+61pNQMCDe1JKThUstTYYl2aamTD3s+ZnRUjcvCdLkBGBORzn1VV9abKBHUrpsMr7sl7nnNjK1GlqbpQBIx8fvf/rZ3l811QMmY4gfZj2okY4+F/Qh9W77dmV6ovzSDKWICND1fEt5v2FGWMewF3lIOZpmKgwpXPlL4ZRoesXMb9WLsk7pbZUfF2lzxrPYgVf38P5haUy/swpNxJeMmA0ogcKkP2hfiRmHEPaWCxcZBz5wAt5iEdGFHuatGUwOfXI3fhbtNzpVtCJZdn/NVM2gJtVumsWz6XXqXL65bs7Wv5W8/R4ndpzgxFEo7cSMe7kGH1Q==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by SA3PR12MB7857.namprd12.prod.outlook.com (2603:10b6:806:31e::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Thu, 19 Nov
- 2026 16:46:34 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0615.012; Thu, 19 Nov 2026
- 16:46:34 +0000
-Date: Thu, 19 Nov 2026 11:46:31 -0500
-From: Yury Norov <ynorov@nvidia.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Yury Norov <yury.norov@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Ilya Leoshkevich <iii@linux.ibm.com>,
-	Johan Hovold <johan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
-	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-s390@vger.kernel.org
-Subject: Re: [PATCH 2/7] sched: restore preferred CPUs when hotplug removes
- the last one
-Message-ID: <av8n5_x8WghrGbTb@yury>
-References: <20261113184257.621707-1-ynorov@nvidia.com>
- <20261113184257.621707-3-ynorov@nvidia.com>
- <1da4ec68-6432-4e2d-b435-0761dffb19a1@linux.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1da4ec68-6432-4e2d-b435-0761dffb19a1@linux.ibm.com>
-X-ClientProxiedBy: BY3PR03CA0013.namprd03.prod.outlook.com
- (2603:10b6:a03:39a::18) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=B3kk/OBj
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B195B1575;
+	Thu, 19 Nov 2026 08:49:27 -0800 (PST)
+Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7AF913F673;
+	Thu, 19 Nov 2026 08:49:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795106970; bh=IiLQbl4Aj+8tTdvdABlG6yvOBd4JN68GGYmsN0bK1tM=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=B3kk/OBjpeFYKWivVD7PEcO9EymcBIVovrtYlJ4EDH8VnaJKAcR+6RLXKYLtNSPuw
+	 2jlTG6nuc5tKfMzbY+ijRQIkiV4QWGdYI8QDvQlIs7xg87tZ+pci1AtpcXAbPrJLUB
+	 uNcQC1RggpaMJiIyI8mnhC6UoyokuDMpE2UEbmuI=
+Message-ID: <6dd79d09-576b-4086-ba5c-7f8663292a6e@arm.com>
+Date: Thu, 19 Nov 2026 16:49:27 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -123,111 +53,184 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|SA3PR12MB7857:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9b5efa3-da1b-4ecf-57d6-08df465cab76
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|1800799024|376014|10070799003|23010399003|22082099003|18002099003|261026140227099003|261021121427099003|261022105027099003|261102123227099003|261028144727099003|261022075727099003|56012099006|10067099003|4143699003|11063799006|5023799004;
-X-Microsoft-Antispam-Message-Info:
-	XeBhr1meS+ssfvQDW0rSYKnFRE7/onUX4FRjWxbKpubSPXe6yVABIDPN/48LMOW1DLaXZXGOT5nxbFI9+HNyXpXDFV6n3P+dHIa7wzwaDz4zbHrJ0p+ZMGSF+xwGEgvRJ762WYsHmurmgYkXzf3hvmnOyMJSCaMKqe8l5o5G3T9pO0CRTkZH2FXSkc2KD19jlZ83OGFhfmJzboiftgzyZoH+RbgTRTgZ1/PA2wGL5f+gh4tORz7xPgLs4YSem5ATYMOGrV0cgGdhfiNidt7k1YA9mdYF8SkF8BvWwFsr+DiQtTQXnaTIRjBw1I3pq0cz4lcSDrP4tIx460uefRkMHsELR100uERnsNkEoc3ehyeb+4ZqhZyyjkEEPmUPKHRaNtzvSkttg9ybq6M/FGJftParI3UMpbMCHKD0H37goiZQB35LwBbkg31vVA60V61X2Rwbrr9/Ub4Y0BH6TgTWtT7VPMussq676en3Bl0k8+up7kJR+ETBgJuaUPVpq/k3CDUdmkktNg3S2KxjPX71IA9M+Q3Kb3tzh2H3ct3IXkrWieWg36V7P0w+Uh9cqdE+/ABWVng3g/G3V+YasdQXg6j+X8NaZc4Ul9Eq9vIpt7jXeYm58vEC9qpZpRzkC0kiR4a9AKJVfgOk9GXVtAY7UJOSt4OBGenbs2o9vgcH74o=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(10070799003)(23010399003)(22082099003)(18002099003)(261026140227099003)(261021121427099003)(261022105027099003)(261102123227099003)(261028144727099003)(261022075727099003)(56012099006)(10067099003)(4143699003)(11063799006)(5023799004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?iv1yh/u/FLzFAROn/tCwnflAtHsuz0K7TVuTyAxyNTqrJToXUNVjtRX7A5MC?=
- =?us-ascii?Q?P3Zif4LGaXy4IiWP7NZtib7FpVwfUdez1YyM03nFMFdOGadP9opvtQSJbk+B?=
- =?us-ascii?Q?bQg+om8vW7kHj6QAMLBFY1os2Sm0zrmltM3Mm/7A1aGum1NEAtHvJ9JZIvGG?=
- =?us-ascii?Q?pnEJVzzd7VxpheWxaNuLuVIKQjMEJe6z9V/CNUj7pgp++7jf4Ayd2g5Z7Ytq?=
- =?us-ascii?Q?D3AkBh51IkA9Ri7SNf/fNi9FwQFbolGJuva44aHfNoXWqMpp5mZHS3hWkaZU?=
- =?us-ascii?Q?mOhWFFryJEAA7Q2MJFfb5RRiXuIIU6bzLVTZl5mGQLvaXc1qxOwfbabjGMje?=
- =?us-ascii?Q?CLddwxEQi6NJVmMNHQTXBU47+fFH0YjNShp5PPdj6eizsgtPdRhnnsNYRpTm?=
- =?us-ascii?Q?cdsSMJaZy4O+Ibb1lbd9Cm5xvYVqhpDi9nzODf61oimKRDnyBTEFci+Z2xY8?=
- =?us-ascii?Q?2qFnVlj96FKOPq5dMH3qUnxzQQHSE2AhuoO4p4ZscaGLnBst/Gvp+7sXS1bA?=
- =?us-ascii?Q?vfCatDdAyyYD580h8gNf8xMNEwORcuUakmMgVgpbi3gri0qNIW0jh54bVGJA?=
- =?us-ascii?Q?Rp+dcwMjqnOOCEvWPI0FOPPxfitffFVAKw0BMuKmfKcw+j+v8xWGCR5UR5mY?=
- =?us-ascii?Q?Vx1qk+uF98VX/NszjOxnAbTKkfVCdSXOpWdv3ww9jSNR2gViGiK/CcFxuZGf?=
- =?us-ascii?Q?6GWbLNAnBlH4SNyQYv9dvCKJTK2SddWIPp727vgyDA7BUN8uI3eu5lrxjbt3?=
- =?us-ascii?Q?3fQCmROiha6eNr77+EVMTcuhuQLiNZVmZDPJDkeaTnf50qbIbhgp1JCf6eMP?=
- =?us-ascii?Q?VjYhXrXRhD6kgKwI38AMyG/23HdrpwrcGnXbLWcvA04S2+x+58eVtvrFmdFP?=
- =?us-ascii?Q?1C53G+sXrydYxzuFA7gU/iHdP1QFvuGPfV082mcnFGxSXET5To0864ihz3yj?=
- =?us-ascii?Q?F93boDNorwSzaKHgrO5RC5VhvZGb0ZdUcVtUlWMKtfUDPwkbW+DCiys+cHWD?=
- =?us-ascii?Q?1mCwlFVMOLeWb+naWwETboeFq5UadXiv4pko4g0IJkKh6d1c2vzp1kdDLjPW?=
- =?us-ascii?Q?hm42TGaXdFutHmShegoCWg9ghz/kaks+wzR2k5Nsz3fEF90zGO52m08UMjaD?=
- =?us-ascii?Q?5AO+77nYpZI1mQCPlziSAUHMzoBOjv1+gu4YpEqL3wcvNAsy0fB38e4KEVwh?=
- =?us-ascii?Q?1k4E/+NywaLvyDCP8ICoAT4V6gqE2KSJsYzYJ8xNaKhuKPYqbYbKxc1m7LC6?=
- =?us-ascii?Q?xuBg4/TcjmmKf9rAo22S7j6ojiLg/8ZmBNnuQwGm4V1renHip5Swo+y6L83u?=
- =?us-ascii?Q?kFRJHy86pBmcTaQ9i1MQtXVWcv+eph/+q/oL0HUbmoeGkUll3CcpKuArNE4n?=
- =?us-ascii?Q?QqIQe8alrqexJYjOb/fLRJhiB9w5Z0juZJKDRLGslFFMCW29UL0hYt9xOU6g?=
- =?us-ascii?Q?cofgiEJ9B/bV+vqD5hg1hjRHRBJwqKXo5SPb2yiO5T8CVa5Zp+rhf4O32gHP?=
- =?us-ascii?Q?ISxpRyI4ilxqLrr1QALtNMd0nDidT/k5qDVM6nh0hjLdpiKMd49LW/+tFCCk?=
- =?us-ascii?Q?txhJmCQFiHZFroP/uJOxiphribnaIe2G9Xr1uxJ1O24TyVXKi9CpzlFq5z8U?=
- =?us-ascii?Q?KtNGEUpiX3eV+0cITXOi41JjktNc7iiDmxQKR2tXzinodyrOUhBzUDWr9vfM?=
- =?us-ascii?Q?eOF5KSng5u6AOs1/u0HSKPxyDuiLYpf1q81ijHw9dVkmQ/FyhK5i+ghW6YCg?=
- =?us-ascii?Q?cRafkSVBCzBqr5RmV2GiHMth+LqaaaJcT3zxlF4lErMtDfewhFIi?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9b5efa3-da1b-4ecf-57d6-08df465cab76
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 16:46:34.2273
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tJYxJYAJuHh4s28NoprzPFkLTIqCKu+qrQHSNBkOdfb9gsN4LsjhZT1OkyGZrj3+qYAUUx45E9SsiKOFXsgenA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7857
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 5/6] fs/resctrl: Release the limbo RMIDs when the CDP
+ state changes
+To: Jinjie Ruan <ruanjinjie@huawei.com>, tony.luck@intel.com,
+ reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ babu.moger@amd.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, bp@alien8.de, tan.shaopeng@fujitsu.com,
+ gshan@redhat.com, jic23@kernel.org, fenghuay@nvidia.com,
+ zengheng4@huawei.com, x86@kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20261119094858.813874-1-ruanjinjie@huawei.com>
+ <20261119094858.813874-6-ruanjinjie@huawei.com>
+Content-Language: en-US
+From: Ben Horgan <ben.horgan@arm.com>
+In-Reply-To: <20261119094858.813874-6-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 19, 2026 at 11:43:40AM +0530, Shrikanth Hegde wrote:
-> Hi Yury.
+Hi Jinjie,
+
+On 19/11/2026 09:48, Jinjie Ruan wrote:
+> On MPAM the counter of an RMID is selected by the PARTIDs of the CLOSID
+> that owned it. Without CDP, CLOSID c is PARTID c; with CDP it is
+> PARTIDs 2c and 2c+1. An RMID that stays in limbo across an unmount and
+> a mount that changes the CDP state is read through the PARTIDs of the
+> new state, which are not the PARTIDs its cache lines are tagged with.
 > 
-> On 11/14/26 12:12 AM, Yury Norov wrote:
-> > Offlining the last preferred CPU leaves cpu_preferred_mask empty. Normal
-> > fair load balancing stops, potentially leaving CPUs idle while having
-> > queued tasks.
-> > 
-> > Currently, steal governor is the only module that may modify the mask,
-> > so it takes care of it by resetting the mask to mirror the active cpumask.
-> > 
-> > The design allows alternative preferred cpumask managers; relying on
-> > loadable modules to maintain consistency of the core data structure
-> > is not worthwhile in general.
-> > 
-> > Restore all remaining active CPUs as preferred in sched_cpu_deactivate()
-> > path, without relying on the steal governor to recover.
-> > 
-> > Signed-off-by: Yury Norov <ynorov@nvidia.com>
-> > ---
-> >   kernel/sched/core.c | 8 ++++++++
-> >   1 file changed, 8 insertions(+)
-> > 
-> > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> > index 175b52a7ea79..b5c158c4efad 100644
-> > --- a/kernel/sched/core.c
-> > +++ b/kernel/sched/core.c
-> > @@ -8723,6 +8723,14 @@ int sched_cpu_deactivate(unsigned int cpu)
-> >   	set_cpu_active(cpu, false);
-> > +#ifdef CONFIG_PREFERRED_CPU
-> > +	if (cpumask_empty(cpu_preferred_mask)) {
-> > +		pr_notice("sched: last preferred CPU%u offlined; make all active CPUs preferred\n",
-> > +			  cpu);
+> With 5 PARTIDs:
 > 
-> pr_warn instead?
+>   mount                  CDP off, CLOSID c -> PARTID c
+>   mkdir g1..g4           CLOSIDs 1..4
+>   umount                 RMIDs enter limbo with CLOSIDs 1..4
+>   mount -o cdp           CDP on, CLOSID c -> PARTIDs 2c, 2c+1
+>   limbo handler          reads CLOSID 2 as PARTID 5 > PARTID_MAX 4
+>                          MSC error interrupt, mpam_disable()
+> 
+> The other direction is worse because nothing reports it. If resctrl is
+> mounted with CDP and mounted again without it, CLOSID c is read as
+> PARTID c, which is in range, so the limbo handler silently tests the
+> occupancy of the PARTID of a different CLOSID and frees or keeps the
+> RMIDs based on it.
+> 
+> Where the RMID depends on the CLOSID, as on MPAM, release the RMIDs in
+> limbo without reading them when a mount changes the CDP state, instead
+> of restarting the limbo handler. Cache lines that still carry those
+> RMIDs are accounted to the next user of each RMID. Where the RMID does
+> not depend on the CLOSID, as on x86, the CDP state does not change how
+> an RMID is read and the limbo handler is restarted as before.
+> 
+> Compare the CDP state of every resource, not just the L3: on MPAM, CDP
+> enabled on any resource gives every CLOSID two PARTIDs in all MSCs, so
+> mounting with -o cdpl2 alone also changes how the L3 monitors read a
+> CLOSID, and cache levels beyond the L3 would too.
+> 
+> Reproduced on QEMU with the sequence above:
+> 
+>   mpam:__mpam_irq_handler: error irq from msc:1 'MSMONCFG_ID_RANGE', partid:5, pmg: 0, ris: 0
+>   mpam:mpam_disable: MPAM disabled due to hardware error interrupt
+> 
+> With the change the sequence completes without an error.
+> 
+> Fixes: 6789fb99282c ("arm_mpam: resctrl: Add CDP emulation")
+> Suggested-by: Ben Horgan <ben.horgan@arm.com>
+> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> Cc: <stable@vger.kernel.org>
+> ---
+> v6:
+> - Drop resctrl_arch_mon_cdp_enabled() and compare the CDP state of
+>   every resouce's cdp state, with a comment on why they are
+>   checked (Reinette, Ben).
+> - Restrict the release to the systems where the RMID depends on the
+>   CLOSID, in the changelog and the comments, and keep the hardware IDs
+>   out of the file system comments (Reinette).
+> - Reword the limbo_cdp_enabled comment (Reinette).
+> - Drop the stable version range, the Fixes tag already gives it.
+> v5:
+> - Split the change of the limbo handler lifetime into the previous
+>   patch. The limbo handler now stops while resctrl is unmounted on every
+>   architecture, and only the release of the RMIDs depends on
+>   CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID.
+> - Drop the cqm_work_cpu changes. resctrl_limbo_resume() cancels the
+>   worker before it queues it again or releases the RMIDs.
+> - Move the rdt_disable_ctx() reordering to a separate patch.
+> - Add resctrl_arch_mon_cdp_enabled() instead of comparing the CDP state
+>   of L2 in the file system.
+> - Rename limbo_cdp to limbo_cdp_enabled and document that it is only set
+>   with CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID.
+> - Check QOS_L3_OCCUP_EVENT_ID first and drop the rmid_busy_llc check.
+> - Use lockdep_assert_cpus_held() at the start of resctrl_limbo_resume().
+> - Describe the reverse sequence, from CDP on to CDP off.
+> - Link to v4: https://lore.kernel.org/all/20261105070934.2258613-4-ruanjinjie@huawei.com/
+> v4:
+> - Use resctrl_mounted instead of a separate limbo_paused flag.
+> - Record the CDP state once when resctrl is mounted.
+> - Add resctrl_limbo_resume(), called once resctrl_mounted is set.
+> - Previous Link: https://lore.kernel.org/all/20261031094616.1691026-1-ruanjinjie@huawei.com/
+> ---
+>  fs/resctrl/monitor.c | 35 +++++++++++++++++++++++++++++++++--
+>  1 file changed, 33 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
+> index ede1708b920e..2c8c60138768 100644
+> --- a/fs/resctrl/monitor.c
+> +++ b/fs/resctrl/monitor.c
+> @@ -70,6 +70,13 @@ static u32 *closid_num_dirty_rmid;
+>   */
+>  static unsigned int rmid_limbo_count;
+>  
+> +/*
+> + * @limbo_cdp_enabled - True if the RMIDs in limbo were placed there while CDP
+> + *     was enabled. Only used when CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID is
+> + *     defined.
+> + */
+> +static bool limbo_cdp_enabled;
+> +
+>  /*
+>   * @rmid_entry - The entry in the limbo and free lists.
+>   */
+> @@ -1044,12 +1051,15 @@ int setup_rmid_lru_list(void)
+>   * cqm_resume_limbo_handler() - Restart the limbo handler after a mount.
+>   *
+>   * The limbo handler stops while resctrl is unmounted. Restart it on every
+> - * domain that still has RMIDs in limbo.
+> + * domain that still has RMIDs in limbo. Where the RMID depends on the CLOSID
+> + * and the mount changed the RMID index a CLOSID is monitored with, the RMIDs
+> + * in limbo can no longer be read: release them instead.
+>   */
+>  void cqm_resume_limbo_handler(void)
+>  {
+>  	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
+>  	struct rdt_l3_mon_domain *d;
+> +	bool release = false;
+>  
+>  	lockdep_assert_cpus_held();
+>  	lockdep_assert_held(&rdtgroup_mutex);
+> @@ -1057,6 +1067,24 @@ void cqm_resume_limbo_handler(void)
+>  	if (!r->mon_capable || !resctrl_is_mon_event_enabled(QOS_L3_OCCUP_EVENT_ID))
+>  		return;
+>  
+> +	/*
+> +	 * Where the RMID depends on the CLOSID, the RMIDs in limbo can only
+> +	 * be read with the CDP state they were freed under. Check every
+> +	 * resource because CDP enabled on any resource changes how every
+> +	 * CLOSID is monitored, so CDP on another resource alone also changes
+> +	 * how the L3 monitors are read.
+> +	 */
+> +	if (IS_ENABLED(CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID)) {
+> +		struct rdt_resource *res;
+> +		bool cdp_enabled = false;
+> +
+> +		for_each_rdt_resource(res)
+> +			cdp_enabled |= resctrl_arch_get_cdp_enabled(res->rid);
+> +
+> +		release = cdp_enabled != limbo_cdp_enabled;
+> +		limbo_cdp_enabled = cdp_enabled;
+> +	}
+> +
+>  	list_for_each_entry_rcu(d, &r->mon_domains, hdr.list,
+>  				lockdep_is_cpus_held()) {
+>  		if (!has_busy_rmid(d))
+> @@ -1067,7 +1095,10 @@ void cqm_resume_limbo_handler(void)
+>  		 * it is queued again on a CPU picked now.
+>  		 */
+>  		cancel_delayed_work(&d->cqm_limbo);
+> -		cqm_setup_limbo_handler(d, 0, RESCTRL_PICK_ANY_CPU);
+> +		if (release)
+> +			release_limbo_rmids(d);
 
-Warning implies something unexpected or undesirable that might need
-user investigation. Notice is something noteworthy but otherwise
-normal.
-
-From the scheduler perspective, this is completely recoverable
-situation, and the message is exactly about it. Nothing to warn about.
+Rather than release all the rmids don't we want to check them all to see which are busy?
 
 Thanks,
-Yury
- 
-> > +		reset_preferred_cpumask();
-> > +	}
-> > +#endif
-> > +
-> >   	/*
-> >   	 * From this point forward, this CPU will refuse to run any task that
-> >   	 * is not: migrate_disable() or KTHREAD_IS_PER_CPU, and will actively
+
+Ben
+
+> +		else
+> +			cqm_setup_limbo_handler(d, 0, RESCTRL_PICK_ANY_CPU);
+>  	}
+>  }
+>  
+
