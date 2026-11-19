@@ -1,75 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.217
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795075230;
-	b=NN2guQ/BfJU3qPN7HbLDK7mdGoHf96yvdPPTUf7xqM9VxjG+BNgkSUaYq3rucgFTmktX
-	 Gk79+jBJWBDnvyok7b2aqyswvtXYJD7DqsmdX3bmeZAN+fye7mCy030IAxSvbvq1lhGCq
-	 M3hr9PBj/GNKcoKR5HEwG0EQh1SNakhO3gP3/1H8ytDXBlKJW29oP1EQ01pWWk4iXZ7oA
-	 qH297mTzo2s3taxcme87mG2aycmTt3ir1KGf6l83QKH0745fKRqc/74paPbj+P5XVLBom
-	 dm5c7cNf7gR1pIdclIDl7NX6ANreBijGqueMKRGtkWxPio1Dj/T5WU1LLYJUA2+bzbg==
+	t=1795075464;
+	b=sy8vfU/FXfdKha2z86Q7GNYOq0S3WWUM7C66cgNYVkgM6i2VwKb8dXUXV4UckJ/zNXlF
+	 QHhRlruG9tzE1gi0Y5H+hFBtagHmJL1ag4HrJafyc3IxPJsGqwH3Xw4piUyE0u9cUjGsG
+	 Qjpy9MibER3aiBUKwaHtecf6Cz2cS1KPEyy+wy+PTXrAXYUIqtfS+DQpzquCvBUupj23y
+	 oZqEGcFysvBeMsWNSvfAJvo+E8nhvJP6svkp47jeAMMTmDcVdeygeYuecaNWXoqVrM7eq
+	 YmIycAzisO4hilUiqCrmlvB8mpB0ZYmT5jN57Q4Ra7trPnuekh9w3AeShTiJgAuj13g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795075230;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=yhKTd9PFQglELBRtpTYu4W3W99Gioeh3CPcw8i00DlQ=;
-	b=oQEZbAOwCOQbjKO4IZ2jasFXdvjvj7mt/IvVGPbmqC7dXrC+SsxW/yyMnobK0bPMX2xA
-	 LHKfZrmR+uQ+3T6rrhVAXfYaR/MrNPDrpYbWLu9Po4qjx0zgI5z640kwBEFCoAjSdW36M
-	 fp/V07yg0j36BtZEfito0U4EWedEnfCTHq21HYf17bVHqlsgX0iu/C3VDmqhqwuTmElGF
-	 i5r4/S+DhGfyy+KcIuVeIKGumkZtOENif7R90lwyJA/Zw8xIbA8h3lIqyXypEIhByHoli
-	 UIQZqCOb8P2bwfcLDgDYAbswmivT96FVrdasmpKwakRU277exp6hWY6JGdTomf9OwEg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795075464;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Received:From:
+	 To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=NNtg6nawYJsI+Au2yKHzzfTB8XIjxD+Um0wS7YZDvu8=;
+	b=Z3+LYOxKXn94UP5hJdauL2Madga14n3WPopHyMQXcilQIIUJsog0BcuCsHt9DLqqJFz6
+	 HuqHEnsjM7c67FCpNPddu8qAguVLlBP1U5CQbezXOic7s1Us5GPFwZYikVU8PVZPhtBfe
+	 qtgn9gG1VDUAn4ZzFZzp3dg0EWoFkKhGrX78wuGGhpnC0FmztDWGvRmHhFdG8Gp3yirEW
+	 S2yNKaEczlj3tWDYa2UIchvxhO+zoxlFPSP7vuY/ABO3IzGD4lYKChX+a0ARpZb81K6BE
+	 G5xjWtamZiHmgUAwGL8osnknQr7YyLMpJmcNn39mSEdixACQJDjKjlmdC2qX6DDu3mA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VzGWi9uR;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Ug7itAqZ;
+	arc=none smtp.remote-ip=113.46.200.217
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC01606A324;
-	Thu, 19 Nov 2026 08:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC22B606A32A;
+	Thu, 19 Nov 2026 08:04:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC22B606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VzGWi9uR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF05E1F000C7;
-	Thu, 19 Nov 2026 08:00:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795075230;
-	bh=yhKTd9PFQglELBRtpTYu4W3W99Gioeh3CPcw8i00DlQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VzGWi9uROMYGTkKOazYsmKlhMzNc5nhXpnMk8mDh68gKBL3B+x0fn8IT2VwmfH1Ef
-	 rudOl0YdIbdAx9WxJt28qSgYc293YBRFbc8Reex7r49nSl3Ob3DnWeNsWSZz9zM/D4
-	 J+N6xHljw23oX/WnkCWcYVCe5dhPBUi3zbmc1vHWKeBpAAkzh8HIDjfPgwsxdcGmzn
-	 kd+9Pl6pkdZO9vLBWRqZH1YamDRZywlSVUnyqLLZt5beZMAkw1dBfs1s5W1DV9ew1S
-	 1zkx7BsNMPKEbu555/1Agg6ojWE7+gWcjaFLSgz9qRIjqB/d4ixApDFDjVAYb0CPxO
-	 Cd+MDnFgeZyyg==
-Date: Thu, 19 Nov 2026 10:00:17 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Muchun Song <songmuchun@bytedance.com>
-Cc: Alexander Potapenko <glider@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Chris Down <chris@chrisdown.name>,
-	David Hildenbrand <david@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Zi Yan <ziy@nvidia.com>, Muchun Song <muchun.song@linux.dev>,
-	Joerg Roedel <joerg.roedel@amd.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Ketan <ketan.kishore@oss.qualcomm.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	Sang-Heon Jeon <ekffu200098@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sashiko <sashiko-bot@kernel.org>, kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v3 2/7] mm/page_ext: fix client data alignment
-Message-ID: <av6skRQgBf7f70vd@kernel.org>
-References: <20261119065812.89959-1-songmuchun@bytedance.com>
- <20261119065812.89959-3-songmuchun@bytedance.com>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Ug7itAqZ
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=NNtg6nawYJsI+Au2yKHzzfTB8XIjxD+Um0wS7YZDvu8=;
+	b=Ug7itAqZcVfd+9VmIk0A9Ly6M2H5qwzHz2uYhaRzAtzvwCiT2yCZDmB3hInGBrg/EMMwG0P5t
+	d/zlOhQ8xrRWed4HTsGJg4yrrEl8BhLc/qAkSv3RSceU0UmjB3B5rRtPeAkoyq29pGNJ1feK55f
+	MyTTI8hyDhfsLfezjTXQHgg=
+Received: from mail.maildlp.com (unknown [172.19.162.197])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4jVWDk18jNzcZxp;
+	Thu, 19 Nov 2026 16:03:18 +0800 (CST)
+Received: from dggpemr200017.china.huawei.com (unknown [7.185.36.233])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7B98F40579;
+	Thu, 19 Nov 2026 16:04:12 +0800 (CST)
+Received: from whupemq100015.china.huawei.com (7.152.185.230) by
+ dggpemr200017.china.huawei.com (7.185.36.233) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Thu, 19 Nov 2026 16:04:12 +0800
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.220.94) by
+ whupemq100015.china.huawei.com (7.152.185.230) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Thu, 19 Nov 2026 16:04:09 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: <kuba@kernel.org>
+CC: <andrew+netdev@lunn.ch>, <davem@davemloft.net>,
+	<dimitri.daskalakis1@gmail.com>, <edumazet@google.com>,
+	<gongfan1@huawei.com>, <horms@kernel.org>, <hramamurthy@google.com>,
+	<ioana.ciornei@nxp.com>, <larysa.zaremba@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<maxime.chevallier@bootlin.com>, <mohsin.bashr@gmail.com>,
+	<netdev@vger.kernel.org>, <pabeni@redhat.com>, <tengpeisen@huawei.com>,
+	<vadim.fedorenko@linux.dev>, <wudi234@huawei.com>, <wulike1@huawei.com>,
+	<zhoushuai28@huawei.com>
+Subject: Re: [PATCH net-next v04 1/4] hinic3: Fix the RX stalls in hinic3_rx_poll()
+Date: Thu, 19 Nov 2026 16:04:05 +0800
+Message-ID: <20261119080405.123506-1-gongfan1@huawei.com>
+X-Mailer: git-send-email 2.50.1.windows.1
+In-Reply-To: <20261118180907.641e8e51@kernel.org>
+References: <20261118180907.641e8e51@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,50 +81,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261119065812.89959-3-songmuchun@bytedance.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ whupemq100015.china.huawei.com (7.152.185.230)
 
-On Thu, Nov 19, 2026 at 02:58:07PM +0800, Muchun Song wrote:
-> page_ext lays out client payloads consecutively without aligning their
-> offsets or the final entry size. This happened to work while the active
-> payload sizes kept the stride naturally aligned, but IOMMU debug page
-> allocation added a four-byte payload after data requiring eight-byte
-> alignment.
-> 
-> When page owner and IOMMU debug page allocation are both enabled on
-> x86-64, struct page_ext, struct page_owner, and the IOMMU payload use
-> 8, 64, and 4 bytes respectively. This produces a 76-byte entry stride,
-> leaving struct page_ext and page_owner data in every other entry only
-> four-byte aligned instead of eight-byte aligned.
-> 
-> Align each client offset and round the final entry size to the largest
-> active alignment so every page_ext entry preserves the alignment
-> required by all active clients.
-> 
-> Fixes: 466ae6978a5b ("iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC")
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Reviewed-by: Chris Down <chris@chrisdown.name>
-> Tested-by: Chris Down <chris@chrisdown.name>
-
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-
-> ---
-> v3:
-> - Cap client alignment at u64 alignment to preserve 64-bit alignment on
->   32-bit architectures (reported by Sashiko)
-> - Open-code the lowest power-of-two factor for readability (suggested by
->   Andrew Morton)
-> - Use a local for the u64 alignment (suggested by Mike Rapoport)
-> - Simplify the commit message to focus on the alignment guarantee
-> - Collect Reviewed-by and Tested-by from Chris Down
-> 
-> v2:
-> - New patch to fix the existing page_ext client alignment bug
-> ---
->  mm/page_ext.c | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
-
--- 
-Sincerely yours,
-Mike.
+> On Tue, 17 Nov 2026 20:08:31 +0800 Fan Gong wrote:=0D
+> > hinic3_rx_poll() can leave the loop with a completed CQE still sitting =
+at=0D
+> > the head of the ring, or with no WQE left to receive into, and still=0D
+> > return nr_pkts, which is below budget.  hinic3_poll() then calls=0D
+> > napi_complete_done() and re-enables the MSI-X interrupt, which is edge=
+=0D
+> > triggered, so nothing re-arms the queue if no further packet arrives.=0D
+>=0D
+> Look how you Hauwei coworker is fixing this in hns3:=0D
+> https://lore.kernel.org/all/20261118130330.3026625-4-shaojijie@huawei.com=
+/=0D
+> That's much better. Live-locking the system in NAPI when its OOM=0D
+> is pretty bad. My personal preference is to have a work that just=0D
+> checks for Rx buffer queue being empty every few sec.=0D
+=0D
+OK=
