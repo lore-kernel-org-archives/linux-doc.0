@@ -1,100 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795095092;
-	b=oiFU8PF0uZ9f346quLFQDEfXUPpT98gW9AWGuaDWyRTVu5b3K4qq6qKdY3vk9TtfWtu7
-	 T9OB2wcOTVYqfW5WZTOQi8RrzSMMaMK6ibGFKUt3Jd2CymDRiBXNDp4dRSMZuLsegDN8g
-	 LsOKOcOxgxXSrZh3yeJ5IBbwfGlG1LoALg/0yt9E6+zKFyGiJ4qxEISrZHFVijsx4KbSn
-	 i+88lq5uTkKPbyeQjjsXOx+dDyEPEYeUhLsYSR1MjOMydYoYleUi2cjZUldcBUYgsu2uP
-	 prSZVWtO5dISyk72NExduSGdzSUtoUahiU+dubDsTuX35QAcqYdDK51h5dXftpp03Aw==
+	t=1795095387;
+	b=C91qngnKT+CYzEXNwl8sF4NWXyqNjBmDwLGg9xaopjPNiY2m5/VIfBqpIrTnV4luTrk1
+	 tjbzmq96ITcxyM8qHlLruSUs+D/iT+1p3Id9Gx7idbhEaqZGi4zJzNrIBV6lnahkyFuhW
+	 QjpXYqiEsgUYwqyAI7tHtohdNzYmQPG8NMJSYozUnMF8g31aQVDwacoKQPs+D5VT9HHJc
+	 miG17/GsNg8cETYHtnTKnIr1Qc2mSB8cvXJv8hVAuVuZpDhg0NDrju1ooQ/uv0GJmrjSw
+	 5U3WTOdkVPTpKzzO+qsWV00eomaZaPNWHRFDeZuBHYUedo8QVEnATvi8x5HcTnEd0dw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795095092;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=j+Za7bMQTz/jGW5KKJ1wZv8OZM3LMy2RfyXXPrr5ddk=;
-	b=ZdRUG3+cmj/6Oc6tD2jZ7NaPDFMu7XSpV1cnBeAyPmzZJC8OhoHyW7EJbAT3yHHqNVMO
-	 8WJiVZTI2FNbzt4feN93k9TPaU2biv2oRotTRdIQv8+2V2NS5Rt4Qef5UesPVhEXoh8kf
-	 sKkDtwP1D3efcTKvIW5vbyv3KxUv+BSDN4aIU1KONoWLrkOmbz0IjLKkeRCzvOHJv5iBZ
-	 JjAvwSNITlHcUr9PxlBFSu279Z1J+ud2U4W2OfEblxOFRXHOwCd35mqBb0K566OEJrLb5
-	 FQmAkSd32+DY1iK0m+iMr8Qd+WWQbc4wHejy0uzQP5RDwAcNby8ZXYYDA/n4APpB9Wg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795095387;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=1o95545vLBlL7TyXtLwPVUZGaN8C7nShjfd8XxYNHPA=;
+	b=1uEVQhQAQuJYH92KyErJRJzG5IDjg4or18s8yIf1GI2M1NDsa92CRCIjSBsvx8ZiorNy
+	 GvMIp2FMCS1dNiZmzzWGyrs1+0w7cKhNoM0fJLoBLN9q09mhhSMOPc8MRBG/7R/Kc9lLw
+	 z5pn5kDB6kV1daOeQUHWYH509Aq0wshnx9L1avpvNEWAvBruqs/yO3eY8vj6eqetvRuBd
+	 eKcoc/mntHgy882BcTnMUN6BLfna1fAzeebja7/sEvqDNmzWfefC5/WajyM+IbVHsfJin
+	 PphgK/44KvRYKDm/7wnu125lenRtgPVz3//U0mR0rIAhhALkCdl30LNA3VxkiRDEPEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lunn.ch;
-	spf=pass smtp.mailfrom=lunn.ch;
-	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=mOPIqIOm;
-	arc=none smtp.remote-ip=156.67.10.101
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=imbIvVnG;
+	arc=none smtp.remote-ip=209.85.221.52
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CE8606A320;
-	Thu, 19 Nov 2026 13:31:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0CE8606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE820606A32F
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 13:36:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE820606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=mOPIqIOm
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=j+Za7bMQTz/jGW5KKJ1wZv8OZM3LMy2RfyXXPrr5ddk=; b=mOPIqIOmu6kDdwVuemWcNK9Dnn
-	3scHm6yoxWlXhjKDg88oGkRMzRyRggfFiPC7IQHuffZ0g5VsQiVACcLcbYFf/YJimxzK2sEH4Ma7z
-	s46ArUotTLBJyzxjIYKthUVRWJnOH1H0QxoK1FCOjd282vF3lK0QU0S6Yx/wpK07j6KI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xU2Dn-0002Ui-FK; Thu, 19 Nov 2026 14:30:39 +0100
-Date: Thu, 19 Nov 2026 14:30:39 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Chris Lu <chris.lu@mediatek.com>, Mans Rullgard <mans@mansr.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Cornelia Huck <cornelia.huck@de.ibm.com>,
-	Andrew Morton <akpm@osdl.org>, Jeff Garzik <jeff@garzik.org>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev, linux-coco@lists.linux.dev,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Greg Kroah-Hartman <gregkh@suse.de>, linux-sound@vger.kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v3 18/31] net: phy: Use the compatibility driver
- attachment API
-Message-ID: <7c87310f-e1c6-4a84-8161-11a6e5d91785@lunn.ch>
-References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-18-d655875c4bfb@nvidia.com>
- <71c1b931-c553-46e3-b49a-51167f168ac4@lunn.ch>
- <20261119071811.GG162713@unreal>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=imbIvVnG
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4a9be758734so449069f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 05:36:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795095385; x=1795700185; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=1o95545vLBlL7TyXtLwPVUZGaN8C7nShjfd8XxYNHPA=;
+        b=imbIvVnGlnuxVAd/nTLbRi7ZrjLPdlr0QSNGutu/hLxVTJOSFIuJqF9bHSWRI/3t+m
+         EbnVBNJV/paz5/ImCrHFD5wgepKh3Fc/9/JvE45PmFk9UyMPOFQ1NEPzpJDe0Bsw17Ft
+         +rbnvhdn7hDHkjnt7+sdzono6/yT7ERYLrx279MN171s4qv5rUpE7R6062l+3kehnSAT
+         To1rYVXkNZjWIpiSQNB/jcrwVlD286eLRnk4O8Y2hhmvtajgFMi+8WiQ4FOKH3oFLlIw
+         zDwdnNIWk8HZZJP7T+wccs8GVlOwdUWcLgAt5Lxt6KIIFtxtCHBrUlIr83i9L/KDXPEh
+         QsGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795095385; x=1795700185;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1o95545vLBlL7TyXtLwPVUZGaN8C7nShjfd8XxYNHPA=;
+        b=jmC8mqryBX1NH/IFRcUDqW5Ks3goHfYOUh0/r98Ppt/c3yjE/dh+myGO8wD/zRB5ki
+         Y43HWSAEgjTPQqtpMpyZy6myF32/2fQP53thIAS2yE9JRchHtGBuYEv5mSPKeUeWfw6Q
+         jQ6Ws++IEMWe0O10b5NDnhWRcacYz8dT1BxaYQeHE/Yk3UEJEqGUVzEOf66k15aP5t1k
+         Z6V0IbvhL+cY8BbgBNu/ma+6xxio4G6l6VMWldoMbAYrZv8FgWXYvb+eBMBlo2oSiMAQ
+         dpjKbLwq6zC5t33idsHTZb4CMNUP3p5lXfk7nDQzAQFtLjMCwB6BJvzxP7S+YtfWp5t5
+         t+nw==
+X-Forwarded-Encrypted: i=1; AL+hErEfxnFkEon4lcXGJkQuFLrbDMV1ROxQ7urc8JZg196Vd0RzKBJLUhkFCzpQ+AJOrcWoaxTF6WIXa6Y=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Z7l6ph5r3rCoZQfk18o9/8rBUZh52iPUK66c3hUAbiC1TvJo6
+	7tGLH99o9PshdPjWq28y7SprNGZNc+xzgzGLDVJOPzNziIUIGL/tuPrX
+X-Gm-Gg: AZFdTZf2iMp8qbX3Q/KJxGbLMRTbWBnFvS1XeE5IpdFzvHBSv+HbiGcK5kMsSkderf+
+	V1lp6/mlUwUWyWAbLl531T523RNiXIpnVp56Hz6UnUIT+28Aqok/65x7fmmT44Mb4oE9T7ClGJ5
+	I5RQO1pXbotl8j56RG2wJj1YfnLXUCBJSFucq7zHWwWvRs+bx9oVpJEyJHJ/HVuJQmaKHFV45x+
+	3+JD1Mls5pZ5Lht+nW850LyDFCGXNOGCW+LmQu2pUL6UXFvDH3Ga0kRYc1Yi0gVuRMQpaCQcMXD
+	ChaoeWzB2C2sVevHxAY2lo7gcyMv7CntvVL436n06UIt8qVRCporSQk9ujDRj7sBqACXwe05BmE
+	4IzkJQWWEEgyRV0jeWEHu5rtKIeRp4orcW3trVLhy7+6Z4FQsxtLyShHgrfbZXNaBW86LF74p1V
+	jfGWdpQGjrZrhDBX8/A5Z0AgZk6JEC2vsTnGijc7rJVA7JHms4bMeOHOmZoRY7lLG5gTc9CGuVE
+	z+/oBITPANk4UDgkkUh7V7ijNWDkd5cWel2VtPm+m23yHDPPzeh22HPnEpJAY9a/DZGzM/Kv34/
+	31qT5hnz7ihtG7VkHV3ThyxiCEPKS4JS4PwRMoZ3VA==
+X-Received: by 2002:a05:6000:610:b0:48e:3085:7cf0 with SMTP id ffacd0b85a97d-4a63ce05ddemr14483518f8f.51.1795095385263;
+        Thu, 19 Nov 2026 05:36:25 -0800 (PST)
+Received: from [10.111.176.198] ([2001:19f0:6c01:2c43:5400:5ff:fef6:1b30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a6573ba95csm11547911f8f.56.2026.11.19.05.36.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 05:36:24 -0800 (PST)
+From: Oarora Etimis <oaroraetimis@gmail.com>
+Subject: [PATCH v3 0/2] drm/vkms: give every composer user its own switch
+Date: Thu, 19 Nov 2026 14:36:02 +0100
+Message-Id: <20261119-composer-v3-0-dd470a820303@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,28 +91,63 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261119071811.GG162713@unreal>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22NQQ7CIBBFr9KwdkyhQsSV9zAugE5bjC0NVKJpu
+ LtQN104u5e892clAb3FQC7VSjxGG6ybMjSHiphBTT2CbTMTVjNB84Fx4+xyBMZIwWpOuTYtyfr
+ ssbPvbep2/3F46QeapfTFGGxYnP9svyIt3p/ZSIGCbHmn5Elw0Z2v/ajs85gFUmYj24dyFzKoQ
+ cmGo9QKhcZ9mFL6AqkcbqHrAAAA
+X-Change-ID: 20261111-composer-cc9620515bcd
+To: Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Melissa Wen <melissa.srw@gmail.com>, Oarora Etimis <oaroraetimis@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.15.2
 
-On Thu, Nov 19, 2026 at 09:18:11AM +0200, Leon Romanovsky wrote:
-> On Wed, Nov 18, 2026 at 09:21:45PM +0100, Andrew Lunn wrote:
-> > > @@ -3813,6 +3809,8 @@ static int phy_probe(struct device *dev)
-> > >  	int err = 0;
-> > >  
-> > >  	phydev->drv = phydrv;
-> > > +	phydev->is_genphy_driven = phydrv == &genphy_driver ||
-> > > +				 phydrv == &genphy_c45_driver;
-> > >  
-> > 
-> > Why do this here?
-> 
-> This flag marks that driver is already probed, which is reliably
-> happening in phy_probe() under right locks. It was the easiest
-> way to battle AI reviews which don't agree with how PHY subsystem
-> performs driver bound.
+The composer has one switch, shared by the CRC reader and the writeback
+jobs, so either of them turns it off for the other.
 
-I've not seen the netdev LLM do a review yet. It will be interesting
-to see what it says.
+Split it: vkms_output keeps a count of holders, and a get() raises it while a
+put() lowers it, so the vblank reference is taken by the first holder and
+dropped by the last.  The CRC source takes and drops one per open()/release(),
+which the core always pairs; each writeback job keeps its own record.
 
-   Andrew
+Patch 2 keeps the lock over the count and the queue, so the state the timer
+read is still the state it queues.
+
+---
+Changes in v3:
+- the CRC source no longer keeps a flag of its own: it takes and drops one
+  reference per open()/release().  With a flag, a second reader skipped its
+  get() while the first one was still releasing, and that release then
+  dropped the reference for both.
+- vkms_composer_get() returns whether it took a reference; a writeback job
+  keeps that value and only drops what it took.
+- Link to v2: https://patch.msgid.link/20261119-composer-v2-0-a935e9bae6be@gmail.com
+
+---
+Oarora Etimis (2):
+      drm/vkms: count the composer users
+      drm/vkms: queue the composer work under the output lock
+
+ Documentation/gpu/vkms.rst            |  5 -----
+ drivers/gpu/drm/vkms/vkms_composer.c  | 33 +++++++++++++++++++++++++--------
+ drivers/gpu/drm/vkms/vkms_crtc.c      |  5 ++---
+ drivers/gpu/drm/vkms/vkms_drv.h       | 29 +++++++++++++++++++++++++----
+ drivers/gpu/drm/vkms/vkms_writeback.c |  7 ++++---
+ 5 files changed, 56 insertions(+), 23 deletions(-)
+---
+base-commit: 97429bac371273886238bfcf63d78e7405cacb46
+change-id: 20261111-composer-cc9620515bcd
+
+Best regards,
+--  
+Oarora Etimis <oaroraetimis@gmail.com>
+
