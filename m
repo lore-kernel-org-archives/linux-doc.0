@@ -1,100 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795102473;
-	b=b5UGE8EKX7A52oYkL0qdtJByxVJk3pIiz+XViVYMqiFBFcSBBtZ2SQeeSuMbnq0WVrCs
-	 o7YA7GsyBem7L2J/oYFnkRcoVDFHdTwMOjELYp1QWShuD3RA/M41j2dILfDM23SSvop/7
-	 dZn5zML7iFxsNAKXuMVoBKAFQ41aGBbxJBTFISTQqUOX9/KF0rAh4Ks+NdplIElK0IWZ5
-	 RJ9OQDABLvUrhZ9cSTGaa+2HPDfVbpwKdWLJt6bR5FiGNAj6lTqUxrXcHuzwHZZdXQv9K
-	 hWMEWN2Vb58bpdF9JfzNNUC56MlhK40MaR5G610FjUXgA1+THS/zqJFY96qxd3oySUw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795102473;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=9xtf6A+gSw+eWEULB7BZqWqCj4xTiZcT/S7MHr0Kzdw=;
-	b=HutlmU51A4u6u+8DAQmiMAB8fREp9y+7pAu6D/SdT2x47RFhmex6eBuE7naBgSNlv51x
-	 kcnx8muPyD4ePAsufvygS1TS2i7pI/yctKFKCoby9nHuKW0bQ0G4yytCX/4cjV11hIGRJ
-	 ACfugn5+XEhuONR4o6IWfj+RZVoFRG1AYXJu5Yl/EGsTbmVh+lwjz2+jVgS9yy/eSwKKo
-	 ZzW36qVlDglBCwb/w2FPGB6yj/0NKfSkTbgUumtHuuaV/bt2PSrUx47KUJ+OSyvOxUATx
-	 0kMRDj+trj2Dlg5FDLrXlqTWfqOQzRSKOOB4m/ltDO9hgOJs9f7vz8GeyrWhtzBA7ug==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=pengutronix.de;
-	spf=pass smtp.mailfrom=pengutronix.de;
-	dkim=pass header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=AndOcRjE;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA2C606A320;
-	Thu, 19 Nov 2026 15:34:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFA2C606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795102597;
+	b=q0NX0u7yjb5Ndj+rw+gb7qG5vqKGKvozioaEBchr4IEWJxWEaBiQ2Az5zcEYnOmtEfxc
+	 +5vbJXB5e+qT8i+uvJqkiil3AiBUrAkAMr7atzmmAtHlnEtQoZD5ZeW+iH5Wp/3gFHyXT
+	 ET+idJypQzgGPo/LUE+tBk7vmQfsMqC9H8GMwxEDA1ZPt3DCWFKKYATiahuB7sI+Mt/ju
+	 AgPIWQwFIAnxWi9clYGOVBpuqvFxemBfNnnchqHu1RwxHL2rcRNT+E/rBWh+1Vck9poUz
+	 TVouelW7OES1+Jk4N6PfFW5Y/s/6lWFdEXRczSQme55ydXiY+vM9aaqhVIwxp7t5DmA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795102597;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:Subject:Date:
+	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-B4-Tracking:To:Cc:X-Mailer;
+	bh=H4yit5SDhOFjRfJFYgJaFUlDDWjSPvM5/XqvlQS4pFA=;
+	b=Na4Mcin5L7y2o//AtshEmAcUTmqIo+hAULrBRr82ahmOBS/r3Snxe7dLUGaFSZUZgutK
+	 jh+xsm812V+ttJA4nBFGeJdcazLJjKNUJMdnN2h7iJvGYEFZZXdmqH8BS1RGG4n60/wwq
+	 5SIQn6rZC6o5f5slsSjeklpp/HzeJBjfq7QroLlOUVCa4b2xzDwOLFzZHuL4u8X3REzJo
+	 WGhPNpj49COa1/eeqzymIJKnN7OC4yRvingiV/HhFS4Mb93lGOSXxk1XkqbpsW2GjsNzf
+	 puJwwFEENcTHE/g2itHbZrdt/fU1IE+pk2sXHj8Hcks1ZUML5H3QKBTG6wDdHF0N2Ug==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=AvPv5gbz;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7CF860A2602;
+	Thu, 19 Nov 2026 15:36:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7CF860A2602
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=AndOcRjE
-Received: from ptx.office.stw.pengutronix.de (ptx.office.stw.4.pengutronix.de [10.9.0.3])
-	(Authenticated sender: relay-from-ptx.office.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id A9979202284;
-	Thu, 19 Nov 2026 16:34:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1795102465;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9xtf6A+gSw+eWEULB7BZqWqCj4xTiZcT/S7MHr0Kzdw=;
-	b=AndOcRjEGmJgH2PpFMAyC/yGcRwlKcqkzSyTOLoW4v7FDba2x0OnE4/xduzokztck14/Qo
-	zsMLAazhvve38y/3aL2R9fEGpvVkN1ATCpJV1TkyReygj3q0cZM34YY3m3k5ftsMA+TU0f
-	UMlzQKrYwM/gciERsVG0dssXYFv6BBmZiqHEP8ZgvTY8jau6lVhsWou2Qeb8bYiphUJvtH
-	gppHQHv4SpA4j/dnh1Fgzoy1buRHF+su+5Pofc48mo1xpRfspHMdOCMHNkXa3jAGBCznoC
-	1bN9+2QaS6CyOLJJQCclz4pOJhIle4QPqHMIzgOMY1wamKRdDS1S1yve3zOtqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1795102465;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9xtf6A+gSw+eWEULB7BZqWqCj4xTiZcT/S7MHr0Kzdw=;
-	b=ZGOmQOZbFqGIDuVB1gM3JviZv5GDzJRLMAnlaiEAtBjbIqcNo/Dlytv5tYTtl9PjWxT7Jg
-	uouKZuBZuBRCos0r2J0G5NShgcP6Js8jHehw/01xBNDLF6dPhLShRf6De8esUUXJM0o1fs
-	hj9VwZaR6Ppd70dPHGo9JSyqhZVtyeAv0EoSzs4P0GDzOxPmUoJj4VuQiY3pWf+xgzg8Gb
-	/EkmFX7L2qEljsZ372883XjLUuJnJONcv7K8F4E9fcdL+xPFEjMaV6apIV593gLjyjeV0B
-	DM9+RKHsWfI12vZL5Hap2czT/8buMS1ZyZ7f+/lOlg1pazYDm6ISdMDidLDt1w==
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1795102465; a=rsa-sha256;
-	cv=none;
-	b=ILG6TLpalEaDCOExQka7pOUd5BFnY2jnNyKS9/l2Pby2Bw9uXw1sSRSR08KCtDiynaiKPN
-	sJC24bC6sKk/Uv42DiKMOeqbv/24+ziXseC159/T/np9M7YDDCaq2SII866p9lqH9ijeFl
-	prFx0Coa434kegZgKYYzL/EP9nYpMotpEaxwV/zIbWKMr4C+8w0v1iKolwUA2x0rKhk3Na
-	WHXkkuv2Wb84JizTEZ3ZEIbOSbwzVdMfIjMZevIB5BxOg1H7wAisq0pjDf6q1v99XNnZt9
-	sQU3s7Y3gPAT2B2SuO7dm3P/bZmfWg3ngaCX6DXIV8qUZpBnt/HjxGr1pa5DBA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=relay-from-ptx.office.stw.pengutronix.de smtp.mailfrom=ore@pengutronix.de
-Received: by ptx.office.stw.pengutronix.de (Postfix, from userid 1058)
-	id 933D91BF930; Thu, 19 Nov 2026 16:34:25 +0100 (CET)
-Date: Thu, 19 Nov 2026 16:34:25 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v5 2/3] ethtool: add a PHY receive byte total
-Message-ID: <av8XAdXQqSRIVhY1@pengutronix.de>
-References: <20261115-submit-acx00-phy-stats-v1-v5-2-ed81a7f54373@gmail.com>
- <37e4b9b8-d381-448f-a2b3-b92d7bd9033d@lunn.ch>
- <CADvTj4qh8Pvss+xEwcjshodwv-yN6haP-9aaeRXg1ydSu5ibVg@mail.gmail.com>
- <d3f2dc1c-9daf-4b5f-903b-657ae3f32647@lunn.ch>
- <CADvTj4opiu_vhat12BRzk61b7ymG+g12c2aoK+rcZHjpWZjL4Q@mail.gmail.com>
- <b84021aa-f843-4668-8172-0afcbb97c27f@lunn.ch>
- <avtHbulALsI61uVr@pengutronix.de>
- <CADvTj4ocz9_rMDbDG1xOPALNw1yx9ypXp0S59sh04wSv_YMyrg@mail.gmail.com>
- <avwPa1MTMjf53lWN@pengutronix.de>
- <CADvTj4q8Yxi3SyS+Uiue1SwwujFcAABTD3+2BsdSwS3fs89wnw@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=AvPv5gbz
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F5D01575;
+	Thu, 19 Nov 2026 07:36:32 -0800 (PST)
+Received: from e142430.arm.com (e142430.arm.com [10.33.10.110])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2594E3F882;
+	Thu, 19 Nov 2026 07:36:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795102595; bh=F/IW7r05sEPQU7RmKMophY+HTf4SbgNHPg1LXJ+0/7s=;
+	h=From:Subject:Date:To:Cc:From;
+	b=AvPv5gbzj+pDeoOd2ToVmOfNzetkdOnqKDeIvzzbJSjqfvJawl8Dx7dXaOjNNm80U
+	 gGYWYr/ixLyk8l6+AI6HXgPWdB4uPfhX2PSPT27QXE66hTOaLjPxcRVq9uqzQHuXhl
+	 /T+RfZqr6whanh7HSkRCi/2iE6bSoRRDpzZiB6DA=
+From: Ahmed Azeem <ahmed.azeem@arm.com>
+Subject: [PATCH RFC 0/4] firmware: arm: Add Platform Fault Detection
+ Interface support
+Date: Thu, 19 Nov 2026 15:36:02 +0000
+Message-Id: <20261119-topics-ahmaze01-upstream-pfdi-rfc-v1-0-4772d18b9115@arm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,32 +56,171 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CADvTj4q8Yxi3SyS+Uiue1SwwujFcAABTD3+2BsdSwS3fs89wnw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGIX/2oC/x2NQQ6CQAwAv0J6tgmLQMSrCQ/wajyUpbg9LGxaN
+ EbC3109zhxmNjBWYYNzsYHyS0yWOYM7FOADzQ9GGTNDVVatc67DdUniDSlE+nDp8JlsVaaIaRo
+ FdfLYHGt/arp6rNoWcicpT/L+P25w7S9wz3IgYxyUZh9++Ui2ssK+fwEWYBH9kQAAAA==
+To: linux-arm-kernel@lists.infradead.org, 
+ Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Divin Raj <divin.raj@arm.com>, Bertrand Marquis <Bertrand.Marquis@arm.com>, 
+ Ahmed Azeem <ahmed.azeem@arm.com>
+X-Mailer: b4 0.13.0
 
-On Tue, Nov 17, 2026 at 08:55:50AM -0700, James Hilliard wrote:
-> This is Allwinner H616 EMAC1, using dwmac-sun8i/stmmac, connected to an
-> AC200 PHY over RMII. The driver reports no MAC management counters.
-> The CRC and length-error statistics in ethtool -S are software counters
-> updated from RX descriptor status, not independent hardware counters.
-[...]
-> The tested length-field mismatches did produce descriptors and increment
-> rx_length_errors. The accounting gap is specifically for frames discarded
-> before an RX descriptor is returned, including those bad-FCS runts.
+Hi all,
 
-Thanks for checking this. On this board the PHY counters are the only
-counters we know of that show these frames, and I see why you want them
-to be as complete as possible.
+This series proposes an arm64 driver for the Arm Platform Fault
+Detection
+Interface (PFDI), providing a common Linux interface for privileged
+userspace to discover and invoke firmware diagnostics.
 
-With a MAC that does not count its own drops, it does not really matter
-what exactly the PHY counters include. The difference between PHY and
-MAC counts cannot be attributed anyway, and for debugging the deltas are
-what matters, as Andrew said. So I will not insist on a particular
-definition here.
+We are posting this series as an RFC to seek community feedback on both
+the proposed Linux interface and the underlying firmware specification
+before the specification is finalized. This series and its validation
+use
+the PFDI 1.0 ALP0 specification [1]. The current public revision is PFDI
+1.0 BET0 [2]. Feedback on the software integration will help identify
+any
+changes needed to align an upstream implementation with the evolving
+specification.
 
-For automated diagnostics, a tool would need to know what each counter
-includes, on the PHY and on the MAC side. That would be nice to have,
-but it is my dream for tomorrow, not something for this series.
+PFDI defines firmware calls for discovering a PE's test engine and test
+parts, executing online tests, retrieving out-of-reset test results,
+checking
+firmware integrity, and injecting responses to validate error handling
+[1].
+Trusted Firmware-A documents an implementation of these services [3].
 
-Oleksij
+A practical use case is a safety-critical or high-availability platform
+that uses manufacturer-provided software tests in firmware to detect
+faults at boot and during operation. These tests can complement hardware
+error-detection mechanisms by targeting failure modes that those
+mechanisms do not cover. Firmware performs the boot-time tests, Linux
+software can retrieve their results and request online tests at
+intervals
+chosen by the platform's diagnostic application. The diagnostic coverage
+depends on the tests implemented by the platform.
+
+The Linux use case is a privileged diagnostic application that needs to
+discover the tests available on a CPU, run a selected range, and
+retrieve
+the outcome, including a failing test identifier where firmware provides
+one. A common driver and documented userspace ABI would allow that
+application to use the same interface across platforms implementing
+PFDI,
+while keeping the test implementation in platform firmware.
+
+Kernel mediation is needed to issue the SMC calls and coordinate them
+with
+CPU placement and lifetime. PFDI operations are PE-local [1], so
+executing
+a request on the intended CPU is part of the interface's correctness.
+The proposed driver uses a worker bound to each target CPU and exposes
+/dev/cpu/<cpu>/pfdi. Requests and results are carried through typed
+ioctls;
+device nodes default to mode 0600, and each CPU device permits one open
+owner at a time.
+
+The driver leaves the choice of test ranges, execution frequency, and
+response to a reported fault to userspace. It adds no periodic test loop
+or automatic recovery policy. The intended upstream benefit is a shared
+firmware access mechanism that platform diagnostic tools can build on,
+without embedding their deployment-specific policy in the kernel.
+
+The four patches provide:
+
+1. A UAPI header, ioctl allocation, ABI documentation, and MAINTAINERS
+   entry.
+2. The firmware driver, per-CPU devices, and query operations.
+3. Test execution, out-of-reset result retrieval, and error injection.
+4. Worker serialization and CPU hotplug lifetime handling.
+
+Error injection is included to exercise the software path that consumes
+PFDI responses. The proposed ABI also returns the firmware's 64-bit
+failing
+test identifier for test execution and out-of-reset result queries.
+
+Arm's public reference software documentation describes firmware, Linux
+driver, and userspace components for a PFDI stack [4]. Its default
+reference
+test backend is a placeholder, so this provides integration context
+rather
+than evidence of hardware diagnostic coverage.
+
+Validation of this revision:
+
+Runtime validation was performed on Arm Zena CSS using its reference
+PFDI
+firmware and userspace stack, exercising service startup, per-core
+diagnostic execution, out-of-reset result queries, CLI operations,
+monitoring, and forced-error handling. As the default reference firmware
+test backend is an integration placeholder rather than a production test
+library, this validates the end-to-end userspace, Linux, SMC, and
+firmware
+paths rather than hardware diagnostic coverage.
+
+I would appreciate feedback on the specification's suitability for Linux
+integration, the proposed per-CPU ioctl ABI, the worker and hotplug
+model,
+and whether this belongs under drivers/firmware. In particular, is this
+the right scope for a common PFDI interface, and should error injection
+be exposed separately from normal diagnostic operations?
+
+[1] Arm Platform Fault Detection Interface Specification, document
+110468,
+    version 1.0 ALP0:
+    https://documentation-service.arm.com/static/68593b17961937560be90fbe
+
+[2] Arm Platform Fault Detection Interface Specification, document
+110468,
+    version 1.0 BET0:
+    https://support.arm.com/documentation/110468/1-0bet0/?lang=en
+
+[3] Trusted Firmware-A PFDI implementation documentation:
+    https://tf-a.docs.trustedfirmware.org/en/latest/components/pfdi.html
+
+[4] Arm Zena CSS PFDI design documentation:
+    https://arm-zena-css.docs.arm.com/en/latest/design/platform_fault_detection_interface.html
+
+To: linux-arm-kernel@lists.infradead.org
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: linux-api@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Divin Raj <divin.raj@arm.com>
+Cc: Bertrand Marquis <Bertrand.Marquis@arm.com>
+
+Signed-off-by: Ahmed Azeem <ahmed.azeem@arm.com>
+---
+Divin Raj (4):
+      uapi: firmware: arm: Add PFDI userspace ABI
+      firmware: arm: Add PFDI misc driver skeleton
+      firmware: arm: Add PFDI run, result, and error injection support
+      firmware: arm: Harden PFDI worker and hotplug handling
+
+ Documentation/ABI/testing/dev-cpu-pfdi             | 103 +++
+ Documentation/userspace-api/ioctl/ioctl-number.rst |   1 +
+ MAINTAINERS                                        |   8 +
+ drivers/firmware/Kconfig                           |  14 +
+ drivers/firmware/Makefile                          |   1 +
+ drivers/firmware/arm_pfdi.c                        | 948 +++++++++++++++++++++
+ include/uapi/linux/pfdi.h                          |  89 ++
+ 7 files changed, 1164 insertions(+)
+---
+base-commit: 20eef29b7c8465ac98d7dd6d6f2ac07a8d8056ca
+change-id: 20261119-topics-ahmaze01-upstream-pfdi-rfc-534c8594d266
+
+Best regards,
+-- 
+Ahmed Azeem <ahmed.azeem@arm.com>
+
