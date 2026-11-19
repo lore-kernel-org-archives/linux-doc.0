@@ -1,173 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.141
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795046250;
-	b=TtIEbLi3iiFE882S1vwkfrzCAK+h0X5+ERAo40lv0UY5Zu1tFA1TcqpFmyOfc8VcSdDk
-	 7mN56mzUDWfX/64FDOkC0oUOX8C3M27mpXWeel9rnfbxY6+S7mbeusMNuN4E6qFV5igDs
-	 jqqJLkZJX74jkBUIXuHxcWQRtU9z06eq6kXjMSwVVHOtyQVMnNHlKFEthgfI6yF1fXLlz
-	 +Ih1SdNDO6vIYDAziTgE+g2KOY6njg8vwgNIL80Zrvha7XFzGFm9rTEDdVBGDk2dT2MvI
-	 iawdGSO5dzxeET+ciJWHUbXoocR5JOcbNvKN7yPsbXYujnz6vzQbV+FaH/93JqPym6g==
+	t=1795046411;
+	b=XdhVjIJ4/VdS1lXZpVouhwBkfS9n2pqEM1g2FH08VKnz6Iy2Ucp7ZL+vjFe4dAmfzCHa
+	 rRYzENqdLayZvxTgwowbcYsoFkJ7HBIV+kXcXg8Uq0iLhWnYyhQLj6SNjjSjtekz59iGy
+	 RsAQuJMfgVER0y65+k0v6fcB+4WXDb34oFb5/394Q26MSMbmSRHl8EiUpvl+tjKK99f8r
+	 BLKk/gYK+JGseAvp0cXXSpHP/5/bLmfu7vEHdMvLLEoGjcjKOM7m2bSbx4Tw0LcDRLOKt
+	 83aLHBoHIu+zTjLEbDY3A6/o35zMB2Noe57q3gcOHBNGVGG9x+M5lkGRY8P/1C4EUwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795046250;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=B4zFjEL5hlhQrSt2smgrlHZVn55qIbn5+9S0rz2RBas=;
-	b=dqa33Zw+IEE35uobROmD7jpsiFBOyMijcX4ffVpx98G8K2xkHgfcxZSjj29StXCFmBAG
-	 TBmAVUz+ex3uAgPx7tUSQ+0niPS7q5e6IwVZ9NoIRpvwTVVUNqKPrFZsYoepzDZ83CRjK
-	 RTHPRKjQ6x5myO7CxezCEe7tQOtxRAf2I8jI5gaWfPpxQbGWWps6QBI2GhlWtfncv3cYD
-	 hPfcJ5jhSFW6VvIxzNfAGyqF7Qw948Oni0C2eJthGRZyMf8pvVYWrqxVg9rqIT66i44KE
-	 HAHQP0PLd8QrCRf+9nxaVHkPMgXkSySf61yqle0vFZonBknpoEgl6CbkzUxtLwcY95A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795046411;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=95BhZaacN34i0fFF7Kfyb6EieMsIfD7H3uLPE59Ft90=;
+	b=ckw4ZyRKU50qf0NrSsNqcEu405u9lcVFcYaqrZuQbSlDnU1M8AS1GdvcfuIBloPDUl+L
+	 ioinjkhA3+DauydkMpRKq6J0x4ivZif3yOIsYpcLh0Tz18EI31DQK+u0nqut2DivZGrxo
+	 kbTjzysmHYlJK1VsP4LrBiCNeOLv4OjJ9dM4KoeuLguVXJdVjqNB0JDDkNhGlwi+8pI63
+	 V4bHBOSGIQN6+rTXnVrP/NTpGgJxoOv4zFSs9gi1GO7CSZXCcOJ/yZyxLUzcoERBqVU9E
+	 kL3+OaS0I8b/gWdjsWeiIk0fP/XvNNbsqLMMWytBH1qxixlJytU0Fk2F2RtXsNTLezA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=shazbot.org;
-	spf=pass smtp.mailfrom=shazbot.org;
-	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=jhChCI27;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=oKNtFcR7;
-	arc=none smtp.remote-ip=103.168.172.141
-Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Q+715F/+";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54821606A33A
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 23:57:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54821606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EB6606A330;
+	Thu, 19 Nov 2026 00:00:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=jhChCI27;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=oKNtFcR7
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailflow.phl.internal (Postfix) with ESMTP id 7217813819B1
-	for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 18:57:28 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Wed, 18 Nov 2026 18:57:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795046248;
-	 x=1795053448; bh=B4zFjEL5hlhQrSt2smgrlHZVn55qIbn5+9S0rz2RBas=; b=
-	jhChCI27TV0AUe3b/OxSOD4nN2iBvo0mrgoeO6U99iuz/83bXfUyuTNSNKQTRno4
-	MU4OLYd12tVJtLPOC4q3YKounCyXILO8+Dce3nwTC277Qq/bX6TwMeCRXf3DC780
-	qbxJLTdiiwXghIba0ZyVnIBlsIAUGSvnl/wtHcHHbL9eWeJLo9HTg7AeYm4wu52y
-	WW5ksSo4mW7ABZgWHmkHOZn5Z/sOPQ5AWllSji1yfzMGYwuhgBOleoB59ROkK/67
-	fnGLXf3DB0KHURCzbwnpM0ebq3nmoPPYWU+M555JuKHRroRUVGyRadl8I0oO9LIj
-	5Kx45kJPSRX5aWlL8eHWEA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795046248; x=
-	1795053448; bh=B4zFjEL5hlhQrSt2smgrlHZVn55qIbn5+9S0rz2RBas=; b=o
-	KNtFcR70DVjYBfQi1evQJ2By4kJtIi0MW4f71HgMh9FX69hVTo3SPkTZpPr1eoW2
-	fkRlTLtN+Ij+6RuMKKvr/hYrps+MDdwlDnU63FxILssh7XBdzIpKWt4kNs2kkgGF
-	zAaP0ONbV1XQhJcW3VdfDZSlPd8mYA6l68hckKA94RF5x323FWK9zdsANjw5Ue91
-	gtlOt9aCHV9EvNIFf/1toXez4eZG+zrntjM+FqYQnPacW4vxBAxW87zOGd35qPvu
-	b1rZYCwiB3LMG2xHatxYGd/pKQW8N2b4lFMg7Q8e08ijwzrCABlgmKOntZ3Oolsp
-	P8wOI0uy5r/STHlS41fww==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=shazbot.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795046248; d=shazbot.org;
-	mf=PGFsZXhAc2hhemJvdC5vcmc+;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm2:rsa-sha256:z43QoBHxVrlxu4Dziasa+5ixebdkxbVqtAJ7m7K/JpIr5H9
-	rU6Oxsea3yCE7+dFhWLJ0eUdKMqJoi9t10P3PP7oE1CYGNXOD+5ZUeL5B1ulnf0m
-	hij01pE3x8KEfOps1J8hkvHV2L7BFp+BVEtHtetjS29FdPbY02RPJhBsn8Ng7wQ0
-	6oJjbi3Pc2lC+lQzhEUbP36z6jhJFqcCyd6Q0Z+e9lT/1pJNOdAbPp4pCoimzWSZ
-	fJpfcdnEOYueTc7XTplFEcKfBr8G+9zyszrpZysRZNMd/4ilDWuxfSfjPZpMjOqA
-	M7G7J9YCZcJlHhl1qPzzHzSL79appjB3q2Tr7mg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:qog/qb0ddv/KJY5cf9DNh/IItNoaVRZb1M1r5Mk/ZL0=:zdUGlLVrHk0sg6/jTFIok0PVKmmRpFzoo1hWrECnnaY=;
-X-ME-Sender: <xms:Zjv-aqfnz5xmurs_GHsqTWy6lXiC0lL2J1trjzRetqE9iXsPfAHA9A>
-    <xme:Zjv-arPTiRXQ_nYvYXkFMB5hr9FlB4VMtPzWshvTyK-QC0xlM9jJbOyrfhNR_Op40
-    ZfqKomxiUCilnEtutoYyJ13lFEywsc3rpEAdnOzkDxCE2ns2xSQcg>
-X-ME-Received: <xmr:Zjv-an0yUoDjq_5V2rAUugRk4GcrVzcsLEpbentKeOXxYwzEK38B2WPHWTFajMnTQ7_KQc6S3u4>
-X-ME-Proxy-Cause: dmFkZTETr3a90om7ZcxKHjLHiqlEITvFRz7EG4g8nD0o633cA3uUqXNQzqyRCqHNmFHd0d
-    zzK7udLaJMcv0zL0xjQNuLrOosegpV0KyCxl59ibhiuUcdaPuW0gIZ/BO5XlQ24ypBWVMX
-    c+3koyrttcdMTEx6oKP82WiXEOp2ZY2ktCOIEZstACd6F+alceiHjDBixJEKURxmB9PUEY
-    As8xQ+NktmnMGJIPT2ravKfkS4AvdxWe7CxmkHGqjCUif+f7TZm5FrutIqEazF8ylYiwSd
-    lfR2xIhVUJgfis7MYUtXAG4tw5UUZ5KM0TY0M61y0jv5NwUbtXsOR/u6AhRD1A5l5Rofcy
-    MdExTJQ2HeZuU8vuLrFvl7X7bh2ObYgm62G/Q/CS3qUEiJ3Meo6fWxZhI8FK8Qg8wEzyHF
-    Ob1e1xavbZ+rXIy/Qld57huC2fxa9HIUaAxoC36fOkjrhV2CYCf17C+9q99ANiZ2SI3zOl
-    pBTcJe5PUTfgs63+2Mk2TWommQzhhm9+KR4jEzdzbHvUoFzTAGJpRXU6+oDQNns2ebmqWg
-    S+dEzIHXPA4/4UwaITH+b7kbX9D0Z0LvcSlw+zJ5laplspIyz6QRx6ax1qb4AbCgvhlH+X
-    KU4Jt0oomr1gCRGwiUyuZdmNQztO+VkcjXafPorfNIk7xYzscAIBFhCR10SQ
-X-ME-Proxy: <xmx:Zjv-au1jFUxaVkqvTf2_nGHRo7pEFwmRIYqfWMIz-PTGEkOIyNR08g>
-    <xmx:Zjv-atV6qbBh_xJ8tB0a0RxVNialdFZXQI2TkGrZM3go_j4scCwaOA>
-    <xmx:Zjv-aggzyYqS6mcl6Ey1awRnIhE-m_e8Ge6vqf3sRdgFpCsQ8ckVnQ>
-    <xmx:Zjv-agIcA0qovO-trbGtL7hLD3B4qd41NvIRWEpMpdyfKV7a8xnPfA>
-    <xmx:aDv-anCw6RIdfILW7MNW1DXCVNCv0UKHb6z_PrXssdXRW1kCf4EsoqIQ>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Nov 2026 18:57:22 -0500 (EST)
-From: Alex Williamson <alex@shazbot.org>
-To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Alex Williamson <alex@shazbot.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Armin Wolf <W_Armin@gmx.de>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Marco Elver <elver@google.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Bradley Morgan <brads@mainlining.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Pnina Feder <pnina.feder@mobileye.com>,
-	Mete Durlu <meted@linux.ibm.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Rio <rioo.tsukatsukii@gmail.com>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Longfang Liu <liulongfang@huawei.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Brett Creeley <brett.creeley@amd.com>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	=?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
-	Julian Ruess <julianr@linux.ibm.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	qat-linux@intel.com,
-	virtualization@lists.linux.dev,
-	intel-xe@lists.freedesktop.org,
-	kvm@vger.kernel.org
-Subject: [PATCH] vfio: Allow untainted use of driver_override
-Date: Wed, 18 Nov 2026 16:56:44 -0700
-Message-ID: <20261118235645.2907908-2-alex@shazbot.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
-References: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q+715F/+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A7371F000C4;
+	Thu, 19 Nov 2026 00:00:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795046411;
+	bh=95BhZaacN34i0fFF7Kfyb6EieMsIfD7H3uLPE59Ft90=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Q+715F/+EfgqUhtk6oXjQYPoTDq26lFCum27vHpPitcYeLyac1v55S696Zqb2GJLb
+	 Y/g7E4Qzvzq19c/Is7Mfh3MPftXq5qxDbyxH8Do1JGs5H+HmR8abTE5pf3FJ8urcHP
+	 n4chz1xJig38lwPuxUQy0tkcA0BDb7x3M+gofU0r2tBtEvGcBej0tJuqcRVyANQFh1
+	 E4GASDz5/5/Ex2PKnF6nhmPuNfw1I+R4hABi3+jgDgI580yQwNEP/jceH1LTPzqhhV
+	 wKq3l+c/3gXj4/CYmzHex9/CsE9KVCeav4mfwZMN7XDPlkOLD3Wjr4mY+yU5MMJGOQ
+	 AzNoW1Oc1Je9g==
+Date: Thu, 19 Nov 2026 00:00:00 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Drew Fustini <fustini@kernel.org>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>, Alexandre Ghiti
+ <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>, Atish Patra
+ <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, Ben Horgan
+ <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, Chen Pei
+ <cp0613@linux.alibaba.com>, Conor Dooley <conor.dooley@microchip.com>,
+ Conor Dooley <conor+dt@kernel.org>, Dave Hansen
+ <dave.hansen@linux.intel.com>, Dave Martin <Dave.Martin@arm.com>, Fenghua
+ Yu <fenghuay@nvidia.com>, Gong Shuai <gong.shuai@sanechips.com.cn>, Gong
+ Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn, James Morse
+ <james.morse@arm.com>, Kornel =?UTF-8?B?RHVsxJliYQ==?=
+ <mindal@semihalf.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ liu.qingtao2@zte.com.cn, Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, Palmer
+ Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Peter Newman
+ <peternewman@google.com>, Radim =?UTF-8?B?S3LEjW3DocWZ?=
+ <radim.krcmar@oss.qualcomm.com>, Reinette Chatre
+ <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, Samuel Holland
+ <samuel.holland@sifive.com>, Sunil V L <sunilvl@oss.qualcomm.com>, Tony
+ Luck <tony.luck@intel.com>, Weiwei Li <liwei1518@gmail.com>, yunhui cui
+ <cuiyunhui@bytedance.com>, Zhanpeng Zhang
+ <zhangzhanpeng.jasper@bytedance.com>, Catalin Marinas
+ <catalin.marinas@arm.com>, Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>, Zeng
+ Heng <zengheng@picoheart.com>, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, x86@kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v12 5/5] riscv_cbqri: Add CBQRI capacity allocation
+ platform driver
+Message-ID: <20261119000000.1b43ba35@jic23-hlaptop>
+In-Reply-To: <20261114-dfustini-atl-sc-cbqri-dt-v12-5-6ef1f627072d@kernel.org>
+References: <20261114-dfustini-atl-sc-cbqri-dt-v12-0-6ef1f627072d@kernel.org>
+	<20261114-dfustini-atl-sc-cbqri-dt-v12-5-6ef1f627072d@kernel.org>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -177,232 +83,168 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Driver overrides are the standard mechanism for binding vfio drivers
-to devices.  With the introduction of the support_driver_override flag
-in the core driver struct, it's now required for drivers to declare
-themselves as driver_override compatible, otherwise driver_override
-bindings will be denied or generate a kernel taint.
+On Sat, 14 Nov 2026 14:06:25 -0800
+Drew Fustini <fustini@kernel.org> wrote:
 
-Set the support_driver_override flag on the driver struct across all
-vfio drivers.
+> Add a platform driver for CBQRI capacity controllers described in
+> device tree with the riscv,cbqri-capacity-controller compatible.
+> 
+> The controller node points at the cache it governs with a
+> riscv,cbqri-cache phandle. The driver maps the register block, looks
+> that cache up in cacheinfo and uses its cache id as the resctrl domain
+> id, so the binding does not need to carry a CPU mask. The controller is
+> then handed to the CBQRI core, which probes its capabilities and decides
+> whether to expose it through resctrl. Only an L2 or L3 cache is
+> accepted, since those are the cache levels resctrl has resources for.
+> 
+> Nothing is vendor-specific and reg is the CBQRI register block itself,
+> so any SoC that describes a CBQRI capacity controller in device tree can
+> use the driver unchanged.
+> 
+> Tested-by: Chen Pei <cp0613@linux.alibaba.com>
+> Tested-by: Zeng Heng <zengheng@picoheart.com>
+> Reviewed-by: Zeng Heng <zengheng@picoheart.com>
+> Signed-off-by: Drew Fustini <fustini@kernel.org>
 
-Cc: Yishai Hadas <yishaih@nvidia.com>
-Cc: Longfang Liu <liulongfang@huawei.com>
-Cc: Ankit Agrawal <ankita@nvidia.com>
-Cc: Brett Creeley <brett.creeley@amd.com>
-Cc: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
-Cc: Michał Winiarski <michal.winiarski@intel.com>
-Cc: Julian Ruess <julianr@linux.ibm.com>
-Cc: Nipun Gupta <nipun.gupta@amd.com>
-Cc: Nikhil Agarwal <nikhil.agarwal@amd.com>
-Cc: Eric Auger <eric.auger@redhat.com>
-Cc: Mostafa Saleh <smostafa@google.com>
-Cc: Pranjal Shrivastava <praan@google.com>
-Cc: Ioana Ciornei <ioana.ciornei@nxp.com>
-Cc: qat-linux@intel.com
-Cc: virtualization@lists.linux.dev
-Cc: intel-xe@lists.freedesktop.org
-Cc: kvm@vger.kernel.org
-Signed-off-by: Alex Williamson <alex@shazbot.org>
----
+Sorry, late to the game and pretty much a drive by review.
 
-Uwe, this should cover all the vfio drivers that expect to use
-driver_override.  Thanks,
+Still a few things below that will leave you with more readable
+and probably less fragile code.
 
-Alex
+Jonathan
 
- drivers/vfio/cdx/main.c                        | 1 +
- drivers/vfio/fsl-mc/vfio_fsl_mc.c              | 1 +
- drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c | 3 ++-
- drivers/vfio/pci/ism/main.c                    | 3 ++-
- drivers/vfio/pci/mlx5/main.c                   | 3 ++-
- drivers/vfio/pci/nvgrace-gpu/main.c            | 3 ++-
- drivers/vfio/pci/pds/pci_drv.c                 | 3 ++-
- drivers/vfio/pci/qat/main.c                    | 3 ++-
- drivers/vfio/pci/vfio_pci.c                    | 3 ++-
- drivers/vfio/pci/virtio/main.c                 | 3 ++-
- drivers/vfio/pci/xe/main.c                     | 3 ++-
- drivers/vfio/platform/vfio_amba.c              | 1 +
- drivers/vfio/platform/vfio_platform.c          | 1 +
- 13 files changed, 22 insertions(+), 9 deletions(-)
+> diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_capacity.c
+> new file mode 100644
+> index 000000000000..6f3d06c4f74b
+> --- /dev/null
+> +++ b/drivers/resctrl/cbqri_capacity.c
 
-diff --git a/drivers/vfio/cdx/main.c b/drivers/vfio/cdx/main.c
-index 28dc8c825600..fb7679bf92fd 100644
---- a/drivers/vfio/cdx/main.c
-+++ b/drivers/vfio/cdx/main.c
-@@ -358,6 +358,7 @@ static struct cdx_driver vfio_cdx_driver = {
- 	.match_id_table	= vfio_cdx_table,
- 	.driver	= {
- 		.name	= "vfio-cdx",
-+		.support_driver_override = true,
- 	},
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/fsl-mc/vfio_fsl_mc.c b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-index 15b05b8c0c90..1603f81e0257 100644
---- a/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-+++ b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-@@ -597,6 +597,7 @@ static struct fsl_mc_driver vfio_fsl_mc_driver = {
- 	.remove		= vfio_fsl_mc_remove,
- 	.driver	= {
- 		.name	= "vfio-fsl-mc",
-+		.support_driver_override = true,
- 	},
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-index c82c59246a3f..5c56aff8db01 100644
---- a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-+++ b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-@@ -1737,7 +1737,8 @@ static struct pci_driver hisi_acc_vfio_pci_driver = {
- 	.id_table = hisi_acc_vfio_pci_table,
- 	.probe = hisi_acc_vfio_pci_probe,
- 	.remove = hisi_acc_vfio_pci_remove,
--	.driver = { .pm = pm_ptr(&hisi_acc_vf_pm_ops) },
-+	.driver = { .pm = pm_ptr(&hisi_acc_vf_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &hisi_acc_vf_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/ism/main.c b/drivers/vfio/pci/ism/main.c
-index cce3bdf1f070..263b377e87c4 100644
---- a/drivers/vfio/pci/ism/main.c
-+++ b/drivers/vfio/pci/ism/main.c
-@@ -399,7 +399,8 @@ static struct pci_driver ism_vfio_pci_driver = {
- 	.id_table = ism_device_table,
- 	.probe = ism_vfio_pci_probe,
- 	.remove = ism_vfio_pci_remove,
--	.driver	= { .pm = pm_ptr(&ism_vfio_pm_ops) },
-+	.driver	= { .pm = pm_ptr(&ism_vfio_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &ism_vfio_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/mlx5/main.c b/drivers/vfio/pci/mlx5/main.c
-index 18a6d224b1fd..63c89e461be8 100644
---- a/drivers/vfio/pci/mlx5/main.c
-+++ b/drivers/vfio/pci/mlx5/main.c
-@@ -1451,7 +1451,8 @@ static struct pci_driver mlx5vf_pci_driver = {
- 	.id_table = mlx5vf_pci_table,
- 	.probe = mlx5vf_pci_probe,
- 	.remove = mlx5vf_pci_remove,
--	.driver	= { .pm = pm_ptr(&mlx5vf_pm_ops) },
-+	.driver	= { .pm = pm_ptr(&mlx5vf_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &mlx5vf_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/nvgrace-gpu/main.c b/drivers/vfio/pci/nvgrace-gpu/main.c
-index 5ddec340b73b..946da32c61ff 100644
---- a/drivers/vfio/pci/nvgrace-gpu/main.c
-+++ b/drivers/vfio/pci/nvgrace-gpu/main.c
-@@ -1438,7 +1438,8 @@ static struct pci_driver nvgrace_gpu_vfio_pci_driver = {
- 	.id_table = nvgrace_gpu_vfio_pci_table,
- 	.probe = nvgrace_gpu_probe,
- 	.remove = nvgrace_gpu_remove,
--	.driver = { .pm = pm_ptr(&nvgrace_gpu_pm_ops) },
-+	.driver = { .pm = pm_ptr(&nvgrace_gpu_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &nvgrace_gpu_vfio_pci_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/pds/pci_drv.c b/drivers/vfio/pci/pds/pci_drv.c
-index cf7e33d4d17b..1fcef987f1b0 100644
---- a/drivers/vfio/pci/pds/pci_drv.c
-+++ b/drivers/vfio/pci/pds/pci_drv.c
-@@ -184,7 +184,8 @@ static struct pci_driver pds_vfio_pci_driver = {
- 	.id_table = pds_vfio_pci_table,
- 	.probe = pds_vfio_pci_probe,
- 	.remove = pds_vfio_pci_remove,
--	.driver = { .pm = pm_ptr(&pds_vfio_pm_ops) },
-+	.driver = { .pm = pm_ptr(&pds_vfio_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &pds_vfio_pci_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/qat/main.c b/drivers/vfio/pci/qat/main.c
-index 69448fa57df4..8a616f9b6494 100644
---- a/drivers/vfio/pci/qat/main.c
-+++ b/drivers/vfio/pci/qat/main.c
-@@ -695,7 +695,8 @@ static struct pci_driver qat_vf_vfio_pci_driver = {
- 	.id_table = qat_vf_vfio_pci_table,
- 	.probe = qat_vf_vfio_pci_probe,
- 	.remove = qat_vf_vfio_pci_remove,
--	.driver	= { .pm = pm_ptr(&qat_vf_pm_ops) },
-+	.driver	= { .pm = pm_ptr(&qat_vf_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &qat_vf_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-index e7c012febe91..fde2c3fc88eb 100644
---- a/drivers/vfio/pci/vfio_pci.c
-+++ b/drivers/vfio/pci/vfio_pci.c
-@@ -260,7 +260,8 @@ static struct pci_driver vfio_pci_driver = {
- 	.remove			= vfio_pci_remove,
- 	.sriov_configure	= vfio_pci_sriov_configure,
- 	.err_handler		= &vfio_pci_err_handlers,
--	.driver		= { .pm = pm_ptr(&vfio_pci_pm_ops) },
-+	.driver		= { .pm = pm_ptr(&vfio_pci_pm_ops),
-+			    .support_driver_override = true },
- 	.driver_managed_dma	= true,
- };
- 
-diff --git a/drivers/vfio/pci/virtio/main.c b/drivers/vfio/pci/virtio/main.c
-index 123ff5193812..1e02a8fd4a61 100644
---- a/drivers/vfio/pci/virtio/main.c
-+++ b/drivers/vfio/pci/virtio/main.c
-@@ -222,7 +222,8 @@ static struct pci_driver virtiovf_pci_driver = {
- 	.id_table = virtiovf_pci_table,
- 	.probe = virtiovf_pci_probe,
- 	.remove = virtiovf_pci_remove,
--	.driver = { .pm = pm_ptr(&virtiovf_pm_ops) },
-+	.driver = { .pm = pm_ptr(&virtiovf_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &virtiovf_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/xe/main.c b/drivers/vfio/pci/xe/main.c
-index 7dab3e024aa8..e0ab61f604de 100644
---- a/drivers/vfio/pci/xe/main.c
-+++ b/drivers/vfio/pci/xe/main.c
-@@ -592,7 +592,8 @@ static struct pci_driver xe_vfio_pci_driver = {
- 	.id_table = xe_vfio_pci_table,
- 	.probe = xe_vfio_pci_probe,
- 	.remove = xe_vfio_pci_remove,
--	.driver = { .pm = pm_ptr(&xe_vfio_pm_ops) },
-+	.driver = { .pm = pm_ptr(&xe_vfio_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &xe_vfio_pci_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/platform/vfio_amba.c b/drivers/vfio/platform/vfio_amba.c
-index fa754f203b2d..2c87caf1b7f7 100644
---- a/drivers/vfio/platform/vfio_amba.c
-+++ b/drivers/vfio/platform/vfio_amba.c
-@@ -137,6 +137,7 @@ static struct amba_driver vfio_amba_driver = {
- 	.id_table = vfio_amba_ids,
- 	.drv = {
- 		.name = "vfio-amba",
-+		.support_driver_override = true,
- 	},
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/platform/vfio_platform.c b/drivers/vfio/platform/vfio_platform.c
-index a4d3ace3e02d..93d06032cdde 100644
---- a/drivers/vfio/platform/vfio_platform.c
-+++ b/drivers/vfio/platform/vfio_platform.c
-@@ -116,6 +116,7 @@ static struct platform_driver vfio_platform_driver = {
- 	.remove		= vfio_platform_remove,
- 	.driver	= {
- 		.name	= "vfio-platform",
-+		.support_driver_override = true,
- 	},
- 	.driver_managed_dma = true,
- };
--- 
-2.54.0
+> +static int cbqri_capacity_probe(struct platform_device *pdev)
+> +{
+
+Noted in the ACPI patch that you can save some effort there
+by a few tweaks that probably make sense here anyway.
+
+> +	struct device *dev = &pdev->dev;
+> +	struct cbqri_controller_info info = {};
+> +	struct device_node *cache_np;
+> +	struct resource *res;
+> +	void __iomem *base;
+> +	u32 rcid_count, cache_level, cache_id;
+> +	bool found = false;
+> +	int cpu, ret;
+> +
+> +	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> +	if (IS_ERR(base))
+> +		return PTR_ERR(base);
+> +
+> +	ret = of_property_read_u32(dev->of_node, "riscv,cbqri-rcid", &rcid_count);
+> +	if (ret) {
+> +		dev_err(dev, "missing riscv,cbqri-rcid\n");
+It's a probe, use
+		return dev_err_probe(dev, ret, "missing riscv,cbqri-rcid\n);
+same for all these paths.  Sure we won't defer but it does nice formatting
+and tends to save a couple of lines every time!
+
+With the __free() magic, you can do this for all the returns in this
+function.
+
+> +		return ret;
+> +	}
+> +
+> +	cache_np = of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
+Follow on from glancing at the acpi and then finding this elsewhere in my
+inbox.
+	struct device_node *cache_np __free(device_node) =
+		of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
+and drop all the goto iritiations.
+
+> +	if (!cache_np) {
+> +		dev_err(dev, "missing riscv,cbqri-cache phandle\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = of_property_read_u32(cache_np, "cache-level", &cache_level);
+> +	if (ret) {
+> +		dev_err(dev, "%pOF: missing cache-level\n", cache_np);
+> +		goto out_put;
+> +	}
+> +
+> +	if (cache_level != 2 && cache_level != 3) {
+> +		dev_err(dev, "%pOF: unsupported cache-level %u\n",
+> +			cache_np, cache_level);
+> +		ret = -EINVAL;
+> +		goto out_put;
+> +	}
+> +
+> +	/*
+> +	 * Associate the controller with its cache instance via cacheinfo.
+> +	 * The matching cache provides the cache id used as the resctrl
+> +	 * domain id.
+> +	 *
+> +	 * Taking the first leaf at the level is sufficient because a
+> +	 * unified cache node yields one cacheinfo leaf and
+> +	 * cache_setup_of_node() walks one cache node per leaf past L1, so
+> +	 * the first leaf at the level has that level's node as fw_token.
+> +	 *
+> +	 * get_cpu_cacheinfo_level() returns the leaf only when cacheinfo
+> +	 * assigned it an id (CACHE_ID), which the resctrl domain id needs.
+> +	 */
+> +	cpus_read_lock();
+> +	for_each_online_cpu(cpu) {
+> +		struct cacheinfo *ci = get_cpu_cacheinfo_level(cpu, cache_level);
+> +
+> +		if (ci && ci->fw_token == cache_np) {
+> +			cache_id = ci->id;
+> +			found = true;
+> +			break;
+> +		}
+> +	}
+> +	cpus_read_unlock();
+> +
+> +	if (!found) {
+> +		dev_err(dev, "%pOF: no online hart reports an L%u cache with a cache id for this node\n",
+> +			cache_np, cache_level);
+> +		ret = -ENODEV;
+> +		goto out_put;
+> +	}
+> +
+> +	info.type = CBQRI_CONTROLLER_TYPE_CAPACITY;
+> +	info.base = base;
+> +	info.addr = res->start;
+> +	info.size = resource_size(res);
+> +	info.rcid_count = rcid_count;
+> +	info.cache_id = cache_id;
+> +	info.cache_level = cache_level;
+	info = (struct cbqri_controller_info) {
+		.type = CBQRI_CONTROLLER_TYPE_CAPACITY,
+		.base = base,
+		.addr = res->start,
+		.size = resource_size,
+	...
+
+Might as well as you nicely set everything here.
+It's more readable and also makes it clear anything not set
+is zeroed without anyone having to go check the = { }; above.
+
+
+	};
+> +
+> +	ret = riscv_cbqri_register_cc(&info);
+> +	if (ret) {
+> +		dev_err(dev, "failed to register capacity controller: %d\n", ret);
+> +		goto out_put;
+> +	}
+> +
+> +	dev_info(dev, "registered L%u capacity controller at %pa (cache_id=%u, rcid=%u)\n",
+> +		 cache_level, &info.addr, cache_id, rcid_count);
+> +
+> +out_put:
+> +	of_node_put(cache_np);
+> +	return ret;
+> +}
+
 
