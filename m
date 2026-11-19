@@ -1,98 +1,155 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795051904;
-	b=jhdnJD8iMeCEIXcXft7ruvikPJ2Z+ky6OwPR4mX7HVpt0jg6yRsQDsTDaoFjtCUftk+g
-	 hrLcYIjl6S5ZvlFscUJvUCw+V99O/3KM3jn7fFqjpJxlRXxTD/jqpomFfS1GHbUMVb515
-	 xnrNB9qYC2eWEi8UsyEv2e3jlmZyX9WqbeJUd4O2EU+pN5xPPkOsj4pDpW+umqFlROw9S
-	 2344epyxOM+IZzXOmD7xYx1my20FGfLN/RuP2C/jeTdUMQa9eDzIWUVHJY1PGIuo+e3xC
-	 BnKCoPMJ9eH4eFv1AMTCfSg2pgF9ReSbddLEWh7t/NGkhqMojr7n89l8yERzAprz1zg==
+	t=1795052319;
+	b=E3UyS3G18caA7/qZm1Id2Rrf5LgIOomGxtt6gF5KZihqrgU/ccbmA5ZEAHwb52TGHtfS
+	 V+j7BJigo5GCGXw1y73/uxWo4MLno6w/ajuICBD+FTiSP8MXdMLeZNVa1+ODddMQNTSZw
+	 JrVZHO//yEVCEx316D46wVUrRDoo4iOCOz4zPdPi9dRZ5Y9N+QXHUxG/rSfkuOZ/++KyT
+	 H/36vwJVEhXwxHbmsiBq1zXjyDO71n6kgLk0eQ90z5TOa8smt2+ajyf4+zYA/kOPkPg+m
+	 KcQzp1D/9GvRgBLhwo8D8Gxqs5myxU+EEuJAma5EgedZwdPC9UYhjm7GN/IY7zG2UiA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795051904;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Virus-Version;
-	bh=+6h6s6//1V5/9+9ft7j4vW203tlWXUvDARmYS7jIwvg=;
-	b=2kYjcmu5zqvwEvJfmvhg5+z/J8utuOrEOKONMakqIJTj98FaV8e1ov6II0XLh7OWoyHM
-	 /vsx0iRBtGK9ngiKjCELK9E1/7My4bWdsAUiOP9Pnxu2NDIXBxSkeuRylLkYHGP1rg+mJ
-	 kJtkZkUF7P4mu5LJtrzBlvanTX5uChpUQmjv+F8YWRxdBlBLPhbbmZV7QNoA5bovTyj3b
-	 +YJVDofXA29hYPnS5ytwlzerOQvhYx0RwPG5kdWE1I22cLvrJgctSYXySTCCFxwtCNKvo
-	 zUKpfgnCGAO5QQUa4uvHNtssncgd0M5bv8y3ImJWfuigpopKoejjng1ZO/lNGvc+pqw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795052319;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=xWmFAMLfaz7aon/MP5W7LeR089ODY2jYCmY0YF/QEHk=;
+	b=Cn7rgPihjcJoZE8BpsCjc7GIZpT/z4n97FM8TVSGl1gHt0qv8W826755GZ6/1WDNwph7
+	 UHvtIFb9yOe3vSMuIAGUUwrYa6Gk27YM9AVZ7Pu8DePOIPf48JZKTrdfgZ0BpQ40fH0bE
+	 YTWpQHhje8Ofn4nWtPA0g+PgCoIwu+UkFAiK/fordQUReeQy8IzszNtveVrwFWAVw74WI
+	 K0UBrr+x0tZLwZtJgqmJ7mja36fJIOFqGqvTDa0W66bplJ3B8JqPaCGSf5QK1PCqAKlPT
+	 B7oX5lJiAyhMnOc3aF53Zffo6NexxImirT/8qpVZUUe1ldUATcVbF4npHJ0/bUAwhfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=meta.com;
-	spf=pass smtp.mailfrom=meta.com;
-	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=OszjmT3q;
-	arc=none smtp.remote-ip=67.231.145.42
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=cloudflare.com;
+	spf=pass smtp.mailfrom=cloudflare.com;
+	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=ftmtS202;
+	arc=none smtp.remote-ip=209.85.218.45
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED50606D68E;
-	Thu, 19 Nov 2026 01:31:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CED50606D68E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2470C606A32F
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 01:38:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2470C606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=OszjmT3q
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ18qC34054251;
-	Wed, 18 Nov 2026 17:31:30 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=+6h6s6//1V5/9+9ft7j4vW203tlWXUvDARmYS
-	7jIwvg=; b=OszjmT3quz+UYcNp5FfzKJRhGT3LYAIpHWsd9A8BSC7z9S8VlA14L
-	cpMwAQmJHPcFQZgxSZGzMB7i/Bh8Ze3YD5vsJqGOFT19C3pmZBy35gt5VBo73XiO
-	Koew96xBl4JL+awgJxyLvzM9dAwbXD250S6Ozs9m26VPfOjvRgDtnZpZdtCvxaam
-	KbgCmhqv9IEWBcbux2dkW6t4YatQg28tbBKfJzAxyq+XrixCkGvpoRr+1WM7kzUz
-	bj1Pvg1NmrfGPMX3qdF3PxBSj83WXZDp+pntp4J8irUjZfqKW3qSbWJGgRXpFoo4
-	+5dJPiTtKrQZ1ZQ8z8fi+U9FnVfH2LP/A==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4j0yujb8ha-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 18 Nov 2026 17:31:30 -0800 (PST)
-Received: from localhost (2620:10d:c0a8:1b::30) by mail.thefacebook.com
- (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Thu, 19 Nov
- 2026 01:31:29 +0000
-From: Todd Freed <toddfreed@meta.com>
-To: <netdev@vger.kernel.org>
-CC: "David S. Miller" <davem@davemloft.net>,
-        Andrew Lunn
-	<andrew+netdev@lunn.ch>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?=
-	<bjorn@kernel.org>,
-        Boris Pismenny <borisp@nvidia.com>, Cosmin Ratiu
-	<cratiu@nvidia.com>,
-        Daniel Zahka <daniel.zahka@gmail.com>,
-        Donald Hunter
-	<donald.hunter@gmail.com>,
-        Dragos Tatulea <dtatulea@nvidia.com>,
-        Eric Dumazet
-	<edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-        Jamal Hadi Salim
-	<jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>,
-        Leon Romanovsky
-	<leon@kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-rdma@vger.kernel.org>, Mark Bloch <mbloch@nvidia.com>,
-        Paolo Abeni
-	<pabeni@redhat.com>,
-        Pedro Tammela <pctammela@mojatatu.com>,
-        Saeed Mahameed
-	<saeedm@nvidia.com>, Simon Horman <horms@kernel.org>,
-        Tariq Toukan
-	<tariqt@nvidia.com>, Wei Wang <weiwan@google.com>,
-        Willem de Bruijn
-	<willemdebruijn.kernel@gmail.com>
-Subject: [PATCH net-next v2 11/12] selftests: tc-testing: add tests for the psp action
-Date: Wed, 18 Nov 2026 17:31:02 -0800
-Message-ID: <20261119013103.1092559-12-toddfreed@meta.com>
-X-Mailer: git-send-email 2.53.1
-In-Reply-To: <20261119013103.1092559-1-toddfreed@meta.com>
-References: <20261119013103.1092559-1-toddfreed@meta.com>
+	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=ftmtS202
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c4cb6834eaaso276209466b.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:38:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cloudflare.com; s=google09082023; t=1795052316; x=1795657116; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xWmFAMLfaz7aon/MP5W7LeR089ODY2jYCmY0YF/QEHk=;
+        b=ftmtS2029GKX5UtZAgJGitX70lJkwUErFdKHtYPToccHq6NEAzp/y2zynrEO8TBbYA
+         HLNNeLQ7RH/J1RJ3wOSBfM1z2xsLBF8nma8WNzcBwdAzsMjgYKxTmnhFbNqAJqNAJejM
+         UJxr5YbLIpUBkEC5iaUXVTCwzJi0RPLnlF+7SiFZQ7WUb1zMU+CpjqzK0sXV2iIqUBHw
+         Zp9CuL1FXGbtUP+rNfv4hyyA0qKkTiQso5wcOzKYtF1ggznDmlLfJDCWg04WiAE4BFJt
+         A1PFd3A4WXgFfDeTHp6X4WOZdAQXr4ue9pnV1Q+bU/snB9pgoOWjvfDFR5lEWkVzq5pf
+         HwJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795052316; x=1795657116;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xWmFAMLfaz7aon/MP5W7LeR089ODY2jYCmY0YF/QEHk=;
+        b=R+t1VZaYGAYmD2myE1rUJchhsC5tXX3iqQnJUvpEL4u5daRO0lNpyhtrcqN716MQAs
+         cS+S5QBQyWsBQ0NUs9ycNHC+4LBsP4KEvm/a/ulKERu+bJZANwwKUvOPvmo7q34h7aFr
+         z741Zx9GG2NBV14OI6RseulOF2LxDvOepZiuW8B1SWVYPPk422NFGiKI5ac16zkKZ+S4
+         oGNl6fwunG6JC6kxHqGCNot9xJhsPdn0jf26tjZK6TtRmObmTbSgMh8ycRbzEzI3/QKp
+         u5shVFv0gxNVZrwYMwa5AQ6DSSF1X3t7DfVxa4IpspuhFmdI7nARxdBRn2Cx++4pASAa
+         /ELg==
+X-Forwarded-Encrypted: i=1; AL+hErEUnoeVKUyM/ISZ+YjMvGjpejps3lIJpJVcUKiXz34YUmIdFF9bifTBtX4qmxSwb5OWKHBWy9iLOH0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9hA+J+V38VP7q0m1Tu5iqpjKaP3d23VmQuYxnckqH+d21WojWm
+	CO3OA8CBaU5Q6doPshhj9vGtUsFskhTJHLAVV0db1WIJPHVTYwhWG/p3Mecm0UW4QYM=
+X-Gm-Gg: AYBFou3M5DSnZqY/NbGAfvxh3OGpxY76eH4kjTELjbElNe4gxbtJXXgU6exGmCegx3u
+	EGt6NlcHvVH06LSXC1QeoGW/WjRsWpupoQntPwKDU4gOSU01w+nuupFY6/Uo1gcK/576qDV4HeH
+	7WGPgWTP0M93JSBTdkPpyKv5RBQR4UICSSXmNlMaUA/aXq3FsvkwbsGZZd5uQ1hzwsMmnojMmsL
+	fW+XCC+gt9LcddDf31EdWkKI1ooR/Iir87LaQ8YbVEFNfYEaVFoHfjAfBmnYehR9tR0n44lYBxC
+	4idNfT7Th5WtDdqklR7HGnK1GayHkuu+kMbgXjeBfiXbN1rN4Fx+zMc3H1qsXLMVCq5R+p+BjAH
+	wfK4cvXzHludv9Ehuuz5yyRfXkIGWwI40qn0WPGzeuSlbxUHBOqZZar9BumxdOxFhGYZHaKTHLO
+	h8Uq8AGTHe2Y6mmzQX+kvZyvfF1kPmIw2DOmGQ/v62n6tO782+hwQ7TiSVmMa3Ezg3V1TVCH+iJ
+	GjrvPtuDIJobHTQIrwF8v4nSdzI/jqfxCswXUPvJhGwEMaoO6A3p6vvQw3TP/4k+rUx3ROhb7kr
+	oLc43v8Er0fSDbuVWZbEQjR+gyTNueBnExyXabGdCwomGi5t7lGoqm8DZA==
+X-Received: by 2002:a17:907:934e:b0:c46:7ec3:fdfe with SMTP id a640c23a62f3a-c510e1b723bmr406658966b.19.1795052316475;
+        Wed, 18 Nov 2026 17:38:36 -0800 (PST)
+Received: from L9JK9NPFH9 ([104.28.20.56])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c51233c4080sm59785966b.16.2026.11.18.17.38.33
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 18 Nov 2026 17:38:36 -0800 (PST)
+From: Tianyi Gao <tianyi@cloudflare.com>
+To: netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Simon Horman <horms@kernel.org>,
+	David Keogh <dkeogh@amazon.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Dragos Tatulea <dtatulea@nvidia.com>,
+	Nimrod Oren <noren@nvidia.com>,
+	Alasdair McWilliam <alasdair@mcwilliam.dev>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Magnus Karlsson <magnus.karlsson@intel.com>,
+	David Ahern <dsahern@kernel.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Breno Leitao <leitao@debian.org>,
+	=?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <ast@fiberby.net>,
+	Danielle Ratson <danieller@nvidia.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	bpf@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kernel-team@cloudflare.com,
+	nh-open-source@amazon.com,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	"Remy D. Farley" <one-d-wide@protonmail.com>,
+	Amery Hung <ameryhung@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Andy Roulin <aroulin@nvidia.com>,
+	Anil Kaushik <anilkaushikwireless@gmail.com>,
+	Demos Ra <demosthenes.ra@gmail.com>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Hangbin Liu <hangbin.liu@linux.dev>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	Jiayuan Chen <jiayuan.chen@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Joe Damato <joe@dama.to>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Li RongQing <lirongqing@baidu.com>,
+	Louis Scalbert <louis.scalbert@6wind.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Martin Karsten <mkarsten@uwaterloo.ca>,
+	Matt Bobrowski <mattbobrowski@google.com>,
+	Michael Bommarito <michael.bommarito@gmail.com>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Runyu Xiao <runyu.xiao@seu.edu.cn>,
+	Song Liu <song@kernel.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Wang Zhan <wang.zhan@smartx.com>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Zhou Qiuyue <n0ps1edzz@gmail.com>,
+	Tianyi Gao <tianyi.gao@linux.dev>,
+	Tianyi Gao <tianyi@cloudflare.com>
+Subject: [PATCH net-next v2 00/11] net: extra TX headroom for local egress
+Date: Thu, 19 Nov 2026 01:38:19 +0000
+Message-ID: <20261119013830.36935-1-tianyi@cloudflare.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,487 +160,174 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=TasDJhQh c=1 sm=1 tr=0 ts=6afe5172 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=8elwO82fXORLTBIkMd32:22 a=VabnemYjAAAA:8 a=atrOkcuyvV3xl5QzYmoA:9
- a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDAwNSBTYWx0ZWRfXyTQQ7cGrTaIJ
- UtpYlhDzvjks7PEpDd4Kp8LEJyyf9HPfktCnbdDlnVehi6rIjG+6jn42jh+uRjQUGo1Y0zN1ANc
- jJaWHYkULzJ62efu6vrx7SuqpaSw0kSqr5Vkj6KRyabxsMIKGLcYcSg8JsMvzxyciY3QTKuehsd
- pYov5u6yBEklZMaPzyBE52B/+4wWefWHnv+ANNkI3PQdCO6kMQwCYUZgDCLhIlSSuyvnRVKllm5
- glCgeP54Fz5k8WlogaR2nIg8my9vEdiO1XfYZ42qGJ8ZfLNbfoM6N9dmZ7ucgA9qngu8QJkS1cp
- 3j3H8hKuMoJsQb89jH9rTcbPHRzAsIIP33NxVmXnJpxUcvGd8zJ8ClsjZTEIDnPazjN935WSuHf
- d37VL3sMMxNf2cYQ0H3/pbs1TAXfJb6CzvIUBCBq59rO0R6U8FQgzYR5TJ0XtZ1HJjYOAQqEtbi
- sfiKWPvTfcPIUqHz4Ew==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDAwNSBTYWx0ZWRfX49k6rgFtqG+l
- Mq0SNK9+07EqTFQ4AWtMNChb+ttCaijJBsfqYgYW12syLBeBJDKMQhyXaFhCkYydvXuwzboXYAk
- cNLIE6j5ld0mG2TigaQgB77eeMVBLa8=
-X-Proofpoint-ORIG-GUID: m7XCLYINGOdC-mn-rHq_D2_KsRt_nI_y
-X-Proofpoint-GUID: m7XCLYINGOdC-mn-rHq_D2_KsRt_nI_y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-19_01,2026-11-16_01,2025-10-01_01
 
-Add / replace / delete / flush psp decap actions, check that
-associations which don't exist are rejected, and add flower filters
-matching on psp_spi, psp_ver and psp_dev, out of range psp_ver and
-psp_dev rejected.
+This is v2 of the series that David Keogh posted as an RFC [1].
+v1 is [2].
 
-The tests of rejected actions match the kernel's extack message, so
-that they don't pass on tc's own argument checks. tc itself refuses
-decap with an association, and encap without one, so those kernel
-checks aren't covered here.
+Locally generated UDP, raw and AF_PACKET packets, and AF_XDP packets in
+copy mode, get only the headroom that needed_headroom asks for. If an
+XDP or TC program needs more, the skb is reallocated or copied for every
+packet. This happens in three cases:
 
-Creating associations takes the PSP netlink family and a PSP device;
-the drv-net psp.py test covers actions using them.
+- An XDP program on a veth peer needs XDP_PACKET_HEADROOM (256 bytes).
+  The peer copies the packet.
+- A program at TC egress adds headers. The skb is reallocated.
+- A namespace sends through a veth pair, and a program at TC egress of
+  another device, such as the host uplink, adds headers. The skb is
+  reallocated on that device.
 
-The tests need a tc with the psp action and the flower psp_* keys; they
-skip without it (dependsOn).
+(patches 1-2, from David Keogh) This series adds tx_extra_headroom to
+struct net_device. It is added only where a locally generated skb is
+allocated.
 
-Signed-off-by: Todd Freed <toddfreed@meta.com>
+Each case sets tx_extra_headroom in its own way, to keep the new UAPI
+minimal:
+
+- (patches 3-5) The kernel sets it when XDP is attached to the peer of
+  a veth or netkit device. New skbs on the device then reserve enough
+  headroom for XDP_PACKET_HEADROOM.
+- (patches 6-8) Add a BTF decl tag "tx_extra_headroom:<bytes>" as
+  UAPI. A tcx egress program declares it, and the verifier reads it at
+  load.
+- (patches 9-11) Add a VETH_INFO_TX_EXTRA_HEADROOM UAPI for headers that
+  another device pushes, such as the host uplink. It is like
+  IFLA_NETKIT_HEADROOM for netkit [3]. The CNI plugin sets it at veth
+  creation, as Cilium does with netkit [4].
+
+tx_extra_headroom is the sum of the extra headroom that each case
+requires, limited to 512 bytes. For example, a program at TC egress
+pushes a header, and XDP on the peer then still needs
+XDP_PACKET_HEADROOM in front of it. The kernel recalculates
+tx_extra_headroom when XDP or a tcx program is attached or detached.
+
+For all three cases, one option is to raise needed_headroom instead.
+This causes a regression for TCP and forwarding, because
+needed_headroom is also the minimum that ip_finish_output2() and
+ip_forward() require.
+
+Patch 3 depends on commit f564749b3b26 ("net: record XDP programs
+propagated to lower devices"), which is only in net-next, so the series
+targets net-next. Patches 6-8 change tcx and the verifier. An Ack from
+the BPF maintainers on them would be appreciated.
+
+Performance:
+
+All tests run on a Xeon E5-2640 v4 with a ConnectX-4 Lx NIC, on
+net-next at d6816d9a93b6. Details of the artifacts are in [5].
+
+The first table shows the regression when needed_headroom is raised
+to 256 on both ends of a veth pair. XDP runs on the namespace side:
+
+test                                 net-next       needed_headroom 256
+netns sends TCP to host              32.1 Gbit/s    30.8 Gbit/s
+host forwards 1400B UDP into netns   0.583 Mpps     0.366 Mpps
+
+The second table shows the gain from tx_extra_headroom in all three
+cases, with 1400-byte UDP payloads. All numbers come from one kernel
+with this series applied, with tx_extra_headroom off and on. Between
+two kernels, the code layout alone changed the rate by up to 13%.
+Off uses a benchmark-only patch for the XDP case [5], the push program
+without its decl tag, and a veth pair without
+VETH_INFO_TX_EXTRA_HEADROOM:
+
+test                                          off          on
+host to netns, generic XDP_PASS in netns      0.237 Mpps   0.283 Mpps
+host to netns, generic XDP_DROP in netns      0.386 Mpps   0.465 Mpps
+host to netns, 20-byte push at TC egress      0.385 Mpps   0.468 Mpps
+netns to uplink, 20-byte push on the uplink   0.190 Mpps   0.219 Mpps
+
+Out of scope:
+
+- Auto-tuning for the second and third cases [6].
+- Backlinking the originating netdev to set tx_extra_headroom for the
+  third case [7].
+- Native XDP on veth. veth_convert_skb_to_xdp_buff() still copies
+  these packets. A follow-up veth patch changes this for XDP_PASS and
+  XDP_DROP.
+
+Changes:
+
+v2:
+- Drop "configurable" from the series title and rework the cover
+  letter.
+- Drop IFLA_TX_EXTRA_HEADROOM (Willem, Stephen).
+- Set tx_extra_headroom on veth XDP attach (Stephen), from the BPF decl
+  tag "tx_extra_headroom:<bytes>" on tcx attach (Dragos, Willem), and
+  with VETH_INFO_TX_EXTRA_HEADROOM at veth creation.
+- Turn the LL_ALLOC_SPACE() and LL_ALLOC_SPACE_EX() macros into static
+  inline functions (Willem).
+- Test the veth attribute with YNL only (Jakub).
+
+v1 [2]:
+- Add the veth XDP case and the needed_headroom regression data to the
+  cover letter.
+- Remove LL_RESERVED_SPACE_EXTRA(), which has no user.
+- Replace the RFC data-path selftests with a test of a push at TC
+  egress.
+- Add tests of generic XDP on a veth peer and of setting both ends of
+  a veth pair.
+
+RFC: [1]
+
+[1] https://lore.kernel.org/all/20261015235335.4162993-1-dkeogh@amazon.com/
+[2] https://lore.kernel.org/all/cover.1794020868.git.tianyi@cloudflare.com/
+[3] https://git.kernel.org/torvalds/c/b9ed315d3c4c
+[4] https://github.com/cilium/cilium/blob/4a5cd2a20e31/pkg/datapath/connector/netkit.go#L63-L67
+[5] https://github.com/tgao-cf/tx-extra-headroom-bench/tree/main
+[6] https://lore.kernel.org/all/20261108214356.95406-1-tianyi@cloudflare.com/
+[7] https://lore.kernel.org/all/20261110201250.95225-1-tianyi@cloudflare.com/
 ---
- tools/testing/selftests/tc-testing/config     |   2 +
- .../tc-testing/tc-tests/actions/psp.json      | 403 ++++++++++++++++++
- tools/testing/selftests/tc-testing/tdc.sh     |   1 +
- 3 files changed, 406 insertions(+)
- create mode 100644 tools/testing/selftests/tc-testing/tc-tests/actions/psp.json
+David Keogh will post a TCP test as a reply to this series.
 
-diff --git a/tools/testing/selftests/tc-testing/config b/tools/testing/selftests/tc-testing/config
-index 0e5618be0335..7828161cc3c8 100644
---- a/tools/testing/selftests/tc-testing/config
-+++ b/tools/testing/selftests/tc-testing/config
-@@ -101,6 +101,8 @@ CONFIG_NET_ACT_TUNNEL_KEY=m
- CONFIG_NET_ACT_CT=m
- CONFIG_NET_ACT_MPLS=m
- CONFIG_NET_ACT_GATE=m
-+CONFIG_INET_PSP=y
-+CONFIG_NET_ACT_PSP=m
- CONFIG_NET_IFE_SKBMARK=m
- CONFIG_NET_IFE_SKBPRIO=m
- CONFIG_NET_IFE_SKBTCINDEX=m
-diff --git a/tools/testing/selftests/tc-testing/tc-tests/actions/psp.json b/tools/testing/selftests/tc-testing/tc-tests/actions/psp.json
-new file mode 100644
-index 000000000000..af5366caf5c7
---- /dev/null
-+++ b/tools/testing/selftests/tc-testing/tc-tests/actions/psp.json
-@@ -0,0 +1,403 @@
-+[
-+    {
-+        "id": "8357",
-+        "name": "Add psp decap action",
-+        "category": [
-+            "actions",
-+            "psp"
-+        ],
-+        "dependsOn": "$TC actions add action psp help 2>&1 | grep -q decap",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            [
-+                "$TC actions flush action psp",
-+                0,
-+                1,
-+                255
-+            ]
-+        ],
-+        "cmdUnderTest": "$TC actions add action psp decap index 1",
-+        "expExitCode": "0",
-+        "verifyCmd": "$TC actions get action psp index 1",
-+        "matchPattern": "action order [0-9]+: psp decap pipe.*index 1 ref",
-+        "matchCount": "1",
-+        "teardown": [
-+            "$TC actions flush action psp"
-+        ]
-+    },
-+    {
-+        "id": "7676",
-+        "name": "Add psp decap action with drop control",
-+        "category": [
-+            "actions",
-+            "psp"
-+        ],
-+        "dependsOn": "$TC actions add action psp help 2>&1 | grep -q decap",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            [
-+                "$TC actions flush action psp",
-+                0,
-+                1,
-+                255
-+            ]
-+        ],
-+        "cmdUnderTest": "$TC actions add action psp decap drop index 2",
-+        "expExitCode": "0",
-+        "verifyCmd": "$TC actions get action psp index 2",
-+        "matchPattern": "action order [0-9]+: psp decap drop.*index 2 ref",
-+        "matchCount": "1",
-+        "teardown": [
-+            "$TC actions flush action psp"
-+        ]
-+    },
-+    {
-+        "id": "9a26",
-+        "name": "Add psp decap action without index",
-+        "category": [
-+            "actions",
-+            "psp"
-+        ],
-+        "dependsOn": "$TC actions add action psp help 2>&1 | grep -q decap",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            [
-+                "$TC actions flush action psp",
-+                0,
-+                1,
-+                255
-+            ]
-+        ],
-+        "cmdUnderTest": "$TC actions add action psp decap",
-+        "expExitCode": "0",
-+        "verifyCmd": "$TC actions list action psp",
-+        "matchPattern": "action order [0-9]+: psp decap pipe",
-+        "matchCount": "1",
-+        "teardown": [
-+            "$TC actions flush action psp"
-+        ]
-+    },
-+    {
-+        "id": "156e",
-+        "name": "Replace psp decap action",
-+        "category": [
-+            "actions",
-+            "psp"
-+        ],
-+        "dependsOn": "$TC actions add action psp help 2>&1 | grep -q decap",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            [
-+                "$TC actions flush action psp",
-+                0,
-+                1,
-+                255
-+            ],
-+            "$TC actions add action psp decap index 3"
-+        ],
-+        "cmdUnderTest": "$TC actions replace action psp decap pass index 3",
-+        "expExitCode": "0",
-+        "verifyCmd": "$TC actions get action psp index 3",
-+        "matchPattern": "action order [0-9]+: psp decap pass.*index 3 ref",
-+        "matchCount": "1",
-+        "teardown": [
-+            "$TC actions flush action psp"
-+        ]
-+    },
-+    {
-+        "id": "006b",
-+        "name": "Add psp action with an existing index",
-+        "category": [
-+            "actions",
-+            "psp"
-+        ],
-+        "dependsOn": "$TC actions add action psp help 2>&1 | grep -q decap",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            [
-+                "$TC actions flush action psp",
-+                0,
-+                1,
-+                255
-+            ],
-+            "$TC actions add action psp decap index 4"
-+        ],
-+        "cmdUnderTest": "$TC actions add action psp decap pass index 4",
-+        "expExitCode": "255",
-+        "verifyCmd": "$TC actions get action psp index 4",
-+        "matchPattern": "action order [0-9]+: psp decap pipe.*index 4 ref",
-+        "matchCount": "1",
-+        "teardown": [
-+            "$TC actions flush action psp"
-+        ]
-+    },
-+    {
-+        "id": "3f41",
-+        "name": "Delete psp action",
-+        "category": [
-+            "actions",
-+            "psp"
-+        ],
-+        "dependsOn": "$TC actions add action psp help 2>&1 | grep -q decap",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            [
-+                "$TC actions flush action psp",
-+                0,
-+                1,
-+                255
-+            ],
-+            "$TC actions add action psp decap index 5"
-+        ],
-+        "cmdUnderTest": "$TC actions del action psp index 5",
-+        "expExitCode": "0",
-+        "verifyCmd": "$TC actions list action psp",
-+        "matchPattern": "action order [0-9]+: psp",
-+        "matchCount": "0",
-+        "teardown": [
-+            "$TC actions flush action psp"
-+        ]
-+    },
-+    {
-+        "id": "2b21",
-+        "name": "Flush psp actions",
-+        "category": [
-+            "actions",
-+            "psp"
-+        ],
-+        "dependsOn": "$TC actions add action psp help 2>&1 | grep -q decap",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            [
-+                "$TC actions flush action psp",
-+                0,
-+                1,
-+                255
-+            ],
-+            "$TC actions add action psp decap index 6",
-+            "$TC actions add action psp decap drop index 7"
-+        ],
-+        "cmdUnderTest": "$TC actions flush action psp",
-+        "expExitCode": "0",
-+        "verifyCmd": "$TC actions list action psp",
-+        "matchPattern": "action order [0-9]+: psp",
-+        "matchCount": "0",
-+        "teardown": [
-+            "$TC actions flush action psp"
-+        ]
-+    },
-+    {
-+        "id": "2d50",
-+        "name": "Add psp action without encap or decap",
-+        "category": [
-+            "actions",
-+            "psp"
-+        ],
-+        "dependsOn": "$TC actions add action psp help 2>&1 | grep -q decap",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            [
-+                "$TC actions flush action psp",
-+                0,
-+                1,
-+                255
-+            ]
-+        ],
-+        "cmdUnderTest": "$TC actions add action psp index 12 2>&1 | grep -q 'Missing PSP action, encap or decap'",
-+        "expExitCode": "0",
-+        "verifyCmd": "$TC actions list action psp",
-+        "matchPattern": "action order [0-9]+: psp",
-+        "matchCount": "0",
-+        "teardown": [
-+            "$TC actions flush action psp"
-+        ]
-+    },
-+    {
-+        "id": "3203",
-+        "name": "Add psp encap action with an unknown assoc",
-+        "category": [
-+            "actions",
-+            "psp"
-+        ],
-+        "dependsOn": "$TC actions add action psp help 2>&1 | grep -q decap",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            [
-+                "$TC actions flush action psp",
-+                0,
-+                1,
-+                255
-+            ]
-+        ],
-+        "cmdUnderTest": "$TC actions add action psp encap assoc 4294967295 index 9",
-+        "expExitCode": "255",
-+        "verifyCmd": "$TC actions list action psp",
-+        "matchPattern": "action order [0-9]+: psp",
-+        "matchCount": "0",
-+        "teardown": [
-+            "$TC actions flush action psp"
-+        ]
-+    },
-+    {
-+        "id": "a744",
-+        "name": "Add flower psp_spi filter with psp decap",
-+        "category": [
-+            "actions",
-+            "psp",
-+            "filter"
-+        ],
-+        "dependsOn": "$TC filter add flower help 2>&1 | grep -q psp_spi && $TC actions add action psp help 2>&1 | grep -q decap",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            "$TC qdisc add dev $DEV1 ingress"
-+        ],
-+        "cmdUnderTest": "$TC filter add dev $DEV1 ingress protocol ip pref 1 flower psp_spi 0x1234 action psp decap",
-+        "expExitCode": "0",
-+        "verifyCmd": "$TC filter show dev $DEV1 ingress",
-+        "matchPattern": "psp_spi 0x1234.*psp decap pipe",
-+        "matchCount": "1",
-+        "teardown": [
-+            "$TC qdisc del dev $DEV1 ingress"
-+        ]
-+    },
-+    {
-+        "id": "be4e",
-+        "name": "Add flower psp_spi filter with mask",
-+        "category": [
-+            "actions",
-+            "psp",
-+            "filter"
-+        ],
-+        "dependsOn": "$TC filter add flower help 2>&1 | grep -q psp_spi",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            "$TC qdisc add dev $DEV1 ingress"
-+        ],
-+        "cmdUnderTest": "$TC filter add dev $DEV1 ingress protocol ipv6 pref 1 flower psp_spi 0x80001234/0x8000ffff action drop",
-+        "expExitCode": "0",
-+        "verifyCmd": "$TC filter show dev $DEV1 ingress",
-+        "matchPattern": "psp_spi 0x80001234/0x8000ffff",
-+        "matchCount": "1",
-+        "teardown": [
-+            "$TC qdisc del dev $DEV1 ingress"
-+        ]
-+    },
-+    {
-+        "id": "4e1f",
-+        "name": "Add flower psp_spi, psp_ver and psp_dev filter with psp decap",
-+        "category": [
-+            "actions",
-+            "psp",
-+            "filter"
-+        ],
-+        "dependsOn": "$TC filter add flower help 2>&1 | grep -q psp_spi && $TC actions add action psp help 2>&1 | grep -q decap",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            "$TC qdisc add dev $DEV1 ingress"
-+        ],
-+        "cmdUnderTest": "$TC filter add dev $DEV1 ingress protocol ip pref 1 flower psp_spi 0x1234 psp_ver 1 psp_dev 7 action psp decap",
-+        "expExitCode": "0",
-+        "verifyCmd": "$TC filter show dev $DEV1 ingress",
-+        "matchPattern": "psp_spi 0x1234.*psp_ver 1.*psp_dev 7.*psp decap pipe",
-+        "matchCount": "1",
-+        "teardown": [
-+            "$TC qdisc del dev $DEV1 ingress"
-+        ]
-+    },
-+    {
-+        "id": "7c3a",
-+        "name": "Add flower psp_ver 0 filter",
-+        "category": [
-+            "actions",
-+            "psp",
-+            "filter"
-+        ],
-+        "dependsOn": "$TC filter add flower help 2>&1 | grep -q psp_spi",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            "$TC qdisc add dev $DEV1 ingress"
-+        ],
-+        "cmdUnderTest": "$TC filter add dev $DEV1 ingress protocol ipv6 pref 1 flower psp_ver 0 action drop",
-+        "expExitCode": "0",
-+        "verifyCmd": "$TC filter show dev $DEV1 ingress",
-+        "matchPattern": "psp_ver 0",
-+        "matchCount": "1",
-+        "teardown": [
-+            "$TC qdisc del dev $DEV1 ingress"
-+        ]
-+    },
-+    {
-+        "id": "b58d",
-+        "name": "Add flower psp_ver filter with an invalid version",
-+        "category": [
-+            "actions",
-+            "psp",
-+            "filter"
-+        ],
-+        "dependsOn": "$TC filter add flower help 2>&1 | grep -q psp_spi",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            "$TC qdisc add dev $DEV1 ingress"
-+        ],
-+        "cmdUnderTest": "$TC filter add dev $DEV1 ingress protocol ip pref 1 flower psp_ver 16 action drop",
-+        "expExitCode": "2",
-+        "verifyCmd": "$TC filter show dev $DEV1 ingress",
-+        "matchPattern": "psp_ver",
-+        "matchCount": "0",
-+        "teardown": [
-+            "$TC qdisc del dev $DEV1 ingress"
-+        ]
-+    },
-+    {
-+        "id": "2f96",
-+        "name": "Add flower psp_dev filter with an invalid device",
-+        "category": [
-+            "actions",
-+            "psp",
-+            "filter"
-+        ],
-+        "dependsOn": "$TC filter add flower help 2>&1 | grep -q psp_spi",
-+        "plugins": {
-+            "requires": "nsPlugin"
-+        },
-+        "setup": [
-+            "$TC qdisc add dev $DEV1 ingress"
-+        ],
-+        "cmdUnderTest": "$TC filter add dev $DEV1 ingress protocol ip pref 1 flower psp_dev 65536 action drop",
-+        "expExitCode": "2",
-+        "verifyCmd": "$TC filter show dev $DEV1 ingress",
-+        "matchPattern": "psp_dev",
-+        "matchCount": "0",
-+        "teardown": [
-+            "$TC qdisc del dev $DEV1 ingress"
-+        ]
-+    }
-+]
-diff --git a/tools/testing/selftests/tc-testing/tdc.sh b/tools/testing/selftests/tc-testing/tdc.sh
-index 25cdc256287d..433af92364ac 100755
---- a/tools/testing/selftests/tc-testing/tdc.sh
-+++ b/tools/testing/selftests/tc-testing/tdc.sh
-@@ -24,6 +24,7 @@ try_modprobe act_mpls
- try_modprobe act_nat
- try_modprobe act_pedit
- try_modprobe act_police
-+try_modprobe act_psp
- try_modprobe act_sample
- try_modprobe act_simple
- try_modprobe act_skbedit
+The iproute2 patch for VETH_INFO_TX_EXTRA_HEADROOM will be posted after
+this series is accepted.
+
+David Keogh (2):
+  net: add tx_extra_headroom and netdev_get_alloc_headroom()
+  net: reserve extra TX headroom for local egress
+
+Tianyi Gao (9):
+  net: set tx_extra_headroom of the peer on XDP attach
+  selftests: net: add flag to send a frame in xdp_helper
+  selftests: net: add tx_extra_headroom test
+  bpf, tcx: Set tx_extra_headroom from a decl tag on egress programs
+  selftests: net: tx_extra_headroom: test a push at TC egress
+  selftests/bpf: Test the tx_extra_headroom decl tag
+  veth: add VETH_INFO_TX_EXTRA_HEADROOM
+  netlink: specs: rt-link: add veth attributes
+  selftests: net: tx_extra_headroom: test the veth attribute
+
+ Documentation/netlink/specs/rt-link.yaml      |  14 +
+ .../networking/net_cachelines/net_device.rst  |   1 +
+ Documentation/networking/netdevices.rst       |  44 ++
+ drivers/net/veth.c                            |  44 ++
+ include/linux/bpf.h                           |   1 +
+ include/linux/netdevice.h                     |  40 +-
+ include/net/tcx.h                             |   6 +
+ include/uapi/linux/veth.h                     |   5 +-
+ kernel/bpf/tcx.c                              |  24 +
+ kernel/bpf/verifier.c                         |  31 ++
+ net/core/dev.c                                |  44 ++
+ net/ipv4/ip_output.c                          |   2 +-
+ net/ipv4/raw.c                                |   2 +-
+ net/ipv6/ip6_output.c                         |   2 +-
+ net/ipv6/raw.c                                |   2 +-
+ net/packet/af_packet.c                        |   7 +-
+ net/xdp/xsk.c                                 |   6 +-
+ tools/net/ynl/Makefile.deps                   |   3 +-
+ .../selftests/bpf/prog_tests/verifier.c       |   2 +
+ .../bpf/progs/verifier_tx_extra_headroom.c    |  40 ++
+ tools/testing/selftests/net/Makefile          |   1 +
+ tools/testing/selftests/net/lib/xdp_helper.c  |  82 +++-
+ .../selftests/net/tx_extra_headroom.bpf.c     | 138 ++++++
+ .../selftests/net/tx_extra_headroom.py        | 426 ++++++++++++++++++
+ 24 files changed, 944 insertions(+), 23 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/progs/verifier_tx_extra_headroom.c
+ create mode 100644 tools/testing/selftests/net/tx_extra_headroom.bpf.c
+ create mode 100755 tools/testing/selftests/net/tx_extra_headroom.py
+
+
+base-commit: d6816d9a93b66a12bf01e10037e377f3333ad6cc
 -- 
-2.53.1-Meta
+2.56.0
 
