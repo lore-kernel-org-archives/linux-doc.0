@@ -1,64 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.35
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795095997;
-	b=ZOfxzxc7L0cr7GGTUZzN40Bqinni8QpaLjGEOMBILaMLnJjZYtjVCgqUYbkgBBYXfXEi
-	 ZWr44sBJ6I6mH05F1DUci9VKJhyX2vniCTngCLtYH67IPzIUFjsZQNNVHeFWIYhHI7/O+
-	 6CMe6/DWqRJT+0Z/MbSMG4wyrg3rzAZafZFoz20dNhSCRxGHjWNzmwPklTQFcLyE8ujSy
-	 M40Drsj2fRA+7J7QBLERoPUAdtl4rNSk03eIBsllvTMYf/tIsZ1NoOPTXOZ2nHjLtgCB1
-	 N3caLrtfpq/TDnY76Sy2gzxcLiXR90fzqLoblXbi10wFupz7v2sngPfUUN9PJjW0nmg==
+	t=1795096006;
+	b=pmA0Q3swZQTdz2xclkzxIHZhE10JafIcmqVkj8pOPb4GbYb2iTh/3wM8ZT6HBdAgH4Zw
+	 D9l3z78Rg9dOXyjEzDRdhHcI/0RI/OWZ8rUTI0IXwQWDLy4AziUt/xZ5N26R7wKTkkGFa
+	 qCC76r+JoiKTG45BhY/+qsNpdI6fIzVd8KvwW0zSTu4kzt6hkngHgRBZpH+kn2JJ+Y4he
+	 pGHBrGRK++maxUGm1fkYW0VkgIQKzz+s9Vv2gPQx6uXp6sXGxUyNv3a+CeLC1+4s8PHyq
+	 C16OwWiOXm/p5ri2y3yjEw0PauBVqznDByBKqotx8/iK43VQTMSqbI0p6NIELUnrmFg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795095997;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=K6c48fOGAG/eR5AK65D44dlpQvLqtxWSyQFSKksC/vo=;
-	b=bdtxhfVaUj33R1JHDKP9NJMAMN9bKSnlQh+zs1/4NdziyvQRGwf4weYsi4Ake6QGK2PQ
-	 SfdZrO4M/ylhhhU+X5NXQBh+bEM+UMyjgLXCgTpUL4n76IuZ5Q+AHMBvCr6rsclyZyNmY
-	 mTs8AOwOn6fAQBUrEevEGtrEuWMYXr5E/b8V4SD7nhQ2ENqAxVgDX1VyB0dXBu58t30cd
-	 ZGbw9aGIHsz32oA55TURpiPemPnJQAHYeC4vMJ4lT4LS8gtl0YxhTTEljdF37lAG+/R9Y
-	 wn7n2mjfB54rjaAYODNxMvJ/xWOGxCT5drjF9jraeF6DLifnXCM9ZKRvCdvacpWVTwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795096006;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=aFjgMZT4ij3QgwOV3LfQIHaT7HzWZzkda031aoTFEzs=;
+	b=zPdPTHDVBLsU8QaGYhrRkNHqErlR09jPJbtiJ2hPkLDWCzY/uCuA3fmDGcmczuVirGx0
+	 mtf2OHpbesoXUDzEZCA1/5pgA88e5TP/WGstOrWIC9vvkv++BWDhAGSu8E3hx7r/QHrqM
+	 8RdFD1wt8s3sECrX1v709MeShqsrsLAi0WJYDkpKfdD0vHEJoVYTAZTREHxHqXNrDM0ra
+	 MIKOlsMLWdvLWUs1/sP3un0f7XVzUvziU/h6+x1r5Nbv8wGIIhxmUcPJSExoiFcGWTkje
+	 zJhMKRuut2Uce8Pgx6csxmfXTFdk4tlZC0/0k3uDHx0g5L99MBhco4RE5kjGFWW776Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f1+TuU4u;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BFFu1MCk;
+	arc=none smtp.remote-ip=91.218.175.35
+Received: from mta0.migadu.com (out-35.mta0.migadu.com [91.218.175.35])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D988606A339;
-	Thu, 19 Nov 2026 13:46:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1C1606A337
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 13:46:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B1C1606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f1+TuU4u
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 642A91F000C5;
-	Thu, 19 Nov 2026 13:46:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795095997;
-	bh=K6c48fOGAG/eR5AK65D44dlpQvLqtxWSyQFSKksC/vo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=f1+TuU4u5pQY0jlxM4FxicBn9e3x+JEPVAJoBXMJQPCA7r4sIu08tDq/G3USbMOMx
-	 unmVpNXoTEzJCOslI1jCYxOSiTVipGJzd0mU1yu2bG1KsTrdO9fn4hOx3OV3Pc+TYC
-	 EnPqgztpgXWXjDuTlYUH6GD7YCdVacVJlcrS3CZ8MMKD9hqXPn0Twmc2kuAXqlt9bG
-	 AX+eyjaEZPtQoDAlp9cMKEXoLXNcReaFccZ6knlIC+Jcw/MRW0izkof37GZSGwJaY3
-	 1+BWQeEXtoJwhpHGpyrvlxhDjJdh7h9svpGoUGPmi6ndaX37BKm3EqI3OKo2E/6eja
-	 m9ammzn2xPOOw==
-Date: Thu, 19 Nov 2026 13:46:31 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
- user-visible impact
-Message-ID: <2d232c34-b111-4228-a049-6f037370c17e@sirena.org.uk>
-References: <20261116200515.352387-1-sashal@kernel.org>
- <20261117092723.GA124972@unreal>
- <220c5818-ad59-4003-9955-9821d09c0279@kernel.org>
- <20261119111902.GH162713@unreal>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BFFu1MCk
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=++jxRWVPeWHHNOse9hUX9VVHA8pC7zSS/WWi8a/OqNw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795096004; v=1; x=1795700804;
+ b=BFFu1MCkYDNvS1QBOd5lfM7XsW1mMv06+SULHYpVMq7qtH+10lOdRlpTXISGV6TiSnMuBcFc
+ skn6vs9IegdwLkYMZuuYzEpnRnLF9NLyjRQnhIp78mxyGtNgCkxdl38pbXyb4fbcbk6/wca4zUS
+ e9MVHuQ3frEjO2yzdIuht1cM=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 799fbb2e29e87772;
+	Thu, 19 Nov 2026 13:46:44 +0000
+X-Mizu-Trace-ID: 799fbb2e29e87772
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <69a099c3-082e-43b8-82f5-122d32df5eff@linux.dev>
+Date: Thu, 19 Nov 2026 14:46:39 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,50 +58,103 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Gz+MSdAl/y4DDapf"
-Content-Disposition: inline
-In-Reply-To: <20261119111902.GH162713@unreal>
-X-Cookie: I'm into SOFTWARE!
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 06/11] riscv: enable NMI-safe lockdep irqflags
+ tracking
+To: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, pjw@kernel.org,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+ himanshu.chauhan@oss.qualcomm.com, conor@kernel.org,
+ anup.patel@oss.qualcomm.com
+Cc: cuiyunhui@bytedance.com, atish.patra@linux.dev, peterz@infradead.org,
+ mingo@redhat.com, acme@kernel.org, namhyung@kernel.org,
+ mark.rutland@arm.com, alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+ irogers@google.com, adrian.hunter@intel.com, james.clark@linaro.org,
+ will@kernel.org, tglx@kernel.org, corbet@lwn.net, rdunlap@infradead.org,
+ shuah@kernel.org, yuanzhu@bytedance.com, yang.susheng@zte.com.cn,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20261119120824.13969-13-zhangzhanpeng.jasper@bytedance.com>
+ <20261119120824.13969-19-zhangzhanpeng.jasper@bytedance.com>
+Content-Language: en-US
+From: Clement Leger <clement.leger@linux.dev>
+In-Reply-To: <20261119120824.13969-19-zhangzhanpeng.jasper@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---Gz+MSdAl/y4DDapf
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 19, 2026 at 01:19:02PM +0200, Leon Romanovsky wrote:
-> On Thu, Nov 19, 2026 at 11:13:57AM +0100, Krzysztof Kozlowski wrote:
+On 11/19/26 13:08, Zhanpeng Zhang wrote:
+> An SSE handler runs with interrupts masked, but can interrupt code whose
+> lockdep hardirq state is enabled. Bare nmi_enter()/nmi_exit() do not
+> update that state. Consequently, lockdep_assert_irqs_disabled() in the
+> perf overflow path can report a warning despite interrupts being masked.
+> 
+> Select TRACE_IRQFLAGS_NMI_SUPPORT so lockdep can update its hardirq state
+> inside an NMI. Pair this with irqentry_nmi_enter()/irqentry_nmi_exit() in
+> the SSE wrapper: these helpers save the previous tracked state, mark
+> interrupts disabled on entry and restore the tracked state on exit.
+> Selecting the configuration option alone does not perform those updates.
+> This follows the entry helpers used by the other RISC-V NMI-like traps.
+> 
+> Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+> ---
+>   arch/riscv/Kconfig          | 1 +
+>   arch/riscv/kernel/sbi_sse.c | 7 ++++---
+>   2 files changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index d2db8f40c616..5501c02a07eb 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -225,6 +225,7 @@ config RISCV
+>   	select SYSCTL_EXCEPTION_TRACE
+>   	select THREAD_INFO_IN_TASK
+>   	select TRACE_IRQFLAGS_SUPPORT
+> +	select TRACE_IRQFLAGS_NMI_SUPPORT
+>   	select UACCESS_MEMCPY if !MMU
+>   	select VDSO_DATASTORE if MMU
+>   	select VDSO_GETRANDOM if MMU && 64BIT
+> diff --git a/arch/riscv/kernel/sbi_sse.c b/arch/riscv/kernel/sbi_sse.c
+> index 032fcc07abcf..59e47a39589d 100644
+> --- a/arch/riscv/kernel/sbi_sse.c
+> +++ b/arch/riscv/kernel/sbi_sse.c
+> @@ -2,7 +2,7 @@
+>   /*
+>    * Copyright (C) 2025 Rivos Inc.
+>    */
+> -#include <linux/nmi.h>
+> +#include <linux/entry-common.h>
+>   #include <linux/sched.h>
+>   #include <linux/scs.h>
+>   #include <linux/bitfield.h>
+> @@ -36,9 +36,10 @@ void noinstr do_sse(struct sse_event_arch_data *arch_evt,
+>   {
+>   	struct riscv_sse_interrupted_context context = { regs, hstatus };
+>   	struct riscv_sse_interrupted_context *previous;
+> +	irqentry_state_t state;
+>   	struct sbiret sret;
+>   
+> -	nmi_enter();
+> +	state = irqentry_nmi_enter(regs);
+>   	instrumentation_begin();
+>   
+>   	/* Retrieve missing GPRs from SBI */
+> @@ -84,7 +85,7 @@ void noinstr do_sse(struct sse_event_arch_data *arch_evt,
+>   
+>   out:
+>   	instrumentation_end();
+> -	nmi_exit();
+> +	irqentry_nmi_exit(regs, state);
+>   }
+>   
+>   static void *alloc_to_stack_pointer(void *alloc)
 
-> > That's often review feedback, btw, people just paste huge bunch of dmesg
-> > without thinking what is useful there.
+Hi Zhanpeng,
 
-> It=E2=80=99s still better than AI-generated prose peppered with short, tw=
-o- or
-> three-line stack traces intended to trick me into merging a patch. I=E2=
-=80=99d
-> rather trim the description myself than rely on random submitters to
-> provide exactly the right amount of information=E2=80=94no more, no less.
+Not sure if it was already suggested but I would fold that in the commit 
+adding SSE itself.
 
-Honestly, it's generally just as bad - it's usually multiple screenfuls
-of irrelevant noise which doesn't visually fit the format for a
-changelog.  Half the time people put them in the middle of the changelog
-which doesn't help anything.  With the generated changelogs at least you
-know to skim read the whole thing and not trust a word that's in there.
+Thanks,
 
---Gz+MSdAl/y4DDapf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmr+/bcACgkQJNaLcl1U
-h9AgAwf9FryBvv/AjLFiJUm2t+yRQAPDmd+W+LDj7Ux+kVL+2QlvZYudoAQXj2d5
-odV8kewKa2I7e/ZNshnfLrDtOoYEHvO+OW0xIejKpyAWFaYcNbv+2QKh2tYLmAsu
-DXzU5qQKOzIRbECO930rHRPtPe5yflUTkPWIQ095jgizzDn1ubfZgjD+cdK3sX3S
-RjlyKIXJEYHRJBMNIfhkjXjBx4neDuvhFOcQkENAb6sD4H2a+7ui4ffNtIRmO6zY
-2bNI6ZSRel/2Ojj28qvNXheklWCJ8KqTtTNTifu3tE0Bf+8MdG0mOpdmk1giP0f/
-cKOZf9z9qVdiMkfi3DUJaM/N9oL+cg==
-=UiHy
------END PGP SIGNATURE-----
-
---Gz+MSdAl/y4DDapf--
+Clément
