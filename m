@@ -1,158 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795052353;
-	b=ZLf9Ho8rHjh5DDyCojTmD1kF1IVEEdqDGl0gzflR8KinwTT8Mg1KndT9FT1N8aNxc/wq
-	 WJykNPusfWGqLChgAtwBlmBwicyJlFzOzTejrw7Uf2w0MUgI9gZtbq1hNPYIYlOZuKMjw
-	 N4huYSOcN5t9TvSy4t+tbGlRcb7R0LAGie3met3qG3SLHWtyEp7RrW35bFWMKmJmN+HOy
-	 klm4Ll2W4Xv/EP2dl+4I/hh9vemPBiFHlQIGZctrY4Cv1EDQPXGIA/Ma8Y3YMxi3qlJCN
-	 Hozcu5YPnMUdBgXHcLlO4q4sgGla7Jh0T7YHHjBGCwV7Ri6tUgXhXDvZ4DOdTHvjP2Q==
+	t=1795052666;
+	b=X0rzQy9XLCfje2ujvg18tGb40f7La8kPYvNKckT1VTSfzfTCl1px9f3r7W3o0KmIrpnU
+	 89kEKtJgterKKeHBlbCo5hqFJ0mvPmLI7vFRIDpztENmr2CcNJGL1eQ2RgLy2V5Lm/UdB
+	 QzFTRRkyJc4CNZscpXp7MdnwUWkVRpRVtjZeIo1ISIpsx/fT6DflxkzN4j1iG8OUHodWu
+	 7rpdUbzK0uIu09Lt+8Rgaq3EVaU2ke6sErODW1lttm1x6Q2W9vs+Y+6s0jWwIcAGttfAC
+	 y++1B/XzjUyi7kgtj6efk1EMeTFFeBwHpoe8SZVPpQa+Sl8dcV4Ju12izrRs12P/b0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795052353;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=iBPC28pXNUc65LCOCKjuf1PqILruKyYBZIqYbx1Wulw=;
-	b=HGxtzDwrNqOU+V7UkGrM6S3HOrm1LVQ18GopSpw4NhsJlIjC/s54ijL1oIpoZDiPmAP0
-	 1/uYk4k0XGSlx0aUTQhAm5N/qY+ZfcfiWjVBjps8B8gwsxaozg06o+UuUCCKDkyUQnZCR
-	 PBLt6cZx7IdMGaaBGubbUXD0Gn47ZFj3WXH2hN/2LWOqLM4ho9m+Sv4XmjvKO7e/+RBU5
-	 mw3/RKY9Rx8a+7qd+rnlqYXX2j7JgBGzttbqk4FuIgua1B33MRdErSqUkX5rfkds4yiPW
-	 T6lZVQPuzV2WXmW6OoAFgQO7zVIRovNTgw+Lb9lESIItaIllTfaqjbKl/VQ3EvkEH6A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795052666;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=9waXTkMYmXwP4/W6e6Zut8DdWOx9w1dU7kQpzPoyvwU=;
+	b=HpP/ztlOXM5CaPZQCD/cLqWd/+6is6dmlZvn9heSg5BRlyauyhXUG2wbJ1MdDdIeJGuW
+	 fFM8b44q83OBV/D+L410pL123iY5BFZzQ+/nilTvf4g7oy0HBhjfqGLxtOjbrmfqV2zv/
+	 EXAZqMo1A3FCKYMPi5ZqgLUALMO8Q0rS6LSJxUlvb9Ad6yzDK46/oEMX5Fl6TT/kR8+hF
+	 zuaOLd/usleIw0oxZGofoWA2pynJBrCIM8NzWpCzB1M4Fnf24lEJnRRLhxDlsDXRd/C2a
+	 Mdh9suMIp+2Zst5PFSiB7DQUhNltdjg9iRDu2OrEtXwVjtzkK0tH6G2ZjeJ4jLAuv2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cloudflare.com;
-	spf=pass smtp.mailfrom=cloudflare.com;
-	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=MqbRm099;
-	arc=none smtp.remote-ip=209.85.218.43
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g4+24Kgw;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3450060A2638
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 01:39:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3450060A2638
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249F7606A31C;
+	Thu, 19 Nov 2026 01:44:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=MqbRm099
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c4322d310e7so268211466b.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 17:39:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google09082023; t=1795052351; x=1795657151; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iBPC28pXNUc65LCOCKjuf1PqILruKyYBZIqYbx1Wulw=;
-        b=MqbRm099WN/Cr7Dh4cVNZTyBKEIODRpZuiVj4miyHNlNXt7w87E9NnSDF/KI+KmnO4
-         SWUxi+nalK1M9EEvGQy4XUiRNrP1TTxeWMavR2HtOoUo7geQHGgKEr3zB7f25OOWouRX
-         AgNhTLOgRc7ygt8yLIoJpwucARceJcn1hjwoWDK2winZ30ockidP6knzrnYOTu/ZyZRP
-         5u4KMTUh/YQTFu/WomnjY2nU4pxE964HIw3foRzZZQwdDww55a2q8gINydUxJcBFCvCq
-         dRTnQ0zYQv2pkEqeTDqJLbCHOswflRuae8/r8NRRAJ15Pr2ak3iyrhxzQ0vv8KlcN9Ym
-         ozoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795052351; x=1795657151;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iBPC28pXNUc65LCOCKjuf1PqILruKyYBZIqYbx1Wulw=;
-        b=wjHu7LeC0dQgc0ufgBZY0ZZzU8aKI6cB0DUYCEM2lhQClRpvm7pMEmhjtV8e6k8bf6
-         olzw7L2n/ahGipZrTyZFDFtPG3w+yTpNM7cUsx4ce8peD1AL9TKM/105fJ6+EvXinGuF
-         8CHp9m7BUM90dPyblEmbhIkBKKBW4dQcVzt+RHBQCMyeFvfxwLKTk4Dq5wRs2fM1yU56
-         dcnlcj8FHoRK4SPKjFVD9+q9cAfWRC4gEPe6TyTu+3LMvxW0fPM2Rfqra5rZAR3d7nsm
-         vFYq4UE7kOixJoPMD1D66cfy3s+71dI2wnt59iJA9r7v3LDyclnT/tJoJqt/zKdSs5FI
-         mhSw==
-X-Forwarded-Encrypted: i=1; AL+hErFeQA5fd73O5qjnyLyYhYu+t9ZJGDGVaIbn1eEeoOO+OOXTgy91y2vKvUoa9sgryXybwLJc/eRNd8E=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+bW3lHzfPOJqkwE6UWjIj93M3XMOLjeWgj7w10BASAs3MKd2Et
-	/+PFq/8C9MZF+QNTNPOYbnIp3ohIZ0UDnQSwf9LK1PalnF66GmmjFByEzw6b7OXs9hc=
-X-Gm-Gg: AYBFou23uocgsKqOcWdy+O32H6Yoa2EmI/bGtX/YxeLZqSFuMF4G6UgX9nSYqvXFD/w
-	DCUTjQgSNukHOsdHJkp4e83kGeYbN5gxTPtYwQdUjNuI8uI4nh4goAvf9vZ0/QJSTwuQHPPZfdg
-	qFWvQgzPacemd8ZtDJNbauJ8DXvbe/DP/hHciLC0IIotWajyViae9llz82qAJiHIZVY4rqIDeky
-	yGd/uKXp8km2uNIUIOHH9yoD+d+A1uqeEoiqx8Qh6kw9aJHG5cv4zwko2OH4N1+Yd/HlE7z1KX0
-	NnHUw7YD8E2JiIlBVjV6g+QK2wjKMmOcsP+0AQDegSg6PpdKSV/qigogUtdesJdGP6+NuZ6w4en
-	3ZFbnkRuWXaijO/DHm0jbfcE3GgBcemnpCw9OL8VD0jj+nbp5WQH1VWBY/0MV/aK4//sAYFN+Jv
-	VMQQuHG2Zzt3SHQEAYkAV7q9kkuYP4tfacCs7x4C12TvM8YGP44nlqtcWlKxQ9CDTx3iHZSpc4X
-	8pVXDX8LKSC4akts2rHyAoQy8wdPNaGRI3AK6AL+iLTVetNXJ9RoGW7QAsgJBVm7z0gufEoT9mj
-	x6b3IURAQr0ObDJ1RQMALw+SS7RrU1Wio89uHqGOliBCeUMHCHxRlcdNfA==
-X-Received: by 2002:a17:907:9304:b0:c46:7462:6332 with SMTP id a640c23a62f3a-c510e4f9809mr385723066b.37.1795052350681;
-        Wed, 18 Nov 2026 17:39:10 -0800 (PST)
-Received: from L9JK9NPFH9 ([104.28.20.56])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c51233c4080sm59785966b.16.2026.11.18.17.39.08
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 18 Nov 2026 17:39:10 -0800 (PST)
-From: Tianyi Gao <tianyi@cloudflare.com>
-To: netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Simon Horman <horms@kernel.org>,
-	David Keogh <dkeogh@amazon.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Dragos Tatulea <dtatulea@nvidia.com>,
-	Nimrod Oren <noren@nvidia.com>,
-	Alasdair McWilliam <alasdair@mcwilliam.dev>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Magnus Karlsson <magnus.karlsson@intel.com>,
-	David Ahern <dsahern@kernel.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Breno Leitao <leitao@debian.org>,
-	=?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <ast@fiberby.net>,
-	Danielle Ratson <danieller@nvidia.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	bpf@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kernel-team@cloudflare.com,
-	nh-open-source@amazon.com,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	"Remy D. Farley" <one-d-wide@protonmail.com>,
-	Amery Hung <ameryhung@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Andy Roulin <aroulin@nvidia.com>,
-	Anil Kaushik <anilkaushikwireless@gmail.com>,
-	Demos Ra <demosthenes.ra@gmail.com>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Hangbin Liu <hangbin.liu@linux.dev>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Joe Damato <joe@dama.to>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Li RongQing <lirongqing@baidu.com>,
-	Louis Scalbert <louis.scalbert@6wind.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Martin Karsten <mkarsten@uwaterloo.ca>,
-	Matt Bobrowski <mattbobrowski@google.com>,
-	Michael Bommarito <michael.bommarito@gmail.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Runyu Xiao <runyu.xiao@seu.edu.cn>,
-	Song Liu <song@kernel.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Wang Zhan <wang.zhan@smartx.com>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Zhou Qiuyue <n0ps1edzz@gmail.com>,
-	Tianyi Gao <tianyi.gao@linux.dev>,
-	Tianyi Gao <tianyi@cloudflare.com>
-Subject: [PATCH net-next v2 11/11] selftests: net: tx_extra_headroom: test the veth attribute
-Date: Thu, 19 Nov 2026 01:38:30 +0000
-Message-ID: <20261119013830.36935-12-tianyi@cloudflare.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261119013830.36935-1-tianyi@cloudflare.com>
-References: <20261119013830.36935-1-tianyi@cloudflare.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g4+24Kgw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F8C51F000C4;
+	Thu, 19 Nov 2026 01:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795052665;
+	bh=9waXTkMYmXwP4/W6e6Zut8DdWOx9w1dU7kQpzPoyvwU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=g4+24Kgwh/t7ZndPUj9S0xlpXcGv1IYYD22Krr8k+/31irosmzvTiBx1eEohjk3O3
+	 MFJDjLIiWO+DEEfv7a8XHdJsDWvk9ihr2hLU67OZcQVvcMBrvGF2kyLtnb9AMWivPX
+	 dIp6oKsNR8c4w4TdEzUYVpraMDEFj5xzlTEPJikb0W+nzvtlDK66uhxl7VmnrM3Oj8
+	 vqh6CcEr6FGt4lYrT74jDza5iMl90iWjconT0umM/VmscSjTVcYhNWX/o4lVQsM5jk
+	 WCZndvOtsHxjZ/NJnUrQHQbF4WLq6o7LBa28as8OWMDZp1+DfXXhOlUkU9AS8RO1Tf
+	 WfKnQb0ObJK4Q==
+Date: Wed, 18 Nov 2026 17:44:24 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Ivan Vecera <ivecera@redhat.com>
+Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko
+ <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Min Li
+ <min.li@microchip.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek
+ Kitszel <przemyslaw.kitszel@intel.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org, Grzegorz
+ Nitka <grzegorz.nitka@intel.com>, Karol Kolacinski
+ <karol.kolacinski@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq
+ Toukan <tariqt@nvidia.com>, Petr Oros <poros@redhat.com>
+Subject: Re: [PATCH net-next v2 0/9] dpll: do not serialize driver callbacks
+ under global dpll_lock
+Message-ID: <20261118174424.32e9f130@kernel.org>
+In-Reply-To: <fe1dcdd5-ef75-4231-bf9f-03bf8536c2aa@redhat.com>
+References: <20261111164021.273409-1-ivecera@redhat.com>
+	<20261116181612.107a4b57@kernel.org>
+	<fe1dcdd5-ef75-4231-bf9f-03bf8536c2aa@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -162,131 +72,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Create a veth pair with VETH_INFO_TX_EXTRA_HEADROOM set to 64 bytes
-through YNL and move the peer to another netns. Check that both ends
-report 64, and that tx_extra_headroom of the sending end is 64. With XDP
-on the peer it is 64 + 256, because the two values are added. Also check
-that a value above 512 is rejected.
+On Wed, 18 Nov 2026 16:29:23 +0100 Ivan Vecera wrote:
+> A step of the zl3073x PHC, which ptp4l and ts2phc do at start and after
+> a large offset, waits for the next 1 PPS edge, up to 1 s, with the
+> channel lock held. A phase step can hold it for up to 3 s while it
+> waits for the previous one. A dpll callback of that channel waits for
+> the lock under dpll_lock, and every other DPLL request and notification
+> in the system waits behind it. With ToD writes running, requests to an
+> ice DPLL took 1448 ms in median and 3.9 s at most. With the series they
+> took 0.2 ms and 0.3 ms, the same as idle.
+> 
+> The bigger reason are zl3073x callbacks we are working on, which have
+> to wait for the hardware themselves:
+> 
+> - a device reset with resync waits for the fast lock, up to 1 s with a
+>    1 PPS input
+> - a glitchless stop or start of an output completes on an output edge,
+>    so it takes up to one period, 1 s for a 1 PPS output
+> 
+> Holding the global dpll_lock for that long would stall every DPLL
+> device in the system. For the output state we tried an asynchronous
+> implementation, but then the callback returns success before it knows
+> the result. 
 
-The helpers leave the RtnlFamily socket to garbage collection, as
-link_netns.py does.
+Right, for these level of waiting async seems like the right direction,
+at least naively/without knowing the HW.  Why does the device wait until
+PPS to apply the step change? Is the programmed time supposed to
+correspond to the pulse?
 
-Signed-off-by: Tianyi Gao <tianyi@cloudflare.com>
----
-v2:
-- Test VETH_INFO_TX_EXTRA_HEADROOM with YNL only (Jakub). The IFLA
-  tests of v1 4/8 are gone, so the patch no longer carries
-  David Keogh's sign-off.
-- Drop the VLAN case of v1 4/8. In v2 no code copies
-  tx_extra_headroom to a stacked device.
----
- .../selftests/net/tx_extra_headroom.py        | 61 +++++++++++++++++--
- 1 file changed, 57 insertions(+), 4 deletions(-)
+> A failure can only be reported by a later notification, and
+> the next request gets -EBUSY until the change completes. With a lock
+> per chip the callback can simply wait, and one chip cannot do these
+> operations in parallel anyway.
 
-diff --git a/tools/testing/selftests/net/tx_extra_headroom.py b/tools/testing/selftests/net/tx_extra_headroom.py
-index 122a1a1b5ca9..a4e4195179fa 100755
---- a/tools/testing/selftests/net/tx_extra_headroom.py
-+++ b/tools/testing/selftests/net/tx_extra_headroom.py
-@@ -3,15 +3,17 @@
- 
- """Tests for tx_extra_headroom."""
- 
-+import errno
- import socket
- import struct
- from pathlib import Path
- 
--from lib.py import ksft_run, ksft_exit, ksft_eq, ksft_ge, ksft_gt
-+from lib.py import ksft_run, ksft_exit, ksft_eq, ksft_ge, ksft_gt, ksft_raises
- from lib.py import KsftSkipEx, KsftFailEx
- from lib.py import ksft_busy_wait, ksft_variants, KsftNamedVariant
- from lib.py import cmd, defer, ip, bpftool, bpf_prog_map_ids
- from lib.py import NetNS, NetNSEnter
-+from lib.py import Netlink, NlError, RtnlFamily
- 
- BPF_OBJ = Path(__file__).parent / "tx_extra_headroom.bpf.o"
- XDP_OBJ = Path(__file__).parent / "lib/xdp_dummy.bpf.o"
-@@ -37,9 +39,34 @@ def _setup_addrs(peer_ns, dev, peer):
-         ip(f"neigh replace {addr} lladdr {peer_mac} dev {dev} nud permanent")
- 
- 
--def _setup_veth(peer_ns):
-+def _add_veth(tx_extra_headroom):
-+    """Create veth0 and veth1 with VETH_INFO_TX_EXTRA_HEADROOM through YNL."""
-+    # Without names, the peer is created first and becomes veth0.
-+    rtnl = RtnlFamily()
-+    rtnl.newlink(
-+        {
-+            "linkinfo": {
-+                "kind": "veth",
-+                "data": {"tx-extra-headroom": tx_extra_headroom},
-+            },
-+        },
-+        flags=[Netlink.NLM_F_CREATE, Netlink.NLM_F_EXCL],
-+    )
-+
-+
-+def _veth_tx_extra_headroom(name):
-+    """Return VETH_INFO_TX_EXTRA_HEADROOM of veth device name."""
-+    rtnl = RtnlFamily()
-+    link = rtnl.getlink({"ifname": name})
-+    return link["linkinfo"]["data"]["tx-extra-headroom"]
-+
-+
-+def _setup_veth(peer_ns, tx_extra_headroom=None):
-     """Create veth0 in the current netns and its peer veth1 in peer_ns."""
--    ip("link add veth0 type veth peer name veth1")
-+    if tx_extra_headroom is None:
-+        ip("link add veth0 type veth peer name veth1")
-+    else:
-+        _add_veth(tx_extra_headroom)
-     ip(f"link set veth1 netns {peer_ns}")
-     _setup_addrs(peer_ns, "veth0", "veth1")
- 
-@@ -353,6 +380,30 @@ def test_tag_max() -> None:
-     ksft_eq(bss["tx_extra_headroom"], TX_EXTRA_HEADROOM_MAX)
- 
- 
-+def test_veth_info() -> None:
-+    """Check that VETH_INFO_TX_EXTRA_HEADROOM adds to tx_extra_headroom."""
-+    with NetNS() as send_ns, NetNS() as peer_ns, NetNSEnter(str(send_ns)):
-+        _setup_veth(peer_ns, tx_extra_headroom=64)
-+        ksft_eq(_veth_tx_extra_headroom("veth0"), 64)
-+        with NetNSEnter(str(peer_ns)):
-+            ksft_eq(_veth_tx_extra_headroom("veth1"), 64)
-+        map_id = _load_progs()
-+        _attach_tcx("veth0", "egress", "record")
-+        _send_udp4()
-+        ksft_eq(_read_bss(map_id)["tx_extra_headroom"], 64)
-+        _attach_xdp(peer_ns)
-+        _send_udp4()
-+        ksft_eq(_read_bss(map_id)["tx_extra_headroom"],
-+                64 + XDP_PACKET_HEADROOM)
-+
-+
-+def test_veth_info_above_max() -> None:
-+    """Check that a value above the maximum is rejected."""
-+    with NetNS() as ns, NetNSEnter(str(ns)), ksft_raises(NlError) as cm:
-+        _add_veth(TX_EXTRA_HEADROOM_MAX + 1)
-+    ksft_eq(cm.exception.error, errno.ERANGE)
-+
-+
- def main() -> None:
-     """Run all test cases."""
-     ksft_run([test_peer_xdp,
-@@ -365,7 +416,9 @@ def main() -> None:
-               test_push_detach,
-               test_push_peer_xdp,
-               test_push_two_progs,
--              test_tag_max])
-+              test_tag_max,
-+              test_veth_info,
-+              test_veth_info_above_max])
-     ksft_exit()
- 
- 
--- 
-2.56.0
-
+Do the failures only happen because of "unforeseen circumstances" / EIO,
+or there may be more common errors reported? If it's just the former
+a devlink health reporter could be an option.
