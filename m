@@ -1,67 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795097275;
-	b=pRd8l8XeH6oHj3Be6jDLWtvhEceqswEK+fzjCxJ7dqDI3/qhs5jJ3B7exLNMi8AZSO9H
-	 bEzI7OSm1fKMzI65DBJyE9kwHrrghUXcvC6zkHLX3AN5zP1jyR1rg6vrKtwza0PCSyQgg
-	 Kd0bzS9H3xGGpuZaHAW+wHo6X4+1zNWvyKHeo6EJLCTw8WEF7V8NuzfwHzYsyETJzA8zz
-	 Z6nOjfcUS35a1660TVrRmiPElcsGagI2FLrxIQGTLSkRapKyVDkaRytSkYPFGukprDY8f
-	 dYQPQnvqD7ZhWJFRYKVbn1N4X6lbPi0C7aTuCZF4rQAH98DKsULqaG2axDNdcNx57Pw==
+	t=1795097325;
+	b=24qaEoeAnoNhJ/avfn/0+w5BGBhud0EpaTQMDwxkIHsElEeJNzchBr4VEsScibqsKBJb
+	 L/mY0SZFtRkwCAm9wbH2ubIE5BR/6cyz86Wce2acpBtcAGw6LXVYzTztiTcoukzJpTFJ2
+	 0MyqdtX4OvYz58lvb8zLWpNE5/igqwC4R6d7o+jGvrPMEUmfcX/myyBwooUYIob+6jhf3
+	 w0DcHQWWmNTE9zg4SGykcQPm1GeW6nWkhRoPhfob5SkMMO6vSB84qsOOJK6vKFwdLCeWt
+	 Rz2fmUACVM4dxZ4acNE5tUbo/n53UviEys+FRM2/Wd6Z7u0LzlCXhywTe4s1I6RWbPQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795097275;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795097325;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=h4WEBZt8zvJPkIGFlDBBDtrAGaCS/Hic2L8pvEkBCJM=;
-	b=RAmaa64AdlrCPIYsCOljjgv69uquerAJGpio/5edtijIm7XGzftvqINhXjC6K3E9E4XF
-	 ayUxVdLZp5YSRJ5d0IYTI3NNSYOJ0k4tME/ljL38E+AoWlzUnzhEXJ1kGdCD9R0mahUy2
-	 ioKa7mYaR+3W5m8vj/rDTyKx2xUacWW7OpNE+6y9RISmLJO2rup95YFW0tWv7JYIVMb9X
-	 /uhQalk1MYgPWzhnPxVJppVbvMAImXEwUpyDNnQXOI1pofUrNidlWHmMym57FBA/6MiX7
-	 iye7De3/h/d9FELAmaE8eSrRpoba3JnVKg2Vqww9h/Mjp85LGz5jZ0frb283Sbw4kkQ==
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=deLFcMvvltUgOBB0nzekqT3DRM7PlPpuRsUgmgE0xJs=;
+	b=tpozhdCkIbrCmRCUQT/JMXUO6jhIvss6p9q/a9ZdiwvG+Bau1V9yxQiyF2Vd4hinVmHu
+	 GcafOyOPJ/zJQDMQr4RrUUSzkVhncJ79vV4g227GC+Ui7Ky6+7fpNDn8xJgw5oQ8wWkQS
+	 adEy6f4FYLozzmax7pBVKHdgoMm1AmO+T23muQrOCENWC2aZVQl7feVqAZVK84rmA8E+N
+	 YxpiFiq1U12oYXWunC6WEfZDTgM7FgvUsSzJSuhpPwkHm5nMcE45MbZlrXS76XNk73dTa
+	 eIIwLdHR40Fxzd45m/oHwIDon8dVXvXCHKcnMzZtvwOus1Ui0kewOuIJPaduMJv9Njg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BR6MmYw3;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="VGT6CPW/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAC8606A325;
-	Thu, 19 Nov 2026 14:07:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EAA606A320;
+	Thu, 19 Nov 2026 14:08:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BR6MmYw3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 763A01F000C5;
-	Thu, 19 Nov 2026 14:07:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VGT6CPW/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B6D61F000C4;
+	Thu, 19 Nov 2026 14:08:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795097275;
-	bh=h4WEBZt8zvJPkIGFlDBBDtrAGaCS/Hic2L8pvEkBCJM=;
+	s=k20260515; t=1795097325;
+	bh=deLFcMvvltUgOBB0nzekqT3DRM7PlPpuRsUgmgE0xJs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BR6MmYw31vFoQaf3bfXZOOR30u8VFq0hzmApgVeCIYowgJyGnA33pKhkgxf5XQDxf
-	 4Mus+YH/JRjlIFqE2l7OAj4G7BtMaj9H0ltUjsoH69zjV3dgq525Q90Dr2/PiUUaHP
-	 a3xHM1UNsizW7OJ+W1HomsIdgudbncYBw/ZrRc+HSx4qYmLkPhZ7kRsGMgTUixwcWb
-	 MBWQfgA2H1WHh2ZAzUODQ8OlQGatDt1dizgr8Z9TfFdPf5JUu5RiFuQY94IbHqOdMc
-	 9dnuiNQa3ldR3I9Gsr2Qh9zMcFxHIKxocOQUGw3nxcqI1pblbyvAOtpgBUJhnjL+jc
-	 GakSfd0MetoHQ==
-Date: Thu, 19 Nov 2026 16:07:50 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Willy Tarreau <w@1wt.eu>, Sasha Levin <sashal@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
- user-visible impact
-Message-ID: <20261119140750.GL162713@unreal>
-References: <20261116200515.352387-1-sashal@kernel.org>
- <20261117092723.GA124972@unreal>
- <220c5818-ad59-4003-9955-9821d09c0279@kernel.org>
- <20261119111902.GH162713@unreal>
- <04ff90ba-296a-4618-9d25-390f84f856ae@kernel.org>
- <av7tY64O34gbJvH_@1wt.eu>
- <20261119125450.GJ162713@unreal>
- <6baae2d0-f0d5-4528-b885-220605350349@kernel.org>
+	b=VGT6CPW/wtjf93Hbnt7vGTzxnm+m5tp5bIHpq29p+RgyV5QZXwZhn8vBEMLao+PYg
+	 PCUZ1usoGhC/buvHKCHBr+3FqpWcZI8hA+G/AnsZf0kqeyDDRcuNRnBdBdvUjV8AF5
+	 pbqd3WpW+PvZx1H0nHTPucGg+qChKpjfQL2yIPMnFVf3HQ8i7dLCper3SXG3Oq3Tnn
+	 ljERMRXcjxXOlrsqDe8qKB1/RchUjdc/mKVygZTSK9ZQSj+CKnOlXkNaufaWLk9PPC
+	 h14dMsVmUHWhkRabrbOfkgHJKFwhMsxJ0pXnGerIga4T/8beoldtWKWqL/RWlYosZL
+	 wgB1vSwgzeB9A==
+Date: Thu, 19 Nov 2026 15:08:37 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: "Hallgrimur H. Gunnarsson" <halg@google.com>
+Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>, 
+	Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
+	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+Message-ID: <20261119-bagger-sagst-saatgut-096a6c993e9e@brauner>
+References: <20261028221705.3915340-1-halg@google.com>
+ <20261107.aighieG4Ami1@digikod.net>
+ <20261118.faiBee9Taigh@digikod.net>
+ <av7TsXKUE69lyiWl@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,72 +72,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6baae2d0-f0d5-4528-b885-220605350349@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <av7TsXKUE69lyiWl@google.com>
 
-On Thu, Nov 19, 2026 at 02:16:30PM +0100, Krzysztof Kozlowski wrote:
-> On 19/11/2026 13:54, Leon Romanovsky wrote:
-> > On Thu, Nov 19, 2026 at 01:36:51PM +0100, Willy Tarreau wrote:
-> >> On Thu, Nov 19, 2026 at 01:04:32PM +0100, Krzysztof Kozlowski wrote:
-> >>> On 19/11/2026 12:19, Leon Romanovsky wrote:
-> >>>> On Thu, Nov 19, 2026 at 11:13:57AM +0100, Krzysztof Kozlowski wrote:
-> >>>>>>> v1: https://lore.kernel.org/r/20261116191436.188098-1-sashal@kernel.org
-> >>>>>>>
-> >>>>>>>  Documentation/process/coding-assistants.rst  |  6 +++--
-> >>>>>>>  Documentation/process/submitting-patches.rst | 23 ++++++++++++++++++++
-> >>>>>>>  2 files changed, 27 insertions(+), 2 deletions(-)
-> >>>>>>
-> >>>>>> Sasha,
-> >>>>>>
-> >>>>>> Since you're already making changes in that area, could you add a sentence
-> >>>>>> asking reporters to provide the full dmesg stack trace?
-> >>>>>
-> >>>>> If so, then trimmed. We do not need all addresses and registers and the
-> >>>>> [time markers], but rather the calltrace from decode_stacktrace.sh.
-> >>>>
-> >>>> Regarding time markers, I agree. However, addresses are an important part of
-> >>>> debugging information. These bugs are rare, but addresses are still useful for
-> >>>> identifying incorrect pointer arithmetic or pointer assignments.
-> >>>
-> >>> Depending on the case, e.g. some driver lockdep reports don't need them.
-> >>> NULL ptr usually as well. The point is that dmesg should be trimmed to
-> >>> relevant and useful information. If that includes addresses for that
-> >>> particular case, then of course these should stay. But 75% of data here
-> >>> in commit like 5b4bd13e0552926648a46c2c9a12a24dfaee3715 is not really
-> >>> helping. In the same time undecoded call trace is useless, because these
-> >>> addresses depends on the build. The dmesg should simply be the decoded
-> >>> stacktrace ONLY for this case.
-> >>
-> >> Then just the 2-3 lines capture inline, and the full log attached could
-> >> please everyone ?
-> > 
-> > I don't think so, because this information is also important to preserve in the
-> > Git history. I received offline feedback that the full stack is useful for
-> > backporting and customer support, too. Sometimes the dmesg output is similar
+On Thu, Nov 19, 2026 at 10:47:13AM +0000, Hallgrimur H. Gunnarsson wrote:
+> On Wed, Nov 18, 2026 at 03:43:03PM +0100, Mickaël Salaün wrote:
+> > Hallgrimur, could you please explain why your use case would not work
+> > with Landlock?  The capability split or new clone flags would be
+> > complementary of course.
 > 
-> Just like we do not mark commits as fixing CVEs/security issues, which
-> plenty of downstream distros would like us to do, we do not write commit
-> msgs for backporting or customer support. Just look at that commit I
-> pointed out - 5b4bd13e0552926648a46c2c9a12a24dfaee3715 - the addresses
-> are making things less readable and the readability is important.
+> Apologies for the late reply.
+> 
+> Landlock's capability restrictions work well for self-sandboxing
+> applications and launchers. The main gap for our use case is setting a
+> host-wide default for unprivileged user namespaces while still permitting
+> exceptions. Because Landlock restricts all capability use (not just
+> capabilities acquired via user namespaces) and its domains are strictly
+> irrevocable, PID 1 cannot apply a default policy at boot without
+> locking out privileged services, file-capability helpers, and authorized
+> workloads. Using Landlock here would require explicit opt-in enforcement
+> at every unprivileged transition boundary (SSH, container/job launchers,
+> etc.), where missing any entrypoint leaves unprivileged user namespaces
+> unrestricted.
+> 
+> In v1 we had the global sysctl to tackle this. In v2 (based on Christian
+> and Andy's feedback), we combine per-cred cap_userns with per-userns
+> cap_bset), and PID 1 or a service manager can lower the default userns
 
-I looked, but nothing stood out as distracting. I've been reading these
-stacks for nearly 20 years.
-
-> 
-> If you need something for customers, then that is what Link tag is for.
-> It can point to your bugzilla or email report with everything.
-
-You missed my point, I'm not asking customers to dig into the kernel. An FAE
-or customer comes to me with a crash, and I need to determine whether it's
-a known issue (and point them to the relevant patch) or a different one.
-
-Thanks
-
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
+Plus, this is useful and improves security in general without having to
+use any LSM framework.
