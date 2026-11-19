@@ -1,70 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795124332;
-	b=HrNm3e+IXtnwYoJXj6BueervaUtkx6wkuVkqJXUW6Nm0Bifs882iFbRp6O/Dl5kJePIX
-	 JdHC4SSUO9t65w0NfKJ35YfFLODz43wT4F8uTlPJZtE2tr1epTkAchIe0nJvOb0A/hXN2
-	 v4Y0nbzd9wOJ9r0dirnC12cGPv2kfwT5tdE4wtKLOgF3EDOT/VSD4fQI5RnElXhtztGap
-	 7uTpRmjwJNwTeyS5qMjjg/QeqOIl2SEK8FpvJFLDduAY4OJqYsbe90xGaKvvm5RFFcsAl
-	 hzSCj1U9CbNG02qhlmMrhOD3shfAfXN26+c2OdEA+Wfr+nkJil3Ut/e5/4x1Gpn6qLw==
+	t=1795125116;
+	b=CUfQ2A0BGa2YR/JUogDorgZHOeBfZcpaOPhPLB7vmsLLaDyhuiWPD8agkny9YDnz7TlB
+	 8mrwr3LQpKBaQfr94H2/hlMywEh1Yd9LT9Myd5et/XbBQMBcuTl4P+l6Jala6qs9OiHtG
+	 peBmuvPvzb2/qheo9K8/RgKn/OJUl7jq/YAZ5fLD5TSUkjCRk89Fh8WURdcsnZIfwepL1
+	 9DRtUTj6iox6L8BtsMq82UVp2MIZiKC/NL5AKQX0HzbAgLT3/OyDaE7JxA3HcmoEgIjjs
+	 MzxMyoocG7/otF4Pb9TajVnPXguu/6q5Uw3Hzlf7FJZyMVENtEYJ+SN+GTxsvHbAwiw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795124332;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=cAl6G7PN2cvyWtMhOuMNPb47Pa9JkEc0ZDSwTNQz0D4=;
-	b=wO7cLtqbcRBXXeyw7EU8bFqwVsI/7tMV15RJAaGeHT941jS0D+RK+B8bG/KQh7bC8wh0
-	 n9j+fDu+oN3G9XRN3pDD4GWgfs2buQUEYiScSdCAuo8zyNWkpR4fxCg1Jlkt9FoCbTbka
-	 ha2gnawPIOo/ZqOH3B7d03IWvbGdZAMekgCNkypJGOngDbLUAwytFHCOrBV3Bt9zc9Ha4
-	 /WxO3O5EnrWLPIrCr2qJvvBNHqNeq7MtfQfDf1Xs9a8+HRxgFf581MjIHRESUTb8fIsgq
-	 9F4esEEct/W1y0t/IEJCk6slkJa3yErN4Xj1bGkDvSbb+aq3Xu/rADxiTbd5KewWMTg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795125116;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Date:From:To:
+	 CC:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Originating-IP:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version;
+	bh=Ri8CK3ItJsJssm9R2a+AMX7zfGjjWTKSLJi5tTs2ofs=;
+	b=1HfJWHFeV7d3lOFqG2H4NmMIQj1PaxpPXnbwZlfyGronodFSj7o9R54E2FH7x6bo+ND1
+	 +yL/YdRaLQWPCZae1N8eKzEHYFImE1+lv4DA+VDKniCMNJwjDM4dpTL6q6wfRffA7ma14
+	 XHcHVwvh6dV1nTxeJzIfwwLLxZG60OjX221fSFqz0i6AoeOdAODw3rWzFCH/GvWnhLpEe
+	 2wOQfEmFblv3NYhHsaiGb1H0qjzlgZkuIWZi/BqwxiWIxBgu6/kicTkOOtNaxN026ecQR
+	 linb0BUqkhjvPA/fLfALaol06CeH2gTNIPcKuDjm8qxipKW+AKPLRKSscNMh5gzbQVg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XR4Cn9vh;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=DHGBUcJM;
+	arc=none smtp.remote-ip=67.231.153.30
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08A0606A326;
-	Thu, 19 Nov 2026 21:38:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1C060A381E;
+	Thu, 19 Nov 2026 21:51:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA1C060A381E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XR4Cn9vh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7F781F000C0;
-	Thu, 19 Nov 2026 21:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795124332;
-	bh=cAl6G7PN2cvyWtMhOuMNPb47Pa9JkEc0ZDSwTNQz0D4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=XR4Cn9vhmFnwx73O5gdc7uck9RG3VNO/323LpVdTxJ2fi4Kgr09iN4VB1eVn/xex6
-	 YkN0pZ3Xab30C3CLkFsrwh992szEpBhb6v5PGJVJeX60OW0hDciwSBA49XY2jkmVin
-	 huieF160JNXq9XgCj+sNlfrw4zgvd4fNmJrwZmsMQaxa2ajpXMY3Nsr1Hny77D7PMp
-	 YLejP6K+qow1eoC35fjus1ZaNSvX8bv76JK/TBegd/NzSNJVhUGgbRYdEzBHoc2MZn
-	 WiOo6D7Mrm5Mpth4e7Iuze3rzESXNZRX3mre4k9dvWQQK6CtybwiOPtE89L8695hOu
-	 Y2h6FQJFa/lAA==
-Date: Thu, 19 Nov 2026 13:38:51 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko
- <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Min Li
- <min.li@microchip.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek
- Kitszel <przemyslaw.kitszel@intel.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org, Grzegorz
- Nitka <grzegorz.nitka@intel.com>, Karol Kolacinski
- <karol.kolacinski@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq
- Toukan <tariqt@nvidia.com>, Petr Oros <poros@redhat.com>
-Subject: Re: [PATCH net-next v2 0/9] dpll: do not serialize driver callbacks
- under global dpll_lock
-Message-ID: <20261119133851.3f25074c@kernel.org>
-In-Reply-To: <dd1d61d7-7bef-4a02-8518-e17d2f50369f@redhat.com>
-References: <20261111164021.273409-1-ivecera@redhat.com>
-	<20261116181612.107a4b57@kernel.org>
-	<fe1dcdd5-ef75-4231-bf9f-03bf8536c2aa@redhat.com>
-	<20261118174424.32e9f130@kernel.org>
-	<dd1d61d7-7bef-4a02-8518-e17d2f50369f@redhat.com>
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=DHGBUcJM
+Received: from pps.filterd (m0528005.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJJ1LkI2754408;
+	Thu, 19 Nov 2026 13:51:24 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pps82601-s2048-2026-q3; bh=Ri8CK3ItJsJ
+	ssm9R2a+AMX7zfGjjWTKSLJi5tTs2ofs=; b=DHGBUcJMMYXzIekxH9QyMTq7eci
+	SVZVf1xD6/O7voHLqsj3TWCiHW0pTsTwkmp/Sp9PwtUka34/b6VZNoQ3XhAegWHp
+	XpONuZUN0BT5PbMkq0U9Jw5rxaNbEH6ZM45118sUHONBJw1PZ/EDqM1N8pENELLL
+	6rSXBjtU4zfkfEQuuysIkDiL3qzIAJ1VUpSH/voGd5OhHjcVxH6uqOIL4qV94Mts
+	8l4+IRAgaR0HPmmg+KnSAl3PoeGsapIjh+W+qZj8eqd7rRovRjydI6BAwRArFP5o
+	k1nsJTlzvDeQ2/EH+QAf3DQtrrgl4w5/oY/3h1+h7MQ3JGWzNvfsRrvodKA==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4j228kvma1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 19 Nov 2026 13:51:23 -0800 (PST)
+Received: from localhost (2620:10d:c0a8:1b::8e35) by mail.thefacebook.com
+ (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Thu, 19 Nov
+ 2026 21:51:22 +0000
+Date: Thu, 19 Nov 2026 13:51:21 -0800
+From: Bobby Eshleman <bobbyeshleman@meta.com>
+To: Sergio Lopez Pascual <slp@redhat.com>
+CC: Stefano Garzarella <sgarzare@redhat.com>,
+        Alexei Starovoitov
+	<ast@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet
+	<edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Bryan Tan
+	<bryan-bt.tan@broadcom.com>,
+        Vishnu Dasa <vishnu.dasa@broadcom.com>,
+        Broadcom
+ internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+        Stefan
+ Hajnoczi <stefanha@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason
+ Wang <jasowangio@gmail.com>,
+        Eugenio =?iso-8859-1?Q?P=E9rez?=
+	<eperezma@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Haiyang Zhang
+	<haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+        Dexuan Cui
+	<decui@microsoft.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap
+	<rdunlap@infradead.org>,
+        <virtualization@lists.linux.dev>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <bpf@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH RFC v3 0/8] vsock: add datagram support to virtio and
+ vhost
+Message-ID: <av9vWRXli+JmYO8A@devvm29614.prn0.facebook.com>
+References: <20261113-vsock-dgram-support-v3-0-1523c8e9b27e@redhat.com>
+ <aveMxDqYQobWwXd/@devvm29614.prn0.facebook.com>
+ <CAAiTLFUQMyQXHAw1DbDKfJYus-Se+QA_SSHWQymQ9dK6-UmRTQ@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -74,59 +106,202 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAAiTLFUQMyQXHAw1DbDKfJYus-Se+QA_SSHWQymQ9dK6-UmRTQ@mail.gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDA4NyBTYWx0ZWRfXwzIa7BHDzrhI
+ V9NPLugZeX0Dem605ATYIgoQU8DX72WI9bBs9VHmBqBAZcwlUI4+xKCLGec3yqad6e9XNHuQUKf
+ wh8/Z1Mk/yEYchU1ELul3oyezvQPlMuTsK6aw11IrS/iZG2ky0YHPQ5x2fDjJxe01HuGKZlID1n
+ bHRiO20kWrSLZK4gz9ob3EKfJCQ+sOo9P4S7G27w3umfmXytFXum9tJ/HanNivge0nqvRbrcLuJ
+ gA5mT4Wg7ZPOq05ccIQNX2ksv3x0dRPyiOMSJ0rrulluGOEJigLTb8HpiGCpoUiziVUM9XNcjy3
+ 1eWA60wrpqu5Qfr1NHxKeA8KK0UhAQZs2ign8WT+c4ph6c6rH1+NFA6L/zLq1aLANdVep2Lm5XV
+ HjICGVvLKwUIxJ3LSS5blwdHhxNf41mYiTRHaqmzf4ysQYa+mVHLxeWUEJRY/H+HxjOmG7yAUPQ
+ pBlTEVLGOEG9QGMJvTA==
+X-Proofpoint-GUID: EKMxB3j1syV6aAXBL7ADcf_4KtTeg0Sh
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDA4NyBTYWx0ZWRfXwKAReosY9zZa
+ bBwoIH2U7bvtKc0Z4koR1XE6E6nLpYuJxcDsR5HFruBknRfag+QQB5Dtcl9NFmzvJqBczeAlmXp
+ QcRk/8QcO5bLyBaKyd3NyJUPaB/1FsQ=
+X-Authority-Analysis: v=2.4 cv=cYxHPXDM c=1 sm=1 tr=0 ts=6aff6f5b cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=jCddH8ec0KUNCymVuxII:22 a=VwQbUJbxAAAA:8
+ a=20KFwNOVAAAA:8 a=968KyxNXAAAA:8 a=NEAV23lmAAAA:8 a=mDV3o1hIAAAA:8
+ a=KMMIYZg5AAAA:8 a=VabnemYjAAAA:8 a=lvHqt9aMAKSFOjNFyPAA:9 a=CjuIK1q_8ugA:10
+ a=dU3it2pj8zK4A0baVwjB:22 a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-ORIG-GUID: EKMxB3j1syV6aAXBL7ADcf_4KtTeg0Sh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-19_05,2026-11-19_01,2025-10-01_01
 
-On Thu, 19 Nov 2026 13:29:11 +0100 Ivan Vecera wrote:
-> > Right, for these level of waiting async seems like the right direction,
-> > at least naively/without knowing the HW.  Why does the device wait until
-> > PPS to apply the step change? Is the programmed time supposed to
-> > correspond to the pulse?  
+On Thu, Nov 19, 2026 at 08:06:44AM -0800, Sergio Lopez Pascual wrote:
+> Bobby Eshleman <bobbyeshleman@meta.com> writes:
 > 
-> Yes. The device has no immediate ToD write, it can only write the ToD
-> on the next internal 1 Hz edge, the next input sync edge or the next
-> internal 0.5 Hz edge. The written value is the time at that edge, so
-> the seconds stay aligned with the 1 PPS outputs.
+> > On Fri, Nov 13, 2026 at 06:15:40PM +0100, Sergio Lopez wrote:
+> >> This RFC adds SOCK_DGRAM support to virtio-vsock and vhost-vsock through
+> >> the existing AF_VSOCK API. It is intended for guest and host services
+> >> that exchange independent requests, responses, or events and need message
+> >> boundaries and sender addresses without a stream connection or application
+> >> framing.
+> >>
+> >> VIRTIO_VSOCK_F_DGRAM gates virtio traffic in both directions. Each virtio
+> >> send carries zero to 64 KiB of payload in one VIRTIO_VSOCK_TYPE_DGRAM
+> >> packet. On the RX virtqueue, the device may split a datagram across
+> >> page-sized guest buffers.
+> >> START and EOM delimit the message; the guest reassembles at most 64
+> >> fragments and 64 KiB before delivering it to a socket. Invalid or
+> >> incomplete messages are discarded. Datagram delivery is best effort:
+> >> there are no peer credits, acknowledgements, or retransmissions. Send
+> >> admission uses the socket send-memory limit, and SIOCOUTQ reports charged
+> >> send memory.
+> >>
+> >> Datagram sockets have a separate port space from stream and seqpacket
+> >> sockets. The latter two continue to share their port space. Datagram
+> >> routes are chosen per destination among guest-to-host, host-to-guest, and
+> >> loopback transports, with VMCI as a fallback. VMCI still owns its socket
+> >> handle when it is present; loopback works without a directional transport.
+> >> Hyper-V continues to reject datagram sockets.
+> >>
+> >> The Sashiko review of v2 also reported that a VMCI datagram bind in a
+> >> local-mode network namespace creates a receive handle in VMCI's global
+> >> port space, so a sender outside the namespace can deliver datagrams
+> >> across the namespace isolation boundary. The issue predates this series
+> >> and it's getting addressed in a separate patch:
+> >>
+> >> https://lore.kernel.org/all/20261113-vsock-vmci-netns-isolation-v1-1-ced02054ea61@redhat.com
+> >>
+> >> Within this series, local-mode namespaces bind datagrams only in the
+> >> core table and never create a VMCI handle.
+> >>
+> >> Bobby Eshleman and Amery Hung explored this feature in their v6 series
+> >> and v7 work-in-progress branch. This series is a fresh implementation
+> >> against the current vsock code. It follows the separate datagram port
+> >> space, per-destination routing, and VMCI fallback requirements discussed
+> >> there. For guest receive buffers, it uses bounded fragmentation and
+> >> reassembly rather than full-message buffers or the earlier drop/error
+> >> queue approach:
+> >>
+> >> https://lore.kernel.org/r/20240710212555.1617795-1-amery.hung@bytedance.com
+> >> https://github.com/ameryhung/linux/tree/vsock-dgram-v7
+> >>
+> >> A corresponding virtio specification update has been drafted separately.
+> >> The wire format and feature negotiation still need specification review
+> >> before this series can be considered for merging.
+> >>
+> >> The first patches expose the core port allocator and add datagram queue
+> >> reporting, then implement the common data path, guest and host feature
+> >> negotiation, routing, and RX fragmentation. The last patch extends
+> >> vsock_test with local and peer tests for message boundaries, routing,
+> >> connected peers, port sharing, queue accounting, and delayed reads.
+> >>
+> >> Testing used QEMU with the F_DGRAM property patch below, an x86-64
+> >> KASAN/lockdep kernel, paired guest tests, and a nested Linux vhost-vsock
+> >> backend. The tested paths include 64 KiB messages, delayed-read bursts,
+> >> feature-disabled ingress, stream and seqpacket controls, and header-only
+> >> guest RX buffers. A temporary userspace backend still fails stream test
+> >> 21 on both the series base and tip; that case passes with Linux vhost.
+> >> VMCI's host personality was exercised in a QEMU guest, including
+> >> coexistence with virtio and self-send without loopback. A VMware VMCI guest
+> >> device and Hyper-V hardware were not exercised.
+> >>
+> >> https://lists.gnu.org/archive/html/qemu-devel/2026-10/msg08074.html
+> >>
+> >> Code was written and reviewed both manually and assisted by Codex
+> >> (GPT-6.1-Sol) and Claude (Opus 4.6).
+> >>
+> >> Signed-off-by: Sergio Lopez <slp@redhat.com>
+> >> ---
+> >> Changes in v3:
+> >> - Preserve Hyper-V stream routing and prefer virtio for guest CID_HOST
+> >>   datagrams (thanks to Sashiko AI bot).
+> >> - Bind explicit non-VMCI CIDs and local-mode sockets without a VMCI
+> >>   handle, resolve wildcard destinations, and retain VMCI self routes
+> >>   (thanks to Sashiko AI bot).
+> >> - Recheck bound addresses after receive takes the socket lock and set
+> >>   TO_HOST only for forwarded guest sources (thanks to Sashiko AI bot).
+> >> - Probe negotiated virtio datagrams and numeric local CIDs before running
+> >>   dependent tests; cover wildcard and VMCI coexistence (thanks to Sashiko
+> >>   AI bot).
+> >> - Link to v2: https://lore.kernel.org/r/20261113-vsock-dgram-support-v2-0-bacfc85b71ce@redhat.com
+> >>
+> >> Changes in v2:
+> >> - Keep guest RX buffers page-sized; add START/EOM framing and bounded
+> >>   datagram reassembly (thanks to Alexei Starovoitov and Bobby Eshleman).
+> >> - Preserve stream and seqpacket data when an RX buffer has no payload
+> >>   room.
+> >> - Separate datagram and connection-oriented port spaces, and share
+> >>   receive metadata and queueing (thanks to Alexei Starovoitov).
+> >> - Check negotiated support and destination CID on ingress, and require
+> >>   an exact connected peer CID and port (thanks to Sashiko AI bot).
+> >> - Select a capable route for each destination, retain VMCI as fallback,
+> >>   and support loopback-only sockets (thanks to Alexei Starovoitov).
+> >> - Preserve the connected peer address across temporary parent fallback
+> >>   (thanks to Sashiko AI bot).
+> >> - Use socket write-memory accounting for datagram SIOCOUTQ instead of
+> >>   separate transport counters (thanks to Alexei Starovoitov).
+> >> - Extend selftests for fragmentation, delayed reads, port sharing,
+> >>   connected peers, and capability-based skips; fix the test build and
+> >>   README entries (thanks to Alexei Starovoitov, Bobby Eshleman,
+> >>   and Sashiko AI bot).
+> >> - Link to v1: https://lore.kernel.org/r/20261028-vsock-dgram-support-v1-0-e457cf7cee78@sinrega.org
+> >>
+> >> ---
+> >> Sergio Lopez (8):
+> >>       vsock: expose the core port allocator to transports
+> >>       vsock: report datagram receive and send queue state
+> >>       vsock/virtio: implement the datagram data path
+> >>       vsock/virtio: negotiate datagram support on the guest
+> >>       vhost/vsock: negotiate datagram support with guests
+> >>       vsock: allow datagrams to use directional transports
+> >>       vsock: fragment datagrams across receive buffers
+> >>       vsock: add datagram tests to vsock_test
+> >>
+> >>  Documentation/admin-guide/sysctl/net.rst |    8 +-
+> >>  drivers/vhost/vsock.c                    |   51 +-
+> >>  include/linux/virtio_vsock.h             |    8 +-
+> >>  include/net/af_vsock.h                   |   31 +-
+> >>  include/uapi/linux/virtio_vsock.h        |   10 +
+> >>  net/vmw_vsock/af_vsock.c                 |  526 +++++++++++----
+> >>  net/vmw_vsock/hyperv_transport.c         |   11 +-
+> >>  net/vmw_vsock/virtio_transport.c         |  167 ++++-
+> >>  net/vmw_vsock/virtio_transport_common.c  |  172 ++++-
+> >>  net/vmw_vsock/vmci_transport.c           |  124 ++--
+> >>  net/vmw_vsock/vsock_bpf.c                |    3 +-
+> >>  net/vmw_vsock/vsock_loopback.c           |    2 +-
+> >>  tools/testing/vsock/Makefile             |    3 +-
+> >>  tools/testing/vsock/README               |   33 +-
+> >>  tools/testing/vsock/util.c               |   62 +-
+> >>  tools/testing/vsock/util.h               |   10 +
+> >>  tools/testing/vsock/vsock_test.c         |  175 ++++-
+> >>  tools/testing/vsock/vsock_test_dgram.c   | 1061 ++++++++++++++++++++++++++++++
+> >>  tools/testing/vsock/vsock_test_dgram.h   |   30 +
+> >>  19 files changed, 2195 insertions(+), 292 deletions(-)
+> >> ---
+> >> base-commit: 65ba8f34ec886ec72b2c07ddc8cf3d815c32869d
+> >> change-id: 20261027-vsock-dgram-support-683a4e0aebe7
+> >>
+> >> Best regards,
+> >> --
+> >> Sergio Lopez <slp@redhat.com>
+> >>
+> >
+> > Hey Sergio,
+> >
+> > Just a gentle heads up that net-next asks for 24hrs before reposting.
 > 
-> Looking at it again, the zl3073x holds the channel lock while it waits
-> for the edge, although the dpll callbacks do not touch the ToD, TIE or
-> phase step registers, and they already run while the device applies
-> such an operation, because the PTP ops return right after issuing it.
-> I will look at narrowing the lock in the driver.
+> Whoops, sorry!
 > 
-> For the resync, async is not only about reporting the result. Fast lock
-> is a setting of the DPLL, not of a reference, and forcing it makes the
-> DPLL ignore its frequency and phase error monitors. While an
-> asynchronous resync is pending, everything else done to the DPLL runs
-> in forced fast lock. A reference switch, whether from a priority or
-> state change, a manual reference or the device itself in automatic
-> mode, would follow the fast lock phase rate instead of the configured
-> phase slope limit, and the resync would then report success on another
-> reference. A switch to NCO would keep the force bit set until the work
-> clears it. So every request changing the DPLL configuration would have
-> to fail with -EBUSY, cancel the resync, or wait for it. With a lock per
-> chip they simply wait, for at most 1 s.
+> > I'll start working my way through the series, sorry if my reviews come
+> > back spread out across a few days, not sure I'll have enough time in a
+> > single sitting.
 > 
-> > Do the failures only happen because of "unforeseen circumstances" / EIO,
-> > or there may be more common errors reported? If it's just the former
-> > a devlink health reporter could be an option.  
+> I was planning on sending a v4 fixing Sashiko's issues. Should I wait
+> for your review first?
 > 
-> For the output start and stop, only EIO. The device does not report a
-> stopped output and the driver can only wait for one period, so a health
-> reporter would work there.
+> Thanks!
+> Sergio.
 > 
-> 
-> For the resync, no. The wait ends with -ETIMEDOUT when the DPLL does
-> not enter fast lock, for example because the selected reference lost
-> its qualification in the meantime. That is a result of the input
-> signal the user needs in the reply, not a device fault.
-> 
-> Beyond the zl3073x, with the global lock any callback that waits for
-> its device, for example an mlx5 firmware command with its 60 s timeout,
-> stalls the DPLL devices of every other driver in the system.
 
-Well, I'm not convinced. The relations between objects in DPLL are
-already quite hard to follow, and objects from one driver routinely
-"plug" into objects from another. The explanation of the locking
-rules in patch 9 does not look clean or clear. The driver facing
-API needs to be much more "dummy-proof".
+Feel free to send without my review, I'm lagging behind!
+
+Best,
+Bobby
