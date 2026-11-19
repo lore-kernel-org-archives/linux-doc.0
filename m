@@ -1,68 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795055328;
-	b=34aDvSciu+VuXD/et3jyybROxuAfCrviCUTTrPI9Ma0bgr465Eguo5eqmO8APXFcfqDF
-	 a49wBhyGO4RZR82CpwtMrUl46/NIDZ5eygYnosoCrkoBzxQv66UYyZNx7D6ohzV84QK8E
-	 EUSYVztHth5IpAAF09nDp3apBDJUxLuvTqm5hUTFwQekJnxLpsrKDJ/va/qXR+DCiUMW0
-	 Vx+pXH+PCLJpiB/u5ugM3O+eh9alElTF+Vh7X8lwEVAAhGKjFQrHyPrgxMlL3i8NvtX4g
-	 jDbvCGFyn606IQIZ/yrlKP3p0FMWSbmRdhkpYX6T8JO9UHgGymo80+Xs7p2xad9G6EQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795055328;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=VSmr5vXbmsuCRGN7b7MuI6UN6XrNtVVzPed/LUHALvg=;
-	b=PtcKdM5/s7H0yo6P1thEp61epdoV9IkHTrT3EDmJXMAOKslq8dOFK4PgGTPdx9MjG52G
-	 YQ4Y9PXU9CYyBN3K/NBumzPOWbKVfpsDdZRiXzEWm8FFX7JzrnrMnMccbqoPwjTaZL8Q0
-	 z4ARHI/ql7NPwTb5hSDZ8Kx9TMnAnbFBEtk7TXryLDYqVoH+pxppFSe3aw7GXpLtzkXZc
-	 4z2WQjrcWJNVLZ91DHgD6Oy5KS2CwjugKv8AIo+1LzZbQEFFHSl9dxTf3Cy2IXpPUto/d
-	 iZnT/lNt6BGjkDyGthw+kGQE1Z07z3F0AzKvR5z9BAefFgjrzHfADq0iU5Mj4QrFnNg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QCf8TzyK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.51
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795056341;
+	b=4mwZ/Cn6yVYAbSUaKiKe+4Cw5w8OpjCHK2DZKj4f9OuF774Dk+Kya0UDULqyt93mZFTF
+	 Lh3dVmScLxX1dlzTL0xshCjH8r3lvxFBOpaNtcT23PKJMs33HZP+3Nu4SMvdg98zq55Vz
+	 v3RoCNx0Z92riuRMF7UCn7ibNEqgYcMBWB65s0DfDboJqaG11i7PMlaeQtjl32RE+W4HS
+	 vUarTLY1LLsdrFcm8tqRtv5UTHGt4GDOX6/mn3gV2ldk8pG0V2pLBLdDSadwFC9SLUdl9
+	 JVzS6a3KmBVNpy7wCv+A3pQ89nuHc0l2w68WYTjv2deJZsjvqTRDatW3agt96eUvMFw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795056341;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:MIME-Version:Received:Received:From:In-Reply-To:References:
+	 Date:X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=nHE4K0vpamVM1it9uzuLpZzTtHZ4wN8e10RDqi3C1Ys=;
+	b=1wGp8TJ1QmM4qYY3RX67qd2yvQrO1fJD8bz+U2ZPSLWlzkRAy4gSUf1Vih+nH4rJOYkr
+	 YDJxepZ0jMYk0gu9Prk0TJUK1LxGDKV+rrOCh2LPXjXCf9SVMpClkqNACZ1fOjqYz3P6S
+	 +UneiOs9txTYycYKZbdVE6IkYkK1ikHNphleeDbw0RYx/keHPzwSLj4M4iOlNaSj5zytY
+	 c1VZ7xd88sqNOEuRIOsjgUC0C7bIbIwhQsQhd9HTcCbz2WvANkFNVpY2WSYKUauFs63ou
+	 tUyJeVhHO3uLU4Xn/2/wsFYrt75VuruPH14JIV1fmrAgvz6mzgyepNzeReDLwnLFTeA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lpIdHj8c;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.51
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26248606A330;
-	Thu, 19 Nov 2026 02:28:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F30606A325
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 02:45:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7F30606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QCf8TzyK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E85101F000C4;
-	Thu, 19 Nov 2026 02:28:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795055327;
-	bh=VSmr5vXbmsuCRGN7b7MuI6UN6XrNtVVzPed/LUHALvg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=QCf8TzyKY+FlztwuipmblRq0WGMCQ00jFnkGWbjo5MJ4EngICXY+S6N0DfoO5YAjp
-	 c9M4WFmnKvN75qwy32jrIRSBJfG/hJz3sNpIHm9n6K6c1EevqY118uf9Gosph6nz7y
-	 NsFPPqZ1wZyUp18XZXx2uTZ5+0AP4zoX2WQwj8xViiLt73GxQ/OfUcBPYOk9rM2cIX
-	 /i4yXRU59k7XNjxjy/8F8PM/vIOJTFbfuXWKi5ruEs65omlMkreIHesaYmkx2GItNH
-	 jHJkHQ5axVnvJY1hsnPLFvy4a0/Y5iejnpry8NLSsu23kEHhqq7axp5ZxWA7/WeaQf
-	 3oYcL2bSn71YQ==
-Date: Wed, 18 Nov 2026 18:28:46 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Bobby Eshleman <bobbyeshleman@meta.com>
-Cc: Stefano Garzarella <sgarzare@redhat.com>, "David S. Miller"
- <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
- <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>, Donald Hunter <donald.hunter@gmail.com>, Eric
- Dumazet <edumazet@kernel.org>, George Zhang <georgezhang@vmware.com>, Andy
- King <acking@vmware.com>, Dmitry Torokhov <dtor@vmware.com>,
- <virtualization@lists.linux.dev>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <kvm@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <sargun@sargun.me>, <jlinbox@meta.com>, Bobby Eshleman
- <bobbyeshleman@gmail.com>
-Subject: Re: [PATCH net-next v7 0/7] vsock: assign the guest vsock device to
- a network namespace
-Message-ID: <20261118182846.4ab756d1@kernel.org>
-In-Reply-To: <20261117-vsock-guest-ns-v7-0-7e522ea9dd9b@meta.com>
-References: <20261117-vsock-guest-ns-v7-0-7e522ea9dd9b@meta.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lpIdHj8c
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-91eb46044c4so20530246d6.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Nov 2026 18:45:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795056339; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bEPGw/fYWTwffvfBwKPv8wzsdfEf+mIBnJwltrXjLlgGsQdvfXzgx7W0vqSok8fF7t
+         x+Vm19hlvvdiJwAke314ccmYgNKrdIhGmMqoxXK3mTPCG3b+KRKlPN0/So7TdyIyGlK+
+         oxfc3GoTIeZpSvoyzSStbE8BN6zjosDgQ/j1VBGJMbRmpFQthMLb2TsgmZnDW6apMZea
+         DFOM23jqVAd38yLGras7RpQ+LJ+gAh+eVQ6zWov7tzj+Lupk6b+FiQHtamrh27XXND/E
+         mBZSfJK8vOCF/RBSU+ASSxPjAHWd75C5EkcphB12nFaTU31p3/4jjBnvvsIN9M3MAvYR
+         qBTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:references:in-reply-to:from
+         :mime-version:dkim-signature;
+        bh=nHE4K0vpamVM1it9uzuLpZzTtHZ4wN8e10RDqi3C1Ys=;
+        fh=kreoLWC2gISZac6W5JKCnKELKx1+8pwNE55s+T8Drrc=;
+        b=RDWtkbgGBcv6YhSadaEvt6AzpfYwD3Qswp0AjnoESXdQ6SMHXHYPkEFkxy+kG9hxBw
+         53okwIX/2v7t75ABUVs/PyaEw2Eyu81R+jkaao25qUve5ZJV7UAdFLWIx4Mwxi6MGzQb
+         KZMBXfDV+cYt8oUevlca202w8JOQvxF1zqGXqvqUoMcqssoVHDD7wSy9IwRmc273QD8g
+         aGnLgioMhuCJmOZRbF6WofufuXNTFuKtqSs4qj+yx9MKg1MjJcLg2hUsZkZSn/wohL3N
+         +X/XWujXqk1bM4jcbdIyqfN3wugDFxcV/YkD1RoGp8r6x5fvaqM302lNqdP/T+ibCEDW
+         M83w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795056339; x=1795661139; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
+         :from:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nHE4K0vpamVM1it9uzuLpZzTtHZ4wN8e10RDqi3C1Ys=;
+        b=lpIdHj8cethl8NZ04UEbRz+LsiWFLHUwPBYl72U+VxoSD8U4CYn0fPfmuEd9AkKC/k
+         1NYK0u//7vksQCDLPGAeqS50HlO4npB38ANnEGJIWroZI8qUSOoUtCNHSA8PTWPQ7nN3
+         uecm3J5PG4//VoSP9XZ2aff+uy+HdLV3heFUfHst57h2mO5E/gNDiOisfFv9g/liPIUf
+         znuejl6YqNLdGFeC1/6/HKaAAs/qgKPdkg1/Eiyq/tzsNvMuZqDlDNqh9a6UE/KCct0z
+         oLVgqeSNP7Y/yGgDk+rKt+VF0gLkneUdnS8JQ1vnb/we4OLqgPIBBKRmJ7YSN29NoqTc
+         Is2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795056339; x=1795661139;
+        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
+         :from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nHE4K0vpamVM1it9uzuLpZzTtHZ4wN8e10RDqi3C1Ys=;
+        b=jpjYFnhdRZVutG4MQKWeomq10S6gHrYdlyMsIyHwt5MQNNLofnKwx+4jxCKjrQi74w
+         JLrIFAUUD6i7takTchwIOm95CF+sqoe86TyUXYY+aydsITaQqRWgfCdESuPxmGM5e7ah
+         qyNCPFJ9zrWegGDNWQLzrkrvaE5S0Vqu4YlDQDWr8sUTS0OhbIcqeizKhu2+6ckaeT9o
+         Q5GEY0NFeH+LL7Pah52xGbfawZNfSZnGUsAcQUYfHUo9r3am7UHYZ8UqMaGxBufYXJ7J
+         Xd9nBFvEvFJ0Hq70kPc0avRlq4JBd5Tz4zep7/XsFqmkpYXQ4b4mwSr4KWgAwmeUJNtZ
+         Lxag==
+X-Forwarded-Encrypted: i=1; AL+hErFuYBvhna4XDs8uvzlOWm4Wd6ZtdDhzWOtOufQSDJzIsABcT9/xD3hlOU5KmfQe7rnGWludoaa/Bzc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9pToTM7j7omkk7zZ3zFHGQeWlgRdZP7JK5ytSWU5XAW8EC4VCV
+	0qMvhD9k38xRk3BhCGj8P/D0SC4uNbgj5MNrVyk6F0SsUdYujHGf7ydREGs4wmFHUHNe6X6HsBL
+	F3WuZbFe4tU6mCUetdvTRNS7yPs6QBVk=
+X-Gm-Gg: AZFdTZfyO561i2ysG8EOaEX4s30h0TrLlzcfSC/e/dBRHeOwmrdSsf+loTj8DRk/mQU
+	XU/dlTkSrRFNbJRuaeeWnd7N3VIiz8F5MfoAjsdvem1qjjh+aVJ8MGMXKd6SAQm1lggGglymamV
+	Ji3H4LlwFX6dYoLxrn57CWI4zMlmRATpf+GijW2OG0JRMb11oc6klmmAVIKSdw43TA8leamq9IO
+	gpaT7v8lD/bYfOUF+nunxX+5fqTfz3satTttCfdNL3MjSzfnN4M0HbTA2Hx5+xTIN9ngwLriIbL
+	za+GkQSTkX6EHIe37ekV7ziOCOGWtLF6kaAkpiG+P4EneVOOZ8/T4T/jro0EyL2u/bSHvqQlI9S
+	6T9gSCltbC4+UxaMR++TBEuJvNrnaIUsEyxq0
+X-Received: by 2002:a05:6214:4509:b0:91e:93bd:17d4 with SMTP id
+ 6a1803df08f44-92114f234d9mr68688036d6.31.1795056338595; Wed, 18 Nov 2026
+ 18:45:38 -0800 (PST)
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Wed, 18 Nov 2026 18:45:38 -0800
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Wed, 18 Nov 2026 18:44:56 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,12 +107,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from 77377267392	named unknown	by gmailapi.google.com	with HTTPREST;
+ Wed, 18 Nov 2026 18:43:28 -0800
+Received: from 77377267392	named unknown	by gmailapi.google.com	with HTTPREST;
+ Wed, 18 Nov 2026 18:42:52 -0800
+From: lianux.mm@gmail.com
+In-Reply-To: <20261119-mglru-fg-v5-1-9eee2fe97a2d@tencent.com>
+References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com> <20261119-mglru-fg-v5-1-9eee2fe97a2d@tencent.com>
+Date: Wed, 18 Nov 2026 18:45:38 -0800
+X-Gm-Features: Aa3M54oczcrQgnIKIdlWRyAqAv-8pL4r_8Eu0gOG26vA4iWYOD9SKwZ3124B0Ic
+Message-ID: <CAD1ZK4Zo_qQf5aJkVLtoc-LXM9XbyZd2Vy6rFvK_fih-6FE_EA@mail.gmail.com>
+Subject: Re: [PATCH v5 01/17] mm/mglru: rename the generation offset in lru_gen_folio_seq()
+To: kasong@tencent.com
+Cc: linux-mm@kvack.org, akpm@linux-foundation.org, hannes@cmpxchg.org, 
+	muchun.song@linux.dev, qi.zheng@linux.dev, ying.huang@linux.alibaba.com, 
+	chrisl@kernel.org, baoquan.he@linux.dev, nico.pache@linux.dev, 
+	usama.arif@linux.dev, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	shakeel.butt@linux.dev, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
+	baohua@kernel.org, axelrasmussen@google.com, yuanchu@google.com, 
+	weixugc@google.com, vbabka@kernel.org, surenb@google.com, nphamcs@gmail.com, 
+	youngjun.park@lge.com, ziy@nvidia.com, gourry@gourry.net, willy@infradead.org, 
+	baolin.wang@linux.alibaba.com, ryan.roberts@arm.com, dev.jain@arm.com, 
+	lance.yang@linux.dev, hughd@google.com, sj@kernel.org, rientjes@google.com, 
+	yuzhao@google.com, vernon2gm@gmail.com, wangzicheng@honor.com, 
+	chenridong@xiaomi.com, tz2294@columbia.edu, ryncsn@gmail.com, 
+	liuxiang.277@bytedance.com, ehab.ababneh@intel.com, 
+	zhaozhengzhuo@uniontech.com, joannelkoong@gmail.com, kunwu.chan@gmail.com, 
+	hui.zhu@linux.dev, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	damon@lists.linux.dev, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 17 Nov 2026 17:54:43 -0800 Bobby Eshleman wrote:
-> vsock network namespaces let a host put each VM in a namespace of its
-> own. A guest has no equivalent yet. It has a single G2H device that
-> cannot be assigned to a network namespace.
-
-PW says this did not apply at the time of posting, pls respin
+Reviewed-by: Lian Wang <lianux.mm@gmail.com>
