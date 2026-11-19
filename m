@@ -1,49 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795091664;
-	b=N+gRSrV12C2AVSJvNpWYgnrY+vVPDiQbb3aL3h1I6rogWcGT+BFJGm5s6dtsMfKt2IaA
-	 XvQhNp7FasZ4i/FjnYgwf5prwo0OSYzz5DhNG/52DfoiGLkhDjvOnVlpRnSjVjX0A7wbn
-	 KrzWC4c6yz9Rw8PlTDmifI+2ECB7SKVO3aESh2RyhDGX2rPWdtQpoKbupmiub+emX4OAv
-	 5yGWEGkrOp0a+TfNmbNOU6eBDdsgTMCUwH0B3nAPE0F/2oBa2AhXnBuZ4BEIZCsY9HgcS
-	 izrnV/aaGJJv35GONM9eoPoJmb50SiuhKDWLuUJ8YmopeAkL9BqQFrinulwHlIaMPQQ==
+	t=1795091696;
+	b=lvMj7fq+vi0nLCFRjMmr9JeMLfFxAwZvhtfOhw8CiDv/95pLLbeembLyWwxlk43tPrbl
+	 EehwyJxoBGHZvHTYgjSF16CLYFq7mVHeW6dS7kH1vxFWBdGoZk+zrbZUsgEYTFhtPxzIl
+	 sTFG9ZGtwsgsTQ1nis6Pbo7b4u2BOIhUAZ/JWR9FV4bVa30PLaPGgARbPXGE4kYzS0phx
+	 6GsBnxdJznmXTNB9qqyo2JotB7U10bYPGiDLqZQPY3ZQC9qlXAydeewQsAdwveEerIzl3
+	 14vaYudtyQgew1X1PqbM9J1Di8CAR9EG6YcGhMZfrhRkIdjp7hapWxXXEEqVi/lP34w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795091664;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:References:Content-Language:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=Y2iIZRnth8ulS1CILFLJPpfWCZaKVFy46FRP2EgLNVs=;
-	b=NwOGgDupg3biJQsW4gqnyeHEvHPWTa79vcha5enNtBBxbPvr1wKtUT1OEPH8SV5ykuey
-	 09Tz8aPyfaK/WrQHt+JtzWm0dkFycEm9vtkKORc8ylzG6NnCHvCr52ZW3AwQ/K494HV6t
-	 uUZgcexpM5FpcJaLtXlInWecLiv8Gx5WQUh4kWQqMGcmNnJ42R+nbWSRaQpAaWmKVoPKD
-	 JwrzGda2sS4KdUpiZH4nJuEo6fRjBTK36xxxpGIVoakGQ9oVkvivQlDb0QlOO+3k4t6ZQ
-	 BQUUfNxPgtamLm/XCPmR/BqCdli6c60Cjo9oSz4H/NFVlgwWbe2vaTcxMGpDZeb5Qew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795091696;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=7s4XTz+4AV9iKI/UFqt2bu0ChWlIJUUvN/YPh7p0cFw=;
+	b=oHjVEiUqUrnma9fI18l1UBpTn6nHagMzaq7XTJlTTVClUnKuvXfWMIl+MBvw3tXJmgW4
+	 C/qBbBKZj+untdc/lTQBbpWZDvEZQnK00c34nNFZjk5i9aBVXs/hmjSe+8SiOV208gsgn
+	 dRm0tWk3HdoAJgT0EoOwIbu8185t1XOZvAf0Fit0rgPKNUUOuCtEQO4RGemurKyrY7k2N
+	 4+fcy/+92LjWH5KOWfq3M93OqLlXRCFB0VbWoD9ZxPjISFfphuW8E68xROUIZkwYmWf1Y
+	 wYwBGRkzdt/wOPKwCfRO2o0C0vukZu82NussACOEdGcoZUGiUDOF0wF81TFMzpdEGfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=JPtUwDC+;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1FCB606A331;
-	Thu, 19 Nov 2026 12:34:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1FCB606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=1wt.eu;
+	spf=pass smtp.mailfrom=1wt.eu;
+	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=C4EwaBsB;
+	arc=none smtp.remote-ip=51.159.59.229
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB906606A32C;
+	Thu, 19 Nov 2026 12:34:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB906606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=JPtUwDC+
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDC081575;
-	Thu, 19 Nov 2026 04:34:19 -0800 (PST)
-Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 548AB3F673;
-	Thu, 19 Nov 2026 04:34:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795091662; bh=jgZvlLC3w6JleU9YhsULtK81xMaX+XiPZ3AYAnGKI3c=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=JPtUwDC+a7nGjcyXudDcdkl+AC15nhCakJB5i/KhujMchpLNchTh85K44S/gKMbk1
-	 EdVDczcN2N06FNHXsAdn13MWWNhfJVo/8jV7T0d1EO48EloE+Mi0hW43ATmKF9r3Ty
-	 GkYUQSoCIwr58vYn+ihppR/83GBOt6rRTH/6Twe8=
-Message-ID: <daa2a116-a767-42bc-a31f-f1da84e1eeae@arm.com>
-Date: Thu, 19 Nov 2026 12:34:18 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=C4EwaBsB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1795091685; bh=7s4XTz+4AV9iKI/UFqt2bu0ChWlIJUUvN/YPh7p0cFw=;
+	h=From:Message-ID:From;
+	b=C4EwaBsBYM51LVu9WAfTjrzEwH8wo9VnVw7+Q+5rqI1u4dVlGubdridrDdU/VvjRH
+	 j0OlvyzREuMLYJJIp+uMD0oEr3OUcsJ/KD2TBnjYachQ2BnNKTUPETxiQToMe9in0m
+	 8mza/Zssf2oQ4jYCvCh4Gv+ByI7c4exAeDHtf+Ck=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id 9DE6CC04AD;
+	Thu, 19 Nov 2026 13:34:45 +0100 (CET)
+Date: Thu, 19 Nov 2026 13:34:45 +0100
+From: Willy Tarreau <w@1wt.eu>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
+ user-visible impact
+Message-ID: <av7s5eV7Ws9Io3cE@1wt.eu>
+References: <20261116200515.352387-1-sashal@kernel.org>
+ <20261117092723.GA124972@unreal>
+ <avxtxScVa9KvUH_K@laps>
+ <20261117152721.GC162713@unreal>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,168 +69,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/6] fs/resctrl: Stop the limbo handler while resctrl
- is unmounted
-To: Jinjie Ruan <ruanjinjie@huawei.com>, tony.luck@intel.com,
- reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- babu.moger@amd.com, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, bp@alien8.de, tan.shaopeng@fujitsu.com,
- gshan@redhat.com, jic23@kernel.org, fenghuay@nvidia.com,
- zengheng4@huawei.com, x86@kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20261119094858.813874-1-ruanjinjie@huawei.com>
- <20261119094858.813874-5-ruanjinjie@huawei.com>
-Content-Language: en-US
-From: Ben Horgan <ben.horgan@arm.com>
-In-Reply-To: <20261119094858.813874-5-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117152721.GC162713@unreal>
 
-Hi Jinjie,
-
-On 19/11/2026 09:48, Jinjie Ruan wrote:
-> A monitoring group's RMID is not returned to the free list when the
-> group is removed. It stays in limbo until the cache occupancy still
-> counted against it has dropped low enough for the RMID to be reused,
-> which the limbo handler checks once a second.
+On Tue, Nov 17, 2026 at 05:27:21PM +0200, Leon Romanovsky wrote:
+> > > Since you're already making changes in that area, could you add a sentence
+> > > asking reporters to provide the full dmesg stack trace?
+> > 
+> > In this doc, we already ask them not to [1] :)
 > 
-> The limbo handler keeps running after resctrl is unmounted, where there
-> is nothing for it to achieve. An RMID is only allocated when a group is
-> created, which needs resctrl to be mounted, so no RMID the limbo handler
-> returns to the free list can be used before the next mount, and that
-> mount can check them itself. The MBM overflow handler already stops for
-> this reason once resctrl_mounted is cleared.
+> This is really bad. You assumed they would trim the logs correctly, and I,
+> as the recipient was expected to trust that they were accurate. They are not.
 > 
-> Reading the RMIDs in limbo while resctrl is unmounted is not safe on
-> every architecture. On MPAM the counter of an RMID is selected by the
-> CLOSID that owns it, and the CLOSID depends on the CDP state. Unmount
-> clears the CDP state, so the limbo handler that keeps running reads the
-> RMIDs freed under CDP through the CLOSIDs of the cleared state.
+> They trim everything, which makes these logs useless to me. As I said, they
+> include AI-generated reports, cases with reproductions that are impossible
+> with upstream code, and reports for completely out-of-tree code. Everything
+> like that was visible in original dump stack and it is lost now.
 > 
-> Stop the limbo handler while resctrl is unmounted, as the overflow
-> handler does, and restart it after a mount on every domain that still
-> has RMIDs in limbo. The worker can stay queued across the unmount, so
-> cancel it before queuing it again.
+> > 
+> > > Many AI-generated patches reduce it to one or two lines, which gives no
+> > > indication of whether the report is genuine or fabricated. Early in the AI
+> > > era, I saw some completely fabricated stack traces.
+> > 
+> > Is it still an issue?
 > 
-> Fixes: 6789fb99282c ("arm_mpam: resctrl: Add CDP emulation")
-> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> Cc: <stable@vger.kernel.org>
-> ---
-> v6:
-> - Explain first why stopping the limbo handler is fine on every
->   architecture, and describe MPAM by CLOSID only (Reinette).
-> - Rename resctrl_limbo_resume() to cqm_resume_limbo_handler() and declare
->   it with the other limbo handler helpers (Reinette).
-> - Return early when the L3 resource is not mon_capable (Reinette).
-> - Drop the stable version range, the Fixes tag already gives it.
-> ---
->  fs/resctrl/internal.h |  2 ++
->  fs/resctrl/monitor.c  | 42 ++++++++++++++++++++++++++++++++++++++++--
->  fs/resctrl/rdtgroup.c |  2 ++
->  3 files changed, 44 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
-> index 1c85e06f09bf..f52e0937702a 100644
-> --- a/fs/resctrl/internal.h
-> +++ b/fs/resctrl/internal.h
-> @@ -401,6 +401,8 @@ bool is_mba_sc(struct rdt_resource *r);
->  void cqm_setup_limbo_handler(struct rdt_l3_mon_domain *dom, unsigned long delay_ms,
->  			     int exclude_cpu);
->  
-> +void cqm_resume_limbo_handler(void);
-> +
->  void cqm_handle_limbo(struct work_struct *work);
->  
->  bool has_busy_rmid(struct rdt_l3_mon_domain *d);
-> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
-> index ae9ddd380515..ede1708b920e 100644
-> --- a/fs/resctrl/monitor.c
-> +++ b/fs/resctrl/monitor.c
-> @@ -852,6 +852,13 @@ void cqm_handle_limbo(struct work_struct *work)
->  	 */
->  	mutex_lock(&rdtgroup_mutex);
->  
-> +	/*
-> +	 * If the filesystem has been unmounted this work no longer needs to
-> +	 * run. cqm_resume_limbo_handler() restarts it on the next mount.
-> +	 */
-> +	if (!resctrl_mounted)
-> +		goto out_unlock;
-> +
->  	/*
->  	 * Ensure the worker is dedicated to a CPU as intended and not
->  	 * relocated by workqueue subsystem as part of CPU going offline.
-> @@ -1001,8 +1008,8 @@ int setup_rmid_lru_list(void)
->  	/*
->  	 * Called on every mount, but the number of RMIDs cannot change
->  	 * after the first mount, so keep using the same set of rmid_ptrs[]
-> -	 * until resctrl_exit(). Note that the limbo handler continues to
-> -	 * access rmid_ptrs[] after resctrl is unmounted.
-> +	 * until resctrl_exit(). Note that the RMIDs in limbo stay in limbo
-> +	 * across an unmount and are checked again after the next mount.
->  	 */
->  	if (rmid_ptrs)
->  		return 0;
-> @@ -1033,6 +1040,37 @@ int setup_rmid_lru_list(void)
->  	return 0;
->  }
->  
-> +/**
-> + * cqm_resume_limbo_handler() - Restart the limbo handler after a mount.
-> + *
-> + * The limbo handler stops while resctrl is unmounted. Restart it on every
-> + * domain that still has RMIDs in limbo.
-> + */
-> +void cqm_resume_limbo_handler(void)
-> +{
-> +	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
-> +	struct rdt_l3_mon_domain *d;
-> +
-> +	lockdep_assert_cpus_held();
-> +	lockdep_assert_held(&rdtgroup_mutex);
-> +
-> +	if (!r->mon_capable || !resctrl_is_mon_event_enabled(QOS_L3_OCCUP_EVENT_ID))
-> +		return;
-> +
-> +	list_for_each_entry_rcu(d, &r->mon_domains, hdr.list,
-> +				lockdep_is_cpus_held()) {
+> I don't know about faked, but useless yes, especially in the cases where
+> in-kernel API is involved.
 
-nit: Unnecessary line break.
+The situation completely changed over the last year. LLMs that would
+hallucinate bugs and dmesg in single-turn conversations have been
+replaced with agents/harnesses calling shell commands and able to
+capture contents without inventing them. I agree that we should ask
+them to capture such dmesg which nowadays have no reason to be faked
+anymore.
 
-Reviewed-by: Ben Horgan <ben.horgan@arm.com>
-
-Thanks,
-
-Ben
-
-> +		if (!has_busy_rmid(d))
-> +			continue;
-> +
-> +		/*
-> +		 * The unmount may have left the worker queued. Cancel it so
-> +		 * it is queued again on a CPU picked now.
-> +		 */
-> +		cancel_delayed_work(&d->cqm_limbo);
-> +		cqm_setup_limbo_handler(d, 0, RESCTRL_PICK_ANY_CPU);
-> +	}
-> +}
-> +
->  void free_rmid_lru_list(void)
->  {
->  	if (!resctrl_arch_mon_capable())
-> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-> index 3312637fb514..c7c4f618208d 100644
-> --- a/fs/resctrl/rdtgroup.c
-> +++ b/fs/resctrl/rdtgroup.c
-> @@ -3267,6 +3267,8 @@ static int rdt_get_tree(struct fs_context *fc)
->  						   RESCTRL_PICK_ANY_CPU);
->  	}
->  
-> +	cqm_resume_limbo_handler();
-> +
->  	/*
->  	 * Ensure root remains accessible after mutex is unlocked so that
->  	 * kernfs_kill_sb() can run safely if called by kernfs_get_tree()'s
-
+Willy
