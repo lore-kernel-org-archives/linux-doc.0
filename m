@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795114339;
-	b=EHXHsB9CrgIQMPhcrWzJYi9ERaYMFZQ8g2Owu692u19XyPWIReqcOCyPFO7ucw3vkMva
-	 fLNaZI9IkgTjAGCQCAsWAYDpPft2Z2n1ReIaldJvaCoZv0j/4LM47lG++8VUcBsV7IuJp
-	 sMeowkUOYWuwczFFFO+E3uDGYkhncka9MOIsLbuUnKi3So5Nb9AYz+OXZ6zWZwUnw5HuR
-	 oYEZcwOYuuFSlHiFQt5YGpPb09qvsVq67Pmgv/jGpq8TCLgS8Tpjx1z74dFwkMzQ16tIf
-	 decon6ISYEUb3pY3Sy68jgDr5AcFn2t7fR1M6of438Q8YjWs/YLCvRpCQ+3eiF/vOEQ==
+	t=1795114341;
+	b=I4ijqYHyLyjj1uNvI+PHq+zqpTkJQiniYXjXKSBXRvHxoDMBdyCO1FtB6TQPPlUc5G5n
+	 2lYWqxUw2JAcguC8WgDZwr2GhZXv7v8FbNjfx6gJCzJSDcB2XGZ4piS1DT4LmGJDeYdHz
+	 kIfWwtJE8I9oS8VP7jCxdzBS2hibuyj7cyS68O3ljRR20D8kDLDSKlmWu+nMQq8L5pTMM
+	 YPoOuiiQEjtK6n+BLx+9QIyRN44rQ7Z+V/QAJIuEjp9Q7P+HRuz7mf0LepCG6Ay+0q7jZ
+	 9xkoIogHSPTJntQPK4khRPg0vHzCiPZ8Q4Yh6vNUb2NlnvM/N4JmqMgVp7PHzqSYA9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795114339;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795114341;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=JnPyo9Uuk9yDsv0rmtMWzSN2FAMU1ZcFas4I3l5JKQU=;
-	b=YqrPS+jThUl/Yqq1AUWIXcsrTjkPPcWuofdXyS2pBynFKpkO0wR55pcvvbnt4RUtEZXI
-	 7wDOYH9Nc0ICggaP6DKhR5YvBnLsiQJUfx6eairiEyBuNEx1c5vhoryqwfzZLeWhVxMgO
-	 lZd6cP0ARQbuwK+LeKPHE3PFOxyBGlTwNCAJZWJzGYr9qt4MK641iEHWR5CrKrdcW7u6Q
-	 w22Y2RRg/uEcl1A+YO0SjOn7wY+7mUxQdlW4Pqx97XrTIO1PTAmXX9m2Jr43S1tCUUih6
-	 VM9ES2S+O/Ec1pww1P+EGRDe0DYOQXA+nNVIMlIsoswwdaEvBMbhFBFGk2ybO+QQSrw==
+	bh=KQsSEkRceSASTHzJzgBIIkzZNEt4co2b8TqRiek6Jc4=;
+	b=kwjwxAm0UQREzeHkHOe7Tg83KeOSmVUk0u5T18Z+hRJKh3p2u3JRWx5HFRMxvP00KpPJ
+	 v3PFPP4bZbgRkdRn5TwRuMOM376FVH3+2wKybHBvghjn+Hghdzlpac+aevY2B7Yx9uOEj
+	 Ho4ss8gX8OF+e/+yY95Lxr3Q5ZRBNm4JnXXq/C6LXCffgnmn+3XIPTsE1YpwllsXi6pMH
+	 b56OmlgRhMS00YwDwD2eOwzzuxYKfs4KzUFVuqn0KHwg/202Q9WRjUOnv/FquL9Qe5es/
+	 L//MRAklqQBuERXfSo1D4BOHp8C8uqLYDZmvYDQx+imYfI6v39Rk8lv7UEQCIFlY8aQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NDuUiAWT;
-	arc=none smtp.remote-ip=209.85.167.200
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UmgNvltQ;
+	arc=none smtp.remote-ip=209.85.210.70
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B33606A335
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 18:52:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56B33606A335
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE6B606A326
+	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 18:52:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DE6B606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NDuUiAWT
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-547ae874949so209446b6e.2
-        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 10:52:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UmgNvltQ
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-8615bdcc5cfso123175a34.3
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 10:52:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795114337; x=1795719137; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1795114340; x=1795719140; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=JnPyo9Uuk9yDsv0rmtMWzSN2FAMU1ZcFas4I3l5JKQU=;
-        b=NDuUiAWT9m/Y4X19rNLr0nz/0UpRH7ZGRaLVNJYZAvxS+/6c5AJvHdtvnFsR5FI8jz
-         BStrIGf7dy3qQxCg10sphhy3FCEOVhsAdzskadPNBG+kHR9UwXt2jyJy50nzD9vKz6Uc
-         VrUe1FpLxxfyw9bymPVlBZ5S45flUex1i/S3l9hISl7IasJDuavS39eiWJuDAYC5ZV1d
-         53PcsHNSukSfdQwWFRHTo4OK9yM+UIW4a+O2XA9mJJ9Ht9j3lnXRftP5yTJfdciAoBhr
-         JcH0bumPuXEkEkASId4VOMlQgzABKJgJZOTDXhy0jSLDYu0HPiDng/GKp1y/iYPuD3oW
-         p8Eg==
+        bh=KQsSEkRceSASTHzJzgBIIkzZNEt4co2b8TqRiek6Jc4=;
+        b=UmgNvltQccgHR7edr+trvn5fl8FJlquOD13iSw9vmFIXF22si+Vc93c3JWnyWrq8l1
+         qLBf4fhjAkfGuE765fXwvCKbIjmQaMMXViR400Vlh3N7IjJLV9KdBk+GkLYb7L1nFTwC
+         ZFdvgtJwZUFpRLf0GdHxt7xeNc6OjjxYC8XMGoFhoulfRWbUFNUWd5wlKBaHBNiUuaD4
+         RKjLFqvrT7U0XdhagwArYm+w8jjruww+USpIDrTIHkoGNLKCB5bzFVYZBvWhiyO4IKkC
+         n+WwSQ/SOrtY02XzGmIqnUrdk1BXnbZkkms3qJ6Gl4tuBwynzIUBKfZPXjH4NJdAk/Fb
+         kb3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795114337; x=1795719137;
+        d=1e100.net; s=20260707; t=1795114340; x=1795719140;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=JnPyo9Uuk9yDsv0rmtMWzSN2FAMU1ZcFas4I3l5JKQU=;
-        b=jGzR5wpfEB38i/Q4ucWTaolLYTIAPcp/vzqSdx1NDDJOMkACvb1SDyCRtTcA+qylkH
-         nSKQb1KOQuq6jk9JMhbCxOWjPcYNqxjoW1PVODGGsB6LUkWAOeQg1N4J+UuS7/Ioew8Z
-         Jh70Tns4l4i1JF7FVS4UNELDc/KThgIM8CuZwyWBBnN6tp37LM+1eWe92l3LD+J4rlre
-         3pTzzYqCwCwKXYg11TKnGrNbisz9GfNWPVRHfDgFH70pTpd+xvP1B/QviiKC3oGCeQ50
-         l/rX1efcrmIyLaQJ7qEg3UCii9I8S8Z8kKh002yREIPiYXiuGNxFAdFoZjRkpYtWLo6y
-         Vilg==
-X-Forwarded-Encrypted: i=1; AL+hErGpUxNWCURDwbSKQBM2gjKwsUHrXLL/JMSSdVb2oYHzewB20BFnq/BUQDZTP5oo/zMnGgiZI5dV6rY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+IvkW0isY8VMqc0PvainpXrquNvjg7NDgSsNpnS1M80cdTJ/BZ
-	8K8ivGlPYapmw2YI7OLlBnAeB3ASNNUnmIYC+vaMMZgmTcg3/jZihZheGrDzRdOuSBSq8a/kQHA
-	Mt3lS3i83GbPE8ZSXdTt3o6hW1w==
-X-Received: from iok14-n2.prod.google.com ([2002:a05:6602:c60e:20b0:9b4:c92a:b174])
+        bh=KQsSEkRceSASTHzJzgBIIkzZNEt4co2b8TqRiek6Jc4=;
+        b=DdC3DlfK73vnfZ5wa2Q+cdWVSjHesgif4/ml6zM9QKH7GfRG6jCFxGO8slPcG2S8jS
+         X3WqZVgtJ3kxcC6nnHiKnikLs9QCODVVdIl97+M8+SUnxNrsUXpqAC7NJoYzoOkl0z4H
+         zqeJoRi2SALUW8OCbXZXvEOwyrBzzLbulxvtdRDW3UbHgQBTlEU8Dl8iG2oZsxkPVZm2
+         BfbY3nMms5x3OeMcYQGm7tmjfbYYt2vqu3L6K1tEy3ukWLSVf+dJdALZbuYqmosPxV59
+         EWaUmW3iJ8eaiZvmTR83+k2DUgDSy+8yBH8+YOU5kDmHKilRZhtcvmkAaVqr6ivu73mF
+         SfGw==
+X-Forwarded-Encrypted: i=1; AL+hErGjpRdbtezv+rOK4J34osNZBOKD/lKg/4SDPJr49KF7FT9eB3uytlieZIGUjjEjt3KHERLkCTIVVcg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/gGdJgwdG8pO7ITtGhpDqPavxYSdQaWouPgkjsqeRTr4dZlr36
+	0UhwzwAO3izA5Lb0px2AIdyFyEm2ZJZ7RCPuwaJ9GNOVqaX3m51GHkAm9GDZ00TjKAtcWDJpXwE
+	D88DfqlCsCbuxL3LGbB2Pl8L3mg==
+X-Received: from iobmp26-n1.prod.google.com ([2002:a05:6602:a2da:10b0:9c7:5697:9ad7])
  (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:308b:b0:4f1:6c9c:78d3 with SMTP id 5614622812f47-57a0a92272dmr980283b6e.26.1795114337076;
- Thu, 19 Nov 2026 10:52:17 -0800 (PST)
-Date: Thu, 19 Nov 2026 18:51:43 +0000
+ 2002:a05:6808:3193:b0:56a:cf0b:a5fb with SMTP id 5614622812f47-57a0b145c20mr991415b6e.36.1795114339806;
+ Thu, 19 Nov 2026 10:52:19 -0800 (PST)
+Date: Thu, 19 Nov 2026 18:51:46 +0000
 In-Reply-To: <20261119185215.632334-1-coltonlewis@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261119185215.632334-1-coltonlewis@google.com>
 X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
-Message-ID: <20261119185215.632334-2-coltonlewis@google.com>
-Subject: [PATCH v10 01/33] arm64: cpufeature: Add cpucap for HPMN0
+Message-ID: <20261119185215.632334-5-coltonlewis@google.com>
+Subject: [PATCH v10 04/33] KVM: arm64: Use nr_pmu_counters in kvm_pmu_implemented_counter_mask()
 From: Colton Lewis <coltonlewis@google.com>
 To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>
 Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
@@ -99,119 +99,102 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Add a capability for FEAT_HPMN0, whether MDCR_EL2.HPMN can specify 0
-counters reserved for the guest.
+kvm_pmu_implemented_counter_mask() returns the bitmask of all counters
+implemented by the VM (0..N-1 and PMCCNTR_EL0). Previously it extracted
+N from kvm_vcpu_read_pmcr(vcpu), which commit 600f6fa5c90c ("KVM: arm64:
+Let kvm_vcpu_read_pmcr() return an EL-dependent value for PMCR_EL0.N")
+changed to substitute MDCR_EL2.HPMN for PMCR_EL0.N whenever
+vcpu_has_nv(vcpu) && !vcpu_is_el2(vcpu).
 
-This required changing HPMN0 to an UnsignedEnum in tools/sysreg
-because otherwise not all the appropriate macros are generated to add
-it to arm64_cpu_capabilities_arm64_features.
+As a result, when kvm_vcpu_reload_pmu() services KVM_REQ_RELOAD_PMU
+while the vCPU is at vEL1 or vEL0 (for example, when entering a nested
+guest after an L1 MDCR_EL2 update), kvm_pmu_implemented_counter_mask()
+omits HPMN..N-1 and kvm_vcpu_reload_pmu() wipes L1's hypervisor counter
+bits in PMOVSSET_EL0, PMINTENSET_EL1, and PMCNTENSET_EL0.
 
-Acked-by: Mark Rutland <mark.rutland@arm.com>
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-Tested-by: James Clark <james.clark@linaro.org>
+Fix this in three parts:
+- Read vcpu->kvm->arch.nr_pmu_counters directly in
+  kvm_pmu_implemented_counter_mask() so the VM-wide implemented mask is
+  independent of the vCPU's current exception level.
+- Use kvm_pmu_accessible_counter_mask(vcpu) & ~BIT(ARMV8_PMU_CYCLE_IDX)
+  for PMCR_EL0.P event counter resets instead of open-coding the
+  subtraction of kvm_pmu_hyp_counter_mask(vcpu) below EL2.
+- Mask trapped reads in access_pmcnten(), access_pminten(), and
+  access_pmovs() with kvm_pmu_accessible_counter_mask(vcpu) (matching
+  existing write masking) so retained hypervisor counter bits in
+  HPMN..N-1 read as zero at EL1 and EL0.
+
+Fixes: 600f6fa5c90c ("KVM: arm64: Let kvm_vcpu_read_pmcr() return an EL-dependent value for PMCR_EL0.N")
+Fixes: 9a1c58cfefb0 ("KVM: arm64: nv: Adjust range of accessible PMCs according to HPMN")
 Signed-off-by: Colton Lewis <coltonlewis@google.com>
 ---
- arch/arm64/kernel/cpufeature.c | 11 ++++++++++-
- arch/arm64/kvm/sys_regs.c      |  5 ++++-
- arch/arm64/tools/cpucaps       |  1 +
- arch/arm64/tools/sysreg        |  6 +++---
- 4 files changed, 18 insertions(+), 5 deletions(-)
+ arch/arm64/kvm/pmu-emul.c | 5 +----
+ arch/arm64/kvm/pmu.c      | 2 +-
+ arch/arm64/kvm/sys_regs.c | 6 +++---
+ 3 files changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index c9c9a6889455c..023b98e6be2d1 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -77,7 +77,7 @@
- #include <linux/percpu.h>
- #include <linux/sched/isolation.h>
+diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
+index ea5908df42890..9eff208547746 100644
+--- a/arch/arm64/kvm/pmu-emul.c
++++ b/arch/arm64/kvm/pmu-emul.c
+@@ -446,12 +446,9 @@ void kvm_pmu_handle_pmcr(struct kvm_vcpu *vcpu, u64 val)
+ 		kvm_pmu_set_counter_value(vcpu, ARMV8_PMU_CYCLE_IDX, 0);
  
--#include <asm/arm_pmuv3.h>
-+#include <linux/perf/arm_pmuv3.h>
- #include <asm/cpu.h>
- #include <asm/cpufeature.h>
- #include <asm/cpu_ops.h>
-@@ -566,6 +566,7 @@ static const struct arm64_ftr_bits ftr_id_mmfr0[] = {
- };
+ 	if (val & ARMV8_PMU_PMCR_P) {
+-		unsigned long mask = kvm_pmu_implemented_counter_mask(vcpu) &
++		unsigned long mask = kvm_pmu_accessible_counter_mask(vcpu) &
+ 				     ~BIT(ARMV8_PMU_CYCLE_IDX);
  
- static const struct arm64_ftr_bits ftr_id_aa64dfr0[] = {
-+	ARM64_FTR_BITS(FTR_HIDDEN, FTR_NONSTRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_HPMN0_SHIFT, 4, 0),
- 	S_ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_DoubleLock_SHIFT, 4, 0),
- 	ARM64_FTR_BITS(FTR_HIDDEN, FTR_NONSTRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_PMSVer_SHIFT, 4, 0),
- 	ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_CTX_CMPs_SHIFT, 4, 0),
-@@ -730,6 +731,7 @@ static const struct arm64_ftr_bits ftr_id_dfr0[] = {
- };
+-		if (!vcpu_is_el2(vcpu))
+-			mask &= ~kvm_pmu_hyp_counter_mask(vcpu);
+-
+ 		for_each_set_bit(i, &mask, 32)
+ 			kvm_pmu_set_pmc_value(kvm_vcpu_idx_to_pmc(vcpu, i), 0, true);
+ 	}
+diff --git a/arch/arm64/kvm/pmu.c b/arch/arm64/kvm/pmu.c
+index 567de460205a0..dbbe219ac874f 100644
+--- a/arch/arm64/kvm/pmu.c
++++ b/arch/arm64/kvm/pmu.c
+@@ -852,7 +852,7 @@ u8 kvm_arm_pmu_get_pmuver_limit(void)
  
- static const struct arm64_ftr_bits ftr_id_dfr1[] = {
-+	ARM64_FTR_BITS(FTR_HIDDEN, FTR_NONSTRICT, FTR_LOWER_SAFE, ID_DFR1_EL1_HPMN0_SHIFT, 4, 0),
- 	S_ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE, ID_DFR1_EL1_MTPMU_SHIFT, 4, 0),
- 	ARM64_FTR_END,
- };
-@@ -2863,6 +2865,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
- 		.matches = has_cpuid_feature,
- 		ARM64_CPUID_FIELDS(ID_AA64MMFR0_EL1, FGT, FGT2)
- 	},
-+	{
-+		.desc = "HPMN0",
-+		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
-+		.capability = ARM64_HAS_HPMN0,
-+		.matches = has_cpuid_feature,
-+		ARM64_CPUID_FIELDS(ID_AA64DFR0_EL1, HPMN0, IMP)
-+	},
- #ifdef CONFIG_ARM64_SME
- 	{
- 		.desc = "Scalable Matrix Extension",
+ u64 kvm_pmu_implemented_counter_mask(struct kvm_vcpu *vcpu)
+ {
+-	u64 val = FIELD_GET(ARMV8_PMU_PMCR_N, kvm_vcpu_read_pmcr(vcpu));
++	u64 val = vcpu->kvm->arch.nr_pmu_counters;
+ 
+ 	if (val == 0)
+ 		return BIT(ARMV8_PMU_CYCLE_IDX);
 diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-index c7d91138a6d49..04947bfbd0ee5 100644
+index 04947bfbd0ee5..6e8bc4618870d 100644
 --- a/arch/arm64/kvm/sys_regs.c
 +++ b/arch/arm64/kvm/sys_regs.c
-@@ -2218,6 +2218,8 @@ static u64 sanitise_id_aa64dfr0_el1(const struct kvm_vcpu *vcpu, u64 val)
- 	if (kvm_vcpu_has_pmu(vcpu))
- 		val |= SYS_FIELD_PREP(ID_AA64DFR0_EL1, PMUVer,
- 				      kvm_arm_pmu_get_pmuver_limit());
-+	else
-+		val &= ~ID_AA64DFR0_EL1_HPMN0_MASK;
+@@ -1359,7 +1359,7 @@ static bool access_pmcnten(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
  
- 	/* Hide SPE from guests */
- 	val &= ~ID_AA64DFR0_EL1_PMSVer_MASK;
-@@ -3417,7 +3419,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
- 		    ID_AA64DFR0_EL1_DoubleLock_MASK |
- 		    ID_AA64DFR0_EL1_WRPs_MASK |
- 		    ID_AA64DFR0_EL1_PMUVer_MASK |
--		    ID_AA64DFR0_EL1_DebugVer_MASK),
-+		    ID_AA64DFR0_EL1_DebugVer_MASK |
-+		    ID_AA64DFR0_EL1_HPMN0_MASK),
- 	ID_SANITISED(ID_AA64DFR1_EL1),
- 	ID_UNALLOCATED(5,2),
- 	ID_UNALLOCATED(5,3),
-diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-index 3125695122a0a..1603a0dd19764 100644
---- a/arch/arm64/tools/cpucaps
-+++ b/arch/arm64/tools/cpucaps
-@@ -43,6 +43,7 @@ HAS_GIC_PRIO_MASKING
- HAS_GIC_PRIO_RELAXED_SYNC
- HAS_ICH_HCR_EL2_TDIR
- HAS_HCR_NV1
-+HAS_HPMN0
- HAS_HCX
- HAS_LDAPR
- HAS_LPA2
-diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
-index 997c62ab72e68..7230a9cd46e53 100644
---- a/arch/arm64/tools/sysreg
-+++ b/arch/arm64/tools/sysreg
-@@ -1726,9 +1726,9 @@ EndEnum
- EndSysreg
+ 		kvm_pmu_reprogram_counter_mask(vcpu, val);
+ 	} else {
+-		p->regval = __vcpu_sys_reg(vcpu, PMCNTENSET_EL0);
++		p->regval = __vcpu_sys_reg(vcpu, PMCNTENSET_EL0) & mask;
+ 	}
  
- Sysreg	ID_AA64DFR0_EL1	3	0	0	5	0
--Enum	63:60	HPMN0
--	0b0000	UNPREDICTABLE
--	0b0001	DEF
-+UnsignedEnum	63:60	HPMN0
-+	0b0000	NI
-+	0b0001	IMP
- EndEnum
- UnsignedEnum	59:56	ExtTrcBuff
- 	0b0000	NI
+ 	return true;
+@@ -1383,7 +1383,7 @@ static bool access_pminten(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+ 			/* accessing PMINTENCLR_EL1 */
+ 			__vcpu_rmw_sys_reg(vcpu, PMINTENSET_EL1, &=, ~val);
+ 	} else {
+-		p->regval = __vcpu_sys_reg(vcpu, PMINTENSET_EL1);
++		p->regval = __vcpu_sys_reg(vcpu, PMINTENSET_EL1) & mask;
+ 	}
+ 
+ 	return true;
+@@ -1463,7 +1463,7 @@ static bool access_pmovs(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+ 			/* accessing PMOVSCLR_EL0 */
+ 			__vcpu_rmw_sys_reg(vcpu, PMOVSSET_EL0, &=, ~(p->regval & mask));
+ 	} else {
+-		p->regval = __vcpu_sys_reg(vcpu, PMOVSSET_EL0);
++		p->regval = __vcpu_sys_reg(vcpu, PMOVSSET_EL0) & mask;
+ 	}
+ 
+ 	return true;
 -- 
 2.56.1.708.g77570a6a1d-goog
 
