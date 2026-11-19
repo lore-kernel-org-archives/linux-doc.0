@@ -1,87 +1,85 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.135.77
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795087512;
-	b=VMOBWl6oomJ06gGW7bgA+bys+yz4pJlRW3CRZ8UeZidXzco1A/Ipb87uzlGEdGTv/9i+
-	 A1aU0FmRnbNyBM7qCsjpezrFyVWqLCMHjjMMEvfudMR+fbINE1dBR9/8fRvOBsIRT/i0Y
-	 ZH62W7+yARyO+NlzM40NT3fhYTLFPeWbG3EUmLFYxYbz0FrKm8x3UaXMypdgW+HZ+jeof
-	 6J6IdRjc0mE97GWgoabZyPPB2fVWT5DaSOmOvt4x2wh8n5et4CdTROudhv+vY0bYbtOxX
-	 GvqJcNveQgERQ/0SdTuvhNgaHbn9EPi2mHeK/XiA1AvbkhrA3NV7uesCIgh/XoLFvQw==
+	t=1795087519;
+	b=3CTmd5dYbLsSXh/3iezDWCnlAiZCsxZKJaU+lWs1jp8DD5KhqL37ffqhxUY6VslSbtv3
+	 Ggh3QvUFsI4ZuhX1qJiOxQKGkRKqMjPBQ7FLdInFBMqhT+EQ3BqHeOkFm/MseS72JBllB
+	 RLz9f8UIP7sLmUxGYJwtbAVCJ57C43i2gUXBBiwS5FglRGu0P41saIgY8Y51BQSa/O6Sf
+	 3iAPVqZv16nXQw47ADztt2km3Zqg8Bnm4uLZj/I6lQpsD++23MGtfBjfBTlUUOpY4eDGZ
+	 HiNLmOCQN+AL9CuciCK7dlWExqhWVRLTwf9W0Sekt3M7Yf7vBKfn0TUBlKpZ5js+6Og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795087512;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795087519;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:Received:Received:Received:Received:From:To:CC:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 Content-Type:X-ADIRuleOP-NewSCL:X-Proofpoint-GUID:
+	 Received:Received:Received:Received:From:To:CC:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-ADIRuleOP-NewSCL:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
 	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=IH7dEyikTYGBZ82ylt2RMX5/YZDxUmxmuWxIMAkwb4U=;
-	b=u+jLoUIeDGQ1rT4qt7thjF/y0bkFQltZxd3rONTYk80WVbrHV10UpPJv1eEhZwZGUcAp
-	 cB61nbNCQ34SXXzriwik/SWnX4wt+7JrfKEDUiuC4IZocj9T/18zzN0NOc+GKQZujF9Fd
-	 Y0qmrlFHUvLOuDtTl/N/BdojA1QHIo1xbF4glz4kDADcQHLrOMy73nQOxWq3ji2gUMtfu
-	 an3xQy4ByMk0fcuvF5BiOMww2UqDjvNqsZ4am6N8LMT4/ajzCwW368CdFshKgL0LCDoBz
-	 4PiYA3OZWzNVjZX+yAzrQKoaOKGNDRUFk2kZ5VtinQt9NtvL8GEaqgsNM75iMIP+CeQ==
+	bh=SdmfMZw5B+xeSRSzE0tx74A08vZ4+o+YB6IOJQnorus=;
+	b=rdxp+4xM0Svgaf3bq3/IwDT+h7avcFgMztUj0eqFLVnd9zrj6pi+fu1VyfY74IBScHyd
+	 QwwxUCYiX/TdwNDnt34uJh3tTi8wNiQLUYbKjZs5BNNr8ikkOLCr1YahncpM6FKzj+H0P
+	 HNt//mFFYOB5e/iICgHeYQA5dOSJb0uu5PvzelHX7reQ22fJUeryc1x2THjiWcxU9myY4
+	 qwA42tjDwbAUb5n8256ECpDyI6bVxLClWPg9ZREA1RB58FzTQIvbrDGekq3Cciyuffnrb
+	 IrpzOYxU8CErjfQB/3YkYuCpA9CJ3zX6GCw+eCY4vjj3WvhMit/IuaKYaPgNc7SB2iw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=analog.com;
 	spf=pass smtp.mailfrom=analog.com;
-	dkim=pass header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=OkY6WWGS;
-	dkim=pass header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=QQwo+Xoy;
+	dkim=pass header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b="uJu/NjSD";
+	dkim=pass header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=udFYAsjk;
 	arc=none smtp.remote-ip=148.163.135.77
 Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82DC606A339;
-	Thu, 19 Nov 2026 11:25:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D82DC606A339
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D81A60A2603;
+	Thu, 19 Nov 2026 11:25:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D81A60A2603
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=OkY6WWGS;
-	dkim=pass (2048-bit key, unprotected) header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=QQwo+Xoy
-Received: from pps.filterd (m0516787.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJB03Ca1582858;
-	Thu, 19 Nov 2026 06:25:08 -0500
+	dkim=pass (2048-bit key) header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=uJu/NjSD;
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=udFYAsjk
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJB04rb1377258;
+	Thu, 19 Nov 2026 06:25:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtelectron.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=DKIM; bh=IH7dEyikTYGBZ82y
-	lt2RMX5/YZDxUmxmuWxIMAkwb4U=; b=OkY6WWGSwFjbJbGO6JMy8JRmCGPRqlbi
-	yBO7DEIUTqhAvvXt6FeMDAWYLWOzNmIneQwAnM9e0XPrCuIRXty4AfX3n4HaSvBi
-	zqEfm5howVAF5tocXJtvJgTQ5P+j5KOTU+jnlrS7CkDRwhRKYLlfI7rQrc72Dr/M
-	OTDTmx7/GDtyteXnDQfuDwiGBF2K/r1jFbTVRHZ6BXq829+t4KpDue2AmY3kUB1C
-	p9BVFKSYYU6b8VKvhtNHw/S7E+W1fp1YXt1ivownvzg62P572Cpg8pRd3nAidzt2
-	tzhzmEf+dZ88nq1TO3h6NvBHL7/XvuIsXPuNGMvv/iOqqdVd39wMKw==
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	DKIM; bh=SdmfMZw5B+xeSRSzE0tx74A08vZ4+o+YB6IOJQnorus=; b=uJu/NjS
+	DzY1nkoSB4hL8WJm5AvEEw6mtAlfHyGghohSY01q/Rg/O1mB6KCu5AECuYej8rcL
+	Dm8nQfI70FkUNDMeWPHYgmFwqa8HtyFx0xWMbJUYEsfbaKq+OOL86312UkHM1Lvl
+	7XkzG5w+t8yJea3ck2MnWSKhY+TpqQXXBF6KOD0ge1c5SXFLI/NfWk7UruC2pBjI
+	srTOZ5CCBVVyx/FYQzboyNFz/J+KGkXc9SWPoqhlzKeZArKCLhjwkBrmJ3qTiKwn
+	fe4XgGIv/Bh17tK8XNy99Vgp+ytkU0FhAtEhZv2TrwE5fYgzdrKXA2iWrdVLbqpd
+	IqIKoK6d8mRdt7Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=DKIM; bh=IH7dEyikTYGBZ82ylt2RMX5/YZD
-	xUmxmuWxIMAkwb4U=; b=QQwo+XoyiZGdPWbDjqpQmFYr5frDpfjLhVnd9Djh6Wo
-	EftC7bCeo1o+vAVWJrBFmd+U+GHv0EO1c9jU/aDe+7ujdtIIZYCjWKoid/iBfGxB
-	tHdtHRjnMFfnz+4FHiwp0uOJdgZQFWb4ZXkBFWgPzIHrHit7X9NrPdMgMQkjbDcu
-	BV7K4iBHgSGSeVknuqCORcZwLlhUaPzm5ECW8vWsRkKcQejdsqnUzWK1gEek0dtk
-	x/h+WqO/5/icguVt+QVAB/8xGXmZFerquo5FMF7dyukNoQXureWlJrm+Gd1MThpO
-	RbVIM2EGUynsHfxJdbqSws0D7G/9LlH1amSXUnCusMQ==
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=SdmfM
+	Zw5B+xeSRSzE0tx74A08vZ4+o+YB6IOJQnorus=; b=udFYAsjks1UwwzdT7KNCD
+	ezpCaEclGIkJ12e9vV2X3f/HzR2GVvZGtLJDoC0l6LQb3p/1KU22wWgcW1r9y+1L
+	DtC07kV6tYHiMrN+Okz3nD8phwxlrN0QkL26IpO9jV0UuUxMWovATi43oWDajnID
+	Y16JbZPiGXz0W3WWMkPMBTTaF2dxX4+Z611VCJhsPfpldBvT27HpImvsOhvM6e6T
+	NE2Hqsjm1bB72pRLV1o/YiWMZSr1Be59RIxF1DI7BCcbQwH8U1J7XiCVO+6ZT7zR
+	8LcrFRoWsn977DjabgmQcsFTUw8tKUzk/Cb9eoUR5uuuxz6uknFZLXXeJ7TtrmK8
+	Q==
 Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4j138j1m48-1
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4j1ptmu38b-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 19 Nov 2026 06:25:07 -0500 (EST)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 6AJBP6s4011107
+	Thu, 19 Nov 2026 06:25:16 -0500 (EST)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 6AJBPFVt011121
 	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 19 Nov 2026 06:25:06 -0500
-Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Thu, 19 Nov 2026 06:25:06 -0500
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Thu, 19 Nov 2026 06:25:06 -0500
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.2562.56 via Frontend
- Transport; Thu, 19 Nov 2026 06:25:06 -0500
+	Thu, 19 Nov 2026 06:25:15 -0500
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Thu, 19 Nov
+ 2026 06:25:15 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.2562.56 via Frontend
+ Transport; Thu, 19 Nov 2026 06:25:15 -0500
 Received: from arch ([10.135.2.95])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 6AJBOocH010881;
-	Thu, 19 Nov 2026 06:24:53 -0500
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 6AJBOocK010881;
+	Thu, 19 Nov 2026 06:25:07 -0500
 From: Nicolae-Daniel Deaconescu <Nicolae-daniel.Deaconescu@analog.com>
 To: Jonathan Cameron <jic23@kernel.org>
 CC: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
@@ -94,20 +92,22 @@ CC: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
         Andy Shevchenko
 	<andy@kernel.org>,
         Michael Hennerich <michael.hennerich@analog.com>,
-        "Trevor
- Gamblin" <tgamblin@baylibre.com>,
+        Trevor
+ Gamblin <tgamblin@baylibre.com>,
         Joshua Crofts <crofts@kernel.org>,
-        "Sergiu
- Cuciurean" <sergiu.cuciurean@analog.com>,
+        Sergiu
+ Cuciurean <sergiu.cuciurean@analog.com>,
         <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-pwm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
-        "Nicolae-Daniel
- Deaconescu" <Nicolae-daniel.Deaconescu@analog.com>
-Subject: [PATCH v4 0/6] iio: adc: ad7625: add LTC2387 and ADAQ2387x support
-Date: Thu, 19 Nov 2026 13:24:14 +0200
-Message-ID: <20261119112437.197306-1-Nicolae-daniel.Deaconescu@analog.com>
+        Nicolae-Daniel
+ Deaconescu <Nicolae-daniel.Deaconescu@analog.com>
+Subject: [PATCH v4 3/6] iio: adc: ad7625: fix sampling frequency handling
+Date: Thu, 19 Nov 2026 13:24:17 +0200
+Message-ID: <20261119112437.197306-4-Nicolae-daniel.Deaconescu@analog.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261119112437.197306-1-Nicolae-daniel.Deaconescu@analog.com>
+References: <20261119112437.197306-1-Nicolae-daniel.Deaconescu@analog.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -120,116 +120,99 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-GUID: kyhB3RAbTJF4okJp8Hej9P-7R9W9E9yl
-X-Proofpoint-ORIG-GUID: kyhB3RAbTJF4okJp8Hej9P-7R9W9E9yl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDA0NSBTYWx0ZWRfX2l4Wb8AgQrmG
- 0RwV7cZcWXqVrGhj3Pc/wQHyZpQiGj4iYi0e7c/lXTX5Hs8dCfWxvoZlPOcKqkfINC60PQN5TE5
- +W3sz8/OMgyC4p6oXjPYzN0uAdenyYsPRDnqAoPrZ1ynb09AS/g2uXVOvM+sAiD9AMKtn92gkia
- f/jQzk4I2HhWY8UUVMqdDk8dtU9nnfQttC7ipqG8WPqmjZ9ps23UJuO6HjoFkPjEvmyRAOcK9XD
- yRfFgkVTuWQD1Mv9tnZJSZGdu8QfFE/RBWSJySjsDE4zUtmFG2cdOe92IK9Io3R6aX6iAlMnSsF
- uL2SfBzobglVdtwMTmis7IiMaVwzm9l7jMenO+MnmV3KONgGiHssfCx768VPx6Dx/+AihLFRvgA
- qihjjqPH3yDfWR1sVt3lSzrLS9XJR6fxwE78mnl6Qgl7ljya0t+IwHnk5m4eFFvN3Yu7FoBADag
- qXTr4SAYw2JciRPdD3A==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDA0NSBTYWx0ZWRfX2b2nncf26Xm2
- eAviShnD247Bwe2HQQAJx++coUlnqeC3vfSCO+m6TYGL29aSyuo3HRz0cp76WxvxSQrMTJ1V5Zq
- U3Lqn7DuwdIx+0kl3eggT1dRtdxGOf4q/pq2egsFR5HPAg3G8Qg2
-X-Authority-Analysis: v=2.4 cv=PdVqFShd c=1 sm=1 tr=0 ts=6afedc94 cx=c_pps
+X-Proofpoint-GUID: YpJfM1rw4EEv7qQtqdlA58aLSIxoXQzP
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDA0NSBTYWx0ZWRfXwKx2SIq6+tDE
+ bMm8ox+Se9yekpSsDSXNsv5eZFTyoruv0R1ypfAKCdmGVIZlUJ85C+ktHDvr8MD+FF1WVWAWjUT
+ TudYV39L+6JhSmBXIny5kby05SfDLuRO13hptkAD1cHsVbMrSmh4
+X-Authority-Analysis: v=2.4 cv=dqNOmFg4 c=1 sm=1 tr=0 ts=6afedc9c cx=c_pps
  a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
  a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
- a=OmVn7CZJonkx5R5zMQLL:22 a=VwQbUJbxAAAA:8 a=gAnH3GRIAAAA:8
- a=qcDcBul_syQFKgxyGr4A:9
+ a=uXIjobp8t2wMuQ0fPvqm:22 a=gAnH3GRIAAAA:8 a=8MR3j3Xn5CCrLiW-EVgA:9
+X-Proofpoint-ORIG-GUID: YpJfM1rw4EEv7qQtqdlA58aLSIxoXQzP
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDA0NSBTYWx0ZWRfX5OsLaujvfVVp
+ 84t9YrqEHgL2k4Ud23g4xx+Q7WULVvuHyXenfskqPOe43gy17epNSgm49nKoHnqbAAHiRJ8Tbyx
+ /fxRwebm7VNW1Ts45GUCwj/uA/ypRziuZ6KZSRs3HX8cLieKhjbLUJW6FCnQ5BQ6S1YIhGcvnWb
+ oyHqVUL6oiFjmWczf1SpzwjGSrx2Ta9NA+RxEHwLDEm3w369eySSl3ADL3LiiyMGVCawPpdmmEg
+ ZY2FE6pUUah0jfkwHiOZyYE/HJWJLeuZaALkTg/5FywIEpDm6I9SHuFb9RFoQ/qWjGxQIzwV9ji
+ YRlMMxIoCvHfdE/eEp0cJlbV7BjvZ92BKqVSmeMf69yhYZYbQZldWmdUclrmazkiaXT3EA8LMt7
+ 3NG2HxJys1tlaLfX6HE/F/dTw68iM8OfUrOLmk3H46kkwaNhOCcSBW85cFalaYYUttOEhdz+M+f
+ uNPyEe89EHlQ0/dcwBQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-19_03,2026-11-16_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 bulkscore=0 malwarescore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611190045
+ malwarescore=0 suspectscore=0 adultscore=0 bulkscore=0 phishscore=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 clxscore=1015
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611190045
 
-Hi all,
+Fix sampling frequency handling issues:
 
-This adds the LTC2387-16, LTC2387-18, ADAQ23875, ADAQ23876 and ADAQ23878
-to the ad7625 driver. They are single channel differential 16 and 18 bit
-SAR ADCs, up to 15 MSPS, read like the AD762x and AD796x with two PWMs
-(CNV and CLK) and an IIO backend that captures the LVDS data. They differ in
-four ways: double data rate on one or two lanes, a CLK burst that overlaps
-the next conversion at high rates, so the sampling period is raised until it
-fits, no EN pins, and on the ADAQ modules an amplifier whose gain divides
-the scale.
+- Fix issue where writing 0 to sampling_frequency caused a division by
+  zero. Return -EINVAL.
+- Fix issue where a waveform rounded up by the PWM went unreported:
+  pwm_round_waveform_might_sleep() returns 1, which
+  ad7625_set_sampling_freq() passed on while dropping the new waveforms.
+  Return -EINVAL.
+- Fix issue where probe() continued after failing to set the initial
+  sampling frequency, leaving the PWMs unconfigured. Return the error.
 
-Patches 1 and 2 let the PWM provider report its clock rate and the clock
-cycles per step, so the driver can place the burst in whole steps. Patch 3
-fixes sampling frequency problems that the new parts would also hit, and
-patch 4 moves code so that patch 6 touches less of the old code. The binding
-is a file of its own, as few properties are shared with adi,ad7625.yaml.
+Fixes: b7ffd0fa65e9 ("iio: adc: ad7625: add driver")
+Signed-off-by: Nicolae-Daniel Deaconescu <Nicolae-daniel.Deaconescu@analog.com>
+---
+ drivers/iio/adc/ad7625.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-Changes in v4:
-- Dropped the patch that renamed existing variables and macros to the
-  standard unit names.
-- Patch 4: pick the bandwidth mode first and check the result of setting it
-  once.
-- Patch 5: added the Acked-by.
-- Patch 6: added chip info members for the gain, EN pins, second PWM name and
-  supplies, report the sampling frequency rounded up so that writing it back
-  keeps the rate, drop the 0 V reference check, name the AD7625 and similar
-  parts in Kconfig, the top comment, MODULE_DESCRIPTION() and the documentation,
-  shorten the commit message, and fix comments.
-
-Changes in v3:
-- Split the binding into adi,ltc2387.yaml and left adi,ad7625.yaml as it was.
-- Moved the EN pin setup into a helper in a patch of its own.
-- Made the Kconfig prompt, top comment and MODULE_DESCRIPTION() generic and
-  sorted the part lists by part number.
-- Used HZ_PER_MHZ for the maximum rate and a default gain of 1 * MILLI.
-- Simplified the gain, reference supply and lane count handling.
-- PWM step API: put Context before Returns in the kernel-doc and dropped a
-  redundant check.
-
-Changes in v2:
-- Joined the driver to ad7625 (binding, driver, Kconfig and documentation).
-- Dropped the clocks property of the ADC and added the PWM waveform step API.
-- Compatibles use the adi, prefix and the datasheet part numbers.
-- Dropped the x4 parts.
-- Fixed the missing return of dev_err_probe() for the initial sampling
-  frequency.
-- Added the maintainers of the new parts to the AD7625 entry.
-
-Tested on an ADAQ23875 with a ZedBoard. The other new parts and the existing
-parts were not tested on hardware.
-
-AI disclosure: parts of the commit text and the code were checked with an AI
-coding assistant (Claude): the first version of the merge into ad7625, the PWM
-step API, the timing arithmetic and the test scripts. I reviewed every change,
-built it and ran tests on the ADAQ23875 + ZedBoard.
-
-Link to v3: https://lore.kernel.org/all/20261106160529.876251-1-Nicolae-daniel.Deaconescu@analog.com/
-Link to v2: https://lore.kernel.org/all/20261104132143.215581-1-Nicolae-daniel.Deaconescu@analog.com/
-Link to v1: https://lore.kernel.org/all/20261027134409.76824-1-Nicolae-daniel.Deaconescu@analog.com/
-
-Nicolae-Daniel Deaconescu (4):
-  pwm: core: add pwm_get_waveform_step_might_sleep()
-  pwm: axi-pwmgen: report the waveform step
-  iio: adc: ad7625: fix sampling frequency handling
-  iio: adc: ad7625: move initial mode setup
-
-Sergiu Cuciurean (2):
-  dt-bindings: iio: adc: add adi,ltc2387
-  iio: adc: ad7625: add LTC2387 and ADAQ2387x support
-
- .../bindings/iio/adc/adi,ltc2387.yaml         | 169 +++++++
- Documentation/iio/ad7625.rst                  |  34 +-
- MAINTAINERS                                   |   3 +
- drivers/iio/adc/Kconfig                       |   7 +-
- drivers/iio/adc/ad7625.c                      | 473 ++++++++++++++++--
- drivers/pwm/core.c                            |  69 +++
- drivers/pwm/pwm-axi-pwmgen.c                  |  13 +
- include/linux/pwm.h                           |  34 ++
- 8 files changed, 765 insertions(+), 37 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/iio/adc/adi,ltc2387.yaml
-
-
-base-commit: 43ffda3c7f8456bbe641ae8249a077a361b97880
+diff --git a/drivers/iio/adc/ad7625.c b/drivers/iio/adc/ad7625.c
+index e73a5c9e7f0b..ade2f2368bd8 100644
+--- a/drivers/iio/adc/ad7625.c
++++ b/drivers/iio/adc/ad7625.c
+@@ -178,6 +178,9 @@ static int ad7625_set_sampling_freq(struct ad7625_state *st, u32 freq)
+ 	unsigned long target;
+ 	int ret;
+ 
++	if (!freq)
++		return -EINVAL;
++
+ 	target = DIV_ROUND_UP(NSEC_PER_SEC, freq);
+ 	cnv_wf.period_length_ns = clamp(target, 100UL, 10UL * NSEC_PER_USEC);
+ 
+@@ -188,8 +191,10 @@ static int ad7625_set_sampling_freq(struct ad7625_state *st, u32 freq)
+ 	cnv_wf.duty_length_ns = st->info->timing_spec->conv_high_ns;
+ 
+ 	ret = pwm_round_waveform_might_sleep(st->cnv_pwm, &cnv_wf);
+-	if (ret)
++	if (ret < 0)
+ 		return ret;
++	if (ret)
++		return -EINVAL;
+ 
+ 	/*
+ 	 * Set up the burst signal for transferring data. period and
+@@ -205,8 +210,10 @@ static int ad7625_set_sampling_freq(struct ad7625_state *st, u32 freq)
+ 	clk_gate_wf.duty_offset_ns = st->info->timing_spec->conv_msb_ns;
+ 
+ 	ret = pwm_round_waveform_might_sleep(st->clk_gate_pwm, &clk_gate_wf);
+-	if (ret)
++	if (ret < 0)
+ 		return ret;
++	if (ret)
++		return -EINVAL;
+ 
+ 	st->cnv_wf = cnv_wf;
+ 	st->clk_gate_wf = clk_gate_wf;
+@@ -646,8 +653,8 @@ static int ad7625_probe(struct platform_device *pdev)
+ 
+ 	ret = ad7625_set_sampling_freq(st, default_sample_freq);
+ 	if (ret)
+-		dev_err_probe(dev, ret,
+-			      "failed to set valid sampling frequency\n");
++		return dev_err_probe(dev, ret,
++				     "failed to set valid sampling frequency\n");
+ 
+ 	return devm_iio_device_register(dev, indio_dev);
+ }
 -- 
 2.56.0
 
