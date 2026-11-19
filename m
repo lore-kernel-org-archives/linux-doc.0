@@ -1,96 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795094215;
-	b=aTwYy2GQL0KY2kuESZSqkkaUG1tjPjt1QUKmmQvwcWRbP4k1BcV4AKgXOx/UlDXDB2Xp
-	 yhIba/OWEYnbzaUskStRCxpG7WY9kcBtZ9NwB5XmlDgKam7La01D305VGQ3NvGbDNrDp2
-	 fFiouvIb2syiEWchw+irqV88as5gtmaQEgOe3cyYTNh9IDekmmn9o6s0mc2TDRw6QPIFH
-	 7+u6mX6pS5cp6Zpq2SrCddEQBAPoxcDUt1yQlFYXH/c9yGCUrUezNBx5Rif3bYsSE/3oX
-	 Tif8JWFo0vsTVI6vPmIgMdIe3wNzbqInsv9WvGnD08TTdP5J7qnIe2Nqf0NPu1uRemQ==
+	t=1795095092;
+	b=oiFU8PF0uZ9f346quLFQDEfXUPpT98gW9AWGuaDWyRTVu5b3K4qq6qKdY3vk9TtfWtu7
+	 T9OB2wcOTVYqfW5WZTOQi8RrzSMMaMK6ibGFKUt3Jd2CymDRiBXNDp4dRSMZuLsegDN8g
+	 LsOKOcOxgxXSrZh3yeJ5IBbwfGlG1LoALg/0yt9E6+zKFyGiJ4qxEISrZHFVijsx4KbSn
+	 i+88lq5uTkKPbyeQjjsXOx+dDyEPEYeUhLsYSR1MjOMydYoYleUi2cjZUldcBUYgsu2uP
+	 prSZVWtO5dISyk72NExduSGdzSUtoUahiU+dubDsTuX35QAcqYdDK51h5dXftpp03Aw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795094215;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=xp16DMasSnS+RYN1dXhyuGf4ecNuv1+Asdv6vIA9BOw=;
-	b=hGokOd4lKDf0XWnfG3RAZWm0kQlLEUTPtskAikiL30HslkV7xXVlGs7Uc/AKJ/JKhyBP
-	 zujb1qPG/L9g9Fc+Q4RsQ325wFxry+BY58LUr7yKCUUHpricmEeaceZrLjl+MJ5Ip2Pez
-	 dFPB/goLw/tv/K6HnfWz3wZGr8oSPQCnNrTtNqZeKI+CCxg4tLEyft4jtCb43K14bofZj
-	 9I1jRtswxcFdiFUgSFP/NlrM+xqI41QcENzGOygoDVAiJAGgXfOhhqrdqhTj2tRvU1MLq
-	 L1EWjlKdCzAm6e1MLsJnUv7Ku/POzx4FLqOJaaNmXlTToJ87LfeNkhZFVPduvylhDoQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795095092;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=j+Za7bMQTz/jGW5KKJ1wZv8OZM3LMy2RfyXXPrr5ddk=;
+	b=ZdRUG3+cmj/6Oc6tD2jZ7NaPDFMu7XSpV1cnBeAyPmzZJC8OhoHyW7EJbAT3yHHqNVMO
+	 8WJiVZTI2FNbzt4feN93k9TPaU2biv2oRotTRdIQv8+2V2NS5Rt4Qef5UesPVhEXoh8kf
+	 sKkDtwP1D3efcTKvIW5vbyv3KxUv+BSDN4aIU1KONoWLrkOmbz0IjLKkeRCzvOHJv5iBZ
+	 JjAvwSNITlHcUr9PxlBFSu279Z1J+ud2U4W2OfEblxOFRXHOwCd35mqBb0K566OEJrLb5
+	 FQmAkSd32+DY1iK0m+iMr8Qd+WWQbc4wHejy0uzQP5RDwAcNby8ZXYYDA/n4APpB9Wg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=h0OUjn+z;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=mOPIqIOm;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6400606A32A
-	for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 13:16:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6400606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CE8606A320;
+	Thu, 19 Nov 2026 13:31:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0CE8606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=h0OUjn+z
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4a3e706b5dfso1423253f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 05:16:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795094213; x=1795699013; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xp16DMasSnS+RYN1dXhyuGf4ecNuv1+Asdv6vIA9BOw=;
-        b=h0OUjn+zhoDQPLy2QjFZvhuAA08t9e8id7vx9JZ+zpe2vEFuypuEyoi94Jek6405hm
-         5g51OnaBKIbXOhEk6PIfjn0Aku/Uxq0v3gHIIq3R4x60BQsGATBy5iUz/58T9HiPmzAC
-         KTrvdGwlm5/cMZg7afeYb/Df9jvLwyqZDf3en3aARrYduyyj6mWZsJW5bcYpaah++KZN
-         q6d/evb1D+38OdViKhHRv5BeMYmV1elUtdPDjmJDgxv8WlfvAcRGQir8EEZHwGgnPYo8
-         cExUI7pdoF7+y49RGmh+2EBw/zxTWiY70V/x5h4kPLw2E9kTfQwoBZL25dhJhYFq/Wmr
-         1vQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795094213; x=1795699013;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xp16DMasSnS+RYN1dXhyuGf4ecNuv1+Asdv6vIA9BOw=;
-        b=sElIJWTdoyoUJ+QpUqlvtT0NpcdUpx7yxDn4jwSanCcBc7lTK2I2Ms/zSUNxmsiPW/
-         UY0fi9zdPDvnIzXTkVGqtvO95T4PP8+wj+7dpvfSOB7l+YSY3cBkXOBTs36ZIh8Vm49/
-         hsE8kPvBjvo9/9bkAXjLRVbk9h40GQMxGWa4wLXf+9bNtt60PGNxS1AJPpY4Hz62ZzAS
-         53eeOpqmUcR+Wu2PKtyN0foEy6Dtxkoh+ovUorHnpP1TvTAjnN6DuuTzAJF/40qkpIi2
-         Uxf9vtW4EkC3ZJVsLH2Qz8MKAMlRDPBLesFVHLOxg33Cy8XVKmrysxb4FVVsGNWpxP/6
-         QBNw==
-X-Forwarded-Encrypted: i=1; AL+hErH6P9PGxuU4GD0DSRO9Ov1tw6s1Blt9YnfmnqXaQiQUf5yU3hft7qTEA4fkAjqAoMyjeQGrHVfu5Xs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8d3kf2zKiuCs+UBdYirXQOMS+csBpqFIb6qo0A3DDMm/Te0blO
-	6Nf/w+VjXvImfdznkNf+11/KSF9tStCbE0x7WcYlMnDEdFqpY4eR5jM/Hdj7umCcixsHMw==
-X-Gm-Gg: AZFdTZdu+w1BcODDTv55FLufSo4F9ZgUMctyD8e+xaruJRvrwidiX12jzm1qXG1qEH5
-	kkPly7cyrv7oosCvUz45+paN/L9u/Dm6Kpz2+2cu8MyIG4kJ0V84QTK1yrGBPMeel1xEG0U7/dy
-	hi+aaY4jnLQi5dSTTQgMZhbtw8UEmfwIvpcvfaYMEAPtr7PmW4D7t+p80CuWs7wAVy7lLcLM6gW
-	OV6tTzVUN1niSMNUbdXd1fvBi/0we8phNpHf/feniGUCjqvl/Cy5upgRjf167LbD1wgNGAxFoVG
-	VHJvocN4eWa4mAuMZvvqRoMKyQvVVb4LXiUWjD8Gmql4Zfxv0b9LdVzCDpugq9IzxSqgNgj7HHD
-	jL95ybDAZHGRXSGeckSY5+KfFS/g/XFOKZttjqcuvfA9knxY+A3tSpcHuAzRWL2OVg+vjwhpoMk
-	VJt5wP/u+bnEX/MulQMojP4JzSTialkn4Ho/FkhspKhNWxEYLudm2kD0RTbN+3jxYPmXQHyJJ1F
-	x6sC8jdt09XUVht5EPvtr4cKZY0p8HGyoMn1YkeBScEW23qWM0l/xu4fGD+EVvKpnEeAn86e45u
-	3LuBtuWC/KI9m3lGOO54djgc2h4AWinrKmneckdqjnfKZ/HxgIoPz+cvJwm+sFDUbIG5jLU37Dc
-	/2LXHOtKGarPYofOA0j4WYmhXAEEYTmx02pLTMxy8/pqEc0YlPw1q60U2+IOQb5FSKVc=
-X-Received: by 2002:a05:6000:460c:b0:4a3:976e:27a2 with SMTP id ffacd0b85a97d-4a63cb246e2mr12573377f8f.34.1795094213110;
-        Thu, 19 Nov 2026 05:16:53 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a65499752asm10015676f8f.11.2026.11.19.05.16.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 05:16:51 -0800 (PST)
-Date: Thu, 19 Nov 2026 16:16:48 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	David Rientjes <rientjes@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] cleanup: Suggest using IS_ERR_OR_NULL() in cleanup
- functions
-Message-ID: <av72wAOkKPOnp0c3@stanley.mountain>
-References: <d5054be790f6980107cca32cf1e71f1df08d2a24.1795093760.git.geert+renesas@glider.be>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=mOPIqIOm
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=j+Za7bMQTz/jGW5KKJ1wZv8OZM3LMy2RfyXXPrr5ddk=; b=mOPIqIOmu6kDdwVuemWcNK9Dnn
+	3scHm6yoxWlXhjKDg88oGkRMzRyRggfFiPC7IQHuffZ0g5VsQiVACcLcbYFf/YJimxzK2sEH4Ma7z
+	s46ArUotTLBJyzxjIYKthUVRWJnOH1H0QxoK1FCOjd282vF3lK0QU0S6Yx/wpK07j6KI=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xU2Dn-0002Ui-FK; Thu, 19 Nov 2026 14:30:39 +0100
+Date: Thu, 19 Nov 2026 14:30:39 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	Chris Lu <chris.lu@mediatek.com>, Mans Rullgard <mans@mansr.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Cornelia Huck <cornelia.huck@de.ibm.com>,
+	Andrew Morton <akpm@osdl.org>, Jeff Garzik <jeff@garzik.org>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, linux-coco@lists.linux.dev,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Greg Kroah-Hartman <gregkh@suse.de>, linux-sound@vger.kernel.org,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v3 18/31] net: phy: Use the compatibility driver
+ attachment API
+Message-ID: <7c87310f-e1c6-4a84-8161-11a6e5d91785@lunn.ch>
+References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
+ <20261118-device-trust-core-v3-18-d655875c4bfb@nvidia.com>
+ <71c1b931-c553-46e3-b49a-51167f168ac4@lunn.ch>
+ <20261119071811.GG162713@unreal>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,19 +106,26 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d5054be790f6980107cca32cf1e71f1df08d2a24.1795093760.git.geert+renesas@glider.be>
+In-Reply-To: <20261119071811.GG162713@unreal>
 
-On Thu, Nov 19, 2026 at 02:14:29PM +0100, Geert Uytterhoeven wrote:
-> Commit cd7eb8f83fcf258f ("mm/slab: make __free(kfree) accept error
-> pointers") already hardened the cleanup functions for kfree() and
-> kvfree().
+On Thu, Nov 19, 2026 at 09:18:11AM +0200, Leon Romanovsky wrote:
+> On Wed, Nov 18, 2026 at 09:21:45PM +0100, Andrew Lunn wrote:
+> > > @@ -3813,6 +3809,8 @@ static int phy_probe(struct device *dev)
+> > >  	int err = 0;
+> > >  
+> > >  	phydev->drv = phydrv;
+> > > +	phydev->is_genphy_driven = phydrv == &genphy_driver ||
+> > > +				 phydrv == &genphy_c45_driver;
+> > >  
+> > 
+> > Why do this here?
 > 
-> Update the recommendation and example in the documentation, too.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> This flag marks that driver is already probed, which is reliably
+> happening in phy_probe() under right locks. It was the easiest
+> way to battle AI reviews which don't agree with how PHY subsystem
+> performs driver bound.
 
-Acked-by: Dan Carpenter <error27@gmail.com>
+I've not seen the netdev LLM do a review yet. It will be interesting
+to see what it says.
 
-regards,
-dan carpenter
-
+   Andrew
