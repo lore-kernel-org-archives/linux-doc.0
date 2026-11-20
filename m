@@ -1,87 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795175208;
-	b=JFyYbyFQ6j91+9/UbBSXXkAextTEXJpDWf814VlyxnHHf9khCnJ2EnJ6hdCIjRXBaY5J
-	 1Lw2jqw/B3qah8t3tPFJ8WUi95ZtUaIzLX5Ijnh+mYk7ccsYtJI7EKZS3DbuamGV/iY3x
-	 cx+d/zcmtuoVZUP4eMJ4EMeedwVHutPVce6uixpqHAcs2Bm44zCBpPcH0FBk5lK4B9Wcm
-	 M0fMf0KiGBiYlipooHVaCchyseOd+hsgbekKEh/R5eGcyjQX0AGFnS350F2E7tROuoHSS
-	 IEu1Bs2y/0N9rxZdF7lFRnQQzuGvHNnRPPY2ZV1Gwn/vCADCtSkXNF/Ouli/cIipL0A==
+	t=1795175751;
+	b=pEOmJR6apk0JrvmzLnxYheT4XnREM8T7PPK7VD9DGWnRsTHnjShFBSlDxmGsIsyoMIrG
+	 PqL/6VECQwNc6jlttFzvHytDvZ09AJcS9RdjlKyysxL1jo9S5itjqkSXUoT1fvrbXcMm9
+	 WVfCLtxXEZSlZRtwOquTtNk4XiNh1p+jD/NliZXMSDeB9z7nFdq59KNkK5zilcc2YfCwz
+	 rm7TM6apFWf1PSizerz1iD4ZZz0wCWeUDCP5iJoWcg38PfztGKZXkQ7IVlcapYb4tmq6w
+	 QlAJMbnzFPOf8t5VlYVdGIEkPx+kOejGhSvJsSPRBWKGjpmQAQO/yt4U9ILzOj+Y/4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795175208;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=RGVl29uymQl+NYGzhhAdRoCGDhPq1p2bxTDg+kAVmWM=;
-	b=emTQm2yh3UzFqBlEVdR+GKFsXzGJgowkyxWy/qXL9z5l40swj7ceyahDCQiPZ34SUenP
-	 dtUVY8eMM0p53Gp/GC0B33xpnmztinQRbuZEUHDfW8apW/TwBpCsgCb3/089cRr5+WzsZ
-	 CUTODLzJPXWbjlzChKrK/QcMnyudzINgb1hFYHFWlON7xujkJk8TlyJHTskDH+QQ7PhHR
-	 +rDBNeVIYJQpJHZxK1gxidjiozdMyFohjUxLjyDrbOiAwnSXiWOEXHayAxhnjbVxp/Tt9
-	 OVxD4RbfIXiK0k+JsvyzSQ0OAvk2s3D5k57A9UFxuH5q2H389YHatWs/vA9velgc5qg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795175751;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=P3gyj12NGt5BrOAVOnJOGDgKEsVMdz42lpXGv/yZrc4=;
+	b=rz51vlDvPqLKhJODWJnoEcUxgk0H6FZ2+YaX/ac7h2mnSaNvpOd+EBHcsEayyQjn8F7y
+	 T2fY4DuUIpd7XzC4FvTQQ6rOEkbjuqhNaoS3+8seKk+llPRtQ7qB2gann+N64i5yBuOu8
+	 ycZY95oU7uWEjG4WRVKFuIBqS4rtmvjRbRyCXkMVtq2Ml8gwsXM60TAwuXIoplKl0gkgu
+	 WlMfDPHxR9W3tnXFXiXPRzCY7SmZ8jZH0CqUjM18P0U33ZzlFDsfRH3G/806psYhdV1Qe
+	 l1yAUUrL0gICFA136kVCy0XA0JvJH+bn6xpD6x9sm989bPeC+EVzFT1xEMxzlddIpjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b="rHhy/kRK";
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=cAQGnN0T;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XRmupP+O;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A44606A32A;
-	Fri, 20 Nov 2026 11:46:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70A44606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884CE606A325;
+	Fri, 20 Nov 2026 11:55:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=rHhy/kRK;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=cAQGnN0T
-Date: Fri, 20 Nov 2026 12:46:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1795175205;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RGVl29uymQl+NYGzhhAdRoCGDhPq1p2bxTDg+kAVmWM=;
-	b=rHhy/kRKnxoBZ3C1Vy5q3goQ0Sa9M+bemSoPX9upOJRj6LOKbB5S5lqUKtRlJuckMTEl+B
-	rXQRrvPp00nOlR6J9GoMM3MvV4VW8KeHR0SJMOpDOIwSdcKSug7p4acBgevoe3/D64rlFE
-	apjWVP22W6DHaL1QyJu1leNaCknMy0tmqTOk9kvmWblgYuapxOSTYUsjK3XmnokDG3X5uk
-	pjuEVB/l57RTLbOD696RcHYP7ttuoVeaEPF+e3QwGYYqT+FCh1o7NQsAC1ycHkeVEOP60A
-	0mDji8l9oiJ9am784yJ5nJPNYB9RaJ2I0NTU8F7VDtGiezMJOgJeeMNwHuBUuA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1795175205;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RGVl29uymQl+NYGzhhAdRoCGDhPq1p2bxTDg+kAVmWM=;
-	b=cAQGnN0TqodF+ppjAKq8R2iG0HYEJu6K7ZLFa9loTjpPu89w7sQzBwgYjZCrtscRZJ5w1q
-	PWb+YPfS5gtQmLBA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	=?utf-8?Q?Beno=C3=AEt?= Monin <benoit.monin@bootlin.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	=?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>,
-	Fu Chao-Ying <chao-ying.fu@globalfoundries.com>,
-	linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, linux-hardening@vger.kernel.org,
-	Paul Burton <paulburton@kernel.org>
-Subject: Re: [PATCH v3 1/7] mips: {cm,cpc}: Make cm_core_lock, cpc_core_lock
- raw spinlocks
-Message-ID: <20261120114644.VM_HFf9o@linutronix.de>
-References: <20261119-i6500-cm3-pmu-v3-0-c86410934b51@mobileye.com>
- <20261119-i6500-cm3-pmu-v3-1-c86410934b51@mobileye.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XRmupP+O
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DF9F1F000C4;
+	Fri, 20 Nov 2026 11:55:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795175750;
+	bh=P3gyj12NGt5BrOAVOnJOGDgKEsVMdz42lpXGv/yZrc4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=XRmupP+OLijrmAtsyFzXXifwkuMS8W6gNVR4LOQJPmUXO7GcnqLiZxj7w2peSSlsu
+	 QMq1FxF6ebx+N5vGd+gPCfWv/hQdtBeT2ynxnVrf00EB2x6ercEW9SIcOTFr6/Gg+0
+	 +0VZoq0mBHSiGpSUMlOovIy33ZXnen4fS+2fARU6pJbnmbFK3EAr2ic61lpeGjOwQf
+	 iFH9PTAknNIhVdp95GGo75mLA233YHUQfa4N6a6X+dOkSuSfPvhInvrsgbZRJm5kOG
+	 X4YITabmy70LoUjGg+Mx9siucKp0Y9fW03PE1MjQGJywW/z58DOrX5l+Ovs5sBRMsQ
+	 9qqDxMCNtyI/Q==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org,
+  linux-mm@kvack.org,  Alexander Graf <graf@amazon.com>,  Andrew Morton
+ <akpm@linux-foundation.org>,  Baolin Wang <baolin.wang@linux.alibaba.com>,
+  Christian Brauner <brauner@kernel.org>,  David Hildenbrand
+ <david@kernel.org>,  Hugh Dickins <hughd@google.com>,  Jonathan Corbet
+ <corbet@lwn.net>,  "Liam R. Howlett" <liam@infradead.org>,  Lorenzo
+ Stoakes <ljs@kernel.org>,  Michal Hocko <mhocko@suse.com>,  Mike Rapoport
+ <rppt@kernel.org>,  Pasha Tatashin <pasha.tatashin@soleen.com>,  Pratyush
+ Yadav <pratyush@kernel.org>,  Randy Dunlap <rdunlap@infradead.org>,
+  Samiullah Khawaja <skhawaja@google.com>,  Shuah Khan
+ <skhan@linuxfoundation.org>,  Suren Baghdasaryan <surenb@google.com>,
+  Vlastimil Babka <vbabka@kernel.org>
+Subject: Re: [PATCH v4 09/19] mm/shmem_luo: Leave freeing the preserved
+ state to finish()
+In-Reply-To: <20261111002358.1842967-10-dmatlack@google.com> (David Matlack's
+	message of "Wed, 11 Nov 2026 00:23:47 +0000")
+References: <20261111002358.1842967-1-dmatlack@google.com>
+	<20261111002358.1842967-10-dmatlack@google.com>
+Date: Fri, 20 Nov 2026 11:55:44 +0000
+Message-ID: <2vxz33sv3ef3.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,31 +72,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261119-i6500-cm3-pmu-v3-1-c86410934b51@mobileye.com>
+Content-Type: text/plain
 
-On 2026-11-19 19:51:27 [+0200], Vladimir Kondratiev wrote:
-> From: Paul Burton <paul.burton@mips.com>
-> 
-> cm_core_lock and cpc_core_lock are used to protect access to a CPU's
-> core-other/redirect CM and CPC register blocks. Since each CPU sees
-> its own copy of this block, we need to ensure that critical sections
-> holding a cm_core_lock run on one CPU - ie. we need to disable
-> preemption.
-> 
-> Use raw_spinlock_t to implement cm_core_lock and cpc_core_lock in
-> order to provide the guarantees we need on PREEMPT_RT systems.
-> 
-> Signed-off-by: Paul Burton <paul.burton@mips.com>
-> [added CPC part]
-> Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+On Wed, Nov 11 2026, David Matlack wrote:
 
-The perf interrupts should be per-CPU and not threaded so this is the
-right to do. However mips does not have ARCH_SUPPORTS_RT set. Is this a
-longterm goal? Otherwise it doesn't matter since without it set even
-lockdep dose not complain where it would otherwise.
+> Don't free the serialized state in shmem_luo_retrieve(), whether the
+> retrieve succeeds or fails, and let finish() free whatever is left of
+> the preserved state of every file. Once retrieve() has restored the
+> folios, it sets nr_folios in the serialized state to 0, so that
+> finish() only frees the rest.
+>
+> This fixes leaking the preserved folios when the retrieve fails before
+> it restores them, e.g. because the file has seals that this kernel
+> doesn't support, or because memfd_alloc_file() fails. The retrieve freed
+> the serialized state but not the folios, and finish() then skipped the
+> file because its retrieve had failed, so the folios were never freed.
+>
+> Preserved folios may also be in use until the session is finished, e.g.
+> by a device that was preserved with DMA mappings of them, so they must
+> not be freed before finish().
+>
+> Fixes: f85b1c6af5bc ("liveupdate: luo_file: remember retrieve() status")
+> Signed-off-by: David Matlack <dmatlack@google.com>
 
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+I think some of this is already fixed by [0]. It holds the folios until
+finish, but only in the success case. On failure to parse seals for
+example, it leaks them. Except, as Sashiko also points out, in
+memfd_luo_retrieve_folios() the folios are freed.
 
-Sebastian
+I don't think this is strictly related to your series so can you please
+send something on top of [0] to fix these bugs, and perhaps drop this
+patch?
+
+[0] https://lore.kernel.org/kexec/20261110175855.2437084-3-pratyush@kernel.org/
+
+[...]
+
+-- 
+Regards,
+Pratyush Yadav
