@@ -1,71 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795197380;
-	b=0wRFhQI5Vc8tvVoS9354Dcu+eyBd8QsN4iDkOY3LGCGPLC5E9Dg2FXmSE1NOqmJgvivC
-	 lL2BLInVhz7uxlrc/If15cYlwp3TLZ5JU/QaPNAK4/TOZSyi0JWCpTKZnUxfCn+AFpnBu
-	 HOjc8xKS1L3SsSfZ/00OJD7eQDOi+ugNd28dwniOYZqsyouN5Zs8cSrRjGtLB1lN7PU7U
-	 bLfNcItVkj881pVuuVw6b03JkxU+87AscsWdMN/2+F8sRzzo/sYewOHrp3yuvgHA9UrBw
-	 wFwzmC2NUVTeIKaWCb4kLXKIKRcdYUA/U42T3DNMso6o4CofIw2yys7Dtn6EXvfRApQ==
+	t=1795197721;
+	b=YJ1vYuH01q/zwajTw/rKUvobcpwSKKLyZFnLVqhsuupyT28R1Ggt2SIydb8/tkGybh9t
+	 T1RQkSGDi+P3VwfH9PdOtFJPtgSs9SeInDYQJQHaNfpgjIQHowIALnmRQVQldhFIB3hbl
+	 B+VExW85TduXWBlSuNQk7afbV5mQiLdqh/aF9IKFsEq5ovNnvP9qJN4/KLXEQJzkxpuu1
+	 Udgrvhf22o1MtysnYOhdyO833ajlLbRmyALaXkOU0yrBmllxD+ydJTvYPsNhuHAFXhhqZ
+	 luod4gLa7RRDchEgtWadz5NHWEjME7LkA5T2t3YnyCUaffSHnIh5OF4S0I28RFpSY2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795197380;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-MBO-RS-ID:X-MBO-RS-META;
-	bh=MumwmMlz/ycOY2rwiIV/TfXn6r1Kli3xnRKcL14uXZw=;
-	b=z62QSmGrXPvvsvkvcbRx+7HE38Qebd2j/anGoj/F3IdFHJfpiUR3JIiVc3ZH0UOHNR+Y
-	 opKVFmPTXVa3quAQFpfkV2XUkvRFVZLm0B6TlbnqOrq+QOSrjG+Z5fFeigR93S30WoTYy
-	 yFtLqW+nfX5FpA1240DuNwBPuYfXL8oC9TEvTFuNjKE75FDVXEbzrsVGsTdGRSsPgtz6+
-	 fhD6pRWa6Z/OMUqbbr0d1eAoTkChYOHtNeCR5CO4VNCJDFt9n9BbkjJ6FHtLwg6KGrq10
-	 QmcuMymxL99gVfsAuv0EmBf1Ac2PtuvxVB9Ijs4BCJpaAHostmySe9SWQSuv0qmFEXQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795197721;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Subject:
+	 Date:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Last-TLS-Session-Version;
+	bh=I7nrvlWZ9rvUUTmD+gtwmdv37sNDZT+3fdZRVXqibGs=;
+	b=0AQhnlMW8ik/4kbKr0HEF4jwJr6LwI9+OSFgy7hMZQFEYXU+vyJoum7yR2F8HoZA97Tl
+	 fAjRKdzIKTvHqk5w/4ifplzNm276ZW2CCyae9zxQyjmirG25HWhhIDlqbK9hZEPjV6Gtk
+	 GMot70HFbj6UI029AgaumfYklKaGoX3VxdZWCYzq7HLH8sGGnO7b/KWtAV1DVNdccoUXT
+	 Zvw8LRNOnuZYRjMtFV3+hCg6w+F4ZfixCaUx9jgCCtZ9hQ0ng3cpuYDMbNncKIOoacplX
+	 qXwtuiLi+rDa/qJIcd36xvHGQqFses9tv8KBqi2FwaBqEec975gzgzK9+Q1CYbrQhyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=csSR+LuY;
-	arc=none smtp.remote-ip=80.241.56.151
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b="C5/qSiDu";
+	arc=none smtp.remote-ip=185.246.85.4
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29777606A806;
-	Fri, 20 Nov 2026 17:56:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29777606A806
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C564E60A261B
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 18:01:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C564E60A261B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=csSR+LuY
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4jWNLQ6gSCz8vRp;
-	Fri, 20 Nov 2026 18:56:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1795197374;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=MumwmMlz/ycOY2rwiIV/TfXn6r1Kli3xnRKcL14uXZw=;
-	b=csSR+LuYSK5l1G5b9hx8zrzBFhbqYELUpyuZRFDEYRfu69tadAP917oKWnPe66odFOl9Vg
-	YrN8f3cz7g5XD092IbZ9FJvOV/PhZOfjBTIdiMCNSvuVt7SnSAjtH5XZekLavEhfFtXgyd
-	m8DA5VqkvyIHf7lm0itS1WA/MHkuIbiIQ6C/3IJKnMBPXD/TBzZGkESiKTRnWCSLDEsSyO
-	/51MvPlFF3nvOIM3CN1jmTzRfqyBUReZEzBABllwFZg1YkOBZ4tDbZvvzGR7GHWYeZfQLy
-	5qDa+IZjKskDKszUNeF4Juxc7VfT2uv8lBiOeo3y8/yXz/ooWIKIK2m/t0nvSA==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	Renzo Davoli <renzo@cs.unibo.it>,
-	linux-um@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] docs: UML: user_mode_linux_howto_v2: Fix bracket
-Date: Fri, 20 Nov 2026 18:55:09 +0100
-Message-ID: <20261120175509.1369714-2-manuelebnerli@mailbox.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=C5/qSiDu
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 24B4A4E4168A;
+	Fri, 20 Nov 2026 18:01:58 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id DF7EC601B9;
+	Fri, 20 Nov 2026 18:01:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 01A0711BC0990;
+	Fri, 20 Nov 2026 19:01:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795197711; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=I7nrvlWZ9rvUUTmD+gtwmdv37sNDZT+3fdZRVXqibGs=;
+	b=C5/qSiDusohVtuPBRYEbsGHzPUGhlhXqSQ6TPjvZI1NlCLDJ+8tJoosysXbWGqVZr2LbMt
+	klHdw4b7+ffNf4Kc6HZW0fSqd3QQKNTfohrgBemzaRgo4hI/OXAlUgjktygGKWGiYpLe5c
+	0Z2WRRUrlEf+jYpbBO+JpEoRkuNfpHIiqTDBQlLTu07tVbVFzWBTDZyX4B2guJPxxXCAIm
+	ctwIMQrQUzXkmYLQl4MpSqKtUs32p6Lji/7nMToTa+F32zs+R/5PwyCV7VDohpqSg2xfbW
+	+Ysb3qjyBMwYv3/KhBJ1xeebhmma9cNp7WhyyunsR5Vflj2D0Uenlic9Lp89Xw==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v6 00/43] VKMS: Introduce multiple configFS attributes
+Date: Fri, 20 Nov 2026 18:58:42 +0100
+Message-Id: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,37 +63,269 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: ea02f5196a9d0790d6d
-X-MBO-RS-META: 594ua1nrxhfo8sfmwnxhfdtgipnfdeam
+X-B4-Tracking: v=1; b=H4sIAHiKAGsC/23R0U7DIBgF4FdpuBaFv0DLrnwP4wWUn424tgqVz
+ Cx9d1nnMg3ecUjOx0k4k4QxYCK75kwi5pDCPJWgHhoyHMy0RxpcyQQYSM54R/PbmKg5HukwTz7
+ sqXVsAMN4L5QnpfUe0YfTJr68XnPEj88CL9dLYk3C0h7HsOwaF0c6hjQ83Q50wtNCLs1DSMscv
+ 7ZpmW/VnxV9tSJzyqjpOsU6KZ0G92zneTmG6bE8tGkZfgmgawGKYBGY1dZzobAW2rsAALXQXgQ
+ jwA2tt9r7WhA3QTHxnyCK4KyVgNqYwtSCvAsK6t/Isgi9FMawXjAN6q+wrus3yCBhZvIBAAA=
+X-Change-ID: 20251017-vkms-all-config-bd0c2a01846f
+To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com, 
+ Jonathan Corbet <corbet@lwn.net>, Oarora Etimis <oaroraetimis@gmail.com>, 
+ Harry Wentland <harry.wentland@amd.com>, 
+ Lucas De Marchi <demarchi@kernel.org>, 
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Kory Maincent <kory.maincent@bootlin.com>, sebastian.wick@redhat.com, 
+ victoria@system76.com, thomas.petazzoni@bootlin.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Simona Vetter <simona.vetter@ffwll.ch>, 
+ llvm@lists.linux.dev, 
+ =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito@redhat.com>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10381;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=ork8e0nS7ORlthJa0leER1qFqEZ3DyCvLHrBmoDTApk=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBrAIr9aJDgt8ebmSYnhAvhMtnlYXyJbscKYoDtk
+ XoYW5Y+aXSJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCawCK/RsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOLZIw//beTpP4qGVpZDtmHWzhgUo1h/h9HQs6Z
+ Yv4TX/ZO9iIDraBnCKEscZ2672kCq0JMhl/ryyHGSAz6/mAJa9w4n3uknh8dPxSFec/vSx2uE01
+ Ipj1EqQ1cCZWlc7mzL+tMYKWgAq4B+ZkDl1mi/5rFrO/soFRVzjMcJWC2Xr1uNrGxoT811YVg5T
+ WZGoNeXvsp6mNOdonIx0AkxRkKCJQ6ilKP+rGCI+sT7HQorz1WKX1/PJ7UYj6n4KyHc8JgHUHtV
+ NiWw/aXg7Squse5BjpcPnDOL5RGWD9GMj3x4TXniHtil7kZpOMEAH6ztiz2oJujMTYdg026uO9e
+ 2nJDT6ehTX+0Bh5pG6q4SDv3bAtD9qaGik2RlyKjOv80mV8l7gfZoyrxAhQQ9a/zhDwBseQUGTc
+ iGLSqwI0LIZI8vBZCP0AdoADPWNvgNvPTCAbbXWWi4unrpePJOSGO2xPMUCOchnAl0QflGBVEUe
+ nN3IdhUogSScaNCf4hBeY7UHht5fPl84nyZMkEyS+UzLjnZFev2dl7o3qvB6tI4JC5PAG61pTAf
+ GfvDZOJ4ulFAG+2GORWSQqamEDM2Et4vSjf5G6+FKFUokOTv+OTWHWMzZgAML48vr8j1zu6VRsj
+ U4oXybgEENEu1TIFFfl5MLvvNN6DsoHKVV4RBRtZipW/M7d/Y8GI=
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-Last-TLS-Session-Version: TLSv1.3
 
-Add missing ')'.
+VKMS have a wide range of options. The aim of this series is to introduce
+many configfs attribute so VKMS can be used to test a wide range of
+configurations.
 
-CC: Renzo Davoli <renzo@cs.unibo.it>
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+PATCH 1-3 fix display and locking of the configfs attributes
+PATCH 4-9 expose human readable strings from drm core
+PATCH 10 is a fix for the default rotation value
+PATCH 11 is ABI documentation
+PATCH 12 introduce reference counting for vkms_config
+PATCH 13 add a KUnit test for the device lifecycle
+PATCH 14 added some error checks in plane configuration
+PATCH 15 cleanup in plane_release
+PATCH 16-17 change the display in configfs to be more readable
+PATCH 18,19 plane name
+PATCH 20,21 plane rotation
+PATCH 22,23 plane color encoding
+PATCH 24,25 plane color range
+PATCH 26,27 plane format
+PATCH 28 properly use zpos
+PATCH 29,30 plane zpos
+PATCH 31 back pointer to connector
+PATCH 32,33 connector type
+PATCH 34 preparation in connector initialization
+PATCH 35,36 connector supported colorspace
+PATCH 37,38 connector EDID
+PATCH 39-41 dynamic connectors
+PATCH 42,43 PATH property
+
+PS: Each pair of config/configfs patch are independant. I could
+technically create ≈10 different series, but there will be a lot of
+(trivial) conflicts between them. I will be happy to reordoer, split and
+partially apply this series to help the review process.
+
+PS2: I am currently cleaning the IGT test series to validate all that,
+it will be submitted separately.
+
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
-[v2]
- Correct position of closing bracket (Randy Dunlap)
+Changes in v6:
+- disable cfi check for show_bitfield
+- Rebased on drm-misc-next
+- The ABI documentation is now distributed: each patch introducing an
+  attribute adds its own documentation section
+- vkms_config and vkms_config_connector are now reference counted,
+  fixing use-after-free and races when destroying connectors
+- Lock the config dump against concurrent configfs changes
+- Add a KUnit test for the device lifecycle
+- Link to v5: https://lore.kernel.org/r/20260627-vkms-all-config-v5-0-854aa0840926@bootlin.com
 
-[v1]
- https://lore.kernel.org/all/20260909140051.1365758-2-manuelebnerli@mailbox.org/
+Changes in v5:
+- Fixed missing property creation for PATH
+- Use the folder name instead of a new attribute for plane
+- Rebased on drm-misc-next
+- Link to v4: https://patch.msgid.link/20260422-vkms-all-config-v4-0-dbb52e9aadc3@bootlin.com
+
+Changes in v4:
+- Introduced a way to change the PATH property
+- Reordered drm-only patches to the front of the series.
+- Fixed a bug when dynamic connector are allocated/freed (drmm instead of
+  kzalloc)
+- Properly handle errors in vkms_connector_init
+- Only parse formats one by one (no more complex algorithm, you will have
+  to write multiple times for multiple formats)
+- Use sysfs_emit instead of sprintf
+- Fix rotate property default value
+- Link to v3: https://lore.kernel.org/r/20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com
+
+Changes in v3:
+- Added Documentation/ABI (Thomas Petazzoni)
+- PATCH 2: Clarify return value
+- PATCH 6,7: Avoid passing null to printf
+- PATCH 7: Restrict plane name to A-Za-z0-9
+- PATCH 12: Fix missing s
+- PATCH 13: Add macro to avoid repetition, fix missing s, make code
+  consistent, remove wrong comment, properly check bit values
+- PATCH 15: Fix missing s
+- PATCH 16: Fix missing s, make code consistent, remove wrong comments,
+  properly check value and fix default_color_range value
+- PATCH 17: Create function to reduce code complexity, fix missing s
+- PATCH 18: Fix parsing, rename data, reject strings > 4 chars
+- PATCH 20: Remove duplicated lines, fix test comments simplify conditions,
+  remove useless documentation,
+- PATCH 21: {Min,Max}imal -> {Min,Max}imum, simplify commit log
+- PATCH 25: Fix wrong comment
+- PATCH 26: Rename type to colorspaces
+- PATCH 27: Improve comment, avoid useless iterations
+- PATCH 28: Fix typo in commit log
+- PATCH 29: Fix typo in commit log
+- PATCH 30: Remove useless include and move it to proper commit
+- PATCH 32: Clarify documentation
+- PATCH 33: Simplify code and use better variable names
+- PATCH *: Fix EINVAL/EBUSY
+- Link to v2: https://lore.kernel.org/r/20251029-vkms-all-config-v2-0-be20b9bf146e@bootlin.com
+
+Changes in v2:
+- PATCH 1: reorder includes (José)
+- PATCH 2: use name property instead of folder name (José)
+- PATCH 3: Fix default rotations (José)
+- PATCH 3,5,7,12: Add tests and extract validation for planes (José)
+- PATCH 3,5: Do not create color range/encoding properties if not set
+- PATCH 5,6,7,8: Set plural form for vkms_config_plane fields (José)
+- PATCH 4,6,8,13: Remove checking for default in supported (José)
+- PATCH 9: Add break in vkms_config_plane_add_format (José)
+- PATCH 12: fix zpos_enabled typo (José)
+- PATCH 13: fix documentation (José)
+- Add debug display (José)
+- PATCH 20: use drmm_kzalloc instead of kzalloc (José)
+- PATCH 22: simplify the code (José)
+- Link to v1: https://lore.kernel.org/r/20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com
+
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Haneen Mohammed <hamohammed.sa@gmail.com>
+To: Melissa Wen <melissa.srw@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Miguel Ojeda <ojeda@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+To: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
+To: Bill Wendling <morbo@google.com>
+To: Justin Stitt <justinstitt@google.com>
+Cc: thomas.petazzoni@bootlin.com
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: llvm@lists.linux.dev
+
 ---
- Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Louis Chauvet (43):
+      drm/vkms: Explicitly display connector status
+      drm/vkms: Lock the config dump against concurrent configfs changes
+      drm/vkms: Add new lines for configfs attributes
+      drm/drm_mode_config: Add helper to get plane type name
+      drm/blend: Get a rotation name from its bitfield
+      drm/tests: Add test cases for DRM rotation name
+      drm/drm_color_mgmt: Expose drm_get_color_encoding_name
+      drm/drm_color_mgmt: Expose drm_get_color_range_name
+      drm/connector: Export drm_get_colorspace_name
+      drm/drm_atomic_state_helper: Properly load default value for rotation
+      Documentation: ABI: vkms: Add current VKMS ABI documentation
+      drm/vkms: Reference-count vkms_config and vkms_config_connector
+      drm/vkms: Add KUnit test for device lifecycle
+      drm/vkms: Add error handling in plane config creation
+      drm/vkms: Simplify plane_release code
+      drm/vkms: Explicitly display plane type
+      drm/vkms: Use enabled/disabled instead of 1/0 for debug
+      drm/vkms: Introduce config for plane name
+      drm/vkms: Use plane folder name as plane name
+      drm/vkms: Introduce config for plane rotation
+      drm/vkms: Introduce configfs for plane rotation
+      drm/vkms: Introduce config for plane color encoding
+      drm/vkms: Introduce configfs for plane color encoding
+      drm/vkms: Introduce config for plane color range
+      drm/vkms: Introduce configfs for plane color range
+      drm/vkms: Introduce config for plane format
+      drm/vkms: Introduce configfs for plane format
+      drm/vkms: Properly render plane using their zpos
+      drm/vkms: Introduce config for plane zpos property
+      drm/vkms: Introduce configfs for plane zpos property
+      drm/vkms: Introduce back pointer to connector
+      drm/vkms: Introduce connector type
+      drm/vkms: Introduce configfs for connector type
+      drm/vkms: Rename vkms_connector_init to vkms_connector_init_static
+      drm/vkms: Introduce config for connector supported colorspace
+      drm/vkms: Introduce configfs for connector supported colorspace
+      drm/vkms: Introduce config for connector EDID
+      drm/vkms: Introduce configfs for connector EDID
+      drm/vkms: Store the enabled/disabled status for connector
+      drm/vkms: Allow to hot-add connectors
+      drm/vkms: Introduce configfs for dynamic connector creation
+      drm/vkms: Add connector parent configuration in vkms_config
+      drm/vkms: Add ConfigFS interface for connector parent and port_id
 
-diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-index 9224bea5ee..e4b1cb1092 100644
---- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-+++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-@@ -581,7 +581,7 @@ https://github.com/virtualsquare/sshlirp
- 
- connect to a local area cloud (all the UML nodes using the same
- multicast address running on hosts in the same multicast domain (LAN)
--will be automagically connected together to a virtual LAN.
-+will be automagically connected together to a virtual LAN.)
- 
- ***********
- Running UML
--- 
-2.56.0
+ .clang-format                                    |    2 +
+ Documentation/ABI/testing/configfs-vkms          |  326 +++++++
+ Documentation/gpu/vkms.rst                       |   44 +-
+ drivers/gpu/drm/drm_atomic_state_helper.c        |    6 +
+ drivers/gpu/drm/drm_blend.c                      |   19 +-
+ drivers/gpu/drm/drm_color_mgmt.c                 |    4 +-
+ drivers/gpu/drm/drm_connector.c                  |    1 +
+ drivers/gpu/drm/drm_crtc_internal.h              |    6 -
+ drivers/gpu/drm/drm_mode_config.c                |   16 +
+ drivers/gpu/drm/tests/Makefile                   |    1 +
+ drivers/gpu/drm/tests/drm_rotation_test.c        |   76 ++
+ drivers/gpu/drm/vkms/tests/.kunitconfig          |   12 +
+ drivers/gpu/drm/vkms/tests/Makefile              |    3 +-
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c    |  520 ++++++++++-
+ drivers/gpu/drm/vkms/tests/vkms_lifecycle_test.c |  259 ++++++
+ drivers/gpu/drm/vkms/vkms_composer.c             |    3 +-
+ drivers/gpu/drm/vkms/vkms_config.c               |  664 +++++++++++++-
+ drivers/gpu/drm/vkms/vkms_config.h               |  703 ++++++++++++++-
+ drivers/gpu/drm/vkms/vkms_configfs.c             | 1046 +++++++++++++++++++++-
+ drivers/gpu/drm/vkms/vkms_connector.c            |  340 ++++++-
+ drivers/gpu/drm/vkms/vkms_connector.h            |   49 +-
+ drivers/gpu/drm/vkms/vkms_crtc.c                 |   16 +-
+ drivers/gpu/drm/vkms/vkms_drv.c                  |   12 +-
+ drivers/gpu/drm/vkms/vkms_output.c               |   21 +-
+ drivers/gpu/drm/vkms/vkms_plane.c                |   80 +-
+ include/drm/drm_blend.h                          |   34 +
+ include/drm/drm_color_mgmt.h                     |    3 +
+ include/drm/drm_mode_config.h                    |    3 +
+ 28 files changed, 4112 insertions(+), 157 deletions(-)
+---
+base-commit: 55f54b0dc193f4c9a78ae3390e3b0da6b228b4a4
+base-tree: https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+change-id: 20251017-vkms-all-config-bd0c2a01846f
+
+Best regards,
+--  
+Louis Chauvet <louis.chauvet@bootlin.com>
 
