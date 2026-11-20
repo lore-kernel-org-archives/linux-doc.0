@@ -1,85 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795133203;
-	b=VfZt89hu418+HArkoG7dYWjveOIR74gtzPrxdCEEX8nizyexfNqk6P8D7vYntwcpHn2R
-	 OZ47ZvHhIWtHfp+rN8nP1KZFTj/u4xdcp/ZTSY3Y8oDxGZb+xmAN0JDqt+Hs9CN280Sw9
-	 RkH1ipvBOYbYzXn4+CekYLBi5Y8hAm90xCFXn17ggh6X1hiAyOwRBoJZ2HemCwl84WYh2
-	 kcFMkaM2tN1bNew0LpBMi7fQV0EQlWMxFCdKvSsrCOIZ6CEYXVxpmkYmLbyMv/xUXGXQj
-	 FiPsvdJimiw0UHfF2qNrkzc9KWiNiiqh1KWG+va6smW2bDHCEJwcXiIhi2uMlnVSEjw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795133203;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 From:To:Cc:Subject:X-Mailer:References:In-Reply-To;
-	bh=8PsDwtqZ7ZOXHEr9V4C4myUyqMWkC/3w4Fd9za5pDc8=;
-	b=kMgYa4evzQLlZJsfw7mTTAhlbITqSNcmOTQQsLcpUElRhgJHtOCA2DpheZXLeM7OijPX
-	 yKI0ZasjxBOSOaGBx/q9UorW4QeX9OK/bNAkwXtPe8kDQ2yzg5Uf8h5L1ZZnpfX+MpMs9
-	 zzgmlPDAOHytba81XPwvWQc+Q27AuNffjDyypQ+I2Swt2etiE83FCOfnctftXik7vE9Ft
-	 rRFEutofAKTM6wjHNDJ6K0HyjyGuuz5mdQALUmfx8yZzWeEolZL1VOrUG3EkwhVKADUiz
-	 OLNyzFCv0KqJHuw3F7Aws1a3Le5QQwFLmvvAgfCm4LgJJ2cTl3FqtiS31Ti8SGPZtHA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="air2/dns";
-	arc=none smtp.remote-ip=209.85.216.42
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795133257;
+	b=IMlV4TwLBc0OU1G3cZd5C4/jlzpQAIE22WhP54mbMA1F/T4H3VlvzU3Z/VBvxqfLJCMB
+	 wGFBsx6uPx6rlQ50c/+72w492YdkldWUWmHBrXRfpnISlBlC6NOFzmEexhsKB9GqvurNY
+	 oWo6nNnDYRaJ0XEp4RVlLH+qky5FtNdidDQg1krmyE0a57x4SpPgTJzEnHUNNzgQtFNbl
+	 3mA/nyYi4Bf8IqJFG+2JQSXaxhI0NH1CQ9PgJIxppCkKXXp+OmvNkB1FFq7DeXJdUZal7
+	 d/3EtFjWqsYVD/fx33zBD91hyDfFDnlrk8jC2hcT0JmLm923dVTjGoiXeKbwodi4t2g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795133257;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=L9l4FZ5LL/w8As/C818xoov7mkgGSGnX0m7j2Tu08A8=;
+	b=GihNG6tFMLq53bLcPnQGhufVdCfVNPoD30cDB79nPWAZGJurK5EFz3+pAtPQwzINxc1c
+	 Yn7mQnnf9Gs8R8kQaP7/gfu6ynqYwUPcrJzJ4V7NiGbGS6jpyAJlvzum8Rnvs5/A3F2Lm
+	 idM2xkzfJ0TcndYt5fUSoh2S/UsHkWMtYoZhZQ/mTLML0oprqqytyOyWRMlxA6o4ACd81
+	 /Hrkl15aI3pACyky3XZm0RzpumGcxw5a6swYGLpJ4NMjP0z3wDMKiimMtiRFdxEnVVrtg
+	 VHtXQq75e6vM23+GLINlT43PlL1jjLbew7OGVgVrWctQHOf/sWk3fgsxCk3m+Wzj06w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WhM3PsPV;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6344B60A2620;
+	Fri, 20 Nov 2026 00:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WhM3PsPV
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795133257;
+	b=duZQxZ6lkwYKjGgBp30dlhR4dmP9NIGQ3u00ik7WdtNdG06YKk6Gr+M1n82GGlv4ZNcm
+	 3vi5mhDKrqnWwC1wHaxWlJWqZSjxxC9Xq9KU+l/iBbOrSmMIdNk/fpy5MMYciXUJI8aPR
+	 b2+2WYX019Z0Val+OlRxtrglUJjUgaoPjQhWkckUGW6pMJjEYEhRuvJAE7fpgVPWA+YLt
+	 8eG5nvQuJl3H227Em/g+JGKKJLTORVj1ooH+xXYUFsLTq/1Wep6lB6Lkti8g3ydkVLWAz
+	 LfbA0eSfzJj4zpxXaAHU3D4GoEfEb/XJ+7lr+Kwqaewy0glmKhMiFf4XXSI/rVLhSFQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795133257;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=L9l4FZ5LL/w8As/C818xoov7mkgGSGnX0m7j2Tu08A8=;
+	b=Dk4z0UkwPRR9ccxDH4KdL1Z81FtVcZG7Dv9N0sfw8DYXO6W2AEEBM2htcEti/HX7E1LR
+	 hZs9pRmSni5A1ohFCGBCpcTc1DCJAhnKtEbXXE49y5Xzp5/WSauOJ8TqeXAt9o+H1U2LZ
+	 R+NM+OxWsu+7r2fW8rSDPmPT4Vr4IBUQLCbTVfbS+51fXjHIXN5NpIN+lM73rxQTLcZtj
+	 MubqnmpMmxEqSHkxd1bJUXbPbsx1H/SEyy6uY3b/mveWJlt6ply37mXymjo4wJVd8WRID
+	 KECz66JBK+oNBcdZKfP2Bgcryw8Eu9BwhXAE9EtCvMw2hlqdVmiUrF0TO8Z1aj+YhQQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4361560A2615
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 00:06:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4361560A2615
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=air2/dns
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3b40470fdd8so166831a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 16:06:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795133202; x=1795738002; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=8PsDwtqZ7ZOXHEr9V4C4myUyqMWkC/3w4Fd9za5pDc8=;
-        b=air2/dns5VZwLYk/f1lay/0cC8R/IakufjWjyjlVS/NkwIM6QfW17TQOWTR1hao4Ul
-         +5QvgbPksfItTlbIwBAB1do88ljLq3LFNqPJVuAVVQFv3aEB+KPQ8jSq9GBqzZ5g2JDR
-         EFBr3yhdik4sQcww1/fIZ3fpCAjfe9zkTGWlOp5IUe6ipu8m33Jtrbu7EmiZbLJugeoL
-         wVtgKZxEkfjkaEmkOERrHCTZHodW25y0KaAF+y2rfv5XxI04uL3lmRYwSfyjbHRFoVbA
-         rIr7fkQDwkDSG7cYJDYndfUBNdVoHG7JNeSwMQR4yQGxrzMjZgyPy7VEoOETd4Ylvcq1
-         Rr2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795133202; x=1795738002;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8PsDwtqZ7ZOXHEr9V4C4myUyqMWkC/3w4Fd9za5pDc8=;
-        b=MoPJQ5g5u73o8ddcRnSmsFHzw208tFvNbJWQauH+BdWkva+R1hXolyf16blY1/JFXk
-         MSM74VvfzAagV148aZKuCjXeFBQ26yeUNNdaEHpyTlfiSnkEthtYcS/hBVaKkiBzgGdZ
-         Jx1ROX15GE3rUPM2L5JuEWNbgtO+hwv/coRJhZactY8AW/4qPnHE2ZRCu0aVpXKrG1lo
-         1FxHSpUVYybjsOzwt/EX3ou6PmkM1JpQttPZGTrX6JbRjkpMPwR8Vgdx/tyC1TNhY4r2
-         qRqWEaEk7EzWIVR2jbr1QM+hGlJlsDrbU2lbJGGirZEcEr42mn3hr3vr2W5ptGF5iBiw
-         ljBQ==
-X-Forwarded-Encrypted: i=1; AL+hErGlfH/8o3j2OszRBlf1ab1Y9ddx/2KAHvExmswb0VZIhtyCAdUrJlWgLfJsWAylKm0/awHPBGO5fqI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8MSCj4XGx8Vi1RLg7BLLL/a0FXBqpxb0c1+07RpGDAjcOJSP2K
-	mze7sOLFLx98rqZgsihcdHmb2JW0XgMU08Uyv1h9b38kNGDhXw1sIdyUsoKuWuRKkIcgZhfugOY
-	VfqQHgV7N
-X-Gm-Gg: AZFdTZcTtdaKq0vW0J6yNsq+jybBpvTlkUEME3aEyUY/H/3DDe57WaMjOiVzb5hdh9h
-	KXXhByPu5OtUVfK4HiBNX3DhdE4jQs4wIEgyngOZfJ3IiDJrw5C/Jpxf1g85g7nLBDNaWuMSWb4
-	McrQDpYu4ljqGwzBW70K9S5gKg6ju8E9kUk6IOHQqC37fxMWfoYqFSpPhjaY5mGmSIObX4U7kJi
-	/FM6a3KKlmxL6JWfv4Z3ClK+rKUvHN8OZWuyolh7OmHZjlWJQPRt1NV3Tnd8uG4CTIWAX5j7tse
-	DcpmV2iALDk8a0sP+xVrsMt5u8LEFZmGSV9eKKfpxOS5Nc+0Wn/bapM+7JkN//2kpoD951f8UM1
-	PN53GFysWGAD6TCsSj3WGkWw8A4rBqrLVhA5xXmRttXHsUcC2Rm46xydlBO9ARunxTkTZLOg26s
-	JP/vkR48ucSMvZhi7B1jCL4jU+hGOH6k5VI2PDCjsigMHkA2/hH3CeSciNZWGayDp2imzm5E/dU
-	pVLEQ/DQ2qOofTUuNERfwmXT8JFHHbJWZ9TVV2H0tM0QYSwDAuhf7sDjzdblS+XUi1MTIjEwzd/
-	zeEG4i04VbF2sMB1nbMieqEpm2bmcLvfXycnwEfkp7ry4R4TjyowQRsEXfOcHbSP
-X-Received: by 2002:a17:90b:442c:b0:3b3:ab74:cc9b with SMTP id 98e67ed59e1d1-3b41c554624mr967136a91.0.1795133201767;
-        Thu, 19 Nov 2026 16:06:41 -0800 (PST)
-Received: from localhost (33.79.127.34.bc.googleusercontent.com. [34.127.79.33])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41ff5d3easm328044a91.1.2026.11.19.16.06.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Nov 2026 16:06:40 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id 3C73B1F000D0;
+	Fri, 20 Nov 2026 00:07:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795133257;
+	bh=L9l4FZ5LL/w8As/C818xoov7mkgGSGnX0m7j2Tu08A8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=WhM3PsPVscBFdaBQIcaZK+xDAFOnz54xytAnSa93Y+IwnwiVFP6hM+rmmHDczO0ow
+	 p+2cRQp26KOvgow40JD50Z/P3FwMe8tcFy4iQtI3sBFJyyJLVMPCS6OjYVYdRKNAnc
+	 btavZYWH/sSXHiBTWKpb4p7oX004JY7kAqijBYI7H4u8ISENI1m3W+3F6Kgr9bCCw3
+	 YRROdEZgqToPSgVJHvNCz47jyWlbEewvzO9PIOvUPH+IYRo9xNJx+FGQJ7g2ypCRc8
+	 L4qFKa92TXBdTScBhG9FuwAT8pe8fVEz++WGIfD1+HA1g/wfZzyk0SwO0ujvCLEr4Q
+	 ksCPDMgMzYqOw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id BE7F9424E8;
+	Fri, 20 Nov 2026 00:07:35 +0000 (UTC)
+From: Joseph Telaak via B4 Relay <devnull+joseph.telaak.dev@kernel.org>
+Date: Thu, 19 Nov 2026 19:07:26 -0500
+Subject: [PATCH v3 04/11] leds: rgb: ktd202x: Fix a division by zero with
+ long blinks
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,156 +82,100 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 19 Nov 2026 16:06:38 -0800
-Message-Id: <DMZLLYOVIGOU.1RXWYJN6UQTM@google.com>
-From: "David Matlack" <dmatlack@google.com>
-To: "Vipin Sharma" <vipinsh@google.com>, "David Matlack"
- <dmatlack@google.com>
-Cc: <kexec@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-kselftest@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <ajayachandra@nvidia.com>, <alex@shazbot.org>, <amastro@fb.com>,
- <ankita@nvidia.com>, <apopple@nvidia.com>, <bhelgaas@google.com>,
- <chrisl@kernel.org>, <christian.koenig@amd.com>, <corbet@lwn.net>,
- <graf@amazon.com>, <jacob.pan@linux.microsoft.com>, <jgg@nvidia.com>,
- <jgg@ziepe.ca>, <jrhilke@google.com>, <julianr@linux.ibm.com>,
- <kees@kernel.org>, <kevin.tian@intel.com>, <leon@kernel.org>,
- <leonro@nvidia.com>, <lukas@wunner.de>, <mattev@meta.com>,
- <michal.winiarski@intel.com>, <parav@nvidia.com>,
- <pasha.tatashin@soleen.com>, <praan@google.com>, <pratyush@kernel.org>,
- <rananta@google.com>, <rdunlap@infradead.org>, <rientjes@google.com>,
- <rodrigo.vivi@intel.com>, <rppt@kernel.org>, <saeedm@nvidia.com>,
- <schnelle@linux.ibm.com>, <skhan@linuxfoundation.org>,
- <skhawaja@google.com>, <vivek.kasireddy@intel.com>, <witu@nvidia.com>,
- <yanjun.zhu@linux.dev>, <yi.l.liu@intel.com>
-Subject: Re: [PATCH v6 07/27] vfio/pci: Preserve vfio-pci device files
- across Live Update
-X-Mailer: aerc 0.21.0
-References: <20261102153656.1431701-1-vipinsh@google.com>
- <20261102153656.1431701-8-vipinsh@google.com> <auzftbPFO_6XBYVw@google.com>
- <20261117220059.GA2250529.vipinsh@google.com>
-In-Reply-To: <20261117220059.GA2250529.vipinsh@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261119-ktd202x-et6326-v3-4-98b836b1cddc@telaak.dev>
+References: <20261119-ktd202x-et6326-v3-0-98b836b1cddc@telaak.dev>
+In-Reply-To: <20261119-ktd202x-et6326-v3-0-98b836b1cddc@telaak.dev>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Griffin Kroah-Hartman <griffin@kroah.com>, Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-doc@vger.kernel.org, stable@vger.kernel.org, 
+ Joseph Telaak <joseph@telaak.dev>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795133254; l=2532;
+ i=joseph@telaak.dev; s=20261104; h=from:subject:message-id;
+ bh=ZwqI7v4DG55lRFAiYaRoYyNEA1kQO3JMlNgT3S5y4mM=;
+ b=aaQu7aGpvdbUbM81gqST6Zt3voZbe3FFw/DAPdKyMXWgDKmE16Nv4rYLy5iLtxK1nwT63hqg+
+ uos1glpgUeeDYwjXRgFTNQBQUR0raXyMwAH+BKFGsgIJjcNmNBdr8R3
+X-Developer-Key: i=joseph@telaak.dev; a=ed25519;
+ pk=oQI+UfddlZ0wK2ac4WKOGNjUl1ZEN8j9ZVFSqEDoNP0=
+X-Endpoint-Received: by B4 Relay for joseph@telaak.dev/20261104 with
+ auth_id=1404
+X-Original-From: Joseph Telaak <joseph@telaak.dev>
+Reply-To: joseph@telaak.dev
+Content-Transfer-Encoding: 7bit
 
-On Tue Nov 17, 2026 at 10:44 PM PST, Vipin Sharma wrote:
->> pci_config_map doesn't need to be preserved. PATCH 14 already rebuilds
->> it with vfio_config_init() in the next kernel and only uses the
->> preserved copy to check that the two are identical.
->>=20
->> I assume the intent is to detect changes to vfio-pci's config emulation
->> between the two kernels, but the map isn't a good proxy for that. It
->> changes for differences that don't matter (e.g. hiding a capability or
->> learning the length of a new extended capability), which would fail
->> take-over and lose the Live Update on exactly the kernel upgrades Live
->> Update is meant for. And it doesn't change for differences that do
->> matter, like which bits are virtualized or writable within a capability.
->
-> I think it does matter because reads and writes of unitialized
-> capabilities in VFIO PCI config space goes to hardware directly. So, in
-> the new kernel if pci_config_map changes it from PCI_CAP_ID_INVALID to
-> others then those reads/writes can go to vconfig which will contain
-> stale unitialized data from the old kernel's heap.
->
-> This also changes behavior under a running user. Writes that reached
-> hardware before Live Update can be silently dropped or redirected to
-> vconfig. See the comment above struct perm_bits unassigned_perms{}
-> in vfio_pci_config.c
+From: Joseph Telaak <joseph@telaak.dev>
 
-That's true. Unassigned bytes passed through and vconfig is never
-initialized for them, so hiding or exposing a capability does matter.
-For example, 6467d0740a2b ("vfio/pci: Add DVSEC PCI Extended Config
-Capability to user visible list") changed DVSEC from hidden (all bytes
-raw) to exposed with a virtualized header. Across that boundary, v6
-would have served DVSEC from uninitialized bytes in vconfig.
+blink_set() works out the on time as delay_on * 256 / (delay_on +
+delay_off) in unsigned long, with delays straight from the timer
+trigger's sysfs files:
 
-> How would a userspace opt-in? New kernel can change a capability visiblit=
-y
-> or virt and write permission of the bits inside a capability. Kernel
-> cannot know if userspace used the capability or not. Creating a VFIO
-> device in the new kernel by default results in a opt-in and currently
-> there is no way for userspace to opt-out unless we add a new
-> functionality where userspace can disable/enable features something
-> similar to KVM capabilities.
->
-> For now, I think we don't need to worry about it. As this version will
-> be a base and if any serialized data with flags set received in this
-> kernel will lead to erroring out restore.
+- when the two delays add up to exactly 2^32 on 32 bit, or 2^64 on
+  64 bit, the sum wraps to 0 and the kernel divides by zero, for
+  example with "echo 2147483648" into both delay_on and delay_off.
+  That oopses on x86 and gives an arbitrary result on MIPS and arm64.
+- on 32 bit the product already overflows once delay_on is above about
+  4.6 hours, and a sum that wraps sets the wrong period, so long blinks
+  get an arbitrary duty cycle
 
-We don't need an opt-in mechanism in this series. Detecting mismatches
-is enough to make Live Update safe in both directions: if the next
-kernel would emulate the device in an incompatible way, retrieve should
-fail.
+Saturate the sum, and compute the on time with mul_u64_u64_div_u64().
 
-But an opt-in is needed to make rollback possible once vfio-pci starts
-changing its emulation. I imagine something like a VFIO_DEVICE_FEATURE
-that userspace can use to enable new emulation behavior right after
-opening the device, with the enabled bits recorded in a field appended
-to struct vfio_pci_core_device_ser behind a required flag. Devices that
-don't opt in keep the baseline emulation and stay compatible with older
-kernels. But that can come in a follow-on series.
+Fixes: 0ebdb7210943 ("leds: Add ktd202x driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Joseph Telaak <joseph@telaak.dev>
+---
+ drivers/leds/rgb/leds-ktd202x.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-> In the next version, I will not preserve pci_config_map. Hopefully,
-> anyone changing VFIO code doesn't forget to update flags if they change
-> capability or permission bits (I will write comments at appropriate
-> places.)
->
-> If we want to be very careful, we can do two things in this series:
->
-> 1. Create a per bit valid mask for the vconfig and compare this between
->    new and old kernel during restore. In the new kernel, VFIO then takes
->    each bit from the preserved copy only where the mask says it was
->    valid, and keeps its own freshly initialized value elsewhere.
-> 2. Create a hash or store virt and writable bits in config space.
->    Compare it with the new kernel.
->
-> Both of the above combined will safeguard against forgotten flag update
-> in the code.
->
-> We don't have to do it but it safeguards against mistakes. Let me know
-> what you prefer.
+diff --git a/drivers/leds/rgb/leds-ktd202x.c b/drivers/leds/rgb/leds-ktd202x.c
+index 362d231eddcc..bfc05f5f02d6 100644
+--- a/drivers/leds/rgb/leds-ktd202x.c
++++ b/drivers/leds/rgb/leds-ktd202x.c
+@@ -9,10 +9,12 @@
+ 
+ #include <linux/i2c.h>
+ #include <linux/led-class-multicolor.h>
++#include <linux/math64.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/overflow.h>
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+ 
+@@ -297,7 +299,8 @@ static int ktd202x_blink_set(struct ktd202x_led *led, unsigned long *delay_on,
+ 	/* Convert into values the HW will understand. */
+ 
+ 	/* Integer representation of time of flash period */
+-	delay_total_ms = *delay_on + *delay_off;
++	if (check_add_overflow(*delay_on, *delay_off, &delay_total_ms))
++		delay_total_ms = ULONG_MAX;
+ 	if (delay_total_ms < KTD202X_FLASH_PERIOD_MIN_MS)
+ 		num_steps = 0;
+ 	else
+@@ -309,8 +312,8 @@ static int ktd202x_blink_set(struct ktd202x_led *led, unsigned long *delay_on,
+ 	 * Integer representation of percentage of LED ON time. A value of 0
+ 	 * keeps the LED dark, so use the shortest on time instead.
+ 	 */
+-	on = (*delay_on * KTD202X_FLASH_ON_MAX) / (*delay_on + *delay_off);
+-	on = max(on, KTD202X_FLASH_ON_MIN);
++	on = mul_u64_u64_div_u64(*delay_on, KTD202X_FLASH_ON_MAX, delay_total_ms);
++	on = clamp(on, KTD202X_FLASH_ON_MIN, KTD202X_FLASH_ON_MAX - 1);
+ 
+ 	/* Actually used delay_{on,off} values */
+ 	delay_total_ms = num_steps * KTD202X_FLASH_PERIOD_STEP_MS + KTD202X_FLASH_PERIOD_MIN_MS;
 
-I think we should do both in this series, as two per-bit masks over
-config space, preserved in place of pci_config_map:
-
- - virt[]: the bits whose value vfio-pci keeps in vconfig and returns
-   instead of the device's value. This says which bits of the preserved
-   vconfig are valid.
-
- - write[]: the bits whose writes take effect. For bits in virt they
-   update vconfig, and for other bits they are forwarded to the device
-   (possibly after validation). Writes to other bits are ignored.
-
-The masks should describe what vfio-pci actually does rather than copy
-perm->virt and perm->write.
-
-vfio-pci can keep changing its implementation in ways that don't break
-Live Update, e.g. start intercepting writes to a register to sanity
-check them before forwarding them to the device.
-
-Something like:
-
-  struct vfio_pci_core_device_ser {
-          ...
-          u8 virt[PCI_CFG_SPACE_EXP_SIZE];
-          u8 write[PCI_CFG_SPACE_EXP_SIZE];
-          u8 vconfig[PCI_CFG_SPACE_EXP_SIZE];
-  } __packed;
+-- 
+Git-155)
 
 
-[ Note: I'd probably store virt[], write[], and vconfig[] on their
-  own folios to avoid multi-order folio allocations, but I am embedding
-  them here for simplicity. ]
-
-The outgoing kernel computes virt[] and write[] through a helper in
-vfio_pci_config.c and saves vconfig[] during freeze().
-
-The incoming kernel computes its own virt[] and write[] masks and
-requires both to match exactly with what's in vfio_pci_core_device_ser,
-otherwise it fails the retrieve. On take-over it uses the preserved
-value for bits in virt and its own freshly initialized value for the
-rest, like your option 1.
-
-I'd store the full masks rather than a hash, so that a mismatch can be
-pinpointed.
