@@ -1,130 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795188276;
-	b=RfAFeDH1PfbhtfH2Bh/YaxGqKegF7yDFH95Z1b8df+ItcZWkUvuylINwZgBRkv6qm5on
-	 D3h1ikB5f5QwQBNVknf16//xcRnXCGn5EJpq4lm0DCk8garWyV71H6D75D6AdsnLLR6AU
-	 3QtN0Tzq90qerFr6Ng1JjfTuZYvjaCeb8OSdIH9KwdSfHtKH5YBwVmQdbZqXaq0je7muM
-	 kV/WfR/omefUc6cXvBrK9bM77zdpCFoAmtgZ+Fpkwe0d4CVScJrZz0XUj8Qu5z5qte6UB
-	 0w8sDsO8XID522AXeq+wkvOgF2KJ6EiyxDgBzk0A4U41EyhpvzFDSeDnY5tFcpX0Cfg==
+	t=1795188324;
+	b=wuLBXAhq7HN8yX87lJnOebRlo9hVbklsRA5YbB7Vr/WZz8PrNJIcO3FyZW0xOVPn6VEl
+	 cfJfZY3dss//yWB+SNr7eMWdn0ME9RnRUt9R4zrfM7E9vn8v45/pfEqTU/LKZMkPvLD+C
+	 2Ky6mXMbyEvaGXNNsGkIRETCEMpJvf/KEGgQBljQcRT4MFDfZOapvYIGhBdAMwTgG/6p/
+	 T5vlVtFargb8rh9uMJxoPGVAg8lkwLnEPkQ9uAO51IBk5uJsvGMOGVIVnH0Pren/l6sZa
+	 avRDcv5RrW1KF0wzP+2dihNswEbnUrDSdy05queOaPszLnocXBBbc/Kr3t8rGCoAQeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795188276;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=zOo2EfGngcl3fu/kIhqZadaO75pP0lk1DR/lRHlyrtU=;
-	b=3Bf/JDupGMB0NF5YT0guaBMQxASzyBt8w/bQYuZjpy4pLXvc+1ZMyFO9n8Eev5Ed6Alx
-	 4Y7MlAXroEFDChrhA0V7TYlbTNnQKvpgcH3nTww9GJ+kb1Tfjbiohr3ZglABng4Kdh5l2
-	 9iwPgdwu2OaDjYcbe9Zszk4crOqJ4hHKxZe+bcxYqgvAa5efSUBO+33YuHvzuCgBjiaBz
-	 ETVN/fdmBwFGMjRFpx/o1Vl9SwdSSq2kSbCnJxpM3nU067pguiwACOZxEYHmK3ZLW4kg8
-	 5Pyljq0m9B4+A3HhzhGgRqznESzl+j6HVugTTO0IJiWzmdRO+Xz99CjZcXXH5PLORHA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795188324;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version;
+	bh=aYcXr29ZY8+NqUOdQLPvNghpVC/hBxmFhnakvhMIR/w=;
+	b=W8CQ3Uss+cvTGPVlryS4/3lfIZsz94p/92vvh7yodkebe+MzdUwuIEXiMfPnLXzb70vk
+	 b9NUq/vsdvpCuHwCo8tcLDJEGUpao3Te9rehi9w72BWcpWtOnvQMl0rLnNyaJMP+FgmhT
+	 +pOxI7NlhQt97L1rmW+ZLg0WPCyzAawQboq0B4NylcczznTiYFskumFtMtq3PRT0VNzIM
+	 LYDOoeaU2e8Yp4CXb1dmhLgikVG6kDPwVdWI2trUwS4DMccdtje9ExqmBEXZsBHXwSKrc
+	 baukRCAfOfPpZQ4u24mWuZNeZjSc5yGGH/EsUy+eXNXVS8isy6o5WWpOrzOqC283JRQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XCQUtSSf;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=fb.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=pBjzt0ci;
+	arc=none smtp.remote-ip=67.231.153.30
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 1ADE6606A320;
-	Fri, 20 Nov 2026 15:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1262606A331;
+	Fri, 20 Nov 2026 15:25:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1262606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XCQUtSSf
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 9CC851F000CA;
-	Fri, 20 Nov 2026 15:24:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795188275;
-	bh=zOo2EfGngcl3fu/kIhqZadaO75pP0lk1DR/lRHlyrtU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XCQUtSSf00g2G/Jpzjl9LRNQEFXNNRnYGZWzdtuiZBHk7dosmqWBMrC+L7eGsuwT3
-	 6Y8qXJypfh+8W03R5Msm4iQvi0clPna6Y5oqS1fK2fMBPqPJtncagCqPrZrgwYA61c
-	 Ir7DESMb/dns84I6WWtY5IQnf73sTx8SIKL9bvZjYjcc9pfyT2D4A8Rsc/CYWyagj2
-	 DltATLAp/YBb7+MwnvRYS7P7+HT3f1+jlJHOL7W4kb+l4QjcUeVm9fOWhMSveLYD4Q
-	 IO8nsOvMP1W4FNm+RhhQIMrsrDM1nc6imjdTxfwsnAexYb35pl8AoQ1Ir88SqmYiNe
-	 v0OZ/2yfr0Tjg==
-Date: Fri, 20 Nov 2026 17:24:31 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Alexander Mikhalitsyn <alex@amutable.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Arnd Bergmann <arnd@arndb.de>, Ben Segall <bsegall@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Christian Brauner <brauner@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Chris Zankel <chris@zankel.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	"Hallgrimur H. Gunnarsson" <halg@google.com>,
-	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Jan Kara <jack@suse.cz>,
-	John Johansen <john.johansen@canonical.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Mel Gorman <mgorman@suse.de>, Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
-	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Moore <paul@paul-moore.com>, Paul Walmsley <pjw@kernel.org>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Rich Felker <dalias@libc.org>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Vlastimil Babka <vbabka@kernel.org>, Will Deacon <will@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v4 03/14] rootns: Track init lifecycle via
- copy_process() and pid_namespace
-Message-ID: <awBmL_4VqwinHuVN@kernel.org>
-References: <20261119224312.1037966-1-jarkko@kernel.org>
- <20261119224312.1037966-4-jarkko@kernel.org>
- <e376c8f0ec5c50b417375197a5589a210f151d9b.camel@amutable.com>
- <awBLafK4jqB8fTF2@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=pBjzt0ci
+Received: from pps.filterd (m0528004.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AKEfS0p1873902;
+	Fri, 20 Nov 2026 07:24:59 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	pps82601-s2048-2026-q3; bh=aYcXr29ZY8+NqUOdQLPvNghpVC/hBxmFhnakv
+	hMIR/w=; b=pBjzt0cia/3xeaNZgZ/YyNI+HecdEZ7sQm/m41c5xo5l0TgGE0Z0Z
+	q+cbESnvpzZqJxJ2h360QqjJjFv5LykldupI8uKOIkR0F44Jhk2sYTvv3iu3M+JL
+	ZRnaaQtSVif1JZRqCGGcAp8JDnmewtw05+4UcEqr11g1XmisTfAWoggVbtc5Buzi
+	pKi4jtYxCJJD+rsv9ZGDTJLMfTKz6o1JM4uxK6UuBTm+X4ihQ9qlNAfVSIVFuPCT
+	BFm42X6w7OuDxVQYcB2Yr4MdG6PPnAjAgQ5YMh6tZ3EWUnZorgpu7ei7fCJAR5bY
+	GqFDJKHgxLi5TutyoyAmiGPNklqh5p20g==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4j1yjp2hw0-6
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 20 Nov 2026 07:24:58 -0800 (PST)
+Received: from localhost (2620:10d:c085:108::150d) by mail.thefacebook.com
+ (2620:10d:c08b:78::c78f) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Fri, 20 Nov
+ 2026 15:24:56 +0000
+From: Amir Ayupov <aaupov@fb.com>
+To: James Clark <james.clark@linaro.org>, Leo Yan <leo.yan@arm.com>,
+        Suzuki K
+ Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@arm.com>,
+        Alexander
+ Shishkin <alexander.shishkin@linux.intel.com>
+CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Randy Dunlap
+	<rdunlap@infradead.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Daniel
+ Pereira <danielmaraboo@gmail.com>,
+        <coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-perf-users@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 2/7] coresight: syscfg: Fail to enable a configuration not loaded on the device
+Date: Fri, 20 Nov 2026 07:21:15 -0800
+Message-ID: <699bb518b0f92c57227d4c73e21c58d8aadcc5a2.1795182850.git.aaupov@fb.com>
+X-Mailer: git-send-email 2.52.1
+In-Reply-To: <cover.1795182850.git.aaupov@fb.com>
+References: <cover.1795182850.git.aaupov@fb.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -134,30 +92,118 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <awBLafK4jqB8fTF2@kernel.org>
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIwMDA2MSBTYWx0ZWRfX+f1pqSfc15Yj
+ 5FbV62ndl+ZKG73W8OMkFpIZvSM2z/bKZvhF82WWSDQUNhwJX9cRFQD/XUJn94JWazTKVqkacJ1
+ lMK70bay08XTfo5MzZLVpGTzvP/uFYW/Nwu3FhFSOrJzOeIQ7gEYG1wi3sPSl8tOOQGEtlsUB65
+ ow+YoNoXZ3CVrQxNITU1zbLAvYHrZUF3F+YuiqeGQ3ktwEhHk5MTqzMvEMMELhh27/AxR9/3CaJ
+ YLAgB0xLUoAjZ9bms1QO2OP4hyt6BBb0bqcjoB4VxhbiPKEF1vGZDdKMloGzS00FAA+mvZYyFwu
+ 0lWOicSdyMxq32OktDwf48bHOU4p0oWK0UKEmqCT4UVPYm7d2qLObrsrcCdBKrSvFq18iK8bOYX
+ 6b65ETs2kpFq/a+kTP8PG5Xl3Vc/2PXvLsQVKNVFrN+cOJQsxKJxwT5COE4m4Yf1Wfo49Nh/d+K
+ itpBBEvDeuTYQi0HhcQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIwMDA2MSBTYWx0ZWRfXx5f4nw8DdEr7
+ fci9nOJO/rdfzkuy9BOdaM7CDb8/aDymv2PpUJxWle1/T/BU5FMm/aGYXD8kQoEUrONrJ0OHTUk
+ YhvnNP5xXk+MZUFIKEuJ1hCVtA/b6Ck=
+X-Proofpoint-GUID: S8PRQsjlb_TnuaQsvmjkWViFZ_3Sksa6
+X-Authority-Analysis: v=2.4 cv=aPtlOr9m c=1 sm=1 tr=0 ts=6b00664a cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=GbPsI2Ihf5RTnMjR_gZv:22 a=7CQSdrXTAAAA:8 a=FOH2dFAWAAAA:8
+ a=HF-2DHWplcuDzBJEMXoA:9 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-ORIG-GUID: S8PRQsjlb_TnuaQsvmjkWViFZ_3Sksa6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-20_05,2026-11-19_01,2025-10-01_01
 
-On Fri, Nov 20, 2026 at 03:30:21PM +0200, Jarkko Sakkinen wrote:
-> On Fri, Nov 20, 2026 at 02:18:43PM +0100, Alexander Mikhalitsyn wrote:
-> > Dear Jarkko,
-> > 
-> > >  	acct_exit_ns(pid_ns);
-> > > +	exit_rootns(pid_ns, me);
-> > 
-> > We have a very similar mechanism around pidfd's to track exit
-> > information for a task. As far as I can see we already have (struct
-> > rootns *)->init_pid reference, so we can get exit information for free
-> > (look for PIDFD_INFO_EXIT).
-> 
-> Thanks for mentioning. I'll see if I can leverage it.
-> 
-> If something like this is found, it is partly due long history of this
-> code i.e., not planned/opionated choice :-) 
+cscfg_csdev_enable_active_config() looks up the selected configuration in
+the device's loaded configurations, and returns success when it is not
+there. A configuration is only loaded on devices that match at least one
+of its features, so a perf session or sysfs enable that selects it on any
+other device runs without the configuration, with no error.
 
-This non-doable or incompatible at least. I'm not sure if that would
-have gain. I think this goes to acceptable redundancy. Or at least,
-currently think this way.
+Return -EINVAL instead, so enabling the source fails on that device. The
+function is only called with a non-zero configuration hash, so sources
+enabled without a configuration are unaffected.
 
-Br, Jarkko
+Fixes: f8cce2ff3c04 ("coresight: syscfg: Add API to activate and enable configurations")
+Assisted-by: Devmate:Opus-5.5
+Tested-by: Leo Yan <leo.yan@arm.com>
+Reviewed-by: Leo Yan <leo.yan@arm.com>
+Signed-off-by: Amir Ayupov <aaupov@fb.com>
+---
+ .../hwtracing/coresight/coresight-syscfg.c    | 53 ++++++++++---------
+ 1 file changed, 28 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
+index 2bfdd7b45e49c8..a816c22c87bc87 100644
+--- a/drivers/hwtracing/coresight/coresight-syscfg.c
++++ b/drivers/hwtracing/coresight/coresight-syscfg.c
+@@ -1088,36 +1088,39 @@ int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
+ 	raw_spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
+ 
+ 	/*
+-	 * If found, attempt to enable
++	 * The configuration is active but not loaded on this device, because
++	 * none of its features match the device. Fail rather than trace
++	 * without it.
+ 	 */
+-	if (config_csdev_active) {
++	if (!config_csdev_active)
++		return -EINVAL;
++
++	/*
++	 * Call the generic routine that will program up the internal
++	 * driver structures prior to programming up the hardware.
++	 * This routine takes the driver spinlock saved in the configs.
++	 */
++	err = cscfg_csdev_enable_config(config_csdev_active, preset);
++	if (!err) {
+ 		/*
+-		 * Call the generic routine that will program up the internal
+-		 * driver structures prior to programming up the hardware.
+-		 * This routine takes the driver spinlock saved in the configs.
++		 * Successful programming. Check the active_cscfg_ctxt
++		 * pointer to ensure no pre-emption disabled it via
++		 * cscfg_csdev_disable_active_config() before
++		 * we could start.
++		 *
++		 * Set enabled if OK, err if not.
+ 		 */
+-		err = cscfg_csdev_enable_config(config_csdev_active, preset);
+-		if (!err) {
+-			/*
+-			 * Successful programming. Check the active_cscfg_ctxt
+-			 * pointer to ensure no pre-emption disabled it via
+-			 * cscfg_csdev_disable_active_config() before
+-			 * we could start.
+-			 *
+-			 * Set enabled if OK, err if not.
+-			 */
+-			raw_spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
+-			if (csdev->active_cscfg_ctxt)
+-				config_csdev_active->enabled = true;
+-			else
+-				err = -EBUSY;
+-			raw_spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
+-		}
+-
+-		if (err)
+-			cscfg_config_desc_put(config_desc);
++		raw_spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
++		if (csdev->active_cscfg_ctxt)
++			config_csdev_active->enabled = true;
++		else
++			err = -EBUSY;
++		raw_spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
+ 	}
+ 
++	if (err)
++		cscfg_config_desc_put(config_desc);
++
+ 	return err;
+ }
+ EXPORT_SYMBOL_GPL(cscfg_csdev_enable_active_config);
+-- 
+2.52.1
+
