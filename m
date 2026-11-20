@@ -1,49 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795135284;
-	b=2+p68cC8+30/ZK96Rw4HLp18DBPW9lQW87JB0QwHnEThr/KmElMaG0L9/TrYAYZAlxTU
-	 idpJ1njiCsd8fYLxLaGAFgXe/nIgFsvxa5nefUyBSEjeWea8RYjux0gPW4DhlVtT0Usbv
-	 epI9oIJhLDDrOFvaHmm6OQmkFVZ3PzkAtqNXLrdMI2rG8bk1tmSb3KdpzIExdahhFG+qQ
-	 N0VyPU8KcThtJvrxXrGPPe3UYqmfsce0jPxu99mDLgIk6iUrliO77cXJiojYz3vGSeQ/q
-	 F2prhRnlaQOPndMSt5+33wFQpy+uYtV52qSmvfukADov2o26SzdWsZQfcveJUx2tAUA==
+	t=1795136483;
+	b=LJPCQEMrJZw7mAL7VHT4i+eD61pcZqSKQ2+efbmF7UdXOZlnjej2gWInEGQqUKE+H46W
+	 p1Zqf0taMezVprxwYndN1sZWFrC7UELPS5qF4MWCnmFeM5fy+OrZNuBr9xYDd1qLO4U/A
+	 BW3foZo1sjZaUheiOJUCV7meqjvbpej1qXVmd2NUXM5BBMWodQ3q8/VH3UZqTjntP5UkT
+	 eRSlegjkwqHz036W+zG+cNRMmERNBhmdkAs7121wGv7MgTld7/8EjgiKTxi8c5UeZZ8xJ
+	 sKlIg9BfvuD3AIVSnKKFo5c69G9UU0PUcLq8vY5I8uwu2vyuabYiyaTKSOPzLnvEw0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795135284;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=fmImNQFnIMk1Bg6W92shHm5q2Pz72r3vJoXlRhep+nM=;
-	b=ox06/Orowm9qf4EVC6Cs4TWw+ZN067LIchnPrZgIKQd2PpJTSV7ac5XgTl3YLYn7C71E
-	 5Pn/lvEbdpOwZXCFFWK+Aqf7OfbhKi0uNwNLkaJBAwZQ/CfNuy2oJ2LVaBhsoDt7U2xWQ
-	 HoGoPmo4Diakt8gGDewynRWHYVtgv8lLBTFe/LRhgBcpJ7tTExtEqL3EqTVwyFgzCLDfh
-	 VNsC1ctvBGvIe5spUrMrflI2M0xOWlWkqqLWKvqe50SlsBBwMdDSSf/EBq7SLy/qRf4w6
-	 Dts8b5LYqwhp9se3ZTKnvr11N620T0AirQuhFjWdL5/+bv6I5ACyLxbv5SUj0a/ViWA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795136483;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
+	bh=tQwX2YSXjHFZhdcGcul9Os/DsNb3L2Z/dlwRM94y3qk=;
+	b=CUpVJT8R27mPu6eEZ1ak2XpNFllZda5lTRkMy2fFJILs6m68QZl/kq3b8Ro7uwLvwJXN
+	 xE5qwEQp0H1QoQRGPJS4tXufNVsofmJ8pQ0p4DnhBj3SmSONSNdSHt+4DiswxsJOhNORD
+	 5j04/CMTHva+iP0RITTzu0/ASR/sOtpt5AIu2IxYIiZom/z9zfZrIkImLMREzL0BGmQJQ
+	 gLYjyJdDaOUvuQNwJ58R7BoSSUZdrVIrX0mKBvyiVRwwAYALh3ua0lHW36caZBgodw4FO
+	 8nuXpZZ1iMJ2I7u7oE22My58BV+HZxkSbXKSF3Kszfj+yWVELKrVQurfV5kGUbgIqZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JHkCizWD;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=aB8MFpMM;
+	arc=none smtp.remote-ip=209.85.216.44
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A15606A320;
-	Fri, 20 Nov 2026 00:41:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B399606A325
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 01:01:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B399606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JHkCizWD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A87F1F000C6;
-	Fri, 20 Nov 2026 00:41:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795135283;
-	bh=fmImNQFnIMk1Bg6W92shHm5q2Pz72r3vJoXlRhep+nM=;
-	h=From:Date:Subject:To:Cc;
-	b=JHkCizWDikTJn2KQkdi8/bEaCSHj0Gp90ptOBd5oozPtYSll9wEsCH/72Pd6gC11u
-	 N3SIv5DBGaXmYpuTO+j7YQQWRQ4nUTWKwOwf+Sdhmd6lUDhb00D4Uh+y2p3XCLjK9L
-	 bTbhV/LWAq4iw5Zqm97LYAdZLEV+yhoufCG3qiwVrLZzWk5zAV7pqGcRBOnngcZWzi
-	 nuEL/6sMQcg57WnYzwNDouLqbQtB5YufVMi/NJUx8X55Biu+2eaWvsn1/GcSdTccFM
-	 WGlWhZZo3PSFoWMZNUW5xIL0Ha6dRS9wEy73k06Hm/VLxEdgh29+LLqKo4G+tGYoUF
-	 xNmsZNYkw3ILQ==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Thu, 19 Nov 2026 16:41:01 -0800
-Subject: [PATCH] fs: use multigrain timestamps only with nanosecond
- granularity
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=aB8MFpMM
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3b413997581so347399a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 17:01:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795136482; x=1795741282; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=tQwX2YSXjHFZhdcGcul9Os/DsNb3L2Z/dlwRM94y3qk=;
+        b=aB8MFpMMrxKiPFy6+JAlCebkuTAfB8STJ/MwS9WIwLqCpnefzKeDmhq5EVEBXBTAtk
+         iZsFiOjSaZIDuUxvIML1Q/Pli5/DbL6gnCoGLgbUYawH5QdgI21J9H40Mcs3J1SkkOvI
+         uWizmt1tDmGonLNXZ5YXlF2PsmUADiZT4OHccB3JI6LVrjbu/MATocrXjp79XyuUs34p
+         GeFTzL2WyAVHxcYDZfAvaAkSSL4rOyfBbi+O8FFV0R2xboCacObeig/kcXV1qJPWJG1I
+         K7A5+1J8wG+SXMXJhKIY8LO6D59Ticfnt/qzBmbcW/9Y7XR175kyxD2+3VefSFEg2uUQ
+         J/Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795136482; x=1795741282;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tQwX2YSXjHFZhdcGcul9Os/DsNb3L2Z/dlwRM94y3qk=;
+        b=qgimaY3TwziZE5FM6oGs2FRdqIk284P1hpgHa7zbCKq3YmSZYn2linpmOGl4ka8KQ8
+         BKN4XljDQWmhZGDfYaAOFap8fLM8z0siXjY6+dxFmpNlW+SBj28RFrVGZqbqCVBijohC
+         tOj+6eJKy2FY8a4fm5rEEHaaUKs3XuElTMakyiiTBiYY3FfJao9oGP60troFDYkFyZ6C
+         DftQv5P3sISfdEdZLRuKTUxD3CD/5PKQZ1PLv9HaCOZJUojUbPr8u/egG707Vi/oE3wn
+         +AzipDNzQskWVAMgxc68w2pbWLoRUhpRjnhgHs/nhoXn3yGUp69fZzpQeuUfcr5qCQGK
+         ifFw==
+X-Forwarded-Encrypted: i=1; AL+hErG6P8ctKO6e0Tl5bnhZwkp1uVs6Qbn1NJzqLSWXlM7c82kHYI5d6a3wMln1utI/Udo7uhHpbVum7lE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9CMZzOiycHzRCAW8u+4kBrO+cWhLPpp0aSaNmXZKJMRdKronLQ
+	Qh0cUi4RnL40O5LHJ7DCXIV8GR2iynBsQ+ppbZAK2Z2GEQa9gzB2h9Q7b658iWqKXQ==
+X-Gm-Gg: AZFdTZdmlfxZlCS4nB0nh6qO4vpu6kLEPQMAfXPO45CGQYBPsdX7hftvyHxsNyDnh5N
+	LZmhrpkV4euedjWuyP7KmrNOXVeyQaXgdqEUF1EvheyhsQiL8hE7dLTWRhghCADA7fni9LAQ1+g
+	Tg3r2CG2X0Re/ydvAARtQDnbXZEolIpbpdszx+7VSxuoQww9J3vzCPLSyCYGqnZsyK7WwtS513O
+	vSQcxo2LKkPwRDI+hAEi+2QObZrW7Ml927MsVJECKm25ua8hl3lSMGRMY9sI1L2coM9bSa6yAcL
+	24+ICTo/3CeeY+H/q3STQz5r5qooC0XRI/eBG2wWbqn/bqF6fm4hIGJopPqjWpvJj7ChJqy6kqv
+	X/WVwAodhqOriLhRy9Hljg7c4JNo39Go72mzbUrvAc28ci8vFDu8e19j/i+29JG0kiBzT9/bQje
+	KMSWmM3CQklslqzWoDcRDMFowcwLnls7dBaMRmSpH4W8uCy953U6jt7VtXr/urRmklE4cO1w91k
+	kP4NsiMDIYmmgm7OMmci7TKBBTlgdVq7o7drNxr476hp1wHetrZBBM8ZM3sjgvKqPGuuEppysDU
+	fPVU/8iEIzafGaMZIb0O/Urpza8gVDbHT5/j5CHwTaMe0Bndp4FkWdjh84SBw7n5
+X-Received: by 2002:a17:90b:4b87:b0:3b4:a63:d55c with SMTP id 98e67ed59e1d1-3b41c93b17cmr965473a91.30.1795136481385;
+        Thu, 19 Nov 2026 17:01:21 -0800 (PST)
+Received: from localhost (33.79.127.34.bc.googleusercontent.com. [34.127.79.33])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b405d639fdsm4865271a91.10.2026.11.19.17.01.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Nov 2026 17:01:20 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -52,97 +87,207 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261119-mgtime-v1-1-fd28399a5557@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzNDQ0NL3dz0kszcVN20ZANzgyQjM4uklDQloOKCotS0zAqwQdGxtbUAdPi
- AGVgAAAA=
-X-Change-ID: 20261119-mgtime-fc070b268bdf
-To: Christian Brauner <brauner@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2929; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=E8azySa7/OzX7Ad9BT+YgzCNxoMcPv6dKqhib1PkV3o=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBq/5cuYUapOrya8l0tWk8uWwILqDcFRlFhFEPr5
- sCWDnf6PoCJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCav+XLgAKCRAADmhBGVaC
- FYb0EADF5CLy4jAU0xgiyv+CyS9V+XAgGuVp+FuXYU+oKTjJoTqpgALw5gG8TplfjkQnRiK0Nez
- Op6yrAj2hauoM6YEYqa0QKinqP3Ykn8KpSIWVZzZWlc6tvPY/GmUUiju6Rbf5XWXd58YVGcSxW/
- DsiW7dPaYgRA9bRVkarr6DHoMlsKb6oMimcDc/pTNpiGqaVnfZ2UUpxMylkFRMDZ3+ctziJ2+KS
- LsXr5SVa3UVRukTD+iuhtKLiocMz04FAvKe4ksB8YFm2i6wqKhwzzmQudmxnAfaNrIhKT6tw8jm
- N9dDqfgT6c9hJ5GbcJ53IDsuM12eO9oHDYt6sWgnU6gx/9N8pZathay6pIukjDTTHfWJumBa4Gj
- q2nZ7CsgYJCiP3gTHgjnXPtkFC1rWjr0qveBE/UBL7KOCpcgTrmw4wPOOPocMETXQ9YztfaZXWi
- wJY8YAD83TuH7Wfhxqw7YSSqX2h9IMzvo/OoYjvcHLSKK21Kf+bdVhL2dkRTW7gdLj5S5OwsxSA
- KxEbJB0vef02iIccU62iBnHfHx13jpJ4sodwri/vP6zcv1IO1CZ0hD5bJptJd7yVM1GwpL1fPPR
- QHjEweLmDP8hNkJxlyTK3dA+Z2aUWXY5xxJG1IUyN0WBpZZPOq7u9DtmypM6Q+FmW5uG3ASwo9W
- Z7Xp3OjlmVO/hUQ==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Nov 2026 17:01:19 -0800
+Message-Id: <DMZMRTXS7OSC.M79XF39ZVEWE@google.com>
+Cc: <ajayachandra@nvidia.com>, <alex@shazbot.org>, <amastro@fb.com>,
+ <ankita@nvidia.com>, <apopple@nvidia.com>, <bhelgaas@google.com>,
+ <chrisl@kernel.org>, <christian.koenig@amd.com>, <corbet@lwn.net>,
+ <dmatlack@google.com>, <graf@amazon.com>, <jacob.pan@linux.microsoft.com>,
+ <jgg@nvidia.com>, <jgg@ziepe.ca>, <jrhilke@google.com>,
+ <julianr@linux.ibm.com>, <kees@kernel.org>, <kevin.tian@intel.com>,
+ <leon@kernel.org>, <leonro@nvidia.com>, <lukas@wunner.de>,
+ <mattev@meta.com>, <michal.winiarski@intel.com>, <parav@nvidia.com>,
+ <pasha.tatashin@soleen.com>, <praan@google.com>, <pratyush@kernel.org>,
+ <rananta@google.com>, <rdunlap@infradead.org>, <rientjes@google.com>,
+ <rodrigo.vivi@intel.com>, <rppt@kernel.org>, <saeedm@nvidia.com>,
+ <schnelle@linux.ibm.com>, <skhan@linuxfoundation.org>,
+ <skhawaja@google.com>, <vivek.kasireddy@intel.com>, <witu@nvidia.com>,
+ <yanjun.zhu@linux.dev>, <yi.l.liu@intel.com>
+Subject: Re: [PATCH v6 11/27] vfio/pci: Retrieve preserved device files
+ after Live Update
+From: "David Matlack" <dmatlack@google.com>
+To: "Vipin Sharma" <vipinsh@google.com>, <kexec@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <kvm@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-pci@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20261102153656.1431701-1-vipinsh@google.com>
+ <20261102153656.1431701-12-vipinsh@google.com>
+In-Reply-To: <20261102153656.1431701-12-vipinsh@google.com>
 
-Multigrain timestamps promise that a change after the ctime was
-queried shows a later ctime: inode_set_ctime_current() takes a
-fine-grained time when the coarse one isn't past the queried value.
-But it truncates that time to s_time_gran, and on a superblock with
-coarse granularity, such as ext4 with 128-byte inodes (one second),
-the truncated fine-grained time is no later than the coarse one, and
-the update is skipped. The inode is still flagged IOP_MGTIME, so a
-caller relying on is_mgtime() for that promise, such as nfsd deciding
-whether it can move the change attribute by moving ctime, is misled,
-and the multigrain machinery only costs a fine-grained clock read.
+On Mon Nov 2, 2026 at 7:36 AM PST, Vipin Sharma wrote:
+> Enable userspace to retrieve preserved VFIO device files after a Live
+> Update by implementing the retrieve() and finish() file handler
+> callbacks.
+>
+> During retrieve():
+>  * Validate the handed-over struct vfio_pci_core_device_ser header,
+>    sizes, and flags.
+> [...]
 
-Set IOP_MGTIME only on a superblock whose s_time_gran is 1. Every
-FS_MGTIME filesystem (btrfs, ext4, f2fs, tmpfs, xfs) sets s_time_gran
-before it allocates an inode; document that it must.
+Please make the commit messages in this series easier to read. They are
+mostly long bulleted lists of everything the code does, which is hard to
+follow and largely repeats the diff. A commit message should explain, in
+prose, what problem the patch solves and why it solves it this way, and
+only call out details that a reviewer can't easily get from the code.
+This applies to most of the patches in the series (e.g. PATCH 07 and
+PATCH 13 too).
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
-When I originally did the multigrain timestamp work, I missed the fact
-that ext4 can have an s_time_gran of NSEC_PER_SEC. I think this is a
-very uncommon setup, so I don't see a need for a huge rush for this one.
-Please consider for v7.5.
----
- Documentation/filesystems/multigrain-ts.rst | 6 ++++++
- fs/inode.c                                  | 2 +-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+> Do not implement can_finish(): closing a retrieved LUO session invokes
+> finish, and refusing can_finish() would leak the session and leave
+> unclaimed devices running. Instead, finish() always completes:
+>  * If the retrieved device was claimed by opening it via
+>    VFIO_DEVICE_BIND_IOMMUFD (which consumes vdev->liveupdate_incoming;
+>    subsequent patches replace the open-time reset with non-reset
+>    take-over, reject opening incoming devices other than via retrieve(),
+>    and protect incoming kept-running devices across runtime PM, dev_set
+>    resets, and non-noiommu boots), finish() simply completes its PCI
+>    Live Update participation.
+>  * If the device was not claimed (never retrieved, retrieve() failed, or
+>    retrieved but never bound via VFIO_DEVICE_BIND_IOMMUFD),
+>    vfio_pci_core_liveupdate_reset() logs one pci_warn() naming the
+>    device, clears PCI_COMMAND_MASTER, resets the function, and restores
+>    the inherited pci_saved_state just as closing the device would. If
+>    the device has a function reset but is not reset, e.g. because
+>    pci_dev_trylock() contends with a concurrent driver unbind, latch
+>    vdev->liveupdate_reset_pending so vfio_pci_core_unregister_device()
+>    completes the function reset and state restoration via
+>    vfio_pci_core_liveupdate_reset_locked() under the device lock held by
+>    device_release_driver(). Opening the device after finish() resets it
+>    like any open, so it drops the latch.
+>  * If the device was not retrieved, look it up under pci_dev_lock(),
+>    which waits for a vfio-pci probe in progress. If it is bound to
+>    vfio-pci, finish it as above. If it has no driver, clear bus
+>    mastering and reset it. Otherwise leave it to the bound driver.
+>  * Call pci_liveupdate_finish() and kho_restore_free() on every path.
 
-diff --git a/Documentation/filesystems/multigrain-ts.rst b/Documentation/filesystems/multigrain-ts.rst
-index c779e47284e8..81ea632c7a4b 100644
---- a/Documentation/filesystems/multigrain-ts.rst
-+++ b/Documentation/filesystems/multigrain-ts.rst
-@@ -123,3 +123,9 @@ inode_set_ctime_current(). If the filesystem has a ->getattr routine that
- doesn't call generic_fillattr, then it should call fill_mg_cmtime() to
- fill those values. For setattr, it should use setattr_copy() to update the
- timestamps, or otherwise mimic its behavior.
-+
-+Multigrain timestamps are only enabled on a superblock whose s_time_gran is 1:
-+a fine-grained timestamp truncated to a coarser granularity can be no later
-+than the coarse-grained one, so the kernel can't guarantee a visible change.
-+The filesystem must set s_time_gran before it allocates any inode, since
-+whether an inode uses multigrain timestamps is decided when it is allocated.
-diff --git a/fs/inode.c b/fs/inode.c
-index de207f2f95a9..9cc28306feda 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -239,7 +239,7 @@ int inode_init_always_gfp(struct super_block *sb, struct inode *inode, gfp_t gfp
- 	inode->i_opflags = 0;
- 	if (sb->s_xattr)
- 		inode->i_opflags |= IOP_XATTR;
--	if (sb->s_type->fs_flags & FS_MGTIME)
-+	if ((sb->s_type->fs_flags & FS_MGTIME) && sb->s_time_gran == 1)
- 		inode->i_opflags |= IOP_MGTIME;
- 	i_uid_write(inode, 0);
- 	i_gid_write(inode, 0);
+This is a lot of complexity for one commit, and it's hard to review. I'd
+like to start with the simplest approach and build from there: implement
+can_finish() and have it return false until the device is fully
+retrieved, i.e. retrieved and taken over by VFIO_DEVICE_BIND_IOMMUFD.
+Then finish() only needs to free the incoming state and call
+pci_liveupdate_finish().
 
----
-base-commit: 65e4fd942f72a9dba0e4e257290c4fa1aa756854
-change-id: 20261119-mgtime-fc070b268bdf
+That gets rid of vfio_pci_core_liveupdate_reset(),
+vfio_pci_core_liveupdate_reset_locked(),
+vfio_pci_liveupdate_finish_lookup() and its bridge and device locking,
+liveupdate_reset_pending, and most of the finish documentation. If you
+want to handle the other scenarios (devices that are never retrieved or
+never bound, devices bound to other drivers, unbind racing with finish),
+please add them in separate commits on top, each with its own
+justification.
 
-Best regards,
--- 
-Jeff Layton <jlayton@kernel.org>
+As for closing the session leaking it and leaving unclaimed devices
+running: that only happens if userspace closes the session without
+taking over all of its devices, and leaving the device running with its
+memory still preserved is safe. Resetting the device in that case is
+something that can be added later.
 
+It also has a nice side effect: LUO calls can_finish() on every file in
+a session before finishing any of them, so a memfd in the same session
+that the device DMAs into can't be finished before the device has been
+taken over.
+
+> +static int
+> +vfio_pci_liveupdate_attach_incoming(struct vfio_pci_core_device *vdev,
+> +				    struct vfio_pci_liveupdate_incoming *in)
+> +{
+> +	guard(mutex)(&vdev->vdev.dev_set->lock);
+> +
+> +	if (vdev->liveupdate_incoming || vdev->liveupdate_claimed ||
+> +	    !pci_liveupdate_is_incoming(vdev->pdev))
+> +		return -EBUSY;
+> +
+> +	vdev->liveupdate_incoming =3D in;
+> +	return 0;
+> +}
+
+The pci_liveupdate_is_incoming() check here is redundant with the one in
+vfio_pci_liveupdate_retrieve(). Nothing can clear it in between, since
+only finish() should do that (see below) and LUO holds the session mutex
+across both retrieve and finish.
+
+The liveupdate_claimed check is redundant too: LUO only lets a token be
+retrieved successfully once, PATCH 12 prevents opening an incoming
+device any other way, and the liveupdate_incoming check already prevents
+attaching twice.
+
+> +	if (!pci_liveupdate_is_incoming(pdev) ||
+> +	    ser->cfg_size !=3D pdev->cfg_size) {
+> +		ret =3D -EINVAL;
+> +		goto out_put_dev;
+> +	}
+
+If the device isn't incoming here, that's a kernel bug. The previous
+kernel only preserves the file after pci_liveupdate_preserve()
+succeeds, the PCI core marks the device incoming when it's enumerated,
+and only VFIO's finish() should clear it. So this should be a
+WARN_ON_ONCE().
+
+> +	if (pci_liveupdate_is_incoming(pdev))
+> +		pci_liveupdate_finish(pdev);
+> +}
+
+Likewise, the device must still be incoming here, so
+pci_liveupdate_finish() can be called unconditionally.
+
+> +static inline void
+> +vfio_pci_liveupdate_unregister_dev(struct vfio_pci_core_device *vdev)
+> +{
+> +	struct pci_dev *pdev =3D vdev->pdev;
+> +
+> +	scoped_guard(mutex, &vdev->vdev.dev_set->lock) {
+> +		/*
+> +		 * Complete a reset that finish() could not do, see
+> +		 * vfio_pci_liveupdate_finish_vdev().
+> +		 */
+> +		if (vdev->liveupdate_reset_pending) {
+> +			vfio_pci_core_liveupdate_reset_locked(vdev);
+> +			vdev->liveupdate_reset_pending =3D false;
+> +		}
+> +		vfio_pci_liveupdate_free_incoming(vdev);
+> +	}
+> +
+> +	if (pci_liveupdate_is_incoming(pdev))
+> +		pci_liveupdate_finish(pdev);
+> +}
+
+VFIO should only call pci_liveupdate_finish() from its finish()
+callback (see the kernel-doc of pci_liveupdate_finish()).
+
+If vfio-pci is unbound from an incoming device before finish(), it
+should just leave the device and its Live Update state alone. That's
+fine: if vfio-pci is bound to the device again, the device is still
+incoming and can still be retrieved. And once the device has been
+retrieved, LUO holds a reference to the device file until finish(), so
+vfio_unregister_group_dev() already blocks unbinding it like it does for
+any other open device file.
+
+If userspace binds a different driver to the device instead, that's
+userspace's problem. The PCI core documentation already says it is the
+user's responsibility to ensure that incoming preserved devices are
+bound to the correct driver.
+
+So I don't think the unbind path needs any Live Update handling at all.
+
+>  #ifdef CONFIG_VFIO_PCI_LIVEUPDATE
+>  	bool			liveupdate_frozen;
+>  	bool			liveupdate_intx_disabled;
+> +	bool			liveupdate_claimed;
+> +	bool			liveupdate_reset_pending;
+> +	struct vfio_pci_liveupdate_incoming *liveupdate_incoming;
+>  #endif
+
+With the simpler finish(), I don't think liveupdate_claimed or
+liveupdate_reset_pending are needed.
+
+PATCH 13 later inverts liveupdate_claimed into liveupdate_kept_running
+and uses it to block dev_set resets while a preserved device is still
+running. That can use pci_liveupdate_is_incoming() instead. It blocks
+resets until finish() rather than until take-over, but since finish()
+now requires take-over, userspace controls that window. If some flag is
+still needed later, please introduce it once with its final name and
+meaning instead of adding it here and inverting it in PATCH 13.
