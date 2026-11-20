@@ -1,118 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795163803;
-	b=xiJi2nzKza9oF64UuNTCM7rQKs2s9BIBS3PB4M5KvqlNhNl6o0DCgKFPw2nL9rDxIbD6
-	 6jB1cAhhSlKxqmjjxpaO/HeVsTef/wOWaeItcRVYD9IWNr/njbwSSXG2BGhPZZp6lmHWx
-	 pKSo/qZ725vsdxqw6vyJgMsIQvmJO5+HsgO4rjablfawdKKzu5VA/h3TSBBThDGTsHfJF
-	 XHZfPtdpkd6NgP6qZTjTm5hbw3w+/9/13H5uBDAc040w5xhcGPG3xAmlAD1gj5LJabeQr
-	 nSTHLbscwkwO2QZaOgaFizNdWq68zZWYk/x1jd1QnsGLJ8GcEoQ/3p20Ig4iBoCpO0A==
+	t=1795163994;
+	b=R9Avsudr9i3RUrCG0CZw+4gSvwk6imq9qku92SxdV42G1sbrPFCQ4/3rx4hai/+33Hwn
+	 /qyAwd8rxCHTdcC69ptLeXO/36PvxEqQDSn+S2dgw//2eSPfP3Fbdpv9x7EdIXR62poKz
+	 0+ux/c3+HxAtejsZsDW4qYGgM/oB59WC0Q7LMXzDWpT943mNa+Ma2NPPM7Gyu2jnPO/Mu
+	 n7SUzP+ETIaV/uqbipC4xB3r80Zq7jL4ODM15F7Ef7LdyRdhg1Vpu7otFFrYh4r9NPOfR
+	 DT9bMzIUkrPUEEiyjSCi38aMYuqw1LADaAOdXUY+EEo2PxG0tq1pNlkQPRKlGhZp2xA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795163803;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=FroopTMuPleqi9xrjHNZRUYAbvATL8axnG/vJHY5tGg=;
-	b=06T0pMyppdWv/E2mOaE7dGRiKl2CmYpvdgHYvjN+IDjPLXcwQaJkQtmJ33H3fNvdrgSt
-	 z9PPfCqFG+CwzoeV+YznBfxfaKDrxXh53HPcnZwXZe4u07OI964G9ydc7ba6M9G4Qharx
-	 1NXT5HQFtkpaJ8OwMzzjjRcbwEPLVsmMuAti/z5QXn4kRxJLH6Ywl2kxf3m7zoCaWAi3l
-	 RncTqUB7G/Xi5sp7W+ZuAh3/ZJavvE7uoE5p82Sa11VvRhUa0iRTKQz5BYsOnDJXPI3Kt
-	 9uX1L9LLX6aSQO4eeae95h3XyJkB5BxBvt+CbY/CCgEcj9L6JqmetZUiqjoZO7NDdTw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795163994;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=vDyPOJ67XjYt3wWQDVUZSaQFeg0AX+VGsQspzrlVypg=;
+	b=bJjyNTUdLhrxJRkzFSPip7fTUk0mHbCX+neGmI+jHOFSfwoMtMGLRCsQCnCc1pFHWqqo
+	 xrcsxxp+keomMmMUYJrS+y+V7UjGIyMoClqXcIwzCeHcWdPVQb0Xl9w08wpOpWo8WFnUi
+	 9L9mZiwQGus8r5+D4AfxkotoN6NddfKFPKmBvIqaMJg4hD4R19a1RtQ3k/o8Cc0zy8jkb
+	 wBfIrbHG4E9PHwJshVy/CsvtXQSySaDBrYyKohmgFaIQ35SHf+8TqIfGNt8hP3U1zvZbW
+	 lEEOd/oeihYO77zToxF3rNQnMbhanSNRvB33Po2a+OXt+w54t3/BR+Q/JPdck8a/tMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=AxQH6ZrZ;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=I669TyEn;
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D07606A325
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 08:36:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66D07606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964CE606A325;
+	Fri, 20 Nov 2026 08:39:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 964CE606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=AxQH6ZrZ
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4bb68c197c7so7077215e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 00:36:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795163801; x=1795768601; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=FroopTMuPleqi9xrjHNZRUYAbvATL8axnG/vJHY5tGg=;
-        b=AxQH6ZrZwJ9W/gB2/sdllan6OZ4LeaBTfBKfPRBCT+bx4uIxeRrAtD3oGP6kzXMN7k
-         HbC1fbAxzzkJWjipSC2Eblyo1vOzOExgA8/qO1Ic344acKBd3zwu43WcoQUt4Mk3fj2M
-         v3cNi0+bCQPBoEX5mbQAkmCL/yAcZez7Av0PRoht88S3RQaIwoohB/zHwrAT1TB0HhdK
-         DAvoVUWgcCm+4T6ETWHFCUHgSaen0n4x5s9FkMZG/Z/KKkRcEWhDQQIqSjOPxSMiQKOy
-         QLB4+p3JhAD92LCmBlNbFgRX8f1MnlpwL+C32Vy+EVuoWH4LN4JhVN2DbZDpP9KkpzPS
-         o0TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795163801; x=1795768601;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FroopTMuPleqi9xrjHNZRUYAbvATL8axnG/vJHY5tGg=;
-        b=Z0vpf2jKbTfF7ZV55krNGtioYSVQcnKo2XdkN0ZQb1UFPBO9I2qCWJdCXMcKah96o5
-         gEz/aZXqECMDJM6KLCjtd7rqYDiuXOgPiy3INr5P22Tqfk9wZAUzbDN02n70zoKlDHqq
-         8xcsmS3PeGkY4kvuWaBhMi6gQUhNwVowCAhLAVAse0Igey2f9P1CyFQCXmfu1PgM2Qds
-         hz//WzNK4UH+ihrAGvjM87SIxKEbeRnBKIpYcYDBGMiPNAePNShhm3w8ghEuCPf2lz6t
-         zT5oe+E0qdC2W7+X+agTZLQEBZg4oI9TrJ1chGNMMRR85E79CiVZ3Q4aoS6rkoRyUY/W
-         +5SA==
-X-Forwarded-Encrypted: i=1; AL+hErHfIlXyLfuilnY6tebqkIDZVmWiNKU0jYeu4i4i8uwqsL1wb5fDRC68JQ/u8rOy22ylh0HA8xNXJY4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9mqmIvP2IapPncWNsfHUS1KHxFRhh4nP1foafYJcsseO30KC+E
-	llYEuyMlJsefZGNBgCTmAtgtef58Lr2OB+aQk5dlongh66yVG4+7Jh2DBizp7Tz1QGw=
-X-Gm-Gg: AYBFou0rFy8XZtDnIFVfPaxnTM5ivn9c8jDbA78jhFJ0HWGwvBRc/JQPlc0lUSeO5s3
-	ukcbzUBT+gvz8JQHvAnfLkBryc2nuAyFuW6XDSNbRLdi2IxGmlfTdnF/7EEnlsdTZEjp2aLLHoh
-	IoZeS6dOBjqga3FQUUM4FLrc0r97BThNf7no3C3DC8kCOjQFA28iby4qTf44SzvCJks5WLFyqW/
-	8MnlbxggDdQXidJe7CP8aiiwqCbrMuKwq+e3naAXZV9FNi55jrFOPI96fUuYmv0HIEnyxHJ2vny
-	GN6jBdpgHoBoUkFA1uIqM6TiPYaIUZWsyT86le4m5aQFDrjZ7GUanexEI8eBYEKguCzkDHMJFRm
-	ckpcoAtUrdPSug0ewIPmBDq8vt9fsEDRP1oWlweqWe2jqGzI8OkKj/8PIR+KFcalwxbrAxPROzh
-	Auteh42uzavTjcDIgZdh04bIF5WFl5P2OFHhd+Nr5DDOozGfjibLULPn54v76anmxP+ERWpit52
-	yvzwEAQANstxj1N+/k3UyHzRmihkOxXNM0ew45fXwNY75KM+F7WZ/VQJ7wv3OOhAA0pgry09C7F
-	i03LKk8FnLz6dZJD5nybo4FvMorggHhHlt84JqWWUg==
-X-Received: by 2002:a05:600c:4e16:b0:4bb:6f77:1e35 with SMTP id 5b1f17b1804b1-4bb88810991mr53940545e9.21.1795163800697;
-        Fri, 20 Nov 2026 00:36:40 -0800 (PST)
-Received: from pathway ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8526cbd0sm126587935e9.0.2026.11.20.00.36.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 00:36:40 -0800 (PST)
-Date: Fri, 20 Nov 2026 09:36:37 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Dave Young <ruirui.yang@linux.dev>, Borislav Petkov <bp@alien8.de>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>, x86@kernel.org,
-	Joel Granados <joel.granados@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
-	John Ogness <john.ogness@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Bo Gan <bo.gan@broadcom.com>,
-	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>,
-	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Ian Forbes <ian.forbes@broadcom.com>,
-	Bradley Morgan <brads@mainlining.org>
-Subject: Re: [PATCH v4 1/4] panic: Add a platform panic notifier list
-Message-ID: <awAGlQhpaLtrHCAR@pathway>
-References: <cover.1794980455.git.zack.rusin@broadcom.com>
- <3d156f7b5ec4f3d6f91e288a38f87d2368f1365f.1794980455.git.zack.rusin@broadcom.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=I669TyEn
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AK7uRLM2482076;
+	Fri, 20 Nov 2026 08:39:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=vDyPOJ
+	67XjYt3wWQDVUZSaQFeg0AX+VGsQspzrlVypg=; b=I669TyEnErtCRamkxzxq+P
+	gPf6A3FuIajOJ1dDv0d546ZwBSj0jQ3uJ3seyQ6cZO2idIN5EBdg8ItEDEl3bn4i
+	s0KtrbtWdDEhP9zDqmWlsXwFR5Iwag/FLpjJSOhVHDJIcJhUPE+hoDpyVXD0g29x
+	RCBbaj23lLZi91/xgqm3bJsq4NKkRtllNnhQU6gsufl+am3ttshtPHLOiOv10enE
+	Jgt+i1VZhhYXpAI1aEpsobuUrSmP2IQDV+MEBPvOTN2V84P5FEdhtIFBg0thSbqs
+	hLLjiHGKComVVQfgsr35UIVkT7lAps6w5P+r1V3uGWRdbUe4i0HCnuSOYwNVSMhg
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j105x6ucf-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 20 Nov 2026 08:39:12 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AK7o2hf821287;
+	Fri, 20 Nov 2026 08:39:12 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j17c53tp6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 20 Nov 2026 08:39:11 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AK8d7TK54001998
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 20 Nov 2026 08:39:07 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A98D820040;
+	Fri, 20 Nov 2026 08:39:07 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7BA0020043;
+	Fri, 20 Nov 2026 08:39:00 +0000 (GMT)
+Received: from [9.124.219.128] (unknown [9.124.219.128])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 20 Nov 2026 08:39:00 +0000 (GMT)
+Message-ID: <38f8999a-f3e1-486f-870b-25710462308e@linux.ibm.com>
+Date: Fri, 20 Nov 2026 14:08:59 +0530
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -122,35 +86,120 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3d156f7b5ec4f3d6f91e288a38f87d2368f1365f.1794980455.git.zack.rusin@broadcom.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/7] virt: steal_governor: serialize sampling against CPU
+ hotplug
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Righi
+ <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Ilya Leoshkevich <iii@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        K Prateek Nayak <kprateek.nayak@amd.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
+        Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt
+ <rostedt@goodmis.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-s390@vger.kernel.org
+References: <20261113184257.621707-1-ynorov@nvidia.com>
+ <20261113184257.621707-5-ynorov@nvidia.com>
+ <1556d3b0-1c89-4d3d-b9e5-5921c5c9158b@linux.ibm.com> <av8oy9v9eLTL0dw8@yury>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <av8oy9v9eLTL0dw8@yury>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: HnFjsIqIwCBqsOr4Q9IJZy_rWJ3MVT8X
+X-Proofpoint-GUID: EU1aD9gF691CJx3Y3rvSU-lxEX-zsZmT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIwMDAzMyBTYWx0ZWRfX4efz25aqZi5n
+ KJ2Z0MmKbBJ3Gp78pWeQdHzc7odjIdnz30YHPdG/v1Y/C8O5fspytaA4ZDRYsmc1DNqFypj+VSE
+ Bd+xDjl7ClMVNju47EvIVyGD8tM867K1K95qt4hx5tHFjO+uNN3gigcSqflB8OaEdXbYD8jRYL/
+ dQjp0D/uTBPbbSxQuZIyrf3ospzDBOtMiMKqhen/yaCfkBE7eWKgG+kXzFcusiTAXxHxMQxFGJ+
+ 2JUhrIvGGxoQgoK8yILvlrr9SeicEHhEKrCpGQwtCN5iQ+0ShHeWmzAsOZZU+0pYrAd0x6uRYmg
+ XRDOc+IW6ZPdWLJae6SkKBncdnhAMNijjd4AiwQ2FY98TLigqLDNK9WKUubV/a6G27kY15PhFgD
+ C1syVM8JnXI5A5IDm7swrRbjd4wQGpf9gD1de8hf7yZp0ReToc5tj8n4BIfdm9rOXBcSutLa5Ic
+ pvSZ8xvFN6/zDRKy4Jw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIwMDAzMyBTYWx0ZWRfX2XbEVjvM4F4a
+ rodQfY0nMEh9JSgaLa4gr1pr3PrJJEKE0mjmria5NXpB/pMxuoq22alKfBijC2mEJjCq2y7iTbt
+ gOT+mwwzWVLKD9Smyai7dhNsxhuKYwc=
+X-Authority-Analysis: v=2.4 cv=K+m3jCWI c=1 sm=1 tr=0 ts=6b000731 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=Ikd4Dj_1AAAA:8
+ a=VIC0OLWXFpzVDZgiAzwA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-20_03,2026-11-19_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611200033
 
-On Wed 2026-11-18 01:01:48, Zack Rusin wrote:
-> Some platforms set crash_kexec_post_notifiers so their crash handlers
-> run before kdump. That also runs every other panic notifier and kmsg
-> dumper before the crash kernel.
-> 
-> Add panic_notifiers_platform_list for platform callbacks that need to
-> run early and are safe while other CPUs are still running. Call it
-> from vpanic() before kdump and before stopping the other CPUs,
-> independently of crash_kexec_post_notifiers.
-> 
-> Also call it from __crash_kexec() if a crash kernel is loaded, since a
-> fatal oops can enter kdump without panic(). Call it before taking the
-> kexec lock, so a callback that panics can still enter kdump. Run the
-> list at most once, including when a callback panics.
-> 
-> Add disable_panic_notifiers_platform_list to skip these callbacks
-> when debugging panic or kdump failures.
-> 
-> Suggested-by: Petr Mladek <pmladek@suse.com>
-> Link: https://lore.kernel.org/r/ateYxCu63pRY9EGq@pathway.suse.cz
-> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
 
-JFYI, it looks reasonable from my POV:
 
-Reviewed-by: Petr Mladek <pmladek@suse.com>
+On 11/19/26 10:20 PM, Yury Norov wrote:
+> On Thu, Nov 19, 2026 at 11:52:19AM +0530, Shrikanth Hegde wrote:
+>>
+>>
+>> On 11/14/26 12:12 AM, Yury Norov wrote:
+>>> Steal governor is not safe against a concurrent CPU hotplug operation
+>>> because it can change active and preferred cpumasks during the governor
+>>> sampling.
+>>>
+>>> To address the race, the governor would take the cpus_write_lock(). But
+>>> that may be impractical for the loadable module.
+>>>
+>>> Instead, implement the following locking policy:
+>>>
+>>>    - if the code takes cpus_write_lock(), it's enough to write-access
+>>>      the preferred cpumask;
+>>>    - if the code takes cpus_read_lock(), it must also take
+>>>      cpu_preferred_mutex in order to modify the preferred mask.
+>>>
+>>> The core scheduler and hotplug paths already modify the preferred cpumask
+>>> under the cpus_write_lock(), so no change in core logic is required.
+>>>
+>>> This provides a common update protocol for multiple policy drivers
+>>> without requiring writers to take the broader CPU hotplug write lock.
+>>>
+>>
+>> This is also necessary if there are multiple writers outside of core hotplug No?
+>> So should it go with the write interface series?
+> 
+> The race is real, and it's already there, so this is the fix for an
+> existing functionality.
+>   
 
-Best Regards,
-Petr
+At current, if there is hotplug, core takes cpus_write_lock to modify
+active/preferred which makes governor to wait.
+
+If the governor is modifying the preferred mask it is taking the read lock
+which makes the hotplug core to wait before modifying active/preferred masks.
+
+And there are no other infra modifying the preferred mask.
+Could you please explain where is race currently?
+
+>>> Fixes: 27d47ebce4d6 ("virt/steal_governor: Implement steal_governor policy loop")
+>>> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+
