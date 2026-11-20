@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795134116;
-	b=CMXWnHToR4gMyZZwsy0DlU5JhR93PbroiLBYW+nFtJIWeBkNyzL61tdnUDuWSbjYZ6Km
-	 j6QV87DKVkhwr/TpGD8Akz1w04Su2qOEDZlRpOBUjGX34lfDNzGgSHGSi9jO6YTnp4VbQ
-	 oM5iezDzuBJ1f6AwqDuaN1DXC5xJRoFSkYyIy8pAINuYEHcH6LTJR5eP/n+b/ggP1LRry
-	 HSzV81gMbDujDI3C2/38PnhY7zS/V46F7zRVUGMH4KSHcUn7gSmSpA5bRT0YGs2huFwId
-	 rQnyFIe0NA98k5VO4o6Au7R3nklNF2CmDszex0zlUiceLOLD7v+6OtgLyNOlghdk3zA==
+	t=1795134604;
+	b=v2DS0cLQPKbrBG3it/V5Znm508kM1c8ySQDLi/Gcioa4ogvt1ae8bG0AToI7+7Tm4Gbb
+	 F2kv8uWd9g6g4i5p0axAOYuA/0CdtX5eu6NAIORIFxNxSZhS+QAeOwbtciHTOGd6aCo9d
+	 Y6P2RU20g5eRejaEkkwMykgEm61oYloGANt82xMXPcG0Z3kvlHrW+HiafK/ysHT3foMWh
+	 6Xja8OkgBQDetxDR7OXeVpxUSfQK7g+oUP8szzHQtNB6uWYH0ldfCnziRiqzNI2wkKNFL
+	 Yta9RZcXfuL7HpyDczCknsmJqb6W2/mhazlTMiNgvFYzJ4iQjBpG8aDxVB3bw3XI4+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795134116;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795134604;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=SsHavNkogIpI7nSHrLjpOauuyu7Lvjb2c0H5vhNetyI=;
-	b=QTlsr+XrYA1C8GPyNGM73wKIZAjftNR1NpY/oD3ZyqO9Fd1nm/fR0kc5P+6EUBE66B3S
-	 PXPwJqzfWhzaaW96qDTRh7/AO+peCixWbmC9q6Jd7swgbP+F/mJ88TCJBSu6EAy7ZPSRG
-	 qfNLSfc7y66YTLZGVUT1SG64saQ1KIVff2+JJrEzyV55iec+EG3OPiG+5xIw1bhJRPaaG
-	 Am9uiXHC/DePw83dvLRD6WELMjn3LvkyZsRS48gcIJ+pNvkC32yT++QYDKOtMcA5Mdap7
-	 tyw/YIWGQbAAJckZ+UqmLdf+zbDripXcQot6lxS3Dr7SU4ffHkvC1j00/zLgTyQhMHQ==
+	bh=spQYeU6542V64iaRZJYUdLSnSLYK38L77Q167Rmh7/I=;
+	b=rcgMF+fWo+FthC311pDMxnrwEmP2elyyF7rX7G6mRNLBfUL0XlAmsGBXqHa+V4cA98+W
+	 5JdWdZsUVEOXMib6FFO85yxxkZjdLsYnLPfgQ61bFUr7W7D+b+gS2p/n/lM9w+Wu1o+of
+	 Iv26zy6J+6+BfGxaE5wamS/wHt7gCAJLCUlv/nRTjD5dbxHxmInGzGMve7V1jUvX8Bo8i
+	 9w0qHw0s0crltE/e993draFBLFCA0tEd2MI7TGaYCasOsSJybhYUnxqS/VUtBLg5peCcf
+	 FxYWBCFMHTslffPRgrrBfiwEKxgqclOKljajDpJ+GPOsvsXDktxnlqhZq1LO3mR/7Jg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=efNG74z8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="bLm/MCFL";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D79606A33C;
-	Fri, 20 Nov 2026 00:21:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977E4606A32C;
+	Fri, 20 Nov 2026 00:30:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=efNG74z8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E57511F000CF;
-	Fri, 20 Nov 2026 00:21:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bLm/MCFL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B12AB1F000C4;
+	Fri, 20 Nov 2026 00:30:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795134115;
-	bh=SsHavNkogIpI7nSHrLjpOauuyu7Lvjb2c0H5vhNetyI=;
+	s=k20260515; t=1795134604;
+	bh=spQYeU6542V64iaRZJYUdLSnSLYK38L77Q167Rmh7/I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=efNG74z84LnywXEzj5pgJ+IsmYMxakE8hlwVWwV96UM4dTgGzigXWukNyTOQSor0u
-	 cCok2FZ2ub5Za2ZkRVaQ/ATtFWeTg+I4bztCKx+Jtu7op1cYhuyY9dbHqS2ayDahgO
-	 ScejRlZ7pqrZ9y717xpTdI9eks6feje9+y5tkFnqdNsfcQQImJT3KFVmKDo4KI8oCm
-	 AXAZJx9ZCgl6nuy+WqBcnjd/ralYnfKyvFv903tUk/w0Jirsy8bzacHzqMD3X6jaFX
-	 IROZuIW3H/gdGCZsd38rTYBqNKa/Aqa4jmq0huqsflA15NQBnZ0HdUcwR54BX5XSyw
-	 ESgAqicZPctwQ==
-Date: Thu, 19 Nov 2026 16:21:53 -0800
+	b=bLm/MCFLyl61eg8R9ubKDw53/mPhRc0aUoTOqic5Ongt+RE2EGkPf24KJsGYOBP38
+	 8fKO2+FVv+Y9WbQS/IHYuuf2O7byIf8qrDc4ogud9nb5R5r7gSFXs8gLHNIdP/Uv7Q
+	 zB7escgWn70lmZTG/sxWh9/4MzhZP4fY1JFYJx8KFhqCBsX0xBUjzL9arZSEi31W0D
+	 +zhIOA6R7T+L/5Mrr+9kB74pBA8OOreoKPr3Q3x2IutxfG34ysfsklPrPTbTKs+3/O
+	 k+GX0xOVAf8ANgJd6NnJte7esVlut+jBwVA2PxQPC/KW0rbqASgCYnr5pVSKv+/nvK
+	 u3YLIOiieiHHw==
+Date: Thu, 19 Nov 2026 16:30:02 -0800
 From: Drew Fustini <fustini@kernel.org>
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
@@ -72,11 +72,12 @@ Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
 	Zeng Heng <zengheng@picoheart.com>, linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org, x86@kernel.org,
 	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v12 1/5] riscv_cbqri: Add capacity controller core
-Message-ID: <av-SoU-qFbVqz6dn@thelio>
+Subject: Re: [PATCH v12 5/5] riscv_cbqri: Add CBQRI capacity allocation
+ platform driver
+Message-ID: <av-Uip0Yp4NGYGEM@thelio>
 References: <20261114-dfustini-atl-sc-cbqri-dt-v12-0-6ef1f627072d@kernel.org>
- <20261114-dfustini-atl-sc-cbqri-dt-v12-1-6ef1f627072d@kernel.org>
- <20261119000846.776930b3@jic23-hlaptop>
+ <20261114-dfustini-atl-sc-cbqri-dt-v12-5-6ef1f627072d@kernel.org>
+ <20261119000000.1b43ba35@jic23-hlaptop>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,117 +89,111 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261119000846.776930b3@jic23-hlaptop>
+In-Reply-To: <20261119000000.1b43ba35@jic23-hlaptop>
 
-On Thu, Nov 19, 2026 at 12:08:46AM +0000, Jonathan Cameron wrote:
-> On Sat, 14 Nov 2026 14:06:21 -0800
+On Thu, Nov 19, 2026 at 12:00:00AM +0000, Jonathan Cameron wrote:
+> On Sat, 14 Nov 2026 14:06:25 -0800
 > Drew Fustini <fustini@kernel.org> wrote:
 > 
-> > Add the core for RISC-V CBQRI capacity controllers: the register
-> > layout, the capability probe, and the allocation operations that
-> > program a capacity block mask for an RCID and read it back.
+> > Add a platform driver for CBQRI capacity controllers described in
+> > device tree with the riscv,cbqri-capacity-controller compatible.
 > > 
-> > A discovery layer maps the register block and describes the controller
-> > in a cbqri_controller_info descriptor. riscv_cbqri_register_cc() probes
-> > the controller from that descriptor and adds it to the controller list,
-> > which stays private to the core. The core owns the controller state
-> > after registration, so nothing in it depends on how the controller was
-> > discovered. The caller keeps the register mapping alive.
+> > The controller node points at the cache it governs with a
+> > riscv,cbqri-cache phandle. The driver maps the register block, looks
+> > that cache up in cacheinfo and uses its cache id as the resctrl domain
+> > id, so the binding does not need to carry a CPU mask. The controller is
+> > then handed to the CBQRI core, which probes its capabilities and decides
+> > whether to expose it through resctrl. Only an L2 or L3 cache is
+> > accepted, since those are the cache levels resctrl has resources for.
 > > 
+> > Nothing is vendor-specific and reg is the CBQRI register block itself,
+> > so any SoC that describes a CBQRI capacity controller in device tree can
+> > use the driver unchanged.
+> > 
+> > Tested-by: Chen Pei <cp0613@linux.alibaba.com>
 > > Tested-by: Zeng Heng <zengheng@picoheart.com>
 > > Reviewed-by: Zeng Heng <zengheng@picoheart.com>
-> > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
 > > Signed-off-by: Drew Fustini <fustini@kernel.org>
 > 
-> A couple more drive by comments.
+> Sorry, late to the game and pretty much a drive by review.
+> 
+> Still a few things below that will leave you with more readable
+> and probably less fragile code.
+> 
+> Jonathan
 
-Thanks for your attention!
+Thanks!
 
-> > diff --git a/drivers/resctrl/cbqri_devices.c b/drivers/resctrl/cbqri_devices.c
+> 
+> > diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_capacity.c
 > > new file mode 100644
-> > index 000000000000..5522872f5cc1
+> > index 000000000000..6f3d06c4f74b
 > > --- /dev/null
-> > +++ b/drivers/resctrl/cbqri_devices.c
+> > +++ b/drivers/resctrl/cbqri_capacity.c
 > 
-> 
-> > +
-> > +/* Read the configured CBM for closid on the AT half via READ_LIMIT. */
-> > +int cbqri_read_cache_config(struct cbqri_controller *ctrl, u32 closid,
-> > +			    u32 at, u32 *cbm_out)
+> > +static int cbqri_capacity_probe(struct platform_device *pdev)
 > > +{
-> > +	int err;
+> 
+> Noted in the ACPI patch that you can save some effort there
+> by a few tweaks that probably make sense here anyway.
+
+Yeah, I'll make the changes in this patch so there is less churn in the
+RQSC series.
+
+> > +	struct device *dev = &pdev->dev;
+> > +	struct cbqri_controller_info info = {};
+> > +	struct device_node *cache_np;
+> > +	struct resource *res;
+> > +	void __iomem *base;
+> > +	u32 rcid_count, cache_level, cache_id;
+> > +	bool found = false;
+> > +	int cpu, ret;
 > > +
-> > +	guard(mutex)(&ctrl->lock);
+> > +	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> > +	if (IS_ERR(base))
+> > +		return PTR_ERR(base);
 > > +
-> > +	err = cbqri_cc_alloc_op(ctrl, CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT, closid, at, 0);
-> > +	if (err == 0) {
-> > +		/*
-> > +		 * resctrl exposes the CBM as a u32 and cbqri_probe_cc() rejects
-> > +		 * ncblks > 32, so the mask fits the low 32-bit word of the
-> > +		 * cc_block_mask register.
-> > +		 */
-> > +		*cbm_out = readl(ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
-> > +	}
-> > +
-> > +	return err;
-> Unless this gets more complex in later patches I'd do
-> 	if (err)
-> 		return err;
+> > +	ret = of_property_read_u32(dev->of_node, "riscv,cbqri-rcid", &rcid_count);
+> > +	if (ret) {
+> > +		dev_err(dev, "missing riscv,cbqri-rcid\n");
+> It's a probe, use
+> 		return dev_err_probe(dev, ret, "missing riscv,cbqri-rcid\n);
+> same for all these paths.  Sure we won't defer but it does nice formatting
+> and tends to save a couple of lines every time!
 > 
-> 	/*
-> 	 * resctrl exposes the CBM as a u32 and cbqri_probe_cc() rejects
-> 	 * ncblks > 32, so the mask fits the low 32-bit word of the
-> 	 * cc_block_mask register.
-> 	 */
-> 	*cbm_out = readl(ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
-> 
-> 	return 0;
-> 
-> Just to keep error handling out of line and that
-> comment block less indented.
+> With the __free() magic, you can do this for all the returns in this
+> function.
 
-It doesn't get more complex so I will change it.
+Sure, will do.
 
-[..]
-> > +	/* The resctrl glue keys its domains on cache_id, one controller each. */
-> > +	list_for_each_entry(other, &cbqri_controllers, list) {
-> > +		if (other->cache.cache_level == info->cache_level &&
-> > +		    other->cache.cache_id == info->cache_id) {
-> > +			pr_warn("CC at %pa duplicates the L%u cache id %u controller at %pa, skipping\n",
-> > +				&ctrl->addr, info->cache_level, info->cache_id,
-> > +				&other->addr);
-> > +			return -EEXIST;
-> > +		}
-> > +	}
-> > +
-> > +	list_add_tail(&ctrl->list, &cbqri_controllers);
-> > +	retain_and_null_ptr(ctrl);
+> > +	cache_np = of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
+> Follow on from glancing at the acpi and then finding this elsewhere in my
+> inbox.
+> 	struct device_node *cache_np __free(device_node) =
+> 		of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
+> and drop all the goto iritiations.
+
+Will do.
+
+> > +	info.type = CBQRI_CONTROLLER_TYPE_CAPACITY;
+> > +	info.base = base;
+> > +	info.addr = res->start;
+> > +	info.size = resource_size(res);
+> > +	info.rcid_count = rcid_count;
+> > +	info.cache_id = cache_id;
+> > +	info.cache_level = cache_level;
+> 	info = (struct cbqri_controller_info) {
+> 		.type = CBQRI_CONTROLLER_TYPE_CAPACITY,
+> 		.base = base,
+> 		.addr = res->start,
+> 		.size = resource_size,
+> 	...
 > 
-> Common trick for this is something like:
-> 
-> 	list_add_tail(&no_free_ptr(ctrl)->list, &cbqri_controllers);
-> 
-> because it couples ownership passing with stopping the autofree
-> magic.  I'd personally only use retain_and_null_ptr() in cases where I need
-> to check for success of the ownership being handed off.
+> Might as well as you nicely set everything here.
+> It's more readable and also makes it clear anything not set
+> is zeroed without anyone having to go check the = { }; above.
 
-Thanks, I will use no_free_ptr.
-
-[..]
-> > +/**
-> > + * struct cbqri_controller_info - registration descriptor
-> > + * @addr:        MMIO base address of the controller's register interface
-> > + * @size:        size of the MMIO region
-> > + * @type:        controller type (capacity)
-> > + * @rcid_count:  number of supported RCIDs
-> > + * @cache_id:    cache id used as the resctrl domain id
-> > + * @cache_level: cache level (2 or 3) the controller backs
-> > + * @base:        mapped register block, which the caller keeps mapped for
-> > + *               the life of the system
-> Out of order documentation is unusual.  Why?
-
-No reason, I'll fix it.
+Good idea, will do.
 
 Thanks,
 Drew
