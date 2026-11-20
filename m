@@ -1,83 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.65
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795134604;
-	b=v2DS0cLQPKbrBG3it/V5Znm508kM1c8ySQDLi/Gcioa4ogvt1ae8bG0AToI7+7Tm4Gbb
-	 F2kv8uWd9g6g4i5p0axAOYuA/0CdtX5eu6NAIORIFxNxSZhS+QAeOwbtciHTOGd6aCo9d
-	 Y6P2RU20g5eRejaEkkwMykgEm61oYloGANt82xMXPcG0Z3kvlHrW+HiafK/ysHT3foMWh
-	 6Xja8OkgBQDetxDR7OXeVpxUSfQK7g+oUP8szzHQtNB6uWYH0ldfCnziRiqzNI2wkKNFL
-	 Yta9RZcXfuL7HpyDczCknsmJqb6W2/mhazlTMiNgvFYzJ4iQjBpG8aDxVB3bw3XI4+w==
+	t=1795134721;
+	b=m5TkA6/CFkVLtlh/YW1I0WEpPNm+NTOak+H2dY3IjFUZxgSZ0hvwZ1z6E8HqW4W64uQn
+	 RQdhdDF7J3A+QmW0NwzXesTfhtZYOaBGnZNnvQXZt2Wbi+UhnNkuXVyM7SfoiLr7FZ2G/
+	 9G+da4v98sR6l8Qnd2JYJZT3dZwXWJXWck43zSN9PILPbK+xsFZdgtsKpAXlmLUG5O1Za
+	 /XvhVTEyX2FlkkcNRNyzvFOv4TPWy/EgclAWmy99uZJpTr/pAmmPSlHTzi2tmKfYcSkjv
+	 gNH1XNNjLxWWcgmTH5lRPEgzP9WNiPFWkcZy/TXqaD/lhaED08kyQrSspIb+wyK4OoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795134604;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=spQYeU6542V64iaRZJYUdLSnSLYK38L77Q167Rmh7/I=;
-	b=rcgMF+fWo+FthC311pDMxnrwEmP2elyyF7rX7G6mRNLBfUL0XlAmsGBXqHa+V4cA98+W
-	 5JdWdZsUVEOXMib6FFO85yxxkZjdLsYnLPfgQ61bFUr7W7D+b+gS2p/n/lM9w+Wu1o+of
-	 Iv26zy6J+6+BfGxaE5wamS/wHt7gCAJLCUlv/nRTjD5dbxHxmInGzGMve7V1jUvX8Bo8i
-	 9w0qHw0s0crltE/e993draFBLFCA0tEd2MI7TGaYCasOsSJybhYUnxqS/VUtBLg5peCcf
-	 FxYWBCFMHTslffPRgrrBfiwEKxgqclOKljajDpJ+GPOsvsXDktxnlqhZq1LO3mR/7Jg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795134721;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=6I0dox9mdYstBqG9ky0WjIUXtlB7TLrMdzBHbsE5LOA=;
+	b=AegjhTcRiA7n53ruQNFOyBTImhwAd4bkkM6+fJVmQs6tXtAJIqOFZPqEhVegzJT9qQeG
+	 xPurHwWlj2LBn1y2KvJAfj+8wZFeLObB7YAp4gprAJFHd49TNutazIZZl7GdwE7ltPBLz
+	 NJqyeDWXf5t8TndDkq/qGT/K1vSm4FLWBC7OsuE8WVBCAiMQmDZr3sMqgQVyfmdisUy36
+	 PXB+HSmidj1X4kHV9O43KKdLGwHzR9bp3XDcmrNZUNi8nkNbPxYqdxpkXDL1hWkzWny17
+	 11uKCZ6WJnhWqDT7+BbFPvwcmhpMslUpoEXl7j1nuBAEHNrcxfIS3VOZffeimLljMoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="bLm/MCFL";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=glVrkyNI;
+	arc=none smtp.remote-ip=74.125.82.65
+Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977E4606A32C;
-	Fri, 20 Nov 2026 00:30:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079AE606A330
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 00:32:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 079AE606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bLm/MCFL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B12AB1F000C4;
-	Fri, 20 Nov 2026 00:30:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795134604;
-	bh=spQYeU6542V64iaRZJYUdLSnSLYK38L77Q167Rmh7/I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bLm/MCFLyl61eg8R9ubKDw53/mPhRc0aUoTOqic5Ongt+RE2EGkPf24KJsGYOBP38
-	 8fKO2+FVv+Y9WbQS/IHYuuf2O7byIf8qrDc4ogud9nb5R5r7gSFXs8gLHNIdP/Uv7Q
-	 zB7escgWn70lmZTG/sxWh9/4MzhZP4fY1JFYJx8KFhqCBsX0xBUjzL9arZSEi31W0D
-	 +zhIOA6R7T+L/5Mrr+9kB74pBA8OOreoKPr3Q3x2IutxfG34ysfsklPrPTbTKs+3/O
-	 k+GX0xOVAf8ANgJd6NnJte7esVlut+jBwVA2PxQPC/KW0rbqASgCYnr5pVSKv+/nvK
-	 u3YLIOiieiHHw==
-Date: Thu, 19 Nov 2026 16:30:02 -0800
-From: Drew Fustini <fustini@kernel.org>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Peter Newman <peternewman@google.com>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <radim.krcmar@oss.qualcomm.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sunil V L <sunilvl@oss.qualcomm.com>,
-	Tony Luck <tony.luck@intel.com>, Weiwei Li <liwei1518@gmail.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
-	Zeng Heng <zengheng@picoheart.com>, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, x86@kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v12 5/5] riscv_cbqri: Add CBQRI capacity allocation
- platform driver
-Message-ID: <av-Uip0Yp4NGYGEM@thelio>
-References: <20261114-dfustini-atl-sc-cbqri-dt-v12-0-6ef1f627072d@kernel.org>
- <20261114-dfustini-atl-sc-cbqri-dt-v12-5-6ef1f627072d@kernel.org>
- <20261119000000.1b43ba35@jic23-hlaptop>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=glVrkyNI
+Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-1aefd1bf74aso213745c88.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 16:32:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795134720; x=1795739520; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6I0dox9mdYstBqG9ky0WjIUXtlB7TLrMdzBHbsE5LOA=;
+        b=glVrkyNIyYlm8wVTiuLIn+1R/pE2V9VJN825nkjbnVE7DzI/tklr0XR6PDNFu1OUjc
+         A6P3ZfTwHJQxiHAjmoK4SpQIdS8Ir/katd03VOBvE+4swUu2oA+8IkTyyok1Pjj9/pPY
+         jRHRWeNYDZ3yM5EUWHx+RVw95l+YNdToEWVWMBlDmJCQ5nDUi+lZAkU6M+KCBd+2W1HW
+         fToXfkJkp8+luUW1MITx+x0oH3VnjO0S4X/xzsL89lshkI/VzuYPu9YudzfVuvXLiO7a
+         PI2e6DkQIuvL5sJxpbyOQ9dBGmqKQnp3LSWMA4iJOQsw2EYyE1DA6dSJBL+RP9i6HuS0
+         6Qlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795134720; x=1795739520;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=6I0dox9mdYstBqG9ky0WjIUXtlB7TLrMdzBHbsE5LOA=;
+        b=zuIghfv43hUSALKTSGmo9DYtHDo5HrxrxMprSo2Q6ISkUN/dM8r/81cWV14G697JtY
+         EuLlgBDHDNmScc1Q64bpOzJZ6djUekjG7l0FMBcFe0GNJoh4KB5Y4+AE9ZTQCxxgLG6J
+         +JpYZ59h53RU0DcROFQzfc9Vr4Uu6OgK4YqJtre0H2C2wAG1jw5GFYz5xIuCLk8IgktQ
+         OKnQ3Hwhlrx/hLAsrJ6htBQuoB/72DBQ8cnV1IFanBlZr8+wqwipwKOHQ59VAXWOVT2f
+         z3LENaJoIh90HgV9uF217ijI1uDvRqWSAjOGezvNPZ8vywy9YHYmJVLJbY7NAmcc2WKA
+         FSew==
+X-Forwarded-Encrypted: i=1; AL+hErEBYsgNpls2r7gC18Y5EkbYwisfqDTQWMaxUMucHVmn7obVH1T2Vz3nousy3zwF6yp8FQ3EZ0oAXQI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8v6DRQJYaWFLZdgwunj36pS2Of70AOBOulcvqomalkb7EPz2W5
+	NNProvboat5FYMAVa5R7HqMojpZCdqbTkA5Bc3An7Xw/vb1cgacOmeEe
+X-Gm-Gg: AYBFou0Yj+3rXQ70XqPTDgYcy44AriSv8lCSUyjxiEmkvmxgXFUWpb9XLOTlan4vCxL
+	S8h0WvRHTGOjE/2B1XV9uL6X6z2Ad4wfuBByJxh6pkrEU/U0Ed2769XGg/1tr1zQn5XrgCXapES
+	DNBva2Q7zGQf31ia8VIGa28zs8ayy08cdtPEwCJ5AOamHdz1FHJZV25nv90gq95/Dbo+Pj9y+aX
+	JyBfEgz3Cn/7wSurOE97xh6XGEpll0bwFeR6bkx9pPmrkrp4O8R+1cPTqTT9/9QPQNkvWibHYhX
+	pgF0s+QSiPMz06sRGnj3mdNp6FfLSdGmXljFv3ADAMh78pU16VLCkj3Ly0gRTgCvvy6e+/SD6J7
+	FeAsABk/E05vbWogBnIDw56tNbtXNhQhGv9MzByR2hX/4c4DIcPRbVAB8KLxSK7wfriNeyDNvQz
+	inwUvjTuBwjYBjEGrTvFjN1tXvn7oHV39RJF4u6l0UT3URsoDZ3ttbsd2V0EBStw3uuepZq+WE5
+	h3ROrRJK+6VmXensznJmQGVRsOzBOHOWa8eVPyO4VdVHa6SVBIVFOV5pMUL0u0ppZVuU9Lprkeg
+	fCqm4r2oHUMYT7z4R5vUiRU=
+X-Received: by 2002:a05:7022:7f19:b0:19f:cc98:f603 with SMTP id a92af1059eb24-1b5520d7d86mr2448430c88.1.1795134719982;
+        Thu, 19 Nov 2026 16:31:59 -0800 (PST)
+Received: from localhost ([2a03:2880:9ff:42::])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b55681301asm2242124c88.8.2026.11.19.16.31.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 16:31:59 -0800 (PST)
+Date: Thu, 19 Nov 2026 16:22:53 -0800
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexander Duyck <alexanderduyck@fb.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org, 
+	bpf@vger.kernel.org, Simon Horman <horms@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, kernel-team@meta.com, 
+	John Fastabend <john.fastabend@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
+	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>, Weiming Shi <bestswngs@gmail.com>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, 
+	Bobby Eshleman <bobbyeshleman@meta.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, io-uring@vger.kernel.org, Mina Almasry <almasrymina@google.com>
+Subject: Re: [PATCH net-next 1/7] bpf: Keep XDP helpers within readable data
+Message-ID: <av-SmgwQhAKI5u5P@devvm16445.scu0.facebook.com>
+References: <20261117164700.2157816-1-bjorn@kernel.org>
+ <20261117164700.2157816-2-bjorn@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,113 +114,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261119000000.1b43ba35@jic23-hlaptop>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261117164700.2157816-2-bjorn@kernel.org>
 
-On Thu, Nov 19, 2026 at 12:00:00AM +0000, Jonathan Cameron wrote:
-> On Sat, 14 Nov 2026 14:06:25 -0800
-> Drew Fustini <fustini@kernel.org> wrote:
+On 11/17, Björn Töpel wrote:
+> Devmem and io_uring zero-copy RX put payload in fragments that the
+> kernel cannot read. XDP helpers must not treat these fragments as
+> normal pages.
 > 
-> > Add a platform driver for CBQRI capacity controllers described in
-> > device tree with the riscv,cbqri-capacity-controller compatible.
-> > 
-> > The controller node points at the cache it governs with a
-> > riscv,cbqri-cache phandle. The driver maps the register block, looks
-> > that cache up in cacheinfo and uses its cache id as the resctrl domain
-> > id, so the binding does not need to carry a CPU mask. The controller is
-> > then handed to the CBQRI core, which probes its capabilities and decides
-> > whether to expose it through resctrl. Only an L2 or L3 cache is
-> > accepted, since those are the cache levels resctrl has resources for.
-> > 
-> > Nothing is vendor-specific and reg is the CBQRI register block itself,
-> > so any SoC that describes a CBQRI capacity controller in device tree can
-> > use the driver unchanged.
-> > 
-> > Tested-by: Chen Pei <cp0613@linux.alibaba.com>
-> > Tested-by: Zeng Heng <zengheng@picoheart.com>
-> > Reviewed-by: Zeng Heng <zengheng@picoheart.com>
-> > Signed-off-by: Drew Fustini <fustini@kernel.org>
-> 
-> Sorry, late to the game and pretty much a drive by review.
-> 
-> Still a few things below that will leave you with more readable
-> and probably less fragile code.
-> 
-> Jonathan
+> Reject operations that read or write these fragments. Access to the
 
-Thanks!
+[..]
 
-> 
-> > diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_capacity.c
-> > new file mode 100644
-> > index 000000000000..6f3d06c4f74b
-> > --- /dev/null
-> > +++ b/drivers/resctrl/cbqri_capacity.c
-> 
-> > +static int cbqri_capacity_probe(struct platform_device *pdev)
-> > +{
-> 
-> Noted in the ACPI patch that you can save some effort there
-> by a few tweaks that probably make sense here anyway.
+> linear part still works. Tail trimming does not read the payload;
+> clear the unreadable flag after it removes every fragment.
 
-Yeah, I'll make the changes in this patch so there is less churn in the
-RQSC series.
-
-> > +	struct device *dev = &pdev->dev;
-> > +	struct cbqri_controller_info info = {};
-> > +	struct device_node *cache_np;
-> > +	struct resource *res;
-> > +	void __iomem *base;
-> > +	u32 rcid_count, cache_level, cache_id;
-> > +	bool found = false;
-> > +	int cpu, ret;
-> > +
-> > +	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-> > +	if (IS_ERR(base))
-> > +		return PTR_ERR(base);
-> > +
-> > +	ret = of_property_read_u32(dev->of_node, "riscv,cbqri-rcid", &rcid_count);
-> > +	if (ret) {
-> > +		dev_err(dev, "missing riscv,cbqri-rcid\n");
-> It's a probe, use
-> 		return dev_err_probe(dev, ret, "missing riscv,cbqri-rcid\n);
-> same for all these paths.  Sure we won't defer but it does nice formatting
-> and tends to save a couple of lines every time!
-> 
-> With the __free() magic, you can do this for all the returns in this
-> function.
-
-Sure, will do.
-
-> > +	cache_np = of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
-> Follow on from glancing at the acpi and then finding this elsewhere in my
-> inbox.
-> 	struct device_node *cache_np __free(device_node) =
-> 		of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
-> and drop all the goto iritiations.
-
-Will do.
-
-> > +	info.type = CBQRI_CONTROLLER_TYPE_CAPACITY;
-> > +	info.base = base;
-> > +	info.addr = res->start;
-> > +	info.size = resource_size(res);
-> > +	info.rcid_count = rcid_count;
-> > +	info.cache_id = cache_id;
-> > +	info.cache_level = cache_level;
-> 	info = (struct cbqri_controller_info) {
-> 		.type = CBQRI_CONTROLLER_TYPE_CAPACITY,
-> 		.base = base,
-> 		.addr = res->start,
-> 		.size = resource_size,
-> 	...
-> 
-> Might as well as you nicely set everything here.
-> It's more readable and also makes it clear anything not set
-> is zeroed without anyone having to go check the = { }; above.
-
-Good idea, will do.
-
-Thanks,
-Drew
+I guess this is technically true, but why allow it at all? Easier/safer
+to reject tail trimming as well?
