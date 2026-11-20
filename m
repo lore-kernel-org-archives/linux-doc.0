@@ -1,82 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795185378;
-	b=4rsm1foqnkpu+T54GblDZWTH64ZsrcvUp+CzjnhT85jZVkSUX3w8uZrU1cv4NonVLLWz
-	 xAjZ3b+KMOLRa9As7hWYgrkzwJWCbB7M1ejM0uMpBwuRjL0Crr6O6498CG1HW7hq3Hd9x
-	 YpQ1Sp//bdqpRH7uSK63qsRZIya68IbZUiY4ZmqIu1+xCZPtzrxQn+FNZkdDWrARGNZOl
-	 FoiAUSS7g332dcXjghKXNwD9lHjNXbp49wIqhOFf+iDeXYzquF8C7UHZiCooTnIbRXcUP
-	 0vSqWs6GHbYch4sB8KSc+STuL3Qobx8vfKzZpTbv2kE139CfL4+20glcVgRkyJrMxkA==
+	t=1795185792;
+	b=4wYd+/+PALPlH44XIkzBAKkZdmdpz2c1+1aa9HAxQmMaiPl/LMwxuzjDZjtCxou3A55r
+	 uPI0wa2HGELZJgTUj86jPqqFm4UW/RNHO9yfd+jy2kiCST7iIuy2gbC/7UnbP/b9NwSl5
+	 I+I6MjvXXT0S8MyCEuhT8buWbCdqsas5mPUTaM8lfRN7nBM3PZ/LAp9ZIpWrzo96b7DnL
+	 jlfjabsABKbY1Q3v0bc6Cp2ffUbbKdw8Aa1UY7h0F58Ve1jynSTWoqJTws5xWkYeZ/UKB
+	 6DnHfm4d67rIm5r7QAU72qhdu3F+wOJH0QDIDARqy2oB8vQ9etq4VWcfYEU0odfd/ow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795185378;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=aMOyn5lZK8F+FC2nwU9eJQ2Ic0u6hcRi/jhTZjj9Mvk=;
-	b=SXbV2UmOan9DT0ZkCT6fAX+8M0In42eG3MPoqKJ+Ti/EbDZ0BdKuqYlaRxcHqj3qFZIE
-	 WV6Ps4CHTkT3rTdg3CHME/D6b+qbbdfTqC4qpAnK/+lfUWG4ufGlI2edMJRqFguDfYVPb
-	 2gB/hB7w/rjY/2kNKnldwKkgdfdXUjbbHXWDIVkHVDGMM+Y5a4x8SnjFWrxvZ9BBqIDLl
-	 0sOq4mXgnAy9zqBpdagCR/hBZkiEJ/3oCH+fvFwBq8wd6MGKjERet6tWJAsr/QlTE+4Vj
-	 gemtetjuOGn4Q2VMRTuL3ViAlXNlsDQ2aZR7hnKcsJ0o5x4VeyGi1qKekJG7bimU8Yg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795185792;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=yixQ1SGo4cJcxPp4lugRtTsKJNeATESWf0Ug1fQZCEk=;
+	b=GEZVE+Wkn25gwwghXiEhAhCvYg7bPG6aU5N5PzVDVFabW9CjmTYFTSPPff6z5mZroBXS
+	 jllZw+3vDfFvXNTQauTVCp5tBZh4X7TMxwLpvSsl7tfSPsAoaqZkQetcgo9troP7qkHfc
+	 vkYlnOq4x0mFyByl3xCjT4yUmRs57Ik+uKpAyWkFXt1Ez4MVg7dtSevlEvybC15LGgm1d
+	 uMVZH5iR2RHJGotWKAbhg54w44BAbEVTiVhThJDpyzc5RHiNsf42zs4AwRWdvslvzkCEf
+	 ybeuFmrZjC9tVmt8cUhBUl/+sBQLXQ0YhFfl/fhPcytiGUuQkZNSMQUgre7G34tA1+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="RF/8DK12";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=jV4rBBtu;
+	arc=none smtp.remote-ip=95.215.58.11
+Received: from mta1.migadu.com (out-11.mta1.migadu.com [95.215.58.11])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BA5606A320;
-	Fri, 20 Nov 2026 14:36:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC37606A320
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 14:43:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ADC37606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RF/8DK12
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 634851F000CA;
-	Fri, 20 Nov 2026 14:36:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795185377;
-	bh=aMOyn5lZK8F+FC2nwU9eJQ2Ic0u6hcRi/jhTZjj9Mvk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RF/8DK121mnm1zavjVGPB5fyWIqpsPt3RkMcjQSO7nVuLPyzhULSY7VJ8tgWd92Wp
-	 m5/EkyNoU7Wy4FnigM6acB0fR/zU0d3cp8AC20ZBhGM89M7sbu+VtMLyw7smiDGJ7o
-	 qmEKeFVaAhuRrAiQ+TtwLA1QhlytBk+Rsa/JEFprCx9SYgRIT8gVSpAjDxclmIO0rp
-	 GLaWW4nrUAxaPB1Jp2uViccsPQI9r+3tNEFsHjAkkI8hAsb+Y/lNbK9SIufkMhzsWe
-	 1kZV6p0c5oYrljsBgA65aUmPYzUz4Xzgg/0LNXnoqGa/PAie0cI8Ui6afRuhiln2Dv
-	 Hox4znu0xNXxQ==
-Date: Fri, 20 Nov 2026 14:36:06 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Luigi Rizzo <lrizzo@google.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Jens Axboe <axboe@kernel.dk>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, Harry Yoo <harry@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, Matthew Wilcox <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Simon Horman <horms@kernel.org>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Christoph Hellwig <hch@lst.de>, 
-	Dragos Tatulea <dtatulea@nvidia.com>, Naman Gulati <namangulati@google.com>, 
-	Pranjal Shrivastava <praan@google.com>, Mostafa Saleh <smostafa@google.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, iommu@lists.linux.dev, 
-	netdev@vger.kernel.org, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-api@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v3 00/25] PISA: Pre-mapped IOVA Superpage Allocator
- for DMA and CoCo
-Message-ID: <awBaxljohIuCg-UY@gremlin>
-References: <20261109182533.3594984-1-lrizzo@google.com>
- <20261120010655.467825-1-lrizzo@google.com>
- <20261120135013.GO3115493@ziepe.ca>
- <CAMOZA0LmZ9PFzxLcc1SuS8piFyZu6P=vX_qR2jy-3QRUoNCUKA@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=jV4rBBtu
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=S7L6rbBejoaXnnbji1W9tw5YAp0Tvh6lqzaVd2kGCDU=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795185789; v=1; x=1795790589;
+ b=jV4rBBtuVGOreffVn71CuRK5Wz3jW35aQQVz2tlpPhXw2vdxa4GRI//4zfFzzEP9y1Ya2VqA
+ LuuXZKdvtC+c3IOa9qA9j57zQ8zqeUquXBEowY2JDtL8GopurDzK6rUoU5pfV2KgvtrsiW2Wi3h
+ 0lSNl1HNQIAUJRwaYTTa+Ggk=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 8ce2be2b52f1686f;
+	Fri, 20 Nov 2026 14:43:09 +0000
+X-Mizu-Trace-ID: 8ce2be2b52f1686f
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <2909361d-d4d2-4f7e-9754-ec0f5dc5bbd3@linux.dev>
+Date: Fri, 20 Nov 2026 22:43:01 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,54 +58,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: Add core-api/irq managed_irq Chinese
+ translation
+To: Zixin Wang <w1355457260@gmail.com>
+Cc: linux-doc@vger.kernel.org, alexs@kernel.org, si.yanteng@linux.dev,
+ dzm91@hust.edu.cn, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ Chao Liu <chao.liu@processmission.com>
+References: <20261119103147.112197-1-w1355457260@gmail.com>
+Content-Language: en-US
+From: Zenghui Yu <zenghui.yu@linux.dev>
+In-Reply-To: <20261119103147.112197-1-w1355457260@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMOZA0LmZ9PFzxLcc1SuS8piFyZu6P=vX_qR2jy-3QRUoNCUKA@mail.gmail.com>
 
-On Fri, Nov 20, 2026 at 03:19:34PM +0100, Luigi Rizzo wrote:
-> On Fri, Nov 20, 2026 at 2:50 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Fri, Nov 20, 2026 at 01:06:30AM +0000, Luigi Rizzo wrote:
-> > > This is v3 of the RFC previously posted as DMA_PMD [0], now renamed PISA
-> > > ("Pre-mapped IOVA Superpage Allocator"). The text below follows
-> > > Documentation/core-api/pisa.rst (patch 25/25), which has the details.
-> >
-> > I thought the conclusion was to just do this stuff in netdev pagepool,
-> > now you come with an enormous AI series spread across the entire
-> > kernel?
->
-> There were surely comments claiming nothing outside net/ cares or needs this.
->
-> I respectfully disagree, witness is the fact that e.g. there was already an
-> io_uring proposal which is smaller, but does not address applications
-> that want to use the standard disk I/O paths (libaio, buffer cache etc)
->
-> Nothing has changed from the initial series in terms of size, use cases or
-> subsystems involved. Large files are placed where they should,
-> the series covers the same three use cases (disk, network, CoCo), and
-> touches three parts which it has to touch: mm (most of it; it is a
-> memory allocator
-> extension after all), dma (it hooks into map and unmap, not a large change)
-> and net (the pagepool change is a couple of lines; the tx path needs to
-> touch more places because the current stack assumes all paths have
-> the same I/O requirements).
->
-> For CoCo, there are very fine grained controls so the bounce buffers
-> can be enabled only when they don't pose a risk, which in turn
-> depends on the threat model.
->
-> Specifically, for network tx buffers or disk writes, the user-to-kernel copy
-> is basically a bounce buffer provided it is used correctly and not leaked
-> elsewhere (which is the design; of course the implementation
-> needs to be verified and possibly fixed so that it matches the design).
->
-> cheers
-> luigi
+Hi Zixin,
 
-NAK.
+Thanks for your effort.
 
-Cheers, Lorenzo
+On 11/19/26 6:31 PM, Zixin Wang wrote:
+> Translate Documentation/core-api/irq/managed_irq.rst into Chinese
+> and add it to the zh_CN irq toctree.
+> 
+> Update the translation through commit bb6a85b4b652
+> ("Documentation: Add managed interrupts")
+> 
+> Signed-off-by: Zixin Wang <w1355457260@gmail.com>
+> Signed-off-by: Chao Liu <chao.liu@processmission.com>
 
---
-Cheers, Lorenzo
+You should use the Co-developed-by/SOB pair if Chao Liu is a co-author of
+this patch, and put your own SOB after it. See
+
+https://docs.kernel.org/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
+
+> ---
+>  .../translations/zh_CN/core-api/irq/index.rst |   1 +
+>  .../zh_CN/core-api/irq/managed_irq.rst        | 147 ++++++++++++++++++
+>  2 files changed, 148 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/irq/managed_irq.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/core-api/irq/index.rst b/Documentation/translations/zh_CN/core-api/irq/index.rst
+> index ba6acc4..7951d69 100644
+> --- a/Documentation/translations/zh_CN/core-api/irq/index.rst
+> +++ b/Documentation/translations/zh_CN/core-api/irq/index.rst
+> @@ -20,3 +20,4 @@ IRQs
+>     irq-affinity
+>     irq-domain
+>     irqflags-tracing
+> +   managed_irq
+> diff --git a/Documentation/translations/zh_CN/core-api/irq/managed_irq.rst b/Documentation/translations/zh_CN/core-api/irq/managed_irq.rst
+> new file mode 100644
+> index 0000000..366320e
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/core-api/irq/managed_irq.rst
+> @@ -0,0 +1,147 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/core-api/irq/managed_irq.rst
+> +
+> +:翻译:
+> +
+> + Zixin Wang <w1355457260@gmail.com>
+> +
+> +.. _cn_managed_irq.rst:
+> +
+> +=============================
+> +亲和性托管中断（managed IRQ）
+> +=============================
+> +
+> +IRQ core 支持按指定 CPU 亲和性管理中断。
+> +正常运行时，每个中断关联到某个特定的
+> +CPU。如果该 CPU 离线，中断会被迁移到
+> +另一个在线 CPU。
+
+I think the length of each line is unnecessarily too short.
+
+Thanks,
+Zenghui
