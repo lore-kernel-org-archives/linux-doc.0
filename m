@@ -1,100 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795148336;
-	b=m6QjhV07Zo6H43dNHEFlsyngmWDhPWRtxShgwqYcwAEWRoe9a8zasqh6onjArV+sZjW5
-	 qKgKMQQ6A3P+iXaGcShg4E87QBvoy8aKM+gOMfnVIrqfxP20FELP3n0sxryg34AE9DEMk
-	 YJSnLX87vZUUJLn4kSQ7AcLBJ9rNaaf6hqVWJ3kezkuyty3HLoMAlw6bte5xBlQF6NIVX
-	 rnCiyY0oBRNrHYUL/9REdN80FPlh/2fFxGz5iIxo0iZyEK7eWn1gZnIBHhwK2O2Tyresc
-	 jwMvin3n8tfASF5ijKyjC0plO66HPhrMz+PsKYn77+vmGoQrD6mchJkwC3b0mHP2ORg==
+	t=1795148367;
+	b=1J+fIqxc/25OOLLRrCNmlJzDAj479HZC609EuRXBJk/uXnB/G8ZcTTzr3Tmmc+nxdB5G
+	 qm4l5/RBnJSCRR0Dpcgj2iKpN8dsntwUF4ANU/M8ND0INwFFRkRXQwP8x8u0WUecqU9TF
+	 kwmj1S36Gn5Z3qQp329Wp/j8SZgdEWYc/Bq6WPjblVuHorb/TLJbTbWmk7ZmBTe5BXnVS
+	 7XTYCjxm9Nrm2EcPWOtftBLqRDxFEloZk5jid276PoozeeJ9lvrN2Ob3e/k7m/HtjivN1
+	 emI6uFlBT2BTMnxBxz05xtqrRCYd9XLQwsZDQS2ZvuSpbssABs6FgEwDBgSK9dw8JjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795148336;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795148367;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
 	 In-Reply-To;
-	bh=GoctuigbNiAnWryXvwISlMEIatHJNqn5fsJYaXm74a4=;
-	b=VOsHGPVqB0SXJKHf8c/DLMcE4nCUa1Z+kQY5JVODDhoKepMaKcUh0OBOWXq9Ab7gsd6K
-	 Co3PD6TwFeSZZ2nDorPDS6AbeeGzNuA4grESvt0PAbv4KotUgzIXG6tllgLsduOR9iaLJ
-	 c1V1Nshslwd/C+N7Rt37MBGVwWvPd0f752OYocWZnv4c7jF6CPVJpIUVm0PkDqExGKbny
-	 dfueMLU7fviTAOVl6Kr0m3RdajPPu3Rww4vPP9WyGs3QCDtK1hfi9vIi7Byya0VsiAX60
-	 LQhd/0eZT4QXPhhIq+lhjDNgH6FBMM8X8mWCDylbmi8o5WOA/8v9fWID/tpazJWQbLg==
+	bh=MU5DDe8WPNLGbF0itjuTQ81vCKFzjS+1XQz059WZL8I=;
+	b=gqo4GpoUU1CjryNGvS7wYYmX1vJ+dW8CG8kQKYFG/zrVqxMLSuwgTmP38+STRgCP9pox
+	 jWHj+6OjNVbpTDz/7kH98Ojt5310IZfRDfdgPXDER5uTHIKzTfnlMVBPsEYVfOxbMfET+
+	 BMarqJx6oVM9f/+PtJq+kEixcrB2s1jCGM61QH7MdWmgrfKlmRpRQ7H4zlfq8KO0bQ5v0
+	 5sf8EXBDrvaIEb+fBl/2O47P7hP035mDDVx+mHAkUpj49Jj1YEYM3r9Yu+1glzvWo7rQp
+	 T+ghzPSr8Xjug8d4/qOeLq45Jo9xDOAPAUh/TfXg9uNm9xSyXOFhfUHJv71OiqfehFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=furiosa.ai;
 	spf=none smtp.mailfrom=furiosa.ai;
-	dkim=pass header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b=R79rMX9j;
-	arc=none smtp.remote-ip=74.125.82.181
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	dkim=pass header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b=aZXTfAqU;
+	arc=none smtp.remote-ip=74.125.82.171
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9728F606A325
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 04:18:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9728F606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C6F606A330
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 04:19:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28C6F606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=furiosa.ai
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=furiosa.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b=R79rMX9j
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-382c3c9671fso620937eec.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 20:18:55 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b=aZXTfAqU
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-380b40319bdso571739eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 20:19:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=furiosa.ai; s=google; t=1795148335; x=1795753135; darn=vger.kernel.org;
+        d=furiosa.ai; s=google; t=1795148366; x=1795753166; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GoctuigbNiAnWryXvwISlMEIatHJNqn5fsJYaXm74a4=;
-        b=R79rMX9jAIbY3l24RYhsHohcbTEPZTYKkHbGMYGnZ/bWlF/zc/5Kh7Slr16XUR0HTn
-         JajM6CowSPGaG8/xcG9KzpcInnmAKlIgIuBemo+kt1KVGURcpXqP4dY0Rdz/9RR/8gv7
-         G49fanF1+dccAI4lbUHP6vPzONYh8+iRYnXrk=
+        bh=MU5DDe8WPNLGbF0itjuTQ81vCKFzjS+1XQz059WZL8I=;
+        b=aZXTfAqU0L8p0w00l2jFW19n66QNVhWySfhA0SY7bf3a6UZRLlN68vzHGzolYo95cG
+         HLIvYxsN8du7bkAAMWKrlwb/eYZ1IRjHQ8laCDLtwacn3CBOaTA5ahJP1q+Yv6UVeKQA
+         rrtYcUHLXdSlhG+5v2fzUxjfXZjQ5GU1ceCQQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795148335; x=1795753135;
+        d=1e100.net; s=20260707; t=1795148366; x=1795753166;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=GoctuigbNiAnWryXvwISlMEIatHJNqn5fsJYaXm74a4=;
-        b=smtEKCeAYNuj9VNrRhlH3EQOPpV0mgbv+z4qFvo7KUDwYN8CJUdPj1NyYjOfS1GU70
-         VqnKY1pxsDhIN6x5WLfh0KG2rF+YY1YrH1bKhKxdZeAqujaf+7eGqR6S4wj3MaxciHCv
-         b2qrUaaU2dxbLi/V5FfSve4giR3eMYHcYNwRKhaGbiPKWFUTGxdIXRqLAwPHi7+HWVkd
-         hqhmYWKpCw2VBz71mdWi7AMi7t5V5lneN4HFmozetdQEIPbzACoK12FBVUBHyKQggLtA
-         PKfAE3WeAnFf+OsK/1Ia8tdQ0nMLyPcAP2tdmK74wt7Ifzvpi4kgh9wJOIZWwyw9x8lv
-         sa7g==
-X-Forwarded-Encrypted: i=1; AL+hErH3c7moqyxsDNbKQrdlTj3WYEjX4arksPP05HTNdIULDWu5Nfp3sTK+gD4zUifqs7S97XMURcVHutw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8TGnZYhq7ZYbmPFvT1r2OsrmWpt8dlkZHAzoSZuFSE4XQaqpZb
-	6leM3Rb6nz0+7OOHsbqk4wgT8xvDi9ZgZv3lvU73xer1u1CBx7QJv5N4WTMZXUuiNIY=
-X-Gm-Gg: AZFdTZduMu4/rx9UWVezmUMMNAbom1hKTkph14vFZwTrgeagfqQ4i4xpy8MqMAmuMQ7
-	6kavSrvgGQkcHqys2dJsKmEbi/WXvxvZDSWm2tbRJrnuY0hSklrsb3QbPZ41cq6hnHOOHbVMW91
-	d8/5m1lEUDaEg5u39g8gCAdXVibW9BU2P92j4ItMLCyuk7xGayP+LtvyZiOpvS7FlUKam2i1Y/A
-	mp2s2fkvqpkR64SGN35FZnDAok+x0ly6Pi1Pv/dxZrM90gKaPbcOlMkV33ZMcQiA1UD/TWBI1Yk
-	vO8tRFAamAR6u/4m6naqQjpwTZr4Dxm55Bchdbes7XbsriNV81DGZ3ZNfQreHAb3wnAHb26jCFK
-	7ZT3bdizy3rdC4YQUpleWzPNp8jFZeriVm90m6xO5YSG82U6cXpgAo9hcRzl+m1yzv/nXUjTvAO
-	2f2vn8VzKZDzEN56o5TryL7yltNHt3cKJ1Am/MvNLBj3ZKaDTxWK77afyivOx0WX7P6C8k/6+sx
-	OYoOXvs+e7QweKTNfaP0l4NWArGfoI7I7et/eujsW2jtlIsgnM79169WocF3i7PnVTkdFAFOjm1
-	PDo+EEh9NoXgIkRBzg4Ht3HV7Pyl24dWs6Ucw39oJ6FAc7rJIXO9nQzSpLWxDAxRPeT8izdgQIu
-	cy7zKFkl38wxA
-X-Received: by 2002:a05:693c:8042:b0:379:8df3:d2c9 with SMTP id 5a478bee46e88-3856f14ca78mr1581379eec.13.1795148334620;
-        Thu, 19 Nov 2026 20:18:54 -0800 (PST)
+        bh=MU5DDe8WPNLGbF0itjuTQ81vCKFzjS+1XQz059WZL8I=;
+        b=oVJ5QSL31/QHlGv6lzpzeqCqF+wVeF9xvb9kNY54x/gKzdSCHflCWC24ztcx+A6G8k
+         kv7qt4oGfJE6EsMj+pi1v+Kf/+DtedmwXRQkBTLzdcEibC/lEF+hUF4LOv4pL6AkNgz4
+         1S1WYWfiEY5RpeNDDiBv79+C3IQLf2CXuLNVh0nGZyVx64VRPVnsTiicz7Fix0ToANwi
+         fEs3kNHn3dz5YhXGAnoylYtUXgaSS9mhzNaYK78WN0FfWzqdO1BtIpWaCt4TpB19Avvn
+         IbrdSa6MNu91kCGONmh7+ezoO1YxBDVHZht4PtMkmmNpFelNqPyNzdbPymu/tUMqQ28l
+         pc/A==
+X-Forwarded-Encrypted: i=1; AL+hErE5yhgM9ml7oe+EH3l3G2O+N5oWSQvIDp7pK0FcB7rrdwwn51OGkE8Vyf7AzPJQoVY3JnYrhRWkV60=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+3F5V337SF3eqW9Q48Ck+Lo8X3xmG5o+zOEI+RRVjlVHK2D0Ha
+	TWeHz8uWgin9y7E8M8SbxoMY+0PKLdV+rWIHlwVB6BD6yY7pLhF5VOesglejI+AoqLo=
+X-Gm-Gg: AZFdTZcvnZmT06WPaTlrFC+CkhEf3asNGqVOwuE5sE6vLelNjOETBJ+TwRrk7g//AiQ
+	x0eufefyI7HdfQj3YuVXJS+tO4wiVsHWrNGSLNbn6iM8e4Pj5TNCn7QgZcKyS+se05BPzcWeV+9
+	vE4RTlmuXcCnKApMDvmGcdIEL+/e7aDYJmPJ8+vsyR63hB81yzv4tkinmQOH3qEOEJUcl+c9tuw
+	yB6j5aMETh8Ys6Qk8zWzwd9dPaxiQObEoR0aTktDmVrOi/DecP5turw3YWpm25D68obMZWK8E9+
+	YMfH5KqyRJFO/mC4AGZtofOFlKuWGMhY07MtQErHfqnaOIoviXcdYeNTQuYwFBCJ3FpD1d9b6yT
+	+bbLcQ1RhOdqQnsfAim8xJNZvtvHSX2CubunNs0o5+4o48Sz2Q6Pf51Ys9mC/2mnGf91xALcUfv
+	zVIVI86t32MEux86rwYoBbiyiASDPsBjAXu6Xy1FVGxwmdCNGDWZuEnpvYib0yMtPAnFV2qFRpN
+	kDWOshjxy/w8V5IBAHs3u/0XDvs6egtu/owixO+534zoz04mPgt0XDQvnmLTN6H/KFiItxKYy0I
+	c1Gm0u8lnNLRj3g6+4ZiYEcqngISNgBBWFxTpRVHm2PL7+hU6TBl62OJGP1BKSTCYVA8S0Y0zhB
+	CL+5IEYzpT8Cr
+X-Received: by 2002:a05:7300:50fa:b0:384:6487:b155 with SMTP id 5a478bee46e88-38570c359d3mr1744166eec.29.1795148365941;
+        Thu, 19 Nov 2026 20:19:25 -0800 (PST)
 Received: from rock-5b-plus ([61.83.209.48])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385665f21aesm4115021eec.4.2026.11.19.20.18.52
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385666e99fdsm4107967eec.5.2026.11.19.20.19.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 20:18:54 -0800 (PST)
-Date: Fri, 20 Nov 2026 13:18:34 +0900
+        Thu, 19 Nov 2026 20:19:25 -0800 (PST)
+Date: Fri, 20 Nov 2026 13:19:07 +0900
 From: Sidong Yang <sidong.yang@furiosa.ai>
-To: Philipp Stanner <phasta@kernel.org>
-Cc: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
-	Oded Gabbay <ogabbay@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>, 
+	Philipp Stanner <phasta@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
 	Matthew Brost <matthew.brost@intel.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Gyeyoung Baek <gye976@gmail.com>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] drm/sched: Add drm_sched_entity_get_runtime()
-Message-ID: <av_KEmPdB76gKak0@rock-5b-plus>
+	Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Heiko Stuebner <heiko@sntech.de>, Gyeyoung Baek <gye976@gmail.com>, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] accel/rocket: Report NPU usage through fdinfo
+Message-ID: <av_KNIsnvL4GXCGu@rock-5b-plus>
 References: <20261112171144.3151554-1-sidong.yang@furiosa.ai>
- <20261112171144.3151554-2-sidong.yang@furiosa.ai>
- <34494226eb920bdbd7f3257ef6f9b20f4e8ffd6a.camel@mailbox.org>
- <1b78ef4b-011e-4174-800e-425c94fddf3a@igalia.com>
- <48d9790a8f1d2ca7281907f1c32d7e7759e9eb77.camel@mailbox.org>
+ <20261112171144.3151554-3-sidong.yang@furiosa.ai>
+ <3c5f7694-e6fe-477d-bfeb-a130c363f431@igalia.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,17 +104,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <48d9790a8f1d2ca7281907f1c32d7e7759e9eb77.camel@mailbox.org>
+In-Reply-To: <3c5f7694-e6fe-477d-bfeb-a130c363f431@igalia.com>
 
-On Thu, Nov 19, 2026 at 08:23:39AM +0100, Philipp Stanner wrote:
-> On Wed, 2026-11-18 at 14:39 -0300, Maíra Canal wrote:
-> > Maybe we could name it drm_sched_entity_get_runtime_ns()?
+On Thu, Nov 19, 2026 at 09:31:54AM -0300, Maíra Canal wrote:
+> > + drm_printf(p, "drm-engine-capacity-npu:\t%u\n", rdev->max_cores);
 >
-> Both fine by me. All no big deal.
->
-> Acked-by: Philipp Stanner <phasta@kernel.org>
+> Does it make sense to expose the capacity of a core that it's not
+> actually initialized and in use?
 
-Thanks all. I'll rename it to drm_sched_entity_get_runtime_ns() in v6.
+Thanks, you're right. I'll report rdev->num_cores, the cores that are
+actually bound, in v6.
 
 Thanks,
 Sidong
