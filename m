@@ -1,59 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795197874;
-	b=K3dcQmqzHEek+J6N7y4iGJqUcNJV8vUPfpmGZWO42rYzI/dr3KTJSXFfzWyI6A9TWN2U
-	 JIrF2DXeYZo710fKnZwA7Jetd3DhcobuxzyKRJ2rknpgFD+ug9Pkj8WiIioCu/qwhGR/6
-	 2dJ123HUGHeknyjZHh5mrtn+5X1T3lnfzWnB4eyUIGxED0jk577tsnOVZ/d3fYchoGXqT
-	 6EIMyGl+BMJnUhfN0NmY3i+5tJBH0Enj3mo0f4zDRtx67J4Y2qFCEZutSCzhR5VFzDIkN
-	 haC3MRLlztafObCp6jA2VSMNXOmzyK/Y4RgGybm0vSNLAfz6ng0NvpqRx7zkb/6r1Ng==
+	t=1795197875;
+	b=0F08nZPKn6Umu5wrs9kfcOO3X3k1aBeWb1+tmsQKU9IExtKSWd1q9uEeadmHQtH5YS7w
+	 sMum03R/I1zvAqEGMoGmivbCCfiplOE7e2jbxEIEPsoS35Nz11zNCe6yW6aYJFbBOxyOc
+	 to9V7/tii9JD0wOpqcvuzn9WFbq5A3PUROveA/5cqVRgDlZlAcc1GUs4cAmWvse7PVUKG
+	 AiQFWCVpONbau+iNpk60Mu0QhvJSUPIWqT9akOyFmXX22bIZO5iiX6y88BiDKFFPiFqIb
+	 8PKyp5sE0Ct/PnheOkJuwc3cM2Uta/Cecr4ohKB1/Bq3Sw1YSYliS1GxVP6jVZKKU8A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795197874;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795197875;
 	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Last-TLS-Session-Version;
-	bh=XYboxJ2JMaDO9I4DkrFvKs0Z6flY1A0MW6enxvdLEO0=;
-	b=iIN2D7qjqdEWltRAsjBdjUejKRtxs5gMLsbCHtPTocg9jt1sToNREQfNzFifcjLm3Ksp
-	 ZrNcUAl42AZi8ZURkd5bZULKxHY2mbzjgLzSo8rGiynHv9A/ad0t2rZ9Xen7jdJj/zqPz
-	 x32cCmreDa3LnWJPEQLBZreeXpLHJ83GciL70Iqsu8Wwwhu8dACD2B5weG8X4Kw4Tg4Tb
-	 HWL7KDqW+SYDDl9gX3yCSngtaGJec9KzAkuyw7WR9Y+Y7i6LieKNvPBaYAATJZmI1xROx
-	 2tBoVSLF7zqznjytprkS7a5S+FjpwDnII8kaDvojvkIX32KgUyiUqhGUrCgUMKjk6cA==
+	bh=VxvB3jeuaoZKF1Y80P48kAyWqaNMXNm9heNN4Bt5VPQ=;
+	b=YIkfY1NSqY3HtwhmIh4YnbefckiXfRTklwXMWFS1Z//Gi4Fv3TjLtFdXJM0xs11WP8qM
+	 5fYqZ6oWAbyRhobIHIZ94l30fiPkP9VUmU2syHb0V+pCT/jkGC5IbCLyDXfIaJ7vg/6J1
+	 7bWN9cjvx00Qb3gKA38+WWq5DmB+v7poQ4Zf9kN6n77ONr1a3OAiCqenxhjv1Kq8T0oPc
+	 Xs2X1OYA9VpXhQlnj210Y8o7YCb5C5W5YfNxouLbpNF4Y6c1RxYHX/5lYaFZCElhT62Gz
+	 xmTI2E/EHf+mxZ1qxumKUMz9qCaPdWkEmY2TLlhaFHA2eWvS52VDJD6tm5Czv5RTCVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bootlin.com;
 	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=mCYrIfh2;
-	arc=none smtp.remote-ip=185.246.84.56
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=GOmfKRR3;
+	arc=none smtp.remote-ip=185.246.85.4
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81FFE60A381E
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 18:04:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81FFE60A381E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51E160A2633
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 18:04:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D51E160A2633
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=mCYrIfh2
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=GOmfKRR3
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 6643F1A175B;
-	Fri, 20 Nov 2026 18:04:32 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 8AD3A4E4168E;
+	Fri, 20 Nov 2026 18:04:24 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3A121601B9;
-	Fri, 20 Nov 2026 18:04:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E987611BC0627;
-	Fri, 20 Nov 2026 19:04:26 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 60EA3601B9;
+	Fri, 20 Nov 2026 18:04:24 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E5DB711BC0990;
+	Fri, 20 Nov 2026 19:04:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795197870; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1795197862; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=XYboxJ2JMaDO9I4DkrFvKs0Z6flY1A0MW6enxvdLEO0=;
-	b=mCYrIfh2/R5Zuj2nxT51ivKDMDq9WO7vUyLSEqXnKig0zqd7obxisb6FRg9OpG7IZ/y/zV
-	la6Ri7ucAhJ4sujQtrw+v/L6oKdHPV4JlU+ks4FFL6fkxRCdyjpn3LtjA81KGofLMiLOQ5
-	mX+WTI66L4ouiXc9tsV+7r2lQlq0StkRMHz1j8+mtk6Z//ziuMbanwBGfPdx4L919lbBJM
-	z8LxhBFcbH0uhp5Tv/wyy+fZwSLONrWrVrmX03x2kq+k4EpYeiakUwgZL+BZmcENyXv1DM
-	/jf+6q1jx0zAhbQfYQNP7kS2hXo1QOi31cnf00ffmYtTWDIL0ZWN1Rpsbe1RPg==
+	bh=VxvB3jeuaoZKF1Y80P48kAyWqaNMXNm9heNN4Bt5VPQ=;
+	b=GOmfKRR39uEh79nQ5VS7qxRSBn53MS3obcc3+ILYBXYavhK6fZVFJzdiXXTQnC3ZFqR9Os
+	lhPQJTCZ1xSH0Z7uqvK9iz6hiCgHIT1i8xgQlgs/sOGk+xuqkIFoSKdNtscbmdLF3P0+hR
+	+UXry6+inwRL4eFQwAwhNjWgG5vOOykhPMl/FNxthyLuNmn5ukp+kZYniEn3BoI2RTsod/
+	d/BjuJ9qrYtl0GYOJP/ij5n/l9izRHrcj4KpijAg6yoKTydsxr0rPuF1jzQNV1yGUfg/v7
+	I8hrYnXDGsBChhdY0ccygLeYtiJFOgk6nzVT3eoDufoDLri8a+2pumA3v3qCZg==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 20 Nov 2026 18:59:03 +0100
-Subject: [PATCH v6 21/43] drm/vkms: Introduce configfs for plane rotation
+Date: Fri, 20 Nov 2026 18:59:01 +0100
+Subject: [PATCH v6 19/43] drm/vkms: Use plane folder name as plane name
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,8 +64,8 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20261120-vkms-all-config-v6-21-78ace90f4fc1@bootlin.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261120-vkms-all-config-v6-19-78ace90f4fc1@bootlin.com>
 References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
 In-Reply-To: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -91,191 +91,67 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  linux-doc@vger.kernel.org, Simona Vetter <simona.vetter@ffwll.ch>, 
  llvm@lists.linux.dev
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5894;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1728;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=0RX9iSHFb2/Ot+XB70vu5iHJSvj6mcgFb1fZ/mOGWz4=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBrAIsAm9ys3+l7aKxlFqdFlhz4Sn+8PhIebG7PE
- JyjCz2ywFOJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCawCLABsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOKKvxAAjTk4wA7oQbgm/U5eyjB0QuKgRdG5VxJ
- FIeuD8k1B/9AXwLN0NW9es3FSVBL4sUQwvxVViFyPmhDhjgLHSHLYd/3oCfVGLtST6msnDBlrzg
- 07t1ovykzaBJcQzz4WEG34k5+wxfrvxXQ4Wsr3HL2d3EamqsWouICSwwZY4Opn7BF+fwST2HAYK
- uPfEYDzz698whyP7EpiqGEL9Pn8Lm08+cf0aiCdRGT6tjjtmwWMmDXxclfq3q3W+A1TcGFE9Nzz
- 3TV6Ife0lJLU6mG6NZsUacO6Y7zaC0Lp3Gu/Si+PDoY/lgVf3sm7N5pxuxU50+HxNwc95vfVj1P
- BbRsWI0x2FlYQNECo1JXziuVXS7kLLxadk30V07MFhMwGRWpIqxah2YbUkD375HN6szzdInUvdy
- AkMOIwE7vhyed5PZsay2lZ4xuTLQ2gleumomIm8Op5Y7+Dkv3MyBAetSMltIFxm5XJ9YZ+S1GAs
- d5IsSXohMz4AWHNR84GgDG9Gg7OFW5yAA0hwrE1KM/s3t+5tHSlF6xfUhnL5CritMOjrecXleCp
- Y6Z5I+LZ8Ej6YDYU4n/d1WEunjMVoZiNCVT708MMsyGGGm38vi579z5w4Pd55O4pdqFZ1ZVyICm
- HkayIdQpD8U/J4S9ZRSytu7Ig4HPhi6Q80vQNp+HGHJvcJV3OH/4=
+ bh=LDiCl7pqKtJMqRvE3mr2TEpnty9XeoWtToOQc8swqm0=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBrAIr/uT/GiwWpk9F0PAnSY9Ce57lQHeRWwPXcU
+ staq7AylL+JAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCawCK/xsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOJF9A//VV8Qu812gGTw/xKh/njTNShxFXd8n/e
+ t+4hl5NwiIwrTAKlz5IC7pCZq20u8IDeK45jtVVWn8xIwN+wE7VO7TkA6Scveke7Oc9V/QCJTqb
+ jvqlgQRR9DUpojMWHq8ohepesoDWlKDs7PTUaHV9BGod385iiuWq7FqNDPccoJ5l6F6BnMYVUBq
+ NnqlGAboXEYO3jR6kybZSiVCg9P+U+rztaVdg1Jj2+BAr+yg+2OVS8bbhpyfQ8XMgNH1YdRtg+G
+ 1VPF0rzyuvYz59a2FLl7mLt/TpFxa5HCxcb+5mdrVsua/reJtb2UlIUfVJRtQDS6SEay1r/U7g+
+ c8EMpicNbEEVvwkdWJvnb+NrfJHgnFQEPLvrGGotie55i4aVhfPLqwyT2xgFpxYiMcKxv2KG1SM
+ PSjuk2nfdzQNUE6T3AR99P+nIMIjm2Q6BKtlfKjbCvT7/uGWz+74aba6fSkxj9Xyaa9Rk/qVWtq
+ FGPCAWOLein0sN2BrOKrwzUAi+js4uMa4c8NeIZlsicag6Kyy2S4PWBzHE1iOiibD8YufXbiF6I
+ WaiFfEnpny3M7eUQVBDvsl++cKL/9Xfq+ltBbLGrEgwsvv2KdVhcs2hy55TgVK9q67E9eziNMvo
+ /5byyFbGZ1AxZMCfdDe+L26FL0WX79zWkMDQHnWM+Uy/UHJ0yJTI=
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-To allows the userspace to test many hardware configurations, introduce a
-new interface to configure the available rotation per planes. VKMS
-supports any rotation and reflection, so the userspace can choose any
-combination.
-
-The supported rotations are configured by writing a rotation bitmask to
-the file `supported_rotations` and the default rotation is chosen by
-writing a rotation bitmask to `default_rotation`.
+The plane name is now directly derived from the configfs folder
+name. When a plane directory is created under
+/config/vkms/<device>/planes/, the folder name is used as the
+plane name via vkms_config_plane_set_name.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- Documentation/ABI/testing/configfs-vkms | 19 ++++++++
- Documentation/gpu/vkms.rst              |  7 ++-
- drivers/gpu/drm/vkms/vkms_configfs.c    | 84 +++++++++++++++++++++++++++++++++
- 3 files changed, 109 insertions(+), 1 deletion(-)
+ Documentation/ABI/testing/configfs-vkms | 3 ++-
+ drivers/gpu/drm/vkms/vkms_configfs.c    | 6 ++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/testing/configfs-vkms
-index 55e4183046ec..07ebb797617d 100644
+index 26e7f81b5b7d..55e4183046ec 100644
 --- a/Documentation/ABI/testing/configfs-vkms
 +++ b/Documentation/ABI/testing/configfs-vkms
-@@ -108,6 +108,25 @@ Description:
- 	Plane type. Possible values: 0 - overlay, 1 - primary,
- 	2 - cursor.
- 
-+What:		/sys/kernel/config/vkms/<device>/planes/<plane>/supported_rotations
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+	Available rotations for the plane, as a bitmask:
-+	0x01 - no rotation, 0x02 - rotate 90°, 0x04 - rotate 180°,
-+	0x08 - rotate 270°, 0x10 - reflect x, 0x20 - reflect y.
-+	The value may be written in decimal or hexadecimal (with
-+	a 0x prefix) and is read back as a decimal number.
-+
-+What:		/sys/kernel/config/vkms/<device>/planes/<plane>/default_rotation
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+	Default rotation presented to userspace, using the same
-+	bit values as supported_rotations. The value must contain
-+	exactly one rotation bit; reflection bits may be set in
-+	addition.
-+
- What:		/sys/kernel/config/vkms/<device>/planes/<plane>/possible_crtcs
- Date:		Nov 2025
+@@ -98,7 +98,8 @@ Date:		Nov 2025
  Contact:	dri-devel@lists.freedesktop.org
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 1e79e62a6bc4..610305483716 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -87,10 +87,15 @@ Start by creating one or more planes::
+ Description:
+ 	This group contains attributes corresponding to the
+-	plane <plane> of the VKMS device <device>.
++	plane <plane> of the VKMS device <device>. The name of
++	the directory becomes the name of the DRM plane.
  
-   sudo mkdir /config/vkms/my-vkms/planes/plane0
- 
--Planes have 1 configurable attribute:
-+Planes have 3 configurable attributes:
- 
- - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
-   exposed by the "type" property of a plane)
-+- supported_rotations: Available rotation for a plane, as a bitmask: 0x01 no rotation,
-+  0x02 rotate 90°, 0x04 rotate 180°, 0x08 rotate 270°, 0x10 reflect x, 0x20 reflect y
-+  (same values as those exposed by the "rotation" property of a plane)
-+- default_rotation: Default rotation presented to the userspace, same values as
-+  supported_rotations.
- 
- Continue by creating one or more CRTCs::
- 
+ What:		/sys/kernel/config/vkms/<device>/planes/<plane>/type
+ Date:		Nov 2025
 diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 3a1a34643cce..61e668f90112 100644
+index a7ddcfd4e86e..3a1a34643cce 100644
 --- a/drivers/gpu/drm/vkms/vkms_configfs.c
 +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -322,10 +322,94 @@ static ssize_t plane_type_store(struct config_item *item, const char *page,
- 	return (ssize_t)count;
- }
+@@ -375,6 +375,12 @@ static struct config_group *make_plane_group(struct config_group *group,
+ 			return ERR_PTR(ret);
+ 		}
  
-+static ssize_t plane_supported_rotations_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
-+	unsigned int plane_supported_rotations;
++		ret = vkms_config_plane_set_name(plane->config, name, strlen(name));
++		if (ret) {
++			vkms_config_destroy_plane(plane->config);
++			return ERR_PTR(ret);
++		}
 +
-+	scoped_guard(mutex, &plane->dev->config->lock)
-+		plane_supported_rotations = vkms_config_plane_get_supported_rotations(plane->config);
-+
-+	return sprintf(page, "%u\n", plane_supported_rotations);
-+}
-+
-+static ssize_t plane_supported_rotations_store(struct config_item *item,
-+					       const char *page, size_t count)
-+{
-+	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
-+	int ret;
-+	unsigned int val = 0;
-+
-+	ret = kstrtouint(page, 0, &val);
-+	if (ret)
-+		return ret;
-+
-+	/* Should be a supported value */
-+	if (val & ~(DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK))
-+		return -EINVAL;
-+	/* Should at least provide one rotation */
-+	if (!(val & DRM_MODE_ROTATE_MASK))
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &plane->dev->config->lock) {
-+		if (plane->dev->enabled)
-+			return -EBUSY;
-+
-+		vkms_config_plane_set_supported_rotations(plane->config, val);
-+	}
-+
-+	return count;
-+}
-+
-+static ssize_t plane_default_rotation_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
-+	unsigned int plane_default_rotation;
-+
-+	scoped_guard(mutex, &plane->dev->config->lock) {
-+		plane_default_rotation = vkms_config_plane_get_default_rotation(plane->config);
-+	}
-+
-+	return sprintf(page, "%u\n", plane_default_rotation);
-+}
-+
-+static ssize_t plane_default_rotation_store(struct config_item *item,
-+					    const char *page, size_t count)
-+{
-+	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
-+	int ret;
-+	unsigned int val = 0;
-+
-+	ret = kstrtouint(page, 0, &val);
-+	if (ret)
-+		return ret;
-+
-+	/* Should be a supported value */
-+	if (val & ~(DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK))
-+		return -EINVAL;
-+
-+	/* Should contain exactly one rotation */
-+	if (!is_power_of_2(val & DRM_MODE_ROTATE_MASK))
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &plane->dev->config->lock) {
-+		if (plane->dev->enabled)
-+			return -EBUSY;
-+
-+		vkms_config_plane_set_default_rotation(plane->config, val);
-+	}
-+
-+	return count;
-+}
-+
- CONFIGFS_ATTR(plane_, type);
-+CONFIGFS_ATTR(plane_, supported_rotations);
-+CONFIGFS_ATTR(plane_, default_rotation);
+ 		config_group_init_type_name(&plane->group, name, &plane_item_type);
  
- static struct configfs_attribute *plane_item_attrs[] = {
- 	&plane_attr_type,
-+	&plane_attr_supported_rotations,
-+	&plane_attr_default_rotation,
- 	NULL,
- };
- 
+ 		config_group_init_type_name(&plane->possible_crtcs_group,
 
 -- 
 2.56.0
