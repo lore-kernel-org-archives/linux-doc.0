@@ -1,119 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795183842;
-	b=Hfc1+p1dXz1Ld7qA8VAOD7Mv3lQyB1XGArvVHQ4tz38+/G3ieQlL3zjlNWlg7RAzQ8N7
-	 Pv/8THDqF0YT9cS9XVlQD7Xtfn9/uWkNq5MIEcl4LKE0WfqtA5s5gU2ooyt2IPKQBmnaX
-	 d1MkmzkFMjzM6y29lfn8bTr8Jej/OuGJ4O6E5f8APxRB4oMudpz69epclrK+bRV3XMu0s
-	 ZxSvEKUVqOvSl1X+r5fvqOr36++3F6mgghjxGR7JF/3hlIMPCvRaCkQYqW8YD7j/Vat+T
-	 Ii8Vcqti59GJxjuZ55rED3P/M4jkFrYUTFiY4k1tU02EDW/Rf5Sp9gHjqfDKfR9MmiA==
+	t=1795183972;
+	b=f7qx3nrfXfI1w9P3BhqbfwHXKF6LZB1W9gEttm9kNer0BUeQs0XzHw3XgUAYMR9gZpyP
+	 NoNtAJUrcIW5UQ8vTZhDFNKCQMpfgNdcBaauplo9YbmQt4ZqV0AqeTWqKnb5xJOM1FWEI
+	 vZFucbsIu1zgFf5JPLhzkMCp64c6pUTVHeOacIrd8Z0otM0p/79vzoqsQxMAc83aRPHVq
+	 VcBvoDcnraFfgddNh6Yxyt/mLclyPbOIXuquWpG7KnnNYitT7TwayplzlnO121eElVYrz
+	 /TxPOduCTYv2Olv417etsGP7nVLGOlcuBicn55dHtm8ciFra9bTBacYgs9YY22zIo7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795183842;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795183972;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=5S4P9EVhrzfLBPEUlAs5RhZwbxTfoymelcBjiUJ2aGo=;
-	b=FRv90AW8a3a4D3+uq0QGVASISP0mvUnmRSv74cm1xnZXT1BSIV85R7+8KGgfuqpACirQ
-	 rxJF9dEW+9WQCIUUjDiNj2TJcDs9H7XBKp6FAZkLvgddF2SgGAXPxi4DJINYHy67uJuOE
-	 F9+NZ+WM2MXb3oejbn0fli5R+SyPyudRHEMWv0K97yYOPtIqXF8EWWVe5aC3a2geJuKaS
-	 jIjPrHqPtrLOa8hmkgIocVhJjGXHqkez4vxJ68ZKdPiisR4OLHZRiruB5JhB+4lIhiyKm
-	 Bq0U4CVuBscyATVacjaEP31MHYdo36XqB+LFM5448srAPwGwZ7B0WkqXM/P/CHMqPPw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=NRsPqc1sWk3utVGhpgkPro0yilWSwaU21f7Ua9Mar54=;
+	b=SdVMg7sLnbz9xHJzny5yg+54cplcOt49GRtTho8NC2jPgA484JTfwv0Ur5rBUjCB5GqG
+	 3Z4aLtEBJ1kXHFr6NgxFqa6SxYwQWcPQPR5i1rNOwPeAM/LEZzUAz0jRVd9PD9/tTIVtc
+	 aFrx3oF4GVQA7u7RM/+h8eo44h/Yl+jzZ6ECCzEFp0mIDJiSlRh+2IpdrbCi8EE0j2hXq
+	 FAp30GExcls+/VwiBI2HsmHUlDzR50QBkzZJtAH4qbusG1GW2Drd9lg6CncjmamGy3psc
+	 VOQzK5foOYwpxv5eO5CWwMmVNEivbL46+ORLpzDunCcnWUPLkTmYESaionZhwPQWMHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=GtG1iaQR;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	dmarc=pass header.from=furiosa.ai;
+	spf=none smtp.mailfrom=furiosa.ai;
+	dkim=pass header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b=Vj9B4OJC;
+	arc=none smtp.remote-ip=74.125.82.170
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC2C606A330
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 14:10:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFC2C606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5DC606A326
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 14:12:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C5DC606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=furiosa.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=furiosa.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=GtG1iaQR
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4bb6adaf0f1so8050425e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 06:10:41 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b=Vj9B4OJC
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-380b40319bdso1181670eec.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 06:12:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795183840; x=1795788640; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5S4P9EVhrzfLBPEUlAs5RhZwbxTfoymelcBjiUJ2aGo=;
-        b=GtG1iaQRI9u9ARXabDEe2D8SnnTyfL+8UjK/8tqYjNwSU2a9LuKhrlTU/lolo1fBCy
-         RDXey437ySP9hiMo5QnJD6PtHaw+F6Wm4BqNZ5ctCKbAFymc2+vqkB6N6NXnQATAuFRD
-         yJb5e8zbLw74CQfoie3zzYHaCY6EU9YGVeRppeU8xhgcUI60o0ILXKInDYZh1OPny0rP
-         euD7j7EKrlNYddojjjsLrgMjEaCgk74eQrjoFa8jw3DzuIq57Zg2AbYdM1+ZRrk9PgFs
-         cU2/mDTVEffUIcg1EQR80oRe7thSm0zVOcNSnsDNUgyUVQfMBfSB01AnLEf87AeP79MZ
-         VJDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795183840; x=1795788640;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=furiosa.ai; s=google; t=1795183971; x=1795788771; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5S4P9EVhrzfLBPEUlAs5RhZwbxTfoymelcBjiUJ2aGo=;
-        b=zFETc/bs0mJLzdGKgeL5nWZaIsIsLtsi2lstbqjvdmaDLH5qEsX9NdZZnO4bHntFdf
-         3Mq/lJQ5gbQL1pNcQfBoifZ5O8x61WVQJ6EdFXVvgUpynVNR9qtq9K4ItazyzVuPLlYW
-         RRVtD2iVFlNrB8vUmH1oWJ18ilc5Y4EEbSGwbki22lFB1D3cZQsx+PO0l6reDNpcdiUt
-         E11xEqvI436aA4V2qQfHrpwrz7zVMvGkZP90+B/CxmkzEyEGV9Q4YkXyunWk+Na6MIRz
-         /9meHrCkJR9Xuypf0DbJCnpn9E9cy38q1PV1AYAA/8jodPi2ysmJFuNu/g1ojmv6Gx4C
-         MpyQ==
-X-Forwarded-Encrypted: i=1; AL+hErFryjjI2B0eGecOl7rfVOzoaURlOHsUi2qD/FwhpFSuzk9iu+w5jzJ8Mpqvwc71KdEVvsax35lNrwQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+0i0DjxPiMGPfrroAe8uQ12o/PKMtNrAlScv00tZ73XsepuHqx
-	NdvNccZDqmeywg7hbXALBsRwGZ7+uzss++4ndlKG5N66xzWPoRvTB57py/2dvFOb6Rk=
-X-Gm-Gg: AYBFou1DHvk5R75kTWEsedezKA/9+Yb+htuEnWrXdRvz22BlOochRdMJwqLPa7Mu0i6
-	PxL4qHC2y1Xvy9/4K2C/SjLNUPEYiX34RSTE7cEAdKeaJg9OJkBiQjQWTro8n/j2CI9eI5oF1V9
-	8SnjH+WJmN3k9ko8wF8kO2absntmjawNf5A2V0Dywd4URbWjUotDL56f85oF0DpvsgRUSE/B63J
-	oGfC08l8iLjDwBWoH+23fCm6f/NzNuCbsLSU2lzKXXZq1lujJ6DoS4FmYOldLUSPNuP7E4rkE3X
-	K32ZuSuvM5+7qi3MqRAlte6zGAYiOAQNs9Rronj5cm1vmXoT44WUF6IB309SLdP1MrCPTJEqB9z
-	9VyOQmaKkcvYgOrdXXYhv7lc+kVRAxKkH8pnRtqnDFoAtptEf0bW8RcWnOnE8Qir6BSDiwwi+RX
-	YAjURk4SQPyDD9S94V4XkM7ixIac/LTaPXoNuatC1GxQ9SIQ47WuAH1v6BjxsBpGiAfqKb+YWka
-	DStsmQaFZTWlLQAD/flBDJzSvx/qvOEja0qAeU+IEc6fk91bb/rco+BvVUkTXZ8o39dMF59JbY4
-	3lWhD3zL8wDLxzd/AzNRkkQA0zbdKx1C08kx/ja6lc3QrPW5x1wHQYRYy9dFTmq391eeov1pvyb
-	0ii72JeuGikwXUtrk
-X-Received: by 2002:a05:600c:3b1a:b0:4a7:8fe8:130c with SMTP id 5b1f17b1804b1-4bb8881d4damr71087005e9.28.1795183840190;
-        Fri, 20 Nov 2026 06:10:40 -0800 (PST)
-Received: from localhost (p200300f65f19a9041d3eb07d772156f3.dip0.t-ipconnect.de. [2003:f6:5f19:a904:1d3e:b07d:7721:56f3])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4bb895f66e1sm37012445e9.0.2026.11.20.06.10.39
+        bh=NRsPqc1sWk3utVGhpgkPro0yilWSwaU21f7Ua9Mar54=;
+        b=Vj9B4OJCUx7qGlAZwrGAGT4KmwAMBHbSg6b5zwapZ0p40mZKAfRs5eAsuwDTA7e30B
+         yKCQ/cNph7+X4ud8ongTzJoM0atCjo5+mi15Ku6j0v2eAWqJMCrtil/ziDteNySh1jnv
+         KUTKOatCOs07B2djKWsPFisBl7rC4P80qmHE4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795183971; x=1795788771;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=NRsPqc1sWk3utVGhpgkPro0yilWSwaU21f7Ua9Mar54=;
+        b=eomI4I0pTTwl7Gv18M2QlgD8ac41InlhOUqis53HvKVtkejGwRPwiJTrcKIQCLed78
+         KlXftYT7Cmoiv8SqiRVriLhT+h7RMFlkeZf7CKHFNjhEaFi/qW13/HyeSmDOTqnmnslc
+         Mljbf33QkvY2+viOSphFbdEjhMz6oL4fgk3CXJ57BwduBhzFbECgb4RsmlrznXfLeixn
+         VTst3dgTwh+jWriHvUpIwnILhZFk/CyNCio7wPmGy2bqMSO0rba4K+irmsTNQBR/i3Qe
+         9pbJA8KAHG2uU9tVw63rSxBH+qnha7GQj1/qrkGH81H6B0gxq0X2Br2jYglvYuelQrpe
+         1UqA==
+X-Forwarded-Encrypted: i=1; AL+hErFZM7lW+SqekUCDZaQLxLDrPepn8njzd8yI4kWUNWyQDMdg7VnehIbME55kW5qs1zsuDmWPWPWWWNw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8ZTtiAN3Zpl2m5HkohHVZ+Hz8eq1JmBJykW/zB76lOnDkcIDoj
+	PqYXnw/MGQwjaX/Y3d580qldgW7ACbLLff3mXPH/sAS7pjPdX6xG3QMIsksggiX9Khc=
+X-Gm-Gg: AZFdTZdm59lFuwMLIze3hoBe95V2qwtGA+2KpB6+QDCbmi1sMz+I9kMOYKVqhAIhKEM
+	na3cSwZlTdK2Wptw3Na73WB5OTxRmmLpYUmafpkcKuPpP6/hxYtcdqr4/F6VTvTFfv9jnK7q7ju
+	8hZSiLpnvKplF6qX0UfZme4JDBOk1e1zvpJtjhjbU/oM+bs98UVLpQtSZbplm/c1JHEU7U94FsC
+	atM19wHI4VT7r09PSydaB+a+JwR7Ej8Mmw4+40dbAOucNNer/UVzh5a7uVCRmDp17kXIvgJXcnr
+	86Zwpg6jENkOTavJ6sZzDTDOKuTnaDGfLSlRmQpaaQpTZt3ffLwDlQMaXPfGKSCKutGKhq+jIZ5
+	2XLgAMY3xI/KkGRURjIkprIZYS5rHi+LGg4kkdf9B2Nz/c32ABDKijgOHKJX3cdRBtdtG4bszOu
+	u2HKEL6IUWg4cIoHY2Yew9+bW6NufO0CT7H4y4P/kHa0qzXxMOq7/OlEGGp4dA7bev2OVW086Ww
+	c4OALNfjfmTTFc7KYIQPESFvjh5zKCyWiArIm6eNDvHw72Y0Aq4n16vMbcHdZOvOlwoqWuvG6SY
+	QtBSegPOZv1YtB9Xvx2264ztRmXQq3z+ldgo0qaMn+7/3/rdm7/DdSpdslXoln76Yp117CrRhDG
+	wHG0qatFzf42u
+X-Received: by 2002:a05:693c:60d4:b0:369:fe81:a575 with SMTP id 5a478bee46e88-3857111f203mr3507628eec.35.1795183971339;
+        Fri, 20 Nov 2026 06:12:51 -0800 (PST)
+Received: from rock-5b-plus ([61.83.209.48])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385666e99fdsm11244434eec.5.2026.11.20.06.12.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 06:10:39 -0800 (PST)
-Date: Fri, 20 Nov 2026 15:10:38 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Yao Yuan <yaoyuan@linux.alibaba.com>
-Cc: Alex Williamson <alex@shazbot.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	David Lechner <dlechner@baylibre.com>, Armin Wolf <W_Armin@gmx.de>, 
-	Thierry Reding <thierry.reding@kernel.org>, Mike Rapoport <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Karl Mehltretter <kmehltretter@gmail.com>, "Paul E . McKenney" <paulmck@kernel.org>, 
-	Borislav Petkov <bp@alien8.de>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
-	Marco Elver <elver@google.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
-	Jeff Layton <jlayton@kernel.org>, Bradley Morgan <brads@mainlining.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	Pnina Feder <pnina.feder@mobileye.com>, Mete Durlu <meted@linux.ibm.com>, 
-	Aaron Tomlin <atomlin@atomlin.com>, Rio <rioo.tsukatsukii@gmail.com>, 
-	Feng Tang <feng.tang@linux.alibaba.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
-	Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Yishai Hadas <yishaih@nvidia.com>, Longfang Liu <liulongfang@huawei.com>, 
-	Ankit Agrawal <ankita@nvidia.com>, Brett Creeley <brett.creeley@amd.com>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>, 
-	Julian Ruess <julianr@linux.ibm.com>, Nipun Gupta <nipun.gupta@amd.com>, 
-	Nikhil Agarwal <nikhil.agarwal@amd.com>, Eric Auger <eric.auger@redhat.com>, 
-	Mostafa Saleh <smostafa@google.com>, Pranjal Shrivastava <praan@google.com>, 
-	Ioana Ciornei <ioana.ciornei@nxp.com>, qat-linux@intel.com, virtualization@lists.linux.dev, 
-	intel-xe@lists.freedesktop.org, kvm@vger.kernel.org
-Subject: Re: [PATCH] vfio: Allow untainted use of driver_override
-Message-ID: <awBUG7-QzXplEiUT@monoceros>
-References: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
- <20261118235645.2907908-2-alex@shazbot.org>
- <xzp5gljhburzbpol5bgnyyzwdrgpw3fj6ff3j23ein27raiidw@kti7moeuwvb5>
+        Fri, 20 Nov 2026 06:12:50 -0800 (PST)
+From: Sidong Yang <sidong.yang@furiosa.ai>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Philipp Stanner <phasta@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Matthew Brost <matthew.brost@intel.com>,
+	ckoenig.leichtzumerken@gmail.com
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>,
+	mcanal@igalia.com,
+	Heiko Stuebner <heiko@sntech.de>,
+	Gyeyoung Baek <gye976@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sidong Yang <sidong.yang@furiosa.ai>
+Subject: [PATCH v6 0/2] accel/rocket: Report NPU usage through fdinfo
+Date: Fri, 20 Nov 2026 23:12:23 +0900
+Message-ID: <20261120141225.789350-1-sidong.yang@furiosa.ai>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -123,62 +104,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="76ybofus6n5n73yb"
-Content-Disposition: inline
-In-Reply-To: <xzp5gljhburzbpol5bgnyyzwdrgpw3fj6ff3j23ein27raiidw@kti7moeuwvb5>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Report how much of the NPU each client uses through fdinfo. Patch 1
+exports the runtime the scheduler already accounts per entity, and patch
+2 uses it for rocket's drm-engine-npu key.
+
+v6: Rename the getter to drm_sched_entity_get_runtime_ns() (Maíra
+    Canal). Report rdev->num_cores, the cores that are bound, as the
+    capacity instead of rdev->max_cores, and skip the key once no core
+    is left as a capacity of zero is not allowed (Maíra Canal). Add
+    tags.
+v5: Use the entity runtime from the new drm_sched_entity_get_runtime()
+    instead of a counter in rocket (Tvrtko Ursulin). Reviewed-by tags
+    are not carried as the accounting changed. Based on drm-misc-next.
+v4: Single drm-engine-npu key with drm-engine-capacity-npu, and
+    documentation (Tomeu Vizoso).
+v3: Add a rocket_engine_usage_create() helper (Gyeyoung Baek).
+v2: Size the per-core counters by rdev->max_cores.
+
+Link to v5: https://lore.kernel.org/all/20261112171144.3151554-1-sidong.yang@furiosa.ai/
+Link to v4: https://lore.kernel.org/all/20261103155338.1949294-1-sidong.yang@furiosa.ai/
+Link to v3: https://lore.kernel.org/all/20261103104804.1887489-1-sidong.yang@furiosa.ai/
+Link to v2: https://lore.kernel.org/all/20261101152723.1430312-1-sidong.yang@furiosa.ai/
+Link to v1: https://lore.kernel.org/all/20261031083642.1076356-1-sidong.yang@furiosa.ai/
+
+Sidong Yang (2):
+  drm/sched: Add drm_sched_entity_get_runtime_ns()
+  accel/rocket: Report NPU usage through fdinfo
+
+ Documentation/accel/rocket/index.rst     | 29 ++++++++++++++++++++++++
+ Documentation/gpu/drm-usage-stats.rst    |  1 +
+ drivers/accel/rocket/rocket_drv.c        | 25 +++++++++++++++++++-
+ drivers/gpu/drm/scheduler/sched_entity.c | 25 ++++++++++++++++++++
+ include/drm/gpu_scheduler.h              |  1 +
+ 5 files changed, 80 insertions(+), 1 deletion(-)
 
 
---76ybofus6n5n73yb
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] vfio: Allow untainted use of driver_override
-MIME-Version: 1.0
+base-commit: c408466a4dfaee4b12587e926c5b85e68c8b3c40
+-- 
+2.53.0
 
-On Fri, Nov 20, 2026 at 10:17:46AM +0800, Yao Yuan wrote:
-> On Wed, Nov 18, 2026 at 04:56:44PM +0800, Alex Williamson wrote:
-> > Driver overrides are the standard mechanism for binding vfio drivers
-> > to devices.  With the introduction of the support_driver_override flag
-> > in the core driver struct, it's now required for drivers to declare
-> > themselves as driver_override compatible, otherwise driver_override
-> > bindings will be denied or generate a kernel taint.
-> >
->=20
-> Hi Alex,
->=20
-> > Set the support_driver_override flag on the driver struct across all
-> > vfio drivers.
->=20
-> LGTM.
->=20
-> Reviewed-by: Yuan Yao <yaoyuan@linux.alibaba.com>
-
-I missed your reply when I sent the next revision of this patch. I had
-to trim the recipients of the v2 because gmail refused to send it with
-everyone on Cc: who was emitted by get_maintainer.pl. So please see
-https://lore.kernel.org/kvm/fb0df5c89336b77a373ae0f890f63427e4adbb28.179517=
-1088.git.u.kleine-koenig@baylibre.com
-
-But also note, that if v2 is picked up using `b4 am`, your Reviewed-by:
-is considered as the patch didn't change.
-
-Best regards
-Uwe
-
---76ybofus6n5n73yb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmsAVNwACgkQj4D7WH0S
-/k5TyQf/eHBkTiGwub1DLzfSI9Ji/DkzXua0OriEhTmok4cd+2dbl8OfLn0CXg3e
-B7W5T3PuQPmIapUivPRGpIJ31hN6+UScHDdfNvj1Xbret/ZoqA+0l48dqU/ikpgB
-X4WK2ENvhE+glZpB32rPkpeMadqauuBUmh1TjWnpLKn4QmgLyf+pHIJSnUmH7XkQ
-BV2i7AIctyUc2PP/Y+URhj62+6B5pxn3+5BlligAvpjkpg98TxVTctcCEgP4apyk
-TI6uZtnd9maFMXHbUJHEArWhVKI8FLAzZySY9/E7u4+tsY0gz/JMib7RngFR2IY4
-MPZB/liFV473f+eDblZh9CKsu8DAJA==
-=wiOu
------END PGP SIGNATURE-----
-
---76ybofus6n5n73yb--
