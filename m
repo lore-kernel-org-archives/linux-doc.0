@@ -1,88 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795188353;
-	b=3rkJH1gcB6XITlMYO3NLCW1zl+bsbux2667f/QZeiKvjIqdSo7VhDWGQuYWgDyfLgzG1
-	 ZCV4gxOYd9gtC0YvyWCntj10IsTPkh0E4wUZKcsZyh+dNrlq8kNXD7866PQ7dgkinExEY
-	 gjK7PkPS652sc1nxb7Cos8Djqu5X/xLphtC/LV5nZsr9KLrVPgByh0zoLHCZ++kd7efKV
-	 p1ar+TCRbeXVtcDxd7WlbzNTXphKhsweGfXa6VShZfPrPlG9RKdaljgiWdQCUvykV5Hp7
-	 ciPGHsYsVj5R7YtfSUGH6cNg9+Yo4jSW+YHYLJf72DPYlJ3QvfZijuolTfPvHqs90hg==
+	t=1795188550;
+	b=Geo7ATxpn3LFYlU2oSqmD2pkddFapQoVPeiIjt4QDdAeYbFI/enbd6G5XnOMgXatmcaV
+	 CCE4nXNIkUeuWUYAu+yf2wgI/JtO5tFEBLRO1mGb3SJfOoB4taFuFf6KN7btHelNblUNY
+	 phIojF7vqnwJFXx/PXKlFMmtOOEmNulHR6v7swloFkuCWzX+kZK8MASLA5YYMhHGcB+p9
+	 Q+GaOCRmpISc0n90wBqyVyXRbDOQTh2RxvHKp7M7Zyg3hk5jsKEU4J07g/uClQW3bwQpk
+	 55+bg8dxcLsFVpYIS3ERudKkzsJliTWLqepluSCnQZACX5IyeusYQ3mDu+Hqhdc7w+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795188353;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version;
-	bh=QWMz69mts87JYVKK5FQwSifuUzdf9X24jzWOqZ6Lyr0=;
-	b=gzOWeUNKmNGxt9nRsVwav4l+uhnIrqoCwclEMfz/Mbu1a/ri+VpHSA6ZgHBmMwz9cl5N
-	 D+da7LLUoQ9cxc5XeMPTf4mzQ4STi166GA0LAAVK1kmzgerF5s0DxcYfUfKPd/Sc6snyq
-	 RP4jGfrHiniXSxc9DTpIQr++cC2Wday8oqf/ub/r3CDXpi7k6xXNi5JeM4VWneksICG5T
-	 KgL9akvpCUKFYPTIb+OxD6HvFkneoKbkhsDQ3LTekZRO6jDcK/0fPD58CHnPZLCL8+V7R
-	 V5aMWpMlH5j5LK1CyGJyOxvIFn+3d9YWJZNpCUqmezHAZJLPNL4U5aGjMKPtELOWIYw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795188550;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=uzA49QxuK5wCejR8YkAwkvdhpULE3l6iDV8rffStUcU=;
+	b=ntigAX1EltoVjT6nc1i0uPjvVCivJG92eEustFJ6YqSZn7uI02ASP1a78hs8QRIYltQy
+	 ZImzJNNSYiJVFHNAgjh/upsZkX9R3uu8c6/uL1KCJOGOa8hzIgAAVltYoi95UokFRyxOU
+	 ggcu4/n8R4T9cKd4hmFujMRHlsZU+daH575cbHGhOM7beLw/WT5E87x1eveIJHwBcnzxG
+	 0iKvxkAFXBRjoESo/GvKKirWg2KaqWj2kNC65w06Gnhp6zSQ6gvw7IDN9gGwOAPBkAh2X
+	 sqj802ymtHOKg9dDokfl0FM7ZBMFd8sGxS/xbB9DqTToCdOpYBTqgnBZq1mFvP+2Cmw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=fb.com;
-	spf=pass smtp.mailfrom=meta.com;
-	dkim=pass header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=PwL5m2CH;
-	arc=none smtp.remote-ip=67.231.153.30
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XDhAD935;
+	arc=none smtp.remote-ip=74.125.227.137
+Received: from mail-pj2-f9.google.com (mail-pj2-f9.google.com [74.125.227.137])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEC8606A325;
-	Fri, 20 Nov 2026 15:25:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AEC8606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF01606A325
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 15:29:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EF01606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=PwL5m2CH
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 6AKEfpR03581822;
-	Fri, 20 Nov 2026 07:25:16 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=QWMz69mts87JYVKK5FQwSifuUzdf9X24jzWOq
-	Z6Lyr0=; b=PwL5m2CHohZ4TdVJdnzcB764cjYftAiAjJL2wfN092+o93unBV/E0
-	A7y7yrm888sHhTWLfKu7mPXWqwQQIWZggKfIdNoBGFW3ozhBNgH41VAoLJGH0O2H
-	9Pp+OR+HFBBh5J30JJH2KakNmZw8TaEblEtcSChFRkzPbu8Fs96ZVFR3tPWU7y8j
-	rgJ4SiTuNf9Y5WlCy3QwOiA1yzgQPAB4GQAnVx0IVS+/XFFqao41QnQGell6H2hz
-	nxlItdxesXYmUUXrt8SJgXx+KYuoCll8k/0hKSJ+8+wLNmeaeFp98gSFhczruAAI
-	7pKVJniINcarFrfHfLFuC8Be3YzWgv9RQ==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by m0001303.ppops.net (PPS) with ESMTPS id 4j24q283ur-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 20 Nov 2026 07:25:15 -0800 (PST)
-Received: from localhost (2620:10d:c0a8:1b::8e35) by mail.thefacebook.com
- (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Fri, 20 Nov
- 2026 15:25:15 +0000
-From: Amir Ayupov <aaupov@fb.com>
-To: James Clark <james.clark@linaro.org>, Leo Yan <leo.yan@arm.com>,
-        Suzuki K
- Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@arm.com>,
-        Alexander
- Shishkin <alexander.shishkin@linux.intel.com>
-CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Randy Dunlap
-	<rdunlap@infradead.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Daniel
- Pereira <danielmaraboo@gmail.com>,
-        <coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-perf-users@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 7/7] coresight: Add pmu_pulse/extout_pulse
-Date: Fri, 20 Nov 2026 07:21:20 -0800
-Message-ID: <c43cc5feecb253821499be80d43f1e71ccb32193.1795182850.git.aaupov@fb.com>
-X-Mailer: git-send-email 2.52.1
-In-Reply-To: <cover.1795182850.git.aaupov@fb.com>
-References: <cover.1795182850.git.aaupov@fb.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XDhAD935
+Received: by mail-pj2-f9.google.com with SMTP id d9443c01a7336-2e97ddaf3c4so2882155ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 07:29:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795188550; x=1795793350; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uzA49QxuK5wCejR8YkAwkvdhpULE3l6iDV8rffStUcU=;
+        b=XDhAD935so7XLa1egWobNnFK2mMcg3LGnfBjydyzTylDii/Pei6+jEW8Q0FEahfRIf
+         tPbwK0QtuFTPO/c3JQY9aCXE4yXZ0qpvV+BTuQiA0wE5CDcMRM3Evgrbxg+/vsIkb13T
+         k3+99hxL/HoyCQITWWc5KaExzEEqedtO1g6aFBiIiw+y0HATLjMAQ9yJ8VGLgjWpS/Ms
+         8FqmAF16rbIZonvon8LmvYfox3FrrWaPiwyGo8rF68BJXyjHdOuKxK6Ww2k3bkpbbS9N
+         EjrGm152CGhXjWrzNNR4w+RpQ67j/JBF2O6eOblTRt+rNMQ+qgBI6Afd87VBTQdeCsQb
+         t4bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795188550; x=1795793350;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uzA49QxuK5wCejR8YkAwkvdhpULE3l6iDV8rffStUcU=;
+        b=dy025sZ7HdSQn23MU80FLKKIbPFpfUv53rSpJxRpgRmhmxYHEX+MguNpe92ece5jfx
+         563cCcGZ3tta4rNKtU559v8Lq8PtzUV8h1XrucCITN1ppVJYuwPsVQv1SjgSe2mPaUyK
+         bX+g+qQ7sEcfmzYfnrLwZssquMA1tIuDgfbktBUP3czlyNukPNjjUO9/9VpvavpOKD1y
+         sG9z2Vtvcfjxg1QmzTSeTyICQc9BUIlGICI6sKBf1ONnYL7w/6fDcy+Yp8fGVAE2BXgR
+         m627vVnYMrdoFFVJvipwpL/P7iIle2fuy/3Egm9B+cRu5qPFJ1dIJFqlMowBz/2Y8GIz
+         buAQ==
+X-Gm-Message-State: APuU4Z9cB1rxpxJIQHi52tk8L/KPHLdpqa02O3LzRjJAtJEmn5TfPXd3
+	KKQEmA5g8gT0aeA7ih4n2lGL9yqB97OF9CCX5lSylrCBLTxhr+TP/2X3iwxLekPdsIJ8Pg==
+X-Gm-Gg: AZFdTZc8dVml3Iw2mhzYXIm8QhdxNxoyCuojDkVJpR8RYo2DmKIVHUY/nguo3JN5GkV
+	luGOsyCFu/kyWdAjCy57w9RP1qNFDiy+tsFksXVNpWkxvJ8F32EaelW95gRf2QIEida1pHRzBq6
+	MPq8mt0dHTku3bEfb2hXm3LztHIHMRX9ahu+7YxfN2kuuAeOLc3vgNvfWpmkODVvB9nfyIeqyMp
+	7NO7i+yNpZWx7SZkWW/Z5D+x/uMKRif/DLPp3fII3O65esxLHFeR67Zuv228kRSlWHBhZzWGV9l
+	pFz/z8G+RwN3gyi1L9ofm72kXJXBVMjqSgcSKgVKYjTL4ovDlBZa/vm08KLesd58FsXvz3clQyF
+	NNySRZRQq1fB2qfl/5OTpLGKgkDy31YLKcrPRILhO74lFKs3hqEzJ6weEjGsGipSOmt9KDOgXac
+	ce0CxcGd2emq075UM3rCyzK1vBkNloUGZp4l+hsqo6jvHvqIycyp2fCT/2V2/5DTeYR1NVL2/yB
+	pyVZqAzoQp/jBslAJACCg94SpElPAsai8CBUD+sl1NAeB6hGhfRMlXcinRD3+J+/p2IU1pYJL/j
+	5KPm4jLKP0B+OVngeEi1nQ==
+X-Received: by 2002:a17:90b:3fc5:b0:3b4:166a:27cf with SMTP id 98e67ed59e1d1-3b41c902ba8mr3313427a91.21.1795188549395;
+        Fri, 20 Nov 2026 07:29:09 -0800 (PST)
+Received: from nixos ([218.72.8.127])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41ad0a34asm4683836a91.3.2026.11.20.07.29.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 07:29:08 -0800 (PST)
+From: Zixin Wang <w1355457260@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: linux-rt-devel@lists.linux.dev,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	corbet@lwn.net,
+	frederic@kernel.org,
+	wagi@monom.org,
+	atomlin@atomlin.com,
+	linux-kernel@vger.kernel.org,
+	Zixin Wang <w1355457260@gmail.com>
+Subject: [PATCH v3] Documentation: real-time: Add boot parameters and task isolation section
+Date: Fri, 20 Nov 2026 23:28:36 +0800
+Message-ID: <20261120152836.100638-1-w1355457260@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,197 +101,232 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: RSyCozwHm6MZm79lqp4bjUv9Q9lRDyrE
-X-Proofpoint-ORIG-GUID: RSyCozwHm6MZm79lqp4bjUv9Q9lRDyrE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIwMDA2MSBTYWx0ZWRfX5V8RJ5JE1eYT
- 47568FaDERmjxVtmYPd0NiczN34+BG/49UMJzOW1/25fU0or8ArhB16S1iRlwLMCEBhgg2YQpMf
- 5W0E12zeROL1ZjsW5J02OtdBS7OE9Eje7fw0BV10M/SgEqamBBcLN3ekOoml58ldQe4OQEm50uT
- ugy1SL9X0FQZuI123P3hWs90FiJFzmPM+Md99MrKdPuTHqzejROrDIgxiLiCYmfiA2/sHLx0STU
- bLSdVAu4fQilMn5Kg5eLFFa9m/xDfYCo9ojinhr0CObJ1If7pA2lbgngflYmZ8xoFFg0NX/ZFOC
- 2B5VtpNIRLBriJenbZ670bsHV2saMDWx7wDKZZ1UGw91EYWU+bkgcaC8b/SPsc2rXsu+EnatxQf
- psHZ6mvR9ltvnjLuDG4RXyo25MlKUGqV5IXiimFme0yZ92ueM7WOtJkOf4m98RoEKgOAC9z+/1T
- bnnqwxm7qw8JvFBuT1A==
-X-Authority-Analysis: v=2.4 cv=Q+NHcI2a c=1 sm=1 tr=0 ts=6b00665b cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=_78whYxrdx1mplLwxq1U:22 a=KKAkSRfTAAAA:8 a=7CQSdrXTAAAA:8 a=pGLkceISAAAA:8
- a=FOH2dFAWAAAA:8 a=KoH9M_b8ny-f6M6y6wgA:9 a=cvBusfyB2V15izCimMoJ:22
- a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIwMDA2MSBTYWx0ZWRfX8tmhhhDLK8XH
- T9WDziVof6LRBxjwBKu7lX64glhOPkmotIekWOmvkeKgsTu39sEWwJgB7aYil/JCgiRJMaJKrBN
- Urkcljr5yFPl2lZfSfFSOUbC8qawh70=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-20_05,2026-11-19_01,2025-10-01_01
 
-Add ETMv4 configuration 'pmu_pulse' with 'extout_pulse' feature which
-requires an ETE whose PMU counts its external outputs
-(CS_CFG_MATCH_CAP_ETE_TRCEXTOUT): event 1 selects the always-true
-resource and drives TRCEXTOUT1 PMU event which pulses on every cycle
-while the trace unit is enabled.
+Document the boot parameters and runtime tunables that affect the
+worst-case latency of a real-time system, alongside the existing
+kernel configuration guidance.
 
-Assisted-by: Devmate:Opus-5.5
-Reviewed-by: James Clark <james.clark@linaro.org>
-Tested-by: Leo Yan <leo.yan@arm.com>
-Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
-Signed-off-by: Amir Ayupov <aaupov@fb.com>
+Cover CPU isolation, nohz_full, RCU callback offloading, interrupt
+affinity, and idle state limits, with references to the relevant
+documentation.
+
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220633
+Link: https://github.com/elisa-tech/wg-aerospace/issues/222
+Signed-off-by: Zixin Wang <w1355457260@gmail.com>
 ---
- .../trace/coresight/coresight-config.rst      |  5 ++
- .../trace/coresight/coresight-perf.rst        | 15 +++++
- drivers/hwtracing/coresight/Makefile          |  1 +
- .../coresight/coresight-cfg-pmu-pulse.c       | 55 +++++++++++++++++++
- .../coresight/coresight-cfg-preload.c         |  2 +
- .../coresight/coresight-cfg-preload.h         |  2 +
- 6 files changed, 80 insertions(+)
- create mode 100644 drivers/hwtracing/coresight/coresight-cfg-pmu-pulse.c
+Thanks Sebastian for the review and for the pointer to the sched_dl
+series.
 
-diff --git a/Documentation/trace/coresight/coresight-config.rst b/Documentation/trace/coresight/coresight-config.rst
-index 6d5ffa6f73471b..3eed728bf0de1e 100644
---- a/Documentation/trace/coresight/coresight-config.rst
-+++ b/Documentation/trace/coresight/coresight-config.rst
-@@ -129,6 +129,11 @@ The following steps take place in the operation of a configuration.
+v2 -> v3:
+  - Rework the isolation caveat: explicitly bound work, such as per-CPU
+    kthreads, bound workqueues, and interrupts, can still run on
+    isolated CPUs; unbound work is steered away.
+  - Clarify the flag responsibilities: domain isolation confines
+    unbound workqueues and kernel threads to the housekeeping CPUs,
+    while nohz/nohz_full handles the tick, timers, and RCU callback
+    offload.  This was calibrated with local QEMU boots (domain-only,
+    nohz-only, and combined configurations).
+  - Describe rcu_nocbs by the CPU the callbacks run on, and mention
+    rcutree.use_softirq=false on PREEMPT_RT.
+  - Drop the managed_irq flag description while that area is being
+    reworked; no position is taken on where I/O completion interrupts
+    should be delivered.
+  - Remove the MSI-X example from irqaffinity and state that managed
+    interrupts are not affected.
+  - Qualify the C-state limit as x86/ACPI specific.
+  - Drop the kernel.sched_rt_runtime_us subsection; that documentation
+    is being reworked in the sched_dl series.
+  - Frame the section around the decisions an integrator has to make,
+    and spell out the timer placement choice: a migratable timer
+    expires on the CPU that armed it unless nohz/nohz_full migrates it
+    to a housekeeping CPU.
+  - Add when-to-use guidance for rcu_nocbs, irqaffinity and C-state
+    limits, and state that options should remain disabled when no
+    corresponding interference is measurable.
+
+Testing:
+  QEMU/KVM with 8 vCPUs and a virtio-scsi device with two queues,
+  based on linux 7.3.5 with NO_HZ_FULL and RCU_NOCB_CPU enabled:
+
+  The tests that check per-CPU behavior were pinned to CPU 6 and the
+  affinity was verified from /proc/self/status.  These measurements
+  verify the knob behavior; the guidance on when to use each option
+  comes from the referenced documentation.
+
+  - Domain-only and domain+nohz confine the unbound workqueue cpumask
+    to the housekeeping CPUs; nohz-only leaves it unrestricted.
+  - rcuo kthreads run on housekeeping CPUs when domain isolation is
+    active; rcu_nocbs without domain isolation leaves them
+    unrestricted.
+  - Timers and hrtimers created on a nohz-isolated CPU expire on
+    housekeeping CPUs; without nohz they expire on the isolated CPU.
+  - With nohz, the per-CPU tick handler did not run on the isolated
+    CPU while a pinned task was running; without nohz it did.
+  - isolcpus=managed_irq moves a virtio-scsi queue interrupt from an
+    isolated CPU to a housekeeping CPU.
+  - The fair server reports 50 ms of runtime per 1000 ms period and
+    sched_rt_runtime_us defaults to 1000000.
+  - A PREEMPT_RT build boots as PREEMPT_RT; rcutree.use_softirq is
+    false in that build (its module parameter is not exposed on RT).
+
+  processor.max_cstate and intel_idle.max_cstate could not be
+  exercised: QEMU exposes no ACPI _CST states, so no cpuidle states are
+  registered, and intel_idle is not built for this AMD test setup.
+
+One open question about the idle state limits section: I could not
+exercise processor.max_cstate or intel_idle.max_cstate locally.  QEMU
+exposes no ACPI _CST states, so the kernel registers no cpuidle states,
+and intel_idle is not built for this AMD test host.  Should the section
+stay as documentation-only guidance, or would you prefer that I drop or
+rework it (for example, by pointing to
+Documentation/admin-guide/pm/cpuidle.rst)?  I am happy to adjust it.
+
+ .../real-time/kernel-configuration.rst        | 132 ++++++++++++++++++
+ 1 file changed, 132 insertions(+)
+
+diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/Documentation/core-api/real-time/kernel-configuration.rst
+index d7f08e7b..0e28dd94 100644
+--- a/Documentation/core-api/real-time/kernel-configuration.rst
++++ b/Documentation/core-api/real-time/kernel-configuration.rst
+@@ -216,6 +216,138 @@ just by being enabled.
+ These tracers do incur measurable latency overhead even when tracing is not
+ currently active.
  
- 5) At the end of the perf session, the configuration will be disabled.
++Boot parameters and task isolation
++==================================
++
++Kernel configuration options alone do not determine a real-time system's
++worst-case latency.  Integrators commonly rely on boot parameters and
++runtime tunables as well, to keep kernel housekeeping work away from
++latency-sensitive tasks.  The parameters below complement the options
++described above.  Each one is documented in detail in
++Documentation/admin-guide/kernel-parameters.rst; the notes here focus on
++the aspects that matter for real-time latency.  Consider these options
++only when the workload suffers from the corresponding interference;
++leave them disabled otherwise, as each of them trades flexibility or
++power for a lower worst-case latency.  The notes below follow the
++decisions an integrator has to make: whether to keep tasks off a CPU,
++whether to stop its tick, where RCU callbacks and interrupts should
++run, and whether deep idle states are acceptable.  For the full CPU
++isolation model and its limitations, see
++Documentation/admin-guide/cpu-isolation.rst.
++
++.. caution::
++
++  CPU isolation is best effort.  Work that is explicitly bound to an
++  isolated CPU, such as per-CPU kernel threads, bound workqueues, and
++  interrupts, may still run there unless it is steered away.  Measure
++  the resulting latency with tools such as ``osnoise``, ``timerlat``,
++  and ``rtla`` rather than assuming that an isolated CPU is free of
++  kernel noise.  See Documentation/timers/no_hz.rst and
++  Documentation/tools/rtla/index.rst.
++
++CPU isolation
++-------------
++
++``isolcpus=``
++  Format: ``[flag-list,]<cpu-list>``.  Isolates the listed CPUs from the
++  disturbances selected by the flag list (default: ``domain``):
++
++  ``domain``
++    Remove the CPUs from the scheduler domains.  This is the default
++    when no flag is given.  Domain isolation cannot be undone at
++    runtime; use cpusets when the isolated CPU set must change
++    dynamically.  Isolated CPUs remain usable through CPU affinity or
++    cpusets.  Unbound workqueues and unbound kernel threads are
++    confined to the housekeeping CPUs as a side effect.  Consider it
++    for CPUs dedicated to a latency-sensitive workload.
++
++  ``nohz``
++    Stop the tick when a single task runs and offload kernel noise,
++    including RCU callbacks.  This is equivalent to ``nohz_full=``.
++    The residual 1 Hz tick is offloaded to workqueues.  The global
++    workqueue ``cpumask`` (/sys/devices/virtual/workqueue/cpumask) can
++    further restrict where unbound work runs.
++
++  Domain isolation steers unbound workqueues and kernel threads away
++  from the isolated CPUs, while ``nohz`` (or ``nohz_full=``) moves the
++  tick, timers, and RCU callback processing off them; work explicitly
++  bound to an isolated CPU is not affected.  A practical configuration
++  therefore combines ``isolcpus=`` with ``nohz_full=``, ``rcu_nocbs=``,
++  an interrupt affinity mask, and, on x86 systems, a C-state limit.
++
++  Timer placement follows the same choice.  By default a migratable
++  timer expires on the CPU that armed it; with ``nohz`` (or
++  ``nohz_full=``), timers and hrtimers armed on the isolated CPUs are
++  migrated to housekeeping CPUs.
++
++``nohz_full=``
++  Format: ``<cpu-list>``.  Requires ``CONFIG_NO_HZ_FULL=y``.  Stops the
++  scheduler tick on the listed CPUs whenever possible.  The boot CPU is
++  forced outside the range to maintain timekeeping, and the RCU
++  callbacks of the listed CPUs are offloaded as if they had been
++  passed to ``rcu_nocbs=``.  This parameter takes precedence over
++  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
++
++  Tickless operation can increase the kernel-to-userspace transition
++  latency, so it is most useful for workloads that execute in
++  userspace for long periods with few syscalls.  Periodic workloads
++  with short periods may prefer a consistent tick instead.
++
++RCU callback offloading
++-----------------------
++
++``rcu_nocbs[=cpu-list]``
++  In kernels built with ``CONFIG_RCU_NOCB_CPU=y``, offload RCU callback
++  invocation from the listed CPUs to the corresponding ``rcuo``
++  kthread, which can run on a housekeeping CPU.  This keeps callbacks
++  from being invoked on the CPU that enqueued them.  On a non-real-time
++  kernel this also moves invocation out of softirq context; with
++  PREEMPT_RT, callbacks already run in kthread context because
++  ``rcutree.use_softirq`` is false, and the offload only changes the
++  CPU they run on.  Consider it when RCU callback processing causes
++  jitter on an isolated CPU.  If omitted, no CPU is offloaded at boot;
++  the mode can still be toggled at runtime through cpusets.
++  ``nohz_full=`` implies the same offload for the CPUs it lists.
++
++``rcu_nocb_poll``
++  Make the ``rcuo`` kthreads poll for callbacks instead of requiring
++  the offloaded CPUs to wake them.  This improves the real-time
++  response at the cost of higher power consumption, because the
++  kthreads wake up periodically to do the polling.  Consider this
++  option only when wakeup latency matters more than power.
++
++Interrupt affinity
++------------------
++
++``irqaffinity=``
++  Format: ``<cpu-list>``.  Sets the default affinity mask for
++  interrupts that do not have an explicit affinity, steering them to
++  the housekeeping CPUs.  Managed interrupts are not affected by this
++  setting and cannot be redirected through ``/proc/irq/*``.  Verify
++  the resulting placement in ``/proc/interrupts``.  See
++  Documentation/core-api/irq/managed_irq.rst.
++
++Idle state limits
++-----------------
++
++``processor.max_cstate=``
++  ACPI platforms only.  Limits the deepest C-state the processor may
++  enter.  ``processor.max_cstate=1`` caps the processor at C1 and
++  avoids the entry and exit latency, cache flushing, and clock effects
++  of deeper states.  A value of 9 overrides any DMI blacklist limit.
++
++``intel_idle.max_cstate=``
++  x86 platforms using ``intel_idle`` only.  A value between 1 and 9
++  specifies the maximum C-state depth.  A value of 0 disables
++  ``intel_idle`` and falls back to ``acpi_idle``; it does not disable
++  C-states.
++
++Deeper C-states save power but increase wakeup latency.  Consider
++limiting them only when wakeup latency matters; otherwise leave the
++platform's power management unchanged.  Choose the shallowest state
++that still meets the platform's power and thermal requirements, and
++validate the result with the tools listed above.
++
+ Kernel Debug Options
+ ====================
  
-+The built-in 'pmu_pulse' configuration pulses ETM external output 1 for a PMU
-+event to count. It only pulses while the ETM is enabled, so combined with AUX
-+pause and resume the PMU event can time each trace window (see
-+coresight-perf.rst).
-+
- 
- Viewing Configurations and Features
- ===================================
-diff --git a/Documentation/trace/coresight/coresight-perf.rst b/Documentation/trace/coresight/coresight-perf.rst
-index 0a77741a431ef9..6770a455c6b592 100644
---- a/Documentation/trace/coresight/coresight-perf.rst
-+++ b/Documentation/trace/coresight/coresight-perf.rst
-@@ -109,6 +109,21 @@ Example for triggering AUX pause and resume with PMU event::
-         -e cycles/aux-action=pause,period=10000000/ \
-         -e cycles/aux-action=resume,period=1050000/ -- sleep 1
- 
-+ETM-timed pause events
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+The built-in ``pmu_pulse`` configuration pulses ETM external output 1 on every
-+cycle of allowed trace, and a PMU event counting that output pauses trace after
-+``N`` pulses, here 1000 cycles::
-+
-+  perf record -a -e cs_etm/pmu_pulse,aux-action=start-paused/u \
-+    -e cycles/aux-action=resume,period=10000000/u \
-+    -e trcextout1/aux-action=pause,period=1000/u \
-+    -- sleep 1
-+
-+Each window is about ``N`` traced cycles plus the pause interrupt latency.
-+The configuration only loads on an ETE whose PMU counts its external outputs.
-+
- Perf test - Verify kernel and userspace perf CoreSight work
- -----------------------------------------------------------
- 
-diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-index ab16d06783a572..568e797ac5a17e 100644
---- a/drivers/hwtracing/coresight/Makefile
-+++ b/drivers/hwtracing/coresight/Makefile
-@@ -28,6 +28,7 @@ obj-$(CONFIG_CORESIGHT) += coresight.o
- coresight-y := coresight-core.o  coresight-etm-perf.o coresight-platform.o \
- 		coresight-sysfs.o coresight-syscfg.o coresight-config.o \
- 		coresight-cfg-preload.o coresight-cfg-afdo.o coresight-cfg-pstop.o \
-+		coresight-cfg-pmu-pulse.o \
- 		coresight-syscfg-configfs.o coresight-trace-id.o
- obj-$(CONFIG_CORESIGHT_LINK_AND_SINK_TMC) += coresight-tmc.o
- coresight-tmc-y := coresight-tmc-core.o coresight-tmc-etf.o \
-diff --git a/drivers/hwtracing/coresight/coresight-cfg-pmu-pulse.c b/drivers/hwtracing/coresight/coresight-cfg-pmu-pulse.c
-new file mode 100644
-index 00000000000000..76e8e6b5da0e97
---- /dev/null
-+++ b/drivers/hwtracing/coresight/coresight-cfg-pmu-pulse.c
-@@ -0,0 +1,55 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Pulse ETM external output 1 on every traced cycle for a PMU event to count.
-+ * Based on coresight-cfg-afdo.c
-+ */
-+
-+#include "coresight-config.h"
-+
-+/* ETMv4 includes and features */
-+#if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
-+#include "coresight-etm4x-cfg.h"
-+
-+/*
-+ * extout_pulse feature: event 1 selects the always-true resource, so ETM
-+ * external output 1 pulses on every cycle while the trace unit is enabled. A
-+ * PMU event counting that output (TRCEXTOUT1), for example with
-+ * aux-action=pause, then fires after as many traced cycles as its sample
-+ * period. Event 0 is avoided because it is the trace unit trigger, and the
-+ * TRBE driver treats a detected trigger as fatal.
-+ */
-+static struct cscfg_regval_desc extout_pulse_regs[] = {
-+	/* event 1: resource selector 1 (always true), drives external output 1 */
-+	{
-+		.type = CS_CFG_REG_TYPE_STD | CS_CFG_REG_TYPE_VAL_MASK,
-+		.offset = TRCEVENTCTL0R,
-+		.val32 = 0x0100,
-+		.mask32 = 0xff00,
-+	},
-+	/* end of regs */
-+};
-+
-+struct cscfg_feature_desc extout_pulse_etm4x = {
-+	.name = "extout_pulse",
-+	.description = "Pulse external output 1 on every traced cycle.\n",
-+	.match_flags = CS_CFG_MATCH_CLASS_SRC_ETM4 | CS_CFG_MATCH_CAP_ETE_TRCEXTOUT,
-+	.nr_regs = ARRAY_SIZE(extout_pulse_regs),
-+	.regs_desc = extout_pulse_regs,
-+};
-+
-+/* create a pmu_pulse configuration */
-+
-+static const char *pmu_pulse_ref_names[] = {
-+	"extout_pulse",
-+};
-+
-+struct cscfg_config_desc pmu_pulse_etm4x = {
-+	.name = "pmu_pulse",
-+	.description = "Pulse ETM external output 1 on every traced cycle for the PMU\n"
-+	"to count as TRCEXTOUT1\n",
-+	.nr_feat_refs = ARRAY_SIZE(pmu_pulse_ref_names),
-+	.feat_ref_names = pmu_pulse_ref_names,
-+};
-+
-+/* end of ETM4x configurations */
-+#endif	/* IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X) */
-diff --git a/drivers/hwtracing/coresight/coresight-cfg-preload.c b/drivers/hwtracing/coresight/coresight-cfg-preload.c
-index 4980e68483c5b9..a9a60a1c408455 100644
---- a/drivers/hwtracing/coresight/coresight-cfg-preload.c
-+++ b/drivers/hwtracing/coresight/coresight-cfg-preload.c
-@@ -14,6 +14,7 @@ static struct cscfg_feature_desc *preload_feats[] = {
- #if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
- 	&strobe_etm4x,
- 	&gen_etrig_etm4x,
-+	&extout_pulse_etm4x,
- #endif
- 	NULL
- };
-@@ -22,6 +23,7 @@ static struct cscfg_config_desc *preload_cfgs[] = {
- #if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
- 	&afdo_etm4x,
- 	&pstop_etm4x,
-+	&pmu_pulse_etm4x,
- #endif
- 	NULL
- };
-diff --git a/drivers/hwtracing/coresight/coresight-cfg-preload.h b/drivers/hwtracing/coresight/coresight-cfg-preload.h
-index 291ba530a6a520..0058627f65ae5b 100644
---- a/drivers/hwtracing/coresight/coresight-cfg-preload.h
-+++ b/drivers/hwtracing/coresight/coresight-cfg-preload.h
-@@ -12,4 +12,6 @@ extern struct cscfg_feature_desc strobe_etm4x;
- extern struct cscfg_config_desc afdo_etm4x;
- extern struct cscfg_feature_desc gen_etrig_etm4x;
- extern struct cscfg_config_desc pstop_etm4x;
-+extern struct cscfg_feature_desc extout_pulse_etm4x;
-+extern struct cscfg_config_desc pmu_pulse_etm4x;
- #endif
 -- 
-2.52.1
+2.54.0
 
