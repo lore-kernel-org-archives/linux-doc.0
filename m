@@ -1,62 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795189319;
-	b=hVd747JXps3w1+LsaQ4zxP5dtKQsfLdgDQPT5ew8To/oIE6XGlJCp+YqG7jEn2cPbm43
-	 ItABYlT3ErRQ1FDHr+UgWUct+RjR4JFdljWZv4w+pHnKBOibXy7BE20N3FP2AlCT+5J9S
-	 ihGWP5TIQdAkqLK6FkxxEmP8a9FOFdpuTO1HlUSnvBgF0tacvdGoOvRwX6074Zkbjglxq
-	 Zvwpt7hIfLKHkv7Er8ON5JqaQl2SYaOSyHXinYbxk8e+BiYnHWoT23DEmSRF3cn4HzxVk
-	 iLIHI+1zpVBPbJoHOhK7dB/fMut9cayxApnjP7oI56ryUZ8OUQCpqfC6H7JtRf51iCA==
+	t=1795189695;
+	b=GFGMPcPave63AgcVpht+H1vnnQtB6Nurv4Sa+J6OjeKZXJYeFLlnfS7cS8ZSP3MJ3FKS
+	 ULV3ZcZG/Vzy8KpkFVUXHhfGpf0MztNLllmS3m30UgWn5TJZpQ1DFTiqcVwPy+DG6ZjdG
+	 Pqc5pv3w4eNgVJlAC2oYqsvEMEdMabH7v50nrgfceBqeo9weKax4x5YVEOQZCO6LJ+bla
+	 nUky2itYSSgW/sbwApTSKtzTQki/1AIyCpw4XVLB4eGWWfOS1+lbiE60jK5By43nNW4n1
+	 /BVYSVNFYfuQh1VRNlouIlJNffSi3sGKVMx0MSqgDAHLmAjihOF5d7NKm3HCcE97KXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795189319;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=PJvrCL4sp5MCpICPfOZGrfI2absbUrXURUFg0F6qHVg=;
-	b=pwK80v1cYb3jD6SG2f3psolJqrWgyzNkyYHFEwRB7eyCDJo4pjVrw682mDzg4JM1MOKN
-	 vcvJU/L3crvZl/9p7p1gnSGgaP31WxcQnWR8VfNG2QIxIFwy2UxURMT9eTVDip49p+S3M
-	 zmr9d5pnSdQe142Jou5QV3lX7UVkXf0nfL5GJd8GcalGCdPK+ve7AJl4nG40T88KfWcK8
-	 b6dBHR8wqTpl5drjI1DJszGcuhtyQUTpau2ODp/Hzq0gf62XXZ/EBfDKTn0ooonPpfn+V
-	 vrj38H061cZIffpSXSize9VGP/Ivy1LCSwd/0B3CvRqHKR2wRdFYm+VAqPnMgVJJ06A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795189695;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=lK3E1fMHaOAZs00Ok2HQC2Ij476E0NIQR/deVYlEviE=;
+	b=RDHE44dcOOBNJW/RPcddHrRssBOxlLhvPD6IjXx3WS1AGDvZPsWN9BIqqqTgkToB7jH2
+	 kGzK4bT6zUQw3+3blfXrNXDEXCsgPaWvA41OB9x6D7R33UYM/ZgDRBbbPb36bzOmOO4G0
+	 7JYZA3pIyrmABK7PJQPIU0vFY068Rddom9eCYzEIuqk68xhI2UPbyoFmgDpFWfcznNnEY
+	 9Q+SYdswc49hQJ2xH1q9EPs40cXmNIzCKse7cdQHKum1QX5RfN88yr5x5L01xIm270CO3
+	 p+hDNhS+4Cueok85IssFsELFCg/LnadeVuKAMekuhuWpvTvAG4Wgw2I9PRwjPC1KGdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lst.de;
-	spf=pass smtp.mailfrom=lst.de;
-	arc=none smtp.remote-ip=213.95.11.211
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b="z/SryV8c";
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=7UXjk8Pu;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABCC606A320;
-	Fri, 20 Nov 2026 15:41:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BABCC606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6114D6732A; Fri, 20 Nov 2026 16:41:53 +0100 (CET)
-Date: Fri, 20 Nov 2026 16:41:53 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Mengmeng Zhao <mengmeng.zhao@linux.dev>
-Cc: Christoph Hellwig <hch@lst.de>, Anuj Gupta <anuj1072538@gmail.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
-	Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
-	Philipp Stanner <phasta@kernel.org>, Dan Williams <djbw@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, tytso@mit.edu,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Baokun Li <libaokun@linux.alibaba.com>,
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	Zhang Yi <yi.zhang@huawei.com>, asml.silence@gmail.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Li Wang <liwang@kylinos.cn>,
-	Mengmeng Zhao <zhaomengmeng@kylinos.cn>
-Subject: Re: [RFC PATCH v2 0/8] ext4: Add dma-buf read/write support
-Message-ID: <20261120154153.GC28611@lst.de>
-References: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECB4606A32A;
+	Fri, 20 Nov 2026 15:48:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0ECB4606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=z/SryV8c;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=7UXjk8Pu
+Date: Fri, 20 Nov 2026 16:48:11 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1795189693;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lK3E1fMHaOAZs00Ok2HQC2Ij476E0NIQR/deVYlEviE=;
+	b=z/SryV8c0ojDqvAVOPkgni9WoJZSvqOMNaMkyN+XhTNEROXdR60sZAWQhhvjnT7ov+c44n
+	t/p0aO6SEFLfHIw4FTxRrHeaFCqM8rEj87IRfoducuPHzKG705awosG6JOJ5Cn5lF/STTa
+	Cg3UsbnE4wu0zpLtdEMa7q62LUhHz4br00IY9LkExD0JURm6gLGCbEAXwTL+veReQ/2IVD
+	Tbqnpbxqh+ro87nHLw1jfqIUlHMDq0cNjS2A/MHrQ6eVAPDiso83sofkjsL2S9bLpGs20E
+	TNDqK2S+G2MBcDAKTxLs2Wf5f/hEAespdI1tE0grn771Vx/iRgQ+2vP9lxZ1+g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1795189693;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lK3E1fMHaOAZs00Ok2HQC2Ij476E0NIQR/deVYlEviE=;
+	b=7UXjk8Pur15tHS06uYGPYECUOx6EI0Y21J+lV/iKOuN8yUZyIs9bRhPzXgNk3DQaw2zowg
+	O7eCsfrVWZuDnSAg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Zixin Wang <w1355457260@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	clrkwllms@kernel.org, rostedt@goodmis.org, corbet@lwn.net,
+	frederic@kernel.org, wagi@monom.org, atomlin@atomlin.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] Documentation: real-time: Add boot parameters and
+ task isolation section
+Message-ID: <20261120154811.Svr3Wf_j@linutronix.de>
+References: <20261120152836.100638-1-w1355457260@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,21 +74,41 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20261120152836.100638-1-w1355457260@gmail.com>
 
-On Fri, Nov 13, 2026 at 03:06:13PM +0800, Mengmeng Zhao wrote:
-> From: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
-> 
-> This series adds dma-buf read/write support for ext4. The dma-buf direct
-> I/O infrastructure allows dma-buf to be handed to file I/O as an iov_iter,
-> but currently it only supports raw block devices. To better serve the
-> GPU-NVMe direct access through normal filesystems, prior work for XFS has
-> been discussed at [1]. We are also interested in this field and working on
-> it [2].
+On 2026-11-20 23:28:36 [+0800], Zixin Wang wrote:
+> One open question about the idle state limits section: I could not
+> exercise processor.max_cstate or intel_idle.max_cstate locally.  QEMU
+> exposes no ACPI _CST states, so the kernel registers no cpuidle states,
+> and intel_idle is not built for this AMD test host.  Should the section
+> stay as documentation-only guidance, or would you prefer that I drop or
+> rework it (for example, by pointing to
+> Documentation/admin-guide/pm/cpuidle.rst)?  I am happy to adjust it.
 
-Can you an Anuj please work together and merge this into a single
-series covering both XFS and ext4?
+processor.max_cstate should work on AMD unless it does not expose
+certain things. But then it might be an embedded board, not having this?
+Does cpupower report anything?
+And I don't thing this is exposed on qemu since the guest goes only idle
+and the host decides what to do.
 
+The CONFIG_CPU_IDLE section already mentions processor.max_cstate=1 and
+refers to cpupower among other points.
+
+I don't know how you want to structure this information but parts of it
+are already there. You could go on an add some settings for i915 for
+instance. But then it feels like it should be within the DRM section
+because it somehow belongs together.
+
+And there is a CONFIG_NO_HZ/ CONFIG_NO_HZ_FULL section for instance.
+It also says that the transition is a bit more expensive. This repeated
+again later on.
+
+Maybe it wouldn't be that bad if the config switches would have a
+suggestion for the comandline argument that might be helpful/
+considered. That way the information pieces stay together.
+
+What do you think?
+
+Sebastian
