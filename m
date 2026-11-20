@@ -1,59 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795197804;
-	b=xokm0lJNTlnTuKvbh/u2h9j2MIaHQdLRHz2QAu1k/7wweghAeJE8JyoBIa+D9m5btqpJ
-	 1kiX6xXUhc/II0orEMTkiFc6FXJIE8XvdYUCsRspdba06q8p065aDI5f+0xcbQ+zt5UHq
-	 d9ADtCnoWnmBpBa95c1kBXspPVGrk46d9hq+PBCOXPj3loyftPO6n/OF5ejFnrjHkkBGB
-	 mRoBI6785GLKjGSdOdkOfBANaizp8jf9GxadYCG6Ya+7JJQH+s7O1dxU8GUeSBuh6qePZ
-	 aFIU82qu9L1Vo8tqStBG8Tr9swq+ylvRUjnGgJR6CGJ+ZYV+x3Tx5mP5OQXwUcoHHpg==
+	t=1795197812;
+	b=pihDDPOE+MqdylrouhXdyeWRXbLG0PvW5RKc5lTKMc9BlDGZJ0vxi79vamJAMJre026O
+	 RIDiDddE0w1jBYescrgRULusz4bo9QrU4Xn6YYzzJvoIhqyLWzFiiTn9BmpANJK4h1Uqm
+	 rt7xzNwsOueWooStXFRVTF11R+/TyCu2jKRMeSJju/aBBSJ0fUaOcJhP/pt0GEJkvOiMM
+	 cX4wJFhIcuec++CB3L51uLjUP1teujFrQYcHC6T0MUGrWZ+ZND9eonzH5GnvcbfcT+zBf
+	 XgpGPK555B316rGyHED/tl5YkkrF8bKhRaevdYSKoN3IBhY7KLcFK1SpVhPCtWz2OsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795197804;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795197812;
 	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Last-TLS-Session-Version;
-	bh=jnkKs0+up5lrFYe1Oim7ogbQWXU09e//bUPUUYHusCs=;
-	b=RMGPIppDoXdtO9KzS8TGW9+DbTk+27L8IIF3su+YEJ2Ab1nNIOkOaEnwqaoUsLHN6Xf+
-	 4WaR62A9phHddqoFZGJqjILnXxBqLZQfMt+n1K23qe/wSjqKRhyKPYBbOLPohIgoLfj47
-	 bRvm2LKoMxo02uYuiI1MsddoidzSN1511ZsOapmv0Ni0DHr8oF0URfSbGYq/6ozYhF080
-	 V/c/3xmTEsuVO6amDax//paBVg42KnrB/LeCPCbwuwUcyRNvniqb7TIz9eFKz7UWlvCai
-	 Fph2c8UgVALyDHhHG578IVj1/mrIY4Yha51mwwco8Ghwwwdbks6lixIGE2pb5hYWjDw==
+	bh=igrgnKvfig2Btr1MEOm3H8h+NFW/vPQnq+WswDulsck=;
+	b=oYnd4zCdXjFp/J7GDeU5CtMvBRB/3kC4fsh8PywGyX9qMbrnEQ6KFP2BIWBpC/d+Nzle
+	 HngEQrzk0LUBETYt1bXCLQRMVuOP6oKpXozmk0D8Bm44gyMcbXpXmdxsLbZlAFRiBzylK
+	 Tv0p8W39bUM7NvpxG3w05S6sYlstvs6Uo8eqZ+Mkb7SZAGhy5ircdL6LIbsqBYAXucavG
+	 Fc17b98RE4tdfrH8p5wMa7GwuNJ71d6SkvciX2dhcXSZeDixQD7C3svkLXL+YPEqjI/d/
+	 Q/f0WhvpvJMNEmCUkxt4OOOyr+KpqWBN+DczltGoP6aNHuLFCiim/Gm1OMjDizw6oIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bootlin.com;
 	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=apH7UwL2;
-	arc=none smtp.remote-ip=185.171.202.116
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=I7zvyOoQ;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A25360A2625
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 18:03:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A25360A2625
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348B860A2618
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 18:03:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 348B860A2618
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=apH7UwL2
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=I7zvyOoQ
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id AD919C62223;
-	Fri, 20 Nov 2026 18:03:26 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 037E81A1757;
+	Fri, 20 Nov 2026 18:03:30 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E1EC3601B9;
-	Fri, 20 Nov 2026 18:03:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 444EC11BC0966;
-	Fri, 20 Nov 2026 19:03:11 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C39EB601B9;
+	Fri, 20 Nov 2026 18:03:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 89E0711BC08D7;
+	Fri, 20 Nov 2026 19:03:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795197794; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1795197803; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=jnkKs0+up5lrFYe1Oim7ogbQWXU09e//bUPUUYHusCs=;
-	b=apH7UwL21NHkvjv8hj5EhlVeYAdNlFK6IsriVTNc8bfVGn+0tT45D7XxDqrMI+a0chcZBO
-	WXf4RH+pGoMRWI9xFk/7u8QvpNZx7I4bSRsc+o9SjLEMz4wwreOWDeH4MaTRtRbL4LelDB
-	UN7V6BdKSsw9+BkignHWSUFhWyOIkoh1HPuXWN1cNBuvdGREezvvhobqV5KKyXT2tXbMPe
-	2NRIcjY3DUhKBN6QBUSeZuZopXNezkEWV0wd7FPSGb5o7H1GA5wIY45L2OCP70ZOqr2ZrY
-	WrFNUaT6xqoNxxeRMzMvVRSvjLVkP2XqO3UvFTiuzuxcB9z3bzCVMDLiPKfeyg==
+	bh=igrgnKvfig2Btr1MEOm3H8h+NFW/vPQnq+WswDulsck=;
+	b=I7zvyOoQiVJYurCXxuCzuTzXXhh+RmwsdJKRbhoiNkQQa5hJGrH9Wij9lzEmc9spi862+h
+	sNCuj2WIy83K2qcxFBFAoz9RnQ4CsWmVPtdQn1/hjriz3ylh71cdoGcq38bxcC+rlgqwJL
+	8PzqrfgmEht6lWy2+yuMD6HaAindDah0oO9Wv7d0b8GQzVW3tcG5eDxtWrouiS8wA7Jr22
+	JjnrGf9unfv5ZH8XkqHvC9WsDFPyE1kdJfrunC+SAsGjnvhOEFh5SK2GK99k2Jx/zTDZ7a
+	MHWST5w1rH3Rk/7FgRXvGCpwi6hOjbTzNQl2rmvginCF+S2pt+68GKYYGghfcg==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 20 Nov 2026 18:58:51 +0100
-Subject: [PATCH v6 09/43] drm/connector: Export drm_get_colorspace_name
+Date: Fri, 20 Nov 2026 18:58:52 +0100
+Subject: [PATCH v6 10/43] drm/drm_atomic_state_helper: Properly load
+ default value for rotation
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,8 +65,8 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-vkms-all-config-v6-9-78ace90f4fc1@bootlin.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20261120-vkms-all-config-v6-10-78ace90f4fc1@bootlin.com>
 References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
 In-Reply-To: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -91,45 +92,63 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  linux-doc@vger.kernel.org, Simona Vetter <simona.vetter@ffwll.ch>, 
  llvm@lists.linux.dev
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=723;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1556;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=vfU4yZNMDpId5NOe4KmSIDzNmpIpA95FoT7a6v1cL0k=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBrAIr+gRIhOMJwzv24WCOv86mjS/m29fG0hrHS8
- 5E8jM1aW22JAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCawCK/hsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOKzXw/9HAWG1xHkNJbkzmKiEpKa20K4LRL2XzF
- vNM7dN7k43DgbJ/7d02PfrnYhgYeMK5J+wyrXp+fOwLF3rkGPzzHDWGL6F+noyvDviz3Il8nMwN
- J917aO7NVrVBkE9sC1jPV4CwibmdBJIWWOk32FTyvwIX/XiwBWAEeC2Cq2NLMzEvd4RvCEw4Y9z
- 0/EqM+kFiWsUaYmv4XUhqC4Jlg/ZmMhlbxhNXqKuCZZjzBAmyEavN7Ws2lgRFL7OnzuCh0078nQ
- cVC+71xjpH0KvmPySGcRuU6wLirxQ5Pg8xQlt3//qZXP1feUnamTKbo+gShvB9IAj5ZA2lpqF6+
- 5V5zceRQ9/Ny9Affxl8CC7gFC5aUYknET7MGWgkd3/J1DsgTgewjsE+9Cqqr8/fs1a0KIaRWImD
- yIHXZe7uhoWN/ugDTYFZq8qeRdzpVQ3zwh/ZJqS8ps19eceMcBz7raBqZZnYxe+bPNrguOhkxs9
- DDFas5vfeHxn5yVy7DJhMbduIy3H/UIYTdhAV+IFEHOC+r6681j2XtVNpKKvCYz7KvAVhcxnf5c
- pS3/R0QOG3X2SvxjbJ1wCl6jCuEskB7ntKLEIq/Mgzs/nLvu4g1YuHYz2V3UXdm38vjIv4B89PH
- +MeaWuSvA9pjU4rPYuRT6Nc5AxFzMDZv02dtrLsmmMZ+h10qsBNM=
+ bh=/rQ6Wm2eymebL5/sRFItZQlgeqH0lbZ7MQnRiX+73Dk=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBrAIr+TN890aHOM06Z4sF9YOZInnw4dsGdtsCOw
+ FskVgmC6mSJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCawCK/hsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOLSAQ//dBzBboZEHh6a3mAkXd/Oi7TdgfiC60L
+ f1wlo8abF7mZdvztdDNv9imQdSlC8HDb2gd8kNgNbEcsM/D1lW9evBz9RrVjo2uLB895VyC0BAJ
+ w34gFfXH8xAaTTd2VZiGaufG0Hd5+QCVF4ntM59dZ7bRBYh6PeTqvN9rgDNm8/03MM3OhOpBXcP
+ mVG8Rr7H8Gvf1P+2PwJrBl8hQ5Rgm9nEhrsEJvpiVyARRKOHm3wtCwTAiNwi8z4BaJdDq0u/rim
+ uOYhE0Ce20LZu52MxFeuG3ZJElBTru5NIOZd3CuRnDT1cU03A1iHiiAVayWkDtCYlRpp+xFPsxg
+ UeuP+if6k52SuhtSA8WmaFpul/J/UQ6JIB487ZrHmksFeMMCLV0OA9SqHRYfP44o57Qm2KcWUYF
+ fZivsHS6cZNV6MSqFiv4ouHqShHNKqYyKyOJdl/u3LFF8BKoeXxsYukNoQprZHahgSD6rBrcUpa
+ ERUkSL6ObrQ3JZeXJD2bzwvRQow612vj55vslZLrtTt10uFUg5TEp0geyWaC8taT6pERRW2eJrI
+ PjudeRmbvprKUKNM2WFJSkoaQJHkvm3+EIuFJe6gPcbIf7mOVya6dEq2azq17zFOUIo7Q0OqZO7
+ HNl+m87aRNfV0z2l44Mrzr0sIPXr8p1hshkxbYhngCzhHuclpuC4=
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-Export drm_get_colorspace_name so it could be used by VKMS
+Currently, the default rotation is always DRM_MODE_ROTATE_0 for all planes.
+Some planes may have a rotation property, and the property may specify a
+different default value and supported values.
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+This is not an issue for "fixed" configurations, but with the introduction
+of VKMS configuration, some plane may only support 90° and 180°
+rotations, so the reset state of the plane was wrong (forced to 0°).
+
+Fixes: ab2dd990f4ab ("drm: Add __drm_atomic_helper_crtc_state_reset() & co.")
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/drm_connector.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/drm_atomic_state_helper.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index d66188521881..fbff5871355d 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -1528,6 +1528,7 @@ const char *drm_get_colorspace_name(enum drm_colorspace colorspace)
- 	else
- 		return "(null)";
- }
-+EXPORT_SYMBOL(drm_get_colorspace_name);
+diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+index 267f44330629..13e848abb33c 100644
+--- a/drivers/gpu/drm/drm_atomic_state_helper.c
++++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+@@ -32,6 +32,7 @@
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_framebuffer.h>
++#include <drm/drm_mode_object.h>
+ #include <drm/drm_plane.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_vblank.h>
+@@ -231,6 +232,11 @@ void __drm_atomic_helper_plane_state_init(struct drm_plane_state *plane_state,
  
- static const u32 hdmi_colorspaces =
- 	BIT(DRM_MODE_COLORIMETRY_SMPTE_170M_YCC) |
+ 	plane_state->plane = plane;
+ 	plane_state->rotation = DRM_MODE_ROTATE_0;
++	if (plane->rotation_property &&
++	    !drm_object_property_get_default_value(&plane->base,
++						   plane->rotation_property,
++						   &val))
++		plane_state->rotation = val;
+ 
+ 	plane_state->alpha = DRM_BLEND_ALPHA_OPAQUE;
+ 
 
 -- 
 2.56.0
