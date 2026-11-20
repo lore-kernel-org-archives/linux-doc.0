@@ -1,94 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795168460;
-	b=AIxD4pmv5YJO+QgvIrw3b8aNtElDPaE0kp+WOv/KiX49VmvCzOXxxk4bSLqjJ9K3sVpw
-	 yAQwuUlfqWJVuEg/AvANsUwrNdLny6p+8gPsH9J6H118bU0Avgpkr0ZHpiH/sNRmFTXCe
-	 i93nxxdqKci0qxZvcJovT0sdoXtgCCat/r43GP8evAQkn1o+oA2zW0bB8z0V2OBz8lkYQ
-	 6TW8T1TAQ/uckQ5Mwt6YqrA1wVlw5YuhOcsFZH2shlKpIeCU8LdnYx7k7lplfGRMP90xo
-	 XbD2fqUfo9//Y2rpRqf3x8KtUt7RJbgdqHYIPICjSv2CJbDzcTJKsiXACGgk3zd60Jg==
+	t=1795168551;
+	b=1A6e/1zRT6c+nSeQD+Xw7FUBkJW/AOJBZglrBwxKJSrZKBPpOL1ijenKtivhxwZRWHkG
+	 B5WmBuSzLUgxn0SiKCZAz/a5kScdIF1TNVFHO/4mbVAlrj+eo9W3+PClFBozC9/iB5+gO
+	 HSw5IhuLXl5iEMWLTxv2VFcnW0VT4u8Up+E7ku9keH4/kjL0G86aGWufOZrj+A+ootl9e
+	 szoKlTxw99qJizoZOuv89xrAIJ3MjqghAsYyhYIY0zrQ/3jFK9/kO/qu56AP3sWTRJG60
+	 fZrLKMRjbbtfbjSlbGd2T/3pQ0/1YDZDzZX7T44rWiUXqKPAUeSQq0mqdIEiT9OxqBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795168460;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=toC7g/mQwam01PNWnVEE4EXGk05THrMqM14HugAXhgw=;
-	b=o865YzZaSoMq7YnACIH20rnPy8CZzymYxQCFgx/PsTc3wc3Aok12T6F7jLzabnYHHRtY
-	 oRITixRSYANDgJVOf1SE/nI4F2XTc7wQaJ6WSy4ouKS//7WXYPJea5OCeziKANuc/WQMN
-	 EtNgBohAhEYX4R2AKU6y/snInH50kDrbuz7YJIMqN/2F/rPs8PvOoD2a1p/Yb7gtLp68s
-	 8/ZQ98F/vh6v4iE9HaeV8FQV3TCBKlgHrUboIWM+OEKixrokpM0GjcLJ4krzSokYpOSiW
-	 bcRfr/2Mf8ucrBCVx7s2HVlst+oBUQW9QET5QmzuDApMzsvgeleI9aS32R3gWUOnbXQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795168551;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=qyrgnqyAtWqlxuswsMQE0t4cgrkAkoCIR2wECYGDFYE=;
+	b=li6U8S1NLATVZM1ovYIcgfX/BnXQb4M4fTqbzjjFfcWZQmOSziBzmVvrwcBYnKc0hP8l
+	 evEo5q12opBA/3sLxWsGKQsJzhviVX6jk/+76HJcy0rxFJ7UdPZn0hAC1IoRFBjkrETzY
+	 MS6wj2M/VH33Nkn3v6cWuVPiP81pY1rRjxCnJAuBW7onkE2Qvw0RPxmeZOEQvRB382nuw
+	 YrZ2rWphhK2YjO1vk3X1EE4xtH/SqKhBjovSpp7snmOSpPvtdBNYDmb3eeoo0iy1fuEUG
+	 Woz/ekvGAHXJusevuyiNVa1ZMaSRo/rD/ioOSWF+u9gw+eKzsaBbH2iM1XO5NWvsoIw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=d5uKR4ys;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GP0u4gdA;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2160260A261C;
-	Fri, 20 Nov 2026 09:54:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2160260A261C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0482D60A260B;
+	Fri, 20 Nov 2026 09:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=d5uKR4ys
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795168461; x=1826704461;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2IgmBcIuK8iKdSO/EWf2izgDQSehVeqYibGtFqL+DMg=;
-  b=d5uKR4ys9sPMhqillYSYfjaPgSl5pJy/++stb93cvLtIvyGlrPE+88DY
-   HYS1TbaBpocwC9XiGq5pUqHYmYmYIFIVrEb6EfX0YKSPp9u7OZRU6M8kA
-   sBJhdAfYmqE3oAHGtq1cx5N16H0vHQ3WSLhCwNw40npDPnCTPoMFt0sRr
-   Efj+bEJrWtDip8yLtbs+vkR7fpYJvy3stAHyWj63Ka8V1kIcpZlMD1pcw
-   qfblMvJnzl0qK4Jla5e7zRAXzIzIcM4hKeeeOmnrHYy9cd+4WboWW8TH2
-   ub43RI9IEL5yGeVK1iWVmEjyHt0H6+7oXGmpJhCGx4OTjQWuEnAbkDRrj
-   w==;
-X-CSE-ConnectionGUID: yCLG/wgkRg+/K+nGHp2xhg==
-X-CSE-MsgGUID: UXy5b2zrS1esK5GgqmNM9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="4085326"
-X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
-   d="scan'208";a="4085326"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 01:54:20 -0800
-X-CSE-ConnectionGUID: fZlQO3tfSKq+pWuRGHALcA==
-X-CSE-MsgGUID: yBxFOHSZQdaGaldQSiVmTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
-   d="scan'208";a="10802136"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 20 Nov 2026 01:54:14 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xULJq-00000001HWp-2jPC;
-	Fri, 20 Nov 2026 09:54:10 +0000
-Date: Fri, 20 Nov 2026 17:53:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tomohiro Misono <misono.tomohiro@fujitsu.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Marc Zyngier <maz@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
-	Oliver Upton <oupton@kernel.org>, Fuad Tabba <fuad.tabba@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Vladimir Murzin <vladimir.murzin@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kohei Enju <enju.kohei@fujitsu.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH v3 4/5] irqchip/gicv3: Add workaround for FUJITSU-MONAKA
- Erratum E#030003
-Message-ID: <202611201734.HqRvXW7Q-lkp@intel.com>
-References: <20261119-monaka-fix-for-upstream-v3-4-057df4d2ca3c@fujitsu.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GP0u4gdA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1E9F1F000C4;
+	Fri, 20 Nov 2026 09:55:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795168550;
+	bh=qyrgnqyAtWqlxuswsMQE0t4cgrkAkoCIR2wECYGDFYE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GP0u4gdAojIMgPsbZyvPNMOhmUxd/MzlJD8JRl9D77ESr9JnULCKtvoWeSgrMzj5e
+	 BM4BXyoib7MJcqQH8cMnqHclQIjzDlbR35ErJtS9NDuSSAxyxnktr3EzRENR1LD7wB
+	 kZYJe4gaZY7uQSw/SqL/Ml/+78Uog0rd4NblK7ZlADqxwvR/D4RcSoVmrV8+CwuiOP
+	 bJ39TDLj1Fl5fdgpN7RRBsTDMP4RTTWhgV71BHM29aCcOjpJanTD/ymlXCmfBVGA8o
+	 LF0JjU29TF1fr57T/VklvVc7mSKTCIAIu8y43985XxKsyq/QG98YmBlJJ0XvzdhHzg
+	 8Vj11qV+C2oGg==
+Date: Fri, 20 Nov 2026 10:55:40 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Mengmeng Zhao <mengmeng.zhao@linux.dev>, 
+	Christoph Hellwig <hch@lst.de>
+Cc: Anuj Gupta <anuj1072538@gmail.com>, 
+	Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com, Philipp Stanner <phasta@kernel.org>, 
+	Dan Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, tytso@mit.edu, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, asml.silence@gmail.com, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-ext4@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Li Wang <liwang@kylinos.cn>, 
+	Mengmeng Zhao <zhaomengmeng@kylinos.cn>
+Subject: Re: [RFC PATCH v2 6/8] fs: add FMODE_CAN_DMABUF_IO and require it
+ for dma-buf I/O contexts
+Message-ID: <20261120-faust-bohnenkraut-reduzieren-a30811186a15@brauner>
+References: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
+ <20261113070621.273953-7-mengmeng.zhao@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -98,43 +70,147 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261119-monaka-fix-for-upstream-v3-4-057df4d2ca3c@fujitsu.com>
+In-Reply-To: <20261113070621.273953-7-mengmeng.zhao@linux.dev>
 
-Hi Tomohiro,
+On Fri, Nov 13, 2026 at 03:06:19PM +0800, Mengmeng Zhao wrote:
+> From: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
+> 
+> Add a file mode bit for files that can be the target of dma-buf I/O and
+> require it when a buffer is registered.  Block device files set it when
+> the backing disk supports dma-buf I/O, and filesystems can set it for
+> inodes whose data can be reached without the page cache.  The bit is
+> coarse: a driver that installs ->init_dma_buf_io_ctx for every
+> namespace, like nvme, still decides per device at registration.
+> 
+> dma_buf_io_ctx_create() is the only caller of ->init_dma_buf_io_ctx, so
+> the capability and the O_DIRECT requirement are checked there for every
+> file type rather than in each helper; O_DIRECT belongs at registration
+> because F_SETFL can change it afterwards.  Add bdev_can_dmabuf_io() so
+> the open-time and registration checks share one predicate.
+> 
+> Signed-off-by: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
+> Signed-off-by: Li Wang <liwang@kylinos.cn>
+> ---
+>  block/bdev.c                 |  8 ++++----
+>  block/fops.c                 |  2 +-
+>  drivers/dma-buf/dma-buf-io.c | 13 +++++++++----
+>  include/linux/blkdev.h       |  7 ++++++-
+>  include/linux/fs.h           |  8 +++++++-
+>  5 files changed, 27 insertions(+), 11 deletions(-)
+> 
+> diff --git a/block/bdev.c b/block/bdev.c
+> index 88e3f552f5d4..4e7a7f7e1e8b 100644
+> --- a/block/bdev.c
+> +++ b/block/bdev.c
+> @@ -61,14 +61,12 @@ struct block_device *file_bdev(struct file *bdev_file)
+>  }
+>  EXPORT_SYMBOL(file_bdev);
+>  
+> -int bdev_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
+> +int bdev_init_dma_buf_io_ctx(struct block_device *bdev,
+>  			     struct dma_buf_io_ctx *ctx)
+>  {
+> -	if (!(file->f_flags & O_DIRECT))
+> -		return -EINVAL;
+>  	if (ctx->dmabuf->size > UINT_MAX)
+>  		return -EINVAL;
+> -	if (!bdev->bd_disk->fops->init_dma_buf_io_ctx)
+> +	if (!bdev_can_dmabuf_io(bdev))
+>  		return -EOPNOTSUPP;
+>  	return bdev->bd_disk->fops->init_dma_buf_io_ctx(bdev, ctx);
+>  }
+> @@ -1041,6 +1039,8 @@ int bdev_open(struct block_device *bdev, blk_mode_t mode, void *holder,
+>  
+>  	bdev_file->f_flags |= O_LARGEFILE;
+>  	bdev_file->f_mode |= FMODE_CAN_ODIRECT;
+> +	if (bdev_can_dmabuf_io(bdev))
+> +		bdev_file->f_mode |= FMODE_CAN_DMABUF_IO;
+>  	if (bdev_nowait(bdev))
+>  		bdev_file->f_mode |= FMODE_NOWAIT;
+>  	if (mode & BLK_OPEN_RESTRICT_WRITES)
+> diff --git a/block/fops.c b/block/fops.c
+> index 86bf1f298b79..7e5702e047a2 100644
+> --- a/block/fops.c
+> +++ b/block/fops.c
+> @@ -1008,7 +1008,7 @@ static int blkdev_mmap_prepare(struct vm_area_desc *desc)
+>  static int blkdev_init_dma_buf_io_ctx(struct file *file,
+>  				      struct dma_buf_io_ctx *ctx)
+>  {
+> -	return bdev_init_dma_buf_io_ctx(file, file_bdev(file), ctx);
+> +	return bdev_init_dma_buf_io_ctx(file_bdev(file), ctx);
+>  }
+>  
+>  const struct file_operations def_blk_fops = {
+> diff --git a/drivers/dma-buf/dma-buf-io.c b/drivers/dma-buf/dma-buf-io.c
+> index 8440151de860..9575b7d65ec5 100644
+> --- a/drivers/dma-buf/dma-buf-io.c
+> +++ b/drivers/dma-buf/dma-buf-io.c
+> @@ -152,9 +152,11 @@ static void dma_buf_io_ctx_shutdown(struct dma_buf_io_ctx *ctx)
+>   * @out_ctx:	[out]	resulting ctx
+>   *
+>   * Create a new I/O context from the given DMA buffer for the given file.
+> - * It only works with files implementing ->init_dma_buf_io_ctx and fails
+> - * with -EOPNOTSUPP otherwise. Once created, the user can create a map
+> - * and use it to issue I/O, such as read/write requests, to @file.
+> + * It only works with files implementing ->init_dma_buf_io_ctx,
+> + * advertising FMODE_CAN_DMABUF_IO and currently opened for direct I/O,
+> + * and fails with -EOPNOTSUPP or -EINVAL otherwise. Once created, the
+> + * user can create a map and use it to issue I/O, such as read/write
+> + * requests, to @file.
+>   */
+>  int dma_buf_io_ctx_create(struct file *file,
+>  			   struct dma_buf *dmabuf,
+> @@ -164,8 +166,11 @@ int dma_buf_io_ctx_create(struct file *file,
+>  	struct dma_buf_io_ctx *ctx;
+>  	int ret;
+>  
+> -	if (!file->f_op->init_dma_buf_io_ctx)
+> +	if (!file->f_op->init_dma_buf_io_ctx ||
+> +	    !(file->f_mode & FMODE_CAN_DMABUF_IO))
+>  		return -EOPNOTSUPP;
+> +	if (!(file->f_flags & O_DIRECT))
+> +		return -EINVAL;
+>  
+>  	ctx = kzalloc_obj(*ctx);
+>  	if (!ctx)
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index b98f43478cc0..0cfb6fb6b4e2 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -1610,9 +1610,14 @@ struct block_device_operations {
+>  	int (*alternative_gpt_sector)(struct gendisk *disk, sector_t *sector);
+>  };
+>  
+> -int bdev_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
+> +int bdev_init_dma_buf_io_ctx(struct block_device *bdev,
+>  			     struct dma_buf_io_ctx *ctx);
+>  
+> +static inline bool bdev_can_dmabuf_io(struct block_device *bdev)
+> +{
+> +	return !!bdev->bd_disk->fops->init_dma_buf_io_ctx;
+> +}
+> +
+>  #ifdef CONFIG_COMPAT
+>  extern int blkdev_compat_ptr_ioctl(struct block_device *, blk_mode_t,
+>  				      unsigned int, unsigned long);
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 99caef43ff3c..f5524fc770d4 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -121,7 +121,13 @@ typedef int (dio_iodone_t)(struct kiocb *iocb, loff_t offset,
+>  /* File supports atomic writes */
+>  #define FMODE_CAN_ATOMIC_WRITE	((__force fmode_t)(1 << 7))
+>  
+> -/* FMODE_* bit 8 */
+> +/*
+> + * File can be the target of dma-buf I/O.  Set it for files whose data can be
+> + * reached with direct I/O without the page cache: a dma-buf iterator has no
+> + * pages to copy, so a buffered path cannot serve it.  The bit is coarse; both
+> + * the device behind it and O_DIRECT are checked when a buffer is registered.
+> + */
+> +#define FMODE_CAN_DMABUF_IO	((__force fmode_t)(1 << 8))
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on aebb7274476403040d582c61478df8f4a7bf9cd3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomohiro-Misono/arm64-cputype-Add-FUJITSU-MONAKA-definition/20261119-180433
-base:   aebb7274476403040d582c61478df8f4a7bf9cd3
-patch link:    https://lore.kernel.org/r/20261119-monaka-fix-for-upstream-v3-4-057df4d2ca3c%40fujitsu.com
-patch subject: [PATCH v3 4/5] irqchip/gicv3: Add workaround for FUJITSU-MONAKA Erratum E#030003
-config: arm-randconfig-1003-20261120 (https://download.01.org/0day-ci/archive/20261120/202611201734.HqRvXW7Q-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3b14d7c370558b46e5f0c6494a05c492e59bf32c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261120/202611201734.HqRvXW7Q-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611201734.HqRvXW7Q-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/irqchip/irq-gic-v3.c:83:32: warning: unused variable 'gic_fujitsu_030003_erratum' [-Wunused-variable]
-      83 | static DEFINE_STATIC_KEY_FALSE(gic_fujitsu_030003_erratum);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +/gic_fujitsu_030003_erratum +83 drivers/irqchip/irq-gic-v3.c
-
-    82	
-  > 83	static DEFINE_STATIC_KEY_FALSE(gic_fujitsu_030003_erratum);
-    84	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This is stealing yet another FMODE_* bit for special-purpose stuff.
+We're really really short of them. Did Christoph suggest this?
