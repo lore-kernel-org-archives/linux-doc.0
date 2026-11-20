@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1795198207;
-	b=bNINwCLL4vJuk6uUe60vHp7qFhAUCh0S3qQwyKeo+gffuTqGJijZrd3WSwtEzGVW1cFc
-	 bOCwOMuiCuHTWoK/sigKgTZius3eRNAYZb/0gLD+5Y50v2OHtrUIoAdvEnNbxPzzkPc8i
-	 cnaXgSPPIGzkU+6c6W5BX8Cy6uEVERcE0uhcTBz4UXHo9gJn4r1mB5gBUMyrW9fJeSCjY
-	 3SmHr/tTL+MqFyPJi4wEHigTRc/RuelpkIeX8fiA8zdg8E5+IGOyvTjjdPLgYQdd+7m0/
-	 qsL9SWxO/UeTxuc8PZwiAjQ4zfddbeJp+BwZDPcRbG98JpPk/1oB5GZiesEhkk35f8A==
+	b=RN2uS4o+R91XtvU5Es0hiPPyorClkqsRpp7PcihLxNFF2wblCRylFDpLLqdnT61s2L0A
+	 J4GqN4+eaF6gPWQWipjVHn0ejab1b1GZtroqVve9qI4JHWYU/h3obvpBD2T5sowqB8ivf
+	 63zSqcWZnk/HJHYnfi6QBKt3ceP4ZMUWV2nPIHoOa91h1h3rDdTJtstyv/kyfLmSepUZH
+	 4+rhJMMPMOUshGPHnRrZFBFu55fMDgkMeJylLpIwLPB+pbWcEhElNr9VYGUYvJLYJpHis
+	 hsEurfhBYZ3Ri6AO8O4fvw8uobvehtLe7mAKRKNmpUEk0A/IAKk+rbvKfkGeXkKEPeQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795198207;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=CKVNPICIuJeHboZhs5//ylGkrISPeWolkQPQ1hYsQP0=;
-	b=BvyPaHYsNVF4wTzPQFaNU+OC94l0XoCXhH+a+C4qvYqys0XNQD4FcvplXL0FwMwqtB+q
-	 GntcfiVvLbpqbkzTzWLcKY1OJLjpO4FmvwVjD+Ib9AeDG4HhzjidIlyqYxB8d2Jr1GGaW
-	 MjawybaL3jpZeS5a8BQxz0OVw32r8a1sn6KGB0k67QFh45GVOBCshlPlEwrsW6zgQLd5Z
-	 LCsfgOHTUG9sZ3d1EVxOS0sUcHrIeRhSS6IpRkpSohTZrr1NxvpB+FqLTGFiXonDFE8To
-	 NKnHBiEXVz1sfs9xbNwllS2MsM/dsgbGyB5c9UDjA9MFbKwvnPvMBPwMisCuXqQonig==
+	bh=/2GT9+cT6aXktwJ+E8xAruZNdnX0GNZG3Q3TOZjuPW8=;
+	b=YXUWEKMRYrsfOJRbw9rTfBSu24e1RElgKpjaSsEwknIpipcYS4ONmDC46ob9T554DToh
+	 uwG8Qegfi6x7YTYCyNV8f2oM4CFDZ/f2yfzgUwMlPFLp3Htw+2oHJqOTi9TaifwpIr7hr
+	 9MJ34yO5jf4Sx/Fiz+ibcWgov4BUQQn0xnLvY2CwcZ1VZIcR/wxsiPNo7Rv+Gp5siWXeh
+	 7PVqM48abwPOBauF05vzVJjoqfliEon8ruGeueY/f9VLuIGAeWIXEZVJeBPN2nYCRpx+B
+	 yjvBVZOmn87vEMQF6yUR+UeRKfNFyWlFEFMKckXY7ci2ASgvBfnJ3y0EU7k88EiVDKw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="cR/1sFjW";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X3kX2aRW;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598ED606B23A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F99760A262B;
 	Fri, 20 Nov 2026 18:10:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cR/1sFjW
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X3kX2aRW
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795198206;
-	b=PXFjBgJbPQ59KvbrHakjrZO/KVVv4kvBPmHZSDpFnCjCW1HwoG0w1QXY/LL+Zvk8ixgN
-	 MU5qiMFHa6aAp7LIxUq9XmJCPkGHy37bfNA0vubcWnicho4mEYBUcticVGqTDX2p/J+l+
-	 c9gikjU56IwXhFbdFo/JOV8xgtnkm7pV2n/0ZdXS21qaIhOliSFD9GjHqnZm6Dt8f0E48
-	 BQyGsm1y2lqx7lVpFEnkbHnGx4Y0iukEplTKuzAmpHDueOLaroVO4Qrt7UjtYj7ng34UH
-	 ma9TacAbdPENZbbd4B0vYHZ/ZPVLmQ1gxn/rV8kFKzenfvC48dd1+grOuHcuUaTMEfg==
+	t=1795198207;
+	b=DrFtKV+B5VOmawHl8nh/Nf6edLRADW7EvdCwNcYBD6WTNgiwNkYfsvcdxUJzuWp8pdcY
+	 SbuLr+xcFU5T1gT/6K3DwEBkQqsGMmmEUwJ3exGaSE2HBYCIFHGa2wYh+P5FMLHjQ5apL
+	 RwNybQ/Q7o3CjHT4GVYuRtoWlHTISsbkwTQdiIXBmOAACVmQ8s30b1RLMwFzyKbe9L7Fz
+	 oBIf+0a+PglzODLS/xnSLU1syudflLhlr6fU/EngYW3WGEJqP9H/Te9KWWczbJYeTTGLv
+	 oPGJOQWxuvxdn1UP76X5foFMzBuj0rv+zH3FxVUsY42P4GtdTg8GpXK65S9e00gnIvA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795198206;
+	c=relaxed/relaxed; t=1795198207;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=CKVNPICIuJeHboZhs5//ylGkrISPeWolkQPQ1hYsQP0=;
-	b=E43F0BiI/E+cHNjtkb5MjPjCvJMVS+bgjhtxTEXzqUNjbwA3NdTaPniYRb77ZbOp+eo4
-	 BJdpBkzdzgkM7nlWwSYGPBGJOtztQrO4jee7Il8aKpn00KBlATuYsiV3nOJZOkxNJdrqZ
-	 Zez0SEc7ofK0ueh9fGYf0y1evssy8ww+arvbOyp78Rt657XhzM/n01tIrv2y8aMRltXLi
-	 IQevjGOg4HwQu7XGjvVoSnFIhejFF7CiWpj5H44SO7NBo+rGxg/Ji2pKxQKi7PBTNi9nT
-	 3nWNVOnnLA2Hgf86PbSPNCAN+cB1T+yGW+/Boat7eS6cxZBJzfOyAfHKMpzuWwHp0OQ==
+	bh=/2GT9+cT6aXktwJ+E8xAruZNdnX0GNZG3Q3TOZjuPW8=;
+	b=iU7p/dSq3N3mU299fPDL2JVsHo0Nn7T7hcEYS/1cWtTwXtHHd4S4jTNSC99zdlzVh0yj
+	 q9IhjT0+KGjW/thzyQQOSvvfI1vOnrJ9VMJeUkg/emG3jL45C6Ff5ndYwCK9r9yINVgib
+	 zHx1Zasq5wDt/05aBtUgjeWTMgt10gS2/WAWnvATrSM5HCtYrauYMEeQ2hVZ11LtPgd2X
+	 JrfhlCmASEMRyIcZYsgYzD134QIMhYFHjgkgoI2aJZhfsz6y0jLBJKFocSJ1SqieMW2nW
+	 bvEBmCh2grmFXmtWnNfzcq3S8iLLyerrKBuAXFKHp+1/P0U7XEjfw7IfPDBJhEiaLvw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 88B6C1F00AD4;
-	Fri, 20 Nov 2026 18:09:42 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id B7FFE1F01803;
+	Fri, 20 Nov 2026 18:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795198206;
-	bh=CKVNPICIuJeHboZhs5//ylGkrISPeWolkQPQ1hYsQP0=;
+	s=k20260515; t=1795198207;
+	bh=/2GT9+cT6aXktwJ+E8xAruZNdnX0GNZG3Q3TOZjuPW8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=cR/1sFjW36AnBN3zX3d6d2DvEj0Mp9J99K3GB8Ws6owxduh/lPO45ilo3iPAa+CGh
-	 fL0oVlroNF4EYIn5fx8Le2hz66d77tydI/BWzKIFEowZXDpV0HmlZYgM6ZlBjNicRE
-	 KJnyRHWJlyNjgqhRmXm43TQCf31nNm4JgHzko46cAeZ0ZmBDwPWALZmaTBhVjrZCEb
-	 1g/y4l46t7Ncl6T1c9nILoN09/Y4t4SiA7A7V6dzRgTFrwgoBLMMFvrP1Cp0/LB7pb
-	 /aushC40WlmU5T+0JFJ2Lw/eJj5275amr6FrN1BqODixH1xTigpWI8pKU6Clbsr4Vu
-	 oa8pC8sH8F5Sw==
+	b=X3kX2aRWgVtrSH8Vxt7BvKZE1Wu7jU2PNp1+FDyOt5BNEeDYqFqkzDYcMJ3jQ7yao
+	 wocgNQe2UkCi85bpmoUkzqmBzaG/X6YyM5S89NrG3QFyXZmEROMHu4ScCz0v3DUGIK
+	 32BpzVsVSYv/McXtYkHBuWXve+1ms7/juDTnVigkW5a84B6SMAhQlqy+VwJ4/kFaHn
+	 nQahRByeoWfCOyOeFP0inmaQUyBfqI+U/2a57CwLfxmG2g2yFqaXroUGUt/byHAu1m
+	 Ks5krxmg5gwMB356wisbx5GTPkY4ma/5UTiOgJzi/zQtnpXVWhqfJEPF/6h6/HG8ad
+	 QoeaTPRy2QPvg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 6A6794B8F1;
+	by lkml.kernel.org (Postfix) with ESMTP id BF35F4B8FD;
 	Fri, 20 Nov 2026 18:09:18 +0000 (UTC)
 From: Gregory Price via B4 Relay <devnull+gourry.gourry.net@kernel.org>
-Date: Fri, 20 Nov 2026 13:09:03 -0500
-Subject: [PATCH 12/60] mm/vmscan: restrict reclaim to common memory
+Date: Fri, 20 Nov 2026 13:09:06 -0500
+Subject: [PATCH 15/60] mm/page_alloc: count common memory nodes for kswapd
+ recovery
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,7 +84,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261120-private_nodes_v6-v1-12-74f5f9a115c2@gourry.net>
+Message-Id: <20261120-private_nodes_v6-v1-15-74f5f9a115c2@gourry.net>
 References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
 In-Reply-To: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
 To: Yury Norov <yury.norov@gmail.com>, 
@@ -140,11 +141,11 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
  linux-kselftest@vger.kernel.org, "Gregory Price (Meta)" <gourry@gourry.net>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795198152; l=2825;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795198152; l=954;
  i=gourry@gourry.net; s=20261120; h=from:subject:message-id;
- bh=FtLUhP0wFF5GfqO7k4obSm/pRyOe/gBL2Z3quyWtR6I=;
- b=zwlm1U/LcEdr9egylwJhEu7nOZaUODHcksIlsiJlCATY4Fbl78/BXLfyNjSKWv3UDT+qsBfSZ
- piPbYWcP1rrCCLgsKDDw4afKb7rTwG3CyQeRdlVm7Foh4LeK1/sZgiM
+ bh=aFOBkE3dz1xwSTmNPK2kJnfdjjcB92u911EXeeybS5k=;
+ b=miZr9gvtGaEB+gbuRcJGykPJI+d+lB6tSrF2muK1MI3mjI5Sn4TSITCLQ17YsndpWzcCDgzxv
+ qw/A7tFHGb3BeDl3swCP0HsgD2rlRnitjHD2V8ZURSMeMu3SzxBJkCC
 X-Developer-Key: i=gourry@gourry.net; a=ed25519;
  pk=BZWDlx4htkR5KcvGjGtSDfx1tM0E5dlyBR43FEhjWVc=
 X-Endpoint-Received: by B4 Relay for gourry@gourry.net/20261120 with
@@ -155,93 +156,31 @@ Content-Transfer-Encoding: 7bit
 
 From: "Gregory Price (Meta)" <gourry@gourry.net>
 
-Reclaim serves the ordinary allocation domain.
+When a zone recovers above its high watermark, free_frozen_page_commit()
+clears a hopeless kswapd state if more than one memory node exists,
+since allocations could then have fallen back to another node without
+triggering direct reclaim here.
 
-Restrict it to N_MEMORY_COMMON:
-  - start kswapd only on common nodes, at boot or hotplug.
-  - walk common nodes when MGLRU's debugfs interface iterates or
-    validates nodes, using first_node_state() and next_node_state() in
-    place of first_memory_node and next_memory_node.
-
-Direct reclaim serves an allocation from its own zonelist, so it is left
-alone.
+Only common memory provide fallbacks, so count N_MEMORY_COMMON nodes.
 
 Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
 ---
- mm/memory_hotplug.c |  3 ++-
- mm/vmscan.c         | 12 ++++++------
- 2 files changed, 8 insertions(+), 7 deletions(-)
+ mm/page_alloc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 1d3d1792074c..a599fcad65d3 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -1222,7 +1222,8 @@ int online_pages(unsigned long pfn, unsigned long nr_pages,
- 	/* reinitialise watermarks and update pcp limits */
- 	init_per_zone_wmark_min();
- 
--	kswapd_run(nid);
-+	if (node_state(nid, N_MEMORY_COMMON))
-+		kswapd_run(nid);
- 	kcompactd_run(nid);
- 
- 	if (node_arg.nid >= 0)
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index bc7579d47f9b..5b53e0391d80 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -5729,7 +5729,7 @@ static void *lru_gen_seq_start(struct seq_file *m, loff_t *pos)
- 	do {
- 		int nid;
- 
--		for_each_node_state(nid, N_MEMORY) {
-+		for_each_node_state(nid, N_MEMORY_COMMON) {
- 			if (!nr_to_skip--)
- 				return mem_cgroup_lruvec(memcg, NODE_DATA(nid));
- 		}
-@@ -5754,13 +5754,13 @@ static void *lru_gen_seq_next(struct seq_file *m, void *v, loff_t *pos)
- 
- 	++*pos;
- 
--	nid = next_memory_node(nid);
-+	nid = next_node_state(nid, N_MEMORY_COMMON);
- 	if (nid == MAX_NUMNODES) {
- 		memcg = mem_cgroup_iter(NULL, memcg, NULL);
- 		if (!memcg)
- 			return NULL;
- 
--		nid = first_memory_node;
-+		nid = first_node_state(N_MEMORY_COMMON);
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 0448d04e048a..1ec7d8000792 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -2958,7 +2958,7 @@ static bool free_frozen_page_commit(struct zone *zone,
+ 		 * kswapd work again by resetting kswapd_failures.
+ 		 */
+ 		if (kswapd_test_hopeless(pgdat) &&
+-		    num_node_state(N_MEMORY) > 1)
++		    num_node_state(N_MEMORY_COMMON) > 1)
+ 			kswapd_clear_hopeless(pgdat, KSWAPD_CLEAR_HOPELESS_PCP);
  	}
- 
- 	return mem_cgroup_lruvec(memcg, NODE_DATA(nid));
-@@ -5832,7 +5832,7 @@ static int lru_gen_seq_show(struct seq_file *m, void *v)
- 	DEFINE_MAX_SEQ(lruvec);
- 	DEFINE_MIN_SEQ(lruvec);
- 
--	if (nid == first_memory_node) {
-+	if (nid == first_node_state(N_MEMORY_COMMON)) {
- 		const char *path = memcg ? m->private : "";
- 
- #ifdef CONFIG_MEMCG
-@@ -5935,7 +5935,7 @@ static int run_cmd(char cmd, u64 memcg_id, int nid, unsigned long seq,
- 	int err = -EINVAL;
- 	struct mem_cgroup *memcg = NULL;
- 
--	if (nid < 0 || nid >= MAX_NUMNODES || !node_state(nid, N_MEMORY))
-+	if (nid < 0 || nid >= MAX_NUMNODES || !node_state(nid, N_MEMORY_COMMON))
- 		return -EINVAL;
- 
- 	if (!mem_cgroup_disabled()) {
-@@ -7907,7 +7907,7 @@ static int __init kswapd_init(void)
- {
- 	int nid;
- 
--	for_each_node_state(nid, N_MEMORY)
-+	for_each_node_state(nid, N_MEMORY_COMMON)
-  		kswapd_run(nid);
- 	register_sysctl_init("vm", vmscan_sysctl_table);
- 	return 0;
+ 	return ret;
 
 -- 
 2.56.1
