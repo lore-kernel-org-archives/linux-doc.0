@@ -1,116 +1,130 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795187855;
-	b=um5WbD6Zv8kphLZatKGsbw6ppEzpueSiLEihkfoIqmJQF+3Oela5+D9VSkW/I3llbe9i
-	 iZf9stke1t3+UTKdNPTjVR1krWicKrjH6IiMCuF8L8wcuZBDpT02IA3lpw83S7GbVVwdU
-	 GHCKt5cV4TQqPiAGr0BheRJh6PscGA+QehT/SiBvWuppviCgIbutOipy6o4nrPSmI+QRF
-	 vLqUM4GcS4O/7nUMSKK34NebGAnzPO0si3VL3y2XJSCfRmDpe5w0yKt2Ikptf+52TftF+
-	 /6o1yahui6PRNWKAsPCdO08I8qJL8sIIAWbCpHvgnRfsn/rDc9tEWOMQd0IG6XViHqQ==
+	t=1795188276;
+	b=RfAFeDH1PfbhtfH2Bh/YaxGqKegF7yDFH95Z1b8df+ItcZWkUvuylINwZgBRkv6qm5on
+	 D3h1ikB5f5QwQBNVknf16//xcRnXCGn5EJpq4lm0DCk8garWyV71H6D75D6AdsnLLR6AU
+	 3QtN0Tzq90qerFr6Ng1JjfTuZYvjaCeb8OSdIH9KwdSfHtKH5YBwVmQdbZqXaq0je7muM
+	 kV/WfR/omefUc6cXvBrK9bM77zdpCFoAmtgZ+Fpkwe0d4CVScJrZz0XUj8Qu5z5qte6UB
+	 0w8sDsO8XID522AXeq+wkvOgF2KJ6EiyxDgBzk0A4U41EyhpvzFDSeDnY5tFcpX0Cfg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795187855;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=qAjYne+BgcE8DA63sQsMZ990H8S9yK78zgr2NZdv76Y=;
-	b=3irlLigmFpIN5/97JVVR4kED1KTAc0Wq4rzuaD6ZIOIFGqjrsnxmWdSYVw0v4aiI6OnO
-	 ZN+zJqeNCBSZSWPux5LI0uXyYJRIr1E7LwLc1ysNXJlYrxQN/vfEAd4nujly3M23f1RXy
-	 UYDWYrpXRKU4R3OWBK7yQ3hxhz2Yn6xe2Gorg4OITTTed1y1GqhV06b/vJYWTlcdsMarP
-	 nENjzXox0VQXagizmDOqaq/2oDKYZxv+qVTSpPRMMlIHQ3UfOj5WTwAr1kxV/guv5m4Y8
-	 Fnvbop3Xtp9/FBSxKOJP4MuXIpZ2q/SFnBk1h5YS+ITkGySLr8Wa1YZO94B1sir0UfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795188276;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=zOo2EfGngcl3fu/kIhqZadaO75pP0lk1DR/lRHlyrtU=;
+	b=3Bf/JDupGMB0NF5YT0guaBMQxASzyBt8w/bQYuZjpy4pLXvc+1ZMyFO9n8Eev5Ed6Alx
+	 4Y7MlAXroEFDChrhA0V7TYlbTNnQKvpgcH3nTww9GJ+kb1Tfjbiohr3ZglABng4Kdh5l2
+	 9iwPgdwu2OaDjYcbe9Zszk4crOqJ4hHKxZe+bcxYqgvAa5efSUBO+33YuHvzuCgBjiaBz
+	 ETVN/fdmBwFGMjRFpx/o1Vl9SwdSSq2kSbCnJxpM3nU067pguiwACOZxEYHmK3ZLW4kg8
+	 5Pyljq0m9B4+A3HhzhGgRqznESzl+j6HVugTTO0IJiWzmdRO+Xz99CjZcXXH5PLORHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=ZsBZbY9r;
-	arc=none smtp.remote-ip=74.125.82.49
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XCQUtSSf;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A536606A32A
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 15:17:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A536606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 1ADE6606A320;
+	Fri, 20 Nov 2026 15:24:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=ZsBZbY9r
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1b0739d31b9so3490c88.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 07:17:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795187854; x=1795792654; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qAjYne+BgcE8DA63sQsMZ990H8S9yK78zgr2NZdv76Y=;
-        b=ZsBZbY9rhrhfiMH0sIHuSlkXAHu76ZIvXMLxoLYKzwh8PjT4CLxStoojunbuP0/iA/
-         W90zitn5Ubkfby50lAuwhDOazB2L6R/imqoZQrr5T2qH6KWT0/Oi7Sz1JcBbXdE3dDzw
-         snDvkyJlfwkEk6pXFI3AHJmDTiQdkJuRleFOmaN5NVQG5880pyvAK9iBugmfOftYOo+v
-         rAaNCKf4p5tV+po35L3klIxGqj+ugGAu/Ok0TpBPaFpfLMMtzEpqE3GuXOGoxX3Z2t7c
-         lxFQfro0U36zTDNKHVXh5rBMyIfmzQRVpydIrZoC6Q6+KZ0L8XzhdBsO2aJGCJ6u6OzM
-         9oDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795187854; x=1795792654;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qAjYne+BgcE8DA63sQsMZ990H8S9yK78zgr2NZdv76Y=;
-        b=MraSH2sS6We5pqhEmiGbTmXS8IWpVDrWS6Lcv25gMsfPprpxCGKzGrp93YTuy0U7J3
-         C7Sqdw+aaTcT78j2T94auI95TvykPN/qgrckyBJjmNm/HLlpc+VctkxA3kCzxKKrWQ8v
-         LTgRPSEUwgtFc5Ez5GZrFk82fzvBK9mgNswrOW7r3bPnqgWITPIyyegLq6c8pjYXccz+
-         7T6VJ5kmQ1fPjhYEk0wvFPyx3YnPNz/4WAE+CnVpqJte2JIYng2Os+QfoMo7IaTtByCU
-         LLqE+gqPVIbJSlGnhxY4vEC47iE9rJvvZ09pdqb3v1WMAiahy53/566AGHE1jInGx7+L
-         /9WA==
-X-Forwarded-Encrypted: i=1; AL+hErEnv8tpmQ7iiZx6sN6RAimVC2vXLST3PijOwa5vPVaFjiGR/hh0H2oGIeBB+nIfayMMEtrvaTjVlt0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8zpMMoCVYFokbhQCdIH6BDu5tCayVKkgTbOlqYh4gF1KSupAa7
-	+UovpeXaCxyzoW0RrKA5nFuG9f3pY4hnn7UVtaNn61aTOcL+jlDkiMp1q4LYa8kpsw==
-X-Gm-Gg: AYBFou3XAHjcJl8CQGBJIAs2ofCCS9GhDZQ4wwqj1TDsFiFQM1+ivvmtfYzL75FPj4O
-	bNEFropyu1BXripBkf0U22juPvynkCoMavuohajoq2QaNdY0mjXieDI+QSXOXsXd/rxBpmwOCCX
-	leeC1bOZthXbeCxayYyRl/oft2u4weFf+98BEIc8dW2LjVC1FMJGUIFG2wl7iSiPp8J0rzJfHzz
-	9whqhtbVWUPQRSEp/8TRVh+X0v20OnADeh4Z9nUfsUJUmCoxcP0dClDcG15mZAWTMKivHgnssiE
-	TU5djVtlbZp8qIv7woEV7jQNj2Nd8AHKp5MhNEZZV3AOitMBoaKmyiaTag2gfibxljs9fL5onwB
-	XTOnrlnxjJe+rZfZaAe64LNzVwn1yrf0fnUp9BiIAWtNHtnJIgWK+B+icBnk2BA+spWzRFACVii
-	iNS3bSjxMAyUFMNAoeH7N1iDz3Lx/Ek7BI8Gu7IJQlJEeHIj1V/gqlQM7aDVzwbEg04rSbNrZ+q
-	VNlDMQARxg0Jv3kQpl3sdHHBG9QKdK67qzd613XoWJHklJkc9URH2NZ4HClcW9Z1cTHtCLTHFT/
-	rY5b37EqdTq8VIz7p2KOMVqD9bWgbEwJxkAjoAYriVXDfnpEX64ZZOj2jxIhHchJKLCRhFiXwWm
-	Wvez/HZ4cqHpJ
-X-Received: by 2002:a05:701b:4516:20b0:1b3:c4ba:8e0b with SMTP id a92af1059eb24-1b557b69270mr1215594c88.2.1795187852837;
-        Fri, 20 Nov 2026 07:17:32 -0800 (PST)
-Received: from google.com (105.211.142.34.bc.googleusercontent.com. [34.142.211.105])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567e2bd1sm7441365c88.3.2026.11.20.07.17.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 07:17:32 -0800 (PST)
-Date: Fri, 20 Nov 2026 15:17:23 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Alex Williamson <alex.williamson@nvidia.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Chris Down <chris@chrisdown.name>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XCQUtSSf
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 9CC851F000CA;
+	Fri, 20 Nov 2026 15:24:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795188275;
+	bh=zOo2EfGngcl3fu/kIhqZadaO75pP0lk1DR/lRHlyrtU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XCQUtSSf00g2G/Jpzjl9LRNQEFXNNRnYGZWzdtuiZBHk7dosmqWBMrC+L7eGsuwT3
+	 6Y8qXJypfh+8W03R5Msm4iQvi0clPna6Y5oqS1fK2fMBPqPJtncagCqPrZrgwYA61c
+	 Ir7DESMb/dns84I6WWtY5IQnf73sTx8SIKL9bvZjYjcc9pfyT2D4A8Rsc/CYWyagj2
+	 DltATLAp/YBb7+MwnvRYS7P7+HT3f1+jlJHOL7W4kb+l4QjcUeVm9fOWhMSveLYD4Q
+	 IO8nsOvMP1W4FNm+RhhQIMrsrDM1nc6imjdTxfwsnAexYb35pl8AoQ1Ir88SqmYiNe
+	 v0OZ/2yfr0Tjg==
+Date: Fri, 20 Nov 2026 17:24:31 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Alexander Mikhalitsyn <alex@amutable.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Andy Lutomirski <luto@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Arnd Bergmann <arnd@arndb.de>, Ben Segall <bsegall@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Christian Brauner <brauner@kernel.org>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Chris Zankel <chris@zankel.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	"Hallgrimur H. Gunnarsson" <halg@google.com>,
+	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Jan Kara <jack@suse.cz>,
+	John Johansen <john.johansen@canonical.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Magnus Lindholm <linmag7@gmail.com>,
+	Manfred Spraul <manfred@colorfullife.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+	Mel Gorman <mgorman@suse.de>, Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
+	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Moore <paul@paul-moore.com>, Paul Walmsley <pjw@kernel.org>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Peter Zijlstra <peterz@infradead.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Rich Felker <dalias@libc.org>,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v11 09/13] PCI: liveupdate: Adopt ACS controls in
- incoming preserved devices
-Message-ID: <awBkg0ODE436CZy0@google.com>
-References: <20261118223704.3286085-1-dmatlack@google.com>
- <20261118223704.3286085-10-dmatlack@google.com>
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Vlastimil Babka <vbabka@kernel.org>, Will Deacon <will@kernel.org>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v4 03/14] rootns: Track init lifecycle via
+ copy_process() and pid_namespace
+Message-ID: <awBmL_4VqwinHuVN@kernel.org>
+References: <20261119224312.1037966-1-jarkko@kernel.org>
+ <20261119224312.1037966-4-jarkko@kernel.org>
+ <e376c8f0ec5c50b417375197a5589a210f151d9b.camel@amutable.com>
+ <awBLafK4jqB8fTF2@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -120,84 +134,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20261118223704.3286085-10-dmatlack@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <awBLafK4jqB8fTF2@kernel.org>
 
-On Wed, Nov 18, 2026 at 10:37:00PM +0000, David Matlack wrote:
-> Adopt Access Control Services (ACS) controls on all incoming preserved
-> devices (endpoints and upstream bridges) during a Live Update.
+On Fri, Nov 20, 2026 at 03:30:21PM +0200, Jarkko Sakkinen wrote:
+> On Fri, Nov 20, 2026 at 02:18:43PM +0100, Alexander Mikhalitsyn wrote:
+> > Dear Jarkko,
+> > 
+> > >  	acct_exit_ns(pid_ns);
+> > > +	exit_rootns(pid_ns, me);
+> > 
+> > We have a very similar mechanism around pidfd's to track exit
+> > information for a task. As far as I can see we already have (struct
+> > rootns *)->init_pid reference, so we can get exit information for free
+> > (look for PIDFD_INFO_EXIT).
 > 
-> Adopting ACS controls avoids changing routing rules while memory
-> transactions are in flight from preserved devices. It also keeps IOMMU
-> groups from changing during or after Live Update.
+> Thanks for mentioning. I'll see if I can leverage it.
 > 
-> The adopted controls are recorded by the pci_save_state() call in
-> pci_bus_add_device(), which runs before drivers bind, so they are
-> reapplied by pci_restore_state() if the device is reset. Allocate the
-> ACS save buffer for incoming preserved devices even if they match a
-> device-specific ACS quirk, since their adopted controls live in the ACS
-> capability, and panic if it could not be allocated.
-> 
-> To simplify ACS adoption, reject preserving any devices that require
-> quirks to enable ACS as those quirks would also have to take Live Update
-> into account. If such a quirk matches an incoming preserved device
-> anyway, e.g. because it was added in the new kernel, log a warning and
-> adopt the device's ACS controls regardless, rather than reprogram a
-> device in the path of a preserved device's memory transactions.
-> 
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> ---
->  drivers/pci/liveupdate.c | 75 ++++++++++++++++++++++++++++++++++++++++
->  drivers/pci/liveupdate.h | 16 +++++++++
->  drivers/pci/pci.c        | 13 +++++--
->  3 files changed, 102 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
-> index 00d6fa5236e9..b99a88c2c199 100644
-> --- a/drivers/pci/liveupdate.c
-> +++ b/drivers/pci/liveupdate.c
-> @@ -123,6 +123,9 @@
->   *
->   *  * The device cannot be a Virtual Function (VF).
->   *
-> + *  * The device cannot require device-specific quirks to enable Access
-> + *    Control Services (ACS).
-> + * 
+> If something like this is found, it is partly due long history of this
+> code i.e., not planned/opionated choice :-) 
 
-[...]
+This non-doable or incompatible at least. I'm not sure if that would
+have gain. I think this goes to acceptable redundancy. Or at least,
+currently think this way.
 
-> +#include "liveupdate.h"
->  #include "pci.h"
->  
->  DEFINE_MUTEX(pci_slot_mutex);
-> @@ -1071,9 +1073,13 @@ static void pci_allocate_acs_save_buffer(struct pci_dev *dev)
->  	/*
->  	 * Devices that rely on device-specific quirks to enable an ACS
->  	 * equivalent keep that configuration outside of the ACS Control
-> -	 * register, so they are configured from scratch on restore.
-> +	 * register, so they are configured from scratch on restore. The
-> +	 * exception is devices preserved across a Live Update, which always
-> +	 * adopt the ACS controls established by the previous kernel and need
-> +	 * the buffer to keep them across resets.
->  	 */
-> -	if (pci_need_dev_specific_enable_acs(dev))
-> +	if (pci_need_dev_specific_enable_acs(dev) &&
-> +	    !pci_liveupdate_was_incoming(dev))
->  		return;
->  
-
-The ACS save buffer is forced for incoming devices that match an
-enable_acs quirk, but neither existing quirk keeps its controls where
-the generic code saves them (Intel PCH Root Ports have no ACS cap, 
-SPT/UPT has the Control register at +8, not +6). Is the intent that 
-such devices just lose their adopted controls if they ever lose config
-state later? (e.g. a Root Port D3 cycle after pci_liveupdate_finish())
-If so, maybe worth calling it out in a comment?
-
-Apart from that:
-
-Reviewed-by: Pranjal Shrivastava <praan@google.com>
-
-Thanks,
-Praan
+Br, Jarkko
