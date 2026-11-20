@@ -1,85 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795135169;
-	b=SsQqWv6I6Mj+xPvCuFUtsfUnZ4365Pxkq+fdzcaTpPCNtht4mkPSgAPKNBntEOZfTOsH
-	 kVs3hN4V36fL0SKheUGfv1zUWUagKCG2VZRETplrAOkunIn2BBUo3qymz+ucWLJ+dCNDF
-	 CDOGBmQzN+bJb475GtY0pUq9Ub7/yR5sdJwHkISj0juXdc56h64U5IJM0NfQbKHX9JJ4f
-	 q4rrRLx7y3vOlo6KsCIGjHwNuMGa4L3oT/fLx6L9v6j9fuJe2fqjl8GcZDENef0EXhzid
-	 VB2IYNrkCJdA/cazAS0aXd7vPwPkemfvzj6mwLY5KhN/ZUex8ZV8X23yMkhZcbGOYxQ==
+	t=1795135284;
+	b=2+p68cC8+30/ZK96Rw4HLp18DBPW9lQW87JB0QwHnEThr/KmElMaG0L9/TrYAYZAlxTU
+	 idpJ1njiCsd8fYLxLaGAFgXe/nIgFsvxa5nefUyBSEjeWea8RYjux0gPW4DhlVtT0Usbv
+	 epI9oIJhLDDrOFvaHmm6OQmkFVZ3PzkAtqNXLrdMI2rG8bk1tmSb3KdpzIExdahhFG+qQ
+	 N0VyPU8KcThtJvrxXrGPPe3UYqmfsce0jPxu99mDLgIk6iUrliO77cXJiojYz3vGSeQ/q
+	 F2prhRnlaQOPndMSt5+33wFQpy+uYtV52qSmvfukADov2o26SzdWsZQfcveJUx2tAUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795135169;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=15vPBWuJO4ML7J1IqfBjScec+aNHdtb9jbP4UwbOc6A=;
-	b=drN80zbq8zmyJDi7i6bg4rk+ysmHlpykJyFHTnFCxuJnu0TY5XEAXqjxGM2P6WvllH5c
-	 +EvT8Rnfsl0cq8blJ/GVXkiC4OXTgEFQJSigprrkcVp2U/SHiBCcYpXm9syLZ8yuDXsJG
-	 aFZ9fAnOISeqGYAKaPjII0zCtJzJ/ZrL2ZhWJYMDAcDBmFQOvoG6LXSAEUKUP9BSeOtM9
-	 Lufy751lQfWYVMwbQagwObOqlWzOhKzFlptJLPysX94iQVrLSaujNJ2KJybA+DEKSkwfu
-	 bl+auz5gtp+cJ3p58Xozf4etMIHaQMmwRJIENJ0VhBIYb1IcZyzkM6hil16PG7LtO2Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795135284;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=fmImNQFnIMk1Bg6W92shHm5q2Pz72r3vJoXlRhep+nM=;
+	b=ox06/Orowm9qf4EVC6Cs4TWw+ZN067LIchnPrZgIKQd2PpJTSV7ac5XgTl3YLYn7C71E
+	 5Pn/lvEbdpOwZXCFFWK+Aqf7OfbhKi0uNwNLkaJBAwZQ/CfNuy2oJ2LVaBhsoDt7U2xWQ
+	 HoGoPmo4Diakt8gGDewynRWHYVtgv8lLBTFe/LRhgBcpJ7tTExtEqL3EqTVwyFgzCLDfh
+	 VNsC1ctvBGvIe5spUrMrflI2M0xOWlWkqqLWKvqe50SlsBBwMdDSSf/EBq7SLy/qRf4w6
+	 Dts8b5LYqwhp9se3ZTKnvr11N620T0AirQuhFjWdL5/+bv6I5ACyLxbv5SUj0a/ViWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fWI7sRTP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JHkCizWD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5DC606A320;
-	Fri, 20 Nov 2026 00:39:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A15606A320;
+	Fri, 20 Nov 2026 00:41:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fWI7sRTP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B61A91F000C6;
-	Fri, 20 Nov 2026 00:39:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JHkCizWD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A87F1F000C6;
+	Fri, 20 Nov 2026 00:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795135169;
-	bh=15vPBWuJO4ML7J1IqfBjScec+aNHdtb9jbP4UwbOc6A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fWI7sRTP+d/DvV1dwLK/WyIn1NKJ8h8dEePpuE1WOdxrdr2xlU0g2uzheW1nD6dph
-	 fRcFZklRjfdasJ1e0BT6Bp1Mpvi/RPi7cWTtQf+C/LMPJbWpvgekqc1qAVK3YognT3
-	 sQdzWrdwqOTLlx16eoPFpAsmRqU0Kjt/y5mA2iWd7ImFReHUkwyJiWC6rSox842JZ8
-	 4ALT2B1tdA6+s6qeQHVtnydN8Omn+MFxh9DWkMpzdlo9uFPVGOVaYv36ZbAJnPyn8l
-	 TwXQ82uO1HXzJ9q/bXixtTdprJNqYC0k7TIg8PECi7//g1weKZ6PGti1GAzMAws9Qz
-	 RvC3Jvv/k3JvA==
-Date: Thu, 19 Nov 2026 16:39:27 -0800
-From: Drew Fustini <fustini@kernel.org>
-To: yunhui cui <cuiyunhui@bytedance.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Peter Newman <peternewman@google.com>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <radim.krcmar@oss.qualcomm.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sunil V L <sunilvl@oss.qualcomm.com>,
-	Tony Luck <tony.luck@intel.com>, Weiwei Li <liwei1518@gmail.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
-	Zeng Heng <zengheng@picoheart.com>, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, x86@kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [External] Re: [PATCH v12 1/5] riscv_cbqri: Add capacity
- controller core
-Message-ID: <av-WvzoxSv7QpMhQ@thelio>
-References: <20261114-dfustini-atl-sc-cbqri-dt-v12-0-6ef1f627072d@kernel.org>
- <20261114-dfustini-atl-sc-cbqri-dt-v12-1-6ef1f627072d@kernel.org>
- <20261119000846.776930b3@jic23-hlaptop>
- <CAEEQ3w=voZYrfcMuKC_SQG9U8hYN_thcc02nf_PgMu5UyuG32Q@mail.gmail.com>
+	s=k20260515; t=1795135283;
+	bh=fmImNQFnIMk1Bg6W92shHm5q2Pz72r3vJoXlRhep+nM=;
+	h=From:Date:Subject:To:Cc;
+	b=JHkCizWDikTJn2KQkdi8/bEaCSHj0Gp90ptOBd5oozPtYSll9wEsCH/72Pd6gC11u
+	 N3SIv5DBGaXmYpuTO+j7YQQWRQ4nUTWKwOwf+Sdhmd6lUDhb00D4Uh+y2p3XCLjK9L
+	 bTbhV/LWAq4iw5Zqm97LYAdZLEV+yhoufCG3qiwVrLZzWk5zAV7pqGcRBOnngcZWzi
+	 nuEL/6sMQcg57WnYzwNDouLqbQtB5YufVMi/NJUx8X55Biu+2eaWvsn1/GcSdTccFM
+	 WGlWhZZo3PSFoWMZNUW5xIL0Ha6dRS9wEy73k06Hm/VLxEdgh29+LLqKo4G+tGYoUF
+	 xNmsZNYkw3ILQ==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Thu, 19 Nov 2026 16:41:01 -0800
+Subject: [PATCH] fs: use multigrain timestamps only with nanosecond
+ granularity
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,66 +53,96 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEEQ3w=voZYrfcMuKC_SQG9U8hYN_thcc02nf_PgMu5UyuG32Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261119-mgtime-v1-1-fd28399a5557@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQ0NL3dz0kszcVN20ZANzgyQjM4uklDQloOKCotS0zAqwQdGxtbUAdPi
+ AGVgAAAA=
+X-Change-ID: 20261119-mgtime-fc070b268bdf
+To: Christian Brauner <brauner@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2929; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=E8azySa7/OzX7Ad9BT+YgzCNxoMcPv6dKqhib1PkV3o=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBq/5cuYUapOrya8l0tWk8uWwILqDcFRlFhFEPr5
+ sCWDnf6PoCJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCav+XLgAKCRAADmhBGVaC
+ FYb0EADF5CLy4jAU0xgiyv+CyS9V+XAgGuVp+FuXYU+oKTjJoTqpgALw5gG8TplfjkQnRiK0Nez
+ Op6yrAj2hauoM6YEYqa0QKinqP3Ykn8KpSIWVZzZWlc6tvPY/GmUUiju6Rbf5XWXd58YVGcSxW/
+ DsiW7dPaYgRA9bRVkarr6DHoMlsKb6oMimcDc/pTNpiGqaVnfZ2UUpxMylkFRMDZ3+ctziJ2+KS
+ LsXr5SVa3UVRukTD+iuhtKLiocMz04FAvKe4ksB8YFm2i6wqKhwzzmQudmxnAfaNrIhKT6tw8jm
+ N9dDqfgT6c9hJ5GbcJ53IDsuM12eO9oHDYt6sWgnU6gx/9N8pZathay6pIukjDTTHfWJumBa4Gj
+ q2nZ7CsgYJCiP3gTHgjnXPtkFC1rWjr0qveBE/UBL7KOCpcgTrmw4wPOOPocMETXQ9YztfaZXWi
+ wJY8YAD83TuH7Wfhxqw7YSSqX2h9IMzvo/OoYjvcHLSKK21Kf+bdVhL2dkRTW7gdLj5S5OwsxSA
+ KxEbJB0vef02iIccU62iBnHfHx13jpJ4sodwri/vP6zcv1IO1CZ0hD5bJptJd7yVM1GwpL1fPPR
+ QHjEweLmDP8hNkJxlyTK3dA+Z2aUWXY5xxJG1IUyN0WBpZZPOq7u9DtmypM6Q+FmW5uG3ASwo9W
+ Z7Xp3OjlmVO/hUQ==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On Thu, Nov 19, 2026 at 07:00:21PM +0800, yunhui cui wrote:
-> Hi Drew,
-> 
-> On Thu, Nov 19, 2026 at 8:09 AM Jonathan Cameron <jic23@kernel.org> wrote:
-> >
-> > On Sat, 14 Nov 2026 14:06:21 -0800
-> > Drew Fustini <fustini@kernel.org> wrote:
-> >
-> > > Add the core for RISC-V CBQRI capacity controllers: the register
-> > > layout, the capability probe, and the allocation operations that
-> > > program a capacity block mask for an RCID and read it back.
-> > >
-> > > A discovery layer maps the register block and describes the controller
-> > > in a cbqri_controller_info descriptor. riscv_cbqri_register_cc() probes
-> > > the controller from that descriptor and adds it to the controller list,
-> > > which stays private to the core. The core owns the controller state
-> > > after registration, so nothing in it depends on how the controller was
-> > > discovered. The caller keeps the register mapping alive.
-> > >
-> > > Tested-by: Zeng Heng <zengheng@picoheart.com>
-> > > Reviewed-by: Zeng Heng <zengheng@picoheart.com>
-> > > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> > > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> > > Signed-off-by: Drew Fustini <fustini@kernel.org>
-[..]
-> > > +     /* The resctrl glue keys its domains on cache_id, one controller each. */
-> > > +     list_for_each_entry(other, &cbqri_controllers, list) {
-> > > +             if (other->cache.cache_level == info->cache_level &&
-> > > +                 other->cache.cache_id == info->cache_id) {
-> > > +                     pr_warn("CC at %pa duplicates the L%u cache id %u controller at %pa, skipping\n",
-> > > +                             &ctrl->addr, info->cache_level, info->cache_id,
-> > > +                             &other->addr);
-> > > +                     return -EEXIST;
-> 
-> A controller with the same cache level and Cache ID is not necessarily
-> a duplicate. A distributed LLC may have multiple physical controllers
-> managing the same logical L3 resource.
-> 
-> Matching controllers should instead be grouped into a logical component
-> keyed by (cache_level, cache_id), with the physical controllers kept in
-> a linked list. User space would see one logical controller as a single
-> resctrl L3 domain, while the update path would iterate the list and
-> program every physical controller.
+Multigrain timestamps promise that a change after the ctime was
+queried shows a later ctime: inode_set_ctime_current() takes a
+fine-grained time when the coarse one isn't past the queried value.
+But it truncates that time to s_time_gran, and on a superblock with
+coarse granularity, such as ext4 with 128-byte inodes (one second),
+the truncated fine-grained time is no later than the coarse one, and
+the update is skipped. The inode is still flagged IOP_MGTIME, so a
+caller relying on is_mgtime() for that promise, such as nfsd deciding
+whether it can move the change attribute by moving ctime, is misled,
+and the multigrain machinery only costs a fine-grained clock read.
 
-Good point that it is not a duplicate. However, I would like to keep the
-scope of this series from expanding, so I would prefer for that scenario
-to be handled in a future series. The domain id is the cache id in both
-cases, so it won't be a problem to add later.
+Set IOP_MGTIME only on a superblock whose s_time_gran is 1. Every
+FS_MGTIME filesystem (btrfs, ext4, f2fs, tmpfs, xfs) sets s_time_gran
+before it allocates an inode; document that it must.
 
-Do you have a platform with such an L3 that it could be tested on?
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+When I originally did the multigrain timestamp work, I missed the fact
+that ext4 can have an s_time_gran of NSEC_PER_SEC. I think this is a
+very uncommon setup, so I don't see a need for a huge rush for this one.
+Please consider for v7.5.
+---
+ Documentation/filesystems/multigrain-ts.rst | 6 ++++++
+ fs/inode.c                                  | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-For v13, I could change the comment and the warning so that they say a
-second controller for a cache is not supported, instead of calling it a
-duplicate. The alternative could be to skip the whole group if it is
-a problem to just leave the first of the group enabled.
+diff --git a/Documentation/filesystems/multigrain-ts.rst b/Documentation/filesystems/multigrain-ts.rst
+index c779e47284e8..81ea632c7a4b 100644
+--- a/Documentation/filesystems/multigrain-ts.rst
++++ b/Documentation/filesystems/multigrain-ts.rst
+@@ -123,3 +123,9 @@ inode_set_ctime_current(). If the filesystem has a ->getattr routine that
+ doesn't call generic_fillattr, then it should call fill_mg_cmtime() to
+ fill those values. For setattr, it should use setattr_copy() to update the
+ timestamps, or otherwise mimic its behavior.
++
++Multigrain timestamps are only enabled on a superblock whose s_time_gran is 1:
++a fine-grained timestamp truncated to a coarser granularity can be no later
++than the coarse-grained one, so the kernel can't guarantee a visible change.
++The filesystem must set s_time_gran before it allocates any inode, since
++whether an inode uses multigrain timestamps is decided when it is allocated.
+diff --git a/fs/inode.c b/fs/inode.c
+index de207f2f95a9..9cc28306feda 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -239,7 +239,7 @@ int inode_init_always_gfp(struct super_block *sb, struct inode *inode, gfp_t gfp
+ 	inode->i_opflags = 0;
+ 	if (sb->s_xattr)
+ 		inode->i_opflags |= IOP_XATTR;
+-	if (sb->s_type->fs_flags & FS_MGTIME)
++	if ((sb->s_type->fs_flags & FS_MGTIME) && sb->s_time_gran == 1)
+ 		inode->i_opflags |= IOP_MGTIME;
+ 	i_uid_write(inode, 0);
+ 	i_gid_write(inode, 0);
 
-Thanks,
-Drew
+---
+base-commit: 65e4fd942f72a9dba0e4e257290c4fa1aa756854
+change-id: 20261119-mgtime-fc070b268bdf
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
