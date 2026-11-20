@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.48
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795194601;
-	b=muMJQuMBewHqGnbxzY5yCMLUHvoDjcrOoktZgP1ry5xWp9WreKFVBQ3U8HGvgi/Jge4I
-	 tmBkLBNlInJLda5s65E12y3siaAqTnQGNmhern768w2lTilOw7BJEa0/FiDXKMNDYMnau
-	 cuka+Dp6CcLGXGxLByBcslF4vRywkzkttSI+I93d6Kw/TffSC+xlrzDVEBPUyUYOFuQEM
-	 ru4/kA+lucl0fjJUEEy0ZdnxUoFq3rxTDWNAfYvKe79cCod1fBOt1b1Btke1Pu4AqzuAK
-	 MrZIdDAqarV3Ky+Cwc+WnQ+C875YapGJRqhyPQDlx/6GrkiZoF2c6GfSc1Liw/yQccw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795194601;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795194969;
+	b=ig+e7S3ChJYr/OMHZtDCf+9FQ4W1CW9Gc0zwlQ8un0H9QDMyXQvATGZA1QqNHxd7IQd2
+	 rJlxkHreIXy/8XpXvDnd2Kawx64UxnEtGft+jViovMauq5hE6GCNn/0W26qB5z52HqWd7
+	 LUm5sl/LxcmMFSK9QCkIyRcmZes3oUcLrHqouQmhr6zYnK0q+Ri01/r1ziVO/JqvQlbbC
+	 uEF1MnbSwqhRrJgJ47Gb0B1IP6vKfcd6O2E2Q4jhFo3L7fxv4KktW8NT1p9XcvoxdhspZ
+	 7F/fijQm3dGt/dH+f5/JQWS/GXF9B6LQUPrUurlM3qEa/lLGoA8PB6SDfq8J5hvlW0g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795194969;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=ZjKXRhmMlyIf4k/Bgeh6+i9VHnnHMzl/5R3cKodeiFA=;
-	b=qtbD6r6ENnagC8+/8s7ubi4NrOzmvXLa2/IZ+9H+Q8fdNxJsTv9Hqdjv1JkWMBdHQR3u
-	 XnNKBHUvqrezDVduYloeuQ1/Pjz2KihyUwGGWVWpSf4LI6MGEAzsde0DHqyiKYfNP3bLf
-	 m4HjbiQlGbqO8rIClhHF1igwEWWnvqoLthO9MjBlXA4w4wHyt60Bjcm5mq2YYK/mxZdQA
-	 ko9KCS0nI7XQnlVUuerjOk9YnMRA5Q7bsZjcYRnC7MhHZNps2M4WsT1VSbH+DKATW6C5R
-	 +DAnrL6Uzfg43g1NAt/dTX5FGr9EkbCAf6VJgsgVqFImAbeRL2tYLtCWkCEWUO7vATA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amacapital.net;
-	spf=pass smtp.mailfrom=amacapital.net;
-	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=KzuPKz9w;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.48
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Ad10zri1NeUwfB8wT8cUAMe2pfsqkPCnj1XoQxSAtyM=;
+	b=1gPE8kIMPoxyDqAyfaATzYm/TR64cUnOZ/hnUlDJk0yXjYNdesmRVQSFwlLReGvPe7ZN
+	 UEvL6+L/bqOIpAvoGfqmVGyh+vi1a/CSOaUmuznWeCs1Xr3W2mP3JF3zyGQYQxZcyPsDI
+	 K7XU8eth33BvDx4rrcFIcCKEnBuqs//j5a6rZ2ypQ2T6qWD0cpa36P9y/+DyhYnI3js4X
+	 h0wmobkX6/KqMnEjSmezGgzv2IliA7Zd7bqp6XayC9poH8zFV8wOWcYF14E6fZfJShCmw
+	 LI1nmNKgupsS5UUfrZuOvJSC2xMrwHFArdJZVU9KZ+tAdV/VXL/HjUteN5bqnRpQ+VA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AYj1Kphy;
+	arc=none smtp.remote-ip=74.125.82.172
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D2560A2630
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 17:10:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28D2560A2630
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEED606A338
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 17:16:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CEED606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=KzuPKz9w
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5be3d5927ceso1600582e87.3
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 09:10:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795194599; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NSlhLXMnjVyxpHNiKEGXpJcJQMnwX2GANuq+eClpZjDLGSa+6ZDzOF1vR2+Y4g02Wx
-         bJ5Jzs8a5kq0e9TXxCsMDpnIE2gxC5b679jLAH1FMyY0/IDM6qtEWcEHncPHS253MzZg
-         1UfUcstjkWH5L1kZA7qA4dIHneqbP08kc0y3gN6zGog0eJEVrj3QlTOaz/52yuF1aqss
-         +F8IHKeFIt5MtMopSZAVxMCMtHipHHfdPuKp8o8tUgwhlUR3Xa+Hs+dPe0uTPRL8C02C
-         SrJXbOkHnk6i5j2F3GFDZVpoZf6WAjD4U2/VDAS2TikyxSqOOTrPPxYG/BzLQ2xFEtaX
-         FY1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZjKXRhmMlyIf4k/Bgeh6+i9VHnnHMzl/5R3cKodeiFA=;
-        fh=AxQ6NiO3GyQ3geyReh5rY8qhw4vaS7JtfHdFShKql+I=;
-        b=KEgu8YcdPjS9B/MVRG+wPaiP8V75NzbxeqkcKhb0nHdQQD+IjGOyuS58cqpOnmBKUq
-         b+32/+zorO9zAanQCpC7m2bT1k5as77jvZwLn0nIHiUrMBbzWHFQ7Xn3Bp2H22i7wCwN
-         GtiSfBnTcpHg1yroju0ueKZwdVkH8UKIDnT7NZk+/9/VUSdniJ/GlUhxbsCqC/Dpmibp
-         56ibE+kzfdLAMjvUg5GQRTh/yTR4ukt3k9vEhXCn6Ez4/nTy5Pu6UsMbgQilc4pdmgys
-         5RbgHoZxCFCiAcXbBrgsAh/+1e3V3q5CAmhahjNU9zxeLUHToYdwHNyKJcYWOSNlhxau
-         mDlg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AYj1Kphy
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-382f4710a17so1873103eec.0
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 09:16:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1795194599; x=1795799399; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZjKXRhmMlyIf4k/Bgeh6+i9VHnnHMzl/5R3cKodeiFA=;
-        b=KzuPKz9wlUIhaJWdwueDeEluQfGhTtFH6fz8FAZF85dKlUnHi8FkaBQALudYSWmLoT
-         azKe3eFVYRDOFx+8IjhGNb9qwSrA+uMjFasO0Y78bF+3hajdbSeasLRKTqR9rrRw93Fs
-         mgsw5HsHH8a8RLldzj7UExTUzudAO7FPQcBGxVHr544OLOOoquGgLjJUclHerWxaJdLi
-         uxmk8NZd0Ky9WVaupdZUPVmFOhf9Zb4PrRXYdyH2vDYOnjm+WhZ7uYiyPgxh2C1qaltX
-         V7aCX88km55ADvHdXfnZgPboy0v8Geo0MFUxnSN4Wp1aITRMGG9KONQZYt3Rs95J370H
-         rqIw==
+        d=gmail.com; s=20260707; t=1795194966; x=1795799766; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ad10zri1NeUwfB8wT8cUAMe2pfsqkPCnj1XoQxSAtyM=;
+        b=AYj1KphyjjLBd4V/PI0NWhMVoZYCdmaZRrY06hloFeD+T8gHDVou4ZKAzkkBMJMpFS
+         DD/OL5TJJ4YfVrhga+du0R6u9ks2KrZUCMJ6/WAwoKqXfkGxIFmPiSRnB9/1vup0Ucfh
+         MHHy1HihObWfHY1g5UY4DJSh3d6sPl2alK7+CMx3bzJexjOquxX/BeGJbcPU2IyS0BCO
+         y6O5u7IsCb8I6xcx7K9hvraMy1APDNKGB1ZTtC97fX1s7LOGk4cOSmoqwTjtJ93uggvo
+         Lg5Cz9LcamiyjmNa1aEXv4huAQlai0tFrqkYHpOfqqFHQJnaHrx+RTge4kaGB1t4SnLS
+         NCmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795194599; x=1795799399;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZjKXRhmMlyIf4k/Bgeh6+i9VHnnHMzl/5R3cKodeiFA=;
-        b=qOECHErX6DLzGiJKBn+kAmoFYrKPQh3GBoz1wrqxnlBvTGQX5SUfr1XMxApsG4yzA6
-         Kze4PCqw1iHwnu0hC3ryBeMiNb3+NJ5q11fv9z94BRhJzogRfhzUffGYj1T08DOaHtx3
-         dhZRTGMipgBS04tlPBxS5nybolf1MpDzmWXaeOGe7l+HX6+qu2PaipWgjq0btDZ31VAA
-         EZc6dm3LhkPhIk3Wq7B2sS43IsOfyUxhmzeoV81WhNlv0+VEshlyQsx/BFAfIo4o9FZj
-         Rmy+MOKp7hBL6TJEzNQK6HPLtqRwbzOXIcNCXZCqGEjSLCuB9mvTM5Q5iXFbNwPP1cDx
-         M4VQ==
-X-Forwarded-Encrypted: i=1; AL+hErGFz4SbGCNIKPRylOtk2B+MH7FSxSrrEDt54plplEx5sE39txVG77/nuBP6TZ/5bYgK0hfAHX91w9s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+J+BlsMwHOT0kqBwIbur1stAGpRgrXvmdyWVVw/vPubMj6gJlp
-	xmkLMJxivjDqUc9z1ud/OTS2+CQzDJjxbIOd1CURXHG15B9XVttnXmUbjBmr8zAOgRJ3A2lq1Z5
-	15BIchsOItbYiQQUYIQd9MUozyhfHzMqeE/9t/ny9
-X-Gm-Gg: AZFdTZcBrwLs70r96b/mENrwaofm41uAwEPAMj0GJNdypMMxoK1lrS63OEHn4r0Iiow
-	t5udCEg5bpMDhdr6Wu1ltBC1eivxy0HlG/Wvix3aLzotlOSb/VI0lXq4w/0DSJUpH7BB7H0Y7Pw
-	A5/CE9gzo6U4MC1ErKHxHf4HEBVtJ77oSsrnNm5P6J4zt17vfwi/qGCeoC6silvbbtsGjhjRUDt
-	CzkYMV7Yt5ST9TAWIw597N7UU0wAsWRRDRR6LoabKfQXm9sNKo6Pu1FoJUkG3ksgkaGK8TGv3WI
-	tXmOMhSeLsYkojXu8xhTkmxR24/dLMeZgufnU4o941Kc/dvpdLNQ0EbUeX/rAZIUieeJoL30Oat
-	6E5Rbt0pCF0qS5hBhhHWKt0O5dVHm24BEpw==
-X-Received: by 2002:a05:6512:1042:b0:5c1:4c4a:f026 with SMTP id
- 2adb3069b0e04-5c1bc6f633dmr1312524e87.4.1795194599155; Fri, 20 Nov 2026
- 09:09:59 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795194966; x=1795799766;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ad10zri1NeUwfB8wT8cUAMe2pfsqkPCnj1XoQxSAtyM=;
+        b=oP5AcZi/S9+UFQFlMe3Ux+1B8EKNWF8J9i6n+QyrWAmhXRh7qxA0ZXBWAtpT0eNDZq
+         SY1ddbshZP0F41WB0DKHWMLS4HDBd8NFz/RA0wKOcZ+H2bxJMqBgwfC9V8m2j4xE3h66
+         OicSOo+6FLjDUMnhlOupsVv7VXlML+J9rjlWWrYvq/k+sgjyOmC43exh8667htuuXRB3
+         SdUQ9XAnjUPNEX1ZU5ooEmBvkgjxIvHxJSHb48brTB6I+ijqJ46WqUIk3hxlSjRUtYp4
+         st+zeE+tZBUlOcIujU/RQfg/SmwC0uXV2/taReYmsjTg5csFMf2Y7XZ+/ZgwVbgFUQgm
+         QJQQ==
+X-Forwarded-Encrypted: i=1; AL+hErHyBjnM/8O1Xc2DtVybZh+GVwxr1JVlOfXUOYVSyVGYKskBg9kXAwQ/mkn7qJMQGJ+O7Y63FsQsK7g=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8PqtGtw6UnBMtoK9jfrIs4NLP6TF+K0XvlNTWRlcL8pAC/eKpp
+	EUJOkr+38t7S4utQaU+pYWl/ZzFSIl8rB0FWFvHz0Nwu8O++g6nf0hqU
+X-Gm-Gg: AZFdTZeTod2Wd0880EssQplXOJ99j4oYs8mOl0nON6av4E/uWTitY/Cs71H7wxuAnHX
+	C3j5LWZ5m+1mh5FDavJ1/yXoI3VXusZ+pmiim4nemQeypJf8M1cm5wrxbs0d3/65t1CItfS8vEW
+	TNa36jBXBpjxb8PIus/nnjEevsHTqnI6f6q5CLBfusYkWllQUnfaDP9qbb06PaPFhHi+7QGKgO8
+	Xg1TjvG5zJuhzn4Glo5zFkhBfNyXwyp2ajhBhcQcLWAQd0Zt2YfzvXkQNhtoaoXvQsjZmRDwFGZ
+	62cn0KQit4LrRxK75hr6wEHNbVd/RRwoZFrv/4tV0MeUqC2tamBhhLA4XXJLn2n5DADTBcIAusS
+	YrGKrFYGTAHO4EK8Vtw4P5i+pZtxbXepZYl2C323AonkkAbf+Je89c8XqQm20aycel5hYdbR6wA
+	weO0uzg99hfxxP81yHbci27w6Vf7sfFkLE5lHL++1vWEJ+WbQdGpqn9DHfryxdVP81meHC/zQvb
+	VtlQ3MaT+2/8k6ijlCvugNBIB/nMT+mmxpsQuCOb4JErj3e+M5iiCdoF4dnbMGoleX1JKuM4jXO
+	Fydiu584mWpWoIIMR1QqXvIONhIHnL2lvtOmgKOyIOhzARiySCUXtJoE0rc=
+X-Received: by 2002:a05:7301:7188:b0:384:b800:2adf with SMTP id 5a478bee46e88-38571027b9dmr3560666eec.27.1795194966043;
+        Fri, 20 Nov 2026 09:16:06 -0800 (PST)
+Received: from localhost.localdomain ([1.238.129.195])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38567daaf70sm10816041eec.28.2026.11.20.09.16.02
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 20 Nov 2026 09:16:05 -0800 (PST)
+From: Sangmin Lee <45sangmin99@gmail.com>
+To: netdev@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	David Ahern <dsahern@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Willem de Bruijn <willemb@google.com>
+Subject: [PATCH net-next v2] docs: networking: correct skb_shared_info field reference
+Date: Sat, 21 Nov 2026 02:11:31 +0900
+Message-ID: <20261120171131.73045-1-45sangmin99@gmail.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,236 +104,57 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261119104208.782900-1-halg@google.com> <20261119104208.782900-2-halg@google.com>
- <CALCETrVqc+1bjH1bhqHee9bsUdk2B6314z7PMexbsnNpMhk14g@mail.gmail.com>
-In-Reply-To: <CALCETrVqc+1bjH1bhqHee9bsUdk2B6314z7PMexbsnNpMhk14g@mail.gmail.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Fri, 20 Nov 2026 09:09:47 -0800
-X-Gm-Features: Aa3M54qqiWJmEKSjiAInchWSC43ADdXnD64UgkMS8cTjGJqVilvL89j5dcH7YsU
-Message-ID: <CALCETrV=zSxb6sgA08DLiK2bQovdMEj9ycG=Cc71mLn2C5Pgeg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] userns: introduce capability bounding set for user namespaces
-To: Andy Lutomirski <luto@kernel.org>
-Cc: "Hallgrimur H. Gunnarsson" <halg@google.com>, Christian Brauner <brauner@kernel.org>, 
-	Serge Hallyn <sergeh@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	Jonathan Calmels <jcalmels@3xx0.net>, Jann Horn <jannh@google.com>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Singh KP <kpsingh@kernel.org>, Casey Schaufler <casey@schaufler-ca.com>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-api@vger.kernel.org, containers@lists.linux.dev, 
-	keyrings@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-> On Nov 19, 2026, at 2:52=E2=80=AFPM, Andy Lutomirski <luto@kernel.org> wr=
-ote:
-> =EF=BB=BFOn Thu, Nov 19, 2026 at 2:43=E2=80=AFAM Hallgrimur H. Gunnarsson
-> <halg@google.com> wrote:
->>
->> When a process creates a new user namespace, it receives a full set of
->> capabilities (CAP_FULL_SET) scoped to that namespace. While namespaced
->> in scope, several of these capabilities (such as CAP_NET_ADMIN and
->> CAP_NET_RAW) expose broad kernel attack surface that many sandboxes and
->> containers never need. However, there is currently no configurable way
->> to withhold such capabilities from user namespaces while still granting
->> them to workloads that require them.
->
->
-> One thought (from the rootns thread): the other decent sized attack
-> surface here is CAP_MOUNT_ADMIN.  Which doesn't exist as a capability
-> bit.
->
-> A sort of horrible solution (but maybe not so awful) would be to
-> declare that the bits in cap_userns aren't actually capability bits,
-> and that you need the bit in cap_userns *and* the bit in cap_effective
-> to do sensitive things, and that mounting needs cap_userns to have
-> NSCAP_MOUNT_ADMIN *and* cap_effective to have CAP_SYS_ADMIN.
->
-> I want to sleep on this.  It might actually solve several problems,
-> e.g. controlling creation of ipv4 and ipv6 loopback or tunnel devices
-> or whatever.
+The skbuff documentation refers to skb_shared_info.refcount,
+but struct skb_shared_info has no such member. The actual
+field is skb_shared_info.dataref.
 
-I slept on it. Here=E2=80=99s a counterproposal.  I=E2=80=99m not saying I =
-think this
-is better than this patch set, but I think it=E2=80=99s worth weighting the
-options.
+Correct the reference to match the structure definition. Use an inline
+literal so the field name renders without a leading ampersand.
 
-Define a whole new set of privilege bits.  As a
-poorly-painted-bikeshed option, I=E2=80=99ll call them eprivs (for exposure
-privileges - it=E2=80=99s a crappy name but at least it=E2=80=99s pronounce=
-able).
+The discrepancy was identified with assistance from
+GPT-6.2-Astra (xhigh) and manually verified against
+include/linux/skbuff.h.
 
-An epriv is not permission to do something *to* an object; it=E2=80=99s
-permission to do something that exposes a meaningful attack surface
-within the kernel. So there=E2=80=99s no ns_has_epriv because there is no
-object.  These are kind of the opposite of object capabilities.
-Additionally, an epriv never grants the ability to do something that
-one couldn=E2=80=99t do in an epriv-less world.
+Codex built the affected page with Sphinx and verified the corrected
+field name in the HTML output.
 
-For now, all tasks have all eprivs, even not-yet-defined ones, unless
-user code or config explicitly changes this.  (Maybe some day secure
-boot might remove certain eprivs.)
+Fixes: ddccc9ef5599 ("skbuff: add a basic intro doc")
+Reviewed-by: Willem de Bruijn <willemb@google.com>
+Signed-off-by: Sangmin Lee <45sangmin99@gmail.com>
+---
+Thank you, Willem.
 
-There should never be a check like ns_capable || has_epriv. It=E2=80=99s al=
-so
-&&, or perhaps caps are not checked at all.
+I've always wanted to contribute to open source, but I was hesitant
+to jump in. Your thoughtful review made me feel welcome and excited
+to keep contributing.
 
-Example eprivs include:
+Changes in v2:
 
-EPRIV_FSOPEN_VIRT: may fsconfig, fsopen, etc a virtual fs like fuse or
-tmpfs or overlayfs.
+- Use an inline literal for skb_shared_info.dataref so Sphinx renders
+  the field name without the leading ampersand.
 
-EPRIV_CLONE_TREE: may clone a mount tree
+v1: https://lore.kernel.org/netdev/20261119164351.49040-1-45sangmin99@gmail.com/
 
-EPRIV_MOVE_MOUNT: may move mounts around (but only if you also have
-CAP_SYS_ADMIN on the correct namespace, of course)
+ Documentation/networking/skbuff.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-EPRIV_FIREWALL_TC: may configure any firewalling configuration or tc
-configuration (this includes iptables, nftables, and ebtables)
+diff --git a/Documentation/networking/skbuff.rst b/Documentation/networking/skbuff.rst
+index 94681523e..15a9a9399 100644
+--- a/Documentation/networking/skbuff.rst
++++ b/Documentation/networking/skbuff.rst
+@@ -21,7 +21,7 @@ to as shared skbs (see skb_shared()).
+ 
+ skb_clone() allows for fast duplication of skbs. None of the data buffers
+ get copied, but caller gets a new metadata struct (struct sk_buff).
+-&skb_shared_info.refcount indicates the number of skbs pointing at the same
++``skb_shared_info.dataref`` indicates the number of skbs pointing at the same
+ packet data (i.e. clones).
+ 
+ dataref and headerless skbs
 
-EPRIV_NET_RAW: may use raw/packet sockets (like CAP_NET_RAW)
+base-commit: 362917b0b26bd16587d41a37f5fd1c252099a73c
+-- 
+2.50.1 (Apple Git-155)
 
-EPRIV_TUNTAP: may create and attach to tun/tap interfaces
-
-EPRIV_IP_LOOPBACK: may set up IPv4 and IPv6 loopback using whatever
-new facility we add
-
-EPRIV_NETLINK: may use netlink at all
-
-EPRIV_NET_ADMIN: may use traditional CAP_NET_ADMIN abilities (all
-CAP_NET_ADMIN checks will also check EPRIV_NET_ADMIN)
-
-EPRIV_OPEN_FILE_HANDLE: May use open_by_handle_at, etc.
-
-EPRIV_UNSHARE_USERNS: may unshare userns
-
-EPRIV_UNSHARE_NONUSERNS: may unshare any other namespace
-
-EPRIV_MOUNT_CGROUPv1, EPRIV_MOUNT_CGROUPv2: may create a new mount of
-these subsystems
-
-EPRIV_PTRACE: there are lots of different variations that might make sense.
-
-EPRIV_MOUNT_PROC_PIDONLY: may mount proc-pidonly
-
-EPRIV_MOUNT_PROC_NOTPIDONLY: may mount proc not-pidonly
-
-EPRIV_MOUNT_SYSFS: may mount sysfs
-
-Example eprivs that are questionable:
-
-EPRIV_DMESG: the kernel log is a specific object, and I think it's
-better to control access using something kernel-log-specific.
-
-
-
-There is no operation that increases eprivs -- even without
-no_new_privs set, a task will never gain an epriv, nor will a child
-ever have an epriv that its creator did not have at the time the child
-was created.
-
-The evolution rules could be as simple as, on fork/clone, the child
-inheriting exactly the parent's eprivs.
-
-Or we could bind eprivs to a userns instead of a task, but that could
-be more limiting and awkward than we want.
-
-
-What do you all think?
-
-
-FWIW, I had an LLM make an inventory (surely not exhaustive) of
-recent-ish CVEs and how they relate to this list.  (The below is the
-only part of this email that is LLM-generated, although I added
-EPRIV_SYSFS because I didn't realize that nonroot userns could mount
-it until I asked an LLM, sigh.)  To me, the list and its breakdown
-suggests that there is quite a lot of room for meaningful attack
-surface reductions while still leaving large parts of userns
-available, and that my epriv proposal captures much of this but the
-cap_userns proposal may be too coarse-grained.
-
-(I also asked about eBPF, and my LLM came up with a lot of CVEs, but
-there's an existing BPF token mechanism and I therefore did not
-propose EPRIV_LOAD_EBPF.)
-
---- begin LLM output ---
-
-**EPRIV_FSOPEN_VIRT:** CVE-2022-0185*, CVE-2023-0386*, CVE-2023-2640*,
-CVE-2023-32629*, CVE-2025-38499*
-
-**EPRIV_CLONE_TREE:** CVE-2025-38499* (only if the check also covers
-the relevant internal mount-cloning path; explicit `open_tree()`
-restrictions alone are insufficient)
-
-**EPRIV_MOVE_MOUNT:** CVE-2025-37988
-
-**EPRIV_FIREWALL_TC:** CVE-2022-25636, CVE-2022-1015, CVE-2022-1016,
-CVE-2022-32250, CVE-2022-34918, CVE-2022-48911*, CVE-2022-2588,
-CVE-2023-32233, CVE-2023-35001, CVE-2023-4004, CVE-2023-4015,
-CVE-2023-4244, CVE-2023-5197, CVE-2023-6817, CVE-2023-3609,
-CVE-2023-4623, CVE-2023-4921, CVE-2024-1086, CVE-2024-0607,
-CVE-2024-27397, CVE-2024-26925, CVE-2025-38001, CVE-2026-23111
-
-**EPRIV_NET_RAW:** None identified.
-
-**EPRIV_TUNTAP:** None identified as requiring TUN/TAP. Some
-packet-triggered exploits may optionally use it, but that does not
-establish it as a necessary blocker.
-
-**EPRIV_IP_LOOPBACK:** None identified.
-
-**EPRIV_NETLINK:** Also those blocked by `EPRIV_FIREWALL_TC`, insofar
-as the documented attack paths use netlink. No additional CVEs
-identified.
-
-**EPRIV_NET_ADMIN:** Also those blocked by `EPRIV_FIREWALL_TC`,
-insofar as the vulnerable operations require `CAP_NET_ADMIN`. No
-additional CVEs identified.
-
-**EPRIV_OPEN_FILE_HANDLE:** CVE-2025-38306*
-
-**EPRIV_UNSHARE_USERNS:** Also those blocked by `EPRIV_FSOPEN_VIRT`,
-`EPRIV_MOVE_MOUNT`, `EPRIV_FIREWALL_TC`, `EPRIV_OPEN_FILE_HANDLE`,
-`EPRIV_MOUNT_CGROUPv1`, and `EPRIV_MOUNT_SYSFS`, plus CVE-2025-38058*.
-More generally, blocks the documented unprivileged user-namespace
-setup for the entire inventory when no usable user namespace already
-exists.
-
-**EPRIV_UNSHARE_NONUSERNS:** Also the namespace-dependent attack paths
-blocked by `EPRIV_FIREWALL_TC`, `EPRIV_MOVE_MOUNT`,
-`EPRIV_MOUNT_CGROUPv1`, `EPRIV_MOUNT_SYSFS`, and many of those blocked
-by `EPRIV_FSOPEN_VIRT`. Coverage depends on whether the necessary
-non-user namespaces already exist.
-
-**EPRIV_MOUNT_CGROUPv1:** CVE-2022-0492*
-
-**EPRIV_MOUNT_CGROUPv2:** None identified.
-
-**EPRIV_PTRACE:** None identified.
-
-**EPRIV_LOAD_EBPF:** None identified.
-
-**EPRIV_MOUNT_PROC_PIDONLY:** None identified.
-
-**EPRIV_MOUNT_PROC_NOTPIDONLY:** None identified.
-
-**EPRIV_MOUNT_SYSFS:** CVE-2025-22089*
-
-CVEs not cleanly blocked by an operation-specific bit
-Excluding the two EPRIV_UNSHARE_* gates:
-
-- CVE-2025-38058: No explicit unmount privilege. The vulnerable race
-involves umount(2) and path lookup.
-
-- CVE-2022-0492: The cgroup-v1 mount bit covers the documented
-new-mount attack path, but not necessarily configuration of
-release_agent on an existing writable hierarchy.
-
-- CVE-2025-38499: The correct gate depends on which filesystem-context
-or internal cloning operation reaches clone_private_mnt(). I would not
-count EPRIV_CLONE_TREE as a definitive blocker without checking the
-exact call paths.
