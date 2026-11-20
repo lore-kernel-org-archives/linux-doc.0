@@ -1,79 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.22
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795133257;
-	b=IDfl0WUYqnFxVxeA4ThZvhj1litXAH4SYaI9+OczEfaAMcaOg/i7RtM7y//yMfyhbRWf
-	 R0ktFoKCBvqdGdPsHveP5PtUI9B7uPl15r3Mze81fYMcvngUQ9xmMWuh9EVJ2Pxu49ApV
-	 LOOl1EnKYbpNCeXBrseih1/cob5R/Mo0fEs0y1ilP1d/FqmorMrp32Tql0ZBxBoMtA6lk
-	 Uj1Eva1a2Px7EWMf18PlaoKpKXoiJXZn5J2K7XKSDgS/KX5eYWf2j6yvBwy5jnfR59eju
-	 w54KmYQSWRBold44K5yOWAp7yGdqnZl0aod83b4gvYHLw/rjxhT0hvrRrtePjKPmLBA==
+	t=1795133447;
+	b=mwvm9z6cnDkLyV/qPKaBCbLQpNQcCjFomWPv9apa0zyK9LQ6WoXtaWx3mb3sJBAtJyCT
+	 TCWoEk4nFz7Pp11kaqQRJ/urIUGRJWXlt7YEm9gudKrhpcoR3F+43uLsS8FVAaebfHn7o
+	 lE1qkwv4LnVxaRZu2JmxPbAuCELBc2E1b8fn3t9JFWtQUFskQmgkeJXhhbs5vHKLweggb
+	 zklnFupdTo/S693C1A19YhIOQje9vakH+TJbKdhXEUwiPNnOg+H1/jppBpjcAPuR/nsK9
+	 Oz0Tg+u12qWWXoQtg6vlVjWoq+zhoVya9+jPcq6jrGpsczXuRpE/JSzul/++1sUxVRQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795133257;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=yA0m58rWik3g8f7UVelIRblvrNa8BEocMNHHM2/4B1I=;
-	b=0K875NVkbdDo0g4beAPQw92d0mNQiehWFLMdN59ZIMGwmnhFKmABPQFHcd01vpXq4wA3
-	 bmmmUaodEVXmp6Nz+Rvakd4M7xJPmx6TBTjRcyG+lXvHuPI/YtBV42Se0KHgMt9vuqhVF
-	 +gcPqRyqIrhREgUrWZKqIj0FZ/UlsXVOTo1oTsXLXYhPUghdUJSuJoBKsrNnyU+ca9sKp
-	 lTVUHWTiP9vZ9RvAe17NEQLEKJEglslJA0DxLn4RdSDjUszY0sualQdiQO5rzznzHA0NN
-	 wAX3Ax3LlhjkiS02SN8PbILLsu/G1IQvrBPCCf5QVrLC3JKF9FgksSZy1K2TfNxCEBg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795133447;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=jaKcoVOIlrU450/oZNaFSQVblgQGB2IoQu9v8QphIiw=;
+	b=4GdXKZwHyfcJnFSJgJm/syAM7xq7vnqTgLnSXexl/Rr8Il8HdEYxmonINIDj3rT+NfWF
+	 1ty9STMyX1mnC/qBOYcIDuSk3aBo7f4Uu+ORQtCZSrP0ZXKrejlgqsP55U9hXNwV4hm52
+	 oWtf7fadSGSKuBO20w3WWQjp7ny6drp0pCRRkzttKZdqtlxLZkzhnfiEY8+eBp+6d/LNW
+	 N+It/ngze9cyWXJCL8RRnGZp0+wTIS8W5WNuZWklm1Iiv2SiFg1ryin6SwA273Za1Jg0T
+	 FDwJ5klJFmR1OS5ek/0UjOFCzlumz1zmOlLkKfsi5JYZ0i6A74y8Z3p7LlLipGQBOcQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e+6c6co8;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=cmpEWRFh;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.22
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010022.outbound.protection.outlook.com [40.93.198.22])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E351E60A2602;
-	Fri, 20 Nov 2026 00:07:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F43F60A260E;
+	Fri, 20 Nov 2026 00:10:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F43F60A260E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e+6c6co8
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795133256;
-	b=Q2DnX6FV6FVtjPeVMwIZlLc1lHJMYp203P/kyL9+CjDprgD6w92yYuX7M7dEwmElY2SH
-	 4guaXSNtpdKXByblwDj7FSY+miNZmPHJ1o08oaHX6kHQoTQyAYSPDdBWShKYTRsfz6tbS
-	 osY/ziYyyxKHmUEoAFCS24m5a+JLwyWLNQEd1cJdGsDOG6yBVe7sdNUkCDQUVpR+bAaRy
-	 XdkNiAoTT1iWYT2cBfkq1eJfVWd3FY8vY2m3/wKxeLkzm8pqrP9oh+OHjKV9t5B7WpL3s
-	 GSsyytS8sgkFgxskRxssFhG7AnE/bgK6S72dhTGtxr6AqmuJJokUBxSayUM3Iz7y+Zg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795133256;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=yA0m58rWik3g8f7UVelIRblvrNa8BEocMNHHM2/4B1I=;
-	b=UyIJFjc8dcDWPdxy53onL1Yh/yrylFR6sZQpAqPBHgtP9JBHtYGj6lbCZciGvNb04aWf
-	 kgRCSU6uOcxDScnR8DEE8rb3uipZFAwC7JS2pWzbwXgPDypvgr+7Nn6GyB15/eI8U8ZzW
-	 8Hcw330OAmztuNOwga3+ZQh1pgFgIl9c0npm1cYOMSfvqRn0SID+lWuvX5Nf2JYu1JjKJ
-	 PMzCDlb4Mn+zr8L/jSPUOFrj2Y/OL+hQE5sGHLntv7NpvEifjia04WgKsjZJT/6hWh8IR
-	 hW5Ee26Um0lYP+oZUGRE/v/QF4JaWZlBwsj2MNQgns90Aj85E34XtKZ5zgtFe6W0llw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id E1ED71F000C4;
-	Fri, 20 Nov 2026 00:07:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795133256;
-	bh=yA0m58rWik3g8f7UVelIRblvrNa8BEocMNHHM2/4B1I=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=e+6c6co8kmNG3AH1u2sMiWzi70uceSK6F6xK14aunUKW98lZXhUf0EcoHfuFfcI2F
-	 3boSupwg26k+MK+mDz/24gLL/y8c5fuItEp4vMhTaCzW2snh9cs4ejQyCO1mU135pO
-	 UMRsQH+4yhCHnqpY3drV7xgbuU6jlKiPtDLNSex+MrjGzkSB72XP2Zwwm+akgFavlY
-	 qQlJKuYkrtXo+Gm8s2TmVEuHHHAjjx+YEz7GRpbN2BGo7yeU2G/n3nFg0Z8kBvqiBK
-	 2lLxU/OTwaH6pudG9Y19GMnA12aQgbt7MIGrQc0kBpUKfs3LXBX3l77vQNGqoGkPhO
-	 t9cegpETdHxWA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 6F3FB424C7;
-	Fri, 20 Nov 2026 00:07:35 +0000 (UTC)
-From: Joseph Telaak via B4 Relay <devnull+joseph.telaak.dev@kernel.org>
-Date: Thu, 19 Nov 2026 19:07:23 -0500
-Subject: [PATCH v3 01/11] leds: rgb: ktd202x: Fix the flash period of short
- blinks on 32 bit
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=cmpEWRFh
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jDgc82BdHoCaOrXE+83aYaIv7kiSeIRlaTHbvkrLyk/JCx0w8KogZ4qlY2ekyjWN/9RCddm9zTUsDAb/s8wmzPMVvDDlcHq5wjSIekvCgjGX/4+M75tTvvOHsC0q8hYJkOiximQ/sYa6MQ6k4iPppaQTWbbGcBFdtiAet/Itw5B4Q3M/8E5usEjw6rm9Z5SQXHF8zCKKQDFSNx6XVKQY46SVTVB1Gncscq+wkWfdacRdpxnPmb94gSUA+uB68G5Zq2aqwukP3dW+4ECT7dlN/0JmG9s93QyHY8EtwM6+mxkA4tkHCynBJ26D42TFL1uA2FfNEMR6HMxFMoBFnR7Pbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jaKcoVOIlrU450/oZNaFSQVblgQGB2IoQu9v8QphIiw=;
+ b=kV48Of1V12h0pDLlrQh829Jyq9sKzJGE3iMRN+fEjOEhiAGoKdiCJEtdqAMWP1l6QnqDoLSdb/aEteHO7jDUKpls7fcisB/ZRNSTGcNr/13Zg1O5FtiUJW/bSNP058qFTjVDARpFYwcmSOl1rd/xou3kxCMozkF6ijUE/hRSBg5ys1songorIrR2wfMSf50M3ZwpAFnVsLv28gV6cMrrum+4Mb8fno6X/a7dn2hd9tgyWgX40OkOQ9mxrl7RhYQvoNubueyiWdIsjt55NrLcuVc1SZg999WlJvqKMkQ84kVtB8lfPGsplPP4TkqCigLzhz+cSxat2dx0AHe978fVkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jaKcoVOIlrU450/oZNaFSQVblgQGB2IoQu9v8QphIiw=;
+ b=cmpEWRFh769DAxR3HF/1vqkJNThaNuo9fw6xatvqnGjg41kR69WN0Qg3cnxxAh6Oj9pBIDk/mfgYCxyq/WV/KIAgNb7wFUxSJFZchU3uBl17qmPVnXBh7O+B+I0QLOas+vOs/78hEkRL213pXsMb3RpxpcDUT1j0jFQej2K96vRPjHATZQAEMQKH1gCYv2jEC8TmGFRSq9esmPsE9FKhipMhwhT1qddGuXi+lZ/4FTCvIE5MesbTr/fjNSDLwJ9KyXebtjvjOxXTSWr8A9Q7IcN8b3LSmlN76ucA4GybEhxFII3Xb2p9lx7D70cdiYsAFa63JrPh+EotyjiqfHJP7A==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9411.namprd12.prod.outlook.com (2603:10b6:408:215::20)
+ by BY5PR12MB4097.namprd12.prod.outlook.com (2603:10b6:a03:213::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.13; Fri, 20 Nov
+ 2026 00:10:43 +0000
+Received: from LV3PR12MB9411.namprd12.prod.outlook.com
+ ([fe80::98b7:86de:b69:2a15]) by LV3PR12MB9411.namprd12.prod.outlook.com
+ ([fe80::98b7:86de:b69:2a15%5]) with mapi id 15.21.0639.011; Fri, 20 Nov 2026
+ 00:10:43 +0000
+Date: Thu, 19 Nov 2026 16:10:34 -0800
+From: Alex Williamson <alex.williamson@nvidia.com>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>,
+ Alexander Graf <graf@amazon.com>, Alex Williamson
+ <alex.williamson@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>, Chris
+ Down <chris@chrisdown.name>, Chris Li <chrisl@kernel.org>, David Rientjes
+ <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, Jason
+ Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke
+ <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner
+ <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, Parav Pandit
+ <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal
+ Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, Randy
+ Dunlap <rdunlap@infradead.org>, Saeed Mahameed <saeedm@nvidia.com>,
+ Samiullah Khawaja <skhawaja@google.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, William Tu
+ <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v11 09/13] PCI: liveupdate: Adopt ACS controls in
+ incoming preserved devices
+Message-ID: <20261119161034.4e23c1c6@nvidia.com>
+In-Reply-To: <20261118223704.3286085-10-dmatlack@google.com>
+References: <20261118223704.3286085-1-dmatlack@google.com>
+	<20261118223704.3286085-10-dmatlack@google.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR05CA0106.namprd05.prod.outlook.com
+ (2603:10b6:a03:334::21) To LV3PR12MB9411.namprd12.prod.outlook.com
+ (2603:10b6:408:215::20)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,76 +111,280 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261119-ktd202x-et6326-v3-1-98b836b1cddc@telaak.dev>
-References: <20261119-ktd202x-et6326-v3-0-98b836b1cddc@telaak.dev>
-In-Reply-To: <20261119-ktd202x-et6326-v3-0-98b836b1cddc@telaak.dev>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Griffin Kroah-Hartman <griffin@kroah.com>, Kees Cook <kees@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org, stable@vger.kernel.org, 
- Joseph Telaak <joseph@telaak.dev>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795133254; l=1641;
- i=joseph@telaak.dev; s=20261104; h=from:subject:message-id;
- bh=zfAMVaNdKcol9zMzD0rM6l30D7wHuzr1tcEVXAw473c=;
- b=3BQgXUcypJjlefjNYxm8V6ta1mw/nAx6OEIcHXXCunRFrfTiejklKfxqS7wNZbupPbBrqYF8n
- 9GkZJkXs5TzAwXE5hn+oxswKooeYsI7QqglR8sAVfdnJY19OSoiyI2n
-X-Developer-Key: i=joseph@telaak.dev; a=ed25519;
- pk=oQI+UfddlZ0wK2ac4WKOGNjUl1ZEN8j9ZVFSqEDoNP0=
-X-Endpoint-Received: by B4 Relay for joseph@telaak.dev/20261104 with
- auth_id=1404
-X-Original-From: Joseph Telaak <joseph@telaak.dev>
-Reply-To: joseph@telaak.dev
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9411:EE_|BY5PR12MB4097:EE_
+X-MS-Office365-Filtering-Correlation-Id: 22eb5e39-0abe-47f8-d9e0-08df469ab767
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|7416014|6133799003|22082099003|18002099003|261009220027099003|261009223327099003|261009221227099003|261009223027099003|3023799007|261009221727099003|56012099006|4143699003|11063799006|261022075727099003|261021121427099003|261102123227099003|10067099003|261022105027099003|261026121527099003|261021135927099003|261026140227099003|261102130727099003|261028144727099003|261021123027099003;
+X-Microsoft-Antispam-Message-Info:
+	dfAfAbgPKSMOzBmqhhqeVEUKjG0m3mtfmwYun5Qm+gIT3tKti7e6W8eyknpn4cJEKyWDiXdDYDkMtGhw+LRLSHbWQBAAwogKL5NWWK7AyqD9aYqSMWi1Sx0vrFCzTiJiQ73rWcxVTRhljxZmRcbERXu8jN91/ewZcc5rnN2lbHyQqjSLAFP42AsJPxbyib0Gr7Sbdnr4gFFw3xVFV7gNjnzPtZ/cCc1Jm4l9yz1JjruonFx5zQ47qz0bFR6vG7FUE33+v3q8zN5yZ9Po+GzmQMmBxdQGe6isem4RNrKxGPRgIIrFuUTgwY6k6Lt6Pz87OZHKZxnhBLfoJPwiJYFhTqjlkxcBpzOSL/YXlmMGalqYMk/msuo/aXlm90yDs/PdE16WjWDC+asAcUQOsWgMcVGGwN6KjqBX0YiDVkokIwv49RjEqDOtFX5oWFYF9xuZEMhNev+XjuLewGBESqKIGbtABNCLAlSjdJ9N6TU3IfayTFSgcoqOnoGbbF+v/+H8QJ1SjyCZZ7ERJ+8uQf3qa0UnsEDqAeEwxbY0XoDnqRYnUbieK9CBqQbn0Ww0ZgosUyG2TMqQEhi5JfE55RrXXUkzOjDISkU2Sq4xVb+TimRMIPWjMzv7tNAdWe7xtnBM1dtPnaJ78O6cIx8rVgyvweRRM/geeILldUYBIr0euyk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9411.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(7416014)(6133799003)(22082099003)(18002099003)(261009220027099003)(261009223327099003)(261009221227099003)(261009223027099003)(3023799007)(261009221727099003)(56012099006)(4143699003)(11063799006)(261022075727099003)(261021121427099003)(261102123227099003)(10067099003)(261022105027099003)(261026121527099003)(261021135927099003)(261026140227099003)(261102130727099003)(261028144727099003)(261021123027099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?HiyI/1GS2brxWcarnd4vYhMC5QOBBlS1BmTqugNfkfD6b4FouFWZ6pSKiSZZ?=
+ =?us-ascii?Q?kz57MlfIkbcWVuQtwcP/gbZMEDbJJbeP+3AbN21WgUEYwelukXEghWU7nPq4?=
+ =?us-ascii?Q?F4eegeQt9owcF8I3j0gI65ZTchURstodcTX145nN1Jt0eVrXo4XQK3R5aDmL?=
+ =?us-ascii?Q?Klpi9jhkrBvXKLjYbcAGV32h3o21qyPURziHbcvK2SnfsigyiHl5oV0hbIbd?=
+ =?us-ascii?Q?u7d7rRX23RrXjAi2tFWlj1PA1mS+R5iO9h6DgGrkDAnpiQa4mkHXOxZoRHPo?=
+ =?us-ascii?Q?EFEQyuTr+WRW2wj9ponchkTEzFFjZ0+Fg456d6/LKvSg+FUyYkMhuQI0U5PC?=
+ =?us-ascii?Q?6umCvz/1NIqwVrVqiq47C/nmtYKXklKVtjIWRR5+Mx9SxqM1R9R85El0K6le?=
+ =?us-ascii?Q?VNjwfmMX7kZ1kNfmwl7y2Jxbr3G14dxRJRXyddMvIyQjO6zQ9VXTVptlB4kg?=
+ =?us-ascii?Q?uiDN62EXoexYzx6tytYWo/5dtmEn2wdQ9xKq4ZHu69RVDnUpK3CsALgQGmfP?=
+ =?us-ascii?Q?JRpeqsq5wmwhTHCb5ozIDK1JENgexm/Oft0HdczFep0kZ078tk5nI+VLjkcf?=
+ =?us-ascii?Q?ABqZQuwcQFf0hBbMGjfcO6KkTJpLGTOzA60gjdPS5ANWdTDsyW7R6NGHTAUf?=
+ =?us-ascii?Q?BLn8n7pVKIt8INKSlh+M/WdRPBIzv4k1dsCjbYpWgoGWswpB3x9fyHdPLNuS?=
+ =?us-ascii?Q?FvEr2A3jNtvu5DnOCKSRRddI8Q3Be3EN/LHesUrfijB6iR/JQkWyCX5bE+U9?=
+ =?us-ascii?Q?KrY5gJAabMmwXtYzZqeUL8iJDGMuCC4Md9g/eskBSDpFq0qZ/KF31omuzTL8?=
+ =?us-ascii?Q?SPzhImNd8WXWql+5EIoVPDfK0hRO6LT/k60qgJvrfWk+y+tTxWMsttvRDbLy?=
+ =?us-ascii?Q?LRFP2xynZprf4mQv4f7+wcuqENjqHP7md2tZBmPCBk8RIDDmYhHCO4H7gpjg?=
+ =?us-ascii?Q?GRJ6nYzGQOWjhFnTQ2XHxP3TBTwvzv9WejJ2j8a0CNIoSNO45/Bh7q5NNBM9?=
+ =?us-ascii?Q?Q72Yfo1ZZs1oNTMa9QBjFAY6NoTmxiuZ6xwepfpJkKW3RUyfEIr4KjGldsll?=
+ =?us-ascii?Q?TeOZJ4i1QGk56R3FEAo8ksQxuBSJNlugTj7jlbuOFl+PKUVKKs/E7oh7hKBo?=
+ =?us-ascii?Q?K79klgMOWGQiAi6/SWLIpxd04bkEnhRephpyuvDXlgY9gUU/aPwUMVtetGpE?=
+ =?us-ascii?Q?vPXWh9jDOX/VoMRxeG3rCJdsnGPzEMnBTKHpT8dNs63t+HNnoQqWt91eJUs1?=
+ =?us-ascii?Q?y1anELvcyvArYZnKW/6Hq6yo1ZgrIL0YLBxe0MshHz2FIBpGGwglIj6x+dFw?=
+ =?us-ascii?Q?w3zt8HQfstYzamPyGBArC6001PTn0o1Zw58RU+8jKep4YMdBPeF3lXqZJF9o?=
+ =?us-ascii?Q?aYOS6WJ6gNhE2T4A6ZyTgORjaJO2JNdrkD/xNht2hZWHWPkZx14adklWKTPg?=
+ =?us-ascii?Q?P/DaJh6ZILEfrgiXU6VQeFGX4HDh7VjFaHDmxvoq6FojvRm9GCaCCxeLLC1l?=
+ =?us-ascii?Q?s5mhZmTnRm4MUVnAiAXjNYXn/7iTvcRG2Ms1BhRMGXLd83U2wj6pSXxRTLoS?=
+ =?us-ascii?Q?QI9I2JEKZmmMO2TX627FuC67+VctOLOj0Dl/ZKBlYw1+y8B4LnspXgMvwE5Y?=
+ =?us-ascii?Q?1iqijsGZoNSLNxRr0qkmByvPk1WS5fZO7b1un9Yx/jrjTw85YsQwkoCx00vp?=
+ =?us-ascii?Q?GpGL9DPVcZOrYX5kOZdwDIWdP2Mwv+BuDzAO10w72GuAWEIB+AtRQ/Ma1svi?=
+ =?us-ascii?Q?4swGlA5bsQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22eb5e39-0abe-47f8-d9e0-08df469ab767
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9411.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 00:10:42.9487
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GQkmudEqfYdc7zqdXXdsMUSGjzp2bQVVXgnpjb7z+esnm1LH+TvxoqMx+rmP2sg5yK9Yg+7A6CkNe0Kg1nIyWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4097
 
-From: Joseph Telaak <joseph@telaak.dev>
+On Wed, 18 Nov 2026 22:37:00 +0000
+David Matlack <dmatlack@google.com> wrote:
 
-When delay_on + delay_off is below 256 ms, the unsigned subtraction of
-KTD202X_FLASH_PERIOD_MIN_MS wraps. On 64 bit the result truncates to -1
-or -2 and gets clamped to the shortest period, but on 32 bit it
-truncates to 33554431 or 33554430 and gets clamped to the longest one,
-so asking for a fast blink gives a blink every 16 seconds.
+> Adopt Access Control Services (ACS) controls on all incoming preserved
+> devices (endpoints and upstream bridges) during a Live Update.
+> 
+> Adopting ACS controls avoids changing routing rules while memory
+> transactions are in flight from preserved devices. It also keeps IOMMU
+> groups from changing during or after Live Update.
+> 
+> The adopted controls are recorded by the pci_save_state() call in
+> pci_bus_add_device(), which runs before drivers bind, so they are
+> reapplied by pci_restore_state() if the device is reset. Allocate the
+> ACS save buffer for incoming preserved devices even if they match a
+> device-specific ACS quirk, since their adopted controls live in the ACS
+> capability, and panic if it could not be allocated.
+> 
+> To simplify ACS adoption, reject preserving any devices that require
+> quirks to enable ACS as those quirks would also have to take Live Update
+> into account. If such a quirk matches an incoming preserved device
+> anyway, e.g. because it was added in the new kernel, log a warning and
+> adopt the device's ACS controls regardless, rather than reprogram a
+> device in the path of a preserved device's memory transactions.
+> 
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>  drivers/pci/liveupdate.c | 75 ++++++++++++++++++++++++++++++++++++++++
+>  drivers/pci/liveupdate.h | 16 +++++++++
+>  drivers/pci/pci.c        | 13 +++++--
+>  3 files changed, 102 insertions(+), 2 deletions(-)
 
-Compare before subtracting.
+Reviewed-by: Alex Williamson <alex.williamson@nvidia.com>
 
-Fixes: 0ebdb7210943 ("leds: Add ktd202x driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Joseph Telaak <joseph@telaak.dev>
----
- drivers/leds/rgb/leds-ktd202x.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/leds/rgb/leds-ktd202x.c b/drivers/leds/rgb/leds-ktd202x.c
-index 143020945e23..539cf425cdb7 100644
---- a/drivers/leds/rgb/leds-ktd202x.c
-+++ b/drivers/leds/rgb/leds-ktd202x.c
-@@ -296,9 +296,13 @@ static int ktd202x_blink_set(struct ktd202x_led *led, unsigned long *delay_on,
- 	/* Convert into values the HW will understand. */
- 
- 	/* Integer representation of time of flash period */
--	num_steps = (*delay_on + *delay_off - KTD202X_FLASH_PERIOD_MIN_MS) /
--		    KTD202X_FLASH_PERIOD_STEP_MS;
--	num_steps = clamp(num_steps, 0, KTD202X_FLASH_PERIOD_MAX_STEPS);
-+	delay_total_ms = *delay_on + *delay_off;
-+	if (delay_total_ms < KTD202X_FLASH_PERIOD_MIN_MS)
-+		num_steps = 0;
-+	else
-+		num_steps = min_t(unsigned long, KTD202X_FLASH_PERIOD_MAX_STEPS,
-+				  (delay_total_ms - KTD202X_FLASH_PERIOD_MIN_MS) /
-+				  KTD202X_FLASH_PERIOD_STEP_MS);
- 
- 	/* Integer representation of percentage of LED ON time */
- 	on = (*delay_on * KTD202X_FLASH_ON_MAX) / (*delay_on + *delay_off);
-
--- 
-Git-155)
-
+> 
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> index 00d6fa5236e9..b99a88c2c199 100644
+> --- a/drivers/pci/liveupdate.c
+> +++ b/drivers/pci/liveupdate.c
+> @@ -123,6 +123,9 @@
+>   *
+>   *  * The device cannot be a Virtual Function (VF).
+>   *
+> + *  * The device cannot require device-specific quirks to enable Access
+> + *    Control Services (ACS).
+> + *
+>   * Driver Binding
+>   * ==============
+>   *
+> @@ -174,6 +177,17 @@
+>   * bus, since the bus numbers of the failed bridge can no longer be read from
+>   * hardware and handing them to another bridge would let an unrelated device
+>   * inherit the BDF of a preserved device.
+> + *
+> + * Handling Preserved Devices
+> + * ==========================
+> + *
+> + * The PCI core handles preserved devices differently in the following ways:
+> + *
+> + *  * The PCI core adopts all ACS controls enabled on incoming preserved devices
+> + *    rather than assigning new ones, so TLP routing and IOMMU groups stay the
+> + *    same after Live Update. Note that a device will use its adopted ACS
+> + *    controls for the lifetime of its struct pci_dev (i.e. even after
+> + *    pci_liveupdate_finish()).
+>   */
+>  
+>  #define pr_fmt(fmt) "PCI: liveupdate: " fmt
+> @@ -189,6 +203,7 @@
+>  #include <linux/slab.h>
+>  
+>  #include "liveupdate.h"
+> +#include "pci.h"
+>  
+>  /**
+>   * struct pci_liveupdate_global - Global state for PCI Live Update support
+> @@ -540,6 +555,15 @@ static int pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing,
+>  		return -EINVAL;
+>  	}
+>  
+> +	/*
+> +	 * Do not preserve devices that rely on device-specific ACS equivalents
+> +	 * since that would complicate keeping ACS constant across Live Update.
+> +	 */
+> +	if (pci_need_dev_specific_enable_acs(dev)) {
+> +		pci_warn(dev, "Refusing to preserve device that relies on ACS quirks\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	if (dev_ser) {
+>  		/*
+>  		 * Endpoint devices can only be preserved once. Bridges are
+> @@ -816,6 +840,57 @@ void pci_liveupdate_finish(struct pci_dev *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(pci_liveupdate_finish);
+>  
+> +/**
+> + * pci_liveupdate_adopt_acs() - Adopt ACS controls
+> + * @dev: The PCI device to adopt ACS controls for
+> + *
+> + * For devices preserved across a Live Update, leave the ACS controls
+> + * established by the previous kernel alone instead of programming new ones.
+> + * The adopted controls are recorded by the pci_save_state() call in
+> + * pci_bus_add_device(), so they are reapplied by pci_restore_state() if the
+> + * device is subsequently reset.
+> + *
+> + * Panics if the device has an ACS capability but no ACS save buffer, since the
+> + * adopted controls would be lost on the first reset.
+> + *
+> + * Return: 0 if the ACS controls were adopted, or -EINVAL if the device was not
+> + * preserved.
+> + */
+> +int pci_liveupdate_adopt_acs(struct pci_dev *dev)
+> +{
+> +	/*
+> +	 * Check if the device was preserved over a previous Live Update (even
+> +	 * if it has already gone through pci_liveupdate_finish()). This ensures
+> +	 * that the device continues to use the ACS controls established by the
+> +	 * previous kernel.
+> +	 */
+> +	if (!dev->liveupdate.was_incoming)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * The previous kernel does not preserve devices that require
+> +	 * device-specific quirks to enable ACS, so the controls being adopted
+> +	 * live entirely in the ACS capability. If such a quirk matches anyway
+> +	 * (e.g. it was added in the current kernel), ignore it rather than
+> +	 * reprogram a device in the path of a preserved device's memory
+> +	 * transactions.
+> +	 */
+> +	if (pci_need_dev_specific_enable_acs(dev))
+> +		pci_warn(dev, "Ignoring device-specific ACS quirk, adopting ACS controls from previous kernel\n");
+> +
+> +	/*
+> +	 * The adopted controls must be captured in the ACS save buffer so that
+> +	 * they are reapplied if the device is later reset. Without it, e.g.
+> +	 * because it could not be allocated, the first reset would silently
+> +	 * drop them.
+> +	 */
+> +	if (dev->acs_cap && !pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_ACS))
+> +		panic("%s: No ACS save buffer for preserved device\n",
+> +		      pci_name(dev));
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * pci_liveupdate_is_incoming() - Check if a device is incoming-preserved
+>   * @dev: The PCI device to check
+> diff --git a/drivers/pci/liveupdate.h b/drivers/pci/liveupdate.h
+> index e5d2a19d2ca2..c643f2664296 100644
+> --- a/drivers/pci/liveupdate.h
+> +++ b/drivers/pci/liveupdate.h
+> @@ -15,6 +15,12 @@ void pci_liveupdate_setup_device(struct pci_dev *dev);
+>  void pci_liveupdate_cleanup_device(struct pci_dev *dev);
+>  bool pci_liveupdate_preserve_bus_numbers(void);
+>  bool pci_liveupdate_refuse_bus_numbers(struct pci_bus *bus, struct pci_dev *dev);
+> +int pci_liveupdate_adopt_acs(struct pci_dev *dev);
+> +
+> +static inline bool pci_liveupdate_was_incoming(struct pci_dev *dev)
+> +{
+> +	return dev->liveupdate.was_incoming;
+> +}
+>  #else
+>  static inline void pci_liveupdate_setup_device(struct pci_dev *dev)
+>  {
+> @@ -34,6 +40,16 @@ static inline bool pci_liveupdate_refuse_bus_numbers(struct pci_bus *bus,
+>  {
+>  	return false;
+>  }
+> +
+> +static inline int pci_liveupdate_adopt_acs(struct pci_dev *dev)
+> +{
+> +	return -EINVAL;
+> +}
+> +
+> +static inline bool pci_liveupdate_was_incoming(struct pci_dev *dev)
+> +{
+> +	return false;
+> +}
+>  #endif
+>  
+>  #endif /* DRIVERS_PCI_LIVEUPDATE_H */
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index fc4307a2327d..ebc565b4780a 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -35,6 +35,8 @@
+>  #include <linux/aer.h>
+>  #include <linux/bitfield.h>
+>  #include <linux/suspend.h>
+> +
+> +#include "liveupdate.h"
+>  #include "pci.h"
+>  
+>  DEFINE_MUTEX(pci_slot_mutex);
+> @@ -1071,9 +1073,13 @@ static void pci_allocate_acs_save_buffer(struct pci_dev *dev)
+>  	/*
+>  	 * Devices that rely on device-specific quirks to enable an ACS
+>  	 * equivalent keep that configuration outside of the ACS Control
+> -	 * register, so they are configured from scratch on restore.
+> +	 * register, so they are configured from scratch on restore. The
+> +	 * exception is devices preserved across a Live Update, which always
+> +	 * adopt the ACS controls established by the previous kernel and need
+> +	 * the buffer to keep them across resets.
+>  	 */
+> -	if (pci_need_dev_specific_enable_acs(dev))
+> +	if (pci_need_dev_specific_enable_acs(dev) &&
+> +	    !pci_liveupdate_was_incoming(dev))
+>  		return;
+>  
+>  	/* dev->acs_cap is not set yet, pci_acs_init() runs later */
+> @@ -1170,6 +1176,9 @@ void pci_enable_acs(struct pci_dev *dev)
+>  	bool enable_acs = false;
+>  	int pos;
+>  
+> +	if (!pci_liveupdate_adopt_acs(dev))
+> +		return;
+> +
+>  	/* If an iommu is present we start with kernel default caps */
+>  	if (pci_acs_enable) {
+>  		if (pci_dev_specific_enable_acs(dev))
 
