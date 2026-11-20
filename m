@@ -1,100 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.51
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795162923;
-	b=39DRr3m9421wbdhmOrTzeSf4gSNbqXkVvl7pT10Kz8f4TWbHPTtQesX5KZgTEgppdBaC
-	 0tovWMG9KY3tulla1YA+yIeWsnrI2VBIAprDF2PKR9+BQQiPrHH3Hpv3Ql8Dbkk6xMt4p
-	 +G4pPDeU9xABYRMYO4yMqJUTe0C+qWOg+cdOrb+6s1ISLLEQ77tKtStDXZhe4b2SBNY+1
-	 D8WfJhlYsXyTNRIhmPDh+saIBolvP1umUz455sbaRqjy5AxNTgBQwQaGNRoi30cF2fzzQ
-	 KvGteR0qkmXrLmsMxRX5fSdhxh0BJLoSgRRziGql3T3iiG/q0qhVWOhfeGT46fpU8Uw==
+	t=1795163485;
+	b=mlGZHHLL8ZQMBL/ZOx9rK9OeEYSbMQTnLSaKBjDGtrOiAuhAgf8Q2qT+VjmKxDuz8fgJ
+	 I+py5E00xcWh969tZoQjTo2OB8vbAXC2k7n1Dfh2m1/KzkjK9en8NpxI8z1pgciXcmj8O
+	 Pq8Rnz0BNUL6SrBGqHnrbRGGz60OmX86qXeptPt3SEl1ufwo0gvERpdrcCpV7A0g8vhbY
+	 skTWdedv+7YzTlFZ+sXA6A75Wbtu/CdhG9ixkcvuMlD3l79zovEJuAfUXEqy8ILrUSkxi
+	 7cL8bqizyCZFswZWo/95ZrC6C06+wNKYagF/NAci68oZtJ9OQV4e0LrQBszmooMjSPA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795162923;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=6qaWnWddVt0MJiy+92iRgvW/WkoPo1PC7CtoH61AXG0=;
-	b=QVj2C2Y5XKsV++ocFPygv7VOuF30Ai7o0GU74Z0RvP1mpx/biRYbwJoS6Jc6ygEtdqdb
-	 KpnYsOaFapbl48idTtYalb8prU85521GINjT7E/JvT4tf11sf8JA+r6fbi9Ck4fqNkvZr
-	 jJiBnwDY2cXJPQlH85b6DfBrIrnk4WPnYULGiJMFmtKU+g2Z9Sa4e1ErqaMMZ6KV/NZA0
-	 cYT6JNyv9q5pK0DRtwzxt8muIP99B8aQqXGAAXs1MHjqDJk3k6ZNinsFncP60MkN8v+Sx
-	 s6Hu2rTSnXD1vj1+TjvolnHHAosLsDvUEe5qa83aGrD+LEO2N+lhscoka5nzQNog9Hw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795163485;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:
+	 X-NV-OnPremToCloud:X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=alsuIIV8K61g4Ejcwy0iCbzR+hveJeez++g/+NUFzeI=;
+	b=OUga1kU05JEGKu8hEm1viRh5T7tg3eoYeCDLEbtSmVSTF9OTJg0xVaHVKGlHmuwes4pQ
+	 QA9pkxUzM8bppxRt1oOShpbp6PV29nMbMuySAZ4RgwV5jo6eZApcl58XZt+vp70tNXYR2
+	 GqqHrbLpsCj1ZiTRLqZsc3allrJGEXQHBJMtKGRQxI9hUQAcUHiBSZZmion+dewdsKZqM
+	 8Vfa/MK8uNGROIC9UX0GNvT0aMZfeQ7dUtmukn0QlfWHWQBUwrm+jMMV5JJDKsk5lpDrJ
+	 JtL6Xxz0ul/OKJ/07a7URrIlWQkCEgZE4mLhK+xLpslzcFsOdPIcx9wyuPOIuGP78bg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="lfmZvxA/";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=gjOmjfxV;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.51
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010051.outbound.protection.outlook.com [40.93.198.51])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC047606A326
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 08:22:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC047606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5BD606A320;
+	Fri, 20 Nov 2026 08:31:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F5BD606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lfmZvxA/
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6b8784a3284so910966a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 00:22:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795162921; cv=none;
-        d=google.com; s=arc-20260327;
-        b=FmayNfl90hm0LZMjDSCWqeBSJ8oHT6xHjToKXQoobM52STMylEvtT1mobPnkbki4R8
-         GQRMJsTIVDp1pSCemwgZ6FqLnMB6B3X1CGAjRewGxjEbW8tlxk+41wlUuHs2A11rZWWx
-         pYQx1jZzyXQq0zEpxNDLg7S31PHPD8ICJJXYzrXPp1QlYidtYGyiWOjAknEqGNuvlGuO
-         q6uCjnrUPulMPnD1SxG+pzfqwip3csaGNFhIy4sAQihfd+5WIIt3VPGM2rD0y3V22+wG
-         vt7xHJSc4JZMRK2Bio9l97WYg3nEHaYCq2lPiUXSoF3vgJcwGhmGrKAHqucZGTSrupiw
-         yCWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6qaWnWddVt0MJiy+92iRgvW/WkoPo1PC7CtoH61AXG0=;
-        fh=xK3oS7+YulihL5nZS/N7CurszK0HBuLi7ORAgqgTz20=;
-        b=luVKeyn639pBz/s3POz/RYR4oA4iUS6I9FpTxQN88MJZ0wvFqhCHiY/7yedWtjHHAh
-         5X+Tglh1oDgBzWN1JtE+Qhu3EjPiH2wjFfKGLQu9jaVzy3a/3yVy5qjU6hhqon09U4ox
-         IZLeHceXPpYDfyIPpwEhBCMw2HS3L74BjYeRPzW0Pkc1cFAOgvI2VuVKymBx7mbxqEB3
-         ok1gPgEIO9TX7R40fxtNCOqCEx4PGtQSffdVdWyLJiS4m7OSyUeKhiGlfMsBqHQzncJD
-         59t+oMP+4JNki6Qv/Imq64SNu4vc5t6bVDborq/qlCpqZ/QOSkGhHkwcRndCA8XP/P19
-         VzqQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795162921; x=1795767721; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6qaWnWddVt0MJiy+92iRgvW/WkoPo1PC7CtoH61AXG0=;
-        b=lfmZvxA/1HGejNGMYWP3y4EqkZ6pBnz7SLZBv3rujos7mJOt7yAdi9yA+9b6S4jk+D
-         ipzGPH9AnJr9Lqj/mvk32vCLkbD+rSP/a7NmQ7Dljdvin4dNwDXjQlU7ei+YYomRNWGI
-         90F2j7LYpKCgJSjIXyqCm8QOtOLplCl5bbWN7HZWLDXyutGBAlMc1WTKyM1wyO5bhBn9
-         46YL8OYmDmto9N+M94yif75del23Y6bMpTINzOjQDDII/YdtZD7ugq1c0AnEhrXdUfnN
-         vUohWs7UdgYxVJUj1GtsmBRsCs2g0B/QliBO4iXaaSJ5yPmpynI27gB2rgJm+q24d2SW
-         wMbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795162921; x=1795767721;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6qaWnWddVt0MJiy+92iRgvW/WkoPo1PC7CtoH61AXG0=;
-        b=sCRe2hQ4mlH3VIebwuFnoKHb8tEZctW+BCVZtkxNLXT5P9AylpvjezUFMVp96LQsZf
-         zuFqCMi4uHxoJ7B7hJupqeB22xEsUYUGcxzp4H2wNx5neIbAXF6Un1BERg/ik1WkGBP3
-         TfPPVStjZ7fkC1vnJaPawMykySyu2m7o8BJZfTB8bUBbK/+9kLDsdjwSTo9lj+TIZPxz
-         JUiKC6yXYGlvC9F8EnsuTAgLqREx7J6ikDQfuillJSR9TJx1azdio1d56C7Lae1NYTnA
-         F7IWvS0ycZzbF8mtKHiB0ZncJUwK59IqiYxUi+kEGVeWsbOOpBQozCBn1M9w6l89Lgwk
-         9wDg==
-X-Forwarded-Encrypted: i=1; AL+hErFxDqaqqTlTZC0uaLBIe7FociDh/f6Zg86/ZZyPo0VeTh4ZkPUcO6x5Gn7oyAwyep/3FM5H7kEvW9g=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8ZkvhxKtv+m6N5sUgqdrGry+4t3YM+IKiZSgHYHy0el9qErr2J
-	/jAdz+2onXi//iRJlXonRj14ImQHaTPyIdhtdSlnQtf0MddMo4b3aQe9SZFlW8+J2/NfXNImOw7
-	2sJdZQLYHSZd4yrED/zaa5nu4+L1V60Q=
-X-Gm-Gg: AZFdTZfTJCjj5wSFIE6wbiD7+a9/n3D9rl1ymJvKCKCFLnVRZr5+6uEsOt0+swhdxUu
-	vRE2J7XHb2rXmMIiXd8w9zDxa4sST0YhblEdOd5tLM9vbK6ccy1d8DlX5Ebg8Z3szNLL4ou+DKS
-	l5VuFklclJNH7rHGboUZQPVgthxFRK697aH1ahpjTb5IB5TTgbQcsD8NZIsfmOH0BjHVfAbusym
-	+WkpNHSHeUOf6Npw8OtdiDGhbejY9AB/alFY1heh6Yj0gf1XdTA6TMr5IUidMAnuGSVNmbcNgg0
-	YmvJSdw8I0XXAmi9cztKSFGI3XwM092WOnNDiz0G5ye/5HpATn+dbFmVfFc2EhEhOattoW8VIjq
-	q8Yjz0y4nwpQMVWTuoF5/6KztNTIK9uD4dZ2kK4OWjd0WTuBohQbOgAIINrCDDY0=
-X-Received: by 2002:a05:6402:2105:b0:6ba:3738:aa76 with SMTP id
- 4fb4d7f45d1cf-6ba37ec713emr1520051a12.28.1795162920798; Fri, 20 Nov 2026
- 00:22:00 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=gjOmjfxV
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QxMvxOqefqm2s062hnd1A3AdGd8ARKVthC2rHlq44343YwpKxQfwhSdsYsVF5SbBtpMixgMppz1y66dn+NgtZpZ0PHsOqgqdX0Sq7kwRZTV5MDA9qB0zu4GF9pu/WlUiQAFq2ebuSA0Bacn9hPzkLtGi/TorWhgw0Myw8jSBVj8oUTi4Bsx5n/Oj//euWuVHtnBJ/6vC8XrOMU4T/llN3OeyiSD36O4aJrSrbTn7q5TQYb3ATwY1heZluJQmh5TPAfZc8oIRbNCTMNA7dowzntdDz6r6lPM5FbeQ8ZI8YA8v9/T2Lb5Kcu13D3nUwtz74uPFB6fBNImFki17yRqEfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=alsuIIV8K61g4Ejcwy0iCbzR+hveJeez++g/+NUFzeI=;
+ b=FZjSLEKsolbbWn/cDWQL1emFnrnW1axXnjOioZ+S8PcTjbk58HtiXwIRErhCWuHZTxPhtx4Arwro/rO6+Kf2RQ8izDucA5t/FabGoC952ohRYnqnbR/03DloB9sQU5pSgBxkSrObv9eiHsyabArnxCCCJj4pzE+V54nM/9W06D5hatrPiikaJxxXZ8/h9j5/pPhSdWhE1GhLpLP60/tJ/Fwb7kDl6CDW4aF6rymaxAH2wcc4ezJtxCECBcQTqZgOz6PxsilhDuJUXqZIFrjGHk5mUDUdGIg5Y84l672fNhUSrQ+3aQTV/n81d6guBaPZmzNfQOvS9kktHJqO+R4fjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=lunn.ch smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=alsuIIV8K61g4Ejcwy0iCbzR+hveJeez++g/+NUFzeI=;
+ b=gjOmjfxVHAxdyG8QurcYk7zWt6TrbT790jzbwt+XDMv1euXBkFZDoge2Yz5DLNVYMS+dG3IzGo2osRqOrOK/FAcTSTMZ56zhWlnTm1BGzQBepxv/QCyrp59KwZpmrV45N81HdSebf5hQGo/CkBYqy9IpK3PCwvBivpbut15bqS2oK8Nx8TPT6ABNp6vxcFcF0nByrgAn/eb3rbq5qBXab02e8/tG7kxgN8VkgqMdtD/nwDccP21pLThTwaUrJqNPD3gGPdoQTgI5RV00ycpnQEh1yQ1rWtAyzZJPK7YW3fKfzTBGUsY8Map/ffW/P/c3FZPobr6fGlMLPZf3D8MI9g==
+Received: from BL1PR13CA0371.namprd13.prod.outlook.com (2603:10b6:208:2c0::16)
+ by MW5PR12MB5651.namprd12.prod.outlook.com (2603:10b6:303:19f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Fri, 20 Nov
+ 2026 08:31:20 +0000
+Received: from MN1PEPF000793FA.namprd05.prod.outlook.com
+ (2603:10b6:208:2c0:cafe::a6) by BL1PR13CA0371.outlook.office365.com
+ (2603:10b6:208:2c0::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.639.10 via Frontend Transport; Fri,
+ 20 Nov 2026 08:31:20 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 216.228.118.233) smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ MN1PEPF000793FA.mail.protection.outlook.com (10.167.249.196) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.639.5 via Frontend Transport; Fri, 20 Nov 2026 08:31:19 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.57; Fri, 20 Nov
+ 2026 00:31:00 -0800
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.57; Fri, 20 Nov 2026 00:31:00 -0800
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.57 via Frontend
+ Transport; Fri, 20 Nov 2026 00:30:55 -0800
+From: Tariq Toukan <tariqt@nvidia.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski
+	<kuba@kernel.org>, <netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: Gal Pressman <gal@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, "Leon
+ Romanovsky" <leon@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>, Mark Bloch <mbloch@nvidia.com>, Nimrod Oren
+	<noren@nvidia.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>, Randy Dunlap
+	<rdunlap@infradead.org>, Saeed Mahameed <saeedm@nvidia.com>, Shuah Khan
+	<skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, Tariq Toukan
+	<tariqt@nvidia.com>
+Subject: [PATCH net-next 0/2] net/mlx5e: Fix mlx5e counters documentation errors
+Date: Fri, 20 Nov 2026 10:30:46 +0200
+Message-ID: <20261120083050.2540739-1-tariqt@nvidia.com>
+X-Mailer: git-send-email 2.44.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,85 +119,66 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com> <20261119-mglru-fg-v5-12-9eee2fe97a2d@tencent.com>
-In-Reply-To: <20261119-mglru-fg-v5-12-9eee2fe97a2d@tencent.com>
-From: KunWu Chan <kunwu.chan@gmail.com>
-Date: Fri, 20 Nov 2026 16:21:48 +0800
-X-Gm-Features: Aa3M54oR841ct7toroFKb5-FMop-YAlKT3qgtmdkpn6S2_l60VC8mi_ZrcEbsCc
-Message-ID: <CAN_Opa8SFEzeu93GpJY7OkOUP5AeB3P9_8MGuhi6JJnBQsA4Vw@mail.gmail.com>
-Subject: Re: [PATCH v5 12/17] mm/khugepaged: convert to LRU refs based
- operations for MGLRU
-To: kasong@tencent.com
-Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>, 
-	Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
-	Gregory Price <gourry@gourry.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
-	SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, Yu Zhao <yuzhao@google.com>, 
-	Vernon Yang <vernon2gm@gmail.com>, Zicheng Wang <wangzicheng@honor.com>, 
-	Chen Ridong <chenridong@xiaomi.com>, Tal Zussman <tz2294@columbia.edu>, 
-	Kairui Song <ryncsn@gmail.com>, Xiang Liu <liuxiang.277@bytedance.com>, 
-	Ehab Ababneh <ehab.ababneh@intel.com>, Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, 
-	Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Hui Zhu <hui.zhu@linux.dev>, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	damon@lists.linux.dev, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF000793FA:EE_|MW5PR12MB5651:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40dea7e7-5d2f-4252-4008-08df46e0a6bd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|7416014|376014|23010399003|18002099003|261009223027099003|261022075727099003|261021123027099003|261021121427099003|261026121527099003|56012099006|10067099003|261102123227099003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	ZojQUFW4o6rxZX8QwarwPtZVAkuIa3X3F9VemB6XVfwsvgSsVI0KaZNvi8WBN1I3eSQ+SSHr1A4+/l98pSG4Ayur3EHu5qHCLkaDElm8sWrDWnj4JPIMeBifpkm4+Nhgll4pLI0kjuWiF3XT4XpFydV1i1wT4wao4diu9DnqAKOkHKeK4Ul4KVYI20u2YzRJX1a03d3eNZzWTxZ72+BS1RQek2fG9rCDSBJDM376urnE9cOH9j5L6Iz+4/INVzKaTAjoJugDESxTjz9hdiH0oMKrOQm/xrHu0gcVRc7/LDJWljpEwsvMA4HZGkkaos7s4ETGadIL/oC3i+jXyLdH6I4MiOECTWmzfU2jsFUk8DprEKyrXz6EVDfTsz5Oa3/RNlb2N2KQfAYTPsVCJ0MnHyCdTlQMvdPjy+IU8cugMnlSULrU+IGDxXBy94ov6Robj9zZqhozp3PLVVRAUKJao/vfg+ErKRCwZ/lQXY1QuK9zPTWvzZyiuH6kTh8hSKqBAZX6zNE/BpjQRSPtbhxrklINmZulAzIQw+LUqLy/duFAkzlrudsNXMz2mDCsVDkmN9rhYfcW+PJuaRl0mIKPpjdAfOavcYgc/gXBDtgC61bAQpvl1IFGUXynuBf9KLJI2JQumvl4eI74HFRbyPelIYrYg065+fvVQD+hfXFMUWOuj0kOp9dFZT5wZWwGUgOYco94dTgeXfbv+WrmAicMPQ==
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(7416014)(376014)(23010399003)(18002099003)(261009223027099003)(261022075727099003)(261021123027099003)(261021121427099003)(261026121527099003)(56012099006)(10067099003)(261102123227099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	G4UCIOAwQIWYAmqIBtPm+MGXuCPqzbbbfA/M+0QukhSD3sA2lAHAioIm9dkKJY/qib0rMWU8m//nsMqKX+6fJVplT0HMG3N6JITrasYauF16grdxrYC11gGUKMzsMkk8+3Nie7M5CKpOrXQalg58uLy6OcDuI5sF6VVvVleXY/gyv98bVRBPdBsmQFpAkgE/z/XZKoRpqzGikfOHKcA5Ra4TvCs+IZFWvoz8Szul9ETIspSEIwVwzU9kbMj0q9DRnAgzaJ/g9WIHJQCSIhfDDszX+D+CAxqiulld49b5tOGF4VxDiengRL03MRonDmgFA9O/Vk06vSz9jyvtTJu0oJKzIRgd90nUHsF3XBbCYeZNsUxpnWc9Fz5XvmqTuJ2L+5IgZ+b0MAV85USdS8WE0g2KnqhW8hytzq+RwUasftP/P3lvskspzkoyDc82fqMv
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 08:31:19.2104
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40dea7e7-5d2f-4252-4008-08df46e0a6bd
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MN1PEPF000793FA.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5651
 
-On Thu, Nov 19, 2026 at 5:03=E2=80=AFAM Kairui Song via B4 Relay
-<devnull+kasong.tencent.com@kernel.org> wrote:
->
-> From: Kairui Song <kasong@tencent.com>
->
-> For MGLRU, PG_referenced is only the lowest bit of the folio LRU refs
-> count, so folios with nonzero even refs no longer have the bit set.
-> folio_pte_referenced() testing the raw bit misses hot folios at
-> refs 2, 4 or 6, under-counting the referenced folios of a candidate range
-> and aborting otherwise good collapses with SCAN_LACK_REFERENCED_PAGE.
->
-> Test the refs count directly when MGLRU is enabled, mirroring the
-> smaps conversion.  The classical LRU keeps the plain bit test.
->
-> Tested-by: Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>
-> Signed-off-by: Kairui Song <kasong@tencent.com>
-> ---
->  mm/khugepaged.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 4bbe319ef86f..68f7a30e36be 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -579,7 +579,9 @@ static bool folio_pte_referenced(struct folio *folio,
->                 struct vm_area_struct *vma, unsigned long addr, pte_t pte=
-val)
->  {
->         /* The folio was referenced previously ... */
-> -       if (folio_test_young(folio) || folio_test_referenced(folio))
-> +       if (folio_test_young(folio))
-> +               return true;
-> +       if (folio_check_lru_refs(folio))
->                 return true;
->         /* ... or the PTE mapping was recently used */
->         return pte_young(pteval) || mmu_notifier_test_young(vma->vm_mm, a=
-ddr);
->
-> --
-> 2.56.1
->
->
+Hi,
 
-Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
+This series by Gal fixes errors in the mlx5e counters documentation.
 
-Thanks,
-Kunwu
+Commit 8ce3b586faa4 ("net/mlx5: Add counter information to mlx5 driver
+documentation") added descriptions for counters that do not exist, and
+referenced one counter by a wrong name.
+
+Patch 1 removes the documentation of counters that do not exist:
+rx_bits_phy never existed, rx_mpwqe_frag was removed by commit
+7e426671704d ("net/mlx5e: Single flow order-0 pages for Striding RQ"),
+and dev_out_of_buffer never existed and looks like a duplicate of
+dev_internal_queue_oob.
+
+Patch 2 fixes the name of the rx_symbol_err_phy counter, which was
+referenced as rx_symbol_error_phy in the rx_crc_errors_phy description.
+
+Regards,
+Tariq
+
+Gal Pressman (2):
+  net/mlx5e: Remove documentation of nonexistent counters
+  net/mlx5e: Fix incorrect name of rx_symbol_err_phy counter in
+    documentation
+
+ .../ethernet/mellanox/mlx5/counters.rst       | 30 ++-----------------
+ 1 file changed, 3 insertions(+), 27 deletions(-)
+
+
+base-commit: 2208ab00f4f213ade91ab775e7f8c4dacdcc856e
+-- 
+2.44.0
+
