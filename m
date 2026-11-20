@@ -1,59 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795197849;
-	b=guBTF/3Qu6q0UsOgs0lVrkrHLV2p9rH/pFWRxrQDk0dNAkY1v2sv0UOGiy8vm1gOfYHT
-	 Erx88aH5UCQOwZ7ZK61qGGazAG5h9cdkCTC7pmLVxApexx/sEv83DT9/J+OgWIsvqgzXM
-	 4Hi9f1eRoZyp0q4YRa3V1v5hhKOW6dytaKuH3KzVMuYcxndKvBgbplsu2OZ5Y9DP/Bz47
-	 BpH9nchlfx56WhfVJD4r0lAopwmrgXmM3FYm9GRJ3dY1dOjzG/ecymlnFMZ9XR8d5fokN
-	 p0x4cLUgiKuPzZFoiN+rO5jWbcBk7+Q6Ctlp+foBG5l6ewLMrLvRi4TrIasMg2WPyGA==
+	t=1795197853;
+	b=Y+tzGXr/lRa18/eJVZ/IJb/I1cqLzUUSOfmrc9jVVlTW7K2qdBb/CWSzCbD9Sqfih/bp
+	 K1K0kzmOfxeHMUUiUb+gH9ACpcYAkCbhB3vkb0BfKWOuHWeQ3jiv/lWRCN0WO1HTO77Y0
+	 ZYBmQr7BImCp6FOBeS38VyqAiYqs7KfNVVD8S930Lfj7olXm/vWIrl7ELO1GZuz0i+1mV
+	 2lZCM5TYjvXxQ4s4TCHfknuQSgNl6MxsPUPMDBi+H0a0Uxu4k2wPGFCXBbOPXywgl48UI
+	 7vchMdXxayF08vsNVFtAswba1wmj9wPYwOsiNx0KNH1cyzi28FS+yPpq26mLW97FQAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795197849;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795197853;
 	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Last-TLS-Session-Version;
-	bh=cb/Z49GOdF0yhnrGMPBIli0QFaYOE4T0zI22A2vgSV4=;
-	b=GTEwpxiCzD+8QN/2dbUVuPcpMd6KBKYpy9c0KXCKYNmLj7eLNpzG9SyDwwreY93nYwGC
-	 VQ1YMxHKRaEs9/I0tj/FxiZI5JTN/sOHitdWCRY6dEhiCJN3YkjbRwa1daqba8EcZkYyD
-	 6YGBROKg9xhhCXqKdWzxTzFJ6wlZHgQXxXvrBchDpH6oHYpu99Y/bPnBg3Mb3cFUJYvx1
-	 754P1/KHfU7dSW2Xj8oIhbzrr3VSfznbqcRAtu3sm3thCV9qBfVKfncmN1bJNyLa6HiRx
-	 PMMJ9c4IztBnGTAbZkv9LGo6qm00jJ27dF7+pHUN9E3UOry02MIEllAbtvXrWoSMRYA==
+	bh=EWvTyJ0GKSZ0OW9hy14bottUtec95h3CpCl/9rBJjxg=;
+	b=oO8iZppKlZfDbORkUnOwnsCeyqfi1TXYrecw4pBsyy39G5tBEXNZY6IqiwZiQ9wNKfF3
+	 cXaRxQIzqktYWrPgRCnhuP7zl7Djg2ZgyIObyMjvOZExxX7d/rfDnDQ/i2qASuqdSCWzI
+	 /zbo2oCWIkv8e02CQxi+kUblgwOqAg1H21nh+744oFYhAivPPrNj7p69+CkBiYsr58C1Q
+	 aB1o83IYEfu1ao6wxBoZzfRkSYSqu0cCRku/EsyakB67fw/qQFQEtaTmIEefis2qDvzGH
+	 PAdM6JvXHXEv1DciN7ZktWOuWXVrCwWr0YVfu/Scel/T7X6qnEP4TBvp7jUOMXqo8zQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bootlin.com;
 	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b="NsTyS/Z6";
-	arc=none smtp.remote-ip=185.246.85.4
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=P9W9WMta;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC7D60A260C;
-	Fri, 20 Nov 2026 18:04:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5CC7D60A260C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B33A606A33E
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 18:04:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B33A606A33E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=NsTyS/Z6
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=P9W9WMta
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 15A5A4E41690;
-	Fri, 20 Nov 2026 18:04:07 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 25D321A1756;
+	Fri, 20 Nov 2026 18:04:02 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D84A7601B9;
-	Fri, 20 Nov 2026 18:04:06 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D67A611BC0627;
-	Fri, 20 Nov 2026 19:03:59 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id EDB65601B9;
+	Fri, 20 Nov 2026 18:04:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A801111BC09FC;
+	Fri, 20 Nov 2026 19:03:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795197845; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1795197839; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=cb/Z49GOdF0yhnrGMPBIli0QFaYOE4T0zI22A2vgSV4=;
-	b=NsTyS/Z672Ga97LeNAcqGw2xk/9+aqknpMHbbFqFJuzj0jYKXyjTT51ndif2xvJIOsJor9
-	EJmvl0xKRWgSgRo0TSHnbm6/eOhYQ9VldDAcsJEZKyQzBZrtLSyAoMwW/4zmYuJNcO4RPb
-	88jj4JOnM8jQY7/JUUgZXXnI2hfuoRaWh2Bs/IUy1MJGdL4aKSUck4J/sFZH/+iQinxeJT
-	6JaIjYClkrsH/k5mqkBL8PEM6zA3I63Fw/4UMyqDfVIJfqCtmcip9OIODgcY8B8m0+YjG0
-	EIXc9BAwuh7b9Dunu3Ha5vYoxY6pJ1BMlp6re3MT+IdH6exrDWQGEbCK9NYq6A==
+	bh=EWvTyJ0GKSZ0OW9hy14bottUtec95h3CpCl/9rBJjxg=;
+	b=P9W9WMtas5JI8irOOHVzjhnj5lJfAPEKbVtuVoaGThNK6KVLDad5IAlQJAe/4b7xGt0v6f
+	lfP72nsjnXgbZSbKkaYsL8HZLdjam4OAdrxRAMEECA+m8t5cFvbfSaIul/0hFggs5Hg8M6
+	Ck9PEgHBaW80dgQyY+BSU6P+R4CB1Ashft35xsRgkHdgZlngBYEwh8KjSpuAtz0MhOuCfR
+	RQ1cINtZicmfYQoy+SPwPWE4EsFEEwV0MvT5cOkUpSAkLpuTLrcDAnioYIQp24/d+IVtcB
+	53Btq5083RoDtjNndmsO/NZfItr1VR4V12G+TNM68gQGAyqzKQ5ttb1SN6D7gQ==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 20 Nov 2026 18:58:57 +0100
-Subject: [PATCH v6 15/43] drm/vkms: Simplify plane_release code
+Date: Fri, 20 Nov 2026 18:58:56 +0100
+Subject: [PATCH v6 14/43] drm/vkms: Add error handling in plane config
+ creation
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,7 +66,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-vkms-all-config-v6-15-78ace90f4fc1@bootlin.com>
+Message-Id: <20261120-vkms-all-config-v6-14-78ace90f4fc1@bootlin.com>
 References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
 In-Reply-To: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -91,53 +92,81 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  linux-doc@vger.kernel.org, Simona Vetter <simona.vetter@ffwll.ch>, 
  llvm@lists.linux.dev
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1030;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2118;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=B5PM6W0vulahUUbfuhv5KpB093DKmScfUhoYA1BRCRg=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBrAIr/R7PpFpksTfLgK4M1WsKIZ+X/fHJw4Eo3k
- BptWgtELfSJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCawCK/xsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOLjSA/9G4BWoCRvV7ItG+o3suAYmXVBO3mKIP1
- 8lGsPLIMnO6rOYDQ+nIenc8oFgVcG987eX7ZNvFRYl3/TIEFOJ6VlKrkS/cy+GKRmZ3Lz7T33uo
- F1F0N/+wNDrJ5f62JYQSdU3aZhNG5XQ8/vJK5EQBXHQwvq3GavSvdp6hycJpyVoFTG9O3ooqKDL
- H4spwX4GVBEB1EpTDhRot71sfH2T1mFgJ0/FcLmfvd3FlyZnYHizXbZ8buSbsLQoo4hA2tSx6mH
- n1JEd0tAaOL5f/LqiqUHWgmGRxgBfIIQWOUbLCsKJwOMcWmgOFHMIKryJqzd8VdA2iiLxMDgfZ6
- oaod4upZewUA5SQo0cvJMjG7nBebj8B3Hr6rnM9ujrSrHa6tFZPfk2JhUeO1IO3oQLxhSli3n5p
- Ulk9KKLdJqNoGlvI4riaFBjiCN91fM5EoHKeBArbOo/sJxlYaT11LTv9zOoCBPvuMt3pupyfhkd
- 0oB6ILATTqGuvvOI6dM2cv3sV3ppJx1F5uceGxHrcRWtUDYhl3IzUryQKrj2AJDEl/Awr7wIFhA
- XB/8QBVVS3c7m0yExDht+/0Vr/sUzQKHmCJozkfscLc0hJmw1+TN18IIpbST5Dd2XnMywIoJi15
- k3le8BhyxZ5faMbjkoVpK8kgk6E3MSaQ6NQSONYJBI2VhCcu4jfA=
+ bh=tJ6CmTl8tZxoxLjfFVZLDN6OYWoWi2kn4tyF5DKaWI0=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBrAIr/M5fxgGdZQwxOEDXjpj2q9XdrXZF3dhvDi
+ VTjE3JoX6CJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCawCK/xsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOLzBBAAtQUiY8IycgCKZvm2cEsLaGPaRAacj5U
+ 24hdcs3OtVaNAAvcSZOrCQ9wVivgqDbNU8cQSKNn4AXqyhKhkS6GcgSAHvlLPZ61NsRhoha8X65
+ gCmADE3pgA5I7oXkJocjSwsaxGVPcvfVEo904PC3OBgBOAC/k4C48bHPcS5AMf4Z6KCtjGKtGRl
+ N3Di6sie6PwpkTbk/RlYGMz8OB1JoL9LHLDx58AXGGY9sf3bZX/rCtpDrDwN5WWfsITv28W22bX
+ 7sE4GImBld5nod5ggGidCNWOtxw+I/vMHoN5fAEKrYsXyEmkLw0LBR/Hp/armvQsnr/wdJ9MY64
+ rI0wk7M+fPVBldJQtIltd2aTaBmz3/nzbdnPYMa0wJvmIb1u2yFUwcL8Dmzp1vScG00qen7eyMy
+ 2Hwj3CZJ7TbOsiRjqTYtXgMmq7Otk5J0DKF5No6iBx6kO3G0Ou/qmeoom3FoMTCA4fhriAY0f6A
+ 5N4sizlLkfi0Sq4tJktPTOj6Ix9gAN5k5c0mK9q3ebv9q3pH92ETgIRTOzFr3x+dmKZEbSxx71h
+ RYiQqUrG5Lxs6m7CB0Zf6cdkvoXeep47hU15YiJnD5oVY6SBLxD3Egq6Ouart9d6eMpEI6gelH6
+ R5wDR7sa5U+FCGeyDuy57+pJvC/wd4L2oDGHLq/v0mRAnq2y0s5A=
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-plane_release  code used multiple intermediate variable, remove those in
-favor of direct access.
+Properly route the error path of vkms_config_create_plane() through a
+fail label to simplify future work.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_configfs.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vkms/vkms_config.c | 12 +++++++++---
+ drivers/gpu/drm/vkms/vkms_config.h |  2 +-
+ 2 files changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 5f5aa0a1812b..a7ddcfd4e86e 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -331,13 +331,9 @@ static struct configfs_attribute *plane_item_attrs[] = {
+diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+index 50cde689f482..03f2d0f0e327 100644
+--- a/drivers/gpu/drm/vkms/vkms_config.c
++++ b/drivers/gpu/drm/vkms/vkms_config.c
+@@ -424,13 +424,16 @@ void vkms_config_register_debugfs(struct vkms_device *vkms_device)
+ 			      ARRAY_SIZE(vkms_config_debugfs_list));
+ }
  
- static void plane_release(struct config_item *item)
+-struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config)
++struct vkms_config_plane __must_check *vkms_config_create_plane(struct vkms_config *config)
  {
--	struct vkms_configfs_plane *plane;
--	struct mutex *lock;
--
--	plane = plane_item_to_vkms_configfs_plane(item);
--	lock = &plane->dev->config->lock;
-+	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
+ 	struct vkms_config_plane *plane_cfg;
++	int ret;
  
--	scoped_guard(mutex, lock) {
-+	scoped_guard(mutex, &plane->dev->config->lock) {
- 		vkms_config_destroy_plane(plane->config);
- 		kfree(plane);
- 	}
+ 	plane_cfg = kzalloc_obj(*plane_cfg);
+-	if (!plane_cfg)
+-		return ERR_PTR(-ENOMEM);
++	if (!plane_cfg) {
++		ret = -ENOMEM;
++		goto fail;
++	}
+ 
+ 	plane_cfg->config = config;
+ 	plane_cfg->default_pipeline = false;
+@@ -440,6 +443,9 @@ struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config)
+ 	list_add_tail(&plane_cfg->link, &config->planes);
+ 
+ 	return plane_cfg;
++
++fail:
++	return ERR_PTR(ret);
+ }
+ EXPORT_SYMBOL_IF_KUNIT(vkms_config_create_plane);
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+index de6a89819daf..49510a0957c7 100644
+--- a/drivers/gpu/drm/vkms/vkms_config.h
++++ b/drivers/gpu/drm/vkms/vkms_config.h
+@@ -288,7 +288,7 @@ void vkms_config_register_debugfs(struct vkms_device *vkms_device);
+  * The new plane configuration or an error. Call vkms_config_destroy_plane() to
+  * free the returned plane configuration.
+  */
+-struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config);
++struct vkms_config_plane __must_check *vkms_config_create_plane(struct vkms_config *config);
+ 
+ /**
+  * vkms_config_destroy_plane() - Remove and free a plane configuration
 
 -- 
 2.56.0
