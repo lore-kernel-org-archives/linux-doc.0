@@ -1,100 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.42
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795173412;
-	b=IxMGz/dXvjrEjgfBoSLdscpK+YYeU4iIZk0MMnhA6PBIGqU4jgBOLbLzQEwwQ5rNNVnf
-	 /Nux5YwJURkAtFfHH7VPcjiWmSmW+1Ifn4w3FkPLaRh8iEZ0bsbIzhhRM33zrfQl/WmPO
-	 RywCqL+h8QoyBoKHaJ7ci6GDLv/g0eGVHd5eJ8FNKwcmgQt+Ieh7etPdw2scUbW54q7rP
-	 HmI+14+wxsZ+ZhAJG10FMgwIZlaThP3CnSTXJd2UJWUGyjfKkwEduMg/2qBP+/ady6xrI
-	 ZLfNc6yZlR40RM8PZTvi/YorKCcgOWOcZ/w+TxNu/ZGr+AuccXPQFRMefCHj5wQK9Xw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795173412;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=0NaMGQ4Owpl3Co7yhqKVZHVr+kTFNUk1Lb3ecw2usVA=;
-	b=vMCHs1Cdr19QFX0KPz+oU8CfuRLixz0Tx/r2U1q3ROPSILQsbXL8H7U4fHFnWRjW+BeA
-	 Yf+cwawctGDqZ33D2vufYMqIoUqCIPsM72wsYIkTWO69hZeMoeygp6Ze2qkTlR7AT4YNB
-	 jBvbHQ371yrvz2rUvCasqfD8snjA3JNGs98B0CapmY7wTneaQhxHUDceP8ZA9/ydCb6jr
-	 I8d2NBFofxEPHEtcbL5/NxVIUABI9VYDUFmJ7TV8Ep6xfV2pqLP2e95aO32/5O4f6M0kA
-	 1q+/+i7LARO/5AHNug0WNetrK656pKPsdK4YSroCxAecFDls0fIZBwME0A4xpRJHdBA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dg0qNTaw;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.42
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795173598;
+	b=nW2sncu545cKiqU9wmQHPOA335se+mkM7dUhkKizQjY52VOZlK/YbCdhL3oA90z7/Hh7
+	 8j3iLtzoETvW1Rxo1rLJf54Y4J0ZC5+fVqIaVkvHi2NEZUKUhpARO3trL8qTIQ93og4ic
+	 0Z+mVQBNxLHXaHL8zXYUBREpFQJmWmpjHnjDMTiySF6QL0vdyIhCBn0/doQIaCCt9LvuE
+	 PHzcSChUWvEHf6vB79A6hZF6xwmtd+I403tqrhwGS52k2gKnnhAQwpDUSRcjI1SCVuZO6
+	 r0ODUSX6H5RtDGz/C6b6+Z42cNpSb4JQdx+0kdwpwHLKo/7uHvOagOVrqH7YzkjCtWA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795173598;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=svddqoV3Ly3xh24WZbUpNnjtB7dnR/ALWSPjqd0L+s8=;
+	b=jUH9F/3r5W4fx4bXHC5M21K3VidiPD7ZiA8uYPiZpaiBvyBDz9NDAT3xiu/UPqw0ul7W
+	 sLd22dX1bDn+NwQ8sKheRZrWoWL0ZzKz2ZiEy42xskJsabfxd8bX4CGo4+d0uzpKiMRWc
+	 VlrSGdEcg4E9hJ24MdiY0nt7xd3IWXP2OcCwbyx7b7kMAEfiqXX4C+fTXeDkHmrO8A2HJ
+	 lWyh6m3KZOhzjxKHr5iBlhRUATIKkrKR4JVQXpqhI234R+YwfIe1f2HRfgVS/DM2gJVD9
+	 Xys2ZRuERVuUubdc8YUT6tBHVBM4KgJ31veSl/5kTCMHV2jV6z2wbgWeF2QHovI7E2w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="y1k/j2d3";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=z3Z0shYT;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="y1k/j2d3";
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=z3Z0shYT;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C8F606A333
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 11:16:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97C8F606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E410606A320;
+	Fri, 20 Nov 2026 11:19:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E410606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dg0qNTaw
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c506a231b88so115528066b.3
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 03:16:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795173410; cv=none;
-        d=google.com; s=arc-20260327;
-        b=O5wJE/zp7j4V0Bjho7kbcE3MlbHEtZKEUc1OiYv0kuAKd3//Tw+9tFSxr3G0DqqFeO
-         ksBz0ekC4CBoDjcib+xQeB1RQNBHuYvx0EIL1IHrM3Q5W9VkqIl5pse3L56QOqMQSzeU
-         KTvsXRbdxKOx8UBSH7F9ZBodxiF4AbSHSQCa5TJBeFw++/ArRc8cdZCGwGwEaquAyWo4
-         pADew8Raylh8mzIoP+JADwkZTQNQAzWMS+gxqO2fjCDgVI+gqZzK5Mm/J24T78xdysHP
-         8zO9b1AJO0WGNJYJP98de8x34cwRiKmPbHVbgyLqUIMHplAdFM2FYTg/4La3WRA0TJim
-         vf/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0NaMGQ4Owpl3Co7yhqKVZHVr+kTFNUk1Lb3ecw2usVA=;
-        fh=Yc0tezw6IVTU2soYhGOQHcTXk41VADGbFyBpJQcIzVI=;
-        b=qea4vWmu2DVNEIQ45IK7cPTlNRcCXKyP2FznQ1dFuGSZrXFXDDGR3cLU6hd/5LrZDX
-         Ki7s0gNbIXW2xQNxyFwURrEV4DChS0sgiqTNFqWlf552zWKRxPvWDjhvxWqvsqFNK3NV
-         DYQ5frdAmB6KW56WV5PKBhtSnQeljFCnQjcDSpPQzDr7s4FiyEG2a898bs0ZTqcWjMZD
-         hyWOlFswO5D3Hvg7zdTucq2Xk9IHeMXnHS4TeHL9RxKkv/f9USYgCK/jwsdLZIJTMQbp
-         ARkaRed7aYC6kpoqAUZixpYIVHzpzsZFn7zNovUq0HZJN6VAfLk9Zn++mf1f3mXTv/QE
-         rk8w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795173410; x=1795778210; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0NaMGQ4Owpl3Co7yhqKVZHVr+kTFNUk1Lb3ecw2usVA=;
-        b=dg0qNTaw1I2FaQAtzF9Y7WtNR27A4Rv9Gpi6OeW4VqDaX+wfWjw4ofghPyRQkqlbX3
-         QBPsfWsfquSDRqV0JKcgNBvei06W6DbpFeVHjNn/yIXk5cn3hBKOfU2ovzx6qaoswy45
-         N3lS2HywAUUOlvpAM0RiyBr2j8lbDIdVIunwVAXI9YP3Z9nNOPxtpGAY+NtZuFHBAjMQ
-         KNODN0cu1psGJpIR9i9C3P/sbOssnq865mc2HSWIPpz+3JuSvJVs/h5G5ZZnj6tPOvc9
-         AmNmtgavvxMNUJK3wCyQrWliBPcdDTKyZhWwEf8RdanEMh1JyuFchDfRuOF1fJVOq6tD
-         MrhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795173410; x=1795778210;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0NaMGQ4Owpl3Co7yhqKVZHVr+kTFNUk1Lb3ecw2usVA=;
-        b=qa/Upvujq65Q8zksdwYGXktf5K9EyLnIuGZsfV82zcbMkJqw7cYY5J1n8y46P4OxtS
-         grc718bIfpgf9j7g+f+d9TDzeQFMbfQsMjn29xqY+9Un6q9BIBuCUGXF/7FkPP8NNmwZ
-         NdK4jFGpFKAS9lKGzJwh/cHkBSt8a3hOQiIKeyh5nNQeJCV5nXR12lqC1ouLM7JJzh/H
-         x3sBctO3fEpSy1FGCDRSpEm8q7agji2I99NxP/YqXWBuIXXkXVia2bONJmD0aZOAad6Z
-         Kod6D8g6QRsoQwkItte6oNUUqm4TT2YXuJ9HE7zTyiBGO0MPBifxnim7D4x7XFFJpKLV
-         DnSA==
-X-Forwarded-Encrypted: i=1; AL+hErEO/gF6rRpFmQZWz0ro5rpt9a5y3SSn52c5ivVTvh8HD+alyTmrNY+Xx3K2CQApjwTe4odUu4fOxJM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8bzgxoSpMwYOQHFd4eD4q1JRY3syUBvaepd24UcooGVBJONazE
-	6x+lAzhe6+rOEy/tf+940vSqc8ajLAwEB6k580HcRmAAUr8UWM/oCUmkO++ViF0yO7ax2O+keG+
-	8IvDW2bpdaMkgt4/a3xKBlJPN8r2eeqc=
-X-Gm-Gg: AYBFou2tywGCxBYOGI3hDddVpD9G1EZDREelslaahDTZw6uuUCSWZtmzCig+xCbjdfw
-	Y4u5vjM4qZlOeGJDZoKJVot6GviBeFIkrjItsAwmNaegv2esKAZ8eo3EjVjZ7hOtfeAC1uQ/2VI
-	3zr0NrZMN6x1n5aXdnLGQw7p4ASxEJhm00ipBiRnasFamaxRxd/d8JAsTx7OFEM8LFartRKp9aV
-	9u+LwhSKoC+XlbeHlGv9FmK9RA7zSKAsC5lCV05bKFsO1huhRWWY81SS7d82i3jqhFMOGsHfLZr
-	zTgvvFAq9RdEF1fgO1JAydGNU5TT0l42ElOgXsKD/Cs8MnE2x3vjQZxGvU+EV2tIAMOp6sZ4W4W
-	aQaBhEzg3EWeMwRPbbJUuQG2do+szebK7P+mPBjudodAVLrKbakbSQekMiegaRH6Ug7Drgg==
-X-Received: by 2002:a17:907:73cd:b0:c40:38b5:d784 with SMTP id
- a640c23a62f3a-c513a614467mr280155766b.22.1795173409664; Fri, 20 Nov 2026
- 03:16:49 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=y1k/j2d3;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=z3Z0shYT;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=y1k/j2d3;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=z3Z0shYT
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9CD931F441;
+	Fri, 20 Nov 2026 11:19:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795173595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=svddqoV3Ly3xh24WZbUpNnjtB7dnR/ALWSPjqd0L+s8=;
+	b=y1k/j2d3GrMgMjiy4lzvR+MNH0uBpP45GD1za82IX5ZtXVRYDAIkQlxAHbLC5DPgI3QBLP
+	a5FxfTX9mfdl+05P9JArLaW7hi2ZoSahpPkjtoz/seTeg7XXpWIVrN+qEI7CP8NEtzgYpe
+	yNxwf9ioDb45XNgN/oAsjwI8I6T3vGQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795173595;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=svddqoV3Ly3xh24WZbUpNnjtB7dnR/ALWSPjqd0L+s8=;
+	b=z3Z0shYTcV7bR32/yGoPEFQdxMqD2Zf+7VMhtlNSBMCYjD57xlgPR1vRLukV88pDO1LsvF
+	VYQldct+ihmRFwDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795173595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=svddqoV3Ly3xh24WZbUpNnjtB7dnR/ALWSPjqd0L+s8=;
+	b=y1k/j2d3GrMgMjiy4lzvR+MNH0uBpP45GD1za82IX5ZtXVRYDAIkQlxAHbLC5DPgI3QBLP
+	a5FxfTX9mfdl+05P9JArLaW7hi2ZoSahpPkjtoz/seTeg7XXpWIVrN+qEI7CP8NEtzgYpe
+	yNxwf9ioDb45XNgN/oAsjwI8I6T3vGQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795173595;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=svddqoV3Ly3xh24WZbUpNnjtB7dnR/ALWSPjqd0L+s8=;
+	b=z3Z0shYTcV7bR32/yGoPEFQdxMqD2Zf+7VMhtlNSBMCYjD57xlgPR1vRLukV88pDO1LsvF
+	VYQldct+ihmRFwDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 74BE71342D;
+	Fri, 20 Nov 2026 11:19:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ME+iFNssAGvzaQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 20 Nov 2026 11:19:55 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 057C225F29; Fri, 20 Nov 2026 12:19:55 +0100 (CET)
+Date: Fri, 20 Nov 2026 12:19:54 +0100
+From: Jan Kara <jack@suse.cz>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] fs: use multigrain timestamps only with nanosecond
+ granularity
+Message-ID: <srvvl6jszz33iwi3qumqh2rle6vwg6fcqp2j7u6u62tb63se35@eycek35vou22>
+References: <20261119-mgtime-v1-1-fd28399a5557@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,168 +112,103 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com> <20261119154001.9b9f953136935a09e8a50af6@linux-foundation.org>
-In-Reply-To: <20261119154001.9b9f953136935a09e8a50af6@linux-foundation.org>
-From: Kairui Song <ryncsn@gmail.com>
-Date: Fri, 20 Nov 2026 19:16:12 +0800
-X-Gm-Features: Aa3M54pc2xETNqoexA8P5jVd0jSnzthhaZdG2Uuuwphbutgg3FiGQAMnp8Ovueo
-Message-ID: <CAMgjq7Dd=Y+GekSD9WO5oGdoa+S1eG3T-U=VsCexopvb723zFA@mail.gmail.com>
-Subject: Re: [PATCH v5 00/17] mm/mglru: frequency guided promotion (MGLRU-FG)
- and flag cleanup
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>, 
-	Muchun Song <muchun.song@linux.dev>, Qi Zheng <qi.zheng@linux.dev>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Chris Li <chrisl@kernel.org>, 
-	Baoquan He <baoquan.he@linux.dev>, Nico Pache <nico.pache@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
-	Gregory Price <gourry@gourry.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
-	SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, Yu Zhao <yuzhao@google.com>, 
-	Vernon Yang <vernon2gm@gmail.com>, Zicheng Wang <wangzicheng@honor.com>, 
-	Chen Ridong <chenridong@xiaomi.com>, Tal Zussman <tz2294@columbia.edu>, 
-	Xiang Liu <liuxiang.277@bytedance.com>, Ehab Ababneh <ehab.ababneh@intel.com>, 
-	Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, Lian Wang <lianux.mm@gmail.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Kunwu Chan <kunwu.chan@gmail.com>, 
-	Hui Zhu <hui.zhu@linux.dev>, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	damon@lists.linux.dev, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261119-mgtime-v1-1-fd28399a5557@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
+X-Spam-Score: -12.80
 
-On Fri, Nov 20, 2026 at 7:40=E2=80=AFAM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> On Thu, 19 Nov 2026 05:03:32 +0800 Kairui Song <kasong@tencent.com> wrote=
-:
->
-> > This series implements MGLRU-FG following the idea proposed at LSF/MM/B=
-PF
-> > this year [1], based on current mm-new. Depending on the workload, it
-> > improves the performance or reduces IO by roughly 10% to over 50%,
-> > fixes multiple long-standing issues with MGLRU metrics, and drops one
-> > page flag.
->
-> This is looking really good - great stuff.
->
-> Review is thin, so I'll remain in wait-and-see mode for now.  What do
-> people think?
->
-> I told LLM to put this series through its paces.  The performance gains
-> were confirmed (actually muchly exceeded) and it couldn't find a way to
-> break anything.  It found a smallish slowdown in writes to clear_refs,
-> which doesn't seem very important?
+On Thu 19-11-26 16:41:01, Jeff Layton wrote:
+> Multigrain timestamps promise that a change after the ctime was
+> queried shows a later ctime: inode_set_ctime_current() takes a
+> fine-grained time when the coarse one isn't past the queried value.
+> But it truncates that time to s_time_gran, and on a superblock with
+> coarse granularity, such as ext4 with 128-byte inodes (one second),
+> the truncated fine-grained time is no later than the coarse one, and
+> the update is skipped. The inode is still flagged IOP_MGTIME, so a
+> caller relying on is_mgtime() for that promise, such as nfsd deciding
+> whether it can move the change attribute by moving ctime, is misled,
+> and the multigrain machinery only costs a fine-grained clock read.
+> 
+> Set IOP_MGTIME only on a superblock whose s_time_gran is 1. Every
+> FS_MGTIME filesystem (btrfs, ext4, f2fs, tmpfs, xfs) sets s_time_gran
+> before it allocates an inode; document that it must.
+> 
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-Thanks! Glad to see another positive report. And yeah I think
-everything is fine.
+Looks good. Feel free to add:
 
-The reply below is a bit long (and 99% not LLM generated :-), so
-TLDR: We fixed a long standing "bug" here in with a small (IMO)
-interface performance drop, and that interface's user was already broken
-(which we fixed), and I think the performance can be easily recovered too.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-("bug": it's just messed up metrics readings, there is no leak or
-race, just these values are just no longer meaningful in anyway and
-are breaking real world usage, see appendix)
+								Honza
 
-A slightly (~10% end to end, that one interface only) clear_refs
-writer slow down is expected, smap is the only user for that (maybe
-DAMON too but it works differently and won't cause this many calls).
-However, the thing is smap reading was almost broken for MGLRU in
-mainline, just like K8s users have to disable MGLRU by default for
-years because it keeps giving gibberish readings (See Link [20],  the
-refs and workingset are tangled in PID controller / aging in a
-hard-to-describe way so we see seeing unrealistic values).
-
-This series fixed that, metric readings are now sane, stable and
-accurate, close to CLRU and provide useful data for workingset
-estimation, so the trivial slowdown of a lessly used interface seems
-very reasonable, and we only slow down the even colder hard reset
-part, readers are good as before. (We'll also need to update the tools
-ABI part later, but that's too long for now, and I think we can live
-with it for a little longer considering it has been broken for so long
-time...)
-
-Meanwhile, if we want better smap reset performance (I'm not sure if
-we really need that, since it is costly by itself already, a whole VMA
-locked walk & PTE update per page, and ruins the hotness info), we can
-do this:
-
-diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
-index a2442e49aca2..45808f7ae50c 100644
---- a/include/linux/mm_inline.h
-+++ b/include/linux/mm_inline.h
-@@ -562,10 +562,12 @@ static inline bool folio_check_lru_refs(const
-struct folio *folio)
-  */
- static inline void folio_clear_lru_refs(struct folio *folio)
- {
--       if (lru_gen_enabled())
--               folio_reset_lru_refs(folio);
--       else
-+       if (lru_gen_enabled()) {
-+               if (folio_lru_refs(folio))
-+                       folio_reset_lru_refs(folio);
-+       } else {
-                folio_clear_referenced(folio);
-+       }
- }
-
-It should speed it up instead for most cases, I didn't include it just
-to keep the code a little bit simpler. Smap and DAMON are the only two
-users, so it's safe to squash this into Patch 10 "convert to LRU refs
-based operations for MGLRU" directly.
-
-In fact, if we really care about smap performance we should start
-batching it instead of doing things page by page like right now, I
-think that may bring a much larger speed up.
-
-And a Appendix: Measuring the smap Referenced, and active / inactive
-reading during a build test (LLM did help on this :-D ):
-
-      =E2=94=82 smaps Referenced/Rss % min/med/max =E2=94=82 span =E2=94=82=
- stdev
-CLRU  =E2=94=82  99.4 / 100.0 / 100.0              =E2=94=82  0.6 =E2=94=82=
-  0.0
-MGLRU =E2=94=82  38.0 /  99.6 / 100.0              =E2=94=82 62.0 =E2=94=82=
- 12.3 - erratic and unstable
-FG    =E2=94=82  99.9 / 100.0 / 100.0              =E2=94=82  0.1 =E2=94=82=
-  0.0 - matches CLRU
-
-      =E2=94=82 active_anon % min/med/max =E2=94=82 span =E2=94=82 stdev
-CLRU  =E2=94=82   0.0 /   1.1 /  24.9     =E2=94=82 24.8 =E2=94=82  4.5
-MGLRU =E2=94=82   3.7 /  96.4 / 100.0     =E2=94=82 96.3 =E2=94=82 23.7 * c=
-haotic, almost random
-FG    =E2=94=82   0.0 /   0.9 /  12.3     =E2=94=82 12.2 =E2=94=82  1.9 - m=
-atches CLRU
-
-      =E2=94=82 active_file % min/med/max =E2=94=82 span =E2=94=82 stdev
-CLRU  =E2=94=82  34.1 / 43.8 / 52.2      =E2=94=82 18.1 =E2=94=82  4.7
-MGLRU =E2=94=82   0.0 /  0.1 /  0.1      =E2=94=82  0.1 =E2=94=82  0.0 * en=
-tirely wrong, always ~0
-FG    =E2=94=82  24.3 / 33.5 / 42.2      =E2=94=82 18.0 =E2=94=82  5.7 - ma=
-tches CLRU
-
-Pool over 3 test run with make -j48, defconfig, ZRAM as swap, 3G memory.
-
-It can be seen clearly that the metrics readings before FG were almost
-gibberish, FG fixed that just fine. These are causing issues that
-describe in the Link [20] above, and many other components. And they
-don't write to clear_refs, they just read meminfo, smap is also
-included here but less used.
-
-The active anon reading for both CLRU and FG seems a bit low, mostly
-because this task is under heavy pressure and aging/reclaming fast,
-and FG also provides the way to tweak it in the future
-(LRU_REFS_ACTIVE). And FG reporting a bit lower is somewhat reasonable
-since it does reclaim better.
-
-Note, the goal here is not to match CLRU, but CLRU was clearly doing
-much better on this, so using that as an reference shows the
-reworked readings are indeed normal and reliable.
+> ---
+> When I originally did the multigrain timestamp work, I missed the fact
+> that ext4 can have an s_time_gran of NSEC_PER_SEC. I think this is a
+> very uncommon setup, so I don't see a need for a huge rush for this one.
+> Please consider for v7.5.
+> ---
+>  Documentation/filesystems/multigrain-ts.rst | 6 ++++++
+>  fs/inode.c                                  | 2 +-
+>  2 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/filesystems/multigrain-ts.rst b/Documentation/filesystems/multigrain-ts.rst
+> index c779e47284e8..81ea632c7a4b 100644
+> --- a/Documentation/filesystems/multigrain-ts.rst
+> +++ b/Documentation/filesystems/multigrain-ts.rst
+> @@ -123,3 +123,9 @@ inode_set_ctime_current(). If the filesystem has a ->getattr routine that
+>  doesn't call generic_fillattr, then it should call fill_mg_cmtime() to
+>  fill those values. For setattr, it should use setattr_copy() to update the
+>  timestamps, or otherwise mimic its behavior.
+> +
+> +Multigrain timestamps are only enabled on a superblock whose s_time_gran is 1:
+> +a fine-grained timestamp truncated to a coarser granularity can be no later
+> +than the coarse-grained one, so the kernel can't guarantee a visible change.
+> +The filesystem must set s_time_gran before it allocates any inode, since
+> +whether an inode uses multigrain timestamps is decided when it is allocated.
+> diff --git a/fs/inode.c b/fs/inode.c
+> index de207f2f95a9..9cc28306feda 100644
+> --- a/fs/inode.c
+> +++ b/fs/inode.c
+> @@ -239,7 +239,7 @@ int inode_init_always_gfp(struct super_block *sb, struct inode *inode, gfp_t gfp
+>  	inode->i_opflags = 0;
+>  	if (sb->s_xattr)
+>  		inode->i_opflags |= IOP_XATTR;
+> -	if (sb->s_type->fs_flags & FS_MGTIME)
+> +	if ((sb->s_type->fs_flags & FS_MGTIME) && sb->s_time_gran == 1)
+>  		inode->i_opflags |= IOP_MGTIME;
+>  	i_uid_write(inode, 0);
+>  	i_gid_write(inode, 0);
+> 
+> ---
+> base-commit: 65e4fd942f72a9dba0e4e257290c4fa1aa756854
+> change-id: 20261119-mgtime-fc070b268bdf
+> 
+> Best regards,
+> -- 
+> Jeff Layton <jlayton@kernel.org>
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
