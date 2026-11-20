@@ -1,54 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.225
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795204833;
-	b=a20UFHeRjFhZ4efB+yIhw2bt6/QbWYJ9RA1tydrDmOdk9YVAoM6ob+CtslLg4GodjRGb
-	 DY8jEOhZwMmB4llZ+RXXEq/oo+iGvLDCi3Ja6BcLrww1RjJhzlHvEcP/ADDHdiXB1E/Wa
-	 zsPoERb+4Fr7+ivKU0mZpTaAefZQxYF/D2fwXeUqVYeOjtoGZzDPpbb4C5pgHI5YckGZc
-	 uAWqcxUSwD7oiNUiGwL4mW9A2DNm1TNilHiwLMNWTqzKwC/7fS8tn89eBj8SsQzpLcYvr
-	 TLyFVb/a73Quh4KvAuP0UQrzAXBYRcl6bSHTSIYpWsY1kncIZhoMXQNLKhRcTG2S/hQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795204833;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=5QgfHDQQ4MSdGh+4Ts8IUMOxAYgDCdzXWqFzljmCVG4=;
-	b=rWPsM3kay02g9F3GMiJorxYq4Lhu9BemPRJQjUPxGpXNQm79vx3wFJKzeYFrrVY5U+LB
-	 k0+DPhc5esnOcaJL46/CXF50cu5AxM/G7n4V9FSADRmP1k2ySsgjW2QEzUvvvGPDqDYN5
-	 OMMFLXPHzvetyuAoYPZf8HB1C2wQnCVwDlg73krYH9k3EqC0Z7MjJmZvCWWmww/pyuQlW
-	 4feow13KHOhWWVis9icOq+ORDJVpIegUbajAsO4dvrxoH03l92Pu9pL6DPIepmkGqSQ05
-	 nzvc/g+YKbPm/iApXXnqf2GQKFRMiSW0PpZVo4/qCIo/b6DIUp9tJfR17SLGhK4elow==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EEjM6lKn;
-	arc=none smtp.remote-ip=91.218.175.225
-Received: from mta0.migadu.com (out-225.mta0.migadu.com [91.218.175.225])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.170
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795204969;
+	b=f9fZnPD9EkrtQXRAkLsig2H4Y+P3LUvCuGgVm52kvtznlt/LktOpYEoLw5XB4LcnqxAQ
+	 4MZfOW2R9G9ckhewnZsoxpaeq66D2HZwXnnlUBWuwsQVQPEehFDFoY4L/awZr7IEJr17j
+	 dyGvrD915ZmELWvEBW6+4vHMbU50/aCqaM+H5d7K0oHcvmZ7q2WYk3WML9tKEvnk2lLdN
+	 LM2kcztQ2TubPc0CO/P+cKJXzfz1NODFFDd6Dq8wCVkQAe5OH1D5oiN7qNxU2tTN/Zc8R
+	 wheMZxkdU2w45qHAnqmKFXsgt7lNQ9nwOtw2ej5pR+npzZ4bBSybpoVLTOE+wXtw3YA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795204969;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=4V7U58O8sKkT2FqZynxSVbl9uHZQNKqD+q26N4wEsfM=;
+	b=hImK/gpOTTxkZ5V6f3xkGVg4fYkobrt5cVQFN0h3LifVSz82bZMrDLgp3KZfKkKg7HsJ
+	 qIeGsatHCZnbz6lpQN8pcYFbwRw9xIeVIJsDAL92j+so/OExEE+BbL5IQQOJXkSGqhNxD
+	 cfUD/lC1/R4Ee6ZqKaZwzkROukquMvnWatu4S8cyGxpVOpd1TQGjGKz8NrCgPgGGrQB5V
+	 22aovmZB1X6DfWfWCCKCLDsjCUswc7qLeKAcoTGaorc606xat5POhHy5n1ys4d4d7PejK
+	 kTBgDsHbRO2ewyyjJGS8guxOLPUmKywDZB3w5rf4ljDf8U9GjX5Sx2aK01lCqPIgLzA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=WaMYcHhB;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.170
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04770606A6FC
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 20:00:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04770606A6FC
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360E1606A6DE
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 20:02:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 360E1606A6DE
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EEjM6lKn
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Uy/t5Hdz2eRHlZ3WuQOUva9nAZPCprYKY2wlV0ZSa2c=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795204830; v=1; x=1795809630;
- b=EEjM6lKnyYmoIm6xJBfqhCuVLpbnNQUmKv2evvJ6r1RwpFiB3+kguNBYe0b34D6sq0DxD2ld
- KJgQ8rmg61bPB3sqaTswLrYXCsaEcMZGRCyEFheOBrWZP0x70b/GCi83NAJA6AzghqxRXr1ymj3
- 7e3jYrpNV6lzZa+vPdVFgv0Y=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b84f8d674bfff41c;
-	Fri, 20 Nov 2026 20:00:29 +0000
-X-Mizu-Trace-ID: b84f8d674bfff41c
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <ff8b63b7-b943-444a-bd37-b6fb493b5d9f@linux.dev>
-Date: Fri, 20 Nov 2026 20:00:27 +0000
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=WaMYcHhB
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-8b4e18369c8so8278087b3.2
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 12:02:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795204964; cv=none;
+        d=google.com; s=arc-20260327;
+        b=kSVgbG0P/aI+ahDoH8mUljTndP/5Bzsnkr6vRKhry7wE901kwfaV4sCeAvFwuWlAGz
+         y7QjxJhaLp7/dCclACM6XYYdwXCs5UXKDT2jdnwFOh35OYrmAwpTdYMveJPoACyF2oeB
+         ZTfVufQg7x9F5hf/zT9a2Kjy28e90+Nv3yTfuBcEocCxOlEMGPpJegA5S1/U0vRTgcLR
+         L/jpTkJW+omzQ4iMqZ72EKlarknsHKKNyp6iGyowhCPNr6pf5tMfE8WyC2mB2690swYM
+         oLsmnXut4PsNNWZJGC3dSublMXDoGPj17BS7nG/gAZdlO36hIv7CWAW3SkPLgz7SxXD4
+         yexw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4V7U58O8sKkT2FqZynxSVbl9uHZQNKqD+q26N4wEsfM=;
+        fh=hR71fWHbG2I8a4vUCFkp1OCajp9+GJbHwfweehSqSN4=;
+        b=cCB5SN+urt4bgwiD/hSts8U0KPigo1a+LfLwhu/8ZeMThWh/T5dFK5uA1vuACmVxlB
+         gGcDzfYxcMSFo4wycAp5YfyT6g0QfCPY4Uu45pHtIE+B2A995G7CZrg6VNTNlzp6nhP6
+         2YQ3fdi4v01Jv79srm/yfSDhIDX0x5FGblqQiizccPQn+dM/vBByR4N9bnqdI8xFRBmN
+         uIoXoa2cWOeRPEzAkd3MJCU4B9Yovja2F4D2/m4hdcwnUwkgdArKabdE5Y+O642yjRt1
+         2JLrgCXB20l/ramI3ScArZYsAjGPJwiMFGK8u1l5oVDPE/smUEnKVKxEbv1dEUGcPf3t
+         Df1Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1795204964; x=1795809764; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4V7U58O8sKkT2FqZynxSVbl9uHZQNKqD+q26N4wEsfM=;
+        b=WaMYcHhBNZ+35v+6wpg2naLtL6eDcZGWsH/op1cQD4c03wrQ8D9MdgfrpovhVdIVdA
+         2vQEBszX+L485tw/WsOjNI6nY9CG5gIGG0K7OjZRK2gMC/7bEIPYyrqsu7ZYpm9MYQC0
+         3I6OnJRjbJW1M/wIfBUqPj0fZpDXE7cn+bncY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795204964; x=1795809764;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4V7U58O8sKkT2FqZynxSVbl9uHZQNKqD+q26N4wEsfM=;
+        b=n2SoD1PlMD5McnfP47JAYuZmrYEOPyAvDyKOhCUAo3pH9GkJC/ruVgjJyrhQkKU/y/
+         UUwi/ZkDuiTc36Arcbmk7REMHWRc+jskQ/PeVj+ye62/GjmR7oQLpkXg1gO40KRugKI6
+         K2j4bKUidzBMzAZ1fHUgRMUaHEd7Sv4KnKZHnGjutn+XHUmCJU7jgp1haP0w3I5zXxC6
+         HfhXlJdB3/cOBnIIog7xD65C5JE9OnnBCquXw9oTy/kW1ep58hbNz1Lk318YulYTfZvp
+         M2nYQAgXbKdRJIrQJnl+dL8A1E+2zQwp+tTm+3A8lM0kvo8o3wp+mJD3ThhNrgkSH+xT
+         5t3A==
+X-Forwarded-Encrypted: i=1; AL+hErEudgSJq0rZuG19QA2hd9aPwpc+BRXT0IGTNsjVXKZLhbbhwPMEcdPIsbSWRLw4YDsPkJ+8Z6Wf0uI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8KIbEikbkyV5ftRo6NOFSlts0uFjHrY/+zP47xUyy4ST6AP/DQ
+	5wtEQoZSma+/3eaZyjMA+xTmr/Ea9quwozskFNyIpoYdSng+X8LqoP+ohf6S8Mx5SiOAquFJRYQ
+	XcK0LrxYV3YwyDlv6qTf6IH6ROxKuZh7mimVgbgt6
+X-Gm-Gg: AZFdTZe+ruwDArZB1RrcT56sKQwCz1uq9j+6cH8badi9h2Zdub2rHvwpRzXHvAlCTlP
+	+Yvcf3zE0o9iM+naRcaugN1RpGtQ6XH/UrNmQBY/GAiS/LvArhSzRUqms6ZCg6cJ11tDueY9DSU
+	GuFM8gQgG0nW6HbRaP45otenF+IIVblmxgU9tCJ2+c311FEAMSXkiHHNdlNDpa8CY6/PUgeP1Tf
+	CynVWC9htOmEU9iat4+jakGXfINHQxs9QBOxOv+kutThq9+1EcgbupJcNN5fcajlddXXRZTFqFq
+	mskX3THIztCCA8P3twTV6MOM0ou3WDFrRaXJ9ra5oGX6FhYVBGyjghHaWwz5eSzdgmeIt+cFTLr
+	gHydos4b7vM3n7cXBKZ1065aTJmRMIp4bSO5t33izBAu7ayCstWiFd0j3j5VRTrvFeNhv
+X-Received: by 2002:a05:690e:4008:b0:67d:e36c:6bc8 with SMTP id
+ 956f58d0204a3-67df44c1825mr1431647d50.146.1795204963908; Fri, 20 Nov 2026
+ 12:02:43 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,147 +101,166 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 0/9] dpll: do not serialize driver callbacks
- under global dpll_lock
-To: Ivan Vecera <ivecera@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Jiri Pirko <jiri@resnulli.us>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc: netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Min Li <min.li@microchip.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, Grzegorz Nitka <grzegorz.nitka@intel.com>,
- Karol Kolacinski <karol.kolacinski@intel.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
- Petr Oros <poros@redhat.com>
-References: <20261111164021.273409-1-ivecera@redhat.com>
- <20261116181612.107a4b57@kernel.org>
- <fe1dcdd5-ef75-4231-bf9f-03bf8536c2aa@redhat.com>
- <20261118174424.32e9f130@kernel.org>
- <dd1d61d7-7bef-4a02-8518-e17d2f50369f@redhat.com>
- <20261119133851.3f25074c@kernel.org>
- <bdfa88fe-13bb-4050-b750-962586b1d846@redhat.com>
-Content-Language: en-US
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <bdfa88fe-13bb-4050-b750-962586b1d846@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20261024-send-upstream-v7-0-abad13174b43@chromium.org>
+ <20261024-send-upstream-v7-8-abad13174b43@chromium.org> <20261027-silicon-unvented-a0c8dc394e87@spud>
+In-Reply-To: <20261027-silicon-unvented-a0c8dc394e87@spud>
+From: Jingyuan Liang <jingyliang@chromium.org>
+Date: Fri, 20 Nov 2026 12:02:32 -0800
+X-Gm-Features: Aa3M54pc-1DTIKZ-A-hc9wj9AlprRrg4PvxeOwd0_HsaV1fm3yOGyT9vmhS6ZyM
+Message-ID: <CAEe3GZF+P2hHHAQO_eWq=yv83HYw9ebEdkO_RZ4zPkQ6e_bAeQ@mail.gmail.com>
+Subject: Re: [PATCH v7 08/11] dt-bindings: input: Document hid-over-spi DT schema
+To: Conor Dooley <conor@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, hbarnor@chromium.org, tfiga@chromium.org, 
+	fqwqf@fqwqf.xyz, daleyo@gmail.com, Dmitry Antipov <dmanti@microsoft.com>, 
+	Jarrett Schultz <jaschultz@microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 20/11/2026 07:39, Ivan Vecera wrote:
-> On 11/19/26 22:38, Jakub Kicinski wrote:
->> Well, I'm not convinced. The relations between objects in DPLL are
->> already quite hard to follow, and objects from one driver routinely
->> "plug" into objects from another. The explanation of the locking
->> rules in patch 9 does not look clean or clear. The driver facing
->> API needs to be much more "dummy-proof".
-> 
-> Fair enough. The complicated part of the rules comes exactly from
-> that: a pin registered by another driver, like the zl3073x pins that
-> ice registers with its TXC DPLL or uses as parents of its RCLK pins.
-> A message about such a pin runs callbacks of both drivers. I have
-> prototypes of the first four ways below to lock this, each with KUnit
-> tests, and would like your opinion before going further.
-> 
-> In all of them a domain is the set of objects created with the same
-> module and clock_id, dpll_lock becomes an rwsem for the topology and
-> lifetime, and a mutex per domain serializes the callbacks.
-> 
-> A) Pin's domain (this series)
-> 
->     Callbacks of a pin run under the domain of the pin, whichever
->     driver registered them.
-> 
->     Pros:
->     * one domain lock at a time, so no lock order
->     * a request or a message about a pin is atomic
->     Cons:
->     * the callbacks of a foreign pin are serialized with the driver
->       that created the pin, not with the other callbacks of the driver
->       that registered it, so that driver has to protect the shared
->       state itself, and lockdep cannot check it
->     * restrictions for measured_freq_get, reference sync pairs and the
->       private data of a parent pin, which patch 9 has to explain
-> 
-> B) Registrant's domain, deferred notifications
-> 
->     Each callback runs under the domain of the driver that registered
->     it. A message about a pin takes the domain locks one after another,
->     and notifications from callbacks are queued and sent once the
->     domain lock is dropped.
-> 
->     Pros:
->     * callbacks registered by one driver instance are always
->       serialized with each other
->     * one domain lock at a time, so no lock order
->     Cons:
->     * a request or a message about a pin registered across domains is
->       not atomic
->     * the most complex core: a notification queue per domain, a lock
->       per object to keep its messages in order, and pin setters split
->       into validation and apply parts
-> 
-> C) Registrant's domain nested under the pin's domain
-> 
->     Pros:
->     * callbacks registered by one driver instance are serialized with
->       each other and with the driver that created the pin
->     * a request or a message about a pin is atomic
->     Cons:
->     * the lock order comes from the topology, so a pin of A registered
->       with a DPLL of B together with a pin of B registered with a DPLL
->       of A deadlocks, and lockdep sees it only with a lockdep class per
->       domain
->     * a stuck foreign registrant stops the domain of the pin
-> 
-> D) Merged domains (your suggestion)
-> 
->     Registering a pin with a DPLL or a parent pin of another domain
->     merges both domains. They are not split again.
-> 
->     Pros:
->     * the rules for drivers stay as they are with the global lock
->       today, and lockdep checks them; the only new one is that state
->       shared between chips not connected by a pin needs a driver lock
->     * a request or a message is atomic
->     Cons:
->     * only hardware not connected by pins runs in parallel; on the
->       GNR-D system the zl3073x and all ice PFs end up in one domain
->     * a callback that waits for the hardware, like the planned resync
->       for up to 1 s, or for firmware still stalls all DPLL devices in
->       the merged domain
-> 
-> E) Global dpll_lock, slow callbacks asynchronous
-> 
->     Pros:
->     * no change in the core
->     Cons:
->     * the resync problems from my previous mail, and a callback that
->       waits for firmware still stalls all DPLL devices in the system
-> 
-> I wrote before that stretching the domains would not improve
-> anything on that system. That holds for the ToD stall I measured,
-> but the zl3073x does not need to hold its channel lock across the
-> edge waits. Without that, the remaining waits are the planned resync
-> and output state callbacks, and with D they stall only the devices
-> wired to that chip, which depend on it anyway.
-> 
-> So I lean towards D, as it gives drivers nothing new to get right.
-> Would that address your concern, or do you see a better way?
-> 
-> It would be good to hear from the other DPLL maintainers as well.
-> Jiri, Vadim, Arkadiusz, what do you think?
+On Tue, Oct 27, 2026 at 11:17=E2=80=AFAM Conor Dooley <conor@kernel.org> wr=
+ote:
+>
+> On Sat, Oct 24, 2026 at 12:51:42AM +0000, Jingyuan Liang wrote:
+> > From: Dmitry Antipov <dmanti@microsoft.com>
+> >
+> > Documentation describes the required and optional properties for
+> > implementing Device Tree for a Microsoft G6 Touch Digitizer that
+> > supports HID over SPI Protocol 1.0 specification.
+> >
+> > Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
+> > Signed-off-by: Jarrett Schultz <jaschultz@microsoft.com>
+> > Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
+>
+> Personally I prefer how this is done now, but definitely worth those who
+> approved the previous iteration taking a look at this because it has
+> changed significantly and no longer contains any of the properties that
+> cover the timings etc anymore.
+>
+> Worth noting that this changed since the previous version after I
+> pointed out that the second hid-over-spi device did not make use of them
+> at all and needed specific handling in the driver.
+>
+> > ---
+> >  .../devicetree/bindings/input/hid-over-spi.yaml    | 75 ++++++++++++++=
+++++++++
+> >  1 file changed, 75 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/input/hid-over-spi.yaml =
+b/Documentation/devicetree/bindings/input/hid-over-spi.yaml
+>
+> Typically this would need to match a compatible, but I think this is okay
+> provided other hid-over-spi devices actually get added here - the series
+> adding the second hid-over-spi device didn't do so but should be able to
+> I think?
+>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+>
+> Thanks,
+> Conor.
+>
 
-I totally agree with Jakub. Current implementation of DPLL subsystem is
-over complicated, and all these complications came just to completely
-model what was designed for Intel NICs, basically ice driver. But now we
-are again back to the discussion how to complicate things further just
-to fit what was implemented in the new generation of the same hardware.
+Hi Conor,
 
-Maybe it's time to step back and think if we really need all this, or
-find simpler way to express/model things?
+Thanks for the review and suggestion. The intent is for this to be the
+common binding for HID over SPI devices, and I hope more devices
+get added here over time.
+
+Thanks,
+Jingyuan
+
+> > new file mode 100644
+> > index 000000000000..bed0746f004c
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/input/hid-over-spi.yaml
+> > @@ -0,0 +1,75 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/input/hid-over-spi.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: HID over SPI Devices
+> > +
+> > +maintainers:
+> > +  - Benjamin Tissoires <bentiss@kernel.org>
+> > +  - Jiri Kosina <jikos@kernel.org>
+> > +  - Jingyuan Liang <jingyliang@chromium.org>
+> > +
+> > +description: |+
+> > +  HID over SPI provides support for various Human Interface Devices ov=
+er the
+> > +  SPI bus. These devices can be for example touchpads, keyboards, touc=
+h screens
+> > +  or sensors.
+> > +
+> > +  The specification has been written by Microsoft and is currently ava=
+ilable
+> > +  here: https://www.microsoft.com/en-us/download/details.aspx?id=3D103=
+325
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
+> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - microsoft,g6-touch-digitizer
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  reset-gpios:
+> > +    maxItems: 1
+> > +    description:
+> > +      GPIO specifier for the device's reset line. The HID over SPI
+> > +      specification requires a dedicated, host-driven, active-low rese=
+t
+> > +      line. The line must be flagged with GPIO_ACTIVE_LOW.
+> > +
+> > +  vdd-supply:
+> > +    description:
+> > +      Regulator for the VDD supply voltage.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - reset-gpios
+> > +  - vdd-supply
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    spi {
+> > +      #address-cells =3D <1>;
+> > +      #size-cells =3D <0>;
+> > +
+> > +      hid@0 {
+> > +        compatible =3D "microsoft,g6-touch-digitizer";
+> > +        reg =3D <0x0>;
+> > +        interrupts-extended =3D <&gpio 42 IRQ_TYPE_EDGE_FALLING>;
+> > +        reset-gpios =3D <&gpio 27 GPIO_ACTIVE_LOW>;
+> > +        vdd-supply =3D <&pm8350c_l3>;
+> > +        pinctrl-names =3D "default";
+> > +        pinctrl-0 =3D <&ts_d6_int_bias>;
+> > +      };
+> > +    };
+> >
+> > --
+> > 2.56.0.257.gf7497c7d27-goog
+> >
