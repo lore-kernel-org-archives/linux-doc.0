@@ -1,65 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795145448;
-	b=apxL6TIZHRE/kUgXI6xCYZDOzJM0YcDLiaY2hwd46XGfKG9SMCXULoDQOKBUWqXPBSI9
-	 yPIfJ9bfQ3XlV6MwKhWZgXF4z9iJF+urPHVfysWYJ88bQivCAG0VjsYU6dvr4OPv6hh4W
-	 NPr/ft/GitrUbA1TllSQYJ6YTeCGQ6XbfrdrfN5kGJx6xHpqaNOhV+qjxpUga2qFYNaNm
-	 QGaPkhwgXPjJZ8COLFLHQZ5ThBhoV8XWWHYyMFL9O7hseKgrQGmV0flJoyWo7Y/ouI5D6
-	 Z9WB8Vx0im5h1A8MIlik5e0eIVBA/dVuc+a6cudUfynJrFhpPJFmphmQoEyNMLQZS4w==
+	t=1795147502;
+	b=GhCF0EroIMz8G5IyUyTz2bxwSPrgDjCnWh/Z94XsNURnSg9XAFQPWHJ3cih0REhulQ01
+	 OWkgqEMMVUdmwkGhO88yDRoaBI5A0vy+211gqyzvNvt2hKL14KNOX3DPrlVReDcVHnZPy
+	 rEG3uABWlwDsrx79ZgKHiw+lh8I+ALoyjdNRHbiRYcFlfof+/exvlSAZQitRAd706JvhW
+	 h7lKm7+faXS9F3YiCr56T/pkKFoIGH0x3bUEiEWq3gbTIE3PVVfJnV4DGq5WuSowk2pgS
+	 V60qEmRCo2CQUZiotXPL5WYh4Xvng2EsUEgPdBeSwNvFF4xTUfy0DeRmRA0co+/yKnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795145448;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=DzL+yn5jSD+uOgBTf8SzAp9nCi6wEKaq2tvvd5oCRh8=;
-	b=H8Q1IS2UY7NW9qD2v7SZg2iXAfoRvQED2A17Nf9ci0fh76GmUM95o1Vde8/jC9p8M1E/
-	 mB9TLo1EtAC3j1rlXv163cdQV94q3m9mafobslZMJ5T957qXcitdVX0oHzjA1BzjfnudN
-	 yvC0yH6HCSEXmPfNlhsBQ2L0oTEkr1u4CKCn+AcME/r3ioJNop0z523hc83WqFazvvT8G
-	 3K7/rBhOrOqZf4Abo3FmQCm58zRTjer9a5rLSQFQdxhXUdbMTjunLlKIzaazSPJVp7NEC
-	 jCVHCjCMrdHo/A1YAdl5eMcfhuV8IhgsR6cEaCkS0LPnxv4nabEsNupZCEd+ooV4new==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795147502;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=agAySXnXvXLwBctyLqodLU4Ieq96j9f3PlYra6z6qAs=;
+	b=JnLEhH+yTUVW88e4Hx5grdJ/3zoqVBq9tYC6LrOt+IEw0c1cd5isqfz7AeGnGcfNHX8e
+	 8b4JQxIUGEzdyiMObaj9KXd8/Y/NcvPS5w5UAUkhc+6V1wVBASe4EzMRmBR73LX+zdhk/
+	 mH66/bDclcyCOHRmw7YOvBOx1ZuT+mAFV7uE//1kFofRKEGhdgXW7qzkwteFgiZLFdeRH
+	 lKvXhaTVtbjyiDRsKiyGNyEzzRsAJX0vwv+9LCE5dfozmSj+WT2SxzfJycBE32EPu0BQR
+	 2GmiJqWznClhMcJ6/2JMtd7PGjIT/7Rv/a7BxQdKLFWDcA0rX28rN5M/y7Jrs1PCmaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RNyo1ZnL;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=vNGZl2JF;
+	arc=none smtp.remote-ip=91.218.175.13
+Received: from mta0.migadu.com (out-13.mta0.migadu.com [91.218.175.13])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518F460A2601;
-	Fri, 20 Nov 2026 03:30:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A78606A325
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 04:05:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0A78606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RNyo1ZnL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95AC91F000C4;
-	Fri, 20 Nov 2026 03:30:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795145448;
-	bh=DzL+yn5jSD+uOgBTf8SzAp9nCi6wEKaq2tvvd5oCRh8=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=RNyo1ZnL/rnIJXIxucxYmZ6GQAjoBRYYaJjIa++LqRcMggy2wKubrbRW7jqV2jL8U
-	 DOBoWVGP3IFAGErRyXwZoZNMD7fHOevtQAYp/Rf5akSvYXjHluHTFPwpNHEr61aZMv
-	 E6ws5pH+0lhB7fEgQbP3k5R/Kl4+2rirlPL/Y6SJ1EUZy2dOH5CcHHY3uH50Prycqr
-	 hi0i57IMMh4VDd9o9xuG0vRBxk9oNLDnRXioh0D/85Fyi8ujlTbGl818j/SVLns54h
-	 jKPeNpW3uaq5/7YJpgd7Kacbr4qDffvUufywXXKE5W8PVM2hvSZ4wMnDXMyXEHpaiY
-	 f+Fmpn0sbTSkA==
-Subject: Re: [PATCH net-next v2 10/10] docs: networking: describe tunnel key
- partitioning in TC queue filtering
-From: netdev-bot+sashiko@kernel.org
-To: acassen@corp.free.fr
-Cc: saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
- jhs@mojatatu.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
- horms@kernel.org, michael.chan@broadcom.com, pavan.chebbi@broadcom.com,
- bharat@chelsio.com, donald.hunter@gmail.com, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, dsahern@kernel.org,
- idosch@nvidia.com, shuah@kernel.org, netdev@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, oss-drivers@corigine.com
-Date: Fri, 20 Nov 2026 03:30:46 +0000
-Message-ID: <179514544619.3136.11935885435056519543@kernel.org>
-In-Reply-To: <20261117092915.255194-11-acassen@corp.free.fr>
-References: <20261117092915.255194-11-acassen@corp.free.fr>
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=vNGZl2JF
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=LRtH9AQ+fNUKM2YiFfL7S6RROg82Tv1oGoxfQzc1sOk=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795147500; v=1; x=1795752300;
+ b=vNGZl2JFYGGaaxHGFcJrXhYWIbC2doLeRb5w80NL/12xMC+8WDnlqdA/uYk8shGYrG3NcODc
+ IMRDYUPWNRfaVfNzutZbnolDWjy2biCILHxoktR4pzGYj61Cs6YeS0InkWrDjPgI7VEAx9dpA2z
+ kJlZptrG16EdfU2Zx7jxrHjA=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 74e913414ee01686;
+	Fri, 20 Nov 2026 04:04:59 +0000
+X-Mizu-Trace-ID: 74e913414ee01686
+X-Migadu-Flow: FLOW_OUT
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: netdev@vger.kernel.org
+Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
+	stable@vger.kernel.org,
+	Eric Dumazet <edumazet@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net v4 1/2] tcp: fix shift-out-of-bounds in SYN-ACK retransmit timers
+Date: Fri, 20 Nov 2026 12:04:35 +0800
+Message-ID: <20261120040447.195446-1-jiayuan.chen@linux.dev>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,155 +75,180 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+req->num_timeout counts the SYN-ACK timeouts of a request and is used as
+a shift amount:
 
-Low priority / nit picks for your consideration:
+	/* tcp_reqsk_timeout() */
+	u64 timeout = (u64)req->timeout << req->num_timeout;
+	/* tcp_fastopen_synack_timer() */
+	req->timeout << req->num_timeout
 
-- [Low] The new 'Tunnel key partitioning' text in
-  Documentation/networking/tc-queue-filters.rst (lines 39-56) uses a…
-- [Low] The mlx5 paragraph in Documentation/networking/tc-queue-
-  filters.rst (lines 51-56) says a masked enc_key_id filter "runs on a…
-- [Low] Documentation/networking/tc-queue-filters.rst (lines 39-47)
-  describes splitting "the key space of a tunnel" into blocks, and its…
+Once it climbs past the width of the shifted type the shift is UB. Seen
+with tcp_synack_retries=255 and a peer that never completes the
+handshake:
 
---
+  UBSAN: shift-out-of-bounds in ./include/net/tcp.h:917:34
+  shift exponent 64 is too large for 64-bit type 'long long unsigned int'
+  Call Trace:
+   <TASK>
+   dump_stack_lvl+0xc1/0xf0
+   dump_stack+0x10/0x20
+   __ubsan_handle_shift_out_of_bounds+0x1d1/0x390
+   reqsk_timer_handler.cold+0x1c/0x5d
+   call_timer_fn+0x17d/0x510
+   __run_timers+0x662/0xab0
+   run_timer_softirq+0xdf/0x260
+   handle_softirqs+0x204/0x9b0
+   __irq_exit_rcu+0x13c/0x220
+   irq_exit_rcu+0xe/0x20
+   sysvec_apic_timer_interrupt+0x40/0xd0
+   asm_sysvec_apic_timer_interrupt+0x1b/0x20
 
-docs: networking: describe tunnel key partitioning in TC queue filtering
+The sysctl is not needed: TCP_SYNCNT=127 on the listener gets there
+too, and the TFO shift is 32-bit, so it is UB from num_timeout 32.
 
-This commit documents tunnel key partitioning, where a filter with a mask
-on enc_key_id steers a block of tunnel flows to an RX queue. It gives a
-GTP-U example, describes what enc_key_id means on an mlx5 physical port,
-and explains what happens to the filter's traffic when its channel goes
-away.
+The value can also wrap to 0 before the shift count is out of range,
+which arms a zero-length timer. E.g. with HZ=1000 and req->timeout ==
+1000, (u64)1000 << 61 and (u32)1000 << 29 are both 0.
 
-> diff --git a/Documentation/networking/tc-queue-filters.rst b/Documentation/networking/tc-queue-filters.rst
-> index 6b417092276f6..14032375d6308 100644
-> --- a/Documentation/networking/tc-queue-filters.rst
-> +++ b/Documentation/networking/tc-queue-filters.rst
-> @@ -35,3 +35,25 @@ queues and/or a single queue are supported as below:
->     devices, TC filter directing traffic to a queue have higher
->     priority over flow director filter assigning a queue. The hash
->     filter has lowest priority.
-> +
-> +Tunnel key partitioning splits the key space of a tunnel into blocks. One
-> +filter with a mask on enc_key_id steers a block to its own queue. This
-> +helps with traffic that RSS cannot spread because its hashed fields barely
-> +vary, such as GTP-U tunnels between a few endpoints::
-> +
-> +  # GTP-U TEIDs whose two top bits are 01 go to queue 1
-> +  tc filter add dev eth0 ingress protocol ip flower skip_sw \
-> +      ip_proto udp dst_port 2152 enc_key_id 0x40000000/0xc0000000 \
-> +      action skbedit queue_mapping 1 skip_sw
+num_timeout is a 7-bit field. Once a retransmit limit is above 127 the
+"num_timeout >= limit" check can never be true, the request is never
+expired by that limit, and after the field wraps to 0
+reqsk_timer_handler() decrements queue->young again on the next expiry.
 
-[Severity: Low]
+ - split tcp_reqsk_timeout() into tcp_reqsk_timeout_sk() and cap the
+   shift at 32 there, same as inet_csk_rto_backoff() in the next patch.
+   req->timeout << 32 is already above tcp_rto_max(), so the clamped
+   result does not change.
+ - cap max_retries / max_syn_ack_retries at MAX_TCP_SYNCNT (127), the
+   largest value the field can hold. The sysctl range is left alone:
+   narrowing it would make setups that write 128..255 fail with
+   -EINVAL, and the caps are needed anyway for TCP_DEFER_ACCEPT and the
+   TFO "+ 1". 128..255 now act as 127.
+ - cap the TCP_DEFER_ACCEPT conversion in secs_to_retrans() at 127 too;
+   larger values kept an acked request from ever expiring. getsockopt()
+   now reports at most 14527 instead of 29887 seconds.
+ - route the TFO path through the same helper.
+ - document that tcp_synack_retries values above 127 act as 127.
 
-Does this example work on mlx5 with the default firmware configuration?
-mlx5e_tc_tun_parse_outer_key_gtp() refuses the filter unless the firmware
-reports the GTP-U TEID flex parser:
+Found by checking sysctl ranges against their users. Reproduced in a VM
+with UBSAN: tcp_synack_retries=255 and tcp_rto_max_ms=1000 on the
+server, and an iptables rule dropping the final ACK of the handshake.
+The splat shows up after about 64 seconds, and is gone with this patch.
 
-drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_gtp.c:mlx5e_tc_tun_parse_outer_key_gtp() {
-    ...
-	if (!(MLX5_CAP_GEN(priv->mdev, flex_parser_protocols) &
-	      MLX5_FLEX_PARSER_GTPU_TEID_ENABLED)) {
-		NL_SET_ERR_MSG_MOD(extack,
-				   "Matching on GTP-U TEID is not supported");
-		return -EOPNOTSUPP;
-	}
-    ...
-}
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Fixes: e6c022a4fa2d ("tcp: better retrans tracking for defer-accept")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+Reviewed-by: Eric Dumazet <edumazet@kernel.org>
+---
+v3 -> v4: rebase, no code change.
+v2 -> v3:
+ - drop READ_ONCE(req->timeout), cap the shift at 32, reuse
+   MAX_TCP_SYNCNT, simplify the doc text (Neal)
+ - changelog: mention TCP_SYNCNT, the wrap to 0, why the sysctl range
+   is not narrowed, how it was found and tested (Neal)
+ - add Fixes: 1da177e4c3f4, the shift was already there
+v1 -> v2: reworded the commit message, no code change.
+v3: https://lore.kernel.org/netdev/20261118144249.358481-1-jiayuan.chen@linux.dev/
+v2: https://lore.kernel.org/netdev/20261026123244.239766-1-jiayuan.chen@linux.dev/
+v1: https://lore.kernel.org/netdev/20261023064915.401112-1-jiayuan.chen@linux.dev/
+---
+ Documentation/networking/ip-sysctl.rst |  2 +-
+ include/net/tcp.h                      | 14 ++++++++++----
+ net/ipv4/inet_connection_sock.c        |  1 +
+ net/ipv4/tcp.c                         |  2 +-
+ net/ipv4/tcp_timer.c                   |  3 ++-
+ 5 files changed, 15 insertions(+), 7 deletions(-)
 
-The GENEVE selector also needs a flex parser bit (MLX5_FLEX_PROTO_GENEVE,
-checked through mlx5e_tc_tun_can_offload_geneve()). The preceding commit
-"net/mlx5e: TC, match the tunnel key without a tunnel device" says "GTP-U
-needs flex parser profile 3 and GENEVE profile 0". That means the 2152 and
-6081 selectors listed further down cannot both be available at once.
-
-If the firmware default is profile 0, the firmware will refuse this
-example, and the extack message does not mention the flex parser profile.
-Could the text mention this firmware dependency?
-
-Also, the example passes skip_sw on the filter, but the text only implies
-that it is required ("Only the hardware can match the key").
-mlx5e_tc_tun_parse_outer_key() refuses the offload without it:
-
-	if (!f->common.skip_sw) {
-		NL_SET_ERR_MSG_MOD(extack,
-				   "enc_key_id without a tunnel device requires skip_sw");
-		return -EOPNOTSUPP;
-	}
-
-Would it help to state that requirement explicitly?
-
-> +
-> +Not all drivers can program a partial mask.
-> +
-> +On mlx5 devices such a filter runs on a physical port where nothing
-> +decapsulates the packet. All the keys describe the packet on the wire.
-
-[Severity: Low]
-
-Is "physical port" the full scope here? __parse_cls_flower() calls
-mlx5e_tc_tun_parse_outer_key() for any filter_dev that is not a tunnel
-device. That includes FDB flows on VF representors:
-
-drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun.c:mlx5e_tc_tun_parse_outer_key() {
-    ...
-	if (fs_type == FS_FT_FDB && !mlx5e_is_uplink_rep(priv) &&
-	    esw->offloads.inline_mode != MLX5_INLINE_MODE_NONE) {
-		NL_SET_ERR_MSG_MOD(extack,
-				   "Flow is not offloaded due to min inline setting");
-		return -EOPNOTSUPP;
-	}
-    ...
-}
-
-On a VF representor the keys describe what the VF sent, not the packet on
-the physical wire. The text also does not mention the min inline
-requirement.
-
-Separately, the example's action is only registered for NIC flows:
-
-drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/act.c:tc_acts_nic[] {
-    ...
-	[FLOW_ACTION_RX_QUEUE_MAPPING] = &mlx5e_tc_act_rx_queue,
-    ...
-}
-
-tc_acts_fdb[] has no such entry, and mlx5e_tc_act_get() uses tc_acts_fdb
-for MLX5_FLOW_NAMESPACE_FDB. Wouldn't the documented command then be
-refused on the uplink representor in switchdev mode, even though that is
-the physical port?
-
-Could the paragraph say that queue_mapping steering only applies to NIC
-(legacy mode) flows?
-
-> +enc_key_id is the only tunnel key such a filter matches.
-> +ip_proto 0x2f, or udp with dst_port 2152, 4789 or 6081, tells the hardware
-> +which tunnel header holds the key. The software datapath has no tunnel
-
-[Severity: Low]
-
-Should this mention that VXLAN (4789) and GENEVE (6081) carry a 24 bit
-VNI? The example above partitions on the top two bits of a 32 bit key,
-but both parsers refuse keys that do not fit in 24 bits:
-
-drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_vxlan.c:mlx5e_tc_tun_parse_outer_key_vxlan() {
-    ...
-	if (key >= MLX5E_TC_TUN_N_VNI) {
-		NL_SET_ERR_MSG_MOD(extack,
-				   "Tunnel key does not fit the 24 bit VNI");
-		return -EOPNOTSUPP;
-	}
-    ...
-}
-
-mlx5e_tc_tun_parse_outer_key_geneve() has the same check. So a filter that
-copies the example with dst_port 4789 and enc_key_id
-0x40000000/0xc0000000 would be refused. For those tunnels the top of the
-key space is bits 23:22, not 31:30.
-
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index d3523c9064a2..0c48c29fbeeb 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -956,7 +956,7 @@ tcp_stdurg - BOOLEAN
+ 
+ tcp_synack_retries - INTEGER
+ 	Number of times SYNACKs for a passive TCP connection attempt will
+-	be retransmitted. Should not be higher than 255. Default value
++	be retransmitted. Values above 127 are treated as 127. Default value
+ 	is 5, which corresponds to 31seconds till the last retransmission
+ 	with the current initial RTO of 1second. With this the final timeout
+ 	for a passive TCP connection will happen after 63seconds.
+diff --git a/include/net/tcp.h b/include/net/tcp.h
+index 27de546dc802..175052cc04ce 100644
+--- a/include/net/tcp.h
++++ b/include/net/tcp.h
+@@ -922,12 +922,18 @@ static inline u32 __tcp_set_rto(const struct tcp_sock *tp)
+ 	return max(rto, 1U);
+ }
+ 
+-static inline unsigned long tcp_reqsk_timeout(struct request_sock *req)
++static inline unsigned long tcp_reqsk_timeout_sk(const struct sock *sk,
++						 const struct request_sock *req)
+ {
+-	u64 timeout = (u64)req->timeout << req->num_timeout;
++	/* timeout << 32 is already above tcp_rto_max(). */
++	u64 timeout = (u64)req->timeout << min_t(u8, req->num_timeout, 32);
++
++	return (unsigned long)min_t(u64, timeout, tcp_rto_max(sk));
++}
+ 
+-	return (unsigned long)min_t(u64, timeout,
+-				    tcp_rto_max(req->rsk_listener));
++static inline unsigned long tcp_reqsk_timeout(struct request_sock *req)
++{
++	return tcp_reqsk_timeout_sk(req->rsk_listener, req);
+ }
+ 
+ u32 tcp_delack_max(const struct sock *sk);
+diff --git a/net/ipv4/inet_connection_sock.c b/net/ipv4/inet_connection_sock.c
+index 9a3b05edb62b..aa0678a1823d 100644
+--- a/net/ipv4/inet_connection_sock.c
++++ b/net/ipv4/inet_connection_sock.c
+@@ -1082,6 +1082,7 @@ static void reqsk_timer_handler(struct timer_list *t)
+ 	net = sock_net(sk_listener);
+ 	max_syn_ack_retries = READ_ONCE(icsk->icsk_syn_retries) ? :
+ 		READ_ONCE(net->ipv4.sysctl_tcp_synack_retries);
++	max_syn_ack_retries = min_t(int, max_syn_ack_retries, MAX_TCP_SYNCNT);
+ 	/* Normally all the openreqs are young and become mature
+ 	 * (i.e. converted to established socket) for first timeout.
+ 	 * If synack was not acknowledged for 1 second, it means
+diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+index 832b25ddd3c2..418842a2dfd9 100644
+--- a/net/ipv4/tcp.c
++++ b/net/ipv4/tcp.c
+@@ -358,7 +358,7 @@ static u8 secs_to_retrans(int seconds, int timeout, int rto_max)
+ 		int period = timeout;
+ 
+ 		res = 1;
+-		while (seconds > period && res < 255) {
++		while (seconds > period && res < MAX_TCP_SYNCNT) {
+ 			res++;
+ 			timeout <<= 1;
+ 			if (timeout > rto_max)
+diff --git a/net/ipv4/tcp_timer.c b/net/ipv4/tcp_timer.c
+index 00debcba122b..814fadb30749 100644
+--- a/net/ipv4/tcp_timer.c
++++ b/net/ipv4/tcp_timer.c
+@@ -468,6 +468,7 @@ static void tcp_fastopen_synack_timer(struct sock *sk, struct request_sock *req)
+ 	 */
+ 	max_retries = READ_ONCE(icsk->icsk_syn_retries) ? :
+ 		READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_synack_retries) + 1;
++	max_retries = min_t(int, max_retries, MAX_TCP_SYNCNT);
+ 
+ 	if (req->num_timeout >= max_retries) {
+ 		tcp_write_err(sk);
+@@ -489,7 +490,7 @@ static void tcp_fastopen_synack_timer(struct sock *sk, struct request_sock *req)
+ 	if (!tp->retrans_stamp)
+ 		tp->retrans_stamp = tcp_time_stamp_ts(tp);
+ 	tcp_reset_xmit_timer(sk, ICSK_TIME_RETRANS,
+-			  req->timeout << req->num_timeout, false);
++			     tcp_reqsk_timeout_sk(sk, req), false);
+ }
+ 
+ static bool tcp_rtx_probe0_timed_out(const struct sock *sk,
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261117092915.255194-1-acassen%40corp.free.fr
+2.43.0
+
