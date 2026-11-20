@@ -1,59 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795197875;
-	b=0F08nZPKn6Umu5wrs9kfcOO3X3k1aBeWb1+tmsQKU9IExtKSWd1q9uEeadmHQtH5YS7w
-	 sMum03R/I1zvAqEGMoGmivbCCfiplOE7e2jbxEIEPsoS35Nz11zNCe6yW6aYJFbBOxyOc
-	 to9V7/tii9JD0wOpqcvuzn9WFbq5A3PUROveA/5cqVRgDlZlAcc1GUs4cAmWvse7PVUKG
-	 AiQFWCVpONbau+iNpk60Mu0QhvJSUPIWqT9akOyFmXX22bIZO5iiX6y88BiDKFFPiFqIb
-	 8PKyp5sE0Ct/PnheOkJuwc3cM2Uta/Cecr4ohKB1/Bq3Sw1YSYliS1GxVP6jVZKKU8A==
+	t=1795197878;
+	b=0i/gq2smMFyYj+RarjPnxEniOGpMzE1wtop/UoXypBjvugZGaidVrRy/jUraJ/fXl9eq
+	 W8ehSzzSdp6DgljokblKa8AO9ww68zKkzfkJHm/yxGZB8sUQFtsUmge1AQERPMeBvpsyL
+	 dVv4ordhtvreXpXwW/keEXtr1Sk2XNxSVsUGpMfLJi6wtjiqc+lSpfkWFo2kzMOVFUw76
+	 YW8sRqOuDHxHHRr2quvE5xdiuzi+1cqZKSlzhSV01P6oTH5ta7eP3PpwGw1qa1dsoX19Y
+	 cXCs1WHHS2L/vlaxv8CE4Waj4siRqdI2OFppSxS6j0WdmXQWSM/QhM5J4NZNbTBAx0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795197875;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795197878;
 	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Last-TLS-Session-Version;
-	bh=VxvB3jeuaoZKF1Y80P48kAyWqaNMXNm9heNN4Bt5VPQ=;
-	b=YIkfY1NSqY3HtwhmIh4YnbefckiXfRTklwXMWFS1Z//Gi4Fv3TjLtFdXJM0xs11WP8qM
-	 5fYqZ6oWAbyRhobIHIZ94l30fiPkP9VUmU2syHb0V+pCT/jkGC5IbCLyDXfIaJ7vg/6J1
-	 7bWN9cjvx00Qb3gKA38+WWq5DmB+v7poQ4Zf9kN6n77ONr1a3OAiCqenxhjv1Kq8T0oPc
-	 Xs2X1OYA9VpXhQlnj210Y8o7YCb5C5W5YfNxouLbpNF4Y6c1RxYHX/5lYaFZCElhT62Gz
-	 xmTI2E/EHf+mxZ1qxumKUMz9qCaPdWkEmY2TLlhaFHA2eWvS52VDJD6tm5Czv5RTCVA==
+	bh=ICx4BThnWzLJY8ulzYzexmZCvMczADwc2z7Za4cF/qI=;
+	b=JJ8NajkikUrO/zYZ2aloVc6R4XnwUXQ/K92SFG/cARocWqmR4a7mFHrlr+2TeoY3rUFQ
+	 chvbOC5/hYCRNdypzY9xfEKvG2oEvigQ9huk5O/NMTdupiNyr9HE+/9fXYNhWT0/7yiKG
+	 hlbDRBMQXC/HGKbdTd0Ib4LH42H0K1S2kwwB7AemHdNeSABmkWCvEJuhQLScL9M6kERh7
+	 eeFeWap46I+3LippS6E54akFecdxRCsqLCZ5Xyg32AeX3SAZU/YeeYl0HCxBJESDuRYxY
+	 UIkXH97obQ8+Mrh1Ez39uzNCGQuFK6WjWZwaLicc/ZpTFIyqrJXxN2yRtbw67EKMHzg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bootlin.com;
 	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=GOmfKRR3;
-	arc=none smtp.remote-ip=185.246.85.4
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=VkQ6klue;
+	arc=none smtp.remote-ip=185.171.202.116
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51E160A2633
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 18:04:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D51E160A2633
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74FF560A6F5B
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 18:04:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74FF560A6F5B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=GOmfKRR3
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=VkQ6klue
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 8AD3A4E4168E;
-	Fri, 20 Nov 2026 18:04:24 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 09775C62226;
+	Fri, 20 Nov 2026 18:04:42 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 60EA3601B9;
-	Fri, 20 Nov 2026 18:04:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E5DB711BC0990;
-	Fri, 20 Nov 2026 19:04:18 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3CD27601B9;
+	Fri, 20 Nov 2026 18:04:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DBB1311BC0966;
+	Fri, 20 Nov 2026 19:04:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795197862; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1795197874; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=VxvB3jeuaoZKF1Y80P48kAyWqaNMXNm9heNN4Bt5VPQ=;
-	b=GOmfKRR39uEh79nQ5VS7qxRSBn53MS3obcc3+ILYBXYavhK6fZVFJzdiXXTQnC3ZFqR9Os
-	lhPQJTCZ1xSH0Z7uqvK9iz6hiCgHIT1i8xgQlgs/sOGk+xuqkIFoSKdNtscbmdLF3P0+hR
-	+UXry6+inwRL4eFQwAwhNjWgG5vOOykhPMl/FNxthyLuNmn5ukp+kZYniEn3BoI2RTsod/
-	d/BjuJ9qrYtl0GYOJP/ij5n/l9izRHrcj4KpijAg6yoKTydsxr0rPuF1jzQNV1yGUfg/v7
-	I8hrYnXDGsBChhdY0ccygLeYtiJFOgk6nzVT3eoDufoDLri8a+2pumA3v3qCZg==
+	bh=ICx4BThnWzLJY8ulzYzexmZCvMczADwc2z7Za4cF/qI=;
+	b=VkQ6kluecYVOzpw2yywjrPtHs5YIo47bIMwU+mZ+lBhz02cfvwOD5AWH3jQpqHziQhyPPK
+	K24w+NPgyHUXy7O48jZFa5bqP8kg4KKnzRB7ieeY5LzM6F1IqOlyCX1Ufv+A9RqARrNM8l
+	0D1Gan0FkrkbQyPiXGFF5qIZXM9XhF/LcwzixG+NRRyR4o2UDgHffnLHiN1AJAAWFep4ny
+	scSprUgLkqTAaXZdCvJGeogydNgyyNYMwonSyOAI/9htQ1jpTHvsVdTgf8aMhlTEXLhW7c
+	7U34mkZ4LQO7tOvQsqbsH72PjopSbIk9Vw5LcohczhmdfpScEgxcfwKYKUfbDA==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 20 Nov 2026 18:59:01 +0100
-Subject: [PATCH v6 19/43] drm/vkms: Use plane folder name as plane name
+Date: Fri, 20 Nov 2026 18:59:04 +0100
+Subject: [PATCH v6 22/43] drm/vkms: Introduce config for plane color
+ encoding
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,7 +66,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-vkms-all-config-v6-19-78ace90f4fc1@bootlin.com>
+Message-Id: <20261120-vkms-all-config-v6-22-78ace90f4fc1@bootlin.com>
 References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
 In-Reply-To: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -91,67 +92,315 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  linux-doc@vger.kernel.org, Simona Vetter <simona.vetter@ffwll.ch>, 
  llvm@lists.linux.dev
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1728;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12569;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=LDiCl7pqKtJMqRvE3mr2TEpnty9XeoWtToOQc8swqm0=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBrAIr/uT/GiwWpk9F0PAnSY9Ce57lQHeRWwPXcU
- staq7AylL+JAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCawCK/xsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOJF9A//VV8Qu812gGTw/xKh/njTNShxFXd8n/e
- t+4hl5NwiIwrTAKlz5IC7pCZq20u8IDeK45jtVVWn8xIwN+wE7VO7TkA6Scveke7Oc9V/QCJTqb
- jvqlgQRR9DUpojMWHq8ohepesoDWlKDs7PTUaHV9BGod385iiuWq7FqNDPccoJ5l6F6BnMYVUBq
- NnqlGAboXEYO3jR6kybZSiVCg9P+U+rztaVdg1Jj2+BAr+yg+2OVS8bbhpyfQ8XMgNH1YdRtg+G
- 1VPF0rzyuvYz59a2FLl7mLt/TpFxa5HCxcb+5mdrVsua/reJtb2UlIUfVJRtQDS6SEay1r/U7g+
- c8EMpicNbEEVvwkdWJvnb+NrfJHgnFQEPLvrGGotie55i4aVhfPLqwyT2xgFpxYiMcKxv2KG1SM
- PSjuk2nfdzQNUE6T3AR99P+nIMIjm2Q6BKtlfKjbCvT7/uGWz+74aba6fSkxj9Xyaa9Rk/qVWtq
- FGPCAWOLein0sN2BrOKrwzUAi+js4uMa4c8NeIZlsicag6Kyy2S4PWBzHE1iOiibD8YufXbiF6I
- WaiFfEnpny3M7eUQVBDvsl++cKL/9Xfq+ltBbLGrEgwsvv2KdVhcs2hy55TgVK9q67E9eziNMvo
- /5byyFbGZ1AxZMCfdDe+L26FL0WX79zWkMDQHnWM+Uy/UHJ0yJTI=
+ bh=gEvHH37w06YMtPzZAbwPd+kMDry9O7RBzL6amX75Yzs=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBrAIsAfnB5cENqoEqiM95f34MeWd0VeHcP6i3UI
+ bcDtyXhg7aJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCawCLABsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOKfSA/7B4WeYaqeA3T6vjsKMLS/Pc+EzUngoNt
+ 06tNvLbrAreuQ0fr22vQ/0jxVwp7LucrI1sZPUMsoEz5ayaA6l2CABXsqxfJ2SeS4DacNapFq78
+ 3Kw01BvnN5+fLNGHxpfOP9bD+ugwD0bt3Zx+l5Bk8Rr6/y7jHkJgjQmvJqbp72K1LAkERgbP6d0
+ ToKboOPUV9OrfKrgI97w/98X0tpZTBVSsAcnoc09oB8uM7ynAYOvRmPHa2gsDU3ePykByEB/HeK
+ M+qC4/j4mO4fZwdidnG5FfRU/h19JpBedukN+QN260hgfi/Lea8GoRCr0Bt3Lt7KXvvmDzHT8+w
+ LpmfcAQbH7BOMbCwDVGfawtnqnqvvsRayIOE8JjzBUDshJWL9vUk2Jxf7DxfHwAyGoppABFw2wS
+ eUKEfWE5C6W80JqY0jVyCQSTBsdea+YQlr6UXky3tF6PLrTqCtRK4XGalFZMgO4F7askmKZT0Dy
+ R8uBf1C9qCkQr1iuRqTizKc+ODbhq2eL7cCm/jX+vvRTu/OjCZGH0K7ArK37d6DgkV8MBMY/Ggg
+ CGtoyPZUsQiaMM3EBG4Cx6vb+E+Z4wYuKsVSg34rDnb9nSuAvO5rVDZ5u1UGU8EepWxL6mD+qME
+ ND5LFTjFwq+HflCe9zm9tZBOZq8tDE55EcrgXcde/vvrpJhkwGKg=
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-The plane name is now directly derived from the configfs folder
-name. When a plane directory is created under
-/config/vkms/<device>/planes/, the folder name is used as the
-plane name via vkms_config_plane_set_name.
+VKMS driver supports all the color encoding on planes, but for testing it
+can be useful to only advertise few of them. This new configuration
+interface will allow configuring the color encoding per planes.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- Documentation/ABI/testing/configfs-vkms | 3 ++-
- drivers/gpu/drm/vkms/vkms_configfs.c    | 6 ++++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c | 51 +++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_config.c            | 48 ++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_config.h            | 64 +++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_plane.c             | 15 +++----
+ 4 files changed, 170 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/testing/configfs-vkms
-index 26e7f81b5b7d..55e4183046ec 100644
---- a/Documentation/ABI/testing/configfs-vkms
-+++ b/Documentation/ABI/testing/configfs-vkms
-@@ -98,7 +98,8 @@ Date:		Nov 2025
- Contact:	dri-devel@lists.freedesktop.org
- Description:
- 	This group contains attributes corresponding to the
--	plane <plane> of the VKMS device <device>.
-+	plane <plane> of the VKMS device <device>. The name of
-+	the directory becomes the name of the DRM plane.
+diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+index dcb29ed8ac4a..0254268da6a2 100644
+--- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
++++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+@@ -192,6 +192,14 @@ static void vkms_config_test_default_config(struct kunit *test)
+ 		KUNIT_EXPECT_EQ(test,
+ 				vkms_config_plane_get_default_rotation(plane_cfg),
+ 				DRM_MODE_ROTATE_0);
++		KUNIT_EXPECT_EQ(test,
++				vkms_config_plane_get_supported_color_encodings(plane_cfg),
++				BIT(DRM_COLOR_YCBCR_BT601) |
++				BIT(DRM_COLOR_YCBCR_BT709) |
++				BIT(DRM_COLOR_YCBCR_BT2020));
++		KUNIT_EXPECT_EQ(test,
++				vkms_config_plane_get_default_color_encoding(plane_cfg),
++				DRM_COLOR_YCBCR_BT601);
+ 	}
  
- What:		/sys/kernel/config/vkms/<device>/planes/<plane>/type
- Date:		Nov 2025
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index a7ddcfd4e86e..3a1a34643cce 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -375,6 +375,12 @@ static struct config_group *make_plane_group(struct config_group *group,
- 			return ERR_PTR(ret);
- 		}
+ 	/* Encoders */
+@@ -533,6 +541,48 @@ static void vkms_config_test_valid_plane_rotations(struct kunit *test)
+ 	vkms_config_destroy(config);
+ }
  
-+		ret = vkms_config_plane_set_name(plane->config, name, strlen(name));
-+		if (ret) {
-+			vkms_config_destroy_plane(plane->config);
-+			return ERR_PTR(ret);
-+		}
++static void vkms_config_test_valid_plane_color_encoding(struct kunit *test)
++{
++	struct vkms_config *config;
++	struct vkms_config_plane *plane_cfg;
 +
- 		config_group_init_type_name(&plane->group, name, &plane_item_type);
++	config = vkms_config_default_create(false, false, false, false);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
++
++	plane_cfg = get_first_plane(config);
++
++	/* Valid, all color encoding supported */
++	vkms_config_plane_set_supported_color_encodings(plane_cfg,
++							BIT(DRM_COLOR_YCBCR_BT601) |
++							BIT(DRM_COLOR_YCBCR_BT709) |
++							BIT(DRM_COLOR_YCBCR_BT2020));
++	vkms_config_plane_set_default_color_encoding(plane_cfg, DRM_COLOR_YCBCR_BT601);
++	KUNIT_EXPECT_TRUE(test, vkms_config_valid_plane_color_encoding(config, plane_cfg));
++	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
++
++	/* Invalid, default color encoding is not supported */
++	vkms_config_plane_set_supported_color_encodings(plane_cfg,
++							BIT(DRM_COLOR_YCBCR_BT601) |
++							BIT(DRM_COLOR_YCBCR_BT2020));
++	vkms_config_plane_set_default_color_encoding(plane_cfg, DRM_COLOR_YCBCR_BT709);
++	KUNIT_EXPECT_FALSE(test, vkms_config_valid_plane_color_encoding(config, plane_cfg));
++	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
++
++	/* Valid, no supported or color encoding */
++	vkms_config_plane_set_supported_color_encodings(plane_cfg, 0);
++	vkms_config_plane_set_default_color_encoding(plane_cfg, 0);
++	KUNIT_EXPECT_TRUE(test, vkms_config_valid_plane_color_encoding(config, plane_cfg));
++	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
++
++	/* Valid, if no supported color encoding, default is ignored */
++	vkms_config_plane_set_supported_color_encodings(plane_cfg, 0);
++	vkms_config_plane_set_default_color_encoding(plane_cfg, DRM_COLOR_YCBCR_BT601);
++	KUNIT_EXPECT_TRUE(test, vkms_config_valid_plane_color_encoding(config, plane_cfg));
++	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
++
++	vkms_config_destroy(config);
++}
++
+ static void vkms_config_test_valid_plane_possible_crtcs(struct kunit *test)
+ {
+ 	struct vkms_config *config;
+@@ -1056,6 +1106,7 @@ static struct kunit_case vkms_config_test_cases[] = {
+ 	KUNIT_CASE(vkms_config_test_invalid_plane_number),
+ 	KUNIT_CASE(vkms_config_test_valid_plane_type),
+ 	KUNIT_CASE(vkms_config_test_valid_plane_rotations),
++	KUNIT_CASE(vkms_config_test_valid_plane_color_encoding),
+ 	KUNIT_CASE(vkms_config_test_valid_plane_possible_crtcs),
+ 	KUNIT_CASE(vkms_config_test_invalid_crtc_number),
+ 	KUNIT_CASE(vkms_config_test_invalid_encoder_number),
+diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+index 82e8ada05b26..aad7576b730f 100644
+--- a/drivers/gpu/drm/vkms/vkms_config.c
++++ b/drivers/gpu/drm/vkms/vkms_config.c
+@@ -212,6 +212,25 @@ bool vkms_config_valid_plane_rotation(const struct vkms_config *config,
+ }
+ EXPORT_SYMBOL_IF_KUNIT(vkms_config_valid_plane_rotation);
  
- 		config_group_init_type_name(&plane->possible_crtcs_group,
++VISIBLE_IF_KUNIT
++bool vkms_config_valid_plane_color_encoding(const struct vkms_config *config,
++					    const struct vkms_config_plane *plane_cfg)
++{
++	struct drm_device *dev = config->dev ? &config->dev->drm : NULL;
++
++	if (vkms_config_plane_get_supported_color_encodings(plane_cfg)) {
++		if ((BIT(vkms_config_plane_get_default_color_encoding(plane_cfg)) &
++		     vkms_config_plane_get_supported_color_encodings(plane_cfg)) !=
++		    BIT(vkms_config_plane_get_default_color_encoding(plane_cfg))) {
++			drm_info(dev, "Configured default color encoding is not supported by the plane\n");
++			return false;
++		}
++	}
++
++	return true;
++}
++EXPORT_SYMBOL_IF_KUNIT(vkms_config_valid_plane_color_encoding);
++
+ static bool valid_planes_for_crtc(const struct vkms_config *config,
+ 				  struct vkms_config_crtc *crtc_cfg)
+ {
+@@ -374,6 +393,9 @@ bool vkms_config_is_valid(const struct vkms_config *config)
+ 	vkms_config_for_each_plane(config, plane_cfg) {
+ 		if (!vkms_config_valid_plane_rotation(config, plane_cfg))
+ 			return false;
++
++		if (!vkms_config_valid_plane_color_encoding(config, plane_cfg))
++			return false;
+ 	}
+ 
+ 	if (!valid_plane_number(config))
+@@ -406,6 +428,22 @@ bool vkms_config_is_valid(const struct vkms_config *config)
+ }
+ EXPORT_SYMBOL_IF_KUNIT(vkms_config_is_valid);
+ 
++static __nocfi void show_bitfield(struct seq_file *m, uint32_t value, const char *callback(unsigned int))
++{
++	u32 offset = 0;
++	bool first = true;
++
++	while (value >= BIT(offset) && offset < 32) {
++		if (value & BIT(offset)) {
++			if (!first)
++				seq_puts(m, ",");
++			seq_printf(m, "%s", callback(offset));
++			first = false;
++		}
++		offset += 1;
++	}
++}
++
+ static int vkms_config_show(struct seq_file *m, void *data)
+ {
+ 	struct drm_debugfs_entry *entry = m->private;
+@@ -439,6 +477,12 @@ static int vkms_config_show(struct seq_file *m, void *data)
+ 			   DRM_ROTATION_FMT_ARGS(vkms_config_plane_get_supported_rotations(plane_cfg)));
+ 		seq_printf(m, "\tdefault rotation=" DRM_ROTATION_FMT "\n",
+ 			   DRM_ROTATION_FMT_ARGS(vkms_config_plane_get_default_rotation(plane_cfg)));
++		seq_puts(m, "\tsupported color encoding=");
++		show_bitfield(m, vkms_config_plane_get_supported_color_encodings(plane_cfg),
++			      drm_get_color_encoding_name);
++		seq_puts(m, "\n");
++		seq_printf(m, "\tdefault color encoding=%s\n",
++			   drm_get_color_encoding_name(vkms_config_plane_get_default_color_encoding(plane_cfg)));
+ 	}
+ 
+ 	vkms_config_for_each_crtc(vkmsdev->config, crtc_cfg) {
+@@ -492,6 +536,10 @@ struct vkms_config_plane __must_check *vkms_config_create_plane(struct vkms_conf
+ 	vkms_config_plane_set_supported_rotations(plane_cfg,
+ 						  DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK);
+ 	vkms_config_plane_set_default_rotation(plane_cfg, DRM_MODE_ROTATE_0);
++	vkms_config_plane_set_supported_color_encodings(plane_cfg, BIT(DRM_COLOR_YCBCR_BT601) |
++							BIT(DRM_COLOR_YCBCR_BT709) |
++							BIT(DRM_COLOR_YCBCR_BT2020));
++	vkms_config_plane_set_default_color_encoding(plane_cfg, DRM_COLOR_YCBCR_BT601);
+ 
+ 	xa_init_flags(&plane_cfg->possible_crtcs, XA_FLAGS_ALLOC);
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+index b0a5a1ae6537..554c730aebd2 100644
+--- a/drivers/gpu/drm/vkms/vkms_config.h
++++ b/drivers/gpu/drm/vkms/vkms_config.h
+@@ -54,6 +54,8 @@ struct vkms_config {
+  *         It can be used to store a temporary reference to a VKMS plane during
+  *         device creation. This pointer is not managed by the configuration and
+  *         must be managed by other means.
++ * @default_color_encoding: Default color encoding that should be used by this plane
++ * @supported_color_encodings: Color encodings that this plane will support
+  */
+ struct vkms_config_plane {
+ 	struct list_head link;
+@@ -63,6 +65,8 @@ struct vkms_config_plane {
+ 	enum drm_plane_type type;
+ 	unsigned int default_rotation;
+ 	unsigned int supported_rotations;
++	enum drm_color_encoding default_color_encoding;
++	unsigned int supported_color_encodings;
+ 	struct xarray possible_crtcs;
+ 	bool default_pipeline;
+ 
+@@ -403,6 +407,66 @@ bool vkms_config_valid_plane_rotation(const struct vkms_config *config,
+ 				      const struct vkms_config_plane *plane_cfg);
+ #endif
+ 
++/**
++ * vkms_config_plane_get_default_color_encoding() - Get the default color encoding for a plane
++ * @plane_cfg: Plane to get the default color encoding from
++ *
++ * Returns:
++ * The default color encoding for the plane
++ */
++static inline enum drm_color_encoding
++vkms_config_plane_get_default_color_encoding(const struct vkms_config_plane *plane_cfg)
++{
++	return plane_cfg->default_color_encoding;
++}
++
++/**
++ * vkms_config_plane_set_default_color_encoding() - Set the default color encoding for a plane
++ * @plane_cfg: Plane to set the default color encoding to
++ * @default_color_encoding: New default color encoding for the plane
++ */
++static inline void
++vkms_config_plane_set_default_color_encoding(struct vkms_config_plane *plane_cfg,
++					     enum drm_color_encoding default_color_encoding)
++{
++	plane_cfg->default_color_encoding = default_color_encoding;
++}
++
++/**
++ * vkms_config_plane_get_supported_color_encodings() - Get the supported color encodings for a plane
++ * @plane_cfg: Plane to get the supported color encodings from
++ *
++ * Returns:
++ * The supported color encodings for the plane. Each set bit correspond to a value of enum
++ * drm_color_encoding: BIT(DRM_COLOR_YCBCR_BT601) | BIT(DRM_COLOR_YCBCR_BT709) means that
++ * DRM_COLOR_YCBCR_BT601 and DRM_COLOR_YCBCR_BT709 are supported.
++ */
++static inline unsigned int
++vkms_config_plane_get_supported_color_encodings(const struct vkms_config_plane *plane_cfg)
++{
++	return plane_cfg->supported_color_encodings;
++}
++
++/**
++ * vkms_config_plane_set_supported_color_encodings() - Set the supported color encodings for a plane
++ * @plane_cfg: Plane to set the supported color encodings to
++ * @supported_color_encodings: New supported color encodings for the plane. Each set bit corresponds
++ *                            to a value of enum drm_color_encoding:
++ *                            BIT(DRM_COLOR_YCBCR_BT601) | BIT(DRM_COLOR_YCBCR_BT709) means that
++ *                            DRM_COLOR_YCBCR_BT601 and DRM_COLOR_YCBCR_BT709 are supported.
++ */
++static inline void
++vkms_config_plane_set_supported_color_encodings(struct vkms_config_plane *plane_cfg,
++						unsigned int supported_color_encodings)
++{
++	plane_cfg->supported_color_encodings = supported_color_encodings;
++}
++
++#if IS_ENABLED(CONFIG_KUNIT)
++bool vkms_config_valid_plane_color_encoding(const struct vkms_config *config,
++					    const struct vkms_config_plane *plane_cfg);
++#endif
++
+ /**
+  * vkms_config_plane_set_name() - Set the plane name
+  * @plane_cfg: Plane to set the name to
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index 91c51a8d908b..6b60b0c09cba 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -276,14 +276,13 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+ 					   vkms_config_plane_get_default_rotation(plane_cfg),
+ 					   vkms_config_plane_get_supported_rotations(plane_cfg));
+ 
+-	drm_plane_create_color_properties(&plane->base,
+-					  BIT(DRM_COLOR_YCBCR_BT601) |
+-					  BIT(DRM_COLOR_YCBCR_BT709) |
+-					  BIT(DRM_COLOR_YCBCR_BT2020),
+-					  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+-					  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
+-					  DRM_COLOR_YCBCR_BT601,
+-					  DRM_COLOR_YCBCR_FULL_RANGE);
++	if (vkms_config_plane_get_supported_color_encodings(plane_cfg) != 0)
++		drm_plane_create_color_properties(&plane->base,
++						  vkms_config_plane_get_supported_color_encodings(plane_cfg),
++						  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
++						  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
++						  vkms_config_plane_get_default_color_encoding(plane_cfg),
++						  DRM_COLOR_YCBCR_FULL_RANGE);
+ 
+ 	if (vkms_config_plane_get_default_pipeline(plane_cfg))
+ 		vkms_initialize_colorops(&plane->base);
 
 -- 
 2.56.0
