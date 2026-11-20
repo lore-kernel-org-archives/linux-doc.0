@@ -1,116 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795185889;
-	b=HUNR1mL/In7SlqAKuO6bbvrCSU6y1L4ipp+MeJvYvGoPjfqxc/u5yy2p6FSmFVTKSghr
-	 fh0lrKpx4agnkwwQEO0dKvd4kVgv+TC3spxso1qgjdOYIhKXILIY+w1dF232dgaVRewbr
-	 Y0FbSxGH9k3X7CiwiRDWtbeyoP4529/VF4/dmVi61ObxzrVgTfS77OrzGg8rMvqrpJnEZ
-	 ytHgo/m8czJ2ZgdXn6dBdPA11Jj6gAuae1G6px4sjE5RsWmQ2u9jlnNNUgws9B2SQ2DDo
-	 Ap/i7AzuwHK7f0xrg1C9Vy3CDRxdqHT0EytPUhASNJVGVZeY3YYotdZDCNS8Y9Fs24w==
+	t=1795186092;
+	b=v1+UxVaoqnLRhehW2ciKbPeBRyMKrqKNlHmaKDLIwLoJ7AMn9qwJBDXShbOfvWP3RrBJ
+	 COfekcQ7DXPV+fRurtnqTBpIVQvJYwBZV3vJe6YDeMocEKyMRQgbhKffTI+UG7YsnHHB2
+	 RcNnrM6C76uKo92S45aQUtt3iBAQB+RRfjPdMNhkDiorYIRJZJ9tfblrkDPYIrzqdUNWg
+	 ZTTdt9ViTMYXPGUEGvd2z1qqz/4LjdZIgBn6kF26Wcru9znCpIklqEd9bfhzS9q/6Ro5W
+	 fIm9Fn0gtMyfbXLOT7uPjdtqOs6U9tkYHP6ipdeG1+wkFqOHjqHJ9ZUQs5WMDDwD/Dw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795185889;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795186092;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=UAmEuVaLj2um1QYSHCqaR42KS0RtEEeYHE8D0ahDr3M=;
-	b=hsXA6i7mYlRoNj9WNzxUXk6NCX8GpEPJJXYy8AJ5lTK4u57b5YGjgIop0/W51zdfR3/h
-	 4QC9+ua1po13r0Soy8WIfm13uK8BkU/CXb+Cuxii+IGH1NHRyGv6U/T7hNPpuKlo+rswZ
-	 1L9HtRW11ltjqQGsS5BTviR7zhlPm2dNV5aAumP/ev/SWc9VuC/ArDVsLVaHFhTxG90o5
-	 NwAC0GBh0ZD19CdjBQhVMLGjOBmgOTiwCKYclzjTipOTaqIhssRllLPmywytoEjsWSwjD
-	 kh8WWSPR/FVgy1qnlnS8KLUhw9I0gO9DbzlabDNt9jfCT2WrGnB9OwDEoThP1MLSSSQ==
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=23XPNfNm7eI9kWRtudFXNyVD6I24r4ai3A9NrPUHv/A=;
+	b=VFwUCwYB+KoJx8TONtmPrhGi7C91jD842Eq2e9veZTjX+CJw6Gzy0MmZW17X1s5TSua0
+	 rE8Uk7FHVSIOFPKGBM4ouEq0ExbQxXFBv2BVXpROJSjUxhtItJyjD+4S8lgPGRffZhiL3
+	 GLhA8xu7yQgBHYJjGcMzCwQsJ1T8KLICRVucESPeTFsmJBQhoybBuPhxO6p9+VIJavdQ3
+	 rMmT8uJmg51chdTUV/tdopmFP5uvNtXrg8T2xYSXX6MOH8Hmog3gZ4ANwP1sCZcTFYlOy
+	 xMX9Gm6B2bisCwMH5VNWa3IghNu/h2dnqhlR+SoUlLMEPx6QXYe4/ehB8aLuR9FYkaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UafOjWj2;
-	arc=none smtp.remote-ip=209.85.160.176
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Qr4ZWDnq;
+	arc=none smtp.remote-ip=209.85.210.180
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967CE60A2605
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 14:44:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 967CE60A2605
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC96606A32A
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 14:48:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4AC96606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UafOjWj2
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-533202fe429so308671cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 06:44:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Qr4ZWDnq
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8b5a6f2f27fso474416b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 06:48:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795185887; x=1795790687; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=UAmEuVaLj2um1QYSHCqaR42KS0RtEEeYHE8D0ahDr3M=;
-        b=UafOjWj2qya2A4DjUwYc1dvmiVY3y7Yj84AgIaf3lwE0VabIzpOxlh7v0dWgybaoRL
-         f+aEIbwPwYlQLKv7D3DVSsUs0eD+0/W1mI33E7/+1DoAhkbeKlWXpPAhmzPfaTLMDfU4
-         osHhLK+HYgmOncAFpueqSfQ6v1hud4mzsTL2cPBHj91sHw/ySocCzFWPBKnbqJQAGNDZ
-         xHZLzqv3XpioTqUPROOKnkyzw2Km5eHTcu2FBj8GTdQVHdVJiyDISBZoNV/K7nqDfV/a
-         vtYdN1Jv8PFRaEuA0eiZVJuhAYqD7JedknH3AF/gCHF4iJL5NAyOUZT+BOQlH6aFMGRe
-         sawQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795185887; x=1795790687;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1795186091; x=1795790891; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=UAmEuVaLj2um1QYSHCqaR42KS0RtEEeYHE8D0ahDr3M=;
-        b=YqfLr+a4y0ZHd1XhvNJrwwu7frMEEb9RCKKyolwelr++wFSfOuBHWYVaSyttNQcK5V
-         j5kuPF3xkxCFwmk78ZRXXUMoelgrY3VaXqu+ez3SOVy9ZY5pNLEMc78KCtWJ52dehurK
-         FyDF8xxN47i4x6CEGgXRe4R1ETv2nfPws/Xy+JMW/px9qWzYMntDq+wIxIER6q8OlXGI
-         ICCXhrdbaiAUJVRvFHmM8CV+2oskXrbywsAqu175rdpOEHUtnXnvscaixfv0JVR261C1
-         YAibBcaHb9ilOW5oT9KyQggMBaFVYPhY8pYeKeOUeNNTp9EpGY2yDcjw/sZgTlaCfepH
-         ZgXg==
-X-Forwarded-Encrypted: i=1; AL+hErEZoONeL5/enojthHjw6MIPxrcRNRWL2Q89TueuRgPAi7mk+X21EA/2yloKDN+jKL2w4yj/oAj217I=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+z/YRZ2kuuFHaeLH+Pmn249z5qccB8L9iPpbex4bCD2AJQ59PZ
-	3177XI2a0I2MZQQwosu8/Yj+4sfZhDZJGgWSo8o+UbjpF/gyk0tQycPMRB/8UL1CsQ==
-X-Gm-Gg: AYBFou0iwJyZXYTcj6PD8WfAb5veLWAyDI8pz4q3vriAWLi53XQC0PGb3A3jL5k51Xu
-	GOobiPDOey5TaEs0oI8crU4ACcbOsoC/j8RWfmQjtWM2UoDAUKFeSiZ/q2C1TqwyjBzUMTMUGc/
-	C21lW+oyGk4VznndOcDEc/Delp5LghUL2QtgEEhn2mGepkzh3R5KGo4IFoNsgyaEHIQ726+97C7
-	jp3VhjTWrcbl25+8UOfPR5Uoy3vXKb9wacOCWOpzkrxgv/kAMSNYHmsx6eQmdqFtjtWCLTShhq8
-	P/KLvaQROlU4rBS1MWhkTs3HBIhEgZzEbDd6D12tccKVQ5yokf4SHk8PLhbfleir8x4uza94Xj9
-	Ov94nL1DYduchZPIUe32m69MYwjVoGbvjQjGGBvA9wUKVbhTWQj5rhHCqZyqrbdrJQATsxc9JAV
-	TO7AWWhrKybidbgbuliuWh0lS9ApTDSA7UgKVDhhyD6SPFBhW4XT2SIRb1WN7pdqRLc4ZmQ88rU
-	ziR/7/yzNZ8GXOmWdpYDEPfCtkTjGolzsxjG/iHSgGZUGes5B3MgyVTvbPXXpMJwuLIOMUWF4dW
-	505+3h8/d/zoeIqOpnefGC6asV+4o1Jl10tuwLMBTxtLwKHUTku+GamZlIiTPno5SUvH1CGexmh
-	0WBsLyB8IVtLd
-X-Received: by 2002:a05:622a:2b07:b0:536:6ea4:e6a0 with SMTP id d75a77b69052e-55d7a35af5emr17844321cf.11.1795185886849;
-        Fri, 20 Nov 2026 06:44:46 -0800 (PST)
-Received: from google.com (105.211.142.34.bc.googleusercontent.com. [34.142.211.105])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b52028c80dsm14013017b3.13.2026.11.20.06.44.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 06:44:46 -0800 (PST)
-Date: Fri, 20 Nov 2026 14:44:34 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Alex Williamson <alex.williamson@nvidia.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Chris Down <chris@chrisdown.name>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v11 08/13] PCI: Save and restore the ACS Control register
- and Egress Control Vector
-Message-ID: <awBc0m4oW9nW4hgX@google.com>
-References: <20261118223704.3286085-1-dmatlack@google.com>
- <20261118223704.3286085-9-dmatlack@google.com>
+        bh=23XPNfNm7eI9kWRtudFXNyVD6I24r4ai3A9NrPUHv/A=;
+        b=Qr4ZWDnqVLM8ijeFTenHh+mRsOUlc0ge6ncVzdnjlTz9ERXksEiCpYeHGnt1gWNDo+
+         kq3Nq+L2657JCrPL9W50hgjKBXKrvmfAmZ9rZI450+JGETRpeLm5VZihUHlkUytl4i4z
+         urFeKBLx7KWwupSyY7Gj9iVgpOWq3NvMTbKiSV1Vccpq+F6LTX/Z9VEkEu1kDz50V/3L
+         SRciJLRWufcmmxfXrBJfIQo8r1jt5/psSamYfG68BKRDIKVdUplUD8Cc64EO5DcKVXSM
+         DgFqqNkqrMI68pVYFxEJYOjaI4e+gXaZwvgDl3CakN1pXel3Rjyx9n42mSmR96y/78W6
+         5R7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795186091; x=1795790891;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=23XPNfNm7eI9kWRtudFXNyVD6I24r4ai3A9NrPUHv/A=;
+        b=aZ5FC3sQQmhzwCxMkQjM+KFDNjiIgO1sfq4SxOUkJJd9f4U7B5HKspX2N8/RzwU/It
+         tU/UsZd+D4//KT1zuJg8AXUsA9vLwObEPRs6f/a5NiSe74+rJdRQDkuhpm4P/C2zQ7GW
+         IWolAf5VyCq+Y8rf3jfY7dN5fOzXoXjh53UmCSq5KNXMf0I2pd3K6u15oBdJ8P3Tl94k
+         hrkmOB3VvxyeVprDFmsnyKy4j0m/uCGGJWqh/qHurQp4T4PidfNGoSI/e8sPmugKwgH0
+         fcLS2cEoigpB6j+zgEWSCYY8NaILR7wWxyJxNddLcPY6AKuC8Ut9XaInuLRskldAG3xw
+         kzMg==
+X-Forwarded-Encrypted: i=1; AL+hErFjQG9XuslGJLOjQFpNUiFahDFfmsBXqVP2me9+pGfNrBt8fIxaD4wF7rL07h4JKFNBJ3/rRCbPcJU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8ynMzA439ZyXn4maHrzHJRyGctfZ68/n/CzYwYLLZOQ0QexM2d
+	gQ39P5u/UsrevVT0xhwDk3xUyFZUkrcBn5u5f6aHlmgOxAfsH4OK1+/8CZoIwA==
+X-Gm-Gg: AZFdTZfJIVOo8B7Ff2s8JC6lDNE3nbW9ckcYL9H2KdfZJ2RRaHZlmC4qP4eoDGxHk6Y
+	UbYNleF27ErLHpCXm0sOuCqBeUAEZyIfYC1PDJWztV8ctic8XTU6XxKgoSZr5dox6sOUcoTqPdQ
+	62Na607KM9yDK/QIAxdIpTBRfjSf8zYNbfIduI577t/3LMZYTvt33WxM5pdnGenGGkM0cdj9nax
+	Y9LoLM/LykUNp+U0i/6PbD3bbhcRz+8LNAcP9USOpHqnFH+dVliBvBm37EHtCWgDd7fJmj4uuH7
+	+f74ixnj+f0IHDTLmjoVEefvKXYlbF6z/x/vbEfnZs90rw3+yYDjivAPUhX3v3jLYUn/LZ37TjI
+	8n8tKSKjSg8wP8sVFwp43YEa1mDj81lqLCc1EkPRjsZPgxRD4d3nwHAyCCM03JKNDkzfwjWr17N
+	7CN+k9nHpoRmEMpxqJ22vv79C8Bz6YbjZEzdSvs0VAJaIk8tqwXuZ6C/hD06nBn8nyoVmLvcfNy
+	B4D2PxjKMFukZS+uktYglLo3/NEhj2zYj3mCxXWON54MzYRipRX+L9OXi4EPd5JivacEEuJZsF8
+	u0tOb9J7zxdg6jmq9Yn4gk0=
+X-Received: by 2002:a05:6a00:f07:b0:881:4b47:f31a with SMTP id d2e1a72fcca58-8c87baca5c4mr2876693b3a.11.1795186090967;
+        Fri, 20 Nov 2026 06:48:10 -0800 (PST)
+Received: from [0.0.0.0] ([20.89.137.63])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c873b2434asm1571245b3a.45.2026.11.20.06.48.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Nov 2026 06:48:10 -0800 (PST)
+Message-ID: <8b31251f-cb67-4aef-bd93-d2bd43885be1@gmail.com>
+Date: Fri, 20 Nov 2026 22:48:06 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -120,52 +92,441 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261118223704.3286085-9-dmatlack@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] platform/x86: bitland-mifs-wmi: Support WUJIE15 PRO
+ HPT
+To: Bozhen Peng <bozhenpeng93@gmail.com>, Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Armin Wolf <W_Armin@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, platform-driver-x86@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <0da43a8c-1755-49fe-b8e2-403489297f06@gmail.com>
+ <fb4e0678-3028-463e-8a8c-1b680e40c4ee@gmail.com>
+Content-Language: en-US
+From: Mingyou Chen <qby140326@gmail.com>
+In-Reply-To: <fb4e0678-3028-463e-8a8c-1b680e40c4ee@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 18, 2026 at 10:36:59PM +0000, David Matlack wrote:
-> Save the ACS Control register and the ACS Egress Control Vector in
-> pci_save_state() and write them back in pci_restore_state(), instead of
-> recomputing the ACS controls from scratch with pci_enable_acs().
-> 
-> This makes ACS symmetric with the rest of a device's saved state. Today
-> pci_save_state() ignores ACS entirely and pci_restore_state() re-enables
-> the ACS controls from the kernel's current ACS policy. As a result, a
-> device can come out of a reset with different ACS controls than it went
-> in with, e.g. any controls programmed outside of pci_enable_acs() are
-> silently dropped.
-> 
-> This also lets a later patch adopt the ACS controls established by a
-> previous kernel across a Live Update rather than assigning new ones
-> through pci_enable_acs().
-> 
-> Save and restore the Egress Control Vector as well to keep it in sync
-> with the Egress Control Enable bit in the ACS Control register, which is
-> now restored from saved state. The kernel never enables Egress Controls
-> or programs the vector, but the firmware could have and they need to be
-> kept in sync to avoid changing how P2P traffic is routed.
-> 
-> The Egress Control Vector Size is a HwInit field of the ACS Capability
-> register (PCIe r7.1, sec 7.7.12.2), so read it directly from the device
-> to size the save buffer in pci_allocate_cap_save_buffers(), similar to
-> how the VC capability relies on its HwInit fields.
-> 
-> pci_enable_acs() runs when a driver binds to a device
-> (pci_dma_configure()), i.e. after pci_bus_add_device() has already saved
-> the device's state. Refresh the saved ACS state there as well, otherwise
-> a subsequent reset would revert ACS back to the configuration left
-> behind by firmware.
-> 
-> Devices that rely on device-specific quirks to enable an ACS equivalent
-> keep that configuration outside of the ACS Control register, so don't
-> allocate an ACS save buffer for them. Keep configuring ACS from scratch
-> on restore for any device that has no saved ACS state.
-> 
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> Reviewed-by: Alex Williamson <alex.williamson@nvidia.com>
+On 9/23/26 15:42, Bozhen Peng wrote:
+> I found that my WUJIE15 PRO with the HPT board uses three profiles:
+> performance (0), balanced (1), and quiet (2). The driver's default
+> mapping gets these wrong and exposes a fourth mode that the firmware
+> does not implement. My laptop only has USB-C power input, so the
+> circular-hole adapter requirement also rules out its supported external-
+> power configuration.
+>
+> I added a check matching the vendor, product and board names to select
+> the correct profiles and power check. During testing, I saw
+> power_supply_is_system_supplied() return true even after I unplugged the
+> charger during sleep. I switched the check to the ACPI adapter's _PSR,
+> which reads the current power-present bit on this machine. I also made
+> resume select balanced if power was removed, rather than restore the
+> saved performance profile. If the power query fails, I return the error
+> instead of assuming the charger is connected.
+>
+> I checked the firmware methods and found only two fan readings, in F2/F1
+> order, and no MIFS CPU temperature reading. Some unimplemented GET
+> commands return success with zero data, so I could not use a successful
+> query to establish sensor support. I register the two fans and leave out
+> the temperature input. I also hide the unsupported GPU, RGB mode and fan
+> boost controls. I rely on the shared WMI helper to check the remaining SET
+> commands. I left normal keyboard backlight control unchanged.
+>
+> I found that the event GUID also matches redmi-wmi, so I made that
+> driver decline this machine and leave its notifications to bitland-mifs-
+> wmi. I kept the existing behavior for other machines and documented the
+> HPT differences.
+>
+> Signed-off-by: Bozhen Peng <bozhenpeng93@gmail.com>
+> ---
+> Changes in v2:
+> - Fix the RST heading underline length, as Randy pointed out.
+> - Rebase onto current platform-driver-x86 for-next, retaining its shared
+>    WMI return-code handling.
+> - Drop the unreachable redmi-wmi Cc address.
+>
+> I tested this on my MECHREVO WUJIE15 PRO (WUJIE15 Series-HPT), comparing
+> the firmware methods and profile values with the Windows OEM controls.
+>
+> I ran the hardware tests on Ubuntu 26.04.1, kernel 7.0.0-30-generic. I
+> used a small adaptation for that kernel's older WMI API in the test
+> modules. I have left that adaptation out of this patch.
+>
+> I ran 22 automated profile, backlight, binding and sensor checks, all of
+> which passed, and tested the actual hotkeys. I recorded about 2280 and
+> 2850-2970 RPM from the two fans while running, and zero when stopped. I
+> did not independently calibrate the RPM readings.
+>
+> For the final _PSR change, I ran two s2idle tests. With the charger
+> connected, the driver read supplied=1 and restored performance; it
+> stayed in performance afterwards. With the charger unplugged during
+> sleep, it read supplied=0 and restored balanced; it stayed balanced
+> afterwards. Requesting performance on battery then returned EOPNOTSUPP.
+> The logs include the resume decision and firmware readbacks.
+>
+> I built a full x86_64 kernel and both modules against the for-next base
+> below. I used x86_64_defconfig with BITLAND_MIFS_WMI and REDMI_WMI as
+> modules, GCC 15.2.0 and W=1. The build passed without compiler warnings
+> from either changed driver.
+>   Documentation/wmi/devices/bitland-mifs-wmi.rst |  31 +++++
+>   drivers/platform/x86/bitland-mifs-wmi.c        | 157 ++++++++++++++++++++++++-
+>   drivers/platform/x86/redmi-wmi.c               |   7 ++
+>   3 files changed, 189 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/wmi/devices/bitland-mifs-wmi.rst b/Documentation/wmi/devices/bitland-mifs-wmi.rst
+> index 27c3fd248..e73f9666f 100644
+> --- a/Documentation/wmi/devices/bitland-mifs-wmi.rst
+> +++ b/Documentation/wmi/devices/bitland-mifs-wmi.rst
+> @@ -7,6 +7,37 @@ Bitland MIFS driver (bitland-mifs-wmi)
+>   Introduction
+>   ============
+>   
+> +MECHREVO WUJIE15 PRO (HPT) firmware variant
+> +-------------------------------------------
+> +
+> +The MECHREVO WUJIE15 PRO with board WUJIE15 Series-HPT uses a reduced
+> +interface. The driver selects this variant using exact system vendor,
+> +product name and board name matches.
+> +
+> +The supported platform profiles are low-power (raw value 2), balanced
+> +(1), and performance (0). There is no separate full-speed mode.
+> +USB-C is the only external power input on this model. Performance is
+> +available on external power, but not on battery. The driver queries the
+> +ACPI adapter's _PSR for current power presence because USB-C connector
+> +ONLINE state may still be stale during resume. A failed query is not
+> +treated as external power being present.
+> +On resume, a saved performance profile becomes balanced if external
+> +power was removed, matching the firmware's AC-loss transition.
+> +
+> +Command 0x0d returns two little-endian tachometers, EC Fan 2 followed by
+> +Fan 1. No third fan or CPU-temperature input is provided. GPU switching,
+> +RGB modes and fan boost are not exposed. Keyboard backlight brightness
+> +uses the normal 0 through 3 values.
+> +
+> +Unsupported GET commands can return success (0x8000) with an empty
+> +payload. Successful queries alone therefore do not establish the
+> +presence of a sensor or control; the driver uses the known capabilities.
+> +The shared WMI call helper checks firmware acknowledgments for supported
+> +profile and backlight SET calls.
+> +
+> +The event GUID is shared with redmi-wmi. On this exact DMI combination,
+> +redmi-wmi declines binding so bitland-mifs-wmi handles the notifications.
+> +
+>   
+>   EC WMI interface description
+>   ============================
+> diff --git a/drivers/platform/x86/bitland-mifs-wmi.c b/drivers/platform/x86/bitland-mifs-wmi.c
+> index dd1648b7d..0d2b6c80c 100644
+> --- a/drivers/platform/x86/bitland-mifs-wmi.c
+> +++ b/drivers/platform/x86/bitland-mifs-wmi.c
+> @@ -14,6 +14,7 @@
+>   #include <linux/dev_printk.h>
+>   #include <linux/device.h>
+>   #include <linux/device/devres.h>
+> +#include <linux/dmi.h>
+>   #include <linux/err.h>
+>   #include <linux/hwmon.h>
+>   #include <linux/init.h>
+> @@ -161,6 +162,19 @@ struct bitland_mifs_wmi_data {
+>   	struct device *hwmon_dev;
+>   	struct device *pp_dev;
+>   	enum platform_profile_option saved_profile;
+> +	bool is_wujie15_hpt;
+> +};
+> +
+> +/* Profile mapping and capabilities for the WUJIE15 PRO HPT board. */
+> +static const struct dmi_system_id bitland_wujie15_hpt[] = {
+> +	{
+> +		.matches = {
+> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "MECHREVO"),
+> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "WUJIE15 PRO"),
+> +			DMI_EXACT_MATCH(DMI_BOARD_NAME, "WUJIE15 Series-HPT"),
+> +		},
+> +	},
+> +	{ }
+>   };
+>   
+>   static int bitland_mifs_wmi_call(struct bitland_mifs_wmi_data *data,
+> @@ -195,6 +209,12 @@ static int bitland_mifs_wmi_call(struct bitland_mifs_wmi_data *data,
+>   	if (output)
+>   		memcpy(output, result, sizeof(*output));
+>   
+> +	if (data->is_wujie15_hpt)
+> +		dev_dbg(&data->wdev->dev,
+> +			"HPT op=%#x fn=%#x arg=%u value=%u status=%#x\n",
+> +			input->operation, input->function, input->payload[0],
+> +			result->data[0], le16_to_cpu(result->return_code));
+> +
+>   	return 0;
+>   }
+>   
+> @@ -213,6 +233,22 @@ static int laptop_profile_get(struct device *dev,
+>   	if (ret)
+>   		return ret;
+>   
+> +	if (data->is_wujie15_hpt) {
+> +		switch (result.data[0]) {
+> +		case 0:
+> +			*profile = PLATFORM_PROFILE_PERFORMANCE;
+> +			return 0;
+> +		case 1:
+> +			*profile = PLATFORM_PROFILE_BALANCED;
+> +			return 0;
+> +		case 2:
+> +			*profile = PLATFORM_PROFILE_LOW_POWER;
+> +			return 0;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+>   	switch (result.data[0]) {
+>   	case WMI_PP_BALANCED:
+>   		*profile = PLATFORM_PROFILE_BALANCED;
+> @@ -232,6 +268,26 @@ static int laptop_profile_get(struct device *dev,
+>   	return 0;
+>   }
+>   
+> +static int bitland_wujie15_is_supplied(void)
+> +{
+> +	struct acpi_device *adapter;
+> +	unsigned long long online;
+> +	acpi_status status;
+> +
+> +	/* USB-C ONLINE can still contain the pre-suspend connector state. */
+> +	adapter = acpi_dev_get_first_match_dev("ACPI0003", NULL, -1);
+> +	if (!adapter)
+> +		return -ENODEV;
+> +
+> +	/* This machine's adapter _PSR reads the current EC power-present bit. */
+> +	status = acpi_evaluate_integer(adapter->handle, "_PSR", NULL, &online);
+> +	acpi_dev_put(adapter);
+> +	if (ACPI_FAILURE(status) || online > 1)
+> +		return -EIO;
+> +
+> +	return online;
+> +}
+> +
+>   static int bitland_check_performance_capability(struct bitland_mifs_wmi_data *data)
+>   {
+>   	struct bitland_mifs_input input = {
+> @@ -241,7 +297,15 @@ static int bitland_check_performance_capability(struct bitland_mifs_wmi_data *da
+>   	struct bitland_mifs_output output;
+>   	int ret;
+>   
+> -	/* Full-speed/performance mode requires DC power (not USB-C) */
+> +	/* WUJIE15 PRO is powered through USB-C only. */
+> +	if (data->is_wujie15_hpt) {
+> +		ret = bitland_wujie15_is_supplied();
+> +		if (ret < 0)
+> +			return ret;
+> +		return ret ? 0 : -EOPNOTSUPP;
+> +	}
+> +
+> +	/* Other models require the firmware's circular-hole adapter type. */
+>   	if (!power_supply_is_system_supplied())
+>   		return -EOPNOTSUPP;
+>   
+> @@ -270,6 +334,27 @@ static int laptop_profile_set(struct device *dev,
+>   	int ret;
+>   	u8 val;
+>   
+> +	if (data->is_wujie15_hpt) {
+> +		switch (profile) {
+> +		case PLATFORM_PROFILE_LOW_POWER:
+> +			val = 2;
+> +			break;
+> +		case PLATFORM_PROFILE_BALANCED:
+> +			val = 1;
+> +			break;
+> +		case PLATFORM_PROFILE_PERFORMANCE:
+> +			ret = bitland_check_performance_capability(data);
+> +			if (ret)
+> +				return ret;
+> +			val = 0;
+> +			break;
+> +		default:
+> +			return -EOPNOTSUPP;
+> +		}
+> +		input.payload[0] = val;
+> +		return bitland_mifs_wmi_call(data, &input, NULL);
+> +	}
+> +
+>   	switch (profile) {
+>   	case PLATFORM_PROFILE_LOW_POWER:
+>   		val = WMI_PP_QUIET;
+> @@ -300,9 +385,12 @@ static int laptop_profile_set(struct device *dev,
+>   
+>   static int platform_profile_probe(void *drvdata, unsigned long *choices)
+>   {
+> +	struct bitland_mifs_wmi_data *data = drvdata;
+> +
+>   	set_bit(PLATFORM_PROFILE_LOW_POWER, choices);
+>   	set_bit(PLATFORM_PROFILE_BALANCED, choices);
+> -	set_bit(PLATFORM_PROFILE_BALANCED_PERFORMANCE, choices);
+> +	if (!data->is_wujie15_hpt)
+> +		set_bit(PLATFORM_PROFILE_BALANCED_PERFORMANCE, choices);
+>   	set_bit(PLATFORM_PROFILE_PERFORMANCE, choices);
+>   
+>   	return 0;
+> @@ -328,13 +416,25 @@ static int bitland_mifs_wmi_suspend(struct device *dev)
+>   static int bitland_mifs_wmi_resume(struct device *dev)
+>   {
+>   	struct bitland_mifs_wmi_data *data = dev_get_drvdata(dev);
+> +	enum platform_profile_option profile = data->saved_profile;
+> +	int supplied;
+>   
+>   	/* Skip event device */
+>   	if (!data->pp_dev)
+>   		return 0;
+>   
+> -	dev_dbg(dev, "Resuming, restoring profile %d\n", data->saved_profile);
+> -	return laptop_profile_set(dev, data->saved_profile);
+> +	/* Match the firmware's performance-to-balanced transition on AC loss. */
+> +	if (data->is_wujie15_hpt &&
+> +	    profile == PLATFORM_PROFILE_PERFORMANCE) {
+> +		supplied = bitland_wujie15_is_supplied();
+> +		if (supplied < 0)
+> +			return supplied;
+> +		if (!supplied)
+> +			profile = PLATFORM_PROFILE_BALANCED;
+> +	}
+> +
+> +	dev_dbg(dev, "Resuming, restoring profile %d\n", profile);
+> +	return laptop_profile_set(dev, profile);
+>   }
+>   
+>   static DEFINE_SIMPLE_DEV_PM_OPS(bitland_mifs_wmi_pm_ops,
+> @@ -398,7 +498,16 @@ static int laptop_hwmon_read_string(struct device *dev,
+>   				    enum hwmon_sensor_types type, u32 attr,
+>   				    int channel, const char **str)
+>   {
+> +	struct bitland_mifs_wmi_data *data = dev_get_drvdata(dev);
+> +	static const char *const hpt_fan_labels[] = { "Fan 2", "Fan 1" };
+> +
+>   	if (type == hwmon_fan && attr == hwmon_fan_label) {
+> +		if (data->is_wujie15_hpt) {
+> +			if (channel < 0 || channel >= ARRAY_SIZE(hpt_fan_labels))
+> +				return -EINVAL;
+> +			*str = hpt_fan_labels[channel];
+> +			return 0;
+> +		}
+>   		if (channel >= 0 && channel < ARRAY_SIZE(fan_labels)) {
+>   			*str = fan_labels[channel];
+>   			return 0;
+> @@ -426,6 +535,18 @@ static const struct hwmon_chip_info laptop_chip_info = {
+>   	.info = laptop_hwmon_info,
+>   };
+>   
+> +/* HPT fills only the F2/F1 tachometers; the temperature GET is a no-op. */
+> +static const struct hwmon_channel_info *hpt_hwmon_info[] = {
+> +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT | HWMON_F_LABEL,
+> +			   HWMON_F_INPUT | HWMON_F_LABEL),
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_chip_info hpt_chip_info = {
+> +	.ops = &laptop_hwmon_ops,
+> +	.info = hpt_hwmon_info,
+> +};
+> +
+>   static int laptop_kbd_led_set(struct led_classdev *led_cdev,
+>   			      enum led_brightness value)
+>   {
+> @@ -604,7 +725,28 @@ static const struct attribute *const laptop_attrs[] = {
+>   	&dev_attr_fan_boost.attr,
+>   	NULL,
+>   };
+> -ATTRIBUTE_GROUPS(laptop);
+> +
+> +static umode_t laptop_attr_is_visible(struct kobject *kobj,
+> +				      const struct attribute *attr, int index)
+> +{
+> +	struct bitland_mifs_wmi_data *data = dev_get_drvdata(kobj_to_dev(kobj));
+> +
+> +	/* All three custom attributes require methods absent on HPT. */
+> +	if (data && data->is_wujie15_hpt)
+> +		return 0;
+> +
+> +	return attr->mode;
+> +}
+> +
+> +static const struct attribute_group laptop_group = {
+> +	.attrs_const = laptop_attrs,
+> +	.is_visible_const = laptop_attr_is_visible,
+> +};
+> +
+> +static const struct attribute_group *laptop_groups[] = {
+> +	&laptop_group,
+> +	NULL
+> +};
+>   
+>   static const struct key_entry bitland_mifs_wmi_keymap[] = {
+>   	{ KE_KEY, WMI_EVENT_OPEN_APP, { KEY_PROG1 } },
+> @@ -659,6 +801,7 @@ static int bitland_notifier_callback(struct notifier_block *nb,
+>   static int bitland_mifs_wmi_probe(struct wmi_device *wdev, const void *context)
+>   {
+>   	struct bitland_mifs_wmi_data *drv_data;
+> +	const struct hwmon_chip_info *chip_info;
+>   	enum bitland_wmi_device_type dev_type =
+>   		(enum bitland_wmi_device_type)(unsigned long)context;
+>   	struct led_init_data init_data = {
+> @@ -673,6 +816,7 @@ static int bitland_mifs_wmi_probe(struct wmi_device *wdev, const void *context)
+>   		return -ENOMEM;
+>   
+>   	drv_data->wdev = wdev;
+> +	drv_data->is_wujie15_hpt = dmi_check_system(bitland_wujie15_hpt);
+>   
+>   	ret = devm_mutex_init(&wdev->dev, &drv_data->lock);
+>   	if (ret)
+> @@ -706,10 +850,11 @@ static int bitland_mifs_wmi_probe(struct wmi_device *wdev, const void *context)
+>   		return PTR_ERR(drv_data->pp_dev);
+>   
+>   	/* Register hwmon */
+> +	chip_info = drv_data->is_wujie15_hpt ? &hpt_chip_info : &laptop_chip_info;
+>   	drv_data->hwmon_dev = devm_hwmon_device_register_with_info(&wdev->dev,
+>   								   "bitland_mifs",
+>   								   drv_data,
+> -								   &laptop_chip_info,
+> +								   chip_info,
+>   								   NULL);
+>   	if (IS_ERR(drv_data->hwmon_dev))
+>   		return PTR_ERR(drv_data->hwmon_dev);
+> diff --git a/drivers/platform/x86/redmi-wmi.c b/drivers/platform/x86/redmi-wmi.c
+> index cc82ef502..de41642b7 100644
+> --- a/drivers/platform/x86/redmi-wmi.c
+> +++ b/drivers/platform/x86/redmi-wmi.c
+> @@ -4,6 +4,7 @@
+>   #include <linux/acpi.h>
+>   #include <linux/bits.h>
+>   #include <linux/device.h>
+> +#include <linux/dmi.h>
+>   #include <linux/input.h>
+>   #include <linux/input/sparse-keymap.h>
+>   #include <linux/module.h>
+> @@ -69,6 +70,12 @@ static int redmi_wmi_probe(struct wmi_device *wdev, const void *context)
+>   	struct redmi_wmi *data;
+>   	int err;
+>   
+> +	/* This shared GUID belongs to bitland-mifs-wmi on the WUJIE15 PRO HPT. */
+> +	if (dmi_match(DMI_SYS_VENDOR, "MECHREVO") &&
+> +	    dmi_match(DMI_PRODUCT_NAME, "WUJIE15 PRO") &&
+> +	    dmi_match(DMI_BOARD_NAME, "WUJIE15 Series-HPT"))
+> +		return -ENODEV;
+> +
+>   	/* Init dev */
+>   	data = devm_kzalloc(&wdev->dev, sizeof(*data), GFP_KERNEL);
+>   	if (!data)
+>
+> base-commit: a3371fac5dd51518de4edcdcc3c7284a5c5a6607
 
-Reviewed-by: Pranjal Shrivastava <praan@google.com>
+Hi, sorry for the very late reply.
 
-Thanks,
-Praan
+We have introduced the quirk table system in the recent commits (in the 
+pdx86/for-next branch).
+
+You could refine the patch within the quirks system by adding new quirk 
+items. We have no WUJIE 15 PRO HPT support yet.
+
