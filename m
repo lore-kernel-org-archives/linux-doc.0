@@ -1,112 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795201965;
-	b=WxdzGCvbVdR47OCuSoPq5mEi3+OPK0ubpOlfGB3RFDEXs58Li6kLofLbkKvwdAKdBxBu
-	 4MqVmU7m2WGSiZX/JEI+iq8SJT42uqIEjw/Ce3ZHrZ3CnaS0M52UrkKJ1lksPOR/o8wb3
-	 pCPbpD5jB4byB8B48gO3rIOgUGl5ayRhdZcmqXgzIv2g54Kc0ss5BL6cY6UKj33pfNhj0
-	 vODWay9GMwMhdKybsracmqqG6NJHark/jt2b3WDeWi1QF5p2mqF0rh8/m98jxENw5GuKm
-	 MmQ2J/B1RXVFwHYMDJJoCmVd11g4npRxuV9dGwcUdoEL3Vn81WKX+0r3iX/eZs4cQFA==
+	t=1795202988;
+	b=qI2+VQ9LyrXpLifu/+mLc+yaCOKNcTYWc4p09W8Ulk1WBj7WcB8nkminUgPS6nwzl/24
+	 BvGYxruYiLaVl0KAfsRW1RFUfllm+L+LUmDDX0y1RuHzowDfx8cMB9b+3lvmGHvjldOFp
+	 a+iKfm78c7QMHtyd++oKT+21JE+PsoWv+Ut7Icpi1HI5nfgMs6SIZeUt4knpff4mTrEwS
+	 V8PuRYzB2O+IR5oq7ahR30ggXFEFe/r9r0nZnoVUOsRFI6xFED93AAKkzmRHtTSjoTVw6
+	 rL71u+nS9gAUPGGgbgrIzCc6YCJYel6YLbNR22+qenb+l9iMzbfRGQnV4WGbPGNsBkQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795201965;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795202988;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=H9RQqwSYuKH6BmFXT3u1NJ8tFtpyybE8Xg+Th6P/DFk=;
-	b=EuuqJpa1AiQ1S7k5I5FDioVYpjyGo2QHqvm0qsMQIx807IQyByE5ZDl0WW7amFcyQCLS
-	 4n1eu9GQghpY89SyHY+fWFotXEpYE9BkRVrXOH9mPYU/R+DrBoRWxcMrZ5L1vW1OhHEqE
-	 nchPdnjyNQIRM2Vh5sebjGtMDLthEwG9m5JzK5W90agOJ+lRGRTEJ0U9BpD4Mgfkduv3F
-	 IeFLLMkq+YQlRnFG1OnZ20B+Diz5fbNp8r10012+dT5v5KE2LNldsjflfdzUzkpoG5c2m
-	 KNDSjo24HZNIOz0sVgf0b7Irf5UrMg+TZZaSQFSSU1QZIykk3h8kIu5fLdPeY/l3BQA==
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 To:Cc:Subject:From:X-Mailer:References:In-Reply-To;
+	bh=ka3sdI51heiAiEj1XMuq2JlrX86IIDTRxLvf6oCKKN8=;
+	b=tfzrN1N/xmY64nynnEa7TY0I+yGIDhnHdrAczTaxMNB584YFszAU87zBERg5HzuSa9S9
+	 bxoRWhgbqNYTsDvh1TR67Qo7TME64pzEYdNcXlfDUajm/9xE2lMu58ixBrKgOXoz9x6MI
+	 zfTP12pk3sr31TjMmIkClp1JnuZYmWQPaiAv4MFeXx9VKOSauCRijOJUSp8QEpdrith7b
+	 J7LvchiX3iYXsj+1roPbiJoqpIALkSw5PXXTTu4WidnAGxSqhRanCqhPj16Lr8Gwxw+jf
+	 rOuQzyeY9rsV/rvV/iF4L7w/4xDPs6AwLYaeGnd2ZIvRTkDKeqCvBUY+89u/4nqAd8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=LK+t711n;
-	arc=none smtp.remote-ip=209.85.160.179
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="I5/wODJW";
+	arc=none smtp.remote-ip=209.85.214.181
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717F260A2630
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 19:12:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 717F260A2630
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31C3606A6F3
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 19:29:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C31C3606A6F3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=LK+t711n
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-536717a4d83so10207701cf.2
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 11:12:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=I5/wODJW
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2f02f04a426so10775195ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 11:29:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1795201963; x=1795806763; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=H9RQqwSYuKH6BmFXT3u1NJ8tFtpyybE8Xg+Th6P/DFk=;
-        b=LK+t711n+DSL9VuH/eBv9gZzpPFvxG0ySi0PS8xdVK8Njz0x8D+6unhDfaJkdPY9XK
-         vh83xQYbYXNMCn7fzKdD/N4zl9lvgzq073r+45Qe2oX17wr1yCznvmrdvWJ7bP+weHO4
-         m87IAj+msmMXOrfRUlEuYN7hTBlAjeBbOTfk8G6sI1nvjyLVby4oubGlkMSogGQxAg4W
-         7cnUmvN0dOhgU68pr8xyuvP4f4CLtcsFJjfmQInl4CGb/uStxOzwWJiuX/tJxkaJJdj7
-         OcliXwp83KiFJnYu3uI72zunacdurHet/2ZIfy97kncqN8jGTjsZ27Mc26+6OESRD8g0
-         Mzlg==
+        d=google.com; s=20260707; t=1795202986; x=1795807786; darn=vger.kernel.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ka3sdI51heiAiEj1XMuq2JlrX86IIDTRxLvf6oCKKN8=;
+        b=I5/wODJWDkk/WTn0vNmxyqVtCPSl4gO1A+GVQco9OAJdwKQkLqoHUnZNsESO5B2acp
+         q2q1P2vGJ2Myin4zPLw2aRO8arTi7ErJHXWvyMzT9DlHa2znzbwgcbawPtigwsuX1+Q2
+         3z3WSOBmuveqCf51BjY4TP5fo9DDCraHZBScG9tyZTNjlQ9pTVSxXfsSP9sgnxpftqPW
+         ctBm3ogJ1Gdg+Drl5PHetamrOZ8NFeiIOSYVhG3eCc39udi6jex7r7oWhnYmWRjYTcd6
+         UTYXJzYLMAzBCpp2u6fONh+wbzIQC08G70ZfjosrtFGRtVkLxp/qirchrUM7jQ/t/84P
+         RArA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795201963; x=1795806763;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1795202986; x=1795807786;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=H9RQqwSYuKH6BmFXT3u1NJ8tFtpyybE8Xg+Th6P/DFk=;
-        b=RyAgOY9c5SdOz5vmSiBSCcWy47noCnxDMPHJeGkRJQppV+0PWygklv317oUvrKC968
-         +j/WQDgb4xgtqP5tXT7hmsS+uY3HADfpBVH6tAol2lesSrJHZNzdGK1J/jmb4i4jiftG
-         +GNkmfBj9pWRfzxYpkQobCDKluhnwyGdcsg3CTJNmqSIYZu4rPBXZvOrRIaD/RoIfIdA
-         FdDV6Ra/4ODcsWqhp7VaazrS/6NxakKP9KkzeXV/Gs07oZBXxUCatXwUmDzUv8aDjJOC
-         kIVbj3D8vr/Zncs+stBLl07VoOrOKewqzCoGuhGsM2b9pRfuWSn3+ng1ESG9uMohEZcm
-         v3DQ==
-X-Forwarded-Encrypted: i=1; AL+hErEgNN9gLlVnUa2u4jALRDRnyrCfyBRAlhyo+o4H9ov5HHiEqqCdjLFYIVadvfZPFV4AyjQHtLRRK44=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+zbQZXa34iOg0/oAGN4Dyfjy0atWTgZNDCjlYCjuEf03FV/m54
-	rgOrtoNUB4yOcQsgcdV2A/yHb/ZFf8fPpKpjNWmjEEXTQoAj2JbweSjoZTKfNIn+9Nk=
-X-Gm-Gg: AYBFou00ya1yeKDaKn/4nOcWL4Rgq9oCyS8H0AZps9goZ2mme/Cw5sLC2E8tfSB3804
-	HdPam1EhndBCfuwSf4gIDYde1vjraAYt5OopcHS2/PvM1cIIQxB0pae12pUMLTe7JGC3np67MnW
-	74ylA4CSYlvr5Md9lQ2IoZkk9eVuRVTOIWmMvEYMTfDZvVxEurbpwDmVlBcqNP/WYTUwXnB04AB
-	j0f+DUXbJX5Iege8hQAECKiSNhIEc3OL8zrhqN7KEL2dv82Psm0hJy69psCPGIwl2SkssUBYiu/
-	zoZtld8gPw1dLVl5M3rXCvILP1zGHKva0GvBJS5y/Y+x0BJEYFLzAw5DkgeWi5WxlbOtMTvLE35
-	9UdUH0FA/nV4xNjC0H9+O6SpEIfimalp5nZHKVHyVYWRgitRoCfYB4pKKdYe/3ol9M90g3L7QLx
-	dUt0aq9V77L3LigR5zxoPI5ztujxEngd2MpPYGipzt85HD9m9Y6kFKyWiCmryi8szp6XlM1x+XX
-	8GbFxcmhm118fIUTNqpU15IeecZ/0+K/Tl6Lh3K9Klhk+uzUi4PIkPUOejQV5SblFfWHzz6iFAI
-	w2RYf/6oTih8tRdjwQy0u29U1Vc=
-X-Received: by 2002:a05:622a:598d:b0:55d:3540:5da1 with SMTP id d75a77b69052e-55d76a2799fmr67233091cf.19.1795201963342;
-        Fri, 20 Nov 2026 11:12:43 -0800 (PST)
-Received: from ziepe.ca ([142.166.156.71])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d788548a2sm29714901cf.19.2026.11.20.11.12.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 11:12:42 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xUU2L-00000004oEv-3NN7;
-	Fri, 20 Nov 2026 15:12:41 -0400
-Date: Fri, 20 Nov 2026 15:12:41 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Graf (AWS), Alexander" <graf@amazon.de>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	"nh-open-source@amazon.com" <nh-open-source@amazon.com>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>
-Subject: Re: [PATCH v2] dma-contiguous: support percentage sizes in
- cma_pernuma= and numa_cma=
-Message-ID: <20261120191241.GD1133597@ziepe.ca>
-References: <CGME20261114145340eucas1p2f7699b88eae34f7904cf68109dc3eb4f@eucas1p2.samsung.com>
- <20261114145328.1307-1-graf@amazon.com>
- <fa38a878-1735-4682-b208-5de1616f7e4f@samsung.com>
- <28a0f946-af4e-497f-a923-f11b79d94930@amazon.com>
+        bh=ka3sdI51heiAiEj1XMuq2JlrX86IIDTRxLvf6oCKKN8=;
+        b=DWQJUEVEzCU6wux3BGgWsjILbXEVakys1JJ1lKr5jEtLECSZT54zVvmGzeGsa2yExE
+         mnNbqoguNKXGkfGPzhrglfxdrEpowiWGNhg+yWpv6EZJBocxG24cY9vXqX2CAFpd6S3G
+         yLAzhUZHFAXPQ9cIOPX+uZWcbVAJx7ekoh5JLKqe+KjBiLxLVlvbEQspSP3ncwcH20QH
+         83TudugumgFiHbnDE3VbB7EBKMxSp0Ck+Oeomevt7O4BaxSeadol5ME1dE+4MZQW3ud0
+         YmOfPMOucu6szhggdGYQZY+TMEv308Fe5xP8KT2VDasqFBqh+cEtAD94YELwAC3VXYZH
+         0MMQ==
+X-Forwarded-Encrypted: i=1; AL+hErGWLQIbHavJRpnKHH8AYfLsiDcTN8Ozw9sgClbIssMRRwylbVjywSRkJHi2Q46Q+sJui0ktiLlyBMY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+ctcAAIpqu64MrWFqc5fa/gC7Egjg4I3sjOD428C3pH4dvCQ63
+	IXUVPxU6NahZfznFQozfjJXsPbj8TxURhd6U1/iqJTzu+VYu9vjBpyJvopD1VrBEcQ==
+X-Gm-Gg: AZFdTZe16W5Ys1mjpVrqAamYGHIJZrFRcP3U1uZwFqhjphzYElapqX/psBsoD7KDyqd
+	TAyBYKC/EMPt3hAWWuH8iomxpMPOOFnGKbdiT6rFmOgsY2MxR1bBZeiF82ghfZiMtEy7kuKQa7e
+	pfBQYyT3orL8y/blYvaCXGiMZlUY8ybVzDdUVeUYVemKHTzJSXKWZrs3MMv98UHX2gzm2E4Tr/7
+	9li5hy0Z4TnLMwh0auBGwWliY1Op+osvGGoWaolMmLY0V4cgJt30gyv2DjKered0rs2shHeEfUd
+	WlgYETVoSgzj8nR/zciENOJxjY8KquJ4ej5Yf/TI/UhtVeuIJvIXc6/Fd4PUa4SLMIPuHck/1zD
+	ayYi3x0Keyob5iai13gtPWf3okMO2c9+F9aKKJAjCKxvdyVQj8ovaMWjfKCG7eGhDKQvBwPC1TU
+	kV88M9Y46b0lXiGE8tXNFDa+4ILvlhp1vJgZlZBQbgPBu87Li8RP6WbgUGVQs+Lvn76q33FWKQY
+	aMjT3f65e03r3cIqiiauZbg5NH1z6yBaNR0BtKwhj5SjTbnIaundvbE2+F3khj/M/UCjwd2TkLf
+	kJmeQvOaLKZxFnWCIs9+Dme0reltBBR3UJqxK0FtjMeCBTZ+MJEWoz30ajiHChSY
+X-Received: by 2002:a17:902:ef49:b0:2ea:192a:13b8 with SMTP id d9443c01a7336-2f03f1cfb70mr39502795ad.20.1795202985149;
+        Fri, 20 Nov 2026 11:29:45 -0800 (PST)
+Received: from localhost (33.79.127.34.bc.googleusercontent.com. [34.127.79.33])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c2ad2sm18293005ad.16.2026.11.20.11.29.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Nov 2026 11:29:43 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,27 +87,159 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <28a0f946-af4e-497f-a923-f11b79d94930@amazon.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 20 Nov 2026 11:29:42 -0800
+Message-Id: <DN0ACH1KR5BS.A33KFC1ZMPTZ@google.com>
+To: "Pranjal Shrivastava" <praan@google.com>, "David Matlack"
+ <dmatlack@google.com>
+Cc: <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-pci@vger.kernel.org>, "Adithya Jayachandran"
+ <ajayachandra@nvidia.com>, "Alexander Graf" <graf@amazon.com>, "Alex
+ Williamson" <alex@shazbot.org>, "Alex Williamson"
+ <alex.williamson@nvidia.com>, "Bjorn Helgaas" <bhelgaas@google.com>, "Chris
+ Down" <chris@chrisdown.name>, "Chris Li" <chrisl@kernel.org>, "David
+ Rientjes" <rientjes@google.com>, "Jacob Pan"
+ <jacob.pan@linux.microsoft.com>, "Jason Gunthorpe" <jgg@nvidia.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Josh Hilke" <jrhilke@google.com>,
+ "Leon Romanovsky" <leonro@nvidia.com>, "Lukas Wunner" <lukas@wunner.de>,
+ "Mike Rapoport" <rppt@kernel.org>, "Parav Pandit" <parav@nvidia.com>,
+ "Pasha Tatashin" <pasha.tatashin@soleen.com>, "Pratyush Yadav"
+ <pratyush@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>, "Saeed
+ Mahameed" <saeedm@nvidia.com>, "Samiullah Khawaja" <skhawaja@google.com>,
+ "Shuah Khan" <skhan@linuxfoundation.org>, "Vipin Sharma"
+ <vipinsh@google.com>, "William Tu" <witu@nvidia.com>, "Yi Liu"
+ <yi.l.liu@intel.com>
+Subject: Re: [PATCH v11 09/13] PCI: liveupdate: Adopt ACS controls in
+ incoming preserved devices
+From: "David Matlack" <dmatlack@google.com>
+X-Mailer: aerc 0.21.0
+References: <20261118223704.3286085-1-dmatlack@google.com>
+ <20261118223704.3286085-10-dmatlack@google.com>
+ <awBkg0ODE436CZy0@google.com>
+In-Reply-To: <awBkg0ODE436CZy0@google.com>
 
-On Thu, Nov 19, 2026 at 12:27:08PM +0000, Graf (AWS), Alexander wrote:
+On Fri Nov 20, 2026 at 7:17 AM PST, Pranjal Shrivastava wrote:
+> On Wed, Nov 18, 2026 at 10:37:00PM +0000, David Matlack wrote:
+>> Adopt Access Control Services (ACS) controls on all incoming preserved
+>> devices (endpoints and upstream bridges) during a Live Update.
+>>=20
+>> Adopting ACS controls avoids changing routing rules while memory
+>> transactions are in flight from preserved devices. It also keeps IOMMU
+>> groups from changing during or after Live Update.
+>>=20
+>> The adopted controls are recorded by the pci_save_state() call in
+>> pci_bus_add_device(), which runs before drivers bind, so they are
+>> reapplied by pci_restore_state() if the device is reset. Allocate the
+>> ACS save buffer for incoming preserved devices even if they match a
+>> device-specific ACS quirk, since their adopted controls live in the ACS
+>> capability, and panic if it could not be allocated.
+>>=20
+>> To simplify ACS adoption, reject preserving any devices that require
+>> quirks to enable ACS as those quirks would also have to take Live Update
+>> into account. If such a quirk matches an incoming preserved device
+>> anyway, e.g. because it was added in the new kernel, log a warning and
+>> adopt the device's ACS controls regardless, rather than reprogram a
+>> device in the path of a preserved device's memory transactions.
+>>=20
+>> Signed-off-by: David Matlack <dmatlack@google.com>
+>> ---
+>>  drivers/pci/liveupdate.c | 75 ++++++++++++++++++++++++++++++++++++++++
+>>  drivers/pci/liveupdate.h | 16 +++++++++
+>>  drivers/pci/pci.c        | 13 +++++--
+>>  3 files changed, 102 insertions(+), 2 deletions(-)
+>>=20
+>> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+>> index 00d6fa5236e9..b99a88c2c199 100644
+>> --- a/drivers/pci/liveupdate.c
+>> +++ b/drivers/pci/liveupdate.c
+>> @@ -123,6 +123,9 @@
+>>   *
+>>   *  * The device cannot be a Virtual Function (VF).
+>>   *
+>> + *  * The device cannot require device-specific quirks to enable Access
+>> + *    Control Services (ACS).
+>> + *=20
+>
+> [...]
+>
+>> +#include "liveupdate.h"
+>>  #include "pci.h"
+>> =20
+>>  DEFINE_MUTEX(pci_slot_mutex);
+>> @@ -1071,9 +1073,13 @@ static void pci_allocate_acs_save_buffer(struct p=
+ci_dev *dev)
+>>  	/*
+>>  	 * Devices that rely on device-specific quirks to enable an ACS
+>>  	 * equivalent keep that configuration outside of the ACS Control
+>> -	 * register, so they are configured from scratch on restore.
+>> +	 * register, so they are configured from scratch on restore. The
+>> +	 * exception is devices preserved across a Live Update, which always
+>> +	 * adopt the ACS controls established by the previous kernel and need
+>> +	 * the buffer to keep them across resets.
+>>  	 */
+>> -	if (pci_need_dev_specific_enable_acs(dev))
+>> +	if (pci_need_dev_specific_enable_acs(dev) &&
+>> +	    !pci_liveupdate_was_incoming(dev))
+>>  		return;
+>> =20
+>
+> The ACS save buffer is forced for incoming devices that match an
+> enable_acs quirk, but neither existing quirk keeps its controls where
+> the generic code saves them (Intel PCH Root Ports have no ACS cap,=20
+> SPT/UPT has the Control register at +8, not +6). Is the intent that=20
+> such devices just lose their adopted controls if they ever lose config
+> state later? (e.g. a Root Port D3 cycle after pci_liveupdate_finish())
+> If so, maybe worth calling it out in a comment?
 
-> Ideally all of this would be policy that only takes effect later at 
-> boot, so that we don't require pre-boot logic or a reboot. For this to 
-> work, we would need to have Linux restrict its memory allocations to a 
-> small'ish region instead of spreading them, maybe to the KHO scratch 
-> region, or maybe by favoring allocations in phys addr order. At least 
-> until the boot is at a point where you could perform the allocation. And 
-> then we would also have large physically contiguous blocks available to 
-> allocate from and potentially change the tag to CMA.
+The previous kernel refuses to preserve any device that requires a
+device-specific quirk to enable ACS, and every kernel that supports
+preserving PCI devices already has the PCH and SPT/UPT quirks. So
+neither of those quirks can match a device that was preserved by the
+previous kernel.
 
-That actually seems like a sort of reasonable idea...
+A quirk can only match an incoming preserved device if it is new in the
+current kernel (or the previous kernel was built without
+CONFIG_PCI_QUIRKS). In that case the previous kernel did not apply the
+quirk and programmed the device's standard ACS Control register, which
+is what the save buffer captures. So the device just continues with its
+non-quirked ACS configuration from the previous kernel.
 
-What about the reverse, you boot with a huge CMA and then shrink it in
-the initrd to what you really want? For this you'd just want some
-command line indicating how much non-CMA memory to have, which should
-be fairly predictable to get into the initrd?
+I will expand the comment and the changelog in v12 to make that clearer:
 
-Jason
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index b5b578355a1b..f3d58b5e7a5d 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -1073,10 +1073,14 @@ static void pci_allocate_acs_save_buffer(struct pci=
+_dev *dev)
+ 	/*
+ 	 * Devices that rely on device-specific quirks to enable an ACS
+ 	 * equivalent keep that configuration outside of the ACS Control
+-	 * register, so they are configured from scratch on restore. The
+-	 * exception is devices preserved across a Live Update, which always
+-	 * adopt the ACS controls established by the previous kernel and need
+-	 * the buffer to keep them across resets.
++	 * register, so they are configured from scratch on restore.
++	 *
++	 * The exception is devices preserved across a Live Update. The
++	 * previous kernel refuses to preserve devices that need such a quirk,
++	 * so a quirk can only match here if the previous kernel did not apply
++	 * it (e.g. the quirk is new in this kernel). The previous kernel then
++	 * programmed the standard ACS Control register, so save it to keep
++	 * the adopted controls across resets.
+ 	 */
+ 	if (pci_need_dev_specific_enable_acs(dev) &&
+ 	    !pci_liveupdate_was_incoming(dev))
+
+>
+> Apart from that:
+>
+> Reviewed-by: Pranjal Shrivastava <praan@google.com>
+>
+> Thanks,
+> Praan
+
+Thanks for the review!
