@@ -1,98 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795198111;
-	b=EP2mPRPdcXFNnt8+eVWAoTvRvI7t5BqiPPNux1m9m57wyVgUWqwf0qM58tWyUu0Mpjtc
-	 OIB+gOb1rhivdrvBlg31G8yacGJSIof0FmX+uPu74uhBN+bC+zL55AfO5H+MRTWHl0OMu
-	 vb0pyUmoSskPhiJqCFHzD7dahq35yriYjeO+pej/78eVUYUOO8zGOvGFvvl6izxEgeNNZ
-	 mtDxN5d3+G2k95EfllA58eufI7cH4jCBN9sy0kQcPrud2cD3hrwnSsXCc9IZvPmS4HAL8
-	 WuZIVyWUoujZ4ohXvPiM1tCTtbLl2X493rL4rsGVzdB0hRfClA1daaK0Qc5xJRodjsA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795198111;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Date:From:To:
-	 CC:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Originating-IP:X-Authority-Analysis:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-Virus-Version;
-	bh=0lbcaJ8L0yzVbe6zUbN1cAVyzh8iJfnZ5U61Z9GQ5bo=;
-	b=FwBcrakhLwxwiDnkpIVxstmzRGw2Kn7asrmyGKFWeKY9KgF3kgvXXXscVJiYrw3U2Z9Y
-	 lD2iQZwX6vIZsedduESov5T/WJy4/snVWPhvrvlU2Kak8ZBzPJC7UP5h+iaWKoMTWZSch
-	 EzOBqxeuQkbyqR+RL79GwvvU1OTty3iGttU2BQIDYzy/CO4bRveoY+FRHntllRnQXWZ//
-	 XX9CkVVz6LOd8m7V0Fczt5yi84kZegfflUIMZ6R4k5RCsmMNck2vUU7G2CPdAsN0rUpg3
-	 gMNr9m8WtfVS9GfCzJxQ6GNO4aYLb+ahryPwXNlJMR/bTJeHQr350sIb9UoNSn/nF8g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=meta.com;
-	spf=pass smtp.mailfrom=meta.com;
-	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=OnnzqY9b;
-	arc=none smtp.remote-ip=67.231.153.30
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795198170;
+	b=RYS94LFQo8KmowxcPLU1YxDyewCeB/SJYONMtfdcGYAV3XqbHzRULyuwmR/1v6NACUwP
+	 AM0q6cUvb6YvXHSkWBArHzIf3612xtOLfyEfZtWVqB94Rz/4q8ODwgcAgn0OkQzlrBu2x
+	 Wlx9dn8DG9nxgmCnXYIWOM3s91xU6G7PwioemBqildOhJiYUVzbWQYJnK0rS9MiQVTtw4
+	 WjxfS0k2xhZa7TpC8d1/s7aR2frdErV/hWINPp71XBQ8cSkpEmU9q+K+skI3Gnrn59cRK
+	 zHJq9wUazqVIIB2OiuGtjK1AqqfeD5bPRgEdkCNkr1/fIACQU4RLLNP1hsjnx/Z0suA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795198170;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=NTsNDMBuz7zPhiY5EdCthhkTLILbhAv/FdI9gjXNQX4=;
+	b=09joYTU4NEQEkqaO5lifnx0QmtpSjHGDQrB6AexiC3wtanAzM5aCJ81VQc8SjqtTxkZK
+	 1EhQt9LZsXhffJz2QPUM2C5InJ5c+NafznpRu/ZZ0Vmpdi9lp6uOSroDipWW/zWR2PdSr
+	 dCo3rLtzCZDd9Ar1plTKt/W01oq+XL8E7ckZY/qxlcjauk8t4ft/Be+VpYGuaqtfsQ49q
+	 U0JALq3CP4M1qdKmEtmmBTvTQybb9wrkgPuDQ0BVgf1+4qkrv5dc9C7JiOHYs3iZjcKsB
+	 S3rmqieOi0TZPkfz8W0AOxam7d2bo6jrnKJ255l/MuVT9abApoodx4cFNYo8ioMyF6g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="l5V/+EuU";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C34606A335;
+	Fri, 20 Nov 2026 18:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l5V/+EuU
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795198169;
+	b=2fm3oJIfacRV58tKr04+SjQjMgImPzFLABofcMO1aHpUdC9kBYP0m3RljKh2gdP3nlgb
+	 55wWHmckTLkwcoIHxkxqsZ5tZ4HHtEgAlMErealMjIoKIEqQCTpMhy24G0xdjAlWgg0pE
+	 Xcm3QE6CgufIwHs/vpqtNAkxTAm7qEHq84x5Vz27pP26M3EMoDC50j0isf320mIaKNaUT
+	 QA6hQ0SQ9WVmXnX8VaTZ7YCIvVOhDyhZo45lIoo2acQoOtiEUs/tFCYrocBtctFQOBD3Z
+	 bZWNo9ugj0QyPNfXiwEQPdYqETWwtKCJl/1e4Xn+Vdgn4EscvSK9tt9DJ1/snCG0qKQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795198169;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=NTsNDMBuz7zPhiY5EdCthhkTLILbhAv/FdI9gjXNQX4=;
+	b=LJoIBWBFUvpUJrpm17RNmyFzxgu+lnaz0+GBXz7ntuzt06i3N0MCEp4CDhOjR2UQwOsA
+	 e5xXve3wzj0seFIStGNRb5mjSFW6VcLyPbz+Jk/FCREtfuLzk9QLFyaptxG0YRSSAG7SG
+	 y/QvplTB8MvM+edaSl/uit8iun7LxDnNsZCxl0tDoolpwOAYmWK+15S0ibjx1+nZcZTP5
+	 OBEiAQbihcGI1szIsvGro3XGfGCvESujPoFgDv77sZudeXh9/NA+B+ZQfJtz39mSHqgzd
+	 4kIGGHg7/i64kHItu/AVV4/N1XA2sxJy5ROtKtTQOr60PMD/eIXw7B2RkkRilEZULKA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6278D606A33A;
-	Fri, 20 Nov 2026 18:08:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6278D606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=OnnzqY9b
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AKH3c402027770;
-	Fri, 20 Nov 2026 10:08:05 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pps82601-s2048-2026-q3; bh=0lbcaJ8L0yz
-	Vbe6zUbN1cAVyzh8iJfnZ5U61Z9GQ5bo=; b=OnnzqY9btO1a9LoHSl5f9i07I2t
-	3DSWQV5THMV//yn5ZW1IT8Jd9wUYh+nd8u+gE855io3Xb0jr0EXjdj9U9xgsnIVv
-	wwM4HEXWhi3jA8GaUkqYyW2JWjo2nG/XPYEPpcxVcvH3q5BH7gY7BBT7cmaC8pZI
-	+8gOkP5TdeNwK7gMBIkzJDVv3gPGjODbl+fNM4k4qBv55nenlV9RCie02O4LPdRR
-	Sj4/EQb+48DAm8erItCCl48BeebChJICwA+S2hqGcWPb3dk+zoE1u9ChORcsTe6T
-	qUTnjiEAZpi5rfNx86cTDPglLAD4hWssvOf4BDXBrE49s3H+M31uXzv6ZGg==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4j2t99rm3a-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 20 Nov 2026 10:08:05 -0800 (PST)
-Received: from localhost (2620:10d:c0a8:1c::1b) by mail.thefacebook.com
- (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Fri, 20 Nov
- 2026 18:08:04 +0000
-Date: Fri, 20 Nov 2026 10:08:02 -0800
-From: Bobby Eshleman <bobbyeshleman@meta.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: Stefano Garzarella <sgarzare@redhat.com>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan
-	<skhan@linuxfoundation.org>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        "Michael
- S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowangio@gmail.com>,
-        Xuan Zhuo
-	<xuanzhuo@linux.alibaba.com>,
-        Eugenio =?iso-8859-1?Q?P=E9rez?=
-	<eperezma@redhat.com>,
-        Shuah Khan <shuah@kernel.org>, Randy Dunlap
-	<rdunlap@infradead.org>,
-        Donald Hunter <donald.hunter@gmail.com>,
-        "Eric
- Dumazet" <edumazet@kernel.org>,
-        George Zhang <georgezhang@vmware.com>,
-        "Andy
- King" <acking@vmware.com>, Dmitry Torokhov <dtor@vmware.com>,
-        <virtualization@lists.linux.dev>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <kvm@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <sargun@sargun.me>, <jlinbox@meta.com>
-Subject: Re: [PATCH net-next v7 0/7] vsock: assign the guest vsock device to
- a network namespace
-Message-ID: <awCMglMftdwqzDu1@devvm29614.prn0.facebook.com>
-References: <20261117-vsock-guest-ns-v7-0-7e522ea9dd9b@meta.com>
- <20261118182846.4ab756d1@kernel.org>
- <av807G4qhzToOIMT@devvm29614.prn0.facebook.com>
- <20261119135303.54642e8e@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id A20D41F000D1;
+	Fri, 20 Nov 2026 18:09:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795198169;
+	bh=NTsNDMBuz7zPhiY5EdCthhkTLILbhAv/FdI9gjXNQX4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=l5V/+EuU4PvP0RiYrfLT3SAD6U0KHvuf8qFxU309jSif57nh8Q0kGkmO7OPyCYr0q
+	 xbfFznMM+Rqz9WIWIl7p6AkSSmv4OXaITj37z1Z64zPRjTIjI3x2ePMyPViiqBtKIv
+	 tB1yxIe0zridNxcKT1HYPTrvCG19lO5fk3WiT2wrXmI2YE3qs4p29+bUMh3+OnUb+v
+	 YMGpWtO24FIJ8Ye2j0cUBzu9SKjH9PAIGHaQS8YPTTUYxLp+YTa70ZCXxSQp2/4CVH
+	 B78U1I1xMApAe4FrDnZw4c1bUfl1u4ifFc4AiOypCExWG6d8IS+xvJVEakaynbeP8I
+	 0iJeg6O21zthw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 26D6D4B8C9;
+	Fri, 20 Nov 2026 18:09:17 +0000 (UTC)
+From: Gregory Price via B4 Relay <devnull+gourry.gourry.net@kernel.org>
+Date: Fri, 20 Nov 2026 13:08:52 -0500
+Subject: [PATCH 01/60] nodemask: add node-state iterators
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,64 +82,135 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20261119135303.54642e8e@kernel.org>
-X-Authority-Analysis: v=2.4 cv=LvQHWXdc c=1 sm=1 tr=0 ts=6b008c85 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=7x6HtfJdh03M6CCDgxCd:22 a=xtH7KyWI9dI7BmFOsl-x:22 a=VwQbUJbxAAAA:8
- a=VabnemYjAAAA:8 a=oC9WaInZJ1af5pm4xKkA:9 a=CjuIK1q_8ugA:10
- a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-ORIG-GUID: e_pV_QEf9KJrrYzdE5m5xEFAncVLEaKF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIwMDA3MSBTYWx0ZWRfX1Sc4JYQvrjPd
- uM07N837UQp0cqrLl62gDESgLL4sknWLgK/6A6ZG/QQwoRK54pAgk+qJLgoRXbxud+sxyO6pwIR
- +zwh3rsC9HWMNTAowk/o+0w0QAYEaEZBaaFXBCnPyU6vaeOoMnv0rZzTy1Ht6eADYSlviSHyYgR
- UFWL69qGbI/qaFx+tImhd7u2rF5w8u8r/FEbXQHoTCwUlgY4kbDLrHFun5Nv85Ljj9xb5oEdOUf
- a5ZpHSy+b7pJQGX1zJ5pNkQNjj1ZZSHUuKzL2STpBHgkn0zzrJf1PZwl3q2zozhxCtE6nPuqMzX
- il70beOuSUz3bthbq/lhQnUgQK+F/ZQ/SvBCfG8Bo9mviiBViSE6cn1cYvt1IdAzmGgwkWxvQw1
- atyTgr2PyeXH1CZ8RW9ZLTVlRQi784tl7X/b6ZPxuwEQ6kdtQdGv++CxeSvNM9CCzigHPy5X0i6
- 6ruMSdLg8RLAYt/VgRQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIwMDA3MSBTYWx0ZWRfX9HizSq1mZ519
- RZHw+lNUbZSx9VF6cG8jmYvt8YDCHlbgcDrKoeIcwwe8Ic6c/MgXSblrkOb5wMxHaqf9F4nvbol
- 8mWWGK2fqageO7BIl0moSZ9dxhaJpZk=
-X-Proofpoint-GUID: e_pV_QEf9KJrrYzdE5m5xEFAncVLEaKF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-20_05,2026-11-19_01,2025-10-01_01
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261120-private_nodes_v6-v1-1-74f5f9a115c2@gourry.net>
+References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+In-Reply-To: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+To: Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ David Hildenbrand <david@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Oscar Salvador <osalvador@suse.de>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>, 
+ Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Michal Hocko <mhocko@kernel.org>, David Rientjes <rientjes@google.com>, 
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+ Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>, 
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+ Youngjun Park <youngjun.park@lge.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>, 
+ Tejun Heo <tj@kernel.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
+ driver-core@lists.linux.dev, damon@lists.linux.dev, 
+ linux-pm@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org, "Gregory Price (Meta)" <gourry@gourry.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795198152; l=2119;
+ i=gourry@gourry.net; s=20261120; h=from:subject:message-id;
+ bh=G4ssD0bod7vgjZxwR56nCucNo1kgkEnObUnor5Z23Ok=;
+ b=RjAl7uvfEf4NqVkoeEx7BN6LIu7ylgrHkEUd9mkFu97o60NZ4EyCUrePrl7IYTdG0pVE3cvIL
+ Tfn22wnQtSZAtJ0uk4weMboEXWaQLw3lMEAfCsBn1GD/x5mvmm8mTel
+X-Developer-Key: i=gourry@gourry.net; a=ed25519;
+ pk=BZWDlx4htkR5KcvGjGtSDfx1tM0E5dlyBR43FEhjWVc=
+X-Endpoint-Received: by B4 Relay for gourry@gourry.net/20261120 with
+ auth_id=1586
+X-Original-From: "Gregory Price (Meta)" <gourry@gourry.net>
+Reply-To: gourry@gourry.net
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 19, 2026 at 01:53:03PM -0800, Jakub Kicinski wrote:
-> On Thu, 19 Nov 2026 09:42:04 -0800 Bobby Eshleman wrote:
-> > On Wed, Nov 18, 2026 at 06:28:46PM -0800, Jakub Kicinski wrote:
-> > > On Tue, 17 Nov 2026 17:54:43 -0800 Bobby Eshleman wrote:  
-> > > > vsock network namespaces let a host put each VM in a namespace of its
-> > > > own. A guest has no equivalent yet. It has a single G2H device that
-> > > > cannot be assigned to a network namespace.  
-> > > 
-> > > PW says this did not apply at the time of posting, pls respin  
-> > 
-> > Ah I forgot to call out in the cover that this now depends on this fix in
-> > net:
-> > 
-> > https://lore.kernel.org/all/20261116-vsock-tap-net-v1-1-7e24f45adad3@meta.com/
-> 
-> If there's a dependency the posting has to be an RFC
-> 
-> > In that thread Paolo is also wondering if it is really an improvement
-> > rather than a fix, which is a fair take, so unless there are objections
-> > I'll just pull that patch into this series.
-> 
-> No need to repost that patch, we can apply it to net-next as is.
-> The blocker is lack of an ACK from the vsock maintainers from my PoV.
-> Please just wait for the net[-next] patch to settle, don't repost this.
-> Enough noise on the list.
+From: "Gregory Price (Meta)" <gourry@gourry.net>
 
-Sounds good, I'll wait for that patch before the respin of this one.
+Add first_node_state() and next_node_state(), so callers can walk any
+node state the way first_memory_node and next_memory_node walk N_MEMORY.
 
-@Stefano, IIRC you may be on PTO right now, but if not do you mind
-giving a look at
-https://lore.kernel.org/all/20261116-vsock-tap-net-v1-1-7e24f45adad3@meta.com/
-?
+Add for_each_node_mask_state(), which iterates a nodemask intersected
+with a node state using the bitmap intersection helpers, without a
+temporary nodemask.
 
-Best,
-Bobby
+Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
+---
+ include/linux/nodemask.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
+index 607373bd83ee..90bdcffa42ea 100644
+--- a/include/linux/nodemask.h
++++ b/include/linux/nodemask.h
+@@ -411,6 +411,11 @@ enum node_states {
+ 
+ extern nodemask_t node_states[NR_NODE_STATES];
+ 
++/* Iterate the nodes in a mask that also belong to the specified state. */
++#define for_each_node_mask_state(node, mask, state)			\
++	for_each_and_bit(node, nodes_addr(mask),			\
++			 nodes_addr(node_states[state]), MAX_NUMNODES)
++
+ #if MAX_NUMNODES > 1
+ static __always_inline int node_state(int node, enum node_states state)
+ {
+@@ -435,6 +440,12 @@ static __always_inline int num_node_state(enum node_states state)
+ #define for_each_node_state(__node, __state) \
+ 	for_each_node_mask((__node), node_states[__state])
+ 
++#define first_node_state(state)	first_node(node_states[state])
++static __always_inline unsigned int next_node_state(int nid, enum node_states state)
++{
++	return next_node(nid, node_states[state]);
++}
++
+ #define first_online_node	first_node(node_states[N_ONLINE])
+ #define first_memory_node	first_node(node_states[N_MEMORY])
+ static __always_inline unsigned int next_online_node(int nid)
+@@ -481,6 +492,12 @@ static __always_inline int num_node_state(enum node_states state)
+ #define for_each_node_state(node, __state) \
+ 	for ( (node) = 0; (node) == 0; (node) = 1)
+ 
++#define first_node_state(state)	0
++static __always_inline unsigned int next_node_state(int nid, enum node_states state)
++{
++	return MAX_NUMNODES;
++}
++
+ #define first_online_node	0
+ #define first_memory_node	0
+ #define next_online_node(nid)	(MAX_NUMNODES)
+
+-- 
+2.56.1
+
+
