@@ -1,62 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795201095;
-	b=pEauwqrXqIB38V75NC03z7mKsC9X2M80d+w5AmPUX4wIFMobCiedJHnou9uL+YqwEmt7
-	 S+Shf2ZrinBmTNdjFEub3VDjJQXZPbDh0/uZQpphTRq7z7mtNjQg+MZbtHSZCFrI50nzt
-	 IMSyuDPRbz9dIzaOFXrdegg0rWtsQh7vntDaMUYtUT9C4A0w3D/pBEysjGkYc/mt+rXHB
-	 Omwp6QVWDPrOQq1Gbk9iKkCJRwLxSX39SwLcXr6mkw9wioe/nly+XkiyNjke2UHYMB0rq
-	 XfxEpgaWEy2YlsvXAesxSzor608nBFWPUCn4Lfmm6rVaJ/ZyDKg/sfK2Pwa3G2mVCHw==
+	t=1795201106;
+	b=40P/mkRPMUiXG8g1/xaKKEOJSr1w1R28UQ3Jocpn7Fx3VvZfxW6Z3IdQhGXfbEVgVvaz
+	 Spv/5JAzFmvMZPGNlXiWxNrgFzYGXP9t82ze3Fpvt0RYqm/+aHD6Tn2xj3g5ZafvVJomV
+	 eAx2K2aTrWj231xFqHuqbzNwMIWcWK47HyvYcqRge9Kb2tLa2lLPnhlpJGCleQP9Gaeo4
+	 77TujO/LhFU/McsWi0ViVKlrq6UALnYbfx1+6vsmT7CrTLMgEpUANnpwIV7QLqulzkxed
+	 E/hFBuWI+7ifwLH9VslUZF2cchLdwLdIpUdnd533TpyxEsbAMFZiV/grlYLz4XE0kJw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795201095;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795201106;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version;
-	bh=h7926tjNaBzEKmN+2n0WSpOiLds05PYiq+BYnAZbPcM=;
-	b=pOYEOmDdeK5rYYQi9DlBO80cqHdgWQOjCfiaVbWNPFmpten2NjnMJqa4PWynBqxU6Xn7
-	 ed+y52zQD3DEdCIHnBwdgUi0Sl6Za5FO4DHm7BGpiMrLt26uAbpkP3ALmcW/HSAhZaKy7
-	 1pR02XnwX8af8ugvcwCIFUUC+quwJb+Uomr6eyrqB3nMO1W4zHX0XlVUIuzu8YE0Hfs80
-	 zialT83RHbmjlpDvXNTa67eNZCNkl3gAYp+Zx4hIhzu1+VR2PVXeyyJsD9BCfN/A4+7Sr
-	 jskrLcI6UL8908rytqTg9f+KZCS4Sp+2XXx6Leq7HxVuvoAUoN21MCPZnDmGePgiyrg==
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version;
+	bh=2UfKmm1rlwWeoTJyJCxbXck+Y2cqe3nU35QL6TPmrrk=;
+	b=42A147gflCeyjKblxq0PCVHv0MGzz+TsnBjnfHYZvhjQcRWfYgWFGen+0DiJd5cRIu2l
+	 /NFVsjilo7HuEny06d6GOsvghJC+65xIFsr4gsmcT58WnYLgFyy9BPPTS8Qrc/S0SfA94
+	 L7HaxmPym29SMgXh+Pjg8lmqnJayALp7cnGZ6bFs4xLaxb7gw/LuIE+aKcUa4FsWi0a97
+	 1esIQT9KDRMRQWqRuTXuC4zb7BCf8fmGy18uRXAYiTwAIU9CkUdOx7ToHO4XoaRhiFjBw
+	 j+k4XHgICIpVRyc0iyG24NMWKYoTBUNBcBwhHOuyngWIiMm0TN3LwTJb8hMi83b6fDg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=fb.com;
 	spf=pass smtp.mailfrom=meta.com;
-	dkim=pass header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=rRMx4XDW;
+	dkim=pass header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=NE5oGAnJ;
 	arc=none smtp.remote-ip=67.231.153.30
 Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9223660A2600;
-	Fri, 20 Nov 2026 18:58:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9223660A2600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E377606A338;
+	Fri, 20 Nov 2026 18:58:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E377606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=rRMx4XDW
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AKH3dMK2027799;
-	Fri, 20 Nov 2026 10:57:39 -0800
+	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=NE5oGAnJ
+Received: from pps.filterd (m0528006.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AKHISHn1244287;
+	Fri, 20 Nov 2026 10:57:37 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=h7926tjNaBzEKmN+2n0WSpOiLds05PYiq+BYn
-	AZbPcM=; b=rRMx4XDWXaiqjhY6GFvQvVY4lCMI6yz9d5r9gYiupbG0U2JveFm16
-	rOfL3L8aY8j2khQNOaJRNZS8IYqgj+y8f5BBMBa0v7Q6LhRzB2VK+YW+ViQ8ozp5
-	seGFB95SZRpEnKNIvw1Jar0x8g+GJp0+KAhilCz4FOK3C3QcjttgBdGkiHNNe1sc
-	LZmrZRSgy7CQlORdEzhhJ9JljNTCvxW7SmEdMr4LOnYEz+h3s8BDwQ/8FnCzitFh
-	4d7oLYLXw/Pm92e8ttCMdetGrnbCS5lEP071c+KYOXrZ4w0rFEFp5KB5qO1A0m91
-	HKdfRUCrr6pxJ3U/Yfe8lU5CrkiJS7RUQ==
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pps82601-s2048-2026-q3; bh=2UfKmm1rl
+	wWeoTJyJCxbXck+Y2cqe3nU35QL6TPmrrk=; b=NE5oGAnJ8dtHvW8cbPBfKntiD
+	HoiVEtCiDmAwLJmiJWCcJVl3fTqFc3aaH3VSvsrDLdQ/uuuqcRqvhLS4D0ND0vO1
+	bRMURxOe50flnYVsF/mQFfw5SeSaPctaAfggTq3XhI09Axudax60TBd10osFE57D
+	4Ppf4jpT8Qajzo2pGexVXTC3bBSnHj4RXDmHPaGcOl6Oz+52aXtCZRG35DKuFa3Z
+	YPGgcdXNCMlFgMDNU4Z0RnPoUwVKBYiJ3Pe3y3aLKYTJN0LTEwYh/A61uTyGAoWS
+	EiRUjJPtUqLuZROLjSBNezCB/tF1qgyKQDavhO/w+WmaKmlvhIKO1KeSQfJUg==
 Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4j2t99ryh3-1
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4j2tg80tyw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 20 Nov 2026 10:57:39 -0800 (PST)
-Received: from localhost (2620:10d:c085:208::f) by mail.thefacebook.com
- (2620:10d:c08b:78::c78f) with Microsoft SMTP Server (version=TLS1_2,
+	Fri, 20 Nov 2026 10:57:37 -0800 (PST)
+Received: from localhost (2620:10d:c085:108::4) by mail.thefacebook.com
+ (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Fri, 20 Nov
- 2026 18:57:38 +0000
+ 2026 18:57:36 +0000
 From: Amir Ayupov <aaupov@fb.com>
 To: James Clark <james.clark@linaro.org>, Leo Yan <leo.yan@arm.com>,
         Suzuki K
@@ -77,12 +76,10 @@ CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
         <coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
         <linux-perf-users@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 1/4] coresight: etm4x: Fix event count decoding
-Date: Fri, 20 Nov 2026 10:54:31 -0800
-Message-ID: <7dbbb1306371bed56e3af4dabf88d3c18f471dd8.1795196854.git.aaupov@fb.com>
+Subject: [PATCH v6 0/4] coresight: Pulse an ETM external output for a PMU event
+Date: Fri, 20 Nov 2026 10:54:30 -0800
+Message-ID: <cover.1795196854.git.aaupov@fb.com>
 X-Mailer: git-send-email 2.52.1
-In-Reply-To: <cover.1795196854.git.aaupov@fb.com>
-References: <cover.1795196854.git.aaupov@fb.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -94,152 +91,90 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=LvQHWXdc c=1 sm=1 tr=0 ts=6b009823 cx=c_pps
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIwMDA3NSBTYWx0ZWRfXw4V/1/1QH09E
+ /NKk9roZFTRcmnEGjg3VVAesvsQn0PjQmXyqTnR7v7VMWqpJlz1aynDCrNX6b/hpqcFbpaO0JUm
+ 78ByWL9Tax1kwy8fd91Ry9E6G3P4kIA=
+X-Proofpoint-GUID: 7I4La9n2MpzEYiJYkKLfhMwc_4KEOByM
+X-Proofpoint-ORIG-GUID: 7I4La9n2MpzEYiJYkKLfhMwc_4KEOByM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIwMDA3NSBTYWx0ZWRfX/dn0KYZrF9b7
+ 5MmQ6yKXvmWMxzVrJrHWe9CtcH2K2pnSp9kLbyeRWCtbhenLs9ftfBrQZsH+4fteJJ72qVhHJbD
+ q8Efq5N1ClssiFzdGjpEbvjlP/gfgIcVXEDEMP1SXh0NtMHzwYDoYgnbWbkdvn3773yzNNbnNAt
+ FBNuRmElvf/EV0//r9qLfTSIcB5BHq19sE5ENjbY1IrxmLPm0c0RHIKL8vWFpxUzvEBVhERIV38
+ z0IDCsIbKTBxLvvoLg4JR27ig51UsGLk3zs5TZIaPUsa7rD725sm3kohx+7yAPO+TvS5yef9CFu
+ zohHFungbgI+pNfcK1QPhzjF4Xf0/OvNQem4AkvW5zLLwOP+9wnniKpXkZlv1Be2h5F9uEzgnZM
+ Wu8Z0WZy7pV24OwyBUVZeXFF1cIfjjMHyAwNoytriIayjC6BnM+dz9T97q/fzFxPk10ctCEmJUH
+ h5YbOeEbGb5Fjtr3tNg==
+X-Authority-Analysis: v=2.4 cv=YewodARf c=1 sm=1 tr=0 ts=6b009821 cx=c_pps
  a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
  a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=xtH7KyWI9dI7BmFOsl-x:22 a=7CQSdrXTAAAA:8 a=KKAkSRfTAAAA:8 a=FOH2dFAWAAAA:8
- a=nO7UQp2L8s1CClaFxKwA:9 a=a-qgeE7W1pNrGK8U0ZQC:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: pkagRf47_O5J1yTQE88O4qQ0dMsMkujU
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIwMDA3NSBTYWx0ZWRfX7Le/D8bVFi9j
- rmyhMtbgf449VUDpSe+GaSxjcstEEOBeXPtURh3mqjoSvNxNQl/LIoGFt33ccrz/Ofgm3mBvN/K
- NnGA7OYKpXG7biJ61ELT2QgxX5Cxec9bO/hazDstKYtW54vF6nChlid+0IQFylG3RhKf0NukCY1
- aeHNJ4oLovkodTzDR6qKNKrEb1weqLMcUe5v0Hz362x4R0tT+6alwL2PZ1QkO5gadmPidaBz1Tb
- sZVZ9oB504WaUZGnI7JxLlx66W6kQbqXUuP70oWpQ4M2Pwo5JDvmTaT7V0DvoMq9LjAGZDdJq3b
- fxlBqqVRcYi7nqjJPka0FBNCb0KP5D0rZWO9C8zRnq0cIt+Flu4J1WvXLLbSN2gm6MV+zhsTbPl
- KHNKfp8OCVDixFsWKLpEiBW5UzC7CvrB9F/91v2CvZz/WVErG4sv5neZixb88E3leLMC+HhHMeD
- QPwmXj/fMs23ZlkXUVQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIwMDA3NSBTYWx0ZWRfX8JEW35zy4lpC
- P0fTTbLJCK7dUMxT3X9rLwiA+KsImFBLaNayvUtXlngST/yE7IVmXdpGo6D/ZVcPCtX6ziVplRO
- 35SyWhP+M3lTZCQKh90Qma+jhc17Ui8=
-X-Proofpoint-GUID: pkagRf47_O5J1yTQE88O4qQ0dMsMkujU
+ a=kkcUborcUVj0H7zxAXTl:22 a=VwQbUJbxAAAA:8 a=FOH2dFAWAAAA:8
+ a=wEtC9GN4mDrZAtQvkpoA:9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-20_05,2026-11-19_01,2025-10-01_01
 
-From: Leo Yan <leo.yan@arm.com>
+Add the pmu_pulse configuration to drive trace-unit external output 1
+with the always-true resource. A separately selected consumer can count
+these pulses, for example to pause an ETM AUX tracing window.
 
-TRCIDR0.NUMEVENT normally encodes the number of events minus one.
-From ETMv4.3 onwards, including ETE, a zero TRCIDR4.NUMRSPAIR instead
-means that no events are implemented and NUMEVENT is zero. The sysfs
-event controls currently interpret this combination as one event and
-allow writes to unsupported event fields.
+Output 1 remains fixed in the producer configuration. Users must select
+the matching trcextout1 PMU event separately; this series does not check
+producer/consumer pairing. Output 0 is avoided because it is the trace
+trigger and a detected trigger can stop TRBE capture.
 
-Decode NUMEVENT after NUMRSPAIR and store the actual number of events
-in nr_event. Use the decoded resource count so that older ETM versions,
-where a zero NUMRSPAIR represents one resource pair, still report at
-least one event. Update both sysfs event controls to use the actual
-count and clear their event fields when no events are implemented.
+Changes in v6, addressing Mike's replies and Sashiko's v5 reviews:
+- Keep generic configuration enablement a successful no-op on devices
+  that do not participate in the configuration (Mike, v5 2/7 review).
+- Add cscfg_csdev_can_activate_config() and exclude unsupported ETM
+  sources during AUX setup, retaining mixed-device participation (Mike).
+- Validate requested TRCEVENTCTL0R event fields against the decoded
+  producer event count. A one-event trace unit cannot load EVENT1;
+  malformed descriptions still abort instead of being skipped
+  (v5 6/7 and 7/7 reviews).
+- Drop the PMU capability probe, pmuv3_event_implemented(), generic PMU
+  header inclusion and capability-matching plumbing. Producer resources
+  are independent of whether a PMU counts the output (Mike), and the
+  ARM32 CP15 header boundary is unchanged from base (v5 5/7 review).
+- Include the preload declarations in the pulse translation unit
+  (v5 7/7 review).
+- Drop the unrelated unused-flag cleanup and update the documentation
+  to distinguish producer admission from consumer support and routing.
 
-Also correct the instruction event enable mask for the single-event
-case to use INSTEN[0]. The existing mask uses INSTEN[1], preventing
-event 0 from being enabled.
+Patch 1 is Leo's unchanged event-count prerequisite, retaining its
+review/test trailers. The materially changed patches do not carry
+forward v5 review/test trailers. No ARM PMU API changes remain.
 
-This change depends on the recent driver refactoring. With no reported
-failures, it is not intended for stable backporting.
+Validation: ARM32 (V7M, CPU_CP15 absent) and ARM64 CoreSight object
+build with LLVM 24. Passed assertions checks with ASan/UBSan harness.
 
-Signed-off-by: Leo Yan <leo.yan@arm.com>
-Reviewed-by: James Clark <james.clark@linaro.org>
-Tested-by: Leo Yan <leo.yan@arm.com>
-Signed-off-by: Amir Ayupov <aaupov@fb.com>
----
- .../coresight/coresight-etm4x-core.c          | 13 +++++++--
- .../coresight/coresight-etm4x-sysfs.c         | 29 ++++++++++---------
- 2 files changed, 27 insertions(+), 15 deletions(-)
+Link to v5: https://lore.kernel.org/r/cover.1795182850.git.aaupov@fb.com
 
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-index e21be6468e9544..af017bd8a54773 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-+++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-@@ -1451,8 +1451,6 @@ static void etm4_init_arch_data(void *info)
- 	caps->trccci = !!(etmidr0 & TRCIDR0_TRCCCI);
- 	/* RETSTACK, bit[9] Return stack bit */
- 	caps->retstack = !!(etmidr0 & TRCIDR0_RETSTACK);
--	/* NUMEVENT, bits[11:10] Number of events field */
--	caps->nr_event = FIELD_GET(TRCIDR0_NUMEVENT_MASK, etmidr0);
- 	/* QSUPP, bits[16:15] Q element support field */
- 	caps->q_support = FIELD_GET(TRCIDR0_QSUPP_MASK, etmidr0);
- 	if (caps->q_support)
-@@ -1519,6 +1517,17 @@ static void etm4_init_arch_data(void *info)
- 	caps->nr_resource = FIELD_GET(TRCIDR4_NUMRSPAIR_MASK, etmidr4);
- 	if ((drvdata->arch < ETM_ARCH_V4_3) || (caps->nr_resource > 0))
- 		caps->nr_resource += 1;
-+
-+	/*
-+	 * NUMEVENT encodes the number of events minus one. From ETMv4.3,
-+	 * including ETE, NUMRSPAIR == 0 means no events are implemented.
-+	 * nr_resource already accounts for the pre-ETMv4.3 encoding.
-+	 */
-+	if (caps->nr_resource)
-+		caps->nr_event = FIELD_GET(TRCIDR0_NUMEVENT_MASK, etmidr0) + 1;
-+	else
-+		caps->nr_event = 0;
-+
- 	/*
- 	 * NUMSSCC, bits[23:20] the number of single-shot
- 	 * comparator control for tracing. Read any status regs as these
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-index db9e603f97ba82..fb38f0102290a5 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-+++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-@@ -513,19 +513,22 @@ static ssize_t event_store(struct device *dev,
- 
- 	raw_spin_lock(&drvdata->spinlock);
- 	switch (caps->nr_event) {
--	case 0x0:
-+	case 0:
-+		sysfs_config->eventctrl0 = 0;
-+		break;
-+	case 1:
- 		/* EVENT0, bits[7:0] */
- 		sysfs_config->eventctrl0 = val & 0xFF;
- 		break;
--	case 0x1:
--		 /* EVENT1, bits[15:8] */
-+	case 2:
-+		/* EVENT1, bits[15:8] */
- 		sysfs_config->eventctrl0 = val & 0xFFFF;
- 		break;
--	case 0x2:
-+	case 3:
- 		/* EVENT2, bits[23:16] */
- 		sysfs_config->eventctrl0 = val & 0xFFFFFF;
- 		break;
--	case 0x3:
-+	case 4:
- 		/* EVENT3, bits[31:24] */
- 		sysfs_config->eventctrl0 = val;
- 		break;
-@@ -565,22 +568,22 @@ static ssize_t event_instren_store(struct device *dev,
- 	/* start by clearing all instruction event enable bits */
- 	sysfs_config->eventctrl1 &= ~TRCEVENTCTL1R_INSTEN_MASK;
- 	switch (caps->nr_event) {
--	case 0x0:
--		/* generate Event element for event 1 */
--		sysfs_config->eventctrl1 |= val & TRCEVENTCTL1R_INSTEN_1;
-+	case 1:
-+		/* generate Event element for event 0 */
-+		sysfs_config->eventctrl1 |= val & TRCEVENTCTL1R_INSTEN_0;
- 		break;
--	case 0x1:
--		/* generate Event element for event 1 and 2 */
-+	case 2:
-+		/* generate Event element for events 0 and 1 */
- 		sysfs_config->eventctrl1 |= val & (TRCEVENTCTL1R_INSTEN_0 |
- 						   TRCEVENTCTL1R_INSTEN_1);
- 		break;
--	case 0x2:
--		/* generate Event element for event 1, 2 and 3 */
-+	case 3:
-+		/* generate Event element for events 0, 1 and 2 */
- 		sysfs_config->eventctrl1 |= val & (TRCEVENTCTL1R_INSTEN_0 |
- 					     TRCEVENTCTL1R_INSTEN_1 |
- 					     TRCEVENTCTL1R_INSTEN_2);
- 		break;
--	case 0x3:
-+	case 4:
- 		/* generate Event element for all 4 events */
- 		sysfs_config->eventctrl1 |= val & (TRCEVENTCTL1R_INSTEN_0 |
- 					     TRCEVENTCTL1R_INSTEN_1 |
+Amir Ayupov (3):
+  coresight: etm4x: Skip features requiring unavailable events
+  coresight: perf: Filter sources lacking the selected configuration
+  coresight: Add pmu_pulse/extout_pulse
+
+Leo Yan (1):
+  coresight: etm4x: Fix event count decoding
+
+ .../trace/coresight/coresight-config.rst      |  6 +++
+ .../trace/coresight/coresight-perf.rst        | 30 ++++++++++++
+ drivers/hwtracing/coresight/Makefile          |  3 +-
+ .../coresight/coresight-cfg-pmu-pulse.c       | 39 +++++++++++++++
+ .../coresight/coresight-cfg-preload.c         |  2 +
+ .../coresight/coresight-cfg-preload.h         |  2 +
+ .../hwtracing/coresight/coresight-config.h    |  3 ++
+ .../hwtracing/coresight/coresight-etm-perf.c  |  4 ++
+ .../hwtracing/coresight/coresight-etm4x-cfg.c | 47 +++++++++++++++++--
+ .../coresight/coresight-etm4x-core.c          | 13 ++++-
+ .../coresight/coresight-etm4x-sysfs.c         | 29 +++++++-----
+ .../hwtracing/coresight/coresight-syscfg.c    | 39 +++++++++++++++
+ .../hwtracing/coresight/coresight-syscfg.h    |  2 +
+ 13 files changed, 199 insertions(+), 20 deletions(-)
+ create mode 100644 drivers/hwtracing/coresight/coresight-cfg-pmu-pulse.c
+
+
+base-commit: 343cfcbb3ecfdb80aa576a428cfa3b65ad783842
 -- 
 2.52.1
 
