@@ -1,59 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795197927;
-	b=hLg9t65GNT8r91/A41UdZVf9Gt8bT0nkXbtv78aU/QqdueCvdetkDzuVObw84sc4t603
-	 hHyH+TheyrG68uCjmvkmNP04ZieDx0Jpn0Zn0awxY2hX82g2AFn1WfEQwkImKPf2alufN
-	 k0MSzCmvVm7vS+jHuw/AVXEQNcM67OKan4J/infW8qc6LXXUyuAPK1cxXq2EkDi9IP71T
-	 FdVlIaLyW+bBmZdSRO0mddRX9wkTlQZMv2Gg63YzdEH/+p9knvyKtPRWohGAf1GmC7/GD
-	 n3ircw2ZZqO8waSAZmKDpebagFz26z7alsBqpNQ+i2os419qbDKI/048mXAjdKxZSJg==
+	t=1795197942;
+	b=TvsmN2okHsbKPGzUVYYNCOv5eaJjWQ+aNpggagM6B3DyXG/rvp0kvVdW2pDTf5vgijnI
+	 L0oRx/ihaYHuOhDis50/xish6Y4LHv73aHVs24MmChiXQY1UXvK5zUjPQcBuRCW8z2Kxg
+	 PEjJEtyp2DK3VFrmINwp+niPn2Yp3ZU15gEEraW8XZBEGCADR/HCcT5j7m9q0ofqEWE9l
+	 8NicIQ9fE5uB506npmLrHM2/F5qGzpiYlfn2LMMs0eo9Vboeyt9XPimHUz1YHfTFRTwgG
+	 L43nX8/Gt7M28GLwekxym7lH12+4Wcst3/XnbIthekZSN9T4QsrjMPOpoSPicCnmBWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795197927;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795197942;
 	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Last-TLS-Session-Version;
-	bh=+UIUl6JMLlsjIRpBWhQGReW3EcT47amBfZJg2tCGwXQ=;
-	b=hxBNYHSPJEguYjdWk8zjUPGG4fhtidrBvuEW6GnvohbfGLiFliMR0drzVH5po+ykvUxc
-	 99vDAggoQlR/X3vVrO7BKTKNMPblFlWfqjPda9e4tbleRcMGjqs7rsgFU4kljDid4gr6B
-	 OkeSBBwRzZItM5p4OL8H/kvOB7l2+/ZS2SO5qcvn0v/blNcW3YnYn3bOSZB6utf8GAICH
-	 6ttnqYO8OOPoYOWs/YGVz+Ev29Y+hU427WjMZ3iC9TTIXp/WMsimTLo/e2v9jYGYY5K+z
-	 lMTGInUEfoe5R8pQMeCkZ4GDnAu11pzm6YWN+xiroEcWy33Sq11/eAehCmYu6vC8+Iw==
+	bh=UBgFsrPiEQOwN3fGiZFEHHbQ/TECUIJijMpmrcpBd4w=;
+	b=pPeUTPl5grdnDwQqAHMW2gwJThRrkL52brfd4FRJd/tj6ki7tyXxRPzxTEKr5WyKOfXX
+	 YGVKqRtiYxFofQm5qZ8kgX6L6xD4o2ZG3+onz6t9l3BGcAo9AsR7zFX4CRE0sgzU8FJVC
+	 SOficUX2eWm6euvt9NItqGBmXritHduNsTjaGoJM8BZ1TsPU9J9xu0rYe3eTOrOXZsahD
+	 7jAOpJcel1ppVekY72raWq+ZwFj96FK7j6/RMfsO0a4Fjh5lwOVkVmjSpfIXpn4AO4gkX
+	 8fW+NydO/OOPlh/XhCkOVlbx4rBxwhFMPJ9G61ZPm9h4VIS136ewdeaQHU05pzc84+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bootlin.com;
 	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=P7XdxPip;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Ob9Obce6;
 	arc=none smtp.remote-ip=185.246.84.56
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C0860A381C;
-	Fri, 20 Nov 2026 18:05:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86C0860A381C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B6C60A380A
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 18:05:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3B6C60A380A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=P7XdxPip
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Ob9Obce6
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 44E711A1755;
-	Fri, 20 Nov 2026 18:05:24 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 8C6031A1756;
+	Fri, 20 Nov 2026 18:05:31 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 12DD2601B9;
-	Fri, 20 Nov 2026 18:05:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0498011BC09FC;
-	Fri, 20 Nov 2026 19:05:14 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5FE4A601B9;
+	Fri, 20 Nov 2026 18:05:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AB83411BC0966;
+	Fri, 20 Nov 2026 19:05:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795197918; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1795197925; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=+UIUl6JMLlsjIRpBWhQGReW3EcT47amBfZJg2tCGwXQ=;
-	b=P7XdxPipUuk3FmTA3xRSOooGgExiD2GnTaEgGp1wTZaZoEWNmeOV3lG3CLMKIm43o8yaTv
-	dk1b8tKX0OHSmVzCB3qAQcVqIEuxsrTQNnvYu2wNntuPQdXHzmKk8bnIoYWZXSFMcDl4AJ
-	No79DMhUfdnhYOsi0ThNnKLfH1lQjrI1pyG3R3b9VIYbHQZPr3vouKz5DTYJyIeGM4OIaL
-	PGs1NLDScleei3HttsdjScVYTPqMCSUpljhXz6ili4S7UUWEIxOAHKCmmvVefe0TSRi9Hu
-	xUcLDL8jI2K3myxqdLf6+qkQuTmO1KwaHJwh8iKOjn3TguH2NIDy2KmijMK5fQ==
+	bh=UBgFsrPiEQOwN3fGiZFEHHbQ/TECUIJijMpmrcpBd4w=;
+	b=Ob9Obce6FL5apRZZ1Obwc91bywbs3dGc5moeFlqpduwJxoZ82dwG+mHlMnFKvWB33S7uAs
+	aSHCBOo0/hW+6H52BwXYX9UMHUyRvuKRyaLOQd7ca1mWi2V7/vNEZDgPIoNcOM+WV2QMDW
+	HHjpsi7x2z21AGp6ffuCNuEL86uBKj3QGf2IaE7nfjKJSuENPRpxpYIjclqQxFUUMBzstN
+	dv2HHNhAZScBNHaYxPKdQjZm+ldg+ARjZ6BF9R64OSbnLsKLrIWT1Wi4v7ZuzHmO/TEJWC
+	34FYHIw2XFByv13ZBMj1+z9+Le5sQ2lOWufetoLAi/1Hnh3o2yACzIsi8Ge/dQ==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 20 Nov 2026 18:59:13 +0100
-Subject: [PATCH v6 31/43] drm/vkms: Introduce back pointer to connector
+Date: Fri, 20 Nov 2026 18:59:14 +0100
+Subject: [PATCH v6 32/43] drm/vkms: Introduce connector type
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,7 +65,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-vkms-all-config-v6-31-78ace90f4fc1@bootlin.com>
+Message-Id: <20261120-vkms-all-config-v6-32-78ace90f4fc1@bootlin.com>
 References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
 In-Reply-To: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -91,153 +91,142 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  linux-doc@vger.kernel.org, Simona Vetter <simona.vetter@ffwll.ch>, 
  llvm@lists.linux.dev
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4785;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4668;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=6KsXUneTwmqij+4ZKl54amsu/Tg7T/9AYKAEb4VeX4c=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBrAIsBMYERXnGQtJdLO8v3Eb7aLdMIhcAy4Y7iX
- kzG6vphwv2JAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCawCLARsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOK13RAAtBep1yRGxvQMfo+rVhw/cnkLJ/9kd59
- zpdZx3fAkqL5/V5tUXORX6TlfBucj1uOgvEd+T6uH0u8KFtDGKp7HnPAh71saEPw4L10JKiS941
- 8iPiRLAAJoTGVnkpKfvb19GNX27huL9bM0fcn9yLkZeVW1qvh2xigbPWpHBp1jGeU9bAozl7ACd
- yxKa6BUXx90ZIpJHWwwmNRaoqPRc5MexnklZrH+H8KIeDwnvaPkNwV0pdqqxfrIUSigVeFMPmPJ
- H5Om+VhtK770vh/8FccRrj4q3OpjeiLkbNOkyCGVFTzwHV2YMfN5+MZu6DfGi0eh8XOOLRBTqo5
- qVmpfic+MFi9we6XWpKikD+FGy/c25NhNWc5pig604Y6tTUEueBrgaWy1SEhnzei9I+Bn0sCN1t
- ngRhfTgY1ynZaaWnnNg5zF5Hc3LK7gkdHieAp571uewDageEoyEsct1uayonusptI5CCx6asf/5
- MW5LjTBk9f2FRVo9MH1vFsLr9lbU7EUgJCfewQrzc49ByjF1b8E+HtyXXMrFviEAyYCt3MtqkRe
- jTtSrRLrjCesoYqkTOv8p+Jde7JYbwB+Iqi7TNYZ3c7dluOCZVJvBmCR6UYGhsE4kAaGZN1XRg8
- qBUqDlj31cODcNnrzqWpuhS/0BEFb93G8oduMTKIPF03yTFdzwPY=
+ bh=9H+WE4jevLs7KwU8iUZOE55eFfpuoLEOiTbl5rNPZag=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBrAIsB5X5TaMq0ZT8Bso/zqdA5+6N2htNUesrSE
+ ALyZOLKaEOJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCawCLARsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOJtZBAAqgC5l5nApNORMmGTuX9rNVyWVgmt4Hh
+ iGifV1JIL+V8zC8jJBslMrYPmITAK1wUXvQIaKQAL/J0cVWRDkKUm0C3WwXLu+6rsMVMZg/s+Nj
+ S6O0ksAKcMS5Blw4qI67TiOFPrychW6aJGmLozKAO2ZiKwBydVZQUKLwlYXFe2qkKicvZaw8FWU
+ dON99PnsEDcFs68E/y5t6q4v3v4tz77rIzmKSBQ+kWd6UEP9EZaXe1Hs4nZNePeSgwh6VQsWNtX
+ TSbG76jaOJvCdRxS4dhvBhNouWgA32Xp4zfPjyhHlwdna+MDmNWjBL9qpqA07vzkZWb6+ATwJBW
+ zeXW3rV/C1P4WrH2GMNWpBiWLR3q3DmJT2LnWG8nKvDSu+dpwTJWu5WIoANI9MiyE166/JO040s
+ +Yt2/17bH8IpknoT2U2lmdQvuV06Obi7kUA7lHYCfnO0PSCcZ7Uk/kqSgAIyPpFi0mMoPgLQfJW
+ 28cB71NZwp0K6rDTrRCMms2qs5kWTVrE4AHlci5bXf8o0ZLWXAD3BX/b8dmrLR2nnaroWxgrfNZ
+ f4gM+h1ct9Uu4FNxTtgVsfLasKBn7ZzeGHkVmMmCi5wStNRGQ9D7LdyVu/R92l5H9cU/R68HE2H
+ 6PjeGPyf2Ey8bTlLKwrlontyoNWppLXwMNMpCooW2FyRQKtiUajc=
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-Each connector now stores a pointer to its vkms_config_connector and
-takes a reference on it when created, released through a drmm action on
-device cleanup; detect() uses the back-pointer instead of walking the
-configuration list.
+In order to emulate connector-specific behavior, add the connector type
+to the connector configuration.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_connector.c | 30 +++++++++++++++++++++++-------
- drivers/gpu/drm/vkms/vkms_connector.h |  9 ++++++++-
- drivers/gpu/drm/vkms/vkms_output.c    |  2 +-
- 3 files changed, 32 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c |  5 +++++
+ drivers/gpu/drm/vkms/vkms_config.c            |  3 +++
+ drivers/gpu/drm/vkms/vkms_config.h            | 24 ++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_connector.c         |  2 +-
+ 4 files changed, 33 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
-index 57138027966f..11e313440225 100644
---- a/drivers/gpu/drm/vkms/vkms_connector.c
-+++ b/drivers/gpu/drm/vkms/vkms_connector.c
-@@ -11,11 +11,9 @@
- static enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
- 						       bool force)
- {
--	struct drm_device *dev = connector->dev;
--	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
- 	struct vkms_connector *vkms_connector;
-+	struct vkms_config_connector *cfg;
- 	enum drm_connector_status status;
--	struct vkms_config_connector *connector_cfg;
+diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+index a43dff511fc3..257ba0342034 100644
+--- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
++++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+@@ -137,6 +137,7 @@ static void vkms_config_test_default_config(struct kunit *test)
+ 	struct vkms_config *config;
+ 	struct vkms_config_plane *plane_cfg;
+ 	struct vkms_config_crtc *crtc_cfg;
++	struct vkms_config_connector *connector_cfg;
+ 	int n_primaries = 0;
+ 	int n_cursors = 0;
+ 	int n_overlays = 0;
+@@ -211,6 +212,10 @@ static void vkms_config_test_default_config(struct kunit *test)
  
- 	vkms_connector = drm_connector_to_vkms_connector(connector);
+ 	/* Connectors */
+ 	KUNIT_EXPECT_EQ(test, vkms_config_get_num_connectors(config), 1);
++	vkms_config_for_each_connector(config, connector_cfg) {
++		KUNIT_EXPECT_EQ(test, vkms_config_connector_get_type(connector_cfg),
++				DRM_MODE_CONNECTOR_VIRTUAL);
++	}
  
-@@ -26,9 +24,11 @@ static enum drm_connector_status vkms_connector_detect(struct drm_connector *con
- 	 */
- 	status = connector->status;
+ 	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
  
--	vkms_config_for_each_connector(vkmsdev->config, connector_cfg) {
--		if (connector_cfg->connector == vkms_connector)
--			status = vkms_config_connector_get_status(connector_cfg);
-+	cfg = vkms_connector->cfg;
-+	if (cfg) {
-+		cfg = vkms_config_connector_get(cfg);
-+		status = vkms_config_connector_get_status(cfg);
-+		vkms_config_connector_put(cfg);
+diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+index 963e32d5adf7..291c0330bc56 100644
+--- a/drivers/gpu/drm/vkms/vkms_config.c
++++ b/drivers/gpu/drm/vkms/vkms_config.c
+@@ -651,6 +651,8 @@ static int vkms_config_show(struct seq_file *m, void *data)
+ 		seq_printf(m, "\tstatus=%s\n",
+ 			   drm_get_connector_status_name(
+ 				   vkms_config_connector_get_status(connector_cfg)));
++		seq_printf(m, "\ttype=%s\n",
++			   drm_get_connector_type_name(vkms_config_connector_get_type(connector_cfg)));
  	}
  
- 	return status;
-@@ -68,7 +68,16 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
- 	.best_encoder = vkms_conn_best_encoder,
- };
+ 	return 0;
+@@ -984,6 +986,7 @@ struct vkms_config_connector *vkms_config_create_connector(struct vkms_config *c
  
--struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev)
-+static void vkms_connector_static_cfg_release(struct drm_device *dev, void *res)
-+{
-+	struct vkms_connector *connector = res;
-+
-+	vkms_config_connector_put(connector->cfg);
-+}
-+
-+
-+struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev,
-+					   struct vkms_config_connector *connector_cfg)
- {
- 	struct drm_device *dev = &vkmsdev->drm;
- 	struct vkms_connector *connector;
-@@ -85,6 +94,13 @@ struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev)
+ 	connector_cfg->config = config;
+ 	connector_cfg->status = connector_status_connected;
++	vkms_config_connector_set_type(connector_cfg, DRM_MODE_CONNECTOR_VIRTUAL);
+ 	xa_init_flags(&connector_cfg->possible_encoders, XA_FLAGS_ALLOC);
+ 	kref_init(&connector_cfg->refcnt);
  
- 	drm_connector_helper_add(&connector->base, &vkms_conn_helper_funcs);
+diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+index 9d0a0087c9da..88429e01089b 100644
+--- a/drivers/gpu/drm/vkms/vkms_config.h
++++ b/drivers/gpu/drm/vkms/vkms_config.h
+@@ -138,6 +138,7 @@ struct vkms_config_encoder {
+  * struct vkms_config_connector
+  *
+  * @link: Link to the others connector in vkms_config
++ * @type: Store the type of connector using DRM_MODE_CONNECTOR_* values
+  * @config: The vkms_config this connector belongs to
+  * @status: Status (connected, disconnected...) of the connector
+  * @possible_encoders: Array of encoders that can be used with this connector
+@@ -150,6 +151,7 @@ struct vkms_config_connector {
+ 	struct list_head link;
+ 	struct vkms_config *config;
  
-+	connector->cfg = connector_cfg;
-+	vkms_config_connector_get(connector_cfg);
-+	ret = drmm_add_action_or_reset(dev, vkms_connector_static_cfg_release,
-+				       connector);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
- 	return connector;
++	int type;
+ 	enum drm_connector_status status;
+ 	struct xarray possible_encoders;
+ 
+@@ -371,6 +373,28 @@ vkms_config_plane_set_default_pipeline(struct vkms_config_plane *plane_cfg,
  }
  
-diff --git a/drivers/gpu/drm/vkms/vkms_connector.h b/drivers/gpu/drm/vkms/vkms_connector.h
-index 52ae97af2bc1..89d7f3a15d6e 100644
---- a/drivers/gpu/drm/vkms/vkms_connector.h
-+++ b/drivers/gpu/drm/vkms/vkms_connector.h
-@@ -4,6 +4,7 @@
- #define _VKMS_CONNECTOR_H_
- 
- #include "vkms_drv.h"
-+#include "vkms_config.h"
- 
- #define drm_connector_to_vkms_connector(target) \
- 	container_of(target, struct vkms_connector, base)
-@@ -12,19 +13,25 @@
-  * struct vkms_connector - VKMS custom type wrapping around the DRM connector
-  *
-  * @base: Base DRM connector
-+ * @cfg: Configuration of the connector. A reference on it is taken at
-+ *	 creation and released by a drmm action on device cleanup
-  */
- struct vkms_connector {
- 	struct drm_connector base;
+ /**
++ * vkms_config_connector_get_type() - Return the connector type
++ * @connector_cfg: Connector to get the type from
++ */
++static inline int
++vkms_config_connector_get_type(const struct vkms_config_connector *connector_cfg)
++{
++	return connector_cfg->type;
++}
 +
-+	struct vkms_config_connector *cfg;
- };
- 
- /**
-  * vkms_connector_init() - Initialize a connector
-  * @vkmsdev: VKMS device containing the connector
-+ * @connector_cfg: Connector's configuration
++/**
++ * vkms_config_connector_set_type() - Set the connector type
++ * @connector_cfg: Connector to set the type to
++ * @type: New connector type
++ */
++static inline void
++vkms_config_connector_set_type(struct vkms_config_connector *connector_cfg,
++			       int type)
++{
++	connector_cfg->type = type;
++}
++
++/*
+  * vkms_config_plane_get_default_rotation() - Get the default rotation for a plane
+  * @plane_cfg: Plane to get the default rotation from
   *
-  * Returns:
-  * The connector or an error on failure.
-  */
--struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev);
-+struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev,
-+					   struct vkms_config_connector *connector_cfg);
+diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
+index 11e313440225..f5e99e77e84f 100644
+--- a/drivers/gpu/drm/vkms/vkms_connector.c
++++ b/drivers/gpu/drm/vkms/vkms_connector.c
+@@ -88,7 +88,7 @@ struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev,
+ 		return ERR_PTR(-ENOMEM);
  
- /**
-  * vkms_trigger_connector_hotplug() - Update the device's connectors status
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 982c6cd5fcc7..7783a2f6d343 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -97,7 +97,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
- 		struct vkms_config_encoder *possible_encoder;
- 		unsigned long idx = 0;
+ 	ret = drmm_connector_init(dev, &connector->base, &vkms_connector_funcs,
+-				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
++				  vkms_config_connector_get_type(connector_cfg), NULL);
+ 	if (ret)
+ 		return ERR_PTR(ret);
  
--		connector_cfg->connector = vkms_connector_init(vkmsdev);
-+		connector_cfg->connector = vkms_connector_init(vkmsdev, connector_cfg);
- 		if (IS_ERR(connector_cfg->connector)) {
- 			DRM_ERROR("Failed to init connector\n");
- 			return PTR_ERR(connector_cfg->connector);
 
 -- 
 2.56.0
