@@ -1,63 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795166617;
-	b=VjvJFJigly7QNiAHxQBV/0V2Ssd29swXod/tgeSd1gsAwHTYy8BYG8EjTwVe83S6kKpt
-	 yuTiJ9zvbLiolImK3KPBE+JNvntqcNdsS271nAij2PLcAZ1I+Zn402DtzNnE32DFR6XdG
-	 s6RlZmK4Sap0HhbE+HTH6bDM0LZVF+YcHXQ2ZNvBxE/UfRH7gK4uV67rW64/Pak/RphZF
-	 PCSpHZoTDuzrQDdbOwf+2KHyg3TOjBzj15H9316KKTRpb2s7Rxb6cQlDzXdUzKVxNAKGE
-	 RXZZo0lc74IHhrV7Pwux1JDAp9YNQLuN7YDiiaqR1/0vLbaoJybxvD7ch4d06UdAmgw==
+	t=1795166712;
+	b=0iqa5FtqQwUEjaPhHVw94PHmEinv2htSxzCjNbLEN+NcMauq0A62+2cDuArKKy7yVImk
+	 JeSqXGPTC8vs02ggiGWOLqwQE2cFNwhd+Xp6gYOsS94tK+tx0he2iigpFmmRGJJdsZ6ko
+	 JBjvlckq4kS8IQzQF6WNIjRWNrPxxKLoxiB1uvwbYi9yZUPj1thTlFgM/ksWp/B1POzIv
+	 ksp7yYTOBSQ+SOwBxAPiIJRMZKM9//mBn3e1Xoc9S9BoE1QpHtM0LAkKwzjhChUcpJoWa
+	 9RIDBQdEHAeWPkpBHjtuxyObTM0SiCfy7YKPCw3sBO8oMyguKN+8An0YaB+4ghwOXRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795166617;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=UHW4M+q/Xhm54NFX+3u4JQAN1oFui+zkbZJdU7S2zo4=;
-	b=OuRolAaS/Wm1T7OAmJBb1foqKPVx3dt/3fK7YmAw5bwChHAcC/1M/AMfZMTNtSz5CTTr
-	 /yfdGaNMSWqrARqaYqViFWdUzsgGoLfKew+NeE1N2hiPRoRA4uKojj0idbHcIGcdO+LKP
-	 pTb50N02WqgWgMw8PNIe7Uh0dFxmtR0tTAxJRjFRzJsDc1oZWuc0vtr65VXbGOrUBT9Hx
-	 3mD2hEPSyMiuVz52eV4nJ7Rb+cy8JB2rOsCVdJ/dbhKanG1sql330M3avdt1AXhXDlA/g
-	 8hcxuYXq+es2aeo8DHTwZhq777IuC8KHN5ADBA8GqTtNNlmXuRtryRa2DYDlA11iRyQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795166712;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=8SzIHclfGO7rIjAKlxWY7h5C1tqRdUP4RNaZqN79MuM=;
+	b=3E7ewFXAUvsqy4cD0/2uR+QPw4Ey/3VLZ+hF7uaPaZBVScaRzUnBPiZHj8i96JTDNtly
+	 L5cUSZW5LQ1uPpn39qNIhrBPi0DgT45Fd998SAB8nPqJvGsc5+V6efMFhHVGHYgg2OCcL
+	 xoY+73pBMTth1HzJEYpXlFAaRKDUNokLwlGw7Kt4MxGOaGPEg7NbTmet7n3nHxTnOxYVH
+	 7Gn4UMWKXyxMda7ZcHcV5hrflLX0qMsyATtHlqGb3ZF2hsp/XaeuzRf9Gfr6Mr9m66/XC
+	 xctejra5a16mMGJbTrWUxY6GSYdAhyFee7LtLoUnI+URGNWm25egQdhhB2vGDO9pXsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WpxwFu+d;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B5ZDMOWE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAD4606A320;
-	Fri, 20 Nov 2026 09:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BA5606A334
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 09:25:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WpxwFu+d
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 456E71F000C6;
-	Fri, 20 Nov 2026 09:23:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B5ZDMOWE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38F451F000D4
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 09:25:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795166616;
-	bh=UHW4M+q/Xhm54NFX+3u4JQAN1oFui+zkbZJdU7S2zo4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WpxwFu+dBnk7TT+TAVvOCeGZiO/i95AKNUlvowfDJHUSAgOn1AMEi1CBG2K2tfp/Y
-	 kRb4JmuT6xjrixrvoFrF3oQ1dT0X7AGsHkqw9WO6W/M14RzpjVe4aYupuKsArGkDRl
-	 PcbsYr6xFO+th1S+LgcDKGkvCqZSIpB6SvOhYiq2nHQ7gXfsN4d+TzFutAxgThIqwj
-	 CcXL9FpFXNqxgNeYqb5bWnsyL/0tp089iVZpGhFBSTPltZGX7jgip7ZzjQSuFF/UlC
-	 ixURzNPzCCy5x7y4QtCO7KfNLHpovSsxg+f7b/rGq0BoQQVR7Fym73XF20qh+v5oS/
-	 UlZ3cr8g877iw==
-Date: Fri, 20 Nov 2026 10:23:28 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: David Matlack <dmatlack@google.com>, kexec@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org
-Cc: Alexander Graf <graf@amazon.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	David Hildenbrand <david@kernel.org>, Hugh Dickins <hughd@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Samiullah Khawaja <skhawaja@google.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Vlastimil Babka <vbabka@kernel.org>
-Subject: Re: [PATCH v4 08/19] liveupdate: Let file handlers retrieve into an
- existing file
-Message-ID: <20261120-gedulden-rausgeflogen-spruch-cea76174d5e2@brauner>
-References: <20261111002358.1842967-1-dmatlack@google.com>
- <20261111002358.1842967-9-dmatlack@google.com>
+	s=k20260515; t=1795166712;
+	bh=8SzIHclfGO7rIjAKlxWY7h5C1tqRdUP4RNaZqN79MuM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=B5ZDMOWEHdnhh2/umOUmDyebT2Q50s1hgR4xDpum/5dqqoMqtjXVEdU8aCG9sLmQA
+	 7A6AoINlMkFawC02saPlGU/UG/hx+Ve8Q49Ae/eZlx2izAu6qkxYbT8PBExCep30Qc
+	 cIKFHKeYrow0KilYBJXAu05Oo1CIxqWoGzdcAB4xOFdSnA5ipUK+6pmAZZGQKczT57
+	 5U5FYX0g1tEu7APgsdhwFuInYTVpzswscUD4Z8Qs45W2nDr1nbveiYtNzYB4TrppYV
+	 8pctZ+ScqMMKXovSWloMW7pcezlqSREFM6P5p3mvobzMNRf9HWvMu2KMDKw0zP2X5m
+	 a5xa8vTyeJJhw==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5c1a947b4adso526839e87.2
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 01:25:12 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGyFxrXk3Z0Wja5WTZ9583ZVHb9jUpZfIy/D/L7pm48IF8dF7k1Qt6NTFKxU4PQS9YnJONLZFAM8u4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9ofp8NarihtDauQ2XXTXjm4RdYI4G2b/FJb4dEAWbAt2ByC182
+	lv2a/BjdMTzfIH6b9qsaXslsZ6kgO/X/cbXSI5CExTmOjfRBVEK4NebKhZkQ9uT3kqGkLB4TpVU
+	naBNFJwAMd3Sa5hiIm6ZDJuOxlgF2p0U=
+X-Received: by 2002:a05:6512:3e26:b0:5bf:dfb9:33db with SMTP id
+ 2adb3069b0e04-5c1bc894b28mr761513e87.38.1795166710840; Fri, 20 Nov 2026
+ 01:25:10 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,36 +59,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261111002358.1842967-9-dmatlack@google.com>
+References: <20261015142552.4128028-1-ryan.roberts@arm.com>
+In-Reply-To: <20261015142552.4128028-1-ryan.roberts@arm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 20 Nov 2026 10:24:58 +0100
+X-Gmail-Original-Message-ID: <CAD++jLnXQHkYvCO4raM8enm2NNwU5WDNE4cFhvcVUnUZVHMPLA@mail.gmail.com>
+X-Gm-Features: Aa3M54qJyeIPO-XfHd9glHLeVqDiREjcacNXijYh3kod1cJY-VZmSyNAF3F7zP0
+Message-ID: <CAD++jLnXQHkYvCO4raM8enm2NNwU5WDNE4cFhvcVUnUZVHMPLA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 00/15] Arm Core Local Accelerator Driver
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jean-Philippe Brucker <jpb@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 11, 2026 at 12:23:46AM +0000, David Matlack wrote:
-> A file that is restored into an existing file is already open in the
-> caller, so installing a new file descriptor for it would just leave
-> userspace with two file descriptors for the same open file. Retrieving
-> the token again later still returns a new file descriptor, like for any
-> other file that was already retrieved.
+Hi Ryan,
 
-Thanks, this looks way better.
+please keep me on CC for future series for an SoC perspective
+on this.
 
-One thing: Please just install a new fd like for every other retrieve.
-I think it's pretty meaningless to return the fd number the userspace
-just passed to the ioctl.
+On Thu, Oct 15, 2026 at 4:26=E2=80=AFPM Ryan Roberts <ryan.roberts@arm.com>=
+ wrote:
 
-The fd number is also not useful as it's not tied to anything. The shmem
-handler looks the fd up once and LUO keeps a reference to the struct
-file:
+> * The location of the driver: although most accelerators will likely be c=
+ompute
+>   ones, CLA is a generic MMIO interface that could handle any kind of
+>   accelerator. It's currently implemented as a misc driver. accel is anot=
+her
+>   potential option, but given the current SVA approach, we would not use =
+any of
+>   the services (memory-management or otherwise) that accel provides.
 
-	CLASS(fd, target)(arg->fd);
-	[...]
-	args->file = get_file(file);
-	args->fd = arg->fd;
+Given the extremely ARM64-specific nature of the accelerator it has a
+lot to do with arch/arm64 but then again it is a platform device + driver
+associated with the cores and we don't want platform device drivers
+under arch/*, so it kind of falls between the chairs.
 
-Which means, another thread can close() that fd or dup2() something else
-over it before the ioctl returns and the fd you hand back refers to a
-different file fucking over the caller (shared fdtable etc pp).
+My spontaneous placement would be to put this in drivers/soc/arm/*
+what do you think about this option?
 
-That also gets rid of @fd in struct liveupdate_file_op_args and the
-special case in luo_session_retrieve_fd(). And a retrieve into an
-existing file then behaves exactly like retrieving the token again.
+The argument would be that this is arm-specific, we do not expect
+the code to be reused by other archs, and it is used on some specific
+ARM SoCs, so it goes under drivers/soc/arm.
+
+If a very similar feature arrives on other archs which use very similar
+code we may have to rethink this but for now I believe this is the best
+option.
+
+Yours,
+Linus Walleij
