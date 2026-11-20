@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795177176;
-	b=PXPsC23+wOQNKTo6NTaOG2f/L2DmtmptXtDzOP1qRv8TtVyn57KAyF5HFX97ZA+cdAlm
-	 GuLX7zLD2IKwGdHf0t+2RRPNYU2g4h+6HrV0pznurLUEi0Vd8d0v7GVBUM82hGHWSSchF
-	 8+gSJ3JnIB+E7p5n6CsGqonhYYikzVEWlsiNSXPIvLECwjOJb0lqyAq2zxs1HrmNxgiQW
-	 aHAZxQQZd3Pwes+CbNYgwMgdcn9Ic+36h11HbXGRh/3l/PgcuvgrqNIJaWf8O8sT6KHRn
-	 IcLRkMr3PkxSIQEUigJsEhj5qGm8lBNDvqRBi0erBinmcGSbuE+gHFJEnfybw7ZyjQQ==
+	t=1795177378;
+	b=tJJKxyD/ipMk1Hefp1ews8NrswwU0XprPS/c37NiZLgCNeaKlMQ2GmEHaGnEvZ77g5qy
+	 g0Dy41mco1uXD+bshGmKHeCBWF7H/JoZHKDki7hhwaI5VMrJHyED5S9CoyqhqhyNoVwSq
+	 VUAihF+Y8x8k15ZaFAXGWbV+Nx0kJsQp9/1HFQgTmtO96JgJlsqYe9exuIFiNMawUtYbT
+	 OHkjiuDXnwKHKYiVDo2ZH+Dvgvy0DjbkJwHjaSiJZGsq6jceF/nfuoGQ3yw/diKHefZ66
+	 1EilYtj61iRtkNs+/BUmhLr0XzvTQ7fugPnN+XmYMU79UnNAr97KICtH/NHW8sRW1fw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795177176;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795177378;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=KYtZq1pFYZS6bPz5FDqWxOyjG5XnUdw+Mk8b50s0tSk=;
-	b=Qf7/VL9rJzqiwmBDypGPgmwjMpzzrGis9tQ4PqhnVEfh985RqfB/WtMktmToRHiioLlk
-	 oWg3shbL5FsQG3RtpFJEM2ZxUKsDn3OFAjMz3qtPU1oJPmk5QF5092E2QbpD9Ca83Jdng
-	 OEed1hSPt/BEjmhTWVqGtI7mQTDGRteAR3ed0hvwC77trPJJhyeH56Qwsf3bojx5phOs/
-	 OptEFx+EZQoo029HDRdCUM0ighJQZ1oVzPK+mUpvWq9LrqDRBf7UDP/P0BAxbnqghcBF1
-	 f6FrxgVALzetLySi6Xd9vcL8Sy5LE93VV3jQJsAP+DkZuRTMU2RyhUbxxUbujFPaBSA==
+	bh=XHI6wTW3ZRcibK5juO3ERVGrPX9Er8XYCuFzLH2tt9E=;
+	b=cnsdHvOTMikgafkNXpQtooC06BbVqgzpsVy3GhDifjcvWjZ27LDwreMjN8fvpwo+c8MV
+	 dhMsN+gvupQkwGwmhwP4UPeeaRkeynq+NVcTjEuGBTf4sjcjQKOq+QQ0H49OUyPj0aZlq
+	 Z/ccvn5H4Qp9IWL/i4f6MNaT5LHUEX9Yd/AXFO2bOpSvLtmXCuS/xWUrZCsw1A//q0XVU
+	 YUpPEMfvHCi+Gy2Idwi9wV+hXj0UJ709FMcQPSpl1g/S0yOKbOM04QOBJMl0uveAMp1fY
+	 2bTBGW2dz3iX7/9nG+kts+SJgqObtKXxGmtwwYgXTy0wW3P02+nx0it51MdaXevzgyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lP2x8b0G;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eNw6IfTG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 09698606A320;
-	Fri, 20 Nov 2026 12:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 812A0606A320;
+	Fri, 20 Nov 2026 12:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lP2x8b0G
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 0B0121F000C0;
-	Fri, 20 Nov 2026 12:19:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eNw6IfTG
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C64651F000EB;
+	Fri, 20 Nov 2026 12:22:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795177175;
-	bh=KYtZq1pFYZS6bPz5FDqWxOyjG5XnUdw+Mk8b50s0tSk=;
+	s=k20260515; t=1795177378;
+	bh=XHI6wTW3ZRcibK5juO3ERVGrPX9Er8XYCuFzLH2tt9E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lP2x8b0GsX8h3eDJ/8/4dIG2gnlN65W38oztM6duXx9yLomDmOxeNBPtQv/5I3MPV
-	 E1sl+woHwZ0tAs1lJjrhbW+F69mCQbGb/oiIJ5QS4Y0yZf8lNQEYWQ9jd1q93iTJrf
-	 KnxtaKi/hlAgBkNosDlKV3sFOi0NZ652DALAJK4Cdo4rfYlqQh3KpYgjE+QMhRJe0X
-	 SugFb/WkKekO2hL22NMgbMWde2bSNR+2yKeE47jSa6qx0C5LQ8UO5Q3ZnafpiuWlDG
-	 PYNn4tpxIkE1U8QkriB/caeQwhU1cs1LH2qlFUn55hBNthLRCOy6Msm3h9O8AR4evL
-	 nIkB7dM10aWlA==
-Date: Fri, 20 Nov 2026 14:19:31 +0200
+	b=eNw6IfTG/6lgEqw/QAU6eFNjfkAjaqFVJn0/jrlOeLjLwKIJFJx2WF4r3MAWztmk5
+	 a4ySE6mpraVfcEaxaIBU46uNGWPETnSXhuMbVWTPHAUeHA3tw7DU0RmDnLCbsqkxvD
+	 k2yaFSjH+7+oLQNEa/U1i7p/1+p5eQxD46Knx7kpnxuH6HxCZNw+kWplSEEA+3sLPI
+	 pW6yaPIBpTsM5j3S95n7oBSwu1khQRlWduHQKlz8M3hKoEbQE//TvL/SOQ6AlaBjY7
+	 Ud/nvDU9wHF5iKkdvj4HMZMO/VJooylcPJmKH+U77eOaK7JJTCzNrfpqopOm5Z/46k
+	 KUO80W7cNIU6w==
+Date: Fri, 20 Nov 2026 14:22:54 +0200
 From: Jarkko Sakkinen <jarkko@kernel.org>
 To: Surendran Kanagaraj <surenkj@amazon.com>
 Cc: Peter Huewe <peterhuewe@gmx.de>, Jason Gunthorpe <jgg@ziepe.ca>,
@@ -52,11 +52,11 @@ Cc: Peter Huewe <peterhuewe@gmx.de>, Jason Gunthorpe <jgg@ziepe.ca>,
 	Alexander Graf <graf@amazon.de>,
 	Gunnar Kudrjavets <gunnarku@amazon.com>,
 	Josh Levinson <joshlev@amazon.com>
-Subject: Re: [RFC PATCH v4 1/8] tpm: Add a single table for all TPM wait
- limits
-Message-ID: <awA608EXmPKxYahq@kernel.org>
+Subject: Re: [RFC PATCH v4 4/8] tpm: Bound core and CRB waits by the limits
+ table
+Message-ID: <awA7ns3kfuOBanxW@kernel.org>
 References: <20261118073852.81107-1-surenkj@amazon.com>
- <20261118073852.81107-2-surenkj@amazon.com>
+ <20261118073852.81107-5-surenkj@amazon.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,544 +68,366 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261118073852.81107-2-surenkj@amazon.com>
+In-Reply-To: <20261118073852.81107-5-surenkj@amazon.com>
 
-On Wed, Nov 18, 2026 at 07:38:45AM +0000, Surendran Kanagaraj wrote:
-> Every TPM wait takes its limit from a different place. The interface
-> timeouts live in four jiffies fields, the TPM 1.x durations in an
-> array, the TPM 2.0 durations in a per-ordinal map and the retry bound
-> in a constant. A driver cannot see or adjust these values in one
-> place. Apart from few TPM1.x fixups, nothing bounds checks these values.
-> Also a driver can send a command before any timeout is set,
-> xen-tpmfront calls tpm_get_timeouts() from probe before anything has
-> set a timeout, so its TPM 1.x timeout query waits on the vTPM with a
-> TIMEOUT_C of zero.
+On Wed, Nov 18, 2026 at 07:38:48AM +0000, Surendran Kanagaraj wrote:
+> Polls in tpm_try_transmit() still use fixed 1 ms sleeps and
+> tpm_transmit() stops retrying once the next backoff would pass
+> TPM2_DURATION_LONG and tpm_crb always waits TPM2_TIMEOUT_C.
+> A value set through ->adjust_limits() reaches neither the retry
+> loop nor the crb waits.
 > 
-> Add struct tpm_limits with one entry per limit: the interface timeouts
-> TIMEOUT_A to TIMEOUT_D and the duration classes SHORT, MEDIUM, LONG,
-> LONG_LONG and DEFAULT. Each entry holds the value in microseconds, its
-> source (the defaults, the TPM or the driver) and whether validation
-> clamped it.
+> Poll for completion with tpm_poll_timeout(). Its sleeps start at 100 us
+> and double up to 1 ms. It checks the condition once more after the
+> deadline and an expired wait logs the limit and where its value came
+> from. Bound the total sleep of the retry loop  by the LONG duration,
+> whose 3 s TPM 2.0 default keeps the current seven retries. Until the
+> timing query sets the family, LONG holds the 120 s TPM 1.x default,
+> so the loop uses the TPM 2.0 one instead. tpm_crb waits on TIMEOUT_C
+> through tpm_poll_timeout(). The Pluton doorbell's completion wait,
+> which no spec names keeps its 200 ms through tpm_poll_timeout_us().
 > 
-> tpm_chip_alloc() fills the table with the larger of the TPM 1.x and
-> TPM 2.0 defaults, so a wait has a usable limit before the TPM is
-> queried. Once the family is known, tpm_limits_update() rebuilds the
-> table in a fixed order: the family defaults, the values the TPM
-> reported, the driver's new ->adjust_limits() hook, then validation.
-> The next patch calls tpm_limits_update() from tpm1_get_timeouts() and
-> tpm2_get_timeouts(). The hook sets values with
-> tpm_limits_driver_set(). Validation applies a floor and a ceiling,
-> keeps SHORT to LONG_LONG in increasing order and keeps DEFAULT no
-> shorter than LONG.
-> 
-> tpm_poll_timeout() waits on a condition for a limit from the table and
-> tpm_poll_timeout_us() for a fixed timeout. No limits are read from the
-> table yet. The following patches move them to it.
+> Two waits behave differently. Completion polling first sleeps at most
+> 100 us instead of 1 ms. Until tpm2_get_timeouts() runs, tpm_crb waits
+> up to 750 ms for TIMEOUT_C, the larger of the two families' defaults,
+> instead of 200 ms. From then on it waits 200 ms as before.
 > 
 > Signed-off-by: Surendran Kanagaraj <surenkj@amazon.com>
 > ---
->  drivers/char/tpm/Makefile     |   1 +
->  drivers/char/tpm/tpm-chip.c   |   1 +
->  drivers/char/tpm/tpm-limits.c | 313 ++++++++++++++++++++++++++++++++++
->  drivers/char/tpm/tpm.h        |  51 ++++++
->  include/linux/tpm.h           |  48 ++++++
->  5 files changed, 414 insertions(+)
->  create mode 100644 drivers/char/tpm/tpm-limits.c
+>  drivers/char/tpm/tpm-interface.c | 57 +++++++++++++-------------
+>  drivers/char/tpm/tpm-limits.c    | 19 +++++++++
+>  drivers/char/tpm/tpm.h           |  2 +-
+>  drivers/char/tpm/tpm_crb.c       | 70 +++++++++++++++++---------------
+>  4 files changed, 87 insertions(+), 61 deletions(-)
 > 
-> diff --git a/drivers/char/tpm/Makefile b/drivers/char/tpm/Makefile
-> index 431d1351c2e3..5a14c58146eb 100644
-> --- a/drivers/char/tpm/Makefile
-> +++ b/drivers/char/tpm/Makefile
-> @@ -12,6 +12,7 @@ tpm-y += tpm2-cmd.o
->  tpm-y += tpmrm-dev.o
->  tpm-y += tpm2-space.o
->  tpm-y += tpm-sysfs.o
-> +tpm-y += tpm-limits.o
->  tpm-y += eventlog/common.o
->  tpm-y += eventlog/tpm1.o
->  tpm-y += eventlog/tpm2.o
-> diff --git a/drivers/char/tpm/tpm-chip.c b/drivers/char/tpm/tpm-chip.c
-> index 0be5dbfaa72e..11a050c43e10 100644
-> --- a/drivers/char/tpm/tpm-chip.c
-> +++ b/drivers/char/tpm/tpm-chip.c
-> @@ -319,6 +319,7 @@ struct tpm_chip *tpm_chip_alloc(struct device *pdev,
->  	}
+> diff --git a/drivers/char/tpm/tpm-interface.c b/drivers/char/tpm/tpm-interface.c
+> index 8cb4cbc9e2a6..abd16e71f79c 100644
+> --- a/drivers/char/tpm/tpm-interface.c
+> +++ b/drivers/char/tpm/tpm-interface.c
+> @@ -103,6 +103,16 @@ static void tpm_go_idle(struct tpm_chip *chip)
+>  		chip->ops->go_idle(chip);
+>  }
 >  
->  	chip->locality = -1;
-> +	tpm_limits_init(chip);
->  	return chip;
+> +/* Poll condition: the command completed or was canceled. */
+> +static bool tpm_cmd_done(struct tpm_chip *chip, void *arg)
+> +{
+> +	u8 *status = arg;
+> +
+> +	*status = tpm_chip_status(chip);
+> +	return tpm_transmit_completed(*status, chip) ||
+> +	       tpm_chip_req_canceled(chip, *status);
+> +}
+> +
+>  DEFINE_FREE(tpm_go_idle, struct tpm_chip *, if (_T) tpm_go_idle(_T))
 >  
->  out:
-> diff --git a/drivers/char/tpm/tpm-limits.c b/drivers/char/tpm/tpm-limits.c
-> new file mode 100644
-> index 000000000000..0d3729839e05
-> --- /dev/null
-> +++ b/drivers/char/tpm/tpm-limits.c
-> @@ -0,0 +1,313 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Per-chip time limits for TPM waits: the TIMEOUT_A to TIMEOUT_D interface
-> + * timeouts and the SHORT to DEFAULT command durations. Each chip owns one
-> + * table, built from the family defaults, the values a TPM chip reports and
-> + * the driver's ->adjust_limits() hook, each overriding the one before.
-> + */
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/ktime.h>
-> +#include <linux/string.h>
-> +#include <linux/tpm_ptp.h>
-> +#include "tpm.h"
-> +
-> +/* Bounds for the limits */
-> +#define TPM_LIMIT_FLOOR_US		(2 * TPM_POLL_DURATION_MAX_US)
-> +#define TPM_LIMIT_INTF_CEILING_US	(60 * USEC_PER_SEC)
-> +#define TPM_LIMIT_DURATION_CEILING_US	(30 * 60 * USEC_PER_SEC)
-> +
-> +#define TPM_POLL_START_US		100
-> +#define TPM_POLL_INTF_MAX_US		100
-> +#define TPM_POLL_DURATION_MAX_US	1000
-> +
-> +static const u32 tpm1_defaults[TPM_NR_LIMITS] = {
-> +	[TPM_LIMIT_A]		= TIS_SHORT_TIMEOUT * USEC_PER_MSEC,
-> +	[TPM_LIMIT_B]		= TIS_LONG_TIMEOUT * USEC_PER_MSEC,
-> +	[TPM_LIMIT_C]		= TIS_SHORT_TIMEOUT * USEC_PER_MSEC,
-> +	[TPM_LIMIT_D]		= TIS_SHORT_TIMEOUT * USEC_PER_MSEC,
-> +
-> +	[TPM_LIMIT_SHORT]	= 120 * USEC_PER_SEC,
-> +	[TPM_LIMIT_MEDIUM]	= 120 * USEC_PER_SEC,
-> +	[TPM_LIMIT_LONG]	= 120 * USEC_PER_SEC,
-> +	[TPM_LIMIT_LONG_LONG]	= 120 * USEC_PER_SEC,
-> +	[TPM_LIMIT_DEFAULT]	= 120 * USEC_PER_SEC,
-> +};
-> +
-> +static const u32 tpm2_defaults[TPM_NR_LIMITS] = {
-> +	[TPM_LIMIT_A]		= TPM2_TIMEOUT_A * USEC_PER_MSEC,
-> +	[TPM_LIMIT_B]		= TPM2_TIMEOUT_B * USEC_PER_MSEC,
-> +	[TPM_LIMIT_C]		= TPM2_TIMEOUT_C * USEC_PER_MSEC,
-> +	[TPM_LIMIT_D]		= TPM2_TIMEOUT_D * USEC_PER_MSEC,
-> +
-> +	[TPM_LIMIT_SHORT]	= 750 * USEC_PER_MSEC,
-> +	[TPM_LIMIT_MEDIUM]	= 2000 * USEC_PER_MSEC,
-> +	[TPM_LIMIT_LONG]	= 3000 * USEC_PER_MSEC,
-> +	[TPM_LIMIT_LONG_LONG]	= TPM2_DURATION_LONG_LONG * USEC_PER_MSEC,
-> +	[TPM_LIMIT_DEFAULT]	= TPM2_DURATION_DEFAULT * USEC_PER_MSEC,
-> +};
-> +
-> +static const char * const tpm_limit_names[TPM_NR_LIMITS] = {
-> +	[TPM_LIMIT_A]		= "timeout_a",
-> +	[TPM_LIMIT_B]		= "timeout_b",
-> +	[TPM_LIMIT_C]		= "timeout_c",
-> +	[TPM_LIMIT_D]		= "timeout_d",
-> +	[TPM_LIMIT_SHORT]	= "short",
-> +	[TPM_LIMIT_MEDIUM]	= "medium",
-> +	[TPM_LIMIT_LONG]	= "long",
-> +	[TPM_LIMIT_LONG_LONG]	= "long_long",
-> +	[TPM_LIMIT_DEFAULT]	= "default",
-> +};
-> +
-> +static const char * const tpm_limit_labels[TPM_NR_LIMITS] = {
-> +	[TPM_LIMIT_A]		= "TIMEOUT_A",
-> +	[TPM_LIMIT_B]		= "TIMEOUT_B",
-> +	[TPM_LIMIT_C]		= "TIMEOUT_C",
-> +	[TPM_LIMIT_D]		= "TIMEOUT_D",
-> +	[TPM_LIMIT_SHORT]	= "SHORT",
-> +	[TPM_LIMIT_MEDIUM]	= "MEDIUM",
-> +	[TPM_LIMIT_LONG]	= "LONG",
-> +	[TPM_LIMIT_LONG_LONG]	= "LONG_LONG",
-> +	[TPM_LIMIT_DEFAULT]	= "DEFAULT",
-> +};
-> +
-> +static const char * const tpm_limit_src_names[] = {
-> +	[TPM_LSRC_DEFAULT]	= "DEFAULT",
-> +	[TPM_LSRC_TPM]		= "TPM",
-> +	[TPM_LSRC_DRIVER]	= "DRIVER",
-> +};
-> +
-> +static u32 tpm_limits_default_us(enum tpm_family family, enum tpm_limit limit)
-> +{
-> +	switch (family) {
-> +	case TPM_FAMILY_1:
-> +		return tpm1_defaults[limit];
-> +	case TPM_FAMILY_2:
-> +		return tpm2_defaults[limit];
-> +	default:
-> +		return max(tpm1_defaults[limit], tpm2_defaults[limit]);
-> +	}
-> +}
-> +
-> +static u32 tpm_limits_ceiling_us(enum tpm_limit limit)
-> +{
-> +	if (TPM_LIMIT_INTF_MASK & BIT(limit))
-> +		return TPM_LIMIT_INTF_CEILING_US;
-> +
-> +	return TPM_LIMIT_DURATION_CEILING_US;
-> +}
-> +
-> +static void tpm_limits_store(struct tpm_limits *p, enum tpm_limit limit,
-> +			     u32 us, enum tpm_limit_src src, u32 flags)
-> +{
-> +	p->entry[limit].time_us = us;
-> +	p->entry[limit].src = src;
-> +	p->entry[limit].flags = flags;
-> +}
-> +
-> +static void tpm_limits_raise(struct tpm_limits *p, enum tpm_limit limit,
-> +			     u32 us)
-> +{
-> +	if (p->entry[limit].time_us < us) {
-> +		p->entry[limit].time_us = us;
-> +		p->entry[limit].flags |= TPM_LF_CLAMPED;
-> +	}
-> +}
-> +
-> +static void tpm_limits_stage_defaults(struct tpm_limits *p,
-> +				      enum tpm_family family)
-> +{
-> +	int limit;
-> +
-> +	memset(p, 0, sizeof(*p));
-> +	p->family = family;
-> +	for (limit = 0; limit < TPM_NR_LIMITS; limit++)
-> +		tpm_limits_store(p, limit,
-> +				 tpm_limits_default_us(family, limit),
-> +				 TPM_LSRC_DEFAULT, 0);
-> +}
-> +
-> +/* The values the TPM reported, in usecs; zero where it reported nothing. */
-> +static void tpm_limits_stage_reported(struct tpm_limits *p,
-> +				      const u32 *reported)
-> +{
-> +	int limit;
-> +
-> +	for (limit = 0; limit < TPM_NR_LIMITS; limit++) {
-> +		if (reported[limit])
-> +			tpm_limits_store(p, limit, reported[limit],
-> +					 TPM_LSRC_TPM, 0);
-> +	}
-> +}
-> +
-> +static void tpm_limits_stage_validate(struct tpm_limits *p)
-> +{
-> +	int limit;
-> +
-> +	for (limit = 0; limit < TPM_NR_LIMITS; limit++) {
-> +		struct tpm_limit_entry *e = &p->entry[limit];
-> +		u32 lo = TPM_LIMIT_FLOOR_US;
-> +		u32 hi = tpm_limits_ceiling_us(limit);
-> +
-> +		if (e->time_us < lo) {
-> +			e->time_us = lo;
-> +			e->flags |= TPM_LF_CLAMPED;
-> +		} else if (e->time_us > hi) {
-> +			e->time_us = hi;
-> +			e->flags |= TPM_LF_CLAMPED;
-> +		}
-> +	}
-> +
-> +	/*
-> +	 * Keep SHORT to LONG_LONG in increasing order, and DEFAULT no shorter
-> +	 * than LONG.
-> +	 */
-> +	for (limit = TPM_LIMIT_MEDIUM; limit <= TPM_LIMIT_LONG_LONG; limit++)
-> +		tpm_limits_raise(p, limit, p->entry[limit - 1].time_us);
-> +
-> +	tpm_limits_raise(p, TPM_LIMIT_DEFAULT,
-> +			 p->entry[TPM_LIMIT_LONG].time_us);
-> +}
-> +
-> +static void tpm_limits_commit(struct tpm_chip *chip,
-> +			      const struct tpm_limits *p)
-> +{
-> +	const struct tpm_limit_entry *e = p->entry;
-> +	int limit;
-> +
-> +	chip->limits = *p;
-> +
-> +	for (limit = 0; limit < TPM_NR_LIMITS; limit++)
-> +		dev_dbg(&chip->dev, "limit %s = %u us (%s%s)\n",
-> +			tpm_limit_names[limit], e[limit].time_us,
-> +			tpm_limit_src_names[e[limit].src],
-> +			e[limit].flags & TPM_LF_CLAMPED ? ", clamped" : "");
-> +}
-> +
-> +/**
-> + * tpm_limits_init() - set the boot limits of a new chip
-> + * @chip: the chip tpm_chip_alloc() is setting up
-> + *
-> + * The family is not known yet, so each limit gets the larger of the two
-> + * families' defaults before validation applies.
-> + * The driver's data is not attached yet, so its ->adjust_limits() hook first
-> + * runs from tpm_limits_update().
-> + */
-> +void tpm_limits_init(struct tpm_chip *chip)
-> +{
-> +	struct tpm_limits p;
-> +
-> +	tpm_limits_stage_defaults(&p, TPM_FAMILY_UNKNOWN);
-> +	tpm_limits_stage_validate(&p);
-> +	tpm_limits_commit(chip, &p);
-> +}
-> +
-> +/**
-> + * tpm_limits_update() - build the limits once the TPM family is known
-> + * @chip:	the TPM chip, started, with TPM_CHIP_FLAG_TPM2 set on TPM 2.0
-> + * @reported:	TPM_NR_LIMITS values in usecs, indexed by enum tpm_limit,
-> + *		zero where the TPM reported nothing; or NULL
-> + *
-> + * Runs the stages in order: the family defaults, @reported, the driver's
-> + * ->adjust_limits() hook, then validation. The hook may send commands, so
-> + * the chip must be started.
-> + */
-> +void tpm_limits_update(struct tpm_chip *chip, const u32 *reported)
-> +{
-> +	enum tpm_family family = chip->flags & TPM_CHIP_FLAG_TPM2 ?
-> +				 TPM_FAMILY_2 : TPM_FAMILY_1;
-> +	struct tpm_limits p;
-> +
-> +	tpm_limits_stage_defaults(&p, family);
-> +	if (reported)
-> +		tpm_limits_stage_reported(&p, reported);
-> +	if (chip->ops->adjust_limits)
-> +		chip->ops->adjust_limits(chip, &p);
-> +	tpm_limits_stage_validate(&p);
-> +	tpm_limits_commit(chip, &p);
-> +}
-> +
-> +/**
-> + * tpm_limits_driver_set() - set a limit from a driver's ->adjust_limits() hook
-> + * @p:		the limits the hook received
-> + * @limit:	the limit to set
-> + * @us:		the new value in microseconds
-> + *
-> + * Marks the driver as the source of @limit. Validation runs after the hook,
-> + * so the value can still be clamped.
-> + */
-> +void tpm_limits_driver_set(struct tpm_limits *p, enum tpm_limit limit, u32 us)
-> +{
-> +	if (WARN_ON_ONCE(limit >= TPM_NR_LIMITS))
-> +		return;
-> +
-> +	tpm_limits_store(p, limit, us, TPM_LSRC_DRIVER, 0);
-> +}
-> +EXPORT_SYMBOL_GPL(tpm_limits_driver_set);
-> +
-> +/**
-> + * tpm_limits_us() - the value of a limit
-> + * @chip:	the TPM chip, or NULL before tpm_chip_alloc()
-> + * @limit:	the limit, below TPM_NR_LIMITS
-> + *
-> + * Return: the limit in microseconds.
-> + */
-> +u32 tpm_limits_us(struct tpm_chip *chip, enum tpm_limit limit)
-> +{
-> +	if (!chip)
-> +		return tpm_limits_default_us(TPM_FAMILY_UNKNOWN, limit);
-> +
-> +	return chip->limits.entry[limit].time_us;
-> +}
-> +EXPORT_SYMBOL_GPL(tpm_limits_us);
-> +
-> +/**
-> + * __tpm_poll() - poll a condition until it holds or a timeout passes
-> + * @chip:	the TPM chip, or NULL before tpm_chip_alloc()
-> + * @timeout_us:	the timeout in microseconds
-> + * @limit:	the limit @timeout_us comes from, or TPM_NR_LIMITS for none
-> + * @cond:	returns true once the wait is over
-> + * @arg:	passed to @cond
-> + *
-> + * @limit selects the back-off cap and names the limit in the expiry warning.
-> + *
-> + * Return: 0 once @cond holds, or -ETIME if @timeout_us passes first.
-> + */
-> +int __tpm_poll(struct tpm_chip *chip, u32 timeout_us, enum tpm_limit limit,
-> +	       bool (*cond)(struct tpm_chip *chip, void *arg), void *arg)
-> +{
-> +	ktime_t timeout = ktime_add_us(ktime_get(), timeout_us);
-> +	unsigned int max_us = TPM_POLL_INTF_MAX_US;
-> +	unsigned int delay = TPM_POLL_START_US;
-> +	const char *label = "fixed timeout";
-> +	const char *src = "CALLER";
-> +
-> +	might_sleep();
-> +
-> +	if (limit < TPM_NR_LIMITS && !(TPM_LIMIT_INTF_MASK & BIT(limit)))
-> +		max_us = TPM_POLL_DURATION_MAX_US;
-> +
-> +	for (;;) {
-> +		if (cond(chip, arg))
-> +			return 0;
-> +		if (ktime_after(ktime_get(), timeout))
-> +			break;
-> +
-> +		usleep_range(delay / 2, delay);
-> +		delay = min(delay * 2, max_us);
-> +	}
-> +
-> +	if (cond(chip, arg))
-> +		return 0;
-> +	if (!chip)
+>  static ssize_t tpm_try_transmit(struct tpm_chip *chip, void *buf, size_t bufsiz)
+> @@ -112,7 +122,7 @@ static ssize_t tpm_try_transmit(struct tpm_chip *chip, void *buf, size_t bufsiz)
+>  	int rc;
+>  	ssize_t len = 0;
+>  	u32 count, ordinal;
+> -	unsigned long stop;
+> +	u8 status;
+>  
+>  	if (bufsiz < TPM_HEADER_SIZE)
+>  		return -EINVAL;
+> @@ -173,31 +183,19 @@ static ssize_t tpm_try_transmit(struct tpm_chip *chip, void *buf, size_t bufsiz)
+>  	if (chip->flags & TPM_CHIP_FLAG_IRQ)
+>  		goto out_recv;
+>  
+> -	stop = jiffies + tpm_calc_ordinal_duration(chip, ordinal);
+> -	do {
+> -		u8 status = tpm_chip_status(chip);
+> -		if (tpm_transmit_completed(status, chip))
+> -			goto out_recv;
+> -
+> -		if (tpm_chip_req_canceled(chip, status)) {
+> -			dev_err(&chip->dev, "Operation Canceled\n");
+> -			return -ECANCELED;
+> -		}
+> -
+> -		tpm_msleep(TPM_TIMEOUT_POLL);
+> -		rmb();
+> -	} while (time_before(jiffies, stop));
+> -
+> -	/*
+> -	 * Check for completion one more time, just in case the device reported
+> -	 * it while the driver was sleeping in the busy loop above.
+> -	 */
+> -	if (tpm_transmit_completed(tpm_chip_status(chip), chip))
+> -		goto out_recv;
+> +	if (tpm_poll_timeout(chip, tpm_duration_limit(chip, ordinal),
+> +			     tpm_cmd_done, &status)) {
+> +		tpm_chip_cancel(chip);
+> +		dev_err(&chip->dev, "Operation Timed out\n");
 > +		return -ETIME;
-> +
-> +	if (limit < TPM_NR_LIMITS) {
-> +		label = tpm_limit_labels[limit];
-> +		src = tpm_limit_src_names[chip->limits.entry[limit].src];
 > +	}
-> +	dev_warn_ratelimited(&chip->dev, "%s expired after %u us (source %s)\n",
-> +			     label, timeout_us, src);
-> +	return -ETIME;
+> +	/* Read the response only after the status reported completion. */
+> +	rmb();
+>  
+> -	tpm_chip_cancel(chip);
+> -	dev_err(&chip->dev, "Operation Timed out\n");
+> -	return -ETIME;
+> +	if (!tpm_transmit_completed(status, chip)) {
+> +		dev_err(&chip->dev, "Operation Canceled\n");
+> +		return -ECANCELED;
+> +	}
+>  
+>  out_recv:
+>  	len = chip->ops->recv(chip, buf, bufsiz);
+> @@ -220,8 +218,8 @@ static ssize_t tpm_try_transmit(struct tpm_chip *chip, void *buf, size_t bufsiz)
+>   * @bufsiz:	length of the TPM command buffer
+>   *
+>   * A wrapper around tpm_try_transmit() that handles TPM2_RC_RETRY returns from
+> - * the TPM and retransmits the command after a delay up to a maximum wait of
+> - * TPM2_DURATION_LONG.
+> + * the TPM and retransmits the command after a doubling delay, for as long as
+> + * the sleeps fit in the chip's LONG duration limit.
+>   *
+>   * Note that TPM 1.x never returns TPM2_RC_RETRY so the retry logic is TPM 2.0
+>   * only.
+> @@ -236,6 +234,7 @@ ssize_t tpm_transmit(struct tpm_chip *chip, u8 *buf, size_t bufsiz)
+>  	/* space for header and handles */
+>  	u8 save[TPM_HEADER_SIZE + 3*sizeof(u32)];
+>  	unsigned int delay_msec = TPM2_DURATION_SHORT;
+> +	unsigned int slept_msec = 0;
+>  	u32 rc = 0;
+>  	ssize_t ret;
+>  	const size_t save_size = min(sizeof(save), bufsiz);
+> @@ -263,7 +262,8 @@ ssize_t tpm_transmit(struct tpm_chip *chip, u8 *buf, size_t bufsiz)
+>  		if (rc == TPM2_RC_TESTING && cc == TPM2_CC_SELF_TEST)
+>  			break;
+>  
+> -		if (delay_msec > TPM2_DURATION_LONG) {
+> +		if ((slept_msec + delay_msec) * USEC_PER_MSEC >
+> +		    tpm_limits_retry_us(chip)) {
+>  			if (rc == TPM2_RC_RETRY)
+>  				dev_err(&chip->dev, "in retry loop\n");
+>  			else
+> @@ -272,6 +272,7 @@ ssize_t tpm_transmit(struct tpm_chip *chip, u8 *buf, size_t bufsiz)
+>  			break;
+>  		}
+>  		tpm_msleep(delay_msec);
+> +		slept_msec += delay_msec;
+>  		delay_msec *= 2;
+>  		memcpy(buf, save, save_size);
+>  	}
+> diff --git a/drivers/char/tpm/tpm-limits.c b/drivers/char/tpm/tpm-limits.c
+> index 5b984cb636f0..bdaa0339195e 100644
+> --- a/drivers/char/tpm/tpm-limits.c
+> +++ b/drivers/char/tpm/tpm-limits.c
+> @@ -259,6 +259,25 @@ void tpm_limits_driver_set(struct tpm_limits *p, enum tpm_limit limit, u32 us)
+>  }
+>  EXPORT_SYMBOL_GPL(tpm_limits_driver_set);
+>  
+> +/**
+> + * tpm_limits_retry_us() - the total sleep allowed between resubmissions
+> + * @chip:	the TPM chip
+> + *
+> + * The LONG duration bounds how long tpm_transmit() keeps resubmitting a
+> + * command the TPM asked to retry. Until the timing query sets the family,
+> + * LONG holds the larger TPM 1.x default, so use the TPM 2.0 one: only a
+> + * TPM 2.0 chip asks for a retry.
+> + *
+> + * Return: the bound in microseconds.
+> + */
+> +u32 tpm_limits_retry_us(struct tpm_chip *chip)
+> +{
+> +	if (chip->limits.family == TPM_FAMILY_UNKNOWN)
+> +		return tpm2_defaults[TPM_LIMIT_LONG];
+> +
+> +	return chip->limits.entry[TPM_LIMIT_LONG].time_us;
 > +}
-> +EXPORT_SYMBOL_GPL(__tpm_poll);
+> +
+>  /**
+>   * tpm_limits_us() - the value of a limit
+>   * @chip:	the TPM chip, or NULL before tpm_chip_alloc()
 > diff --git a/drivers/char/tpm/tpm.h b/drivers/char/tpm/tpm.h
-> index 212ca2410c93..bc029c54623d 100644
+> index 223998f99386..b3dc5c7161cf 100644
 > --- a/drivers/char/tpm/tpm.h
 > +++ b/drivers/char/tpm/tpm.h
-> @@ -75,6 +75,57 @@ ssize_t tpm1_getcap(struct tpm_chip *chip, u32 subcap_id, cap_t *cap,
->  int tpm1_get_random(struct tpm_chip *chip, u8 *out, size_t max);
->  int tpm1_get_pcr_allocation(struct tpm_chip *chip);
->  unsigned long tpm_calc_ordinal_duration(struct tpm_chip *chip, u32 ordinal);
-> +
-> +void tpm_limits_init(struct tpm_chip *chip);
-> +void tpm_limits_update(struct tpm_chip *chip, const u32 *reported);
-> +void tpm_limits_driver_set(struct tpm_limits *p, enum tpm_limit limit, u32 us);
-> +u32 tpm_limits_us(struct tpm_chip *chip, enum tpm_limit limit);
-> +int __tpm_poll(struct tpm_chip *chip, u32 timeout_us, enum tpm_limit limit,
-> +	       bool (*cond)(struct tpm_chip *chip, void *arg), void *arg);
-> +
-> +/**
-> + * tpm_poll_timeout() - poll a condition until it holds or a limit passes
-> + * @chip:	the TPM chip, or NULL before tpm_chip_alloc()
-> + * @limit:	the limit that bounds the wait
-> + * @cond:	returns true once the wait is over
-> + * @arg:	passed to @cond
-> + *
-> + * Drivers pass an interface timeout, TPM_LIMIT_A to TPM_LIMIT_D, and the core
-> + * passes a command's execution limit. Without a chip, the larger of the two
-> + * families' defaults applies and @cond gets a NULL @chip.
-> + *
-> + * Return: 0 once @cond holds, -ETIME if @limit passes first, or -EINVAL for
-> + * a limit out of range.
-> + */
-> +static inline int tpm_poll_timeout(struct tpm_chip *chip, enum tpm_limit limit,
-> +				   bool (*cond)(struct tpm_chip *chip, void *arg),
-> +				   void *arg)
-> +{
-> +	if (WARN_ON_ONCE(limit >= TPM_NR_LIMITS))
-> +		return -EINVAL;
-> +
-> +	return __tpm_poll(chip, tpm_limits_us(chip, limit), limit, cond, arg);
-> +}
-> +
-> +/**
-> + * tpm_poll_timeout_us() - poll a condition with a driver-chosen timeout
-> + * @chip:	the TPM chip, or NULL before tpm_chip_alloc()
-> + * @timeout_us:	the timeout in microseconds
-> + * @cond:	returns true once the wait is over
-> + * @arg:	passed to @cond
-> + *
-> + * For a wait no TCG spec names, such as a mailbox doorbell. Otherwise as
-> + * tpm_poll_timeout().
-> + *
-> + * Return: 0 once @cond holds, or -ETIME if @timeout_us passes first.
-> + */
-> +static inline int tpm_poll_timeout_us(struct tpm_chip *chip, u32 timeout_us,
-> +				      bool (*cond)(struct tpm_chip *chip, void *arg),
-> +				      void *arg)
-> +{
-> +	return __tpm_poll(chip, timeout_us, TPM_NR_LIMITS, cond, arg);
-> +}
-> +
->  int tpm_pm_suspend(struct device *dev);
->  int tpm_pm_resume(struct device *dev);
->  int tpm_class_shutdown(struct device *dev);
-> diff --git a/include/linux/tpm.h b/include/linux/tpm.h
-> index 0db277af45c3..57d9356055fc 100644
-> --- a/include/linux/tpm.h
-> +++ b/include/linux/tpm.h
-> @@ -29,6 +29,7 @@
->  #include <linux/tpm_buf.h>
->  
->  struct tpm_chip;
-> +struct tpm_limits;
->  struct trusted_key_payload;
->  struct trusted_key_options;
->  /* opaque structure, holds auth session parameters like the session key */
-> @@ -52,6 +53,7 @@ struct tpm_class_ops {
->  				unsigned long *timeout_cap);
->  	void (*update_durations)(struct tpm_chip *chip,
->  				 unsigned long *duration_cap);
-> +	void (*adjust_limits)(struct tpm_chip *chip, struct tpm_limits *p);
->  	int (*go_idle)(struct tpm_chip *chip);
->  	int (*cmd_ready)(struct tpm_chip *chip);
->  	int (*request_locality)(struct tpm_chip *chip, int loc);
-> @@ -71,6 +73,50 @@ enum tpm_duration {
->  	TPM_NUM_DURATIONS = TPM_UNDEFINED,
+> @@ -40,7 +40,6 @@ enum tpm_timeout {
+>  	TPM_TIMEOUT = 5,	/* msecs */
+>  	TPM_TIMEOUT_RETRY = 100, /* msecs */
+>  	TPM_TIMEOUT_RANGE_US = 300,	/* usecs */
+> -	TPM_TIMEOUT_POLL = 1,	/* msecs */
+>  	TPM_TIMEOUT_USECS_MIN = 100,      /* usecs */
+>  	TPM_TIMEOUT_USECS_MAX = 500      /* usecs */
+>  };
+> @@ -79,6 +78,7 @@ unsigned long tpm_calc_ordinal_duration(struct tpm_chip *chip, u32 ordinal);
+>  void tpm_limits_init(struct tpm_chip *chip);
+>  void tpm_limits_update(struct tpm_chip *chip, const u32 *reported);
+>  void tpm_limits_driver_set(struct tpm_limits *p, enum tpm_limit limit, u32 us);
+> +u32 tpm_limits_retry_us(struct tpm_chip *chip);
+>  u32 tpm_limits_us(struct tpm_chip *chip, enum tpm_limit limit);
+>  int __tpm_poll(struct tpm_chip *chip, u32 timeout_us, enum tpm_limit limit,
+>  	       bool (*cond)(struct tpm_chip *chip, void *arg), void *arg);
+> diff --git a/drivers/char/tpm/tpm_crb.c b/drivers/char/tpm/tpm_crb.c
+> index 8585c73fb25b..5f29eabf2413 100644
+> --- a/drivers/char/tpm/tpm_crb.c
+> +++ b/drivers/char/tpm/tpm_crb.c
+> @@ -111,6 +111,7 @@ struct crb_priv {
+>  	u8 ffa_flags;
+>  	u8 ffa_attributes;
+>  	u32 intf_id;
+> +	struct tpm_chip *chip;	/* NULL until tpmm_chip_alloc() */
 >  };
 >  
-> +enum tpm_limit {
-> +	/* Interface handshake timeouts */
-> +	TPM_LIMIT_A,
-> +	TPM_LIMIT_B,
-> +	TPM_LIMIT_C,
-> +	TPM_LIMIT_D,
-> +
-> +	/* Command duration classes */
-> +	TPM_LIMIT_SHORT,
-> +	TPM_LIMIT_MEDIUM,
-> +	TPM_LIMIT_LONG,
-> +	TPM_LIMIT_LONG_LONG,
-> +	TPM_LIMIT_DEFAULT,
-> +
-> +	TPM_NR_LIMITS,
-> +};
-> +
-> +#define TPM_LIMIT_INTF_MASK		GENMASK(TPM_LIMIT_D, TPM_LIMIT_A)
-> +
-> +enum tpm_family {
-> +	TPM_FAMILY_1,		/* TPM 1.1 and 1.2 */
-> +	TPM_FAMILY_2,
-> +	TPM_FAMILY_UNKNOWN,
-> +};
-> +
-> +enum tpm_limit_src {
-> +	TPM_LSRC_DEFAULT,	/* default values */
-> +	TPM_LSRC_TPM,		/* reported by the TPM */
-> +	TPM_LSRC_DRIVER,	/* set by the driver */
-> +};
-
-
-Does this have other functional value than reporting?
-
-> +
-> +#define TPM_LF_CLAMPED		BIT(0)	/* limit validation replaced the value */
-
-Ditto.
-
-> +
-> +struct tpm_limit_entry {
-> +	u32 time_us;
-> +	enum tpm_limit_src src;
-> +	u32 flags;		/* TPM_LF_* */
-> +};
-> +
-> +struct tpm_limits {
-> +	enum tpm_family family;
-> +	struct tpm_limit_entry entry[TPM_NR_LIMITS];
-> +};
-> +
->  #define TPM_PPI_VERSION_LEN		3
+>  struct tpm2_crb_smc {
+> @@ -134,6 +135,12 @@ struct tpm2_crb_pluton {
+>  	u64 reply_addr;
+>  };
 >  
->  struct tpm_space {
-> @@ -140,6 +186,8 @@ struct tpm_chip {
->  	unsigned long duration[TPM_NUM_DURATIONS]; /* jiffies */
->  	bool duration_adjusted;
->  
-> +	struct tpm_limits limits;
+> +struct crb_reg_wait {
+> +	u32 __iomem *reg;
+> +	u32 mask;
+> +	u32 value;
+> +};
 > +
->  	struct dentry *bios_dir;
+>  /*
+>   * Returns true if the start method supports idle.
+>   */
+> @@ -144,39 +151,40 @@ static inline bool tpm_crb_has_idle(void)
+>  		 tpm2_acpi_start_method == ACPI_TPM2_COMMAND_BUFFER_WITH_ARM_SMC);
+>  }
 >  
->  	const struct attribute_group *groups[3 + TPM_MAX_HASHES];
+> -static bool crb_wait_for_reg_32(u32 __iomem *reg, u32 mask, u32 value,
+> -				unsigned long timeout)
+> +static bool crb_reg_matches(struct tpm_chip *chip, void *arg)
+>  {
+> -	ktime_t start;
+> -	ktime_t stop;
+> +	struct crb_reg_wait *w = arg;
+>  
+> -	start = ktime_get();
+> -	stop = ktime_add(start, ms_to_ktime(timeout));
+> -
+> -	do {
+> -		if ((ioread32(reg) & mask) == value)
+> -			return true;
+> +	return (ioread32(w->reg) & w->mask) == w->value;
+> +}
+>  
+> -		usleep_range(50, 100);
+> -	} while (ktime_before(ktime_get(), stop));
+> +/* Wait up to TIMEOUT_C for the @mask bits of @reg to read as @value. */
+> +static bool crb_wait_for_reg_32(struct crb_priv *priv, u32 __iomem *reg,
+> +				u32 mask, u32 value)
+> +{
+> +	struct crb_reg_wait w = { .reg = reg, .mask = mask, .value = value };
+>  
+> -	return ((ioread32(reg) & mask) == value);
+> +	return !tpm_poll_timeout(priv->chip, TPM_LIMIT_C, crb_reg_matches, &w);
+>  }
+>  
+>  static int crb_try_pluton_doorbell(struct crb_priv *priv, bool wait_for_complete)
+>  {
+> +	struct crb_reg_wait w = {
+> +		.reg = priv->pluton_start_addr, .mask = 0xffffffff, .value = 0,
+> +	};
+> +
+>  	if (tpm2_acpi_start_method != ACPI_TPM2_COMMAND_BUFFER_WITH_PLUTON)
+>  		return 0;
+>  
+> -	if (!crb_wait_for_reg_32(priv->pluton_reply_addr, ~0, 1, TPM2_TIMEOUT_C))
+> +	if (!crb_wait_for_reg_32(priv, priv->pluton_reply_addr, ~0, 1))
+>  		return -ETIME;
+>  
+>  	iowrite32(1, priv->pluton_start_addr);
+>  	if (wait_for_complete == false)
+>  		return 0;
+>  
+> -	if (!crb_wait_for_reg_32(priv->pluton_start_addr,
+> -				 0xffffffff, 0, 200))
+> +	if (tpm_poll_timeout_us(priv->chip, 200 * USEC_PER_MSEC,
+> +				crb_reg_matches, &w))
+>  		return -ETIME;
+>  
+>  	return 0;
+> @@ -218,10 +226,9 @@ static int __crb_go_idle(struct device *dev, struct crb_priv *priv, int loc)
+>  	if (rc)
+>  		return rc;
+>  
+> -	if (!crb_wait_for_reg_32(&priv->regs_t->ctrl_req,
+> +	if (!crb_wait_for_reg_32(priv, &priv->regs_t->ctrl_req,
+>  				 CRB_CTRL_REQ_GO_IDLE/* mask */,
+> -				 0, /* value */
+> -				 TPM2_TIMEOUT_C)) {
+> +				 0 /* value */)) {
+>  		dev_warn(dev, "goIdle timed out\n");
+>  		return -ETIME;
+>  	}
+> @@ -272,10 +279,9 @@ static int __crb_cmd_ready(struct device *dev, struct crb_priv *priv, int loc)
+>  	if (rc)
+>  		return rc;
+>  
+> -	if (!crb_wait_for_reg_32(&priv->regs_t->ctrl_req,
+> +	if (!crb_wait_for_reg_32(priv, &priv->regs_t->ctrl_req,
+>  				 CRB_CTRL_REQ_CMD_READY /* mask */,
+> -				 0, /* value */
+> -				 TPM2_TIMEOUT_C)) {
+> +				 0 /* value */)) {
+>  		dev_warn(dev, "cmdReady timed out\n");
+>  		return -ETIME;
+>  	}
+> @@ -308,8 +314,8 @@ static int __crb_request_locality(struct device *dev,
+>  			return rc;
+>  	}
+>  
+> -	if (!crb_wait_for_reg_32(&priv->regs_h->loc_state, value, value,
+> -				 TPM2_TIMEOUT_C)) {
+> +	if (!crb_wait_for_reg_32(priv, &priv->regs_h->loc_state, value,
+> +				 value)) {
+>  		dev_warn(dev, "TPM_LOC_STATE_x.requestAccess timed out\n");
+>  		return -ETIME;
+>  	}
+> @@ -342,8 +348,8 @@ static int __crb_relinquish_locality(struct device *dev,
+>  			return rc;
+>  	}
+>  
+> -	if (!crb_wait_for_reg_32(&priv->regs_h->loc_state, mask, value,
+> -				 TPM2_TIMEOUT_C)) {
+> +	if (!crb_wait_for_reg_32(priv, &priv->regs_h->loc_state, mask,
+> +				 value)) {
+>  		dev_warn(dev, "TPM_LOC_STATE_x.Relinquish timed out\n");
+>  		return -ETIME;
+>  	}
+> @@ -428,9 +434,8 @@ static int tpm_crb_recv_chunks(struct tpm_chip *chip, u8 *buf, size_t count,
+>  		if (rc)
+>  			return rc;
+>  
+> -		expired = !crb_wait_for_reg_32(&priv->regs_t->ctrl_start,
+> -						CRB_START_NEXT_CHUNK, 0,
+> -						TPM2_TIMEOUT_C);
+> +		expired = !crb_wait_for_reg_32(priv, &priv->regs_t->ctrl_start,
+> +						CRB_START_NEXT_CHUNK, 0);
+>  		if (expired) {
+>  			dev_err(&chip->dev,
+>  				"Timeout waiting for backend response\n");
+> @@ -587,9 +592,9 @@ static int tpm_crb_send_chunks(struct tpm_chip *chip, u8 *buf, size_t len)
+>  			rc = tpm_crb_start(chip, CRB_START_NEXT_CHUNK);
+>  			if (rc)
+>  				return rc;
+> -			expired = !crb_wait_for_reg_32(&priv->regs_t->ctrl_start,
+> -							CRB_START_NEXT_CHUNK, 0,
+> -							TPM2_TIMEOUT_C);
+> +			expired = !crb_wait_for_reg_32(priv,
+> +							&priv->regs_t->ctrl_start,
+> +							CRB_START_NEXT_CHUNK, 0);
+>  			if (expired) {
+>  				dev_err(&chip->dev,
+>  					"Timeout waiting for backend to consume chunk\n");
+> @@ -1021,6 +1026,7 @@ static int crb_acpi_probe(struct platform_device *pdev)
+>  		goto out;
+>  	}
+>  
+> +	priv->chip = chip;
+>  	dev_set_drvdata(&chip->dev, priv);
+>  	chip->acpi_dev_handle = device->handle;
+>  	chip->flags = TPM_CHIP_FLAG_TPM2;
 > -- 
 > 2.47.3
 > 
+
+Is it possible to slice this to more intermediate steps, or not?
 
 Br, Jarkko
