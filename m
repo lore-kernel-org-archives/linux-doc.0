@@ -1,79 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795198279;
-	b=hFK/51bq5gPHRlkA4dix+wnrAjd+U4h5eoqZpXXQcBIXtXRNrVWHhdmM8vsIkL40PO4L
-	 WIbaT31iU5zV/Ft06ylxso5OMbTlSQOQY5Lm5uoaPJ2SqqvqskHVB3wtKssiDyavq2KxS
-	 CmeVZgHSHWJZUN/+XgysBBOU5pta4Ttw1COpHF7pCynmPT9sfL4gmtpvCQLe8KONwcMxu
-	 WPZTSgynGRk3frdcfz+tCko0QECge9tWKhm28lcidutfpKIHOE0PdXFo9SDOPH8+5g6eR
-	 jCSH8xja0xpnRixG/+TnDSNTDrX47O0KiJRIigxiMwTmszVeW0ec8Vi0qiYaiAliWhQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795198279;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=RpcXK0l33o1Rh3w5xtzko7j4qpbLiqFRKXf73CE8MdQ=;
-	b=D7o4cGQMnacVpcVtEbKIa+RATyWXc4WXPZduAVi1e7Q6tOO8x5cPdEITSXn1rmLSy+wW
-	 rEXiD2ezcNEdnKVyj2ykZhK05JEsjzBu2zOjnVwoW/Ab56oUkjdm+nuyHB7yjRF/zFmLP
-	 AldygY+Tdg3279Cuv9f1tZ9zyuL4q50T1JhPArVJ86rJnM88OflRGxHpWWcN84kTpioTF
-	 Z2frbbYQGmEr8+aYYfyYnVwlgtvA5QbTybiNthLSiXuf62vPhm9PtZjvu3J7gDbTGaTcp
-	 pASO4m38YpIIrm48376GDvXBmPf/DefdpaMLoIhvrrbqpFx3bN6NJvCAiaLPX98kCIg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fKuuGKty;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BAC606B991;
-	Fri, 20 Nov 2026 18:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fKuuGKty
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795198278;
-	b=JQmR934sO1V46SBOaUoAhgSHR2B853Mc6kRvowtIe9jkdAi0ZELfQ1AuU2OLQG2c3NDw
-	 8ItB5dJMjjShXu9FsI88RrNwlXB4zzjIs+8MBGgfFO34JEERbyqgN37/rKe40PlbkifF1
-	 mUl6ZHY6UeeUVKMPxqkc+CN4jqLHZGaur52O4zrkxjFfDoyW5LQP60SKFWPpueV85AB1D
-	 YdmmbKlhEHRR//2n95P1A8MYnpy5jEzIhiEn5j6H/ir56HUaMBvnnzaxFGpAyAnWqY+t1
-	 1vO0M7LNhGB2skd4Huk7vDXI0XaIpIrqTeoJ+ouajprEkzv2vKpcIJrbG3qQKw6gOzQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795198278;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=RpcXK0l33o1Rh3w5xtzko7j4qpbLiqFRKXf73CE8MdQ=;
-	b=MYvQtnFW/mDUxT+abczLBucztkJwd2Lo3sVjBpkvJBxULg3Kbuv6i7NF54ItlEXnTt7i
-	 8DiH+tr4B8ZZt4gKBlm9QhgNgZpyjqZ/xDjSOyNSKLaTvuge5XIK8uNCxi4334P60vXTV
-	 14XTRktHo2vLLU7TruCb75ZWwtCxFMWAZcDYo/p5WFPQT7pNqkKafmw7UFByzaVqmICCK
-	 TFR7QDQxwPIhhfyiH3cH5exoxsttbONTouVLxdBMflO+b0c+dAyRX+ifxsyqVLGCKEa7X
-	 x19W1N5RMphS4KY5EA9p2sJuWAiNfAKYF6UOV1Pl6dR7oVNZSOMBhRJrxPtaync1luQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.200
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795198286;
+	b=QEKeIJgJ4+nOBRlfmv3hIDPfFKIJho0FNgN9Xdbr92bx7QUv1JX4t0fD4ncOEVz6+8hm
+	 iGEjXZSAM/WxwXcl/dUCeh3dYf8EVK/Mo37JyC00adxOdkPJo92NwyPg7nWOTvsiNL5B2
+	 SkwIYXmTRJDQZKf3tN6XYibEHuP59JoxRmHeZLBn0GExRCVfEJ9ByhMZJv5qtbeHSSYg0
+	 5GK/QrArM3AsrL8AJarbD2kSOwqFe9QTUEcbhiVZgadbwKNiq16QZfOYkQ3epfANQm5DT
+	 5Z5+YY0WUVrpfQN2Ri+vdZEG/BO0tCD4+nF/hbQj+xpOm747L8PgxBPqnike5UzOKLQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795198286;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=JDzbhiCoFBsB1LUGSE+FNJ8fs+B+4L9p62TVlpx0yJ4=;
+	b=2xR+uIcS9+OvMSEDo5F9LG5VtrdzADaG2Gl14l3v3bxG3u3bqM7PL5yi6q8WjqQZHWGN
+	 Ua/+ANNNYvuKEGAHy2ok2NF1sj+kP1F6DltHgWdRTzYNrF7SMSwlxbXD69+9bmF96IKUx
+	 BxbrTE/7/68uqdNlVY3wDdHatfObP/PHz/EO0tXLC+paZTIWWM1ZzvQsA0/Bwo3thRryS
+	 dYB4vQut6swgUdDl5YuWLBw26ctfX2DGGAnYLrOVDFX593SXIVTQ65NO4l5G+jVj5F4c4
+	 6gfaHZw0l5oADunOijlvnIgquI0462Bjs5sZyIAvLY7SAui0F5hOJjsrHqu1+tUymmw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=PVGHrCoa;
+	arc=none smtp.remote-ip=209.85.215.200
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 94C981F000C4;
-	Fri, 20 Nov 2026 18:10:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795198278;
-	bh=RpcXK0l33o1Rh3w5xtzko7j4qpbLiqFRKXf73CE8MdQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=fKuuGKtyxPknbbVz74SDlYqe8NpCSwrSdxokqvFDg/Hq6ii1GycNn0H/dzBbsxoz+
-	 dX68cSerLa9kDekAEFTpAvBvoU9C0GgI9s2Yy6tgqfJ7ak4KB1C8wVwBQJC+TjsF+L
-	 BglBAUrqngm4Cl54i4YKkuapiF0r5lIgBcYIkUdWzB5Ocrfl8OyYba4kCd3iEmW95P
-	 8iPHj0I9oEK5+f2RPjmniixq+cr5U8VFc9FjnvEhENmBGoPsgZgzSXkS98zaq9oI0I
-	 O1vQhnSky9mYVixuvbu1g92Lx+fzHn1tiacZv+ROWziop4CfV+r7KniA3E5YtDnClX
-	 MEN1F+F/gjKog==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id B479C4B97D;
-	Fri, 20 Nov 2026 18:09:22 +0000 (UTC)
-From: Gregory Price via B4 Relay <devnull+gourry.gourry.net@kernel.org>
-Date: Fri, 20 Nov 2026 13:09:38 -0500
-Subject: [PATCH 47/60] mm/vmscan: restrict reclaim to N_MEMORY_RECLAIM
- instead of N_MEMORY_COMMON
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66FE607A0DC
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 18:11:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D66FE607A0DC
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=PVGHrCoa
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cdd48746a49so785253a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 10:11:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795198285; x=1795803085; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JDzbhiCoFBsB1LUGSE+FNJ8fs+B+4L9p62TVlpx0yJ4=;
+        b=PVGHrCoaAP/5w1paicQ+hrt9379ckz/YstH15fDT/2OfPNc3NuS+VgVBK31Y4KWR1c
+         6PEILfGm8mXVSYnE+ShXHiGg2+cjwadNYr6CVRAtBkojKCy3wAzMBHiN/hgp9Fr8I0rw
+         pVTVrnraiWylu9/TACtXKP/yfxDi0m6zABmX4xVo2kPJHlkl/y54aRsSc9U/9fMEB2PJ
+         esMW2rw0ckWd4dJpkMIpx7R4IXIDSCQJYl5yEpK1fzu07+gEa1XoH+hwVcUZ/VsnRp4j
+         ChOPqNE4+HHfBFewHGbf5rwxwTNCY+3Zt+DtgYKz0OqIEnlWRHpodKCpTGesETGHl6Vc
+         6OIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795198285; x=1795803085;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JDzbhiCoFBsB1LUGSE+FNJ8fs+B+4L9p62TVlpx0yJ4=;
+        b=kqf8Pr3m31BjMDJGJz5tHz5zkCWhvPO0uo44B6Ag+hmCEvOD97ReLfOytZ8RdFm75g
+         KfvISsXmTedXC4PecqP/uSi60m13aCW95Vf1d8EkW7FH6/7qtzd002Uli+tcX6VC4i+W
+         jyHFSFgJp8XjOrtI+BU4sS2QkycMunt1QPkFh64oGTOzVaxGE2pnl2GZN7Rci5hJFY0L
+         GpdaTUM9GHrpRCBLFM4E/oRks6/U5tpLD0W0oMwTOMkox8FeUtvj1+XHkIbXVc/KZ3RA
+         sEcf6F8YYSLAMI+GkZXW4so8d47d7aV4uUJ6OAZ0ez+UYiw2bqNj36KOEjS8VCBDYJqb
+         V3pw==
+X-Forwarded-Encrypted: i=1; AL+hErF66NQSsdsbM79Fyh0LzxKwFQKdDYUDy1R64RpvbWqqR5xiQ7qtZlv5p9hAtTJqdPrM3jSKpks9Epw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/z+JF1PbVKhFOd4ExHZ1KpHNBAfqysuEJMODt8AHqm/KA4eXo8
+	oVJZ+o0cEIC7vKUvRkpC8xRuOC4Zb8VD1Inr0wITVessVwrHq5ABkaldZf2mTcKHR3xw0PUhT7Y
+	1a2m76A==
+X-Received: from plup11.prod.google.com ([2002:a17:903:4b2b:b0:2ed:e056:7a80])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:cf08:b0:2f0:59dd:4d07
+ with SMTP id d9443c01a7336-2f059dd50f7mr8708795ad.38.1795198285056; Fri, 20
+ Nov 2026 10:11:25 -0800 (PST)
+Date: Fri, 20 Nov 2026 10:11:24 -0800
+In-Reply-To: <5F8F490B-BC93-41EA-B77E-9EC108C09DBE@infradead.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -82,250 +77,70 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261120-private_nodes_v6-v1-47-74f5f9a115c2@gourry.net>
-References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
-In-Reply-To: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
-To: Yury Norov <yury.norov@gmail.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- David Hildenbrand <david@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Oscar Salvador <osalvador@suse.de>, Johannes Weiner <hannes@cmpxchg.org>, 
- Suren Baghdasaryan <surenb@google.com>, 
- Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Johan Hovold <johan@kernel.org>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
- Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
- Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>, 
- Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>, 
- Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
- K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
- Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Michal Hocko <mhocko@kernel.org>, David Rientjes <rientjes@google.com>, 
- Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
- Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
- Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>, 
- Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
- Youngjun Park <youngjun.park@lge.com>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>, 
- Tejun Heo <tj@kernel.org>, 
- =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
- Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
- Dave Jiang <dave.jiang@intel.com>, 
- Alison Schofield <alison.schofield@intel.com>, 
- Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
- driver-core@lists.linux.dev, damon@lists.linux.dev, 
- linux-pm@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
- linux-kselftest@vger.kernel.org, "Gregory Price (Meta)" <gourry@gourry.net>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795198153; l=6325;
- i=gourry@gourry.net; s=20261120; h=from:subject:message-id;
- bh=c7DgarKbPTh+6IzFAHFl6eKVTW2BJrYv3RKLDMceLJE=;
- b=pJ9yiRLLHXGH+ah/OM4I5sNBVlA9ZiE7FmUiyed58jvCYoAInkb3gL9qE4qbzozo6/HQ/UBhm
- +p2J5pp71F8BQDYiKB23kBhQW4ibDlwjd0+2F6Ea2rd3w38dcgQckEc
-X-Developer-Key: i=gourry@gourry.net; a=ed25519;
- pk=BZWDlx4htkR5KcvGjGtSDfx1tM0E5dlyBR43FEhjWVc=
-X-Endpoint-Received: by B4 Relay for gourry@gourry.net/20261120 with
- auth_id=1586
-X-Original-From: "Gregory Price (Meta)" <gourry@gourry.net>
-Reply-To: gourry@gourry.net
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20261113170535.79246-1-dwmw2@infradead.org> <avdEkNbqPWamMErl@google.com>
+ <5F8F490B-BC93-41EA-B77E-9EC108C09DBE@infradead.org>
+Message-ID: <awCNTITOOiS1JEod@seanjc-mac.roam.internal>
+Subject: Re: [PATCH v2 0/4] KVM: x86: hyper-v: Forward unimplemented
+ hypercalls to userspace
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Vitaly Kuznetsov <vkuznets@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>, 
+	Joerg Roedel <joro@8bytes.org>, Tom Lendacky <thomas.lendacky@amd.com>, 
+	James Bottomley <James.Bottomley@hansenpartnership.com>, 
+	Thara Gopinath <tgopinath@linux.microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Michael Kelley <mhklinux@outlook.com>, Nicolas Saenz Julienne <nsaenz@amazon.com>, 
+	Nikolas Wipper <nik.wipper@gmx.de>, Mushahid Hussain <hmushi@amazon.co.uk>, 
+	Sriram Nambakam <snambakam@linux.microsoft.com>, Zack Rusin <zack.rusin@broadcom.com>, 
+	Doug Covelli <doug.covelli@broadcom.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H . Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
+	Shuah Khan <shuah@kernel.org>, Paul Durrant <paul@xen.org>, Xin Li <xin@zytor.com>, 
+	Francesco Lavra <flavra@baylibre.com>, 
+	"Radim =?utf-8?B?S3LEjW3DocWZ?=" <rkrcmar@ventanamicro.com>, Liran Alon <liran.alon@oracle.com>, 
+	Arbel Moshe <arbel.moshe@oracle.com>, David Woodhouse <dwmw@amazon.co.uk>
+Content-Type: text/plain; charset="us-ascii"
 
-From: "Gregory Price (Meta)" <gourry@gourry.net>
+On Fri, Nov 13, 2026, David Woodhouse wrote:
+> On 13 November 2026 10:10:40 GMT-07:00, Sean Christopherson <seanjc@google.com> wrote:
+> >On Fri, Nov 13, 2026, David Woodhouse wrote:
+> >> From: David Woodhouse <dwmw@amazon.co.uk>
+> >> 
+> >> KVM implements a fixed set of Hyper-V hypercalls and fails every other
+> >> code with HV_STATUS_INVALID_HYPERCALL_CODE. A VMM that wants to
+> >> implement more of the TLFS, such as the VSM hypercalls Windows uses for
+> >> Virtualization Based Security, never sees them.
+> >> 
+> >> This series adds KVM_CAP_HYPERV_FORWARD_HCALL. As with KVM_CAP_XEN_HVM
+> >> and KVM_CAP_EXIT_HYPERCALL, KVM_CHECK_EXTENSION returns a bitmask of
+> >> features and KVM_ENABLE_CAP takes the subset to enable, rejecting any
+> >> bit the kernel does not report. The first feature,
+> >> KVM_HYPERV_HCALL_FORWARD_UNKNOWN, sends the hypercalls KVM does not
+> >> implement, and extended hypercalls in fast form, out through the
+> >> existing KVM_EXIT_HYPERV_HCALL exit, whose format does not change at
+> >> all.
+> >
+> >I'm not a fan of fowarding unknown hypercalls.  It seems like it would be quite
+> >easy to end up with a mess where it's difficult for KVM to implement "native"
+> >support without breaking userspace.
+> >
+> >How much code (and ongoing churn) would it be to add an allowlist of hypercalls
+> >to forward to userspace?  And then obviously require userspace to configure its
+> >forwarding "intercepts".
+> 
+> I'm following the model we used for Xen support, where the default assumption
+> is that we do everything in userspace, then accelerate only what's absolutely
+> necessary in the kernel.
 
-kswapd and the reclaim interfaces currently serve only common memory. A
-private node that opts into reclaim should get them too.
+Oh, right.  I was worried about people getting clever and abusing the Hyper-V
+handling to implement bespoke, out-of-tree hypercalls, but that ship has sailed.
 
-Restrict reclaim to N_MEMORY_RECLAIM:
-  - start kswapd only on N_MEMORY_RECLAIM nodes.
-  - walk N_MEMORY_RECLAIM nodes in MGLRU's debugfs interface.
-  - reject nodeN/reclaim for nodes without N_MEMORY_RECLAIM.
+> Userspace can opt *in* to having the kernel support certain hypercalls, and
+> later patches waiting in the wings already add the in-kernel VTL switching
+> enabled via a bitmask when enabling the capability. 
 
-Direct reclaim is unchanged: an allocation reclaims the zones on its
-zonelist, and a private node's zones are only on its private zonelist.
-
-Private nodes that permit reclaim get watermarks again (the capped
-minimum that highmem and movable zones get) and are boosted, since
-their kswapd restores both.
-
-Private nodes without the state keep zero watermarks.
-
-The hopeless-kswapd recovery on page free exists because allocations
-that fall back to another node skip the direct reclaim that would clear
-the state. Only common memory offers that fallback, so apply the
-recovery only to common nodes now that private nodes run kswapd.
-
-Leave private zones out of si_mem_available()'s low watermark sum,
-which bounds the common page cache and slab that must stay.
-
-Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
----
- mm/memory_hotplug.c |  2 +-
- mm/page_alloc.c     | 11 +++++++----
- mm/show_mem.c       |  7 +++++--
- mm/vmscan.c         | 14 +++++++-------
- 4 files changed, 20 insertions(+), 14 deletions(-)
-
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 1cb10c88954e..8146f77919d5 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -1230,7 +1230,7 @@ int online_pages(unsigned long pfn, unsigned long nr_pages,
- 	/* reinitialise watermarks and update pcp limits */
- 	init_per_zone_wmark_min();
- 
--	if (node_state(nid, N_MEMORY_COMMON))
-+	if (node_state(nid, N_MEMORY_RECLAIM))
- 		kswapd_run(nid);
- 	if (node_state(nid, N_MEMORY_COMPACTION))
- 		kcompactd_run(nid);
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 864da908a59b..cc70e1b45322 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -2972,6 +2972,7 @@ static bool free_frozen_page_commit(struct zone *zone,
- 		 * kswapd work again by resetting kswapd_failures.
- 		 */
- 		if (kswapd_test_hopeless(pgdat) &&
-+		    node_state(pgdat->node_id, N_MEMORY_COMMON) &&
- 		    num_node_state(N_MEMORY_COMMON) > 1)
- 			kswapd_clear_hopeless(pgdat, KSWAPD_CLEAR_HOPELESS_PCP);
- 	}
-@@ -6814,8 +6815,8 @@ static void __setup_per_zone_wmarks(void)
- 		u64 tmp;
- 
- 		spin_lock_irqsave(&zone->lock, flags);
--		/* No kswapd runs for a private node to restore watermarks. */
--		if (node_state(zone_to_nid(zone), N_MEMORY_PRIVATE)) {
-+		/* Nodes that reclaim does not serve carry no watermarks. */
-+		if (!node_state(zone_to_nid(zone), N_MEMORY_RECLAIM)) {
- 			zone->_watermark[WMARK_MIN] = 0;
- 			zone->_watermark[WMARK_LOW] = 0;
- 			zone->_watermark[WMARK_HIGH] = 0;
-@@ -6826,11 +6827,13 @@ static void __setup_per_zone_wmarks(void)
- 		}
- 		tmp = (u64)pages_min * zone_managed_pages(zone);
- 		tmp = div64_ul(tmp, lowmem_pages);
--		if (is_highmem(zone) || zone_idx(zone) == ZONE_MOVABLE) {
-+		if (is_highmem(zone) || zone_idx(zone) == ZONE_MOVABLE ||
-+		    node_state(zone_to_nid(zone), N_MEMORY_PRIVATE)) {
- 			/*
- 			 * __GFP_HIGH and PF_MEMALLOC allocations usually don't
- 			 * need highmem and movable zones pages, so cap pages_min
--			 * to a small  value here.
-+			 * to a small  value here. Private memory holds no system
-+			 * reserve, only this small minimum.
- 			 *
- 			 * The WMARK_HIGH-WMARK_LOW and (WMARK_LOW-WMARK_MIN)
- 			 * deltas control async page reclaim, and so should
-diff --git a/mm/show_mem.c b/mm/show_mem.c
-index b90fb5a0016b..24dd33ba783b 100644
---- a/mm/show_mem.c
-+++ b/mm/show_mem.c
-@@ -38,8 +38,11 @@ long si_mem_available(void)
- 	unsigned long reclaimable;
- 	struct zone *zone;
- 
--	for_each_zone(zone)
--		wmark_low += low_wmark_pages(zone);
-+	/* Only common zones bound the page cache and slab that must stay. */
-+	for_each_zone(zone) {
-+		if (!node_state(zone_to_nid(zone), N_MEMORY_PRIVATE))
-+			wmark_low += low_wmark_pages(zone);
-+	}
- 
- 	/*
- 	 * Estimate the amount of memory available for userspace allocations,
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 3e934135e805..03d0919d11be 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -5729,7 +5729,7 @@ static void *lru_gen_seq_start(struct seq_file *m, loff_t *pos)
- 	do {
- 		int nid;
- 
--		for_each_node_state(nid, N_MEMORY_COMMON) {
-+		for_each_node_state(nid, N_MEMORY_RECLAIM) {
- 			if (!nr_to_skip--)
- 				return mem_cgroup_lruvec(memcg, NODE_DATA(nid));
- 		}
-@@ -5754,13 +5754,13 @@ static void *lru_gen_seq_next(struct seq_file *m, void *v, loff_t *pos)
- 
- 	++*pos;
- 
--	nid = next_node_state(nid, N_MEMORY_COMMON);
-+	nid = next_node_state(nid, N_MEMORY_RECLAIM);
- 	if (nid == MAX_NUMNODES) {
- 		memcg = mem_cgroup_iter(NULL, memcg, NULL);
- 		if (!memcg)
- 			return NULL;
- 
--		nid = first_node_state(N_MEMORY_COMMON);
-+		nid = first_node_state(N_MEMORY_RECLAIM);
- 	}
- 
- 	return mem_cgroup_lruvec(memcg, NODE_DATA(nid));
-@@ -5832,7 +5832,7 @@ static int lru_gen_seq_show(struct seq_file *m, void *v)
- 	DEFINE_MAX_SEQ(lruvec);
- 	DEFINE_MIN_SEQ(lruvec);
- 
--	if (nid == first_node_state(N_MEMORY_COMMON)) {
-+	if (nid == first_node_state(N_MEMORY_RECLAIM)) {
- 		const char *path = memcg ? m->private : "";
- 
- #ifdef CONFIG_MEMCG
-@@ -5935,7 +5935,7 @@ static int run_cmd(char cmd, u64 memcg_id, int nid, unsigned long seq,
- 	int err = -EINVAL;
- 	struct mem_cgroup *memcg = NULL;
- 
--	if (nid < 0 || nid >= MAX_NUMNODES || !node_state(nid, N_MEMORY_COMMON))
-+	if (nid < 0 || nid >= MAX_NUMNODES || !node_state(nid, N_MEMORY_RECLAIM))
- 		return -EINVAL;
- 
- 	if (!mem_cgroup_disabled()) {
-@@ -7907,7 +7907,7 @@ static int __init kswapd_init(void)
- {
- 	int nid;
- 
--	for_each_node_state(nid, N_MEMORY_COMMON)
-+	for_each_node_state(nid, N_MEMORY_RECLAIM)
-  		kswapd_run(nid);
- 	register_sysctl_init("vm", vmscan_sysctl_table);
- 	return 0;
-@@ -8268,7 +8268,7 @@ static ssize_t reclaim_store(struct device *dev,
- {
- 	int ret, nid = dev->id;
- 
--	if (node_state(nid, N_MEMORY_PRIVATE))
-+	if (node_state(nid, N_MEMORY) && !node_state(nid, N_MEMORY_RECLAIM))
- 		return -EOPNOTSUPP;
- 
- 	ret = user_proactive_reclaim((char *)buf, NULL, NODE_DATA(nid));
-
--- 
-2.56.1
-
-
+Oh yeah, duh.  We need a capability either way.
