@@ -1,58 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=130.136.161.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795208304;
-	b=D6NDalR/epqkF55E3k91b7cbHBZ9Mrk+v2vJDfi6EO6r3/Z4DJEGMqOASBsKrBiDBOfY
-	 94tL9/RTKsMAz2yYGt+/6JR7brVKEPUYnx/dFBtbbaTs2Oap9e61VYqlkFf1a0RN9nHmh
-	 w4VgvCzNiT6xYbwyGVDhCfRRbYC4R76xSoe8cDXop52oNHs9s+wXldFITjrbrPiR75OdU
-	 0MLk2dtWqLv8PriH2S0dALd7YZBogqQ+Pae9qkYywekqbDZFe70NviIkcmlo7WCb3ocAe
-	 2uMUhLfpK4eJMrJIqKLUjkfHxm2N/zwUprJjwaLZejBvhrQAFyhalQL4jOoG+iFqiFA==
+	t=1795210120;
+	b=4UsU9tTUHqa4xA2NNNNUfSwRrKOvLdOZAktrwTYz/hnuFuSzrz8DHP1YZEtOC+zeTu3V
+	 x0UnNVVzE9llm1CqwMNQ8oE7XN5ZP3m0B3R1k+Lm15SJcSlgGjwLd2wYc59e5B3GpaUHw
+	 nCjF6NP865KMwsnqu6lVfwlJ3+r40qPtbrSRXhKSxUu5/nVSMKX7maUHym65BH7HfKNau
+	 RIWfCXDFx48+D3P9ik9j0zqyxBUtStLuxik11fwjcpGm3IuVuOGiuGSSGP4xuKsRYOyAK
+	 NKmdByRfN6VLO8hAEeIw0jIuBuoQWgNfI5jwI9gz6A46sUqQKAEXfH7h+jbVB3OLduQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795208304;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=AB51lBLhMDoTfUd45tPOHSpsAw7sjsiX6axY2N+ILsQ=;
-	b=AmHxpKxwLOBTZWKjM3P5SxKkRX0+rUl67zgK77aNIoz28OogO9q/agkDsPmEwpGxljdH
-	 doL9zVUPs2jq+lL1iRxlDq4JAVfVkliYMg+RK5+Q/BoQ/15JVRT8svL6z6owrNTtdUZTB
-	 hceYUATwBZM6x8M6BTw44hOUvbzTFOMz/tIm3+zT7nJdCXVbbBF8VymfMGfa9fd1LOkGr
-	 iydOztkc5+fOW9QVVG9EG8BTuALlrY4IULA2NKVaCv/2haucMkf2BOv/Yt95k0/6ZBLAw
-	 clAvx5XQEwma8OFn4ZzE0CG8nhoDsz17BNGoAqQg+WZkXlqOhOnEBiDBssvnsTDF2sA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795210120;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=naEaD4YpWe3Shxw4+guWDoGoPtnn7xqfX4oJv7EZIOM=;
+	b=dgR02hKtiUh9kt3K7kWTPDsaL3ttNbCiurFhVhzjN1Z+qS9O7WfwB2sy1v5sVppNA8k1
+	 fHaddkArDUDYJFMAVKYvy5Cfa5MoIclfHndwf3k1yyV7tJtimy0RLRwEsesOoi/8mLKEQ
+	 QjFLoQ87WjDRq8ZObvW6kJ/SI1VliSIBToiOzSlEn1BDkBly/1o64nxDAt3IJovD3wlL5
+	 nhxu7LQ3UC4XcERTKfdxa6AnwfVFbAWKyKGYB2iXov8lcexgjWRdPPZl+Tk1qZPzfaolS
+	 MrZbRkNtUrEzT6W2dnqTEXtCFWC+1y8hcskF0JzoMpqmPtX5zRx9EBXcTphaSvMpILg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aQzIhey4;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177D3606A69C;
-	Fri, 20 Nov 2026 20:58:23 +0000 (UTC)
+	dmarc=pass header.from=cs.unibo.it;
+	spf=pass smtp.mailfrom=cs.unibo.it;
+	dkim=pass header.d=cs.unibo.it header.i=@cs.unibo.it header.a=rsa-sha256 header.s=virtlab header.b=FYumAXpr;
+	arc=none smtp.remote-ip=130.136.161.50
+Received: from mail.virtlab.unibo.it (mail.virtlab.unibo.it [130.136.161.50])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1192F606A684;
+	Fri, 20 Nov 2026 21:28:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1192F606A684
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cs.unibo.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unibo.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aQzIhey4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB4A1F000D2;
-	Fri, 20 Nov 2026 20:58:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795208303;
-	bh=AB51lBLhMDoTfUd45tPOHSpsAw7sjsiX6axY2N+ILsQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aQzIhey4dgED9DabrvhzvK06B9EnK0nbLSY2jQCvfJxPd0L5ROHkDM3KZ0E095ILv
-	 z4tUvE/PadBduFrDsSEE0gUZNn+gvR9n4TLJFa2jcmb1E96hH4THvlLfjANMCL0qMr
-	 TgdGH/xvVSkn5MM/uJpJ2154FxIr60nRlBz9W8/8eep3vt96deMPYgHihdhjb16+yw
-	 TJeB496hcbQ7CUU7qDREiF3+QilyJJkhIppuRNlY4r1gvHX5H7zzR45IrCn0+xl/XI
-	 nD3T5722mz9vpuMQhXNPyA/HUT3t2KhQ84i0417+ceIlQCT9Ppa2AjfaZmpCUFBpjn
-	 QPgxt5bByxtkA==
-Date: Fri, 20 Nov 2026 20:58:21 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Anvik Loitongbam <permissiontogallop@gmail.com>
-Cc: Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev,
+	dkim=pass (1024-bit key, unprotected) header.d=cs.unibo.it header.i=@cs.unibo.it header.a=rsa-sha256 header.s=virtlab header.b=FYumAXpr
+Received: from cs.unibo.it (unknown [94.32.99.206])
+	by mail.virtlab.unibo.it (Postfix) with ESMTPSA id 9EAA61C007E;
+	Fri, 20 Nov 2026 22:28:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=cs.unibo.it;
+	s=virtlab; t=1795210108;
+	bh=x3B2s1APWxBBSLeZ9kG+9z74t/qJot5h+obwq2A0BhA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FYumAXprYIdO2B295hQWcmjvo6+tlHIGynsCT/3RMw+/P80LvZ5apbZaQB4w+ixCk
+	 kQHxPL+v5h8TPqRgVVm4sNPBJKibZ67PawB9aIWD+hrobu66VKOw98veL47Ad76MkI
+	 MvFp/R8xG7fnA1PXfINxmBFbTEfE5vFNzMCNje34=
+Date: Fri, 20 Nov 2026 22:28:26 +0100
+From: Renzo Davoli <renzo@cs.unibo.it>
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dm-inlinecrypt: emit key type as an optional table
- argument
-Message-ID: <20261120205821.GA3048696@google.com>
-References: <20261120163601.114199-1-permissiontogallop@gmail.com>
+	Randy Dunlap <rdunlap@infradead.org>, linux-um@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: UML: user_mode_linux_howto_v2: Fix bracket
+Message-ID: <awC7erLjtqyg2_dx@cs.unibo.it>
+References: <20261120175509.1369714-2-manuelebnerli@mailbox.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,55 +64,35 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261120163601.114199-1-permissiontogallop@gmail.com>
+In-Reply-To: <20261120175509.1369714-2-manuelebnerli@mailbox.org>
 
-On Fri, Nov 20, 2026 at 10:06:01PM +0530, Anvik Loitongbam wrote:
-> inlinecrypt_status() emits ctx->key_type as a positional argument between
-> the key and iv_offset:
+On Fri, Nov 20, 2026 at 06:55:09PM +0100, Manuel Ebner wrote:
+> Add missing ')'.
 > 
->   <cipher> <key> <key_type> <iv_offset> <dev_path> <start>
+> CC: Renzo Davoli <renzo@cs.unibo.it>
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> ---
+> [v2]
+>  Correct position of closing bracket (Randy Dunlap)
 > 
-> but inlinecrypt_ctr() parses the base table as:
+> [v1]
+>  https://lore.kernel.org/all/20260909140051.1365758-2-manuelebnerli@mailbox.org/
+> ---
+>  Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->   <cipher> <key> <iv_offset> <dev_path> <start>
-> 
-> and keytype, is an optional feature argument parsed by
-> inlinecrypt_ctr_optional(). Resulting in STATUSTYPE_TABLE output for every
-> dm-inlinecrypt device to be not reloadable, the constructor reads key_type as
-> iv_offset and shifts the remaining fields.
-> 
-> Keep the base table in constructor order and emit a non-default key type
-> as keytype:hw-wrapped in the optional feature list. Raw keys remain the
-> default and are not emitted, preserving the existing table text for
-> raw-key devices.
-> 
-> The two dmsetup examples in the documentation acquired
-> the same extra positional key-type field, so removed it there as well.
-> 
-> Fixes: f9f57971da38 ("dm-inlinecrypt: add support for hardware-wrapped keys")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Anvik Loitongbam <permissiontogallop@gmail.com>
+> diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> index 9224bea5ee..e4b1cb1092 100644
+> --- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> +++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> @@ -581,7 +581,7 @@ https://github.com/virtualsquare/sshlirp
+>  
+>  connect to a local area cloud (all the UML nodes using the same
+>  multicast address running on hosts in the same multicast domain (LAN)
+> -will be automagically connected together to a virtual LAN.
+> +will be automagically connected together to a virtual LAN.)
+>  
+>  ***********
+>  Running UML
 
-The original Sashiko review of this commit mentioned this bug already
-(https://sashiko.dev/#/patchset/20260525121348.1321282-2-linlin.zhang%40oss.qualcomm.com).
-Might be worth adding a Reported-by if you found it from there.
-
-> +		if (ctx->key_type != BLK_CRYPTO_KEY_TYPE_RAW)
-> +			num_feature_args++;
->  		if (ctx->sector_size != SECTOR_SIZE)
->  			num_feature_args += 2;
->  		if (num_feature_args != 0) {
->  			DMEMIT(" %d", num_feature_args);
-> +			if (ctx->key_type != BLK_CRYPTO_KEY_TYPE_RAW)
-> +				DMEMIT(" keytype:%s",
-> +				       ctx->key_type == BLK_CRYPTO_KEY_TYPE_HW_WRAPPED ?
-> +				       "hw-wrapped" : "raw");
-
-The "raw" fallback case doesn't make much sense, because it was just
-checked above that it is *not* raw.  So if it is ever reached due to a
-new enum value it will be wrong anyway.  Maybe just leave that out and
-simply do DMEMIT(" keytype:hw-wrapped").
-
-Otherwise this fix looks good, thanks.
-
-- Eric
+Acked-By: Renzo Davoli <renzo@cs.unibo.it>
