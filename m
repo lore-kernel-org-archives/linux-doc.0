@@ -1,100 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.45
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795203320;
-	b=BSye4NrJ8M33cTXaxKMFE1fC805OFk0JTgNp8Ium56yuYBeHJXUOxPf4gUvqRtzgqek4
-	 mmjvk/NdhMwxO6TeBAgS4DpOuMneX0jxQrUayxFDWn1SUjYz0qHrMx/zqHLtp0p18sEWy
-	 3dhHbKEJH2r5uL5SbBtC9O+QdSl6bE5xFYj6/mWW6+CkVPlAahTTTu0P4kxHicyVAQ/y9
-	 vd+tsR47ZQtXhKNpF9SxwepYRx80v5UM4vX/+2YvHnR8xXHvOcpfFqAf7DTg0IXQg2y1H
-	 N3vsABA87dcqNbNxpmXukjPN8QTcUcVrXq+GpxxLNdrYPSVJ+kgXM4/Cg5104scubGg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795203320;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=rVJmHutVQZugQ3dWxOPlJ+2HDsz3aYGVNDsjIuC8ZbE=;
-	b=pzY1Oqq1Sj6zv+yII8Mf807uhsX4TZ/wNsQy23XkFr+8sA0mlRUjPdTO8AbYVOhjag4P
-	 vrR390zQVXgJqUDGPL5YgzI5BvtTESJW/bBzD3xlanlhpfExAB3L3B4+rpO7IOhhzdiwj
-	 VyEopu25RicZkkSTqDYe23hXNGT+DSXobL5INaJmgblOS+c5q2dkavbf6PoxXCdKhXias
-	 0nIPWWE9S0XVPKq0g28Iw79Zm0m8sdixZHBjFRE84ImRETIYcY/izhLsLS5UK64fuX65d
-	 kmP6G2XqXctQ5clpF6eDSbWfAuEBhRb3o8/PC9NlyeidH/+cpc16eVSwzvQzWUQLjgg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=mEayzNdI;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.45
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.225
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795204833;
+	b=a20UFHeRjFhZ4efB+yIhw2bt6/QbWYJ9RA1tydrDmOdk9YVAoM6ob+CtslLg4GodjRGb
+	 DY8jEOhZwMmB4llZ+RXXEq/oo+iGvLDCi3Ja6BcLrww1RjJhzlHvEcP/ADDHdiXB1E/Wa
+	 zsPoERb+4Fr7+ivKU0mZpTaAefZQxYF/D2fwXeUqVYeOjtoGZzDPpbb4C5pgHI5YckGZc
+	 uAWqcxUSwD7oiNUiGwL4mW9A2DNm1TNilHiwLMNWTqzKwC/7fS8tn89eBj8SsQzpLcYvr
+	 TLyFVb/a73Quh4KvAuP0UQrzAXBYRcl6bSHTSIYpWsY1kncIZhoMXQNLKhRcTG2S/hQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795204833;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=5QgfHDQQ4MSdGh+4Ts8IUMOxAYgDCdzXWqFzljmCVG4=;
+	b=rWPsM3kay02g9F3GMiJorxYq4Lhu9BemPRJQjUPxGpXNQm79vx3wFJKzeYFrrVY5U+LB
+	 k0+DPhc5esnOcaJL46/CXF50cu5AxM/G7n4V9FSADRmP1k2ySsgjW2QEzUvvvGPDqDYN5
+	 OMMFLXPHzvetyuAoYPZf8HB1C2wQnCVwDlg73krYH9k3EqC0Z7MjJmZvCWWmww/pyuQlW
+	 4feow13KHOhWWVis9icOq+ORDJVpIegUbajAsO4dvrxoH03l92Pu9pL6DPIepmkGqSQ05
+	 nzvc/g+YKbPm/iApXXnqf2GQKFRMiSW0PpZVo4/qCIo/b6DIUp9tJfR17SLGhK4elow==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EEjM6lKn;
+	arc=none smtp.remote-ip=91.218.175.225
+Received: from mta0.migadu.com (out-225.mta0.migadu.com [91.218.175.225])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD9D60A2606
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 19:35:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDD9D60A2606
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04770606A6FC
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 20:00:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04770606A6FC
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=mEayzNdI
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c50d3ac6b51so499012866b.1
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 11:35:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795203317; cv=none;
-        d=google.com; s=arc-20260327;
-        b=j+eqLE3cHwsquVVczDk8CyLNTAO2xIg9gRcxs+Bqc0euZlZVMtv3XlVtQQuzmmyNGP
-         JGryRJ7lobHV/JJOlnfzzdEwB7946bWQH8g+GxMNS9Qj8C8y7UHReqYSM6aXVhYZuG6d
-         E2vC0OJ61fDyaALC/2PeTN29goFTrJxjzmgNBDsBu4RyITpWu5P1xnhRm1bog1l2rb5b
-         Xr0TJn9Ny8fEhwrHRXYJPMo7W1W6f871bBgZFkrJ+uDyRgL3BHvSSEnxEzjZkeIqq4yf
-         nC3MBxRLduFDDD+R1hh4aCHe0LvbAklm3/+O+67IfYz1cq/w7IPYIYsmOoEHz0WVwxjz
-         n3TA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rVJmHutVQZugQ3dWxOPlJ+2HDsz3aYGVNDsjIuC8ZbE=;
-        fh=R6zU8CkKZdaatQ/ajz9c+ZtdA7CTAvzom3gwlBHtdb8=;
-        b=ONpuOcQYxLUOOV8hV/BtA6+MtWq7Le2Oo+ADQ2qLuRyfZ6Ul4+XTzzKIhRqoP9LEhf
-         HSrq6qW2BuH6Urnek1hm18lgnm8fEfPihkp2U4IlicRg/LC/OjEBFGTzpFH5VqshBNjI
-         UZ5vhNh51vt0vGbcEIlYVlWi2EBB3zS9/RASfCsIFE4YxXzYWFBpni075vkiEhZi4FTk
-         cdcIaVU2e0jX56ytWorfoWc7oZOWP5T3lRoOAyVebIqR4Ef7oBOjTb1ONZcqg26kWDuf
-         LEP5UgHVlByod7Y6/ok2jvHhST3UY4LBiEdpX+HDm6omCi4uCjixQS78poX7V1nhkbar
-         up4w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795203317; x=1795808117; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rVJmHutVQZugQ3dWxOPlJ+2HDsz3aYGVNDsjIuC8ZbE=;
-        b=mEayzNdI3RbBXowLZsBRN9QL9E85SiUM+2Zma239sU2Kh5ksSQzTSY0ziLpiHV59CM
-         7SYo/SGHf9f/BuaQcw7L2iv8PrZbptbwejj5saAaosdugF+c/B6mu2N2VcFs3P0J30Xs
-         iJONriwUSnCKSsvV3YNuTBiMdGh2ko87iKPSXKaspCKEn8Eg4sIKq9PASEMF25S3rqL+
-         ikrtvub/lopTx+V9oIV7ULiuNbYeJREQZANEFrs6J/Ra/Ji6BEJHH9f6CAD3wgAgK2ZV
-         tPPXZ4d3w3MMsU/kZaH+NVG54K7lHkycb/em4YaaXq8r36ZApv2ERWimswbtCLQ2nAOA
-         NkvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795203317; x=1795808117;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rVJmHutVQZugQ3dWxOPlJ+2HDsz3aYGVNDsjIuC8ZbE=;
-        b=cuGoGh4lcaGStTvAYErxcGVvUiKmWwNPKA1E5PKVBR1Y/La9bkQEmCmK5bHKGL0kIu
-         OLCw390V28GDjLdHqVAD7AJsEsuvVUY41mkvFMrcQVUpsZgZq3UaYge6XAyTA/4F+ZEG
-         2azItB4acjvB5KJYwOV3UAGeu/lkpc/bCk8xIzOO6KFc38GLSmQ90oKuvq+fWprGLe8o
-         oSjDgIcPN7yV/YFOfY7v57Yz5ydd+xNbfkoR3lAJpMMowwutbJaQxLnva1TXSCagU4xu
-         T3jAtFrQ3VHjfjPmFEvx20K2lNgClmRG4ZDw4Of8K1s/kPS2vewVw903tBaNkgQbU0ng
-         M5QQ==
-X-Forwarded-Encrypted: i=1; AL+hErFyX+Mqb2k5Z61nx4bmATAEVvSBHuOIn0QRClh0amQzleUvULiqNNZ67kaYYT1e+dJX/HdXqiW5cmw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Hvbu1Xte9B8JYYYhvh0uELEeSDdTbpVw81+q4+2tZjDW8Qwas
-	T85R88HW5MeZ9w83kLBP1KkUZa2K5emL2l9X3jrktiwBBEDhUm4B3zxacrNhzvXApsNw1XaJc1s
-	tCuW8/TOUHI8LZ/uI2N0HY+9T7bgwNQF32ll+G622
-X-Gm-Gg: AZFdTZc4y76xOeA5dyA8X0+UCe9sh5I4fegEckOVi+uceZAWnYXHqa7bUfQN1Bs11lu
-	nZDj/qVHgP4rjxhgXmdXE3ygyaoDErdz/tDstgOjdmr2WGCJvV5pFRGpwXplqwXD9/TFO6JhoG7
-	cLCk76fIqMUETb/CRMGfNij9DkmprdSlyR5dJTjHkzH/YrdOunsCPt1Tis2Zeg16rcLbJ0Tdvsm
-	jQn+bR4z4EuZDfOJLAmPhLddS3EV1kdrHAPf44s5hQ/+q8GAAWSvu4kb0nqAcFz6PJKLr/AnqCH
-	BgrqyYRy50BSAq8dFVvXED9Z8a4LQlWVLGvEx7gJvC50zGd9HrfybwSAwYvDhgX8iHoVqreZeQi
-	N9OmSDwtx4dLbNgWOJYtTJpfs0gj8HlDjO/PpYiGxDnXPNPxCLurqPWWAjPnFDaj0B9Sp
-X-Received: by 2002:a17:907:60ce:b0:c25:5159:6a25 with SMTP id
- a640c23a62f3a-c51317e322amr590730366b.6.1795203316417; Fri, 20 Nov 2026
- 11:35:16 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EEjM6lKn
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=Uy/t5Hdz2eRHlZ3WuQOUva9nAZPCprYKY2wlV0ZSa2c=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795204830; v=1; x=1795809630;
+ b=EEjM6lKnyYmoIm6xJBfqhCuVLpbnNQUmKv2evvJ6r1RwpFiB3+kguNBYe0b34D6sq0DxD2ld
+ KJgQ8rmg61bPB3sqaTswLrYXCsaEcMZGRCyEFheOBrWZP0x70b/GCi83NAJA6AzghqxRXr1ymj3
+ 7e3jYrpNV6lzZa+vPdVFgv0Y=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id b84f8d674bfff41c;
+	Fri, 20 Nov 2026 20:00:29 +0000
+X-Mizu-Trace-ID: b84f8d674bfff41c
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <ff8b63b7-b943-444a-bd37-b6fb493b5d9f@linux.dev>
+Date: Fri, 20 Nov 2026 20:00:27 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,54 +58,147 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261113221248.3535369-11-wusamuel@google.com>
- <20261113221248.3535369-12-wusamuel@google.com> <20261120-antitoxisch-flott-sense-8c2a09fc9679@brauner>
-In-Reply-To: <20261120-antitoxisch-flott-sense-8c2a09fc9679@brauner>
-From: Samuel Wu <wusamuel@google.com>
-Date: Fri, 20 Nov 2026 11:35:05 -0800
-X-Gm-Features: Aa3M54pZ23SffgU83N8qfNlS7foyPp12zk6Rc2qBKf5ucMmFiR6202xmw20UsI0
-Message-ID: <CAG2Kctri9R6b-_OiKcsabdBmLdeWGVY_zmpqqFgDHLKKCDDezA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 1/9] Documentation: ioctl-number: Add
- PROCFS_IOCTL_MAGIC range 0x10-0x11
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	David Laight <david.laight.linux@gmail.com>, kernel-team@android.com, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-modules@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 0/9] dpll: do not serialize driver callbacks
+ under global dpll_lock
+To: Ivan Vecera <ivecera@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
+ Jiri Pirko <jiri@resnulli.us>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc: netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Min Li <min.li@microchip.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, Grzegorz Nitka <grzegorz.nitka@intel.com>,
+ Karol Kolacinski <karol.kolacinski@intel.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
+ Petr Oros <poros@redhat.com>
+References: <20261111164021.273409-1-ivecera@redhat.com>
+ <20261116181612.107a4b57@kernel.org>
+ <fe1dcdd5-ef75-4231-bf9f-03bf8536c2aa@redhat.com>
+ <20261118174424.32e9f130@kernel.org>
+ <dd1d61d7-7bef-4a02-8518-e17d2f50369f@redhat.com>
+ <20261119133851.3f25074c@kernel.org>
+ <bdfa88fe-13bb-4050-b750-962586b1d846@redhat.com>
+Content-Language: en-US
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <bdfa88fe-13bb-4050-b750-962586b1d846@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 20, 2026 at 2:23=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> On Fri, Nov 13, 2026 at 02:12:46PM -0800, Samuel Wu wrote:
-> > +'f'   10-11  linux/fs.h                                               =
- conflict! procfs ioctls (PROCFS_IOCTL_MAGIC)
->
-> Those are PAGEMAP_SCAN (16) and PROCMAP_QUERY (17) which are already
-> in the tree. The two ioctls this series adds are 48 and 49, i.e.,
-> 'f' 30-31, and they aren't registered here at all. Please add them as
-> well.
+On 20/11/2026 07:39, Ivan Vecera wrote:
+> On 11/19/26 22:38, Jakub Kicinski wrote:
+>> Well, I'm not convinced. The relations between objects in DPLL are
+>> already quite hard to follow, and objects from one driver routinely
+>> "plug" into objects from another. The explanation of the locking
+>> rules in patch 9 does not look clean or clear. The driver facing
+>> API needs to be much more "dummy-proof".
+> 
+> Fair enough. The complicated part of the rules comes exactly from
+> that: a pin registered by another driver, like the zl3073x pins that
+> ice registers with its TXC DPLL or uses as parents of its RCLK pins.
+> A message about such a pin runs callbacks of both drivers. I have
+> prototypes of the first four ways below to lock this, each with KUnit
+> tests, and would like your opinion before going further.
+> 
+> In all of them a domain is the set of objects created with the same
+> module and clock_id, dpll_lock becomes an rwsem for the topology and
+> lifetime, and a mutex per domain serializes the callbacks.
+> 
+> A) Pin's domain (this series)
+> 
+>     Callbacks of a pin run under the domain of the pin, whichever
+>     driver registered them.
+> 
+>     Pros:
+>     * one domain lock at a time, so no lock order
+>     * a request or a message about a pin is atomic
+>     Cons:
+>     * the callbacks of a foreign pin are serialized with the driver
+>       that created the pin, not with the other callbacks of the driver
+>       that registered it, so that driver has to protect the shared
+>       state itself, and lockdep cannot check it
+>     * restrictions for measured_freq_get, reference sync pairs and the
+>       private data of a parent pin, which patch 9 has to explain
+> 
+> B) Registrant's domain, deferred notifications
+> 
+>     Each callback runs under the domain of the driver that registered
+>     it. A message about a pin takes the domain locks one after another,
+>     and notifications from callbacks are queued and sent once the
+>     domain lock is dropped.
+> 
+>     Pros:
+>     * callbacks registered by one driver instance are always
+>       serialized with each other
+>     * one domain lock at a time, so no lock order
+>     Cons:
+>     * a request or a message about a pin registered across domains is
+>       not atomic
+>     * the most complex core: a notification queue per domain, a lock
+>       per object to keep its messages in order, and pin setters split
+>       into validation and apply parts
+> 
+> C) Registrant's domain nested under the pin's domain
+> 
+>     Pros:
+>     * callbacks registered by one driver instance are serialized with
+>       each other and with the driver that created the pin
+>     * a request or a message about a pin is atomic
+>     Cons:
+>     * the lock order comes from the topology, so a pin of A registered
+>       with a DPLL of B together with a pin of B registered with a DPLL
+>       of A deadlocks, and lockdep sees it only with a lockdep class per
+>       domain
+>     * a stuck foreign registrant stops the domain of the pin
+> 
+> D) Merged domains (your suggestion)
+> 
+>     Registering a pin with a DPLL or a parent pin of another domain
+>     merges both domains. They are not split again.
+> 
+>     Pros:
+>     * the rules for drivers stay as they are with the global lock
+>       today, and lockdep checks them; the only new one is that state
+>       shared between chips not connected by a pin needs a driver lock
+>     * a request or a message is atomic
+>     Cons:
+>     * only hardware not connected by pins runs in parallel; on the
+>       GNR-D system the zl3073x and all ice PFs end up in one domain
+>     * a callback that waits for the hardware, like the planned resync
+>       for up to 1 s, or for firmware still stalls all DPLL devices in
+>       the merged domain
+> 
+> E) Global dpll_lock, slow callbacks asynchronous
+> 
+>     Pros:
+>     * no change in the core
+>     Cons:
+>     * the resync problems from my previous mail, and a callback that
+>       waits for firmware still stalls all DPLL devices in the system
+> 
+> I wrote before that stretching the domains would not improve
+> anything on that system. That holds for the ToD stall I measured,
+> but the zl3073x does not need to hold its channel lock across the
+> edge waits. Without that, the remaining waits are the planned resync
+> and output state callbacks, and with D they stall only the devices
+> wired to that chip, which depend on it anyway.
+> 
+> So I lean towards D, as it gives drivers nothing new to get right.
+> Would that address your concern, or do you see a better way?
+> 
+> It would be good to hear from the other DPLL maintainers as well.
+> Jiri, Vadim, Arkadiusz, what do you think?
 
-Patch 1/9 here only backfills the existing PAGEMAP_SCAN (16) and
-PROCMAP_QUERY (17) entries. 'f' 30-31 for 48 and 49 are respectively
-in patches 3/9 and 4/9, where their functionalities are added.
+I totally agree with Jakub. Current implementation of DPLL subsystem is
+over complicated, and all these complications came just to completely
+model what was designed for Intel NICs, basically ice driver. But now we
+are again back to the discussion how to complicate things further just
+to fit what was implemented in the new generation of the same hardware.
 
-Patch 1/9 is standalone, so it can be picked up independently (or I
-can resend it separately).
-
-Thanks!
-Sam
+Maybe it's time to step back and think if we really need all this, or
+find simpler way to express/model things?
