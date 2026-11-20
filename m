@@ -1,60 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795159469;
-	b=O4/hEeuN3CGfD++sCLDKHBOd8iN2gv1vnZw0WbaSXq4X54khiWiLNukYwLSF/7u9E3qb
-	 9yZpL+Y0s4FesiEHNRS8r+QHNUYleyqM/mlmfsHguL8/7B9qSUf8+ZU5dvyBRazfyfqo0
-	 OOTvMLM/3bdp9yaB2p9GpZgr5PXSzMQavp9u0qGwho/W5JPeFxeVorx7ojHqzBf9cRD0N
-	 KGezWQnX3z1+Jl9ZHZGJuatRjeMyDrsc4ztQd0U3iTpNXxlXXFjuxBaj1Afhc6a/5UXSA
-	 +2ZX46MAIJdyycmB5rUR0Jan2QbwpgVUT7WweoOo6TtHHX7cDQrtahxr+McuvfmEv3g==
+	t=1795160361;
+	b=S4kRqG0yN8RdwMKf0M4lWtWaHaLv4WSWCtKVvqdaIOW9pE8OCbhDnumaXtQAtWpBtkPr
+	 oHknF4BCGYQ0SGcirBjq1Acz8oeaHb6hfvIvD9nODmYHITOeJXkTfxVYo//UwLV3o4dzu
+	 pD4mJTzc05njqsk8p5cOS/ohv7qClXqXEKSRFGmP742/k3ZDMpKPUl9PRBxsgNkdRsw6M
+	 mzcZpWevOh9/ynzMtTIZiH0j/CJZI2xxORQCvlUL1nmSnfaYSjOSNXUbLiv/rRyvhhUxT
+	 icLwi2mY3tci1wFdKrWMGrHWFpV+rG7jJHOooH8435swwSol9agKyE2NZVILPjYTVuQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795159469;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Date:
-	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Last-TLS-Session-Version;
-	bh=sGG0B+2eCsinK+z+anI9PAK9DV00DeGp6lT4WLn4TAg=;
-	b=sZNQqQX4Wdz1v1tZwXVMgjc/ZQgDtiwgOXvC3q1nHd4WGLhJYGkGwbcBXVtY1AJYUFpL
-	 zQeAxvTB3Yy8X/IruBxxWZEmro5T8M5XGzsEeVZMIVHKk0m3KhAZFYIzGS9VR002WddNr
-	 CbL6ugdwBW/tj6+oLlCOU/ek4BZHOjWgW8rDgUWZnF2TfA6al+hXhaRxJ5dtIZmdPAaKx
-	 CIMfTNw/0gRnVmyvM2cP+h1YCz/kkGobWr4E0x0jfQqqxx3taEE/LUrgpaOIwhTX12E4p
-	 5/tgqYcgG1KCub2JppRW8Qy4sSvE3PsyObLo7VBxHYBsmmspzTfAqsprukuqoLpAbNg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795160361;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
+	bh=Wbrp0Enu3xQncN9mhAX4135r3/WRAcDm9zUjrTj0T7o=;
+	b=Tfc5Wys31ZjLIlHM4O3VJQm8u+hU1VyU3JzOQ7TaIFINqY8VnTRzMt6ilfjHCDZqCcJK
+	 ofZAWrteJpQ3gR+v++hEaNXOECrpUDA0cDDsUVuNAqkUSm/Sr5RgiknekHDak3tku7bWK
+	 3TvQBXERKenTVBZObIYSpL5r5xCPvkKRhZKZrWxE9UstOJdTClbSLC+R9WGAeRRAInWdv
+	 B/fL6sTFI1ppec4r7k0uvfT2JvuqBGJdfnHj1iXz66rkHmqeJ0z6z4w+YFDmgRwItx6Mh
+	 11dSYdNqFc/pKw+0ExqcWlFUcLLAqfnG1c6Vy4vsnjxtsqLz68daXylUALUiAWskAHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Qw0AI9wU;
-	arc=none smtp.remote-ip=185.171.202.116
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=UFMuG5uT;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1341460A2621;
-	Fri, 20 Nov 2026 07:24:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1341460A2621
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F8660A2600
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 07:39:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66F8660A2600
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Qw0AI9wU
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 4B087C2F4DD;
-	Fri, 20 Nov 2026 07:24:33 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AA5996017D;
-	Fri, 20 Nov 2026 07:24:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 19DF911BC11B0;
-	Fri, 20 Nov 2026 08:24:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795159465; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=sGG0B+2eCsinK+z+anI9PAK9DV00DeGp6lT4WLn4TAg=;
-	b=Qw0AI9wUpUgJKVbaD4jUlCsxQTKvicDdbmKDQKyX8KI63Pa9l5L/W1l86yPxvezq7DPtnG
-	6odGheBsgoM6G2LExyCSHkFB4d60iVp3ZotLPKc4AA1qgLurQ/J051xZIoq6fOjSAc8fh5
-	n1MhC/ABuVvgUVdGrwRFXrnkrjP7/JAnRCkeFoeGeblAj9vKaQdW+EUTA5Sshy6sk4maEv
-	fB9w6RrVy6cO/Ma+aG6ig0ZC6PmUek42Yofu2aPYB7axNv/zz8KIHIS9AH96LvHq1ekiyk
-	wGiOOTPDxVt7kmiNkdiPc177XsxPkpnCAssSvmwME+qBwEHDLRgzNZ9g9+h+vQ==
-From: "Thomas Perrot (Schneider Electric)" <thomas.perrot@bootlin.com>
-Date: Fri, 20 Nov 2026 08:23:57 +0100
-Subject: [PATCH v10 5/5] watchdog: aaeon: Add watchdog driver for SRG-IMX8P
- MCU
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=UFMuG5uT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795160360;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Wbrp0Enu3xQncN9mhAX4135r3/WRAcDm9zUjrTj0T7o=;
+	b=UFMuG5uTPimMky6foafcCTFXohKCsI04/ioxqxzcjO1a24E2eQdb33bHtmPAsD+SOMsU1R
+	yPwr9A/NK+DjJPPAtEb5OF1ExqaUNOJFqIXQx4LGVlQqxo0XEzyYPsVr8fC4ESbNWSaL+3
+	1dTG1aW6EgmvjguLEJM072gdN1/DPQc=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-277-_y26HK1iOg-_PmG2ieL5rQ-1; Fri,
+ 20 Nov 2026 07:39:15 +0000
+X-MC-Unique: _y26HK1iOg-_PmG2ieL5rQ-1
+X-Mimecast-MFC-AGG-ID: _y26HK1iOg-_PmG2ieL5rQ_1795160351
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 224C61956067;
+	Fri, 20 Nov 2026 07:39:10 +0000 (UTC)
+Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2FF61195B3C4;
+	Fri, 20 Nov 2026 07:39:02 +0000 (UTC)
+Message-ID: <bdfa88fe-13bb-4050-b750-962586b1d846@redhat.com>
+Date: Fri, 20 Nov 2026 08:39:01 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,306 +71,141 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20261120-dev-b4-aaeon-mcu-driver-v10-5-a756687e7997@bootlin.com>
-References: <20261120-dev-b4-aaeon-mcu-driver-v10-0-a756687e7997@bootlin.com>
-In-Reply-To: <20261120-dev-b4-aaeon-mcu-driver-v10-0-a756687e7997@bootlin.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Linus Walleij <linusw@kernel.org>, 
- Bartosz Golaszewski <brgl@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- =?utf-8?q?J=C3=A9r=C3=A9mie_Dautheribes?= <jeremie.dautheribes@bootlin.com>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>, Lee Jones <lee@kernel.org>, 
- Frank Li <Frank.Li@nxp.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-watchdog@vger.kernel.org, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, mfd@lists.linux.dev, 
- linux-doc@vger.kernel.org, 
- "Thomas Perrot (Schneider Electric)" <thomas.perrot@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 0/9] dpll: do not serialize driver callbacks
+ under global dpll_lock
+To: Jakub Kicinski <kuba@kernel.org>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>, Jiri Pirko <jiri@resnulli.us>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc: netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Min Li <min.li@microchip.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, Grzegorz Nitka <grzegorz.nitka@intel.com>,
+ Karol Kolacinski <karol.kolacinski@intel.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
+ Petr Oros <poros@redhat.com>
+References: <20261111164021.273409-1-ivecera@redhat.com>
+ <20261116181612.107a4b57@kernel.org>
+ <fe1dcdd5-ef75-4231-bf9f-03bf8536c2aa@redhat.com>
+ <20261118174424.32e9f130@kernel.org>
+ <dd1d61d7-7bef-4a02-8518-e17d2f50369f@redhat.com>
+ <20261119133851.3f25074c@kernel.org>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <20261119133851.3f25074c@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Add watchdog driver for the Aaeon SRG-IMX8P embedded controller,
-which exposes the MCU's watchdog timer.
+On 11/19/26 22:38, Jakub Kicinski wrote:
+> Well, I'm not convinced. The relations between objects in DPLL are
+> already quite hard to follow, and objects from one driver routinely
+> "plug" into objects from another. The explanation of the locking
+> rules in patch 9 does not look clean or clear. The driver facing
+> API needs to be much more "dummy-proof".
 
-The MCU's hardware heartbeat is fixed at 25 seconds, so the watchdog
-core pings the MCU in the background to provide the default timeout
-of 240 seconds. The software timeout can be changed via the
-WDIOC_SETTIMEOUT ioctl, the DT timeout-sec property of the MCU node,
-or the timeout module parameter. As the hardware cannot expire earlier
-than its heartbeat, timeouts below 25 seconds are rejected.
+Fair enough. The complicated part of the rules comes exactly from
+that: a pin registered by another driver, like the zl3073x pins that
+ice registers with its TXC DPLL or uses as parents of its RCLK pins.
+A message about such a pin runs callbacks of both drivers. I have
+prototypes of the first four ways below to lock this, each with KUnit
+tests, and would like your opinion before going further.
 
-CONFIG_WATCHDOG_NOWAYOUT is honoured, so userspace cannot stop the
-watchdog once started when it is enabled. The suspend callback still
-stops it, as the MCU would reset a system suspended for longer than
-its heartbeat.
+In all of them a domain is the set of objects created with the same
+module and clock_id, dpll_lock becomes an rwsem for the topology and
+lifetime, and a mutex per domain serializes the callbacks.
 
-Co-developed-by: Jérémie Dautheribes (Schneider Electric) <jeremie.dautheribes@bootlin.com>
-Signed-off-by: Jérémie Dautheribes (Schneider Electric) <jeremie.dautheribes@bootlin.com>
-Signed-off-by: Thomas Perrot (Schneider Electric) <thomas.perrot@bootlin.com>
-Acked-by: Guenter Roeck <linux@roeck-us.net>
----
- Documentation/watchdog/watchdog-parameters.rst |   8 ++
- MAINTAINERS                                    |   1 +
- drivers/watchdog/Kconfig                       |  11 ++
- drivers/watchdog/Makefile                      |   1 +
- drivers/watchdog/aaeon_mcu_wdt.c               | 174 +++++++++++++++++++++++++
- 5 files changed, 195 insertions(+)
+A) Pin's domain (this series)
 
-diff --git a/Documentation/watchdog/watchdog-parameters.rst b/Documentation/watchdog/watchdog-parameters.rst
-index 348229ffcb43..0672ea641ad8 100644
---- a/Documentation/watchdog/watchdog-parameters.rst
-+++ b/Documentation/watchdog/watchdog-parameters.rst
-@@ -33,6 +33,14 @@ watchdog core:
- 
- -------------------------------------------------
- 
-+aaeon_mcu_wdt:
-+    timeout:
-+	Watchdog timeout in seconds. The MCU has a fixed 25 second hardware
-+	heartbeat, so the minimum is 25 seconds and longer timeouts are
-+	provided by the watchdog core pinging the MCU (default=240)
-+
-+-------------------------------------------------
-+
- acquirewdt:
-     wdt_stop:
- 	Acquire WDT 'stop' io port (default 0x43)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5cc24f875e36..0968e2e61585 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -194,6 +194,7 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/mfd/aaeon,srg-imx8p-mcu.yaml
- F:	drivers/gpio/gpio-aaeon-mcu.c
- F:	drivers/mfd/aaeon-mcu.c
-+F:	drivers/watchdog/aaeon_mcu_wdt.c
- F:	include/linux/mfd/aaeon-mcu.h
- 
- AAEON UPBOARD FPGA MFD DRIVER
-diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-index f7d0a0c2c0ef..ef807389ccb0 100644
---- a/drivers/watchdog/Kconfig
-+++ b/drivers/watchdog/Kconfig
-@@ -449,6 +449,17 @@ config SL28CPLD_WATCHDOG
- 
- # ARM Architecture
- 
-+config AAEON_MCU_WATCHDOG
-+	tristate "Aaeon MCU Watchdog"
-+	depends on MFD_AAEON_MCU
-+	select WATCHDOG_CORE
-+	help
-+	  Say Y here to include support for the watchdog timer of the Aaeon
-+	  SRG-IMX8P onboard microcontroller (MCU).
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called aaeon_mcu_wdt.
-+
- config AIROHA_WATCHDOG
- 	tristate "Airoha EN7581 Watchdog"
- 	depends on ARCH_AIROHA || COMPILE_TEST
-diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
-index 9ac406677aba..09c07a29a2f4 100644
---- a/drivers/watchdog/Makefile
-+++ b/drivers/watchdog/Makefile
-@@ -38,6 +38,7 @@ obj-$(CONFIG_USBPCWATCHDOG) += pcwd_usb.o
- # ALPHA Architecture
- 
- # ARM Architecture
-+obj-$(CONFIG_AAEON_MCU_WATCHDOG) += aaeon_mcu_wdt.o
- obj-$(CONFIG_ARM_SP805_WATCHDOG) += sp805_wdt.o
- obj-$(CONFIG_ARM_SBSA_WATCHDOG) += sbsa_gwdt.o
- obj-$(CONFIG_ARMADA_37XX_WATCHDOG) += armada_37xx_wdt.o
-diff --git a/drivers/watchdog/aaeon_mcu_wdt.c b/drivers/watchdog/aaeon_mcu_wdt.c
-new file mode 100644
-index 000000000000..62f005a019ff
---- /dev/null
-+++ b/drivers/watchdog/aaeon_mcu_wdt.c
-@@ -0,0 +1,174 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Aaeon MCU Watchdog driver
-+ *
-+ * Copyright (C) 2026 Bootlin
-+ * Author: Jérémie Dautheribes <jeremie.dautheribes@bootlin.com>
-+ * Author: Thomas Perrot <thomas.perrot@bootlin.com>
-+ */
-+
-+#include <linux/mfd/aaeon-mcu.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/watchdog.h>
-+
-+#define AAEON_MCU_WDT_PING_REG		AAEON_MCU_REG(0x73, 0x00)
-+#define AAEON_MCU_WDT_STATUS_RUNNING	0x01
-+
-+#define AAEON_MCU_WDT_TIMEOUT		240
-+#define AAEON_MCU_WDT_HEARTBEAT_MS	25000
-+/* The MCU cannot expire earlier than its fixed heartbeat. */
-+#define AAEON_MCU_WDT_MIN_TIMEOUT	(AAEON_MCU_WDT_HEARTBEAT_MS / 1000)
-+
-+static unsigned int timeout;
-+module_param(timeout, uint, 0);
-+MODULE_PARM_DESC(timeout, "Watchdog timeout in seconds");
-+
-+struct aaeon_mcu_wdt {
-+	struct watchdog_device wdt;
-+	struct regmap *regmap;
-+};
-+
-+static int aaeon_mcu_wdt_cmd(struct aaeon_mcu_wdt *data, unsigned int reg)
-+{
-+	return regmap_write(data->regmap, reg, 0);
-+}
-+
-+static int aaeon_mcu_wdt_start(struct watchdog_device *wdt)
-+{
-+	struct aaeon_mcu_wdt *data = watchdog_get_drvdata(wdt);
-+
-+	return aaeon_mcu_wdt_cmd(data, AAEON_MCU_WDT_START_REG);
-+}
-+
-+static int aaeon_mcu_wdt_status(struct watchdog_device *wdt, bool *enabled)
-+{
-+	struct aaeon_mcu_wdt *data = watchdog_get_drvdata(wdt);
-+	unsigned int rsp;
-+	int ret;
-+
-+	ret = regmap_read(data->regmap, AAEON_MCU_WDT_STATUS_REG, &rsp);
-+	if (ret)
-+		return ret;
-+
-+	*enabled = rsp == AAEON_MCU_WDT_STATUS_RUNNING;
-+	return 0;
-+}
-+
-+static int aaeon_mcu_wdt_stop(struct watchdog_device *wdt)
-+{
-+	struct aaeon_mcu_wdt *data = watchdog_get_drvdata(wdt);
-+
-+	return aaeon_mcu_wdt_cmd(data, AAEON_MCU_WDT_STOP_REG);
-+}
-+
-+static int aaeon_mcu_wdt_ping(struct watchdog_device *wdt)
-+{
-+	struct aaeon_mcu_wdt *data = watchdog_get_drvdata(wdt);
-+
-+	return aaeon_mcu_wdt_cmd(data, AAEON_MCU_WDT_PING_REG);
-+}
-+
-+static const struct watchdog_info aaeon_mcu_wdt_info = {
-+	.identity	= "Aaeon MCU Watchdog",
-+	.options	= WDIOF_KEEPALIVEPING | WDIOF_MAGICCLOSE | WDIOF_SETTIMEOUT
-+};
-+
-+static const struct watchdog_ops aaeon_mcu_wdt_ops = {
-+	.owner		= THIS_MODULE,
-+	.start		= aaeon_mcu_wdt_start,
-+	.stop		= aaeon_mcu_wdt_stop,
-+	.ping		= aaeon_mcu_wdt_ping,
-+};
-+
-+static int aaeon_mcu_wdt_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct watchdog_device *wdt;
-+	struct aaeon_mcu_wdt *data;
-+	bool enabled;
-+	int ret;
-+
-+	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->regmap = dev_get_regmap(dev->parent, NULL);
-+	if (!data->regmap)
-+		return -ENODEV;
-+
-+	wdt = &data->wdt;
-+	wdt->parent = dev;
-+	wdt->info = &aaeon_mcu_wdt_info;
-+	wdt->ops = &aaeon_mcu_wdt_ops;
-+	/*
-+	 * The MCU firmware has a fixed hardware timeout of 25 seconds that
-+	 * cannot be changed. The watchdog core handles automatic pinging to
-+	 * support software timeouts longer than the hardware limit. The default
-+	 * software timeout of 240 seconds can be overridden via the DT
-+	 * timeout-sec property of the MCU node or the timeout module
-+	 * parameter.
-+	 */
-+	wdt->timeout = AAEON_MCU_WDT_TIMEOUT;
-+	wdt->min_timeout = AAEON_MCU_WDT_MIN_TIMEOUT;
-+	wdt->max_hw_heartbeat_ms = AAEON_MCU_WDT_HEARTBEAT_MS;
-+	watchdog_init_timeout(wdt, timeout, dev->parent);
-+
-+	watchdog_set_drvdata(wdt, data);
-+	watchdog_set_nowayout(wdt, WATCHDOG_NOWAYOUT);
-+	watchdog_stop_on_reboot(wdt);
-+	watchdog_stop_ping_on_suspend(wdt);
-+	dev_set_drvdata(dev, wdt);
-+
-+	ret = aaeon_mcu_wdt_status(wdt, &enabled);
-+	if (ret)
-+		return ret;
-+
-+	if (enabled)
-+		set_bit(WDOG_HW_RUNNING, &wdt->status);
-+
-+	return devm_watchdog_register_device(dev, wdt);
-+}
-+
-+static int aaeon_mcu_wdt_suspend(struct device *dev)
-+{
-+	struct watchdog_device *wdt = dev_get_drvdata(dev);
-+
-+	/*
-+	 * The MCU would reset a system suspended for longer than its 25 second
-+	 * heartbeat, so stop it here even if nowayout is set.
-+	 */
-+	if (watchdog_active(wdt) || watchdog_hw_running(wdt))
-+		return aaeon_mcu_wdt_stop(wdt);
-+
-+	return 0;
-+}
-+
-+static int aaeon_mcu_wdt_resume(struct device *dev)
-+{
-+	struct watchdog_device *wdt = dev_get_drvdata(dev);
-+
-+	if (watchdog_active(wdt) || watchdog_hw_running(wdt))
-+		return aaeon_mcu_wdt_start(wdt);
-+
-+	return 0;
-+}
-+
-+static DEFINE_SIMPLE_DEV_PM_OPS(aaeon_mcu_wdt_pm_ops,
-+				aaeon_mcu_wdt_suspend, aaeon_mcu_wdt_resume);
-+
-+static struct platform_driver aaeon_mcu_wdt_driver = {
-+	.driver		= {
-+		.name	= "aaeon-mcu-wdt",
-+		.pm	= pm_sleep_ptr(&aaeon_mcu_wdt_pm_ops),
-+	},
-+	.probe		= aaeon_mcu_wdt_probe,
-+};
-+
-+module_platform_driver(aaeon_mcu_wdt_driver);
-+
-+MODULE_ALIAS("platform:aaeon-mcu-wdt");
-+MODULE_DESCRIPTION("Aaeon MCU Watchdog Driver");
-+MODULE_AUTHOR("Jérémie Dautheribes <jeremie.dautheribes@bootlin.com>");
-+MODULE_LICENSE("GPL");
+    Callbacks of a pin run under the domain of the pin, whichever
+    driver registered them.
 
--- 
-2.56.0
+    Pros:
+    * one domain lock at a time, so no lock order
+    * a request or a message about a pin is atomic
+    Cons:
+    * the callbacks of a foreign pin are serialized with the driver
+      that created the pin, not with the other callbacks of the driver
+      that registered it, so that driver has to protect the shared
+      state itself, and lockdep cannot check it
+    * restrictions for measured_freq_get, reference sync pairs and the
+      private data of a parent pin, which patch 9 has to explain
+
+B) Registrant's domain, deferred notifications
+
+    Each callback runs under the domain of the driver that registered
+    it. A message about a pin takes the domain locks one after another,
+    and notifications from callbacks are queued and sent once the
+    domain lock is dropped.
+
+    Pros:
+    * callbacks registered by one driver instance are always
+      serialized with each other
+    * one domain lock at a time, so no lock order
+    Cons:
+    * a request or a message about a pin registered across domains is
+      not atomic
+    * the most complex core: a notification queue per domain, a lock
+      per object to keep its messages in order, and pin setters split
+      into validation and apply parts
+
+C) Registrant's domain nested under the pin's domain
+
+    Pros:
+    * callbacks registered by one driver instance are serialized with
+      each other and with the driver that created the pin
+    * a request or a message about a pin is atomic
+    Cons:
+    * the lock order comes from the topology, so a pin of A registered
+      with a DPLL of B together with a pin of B registered with a DPLL
+      of A deadlocks, and lockdep sees it only with a lockdep class per
+      domain
+    * a stuck foreign registrant stops the domain of the pin
+
+D) Merged domains (your suggestion)
+
+    Registering a pin with a DPLL or a parent pin of another domain
+    merges both domains. They are not split again.
+
+    Pros:
+    * the rules for drivers stay as they are with the global lock
+      today, and lockdep checks them; the only new one is that state
+      shared between chips not connected by a pin needs a driver lock
+    * a request or a message is atomic
+    Cons:
+    * only hardware not connected by pins runs in parallel; on the
+      GNR-D system the zl3073x and all ice PFs end up in one domain
+    * a callback that waits for the hardware, like the planned resync
+      for up to 1 s, or for firmware still stalls all DPLL devices in
+      the merged domain
+
+E) Global dpll_lock, slow callbacks asynchronous
+
+    Pros:
+    * no change in the core
+    Cons:
+    * the resync problems from my previous mail, and a callback that
+      waits for firmware still stalls all DPLL devices in the system
+
+I wrote before that stretching the domains would not improve
+anything on that system. That holds for the ToD stall I measured,
+but the zl3073x does not need to hold its channel lock across the
+edge waits. Without that, the remaining waits are the planned resync
+and output state callbacks, and with D they stall only the devices
+wired to that chip, which depend on it anyway.
+
+So I lean towards D, as it gives drivers nothing new to get right.
+Would that address your concern, or do you see a better way?
+
+It would be good to hear from the other DPLL maintainers as well.
+Jiri, Vadim, Arkadiusz, what do you think?
+
+Thanks,
+Ivan
 
