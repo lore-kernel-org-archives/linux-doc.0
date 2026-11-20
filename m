@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.44
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795157567;
-	b=v/j4vGBb8blo7IoOunjiDPc0Vkx87pA/Z10I2Z510ZmV2QM1Y6wWmPL0YT3qtNBzdPCt
-	 OD1kTBZKEQFR6fEEXTPFOO3lp8KhtVOzEM+1enJ6hVaG2DAbIresN0kUqi2KE1H4jClla
-	 BH+KVNkbTF2PjDAYimZ586D5cI6dq6eaUTmi4JbizBCPnqCwMnaimLTXNkiwUOcYe2g7g
-	 7zrPLa8sduV0DI6uf7aS9qmN8u0w3bl5c1U+5EJQM0xS0S/Rk7+bFag7Ysh57DBDIOYQD
-	 azzXREqStxgnFIhoZr8GhwJGCRBOUFw+uabgCNYhL5Vekq4ZT3GMcTmmMfLcurO/PKA==
+	t=1795157597;
+	b=QVqOc+gIJKqWS+/I4oIU3n7rRsDtI+h38yoUwFsW85zgrsukSlki/mhjshR9Z7H6UhGL
+	 3GJ1XSqISEN2QrQ1MgRu8iRZF9Rtq547WjWt2WIDN/I2/0LJB96MZkGl1/wHc4iH5E8CR
+	 jEWigzr46utA0U2C1MrTSUMu4T39yqZEWFDMeBCYktCQP08Y2mPn1fMzDMFamP/G2/V66
+	 gsLcW1A//QGyqcMsArr6BiJkJeP52J9V8GfCt6qoABNf96mNdo3EglZwqi6ezPKx0xU1Y
+	 +2h+IhYYVLtnaqAHauJqwfh7hwMov5CO89QUdic3j9m6qPXP6oCpNWEZUMwjeaRHT4w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795157567;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795157597;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=F2X1sxbD16pOIjQDxmX5fcIE93gciH00EyIBtJDwIOc=;
-	b=NDW41R2Ne+DanVWlOxIj+tqfaBTnjDt8VU34SVW+RfvnVu6X5amhNp2JTovtSEwNw98R
-	 xJoBFwox5u4xgs9YXh94atx2Do3LRi+96GdITUx8hMxtTHYj8JDaJbiM39BfvWdoDlDo9
-	 216FW/A0WCJ3A0vAc1QIw955AbvbsDp+MKwo6d3HEeEMyEcfhpvKLz7x0ff4WMgI8C3U2
-	 AIcD8wKSa1ypdOwlToBA6ejs8gG/yozV8JBnwg/R8o0cyXcIl5glSUxcexJWpLOtcCNtF
-	 LScBpA7kLSMRAlaBfHSRK8pAkUVDRjznLSGZ/ekW6VdF4BaP2FW6sOX2lE0NVIXCLdg==
+	bh=/fJM3JyrbV2mEEaUD0SZw8LIvK7Rur9l2Ozl8m23grs=;
+	b=0QDEuiaA43zTGZuwuccknCo2FJY+MsVmvhazkr1YpNgJLCk7IRuVP+YSwzrJaigGE+oG
+	 1qTNUNRpHs2k7Eln0yTFJFhs7l9MX5JKO1McGQjSt+DqZK1TEiefCEggY4j1Mamycy/ni
+	 LmCy3TgSEKaZP8jGFoBtvRYkqIWwuoIiB0+yAjfgoxGx1HEEuXngCl1eXFIEyeq4IeIuA
+	 JTJI1atelVhl8L4q+bEooHXzfRAMvnNy6GQwlfHOVhcf8AcBS710YrxjigV8S641jrhkZ
+	 n7weDd5eDaxLWrd3HdiFODJqylm+uVOvGfevwOEetFzLfX40j0TVVx9nl7nHcTXTEww==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gfLaLfBZ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DiV092ZI;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.44
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BD0606A320
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 06:52:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69BD0606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EB0606A325
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 06:53:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2EB0606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gfLaLfBZ
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4bb702a7548so3825915e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 22:52:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795157566; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DiV092ZI
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4bb6ba3b244so4120045e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 19 Nov 2026 22:53:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795157595; cv=none;
         d=google.com; s=arc-20260327;
-        b=cpcuNsqk7T4WE+8Z+d4eiIDbEvIb4K2ysCeobKh8/WDrAYgCOL7ohU7KHfdYkvygrw
-         LLJXM6wRQF1VGjlg5vg5A3jm50z88BkgRZ3ULVNphHw3HIQEuqqN9CXZhUeReVNdqzel
-         lpjAedN6TcSnoWtAW4/y23Zl7y/ngrd94DDRk3uDCdPgtaCcNoTEULqtp2x9Yv2stDxC
-         dWL6MwpGCkmzuDN7VTOvUvEL5ZY116Mw+JlwbxOJdgJ/weAcUcK42MKBl3OdvP97COjU
-         09yOPeZhIw80zmcNvJsFlU01M76cLJoy9Yk4Sa8mpENqVtMN/ZsDE0dGhukBKYJQAD5q
-         tTig==
+        b=ZT8Zw6mx7cCWLPnjxL+XnNBZ86QHwczUPRNbbaLtEGXaQe75AD5XN1zWYIOzmyS2rh
+         7N0CCvMbEFIpLtGbtcPDBd0LQa0Efs69q6ZHCqpmcbH4nhkd82Y2njgvxIyoT/wnp5Yv
+         5r1vxtTxFStcVZ7vwwQALhTi3+XpQQD52bc3nquGuaj1ZJl3AnuNiSyFApmWmDO5xOyR
+         R9unnj5VM/M8rOzql/ZRzruHMpMzkzR5vuaHe4X6fT0zIGkErOdPjDHNTfIDehVS1JiI
+         1IdXEr/dgDFjrwHfr7FtPbBlM/Wt1Atda/aBYptE86bimrgpm628o3bzBtst3fxTadPh
+         aXgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=F2X1sxbD16pOIjQDxmX5fcIE93gciH00EyIBtJDwIOc=;
-        fh=ADIlOWfffFOdiQ0AqRuyQ44m3v+jawLOu0hfRD4F2Po=;
-        b=Ni6Gdn2PKk7KysZYTVd+w03RP9LYQ/Yd9/4mHW3ZV+Tjfez1XoUk1vXNX1OH36aF8P
-         Ntjhj9Q0rv9MQSyF4ziTLWkcMrxd8iIbhFU8go9R6zJBI9VY/NgpsqxFCyzb6G6GxwIl
-         Qd74zFDhfbeypv3atkW2m+Oai0DKGe4LF6r8NDBwnRI7TtWmhH2e5L+5TLzN8T/XVr8G
-         aK0g1M3ORQNiplf6FH6ExNc+nJb6t+2gubpTsxkJNyrHgDReA4Bps4gCzP70y48sGWA8
-         cDoQrx52M3DznWr2Sp//zGjI4jJ850xAcUc6PK3Lw0SAxTPsi//k2C55Pw1Kut4/eiH4
-         WT3Q==;
+        bh=/fJM3JyrbV2mEEaUD0SZw8LIvK7Rur9l2Ozl8m23grs=;
+        fh=aSG0h0imXHe+7aXe3Ui39rHiOoK/YtaRYjRlwjT19Gw=;
+        b=ZQsHEIJh/tvDOpaMlW63k5P5mbImTXbIa35uMUZTyOLIL28THOTPvfqEnFidH0NlD7
+         Pb5e+28MU7PSwWRQEnma5AolwAj57bkrByLCzOG30UQpfVG2t++IubjKZw0um7d75yMD
+         sHF49Dh5aJP9c623pGzVM4bHv2esboXUozztWEqy1qq54pqkEsoRFnr2r4hAor5ecDIs
+         mgxpkrIIEthb/3dVe8OeJzHIqwDPQNEih6ClZ+aMNok0gr0pR/0+/648q+gREIKqfaF1
+         t00/wKvOiA96xjMjUhYN3oxc40JeibcIQWIblv7nlpPDaZEvrfVX2CBbJNHjVtR1s+Q/
+         HcRA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795157566; x=1795762366; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795157595; x=1795762395; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=F2X1sxbD16pOIjQDxmX5fcIE93gciH00EyIBtJDwIOc=;
-        b=gfLaLfBZe2o1BQCk1TaRV6GSpd4u3IX6Xzt4nNZ5wpLL1OOEbakST9zThAzeRqfbMI
-         QRRN739UcCv98EIN0173cXnoJWToWRn3f30dOLFlizwbRzsZnKcwkkC9kn7GZm4prY09
-         0piXjM8bfdwn08jTekVocFNYoWLZV347rGsNE5CSR6ZixwHxDkbHg+qm6FdqBAC5G25F
-         oc7Js3khziGs3BF6RuH95JAgDj2E/11YiR5l5KjFIrxuPsI7oEJEfZT4KtHDhoLFwa/6
-         qI9G8q0FvDo1+3w9GeLBrWgBD7V4YQFoFPHjbojrdKC3sfjiWt+WDlrVrh8dlNofjGdR
-         JhMw==
+        bh=/fJM3JyrbV2mEEaUD0SZw8LIvK7Rur9l2Ozl8m23grs=;
+        b=DiV092ZIRlWMel1MulUloZDRoQg0zO2BluGBldR8RURqLG1XfCSvLfAmU5Z5RS/uhK
+         6g2LceFrMm0H7yfXVVWZLxrQgGcIFs3xD8kqnLFce271h2i43yRw0BKOPv6hZBfHPhXg
+         7BtRLDCtpkHeHYY7/c8PSH5axbxH4nmNVbru94prpfdGbXKrl0t903cYb0RXw7dH0OG8
+         acbTTY7+Z6b4rI7JwP3lQV/fli4FpMbIGQQXwtIhnly5v+gztiSIc1y5UKT61ertwBt8
+         jGxWinlkvYOj8UdPBcRlSUTFl/PhfxrjSqbS/HiPK93wsstf75FJo3m2Kwk/XcskN33C
+         on6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795157566; x=1795762366;
+        d=1e100.net; s=20260707; t=1795157595; x=1795762395;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=F2X1sxbD16pOIjQDxmX5fcIE93gciH00EyIBtJDwIOc=;
-        b=PBTkU7H9fhuaql2uRDLgTwQJatQF9z8b2fEgIQl9V/Z/LPUVRp07utYjRwACiy9Lln
-         1LyCB+EPulO+UXHd9En+iaTrIefR91bDOSJu2uzlxF+j4I3xBA/NGUTPihNDFVVy5TCT
-         9foWkRLURBhHY9oPdVpkFfjYPjGJSf/TjFMI4UMIWGFXfxbP5YYd43d95JxlrPy/3F1q
-         8PxbF30YeNBnD7RHWM1/zuilhbe105XnAkPdFBWoSniBQmfY1oI/1qP5SMPwLa9qzCEL
-         xaEY/buk0IDqeDiDQem5EsH42pggzpsbZkmpZ/P47KNZN1NMSeBN5e37G0ccE1Fvu5P5
-         XoiA==
-X-Forwarded-Encrypted: i=1; AL+hErFdu8lVIWd86PRjkezz9elaIGAQU+7xZAqXVlzFtv4Nwp5jVwl8g6ptP/cV/6r1NxaGNO18ugmK57k=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/n0x8D3PGwUr1999KpJofZrxsFl3knuSPj2zzSuLpu2G1pSJ9x
-	YRs8OAGNZ9JBcnWiWqcMmsCHOVvw7C/jCySnt6ZJhbWESbU8rNe+ZYDPYntiVjnW+vAwjucvxAQ
-	8i+HkaG7pOqBDJ+cR85khTXOIXB+fLKs=
-X-Gm-Gg: AYBFou0kpDBp6lX84oaTUGf3J6y97fFnWEpXRQW9OM47pGmfRznMNiJ1MF6+j68Z/fL
-	WIcGGUCgqhSUMxiUBkDi1SS0HBWzfKatkOTf4zNAE+e3ujsec+SXw9IElFeNuEPQJ8Z8mvV4x9E
-	1LKdn/ef9VWKUkxTw5KIY2l0rczEccmaZtqA4nH7kFrLEFUTGMExuVPFfZ6Uh/e2Abgu8OSB8QX
-	JLpavkHCl0RbA5dPgSEOorWX0X49EjeXIEB9m/zshi+JaN12TDUjESZUlytCa07uReWroLItp2d
-	7ldgS/Bd79LhCHIdP5JuU30fhAUD1dcRH01e6ZqZRdVhA1cfi+inX73jeZiGYCg1z9uImanOl5L
-	cjvIvPMCMz6weftbUgPYY3ALb67X+/NIJETIf76rUj2+3qIaJ2BYBPDwpEP0pfqRiXw==
-X-Received: by 2002:a05:600c:3b8a:b0:4ba:761:c0c5 with SMTP id
- 5b1f17b1804b1-4bb8880f0e0mr43956385e9.5.1795157565119; Thu, 19 Nov 2026
- 22:52:45 -0800 (PST)
+        bh=/fJM3JyrbV2mEEaUD0SZw8LIvK7Rur9l2Ozl8m23grs=;
+        b=PuMO+Kv/DGFv6ACgq0SE6a5mzTIGnQ5r5qbtCfxVW04UXUSvBs7tunu+PXpCkzFtGF
+         mlUjdIkeIeBP0wc6AUsVercSPr4gVFWKpl3oJf55Otw81piqyP370uyiXSHRIJOdElU3
+         mrNb24ikhMglO9uVofpF7c0c6zKuHdjOsX9PXsA5C7TzPmsgOppHeSKvL49TLNZMytT4
+         zDdk2dvudXUPkeEJUyN2XFseiABRMKKS7njUbIXbES3nTyzVya996xl0KefIcfgSA+N1
+         7xJ/i/KWdDFn6pTlIHDt+7W/bxv+3akMZKmF+uuwQX7p16lzhqlFWfeYJKunUVnwt5O8
+         qQyA==
+X-Forwarded-Encrypted: i=1; AL+hErESvoHdu1Wrt29cvftEXTHv+ZYsHt1gSMMHYOLIMtm2pcYoCDrJZWjJXUSFI8FtImuZFy/O3nLGqLo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9nwA2oAkZ+feeJNZLO0yNzwvjc50wXNkKnS7UTfUvcEdm2uNqL
+	utTA1oBGp5NYJZucg2OyIK2Th1lzbDQPwcfrYvhxvhBBUnh0eD8OdtGQjYvnzjAY0FPDcirMW1f
+	hLpKH3JW+aq0i0LvKXQ9lIimMg1NRHCw=
+X-Gm-Gg: AYBFou0gOp9zemvXnOZGPYeG8AzjySuVyh2QoVbHqgN3PnSFlW/0JiZO53EuWu43xMB
+	ShyVLWFSgCykbqzaIr+OEXG7vtyOsbF0ziH2EsISrV8nMdMNRhTQE5/mPlyqQrYNIiz5nI/u3PA
+	+X2/7sTtTb6CAMsqBV9/AdE9Tze2kxnSUpgwzOad5YJNRxHzmUTs6zxCkFw4H0luDGYJtNfITYO
+	fBFyDjZVVH8+qosvQ0U2R0NcSM5Djhqz1OyGkdZLSdMWAtdOxI3a9tD2HkogBvMxHIEpIYUEO5z
+	Qs7NvJ9kdP8rR45kzvwQ1vwhGuWDikedsBgF1cM/ABIpwvGp9LTn+ugSF2TdXEYqs6nEDhjXULO
+	s5QhI1Kd0dmscmEplnhFA31B65W4fOGKxFfVljZ4s5eQS5B28Y/vTu96g3pHlyIUpvw==
+X-Received: by 2002:a05:600c:4f0d:b0:4bb:5c97:f4b1 with SMTP id
+ 5b1f17b1804b1-4bb8881941bmr45328225e9.24.1795157594548; Thu, 19 Nov 2026
+ 22:53:14 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,13 +104,13 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com> <20261119-mglru-fg-v5-4-9eee2fe97a2d@tencent.com>
-In-Reply-To: <20261119-mglru-fg-v5-4-9eee2fe97a2d@tencent.com>
+References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com> <20261119-mglru-fg-v5-5-9eee2fe97a2d@tencent.com>
+In-Reply-To: <20261119-mglru-fg-v5-5-9eee2fe97a2d@tencent.com>
 From: KunWu Chan <kunwu.chan@gmail.com>
-Date: Fri, 20 Nov 2026 14:52:32 +0800
-X-Gm-Features: AclHuK8u9ADIpuCbwIFublehlsAz2Sh82b8gcTYOiMH_psNdYRsQZkiWsXcTuLk
-Message-ID: <CAN_Opa_h083WMGuehgFLYb=Rc+Kd3t3JdPiG2xkEw_+digwQyw@mail.gmail.com>
-Subject: Re: [PATCH v5 04/17] mm/memcg: add folio-based lruvec live helper
+Date: Fri, 20 Nov 2026 14:53:02 +0800
+X-Gm-Features: AclHuK-UAZOlULyacCKbVJRgcNRnp6P5R-TwcyKCwuErXy_grzV4Q1tvMgKauLc
+Message-ID: <CAN_Opa8b0Uh9WQ85HkZJPm6UuqW+eSqtdP_UWW76naupt3HNmg@mail.gmail.com>
+Subject: Re: [PATCH v5 05/17] mm/mglru: skip the flags cmpxchg when nothing changes
 To: kasong@tencent.com
 Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
 	Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>, 
@@ -141,175 +141,99 @@ Content-Transfer-Encoding: quoted-printable
 On Thu, Nov 19, 2026 at 5:03=E2=80=AFAM Kairui Song via B4 Relay
 <devnull+kasong.tencent.com@kernel.org> wrote:
 >
-> From: Kairui Song <kasong@tencent.com>
+> From: Ridong Chen <chenridong@xiaomi.com>
 >
-> Add a helper that resolves a live lruvec for a folio under RCU
-> without taking the lruvec lock.  It takes a folio directly so the
-> lruvec lookup happens inside the RCU read-side critical section,
-> which a lruvec-based interface cannot guarantee.  The first user is
-> the lockless folio_inc_lru_refs() path later in the series.
+> folio_update_gen() and folio_set_lru_refs() always end with a
+> try_cmpxchg() on folio->flags, even when the new value equals the old
+> one. The locked instruction still takes the struct page cacheline in
+> exclusive state.
 >
-> Factor the ancestor walk out of lruvec_live_lock_irq() into
-> __lruvec_get_live(), so that both entry points share it, and spell
-> out why the walk is enough while only the RCU read lock is held:
-> reparenting of a memcg that starts dying waits for a grace period,
-> so it cannot race with the caller until the lock is released.
+> That is common in practice: a folio mapped by many processes is visited
+> once per mm during a page table walk, and after the first visit it is
+> already in the youngest generation with refs cleared and PG_workingset
+> set. isolate_folio() and the eviction paths also call
+> folio_set_lru_refs(folio, 0) on folios whose refs are already zero.
 >
-> Move memcg_is_dying() up in memcontrol.h, next to the other memcg state
-> predicates, and use it for the walk rather than repeating the open coded
-> css_is_dying() test a few definitions away from where it is explained.
+> Break out of the loop when the flags would not change. The update is
+> complete at the point of that read: the flags already hold the target
+> value, and a concurrent change to them is ordered after it. When the
+> cmpxchg would have succeeded, the value written is the same, so no new
+> state becomes reachable.
 >
-> No functional change for existing callers.
+> What the patch drops is the retry. A retry re-reads the flags and
+> recomputes new_flags from the newer value, so it overwrites a concurrent
+> update with what this CPU wanted. For folio_update_gen(), a walker that
+> read an older max_seq can lose the cmpxchg against a promotion done by
+> another CPU, and then write its older generation back on the retry.
+> folio_set_lru_refs() can likewise clear a refs increment that raced with
+> it. Breaking out keeps the newer state.
 >
-> Tested-by: Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>
+> No caller relies on the full barrier that the locked instruction
+> implied on the skipped path: the eviction and isolation callers run
+> under the LRU lock, and the others (page table walks,
+> folio_mark_accessed(), lru_gen_clear_refs()) only care about the
+> resulting flags value, which is already in place. Note that
+> lru_gen_inc_refs() already returns without any atomic when refs is at
+> LRU_REFS_MAX and the folio is in the workingset.
+>
+> Tested on an i7-13700HX with turbo disabled and the performance
+> governor. N processes map the same 2GiB tmpfs file (huge=3Dnever) and
+> read every page, then one aging pass is triggered on their memcg
+> through /sys/kernel/debug/lru_gen ("+ <memcg_id> 0 <max_seq> 200 1").
+> Time per aging pass in ms, median of 5 runs of 10 passes each, averaged
+> over 2 boots of each kernel:
+>
+>   processes    base   patched
+>           1    32.9      31.7   -3.5%
+>           8   195.1     160.2  -17.9%
+>          32   755.8     592.2  -21.7%
+>          64  1597.2    1260.6  -21.1%
+>
+> With one process, every visit changes the generation, so there is
+> nothing to skip. Before the patch, perf annotate attributes 53-58% of
+> the walk_update_folio() samples to the lock cmpxchg in the inlined
+> folio_update_gen() in this test.
+>
+> [kasong: folio_update_gen() is replaced by folio_inc_lru_refs_walk()
+> later in the series, which keeps the same early exit.]
+> Reviewed-by: Kairui Song <kasong@tencent.com>
+> Signed-off-by: Ridong Chen <chenridong@xiaomi.com>
 > Signed-off-by: Kairui Song <kasong@tencent.com>
 > ---
->  include/linux/memcontrol.h | 71 ++++++++++++++++++++++++++++++++++++----=
-------
->  1 file changed, 56 insertions(+), 15 deletions(-)
+>  include/linux/mm_inline.h | 2 ++
+>  mm/vmscan.c               | 2 ++
+>  2 files changed, 4 insertions(+)
 >
-> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> index 980358bc6f49..441a5d57e723 100644
-> --- a/include/linux/memcontrol.h
-> +++ b/include/linux/memcontrol.h
-> @@ -571,6 +571,11 @@ static inline bool mem_cgroup_disabled(void)
->         return !cgroup_subsys_enabled(memory_cgrp_subsys);
+> diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
+> index 46beded51c7d..2571b3f01226 100644
+> --- a/include/linux/mm_inline.h
+> +++ b/include/linux/mm_inline.h
+> @@ -233,6 +233,8 @@ static inline void folio_set_lru_refs(struct folio *f=
+olio, unsigned int refs)
+>         do {
+>                 new_flags =3D old_flags;
+>                 lru_set_refs_flags(&new_flags, refs);
+> +               if (new_flags =3D=3D old_flags)
+> +                       break;
+>         } while (!try_cmpxchg(folio_flags(folio, 0), &old_flags, new_flag=
+s));
 >  }
 >
-> +static inline bool memcg_is_dying(struct mem_cgroup *memcg)
-> +{
-> +       return memcg ? css_is_dying(&memcg->css) : false;
-> +}
-> +
->  static inline void mem_cgroup_protection(const struct mem_cgroup *root,
->                                          const struct mem_cgroup *memcg,
->                                          unsigned long *min,
-> @@ -1349,6 +1354,11 @@ static inline bool mem_cgroup_online(struct mem_cg=
-roup *memcg)
->         return true;
->  }
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index 8d14831cdf83..0f24b6ebc1eb 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -3274,6 +3274,8 @@ static int folio_update_gen(struct folio *folio, in=
+t new_gen, int *type,
+>                 lru_set_gen_flags(&new_flags, new_gen);
+>                 lru_set_refs_flags(&new_flags, 0);
+>                 new_flags |=3D BIT(PG_workingset);
+> +               if (new_flags =3D=3D old_flags)
+> +                       break;
+>         } while (!try_cmpxchg(folio_flags(folio, 0), &old_flags, new_flag=
+s));
 >
-> +static inline bool memcg_is_dying(struct mem_cgroup *memcg)
-> +{
-> +       return false;
-> +}
-> +
->  static inline
->  unsigned long mem_cgroup_get_zone_lru_size(const struct lruvec *lruvec,
->                 enum lru_list lru, int zone_idx)
-> @@ -1510,28 +1520,41 @@ static inline void lruvec_lock_irq(struct lruvec =
-*lruvec)
->         spin_lock_irq(&lruvec->lru_lock);
->  }
->
-> -static inline struct lruvec *lruvec_live_lock_irq(struct lruvec *lruvec)
-> +/*
-> + * Reparenting moves a dying memcg's LRU state to its parent at any time=
-,
-> + * so anything added to that LRU afterwards would be lost.  This helper
-> + * walks up to the nearest live ancestor while the caller must hold the
-> + * RCU read lock: reparenting of a memcg that starts dying waits for a
-> + * grace period, so it cannot race with the caller until the lock is
-> + * released.
-> + */
-> +static inline struct lruvec *__lruvec_get_live(struct lruvec *lruvec)
->  {
->  #ifdef CONFIG_MEMCG
->         struct pglist_data *pgdat =3D lruvec_pgdat(lruvec);
->         struct mem_cgroup *memcg =3D lruvec_memcg(lruvec);
->
-> -       rcu_read_lock();
-> -
->         /*
->          * The memcg can be NULL when the memory controller is disabled.
->          * Otherwise, the caller keeps the memcg owning @lruvec alive.
->          */
-> -       while (unlikely(memcg && css_is_dying(&memcg->css))) {
-> +       while (unlikely(memcg_is_dying(memcg))) {
->                 memcg =3D parent_mem_cgroup(memcg);
->                 lruvec =3D mem_cgroup_lruvec(memcg, pgdat);
->         }
-> +#endif
-> +       return lruvec;
-> +}
->
-> +static inline struct lruvec *lruvec_live_lock_irq(struct lruvec *lruvec)
-> +{
-> +#ifdef CONFIG_MEMCG
-> +       rcu_read_lock();
-> +       lruvec =3D __lruvec_get_live(lruvec);
->         spin_lock_irq(&lruvec->lru_lock);
->  #else
->         lruvec_lock_irq(lruvec);
->  #endif
-> -
->         return lruvec;
->  }
->
-> @@ -1561,6 +1584,34 @@ static inline bool folio_matches_lruvec(const stru=
-ct folio *folio,
->                lruvec_memcg(lruvec) =3D=3D folio_memcg(folio);
->  }
->
-> +/**
-> + * folio_lruvec_live_get - get a live lruvec for a folio under RCU
-> + * @folio: the folio
-> + *
-> + * Same as folio_lruvec(), except that a folio whose memcg is dying is
-> + * accounted to the nearest live ancestor, which is where reparenting
-> + * would put it anyway.
-> + *
-> + * Return: the live lruvec, with rcu_read_lock() held.  Pair it with
-> + * folio_lruvec_live_put().
-> + */
-> +static inline struct lruvec *folio_lruvec_live_get(struct folio *folio)
-> +{
-> +#ifdef CONFIG_MEMCG
-> +       rcu_read_lock();
-> +       return __lruvec_get_live(folio_lruvec(folio));
-> +#else
-> +       return folio_lruvec(folio);
-> +#endif
-> +}
-> +
-> +static inline void folio_lruvec_live_put(struct lruvec *lruvec)
-> +{
-> +#ifdef CONFIG_MEMCG
-> +       rcu_read_unlock();
-> +#endif
-> +}
-> +
->  /* Don't lock again iff page's lruvec locked */
->  static inline struct lruvec *folio_lruvec_relock_irq(const struct folio =
-*folio,
->                 struct lruvec *locked_lruvec)
-> @@ -1826,11 +1877,6 @@ void mem_cgroup_node_filter_allowed(struct mem_cgr=
-oup *memcg, nodemask_t *mask);
->
->  void mem_cgroup_show_protected_memory(struct mem_cgroup *memcg);
->
-> -static inline bool memcg_is_dying(struct mem_cgroup *memcg)
-> -{
-> -       return memcg ? css_is_dying(&memcg->css) : false;
-> -}
-> -
->  #else
->  static inline bool mem_cgroup_kmem_disabled(void)
->  {
-> @@ -1901,11 +1947,6 @@ static inline void mem_cgroup_node_filter_allowed(=
-struct mem_cgroup *memcg,
->  static inline void mem_cgroup_show_protected_memory(struct mem_cgroup *m=
-emcg)
->  {
->  }
-> -
-> -static inline bool memcg_is_dying(struct mem_cgroup *memcg)
-> -{
-> -       return false;
-> -}
->  #endif /* CONFIG_MEMCG */
->
->  #if defined(CONFIG_MEMCG) && defined(CONFIG_LRU_GEN)
+>         *type =3D folio_flags_is_file_lru(&old_flags);
 >
 > --
 > 2.56.1
