@@ -1,100 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.160.172
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1795184413;
-	b=1jZNW9rI8gMEANSW0WJRB/klwTNmYhJ9retEqMNO/7g5pLRmo2qbRwLy5cNBfqsrnoM+
-	 w9Dej7Wr5cTVkFP8CObnFG2wB4l8yoLYhhdUoTOmQ8F6eV2ZHfMrMrookhYIHsZsCLEXY
-	 EAfMK1HECZH8/CI9nwY8uDCZH2EotDOfQ96myVqgW0AiOs5yom/ApugGe3El4JYy6ZvIS
-	 MGzqE5efEBXkqbYe8281e94W1Wp8RBo14a9gyvahHJtkg3yGkx9mQZiYFnTJJJneh93yQ
-	 sd7ci6/s0G3r4tkqNshdHEubWwi4bUJV/eUoMfi1iV9fsseRE+BNO13Ra1ETo9Ox4gQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795184413;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=ZZKnDY3fzlC6VsJ3+sJIUV4LE2tQFmEUFN5SVkPY8Lk=;
-	b=2uThslcCqxDWAdLxhM7BMNM1Nqy23hyCesLSuDnS+qAYjljfJJ3MFyf8Q2+OxkEkstxv
-	 OjyC7KLJ50aEZ/4bhhQFxztRXcLhPioVGfplUYg6oVsdE9vnbARuvW4o9POoVuI7tmTUn
-	 LE4DsW8CV3KJ/YxENd6vLf4NiW66MCD96jIkXYPq2fLPPw49A66F63pODgBG0fzmdN7JQ
-	 mR3ih6JgPQ9XSsRTfdinB0Qo5YjCV5/rKS4C+1Vc7/BvSwo2iguRla34a+PChvmeQJGHD
-	 QBlZ9O052Y3sa9jKwRQuE3RjtBeJLLb9G9hqkOJRirFtTQJ0uWQQVqQIGK2xiiswHBw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=aPrxrTV3;
-	arc=fail smtp.remote-ip=209.85.160.172
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795184966;
+	b=TrVn4+WOtblnzwnMbigtjDeqnIVPPlf6y0CUc3w1gmMkPgYGd+Z0QMjV16/OhmUF1rF7
+	 KCF8R2sklKoPgNi5H4VmMNtIuFpEcUkY7nPwwogkfHzjHMTwjBaaj+JRF76xVoueHoAJ7
+	 XZN2nHdPoSiLuz2RMXF5JeNV0PTeA9Qux2qHlgvD4lJbtRQHErFlCGTyqxGkwAozP0VIm
+	 TJHh8YsrDv9RMbJrPWfkYiGnZosC3qwBqBwu9IAc8brEwas9JPI093dWEjEykZczBF7HE
+	 xZTewn4SdpPyrJlri4Dl9Ibs2wOtK8vFd16n31TTRQx37QXFMDkRngHFsDDirbsbmTg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795184966;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=rhOyoytlnDVzUE3pO2YswTduW+qVAkiRX4Xy+qDagYo=;
+	b=uOwqmWJHKGPm5vzcAPuxSYz1EsNiy1+e08xJhaXghs8LmjsU4BkVBHcwl8ysixReucxp
+	 cvfpk31WVS9pIco9Ec3Ug4l1dsiDgDgo5C4IQRNvALVpfcCwFOQvSlBbIfSJE5GAGbQbx
+	 GC8jWgRFceV5dcVygkuE/wwqYlsa+yxpWwbW0RSSP8J/GHRk9sbXNG/MT7jy71/zBKAGa
+	 M7bsFWl/KaIr4WDbTCKsdd2oLMskNMC3op5vGspGJavqT+4/XPpxjQ7v+Uv/s6Mk2Vwd9
+	 cSRcpWV2RxF8QchJYO7nV3SzWdEcq1oro9dyTGxyWIC6RBdQPvnozv1G/h2kyy/nuqA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Gt+MBOJ9;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E35606A32C
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 14:20:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77E35606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6A4606A326;
+	Fri, 20 Nov 2026 14:29:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=aPrxrTV3
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-54492d8a988so289001cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 06:20:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795184412; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ju+7bRk/cOCRMTVYnoszdJkvxz+E0WhdzOmjyeAxKCykR7HKIyr3g5GwXag+YuDBzs
-         +40jUSMRZwxL4jMMZHrqrj4UFkg8CoN1Ug7+oMGnGggpR2i+LwoIcdF9sFHnYASEDFL4
-         6zcWv9T89c22dbrWbUvqUrzT2HF1Eu89gVOno8moHumC5fCyMpwlnQ8QzQycx35n0DnF
-         L/oDzMsmGvsMxC2LvqW2Yr5ghJy0qj4GvZ9wzvIIwUZJu8DRlt5xlm3kbrMCSDz6C21g
-         CqjUZgx5SBnQX2XFc34pj/lHRgsg1Ec6hzThfGI17DCVRmgENxCIh3KtHZcHLXy6LNWe
-         bDSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZZKnDY3fzlC6VsJ3+sJIUV4LE2tQFmEUFN5SVkPY8Lk=;
-        fh=8Dbig0hYUtMdqgT0tBl8Fh35ihILMiXhT9fX7zX375k=;
-        b=Hxdde3/Rx7DwaWzSggYf4yJ/NDFiK/gu90WT7+9lkxuRFrlsJHPL5pK7dOYKyZe1j/
-         86SfMRAaqVgGeVNOWR4bkcz51Hdar7Pi6EUuwCi+zrp9l0Xk9W0AZn6DPFdCI+4iNcG2
-         xqAdzGyMBd2quVfFTv+k5QBGbWxgI8WnaWjH+vMzyTXptV35aPtDSvMOvQQ4K1Z2oWit
-         8x8hMyNSRi69as9ai0ROp+OCBfsgAH0f3mUVvV//3jrb8uQZSnNTbKwciX+Qxy4G+hob
-         7kSg+JmXXY/bs0cL1b2hZX0hnkVFztLscK+wtPlSPaWSKLu0Ofr/W0wO1dxOnaPi6ze3
-         Z8Lw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795184412; x=1795789212; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZZKnDY3fzlC6VsJ3+sJIUV4LE2tQFmEUFN5SVkPY8Lk=;
-        b=aPrxrTV3tjNKVZRe0o/QZnrHtJ88Cq0pnVQFh7mHgAvBJzDrEJpUWOT7AK49X/t9t1
-         p7Vunzt0X2Jci5rymoMAfsIElmpqm511Q1t7p8xn1jTunsDcwP+6GaXxEB2IFTgFyMZ9
-         0iof2il/XdRNNVwakcxSw0onlzvNI9i3hcQnJoO5i5GHUKuFzFtrzC3+IMt6INHHgjGk
-         xqTd0Wgb4Ec0WCLoQA1db0uoMdVOIYDq9ySwBT+7Mn0wwGKDTjTrt/aa7XbbUc+3QID5
-         2e3M416nZRs+/ass9ys+Ro5LBwyHkmnva3YwUsJ7NnD60k9CYZmdfaxSg5dN/4GGjxa8
-         eNnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795184412; x=1795789212;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZZKnDY3fzlC6VsJ3+sJIUV4LE2tQFmEUFN5SVkPY8Lk=;
-        b=r6Q23mH3+J2yjBoqVC3JbjtEftlG9QKrw5evqLJOv/y7NKEN4+uiDl+MjGtDbNyccp
-         FQqNrOSMhUd/14Kzhsw7TcX4AGXbVjYAHdlycleOu+/CTutoaTai95488SWggibjbohe
-         6c9E6we3mUJClvAeVrxva40607ihuXnnnXPHikL5q6bVf+TcTcj1eGjgjKmC+AJL58GJ
-         6SZin4ghYDYyUYeOEc54CzhHN88+uin8Kxb17BtpwOtXSynAWdLU1AOoCZNXccmDvQvm
-         XxkZgFgpul4tmjFl6a6iVKQPjSuSTdFx32c4XRn1GZKNK/Q75mH+pu/RcunRY1D+agC/
-         XQcg==
-X-Forwarded-Encrypted: i=1; AL+hErHDvTiWWfSzuCZvG0Wx60TyDbr7jUKD291lF+PG49AFlIbR6yW8CLlkXgHnguACKcsQnJjVc8+RqJw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+VNy7wd2D3gRfNyQ5dpI4TlilBI4Ow1/o5gULovZO0WMrbSVNl
-	iKYfWm9TDL7esCqgNnRbnpK4vJ4kuUDsnQGu/PapXpjFRty01pqOPe0HMHmyc260SMFD4E5HMUc
-	mtxd6EKmqcrOCoJOiRNQRjMS2DAcmafPi6RvtRIId
-X-Gm-Gg: AYBFou12mp6n5QcScog2qHtsxREo13dRh/TgCaiT+rvLzlDuiHcW2MduuwDTUlZParQ
-	nQizlRF1SSUuhbF5yE39RgcOO3dKTEFpPAGhEVDLYQYc2JVhfe4SI9bbGC+/qcqO7/W9FB7UShG
-	NIrHq47la93jHlyLM8wrGSwfT//u7g4X/ge1fvptkDvGkBtyrq/p2UuNZPwc0pjFHrhJ2EbOy5T
-	ayffO3WACrCEyCbcTS9Qia7GYyDLaAHU3BA2iMfZyEu+kDRAF8DY0jNtKzE9ZmFem5zwY7pC1QL
-	dMEUbPVtMNhhcPDGGQ4M8UtjTlH9Vxidc1RXU8b8PwPEXZ0srf94gezlvm8ng0E7tMlod6YfMx4
-	/d/72d/IkNBC5l6SY8eFEqllV7HolMX//+fp6/A==
-X-Received: by 2002:a05:622a:8c8:b0:55b:ce7e:e65 with SMTP id
- d75a77b69052e-55d7a37902amr16973301cf.12.1795184411359; Fri, 20 Nov 2026
- 06:20:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Gt+MBOJ9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6EB61F000C0;
+	Fri, 20 Nov 2026 14:29:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795184965;
+	bh=rhOyoytlnDVzUE3pO2YswTduW+qVAkiRX4Xy+qDagYo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=Gt+MBOJ99ecdCoik/DrDTQPtJz5L/ZTUyz/EegTnM9kepvs1tpxlCXOv1QgdhAHCu
+	 Rmea41jfXufLIE9H7uiBcy5CTMLzjfkcfLsQwgixDcr/U+q3RoZbmZZMqNU1OAuVv/
+	 aJL0k0omtXBWH1QfEfPodlrJd6YnP4ktpCjHBX2T/Fj/2sJEv9VCS9VsIA1i/Liuxu
+	 mjSFcrKqc8hvKpD9cZWD9ytUtBRRiNqbPEoe3oRte2J3A84utdWKl3hIvZBKhIlmeu
+	 KXKHkErlt1fr1FyS1G4E4e0/dmYnunLescQcyb+4VQwLXaMDFM8m3apbWo/ePA8e0j
+	 9v3XLNMi3UdSw==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org,
+  linux-mm@kvack.org,  Alexander Graf <graf@amazon.com>,  Andrew Morton
+ <akpm@linux-foundation.org>,  Baolin Wang <baolin.wang@linux.alibaba.com>,
+  Christian Brauner <brauner@kernel.org>,  David Hildenbrand
+ <david@kernel.org>,  Hugh Dickins <hughd@google.com>,  Jonathan Corbet
+ <corbet@lwn.net>,  "Liam R. Howlett" <liam@infradead.org>,  Lorenzo
+ Stoakes <ljs@kernel.org>,  Michal Hocko <mhocko@suse.com>,  Mike Rapoport
+ <rppt@kernel.org>,  Pasha Tatashin <pasha.tatashin@soleen.com>,  Pratyush
+ Yadav <pratyush@kernel.org>,  Randy Dunlap <rdunlap@infradead.org>,
+  Samiullah Khawaja <skhawaja@google.com>,  Shuah Khan
+ <skhan@linuxfoundation.org>,  Suren Baghdasaryan <surenb@google.com>,
+  Vlastimil Babka <vbabka@kernel.org>
+Subject: Re: [PATCH v4 14/19] selftests/liveupdate: Test which tmpfs files
+ can be preserved
+In-Reply-To: <20261111002358.1842967-15-dmatlack@google.com> (David Matlack's
+	message of "Wed, 11 Nov 2026 00:23:52 +0000")
+References: <20261111002358.1842967-1-dmatlack@google.com>
+	<20261111002358.1842967-15-dmatlack@google.com>
+Date: Fri, 20 Nov 2026 14:29:19 +0000
+Message-ID: <2vxzh5hb1sqo.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,98 +72,87 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261109182533.3594984-1-lrizzo@google.com> <20261120010655.467825-1-lrizzo@google.com>
- <20261120135013.GO3115493@ziepe.ca>
-In-Reply-To: <20261120135013.GO3115493@ziepe.ca>
-From: Luigi Rizzo <lrizzo@google.com>
-Date: Fri, 20 Nov 2026 15:19:34 +0100
-X-Gm-Features: Aa3M54r79-wonm4abHk_49DjjJPxLMhPkMzG33LcM6yDH6fwirGgzaIY398cqTc
-Message-ID: <CAMOZA0LmZ9PFzxLcc1SuS8piFyZu6P=vX_qR2jy-3QRUoNCUKA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 00/25] PISA: Pre-mapped IOVA Superpage Allocator
- for DMA and CoCo
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Vlastimil Babka <vbabka@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Jens Axboe <axboe@kernel.dk>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, Harry Yoo <harry@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Simon Horman <horms@kernel.org>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Willem de Bruijn <willemb@google.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Joshua Washington <joshwash@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
-	Christoph Hellwig <hch@lst.de>, Dragos Tatulea <dtatulea@nvidia.com>, Naman Gulati <namangulati@google.com>, 
-	Pranjal Shrivastava <praan@google.com>, Mostafa Saleh <smostafa@google.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, iommu@lists.linux.dev, 
-	netdev@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-api@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Fri, Nov 20, 2026 at 2:50=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
-e:
+On Wed, Nov 11 2026, David Matlack wrote:
+
+> Add tests to liveupdate.c for the checks done when preserving a tmpfs
+> file: A file can be preserved through a read-only fd, but not a
+> write-only fd. Preserving it requires permission to write to it, except
+> for the owner of an immutable file or of a file on a read-only
+> superblock. Append-only files can't be preserved, and files can be
+> preserved through a read-only mount. Also check that the size of a
+> preserved file is frozen until the file is unpreserved.
 >
-> On Fri, Nov 20, 2026 at 01:06:30AM +0000, Luigi Rizzo wrote:
-> > This is v3 of the RFC previously posted as DMA_PMD [0], now renamed PIS=
-A
-> > ("Pre-mapped IOVA Superpage Allocator"). The text below follows
-> > Documentation/core-api/pisa.rst (patch 25/25), which has the details.
+> These checks don't need a kexec, so they run as part of the regular
+> liveupdate selftest.
 >
-> I thought the conclusion was to just do this stuff in netdev pagepool,
-> now you come with an enormous AI series spread across the entire
-> kernel?
-
-There were surely comments claiming nothing outside net/ cares or needs thi=
-s.
-
-I respectfully disagree, witness is the fact that e.g. there was already an
-io_uring proposal which is smaller, but does not address applications
-that want to use the standard disk I/O paths (libaio, buffer cache etc)
-
-Nothing has changed from the initial series in terms of size, use cases or
-subsystems involved. Large files are placed where they should,
-the series covers the same three use cases (disk, network, CoCo), and
-touches three parts which it has to touch: mm (most of it; it is a
-memory allocator
-extension after all), dma (it hooks into map and unmap, not a large change)
-and net (the pagepool change is a couple of lines; the tx path needs to
-touch more places because the current stack assumes all paths have
-the same I/O requirements).
-
-For CoCo, there are very fine grained controls so the bounce buffers
-can be enabled only when they don't pose a risk, which in turn
-depends on the threat model.
-
-Specifically, for network tx buffers or disk writes, the user-to-kernel cop=
-y
-is basically a bounce buffer provided it is used correctly and not leaked
-elsewhere (which is the design; of course the implementation
-needs to be verified and possibly fixed so that it matches the design).
-
-cheers
-luigi
-
-> > - Needs bounce buffers: in Confidential Computing VMs, PISA allocators
-> >   pre-decrypt 2MB pages in place, avoiding swiotlb bounce-buffer copies=
-.
+> Enable CONFIG_TMPFS_XATTR for FS_IOC_SETFLAGS. The test cases that use
+> it are skipped without it.
 >
-> It seems this was ignored too. We want the bounce buffers in CC. They
-> serve a security purpose. You cannot loose control of the shared
-> memory buffers have have them leak into SKBs, user mappings and so
-> on. It is not secure.
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>  tools/testing/selftests/liveupdate/config     |   1 +
+>  .../testing/selftests/liveupdate/liveupdate.c | 303 ++++++++++++++++++
+>  2 files changed, 304 insertions(+)
 >
-> I don't see how any of this is valuable or necessary for CC,
-> especially when we really don't even expect to have an vIOMMU for CC
-> very often..
->
-> Jason
+[...]
+> +/*
+> + * Test Case: Frozen Size of a Preserved File
+> + *
+> + * While a file is preserved, its size can't change and no holes can be punched
+> + * into it. Writes within the file still work. Closing the session unpreserves
+> + * the file, after which its size can change again.
+> + */
+> +TEST_F(preserve_tmpfs, frozen_size)
+
+Nit: This test isn't really for "frozen size", it makes sure a preserved
+file behaves as we expect it to. So perhaps call it "preserved_ops" and
+update the comment?
+
+> +{
+> +	long page_size = getpagesize();
+> +	struct stat st;
+> +	char c;
+> +	int fd;
+> +
+> +	fd = create_file("file", 0644);
+> +	ASSERT_GE(fd, 0);
+> +	ASSERT_EQ(ftruncate(fd, 2 * page_size), 0);
+> +	ASSERT_EQ(luo_session_preserve_fd(self->session_fd, fd, 1), 0);
+> +
+> +	EXPECT_EQ(ftruncate(fd, page_size), -1);
+> +	EXPECT_EQ(errno, EPERM);
+> +	EXPECT_EQ(ftruncate(fd, 4 * page_size), -1);
+> +	EXPECT_EQ(errno, EPERM);
+> +	EXPECT_EQ(fallocate(fd, 0, 0, 4 * page_size), -1);
+> +	EXPECT_EQ(errno, EPERM);
+> +	EXPECT_EQ(fallocate(fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE, 0,
+> +			    page_size), -1);
+> +	EXPECT_EQ(errno, EPERM);
+> +	EXPECT_EQ(pwrite(fd, "x", 1, 2 * page_size), -1);
+> +	EXPECT_EQ(errno, EPERM);
+
+Nit: Is there any point in matching the exact error code? Wouldn't
+checking for a failed syscall be enough?
+
+> +
+> +	/* The size didn't change, but writes within the file work. */
+> +	ASSERT_EQ(fstat(fd, &st), 0);
+> +	EXPECT_EQ(st.st_size, 2 * page_size);
+> +	EXPECT_EQ(pwrite(fd, "x", 1, page_size), 1);
+> +	EXPECT_EQ(pread(fd, &c, 1, page_size), 1);
+> +	EXPECT_EQ(c, 'x');
+> +
+> +	ASSERT_EQ(close(self->session_fd), 0);
+> +	self->session_fd = -1;
+> +	EXPECT_EQ(ftruncate(fd, page_size), 0);
+> +
+> +	close(fd);
+> +}
+> +
+>  TEST_HARNESS_MAIN
+
+-- 
+Regards,
+Pratyush Yadav
