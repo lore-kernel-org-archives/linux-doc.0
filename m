@@ -1,49 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=31.70.137.218
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795198049;
-	b=O4aiNJ6So7gXjwEK9uFtX6U3BBRwAT3Cvq/RaS3pyE4asSFl2U33xu2F6fp3smA3992x
-	 xe1BTVkcSJAAQqsHCSgkbEh1TwUeuZ76VfBou36THclIeu5mlwn8QZ8jTkLOOnrXAcr5n
-	 X+mjONILcnuoHpGBwWMIiXpAzIRBDR9wpXcGrbQ6Bdg6+H+U+BEzRH2L3fkpPXYTT8xUP
-	 nMxUbuZPzOVIVjLvhnnBRbOdl0psNfFAJXUAluA2kP20DEWpm481DXKwC3xJUqUdjE99g
-	 Pzyn1dHoPWews2QxnU9uPG0PJ/Z9y2j5fkHRO5ClJRjjusUEi+n2g1hwXuE7dVx5APQ==
+	t=1795198111;
+	b=EP2mPRPdcXFNnt8+eVWAoTvRvI7t5BqiPPNux1m9m57wyVgUWqwf0qM58tWyUu0Mpjtc
+	 OIB+gOb1rhivdrvBlg31G8yacGJSIof0FmX+uPu74uhBN+bC+zL55AfO5H+MRTWHl0OMu
+	 vb0pyUmoSskPhiJqCFHzD7dahq35yriYjeO+pej/78eVUYUOO8zGOvGFvvl6izxEgeNNZ
+	 mtDxN5d3+G2k95EfllA58eufI7cH4jCBN9sy0kQcPrud2cD3hrwnSsXCc9IZvPmS4HAL8
+	 WuZIVyWUoujZ4ohXvPiM1tCTtbLl2X493rL4rsGVzdB0hRfClA1daaK0Qc5xJRodjsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795198049;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Spam-Score:X-Spam-Score:
-	 X-Clacks-Overhead;
-	bh=vLvWjKh1LRnRhnuwrtjU/KRMUpKZP14gigi9j87P640=;
-	b=tkttvnofAWp/XMV+GBdwTa75WqyB0jpe1QS/G4NcOPaH4k6VhS7cw9rEfxUIxHsL+8Ag
-	 sIQV8JlGunWWDB2MfFLG6/r0EE8+uacGB/nESeGbqgEQ7a75JIUNaFYABUTBaTztHHBAO
-	 5UiyW3LABgYMQO9HbiieKOk0H89/G83oabctanpKD5Q+ZdWmREMFJmYsmoFdh/b9DrPRz
-	 LfA16JZsVhdTl3HIZNXBjKedFh0iTU1FoGtM0fzQQMqUaZIiLroAR3Qn28/RiTLEdwI8b
-	 6HaKYppXqUVPZpIS7mJIYcOt+da94yYZXoK/5njGswtS7ppbFAJuEAo7iub2BU9au+g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795198111;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Date:From:To:
+	 CC:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Originating-IP:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-Virus-Version;
+	bh=0lbcaJ8L0yzVbe6zUbN1cAVyzh8iJfnZ5U61Z9GQ5bo=;
+	b=FwBcrakhLwxwiDnkpIVxstmzRGw2Kn7asrmyGKFWeKY9KgF3kgvXXXscVJiYrw3U2Z9Y
+	 lD2iQZwX6vIZsedduESov5T/WJy4/snVWPhvrvlU2Kak8ZBzPJC7UP5h+iaWKoMTWZSch
+	 EzOBqxeuQkbyqR+RL79GwvvU1OTty3iGttU2BQIDYzy/CO4bRveoY+FRHntllRnQXWZ//
+	 XX9CkVVz6LOd8m7V0Fczt5yi84kZegfflUIMZ6R4k5RCsmMNck2vUU7G2CPdAsN0rUpg3
+	 gMNr9m8WtfVS9GfCzJxQ6GNO4aYLb+ahryPwXNlJMR/bTJeHQr350sIb9UoNSn/nF8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=cambridgegreys.com;
-	spf=pass smtp.mailfrom=cambridgegreys.com;
-	arc=none smtp.remote-ip=31.70.137.218
-Received: from ns3.kot-begemot.co.uk (ns3.kot-begemot.co.uk [31.70.137.218])
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=OnnzqY9b;
+	arc=none smtp.remote-ip=67.231.153.30
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B7F606A893;
-	Fri, 20 Nov 2026 18:07:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30B7F606A893
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cambridgegreys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cambridgegreys.com
-Received: from [192.168.19.6] (helo=jain.kot-begemot.co.uk)
-	by ns3.kot-begemot.co.uk with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <anton.ivanov@cambridgegreys.com>)
-	id 1xUT0z-00000002Jix-1yiC;
-	Fri, 20 Nov 2026 18:07:13 +0000
-Received: from [192.168.21.17]
-	by jain.kot-begemot.co.uk with esmtp (Exim 4.98.2)
-	(envelope-from <anton.ivanov@cambridgegreys.com>)
-	id 1xUSmt-0000000ERT6-3f1a;
-	Fri, 20 Nov 2026 18:07:12 +0000
-Message-ID: <4a3531de-35a7-4b2d-a9fc-11a77a8d057f@cambridgegreys.com>
-Date: Fri, 20 Nov 2026 18:07:10 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6278D606A33A;
+	Fri, 20 Nov 2026 18:08:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6278D606A33A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=OnnzqY9b
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AKH3c402027770;
+	Fri, 20 Nov 2026 10:08:05 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pps82601-s2048-2026-q3; bh=0lbcaJ8L0yz
+	Vbe6zUbN1cAVyzh8iJfnZ5U61Z9GQ5bo=; b=OnnzqY9btO1a9LoHSl5f9i07I2t
+	3DSWQV5THMV//yn5ZW1IT8Jd9wUYh+nd8u+gE855io3Xb0jr0EXjdj9U9xgsnIVv
+	wwM4HEXWhi3jA8GaUkqYyW2JWjo2nG/XPYEPpcxVcvH3q5BH7gY7BBT7cmaC8pZI
+	+8gOkP5TdeNwK7gMBIkzJDVv3gPGjODbl+fNM4k4qBv55nenlV9RCie02O4LPdRR
+	Sj4/EQb+48DAm8erItCCl48BeebChJICwA+S2hqGcWPb3dk+zoE1u9ChORcsTe6T
+	qUTnjiEAZpi5rfNx86cTDPglLAD4hWssvOf4BDXBrE49s3H+M31uXzv6ZGg==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4j2t99rm3a-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 20 Nov 2026 10:08:05 -0800 (PST)
+Received: from localhost (2620:10d:c0a8:1c::1b) by mail.thefacebook.com
+ (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Fri, 20 Nov
+ 2026 18:08:04 +0000
+Date: Fri, 20 Nov 2026 10:08:02 -0800
+From: Bobby Eshleman <bobbyeshleman@meta.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: Stefano Garzarella <sgarzare@redhat.com>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan
+	<skhan@linuxfoundation.org>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        "Michael
+ S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowangio@gmail.com>,
+        Xuan Zhuo
+	<xuanzhuo@linux.alibaba.com>,
+        Eugenio =?iso-8859-1?Q?P=E9rez?=
+	<eperezma@redhat.com>,
+        Shuah Khan <shuah@kernel.org>, Randy Dunlap
+	<rdunlap@infradead.org>,
+        Donald Hunter <donald.hunter@gmail.com>,
+        "Eric
+ Dumazet" <edumazet@kernel.org>,
+        George Zhang <georgezhang@vmware.com>,
+        "Andy
+ King" <acking@vmware.com>, Dmitry Torokhov <dtor@vmware.com>,
+        <virtualization@lists.linux.dev>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <kvm@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <sargun@sargun.me>, <jlinbox@meta.com>
+Subject: Re: [PATCH net-next v7 0/7] vsock: assign the guest vsock device to
+ a network namespace
+Message-ID: <awCMglMftdwqzDu1@devvm29614.prn0.facebook.com>
+References: <20261117-vsock-guest-ns-v7-0-7e522ea9dd9b@meta.com>
+ <20261118182846.4ab756d1@kernel.org>
+ <av807G4qhzToOIMT@devvm29614.prn0.facebook.com>
+ <20261119135303.54642e8e@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,57 +102,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: UML: user_mode_linux_howto_v2: Fix bracket
-To: Manuel Ebner <manuelebnerli@mailbox.org>,
- Richard Weinberger <richard@nod.at>,
- Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: Renzo Davoli <renzo@cs.unibo.it>, linux-um@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261120175509.1369714-2-manuelebnerli@mailbox.org>
-Content-Language: en-US
-From: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-In-Reply-To: <20261120175509.1369714-2-manuelebnerli@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -1.0
-X-Spam-Score: -1.0
-X-Clacks-Overhead: GNU Terry Pratchett
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20261119135303.54642e8e@kernel.org>
+X-Authority-Analysis: v=2.4 cv=LvQHWXdc c=1 sm=1 tr=0 ts=6b008c85 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=xtH7KyWI9dI7BmFOsl-x:22 a=VwQbUJbxAAAA:8
+ a=VabnemYjAAAA:8 a=oC9WaInZJ1af5pm4xKkA:9 a=CjuIK1q_8ugA:10
+ a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-ORIG-GUID: e_pV_QEf9KJrrYzdE5m5xEFAncVLEaKF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIwMDA3MSBTYWx0ZWRfX1Sc4JYQvrjPd
+ uM07N837UQp0cqrLl62gDESgLL4sknWLgK/6A6ZG/QQwoRK54pAgk+qJLgoRXbxud+sxyO6pwIR
+ +zwh3rsC9HWMNTAowk/o+0w0QAYEaEZBaaFXBCnPyU6vaeOoMnv0rZzTy1Ht6eADYSlviSHyYgR
+ UFWL69qGbI/qaFx+tImhd7u2rF5w8u8r/FEbXQHoTCwUlgY4kbDLrHFun5Nv85Ljj9xb5oEdOUf
+ a5ZpHSy+b7pJQGX1zJ5pNkQNjj1ZZSHUuKzL2STpBHgkn0zzrJf1PZwl3q2zozhxCtE6nPuqMzX
+ il70beOuSUz3bthbq/lhQnUgQK+F/ZQ/SvBCfG8Bo9mviiBViSE6cn1cYvt1IdAzmGgwkWxvQw1
+ atyTgr2PyeXH1CZ8RW9ZLTVlRQi784tl7X/b6ZPxuwEQ6kdtQdGv++CxeSvNM9CCzigHPy5X0i6
+ 6ruMSdLg8RLAYt/VgRQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIwMDA3MSBTYWx0ZWRfX9HizSq1mZ519
+ RZHw+lNUbZSx9VF6cG8jmYvt8YDCHlbgcDrKoeIcwwe8Ic6c/MgXSblrkOb5wMxHaqf9F4nvbol
+ 8mWWGK2fqageO7BIl0moSZ9dxhaJpZk=
+X-Proofpoint-GUID: e_pV_QEf9KJrrYzdE5m5xEFAncVLEaKF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-20_05,2026-11-19_01,2025-10-01_01
 
-
-
-On 20/11/2026 17:55, Manuel Ebner wrote:
-> Add missing ')'.
+On Thu, Nov 19, 2026 at 01:53:03PM -0800, Jakub Kicinski wrote:
+> On Thu, 19 Nov 2026 09:42:04 -0800 Bobby Eshleman wrote:
+> > On Wed, Nov 18, 2026 at 06:28:46PM -0800, Jakub Kicinski wrote:
+> > > On Tue, 17 Nov 2026 17:54:43 -0800 Bobby Eshleman wrote:  
+> > > > vsock network namespaces let a host put each VM in a namespace of its
+> > > > own. A guest has no equivalent yet. It has a single G2H device that
+> > > > cannot be assigned to a network namespace.  
+> > > 
+> > > PW says this did not apply at the time of posting, pls respin  
+> > 
+> > Ah I forgot to call out in the cover that this now depends on this fix in
+> > net:
+> > 
+> > https://lore.kernel.org/all/20261116-vsock-tap-net-v1-1-7e24f45adad3@meta.com/
 > 
-> CC: Renzo Davoli <renzo@cs.unibo.it>
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> ---
-> [v2]
->   Correct position of closing bracket (Randy Dunlap)
+> If there's a dependency the posting has to be an RFC
 > 
-> [v1]
->   https://lore.kernel.org/all/20260909140051.1365758-2-manuelebnerli@mailbox.org/
-> ---
->   Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> > In that thread Paolo is also wondering if it is really an improvement
+> > rather than a fix, which is a fair take, so unless there are objections
+> > I'll just pull that patch into this series.
 > 
-> diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-> index 9224bea5ee..e4b1cb1092 100644
-> --- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-> +++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-> @@ -581,7 +581,7 @@ https://github.com/virtualsquare/sshlirp
->   
->   connect to a local area cloud (all the UML nodes using the same
->   multicast address running on hosts in the same multicast domain (LAN)
-> -will be automagically connected together to a virtual LAN.
-> +will be automagically connected together to a virtual LAN.)
->   
->   ***********
->   Running UML
+> No need to repost that patch, we can apply it to net-next as is.
+> The blocker is lack of an ACK from the vsock maintainers from my PoV.
+> Please just wait for the net[-next] patch to settle, don't repost this.
+> Enough noise on the list.
 
-Acked-By: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Sounds good, I'll wait for that patch before the respin of this one.
 
--- 
-Anton R. Ivanov
-Cambridgegreys Limited. Registered in England. Company Number 10273661
+@Stefano, IIRC you may be on PTO right now, but if not do you mind
+giving a look at
+https://lore.kernel.org/all/20261116-vsock-tap-net-v1-1-7e24f45adad3@meta.com/
+?
+
+Best,
+Bobby
