@@ -1,85 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795201148;
-	b=O9y/Pv9Nwm5lNsTya1SnLg7q5wgmj9kvY4R6duzZmd0pX+WA9Ciu1O9WV62fEvDGnP+G
-	 ma8zZcZdlWPFJdAG/eDwnodFtx4r+XAEfRkLyeBTlHcCeGpy25gljfAlNHdNmpfgMAc1P
-	 OyperCLSeiMJoVamZEweqpJ6DJl4cNR/HhFVyCum9N5ZwYcAuVu+Jf+WCUnKchK/uoQr9
-	 r5KHPPbEKWZou2keHwHzUptRhdHwRyh9BLjvFy9IXYPEkyIzn7eYZmw9q6y0aq0S4Svzs
-	 Tr2TqkyJai+fjMNFddx2Av6U+nw593HpLt/T4hz51kJbBuDazfKMgPEfnq95uq0hByQ==
+	t=1795201157;
+	b=kgjZpM4UZZ1ZgF3rgO0a5GZAQCqRSkXD4F2yOoyqSWoQG5NhMZ4QXpwdRp0b0I4tipDT
+	 CT2INREjcIb+AOKIwiawCUWbLI3oLNYNGRVWCg9acElGz3O9FNVMSMD/J2ZEiYKabFWqk
+	 SusSsrEMpgraHSWELYFlC3vOBWnkRt26hntIHmgjrM3GIUaxe6c/ixdVcF16gCsnqvA3x
+	 iSiXeZNwP3NlO8rxWg/nOi6hbZDSzsyzS9ek4Vy+EKmNHHpA7pf+bPaUUFh9nSA7XmLGG
+	 FHkUPpj8fGy0ia4aAe7eOEFMiZ6+c58pNqSTAptbI5i+4nS+BZLkHNoaZLqLi4CaPYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795201148;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795201157;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=QpjWV7nVPK4jNL88HvKbtHJ/44FkOvQPFo/KHrxl1Aw=;
-	b=N3BVHuBJgtaVlMjCRawAFJt7QhpZqE45F3km/SosA4F/DkWcI9bG9JIhMccQjnD+Zhb0
-	 YJXmlolLUHWkeQVajREfkRQHzoaJ2wde6ohAVXGHcIg2gJA9Rvbxret7EsJuwiYb2Z44U
-	 S6dR34JM66rmv5z7Zc4CCvtlYYrbJo3Kw9dBj0yyKFYqVriiqFQgfkswzdOl7Hd2QIbtB
-	 eJunGS/PKTX+1KizSiym/yJqu1vOsN8HGKvRDCA2crXe6NPfN93M7NIUBhMluLdSQyMtm
-	 9fDoNdYIjIS5+ooLbRTCX93n/1rdZa9eLaRlY+HH+t1uo8DO1Zt3TFB7pAc9PMV0ePA==
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=tJwebgYCqnOwbw+tEDHyKOXYITgvxF1JqBIr3xmLP1k=;
+	b=Z0FGmUNzP5rXacikyOJjQvb4GQ/vqqg5qcMupFLLRwlZo8SUp76Wi3j/L64viKlKt2sa
+	 agVPsAy5godDpmxSf9RpUczu6bq9VAFIc343f9V6yXPZv16FqFMme5e1NSM3BYimzP9AD
+	 cKZIRXP3vdKYgJ4SJIPmnle+hzGHMDrMHnt/2M19IxlKH487OgOn2WaX1UjQB+rr3RZZM
+	 PQhIsXeyEM1gDwXnqUthR5lu9VJx2eBEJFO5u/fGQoNf3pmPnPeYLkaMqBVj5p/IBlcI0
+	 6h3Tk9KcL2fsEEpT8aHE7EC2Bq19OLpCwDPrtdpn/7CjqBjRbF//1igH+kMSAedswSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=Na8SXjJd;
-	arc=none smtp.remote-ip=209.85.160.175
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=mU3aNJZB;
+	arc=none smtp.remote-ip=209.85.219.45
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E0E60A260F
-	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 18:59:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5E0E60A260F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB1F60A2628
+	for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 18:59:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0AB1F60A2628
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=Na8SXjJd
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-53644b28706so19849451cf.3
-        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 10:59:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=mU3aNJZB
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-920fed989b2so12166216d6.2
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 10:59:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1795201145; x=1795805945; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=QpjWV7nVPK4jNL88HvKbtHJ/44FkOvQPFo/KHrxl1Aw=;
-        b=Na8SXjJdGUVWDeqxqwuMR3Udnc3JNjfyk3MTxe3QTRK6WZ76d7I+8tS90Y0CdUuXZA
-         ozFtgrB8we5s3tBqJqZcDv80Ku/wbh/GB4PCsBMGwkvpKkzwa34jt1f6hdT26CVXC5UP
-         CqXkNaWn5gwOSbAvxEed0NE1PQJozJiRIR7CWvSazN38YSX1t5MjQC7PqbHfNae4SLU2
-         cRYRjbxZdeSI2Yb8n7W13IJok9pj2aMDEqWhp8T3dZvqoUOiu0H8ebtzuoxe8RQRnyoe
-         2tmTqqK0Yz+5RXyD+Ed2jDx8IyB6oTTNJ8Tf0OYn05H7iul3Rs9K0jNoFETg+lTdYUmT
-         Z6uQ==
+        d=ziepe.ca; s=google; t=1795201151; x=1795805951; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tJwebgYCqnOwbw+tEDHyKOXYITgvxF1JqBIr3xmLP1k=;
+        b=mU3aNJZBRL8xUqWS/+Z7eLapx4QbOcTgVhU+sRd6l8RC/BU4tGdhmpl3f7TK7HXUDN
+         e6WbNtj/CG+SB2L8fMXHAhgkzYS+OWZViqSQaN96DeEnuHCbbF3QyV+ORx+ipnLawE7e
+         cC9jAUXHBb4BgVZLeGi1R+A9LGcu7JQxCnw6Qid5UMZ/ru2ubKJpU9c3WeRiRVPuISx7
+         iQlM29eE6uHpDIp582x0bH1E3v/YLRIlUz8MQQx6kuMQ7rbGY5dfZ5OZrEc0W1eLmd0r
+         W2tqTk89VFPb7601U+F+RmlG/JVcritFbVV2fJXNJ2hXrK+nfps0hqEj1izLBKF5UoPP
+         lm7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795201146; x=1795805946;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QpjWV7nVPK4jNL88HvKbtHJ/44FkOvQPFo/KHrxl1Aw=;
-        b=LYnLOXbsRQI9j4SjAlbwPz5WK2bthCIZZ56gt6RANpXpchQjkux7VlKVHerk/bo3NZ
-         Ijutre29uPB0ax0nEDnODg0ZBmqB8HYJKFSuVGF9lgSwJe26h1I8s5UsYfK6lboPAaSO
-         ymVaaXGCCLdbnFXKCEV7VTTXm0QkQMcMPZlevlLJc90Spriu9OZTErP4BzytDDNUV07i
-         wO8SaOu4PS3yUvCCbMnIqWi99PVC2wnYylkgNpQcqe3lV9t+VKIz81TsO3ERG/9YnnYb
-         RFlvl+QG4nVgAYxO+dNHjESCa0+kZXC2YMYhOsjeQmjN3KKTCUYVGaI4N7F70ghqG/GO
-         4vSw==
-X-Forwarded-Encrypted: i=1; AL+hErEAyfxiHWBaGHbWBXK3izIJXolY8whXcFo4au0ehjnTF3jF5kTKD1Y/LfMfMTwtcm6thaXG5m0bsYk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/2mEAnmnBalA8KDTtMcdG1QGiuxpgCcaV/fuqyrHbQ0v52NPuH
-	yFf9sVEmMgKAdoqipD52Ct3MM7ZQJTIMxEjU2dWiKccDyWU10i0g65w48P3BEeWaWCs=
-X-Gm-Gg: AYBFou1vPuO8a5AFWGmZrhLnY+VVq4PNzAYdjd58oMhkxjLkSb0XazrF0pECIaVlKR0
-	uZMxXu7YZN5RQ/9fWuVhDhf7eN67nWlYAU3xYsFDK3GfFvrK6qvD4tzhWgeiXozuJ9DS8eVnvhh
-	HhSy3m99XAi9E3S07h1QyCvXwCKe8ZCRBy8rLpUQEG7ousNZG+Jc5o85NKL1/Bx3KvsW3eo6qJx
-	kpi/G5wDzYSdhN8jkc0GZZkF9EW3cFfeMrXZmL9k5p96EAYAEqlC1BmZJ7Ogts5lodRbg/zVF7M
-	R8F4mSqrJVzqsVlOUPi9322F+CsVJkTWgak/lx9iZKzglqaeQW2CZQPF8UUoupudXH45+YJeFi5
-	DRQ1IlgDsgubbcsb2h3Kb5EQqf6XiCZ5HwrpmwLJ2fvo4gMrFQTfyM7U8ft1qaUUwPWXf9+8mZr
-	C9qTa2cKxPOgxRHsDpxBDKdTGNHzEPnz1IeyKW3nQ5un0eaukYjJ3Gq8k6HCVOOLBNOe+NJusSO
-	WOk4JrqRXKYBwBFxeGTRstmiUb4dX08gjE4MoKBTSdNbbYvfHBuvGwawCcFR6Khjcl4Cc/pzTag
-	j2LzQotJfztalxnCduzduwjqQ3osSZKk14jttaVQBMsvzeK1cmzHnHmXntSxcGr/8ZvebPVuv/t
-	Eznla7tk=
-X-Received: by 2002:a05:622a:1a89:b0:55d:2c9a:3776 with SMTP id d75a77b69052e-55d76a811c8mr74428711cf.65.1795201145651;
-        Fri, 20 Nov 2026 10:59:05 -0800 (PST)
-Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d7884d01csm30305771cf.21.2026.11.20.10.59.03
+        d=1e100.net; s=20260707; t=1795201151; x=1795805951;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=tJwebgYCqnOwbw+tEDHyKOXYITgvxF1JqBIr3xmLP1k=;
+        b=kwoNy8ZFRIqsJv+OzQSdcHmIQZuKR/Velc27PODPqWnuDm0gzg2qhb9JK8PMu0apsx
+         jktaV3kTq0U1XiV0VOZc/k4OSIanv2kqktkQ5QEP27n+xRshcRmPb6OvTdycCRWUSO8c
+         EoI/z6yHuS/AnvmPVWfvedKs8j5dugXyVGWdNCRChcvuITyIVb6leBfvfFoEkvEaudiv
+         59MVa4ojkJWUJjESIfcXgr/fip+zmbfpEuPDTZfzsct7/z/JY5b7xdOUu6e+zW1p9AI0
+         dKpwm9bNqdIi8W/kyCcV9OrxZxU3dS2Vq6Es1aEb3dtMdgXLtuIcL9LoYF/BD7mN9ayb
+         PFxw==
+X-Forwarded-Encrypted: i=1; AL+hErFuZWignW9pOhQj5eXnGUN3gmR5S++MsyriIXTctLfzeCuia+URtuatwITJBzeGBizUD2E0aFhBU1k=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+u0LGo1SP+reP1RPtXlxO+pAWhMbrlycXb4diDygON2c2vNLlc
+	ej+3Y9oZo/0yadtRWLBQBl4aUPZsTXn+mbt0dHlTyf4LA+FlFiSa3NfYC0P8jK9ek3U=
+X-Gm-Gg: AZFdTZccNS+X0vHjTPuSw6brjOAGK+HOU4uycm5CbP6NH97FECjjbRqacJ8KbdjjWdO
+	STRCwOo/niwmLVb0liwMO9XFwuS50ZI4d38XdZyvrF4fGc4uDU1sUiza9FJtC7SQWGgIgywoqXM
+	Er/joy+GLSgBLwcyz84CNcsOtVYeI3Ac3Qxz1l1sC1UNLUSnvNTtkCLH6DM5JHrkC3fdrsZeXyV
+	K1yTG7qy566xapgEvN6EPR9tVOnMZpsN5ApBY91rwGUg729fRi37CgiY+YnKkU+MtyQJZJs8M7u
+	OwnySEw/SiOykSrx2xJVXqxoGpmUziw5aAI+6v6cTV2QHMXnXdOBXPi4es/DY/6IZMErehMnWjN
+	LYrBml781w0pVHrsUUSFFx4eXRsZ8nz0uQFrqD+LS7II4mtQimUAQjEoVQBuQq1SD/GMULwoSCT
+	an3XspVTSGC1CIMKVIwIZxyojbwzmNIRB3hIWVYHJQwziwEJIZP2081Ma4eO7zNwOYyN7QLN4jz
+	ru886YAvuMAwcfWIyknjQFNgRX6UX19vVLDK+AXL9bxrcvg+sw+N1oNoEVToCLACKF3JVe5nW1t
+	ycmjWg==
+X-Received: by 2002:a05:6214:528a:b0:91f:171b:e02b with SMTP id 6a1803df08f44-92134b3fff4mr65009886d6.35.1795201150678;
+        Fri, 20 Nov 2026 10:59:10 -0800 (PST)
+Received: from ziepe.ca ([142.166.156.71])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349f8c34sm34171876d6.32.2026.11.20.10.59.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 10:59:05 -0800 (PST)
+        Fri, 20 Nov 2026 10:59:10 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xUTpF-00000004mVJ-1MNw;
+	Fri, 20 Nov 2026 14:59:09 -0400
+Date: Fri, 20 Nov 2026 14:59:09 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Bradley Morgan <bradley.morgan@linux.dev>,
+	Armin Wolf <W_Armin@gmx.de>, Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/10] driver core: Disable driver overriding by
+ default
+Message-ID: <20261120185909.GB1133597@ziepe.ca>
+References: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
+ <f7b5c6319203d288a166e6f811c6ea07e12d5f4f.1795171088.git.u.kleine-koenig@baylibre.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,99 +110,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 00/60] Private NUMA nodes
-From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: "Gregory Price (Meta)" <gourry@gourry.net>
-Cc: Yury Norov <yury.norov@gmail.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- David Hildenbrand <david@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Oscar Salvador <osalvador@suse.de>, Johannes Weiner <hannes@cmpxchg.org>, 
- Suren Baghdasaryan <surenb@google.com>, 
- Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Johan Hovold <johan@kernel.org>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
- Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
- Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>, 
- Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>, 
- Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
- K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
- Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Michal Hocko <mhocko@kernel.org>, David Rientjes <rientjes@google.com>, 
- Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
- Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
- Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>, 
- Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
- Youngjun Park <youngjun.park@lge.com>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>, 
- Tejun Heo <tj@kernel.org>, 
- =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
- Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
- Dave Jiang <dave.jiang@intel.com>, 
- Alison Schofield <alison.schofield@intel.com>, 
- Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
- driver-core@lists.linux.dev, damon@lists.linux.dev, 
- linux-pm@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
- linux-kselftest@vger.kernel.org
-In-Reply-To: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
-References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
-Date: Fri, 20 Nov 2026 13:59:03 -0500
-Message-Id: <179520114342.412063.6068641130948664600.b4-reply@b4>
-X-Mailer: b4 0.17-dev
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f7b5c6319203d288a166e6f811c6ea07e12d5f4f.1795171088.git.u.kleine-koenig@baylibre.com>
 
-On 2026-11-20 13:08 -0500, Gregory Price (Meta) wrote:
-> This is v6 of the Private NUMA node series. The series falls into four
-> parts, each building on the one before:
-> 
->    1-18  mm: introduce N_MEMORY_COMMON
->   19-26  restrict folio-walking MM services to common memory
->   27-44  N_MEMORY_PRIVATE, kept out of cpusets, mempolicy, accounting
->          and the page allocator's ordinary paths
->   45-61  private node features, memory hotplug of private memory,
->          dax/kmem private mode, selftests and documentation
-> 
-> Patches 1-26 change no behavior on any system and can be reviewed and
-> merged on their own. Without private nodes, every path in patches 27-61
-> behaves as before.
-> 
-> The full stack is also available at:
-> https://github.com/gourryinverse/linux/tree/scratch/gourry/managed_nodes/private_nodes_v6
->
+On Fri, Nov 20, 2026 at 12:11:02PM +0100, Uwe Kleine-König wrote:
 
-Apologies - my b4 prep dropped a commit from the stack because I made
-the mistake of filtering on author (myself) and it stripped out this
-commit:
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 8228c9acc530..ed505e362b1d 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -424,6 +424,12 @@ Kernel parameters
+>  			do not want to use tracing_snapshot_alloc() as it needs
+>  			to be done where GFP_KERNEL allocations are allowed.
+>  
+> +	allow_driver_override
+> +			Allow matching drivers without
+> +			.support_driver_override = true to devices using
+> +			driver_override. This is a dangerous operation in
+> +			general allowing root to oops the kernel.
+> +
 
-https://lore.kernel.org/linux-mm/20260923211041.3127588-4-gourry@gourry.net/
+I feel like this is more appropriate as a lockdown level than a kernel
+command line?
 
-The commit is one the branch listed above, and should be otherwise
-indepedent of the series (can be pulled in ahead of everything else).
-
-Sorry for the noise / compilation error, won't happen again.
-
--- 
-~Gregory
-
+Jason
