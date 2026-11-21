@@ -1,74 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.69
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795285936;
-	b=yCHT2FfUaWSP8tkPZQFwo1uyikFAiKD1LAv7Fc1rE90ikJLooR2mgBhtsJkGFoyBKJn5
-	 UJGt0Y1pr7WNI4RRDg1pGTriMEzSo5HoouHWvy3bvS0K1kTzsNHlYMCbxEtZ0e44WVySn
-	 eA5sGSIJGb6aCSmQ7xoJFqoSggg7PQxpXTbZW6AQlug4OP6LhD7vWGMms6C3ozXU0SzEl
-	 255yMZeUl1+o2DqsACIQyqrwQQqbFgFR+iUsvoMxRAlG6q/jCNgC11BUjofTR035BYpp6
-	 5/u8Q+uKyY4KFcLR2GF/f1J66aEUzVhYf0QSiHrslyL33f9VAAqlvA46UQRcGQbRnBg==
+	t=1795285942;
+	b=I8vbqIwr/pVP94Ri3ivV3QNhewW8WkJGKMNIekFUjoJLeFDjzY1WudWtuljAX1+vkDvA
+	 ApfglH4gqd725iviC7ERQXnGsshqor3s3rju+Bbqxkmsusc8ApGbejPZN/dpQkcnZ5uD2
+	 QPIwjdQ70BXD3t9Ct0OStlDfMjPq6CmHpyRWt94QAmnHukr2KyM+VwhnH6u9uaxaAE5xX
+	 QR5ob4EHqCgtlq7vjc7mG7LgWQDZx5Z5CIFAfdMAQBidLSQfpYQGdU5QEVeg7bj0PA8Tz
+	 AxdWfRhohT2rgLXkYJQ6LDQP1zOyDKHAMVttmJQL22K3jWtOlJdXokeC4sInPfRFrNw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795285936;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=yO3QbsamQWD6lYmcNlTS5aLXfBdJGNAcBuob3Fh76eg=;
-	b=K5/Gb9v86+YrcTImx73Gqp+Yr21rynp5X9lOC6oGrTpO6ceKo3grlnWOYfStJVeL+x4b
-	 uwT96Qy37rx6aGbUqgvBGYa10ka0gPkIaIQgTsmc8Rv2muLaz0iMvbAeRIdFMQbmJqYu6
-	 JleJBrbAmfYAg9Fp6XjrbhF5Z/Un73D5VCncKRGGWRFZUHEz3UFDMiB7DLJRNrRJoRG5m
-	 WjH6ok+x3UFm7wg5g95XeDs1yKdIP1+qiwcIvZYMRMkLluTi08mCPF0HWmFJUfzcsI4cd
-	 k07clB4WIMlvTbTox6gRCqDzANqFJubtYWb2f5KgkYj8tV9ODKPgMLdL1BPQsvw/hPQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795285942;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:Auto-Submitted:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=Uwqp7Bz8a5D3/B2xkBHbhP2Bh4hQYQFs0RxyAqY1Gn8=;
+	b=zSyUOAlql4Jf2EvKXcDzdbaSfk8Dy3Xt81V4qdo+ztbQAr3jCcT5E8M+HH9ZQF2osm+Y
+	 +TreZaw4T4t8r4/MkiguGtWKTAMFpXUrVrK/7EEDVzjdZqA9SQl1rUDBHLZNtvGS3wXhe
+	 RryfF5RegdKiCJTX+8uLdBRqz8C7SNk24l10ERBeU/NcCYlEnf6KLzvf6kDwwNtSxd7Xf
+	 AyRirrH0yuZDPv9L0SsLjPa0Y3BsFdE9ZvfXdArwce2XvQjPy3Ir+pHoDLDdg8ZrPjHAV
+	 wyQAe5EJDXeqp7yZOZytWLorLgdAAZ5uuaznMhbnHTjJ8YFP/IHk0vl4KY0EkHErzKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Daghztvb;
-	arc=none smtp.remote-ip=74.125.82.69
-Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=luVHhdhh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58556606A32C
-	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 18:32:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58556606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FD5606A32A;
+	Sat, 21 Nov 2026 18:32:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Daghztvb
-Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-1b55f4f3bb8so819599c88.0
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 10:32:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795285934; x=1795890734; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yO3QbsamQWD6lYmcNlTS5aLXfBdJGNAcBuob3Fh76eg=;
-        b=DaghztvbDwmLFkrHuo7a/sJTEMIbMPmqTCllt3YXXs5/QvBXSOdXJqhVDvN8JLxAn0
-         Vriw8/p4M1Guwy4T73CnQNyFoXuwNeLiyfkeQxsU6imRnXU9tQehTBTNWUntjRpNOnmt
-         81VjVdUMTWUnSOsb6oSsyLdzYGp1/peaaANrZO6Z0YHZRiHJmCYVw7lm+R+1lAM23u0B
-         2XQ+EBzTODDyCbn7xTfv0qbjMsNI0g0OwlLQ9b6SaiVFY0RhrvKqDHIKkpGzbbRioG7Z
-         5TG/C2jVnysrVLiW9jEyHjBQO8xtX71626/ZYM761cudpBrdY6lAEgVsCBaRu6WR/0Or
-         mQPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795285934; x=1795890734;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yO3QbsamQWD6lYmcNlTS5aLXfBdJGNAcBuob3Fh76eg=;
-        b=zRRGxDL9TDIVnMylqdcZmzMZ3NOK6Xb/4J+KgEcFVcAFOFf+OTqEhcVM95ZuqgYFUQ
-         fOg3Ri9xvLFebphBfW+VFVxxHgTHZMcsr+cbd40AWQQGcnDO6lxxz84PkQ1H17AlZ5fQ
-         zRTtSbVnM+voFf/kzQJJ8jH26r3lsQOUCcMI0NJsPdebYtN9Th2YAhyWMulKfHAc0/BU
-         J3clXSW6WE06QclR1gM2UveuMBzsGy81QA3/APl2P5RQ14KtrDaVt4i80gbO5x+sBaSm
-         eLfwHz4ZhGtVH/EscjZQ81I9CqNj1bKMTKOKZU8ay+MtC3qPsKaVr9bvd9E0/vuvZkLJ
-         k8Hw==
-X-Forwarded-Encrypted: i=1; AL+hErGs8pZy4u6PDFHiEnCt5pcZn3MsO74M22xq2sZpos+kmlctw3/79EUabAWg3iO+E8ll/qAqha5Bqsk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9rjTpyFhp5tDmL3blN3XSID9qdFkJTXkkJAiFbMKlylbZu5/zl
-	IVt7EAYWlLUo1lnBvVYHfT+GlmDrug+e2y/E5Mmdn0PAoraEShNeVGd2tUayEl3e9KKmGXTN0aX
-	VhfJs6A==
-X-Received: from dlbrl27.prod.google.com ([2002:a05:7022:f51b:b0:1b2:375c:827])
- (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:f516:b0:1b5:1a41:f3b6
- with SMTP id a92af1059eb24-1b5567b4783mr5725838c88.4.1795285933762; Sat, 21
- Nov 2026 10:32:13 -0800 (PST)
-Date: Sat, 21 Nov 2026 18:32:13 +0000
-In-Reply-To: <20261118-tcp-mtu-probing-doc-v1-v2-1-e795f20b8cfe@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=luVHhdhh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 400C91F000C4;
+	Sat, 21 Nov 2026 18:32:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795285941;
+	bh=Uwqp7Bz8a5D3/B2xkBHbhP2Bh4hQYQFs0RxyAqY1Gn8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=luVHhdhhhpK9icw+LCkgbtvGaMY1cmgjinFdFBltJHShHSBvir199I1bOaUILkwZm
+	 tfVJgsSNDReS4zGi3GQ6RBQlmJr+pBiUXhtB/foet1VjYKSf+kLQIYJGSmz4upIyDM
+	 KkfAGQ6y4rDyG6tYp7Dv8nz1nCjC7UdC+GM86agQcJay3hi1wUcb9XubYNgvSv5eG4
+	 VMAwReKKQjnzge9DFkqihPP8jee+e5my1VBZalQEdqMrvQOoVlMeqOx8RxYex6YZTk
+	 9qBhKNAiqqCTapKVYWXBlH9tWuuTEi0XCgU7uYShIk1kNMQKvSowlidHsAZdqd/Of5
+	 kxkeIzNZ34uUw==
+From: netdev-bot+sinfo@kernel.org
+To: Julius Bairaktaris <julius@bairaktaris.de>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, willemb@google.com, horms@kernel.org,
+ andrew+netdev@lunn.ch, dsahern@kernel.org, idosch@nvidia.com,
+ ncardwell@google.com, kuniyu@google.com, steffen.klassert@secunet.com,
+ herbert@gondor.apana.org.au, richardbgobert@gmail.com, ecree.xilinx@gmail.com,
+ andy.moreton@amd.com, alex.austin@amd.com, linux-net-drivers@amd.com,
+ saeedm@nvidia.com, tariqt@nvidia.com, mbloch@nvidia.com, leon@kernel.org,
+ linux-rdma@vger.kernel.org, alexei.starovoitov@gmail.com, ast@kernel.org,
+ daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com,
+ martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
+ jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev,
+ john.fastabend@gmail.com, sdf@fomichev.me, izaiahsun@gmail.com,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ shuah@kernel.org, bpf@vger.kernel.org, ipsec@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v3 0/2] net: keep the TCP fixed-ID flags on the header
+ they describe
+Date: Sat, 21 Nov 2026 18:32:18 +0000
+Message-ID: <179528593876.3294.15737463278061995689@kernel.org>
+In-Reply-To: <cover.1795284858.git.julius@bairaktaris.de>
+References: <cover.1795284858.git.julius@bairaktaris.de>
+Auto-Submitted: auto-generated
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,29 +75,23 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261118-tcp-mtu-probing-doc-v1-v2-0-e795f20b8cfe@gmail.com> <20261118-tcp-mtu-probing-doc-v1-v2-1-e795f20b8cfe@gmail.com>
-Message-ID: <awHjn5AXWjW2qMPw@google.com>
-Subject: Re: [PATCH net-next v2 1/2] tcp: document black hole detection for tcp_mtu_probing
-From: Kuniyuki Iwashima <kuniyu@google.com>
-To: Yongjian Wang <echoowall@gmail.com>
-Cc: corbet@lwn.net, edumazet@kernel.org, davem@davemloft.net, kuba@kernel.org, 
-	shuah@kernel.org, pabeni@redhat.com, rdunlap@infradead.org, 
-	linux-doc@vger.kernel.org, horms@kernel.org, ncardwell@google.com, 
-	skhan@linuxfoundation.org, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 
-On Wed, 18 Nov 2026 16:10:52 +0800, Yongjian Wang wrote:
-> ip-sysctl.rst says that tcp_mtu_probing=1 enables MTU probing once an
-> ICMP black hole is detected, but not when that happens or what TCP
-> does then.
-> 
-> Describe both, as implemented in tcp_write_timeout() and
-> tcp_mtu_probing(). Also add the missing defaults of tcp_mtu_probing
-> and tcp_base_mss.
-> 
-> Signed-off-by: Yongjian Wang <echoowall@gmail.com>
-> Reviewed-by: Eric Dumazet <edumazet@kernel.org>
+Hi!
 
-Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+This is an automated message. This series looks like a fix, but its
+commit messages seem to be missing some information:
+
+ - What hardware the change was tested on. For driver fixes please
+   mention the device (and if relevant firmware version) used for
+   testing, or say that the change was not tested on real hardware.
+
+Please do not repost the series just to address the above. Instead,
+reply to this email with the missing information, so that reviewers
+can take it into account.
+
+*IMPORTANT*: If you do repost (for other reasons) - please include
+the relevant info in the cover letter or commit messages.
+-- 
+The evaluation is done by an LLM so it may be wrong, if you think
+that is the case please reply and explain.
