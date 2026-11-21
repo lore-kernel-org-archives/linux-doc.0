@@ -1,66 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795290890;
-	b=PFcUVTVigieH9H4Yud+p/gcBqVh+vJ0pVux+ltwLwgr9ennTBElbPd+eXDlj+mpIR4g6
-	 93PXREgAviSNY4cs/7YsoEwhP3ND9pctLcMGbrGx6mXYGcRHbRblddoLeN8+XEfaW9X+Y
-	 /JzBhRtq5QBvTcaBp3mdQZs+g9Hn3sSls/Vfz/MatnW8OGxQ8YAvslAVf29+QxKz/7dQ6
-	 h38NjxhGiYoz5uczVZoD0CIRj5h6aEMtyB2v5BHcFstrHpO/rdBJkg80NBCvQgnWfyoMC
-	 470+BKB7llPjlwoFzMaAAFnfxDkwVLftvjWIHAilB5LdX0p7hFjVDPMg8/1ImOSaB6A==
+	t=1795290992;
+	b=IH3TnAdOlt2vOASaWgDXeezD8iNgPoy8Fbp7o9GqhTO3vICf+/CikWUlbj5Q/O07Q6KO
+	 kdQy7Ip5Wa++dflN+lRo79CgSB9bbNTOBtW977VZREfEIOXETrfTlQ9SvtSgJ9h/bkQ+i
+	 7/EvsOYDtACx265quaTtiDvnCXFN3aCMUeA2mqJ6mcFZKTuaJEom6WM9BRjStThQI8HGs
+	 NG5BXFOfLJaIhBKSt4JU5mQ8QMe++BuSljTv07efPhcdUnnlDtaQjoh9ftgqc91C2qOkC
+	 vFxIfzqeP4Qu1TYoJ5J9+IhxwB6JAUkIV0KvvVM61ep0V7HU8ZxrTTdY8BxPs1EEGPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795290890;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795290992;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=k3pGh/Nf6VGkSVannc1t1HSa1H+w+EAysJ0+xryVXV8=;
-	b=PPp0+sYjfmAA1SQt8rJl4ZlomQe24hYMteIILeXEOOpceDAaGzFyYYNj+7ULh91bzozb
-	 IQCoYCYAh5WuXEN03S7/lemKSK48w7s9f7+eyXJapShzWVA+B6zWxc/R8+yR6Jg6XCS9b
-	 3WgbrLRzw2iRR8LMDNPtSB0L8bktqOdDTI1DbFEe+FnBOvw5qFpBeKaLV0AQkHXXboi4O
-	 tYPqh0HqtY30Mr6MTySiA3ZCJS9iySRQqJMO8RYp4AaIoaVTuZsmjQysGZgB6J/A0w+1Z
-	 RgNTLllwMRiWpTP7HBcWFTy1oj44ZTjKXhq8miwvor0AAIC5uw8a5VKP75kNMZ4nQ+Q==
+	bh=23IDwk3BEvcoO7nr7xSMYC3SYO+hpSQTPRRnKuF6fw4=;
+	b=Db6Klo1596278IeR4/vaWuqXY5R4Ioh4NA28r1S7riqlfopQ6s876IdrzGkSJYPuw4ZA
+	 xSoQoqApHIgbTmXV+GIMKPpcxy2FMzHF8Gb0mvxJ25lmBs9K3vYrwIFs9ggfzHVf/5+yR
+	 Dz2ZjR4W8+jEWpUCH3I35Rom2XGYC3HI3tYxz1egqQkR0BGzCTczexV14rBwNuDyjmYBS
+	 fgCXKTM4sy4ImS+2n9T+4ba8M2Qk35w31k8TPqS5XtNdZo/35Rn/teCmk6m9log+WjfmC
+	 Vovzmbt39d8A9IQ5T880tqzWuefxgidlWQsW5xaTLANkEVcPaO7tkwyW9F7r7USEN2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d7Ozz2wb;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="UL4/VmZd";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 2EE03606A320;
-	Sat, 21 Nov 2026 19:54:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84DB606A320;
+	Sat, 21 Nov 2026 19:56:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d7Ozz2wb
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 39FA31F000C4;
-	Sat, 21 Nov 2026 19:54:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UL4/VmZd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073151F000C4;
+	Sat, 21 Nov 2026 19:56:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795290889;
-	bh=k3pGh/Nf6VGkSVannc1t1HSa1H+w+EAysJ0+xryVXV8=;
+	s=k20260515; t=1795290992;
+	bh=23IDwk3BEvcoO7nr7xSMYC3SYO+hpSQTPRRnKuF6fw4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=d7Ozz2wbWDdWuTNONSLPuo43rI9mXsAtcpQviZ2TpeM6KVoRdztLFFZihLhC9YOo4
-	 d3eKmkFXEetcuCZ9G4+sdWZl8ixRE02VNs2YBIZFvvc1sUUs84h1hu1NPNQyBSmI6g
-	 Fb2SGh3KWHgnt/RWcd4GdMO6CEBCKUpRNfWJhey/ix8VC2+L2LTKCxGIZeGI8nNi4h
-	 6HjCcVHNq35yMBZwBS3A4nM0Ubvt1DztlVj/Wr9djhOADA2T+ACJmy2JezPrKfzp7B
-	 jXHaF8iQZkKNh+gpgb8nmCc6QFo/ofQ79XDWm6nmUbUZH82+u97zhW34GWT5nxZJHm
-	 93jBTnsZk9nZw==
-Date: Sat, 21 Nov 2026 21:54:45 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
+	b=UL4/VmZdsgsu0mqc1ftY0mgbzC0pMr+SQDEqY/IzjV+BF8HrSDLdAfK2UvftqnSoL
+	 ELh6adk0PEF0QYmJb866BLaqKGGkWJfZWC69BYJsRUhuAExkAlmHMLirhCb1XtgmTQ
+	 6HBQoMY3JZQcTr+30WLRXh1OFQmqo43GbI2KApvGgM2T9a0CwSHfkI48IM7dTTqT+D
+	 07dRkbxEpgvww/e5/DqeFbzj+DlM34juyRO4CXzT3Hch9+yjgtyXWccXT6/oSIO3IS
+	 7GSYplLquClJkdNYtH4PRK1HXZu2K+VE3PH0VzVdzvAkSy6hWSl5/hb9AwuJiXdJOH
+	 ydXerEda6gccQ==
+Date: Sat, 21 Nov 2026 11:56:30 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Anvik Loitongbam <permissiontogallop@gmail.com>
+Cc: Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev,
 	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v5 13/25] rootns: Add rootns() system call
-Message-ID: <awH3BUHarwfCPJwi@kernel.org>
-References: <20261121000844.1863324-1-jarkko@kernel.org>
- <20261121000844.1863324-14-jarkko@kernel.org>
- <awHsvz1vdlwsink0@kernel.org>
- <awHtKMkyGEPTB17G@kernel.org>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] dm-inlinecrypt: emit key type as an optional table
+ argument
+Message-ID: <20261121195630.GF1975@quark>
+References: <20261121131539.7519-1-permissiontogallop@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,37 +64,37 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <awHtKMkyGEPTB17G@kernel.org>
+In-Reply-To: <20261121131539.7519-1-permissiontogallop@gmail.com>
 
-On Sat, Nov 21, 2026 at 09:12:44PM +0200, Jarkko Sakkinen wrote:
-> On Sat, Nov 21, 2026 at 09:10:59PM +0200, Jarkko Sakkinen wrote:
-> > On Sat, Nov 21, 2026 at 02:08:32AM +0200, Jarkko Sakkinen wrote:
-> > > Setting up an isolated namespace environment from a multithreaded
-> > > manager process currently requires helper processes to call unshare()
-> > > and pass file descriptors back over sockets.
-> > > 
-> > > Add the rootns() system call to allocate a detached rootns instance
-> > > owning a fresh user namespace alongside dedicated empty mount
-> > > (CLONE_EMPTY_MNTNS), PID, UTS, IPC, network, cgroup, and time
-> > > namespaces, and return its control file descriptor. Finalize the nsproxy
-> > > time namespace and pin active references for the lifetime of the rootns.
-> > > 
-> > > Co-developed-by: David Howells <dhowells@redhat.com>
-> > > Signed-off-by: David Howells <dhowells@redhat.com>
-> > > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> > 
-> > Syscall name is outdated. I'll rename it as container_create(). Does
-> > not have to be final name, but is a better wip name.
+On Sat, Nov 21, 2026 at 06:45:39PM +0530, Anvik Loitongbam wrote:
+> inlinecrypt_status() emits ctx->key_type as a positional argument between
+> the key and iv_offset:
 > 
-> Something more non-generic as it inevitably would collide to something
-> (did not check). I'll figure something out.
+>   <cipher> <key> <key_type> <iv_offset> <dev_path> <start>
+> 
+> but inlinecrypt_ctr() parses the base table as:
+> 
+>   <cipher> <key> <iv_offset> <dev_path> <start>
+> 
+> and keytype, is an optional feature argument parsed by
+> inlinecrypt_ctr_optional(). Resulting in STATUSTYPE_TABLE output for every
+> dm-inlinecrypt device to be not reloadable, the constructor reads
+> key_type as iv_offset and shifts the remaining fields.
+> 
+> Keep the base table in constructor order and emit a non-default key type
+> as keytype:hw-wrapped in the optional feature list. Raw keys remain the
+> default and are not emitted, preserving the existing table text for
+> raw-key devices.
+> 
+> The two dmsetup examples in the documentation acquired
+> the same extra positional key-type field, so removed it there as well.
+> 
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://sashiko.dev/#/patchset/20260525121348.1321282-2-linlin.zhang%40oss.qualcomm.com
+> Fixes: f9f57971da38 ("dm-inlinecrypt: add support for hardware-wrapped keys")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Anvik Loitongbam <permissiontogallop@gmail.com>
 
-At least for the next iteration I call the object as "vault" and rename the
-syscall as vault_open(), and that is based on:
+Reviewed-by: Eric Biggers <ebiggers@kernel.org>
 
-	$ cat /proc/kallsyms | sed -n '/call_meta__/p' | sed 's/.*call_meta__\(.*\)/\1/g; s/\(.*\)/SYS_\1 \1/; 1i #include <sys/syscall.h>' | gcc -E -P - | grep -v 'SYS_' | sort -n | uniq | grep _open
-	240 mq_open
-	298 perf_event_open
-	434 pidfd_open
-
-Br, Jarkko
+- Eric
