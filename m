@@ -1,64 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795223978;
-	b=f8KnxNTiiTF6rUnS1pmYKpkG+J8pvkVvUK5ZXJlehbsI+0B1yGy0AibIVx5Se72+z7OT
-	 QFZ/JEUcDH4fSWUu0f8Ab/59fmwaazunhisMq/nBXaIE4mHZBXbNjOq51imO72lFAiDkb
-	 9mSUqKkaJCUkVKDjndducTiPN0iohX7PygHAl2A+5QkZ7QNkoQ9TNNUCJ81s4s6ZLqz3O
-	 D29SEs7SML5cpc2TZwtrBLOVIsTrPGbBp/XFKC5ZaTZ42Z/gsuni4Ce8kXy5aoURcf18N
-	 e8p9mHX6ChhZmF2PhIQaMAp/MtZ9O8K8255SCqdbVPZhqk7oeqt74+e1lpLPnXujFCQ==
+	t=1795224013;
+	b=Doqpcuvui1MyowS7LZgGAoUarlCpf5PNBYHXoKhnUilNWqPQBqCxoX0v7VJWGqcjKv2X
+	 IDBVcwu2zTB86xQ/Ive15ZDWlyc9FCfVCfMBC4Ecz9XX5OvDNy84+EuSrs6DkKNvQQnUG
+	 nfhbySITG81ls8F1ifiCErefD2e7YzZzhCa5bHVBrxdtoUhwQ+q8cRaU9PUfhSQygb4Su
+	 g6gakq3JIhNBKvIhkhnDt1Tv3t0T0EvDwFsk1Wo0MfVd+4jAASz0bWtPG22U63/Wc6wcc
+	 2VvRtani/zXrxoPn5zAoGKH/pUhyAEzv43EFcOKg4qFQSSy/mAGZjYKZRCRBdt7hckQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795223978;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=sAnIPQrHw99t3poEK0Gyi6LO0YpQyQO6UetCOpTe8Oo=;
-	b=5anC28nKkEgurdfX9QGWWSJ3LIQsRaAT4NUPrTp8xhdkRfGyK7Tm0tL4DOGaTHy3YsM4
-	 0ezkCjij9OwFKNx7m8X2wLhiVmUkr6dPwzmcme3fGUlO1VDOdBe0xBx297bXhjhRT5dJE
-	 NcVInZ2LFUExqPRDVgEVP+6ehGJC18JsrpwUYC46w0aD+2RooIG4VmIXDuuXSl3jJN1KI
-	 IVNtmmAqX8wKtFfUX913DZq15T41VfU9pwdh4NYl1olRI7QkjlOnNo+BXkutPo3C8mBic
-	 gE5oYBh45M0P4KDJV8pZklcrbMisQWFVxnqIEIyxxZStwRqCiby/WIeETzjDV/noYlQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795224013;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=XGM+SoSoXQSrfen5TCQgnE2je807VHAlIhCb4GyZuDc=;
+	b=obIMeFv4YDN5PDnpQqsuJeMCt0+S13+Q6u+/PeRVF7ruhbDY4W4kSqSjxXZp6HYIUVKE
+	 Vb0U9TXDU7oL85VrBkbq+Fz1D2H1dYHS1emMV4MeJKcASCtG1MKkBVw8RVCrlviC3KP9i
+	 738WgaYQvMyKjZ9l5ASiACwdHuFXi1Yh0lHJI7yQAI5UdZKkoYNA3Rhq1ymOjObsBYD5g
+	 A1LyMuCrNqRrTDzM6tys7xBHzX49geN47gl1eauS+Z9ZqkZe5DCFSWnwxH4ES10dgLHlD
+	 +usOh1NgQj8GadhhSarGcjzWW40vrMPmJwKnBIXZSmOsxgn6txkM+UIv8wAGAq7x1HQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lurZZMoy;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QK0Y7KKO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id ADCEE606A6AF;
-	Sat, 21 Nov 2026 01:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C5F606A69A;
+	Sat, 21 Nov 2026 01:20:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lurZZMoy
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 8CBAA1F000CA;
-	Sat, 21 Nov 2026 01:19:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QK0Y7KKO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43FE91F000C0;
+	Sat, 21 Nov 2026 01:20:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795223978;
-	bh=sAnIPQrHw99t3poEK0Gyi6LO0YpQyQO6UetCOpTe8Oo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lurZZMoyYWuE9VFyNbq3lpHmBso1FtIfC4Lm5o/hP5nH13VYo2ikC0PxUrVuDeqRD
-	 zhaXUEgHcooKj1ejGHybRCzXAMBVS57232dlmf4nyZ1LACxIZrpiXlbzwuqHYmZm+n
-	 A9srb4NyYfKiXRxRXXawmMnQEMiL09ChNNRQb4pq+FOit3RN160L4rE+F9oOXIvJ/o
-	 P034ab/AJBn8KDsIpzFhKvrOoX/KtPWgDlqYLDppY7HHPux9NG8EacFkyz+QDHgBvG
-	 9VhJrofYIFh9lsO4tmk3Y0vkFoVgA1AAirmvww76cp/mlfN1QVPT/tXaX06r85/OV0
-	 EQWdPpoTzi9cw==
-Date: Sat, 21 Nov 2026 03:19:34 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v5 15/25] rootns: Add ROOTNS_KILL ioctl
-Message-ID: <awDxps7uLbikjV5B@kernel.org>
-References: <20261121000844.1863324-1-jarkko@kernel.org>
- <20261121000844.1863324-16-jarkko@kernel.org>
+	s=k20260515; t=1795224013;
+	bh=XGM+SoSoXQSrfen5TCQgnE2je807VHAlIhCb4GyZuDc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=QK0Y7KKON3md5YCXX+p+r1UTzhlWdzaa+WY7VoJZxtxAXDKtY0vIU9tIk9pbu22dr
+	 XWdtZYr5gESfuAHW66Q8AjcSDUNN7lGgwVXUEGR4NNrd5UY+RtbsD5+rW5YUkvs5OD
+	 hatZ03vOP1bNWF2mv7HRck3f7gDvtsVnMyTxW8k2RFnLNaIda132VYgOYAe2q/qt78
+	 9jqYIhvIOive+k/9g7qNNxeq+rO/2baR6RieeTqwPjJoB3o1QzIjcgGNtT16YkpKd0
+	 YcX1/6i6+Jcvl26klZS4jEa/c0lSJ4KGSI28/tgYE0X5q+64EyxRJUEPYIiBhJzp0g
+	 89WR+O5/f5AlQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3A482380AA5E;
+	Sat, 21 Nov 2026 01:20:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,21 +53,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261121000844.1863324-16-jarkko@kernel.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2] tools: ynl: render operations-level
+ fixed-header in docs
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179522401177.873873.982060431560061008.git-patchwork-notify@kernel.org>
+Date: Sat, 21 Nov 2026 01:20:11 +0000
+References: <20261117-ynl_fixed_header-v2-1-e7ac247956ee@kylinos.cn>
+In-Reply-To: <20261117-ynl_fixed_header-v2-1-e7ac247956ee@kylinos.cn>
+To: Hangbin Liu <hangbin.liu@linux.dev>
+Cc: dsahern@kernel.org, idosch@nvidia.com, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ donald.hunter@gmail.com, wessel@jacobi.pw, rdunlap@infradead.org,
+ linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, liuhangbin@kylinos.cn
 
-On Sat, Nov 21, 2026 at 02:08:34AM +0200, Jarkko Sakkinen wrote:
-> Signaling every process inside a container from userspace via /proc is
-> racy against concurrent fork() calls.
+Hello:
+
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Tue, 17 Nov 2026 11:16:40 +0800 you wrote:
+> From: Hangbin Liu <liuhangbin@kylinos.cn>
 > 
-> Add the ROOTNS_KILL ioctl to require an ancestor active PID namespace,
-> walk the root namespace's PID namespace IDR under tasklist_lock, and
-> deliver a validated signal once to each thread group including in-flight
-> forks, aggregating per-process delivery results.
+> The doc generator only rendered keys on each operations list entry, so
+> operations-level fixed-header (the family default) never showed up in the
+> generated HTML. Add a fallback to emit the default_fixed_header on ops
+> that do not set their own.
 > 
-> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> [...]
 
-Will be gone i.e., can do also  pidfd_send_signal(fd, signum, NULL, 0).
+Here is the summary with links:
+  - [net-next,v2] tools: ynl: render operations-level fixed-header in docs
+    https://git.kernel.org/netdev/net-next/c/95efd17739e0
 
-Br, Jarkko 
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
