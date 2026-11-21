@@ -1,54 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795280008;
-	b=4Pxlm0A1CiEmGEgnjDEK7j4gzYwk2X8QXASGXo8ELgVUheShoA8RLFfYgufRcb4CPC6j
-	 653bDx8vVIgI48oVZOqyVDncGuNldbz1q39FF57/aWkdSVD4/bXRAgud7e5hWLYQpiyPp
-	 7mlyJEK2nyHA050R8WQAEQ5iwhz+2wnrkepZNw49ID5ASgUq5YCG208nhqT0GjHg91XIv
-	 nPbGaq1llOWGoVkioFWt4cZhNhuLA0SYxJTKjEvX1cMGbpefUx75I2QLsBStABPZdv0w9
-	 vnQdJiPAaSk1Ctzarxjcu6b6lAsy7lJSejPIVXkhs5+xDWFlUBF+T1dZcndGg1beY2g==
+	t=1795281717;
+	b=YJPMnNJhiCZYf/Z+oWT/cRWN9j2Vfsg3bq9msmXQoLFVlMhsyxicCyW1Z9Xn5lCc1NHe
+	 dwFN/f5U8qmEOJsUyhxg4I70th7r9ajL4o1GkXTB2FWxgYb62CizecmL2QJxC8evTlvZ7
+	 2GzphoPyVvx/wouizBXp2Rfr9gHTQDWrQ5MN5HZbDvWS3Mv921T3vNBgeBjnBKROKGinh
+	 tezcVFc6SBdU4mckhUbWv54obFkluDIg0qQBxeNXgISEXnXW8DLyKfQZl9a1g8i4ypiVL
+	 GVRKrf75BAyEKxeBCE1fFXXZppU8AnQR6G6wbeXjavXE6bFiTPBcn5evaFLlB9mk6nw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795280008;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=DZVQZqKXqbRKF2KM4ZF2ZgwvQAofmplM9n83pr5oX+I=;
-	b=DblS9aTaVsaW2GSBMQbfKXwrWRiz260pLJQjd4GPYFHZzfy+FujNPfTUOaipRI3ldnNm
-	 khZXAH/3ki4HiV+XVzDWTV/yxOhkIDKEQG47nltE/OXwNVGc6JNHfxrAuGLnsQHf2Ym+l
-	 m/yCDx0KEADgsFr/puyjGFE1DzjLu9b/P2hMrOHY5VDVM6kR6X0uHQdFuTlI18c1zV/1G
-	 20XkWwQQWr1/a3fn1+Ny9aqeCpQN7OrJE1P0OBUUP6baDyxz9IXBKre3DNiPEBTGhmA0o
-	 SRBCBC9KO1rwZ/R7rVestAO46cSfu+ymIEo9RC2O5a6l/RPHJpg9tkNARWGZl0Ew90g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795281717;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=ohIR6Qw82vrbkY4AEMlZ5OFiQyPze3nGc8ZbxW8VQNk=;
+	b=XY4F6T9rfb+nHWQLpDhYSnhUPSTB/z3J5GTROslvGN8ckDybQY1Ocauq19FWRXv0oycM
+	 L8LnGDeHk2+5YwLy6FngYTWvk0YLTOTwt+05ofhsG4/wCoK5ZUVDKS1jHal6oJbB03E5e
+	 j8T4YLPpgu88xkuxVy1EyThVnbHbtMWfOtiBrKfxrPBahf9AuRsZ+EiicAqEMG50sIZF1
+	 koWeT1Zm9bx8Nfq1oCOD17X9tweO0bHXWvTHy+GwBEktH9sBglZYqncwpk7RNKUQP9OWp
+	 DCy9Adx4s/8RDHKXyiX7B2V/k560Qe3VIQmc6VB6E57UW3vB8AOnnmrQm9BpJqOJ2iw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=eQU1oKAi;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MfOJU2OB;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A705B606A320;
-	Sat, 21 Nov 2026 16:53:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A705B606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 23E20606A320;
+	Sat, 21 Nov 2026 17:21:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=eQU1oKAi
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=DZVQZqKXqbRKF2KM4ZF2ZgwvQAofmplM9n83pr5oX+I=; b=eQU1oKAiHYli3YMbUqLz9sX05H
-	5uIURQ1KOSbadCLL1lyaxXKQMYJvuvgC7T7PPVL0uptP1lmCFWnSfU6+DJm+PbjLSfYvjeNQWgVen
-	JINKX23PNAszcl5pjIyOLld27cKMF8nr0lRFt+sRexNaw4Z5zt8JzA+wVwQZjv7bffEiQrl6C71tf
-	zF+jzMGAA4cD7OcD5IIl81bajHHRgCEnWp9sjh2fSqme3Eu7NufYmQNGjuN3Zg8AFrtHunN35sL2W
-	a4YMckrI9J2hp+LmGtNevEHaacAV+C7reNASGQMzLjBO/5oq7eNv0o7EAr4E7fgfgCoOEZVf3Bvs0
-	muSltCKQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUoL3-0000000HWMn-04p3;
-	Sat, 21 Nov 2026 16:53:21 +0000
-Message-ID: <bd50aa92-fffe-4176-ba63-4812c68565f8@infradead.org>
-Date: Sat, 21 Nov 2026 08:53:20 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MfOJU2OB
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 34F461F000C0;
+	Sat, 21 Nov 2026 17:21:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795281716;
+	bh=ohIR6Qw82vrbkY4AEMlZ5OFiQyPze3nGc8ZbxW8VQNk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MfOJU2OB8lw5gSY9BnMmPvchn99+EsG8UzO4ZvAUo1WYMnnEcq9l22P9SFCMIfG97
+	 6g1DB1fPOHkkhNeQyatKx6xx82XIKQq6NmVa7ROmN01aXYxgdXSh+pSXWh7ZQo9nrb
+	 VuEg7DF7+VCLLHrN2rKKof0hdINX2MahCtu7DK97H5v+99TQtkYaYP+EmJrWbSPfZ8
+	 w+WXxHVoDa4iCMOGX0YxSgkypG1gOGZhRWzBQzr6JMwomnHh5KIaqjJJWoMW3McUpJ
+	 apwmVODt2VzXn5CnaPnu7Ie+YskEZN+V3ZYeFSpJHkDC8zS5rqBo7LJqcHZFHJxnLg
+	 NMzrk1GVnTNEg==
+Date: Sat, 21 Nov 2026 19:21:52 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	Alexander Mikhalitsyn <alex@amutable.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
+	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v5 25/25] MAINTAINERS: Add entry for ROOT NAMESPACE
+Message-ID: <awHTMNdonDO8IQtF@kernel.org>
+References: <20261121000844.1863324-1-jarkko@kernel.org>
+ <20261121000844.1863324-26-jarkko@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,56 +68,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Docs/process/changes: add comment referring to
- ver_linux
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261121115203.1444513-2-manuelebnerli@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261121115203.1444513-2-manuelebnerli@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261121000844.1863324-26-jarkko@kernel.org>
 
-
-
-On 11/21/26 3:52 AM, Manuel Ebner wrote:
-> Add comment to keep ver_linux up to date. This comment does not show up
-> in the output of sphinx.
+On Sat, Nov 21, 2026 at 02:08:44AM +0200, Jarkko Sakkinen wrote:
+> Record maintainership and mailing list routing for the root namespace
+> subsystem across its uAPI headers, core implementation, documentation,
+> and selftests.
 > 
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 > ---
-> [v2]
->  fix typos in diff and subject
+>  MAINTAINERS | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> [v1]
->  https://lore.kernel.org/all/20261121113221.1442278-2-manuelebnerli@mailbox.org/
-> 
->  Documentation/process/changes.rst | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index 13093c5c26..ffeaa3dce3 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -27,6 +27,10 @@ running a Linux kernel.  Also, not all tools are necessary on all
->  systems; obviously, if you don't have any PC Card hardware, for example,
->  you probably do not need to concern yourself with pcmciautils.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7cbce21ba45a..072be5ec7fd8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -24533,6 +24533,17 @@ F:	include/linux/mfd/rohm-bd96802.h
+>  F:	include/linux/mfd/rohm-generic.h
+>  F:	include/linux/mfd/rohm-shared.h
 >  
-> +..
-> +   When changing anything in the following table, make sure to update
-> +   scripts/ver_linux aswell.
+> +ROOT NAMESPACE
 
-                        as well.
+Out-of-date.
 
-> +
->  ====================== ===============  ========================================
->          Program        Minimal version       Command to check the version
->  ====================== ===============  ========================================
+Not sure if rootns is a great name overall, it just randomly picked WiP
+name. What gets produced are opaque fd-bound containers so maybe even
+calling syscall as container() would not be such a bad idea (unweighted
+and unconsidered idea).
 
--- 
-~Randy
-
+Br, Jarkko
