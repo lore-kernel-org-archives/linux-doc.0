@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.54
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795254788;
-	b=klZJTz9uFXoEEhdLXkNmNNzyog/y82v+80biCWsZ040niW+rjDzjK6NiJnaS7EvG3zdf
-	 TV6wSUzY6NNdXlbjojne69pIHcVE5C3jfFJqlqIUhphf8Oci5GhgzMlcfynrp4eZzOKdG
-	 ks7dtoYpye11+FW4OGWYeLJ5snzxpqX0BvN6exTP3fxlt06acpCC9e9pATV9LGB1Kwi1l
-	 JjjqEw/XQ0+H0H9q8IPQV0rb4CFopPPk2pU9u06kA69AZ0lKFD3+UMGxiO80+6rXKp8vz
-	 bYNSDA8K+eLzW6lWtdgKSAClEF6B8ao2psPDrKMH7wc/LU6+/HxtuOjnID2sDPtzTRQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795254788;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=zENLsrjxXzbyMbN8YT2IRoZaTX6XrURmTnkpOGqlJsA=;
-	b=BFyYmXwqdaZwBaR9EBIbsaj30aUM/SnLM0yFeICDFApp9qBcRwgq760wbg+JmDPr5pPY
-	 ObEDtJCoh7mTCAK+Q31vg20L8XNMnymTmHkib/mLwcrmnshkZo24LWIAZdkHY4OqKInCK
-	 okgC/sK/CsfAmMu5x66RzfC5ILmz1caFia06xaqcSSe3ghh81WwAXbAgoAYzjOLQYYOHh
-	 fszEUR9F/NgXkyJUwhngf1h2Btlf91Dcz7kPg2FsFx/FxCmFUBGP9X/64X7TgYHfrhePe
-	 ITxJAvlFk36wtIaa2Bzvodep0YnYeyntAlMmgORJxsAeCdoEXTp36M1EZDIzi4fpTiA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wbFgbxOU;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.54
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795255312;
+	b=x05gtMO8ldEF2C+xFoXzD6fq+1f/yCAhcPuhzfswFi3H3dKRhZQ4+FscmoSCWXLzg8Wq
+	 5CJKcNh3lShjxke4PgxnZc8XFL21w8uA4KhbmICTihXLiFAxDLz2lO7pqeh/YHwGD3Zzw
+	 7GbGh9H9iQkdrPaQGA0abzVJwwo/wcSNrkg1UITN67xtyOW2mEbS8vhYqlzlT9qWyiXK5
+	 PH+KZUZIFCGZ6eAaE5/LcPUdW3q9rHAbVRr4VV7J50fbJxQSxsSbi/27YsaZFFK+fxXd0
+	 vI/5dOd7ugyUf7VKjf/QoCzS3UntLpHulcAitQE/pF872ElGOjZcUlpEeTtQk1SSxyQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795255312;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=0iLrgKiBXYhJ0kV7UEcjVMICphmvwPVOu/R+vQ1ryRw=;
+	b=fGUKAmtQ0JtrCDrH+PHDQGfY8+gFhEWBnbdiBcrbznVK6zR7yrzXtaGiHqUyN9QdZ/EJ
+	 Myt/XjOp/68YpaGlhPwkFHgxGvRPzb3zgBnU0SCHzP+g+8f6dvvl2pMTfrjKn1gzjGGzL
+	 eCjH6C4knGwI9fpuuBYRVbI4DV1JmugCsqnCy5WJFQQyq4/V/6W8Z3chXBuuhDI60xMKh
+	 aV2ySEKd3nP4yy+aKqqJ1x7fLX3w+9Hd15s36sfJfO+Rq8l1hZreN4hXEzbgRxvPP/j9B
+	 ZMXG7qctMaZ9h6Axe1fmD6ZrIUUn9QmGYdBOO8yt2mUrCsmOK8Ssh8K5bNYQwk1aC2Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k9f1iayA;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8EF606A325
-	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 09:53:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D8EF606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C247606A680;
+	Sat, 21 Nov 2026 10:01:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C247606A680
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wbFgbxOU
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-67db5e13b0cso1585802d50.3
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 01:53:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795254787; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RGgIk96LYvozlSe66ET/H99rEsYX1WK2MKcl2NxklCoKbByFIMQ4ndBUM82IKgvTFd
-         IpuGdYIJutR+IxLQCU+RF2puTPhoAyfu9L4O4pA3/xLNxXCkEOBnXA93rcNbr8+p1xlq
-         96ocs/0CDSwZ7m6aFz+YYb7uY6A3I9HaJ1LYniI39jsOth+vHP2RVEqM2WRclatgwHwH
-         FKB0KWOaPLJ1bH7guwg7TRhGQ+SbwAreJ/sUbZRUY87Kck/3Gfh2YMHw3DwOXw8KPfR4
-         uQpj/Vy57HV0glwOyvMTTA4ql+ycz/pqbHsbxfthwCXMCIhbhxQaypc74KouzMnEJVEM
-         RSZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=zENLsrjxXzbyMbN8YT2IRoZaTX6XrURmTnkpOGqlJsA=;
-        fh=DVWdZB9Yl5lVQ7hXxExS/OCYJ74d/mNoUK+v/h5W5sc=;
-        b=lxH9hURn0fXHasFx6wNxVMmHSj+ucCRfMw5/iaqYw1oijXMr/hnFh2+YSm2rx5kw9M
-         MNIdU3cM0uO4bmhm5XcbvAmEoy2849B+TelgBAlrrCkBLM9LkujxmUTWEsvEczKQ73yK
-         cDdBDP3DYBqOStt/kPk1CpojpEl5gNoOZetGfYk107CejPl72zNcvCftFQSxNwx7PrGh
-         a8w7aPgMJjiVEkfu5ZHKdU54HtstVE7gvtPtMAj6wNN4MIASSsnWkzMtsCS7fgxWW4pW
-         tTgpXo9gou2o1upuDS+cYQ6kS9moe4ezzU0LxS6azM8io0dHy8ALOZ/o6vXsjyy9eIZg
-         Cmjw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795254787; x=1795859587; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zENLsrjxXzbyMbN8YT2IRoZaTX6XrURmTnkpOGqlJsA=;
-        b=wbFgbxOUakxTryJoiXSp2jmblEj0LxLmOUxBjzHpXKYmiO60BUuehLCYUjuiyQ1Bz2
-         hTvI5lndvJ23ERuXtOUhJ/1KFR+P3K5pxH0jNAUHERWMP2BzwJ/Qz0pSPqolgIkx/pkA
-         PJLfI8KIaKCUvP+vLALE18C8V/3bB1kXoh2Ero77lNo30zVT3cdckHfzmGgljHp31UKC
-         8oRy02cXHh5dKfVf+aH0MTwMkPgwjKsWftGWJNaOHSCZjTo709pCO8zzqPupBud37S9i
-         DZFVwA0NsW6p0Xo7/qVoTWsFoEh+u75OlvyDdKcpxcwkHSjCD+iC3WtrGGgeX6wZmA+0
-         2UIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795254787; x=1795859587;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zENLsrjxXzbyMbN8YT2IRoZaTX6XrURmTnkpOGqlJsA=;
-        b=Jiq//nKQF2n4DE4LpH6pbaNKkxw+RZIXDlz+L6kiJo3Rzy+LBqJhrLFqTvvuKfmJdO
-         jsxjLv8JQDNVUFf8TzhMuqUTOnwicTEIrTfI7AL1Tpt+9N9rxo4wXMUNTnaUNrm4BXoz
-         u+JoDhp6Ru+Ye//LtHEPc/5GkbGCsijQsi+P5YXOu6dlgnjwbnhZ865LhgItSeP8V0Wt
-         PKv7LIjKw+oEyq4XL2aCSNj/o/86L2ergZE/V8ErCR96dMPdhEhg7zrhy0msDXHYouxZ
-         cTTk5KlTzAqtHBQXpmArXea5Ukc4RWeFELAhl/Z9uIzWqzYJj/NEKY19tbJDaiV3dymn
-         GMRw==
-X-Forwarded-Encrypted: i=1; AL+hErEyurwNv/tfrIl6/azjb2mWnh6X6xRTef0pYp2k+3FzBz2iVprbTfjE1IUVnrGX6m/yF+6o4ia/fJ8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/m19v24yXrZNsXdi8Zq1/k9cqwrms6lYek0EmjJqXEsJZeVZnc
-	hHeXbdlx/Kx5DBtD4L+wf8i5W9TpG0lDBQxBm8NpxLnOJwd8BCvCL8Dn1mAv6KNFf3ngHRzbvSZ
-	xEe4hGfRtMD/Xrb7UTQbZdiPPt/+ijDM=
-X-Gm-Gg: AZFdTZceo7xywht2haL3GUifUdlY2kjWWxXBAyyOVau/u8orKSslPCs/suu1WQ7PwmL
-	WpW98ywcUyql2m5nNdXpzadIRzhGby8+ilDLtWzbW0/Nbv9cf4VFMLmYGUljdHjq2vTJGw4cY82
-	dtANUoosbJXlcQlNu1oIab7P63jrhnMurGDv/Pqshjkb8qQyycgpXNduF/IJ2ZbtMRgMu91Adbv
-	WqNvMD8oJ2ZR+PS6rEPLwizDlIffxswbs4NoqSyxX8JjcLSzPdObLljoDQ0safYntTv1ShrmG17
-	oosQexrRIgYPRjap+raThbhlOWN4j1WuZwifJAzK2BuLT9ZkxwWCRFxOqzkfETy7jw+HVafkTZl
-	gkyjUo3nMZwEBVfgru3PGouaOfWON2bmk6zU5ykc=
-X-Received: by 2002:a05:690c:9a8f:b0:8b4:cd96:e2e5 with SMTP id
- 00721157ae682-8b52047eb39mr22433217b3.57.1795254787409; Sat, 21 Nov 2026
- 01:53:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k9f1iayA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795255312; x=1826791312;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qoUwdqVJuskEKxFdpm9I3StToR1r1PnxXAishHwsR+0=;
+  b=k9f1iayAQpPZOnH+1V4iEbUHkBCI+VXH1xkBtmPrGo2v1p8j0Rj3AhOF
+   bc5brAa6yU+H+b9/U32/Oqij71Sq5TKXMl/MBi6B9w9/LiIbuGIk9JJ8d
+   z3pHXaFM9SibDCfzSVcCyrPGlw+rXdf2stntPhkL4f0C2Zx8Y1zwRcp2L
+   m8ZqGzWZhdMf8+t7wEha8dRaUuH8bZZ6NMs5sO+fqUAOCppj0CoFr5ka/
+   /CnZ06yozczv0YxApFL5r5qKU5W53KYBFcb/xgSEVvkG6jQY7YRGuyO7i
+   c5ssuOMeQbxxwqbi3nLNB9R5LkV1+9MBetoalj/ocEudsap/B6mIEJQ3w
+   w==;
+X-CSE-ConnectionGUID: KDT8Wo5GRUyULMRG7BKxuw==
+X-CSE-MsgGUID: Io1J+KlSSFGTigrcb9SKuw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4011156"
+X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
+   d="scan'208";a="4011156"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2026 02:01:51 -0800
+X-CSE-ConnectionGUID: eQ+V7i+5Tga8Bp3IPgcd0A==
+X-CSE-MsgGUID: F2pB6URmS36jLm6RP/ridw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
+   d="scan'208";a="11161179"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 21 Nov 2026 02:01:44 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xUhue-00000001JsJ-2qXj;
+	Sat, 21 Nov 2026 10:01:40 +0000
+Date: Sat, 21 Nov 2026 18:01:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ridong Chen <ridong.chen@linux.dev>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Guopeng Zhang <guopeng.zhang@linux.dev>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH-next 1/3] tick/sched: Make tick_nohz_full_mask and
+ HK_TYPE_KERNEL_NOISE cpumask consistent
+Message-ID: <202611211717.qIDq0wIX-lkp@intel.com>
+References: <20261121031329.240177-2-longman@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,55 +104,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261120141225.789350-1-sidong.yang@furiosa.ai>
-In-Reply-To: <20261120141225.789350-1-sidong.yang@furiosa.ai>
-From: Gyeyoung Baek <gye976@gmail.com>
-Date: Sat, 21 Nov 2026 18:52:56 +0900
-X-Gm-Features: Aa3M54p2-QsFjV4SsFcebynkN_mXbs5R4b29wWDoqMp8rJ_L5RBNQwxz99F4OLs
-Message-ID: <CAKbEznuH4sgiAQvnCxh+DeLcLHfzariiMumo-K9S3=zi7LNYxQ@mail.gmail.com>
-Subject: Re: [PATCH v6 0/2] accel/rocket: Report NPU usage through fdinfo
-To: Sidong Yang <sidong.yang@furiosa.ai>
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>, 
-	Philipp Stanner <phasta@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Matthew Brost <matthew.brost@intel.com>, ckoenig.leichtzumerken@gmail.com, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, mcanal@igalia.com, Heiko Stuebner <heiko@sntech.de>, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261121031329.240177-2-longman@redhat.com>
 
-Hi Sidong,
+Hi Waiman,
 
-On Fri, Nov 20, 2026 at 11:12=E2=80=AFPM Sidong Yang <sidong.yang@furiosa.a=
-i> wrote:
->
-> Report how much of the NPU each client uses through fdinfo. Patch 1
-> exports the runtime the scheduler already accounts per entity, and patch
-> 2 uses it for rocket's drm-engine-npu key.
->
-> v6: Rename the getter to drm_sched_entity_get_runtime_ns() (Ma=C3=ADra
->     Canal). Report rdev->num_cores, the cores that are bound, as the
->     capacity instead of rdev->max_cores, and skip the key once no core
->     is left as a capacity of zero is not allowed (Ma=C3=ADra Canal). Add
->     tags.
-> v5: Use the entity runtime from the new drm_sched_entity_get_runtime()
->     instead of a counter in rocket (Tvrtko Ursulin). Reviewed-by tags
->     are not carried as the accounting changed. Based on drm-misc-next.
-> v4: Single drm-engine-npu key with drm-engine-capacity-npu, and
->     documentation (Tomeu Vizoso).
-> v3: Add a rocket_engine_usage_create() helper (Gyeyoung Baek).
-> v2: Size the per-core counters by rdev->max_cores.
->
+kernel test robot noticed the following build warnings:
 
-Posted gputop support for accel devices to IGT, which shows the NPU
-usage from drm-engine-npu here:
-https://lore.kernel.org/igt-dev/20261121094225.628262-1-gye976@gmail.com/
+[auto build test WARNING on tj-cgroup/for-next]
+[also build test WARNING on tip/sched/core tip/timers/nohz linus/master v7.4-rc3 next-20261119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Tested on RK3588 (Rock 5B+) with rocket and panthor running together.
+url:    https://github.com/intel-lab-lkp/linux/commits/Waiman-Long/tick-sched-Make-tick_nohz_full_mask-and-HK_TYPE_KERNEL_NOISE-cpumask-consistent/20261120-221327
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+patch link:    https://lore.kernel.org/r/20261121031329.240177-2-longman%40redhat.com
+patch subject: [PATCH-next 1/3] tick/sched: Make tick_nohz_full_mask and HK_TYPE_KERNEL_NOISE cpumask consistent
+config: powerpc-akebono_defconfig (https://download.01.org/0day-ci/archive/20261121/202611211717.qIDq0wIX-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3b14d7c370558b46e5f0c6494a05c492e59bf32c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611211717.qIDq0wIX-lkp@intel.com/reproduce)
 
-Tested-by: Gyeyoung Baek <gye976@gmail.com>
-Reviewed-by: Gyeyoung Baek <gye976@gmail.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611211717.qIDq0wIX-lkp@intel.com/
 
---=20
-Thanks,
-Gyeyoung
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+>> WARNING: modpost: vmlinux: EXPORT_SYMBOL used for init symbol 'housekeeping_set_cpu'. Remove __init or EXPORT_SYMBOL.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
