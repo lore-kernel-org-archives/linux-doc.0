@@ -1,61 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795289715;
-	b=qgYCVUCSyBETEdbM9ddtPkBB/BypOoKMDw9qMXxrwPFGpMwdFYEcVcsIBbDIE/vutNK9
-	 7ydfSWJ/MDHgrYXhuuG15muvJcHb9ea0fkqjrRHhxaLPBQ5z2IEpE8ZdEtzY5Z2RNvuOu
-	 dOgynMHWMLbEjbM9zuQvvyElq5yfJtftiv7MWsDSP61WEMpEULiQhH0Rb9dPLmH4pV0WM
-	 J4qXtOC8D4pggK+qHli4Kmy7/YRPnw0u/Q2s3x3HW+d//T+vqAZiPEjNGJKQgy7DfaUgR
-	 AGi1cYOK0tMUzQfDnKM++WqqNKYOcXMrSSriqeHyAn3DKIpmwvuKDIrqX7iUgN6PgEA==
+	t=1795290076;
+	b=zzO3E+bcsZ45GCbxwrtKB/ysBR2zvHjB9Fuxc9S2WZvhTY+70ZH0CN9Y4qkKnIITE89K
+	 vh0OOV2nq+MPet9HhRKYXDhmdFMRh1cJUPe5TM00VppTSBWcz3ImxgGEYs5prf0THRrvW
+	 TFaBgZUzWekC/VxF+E2VgA+ECKiaJQ8K+9eSKR3i9KDItD1xpR2KVAA31/Ovk2ZenUyLC
+	 U4YisRpD0KqKx2nVrGxF4F+o0tnB8CSqYi5jQQrJVDtEIajtiq6AUD3DiYST/LwzmUxH4
+	 /iR/RJyBz3Juy2A5+aUDvvaiKVIJQSmVU2rEKrbx856SaGHDRxno1yjgZITWlz+q4VA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795289715;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=JH+iXlWaf0QYvuXeZ5FGygsDHzmcBZZQOeinMNmsuMo=;
-	b=ugnaMMzhIW6SppZk8o3QZqKpToGaRyVmR0Ri3oT7GXPoMGwKew3z7PMuORY/K0+68Xvk
-	 LSISrQo9yshJCLjDOColgu1w7oIHwfCgczFyGVWJMw6RskWBMRnpsUNRFzOYMRuFGXsM3
-	 uSyUFkDCGBBZPwTjgQ8g1tAGDStqgYOBMSXSoNn+5N9oFY2mqj9wGQzMEajSovABTaBus
-	 3WStCRkVlqF/ZVi0wW39zGm6mBBewgcZk20l6d4iQo5kLH+veDoXa0Hhmr3JN8iydL+xM
-	 6l0KEdMis/iDjLA+0uWHdGTmjiEwrAo1/PiFknVEbrOrtFGyhTPU1uGGvcdZ4t3N3Ug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795290076;
+	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=+onO+f8a19JOkIsaY0Ktl6fAq9BXdKARBPZo/DbSfCU=;
+	b=IZTrkaDZ55n4BawDXLYyxe7B93TLA9BGUYJWvqsjOI711GDQV2nmRdE7qqqAfJRlGQ0m
+	 Akqm+WLeEshpw9nAPDrw9dcjbsJbpbExjM6w6BdqkxKsxrHo5NRomxapllgS4qv98ToFe
+	 ehli6WlgevZP2OtGGWj6Dsq/bkfHBOs4wMG1JiPyt6rEmFp5QFn84LCyhOIKzjKx4JV/i
+	 2XSdVTQv/ojo4VoRDcNSEOKc6mYGr2iNJokRtwDY1en/GgO5UmwfzDzl7rCVLaZRPg6mN
+	 3XbC2sZf3byD3Hh/3c3fe7quiFeZqj3IT5wXs85CeaQEyd+sP0O+fZ18HxutIMmMx8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f32ag3IC;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=alien8.de;
+	spf=pass smtp.mailfrom=alien8.de;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b="a9e85s3/";
+	arc=none smtp.remote-ip=65.109.113.108
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCDB606A320;
-	Sat, 21 Nov 2026 19:35:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2859C606A32C;
+	Sat, 21 Nov 2026 19:41:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2859C606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f32ag3IC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA9B71F000C0;
-	Sat, 21 Nov 2026 19:35:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795289715;
-	bh=JH+iXlWaf0QYvuXeZ5FGygsDHzmcBZZQOeinMNmsuMo=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=f32ag3IC/vl5IywST6f+vJ0yHzSYwOZFQP0PowGjHdAFvmry7mgIj3EqIOz1DJ7Ah
-	 gcS/2i2r+AcuvZW/v8aMtUXyK9G4kqk3eSrh6z/sYdhRpneE6LIOIk2yHSNWzMpk7o
-	 5e4z+mqGJRpazfiRXTz25oABoXbfbzS4n1fa2HbT1oGphZmtYKdwSM9dMwUYmcBZ6Y
-	 awzrqOGBNJmI/0Wc4Sgq0yARum1GKhplCFWzj0cwwbcy3FidY/zqf+8intUbAe6Mx5
-	 HY0b11DSRfrcEmJ/5XmmZjSYpHG3bIHt9+BU5nRoKqJR6vVqBgOnEbnnbt0ZF14mxn
-	 JAqkogyS0WOEQ==
-Subject: Re: [PATCH net-next v2 1/2] tcp: document black hole detection for
- tcp_mtu_probing
-From: netdev-bot+sashiko@kernel.org
-To: echoowall@gmail.com
-Cc: corbet@lwn.net, edumazet@kernel.org, davem@davemloft.net, kuba@kernel.org,
- shuah@kernel.org, pabeni@redhat.com, rdunlap@infradead.org,
- linux-doc@vger.kernel.org, horms@kernel.org, ncardwell@google.com,
- kuniyu@google.com, skhan@linuxfoundation.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Date: Sat, 21 Nov 2026 19:35:14 +0000
-Message-ID: <179528971425.3135.11498750682572420334@kernel.org>
-In-Reply-To: <20261118-tcp-mtu-probing-doc-v1-v2-1-e795f20b8cfe@gmail.com>
-References: <20261118-tcp-mtu-probing-doc-v1-v2-1-e795f20b8cfe@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=a9e85s3/
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7E11940E00DC;
+	Sat, 21 Nov 2026 19:41:13 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id GJebFJ9-qlEV; Sat, 21 Nov 2026 19:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1795290070; bh=+onO+f8a19JOkIsaY0Ktl6fAq9BXdKARBPZo/DbSfCU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a9e85s3/Kcg6dkQ4T/hod+dHO+ADXdQXKv80Rc06qwTecP/R43KDj6Tf7mOA4GDcE
+	 CtwDSx5FolO6snw/xn7zaBizU+UyqRv2z/Ka9CfNOevUJymosv2KYuIVnPwCnI9jS+
+	 Gr80otaHgiV7SbeWX4Lerce5gyskwWSZ2CGdZjvZ6hXtiiebuwyB5f53E7MZaLjFBG
+	 3FhhGiBHs8lfLRwPSf2JVQxtpqqkXr4ghaYyfqJPvGy3TaILZEoQ45PMHQPNxgVRUs
+	 7MWBv3k/1LCalDnIP6qXRCZeEe3ythQaxfD8uY0/F4Sd67rPOrU54e+cogrSasT2UU
+	 DfbO/cBzBLgTYAn/NlzU/+dysZ0F2zO8CNYdGTNYhpa1+KDHRiRCAEoVjdwe/9y9qQ
+	 SLIBW2ZoIPC7NkndmPiZOhjevW1FDuWVpWK5sIjRWBCoZPDTn0ctDkgxkQnsn5CFVi
+	 B339NEmPnE6t/FVch24RfqhW3LQJDyn2XbMkHv8quVtReb/v8PYNTAy9BQxk49k+Y2
+	 uxQ5y3ntPRgw+Igch283WMP5H5NyZYappEXYUnmq2XAHwY2Lhxg31v2hGnix+VKjnI
+	 r3l6BR+7vwp8LUseBXEc/+wrNQk6x32BAJhPZSIXeTolPchGgRkX5Ft3y9OVtRmWGo
+	 41yM3Zn3a+BzfhjJOas2NWyQ=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6CAB340E019C;
+	Sat, 21 Nov 2026 19:40:33 +0000 (UTC)
+Date: Sat, 21 Nov 2026 11:40:30 -0800
+From: Borislav Petkov <bp@alien8.de>
+To: Shiju Jose <shijujose2008@gmail.com>
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	ashok.raj@oss.qualcomm.com, jic23@kernel.org, linuxarm@huawei.com,
+	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
+	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	gthelen@google.com, wschwartz@amperecomputing.com,
+	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
+	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
+	wanghuiqiang@huawei.com
+Subject: Re: [PATCH v23 2/2] ras: mem: Add ACPI RAS2 memory driver
+Message-ID: <20261121194030.GBawHzrrCNCMpfr7Gx@fat_crate.local>
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-3-shijujose2008@gmail.com>
+ <20261017055852.GBatMOnEl66YObvU5k@fat_crate.local>
+ <CAG4KcR+NOKHNzg6FN-oLLHgUxeitZHKXg9cN7dz24+Ap=RrwSA@mail.gmail.com>
+ <20261110071729.GIavLFCfLKzPx8R0i0@fat_crate.local>
+ <CAG4KcR+ikfQEBjCZiNJ1CUz=u3Gtbk_XDroA_GQqYpgO4Lo5Qw@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,192 +97,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAG4KcR+ikfQEBjCZiNJ1CUz=u3Gtbk_XDroA_GQqYpgO4Lo5Qw@mail.gmail.com>
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issue(s) to consider.
+On Tue, Nov 10, 2026 at 11:00:45PM +0000, Shiju Jose wrote:
+> I am sharing the changes in patch#2 here for feedback while testing on
+> other platforms.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 3
+This doesn't apply. You can attach the diff so that I can fold it in.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [Medium] The new tcp_mtu_probing text in Documentation/networking/ip-
-  sysctl.rst (lines 725-731) says: "From then on, and from the first…
-- [Low] The new detection-time text (ip-sysctl.rst lines 716-723) says
-  the threshold is the time tcp_retries1 retransmissions would take…
-- [Low] The new text (ip-sysctl.rst lines 728-729) says search_low is
-  kept "at most tcp_base_mss and at least tcp_mtu_probe_floor and…
-- [Low] The new text (ip-sysctl.rst lines 716-718) says "A black hole is
-  detected when the retransmission timer fires after the handshake and…
-
---
-
-tcp: document black hole detection for tcp_mtu_probing
-
-This commit extends the tcp_mtu_probing entry in ip-sysctl.rst. It
-describes when an ICMP black hole is detected and how TCP adjusts the MSS
-afterwards, based on tcp_write_timeout() and tcp_mtu_probing(). It also
-adds the default values of tcp_mtu_probing and tcp_base_mss.
-
-> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-> index 0b7bfbd98a923..6ac8b3fb9aae8 100644
-> --- a/Documentation/networking/ip-sysctl.rst
-> +++ b/Documentation/networking/ip-sysctl.rst
-
-[ ... ]
-
-> @@ -711,6 +713,25 @@ tcp_mtu_probing - INTEGER
->  	- 1 - Disabled by default, enabled when an ICMP black hole detected
->  	- 2 - Always enabled, use initial MSS of tcp_base_mss.
->  
-> +	A black hole is detected when the retransmission timer fires after
-> +	the handshake and retransmissions have stayed unacknowledged for as
-
-[Severity: Low]
-Should this also cover the zero window case? In tcp_retransmit_timer(),
-if the peer advertises a zero window and the socket is not orphaned, the
-timer takes a separate branch and never gets to tcp_write_timeout():
-
-net/ipv4/tcp_timer.c:tcp_retransmit_timer() {
-    ...
-	if (!tp->snd_wnd && !sock_flag(sk, SOCK_DEAD) &&
-	    !((1 << sk->sk_state) & (TCPF_SYN_SENT | TCPF_SYN_RECV))) {
-		...
-		tcp_enter_loss(sk);
-		tcp_retransmit_skb(sk, skb, 1);
-		__sk_dst_reset(sk);
-		goto out_reset_timer;
-	}
-
-	__NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPTIMEOUTS);
-	if (tcp_write_timeout(sk))
-		goto out;
-    ...
-}
-
-While the window stays at zero, no black hole is detected and the MSS is
-not lowered, however long the retransmissions stay unacknowledged.
-
-> +	long as tcp_retries1 retransmissions would take with an RTO starting
-> +	at 200 ms and doubling each time, which is 3 seconds with the
-
-[Severity: Low]
-Does the RTO keep doubling when tcp_rto_max is not the default?
-tcp_model_timeout() stops doubling at tcp_rto_max(sk):
-
-net/ipv4/tcp_timer.c:tcp_model_timeout() {
-	...
-	linear_backoff_thresh = ilog2(tcp_rto_max(sk) / rto_base);
-	if (boundary <= linear_backoff_thresh)
-		timeout = ((2 << boundary) - 1) * rto_base;
-	else
-		timeout = ((2 << linear_backoff_thresh) - 1) * rto_base +
-			(boundary - linear_backoff_thresh) * tcp_rto_max(sk);
-	...
-}
-
-icsk_rto_max comes from net.ipv4.tcp_rto_max_ms, which can be set as low
-as 1000, or from the TCP_RTO_MAX_MS socket option.
-
-Take tcp_rto_max_ms=1000 with the default tcp_retries1=3.
-linear_backoff_thresh is then ilog2(5) = 2, so the threshold is
-7 * 200 + 1 * 1000 = 2400 ms, not 3 seconds.
-
-The flow's own RTO is also capped at 1 s, so timeouts fire at 0.2, 0.6,
-1.4, 2.4 and 3.4 s. Detection then happens about 3.4 s after the original
-transmission, not about 6 s.
-
-With the default 120 s rto_max, a tcp_retries1 above 9 also makes the
-threshold grow linearly in 120 s steps instead of doubling.
-
-Could the text say that the doubling is capped at tcp_rto_max_ms, and
-that the 3 and 6 second figures assume the default?
-
-> +	default tcp_retries1. This time is counted from the first
-> +	retransmission and only checked when the timer fires, so a flow
-> +	with a 200 ms RTO detects the black hole at the fifth timeout,
-> +	about 6 seconds after the original transmission.
-> +
-> +	With value 1, the first detection enables MTU probing and lowers
-> +	the MSS to tcp_base_mss if it is larger. From then on, and from the
-> +	first detection with value 2, each further retransmission timeout
-
-[Severity: Medium]
-Does every further retransmission timeout really lower search_low? In
-tcp_write_timeout(), tcp_mtu_probing() is only called while the
-tcp_retries1 condition holds:
-
-net/ipv4/tcp_timer.c:tcp_write_timeout() {
-	...
-		if (retransmits_timed_out(sk, READ_ONCE(net->ipv4.sysctl_tcp_retries1), 0)) {
-			/* Black hole detection */
-			tcp_mtu_probing(icsk, sk);
-
-			__dst_negative_advice(sk);
-		}
-	...
-}
-
-retransmits_timed_out() returns false whenever icsk_retransmits is zero:
-
-net/ipv4/tcp_timer.c:retransmits_timed_out() {
-	...
-	if (!inet_csk(sk)->icsk_retransmits)
-		return false;
-	...
-}
-
-tcp_ack() resets that counter as soon as snd_una advances:
-
-net/ipv4/tcp_input.c:tcp_ack() {
-	...
-	if (after(ack, prior_snd_una)) {
-		flag |= FLAG_SND_UNA_ADVANCED;
-		WRITE_ONCE(icsk->icsk_retransmits, 0);
-	...
-}
-
-Once the connection recovers, for example after the first halving lets
-packets through, a later isolated RTO does not halve search_low again.
-Only timeouts during a new stall that lasts past the tcp_retries1
-threshold do.
-
-The commit message says the text describes the behaviour "as implemented
-in tcp_write_timeout() and tcp_mtu_probing()". Could this sentence be
-reworded, for example to "each further timeout at which the black hole
-condition still holds"?
-
-> +	lowers search_low to half its MSS, keeping it at most tcp_base_mss
-> +	and at least tcp_mtu_probe_floor and tcp_min_snd_mss, and lowers the
-
-[Severity: Low]
-Can search_low end up above tcp_base_mss? tcp_mtu_probing() applies the
-cap first and the floors after it, so the floors win:
-
-net/ipv4/tcp_timer.c:tcp_mtu_probing() {
-	...
-		mss = tcp_mtu_to_mss(sk, icsk->icsk_mtup.search_low) >> 1;
-		mss = min(READ_ONCE(net->ipv4.sysctl_tcp_base_mss), mss);
-		mss = max(mss, READ_ONCE(net->ipv4.sysctl_tcp_mtu_probe_floor));
-		mss = max(mss, READ_ONCE(net->ipv4.sysctl_tcp_min_snd_mss));
-	...
-}
-
-tcp_base_mss uses plain proc_dointvec with no bounds, while
-tcp_mtu_probe_floor accepts 48..65535. Two settings that put search_low
-above tcp_base_mss:
-
-  tcp_mtu_probe_floor=1200 with tcp_base_mss=1024
-  tcp_base_mss set below tcp_min_snd_mss
-
-Could the text say that the floors take precedence over the tcp_base_mss
-cap?
-
-> +	MSS to match if it is larger. Once MTU probing is enabled, the
-> +	connection also probes for a larger MSS, as with value 2.
+Thx.
 
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261118-tcp-mtu-probing-doc-v1-v2-0-e795f20b8cfe%40gmail.com
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
