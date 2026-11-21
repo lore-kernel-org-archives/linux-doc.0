@@ -1,65 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.196
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795260258;
-	b=3BSIjyjV35iqqK2sNXbZSPj/NfH4zXVTzhhWVqpI8Z/HsyYZUnaAVZz0FQj2htGQHt7g
-	 yKKi28yQOe2cxFuth9ls58EEvr+jJo/wLuSJGvBvEurUwB1nASjfPvswVIwUpRNtlFsSn
-	 IuJALcXm7LrlzQrAQxV2PXZzftK7hfFaMBfeClaKdexjUK2UoU+G+oj4uaZ3o5OGPa5Bb
-	 YzE4m66CavpoWT+jGZwWkVNhotrIcJD1a8Tlw+t/d0efPqTi4dQcld8JwCP6j7fq7IRvH
-	 KiQ/DlUT5doe1AmPyBcKaIWVPhlM3l6PXtkGZpmpUa59nvUOXn5Hip5sy6BRAZgm4mw==
+	t=1795260471;
+	b=LRHM/c+hl4vi7ipMsLb5zmpWGdGP+6mBqHIwwFNtSMkzDYspG12uYqmFjdjAbSgw+cTP
+	 qpVyY0muLoVLPykWhdBv8yx1WTR6y4PieuLUgGULUeBh223FmkMeGDerAoGLB+uel+ZTt
+	 Ysf71eI6+KTrRhXp0J05FNVyUstEDF/wqjaWE4OBvFHBb4XyHi65wTTnooCH5TNjsCMLS
+	 A7KgSl3HtPqNTscCmxPQAk5o6A/KMV1dzRZa+SqL8m4OAlIKcbfcJO8q4DqrZSUGWkzmn
+	 wFCjTUXTGkVkttaCwWiyg3ipSWnv3Mxg8VF0UconVPyU3AkMgt94pJ/IL6jcYR3B0vA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795260258;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=GHbQtC6gIc0jGnYZ6s00mCvjyoI1Kvae0ypDCzK5JU0=;
-	b=fYqbib2n19WMsoWLd0nftQhaGf5q6ZRQFDwbGA+lufDzrw5YxIyM8Be/Ow0v1uTBtKAf
-	 x3Dvx/OuFC8wTu68W2XRYIoZ6igDGAcGVTMf3feTBaBgKeBRJsNFmI8bvXhOUWh6zNBg4
-	 m7XQcDDcEaMZhGGcDdM68zc4gLjvmmPHozgOH5W4nuZMz8cqsUWg+QYd4nFvPIp+evD3s
-	 g23lj5ME/SOqtnOhEaeuPxpbeR2EW/TPha2oCh+FRThV6mjDrN/5oIpPBfo+zUk1FqvWs
-	 Fu5miR0fnEsA89ncYHlZ3fGH3DHYEvm5hAq5nFeUQs3Paqhqe5E3QyoOzryYuDcuIng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795260471;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=zWbeHAaU9PSKfsLTHzffi5B4XV2cAowGCcU8h7Q3pis=;
+	b=HK3oCVZ2ysgGxM4r5+XKJyTs7M+35yQGKndL6RzEeJKeNmGBZSCQ/fezikWqYmnBhAH9
+	 9SEqs3guUprq9OK1hnPHpSNa4TvaMfHGdLbrfUrI2U/NCusNnCiramjiNA29SkxugRkfG
+	 QykxRONBB19jKCp0Zc7QD9aKnl9382tr4z3Jt8WpuGRJczKkJnD/z0lFHBG5gFTHszdkF
+	 XFVl6SgQotZZvd1HZXd+DphhFD1jx6EqHLSmQxYedj9i8oY0iLTeLMRcC6Ayhg3mB4Hip
+	 dy6MLHcCM+Q88VBXTEr4MV3XRniwBdmWEul/EOjJWijNVQ9XyFy6PneJMzSMQofWkyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mB0YRm3j;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=eA6XC8N7;
+	arc=none smtp.remote-ip=91.218.175.196
+Received: from mta0.migadu.com (out-196.mta0.migadu.com [91.218.175.196])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id BD9AF606A320;
-	Sat, 21 Nov 2026 11:24:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74960606A32C
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 11:27:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74960606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mB0YRm3j
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id EFF371F000C4;
-	Sat, 21 Nov 2026 11:24:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795260258;
-	bh=GHbQtC6gIc0jGnYZ6s00mCvjyoI1Kvae0ypDCzK5JU0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mB0YRm3jiQg6+dAG4Uh+kh+x0CIpL21NhV92OyKjRc4Nza2T3tFWotVyy2F3LVDkP
-	 TDWkq9Ns3VJKWe9ABDZH8j4zYwrx7d9HbeCjrlBUun5+r7vTyh0N/tLEKFB5z8ICp8
-	 qxYpXHkhVSTOh/LCRPqYeZKg+ZB7e4/9BbBfT5R9OcvwUtzYXz4ilD9CAeuOvXx81g
-	 Dp8xUFM1/TAxBbErZPKEA/4uf/7MxVON2JR7/HEbHbLOa29JUDaZ2np/MQ/wBSCjBn
-	 X1ArG35BUmmZXAPBQRSM66IPm6GHxeW8BlPy0LNZdkeKdtQiZyQ44rkuf+WoHNXFGO
-	 8tMX0FG52frPQ==
-Date: Sat, 21 Nov 2026 13:24:14 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v5 15/25] rootns: Add ROOTNS_KILL ioctl
-Message-ID: <awF_XiObSZVSARoh@kernel.org>
-References: <20261121000844.1863324-1-jarkko@kernel.org>
- <20261121000844.1863324-16-jarkko@kernel.org>
- <awDxps7uLbikjV5B@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=eA6XC8N7
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=fvBF6/+ij8xwF+iLXx8bSG1XL2OxGVsMqLATzmvR4MI=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795260468; v=1; x=1795865268;
+ b=eA6XC8N7w8n6rG3EcyNd6SeDscaN4tXzB/yTtsTLbhPKM1eqn+9R6rt2FpQ3TtkCc7LKVfLt
+ WMPPvctvB8FXvxPR+imly3gdB19SIJrkreqQlDRDyDk6dzOgHunr4uzJrZg0ArOi+0nL75Ox/aa
+ fQjXeTP1KHHwETXhFIjICcww=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 99df8f76e236daff;
+	Sat, 21 Nov 2026 11:27:48 +0000
+X-Mizu-Trace-ID: 99df8f76e236daff
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <edb8249a-7bc3-430e-bbb7-243e1881a0b8@linux.dev>
+Date: Sat, 21 Nov 2026 12:27:47 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,38 +58,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awDxps7uLbikjV5B@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v4 0/3] block: delay support for error injection
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+References: <20261111215838.103356-1-haris.iqbal@linux.dev>
+ <179501806989.17649.3138860274842922761.b4-ty@b4>
+ <20261120164416.GA32719@lst.de>
+Content-Language: en-US
+From: Haris Iqbal <haris.iqbal@linux.dev>
+In-Reply-To: <20261120164416.GA32719@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 21, 2026 at 03:19:38AM +0200, Jarkko Sakkinen wrote:
-> On Sat, Nov 21, 2026 at 02:08:34AM +0200, Jarkko Sakkinen wrote:
-> > Signaling every process inside a container from userspace via /proc is
-> > racy against concurrent fork() calls.
-> > 
-> > Add the ROOTNS_KILL ioctl to require an ancestor active PID namespace,
-> > walk the root namespace's PID namespace IDR under tasklist_lock, and
-> > deliver a validated signal once to each thread group including in-flight
-> > forks, aggregating per-process delivery results.
-> > 
-> > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+
+
+On 11/20/26 17:44, Christoph Hellwig wrote:
+> On Wed, Nov 18, 2026 at 09:07:49AM -0700, Jens Axboe wrote:
+>>
+>> On Wed, 11 Nov 2026 22:58:35 +0100, Md Haris Iqbal wrote:
+>>> Error injection can only fail a bio today.  This adds a delay_us option so
+>>> that a rule can hold a bio back first, to model a slow device.  The delay
+>>> happens above the driver, so it tests the code waiting above the block
+>>> layer, not the blk-mq timeout handler.
+>>>
+>>> A delayed bio is marked with a new BIO_ERROR_INJECTED flag so the rules
+>>> are not applied to it again, even after a split.  Christoph asked on v2
+>>> to avoid the flag by allowing a delay only together with an error.  I kept
+>>> delay-only rules, as a slow device that succeeds is the more useful case,
+>>> so the flag question is still open.
+>>>
+>>> [...]
+>>
+>> Applied, thanks!
+>>
 > 
-> Will be gone i.e., can do also  pidfd_send_signal(fd, signum, NULL, 0).
+> Hmm.  This still has rela issues as pointed out by Sashiko.  I'd very
+> much expect a resend to address them.
 
-Wiring:
+I can resend with the fix, or send just the fix to be patched above 
+this, since these are already picked. Let me know whats preferable.
 
-        case PIDFD_SELF_THREAD_GROUP:
-                pid = get_task_pid(current, PIDTYPE_TGID);
-                type = PIDTYPE_TGID;
-                break;
-        default: {
-                CLASS(fd, f)(pidfd);
-                if (fd_empty(f))
-                        return -EBADF;
-
-                if (is_rootns_file(fd_file(f)))
-                        return rootns_send_signal(fd_file(f), sig, info, flags);
-
-After this only ROONTS_GET_NSFD remains.
-
-Br, Jarkko
