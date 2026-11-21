@@ -1,96 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795289696;
-	b=YQloW1PPRmYw84w+qAqjF6fQOSSQEnOtWXHaxsbIQLK/5R20ND3pmJG374sDj8MGjr2u
-	 hIRQChX+MnHrucOkwjo/l5k5LE0lLkV41pBVPWhmzR18etYqZJrB2UPJdMoYkvRMhCDEK
-	 7RxjxOqRB8K3LqXXtQEZi+C1dFhWGXYp42+4/kGQCbMNbpEg7yhF8I1eE8ODx0eiURU8B
-	 cRLYTA5H+i1iQgQ5Juk4nPK7tAFPTcOUzwUyo0QWtLc6hZIzi6vmLQF/3VM9ltUDTr+tP
-	 jNJVg5gPIvvBvSyFQFCwBk4lLSxSgY0U/op3tFG6HjpD/Gwf224OLMsAOoWzv+aB6gw==
+	t=1795289715;
+	b=qgYCVUCSyBETEdbM9ddtPkBB/BypOoKMDw9qMXxrwPFGpMwdFYEcVcsIBbDIE/vutNK9
+	 7ydfSWJ/MDHgrYXhuuG15muvJcHb9ea0fkqjrRHhxaLPBQ5z2IEpE8ZdEtzY5Z2RNvuOu
+	 dOgynMHWMLbEjbM9zuQvvyElq5yfJtftiv7MWsDSP61WEMpEULiQhH0Rb9dPLmH4pV0WM
+	 J4qXtOC8D4pggK+qHli4Kmy7/YRPnw0u/Q2s3x3HW+d//T+vqAZiPEjNGJKQgy7DfaUgR
+	 AGi1cYOK0tMUzQfDnKM++WqqNKYOcXMrSSriqeHyAn3DKIpmwvuKDIrqX7iUgN6PgEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795289696;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=n5ZnpCxALSpimlZbz+ysdwCQ7qxNjOgOx10w71IS4KQ=;
-	b=5ssAei5Cuogcz0eOxfn4J1ftzi/XdAKf7CaVrThFa0bAMDQ/Yj/BBAv78QE1Vu+66Rl8
-	 ePvbqy5nmjIU6q2rMuKKRMk2LtoLNamTRpDE21QmOBOfLq/qsj0eglVQAySkyJUZme6+5
-	 CaeloluYXT6Kx6MuIKak5NIAIsEZbIUx6z+ujDY8CDx8hhIllmvQrMk/UMEAi4jSYiXQo
-	 G7lk2OubkR/Xr/86LuFjS7tMd2CwXboXkB9RYWhjMRNf9Vu3evYVLcMcbeLbxWawXXtJk
-	 UC4dxPwVYIA/EoV2qU3reuD6ixvfTMYk5crfY4Piv7Ky5Xd0F8u5MGPIP4EeJr3g7ow==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795289715;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=JH+iXlWaf0QYvuXeZ5FGygsDHzmcBZZQOeinMNmsuMo=;
+	b=ugnaMMzhIW6SppZk8o3QZqKpToGaRyVmR0Ri3oT7GXPoMGwKew3z7PMuORY/K0+68Xvk
+	 LSISrQo9yshJCLjDOColgu1w7oIHwfCgczFyGVWJMw6RskWBMRnpsUNRFzOYMRuFGXsM3
+	 uSyUFkDCGBBZPwTjgQ8g1tAGDStqgYOBMSXSoNn+5N9oFY2mqj9wGQzMEajSovABTaBus
+	 3WStCRkVlqF/ZVi0wW39zGm6mBBewgcZk20l6d4iQo5kLH+veDoXa0Hhmr3JN8iydL+xM
+	 6l0KEdMis/iDjLA+0uWHdGTmjiEwrAo1/PiFknVEbrOrtFGyhTPU1uGGvcdZ4t3N3Ug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jFfjWxj3;
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f32ag3IC;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF9F606A32A
-	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 19:34:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AF9F606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCDB606A320;
+	Sat, 21 Nov 2026 19:35:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jFfjWxj3
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4ac109a8a12so1077391f8f.3
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 11:34:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795289694; x=1795894494; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=n5ZnpCxALSpimlZbz+ysdwCQ7qxNjOgOx10w71IS4KQ=;
-        b=jFfjWxj3Yvj4oNqD7D+livIIw1prdztnBFVWXeISH05y72ksTpXjmPM0Z05gSL+Mu8
-         whT/jP3IRkvo8MpCsIqeIZzyDDG5A/ewg09CW1cZGaGa1sNKOK5nQ2VnHkkepxvv5d0z
-         9QICjsYFNotjwblXS3EybXhYxR4ynCk92SdOVHZJbbmWYnp5knlfcJeDQKIplLVe3q5G
-         9QPRamiXuXSYLbLio5MQTG3ADwDZzglS4+6TUWlwRx+3otCncuwMHiNS3izRx6uGWWpF
-         kkqrbFZPfC48f5QvLGrQNKxisZjyUYKcMUk2/t4OlCcvjJ7dnrvJCrZTgLaTyMcYzJeI
-         qdnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795289694; x=1795894494;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=n5ZnpCxALSpimlZbz+ysdwCQ7qxNjOgOx10w71IS4KQ=;
-        b=ZC6JnmSDkMyI99o1F+9pdk+rNGK18Lt3UFgWLDvgcdDBfT9VoITiQEzSMdMbjBhPUU
-         UWfeaGBFLrJQDfFktmBiImApH6wu9DO76YT2m0TFRXw7yCG+fxBaCILUU6h4qlxh4z5R
-         ZHfTbc7TNCnbfwCUFT+/uoJYW++NvxDqC2Ga/DSIQ9A++fy8xeichNkqOvgoYYE6dcaC
-         k29Q53HH4MUiyMCWYxFRIB/s7JLPDv6w9goK5dD4mAOlbMyWM9e9ng+Bh8K7RpnWPtyr
-         2LBlnpN9cW70LVn4stazsTlsYoRFcFYXN2hPkrllnL8FmxGMN9Iy1XgNy5zj4jGhAWTG
-         Jp3w==
-X-Forwarded-Encrypted: i=1; AL+hErFximOS9ic59yXkvWvOYvZa3y/c/DZxzf3ZCEWUqyE2/jPM/lZRVd79rf2heh0ASuRiTM3f5dJAoG4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8mLgxhP+r3v0FH5YShk4le8Pk4rfH5zBUzSwW2dE1BvoaADaaL
-	g+F3szfl2V2ZdZHXzKTHsLhEGBnWltJYvnnhZtmFd0ieBz6Qn2tv9/1ItLK/q8sf
-X-Gm-Gg: AZFdTZdU9eQzH8kkh0wFmbmKE9jU6g6oPqPCEZAUikHlEiKQ2HNXjoYqYSBWUaikuO4
-	v799JZ4x47rQ5xAy9O3Zi6lzMMF+52QR9s6cnvnEro8SeLq/yyxiyOX+GSsdyRS9yV5mEhVHiV+
-	bX7g/vR6dickm5SnuiELK0DmBWLh9UlYwhjkPzd9TJClnZVqOoJ2BKUZYmF+EzCg/iriE8vdwE7
-	O7da/TlCcc16kpjshOnEOkRkvaMRduLikc5wGX3mRgeMpM1P3c1luMsT8TW/f1NaHzLuaXB4RsM
-	lzTfx2E8haIE1DDiJLc4/LZ4W0mfnzFqHPjmYiaFgoL/24Ckocr2jyuBr9YMKt558198XfLr07E
-	Mklyzi2bY0jFMjumjqdW6GhEq/KLnIM6lFv5Q5oNjnrhH6v9ut2HzYYIvaN0tCL85AuWXCCyxsd
-	rWxBs66QBrf37CdRhF4vi6JXOzJn3YXHuNts8ye3KggNWJxMhIC90HQhYh+0BZfZVO+xVnOFlll
-	nD/JLc2UpIFdQhePNg6HPi1GhWq+DWYnxsjjPMH714wXbH59Ji4Q7/LDbKqzA8IKCr6qVGauinT
-	b5lv1c5yTd1wqq/15y9R76jPSY6B5yYkHJVOyWMAXlJH3sr4ew==
-X-Received: by 2002:a05:600c:4e0b:b0:4bb:6f45:2a79 with SMTP id 5b1f17b1804b1-4bb88817920mr169852215e9.22.1795289693852;
-        Sat, 21 Nov 2026 11:34:53 -0800 (PST)
-Received: from NullSecurityX.localdomain ([178.244.203.55])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906635c7sm69591845e9.2.2026.11.21.11.34.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 11:34:53 -0800 (PST)
-From: =?UTF-8?q?Ozan=20A=C4=9Fdepe=20=28NullSecurityX=29?= <agdepeozan@gmail.com>
-To: brauner@kernel.org,
-	viro@zeniv.linux.org.uk
-Cc: jack@suse.cz,
-	corbet@lwn.net,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Ozan=20A=C4=9Fdepe=20=28NullSecurityX=29?= <agdepeozan@gmail.com>
-Subject: [PATCH] Documentation: failfs: setns() back out needs no privileges
-Date: Sat, 21 Nov 2026 22:34:46 +0300
-Message-ID: <20261121193446.105396-1-agdepeozan@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f32ag3IC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA9B71F000C0;
+	Sat, 21 Nov 2026 19:35:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795289715;
+	bh=JH+iXlWaf0QYvuXeZ5FGygsDHzmcBZZQOeinMNmsuMo=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=f32ag3IC/vl5IywST6f+vJ0yHzSYwOZFQP0PowGjHdAFvmry7mgIj3EqIOz1DJ7Ah
+	 gcS/2i2r+AcuvZW/v8aMtUXyK9G4kqk3eSrh6z/sYdhRpneE6LIOIk2yHSNWzMpk7o
+	 5e4z+mqGJRpazfiRXTz25oABoXbfbzS4n1fa2HbT1oGphZmtYKdwSM9dMwUYmcBZ6Y
+	 awzrqOGBNJmI/0Wc4Sgq0yARum1GKhplCFWzj0cwwbcy3FidY/zqf+8intUbAe6Mx5
+	 HY0b11DSRfrcEmJ/5XmmZjSYpHG3bIHt9+BU5nRoKqJR6vVqBgOnEbnnbt0ZF14mxn
+	 JAqkogyS0WOEQ==
+Subject: Re: [PATCH net-next v2 1/2] tcp: document black hole detection for
+ tcp_mtu_probing
+From: netdev-bot+sashiko@kernel.org
+To: echoowall@gmail.com
+Cc: corbet@lwn.net, edumazet@kernel.org, davem@davemloft.net, kuba@kernel.org,
+ shuah@kernel.org, pabeni@redhat.com, rdunlap@infradead.org,
+ linux-doc@vger.kernel.org, horms@kernel.org, ncardwell@google.com,
+ kuniyu@google.com, skhan@linuxfoundation.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Date: Sat, 21 Nov 2026 19:35:14 +0000
+Message-ID: <179528971425.3135.11498750682572420334@kernel.org>
+In-Reply-To: <20261118-tcp-mtu-probing-doc-v1-v2-1-e795f20b8cfe@gmail.com>
+References: <20261118-tcp-mtu-probing-doc-v1-v2-1-e795f20b8cfe@gmail.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,74 +65,192 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-The "Leaving" section says the remaining way out of failfs is setns()
-with a mount namespace file descriptor and that it requires
-CAP_SYS_ADMIN over the target mount namespace as well as CAP_SYS_CHROOT
-and CAP_SYS_ADMIN in the caller's user namespace. That reads as if an
-unprivileged task in failfs that holds no namespace file descriptor
-cannot get out.
+Thank you for your contribution! Sashiko AI review found 4 potential
+issue(s) to consider.
 
-It can. A pidfd names the namespaces of another task without a path
-lookup. create_user_ns() refuses chrooted callers, but userns_install()
-does not, and the caller owns every user namespace created by its
-effective uid below its own. setns(pidfd, CLONE_NEWUSER | CLONE_NEWNS)
-on a task that runs in such a user namespace and in a mount namespace
-owned by it passes validate_nsset(), userns_install() and
-mntns_install(), and mntns_install() resets root and working directory
-to the root of that mount namespace. Rootless containers, bubblewrap
-and browser sandboxes all run such tasks.
+Critical: 0 · High: 0 · Medium: 1 · Low: 3
 
-Verified on v7.3 with an unprivileged caller: after
-fchroot(FD_FAILFS_ROOT) open("/etc/passwd") and unshare(CLONE_NEWUSER)
-fail as documented, and after setns(pidfd, CLONE_NEWUSER | CLONE_NEWNS)
-open("/etc/passwd") succeeds.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-The section already says leaving is not a guaranteed interface and that
-seccomp has to restrict setns() among others, so only describe the path
-accurately.
+- [Medium] The new tcp_mtu_probing text in Documentation/networking/ip-
+  sysctl.rst (lines 725-731) says: "From then on, and from the first…
+- [Low] The new detection-time text (ip-sysctl.rst lines 716-723) says
+  the threshold is the time tcp_retries1 retransmissions would take…
+- [Low] The new text (ip-sysctl.rst lines 728-729) says search_low is
+  kept "at most tcp_base_mss and at least tcp_mtu_probe_floor and…
+- [Low] The new text (ip-sysctl.rst lines 716-718) says "A black hole is
+  detected when the retransmission timer fires after the handshake and…
 
-The issue was found during an AI-assisted review of fs/ and
-kernel/user_namespace.c. The reproducer, the documentation text and
-this changelog were drafted with the assistant and reviewed and tested
-by the submitter.
+--
 
-Fixes: a45a6605cd04 ("Documentation: add failfs documentation")
-Signed-off-by: Ozan Ağdepe (NullSecurityX) <agdepeozan@gmail.com>
----
- Documentation/filesystems/failfs.rst | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+tcp: document black hole detection for tcp_mtu_probing
 
-diff --git a/Documentation/filesystems/failfs.rst b/Documentation/filesystems/failfs.rst
-index 21ff2db79..c34e29403 100644
---- a/Documentation/filesystems/failfs.rst
-+++ b/Documentation/filesystems/failfs.rst
-@@ -65,9 +65,18 @@ implementation, not a guaranteed interface, and may be loosened later.
- For now a process that entered failfs counts as chrooted, so it cannot
- create user namespaces to regain ``CAP_SYS_CHROOT``, and ``chroot(2)``
- or ``fchroot(2)`` back out require ``CAP_SYS_CHROOT``. The remaining way
--out today is ``setns(2)`` with a mount namespace file descriptor, which
--requires ``CAP_SYS_ADMIN`` over the target mount namespace as well as
-+out today is ``setns(2)`` into a mount namespace, which requires
-+``CAP_SYS_ADMIN`` over the target mount namespace as well as
- ``CAP_SYS_CHROOT`` and ``CAP_SYS_ADMIN`` in the caller's user namespace
--and resets both root and working directory. A process that holds no such
--file descriptor and restricts ``*chdir()``/``*chroot()``/``setns()`` via
--seccomp cannot currently get back out.
-+and resets both root and working directory.
-+
-+That way out does not need privileges or a namespace file descriptor. A
-+pidfd names the namespaces of another task without a path lookup, and
-+joining an existing user namespace is not refused for a chrooted task
-+the way creating one is. An unprivileged caller can thus leave with
-+``setns(pidfd, CLONE_NEWUSER | CLONE_NEWNS)`` on any task it may access
-+in ``PTRACE_MODE_READ`` mode that runs in a user namespace owned by the
-+caller's effective uid and in a mount namespace owned by that user
-+namespace. A process that restricts
-+``*chdir()``/``*chroot()``/``setns()`` via seccomp cannot currently get
-+back out.
+This commit extends the tcp_mtu_probing entry in ip-sysctl.rst. It
+describes when an ICMP black hole is detected and how TCP adjusts the MSS
+afterwards, based on tcp_write_timeout() and tcp_mtu_probing(). It also
+adds the default values of tcp_mtu_probing and tcp_base_mss.
+
+> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+> index 0b7bfbd98a923..6ac8b3fb9aae8 100644
+> --- a/Documentation/networking/ip-sysctl.rst
+> +++ b/Documentation/networking/ip-sysctl.rst
+
+[ ... ]
+
+> @@ -711,6 +713,25 @@ tcp_mtu_probing - INTEGER
+>  	- 1 - Disabled by default, enabled when an ICMP black hole detected
+>  	- 2 - Always enabled, use initial MSS of tcp_base_mss.
+>  
+> +	A black hole is detected when the retransmission timer fires after
+> +	the handshake and retransmissions have stayed unacknowledged for as
+
+[Severity: Low]
+Should this also cover the zero window case? In tcp_retransmit_timer(),
+if the peer advertises a zero window and the socket is not orphaned, the
+timer takes a separate branch and never gets to tcp_write_timeout():
+
+net/ipv4/tcp_timer.c:tcp_retransmit_timer() {
+    ...
+	if (!tp->snd_wnd && !sock_flag(sk, SOCK_DEAD) &&
+	    !((1 << sk->sk_state) & (TCPF_SYN_SENT | TCPF_SYN_RECV))) {
+		...
+		tcp_enter_loss(sk);
+		tcp_retransmit_skb(sk, skb, 1);
+		__sk_dst_reset(sk);
+		goto out_reset_timer;
+	}
+
+	__NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPTIMEOUTS);
+	if (tcp_write_timeout(sk))
+		goto out;
+    ...
+}
+
+While the window stays at zero, no black hole is detected and the MSS is
+not lowered, however long the retransmissions stay unacknowledged.
+
+> +	long as tcp_retries1 retransmissions would take with an RTO starting
+> +	at 200 ms and doubling each time, which is 3 seconds with the
+
+[Severity: Low]
+Does the RTO keep doubling when tcp_rto_max is not the default?
+tcp_model_timeout() stops doubling at tcp_rto_max(sk):
+
+net/ipv4/tcp_timer.c:tcp_model_timeout() {
+	...
+	linear_backoff_thresh = ilog2(tcp_rto_max(sk) / rto_base);
+	if (boundary <= linear_backoff_thresh)
+		timeout = ((2 << boundary) - 1) * rto_base;
+	else
+		timeout = ((2 << linear_backoff_thresh) - 1) * rto_base +
+			(boundary - linear_backoff_thresh) * tcp_rto_max(sk);
+	...
+}
+
+icsk_rto_max comes from net.ipv4.tcp_rto_max_ms, which can be set as low
+as 1000, or from the TCP_RTO_MAX_MS socket option.
+
+Take tcp_rto_max_ms=1000 with the default tcp_retries1=3.
+linear_backoff_thresh is then ilog2(5) = 2, so the threshold is
+7 * 200 + 1 * 1000 = 2400 ms, not 3 seconds.
+
+The flow's own RTO is also capped at 1 s, so timeouts fire at 0.2, 0.6,
+1.4, 2.4 and 3.4 s. Detection then happens about 3.4 s after the original
+transmission, not about 6 s.
+
+With the default 120 s rto_max, a tcp_retries1 above 9 also makes the
+threshold grow linearly in 120 s steps instead of doubling.
+
+Could the text say that the doubling is capped at tcp_rto_max_ms, and
+that the 3 and 6 second figures assume the default?
+
+> +	default tcp_retries1. This time is counted from the first
+> +	retransmission and only checked when the timer fires, so a flow
+> +	with a 200 ms RTO detects the black hole at the fifth timeout,
+> +	about 6 seconds after the original transmission.
+> +
+> +	With value 1, the first detection enables MTU probing and lowers
+> +	the MSS to tcp_base_mss if it is larger. From then on, and from the
+> +	first detection with value 2, each further retransmission timeout
+
+[Severity: Medium]
+Does every further retransmission timeout really lower search_low? In
+tcp_write_timeout(), tcp_mtu_probing() is only called while the
+tcp_retries1 condition holds:
+
+net/ipv4/tcp_timer.c:tcp_write_timeout() {
+	...
+		if (retransmits_timed_out(sk, READ_ONCE(net->ipv4.sysctl_tcp_retries1), 0)) {
+			/* Black hole detection */
+			tcp_mtu_probing(icsk, sk);
+
+			__dst_negative_advice(sk);
+		}
+	...
+}
+
+retransmits_timed_out() returns false whenever icsk_retransmits is zero:
+
+net/ipv4/tcp_timer.c:retransmits_timed_out() {
+	...
+	if (!inet_csk(sk)->icsk_retransmits)
+		return false;
+	...
+}
+
+tcp_ack() resets that counter as soon as snd_una advances:
+
+net/ipv4/tcp_input.c:tcp_ack() {
+	...
+	if (after(ack, prior_snd_una)) {
+		flag |= FLAG_SND_UNA_ADVANCED;
+		WRITE_ONCE(icsk->icsk_retransmits, 0);
+	...
+}
+
+Once the connection recovers, for example after the first halving lets
+packets through, a later isolated RTO does not halve search_low again.
+Only timeouts during a new stall that lasts past the tcp_retries1
+threshold do.
+
+The commit message says the text describes the behaviour "as implemented
+in tcp_write_timeout() and tcp_mtu_probing()". Could this sentence be
+reworded, for example to "each further timeout at which the black hole
+condition still holds"?
+
+> +	lowers search_low to half its MSS, keeping it at most tcp_base_mss
+> +	and at least tcp_mtu_probe_floor and tcp_min_snd_mss, and lowers the
+
+[Severity: Low]
+Can search_low end up above tcp_base_mss? tcp_mtu_probing() applies the
+cap first and the floors after it, so the floors win:
+
+net/ipv4/tcp_timer.c:tcp_mtu_probing() {
+	...
+		mss = tcp_mtu_to_mss(sk, icsk->icsk_mtup.search_low) >> 1;
+		mss = min(READ_ONCE(net->ipv4.sysctl_tcp_base_mss), mss);
+		mss = max(mss, READ_ONCE(net->ipv4.sysctl_tcp_mtu_probe_floor));
+		mss = max(mss, READ_ONCE(net->ipv4.sysctl_tcp_min_snd_mss));
+	...
+}
+
+tcp_base_mss uses plain proc_dointvec with no bounds, while
+tcp_mtu_probe_floor accepts 48..65535. Two settings that put search_low
+above tcp_base_mss:
+
+  tcp_mtu_probe_floor=1200 with tcp_base_mss=1024
+  tcp_base_mss set below tcp_min_snd_mss
+
+Could the text say that the floors take precedence over the tcp_base_mss
+cap?
+
+> +	MSS to match if it is larger. Once MTU probing is enabled, the
+> +	connection also probes for a larger MSS, as with value 2.
+
 -- 
-2.53.0
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261118-tcp-mtu-probing-doc-v1-v2-0-e795f20b8cfe%40gmail.com
