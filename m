@@ -1,45 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795294825;
-	b=Zfwu6RL63lPlMcx/M+g0A8bJvVGXeKmV6KbVql9q0ErV0uv0/iZcpv6E07YmWLpnzH4p
-	 vAbAfPq2UPZzCu6hhe9o6kl7fG87OjYKI8kzuIpM2MBk/OWbmDAUXlOp7EiHQ43Y6tCyD
-	 aZa/0xv4Ao2L6KKxSfS+PQOFl/pYTnVT7iWq+9FOr2geSvr8h/vCSSp+K0zN8nskqpXT0
-	 5Wbg4OZGA/0J2tOqYU0sfBv6/ZZtgpISQSVmpgOEWep29++nZbpJt2wnBLR9sK8ggh4q+
-	 oVwljO0cPAmZ/tO1s0OrOkIUk+R/F3/W3943iD+SgzNlVc6skAnuIQ62d3381jvEcJw==
+	t=1795294827;
+	b=VBa33wyQN2TqA/DPuW8e2NLtAco7/lNhQwatLylAo/kV3q9+GI+AJhfBgQnhPj0W2N7z
+	 iLomonlcuR+xlf916jnt+SzgBI1xcUN4QDAcZTcsBl+Ne8WjYYeTcYdo+ML/zKuo8QcdX
+	 nfqFVJ3uHQyT6gjPhGpHzrrdqfKzpZQ0l1907gIoBiwkmbctv7ajQ+TmxUaemASrYZKiL
+	 1TaIYF4yrKTkcSwMs2Z3fP6WV4eAr6shOS9+5yb/FDRNddDnDrdJMKZBNwih+G5vet/RS
+	 M/oLQ7QovMo6kZIFadeSBTx3O1jWx6x6MJMShxQNAI2pHPQk2Ch0oZW49zcScW1qHHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795294825;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795294827;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=+3VuRAkKYe8EHkp2JgLASOtjfe+EnSMbvCKOCwj6jzs=;
-	b=w+IlV+8Bwtp9yU7YkG3SDfClPW7gEtx52mDFu1Jed94MRuvyDqTokLEiFUgBV+kOi6Yi
-	 U/V5cxnyLVMRqh4i6ZQXs9Ugl8m40cWS9XnzBXeuqrIbRrfxUN/YlrcnYa4P4DPsAwbEU
-	 iSr0QnZ6cgrUbCIeN5jD99KYSPKbppIx/vfVXZ22HKLbb6V5F+b2JL+yoDO9l7gr5StYr
-	 kBhvcsanIJXcjJT8vSOmSfq0alVkdXisKaXdXkf5H1FOAYDTSYKWU7e/xi2OvLoKEjCA4
-	 dbAKHRbBycmf3RFJGo96NJUKlUjQBcCQJf7+c8wkE1MNLEhg46vFAXq1tz5m6sQH6zw==
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=xhM0wpvk6HrSV8qT7cTup9dT9Z84UAe+LdIPivh0Pb8=;
+	b=rhljBHiU9fafEsxGNCZpkZ3h4E4umVuWbP5n0AsdaUYqQ6+5gBLuz53fxwP/fEcrgaKl
+	 4ZJ0i8q381kmDY31q8a+AxAfbNd+v5q4ibjYCrgn/Xze2AWyrvlHGmlQJ5TmaTJiXANWk
+	 tQz19jYMSB9PsawN/MWfZinlEQ69dz5VvLuaUDC4xsa1lq20wKv/T43q0MahQ1nuJEKCc
+	 w6xoyjrjEj3FmOTiF1u7nfwzF2dvMk7fQ35SH/S86/QaXa5UHLdzOq8FD3kgSxcpgf1Ek
+	 LkwOuK27fWAR4TeTREuAV00kghpwAKMmDkort/F8vgrC4+g/uUOUk1XSxoveE69WYlw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RgqfAVce;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FACY3Odv;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E216E606A320;
-	Sat, 21 Nov 2026 21:00:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6C7606A32C;
+	Sat, 21 Nov 2026 21:00:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RgqfAVce
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6085B1F000C4;
-	Sat, 21 Nov 2026 21:00:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FACY3Odv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF65D1F000CF;
+	Sat, 21 Nov 2026 21:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795294824;
-	bh=+3VuRAkKYe8EHkp2JgLASOtjfe+EnSMbvCKOCwj6jzs=;
+	s=k20260515; t=1795294827;
+	bh=xhM0wpvk6HrSV8qT7cTup9dT9Z84UAe+LdIPivh0Pb8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=RgqfAVcef9VHKtexYMM4diHOxHUexB986bI5j8yqJk83roysvg7ymlzOefZUI77Jy
-	 3PGMcM4V+MQLlUgI0Kt/jqn+8MCnv/Jn3D4ozAEZ55ICdTCEdKxTY3y5b6KexGN+J0
-	 2TvYAzHOW7twWhbOCv/dK+zXmX3gFo3h/aeTsj64jinAsK2RL1ByiJzdW8cNP830Rw
-	 6kGFY8BAa+WEkbKDbsYa5+zvwYxRjPllcIxYpTkomUKXdjRBWOG5VY0qzjbH8m0dBx
-	 RO+BHvL5m/IqfMeE9TXrsT/pUG4k9ugZHLyzZa0W6AoGY2zC3JXIRz09+37uARKA13
-	 BQ83nhnuvLTAg==
+	b=FACY3Odv8r8pIhtlCkmgl3mTj84UPmuLOl2P7+rvoftobP2l/q2H+iQGRMrcRlx45
+	 JJVvRFZP0kmtptPOCp1jsZD9HLGjnBh6TlegADLDlMY5+ySjo/68pzLQn/sXacZY4E
+	 A8VoHGDa3TJKzikoQPZnrnzWj16vYt+/V4OWZO5KqZEM2wovcftipk98+PQkbP4Kb9
+	 fZi0lKa0hILTAT+f0aq9JR+8V++CtkBipB6DSQ9sNAU476rufq/6aeB9WzoauxIiWW
+	 UeuGcLsJekDK3rne/4k4Q1Mkem5ZTbqs30kSmgqz/xFjtiX+wrlID6k6+Zb9NLAk5o
+	 wdX9aMy7STQOA==
 From: SJ Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SJ Park <sj@kernel.org>,
@@ -49,9 +48,9 @@ Cc: SJ Park <sj@kernel.org>,
 	damon@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 10/27] Docs/admin-guide/mm/damon/usage: update for report producer sysfs
-Date: Sat, 21 Nov 2026 12:59:54 -0800
-Message-ID: <20261121210013.130397-11-sj@kernel.org>
+Subject: [PATCH 17/27] Docs/mm/damon/design: update for report_made probe filter type
+Date: Sat, 21 Nov 2026 13:00:01 -0800
+Message-ID: <20261121210013.130397-18-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261121210013.130397-1-sj@kernel.org>
 References: <20261121210013.130397-1-sj@kernel.org>
@@ -64,69 +63,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Update DAMON usage document for the newly added report producer control
-sysfs files.
+Update DAMON design document for the newly added data attribute report
+existence type probe filter.
 
 Signed-off-by: SJ Park <sj@kernel.org>
 ---
- Documentation/admin-guide/mm/damon/usage.rst | 35 ++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ Documentation/mm/damon/design.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 6093b1c8fbfd9..644250c7bd681 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -115,6 +115,10 @@ comma (",").
-     │ │ │ │ │ │ ...
-     │ │ │ │ ...
-     │ │ ...
-+    │ reports/
-+    │ │ producers/nr_producers
-+    │ │ │ 0/report_type,producer_state
-+    │ │ │ ...
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 5a75a69021a48..31ca623385718 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -303,6 +303,8 @@ supported filter types.  Currently below filter types are supported.
+ - ``hugepage_size``: Matches if the page for the memory is a part of a hugepage
+   of a given size range.
+ - ``active``: Same as that for DAMOS filters.
++- ``report_made``: Matches if a :ref:`report <damon_design_attr_reporting>` for
++  the memory is made in last sampling interval.
  
- .. _sysfs_root:
+ If such probes are registered, DAMON executes the probes for each region's
+ sampling memory when it does the access :ref:`sampling
+@@ -382,6 +384,10 @@ depending on the type of the report.
  
-@@ -729,6 +733,37 @@ Please note that it's highly recommended to use user space tools like `damo
- <https://github.com/damonitor/damo>`_ rather than manually reading and writing
- the files as above.  Above is only for an example.
+ For now, no report type is supported.
  
-+.. _damon_usage_sysfs_reports_producers:
++The data attribute probe supports the reports.  The probes can be configured to
++hit for a given memory region if a specific type of valid reports that are
++associated with the probing memory exist in the reports queue.
 +
-+reports/producers/
-+------------------
-+
-+Under the `admin/` directory, ``reports/producers/`` directory exists.  This
-+directory is for configuring :ref:`DAMON report producers
-+<damon_design_attr_reporting>`.  The file below exists in the directory.
-+
-+``nr_producers`` file is for generating report producers setup files.  Writing
-+an integer ``N`` to the file creates the number of directories named ``0`` to
-+``N-1``.  Each number-named directory is for configuring each report producer
-+and called "producer directory".
-+
-+reports/producers/<N>/
-+----------------------
-+
-+Files below exist in each producer directory.
-+
-+``report_type`` file is for setting the type of the report to produce.  Users
-+can set the type by writing the type name to the file.  Reading the file shows
-+the last successfully written input.  Refer to the :ref:`design document
-+<damon_design_attr_reporting>` for the list of supported report types.
-+
-+``producer_state`` file is for reading and updating the state.  Reading it
-+shows ``on`` or ``off`` if the producer is enabled or disabled, respectively.
-+Users can write below keywords for the producer to the file.
-+
-+- ``on``: Enable the producer.
-+- ``off``: Disable the producer.
-+
- .. _tracepoint:
+ Dynamic Target Space Updates Handling
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
- Tracepoints for Monitoring Results
 -- 
 2.47.3
