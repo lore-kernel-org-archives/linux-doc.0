@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795275355;
-	b=cMk/gl7CTavpWiwaha5SHtILlBvyRfKzKatOWKHlIqDSHcFjh/e1y4i4bf/x/uoUesIp
-	 ceM709fOO1dEjVda5YowknpuPtoTq3mg27g8sFDAvxLQPat75MIP2IMWwWg6fw/VoMICz
-	 o5Y+9vx7QAP/qdYoOFhwWYRaE03Li56LC9LqvWYuWrJyiQ8JcWdoUWzDs2O3nCGuvaAL2
-	 c4OzB/yOrDLrcHTtzxjy1L7N5cXLk7PdceaFXX9uAPfRwK/Ije98/G5LmtVn/OwODwe1D
-	 ntM8HZ1qgVb3uBU5P1qTRuNAzUncBQf5ZM6Ug572e45HRdaP/Gczc1EnaESj2VpmM2g==
+	t=1795275357;
+	b=jQO3AoThvA8jpK4JmL9ioSY33d8UGj/OhIvvBbP3lygHxx2XP4+Vt2eB4qj6KhCW8qYE
+	 y5BSs5iSZjZQ5ly+EHje04eBkHbRQpXcQRNuS54kGoeennZUZQizN0tfnlFnuTBWTGU8T
+	 Zn1+HYk/4hZA4bcUbHQwbMctstMqpoJ3q6dTOV+Uz11izy606p/SXYXw50F+5EpJ4jI+Y
+	 ixUN5fNZMLZlmFBQyK2brMciELoHiwHD9EewVNqAVCUY3hG+znRrOo3EuKLnJp2r/EWAT
+	 PbJWqBGWl8pENBIqZJPeBGPIdRLDrJev77L3k8x3Zxizepl7QLtxQptIdPT2cmhxnIw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795275355;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795275357;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=+qpQ1S5lUF7DLeDMaWi8lmddQtSDKtkjGJto3tKUh/M=;
-	b=nI24/PbSjW8Bb0oyx/wy+RcOhwrjHkP1C3cD52ez8VuhtPgR5qiEi1d2iPjo8Yly/XYF
-	 wnYAKUcA4QKlu88JS7D5Lc33Dkc47qtoZMYd/DpeyxIZF5DyE9iCVbUGITz8ZWHVgl5t0
-	 X4rdGnjsHn2bRZg7u/39LeLvNVEz7aDMOtdmcdcGnfhY3ek4fhrhlS0t3Ohmb0hNEKROX
-	 rtfKj9oEECj0Eq4m0nHxrXgcvxIn1T5WmJCXByj/J4+/xadbXefQKeJIjXRYxt8nHHPbY
-	 uOnsrDuuuNb0ND0MIIYP2+S9FxYjm0oV4suJV4IxLBjlqSHQ4+lX+/QbdY8zl5fgzVw==
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=HnV6bD+MCoS3K+Yb61y/Wcu69aHt8qXYBxF99iKOY/I=;
+	b=fZ83KFoSZ3oCrsi6ybA3YN8b7UiqChR8Na5ejOvBjJdOON19bKDdOmof0DZYaeIW15OA
+	 hiL3FDEvzgxrqaq0ak+i3WWD91t/TivJGCjsLsOevWC/jDW6EDDwwcDeozzZpi+cQGbtm
+	 QvfUfaRP5tOLYqnyCkvl/More5KEptO7cZvW1wrjuIm+0Y1btz27r/16g1YmXep4NzKMj
+	 ieM9THpQi6EmmAIUZEXsCkfP9NSBttfBGWUInmqqOZosFywJlgBW6zsTc50tIPqzYtG5R
+	 KyyYJH6oswtxV0qgpB9X2MTPoVisKsbHSQ/aeVYN7FrVKmU50UpzH620cI+zXIhkBgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XdkhAtJU;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kMLW1j0I;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 94E1C606A320;
-	Sat, 21 Nov 2026 15:35:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 75529606A33C;
+	Sat, 21 Nov 2026 15:35:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XdkhAtJU
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 26AE81F000C0;
-	Sat, 21 Nov 2026 15:35:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kMLW1j0I
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C1D1C1F000C6;
+	Sat, 21 Nov 2026 15:35:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795275355;
-	bh=+qpQ1S5lUF7DLeDMaWi8lmddQtSDKtkjGJto3tKUh/M=;
-	h=From:To:Cc:Subject:Date;
-	b=XdkhAtJUyoTRTar0XdWuAtBjwJtSntREKrgADWobrWOzkn1vV2qwbm0PUN1IO0CYt
-	 GSgBNdqW38YAhJ3syjSVQeW4nCwUhV+RL5LE7R3DRKBrC8dMWK3anstZkSKZSSqBVO
-	 ozsPeypW3X/fSka1SrfsVEc5IK9U4DudE0mbWM5O/hhgr/4QQue2q+HsgEgpE1UEnP
-	 aRbGKh1gZQiyW/9YxAi4GUlgSGJev6iqGG5CJf3Fyr9B6abVhC3otkkJgx2O13wLlX
-	 wTp/Y22NxgY97mQ97LL8VQqoxgTp3a+bLKTMwGMuZ4NN8yZ6Zy7ufeVmb8eeQ4N3mB
-	 Tre6DfKgc00Dw==
+	s=k20260515; t=1795275357;
+	bh=HnV6bD+MCoS3K+Yb61y/Wcu69aHt8qXYBxF99iKOY/I=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=kMLW1j0IY1i/9vNIak84iwttckmC4IZwiHga/XLULxm4JQ8vaxhcw0N5Xh8V6tka3
+	 VDzD3GhJJ/6FlHkewDut1a4UDEZFBle0olGZB26cjtxhsTN0KpkOsRj6nqk9CtoSan
+	 +WiVSuaLtyPh+gaszSowvnEc+e4yVGsvv9LvMItG0h5G9BteIP6cXvDlEYDiA/YePh
+	 WWHiX0LyVoXYcK8jm2QvlBH5KcfpTuP575k4YVMAXOWTE30d/Vfa9XIHGCfOvx9p+Y
+	 6P5z6AxWzXPT6x2+36frxVS+A7HTc+4KM/La5qrQo0KZjKuuNnDh7F5FgP50VQpZ0q
+	 hl4QL8vPRn5dA==
 From: Joel Fernandes <jfern@kernel.org>
 To: paulmck@kernel.org,
 	rcu@vger.kernel.org,
@@ -59,10 +59,12 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH v3 0/6] rcutorture: Rewrite RCU priority-boost test around a CPU-hungry reader
-Date: Sat, 21 Nov 2026 10:35:46 -0500
-Message-ID: <20261121153552.68941-1-jfern@kernel.org>
+Subject: [PATCH v3 1/6] rcutorture: Rewrite RCU priority-boost test around a CPU-hungry reader
+Date: Sat, 21 Nov 2026 10:35:47 -0500
+Message-ID: <20261121153552.68941-2-jfern@kernel.org>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261121153552.68941-1-jfern@kernel.org>
+References: <20261121153552.68941-1-jfern@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -74,213 +76,331 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+The old boost test relies on RT throttling being disabled and on grace
+periods taking too long, which is fragile.  Instead, each interval one
+CPU runs a normal-priority reader that spins inside an RCU read-side
+critical section until it has consumed test_boost_reader_ms of CPU time
+(measured via sum_exec_runtime, so time spent preempted does not count),
+while a SCHED_FIFO hog on the same CPU tries to starve it.  With RT
+throttling enabled, an unboosted reader gets only about 5% of the CPU,
+far less than it needs within test_boost_duration.  If the reader
+finishes, boosting worked, otherwise it failed.
 
-This is v3 of the series that rewrites rcutorture's RCU priority-boost test
-around a CPU-hungry reader, so that it neither depends on disabling RT
-throttling nor infers boost failure from a grace period merely taking too
-long.  See the v1 and v2 cover letters for the full description:
+Only one CPU is tested per interval because RCU boosts the readers of an
+rcu_node one at a time, so a second slow reader sharing the rcu_node
+would wait for the first one's whole CPU burn and falsely fail.
 
-  v1: https://lore.kernel.org/all/20261111213826.2035045-1-joelagnelf@nvidia.com/
-  v2: https://lore.kernel.org/all/20261116194438.306618-1-jfern@kernel.org/
+The reader publishes completion before leaving its critical section.
+Otherwise the deboost on rcu_read_unlock() lets the hog preempt the
+reader before it can set its flag, which falsely fails the test.
 
-Changes since v2 (from Sebastian's review of 5/7 and 6/7, thanks!):
+Testing methodology:
 
- - 5/6: boost_disable is now an rcutorture parameter,
-   rcutorture.boost_disable, instead of rcutree.boost_disable.  It makes
-   rcu_spawn_one_boost_kthread() skip creating the boost kthreads.
- - 6/6: BUSTED-BOOST boots with rcutorture.boost_disable=1.
- - Added Sebastian's Reviewed-by (1/6, 3/6, 4/6) and Paul's Tested-by.
-   (note: Paul gave his Tested-by on v2, before the changes to 5/6 and 6/6 above,
-   so Paul, please let me know if the T-b still does not stand for those 2).
- - Rebased onto the current rcu/next.
+The test must pass when boosting works and fail when it does not, so
+both directions were exercised.  All runs used kvm.sh with
+--duration 10 --bootargs "rcutorture.test_boost=2" (which also forces
+the test on in scenarios whose .boot file disables it).
 
-Paul also noticed that TREE03 with rcutorture.stall_cpu=25 reports a boost
-failure.  He considers that expected, so nothing here changes it.
+Success testing: with the series applied and no other changes, run
+TREE01 TREE02 TREE03 TREE08 TREE09 BUSTED-BOOST for 10 minutes each.
+Every scenario ended "SUCCESS" with rtbf (boost failures) of 0 in 59 to
+83 boost intervals.  (BUSTED-BOOST can no longer fail by construction
+because CONFIG_RCU_BOOST is now enabled automatically for preemptible
+RCU.)
 
-Joel Fernandes (5):
-  rcutorture: Rewrite RCU priority-boost test around a CPU-hungry reader
-  rcutorture: Remove unused check_boost_failed hook
-  doc: Document rcutorture.test_boost_reader_ms
-  rcutorture: Add boost_disable to disable RCU priority boosting
-  rcutorture: Make BUSTED-BOOST disable RCU priority boosting
+Failure testing: break boosting on purpose by making the early-return
+check in rcu_initiate_boost() (kernel/rcu/tree_plugin.h) always true:
 
-Sebastian Andrzej Siewior (1):
-  rcutorture: Don't try to disable to RT throttling.
+	-	if (!rnp->boost_kthread_task ||
+	+	if (1 || !rnp->boost_kthread_task ||
 
- .../admin-guide/kernel-parameters.txt         |  16 ++
- kernel/rcu/rcu.h                              |   5 +-
- kernel/rcu/rcutorture.c                       | 202 +++++++++---------
- kernel/rcu/tree_plugin.h                      |   4 +
- kernel/rcu/tree_stall.h                       |  57 -----
- .../rcutorture/configs/rcu/BUSTED-BOOST.boot  |   1 +
- 6 files changed, 128 insertions(+), 157 deletions(-)
+then run TREE03 and TREE02 for 10 minutes each.  Both ended "FAILURE",
+with 58 of 72 (TREE03) and 62 of 72 (TREE02) intervals reporting:
 
-Range-diff against v2:
-1:  307c7ad81e84 ! 1:  f73cdf3db202 rcutorture: Rewrite RCU priority-boost test around a CPU-hungry reader
-    @@ Commit message
-         [ jfern: Apply feedback from Sebastian to use div64_ul() ]
-     
-         Signed-off-by: Joel Fernandes <jfern@kernel.org>
-    +    Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-    +    Tested-by: Paul E. McKenney <paulmck@kernel.org>
-     
-      ## kernel/rcu/rcutorture.c ##
-     @@ kernel/rcu/rcutorture.c: torture_param(int, test_boost, 1, "Test RCU prio boost: 0=no, 1=maybe, 2=yes.");
-2:  8037cd6fe691 ! 2:  dd690a7332dc rcutorture: Don't try to disable to RT throttling.
-    @@ Commit message
-         [ jfern: Rebase onto the rewritten priority-boost test ]
-         [ jfern: Remove the now-unneeded sched/sysctl.h include ]
-         Signed-off-by: Joel Fernandes <jfern@kernel.org>
-    +    Tested-by: Paul E. McKenney <paulmck@kernel.org>
-     
-      ## kernel/rcu/rcu.h ##
-     @@
-3:  121b55687de4 ! 3:  c9bfbebcbc04 rcutorture: Remove unused check_boost_failed hook
-    @@ Commit message
-         [ jfern: Apply feedback from Sebastian to remove rcu_check_boost_fail() ]
-     
-         Signed-off-by: Joel Fernandes <jfern@kernel.org>
-    +    Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-    +    Tested-by: Paul E. McKenney <paulmck@kernel.org>
-     
-      ## kernel/rcu/rcu.h ##
-     @@ kernel/rcu/rcu.h: static inline bool rcu_watching_zero_in_eqs(int cpu, int *vp) { return false; }
-4:  66bf2bb52aa0 ! 4:  89de9f2ec120 doc: Document rcutorture.test_boost_reader_ms
-    @@ Commit message
-         kernel-parameters.txt.
-     
-         Signed-off-by: Joel Fernandes <jfern@kernel.org>
-    +    Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-    +    Tested-by: Paul E. McKenney <paulmck@kernel.org>
-     
-      ## Documentation/admin-guide/kernel-parameters.txt ##
-     @@ Documentation/admin-guide/kernel-parameters.txt: Kernel parameters
-5:  88332b3b02c5 < -:  ------------ rcu: Add rcutree.boost_disable to disable priority boosting at runtime
-6:  02867b20df51 ! 5:  67d1712c26ec doc: Document rcutree.boost_disable
-    @@ Metadata
-     Author: Joel Fernandes <jfern@kernel.org>
-     
-      ## Commit message ##
-    -    doc: Document rcutree.boost_disable
-    +    rcutorture: Add boost_disable to disable RCU priority boosting
-     
-    -    Add the new rcutree.boost_disable parameter to kernel-parameters.txt.
-    +    CONFIG_RCU_BOOST is now enabled automatically for preemptible RCU and
-    +    cannot be turned off, so rcutorture's BUSTED-BOOST scenario, which is
-    +    meant to show that rcutorture detects broken priority boosting, can no
-    +    longer break it.  Add an rcutorture.boost_disable parameter that keeps
-    +    rcu_spawn_one_boost_kthread() from creating the boost kthreads, which
-    +    gives that scenario a way to break boosting.
-    +
-    +    The parameter only has an effect when rcutorture is built in, because
-    +    the kthreads are created during boot.  Document it in
-    +    kernel-parameters.txt.
-    +
-    +    [ jfern: Apply feedback from Sebastian to not create the boost kthread ]
-    +    [ jfern: Apply feedback from Sebastian to limit this to rcutorture ]
-    +    [ jfern: Apply feedback from Sebastian to fold the docs into this patch ]
-     
-         Signed-off-by: Joel Fernandes <jfern@kernel.org>
-    +    Tested-by: Paul E. McKenney <paulmck@kernel.org>
-     
-      ## Documentation/admin-guide/kernel-parameters.txt ##
-     @@ Documentation/admin-guide/kernel-parameters.txt: Kernel parameters
-    - 			Set maximum number of finished RCU callbacks to
-    - 			process in one batch.
-    - 
-    -+	rcutree.boost_disable=	[KNL]
-    -+			Disable RCU priority boosting at runtime, even in
-    -+			kernels built with CONFIG_RCU_BOOST=y.  This is
-    -+			for testing the boost tests, for example by the
-    -+			rcutorture BUSTED-BOOST scenario, and should not
-    -+			be used otherwise.
-    + 			periods, but in jiffies.  The default of zero
-    + 			says no holdoff.
-    + 
-    ++	rcutorture.boost_disable= [KNL]
-    ++			Do not create the RCU priority-boost kthreads, so
-    ++			that RCU priority boosting never happens.  This
-    ++			is for testing that rcutorture detects broken
-    ++			boosting, as in the BUSTED-BOOST scenario, and
-    ++			should not be used otherwise.  It has an effect
-    ++			only if rcutorture is built in, because the
-    ++			kthreads are created during boot.
-    ++
-    + 	rcutorture.fqs_duration= [KNL]
-    + 			Set duration of force_quiescent_state bursts
-    + 			in microseconds.
-    +
-    + ## kernel/rcu/rcu.h ##
-    +@@ kernel/rcu/rcu.h: bool rcu_is_task_rcu_boosted(void);
-    + static inline bool rcu_is_task_rcu_boosted(void) { return false; }
-    + #endif // #else // #if defined(CONFIG_RCU_TORTURE_TEST) && defined(CONFIG_RCU_BOOST)
-    + 
-    ++extern bool rcu_torture_boost_disable;
-    + 
-    + #endif /* __LINUX_RCU_H */
-    +
-    + ## kernel/rcu/rcutorture.c ##
-    +@@ kernel/rcu/rcutorture.c: static char *torture_type = "rcu";
-    + module_param(torture_type, charp, 0444);
-    + MODULE_PARM_DESC(torture_type, "Type of RCU to torture (rcu, srcu, ...)");
-    + 
-    ++// Global because tree_plugin.h reads it during boot.
-    ++bool rcu_torture_boost_disable;
-    ++module_param_named(boost_disable, rcu_torture_boost_disable, bool, 0444);
-    ++MODULE_PARM_DESC(boost_disable, "Do not create RCU boost kthreads, to test boost-failure detection.");
-    ++
-    + static int nrealnocbers;
-    + static int nrealreaders;
-    + static int nrealfakewriters;
-    +
-    + ## kernel/rcu/tree_plugin.h ##
-    +@@ kernel/rcu/tree_plugin.h: static void rcu_spawn_one_boost_kthread(struct rcu_node *rnp)
-    + 	if (rnp->boost_kthread_task)
-    + 		return;
-    + 
-    ++	// With no boost kthread, rcu_initiate_boost() never boosts.
-    ++	if (IS_BUILTIN(CONFIG_RCU_TORTURE_TEST) && rcu_torture_boost_disable)
-    ++		return;
-     +
-    - 	rcutree.csd_lock_suppress_rcu_stall=	[KNL]
-    - 			Do only a one-line RCU CPU stall warning when
-    - 			there is an ongoing too-long CSD-lock wait.
-    + 	t = kthread_create(rcu_boost_kthread, (void *)rnp,
-    + 			   "rcub/%d", rnp_index);
-    + 	if (WARN_ON_ONCE(IS_ERR(t)))
-7:  b172a791f0a1 ! 6:  99a7a7cfe376 rcutorture: Make BUSTED-BOOST disable RCU priority boosting
-    @@ Commit message
-     
-         BUSTED-BOOST is supposed to fail because priority boosting is broken,
-         but boosting is now always built in for preemptible RCU, so the
-    -    scenario passed.  Boot it with rcutree.boost_disable=1 so that it again
-    +    scenario passed.  Boot it with rcutorture.boost_disable=1 so that it again
-         exercises rcutorture's ability to detect missing priority boosting.
-     
-         Testing: kvm.sh --configs BUSTED-BOOST --duration 10 now ends FAILURE,
-    -    with 81 of 84 boost intervals reporting:
-    +    with 82 of 84 boost intervals reporting:
-     
-                 rcu_torture_boost boosting failed
-                 Boost inversion: reader got only 203 of 2000 ms CPU in 4003 jiffies
-     
-         Without the parameter the same scenario passed with no boost failures.
-     
-    +    [ jfern: Follow the rename to rcutorture.boost_disable ]
-    +
-         Signed-off-by: Joel Fernandes <jfern@kernel.org>
-    +    Tested-by: Paul E. McKenney <paulmck@kernel.org>
-     
-      ## tools/testing/selftests/rcutorture/configs/rcu/BUSTED-BOOST.boot ##
-     @@ tools/testing/selftests/rcutorture/configs/rcu/BUSTED-BOOST.boot: rcutree.gp_cleanup_delay=3
-      rcutree.kthread_prio=2
-      threadirqs
-      rcutree.use_softirq=0
-    -+rcutree.boost_disable=1
-    ++rcutorture.boost_disable=1
+	rcu_torture_boost boosting failed
+	Boost inversion: reader got only 203 of 2000 ms CPU in 4003 jiffies
 
-base-commit: 83984be2e4ae1aee94a0f6a65284cde82c2dc0eb
+The 203 ms is the CPU time that RT throttling leaves a SCHED_NORMAL task
+over test_boost_duration, confirming that the reader finishes only when
+boosted.  The remaining intervals were discarded because of hotplug or
+stutter.  Setting CONFIG_RCU_BOOST_DELAY=3000 also produces failures,
+roughly half of the intervals.
+
+Pitfall found while testing: a first version set the reader's finished
+flag after rcu_read_unlock(), which failed about half of the intervals
+in TREE01 (readers on CPUs brought online by its nr_cpus=17 hotplug)
+even with boosting working, hence the ordering above.
+
+test_boost_reader_ms should be well below test_boost_duration minus
+RCU_BOOST_DELAY and slack: a boosted reader needs about
+RCU_BOOST_DELAY + test_boost_reader_ms / 0.95 to finish.
+
+test_boost_reader_ms is clamped to between 1 ms and the length of the
+test window, test_boost_duration.
+
+[ jfern: Apply feedback from Sebastian to use kthread_run_on_cpu() ]
+[ jfern: Apply feedback from Sebastian to range-check reader_ms ]
+[ jfern: Apply feedback from Sebastian to use div64_ul() ]
+
+Signed-off-by: Joel Fernandes <jfern@kernel.org>
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Tested-by: Paul E. McKenney <paulmck@kernel.org>
+---
+ kernel/rcu/rcutorture.c | 184 ++++++++++++++++++++++++----------------
+ 1 file changed, 110 insertions(+), 74 deletions(-)
+
+diff --git a/kernel/rcu/rcutorture.c b/kernel/rcu/rcutorture.c
+index 924705b7759d..a81855efbf1f 100644
+--- a/kernel/rcu/rcutorture.c
++++ b/kernel/rcu/rcutorture.c
+@@ -149,6 +149,7 @@ torture_param(int, test_boost, 1, "Test RCU prio boost: 0=no, 1=maybe, 2=yes.");
+ torture_param(int, test_boost_duration, 4, "Duration of each boost test, seconds.");
+ torture_param(int, test_boost_holdoff, 0, "Holdoff time from rcutorture start, seconds.");
+ torture_param(int, test_boost_interval, 7, "Interval between boost tests, seconds.");
++torture_param(int, test_boost_reader_ms, 2000, "Boost-test reader CPU time, ms.");
+ torture_param(int, test_nmis, 0, "End-test NMI tests, 0 to disable.");
+ torture_param(bool, test_no_idle_hz, true, "Test support for tickless idle CPUs");
+ torture_param(int, test_srcu_lockdep, 0, "Test specified SRCU deadlock scenario.");
+@@ -333,6 +334,7 @@ static bool shutdown_time_arrived(void)
+ }
+ 
+ static unsigned long boost_starttime;	/* jiffies of next boost test start. */
++static unsigned long boost_claimed;	/* ->boost_starttime of claimed test. */
+ static DEFINE_MUTEX(boost_mutex);	/* protect setting boost_starttime */
+ 					/*  and boost task create/destroy. */
+ static atomic_t barrier_cbs_count;	/* Barrier callbacks registered. */
+@@ -1334,10 +1336,17 @@ static unsigned long rcutorture_seq_diff(unsigned long new, unsigned long old)
+ }
+ 
+ /*
+- * RCU torture priority-boost testing.  Runs one real-time thread per
+- * CPU for moderate bursts, repeatedly starting grace periods and waiting
+- * for them to complete.  If a given grace period takes too long, we assume
+- * that priority inversion has occurred.
++ * RCU torture priority-boost testing.  Each test interval, one CPU
++ * runs a normal-priority reader that spins inside an RCU read-side
++ * critical section until it has consumed test_boost_reader_ms of CPU
++ * time, while a SCHED_FIFO hog on the same CPU tries to starve it.  RT
++ * throttling is left enabled, so an unboosted reader gets only a few
++ * percent of the CPU, far too little to finish within test_boost_duration.
++ * If the reader finishes anyway, boosting lifted it above the hog.
++ *
++ * Only one CPU is tested per interval because RCU boosts the readers
++ * of a given rcu_node one at a time, so a second slow reader sharing the
++ * rcu_node would wait for the first one's whole CPU burn.
+  */
+ 
+ static int old_rt_runtime = -1;
+@@ -1366,61 +1375,111 @@ static void rcu_torture_enable_rt_throttle(void)
+ 	old_rt_runtime = -1;
+ }
+ 
+-static bool rcu_torture_boost_failed(unsigned long gp_state, unsigned long *start)
++struct rcu_torture_boost_reader {
++	struct completion done;
++	bool in_cs;	// Reader is inside its RCU read-side critical section.
++	bool finished;	// Reader consumed all of its CPU time.
++	bool abort;	// Hog asks the reader to give up.
++	u64 ran_ns;	// CPU time consumed so far.
++};
++
++// Reader CPU time so far, retrying to avoid torn 64-bit loads on 32-bit.
++static u64 rcu_torture_boost_runtime(void)
++{
++	u64 a, b;
++
++	do {
++		a = READ_ONCE(current->se.sum_exec_runtime);
++		b = READ_ONCE(current->se.sum_exec_runtime);
++	} while (a != b);
++	return a;
++}
++
++static int rcu_torture_boost_reader(void *arg)
++{
++	struct rcu_torture_boost_reader *br = arg;
++	u64 goal = (u64)test_boost_reader_ms * NSEC_PER_MSEC;
++	u64 ran;
++	u64 start;
++	int idx;
++
++	idx = cur_ops->readlock();
++	start = rcu_torture_boost_runtime();
++	WRITE_ONCE(br->in_cs, true);
++	do {
++		cpu_relax();
++		ran = rcu_torture_boost_runtime() - start;
++		WRITE_ONCE(br->ran_ns, ran);
++	} while (ran < goal && !READ_ONCE(br->abort) && !torture_must_stop());
++	// Publish before unlocking: deboosting lets the hog preempt us at once.
++	WRITE_ONCE(br->finished, ran >= goal);
++	cur_ops->readunlock(idx);
++	kthread_complete_and_exit(&br->done, 0);
++}
++
++// Run one boost test on this CPU.
++static void rcu_torture_boost_once(void)
+ {
+-	int cpu;
+ 	static int dbg_done;
+-	unsigned long end = jiffies;
+-	bool gp_done;
+-	unsigned long j;
+-	static unsigned long last_persist;
+-	unsigned long lp;
+-	unsigned long mininterval = test_boost_duration * HZ - HZ / 2;
++	struct rcu_torture_boost_reader br = { };
++	unsigned long endtime;
++	unsigned long gp_state = 0;
++	unsigned long start;
++	struct task_struct *t;
++	bool stuttered = false;
+ 
+-	if (end - *start > mininterval) {
+-		// Recheck after checking time to avoid false positives.
+-		smp_mb(); // Time check before grace-period check.
+-		if (cur_ops->poll_gp_state(gp_state))
+-			return false; // passed, though perhaps just barely
+-		if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, &cpu)) {
+-			// At most one persisted message per boost test.
+-			j = jiffies;
+-			lp = READ_ONCE(last_persist);
+-			if (time_after(j, lp + mininterval) &&
+-			    cmpxchg(&last_persist, lp, j) == lp) {
+-				if (cpu < 0)
+-					pr_info("Boost inversion persisted: QS from all CPUs\n");
+-				else
+-					pr_info("Boost inversion persisted: No QS from CPU %d\n", cpu);
+-			}
+-			return false; // passed on a technicality
++	init_completion(&br.done);
++	t = kthread_run_on_cpu(rcu_torture_boost_reader, &br, raw_smp_processor_id(),
++			       "rcu_torture_boost_rdr_%u");
++	if (IS_ERR(t)) {
++		n_rcu_torture_boost_ktrerror++;
++		return;
++	}
++
++	// Wait for the reader to enter its critical section, then start
++	// a grace period that it will block.
++	start = jiffies;
++	while (!READ_ONCE(br.in_cs) && !torture_must_stop() &&
++	       time_before(jiffies, start + HZ))
++		schedule_timeout_uninterruptible(1);
++	if (!READ_ONCE(br.in_cs))
++		goto out;
++	gp_state = cur_ops->start_gp_poll();
++
++	// Hog the CPU until the reader finishes or the interval ends.
++	start = jiffies;
++	endtime = start + test_boost_duration * HZ;
++	while (!READ_ONCE(br.finished) && time_before(jiffies, endtime) &&
++	       !torture_must_stop()) {
++		if (stutter_wait("rcu_torture_boost")) {
++			sched_set_fifo_low(current);
++			stuttered = true;
++			break;
+ 		}
++		cpu_relax();
++	}
++
++	smp_mb(); // Time check before reader check.
++	if (!READ_ONCE(br.finished) && !stuttered && !torture_must_stop()) {
+ 		VERBOSE_TOROUT_STRING("rcu_torture_boost boosting failed");
+ 		n_rcu_torture_boost_failure++;
++		pr_info("Boost inversion: reader got only %llu of %d ms CPU in %lu jiffies, GP %s.\n",
++			div64_ul(READ_ONCE(br.ran_ns), NSEC_PER_MSEC), test_boost_reader_ms,
++			jiffies - start,
++			cur_ops->poll_gp_state(gp_state) ? "ended" : "still pending");
+ 		if (!xchg(&dbg_done, 1) && cur_ops->gp_kthread_dbg) {
+ 			pr_info("Boost inversion thread ->rt_priority %u gp_state %lu jiffies %lu\n",
+-				current->rt_priority, gp_state, end - *start);
++				current->rt_priority, gp_state, jiffies - start);
+ 			cur_ops->gp_kthread_dbg();
+-			// Recheck after print to flag grace period ending during splat.
+-			gp_done = cur_ops->poll_gp_state(gp_state);
+-			pr_info("Boost inversion: GP %lu %s.\n", gp_state,
+-				gp_done ? "ended already" : "still pending");
+-
+ 		}
+-
+-		return true; // failed
+-	} else if (cur_ops->check_boost_failed && !cur_ops->check_boost_failed(gp_state, NULL)) {
+-		*start = jiffies;
+ 	}
+-
+-	return false; // passed
++out:
++	WRITE_ONCE(br.abort, true);
++	wait_for_completion(&br.done);
+ }
+ 
+ static int rcu_torture_boost(void *arg)
+ {
+-	unsigned long endtime;
+-	unsigned long gp_state;
+-	unsigned long gp_state_time;
+ 	unsigned long oldstarttime;
+ 	unsigned long booststarttime = get_torture_init_jiffies() + test_boost_holdoff * HZ;
+ 
+@@ -1441,9 +1500,6 @@ static int rcu_torture_boost(void *arg)
+ 
+ 	/* Each pass through the following loop does one boost-test cycle. */
+ 	do {
+-		bool failed = false; // Test failed already in this test interval
+-		bool gp_initiated = false;
+-
+ 		if (kthread_should_stop())
+ 			goto checkwait;
+ 
+@@ -1457,33 +1513,9 @@ static int rcu_torture_boost(void *arg)
+ 				goto checkwait;
+ 		}
+ 
+-		// Do one boost-test interval.
+-		endtime = oldstarttime + test_boost_duration * HZ;
+-		while (time_before(jiffies, endtime)) {
+-			// Has current GP gone too long?
+-			if (gp_initiated && !failed && !cur_ops->poll_gp_state(gp_state))
+-				failed = rcu_torture_boost_failed(gp_state, &gp_state_time);
+-			// If we don't have a grace period in flight, start one.
+-			if (!gp_initiated || cur_ops->poll_gp_state(gp_state)) {
+-				gp_state = cur_ops->start_gp_poll();
+-				gp_initiated = true;
+-				gp_state_time = jiffies;
+-			}
+-			if (stutter_wait("rcu_torture_boost")) {
+-				sched_set_fifo_low(current);
+-				// If the grace period already ended,
+-				// we don't know when that happened, so
+-				// start over.
+-				if (cur_ops->poll_gp_state(gp_state))
+-					gp_initiated = false;
+-			}
+-			if (torture_must_stop())
+-				goto checkwait;
+-		}
+-
+-		// In case the grace period extended beyond the end of the loop.
+-		if (gp_initiated && !failed && !cur_ops->poll_gp_state(gp_state))
+-			rcu_torture_boost_failed(gp_state, &gp_state_time);
++		// Do one boost-test interval, if no other CPU claimed it.
++		if (xchg(&boost_claimed, oldstarttime) != oldstarttime)
++			rcu_torture_boost_once();
+ 
+ 		/*
+ 		 * Set the start time of the next test interval.
+@@ -5151,6 +5183,10 @@ rcu_torture_init(void)
+ 		test_boost_interval = 1;
+ 	if (test_boost_duration < 2)
+ 		test_boost_duration = 2;
++	if (test_boost_reader_ms < 1)
++		test_boost_reader_ms = 1;
++	if (test_boost_reader_ms > test_boost_duration * MSEC_PER_SEC)
++		test_boost_reader_ms = test_boost_duration * MSEC_PER_SEC;
+ 	if (rcu_torture_can_boost()) {
+ 
+ 		boost_starttime = jiffies + test_boost_interval * HZ;
 -- 
 2.54.0
 
