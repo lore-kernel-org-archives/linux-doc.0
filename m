@@ -1,65 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795288364;
-	b=AjZSn+kudy0KFlGMigzWQkJ9n55yXe1rVvPTP3MLt/QMEYO62dKrpoG/IQBh36aEeMXR
-	 7WWTY/k4KHYWV4KPUblDg8D4/fmMv6wXJ++vqIbqLaL+K+ZfRDG3YE7NPB3ImhgzdN4iv
-	 ec4o/Ai2Foe2IGRG8mdgdLN/tuwDug5XeCfIcCioxVlwpinADLBrjGA3j6IYZirsk3Imi
-	 UjZpyvNcarqqUF4Ogj0PRs72VJXivwsc7YaMAxi/qr+FWYlYiqCmyVGdK6vNqKnnUNbPA
-	 8ectZLgd7JBia+6mF2e3xRZfH7y+GHjvbXS+GiWv3SVjBC/5SPCsa+HYwZigQmPFvFw==
+	t=1795289622;
+	b=pw8nbiC8XRMNWJUKu6HTj95OH9oGIdDZOkL2H7tHwysAwx19dPT0+8cut9xuKaefGzt+
+	 F6unRMxpOOE0RKeD1veRS4ZFAVFySi3e6i4we+NOt5klcEKlIJku99bqGB2DeN5U251Uu
+	 /RYIenEiLi7v9v0nDKfmKa+cAj4FmMOMZ+WYQFu9b9m7SWMvRh66LRtecT+rLE3vfx70a
+	 KZRq+TcTJqM6Ou/70CYH8j5HglPLLlgPGlvLbiFo9msJOZY2wSGuP3DklSMCcrb0TaDmd
+	 sgQBDCxvRBNbjVD1kz0HAZ8PY8dHGNy4831EIA3paAbRbTyrwNA3s90cBzTKo8mWe1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795288364;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=75J+TPV4gUTQlMal80OEqhZTuIvyo01lM/tzLCah7ac=;
-	b=CZJEOXhVMI+pCjZ1cjcsuioJ0xuFhrV1eCAyxfzdEhvLRk9zLsJuM703+OQszQ1CLXUI
-	 mK+8t4Sp6Sf7GfOnqYM9TiYRlyKxh886N22SQNz8Z5Gc/M2hMy8aAwCBgKX9ijv7ZU+OW
-	 FHqfTRithJXXFDzYBRc+25ZmkuxsadGTiMFxUqkvVKWKeUJ0cna/H4SNkWMbW+RpBkwcP
-	 4MwCah4P0bl937YqLx6+pSuKKF3ajb8kBkcH3lLUiXC9UD1DUqLDYnKRFGwCvBwpba73A
-	 8ZAimO32N2BQ5FwVnop44b9FNet5Lv9ElXgq887+jJXSmfH7IgYNDPQn5+EKq/u7m3w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795289622;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=2qZsGR/sLdn0qLTF/VW/uayeEPi0hmDXZwV0zU4xgig=;
+	b=gzMnG0tZmHnW3R7Toy9Kth7GJofn/TQd9gBfYId7cQW97G+8NAg14sJcL/L9yaBrW+1c
+	 IXE5qpExO5Lib0J8hRxEglG/Wm9KswoCywpgliInepqo93lNPdhcOGkqmNrAkYEm3gR7q
+	 ohELUtibIECA6e6NBECXBmwgV9EJ0a3uOddzfbY1LFm08Z3Ls1+tlQPG/UJLyJxgRiXQQ
+	 2Jpyl9YaB9s4DTZyc3bxerydlGJw1Muv6B0+FuvRll86iWRxuoaxs0YvEgzDc9XOz76eS
+	 rxwPLD7w4l0BDFYPJH/1t4lc7zMgf+85BOduV5VxEVVyRrO68dHZ+2cMVAacpUYNabQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W34Ribl0;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="DlA/uZOO";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 848EF606A32A;
-	Sat, 21 Nov 2026 19:12:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CAD606A320;
+	Sat, 21 Nov 2026 19:33:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W34Ribl0
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 8E93B1F000C6;
-	Sat, 21 Nov 2026 19:12:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DlA/uZOO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 438C61F000C0;
+	Sat, 21 Nov 2026 19:33:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795288364;
-	bh=75J+TPV4gUTQlMal80OEqhZTuIvyo01lM/tzLCah7ac=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=W34Ribl0z+7v1iFlGB13v8z4TgYNiMd+GVWrEW8Fx8AMnkQrg6P+VOBP5vlnJfkLE
-	 kbLJA7xiGiPh0mPVcF3J1GBshtd3l1vOB1EjXO29Emfao1V88o+EPc3WQyIehYbx+/
-	 6o7/jZGDLhwU6pt5IDamQKA0wSaik0am9reT73p1DVRQ1dVLJtXuHQ3IsDiUxayJrq
-	 gcFJQiaaji47qcsJEDM4kAf4Z8UkS1t8Y1/T8eQrQhxHgYW5Vk8HRAhuDta0+xrglu
-	 yXH4pJmYQKPHvutd2n4tEWoMapfHzpSlnd7OKjYNHnSbOOPkpchfCLpZZIf0f8Rj84
-	 X6Yt3/s2KQ2Og==
-Date: Sat, 21 Nov 2026 21:12:40 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
+	s=k20260515; t=1795289621;
+	bh=2qZsGR/sLdn0qLTF/VW/uayeEPi0hmDXZwV0zU4xgig=;
+	h=From:To:Cc:Subject:Date;
+	b=DlA/uZOOmMwj7/yI/xq8L5MHTwnnPePC4ZNk7K9kI5dR+rAmqBDBa6Qi4GrTbRGhp
+	 b6b6Z16CZSWJSduDm9o3gEa+9WynORueGdk4d7m9cnhb5WDEvaQomnHTyOScvsn0v3
+	 S5NahacjGPWEh4dhbPtF986GYgcAc6F6EVU3pTY4+78vDMQvgKqOjfKCUxmFgJN4At
+	 4yM1aLJcfId44XVngK5Ux8D0dcSbNREpsrtY5npFjaLu/pyT0QfCDyz55mvyEGUG0U
+	 aFuAWQK0IbZuOjcw93+8XHpsHdo1Wo+QgI0J7/8FhiqIWDJfO59/kkcran1pKRF/8H
+	 tmIrDNVwEDPkg==
+From: SJ Park <sj@kernel.org>
+To: 
+Cc: SJ Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v5 13/25] rootns: Add rootns() system call
-Message-ID: <awHtKMkyGEPTB17G@kernel.org>
-References: <20261121000844.1863324-1-jarkko@kernel.org>
- <20261121000844.1863324-14-jarkko@kernel.org>
- <awHsvz1vdlwsink0@kernel.org>
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH 0/4] mm/damon: update documents for mm-next onboarding
+Date: Sat, 21 Nov 2026 11:33:25 -0800
+Message-ID: <20261121193331.108587-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,30 +64,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awHsvz1vdlwsink0@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 21, 2026 at 09:10:59PM +0200, Jarkko Sakkinen wrote:
-> On Sat, Nov 21, 2026 at 02:08:32AM +0200, Jarkko Sakkinen wrote:
-> > Setting up an isolated namespace environment from a multithreaded
-> > manager process currently requires helper processes to call unshare()
-> > and pass file descriptors back over sockets.
-> > 
-> > Add the rootns() system call to allocate a detached rootns instance
-> > owning a fresh user namespace alongside dedicated empty mount
-> > (CLONE_EMPTY_MNTNS), PID, UTS, IPC, network, cgroup, and time
-> > namespaces, and return its control file descriptor. Finalize the nsproxy
-> > time namespace and pin active references for the lifetime of the rootns.
-> > 
-> > Co-developed-by: David Howells <dhowells@redhat.com>
-> > Signed-off-by: David Howells <dhowells@redhat.com>
-> > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> 
-> Syscall name is outdated. I'll rename it as container_create(). Does
-> not have to be final name, but is a better wip name.
+Right after the 7.5-rc1 release, DAMON will onboard the mm-next
+transition [1].  The major change is that it will use mm/damon.git [2]
+and mm/linux.git [3] instead of sj/linux.git [4] and akpm/mm.git [5].
 
-Something more non-generic as it inevitably would collide to something
-(did not check). I'll figure something out.
+Update MAINTAINERS file to capture the change, via patch 1.  Further
+update DAMON maintainer-profile document for the change, step by step,
+via patches 2-4.
 
-Br, Jarkko
+[1] https://lore.kernel.org/bed81e01-7303-4957-bd7d-38e3a094e96f@kernel.org/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/mm/damon.git/
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/mm/linux.git/
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/
+
+Huge thanks to Andrew for his tremendous mm.git works that raised DAMON
+up to the current state.
+
+SJ Park (4):
+  MAINTAINERS: change DAMON SCM tree to mm/damon.git
+  Docs/mm/damon/maintainer-profile: use damon.git for patch baselines
+  Docs/mm/damon/maintainer-profile: drop 'SCM Trees' section
+  Docs/mm/damon/maintainer-profile: update key cycle dates for damon.git
+
+ Documentation/mm/damon/maintainer-profile.rst | 57 ++++++++++---------
+ MAINTAINERS                                   | 36 ++++++------
+ 2 files changed, 46 insertions(+), 47 deletions(-)
+
+
+base-commit: b0ddc1203e3d7a63e712e8988a03f98dbb179904
+-- 
+2.47.3
