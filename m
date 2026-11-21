@@ -1,106 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.25
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795219700;
-	b=OEHjT8+AMvBjJVu9yiJOo4GqGtDLPsXg4ocPScpMka3vBHphhTt2BtllsMgL/bfHg+/5
-	 Bg+8X3ZCFUeLvzObelIbZfnlQbtJZ3HkGChh0GlMsJPUMGkzrxEjgZYqjXAIbMQRUGZh9
-	 uQMuaDR4YZ/wobVvkErpEr/FgxdXboQfx2uMLzmhRe91Kf/UQCdGr6OTFXLZGKS8RAgkC
-	 /CXGFZapAIfFi/1/sX/OlyVCpQsDoIGgJMnxEi1+yauIWOYsIT2T+GO5p5dqenpvmzwZA
-	 PXPgDmX8sT2koZq/oGmF9fsZ23IcBQctViG8W6cyiIcWMcqdak8jMl2oOl5JWkpusbA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795219700;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=WiOUOvhZPrMJh4uXtkQ5LR4MsewcSaAFq1hKJGHJrMY=;
-	b=ss2OKXkn8Y0RjTEWYLLU8ZSQ2dsNneAh1D8W0Za1V+bEwj8pV6dQ+9JvTZxSnFSkkuAm
-	 oT/EHFVQyxcMRhNgdhY+v01Es+jxqTvxYWgeR+wFtQPQ+TpWMMruVpumEfHUask7XQbPY
-	 NKO2nJizhVujgDCanaAikh2Zq4Jb6InEzBflVtaWK8/FBwj4pj0miK1vVETHQ0X9f2Fzw
-	 BdsFsis3mdXrVB6e46wZBjKkd9hZOogi8uePO/ZRoPN6f6DOxOe3X0Cht19smgpyHRcQ6
-	 tljlJ58Us6JbbT3zHB9dmA5ekg6IYYuB7QTOEEFLX/ORAOGDL6uEmeEvgkX+2h23jMQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Z1Cui0Aq;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.25
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011025.outbound.protection.outlook.com [40.107.208.25])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795219740;
+	b=bwX643yXup7WQZh/N97+IrtX0ktr02CcI4Mplr7DR7xBBoFlzlGy+O0yjb7BG86pCCSy
+	 kMDGAo+JkGQifTlClOp/SNsAQK7hnxAzmRBtzsuL8f1ZFpewCVDf/MU5evRll23kYFaQo
+	 ta2o/4WSoYK+uOs3gg643MN/FIQZQbMrmqSOmyBQFW09yPX3tL7vCwuQvsDNCHpMg7K5o
+	 brRce44MLHt90e58iUeRSXvWD+XHVCauddJmh6bFOU5Nh4+hjp5FDAa9JHcmhTTk6dXI2
+	 ZeYGiTIgG2HmPUoxZbOyD54t1i3fxhYuNKhhVd8BP88vf9a+pKMCo6XTjLz3V1iIbew==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795219740;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=HMiFFGmw0v9nxAge20cDn397wiErWOHZ9jOEttk4raU=;
+	b=VqvLrWzFiMhOypVr3dCYhnGGuBcQwWg4a/nJvYn1EdACMiH79bkcETb4vu0jxnNNjn9J
+	 1gXe3a0Me48DWH6WzYqlugEPki+k6mszh3oGBpg+Ac9qwrkdv3VQnDpPQRi211hqpz8us
+	 CVQ/eqRoxQX/QZ0locwlItk4dx5KZ4zxhy0O2pIrJf/sfxxpi/MJdSSbh2I3PYa6mWNMQ
+	 QtX0Dxm/BAwciVys/r71XxbijXW9NxAsXwE5EkBQ4ANjEJ1crHa9Wr/wYL68vwxYZAVK5
+	 wrTDb48RtMIRTQ7ZK4KRIq115dvZfq20mkB3sU6YOUek27BxWxzBHCx3Sabe4JwZhUQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MCG9Jh12;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCE0606A6AF;
-	Sat, 21 Nov 2026 00:08:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CCE0606A6AF
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 66BA3606A335;
+	Sat, 21 Nov 2026 00:09:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Z1Cui0Aq
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RPv6bU2MaaJKMe4O4bxQ3EiGO6zltbHPkrvJm6XsPpLZ5E5EMPkHQ0aSdeTrZcSbNjjQ4/wHsxaiRdgS5B8Ghl8nSh88esBGbr0txLiEP5TQNwTnHJBgjZRY2IkWvmOZ1x0jSRPAnYgUmtfhOtlI5JcZ+gT5B4zf0FOW1qsBBDUcr0vlAcSozQDOwhne9OSxca2Xo52V//vBSlKNbXR5rDWj/lunf6soAUP4GdT7qEueIFnHUl8vHufAPOJDrqpmnYr5GF3EmRHwgQ0j5JiBy2pUXYT7VLdkxWFpi9TFP1UJVz35kRoTz2K8YrvckjD9J4LSTX9B+JGsN6ao1s+wzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WiOUOvhZPrMJh4uXtkQ5LR4MsewcSaAFq1hKJGHJrMY=;
- b=Prxr4WZk0Op7ynK/KQ7MnA3/tGhlL5c027HOqONRNEmo7MU+0xaAEWjD37O0fbi1QWYnMdIsu6heBghzVXKVFstY46NePha8IyXZGUOJHfHnjVGfa3JzAK1KV7cSrfqOS2NJ4rYd/tUPD8MXvs8nvhthqSTdW3thlHqXeOlRoOPc9Q7VBwYBRvA29Hpj7TxjR7VRQGmQQigsdUn+mBUqRJ/ne2DNtPxQQVo/Mf2NGpMq4yMbPvZnwutkFSBl8gzIKsC0HexYJAxGV9MzScm1rFIa3BZDc9lg87RZrNXNtFmNzCRrQo6G+7YXt9i2R0VRVIT98Xjdopl990ihFUqJgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WiOUOvhZPrMJh4uXtkQ5LR4MsewcSaAFq1hKJGHJrMY=;
- b=Z1Cui0AquTiFBLqukmkCYRt/H9jzOnh09JQPvSNe/2CZf22jOzFUymA5mKIpbUFNlyvTY7NJr8d6NXlZI9mnCiwIQ3WLdsnvF6mCELNyAmZsrQZqONZyP76qjDpvHZesy0B0p4fCm6k+0B+8gzRvN1wkFIaTEYjlJ2VGlUpvZ4z2leL2+COQRzAlCR3yPEWhTvVFlohLv24bM4o1Yqc7jBNE1KmSSgNP9uvfmzSHS1ESXF5jcyEA12tNTJKPWad9hsebYuauM/LhFkAobqcU9izXVFI/Yz8D3eaA6k8QsGCUwZ4r8pbo6aVyKQL2N5kah9IkfxukGZ3NcwNBT6WVEw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN0PR12MB5786.namprd12.prod.outlook.com (2603:10b6:208:375::13)
- by SA0PR12MB4446.namprd12.prod.outlook.com (2603:10b6:806:71::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Sat, 21 Nov
- 2026 00:08:03 +0000
-Received: from MN0PR12MB5786.namprd12.prod.outlook.com
- ([fe80::ae61:c9b4:847b:4854]) by MN0PR12MB5786.namprd12.prod.outlook.com
- ([fe80::ae61:c9b4:847b:4854%5]) with mapi id 15.21.0639.011; Sat, 21 Nov 2026
- 00:08:03 +0000
-From: Brian Mak <bmak@nvidia.com>
-To: Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Kurt Borja <kuurtb@gmail.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Matthew Garrett <mjg59@srcf.ucam.org>,
-	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
-	Lyndon Sanche <lsanche@lyndeno.ca>,
-	Armin Wolf <W_Armin@gmx.de>,
-	Prasanth Ksr <prasanth.ksr@dell.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	platform-driver-x86@vger.kernel.org,
-	Dell.Client.Kernel@dell.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MCG9Jh12
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 254671F000C0;
+	Sat, 21 Nov 2026 00:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795219739;
+	bh=HMiFFGmw0v9nxAge20cDn397wiErWOHZ9jOEttk4raU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=MCG9Jh1256gFmx/kJBdpvtrZ3dAFy6JucQNKjq+UEDDHvSfsCjIvK79puHbjOkQ2j
+	 yLwGkP/zWuSJdgoNpsZpPJQqe8beWIamFh64TiVd3IFdL4sWKjuuMoYrsyBe6B9GXr
+	 HxXJuEwWmpevvo9m2YuFz4UqgRwPQqBnef719+RqEXVE7M3RreB4FCdF3wgRro0Wdl
+	 xFVLfcZe1dOF6Xy5OXE79lBtJZxDpFc7EsLy4EZbJz29c5cxL2VpA0CJQeacS31Zdo
+	 G2VE4SZqQrVeumqNyU2QjuDFDNsNiqZXrhWfoS6+GYb0Qq33QmgNO2NoEm+TVjVmxv
+	 f0f7bDxjNsjbg==
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Jarkko Sakkinen <jarkko@kernel.org>,
+	linux-api@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Brian Mak <bmak@nvidia.com>
-Subject: [PATCH 8/8] platform: dell: pc: Don't load if SMBIOS calls are non-functional
-Date: Fri, 20 Nov 2026 16:05:54 -0800
-Message-ID: <20261121000556.173028-9-bmak@nvidia.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261121000556.173028-1-bmak@nvidia.com>
-References: <20261121000556.173028-1-bmak@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MW4PR04CA0058.namprd04.prod.outlook.com
- (2603:10b6:303:6a::33) To MN0PR12MB5786.namprd12.prod.outlook.com
- (2603:10b6:208:375::13)
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-security-module@vger.kernel.org,
+	Alexander Mikhalitsyn <alex@amutable.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Kees Cook <kees@kernel.org>,
+	Neal Gompa <neal@gompa.dev>,
+	Paul Moore <paul@paul-moore.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: [RFC PATCH v5 01/25] userns: Factor out idmap validation and commit helpers
+Date: Sat, 21 Nov 2026 02:08:20 +0200
+Message-ID: <20261121000844.1863324-2-jarkko@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261121000844.1863324-1-jarkko@kernel.org>
+References: <20261121000844.1863324-1-jarkko@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -110,86 +76,230 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB5786:EE_|SA0PR12MB4446:EE_
-X-MS-Office365-Filtering-Correlation-Id: b755b4a1-9a1a-483a-157f-08df476382f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|366016|7416014|376014|18002099003|22082099003|261009223027099003|261021121427099003|11063799006|56012099006|261028144727099003|261026140227099003|261021123027099003|261022105027099003|261026121527099003|10067099003|261102123227099003;
-X-Microsoft-Antispam-Message-Info:
-	nLG28RxnFNQeV3zhFFpAMb3PMwKFjEsr7/ipzsH4VqNnFqkMlHaVyer05Ni9PKovNGc4X+bmEo77I4cDElm7VnrbPLyyAVgkACJz6MU6iV67lCkae/LyE5vh/q/ymRmJ0kBmfxFcDOFp41/DCOc0Rt5oPlCy8F/Wc3lqeFLnq5Lh57K702RL0at8sRgvus7pflfDniCaCaraWf+yWS8JsG8haDhUiXTDh3ngkDCF6XhyjIFHZC/NN79hoscK5Z8VTm8jmZtJGejbXHv0MvMpqpdM58d3ysiy7I4U61hsqp072BSH5g+IV2C7e32mH6swrYxYFB3sNecODQfNMq5/+CQ7YFIlOhOO2X17yedkUYPzEyf0ZhflU6GriLXMIQ9XfjfDLLjG+27dMn5PVQCFaC/XrWRFoIgk6tXilsxFt/J0cU9TcgsXEKi+Mq5N7CSS9FoVb+936W15rSOWJGazKTYVfuLaDpbe4zJjUL4w5PhFHeqLMhKmDPi3tBjbSk/mKCQgaxRDjRDJRwaTEuO1Ld+o2cy/1jDwjHbPXtH68rMRtByieDBvd8o4tNF8EOSyhbH+2f8MDRxMk7UBwezXn7+ZyNEEs8uruIovoNJbbAVfN3WuJCzGUCcDHgB12G3a55Ygb9HMg9tbp+t8J5wpVxMWot4BZLhfpvm17jZgnrM=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB5786.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(7416014)(376014)(18002099003)(22082099003)(261009223027099003)(261021121427099003)(11063799006)(56012099006)(261028144727099003)(261026140227099003)(261021123027099003)(261022105027099003)(261026121527099003)(10067099003)(261102123227099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?rehjNX6Y5hBcksrheN8mwwUdRc3l6enMCNyvYa2DIAoTVi2aZn1Um0cXtff8?=
- =?us-ascii?Q?2khnj7anyLbZMu93fX/qd1H5mWR1dAYfJSv1zWV8YoCfcXkuxNRj53s53CP5?=
- =?us-ascii?Q?zeuuPSOLACygRfV6B3oQJ5UCU4/nc6cFtoWtjZJD54i0is4dG564O0usLqKi?=
- =?us-ascii?Q?Ez6KWoKMQKplWH3SjwRT/qXcXoJoiy0OVgK/LQdSZR7NSWOnNpIqbIKrh0gS?=
- =?us-ascii?Q?BUM1NU2CxnfY6lKF7Hhemne1Ogi31DmbMI/Rb55ERy0IBV9lZs4Aqvih2QUy?=
- =?us-ascii?Q?fhJOCYev+SOxKxjTDl137oLVHUIIKRk7uMqx0tzXGoHec5QVjkvCM5kOmU5T?=
- =?us-ascii?Q?r5tl+lS1VY2ox8Sj9qGllxVvI1wGRMTs8ZCJs8xRJbjf/ShLW9Kom3Z8uBtM?=
- =?us-ascii?Q?dT8edeBCzcYNooZ6lN8oKYRmzK1V+46fq0JjJsdF1eywUJ88VpaKkKemxeri?=
- =?us-ascii?Q?FqCmZvYE2JrZ3J5AP95F+WgysvD9c/hAL2T37CWb+G/2q3snDVIrUMVe8z4V?=
- =?us-ascii?Q?unQh/iLIWwR7dETeaHeHA/x/dLXvAQPmFzjdrmrGIMvbjhSn/sh+mig2aqsz?=
- =?us-ascii?Q?qEd93KBTah54bOnNpMaj8jSMt5DhEgm+qmYca8Py/qgxyTy4hOHMLeV9F6FG?=
- =?us-ascii?Q?7/DWJCYjqahZq5XwtyvSazfZnFs9Qdl5ymJqb8jvj4sIsJhokdAob8NDqiTE?=
- =?us-ascii?Q?7NM584BfJfBc+R+wZKK+9NGvjzb8kIzkeZNvhlxl5v87WdctDH7WjnpY8GoP?=
- =?us-ascii?Q?NNGuhMMo6unf6pBk9vpZlootsVj4dHyoRykWHqBmrM4LaQvUysoREFgXRl+q?=
- =?us-ascii?Q?bJ+smy+Xm0maiD1EZSdL/e2a+8mrUkkEDToHTsn+/fzD+VvVoGXdGK69OqkG?=
- =?us-ascii?Q?vNaukAb0FejkmVlIE6ydXuDSim8CIuZzKlHtX47TbzYKmxk6aBKfz6SZxJbP?=
- =?us-ascii?Q?1DxHJWqK08hhdj6/B8sXw0UzwHxcxXbEp647bR5/45qoeWmSpKxI/f+eOCLj?=
- =?us-ascii?Q?ajJbcAR0WS4BciXtkRWyS2IK68pn0/6xBYgFlNp+IPohTsqlbwbWLYNDUrl+?=
- =?us-ascii?Q?8p3DF3lNpHsvIlsIov03fo348NnMP/wX1wiMANZ5ta1l4/9KO5osxMT/YmME?=
- =?us-ascii?Q?YJWwDjhs+7o/VSghvClt0spJ2bwq2BkrW1v0/Gw4g2jnU+JQA+6EfCltvsuN?=
- =?us-ascii?Q?EcwiDg/9JZ9ZSXEQfGlAtlmo04lhytWfxlEfkRPyGlCPxiCF8gyx/UWgmM2f?=
- =?us-ascii?Q?UyDVFsC1vtblw5Pv20T+CCoV9/HCfERJOTokUAgmDoKritGfo26l9mcOiv4x?=
- =?us-ascii?Q?QZdBXuPM32LtrBxvX5zR78jcHNNzP0ZWUERn4x4tvZJSkOvFTSnFeEM7fKns?=
- =?us-ascii?Q?CHS5n7r0Q8mVDdU2bY7wXqU8y8GteKWM+1YRImhkSqxdwwTzQps3hSEW4hra?=
- =?us-ascii?Q?yAKx38k0YTfWqMfu2XfVAT0Mbl4+pExK7EsXUmuc3+WkFn5Xji3pVyWvZHmZ?=
- =?us-ascii?Q?pAZc0fssdO0xFtEO4bUsMoxutlDfiQ9Iepldm5ifl/ooRJj1GE5YNzSF+S9D?=
- =?us-ascii?Q?ZROwKhzwRuW5oRDmiq7et53ReOnMKAFMNaK1AXraDI55UOwF/ih9c8mVZ7ir?=
- =?us-ascii?Q?iZKi2puu8HqPyMByvLy5+pXTVk3ymBWr/boMlIJ0VmhzMaRQ900Q0qfDQFQJ?=
- =?us-ascii?Q?a1Nvh9drlbFOv2vg0OXUveeHTSxQKBt/9etoP/1jb4ugaF8wgPyfZ7i/SapT?=
- =?us-ascii?Q?sJFJOXq4PA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b755b4a1-9a1a-483a-157f-08df476382f0
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB5786.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2026 00:08:03.5101
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /7kcLeZcsdb04a7AZSO6gV0Njk2C8bj43qjxW59wUAQ8DHJZP//57lbgXMyXgjsl
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4446
+Content-Transfer-Encoding: 8bit
 
-dell-pc relies on the SMBIOS calling interface for thermal modes. On
-platforms where the interface returns all-zero buffers, dell-pc reads
-no current thermal mode, and fails with "platform_profile probe failed".
+map_write() validates extent ranges, translates parent ID ranges, sorts
+extents, and installs the resulting map inline for procfs text writes,
+preventing non-procfs callers from reusing the same validation and
+commit path.
 
-Don't load dell-pc on these platforms.
+Extract validate_and_insert_extent(), free_new_idmap(),
+resolve_new_idmap(), and commit_new_idmap() out of map_write() with no
+functional change.
 
-Signed-off-by: Brian Mak <bmak@nvidia.com>
+Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 ---
- drivers/platform/dell/dell-pc.c | 3 +++
- 1 file changed, 3 insertions(+)
+ kernel/user_namespace.c | 159 ++++++++++++++++++++--------------------
+ 1 file changed, 80 insertions(+), 79 deletions(-)
 
-diff --git a/drivers/platform/dell/dell-pc.c b/drivers/platform/dell/dell-pc.c
-index becdd9aaef29..4f361ec01b29 100644
---- a/drivers/platform/dell/dell-pc.c
-+++ b/drivers/platform/dell/dell-pc.c
-@@ -282,6 +282,9 @@ static int __init dell_init(void)
- 	if (!dmi_check_system(dell_device_table))
- 		return -ENODEV;
+diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
+index cd748e1cbace..6b9673dcdc67 100644
+--- a/kernel/user_namespace.c
++++ b/kernel/user_namespace.c
+@@ -938,6 +938,80 @@ static bool verify_root_map(const struct file *file,
+ 	return true;
+ }
  
-+	if (!dell_smbios_calls_functional())
-+		return -ENODEV;
++static int validate_and_insert_extent(struct uid_gid_map *new_map,
++				      struct uid_gid_extent *extent)
++{
++	if ((extent->first == (u32)-1) || (extent->lower_first == (u32)-1))
++		return -EINVAL;
 +
- 	dell_pc_fdev = faux_device_create("dell-pc", NULL, &dell_pc_faux_ops);
- 	if (!dell_pc_fdev)
- 		return -ENODEV;
++	if ((extent->first + extent->count) <= extent->first)
++		return -EINVAL;
++	if ((extent->lower_first + extent->count) <= extent->lower_first)
++		return -EINVAL;
++
++	if (mappings_overlap(new_map, extent))
++		return -EINVAL;
++
++	if (new_map->nr_extents >= UID_GID_MAP_MAX_EXTENTS)
++		return -EINVAL;
++
++	return uid_gid_map_insert_extent(new_map, extent);
++}
++
++static void free_new_idmap(struct uid_gid_map *new_map)
++{
++	if (new_map->nr_extents > UID_GID_MAP_MAX_BASE_EXTENTS) {
++		kfree(new_map->forward);
++		kfree(new_map->reverse);
++	}
++	memset(new_map, 0, sizeof(*new_map));
++}
++
++static int resolve_new_idmap(struct uid_gid_map *new_map,
++			     struct uid_gid_map *parent_map)
++{
++	unsigned int idx;
++
++	if (new_map->nr_extents == 0)
++		return -EINVAL;
++
++	for (idx = 0; idx < new_map->nr_extents; idx++) {
++		struct uid_gid_extent *e;
++		u32 lower_first;
++
++		if (new_map->nr_extents <= UID_GID_MAP_MAX_BASE_EXTENTS)
++			e = &new_map->extent[idx];
++		else
++			e = &new_map->forward[idx];
++
++		lower_first = map_id_range_down(parent_map,
++						e->lower_first,
++						e->count);
++		if (lower_first == (u32)-1)
++			return -EPERM;
++
++		e->lower_first = lower_first;
++	}
++
++	return uid_gid_map_sort(new_map);
++}
++
++static void commit_new_idmap(struct uid_gid_map *map,
++			     struct uid_gid_map *new_map)
++{
++	if (new_map->nr_extents <= UID_GID_MAP_MAX_BASE_EXTENTS) {
++		memcpy(map->extent, new_map->extent,
++		       new_map->nr_extents * sizeof(new_map->extent[0]));
++	} else {
++		map->forward = new_map->forward;
++		map->reverse = new_map->reverse;
++	}
++	/* Pairs with smp_rmb() in map_id_range_down() / map_id_up(). */
++	smp_wmb();
++	map->nr_extents = new_map->nr_extents;
++	memset(new_map, 0, sizeof(*new_map));
++}
++
+ /*
+  * Parse the decimal u32 at *pos, up to the next whitespace or NUL, and
+  * leave *pos pointing at that character.
+@@ -966,8 +1040,7 @@ static ssize_t map_write(struct file *file, const char __user *buf,
+ {
+ 	struct seq_file *seq = file->private_data;
+ 	struct user_namespace *map_ns = seq->private;
+-	struct uid_gid_map new_map;
+-	unsigned idx;
++	struct uid_gid_map new_map = {};
+ 	struct uid_gid_extent extent;
+ 	char *kbuf, *pos, *next_line;
+ 	ssize_t ret;
+@@ -1002,8 +1075,6 @@ static ssize_t map_write(struct file *file, const char __user *buf,
+ 	 */
+ 	mutex_lock(&userns_state_mutex);
+ 
+-	memset(&new_map, 0, sizeof(struct uid_gid_map));
+-
+ 	ret = -EPERM;
+ 	/* Only allow one successful write to the map */
+ 	if (map->nr_extents != 0)
+@@ -1052,98 +1123,28 @@ static ssize_t map_write(struct file *file, const char __user *buf,
+ 		if (*pos != '\0')
+ 			goto out;
+ 
+-		/* Verify we have been given valid starting values */
+-		if ((extent.first == (u32) -1) ||
+-		    (extent.lower_first == (u32) -1))
+-			goto out;
+-
+-		/* Verify count is not zero and does not cause the
+-		 * extent to wrap
+-		 */
+-		if ((extent.first + extent.count) <= extent.first)
+-			goto out;
+-		if ((extent.lower_first + extent.count) <=
+-		     extent.lower_first)
+-			goto out;
+-
+-		/* Do the ranges in extent overlap any previous extents? */
+-		if (mappings_overlap(&new_map, &extent))
+-			goto out;
+-
+-		if ((new_map.nr_extents + 1) == UID_GID_MAP_MAX_EXTENTS &&
+-		    (next_line != NULL))
+-			goto out;
+-
+-		ret = uid_gid_map_insert_extent(&new_map, &extent);
++		ret = validate_and_insert_extent(&new_map, &extent);
+ 		if (ret < 0)
+ 			goto out;
+ 		ret = -EINVAL;
+ 	}
+-	/* Be very certain the new map actually exists */
++
+ 	if (new_map.nr_extents == 0)
+ 		goto out;
+ 
+ 	ret = -EPERM;
+-	/* Validate the user is allowed to use user id's mapped to. */
+ 	if (!new_idmap_permitted(file, map_ns, cap_setid, &new_map))
+ 		goto out;
+ 
+-	ret = -EPERM;
+-	/* Map the lower ids from the parent user namespace to the
+-	 * kernel global id space.
+-	 */
+-	for (idx = 0; idx < new_map.nr_extents; idx++) {
+-		struct uid_gid_extent *e;
+-		u32 lower_first;
+-
+-		if (new_map.nr_extents <= UID_GID_MAP_MAX_BASE_EXTENTS)
+-			e = &new_map.extent[idx];
+-		else
+-			e = &new_map.forward[idx];
+-
+-		lower_first = map_id_range_down(parent_map,
+-						e->lower_first,
+-						e->count);
+-
+-		/* Fail if we can not map the specified extent to
+-		 * the kernel global id space.
+-		 */
+-		if (lower_first == (u32) -1)
+-			goto out;
+-
+-		e->lower_first = lower_first;
+-	}
+-
+-	/*
+-	 * If we want to use binary search for lookup, this clones the extent
+-	 * array and sorts both copies.
+-	 */
+-	ret = uid_gid_map_sort(&new_map);
++	ret = resolve_new_idmap(&new_map, parent_map);
+ 	if (ret < 0)
+ 		goto out;
+ 
+-	/* Install the map */
+-	if (new_map.nr_extents <= UID_GID_MAP_MAX_BASE_EXTENTS) {
+-		memcpy(map->extent, new_map.extent,
+-		       new_map.nr_extents * sizeof(new_map.extent[0]));
+-	} else {
+-		map->forward = new_map.forward;
+-		map->reverse = new_map.reverse;
+-	}
+-	smp_wmb();
+-	map->nr_extents = new_map.nr_extents;
+-
++	commit_new_idmap(map, &new_map);
+ 	*ppos = count;
+ 	ret = count;
+ out:
+-	if (ret < 0 && new_map.nr_extents > UID_GID_MAP_MAX_BASE_EXTENTS) {
+-		kfree(new_map.forward);
+-		kfree(new_map.reverse);
+-		map->forward = NULL;
+-		map->reverse = NULL;
+-		map->nr_extents = 0;
+-	}
+-
++	free_new_idmap(&new_map);
+ 	mutex_unlock(&userns_state_mutex);
+ 	kfree(kbuf);
+ 	return ret;
 -- 
-2.53.0
+2.47.3
 
