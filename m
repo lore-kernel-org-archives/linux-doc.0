@@ -1,54 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.196
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795260471;
-	b=LRHM/c+hl4vi7ipMsLb5zmpWGdGP+6mBqHIwwFNtSMkzDYspG12uYqmFjdjAbSgw+cTP
-	 qpVyY0muLoVLPykWhdBv8yx1WTR6y4PieuLUgGULUeBh223FmkMeGDerAoGLB+uel+ZTt
-	 Ysf71eI6+KTrRhXp0J05FNVyUstEDF/wqjaWE4OBvFHBb4XyHi65wTTnooCH5TNjsCMLS
-	 A7KgSl3HtPqNTscCmxPQAk5o6A/KMV1dzRZa+SqL8m4OAlIKcbfcJO8q4DqrZSUGWkzmn
-	 wFCjTUXTGkVkttaCwWiyg3ipSWnv3Mxg8VF0UconVPyU3AkMgt94pJ/IL6jcYR3B0vA==
+	t=1795260781;
+	b=apbXqyqDeZzjNBFgwK4HLly2Mt6CKXZ5X4tR9nJM3QfSbVs/IsTmAEelczIZoo+oTV4P
+	 msNxan5CHVL+BrvrQq81JV1SWioc12oWfRP0Ny2i24W3ZuP2tc+XI+k9S9mfOCmh6thdq
+	 S0EhC1TUiOvInrlY03s2gcHLM/SvAuaIumyhLfWP2k+IPZyQpYgtmiGa6uS5Nm/i3UakZ
+	 rETuxy0t+P5gBGHcl/9IypEuHAPW+VdOtvRanfDGUs0JT6/n+Zqee2Vq3D5B8ABDzy6wu
+	 ylbDlFv/b9EUsfcmKeiXlL+f1w9kEUaK77Wr2oJzIGr+k/d7gshHv0XiaDZrrXR/g9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795260471;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=zWbeHAaU9PSKfsLTHzffi5B4XV2cAowGCcU8h7Q3pis=;
-	b=HK3oCVZ2ysgGxM4r5+XKJyTs7M+35yQGKndL6RzEeJKeNmGBZSCQ/fezikWqYmnBhAH9
-	 9SEqs3guUprq9OK1hnPHpSNa4TvaMfHGdLbrfUrI2U/NCusNnCiramjiNA29SkxugRkfG
-	 QykxRONBB19jKCp0Zc7QD9aKnl9382tr4z3Jt8WpuGRJczKkJnD/z0lFHBG5gFTHszdkF
-	 XFVl6SgQotZZvd1HZXd+DphhFD1jx6EqHLSmQxYedj9i8oY0iLTeLMRcC6Ayhg3mB4Hip
-	 dy6MLHcCM+Q88VBXTEr4MV3XRniwBdmWEul/EOjJWijNVQ9XyFy6PneJMzSMQofWkyA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795260781;
+	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-MBO-RS-ID:X-MBO-RS-META;
+	bh=OarbdWsksfiuMbaIbktAxhgdo23HxzOkVP045lkqcyY=;
+	b=fRDcZZeTfI4vfVWvhEYewA23gwhDcyIEelwahrgn2Y+HELxuDtsgLa2tJKFdm7jEYUq8
+	 sZalLyvz/Ol6w2bu9V8h81Xfy1I2uuBIc6i1AGED/CME8uFIUaWPCOijlIc4MVLyCAEVF
+	 gb+p0z6dwAb6jvsrw+wPYaB+Srsy9xe+F+WZG6/5ehLzvMDhtdLxtsyc0Hq2OGNNFd3nH
+	 QCbmsJzk8conpWMf4O55RuHRyMf+34d5VbE7uh6Tl/8MeaEtbybFr5b9tOK3uyIrL2nDP
+	 dqmBREAhxlpkV2muryiRv65bDbBZocT0+6iCcF2z3dsTDhDrkpSCN88ArLAFmIAGOMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=eA6XC8N7;
-	arc=none smtp.remote-ip=91.218.175.196
-Received: from mta0.migadu.com (out-196.mta0.migadu.com [91.218.175.196])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=mailbox.org;
+	spf=pass smtp.mailfrom=mailbox.org;
+	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=aEk+di5R;
+	arc=none smtp.remote-ip=80.241.56.151
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74960606A32C
-	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 11:27:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74960606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F347606A325;
+	Sat, 21 Nov 2026 11:33:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F347606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=eA6XC8N7
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=fvBF6/+ij8xwF+iLXx8bSG1XL2OxGVsMqLATzmvR4MI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795260468; v=1; x=1795865268;
- b=eA6XC8N7w8n6rG3EcyNd6SeDscaN4tXzB/yTtsTLbhPKM1eqn+9R6rt2FpQ3TtkCc7LKVfLt
- WMPPvctvB8FXvxPR+imly3gdB19SIJrkreqQlDRDyDk6dzOgHunr4uzJrZg0ArOi+0nL75Ox/aa
- fQjXeTP1KHHwETXhFIjICcww=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 99df8f76e236daff;
-	Sat, 21 Nov 2026 11:27:48 +0000
-X-Mizu-Trace-ID: 99df8f76e236daff
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <edb8249a-7bc3-430e-bbb7-243e1881a0b8@linux.dev>
-Date: Sat, 21 Nov 2026 12:27:47 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=aEk+di5R
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4jWqnj0j15z8vTn;
+	Sat, 21 Nov 2026 12:32:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1795260777;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OarbdWsksfiuMbaIbktAxhgdo23HxzOkVP045lkqcyY=;
+	b=aEk+di5R+zMQLIgaCqbX5xSP75U/wUaKNG/lgo5wLryZ7t0K8iw7KSsxNKaXQ2X0kTBAi3
+	GhrKP+uiarERyjjZnYO97kjcZF21AMFHofCq93/l2WfECUA3y2T4/AUcajQMJg3zxR7YoB
+	gKVDTb2WFQLQ9ztNjye7K6PcDx+Sw/japTcwm7smdCRB4Ii+ZSab4z7B/zVOTfVdfVz/Qt
+	epM650fAuqxR8CMOPhDSqPq2rmnSI+oHC1S/Cb0m6sLx9TivKI7KkLvVl7jGanrVfgT3hQ
+	N2jvlO3nEjyAtlnjdl4KMU4mQT9pfQgNV6Vekme8yFn/irW+3/4+EFjFSCfm4A==
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Docs/process/changes: add comment refering to ver_linux
+Date: Sat, 21 Nov 2026 12:32:21 +0100
+Message-ID: <20261121113221.1442278-2-manuelebnerli@mailbox.org>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,46 +71,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v4 0/3] block: delay support for error injection
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-References: <20261111215838.103356-1-haris.iqbal@linux.dev>
- <179501806989.17649.3138860274842922761.b4-ty@b4>
- <20261120164416.GA32719@lst.de>
-Content-Language: en-US
-From: Haris Iqbal <haris.iqbal@linux.dev>
-In-Reply-To: <20261120164416.GA32719@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: c6be58729ddd3357dfd
+X-MBO-RS-META: 3gdg4195k4jzxr44o78bw7czucug7pit
 
+Add comment to keep ver_linux up to date. This comment does not show up
+in the output of sphinx.
 
+Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+---
+ Documentation/process/changes.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-On 11/20/26 17:44, Christoph Hellwig wrote:
-> On Wed, Nov 18, 2026 at 09:07:49AM -0700, Jens Axboe wrote:
->>
->> On Wed, 11 Nov 2026 22:58:35 +0100, Md Haris Iqbal wrote:
->>> Error injection can only fail a bio today.  This adds a delay_us option so
->>> that a rule can hold a bio back first, to model a slow device.  The delay
->>> happens above the driver, so it tests the code waiting above the block
->>> layer, not the blk-mq timeout handler.
->>>
->>> A delayed bio is marked with a new BIO_ERROR_INJECTED flag so the rules
->>> are not applied to it again, even after a split.  Christoph asked on v2
->>> to avoid the flag by allowing a delay only together with an error.  I kept
->>> delay-only rules, as a slow device that succeeds is the more useful case,
->>> so the flag question is still open.
->>>
->>> [...]
->>
->> Applied, thanks!
->>
-> 
-> Hmm.  This still has rela issues as pointed out by Sashiko.  I'd very
-> much expect a resend to address them.
-
-I can resend with the fix, or send just the fix to be patched above 
-this, since these are already picked. Let me know whats preferable.
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 0aa232b117b..769557d03d9 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -27,6 +27,10 @@ running a Linux kernel.  Also, not all tools are necessary on all
+ systems; obviously, if you don't have any PC Card hardware, for example,
+ you probably do not need to concern yourself with pcmciautils.
+ 
++..
++   When changing anything in the following table, make shure to update
++   scripts/ver_linux aswell
++
+ ====================== ===============  ========================================
+         Program        Minimal version       Command to check the version
+ ====================== ===============  ========================================
+-- 
+2.54.0
 
