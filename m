@@ -1,101 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.45
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795268875;
-	b=nDn1bzKDMOgdEvo3bHvi8NFVQhfl32CfwXvF0NGId8arG+UnRRp4FsxrgOQWExWwUER2
-	 OigMWQ453XFsvM0gP1eCPqfoYSjYSBZYFboNpkTFsJdUdihQfJrmZQBB0ZOE9fUoWEjel
-	 SS5llqS+xzOLbaJZm5iMCZnsfUkMIA0/rJkR7ue0NcBYidmhp5oEFo0nbNVKPSdiPkIHx
-	 0ucySnFjUSC3NsNFlFaTle5aTkRIofqlByx9/yEE/8ogBupZcb7242sFwIVPydRLwDDVZ
-	 pjfL/tN9dIxZWyC9QvSg3OUjKGaUufRsMFDM379lkrjKulVNqdxR69aQzVbp2BsYOYA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795268875;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=6IKkH8WnjWkTB0ovKbeuIbo+cf7tQbeYQTSiu4DDxRI=;
-	b=ZIpePMUQ78gAVenhnM2ZrpAF4YhQvyNru8/4t5eNGwzwRXiLPFtzkp2s5bw9FHGN7C8u
-	 Rkvm7VR+saxPMOSGzAee/s68jq5YF/f0BgzweFINJmp8V1yd2te6/wUTD2o45sT3RAOfe
-	 dplv/UNo/z5/UkEQIRbUdFZCLTc0KWV6veTkMxzg8R2r+24nMxe2tfvWjrPVeoy92jwIv
-	 SYd4R86XEvmlnsm9STbkizHVaBytYckMuTUC8gTCVwHA4wld70zOt6xyUi24WVnZ8UpTG
-	 gKgigj3bMP+RPZ9m/KNse4dib+o45NjVu0/kXJs1vDa53/k8E1pCxqDhu1za5X2olTg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BCWGDJkK;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.45
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.15.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795268971;
+	b=NUfC8RZCFEuZJXAC4CEg58Pu0sGVd/23Yzdr379JA2jPvO+aD1J4w3l4U8+gi7nBYfqH
+	 s7s3na9pM5Oh2HqqxA311LEMz4f7Znz9qAZGsZszPrzz0vvv1DQhQ5sHXVEktC6z1J/x9
+	 RAKvNjFbKIj6B9aZwCzlIIuNxUmfaPQSfE8aXGLYjDDfPP2db5RUOo23lERuEEW5BKeAV
+	 K2WUiXO3e9YBwfV2i8XGx0+7VJBdyiT9fxtjmb77BTy+5QaQgvdvbfLsF/cTwlDSTgabq
+	 IOBEj2B6Nn6QSeRdHqxVNRU6zO/7M9QlcDq8IW53xtXQ42kOHn/YPhQOB6PBctokvPQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795268971;
+	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
+	 X-UI-Sender-Class:Received:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:
+	 UI-OutboundReport;
+	bh=jWvoi3OyrQYxIMMcxTFtT5nngwxqNY1WJs5JGPs6UvU=;
+	b=yPYgeHpkm+lmrZSSEVT6FjOB+1I5m8XzOzZA+MUUIGpu4I2sjLB95nvSwSd5mIq2iOlJ
+	 0Bz0CTAQQnf75e+J9KOzpw3I6khKEXzWLbTkyHG24zhpRSrRQ5SUv/mmUPl8LfpG4bTR4
+	 ajPMY+9vf6aCo+Z4qo+a5VEF4h9UIqlO0RQmyQXyWSj0xyXD1UYx4ZIC95xzfzdozUsGY
+	 M4RcT0s5ajP6SR30Q64LosO67NojxRubk3FMQ3mGQOV0ZWe8sf2/69rs5gGYeAusNaP6L
+	 2eNFSwpVsTvjiL6nphc2RJ/SmFQ5ZM9DdSHDYRwIhvmLPU/gRkVdBzGFfgR2UdDv22g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmx.de;
+	spf=pass smtp.mailfrom=gmx.de;
+	dkim=pass header.d=gmx.de header.i=w_armin@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=nVvRebMK;
+	arc=none smtp.remote-ip=212.227.15.18
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E918B606A320
-	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 13:47:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E918B606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FCA606A320
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 13:49:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7FCA606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BCWGDJkK
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-490c3ae81d3so1143606f8f.2
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 05:47:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795268873; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Su3FkB0AEW/py8U2aj7tEZMzwx++9WhnerIqh886/ETPvrUfF9cxA7v6zitZKyKoC3
-         UCVpn7tuMp/QGo8u/LIqXDlbe1NAjqq+DXmAS2yKubwxU70P6bIjxXnPTMqdGZFurdDL
-         G2nUGVcHXlB4ZwTQisyPJqr2QOWZ7jLnlp6C42xMw+rQUnlLMtGkGKUAXMXxsuGNmgtP
-         YR6WI/euhUEMtfZleezI22ldfUJ9rYoQwMwz09XeqrrZNWfZ2anS4uUByvIJa4PjtZ54
-         X80MBnBC55/sj5YI6jroc2j3W4qKxiHEDaTaeX+JSYxZA5PSMH/hYQJlFoptJCu4Z7p9
-         lPWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6IKkH8WnjWkTB0ovKbeuIbo+cf7tQbeYQTSiu4DDxRI=;
-        fh=ShF3Me1PQwvZcpnQf/UCx44WAUeqw3jmixXSv3M7Z44=;
-        b=X5fcbtRYcAxaNz+VeTp2XK3Tmf/IN6SPL325ExmKYtFJ+TSbskE5WMYQLxD+BgaD4z
-         34S/FUwMsN2lTINWODCZIG/lpThwBMIS3ynFEweBSPIx7ZXRi53r1ltGqeV1sDCfutyx
-         uA+0Wg7svjLZuHXeZ0FCH5AyfebdOtcX8R2IU0tNI6tipkBQI3Voj8hdz8qi+6tp8szv
-         GDXI0YriDmSVgcijzm5YAQDx3U0KzI50FWNYapD80Y6h7njCMikl2QS3pR0uDyHlhKkU
-         TjXErLFfP4Y8NFWuCHQ8gu9JT5BnMdlpH4T1jvDSUX4DGAWOaZhI6EgWLpiIAhnx9AbY
-         nj3g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795268873; x=1795873673; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6IKkH8WnjWkTB0ovKbeuIbo+cf7tQbeYQTSiu4DDxRI=;
-        b=BCWGDJkKqXoTi8wIFbIg3qyohSg/lbPjo3XRzbUQhyZY7IWuMNjISJnB0/YZZXDcCC
-         jh/Md1Ui7Zgu1kFVJSelcOtjQnQ6m+xOUAoPMbU2KpmmHqZK+i3M4FNreiMngGfk/yQk
-         CPIQ4Z7wK66ROCaRFr7+ZU/Zh9Q56FDRNMuBfAOeHGbzxI+TlTmXaIpg6jP77hLenDyG
-         MFR25Csp2VG3AOtcyDbOKnMT7J3HFWWYEMu3ggD/qLk6R4dJ52AgK2h0hiL1eZH0DXXA
-         0Uj1uCiST41/m1c01v0mNN6X/JU8WdSGQdARN0TkFhBlTD8vgg2r1xQz5AcLnF4FYCug
-         LOaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795268873; x=1795873673;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6IKkH8WnjWkTB0ovKbeuIbo+cf7tQbeYQTSiu4DDxRI=;
-        b=BYZZmyrCXqpzVhGmn4hsVH3Npvm0e5gYDJS8b3wIPcMtWlq8xkeiyiGeE6gdudCUGG
-         tYmXPaeTDWjG80L6mcgmrYGL9wqsnTPpnN7fIsVpbZcwhFaH1RAgIKNgT2D3XI+qz351
-         aZHNIp+w8Pp4OdehH3ytfxUrjglw9RyEhlPADYbdsSakNo1kpWpJ5crBnfA+pkNH9k4k
-         WVAX89G5FdtrgAiWFv1B3BZ5yycIfpD5zvsp9SS8gx1bbYYGNTDCrkbMyUBMayyyPCPG
-         er29jfcLDbdGupILBeNqA61kqud5TqaTLQScA1YhrSxsuO+6tEr5Fb3izGo8vq9QDe8c
-         PiJg==
-X-Forwarded-Encrypted: i=1; AL+hErFLLgt8NtPaKjvxrUs1nFs3ulyFolgr1VwkIIWCUB5FyeSVCQ3BsTN7H/3CG4etwgzdgdYopFbjNWg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Qv2KwielUHYTdc0sDMSp2dUw/d9feFupvCHyoT4pTxAJ+W4nz
-	oIo5xp/sJAW05lGeuNBFzv1f3GZ/sQWLyneI7T4iDq9lhzS95T3Ns5lhsDvXNy+tzJOse2WphTJ
-	0WCs6410ulYzB6lrdnU0QrJtiVepZtUE=
-X-Gm-Gg: AZFdTZdLb3VAY+HvtOW318Bu2T3g/CYDaBVRjml6+yO2ctH1V3DJ4rLQ7W0im0jl07m
-	6l03c/Z4UfuZNbKkUToTlWCyZPKoCntLZU8DyvkxXPVLQJRVF4CBZLVFSGIb+2ZqsuB0QmGLkZp
-	U6fhuB26mnOuAAIlcl8MD4Z1Ovhv7B98OFlBC1fieKYJvUnGqtlS7BrtTEGfTLPwbVpaNlMt5Kp
-	7gLDYgpqm/Mm1sUU+JkR4cLZT8les65D0s7QJzESSpdV16Su1Y6gL3KX7coykYiZXOpElyvG1/p
-	ddRRna6r977aUiXhygjih+iBYC1xLyOQ5YzsB1r2HZ2Nwvw2hVjKc3FpuBUZ1nnX8CxqoEnMyid
-	S22HkKnCP1iYbadrqgVP3IPnQ+GHj67SPoA4cJA5D4O0Fx+Cfvw8V99lDSjjYlX0j2Hv/jfeXHt
-	KBZSjYSXt+wJT4a/6f2UL/nh8X20KUeJA4TyU8RLZp1/UNTZ2Dbtyh
-X-Received: by 2002:a05:600d:82d0:b0:4bb:818d:8d8f with SMTP id
- 5b1f17b1804b1-4bb88818955mr156720995e9.23.1795268872399; Sat, 21 Nov 2026
- 05:47:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=nVvRebMK
+DKIM2-Signature:  i=1; m=1; t=1795268968;
+ mf=PFdfQXJtaW5AZ214LmRlPg==;
+ rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+ d=gmx.de;
+ s=s31663417:rsa-sha256:l6cHS3qmEz3fCS9bXynGPQDy40wk
+   90Payp4tSvfyL5stnPVZ3SJM4JEDVkn4zvWeu4ng3k9SU3R02v68uk2F5/21B7CrJp3TnugmN+P
+   06OLB8CRprsi7zrRe9da1LcygWsWWegF4qjAQGLzoTQfAGa5GKBBMJeK3NiWjpcyTjdkvUUUJQh
+   YFBy12mGsD6l3iDXrn7jsh9c3SI4GdWOskgHIBxU6Yq9JweirCOO4MUQqB70hNCPKjIp3sgTB5z
+   Vvb7TyPTwDhEwrjPiOBWrEhDeiUP2BJEHYl60ThVbUtmF75sVdDij6fID3XITiCqwoZjQn9OUMO
+   ExN8nDNYcA/Xgg==;
+Message-Instance:  m=1;
+ h=sha256:
+   g8UyMzUmx9BNMKHKrEeyk8yVLNoTEWaZ8fM/p95QVfc=:
+   Tusu5wdcAe81d4sWqrqQeQUbMxnM4lA7nWDSL9DwmOs=,
+  sha512:
+   ZrGRzN7QT2BI4rxPFKRTrst2KjIHfwNG7XNhTwPn2cV4zhxS7FW9Qkq0oUMSHHUgBzIbDl/GiAXDV17Vog1zLA==:
+   fPAAJPSVQf5jp5h3QLYAHb/IlWwc6XSiMlojGep8BAZAOZ+aWpRhyU8j2x8Va6unGhNwq17icRfENLJnjaYtGw==;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1795268968; x=1795873768; i=w_armin@gmx.de;
+	bh=jWvoi3OyrQYxIMMcxTFtT5nngwxqNY1WJs5JGPs6UvU=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=nVvRebMKNZqLGgYwIB+SBo7IZx/hcKcB2y5AHrM/x0kXzmiSHd6Fa4we8X53PA99
+	 NTPR4dY720FixNRPWeAWM+lO5x1tSHcVHnJQyrq70xqiCWKoC8PIsnd/rpBuu2Xkj
+	 +4UNDyXei/dbYQcYiYNn/+ObEFa1a0CT2jinBsqH53SxOl4szpf+0IbFrAtv9kSUC
+	 RaqF9q9c6NOfbqqiOv95fGy9lDHPJ00uM7785C7CUNxsMqfQxeN6a74xI/X3yVeZJ
+	 8yica2T9GsPaX6IhcWjr3M3aQl2Q7TYakGRlhMw/KL1odJ2CR45vd2BfFnAiZ1BFM
+	 Ue1LDlUFYSM8JAKkCA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M1poA-1xWyOG1bQm-005JkM; Sat, 21
+ Nov 2026 14:49:28 +0100
+Message-ID: <f3dc7e25-9c22-4b1d-9555-e83db82d05a1@gmx.de>
+Date: Sat, 21 Nov 2026 14:49:25 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,554 +81,212 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com>
- <20261119-mglru-fg-v5-15-9eee2fe97a2d@tencent.com> <CAN_Opa8jGstV=s9S=c842XFJ_H8m5txc6eJDH2AF=KuJSHAe6Q@mail.gmail.com>
- <CAMgjq7C+7=k9f9HVtYn_VwB96TZAJ=D8cbMh0mV7wCsW3m0ZWA@mail.gmail.com>
- <CAN_Opa_+xnmx7JTYxSRyn+itcfJZqeZz2mgBjTTKF13UKqO8rQ@mail.gmail.com> <CAMgjq7B-_UwERJjZ4AH2KRwuOD8hKnJGxmQBFxw79NBe6XisrA@mail.gmail.com>
-In-Reply-To: <CAMgjq7B-_UwERJjZ4AH2KRwuOD8hKnJGxmQBFxw79NBe6XisrA@mail.gmail.com>
-From: KunWu Chan <kunwu.chan@gmail.com>
-Date: Sat, 21 Nov 2026 21:47:41 +0800
-X-Gm-Features: Aa3M54rYbWX6IeJuuOZteLQ4YlTLPq5XyGhlg4HDWtreYdZ_b2wTgzVKAZXd9nU
-Message-ID: <CAN_Opa_aieBpbMBctHQ3WzKU=JcKZjRw1FXKmCw1S-O_zB_S4A@mail.gmail.com>
-Subject: Re: [PATCH v5 15/17] mm/mglru: folio LRU refs based active/inactive
- number accounting
-To: Kairui Song <ryncsn@gmail.com>
-Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>, 
-	Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
-	Gregory Price <gourry@gourry.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
-	SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, Yu Zhao <yuzhao@google.com>, 
-	Vernon Yang <vernon2gm@gmail.com>, Zicheng Wang <wangzicheng@honor.com>, 
-	Chen Ridong <chenridong@xiaomi.com>, Tal Zussman <tz2294@columbia.edu>, 
-	Xiang Liu <liuxiang.277@bytedance.com>, Ehab Ababneh <ehab.ababneh@intel.com>, 
-	Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, Lian Wang <lianux.mm@gmail.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, linux-kernel@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/8] platform: dell: smbios: Add quirk for non-functional
+ calling interface
+To: Brian Mak <bmak@nvidia.com>, Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Kurt Borja <kuurtb@gmail.com>, Stuart Hayes <stuart.w.hayes@gmail.com>,
+ Matthew Garrett <mjg59@srcf.ucam.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>, Lyndon Sanche <lsanche@lyndeno.ca>,
+ Prasanth Ksr <prasanth.ksr@dell.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, platform-driver-x86@vger.kernel.org,
+ Dell.Client.Kernel@dell.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261121000556.173028-1-bmak@nvidia.com>
+ <20261121000556.173028-7-bmak@nvidia.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20261121000556.173028-7-bmak@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:mgqe7FkDVlGiSHuulleQiTJIhS8NX5oR43BTfmJ7Z3kbTRgEGEo
+ REPhdNTkUh6JWJL+VZ6+pNprzrA4eMoZEHahgnaafLu5afP0Ym+NRiuGcZ9NC2wkjeA5uyo
+ QM62zrsQ4Dm4sIqOmt7FZlZDvZ1I7bUcjoZxbPj19TLi1nTJUqpIZl0Pm9UMq1k+ZdfBA2F
+ Igq6Zwfo4nXWF4NoM8SmQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:2+LubUGgMd4=;Hk7W7m9Wxr+dtSvdEgCuvHcG+qf
+ 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
 
-On Sat, Nov 21, 2026 at 2:59=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wrot=
-e:
+Am 21.11.26 um 01:05 schrieb Brian Mak:
+
+> On Dell RTX Spark laptops, the SMBIOS calling interface completes every
+> request with an all-zero buffer, even for requests that should fail.
+> Drivers that rely on it, such as dell-laptop and dell-pc, end up
+> reporting bogus state, like battery charge modes and thermal modes.
 >
-> On Sat, Nov 21, 2026 at 12:30=E2=80=AFAM KunWu Chan <kunwu.chan@gmail.com=
-> wrote:
-> >
-> > On Fri, Nov 20, 2026 at 7:21=E2=80=AFPM Kairui Song <ryncsn@gmail.com> =
-wrote:
-> > >
-> > > On Fri, Nov 20, 2026 at 5:30=E2=80=AFPM KunWu Chan <kunwu.chan@gmail.=
-com> wrote:
-> > > >
-> > > > On Thu, Nov 19, 2026 at 5:04=E2=80=AFAM Kairui Song via B4 Relay
-> > > > <devnull+kasong.tencent.com@kernel.org> wrote:
-> > > > >
-> > > > > From: Kairui Song <kasong@tencent.com>
-> > > > >
-> > > > > Currently the active/inactive LRU sizes exported through /proc/vm=
-stat
-> > > > > and memory.stat are derived from the generation window: folios in=
- the
-> > > > > two newest generations are accounted as active, the rest as inact=
-ive.
-> > > > > This causes several problems:
-> > > > >
-> > > > > - Unmapped file folios can stay in older gens despite repeated us=
-e,
-> > > > >   so active files can be under-reported, unlike classical LRU.
-> > > > >
-> > > > > - The reading is jumpy: on aging, the second-newest gen, previous=
-ly
-> > > > >   active, becomes inactive all at once, causing a huge drop of ac=
-tive
-> > > > >   folios without any change in use.
-> > > > >
-> > > > > - The reading is reversed on swapless machines. When swapping is
-> > > > >   disabled or unavailable, MGLRU ages anon by moving the gens dir=
-ectly
-> > > > >   without walking or touching any folio, to reduce the overhead. =
-So
-> > > > >   inactive anon folios can suddenly count as active, or vice vers=
-a,
-> > > > >   despite no change in their hotness.
-> > > > >
-> > > > > With frequency guided promotion, hotness is already tracked per f=
-olio by
-> > > > > its referenced count, so we can do folio level accounting instead=
-: a
-> > > > > folio is active once its refs reach LRU_REFS_ACTIVATED (currently
-> > > > > LRU_REFS_PROTECTED).
-> > > > >
-> > > > > On reaching this threshold, folios are accounted to the active pa=
-rt.
-> > > > > On forced per-folio aging or PID protection, refs are capped at
-> > > > > LRU_REFS_WORKINGSET, dropping active folios to the inactive part.
-> > > > > Note that on swapless machines anon refs are not reset by aging (=
-the
-> > > > > shortcut skips the per-folio walk), but the counts no longer osci=
-llate
-> > > > > as the generation indices wrap.
-> > > > >
-> > > > > The accounting is now per folio and lruvec independent, so no siz=
-e
-> > > > > adjustment is needed when reparenting a dying memcg: the hierarch=
-ical
-> > > > > stats keep the counts in the parent automatically.
-> > > > >
-> > > > > folio_migrate_lru_refs() also gains off-LRU VM_WARN_ON_ONCE check=
-s and
-> > > > > __folio_set_lru_refs() warns when the folio is still on an LRU li=
-st.
-> > > > >
-> > > > > The latter uses lru_get_gen_flags(), so that helper now has to mo=
-ve out of
-> > > > > the CONFIG_LRU_GEN block and is built with the option off, where
-> > > > > LRU_GEN_WIDTH is 0 and LRU_GEN_MASK is zero.  Keep the decoded va=
-lue in
-> > > > > int so the subtraction of the one-off encoding cannot fold to ULO=
-NG_MAX
-> > > > > before it happens: that is -Woverflow, and fatal with CONFIG_WERR=
-OR.
-> > > > >
-> > > > > Signed-off-by: Kairui Song <kasong@tencent.com>
-> > > > > ---
-> > > > >  Documentation/admin-guide/mm/multigen_lru.rst |   4 +-
-> > > > >  include/linux/mm_inline.h                     | 118 +++++++-----=
---
-> > > > >  include/linux/mmzone.h                        |  23 ++-
-> > > > >  mm/folio.c                                    |  39 +----
-> > > > >  mm/madvise.c                                  |   2 +-
-> > > > >  mm/vmscan.c                                   | 218 ++++++++++++=
-+++++---------
-> > > > >  mm/workingset.c                               |   2 +-
-> > > > >  7 files changed, 230 insertions(+), 176 deletions(-)
-> > > > >
-> > > > > diff --git a/Documentation/admin-guide/mm/multigen_lru.rst b/Docu=
-mentation/admin-guide/mm/multigen_lru.rst
-> > > > > index 9cb54b4ff5d9..808d2e97b3f3 100644
-> > > > > --- a/Documentation/admin-guide/mm/multigen_lru.rst
-> > > > > +++ b/Documentation/admin-guide/mm/multigen_lru.rst
-> > > > > @@ -149,8 +149,8 @@ generations less than or equal to ``min_gen_n=
-r``.
-> > > > >      ``- memcg_id node_id min_gen_nr [swappiness [nr_to_reclaim]]=
-``
-> > > > >
-> > > > >  ``min_gen_nr`` should be less than ``max_gen_nr-1``, since
-> > > > > -``max_gen_nr`` and ``max_gen_nr-1`` are not fully aged (equivale=
-nt to
-> > > > > -the active list) and therefore cannot be evicted. ``swappiness``
-> > > > > +``max_gen_nr`` and ``max_gen_nr-1`` are not fully aged and there=
-fore
-> > > > > +cannot be evicted. ``swappiness``
-> > > > >  overrides the default value in ``/proc/sys/vm/swappiness`` and t=
-he valid
-> > > > >  range is [0-200, max], with max being exclusively used for the r=
-eclamation
-> > > > >  of anonymous memory. ``nr_to_reclaim`` limits the number of page=
-s to evict.
-> > > > > diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.=
-h
-> > > > > index 14aab2b1ed08..77f514143266 100644
-> > > > > --- a/include/linux/mm_inline.h
-> > > > > +++ b/include/linux/mm_inline.h
-> > > > > @@ -105,6 +105,22 @@ static __always_inline enum lru_list folio_l=
-ru_list(const struct folio *folio)
-> > > > >         return lru;
-> > > > >  }
-> > > > >
-> > > > > +/**
-> > > > > + * lru_get_gen_flags - Return the LRU generation number from fol=
-io flags.
-> > > > > + * @flags: folio flags
-> > > > > + *
-> > > > > + * Returns: A number between 0 and (MAX_NR_GENS - 1), inclusive.=
- Returns
-> > > > > + * -1 if the flags indicate the folio is off the list (e.g., iso=
-lated).
-> > > > > + */
-> > > > > +static inline int lru_get_gen_flags(unsigned long flags)
-> > > > > +{
-> > > > > +       int gen =3D (int)((flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF=
-);
-> > > > > +
-> > > > > +       /* The gen is stored offset by one, so zero means off-lis=
-t */
-> > > > > +       VM_WARN_ON_ONCE(gen > MAX_NR_GENS);
-> > > > > +       return gen - 1;
-> > > > > +}
-> > > > > +
-> > > > >  #ifdef CONFIG_LRU_GEN
-> > > > >
-> > > > >  static inline bool lru_gen_switching(void)
-> > > > > @@ -168,22 +184,6 @@ static inline void lru_set_gen_flags(unsigne=
-d long *flags, int gen)
-> > > > >         *flags |=3D (gen + 1UL) << LRU_GEN_PGOFF;
-> > > > >  }
-> > > > >
-> > > > > -/**
-> > > > > - * lru_get_gen_flags - Return the LRU generation number from fol=
-io flags.
-> > > > > - * @flags: folio flags
-> > > > > - *
-> > > > > - * Returns: A number between 0 and (MAX_NR_GENS - 1), inclusive.=
- Returns
-> > > > > - * -1 if the flags indicate the folio is off the list (e.g., iso=
-lated).
-> > > > > - */
-> > > > > -static inline int lru_get_gen_flags(unsigned long flags)
-> > > > > -{
-> > > > > -       int gen =3D ((flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1=
-;
-> > > > > -
-> > > > > -       /* Exclude the legal -1 from the unsigned MAX_NR_GENS com=
-parison */
-> > > > > -       VM_WARN_ON_ONCE(gen !=3D -1 && gen >=3D MAX_NR_GENS);
-> > > > > -       return gen;
-> > > > > -}
-> > > > > -
-> > > > >  static inline int folio_lru_gen(const struct folio *folio)
-> > > > >  {
-> > > > >         return lru_get_gen_flags(READ_ONCE(*const_folio_flags(fol=
-io, 0)));
-> > > > > @@ -247,12 +247,21 @@ static inline bool lru_refs_is_workingset(u=
-nsigned int refs)
-> > > > >         return refs >=3D LRU_REFS_WORKINGSET;
-> > > > >  }
-> > > > >
-> > > > > -static inline void folio_set_lru_refs(struct folio *folio, unsig=
-ned int refs)
-> > > > > +/**
-> > > > > + * __folio_set_lru_refs - Set a folio's LRU refs.
-> > > > > + * @folio: the folio
-> > > > > + * @refs: the new referenced count (0 .. LRU_REFS_MAX)
-> > > > > + *
-> > > > > + * Set the folio's LRU refs.  The folio must be off the LRU list=
- (e.g.,
-> > > > > + * isolated), or use folio_inc_lru_refs or folio_reset_lru_refs =
-instead.
-> > > > > + */
-> > > > > +static inline void __folio_set_lru_refs(struct folio *folio, uns=
-igned int refs)
-> > > > >  {
-> > > > >         unsigned long new_flags, old_flags =3D READ_ONCE(*folio_f=
-lags(folio, 0));
-> > > > >
-> > > > >         do {
-> > > > >                 new_flags =3D old_flags;
-> > > > > +               VM_WARN_ON_ONCE(lru_get_gen_flags(old_flags) !=3D=
- -1);
-> > > > >                 lru_set_refs_flags(&new_flags, refs);
-> > > > >                 if (new_flags =3D=3D old_flags)
-> > > > >                         break;
-> > > > > @@ -261,12 +270,18 @@ static inline void folio_set_lru_refs(struc=
-t folio *folio, unsigned int refs)
-> > > > >
-> > > > >  #ifdef CONFIG_LRU_GEN
-> > > > >  void folio_inc_lru_refs(struct folio *folio, unsigned int flags)=
-;
-> > > > > +bool folio_reset_lru_refs(struct folio *folio);
-> > > > >  #else
-> > > > >  static inline void folio_inc_lru_refs(struct folio *folio, unsig=
-ned int flags)
-> > > > >  {
-> > > > >         /* Should not be called with !CONFIG_LRU_GEN */
-> > > > >         WARN_ON_ONCE(1);
-> > > > >  }
-> > > > > +
-> > > > > +static inline bool folio_reset_lru_refs(struct folio *folio)
-> > > > > +{
-> > > > > +       return false;
-> > > > > +}
-> > > > >  #endif
-> > > > >
-> > > > >  /**
-> > > > > @@ -280,10 +295,18 @@ static inline void folio_inc_lru_refs(struc=
-t folio *folio, unsigned int flags)
-> > > > >   */
-> > > > >  static inline void folio_migrate_lru_refs(struct folio *new, con=
-st struct folio *old)
-> > > > >  {
-> > > > > -       folio_set_lru_refs(new, folio_lru_refs(old));
-> > > > > +       VM_WARN_ON_ONCE_FOLIO(folio_test_lru(old), old);
-> > > > > +       VM_WARN_ON_ONCE_FOLIO(folio_test_lru(new), new);
-> > > > > +       __folio_set_lru_refs(new, folio_lru_refs(old));
-> > > > >  }
-> > > > >
-> > > > >  #ifdef CONFIG_LRU_GEN
-> > > > > +static inline bool lru_refs_is_active(unsigned int refs)
-> > > > > +{
-> > > > > +       VM_WARN_ON_ONCE(refs > LRU_REFS_MAX);
-> > > > > +       return refs >=3D LRU_REFS_ACTIVATED;
-> > > > > +}
-> > > > > +
-> > > > >  static inline bool lru_gen_is_old(struct lruvec *lruvec, int typ=
-e, int gen)
-> > > > >  {
-> > > > >         unsigned long min_seq =3D READ_ONCE(lruvec->lrugen.min_se=
-q[type]);
-> > > > > @@ -294,23 +317,12 @@ static inline bool lru_gen_is_old(struct lr=
-uvec *lruvec, int type, int gen)
-> > > > >                gen =3D=3D lru_gen_from_seq(min_seq + 1);
-> > > > >  }
-> > > > >
-> > > > > -static inline bool lru_gen_is_active(const struct lruvec *lruvec=
-, int gen)
-> > > > > -{
-> > > > > -       unsigned long max_seq =3D READ_ONCE(lruvec->lrugen.max_se=
-q);
-> > > > > -
-> > > > > -       VM_WARN_ON_ONCE(gen >=3D MAX_NR_GENS);
-> > > > > -
-> > > > > -       /* see the comment on MIN_NR_GENS */
-> > > > > -       return gen =3D=3D lru_gen_from_seq(max_seq) || gen =3D=3D=
- lru_gen_from_seq(max_seq - 1);
-> > > > > -}
-> > > > > -
-> > > > >  static inline void lru_gen_update_size(struct lruvec *lruvec, st=
-ruct folio *folio,
-> > > > >                                        int old_gen, int new_gen)
-> > > > >  {
-> > > > >         int type =3D folio_is_file_lru(folio);
-> > > > >         int zone =3D folio_zonenum(folio);
-> > > > >         int delta =3D folio_nr_pages(folio);
-> > > > > -       enum lru_list lru =3D type * LRU_INACTIVE_FILE;
-> > > > >         struct lru_gen_folio *lrugen =3D &lruvec->lrugen;
-> > > > >
-> > > > >         VM_WARN_ON_ONCE(old_gen !=3D -1 && old_gen >=3D MAX_NR_GE=
-NS);
-> > > > > @@ -321,19 +333,6 @@ static inline void lru_gen_update_size(struc=
-t lruvec *lruvec, struct folio *foli
-> > > > >                 atomic_long_sub(delta, &lrugen->nr_pages[old_gen]=
-[type][zone]);
-> > > > >         if (new_gen >=3D 0)
-> > > > >                 atomic_long_add(delta, &lrugen->nr_pages[new_gen]=
-[type][zone]);
-> > > > > -
-> > > > > -       /* return now if not a promotion */
-> > > > > -       if (old_gen < 0 || new_gen < 0)
-> > > > > -               return;
-> > > > > -
-> > > > > -       /* promotion */
-> > > > > -       if (!lru_gen_is_active(lruvec, old_gen) && lru_gen_is_act=
-ive(lruvec, new_gen)) {
-> > > > > -               __update_lru_size(lruvec, lru, zone, -delta);
-> > > > > -               __update_lru_size(lruvec, lru + LRU_ACTIVE, zone,=
- delta);
-> > > > > -       }
-> > > > > -
-> > > > > -       /* demotion requires isolation, e.g., lru_deactivate_fn()=
- */
-> > > > > -       VM_WARN_ON_ONCE(lru_gen_is_active(lruvec, old_gen) && !lr=
-u_gen_is_active(lruvec, new_gen));
-> > > > >  }
-> > > > >
-> > > > >  static inline unsigned long lru_gen_folio_seq(const struct lruve=
-c *lruvec,
-> > > > > @@ -376,7 +375,8 @@ static inline bool __lru_gen_add_folio(struct=
- lruvec *lruvec, struct folio *foli
-> > > > >  {
-> > > > >         unsigned long seq;
-> > > > >         unsigned long flags;
-> > > > > -       int gen =3D folio_lru_gen(folio);
-> > > > > +       unsigned int refs;
-> > > > > +       int gen;
-> > > > >         int type =3D folio_is_file_lru(folio);
-> > > > >         int zone =3D folio_zonenum(folio);
-> > > > >         int delta =3D folio_nr_pages(folio);
-> > > > > @@ -384,7 +384,7 @@ static inline bool __lru_gen_add_folio(struct=
- lruvec *lruvec, struct folio *foli
-> > > > >         struct lru_gen_folio *lrugen =3D &lruvec->lrugen;
-> > > > >
-> > > > >         BUILD_BUG_ON(BIT(LRU_GEN_WIDTH - 1) !=3D MAX_NR_GENS);
-> > > > > -       VM_WARN_ON_ONCE_FOLIO(gen !=3D -1, folio);
-> > > > > +       VM_WARN_ON_ONCE_FOLIO(folio_lru_gen(folio) !=3D -1, folio=
-);
-> > > > >
-> > > > >         if (folio_test_unevictable(folio) || !lrugen->enabled)
-> > > > >                 return false;
-> > > > > @@ -395,10 +395,12 @@ static inline bool __lru_gen_add_folio(stru=
-ct lruvec *lruvec, struct folio *foli
-> > > > >         gen =3D lru_gen_from_seq(seq);
-> > > > >         flags =3D (gen + 1UL) << LRU_GEN_PGOFF;
-> > > > >         /* see the comment on MIN_NR_GENS about PG_active */
-> > > > > -       set_mask_bits(folio_flags(folio, 0), LRU_GEN_MASK | BIT(P=
-G_active), flags);
-> > > > > +       flags =3D set_mask_bits(folio_flags(folio, 0), LRU_GEN_MA=
-SK | BIT(PG_active), flags);
-> > > > > +       /* use the refs from the atomic snapshot to avoid raced u=
-pdate */
-> > > > > +       refs =3D lru_get_refs_flags(flags);
-> > > > >
-> > > > >         lru_gen_update_size(lruvec, folio, -1, gen);
-> > > > > -       if (lru_gen_is_active(lruvec, gen))
-> > > > > +       if (lru_refs_is_active(refs))
-> > > > >                 lru +=3D LRU_ACTIVE;
-> > > > >         __update_lru_size(lruvec, lru, zone, delta);
-> > > > >
-> > > > > @@ -425,24 +427,33 @@ static inline bool lru_gen_add_rejected_fol=
-io(struct lruvec *lruvec, struct foli
-> > > > >  static inline bool lru_gen_del_folio(struct lruvec *lruvec, stru=
-ct folio *folio, bool reclaiming)
-> > > > >  {
-> > > > >         unsigned long flags;
-> > > > > -       int gen =3D folio_lru_gen(folio);
-> > > > > +       unsigned int refs;
-> > > > > +       int gen;
-> > > > >         int zone =3D folio_zonenum(folio);
-> > > > >         int delta =3D folio_nr_pages(folio);
-> > > > >         enum lru_list lru =3D folio_is_file_lru(folio) * LRU_INAC=
-TIVE_FILE;
-> > > > > +       unsigned long max_seq =3D READ_ONCE(lruvec->lrugen.max_se=
-q);
-> > > > >
-> > > > > +       /* Keep LRU_REFS_FLAGS: refs carry access history across =
-isolation */
-> > > > > +       flags =3D set_mask_bits(folio_flags(folio, 0), LRU_GEN_MA=
-SK, 0);
-> > > > > +       gen =3D lru_get_gen_flags(flags);
-> > > > > +       refs =3D lru_get_refs_flags(flags);
-> > > > >         if (gen < 0)
-> > > > >                 return false;
-> > > > >
-> > > > >         VM_WARN_ON_ONCE_FOLIO(folio_test_active(folio), folio);
-> > > > >         VM_WARN_ON_ONCE_FOLIO(folio_test_unevictable(folio), foli=
-o);
-> > > > >
-> > > > > -       /* for folio_migrate_flags() */
-> > > > > -       flags =3D !reclaiming && lru_gen_is_active(lruvec, gen) ?=
- BIT(PG_active) : 0;
-> > > > > -       flags =3D set_mask_bits(folio_flags(folio, 0), LRU_GEN_MA=
-SK, flags);
-> > > > > -       gen =3D ((flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1;
-> > > > > +       /*
-> > > > > +        * See the comment in lru_gen_folio_seq.  For migration, =
-compaction,
-> > > > > +        * or any other isolation of a hot folio, try best to ret=
-ain its gen
-> > > > > +        * info. Ideally we would keep the full gen info.
-> > > > > +        */
-> > > > > +       if (!reclaiming && ((max_seq - gen) % MAX_NR_GENS) < MIN_=
-NR_GENS)
-> > > > > +               folio_set_active(folio);
-> > > > >
-> > > > >         lru_gen_update_size(lruvec, folio, gen, -1);
-> > > > > -       if (lru_gen_is_active(lruvec, gen))
-> > > > > +       if (lru_refs_is_active(refs))
-> > > > >                 lru +=3D LRU_ACTIVE;
-> > > > >         __update_lru_size(lruvec, lru, zone, -delta);
-> > > > >         list_del(&folio->lru);
-> > > > > @@ -499,6 +510,7 @@ static __always_inline void folio_inc_lru_ref=
-s_fast(struct folio *folio)
-> > > > >                 return;
-> > > > >         }
-> > > > >
-> > > > > +       BUILD_BUG_ON(LRU_REFS_REFERENCED >=3D LRU_REFS_ACTIVATED)=
-;
-> > > > >         old_flags =3D READ_ONCE(*folio_flags(folio, 0));
-> > > > >         do {
-> > > > >                 if (lru_get_refs_flags(old_flags))
-> > > > > @@ -534,7 +546,7 @@ static inline bool folio_check_lru_refs(const=
- struct folio *folio)
-> > > > >  static inline void folio_clear_lru_refs(struct folio *folio)
-> > > > >  {
-> > > > >         if (lru_gen_enabled())
-> > > > > -               folio_set_lru_refs(folio, 0);
-> > > > > +               folio_reset_lru_refs(folio);
-> > > > >         else
-> > > > >                 folio_clear_referenced(folio);
-> > > > >  }
-> > > >
-> > > > Can clear_refs race with disabling MGLRU? Once the static key is
-> > > > off, it can drop refs from 3 to 2 on a folio still on a gen list.
-> > > > The drain then subtracts it from inactive, though it was counted
-> > > > as active.
-> > >
-> > > Thanks for the very careful review!
-> > >
-> > > I think we are fine, folio_reset_lru_refs checks gen >=3D 0 before
-> > > touching things, gen >=3D 0 means the folio is manged by MGLRU, right=
-?
-> > > The worst could happen is we clear PG_workingset for CLRU, which
-> > > really doesn't matter, one metric off by one folio for a very short
-> > > period and self healing, not a measurable thing even if you do that o=
-n
-> > > purpose.
-> >
-> > Thanks, Kairui. The refs-based accounting makes sense to me.
-> >
-> > I meant the else branch in folio_clear_lru_refs(). The static key
-> > can already be off while the folio is still on a gen list. If
-> > clear_refs drops refs from 3 to 2 there, where do we subtract
-> > those pages from the active count?
->
-> Oh, that's a very good catch! I think we can do this (only changing
-> the refs reset parts, a few other part need similar adaptation too,
-> check gen <=3D 0 instead of lru_gen_enabled()):
->
-> diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
-> index a2442e49aca2..a97fa6b3b140 100644
-> --- a/include/linux/mm_inline.h
-> +++ b/include/linux/mm_inline.h
-> @@ -556,16 +556,14 @@ static inline bool folio_check_lru_refs(const
-> struct folio *folio)
->  static inline void folio_clear_lru_refs(struct folio *folio)
->  {
-> -    if (lru_gen_enabled())
-> +    if (folio_lru_refs(folio))
->          folio_reset_lru_refs(folio);
-> -    else
-> -        folio_clear_referenced(folio);
->  }
->
->  /*
-> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> index 4576a7a369e3..3c21463039da 100644
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -965,7 +965,7 @@ void folio_inc_lru_refs(struct folio *folio,
-> unsigned int flags)
->   */
->  bool folio_reset_lru_refs(struct folio *folio)
->  {
->      int type, gen;
->      unsigned long seq, new_flags, old_flags;
->      long nr_pages =3D folio_nr_pages(folio);
-> @@ -980,7 +980,15 @@ bool folio_reset_lru_refs(struct folio *folio)
->          gen =3D lru_get_gen_flags(old_flags);
->          if (!refs)
->              break;
-> -        lru_set_refs_flags(&new_flags, 0);
-> +        if (gen < 0)
-> +            refs =3D refs & ~LRU_REFS_REFERENCED;
-> +        else
-> +            refs =3D 0;
-> +        lru_set_refs_flags(&new_flags, new_refs);
->      } while (!try_cmpxchg(folio_flags(folio, 0), &old_flags, new_flags))=
-;
->
->      if (gen >=3D 0) {
->
+> Add a DMI quirk list for platforms with a non-functional calling
+> interface, and export dell_smbios_calls_functional() so that consumers
+> can avoid loading on them. dell-smbios itself still loads, as dell-wmi
+> depends on it.
+
+Hi,
+
+do you have access to such a machine? I would be _very_ interested in the =
+output
+of acpidump on this machine, maybe this could be an issue with ACPICA.
+
+Alternatively, maybe the wrong backend get selected. Currently the dell-sm=
+bios-smm
+backend will try to read a specific token in test_wsmt_enabled() to determ=
+ine if
+the WSMT ACPI table is active. This might not work on arm64 machines, so m=
+aybe parsing
+the real WSMT ACPI table would fix this problem?
+
+Thanks,
+Armin Wolf
+
+> Signed-off-by: Brian Mak <bmak@nvidia.com>
 > ---
+>   drivers/platform/dell/dell-smbios-base.c | 22 ++++++++++++++++++++++
+>   drivers/platform/dell/dell-smbios.h      |  1 +
+>   2 files changed, 23 insertions(+)
 >
-> In general we can check gen < 0 instead of lru_gen_enabled for a
-> stable refs manipulation. Switching is a very rare thing, and I hope
-> we can just delete that sometime later. Thanks for catching this!
-
-Thanks, Kairui. Checking gen in the CAS loop covers the race I had
-in mind. We just need to keep the old refs for accounting and still
-clear PG_referenced with CONFIG_LRU_GEN=3Dn.
-
-Feel free to add my tag to 06/17 and 16/17, and to 15/17 with
-those two details fixed.
-
-Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
+> diff --git a/drivers/platform/dell/dell-smbios-base.c b/drivers/platform=
+/dell/dell-smbios-base.c
+> index c8e93c12c445..e07cbb0e8a6a 100644
+> --- a/drivers/platform/dell/dell-smbios-base.c
+> +++ b/drivers/platform/dell/dell-smbios-base.c
+> @@ -390,6 +390,28 @@ bool dell_smbios_class_is_supported(u16 class)
+>   }
+>   EXPORT_SYMBOL_GPL(dell_smbios_class_is_supported);
+>  =20
+> +/*
+> + * Some Dell firmware completes its proprietary SMBIOS calls with all z=
+eroes,
+> + * so any value read through it (tokens, battery and thermal modes)
+> + * is invalid.
+> + */
+> +static const struct dmi_system_id dell_smbios_calls_broken_list[] =3D {
+> +	{
+> +		.ident =3D "Dell XPS 16 DX16263",
+> +		.matches =3D {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "XPS 16 DX16263"),
+> +		},
+> +	},
+> +	{ }
+> +};
+> +
+> +bool dell_smbios_calls_functional(void)
+> +{
+> +	return !dmi_check_system(dell_smbios_calls_broken_list);
+> +}
+> +EXPORT_SYMBOL_GPL(dell_smbios_calls_functional);
+> +
+>   static void __init parse_da_table(const struct dmi_header *dm)
+>   {
+>   	/* Final token is a terminator, so we don't want to copy it */
+> diff --git a/drivers/platform/dell/dell-smbios.h b/drivers/platform/dell=
+/dell-smbios.h
+> index 1e64803bc00d..26f54364ffde 100644
+> --- a/drivers/platform/dell/dell-smbios.h
+> +++ b/drivers/platform/dell/dell-smbios.h
+> @@ -89,6 +89,7 @@ int dell_laptop_register_notifier(struct notifier_bloc=
+k *nb);
+>   int dell_laptop_unregister_notifier(struct notifier_block *nb);
+>   void dell_laptop_call_notifier(unsigned long action, void *data);
+>   bool dell_smbios_class_is_supported(u16 class);
+> +bool dell_smbios_calls_functional(void);
+>  =20
+>   /* for the supported backends */
+>   #ifdef CONFIG_DELL_SMBIOS_WMI
