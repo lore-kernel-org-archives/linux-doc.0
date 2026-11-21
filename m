@@ -1,67 +1,121 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795221519;
-	b=nW9E9mNxQMBjIuZtALUoY4+5+CMF3I6Q1bZqLqo0k83Q8HiGF+LCsFUwxG0S3GMSYADQ
-	 NIFYsi+5shIDccC5fWfHVEHWk9mCu8El+GX3YhPO8WdQJdsjxIRXuzo8mVkcIdpW1hoZg
-	 ABJbsPE1s9keEQQoOy9AJSN5FFJC2Ale1lqKmJa7HEwaZgj93OumzhdMEfl2fysjqArSK
-	 uvZk/9QI/WpghferCvP4qkNMMQ/EpH/mQr/RdR1IaVryyFkOmh/bnUTqbAZ57OocGhaKp
-	 +KDrpsVonUxX6qef0aCg4/QLiWmasWFoQw3sc6O46VX3JSPdY5+l+iYF2CKLsDJoOIQ==
+	t=1795221756;
+	b=nznpKPU6s0eqHwG9N/rtKIiR3XXVYBti4vc+i/ReBeyQHdvYgv85lRR80BF+InyfFo0Q
+	 PjcnljQQJIYitucK3S2PQ1tNumJhNfA00ZBeDU/XuHKW+onkthvdk7Y1TzeaebnX9BT6V
+	 14tNn/AXkeNZue3i6UBdIsp+HFKHZmktdR1pzZ9jeK2YBinkvq4LYco1AAcljG5F40wbW
+	 tsjtHKJr+ucsNOPxIHxS81iR2v+F9VL5R4bYpfmCxtqXMOPlxtHuJZaZCpxSDdGlSQg58
+	 vKhitxeYVydt2qfnXrOgYY4Sf/xeD5wpHXa9HB2R2v561etGvG7Ofz+lhnDsGc+2LhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795221519;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 User-Agent;
-	bh=QV8D7ilUELbg/fg6EIzobLLMXxhaxLG1vZzySCiqx3s=;
-	b=w6h+13VmtxCHWUxp85vIry80dShvQL6zqVZgG0DPrFV4j9+86I9aoIp4c39NI6FogRrJ
-	 0lhFD+8gzYeI2Dhr5skS/YWg8HhhpDF+kcpjjBggr1F4MMTLUmjM7H0S477pzwKaLAjjP
-	 7cNg89e7v8q5XzrwgQDliJx3XTwP/3PwWvo7zUvES0HUnW1+dHoxbsgTzbDsz5rSpT2xb
-	 y/TiSYE1k35oLMbgG9Fs44IcESY+TpkNhlm6B7hWd/Ooj5qF91RrpRb+MdJ0TftNWANbX
-	 sdkoLIet0x93QWTGI2Xsct2vl+8gpxh/FBXnimnpRnxgGRQyt3q+jUCuc1fnFB+KiRg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795221756;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=Js5N6yiXwXXSTzZ4KgFGwIMSCZDX/tKTz1lwaDrh2ys=;
+	b=wz+2EriHxIuxDnd9bBu1FLsp/Sfd+P+UyiVLOYNBwEsS0O9Fh7F0PhwZVPThOtzl02od
+	 9J3ojN9EIHxTKjFej0HGgXHkvADZhALCtc7ZTq5eQCErhNKw+irTCpWt3KRWbBCDSf7in
+	 F0brM7skB7GQOoxmRcM89r5qahVXybsqE8MfRBttxQhXGr05bH7A0xMb5E96pDwt4lqNf
+	 OxPsc5cF5vFktmynJKzybQrkT9ZTTbpEdAyY64Z5WP3oHSjPYxWzqv2IXXJszWL1xOLd8
+	 Wund1Y9UV39wTHmSU4+cNmQH5UuzRX4MVrmrTlUJ+HkgPnHl25ANOP1L4cThvkvgH2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IalQirY3;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pD4AmFXt;
+	arc=none smtp.remote-ip=74.125.82.171
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B41606A6B9;
-	Sat, 21 Nov 2026 00:38:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38778606A6BF
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 00:42:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38778606A6BF
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IalQirY3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D9631F000C0;
-	Sat, 21 Nov 2026 00:38:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795221518;
-	bh=QV8D7ilUELbg/fg6EIzobLLMXxhaxLG1vZzySCiqx3s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IalQirY3i3ZnT1uQl8cusJxa9oyi8QWJr3n7xNa9xVMtvl882mORIfuEm7GpMncNB
-	 986MKFLgh8xXQ5KTId7d070QIjTQVGO7owjQZcplyKTJD2k+YSe1qRf8ww3LKM0+It
-	 QVjbPn5TE/UPkrk7EiHdaAhZmzEnc5Ffb3HiCYNWHOuxbG/2kn8kSxZsOlq1KXFmdd
-	 ngjWxrO5rGkLunabeJm3vaz16qzC63rWtSyVnT7rHknojWHeXHQ7LBFnPMKztxiXae
-	 ocUcCAHUoOT901armeduxP5ErR3OLdr9lOfosFWnq9/hZfRvLQqzHIcHS9V2W23+0b
-	 eAVwlosEUqMmA==
-Received: by pali.im (Postfix)
-	id 82C3F4A0; Sat, 21 Nov 2026 01:38:35 +0100 (CET)
-Date: Sat, 21 Nov 2026 01:38:35 +0100
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: Brian Mak <bmak@nvidia.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Kurt Borja <kuurtb@gmail.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Matthew Garrett <mjg59@srcf.ucam.org>,
-	Lyndon Sanche <lsanche@lyndeno.ca>, Armin Wolf <W_Armin@gmx.de>,
-	Prasanth Ksr <prasanth.ksr@dell.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/8] platform: dell: smbios: Add quirk for non-functional
- calling interface
-Message-ID: <20261121003835.uemb2uaqm6enjqrq@pali>
-References: <20261121000556.173028-1-bmak@nvidia.com>
- <20261121000556.173028-7-bmak@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pD4AmFXt
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-3863db981d4so1435075eec.0
+        for <linux-doc@vger.kernel.org>; Fri, 20 Nov 2026 16:42:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795221754; x=1795826554; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Js5N6yiXwXXSTzZ4KgFGwIMSCZDX/tKTz1lwaDrh2ys=;
+        b=pD4AmFXtEI4gcW8lq8jgkb4TQsgIV3/rLtjvPlKCyYdsJDnM+Zhcqgii1TYOrJgoEg
+         68QH0SXg5hfk3V3UukH3TNA6omD4Miw35AKisfch3ZeCi1bcWUEFHWVhKQFBenR4d/uT
+         PFVo9ZKRd8MNE9ce59HLBrRIZXQfzrDXwp88W6gcmp93e+7LmSWp/JUaImYP0bEpCPKk
+         6tqgTgqxEcGLlucCXJv1PzuFx9Yqt9WPeGxHvVFuV+Jy7dSJmrRs5k1OvQWJzkVegXfk
+         /o+CFNkY9vYecLaF55iDgXS/a0dzZuftjHafZCpoIZxy8MI8Lcx0nAf3II18bzFxbRtK
+         7fWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795221754; x=1795826554;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Js5N6yiXwXXSTzZ4KgFGwIMSCZDX/tKTz1lwaDrh2ys=;
+        b=mDRi55G79dlp3OwELv5DnNeJI69eV58XmKVmD64KxXF8nHezBWNF5kxIDS25eBoNka
+         +51y9B9HCy/4VbDXhkIEQVg9Oo8djMSfYTd0/pq4ud7Wf1TCpE2zOfkv4Tz2BPKPBZHe
+         8ag5z0hvC8vwzG7SO3EArF5acAyEZRrjZ9LGfvHR7Kv854v/7AFEy5lPBsM+EbQNWtXR
+         BZ2Aff8ByOjYSWahdryQpvEglxE6dG8Bxp/2j7VnBHZutO0+ufaWNBMPhFiDeB4bXMsX
+         UsdmOGLbCD96Gtp2u89Vj0wSnYRU8nvS7HYCozSQ1hhNoj8y3dhOsJSudHlw5CTGXafu
+         kgdA==
+X-Forwarded-Encrypted: i=1; AL+hErEFClRHxT/8qojMi0BiuwZoXJEw5rfDenizDmqRkl3TT6oJUsTvscUrk886oSEjhD3bCg5JJ/B/W8Q=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+gOGdIpaXZ3TGh+X6Mxk48cFzqOtHdw64FS8AKXcdDnGta7gNm
+	V22qhKnRCgJD8AExocmc9g0anlhRcj0yxtDtIiwGrqfkSVWoAWxC6Xs/
+X-Gm-Gg: AZFdTZcY40er6lASl9prWa+CiS98ymijCqwXJ9DotsCfN+shdylALVAoh9i2W4QY7Ru
+	wcsdvZ1DltZxKl35NiWgkjWgjXvB+MLBmn7BdtdC5eflphSBtqPEYZy60FQlHiFXSuDyIZ6kGlg
+	CqEI5Eu4rfTfsZVCFXnnDeBl/jSGbfuxJ62DkgBSYdq+PgjLVsMOEJWHSDHkp6pN64ctoI6Zw62
+	cFCj/0e27YUvwaZieYFE+EvBn1UCTZ3xmqf/zk5iv8taBV5lWYBvBeCY6VT4JXUADTNBBc65X/5
+	a9gcl+jlo+kY0uFBMMVyh3/aLElUSo9ef2wMQ81HRp3ZBGFt/VGGN9KWdgDV8LgjV+9xj3yqmjC
+	oWf6W2SCWOL7PXM2zB2A0gX94nDAlmVw5NKPGyEmz+sHk8RWexwvjlIBNnzPXBv/cfpsu7KOqrt
+	YqqztbsuHDJ/IJ5K4NWUXKvXy9cFJbkmXDfoSBY81CO7xkARHAMlsR4/eruVUJMaBYDcmPAzOA1
+	OYbMP4KoPmSGMoAYGsQ0f/+oQtUvFan+gq8JHOj0uHukZGAc3ubKW/gnL1Ksh1ImOw2If6whIgF
+	yfMFrXraBFggE9v1mrXUy2j9GKOLw9Ug0Q==
+X-Received: by 2002:a05:693c:4091:b0:379:4197:5eef with SMTP id 5a478bee46e88-3856f65b3cfmr5387027eec.8.1795221754060;
+        Fri, 20 Nov 2026 16:42:34 -0800 (PST)
+Received: from localhost ([2408:840d:6820:1a1b:6def:d896:8796:4938])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38567da4f85sm12699706eec.27.2026.11.20.16.42.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 16:42:33 -0800 (PST)
+Date: Sat, 21 Nov 2026 08:42:28 +0800
+From: Yao Yuan <yaoyuan0329os@gmail.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Yao Yuan <yaoyuan@linux.alibaba.com>, 
+	Alex Williamson <alex@shazbot.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, David Lechner <dlechner@baylibre.com>, 
+	Armin Wolf <W_Armin@gmx.de>, Thierry Reding <thierry.reding@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Karl Mehltretter <kmehltretter@gmail.com>, "Paul E . McKenney" <paulmck@kernel.org>, 
+	Borislav Petkov <bp@alien8.de>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
+	Marco Elver <elver@google.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
+	Jeff Layton <jlayton@kernel.org>, Bradley Morgan <brads@mainlining.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	Pnina Feder <pnina.feder@mobileye.com>, Mete Durlu <meted@linux.ibm.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Rio <rioo.tsukatsukii@gmail.com>, 
+	Feng Tang <feng.tang@linux.alibaba.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+	Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Yishai Hadas <yishaih@nvidia.com>, Longfang Liu <liulongfang@huawei.com>, 
+	Ankit Agrawal <ankita@nvidia.com>, Brett Creeley <brett.creeley@amd.com>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>, 
+	Julian Ruess <julianr@linux.ibm.com>, Nipun Gupta <nipun.gupta@amd.com>, 
+	Nikhil Agarwal <nikhil.agarwal@amd.com>, Eric Auger <eric.auger@redhat.com>, 
+	Mostafa Saleh <smostafa@google.com>, Pranjal Shrivastava <praan@google.com>, 
+	Ioana Ciornei <ioana.ciornei@nxp.com>, qat-linux@intel.com, virtualization@lists.linux.dev, 
+	intel-xe@lists.freedesktop.org, kvm@vger.kernel.org
+Subject: Re: [PATCH] vfio: Allow untainted use of driver_override
+Message-ID: <awDok7Sm5Dgp-Ty-@sapienza>
+References: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
+ <20261118235645.2907908-2-alex@shazbot.org>
+ <xzp5gljhburzbpol5bgnyyzwdrgpw3fj6ff3j23ein27raiidw@kti7moeuwvb5>
+ <awBUG7-QzXplEiUT@monoceros>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,75 +125,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261121000556.173028-7-bmak@nvidia.com>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <awBUG7-QzXplEiUT@monoceros>
 
-On Friday 20 November 2026 16:05:52 Brian Mak wrote:
-> On Dell RTX Spark laptops, the SMBIOS calling interface completes every
-> request with an all-zero buffer, even for requests that should fail.
-> Drivers that rely on it, such as dell-laptop and dell-pc, end up
-> reporting bogus state, like battery charge modes and thermal modes.
+On Fri, Nov 20, 2026 at 03:10:38PM +0100, Uwe Kleine-König wrote:
+> On Fri, Nov 20, 2026 at 10:17:46AM +0800, Yao Yuan wrote:
+> > On Wed, Nov 18, 2026 at 04:56:44PM +0800, Alex Williamson wrote:
+> > > Driver overrides are the standard mechanism for binding vfio drivers
+> > > to devices.  With the introduction of the support_driver_override flag
+> > > in the core driver struct, it's now required for drivers to declare
+> > > themselves as driver_override compatible, otherwise driver_override
+> > > bindings will be denied or generate a kernel taint.
+> > >
+> >
+> > Hi Alex,
+> >
+> > > Set the support_driver_override flag on the driver struct across all
+> > > vfio drivers.
+> >
+> > LGTM.
+> >
+> > Reviewed-by: Yuan Yao <yaoyuan@linux.alibaba.com>
+>
 
-Hello, is Dell aware of this firmware issue? And it is going to be fixed?
+Hi Uwe,
 
-> Add a DMI quirk list for platforms with a non-functional calling
-> interface, and export dell_smbios_calls_functional() so that consumers
-> can avoid loading on them. dell-smbios itself still loads, as dell-wmi
-> depends on it.
-> 
-> Signed-off-by: Brian Mak <bmak@nvidia.com>
-> ---
->  drivers/platform/dell/dell-smbios-base.c | 22 ++++++++++++++++++++++
->  drivers/platform/dell/dell-smbios.h      |  1 +
->  2 files changed, 23 insertions(+)
-> 
-> diff --git a/drivers/platform/dell/dell-smbios-base.c b/drivers/platform/dell/dell-smbios-base.c
-> index c8e93c12c445..e07cbb0e8a6a 100644
-> --- a/drivers/platform/dell/dell-smbios-base.c
-> +++ b/drivers/platform/dell/dell-smbios-base.c
-> @@ -390,6 +390,28 @@ bool dell_smbios_class_is_supported(u16 class)
->  }
->  EXPORT_SYMBOL_GPL(dell_smbios_class_is_supported);
->  
-> +/*
-> + * Some Dell firmware completes its proprietary SMBIOS calls with all zeroes,
-> + * so any value read through it (tokens, battery and thermal modes)
-> + * is invalid.
-> + */
-> +static const struct dmi_system_id dell_smbios_calls_broken_list[] = {
-> +	{
-> +		.ident = "Dell XPS 16 DX16263",
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "XPS 16 DX16263"),
-> +		},
-> +	},
-> +	{ }
-> +};
-> +
-> +bool dell_smbios_calls_functional(void)
-> +{
-> +	return !dmi_check_system(dell_smbios_calls_broken_list);
-> +}
-> +EXPORT_SYMBOL_GPL(dell_smbios_calls_functional);
-> +
->  static void __init parse_da_table(const struct dmi_header *dm)
->  {
->  	/* Final token is a terminator, so we don't want to copy it */
-> diff --git a/drivers/platform/dell/dell-smbios.h b/drivers/platform/dell/dell-smbios.h
-> index 1e64803bc00d..26f54364ffde 100644
-> --- a/drivers/platform/dell/dell-smbios.h
-> +++ b/drivers/platform/dell/dell-smbios.h
-> @@ -89,6 +89,7 @@ int dell_laptop_register_notifier(struct notifier_block *nb);
->  int dell_laptop_unregister_notifier(struct notifier_block *nb);
->  void dell_laptop_call_notifier(unsigned long action, void *data);
->  bool dell_smbios_class_is_supported(u16 class);
-> +bool dell_smbios_calls_functional(void);
->  
->  /* for the supported backends */
->  #ifdef CONFIG_DELL_SMBIOS_WMI
-> -- 
-> 2.53.0
-> 
+> I missed your reply when I sent the next revision of this patch. I had
+
+Thanks for your reminder, no big deal to me.
+Let me follow your link to have a look on v2 there :-)
+
+> to trim the recipients of the v2 because gmail refused to send it with
+> everyone on Cc: who was emitted by get_maintainer.pl. So please see
+> https://lore.kernel.org/kvm/fb0df5c89336b77a373ae0f890f63427e4adbb28.1795171088.git.u.kleine-koenig@baylibre.com
+>
+> But also note, that if v2 is picked up using `b4 am`, your Reviewed-by:
+> is considered as the patch didn't change.
+
+
+>
+> Best regards
+> Uwe
