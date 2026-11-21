@@ -1,79 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795264998;
-	b=VPbbi/cogsbgvR8k0vweicalguLf0a0K7eKdIsUrN7vkAefjrz112JzmN3PBdtJ0xYWY
-	 +pmAzdzQBAr66uAeN2bMzUWBpnZOLKS5IFSVm8yPKt8ynR/3QiKaKUt2h1GruSLRffLhu
-	 cW/VDq3ZLH+b3kIR2O6kNbTSj+5x3LFS1pSYKPONVRE+pEMSyov9mVWnv5ek1SuYy2IM8
-	 aVrQpmqaeiu8+vceEVTJSfmwGeYaiLUmfPLVcokA28V8/zl82YxuOnO6gGkm7q8KDaHr0
-	 12YX9wixuqnxEepyj/iHQxVoVz8/k1EX7eZazQCLL+UkgC8lgxHSow+kB6pTaH9BQew==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795264998;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=xUb80D30HN0DexKwD7t51Nu9644o2kzgN3wPWJ8IipE=;
-	b=0i5cWAYer6End77XnZBaoIGAJ1ixnpJnWcR7P/I+JlvX5yy7OZ5PDhRiPvFArCei7I8o
-	 aRoco+yRvW6Lr/zIQim7Ci6MewnI/QCR6LcUtdlop+tHMZASPl+cDTI+sd9SJmZdCytMo
-	 h5sJU9bauEBquWVBxDkDMKv555UpWIdT33iE5+8LMrDCaLKSkF1PNKk8//6Ku7z7V1KzZ
-	 FDKLEQ4TMTp3aBkPgrFb3TDUccx+pk2Do9VUfSVFv57XaJ0OfFFH3vd02IXsAOj1Jbr8z
-	 it34U4F9hTUKLnkfP7sRGf3ExPEyMEl9U+KEnCyDtpJlKRtT50O99VV2s4wupXD/97A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="f4ef/v33";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557E260A2614;
-	Sat, 21 Nov 2026 12:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f4ef/v33
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795264998;
-	b=uDDbXblnLhDx2GPfwE6ChRzQb1aNvOl2kF+wPdDtFU8mK3sMcni3iQ3jbryQsQ082S+x
-	 GLCNR40TWr/pdZjWpRyfKouifyyqT5YeM9gaHmPM6Q0i6hJ5FSuaQMIwTC6UHDhnPtK55
-	 p+A2p/Fe4vGFqMmnyqLtg6X1GTZ2AfV2a2D94kTGk2C2J0ipczbSYJ87Cv8RUx2UyYzHt
-	 WLoK3Fn7aEOI8sW5GvDdG+8L7NKj5b6EXABSKOGGSCKAnfZvgFOBfkpdEFuFy1XWzyYqj
-	 gzqd8/qumUMfrzf1I/f29Ju9htPp66CaUzdq0K7TDEbwtoe8QutrjDWffopBTgdvxGQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795264998;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=xUb80D30HN0DexKwD7t51Nu9644o2kzgN3wPWJ8IipE=;
-	b=e08hB6PciCf4Mf7GgwNnsUXJR2ujhnGEqIGxIYazfzNLFNpRfqIAhXWV52hvUnxmapm0
-	 h4N0M/adnTUtYBR5QBIWYh1WG2E9P4I9j4CFqs/Cu3AO9vxwh9TgqUdKIHfZmEtHPKNDu
-	 3GY7ZW29/lVys9ykcIRMm5EwFiAwEN8KmpcU/bTH8tK5TuRoe24JcZWMg4DoJfg0Y/K6g
-	 JrbJqHisNadxRobv9jnv25ZT+t4V5U4/ebf1pBG6LD8rm1XQgeq34BmdvFaK9E8C1qXzw
-	 XbS0oz/dOt/yty50rZsTn9O10rqRVkhyBTHOvOPkfFDqGYAc6Ulavv2MNkOq6pF0GGQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.201
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795265445;
+	b=mYbYzP4ut7TylgpVFWK5ceorBHQsPtVprb5k2Rs/oqikCf+KEivw/DYleC/w+5vdmMzI
+	 eYSW83Brifi982KbdoNvAXbCdh+7nJ+GNcMjskvjmCEU8ervuMFaZ2L8rJW1R9BVgJLKo
+	 E0Tt6nvx8ZXqW+SaBMmxr3F7izatv3KIGpZnUozeQa6KYQe895jhyx2SIPhoWJRP2PRzz
+	 BqaqhtD9M76/g3RZlmca5rQaVQqAa8XiFmLi+fjun0l/N6XbwChm8XO1HIRffXM/6y/KG
+	 z+zWNgUy7IvOWHbWRMFlPZ+snYD/s3SJTI72zjLwac9ifLk/amptB3+KtObVAtCTV1A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795265445;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:Date:
+	 Message-Id:To:Cc:In-Reply-To:References:X-Mailer;
+	bh=205CdX5PCQW2SykzUQ2r0VNC2kEGRl78KXXpxrNibvQ=;
+	b=lB+WOBfnHSqjzHANS8cscji8ayusR/nx7JHtdtzS6gW7Abcs8aFG7fLhHjapanJ9iJel
+	 e4vNeQZOyhq62Sa4wVh3Tvo8rQbdJGAB+x2tzPIWhsD3u1gqAVO2br38ijBxQP+ndKW6s
+	 imfhoauRh19q6scy6kuVIHqcTdXiDy/RTXREUmdWmSxLmvvq9O3jvONBCdzXn/nzSrZXI
+	 Vn/SwaaJKOYxjzYTrn6LukGAIrCarPeg4t81cpQsvIVw+tAJDISWlKmaQiGuAs0Kg48xi
+	 ysqgB4cqV9tjlTPbFU9digytZshscjgDt+fVTdesd+5ItjAcPOgVHSW3livmMcvmXFA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Jjatc78C;
+	arc=none smtp.remote-ip=74.125.227.201
+Received: from mail-pi2-f9.google.com (mail-pi2-f9.google.com [74.125.227.201])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 5B8C81F000E6;
-	Sat, 21 Nov 2026 12:43:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795264998;
-	bh=xUb80D30HN0DexKwD7t51Nu9644o2kzgN3wPWJ8IipE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=f4ef/v332CSW1tGruCYNrhi1XpCPnOUKmrLXU5SvjUiC1Y8ZLpSbVLeondYmbbeIM
-	 n6PbWZS+JH6enELa5YTuNQXAuxLNy5A9Byp693OSHnljZT4+XT1oryiEVctzKVPBkI
-	 euWRAYSMJjHHbv4MI2HRunA46xgJ/pQuY3rHK3t4iKLmi7shvEOv4wrRkzeHg+CJfF
-	 yNf94VLoa1kvaos9Aj1fPYi14h+eZYz1OQKEv78+6nz/FoayGGRvkvAjYPVt9NBcSY
-	 mHDi8JDC+66ocQQ88HxqMR1jUJ842mxsQNRZXaRUyp5lWe8fCk24XXWOHaA6Q62/DO
-	 KXi7MA6d1LAMg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id CE02F4BC56;
-	Sat, 21 Nov 2026 12:43:13 +0000 (UTC)
-From: Yuugo Yoneda via B4 Relay <devnull+yogo.0917.sabu.gmail.com@kernel.org>
-Date: Sat, 21 Nov 2026 21:43:19 +0900
-Subject: [PATCH RFC v2 09/13] dt-bindings: mmc: add SiRF AT550 SDHCI host
- controller
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81108606A32C
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 12:50:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81108606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Jjatc78C
+Received: by mail-pi2-f9.google.com with SMTP id 41be03b00d2f7-cdd9d0d40a4so449770a12.0
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 04:50:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795265445; x=1795870245; darn=vger.kernel.org;
+        h=references:in-reply-to:cc:to:message-id:date:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=205CdX5PCQW2SykzUQ2r0VNC2kEGRl78KXXpxrNibvQ=;
+        b=Jjatc78C1GDOfOdrN4t001k4boCfHUhzerg44IhlpB4cibql+etYI9ADEVT6Wx2u00
+         Bb3/8oUwVAhTqF+eb26XT49fVDWjyowzgfokHTKVoZYbeygKQJZCHZoaVAynv0Jto1BZ
+         U5OCMcGrNh9uPEfARNcKuW2C82mKNaHu6zMvInNs/j5dyYCoXmvCUI75/tMQiwN1oK60
+         VwWEPi37ZJGFQsNLJ0usIQqvWNOirl0PQx9liZ9NDMEBEI4VoVOMmKxsRn5XiqEMb5Pf
+         owmJfuOBMkIepcqeYge7eeeeR/tKqRppJYUTfvSnbiNFNoKpyNNOrSLF0+FcuE65FTiZ
+         zv1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795265445; x=1795870245;
+        h=references:in-reply-to:cc:to:message-id:date:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=205CdX5PCQW2SykzUQ2r0VNC2kEGRl78KXXpxrNibvQ=;
+        b=uVZMO3HpCFqfv3IBU7rQe9TWiJtP5vorzbMwXDSloaOYFDOSDj8E1il284xr0hPDKe
+         3he2QMeOGudfP4mZgsfju6JtnvK1war62ZzSWZ3PiAEz0RLtJvg1s1TVzK88Pa+XPygT
+         l9YMG6J/mMG6Vcw/T8sBH/cz8L5VnxIsTEJtaQTQD12aijWpavh1IGL5+sDVlzjmSwka
+         faEM4/7a81itZgYAEGmeieXuc4PJyt+bJ4l3YzSxVbLEUsznLhvBbWfmXuU1t7Tu9cBJ
+         qyF4phSwPT27Gd55AL069YG2EmvBHkBG3DfPor1YVNwB4YF64GD7SkdFV0G4Zzh+9qAf
+         SOOw==
+X-Forwarded-Encrypted: i=1; AL+hErHCdf6+ysPwi8bo/2FoIK5M8pG2Qv7XRg2qvLfm+oXgEnnWyih/8i8eh3EwgLFxInLd0RcyIdZEm/Q=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/B7ME06azdYPysoPd+4qQkwqlKSAmLFktV7ll2DeHZURNbaqkr
+	aVO9Kzl15pWjDyYDIt7nOpjJ6Q6WFEHEL23yfPqONbDPcAaOBbcZWPhJ
+X-Gm-Gg: AZFdTZeTYbGnvU1CWGQsn8uytkaIcixdG/ik+s1Gc7EVvRqDkIGBwwUKWycF3zKdDmr
+	Y13K0jjMEVKr04SoinWLJjqjMNuaoQx2NTfSkh/gryToyAsrptwYVkMHZXdNCx4P4/Jy8s6ldkg
+	QwgCdKmXqyTPeO6Q2GaCifyHxq9wPxbTw6i5pzWyNIoh33ZDuW9Ofb9ZV9KRLtMlj39BZfyATxm
+	1xdy5I7ihLi3H7Wt0f6c5TRWonLJc6LF36/KC/JAZJ5EBJWhHvmvyb2ycH+uvsexLiwE3yrw+De
+	haXKsPAsQ4SjoxR+n8EJw87rnlbKePlrYn6gv3O9lTqOJrP1mAk8gh0kTDrn+Hhz1Eijmu6Rx+f
+	ATa5/hGvVJZKT7/dNTBFa0AU73Kz5wFPfsjvVCm9I6l7imm4KuJi57ci+R+vM42IG0PDt5mdMQl
+	ZgtlnQvvUO9RYw/EV6+x5gbOYORiuE06Xn0yXGJIBNtq7BMXbI8JCWfxLhbFbzd+0sDNipVdBZu
+	MiHyy4GVfMlVX/UMv1t+ecO5mubr0VGJa+Q6QR/dkDMWD+OnGi+HZBwggGzU11lmf7PeMEseIf3
+	tEyYuMdNpp8lIAs18R0MEg9jdu3Bzn0aPk+dZdjV74Ki5jjCrVvrjK4Yz0yUQG7odYHP07VURDx
+	PI92Bb3s8oolJxHonUyWYjWHUsa+BUX0cEQ==
+X-Received: by 2002:a05:6a00:4c8f:b0:8a0:70ff:ab27 with SMTP id d2e1a72fcca58-8c87c09e5bdmr5660349b3a.28.1795265444677;
+        Sat, 21 Nov 2026 04:50:44 -0800 (PST)
+Received: from localhost ([50.7.253.42])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c87285c272sm2888869b3a.19.2026.11.21.04.50.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Nov 2026 04:50:44 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,117 +90,39 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261121-at550-rfc-v1-v2-9-b0309d0789b2@gmail.com>
-References: <20261121-at550-rfc-v1-v2-0-b0309d0789b2@gmail.com>
-In-Reply-To: <20261121-at550-rfc-v1-v2-0-b0309d0789b2@gmail.com>
-To: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
- Radu Rendec <radu@rendec.net>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ulf Hansson <ulfh@kernel.org>, 
- Adrian Hunter <adrian.hunter@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Russell King <linux@armlinux.org.uk>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Linus Walleij <linusw@kernel.org>, Drew Fustini <fustini@kernel.org>, 
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-mmc@vger.kernel.org, linux-doc@vger.kernel.org, soc@lists.linux.dev
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795264991; l=2242;
- i=yogo.0917.sabu@gmail.com; s=ypl514-20261117; h=from:subject:message-id;
- bh=Cw4PW1ium2XRqrgyq5Y/w+tMdamgHyjj6FEWVO1PTf0=;
- b=a5zpJI5EjZIlhB/FD+UmNuiUUXzSTRIjkg4sO7w1rcWzckKK7gDVBjOIO3C0eFjJNY8WwdmVc
- UhNpbbAXLIQAkJNLHm9G7C7Wsjlcl3mCu9pYSehXwFqMXqfogeooB8J
-X-Developer-Key: i=yogo.0917.sabu@gmail.com; a=ed25519;
- pk=TIQ8Tk4xQrxyn8rmk3GI2f5qg/kO6g2KZm7YOOyBHeg=
-X-Endpoint-Received: by B4 Relay for
- yogo.0917.sabu@gmail.com/ypl514-20261117 with auth_id=1550
-X-Original-From: Yuugo Yoneda <yogo.0917.sabu@gmail.com>
-Reply-To: yogo.0917.sabu@gmail.com
 Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC PATCH 2/4] mm/damon/reclaim: set memory PSI 0.05% as
+ default quota goal
+From: Aveline Noir <jm5905938@gmail.com>
+Date: Sat, 21 Nov 2026 23:39:16 +1100
+Message-Id: <179526475633.4.14859465649138957731.b4-reply@b4>
+To: SJ Park <sj@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, arijit.desaii@crusoe.ai, 
+ Jonathan Corbet <corbet@lwn.net>, damon@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+ Randy Dunlap <rdunlap@infradead.org>, sashiko-bot@kernel.org, 
+ sashiko-reviews@lists.linux.dev, Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20261120060741.92121-3-sj@kernel.org>
+References: <20261120060741.92121-1-sj@kernel.org>
+ <20261120060741.92121-3-sj@kernel.org>
+X-Mailer: b4 0.16.0
 
-From: Yuugo Yoneda <yogo.0917.sabu@gmail.com>
+Hi SJ,
 
-Document the Devicetree binding for the SiRF AT550 SDHCI host
-controller.
+On Thu, 19 Nov 2026 22:07:36 -0800 SJ Park wrote:
 
-Signed-off-by: Yuugo Yoneda <yogo.0917.sabu@gmail.com>
----
- .../devicetree/bindings/mmc/sirf,at550-sdhci.yaml  | 50 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 51 insertions(+)
+> Set 0.5 milliseconds per second
+> (0.5%) as the default auto-tuning target memory pressure ratio.
 
-diff --git a/Documentation/devicetree/bindings/mmc/sirf,at550-sdhci.yaml b/Documentation/devicetree/bindings/mmc/sirf,at550-sdhci.yaml
-new file mode 100644
-index 000000000..ca0c7c414
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mmc/sirf,at550-sdhci.yaml
-@@ -0,0 +1,50 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mmc/sirf,at550-sdhci.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: SiRF AT550 SDHCI host controller
-+
-+maintainers:
-+  - Yuugo Yoneda <yogo.0917.sabu@gmail.com>
-+
-+description:
-+  SiRF AT550 SD/MMC host controller compliant with the SDHCI specification.
-+
-+allOf:
-+  - $ref: mmc-controller.yaml#
-+
-+properties:
-+  compatible:
-+    const: sirf,at550-sdhci
-+  reg:
-+    maxItems: 1
-+  interrupts:
-+    maxItems: 1
-+  clocks:
-+    maxItems: 1
-+  bus-width:
-+    enum: [1, 4]
-+  no-1-8-v: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    mmc@56000000 {
-+        compatible = "sirf,at550-sdhci";
-+        reg = <0x56000000 0x1000>;
-+        interrupt-parent = <&intc>;
-+        interrupts = <36>;
-+        bus-width = <4>;
-+        max-frequency = <25000000>;
-+        no-1-8-v;
-+    };
-+
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index df3d38c6b..1164152dc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -25853,6 +25853,7 @@ S:	Odd Fixes
- F:	Documentation/devicetree/bindings/arm/sirf,at550.yaml
- F:	Documentation/devicetree/bindings/input/touchscreen/sirf,at550-ts.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/sirf,at550-intc.yaml
-+F:	Documentation/devicetree/bindings/mmc/sirf,at550-sdhci.yaml
- F:	Documentation/devicetree/bindings/timer/sirf,at550-timer.yaml
- F:	drivers/clocksource/timer-at550.c
- F:	drivers/input/touchscreen/at550-ts.c
+0.5 ms per second comes out to 0.05%.
 
--- 
-2.56.0
+> +static unsigned long quota_mem_pressure_us __read_mostly = 500;
 
+With a fixed 500 us target, maybe a longer aggregation interval also
+lengthen the PSI measurement window. For example, if the quota ends up
+being reset every 2 s, should 1000 us of stalls still be compared 
+against 500 us? If so, the tuner would drop the effective quota
+to 1 byte, skipping pageout for the next quota window.
 
+Thanks,
+Aveline Noir
