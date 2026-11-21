@@ -1,140 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795257316;
-	b=jSMHt3p9a5dRTrp0yr3aZ0Dfdm5mZ3qzxpxJfYlkoLTtiJWks60ISwHoTeWdxH6+J8ZY
-	 qLJAGZ3QrK6OhDj32nP/YavGovT4jogTlWWsemaPSQZ1QrlPSEErSCeflvZ4zLMaUPOLz
-	 gKKmtVaRlyVlH3t+8PlLafCsV+mwT9z7TBaN+4r//8Gr/q+odLIIsho2BEN3AI40zGsFp
-	 C/tspzN2pFkRaliJzpHqux0Kn/NpC+3RbRnlkMj7ZM3H9UO+Aa/2x0ohyJqofL4obSEQP
-	 wPv5oE4hrDA/HJ2S1h8+V6QpPwH6bvHVepMWA1UgWAYjLSy1bW1AGHs5pf1UlnBlrlg==
+	t=1795258647;
+	b=l4AMJ1D8UvY8E/Wk/wKy+BCCoxl2IvNtPvF7Wi3E1QBai0DVLrchvUnrdqyccg7H5n7x
+	 A5X+AHWZ8Th7MbaC6TGSZNwd1V5h8wynQocT0SGJ9PjWYVc+vaWBcv4oxMm2ftkUg8zkO
+	 mqpbaE2Jen6iefI+P+P38Gl1eHtjb+KzG+6aVAgWvnqlpp9ZGuSUKkVrhHQVy8sDTWchx
+	 nI1Pkf2wKFh+na5TF+QPK3TeyYiSkDiJJbWNFvnKrI5splpBJS1GoaqvPfuqowZ6Ooh8+
+	 xRI14WNrIynKt6AXTxh1LuxZyKwucPqTFTH4O2DNvs5Jx+Rt0yk3IAAV60EJkOl5syw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795257316;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Autocrypt:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=9bsvYKUqqiIEmbO2aiAG3E5Ax6t0fNk6OQ/rRTGZEtM=;
-	b=t0frXP2c7mmlm9+qgZY6BQ6aSGZCvVpfOXfD8LInpPuTPqfOUPKCjttam9DJ3AhbsM5E
-	 C38cnais1EsNMlKNkqP5uroFtpGr0cqNWhtxof/nT5u9IF4v4/UMuHrNdYwGnYae0QL/S
-	 4QVpzQ8hhteswOE/0Sc4t8AjEgA53nb6E5vr+hGGkqUFwYuQL21M28tlz19S4t+6Z2ECR
-	 LI6vtyG2+9uKhHbxoPi6pjOMKLdcZOOyMzwNyvE7tfj9g0AJfU14McU3sOQWZDbg37HKB
-	 H3JCkq0TQZNh8VZKiBw5At/xzbvqmE1GZ/T/qd626mTpDMq6GSguBI82cWj/HL6EikA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795258647;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=s6L/5zARcCLel44kQYhmt6hmNx9yE54W+X6j7p6+kLI=;
+	b=uu5ZokGcGdmjbutet61TmV+8VOfThnA39mC+7arfwEZQ+Q2Wo+zoMn+3N4pWPM7rysEN
+	 ZQV0IVANYhPEae9ttxR7GGdal1lM1s5N8n4m/xTaoIf41bk10gZbLhfacUlFUQ+vcWoNI
+	 7mXjDkzUjE3FWMXIF1lyna11UjBt/sGKWIcKBfpk7wweLoVIlaXTAzTpU5rNke6fZj5jZ
+	 HscgFG5RKxApQcObBhI41k9PcSLNklmYbPrCdBjuazsLOz8TLCIwHxqE1Gt3qcJC61udZ
+	 X5wY03eGlaZA7NoOdAUMscmSy9vLRMYOAo+bM42mqYKIcDZYoxU8hqPekqX//tEPmcg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="T06V/NK5";
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=GH8CCjzs;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dl1K5RFT;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A51606A334
-	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 10:35:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8A51606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCF2606A32C
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 10:57:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CCF2606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=T06V/NK5;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=GH8CCjzs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795257313;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9bsvYKUqqiIEmbO2aiAG3E5Ax6t0fNk6OQ/rRTGZEtM=;
-	b=T06V/NK5+dY7JdHwvdPwQG8fzDOLDWPMkf/lRpaDG95YoizlwQc0kJMdv3bgQu6AyJjqr+
-	OLVUjH+zk1SGdk6p7pYXwARhx6bYHMvBJG0mjcqLMgxZ2s2jLbef0f5fxAu6G3MMJ4Yzch
-	Sv406BK65IXypEE9peNczxOaiJFdCnI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-492-gGtgYJgUMsyrbooqSBj_sA-1; Sat, 21 Nov 2026 10:35:11 +0000
-X-MC-Unique: gGtgYJgUMsyrbooqSBj_sA-1
-X-Mimecast-MFC-AGG-ID: gGtgYJgUMsyrbooqSBj_sA_1795257310
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-48fcb657f32so964293f8f.2
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 02:35:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dl1K5RFT
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so16171755e9.3
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 02:57:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1795257310; x=1795862110; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9bsvYKUqqiIEmbO2aiAG3E5Ax6t0fNk6OQ/rRTGZEtM=;
-        b=GH8CCjzsFzumr78PhysOTQ9fkumvDAoN8Fd/Xl2Jo6xyS6KMUDENRwz1Jx2iFo1n5+
-         EcV/Xbf5P9qsSu4nEiaLbb1wZdOknxRBuqvVKndZ51WHNh2VlCkM+3TRDLx+ldjBxuPa
-         w+7Q+vaegvCwQA2zsgRC0iQXhpKl5Jj1PmtyVI2SLPq8haKyssNY0bv2isx+daLX5Iao
-         0LEAblvztaCa2gOplJidMPyYtd3oi3j05ddpAUxlXu5kXd8fMH2wswRikDhUE1T3R1Hn
-         IVTBk90gxbpJCldrV+Je54Oh79n4oeVmcH1NSXowvr4TML8scYFuB1LGFcRbO9mfXs7T
-         fhqA==
+        d=gmail.com; s=20260707; t=1795258645; x=1795863445; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=s6L/5zARcCLel44kQYhmt6hmNx9yE54W+X6j7p6+kLI=;
+        b=dl1K5RFTCSe2kAPnf5pSeGyQbRBAIKoZLylyiET1vIjPURjry+i4R8z6hmiWzV/b6+
+         MXekc+U7RQ31imRzbp/I0Uk5+J+mVsB9KgpJi5OUXgtiC40DzTCDf08Da8uukxfD3jnX
+         3SZad2lG6jKlvCeC/gDmPMjeE9GgjccOx70vlXLeZtRLgKI1S3mMKVJhUdvMuYCY1+Ki
+         EcmsEtPYVEcpdcSW96BA5oUv717CfBr7kPCRtv7dzD1ocl63y9r5Wu+Z8B0FtWeboPR3
+         bvGsXa8dIOO9UE0etq5yCqqaO9buv/PPgSrDIx/H5rCCmOmLTNSFVifDq7Nc4wfznRrF
+         2zTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795257310; x=1795862110;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=9bsvYKUqqiIEmbO2aiAG3E5Ax6t0fNk6OQ/rRTGZEtM=;
-        b=V2NqoRl2Uiaj7lGcocEmPf9+rIk9OrV2bf3sNMW5G7fcqq/7/KquJ1AfiaRsO6WWjG
-         rAxn/PWjnsIiSjnl4gCNeng93TqbmFN/HjvPUWsugVSuLTpBon8f9Q7aJvS0BllTuAwg
-         9KotJ04lEwtUJFwvF7FdwSKj7EF4U41zX8JD3tNUrzRFGMt6jMv6UJcoCcODc3edMvYH
-         GeYgxotUdGhoDzYHuUCWH1pJ1pgssLoO3v2RFPEtL+YHFdLBRCj1MnGRDr97NCLtibbl
-         QzOPdxZI4Cw9qw6AGz9TXybM7p7tYnml8hXhJBfj37P65C7IN0tHtAa8dJZNVU2H0A6m
-         dR9w==
-X-Forwarded-Encrypted: i=1; AL+hErGogYHdQFcERIHqkeXowLegnLkqlXMSHU0fvCPuK+KpR10n6QppT6ep7lon2ANOCleFPr7Dbidy0zg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z809qrJgIVapjrh3Bcprf09JOhm1My2C2czxBKtrlruBmGOCy8o
-	Om35VcqC2V/jEagSdK/BcOBDr9LcTmzeO+3PTqeIco4IwxCyeJ9gb3gqJ5GNMiKJjobjpj/2kOH
-	VM7q9BFagcRsyIPyYB7sBtLod5dA+H2EH2C/Nos2Dh3hQrL4/f9lJfVf9w6vJYg==
-X-Gm-Gg: AZFdTZekokjMllq2Fbm3q6jkrqtTRR//sF9nd5XKbLlZ37kPkjfFVf9AtgQz6X9VddD
-	FtFWlqdYBlUcNhlD1vtDaphK/R7q13Co4SRv7L3vBziXNZKBFQ3OD6DjfbdQdkxDDfFP5V6k99f
-	SUIjap7QqgcdpNow0PNBrCymaR2MQRl/5FzoSCVxO+XDofeIDGMiU9SMUBbsPfTHTlHvl+RvXu9
-	uYHQeN4t2gHVipTC5O8q5tH3RCJSS9WOQDXRqkdGq/WPOgmAcUKO9N5fxK35I0JMKf6EMiLfH30
-	GSL7Gs1cwnYICqrEzSozqV8foO5PBlo0p75ltd+AKoV42Nh4TmLczkcs64yEmHKHaN44uZxBfrs
-	BFVfAeIoXM1+XHx+s3O8QysaKuUwjG6sm2RMaabsIA9YMe45iO+eUOpkUYHYGDuvcNs777gyqTJ
-	wH
-X-Received: by 2002:a05:600c:1389:b0:4bb:7347:d5c0 with SMTP id 5b1f17b1804b1-4bb88826937mr123101945e9.9.1795257310551;
-        Sat, 21 Nov 2026 02:35:10 -0800 (PST)
-X-Received: by 2002:a05:600c:1389:b0:4bb:7347:d5c0 with SMTP id 5b1f17b1804b1-4bb88826937mr123101795e9.9.1795257310278;
-        Sat, 21 Nov 2026 02:35:10 -0800 (PST)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.168.96.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884865b1sm165089265e9.5.2026.11.21.02.35.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 02:35:09 -0800 (PST)
-Message-ID: <6c3fa853697803c63e2b87c7f8a9d4ff2f561820.camel@redhat.com>
-Subject: Re: [RFC PATCH v2 2/9] tracing/sched: Add IRQ preemption lifecycle
- tracepoints
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Karl Mehltretter <kmehltretter@gmail.com>, Steven Rostedt
-	 <rostedt@goodmis.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers	
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@kernel.org>, 
- Sebastian Andrzej Siewior	 <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, Ingo Molnar	 <mingo@redhat.com>, Peter Zijlstra
- <peterz@infradead.org>, Andy Lutomirski	 <luto@kernel.org>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot	 <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,  Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider
- <vschneid@redhat.com>,  K Prateek Nayak <kprateek.nayak@amd.com>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,  Randy
- Dunlap <rdunlap@infradead.org>, Wen Yang <wen.yang@linux.dev>,
- linux-trace-kernel@vger.kernel.org, 	linux-rt-devel@lists.linux.dev,
- linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org
-Date: Sat, 21 Nov 2026 11:35:07 +0100
-In-Reply-To: <20261107171252.25090-3-kmehltretter@gmail.com>
-References: <20261107171252.25090-1-kmehltretter@gmail.com>
-	 <20261107171252.25090-3-kmehltretter@gmail.com>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
- cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
- T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
- eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
- 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.1 (3.62.1-1.fc45) 
+        d=1e100.net; s=20260707; t=1795258645; x=1795863445;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=s6L/5zARcCLel44kQYhmt6hmNx9yE54W+X6j7p6+kLI=;
+        b=PWIH2O6oA+N2J4KTCdIJZYQfSISAiglv+Gwa5/BcKJ5xbgmrakUk72d/QiU1C9Zn81
+         WerbgU8UX1mCzLGWBr7Kx0iJYBiMaN/OhYNa2b1ufiMGEQUTq9CDNHMk2qkwAexhY997
+         JvJsUXCCx6JfSIVBOzz7bYXNl2bAgJLeC77P+zyAV0BblWM730XP+YLnL2ItRdIipMB8
+         f0kpUHtHVMhJiIhbqje0AiAEYygSpk8sPJGgCx5pAQ/dPVYc2SYPVspvwAOl9InedutQ
+         97TU/mQzja9YMVu17r+QABjHI8r+wTb9gIb+8uRhGRBOYCDqq5518PG3e4bCpNwTQFOA
+         Pddg==
+X-Forwarded-Encrypted: i=1; AL+hErH1uYSkAhvhzl7mzS9rHlD/mun2KSpimktDNYijtG5VOiU43weBuQsFCSWWgqL09LA+gt6i8lA6MTs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8xYbWstRojrsyU34Ln1ZAbtmcZYW9mG/hk9i8fN/ystLpNTu6J
+	oZ4sMh5AzOW319WGKa75sWUnIYZ88Wvyt54ic/EEJ3ElxH0rZeXXZ/zq
+X-Gm-Gg: AZFdTZf0l+hw+NPmlSufo4T1XzfWBx/Z1ltDR/mLJdL/uUML8RVq7PmQsMf7eh4oa9d
+	hgG6YeGYr6HDEiJgsLJP2SdCGwvhiC+mfWfFONJUeQmyeG/Pqq9IgLtjE9dGuJhQPTm2U49/zG+
+	u7A0BoqgO21gDdTZncJGmdcvEjbZxKnufJKmPiLW4Shf2AjmAUNNsa/qWB7XPtEDeIsVpvJmnjG
+	IgMgiiXEFoZtm2ffSFq3Xd5qVseLdF1Offe9byakw/aSwSRHBRh87i7ZbblA1++d46E/JQesndS
+	l865UDfI2AHnnJ9TvPenpSqb1cPysUAoh1q3WHtJTxvTD1OHsFrvhoRzD5uv3GYa/PzFYUl7ChW
+	wF9GSG90AdiaFG4kRBrhyfkyvQkWbz+JTMA3uHfWAHQJ7DIY8r6H56DRvhk48dWfk+ZpFH/pDdE
+	9ZLfAZjngSjcGrea+LLJoMmMblvWssMGiPCSkem/Yzbl6kje2CxyJynkXwzmKOmpWbQvTMjSaCS
+	r255+eR3KwfuYKHr4nWlsxmQRD5DvTMfVyTqIHM6nD2XDoFKcxST00ESFH+LyiH3LANSi4No4Ma
+	ooZrj0J7yN+5d+W95sw6V/0XfWE61Be/UFCPFvi0CThLZhE7CfFyJCLfYGsM5fuBuihxMlH/MTK
+	Ncfs=
+X-Received: by 2002:a05:600c:46cc:b0:4bb:69b3:2b42 with SMTP id 5b1f17b1804b1-4bb888277b3mr133199515e9.16.1795258645328;
+        Sat, 21 Nov 2026 02:57:25 -0800 (PST)
+Received: from ?IPV6:240e:47e:5028:61b2:a372:4c2:dce1:98eb? ([2001:19f0:6c01:2c43:5400:5ff:fef6:1b30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8849247asm163775135e9.7.2026.11.21.02.57.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Nov 2026 02:57:24 -0800 (PST)
+Message-ID: <9b43c3b6-02aa-498a-9287-b1c9d9027460@gmail.com>
+Date: Sat, 21 Nov 2026 11:57:09 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -144,56 +93,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 01/43] drm/vkms: Explicitly display connector status
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+ Jonathan Corbet <corbet@lwn.net>, Harry Wentland <harry.wentland@amd.com>,
+ Lucas De Marchi <demarchi@kernel.org>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Kory Maincent <kory.maincent@bootlin.com>, sebastian.wick@redhat.com,
+ victoria@system76.com, thomas.petazzoni@bootlin.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Simona Vetter <simona.vetter@ffwll.ch>,
+ llvm@lists.linux.dev, =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?=
+ <jose.exposito@redhat.com>
+References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
+ <20261120-vkms-all-config-v6-1-78ace90f4fc1@bootlin.com>
+Content-Language: en-US
+From: Oarora Etimis <oaroraetimis@gmail.com>
+In-Reply-To: <20261120-vkms-all-config-v6-1-78ace90f4fc1@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2026-11-07 at 18:12 +0100, Karl Mehltretter wrote:
-...
 
-> =C2=A0asmlinkage __visible void __sched preempt_schedule_irq(void)
-> =C2=A0{
-> +=09struct task_struct *owner =3D current;
-> =C2=A0=09enum ctx_state prev_state;
-> =C2=A0
-> =C2=A0=09/* Catch callers which need to be fixed */
-> =C2=A0=09BUG_ON(preempt_count() || !irqs_disabled());
-> =C2=A0
-> =C2=A0=09prev_state =3D exception_enter();
-> +=09/* Sample before tracing bookkeeping can change the observed context.
-> */
-
-What's this comment for? You're tracing before disabling preemption to sche=
-dule,
-what bookkeeping?
-
-> +=09if (trace_sched_irq_preempt_entry_tp_enabled())
-> +=09=09trace_sched_irq_preempt_entry_tp(owner, preempt_count(),
-> irqs_disabled());
-
-I don't think you need to check the static key manually, arguments are expa=
-nded
-inside the trace_##_tp() after checking it, so you can just trace here.
-
-> =C2=A0
-> =C2=A0=09do {
-> =C2=A0=09=09preempt_disable();
-> @@ -7664,6 +7668,8 @@ asmlinkage __visible void __sched
-> preempt_schedule_irq(void)
-> =C2=A0=09=09sched_preempt_enable_no_resched();
-> =C2=A0=09} while (need_resched());
-> =C2=A0
-> +=09if (trace_sched_irq_preempt_exit_tp_enabled())
-> +=09=09trace_sched_irq_preempt_exit_tp(owner, preempt_count(),
-> irqs_disabled());
-
-Does the owner here makes sense? Do you use it as the /initiator/ of the fi=
-rst
-switch? Is it only to match it with the entry (although, as you said, it ma=
-y be
-somewhere else, running again, or not running at all).
-
-Thanks,
-Gabriele
-
-> =C2=A0=09exception_exit(prev_state);
-> =C2=A0}
-> =C2=A0
-
+On 11/20/26 6:58 PM, Louis Chauvet wrote:
+> Debug information are mainly read by human, so use full name instead
+> of raw values for connector status.
+>
+> Reviewed-by: José Expósito <jose.exposito@redhat.com>
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>   drivers/gpu/drm/vkms/vkms_config.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+> index 5a654d6dead8..48c60930302f 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> @@ -2,6 +2,7 @@
+>   
+>   #include <linux/slab.h>
+>   
+> +#include <drm/drm_connector.h>
+>   #include <drm/drm_print.h>
+>   #include <drm/drm_debugfs.h>
+>   #include <kunit/visibility.h>
+> @@ -367,8 +368,9 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>   
+>   	vkms_config_for_each_connector(vkmsdev->config, connector_cfg) {
+>   		seq_puts(m, "connector:\n");
+> -		seq_printf(m, "\tstatus=%d\n",
+> -			   vkms_config_connector_get_status(connector_cfg));
+> +		seq_printf(m, "\tstatus=%s\n",
+> +			   drm_get_connector_status_name(
+> +				   vkms_config_connector_get_status(connector_cfg)));
+>   	}
+>   
+>   	return 0;
+Reviewed-by: Oarora Etimis <oaroraetimis@gmail.com>
