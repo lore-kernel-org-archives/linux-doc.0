@@ -1,97 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795302629;
-	b=mIqpT+uMeoD0Pya4pwk0LWZ1SFEFXJVXJX0okaWJoPfxuLZuvClW9cqB51m8vqPGJYAK
-	 cbXr8yXSkWASmcgGevSrDmVfhOP7ke0YYO9yBczdTlyWoLBZczMWbfCE5M8xUcaV1c8zC
-	 NFjLd0zuFlwwIGdXEc5XmS1ifWWEAdI/qeh+fcV60qm9BoDAUnjOOYFk/uuTtT+9E8832
-	 25ltbq7vFYHVPEJ6Ad0Uyv/VG9EBStkYZdQYd6UHB8ieZNpLnUVSNsy9XQk9VY7Os4RK/
-	 rsvuPDIvU2vlfMYryi1ZauydqYPbf5fFTuacxlWaPuDzLqEgcnJCbnCii7jCS5VrITQ==
+	t=1795303603;
+	b=n2+AZyS2eViO/Z+cm4TxfuOGKMKqVlMcI6jcR0TkeEVQdUxVzuefs8MADjNRvQS3V2cx
+	 QZBkeEFAhVZzHHLqITzdc7PhxRdtcMDLbs0p7dI5wTAu0lnD3wP4snsF9PNk9FD5bt0D2
+	 jd6uEP37OURnJHcz2z/b09UIzpnUgVh7hSgIfP4LwqoHBb1SZVi0Y7prueebfz8ZxKCq+
+	 G2W9lT+Viw5gV/jjBu3ibgz9dtHOIE97iKofhjC4/nF035mVcHC3H9JtyRACWICGHa9MS
+	 Lo2rQ+6OYuDvFI88ZzbJMa9Ml2kUSDne6gcm+6MIlbWX0rZCRSLVBdCiytrlE+68H7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795302629;
-	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=KUpBP0Xy2iK8BxAyqumEvuIzOsYp/Z0C1HcgAVDz2GQ=;
-	b=ta2h29Q75WOTDDcgFxlxqlzxhoGkU1N6A8Xo4zhAPOMK69l7FPu/zhCf/5Qhw7drHDFQ
-	 Qq4psalo64kqMYw6oSzjhO6hyxGx53QiLnKJd9Nf272TeYcgBEDWZSMY4ekegekB2FAep
-	 DKjvi5kf+tEhaZVa/6U02pPzWY3nuTcGDifxNLCTXbe+yCtZgfqRny626wCzvNtg57aIx
-	 8fF+kPStPqsCBg3DxLjJJqIyfpkN/ByqNt1rXm1HZMXUu/l+U/UKY1bH07fYgB+UF7N79
-	 dmKPQYSTTrkWFOG2tMq+pNdZGBvRqwpEfeYcEAmpBEEfX0KEGYCIhB1qIDYPuMB41eA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795303603;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=swVWLdIORzAn0CH5DXvzx6L8MBh1Ls3/BIBJUSCbZaw=;
+	b=vYztEnYjbU35fX1SyY9e6zXFZ5GkCrAVuiIIyRjOC3D7F1TXvK5dBN9s6bXgZrECbTWj
+	 CDk4g4yiI1Fh0g60wf4Sa64Bb3V0UgarkWcaZGHIkB6cKb/wB1Dal0fTRl7nyRTt/3xY9
+	 qRJ2wCcbeJoTiRqSH6vGPxtRKUp+mFXdfe4xL6BK+eNfgFBTR7TrY1yEJUb6RDrXgbFBf
+	 r4on5o82wrFPG2aJHGMQ9XjyPwgW+FwSWGP6UhkUXOsTa3UWlyPHp96F45428rC9+XQyd
+	 UUU1FNETnxbDzqPuz2J/+AObTcoPikIVdEpv4guVImSpKNzkdfFtOx3Ix3ESdoeuoNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=alien8.de;
-	spf=pass smtp.mailfrom=alien8.de;
-	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=FHniVaW0;
-	arc=none smtp.remote-ip=65.109.113.108
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jvdDXah3;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AA3606A320;
-	Sat, 21 Nov 2026 23:10:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3AA3606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B33D606A320;
+	Sat, 21 Nov 2026 23:26:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=FHniVaW0
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id DEB6640E01E1;
-	Sat, 21 Nov 2026 23:10:25 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id FQ6qc95uBY8V; Sat, 21 Nov 2026 23:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1795302622; bh=KUpBP0Xy2iK8BxAyqumEvuIzOsYp/Z0C1HcgAVDz2GQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FHniVaW0TbDaJdfJuduL0+Gg5CbWKtdEFQHv4NPySjYOj5x35KLTnUI44sCioUC7j
-	 QLQFvn7DrkCBXpyeF91H//mzmoK/UYodxPzNNa2VeJUo6nDrmI4uH0GltUppRHLUpq
-	 mutb4t6rqIUu0o3/loErqn16UkhwbyYeA56RWmGezODDCFvWV7Jdi12i8pl8wTV0LN
-	 9Ehz0z/l0o0GNf/f6lBFPCClhgfn4Co4hFeH4w1it09emZKF579wH/+pXFIuUpRfUh
-	 d3J0R5YHEYNtmdUJ5WAjxxZqA91q1IveAuBIefWLTrTrPTMqC6D9u3KiEx12HIAcBA
-	 tmPeOpGKoeYByVp4rptpUI3h+ay/Pflty9PPiL4Hmuuq/F5OdnEl+EVXru9NI+TedJ
-	 JbOFk7Ns2y+ONmQXqDPPfonErzTpppUyAvuKucMsd8O+Y5zpt+q2lqQZsKm5sDJ8/L
-	 z5N24mILDZ6VEbAKe0kNmJHIKo9prkyplhLoEF2+Kj+K611TUYsf9gougjNB1ggyug
-	 pcxU4cYGw7LGI0+9kB78NE8HpCNf3TqPZROmFILWxfP3aD32uzCi5bStxRNcmku/ur
-	 HYpl2qqYSYByZ2BLW1I32YSxqD91TLxqke69y6/XWJSn77BaZXRwpbMhRc5oLdDven
-	 1wbG5E3L6wUqOcFPlQQbrshE=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C9D9240E00DC;
-	Sat, 21 Nov 2026 23:09:45 +0000 (UTC)
-Date: Sat, 21 Nov 2026 15:09:42 -0800
-From: Borislav Petkov <bp@alien8.de>
-To: Shiju Jose <shijujose2008@gmail.com>
-Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
-	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
-	Yazen.Ghannam@amd.com, mchehab@kernel.org,
-	ashok.raj@oss.qualcomm.com, jic23@kernel.org, linuxarm@huawei.com,
-	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
-	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
-	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
-	gthelen@google.com, wschwartz@amperecomputing.com,
-	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
-	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
-	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
-	wanghuiqiang@huawei.com
-Subject: Re: [PATCH v23 2/2] ras: mem: Add ACPI RAS2 memory driver
-Message-ID: <20261121230942.GDawIktifTKlYhUlpB@fat_crate.local>
-References: <20260726212812.89266-1-shijujose2008@gmail.com>
- <20260726212812.89266-3-shijujose2008@gmail.com>
- <20261017055852.GBatMOnEl66YObvU5k@fat_crate.local>
- <CAG4KcR+NOKHNzg6FN-oLLHgUxeitZHKXg9cN7dz24+Ap=RrwSA@mail.gmail.com>
- <20261110071729.GIavLFCfLKzPx8R0i0@fat_crate.local>
- <CAG4KcR+ikfQEBjCZiNJ1CUz=u3Gtbk_XDroA_GQqYpgO4Lo5Qw@mail.gmail.com>
- <20261121194030.GBawHzrrCNCMpfr7Gx@fat_crate.local>
- <CAG4KcRKhE1UXwrhscUdSpDJS8R0t7kWp8RXZm8j_9yXYJSQ2KQ@mail.gmail.com>
- <20261121210749.GCawIIJcidCeWs3ij9@fat_crate.local>
- <CAG4KcRKzXNsvBWuuU2_aX5gO7u4vgKAK+bkrB2vgEFBGu3WJCA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jvdDXah3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97CDA1F000C4;
+	Sat, 21 Nov 2026 23:26:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795303603;
+	bh=swVWLdIORzAn0CH5DXvzx6L8MBh1Ls3/BIBJUSCbZaw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=jvdDXah3Hd6doiFD8BxoHgq35Lk519EEEBXbpMJuqFLib6fkIPhQTywtVl4OuKslw
+	 +z9zD5VdozW41LO6u3zqgi8IdR40bMhuiAJt9ktLYmCNDyq1v+NNUXq0O2GECARiKh
+	 4J9jaPjF7JEaqSm1T0ZS5589PUyWa3pyglLtMj68yNyglQJa14hA4yVuxTwxli2amE
+	 L8hs4kF2pKQaEpSHLRxzS+poH9iska0Tl/BgHO5TQxPzeQ1b6UzMstZJOjEEiQIuw6
+	 jMW6GKRhahuSfwVOj5S1iTYosoY/h7W2gO/aXoeqxWiIKGQaEwXn5Hc3asD9TmMvTD
+	 0NIpotgHAqCgg==
+From: Jakub Kicinski <kuba@kernel.org>
+To: ansuelsmth@gmail.com
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@kernel.org,
+	pabeni@redhat.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	horms@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	lorenzo@kernel.org,
+	hkallweit1@gmail.com,
+	linux@armlinux.org.uk,
+	maxime.chevallier@bootlin.com,
+	p.zabel@pengutronix.de,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	morbo@google.com,
+	justinstitt@google.com,
+	rmk+kernel@armlinux.org.uk,
+	netdev@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	llvm@lists.linux.dev,
+	zhengping.zhang@airoha.com
+Subject: Re: [PATCH net-next v22 01/15] net: phylink: make PCS phylink instance access RCU protected
+Date: Sat, 21 Nov 2026 15:26:40 -0800
+Message-ID: <20261121232640.1365293-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261117123956.11981-2-ansuelsmth@gmail.com>
+References: <20261117123956.11981-2-ansuelsmth@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,19 +86,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAG4KcRKzXNsvBWuuU2_aX5gO7u4vgKAK+bkrB2vgEFBGu3WJCA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 21, 2026 at 10:24:28PM +0000, Shiju Jose wrote:
-> Thanks Boris for fixing this and verified by testing.
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+---
+net: phylink: make PCS phylink instance access RCU protected
 
-I cannot test because I don't have the hw. I rely on you to do the testing.
+This commit makes the phylink back-pointer in struct phylink_pcs RCU
+protected and reads it under rcu_read_lock() in phylink_pcs_change().
+phylink_destroy() now clears that pointer and calls synchronize_rcu(), so
+a concurrent phylink_pcs_change() should not run on a freed phylink
+instance.
 
-Thx.
+> diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+> index e7734e45376cd..d9d0ace2042e5 100644
+> --- a/drivers/net/phy/phylink.c
+> +++ b/drivers/net/phy/phylink.c
 
--- 
-Regards/Gruss,
-    Boris.
+[ ... ]
 
-https://people.kernel.org/tglx/notes-about-netiquette
+> @@ -1295,10 +1296,10 @@ static void phylink_major_config(struct phylink *pl, bool restart,
+>  		phylink_pcs_disable(pl->pcs);
+>  
+>  		if (pl->pcs)
+> -			pl->pcs->phylink = NULL;
+> +			rcu_assign_pointer(pl->pcs->phylink, NULL);
+>  
+>  		if (pcs)
+> -			pcs->phylink = pl;
+> +			rcu_assign_pointer(pcs->phylink, pl);
+>  
+>  		pl->pcs = pcs;
+>  	}
+
+[ ... ]
+
+> @@ -2137,6 +2138,11 @@ void phylink_destroy(struct phylink *pl)
+>  	if (pl->link_gpio)
+>  		gpiod_put(pl->link_gpio);
+>  
+> +	if (pl->pcs) {
+> +		rcu_assign_pointer(pl->pcs->phylink, NULL);
+> +		synchronize_rcu();
+> +	}
+> +
+>  	cancel_work_sync(&pl->resolve);
+>  	kfree(pl);
+>  }
+
+[Severity: High]
+Can phylink_pcs_change() still use pl after kfree(pl) here?
+
+phylink_destroy() only waits for a grace period when pl->pcs is non-NULL.
+pl->pcs can be NULL at this point if an earlier phylink_major_config()
+switched to a NULL PCS. That happens when mac_select_pcs() returns NULL
+for the new interface, for example in the default case of
+mv88e639x_pcs_select().
+
+In that case phylink_major_config() cleared old_pcs->phylink and set
+pl->pcs to NULL without waiting for a grace period. A sequence like this
+looks possible:
+
+PCS driver threaded IRQ handler:
+phylink_pcs_change(old_pcs)
+    rcu_read_lock();
+    pl = rcu_dereference(pcs->phylink);
+    <preempted>
+
+Resolve worker:
+phylink_major_config()
+    rcu_assign_pointer(pl->pcs->phylink, NULL);
+    pl->pcs = pcs;    /* pcs == NULL */
+
+Driver teardown:
+phylink_stop()
+phylink_destroy()
+    if (pl->pcs) { ... }    /* skipped, no synchronize_rcu() */
+    cancel_work_sync(&pl->resolve);
+    kfree(pl);
+
+IRQ handler resumes:
+    phylink_link_changed(pl, up, "pcs");
+        /* writes pl->link_failed, may queue_work(&pl->resolve) */
+
+phylink_stop() does not seem to close this window. It only handles
+phylink's own link_poll timer, link_irq and resolve work, and the
+phylink_pcs_disable(pl->pcs) call gets a NULL PCS here. The mv88e6xxx PCS
+drivers use request_threaded_irq(), so with CONFIG_PREEMPT_RCU the reader
+can be preempted inside its RCU section.
+
+The commit message says the change will "syncronyze RCU to catch an
+execution of phylink_pcs_change()". This case still seems to be open at
+the end of the series. phylink_detach_pcss() only sets rcu_sync when
+pcs_list is non-empty or pl->pcs is non-NULL, and pcs_list stays empty for
+mac_select_pcs() drivers. The later READ_ONCE(pl->pcs) == pcs check in
+phylink_pcs_change() also dereferences the possibly freed pl.
+
+Would it make sense to call synchronize_rcu() unconditionally in
+phylink_destroy() (and later in phylink_detach_pcss())? Another option is
+to wait for a grace period whenever phylink_major_config() detaches the
+old PCS.
