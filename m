@@ -1,66 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795223354;
-	b=1cgfRc6uqMdreq3dMa5ntzwiW6XrD2HJFxoy93W5U0DHxR9GXjbMv2fPmmXj0wyf/97z
-	 vVSvUuxp73Cr2yz00/KVF6PnZaJjTWchYVaNctvqvuPwz0QzxKXQRe8LQhVCQ97ck03aZ
-	 /qffB4g0aBFRgucHN8i3zT6UIpTDmdq9QREVVB504WBmFid+U3nrXqcEXIeIPwm6J7BOC
-	 W4d3o/1IFWY5GPWQG+bX8s5EbIkevel6IHvazqMfoxW9Y9sccIaxOzN333neYpG62owLu
-	 UJbiyuobu0AOIaTjnflnaqP4ZqIUgdkEN8G4Ikf/3wp1NKW9LTpEur9BYe3Z8V1aUfg==
+	t=1795223831;
+	b=srBavq3Q6cHLoLnQpTlp9uPfNIQFvqjKYtu/dqcVIbDvgCwwGym5WrpeEr298mfvav6D
+	 i/SgL6aKEo9YoGNTHt7iL7i/GsXOAhuw1CdJyVXddC7PBbiMwGfJ7LHbezbFs/+sqnnht
+	 EprhjgsRhzVlxkAMcsP9cyV6NYRGbnVvyttSLeOX1BdIvl4jGAOUeD5ig9NoeKuhBa5el
+	 iik0uveIGL3YIrEMewzKPhdUzLvJs+7cLjTN4Dkz2hmIoMSURxiF40xACUQEjp13UMWXN
+	 ucrWcfpUmK/F9TQEYt9p6n8rjCy88OCr0BKuEoQivxAhDa7vlxyLf2ihth58rCnqM8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795223354;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Dq4uYrhSligK2Yc6yPFlriNqvNi/HgVAWMNzxpJUth0=;
-	b=Mk5/F8ZBXojmlehMhXENiqQDoXK4GvdiBRxKej6Cyo1ljQC+myGNMvppeourm79KxVC/
-	 4fnbsmjoy6FVBgfkOD/w2My72SiAFbxiR5CBr3d52mS6eLbBofsGbhOVInkYG0itRlTIR
-	 15Psp2CNkfqGNO7A4UqRMQ1V5LE/K+Qegq6D4oPZ+tZ8ZQc1Pw8J3Ss5Xte/qv/V/4xuq
-	 OHPkUSe2zlrdBqrqsW0Biq/RYoa96DGrlELvDxM2CcKUYoZiNLEPgnu23Tn2edCP+p3EC
-	 nqR3+jojs7ww+F9tzbrN4qRoWF0NO9/zwjbdZ3epawv8TnHzspgrAmV8zNdWKqmXrVA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795223831;
+	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
+	 Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
+	 In-Reply-To;
+	bh=QklyuLab+Ko9mnpTo5UeclQww95mzIqhLo3F7I/BQkg=;
+	b=wFVV4gYWrx01cnFSnadL5PevvX3j04xWSPddAXakIWD+eXJLlH0ZIsjFZradl0gada+n
+	 JWzLydX9rKP6CIQV2qLNrY/ZqZ5EMrmfpRIwH1B540gc1VhzEDXMsJteCDMgoC34CYI1f
+	 CzYDVn2+X4WE+Sa04XwHimGmnBk4XJmNdxBfyBVxB5adOkHWqJFerm/lZ8GEw46B00xjo
+	 DPlVj6KH+VTyxJ9o2qucMHz6wvor4wnvxkz44NEur9Prs+VGLzqW5ZhTQk+dn4sTFo413
+	 3DnR9KY3K1+EMFmWNRgAAyR35ktqZd2fCn1lWZoHm43YAe/vDLZosZZjqhdCOBLDO+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lev9yW6T;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gm8eJtOH;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id AAA82606A6A5;
-	Sat, 21 Nov 2026 01:09:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C352606A684;
+	Sat, 21 Nov 2026 01:17:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lev9yW6T
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id B4AB11F000C4;
-	Sat, 21 Nov 2026 01:09:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gm8eJtOH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE01B1F000CA;
+	Sat, 21 Nov 2026 01:16:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795223354;
-	bh=Dq4uYrhSligK2Yc6yPFlriNqvNi/HgVAWMNzxpJUth0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lev9yW6T0RvL4iasvGrmNZTk4lNhOVNmBrF/T7i35at+a3FTHi7tKpepvNL2D7KTB
-	 h0qDHLVue1JtkmyMZAHextD2GwOh4MT4ACttjuSgzOVEgr60lATGlJCU7IgUKx3fkQ
-	 le6QElebQWnly9BHqqJBhk0mfDgCU4zh0d/cQGDUMeLmg4jEkVMHB1zy6d3QAGxqyV
-	 O6YA0FvNSKhchFW6WlOSPRgLScQNvnzgAhLBKc9hq4A9SyGetfcf1watb19WTJdnrH
-	 thztGrMxm54eA2/KEIAK0nkjpjH+bPpf3ylKRyhPpB9EbRccri3kJABFowAFM8KaY2
-	 2lxX87Owry5ng==
-Date: Sat, 21 Nov 2026 03:09:10 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v5 14/25] rootns: Add ROOTNS_WAIT ioctl
-Message-ID: <awDvNgCFnMhOy3Y5@kernel.org>
-References: <20261121000844.1863324-1-jarkko@kernel.org>
- <20261121000844.1863324-15-jarkko@kernel.org>
- <awDjC9hcKSRnCPgJ@kernel.org>
- <awDjQeXjqrhNHoWQ@kernel.org>
+	s=k20260515; t=1795223829;
+	bh=QklyuLab+Ko9mnpTo5UeclQww95mzIqhLo3F7I/BQkg=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To;
+	b=gm8eJtOHhBnaOZe7LwDMFJ8mofPVVmX1YGRFpGCBO2m5hz8UlzXX+WvNJUsq934h9
+	 Gtdb+AerXFQPif6SLfOq2/dWtEgcQTz7bh3I6KV8pXYeGgzuMqRHyjcJnn/Sn8iwhx
+	 YAqVTjTNfeSW2VdEJcGvIBkg4/J19L82jz9PAn9h9IkH5umIAy3FYAYFk2uVRLQd+T
+	 s94/ADqCteDEcqO9mcewjaHUBrR90XdQUJorq/NHZbaKSRZNalAGYYTXYCWvSW+hsc
+	 zi51JiNKnL+ynxLP/WhWXj9KNLrvetlXTYZdQhOtRoJb5Hc2rzkXDPGGzjDTCgK7xr
+	 LOe4azsm+AuJg==
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,88 +48,77 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awDjQeXjqrhNHoWQ@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 21 Nov 2026 02:16:56 +0100
+Message-Id: <DN0HQBTG5VUY.1F40HSFIRRGNQ@kernel.org>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Johan Hovold"
+ <johan@kernel.org>, "Bjorn Helgaas" <bhelgaas@google.com>, "Nipun Gupta"
+ <nipun.gupta@amd.com>, "Nikhil Agarwal" <nikhil.agarwal@amd.com>, "Ioana
+ Ciornei" <ioana.ciornei@nxp.com>, "Longfang Liu" <liulongfang@huawei.com>,
+ "Julian Ruess" <julianr@linux.ibm.com>, "Ankit Agrawal"
+ <ankita@nvidia.com>, "Brett Creeley" <brett.creeley@amd.com>, "Giovanni
+ Cabiddu" <giovanni.cabiddu@intel.com>, =?utf-8?q?Micha=C5=82_Winiarski?=
+ <michal.winiarski@intel.com>, "Eric Auger" <eric.auger@redhat.com>, "Eric
+ Farman" <farman@linux.ibm.com>, "Matthew Rosato" <mjrosato@linux.ibm.com>,
+ "Tony Krowiak" <akrowiak@linux.ibm.com>, "Jason Herne"
+ <jjherne@linux.ibm.com>, "Harald Freudenberger" <freude@linux.ibm.com>,
+ "Holger Dengler" <dengler@linux.ibm.com>, "Haiyang Zhang"
+ <haiyangz@microsoft.com>, "Wei Liu" <wei.liu@kernel.org>, "Dexuan Cui"
+ <decui@microsoft.com>, "Michael S. Tsirkin" <mst@redhat.com>, "Mark Brown"
+ <broonie@kernel.org>, "Abel Vesa" <abelvesa@kernel.org>, "Stephen Boyd"
+ <sboyd@kernel.org>, "Brian Masney" <bmasney+clk@redhat.com>, "Jerome
+ Brunet" <jbrunet+clk@baylibre.com>, "Bjorn Andersson"
+ <andersson@kernel.org>, "Mathieu Poirier" <mathieu.poirier@linaro.org>,
+ "Srinivas Kandagatla" <srini@kernel.org>, "Sylwester Nawrocki"
+ <s.nawrocki@samsung.com>, "Liam Girdwood" <lgirdwood@gmail.com>, "Jaroslav
+ Kysela" <perex@perex.cz>, "Jonathan Corbet" <corbet@lwn.net>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>,
+ "Bradley Morgan" <bradley.morgan@linux.dev>, "Armin Wolf" <W_Armin@gmx.de>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>, <linux-doc@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-trace-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>, "Alex
+ Williamson" <alex@shazbot.org>, "Mostafa Saleh" <smostafa@google.com>,
+ <kvm@vger.kernel.org>, <qat-linux@intel.com>,
+ <virtualization@lists.linux.dev>, <intel-xe@lists.freedesktop.org>,
+ "Vineeth Vijayan" <vneethv@linux.ibm.com>, "Peter Oberparleiter"
+ <oberpar@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>, "Vasily
+ Gorbik" <gor@linux.ibm.com>, "Alexander Gordeev" <agordeev@linux.ibm.com>,
+ <linux-s390@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
+ <linux-spi@vger.kernel.org>, "Frank Li" <Frank.Li@nxp.com>, "Sascha Hauer"
+ <s.hauer@pengutronix.de>, <linux-clk@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-remoteproc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, "Takashi Iwai" <tiwai@suse.com>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v2 00/10] driver core: Disable driver overriding by
+ default
+References: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
 
-On Sat, Nov 21, 2026 at 02:18:14AM +0200, Jarkko Sakkinen wrote:
-> > Ought to be dropped but seemed too irrelevant detail for the time
-> > being
-> 
-> I mean replaced with a syscall path.
+On Fri Nov 20, 2026 at 12:11 PM CET, Uwe Kleine-K=C3=B6nig wrote:
+> It is sensible to merge the driver core change (patch #1) together with
+> the individual driver patches setting .support_driver_override because
+> with the driver core change the driver override doesn't work any more
+> for the unmodified drivers (unless the new kernel parameter is provided
+> and a taint is accepted). So I suggest (once there is agreement that the
+> patches are fine) to merge them all in one go and provide a stable
+> branch in case a driver was missed to be adapted. I can create such a
+> branch and ask Greg or Linus to pull it, or Greg can do that.
 
-Yeah, a lot better overall (less fallible paths).
+I think it should be good enough to just take them all through driver-core.=
+ If
+it turns out in linux-next that we missed a driver we can always add anothe=
+r
+patch to the driver-core tree.
 
-+long rootns_waitid(int upid, struct waitid_info *infop, int options,
-+                  struct rusage *ru)
- {
--       struct pid_namespace *pid_ns = task_active_pid_ns(current);
--       struct rootns_wait_args args;
-+       struct pid_namespace *pid_ns;
-+       unsigned int f_flags;
-+       struct rootns *rootns;
-+       bool nonblock;
-+       int status;
-+       kuid_t uid;
-        long ret;
+Those patches only set support_driver_override =3D true, so there shouldn't=
+ be
+interactions with other trees.
 
--       if (!uarg)
-+       if (upid < 0 || ru)
-                return -EINVAL;
--       if (copy_from_user(&args, uarg, sizeof(args)))
--               return -EFAULT;
--       if (args.flags & ~WNOHANG)
-+       if (options & ~(WEXITED | WNOHANG | WNOWAIT))
-                return -EINVAL;
-+       if (!(options & WEXITED))
-+               return -EINVAL;
-+
-+       CLASS(fd, f)(upid);
-+       if (fd_empty(f) || !is_rootns_file(fd_file(f)))
-+               return -EBADF;
-+
-+       f_flags = READ_ONCE(fd_file(f)->f_flags);
-+       nonblock = (options & WNOHANG) || (f_flags & O_NONBLOCK);
-+       rootns = fd_file(f)->private_data;
-+       pid_ns = task_active_pid_ns(current);
-+
-        if (!pidns_is_ancestor(rootns->ns->pid_ns_for_children, pid_ns))
-                return -ECHILD;
-        if (READ_ONCE(rootns->state) == ROOTNS_INIT)
-                return -ECHILD;
+So, let's keep it simple. I can pick this up once we have all the ACKs.
 
--       if (!(args.flags & WNOHANG)) {
-+       if (!nonblock) {
-                ret = wait_event_freezable(rootns->waitq,
-                                           READ_ONCE(rootns->state) == ROOTNS_DEAD ||
-                                           READ_ONCE(rootns->state) == ROOTNS_INIT);
-@@ -154,15 +191,23 @@ static long rootns_wait(struct rootns *rootns, void __user *uarg)
-                if (rootns->state == ROOTNS_INIT)
-                        return -ECHILD;
-                if (rootns->state != ROOTNS_DEAD)
--                       return 0;
-+                       return (options & WNOHANG) ? 0 : -EAGAIN;
-                ret = pid_nr_ns(rootns->init_pid, pid_ns);
-                if (ret <= 0)
-                        return -ECHILD;
--               args.status = rootns->exit_code;
-+               status = rootns->exit_code;
-+               uid = rootns->init_uid;
-        }
-
--       if (copy_to_user(uarg, &args, sizeof(args)))
--               return -EFAULT;
-+       if ((status & 0x7f) == 0) {
-+               infop->cause = CLD_EXITED;
-+               infop->status = status >> 8;
-+       } else {
-+               infop->cause = (status & 0x80) ? CLD_DUMPED : CLD_KILLED;
-+               infop->status = status & 0x7f;
-+       }
-+       infop->pid = ret;
-+       infop->uid = from_kuid_munged(current_user_ns(), uid);
-        return ret;
- }
-
-Br, Jarkko
+Thanks,
+Danilo
