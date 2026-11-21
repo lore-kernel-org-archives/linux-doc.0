@@ -1,58 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.158
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795290992;
-	b=IH3TnAdOlt2vOASaWgDXeezD8iNgPoy8Fbp7o9GqhTO3vICf+/CikWUlbj5Q/O07Q6KO
-	 kdQy7Ip5Wa++dflN+lRo79CgSB9bbNTOBtW977VZREfEIOXETrfTlQ9SvtSgJ9h/bkQ+i
-	 7/EvsOYDtACx265quaTtiDvnCXFN3aCMUeA2mqJ6mcFZKTuaJEom6WM9BRjStThQI8HGs
-	 NG5BXFOfLJaIhBKSt4JU5mQ8QMe++BuSljTv07efPhcdUnnlDtaQjoh9ftgqc91C2qOkC
-	 vFxIfzqeP4Qu1TYoJ5J9+IhxwB6JAUkIV0KvvVM61ep0V7HU8ZxrTTdY8BxPs1EEGPA==
+	t=1795291144;
+	b=nAK9/Olf7Bui3qH1eLtAkJjUEe5ZIvvY4Up1HvfMjR9F0o6jyz/13mp080NSr0BaOpwX
+	 pm8khhmnh7TPtqhD/ZaSHI0XnGw1M8/p/ZSmaA0AxGhqfcUsKYEoDSYfIsfd7vVYd8r75
+	 LSNd09j9ZAzn44OkVgjsIXtE8+VeY7Bk38o59/b7MoB5xwk9fu/l/h5aG7BQ9j4rh3nf6
+	 5ChzIVm17XFxqkYLzQaWw2ZrXXF3I7k0Zi3or+lz0DcomD91zFmlG7YOCSrQuZmuudMzH
+	 fMhueSUljctrUuPRNoWCFlhaZblF0QdDADguIlpue+g4wAxmXKZeZwclGDahCXcMXcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795290992;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=23IDwk3BEvcoO7nr7xSMYC3SYO+hpSQTPRRnKuF6fw4=;
-	b=Db6Klo1596278IeR4/vaWuqXY5R4Ioh4NA28r1S7riqlfopQ6s876IdrzGkSJYPuw4ZA
-	 xSoQoqApHIgbTmXV+GIMKPpcxy2FMzHF8Gb0mvxJ25lmBs9K3vYrwIFs9ggfzHVf/5+yR
-	 Dz2ZjR4W8+jEWpUCH3I35Rom2XGYC3HI3tYxz1egqQkR0BGzCTczexV14rBwNuDyjmYBS
-	 fgCXKTM4sy4ImS+2n9T+4ba8M2Qk35w31k8TPqS5XtNdZo/35Rn/teCmk6m9log+WjfmC
-	 Vovzmbt39d8A9IQ5T880tqzWuefxgidlWQsW5xaTLANkEVcPaO7tkwyW9F7r7USEN2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795291144;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Date:Message-Id:In-Reply-To:
+	 References;
+	bh=AMEe9uy+oW3f3SwsgSW+M/nxThzS0Dp2S/VJ3lcqVCQ=;
+	b=AJusTfDn9e+zHaDdHULuIsrGDGLYuTrUTVV1ioQgT7JAxzrPSktc0JLlsgpN24rGOx8h
+	 ruZhy3+SnaqQ/VFBrRBWGmmyMa0dVp6HbBcXVyQ9vt+uWvC1ti5MtZ1btLXKB/tpS/F7o
+	 OXzLPWQfdk+U0f5xvt0o8DgJj7Bru625Iv8xX5ZgDOfw2kqAyMyZhfy0ks7RjYx9X8nlm
+	 zetaJpy+usa3PSryA/jD7RpYxxwdSMdnYiwoktx4GRHMkcl/YwigNXNAF8vRTH4VzMMAH
+	 GGjfyuIxPD9SzVvAWlOSzDixBkJ7vayzl264MUwqLYRY0ALijAmm9DTo+5KxXDMmjsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="UL4/VmZd";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=cressey.dev;
+	spf=pass smtp.mailfrom=cressey.dev;
+	arc=none smtp.remote-ip=91.218.175.158
+Received: from mta0.migadu.com (out-158.mta0.migadu.com [91.218.175.158])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84DB606A320;
-	Sat, 21 Nov 2026 19:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UL4/VmZd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073151F000C4;
-	Sat, 21 Nov 2026 19:56:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795290992;
-	bh=23IDwk3BEvcoO7nr7xSMYC3SYO+hpSQTPRRnKuF6fw4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UL4/VmZdsgsu0mqc1ftY0mgbzC0pMr+SQDEqY/IzjV+BF8HrSDLdAfK2UvftqnSoL
-	 ELh6adk0PEF0QYmJb866BLaqKGGkWJfZWC69BYJsRUhuAExkAlmHMLirhCb1XtgmTQ
-	 6HBQoMY3JZQcTr+30WLRXh1OFQmqo43GbI2KApvGgM2T9a0CwSHfkI48IM7dTTqT+D
-	 07dRkbxEpgvww/e5/DqeFbzj+DlM34juyRO4CXzT3Hch9+yjgtyXWccXT6/oSIO3IS
-	 7GSYplLquClJkdNYtH4PRK1HXZu2K+VE3PH0VzVdzvAkSy6hWSl5/hb9AwuJiXdJOH
-	 ydXerEda6gccQ==
-Date: Sat, 21 Nov 2026 11:56:30 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Anvik Loitongbam <permissiontogallop@gmail.com>
-Cc: Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] dm-inlinecrypt: emit key type as an optional table
- argument
-Message-ID: <20261121195630.GF1975@quark>
-References: <20261121131539.7519-1-permissiontogallop@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30936606A320
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 19:58:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30936606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cressey.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cressey.dev
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=AMEe9uy+oW3f3SwsgSW+M/nxThzS0Dp2S/VJ3lcqVCQ=;
+ c=simple/simple; d=cressey.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795291136; v=1; x=1795895936;
+ b=kJhAd9K4ndTKd5xgwqITCwW2p0FEvQy7CDm3hX+FKOvASBD9sfGYZDNmb0LQZad+P0ZxQyzr
+ 62PUFq8Zf2Uli5rQj+1KJqdUVqItG8zhPJXNekBSU3qw3Bu8Rcd+Dy8MaHD29QJ7zTGDMPCoDFs
+ HtOLxml3QUYT1a6UI1YsQpqeDjoe9bE/r5WbjM7+qZt7K4xjNGjt0UbmOWWRxx8j4q2eXH2Wgvs
+ 7dqs/FrjhiyO43ZURYhSGGRkrMrok6eZ1skkJNRICajA9F+o8r1bAUCs66KQbqinscdzXU94Gg5
+ uNq+4UNfcxFCoz0xmoVvKQcSTdib8N2wg0WDb9MdgcHgw==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id cba09444c80e291f;
+	Sat, 21 Nov 2026 19:58:56 +0000
+X-Mizu-Trace-ID: cba09444c80e291f
+X-Migadu-Flow: FLOW_OUT
+From: Ben Cressey <ben@cressey.dev>
+To: Wei Wang <wei.w.wang@hotmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Logan Gunthorpe <logang@deltatee.com>, Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@ziepe.ca>, "Anthony Vardaro (Anthropic)" <me@anthonyvardaro.com>
+Subject: Re: [PATCH v2] PCI: Add ID@path device format for pci= parameters
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,39 +59,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261121131539.7519-1-permissiontogallop@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Date: Sat, 21 Nov 2026 11:58:42 -0800
+Message-Id: <20261121-re-913694b40323@cressey.dev>
+In-Reply-To: <JH0PR01MB57796AD53E6089D3254A76D6DC7C2@JH0PR01MB5779.apcprd01.prod.exchangelabs.com>
+References: <20261111-pci-idpath-selector-v2-1-83ea668e38f0@cressey.dev>
+ <JH0PR01MB57796AD53E6089D3254A76D6DC7C2@JH0PR01MB5779.apcprd01.prod.exchangelabs.com>
 
-On Sat, Nov 21, 2026 at 06:45:39PM +0530, Anvik Loitongbam wrote:
-> inlinecrypt_status() emits ctx->key_type as a positional argument between
-> the key and iv_offset:
-> 
->   <cipher> <key> <key_type> <iv_offset> <dev_path> <start>
-> 
-> but inlinecrypt_ctr() parses the base table as:
-> 
->   <cipher> <key> <iv_offset> <dev_path> <start>
-> 
-> and keytype, is an optional feature argument parsed by
-> inlinecrypt_ctr_optional(). Resulting in STATUSTYPE_TABLE output for every
-> dm-inlinecrypt device to be not reloadable, the constructor reads
-> key_type as iv_offset and shifts the remaining fields.
-> 
-> Keep the base table in constructor order and emit a non-default key type
-> as keytype:hw-wrapped in the optional feature list. Raw keys remain the
-> default and are not emitted, preserving the existing table text for
-> raw-key devices.
-> 
-> The two dmsetup examples in the documentation acquired
-> the same extra positional key-type field, so removed it there as well.
-> 
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://sashiko.dev/#/patchset/20260525121348.1321282-2-linlin.zhang%40oss.qualcomm.com
-> Fixes: f9f57971da38 ("dm-inlinecrypt: add support for hardware-wrapped keys")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Anvik Loitongbam <permissiontogallop@gmail.com>
+On Mon, Nov 16, 2026 at 09:21:00PM +0800, Wei Wang wrote:
+> Nit: I think this is more readable with a single '@' check:
+> [...]
 
-Reviewed-by: Eric Biggers <ebiggers@kernel.org>
-
-- Eric
+Thanks for the review and the suggestion. I will revisit that block if
+a v3 is needed.
