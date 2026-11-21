@@ -1,108 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795256812;
-	b=DRiGZw2Cxh14Am0JJmhVAPGH1aE/KKXGmtYqeWk8cIAKPlK8ZBUDJ1vplN+Exz8CFvjq
-	 2RQsUfLZU6LqiAahbDdjCgObPAu/IRe4vKEUuwsakxdeSxM3xo0zyqgpwLiCBERphyWfE
-	 asbibC3JZAYscpuVGUyZ/FloGFRq8yrH1/iu8gjBUEypCknCvipvefIkZ8p9rdD2IUV/2
-	 LiIjF0kqD0/GOyJbOQL3mJkcQkm6HIo1PtuPP1vtPOHZdz1aoBUZv8QrcOi7o9s+A9tLb
-	 uHllq56k7505gysLIuo0zZmXvZau/zctZaHbqXtb9be94zj+dyRhDHWgM2P/vdyDHUw==
+	t=1795257316;
+	b=jSMHt3p9a5dRTrp0yr3aZ0Dfdm5mZ3qzxpxJfYlkoLTtiJWks60ISwHoTeWdxH6+J8ZY
+	 qLJAGZ3QrK6OhDj32nP/YavGovT4jogTlWWsemaPSQZ1QrlPSEErSCeflvZ4zLMaUPOLz
+	 gKKmtVaRlyVlH3t+8PlLafCsV+mwT9z7TBaN+4r//8Gr/q+odLIIsho2BEN3AI40zGsFp
+	 C/tspzN2pFkRaliJzpHqux0Kn/NpC+3RbRnlkMj7ZM3H9UO+Aa/2x0ohyJqofL4obSEQP
+	 wPv5oE4hrDA/HJ2S1h8+V6QpPwH6bvHVepMWA1UgWAYjLSy1bW1AGHs5pf1UlnBlrlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795256812;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795257316;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
 	 References:Autocrypt:Content-Type:Content-Transfer-Encoding:
 	 User-Agent:MIME-Version;
-	bh=o4cYPm4nikQRXCKmajkr5M1HuTe4y5SdQDfgOMYEdEQ=;
-	b=QNhw3QQeiiUZv/p5Tbb47o/gyDHMnisyIhT0tKpNwWOM4Aw9VmB7VrF7vcT22kdVozpR
-	 UJ60qkvSAmiOI/11KTsSKOqyyvOWxjL8SFPeepyvP5TXfNiNEAVvF82Zp5tB1O0Jl99gr
-	 rZX4amlhWpiLQx2suC7Pe2o9lxYo9IUCcj7GqlpmieGQ7UE9DA3iv+zI7mYLUj8ohJO+7
-	 IMv6mQZ8V6DS27I9sx/CCT7GD0q9JjsRZeUYqapkSgL8JHk2p0q370rMHS60MsXgRtA7a
-	 gTQEnmYQxj55vxeOAxT/ARHg3TpEl19sle2jImjVNAlEh6hWQ4k1MpMgktXnmDP5m4g==
+	bh=9bsvYKUqqiIEmbO2aiAG3E5Ax6t0fNk6OQ/rRTGZEtM=;
+	b=t0frXP2c7mmlm9+qgZY6BQ6aSGZCvVpfOXfD8LInpPuTPqfOUPKCjttam9DJ3AhbsM5E
+	 C38cnais1EsNMlKNkqP5uroFtpGr0cqNWhtxof/nT5u9IF4v4/UMuHrNdYwGnYae0QL/S
+	 4QVpzQ8hhteswOE/0Sc4t8AjEgA53nb6E5vr+hGGkqUFwYuQL21M28tlz19S4t+6Z2ECR
+	 LI6vtyG2+9uKhHbxoPi6pjOMKLdcZOOyMzwNyvE7tfj9g0AJfU14McU3sOQWZDbg37HKB
+	 H3JCkq0TQZNh8VZKiBw5At/xzbvqmE1GZ/T/qd626mTpDMq6GSguBI82cWj/HL6EikA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="U5mIerW/";
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=gaB7QzDy;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="T06V/NK5";
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=GH8CCjzs;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1492F606A338
-	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 10:26:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1492F606A338
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A51606A334
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 10:35:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8A51606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=U5mIerW/;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=gaB7QzDy
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=T06V/NK5;
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=GH8CCjzs
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795256811;
+	s=mimecast20190719; t=1795257313;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=o4cYPm4nikQRXCKmajkr5M1HuTe4y5SdQDfgOMYEdEQ=;
-	b=U5mIerW/P2+TefYsaUU3Si79wfcnaUevwIDKvepdzVNf6h47jdA4BPcFvTyRUJ5IZCCJ9d
-	7hYxa8hUIPtHbE/EZ0ofuMrmYNVCyFtu++CCLCafC4H3Y1hSiDRy9FclQ7IqVgKwlUeolA
-	7TGUiCfuSCq0c7GRlfpCVk5N2nyphns=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=9bsvYKUqqiIEmbO2aiAG3E5Ax6t0fNk6OQ/rRTGZEtM=;
+	b=T06V/NK5+dY7JdHwvdPwQG8fzDOLDWPMkf/lRpaDG95YoizlwQc0kJMdv3bgQu6AyJjqr+
+	OLVUjH+zk1SGdk6p7pYXwARhx6bYHMvBJG0mjcqLMgxZ2s2jLbef0f5fxAu6G3MMJ4Yzch
+	Sv406BK65IXypEE9peNczxOaiJFdCnI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-495-dmthUKQfOiOmpcN2Lvt2lw-1; Sat, 21 Nov 2026 10:26:48 +0000
-X-MC-Unique: dmthUKQfOiOmpcN2Lvt2lw-1
-X-Mimecast-MFC-AGG-ID: dmthUKQfOiOmpcN2Lvt2lw_1795256808
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4a35e1d2dddso14604375e9.0
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 02:26:48 -0800 (PST)
+ us-mta-492-gGtgYJgUMsyrbooqSBj_sA-1; Sat, 21 Nov 2026 10:35:11 +0000
+X-MC-Unique: gGtgYJgUMsyrbooqSBj_sA-1
+X-Mimecast-MFC-AGG-ID: gGtgYJgUMsyrbooqSBj_sA_1795257310
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-48fcb657f32so964293f8f.2
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 02:35:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1795256807; x=1795861607; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1795257310; x=1795862110; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=o4cYPm4nikQRXCKmajkr5M1HuTe4y5SdQDfgOMYEdEQ=;
-        b=gaB7QzDyzvvVNfn+EoNpc++kSPVrbtuDYK1ssBsZIITP/j+uc+QwGqOtgFaP8/6ybf
-         zzK6NU1DeChboDKDBowB0njamB5lzCHGfF8OeoJNiS6lcqEbur2m8UrGvt2cQXOhIOud
-         FynS+UcuHrA6jKX32O58aVUA0Cn7fJXFsb7L5h+4kFbSGqbi/gAZDRkW8f2F9VcTFfm7
-         9xvh3yOX0TnksPVj6kZ0j1/JFBeKe284yjXDwTUPiW/51H0ReYmPzruNWs6X0zqafQV7
-         BLnLSvwfUlAXc1ewbIfXWoIIprT9HhPztkL7yosTPAeL9TDuebRHJQwa+YVUmbqQ/MAw
-         gEOg==
+        bh=9bsvYKUqqiIEmbO2aiAG3E5Ax6t0fNk6OQ/rRTGZEtM=;
+        b=GH8CCjzsFzumr78PhysOTQ9fkumvDAoN8Fd/Xl2Jo6xyS6KMUDENRwz1Jx2iFo1n5+
+         EcV/Xbf5P9qsSu4nEiaLbb1wZdOknxRBuqvVKndZ51WHNh2VlCkM+3TRDLx+ldjBxuPa
+         w+7Q+vaegvCwQA2zsgRC0iQXhpKl5Jj1PmtyVI2SLPq8haKyssNY0bv2isx+daLX5Iao
+         0LEAblvztaCa2gOplJidMPyYtd3oi3j05ddpAUxlXu5kXd8fMH2wswRikDhUE1T3R1Hn
+         IVTBk90gxbpJCldrV+Je54Oh79n4oeVmcH1NSXowvr4TML8scYFuB1LGFcRbO9mfXs7T
+         fhqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795256807; x=1795861607;
+        d=1e100.net; s=20260707; t=1795257310; x=1795862110;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=o4cYPm4nikQRXCKmajkr5M1HuTe4y5SdQDfgOMYEdEQ=;
-        b=GrAyFTPl5htwJdFP+594FIZw7mBEESdWqBIFtMc/hROXkf1IzScajeUY/G3WhIxCPP
-         27/rfuTBzGs1t1OsksjvroviJtQylEHKl5lNsOM5HvozeHiIGdTu8jLcqowEn2xieS5Y
-         MQOi+f+R/ywTnX9pI//4/HrLnTly+t+Dp+KRAXH+GwFE11hGtWjgMR0aAdmNozVFPhv7
-         FjjwFqFN+KqF7ovWnJ05qvZ+rN9cIf/vR2dSVLVvwkWhnYCp14kcGMoPgJ0b8UpyjiW8
-         9crO/qXi52bmGgWpO4tOh1EDXLw9NxxGXCrpMtO2oINSvrt4tcfjahL8bpp1vgQrWxmD
-         L1/Q==
-X-Forwarded-Encrypted: i=1; AL+hErH7fGDzfWhNZeM+XGgG/E+XSpZi9mVCH6BeIH/uiH8nnQBK1UKgesExgrshty3N4a2U0MG2YCWMMH8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Brj2lbJ4YzNe1LjsbMkeRtqSNd5UoRZWbj1p3nyHwij9um0dE
-	huwDcSQmqP7TLEhW6A5Mzh0MdwuzQwxx3n+eoZRx16YqW6ZYo+fc6TvZh7XfAbQDvdxwolIRHI9
-	i4dIKVXd7YuUZv2YQbBJvKfQn3mBta+VBg6vY2rNgz4B0w8v+A7XO4ZWEbeTaOA==
-X-Gm-Gg: AZFdTZcy0XvOCj68elrnMybwUEB4M4Hu88X1ChEOlvl/Vcd6cHdTojl/ePUXtUnjNrL
-	DMX5u16o/mnziPxT8EODbgBGkHfXw9iFUA8IPqsBiVWZNC/wEuWIQFXBR1LuNyX+sYzHbTKu/XZ
-	uH8pyu8tpUU/iNT/jqjnMsDwJ2M8b04KQYxDUOKTuaANhK1O7Ii0PgtwGgUDpq29bVUOh9q/e2P
-	CA0fQXyvQGwTqabb1KwdilmFkxEB+Q1UGmzhoDhMy8OuDIwtW4Zvw1pYHVwOfBWkwjDkz7Nh3aK
-	0YiI62dArPmWIWofXWbRIadGTk6SXRsAtMG7XkXuswSOIbfa8RhvpD6hsHiFBiNte5IOhz6GTp6
-	UHL1d2zEz0+L4Y4GlcZBAtQc4rjvwC0KvdQQSknoV9G1h4LeoW21GwVCVdYHuCPwHv6x+GCRmEZ
-	Mn
-X-Received: by 2002:a05:600c:5306:b0:4a2:5ca:767f with SMTP id 5b1f17b1804b1-4bb887c9af4mr131050175e9.4.1795256807689;
-        Sat, 21 Nov 2026 02:26:47 -0800 (PST)
-X-Received: by 2002:a05:600c:5306:b0:4a2:5ca:767f with SMTP id 5b1f17b1804b1-4bb887c9af4mr131049895e9.4.1795256807347;
-        Sat, 21 Nov 2026 02:26:47 -0800 (PST)
+        bh=9bsvYKUqqiIEmbO2aiAG3E5Ax6t0fNk6OQ/rRTGZEtM=;
+        b=V2NqoRl2Uiaj7lGcocEmPf9+rIk9OrV2bf3sNMW5G7fcqq/7/KquJ1AfiaRsO6WWjG
+         rAxn/PWjnsIiSjnl4gCNeng93TqbmFN/HjvPUWsugVSuLTpBon8f9Q7aJvS0BllTuAwg
+         9KotJ04lEwtUJFwvF7FdwSKj7EF4U41zX8JD3tNUrzRFGMt6jMv6UJcoCcODc3edMvYH
+         GeYgxotUdGhoDzYHuUCWH1pJ1pgssLoO3v2RFPEtL+YHFdLBRCj1MnGRDr97NCLtibbl
+         QzOPdxZI4Cw9qw6AGz9TXybM7p7tYnml8hXhJBfj37P65C7IN0tHtAa8dJZNVU2H0A6m
+         dR9w==
+X-Forwarded-Encrypted: i=1; AL+hErGogYHdQFcERIHqkeXowLegnLkqlXMSHU0fvCPuK+KpR10n6QppT6ep7lon2ANOCleFPr7Dbidy0zg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z809qrJgIVapjrh3Bcprf09JOhm1My2C2czxBKtrlruBmGOCy8o
+	Om35VcqC2V/jEagSdK/BcOBDr9LcTmzeO+3PTqeIco4IwxCyeJ9gb3gqJ5GNMiKJjobjpj/2kOH
+	VM7q9BFagcRsyIPyYB7sBtLod5dA+H2EH2C/Nos2Dh3hQrL4/f9lJfVf9w6vJYg==
+X-Gm-Gg: AZFdTZekokjMllq2Fbm3q6jkrqtTRR//sF9nd5XKbLlZ37kPkjfFVf9AtgQz6X9VddD
+	FtFWlqdYBlUcNhlD1vtDaphK/R7q13Co4SRv7L3vBziXNZKBFQ3OD6DjfbdQdkxDDfFP5V6k99f
+	SUIjap7QqgcdpNow0PNBrCymaR2MQRl/5FzoSCVxO+XDofeIDGMiU9SMUBbsPfTHTlHvl+RvXu9
+	uYHQeN4t2gHVipTC5O8q5tH3RCJSS9WOQDXRqkdGq/WPOgmAcUKO9N5fxK35I0JMKf6EMiLfH30
+	GSL7Gs1cwnYICqrEzSozqV8foO5PBlo0p75ltd+AKoV42Nh4TmLczkcs64yEmHKHaN44uZxBfrs
+	BFVfAeIoXM1+XHx+s3O8QysaKuUwjG6sm2RMaabsIA9YMe45iO+eUOpkUYHYGDuvcNs777gyqTJ
+	wH
+X-Received: by 2002:a05:600c:1389:b0:4bb:7347:d5c0 with SMTP id 5b1f17b1804b1-4bb88826937mr123101945e9.9.1795257310551;
+        Sat, 21 Nov 2026 02:35:10 -0800 (PST)
+X-Received: by 2002:a05:600c:1389:b0:4bb:7347:d5c0 with SMTP id 5b1f17b1804b1-4bb88826937mr123101795e9.9.1795257310278;
+        Sat, 21 Nov 2026 02:35:10 -0800 (PST)
 Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.168.96.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb9065744esm39169705e9.1.2026.11.21.02.26.44
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884865b1sm165089265e9.5.2026.11.21.02.35.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 02:26:46 -0800 (PST)
-Message-ID: <661a3aad86b215989dfc916fa9f568c66e18a466.camel@redhat.com>
-Subject: Re: [RFC PATCH v2 1/9] tracing/irq: Add generic IRQ context
- boundary tracepoints
+        Sat, 21 Nov 2026 02:35:09 -0800 (PST)
+Message-ID: <6c3fa853697803c63e2b87c7f8a9d4ff2f561820.camel@redhat.com>
+Subject: Re: [RFC PATCH v2 2/9] tracing/sched: Add IRQ preemption lifecycle
+ tracepoints
 From: Gabriele Monaco <gmonaco@redhat.com>
 To: Karl Mehltretter <kmehltretter@gmail.com>, Steven Rostedt
 	 <rostedt@goodmis.org>
@@ -119,10 +119,10 @@ Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
  Dunlap <rdunlap@infradead.org>, Wen Yang <wen.yang@linux.dev>,
  linux-trace-kernel@vger.kernel.org, 	linux-rt-devel@lists.linux.dev,
  linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org
-Date: Sat, 21 Nov 2026 11:26:44 +0100
-In-Reply-To: <20261107171252.25090-2-kmehltretter@gmail.com>
+Date: Sat, 21 Nov 2026 11:35:07 +0100
+In-Reply-To: <20261107171252.25090-3-kmehltretter@gmail.com>
 References: <20261107171252.25090-1-kmehltretter@gmail.com>
-	 <20261107171252.25090-2-kmehltretter@gmail.com>
+	 <20261107171252.25090-3-kmehltretter@gmail.com>
 Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
  keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
  1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
@@ -147,159 +147,53 @@ MIME-Version: 1.0
 
 On Sat, 2026-11-07 at 18:12 +0100, Karl Mehltretter wrote:
 ...
-> =C2=A0void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
+
+> =C2=A0asmlinkage __visible void __sched preempt_schedule_irq(void)
 > =C2=A0{
-> +=09unsigned long trace_flags =3D 0;
-> =C2=A0=09unsigned long flags;
-> +=09bool trace_serving;
-> =C2=A0=09int newcnt;
+> +=09struct task_struct *owner =3D current;
+> =C2=A0=09enum ctx_state prev_state;
 > =C2=A0
-> =C2=A0=09WARN_ON_ONCE(in_hardirq());
-> @@ -200,6 +202,16 @@ void __local_bh_disable_ip(unsigned long ip, unsigne=
-d int
-> cnt)
-> =C2=A0=09=09}
-> =C2=A0=09}
+> =C2=A0=09/* Catch callers which need to be fixed */
+> =C2=A0=09BUG_ON(preempt_count() || !irqs_disabled());
 > =C2=A0
-> +=09/*
-> +=09 * A serving interval starts here, before handle_softirqs(). When its
-> +=09 * entry is traced, keep IRQs and task switches from observing the
-> bit
-> +=09 * before the event. Any blocking BH lock was acquired above.
-> +=09 */
-> +=09trace_serving =3D (cnt & SOFTIRQ_OFFSET) &&
-> +=09=09=09trace_softirq_context_entry_tp_enabled();
-> +=09if (trace_serving)
-> +=09=09local_irq_save(trace_flags);
-> +
-> =C2=A0=09/*
-> =C2=A0=09 * Track the per CPU softirq disabled state. On RT this is per C=
-PU
-> =C2=A0=09 * state to allow preemption of bottom half disabled sections.
-> @@ -233,15 +245,27 @@ void __local_bh_disable_ip(unsigned long ip, unsign=
-ed
-> int cnt)
-> =C2=A0=09=09=09raw_local_irq_restore(flags);
-> =C2=A0=09=09}
-> =C2=A0=09}
-> +
-> +=09if (trace_serving) {
-> +=09=09trace_softirq_context_entry_tp(!!in_serving_softirq(),
-> false);
-
-Probably someone more experienced with this code can comment whether the
-tracepoints and other things you do make sense, you're going to need an
-ack from these folks anyway.
-
-From the tracing point of view. You're doing good avoiding any extra
-action if trace_##_enabled() is false. Since you are already checking
-for it, you may simplify the call to the tracepoint, essentially
-
- trace_##_tp() <=3D> if (trace_##_enabled()) trace_call__##_tp()
-
-As you see, you're basically checking for the static key twice. Not a
-big deal but you can use the new API and skip it:
-
-  s/trace_softirq_context_entry_tp/trace_call__sched_set_state_tp/
-
-Obviously you do the trace_call__##_tp() function ONLY if you're already
-checking the static key.
-
-> +=09=09local_irq_restore(trace_flags);
-> +=09}
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL(__local_bh_disable_ip);
-> =C2=A0
-> =C2=A0static void __local_bh_enable(unsigned int cnt, bool unlock)
-> =C2=A0{
-> +=09bool entering =3D (cnt & SOFTIRQ_OFFSET) && !in_serving_softirq();
-> +=09bool trace_exiting =3D (cnt & SOFTIRQ_OFFSET) && !entering &&
-> +=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0 trace_softirq_context_exit_tp_enabled(=
-);
-> =C2=A0=09unsigned long flags;
-> =C2=A0=09bool sirq_en =3D false;
-> =C2=A0=09int newcnt;
-> =C2=A0
-> +=09/* Callers already disabled IRQs around the counter and its events.
+> =C2=A0=09prev_state =3D exception_enter();
+> +=09/* Sample before tracing bookkeeping can change the observed context.
 > */
-> +=09if (trace_exiting)
-> +=09=09trace_softirq_context_exit_tp(!!in_serving_softirq(), false);
 
-Here as well, you're checking so you can simply trace_call()
+What's this comment for? You're tracing before disabling preemption to sche=
+dule,
+what bookkeeping?
 
-> +
-> =C2=A0=09if (IS_ENABLED(CONFIG_PREEMPT_RT_NEEDS_BH_LOCK)) {
-> =C2=A0=09=09DEBUG_LOCKS_WARN_ON(current->softirq_disable_cnt !=3D
-> =C2=A0=09=09=09=09=C2=A0=C2=A0=C2=A0 this_cpu_read(softirq_ctrl.cnt));
-> @@ -276,6 +300,18 @@ static void __local_bh_enable(unsigned int cnt, bool
-> unlock)
-> =C2=A0=09=09=09WARN_ON_ONCE(current->softirq_disable_cnt < 0);
-> =C2=A0=09=09}
-> =C2=A0=09}
-> +
-> +=09/*
-> +=09 * An exit probe can raise a softirq while serving state still
-> suppresses
-> +=09 * the normal ksoftirqd wakeup. Hand it off once no outer BH-disable
-> +=09 * reference remains.
-> +=09 */
-> +=09if (trace_exiting && sirq_en && unlikely(local_softirq_pending()))
-> +=09=09wakeup_softirqd();
-> +
-> +=09/* local_bh_enable() can turn BH-disabled state into serving state.
-> */
-> +=09if (entering)
-> +=09=09trace_softirq_context_entry_tp(!!in_serving_softirq(),
-> false);
+> +=09if (trace_sched_irq_preempt_entry_tp_enabled())
+> +=09=09trace_sched_irq_preempt_entry_tp(owner, preempt_count(),
+> irqs_disabled());
 
-Here for example, entering doesn't check the static key so you must keep
-the tracing as is.
+I don't think you need to check the static key manually, arguments are expa=
+nded
+inside the trace_##_tp() after checking it, so you can just trace here.
 
-> =C2=A0}
 > =C2=A0
-> =C2=A0void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
-> @@ -640,11 +676,15 @@ static void handle_softirqs(bool ksirqd)
-> =C2=A0=09 */
-> =C2=A0=09current->flags &=3D ~PF_MEMALLOC;
+> =C2=A0=09do {
+> =C2=A0=09=09preempt_disable();
+> @@ -7664,6 +7668,8 @@ asmlinkage __visible void __sched
+> preempt_schedule_irq(void)
+> =C2=A0=09=09sched_preempt_enable_no_resched();
+> =C2=A0=09} while (need_resched());
 > =C2=A0
-> -=09pending =3D local_softirq_pending();
-> -
-> =C2=A0=09from_irq_exit =3D softirq_handle_begin();
-> =C2=A0=09in_hardirq =3D lockdep_softirq_start();
-> =C2=A0=09account_softirq_enter(current);
-> +=09if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-> +=09=09trace_softirq_context_entry_tp(!!in_serving_softirq(),
-> +=09=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from_irq_exit);
-> +
-> +=09/* Include work raised by the context-entry event. */
-> +=09pending =3D local_softirq_pending();
-> =C2=A0
-> =C2=A0restart:
-> =C2=A0=09/* Reset the pending bitmask before enabling irqs */
-> @@ -692,6 +732,14 @@ static void handle_softirqs(bool ksirqd)
-> =C2=A0=09=09wakeup_softirqd();
-> =C2=A0=09}
-> =C2=A0
-> +=09if (!IS_ENABLED(CONFIG_PREEMPT_RT) &&
-> +=09=C2=A0=C2=A0=C2=A0 trace_softirq_context_exit_tp_enabled()) {
-> +=09=09trace_softirq_context_exit_tp(!!in_serving_softirq(),
-> +=09=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from_irq_exit);
-> +=09=09/* The final pending-work decision above has already
-> completed. */
-> +=09=09if (unlikely(local_softirq_pending()))
-> +=09=09=09wakeup_softirqd();
-> +=09}
-> =C2=A0=09account_softirq_exit(current);
-> =C2=A0=09lockdep_softirq_end(in_hardirq);
-> =C2=A0=09softirq_handle_end(from_irq_exit);
-> @@ -722,6 +770,7 @@ void irq_enter_rcu(void)
-> =C2=A0=09=09tick_irq_enter();
-> =C2=A0
-> =C2=A0=09account_hardirq_enter(current);
-> +=09trace_hardirq_context_entry_tp(hardirq_count() >> HARDIRQ_SHIFT);
+> +=09if (trace_sched_irq_preempt_exit_tp_enabled())
+> +=09=09trace_sched_irq_preempt_exit_tp(owner, preempt_count(),
+> irqs_disabled());
 
-Here again, no check, so keep it as is.
+Does the owner here makes sense? Do you use it as the /initiator/ of the fi=
+rst
+switch? Is it only to match it with the entry (although, as you said, it ma=
+y be
+somewhere else, running again, or not running at all).
 
 Thanks,
 Gabriele
+
+> =C2=A0=09exception_exit(prev_state);
+> =C2=A0}
+> =C2=A0
 
