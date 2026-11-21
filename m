@@ -1,67 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795260781;
-	b=apbXqyqDeZzjNBFgwK4HLly2Mt6CKXZ5X4tR9nJM3QfSbVs/IsTmAEelczIZoo+oTV4P
-	 msNxan5CHVL+BrvrQq81JV1SWioc12oWfRP0Ny2i24W3ZuP2tc+XI+k9S9mfOCmh6thdq
-	 S0EhC1TUiOvInrlY03s2gcHLM/SvAuaIumyhLfWP2k+IPZyQpYgtmiGa6uS5Nm/i3UakZ
-	 rETuxy0t+P5gBGHcl/9IypEuHAPW+VdOtvRanfDGUs0JT6/n+Zqee2Vq3D5B8ABDzy6wu
-	 ylbDlFv/b9EUsfcmKeiXlL+f1w9kEUaK77Wr2oJzIGr+k/d7gshHv0XiaDZrrXR/g9w==
+	t=1795261660;
+	b=E2l4eaE8UvFM1GAUpbupwhxGM12p+usWpDTdiar8nD/h0RjVatZAiZSYuHjPsUckMQkv
+	 GlKPD9Lxi5g+k9Y9HMyBEiw1Krc5g3S48i9DT3ITcfnMD22Md0Nz3cqJG/Xtu2Yacns8L
+	 W2UudwBpXYBTo9/SZaax4ZRriFl7lNqsMf+DGS9OVj+7/ICCrLeSA+0p58hLHjlQm7uEX
+	 CzUKig7y9v6LDNG2shh7fiol4tjaJrkMFuab6XvGbfseAbe4me/DUSvZ9OudE3H7lUsy3
+	 ihsCPJ2FogyDbW6xwssoqgY/xRyqmdpqLiM2eTSO0bXO18lbV3gnotHZ3f4ht0aTF+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795260781;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-MBO-RS-ID:X-MBO-RS-META;
-	bh=OarbdWsksfiuMbaIbktAxhgdo23HxzOkVP045lkqcyY=;
-	b=fRDcZZeTfI4vfVWvhEYewA23gwhDcyIEelwahrgn2Y+HELxuDtsgLa2tJKFdm7jEYUq8
-	 sZalLyvz/Ol6w2bu9V8h81Xfy1I2uuBIc6i1AGED/CME8uFIUaWPCOijlIc4MVLyCAEVF
-	 gb+p0z6dwAb6jvsrw+wPYaB+Srsy9xe+F+WZG6/5ehLzvMDhtdLxtsyc0Hq2OGNNFd3nH
-	 QCbmsJzk8conpWMf4O55RuHRyMf+34d5VbE7uh6Tl/8MeaEtbybFr5b9tOK3uyIrL2nDP
-	 dqmBREAhxlpkV2muryiRv65bDbBZocT0+6iCcF2z3dsTDhDrkpSCN88ArLAFmIAGOMA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795261660;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=4ALx0sJpj+pkFds0WlOLPKL1r0Eodz+uXw3XkI0BnJQ=;
+	b=0cyf9QfaMxbqYvf+G5jzZ6zo0rtqXO8H9w/Ba2XWF4jY3zKvl6I+iTViQmdlZXgyhSZN
+	 EgHGtQTzljqM/Wq5VNtA73C3e2WMaTIAZ/8tDGBu65J2T8CZbXFo3BqliBpmDdQ9QMMlX
+	 /LvWK2SptkkUiW/DBm+GrR/y+ODtusS4uqIN/PAS/l+U1HCQUyBN+J0RbzO34bbpJQ8Ks
+	 mznhRdD25/kLjRQgW4FiGOLOfIja38a1gQLvPu8ICGj0UzuvVciaHI2PB7RYC6uy7bLsN
+	 lPMwwwxwKx57MzXSgQWFPFWLrslIeNrbGUTgyS3HIra/gdhLbNVXUAKeuD868/1TyGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=aEk+di5R;
-	arc=none smtp.remote-ip=80.241.56.151
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IkROlQ0P;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F347606A325;
-	Sat, 21 Nov 2026 11:33:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F347606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 67F4A606A320;
+	Sat, 21 Nov 2026 11:47:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=aEk+di5R
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4jWqnj0j15z8vTn;
-	Sat, 21 Nov 2026 12:32:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1795260777;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=OarbdWsksfiuMbaIbktAxhgdo23HxzOkVP045lkqcyY=;
-	b=aEk+di5R+zMQLIgaCqbX5xSP75U/wUaKNG/lgo5wLryZ7t0K8iw7KSsxNKaXQ2X0kTBAi3
-	GhrKP+uiarERyjjZnYO97kjcZF21AMFHofCq93/l2WfECUA3y2T4/AUcajQMJg3zxR7YoB
-	gKVDTb2WFQLQ9ztNjye7K6PcDx+Sw/japTcwm7smdCRB4Ii+ZSab4z7B/zVOTfVdfVz/Qt
-	epM650fAuqxR8CMOPhDSqPq2rmnSI+oHC1S/Cb0m6sLx9TivKI7KkLvVl7jGanrVfgT3hQ
-	N2jvlO3nEjyAtlnjdl4KMU4mQT9pfQgNV6Vekme8yFn/irW+3/4+EFjFSCfm4A==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Docs/process/changes: add comment refering to ver_linux
-Date: Sat, 21 Nov 2026 12:32:21 +0100
-Message-ID: <20261121113221.1442278-2-manuelebnerli@mailbox.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IkROlQ0P
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 7B4521F000C0;
+	Sat, 21 Nov 2026 11:47:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795261660;
+	bh=4ALx0sJpj+pkFds0WlOLPKL1r0Eodz+uXw3XkI0BnJQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IkROlQ0Pq+Rut8U64pvIUJTh/oAnChCaeNYg7hBVBuRUnEhRsa7xNq/JRarTXK2K/
+	 1SrKwVoY5oIeDiNoie/5u8U8GgnhTmyy0YX6Ld+DcqlRzwJDYG0Roi6EYh/NSo328Z
+	 gtWd1bE18xVGxRviE+EdpOnXwrmVQ8V4R2Hep+47tEdMGgvQkfsf4DeY503xo0UrGz
+	 +bmeCFDEAe5+Uy7+IO+cUFDQVBzUpeFHqWg93+bOiVNe0hghenDK7O9YRFT43oKEgj
+	 ETQw/sww4Y0GKJuijqz84K+iCyImKpbC8/fpbl33gqZ6lI9qEE90ukgklczuRo0UYy
+	 qfTMs+JqLTQJQ==
+Date: Sat, 21 Nov 2026 13:47:36 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	Alexander Mikhalitsyn <alex@amutable.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
+	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v5 20/25] security: Add rootns LSM hooks
+Message-ID: <awGE2FTQ6kpWEMJh@kernel.org>
+References: <20261121000844.1863324-1-jarkko@kernel.org>
+ <20261121000844.1863324-21-jarkko@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,33 +68,63 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: c6be58729ddd3357dfd
-X-MBO-RS-META: 3gdg4195k4jzxr44o78bw7czucug7pit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261121000844.1863324-21-jarkko@kernel.org>
 
-Add comment to keep ver_linux up to date. This comment does not show up
-in the output of sphinx.
+On Sat, Nov 21, 2026 at 02:08:39AM +0200, Jarkko Sakkinen wrote:
+> Security modules need visibility into root namespace creation, teardown,
+> process entry, and container-wide signal delivery so policies can attach
+> per-rootns security state and mediate operations on rootns file
+> descriptors.
+> 
+> Add lbs_rootns and rootns->security blob management alongside
+> security_rootns_alloc(), security_rootns_free(), security_rootns_clone(),
+> and security_rootns_kill().
+> 
+> Co-developed-by: David Howells <dhowells@redhat.com>
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> ---
+>  include/linux/lsm_hook_defs.h |  7 +++
+>  include/linux/lsm_hooks.h     |  3 ++
+>  include/linux/rootns.h        |  3 ++
+>  include/linux/security.h      | 30 ++++++++++++
+>  kernel/rootns.c               | 44 +++++++++++++-----
+>  security/lsm_init.c           |  6 +++
+>  security/security.c           | 86 +++++++++++++++++++++++++++++++++++
+>  7 files changed, 167 insertions(+), 12 deletions(-)
+> 
+> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+> index 87d9d06710cb..2cb90ddedc14 100644
+> --- a/include/linux/lsm_hook_defs.h
+> +++ b/include/linux/lsm_hook_defs.h
+> @@ -480,3 +480,10 @@ LSM_HOOK(int, 0, bdev_alloc_security, struct block_device *bdev)
+>  LSM_HOOK(void, LSM_RET_VOID, bdev_free_security, struct block_device *bdev)
+>  LSM_HOOK(int, 0, bdev_setintegrity, struct block_device *bdev,
+>  	 enum lsm_integrity_type type, const void *value, size_t size)
+> +
+> +#ifdef CONFIG_ROOTNS
+> +LSM_HOOK(int, 0, rootns_alloc, struct rootns *rootns, unsigned int flags)
+> +LSM_HOOK(void, LSM_RET_VOID, rootns_free, struct rootns *rootns)
+> +LSM_HOOK(int, 0, rootns_clone, struct rootns *rootns)
+> +LSM_HOOK(int, 0, rootns_kill, struct rootns *rootns, int sig)
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
----
- Documentation/process/changes.rst | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 0aa232b117b..769557d03d9 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -27,6 +27,10 @@ running a Linux kernel.  Also, not all tools are necessary on all
- systems; obviously, if you don't have any PC Card hardware, for example,
- you probably do not need to concern yourself with pcmciautils.
- 
-+..
-+   When changing anything in the following table, make shure to update
-+   scripts/ver_linux aswell
-+
- ====================== ===============  ========================================
-         Program        Minimal version       Command to check the version
- ====================== ===============  ========================================
--- 
-2.54.0
+Rootns objects have a security model:
 
+1. No embryonic state by design. Especially staircase initialization
+   contributes to this property.
+2. Unshare logic is inverted. Right now ROOTNS_SHARE ioctl does not
+   exist right now but it is (obviously) doable.
+3. Dead obvious and transparent LSM hooks. Really hard to get them
+   wrong.
+4. We already know by experience that opaque fd-bound objects with
+   two-phase state machine (build, live) works. It's what make this
+   secure and policy-free implementatiion.
+
+The choices how to do things with closures used in SGX driver are
+translatable and they are also pretty well reviewed choices, given all
+those years... I would put some weight on this too.
+
+Br, Jarkko
