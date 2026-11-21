@@ -1,60 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795294830;
-	b=YJ1EekwKTmuu3b4JVy2qTOLI5CT/K4lky9fImms8B7jaoLHr+UAo/rNl2J1uYjYqUU0M
-	 C+u+6s8DrQZSeByddyqt97eBBU4rdVzcOqFFZy9pOkTQLgNSakek5ywQsizpoT1cNAid1
-	 krwpEF3w7R+llUuSJ25PDGacDPGAtacPsYtfDUybQUdes4+S28iM41mHKe46JvnO/Msoc
-	 sfTOuc7mQvq9vFVs2feye/h1PH0ui9s7HI6ANAOd30FEM8wAw4B76WZ6Rd7VuV5LorMQD
-	 e9gwHAXRGJLTy8SYaAdLx/iLkWpdndp3Bi+6IkixQB2XqnuN2b2x0JbIdW0yNjv4wUw==
+	t=1795294892;
+	b=vO/+pMrc4j1N4k8HVhbySBoc0TGc1bvY7szomseT9VoAHPHNfxS2L4a2TFIsf3N6IkDq
+	 txwSVXGD0Vuq8jPzq/o5GWxOlrjyfcWdBU4U0nJKh+lBRqCVunGli1/esIeyjEK/If63E
+	 6C/cchu42+PYzBfC3kSz7w2qfmLcETnWDIGZrmjo7qWQfcmRRy/9HCizIMfKRuT5JDadW
+	 4/f4j4V4ybE0rdLW2kRWx2E5ZvHLC1+vhdxCLtKLlN98Nvnu4kSQxMSkjfNrjN7/Sw1GS
+	 +JJMKtHK9OLeI6L57nHnehhaxlKFJMOnUjNuLo3JVdtH3yESqNvVbo+CBRWinG4joDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795294830;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=R78z6DX4Eb7n5m3aMS1vuBN9kYcpNJhnmoRj2a8fkoA=;
-	b=CQUdh9eG3IoMiUKx6Vg2o2SE2rVZ4nELbjb4pMGUVW8nTo4+cxuGahyvkm7tYVwf2GHE
-	 56dZH4g0ORRut8kPoDgxc5f3fQk6clEF7nvU5Lo2zZVEHi70g3KDH67R1n0jPvlouljMK
-	 qNnIxm6RA5JTXB40RgDnmJTsJqVXGdS2e/fYbaHN30Wxaeot2kATwphLOHNXlkngpkExf
-	 xI9jdPgbQMDQ0FIoLzULrPv7A9yDwOJ1ebXpIhkX1AFCwuDPDVcDyC9o9H8IxC1keJiTh
-	 vn4ishd7ZwyZTYt1rb7BP6MbBEeVwL5EwTs9VY+LTFr/AFS/atlUG4gctEvt4nTgFkg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795294892;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=v8vAHChTalJyPKJWjYAU8hJ9rNARiHKrkluyFMh0zh8=;
+	b=1ayewfsYwosaYXFaXPWbM3pz9LcNz6QteDED+3tMa65MenO8Ibiwn2CkII+Dl+W+iXsI
+	 7ryNXIjcaVupN6AIPXOQPQl9gBtX3essy4GfSlIU/walVrfcP3MHSaXNTU0I6LTSfvV9x
+	 ja3gyVRGRtIIhnxnJtTBhPQC82H95ixXMCOaF4oXJe4ALqVvjRYYTfm7+5f6NW2zhnGSW
+	 vSQJU0UA+Ho+D0gZEGE4oDVbK9beVVZVOTFSmVuR+WK8jlQux1zSayXWHr2Z5Yv3aw+xX
+	 0/KJdxZw66KLJvmysNNIuUenubSEP2Q2bpirDeuakfaM6cFg20r31jz4mzZdefVp4Lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dqASXeKu;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PhcIcnDa;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A715606A333;
-	Sat, 21 Nov 2026 21:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44226606A32A
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 21:01:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dqASXeKu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13E5E1F000C4;
-	Sat, 21 Nov 2026 21:00:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PhcIcnDa
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 128801F000EB
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 21:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795294830;
-	bh=R78z6DX4Eb7n5m3aMS1vuBN9kYcpNJhnmoRj2a8fkoA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=dqASXeKu+Dq+WbuRnw1WxH4z7XTnbThZ8SRYZ/5+YPOCxXSLmd4QBijLeiYUGOScj
-	 I7ZmK0r+ZABwEUXZOhJOlbKo0MtScJ1oiIHQPP6OGFxSI0gcci0w82jltlJEax8khX
-	 dJC7BpPqY1+OGy3RDYH4AlCm59SIsOjMmX+h3/JQRVgtTMVXcYiK92+70HPJMJPL6k
-	 VgdffUVZnfSADWyUpw41PxqRnEP5prj2OzNOsEm/HsI3Ps1U4EbZptYEdytHqN64FG
-	 2unObWA72qmQsv15qGPgjDb8olmIccGh9mAgOGWRpkVm7h0sl+D//N9g7sR8I4w2o9
-	 s1//u6YtN+WcA==
-From: SJ Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SJ Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 26/27] Docs/admin-guide/mm/damon/usage: update for user_report report support
-Date: Sat, 21 Nov 2026 13:00:10 -0800
-Message-ID: <20261121210013.130397-27-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261121210013.130397-1-sj@kernel.org>
-References: <20261121210013.130397-1-sj@kernel.org>
+	s=k20260515; t=1795294892;
+	bh=v8vAHChTalJyPKJWjYAU8hJ9rNARiHKrkluyFMh0zh8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=PhcIcnDahk93XHX6nhVEyhzqPt5GML6+Zl8sQA0Ax2ohQ+5IT8DChhIUmK2Pn8qZI
+	 pL6vyZZfGf9NWndz/ufGc9Y1eByB3h8etOTfGTkfMSB14pW1UtngpOIf/rL3RurMv4
+	 a3fppe2SppuOI0uPoRo1NIUjKgbuBrQFlp/nxdkIUd56noxL6pZIFEtO60X9maoWoW
+	 73Hr4fogCGQaWM1fmV9oJJsbGa7Lyz62RAEXQH7L0uBL3cYCCAJvOvYkoQLcXZawdV
+	 1pv/4CFES8fTRs0t/4hf4Zr9LAsfZZwq7PtHj8AXZ8qNoQa5KhmxDWzWoeiccEJiqf
+	 58mjFX/aM/xwg==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5c1479a959aso1467853e87.2
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 13:01:31 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGnoLuK0X9YZOyNFXqCsTqL++EuQ5aFwfBMebuM7BhXjVwSJGr8phWdYjYWfAIMsOS5E13DHhTu9p8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+ijwjyABZzLKWwSCxGlHd8UGG9oNw4qqD8q8BP73801zSvzE1D
+	UItpWSzandUZ42NeRqh4Kk/YF4SUdbDnLlrL628dYoZZrzv+uD5aWh8sne8pzY1/K4Dro+I+T1L
+	F1eeet3q612ZAo79L67ycdS4qCkKXpOw=
+X-Received: by 2002:a05:6512:31c3:b0:5c1:465b:ebe3 with SMTP id
+ 2adb3069b0e04-5c1bc7be4b6mr2356062e87.13.1795294890748; Sat, 21 Nov 2026
+ 13:01:30 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,45 +59,41 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20261015142552.4128028-1-ryan.roberts@arm.com>
+ <20261015142552.4128028-2-ryan.roberts@arm.com> <CAD++jLkrWojU3FeTPGOCFHHsbmTGYG0Tz3b2nrn7mMfsDssCQw@mail.gmail.com>
+In-Reply-To: <CAD++jLkrWojU3FeTPGOCFHHsbmTGYG0Tz3b2nrn7mMfsDssCQw@mail.gmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sat, 21 Nov 2026 22:01:17 +0100
+X-Gmail-Original-Message-ID: <CAD++jL=fnRBZJ-H8SMbZDr_1-F-aRbq6QRN_ZqaKw_M4cJFBOg@mail.gmail.com>
+X-Gm-Features: Aa3M54rcr2uec6946c6ceFg_f82syIk8ikAg7SN-MP8cTPlIYobsjIq52BzG5Cw
+Message-ID: <CAD++jL=fnRBZJ-H8SMbZDr_1-F-aRbq6QRN_ZqaKw_M4cJFBOg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 01/15] misc/arm-cla: Add driver skeleton and documentation
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jean-Philippe Brucker <jpb@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update DAMON usage document for the newly added user_report type data
-attribute report support.
+On Fri, Nov 20, 2026 at 10:47=E2=80=AFAM Linus Walleij <linusw@kernel.org> =
+wrote:
+> On Thu, Oct 15, 2026 at 4:26=E2=80=AFPM Ryan Roberts <ryan.roberts@arm.co=
+m> wrote:
 
-Signed-off-by: SJ Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+> What the patch series needs to do is tell us how this topology is discove=
+red.
+> I.e. will it be discoverable from the hardware itself, or will this topol=
+ogy be
+> described in device tree or ACPI for example?
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index ce4e9e4c13276..4024dd4e92979 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -117,7 +117,7 @@ comma (",").
-     │ │ ...
-     │ reports/
-     │ │ producers/nr_producers
--    │ │ │ 0/report_type,producer_state
-+    │ │ │ 0/report_type,producer_state,addr_start,addr_end
-     │ │ │ ...
- 
- .. _sysfs_root:
-@@ -767,6 +767,15 @@ Users can write below keywords for the producer to the file.
- 
- - ``on``: Enable the producer.
- - ``off``: Disable the producer.
-+- ``submit``: Generate and submit a new ``user_report`` type report, if
-+  ``report_type`` is ``user_report``, and the producer is enabled.
-+
-+``addr_start`` and ``addr_end`` files are used only for ``user_report`` report
-+type.  Those set the address range of memory to manually report .  Users can
-+set the start and end address of the address range by writing the addresses to
-+the files.  Note that it is open-end range (``[addr_start,addr_end)``) and
-+therefore the end address is exclusive.  Reading the files shows the last
-+successfully written input.
- 
- .. _tracepoint:
- 
--- 
-2.47.3
+Hm what about I read the whole series before replying to individual pathes.
+It's righ there in patch 4/15, mea culpa.
+
+Yours,
+Linus Walleij
