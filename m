@@ -1,126 +1,120 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795270996;
-	b=xWW9Xqts8WN9BPeur1t8JNzOinbecwVJetwGsxnIsctzSZkpziikxnv8s+/8S8d9SPYv
-	 vmS2L6v12L730OAUxMcHi2bYVaN5RjQTHWbRMCq1CFu3Mh0E5El+MW2SQS/taQGPq2oKa
-	 g3NAdq9GUftePVCCbfQ7EbJpT+oWBDqXi8KGjdGVjY9soy7D3MhHjaTpvYuRuKBlMqsHW
-	 zg6ohcgb7CsZuuyq3PqDtFgpI6w3vcXLWP6c5GRGXx/isgBR4lKFIpNqJeKTaPSwLudjM
-	 wuypO8nfQDquTLvXC4584v9QAmPqazsUpNKb3gzQTxPAOQDPohXPQTaa0AXaTNSY1Aw==
+	t=1795272204;
+	b=NH2AtqPmZjqK/5R/EPUIhYzqfAlf8nXtvSG5NlgtgSwOb8VlhGd6lmvdhUb6LVKxZRm8
+	 FOm8mGEi0sHQjlxg1kjFz7mTS3AEvN/WMeOPCdHZsKQjqn3+d0VqySC1tneIty7dY/IO6
+	 IxHDps5HB1U8POvmT/gKvzRTMjIK+55cNqWG9NYjmaWkNHYdk6UckazqxUYS4Dn6yDurL
+	 /EEF/HTKy3LYA3z1nA+CJt0G4alGJ+DhS9UovmPlKt3aM3DX/Em1BqSi00hlnifxMtazK
+	 ZuxIlUCKvgX2P016/0i78X+tRQ1N28OD2s9W9+DSIublHuy44YxhXSwC7Tfy2oeaPGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795270996;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795272204;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
 	 References:Autocrypt:Content-Type:Content-Transfer-Encoding:
 	 User-Agent:MIME-Version;
-	bh=WqzN6zJ4R2jqDldWJTZ9k5y4S9ZfXvzqjQVQe1JBsIo=;
-	b=uu49m3cwxb1QrsEmWSQvipcDPZJBWDsDi0yKYO0U5i0hMwi0SPy6fSDs6Wtr6v2KOo9M
-	 +bKKeQYaSpyHWqJcBtSKSIm3dTSTNHxZ+mtXqZkolx2WDhiOht2JKnCWioanQt5mc0bFL
-	 RTu+/KXinJvrnnId2Zz5q3H27blBXbJ0vMSJSt0AML53rPg12p4SuinxzPbQK1N7TqHGx
-	 m2kK/8imHagudCbwTZw4ZmMyf8FdwCYTUKWIUrFCPZlQo0n6zzntGOOz4A7whjneow+fj
-	 4S9xkLwP4EHqiClFAPHJjVKB4ntM2nEF3iVZKNkRZ/g9VfEZQFEh1OQ4N9DekyWVK+g==
+	bh=cCJcXQgk/Si4catT5eOwtfh+QW2z1vm+mPPFnEPeMZ4=;
+	b=KIUuPcqLstBEeTAnkqhfPGbO6b5pF/EiwaNmpAmdMoD0TWGZErni3LQpHdvQvgss+N1c
+	 lLV+IydXG9u/6ERc8degxo7bbBJAN6xLGPJMKFwkG+BOazfN9SZVq8etFOUv5Da2uTuNP
+	 uvXWbufRXzUQf0Wod22GgglULHEV/A4UhCcTK6iD1TNnW3yKjskM8LDeY1wqE4I7qwN9S
+	 knUU65mItckLoaBfQLyBvG4XNbxiRfaVxc6Zn6V/Ko19NZdu+GJtk7tCjqDm9F9BEessn
+	 2JPa+hkRmDpf51PKSFWSwbNGtHWPpUs/A8kRykaInMwWouPhlYJGGm7EKmojMvGwRdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=gSmgkcqx;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=AUKUqEb9;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=GNpSypgf;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=jNaJmDiS;
 	arc=none smtp.remote-ip=170.10.133.124
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE85606A330
-	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 14:23:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CE85606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E2B606A32A
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 14:43:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92E2B606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=gSmgkcqx;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=AUKUqEb9
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=GNpSypgf;
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=jNaJmDiS
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795270994;
+	s=mimecast20190719; t=1795272202;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=WqzN6zJ4R2jqDldWJTZ9k5y4S9ZfXvzqjQVQe1JBsIo=;
-	b=gSmgkcqxubNWIlYYc8Ry7rjMOdcLZOiGCQNynXH7+mUPoRacPCUbYNvsgUgEyUdgnopVcc
-	nFFllVhP1ypfvO9V+RLlBSlBQHDVwKrVDQPFnN0My4tY0eD98GyESJN6/2fMMAjymE12Ox
-	uzHNvT/8tpApVmAUsMcTlYP314L4i3w=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=cCJcXQgk/Si4catT5eOwtfh+QW2z1vm+mPPFnEPeMZ4=;
+	b=GNpSypgfGPVGCuri//eCXZYtp5nxBq11XUwZEKhtWYUPD3pj7bdm3xtKym/CsVYklNsgrx
+	GjrVLhPXfcoZveO9OSbIhJpHRy0BskN/V5ljPzUhQughMKlM85Zonp+qjBZ9y1vn3z/T8N
+	tQin5OsfQuijmw22Vo5N8ihL+ERotbU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-328-pIFgic6rOHmB8d6sPnBI8A-1; Sat, 21 Nov 2026 14:23:12 +0000
-X-MC-Unique: pIFgic6rOHmB8d6sPnBI8A-1
-X-Mimecast-MFC-AGG-ID: pIFgic6rOHmB8d6sPnBI8A_1795270991
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-48fbcf023dcso764152f8f.2
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 06:23:12 -0800 (PST)
+ us-mta-22-G52gCgMoO8CR-HGTE4oCcw-1; Sat, 21 Nov 2026 14:43:20 +0000
+X-MC-Unique: G52gCgMoO8CR-HGTE4oCcw-1
+X-Mimecast-MFC-AGG-ID: G52gCgMoO8CR-HGTE4oCcw_1795272199
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4b0a307487aso8796545e9.1
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 06:43:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1795270991; x=1795875791; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1795272199; x=1795876999; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WqzN6zJ4R2jqDldWJTZ9k5y4S9ZfXvzqjQVQe1JBsIo=;
-        b=AUKUqEb9Jv5sEBL8RqHD81ZYnnJdkbD7QPEYrsk4NofCasIi7sHa52S2B4P89+me9u
-         46ykO0/K5eYaeLJr8y2f3XEUcv/LwEgg0d5H61uXZiWoIMs9qYA1TBVBbJtFRLwGy/gl
-         VHJTDHAv1wyF1T9dSpZk8Zg68y1RQf2nSM17mSfLgq/FscaiONF04jIZq1a8HPnBZUX4
-         O+pYBi0nYNHo6gC999PYImo7s6iO5SROafuLo93uE0lvwUj2uQTiB6TBctsBwOIFYbjb
-         nH2uQRbDZXS9pq6XmLAJX/ClGxGNz71TlLMj99u/ANmH00yjveuxhskn6IanD9XaO0Mr
-         jyPA==
+        bh=cCJcXQgk/Si4catT5eOwtfh+QW2z1vm+mPPFnEPeMZ4=;
+        b=jNaJmDiSPYucTcK2ql2FUYqtNaqtEcwlcLgBLqTgua8QfR8VNXgw4VXM63Si1DKXew
+         NLxGVjIN+btZHWBcwKFDg50VVz8lMjq0Cy2uAV7SClfKv6rdTf5R7v2F5Vs2f6ZvwhlU
+         iYls4p28h8WUqw36B7ynUqTQaKDB/fFLNZm+jtU6krCJZJ+6QJkrzzaK0/2zRa89pbFm
+         gvLqh3V6y9X3kaM8UAEtqTls7p8futyagqv7WFECDMTvrr92KhooRCA/BzQGuMMQcfpR
+         xE4qlAOHGCTNRUCRsJElGHtKHBVadQKPT3v3VdUVwVbem9E6RbZC62IZwm5mH4Ecvz1i
+         0mAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795270991; x=1795875791;
+        d=1e100.net; s=20260707; t=1795272199; x=1795876999;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=WqzN6zJ4R2jqDldWJTZ9k5y4S9ZfXvzqjQVQe1JBsIo=;
-        b=ogs6qWuSL/YGhkJrpaUZAkZrcip3NJW2gAFvrb3/PMY9ZUaK7kP9LG442AznM4MozV
-         1r/sh/Elfzs9dsuOYqAv1TPM+Lpb4TsiDLMWagGRidog7brrjyQEBzKue43ZCq3xcfQx
-         3HXHRVGEK71PvYmVf3KfaJHzZkNwCgTwX4Vuc/jYvHYEtvgFSwi/viYBUQdVtBZxGXfp
-         5GHzRdTWmZfWoPLwda3RWNchF6O7jdsxfgsQHGRaBhs9RtBFP2DiW6q0zGbJ/mB7O0oE
-         FmUj9FvBATl0wbzOT+TUEaWJ+Pxf6F9TBEmCYSHu4cdsGhpGs3dpcIWQ6KFOhp4EF+X+
-         XOCg==
-X-Forwarded-Encrypted: i=1; AL+hErGhUl4GnnZnrhIbzxQo0oxBh+LQg0FQGDF1/uvVBDJY+QvIvWo2VHp4kEo0qtkeKz+ni600wz5mSS0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9xxJwma7p7gYAzXjSppZFtcUOep3Nks+95wmdSYGkDazEPRCNw
-	a4FBE7p+HGLoznk3nrHd5Jh5COqB9CIEgTbyc/F2vGBoXFFgXRhlLuO+EomyOwOBVnIJRqrRVmF
-	mriBjC0wBgsWni9dYY8BuWae9Z3WDkDkenTm0eHDcwOmrZoEhvlemigUhoz0KMw==
-X-Gm-Gg: AZFdTZfe7Nqg5KcrOqa8G0OPziPkeNm7mISsh/yDtEGkZtpxrQn3jY10DjpXuJAK2GJ
-	bJUdx6THIB5SHIwCvcDOsQv4urqQ5VSgwxQspBfQ7rzyHt8RSd/NRaJy+rF/Jg9vFI4QlqK5fsy
-	EUbdombEHgz+qMTTlcKo7cogMqWU3VJXGwJZ50zs/IndwJ3SMxsQ9EpQ08Yv/fPTc6O5fLi5VJ+
-	ojV6kug9E/h3+ombjRWx34FHJSW0Gh1eTXo+oX4/+TWjnx5D1fhbK+NKdmKXYMdtKtJHckOnX/s
-	4ouQhT7HESp2XZLztFBq+2ZZk8etewNZaMS9cyeWFzovkpinjKizopUpvCe3XFEic0yCqh2XGjp
-	7Ik2+uPxW790XA7STlwzhv8fGz4lAxBbDfDhlgbj4b44kHugf+UpfMDb6Xkl99kl7oTZUmBmLb6
-	fX
-X-Received: by 2002:a05:6000:47d4:b0:4aa:5396:a7bc with SMTP id ffacd0b85a97d-4abb4b849fbmr9281753f8f.40.1795270991199;
-        Sat, 21 Nov 2026 06:23:11 -0800 (PST)
-X-Received: by 2002:a05:6000:47d4:b0:4aa:5396:a7bc with SMTP id ffacd0b85a97d-4abb4b849fbmr9281710f8f.40.1795270990742;
-        Sat, 21 Nov 2026 06:23:10 -0800 (PST)
+        bh=cCJcXQgk/Si4catT5eOwtfh+QW2z1vm+mPPFnEPeMZ4=;
+        b=Cho+hkwLz9n7y+FgVTS33aYZvk4KJa4XTsQFskQNdBC7bVhQP2sEwdL+kHC8V7jYD7
+         vuudxXlfvIiZ/dbfqpqlbanSH3GVJOEF3YCwC/PPPWINAxLDCTaLZDU0NP0Kxso2EBGn
+         n1uT36d/ZnQAlyELKdGGce2Mtp9rhQIwbmVz1IrjgJCM6KTh4ANMaPDQk32HI51a2vWl
+         1a0djCxEunCV/XiE3CeF9PHzhFhfn/ikT+gco9qKfHGDayHwztNON83cjawuZtvpQGOh
+         IZhb/1m+FsIpFbJjiDvjvDVRaD8Z1Q+DTAYuUS/7CLOhat7a9/WRPRAQGgdmGfUF1WaE
+         c3qA==
+X-Forwarded-Encrypted: i=1; AL+hErF4JYelfdvsAJtmom/Q/PzaCPNSJttTX4tu/B37GMv8j23wXLXRCaIPQ5kExBWghUDe5+m4xJfcwT8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+lUdF15I+VgNueAi42+gT4AsDCBOTqUbzYk41V0iXQzGUEgeDi
+	GR5LM5ioRMKUxcq0FxiUxi1gs+uTWpZuuvUOd66ocpp/sULtY7xaG6KE+bw2kB1Qn88PQ4gtu4R
+	q+T8AEy/Yr/D+sBebZjrgV4yod5WcbEYW83OelSLhm8N1JEgJVOs5XeBLngOPMQ==
+X-Gm-Gg: AZFdTZc7a049a0nQ3iGs/glipEdGowzlUt9PjU46DMkrHTMy2uBnNCs/B34r+39pTLo
+	gE2+92z7/211aMTaRsW+KlcWyMcrubOffQOY2SfVWPu+x2bBV1P9tl5qPHf4e3jD3fyYVJEy5pP
+	E5e+uGcexSvpQtuZrsqldkmpSDdCe/ZN6+Gj3cD8kvX62L6QVNcfkku9y+cb1S1qA15KGHO8w0Y
+	qr9lXiCemYOEQSzA5skUfDozlx04VCHc/RghVD2g3sKS+niXmaD6v1DodvS4gEydEDogSS8v9fF
+	LHf8rWQi88rEuOwWls0AFNeA+KnD5cPakXm48NhBJMrHh5d0o6sC6fPxLtcKo2M1JEIIYvzD4BB
+	TAemLg/nkCtO/wvTuRh/gLvDrHjl5kfIitlH1Hwrx1z3cWHRVl+ewP5o4C11vsN6NOoxoqtFOpE
+	Be
+X-Received: by 2002:a05:600c:3b8a:b0:4bb:76d9:f81a with SMTP id 5b1f17b1804b1-4bb88824fc8mr150766665e9.34.1795272199361;
+        Sat, 21 Nov 2026 06:43:19 -0800 (PST)
+X-Received: by 2002:a05:600c:3b8a:b0:4bb:76d9:f81a with SMTP id 5b1f17b1804b1-4bb88824fc8mr150766295e9.34.1795272199011;
+        Sat, 21 Nov 2026 06:43:19 -0800 (PST)
 Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.168.96.228])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4abbd84e661sm10354767f8f.18.2026.11.21.06.23.09
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6c340df4sm13970576f8f.55.2026.11.21.06.43.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 06:23:10 -0800 (PST)
-Message-ID: <9419fa94de8acc8f1ae445004b77d20d0be3e98e.camel@redhat.com>
-Subject: Re: [RFC PATCH v2 0/9] rv: Verify generic IRQ context transitions
+        Sat, 21 Nov 2026 06:43:18 -0800 (PST)
+Message-ID: <9d23c0a68ae574f0c124da238d8ebf676d152039.camel@redhat.com>
+Subject: Re: [PATCH 3/6] rv: Show the mixed enable state of containers
 From: Gabriele Monaco <gmonaco@redhat.com>
-To: Karl Mehltretter <kmehltretter@gmail.com>, Steven Rostedt
-	 <rostedt@goodmis.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers	
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@kernel.org>, 
- Sebastian Andrzej Siewior	 <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, Ingo Molnar	 <mingo@redhat.com>, Peter Zijlstra
- <peterz@infradead.org>, Andy Lutomirski	 <luto@kernel.org>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot	 <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,  Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider
- <vschneid@redhat.com>,  K Prateek Nayak <kprateek.nayak@amd.com>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,  Randy
- Dunlap <rdunlap@infradead.org>, Wen Yang <wen.yang@linux.dev>,
- linux-trace-kernel@vger.kernel.org, 	linux-rt-devel@lists.linux.dev,
- linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org
-Date: Sat, 21 Nov 2026 15:23:08 +0100
-In-Reply-To: <20261107171252.25090-1-kmehltretter@gmail.com>
-References: <20261107171252.25090-1-kmehltretter@gmail.com>
+To: Wei Li <liwei1412@hotmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Jonathan Corbet
+	 <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+	 <rdunlap@infradead.org>, Masami Hiramatsu <mhiramat@kernel.org>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Nam Cao <namcao@linutronix.de>
+Cc: linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	liwei391@huawei.com
+Date: Sat, 21 Nov 2026 15:43:17 +0100
+In-Reply-To: <CY8PR19MB70099F2263C408361053B295B7682@CY8PR19MB7009.namprd19.prod.outlook.com>
+References:
+	 	<CY8PR19MB70098BF493A3B67418C7B9ABB7682@CY8PR19MB7009.namprd19.prod.outlook.com>
+		 <CY8PR19MB70099F2263C408361053B295B7682@CY8PR19MB7009.namprd19.prod.outlook.com>
 Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
  keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
  1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
@@ -143,225 +137,125 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-On Sat, 2026-11-07 at 18:12 +0100, Karl Mehltretter wrote:
-> Questions still open from v1:
->=20
-> =C2=A0 1. Are dedicated scheduler tracepoints the right way to follow
-> =C2=A0=C2=A0=C2=A0=C2=A0 preempt_schedule_irq() across task switches and =
-migration?
+On Wed, 2026-11-04 at 17:21 +0800, Wei Li wrote:
+...
+> +enum rv_monitor_state {
+> + RV_MON_DISABLED =3D 0,
+> + RV_MON_ENABLED =3D 1,
+> + RV_MON_MIXED =3D 2,
+> +};
+> +
+> =C2=A0struct rv_monitor {
+> =C2=A0 const char *name;
+> =C2=A0 const char *description;
+> - bool enabled;
+> + enum rv_monitor_state enabled;
+> =C2=A0 int (*enable)(void);
+> =C2=A0 void (*disable)(void);
+> =C2=A0 void (*reset)(void);
+> diff --git a/kernel/trace/rv/rv.c b/kernel/trace/rv/rv.c
+> index 4e689d4590ae..7846e4092b9c 100644
+> --- a/kernel/trace/rv/rv.c
+> +++ b/kernel/trace/rv/rv.c
+> @@ -235,12 +235,15 @@ bool rv_is_container_monitor(struct rv_monitor *mon=
+)
+> =C2=A0static ssize_t monitor_enable_read_data(struct file *filp, char __u=
+ser
+> *user_buf, size_t count,
+> =C2=A0 loff_t *ppos)
+> =C2=A0{
+> + const char set_to_char[3] =3D { '0', '1', 'X' };
 
-So I'm not quite sure you care about running outside or inside the exceptio=
-n
-context tracking. If you don't, an fentry/fexit in BPF (or fprobe in the ke=
-rnel,
-not supported) could work for you.
+Real nit, but nothing ensures these match the enum fields although they sho=
+uld,
+you could use a designated initializer:
 
-That said, we do roughly the same in __schedule(), so I don't see anything =
-wrong
-with what you're doing, as long as Peter is fine with it.
+  { [RV_MON_DISABLED] =3D '0', .. [RV_MON_MIXED] =3D 'X' }
 
+> =C2=A0 struct rv_monitor *mon =3D filp->private_data;
+> - const char *buff;
+> + char buff[2];
+> =C2=A0
+> - buff =3D mon->enabled ? "1\n" : "0\n";
+> + guard(mutex)(&rv_interface_lock);
+> + buff[0] =3D set_to_char[mon->enabled];
+> + buff[1] =3D '\n';
+> =C2=A0
+> - return simple_read_from_buffer(user_buf, count, ppos, buff, strlen(buff=
+)+1);
+> + return simple_read_from_buffer(user_buf, count, ppos, buff, 2);
 
-Maybe, you could somehow reuse the __schedule() tracepoints and understand =
-you
-came from interrupt context, but that would obviously not match the
-interrupt/preemption counts, although they are (now) guarded by a BUG so yo=
-u
-don't really need them.
-The loop should work fairly well anyway.
+Why don't you use sizeof(buf) here?
 
-The nrp model does something similar with the nested_preempt, flagging a
-schedule entry after irq as an irq preemption. You may look into that, I do=
-n't
-exactly remember but it probably isn't really accurate and you might need
-something else.
+> =C2=A0}
+> =C2=A0
+> =C2=A0/*
+> @@ -269,10 +272,22 @@ static int __rv_disable_monitor(struct rv_monitor *=
+mon,
+> bool sync)
+> =C2=A0
+> =C2=A0static void rv_disable_single(struct rv_monitor *mon)
+> =C2=A0{
+> + struct rv_monitor *cntr =3D mon->parent;
+> + struct rv_monitor *p =3D cntr;
+> +
+> =C2=A0 __rv_disable_monitor(mon, true);
+> + if (!cntr)
+> + return;
+> + cntr->enabled =3D 0;
 
-> =C2=A0 2. Is the KUnit-only hook for an empty ksoftirqd invocation
-> =C2=A0=C2=A0=C2=A0=C2=A0 acceptable? Outside a KUnit run, its worker chec=
-ks take a disabled
-> =C2=A0=C2=A0=C2=A0=C2=A0 static-key path.
+Do you mean RV_MON_DISABLED?
+You added the enum which is nice, don't rely on magic numbers.
 
-I mentioned it briefly in another email, but I don't think you should touch
-softirq code at all. Just simulate events, don't cause them.
-As a rule of thumb, if your RV unit test creeps into other subsystems, you'=
-re
-doing something wrong.
+> + list_for_each_entry_continue(p, &rv_monitors_list, list) {
+> + if (p->parent !=3D cntr)
+> + break;
+> + if (p->enabled)
+> + cntr->enabled =3D 2;
 
-Another story is if you want to write softirq KUnit tests, but that's beyon=
-d the
-scope of this series and I'm not the one to answer it.
+Do you mean RV_MON_MIXED?
+
+> + }
+> =C2=A0}
+> =C2=A0
+> -static int rv_enable_single(struct rv_monitor *mon)
+> +static int __rv_enable_monitor(struct rv_monitor *mon)
+> =C2=A0{
+> =C2=A0 int retval;
+> =C2=A0
+> @@ -289,6 +304,27 @@ static int rv_enable_single(struct rv_monitor *mon)
+> =C2=A0 return retval;
+> =C2=A0}
+> =C2=A0
+> +static int rv_enable_single(struct rv_monitor *mon)
+> +{
+> + struct rv_monitor *cntr =3D mon->parent;
+> + struct rv_monitor *p =3D cntr;
+> + int retval;
+> +
+> + retval =3D __rv_enable_monitor(mon);
+> +
+> + if (!retval && cntr) {
+> + cntr->enabled =3D 1;
+
+Do you mean RV_MON_ENABLED?
+
+> + list_for_each_entry_continue(p, &rv_monitors_list, list) {
+> + if (p->parent !=3D cntr)
+> + break;
+> + if (!p->enabled)
+> + cntr->enabled =3D 2;
+
+Do you mean RV_MON_MIXED?
+
+> + }
+> + }
+> +
+> + return retval;
+> +}
+
+I need to test it, but at first it looks good and sounds like a nice additi=
+on.
 
 Thanks,
 Gabriele
-
->=20
-> Patches 1-5 add the tracepoints, monitors and documentation. Patches 6-9
-> add KUnit coverage.
->=20
-> The series is based on v7.4-rc1, which contains the v1 prerequisite and
-> Wen Yang's reactor lockdep fix:
->=20
-> =C2=A0 commit feb5c9a2447a ("softirq: Preserve interrupt context on retur=
-n from
-> interrupt")
-> =C2=A0 commit 39ccedfd9e55 ("rv: Use LD_WAIT_SPIN as the reactor lockdep =
-wait
-> type")
->=20
-> The series is independent of the early-hardirq series [2], which
-> installs hardirq state before entry tracing. Both change
-> kernel/softirq.c, so applying one on top of the other needs a small
-> conflict resolution in __irq_exit_rcu().
->=20
-> Changes since v1:
->=20
-> =C2=A0 - Use bare DECLARE_TRACE() tracepoints instead of trace events
-> =C2=A0=C2=A0=C2=A0 (Gabriele)
-> =C2=A0 - Rename the irqentry container to irq (Gabriele)
-> =C2=A0 - Add text schematics of both models to the documentation (Gabriel=
-e)
-> =C2=A0 - Document why irqstate and irqexit are separate automata
-> =C2=A0 - Rebase onto v7.4-rc1
->=20
-> Testing on v7.4-rc1 with Clang 23.1.5, GCC 14.2 (x86) and GCC 16.2
-> (cross), and QEMU 10.0 TCG, with lockdep and the locking selftests:
->=20
-> =C2=A0 - Each patch builds with W=3D1 on x86_64 without new warnings.
-> =C2=A0=C2=A0=C2=A0 RV_MONITORS_KUNIT_TEST=3Dm builds on x86_64 and arm64.=
- kernel-doc
-> =C2=A0=C2=A0=C2=A0 reports no warnings for the changed headers.
-> =C2=A0 - The rv_mon KUnit suite and the reactor suites passed without
-> =C2=A0=C2=A0=C2=A0 failures on:
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 x86_64=C2=A0=C2=A0 PREEMPT SMP4 and UP, PR=
-EEMPT with nohz_full=3D1-3 and
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 threadirqs, PREEMPT_RT SMP4, PREEMPT_RT SMP8 with
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 nohz_full=3D1-3
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arm64=C2=A0=C2=A0=C2=A0 PREEMPT, PREEMPT w=
-ith nohz_full=3D1-3 and threadirqs,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 PREEMPT_RT, PREEMPT_RT SMP8 with nohz_full=3D1-3
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 riscv64=C2=A0 PREEMPT
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ARMv7=C2=A0=C2=A0=C2=A0 UP
->=20
-> =C2=A0=C2=A0=C2=A0 Each configuration ran 13 to 21 of the 29 rv_mon cases=
-. The others
-> =C2=A0=C2=A0=C2=A0 are skipped because they need a different configuratio=
-n.
-> =C2=A0 - RV=3Dn kernels boot on x86_64 and arm64.
-> =C2=A0 - On top of the early-hardirq series, the same suites passed on
-> =C2=A0=C2=A0=C2=A0 x86_64 (PREEMPT, PREEMPT_RT), arm64 (PREEMPT, PREEMPT_=
-RT) and
-> =C2=A0=C2=A0=C2=A0 riscv64.
->=20
-> An LLM assisted with the patches and the testing.
->=20
-> v1: https://lore.kernel.org/all/20261022050712.75035-1-kmehltretter@gmail=
-.com/
->=20
-> [1]
-> https://lore.kernel.org/all/FACA54EC-F846-4051-9ADD-DB46E7665FAD@redhat.c=
-om/
-> [2] https://lore.kernel.org/all/20261028033127.82193-1-kmehltretter@gmail=
-.com/
->=20
-> Karl Mehltretter (9):
-> =C2=A0 tracing/irq: Add generic IRQ context boundary tracepoints
-> =C2=A0 tracing/sched: Add IRQ preemption lifecycle tracepoints
-> =C2=A0 rv: Add a monitor for generic IRQ context transitions
-> =C2=A0 rv: Add a monitor for IRQ-exit scheduling ownership
-> =C2=A0 docs/rv: Document the IRQ monitors
-> =C2=A0 rv: Add KUnit coverage for IRQ context transitions
-> =C2=A0 rv: Add KUnit coverage for IRQ-exit scheduling
-> =C2=A0 rv: Test empty PREEMPT_RT softirq worker intervals
-> =C2=A0 rv: Test IRQ-exit softirq provenance and handoff
->=20
-> =C2=A0Documentation/trace/rv/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 +
-> =C2=A0Documentation/trace/rv/monitor_irq.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 475 ++++
-> =C2=A0include/linux/interrupt.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0=C2=A0 8 +
-> =C2=A0include/rv/kunit.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 34 +-
-> =C2=A0include/trace/events/irq.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0=C2=A0 56 +
-> =C2=A0include/trace/events/sched.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0 26 +
-> =C2=A0kernel/sched/core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 6 +
-> =C2=A0kernel/softirq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 324 ++-
-> =C2=A0kernel/trace/rv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 11 +-
-> =C2=A0kernel/trace/rv/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 3 +
-> =C2=A0kernel/trace/rv/monitors/irq/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 13 +
-> =C2=A0kernel/trace/rv/monitors/irq/irq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 35 +
-> =C2=A0kernel/trace/rv/monitors/irq/irq.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 3 +
-> =C2=A0kernel/trace/rv/monitors/irqexit/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 14 +
-> =C2=A0kernel/trace/rv/monitors/irqexit/irqexit.c=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 172 ++
-> =C2=A0kernel/trace/rv/monitors/irqexit/irqexit.h=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 85 +
-> =C2=A0.../trace/rv/monitors/irqexit/irqexit_kunit.c |=C2=A0 540 ++++
-> =C2=A0.../trace/rv/monitors/irqexit/irqexit_kunit.h |=C2=A0=C2=A0 21 +
-> =C2=A0.../trace/rv/monitors/irqexit/irqexit_trace.h |=C2=A0=C2=A0 19 +
-> =C2=A0kernel/trace/rv/monitors/irqstate/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 14 +
-> =C2=A0kernel/trace/rv/monitors/irqstate/irqstate.c=C2=A0 |=C2=A0 289 ++
-> =C2=A0kernel/trace/rv/monitors/irqstate/irqstate.h=C2=A0 |=C2=A0 139 +
-> =C2=A0.../rv/monitors/irqstate/irqstate_kunit.c=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 2339 +++++++++++++++++
-> =C2=A0.../rv/monitors/irqstate/irqstate_kunit.h=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 25 +
-> =C2=A0.../rv/monitors/irqstate/irqstate_trace.h=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 15 +
-> =C2=A0kernel/trace/rv/rv_monitors_test.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 30 +
-> =C2=A0kernel/trace/rv/rv_trace.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0=C2=A0=C2=A0 2 +
-> =C2=A0tools/verification/models/irq/irqexit.dot=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 21 +
-> =C2=A0tools/verification/models/irq/irqstate.dot=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 32 +
-> =C2=A029 files changed, 4737 insertions(+), 15 deletions(-)
-> =C2=A0create mode 100644 Documentation/trace/rv/monitor_irq.rst
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irq/Kconfig
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irq/irq.c
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irq/irq.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/Kconfig
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit.c
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit.c
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_trace.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/Kconfig
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate.c
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit=
-.c
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit=
-.h
-> =C2=A0create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_trace=
-.h
-> =C2=A0create mode 100644 tools/verification/models/irq/irqexit.dot
-> =C2=A0create mode 100644 tools/verification/models/irq/irqstate.dot
->=20
->=20
-> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-
