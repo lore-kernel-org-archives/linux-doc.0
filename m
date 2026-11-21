@@ -1,64 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795281717;
-	b=YJPMnNJhiCZYf/Z+oWT/cRWN9j2Vfsg3bq9msmXQoLFVlMhsyxicCyW1Z9Xn5lCc1NHe
-	 dwFN/f5U8qmEOJsUyhxg4I70th7r9ajL4o1GkXTB2FWxgYb62CizecmL2QJxC8evTlvZ7
-	 2GzphoPyVvx/wouizBXp2Rfr9gHTQDWrQ5MN5HZbDvWS3Mv921T3vNBgeBjnBKROKGinh
-	 tezcVFc6SBdU4mckhUbWv54obFkluDIg0qQBxeNXgISEXnXW8DLyKfQZl9a1g8i4ypiVL
-	 GVRKrf75BAyEKxeBCE1fFXXZppU8AnQR6G6wbeXjavXE6bFiTPBcn5evaFLlB9mk6nw==
+	t=1795281836;
+	b=PE9wypxa8d85d5zsl1ZfDCagPZiMauU0zECaaO/ns2Tt1noiH3XQw+LRHvTIiZjEoTSH
+	 ATZj+iphN4OxgM6kpoYxbrUPo0L2GbMmDTjCtzlklzPWlQwJCZ3v7uWCYzQ1xsJOExMf9
+	 /IKxdIEb2aCFTB6lxP+Wnh7zA8NKXaTNS+/iH58PhmZrSMJbUMLTKGMMUbyKpaUiHw1+5
+	 BVykOaqdiZpciNBIY2buQcv0XJlGkpOq1fYvK2GbksTbp5jncPERHDslBt4ZVXaOhnpfx
+	 SRrFiK7WlaFGS0ei/0u+9NDGnUDOJH+YuWzW+gAxVmxXAn9OpXOlJIKKScdLBjdBRUw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795281717;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ohIR6Qw82vrbkY4AEMlZ5OFiQyPze3nGc8ZbxW8VQNk=;
-	b=XY4F6T9rfb+nHWQLpDhYSnhUPSTB/z3J5GTROslvGN8ckDybQY1Ocauq19FWRXv0oycM
-	 L8LnGDeHk2+5YwLy6FngYTWvk0YLTOTwt+05ofhsG4/wCoK5ZUVDKS1jHal6oJbB03E5e
-	 j8T4YLPpgu88xkuxVy1EyThVnbHbtMWfOtiBrKfxrPBahf9AuRsZ+EiicAqEMG50sIZF1
-	 koWeT1Zm9bx8Nfq1oCOD17X9tweO0bHXWvTHy+GwBEktH9sBglZYqncwpk7RNKUQP9OWp
-	 DCy9Adx4s/8RDHKXyiX7B2V/k560Qe3VIQmc6VB6E57UW3vB8AOnnmrQm9BpJqOJ2iw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795281836;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=fUMUx3jV+Cza+EQigl1rcYAIkS0QbtIwp0tnJ+ZrKLk=;
+	b=5LtLvxs+7hpG0JHLoF56XhtRXKET68j3Yb1+GRaR5+rSLXsvAA535NvY+tm903LPGpoc
+	 tRvuGoiwGbVuoVV6uCXxWSqnsEr7qyRSrH1xX8dc9zodo7Wq7spRySvd97b93P0KzAgKt
+	 bvB07jszOz2aGBnppl0Cax6tx90mu6v0AiH+a5WrB41NjsXYPHMSCWQTZWkfXIQZax/05
+	 cR/WrXmTbV2hkZJdPAwBKwfpx0azL8rdQjMCS1w58d4qZVVe2UtKf5kZhOOZacqG7/Zuw
+	 ZEfnJpoz1N13HUjaQuiYMasl0me7XmZ7c1qpdCBYh9UGxP7LFXGY5fkHFM+a/EY329w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MfOJU2OB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dqhNilQt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 23E20606A320;
-	Sat, 21 Nov 2026 17:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C93606A33D;
+	Sat, 21 Nov 2026 17:23:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MfOJU2OB
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 34F461F000C0;
-	Sat, 21 Nov 2026 17:21:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dqhNilQt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A20501F000C0;
+	Sat, 21 Nov 2026 17:23:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795281716;
-	bh=ohIR6Qw82vrbkY4AEMlZ5OFiQyPze3nGc8ZbxW8VQNk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MfOJU2OB8lw5gSY9BnMmPvchn99+EsG8UzO4ZvAUo1WYMnnEcq9l22P9SFCMIfG97
-	 6g1DB1fPOHkkhNeQyatKx6xx82XIKQq6NmVa7ROmN01aXYxgdXSh+pSXWh7ZQo9nrb
-	 VuEg7DF7+VCLLHrN2rKKof0hdINX2MahCtu7DK97H5v+99TQtkYaYP+EmJrWbSPfZ8
-	 w+WXxHVoDa4iCMOGX0YxSgkypG1gOGZhRWzBQzr6JMwomnHh5KIaqjJJWoMW3McUpJ
-	 apwmVODt2VzXn5CnaPnu7Ie+YskEZN+V3ZYeFSpJHkDC8zS5rqBo7LJqcHZFHJxnLg
-	 NMzrk1GVnTNEg==
-Date: Sat, 21 Nov 2026 19:21:52 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
+	s=k20260515; t=1795281836;
+	bh=fUMUx3jV+Cza+EQigl1rcYAIkS0QbtIwp0tnJ+ZrKLk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=dqhNilQtZwoham26ThtkeeHFtRSps35xLwa1G2F5usdzpdsiI6le/VhPeXYv1dufh
+	 OgjnWpU9RRjsrB0eA7/vhOqPTprsZS6b8J45b7hr5KwnQE3bHQKEkFd6V1O+ucl6f1
+	 NiZBhQ5VDsvThE9AzIuNjg9TcJQPe6e2fGOV6BdxqJ5UrI11oSpbUH+qXoLw940UkO
+	 GABVMs95EFUbN0PV6MrjJecVWDRwRDL5tLSbcZWSyG6jzK3h4Gen5q0cZ9AgCF0sLD
+	 T9nD7cd/T3xXNxdyUHmH8nGpteEU5wZX5UuqUZTGXQ/Up7i/WAZqKgpOnPJiXT3ZCO
+	 W5ZrEdrbWrXvw==
+From: SJ Park <sj@kernel.org>
+To: Aveline Noir <jm5905938@gmail.com>
+Cc: SJ Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	arijit.desaii@crusoe.ai,
 	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v5 25/25] MAINTAINERS: Add entry for ROOT NAMESPACE
-Message-ID: <awHTMNdonDO8IQtF@kernel.org>
-References: <20261121000844.1863324-1-jarkko@kernel.org>
- <20261121000844.1863324-26-jarkko@kernel.org>
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	sashiko-bot@kernel.org,
+	sashiko-reviews@lists.linux.dev,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [RFC PATCH 2/4] mm/damon/reclaim: set memory PSI 0.05% as default quota goal
+Date: Sat, 21 Nov 2026 09:23:47 -0800
+Message-ID: <20261121172348.80312-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <179526475633.4.14859465649138957731.b4-reply@b4>
+References: 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,35 +67,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261121000844.1863324-26-jarkko@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 21, 2026 at 02:08:44AM +0200, Jarkko Sakkinen wrote:
-> Record maintainership and mailing list routing for the root namespace
-> subsystem across its uAPI headers, core implementation, documentation,
-> and selftests.
+Hi Aveline,
+
+On Sat, 21 Nov 2026 23:39:16 +1100 Aveline Noir <jm5905938@gmail.com> wrote:
+
+> Hi SJ,
 > 
-> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> ---
->  MAINTAINERS | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+> On Thu, 19 Nov 2026 22:07:36 -0800 SJ Park wrote:
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7cbce21ba45a..072be5ec7fd8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -24533,6 +24533,17 @@ F:	include/linux/mfd/rohm-bd96802.h
->  F:	include/linux/mfd/rohm-generic.h
->  F:	include/linux/mfd/rohm-shared.h
->  
-> +ROOT NAMESPACE
+> > Set 0.5 milliseconds per second
+> > (0.5%) as the default auto-tuning target memory pressure ratio.
+> 
+> 0.5 ms per second comes out to 0.05%.
+> 
+> > +static unsigned long quota_mem_pressure_us __read_mostly = 500;
+> 
+> With a fixed 500 us target, maybe a longer aggregation interval also
+> lengthen the PSI measurement window. For example, if the quota ends up
+> being reset every 2 s, should 1000 us of stalls still be compared 
+> against 500 us? If so, the tuner would drop the effective quota
+> to 1 byte, skipping pageout for the next quota window.
 
-Out-of-date.
+DAMOS quota is not reset for aggregation interval.  It has a separate interval
+for quota reset.  It is exposed to users via quotqa_reset_interval_ms
+parameter.  The default value is 1 second.
 
-Not sure if rootns is a great name overall, it just randomly picked WiP
-name. What gets produced are opaque fd-bound containers so maybe even
-calling syscall as container() would not be such a bad idea (unweighted
-and unconsidered idea).
+The quota reset interval is evaluated for every sampling interval, though.  If
+the sampling interval is tuned to be larger than 1 second, the problem Aveline
+mentioned could happen.
 
-Br, Jarkko
+But, I'm not sure if it could be a real problem.  Reclaiming more than expected
+is a definite problem that can degrade the system performance.  Reclaiming less
+than expected is less concerning, as long as the extent is not too much.  It
+doesn't regress something.  Anyway this is a best effort proactive reclamation.
+
+We could revisit this if it becomes clear some real users find it as a problem.
+
+
+Thanks,
+SJ
+
+[...]
