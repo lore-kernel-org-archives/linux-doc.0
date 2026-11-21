@@ -1,100 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.48
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795299881;
-	b=AxatmQT/4JGdeLbdVviNKNq81JvPDG+HZcqwKmTiWcdFgbD6KsCFAeJbtAS5RV8qeEiz
-	 pJovABdz2IDChoQ71fX/UGIsRQCr01bSlm9qLMS/txcni/cWZGWNrJ1SSH0aNNdjz8m3p
-	 zjuKf3Fs2iFLza/FR26aarcPaE1+hLDY1KUYbKxTMdiEsfnuU+M7Bwr5DLuFbNG7p18sk
-	 JK3cqHSEP5xGT7Wd+Es75UWSysGvt1Vm8s1saOlJGAjI0GU6l9UN3g1r+5BSxLh06PcKE
-	 QpEFSsnbiskprui60uz3G3IZ+66nmV97X+qF+XAHjordYsDtpNMMkNxgFOgxUF5Zi7Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795299881;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Hz3905wAXZE2z0xpo1pg4iMkZNUnir/n6DiACnoEPHk=;
-	b=eemaOdyUB4LWI9s/bJALEraC1UJN1Xwsrb8XpF7xfH1ApSNozioCMZo9paM7xmWxaSt+
-	 6rwqwGZEU3octrMYFMv60cmejpgW1Eg0ZONm5QngsQoEISqZlwlpC1EZVHUvR9+8PAO55
-	 FC5/fCormAizXCRGx6lBVx8CcbQgkTl4LPyfKddHWoi7QvOdB+Bco3kF4RLhOkdT/QjWh
-	 gpM82OspijMUS6tuacdbrhvedGmT0z3Dtr6xMGc8aWxd/R6miTiBgEl2bODWlO8rZcGPD
-	 3Dwznd9E+k3iGwrZNv4nIaggGHlhveDxI97boyNVmJJ4QolzN1sBd8GKg/ifgAgVpyA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="iwlx/YiR";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.48
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795302183;
+	b=LimdWUeRDOFPHOKp6wUTB5gBcvwjVOQEe8Fkb2qN9Ijw86nseQmRgXKFmLFhoWJygseh
+	 Y9ER14owIhgno01V+a95s5n4B0OZ77FPWi17kMuQ8Uo9uiwDptPVv5y0eKXK9kFhxv2cr
+	 yDLlR2UdP1/GdfTpXHJSw/W+1OOrhN+Y4wZX0ABxKFW7eZctw41G2eBTzCgRXjD7vZ22z
+	 XW6UW3kgAebkRLpXpHcYTeRGKQ9p9Kce+edAPb4QLlW1/3hv/eeVVSP5ytoflP+uIHsZ0
+	 QUx2atnfwUWBwFaPatsttJNSyZxovyTVk6Bp6vLB2jg/X9BbEQfoTpPRSF1F0K5oVmA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795302183;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=YblPw0OxuKOe7mXetjre4GQOF68ty3iscXQRSGT3Ipk=;
+	b=KVPAbIvI61z7eopcb+NhvXSE+PColwM7gySSLc2yt+RKCWHB8xmEeYXSQL50r2wUnuPT
+	 evBZce9teTVbbFbvKTz0LR7Pom62XXzlCTH3HEHyZcMNQo6okDmmocKtiW9/ITZFUKYyi
+	 FX745fP6eDgQB3PsYiavZzewcMlqaZum30Alj00XRbgWXwJiAi/b7A9r3naarpCVR9yAm
+	 zQQd3rS8KOX8X6mb2L5xo6vo1UbckcR1gKrbPlea/U5whnMYAHs+h4rE/dEOE6emSt0kX
+	 HW3WSiOPKKMC7Xd0tGGAOnyhpKWnnZEockbQHmxv6825RcQ7wxmruyl9gJNLl1cYsKA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JlshQYvk;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F6C606A320
-	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 22:24:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59F6C606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170C4606A684;
+	Sat, 21 Nov 2026 23:03:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iwlx/YiR
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-862b090e3c3so1167665a34.2
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 14:24:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795299880; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VXGnWS4q0CfrI6UxgMtUanEWVhjkm0Adadc6kyNkDTN72++scQCNCCX2w+HJbd1s1F
-         sOCAd2U5k58/bMahvAn25kOtqIacG5frhEkJo9vCYkvV2hp5V6+zjszF1CfEgXIxW0Sk
-         DTFs4hpThA4OlQwyYgrBP0He/K7WkJz8zsPGsuPCORea5kNRHqfG6MDk+TeDnHo2L8vO
-         uqcQzCH2hrSESdc8cLRouQXvNI80I2lGKciOAOWtdWORdDvH5ht/Q4bBt95Xv0extDdd
-         akhFd+wcAF0l0sy+dMD+wMqVxnWLm4EgrcXYsO84l2Ef0LAnNvjtmZPiSXdD209nAjYG
-         Mq8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Hz3905wAXZE2z0xpo1pg4iMkZNUnir/n6DiACnoEPHk=;
-        fh=hqX/4CE/grXW1NGoWlNllvyDA3P4zEp5ggwleCXxe3o=;
-        b=j+tLIdjfC6WtxVkwu8Bc+ibyeT7bZ8mIXGNPPlrEISc9QHjjK85g/5TP0EngASNxve
-         nEHBHHdWLcPku4y2s1C3ydl62EtZ/YYtyJj8tf7fpSOwOfiDzxTXqHGB5eLcx+FmgRSh
-         H/sVozSjWyoYwLi96TolsLLRNarQp5dqyMUcuaO2BmNGr66B1zB0JS9aVBb7SOUIYCvU
-         y97qXkpmjhbFO1iQ43F2Y909uVNnxNBke00tMRh6xhEIhif/tZlqJ+lwO4JZpsxdpKR/
-         MHOV6Zz+gE8qH/e8c+CVXQLq1SUzM27YKKV4yWeRUvPw1P3RRfZMsMH2SGtMlfUSa/kV
-         BFzQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795299880; x=1795904680; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Hz3905wAXZE2z0xpo1pg4iMkZNUnir/n6DiACnoEPHk=;
-        b=iwlx/YiRPAdloZBmBL4iBicJ5qjH9cxWWijc/+M0drPUqUyZTbyNJy1fF4OT9IRKe0
-         d9Fvg+W1Z+BJo2/wkQEHEhZ0wb8qMWAAy8SURPHAmuW7Prn8OoPQRpH3ZQiLVbvNExCd
-         D3JvxE3k1EDmvNnPy3wgk9OYi3WVjmTK+ZzmZhRH6RkaeUQY1gkOX4gei720SqPrvqAo
-         n3Gjyhgh5oofchX8sCPo9HlapCvfneWCMqgBmF7Um+ph8RD2dhm5mGt7D0B3wW8RFdAE
-         64dXwJfl40o5/4PsehIkbg3hnsPU0ZkeLl/wU/ArSjwqoux4f7QoDcHtYxvFtHGHs8Xr
-         Ym0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795299880; x=1795904680;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Hz3905wAXZE2z0xpo1pg4iMkZNUnir/n6DiACnoEPHk=;
-        b=c3z0Zj3YcpQErJKNuLohGrFSiUG2N/byYFjCnKOa/fiaRdYy0GcPZ9AHGpy8404DfL
-         fGH4AfKAxE6ISFNBUzLpeXZqu8uo4VjhuTS3MGPeA+g8No8V0AsxmVqdGALIcmgMcuWM
-         TWYE4aMohGttTXzwVNpBHdj+129WpwguKl8BB7S4Iiq1Km7DA59DqkUWefUrCvG1rXnF
-         p9RoUpwZrQOVwLNC+sTQi1S6MHqov95Df91l/QG9vwuilxU4hJgONLkoQKcfkqaZ8+U+
-         ynu2BB3IVer6tu+PMyKzutRy8QwgNdarlaIncyT/l3Dj2nT6buFKzHl1SU4Zfw8K3J0a
-         AmCw==
-X-Forwarded-Encrypted: i=1; AL+hErGYMXrJp5+FFtNwFJW6nqXtSr+XcGjBEPpPiTTYPaIgxzpDZXvmVuExKd0/AcJNXP735wjJFnGgRzM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9UF0z/iZ0R600gC5vYr4y4TPWQTDy+pDwPjQ0MHmluu87fRArr
-	4q6IxxQ960lcNF3PUZ9Zug0D2EhP5C65MljdPCVgcS449ebsTH62pAHM/ZMHao+NqrWia/WZrcC
-	uwrVNQ8FL7cKiYCyLpP+78Raeu0ZPLLU=
-X-Gm-Gg: AZFdTZfsK+7kQlKuc5gmsVa2XDJRFeNRXx3m7NtOA0S4HUqwSV9qz7Y9IoegJGAhF0r
-	gSQVJXpWsgXfB63rMQgt68f6xaHPZdojB5RpF6kI/PtMi7xMOLYFUFlN8U2frZZ3u8IelueCrm2
-	SfmcqIcFg6EVZPVgmPZCzjpWRB6iYdC7+Dchu0RDpNm/eEI2LFEC3+d6H5nldt+VKX5iAFz90Os
-	qN3/SilPq3dl3BE0Gg5bqgM+5Z15YYLrHRfiP1OWsclrYzShqtxhE/GkP14Yp4mSAbf6QSGNThG
-	iNPFMKqrsWa4yq0MnqHY7jr9aNZ9HEO0wg0pJNixGPkktmSj9uWNqodOpJg5c3WV/lx+oayh7Gu
-	tM1fhIPwj4diqBCeE1HP4rtEmuqXxkC8rlXAg
-X-Received: by 2002:a05:6830:2692:b0:862:eb1e:6a78 with SMTP id
- 46e09a7af769-8631593a1b2mr8377193a34.7.1795299880305; Sat, 21 Nov 2026
- 14:24:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JlshQYvk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D4E61F000EE;
+	Sat, 21 Nov 2026 23:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795302182;
+	bh=YblPw0OxuKOe7mXetjre4GQOF68ty3iscXQRSGT3Ipk=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=JlshQYvkDrqUI4avQ0EoOMrhekBi/GfFka55sa+RsTzCoVm6ZnHWnfUmDQXyR3AoB
+	 LpJYm2PzRovVrADFdlmxclBMuqLyrRLBVfuQcuUXGtbwg7ZpcS4U8nYAVLk1AzfHsK
+	 Csstk96qvbyPaGoZ8jmCyQrfLIwIiF7HU9NuBfZq9jUsKlSDVNWjP30Ar9wOSUBO5e
+	 E2Ak7Vp1j9rpEpbDQVZ547NYvJLGL3HAJrT3S73zR/ogu88DMov2ahnYkONGQKwlAJ
+	 bA/4IdAfN0p7aGWumxW5kJ8bapl6DURD9wojzNm0zXueyEDlSgG6+Ba/J8EUlPwokO
+	 zvf+s1n4P3BuA==
+Subject: Re: [PATCH net-next v5 1/6] psp: support rx rekey operation
+From: netdev-bot+sashiko@kernel.org
+To: daniel.zahka@gmail.com
+Cc: kuba@kernel.org, willemdebruijn.kernel@gmail.com, davem@davemloft.net,
+ edumazet@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, donald.hunter@gmail.com,
+ andrew+netdev@lunn.ch, shuah@kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, willemb@google.com
+Date: Sat, 21 Nov 2026 23:03:01 +0000
+Message-ID: <179530218118.3135.6547111851222246419@kernel.org>
+In-Reply-To: <20261118-psp-v5-1-b9ec840e0296@gmail.com>
+References: <20261118-psp-v5-1-b9ec840e0296@gmail.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,73 +65,130 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260726212812.89266-1-shijujose2008@gmail.com>
- <20260726212812.89266-3-shijujose2008@gmail.com> <20261017055852.GBatMOnEl66YObvU5k@fat_crate.local>
- <CAG4KcR+NOKHNzg6FN-oLLHgUxeitZHKXg9cN7dz24+Ap=RrwSA@mail.gmail.com>
- <20261110071729.GIavLFCfLKzPx8R0i0@fat_crate.local> <CAG4KcR+ikfQEBjCZiNJ1CUz=u3Gtbk_XDroA_GQqYpgO4Lo5Qw@mail.gmail.com>
- <20261121194030.GBawHzrrCNCMpfr7Gx@fat_crate.local> <CAG4KcRKhE1UXwrhscUdSpDJS8R0t7kWp8RXZm8j_9yXYJSQ2KQ@mail.gmail.com>
- <20261121210749.GCawIIJcidCeWs3ij9@fat_crate.local>
-In-Reply-To: <20261121210749.GCawIIJcidCeWs3ij9@fat_crate.local>
-From: Shiju Jose <shijujose2008@gmail.com>
-Date: Sat, 21 Nov 2026 22:24:28 +0000
-X-Gm-Features: Aa3M54pmfzCjwgwOho9jx8HJwewKtlzAxxWUC8EhQd9hmHj0B3lyfXoGWgN4lh0
-Message-ID: <CAG4KcRKzXNsvBWuuU2_aX5gO7u4vgKAK+bkrB2vgEFBGu3WJCA@mail.gmail.com>
-Subject: Re: [PATCH v23 2/2] ras: mem: Add ACPI RAS2 memory driver
-To: Borislav Petkov <bp@alien8.de>
-Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org, 
-	dferguson@amperecomputing.com, linux-edac@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com, 
-	mchehab@kernel.org, ashok.raj@oss.qualcomm.com, jic23@kernel.org, 
-	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com, 
-	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, naoya.horiguchi@nec.com, 
-	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com, 
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com, 
-	gthelen@google.com, wschwartz@amperecomputing.com, wbs@os.amperecomputing.com, 
-	nifan.cxl@gmail.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com, 
-	roberto.sassu@huawei.com, kangkang.shen@futurewei.com, 
-	wanghuiqiang@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 21, 2026 at 9:08=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrot=
-e:
->
-> On Sat, Nov 21, 2026 at 07:53:54PM +0000, Shiju Jose wrote:
-> > Please find the attached patch with the changes.
->
-> Thanks, you missed a spot. I fixed it up:
->
-> diff --git a/drivers/ras/ras2_mem.c b/drivers/ras/ras2_mem.c
-> index 70f7f0b497ed..de5555d2e1b8 100644
-> --- a/drivers/ras/ras2_mem.c
-> +++ b/drivers/ras/ras2_mem.c
-> @@ -117,10 +117,10 @@ static int ras2_get_demand_scrub_running(struct ras=
-2_mem_ctx *ras2_ctx, bool *ru
->                 return 0;
->         }
->
-> -       iowrite8(RAS2_SUPPORT_HW_PARTOL_SCRUB, &ps_sm->common.set_caps[0]=
-);
-> -       iowrite16(RAS2_GET_PATROL_PARAMETERS, &ps_sm->params.command);
-> -       iowrite64(ras2_ctx->mem_base, &ps_sm->params.req_addr_range[0]);
-> -       iowrite64(ras2_ctx->mem_size, &ps_sm->params.req_addr_range[1]);
-> +       writeb(RAS2_SUPPORT_HW_PARTOL_SCRUB, &ps_sm->common.set_caps[0]);
-> +       writew(RAS2_GET_PATROL_PARAMETERS, &ps_sm->params.command);
-> +       writeq(ras2_ctx->mem_base, &ps_sm->params.req_addr_range[0]);
-> +       writeq(ras2_ctx->mem_size, &ps_sm->params.req_addr_range[1]);
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-Thanks Boris for fixing this and verified by testing.
+Low priority / nit picks for your consideration:
 
-Thanks,
-Shiju
+- [Low] The uAPI doc for the rx-assoc op in
+  Documentation/netlink/specs/psp.yaml now reads "If the socket already…
+- [Low] psp_assocs_key_rotated() (net/psp/psp_sock.c) now does a plain
+  read-modify-write `pas->prev_generation |= ~PSP_GEN_VALID_MASK` on…
 
->
->         ret =3D ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
->         if (ret) {
->
-> --
-> Regards/Gruss,
->     Boris.
->
-> https://people.kernel.org/tglx/notes-about-netiquette
+--
+
+psp: support rx rekey operation
+
+This commit lets rx-assoc run on a socket that already has full PSP
+state. It creates a new psp_assoc that keeps the existing Tx state and
+gets new Rx state. The previous Rx SPI and generation are kept as a
+fallback, so packets sent by the peer before it switches keys are still
+accepted.
+
+> diff --git a/Documentation/netlink/specs/psp.yaml b/Documentation/netlink/specs/psp.yaml
+> index f3266763c3253..d5713f5d1af7e 100644
+> --- a/Documentation/netlink/specs/psp.yaml
+> +++ b/Documentation/netlink/specs/psp.yaml
+> @@ -265,7 +265,9 @@ operations:
+>  
+>      -
+>        name: rx-assoc
+> -      doc: Allocate a new Rx key + SPI pair, associate it with a socket.
+> +      doc: |
+> +        Allocate a new Rx key + SPI pair, associate it with a socket.
+> +        If the socket already has PSP state, rekey its Rx direction.
+
+[Severity: Low]
+Does this doc match the behaviour for every socket that has PSP state?
+psp_sock_rx_rekey() in net/psp/psp_sock.c rejects the rekey unless both
+directions are set up:
+
+	if (!prev->tx.spi || !prev->peer_tx) {
+		NL_SET_ERR_MSG(extack, "Socket PSP state is not fully established");
+		return -EBUSY;
+	}
+
+So a second rx-assoc on a socket that only has Rx state still fails with
+-EBUSY.
+
+psp.rst describes this precondition, but the YAML spec, which ynl and
+the generated docs use, does not. Should the op doc say something like
+"If the socket already has fully established PSP state, rekey its Rx
+direction."?
+
+>        attribute-set: assoc
+>        do:
+>          request:
+
+[ ... ]
+
+> diff --git a/net/psp/psp_sock.c b/net/psp/psp_sock.c
+> index f2cba3fa3a235..c1e38845f08c3 100644
+> --- a/net/psp/psp_sock.c
+> +++ b/net/psp/psp_sock.c
+
+[ ... ]
+
+> @@ -302,8 +333,21 @@ void psp_assocs_key_rotated(struct psp_dev *psd)
+>  	 */
+>  	list_for_each_entry_safe(pas, next, &psd->prev_assocs, assocs_list) {
+>  		pas->generation |= ~PSP_GEN_VALID_MASK;
+> +		pas->prev_generation |= ~PSP_GEN_VALID_MASK;
+>  		psd->stats.stales++;
+>  	}
+> +
+> +	/* Don't allow SPI from two generations ago to alias one from the
+> +	 * current generation. Rx rekeying under the same device key generation
+> +	 * is currently permitted, so skip if the previous SPI is from just one
+> +	 * generation ago.
+> +	 */
+> +	list_for_each_entry(pas, &psd->active_assocs, assocs_list) {
+> +		if ((pas->rx.spi ^ pas->prev_spi) &
+> +		    cpu_to_be32(PSP_SPI_KEY_PHASE))
+> +			pas->prev_generation |= ~PSP_GEN_VALID_MASK;
+> +	}
+
+[Severity: Low]
+Can these plain writes to prev_generation race with the Rx datapath?
+
+These assocs are still published through sk->psp_assoc. The only lock
+held here is psd->lock, which the pre-hook of psp_nl_key_rotate_doit()
+takes.
+
+The reader in psp_pse_matches_pas() runs without psd->lock and without
+READ_ONCE():
+
+	(pas->prev_spi && pas->prev_spi == pse->spi &&
+	 pas->prev_generation == pse->generation));
+
+It is reached from paths that hold only the socket lock or RCU:
+
+  tcp_v4_do_rcv() / tcp_v6_do_rcv()
+    -> psp_sk_rx_policy_check()
+      -> __psp_sk_rx_policy_check()
+        -> psp_pse_matches_pas()
+
+  psp_twsk_rx_policy_check()  (RCU only)
+    -> __psp_sk_rx_policy_check()
+      -> psp_pse_matches_pas()
+
+So a key-rotate running while PSP packets arrive on an rx-rekeyed socket
+is an unannotated data race that KCSAN would report. The field is a u8,
+so it can't tear, and the result is unordered against the rotation in
+any case.
+
+The existing pas->generation write already works this way. This patch
+applies the same pattern to a new field that the datapath reads, and
+adds a second write site in the active_assocs loop.
+
+Would it make sense to use WRITE_ONCE() here and READ_ONCE() in
+psp_pse_matches_pas()?
+
+> +
+>  	list_splice_init(&psd->prev_assocs, &psd->stale_assocs);
+>  	list_splice_init(&psd->active_assocs, &psd->prev_assocs);
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261118-psp-v5-0-b9ec840e0296%40gmail.com
