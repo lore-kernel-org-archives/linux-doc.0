@@ -1,89 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795258647;
-	b=l4AMJ1D8UvY8E/Wk/wKy+BCCoxl2IvNtPvF7Wi3E1QBai0DVLrchvUnrdqyccg7H5n7x
-	 A5X+AHWZ8Th7MbaC6TGSZNwd1V5h8wynQocT0SGJ9PjWYVc+vaWBcv4oxMm2ftkUg8zkO
-	 mqpbaE2Jen6iefI+P+P38Gl1eHtjb+KzG+6aVAgWvnqlpp9ZGuSUKkVrhHQVy8sDTWchx
-	 nI1Pkf2wKFh+na5TF+QPK3TeyYiSkDiJJbWNFvnKrI5splpBJS1GoaqvPfuqowZ6Ooh8+
-	 xRI14WNrIynKt6AXTxh1LuxZyKwucPqTFTH4O2DNvs5Jx+Rt0yk3IAAV60EJkOl5syw==
+	t=1795259103;
+	b=0w2Z4wd7ckAuIwMNZBOGd+vE3+iuEqDJQPp35nvO+/BV9+tcJbWel5cZY/eK6zjlav5Q
+	 pL/ltbneSBWcmKLICl1Bs0nJwEO09q3zfN4owkaTAmLCCKMIV9e88KWQXZdX8WiQ/kmjl
+	 /a9hkbbNFIWZhYhxeY/e0wdRkODzZ+rC/P434c7KpirrV5DSyxsP8zh46ydEALtOsP4Ln
+	 7YsXC7Nnxt1OGJPCyjUpuZLoGC4//TkouEMZxmjC+3E7c/cUyBfkk/8b8LjHgRGRm8vx7
+	 ApUoP6CFy9lYxbhtYryGtE9ujpXBSA16ytjj12jBH7JmKHAP6JivmfCVUqkhZ3vqKtQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795258647;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795259103;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=s6L/5zARcCLel44kQYhmt6hmNx9yE54W+X6j7p6+kLI=;
-	b=uu5ZokGcGdmjbutet61TmV+8VOfThnA39mC+7arfwEZQ+Q2Wo+zoMn+3N4pWPM7rysEN
-	 ZQV0IVANYhPEae9ttxR7GGdal1lM1s5N8n4m/xTaoIf41bk10gZbLhfacUlFUQ+vcWoNI
-	 7mXjDkzUjE3FWMXIF1lyna11UjBt/sGKWIcKBfpk7wweLoVIlaXTAzTpU5rNke6fZj5jZ
-	 HscgFG5RKxApQcObBhI41k9PcSLNklmYbPrCdBjuazsLOz8TLCIwHxqE1Gt3qcJC61udZ
-	 X5wY03eGlaZA7NoOdAUMscmSy9vLRMYOAo+bM42mqYKIcDZYoxU8hqPekqX//tEPmcg==
+	bh=gHLZINtQTEgJKCqXvcXR7R3Zej47yaR3yrL5TOtoLHI=;
+	b=5Kt1FrFZnLIYkekTRgKY442UlZca+sJmdNVD5rj1k7y6kPYCyCxmK9ZaQ58HngjHwez9
+	 qAM9SKPHsexbdt6kFJzBS93dQ13zg3pQXT823xk2PjEMagzxW3E/JltOe0zPu4/wc15Pe
+	 XC6PycV4ASbZIg/lT0aG5JD6LoaNFYTZ5TIE0v43JIn+Mh088NGiF8WZTYgY+9+ZzSyOB
+	 8pD+iQt6qnTwrbuLMmDpg8ii6mJUK/FUuBttnxd9fMiyMnp6a5Jlx86sq+xYoEypKPG0q
+	 awPMHTjUOBlTCv3n7JpxInqL7dAkGyACpFiCDn2Hc8fC6FBQNZFuX2/3gi+uq+0ZM2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dl1K5RFT;
-	arc=none smtp.remote-ip=209.85.128.47
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pqkUgkLE;
+	arc=none smtp.remote-ip=209.85.208.46
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCF2606A32C
-	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 10:57:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CCF2606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FC0606A32A
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 11:05:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32FC0606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dl1K5RFT
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so16171755e9.3
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 02:57:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pqkUgkLE
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6b408f2d936so2583441a12.1
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 03:05:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795258645; x=1795863445; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795259100; x=1795863900; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=s6L/5zARcCLel44kQYhmt6hmNx9yE54W+X6j7p6+kLI=;
-        b=dl1K5RFTCSe2kAPnf5pSeGyQbRBAIKoZLylyiET1vIjPURjry+i4R8z6hmiWzV/b6+
-         MXekc+U7RQ31imRzbp/I0Uk5+J+mVsB9KgpJi5OUXgtiC40DzTCDf08Da8uukxfD3jnX
-         3SZad2lG6jKlvCeC/gDmPMjeE9GgjccOx70vlXLeZtRLgKI1S3mMKVJhUdvMuYCY1+Ki
-         EcmsEtPYVEcpdcSW96BA5oUv717CfBr7kPCRtv7dzD1ocl63y9r5Wu+Z8B0FtWeboPR3
-         bvGsXa8dIOO9UE0etq5yCqqaO9buv/PPgSrDIx/H5rCCmOmLTNSFVifDq7Nc4wfznRrF
-         2zTA==
+        bh=gHLZINtQTEgJKCqXvcXR7R3Zej47yaR3yrL5TOtoLHI=;
+        b=pqkUgkLEopLnSWl9nAWmTex8sf7ATk5xbpc8NhTaeLhog5YW67uyWLRuBf2cHMLeoN
+         tYmROP0F4L5xHorXRjSRLaJYCW72nkpmHnQEiW9Ik7JqTk41C7bKab5BdHAYAW/PfIjA
+         R72Vrl4P5SVgoZYT2izQ7zOaNCAE5iC2b1uxCm3jZXWd8jzKtacBORpfVVaNHgBqK8Ci
+         yG5k2bA3GhKDQgRuK7G17fvfLtmpHgGNIlfadbuj7G1zbTpnZjpBD5CQnfWq3nrU87mB
+         9Gh6K+Zu9Usza7jQb62SEqj0Er0tBJd/MeOzwhaxop9dE/FprZUe0BCoUfFVkaroeghf
+         kPhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795258645; x=1795863445;
+        d=1e100.net; s=20260707; t=1795259100; x=1795863900;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=s6L/5zARcCLel44kQYhmt6hmNx9yE54W+X6j7p6+kLI=;
-        b=PWIH2O6oA+N2J4KTCdIJZYQfSISAiglv+Gwa5/BcKJ5xbgmrakUk72d/QiU1C9Zn81
-         WerbgU8UX1mCzLGWBr7Kx0iJYBiMaN/OhYNa2b1ufiMGEQUTq9CDNHMk2qkwAexhY997
-         JvJsUXCCx6JfSIVBOzz7bYXNl2bAgJLeC77P+zyAV0BblWM730XP+YLnL2ItRdIipMB8
-         f0kpUHtHVMhJiIhbqje0AiAEYygSpk8sPJGgCx5pAQ/dPVYc2SYPVspvwAOl9InedutQ
-         97TU/mQzja9YMVu17r+QABjHI8r+wTb9gIb+8uRhGRBOYCDqq5518PG3e4bCpNwTQFOA
-         Pddg==
-X-Forwarded-Encrypted: i=1; AL+hErH1uYSkAhvhzl7mzS9rHlD/mun2KSpimktDNYijtG5VOiU43weBuQsFCSWWgqL09LA+gt6i8lA6MTs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8xYbWstRojrsyU34Ln1ZAbtmcZYW9mG/hk9i8fN/ystLpNTu6J
-	oZ4sMh5AzOW319WGKa75sWUnIYZ88Wvyt54ic/EEJ3ElxH0rZeXXZ/zq
-X-Gm-Gg: AZFdTZf0l+hw+NPmlSufo4T1XzfWBx/Z1ltDR/mLJdL/uUML8RVq7PmQsMf7eh4oa9d
-	hgG6YeGYr6HDEiJgsLJP2SdCGwvhiC+mfWfFONJUeQmyeG/Pqq9IgLtjE9dGuJhQPTm2U49/zG+
-	u7A0BoqgO21gDdTZncJGmdcvEjbZxKnufJKmPiLW4Shf2AjmAUNNsa/qWB7XPtEDeIsVpvJmnjG
-	IgMgiiXEFoZtm2ffSFq3Xd5qVseLdF1Offe9byakw/aSwSRHBRh87i7ZbblA1++d46E/JQesndS
-	l865UDfI2AHnnJ9TvPenpSqb1cPysUAoh1q3WHtJTxvTD1OHsFrvhoRzD5uv3GYa/PzFYUl7ChW
-	wF9GSG90AdiaFG4kRBrhyfkyvQkWbz+JTMA3uHfWAHQJ7DIY8r6H56DRvhk48dWfk+ZpFH/pDdE
-	9ZLfAZjngSjcGrea+LLJoMmMblvWssMGiPCSkem/Yzbl6kje2CxyJynkXwzmKOmpWbQvTMjSaCS
-	r255+eR3KwfuYKHr4nWlsxmQRD5DvTMfVyTqIHM6nD2XDoFKcxST00ESFH+LyiH3LANSi4No4Ma
-	ooZrj0J7yN+5d+W95sw6V/0XfWE61Be/UFCPFvi0CThLZhE7CfFyJCLfYGsM5fuBuihxMlH/MTK
-	Ncfs=
-X-Received: by 2002:a05:600c:46cc:b0:4bb:69b3:2b42 with SMTP id 5b1f17b1804b1-4bb888277b3mr133199515e9.16.1795258645328;
-        Sat, 21 Nov 2026 02:57:25 -0800 (PST)
+        bh=gHLZINtQTEgJKCqXvcXR7R3Zej47yaR3yrL5TOtoLHI=;
+        b=Ewu1qdI9aKgpCTSRdQurnXfynJUD/s1zZalCnZ2zBrVubSXnWAQzxbeph9UQ5Ua9wc
+         Y0wld5x3dTKj6PfSdoQ5UlR2tFCH1a5Ohjt/XBVBS8ED9io2XW0F4ZfCUMu5bsX0PHRk
+         JVaBmpplEPS0Ia0BIe+5BZHXJKC7pg+whyo/b/9ytCde8LUjTCEGHmuGmHvg0/LfmgWb
+         vXaa3ioFuBsHhjjqePamrJLwVrVG5rRW4hWlUb9CgMrHb7Ne8qYSx/UU+QdRdZ3PFfe0
+         vBtuDm8iwJYFHZ9K0xn11T1qS/vTU02DOZDbD35rcqnXczhZiflaH/lYlA4cy9fj3hDt
+         bOkw==
+X-Forwarded-Encrypted: i=1; AL+hErFaF7phrE2wiHZ58GmAvgZSq38gkcXrYXcaZkLFGnN2NHRy2dhgfPDhgmhliDGSYaT9VENkU7Ucxas=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+rQnbVVWztiwlRyC0I2ucJ7N1F6ll23TxR5X0im9oLKQQIvHf2
+	vyi55aKOkziOQu6j8ht78POgZdRwsYOGyZsAsfxUzs69RB9XqW2CYgaQ
+X-Gm-Gg: AZFdTZcBeOulpU6bhtK/ClvY5W08bS70fQ+tA3QfstHIVYBc+xoh5lASVjwwmHelYx9
+	zm3jK1MlXvG3RyTyr5rx7v5VnAcTiEfsCLHXMs2XBMRtJqKhCzEITyYGUBJuMUyv8IbWhXL+z74
+	7rKQB+mMz9sgie9iwt+oZ0PoC5BxJNt1AhVzez6BgJfuBztftKle1QtDPDv6IWAHu18ySw4A5bw
+	qmCVNBu3IhzILNA25bZV9bi2Sj8x//NIrR5v2R4MpmRS8MD8VPo7oHVZUwEaQGUcMaPgeCJYWjy
+	/qC/g85f9UttK35+X+pFqa5QQPcJX+7UkSKQigoLLV2DMWmHnTLYUeqnS2/UY4H9arLzGxn0NXo
+	xuK4tV1P0yRgUddx1gc9pRz6yOylV0OgohPpWVPoZGRPDVstFTMCgiGT8hbr2gwo67GdqzYoHmL
+	vAZv2FOhZlXpeZtrE41RUaFERzJS2gBBPSsyNRBokeYiNlO42SWi5o8IFdTrp2uEHacgWDW8Glb
+	U+GdAQZ8PXMvhqg7yWoKhbOrpcHE0sBNLpvvAXr+5OGMCaGzrCo28Vyli8KXyrx5ykxx93pkZFS
+	vmfRYDUxCuiW1RWVMwkYzwNqU0CZ2amUqKFG2P5FCce0E5qgjOCeBVKeq50HkPTNCngtGUdla+5
+	vUR8=
+X-Received: by 2002:a17:907:3cc7:b0:c2e:2d8c:4585 with SMTP id a640c23a62f3a-c513ab4cd0dmr513379466b.36.1795259100428;
+        Sat, 21 Nov 2026 03:05:00 -0800 (PST)
 Received: from ?IPV6:240e:47e:5028:61b2:a372:4c2:dce1:98eb? ([2001:19f0:6c01:2c43:5400:5ff:fef6:1b30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8849247asm163775135e9.7.2026.11.21.02.57.12
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513acfe3b0sm182991366b.8.2026.11.21.03.04.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Nov 2026 02:57:24 -0800 (PST)
-Message-ID: <9b43c3b6-02aa-498a-9287-b1c9d9027460@gmail.com>
-Date: Sat, 21 Nov 2026 11:57:09 +0100
+        Sat, 21 Nov 2026 03:04:59 -0800 (PST)
+Message-ID: <ed689e5e-95e0-42b8-b1c8-afcc968bba1a@gmail.com>
+Date: Sat, 21 Nov 2026 12:04:46 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -94,7 +94,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/43] drm/vkms: Explicitly display connector status
+Subject: Re: [PATCH v6 03/43] drm/vkms: Add new lines for configfs attributes
 To: Louis Chauvet <louis.chauvet@bootlin.com>,
  Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Melissa Wen <melissa.srw@gmail.com>,
@@ -115,50 +115,45 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  victoria@system76.com, thomas.petazzoni@bootlin.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, Simona Vetter <simona.vetter@ffwll.ch>,
- llvm@lists.linux.dev, =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?=
- <jose.exposito@redhat.com>
+ llvm@lists.linux.dev
 References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com>
- <20261120-vkms-all-config-v6-1-78ace90f4fc1@bootlin.com>
+ <20261120-vkms-all-config-v6-3-78ace90f4fc1@bootlin.com>
 Content-Language: en-US
 From: Oarora Etimis <oaroraetimis@gmail.com>
-In-Reply-To: <20261120-vkms-all-config-v6-1-78ace90f4fc1@bootlin.com>
+In-Reply-To: <20261120-vkms-all-config-v6-3-78ace90f4fc1@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 On 11/20/26 6:58 PM, Louis Chauvet wrote:
-> Debug information are mainly read by human, so use full name instead
-> of raw values for connector status.
+> To uniformize the configfs attributes, add a trailing new line to the
+> plane type and connector status values.
 >
-> Reviewed-by: José Expósito <jose.exposito@redhat.com>
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
->   drivers/gpu/drm/vkms/vkms_config.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/vkms/vkms_configfs.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-> index 5a654d6dead8..48c60930302f 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.c
-> +++ b/drivers/gpu/drm/vkms/vkms_config.c
-> @@ -2,6 +2,7 @@
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+> index 707cf3578e2d..5f5aa0a1812b 100644
+> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -294,7 +294,7 @@ static ssize_t plane_type_show(struct config_item *item, char *page)
+>   	scoped_guard(mutex, &plane->dev->config->lock)
+>   		type = vkms_config_plane_get_type(plane->config);
 >   
->   #include <linux/slab.h>
+> -	return sprintf(page, "%u", type);
+> +	return sprintf(page, "%u\n", type);
+>   }
 >   
-> +#include <drm/drm_connector.h>
->   #include <drm/drm_print.h>
->   #include <drm/drm_debugfs.h>
->   #include <kunit/visibility.h>
-> @@ -367,8 +368,9 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>   static ssize_t plane_type_store(struct config_item *item, const char *page,
+> @@ -527,7 +527,7 @@ static ssize_t connector_status_show(struct config_item *item, char *page)
+>   	scoped_guard(mutex, &connector->dev->config->lock)
+>   		status = vkms_config_connector_get_status(connector->config);
 >   
->   	vkms_config_for_each_connector(vkmsdev->config, connector_cfg) {
->   		seq_puts(m, "connector:\n");
-> -		seq_printf(m, "\tstatus=%d\n",
-> -			   vkms_config_connector_get_status(connector_cfg));
-> +		seq_printf(m, "\tstatus=%s\n",
-> +			   drm_get_connector_status_name(
-> +				   vkms_config_connector_get_status(connector_cfg)));
->   	}
+> -	return sprintf(page, "%u", status);
+> +	return sprintf(page, "%u\n", status);
+>   }
 >   
->   	return 0;
+>   static ssize_t connector_status_store(struct config_item *item,
 Reviewed-by: Oarora Etimis <oaroraetimis@gmail.com>
