@@ -1,78 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795304698;
-	b=B6gJ4ghSNPOlXtWBwH8Ft6A/cQxQ1yEpN3aPfszvzAQITtBMIrsSuqvMhuYgnwQjy2qN
-	 P8m7MkTcol57uSL8JfmmUN9WqbGowaVteRqwawdIuwbvk+jzHSEWlt7ru+XFszphKib3/
-	 DLxzIxY1v+jIh0POSIB8oQHxqsvPfqNNbapQ6Cm5TMieq0c+6fP7ZfYdek/ZPLTO8iekf
-	 /mNNGkjJ8dDBSp0kDQfmMvS/m3ukEpbBI589rm8OZDiDr/Dtpr6Beedx3oDcQEb18OoAe
-	 SKsG8LzAdVohuIALEJ2xRT8MmTuzsrnThuip+EbE5IXswW85u2lVKyIZNHeM7FSn4fQ==
+	t=1795304699;
+	b=LHtsU9we33NndDIAd3FE5o3q4xbv7ei2qgeDdOiXSeNlSnyhfHp4heqnCu0AoWfhpp2Y
+	 K+01RMTGGw6qPps18qLUSf3o7H25pVyIQlVmT2X5TJed8fhR+nq2wu5SxN2jhlh4c92nM
+	 t2T4n67lVVVfXeOuFyDUdK07kEvlGgJ6pbQuP2UFZTxeL0mEcjpSrX4ohMmx9JuWawSLD
+	 Xgx13UaoIF8wu10M1sV2w/oBQvUneh1GRSgTDzfc6iUCnVxYrwaLiHB8XlIkdycUJ3jWv
+	 LjGU9KUnXh57LcSRTdbB0Ir8lEup4//8txcfDOBDNkx6S8OhC8t9u1vuG0Rt+UuOKVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795304698;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=P7dCxI9rbZC3lO5ZB0+k5t7OMvD4AjaQtjAPEagHsgY=;
-	b=lU6FONJlG6ROBVfg1GH55EyrUEzOsHTr2xoI7qaq0VeIjFtMB7I2l5w9w5e/usiJtZUQ
-	 hvT3B00C+lBHBgHljJ6auefJzWjGXdlztP/BP9NjfErGW3NJfN/dwic506fsB1YtL+4JD
-	 0XqZothbVR+MvXH+UHZ3eAUziAMhFXcUk/+W+pqGZrq42kaVSXGnkb5kqam1LOBLS2SdQ
-	 GQeC0OgWmHwGpelkuVavRmwrXMhFUos9DAkCY6nGIfXfw9mN8svwWgVcAhrRa80XO87YK
-	 RQJgleMusTg66XveJwIWsfPENHs9Sixiut3lDPEeRoP+ptLTjiqMcp5S4zqXOtsbHfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795304699;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=2AGBcOOzRTC6ShorOU+9bsy9QDvjQLHzXkUKhS0WtwU=;
+	b=Oic7DIhToXEF/EBSQc1CAWv4vSz8ULLnWyKWx34RsCERtCBygX4AEojrH5M6Qiv3odpN
+	 L5coOsZ9osR0Q8DFmR9lCDZJni8HHmNCmautn8+Rf+RxDz190d9lSDGkScBzrgStK0SDD
+	 NngWrNep4n69XoQU67iKlQvzzdo0HCXtN2OlsKKvmZiylsi5uiVRKg72oomNx+WqsjaHc
+	 135uOOz9O7LHazQzzrCoTmWXvFcUhuymHrqOdcDI7h2Dd+c1QxpHfjnRTyY7iZV0qqk3f
+	 q58yD/CDeo47D2/5f6lAcgtCzzp3qomvC3P+lJY5qRkln6ZW/C5xcFSnzqVSW6NYGRA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=mCqtzMZD;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82AA3606A684;
-	Sat, 21 Nov 2026 23:44:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 82AA3606A684
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iqtuu1Nn;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF8A606A6A7
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 23:44:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=mCqtzMZD
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1CDC6175D;
-	Sat, 21 Nov 2026 15:44:54 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2EFB63F632;
-	Sat, 21 Nov 2026 15:44:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795304697; bh=hv9WEBWlLQR6QR6A3XeIblL4Zv3w4xdS0StYPBYCMkk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mCqtzMZDzDmtfpsKf5gKtIwAmNyRpIZyWitD5KPj8lnTapQBQNo55LxHGSTiQthZR
-	 jqEBnxOnTgSarA8b7/HjPyTXhNv4jEWhJ0gRc+Fo5/A7Z12Rpc/s6LXLDAGMUULUwe
-	 Xb8l6jaXvF3Z2lACFxwpckIDyrmm9JFI2kcI/u8U=
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: sudeep.holla@kernel.org,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	d-gole@ti.com,
-	jonathan.cameron@oss.qualcomm.com,
-	elif.topuz@arm.com,
-	lukasz.luba@arm.com,
-	philip.radford@arm.com,
-	david@kernel.org,
-	souvik.chakravarty@arm.com,
-	leitao@kernel.org,
-	kas@kernel.org,
-	puranjay@kernel.org,
-	usama.arif@linux.dev,
-	kernel-team@meta.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v16 29/31] [RFC] Documentation: Add SCMI System Telemetry documentation
-Date: Sat, 21 Nov 2026 23:40:03 +0000
-Message-ID: <20261121234005.1525419-30-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261121234005.1525419-1-cristian.marussi@arm.com>
-References: <20261121234005.1525419-1-cristian.marussi@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iqtuu1Nn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A6701F000D2
+	for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 23:44:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795304699;
+	bh=2AGBcOOzRTC6ShorOU+9bsy9QDvjQLHzXkUKhS0WtwU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=iqtuu1NnbUiqzwMauYGYsPPooUnz9J2f60EhLdDnPjEflAyC2Yum4V54XR555sZu0
+	 fqO95LJiKHzt/+Y9O5fyZekFNyVMFITbrJu2z5OusT+5LePqvOorS4MrzMODtIJRCL
+	 SWwmBUrlmuKzlC0kfFwwR3mjF45xR7L+VJ2oKJQULvJ7i/kfjJyL3MYNEBFfaT9q2r
+	 5rTWtPkR2Y54LGRr5CZKfs12A86UmYwYkkxmrsMpPfjcBFcTfsAJY4e16oWibEHM97
+	 g8Z+5wWYbhCQYblhWCj+kEaTo989BTBU+MgMecSXLZMTLL/mimMTAbMrGSD3BdeaP9
+	 h7lbp6pnZrUFQ==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5c08539c827so1341686e87.2
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 15:44:59 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErF59zJUIS9LYc24DI7n3sQThLSqKcj1EX7JkRChtzlKWDXoZB03YtK9GFze5BZuecjjKZ//KAMIp7w=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/1euQPRBvE9b3BgOdx60GmZvpdgzWyeiTSoGy0rA4+vws53jK+
+	59wodwkQP3EO+kFFzHiHnBsjmo6zhUACx6vM6xjslecc8XspRMTFPLTySQSw3/5L+p+M24n1GRL
+	hAs/k/CU8sQqhKDr0bmGPT5ZTJkYR2+0=
+X-Received: by 2002:a05:6512:10c7:b0:5c1:5bc7:83c with SMTP id
+ 2adb3069b0e04-5c1bc89c62amr1919255e87.53.1795304697899; Sat, 21 Nov 2026
+ 15:44:57 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -82,627 +59,155 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261015142552.4128028-1-ryan.roberts@arm.com> <20261015142552.4128028-4-ryan.roberts@arm.com>
+In-Reply-To: <20261015142552.4128028-4-ryan.roberts@arm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sun, 22 Nov 2026 00:44:44 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkpUfxjH-6x6CNfZ-vmNBpZjKA_QJi14C3MvLjvH5GDCg@mail.gmail.com>
+X-Gm-Features: Aa3M54qEBsIHfq6xlw1QgwR1kLjUf8oKtfnIKMoqH8Z1sFQILc0FmuvWNVJA2Qg
+Message-ID: <CAD++jLkpUfxjH-6x6CNfZ-vmNBpZjKA_QJi14C3MvLjvH5GDCg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 03/15] dt-bindings: misc: Add Arm Core Local Accelerator
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jean-Philippe Brucker <jpb@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Document ARM SCMI Telemetry IOCTLs interface.
+Hi Ryan,
 
-Co-developed-by: Philip Radford <philip.radford@arm.com>
-Signed-off-by: Philip Radford <philip.radford@arm.com>
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
- Documentation/userspace-api/index.rst |   1 +
- Documentation/userspace-api/stlm.rst  | 590 ++++++++++++++++++++++++++
- 2 files changed, 591 insertions(+)
- create mode 100644 Documentation/userspace-api/stlm.rst
+thanks for your patch!
 
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index a68b1bea57a8..22daa7ebf78e 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -54,6 +54,7 @@ Devices and I/O
-    dcdbas
-    vduse
-    isapnp
-+   stlm
- 
- Everything else
- ===============
-diff --git a/Documentation/userspace-api/stlm.rst b/Documentation/userspace-api/stlm.rst
-new file mode 100644
-index 000000000000..17c54accc66a
---- /dev/null
-+++ b/Documentation/userspace-api/stlm.rst
-@@ -0,0 +1,590 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======================================
-+STLM - ARM SCMI Telemetry Userspace API
-+=======================================
-+
-+.. contents::
-+
-+Overview
-+========
-+
-+ARM SCMI is a System and Configuration Management protocol, based on a
-+client-server model, that defines a number of messages that allows a
-+client/agent like Linux to discover, configure and make use of services
-+provided by the server/platform firmware.
-+
-+SCMI v4.0 [1] introduced support for System Telemetry, through which an
-+agent can dynamically enumerate, configure and collect Telemetry Data
-+Events (DE) exposed by the platform.
-+
-+The SCMI System Telemetry driver exposes one or more dedicated devices,
-+named as tlm_<N>, grouped under /dev/scmi/, one for each discovered SCMI
-+instance.
-+
-+An IOCTL based interface is defined in order to enumerate, configure and
-+read telemetry data, as succinctly described in the following.
-+
-+For more details on the uAPI, please see include/uapi/linux/scmi.h
-+
-+Resources Enumeration
-+=====================
-+
-+ - SCMI_TLM_GET_ABI_INFO: Gather ABI versioning detail and basic SCMI
-+   Telemetry features like number of resources and supported features.
-+
-+ - SCMI_TLM_GET_INTRVS: Enumerate available update intervals.
-+
-+ - SCMI_TLM_GET_DE_INFO: Retrieve DataEvent description.
-+
-+ - SCMI_TLM_GET_DE_LIST: Retrieve the list of all the existent DataEvent
-+   descriptors.
-+
-+ - SCMI_TLM_GET_GRP_LIST: Gather a list of descriptors for all defined Groups.
-+
-+ - SCMI_TLM_GET_GRP_INFO: Gather information for a specific Group.
-+
-+ - SCMI_TLM_GET_GRP_DESC: Gather detailed group composition information for
-+   the specified Group.
-+
-+ - SCMI_TLM_GET_UUID_LIST: Gather a list of descriptors for all the SCMI
-+   Telemetry UUIDs defined on this system.
-+
-+Enumerating DataEvents
-+======================
-+
-+SCMI_TLM_GET_DE_LIST returns the DataEvent descriptors exposed by the
-+Telemetery instance. Users can size the request from
-+SCMI_TLM_GET_ABI_INFO.num_des or by issuing a zero-sized batch query.
-+
-+Example
-+-------
-+
-+.. code-block:: c
-+
-+	int main(int argc, char **argv)
-+	{
-+		struct scmi_tlm_abi_info abi = {};
-+		struct scmi_tlm_batch batch = {};
-+		struct scmi_tlm_de_info *des;
-+		int fd, ret, i;
-+
-+		fd = open("/dev/scmi/tlm_0", O_RDONLY | O_CLOEXEC);
-+		if (fd < 0)
-+			return fd;
-+
-+		abi.size = sizeof(abi);
-+		ret = ioctl(fd, SCMI_TLM_GET_ABI_INFO, &abi);
-+		if (ret) {
-+			close(fd);
-+			return ret;
-+		}
-+
-+		if (!abi.num_des) {
-+			close(fd);
-+			return ret;
-+		}
-+
-+		des = calloc(abi.num_des, sizeof(*des));
-+		if (!des) {
-+			close(fd);
-+			return -ENOMEM;
-+		}
-+
-+		batch.num_items = abi.num_des;
-+		batch.item_sz = sizeof(*des);
-+		batch.items = (unsigned long)des;
-+
-+		ret = ioctl(fd, SCMI_TLM_GET_DE_LIST, &batch);
-+		if (ret) {
-+			free(des);
-+			close(fd);
-+			return ret;
-+		}
-+
-+		for (i = 0; i < batch.num_items; i++) {
-+			printf("0x%08x: %.*s size:%u type:%u unit:%u", des[i].id, 16,
-+				des[i].name, des[i].data_sz, des[i].type, des[i].unit);
-+
-+			if (des[i].flags & SCMI_TLM_DEINFO_GROUP)
-+				printf("group:%u", des[i].grp_id);
-+
-+			printf("\n");
-+		}
-+
-+		return 0;
-+	}
-+
-+Enumerating Groups
-+==================
-+
-+SCMI_TLM_GET_GRP_LIST returns the groups exposed by the Telemetry Instance.
-+Group descriptors report; the group ID, the number of DEs in the group, and
-+the number of update intervals supported by the group.
-+
-+SCMI_TLM_GET_GRP_DESC can then be used to retrieve the DE IDs of a specific
-+group.
-+
-+Example
-+-------
-+
-+.. code-block:: c
-+
-+	int main(int argc, char **argv)
-+	{
-+		struct scmi_tlm_abi_info abi = {};
-+		struct scmi_tlm_batch batch = {};
-+		struct scmi_tlm_grp_info *groups;
-+		int fd, ret, i;
-+
-+		fd = open("/dev/scmi/tlm_0", O_RDONLY | O_CLOEXEC);
-+		if (fd < 0)
-+			return fd;
-+
-+		abi.size = sizeof(abi);
-+		ret = ioctl(fd, SCMI_TLM_GET_ABI_INFO, &abi);
-+
-+		if (ret){
-+			free(groups);
-+			close(fd);
-+			return ret;
-+		}
-+
-+		if (!abi.num_groups) {
-+			ret = 0;
-+			free(groups);
-+			close(fd);
-+			return ret;
-+		}
-+
-+		groups = calloc(abi.num_groups, sizeof(*groups));
-+		if (!groups) {
-+			ret = -ENOMEM;
-+			free(groups);
-+			close(fd);
-+		}
-+
-+		batch.num_items = abi.num_groups;
-+		batch.item_sz = sizeof(*groups);
-+		batch.items = (unsigned long)groups;
-+
-+		ret = ioctl(fd, SCMI_TLM_GET_GRP_LIST, &batch);
-+		if (ret) {
-+			free(groups);
-+			close(fd);
-+			return ret;
-+		}
-+
-+		for (i = 0; i < batch.num_items; i++) {
-+			struct scmi_tlm_grp_desc desc = {};
-+			__u32 *de_ids;
-+			int j;
-+
-+			printf("group:%u des:%u intervals:%u\n", groups[i].grp_id,
-+				groups[i].num_des, groups[i].num_intervals);
-+
-+			if (!groups[i].num_des)
-+				continue;
-+
-+			de_ids = calloc(groups[i].num_des, sizeof(*de_ids));
-+			if (!de_ids) {
-+				ret = -ENOMEM;
-+				free(groups);
-+				close(fd);
-+				return de_ids;
-+			}
-+
-+			desc.grp_id = groups[i].grp_id;
-+			desc.num_des = groups[i].num_des;
-+			desc.composing_des = (unsigned long)de_ids;
-+
-+			ret = ioctl(fd, SCMI_TLM_GET_GRP_DESC, &desc);
-+			if (ret) {
-+				free(de_ids);
-+				free(groups);
-+				close(fd);
-+				return ret;
-+			}
-+
-+			printf("DataEvents:");
-+			for (j = 0; j < desc.num_des; j++)
-+				printf(" 0x%08x", de_ids[j]);
-+			printf("\n");
-+
-+			free(de_ids);
-+		}
-+
-+		free(groups);
-+		close(fd);
-+		return 0;
-+	}
-+
-+Enumerating Update Intervals
-+============================
-+
-+SCMI_TLM_GET_INTRVS returns the update intervals supported by the Telemetry
-+instance. Userspace can size the request from SCMI_TLM_GET_ABI_INFO.num_intervals
-+or by sending a zero-sized query.
-+
-+The returned intervals may be discrete values, or a range described as
-+low/high/step when SCMI_TLM_INTERV_DISCRETE is not  set.
-+
-+Example
-+-------
-+
-+.. code-block:: c
-+
-+	int main(int argc, char **argv)
-+	{
-+		struct scmi_tlm_abi_info abi = {};
-+		struct scmi_tlm_intervals ivs = {};
-+		struct scmi_tlm_update_interval *intervals;
-+		int fd, ret, i;
-+
-+		fd = open("/dev/scmi/tlm_0", O_RDONLY | O_CLOEXEC);
-+		if (fd < 0)
-+			return fd;
-+
-+		abi.size = sizeof(abi);
-+		ret = ioctl(fd, SCMI_TLM_GET_ABI_INFO, &abi);
-+		if (ret)
-+			goto out_fd;
-+
-+		if (!abi.num_intervals)
-+			goto out_fd;
-+
-+		intervals = calloc(abi.num_intervals, sizeof(*intervals));
-+		if (!intervals) {
-+			ret = -ENOMEM;
-+			goto out_fd;
-+		}
-+
-+		ivs.num_intervals = abi.num_intervals;
-+		ivs.intervals = (unsigned long)intervals;
-+
-+		ret = ioctl(fd, SCMI_TLM_GET_INTRVS, &ivs);
-+		if (ret)
-+			goto out_free;
-+
-+		if (ivs.flags & SCMI_TLM_INTERV_DISCRETE) {
-+			for (i = 0; i < ivs.num_intervals; i++)
-+				printf("interval[%d]: %u * 10^%d seconds\n", i,
-+					intervals[i].secs, intervals[i].exp);
-+		} else if (ivs.num_intervals >= 3) {
-+			printf("low: %u * 10^%d seconds\n",
-+				intervals[SCMI_TLM_UPDATE_INTVL_SEGMENT_LOW].secs,
-+				intervals[SCMI_TLM_UPDATE_INTVL_SEGMENT_LOW].exp);
-+			printf("high: %u * 10^%d seconds\n",
-+				intervals[SCMI_TLM_UPDATE_INTVL_SEGMENT_HIGH].secs,
-+				intervals[SCMI_TLM_UPDATE_INTVL_SEGMENT_HIGH].exp);
-+			printf("step: %u * 10^%d seconds\n",
-+				intervals[SCMI_TLM_UPDATE_INTVL_SEGMENT_STEP].secs,
-+				intervals[SCMI_TLM_UPDATE_INTVL_SEGMENT_STEP].exp);
-+			}
-+	out_free:
-+		free(intervals);
-+	out_fd:
-+		close(fd);
-+
-+		return ret ? 1 : 0;
-+	}
-+
-+Telemetry Instance Configuration
-+================================
-+
-+SCMI_TLM_GET_CFG returns the current Telemetry configuration. SCMI_TLM_SET_CFG
-+updates teh enabled state and active update interval for the whole Telemetry
-+instance.
-+
-+The update interval is described as 'secs * 10 ^ exp' seconds. Userspace
-+should choose an interval reported by SCMI_TLM_GET_INTRVS.
-+
-+Example
-+-------
-+
-+.. code-block:: c
-+	int main(int argc, char **argv)
-+	{
-+		struct scmi_tlm_config old_cfg = {};
-+		struct scmi_tlm_config new_cfg = {};
-+		int fd, ret;
-+
-+		fd = open("/dev/scmi/tlm_0", O_RDWR | O_CLOEXEC);
-+		if (fd < 0)
-+			return fd;
-+
-+		ret = ioctl(fd, SCMI_TLM_GET_CFG, &old_cfg);
-+		if (ret) {
-+			close(fd);
-+			return ret;
-+		}
-+
-+		printf("enabled:%u timestamps:%u interval:%u * 10^%d seconds\n",
-+			old_cfg.enable, old_cfg.t_enable,
-+			old_cfg.active.secs, old_cfg.active.exp);
-+
-+		new_cfg.enable = 1;
-+		new_cfg.t_enable = old_cfg.t_enable;
-+
-+		new_cfg.active.secs = 400;
-+		new_cfg.active.exp = -3;
-+
-+		ret = ioctl(fd, SCMI_TLM_SET_CFG, &new_cfg);
-+		if (ret) {
-+			close(fd);
-+			return ret;
-+		}
-+
-+		close(fd)
-+
-+		return 0;
-+	}
-+
-+Group Configuration
-+-------------------
-+
-+If group configuration is supported, the same ioctls can operate on a group
-+by setting SCMI_TLM_CONFIG_GROUP in flags and setting grp_id to a group ID
-+discovered with SCMI_TLM_GET_GRP_LIST.
-+
-+Configuring DataEvents
-+======================
-+
-+SCMI_TLM_GET_DE_CFG returns the configuration of one or more DataEvents.
-+SCMI_TLM_SET_DE_CFG updates the enabled state and timestamp state of one or
-+more DataEvents.
-+
-+Both ioctls use struct scmi_tlm_batch with items pointing to an array of
-+struct scmi_tlm_de_config. Each entry must contain the DataEvent ID in id.
-+Valid IDs can be discovered with SCMI_TLM_GET_DE_LIST.
-+
-+When a DataEvent is enabled, SCMI_TLM_GET_DE_CFG also reports the SHMTI sid
-+and offset where the DataEvent can be found in the shared memory TDCF data,
-+together with the UUID associated with that DataEvent.
-+
-+Note that in the example below, the cfgs[n].id numbers would normally come
-+from SCMI_TLM_GET_DE_LIST.
-+
-+Example
-+-------
-+
-+.. code-block:: c
-+
-+	int main(int argc, char **argv)
-+	{
-+		struct scmi_tlm_de_config cfgs[2] = {};
-+		struct scmi_tlm_batch batch = {};
-+		int fd, ret, i;
-+
-+		fd = open("/dev/scmi/tlm_0", O_RDWR | O_CLOEXEC);
-+		if (fd < 0)
-+			return fd;
-+
-+		cfgs[0].id = 0x00000001;
-+		cfgs[1].id = 0x00000002;
-+
-+		batch.num_items = 2;
-+		batch.item_sz = sizeof(cfgs[0]);
-+		batch.items = (unsigned long)cfgs;
-+
-+		ret = ioctl(fd, SCMI_TLM_GET_DE_CFG, &batch);
-+		if (ret) {
-+			close(fd);
-+			return ret;
-+		}
-+
-+		for (i = 0; i < batch.num_items; i++) {
-+			printf("DE 0x%08x: enabled:%u timestamps:%u\n",
-+				cfgs[i].id, cfgs[i].enable, cfgs[i].t_enable);
-+		}
-+
-+		for (i = 0; i < batch.num_items; i++) {
-+			cfgs[i].enable = 1;
-+			cfgs[i].e_enable = 1;
-+		}
-+
-+		ret = ioctl(fd, SCMI_TLM_SET_DE_CFG, &batch);
-+		if (ret) {
-+			close(fd);
-+			return ret;
-+		}
-+
-+		ret = ioctl(fd, SCMI_TLM_GET_DE_CFG, &batch);
-+		if (ret) {
-+			close(fd);
-+			return ret;
-+		}
-+
-+		for (i = 0; i < batch.num_items; i++) {
-+			printf("DE 0x%08x: enabled:%u timestamps:%u sid:%u offset:%u\n",
-+				cfgs[i].id, cfgs[i].enable, cfgs[i].t_enable,
-+				cfgs[i].sid, cfgs[i].offset);
-+		}
-+
-+		close(fd);
-+		return 0;
-+	}
-+
-+Further Configuration
-+=====================
-+
-+ - SCMI_TLM_RESET: Reset the whole Telemetry configuration server side.
-+
-+ - SCMI_TLM_EVENT_SUBSCRIBE: Subscribe/unsubscribe to a Telemetry event.
-+   Lets userspace ask the kernel to notify it when a generation event happens
-+   by siganling the eventfd provided.
-+
-+Event Notification
-+------------------
-+
-+Example
-+-------
-+
-+ - Subscribe to the Telemetry generation event and wait for a notification
-+   throught an eventfd. Event support is optional so this example checks
-+   SCMI_TLM_ABI_FEAT_EVENT.
-+
-+.. code-block:: c
-+
-+	int main(int argc, char **argv)
-+	{
-+		struct scmi_tlm_abi_info abi = {};
-+		struct scmi_tlm_event evt = {};
-+		eventfd_t count;
-+		int fd, efd, ret;
-+
-+		fd = open("/dev/scmi/tlm_0", O_RDWR | O_CLOEXEC);
-+		if (fd < 0)
-+			return fd;
-+
-+		abi.size = sizeof(abi);
-+		evt.type = SCMI_TLM_EVT_GENERATION;
-+
-+		ret = ioctl(fd, SCMI_TLM_GET_ABI_INFO, &abi);
-+		if (ret)
-+			return ret;
-+
-+		if (!(abi.abi_features & SCMI_TLM_ABI_FEAT_EVENT)) {
-+			close(fd);
-+			return -EOPNOTSUPP;
-+		}
-+
-+		efd = eventfd(0, EFD_CLOEXEC);
-+		if (efd < 0)
-+			return efd;
-+
-+		evt.efd = efd;
-+		ret = ioctl(fd, SCMI_TLM_EVENT_SUBSCRIBE, &evt);
-+		if (ret)
-+			return ret;
-+
-+		struct pollfd pfd = {
-+			.fd = efd,
-+			.events = POLLIN,
-+		};
-+
-+		while (1) {
-+			ret = poll(&pfd, 1, -1);
-+			if (ret < 0)
-+				break;
-+
-+			if (pfd.revents & POLLIN) {
-+				ret = eventfd_read(efd, &count);
-+				if (ret)
-+					break;
-+
-+				printf("telelmetry generation changed: %llu\n",
-+					(unsigned long long)count);
-+			}
-+		}
-+
-+		/* Re-issue returned cookie to remove subscription */
-+		if (evt.cookie)
-+			ioctl(fd, SCMI_TLM_EVENT_SUBSCRIBE, &evt);
-+
-+		close(efd);
-+		close(fd);
-+
-+		return 0;
-+	}
-+
-+Data Collection
-+===============
-+
-+ - SCMI_TLM_DE_READ: Report the last updated sample for the specified
-+   DataEvent.
-+
-+ - SCMI_TLM_BULK_READ: Report the last samples for all the currently enabled
-+   DataEvents.
-+
-+ - SCMI_TLM_BATCH_READ: Report the last samples for the DataEvents IDs
-+   specified within the samples input params.
-+
-+ - SCMI_TLM_SINGLE_READ: Trigger an immediate platform-side DataEvent
-+   update and report the collected samples.
-+
-+Memory Mapped Raw Access
-+------------------------
-+
-+ - SCMI_TLM_GET_SHMTI_LIST: Gather a list of open file descriptors, one for
-+   each SHMTI memory area defined for this instance, that can be used to
-+   memory-map such areas in the calling process address space so as to be
-+   able to directly access the SCMI Telemetry SHMTI areas shared by the
-+   platform firmware, and parse the TDCF format.
-+   The SCMI Telemetry TDCF format is defined in the specification at [1].
-+
-+
-+Example
-+-------
-+
-+.. code-block:: c
-+
-+	int main(int argc, char **argv)
-+	{
-+		struct scmi_tlm_de_config des_cfg = {};
-+		struct scmi_tlm_config cfg = {};
-+		struct scmi_tlm_de_sample samples[3] = {};
-+		struct scmi_tlm_data_read data = {};
-+		int fd, ret;
-+
-+		fd = open("/dev/scmi/tlm_0", O_RDWR);
-+		if (fd < 0)
-+			return fd;
-+
-+		/* Enable ALL Data Events with timestamps*/
-+		des_cfg.enable = 1;
-+		des_cfg.t_enable = 1;
-+		ret = ioctl(fd, SCMI_TLM_SET_ALL_CFG, &des_cfg);
-+		if (ret)
-+			return ret;
-+
-+		/* Enable Telemetry as a whole, set a 400ms update interval */
-+		cfg.enable = 1;
-+		cfg.active.secs = 400;
-+		cfg.active.exp = -3;
-+
-+		ret = ioctl(fd, SCMI_TLM_SET_CFG, &cfg);
-+		if (ret)
-+			return ret;
-+
-+		/* Read a selection of DEs */
-+		samples[0].id = 0xA001;
-+		samples[1].id = 0x0002;
-+		samples[2].id = 0x1010;
-+		data.num_samples = 3;
-+		data.samples = (unsigned long)samples;
-+
-+		ret = ioctl(fd, SCMI_TLM_BATCH_READ, &data);
-+		if (ret)
-+			return ret;
-+
-+		for (int i = 0; i < 3; i++)
-+			fprintf(stdout, "%llu: 0x%08X -> %llu\n",
-+					samples[i].tstamp, samples[i].id, samples[i].val);
-+
-+		return 0;
-+	}
-+
-+References
-+==========
-+[1]: https://developer.arm.com/documentation/den0056/latest/
--- 
-2.54.0
+The following review comments are based on my limited understanding
+of device tree, the actual maintainers should have the final word
+and need to look at it too.
 
+On Thu, Oct 15, 2026 at 4:26=E2=80=AFPM Ryan Roberts <ryan.roberts@arm.com>=
+ wrote:
+
+> Arm Core Local Accelerator (CLA) provides a CPU-local interface to
+> accelerators that access memory through the local CPU's MMU. CLAs whose
+> accelerators cannot be isolated from each other form an isolation
+> domain.
+>
+> Add a binding for arm,cla describing the register range, CPU
+> association, DMA coherency and isolation domain. Document the
+> privilege-level register frames, including reduced ranges exposed to
+> virtual machines, and provide an example of two CLAs sharing a domain.
+>
+> Signed-off-by: Ryan Roberts <ryan.roberts@arm.com>
+
+>  .../devicetree/bindings/misc/arm,cla.yaml     | 77 +++++++++++++++++++
+
+No matter where the driver goes, this binding should (IMO)
+be in
+
+Documentation/devicetree/bindings/arm/arm,core-local-accelerator.yaml
+
+> +properties:
+> +  compatible:
+> +    const: arm,cla
+
+I would spell it out arm,core-local-accelerator but others may like
+the terse acronym. I just think it's too short to be unique and
+find Documentation | grep core is good to match for one.
+
+> +  reg:
+> +    maxItems: 1
+> +    description:
+> +      A single contiguous register range starting at the PL0 frame, alig=
+ned to
+> +      256 KiB. Each privilege-level frame occupies 64 KiB, with PL0, PL1=
+, PL2
+> +      and PL3 at offsets 0, 0x10000, 0x20000 and 0x30000 respectively.
+
+So these registers only exist on each node (mention that here), is this add=
+ress
+in the *physical memory* address of *that* CPU or of the entire system
+or what is it?
+
+I'm just confused so looking for this to be explained here.
+
+My guesswork is that each CPU has a slice of the physical memory
+in this reg, and that slice is then only visible from that one CPU.
+If it's like that, spell it out.
+
+> +  cpu:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      Phandle to the CPU for which this CLA is local. Only that CPU can =
+access
+> +      the CLA's registers.
+
+If this thing/address is local to the CPU, shouldn't this just be subnode
+inside of the CPU device tree node itself? I'm not sure so I'm asking.
+
+> +  dma-coherent: true
+
+Yeah, I guess ... on THAT CPU then?
+
+I think this property is "as seen from the CPU", and assumes all CPUs
+and IIUC the other CPUs cannot even see it so that doesn't sound very
+coherent.
+
+I'm just confused by this property being present here, but it's
+true, in a way, I guess? Do you have to specify it?
+
+> +  arm,domain:
+
+Domain is a bit generic don't you think? We have power domains
+and clock domains already.
+
+At least use arm,cla-domain?
+
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Identifier of the CLA isolation domain. CLAs whose attached accele=
+rators
+> +      cannot be isolated from each other, for example because they share=
+ an
+> +      inter-accelerator communication bus, must have the same domain ID.
+> +      Different isolation domains must have different IDs. IDs need not =
+be
+> +      consecutive. A CLA that can be isolated from all other CLAs has it=
+s own
+> +      domain ID.
+
+This doesn't explain what it means to isolate a domain, what
+isolation even means in this context.
+
+I know about isolating network interfaces for example: it means
+to physically decouple it.
+
+So express what "isolation" means here.
+
+> +examples:
+> +  - |
+> +    /* Two CPU-local CLAs in the same isolation domain. */
+> +    cla@10000000 {
+> +        compatible =3D "arm,cla";
+> +        reg =3D <0x10000000 0x40000>;
+> +        cpu =3D <&cpu0>;
+> +        dma-coherent;
+> +        arm,domain =3D <0>;
+> +    };
+> +
+> +    cla@10040000 {
+> +        compatible =3D "arm,cla";
+> +        reg =3D <0x10040000 0x40000>;
+> +        cpu =3D <&cpu1>;
+> +        dma-coherent;
+> +        arm,domain =3D <0>;
+> +    };
+
+This example makes it look like these CLAs are all uniquely
+mapped into the (shared) physical address space. Is it so?
+
+Yours,
+Linus Walleij
