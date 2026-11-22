@@ -1,99 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795336364;
-	b=29uLLiQ92kSf7Vzyctbp0n2dA5/f36+1wYpFPuBSIG/lnn8QluDFgXmiMbAPbHT1v7gE
-	 kjodaQejse0GfHgzXuZi7U0dA7jGjQDocZHfK/kV3Gg++6VbA3ECHPCFleMnZ+VS06g5z
-	 p+BxsBQzDJOuMk9j3Gj+zIxGdoGXvx6j6Ohb0IZX5Z5IcosyBasH0+xShpAfu6OY5n8c8
-	 JVwUONA5B7kF6fP4lHb0HfD8yPvgPBBVzfbdtpns5fZK6Kalxc4x6akgoQB0UwQEplvVC
-	 yf8/ccEeHuJLQ/PMSoRwnh94pSpDhZUadt7Olhulc6B3z6BObptTfTZbANkw9J4bILQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795336364;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=yJ6P/F1jFJr0lVYrdtAG0eMDCHBsrJpW/xU1AvPrpGs=;
-	b=FLhQNGKC6xsFSHbBiFtNzcUUVB1wYZTGThNEPdikC4xXCZtgQXiaO4rSxyFlgotj3vqT
-	 tkYN5zhAD7DsFVhyQY27bcsgMgLoTMuP20wGDVfU5RJWU/+chLHK6kss0PI7ITnALvT4C
-	 6Dywoqav9BEKUH8A5a4yDiiMEB+sWaTEgY+jV7iHDj9MGQljbvLFpVyWS4dDG4D2XxcRo
-	 z2qWmUOnijVwMVv++wOcoHtbucMbCMm+IXf93EZkRQxNulqrJOoUiVlqIzENI9O6YrHtW
-	 ypT7bYWGSy14gd5KwUzMSa+Lp6qs98hgJ5KA/L8y35aJTCOrB5iB8Ysk9yeTXqB8q4A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XB7NeBRY;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795337427;
+	b=hlAkFhPSIFvFmebFa8WRZgvswX9ipJe7HteV3BfDp4QUsK2Fp3yxXmRadhNauKDt7DXj
+	 QcIO1kk40zZRK7fIazJIkGoZRQHrPxIOjBBu6ySWUkAZ1Fwewhk3UPsXQIs7jQY+exrGl
+	 0HlFyqUNwsQVcQoqLZ0dIgQpyib98+/3lTA+JCXLkxqoQwPR7P44BtaVdgJ0rrk5/HKo9
+	 w/zXMmwb4wjDTYyG+ogNnfRGmHZhzNfOFRf6G9QJUa6idrInU24NGkWmPjxdAYOb0p0yO
+	 GdDJcB69vY1b8z61iwnGc3xahtzNCjb2ai8NXYFFarz8IDDAEXo/dheAZj5QIHLMvUg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795337427;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=1zCgrqGMERKRx3wFipmnFpOXfxQMJHLUrbXmxg8+a/4=;
+	b=zXQ4HlZLskY0A0TCMSsZLVQgjxWaMU9lUKXmwXg00tdnbWFHdx6PJcwDMK6iGpujY+aS
+	 m7G0dUkuKfQP6ugbGUa21C24d9ldFhrpD6l5N7oZuku6hWyWhDti48JE0HR07MYCWoCeQ
+	 evMlbLMUy7MNAI9E0scHHHbs9RzDgO+/OqLU6S+HbV7HDaEhhw2RJyjGNme8aMq8FZHeU
+	 yascraBzd4SZtgAGZBEcCBUS4z7A7qSbpyXAKEmnEeQCjOhrMm+YBcyXZB5yU63Oi+yRI
+	 iu4yZzYVZ3/q2GNnnmPrYK6h9WIolTe7CAXHBG4DSJEPUZtDAg210q4jy6iizVdaKhQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hUrRuN0V;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A214606A32A
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 08:32:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A214606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C36B606A320;
+	Sun, 22 Nov 2026 08:50:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XB7NeBRY
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6b86fcbd647so3712569a12.1
-        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 00:32:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795336363; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qcfFGJtJlxGjWuEtrvyQcshQg/ZqB7S0KaZXmb4EbK0fu6D7G6qhQp9ItZ1JjixPzh
-         Vl+GkXaZYKkKvP/Hw1xUOkNF7zua/4xkQckJmMUiiHylS2nE8fzSmUy9GApWfEhi8YmC
-         mKQ8iKMxy/Ac4tAobZiwpp47Sgn+mYXsAotv3mssBHNARgfgkZEbKjkSHhaYuA03JC7F
-         yYBTScJC09bRk+bgFI96T0vmuhmK1fYRQZ0QuiU821prU5SF3tMkGmpJBfvOoD3hCoGq
-         KC1Lr4Apu9LannrUP3tSPeyi3HTGDIEcHrF9nz0tuf2Y6RXKuNifjXGbZ8PmQ7AUj72v
-         Ouag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=yJ6P/F1jFJr0lVYrdtAG0eMDCHBsrJpW/xU1AvPrpGs=;
-        fh=03uWlFA6q7F2/Xw8Suo26IL1zoyz9a3EwPmVyweA01M=;
-        b=cjgqVZeOTUmoIDoR4nSiF0Zcm3ae+6BSx0P7HMRt92IsYEHwGOX/wQjAf6HV2QCOJj
-         0CSWQsMnCKY5EtnpaZSPyuvoWPoNtKGS+tQ4yHglCczZNqORjU2ePD9f6BY+6x5iYxI+
-         FL0S8kz2OsOJrZ3FuHVun/qWthB8kWFW3rPZDP/66v5lKxvXNzCYqZlpIBifBh+MZ7/Y
-         QdGdWsEJxq9yDBcC9vLnO2LS7xP4XgEFGCKz9PsFqg23nyjzUkFLvd/odKhoLKF3C8B7
-         KS3U0Xa/omOJ+TO6JhLoelzgSXq53m9fIxaOpZnv5Ytphys5S6xBFt7fHo3v6ytfjXaM
-         OyyQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795336363; x=1795941163; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yJ6P/F1jFJr0lVYrdtAG0eMDCHBsrJpW/xU1AvPrpGs=;
-        b=XB7NeBRY04euhXfWB/XxhB+DzTJzGlP9aMcTsxRixf44G2VojKxyLfPXDeVMXOFFTP
-         J4DpFjZ7vFnnGEq5ETvtfFNcf4yjWA/tKzm6BKpfkJk1DMPKFI/e8Vcu5IiKbZWhUDRq
-         4rIAr/b4CvqK5q1DHdNfGOQ6gZ46ae3x5Q6KYnbRoT/rKavQZE77Q/ZbXcmELdbQv/co
-         IuqV2pxrKPabINQ3ndT0E3PPCa07d9/7iYw3mhuAOYldrIKh9xtwjLUDKVAo68JRPzs1
-         5iUJaqhu2IsUisQZQ6FPqOAYMuD/9mx2P27dbuI7wSleqrbtVRyT8FmF7cXNmlLTS7Nu
-         k/2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795336363; x=1795941163;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=yJ6P/F1jFJr0lVYrdtAG0eMDCHBsrJpW/xU1AvPrpGs=;
-        b=YvR8Jomoux4+u0em9mTLOFH8NqclRl+i3cNO7qIjaGl8SqzphbBZ6wtP3K5SF182JK
-         ME1kRTD4JsYChU3RPWCd6C54zbjWQgGWKlYtEktbAnq/9y02rhjbL8SHhhAmENMPeiaf
-         1ZKzs4pLlDjvioy1/GCLFu2xIpb+tdMSjfS5yTm0c5QMBbBkJFgU7cTRBmlhgIfSr3a0
-         YOmySNImkf8586WONk5U5VFILmR7Zjfih7bvJe2N4wtB0sTTIACg5TpgfUPwNGY2/Hom
-         9ZwL1JfWN0xcY20mfeMJtqttwYIlDHEIvFh3gwFyF7QqTxlw1buOpONrFlMCo7ERsndw
-         1ULQ==
-X-Forwarded-Encrypted: i=1; AL+hErEtsF3tAIXWyyxHNzdngWaR0jMM5LMn9eXRAA0iUQoIr7xdyL/+rw/vCT32MZGz3r3DyUIAaf3NNG4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/CvDlW3jVtcWDU8SphtUrXTRkDOchhj1+BMbVSKGr6pN7omPeF
-	knJ0VW445iXGpZK82c7EzF4D/+FnTYCk9ZnS5VN1xMHQWu1c2YnwrtMRflCrmwx2Ol0D9Pe79ya
-	PEGaNh2chzObqDNS0EzGe4gAKbQAjbu0=
-X-Gm-Gg: AZFdTZdU54w9kS8Wmt2VkQNaDl0Uj+EqsbnmBUDzUDWFEJJbniC7vSrvfLEmbXQS/ul
-	XDZF6hh1caHpUdfQjkoB0JFrKS74pseQ72082cuwumrweB9O9HjBoAxd7VdRl1fJB4Sb3dhV9uI
-	aAMjFNANWBK2WU6D9pa8v1kFmL1O3SQ2wqqX3lTShRaDQClR4IbdsvRsmkVY5Tj2dgdIvYYnXux
-	PF+md/HMgz+iS9hUFUpf0ruIh/82EE0jwPBUSm3beZ6BAg85/ohnOaIT3G2nCc8FtvfVsTt2n+m
-	IRm01YIhLqYiVz4zlAzJdx286LtehhpTvvvbkXTr8BS5ba6CtbsEmnV/py0iHnzoIGQ5Y/F2QJH
-	gxQyn5rp/nrXKhQ28rFr7yuNTlrE2GztM8K3fnSs9W/cmwtvkk3RXtLH+Lk/ngpRIBcll3d96
-X-Received: by 2002:aa7:d58b:0:b0:6aa:e44a:ae9e with SMTP id
- 4fb4d7f45d1cf-6ba1f76f20bmr5784629a12.1.1795336362700; Sun, 22 Nov 2026
- 00:32:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hUrRuN0V
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5CA41F000C0;
+	Sun, 22 Nov 2026 08:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795337426;
+	bh=1zCgrqGMERKRx3wFipmnFpOXfxQMJHLUrbXmxg8+a/4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hUrRuN0Vgu3NVUWZ+KNrsAQhIDrMKZ/Cxj5dALSNfLzFoDxr9TMJ+KBLpnRq5lYtB
+	 69BTFYJMx50ENAFgkTBwqCFDmNpY5U1uu6ZnA7c1W78SgZp55iZn87cKPWJ9rIBaGk
+	 ULqZELtG3TSXrfVJOJUQTFHABQhdIwNEI5vSpjwDgXqbAk7AnIDUqiUuGUh2X1sbth
+	 PYbdOazsQFqPilpNU99vsmiml76Fhf536otZjcmxC/r5LjMXVNv92XjIBJcwCGZsot
+	 6BLg6JoPKuF0OssV8Am1SfRg/hH1nGu6FYSfJ5FuyI029e65T9tR/lVcAbTQj9UmDt
+	 tZVoF50gcirdA==
+Date: Sun, 22 Nov 2026 10:50:22 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Willy Tarreau <w@1wt.eu>
+Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
+ user-visible impact
+Message-ID: <20261122085022.GB14811@unreal>
+References: <20261116200515.352387-1-sashal@kernel.org>
+ <20261117092723.GA124972@unreal>
+ <avxtxScVa9KvUH_K@laps>
+ <20261117152721.GC162713@unreal>
+ <av7s5eV7Ws9Io3cE@1wt.eu>
+ <20261119125947.GK162713@unreal>
+ <av7zGbqXizmXY4R-@1wt.eu>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,51 +70,63 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261118041238.14396-1-evostrov@amazon.com>
-In-Reply-To: <20261118041238.14396-1-evostrov@amazon.com>
-From: saeed bishara <saeed.bishara.os@gmail.com>
-Date: Sun, 22 Nov 2026 10:32:31 +0200
-X-Gm-Features: Aa3M54pZfE2KW1luQ6sOAJOOiUgk0uydYZlf6J4BSyxM_Kpl9YLALdVdQ9VZbPk
-Message-ID: <CAHfVqdVw9OQ4OPmpLp4pJQhFw_9E7SLwNDjYXYuuGkU95=gGdg@mail.gmail.com>
-Subject: Re: [RFC] net: ena: use tx-push-buf-len while tx-push is off
-To: evostrov@amazon.com
-Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, 
-	David Arinzon <darinzon@amazon.com>, Shay Agroskin <shayagr@amazon.com>, 
-	Arthur Kiyanovski <akiyano@amazon.com>, Gal Pressman <gal@nvidia.com>, 
-	Michal Kubiak <michal.kubiak@intel.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Eric Dumazet <edumazet@google.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, 
-	Shai Brandes <shaibran@amazon.com>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <av7zGbqXizmXY4R-@1wt.eu>
 
-> - We still need to tell the device how many header bytes to pull.
-Just to be clear, the device eventually will read (pull) the entire packet
-I think  tx-push-buf-len should have been called tx-inline-header-len,
-as this is about how many bytes of the packet's header get written by
-the driver into the Tx ring descriptor.
-IMHO, we better introduce a new parameter, that is agnostic to
-push/pull mode, we can choose to deprecate the current one in the long
-term.
+On Thu, Nov 19, 2026 at 02:01:13PM +0100, Willy Tarreau wrote:
+> On Thu, Nov 19, 2026 at 02:59:47PM +0200, Leon Romanovsky wrote:
+> > On Thu, Nov 19, 2026 at 01:34:45PM +0100, Willy Tarreau wrote:
+> > > On Tue, Nov 17, 2026 at 05:27:21PM +0200, Leon Romanovsky wrote:
+> > > > > > Since you're already making changes in that area, could you add a sentence
+> > > > > > asking reporters to provide the full dmesg stack trace?
+> > > > > 
+> > > > > In this doc, we already ask them not to [1] :)
+> > > > 
+> > > > This is really bad. You assumed they would trim the logs correctly, and I,
+> > > > as the recipient was expected to trust that they were accurate. They are not.
+> > > > 
+> > > > They trim everything, which makes these logs useless to me. As I said, they
+> > > > include AI-generated reports, cases with reproductions that are impossible
+> > > > with upstream code, and reports for completely out-of-tree code. Everything
+> > > > like that was visible in original dump stack and it is lost now.
+> > > > 
+> > > > > 
+> > > > > > Many AI-generated patches reduce it to one or two lines, which gives no
+> > > > > > indication of whether the report is genuine or fabricated. Early in the AI
+> > > > > > era, I saw some completely fabricated stack traces.
+> > > > > 
+> > > > > Is it still an issue?
+> > > > 
+> > > > I don't know about faked, but useless yes, especially in the cases where
+> > > > in-kernel API is involved.
+> > > 
+> > > The situation completely changed over the last year. LLMs that would
+> > > hallucinate bugs and dmesg in single-turn conversations have been
+> > > replaced with agents/harnesses calling shell commands and able to
+> > > capture contents without inventing them. I agree that we should ask
+> > > them to capture such dmesg which nowadays have no reason to be faked
+> > > anymore.
+> > 
+> > The meaning of "faked" has shifted. As you said, it previously referred to a
+> > completely imaginary call stack, now it refers to a custom module that abuses
+> > the in-kernel API. The latter is still "faked" because it cannot be done with
+> > the current code and unlikely will be possible in the future.
+> 
+> Ah OK we were indeed not speaking about the same cases.
 
-> - We want to use tx-push-buf-len for this, with tx-push off.
->
-> ENA is the only in-tree driver that uses tx-push-buf-len, so this does
-> not change any other driver.
->
-> Example on a device that supports pull mode:
->
-> ethtool -G <dev> tx-push off tx-push-buf-len 224
-> ethtool -g <dev> -> TX Push: off, TX push buff len: 224
->
-> The core already allows this. net/ethtool/rings.c checks only the
-> capability bit and that the length is not above the max. It does not tie
-> tx-push-buf-len to tx-push.
->
-> In a 2023 review Gal Pressman suggested using tx-push-buf-len only when
-> tx-push is on. That was never added as code or written as a rule.
-> Link: https://lore.kernel.org/netdev/30cb3990-80ce-ca07-6d73-cdc00d0ad7b8@nvidia.com/
->
-> Request: Please confirm this is fine or if not can you please suggest another
-> way of achieving the pull mode len setup functionality.
->
-> Thank you
->
+Over the weekend, I realized that after this wave of incorrect and deliberate
+misuse of kernel APIs, we’ll see the next level - misuse of internal driver
+APIs as well.
+
+I’m referring to the various EXPORT_SYMBOL()s in large, complex drivers
+such as mlx5, bnxt, and Intel’s drivers.
+
+The idea that “let’s trim the dmesg stack” is going to be a disaster for
+everyone involved.
+
+Thanks
+
+> 
+> Willy
