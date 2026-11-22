@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795363737;
-	b=oqDKYBK080fgZYIuZplujppTBNMd9387LWVr39BABV+TbEYymprkXt60w3/x76UJfc2F
-	 0P4cszYyV2zkooTdvdab7EHindWi5SArCRghpyFE/MjM2caa0IqY4XKQhOtRbCa5iXoYg
-	 FI/692DuYHqMLY6EaTr9VRQYkl9uEsmx+6Uk6adGFLUCAmdlxrP7MDvRiu91p3Cm/61MG
-	 rRZotwVS9GbuhzfcDBbTX2d4QjsgpU1IQWJ1YMSJY5Qa8UAjZWca3IWz5Xe13z0xHan3R
-	 tfiuOXaftKFp8fDegKeYqTN5IQelDn7IxJcMx86rOn4A3qkkHwmcyHFMGY5Esz3Mgtg==
+	t=1795363741;
+	b=xYqtQG+/oIJRY/fDSmvKUkXDj0A1qb0vmMMZcqVAuA6NuXkHMXwxuCDkof9LI4swjiJX
+	 DaY2Al12v4N8cld4d+/8xLrWa5pyiv+mNbtLadsDk40PuTDYcSfguiKUI3XyHPJZ9dPDg
+	 kIaScZvY1+5eqGpF6m+VcyuK0Zf0FkYWW99nr/CwBB4P9Lj4AA77KXJSgTfoYNTNe840A
+	 mOgrPq6+zxeCn0aQWUBfpPr7HPzlJFs/kWb30JrCLsBqslcnvIfVgTpSa8kpwfkQLLOQd
+	 KaffnwfZGe3i2vKCXcM9yxuFMr+6qTtMRacM4G1sdUlWuSbPADqqQRu+1SJ6NX9Srow==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795363737;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795363741;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Qvu8vQsXcZYwt595BI8GqIYtC0zBok7pjL/05SDXz2M=;
-	b=a1sDY69fkEM7icKslOR2oDsKTzsscQ8Jiweh21PUlhTaoouKDUzTIzlAtRRjpAdX/bWk
-	 VRk2St1SD7AwQ1LgiHkj1WjyeAMauBqFWnHzsxN247jCkjMcr77s1YqnDEVn2PpriyWOJ
-	 bLio2Hsxetz3VmvTu30sIAAhFDg730sQXWlgK5FCvVFGTInVZ9X6ko4mPlTtiPPw3z7G8
-	 Fyc4rnRux9JjgUaELnDlDk0Cyf5lrpbTlcT6053QILWoRWmsNdubSaPfX06EPe6hV7M/i
-	 is2L0EPVvv3jSAxnrRXuQShPJoPtpTZeHxRZnWbxlylLkz3cKaxIY+WYozNpjafUoTg==
+	bh=9WU2ySvn4UImhm9JOoEK7O/1RxpB2c7ESNL0QHXDnZ4=;
+	b=fdtzTM9d8iCPxn87DJd/zCrH+6PRiMt2oSa8hmVCoOdD0efGpwFIaRIhE76b57JNRIuo
+	 m44C8xg0DvwEfofrYPgEVpoqzunNgjjm/XycCaYOeUREbPI56XWz3V9tEd0L60ph33joP
+	 gZGBC5Vqaa7bQ1s8st/3Rp+5igFCIPZfRZt+lQhkS51DA4IQnc1du6iqY4Zym9uzqjQs6
+	 PZdIQUXfQVNDY6XQRAUawAhd9NFTO0B/+WpuWo3ogLR4Om56NvgyJ4Leh0a7ekeMMoJuc
+	 uO1edWsdhj51ECG1bY5mg3Y5RRu/0vJOAJiHQhv4nyUQS72945b8v5oNpI5ams7jQ+w==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zq3pXPAn;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="hoFP4h/A";
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FC5606A320
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 16:08:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D4F606A320
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 16:09:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zq3pXPAn
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hoFP4h/A
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795363736;
-	b=nvVDQfT0UWW+lKQlNXz2FHTUXQkqcjzf/dDnvWWOkyi9YpGZ2vphglTGDpF8jBTWDGYS
-	 vx92fp8c8HaBnmfIRjnVzgIR6zQ8asE0U/khS7dkTQEabDDT/XMON2FLdu6X387o+O2sb
-	 Vs4aQeEpzamhAUC1o7SsoT3akYq1Sy9J8CNiU2wtvYexMjKvX8xTiAJUbGpCxEAMf8gRQ
-	 T64R7e6viludXk+kI5LAhb/0scP6CeA2XnWKvxkBFOJaQxSeSSg8xlmozEnJHKSTYFDCG
-	 ldtp5FYPqwdkaFuUI4nbLYfEx2QgYSm98wMMc3PvFj8rbA9OemheKvvS9PThBxRpHbQ==
+	t=1795363740;
+	b=T4yuRdTVHeFKhgoTIRp1kOdtRkyP89uNOAG4F1Z8fsBCezFfJ0/M9NMpb6kJIqkIszQs
+	 yi6+4YSkPqWc9TzFHuwJ3BWTn0TZBdWUWeQen05CxPvebVpv3WZhxMtDk/+piQs/O2rzJ
+	 TmwpN9g7VQKuJWge8TNOGiSWtGBZY3GbrHTYkR0e8OoI3n8iStUb/a/Hzj8OFqVsxTLOZ
+	 Loy6XFkG1Cn40ZcCUAZ4Rj3d6fLVw0yuIc70rklXJPdRuJovlkAgzGJdmrmXdWLP9woey
+	 /qGKJbPc0HA84dyXmlFuDr4YpUu0EWLZ021Smud3gOn8qBwPV7//+OqWtnOV8fLSOOg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795363736;
+	c=relaxed/relaxed; t=1795363740;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Qvu8vQsXcZYwt595BI8GqIYtC0zBok7pjL/05SDXz2M=;
-	b=1cdE6hB2UKDtSwjjwskCbCf8oV9m0t5wnica7g9C5NODSxhCsVi99/0YMIAaRp7RXt1Q
-	 rExR0yGLVN1siWGm/OCIkekN2gLlNFlAViJ7oPhqvfei94FfjImzlFQbMFwmI0UNH2XBv
-	 tZSK1f/sEwl0bQwM4m+OS7wCh3FQXN3P9ZOQsZyDcVKPhgg/sDSLxyfb/klLbOIo5S+g4
-	 cxosikukUJxvG5jctR7tzWkioGJcx4wYNwmywXrZ/qSPI8GHpOEcYMp2D4w3gftY2+c1d
-	 R3pRDIhSw5XAfPejEVX4fWsqzM3cKSY4wrTaGBL1vvcNeLfkGHaRBW2YnfwBhUolbtw==
+	bh=9WU2ySvn4UImhm9JOoEK7O/1RxpB2c7ESNL0QHXDnZ4=;
+	b=QQTU9B5I7OiN5rY2Ilb0rIu96q1bxk1/et5KfqAP33r5GeUEV+eGvHg8LQEMC+qtgxHd
+	 +MTijNH/AxCbxZQdirHR6a1p/SfAofj+xrts0ft3koRudNWXrSXoql2OT2jNhF0kyQ4nZ
+	 L2nw739Re9SyAD/EP8/aCr+xZ/a0j/qCE+nB+vLaepYfLj9nCc/GkmsPMUNAdYW8QQyYe
+	 tKgjjJwgZsMc07gd5SwdBK3QQwxvwOiCDTuTOoviSd2znX2BHUdIniFZjvI59ZUsTxr6H
+	 zAosQpkquWGmseJqrEtv+1kkl4YVpcAXexjpExrSpms+fS9dDw/CbtJD804oIeROldw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 38F251F000D0;
+	by smtp.kernel.org (Postfix) with ESMTPS id 014611F000CA;
 	Sun, 22 Nov 2026 16:08:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795363736;
-	bh=Qvu8vQsXcZYwt595BI8GqIYtC0zBok7pjL/05SDXz2M=;
+	s=k20260515; t=1795363740;
+	bh=9WU2ySvn4UImhm9JOoEK7O/1RxpB2c7ESNL0QHXDnZ4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=Zq3pXPAn02D+EvUjbiLa5dN5lfk64d9VAySco3Y5I3QaxSK2qPi25Ja9tLAOSDPux
-	 KtFZq6NKPzLUDef4fzy8n6jJVyrbHFopybar4Aor8pRXI6LctzmWnMs99iElKd9f0O
-	 FSWjwCkEJ/oemHaqmG/fABzKqVb4sxTiddTHD67ilZLxGzlemOMOh924ncLlJkxhWo
-	 ozdkdAQMbxM/PnGywcpJcezqqpf2QdchjsqRqHofkr3bHyAYfpwJi3RohyUu33Jozh
-	 M7iRP7xGYFGeEb6vqKoU9ZgPi1UYENeMUTVx90MMyySgW2qSmL/XQ7KaENQ94XkrsK
-	 jutJOOLEOz5vg==
+	b=hoFP4h/AMfVkuLNoE7nTB/0NB43ii7It6ajeU+ClVryjg/sK1LNS4230Qw+9dS6qA
+	 JXZQRo6WyNnTZmN/dfJv0rnruVmHjmQwmR+7MTfLOdMYs243VNXrJo6RrpwmYOHrjy
+	 YjOMvLIQR6zAsjsd0ufjUKotx9mqWETpw8eTlgYHj9bgvNX7Wym270iwfsRXujhyNd
+	 t4BW1+GVzJc1XgXpGBTYdwK/ygxx5M2lF5nVyTVA2f/a/+pwKhGZs5d8Ep2Qs+brpM
+	 4Agd8kR9cgHsiLU02u2hCZLHfVf5QWPhdG7Sg1uIY9oVWCz7xGLIZKc9d1jQVtsxPG
+	 Co6KdROPtJAlw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id BA0974C127;
+	by lkml.kernel.org (Postfix) with ESMTP id 826D14C11F;
 	Sun, 22 Nov 2026 16:08:43 +0000 (UTC)
 From: Eduardo Pereira Cruz via B4 Relay <devnull+dreduardocruz.gmail.com@kernel.org>
-Date: Sun, 22 Nov 2026 13:08:46 -0300
-Subject: [PATCH 4/4] docs/translations/pt_BR: process: add
- maintainer-pgp-guide.rst (4/4)
+Date: Sun, 22 Nov 2026 13:08:44 -0300
+Subject: [PATCH 2/4] docs/translations/pt_BR: process: add
+ maintainer-pgp-guide.rst (2/4)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,18 +84,18 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261122-maintainer-pgp-guide-pt-br-v1-4-01ce5941c5c2@gmail.com>
+Message-Id: <20261122-maintainer-pgp-guide-pt-br-v1-2-01ce5941c5c2@gmail.com>
 References: <20261122-maintainer-pgp-guide-pt-br-v1-0-01ce5941c5c2@gmail.com>
 In-Reply-To: <20261122-maintainer-pgp-guide-pt-br-v1-0-01ce5941c5c2@gmail.com>
 To: linux-doc@vger.kernel.org
 Cc: danielmaraboo@gmail.com, corbet@lwn.net, skhan@linuxfoundation.org, 
  rdunlap@infradead.org, Eduardo Pereira Cruz <dreduardocruz@gmail.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795363722; l=13809;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795363722; l=12372;
  i=dreduardocruz@gmail.com; s=20261119; h=from:subject:message-id;
- bh=WwZO9kC3rRbNLX5y6rS6DaDwrlIsnNblflitUqGr970=;
- b=EFBGIVkYy+6GZ5UXqn7yc66x5HGhBgOURhvj/egb5GV95i84tSu3B/dOI0DObRi+EUqBBtyaH
- 6Ez2Vv+2eg7BxLFFJlkboqOseKz6fiDE4ImwqbNIzGHS3v29D+CR/xa
+ bh=C4iNQDl5JtYjV/glAd3couPQ1BGZQrblBzxgDjhFMcU=;
+ b=KO9UUxX7WTBEsQV65uXXwCyc70pv7bk426265/H+3Ff9O3Zd0ljvLWMwz6q1W2YcLIxUXkrEW
+ Cdyrx3tKhPmBzea3GsuMmFt4sm2/FeSiVDeM4GhupMeFyJjmsAJHOCE
 X-Developer-Key: i=dreduardocruz@gmail.com; a=ed25519;
  pk=2dtL+BL/x70sROmAvlskv9dbjj274zlPkLBVu4gJJiA=
 X-Endpoint-Received: by B4 Relay for dreduardocruz@gmail.com/20261119 with
@@ -106,311 +106,271 @@ Content-Transfer-Encoding: 8bit
 
 From: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
 
-Finish the translation with the Git integration chapter (signed tags
-and commits, patatt) and the section on verifying kernel developer
-identities (WKD, DANE, TOFU and the kernel.org keyring).
+Translate the rest of the key protection chapter: removing the Certify
+key from the home directory, the keygrip handling and the details of
+the private-keys-v1 directory.
 
 Signed-off-by: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
 ---
- Documentation/translations/pt_BR/process/index.rst |   1 +
- .../pt_BR/process/maintainer-pgp-guide.rst         | 276 +++++++++++++++++++++
- 2 files changed, 277 insertions(+)
+ .../pt_BR/process/maintainer-pgp-guide.rst         | 249 +++++++++++++++++++++
+ 1 file changed, 249 insertions(+)
 
-diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
-index d072f7e46767..a612b22e267c 100644
---- a/Documentation/translations/pt_BR/process/index.rst
-+++ b/Documentation/translations/pt_BR/process/index.rst
-@@ -46,6 +46,7 @@ devem estar familiarizados.
-    Adicionando uma nova chamada de Sistema <adding-syscalls>
-    Por que a classe de tipo "volatile" não deve ser usada <volatile-considered-harmful>
-    Como não Deixar as ioctls malfeitas <botching-up-ioctls>
-+   Guia de PGP para mantenedores <maintainer-pgp-guide>
- 
- Guias de políticas e declarações de desenvolvedores
- ---------------------------------------------------
 diff --git a/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst b/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
-index 7808ef4730ae..8cec13c6559b 100644
+index a4ec5c5ef83b..4e07d49e36d0 100644
 --- a/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
 +++ b/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
-@@ -644,3 +644,279 @@ outra ponta.
+@@ -109,3 +109,252 @@ o arquivo ``~/.gnupg/gpg-agent.conf`` para definir os seus próprios valores::
  
- .. _pgp_with_git:
+ .. _protect_your_key:
  
-+Usando PGP com o Git
-+====================
++Proteja a sua chave PGP
++=======================
 +
-+Uma das características centrais do Git é a sua natureza descentralizada --
-+uma vez que um repositório é clonado no seu sistema, você tem o histórico
-+completo do projeto, incluindo todas as suas tags, commits e ramos. No
-+entanto, com centenas de repositórios clonados circulando, como alguém
-+verifica que a sua cópia do linux.git não foi adulterada por um terceiro
-+malicioso?
++Este guia pressupõe que você já tenha uma chave PGP usada para o
++desenvolvimento do kernel Linux. Se ainda não tiver uma, consulte o documento
++"`Protecting Code Integrity`_" mencionado anteriormente para orientação sobre
++como criar uma nova.
 +
-+Ou o que acontece se um código malicioso for descoberto no kernel e a linha
-+"Author" do commit disser que foi você quem fez, enquanto você tem quase
-+certeza de que `não teve nada a ver com isso`_?
++Você também deve criar uma nova chave se a atual for mais fraca que 2048 bits
++(RSA).
 +
-+Para resolver essas duas questões, o Git introduziu a integração com PGP. Tags
-+assinadas provam a integridade do repositório ao assegurar que o seu conteúdo
-+é exatamente o mesmo da estação de trabalho do desenvolvedor que criou a tag,
-+enquanto commits assinados tornam quase impossível alguém se passar por você
-+sem ter acesso às suas chaves PGP.
++Entendendo as subchaves PGP
++----------------------------
 +
-+.. _`não teve nada a ver com isso`: https://github.com/jayphelps/git-blame-someone-else
++Uma chave PGP raramente consiste em um único par de chaves -- normalmente é uma
++coleção de subchaves independentes que podem ser usadas para propósitos
++diferentes, conforme as suas capacidades, atribuídas no momento da criação.
++O PGP define quatro capacidades que uma chave pode ter:
 +
-+Configure o Git para usar a sua chave PGP
++- chaves **[S]** podem ser usadas para assinar
++- chaves **[E]** podem ser usadas para criptografar
++- chaves **[A]** podem ser usadas para autenticar
++- chaves **[C]** podem ser usadas para certificar outras chaves
++
++A chave com a capacidade **[C]** costuma ser chamada de chave "mestra", mas
++essa terminologia é enganosa porque implica que a chave de Certificação pode
++ser usada no lugar de qualquer outra subchave da mesma cadeia (como uma "chave
++mestra" física pode abrir fechaduras feitas para outras chaves). Como não é o
++caso, este guia se referirá a ela como "a chave de Certificação" para evitar
++ambiguidade.
++
++É fundamental entender completamente o seguinte:
++
++1. Todas as subchaves são totalmente independentes entre si. Se você perder
++   uma subchave privada, ela não pode ser restaurada nem recriada a partir de
++   qualquer outra chave privada da sua cadeia.
++2. Com exceção da chave de Certificação, pode haver várias subchaves com
++   capacidades idênticas (por exemplo, você pode ter 2 subchaves de
++   criptografia válidas, 3 subchaves de assinatura válidas, mas apenas uma
++   subchave de certificação válida). Todas as subchaves são totalmente
++   independentes -- uma mensagem criptografada para uma subchave **[E]** não
++   pode ser decifrada com qualquer outra subchave **[E]** que você também
++   tenha.
++3. Uma única subchave pode ter múltiplas capacidades (por exemplo, a sua
++   chave **[C]** também pode ser a sua chave **[S]**).
++
++A chave que carrega a capacidade **[C]** (certificar) é a única que pode ser
++usada para indicar relacionamento com outras chaves. Somente a chave **[C]**
++pode ser usada para:
++
++- adicionar ou revogar outras chaves (subchaves) com capacidades S/E/A
++- adicionar, alterar ou revogar identidades (uids) associadas à chave
++- adicionar ou alterar a data de expiração dela mesma ou de qualquer subchave
++- assinar chaves de outras pessoas para fins de teia de confiança
++
++Por padrão, o GnuPG cria o seguinte ao gerar novas chaves:
++
++- Uma subchave que carrega as capacidades de Certificação e Assinatura
++  (**[SC]**)
++- Uma subchave separada com a capacidade de Criptografia (**[E]**)
++
++Se você usou os parâmetros padrão ao gerar a sua chave, é isso que você terá.
++Você pode verificar executando ``gpg --list-secret-keys``, por exemplo::
++
++    sec   ed25519 2022-12-20 [SC] [expires: 2024-12-19]
++          000000000000000000000000AAAABBBBCCCCDDDD
++    uid           [ultimate] Alice Dev <adev@kernel.org>
++    ssb   cv25519 2022-12-20 [E] [expires: 2024-12-19]
++
++A linha longa sob a entrada ``sec`` é a impressão digital da sua chave --
++sempre que você vir ``[fpr]`` nos exemplos abaixo, é a essa string de 40 caracteres que a abreviação se refere.
++
++Garanta que a sua passphrase seja forte
++---------------------------------------
++
++O GnuPG usa passphrases para criptografar as suas chaves privadas antes de
++armazená-las em disco. Assim, mesmo que o seu diretório ``.gnupg`` vaze ou seja
++roubado por inteiro, os atacantes não podem usar as suas chaves privadas sem
++antes obter a passphrase para decifrá-las.
++
++É absolutamente essencial que as suas chaves privadas sejam protegidas por uma
++passphrase forte. Para defini-la ou alterá-la, use::
++
++    $ gpg --change-passphrase [fpr]
++
++Crie uma subchave de assinatura separada
++----------------------------------------
++
++Nosso objetivo é proteger a sua chave de Certificação movendo-a para mídia
++offline; portanto, se você tem apenas uma chave combinada **[SC]**, deve criar
++uma subchave de assinatura separada::
++
++    $ gpg --quick-addkey [fpr] ed25519 sign
++
++Faça backup da sua chave de Certificação para recuperação de desastres
++----------------------------------------------------------------------
++
++Quanto mais assinaturas de outros desenvolvedores você tiver na sua chave PGP de outros
++desenvolvedores, mais motivos você tem para criar uma versão de backup que
++viva em algo que não seja mídia digital, por razões de recuperação de
++desastres.
++
++Uma boa forma de criar uma cópia impressa da sua chave privada é usar o
++software ``paperkey``, escrito exatamente para esse propósito. Veja ``man
++paperkey`` para mais detalhes sobre o formato de saída e os seus benefícios em
++relação a outras soluções. O paperkey já deve estar empacotado para a maioria
++das distribuições.
++
++Execute o comando a seguir para criar um backup impresso da sua chave
++privada::
++
++    $ gpg --export-secret-key [fpr] | paperkey -o /tmp/key-backup.txt
++
++Imprima aquele arquivo e, com uma caneta, escreva a sua passphrase na margem
++do papel. **Isso é fortemente recomendado**, porque a impressão da chave
++ainda está criptografada com aquela passphrase e, se um dia você alterá-la,
++não vai se lembrar de qual era quando criou o backup -- *garantido*.
++
++Coloque a impressão resultante e a passphrase escrita à mão em um envelope e
++guarde em um lugar seguro e bem protegido, de preferência longe da sua casa,
++como um cofre de banco.
++
++.. note::
++
++    A chave ainda está criptografada com a sua passphrase, então imprimir até
++    em impressoras modernas "integradas à nuvem" deve continuar sendo uma
++    operação relativamente segura.
++
++Faça backup de todo o seu diretório GnuPG
 +-----------------------------------------
 +
-+Se você tem apenas uma chave secreta no seu chaveiro, não precisa fazer nada
-+extra, pois ela se torna a sua chave padrão. Porém, se tiver várias chaves
-+secretas, você pode dizer ao Git qual chave deve ser usada (``[fpr]`` é a
-+impressão digital da sua chave)::
++.. warning::
 +
-+    $ git config --global user.signingKey [fpr]
++    **!!!Não pule esta etapa!!!**
 +
-+Como trabalhar com tags assinadas
-+---------------------------------
++É importante ter um backup prontamente disponível das suas chaves PGP
++caso precise recuperá-las. Isso é diferente da preparação para desastres que
++fizemos com o ``paperkey``. Você também dependerá dessas cópias externas sempre
++que precisar usar a sua chave de Certificação -- como ao fazer mudanças na sua
++própria chave ou ao assinar chaves de outras pessoas depois de conferências e
++summits.
 +
-+Para criar uma tag assinada, passe a opção ``-s`` ao comando tag::
++Comece obtendo um cartão de mídia externo (de preferência dois!) que você usará
++para fins de backup. Você precisará criar uma partição criptografada nesse
++dispositivo usando LUKS -- consulte a documentação da sua distro sobre como
++fazer isso.
 +
-+    $ git tag -s [tagname]
++Para a passphrase de criptografia, você pode usar a mesma da sua chave PGP.
 +
-+Nossa recomendação é sempre assinar as tags do Git, pois isso permite que
-+outros desenvolvedores verifiquem que o repositório Git de onde estão puxando
-+não foi alterado maliciosamente.
++Quando o processo de criptografia terminar, reinsira o dispositivo e garanta
++que ele seja montado corretamente. Copie todo o seu diretório ``.gnupg`` para
++o armazenamento criptografado::
 +
-+Como verificar tags assinadas
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++    $ cp -a ~/.gnupg /media/disk/foo/gnupg-backup
 +
-+Para verificar uma tag assinada, use o comando ``verify-tag``::
++Você deve agora testar para garantir que tudo ainda funciona::
 +
-+    $ git verify-tag [tagname]
++    $ gpg --homedir=/media/disk/foo/gnupg-backup --list-key [fpr]
 +
-+Se você estiver puxando uma tag de outro fork do repositório do projeto, o Git
-+deve verificar automaticamente a assinatura na ponta que você está puxando e
-+mostrar os resultados durante a operação de merge::
++Se você não receber nenhum erro, está tudo certo. Desmonte o dispositivo,
++rotule-o de forma distinta para não sobrescrevê-lo por acidente e guarde-o em
++um lugar seguro -- mas não muito longe, porque você precisará usá-lo de vez em
++quando para coisas como editar identidades, adicionar ou revogar subchaves ou
++assinar chaves de outras pessoas.
 +
-+    $ git pull [url] tags/sometag
++Remova a chave de Certificação do seu homedir
++---------------------------------------------
 +
-+A mensagem de merge conterá algo como isto::
++Os arquivos no nosso diretório home não são tão bem protegidos quanto gostamos
++de pensar. Eles podem vazar ou ser roubados por muitos meios diferentes:
 +
-+    Merge tag 'sometag' of [url]
-+    [Tag message]
++- por acidente, ao fazer cópias rápidas do homedir para configurar uma nova
++  estação de trabalho
++- por negligência ou má-fé do administrador de sistemas
++- via backups mal protegidos
++- via malware em aplicativos de desktop (navegadores, leitores de pdf etc.)
++- via coerção ao cruzar fronteiras internacionais
 +
-+    # gpg: Signature made [...]
-+    # gpg: Good signature from [...]
++Proteger a sua chave com uma boa passphrase ajuda muito a reduzir o risco de
++qualquer um dos casos acima, mas passphrases podem ser descobertas via
++keyloggers, observação por cima do ombro ou qualquer número de outros meios.
++Por essa razão, a configuração recomendada é remover a sua chave de
++Certificação do diretório home e armazená-la em mídia offline.
 +
-+Se você estiver verificando a tag Git de outra pessoa, primeiro precisará
-+importar a chave PGP dela. Consulte a seção ":ref:`verify_identities`"
-+abaixo.
++.. warning::
 +
-+Configure o Git para sempre assinar tags anotadas
++    Consulte a seção anterior e garanta que você fez backup do seu diretório
++    GnuPG por inteiro. O que estamos prestes a fazer tornará a sua chave
++    inútil se você não tiver um backup utilizável!
++
++Primeiro, identifique o "keygrip" da sua chave de Certificação::
++
++    $ gpg --with-keygrip --list-key [fpr]
++
++A saída será algo como isto::
++
++    pub   ed25519 2022-12-20 [SC] [expires: 2022-12-19]
++          000000000000000000000000AAAABBBBCCCCDDDD
++          Keygrip = 1111000000000000000000000000000000000000
++    uid           [ultimate] Alice Dev <adev@kernel.org>
++    sub   cv25519 2022-12-20 [E] [expires: 2022-12-19]
++          Keygrip = 2222000000000000000000000000000000000000
++    sub   ed25519 2022-12-20 [S]
++          Keygrip = 3333000000000000000000000000000000000000
++
++Encontre a entrada de keygrip que está sob a linha ``pub`` (logo abaixo da
++impressão digital da chave de Certificação). Ela corresponderá diretamente a
++um arquivo no seu diretório ``~/.gnupg``::
++
++    $ cd ~/.gnupg/private-keys-v1.d
++    $ ls
++    1111000000000000000000000000000000000000.key
++    2222000000000000000000000000000000000000.key
++    3333000000000000000000000000000000000000.key
++
++Basta remover o arquivo .key correspondente ao keygrip da chave de
++Certificação::
++
++    $ cd ~/.gnupg/private-keys-v1.d
++    $ rm 1111000000000000000000000000000000000000.key
++
++Agora, se você emitir o comando ``--list-secret-keys``, ele mostrará que a
++chave de Certificação está ausente (o ``#`` indica que ela não está
++disponível)::
++
++    $ gpg --list-secret-keys
++    sec#  ed25519 2022-12-20 [SC] [expires: 2024-12-19]
++          000000000000000000000000AAAABBBBCCCCDDDD
++    uid           [ultimate] Alice Dev <adev@kernel.org>
++    ssb   cv25519 2022-12-20 [E] [expires: 2024-12-19]
++    ssb   ed25519 2022-12-20 [S]
++
++Você também deve remover quaisquer arquivos ``secring.gpg`` no diretório
++``~/.gnupg``, que podem ter sobrado de versões anteriores do GnuPG.
++
++Se você não tiver o diretório "private-keys-v1.d"
 +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+É provável que, se você está criando uma tag anotada, queira assiná-la. Para
-+forçar o Git a sempre assinar tags anotadas, defina uma opção de configuração
-+global::
++Se você não tiver um diretório ``~/.gnupg/private-keys-v1.d``, então as suas
++chaves secretas ainda estão armazenadas no arquivo legado ``secring.gpg``
++usado pelo GnuPG v1. Fazer qualquer mudança na sua chave, como alterar a
++passphrase ou adicionar uma subchave, deve converter automaticamente o formato
++antigo ``secring.gpg`` para usar ``private-keys-v1.d``.
 +
-+    $ git config --global tag.forceSignAnnotated true
++Depois de fazer isso, não deixe de excluir o arquivo ``secring.gpg`` obsoleto,
++que ainda contém as suas chaves privadas.
 +
-+Como trabalhar com commits assinados
-+------------------------------------
-+
-+Também é possível criar commits assinados, mas eles têm utilidade limitada no
-+desenvolvimento do kernel Linux. O fluxo de contribuição do kernel baseia-se
-+no envio de patches, e converter commits em patches não preserva as
-+assinaturas de commit do Git. Além disso, ao rebasear o seu próprio repositório
-+sobre um upstream mais novo, as assinaturas PGP de commit acabam descartadas.
-+Por essa razão, a maioria dos desenvolvedores do kernel não se dá ao trabalho
-+de assinar os seus commits e ignora commits assinados em quaisquer
-+repositórios externos nos quais se apoiam no trabalho.
-+
-+Dito isso, se você tem a sua árvore Git de trabalho disponível publicamente em
-+algum serviço de hospedagem Git (kernel.org, infradead.org, ozlabs.org ou
-+outros), então a recomendação é assinar todos os seus commits Git, mesmo que
-+os desenvolvedores upstream não se beneficiem diretamente da prática.
-+
-+Recomendamos isso pelas seguintes razões:
-+
-+1. Caso algum dia haja necessidade de fazer perícia de código ou rastrear a
-+   proveniência do código, mesmo árvores mantidas externamente que carreguem
-+   assinaturas PGP de commit serão valiosas para tais propósitos.
-+2. Se você precisar reclonar o seu repositório local (por exemplo, após
-+   reinstalar o sistema), isso permite verificar a integridade do repositório
-+   antes de retomar o trabalho.
-+3. Se alguém precisar fazer cherry-pick dos seus commits, isso permite
-+   verificar rapidamente a integridade deles antes de aplicá-los.
-+
-+Criando commits assinados
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Para criar um commit assinado, passe a opção ``-S`` ao comando
-+``git commit`` (é ``-S`` maiúsculo por colisão com outra opção)::
-+
-+    $ git commit -S
-+
-+Configure o Git para sempre assinar commits
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Você pode dizer ao Git para sempre assinar commits::
-+
-+    git config --global commit.gpgSign true
-+
-+.. note::
-+
-+    Não deixe de configurar o ``gpg-agent`` antes de ativar esta opção.
-+
-+.. _verify_identities:
-+
-+Como trabalhar com patches assinados
-+-------------------------------------
-+
-+É possível usar a sua chave PGP para assinar patches enviados às listas de
-+discussão de desenvolvedores do kernel. Como os mecanismos existentes de
-+assinatura de e-mail (PGP-Mime ou PGP-inline) costumam causar problemas nas
-+tarefas normais de revisão de código, você deve usar a ferramenta criada pelo
-+kernel.org para esse propósito, que coloca assinaturas de atestação
-+criptográfica nos cabeçalhos das mensagens (ao estilo DKIM):
-+
-+- `Patatt Patch Attestation`_
-+
-+.. _`Patatt Patch Attestation`: https://pypi.org/project/patatt/
-+
-+Instalando e configurando o patatt
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. note::
-+
-+    Se você usa o B4 para enviar os seus patches, o patatt já está instalado
-+    e integrado ao seu fluxo de trabalho.
-+
-+O patatt já está empacotado para muitas distribuições, então verifique lá
-+primeiro. Você também pode instalá-lo a partir do pypi usando
-+"``pip install patatt``".
-+
-+Se você já tem a sua chave PGP configurada com o Git (via o parâmetro de
-+configuração ``user.signingKey``), então o patatt não requer configuração
-+adicional. Você pode começar a assinar os seus patches instalando o hook do
-+git-send-email no repositório que quiser::
-+
-+    patatt install-hook
-+
-+Agora quaisquer patches que você enviar com ``git send-email`` serão
-+automaticamente assinados com a sua assinatura criptográfica.
-+
-+Verificando assinaturas do patatt
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Se você usa o ``b4`` para obter e aplicar patches, ele tentará automaticamente
-+verificar todas as assinaturas DKIM e patatt que encontrar, por exemplo::
-+
-+    $ b4 am 20220720205013.890942-1-broonie@kernel.org
-+    [...]
-+    Checking attestation on all messages, may take a moment...
-+    ---
-+      ✓ [PATCH v1 1/3] kselftest/arm64: Correct buffer allocation for SVE Z registers
-+      ✓ [PATCH v1 2/3] arm64/sve: Document our actual ABI for clearing registers on syscall
-+      ✓ [PATCH v1 3/3] kselftest/arm64: Enforce actual ABI for SVE syscalls
-+      ---
-+      ✓ Signed: openpgp/broonie@kernel.org
-+      ✓ Signed: DKIM/kernel.org
-+
-+.. note::
-+
-+    O patatt e o b4 ainda estão em desenvolvimento ativo; consulte a
-+    documentação mais recente desses projetos para recursos novos ou
-+    atualizados.
-+
-+.. _kernel_identities:
-+
-+Como verificar identidades de desenvolvedores do kernel
-+=======================================================
-+
-+Assinar tags e commits é direto, mas como se faz para verificar que a chave
-+usada para assinar algo pertence ao desenvolvedor real do kernel e não a um
-+impostor malicioso?
-+
-+Configure a recuperação automática de chaves com WKD e DANE
-+----------------------------------------------------------
-+
-+Se você ainda não é alguém com uma coleção extensa de chaves públicas de
-+outros desenvolvedores, pode dar um impulso ao seu chaveiro contando com a
-+descoberta e a recuperação automáticas de chaves. O GnuPG pode se apoiar em
-+outras tecnologias de confiança delegada, a saber DNSSEC e TLS, para ajudá-lo,
-+caso a perspectiva de começar a sua própria Teia de Confiança do zero seja
-+intimidadora demais.
-+
-+Adicione o seguinte ao seu ``~/.gnupg/gpg.conf``::
-+
-+    auto-key-locate wkd,dane,local
-+    auto-key-retrieve
-+
-+DNS-Based Authentication of Named Entities ("DANE") é um método para publicar
-+chaves públicas no DNS e protegê-las usando zonas assinadas com DNSSEC. Web
-+Key Directory ("WKD") é o método alternativo que usa consultas https para o
-+mesmo propósito. Ao usar DANE ou WKD para procurar chaves públicas, o GnuPG
-+validará certificados DNSSEC ou TLS, respectivamente, antes de adicionar as
-+chaves recuperadas automaticamente ao seu chaveiro local.
-+
-+O kernel.org publica o WKD para todos os desenvolvedores que têm conta no
-+kernel.org. Depois de fazer as mudanças acima no seu ``gpg.conf``, você pode
-+recuperar automaticamente as chaves de Linus Torvalds e Greg Kroah-Hartman
-+(se ainda não as tiver)::
-+
-+    $ gpg --locate-keys torvalds@kernel.org gregkh@kernel.org
-+
-+Se você tem conta no kernel.org, então deve `adicionar o UID do kernel.org à
-+sua chave`_ para tornar o WKD mais útil para outros desenvolvedores do
-+kernel.
-+
-+.. _`adicionar o UID do kernel.org à sua chave`: https://korg.docs.kernel.org/mail.html#adding-a-kernel-org-uid-to-your-pgp-key
-+
-+Web of Trust (WOT) versus Trust on First Use (TOFU)
-+----------------------------------------------------
-+
-+O PGP incorpora um mecanismo de delegação de confiança conhecido como "Web of
-+Trust". No fundo, é uma tentativa de substituir a necessidade de Autoridades
-+Certificadoras centralizadas do mundo HTTPS/TLS. Em vez de vários fabricantes
-+de software ditarem quem deve ser a sua entidade certificadora de confiança, o
-+PGP deixa essa responsabilidade para cada usuário.
-+
-+Infelizmente, muito poucas pessoas entendem como a Web of Trust funciona.
-+Embora ela ainda seja uma parte importante da especificação OpenPGP, versões
-+recentes do GnuPG (2.2 e superiores) implementaram um mecanismo alternativo
-+chamado "Trust on First Use" (TOFU). Você pode pensar no TOFU como "a
-+abordagem de confiança ao estilo SSH". Com o SSH, na primeira vez que você se
-+conecta a um sistema remoto, a impressão digital da chave dele é registrada e
-+memorizada. Se a chave mudar no futuro, o cliente SSH avisará você e se
-+recusará a conectar, forçando-o a decidir se confia ou não na chave alterada.
-+De modo semelhante, na primeira vez que você importa a chave PGP de alguém,
-+ela é considerada válida. Se em algum momento futuro o GnuPG encontrar outra
-+chave com a mesma identidade, tanto a chave importada anteriormente quanto a
-+nova serão marcadas para verificação, e você precisará descobrir manualmente
-+qual delas manter.
-+
-+Recomendamos que você use o modelo de confiança combinado TOFU+PGP (que é o
-+novo padrão no GnuPG v2). Para defini-lo, adicione (ou modifique) a
-+configuração ``trust-model`` em ``~/.gnupg/gpg.conf``::
-+
-+    trust-model tofu+pgp
-+
-+.. _kernel_org_trust_repository:
-+
-+Usando o repositório de teia de confiança do kernel.org
-+--------------------------------------------------------
-+
-+O kernel.org mantém um repositório Git com as chaves públicas dos
-+desenvolvedores, como substituto para replicar redes de keyservers que se
-+tornaram em grande parte inoperantes nos últimos anos. A documentação completa
-+sobre como configurar esse repositório como a sua fonte de chaves públicas
-+pode ser encontrada aqui:
-+
-+- `Kernel developer PGP Keyring`_
-+
-+Se você é desenvolvedor do kernel, considere enviar a sua chave para inclusão
-+nesse chaveiro.
-+
-+.. _`Kernel developer PGP Keyring`: https://korg.docs.kernel.org/pgpkeys.html
++.. _smartcards:
 +
 
 -- 
