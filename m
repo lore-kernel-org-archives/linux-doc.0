@@ -1,79 +1,142 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795352914;
-	b=LNVTG74XtHMbKGweaLoXehPB7etJQFCRN993YOGljVc/69cRqhFqAD/2SqgkKzjpkAV2
-	 G6OxRYYYELMzdB0vc9eyzTkUmJCyPRTkdZoGfHmRbjVYwzMjkaXG654pC5vsr7q9k3xAy
-	 6LgJ8zzwPP47LSdZT8E6U3wTvhsDIiv5Ix1d6ceT5Sym3bNufMrbVjZ8XcUbZF93KH7tp
-	 Xx9YdDmilD5WtF83dLnCHxyAR/9F7oc1RYjReU7o8yyOLRcx7Fe8GJ7LPwRENJ3W3R4bU
-	 UrHcnoSy6OQVizNv+P2PzE7k8mpcY5D6m5khRtaaJX4nB5uYVZaqTrIUnNj36t66I3g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795352914;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=izpvEBCF+pCd1bC0tJiM3VE7Lp8ETfBtwNMYMgcE2vM=;
-	b=wbiORTdTiGL4RgL4AuR1Spz+Uhi2WoreLPdXBwKDPFv3t/vMmpevQWSyUKr1ihKtYgy9
-	 QWtPFBQzzZrqgchnfTLIypxynHhOnCLOuh8c+AqtdTdreJhDqbW7w4kIbt3QLWEblkxAq
-	 koNGUcJlcGZAj0dhr+Zdg3DWCVkZYEnoo/MCtU1Kjy+2rJ1kVdpA8/TjHMutpzDeqrBQE
-	 rK/WZf0jM4vDixJutBx1e77ulk89bhHaLS4vKqyfSugtv8uwL8GbXs/JpMPfcJ7Td7FJ/
-	 TPJCIVujYAwXDpjmRcqcY7FAWklvNL10Z3MFaJvC0Iw8yKYdxqcd522O7t2t2j0+aIA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=guEIiycI;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AD1606A320
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 13:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=guEIiycI
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795352914;
-	b=tHHrYodv48xZXt4zU1dBuISSPjBOFgYGAe/va9QwRPBb11DFekQntU65fsy82MhakBeY
-	 vzM/hwJKsH/EhphUPzI3dAqiZo0FGy8aBp1FHZnDUveVlgAWQNdX1sorM3xELbkDUmKAi
-	 wS7RtzhRhiRiD3GDWxTlUKtfC4x2D3gOSqS4tW/Tc1+oMnZDfTIPhYRwdhG0ZXCPytN9+
-	 XnQsm7SEJngWqGNy9/Wum48ZgRsUQTMkbSF+UyboBYb95NOQMyoN+OzWepOyhV5DqhVG1
-	 U1HFwIk0E4oigJGV+qzExGBw89s0ik29FxArkU/2+aCbfX+VcpCjpBBKSHGz/zpVmAw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795352914;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=izpvEBCF+pCd1bC0tJiM3VE7Lp8ETfBtwNMYMgcE2vM=;
-	b=WC4zXWZGymFKjIzvy7NNnbuKpWFQEkUr5spFN+INWrSGhe+TQI2rRCM+NHbBNvIYtWIQ
-	 mzuW+6yU1ODmGeKssEuzEdinV4glGNPEvw5z0GKKe8Iz2n/frkbjjqfqWqCN3IxmyxU3T
-	 C76P9TtrbU5i/sRUuTO0RNMY4WvMfG0FYVveHWhahai9vR538dXKdCb44QYso2kEHDlE/
-	 LwRx1X4TA15OhfzJmCPdK55BWUQOTq8IN6auMNUFhN/4cG7CHSrkJvOEgbmVGA9BGxiGZ
-	 zvOT20HxOL/hJbSPd8uCdoNogWmJmZl0yZBNqm2SB4Hib6/rtFMv2U9PgCW2N2wV+rg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.49
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795353296;
+	b=OB11Ae/g1Hkf+or+ojc4YmhD+/Ha8ojdv0yXK2DZAiJS9hU4W2WrUykXY0nmWmAzwwKo
+	 y39NOgvf0NcQ/i3m+1GPQm8mlAK06dKXCNwghKalC9RhHWG/xn6qB5+ZE3XwwD4w35hlk
+	 r4SFflwjIKTNlVjX/AslgYrq5Odnc7sILy4IMnr5SvVK2wcXid5V8JVLCwKjMyhU76LYz
+	 8S1Jjho9Vh8LtR2TiYH17ijQyBxgvn5Ozo3nHWcmVLSnljTsE/psUYO65fb3wYAEmxh9o
+	 oFmDWSFpg9UlsQFIPtQbTD9BCUE00iWvxgknPHeLENSQa/r6NTPU3WcIu8c0am2NFcw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795353296;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 Content-Type:MIME-Version:Content-Transfer-Encoding;
+	bh=8hD87ixJaXl21lUSGIciEwnoJt3nWlHx7X6q/vGOsOE=;
+	b=OMV9ClLeS+/fAADTt4ysRA7r9vQdBBY3qIlOJHBhkHmdGPowFcrsIGrYvM+gt8JdKDqQ
+	 bc16rfGLJ2kiWHIv9PjB0Pv4zYuq/aLFPBMzL+qJ3DBAs7wm/guRRAo+wRd4ltO/j7248
+	 DnB0ovPhOFSQH3S8OzQzeQ97kuEtWvkWS2h8wQpSS5yjrFdzYqN5fKHTTS7QGTnPi7C/J
+	 /3gWRT8EbVbRyZHeY6qRCf4XEsOdxQA49aqw1gYX66VMKcQKLI2b/TVI0LBQ6178THRra
+	 +6AFcA3euG/a0799GnaEucTY6BFh4XwdHvF9AO//eT1Nee0Djnuv2DxiMxH5bOK1ivw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="dNi8/X4g";
+	arc=none smtp.remote-ip=74.125.82.49
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2BDA91F000C4;
-	Sun, 22 Nov 2026 13:08:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795352914;
-	bh=izpvEBCF+pCd1bC0tJiM3VE7Lp8ETfBtwNMYMgcE2vM=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=guEIiycIZTwYoxc8Mrj3F77NN5gFdkNiu+ukRPKOnYf9t8LeKouoYiyrRHkXbSXs3
-	 iet8NOZYRpQTlbiUXCHYPoexfq3iW3yz90gXFB2jmEhjdcosrbdxkQSu9SQ8bQwVS2
-	 w0aJ5cSprx23MCashtlbHuM5SYUWPIYk57y+WXhixvmYX4yXfoFWs6nj9jFN6zwLm8
-	 bQ9nTwTZ1Hz/mQg3kVWyL8Ttux1go7ztQTOTFSwh2GwYCNicWyjAXuxyDBQC19Ok1r
-	 B2cQwoh3FPtxITKgcaoZ9gp+MCI+PC8njvOIdi1tuezwMipmvbrflx2C/p2SQFAuWK
-	 JmWVT3lYasBIg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 4904B4C034;
-	Sun, 22 Nov 2026 13:08:30 +0000 (UTC)
-From: Eduardo Pereira Cruz via B4 Relay <devnull+dreduardocruz.gmail.com@kernel.org>
-Date: Sun, 22 Nov 2026 10:08:30 -0300
-Subject: [PATCH v2] docs/translations/pt_BR: process: clarify patch
- granularity
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336A6606A32C
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 13:14:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 336A6606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dNi8/X4g
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1b244fb7fffso2283406c88.1
+        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 05:14:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795353295; x=1795958095; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8hD87ixJaXl21lUSGIciEwnoJt3nWlHx7X6q/vGOsOE=;
+        b=dNi8/X4glj8za8CHUyUTtNzOlgHGHp6QMd10zTC/TQr7AJjZerl6rqDTwp102Lewup
+         1ittEsw7RgVIgBsb6DZbCBvqPrbP5YJmX2/qbh82cibbbdWMRNzmYbGy4kpHz9mLdno9
+         q8/1br+pv9KTFDXwytSa4WMYQNsbFDN1S6OQCFA2oUgrZS+XuGDF+2uv4kg1KaVLvojN
+         8hvHwbnsgHffAHWp8ZPzoZqqIa6lDM0aKKvgLF9n7EIZwdtKzrLa9QEJc8P7eZqhakHV
+         z1Aq/zCMe2Uz5NUyUYu79/IRakePzC5KTLXUBsl2yc3GG7faXgOKuYxOPWFab5XvOZMi
+         Npbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795353295; x=1795958095;
+        h=content-transfer-encoding:mime-version:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8hD87ixJaXl21lUSGIciEwnoJt3nWlHx7X6q/vGOsOE=;
+        b=ou2Ofx1FZpVSsxbuIUFxuOR/SJvAa2AYlTQKKeXqIIcW71Ll73TbxbtCZdNBWjgXYs
+         N2lWDN6YydbJuIk4VIJZu7RrxE/7Wb2m+KglHaE5H2whNNt+zDFC+TSWqCheSNWoyqRX
+         PDP1pCRonMkzfZ55JxClH+YCd8byzwChoRaDpy5f3NWVyACAD13l81DYG4QXqaW4J/VF
+         VsvFGLTZ+vNsVwPiaQ/VvCnHqiPJDh3/lVIjFXK/Beac3wILN/A5O3yu67IgmsQyvGAk
+         YaHyIrTRzswQlV/PoNDDfnV5ie1EE32sXMPaQY82P84xnskcSm/H0bvnS9plJVRFamqj
+         8hcA==
+X-Forwarded-Encrypted: i=1; AL+hErEBCL6eDfX3gHnIGDvu22cdfcfrftLctu49Nx+wH3GcSDoW7dIhQLuJiGGbclAbATpbdEuN+bZVO6U=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+EK6FlKhW/Cmr6PRGPwDCKuCoZd1xJe2i9D3Z7fUmigEwz2Qtr
+	Xp5EnZ6rDE+pMJ/jB3eaxNDJxZnwzTCqAGfG4WFTvv8xTvyMYqm+k3e/oq0iXyWIkGY=
+X-Gm-Gg: AZFdTZe9wprVUs9RSSb4v597XTred/pZuxMGbCrXe/HRKsTPkagiz5uHdJsI3a2wvkI
+	bL/Ke99bFRL2y3aW8DzwcrjBPvXLoLA01G3ZyRobTSDTPSEZAqhxsnl1h4TkRDqe0QIMrRMBx/i
+	W4SgukdZ/7dzzLJZSiR4UJPlnnBGPKdGgrqXqGAQhFIhr1CdHiaP6nj3xLPkpse16VUqjeS+F63
+	Jr/T/KktHirJQocH+9k6AtU1zC1pVu+gZIdkQXUJ+5wEnXyTY1m/IEgMiUh4FaPHbjQCZ+Oyu4+
+	ebDbSsIG/Ms+BMNONavpLEQ4YKWNOq4uYJ4lnc315YXIMlG3ezIyWnvVD2utCjn+9hO6FNIbkjR
+	8e0yAhTkhrl1u4ev93ZjDPE4Jim2jQBrPuOVRhOnWCFwlfalpUNz3EMFulTGHbxgnzidvYSUrfQ
+	wgQIeqaiSdG6YLgLdlADCiAJ2FSRJtJsLjbQxH0Zh/QLKII/VkMphmEs8I0/Ja7YQUticiAd9Xb
+	Ge302He7e0NkVgxk6WZarcMpH7TbmzJAxOew6zkWFcE2RRYOGgVGbYBMJ8YhmXNoAwcQFIQq9TT
+	ygs0UuIFDDAOiQm1FlG4DCkpmxIiIzMRDkdC1jd3LDfXcMlVKLUNBiOE6qE/aMM8UlHc
+X-Received: by 2002:a05:701b:2215:b0:1b2:42db:8a54 with SMTP id a92af1059eb24-1b5568b3154mr8671867c88.23.1795353295194;
+        Sun, 22 Nov 2026 05:14:55 -0800 (PST)
+Received: from localhost.localdomain (vmi2317719.contaboserver.net. [84.247.152.64])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b55681301asm20797941c88.8.2026.11.22.05.14.39
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 22 Nov 2026 05:14:54 -0800 (PST)
+From: Lian Wang <lianux.mm@gmail.com>
+To: Kairui Song <kasong@tencent.com>
+Cc: linux-mm@kvack.org,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Chris Li <chrisl@kernel.org>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Nico Pache <nico.pache@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Barry Song <baohua@kernel.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>,
+	Wei Xu <weixugc@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Zi Yan <ziy@nvidia.com>,
+	Gregory Price <gourry@gourry.net>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Lance Yang <lance.yang@linux.dev>,
+	Hugh Dickins <hughd@google.com>,
+	SJ Park <sj@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Yu Zhao <yuzhao@google.com>,
+	Vernon Yang <vernon2gm@gmail.com>,
+	Zicheng Wang <wangzicheng@honor.com>,
+	Chen Ridong <chenridong@xiaomi.com>,
+	Tal Zussman <tz2294@columbia.edu>,
+	Kairui Song <ryncsn@gmail.com>,
+	Xiang Liu <liuxiang.277@bytedance.com>,
+	Ehab Ababneh <ehab.ababneh@intel.com>,
+	Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Kunwu Chan <kunwu.chan@gmail.com>,
+	Hui Zhu <hui.zhu@linux.dev>,
+	linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 03/17] mm/mglru: make generation page counters atomic
+Date: Sun, 22 Nov 2026 21:14:27 +0800
+Message-ID: <20261122131433.72335-1-lianux.mm@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261119-mglru-fg-v5-3-9eee2fe97a2d@tencent.com>
+References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com> <20261119-mglru-fg-v5-3-9eee2fe97a2d@tencent.com>
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,78 +146,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261122-pt-br-5-posting-send2-v2-1-2a5cf9f667c3@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNQQ6CMBBFr0Jm7RhmRExceQ/DopQBxkhL2ko0h
- LsLeACXL3n//RmiBJUI12yGIJNG9W4FPmRge+M6QW1WBs65JGLGMWEd8Iyjj0ldh1Fcw8iloeZ
- ki5zYwLodg7T63rv36sfxVT/Epi22Gb3G5MNnP55o8/59TISELJb5UpRtS3LrBqPPo/UDVMuyf
- AHQ4sf3zAAAAA==
-X-Change-ID: 20261122-pt-br-5-posting-send2-26a1d3c4012a
-To: linux-doc@vger.kernel.org
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, danielmaraboo@gmail.com, 
- rdunlap@infradead.org, Eduardo Pereira Cruz <dreduardocruz@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795352909; l=2178;
- i=dreduardocruz@gmail.com; s=20261119; h=from:subject:message-id;
- bh=c58uGNc4Z4NMrxaT4PtvM3u4XHZh5Uh6h+ehiwoSUzU=;
- b=CJ4jstM6DDpQYeuN00WhD8yTMimx+wkWIFsSr9WgajOCOJFYSXY4AeyYJd/tuoXdfBr11wWQE
- yYLX5n3XEZfDGG0t/rE8yYmmFgvTKw9vOM6Z2lwY4Lwsy6RYB1EPJit
-X-Developer-Key: i=dreduardocruz@gmail.com; a=ed25519;
- pk=2dtL+BL/x70sROmAvlskv9dbjj274zlPkLBVu4gJJiA=
-X-Endpoint-Received: by B4 Relay for dreduardocruz@gmail.com/20261119 with
- auth_id=1571
-X-Original-From: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
-Reply-To: dreduardocruz@gmail.com
 Content-Transfer-Encoding: 8bit
 
-From: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
+On Thu, 19 Nov 2026 05:03:35 +0800 Kairui Song <kasong@tencent.com> wrote:
+> From: Kairui Song <kasong@tencent.com>
+>
+> No feature change, convert them to atomic so we can update them without
+> holding the LRU lock. A temporary underflow is fine: readers clamp a
+> negative value to zero, and the counters only need to be eventually
+> consistent.
+>
+> Tested-by: Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>
+> Signed-off-by: Kairui Song <kasong@tencent.com>
 
-Reword the guidance about patch granularity in 5.Posting.rst so that it
-reads naturally in Brazilian Portuguese and keeps the original meaning:
-a single patch may be reasonably large as long as it still contains one
-logical change.
+LGTM,
 
-Replace the reference to the developer's popularity with a neutral
-phrasing, avoiding the gendered expression used before.
+Reviewed-by: Lian Wang <lianux.mm@gmail.com>
 
-No functional change; documentation only.
-
-Signed-off-by: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
----
-Changes in v2:
-- EDITME: describe what is new in this series revision.
-- EDITME: use bulletpoints and terse descriptions.
-- Link to v1: https://patch.msgid.link/20261122-pt-br-5-posting-send2-v1-1-2ec22746ff1e@gmail.com
----
- Documentation/translations/pt_BR/process/5.Posting.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/translations/pt_BR/process/5.Posting.rst b/Documentation/translations/pt_BR/process/5.Posting.rst
-index 2ac7e5557805..4e14405bae06 100644
---- a/Documentation/translations/pt_BR/process/5.Posting.rst
-+++ b/Documentation/translations/pt_BR/process/5.Posting.rst
-@@ -118,10 +118,10 @@ que podem ajudar consideravelmente:
-    problemas.
- 
-  - No entanto, não exagere. Certa vez, um desenvolvedor enviou um conjunto de
--   edições em um único arquivo como 500 patches separados — um ato que não o
--   tornou a pessoa mais popular na lista de discussão do kernel. Um único patch
--   pode ser razoavelmente grande, desde que ainda contenha uma única alteração
--   *lógica*.
-+   edições em um único arquivo como 500 patches separados — um ato que não
-+   tornou essa pessoa a mais popular na lista de discussão do kernel. Um único
-+   patch pode ser razoavelmente grande, desde que ainda contenha uma única
-+   alteração *lógica*.
- 
-  - Pode ser tentador adicionar toda uma nova infraestrutura com uma série de
-    patches, mas deixar essa infraestrutura sem uso até que o patch final da série
-
----
-base-commit: 4405c18c95d2d0f99f6c581ef0ee8591a1aa6ccd
-change-id: 20261122-pt-br-5-posting-send2-26a1d3c4012a
-
-Best regards,
---  
-Eduardo Pereira Cruz <dreduardocruz@gmail.com>
-
-
+> ---
+>  include/linux/mm_inline.h |  6 ++----
+>  include/linux/mmzone.h    |  2 +-
+>  mm/vmscan.c               | 26 +++++++++++++-------------
+>  mm/vmscan.h               |  2 +-
+>  4 files changed, 17 insertions(+), 19 deletions(-)
