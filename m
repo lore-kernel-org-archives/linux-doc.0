@@ -1,142 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.145
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795347541;
-	b=alloJsWwKiNS3bawYA29kM+uVjs9WCCG6ddhTvU12vD8KXniYUSqmVa8tGN1jybQN8x4
-	 l6J/9WprBRR61yw5N+kjJYeCItzMAnvdQfxWNo+vS2SiQv2+k2UvlD86/5Fk4klU4nPb8
-	 w6yWlam/EKB0zNHf8mTXUtDbFAIQmXg4LokF+KLx/EgnM2v1A3XoJjxC1jtQ6bXBZ6yy4
-	 GfZMZVXG1uF364WdsdydP08A66R//F2HcYa9DCwNFJJdPuDkj3qZASrixoYCk+og0KMtR
-	 Qdl3WDR+fMRAimK9ouznj/sEOqaXEIhF/WSf0gOBywqOplOEKJBGSGl+29PEGd/e4PA==
+	t=1795350031;
+	b=mPiRrNgO7h76GEOpzpMZ/M+xBZNYXN/Wd/jRf6PFxfS64FegJCSmKvIfNiIHxKhQIT+C
+	 hjt+qHOqEl5uag5LVzFhShV3sbSD7VyU2hgBtNOkbE/RVr1tCq8TzMxM0pitrgGUcQnIC
+	 XDxPRsLGThSsW6TA6dG9Gs4YT/WXSlQnBm6Xr8nbFwqHtnpOvKdOQqv2U+SHde6rn6May
+	 5k1D0ePpwTVEXNx11BjuK2opy2l5vyXKOo4hQUS85J5k7XqQtFWipzqr8QBznjsdrm2gj
+	 6Uc7jkkzYqEv+uhJ9ZI3rSiHUoJw1gVwOM20fPzCHziU6aeZRIMrmparijFqSulqfUw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795347541;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=9SL2nw3BljIJfL2BNxy4TtTwunpxe4OhPHoB+8Eji+8=;
-	b=ErNA7NRK3pIgqP/QGMMDdX559iwfOSuoFg0KQn48uSwrbxd9L6Qe3Sk4X8c2FiK5fhTu
-	 qpeane8tYiWlOtZb/MjbnXSzLJzWxQY7HQ2GW5/tXo173qwx0pf0M6e68eKK+5B+I4lvp
-	 TnI+YSFJgnew6GrN7X0ndFr0Pt7W/aTxtsRoSE3+iVW4bWGHCOvIkwBu9ddaudGz4JuQ8
-	 ur/8KmrKZIYUxfkP6Q0sPDhNq0sLcHU5h6uFVfcredpBi6zpFKhcZH2fOZ5xmcOJQrnsE
-	 ox+8t0hKP67E6kw5+GEHlQsfHPtdudffIw8YcDnPxgMQh640vMcxY/FyPI4jYfkEpjw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795350031;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=FOnlwEPRVDSIsjI1BQgdNU3ckkmgOp3nXPYLYgraTNg=;
+	b=4UoRvikSCvDB9vwf5n4h/sQBgVbopF7y17hJNWcCfCNGlPCwjXIsX6SZW4CZIkoeKjap
+	 iL6jlIxkCpXhYNw2uayNexcOFQ4AoOIZWumkXyQLw/BJ455gJ67IPmE9hl+XKB6P+5rB+
+	 /AVu1kyvpxo3x4qT+hUQ2irDlg5j1RrkLxNWeKYcwKxMN000d6iKpAYXVblRWH5UySPX0
+	 V8OEgVTXFyfAWx9YxApB7fOw0Iq5C+YQTuAkTEiNgHAcEieVwjxrYDcaEQLwPwA5hIPhA
+	 gOBqgXkPOc3rp4315PDN4/FB4UTSGRUfGAXhCaFMYAtMbXdS+Kv6MVKL+XbDLaQPFlg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xWH39Jbp;
-	arc=none smtp.remote-ip=74.125.82.182
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=Xvfqeq7n;
+	arc=none smtp.remote-ip=91.218.175.145
+Received: from mta0.migadu.com (out-145.mta0.migadu.com [91.218.175.145])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16FE606A32A
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 11:39:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A16FE606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1569D606A333
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 12:20:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1569D606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xWH39Jbp
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-3282db206d3so7176219eec.0
-        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 03:39:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795347540; x=1795952340; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9SL2nw3BljIJfL2BNxy4TtTwunpxe4OhPHoB+8Eji+8=;
-        b=xWH39JbpK+tCheqveo2u87AQgq0TnNUTvJnMZWpxRBFIlKxzsEJJc0OCsjeXDFd/Rt
-         8r2t45ifgCg8vHXxBmEn6LGP+C7AcPS13+4mRxdWPaBivAKml0DlftZOdDlin+l9bTCi
-         +SDVrJ5UL6FBmF0XE+CLbRFyWoYG7wFwdoIiNaxldrUJl5F0VzDOkTW8aInFIK0tjurH
-         dy77usrjTK1GFy1mCLsmeN2cOt2dLUoIQfbDibM6pAZ0jM/GyNTMRl9YBtHUBR0bqiSl
-         RnYS3kHMqPY4+j/rYH/gtt6AFODiGfwRIzD/ZBd/dX2PrbrHI0PO+IC/073wauJTK+zh
-         QLPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795347540; x=1795952340;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9SL2nw3BljIJfL2BNxy4TtTwunpxe4OhPHoB+8Eji+8=;
-        b=TifwK6G7BG2sMChRdX+hgdelqhifzstnu+5WuyTetjw5MDcOxZkBHR9pJsCnzrNqaM
-         QUW2G6mkaseNsJrMx8rdNjdGNF5Ky2wcqdn4ULmjIRdTXiT2DEiSW0lKA2nG0kWQoxOk
-         b75cngXNVvkBKs/NbzPneKKNsYIgno4seYWSIHhXUJI99W0zAMcp7xFAJW8fx0G48aTq
-         +SjCGTUwFzXQLAdns34ZEs/AtE1T2yQRzfJBHPonpW0hAgzQ0M4xtszSfanqVFqbfISW
-         eqwK8hsuMTZQ6A4jhGGcXHmgtE+AQEXeAG6SV0GIe4NNGEDKXUAko+fKXMEZaGvbvqMa
-         fAhA==
-X-Forwarded-Encrypted: i=1; AL+hErEwa6o4K/oLWIBbdvWQJxyjlXoxKutJ46/G3mizP/A2QQYGfEPw05/aXyc+BWkQDYYKRvHqc5YJXQE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8yUxs1Mqud5Gn7tjue1dSW/RDlmX13Nw6afNq6QcjkVroRuGPJ
-	OOogpdrBx1Eh/qtnkjeuPUePlZlcKfdOKeykdA9BR2T9Wb+ukye9hqlw
-X-Gm-Gg: AZFdTZcwsoNZFjSMJMclQMRL7FvWfrfkW27F9YvQx2HngOO/PkMcpzaFHrRoLR5ju4j
-	DkBr8+xv9GPY8/iJxyNv8KIRU+5AJbZglJ1obYk0gKoICFiSPlbd7U76sV2fYAgfs+eBOCBvR9u
-	qsJlZ5/qEHwS4mrVa0yB/+Ada1qMJAEwlNEWSj7I3rPgHQksBh3ZUCJoo4prG2HeHgpRnXsbvNv
-	udhY+iUCwwaubc8wtrDTrfsL2tsC0iUcFdzj2VO4XjEKoATDPI8H13ZyySoCmK4medNjSPBrnJl
-	glVJFbCqpBm6Qg6bd9WzNd4rFAyP13qCBr4UhQvGI6FBK+tZ/mObclZ76Jlhr4Nuy67gEwZzK/m
-	QfkzUlRXumutv5cc9tI9YnuN2W1mAAbovyM0N1h1bNfXX94zbRnqjOJRLNIwfNGhHZqjj16C3zf
-	D0vKXjhGo1IIdF/GWtfw3Nr6Qx+C9yZ6lTX6PoSRFIF0h6guSANjmU7szPDQUOt4SqyLxt8hRJx
-	vJPf7ubt5nQxxIyeZdzdHk9Xyl6jGdsbbP+30iDC5Tff18zlDee7Ds3fbiTc8Bupv0p9O1Y0eYf
-	ly3sSLx/kA5t70chxZRvL3I5tDdOrq+zZjPeYecnuX+0lPJbF8R1t6uEaen7PBWvkto+
-X-Received: by 2002:a05:7022:f509:b0:1b3:ad88:b9c5 with SMTP id a92af1059eb24-1b5568b7e07mr8368775c88.24.1795347539687;
-        Sun, 22 Nov 2026 03:38:59 -0800 (PST)
-Received: from localhost.localdomain (vmi2317719.contaboserver.net. [84.247.152.64])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386aaae4960sm3717851eec.18.2026.11.22.03.38.45
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 22 Nov 2026 03:38:59 -0800 (PST)
-From: Lian Wang <lianux.mm@gmail.com>
-To: Kairui Song <kasong@tencent.com>
-Cc: wang =?utf-8?q?lian=EF=BC=88ByteDance=EF=BC=89?= <lianux.mm@gmail.com>,
-	linux-mm@kvack.org,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Chris Li <chrisl@kernel.org>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Nico Pache <nico.pache@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Barry Song <baohua@kernel.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Gregory Price <gourry@gourry.net>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Lance Yang <lance.yang@linux.dev>,
-	Hugh Dickins <hughd@google.com>,
-	SJ Park <sj@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Yu Zhao <yuzhao@google.com>,
-	Vernon Yang <vernon2gm@gmail.com>,
-	Zicheng Wang <wangzicheng@honor.com>,
-	Chen Ridong <chenridong@xiaomi.com>,
-	Tal Zussman <tz2294@columbia.edu>,
-	Kairui Song <ryncsn@gmail.com>,
-	Xiang Liu <liuxiang.277@bytedance.com>,
-	Ehab Ababneh <ehab.ababneh@intel.com>,
-	Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Kunwu Chan <kunwu.chan@gmail.com>,
-	Hui Zhu <hui.zhu@linux.dev>,
-	linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 00/17] mm/mglru: frequency guided promotion (MGLRU-FG) and flag cleanup
-Date: Sun, 22 Nov 2026 19:38:17 +0800
-Message-ID: <20261122113833.62817-1-lianux.mm@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com>
-References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com>
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=Xvfqeq7n
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=yEmTU8Dvj9D/0s6N6A6U4VMXSzUJV5WSJIIUzIvHIoM=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795350028; v=1; x=1795954828;
+ b=Xvfqeq7ndngszENiCq8rxg1staY4CXNRiwICyMM4polzoZYUTGJSBgxtIDDLokh3rdpFDLP8
+ l954BrVvd983/fPleTVHkI1m4HW6DtdLKUVc7h6rY9JQFNXBlGf9VhYFMDMCiOfxzbBfxrp1AkS
+ SBpeDi22KKJ1ZY6RKkMXvcP3RqlN8hsmmZhonoQpFM83T7siJ0Zmw2Sy0nxSlE6t3jqNswEE0AE
+ coWXusSinGmHVZwwBAcf9kigOyJ/McPF7y00fu+khJH1KaBOn0q8MfQ6jX7Gk90LH0dcCGMgf5b
+ Wm1zJXLti+LIQbvK0RRi4UN1LKgYyKlD+3LXqH9YdCBIA==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 8d43b4d0ff3c3792;
+	Sun, 22 Nov 2026 12:20:27 +0000
+X-Mizu-Trace-ID: 8d43b4d0ff3c3792
+X-Migadu-Flow: FLOW_OUT
+Date: Sun, 22 Nov 2026 20:20:17 +0800
+From: Weijie Yuan <kernel@wyuan.org>
+To: Daniel Pereira <danielmaraboo@gmail.com>
+Cc: dreduardocruz@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: pt_BR: submitting-patches: update LKML role as
+ last resort
+Message-ID: <awLeAd_x7yCNRafK@wyuan.org>
+References: <20261119-pt-br-submitting-patches-lkml-v1-1-1c7170de926f@gmail.com>
+ <CAMAsx6dNK3NjZvF-3wd9RH3dy3V7TiUoJJxnoLi0FPVn4eVJSQ@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -146,22 +69,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMAsx6dNK3NjZvF-3wd9RH3dy3V7TiUoJJxnoLi0FPVn4eVJSQ@mail.gmail.com>
 
-From: wang lian（ByteDance） <lianux.mm@gmail.com>
+On Sat, Nov 21, 2026 at 11:06:49PM -0300, Daniel Pereira wrote:
+> Em qui., 19 de nov. de 2026 �s 09:22, Eduardo Pereira Cruz via B4
+> Relay <devnull+dreduardocruz.gmail.com@kernel.org> escreveu:
+> >
+> > From: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
+> >
+> > Update the Brazilian Portuguese translation of submitting-patches.rst to reflect commit 3a198413bb71 ("docs: submitting-patches: make LKML a list of last resort again"), advising contributors to send patches to a subsystem-specific mailing list first and use linux-kernel@vger.kernel.org only as a list of last resort.
+> >
+> > Signed-off-by: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
+> > Cc: Daniel Pereira <danielmaraboo@gmail.com>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: Shuah Khan <skhan@linuxfoundation.org>
+> > Cc: Randy Dunlap <rdunlap@infradead.org>
+> > Cc: linux-doc@vger.kernel.org
 
-Hi Kairui,
+Hi all,
 
-On Thu, 19 Nov 2026 05:03:32 +0800 Kairui Song <kasong@tencent.com> wrote:
-> - Rebased onto current mm-new.
+It seems that the commit message is not wrapped to ~72 columns..
 
-The v5 build checks on x86_64 passed without issues.
-I'll continue to report results from additional tests and workloads.
+Thanks.
 
-So feel free to add:
-
-Tested-by: wang lian（ByteDance） <lianux.mm@gmail.com>
-
-Thanks,
-Lian
+> Hi Eduardo,
+> 
+> Thanks for the update! I'm currently working on a pt_BR glossary to
+> standardize recurring terms like this across the documentation.
+> 
+> Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
