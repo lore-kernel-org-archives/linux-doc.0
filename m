@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795305798;
-	b=r4I17keRxTFNMMfieed9hnsbh6FAv7hKA+XWjz0gHev3vj+BPPkK9gh9+AEOID44axT4
-	 tPvNU0Aj7K3WAmTw10GZBrqbs653hxwJIK2nJdY9g5GTFk84LMgBeRdLh5Kei0VRJV527
-	 4nOgBS00yRFa3fhX9Ygo8I7Tte8P8KxTlTHhlIQ1RLTloHNCUmSM5xz7Ekrz5IByU4GD/
-	 wCPQaK5GElKAqvIOPk4G9dD8vEP/tZBIhvF66aRS9mPc4a923VOhQwIg5bOvTmnK2BOeA
-	 ywKfNhoVxm7g9E20BKWhQRZ23wc02vZhe/BGignVzAnjw3v0DOag6/Fsx5Qxd75d0KA==
+	t=1795306696;
+	b=mnKmjzYXQRWoHbnYc9Dp0AoBZjCpX11JSP2XuVnTW1IsBILZI+usRCMVrm6llQVoRM93
+	 HVK47gvwqci5xZ1iRhKzWnC/HUup3BqYq/rf9grl92ZrdhfEvS9ZS3+gPiISmekGIsAiO
+	 E+0P2lvCHZHFtpvq/CwJHrZVTUNBnjBUoa+Ww/ZrDtvcPxZ6KY70H3cPUP7YLu8XYUhJb
+	 1J5Yu/2e6FK3l7lurIQeeypvjaMksIIdRk4zXg1/NcFi3qdtOxZng6Hl3komliQBmC5Hu
+	 HLgAZXI+3HtsG08q3vX8KAQNrRNt46hUwdRzIpvSbyGAIACDbhJQPYDOI5j6kFKSnYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795305798;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795306696;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
 	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=rYwFnnQpoq8LFGaav+MzPqD+Y6qhmYWK6HkRe9C2QeM=;
-	b=MXOJGGkHsh++Gu2rNkVAnhF8PuZsdEdSARvcRpoVdV+Lzbb5rmQBl5M8KeMplIkmxUJb
-	 mpHISMu3XMeHgyqPGp0Amtceme8uxGnI6k4xB6M1pAxmmovAoaI+3NTAx9HjTuWz2EqYO
-	 U5MXqpjvAWTsUO7DGZAST8RrWe8QBOukC3dE2KCWBCgv5Mk8Zp7P8zMhUJ51S7AAS/MTP
-	 UVi8tXDaRrXLH5ixl65XAC6I9467qfzZEbou0csQ1O8ZZoTM2u9+Y6MpZdXn5c0ID7Z2G
-	 IxeoznOWhy68a8LNbax8nuWGJvIVehXFhl0OHIuYRABgWiJNDXXNzFFZ0mIaLDsdsxA==
+	bh=n3n064Qsk3rdX1FqPH4kxS8Bgm27CPleORQhLo802h4=;
+	b=Qia6xVnem3KLwKH1OwMb7BZ85I9UJz1+PYqMC5i74c+qs+o8O0mMQruepzQXge5vATW5
+	 Yw5PrTWtpqkWJ5vJ/8bJcg9D6yAZ/+HtrKdyTdNBmiun9idLOdak17IsTT/56hLEX487s
+	 qsR3k7+tLifPAW5zi/8f916MLPaS1zufVRfa8Y6Xs0D2lQU7noNSl1UYLN0j6tTnF2b8R
+	 IrRxWQBhgdSxauKUxq+AIYPcsHHToKX2rARVtPP1/fFVJiVHnnImfuFfTMtPm8oLh/fJ/
+	 hI1czHxCpYP5fEQEkITZ4Ncmj1qh8vW06PhT4sWlZv64UIlJri/saT4GEx0CkZaCvXg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VEtJ0Z3R;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eohuO05q;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0A9606A320
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 00:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480A4606A332
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 00:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VEtJ0Z3R
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A90F21F000E6
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 00:03:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eohuO05q
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 244E11F000D1
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 00:18:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795305797;
-	bh=rYwFnnQpoq8LFGaav+MzPqD+Y6qhmYWK6HkRe9C2QeM=;
+	s=k20260515; t=1795306696;
+	bh=n3n064Qsk3rdX1FqPH4kxS8Bgm27CPleORQhLo802h4=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=VEtJ0Z3RFtXNNE2efuwBF9CxDfb5B95yqKPcNQxO+t6NQf2t7QVUT+e83OzRKAMas
-	 Et0FX6zr/HpTXZ5u0nCFgtAJcbM3xmt+CdbOTavu7JuGUwlLBBCzSXWSBMUHF60mot
-	 W1ZNteOFWWRkKFzRoukBOv18VzqXbm1bdBQSQZ+YkPx6etZg5GiT4lxSLMQVjMSGJm
-	 N93oZS9RYlL4Rhdrjy/c6vsZybDkDHQd4i/Kc7D6X/edXWGCsEA7YjMzk/e3TGl26A
-	 yJFtqNMD3FGLZ8qKwWBx8sP5O3wXEbjRHI9lzpGMrneITPKqXsS1KiLBXvZ7Uf1BQ/
-	 74VNAmNGVNzbg==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-3ae25c9f857so20767551fa.1
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 16:03:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErHkZWTawyH0Ffl5OYriTvlAnmnBR3GWOp6AZ3E5oEF5nh2vW7gJ4s+DSpFHkzOU39Qxsf3UW+UEEG4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/gPrltSyJhILg6vzle/yONcbIA++7sIFOfnuSOJtKg8Mvza2+U
-	ZlqEMmSPFLmuXlKe+k+1rc8w2nH95MD3LYrIUthsWsF5c09ikKkKF3UCzyc7mctbm8qIAFCFTE3
-	sbhk9SSFawX+gWN1YZZHRWlejU8+fMm4=
-X-Received: by 2002:a05:6512:238a:b0:5c1:4bd9:d696 with SMTP id
- 2adb3069b0e04-5c1bc6803dfmr2119235e87.8.1795305796393; Sat, 21 Nov 2026
- 16:03:16 -0800 (PST)
+	b=eohuO05q1IHKD2z24EmnbHK6EZjlYRSfGlTuLjhQlM8YfpqjrSuilbC0yg15Rpg4r
+	 +Ap5+FWwomY68WPOoCjXyNbnbL07D0Pr9Yic6d1uI2+SqGy+mfHn3z/FmOUmFO9vQU
+	 dkd7Mla4Ccq1qd+e6EtyEUiyT0+HW08x+E2R4ALePJIN95H9EEdsALz5VmGJlgHxlu
+	 FbB8M1EHHe5wU6ELCvxscDsFON8mOC26s5UxjpTxxfecI5KVI4VQb5KTP7Dvq3CVSN
+	 zV+5NnK5eh1SyFMERHXAVu6VlAyV+Slfulp+K3X8dDa4T1DDrUD/+Phn8obyJmGJji
+	 4ZVJHxyoOWriA==
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c5118deebcfso313918866b.1
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 16:18:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFX7ocoKorIcRVluaNhKOJGRo6t8PXaZLFTi98xAjxCVAaNic3OlFqWPRviD/eH/XFgkhHVARLiHIs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9g4UaBTL9CmyLjNAHrvVy0tbtU0jKj+5oLFQThTv8k4fQPtkTh
+	iRNkIyKnBh28XbsQN+6egBXNcXmUr5TpHY09j7XMD/BtkW+55ojOl+Zoox3/4yBs+CxlyJdYIEg
+	mACrdC07JzHP9VS15Q5N40Vl0UuCK85s=
+X-Received: by 2002:a17:906:b2d0:b0:c4d:2f6b:435 with SMTP id
+ a640c23a62f3a-c513a9ae264mr488487966b.18.1795306694724; Sat, 21 Nov 2026
+ 16:18:14 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,56 +59,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261015142552.4128028-1-ryan.roberts@arm.com>
-In-Reply-To: <20261015142552.4128028-1-ryan.roberts@arm.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Sun, 22 Nov 2026 01:03:03 +0100
-X-Gmail-Original-Message-ID: <CAD++jLmd=+v0c+zZwLVafR0aFRnt95weQ=_oaOaYdHUbXktvdA@mail.gmail.com>
-X-Gm-Features: Aa3M54r3uff-3u27-GWxVyER9ELrI4OraGs3jCVFrFZTcTH5Wtzi-qad91fCkZY
-Message-ID: <CAD++jLmd=+v0c+zZwLVafR0aFRnt95weQ=_oaOaYdHUbXktvdA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 00/15] Arm Core Local Accelerator Driver
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jean-Philippe Brucker <jpb@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+References: <20261121174315.500249-1-shaopei_1012@163.com>
+In-Reply-To: <20261121174315.500249-1-shaopei_1012@163.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Sun, 22 Nov 2026 09:18:02 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8uKrOU=tyJ1yqme=3HBwyLu4-Hg9cw03+VZ+P4k0-B9g@mail.gmail.com>
+X-Gm-Features: Aa3M54ovn0x5mU7utYfTW_4kD8G5XRkVPTYp1VL9xIHSa_8ooIpRyn09CO-AvZ0
+Message-ID: <CAKYAXd8uKrOU=tyJ1yqme=3HBwyLu4-Hg9cw03+VZ+P4k0-B9g@mail.gmail.com>
+Subject: Re: [PATCH] exfat: add EXFAT_IOC_COMBINE to append a file's clusters
+ to another
+To: Shaopei Zhu <shaopei_1012@163.com>
+Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, exfat@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ryan,
+On Sun, Nov 22, 2026 at 2:43=E2=80=AFAM Shaopei Zhu <shaopei_1012@163.com> =
+wrote:
+>
+> Cameras and dashcams recording to exFAT SD cards often write the video
+> stream and auxiliary data (e.g. IMU samples) to separate files and merge
+> them when recording stops.  Doing that with read()/write() or
+> copy_file_range() rewrites the whole payload, which is slow on such
+> media, wears the flash and needs free space for a second copy.
+>
+> Filesystems supporting reflink can already avoid the copy by cloning
+> the source to the end of the destination with FICLONERANGE and then
+> unlinking it.  exFAT cannot share clusters between files, so it needs
+> an operation that moves them instead.  Its semantics follow from the
+> exFAT on-disk format (cluster granularity, a single valid_size per
+> file), so it is added as an exfat ioctl rather than a VFS interface;
+> fallocate() does not fit either, as it only takes a single file.
+>
+> Add an ioctl that moves the cluster chain of a source file to the end
+> of a destination file and then unlinks the source, so that only
+> metadata changes: the FAT, the stream extension entry of the
+> destination and the entry set of the source:
+>
+>         struct exfat_combine_args args =3D { .src_fd =3D src_fd };
+>         ioctl(dst_fd, EXFAT_IOC_COMBINE, &args);
+>
+> The source is unlinked the way btrfs_ioctl_snap_destroy() removes a
+> subvolume: start_removing_dentry() revalidates the dentry of the open
+> file and locks its parent, may_delete_dentry() checks the permission as
+> unlink(2) does, the entry set is deleted by the same code as
+> exfat_unlink(), and d_delete_notify() updates the dcache and notifies
+> watchers, without re-entering exfat through vfs_unlink().  Since the
+> in-memory inode no longer owns the clusters, evicting it frees nothing.
+> The permission is checked before anything is changed, and an already
+> unlinked source is accepted.
+>
+> As with EXT4_IOC_MOVE_EXT and F2FS_IOC_MOVE_RANGE, the source must be
+> open for reading and writing, the destination for writing, and both
+> must be regular files on the same mount.
+>
+> exFAT has a single size and valid_size per file, so clusters can only
+> be appended at a cluster boundary of a fully initialized file.  The
+> destination is therefore first zero-filled up to the end of its last
+> cluster with exfat_extend_valid_size(), leaving a zero-filled gap
+> between the original and the appended data when its size is not
+> cluster aligned.  This is documented in the uapi header, and keeps
+> stale on-disk data out of the file.
+>
+> exFAT has no journal, so the data and the FAT, then the destination
+> entry, then the deletion of the source entry set are written and
+> flushed to the device in that order, as recommended by section 8.1 of
+> the exFAT specification; the allocation bitmap is not touched.  A
+> crash at any point leaves all data reachable from at least one entry.
+> In the worst case both entries share the appended clusters; fsck.exfat
+> keeps them in the file it checks first and truncates the other one, so
+> either the combine has completed or the source still holds its data.
+> If the call fails before the clusters are moved, the zero padding is
+> removed again.  s_lock is only held while updating the FAT and the
+> entries, not while waiting for the device, so that writers to other
+> files on the volume are not stalled.
+>
+> No file data is copied, so the cost depends on the number of clusters
+> (when a FAT chain has to be built for a contiguous file) rather than on
+> the amount of data.
+>
+> The ioctl number is taken from the 'r' range next to the FAT ioctls.
+> A user space tool for exfatprogs (exfatcombine) and a test for fstests
+> (exfat/002) are posted separately.
+>
+> This patch was written with the help of an AI coding assistant
+> (Claude Code, Opus 5.5); I have reviewed and tested the result.
+>
+> Signed-off-by: Shaopei Zhu <shaopei_1012@163.com>
+First, Please check Sashiko's review comments.
 
-On Thu, Oct 15, 2026 at 4:26=E2=80=AFPM Ryan Roberts <ryan.roberts@arm.com>=
- wrote:
+https://sashiko.dev/#/patchset/20261121174315.500249-1-shaopei_1012%40163.c=
+om
 
-> * Driver interaction with architectural support: I've opted to treat the =
-CLA as
->   a device rather than a CPU extension, so it's implemented as a (mostly)
->   self-contained driver.
+And please send exfatcombine's PR to exfatprogs.
 
-What the current proposal does is to create nodes in the base of the device
-tree, which makes the device tree parser instantiate those into
-platform_device:s,
-then each cla_device piggy-backs that platform device.
-
-I don't think this is a good idea, I wouldn't use platform_device for this
-since you can just look up the nodes and instantiate the cla_device:s
-with a proper struct device inside all of them.
-
-I think it's a better idea to put these inside the CPU nodes themselves,
-they are there after all, intuitive right? Init code can loop over the
-CPUs and instantiate a cla_device for each CPU directly without
-having to detour over an opaque platform_device.
-
-Devices inside CPU nodes will not (I think??) be populated
-automatically, so you can add code to loop over the CPU nodes
-at device_initcall level or any time during the boot process deemed
-helpful. This also saves you from adding devices for CPU cores
-that are flagged with status =3D "disabled"; which could happen.
-
-Yours,
-Linus Walleij
+Thanks.
