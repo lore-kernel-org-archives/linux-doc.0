@@ -1,84 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795383134;
-	b=SSsssYP5WlXd9eJd5vnpb4lc4eMWuWsGLC1Y4LX7AmLRrJ//6ipMxNmuy0rRfHcYBG7m
-	 0nLCtKLteoi/slw9aD4RfTlHPjXV4vXTbt1FspPUdq/V07e91OPChVcoT4FhH+xNlhTXV
-	 kYMYsIUmB9MprvIHYxww+jQfcBLovZurXoQsKnh08JMLcOLLp9SAGDVjnLirwGuHKzzOZ
-	 PGFZ+vl3m/Z+57cEVjr8QRwZ7tEUmjXy4PNk75THiYCHfPkGxQkokMKxQDsmV2p0ytGL8
-	 +pLVNMNgMfc8y3Pqnt0Yl7YFpTBoIqcBhXmFPItmf1AbPtm/uQVR0/M+SDkbAvRYQNA==
+	t=1795384612;
+	b=R9HX3uxqhJpqMe8WHKZnD7nDbkTvNEvkdiPuhJBRohz+hS1xKGj1U0XSbOkaSgeSykd2
+	 AXpkmfItqTUHQboV1RL0Xua8d28f7LqcnHD4WiBL6Pt5l7yx38WhE6j3+p46KvCg36uD4
+	 7F43Y59SOYmTHLhW/NpGlD6wgKIZkI2FhH5hDA+dQeLkWwJJ7M4DQNbpKngGcYnSLMgAa
+	 xHO07MXgJFif9JtntdkqsfR0/lWOi5bkA6k0F2/nWo/Ljszq2SCVazGNdSrQbuELQPY7K
+	 p42h5AEQDptj8GMHNrsnTR9WzF12GdnQp6ecxqqVkpV6tKIGoyxxmGunrBtErzSs3bA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795383134;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795384612;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:X-Patch-Reply:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=WwkPKboaRHO3gWj6crYxjpzj9cX9xx9wCpXmZOCeZgY=;
-	b=dagiXs4c3WJTYY4eveJknsIZmjzQC4YMv7o+1knneN+1mB2ViSswccwHqXUR8jceIWtq
-	 YOJbz2vocDifvMN95uqKkZ+297pBN5+OpUUrg3I+JSJtRbfgVitOWoDXpuRZn3Z+2IPXs
-	 DSCls/yeVo6jfvSf7FMQR6cSwdWG+5MgVGR48pf1ICfg9lPBrU0aSrJ0q7ORFFfvwlmzD
-	 0uHAPGsa4Ew+pjF5q2jbdk+/ujb2Z9zWRXFyyWzwATTYS0ZcGFtrg8f+ZHhEwVZtB0trC
-	 xsjxB5xjsXVzf3jAYnVOTT4MUPv3QJ+8yV+sJDxJ2el72RGa5SiZbbc75is2ZNCS/VA==
+	bh=bwqVDHaqqXUJecFoI8gfarhhx3uMgHGFcxRh37PQR30=;
+	b=DxAIP8oBsZx16Q55Gw1gBpzuv7rRLRHNkyboJpSU0lBk5rUrUYuLjMNWh9fXxecCVnCC
+	 9c7sdYUTXUDo0r1qoppIm5v0FRVFmuzKCa0+v6YhpRUTDMc5CQCXnqe8NmNvU61ZLR3Hv
+	 tRSVSH0ckeSw7VUoW4c6kW+TEibMODi2NxTO4IujMTlvm29n1T0+8YsFEE/rAvzi+2CxT
+	 sgFJkIaFLjE3qemWpGEPg8IEJMIwg1dr26SCUOahpw8cXteTtCOogZRx5HAf5n766sntq
+	 52QF1dOZrunhEui8oi4YGEiWs1MZd5xbbCaJSccnYKoKtiL7ViyJxnJW1P+C+MLuing==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=corp.free.fr;
-	spf=pass smtp.mailfrom=corp.free.fr;
-	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=FvulZixg;
-	arc=none smtp.remote-ip=212.27.60.169
-Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BXie8At5;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F09606A688;
-	Sun, 22 Nov 2026 21:32:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32F09606A688
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C91606A334;
+	Sun, 22 Nov 2026 21:56:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=FvulZixg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
-	t=1795383132; bh=ETQLiklF/DMETVxTZ3pQ7sasKCndEu5GA0chMOax7tQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FvulZixgq4PJqdQfnQ1IeJS6BQ0tWD3bljnhuRLiLMqe2y3GXz+1PyfD16S7nW8+k
-	 81lXCA8eZuRfO/2q3etOsAV3tKSE41p2viZH/zydXNIvE+DIjtFCWeG8TzLAysnX4C
-	 hP9wwkFIFAE/1G4cZCCNL0AtrI/5fz09jEemEnzsi4JJm6Fy5ZnhdUrP6ryNCwaU/T
-	 hP3bS4AgErdCqJB+R9preRvcOyGa3BJBgoWdfrppmZBymGKeaJ1XcMyGNh2bRGUon9
-	 D2u+JiOrF6HlqQVTarc1y8y9v36P8+Ev06entFDnof6u0o4Xb4qsHaWo46kuCO1jrP
-	 A29vEOiPd/KLA==
-Received: from lnxos-dev.home (82-66-150-212.subs.proxad.net [82.66.150.212])
-	by rcs.proxad.net (Postfix) with ESMTPSA id 6DEBB44C0B5D;
-	Sun, 22 Nov 2026 22:32:12 +0100 (CET)
-From: Alexandre Cassen <acassen@corp.free.fr>
-To: Saeed Mahameed <saeedm@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Mark Bloch <mbloch@nvidia.com>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Jiri Pirko <jiri@resnulli.us>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>,
-	Potnuri Bharat Teja <bharat@chelsio.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	David Ahern <dsahern@kernel.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	Shuah Khan <shuah@kernel.org>,
-	netdev@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BXie8At5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 085171F000CF;
+	Sun, 22 Nov 2026 21:56:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795384611;
+	bh=bwqVDHaqqXUJecFoI8gfarhhx3uMgHGFcxRh37PQR30=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=BXie8At5QFQ5VGJ5Wgxa+Ryfj2HbGOJ0KDHW1aolgsw2YtdZGPnu8WYcSmeFf9iTy
+	 5wiX3oWysPjoCke2hcQZDizPm34+kAe7FMjSaSZ9srwusVIqRO580db6LxZDAFaZ0+
+	 3aDEW76QVsDdxoBaJCF/eDmBo7SUv8nl1byepex6XqNbxhpJHXHoKY2hbT2kLTC95N
+	 7JnRNOt0TIdCgaQhdXGjEOlBwvV7HGnUumRRGA3StMRgzFJT0plPL8HRWUST+VQqvd
+	 X4RjTcvHCj0K1oKGcN/z3PbXWOEFtUMKW6QRQ4AjrpymszI4/3zzB9pQMRd26c47gs
+	 kxUaKiE3hZ+vA==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Ian Rogers <irogers@google.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kees Cook <kees@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Srish Srinivasan <ssrish@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	Nayna Jain <nayna@linux.ibm.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>,
+	Alexander Aring <aahringo@redhat.com>,
+	Felix Kuehling <felix.kuehling@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	Sumanth Korikkar <sumanthk@linux.ibm.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	driver-core@lists.linux.dev,
+	llvm@lists.linux.dev,
+	linux-hardening@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	oss-drivers@corigine.com
-Subject: [PATCH net-next v3 11/11] docs: networking: describe tunnel key partitioning in TC queue filtering
-Date: Sun, 22 Nov 2026 22:31:59 +0100
-Message-ID: <20261122213200.3207385-12-acassen@corp.free.fr>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261122213200.3207385-1-acassen@corp.free.fr>
-References: <20261122213200.3207385-1-acassen@corp.free.fr>
+	linux-acpi@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sh@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	gfs2@lists.linux.dev,
+	xen-devel@lists.xenproject.org,
+	linux-mtd@lists.infradead.org,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/9] Add __must_init and require explicit kobj_type::release
+Date: Sun, 22 Nov 2026 22:56:39 +0100
+Message-ID: <20261122215639.1178566-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261119192520.1983406-1-irogers@google.com>
+References: <20261119192520.1983406-1-irogers@google.com>
+X-Patch-Reply: applied
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,48 +103,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Tunnel key partitioning steers blocks of tunnel flows to RX queues with a
-mask on enc_key_id. Document this use and what enc_key_id means on a
-physical port of mlx5. Also document what happens to such a filter when
-its queue goes away.
+On Thu, 19 Nov 2026 11:25:11 -0800, Ian Rogers wrote:
+> [PATCH v4 0/9] Add __must_init and require explicit kobj_type::release
 
-Signed-off-by: Alexandre Cassen <acassen@corp.free.fr>
----
- Documentation/networking/tc-queue-filters.rst | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Applied, thanks!
 
-diff --git a/Documentation/networking/tc-queue-filters.rst b/Documentation/networking/tc-queue-filters.rst
-index 6b417092276f..14032375d630 100644
---- a/Documentation/networking/tc-queue-filters.rst
-+++ b/Documentation/networking/tc-queue-filters.rst
-@@ -35,3 +35,25 @@ queues and/or a single queue are supported as below:
-    devices, TC filter directing traffic to a queue have higher
-    priority over flow director filter assigning a queue. The hash
-    filter has lowest priority.
-+
-+Tunnel key partitioning splits the key space of a tunnel into blocks. One
-+filter with a mask on enc_key_id steers a block to its own queue. This
-+helps with traffic that RSS cannot spread because its hashed fields barely
-+vary, such as GTP-U tunnels between a few endpoints::
-+
-+  # GTP-U TEIDs whose two top bits are 01 go to queue 1
-+  tc filter add dev eth0 ingress protocol ip flower skip_sw \
-+      ip_proto udp dst_port 2152 enc_key_id 0x40000000/0xc0000000 \
-+      action skbedit queue_mapping 1 skip_sw
-+
-+Not all drivers can program a partial mask.
-+
-+On mlx5 devices such a filter runs on a physical port where nothing
-+decapsulates the packet. All the keys describe the packet on the wire.
-+enc_key_id is the only tunnel key such a filter matches.
-+ip_proto 0x2f, or udp with dst_port 2152, 4789 or 6081, tells the hardware
-+which tunnel header holds the key. The software datapath has no tunnel
-+metadata on such a port. Only the hardware can match the key.
-+
-+Reducing the number of channels below the queue of a filter drops the
-+traffic of that filter on mlx5 devices until the channel returns.
--- 
-2.43.0
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
+[1/9] Compiler Attributes: Add __must_init macro
+      commit: b8a53320a885
+[2/9] powerpc/secvar: Add missing kobject release callback to secvar_ktype
+      commit: 4d5d4dd2a2e2
+[3/9] sh: sq: Add missing kobject release callback to ktype_percpu_entry
+      commit: d19384f2f3c7
+[4/9] cpufreq: governor: Initialize kobj_type release callback statically
+      commit: 009365942c15
+[5/9] dlm: Wait for kobject release before freeing dlm_ls
+      commit: 48ae948f4285
+[6/9] xen/sys-hypervisor: Add release callback to hyp_sysfs_kobj_type
+      commit: ecaf88d385c1
+[7/9] ubifs: sysfs: Use kset_create_and_add() for ubifs_kset
+      commit: 25d952902dee
+[8/9] drm/amdkfd: Free queue in procfs_queue_type kobject release callback
+      commit: 6d4ff4a020cf
+[9/9] kobject: Require explicit initialization of struct kobj_type::release
+      commit: 45eeed1f8094
+
+The patches will appear in the next linux-next integration (typically within 24
+hours on weekdays).
+
+The patches are in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
