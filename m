@@ -1,100 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.46
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795305634;
-	b=o3x3lVmNRwjYhHB95bwI8UyhmBCP/qsblrhYtBOuVgKS9X/j1QQ7qmcdX9Oik79CKIGe
-	 IHgfz0dBSQSqfnRKIFlIR/dfOxTTz7vC6O/1UNa/tXvmZ5y5zMZYQc/QoMl8hBKYExd3Q
-	 m3GflZBnlGnunIERiUYrz2ftgF6qxXUox3y4gXU3vwmdKNVRw1SrFDo4ddHTAZSfKZDYA
-	 ZmmCK927EFg01+zaaKuf2ZCdZF3jeaBMJG5Y+KCuEOiK4yOUi6maz7buAJvtyl5E6/g4z
-	 3uxdoAC9B+egJVBIUb/00Ad7N+FT2gFNvpkI67ZXDqSkWsDBSFmjvw+odm+59edW1tQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795305634;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=oX79inJRzxgZwR0Tcie38RtbzYQdIj/eTCukvbMNytI=;
-	b=1HwWTd6noRN4QPN3mE7GaoDSgPenS1VfbyPvxoJiy19+quyd/pKDM6vmxR7aGNbuWZQ+
-	 Or2GmsgMcg4420HpWA2U4Oq7uZAHXqNj2RP328mt09t3RoDdtaKU1EXElm0NnNmwNjfdz
-	 nKcUeLDbHZexuvMaCN846Ib94ap6rMz6ZkT9gGtqpEuoPpS6U24eU7AP4X5qY2+A2u7xu
-	 LztUiz1FHTFgUZQF9y91OqdE5Kzsy2QXrCRVcsQ3DrNay7gs4HlS6uGDd4WptdL3dM7JU
-	 i20XFL8RwmxT8LfbdLT/76ZEgmM7SxX1dy1X4bVNeKdnrBivDwH+MHKcmtSQaNrw0MA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=r4RcuYCf;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.46
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795305798;
+	b=r4I17keRxTFNMMfieed9hnsbh6FAv7hKA+XWjz0gHev3vj+BPPkK9gh9+AEOID44axT4
+	 tPvNU0Aj7K3WAmTw10GZBrqbs653hxwJIK2nJdY9g5GTFk84LMgBeRdLh5Kei0VRJV527
+	 4nOgBS00yRFa3fhX9Ygo8I7Tte8P8KxTlTHhlIQ1RLTloHNCUmSM5xz7Ekrz5IByU4GD/
+	 wCPQaK5GElKAqvIOPk4G9dD8vEP/tZBIhvF66aRS9mPc4a923VOhQwIg5bOvTmnK2BOeA
+	 ywKfNhoVxm7g9E20BKWhQRZ23wc02vZhe/BGignVzAnjw3v0DOag6/Fsx5Qxd75d0KA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795305798;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=rYwFnnQpoq8LFGaav+MzPqD+Y6qhmYWK6HkRe9C2QeM=;
+	b=MXOJGGkHsh++Gu2rNkVAnhF8PuZsdEdSARvcRpoVdV+Lzbb5rmQBl5M8KeMplIkmxUJb
+	 mpHISMu3XMeHgyqPGp0Amtceme8uxGnI6k4xB6M1pAxmmovAoaI+3NTAx9HjTuWz2EqYO
+	 U5MXqpjvAWTsUO7DGZAST8RrWe8QBOukC3dE2KCWBCgv5Mk8Zp7P8zMhUJ51S7AAS/MTP
+	 UVi8tXDaRrXLH5ixl65XAC6I9467qfzZEbou0csQ1O8ZZoTM2u9+Y6MpZdXn5c0ID7Z2G
+	 IxeoznOWhy68a8LNbax8nuWGJvIVehXFhl0OHIuYRABgWiJNDXXNzFFZ0mIaLDsdsxA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VEtJ0Z3R;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03FC606A320
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 00:00:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D03FC606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0A9606A320
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 00:03:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=r4RcuYCf
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-8631e07b756so1013383a34.3
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 16:00:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795305633; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fQivGwonbfhTztXCyw8QKSzokQFhZpJbZAUM4h6PCUO99MaYbJefiqXz/yH3yX/zBX
-         8kYsHp2LWSLSyaghCRusQkmuItxfpFCglhgGZBp2P3rukYplFEVv6C7bYEDxZFlBsja7
-         ZD5xwZjSKJPCbCFnGytyBTukgE4vya8+ZLqeCkoyPx5nUKX0ZkDsle9uF3GhH2Bmg5pQ
-         qcXqFWjBtU7NZ8UlolHU62dVCZ1njl8RbJS6FrSvcbXtc+YkF4u2hv8iqPenvwoSnivN
-         gSCQHVVTBFkIdxQlG78NKYzI9zTK8z/yNdEBu8WCIThw+TVHYCDwT+sSDvKneAYEjzPO
-         PQiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oX79inJRzxgZwR0Tcie38RtbzYQdIj/eTCukvbMNytI=;
-        fh=cvGIOPVCfeSRfOBCFF9N5OrTlwAUMIn4X3oXHrU5Kso=;
-        b=dT+K/lXzq7DlQ7ciG41TiuB88ge6HQKg58UAx3yU/sX4FY65ievLggjjyHLD08WA0a
-         yeJeLvVLw3l1L6jms7LM6DGiSB9glY/HP+m/z4ZveZgT+2XLKxnHvvQpxeDS+cw3UcUe
-         zV0VizY1IV9hzkaDGzzEfPN5gr89vm/7tHx/uI3dclxnHtRlc5Q4qTYF7FahZvlMDo6M
-         GEl3LCw+IvXXkwFQBUFq4AOmzs+vkZD1ksi/AjmDC8zcjbKiIxqDAhE4toHj0ibnjnW5
-         y72aNnibSTU0LmyOch+gYA4DgJ6jTUMMu1MIutcohYpOqEbpec/BHsLh4pKoFZTK2gdy
-         XSDg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795305633; x=1795910433; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oX79inJRzxgZwR0Tcie38RtbzYQdIj/eTCukvbMNytI=;
-        b=r4RcuYCfIn90HdIwxItumjaK30zdLhmUJVAGcRQ71nWGgskz24QbkTinofHlgkbenY
-         G4MS+YOI2jv+T9Xu/GlYrHhhMxTKnQSORkt1g1N9xvgo09K+WmL6Ol4n4KlM7ZnHdfYH
-         Dga8N+dVnRKwEx03n6ZRzaZUmZamKVkc3zEM3qYrvuR/ZiJ6LVd5aEscodL4zVuRKxr3
-         1CeCqEP8fs5yW/L1fJ7f2jpubwiyYMJLqCP2Y6+Ydqe1XIaG30BcseHXiwDcr3LDh8h8
-         aceKX/ezytlgYuce5vlrWJqmIhso+LfDOfRKsao1qd8ZMx8JiPefxktTgvAjr8j03MY9
-         f62A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795305633; x=1795910433;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oX79inJRzxgZwR0Tcie38RtbzYQdIj/eTCukvbMNytI=;
-        b=tjwkrMd2PqMq1ZgZZfJD6LoGZg1sTbJLAvsxIl+M+fdtZIIRNgzeKaPuSijpf9C+qI
-         zn8DihW9SvaVdLaJVWhCpWavhdHhDkkmr87TzDEHSDS9HxnSnkdzb3Bw70ZnBQRtxiwG
-         P5bAHkdpyFHqXgQW9E2eVllNRX7wUXJK+9RykmI9aoCtHXy7OUorDXt96R70pU4RkseI
-         6XoHmUFEjMiymXQN/wiYfnQx6eBvHyQH/Gi6rYCb7yZdedHA5GY7niMvJX1E9aUcL+/U
-         QP/vO0COTzel80qIbRMcKNAVK91OuRr5Y5FrgWVBzaqpCQCQQqAlck9MqHj+rOxvfYzJ
-         LAow==
-X-Forwarded-Encrypted: i=1; AL+hErFzSmiOScRjh4BRsNByFTGR3HNmdItZUK/kV2Nwfzrhb4Mbgm6gqcV1bmSnQfpmwb/5kxy2yiw2VJ4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8KBfalTrtpkleAmrAvxKikQ3zkvpc3pYcpDkshFdPz2w6i1j3X
-	HmaLvrSw6kEWZ6xvJ5cY3bIcv7rnSLiiaFpdwNiM3lUJYWpkX2rl7GtJj/IY6+TXvdV5Lzo65ZD
-	O+JMOweIizyXvhsvOPbx3iy1EiyWVcO4=
-X-Gm-Gg: AZFdTZezGsREoSVKSgTck6mk7ZECjoiR8+IU3ZTpuBU9sayxDEnsfD6A7RXeVgU5MEb
-	AEAshKdoGFmZu3M1q4VWaARBQNNAj8EC8mlV+T8SUmq1DRRL5wd6CwdsM/8VPUksXMOSjKcUQTZ
-	yDkHwShf+Zbs4JvXqIgeRsID+rz8ms3qfjT91kYLCqSCVnEpIn59ehNvL18TqUa7wcodLEz9vda
-	wkyHRlh5kVs1LQ+uy/mO1aD1nrS9NbJW4vOTG1Rrdw70CzvcemmXl0CE6bPfy6jrQcaE/kdLOwY
-	suHmPHJ1WfMvCq3hSeva/NDlFORVY8vKUQJNRiBazKnlx1y3wa2cZJpm/AgYfQnSgoaqiN9R8oF
-	1pNjOn5vnH6OiYMDdOl2GlcOxSgV9qhHAuyic
-X-Received: by 2002:a05:6830:6a88:b0:863:3a1a:91e0 with SMTP id
- 46e09a7af769-8633a1aa039mr1043518a34.10.1795305632770; Sat, 21 Nov 2026
- 16:00:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VEtJ0Z3R
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A90F21F000E6
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 00:03:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795305797;
+	bh=rYwFnnQpoq8LFGaav+MzPqD+Y6qhmYWK6HkRe9C2QeM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=VEtJ0Z3RFtXNNE2efuwBF9CxDfb5B95yqKPcNQxO+t6NQf2t7QVUT+e83OzRKAMas
+	 Et0FX6zr/HpTXZ5u0nCFgtAJcbM3xmt+CdbOTavu7JuGUwlLBBCzSXWSBMUHF60mot
+	 W1ZNteOFWWRkKFzRoukBOv18VzqXbm1bdBQSQZ+YkPx6etZg5GiT4lxSLMQVjMSGJm
+	 N93oZS9RYlL4Rhdrjy/c6vsZybDkDHQd4i/Kc7D6X/edXWGCsEA7YjMzk/e3TGl26A
+	 yJFtqNMD3FGLZ8qKwWBx8sP5O3wXEbjRHI9lzpGMrneITPKqXsS1KiLBXvZ7Uf1BQ/
+	 74VNAmNGVNzbg==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-3ae25c9f857so20767551fa.1
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 16:03:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHkZWTawyH0Ffl5OYriTvlAnmnBR3GWOp6AZ3E5oEF5nh2vW7gJ4s+DSpFHkzOU39Qxsf3UW+UEEG4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/gPrltSyJhILg6vzle/yONcbIA++7sIFOfnuSOJtKg8Mvza2+U
+	ZlqEMmSPFLmuXlKe+k+1rc8w2nH95MD3LYrIUthsWsF5c09ikKkKF3UCzyc7mctbm8qIAFCFTE3
+	sbhk9SSFawX+gWN1YZZHRWlejU8+fMm4=
+X-Received: by 2002:a05:6512:238a:b0:5c1:4bd9:d696 with SMTP id
+ 2adb3069b0e04-5c1bc6803dfmr2119235e87.8.1795305796393; Sat, 21 Nov 2026
+ 16:03:16 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,53 +59,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260726212812.89266-1-shijujose2008@gmail.com>
- <20260726212812.89266-3-shijujose2008@gmail.com> <20261017055852.GBatMOnEl66YObvU5k@fat_crate.local>
- <CAG4KcR+NOKHNzg6FN-oLLHgUxeitZHKXg9cN7dz24+Ap=RrwSA@mail.gmail.com>
- <20261110071729.GIavLFCfLKzPx8R0i0@fat_crate.local> <CAG4KcR+ikfQEBjCZiNJ1CUz=u3Gtbk_XDroA_GQqYpgO4Lo5Qw@mail.gmail.com>
- <20261121194030.GBawHzrrCNCMpfr7Gx@fat_crate.local> <CAG4KcRKhE1UXwrhscUdSpDJS8R0t7kWp8RXZm8j_9yXYJSQ2KQ@mail.gmail.com>
- <20261121210749.GCawIIJcidCeWs3ij9@fat_crate.local> <CAG4KcRKzXNsvBWuuU2_aX5gO7u4vgKAK+bkrB2vgEFBGu3WJCA@mail.gmail.com>
- <20261121230942.GDawIktifTKlYhUlpB@fat_crate.local>
-In-Reply-To: <20261121230942.GDawIktifTKlYhUlpB@fat_crate.local>
-From: Shiju Jose <shijujose2008@gmail.com>
-Date: Sun, 22 Nov 2026 00:00:20 +0000
-X-Gm-Features: Aa3M54qnCHZib5IMTc_EQOb3UJ-aKnrHrCYP9h8mtw0fwRaNzLI4HvK65GdTkSg
-Message-ID: <CAG4KcRJjU9WB7o0woOaAhtWDPoaL-52T8MUmbYJ9iC0EqP93Cg@mail.gmail.com>
-Subject: Re: [PATCH v23 2/2] ras: mem: Add ACPI RAS2 memory driver
-To: Borislav Petkov <bp@alien8.de>
-Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org, 
-	dferguson@amperecomputing.com, linux-edac@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com, 
-	mchehab@kernel.org, ashok.raj@oss.qualcomm.com, jic23@kernel.org, 
-	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com, 
-	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, naoya.horiguchi@nec.com, 
-	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com, 
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com, 
-	gthelen@google.com, wschwartz@amperecomputing.com, wbs@os.amperecomputing.com, 
-	nifan.cxl@gmail.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com, 
-	roberto.sassu@huawei.com, kangkang.shen@futurewei.com, 
-	wanghuiqiang@huawei.com
+References: <20261015142552.4128028-1-ryan.roberts@arm.com>
+In-Reply-To: <20261015142552.4128028-1-ryan.roberts@arm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sun, 22 Nov 2026 01:03:03 +0100
+X-Gmail-Original-Message-ID: <CAD++jLmd=+v0c+zZwLVafR0aFRnt95weQ=_oaOaYdHUbXktvdA@mail.gmail.com>
+X-Gm-Features: Aa3M54r3uff-3u27-GWxVyER9ELrI4OraGs3jCVFrFZTcTH5Wtzi-qad91fCkZY
+Message-ID: <CAD++jLmd=+v0c+zZwLVafR0aFRnt95weQ=_oaOaYdHUbXktvdA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 00/15] Arm Core Local Accelerator Driver
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jean-Philippe Brucker <jpb@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 21, 2026 at 11:10=E2=80=AFPM Borislav Petkov <bp@alien8.de> wro=
-te:
->
-> On Sat, Nov 21, 2026 at 10:24:28PM +0000, Shiju Jose wrote:
-> > Thanks Boris for fixing this and verified by testing.
->
-> I cannot test because I don't have the hw. I rely on you to do the testin=
-g.
->
-Sorry I meant I tested with your fix, which worked fine.
+Hi Ryan,
 
-Thanks,
-Shiju
-> Thx.
->
-> --
-> Regards/Gruss,
->     Boris.
->
-> https://people.kernel.org/tglx/notes-about-netiquette
+On Thu, Oct 15, 2026 at 4:26=E2=80=AFPM Ryan Roberts <ryan.roberts@arm.com>=
+ wrote:
+
+> * Driver interaction with architectural support: I've opted to treat the =
+CLA as
+>   a device rather than a CPU extension, so it's implemented as a (mostly)
+>   self-contained driver.
+
+What the current proposal does is to create nodes in the base of the device
+tree, which makes the device tree parser instantiate those into
+platform_device:s,
+then each cla_device piggy-backs that platform device.
+
+I don't think this is a good idea, I wouldn't use platform_device for this
+since you can just look up the nodes and instantiate the cla_device:s
+with a proper struct device inside all of them.
+
+I think it's a better idea to put these inside the CPU nodes themselves,
+they are there after all, intuitive right? Init code can loop over the
+CPUs and instantiate a cla_device for each CPU directly without
+having to detour over an opaque platform_device.
+
+Devices inside CPU nodes will not (I think??) be populated
+automatically, so you can add code to loop over the CPU nodes
+at device_initcall level or any time during the boot process deemed
+helpful. This also saves you from adding devices for CPU cores
+that are flagged with status =3D "disabled"; which could happen.
+
+Yours,
+Linus Walleij
