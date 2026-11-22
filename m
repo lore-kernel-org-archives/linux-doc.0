@@ -1,47 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795373089;
-	b=np3zTMCLC5KD+G87y7mEbgjZ+uuq9656RcB6UWx/uNtnT++Tj/o4yzLFfgRgqBFmjEG3
-	 PuSP9Igmi8mxIJ/s3jgpubaapLwwC4tzKQuPK8qkUAlyNiPh+RXHUtmrLlCnoV38iv1Rp
-	 xSZWfNVhRmvcKbxhN5s+2EdbjMy031rQD5mVIO9eWmQYdU37HhgsLQyzZ1ZPOgXiVnNJS
-	 ODTSYBwSekZilyaQi8FNJvXG85v1XN3zzjSmZwbcKrH5XF6n7iubPCVpQFv/Y+3dQWhV6
-	 7Xxz/YijQpbjhV3k8ihGctcONOTxN8zHFHU0TS0gXWALPScgjrsJ9CS7b1CZw6zs1YA==
+	t=1795374696;
+	b=siCjRw5stcAO/sQ+mkBbcYYQf6s/k7Ke8H4Vr8v4eh0lGRSN3YjQflIN+4IvedxBlDR7
+	 HsDy8PUP9aDmENYLxzJmXy0TRpmi+Q43D4U2963/b95ETXRLSewEWjiPCSESYUcSKGQoa
+	 IwOAvG32l25mIJCtryhNuYTabENEZZHXG+cCnaF+5Mb8AjmFirso6JOb8+PDBfW9XgzoR
+	 0NxyB/9ahJN0hrQAVJdTVwEOloDrbbRvYGJ6Li5MKxf8eSs8nVhdEKM/w/GB+VqFXVO8+
+	 PkZjGcmSI+3MrYgvWc6y6U4u96WKG7Gw5Gn70aD0R7aVQGoKc44ROhrkoEwc11ACkpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795373089;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:From:To:Cc:References:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=+mFUnJ0G0eEYTFMAR5FV99b/Z4DvZ9aEuSHItMsFjv8=;
-	b=xtyWzHB92cJE/gL9DdbY9gAbxvxjY7FjpLUTtUzqAy7jw0sE3U+3MzvppdleG1nX4zS8
-	 9PUdZrAo/3GbuqHQSFqzTSmFhBxtT+k3+UiZyECcBAjb/BQtAnPHmFN1tCROqfZrah8fk
-	 SnbMggjVbmKu5w2QIc6ALiAHFI5UaxZItLp1GJr+FrFi6puUK+aPKve8OZ1DngKNonpPO
-	 Qbs1uekxJap9yq9v8jpvjn2jfTwl/SHGRGDBHhRDkuNkKVyWjOM2LsclHjou1akbtBcMV
-	 RMYKN3Mndqr+1fOwxQNOl85YBBlXFAAWsOYUdFEZsVahk5osjLedG01gLHA3OF82Efw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795374696;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=oGsMa7wmHQHTRJX2QekmD3Y6Ja6uGmq6iEm7evLlQd4=;
+	b=Bf5CYR3ibQGtcmsAnuwXHMkK79aeEiYzwVxrYY5v9GaMOnvYyvVpeBdm9saRB2dKLXcD
+	 VXx+cLuZFFRy0NHoHP/pQEY74pET7+32a0D4oBrrvQLqcwDauADGectgbqWD7D+YA7TAP
+	 iwGy3MQaLFQav7u/TwJ7umGprLotsbByu5KRujm6DtxdHlNKHivV420d+wsmZ5dk5RWXs
+	 tpJH/JGPBcS6oqV4CjgZ/8ApAQvjA/OdfZWIrQGEysfUsfq66zaiOaZGRSa6vNuw+SJQj
+	 cONPhFUZqyXv4EwyOiCQknXPE1vhOG/VsnEJuPtHxWq+D+7hJoHl3d8TabiuA92hZhQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cpyh39c5;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=TPI3MTe1;
+	arc=none smtp.remote-ip=209.85.222.177
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE8B606A320;
-	Sun, 22 Nov 2026 18:44:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC740606A330
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 19:11:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC740606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cpyh39c5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 042651F000CF;
-	Sun, 22 Nov 2026 18:44:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795373088;
-	bh=+mFUnJ0G0eEYTFMAR5FV99b/Z4DvZ9aEuSHItMsFjv8=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=cpyh39c50bNlYxatPg1dfUoMxxqhYKpWV6ZiCOkt6i6cBlt3OgZlIGIcLNGcvsxF7
-	 BUSuJKIotBJvGeTW00tOSqW6WS5ISVNtDAjKMVLG/HbMxhRcNxH8FLNETEUUeYUC+0
-	 jfpF1zA1Qysv7cT+KqxswBuxM6tPWJvupfyCJavn2tv/C6MKg+MXl4U0Aw8EG8DfzY
-	 2LN8QmWaq77+HD0OoH+BUUaBDQ23EVG2II3EdGs2MFpX9/S5WeOvhFlshr9Mmbfcsj
-	 kOXVwPj94xxH3ulkHyTn49CnEnZeZjO1pP5hXQWEwg4+dsZbQovxSnlIz4jgvEqGUE
-	 H0RxwQV+1RRFA==
-Message-ID: <5f477c4f-9874-4f51-ab84-5b044a3ea568@kernel.org>
-Date: Sun, 22 Nov 2026 19:44:35 +0100
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=TPI3MTe1
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-94961d90b79so306566785a.3
+        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 11:11:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1795374695; x=1795979495; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=oGsMa7wmHQHTRJX2QekmD3Y6Ja6uGmq6iEm7evLlQd4=;
+        b=TPI3MTe1RlG4SmZzzoCpRdy2QVmmqnbO/w6aR5KNMokJV/Ej+uAFQG7yAYqk56hfkq
+         LZC9wKLhxk3NMVRMaR1VvWVuCxA6GsIEcwsr6le7u6bdoCGonrAZjK3eTkxOT3nRTyMs
+         kLr2KYSGk0Kdl3U1jn7zVe/GjwSTB8XynoaJu+1hSecxlfaiVnqBhg9qfE6UcOdBFpU7
+         K6+K542N8Cf/GVSasbtS0zq1zF4T0u1FTMwtPGg2hgdtwvyFLiHHyHTH+dkRxgJO3IEQ
+         VpIReU6i3uKk4uALa/TFB/P/g7vgcldffZQ51PdHza/mx09Vr+vtrjEp2lxRt4rjm1dE
+         cSLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795374695; x=1795979495;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oGsMa7wmHQHTRJX2QekmD3Y6Ja6uGmq6iEm7evLlQd4=;
+        b=g7BFRPIRiSJWivofJ0zwf1Vx6iEHU4mSmddMLfqfIogmSsEx3n5Wf6lGSmAKjFA9yg
+         epfBURXosQ/vdyyuBfllOBE4SCWUk1L+FrtbulC1m8P7XM7eaGkFhKdT3fpRvV+/ABEJ
+         rYjdYphroOy0SC23qgErv2NY5Ja9Oy7XDYcE3DPf34gNWFzFj+jB1wJu9vCoPvuDKCQr
+         xK9putRjhK7wzU3pYVXO0U/QY+L7TsgJDapwuT9D6smgATrYdAYsqmXJAA3AbazR78Jb
+         TnzJoIRqZblL5gw/xTqSf21j8dN91MDiYqp0jw+MhgVXBsAoFgUrqpGUAgPNBbso0pfh
+         O/YQ==
+X-Forwarded-Encrypted: i=1; AL+hErEXHWiWT2ZZ1B2TZo4lAuExPXkzLcCe+st8wBKtlgrzBXWcUCdnYr/9tM+97MJugkcSfhGg/PujcXc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8+nafaYoABt4a4f9CvZtguWt91/j7b3zoxy/nxhcJ2ky4WQvyo
+	mB2blmhCJU/PjFb6RvNEzs7/Fs9YRpv9F0rANAxcQ2yvOLHDPl+NdvnMzhxRsuAbumQ=
+X-Gm-Gg: AZFdTZdcpXIgVpsmsw6CQ5rIHTf/3gSNCw/7hLg8NnGU9CU3asE3u9x3pbeY/YdORua
+	UMyX5CC7Lz0K1o/qKLhJ9KPOMTCBU5nnt2zlsCYDpvuChBWXPmI5pm60c9rt2QtAnbfFU7U32kh
+	YsH5UigmK3Vlh0sFb8arY91bK092u8VulvZiYVg5ySCV8tQ/qzuq+eVeujNUlvIQ3qjtK0rHpT4
+	N0+9Rx6LRnmSEp2z3FJhQ6tryUKjxv2yUCVSALgTcRQTo2UaUxI/ntLMgUXO3oqOqNeLrqZ7h+w
+	YCTqFVnpwwF3Qonk7eO0F6ZdjsPV19OwehfSrT0P5FL82GvPhlLOvdhjlR3ApyAjLTU9cfHppJj
+	hhTYZn8NmoemC2COXDzvXjaBu2edlIYJgwFML8d0l47ssn+4rJjvhcKPmE/NpAxUgPuyOYZY4xE
+	0v98PyRarNvhcFPaTKo6TDbWgphCKgU28kphae/t5vcZu/o+NOYoLgjKHspTLWOOgMLaSPGr2NO
+	2Wv31icgQbBZnfYvqW+J8WlGySkALYXMw/JArSvXA/ZlUAqkbO7rtLyxFwG1M5lWWIsrHZA3sHa
+	Mt3d5pv/AK4YvmUBLlM8DWXsKKDFNsfITyGo9Rp/ZpK+/HHJY4zh8jkw1nK9apwArkTsL0hxyhm
+	iunAz2lY=
+X-Received: by 2002:a05:620a:4727:b0:949:326f:bd2b with SMTP id af79cd13be357-949ba9aa37amr1639379885a.43.1795374694656;
+        Sun, 22 Nov 2026 11:11:34 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb38c903sm651828485a.19.2026.11.22.11.11.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Nov 2026 11:11:34 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,162 +89,88 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/15] mm/hugetlb: account temporary folios separately
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Mel Gorman <mgorman@suse.de>,
- Andy Whitcroft <apw@canonical.com>, Miaohe Lin <linmiaohe@huawei.com>,
- Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Vivek Kasireddy
- <vivek.kasireddy@intel.com>, Dave Airlie <airlied@redhat.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Peter Xu <peterx@redhat.com>,
- Breno Leitao <leitao@debian.org>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Gerd Hoffmann <kraxel@redhat.com>, linux-doc@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org, stable@kernel.org,
- Josef Bacik <josef@toxicpanda.com>
-References: <20261116-fixes_hugetlb-v2-0-4dd9e94ea9ac@kernel.org>
- <20261116-fixes_hugetlb-v2-4-4dd9e94ea9ac@kernel.org>
- <45997a78-95bd-4e50-b433-f64237f9ec1a@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <45997a78-95bd-4e50-b433-f64237f9ec1a@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 00/60] Private NUMA nodes
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Yury Norov <ynorov@nvidia.com>
+Cc: gourry@gourry.net, Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ David Hildenbrand <david@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Oscar Salvador <osalvador@suse.de>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>, 
+ Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Michal Hocko <mhocko@kernel.org>, David Rientjes <rientjes@google.com>, 
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+ Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>, 
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+ Youngjun Park <youngjun.park@lge.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>, 
+ Tejun Heo <tj@kernel.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
+ driver-core@lists.linux.dev, damon@lists.linux.dev, 
+ linux-pm@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org
+In-Reply-To: <awMdeK8O-5mffg2m@yury>
+References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+ <awMdeK8O-5mffg2m@yury>
+Date: Sun, 22 Nov 2026 14:11:31 -0500
+Message-Id: <179537469194.412063.13456998694958645706.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-On 11/22/26 19:21, David Hildenbrand (Arm) wrote:
-> On 11/16/26 19:29, David Hildenbrand (Arm) wrote:
->> Hugetlb migration might have to allocate a temporary folio through
->> alloc_migrate_hugetlb_folio(). Such folios are currently accounted in
->> "nr_huge_pages" but not in "surplus_huge_pages". persistent_huge_pages()
->> can mistake them as persistent huge pages, as it merely calculates the
->> difference.
->>
->> If set_max_huge_pages() shrinks the pool at the wrong time, it will turn
->> hugetlb folios into surplus folios until persistent_huge_pages() returns
->> the desired number.
->>
->> After the migration (successful or unsuccessful) either the new (temporary)
->> folio or the old folio gets freed: this will reduce "nr_huge_pages" but
->> not "surplus_huge_pages", to undo what was done when allocating a
->> temporary folio.
->>
->> This can result in having more surplus folios than actually allocated
->> folios:
->>
->>   HugePages_Total:       0
->>   HugePages_Surp:        1
->>
->> From then on persistent_huge_pages() returns garbage.
->>
->> To fix it, add internal temporary counters and subtract them when
->> calculating persistent pool sizes. Update persistent_huge_pages() and add
->> persistent_huge_pages_node() to make the code easier to read.
->>
->> Count migration targets and rejected surplus allocations as temporary.
->> Transfer the per-node temporary count along with the temporary flag on
->> migration, such that folio freeing will always do the right thing.
->>
->> Take care of calling account_new_hugetlb_folio() only after setting the
->> folios to be temporary.
->>
->> For now, keep temporary folios in nr_huge_pages, so HugePages_Total and
->> Hugetlb continue to include them and overcommit accounting remains
->> unchanged. The new temporary counters are internal for now and are not
->> exported to userspace.
->>
->> Fixes: ab5ac90aecf5 ("mm, hugetlb: do not rely on overcommit limit during migration")
->> Cc: stable@kernel.org
->> Reported-by: Josef Bacik <josef@toxicpanda.com>
->> Acked-by: Muchun Song <muchun.song@linux.dev>
->> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->> ---
+On 2026-11-22 11:51 -0500, Yury Norov wrote:
+> On Fri, Nov 20, 2026 at 01:08:51PM -0500, Gregory Price via B4 Relay wrote:
+> > This is v6 of the Private NUMA node series. The series falls into four
+> > parts, each building on the one before:
+> > 
+> >    1-18  mm: introduce N_MEMORY_COMMON
 > 
-> In combination with
-> 
-> 	mm/hugetlb: preserve persistent flags when returning folios to the pool
-> 
-> This results in an issue during boot.
-> 
-> I think the following is required:
-> 
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index bfc88d42ef0d..aa6ad8d93266 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -1804,8 +1804,8 @@ void free_huge_folio(struct folio *folio)
->                 h->resv_huge_pages++;
-> 
->         if (folio_test_hugetlb_temporary(folio)) {
-> -               folio_clear_hugetlb_temporary(folio);
->                 remove_hugetlb_folio(h, folio, false);
-> +               folio_clear_hugetlb_temporary(folio);
->                 spin_unlock_irqrestore(&hugetlb_lock, flags);
->                 update_and_free_hugetlb_folio(h, folio, true);
->         } else if (h->surplus_huge_pages_node[nid] &&
-> 
-> I'll test real quick whether that resolves CI issues ...
+> I walked through this part, mostly. It looks like you can substantially
+> decrease the patch count if you keep N_MEMORY meaning unchanged, and
+> add another type, like N_MEMORY_NOALLOC.
 > 
 
-Yes, that makes it work. @Andrew, can you fix that up?
+I don't see how this would reduce the patch count substatially, you
+still need to convert existing N_MEMORY users and need to differentiate
+between general purpose memory nodes and private memory nodes.
+
+And N_MEMORY_NOALLOC is not a good name.
 
 -- 
-Cheers,
+~Gregory
 
-David
