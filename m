@@ -1,109 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795362853;
-	b=CkyR5l+IoeZxFNe93R9BDwmuE6RF+GDGO0DK9CXMoxScD0QkNHqZS6t0gKTZWNKIwh9T
-	 2LZ66Ob9G81Wi89auid+o7oi5nPVKXFUQDp3EOhR9zYOJVIEKx3wj6ONn43nCv6N37HIm
-	 IQloUUXgu2s0yFwAm/W00LcG0QCLbf8kIVi2hGH4TBn1AWndq5vQW8INMe44GtAYpaQkt
-	 b9AX2NKtKYerlU/d8e2nsqxPIqtApoT9dVf5rkIKBt6z6HFylZbH8z4wWGotR60Swp8K5
-	 tMS1P9GV/Uhd2lX0JZu2mI0oml3Bn9fX6Lv0ySOXxjRNxyVDbtZqEL3KICgysD4lxtg==
+	t=1795362922;
+	b=vtiWvwNsa1YN8UW7LZi/GIqQ8PlkxxzdGyV0IzDf+42tPJXQJD26XyP3yRxRJBJxYHBt
+	 89xgkbwQ9B9A4+wnbz0JeZrhCwa2sfFWXHwhAmC4S3WzOX/4C0j6m7cDwe8pio/3fGzO9
+	 RZUkH1QfiwHomoxaKJfVQzRmy3tkZ4m922QMigDi2EyXsI15JPOj1zCoRBS0TvsodjawQ
+	 TW7HHkg91FrC3i9BDSaWpv/lnDzUghT/bdruOo7VboC2EWeUXdVQ7oR9R7XUKjqjw1GwN
+	 c5BaJqNRQnFpx9xAiEzJHgOqHGS+jG2F/4IvW4Fr6pI9/+3p3FBmXeFTyOj9T2dh1bg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795362853;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=oAH/5Ektz81ojOZdHN4K4NLybO43vkB7oJL3F3Dgs+c=;
-	b=HQm4uVuJ/IfR6gPhC5ea7zjL85WoKTp+L4pxy2yZ5cd8OHcax82QU/am48D1UZn/rXcw
-	 AZEzkmqZvKSxcg0CMuUnmj9MypxYqJVHZFONXeOoU0cQM76jPWp8c5d0G8xOXI07bYedv
-	 ZInwQaENLDYs9wWM/3NRPjS/VktzKpDW69u29jx5lqmXp7X/hNihAq9XQjkxvFXcVQBER
-	 f5kZyUAsLZzaJhlhd8YrNirOX4P/9w1nNJBO5UJbnVgsYf5fcrlRjzlJbUaVazantTuX4
-	 rrvdiS/JJOUh1nlfXr9T0Vt3Q60xWq0ebtDF88/sjOJzP6Q09e//DB04bDLEfBV1rBA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795362922;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=/7MVC0aL+JKktBiQ05MuibISkezA5BtLH01mbRqMJvw=;
+	b=GaNljMUkUnDyikO1YjTH0JNnUe5PtzUmNv/GcqkLAYRPyfttK/C33sidSwgddpW9lonG
+	 GwbNtJ9OBPd+CLVuYlU1Zm8vK7HBbVEePfoUjSVP+/fHmgoaPO8+uKPEOPQqIabgUaNb3
+	 C9mYl0NJIibvxmAzq9qEu6hytUuwRtiw2V8S0E59EBhM6kyASLiRBvDCuqrqjxoUl17kB
+	 pns+EwakgECxXfnhvfWu+rc2RC/4R0u84RrGPFc/paynYg9pH0IqhdPhxywxcdT8D0oSJ
+	 aSQ7T5TI/pJ9oB/lmLdybIUThyye2I77eaT3w3giK6XpkSdh5YnskbSVenkidN1+2zQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=resnulli.us;
-	spf=pass smtp.mailfrom=resnulli.us;
-	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=LFzAgprE;
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=DsfHgwm9;
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F250B606A32A
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 15:54:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F250B606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2CE606A333;
+	Sun, 22 Nov 2026 15:55:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE2CE606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=LFzAgprE
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4a357b1c649so1458667f8f.3
-        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 07:54:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1795362850; x=1795967650; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oAH/5Ektz81ojOZdHN4K4NLybO43vkB7oJL3F3Dgs+c=;
-        b=LFzAgprEXvV7qN0PQPj7ld69lD/xcWYp4wpu3Y9tNDc7EmwuE8oE382/mwCFKL3Acx
-         3ZNQ5KrRc20+JObyi2/7Ryuo3LdqqQCS1DrXMwy/VU82dQiablkt7wUoQyV2lDwtDG8q
-         kxWJaq0a8ZrO3HepNPwmBJePlMvULyld6DxFAE7lxr4O8YmM/XkH95Yll53iRIaD9/kn
-         ASd9WBeqet6CwARCTt9ChvSNv/T/7iapK6Fy/EMLRj/OTiaso+GsZZ0S0i05GJHflgkB
-         vVLjtuXq3L7G74hIDXCxjEK/zrldn9noodIgVxstZMEwI9jUEohc3nCOiCTQDwyatjgx
-         liuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795362850; x=1795967650;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=oAH/5Ektz81ojOZdHN4K4NLybO43vkB7oJL3F3Dgs+c=;
-        b=lh46J5QkfL52F0C8tzxdkOnpBeXzR0EAV5MoODPhm1v5P0k4I3I9Asutb/XbekdAzk
-         lbRlcTJ+EIbY+NLyE0I8oXDg77mmBxyr5adgr2kl3oajh3ViKoxv1BRews2eYWofx0lk
-         CIJ6eJN/V4WRyfBXj1MQ4Ka83YZN0FHN1LsyEXrSr9ITfvOqJp2IJ+bvM33f2lqbxY1v
-         n1abgxIQZwMSCLSSr+q+twxokeQeKAsj9AG6nQnlgGcyt52StfwzaFdtrGIrOwuhAnrw
-         1f9ZNLsZvLUWYAucfnmJniPlyqbGEoajYKYajmu9R8xHgZrNJIgJRoh0ZkQXYPh0yZ0V
-         T6Cw==
-X-Forwarded-Encrypted: i=1; AL+hErFjrLuPN++g34XkZCC9wHHqX6uayLddV8mpN3rn1E9GT9t8FYWB7AqZzUrCenKNbXlT9SSDNDQHz1c=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/4Xwlfl/st0ppnHiusSNltu3zObkMKfO4ea5DqGXHw/pzm0iGb
-	9hPKa/u8bTLEGGYbBWWyt3UaiQG7P5erPcEwSIsNOzFDWiye7GPVBahVxXtOgyXNHCw=
-X-Gm-Gg: AZFdTZcajpbRrx2mvZkB8iNTgF+qIuN3dJGjZhpnL/S9iDSfjElEqF8bgfjzDduWm9W
-	1y369qtNgzLni0gPWcQdNuzTCsxcTP3cybqKuj7XsAJeRJ9rn4YzhmR6DMFmpyqdPpDwQg6hRpT
-	O1Mw3d457bhNilBFpg3Px4+5sIfNrf6cQrumADJMHVOwlpLpqTi6MF5Eoqy4Y4X6aFforGb9mTj
-	XZAJE7pMqADpEurZI//EN3OU0uUFB3lXyq1hF6+fi0lwmyg3fsqp3Z53RPC8HGO31xY1xBUn7jU
-	VDVkPH5vpg9cfAwqbtuQfC6qK+TMOGyaY51JNAolyhwlKq17WvZKhInQPcwmsfQg2w9cBIFCXMi
-	ip7noWNLyTDbafFJWI6fkrxwo2Sus4RdrU1O80uHcixa1SrE1C1wRhwG1KQVN6pVYiunFCw0Hrs
-	WKhcCL3lnLsXoxNhx78SaxaeNlOfmPDTgFL/hbaWnnAkCr/sOt6MK7ihrnKACW9JzWsHJJHO/Cd
-	G+egvUZ9EjiaySvYkqEWAlL9a8gAf1AA6g61dTyg6C/BZllZrj429SbWLaxwJMGy+NzXNnBTyHo
-	LvW7hfCMtDsYgoeikQnam4gy8NAYIwlQTQUyOA==
-X-Received: by 2002:a5d:64c9:0:b0:4a7:69c3:94d5 with SMTP id ffacd0b85a97d-4abb0e469cfmr16973589f8f.28.1795362850015;
-        Sun, 22 Nov 2026 07:54:10 -0800 (PST)
-Received: from localhost ([128.77.52.126])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf61e8sm18394509f8f.11.2026.11.22.07.54.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 07:54:09 -0800 (PST)
-Date: Sun, 22 Nov 2026 16:54:05 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: Ivan Vecera <ivecera@redhat.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Min Li <min.li@microchip.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
-	Grzegorz Nitka <grzegorz.nitka@intel.com>, Karol Kolacinski <karol.kolacinski@intel.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Petr Oros <poros@redhat.com>
-Subject: Re: [PATCH net-next v2 0/9] dpll: do not serialize driver callbacks
- under global dpll_lock
-Message-ID: <awMP9Gj3Xhia0ZeI@FV6GYCPJ69>
-References: <20261111164021.273409-1-ivecera@redhat.com>
- <20261116181612.107a4b57@kernel.org>
- <fe1dcdd5-ef75-4231-bf9f-03bf8536c2aa@redhat.com>
- <20261118174424.32e9f130@kernel.org>
- <dd1d61d7-7bef-4a02-8518-e17d2f50369f@redhat.com>
- <20261119133851.3f25074c@kernel.org>
- <bdfa88fe-13bb-4050-b750-962586b1d846@redhat.com>
- <ff8b63b7-b943-444a-bd37-b6fb493b5d9f@linux.dev>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=DsfHgwm9
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AMFZJDm895705;
+	Sun, 22 Nov 2026 15:54:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=/7MVC0
+	aL+JKktBiQ05MuibISkezA5BtLH01mbRqMJvw=; b=DsfHgwm9i/dIpsjZsQ8E8B
+	K68V4cHolriVPWT86SsX4uzHcNqB4r6ewELoRhx4anP/7YytcHVxK16Hr9SBFq68
+	i0AsTYgeQjI5gPsyUNwXxO4u+2trH4oBoV7UYw7IrJ5i7e27LOJBT0qFvzh0Ly//
+	V7AeUw6k+gOjjQnFRvE9K6TVvXNiV6tdfsOcf85viOsmBOvHjdGUwEueRHusoeFt
+	lTmI9YOG1aGfctSJq2vqeY4i5ineDHAYDAPqf4Bxrh7HZAU5xudDWVaKvu0DVlyC
+	b8YCdHD6JdXHi/KuRX1gPIumLuZAoEpyd+O2nWf025J+1xLV+wQxRhk89hu7CaDA
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j34guy20w-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Sun, 22 Nov 2026 15:54:22 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AMFYEkl457449;
+	Sun, 22 Nov 2026 15:54:21 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j3nmqb4yr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 22 Nov 2026 15:54:21 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AMFsH3G49086764
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 22 Nov 2026 15:54:17 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B9A012004B;
+	Sun, 22 Nov 2026 15:54:17 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5C85320040;
+	Sun, 22 Nov 2026 15:54:10 +0000 (GMT)
+Received: from [9.124.223.55] (unknown [9.124.223.55])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Sun, 22 Nov 2026 15:54:10 +0000 (GMT)
+Message-ID: <4061adb8-0f62-4630-87bf-dc7598ac18e0@linux.ibm.com>
+Date: Sun, 22 Nov 2026 21:24:09 +0530
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -113,124 +86,166 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ff8b63b7-b943-444a-bd37-b6fb493b5d9f@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/7] virt: steal_governor: serialize sampling against CPU
+ hotplug
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Righi
+ <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Ilya Leoshkevich <iii@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        K Prateek Nayak <kprateek.nayak@amd.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
+        Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt
+ <rostedt@goodmis.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-s390@vger.kernel.org
+References: <20261113184257.621707-1-ynorov@nvidia.com>
+ <20261113184257.621707-5-ynorov@nvidia.com>
+ <1556d3b0-1c89-4d3d-b9e5-5921c5c9158b@linux.ibm.com> <av8oy9v9eLTL0dw8@yury>
+ <38f8999a-f3e1-486f-870b-25710462308e@linux.ibm.com> <awBopXdhgUatAU9d@yury>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <awBopXdhgUatAU9d@yury>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=CYCdd7rl c=1 sm=1 tr=0 ts=6b03102f cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=kkHrh7IN9Q2Nb_kOQYwA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIyMDA2MiBTYWx0ZWRfX5SRrjpBFrS83
+ tWLkOfdOdVt2dGegO6xkgD4vMKyf7239B0f6rcvHE66WzazIrteP0zum9wfRjLv7nvoTJDoOZ6c
+ /I6hkBKrPXqhfFOJAhO9irJcG1z6jiA=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIyMDA2MiBTYWx0ZWRfX6t7WpMUP2ZBv
+ DzNpZghlcjJyJ49zrw4WyJeKZr/MazUfFczB3ibscKvY8C00GMr1uJ8tWCFPdWlfuZILITRZr+f
+ dFEZZAMxvCF8hcc9x8aGSlPop5+KySmkEWKnqN2zIMe6raoAZWmJtPnz/KKJugxy3LzI6FXJ4jO
+ PAbtItG0D5b/w1SjzkPFI1vY6fO5XGFjxMWYycEHNo4OJzGdCvy3d4YnvLAayziPALHHS9/ivEn
+ 733rRdvAIqkuTM2KzJ4Bz9FasR6LHlHZIoTkt9jQySbes5Z9ZlaIShAvFpmLh+K85F6r18X47nj
+ HHWPWNHvZq2LRz24nObtcaorOHf2NUBWhbw7C9PvuhHxs0QgmqtDXUDyRanbeEWshvNNL8KZU2w
+ VebNnDZ2FI2MCc575+nZicTjVxPSVGJfnyOu0ejfXkijtTZ+RE0dKTMjOCV/YMGbO/BQTsfHgtU
+ A506SuNM0zd5OiGE47Q==
+X-Proofpoint-ORIG-GUID: j5BX4CE2aga9eSZZqrXIMb4hC4i1TJd7
+X-Proofpoint-GUID: 9Qs7XKaSwJ4XIaAT-MRFiGkahS3Q8OzF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-22_03,2026-11-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0 adultscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611220062
 
-Fri, Nov 20, 2026 at 09:00:27PM +0100, vadim.fedorenko@linux.dev wrote:
->On 20/11/2026 07:39, Ivan Vecera wrote:
->> On 11/19/26 22:38, Jakub Kicinski wrote:
->> > Well, I'm not convinced. The relations between objects in DPLL are
->> > already quite hard to follow, and objects from one driver routinely
->> > "plug" into objects from another. The explanation of the locking
->> > rules in patch 9 does not look clean or clear. The driver facing
->> > API needs to be much more "dummy-proof".
->> 
->> Fair enough. The complicated part of the rules comes exactly from
->> that: a pin registered by another driver, like the zl3073x pins that
->> ice registers with its TXC DPLL or uses as parents of its RCLK pins.
->> A message about such a pin runs callbacks of both drivers. I have
->> prototypes of the first four ways below to lock this, each with KUnit
->> tests, and would like your opinion before going further.
->> 
->> In all of them a domain is the set of objects created with the same
->> module and clock_id, dpll_lock becomes an rwsem for the topology and
->> lifetime, and a mutex per domain serializes the callbacks.
->> 
->> A) Pin's domain (this series)
->> 
->>     Callbacks of a pin run under the domain of the pin, whichever
->>     driver registered them.
->> 
->>     Pros:
->>     * one domain lock at a time, so no lock order
->>     * a request or a message about a pin is atomic
->>     Cons:
->>     * the callbacks of a foreign pin are serialized with the driver
->>       that created the pin, not with the other callbacks of the driver
->>       that registered it, so that driver has to protect the shared
->>       state itself, and lockdep cannot check it
->>     * restrictions for measured_freq_get, reference sync pairs and the
->>       private data of a parent pin, which patch 9 has to explain
->> 
->> B) Registrant's domain, deferred notifications
->> 
->>     Each callback runs under the domain of the driver that registered
->>     it. A message about a pin takes the domain locks one after another,
->>     and notifications from callbacks are queued and sent once the
->>     domain lock is dropped.
->> 
->>     Pros:
->>     * callbacks registered by one driver instance are always
->>       serialized with each other
->>     * one domain lock at a time, so no lock order
->>     Cons:
->>     * a request or a message about a pin registered across domains is
->>       not atomic
->>     * the most complex core: a notification queue per domain, a lock
->>       per object to keep its messages in order, and pin setters split
->>       into validation and apply parts
->> 
->> C) Registrant's domain nested under the pin's domain
->> 
->>     Pros:
->>     * callbacks registered by one driver instance are serialized with
->>       each other and with the driver that created the pin
->>     * a request or a message about a pin is atomic
->>     Cons:
->>     * the lock order comes from the topology, so a pin of A registered
->>       with a DPLL of B together with a pin of B registered with a DPLL
->>       of A deadlocks, and lockdep sees it only with a lockdep class per
->>       domain
->>     * a stuck foreign registrant stops the domain of the pin
->> 
->> D) Merged domains (your suggestion)
->> 
->>     Registering a pin with a DPLL or a parent pin of another domain
->>     merges both domains. They are not split again.
->> 
->>     Pros:
->>     * the rules for drivers stay as they are with the global lock
->>       today, and lockdep checks them; the only new one is that state
->>       shared between chips not connected by a pin needs a driver lock
->>     * a request or a message is atomic
->>     Cons:
->>     * only hardware not connected by pins runs in parallel; on the
->>       GNR-D system the zl3073x and all ice PFs end up in one domain
->>     * a callback that waits for the hardware, like the planned resync
->>       for up to 1 s, or for firmware still stalls all DPLL devices in
->>       the merged domain
->> 
->> E) Global dpll_lock, slow callbacks asynchronous
->> 
->>     Pros:
->>     * no change in the core
->>     Cons:
->>     * the resync problems from my previous mail, and a callback that
->>       waits for firmware still stalls all DPLL devices in the system
->> 
->> I wrote before that stretching the domains would not improve
->> anything on that system. That holds for the ToD stall I measured,
->> but the zl3073x does not need to hold its channel lock across the
->> edge waits. Without that, the remaining waits are the planned resync
->> and output state callbacks, and with D they stall only the devices
->> wired to that chip, which depend on it anyway.
->> 
->> So I lean towards D, as it gives drivers nothing new to get right.
->> Would that address your concern, or do you see a better way?
->> 
->> It would be good to hear from the other DPLL maintainers as well.
->> Jiri, Vadim, Arkadiusz, what do you think?
->
->I totally agree with Jakub. Current implementation of DPLL subsystem is
->over complicated, and all these complications came just to completely
->model what was designed for Intel NICs, basically ice driver. But now we
->are again back to the discussion how to complicate things further just
->to fit what was implemented in the new generation of the same hardware.
->
->Maybe it's time to step back and think if we really need all this, or
->find simpler way to express/model things?
+Hi Yury,
 
-Agreed.
+On 11/20/26 9:05 PM, Yury Norov wrote:
+> On Fri, Nov 20, 2026 at 02:08:59PM +0530, Shrikanth Hegde wrote:
+>>
+>>
+>> On 11/19/26 10:20 PM, Yury Norov wrote:
+>>> On Thu, Nov 19, 2026 at 11:52:19AM +0530, Shrikanth Hegde wrote:
+>>>>
+>>>>
+>>>> On 11/14/26 12:12 AM, Yury Norov wrote:
+>>>>> Steal governor is not safe against a concurrent CPU hotplug operation
+>>>>> because it can change active and preferred cpumasks during the governor
+>>>>> sampling.
+>>>>>
+>>>>> To address the race, the governor would take the cpus_write_lock(). But
+>>>>> that may be impractical for the loadable module.
+>>>>>
+>>>>> Instead, implement the following locking policy:
+>>>>>
+>>>>>     - if the code takes cpus_write_lock(), it's enough to write-access
+>>>>>       the preferred cpumask;
+>>>>>     - if the code takes cpus_read_lock(), it must also take
+>>>>>       cpu_preferred_mutex in order to modify the preferred mask.
+>>>>>
+>>>>> The core scheduler and hotplug paths already modify the preferred cpumask
+>>>>> under the cpus_write_lock(), so no change in core logic is required.
+>>>>>
+>>>>> This provides a common update protocol for multiple policy drivers
+>>>>> without requiring writers to take the broader CPU hotplug write lock.
+>>>>>
+>>>>
+>>>> This is also necessary if there are multiple writers outside of core hotplug No?
+>>>> So should it go with the write interface series?
+>>>
+>>> The race is real, and it's already there, so this is the fix for an
+>>> existing functionality.
+>>
+>> At current, if there is hotplug, core takes cpus_write_lock to modify
+>> active/preferred which makes governor to wait.
+>>
+>> If the governor is modifying the preferred mask it is taking the read lock
+>> which makes the hotplug core to wait before modifying active/preferred masks.
+>>
+>> And there are no other infra modifying the preferred mask.
+>> Could you please explain where is race currently?
+> 
+> Initially, both masks contain CPUs {0,1}. No cpus_read_lock() held.
+> Steal ratio is within thresholds, so neither update helper runs.
+> 
+> Governor worker                         CPU hotplug
+> ---------------                         -----------
+> preferred_cpus_valid():
+>    cpumask_empty(cpu_preferred_mask)
+>      -> false
+> 
+>    cpumask_subset(cpu_preferred_mask,
+>                   cpu_active_mask):
+>      load preferred word -> {0,1}
+> 
+>                                          cpus_write_lock()
+>                                          sched_cpu_deactivate(1):
+>                                            set_cpu_preferred(1, false)
+>                                            /* preferred={0} */
+>                                            set_cpu_active(1, false)
+>                                            /* active={0} */
+>                                          cpus_write_unlock()
+> 
+>      load active word -> {0}
+>      /* {0,1} is not a subset of {0} */
+>      return false
+> 
+> /* Useless and misleading */
+> restore_preferred_to_active();
+> 
+> /* Skips schedule_delayed_work(). */
+> return
 
+To address this, then we need only this right?
+
+diff --git a/drivers/virt/steal_governor.c b/drivers/virt/steal_governor.c
+index 81e5089ba824..6a49ca55fc57 100644
+--- a/drivers/virt/steal_governor.c
++++ b/drivers/virt/steal_governor.c
+@@ -202,6 +202,7 @@ static void increase_preferred_cpus(void)
+  
+  static bool preferred_cpus_valid(void)
+  {
++       guard(cpus_read_lock)();
+         if (cpumask_empty(cpu_preferred_mask)) {
+                 pr_err("empty preferred mask. stopping\n");
+                 return false;
