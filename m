@@ -1,102 +1,156 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.48.11
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795361529;
-	b=T9RrUWAp6CyQUAkNY4Kdueztgh3dZtTU9l4jw9Ir4HWg1+HEhmQt4IfkIHZmCZGI2lf1
-	 tv21YQasi3Z2sCPsMWoRb6ypTVZMWYhJDbdHN+4wvnjxsGIswDcn70tQnTisiYb1gWNe/
-	 Ik4F7TJNUwJTJP4UZeNEdyhIq6gHznHoGc9ZEN1p1quNhw1K93V6+jJhwoEMDmlJl2qhZ
-	 tbi5XwPmmyZoB8MKjgCmOxl2tcfKuUDdGeGZnUOyW8C41iJrvYYs8Q3FuCheFLRojKnTV
-	 y7nk3vq9WXr1eC8o4O61UlPfyclbKIVIYtMr3BnF5u8dYLCgLA34TY4P3pAIrbEuvbA==
+	t=1795361541;
+	b=y6RzJUFhrsV9/0f752v5tyckupzuu8OltnWpmDVSwGsn87+P7uuHEeQdQ05Dn+UWqtrq
+	 PGvmZg4xq/MMWgVGbAYsyjdq8cEtFw2dBavOsA3MORhjz7Im589FaFRccnPdJ3ixwnXGd
+	 wTyTymqjBxQQNztZGiNKg3qoPDNxo0eXYY/nTDK4GKQmV4H/dvK9fvQ277WlqFkuUQzns
+	 YWGCj24Mw8PutQ58+TosKaKLnfQIp83Gj+pfTPEp6HKA7CmuaL3XprOA2QT36xBJtrzT0
+	 jbBweC0YILqt5vY9ctk//G7C+VmHSlLj8pykiBd8FI1KqgL1zARkJwXIXrudi+A3hHQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795361529;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=4wmxyR+0k8NKGKc9PpA63jQUe7IvwAp2MJ9Li1a6ayI=;
-	b=zePHwOJJnaLDCtJ6VEnDC/VdljDx+d2A/jCShTgoOUHOdnAdmGpL7Mb41o2cDPIJ9SWg
-	 PHExC4GcFAjTJyxLvQN+RwRRFjc0iYnFWc5Bzl3TZeG5kbR+8rj7x3FrkKyvcrcikTSG5
-	 tRN/BdEiRdgCOLYlPlWNJ+/zX5Ix0nY1THChBdVdBAjjF7u+JMDDeNvrxyqj344HeY2tx
-	 b2bFJM2+ZLcU0WF/W9YP5xMxWeL6JSzh8Ukee3jI1RXB4IMT88V7Ssp5eXS+znGf1GqnO
-	 6fNSKhpg+R7aPL9Uq2iMvCNQBAQSYrvfbAsxqJ1L0ZIpZg1upmjQgLCTBjcPSNGH+cA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795361541;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=WhMslJCGDuB5xV6P/V/CS6QxivMchvG1o2S2D3SeU7Y=;
+	b=g5rTTZD/UMz/eBGAgwTs+qSLcv9lhLGejKj9tjczgku48ZPM21AB5+RV2yLSy5Ykil5Q
+	 VR95AtgVYsOS9RNtC8i9KCgA5raXoaDe2wY9Bpdb8Ouh1J7RyKAI5gNopcVJJRTjD451Y
+	 2LefiCzHQgWnUABl/SfvCilkw2SBYtDRJcKCO+jeiE0o0Ej3kiX3apNA2I8d8QQoLS/Gu
+	 wEl/E1g/U0cyDVt8MazT39a1hNcDu/UQlApa4QPghttQf3d/WaxRjFG2IK/9bnKVTlBaj
+	 75/G5zkzYIXDkNILHaoAPcM22G+6aRZpqPdL+Icqhu+GOjPBUuUFxbZ7O2JnHlIpfEQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t8kYhi7I;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.43
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=cr8yLoOX;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.48.11
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012011.outbound.protection.outlook.com [52.101.48.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8563606A32A
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 15:32:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8563606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8B8606A32C;
+	Sun, 22 Nov 2026 15:32:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE8B8606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t8kYhi7I
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-9213fddb596so28649246d6.2
-        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 07:32:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795361527; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YvoLd2jSKkx+HVUztmRTYm9p7RTHqrYox7xvFhis0BQooOo81Z1JVF7+/6D1AA+qt0
-         kgwIQ0/8NqvRiL4Gjv1TZRI9awnOSQCsGGAbbbWa0uKQU264FNop9aqxRNa+sl+UGRNA
-         933OlMFPM5mXNrtoTOqxnOG3J/EFAZVTz6p3WwISR/W0cu0pJ9ZeuN5bjEqON//qxdpn
-         SNdhsErQFKqaHKpoNIsX75iEFWZo9nll/RwMoVqRqNEa7Rb265jT+A0UcpYxd5JF8KbT
-         0tB0/b40opVBWsggYVEwSlCDIJ6lkxYR9S2QN9AlWDse3xwDG4Ze9m+sPXZjISu8l3hN
-         wnxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4wmxyR+0k8NKGKc9PpA63jQUe7IvwAp2MJ9Li1a6ayI=;
-        fh=fcrbGCpNRcRhBDMZIv7INbYhoCOSq0kPXu5HrwcBIZA=;
-        b=OKjGWMhGhrOhtYDiqbdn4ohBtr1OVUXHIanhjR7c60WUZg21IFqq59DA9KNlhJf++2
-         UIPDG8somi2mHFJgRRylsS0v/dAXW+Tx3KhvpUSvFyuPTdbnlt4/uZEJKaZ2VGHCSB3m
-         TyO45q+XeAY2tw8NKNcn1NTJmN6uc2Vpcp64uU89gZ2ol4OALM3QBUWrAOFEe55ekW4j
-         /u13YEnd0r8I0YL6mMK7S/rG3/wCYUeQGGbX8ePZqnZI2Ew6e4abs2Xb1w5yliUva/gN
-         ZedMsR4BjEkau6mzVsmbwxsNt9mnDBhI/AIIi5e2UAqhx/sbKBZNoGEzaX1YPWHFAzPt
-         eSaA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795361527; x=1795966327; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=4wmxyR+0k8NKGKc9PpA63jQUe7IvwAp2MJ9Li1a6ayI=;
-        b=t8kYhi7I7NY28QM4kejO2/SxwNU3QqghBtxForB3bdRenNhW3CUn0dIEoZZ4vYyp6d
-         bidtPm101LB2/98Vuhdj7cn4DDSOeCXme37B5V74JsVm/9EO46MNeEPSNAyz4olGbdsw
-         fNVlM6R5Ucx3/DB/B6qwGwp5mozG7TC4+akFtf9oLkImB5kjGSFso/O8pmrnX5QHiCZu
-         Mu7QwC229KMACpHRSkiUa7mo+4+CnSYyT8MtsSfTHL/8m9fkrz/u6x1eYq1B7bLZuhxD
-         7aPiHuut2lmC/n+dkLsPEhzoacmC20/uDAEzx5YvvfNji8pLVeGOL0jLq/V5N7AefICL
-         mtXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795361527; x=1795966327;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4wmxyR+0k8NKGKc9PpA63jQUe7IvwAp2MJ9Li1a6ayI=;
-        b=p80+RDOXhU1Z1lPDfHBr/h0GM7nx1uwBB5xyzHbzTYJaEEl/jNFq8/2rTixwTmTxiI
-         sbsdTRoPmL0CBwi7hjYHZdl8ARQi+qbk4o8zMo2yHJZIATlTmmoMVWpkz1e8vbVNFfYa
-         DEWTIG3Ce20XRDbjx5L64wAMAUyDFzzaHHk2W7LhKWyJ027UyB0qmdsdbk2l0SHsl99f
-         /QBH4JK6VaZH59tWvOBj5+gtgbMfZ5H4HlFS/mRD//nCrlDkD5fYpN6mh6flep6bTYhE
-         MBxG0cHBibw16Y2WJedUkhiXaL8DIy+Weceqto9h6gMKr7JqQ/UgEcXjG7fXGV2GH7UD
-         +Yew==
-X-Forwarded-Encrypted: i=1; AL+hErFhDFkEWuNJydylLBcDzV6YZYiFQE3cLb6rq0UR3sp3tEaLjyHSoGkOHNW856JLHqTSQAKIQi6AQZM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z92FOC3G6egUUKLYuZfYf8HyQY1SHl0zNj+tAvkhitlKnME3yxE
-	RjCzVy+vlzUQVGB/hRIIAyJ5Eojsy7YvvysZ6l7TjnwaaU4b/heK5kcj4eacmdSW8baTf3Ekl6c
-	FcTg6DSO8el6iU27MJOn82REfoZwpf9eLP47KMcJ8/g==
-X-Gm-Gg: AZFdTZd8Ujr1Yq4YlpIefrC89JbyIB7VtTTNqFWWYRKqprs/CFs8ZDT8bjzlV7RvedI
-	fyJFQR3hkQSr+bgA8GEejdqhIb7Tfw9gsQ8fGY3Djw3mj1aIPkyH/l3hBc4bNcuU8Zs2H6FGp2s
-	tCe4vXAoacbE9AjHUZupJYqXQhFoz6IwJJ9KG3iN41eZ4VtPClvR3l/NmuhtKU4PsCr6fcFTsjI
-	/e6+zgmoP6V73YgJPic4tmFhHblhSzUlXaTIw87K6DGxdAnNbTslMS6kkaBbNW2bdf4uhVswR5A
-	wKCxAeBMn3D7BoLcltX4CTl2CVpG96ddfxIzquOL/elhob1OKG0a8Km+2y7TMHp3e0LSYaZVDw1
-	PYMkVM3CH32GhakTl1ct3BXdkac67rlKHUMykM7gLToIF/eZQVWRTRctqVUd86i3+f8+9/FR1cb
-	7cqvIgKjz+5FvvKH+B2UO8UxLc7VX+kfEW6CicFaLT2vnlPnXF9d/aw5TAqYe9pvoEZqddQp1/N
-	69bfARBiF5AMNE1INvtHKBJ9bJ9xyFVmwOI04kA1FFHZ5Q=
-X-Received: by 2002:ad4:574b:0:b0:90c:4422:84d1 with SMTP id
- 6a1803df08f44-921420e31ddmr105128006d6.30.1795361527417; Sun, 22 Nov 2026
- 07:32:07 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=cr8yLoOX
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EHDbKitQys4tuIJDtOY5hUPO4Aj3x5WFLIkuQAlApmE2Q4b3YqB9ZH0lsXrMWpNWZv4NiqHhOCcsrGr1WeDorLAYdBe1EzhEuzo2hwf3RVevCgsz1wlZEVWlQABbgcVrtJ8r1wQqeHnlPLJd2OdiWxyCZjL9Go+lUtuOSoVTC0G5YC0SI4AJiCrgdjAPFdMQHWKwcwbNF9OnQ5yHFjl2oO8pdHHQMvJl7Ia5UdOGppFcn48kN6aHfWbXqupCUbc1C7Fv8api71Og+633PRFwVKA1tguNsATBHjC3/Jq9NMFwtyQX7ElH6E9N1POgmukkKV0hqNphXQmGmk0auArSCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WhMslJCGDuB5xV6P/V/CS6QxivMchvG1o2S2D3SeU7Y=;
+ b=G5n5JBi3HZk5TpGj4hj4HR3PdWpu1EqeSUnhBqlDdM8kTUi8QzX+4jKpS5z3HihfW7cgxr9rTFIcU/mtuF7qo8JX4b5ixE3Y796dIzL/qDhx3kXMeZHAltsyrGLj4c/1zvnrE2YhlSjtq9bDac67FJJi1D0XOakMJdgW87uYiH2xI3NAvHVuTZpZnMABCBW/QcUyisX6Tko9D2YkmOt3rOk2oWeLUiSpJZY/LWNCCGy+XABBr6SAiD8/gz+eVZgL496UwaGRxc9KVynJchUZ6Tu/tZMIR5hYe5X6v4Hh9MZzuWijV4SRMj8oNUq5A/Dt+/niX22GJOel+IJ81JH/OA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WhMslJCGDuB5xV6P/V/CS6QxivMchvG1o2S2D3SeU7Y=;
+ b=cr8yLoOXqwaA1c+Xblj201hZ1aXiuuG6UWySgT+ibVPblnFFwvfbrVnxM7sGd3KkhRmA2335SaSiM8fZqoNrGRi2RbSq/mgJHcohbQinfFYLUSw6O2nnFuWCqXKi8ZTDrSJLjpTIwmTLeeXEt3xlYsnRA9PfhT2aQyHh2pjEInlpjG1OQhcURJAY26uUDk94yMcwxH9cHtKmDxRRVRXiurMMIfz34Ge7WZvlu4M9eBLogajqQTY9a1QHUrmdfgVKr3OLxPARno8sqbFL3EjM7/qRiuhvjoB8FqpCZKWwBzJIqxACXORlL9mu+pndzSpz3bgdplgOAMfYw18VkOyLxw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by CH3PR12MB9284.namprd12.prod.outlook.com (2603:10b6:610:1c7::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Sun, 22 Nov
+ 2026 15:32:07 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0639.012; Sun, 22 Nov 2026
+ 15:32:07 +0000
+Date: Sun, 22 Nov 2026 10:32:05 -0500
+From: Yury Norov <ynorov@nvidia.com>
+To: gourry@gourry.net
+Cc: Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	David Hildenbrand <david@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Kees Cook <kees@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Barry Song <baohua@kernel.org>, Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Michal Hocko <mhocko@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+	Xu Xin <xu.xin@linux.dev>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+	Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Youngjun Park <youngjun.park@lge.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Waiman Long <longman@redhat.com>,
+	Ridong Chen <ridong.chen@linux.dev>, Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Dan Williams <djbw@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	damon@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 01/60] nodemask: add node-state iterators
+Message-ID: <awMK9V6TbU9Xtzn9@yury>
+References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+ <20261120-private_nodes_v6-v1-1-74f5f9a115c2@gourry.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120-private_nodes_v6-v1-1-74f5f9a115c2@gourry.net>
+X-ClientProxiedBy: BN9PR03CA0336.namprd03.prod.outlook.com
+ (2603:10b6:408:f6::11) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,486 +160,133 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261122-threat-model-pt-br-v1-1-cebfe5cf4b79@gmail.com>
-In-Reply-To: <20261122-threat-model-pt-br-v1-1-cebfe5cf4b79@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Sun, 22 Nov 2026 12:31:55 -0300
-X-Gm-Features: Aa3M54rRT6yXIhWxEZFkZOnhI7xvRiapw35nNtJaQnVvfuvcBp6742R__vvvhGw
-Message-ID: <CAMAsx6cVvuJbCSOD7frP=VhYxDdNEF1jiFuNyPeC-4FW5tqVyw@mail.gmail.com>
-Subject: Re: [PATCH] docs/translations/pt_BR: process: add threat-model.rst
-To: dreduardocruz@gmail.com
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|CH3PR12MB9284:EE_
+X-MS-Office365-Filtering-Correlation-Id: c6485a54-1825-442f-628f-08df48adc424
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|10070799003|1800799024|7416014|376014|10067099003|56012099006|11063799006|4143699003|261021121427099003|261102123227099003|261009223027099003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	LadQk4uEsSebAaX36T2UMlD0k4aavvFJnGPyxq+sADDdoHz7h1S6cTm+9lwN2JuY+RhbZsAgBtH6HMrwaEs/1qoNwhCMXCD2HnT3piotu6CJhWi/zGa/x2kT3WvqgBYvrCRtXMV5byjJlFSa1Jfz2Z8Es8KqjJ/gP6DZ2VArDv3yVj5pPa+ZBvrppiFRCswwB+ZHiGKW9YWzBKGuNP+swVrsTET4lfSO/bT6JGwcEJAk4oAymrrQuP4kHwUsgRG0ONuqW69rZz34qgY2VzJiBrdY0IloGE1UIWWnNTM49Lemtc0UUlQ1LWF+KQtBZLWotV+9HucWijaFAQeLEouCDhaBiHWDCbkPaIYs1ijCLrdLfbpQWCHOIeZDVBboKpLNdpwAH5yTbh9XuDiHQjnOa52O8UH8hVIkGKvO4rmzHkJ4zuxhAeJV5BVjZs1dnRrbf+Zr2yALfauusWyHdhBvzh8mpkvQhguRY1p1v7/SaRa0p2DHBXmd805eyd7d+XI/367SUORKBEhSqopdRKVQQ+s3kmJ5FGjbepuputL8d/8bDEKKf4r1mwN+speML64l5Uja4AhFfhfUX2fQ9bcmlGAVrQbpl3yTTwZajpRZ59PJG/gbGGmT9vfmPokHenri9636b4Tgb3WBRlCk3okioAUGEdJsQCDwDgsbtAGC2bA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(10070799003)(1800799024)(7416014)(376014)(10067099003)(56012099006)(11063799006)(4143699003)(261021121427099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0878Rh0OU0ASRuFo6sTdoF3SxBqX7ikevLQHYzhknEeGzOQ2B2i3oyhkWmcB?=
+ =?us-ascii?Q?vdC0RV17nq5Ut/rsXr2QZcjCnVcWfnPDwx4CE/S/3ITrkFrSxtRIVb57b5TE?=
+ =?us-ascii?Q?12ScIl2aqKaC61hbvkut8h1CScZIOXaKEOSAPZQlVJeBESw1+J54nNhRYJpj?=
+ =?us-ascii?Q?q+N7YQPfjLLtxxFDpFRzb7RZaMPPwn+ImCVVh3yYk0zz1skuph4r4OrNDGtl?=
+ =?us-ascii?Q?qkoqiahw6e2odkS6anbXxrt2Om8f/9pUD9dTILttqGt9LbpROxJ2/A+rs8qB?=
+ =?us-ascii?Q?skcevIIA70HVfuwop8HFzHVfAmhOJh4uX008ShwOtG0uBJHCj0LkE1B75U4A?=
+ =?us-ascii?Q?ebER04WVfRArUCB8JwqdTJcNJXiX9d1MAOsYaEIbQts0iZodjls9ft6wDHFH?=
+ =?us-ascii?Q?r6P+wOoklKSj/vKZOZpZu8J9O6dY9tbmeo5yYfLC2K4WRf53iCXXF23bfd+9?=
+ =?us-ascii?Q?tIFtYp/soKOKQydkgswzkr+ZfFk5L8KWagu2ysOvEfxlM3ztcxZDMt9wPV/a?=
+ =?us-ascii?Q?kD1BPzvOZDDVr8SZPmJ3hEMWqLo5Hwe/zE+iBtxu2MWiZs7YFKFntevkZ/A9?=
+ =?us-ascii?Q?p7RCcL9+gTx8Y3GetF7l+gaEZUFd3mgEyTRwUdkMKMy1AXmt7471f8TFYrAE?=
+ =?us-ascii?Q?ppqEIDUMRaQinZdGh1ahBy2iFSvmNh5qX064NaVJo2nh3I66QQmSzAVKzYHC?=
+ =?us-ascii?Q?h1h2//nE+Ngekq3CW/h9KEsqk+iIvzl5cLCZ42JTQsbpDBnI72HIChThNP8q?=
+ =?us-ascii?Q?7rczyuAAqbWQo/bNvfd3slvoGpWdsjtQBfjyXmHha7ZSsdmPnqhO70FlNKLo?=
+ =?us-ascii?Q?DxPExNWZL3O7MPko9uFk2GpM8EsiD/kdfJtC1ofMNInyivne/bbGTSmeeiif?=
+ =?us-ascii?Q?6Gg7r5MtxZ8tjLyV0WuNqgoEHbohtKw+hpHTortmoZmsTVnhcjvbg7Lm9HL/?=
+ =?us-ascii?Q?dFVu0Pdgj+HSAbUj6Y9zY1DBu0lAdO16r94YDlXyd4TiPnHhK3QOMiMNJZuO?=
+ =?us-ascii?Q?icAU7Udp7fOt7HjE2sFh1hVsMbLTRoANkXvwWs6QKFecXZO7DSJ3eT490eHY?=
+ =?us-ascii?Q?QDnjQ5uCNL+Ao8ZIXN1qwATdl6d4j6vswBAHClf5u5W1wcyA2dCm7+/mXrDe?=
+ =?us-ascii?Q?8l4RUOVPDgu3N28TZqS83YQ27xcjHf2Yb+ijh2PMGCtZpD+WX6XdNwP/1Dve?=
+ =?us-ascii?Q?JgXMO5RnzA8CcoCenR6pxc06iEAxz71/MjWF3b0oXzaMKWDblsxxvi0qL6wk?=
+ =?us-ascii?Q?suYN7jZCmtP8qRBLGWqXe53Ug4Cib3eRbS/Ta4K5zjwgSbKzRZM6axMETgM2?=
+ =?us-ascii?Q?cPDKiMuak1fpXPue32bB10pQn7QbxG8x4LKK3mUC011F2mau0n0MMV2OehIN?=
+ =?us-ascii?Q?pal+m9ZylTSgCp9ICXUOUiMgAjacNp1DuAL5iwETjyo7fiCsC/qbCN9T/wpV?=
+ =?us-ascii?Q?g1qHrtgXxOuaHmAXoVHC4sSB7hGeNfd0gDvODHF17K0jBEWnNdqzAEO/5ZWO?=
+ =?us-ascii?Q?PguKAGxJWxeP2VTmK69UWOvI7hIWQQSbh6PAjuWtGlMY/JQy/91+7SGAHJnf?=
+ =?us-ascii?Q?vjvkTx0LQVwjsvvg2B5FKpNt+c9DmlMgWm79kZ/gKUY3O+/EdnWTD1Pgp4Gq?=
+ =?us-ascii?Q?pjLJ4vb+cGoeqVvNk+Eg72QSgLlZSW0TCWAeyVkAxZnoExgRM3QCTiOyGXdo?=
+ =?us-ascii?Q?jYlbLkU89rqfHTdlofrWERfbLIhveKByfPLzZ3P/Og8PCd8Y5LTrHWML7ZH1?=
+ =?us-ascii?Q?F2/DTg4BcCxL1MBVmHECkDpT6XYb12pDshSJ+5onFzgnC8b4MOgR?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6485a54-1825-442f-628f-08df48adc424
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2026 15:32:07.0533
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rew2IPNPi3eMjUW2rOx/D54VR1hE34BYSZEp/L4/4gyRLjUNdp187rMrRSfQ73nncADw0FzzNhR/N3gz2QevhA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9284
 
-Em dom., 22 de nov. de 2026 =C3=A0s 11:06, Eduardo Pereira Cruz
-<dreduardocruz@gmail.com> escreveu:
-
->
-> Add the Brazilian Portuguese translation of
-> Documentation/process/threat-model.rst, which describes what the kernel
-> does and does not protect against, and which classes of problems are
-> not considered vulnerabilities.
->
-> Signed-off-by: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
->
-Hi Eduardo,
-
-this document has already been
-translated by Vinicius, and his patch was reviewed and approved.
-
-Please, whenever you are going to translate a document, check the list
-first to see whether someone has already submitted it, to avoid
-duplicated work.
-
-Thanks,
-Daniel
-
-
-Em dom., 22 de nov. de 2026 =C3=A0s 11:06, Eduardo Pereira Cruz via B4
-Relay <devnull+dreduardocruz.gmail.com@kernel.org> escreveu:
->
-> From: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
->
-> Add the Brazilian Portuguese translation of
-> Documentation/process/threat-model.rst, which describes what the kernel
-> does and does not protect against, and which classes of problems are
-> not considered vulnerabilities.
->
-> The translation follows the English original as last changed by commit
-> fdd100ee60a0 ("docs: process: use gender-neutral pronouns") and
-> preserves its structure: section levels, the two :doc: references, the
-> code spans, the emphasis markers and all 40 list items.
->
-> Signed-off-by: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
+On Fri, Nov 20, 2026 at 01:08:52PM -0500, Gregory Price via B4 Relay wrote:
+> From: "Gregory Price (Meta)" <gourry@gourry.net>
+> 
+> Add first_node_state() and next_node_state(), so callers can walk any
+> node state the way first_memory_node and next_memory_node walk N_MEMORY.
+> 
+> Add for_each_node_mask_state(), which iterates a nodemask intersected
+> with a node state using the bitmap intersection helpers, without a
+> temporary nodemask.
+> 
+> Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
 > ---
->  Documentation/translations/pt_BR/process/index.rst |   1 +
->  .../translations/pt_BR/process/threat-model.rst    | 259 +++++++++++++++=
-++++++
->  2 files changed, 260 insertions(+)
->
-> diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documen=
-tation/translations/pt_BR/process/index.rst
-> index d072f7e46767..b7b505cd5143 100644
-> --- a/Documentation/translations/pt_BR/process/index.rst
-> +++ b/Documentation/translations/pt_BR/process/index.rst
-> @@ -46,6 +46,7 @@ devem estar familiarizados.
->     Adicionando uma nova chamada de Sistema <adding-syscalls>
->     Por que a classe de tipo "volatile" n=C3=A3o deve ser usada <volatile=
--considered-harmful>
->     Como n=C3=A3o Deixar as ioctls malfeitas <botching-up-ioctls>
-> +   Modelo de amea=C3=A7as do kernel Linux <threat-model>
->
->  Guias de pol=C3=ADticas e declara=C3=A7=C3=B5es de desenvolvedores
->  ---------------------------------------------------
-> diff --git a/Documentation/translations/pt_BR/process/threat-model.rst b/=
-Documentation/translations/pt_BR/process/threat-model.rst
-> new file mode 100644
-> index 000000000000..438a5c852b5a
-> --- /dev/null
-> +++ b/Documentation/translations/pt_BR/process/threat-model.rst
-> @@ -0,0 +1,259 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+>  include/linux/nodemask.h | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
+> index 607373bd83ee..90bdcffa42ea 100644
+> --- a/include/linux/nodemask.h
+> +++ b/include/linux/nodemask.h
+> @@ -411,6 +411,11 @@ enum node_states {
+>  
+>  extern nodemask_t node_states[NR_NODE_STATES];
+>  
+> +/* Iterate the nodes in a mask that also belong to the specified state. */
+> +#define for_each_node_mask_state(node, mask, state)			\
+
+for_each_node_state_and? We've got for_each_node(), and we've got
+for_each_node_state(), so let's figure out consistent naming.
+
+Did you check the codebase for exsisting candidates for this helper?
+
+> +	for_each_and_bit(node, nodes_addr(mask),			\
+> +			 nodes_addr(node_states[state]), MAX_NUMNODES)
 > +
-> +Modelo de amea=C3=A7as do kernel Linux
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+Please use nr_node_ids instead of MAX_NUMNODES.
+
+>  #if MAX_NUMNODES > 1
+>  static __always_inline int node_state(int node, enum node_states state)
+>  {
+> @@ -435,6 +440,12 @@ static __always_inline int num_node_state(enum node_states state)
+>  #define for_each_node_state(__node, __state) \
+>  	for_each_node_mask((__node), node_states[__state])
+>  
+> +#define first_node_state(state)	first_node(node_states[state])
+> +static __always_inline unsigned int next_node_state(int nid, enum node_states state)
+> +{
+> +	return next_node(nid, node_states[state]);
+> +}
+
+At least the following {first,next}_{online,memory}_node must be
+switched to the new helpers. Can you check through the rest of the
+kernel to make sure all candidates of the proposed helpers are
+converted?
+
+>  #define first_online_node	first_node(node_states[N_ONLINE])
+>  #define first_memory_node	first_node(node_states[N_MEMORY])
+>  static __always_inline unsigned int next_online_node(int nid)
+> @@ -481,6 +492,12 @@ static __always_inline int num_node_state(enum node_states state)
+>  #define for_each_node_state(node, __state) \
+>  	for ( (node) = 0; (node) == 0; (node) = 1)
+>  
+> +#define first_node_state(state)	0
+> +static __always_inline unsigned int next_node_state(int nid, enum node_states state)
+> +{
+> +	return MAX_NUMNODES;
+> +}
 > +
-> +H=C3=A1 muitas premissas contra o que o kernel protege e n=C3=A3o proteg=
-e. Essas
-> +premissas costumam causar confus=C3=A3o em relatos de bug (:doc:`os rela=
-cionados =C3=A0
-> +seguran=C3=A7a <security-bugs>` versus :doc:`os que n=C3=A3o s=C3=A3o
-> +<../admin-guide/reporting-issues>`) e podem complicar a aplica=C3=A7=C3=
-=A3o de
-> +seguran=C3=A7a quando as responsabilidades por algumas fronteiras n=C3=
-=A3o est=C3=A3o claras
-> +entre o kernel, as distros, os administradores e os usu=C3=A1rios.
-> +
-> +Este documento procura esclarecer as responsabilidades do kernel nesse
-> +dom=C3=ADnio.
-> +
-> +As responsabilidades do kernel
-> +-------------------------------
-> +
-> +O kernel abstrai o acesso a recursos de hardware locais e a sistemas rem=
-otos
-> +de forma que permite a v=C3=A1rios usu=C3=A1rios locais obter uma fatia =
-justa dos
-> +recursos dispon=C3=ADveis concedidos a eles e, quando o hardware subjace=
-nte
-> +permitir, atribuir um n=C3=ADvel de confidencialidade =C3=A0s suas comun=
-ica=C3=A7=C3=B5es e aos
-> +dados que processam ou armazenam.
-> +
-> +O kernel pressup=C3=B5e que o hardware subjacente se comporta conforme a=
-s suas
-> +especifica=C3=A7=C3=B5es. Isso inclui a integridade do conjunto de instr=
-u=C3=A7=C3=B5es da CPU, a
-> +transpar=C3=AAncia da unidade de predi=C3=A7=C3=A3o de desvios e das uni=
-dades de cache, a
-> +consist=C3=AAncia da Unidade de Gerenciamento de Mem=C3=B3ria (MMU), o i=
-solamento de
-> +perif=C3=A9ricos capazes de DMA (por exemplo, via IOMMU), as transi=C3=
-=A7=C3=B5es de estado
-> +em controladores, as faixas de valores lidos de registradores, o respeit=
-o =C3=A0s
-> +limita=C3=A7=C3=B5es de hardware documentadas etc.
-> +
-> +Quando o hardware falha em manter o isolamento especificado (por exemplo=
-,
-> +bugs de CPU, canais laterais, resposta do hardware a entradas inesperada=
-s), o
-> +kernel normalmente tentar=C3=A1 implementar mitiga=C3=A7=C3=B5es razo=C3=
-=A1veis. S=C3=A3o medidas de
-> +melhor esfor=C3=A7o, destinadas a reduzir a superf=C3=ADcie de ataque ou=
- a elevar o
-> +custo de um ataque dentro dos limites das capacidades do hardware; elas =
-n=C3=A3o
-> +constituem uma garantia de seguran=C3=A7a fornecida pelo kernel.
-> +
-> +Os usu=C3=A1rios sempre realizam as suas atividades sob a autoridade de =
-um
-> +administrador, que pode conceder ou negar v=C3=A1rios tipos de permiss=
-=C3=A3o que
-> +podem afetar como os usu=C3=A1rios se beneficiam dos recursos dispon=C3=
-=ADveis, ou o
-> +n=C3=ADvel de confidencialidade das suas atividades. Os administradores =
-tamb=C3=A9m
-> +podem delegar todas ou parte das suas pr=C3=B3prias permiss=C3=B5es a al=
-guns usu=C3=A1rios,
-> +particularmente via capabilities, mas n=C3=A3o s=C3=B3. Tudo isso =C3=A9=
- feito por meio de
-> +configura=C3=A7=C3=A3o (sysctl, permiss=C3=B5es de sistema de arquivos e=
-tc.).
-> +
-> +O kernel Linux aplica um certo conjunto de configura=C3=A7=C3=B5es padr=
-=C3=A3o que
-> +correspondem ao seu modelo de amea=C3=A7as. As distros t=C3=AAm o seu pr=
-=C3=B3prio modelo de
-> +amea=C3=A7as e v=C3=AAm com os seus pr=C3=B3prios presets de configura=
-=C3=A7=C3=A3o, que o
-> +administrador pode precisar ajustar para melhor atender =C3=A0s suas exp=
-ectativas
-> +(relaxar ou restringir).
-> +
-> +Por padr=C3=A3o, o kernel Linux garante as seguintes prote=C3=A7=C3=B5es=
- quando executado em
-> +processadores comuns que oferecem n=C3=ADveis de privil=C3=A9gio e unida=
-des de
-> +gerenciamento de mem=C3=B3ria:
-> +
-> +* **Isolamento baseado em usu=C3=A1rio**: um usu=C3=A1rio sem privil=C3=
-=A9gios pode
-> +  restringir o acesso aos seus pr=C3=B3prios dados por outros usu=C3=A1r=
-ios sem
-> +  privil=C3=A9gios que operam no mesmo sistema. Isso inclui:
-> +
-> +  * dados armazenados, via permiss=C3=B5es de sistema de arquivos
-> +  * dados em mem=C3=B3ria (p=C3=A1ginas n=C3=A3o s=C3=A3o acess=C3=ADvei=
-s por padr=C3=A3o a outros
-> +    usu=C3=A1rios)
-> +  * atividade de processos (ptrace n=C3=A3o =C3=A9 permitido a outros us=
-u=C3=A1rios)
-> +  * comunica=C3=A7=C3=A3o entre processos (outros usu=C3=A1rios n=C3=A3o=
- podem observar dados
-> +    trocados via sockets de dom=C3=ADnio UNIX ou outros mecanismos de IP=
-C)
-> +  * comunica=C3=A7=C3=B5es de rede dentro do mesmo sistema ou com outros=
- sistemas
-> +
-> +* **Prote=C3=A7=C3=A3o baseada em capabilities**:
-> +
-> +  * usu=C3=A1rios sem capabilities elevadas (incluindo, mas n=C3=A3o se =
-limitando a
-> +    CAP_SYS_ADMIN) n=C3=A3o podem alterar a configura=C3=A7=C3=A3o, a me=
-m=C3=B3ria nem o estado
-> +    do kernel, mudar a vis=C3=A3o de outros usu=C3=A1rios sobre o layout=
- do sistema de
-> +    arquivos, conceder a qualquer usu=C3=A1rio capabilities que n=C3=A3o=
- possuem, nem
-> +    afetar a disponibilidade do sistema (desligar, reiniciar, entrar em
-> +    panic, travar, ou deixar o sistema sem resposta por esgotamento
-> +    ilimitado de recursos).
-> +  * usu=C3=A1rios sem a capability ``CAP_NET_ADMIN`` n=C3=A3o podem alte=
-rar a
-> +    configura=C3=A7=C3=A3o de rede, interceptar nem falsificar comunica=
-=C3=A7=C3=B5es de rede de
-> +    outros usu=C3=A1rios ou sistemas.
-> +  * usu=C3=A1rios sem ``CAP_SYS_PTRACE`` n=C3=A3o podem observar a ativi=
-dade dos
-> +    processos de outros usu=C3=A1rios.
-> +
-> +Quando ``CONFIG_USER_NS`` est=C3=A1 definido, o kernel tamb=C3=A9m permi=
-te que
-> +usu=C3=A1rios sem privil=C3=A9gios criem o seu pr=C3=B3prio user namespa=
-ce, no qual t=C3=AAm
-> +todas as capabilities, mas com uma s=C3=A9rie de restri=C3=A7=C3=B5es (n=
-=C3=A3o podem executar
-> +a=C3=A7=C3=B5es que tenham impacto no user namespace inicial, como alter=
-ar o hor=C3=A1rio,
-> +carregar m=C3=B3dulos ou montar dispositivos de bloco). Consulte
-> +``user_namespaces(7)`` para mais detalhes; as possibilidades dos user
-> +namespaces n=C3=A3o s=C3=A3o cobertas neste documento.
-> +
-> +O kernel tamb=C3=A9m oferece muitos recursos de diagn=C3=B3stico e depur=
-a=C3=A7=C3=A3o, que podem
-> +constituir vetores de ataque quando caem em m=C3=A3os erradas. Embora al=
-guns sejam
-> +projetados para serem acess=C3=ADveis a usu=C3=A1rios locais comuns com =
-baixo risco
-> +(por exemplo, logs do kernel via ``/dev/kmsg``), alguns exporiam informa=
-=C3=A7=C3=A3o
-> +suficiente para representar risco na maioria dos lugares, e a decis=C3=
-=A3o de
-> +exp=C3=B4-los cabe ao administrador (eventos perf, traces), e
-> +outros n=C3=A3o s=C3=A3o projetados para serem acessados por usu=C3=A1ri=
-os sem privil=C3=A9gios
-> +(por exemplo, debugfs). O acesso a esses recursos por um usu=C3=A1rio qu=
-e recebeu
-> +permiss=C3=A3o expl=C3=ADcita de um administrador n=C3=A3o constitui vio=
-la=C3=A7=C3=A3o de seguran=C3=A7a.
-> +
-> +Bugs que permitem violar os princ=C3=ADpios acima constituem viola=C3=A7=
-=C3=B5es de
-> +seguran=C3=A7a. Por=C3=A9m, bugs que permitem uma viola=C3=A7=C3=A3o som=
-ente depois que outra j=C3=A1
-> +foi alcan=C3=A7ada s=C3=A3o apenas fraquezas. O kernel aplica uma s=C3=
-=A9rie de medidas de
-> +autoprote=C3=A7=C3=A3o cujo prop=C3=B3sito =C3=A9 evitar cruzar uma fron=
-teira de seguran=C3=A7a quando
-> +certas classes de bugs s=C3=A3o encontradas, mas uma falha dessas prote=
-=C3=A7=C3=B5es extras
-> +n=C3=A3o constitui uma vulnerabilidade por si s=C3=B3.
-> +
-> +Que classes de problemas n=C3=A3o s=C3=A3o consideradas vulnerabilidades
-> +---------------------------------------------------------------
-> +
-> +No modelo de amea=C3=A7as do kernel Linux, as classes de problemas a seg=
-uir **N=C3=83O**
-> +s=C3=A3o consideradas vulnerabilidades do kernel Linux. No entanto, quan=
-do se
-> +acredita que o kernel poderia fazer melhor, elas devem ser relatadas, pa=
-ra
-> +que possam ser revisadas e corrigidas onde for razoavelmente poss=C3=ADv=
-el, mas
-> +ser=C3=A3o tratadas como qualquer bug comum:
-> +
-> +* **Configura=C3=A7=C3=A3o**:
-> +
-> +  * kernels desatualizados e, em especial, ramos em fim de vida est=C3=
-=A3o fora do
-> +    escopo do modelo de amea=C3=A7as do kernel: os administradores s=C3=
-=A3o
-> +    respons=C3=A1veis por manter o seu sistema atualizado. Para que um b=
-ug se
-> +    qualifique como vulnerabilidade, =C3=A9 preciso demonstrar que ele a=
-feta
-> +    vers=C3=B5es ativamente mantidas.
-> +
-> +  * no n=C3=ADvel de compila=C3=A7=C3=A3o: mudan=C3=A7as na configura=C3=
-=A7=C3=A3o do kernel
-> +    explicitamente documentadas como redutoras do n=C3=ADvel de seguran=
-=C3=A7a (por
-> +    exemplo, ``CONFIG_NOMMU``), ou destinadas apenas a desenvolvedores.
-> +
-> +  * no n=C3=ADvel do sistema operacional: mudan=C3=A7as em par=C3=A2metr=
-os de linha de
-> +    comando, sysctls, permiss=C3=B5es de sistema de arquivos, capabiliti=
-es de
-> +    usu=C3=A1rio, exposi=C3=A7=C3=A3o de interfaces privilegiadas, que e=
-xplicitamente
-> +    aumentam a exposi=C3=A7=C3=A3o, seja oferecendo acesso n=C3=A3o padr=
-=C3=A3o a usu=C3=A1rios sem
-> +    privil=C3=A9gios, seja reduzindo a capacidade do kernel de aplicar a=
-lgumas
-> +    prote=C3=A7=C3=B5es ou mitiga=C3=A7=C3=B5es. Exemplo: acesso de escr=
-ita a procfs ou debugfs.
-> +
-> +  * problemas disparados apenas ao usar recursos destinados a desenvolvi=
-mento
-> +    ou depura=C3=A7=C3=A3o (por exemplo, LOCKDEP, KASAN, FAULT_INJECTION=
-): esses
-> +    recursos s=C3=A3o conhecidos por introduzir sobrecarga e potencial
-> +    instabilidade, e n=C3=A3o s=C3=A3o destinados a uso em produ=C3=A7=
-=C3=A3o.
-> +
-> +  * problemas que afetam drivers expostos sob CONFIG_STAGING, bem como
-> +    recursos marcados como EXPERIMENTAL na configura=C3=A7=C3=A3o.
-> +
-> +  * carregamento de m=C3=B3dulos explicitamente inseguros, quebrados ou =
-de
-> +    staging, e, de modo geral, o uso de qualquer subsistema marcado como
-> +    experimental ou n=C3=A3o destinado a uso em produ=C3=A7=C3=A3o.
-> +
-> +  * execu=C3=A7=C3=A3o de m=C3=B3dulos fora da =C3=A1rvore de c=C3=B3dig=
-o-fonte ou de forks n=C3=A3o
-> +    oficiais do kernel;
-> +    esses devem ser relatados ao fornecedor correspondente.
-> +
-> +* **Excesso de privil=C3=A9gios iniciais**:
-> +
-> +  * a=C3=A7=C3=B5es executadas por um usu=C3=A1rio que j=C3=A1 possui os=
- privil=C3=A9gios necess=C3=A1rios
-> +    para executar aquela a=C3=A7=C3=A3o ou modificar aquele estado (por =
-exemplo,
-> +    ``CAP_SYS_ADMIN``, ``CAP_NET_ADMIN``, ``CAP_SYS_RAWIO``,
-> +    ``CAP_SYS_MODULE``, sem que nenhuma outra fronteira seja cruzada).
-> +
-> +  * a=C3=A7=C3=B5es executadas em user namespace que n=C3=A3o contornam =
-as restri=C3=A7=C3=B5es
-> +    impostas ao usu=C3=A1rio inicial (por exemplo, uso de ptrace, entreg=
-a de
-> +    sinais, uso de recursos, acesso a FS/dispositivo/sysctl/mem=C3=B3ria=
-, bind de
-> +    rede, configura=C3=A7=C3=A3o de sistema/rede etc.).
-> +
-> +  * qualquer coisa executada pelo usu=C3=A1rio root no namespace inicial=
- (por
-> +    exemplo, oops do kernel ao escrever em um dispositivo privilegiado).
-> +
-> +* **Fora do ambiente de produ=C3=A7=C3=A3o**:
-> +
-> +  Isso cobre ataques te=C3=B3ricos/probabil=C3=ADsticos que dependem de =
-condi=C3=A7=C3=B5es de
-> +  laborat=C3=B3rio com ru=C3=ADdo zero no sistema, ou aqueles que exigem=
- um n=C3=BAmero
-> +  irrealista de tentativas (por exemplo, bilh=C3=B5es de tentativas) e q=
-ue seriam
-> +  detectados por monitoramento padr=C3=A3o do sistema muito antes do suc=
-esso, tais
-> +  como:
-> +
-> +  * previs=C3=A3o de n=C3=BAmeros aleat=C3=B3rios que s=C3=B3 funciona e=
-m um ambiente totalmente
-> +    silencioso (como IP ID, portas TCP ou n=C3=BAmeros de sequ=C3=AAncia=
- que s=C3=B3 podem
-> +    ser adivinhados em laborat=C3=B3rio).
-> +
-> +  * observa=C3=A7=C3=A3o de atividade e vazamentos de informa=C3=A7=C3=
-=A3o baseados em abordagens
-> +    probabil=C3=ADsticas sujeitas a ru=C3=ADdo de medi=C3=A7=C3=A3o e n=
-=C3=A3o reproduz=C3=ADveis de forma
-> +    realista em um sistema de produ=C3=A7=C3=A3o.
-> +
-> +  * problemas que s=C3=B3 podem ser disparados por ataques pesados (por =
-exemplo,
-> +    for=C3=A7a bruta) cujo impacto no sistema torna improv=C3=A1vel ou i=
-mposs=C3=ADvel
-> +    permanecerem sem ser detectados antes do sucesso (por exemplo, consu=
-mir
-> +    toda a mem=C3=B3ria antes de ter sucesso).
-> +
-> +  * problemas vistos apenas em simuladores de desenvolvimento, emuladore=
-s ou
-> +    combina=C3=A7=C3=B5es que n=C3=A3o existem em sistemas reais no mome=
-nto do relato
-> +    (problemas envolvendo dezenas de milh=C3=B5es de threads, dezenas de=
- milhares
-> +    de CPUs, frequ=C3=AAncias de CPU, tamanhos de RAM ou capacidades de =
-disco
-> +    irreais, velocidades de rede irreais).
-> +
-> +  * bem como problemas que podem ser disparados a um custo ordens de gra=
-ndeza
-> +    maior que os benef=C3=ADcios esperados (por exemplo, um emulador de =
-teclado
-> +    totalmente funcional apenas para recuperar 7 bytes n=C3=A3o iniciali=
-zados em
-> +    uma estrutura, ou um m=C3=A9todo de for=C3=A7a bruta com milh=C3=B5e=
-s de tentativas de
-> +    conex=C3=A3o para adivinhar um n=C3=BAmero de porta).
-> +
-> +* **Falhas de hardening**:
-> +
-> +  * capacidade de contornar algumas das medidas de hardening do kernel s=
-em
-> +    caminho de explora=C3=A7=C3=A3o demonstr=C3=A1vel (por exemplo, cont=
-orno de ASLR,
-> +    medi=C3=A7=C3=A3o temporal de eventos ou sondagem sem consequ=C3=AAn=
-cia demonstr=C3=A1vel). S=C3=A3o
-> +    apenas fraquezas, n=C3=A3o vulnerabilidades.
-> +
-> +  * falta de verifica=C3=A7=C3=A3o de argumentos e falha em relatar cert=
-os erros sem
-> +    consequ=C3=AAncia imediata.
-> +
-> +* **Vazamentos aleat=C3=B3rios de informa=C3=A7=C3=A3o**:
-> +
-> +  Isto diz respeito a vazamentos de pequenas partes de dados que por aca=
-so
-> +  est=C3=A3o ali e que n=C3=A3o podem ser escolhidas pelo atacante, ou q=
-ue enfrentam
-> +  restri=C3=A7=C3=B5es de acesso:
-> +
-> +  * padding de estruturas reportado por syscalls ou outras interfaces.
-> +
-> +  * identificadores, dados parciais, strings n=C3=A3o terminadas reporta=
-dos em
-> +    mensagens de erro.
-> +
-> +  * vazamentos de endere=C3=A7os/ponteiros de mem=C3=B3ria do kernel n=
-=C3=A3o constituem
-> +    vetor imediatamente explor=C3=A1vel e n=C3=A3o s=C3=A3o vulnerabilid=
-ades, embora devam
-> +    ser relatados e corrigidos.
-> +
-> +* **Dispositivos e m=C3=ADdias n=C3=A3o conformes**:
-> +
-> +  Drivers s=C3=A3o implementados segundo uma especifica=C3=A7=C3=A3o. Qu=
-ando um dispositivo
-> +  ou uma m=C3=ADdia de armazenamento viola a especifica=C3=A7=C3=A3o seg=
-undo a qual o seu
-> +  driver foi escrito, o comportamento incorreto resultante =C3=A9 um bug=
- comum a
-> +  ser corrigido, n=C3=A3o uma vulnerabilidade, a menos que o driver este=
-ja
-> +  especificamente documentado como protegido por hardening contra entrad=
-as
-> +  hostis. Assim, os casos a seguir n=C3=A3o s=C3=A3o considerados vulner=
-abilidades:
-> +
-> +  * bugs disparados ao montar uma imagem de sistema de arquivos corrompi=
-da ou
-> +    constru=C3=ADda maliciosamente: montar um dispositivo de bloco =C3=
-=A9 uma opera=C3=A7=C3=A3o
-> +    privilegiada (veja acima), e o administrador =C3=A9 respons=C3=A1vel=
- pela m=C3=ADdia que
-> +    monta. Isso inclui problemas resolvidos, mitigados ou detectados ao =
-rodar
-> +    uma verifica=C3=A7=C3=A3o de consist=C3=AAncia do sistema de arquivo=
-s (fsck) na imagem
-> +    antes de mont=C3=A1-la.
-> +
-> +  * bugs cuja reprodu=C3=A7=C3=A3o exige modifica=C3=A7=C3=A3o ou emula=
-=C3=A7=C3=A3o de hardware, incluindo
-> +    dispositivos USB falsos que se passam por outro, ou dispositivos que
-> +    reportam valores fora das faixas documentadas.
-> +
-> +* **Acesso f=C3=ADsico**:
-> +
-> +  Problemas que exigem acesso f=C3=ADsico =C3=A0 m=C3=A1quina, modifica=
-=C3=A7=C3=A3o de hardware ou o
-> +  uso de hardware especializado (por exemplo, analisadores l=C3=B3gicos,
-> +  ferramentas de ataque por DMA sobre PCI-E/Thunderbolt) est=C3=A3o fora=
- do
-> +  escopo, a menos que o sistema esteja explicitamente configurado com
-> +  tecnologias destinadas a proteger o sistema contra tais ataques (por
-> +  exemplo, IOMMU).
-> +
-> +* **Regress=C3=B5es funcionais e de desempenho**:
-> +
-> +  Qualquer problema que possa ser mitigado definindo permiss=C3=B5es e l=
-imites
-> +  adequados n=C3=A3o se qualifica como vulnerabilidade.
->
-> ---
-> base-commit: 4405c18c95d2d0f99f6c581ef0ee8591a1aa6ccd
-> change-id: 20261122-threat-model-pt-br-e7b00ca3af32
->
-> Best regards,
-> --
-> Eduardo Pereira Cruz <dreduardocruz@gmail.com>
->
->
+>  #define first_online_node	0
+>  #define first_memory_node	0
+>  #define next_online_node(nid)	(MAX_NUMNODES)
+> 
+> -- 
+> 2.56.1
+> 
