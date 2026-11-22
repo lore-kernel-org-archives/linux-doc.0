@@ -1,72 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.39
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795380698;
-	b=cN676LpOS9FA3cwz5d6W/DGwFjsvzK3hfaIDL51ockndY3kuqPMhjzqwmep25/GJqJbb
-	 7pliBfLFpzoylSUYNtNH2keLsHSQ8m+Vnsv6nsaoBY5LRCH0szUx3pP8cf9CBc+2zmUUe
-	 fj3ApfiDYT6YC6k25CuhnToFVyxrU29VdcQUOKKoB+zHDfOn4g8CUl1FJKgrSyRv0yp4j
-	 LYpJFiWcrPnIFTkyuxemBfGh+xlIyNJouiPQGjo/YnoXJdmxLnZ1UtRkERtUSne2w96kV
-	 j91+i9B/+5g3wnIAcDQQMSK2IDDlQQqqT/35PY478tz0i0SaE9XqzB3i51YTx44Tiew==
+	t=1795380736;
+	b=TWNBG/SkJaGQ9uAp6LXTwYVaENsAbi12yUng1sGO1vM6Gfid+ak+7kgyxsb+++Pc6aJq
+	 GVMhO4+fcX9aii36wB4b5diaS0qzLCy3yibBHQ+QT/hUQkuY9pVDzj66YFKE0ydjIs4nr
+	 OCRVQ9m9Pdn0s1pLUDNYDPv/yTZ9yLZR2y1a4qZ++TnoWVq0skhJZVQ9P6ypCFIfT64nm
+	 uXwFOPfubeNM3LUkmimLVb/R17Zt/7xV4fkVcYkS7jaURIuinKIGaE9RK5dLCuvWQddXk
+	 Q1nRk3/vjKzWO9e5EYAz3GOvgm3kj7vxhbehbqqNkzwoV+D4Sl9ll9pHE1ntNVdTQew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795380698;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
-	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
-	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
-	bh=ti6yGnOH5tg9+I9TFYkbc862Q5VopXd4FS+rL58VF5U=;
-	b=w4fGZeyBf4EH+pf67GpNHFcLaUFLYAUOk0wooTdEQdCHq9HB/uZLDfJvzlZC7DI1d0YD
-	 20l0EzW/jqIrDIc4qdYaLXsVoLu+arrVbAlsS0TeGgliPXoyVWxqD0YHPSG8Ah9veGi2W
-	 ZeD7mAHeiUi3QqIOY+LgB/EDXby244FXNT1c4VnCipIu5mY4cFPPMsBWyn2ZUk5pIsG2E
-	 0Etxx9J5ZWPlCX3bMzkjIEv8Ax2P65w5RI8Ezi33MesJrRBN48MYa/Ta5PrBljwwjtIgo
-	 oi4lFGDMh7qR1DS1vTi2h9DkCbUXFTkI3+Y8Zui9IONOq75LD4ArhGTbH9jvkylLHlA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795380736;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=ub/o+NYQ5pm8BwB5aYpp2bp6JXQS+XMCaTR9q9LIwTc=;
+	b=YG/iL4gM+rpGWLIgHV+71Yhk3H7bNtyR3YMFxOvoNQxxgn2pFayT86bl3LTxP3J5Gs5S
+	 5roWdp6vO4s6DEtgPQaS49127YYrxop/XRkqjYHZd9hSNXEc4sw7hTz+cudos5nc0w/Km
+	 uDQpA3WFMLxB4c6LFBWy3zrphg+uwfRQEmBCgMlDZ4JuAbppTjLQnnFgV15WHlVHBU0Lp
+	 xgw3T9qRMDbhjSC4Y8BpGqZnAzcyHS80Huv5pslQ1sVH/ql5topiP38dyKyEOO7cKLB5o
+	 Fke+ZALm4OmQ+wQ984nc+oF7s83AX2iPi+go+Mhv3qzeYojes0yzXJ/LfKDH1xCAPxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=rUO58+aB;
-	arc=none smtp.remote-ip=44.202.169.39
-Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=corp.free.fr;
+	spf=pass smtp.mailfrom=corp.free.fr;
+	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=j4VgXjuI;
+	arc=none smtp.remote-ip=212.27.60.169
+Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88501606A334
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 20:51:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88501606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9694C606A31A;
+	Sun, 22 Nov 2026 20:52:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9694C606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=rUO58+aB
-Received: from eig-obgw-6004b.ext.cloudfilter.net ([10.0.30.210])
-	by cmsmtp with ESMTPS
-	id UlaixBC4bOOJnVEXAxzZdW; Sun, 22 Nov 2026 20:51:36 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id VEX9x7euRlaNKVEX9xsQpR; Sun, 22 Nov 2026 20:51:36 +0000
-X-Authority-Analysis: v=2.4 cv=UbpRSLSN c=1 sm=1 tr=0 ts=6b0355d8
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10 a=pGLkceISAAAA:8
- a=_jlGtV7tAAAA:8 a=Qibk6pR6aqbyheTQBO0A:9 a=QEXdDO2ut3YA:10
- a=nlm17XC03S6CtCLSeiRr:22 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
-	List-Archive; bh=ti6yGnOH5tg9+I9TFYkbc862Q5VopXd4FS+rL58VF5U=; b=rUO58+aB9+yJ
-	w5m1uxWeUUYYmmVKb/XOCXMeNd4py18ycVsNTKPxLWk4A4U44AuAF3lY0tuuP0ky+//DFpa8vhXzw
-	8mAAUDF80zKfp0K/Mbze9GoxK+stOjhgE5yhGK6L2Cx3fK2uNhr3MWi+EIT8SbH7+3mxbjgHGWoFN
-	912vtj/4VUbt/Jzwc0QL9F4Sz/GOZ4ZtdBIzxkkKZV4wbPdWvqT3c5BPkyOhhI8yHiLvm2j4x/VWt
-	ZNwsraJHJOgaiV6QE3OHlWUDy9bXXNxN/bnYVlldvw2Rxv/YbyZ4xLhb5ghorTpQ1PUXnHyQuwoKF
-	Y+ajo0LuBeQsuuC4lm9Khw==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:32802)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xVEX6-000000001Za-0Q4Z;
-	Mon, 23 Nov 2026 02:21:32 +0530
-Message-ID: <93ffac09-f995-4ea7-8aa7-4fb7ed3ff4d6@roeck-us.net>
-Date: Sun, 22 Nov 2026 12:51:28 -0800
+	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=j4VgXjuI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
+	t=1795380733; bh=WsjM7iTjR2vD7tYEQEjXsVKnYR6/ArOoRprNQpgU0x8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=j4VgXjuIcEcOQ5P573bvYlxgZjKICjIaIwRpZ5qqELwWSQk7APMTVyoMTzCuhnNi8
+	 c/8+4skZYF53viCg5+Rnoi9jhKTABTdIa26N8cwRMYAgFNj2HKsvSgXCsJwdXaGDRK
+	 ZnktwSCTfrtJKkD9ihZr906lFhZwlU6Je5HbkAkQ/FkVog+1KFYPP6TXe+p97jQab3
+	 nVjW+JCE3d/os1QbjHmNDbri8Dw6igJXX+tTYP4cDes6GffrRmP9a8EzBcrJdP5zQx
+	 VyRCBWHcbC4nY1sOwZ9yRf09FcUEYjWg8r1QIzylMWyvvXn2icayYC/y0jvZJ2bXhb
+	 7+pgMjmtBvxQQ==
+Received: from [0.0.0.0] (unknown [213.228.1.188])
+	by rcs.proxad.net (Postfix) with ESMTPSA id 051F844C0459;
+	Sun, 22 Nov 2026 21:52:11 +0100 (CET)
+Message-ID: <e3163758-5829-46a7-b49c-08411c0f123a@corp.free.fr>
+Date: Sun, 22 Nov 2026 21:52:11 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,118 +57,146 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] hwmon: add Raspberry Pi PMIC driver
-To: Sander Speetjens <sander.speetjens@gmail.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, Peter Robinson <pbrobinson@gmail.com>
-References: <20261119-hwmon-da9091-v4-0-0d6e345c3666@gmail.com>
- <20261119-hwmon-da9091-v4-1-0d6e345c3666@gmail.com>
+Subject: Re: [PATCH net-next v2 09/10] net/mlx5e: TC, match the tunnel key
+ without a tunnel device
+To: netdev-bot+sashiko@kernel.org
+Cc: saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
+ jhs@mojatatu.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, michael.chan@broadcom.com,
+ pavan.chebbi@broadcom.com, bharat@chelsio.com, donald.hunter@gmail.com,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ dsahern@kernel.org, idosch@nvidia.com, shuah@kernel.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ oss-drivers@corigine.com
+References: <20261117092915.255194-10-acassen@corp.free.fr>
+ <179514544426.3136.3728064977734495529@kernel.org>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20261119-hwmon-da9091-v4-1-0d6e345c3666@gmail.com>
+From: Alexandre Cassen <acassen@corp.free.fr>
+In-Reply-To: <179514544426.3136.3728064977734495529@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xVEX6-000000001Za-0Q4Z
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:32802
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 6
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfBFJCnwe/YTGMzlFSZriiVD1r1obitjpZp6v5ZmpFDkQt0+V03BPtzn/Vd3BPD0C06zqk9ASsM0B5646LHi1CCRlpwkYoesp4LLLyrFwVPYdqXFSCFhg
- ojakkbvqRUsbU5JBvV5AGMMZM1n7MUvMDeQes3RZo5nH02vPl9lXHHYxqkKg7bnzsp5CvQTegUdDRlQVRCtvGfvh6yuXbq7eXtmEo/LppDP4O6up9aJzsfkb
 
-On 11/19/26 11:55, Sander Speetjens wrote:
-> Add a hwmon driver for the PMIC found on the Raspberry Pi 5.
-> The PMIC exposes voltages, currents and temperatures exclusively
-> through the VideoCore firmware mailbox interface (property
-> 0x0003009f).
-> 
-> Requires a sufficiently recent Raspberry Pi firmware that
-> implements the structured PMIC ADC property.
-> 
-> The driver:
-> - is instantiated at runtime by the raspberrypi-firmware driver
->    (same pattern as the Pi 5 RTC driver)
-> - reads all channels in a single batch mailbox call
-> - uses a short refresh-on-read cache
-> - exposes the sensors via the standard hwmon sysfs interface
-> 
-> Signed-off-by: Sander Speetjens <sander.speetjens@gmail.com>
-> ---
->   Documentation/hwmon/index.rst                  |   1 +
->   Documentation/hwmon/raspberrypi-pmic-hwmon.rst |  49 ++++
->   drivers/hwmon/Kconfig                          |  11 +
->   drivers/hwmon/Makefile                         |   1 +
->   drivers/hwmon/raspberrypi-pmic-hwmon.c         | 296 +++++++++++++++++++++++++
->   include/soc/bcm2835/raspberrypi-firmware.h     |   1 +
 
-This patch is making changes in a non-hwmon include file, so I can
-not apply it, or at least not without an Acked-by: from a maintainer.
+On 11/20/26 04:30, netdev-bot+sashiko@kernel.org wrote:
+> [Severity: Low]
+> This isn't a bug, but this paragraph describes an existing mis-offload.
+> On a device that is not a tunnel, __parse_cls_flower() accepts
+> FLOW_DISSECTOR_KEY_ENC_KEYID in its used_keys allow-list, and nothing on
+> that path reads it.
+>
+> In this patch the fix arrives as a side effect of a new feature (a new
+> tc_tun_gtp.c, a new parse_outer_key op, new capability requirements).
+> There is no Fixes: tag, so the fix can't go to net or stable on its own.
+>
+> Other fixes in the same series do carry Fixes: tags, for example
+> "net/mlx5e: TC, refuse a tunnel key wider than the VNI".
+>
+> Would it make sense to send a minimal fix to net that refuses enc_* keys
+> when filter_dev is not a tunnel device, and then build the feature on
+> top of it? That fix would also cover the __parse_cls_flower() gap
+> described below.
 
-Assuming it will be applied through some other tree,
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+Yes. v3 adds that fix as its own patch before this one with a Fixes tag 
+on 075973c7d7bb.
+It refuses every tunnel key without a tunnel device. This patch then 
+only lets enc_key_id
+through and its message no longer describes the old behavior. The bug is 
+old and nobody
+reported it... and this patch builds on the fix. Like patches 2 to 4, it 
+stays in the series.
 
-Guenter
+
+
+> [Severity: Medium]
+> This one may be speculative. Should this path also check the driver's
+> VXLAN port table?
+>
+> The tunnel device path goes through
+> mlx5e_tc_tun_parse_udp_ports_vxlan()->mlx5e_tc_tun_check_udp_dport_vxlan(),
+> which refuses the rule unless the port is known:
+>
+> 	if (!mlx5_vxlan_lookup_port(priv->mdev->vxlan,
+> 				    be16_to_cpu(enc_ports.key->dst))) {
+> 		NL_SET_ERR_MSG_MOD(extack,
+> 				   "Matched UDP dst port is not registered as a VXLAN port");
+>
+> mlx5_vxlan_lookup_port() returns false when mlx5_vxlan_allowed() is
+> false. mlx5_vxlan_create() leaves VXLAN disallowed when
+> tunnel_stateless_vxlan is missing or the function is not a PF.
+>
+> Here mlx5e_tc_tun_outer_lookup() picks vxlan_tunnel from an exact
+> dst_port 4789 alone. After that, only ft_field_support.outer_vxlan_vni is
+> checked.
+>
+> Suppose firmware can advertise that capability while the parser does not
+> handle UDP 4789. Could a skip_sw rule then be installed with a VNI match
+> that the parser never fills? The rule would match nothing or, if the
+> masked key includes zero, all UDP/4789 traffic.
+>
+> I couldn't confirm whether firmware can report outer_vxlan_vni in that
+> state. mlx5_vxlan_create() notes that the hardware adds 4789 by default,
+> so this may not happen in practice.
+
+
+No. Only dst_port 4789 selects VXLAN here. The hardware parses it by 
+default and mlx5e
+declares it as a static port that the stack never removes. The tunnel 
+device path
+needs the table because its port can be any one the stack registered!
+
+
+
+
+> [Severity: High]
+> Can a rule with other enc_* keys but no enc_key_id still be offloaded
+> without those keys being matched?
+>
+> The refusal of the other tunnel keys only exists inside
+> mlx5e_tc_tun_parse_outer_key():
+>
+> 	/* Without a tunnel device the other tunnel keys go unmatched */
+> 	if (rule->match.dissector->used_keys &
+> 	    (BIT_ULL(FLOW_DISSECTOR_KEY_ENC_IPV4_ADDRS) |
+> 	     ...
+>
+> That function is only called when FLOW_DISSECTOR_KEY_ENC_KEYID is
+> present.
+>
+> The used_keys allow-list at the top of __parse_cls_flower() accepts every
+> ENC_* key for any filter_dev. Nothing else on the non-tunnel path reads
+> these keys. mlx5e_get_flow_tunnel_id() and mlx5e_tc_verify_tunnel_ecn()
+> are only reached through the mlx5e_get_tc_tun(filter_dev) branch.
+>
+> Take a rule like this:
+>
+>    tc filter add dev <uplink|VF rep|NIC netdev> ingress flower skip_sw \
+>        ip_proto udp enc_dst_port 4789 \
+>        action mirred egress redirect dev <vf_rep>
+>
+> The same goes for a rule with enc_dst_ip X action drop. Wouldn't such a
+> rule skip both branches, reach hardware with the enc_* key dropped, and
+> catch all traffic that matches its other keys?
+>
+> The over-match itself predates this patch. However, the commit message
+> says "Nothing matches the other tunnel keys on this path. Refuse them in
+> such a rule.", and the new code comment states the same rule for any
+> rule without a tunnel device.
+>
+> Should this check cover every rule where mlx5e_get_tc_tun(filter_dev)
+> returns NULL, and not only rules that carry enc_key_id?
+
+
+Yes. The over-match predates the series as I said on v1 [1]...
+The new patch in v3 refuses these rules. On ConnectX-7 a skip_sw rule on
+enc_dst_ip alone dropped every frame of its VLAN without the fix and it 
+is refused with it.
+
+[1] 
+https://lore.kernel.org/netdev/d9956526-edd9-4d8c-85cb-42670ee0b308@corp.free.fr/
+
+pw-bot: cr
+
 
