@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795376178;
-	b=cfZ5VP5YrDl5rvD7i1OnKCmrAzK2ElSvta4uR8TkAlo74jFT736GBEJlMaDLtcIDSNe7
-	 V91GF+L6YCMu270p2qYWeSa02auv4W/gfBQ5oSgXWN1eWcCm5wA5mVkslaPY5WQNo19pZ
-	 8+sKG3NKkzCYo6YADFueMDZb5g7qBDnxB/YULTckAatXfSOge1mIoTEr9sVM2Ry50zqI2
-	 aLYXJADbPb4HHehMgo1LRWr742p0fE+QS3QJ8CPx4ZY1PFnNCC8RMHu6qXdgoEHg46CPU
-	 lgNa9TiK45eLxB92jbWM31rLSMf1lktqlgkc+RhJihxTsWZ+XJj/vPSOj6KuKe+DvJg==
+	t=1795376186;
+	b=wmA3VIcBckCuCHj4fOJOoQwYhruyYCv3WWGk7BkJ/z4lXqBw70b251k0yAVWVnxrzYIg
+	 ROg7x/TPfAb4yELUdPuctC04T9tPml1yfYjoR7aMr/r8HuofMZd8cOw2bgd9z/5a+AbHg
+	 cTFdTaoR92kpUwE/UVb/eGTcbdhQNllpdeaozfOI9wu6eTgHnGzHNyVELrB/P6jKEISZA
+	 a1hETkQgHVLWCIZvonJs1WPocKRatpDZNoY98UiGXv4HwbyrOcn0YoAkSLYaHYhBwPXf2
+	 AdMxVJJPSv9hMb+M38q1s1F74y0p2MXiogetPgdpQGo2zGFbhewrxbxURDl9gkc9a7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795376178;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795376186;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=l3BxF7eKc8H9WX2SeKI00rPkbSvVT1UJBee/DhqmTQQ=;
-	b=vmDTZwG+RhcSQKOw8TIXiezwWtR7qcjeWdVLqcFxx4IX6zHW/hUqiJJh/n09m7Ar1f0l
-	 LnZDwzfHiaS1O+t7KFXr6cInCHZ4Z7cfygy5202px2RvBmzobwFTCHTOTymK1M57RAxb2
-	 x8AIKO6kWvfrebzx4MR2Zfg6KmxMsr1kXpkqo//zVNykhSdK+NcamVjAisr3UjWf6tGZ6
-	 fLv1/WNyDhxhQmS8Tv3JOoF8Vrggp7sgOnLAmKxc0iB6ep0sIRW4BE/vNbpMU8tnRUFCD
-	 VeyhlvPYkiudhsTxSFKkCLXhVCP9v5scLSBN/nD3HQxTJQlvvd5MWfSy/3OapS2x9JA==
+	bh=0eNIDEAoRmujXA6Ky0SIP9NpYpxjc1cr18CdGUMXyVQ=;
+	b=Q3WJYxetxwILlyd0jg1IvqvVLAhcTrPHjIOhp0LjBp/0GK/IY7nygdw6r/aD2aTOy0HX
+	 94hj5za9jPWLbLnAk8Y9EAljIeIaxdxxtaep47E97+H4xC8tW1SGMuHPdzwLKvndOXaUv
+	 NU0eecIK0vRhRw8lcLgn2uVdF6JbIKqaiYV66Jk0FdmWGFftkfbwrTuBU6RE0dd00iRmA
+	 +2KORYl9fESdxFqX+Yd341mopxpkDpo5+kdr8TDKyM8h7gJ0y/9RLyIdH6oqKdOy4Cj+u
+	 iahst2HXJwcC0h1Z/z4qcfkCqtf1Csk9vW8NVh44VybDf+sUxERGJVhFIFyLOsHBGoA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="T28tb/dn";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TLFFyAyi;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 2C522606A320;
-	Sun, 22 Nov 2026 19:36:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id B74F0606A336;
+	Sun, 22 Nov 2026 19:36:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T28tb/dn
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 09FC71F000EB;
-	Sun, 22 Nov 2026 19:36:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TLFFyAyi
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A05D51F000D8;
+	Sun, 22 Nov 2026 19:36:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795376177;
-	bh=l3BxF7eKc8H9WX2SeKI00rPkbSvVT1UJBee/DhqmTQQ=;
+	s=k20260515; t=1795376186;
+	bh=0eNIDEAoRmujXA6Ky0SIP9NpYpxjc1cr18CdGUMXyVQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=T28tb/dnYShrqpGI2ZILYjzh72RVEHrrezyrm54oR6Obd86v3PTs376d9kZmGiJB+
-	 MUaqau3YQxX+z/GWr+9RG0JDb6bK1vqUMm9l/H8m/RqGDXDxO5ShNJ6WPrcOKQFN72
-	 Lp2v8MzuVi6Nq52IkFkGidmWcugTYAZverSueVjAgR2lsfg4eHz5f+C9qJscWQmP91
-	 UvSv7pZiNTWpbNmSdj6YKT2dG8l982i7je4+oLgBuBdSEu85qs20Ob4lOnj9/OCG2z
-	 aSfS6cai0B+r+urHqmyerKvW0s6us7upbOBQhpzjuP6094eRFGxT0XybG4NqwQpfnw
-	 74hvHOnQ9kYMw==
+	b=TLFFyAyiMhK9+SAYJuBfJZEQtt1h6fQt9grxzJAP4rpI7obSf62cNKQZAYTyL0HB9
+	 WnZKPuysbmFsbZdrAi0HCcEiJTOHTn9/3diENvg9DThAEXCv9O0YxoJPZTOxR/rFzA
+	 JgPHvjFAV+em3yt5633CMfEMJp2ZDdsjP0EGo5+FIuwrnoqIxGM7iNlM0FXfBLWsai
+	 GIk7KAamRhim5UvhKQJcs00/KagMUt8t3KJei22Llu3GK0UvsD/ojToL/meIiw3s/S
+	 NLcrLcfad3jY5fLiLZRUaibhLbHQLck+9QX8PepsyP25w6vInK+Pb2C9ylTrIPVqDP
+	 XCeD8oj9N9j+A==
 From: Jarkko Sakkinen <jarkko@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Jarkko Sakkinen <jarkko@kernel.org>,
@@ -75,9 +75,9 @@ Cc: Jarkko Sakkinen <jarkko@kernel.org>,
 	Serge Hallyn <sergeh@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: [RFC PATCH v7 05/26] mount: Enforce mount_too_revealing() for foreign mntns
-Date: Sun, 22 Nov 2026 21:35:18 +0200
-Message-ID: <20261122193539.3334213-6-jarkko@kernel.org>
+Subject: [RFC PATCH v7 07/26] mount: Support MOVE_MOUNT_CLONE with MOVE_MOUNT_T_MNTNS
+Date: Sun, 22 Nov 2026 21:35:20 +0200
+Message-ID: <20261122193539.3334213-8-jarkko@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261122193539.3334213-1-jarkko@kernel.org>
 References: <20261122193539.3334213-1-jarkko@kernel.org>
@@ -92,98 +92,212 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-mount_too_revealing() skips visibility checks whenever
-current->nsproxy->mnt_ns belongs to init_user_ns, assuming the caller
-holds CAP_SYS_ADMIN in its current mount namespace. That assumption does
-not hold when an unprivileged caller creates mounts for a child user
-namespace while running in init_mnt_ns or another foreign mount
-namespace.
+Unprivileged container managers cannot use open_tree(OPEN_TREE_CLONE) in
+the host mount namespace because it requires may_mount() against the
+caller's current mount namespace rather than the destination namespace.
 
-Require CAP_SYS_ADMIN in init_user_ns before bypassing
-mount_too_revealing() for init_mnt_ns, reject chrooted callers lacking
-CAP_SYS_ADMIN in their current mount namespace, and treat existing
-mounts and child overmounts in a foreign mount namespace as locked
-during mnt_already_visible() checks.
+Add MOVE_MOUNT_CLONE for use with MOVE_MOUNT_T_MNTNS so move_mount() can
+recursively loopback-clone a path from the caller's mount namespace
+directly into the target mount namespace file descriptor. Authorize the
+operation against CAP_SYS_ADMIN in target_mnt_ns->user_ns, apply
+CL_SLAVE | CL_COPY_UNBINDABLE when crossing user namespace boundaries,
+and lock cross-user-namespace cloned subtrees with MNT_LOCKED inside
+attach_recursive_mnt().
 
-Co-developed-by: David Howells <dhowells@redhat.com>
-Signed-off-by: David Howells <dhowells@redhat.com>
 Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 ---
- fs/namespace.c | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+ fs/namespace.c             | 91 +++++++++++++++++++++++++++++---------
+ include/uapi/linux/mount.h |  3 +-
+ 2 files changed, 73 insertions(+), 21 deletions(-)
 
 diff --git a/fs/namespace.c b/fs/namespace.c
-index 781380945d78..1bb9f90a6523 100644
+index 93dd11da7e73..b2c89ad2393e 100644
 --- a/fs/namespace.c
 +++ b/fs/namespace.c
-@@ -6580,7 +6580,7 @@ bool current_chrooted(void)
+@@ -2573,6 +2573,7 @@ enum mnt_tree_flags_t {
+ 	MNT_TREE_PROPAGATION = BIT(1),
+ 	MNT_TREE_MNTNS = BIT(2),
+ 	MNT_TREE_MNTNS_INIT = BIT(3),
++	MNT_TREE_CLONE = BIT(4),
+ };
  
- static bool mnt_already_visible(struct mnt_namespace *ns,
- 				const struct super_block *sb,
--				int *new_mnt_flags)
-+				int *new_mnt_flags, bool foreign_ns)
+ /**
+@@ -3805,31 +3806,28 @@ static int do_move_mount(const struct path *old_path,
  {
- 	int new_flags = *new_mnt_flags;
- 	struct mount *mnt;
-@@ -6606,11 +6606,16 @@ static bool mnt_already_visible(struct mnt_namespace *ns,
- 			continue;
+ 	struct mount *old = real_mount(old_path->mnt);
+ 	struct user_namespace *src_user_ns = NULL;
++	struct mount *cloned = NULL;
+ 	struct mnt_namespace *dest_mnt_ns;
+ 	int err;
+ 	bool beneath = flags & MNT_TREE_BENEATH;
  
- 		/* A local view of the mount flags */
--		mnt_flags = mnt->mnt.mnt_flags;
-+		mnt_flags = READ_ONCE(mnt->mnt.mnt_flags);
+-	if (!path_mounted(old_path))
++	if (!(flags & MNT_TREE_CLONE) && !path_mounted(old_path))
+ 		return -EINVAL;
  
- 		/* Don't miss readonly hidden in the superblock flags */
- 		if (sb_rdonly(mnt->mnt.mnt_sb))
- 			mnt_flags |= MNT_LOCK_READONLY;
-+		if (foreign_ns) {
-+			if (mnt_flags & MNT_READONLY)
-+				mnt_flags |= MNT_LOCK_READONLY;
-+			mnt_flags |= MNT_LOCK_ATIME;
-+		}
+ 	if (d_is_dir(new_path->dentry) != d_is_dir(old_path->dentry))
+ 		return -EINVAL;
  
- 		/* Verify the mount flags are equal to or more permissive
- 		 * than the proposed new mount.
-@@ -6629,7 +6634,7 @@ static bool mnt_already_visible(struct mnt_namespace *ns,
- 		list_for_each_entry(child, &mnt->mnt_mounts, mnt_child) {
- 			struct inode *inode = child->mnt_mountpoint->d_inode;
- 			/* Only worry about locked mounts */
--			if (!(child->mnt.mnt_flags & MNT_LOCKED))
-+			if (!foreign_ns && !(READ_ONCE(child->mnt.mnt_flags) & MNT_LOCKED))
- 				continue;
- 			/* Is the directory permanently empty? */
- 			if (!is_empty_dir_inode(inode))
-@@ -6649,14 +6654,19 @@ static bool mount_too_revealing(const struct super_block *sb, int *new_mnt_flags
- 	const unsigned long required_iflags = SB_I_NOEXEC | SB_I_NODEV;
- 	struct mnt_namespace *ns = current->nsproxy->mnt_ns;
- 	unsigned long s_iflags;
++	if ((flags & MNT_TREE_CLONE) &&
++	    mnt_ns_loop_target(old_path->dentry, target_mnt_ns))
++		return -EINVAL;
++
+ 	LOCK_MOUNT_MAYBE_BENEATH(mp, new_path, beneath);
+ 	if (IS_ERR(mp.parent))
+ 		return PTR_ERR(mp.parent);
+ 
+ 	if (flags & MNT_TREE_MNTNS) {
+-		u64 seq;
 -
--	if (ns->user_ns == &init_user_ns)
--		return false;
-+	bool foreign_ns;
- 
- 	/* Can this filesystem be too revealing? */
- 	if (!(sb->s_type->fs_flags & FS_USERNS_MOUNT_RESTRICTED))
- 		return false;
- 
-+	foreign_ns = !ns_capable_noaudit(ns->user_ns, CAP_SYS_ADMIN);
-+	if (ns->user_ns == &init_user_ns && !foreign_ns)
-+		return false;
+-		if (!anon_ns_root(old) || old->mnt_ns == mp.parent->mnt_ns ||
+-		    mp.parent->mnt_ns != target_mnt_ns)
+-			return -EINVAL;
+-		seq = old->mnt_ns->seq_origin;
+-		if (seq && seq != target_mnt_ns->ns.ns_id &&
+-		    seq != current->nsproxy->mnt_ns->ns.ns_id)
++		if (mp.parent->mnt_ns != target_mnt_ns)
+ 			return -EINVAL;
+-		src_user_ns = old->mnt_ns->user_ns;
+ 		if (flags & MNT_TREE_MNTNS_INIT) {
+ 			if (mp.parent != target_mnt_ns->root)
+ 				return -EBUSY;
+@@ -3842,6 +3840,36 @@ static int do_move_mount(const struct path *old_path,
+ 			if (m == target_mnt_ns->root)
+ 				return beneath ? -EINVAL : -EBUSY;
+ 		}
++		if (flags & MNT_TREE_CLONE) {
++			unsigned int copy_flags;
 +
-+	if (foreign_ns && current_chrooted())
-+		return true;
++			if (!check_mnt(old) || old->mnt_ns == target_mnt_ns ||
++			    (old->mnt.mnt_sb->s_flags & SB_NOUSER))
++				return -EINVAL;
++			src_user_ns = old->mnt_ns->user_ns;
++			copy_flags = (target_mnt_ns->user_ns != src_user_ns) ?
++				     (CL_SLAVE | CL_COPY_UNBINDABLE) :
++				     CL_COPY_MNT_NS_FILE;
++			cloned = __do_loopback(old_path, true, copy_flags);
++			if (IS_ERR(cloned))
++				return PTR_ERR(cloned);
++			old = cloned;
++			if (d_is_symlink(old->mnt.mnt_root)) {
++				err = -EINVAL;
++				goto out_cloned;
++			}
++		} else {
++			u64 seq;
 +
- 	s_iflags = sb->s_iflags;
- 	if ((s_iflags & required_iflags) != required_iflags) {
- 		WARN_ONCE(1, "Expected s_iflags to contain 0x%lx\n",
-@@ -6671,7 +6681,7 @@ static bool mount_too_revealing(const struct super_block *sb, int *new_mnt_flags
- 	if (s_iflags & SB_I_RESTRICTED_VARIANT)
- 		return false;
++			if (!anon_ns_root(old) ||
++			    old->mnt_ns == mp.parent->mnt_ns)
++				return -EINVAL;
++			seq = old->mnt_ns->seq_origin;
++			if (seq && seq != target_mnt_ns->ns.ns_id &&
++			    seq != current->nsproxy->mnt_ns->ns.ns_id)
++				return -EINVAL;
++			src_user_ns = old->mnt_ns->user_ns;
++		}
+ 	} else if (check_mnt(old)) {
+ 		/* if the source is in our namespace... */
+ 		/* ... it should be detachable from parent */
+@@ -3881,23 +3909,36 @@ static int do_move_mount(const struct path *old_path,
+ 			over = mp.parent->overmount;
+ 		err = can_move_mount_beneath(old, over, &mp);
+ 		if (err)
+-			return err;
++			goto out_cloned;
+ 	}
  
--	return !mnt_already_visible(ns, sb, new_mnt_flags);
-+	return !mnt_already_visible(ns, sb, new_mnt_flags, foreign_ns);
+ 	/*
+ 	 * Don't move a mount tree containing unbindable mounts to a destination
+ 	 * mount which is shared.
+ 	 */
+-	if (IS_MNT_SHARED(mp.parent) && tree_contains_unbindable(old))
+-		return -EINVAL;
++	if (IS_MNT_SHARED(mp.parent) && tree_contains_unbindable(old)) {
++		err = -EINVAL;
++		goto out_cloned;
++	}
+ 	dest_mnt_ns = is_anon_ns(mp.parent->mnt_ns) ?
+ 		      current->nsproxy->mnt_ns : mp.parent->mnt_ns;
+-	if (!check_for_nsfs_mounts(old, dest_mnt_ns))
+-		return -ELOOP;
+-	if (mount_is_ancestor(old, mp.parent))
+-		return -ELOOP;
++	if (!check_for_nsfs_mounts(old, dest_mnt_ns)) {
++		err = -ELOOP;
++		goto out_cloned;
++	}
++	if (mount_is_ancestor(old, mp.parent)) {
++		err = -ELOOP;
++		goto out_cloned;
++	}
+ 
+-	return attach_recursive_mnt(old, &mp, src_user_ns);
++	err = attach_recursive_mnt(old, &mp, src_user_ns);
++out_cloned:
++	if (err && cloned) {
++		lock_mount_hash();
++		umount_tree(cloned, UMOUNT_SYNC);
++		unlock_mount_hash();
++	}
++	return err;
  }
  
- bool mnt_may_suid(struct vfsmount *mnt)
+ static int do_move_mount_old(const struct path *path, const char *old_name)
+@@ -4823,8 +4864,8 @@ static int lookup_move_mount_from(int from_dfd,
+ /**
+  * DOC: MOVE_MOUNT_T_MNTNS
+  *
+- * ``MOVE_MOUNT_T_MNTNS`` installs detached anonymous mount trees into a target
+- * mount namespace ``nsfs`` file descriptor supplied as ``to_dfd``:
++ * ``MOVE_MOUNT_T_MNTNS`` installs mount trees into a target mount namespace
++ * ``nsfs`` file descriptor supplied as ``to_dfd``:
+  *
+  * 1. ``to_pathname`` of ``"/"`` attaches the initial root mount onto the
+  *    ``nullfs`` root of an empty mount namespace at most once.
+@@ -4832,6 +4873,11 @@ static int lookup_move_mount_from(int from_dfd,
+  * 2. Relative ``to_pathname`` values resolve beneath the live root of the
+  *    target mount namespace.
+  *
++ * 3. Combining ``MOVE_MOUNT_CLONE`` with ``MOVE_MOUNT_T_MNTNS`` recursively
++ *    loopback-clones ``from_pathname`` from the caller's mount namespace into
++ *    ``to_dfd`` without requiring ``OPEN_TREE_CLONE`` or ``may_mount()`` in
++ *    the caller's own mount namespace.
++ *
+  * Capability is checked against ``CAP_SYS_ADMIN`` in the target mount
+  * namespace's owning user namespace, and source trees crossing user namespace
+  * boundaries are locked with ``MNT_LOCKED`` and locked mount flags.
+@@ -4933,12 +4979,17 @@ SYSCALL_DEFINE5(move_mount,
+ 	if (flags & ~MOVE_MOUNT__MASK)
+ 		return -EINVAL;
+ 
++	if ((flags & MOVE_MOUNT_CLONE) && !(flags & MOVE_MOUNT_T_MNTNS))
++		return -EINVAL;
++
+ 	if ((flags & (MOVE_MOUNT_BENEATH | MOVE_MOUNT_SET_GROUP)) ==
+ 	    (MOVE_MOUNT_BENEATH | MOVE_MOUNT_SET_GROUP))
+ 		return -EINVAL;
+ 
+ 	if (flags & MOVE_MOUNT_SET_GROUP)	mflags |= MNT_TREE_PROPAGATION;
+ 	if (flags & MOVE_MOUNT_BENEATH)		mflags |= MNT_TREE_BENEATH;
++	if (flags & MOVE_MOUNT_CLONE)
++		mflags |= MNT_TREE_CLONE;
+ 
+ 	if (unlikely(flags & MOVE_MOUNT_T_MNTNS)) {
+ 		if (flags & (MOVE_MOUNT_T_EMPTY_PATH | MOVE_MOUNT_SET_GROUP))
+diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+index 7d413418426a..cb4f7175db02 100644
+--- a/include/uapi/linux/mount.h
++++ b/include/uapi/linux/mount.h
+@@ -78,7 +78,8 @@
+ #define MOVE_MOUNT_T_MNTNS		0x00000080 /* Resolve to_dfd as mntns fd */
+ #define MOVE_MOUNT_SET_GROUP		0x00000100 /* Set sharing group instead */
+ #define MOVE_MOUNT_BENEATH		0x00000200 /* Mount beneath top mount */
+-#define MOVE_MOUNT__MASK		0x000003f7
++#define MOVE_MOUNT_CLONE		0x00000400 /* Recursively clone from path */
++#define MOVE_MOUNT__MASK		0x000007f7
+ 
+ /*
+  * fsopen() flags.
 -- 
 2.47.3
 
