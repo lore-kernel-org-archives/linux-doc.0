@@ -1,71 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795338434;
-	b=WbReLx6sLv3BvuNek86zVzMkCS4Inw/Vb2zZY/Bzo4KxMCWQQZGGiuuriMm25NCxv49P
-	 iEDE6CT7I66ByDcjMi5Wwv7yMYl8+GmUbPjg2xRzT7FPtR2S12wPEZ7VZ1VT4Ovkat8jm
-	 vbZzu8JppUgLcUZuHc7vRY4jjY1fKa10n+LeVenpW1Y1dh6/w8rurYNhJFOB5UMF4b+Mv
-	 yXqvHh/ooQL9raBiOm3SFrFFrKWabjGAg3G9k44QDggNq81YV+rJgbP1rlyeVZmvDR5Eq
-	 NCVgV6HsGigPzJBEVrITH9jEX2whLDv5MDkWfNtlgW289oyGHx5Pbu9yqrds0KqMqLA==
+	t=1795340243;
+	b=Nk/Zycr8SrecmLK96kphOuEuSnl5MquiqspYWbtWnkU0suTnfVyydVHnsiO2slz1PGwZ
+	 trGc0G+HnY+gcsOZ9jLFK3h4oAQWM3M42jf/acL/6mr0sRNCJG2CzA4zLKo0HSiYhvHuv
+	 60FT8SwW9B/5OogxdluUds7v0bwLXKXqOPCBfHvVfJ+l9RDmbSTRYd0kY5/D7nRbl1Ybb
+	 T6Ij7Gi55HdG/yjaY1Il2iw0XAUIVn1Ixru1/3kqCx6Wga0lzmou7rubE/f0/V1l+KQ1d
+	 NYYMga9sU8UmZbUgHZuAR7u/LOquFCinXgCOIGPaVNYJlnFDmB+hkZY0+dUN4CwPMpg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795338434;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-MBO-RS-META:X-MBO-RS-ID;
-	bh=PxxDsWJ8C451dc8OxyZX6CpUDyZbtfZsYLlqNE7+IvI=;
-	b=f+ma2VOBud/BE5fb0FxN1LUqPdGgcXGYw0O8FLQuWvDTwHiLE2+LxI8YJRUIFcTyMFt1
-	 IENKBeQ6vQOLWPoEwHPvwPZS3mjIhaTqZNZ52bA6u7j9UutffgMyXn/cTrbAx6izx4cUO
-	 /VivyGfhyCtpsjGBWR6RAJOJPcn2OOxKC4hZ6DHrq+Ch3mjxW1WfTf5H5R0HZpdaa3LY6
-	 RkyA68k4i/Ixh3DS4sJ5TEDiqDa5xiqq44y+tUgmrNVWpw9r02FzCmfl9VQPY2foLyAMG
-	 u2T0/Z7mIX+Vp6hhXDeJ/Lvu2QRwqa6AJ7p/P1i1IYnth5msfsnv8OAbSkWG7w4HCZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795340243;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=uGm5+Q+bg7RLevTmsUWVviOyHCsV6tux0kj64LnT9pw=;
+	b=j8nyDnR1ljjJGWA4tSktIpq8v6zu+DCNMHCebW8iK5CZtc8bs2xCLGQYb+8t6V1G7fst
+	 3RbCrUBAoXcABL0PvMXNLH0KwYPnRBxbua7eHrE+YqWay6ugCWbQ9qJxcKMjhXWF+EOEU
+	 r/t2Bf/cJt1mdDPu/ZPX1UXl1cVaVzyb/XEmYaza6xIv+K5RLrydKEuFPDnweUoa8i2B4
+	 GwyCGjqp3q8oyHkZByVj+jmYTfEoH5P7A7pTzwhKFnLRH0R5qB3PuPqCsvRBl8+Sstid1
+	 4QMQbCeQVgvzVhXFSPv0VeRgJi+9+fyMRW0laWzTe+kRkSbAkBVp6jSh0v8VMdexOFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=H3iAme9t;
-	arc=none smtp.remote-ip=80.241.56.171
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oW69gayd;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C48E606A32A;
-	Sun, 22 Nov 2026 09:07:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C48E606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55724606A331;
+	Sun, 22 Nov 2026 09:37:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=H3iAme9t
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4jXNW13MMYzMkyn;
-	Sun, 22 Nov 2026 10:07:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1795338429;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=PxxDsWJ8C451dc8OxyZX6CpUDyZbtfZsYLlqNE7+IvI=;
-	b=H3iAme9t4Uzw5NDQd5IqBSEMPqSmQHJLUR42yP6z60cfwxkuPEmMf7U3rGXd0Z6kg5JhyJ
-	qr1tezDKiPVGYm31+mq3tUNuZAjYc+RL7CJbdZ/s3AHfXXlgnBW4zbKn7VxKeUxhhhRmiM
-	Pgx4nIQsV4BSWEH86xRhwnlKR+xY9GXzV+6yxhEIKV39kCfsC5FAh/odKp7TPow5yWbn9z
-	kai1NDvc/so8Sjq+LYRlDpdsgAFTNIo5xodF1RZltMms5rgPOHnderJVFzj/jRTgIZa03a
-	g0A57RLuCkNEJm+UP6t7bE0hIPSeWSAfjTsbDx2HZz+emh+xJWor5TcOKUUC/w==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4] ASoC: doc: Fix bracket
-Date: Sun, 22 Nov 2026 10:06:40 +0100
-Message-ID: <20261122090640.1475222-2-manuelebnerli@mailbox.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oW69gayd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E5C21F000C0;
+	Sun, 22 Nov 2026 09:37:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795340242;
+	bh=uGm5+Q+bg7RLevTmsUWVviOyHCsV6tux0kj64LnT9pw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=oW69gaydXSlZyudPmA1K2uXAdYlF4JMExjQGSpUGTsObgS9BnxYggoOp8Y91f59Tw
+	 8ZFl5pOaXHVV6wEjBbXLDRA5lZ1TtQYdby9mikD2A0emwD/dqSGyYRjLu1m15qGWrM
+	 upjOCCeeBZuigHWP6wgr66T4bE0HfXX6Pjnm0So6a0LWiGM/V/TgG1FVnqN76caQQk
+	 LuXFFrGlZxhZBSRLSZP3PG9AO1/Zj6qDk05pXYC05l8VbFJod0u08Gr2lf+pQVlADi
+	 hNJ6I9Sl0MtCFopxlsMICUmZS4mPUUqze/3USxlzkB2C9k6w0K+2TRqgb5GMU+u0uo
+	 GPazBA5Ok1n9g==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Eduardo Mucelli Rezende Oliveira <edumucelli@gmail.com>
+Cc: rostedt@goodmis.org, mathieu.desnoyers@efficios.com, corbet@lwn.net, linux-doc@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] tools/bootconfig: Use the registered global tracing parameter names
+Date: Sun, 22 Nov 2026 18:37:20 +0900
+Message-ID: <undine-1795340240141573056-b3b8376c0d49c0eb@undined.local>
+X-Mailer: UndineD 0.1
+In-Reply-To: <fecf6e33d4f7e2ddf031526e7a1abef27e28f754.1795307698.git.edumucelli@gmail.com>
+References: <cover.1795307698.git.edumucelli@gmail.com> <fecf6e33d4f7e2ddf031526e7a1abef27e28f754.1795307698.git.edumucelli@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,45 +58,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: wjbtburkytxuc5m4cfhqia66bytu9huk
-X-MBO-RS-ID: 6d5ae6fae88b1418502
 
-Add missng  '};'.
+On Sun, 22 Nov 2026 01:34:58 +0100, Eduardo Mucelli Rezende Oliveira <edumucelli@gmail.com> wrote:
+> The boot-time tracing guide lists four kernel.* keys that do not match
+> the parameters registered by the tracing code. For example,
+> ftrace2bconf.sh emits kernel.fgraph_max_depth, which bootconfig passes
+> as fgraph_max_depth on the kernel command line. The function-graph
+> tracer registers ftrace_graph_max_depth.
+>
+> Use the registered names in the guide and the exporter. Teach
+> bconf2ftrace.sh to read those names, with the previous script keys as
+> fallbacks so existing replay configurations still work.
+>
+> Fixes: 47781947947a ("Documentation: tracing: Add boot-time tracing document")
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
----
-[v4]
- Instead of remove {, add };
+Since this patch also fixes the key names in bconf2ftrace.sh and
+ftrace2bconf.sh (which were added later than the documentation), consider
+adding the corresponding Fixes tags as well:
 
-[v3]
- https://lore.kernel.org/all/20260916113524.304863-2-manuelebnerli@mailbox.org/
- - removed the change of the placeholder
+Fixes: 7e66ef0046cc ("tools/bootconfig: Add a script to generate ftrace
+shell-command from bootconfig")
+Fixes: 2b86062a34a8 ("tools/bootconfig: Add a script to generates
+bootconfig from ftrace")
 
-[v2]
- https://lore.kernel.org/all/20260904120737.758809-2-manuelebnerli@mailbox.org/
- - rearrange lines in diff
- - fix commit message
+Thanks,
 
-[v1]
- https://lore.kernel.org/all/20260902150510.706055-2-manuelebnerli@mailbox.org/
----
----
- Documentation/sound/soc/dpcm.rst | 1 +
- 1 file changed, 1 insertion(+)
+> Signed-off-by: Eduardo Mucelli Rezende Oliveira <edumucelli@gmail.com>
+> ---
+>  Documentation/trace/boottime-trace.rst   |  8 ++++----
+>  tools/bootconfig/scripts/bconf2ftrace.sh | 21 ++++++++++++++++-----
+>  tools/bootconfig/scripts/ftrace2bconf.sh |  5 +++--
+>  3 files changed, 23 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/sound/soc/dpcm.rst b/Documentation/sound/soc/dpcm.rst
-index 7b6aeab3c2..3b145e8ba1 100644
---- a/Documentation/sound/soc/dpcm.rst
-+++ b/Documentation/sound/soc/dpcm.rst
-@@ -370,6 +370,7 @@ The machine driver sets some additional parameters to the DAI link i.e.
- 		.num_c2c_params = 1,
- 	}
- 	< ... more DAI links here ... >
-+  };
- 
- These parameters are used to configure the DAI hw_params() when DAPM detects a
- valid path and then calls the PCM operations to start the link. DAPM will also
 -- 
-2.56.0
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
