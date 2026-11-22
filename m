@@ -1,60 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795382797;
-	b=eNw+tVPoad3X9CCWDYRw1bKi86mD+EwK8IekktQiGtxRMUkv1y+4q5mmFWE5Y8ffSy+z
-	 KOS2CNIEZlVyv6VUhPv27fK1nHzwlZ3hxNU0dqU072pceQjSFAxPaEvRVZ8VCmRiTkspH
-	 HKZNWN5OzelwrBeHRaNQOC3hZ1i4YCGBtp1sKm/owSe0QCQEc4N/Pkcj8M/PgUZ3F9gQT
-	 W0OYy8sUVzOpoNRBUrhl02NmsovkAmNIvAV7vdo8frdiMpuuXbuI++EAyOvRaRRMbmZmu
-	 HajgHvfcbbt5Mb4f/qDP8eKrF2HNmrfjxCE0o+1aF8ehe1L4p7mINWDGe8RE1g0K+5w==
+	t=1795382950;
+	b=w7sIlqBdy275HY93kV1dA61VlB2oif9ek+T7oA/2W2b+6QlxGwNhzBdINZsUXyUekpDe
+	 fDL3Yj+1i8AgLQKam7FhJNulDklEbckZ6FTU/EdFj6JWuEQfyPoavnXUo0GLOZgeoX3K1
+	 0K2ZNyGgR9noLFX9hlwD4D9iOLQOwOC2dXQ3ghXRxWgn9cMpTNdeT+dc7hb4T+MrhvwhI
+	 wBJnnEa72QnQPcPb7DL3haoxSqmgJZoLlvm8/Tk1IvT5jr4SvtPioxufbM43SOcLzWFMj
+	 ixVWL8k7sh9A2xeMINRiV0D5ph8RdLV2lzN50SD6IXy76MmjiVrX7BOlMIOqqxXROuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795382797;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=zDkNd/IWhSnULT+KvqUUgCRMP4X1FHRb70XY3l6zLiw=;
-	b=X14bzWIFriALguZpBA/WN+ysEbZGq5zle+dwzd7xdRW7HLhSF/17OgI/OWQ8Iq34SemC
-	 DT2jOCUk8gfjiL/KXRxqd6NTR0wHLBtURFCg1bv8ynqARA1Abu7u+AP/1jx4sWMawTdn1
-	 um2wvHVqR498H0H7/QvxW6eK6Qn4hZxQpxwVAxZu+dIpqQHnrdVmVi4Jv8MZaPbZPSNx8
-	 OP+7AHqkrhZWBCuiMzlRIBalOqV6y3OHANmWOmtMfEcn30TT3zLTcyaIoD8KLH2RoobSq
-	 tWMUSmAHtUD8LGFryX7NkaUoafWrJDeyP2pE3GgNurAW2WdozGssyWdxhDMmgX6OmmQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795382950;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=BTV0zF8Ij6zUMNBE+Oz8/N1ZVrqV9XG9B7wmhsB51vI=;
+	b=G7xyA25P03u9bElpp3FdfMvbN/AIGUZRLEeJGARqxOquqU5VIOX8lrQH6NyPyQGQCYCp
+	 anWtVbaZH22UaG5qUNuhVvBONz7n/h0JJd3Vf8TaP65yoaV8iVgJ/t9t7prn0lTTi0tNf
+	 0Mp8oroxNe/2hIacGWmYbURquBUeZvKVAfWaoFH5ZNkwnSyJtSJKZRVgSlQBfIgLvMerE
+	 hN6sC7g5/T2Iu3gvmIUqD9QF0wLfGVzVnertV/lBuzYYKdkxWhge2UEATCqCvI77C+qid
+	 kF5wl02/ttVLtEUaj74vsrwyQwtetR51oPvHrxomJWA+nfoL2Neeuw6VRCLsj+gby6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kWNJpJbT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WG54opzt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818F0606A31A;
-	Sun, 22 Nov 2026 21:26:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FC9606A31D
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 21:29:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kWNJpJbT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5C831F000CA;
-	Sun, 22 Nov 2026 21:26:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WG54opzt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F1B51F000F2
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 21:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795382796;
-	bh=zDkNd/IWhSnULT+KvqUUgCRMP4X1FHRb70XY3l6zLiw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=kWNJpJbTkbddwCAK7kW3l4EWCa8AQRcJpL+RX8sh7ZIAvWLrH5Y1Y1hdrjkUYEXej
-	 u77Cvh0rRfNY9gsTOA8f2ozgOh+TWYLGNfdfGKV8BPUHpZmNJb/JeDvwyeBbPnWo5w
-	 LBoypvZmCWnnc6MFFX49whB8IrbPaDY8Zy433kKjoVzk66aLWupTnd2wvhK6PRid2q
-	 Sw21kho76+bPoiQV4AI+MqyFclViCyvCFk6HC5tMudKYMLM79Ts/BWWpdvd/0g9gTi
-	 vN4EtCoON9B5nwjauBIie7X0a4eQrGWx5vDsJWMGQsCO8XWHiHIakZgQHVh9QbpWf+
-	 OJ9wDo32b7LAQ==
-Subject: Re: [PATCH net 1/2] tls: don't hide a queued KeyUpdate from poll()
-From: netdev-bot+sashiko@kernel.org
-To: v0idpwn@gmail.com
-Cc: john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net,
- davem@davemloft.net, edumazet@kernel.org, pabeni@redhat.com, horms@kernel.org,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- shuah@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Date: Sun, 22 Nov 2026 21:26:35 +0000
-Message-ID: <179538279534.3135.17423952957860887247@kernel.org>
-In-Reply-To: <20261118-v0idpwn-tls-poll-parked-keyupdate-v1-1-8e25101e7be6@gmail.com>
-References: <20261118-v0idpwn-tls-poll-parked-keyupdate-v1-1-8e25101e7be6@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1795382949;
+	bh=BTV0zF8Ij6zUMNBE+Oz8/N1ZVrqV9XG9B7wmhsB51vI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=WG54opztWi+ll7+PUc6eBXqw494LZjxIVJ0DKsOEfPBVjJTxRSg1R7ywaqbRHIXza
+	 VazTaVz5alcKWtxPjpyt9HYyPuJTofmTz+8e/maD+l2IpS8DqfZjP0zUXVTezJDte0
+	 SjZsXl9DSYkB8/hove8ERjgLKOc+ZHNEs6IDjDzHL7NxRuWchw69iLDkGo0NLU2xdo
+	 8Hzau6EhHX6AhVk1259DZeOfEqoymIG0dhHjJsBRCeEcaYjJk3ioWBZwitbEi/yBjj
+	 IA20Phq6/J8wU/WfLd6OgMcWvRFunqG5FUMxAlFCKFdiywCWLU+exJ7jprSB+jKsuv
+	 X2O/DctYxrKAA==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5bccecba199so2491922e87.1
+        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 13:29:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErF+MU83N+CcQpR1OjKZrDH3w7b5mhY2gUpvbvgNY3aRdEHHRdlSVaPS4AR7IIsLqPBjtlIXyZfLOC0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9ndLVHJphWQkPIOPaL1JQpHUoZW1QIe5y/qAghHRtwTNahAF4A
+	Tx4zyeY6kaB9V8kjG5hah6Vb0FZPLoVhDFboRJ5omsDlC62ItXTb9LWMFslLzHkjlFdxm1u2mc3
+	xQBXazeEqX+UPyIvVyvMKsL7F/hAA3wY=
+X-Received: by 2002:a05:6512:4207:b0:5bf:ce41:b440 with SMTP id
+ 2adb3069b0e04-5c1bc7d6de5mr2517796e87.31.1795382947589; Sun, 22 Nov 2026
+ 13:29:07 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,114 +59,436 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+References: <20261015142552.4128028-1-ryan.roberts@arm.com> <20261015142552.4128028-9-ryan.roberts@arm.com>
+In-Reply-To: <20261015142552.4128028-9-ryan.roberts@arm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sun, 22 Nov 2026 22:28:54 +0100
+X-Gmail-Original-Message-ID: <CAD++jLnY3dagTQDzBa5e=g3fJ1rDOvyRHPKVtpadV4c0nXYV4Q@mail.gmail.com>
+X-Gm-Features: Aa3M54r6B7e9BLC1UO5yqTkRPrBtuKJXzOWhi_mL44xox65BnkoSkli_lYPdSwU
+Message-ID: <CAD++jLnY3dagTQDzBa5e=g3fJ1rDOvyRHPKVtpadV4c0nXYV4Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 08/15] misc/arm-cla: Manage domain contexts
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jean-Philippe Brucker <jpb@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
+Hi Ryan,
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 0
+thanks for your patch!
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+On Thu, Oct 15, 2026 at 4:27=E2=80=AFPM Ryan Roberts <ryan.roberts@arm.com>=
+ wrote:
 
-- [Medium] Lost wakeup: a KeyUpdate that is moved onto rx_list while
-  another task is polling stays hidden from that poller.
+> A CLA domain cannot be used by multiple address spaces concurrently
 
---
+Which address space? The physical one? The virtual address
+space of the CPU for a certain CLA? The virtual address space
+of the CLA on a certain CPU, as found from it's TTBR0/1?
+I suspect the last one, but it needs clarifying.
 
-tls: don't hide a queued KeyUpdate from poll()
+And so the domain is definied in hardware but there is
+a footgun waiting to be fired by not defining the virtual
+address space exactly the same on all CLA:s in the domain?
 
-This commit changes tls_sk_poll() so that records already decrypted
-onto rx_list show up as readable even while a rekey is pending. Records
-still held by the strparser stay hidden until the new key is provided.
-The documentation is updated to match.
+Please elaborate.
 
-[ ... ]
+> because its devices share a memory translation context and may
+> communicate without isolation.
 
-> diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
-> index b8d5a843f7617..4c4c2801ae065 100644
-> --- a/net/tls/tls_main.c
-> +++ b/net/tls/tls_main.c
-> @@ -414,9 +414,9 @@ static __poll_t tls_sk_poll(struct file *file, struct socket *sock,
->  	tls_ctx = tls_get_ctx(sk);
->  	ctx = tls_sw_ctx_rx(tls_ctx);
->  
-> -	if ((skb_queue_empty_lockless(&ctx->rx_list) &&
-> -	     !tls_strp_msg_ready(ctx)) ||
-> -	    READ_ONCE(ctx->key_update_pending))
-> +	if (skb_queue_empty_lockless(&ctx->rx_list) &&
-> +	    (!tls_strp_msg_ready(ctx) ||
-> +	     READ_ONCE(ctx->key_update_pending)))
->  		mask &= ~(EPOLLIN | EPOLLRDNORM);
+Again I stumble here. "without isolation". So this kind of resoning
+implies I know of some isolation that I cannot have. But I don't
+know that, I have no idea what kind of isolation I would want here.
 
-[Severity: Medium]
-Can a poller that is already waiting still miss the KeyUpdate here?
+This needs to be explained differently.
 
-tls_sk_poll() takes no lock. The KeyUpdate only lands on rx_list at the
-very end of the tls_sw_recvmsg() step that decrypts it:
+> Represent each user of a domain with a
+> context keyed by the mm_struct and device file description, and track
+> contexts in a per-domain hash table.
 
-tls_sw_recvmsg()
-  tls_rx_one_record()
-    tls_check_pending_rekey()
-      WRITE_ONCE(rx_ctx->key_update_pending, true);
-  tls_record_content_type()      /* returns 0, record type differs */
-  tls_rx_rec_done(ctx);          /* clears msg_ready / msg_announced */
-  __skb_queue_tail(&ctx->rx_list, darg.skb);
+This I understand.
 
-A tls_sk_poll() from another task can run between the point where
-key_update_pending is set and __skb_queue_tail(). It can also run in the
-earlier gap, after the data record is consumed and before the KeyUpdate
-is parsed, when msg_ready is 0. Either way it sees an empty rx_list and
-clears EPOLLIN.
+> Add a domain scheduler that queues contexts for assignment
 
-Nothing seems to wake the socket after the KeyUpdate is queued. The
-deferred wakeup in tls_rx_reader_release() doesn't fire in this state:
+Are these contexts the software abstraction of hardware
+constraints (such as the virtual memory space)
+around a certain domain, and since they are scheduled,
+these constraints are then applied over a certain time window?
 
-net/tls/tls_sw.c:tls_rx_msg_maybe_announce() {
-	...
-	if (!READ_ONCE(strp->msg_ready) || strp->msg_announced)
-		return;
-	strp->msg_announced = 1;
-	...
-	ctx->saved_data_ready(strp->sk);
-}
+> and gives
+> each one a fixed time slice. Before switching, revoke the outgoing
+> context's mappings from all VMAs for the device file. Then save its
+> accelerator state and remove its MTC, before installing the incoming
+> context's MTC and restoring the incoming accelerator state.
 
-The same reader already consumed the KeyUpdate from the strparser, so
-msg_ready is 0 at that point. The only other wakeup, in
-tls_finish_key_update(), runs after userspace installs the new key.
+I think I start to understand a little...
 
-One way to hit this is several threads sharing one level-triggered
-epoll instance on the TLS fd:
+> Run hardware operations through CPU-bound kthread workers, since each
+> CLA can only be accessed from its local CPU. Coordinate the per-device
+> workers with a domain worker so that every CLA in the domain is switched
+> as a single assignment unit.
+>
+> Treat a failure on any device as a failure of the whole domain. Stop
+> further assignments and wake all waiters when a domain becomes unusable.
+>
+> Co-developed-by: Jean-Philippe Brucker <jpb@kernel.org>
+> Signed-off-by: Jean-Philippe Brucker <jpb@kernel.org>
+> Signed-off-by: Ryan Roberts <ryan.roberts@arm.com>
 
-T1 gets the event and enters recvmsg().
-The LT item is re-queued and T2 is woken.
-T2's ep_item_poll() lands in the window above, gets no events and
-  drops the item from the ready list.
-T1 queues the KeyUpdate on rx_list, returns the data and calls
-  epoll_wait() again. The ready list is empty, so it sleeps.
+OK this is some kind of scheduler let's look, but right before we
+start you should probably define the principles of this scheduler?
+FIFO? round-robin? Something else?
 
-No task reads the KeyUpdate, so no new key is installed. The connection
-then stalls until the peer sends more data. That may never happen if the
-peer is waiting for a reply, for example when update_requested is set.
-The same wakeup is lost when a poller thread signals a separate reader
-thread.
+>  extern struct xarray cla_domains;
 
-The commit message says:
+Nice use of xarray
 
-    A reader that waits for a read event before each recv()
-    never reads it, never provides the new key and receives nothing more.
 
-That fix seems to hold only when the same task polls again after
-recvmsg() returns. This matches the single-threaded LT reader described
-here and the selftest added in "selftests: tls: add a poll test for a
-queued KeyUpdate".
+> +static inline void cla_ctx_get(struct cla_ctx *ctx)
+> +{
+> +       kref_get(&ctx->refcnt);
+> +}
+> +
+> +static inline void cla_ctx_put(struct cla_ctx *ctx)
+> +{
+> +       kref_put(&ctx->refcnt, cla_ctx_free);
+> +}
 
-Would it make sense to also call ctx->saved_data_ready(sk)? One place
-would be where the KeyUpdate is queued on rx_list. Another would be in
-tls_rx_reader_release() when rx_list is not empty and key_update_pending
-is set.
+Rename these something like _addref/_dropref or just inline
+the kref calls. These names upsets the kernel conventions
+for _get()/_put() of resources, see below.
 
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261118-v0idpwn-tls-poll-parked-keyupdate-v1-0-8e25101e7be6%40gmail.com
+> +/**
+> + * cla_ctx_create - Create a context or increase its user count
+
+Something that creates or increase a context should be named
+cla_ctx_get() to avoid ambiguousness.
+
+> +/**
+> + * cla_ctx_destroy - Drop a context user
+
+No it drops the reference and drops the context (destroy it) if the
+usecount =3D=3D 0.
+
+Name it cla_ctx_put() to follow kernel patterns.
+
+> +       /* Release initial reference from cla_ctx_create(). */
+> +       cla_ctx_put(ctx);
+
+So this needs a different name.
+
+> +++ b/drivers/misc/arm-cla/cla-sched.c
+
+I wanna spend some time here since this is RFC and we are looking
+more at design than code details.
+
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Arm CLA driver - domain scheduling
+
+In this header explain the principles for the scheduling, as well as in the
+commit message.
+
+> +#include <linux/cpuhplock.h>
+> +#include <linux/rhashtable.h>
+> +
+> +#include "arm-cla.h"
+> +
+> +static struct cla_ctx invalid_ctx;
+> +
+> +static const struct rhashtable_params ctxs_rht_params =3D {
+> +       .head_offset =3D offsetof(struct cla_ctx, node),
+> +       .key_offset =3D offsetof(struct cla_ctx, key),
+> +       .key_len =3D sizeof(((struct cla_ctx *)0)->key),
+> +       .automatic_shrinking =3D true,
+> +};
+
+Neat!
+
+> +static int __cla_domain_switch_ctx(struct cla_domain *domain,
+> +                                  struct cla_ctx *prev_ctx,
+> +                                  struct cla_ctx *next_ctx)
+
+Is this one of those "__ means __inner_function()"?
+
+Name it for exactly what it does instead.
+
+> +static int cla_domain_switch_ctx(struct cla_domain *domain,
+> +                                struct cla_ctx *prev_ctx,
+> +                                struct cla_ctx *next_ctx,
+> +                                struct cla_ctx **assigned_ctx)
+
+Looks OK.
+
+> +/*
+> + * Run on the cla's local CPU, either in its worker or a CPU hotplug cal=
+lback.
+> + * Work submitters hold cpus_read_lock() until completion, excluding hot=
+plug
+> + * callbacks and keeping the worker bound. Hotplug callbacks hold domain=
+->lock
+> + * to protect the assigned context. Other devices may switch concurrentl=
+y.
+> + * On failure, mark the device broken; the caller handles domain failure=
+.
+> + */
+> +int cla_dev_switch_ctx(struct cla_dev *dev, struct cla_ctx *prev_ctx,
+> +                      struct cla_ctx *next_ctx)
+
+Good explanation and name, easy to understand.
+
+> +void cla_dev_switch_ctx_work(struct kthread_work *work)
+
+Here too
+
+> +static inline struct cla_ctx *cla_domain_get_next_ctx(struct cla_domain =
+*domain)
+> +{
+> +       return list_first_entry_or_null(&domain->queued_ctxs, struct cla_=
+ctx,
+> +                                       queue_node);
+> +}
+
+This looks like a FIFO thing?
+
+> +static inline struct cla_ctx *cla_domain_get_prev_ctx(struct cla_domain =
+*domain,
+> +                                                     struct cla_ctx *nex=
+t_ctx)
+> +{
+> +       if (domain->assigned_ctx && (next_ctx || cla_ctx_is_dying(domain-=
+>assigned_ctx)))
+> +               return domain->assigned_ctx;
+> +       return NULL;
+> +}
+> +
+> +static void cla_vma_zap_domain(struct vm_area_struct *vma, struct cla_do=
+main *domain)
+
+"zap" is a very ambiguous word. This function needs to have
+a name that express exactly what it does.
+
+It looks like it should rather be infixed _initialize_?
+
+cla_domain_initialize_vma()?
+cla_domain_reinitialize_vma()?
+
+> +{
+> +       unsigned long vma_start =3D vma->vm_pgoff;
+> +       unsigned long vma_end =3D vma_start + vma_pages(vma);
+> +       unsigned long domain_start =3D domain->pg_offset;
+> +       unsigned long domain_end =3D domain_start + domain->nr_devs;
+> +       unsigned long start =3D max(vma_start, domain_start);
+> +       unsigned long end =3D min(vma_end, domain_end);
+> +       unsigned long addr;
+> +       unsigned long size;
+> +
+> +       if (start >=3D end)
+> +               return;
+> +
+> +       addr =3D vma->vm_start + ((start - vma_start) << PAGE_SHIFT);
+> +       size =3D (end - start) << PAGE_SHIFT;
+> +       zap_special_vma_range(vma, addr, size);
+
+That goes for that function too by the way. Two wrongs does not
+make one right.
+
+It might be that everyone in memory management disagree with
+me and think this is crystal clear, then I can have other opinions.
+
+> +static void cla_domain_zap(struct cla_domain *domain, struct cla_ctx *ct=
+x)
+
+And this one.
+
+cla_domain_init()?
+cla_domain_reinit()?
+
+> +static void cla_domain_reassign(struct kthread_work *work)
+
+What about a comment above this function explaining
+what is being reassigned to what?
+
+> +       /*
+> +        * Exclude cpuhp until assigned_ctx reflects the hardware again. =
+cpuhp
+> +        * callbacks use it to save/restore the local device and must not=
+ see
+> +        * invalid_ctx. Take before domain->lock, also used by cpuhp call=
+backs.
+> +        */
+> +       cpus_read_lock();
+> +       mutex_lock(&domain->lock);
+> +       if (domain->broken)
+> +               goto out_unlock;
+> +
+> +       /* Figure out prev_ctx and next_ctx. NULL indicates don't [un]ass=
+ign. */
+> +       next_ctx =3D cla_domain_get_next_ctx(domain);
+> +       prev_ctx =3D cla_domain_get_prev_ctx(domain, next_ctx);
+> +
+> +       if (!prev_ctx && !next_ctx)
+> +               goto out_unlock;
+> +
+> +       /* prev_ctx already holds its assignment reference. */
+> +       if (next_ctx)
+> +               cla_ctx_get(next_ctx);
+> +
+> +       /*
+> +        * We need to grab mmap_lock, but can't do so while holding the d=
+omain
+> +        * lock (since cla_vma_fault() grabs the domain lock while holdin=
+g
+> +        * mmap_lock). The queue may change and contexts may be killed by
+> +        * cla_ctx_destroy() while the lock is dropped.
+> +        *
+> +        * No user is allowed to access CLA while we are reassigning. Dis=
+able
+> +        * assigned_ctx before zapping so cla_vma_fault() won't re-map th=
+e
+> +        * domain during reassignment. The sentinel also defers broken-do=
+main
+> +        * cleanup until we know which context hardware may still access.
+> +        */
+> +       WRITE_ONCE(domain->assigned_ctx, &invalid_ctx);
+> +       mutex_unlock(&domain->lock);
+> +
+> +       /* Prevent prev_ctx from accessing any device in the domain. */
+> +       cla_domain_zap(domain, prev_ctx);
+> +
+> +       /* cpus_read_lock() ensures workers remain cpu-bound and alive. *=
+/
+> +       ret =3D cla_domain_switch_ctx(domain, prev_ctx, next_ctx, &assign=
+ed_ctx);
+> +
+> +       mutex_lock(&domain->lock);
+> +       WRITE_ONCE(domain->assigned_ctx, assigned_ctx);
+> +
+> +       /* Also handle failure reported by another thread during the swit=
+ch. */
+> +       if (ret || domain->broken) {
+> +               cla_domain_set_broken(domain);
+> +               goto out_unlock;
+> +       }
+> +
+> +       /*
+> +        * Remove next_ctx from the queue and wake up all waiters so that=
+ the
+> +        * fault handler can map the domain into the newly assigned proce=
+ss.
+> +        * assigned_ctx must have been updated prior to waking the waiter=
+s.
+> +        *
+> +        * If next_ctx was killed while we were assigning it, schedule an=
+other
+> +        * reassignment to deassign it.
+> +        */
+> +       if (next_ctx) {
+> +               if (cla_ctx_is_dying(next_ctx)) {
+> +                       cla_domain_schedule_reassignment(domain);
+> +                       goto out_unlock;
+> +               }
+> +               list_del_init(&next_ctx->queue_node);
+> +               wake_up_all(&next_ctx->waitq);
+> +       }
+> +
+> +       /* If there are more queued ctxs, schedule the next reassignment.=
+ */
+> +       if (!list_empty(&domain->queued_ctxs))
+> +               cla_domain_schedule_reassignment(domain);
+> +
+> +out_unlock:
+> +       mutex_unlock(&domain->lock);
+> +       cpus_read_unlock();
+> +
+> +       /* Deliberately put references outside of the locks. */
+> +       if (next_ctx && next_ctx !=3D assigned_ctx)
+> +               cla_ctx_put(next_ctx);
+> +       if (prev_ctx && prev_ctx !=3D assigned_ctx)
+> +               cla_ctx_put(prev_ctx);
+> +}
+
+This function contains a bunch of comments that are hard for me
+to understand without context (ha!) but it's probably all right,
+I bet they are helpful once you get the hang of it.
+
+> +int cla_domain_sched_init(struct cla_domain *domain)
+
+OK.
+
+> +/**
+> + * cla_domain_sched_exit - Tear down scheduling for a CLA domain
+> + * @domain: CLA domain
+> + *
+> + * Drain final deassignment, destroy the domain worker, and destroy the =
+context
+> + * table. All context users must have exited before calling this.
+> + */
+> +void cla_domain_sched_exit(struct cla_domain *domain)
+
+OK.
+
+> +void cla_domain_set_broken(struct cla_domain *domain)
+
+OK.
+
+> +struct cla_ctx *cla_domain_lookup_ctx(struct cla_domain *domain,
+> +                                     struct cla_ctx_key *key)
+(...)
+> +int cla_domain_insert_ctx(struct cla_domain *domain, struct cla_ctx *ctx=
+)
+(...)
+> +void cla_domain_remove_ctx(struct cla_domain *domain, struct cla_ctx *ct=
+x)
+
+Clever use of rhashtable, good names.
+
+> +/**
+> + * cla_domain_schedule_reassignment - Schedule domain reassignment
+> + * @domain: CLA domain
+> + *
+> + * The caller must hold the domain lock. If a live context is currently
+> + * assigned, schedule with a delay (CLA_SLICE_MS), otherwise reassign
+> + * immediately. Do nothing if the domain is broken or a switch is in pro=
+gress;
+> + * the running switch handles new requests before returning. If reassign=
+ment is
+> + * already scheduled, the delay is modified.
+> + */
+> +void cla_domain_schedule_reassignment(struct cla_domain *domain)
+
+Schedule reassign of the domain to ... what?
+
+This use of verbs is really confusing me, I understand for example
+"assign timeslice to process" then I know a timeslice is assigned to
+a process. There is something implicit here making this really
+hard to understand.
+
+> +void cla_domains_sched_exit(void)
+
+OK.
+
+But where is the cla_schedule() function in this scheduler
+akin to Linux' schedule() call? It feels like this is implicit
+in some call order semantic, and the function
+cla_domain_get_next_ctx() implements an implicit
+FIFO scheduling principle.
+
+Alternatively the scheduling isn't actually driven here
+but from somehwere else, like userspace. Then that
+needs to be explained. Then this file doesn't actually
+implement any scheduling, it's a scheduling context
+library nothing more.
+
+This kind of stuff needs to be explained so I can review the
+patch properly.
+
+Yours,
+Linus Walleij
