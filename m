@@ -1,98 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.35
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795385639;
-	b=S6maWzNR1CpdXePEe3Idk+sAeNXMuCEB+uj+PBR0dxp+TDhv7ezVpbZKBWA/9i1lTuFU
-	 2ia/mYqDrNPN4pCnicPZya/4Cqj+SyTQb/itBgtLKO0orieqAs4UPKSx20hnzyaZ7ye8n
-	 wM+DlxFN6Km8gYkmGSNX1FbFc9TXs82jCLRfumZqeP5LHMbj7y44cOuZzYGSoPvCw2Ef8
-	 7pJV1g0c65i9ozSozHgUof7vRBQ40CgjLLdEQYbtpfWwh2o8YyJWXVKLkTiw07ZJGDH6E
-	 xCl1oANCKTNVi2EwCDhHGD/FCq067z5VUwRMxAbH4tajrYMO+227BMAukrYOqL5kbtw==
+	t=1795388828;
+	b=VRizNyNsQp52tDm7pUG1RF6/WhPG3sHYMIakvPjuLbauwbxq+KU9lKVG4nHwXh9YSMn+
+	 j3Qia5GeRm+6Rzqk6rrHLsiufgP9VehhN4FINb1S8KlROe//OGV4x13mwdSnzNH02h81D
+	 iyKmFYpqUvOxjjVcRSpDYO/mSfvH5JeyzeU8rltYMidk/suDpuTooRApLb9r5jneYo0za
+	 xEQ8bWHnS43IJloAbvtj3sPKiuJjJEeqrbIv2RocNhRf/aTMOCn34S4etr43wexpdW0/Q
+	 T92ADZF8Wm98iDmSNcOjGPoZ7ADZOOMbyofk0F9sElKF4bgizyLAofhUl/QndSAHzSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795385639;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=b0kJw802gh5uy3Pr7DaE+7uxe9KZuq1T1lj2n5oppe8=;
-	b=bLqDCsnzCItCG8xzjmWJT6c2t8uxGO7znSPoY+5O0QDwhmDPo2hMx+yAFQ9gm6cOISON
-	 BOW/W5QPqag98rDcWC/18LMI2csAWoVQ2Bwj1QUTyefTcXGpc8N12MpUXGaFaexB+QPUb
-	 BP0o/rWSoGLoL4f6B0WkzMrM0C6FCPzos286Ku/ww+QxY4/YQ9jDuRv+/6WhjgKkAl327
-	 L7Doj5hyuETi9v/fIYs/K9TGFkhaJTWzosju4jqamqO7vWEqd4B3o6dKVF5RBhAdrOaxZ
-	 xSxfJfnC+xEn+UrHlhxnOfBbZo+6T7VxcmdQuDuz00ZFqzDFmuNgW4n+0eehayk0qVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795388828;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:
+	 X-Source-L:X-Exim-ID:X-Source:X-Source-Args:X-Source-Dir:
+	 X-Source-Sender:X-Source-Auth:X-Email-Count:X-Org:X-Source-Cap:
+	 X-Local-Domain:X-CMAE-Envelope;
+	bh=zRXVwvIlQET5zYfG9Tttom8faSeJpODyfJ6Vw9eP0v4=;
+	b=NWWcPudRkyohUabow0h9MYvCmmJQugBBpd/F1f6fdQsehFjV06uDwgyW9nNP36hiqk5R
+	 L0vXEmqsv31dWTptoJ3HDGlAEW8JLaW4SNrDF563DpV8klKrYmKcRd8kNsPR44u8eKvBs
+	 bNxKQZQ8y1QAMMuQC9UaFy8luRbwryymcIoktk9e1TdfRbaUkHPQhdfECAICgEwTxhtrH
+	 pTQmIdn9KpRpJ+7vEfC2LoDPsUirBPIyXVtXjYKDq26kuz8X5Ix4MUVbqZ2vn740q3fJb
+	 kQYo45I2gOOXq/sfEN0BcIuwFUPQdQm/B75afNUj/4cMy+fvNnTRf4kk6q70g0OXexQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YEoxDNjf;
-	arc=none smtp.remote-ip=74.125.82.174
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=c2AREA0M;
+	arc=none smtp.remote-ip=35.89.44.35
+Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C58B606A31E
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 22:13:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C58B606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D33606A320
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 23:07:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2D33606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YEoxDNjf
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-38692f62b22so790926eec.0
-        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 14:13:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795385638; x=1795990438; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b0kJw802gh5uy3Pr7DaE+7uxe9KZuq1T1lj2n5oppe8=;
-        b=YEoxDNjfmSNdYkLMgwYovHLULl2T8UFnl97qapp9oxPQs4yPVY1VTXqDcPl0qCaY4L
-         3aKI3+Tj/pgxPgZAnzg0sZD8w2KfMeUYI0tp5TOBcLzvO+fsqt48QSI2dyTbha5IvEad
-         X0fLmJpDuELJ0MyHbRIZOBREheTjNFT/UUrkK0fu5RDFxH85WNylOQ9XftVK9VMgT20F
-         68KPtthsqnf3mmmsBf9bldSGAD3FO4PZfxCZ8yhbfpNH3vcXUwDD+AhQr3GN7xzzQsOk
-         C3lqAnNrN/X/joFDQerIc0QZjiFycMOPP6DBk+VMLZS+2z1c81ItTP0wD7H2sXB3BkvL
-         il9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795385638; x=1795990438;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=b0kJw802gh5uy3Pr7DaE+7uxe9KZuq1T1lj2n5oppe8=;
-        b=QB7Ke1JpcCochJOwbXWVhr1q+1Lchw8PBLsenzHYbroDUCvnef5QmLDNt4KRalXV5c
-         mQTI4Yj+cmcfQDRAZYoT9G+KNlrCWp2gDNZJy0dtU0phMIlGej58eid1Rwwv3zNL9+cB
-         cja1kcBQGCUIjy1QMup6hVGO7FtpRHOwb4Mb1Ilxx6xlQkz1dPtDFTkD3XE9kdiwhHqX
-         I15NmHOYAZEIvwX9mtMe8LXp+pncxwx7RsQwfWdNvpFl7aowvxn0OxmYG4ycsQ+xZa0e
-         zR1jvtcfAc0tsYsVLEQbam/zMoiQjDrgEOlCcNabt9PhQkDqM5X7jyIB4LATWSAtTmrK
-         QeEg==
-X-Forwarded-Encrypted: i=1; AL+hErEw0AkTyHDRfLAOYrX7ySPmnVc3Nu7n1mnRfNH9lggV0h/heqgqFMMWeorq8ihyEejQfvmH116nwJU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9gYsgTAgXqW1WNXeYAxQfSy5yAjeLCPYfUMWFAVKh4XTT+KkCR
-	+2qarsuqNP2/5llAm6bF8ufYuMlGrcIC74QSNjghykdXngDGgaYdaeQz
-X-Gm-Gg: AZFdTZfFHRBnhmRhLpS43xiKanEWbMXn7YrDpvtiBPW0tzTpHpOrEZ/KLJHDyQTQKdW
-	rLWH0hHABb+L9NZ9vWQS+4cKt5yUFnE1/z087AzzfNA9zvJBTiLqh7VRCeA/lcXr5vX7v/s388R
-	iJlx4qjgYcdeHJY1+HubNOAlOtEhd0XCLIJXCioUe+ZQAN6NQBakYxRQ2GDjDZvSTTsMIqN9rYH
-	Cy5llMzQBzvcxCTIJDDgjEj7gFEA+onDV6AcHTFolNiA27Vxp38GcPJcPn/pwHLb6pzu1um0ImQ
-	aQrGXEYu6gxBDJ+3yaUZ0eKzAejx3WrCC43QbDb8wqaynAMUobiSAMcyHkVsY4flPLfNxkK43iA
-	RQLl30Nqr28MNfAhmd1BvWxHimzO0M1J1lCOZXZ/Kgf5R8Z1T31OafYHd7SYaxzgV2tuDT49iuo
-	Q9reyLQLMdlBBuONCJwvh1qOehUSac7NpFpgKEcviBQ39R6kQeWmdR0MmRa1sXiUbuhDO33a2KF
-	BGwm6epaQCkfk5IELnM3CipEX4NOZh2y/EpMs+M2RjOdPLuWFwyhQguDkgPChwHpNOdMwUUjJYN
-	IZt81MjreQZLUJiSk6uujHAebxcOcW/m4vO/vlJx+Jc6tncPYtYmZK+eZ58cxfECM0bE+mk=
-X-Received: by 2002:a05:7301:dd86:b0:351:2958:1740 with SMTP id 5a478bee46e88-3856fb641famr10062602eec.37.1795385638023;
-        Sun, 22 Nov 2026 14:13:58 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:f002:4621:aeeb:e0e7])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386b1965c02sm1957225eec.27.2026.11.22.14.13.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 14:13:57 -0800 (PST)
-Date: Sun, 22 Nov 2026 14:13:54 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Siarhei Vishniakou <svv@google.com>
-Cc: Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Ping Cheng <ping.cheng@wacom.com>, 
-	Jason Gerecke <jason.gerecke@wacom.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] Input: add ABS_TWIST and support it in HID and Wacom
-Message-ID: <awNosbiWPFdsbUN5@google.com>
-References: <20261110020632.4003499-1-svv@google.com>
- <avKAaJxlxE8gOYVV@google.com>
- <CAKF84v00nJ_+2Tf8m66LhGEKvqnHb26YD6p+FRUXK5juYEPQZA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=c2AREA0M
+Received: from eig-obgw-5005b.ext.cloudfilter.net ([10.0.29.189])
+	by cmsmtp with ESMTPS
+	id UpNbxnunRRiNxVGeJxHBYr; Sun, 22 Nov 2026 23:07:07 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id VGeIxesEfYskhVGeJxklJH; Sun, 22 Nov 2026 23:07:07 +0000
+X-Authority-Analysis: v=2.4 cv=CKMqXQrD c=1 sm=1 tr=0 ts=6b03759b
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=dYNR_tWki1Y21jDd:21 a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
+ a=Ikd4Dj_1AAAA:8 a=5XR5nEGViU9cR0xS-8IA:9 a=CjuIK1q_8ugA:10
+ a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=zRXVwvIlQET5zYfG9Tttom8faSeJpODyfJ6Vw9eP0v4=; b=c2AREA0Miyiu+/4rO4tGw+aZzm
+	vYHk2SFnLGlGV7yFgM22p/geoXDgqJxe2EgJhaAINsDU2Qa5OEiWqK3zopqrx0arXO+7JOS6GirP+
+	CmkaOmaMxOVzMoE8R2aDDor6WohT3uNvqgaee01tD33o1is2rCtpcA+tLAGPY8osuIoLEMP/Ik+JX
+	Om1rGqoZMDVzI9hjLoR8ZVvPNQmNS142gEr9enrSW2IlnmrWdiM7fxvC0Cz4+7MqMg43+0x9aBlMj
+	Ha+fBzWvfZxoaaMCh2znlvrFWDgIS8JZNP2dxKAzcHVDrdGU0E1gls56HhjR3kCV5elrBENavAijg
+	zQ7zr+8w==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:41394 helo=server.roeck-us.net)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xVGeI-00000000uoh-28sG;
+	Mon, 23 Nov 2026 04:37:06 +0530
+Date: Sun, 22 Nov 2026 15:07:05 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Felix Radensky <fradensky@nvidia.com>
+Cc: Vadim Pasternak <vadimp@nvidia.com>, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] hwmon: (pmbus/core) Keep cached page and phase in
+ sync with the chip
+Message-ID: <0e2091af-093c-4d59-a3c6-29cc40f1ad21@roeck-us.net>
+References: <20261122170949.3059743-1-fradensky@nvidia.com>
+ <20261122170949.3059743-2-fradensky@nvidia.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,69 +84,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKF84v00nJ_+2Tf8m66LhGEKvqnHb26YD6p+FRUXK5juYEPQZA@mail.gmail.com>
+In-Reply-To: <20261122170949.3059743-2-fradensky@nvidia.com>
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xVGeI-00000000uoh-28sG
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (server.roeck-us.net) [108.223.40.66]:41394
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 1
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfPwWrFNL4hHIuTHzXkAKt/B4BsYojF2Mcldon1Yu0sAPWfRgV3Enff8ifhYBv9UHNSaBRBYcgwwblxxe3+SCtBwwxcltHji+jTxmEJrVl65x6zkh2dmx
+ xyWYNmTWvrofKryASBfgbqYSiZ2rYjZ+HGZWSX/42BLDpFanezm+mXat2KaV0h20/TzI40gtJ934qHdj0d9/5o5xSniTr8KdA1KkWejiJHSoShqE1vZPUa8u
 
-On Tue, Nov 10, 2026 at 10:57:31AM -0800, Siarhei Vishniakou wrote:
-> пн, 9 нояб. 2026 г. в 18:25, Dmitry Torokhov <dmitry.torokhov@gmail.com>:
-> >
-> > Hi Siarhei,
-> >
-> > On Mon, Nov 09, 2026 at 06:06:29PM -0800, Siarhei Vishniakou wrote:
-> > > Some styli can report rotation along their long ("barrel") axis,
-> > > commonly referred to as "twist". While the HID specification defines
-> > > this usage as HID_DG_TWIST (0x000d0041) in the Digitizers page, there is
-> > > currently no corresponding evdev axis code to expose it to userspace.
-> > >
-> > > Because evdev has no MSC_SCAN equivalent for axes, drivers and OEMs
-> > > currently work around this by mapping stylus twist onto unrelated axes
-> > > such as ABS_Z or ABS_RZ. As a result, userspace input stacks must
-> > > maintain device-specific workarounds to know which axis carries twist.
-> >
-> > How is it different from orientation?
-> >
-> > Thanks.
-> >
-> > --
-> > Dmitry
+On Sun, Nov 22, 2026 at 07:09:47PM +0200, Felix Radensky wrote:
+> pmbus_set_page() caches the page and phase it sets, and skips the PAGE
+> and PHASE commands when the requested value matches the cached one. The
+> cache can get out of sync with the chip though.
 > 
-> ABS_MT_ORIENTATION describes the 2D angle of the contact ellipse (or
-> tool projection) on the surface of the touchscreen. Looking strictly at that
-> initial sentence in multi-touch-protocol.rst, it sounds promising:
+> If a PAGE write succeeds, while the read-back fails or returns a
+> different page, pmbus_set_page() returns an error without updating the
+> cached page. The chip can then be on the requested page, while the core
+> still caches the previous one, and the next access to the previous page
+> skips the PAGE command. The same applies to a PAGE or PHASE write which
+> returns an error after the chip has accepted it, such as on a late NAK,
+> a PEC error or an adapter timeout.
 > 
-> > ABS_MT_ORIENTATION ... The value should describe a signed quarter of a
-> > revolution clockwise around the touch center.
+> In addition, the cached page and phase are updated even if no command
+> is sent, that is for a virtual page, and for a page without phases or
+> with virtual phases. The cached phase then no longer reflects the phase
+> of the chip, and can suppress a PHASE command required for another page,
+> even if a failed phase change had invalidated it. For the page, this
+> only causes a redundant PAGE command, since a virtual page never matches
+> a page of the chip.
 > 
-> However, the rest of the section clarifies that this is the alignment of
-> the contact ellipse with the X/Y axes, not the "twist" of the finger
-> itself. In fact, the docs note that orientation can be omitted if the
-> contact area is circular - even though a circular finger or stylus tip
-> could still spin in place, and that rotation would not be conveyed.
+> Invalidate the cached page and phase before changing them, and update
+> them only once the respective command succeeded, so that the cache only
+> holds values the chip has accepted.
 > 
-> For a stylus, orientation is equivalent to the tilt
-> projected onto the touchscreen plane (which single-tool stylus drivers already
-> capture via ABS_TILT_X / ABS_TILT_Y).
-> By contrast, the proposed ABS_TWIST can be thought of as keeping the
-> stylus at a fixed position and tilt angle, and using two fingers to roll
-> it in place like a pencil.
-> 
-> This also matches the HID Digitizers specification, which defines
-> Azimuth (0x3f, rotation of the tool projection around the surface Z
-> axis) separately from Twist (0x41, clockwise rotation of the tool around
-> its own major axis), and hid-multitouch already maps HID_DG_AZIMUTH to
-> ABS_MT_ORIENTATION. Since styli can report tilt/azimuth and twist at the
-> same time (and single-tool pen devices don't use ABS_MT_* events), twist
-> needs a dedicated axis.
+> Signed-off-by: Felix Radensky <fradensky@nvidia.com>
+> Reviewed-by: Vadim Pasternak <vadimp@nvidia.com>
 
-OK, let's add it then. But we need a more precise definition of what the
-values mean (i.e. is rotation clock- or counterclockwise, only positive
-or negative, what 0 means).
+Applied.
 
-Can we also move it below ABS_SND_PROFILE in the doc?
-
-Thanks.
-
--- 
-Dmitry
+Thanks,
+Guenter
