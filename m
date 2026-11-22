@@ -1,45 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795384942;
-	b=pBEACgA36xFSDDxXG+1RQfD522q8s3R/vqcG1WpafCscgR4wsKojkM91+EearyjAlLpN
-	 udKJMpbydgO+5NkAPmhk+pQEYepZvWd0NMdFuRBAdiHmttCwxYF1JO0NRNgQBng4BznUC
-	 SO+oFFLm98opsX+QMraPG7YcuZOfK3Vle/+Pduacu1gzoSGz5hIp3h/vyPhyD3iGcGv3o
-	 RbLOeAZinykQ+Dlf/BcHUICvuC52CXFlaOoO2xI6Ev3ElIaRmZ6waBGRnZM4SQGmHWHDe
-	 DMOuO5kvASvd5ZHFy+Z1hpP34IJFyOD7xOfv/vP2gO4/syNVJdYwnVas5cXsRK78C0g==
+	t=1795385639;
+	b=S6maWzNR1CpdXePEe3Idk+sAeNXMuCEB+uj+PBR0dxp+TDhv7ezVpbZKBWA/9i1lTuFU
+	 2ia/mYqDrNPN4pCnicPZya/4Cqj+SyTQb/itBgtLKO0orieqAs4UPKSx20hnzyaZ7ye8n
+	 wM+DlxFN6Km8gYkmGSNX1FbFc9TXs82jCLRfumZqeP5LHMbj7y44cOuZzYGSoPvCw2Ef8
+	 7pJV1g0c65i9ozSozHgUof7vRBQ40CgjLLdEQYbtpfWwh2o8YyJWXVKLkTiw07ZJGDH6E
+	 xCl1oANCKTNVi2EwCDhHGD/FCq067z5VUwRMxAbH4tajrYMO+227BMAukrYOqL5kbtw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795384942;
-	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795385639;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
 	 In-Reply-To;
-	bh=sTtlSSaGTpDBtcMHiOircAIvmiTH+Ctop/XsFzGC1x4=;
-	b=YrgCw7fc82efjOJR6aqKPcSwalSW3k8vQUHIYDJVI37d9CBiToehWm/1ktwwymQWL6Au
-	 svoB7yp+0z1su71Hd0PFrG5Nz0ensrulMD/zKBsuvTb4eZkW4szYQKpqve8SdVqOhaNC9
-	 rpXHgTRZ0G5Hg9lObkmlBU8Tx36zXCsAu90qa2oSdJ1RpKVfZn2VTpdKMJellxju98pBd
-	 lQ7x4g3dBPSLJkeB4pX7VQTWEnhJIBU8fqJl3690tWQtBED2+6yS5r5cH/ivr2aZa7umF
-	 oaG5QKUfA4/qFx5fhDpAyRJVmhYyRytxOTiVWaI8Cmn0IGGlcCD4X9b3p1tq8Kfh2TA==
+	bh=b0kJw802gh5uy3Pr7DaE+7uxe9KZuq1T1lj2n5oppe8=;
+	b=bLqDCsnzCItCG8xzjmWJT6c2t8uxGO7znSPoY+5O0QDwhmDPo2hMx+yAFQ9gm6cOISON
+	 BOW/W5QPqag98rDcWC/18LMI2csAWoVQ2Bwj1QUTyefTcXGpc8N12MpUXGaFaexB+QPUb
+	 BP0o/rWSoGLoL4f6B0WkzMrM0C6FCPzos286Ku/ww+QxY4/YQ9jDuRv+/6WhjgKkAl327
+	 L7Doj5hyuETi9v/fIYs/K9TGFkhaJTWzosju4jqamqO7vWEqd4B3o6dKVF5RBhAdrOaxZ
+	 xSxfJfnC+xEn+UrHlhxnOfBbZo+6T7VxcmdQuDuz00ZFqzDFmuNgW4n+0eehayk0qVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k2Hc6xFR;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YEoxDNjf;
+	arc=none smtp.remote-ip=74.125.82.174
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C7D606A31A;
-	Sun, 22 Nov 2026 22:02:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C58B606A31E
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 22:13:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C58B606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k2Hc6xFR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26DB11F000C6;
-	Sun, 22 Nov 2026 22:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795384942;
-	bh=sTtlSSaGTpDBtcMHiOircAIvmiTH+Ctop/XsFzGC1x4=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=k2Hc6xFRtkicPKFvuKT7zGdEMFSb//oYzAC6yGi4WET4vMctzGLV95ptNtrt42XPr
-	 WQXnncoUOn8vCWB5V+5BOCSO1YRgvEGvWFlC6kSpFwx64JgBjdDeDjN8t0GAWjAHIl
-	 OTUhOZXnH51x9+wu6dE5+5xRqac3uNPyE7pzVVKvZEWUvPhn37jeV+RfXXnvGy2n+o
-	 5fpjybhz8GWsaKNEldr/b1vfp4LchA2oilYAZk48pyxh0hZg4h3t2J1QwAu6uVH9h7
-	 a22sYJ2GBWGWAOsKWbURM4twq7Z2FvgS7RP2m5XNLf/srWoFugU+HT+1vi7WOYs8uY
-	 PaUfPtPCWI/6w==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YEoxDNjf
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-38692f62b22so790926eec.0
+        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 14:13:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795385638; x=1795990438; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=b0kJw802gh5uy3Pr7DaE+7uxe9KZuq1T1lj2n5oppe8=;
+        b=YEoxDNjfmSNdYkLMgwYovHLULl2T8UFnl97qapp9oxPQs4yPVY1VTXqDcPl0qCaY4L
+         3aKI3+Tj/pgxPgZAnzg0sZD8w2KfMeUYI0tp5TOBcLzvO+fsqt48QSI2dyTbha5IvEad
+         X0fLmJpDuELJ0MyHbRIZOBREheTjNFT/UUrkK0fu5RDFxH85WNylOQ9XftVK9VMgT20F
+         68KPtthsqnf3mmmsBf9bldSGAD3FO4PZfxCZ8yhbfpNH3vcXUwDD+AhQr3GN7xzzQsOk
+         C3lqAnNrN/X/joFDQerIc0QZjiFycMOPP6DBk+VMLZS+2z1c81ItTP0wD7H2sXB3BkvL
+         il9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795385638; x=1795990438;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=b0kJw802gh5uy3Pr7DaE+7uxe9KZuq1T1lj2n5oppe8=;
+        b=QB7Ke1JpcCochJOwbXWVhr1q+1Lchw8PBLsenzHYbroDUCvnef5QmLDNt4KRalXV5c
+         mQTI4Yj+cmcfQDRAZYoT9G+KNlrCWp2gDNZJy0dtU0phMIlGej58eid1Rwwv3zNL9+cB
+         cja1kcBQGCUIjy1QMup6hVGO7FtpRHOwb4Mb1Ilxx6xlQkz1dPtDFTkD3XE9kdiwhHqX
+         I15NmHOYAZEIvwX9mtMe8LXp+pncxwx7RsQwfWdNvpFl7aowvxn0OxmYG4ycsQ+xZa0e
+         zR1jvtcfAc0tsYsVLEQbam/zMoiQjDrgEOlCcNabt9PhQkDqM5X7jyIB4LATWSAtTmrK
+         QeEg==
+X-Forwarded-Encrypted: i=1; AL+hErEw0AkTyHDRfLAOYrX7ySPmnVc3Nu7n1mnRfNH9lggV0h/heqgqFMMWeorq8ihyEejQfvmH116nwJU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9gYsgTAgXqW1WNXeYAxQfSy5yAjeLCPYfUMWFAVKh4XTT+KkCR
+	+2qarsuqNP2/5llAm6bF8ufYuMlGrcIC74QSNjghykdXngDGgaYdaeQz
+X-Gm-Gg: AZFdTZfFHRBnhmRhLpS43xiKanEWbMXn7YrDpvtiBPW0tzTpHpOrEZ/KLJHDyQTQKdW
+	rLWH0hHABb+L9NZ9vWQS+4cKt5yUFnE1/z087AzzfNA9zvJBTiLqh7VRCeA/lcXr5vX7v/s388R
+	iJlx4qjgYcdeHJY1+HubNOAlOtEhd0XCLIJXCioUe+ZQAN6NQBakYxRQ2GDjDZvSTTsMIqN9rYH
+	Cy5llMzQBzvcxCTIJDDgjEj7gFEA+onDV6AcHTFolNiA27Vxp38GcPJcPn/pwHLb6pzu1um0ImQ
+	aQrGXEYu6gxBDJ+3yaUZ0eKzAejx3WrCC43QbDb8wqaynAMUobiSAMcyHkVsY4flPLfNxkK43iA
+	RQLl30Nqr28MNfAhmd1BvWxHimzO0M1J1lCOZXZ/Kgf5R8Z1T31OafYHd7SYaxzgV2tuDT49iuo
+	Q9reyLQLMdlBBuONCJwvh1qOehUSac7NpFpgKEcviBQ39R6kQeWmdR0MmRa1sXiUbuhDO33a2KF
+	BGwm6epaQCkfk5IELnM3CipEX4NOZh2y/EpMs+M2RjOdPLuWFwyhQguDkgPChwHpNOdMwUUjJYN
+	IZt81MjreQZLUJiSk6uujHAebxcOcW/m4vO/vlJx+Jc6tncPYtYmZK+eZ58cxfECM0bE+mk=
+X-Received: by 2002:a05:7301:dd86:b0:351:2958:1740 with SMTP id 5a478bee46e88-3856fb641famr10062602eec.37.1795385638023;
+        Sun, 22 Nov 2026 14:13:58 -0800 (PST)
+Received: from google.com ([2a00:79e0:2ebe:8:f002:4621:aeeb:e0e7])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386b1965c02sm1957225eec.27.2026.11.22.14.13.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Nov 2026 14:13:57 -0800 (PST)
+Date: Sun, 22 Nov 2026 14:13:54 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Siarhei Vishniakou <svv@google.com>
+Cc: Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Ping Cheng <ping.cheng@wacom.com>, 
+	Jason Gerecke <jason.gerecke@wacom.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Input: add ABS_TWIST and support it in HID and Wacom
+Message-ID: <awNosbiWPFdsbUN5@google.com>
+References: <20261110020632.4003499-1-svv@google.com>
+ <avKAaJxlxE8gOYVV@google.com>
+ <CAKF84v00nJ_+2Tf8m66LhGEKvqnHb26YD6p+FRUXK5juYEPQZA@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -48,104 +101,70 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 22 Nov 2026 23:02:06 +0100
-Message-Id: <DN22U90WCTGB.1REAOP1PQUMIQ@kernel.org>
-Subject: Re: [PATCH v4 0/9] Add __must_init and require explicit
- kobj_type::release
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Kees Cook"
- <kees@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, "Madhavan Srinivasan" <maddy@linux.ibm.com>, "Srish
- Srinivasan" <ssrish@linux.ibm.com>, "Michael Ellerman"
- <mpe@ellerman.id.au>, "Nicholas Piggin" <npiggin@gmail.com>, "Christophe
- Leroy" <chleroy@kernel.org>, "Nayna Jain" <nayna@linux.ibm.com>, "Mimi
- Zohar" <zohar@linux.ibm.com>, "Yoshinori Sato"
- <ysato@users.sourceforge.jp>, "Rich Felker" <dalias@libc.org>, "John Paul
- Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>, "Juergen Gross"
- <jgross@suse.com>, "Stefano Stabellini" <sstabellini@kernel.org>,
- "Oleksandr Tyshchenko" <oleksandr_tyshchenko@epam.com>, "Nathan Chancellor"
- <nathan@kernel.org>, "Nick Desaulniers" <ndesaulniers@google.com>, "Viresh
- Kumar" <viresh.kumar@linaro.org>, "Zhongqiu Han"
- <zhongqiu.han@oss.qualcomm.com>, "Alexander Aring" <aahringo@redhat.com>,
- "Felix Kuehling" <felix.kuehling@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, "Zhihao Cheng" <chengzhihao1@huawei.com>,
- "Sumanth Korikkar" <sumanthk@linux.ibm.com>, "Bill Wendling"
- <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
- <driver-core@lists.linux.dev>, <llvm@lists.linux.dev>,
- <linux-hardening@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
- <linux-sh@vger.kernel.org>, <linux-s390@vger.kernel.org>,
- <gfs2@lists.linux.dev>, <xen-devel@lists.xenproject.org>,
- <linux-mtd@lists.infradead.org>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <agordeev@linux.ibm.com>, <airlied@gmail.com>, <alexander.deucher@amd.com>,
- <catalin.marinas@arm.com>, <chao@kernel.org>, <deller@gmx.de>,
- <dennis.dalessandro@cornelisnetworks.com>, <dmaengine@vger.kernel.org>,
- <gor@linux.ibm.com>, <hca@linux.ibm.com>, <jaegeuk@kernel.org>,
- <James.Bottomley@HansenPartnership.com>, <jgg@ziepe.ca>,
- <jlbec@evilplan.org>, <johan@kernel.org>, <joseph.qi@linux.alibaba.com>,
- <leon@kernel.org>, <lihuisong@huawei.com>, <linusw@kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-erofs@lists.ozlabs.org>,
- <linux-f2fs-devel@lists.sourceforge.net>, <linux-fbdev@vger.kernel.org>,
- <linux-omap@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
- <linux-rdma@vger.kernel.org>, <mark@fasheh.com>, <neescoba@cisco.com>,
- <ocfs2-devel@lists.linux.dev>, <satishkh@cisco.com>, <simona@ffwll.ch>,
- <sre@kernel.org>, <vkoul@kernel.org>, <will@kernel.org>, <xiang@kernel.org>
-To: "Ian Rogers" <irogers@google.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20261119192520.1983406-1-irogers@google.com>
- <20261122215639.1178566-1-dakr@kernel.org>
-In-Reply-To: <20261122215639.1178566-1-dakr@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKF84v00nJ_+2Tf8m66LhGEKvqnHb26YD6p+FRUXK5juYEPQZA@mail.gmail.com>
 
-(Cc: more people previously Cc'd on v2)
+On Tue, Nov 10, 2026 at 10:57:31AM -0800, Siarhei Vishniakou wrote:
+> пн, 9 нояб. 2026 г. в 18:25, Dmitry Torokhov <dmitry.torokhov@gmail.com>:
+> >
+> > Hi Siarhei,
+> >
+> > On Mon, Nov 09, 2026 at 06:06:29PM -0800, Siarhei Vishniakou wrote:
+> > > Some styli can report rotation along their long ("barrel") axis,
+> > > commonly referred to as "twist". While the HID specification defines
+> > > this usage as HID_DG_TWIST (0x000d0041) in the Digitizers page, there is
+> > > currently no corresponding evdev axis code to expose it to userspace.
+> > >
+> > > Because evdev has no MSC_SCAN equivalent for axes, drivers and OEMs
+> > > currently work around this by mapping stylus twist onto unrelated axes
+> > > such as ABS_Z or ABS_RZ. As a result, userspace input stacks must
+> > > maintain device-specific workarounds to know which axis carries twist.
+> >
+> > How is it different from orientation?
+> >
+> > Thanks.
+> >
+> > --
+> > Dmitry
+> 
+> ABS_MT_ORIENTATION describes the 2D angle of the contact ellipse (or
+> tool projection) on the surface of the touchscreen. Looking strictly at that
+> initial sentence in multi-touch-protocol.rst, it sounds promising:
+> 
+> > ABS_MT_ORIENTATION ... The value should describe a signed quarter of a
+> > revolution clockwise around the touch center.
+> 
+> However, the rest of the section clarifies that this is the alignment of
+> the contact ellipse with the X/Y axes, not the "twist" of the finger
+> itself. In fact, the docs note that orientation can be omitted if the
+> contact area is circular - even though a circular finger or stylus tip
+> could still spin in place, and that rotation would not be conveyed.
+> 
+> For a stylus, orientation is equivalent to the tilt
+> projected onto the touchscreen plane (which single-tool stylus drivers already
+> capture via ABS_TILT_X / ABS_TILT_Y).
+> By contrast, the proposed ABS_TWIST can be thought of as keeping the
+> stylus at a fixed position and tilt angle, and using two fingers to roll
+> it in place like a pencil.
+> 
+> This also matches the HID Digitizers specification, which defines
+> Azimuth (0x3f, rotation of the tool projection around the surface Z
+> axis) separately from Twist (0x41, clockwise rotation of the tool around
+> its own major axis), and hid-multitouch already maps HID_DG_AZIMUTH to
+> ABS_MT_ORIENTATION. Since styli can report tilt/azimuth and twist at the
+> same time (and single-tool pen devices don't use ABS_MT_* events), twist
+> needs a dedicated axis.
 
-On Sun Nov 22, 2026 at 10:56 PM CET, Danilo Krummrich wrote:
-> On Thu, 19 Nov 2026 11:25:11 -0800, Ian Rogers wrote:
->> [PATCH v4 0/9] Add __must_init and require explicit kobj_type::release
->
-> Applied, thanks!
->
->   Branch: driver-core-testing
->   Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/drive=
-r-core.git
->
-> [1/9] Compiler Attributes: Add __must_init macro
->       commit: b8a53320a885
-> [2/9] powerpc/secvar: Add missing kobject release callback to secvar_ktyp=
-e
->       commit: 4d5d4dd2a2e2
-> [3/9] sh: sq: Add missing kobject release callback to ktype_percpu_entry
->       commit: d19384f2f3c7
-> [4/9] cpufreq: governor: Initialize kobj_type release callback statically
->       commit: 009365942c15
-> [5/9] dlm: Wait for kobject release before freeing dlm_ls
->       commit: 48ae948f4285
-> [6/9] xen/sys-hypervisor: Add release callback to hyp_sysfs_kobj_type
->       commit: ecaf88d385c1
-> [7/9] ubifs: sysfs: Use kset_create_and_add() for ubifs_kset
->       commit: 25d952902dee
-> [8/9] drm/amdkfd: Free queue in procfs_queue_type kobject release callbac=
-k
->       commit: 6d4ff4a020cf
-> [9/9] kobject: Require explicit initialization of struct kobj_type::relea=
-se
->       commit: 45eeed1f8094
->
-> The patches will appear in the next linux-next integration (typically wit=
-hin 24
-> hours on weekdays).
->
-> The patches are in the driver-core-testing branch and will be promoted to
-> driver-core-next after validation.
+OK, let's add it then. But we need a more precise definition of what the
+values mean (i.e. is rotation clock- or counterclockwise, only positive
+or negative, what 0 means).
 
-I've now picked this up; I will keep this series in driver-core-testing for=
- a
-few more days before moving it to driver-core-next. Please let me know if t=
-here
-are any concerns with the series, particularly the comments in patch 9.
+Can we also move it below ABS_SND_PROFILE in the doc?
 
-Thanks,
-Danilo
+Thanks.
+
+-- 
+Dmitry
