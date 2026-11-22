@@ -1,102 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795362990;
-	b=Hvpw1J872p93pDuU3OtJTTPDh6iKHz+lYHXuJZsXYGrQgTvgrVWFdQ6BYA5oEL1P/VeL
-	 e7ROw1gDTBmxgXr1Q1aBK//6eEgKY/Evh8S1aPmPGsXrOPevA5m+4n+hyc7izQk3+KChK
-	 cFACfN2X9DTfCSNtKFIZW+nnRodifQY+v1KIgjpXw6s9/k7HXx5AWaie9fQBp2bp32Hjh
-	 DzLVkWijTmHdnBYUEcYk1u3b2WM63URXvtXO92NcON+pN4PD8gZljI4RdF02YtminWhK0
-	 o797m0rB89wkmDFJK32mWOH435eIhc5p8S0r6YfnEd5mZrIoawGgUq/U6MxULcp6ahg==
+	t=1795363725;
+	b=t6ZoP+IcJDfk5KlFs1M4sdzLnR2Ktuj8K17YQ037hBR+O7HeY+ZatOPSegg95bV1yfRj
+	 rXp1Y43mUEHrZwAJU5WyDZsV2lHJszlGdxKOXjEP9K33m1sICB+V9PvrJoWrnRZpuIgwM
+	 WDofeVkfnVSXAUleQF0XLekAFJpYFpxSBAqj6kDLE5tRjeauqr7qswXkuhMEipw0OJFUh
+	 lJkkUkrUREhXbzZ05RT5R8Q9GTaznLpUt47f+01ZECrdg14m8yS9wZjjDytXWScGktHle
+	 3brkq7K9dHl2KqL7BKyB1X/ohk0LbVTaaMMUgOpNIXDlZDm2HtUxd0o6SVfYCN6Zz7A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795362990;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Akf1BpTp14qWXCyAghifpSssp7kKGHr8uqx+uiX8vCw=;
-	b=wIKW5CRl9OnmdyaRYm1B7zQq4S2IVIJftuBY+hVx+WPdKDGKMBl5g/MDz7T8xRkXcx36
-	 eLfaq7+jGWiOH3IG/KcEhp1YI1WFHCiWegnULW4+JWFU2Z85mtia2Xkyvi34GB2cYeXan
-	 FqxE8B6GtP/JEyLoQ7ifU6DV+8+fwpCPOa96X+WCF/E8lPu2+LI5vcoOVMjgfZKW8aO80
-	 SrCh+igodMFKeCJbR5Td8T1uGHbeowXUyZ/OOLaKWFtNEuI6Jr6rRp257Fy6xKHKsfTze
-	 BMJ38x/c4jzXvHANyTfBeM+6uThPzkNNBUlImgZz6qbQfmvPczdU2YChfcbd5vlG9Iw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795363725;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=yDmT6XxWDMUjkhdEybx94MPWZ0+puuiXDhd8ArveZHA=;
+	b=bGq8QPgjyRjaEHEcge4V8xga065MONSEofP3I8Z/kJQOlH2TD4kar4FJVn64pN0Vwnsh
+	 TTTEBzzhI/9qmc7wERlkQOxW6dvtV8rbPoaYnAtkm5Z80ahTmXK6KZmt797niRazxKqW8
+	 TtPqlDTmP3Nh1MIsC4zdDd1ELoaOwzxBnaBrmf7CI10hZJ+FdmkAEU6lYL9FwGNk5XcQ+
+	 nhxTkUs4EI/XLeTMEYjv6hK4KTqbRrX+443NeGeu14/svN7QDDRmtocjUf7FdSZ6OTE8i
+	 w/mn0tCHScbC4RPn5k3Z0UfqSu0gSYj9PcyZKqlzEYqtlr5A/XSeBlgy3LhI6QMm96g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fdh9zgU4;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.41
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RtDalOcA;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F835606A320
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 16:08:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RtDalOcA
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795363725;
+	b=P2lE2TVCALfGR+XuJS4BYRLe8+ypNzf9kM4bT4nGaviJ7phr8DIHKlBhgkThUioGVnNi
+	 DVbOt56dpVxVAQvs0lKERpGX6mo3XfORmXbijfPPyUOPHUV2H93gJX86Sz9bOhi/1E4/p
+	 45q7iFakk0IaNGH4BgxA3Hif9s03ZIUOGFgKrhWOApGBPvdVkcXaV4h+sE7Jh+eOFoplL
+	 Uu0hLq44AjrBLEWAZf51jJx3yXUCUGkDknIaMnJR1C1ab3c/gP+fCzKs/JAaKlr0hbWBB
+	 jNbHTblWYDVPvqwEOfBrOKRExvbMWRwdEy9WD3Ei/FPJcVHulTpQ7i9M59YT+NtPj2A==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795363725;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=yDmT6XxWDMUjkhdEybx94MPWZ0+puuiXDhd8ArveZHA=;
+	b=K58A4jUGJ9gwo7eNAqUzaCvfGq1MKAEXQuUTuU+Pd03TzVLMo48Sy//uNLgiusbPz5Le
+	 zCO5/iNC92QKuenHrv/egmf5dd2xRp3DEqjocH2mu+e5SK1cASDPmbIh17t75SCjUGwe/
+	 RJkHoWMy6iRnSWPhgrDBjMlXpW9ufaAOgpDbHuI9nM6oaK3fcEfPKHvMhLay2Pyo/Vnit
+	 S/y1LWqUETOXk3Do+KU+8xz0QeIRkFULYFQm7xxqdEhxd9dNpg03YdMczB3emp9fRQOiL
+	 bV2HcFkF0RGuMAAZc7yC/jGMiQfSft+SKoXlvxOjjDbJ/fmAPLgHryDYeGYWFQVEztg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F16606A320
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 15:56:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47F16606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fdh9zgU4
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-9211bbce3abso21134096d6.3
-        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 07:56:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795362989; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZY0AKtVPearCKPP4KUQ3qfoo/Tjfx403RwwH5ea5Gjk9D2jWlT+Tk5EtXXWDdeKl/g
-         k4Pkr8yFHZTEVF3Wx0ZKsyi1D+8WMy6KqJR5k/zcX+KyVj82tge/XYux0tg+oC5ODdYy
-         OzjxX/I5hdVmdS/abm1++h5gWTRJpsPoptL/ZFCd2e4r5DtDopurr0ckAdqM2YzOs4mb
-         oZ03b79en9+Cw34jxwne67/siTFMhDsu9Jv8r8JOjqETGYdLI6Pmq43QC0fYAGNMqqO2
-         V2t/SCOOpzH6KqUL+rfEVLSEKZIz+RtDxSUwKPARoUEu+F9lGzXoF00AFj/TEvmhqj+9
-         TqUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Akf1BpTp14qWXCyAghifpSssp7kKGHr8uqx+uiX8vCw=;
-        fh=cYhNIEYJpjVNslO41TR/i8FZZnfCz6Y/J8ViMpYP+ag=;
-        b=QkfH8rg1opdW4o+i8UN4XAhn+fnceD56GLtZ0o7R5XdqOmGsgY4ZnF74+EpZZXSm9j
-         S5wy0+k7oLroLLbdBUasHaPWd/D/U8A1ZtBzX2AzRNSpQ/Irw6dO6QZxEr6HxXFxNnOX
-         w7uJwj/Ryn0HrUQRNk21qdYZtcN1UpKqiXH/NWqT2PLmh3B6mDEq9W97QpzkRdJaRNWq
-         Z103VvnAz4u1iSLga9jukbKr/gw1eli7pdn25+epIsORABcKKDbv5/Mdm1Y62zUu/gto
-         s/ml6uDuLe25UbYuuLUyRyq7og8ItsiiMmED9cR/gMeRxKLwrpJ2tA0ED5ZMByn02+ZJ
-         DXkA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795362989; x=1795967789; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Akf1BpTp14qWXCyAghifpSssp7kKGHr8uqx+uiX8vCw=;
-        b=fdh9zgU4yyFiqN3/pGNONKtUXItfpLZnESdf/pS0xpZiZK9ca+C7LtMrntdKJfCM4B
-         QXh7aYZeVifmZtS7mwwOqEz8WEQixXtF34RCUHXAXoFKYkiUZ3be8s43F+HFhMkAmOot
-         h6FKi2FxF9pO+WBvKYcbodF3jMmdn0rygiCQ0DgKBBCUxXUr3++RzX+baAzk5dCv107O
-         0id8Vqx+rVhcTGcosaBBrQ98pyYO6Zx1qoisXmPU0HhIvYyMX4z7/gqS8rw1V7NuiS1U
-         ZenXXIbUJ9us4+wj1HvVp2C87PpyZju3mXCtmoVkpkRbWEz+6dPcBnzGC1r5+cDR3itz
-         sjGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795362989; x=1795967789;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Akf1BpTp14qWXCyAghifpSssp7kKGHr8uqx+uiX8vCw=;
-        b=Dg5g3KzyTfV6RIxnpwkQmFtGtBmazDymL+bQUfLsTyzHn5hfHysYl/5M/kMaw/dpgW
-         W/K4JgkeHAOKXqiyzP0XMUPxYipmFk0u0N2MphYinhOHuQiPlI6n2w6Hl8WFLGEeCicS
-         lkWSwG3EVlkuqQXN1hB+hxY503XPjkVToLgUjJRmKjVXcfn2A9NvF1DRXco6ksYk8yj5
-         cJVlZx8qTE0q8z4IsVoAwNBkYSRp4UNwOOZeOxaam7AmsTcpnAP08uax6LPDqCGxDj6G
-         +BMPI7Z3s4m0a+kSfXjhRqU0KKxARdAY7WGcX7B65oiQVS8wM5+7goBM2SMGnu6Mg2iv
-         80BA==
-X-Forwarded-Encrypted: i=1; AL+hErEcFufiIpKR3jooi0c2mteSL1fkB8b0x312dnA4BFWOg+NA6H8DMQ6k5pc1+lDwX0rE2ZDrlBVm2CM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/V7dwUSTo1XlHMc1sRiapEJgO4Dg4GAEO7pvGlornuvW/b9u/y
-	dflXSEuaSUMOj49BVhEtSm21jFUmqm172LtYPhAwQ5Xuu5Y9PjCpBVaGjHPslRXrTjMqJ9blct3
-	6g37QU1jmSFMu8yDjBUZKOm+Za2OZDeo=
-X-Gm-Gg: AZFdTZf8ZEVYwsn/+lhSJAXS+O1ZVUkS1/EuiL73kJME2ePOKiw10AlD6qegSFLDAYX
-	pJuUInQTVBLWZ9tj1la/IpGGca3OvwmHTgeLz/3BX3Bnk26iANQ/yWcc8NPoDLe6qtSx45XFkkm
-	v6r0y+8mlE6FpNYkDVoY/vbagniTVYssNR1JUGIX9fjfnWZaJMR/r7dVgdp9Kezyu17J/AikbEp
-	yNrDVa+JowZK4viGcO7epHITdVxctHNz0BCzlYxiuZJM8GEr3X0VQf+WruYKudYtT5qPPQQ8KTw
-	GHzrYDMLAgN+r14zQ14N/KNWhpkRxsEabiC5kbP0ytv79KUfobbGEQRoC3YlfM2o5sYAa6l2vtC
-	+5p36ys0CgFvmp2fmNsUNvmoTDv3hkTQk8RqrFEKIJ4aicvUhZocmL78Vp2bsJSkpmI62qfLqxf
-	tDLeV71hv0+PYv/a5gDSo77rk2AZZCm4xZgIrSWcYQ9wi+HWq4EMjYrYA5CxrwWFy/gHlmWpP4u
-	8oILp25Q0V3iOYBpw7GEM3cJA==
-X-Received: by 2002:ad4:5c85:0:b0:91f:312d:c404 with SMTP id
- 6a1803df08f44-92134a770c6mr150462736d6.13.1795362989127; Sun, 22 Nov 2026
- 07:56:29 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id E3C471F000C6;
+	Sun, 22 Nov 2026 16:08:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795363725;
+	bh=yDmT6XxWDMUjkhdEybx94MPWZ0+puuiXDhd8ArveZHA=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=RtDalOcA943MJ92ZsX1Fh9HKsR5My8QBpFpaIbBMeJWAeyzQDh5ZkI9TiZL2JC7jK
+	 vx5pdlOtJ3trDN8DFgKJfoBW1kJErvNH4yWbioC1dbWwNpNNUHgrhEZKBVEbiUvE1T
+	 712ecCQf9QrXOGzIZ1RcxA3mUSpcYnrPIDK+7+TV9WGwUWPzdGbU+MZIyhM4B8hpk9
+	 xamQ8I1dTr8h1OF5heEdNSKaspxBl5WVEngsov2qebfvPjkHz7lTIpA0c6JQEsGIsI
+	 anh8f9TEikxj7mCRq3UuopwfDq3zPUla+4Q+NT4hQ/S9crLY3NeuV2OhNOaz2fICyh
+	 H6padNiVjZS5g==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 42DA24C11B;
+	Sun, 22 Nov 2026 16:08:43 +0000 (UTC)
+From: Eduardo Pereira Cruz via B4 Relay <devnull+dreduardocruz.gmail.com@kernel.org>
+Subject: [PATCH 0/4] docs/translations/pt_BR: process: add
+ maintainer-pgp-guide.rst
+Date: Sun, 22 Nov 2026 13:08:42 -0300
+Message-Id: <20261122-maintainer-pgp-guide-pt-br-v1-0-01ce5941c5c2@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,40 +84,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261122-programming-language-pt-br-v1-1-a48a23d365ee@gmail.com>
-In-Reply-To: <20261122-programming-language-pt-br-v1-1-a48a23d365ee@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Sun, 22 Nov 2026 12:56:16 -0300
-X-Gm-Features: Aa3M54pCY0MmdQPj1uzVeMQr4RlttHxF37xfnwyE8a_6G2pz33Z8UoY1C6U9M8o
-Message-ID: <CAMAsx6f0o1fYOqipy_ohJm8KwVvenFsN6UGbDy9L_Qi6PYqXBQ@mail.gmail.com>
-Subject: Re: [PATCH] docs/translations/pt_BR: process: add programming-language.rst
-To: dreduardocruz@gmail.com
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQrCMBBA0auUWTtgRiLVqxQXbTJJRzANk7QIp
+ Xc36uIv3ubvUFiFC9y7HZQ3KbKkBnPqwM1jiozim4HOdDWGCF+jpNpixRwzxlU8Y644KTqyfbB
+ 8uwRvoQ2ycpD3bz48/i7r9GRXv0c4jg9plUbxfgAAAA==
+X-Change-ID: 20261122-maintainer-pgp-guide-pt-br-c258f5e93fd5
+To: linux-doc@vger.kernel.org
+Cc: danielmaraboo@gmail.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+ rdunlap@infradead.org, Eduardo Pereira Cruz <dreduardocruz@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795363722; l=1429;
+ i=dreduardocruz@gmail.com; s=20261119; h=from:subject:message-id;
+ bh=JWQmIYmfYJWRTGYphpFzeIt5K+J+wEyD0NkQ7BIRMx8=;
+ b=2uWxE7kBkuWoDcp1ct0swv99sMsPb52QNPYtS4l9S57EnjS1bAQiqPeSE3B+jMT6p7O5MmT3Z
+ lKQITyBTW9vAcA+aqC+ALkRrPXn1POj+fmYRQWcAU37A6uP3IwCf/4h
+X-Developer-Key: i=dreduardocruz@gmail.com; a=ed25519;
+ pk=2dtL+BL/x70sROmAvlskv9dbjj274zlPkLBVu4gJJiA=
+X-Endpoint-Received: by B4 Relay for dreduardocruz@gmail.com/20261119 with
+ auth_id=1571
+X-Original-From: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
+Reply-To: dreduardocruz@gmail.com
 
-Em dom., 22 de nov. de 2026 =C3=A0s 11:34, Eduardo Pereira Cruz via B4
-Relay <devnull+dreduardocruz.gmail.com@kernel.org> escreveu:
->
-> From: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
->
-> Add the Brazilian Portuguese translation of
-> Documentation/process/programming-language.rst, which documents the C
-> dialect used by the kernel and the attributes conventions, plus the Rust
-> support under CONFIG_RUST.
->
-> All eleven footnote definitions and their URLs are kept verbatim, as they
->
-Hi Eduardo,
+This series adds the Brazilian Portuguese translation of
+Documentation/process/maintainer-pgp-guide.rst, the guide that describes
+how kernel maintainers should protect their PGP keys and use them to sign
+tags, commits and patches.
 
-This document was already translated by Gabriel Ribeiro (v2) and
-applied by Jon on Nov 2, so this patch is a duplicate.
+The translation follows the English original as last changed by commit
+fdd100ee60a0 ("docs: process: use gender-neutral pronouns") and keeps the
+structure intact: all 41 section headings, the 20 cross-reference labels,
+the note and warning directives, the 112 inline code spans and every gpg
+command and key listing are preserved verbatim.
 
-Also, the label and footnote names clash with the English original and
-would cause duplicate warnings in the build.
+It is split in four parts by chapter so the review stays tractable. The
+patches only add the translated file; nothing else changes.
 
-Please check the list and the tree before translating a document.
+---
+Eduardo Pereira Cruz (4):
+      docs/translations/pt_BR: process: add maintainer-pgp-guide.rst (1/4)
+      docs/translations/pt_BR: process: add maintainer-pgp-guide.rst (2/4)
+      docs/translations/pt_BR: process: add maintainer-pgp-guide.rst (3/4)
+      docs/translations/pt_BR: process: add maintainer-pgp-guide.rst (4/4)
 
-Thanks,
-Daniel
+ Documentation/translations/pt_BR/process/index.rst |   1 +
+ .../pt_BR/process/maintainer-pgp-guide.rst         | 922 +++++++++++++++++++++
+ 2 files changed, 923 insertions(+)
+---
+base-commit: 4405c18c95d2d0f99f6c581ef0ee8591a1aa6ccd
+change-id: 20261122-maintainer-pgp-guide-pt-br-c258f5e93fd5
+
+Best regards,
+--  
+Eduardo Pereira Cruz <dreduardocruz@gmail.com>
+
+
