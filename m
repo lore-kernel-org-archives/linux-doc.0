@@ -1,64 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795304919;
-	b=pZ60lk4/OA1TqliZioMdy38t6RTlehRUVqTpVBU8o6mKZ4UtUL+pwmtL1Kotq2GvmbV+
-	 9mbZbMp0olGYFRToejk+8lPaYsvFC8KE3+P/0fq9rHYe0PICB/pvdzlFKFYOoBqH+u3KR
-	 t0ulx4YjawHnFaVL1QkgXSdwY/luS6dyE95FiaNV3ovqGWbpVwk+FOvjw/x3qfxyQSD3W
-	 +Ue1cfWgORaJHAUdkLapOtQ29U3yzfehykLU5HDkRlrBrCQ0pd+N6ctbgG2h0D9vNE5Ha
-	 g23IPz4ewDeGAethxH6xuzgIZ8l0nqbWfXdVUD9CXjNBKLyoBMR7egkvtVkhOX9eUnw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795304919;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=P2+gMfqO0KssqpNjQGC0vCpucpH4dNEAtZrSlgFvnt4=;
-	b=ZZH4uyYdcD+mNAY7GnsZjjwR8puZ2gDHU6KegLcE4OQfYxyPWonZUzFeufQ8xOfHtJqb
-	 XlbwwjR8ZbaCNTqJ4lPHau43Onloj96OTK1ysqyQfVy7CjA70/EKOz/L5srsNEN2DPCcy
-	 y37Pg+T1W+X+aVSpTLK7dUaAx3iWDsclK+h5v4u9kFq0w1vIjR+rwQhTnwS8y609xFFtK
-	 Rcrkb0HZoTqaVBRcUFMScXuOeq8kiW00mdTwkZFuADj9xW8agAzp6dDOtuol2YIoH0VDV
-	 MUdmPC4e2C3usa1z5I9yVW4SnQ2KUBbe8KZ0t7NxYMREYNRkWoyBS1pkGw2fOmW/E1w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=knMw2ljz;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.46
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795305634;
+	b=o3x3lVmNRwjYhHB95bwI8UyhmBCP/qsblrhYtBOuVgKS9X/j1QQ7qmcdX9Oik79CKIGe
+	 IHgfz0dBSQSqfnRKIFlIR/dfOxTTz7vC6O/1UNa/tXvmZ5y5zMZYQc/QoMl8hBKYExd3Q
+	 m3GflZBnlGnunIERiUYrz2ftgF6qxXUox3y4gXU3vwmdKNVRw1SrFDo4ddHTAZSfKZDYA
+	 ZmmCK927EFg01+zaaKuf2ZCdZF3jeaBMJG5Y+KCuEOiK4yOUi6maz7buAJvtyl5E6/g4z
+	 3uxdoAC9B+egJVBIUb/00Ad7N+FT2gFNvpkI67ZXDqSkWsDBSFmjvw+odm+59edW1tQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795305634;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=oX79inJRzxgZwR0Tcie38RtbzYQdIj/eTCukvbMNytI=;
+	b=1HwWTd6noRN4QPN3mE7GaoDSgPenS1VfbyPvxoJiy19+quyd/pKDM6vmxR7aGNbuWZQ+
+	 Or2GmsgMcg4420HpWA2U4Oq7uZAHXqNj2RP328mt09t3RoDdtaKU1EXElm0NnNmwNjfdz
+	 nKcUeLDbHZexuvMaCN846Ib94ap6rMz6ZkT9gGtqpEuoPpS6U24eU7AP4X5qY2+A2u7xu
+	 LztUiz1FHTFgUZQF9y91OqdE5Kzsy2QXrCRVcsQ3DrNay7gs4HlS6uGDd4WptdL3dM7JU
+	 i20XFL8RwmxT8LfbdLT/76ZEgmM7SxX1dy1X4bVNeKdnrBivDwH+MHKcmtSQaNrw0MA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=r4RcuYCf;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.46
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4834D606A320;
-	Sat, 21 Nov 2026 23:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03FC606A320
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 00:00:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D03FC606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=knMw2ljz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09FDC1F000C0;
-	Sat, 21 Nov 2026 23:48:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795304918;
-	bh=P2+gMfqO0KssqpNjQGC0vCpucpH4dNEAtZrSlgFvnt4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=knMw2ljzEPoxTgT12+zM4j0dFwPHs5T8TFwVaUzsOGDnoHxviHVRURu/K2Lfvbmqr
-	 q5GYnkB7bux2e2WFC3rJxZSyz3qhW6ai75yHknHbO2xrRiE1+jNf0I7Rau5kcNrEXm
-	 fLGERKL1XQnssG5ogoygccZRG82QuAeT4K7FpLoHXD7UaPiWBq2LCMyzW8jbpuKInp
-	 jeCSfe+h834bCjDXWlTskiiCDmbQOMTBKykajNkhrGbzHDfCq0BE4lGOOauZD4Hnix
-	 MwXuoMRij/lwA9m+l3tWWDoN2yngTziqoJheWjWSXhtsNoZe7AXGkdwjxmPlJzkuSI
-	 Jhp0T2boszZrQ==
-Date: Sat, 21 Nov 2026 23:48:34 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Nicolae-Daniel Deaconescu <Nicolae-daniel.Deaconescu@analog.com>
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob
- Herring <robh@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Michael Hennerich <michael.hennerich@analog.com>, "Trevor Gamblin"
- <tgamblin@baylibre.com>, Joshua Crofts <crofts@kernel.org>, "Sergiu
- Cuciurean" <sergiu.cuciurean@analog.com>, <linux-iio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 6/6] iio: adc: ad7625: add LTC2387 and ADAQ2387x
- support
-Message-ID: <20261121234834.2f6cc9bf@jic23-hlaptop>
-In-Reply-To: <20261119112437.197306-7-Nicolae-daniel.Deaconescu@analog.com>
-References: <20261119112437.197306-1-Nicolae-daniel.Deaconescu@analog.com>
-	<20261119112437.197306-7-Nicolae-daniel.Deaconescu@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=r4RcuYCf
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-8631e07b756so1013383a34.3
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 16:00:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795305633; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fQivGwonbfhTztXCyw8QKSzokQFhZpJbZAUM4h6PCUO99MaYbJefiqXz/yH3yX/zBX
+         8kYsHp2LWSLSyaghCRusQkmuItxfpFCglhgGZBp2P3rukYplFEVv6C7bYEDxZFlBsja7
+         ZD5xwZjSKJPCbCFnGytyBTukgE4vya8+ZLqeCkoyPx5nUKX0ZkDsle9uF3GhH2Bmg5pQ
+         qcXqFWjBtU7NZ8UlolHU62dVCZ1njl8RbJS6FrSvcbXtc+YkF4u2hv8iqPenvwoSnivN
+         gSCQHVVTBFkIdxQlG78NKYzI9zTK8z/yNdEBu8WCIThw+TVHYCDwT+sSDvKneAYEjzPO
+         PQiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=oX79inJRzxgZwR0Tcie38RtbzYQdIj/eTCukvbMNytI=;
+        fh=cvGIOPVCfeSRfOBCFF9N5OrTlwAUMIn4X3oXHrU5Kso=;
+        b=dT+K/lXzq7DlQ7ciG41TiuB88ge6HQKg58UAx3yU/sX4FY65ievLggjjyHLD08WA0a
+         yeJeLvVLw3l1L6jms7LM6DGiSB9glY/HP+m/z4ZveZgT+2XLKxnHvvQpxeDS+cw3UcUe
+         zV0VizY1IV9hzkaDGzzEfPN5gr89vm/7tHx/uI3dclxnHtRlc5Q4qTYF7FahZvlMDo6M
+         GEl3LCw+IvXXkwFQBUFq4AOmzs+vkZD1ksi/AjmDC8zcjbKiIxqDAhE4toHj0ibnjnW5
+         y72aNnibSTU0LmyOch+gYA4DgJ6jTUMMu1MIutcohYpOqEbpec/BHsLh4pKoFZTK2gdy
+         XSDg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795305633; x=1795910433; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=oX79inJRzxgZwR0Tcie38RtbzYQdIj/eTCukvbMNytI=;
+        b=r4RcuYCfIn90HdIwxItumjaK30zdLhmUJVAGcRQ71nWGgskz24QbkTinofHlgkbenY
+         G4MS+YOI2jv+T9Xu/GlYrHhhMxTKnQSORkt1g1N9xvgo09K+WmL6Ol4n4KlM7ZnHdfYH
+         Dga8N+dVnRKwEx03n6ZRzaZUmZamKVkc3zEM3qYrvuR/ZiJ6LVd5aEscodL4zVuRKxr3
+         1CeCqEP8fs5yW/L1fJ7f2jpubwiyYMJLqCP2Y6+Ydqe1XIaG30BcseHXiwDcr3LDh8h8
+         aceKX/ezytlgYuce5vlrWJqmIhso+LfDOfRKsao1qd8ZMx8JiPefxktTgvAjr8j03MY9
+         f62A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795305633; x=1795910433;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oX79inJRzxgZwR0Tcie38RtbzYQdIj/eTCukvbMNytI=;
+        b=tjwkrMd2PqMq1ZgZZfJD6LoGZg1sTbJLAvsxIl+M+fdtZIIRNgzeKaPuSijpf9C+qI
+         zn8DihW9SvaVdLaJVWhCpWavhdHhDkkmr87TzDEHSDS9HxnSnkdzb3Bw70ZnBQRtxiwG
+         P5bAHkdpyFHqXgQW9E2eVllNRX7wUXJK+9RykmI9aoCtHXy7OUorDXt96R70pU4RkseI
+         6XoHmUFEjMiymXQN/wiYfnQx6eBvHyQH/Gi6rYCb7yZdedHA5GY7niMvJX1E9aUcL+/U
+         QP/vO0COTzel80qIbRMcKNAVK91OuRr5Y5FrgWVBzaqpCQCQQqAlck9MqHj+rOxvfYzJ
+         LAow==
+X-Forwarded-Encrypted: i=1; AL+hErFzSmiOScRjh4BRsNByFTGR3HNmdItZUK/kV2Nwfzrhb4Mbgm6gqcV1bmSnQfpmwb/5kxy2yiw2VJ4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8KBfalTrtpkleAmrAvxKikQ3zkvpc3pYcpDkshFdPz2w6i1j3X
+	HmaLvrSw6kEWZ6xvJ5cY3bIcv7rnSLiiaFpdwNiM3lUJYWpkX2rl7GtJj/IY6+TXvdV5Lzo65ZD
+	O+JMOweIizyXvhsvOPbx3iy1EiyWVcO4=
+X-Gm-Gg: AZFdTZezGsREoSVKSgTck6mk7ZECjoiR8+IU3ZTpuBU9sayxDEnsfD6A7RXeVgU5MEb
+	AEAshKdoGFmZu3M1q4VWaARBQNNAj8EC8mlV+T8SUmq1DRRL5wd6CwdsM/8VPUksXMOSjKcUQTZ
+	yDkHwShf+Zbs4JvXqIgeRsID+rz8ms3qfjT91kYLCqSCVnEpIn59ehNvL18TqUa7wcodLEz9vda
+	wkyHRlh5kVs1LQ+uy/mO1aD1nrS9NbJW4vOTG1Rrdw70CzvcemmXl0CE6bPfy6jrQcaE/kdLOwY
+	suHmPHJ1WfMvCq3hSeva/NDlFORVY8vKUQJNRiBazKnlx1y3wa2cZJpm/AgYfQnSgoaqiN9R8oF
+	1pNjOn5vnH6OiYMDdOl2GlcOxSgV9qhHAuyic
+X-Received: by 2002:a05:6830:6a88:b0:863:3a1a:91e0 with SMTP id
+ 46e09a7af769-8633a1aa039mr1043518a34.10.1795305632770; Sat, 21 Nov 2026
+ 16:00:32 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,81 +104,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-3-shijujose2008@gmail.com> <20261017055852.GBatMOnEl66YObvU5k@fat_crate.local>
+ <CAG4KcR+NOKHNzg6FN-oLLHgUxeitZHKXg9cN7dz24+Ap=RrwSA@mail.gmail.com>
+ <20261110071729.GIavLFCfLKzPx8R0i0@fat_crate.local> <CAG4KcR+ikfQEBjCZiNJ1CUz=u3Gtbk_XDroA_GQqYpgO4Lo5Qw@mail.gmail.com>
+ <20261121194030.GBawHzrrCNCMpfr7Gx@fat_crate.local> <CAG4KcRKhE1UXwrhscUdSpDJS8R0t7kWp8RXZm8j_9yXYJSQ2KQ@mail.gmail.com>
+ <20261121210749.GCawIIJcidCeWs3ij9@fat_crate.local> <CAG4KcRKzXNsvBWuuU2_aX5gO7u4vgKAK+bkrB2vgEFBGu3WJCA@mail.gmail.com>
+ <20261121230942.GDawIktifTKlYhUlpB@fat_crate.local>
+In-Reply-To: <20261121230942.GDawIktifTKlYhUlpB@fat_crate.local>
+From: Shiju Jose <shijujose2008@gmail.com>
+Date: Sun, 22 Nov 2026 00:00:20 +0000
+X-Gm-Features: Aa3M54qnCHZib5IMTc_EQOb3UJ-aKnrHrCYP9h8mtw0fwRaNzLI4HvK65GdTkSg
+Message-ID: <CAG4KcRJjU9WB7o0woOaAhtWDPoaL-52T8MUmbYJ9iC0EqP93Cg@mail.gmail.com>
+Subject: Re: [PATCH v23 2/2] ras: mem: Add ACPI RAS2 memory driver
+To: Borislav Petkov <bp@alien8.de>
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org, 
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com, 
+	mchehab@kernel.org, ashok.raj@oss.qualcomm.com, jic23@kernel.org, 
+	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com, 
+	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, naoya.horiguchi@nec.com, 
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com, 
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com, 
+	gthelen@google.com, wschwartz@amperecomputing.com, wbs@os.amperecomputing.com, 
+	nifan.cxl@gmail.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com, 
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com, 
+	wanghuiqiang@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 19 Nov 2026 13:24:20 +0200
-Nicolae-Daniel Deaconescu <Nicolae-daniel.Deaconescu@analog.com> wrote:
+On Sat, Nov 21, 2026 at 11:10=E2=80=AFPM Borislav Petkov <bp@alien8.de> wro=
+te:
+>
+> On Sat, Nov 21, 2026 at 10:24:28PM +0000, Shiju Jose wrote:
+> > Thanks Boris for fixing this and verified by testing.
+>
+> I cannot test because I don't have the hw. I rely on you to do the testin=
+g.
+>
+Sorry I meant I tested with your fix, which worked fine.
 
-> From: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
-> 
-> Add the LTC2387-16, LTC2387-18, ADAQ23875, ADAQ23876 and ADAQ23878 as chip
-> data of this driver. The same two PWMs and IIO backend are used to read
-> from them. See the binding patch for how they differ from the existing
-> parts.
-> 
-> The CLK burst of a conversion starts at least t_FIRSTCLK after its CNV and
-> ends at most t_LASTCLK after the next CNV, so the sampling period is raised
-> until the burst fits, instead of being clamped to 10 MSPS. Waveforms are
-> built in whole PWM steps, read with pwm_get_waveform_step_might_sleep().
-> 
-> The scale is divided by the gain of the ADAQ front end.
-> 
-> Add new maintainer entries.
-> 
-> Signed-off-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
-> Co-developed-by: Nicolae-Daniel Deaconescu <Nicolae-daniel.Deaconescu@analog.com>
-> Signed-off-by: Nicolae-Daniel Deaconescu <Nicolae-daniel.Deaconescu@analog.com>
-
-
-> diff --git a/drivers/iio/adc/ad7625.c b/drivers/iio/adc/ad7625.c
-> index 127441050687..8ddd18e45c8a 100644
-> --- a/drivers/iio/adc/ad7625.c
-> +++ b/drivers/iio/adc/ad7625.c
-One minor thing inline. Looks to be a good shape. Thanks
-
-Jonathan
-
-
-> @@ -498,8 +822,40 @@ static int devm_ad7625_pwm_get(struct device *dev,
->  	return 0;
->  }
->  
-> +static int devm_ad7625_listed_regulator_setup(struct device *dev,
-> +					      struct ad7625_state *st)
-> +{
-> +	int ret;
-> +
-> +	ret = devm_regulator_bulk_get_enable(dev, st->info->num_supplies,
-> +					     st->info->supplies);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to enable supplies\n");
-> +
-> +	/* VS- of the ADAQ modules is left out if it is tied to ground. */
-> +	ret = devm_regulator_get_enable_optional(dev, "vs-n");
-Does it hurt to just a non optional call here?
-You'll get a stub regulator that will do nothing. That seems to make
-little difference vs carefully handling the not present case.
-
-The optional stuff only really comes into its own when we want
-to do something else instead. It doesn't matter if we are ignoring
-the lack of presence.
-
-> +	if (ret && ret != -ENODEV)
-> +		return dev_err_probe(dev, ret, "failed to enable VS-\n");
-> +
-> +	ret = devm_regulator_get_enable_read_voltage(dev, "ref");
-> +	if (ret == -ENODEV) {
-> +		/* Without ref-supply the internal reference is used. */
-> +		st->vref_mv = AD7625_INTERNAL_REF_MV;
-> +		return 0;
-> +	}
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "failed to get REF voltage\n");
-> +
-> +	st->vref_mv = ret / (MICRO / MILLI);
-> +
-> +	return 0;
-> +}
-
-
+Thanks,
+Shiju
+> Thx.
+>
+> --
+> Regards/Gruss,
+>     Boris.
+>
+> https://people.kernel.org/tglx/notes-about-netiquette
