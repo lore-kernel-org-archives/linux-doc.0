@@ -1,45 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795379301;
-	b=4+hQ95+e3Cz1dt9qPWXnIfKR8dbZB0DJGIVgzag/usMNipUAPJy2AratVFJc9RP++Wft
-	 dDDywvc2zIh/Q3oSPnpk7lhLrlSrDSBBCK+53PBVoI0kDZzeTNPA6Ya3DBpDAfrVnhPVq
-	 UJFMiSCZFr6qPGWfzXgR4MwsmZ3+ouMNgd0YSooMpswDWfWdc1tmlYiRSKNjplrGA6nGP
-	 RtHkH6pHDb2c3D1GRxi6tzI2ionGFj1EaFAWUpHMs0wwuTDi+fOOZ18HM2Znn4JBWpCVm
-	 VQmRI6RY7WrYHVRIzKt07FmpKH9ikYNffyvVOoOmnVz/Qr7mQOBfHqGQSNJX/VyDdEw==
+	t=1795379634;
+	b=2xuW3YOcGKpEAWq2U7oxYv2+DVjteYMgPf14RnYc8jmmOdM5tQfeJHiFW+nH/LIQKZey
+	 MjrUpX/vCGg18+oDCheAUuaueH3RKXKfEghgGF7PVEdcwFkl2XqDJH+ZLbPqOFJk4mFqU
+	 95ZNrmD1xLIqnvZ2bsqSkITzjhY+xUBJB/a6+2vibYJlCUzKUTXrfP6FpJ67G4yZdtAvI
+	 U1pssGswD/tS51Rl+PeEjp2Sx80lI3QLYxo3l9Iln38a0f5UWcsWzSRu3LbJQqc6evOGm
+	 2XaqeT28VbDPAbkckQ+ZU4bYIdk6PZbJE/+kjQkqPjse1JqHwwnmbDwxz/Rf59gzzew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795379301;
-	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
-	 In-Reply-To:References:Subject:From:To:Cc:Date;
-	bh=7hegAlsfKZhGkTRmWASsRIi51iE3yTycidmKuYA20sM=;
-	b=iu0GIdlGcFWMvRE+qbR6Dwd59eQH42QgamD7GfQUBENSeo3vQqRpEFwnwhsWnhiyiuOO
-	 yBOgwIkJ7TN6D8e6TOQqYg95U6gG7Dc3RYQI3lzr5T3dhUDwX0+aGYKA4gKhy8R8v/NTO
-	 DEdAa+wTJzXWtB3EfBKhJkpcWarjIHOUPJKWsPE26HgtzzMUeksy2XH456EVQE2WArQJZ
-	 tkz9Uh7uGcq6KuXw88vWG7ZRdFE4JRvfu6dxT0FBGvkOYdswmaMfma8SvF8pguthKwZyY
-	 wsFOgG0s5XdpXLEe87xywmemPokWwPXJypl3GQXFY+2rUeMxrwXhQc5AV40vaLumv7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795379634;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=RA8x73YPrFGxdZjoHXQbPrziSX/WOKdJXB926WeBtQY=;
+	b=rFGxGrITjgomTLFMVwRTsLb9sddQ9f/WjbBqCphuK0/aAawYHah/lVKQLQPEGhkqIVRA
+	 8OTsRZGaRmK3p2QzPD4UzApmHvvt00Jnv6jsO445PTkonbn9XefFngfY5vJlRrvGfTfhC
+	 6q8fEe5qTjQ5UwZD5gvS2nNzDswnXdVRCapQhTM9swNzvGPRJsTaep2b2wMWLSVnJb37K
+	 BBys7X/+paYux1wg4/oOc4v157OltojQtRynub2yPoz/y0aRD0FlJveGGe5rVaRWSf1EL
+	 V1FoZbF/UV6PWTLeVXfnMRe1oB6DrasPnndv43xR+qkaUcNhfxIMYzdEev05WR7aFug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XEIbKzUz;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=corp.free.fr;
+	spf=pass smtp.mailfrom=corp.free.fr;
+	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=XhHbwF8m;
+	arc=none smtp.remote-ip=212.27.60.169
+Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5056B606A31D;
-	Sun, 22 Nov 2026 20:28:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CE0606A31A;
+	Sun, 22 Nov 2026 20:33:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9CE0606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XEIbKzUz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F59C1F00A3E;
-	Sun, 22 Nov 2026 20:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795379300;
-	bh=7hegAlsfKZhGkTRmWASsRIi51iE3yTycidmKuYA20sM=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=XEIbKzUzCQiRB2aZCrqF5hQW2qtt10VuVYBK2N4JJ/ApWzC1L0LdBsmpNL5+eZmL1
-	 OdiaZbs0zfoeU6QqofekKjKxfcM/YQQMSHUZal367Ej+w9pNIMB+1hs9gM5ZvIltFL
-	 oC6OyVwx+RN+4O/6LDboojpptdkoctQ+IBmLy6OF/gNO6dd6QFSo+j0u8hBjYhbcVr
-	 wICJBLBiXqLV9j4oyPONK7UprRaIjuNvC4ElGXMxMIRfhz5h7PcT6C9AdNDeJ4i3jc
-	 U51fRTVhFgIhiS+n0m4gXUvYnlx5v/g3p8+luyiPmfWi/0qx9dhG+jVcym6U3Y2C+U
-	 bl906gaOALZEw==
-Content-Type: multipart/mixed; boundary="===============7729801098175105974=="
+	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=XhHbwF8m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
+	t=1795379631; bh=1AkORMZI9fsVIs2vr6hJ9ymldCq6J3f7/QD/Oa4DfIM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XhHbwF8mqx6NhCtA6G/mPzI2EfpUxZgJQPgfyss+ngvduypWUxSqkNwAiW6YYZoiB
+	 YL5+0QNWA/ELIooQLppESOKsb6/JXB//sno6A4YaRnChIp9WUtOiUAL+NASCPRJbXH
+	 rf0C8uCEGc9lahloB5ABzd3cXYmCm29r4LG2ZHi8cqoRrMKJX4d46mGzHLwmWkBUK+
+	 CRw6ovrV4R9+69+fZ+9DBNmn092HQ5fl/6jOphyWz2Va7Zh14q078RpR3cJ2Ojkpjh
+	 XwBHEbYLWkqULXf5fersIUELt/B5LXdDTTeC58V+lWHJRzGnWc/81nXVxy4ONmKpW2
+	 ul5JpZylbZyRw==
+Received: from [0.0.0.0] (unknown [213.228.1.188])
+	by rcs.proxad.net (Postfix) with ESMTPSA id C990644C0B3E;
+	Sun, 22 Nov 2026 21:33:49 +0100 (CET)
+Message-ID: <73a9b976-ad73-4793-8444-bcbbf7b2bd8f@corp.free.fr>
+Date: Sun, 22 Nov 2026 21:33:49 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -49,101 +56,108 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-Id: <1b6e8842feb8995df8e17c6145e3d543e00124f866912e10a952a9609af79112@mail.kernel.org>
-In-Reply-To: <20261122193539.3334213-18-jarkko@kernel.org>
-References: <20261122193539.3334213-18-jarkko@kernel.org>
-Subject: Re: [RFC PATCH v7 17/26] fork: Support CLONE_INTO_USERLAND in clone3()
-From: bot+bpf-ci@kernel.org
-To: jarkko@kernel.org,linux-fsdevel@vger.kernel.org
-Cc: jarkko@kernel.org,bpf@vger.kernel.org,containers@lists.linux.dev,linux-api@vger.kernel.org,linux-arch@vger.kernel.org,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org,linux-kselftest@vger.kernel.org,linux-mm@kvack.org,linux-security-module@vger.kernel.org,aleksa@amutable.com,alex@amutable.com,viro@zeniv.linux.org.uk,luto@amacapital.net,arnd@arndb.de,brauner@kernel.org,dhowells@redhat.com,ebiggers@kernel.org,giuseppe@scrivano.org,hughd@google.com,jack@suse.cz,jlayton@kernel.org,corbet@lwn.net,josef@toxicpanda.com,kees@kernel.org,kpsingh@kernel.org,lennart@poettering.net,neal@gompa.dev,oleg@redhat.com,paul@paul-moore.com,ptikhomirov@virtuozzo.com,sergeh@kernel.org,skhan@linuxfoundation.org,zygmunt.krynicki@canonical.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Sun, 22 Nov 2026 20:28:17 +0000 (UTC)
-
---===============7729801098175105974==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 07/10] selftests: forwarding: tc_flower: test
+ the enc_key_id mask
+To: netdev-bot+sashiko@kernel.org
+Cc: saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
+ jhs@mojatatu.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, michael.chan@broadcom.com,
+ pavan.chebbi@broadcom.com, bharat@chelsio.com, donald.hunter@gmail.com,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ dsahern@kernel.org, idosch@nvidia.com, shuah@kernel.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ oss-drivers@corigine.com
+References: <20261117092915.255194-8-acassen@corp.free.fr>
+ <179514544037.3136.16339086532983375306@kernel.org>
+Content-Language: en-US
+From: Alexandre Cassen <acassen@corp.free.fr>
+In-Reply-To: <179514544037.3136.16339086532983375306@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-> fork: Support CLONE_INTO_USERLAND in clone3()
 
-TL;DR: In copy_creds() for CLONE_INTO_USERLAND, the dumpable-reset condition
-looks redundant with a user namespace change, so the cred_cap_issubset() term
-and init_task_exec_state check may be removable. Not a bug.
-
-> diff --git a/kernel/cred.c b/kernel/cred.c
-> --- a/kernel/cred.c
-> +++ b/kernel/cred.c
-
-[ ... ]
-
-> @@ -251,6 +254,9 @@ struct cred *prepare_exec_creds(void)
->  	return new;
->  }
->  
-> +static bool cred_cap_issubset(const struct cred *set,
-> +			      const struct cred *subset);
-> +
-
-[ ... ]
-
-> @@ -287,6 +294,24 @@ int copy_creds(struct task_struct *p, u64 clone_flags)
->  	if (!new)
->  		return -ENOMEM;
->  
-> +	if (userland) {
-> +		const struct cred *old = current_cred();
-> +
-> +		if (new->user_ns != userland->user_ns) {
-> +			ret = install_user_ns_cred(new, userland->user_ns);
-> +			if (ret < 0)
-> +				goto error_put;
-> +		}
-> +		if (!cred_cap_issubset(old, new) ||
-> +		    old->user_ns != new->user_ns) {
-> +			struct task_exec_state *exec_state;
-> +
-> +			exec_state = rcu_dereference_protected(p->exec_state, true);
-> +			if (exec_state != &init_task_exec_state)
-> +				WRITE_ONCE(exec_state->dumpable, suid_dumpable);
-> +		}
-> +	}
-> +
-
-this isn't a bug, but does the !cred_cap_issubset(old, new) term ever
-change the result here?
-
-new is a prepare_creds() copy of current->cred, so there are two cases:
-
-  - same user namespace: install_user_ns_cred() is skipped, the
-    capability sets are unchanged, cred_cap_issubset() returns true, and
-    old->user_ns != new->user_ns is false, so no reset happens.
-
-  - different user namespace: install_user_ns_cred() switched
-    new->user_ns, so old->user_ns != new->user_ns is true regardless of
-    cred_cap_issubset().
-
-The condition looks equivalent to old->user_ns != new->user_ns, which is
-the same as "install_user_ns_cred() ran".  It reads as if it follows the
-commit_creds() rule that skips the reset when old->euid owns the target
-namespace, but the reset always happens on a namespace change, which
-matches the "dumpability reset to suid_dumpable" text in the kernel/userland.c
-documentation comment.
-
-Also, is the exec_state != &init_task_exec_state test ever false on this
-path?  For CLONE_INTO_USERLAND, copy_exec_state() runs before copy_creds()
-and always takes the task_exec_state_copy() branch, which allocates a fresh
-exec_state.
-
-Could the dumpable reset move into the
-if (new->user_ns != userland->user_ns) block, which would let the
-cred_cap_issubset() forward declaration and the init_task_exec_state test
-go away?  If commit_creds()-like semantics were intended instead, then the
-old->user_ns != new->user_ns operand and the documentation comment would
-need to change.
+On 11/20/26 04:30, netdev-bot+sashiko@kernel.org wrote:
+> [Severity: Low]
+> Which iproute2 change adds the MASKED-KEY-ID token to the flower help
+> output?
+>
+> The kernel tree does not contain MASKED-KEY-ID. It also does not contain
+> the "enc_key_id 256/0xf00" dump format checked further down. Released tc
+> parses enc_key_id as a plain be32 and rejects 256/0xf00. The commit
+> message does not name or link the tc patch that these strings come from.
+>
+> With any tc that lacks this exact token, the test echoes the SKIP line
+> and returns 0 without a TEST: line. The new TCA_FLOWER_KEY_ENC_KEY_ID_MASK
+> handling in fl_set_key() and fl_dump_key() is then never exercised.
+>
+> If the final tc patch uses a different help placeholder, the test would
+> skip forever. If tc prints the key in another format, the dump check
+> would fail.
+>
+> Could the commit reference the tc change it depends on? Then the probe
+> string and the dump format could be checked against it.
 
 
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+The tc side is the iproute2 pair posted with v1 [1]. v3 drops the help 
+probe.
+The test now adds a probe filter and reads its mask back. That also checks
+the dump format of the pair.
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/45063222848
---===============7729801098175105974==--
+> [Severity: Medium]
+> What happens here when a tc that knows the mask runs on a kernel without
+> TCA_FLOWER_KEY_ENC_KEY_ID_MASK?
+>
+> tc answers the flower help probe above by itself and never asks the
+> kernel. So the probe only detects userspace support.
+>
+> TCA_FLOWER_KEY_ENC_KEY_ID_MASK is added just before __TCA_FLOWER_MAX, so
+> older kernels have a smaller TCA_FLOWER_MAX. fl_change() parses the
+> options liberally:
+>
+> net/sched/cls_flower.c:fl_change() {
+>      ...
+> 	err = nla_parse_nested_deprecated(tb, TCA_FLOWER_MAX,
+> 					  tca_opts, fl_policy, NULL);
+>      ...
+> }
+>
+> In that mode, __nla_validate_parse() skips attributes above maxtype:
+>
+> lib/nlattr.c:__nla_validate_parse() {
+>      ...
+> 		if (type == 0 || type > maxtype) {
+> 			if (validate & NL_VALIDATE_MAXTYPE) {
+> 				...
+> 				return -EINVAL;
+> 			}
+> 			continue;
+> 		}
+>      ...
+> }
+>
+> So an older kernel would install the enc_key_id 256/0xf00 filter as an
+> exact match on key 256. The "Did not dump the mask" and "Did not match a
+> key inside the mask" checks would both fail, and tc_flower.sh would exit
+> with ksft_fail.
+>
+> Documentation/dev-tools/kselftest.rst says mainline kselftests should
+> skip gracefully on older stable kernels. The test already reads the dump
+> back. Could a missing mask in the dump be handled the same way as the tc
+> probe, instead of being reported as a failure?
+
+
+Yes. On a kernel without the mask the v2 test fails with "Did not dump 
+the mask".
+In v3 the probe filter goes on $h2 first. When its dump lacks the mask, 
+the test
+logs a SKIP line and returns. It now passes on a kernel with the mask 
+and only
+logs the skip on a kernel without it, with the new and the old tc alike.
+
+
+[1] 
+https://lore.kernel.org/netdev/20261109131151.960789-1-acassen@corp.free.fr/
+
