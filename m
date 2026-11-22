@@ -1,55 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795382950;
-	b=w7sIlqBdy275HY93kV1dA61VlB2oif9ek+T7oA/2W2b+6QlxGwNhzBdINZsUXyUekpDe
-	 fDL3Yj+1i8AgLQKam7FhJNulDklEbckZ6FTU/EdFj6JWuEQfyPoavnXUo0GLOZgeoX3K1
-	 0K2ZNyGgR9noLFX9hlwD4D9iOLQOwOC2dXQ3ghXRxWgn9cMpTNdeT+dc7hb4T+MrhvwhI
-	 wBJnnEa72QnQPcPb7DL3haoxSqmgJZoLlvm8/Tk1IvT5jr4SvtPioxufbM43SOcLzWFMj
-	 ixVWL8k7sh9A2xeMINRiV0D5ph8RdLV2lzN50SD6IXy76MmjiVrX7BOlMIOqqxXROuA==
+	t=1795383130;
+	b=rg8ZXQW+HaEOCLATE10Ou/ZG4JEyXqbqKOnhPtqhq8VzZdW1fWs9u9RHdabBh+rY41zy
+	 a+pxgv/VAFDhqiVw4QFuIUxERklM1qQdojw9q/4G9dXfw0yFin2cjyT7K5W2b7u8ve/13
+	 WMibJqXc4ZEPufFjOhpLnmBulRR7nE6TWVAaDTGPTIn1lp5RpJp6JpvP7buJBzGo57G57
+	 VavCg3uFHeoiuCn9C7zY4k5+PEWf6lie9a63iADGGkGHGrJtUm0nwmObDpSuIhJ26fRzk
+	 1JrmlDjRX7Y4TWNK2W3oc/Fd2kkyiQZWPBiqcQ8+YkIfy9UBpm8cMAnxxaNd9k+xPbg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795382950;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=BTV0zF8Ij6zUMNBE+Oz8/N1ZVrqV9XG9B7wmhsB51vI=;
-	b=G7xyA25P03u9bElpp3FdfMvbN/AIGUZRLEeJGARqxOquqU5VIOX8lrQH6NyPyQGQCYCp
-	 anWtVbaZH22UaG5qUNuhVvBONz7n/h0JJd3Vf8TaP65yoaV8iVgJ/t9t7prn0lTTi0tNf
-	 0Mp8oroxNe/2hIacGWmYbURquBUeZvKVAfWaoFH5ZNkwnSyJtSJKZRVgSlQBfIgLvMerE
-	 hN6sC7g5/T2Iu3gvmIUqD9QF0wLfGVzVnertV/lBuzYYKdkxWhge2UEATCqCvI77C+qid
-	 kF5wl02/ttVLtEUaj74vsrwyQwtetR51oPvHrxomJWA+nfoL2Neeuw6VRCLsj+gby6Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795383130;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=5ngADj+Dh5rQr5EmyPFmHmtgjfqZYF+tSldkclN0tM8=;
+	b=NsaNPSU4NNMEeGhcm70PIuwu+sWMIIGE+hurmTKeIrJzDhytAskQm3mh7h+mS6yQxEjO
+	 eKWb2eGfFveY3ArsRhM0bD0aKoku5N1lQ8p5b+55d2RadSDQ8AqP66OtU+dnvmsJFCFqe
+	 Co+REqPQnX2YO4vwCTUd8BFQUfLtLBcAgVhaeFsLZnr9JwlIHZmXSYItb+Lat1ZmGmdGO
+	 cf20FToh/Ly9zH24RB1r7ApKD/S+ptzDg1LP7LZ8XgG62kEEHkIzOtlyfkyr/5RnM7lzg
+	 kSBfaKmgVnIH2NuXok4F15IVGAhLqI8fmKFzAUflz8o8xvQZ1DWbe0DVp33fYKPTg/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WG54opzt;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=corp.free.fr;
+	spf=pass smtp.mailfrom=corp.free.fr;
+	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=WFCGsnqK;
+	arc=none smtp.remote-ip=212.27.60.169
+Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FC9606A31D
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 21:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FC0606A31A;
+	Sun, 22 Nov 2026 21:32:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36FC0606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WG54opzt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F1B51F000F2
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 21:29:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795382949;
-	bh=BTV0zF8Ij6zUMNBE+Oz8/N1ZVrqV9XG9B7wmhsB51vI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=WG54opztWi+ll7+PUc6eBXqw494LZjxIVJ0DKsOEfPBVjJTxRSg1R7ywaqbRHIXza
-	 VazTaVz5alcKWtxPjpyt9HYyPuJTofmTz+8e/maD+l2IpS8DqfZjP0zUXVTezJDte0
-	 SjZsXl9DSYkB8/hove8ERjgLKOc+ZHNEs6IDjDzHL7NxRuWchw69iLDkGo0NLU2xdo
-	 8Hzau6EhHX6AhVk1259DZeOfEqoymIG0dhHjJsBRCeEcaYjJk3ioWBZwitbEi/yBjj
-	 IA20Phq6/J8wU/WfLd6OgMcWvRFunqG5FUMxAlFCKFdiywCWLU+exJ7jprSB+jKsuv
-	 X2O/DctYxrKAA==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5bccecba199so2491922e87.1
-        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 13:29:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErF+MU83N+CcQpR1OjKZrDH3w7b5mhY2gUpvbvgNY3aRdEHHRdlSVaPS4AR7IIsLqPBjtlIXyZfLOC0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9ndLVHJphWQkPIOPaL1JQpHUoZW1QIe5y/qAghHRtwTNahAF4A
-	Tx4zyeY6kaB9V8kjG5hah6Vb0FZPLoVhDFboRJ5omsDlC62ItXTb9LWMFslLzHkjlFdxm1u2mc3
-	xQBXazeEqX+UPyIvVyvMKsL7F/hAA3wY=
-X-Received: by 2002:a05:6512:4207:b0:5bf:ce41:b440 with SMTP id
- 2adb3069b0e04-5c1bc7d6de5mr2517796e87.31.1795382947589; Sun, 22 Nov 2026
- 13:29:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=WFCGsnqK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
+	t=1795383127; bh=L6nqJyk+s9p61NL+AMAx8/meVrYami8HOJhoF7gEVc8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WFCGsnqKkGKNmwq0KiFj8qqNGsNeXiKpiY4xFUBgxOgoAygUBtIy+lNXfFYAv7aPJ
+	 VJ7oL6j0x+zs4r8jqn1dEBLjtCM9aQJH59TZvPSGnc8qR1gDs3VTp2gRqsswAXHWFB
+	 t/yhFCdWXjW1fhIt7G2wNuEJm1uSPEIsgNYc/hrCZhSbopNGThteMqztKxaxc4w+uh
+	 RgbMcPThCg41zd2qjX03UC2SkCJDfrBe0GyIAwP9d14dXLLqgI6qc8R6xLLf+dLdG8
+	 top0tbLSn20fa58frF733oo222achegDO1tgk6PtGWdYhbC/K+rKG/UgCMBz8UfXsc
+	 0W4FbTT1NiaXw==
+Received: from lnxos-dev.home (82-66-150-212.subs.proxad.net [82.66.150.212])
+	by rcs.proxad.net (Postfix) with ESMTPSA id D06F044C036D;
+	Sun, 22 Nov 2026 22:32:06 +0100 (CET)
+From: Alexandre Cassen <acassen@corp.free.fr>
+To: Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Mark Bloch <mbloch@nvidia.com>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Jiri Pirko <jiri@resnulli.us>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Potnuri Bharat Teja <bharat@chelsio.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	David Ahern <dsahern@kernel.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	Shuah Khan <shuah@kernel.org>,
+	netdev@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	oss-drivers@corigine.com,
+	=?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <ast@fiberby.net>,
+	Vlad Buslov <vladbu@nvidia.com>,
+	Roi Dayan <roid@nvidia.com>
+Subject: [PATCH net-next v3 00/11] tc flower: tunnel key partitioning for RX queue steering
+Date: Sun, 22 Nov 2026 22:31:48 +0100
+Message-ID: <20261122213200.3207385-1-acassen@corp.free.fr>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,436 +88,118 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261015142552.4128028-1-ryan.roberts@arm.com> <20261015142552.4128028-9-ryan.roberts@arm.com>
-In-Reply-To: <20261015142552.4128028-9-ryan.roberts@arm.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Sun, 22 Nov 2026 22:28:54 +0100
-X-Gmail-Original-Message-ID: <CAD++jLnY3dagTQDzBa5e=g3fJ1rDOvyRHPKVtpadV4c0nXYV4Q@mail.gmail.com>
-X-Gm-Features: Aa3M54r6B7e9BLC1UO5yqTkRPrBtuKJXzOWhi_mL44xox65BnkoSkli_lYPdSwU
-Message-ID: <CAD++jLnY3dagTQDzBa5e=g3fJ1rDOvyRHPKVtpadV4c0nXYV4Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 08/15] misc/arm-cla: Manage domain contexts
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jean-Philippe Brucker <jpb@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Ryan,
-
-thanks for your patch!
-
-On Thu, Oct 15, 2026 at 4:27=E2=80=AFPM Ryan Roberts <ryan.roberts@arm.com>=
- wrote:
+Content-Transfer-Encoding: 8bit
+
+RSS cant spread GTP-U traffic between a few endpoints. The outer headers
+barely vary and mlx5 does not hash the TEID. One flower rule per TEID does
+not scale.
+
+Add a mask to the flower enc_key_id key and offload it on mlx5e NIC flows
+with skbedit queue_mapping. One rule then steers a block of tunnel keys to
+an RX queue. This "tunnel key partitioning" supports fine-grained session
+placement. In a 5G mobile network, the UPF can place a session on a CPU by
+allocating its TEID from the right block [1]. Any scheduling algorithm can
+then pick that block.
+
+  tc filter add dev eth0 ingress protocol ip flower skip_sw \
+      ip_proto udp dst_port 2152 enc_key_id 0x40000000/0xc0000000 \
+      action skbedit queue_mapping 1 skip_sw
+
+This series generalize an earlier GTP-U work [2] to other tunnels that the
+ConnectX family can steer: GRE, VXLAN and GENEVE.
+
+Patches 1 to 5 refuse a partial mask or a key wider than the VNI where a
+driver cant honor them. Patches 6 and 7 add the flower mask and its test.
+Patch 8 adds queue mapping to mlx5e NIC flows. Patch 9 refuses the tunnel
+keys that mlx5e used to ignore without a tunnel device. Patch 10 matches
+enc_key_id there in NIC and eswitch flows. Patch 11 documents the result.
+
+Without a tunnel device nothing decapsulates. enc_key_id reads the tunnel
+header on the wire like on cxgb4 and hns3. On mlx5 the plain ip_proto and
+dst_port keys select the match register. I can rework patch 10 on a
+dedicated key if that looks cleaner.
+
+Tested on ConnectX-7 with firmware 28.48.1000 in NIC mode. Also tested on
+the uplink and VF representors in dmfs, smfs and hmfs. This includes
+redirect to a VF. GTP-U needs flex parser profile 3 and GENEVE profile 0.
+The bnxt, cxgb4 and nfp patches are build tested only. So is the min
+inline check of patch 10, because ConnectX-7 needs no inlining. The
+selftest passes under User-Mode Linux and skips on a kernel without the
+mask.
+
+Multiple AI tools were used to test this feature. They found the problems
+fixed by patches 1 to 5.
+
+The iproute2 support is posted separately.
+
+v3:
+- cxgb4: add the Reviewed-by from Potnuri.
+- selftest: skip when tc or the kernel drops the mask.
+- mlx5: new patch 9 refuses the tunnel keys that mlx5e used to ignore
+  without a tunnel device. Patch 10 now only lets enc_key_id through.
+- mlx5 outer key: refuse a VXLAN or GENEVE mask that leaves no VNI bit,
+  like cxgb4. In v2 the firmware refused such a NIC flow and tc got
+  EINVAL without a message.
+The selftest and patch 9 changes follow the Sashiko review of v2 [4]. The
+sashiko.dev review of v2 found the VNI mask one [5].
+
+v2:
+- cxgb4: also refuse a mask that leaves no VNI bit.
+- cxgb4, nfp and mlx5: add Fixes tags.
+- selftest: run the enc_key_id mask test in software only.
+- mlx5 queue mapping: refuse it after any terminating action.
+- mlx5 outer key: refuse other tunnel keys and representors that need
+  inlining.
+- docs: drop a wrong sentence about skip_sw and name the tunnel ports.
+- nfp and selftest: wrap two lines over 80 columns.
+The first six follow the Sashiko review of v1 [3].
+
+v2: https://lore.kernel.org/netdev/20261117092915.255194-1-acassen@corp.free.fr/
+v1: https://lore.kernel.org/netdev/20261109131039.959438-1-acassen@corp.free.fr/
+[1] https://gtp-guard.org/articles/5g-upf-pump-up-the-volume/#benefits-of-range-partitioning
+[2] https://github.com/acassen/research/tree/main/UPF-flow-steering
+[3] https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261109131039.959438-1-acassen%40corp.free.fr
+[4] https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261117092915.255194-1-acassen%40corp.free.fr
+[5] https://lore.kernel.org/r/sashiko-outbox-220570@kernel.org/
+
+Alexandre Cassen (11):
+  bnxt_en: require an exact tunnel id in TC flows
+  cxgb4: flower: refuse a tunnel key wider than the VNI
+  nfp: flower: refuse a tunnel key wider than the VNI
+  net/mlx5e: TC, refuse a tunnel key wider than the VNI
+  net/mlx5e: TC, reject a partial tunnel key with tunnel mapping
+  net/sched: cls_flower: add enc_key_id mask
+  selftests: forwarding: tc_flower: test the enc_key_id mask
+  net/mlx5e: TC, offload RX queue mapping in NIC flows
+  net/mlx5e: TC, reject tunnel keys without a tunnel device
+  net/mlx5e: TC, match the tunnel key without a tunnel device
+  docs: networking: describe tunnel key partitioning in TC queue
+    filtering
+
+ Documentation/netlink/specs/tc.yaml           |  4 +
+ Documentation/networking/tc-queue-filters.rst | 22 +++++
+ drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c  |  7 ++
+ .../ethernet/chelsio/cxgb4/cxgb4_tc_flower.c  | 15 +++
+ .../net/ethernet/mellanox/mlx5/core/Makefile  |  6 +-
+ .../mellanox/mlx5/core/en/tc/act/act.c        |  1 +
+ .../mellanox/mlx5/core/en/tc/act/act.h        |  1 +
+ .../mellanox/mlx5/core/en/tc/act/rx_queue.c   | 67 +++++++++++++
+ .../ethernet/mellanox/mlx5/core/en/tc_tun.c   | 97 +++++++++++++++++++
+ .../ethernet/mellanox/mlx5/core/en/tc_tun.h   | 14 +++
+ .../mellanox/mlx5/core/en/tc_tun_geneve.c     | 46 +++++++++
+ .../mellanox/mlx5/core/en/tc_tun_gre.c        | 31 ++++++
+ .../mellanox/mlx5/core/en/tc_tun_gtp.c        | 36 +++++++
+ .../mellanox/mlx5/core/en/tc_tun_vxlan.c      | 45 +++++++++
+ .../net/ethernet/mellanox/mlx5/core/en_tc.c   | 29 ++++++
+ .../net/ethernet/mellanox/mlx5/core/en_tc.h   |  1 +
+ .../ethernet/netronome/nfp/flower/offload.c   | 22 +++++
+ include/uapi/linux/pkt_cls.h                  |  2 +
+ net/sched/cls_flower.c                        |  5 +-
+ .../selftests/net/forwarding/tc_flower.sh     | 59 +++++++++++
+ 20 files changed, 506 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/rx_queue.c
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_gtp.c
+
+-- 
+2.43.0
 
-> A CLA domain cannot be used by multiple address spaces concurrently
-
-Which address space? The physical one? The virtual address
-space of the CPU for a certain CLA? The virtual address space
-of the CLA on a certain CPU, as found from it's TTBR0/1?
-I suspect the last one, but it needs clarifying.
-
-And so the domain is definied in hardware but there is
-a footgun waiting to be fired by not defining the virtual
-address space exactly the same on all CLA:s in the domain?
-
-Please elaborate.
-
-> because its devices share a memory translation context and may
-> communicate without isolation.
-
-Again I stumble here. "without isolation". So this kind of resoning
-implies I know of some isolation that I cannot have. But I don't
-know that, I have no idea what kind of isolation I would want here.
-
-This needs to be explained differently.
-
-> Represent each user of a domain with a
-> context keyed by the mm_struct and device file description, and track
-> contexts in a per-domain hash table.
-
-This I understand.
-
-> Add a domain scheduler that queues contexts for assignment
-
-Are these contexts the software abstraction of hardware
-constraints (such as the virtual memory space)
-around a certain domain, and since they are scheduled,
-these constraints are then applied over a certain time window?
-
-> and gives
-> each one a fixed time slice. Before switching, revoke the outgoing
-> context's mappings from all VMAs for the device file. Then save its
-> accelerator state and remove its MTC, before installing the incoming
-> context's MTC and restoring the incoming accelerator state.
-
-I think I start to understand a little...
-
-> Run hardware operations through CPU-bound kthread workers, since each
-> CLA can only be accessed from its local CPU. Coordinate the per-device
-> workers with a domain worker so that every CLA in the domain is switched
-> as a single assignment unit.
->
-> Treat a failure on any device as a failure of the whole domain. Stop
-> further assignments and wake all waiters when a domain becomes unusable.
->
-> Co-developed-by: Jean-Philippe Brucker <jpb@kernel.org>
-> Signed-off-by: Jean-Philippe Brucker <jpb@kernel.org>
-> Signed-off-by: Ryan Roberts <ryan.roberts@arm.com>
-
-OK this is some kind of scheduler let's look, but right before we
-start you should probably define the principles of this scheduler?
-FIFO? round-robin? Something else?
-
->  extern struct xarray cla_domains;
-
-Nice use of xarray
-
-
-> +static inline void cla_ctx_get(struct cla_ctx *ctx)
-> +{
-> +       kref_get(&ctx->refcnt);
-> +}
-> +
-> +static inline void cla_ctx_put(struct cla_ctx *ctx)
-> +{
-> +       kref_put(&ctx->refcnt, cla_ctx_free);
-> +}
-
-Rename these something like _addref/_dropref or just inline
-the kref calls. These names upsets the kernel conventions
-for _get()/_put() of resources, see below.
-
-> +/**
-> + * cla_ctx_create - Create a context or increase its user count
-
-Something that creates or increase a context should be named
-cla_ctx_get() to avoid ambiguousness.
-
-> +/**
-> + * cla_ctx_destroy - Drop a context user
-
-No it drops the reference and drops the context (destroy it) if the
-usecount =3D=3D 0.
-
-Name it cla_ctx_put() to follow kernel patterns.
-
-> +       /* Release initial reference from cla_ctx_create(). */
-> +       cla_ctx_put(ctx);
-
-So this needs a different name.
-
-> +++ b/drivers/misc/arm-cla/cla-sched.c
-
-I wanna spend some time here since this is RFC and we are looking
-more at design than code details.
-
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Arm CLA driver - domain scheduling
-
-In this header explain the principles for the scheduling, as well as in the
-commit message.
-
-> +#include <linux/cpuhplock.h>
-> +#include <linux/rhashtable.h>
-> +
-> +#include "arm-cla.h"
-> +
-> +static struct cla_ctx invalid_ctx;
-> +
-> +static const struct rhashtable_params ctxs_rht_params =3D {
-> +       .head_offset =3D offsetof(struct cla_ctx, node),
-> +       .key_offset =3D offsetof(struct cla_ctx, key),
-> +       .key_len =3D sizeof(((struct cla_ctx *)0)->key),
-> +       .automatic_shrinking =3D true,
-> +};
-
-Neat!
-
-> +static int __cla_domain_switch_ctx(struct cla_domain *domain,
-> +                                  struct cla_ctx *prev_ctx,
-> +                                  struct cla_ctx *next_ctx)
-
-Is this one of those "__ means __inner_function()"?
-
-Name it for exactly what it does instead.
-
-> +static int cla_domain_switch_ctx(struct cla_domain *domain,
-> +                                struct cla_ctx *prev_ctx,
-> +                                struct cla_ctx *next_ctx,
-> +                                struct cla_ctx **assigned_ctx)
-
-Looks OK.
-
-> +/*
-> + * Run on the cla's local CPU, either in its worker or a CPU hotplug cal=
-lback.
-> + * Work submitters hold cpus_read_lock() until completion, excluding hot=
-plug
-> + * callbacks and keeping the worker bound. Hotplug callbacks hold domain=
-->lock
-> + * to protect the assigned context. Other devices may switch concurrentl=
-y.
-> + * On failure, mark the device broken; the caller handles domain failure=
-.
-> + */
-> +int cla_dev_switch_ctx(struct cla_dev *dev, struct cla_ctx *prev_ctx,
-> +                      struct cla_ctx *next_ctx)
-
-Good explanation and name, easy to understand.
-
-> +void cla_dev_switch_ctx_work(struct kthread_work *work)
-
-Here too
-
-> +static inline struct cla_ctx *cla_domain_get_next_ctx(struct cla_domain =
-*domain)
-> +{
-> +       return list_first_entry_or_null(&domain->queued_ctxs, struct cla_=
-ctx,
-> +                                       queue_node);
-> +}
-
-This looks like a FIFO thing?
-
-> +static inline struct cla_ctx *cla_domain_get_prev_ctx(struct cla_domain =
-*domain,
-> +                                                     struct cla_ctx *nex=
-t_ctx)
-> +{
-> +       if (domain->assigned_ctx && (next_ctx || cla_ctx_is_dying(domain-=
->assigned_ctx)))
-> +               return domain->assigned_ctx;
-> +       return NULL;
-> +}
-> +
-> +static void cla_vma_zap_domain(struct vm_area_struct *vma, struct cla_do=
-main *domain)
-
-"zap" is a very ambiguous word. This function needs to have
-a name that express exactly what it does.
-
-It looks like it should rather be infixed _initialize_?
-
-cla_domain_initialize_vma()?
-cla_domain_reinitialize_vma()?
-
-> +{
-> +       unsigned long vma_start =3D vma->vm_pgoff;
-> +       unsigned long vma_end =3D vma_start + vma_pages(vma);
-> +       unsigned long domain_start =3D domain->pg_offset;
-> +       unsigned long domain_end =3D domain_start + domain->nr_devs;
-> +       unsigned long start =3D max(vma_start, domain_start);
-> +       unsigned long end =3D min(vma_end, domain_end);
-> +       unsigned long addr;
-> +       unsigned long size;
-> +
-> +       if (start >=3D end)
-> +               return;
-> +
-> +       addr =3D vma->vm_start + ((start - vma_start) << PAGE_SHIFT);
-> +       size =3D (end - start) << PAGE_SHIFT;
-> +       zap_special_vma_range(vma, addr, size);
-
-That goes for that function too by the way. Two wrongs does not
-make one right.
-
-It might be that everyone in memory management disagree with
-me and think this is crystal clear, then I can have other opinions.
-
-> +static void cla_domain_zap(struct cla_domain *domain, struct cla_ctx *ct=
-x)
-
-And this one.
-
-cla_domain_init()?
-cla_domain_reinit()?
-
-> +static void cla_domain_reassign(struct kthread_work *work)
-
-What about a comment above this function explaining
-what is being reassigned to what?
-
-> +       /*
-> +        * Exclude cpuhp until assigned_ctx reflects the hardware again. =
-cpuhp
-> +        * callbacks use it to save/restore the local device and must not=
- see
-> +        * invalid_ctx. Take before domain->lock, also used by cpuhp call=
-backs.
-> +        */
-> +       cpus_read_lock();
-> +       mutex_lock(&domain->lock);
-> +       if (domain->broken)
-> +               goto out_unlock;
-> +
-> +       /* Figure out prev_ctx and next_ctx. NULL indicates don't [un]ass=
-ign. */
-> +       next_ctx =3D cla_domain_get_next_ctx(domain);
-> +       prev_ctx =3D cla_domain_get_prev_ctx(domain, next_ctx);
-> +
-> +       if (!prev_ctx && !next_ctx)
-> +               goto out_unlock;
-> +
-> +       /* prev_ctx already holds its assignment reference. */
-> +       if (next_ctx)
-> +               cla_ctx_get(next_ctx);
-> +
-> +       /*
-> +        * We need to grab mmap_lock, but can't do so while holding the d=
-omain
-> +        * lock (since cla_vma_fault() grabs the domain lock while holdin=
-g
-> +        * mmap_lock). The queue may change and contexts may be killed by
-> +        * cla_ctx_destroy() while the lock is dropped.
-> +        *
-> +        * No user is allowed to access CLA while we are reassigning. Dis=
-able
-> +        * assigned_ctx before zapping so cla_vma_fault() won't re-map th=
-e
-> +        * domain during reassignment. The sentinel also defers broken-do=
-main
-> +        * cleanup until we know which context hardware may still access.
-> +        */
-> +       WRITE_ONCE(domain->assigned_ctx, &invalid_ctx);
-> +       mutex_unlock(&domain->lock);
-> +
-> +       /* Prevent prev_ctx from accessing any device in the domain. */
-> +       cla_domain_zap(domain, prev_ctx);
-> +
-> +       /* cpus_read_lock() ensures workers remain cpu-bound and alive. *=
-/
-> +       ret =3D cla_domain_switch_ctx(domain, prev_ctx, next_ctx, &assign=
-ed_ctx);
-> +
-> +       mutex_lock(&domain->lock);
-> +       WRITE_ONCE(domain->assigned_ctx, assigned_ctx);
-> +
-> +       /* Also handle failure reported by another thread during the swit=
-ch. */
-> +       if (ret || domain->broken) {
-> +               cla_domain_set_broken(domain);
-> +               goto out_unlock;
-> +       }
-> +
-> +       /*
-> +        * Remove next_ctx from the queue and wake up all waiters so that=
- the
-> +        * fault handler can map the domain into the newly assigned proce=
-ss.
-> +        * assigned_ctx must have been updated prior to waking the waiter=
-s.
-> +        *
-> +        * If next_ctx was killed while we were assigning it, schedule an=
-other
-> +        * reassignment to deassign it.
-> +        */
-> +       if (next_ctx) {
-> +               if (cla_ctx_is_dying(next_ctx)) {
-> +                       cla_domain_schedule_reassignment(domain);
-> +                       goto out_unlock;
-> +               }
-> +               list_del_init(&next_ctx->queue_node);
-> +               wake_up_all(&next_ctx->waitq);
-> +       }
-> +
-> +       /* If there are more queued ctxs, schedule the next reassignment.=
- */
-> +       if (!list_empty(&domain->queued_ctxs))
-> +               cla_domain_schedule_reassignment(domain);
-> +
-> +out_unlock:
-> +       mutex_unlock(&domain->lock);
-> +       cpus_read_unlock();
-> +
-> +       /* Deliberately put references outside of the locks. */
-> +       if (next_ctx && next_ctx !=3D assigned_ctx)
-> +               cla_ctx_put(next_ctx);
-> +       if (prev_ctx && prev_ctx !=3D assigned_ctx)
-> +               cla_ctx_put(prev_ctx);
-> +}
-
-This function contains a bunch of comments that are hard for me
-to understand without context (ha!) but it's probably all right,
-I bet they are helpful once you get the hang of it.
-
-> +int cla_domain_sched_init(struct cla_domain *domain)
-
-OK.
-
-> +/**
-> + * cla_domain_sched_exit - Tear down scheduling for a CLA domain
-> + * @domain: CLA domain
-> + *
-> + * Drain final deassignment, destroy the domain worker, and destroy the =
-context
-> + * table. All context users must have exited before calling this.
-> + */
-> +void cla_domain_sched_exit(struct cla_domain *domain)
-
-OK.
-
-> +void cla_domain_set_broken(struct cla_domain *domain)
-
-OK.
-
-> +struct cla_ctx *cla_domain_lookup_ctx(struct cla_domain *domain,
-> +                                     struct cla_ctx_key *key)
-(...)
-> +int cla_domain_insert_ctx(struct cla_domain *domain, struct cla_ctx *ctx=
-)
-(...)
-> +void cla_domain_remove_ctx(struct cla_domain *domain, struct cla_ctx *ct=
-x)
-
-Clever use of rhashtable, good names.
-
-> +/**
-> + * cla_domain_schedule_reassignment - Schedule domain reassignment
-> + * @domain: CLA domain
-> + *
-> + * The caller must hold the domain lock. If a live context is currently
-> + * assigned, schedule with a delay (CLA_SLICE_MS), otherwise reassign
-> + * immediately. Do nothing if the domain is broken or a switch is in pro=
-gress;
-> + * the running switch handles new requests before returning. If reassign=
-ment is
-> + * already scheduled, the delay is modified.
-> + */
-> +void cla_domain_schedule_reassignment(struct cla_domain *domain)
-
-Schedule reassign of the domain to ... what?
-
-This use of verbs is really confusing me, I understand for example
-"assign timeslice to process" then I know a timeslice is assigned to
-a process. There is something implicit here making this really
-hard to understand.
-
-> +void cla_domains_sched_exit(void)
-
-OK.
-
-But where is the cla_schedule() function in this scheduler
-akin to Linux' schedule() call? It feels like this is implicit
-in some call order semantic, and the function
-cla_domain_get_next_ctx() implements an implicit
-FIFO scheduling principle.
-
-Alternatively the scheduling isn't actually driven here
-but from somehwere else, like userspace. Then that
-needs to be explained. Then this file doesn't actually
-implement any scheduling, it's a scheduling context
-library nothing more.
-
-This kind of stuff needs to be explained so I can review the
-patch properly.
-
-Yours,
-Linus Walleij
