@@ -1,52 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.39
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795380190;
-	b=Cn9rb3LKS02bz/ODrhcVGeTN50ZS7dy6ib+RX6K1FYpyfUOLHjUPvKtPsTUlfrEGB4Y/
-	 vBla3IrESb8NobXDAdT2AXpnSKKn2MClvChcNUbbqNShwK66tUPecILRvftnnCu0/Gws+
-	 i/eAY8rkq0T6WdACnpLPhwWmOozrjbov3dzzolpcmGqq/nW7EDwNDEwbvnkOsdjkbyqIH
-	 VgqqOeqzdObQ5fmiUbytP5zZrWZlaDUkQtYnSxG1aGGXJyluYZW2zu6+itUrIZ0Ukybk2
-	 gqV+u/RjVK98s9tld9bZbrKTDBAMwjk8ONZnPlnWeigYZsVhYIfr2zwuq7wjtkS57AQ==
+	t=1795380698;
+	b=cN676LpOS9FA3cwz5d6W/DGwFjsvzK3hfaIDL51ockndY3kuqPMhjzqwmep25/GJqJbb
+	 7pliBfLFpzoylSUYNtNH2keLsHSQ8m+Vnsv6nsaoBY5LRCH0szUx3pP8cf9CBc+2zmUUe
+	 fj3ApfiDYT6YC6k25CuhnToFVyxrU29VdcQUOKKoB+zHDfOn4g8CUl1FJKgrSyRv0yp4j
+	 LYpJFiWcrPnIFTkyuxemBfGh+xlIyNJouiPQGjo/YnoXJdmxLnZ1UtRkERtUSne2w96kV
+	 j91+i9B/+5g3wnIAcDQQMSK2IDDlQQqqT/35PY478tz0i0SaE9XqzB3i51YTx44Tiew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795380190;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=f3WCN5DK2nraEF7E6NFOd/Lnddtr3bK2epIP1vkXLx8=;
-	b=1ELGF/r8CK8fBZAzuDUdV+0kTLvdUAn94LzDPiimUR5+KFEcDT8tg1mDvRRY8s/xbm3W
-	 8uxq/+RbSig99ETA6mXLpTi8QgNNka2xlyUC+BpsJMV4DC4yqbC2S1ixIDOtwe0cahBw1
-	 FpvkeQ/lyvYUkF+HxP91dUZ4rvmXVTJHHfRn2isiPTh+JAxeGsH2EUo5k7RKITX5nqPHs
-	 XfwRirQ8zvKYx6Z/EZV63Px6NJazgQYZ+gPiA5AVq0MrcLRNw5NQfrG00xzM6tQ5a/59d
-	 ZJKcAdcy+i1HZzfUsZTfMWE7kFQDiFF1KceZJA1WHwqLdblc2gytf6Ciy4zCYZYRJXQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795380698;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
+	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=ti6yGnOH5tg9+I9TFYkbc862Q5VopXd4FS+rL58VF5U=;
+	b=w4fGZeyBf4EH+pf67GpNHFcLaUFLYAUOk0wooTdEQdCHq9HB/uZLDfJvzlZC7DI1d0YD
+	 20l0EzW/jqIrDIc4qdYaLXsVoLu+arrVbAlsS0TeGgliPXoyVWxqD0YHPSG8Ah9veGi2W
+	 ZeD7mAHeiUi3QqIOY+LgB/EDXby244FXNT1c4VnCipIu5mY4cFPPMsBWyn2ZUk5pIsG2E
+	 0Etxx9J5ZWPlCX3bMzkjIEv8Ax2P65w5RI8Ezi33MesJrRBN48MYa/Ta5PrBljwwjtIgo
+	 oi4lFGDMh7qR1DS1vTi2h9DkCbUXFTkI3+Y8Zui9IONOq75LD4ArhGTbH9jvkylLHlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=corp.free.fr;
-	spf=pass smtp.mailfrom=corp.free.fr;
-	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=qmEXXjbL;
-	arc=none smtp.remote-ip=212.27.60.169
-Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=rUO58+aB;
+	arc=none smtp.remote-ip=44.202.169.39
+Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17411606A31A;
-	Sun, 22 Nov 2026 20:43:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17411606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88501606A334
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 20:51:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88501606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=qmEXXjbL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
-	t=1795380188; bh=YiA403p8mPlqP8u3u6soZWq/iuKhibw6d6FJkg8XKC8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qmEXXjbLtA0Fs08Bf3JJqdbeFGFTO/66kTjgQybHUcZVMHcZWKkUWR3omqyuq6yoO
-	 fgbuwKh/F6Mo3w3jzNFCrl+jmTznzWMla7WKxnEmHnNSliWDSWR69mshSl7F6O4IKR
-	 Y9ICJ+jgnEHmQOe4lepBn/HxMszHwV+dwPzWlvF4dIojEGeFFxbF8Xsfdh9R+FQLqK
-	 g1R7QKKsGsCVIzqOnvZCMZKyiA+f49jJ2R/Z6/buDOzVF5Wa5aIsLyNcc4guIA42kD
-	 udp/scXvBIssJkrkcEZegirFhpvVExCLquH2R1/B9KuOtdrd/4vTZYlTZ9UOmYi5qt
-	 OL1xNhp81Go8A==
-Received: from [0.0.0.0] (unknown [213.228.1.188])
-	by rcs.proxad.net (Postfix) with ESMTPSA id 4AE9D44C026E;
-	Sun, 22 Nov 2026 21:43:06 +0100 (CET)
-Message-ID: <9e26c923-381e-4b2f-a267-d5dcfc4cbb4f@corp.free.fr>
-Date: Sun, 22 Nov 2026 21:43:05 +0100
+	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=rUO58+aB
+Received: from eig-obgw-6004b.ext.cloudfilter.net ([10.0.30.210])
+	by cmsmtp with ESMTPS
+	id UlaixBC4bOOJnVEXAxzZdW; Sun, 22 Nov 2026 20:51:36 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id VEX9x7euRlaNKVEX9xsQpR; Sun, 22 Nov 2026 20:51:36 +0000
+X-Authority-Analysis: v=2.4 cv=UbpRSLSN c=1 sm=1 tr=0 ts=6b0355d8
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10 a=pGLkceISAAAA:8
+ a=_jlGtV7tAAAA:8 a=Qibk6pR6aqbyheTQBO0A:9 a=QEXdDO2ut3YA:10
+ a=nlm17XC03S6CtCLSeiRr:22 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=ti6yGnOH5tg9+I9TFYkbc862Q5VopXd4FS+rL58VF5U=; b=rUO58+aB9+yJ
+	w5m1uxWeUUYYmmVKb/XOCXMeNd4py18ycVsNTKPxLWk4A4U44AuAF3lY0tuuP0ky+//DFpa8vhXzw
+	8mAAUDF80zKfp0K/Mbze9GoxK+stOjhgE5yhGK6L2Cx3fK2uNhr3MWi+EIT8SbH7+3mxbjgHGWoFN
+	912vtj/4VUbt/Jzwc0QL9F4Sz/GOZ4ZtdBIzxkkKZV4wbPdWvqT3c5BPkyOhhI8yHiLvm2j4x/VWt
+	ZNwsraJHJOgaiV6QE3OHlWUDy9bXXNxN/bnYVlldvw2Rxv/YbyZ4xLhb5ghorTpQ1PUXnHyQuwoKF
+	Y+ajo0LuBeQsuuC4lm9Khw==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:32802)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xVEX6-000000001Za-0Q4Z;
+	Mon, 23 Nov 2026 02:21:32 +0530
+Message-ID: <93ffac09-f995-4ea7-8aa7-4fb7ed3ff4d6@roeck-us.net>
+Date: Sun, 22 Nov 2026 12:51:28 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -57,126 +77,118 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 08/10] net/mlx5e: TC, offload RX queue mapping
- in NIC flows
-To: netdev-bot+sashiko@kernel.org
-Cc: saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
- jhs@mojatatu.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, michael.chan@broadcom.com,
- pavan.chebbi@broadcom.com, bharat@chelsio.com, donald.hunter@gmail.com,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- dsahern@kernel.org, idosch@nvidia.com, shuah@kernel.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- oss-drivers@corigine.com
-References: <20261117092915.255194-9-acassen@corp.free.fr>
- <179514544232.3136.10984795533608621568@kernel.org>
+Subject: Re: [PATCH v4 1/2] hwmon: add Raspberry Pi PMIC driver
+To: Sander Speetjens <sander.speetjens@gmail.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, Peter Robinson <pbrobinson@gmail.com>
+References: <20261119-hwmon-da9091-v4-0-0d6e345c3666@gmail.com>
+ <20261119-hwmon-da9091-v4-1-0d6e345c3666@gmail.com>
 Content-Language: en-US
-From: Alexandre Cassen <acassen@corp.free.fr>
-In-Reply-To: <179514544232.3136.10984795533608621568@kernel.org>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20261119-hwmon-da9091-v4-1-0d6e345c3666@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xVEX6-000000001Za-0Q4Z
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:32802
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 6
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfBFJCnwe/YTGMzlFSZriiVD1r1obitjpZp6v5ZmpFDkQt0+V03BPtzn/Vd3BPD0C06zqk9ASsM0B5646LHi1CCRlpwkYoesp4LLLyrFwVPYdqXFSCFhg
+ ojakkbvqRUsbU5JBvV5AGMMZM1n7MUvMDeQes3RZo5nH02vPl9lXHHYxqkKg7bnzsp5CvQTegUdDRlQVRCtvGfvh6yuXbq7eXtmEo/LppDP4O6up9aJzsfkb
 
+On 11/19/26 11:55, Sander Speetjens wrote:
+> Add a hwmon driver for the PMIC found on the Raspberry Pi 5.
+> The PMIC exposes voltages, currents and temperatures exclusively
+> through the VideoCore firmware mailbox interface (property
+> 0x0003009f).
+> 
+> Requires a sufficiently recent Raspberry Pi firmware that
+> implements the structured PMIC ADC property.
+> 
+> The driver:
+> - is instantiated at runtime by the raspberrypi-firmware driver
+>    (same pattern as the Pi 5 RTC driver)
+> - reads all channels in a single batch mailbox call
+> - uses a short refresh-on-read cache
+> - exposes the sensors via the standard hwmon sysfs interface
+> 
+> Signed-off-by: Sander Speetjens <sander.speetjens@gmail.com>
+> ---
+>   Documentation/hwmon/index.rst                  |   1 +
+>   Documentation/hwmon/raspberrypi-pmic-hwmon.rst |  49 ++++
+>   drivers/hwmon/Kconfig                          |  11 +
+>   drivers/hwmon/Makefile                         |   1 +
+>   drivers/hwmon/raspberrypi-pmic-hwmon.c         | 296 +++++++++++++++++++++++++
+>   include/soc/bcm2835/raspberrypi-firmware.h     |   1 +
 
-On 11/20/26 04:30, netdev-bot+sashiko@kernel.org wrote:
-> [Severity: Medium]
-> The queue index is only checked against num_channels here, when the rule
-> is inserted. What happens to the offloaded rule after a later
-> "ethtool -L combined N" with N <= rx_queue?
->
-> tc_act_parse_rx_queue() stores the direct TIR number in nic_attr->rx_tirn.
-> mlx5e_add_offloaded_nic_rule() then programs it as a TIR destination.
->
-> On the channel switch:
->
-> mlx5e_switch_priv_channels()
->    mlx5e_deactivate_priv_channels()
->      mlx5e_rx_res_channels_deactivate()
->        mlx5e_rx_res_channel_deactivate_direct()
->          mlx5e_rqt_redirect_direct(&res->channels[ix].direct_rqt,
->                                    res->drop_rqn, NULL);
->
-> mlx5e_rx_res_channels_activate() then re-points the direct RQTs only for
-> indices below the new channel count. The FTE still points at the direct
-> TIR for rx_queue, and that TIR's RQT now points at the drop RQ. Hardware
-> drops the matched flow, but tc still reports the filter as in_hw.
->
-> The ethtool core check (ethtool_get_max_rxnfc_channel() and
-> ethtool_get_max_rxfh_channel() in net/ethtool/common.c) only knows about
-> ntuple and RSS users. So the reduction is allowed, and nothing
-> re-validates, reprograms or removes the TC rule.
->
-> The drops are counted on priv->drop_rq_q_counter, and
-> mlx5e_grp_q_update_stats() reports them as rx_if_down_packets even though
-> the interface is up.
->
-> The commit message acknowledges this:
->
->    "Reducing the channel count below the queue of a rule drops its traffic
->    until the channel returns."
->
-> Could the driver track the queues used by TC rules, so that set_channels
-> can refuse the change as it does for ethtool's own rules? Alternatively,
-> could it reprogram the affected rules so they don't keep dropping
-> traffic?
+This patch is making changes in a non-hwmon include file, so I can
+not apply it, or at least not without an Acked-by: from a maintainer.
 
+Assuming it will be applied through some other tree,
 
-Not in this series. The commit message and the documentation describe 
-the drop.
-ice behaves the same. It checks the queue of a TC rule when the rule 
-goes in and
-its set_channels ignores TC rules. Tracking the queues of TC rules would 
-help
-every driver that offloads queue mapping. That is a separate change.
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 
-
-
-> [Severity: Low]
-> Is it safe to read priv->channels.params.num_channels here without a lock?
->
-> mlx5e_setup_tc() sets f->unlocked_driver_cb = true, so this path can run
-> without rtnl:
->
-> mlx5e_configure_flower()->...->parse_tc_nic_actions()->parse_tc_actions()
->    ->tc_act_can_offload_rx_queue()
->
-> This path doesn't take priv->state_lock either. Meanwhile,
-> mlx5e_switch_priv_params() and mlx5e_switch_priv_channels() overwrite the
-> structures with plain struct copies under state_lock:
->
->      priv->channels.params = *new_params;
->      ...
->      priv->channels = *new_chs;
->
-> The two sides share no lock, so this is an unannotated data race that
-> KCSAN would likely report.
->
-> The check is also check-then-act:
->
-> CPU0 (tc filter add)           CPU1 (ethtool -L combined 4)
-> reads num_channels == 8
-> accepts rx_queue == 7
->                                 switches channels, direct RQT 7 now
->                                 points at the drop RQ
-> installs FTE to direct TIR 7
->
-> The filter add succeeds, but its traffic is silently dropped. Direct TIRs
-> exist for all max_nch indices, so the rule still references a valid TIR.
->
-> The commit message mentions this window too ("A channel change racing
-> with the range check of a new rule has the same result").
->
-> If the channel reduction issue above is fixed by tracking TC queue usage,
-> would this check also need to run under priv->state_lock?
-
-
-The first part is the question of v1 [1]. The count can change right 
-after the
-check with or without the lock and the rule always points to a valid TIR.
-Tracking would need its own locking in that separate change.
-
-[1] 
-https://lore.kernel.org/netdev/5c2301d9-d62a-49f7-9d0b-87a7c254a514@corp.free.fr/
-
+Guenter
 
