@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795355185;
-	b=H+rMf10ZvcsW+qGFXsMB3t3Ji9XBsTS5WsngbGFXOI6xwYGnus42tQpaHgEZST6reisq
-	 IrvwYYs9JcRgn1wICEghm4KAKAf0g6fw21GUhewI7sJ+fqnhBvB8EqPURlbLfQAT/boRy
-	 pNK0XduZGkdNgyfkS29ClMD1oERZ4Ny4EtEUOlCBO56OtSQYXyu72eNPXtsAesEitM1sv
-	 NdqByfMQsFPghKUeke7OBeq9x0FdTBrxe/1SuQGbKOEmO77l2nyybKGv8TS1H7RKQ7Zg1
-	 e/sOQ8rP8/POTApQ7kISTIot2rjrNVJp3YcX+bK7ku/vknItaNdZLhsiTsG7m3W45Ag==
+	t=1795355189;
+	b=ysCIIcj17mV5+arffmI3aQk/iRU8Fm67nIyNSVXjTk/4ia7r1I40HHw6Aitnca1615eP
+	 pldHhU67A6OUVZBozDIqe3OAvfUm9VN7NSOc/PQxIyC7epCjU0CNzgTUJKGiwecbJqw6p
+	 Rak+It7hCBkAU0IMFfvo4B48hlde31SO1DnnqiuPrANN35yLhf5dc23nMwpe+TYKRoad1
+	 VUrjZ8Z41XVTJETdXGbIDcda3B/66umJEZpnIZ7WFXt8/qNhmrf+tVyQIoO4WenUEcZRB
+	 I7ZvwdS+y3ubq9qix3GrWca78Pk2K0c8iTTZAQvbt4FPcw5XI22gG53DKVY5NDLqftw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795355185;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795355189;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=cfaF2SXCtw5vI2zHw+wZh7wjw/30WUrGNG83iCO0VRM=;
-	b=Ypm8SNAKocCFmdP1u3Zh327y7q6N7Dea4LoZJe2B+YQaM8fyO58v8ZN90vpR7123CuiN
-	 0oWO1YmUIbsnWjJJuEbR6f+BAyz8sbnRu659fK/WPURLTNE65XJy+Drf/QG1JfcS0CHGy
-	 gYe5ZbV4xG2NZUXzTUHL1qalTGaIayd2OHLLHGHFY8vBxBvidh0MlftGoDo0nIh/UwQCk
-	 TbElVwa+3UWZr5OWMe/wfGa1bi4hDXku9kaZLqsqRjC/IiS/fqutQm9gDBiKd6MZ7nfYA
-	 r1fL7NrDgcasjtBfZzfdcph24zK30szJ3vFssDrIo9PY5dkYfovTYXcVtcZ+k4bYJdQ==
+	bh=pB057NkZDYqdczBABoh917OV5l09xxC3pud6tJA7b28=;
+	b=HR91q61h48BYBhJJ0wKu2K+uZPykOLpwCVLp+E+jrQ+tacihq0hG18Z/9TzFn584FbgZ
+	 aEVhdgrLGrUVtzTpyH5faq2Ot/y5Q8hM58LKCOvqN2UYJQQdfT5Dafzw/SwfLmJcxynYH
+	 JaR3go/S5KNM4Gwf+u3RIpngVaKxfArOPKSScLzn9jlhSsFOo8rHWH+jMv4DNhuCgbVmi
+	 PPh84dzeqnQoIvqP+NCPyV7JHovh6CSPADl2s2W2NUm3z/vk4Dd4PR7IUEGR/FYpAoolj
+	 IUI76MWkmVQ/obQSxg470YhZ7fcA5Oo4z1x7ohkOw7WesExOS47tFT/GRZhDnPGzpzg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l5sTU7R8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hZgr3MGj;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23A5606A32C
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 13:46:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA472606A32A
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 13:46:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l5sTU7R8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hZgr3MGj
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795355185;
-	b=m588PsP8DhAKOgJQNKkjI+f7Y8F/RIVD/YVXNaCDyYCu6TqGNvkKTkdnp39gPHxx0n0c
-	 HsHYP/7Typ7jlcXCGF3rD5TYq1Lt6xd/U3TUR5uKKh5VT3f1ihltYpQz7dHVtaRkB9jay
-	 nNeBmKjJGnWJnL8Rco+3DyieMh4/i0gfjamvgwpupCLXcJosY90x6xnPDt3D368vj3w0Z
-	 6vBg5jepHdEjodS4ZOMAw3AQ+ECngkF/k1ciCcFq5eLd6DL0lLUdDIhTaMdVJu2+MTg1O
-	 nIONQToRTFYi3A4jxQUfSeet7bp6ZLYbCazc/WgRdEer+4U30a8SBDqnPXHPLnQc6VA==
+	t=1795355189;
+	b=jtqPIApx79GNF0dJdi1ziEM12NSDT0UL5CuU025Nf3GQ/ONV7cOZAUPwQvPaBriKgzkZ
+	 HyjN2kMUoyEoo083rEArhxylErRW90QdnyK2+kroKyKGxRM6J7q8QVXvqSQ0MVX861km8
+	 lpST6TezjgdQvTS8F39ZXC83oxOEHt7LJCxhbCjNhKcnD0xTjBs8b89G1wGYVg/QnrLJf
+	 T2ZsPacVYV6Vaiu2wYNcDgWOJ2d+pF1R0Nbp5sA/oSnZTov6AwSwfrFs83Cv1vddHNa3o
+	 dO7aRnIygpjgwloCxfG9OBxqIVuejEZSz5+Nw//W7VeLhUoGRveDtVN8c9Us1P1H7Cg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795355185;
+	c=relaxed/relaxed; t=1795355189;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=cfaF2SXCtw5vI2zHw+wZh7wjw/30WUrGNG83iCO0VRM=;
-	b=1WBPOIVLNWpHd68fHhgE7QPWuVijE0BiQMLtYfgZUUHUsT9bf6pmi66U/ramm3btRHhI
-	 1QcxaaZAbzzFqgM20QHK0lqX1jgvLt8S1fTrWKKFNmxDWIGM6kZGNB3JNT20Coin4MSOI
-	 XbQOT1cZzfkm4Z0bNqyjp1tidmlIYMPcDwa19gTT61yFetL7UainU1Ul05mSIc4Xs+3qu
-	 Auwy79Uf8osWDzMBHZjKIzfmDsWtKXuS1AfHogcOfED8YRayqAt+CicnGXQYEcmKSkmbB
-	 skaWBmFKwLUDKyYSNs9YWgt54NDCPK0zYMgM7xL413gKoW/MIVVr4+4056Pe2qhOgeQ==
+	bh=pB057NkZDYqdczBABoh917OV5l09xxC3pud6tJA7b28=;
+	b=HDTSV9EPX3h81KxOVxqJYb8f5gtdl7fboBiJTKHzI8o1gXcf0ITntWKGi0Id6lvNPmif
+	 oIS0cejQiOGfKuLCBnV4lJjHw2lz40eKlspQ90CR1AmBCPSCMugTlJ/DEpZv7lCyvWoGy
+	 5HGHtAGEVQQW/az7H0b2jJhWS6uXKmmGmDtswgAOyWxKI0Jhb2t3AW/A/bous9NUvcj9A
+	 jdd+b2p1VbFqyRtBPU52dMXFHxOeCun17ydt6JA5/Jc+abinbg42+le1p9Ouaw9niuNml
+	 5/VB5GdtXlLKK8uiCC5c6pdYR4KIyCZGQc+nsRkiLDi/vDoruV/4bIwCRShQjejiExQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 623B71F000C6;
+	by smtp.kernel.org (Postfix) with ESMTPS id 430111F000C0;
 	Sun, 22 Nov 2026 13:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795355185;
-	bh=cfaF2SXCtw5vI2zHw+wZh7wjw/30WUrGNG83iCO0VRM=;
+	s=k20260515; t=1795355189;
+	bh=pB057NkZDYqdczBABoh917OV5l09xxC3pud6tJA7b28=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=l5sTU7R8eTfVQ8AnV4QAl01Ch0DuTGLSiOEXSF+TaXHimKk3QYEIE/Kxf8L6B9k9z
-	 m/HlHg41rITykdHdx0Flm3fOchc65N+aD7B6l9Am5spk3/GiDQM6DmbZ5xBNM5z+3P
-	 dIOcJ2vvn9VN4sef8BGs8AWFUx2EJWjCKsJ1lifNAF99CGOB3X4ZLUrHpJG48w8VnB
-	 znamIn3TatIVwfVLXqJtNGSqCQvKoI1kRJDvU1hBwkh4egT5JNpBBTs6hYQHkN7GOl
-	 PoLs91r4Lb7gdkkfKa/zF5PE0wQO/xzEjuCZI2WU60BWWn2Y/as0vsMDr9oSPwSqh2
-	 JYJTCwmyycEHA==
+	b=hZgr3MGjX/Cw4F1936RsODK3M++DoJeQnMdWe9OLD1pbQRE/EmTkzmI3Za5XpTbzO
+	 SBV0r/K37VK0ofU//fjBjk7zKdPqUdWUC3TzUbjrRex5X03BqKoiGSm16GI4XAKcWf
+	 hxNUX/ec0jv8mdOXwvXHeb16wEwU6HY1kNb7Oq0EYdLYNnPSUY0ehFfIB3cWhIJ965
+	 pJCyeiJbUpJMGt4RoujfsVcJQQoVbOCMIZfPGgOgkyZqap0xsPpjFh/LbziK88bX8N
+	 WqWjJ4W9usVcc0fw5L3gdrIeVN5Ykji5Yi6qMlMQ7QysDLy2FrIKETbao+h2T71Lb7
+	 EBaheAnPcmT2Q==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id E752B4C0CC;
+	by lkml.kernel.org (Postfix) with ESMTP id C89F34C0C8;
 	Sun, 22 Nov 2026 13:46:16 +0000 (UTC)
 From: Eduardo Pereira Cruz via B4 Relay <devnull+dreduardocruz.gmail.com@kernel.org>
-Date: Sun, 22 Nov 2026 10:46:18 -0300
-Subject: [PATCH v3 3/3] docs/translations/pt_BR: process: add
- handling-regressions.rst (3/3)
+Date: Sun, 22 Nov 2026 10:46:17 -0300
+Subject: [PATCH v3 2/3] docs/translations/pt_BR: process: add
+ handling-regressions.rst (2/3)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,18 +84,18 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261122-handling-regressions-v3-3-e3d5ea982948@gmail.com>
+Message-Id: <20261122-handling-regressions-v3-2-e3d5ea982948@gmail.com>
 References: <20261122-handling-regressions-v3-0-e3d5ea982948@gmail.com>
 In-Reply-To: <20261122-handling-regressions-v3-0-e3d5ea982948@gmail.com>
 To: linux-doc@vger.kernel.org
 Cc: danielmaraboo@gmail.com, corbet@lwn.net, rdunlap@infradead.org, 
  skhan@linuxfoundation.org, Eduardo Pereira Cruz <dreduardocruz@gmail.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795355175; l=29898;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795355175; l=11132;
  i=dreduardocruz@gmail.com; s=20261119; h=from:subject:message-id;
- bh=CnU6QXydIIaJR7FD8t+D3YpQeS5GyNA6NNp/03K1Hwo=;
- b=9sCnqSJ1BPaYHCxlbhDEcbXjkYScVYZDjgvS37R2H9MADQwXsni4TSZdeJd4kN1+yZSdaZVul
- yOHILj0+GzUCS6AmHLccFNDWCgRrlSSlopO1w0HsKd3feuTcb5b7qkQ
+ bh=wTBeEoWZ5YObuIY6tTiWmBYIlTubs6bOb8juDkqMaL4=;
+ b=OUe6XFlvGyg7uKv4f5XWdA4+J+LxQai88Kc4OFzwv05MOMNBwLsBDKQTvtatXx0Cwx67NOIMD
+ olT9NVyUZdiDd1C+ImvVG7Pt8ikPI5EZjPYvoAwBMU9udb1O7qJOhus
 X-Developer-Key: i=dreduardocruz@gmail.com; a=ed25519;
  pk=2dtL+BL/x70sROmAvlskv9dbjj274zlPkLBVu4gJJiA=
 X-Endpoint-Received: by B4 Relay for dreduardocruz@gmail.com/20261119 with
@@ -106,615 +106,246 @@ Content-Transfer-Encoding: 8bit
 
 From: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
 
-Finish the translation with the quotes from Linus Torvalds about the
-"no regressions" rule, and hook the new document into the pt_BR process
-index.
+Translate the second part: the aspects developers should be aware of
+(known regression risk, where to ask for advice) and the chapter on
+regression tracking with regzbot, including its commands.
 
 Signed-off-by: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
 ---
- .../pt_BR/process/handling-regressions.rst         | 592 +++++++++++++++++++++
- 1 file changed, 592 insertions(+)
+ .../pt_BR/process/handling-regressions.rst         | 223 +++++++++++++++++++++
+ 1 file changed, 223 insertions(+)
 
 diff --git a/Documentation/translations/pt_BR/process/handling-regressions.rst b/Documentation/translations/pt_BR/process/handling-regressions.rst
-index 8f18bc28689e..c57e5b2091ec 100644
+index 6129cde22ec1..8f18bc28689e 100644
 --- a/Documentation/translations/pt_BR/process/handling-regressions.rst
 +++ b/Documentation/translations/pt_BR/process/handling-regressions.rst
-@@ -547,3 +547,595 @@ e `documentação de referência
- <https://gitlab.com/knurd42/regzbot/-/blob/main/docs/reference.md>`_,
- ambos cobrindo mais detalhes do que a seção acima.
+@@ -324,3 +324,226 @@ Sobre o fluxo de patches:
+    para backport.
  
-+Citações de Linus sobre regressão
-+---------------------------------
-+
-+As declarações a seguir, de Linus Torvalds, oferecem alguma compreensão
-+sobre a regra "sem regressões" do Linux e sobre como ele espera que as
-+regressões sejam tratadas:
-+
-+Sobre a rapidez com que as regressões devem ser corrigidas
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+* De `2026-01-22 <https://lore.kernel.org/all/CAHk-=wheQNiW_WtHGO7bKkT7Uib-p+ai2JP9M+z+FYcZ6CAxYA@mail.gmail.com/>`_::
-+
-+    Mas um usuário reclamando deve basicamente resultar em uma correção
-+    imediata - possivelmente um "reverter e repensar".
-+
-+  Com um esclarecimento posterior, de `2026-01-28 <https://lore.kernel.org/all/CAHk-%3Dwi86AosXs66-yi54%2BmpQjPu0upxB8ZAfG%2BLsMyJmcuMSA@mail.gmail.com/>`_::
-+
-+    Vale notar também que "imediata" obviamente não significa "neste
-+    *segundo* em que o problema foi relatado".
-+
-+    Mas se for uma regressão com um commit conhecido que a causou, penso
-+    que a regra geral deve ser "dentro de uma semana", de preferência
-+    antes do próximo rc.
-+
-+* De `2023-04-21 <https://lore.kernel.org/all/CAHk-=wgD98pmSK3ZyHk_d9kZ2bhgN6DuNZMAJaV0WTtbkf=RDw@mail.gmail.com/>`_::
-+
-+    Commits sabidamente quebrados ou
-+     (a) recebem uma correção em tempo hábil que não traga outras questões
-+    ou
-+     (b) são revertidos
-+
-+* De `2021-09-20(2) <https://lore.kernel.org/all/CAHk-=wgOvmtRw1TNbMC1rn5YqyTKyn0hz+sc4k0DGNn++u9aYw@mail.gmail.com/>`_::
-+
-+    [...] a revisão não deveria barrar regressões relatadas de código
-+    existente. Isso é apenas _teste_ básico - ou a correção deve ser
-+    aplicada, ou - se a correção for invasiva ou feia demais - a fonte
-+    problemática da regressão deve ser revertida.
-+
-+    Revisão deveria ser sobre código novo, não deveria barrar "existe um
-+    relato de bug, aqui está a correção óbvia".
-+* De `2023-05-08 <https://lore.kernel.org/all/CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com/>`_::
-+
-+    Se algo nem sequer compila, deve ser corrigido o quanto antes, sim.
-+
-+Sobre como corrigir regressões com reversões pode ajudar a evitar o
-+esgotamento de mantenedores
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+* De `2026-01-28 <https://lore.kernel.org/all/CAHk-%3Dwi86AosXs66-yi54%2BmpQjPu0upxB8ZAfG%2BLsMyJmcuMSA@mail.gmail.com/>`_::
-+
-+    > Então como eu/nós podemos fazer "correções imediatas" acontecerem com
-+    > mais frequência sem contribuir para o esgotamento de mantenedores?
-+
-+    [...] o modelo de "reverter e repensar" [...] costuma ser uma boa
-+    ideia em geral [...]
-+
-+    Justamente para que os mantenedores não fiquem estressados por terem um
-+    relato de problema pendente sobre o qual as pessoas insistem em cobrar.
-+
-+    Penso que às vezes as pessoas ficam um pouco apegadas demais às
-+    mudanças que fizeram, e reverter é visto como "drástico demais", mas
-+    penso que costuma ser a solução rápida e fácil quando não há alguma
-+    resposta óbvia a um relato de regressão.
-+
-+Sobre correções quando o último -rc ou versão está próximo
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+* De `2026-02-01 <https://lore.kernel.org/all/CAHk-%3DwhXTw1oPsa%2BTLuY1Rc9D1OAiPVOdR_-R2xG45kwDObKdA@mail.gmail.com/>`_::
-+
-+    Então penso que prefiro vê-las entrar no rc8 (mais tarde hoje) e ter
-+    uma semana de testes na minha árvore e serem revertidas se causarem
-+    problemas, do que vê-las entrar depois do rc8 e então causarem
-+    problemas na versão 6.19.
-+
-+* De `2023-04-20 <https://lore.kernel.org/all/CAHk-=wis_qQy4oDNynNKi5b7Qhosmxtoj1jxo5wmB6SRUwQUBQ@mail.gmail.com/>`_::
-+
-+    Mas algo como isto, em que a regressão estava na versão anterior e é
-+    apenas uma correção clara sem sutileza semântica, considero apenas uma
-+    regressão comum que deve ser acelerada - em parte para chegar ao stable,
-+    e em parte para evitar ter de colocar a correção em _outro_ kernel
-+    stable.
-+
-+Sobre enviar merge requests com apenas uma correção
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+* De `2024-04-24 <https://lore.kernel.org/all/CAHk-=wjy_ph9URuFt-pq+2AJ__p7gFDx=yzVSCsx16xAYvNw9g@mail.gmail.com/>`_::
-+
-+    Se o problema é apenas não haver mais nada acontecendo, penso que as
-+    pessoas deveriam simplesmente me apontar o patch e dizer "pode aplicar
-+    esta correção única?"
-+
-+* De `2023-04-20 <https://lore.kernel.org/all/CAHk-=wis_qQy4oDNynNKi5b7Qhosmxtoj1jxo5wmB6SRUwQUBQ@mail.gmail.com/>`_::
-+
-+    Estou sempre aberto a correções diretas quando não há controvérsia
-+    sobre a correção. Sem problema. Continuo lidando de bom grado com patches
-+    individuais.
-+
-+Sobre apontar relatos de bug com as tags Link:/Closes:
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+* De `2025-07-29(1) <https://lore.kernel.org/all/CAHk-=wj2kJRPWx8B09AAtzj+_g+T6UBX11TP0ebs1WJdTtv=WQ@mail.gmail.com/>`_::
-+
-+    [...] reverter assim, seria realmente bom linkar os problemas, para que
-+    quando as pessoas tentarem reabilitar, tenham o histórico de por que não
-+    funcionou na primeira vez.
-+
-+* De `2022-05-08 <https://lore.kernel.org/all/CAHk-=wjMmSZzMJ3Xnskdg4+GGz=5p5p+GSYyFBTh0f-DgvdBWg@mail.gmail.com/>`_::
-+
-+    Então tenho de reclamar mais uma vez [...]
-+
-+    [...] Não há link para o problema real que o patch corrige.
-+
-+* De `2022-06-22 <https://lore.kernel.org/all/CAHk-=wjxzafG-=J8oT30s7upn4RhBs6TX-uVFZ5rME+L5_DoJA@mail.gmail.com/>`_::
-+
-+    Veja, *aquele* link [para o relato] teria sido útil no commit.
-+
-+Sobre por que a regra "sem regressões" existe
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+* De `2026-01-22 <https://lore.kernel.org/all/CAHk-=wheQNiW_WtHGO7bKkT7Uib-p+ai2JP9M+z+FYcZ6CAxYA@mail.gmail.com/>`_::
-+
-+    Mas a regra básica é: seja tão bom em compatibilidade reversa que os
-+    usuários nunca precisem se preocupar em atualizar. Eles devem
-+    absolutamente se sentir confiantes de que qualquer problema relatado ao
-+    kernel será resolvido ou terá uma solução fácil apropriada para *eles*
-+    (ou seja, não se espera que um usuário não técnico consiga fazer muita
-+    coisa).
-+
-+    Porque a última coisa que queremos é gente evitando testar kernels
-+    novos.
-+
-+* De `2024-05-28 <https://lore.kernel.org/all/CAHk-=wgtb7y-bEh7tPDvDWru7ZKQ8-KMjZ53Tsk37zsPPdwXbA@mail.gmail.com/>`_::
-+
-+    Introduzi essa regra de "sem regressões" há algo como duas décadas,
-+    porque as pessoas precisam poder atualizar o seu kernel sem medo de que
-+    algo em que confiavam pare de funcionar de repente.
-+
-+* De `2018-08-03 <https://lore.kernel.org/all/CA+55aFwWZX=CXmWDTkDGb36kf12XmTehmQjbiMPCqCRG2hi9kw@mail.gmail.com/>`_::
-+
-+    O ponto central de "não causamos regressões" é que as pessoas possam
-+    atualizar o kernel e nunca precisarem se preocupar com isso.
-+
-+    [...]
-+
-+    Porque a única coisa que importa É O USUÁRIO.
-+
-+* De `2017-10-26(1) <https://lore.kernel.org/lkml/CA+55aFxW7NMAMvYhkvz1UPbUTUJewRt6Yb51QAx5RtrWOwjebg@mail.gmail.com/>`_::
-+
-+    Se o kernel funcionava para você, a regra é que ele continua
-+    funcionando para você.
-+
-+    [...]
-+
-+    As pessoas deveriam basicamente sempre sentir que podem atualizar o seu
-+    kernel e simplesmente não precisar se preocupar com isso.
-+
-+    Eu me recuso a introduzir limitações do tipo "você só pode atualizar o
-+    kernel se também atualizar aquele outro programa". Se o kernel
-+    funcionava para você, a regra é que ele continua funcionando para você.
-+
-+Sobre exceções à regra "sem regressões"
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+* De `2026-01-22 <https://lore.kernel.org/all/CAHk-=wheQNiW_WtHGO7bKkT7Uib-p+ai2JP9M+z+FYcZ6CAxYA@mail.gmail.com/>`_::
-+
-+    Há _muito_ poucas exceções a essa regra, sendo a principal "o
-+    problema era uma questão de segurança fundamental, enorme e gritante, e
-+    nós *tivemos* de fazer aquela mudança, e não conseguimos sequer fazer o
-+    seu caso de uso limitado continuar funcionando".
-+
-+    A outra exceção é "o problema foi relatado anos depois de ter sido
-+    introduzido, e agora a maioria das pessoas depende do novo
-+    comportamento".
-+
-+    [...]
-+
-+    Agora, se forem um ou dois usuários e você conseguir simplesmente fazer
-+    com que recompilem,
-+    isso é uma coisa. Hardware de nicho e casos de uso estranhos às vezes
-+    podem ser resolvidos assim, e regressões às vezes podem ser corrigidas
-+    orientando cada pessoa que relata, se ela estiver disposta e puder mudar
-+    o seu fluxo de trabalho.
-+
-+* De `2023-04-20 <https://lore.kernel.org/all/CAHk-=wis_qQy4oDNynNKi5b7Qhosmxtoj1jxo5wmB6SRUwQUBQ@mail.gmail.com/>`_::
-+
-+    E sim, considero "regressão em uma versão anterior" uma regressão que
-+    precisa de correção.
-+
-+    Obviamente há um limite de tempo: se aquela "regressão em uma versão
-+    anterior" foi há um ano ou mais, e simplesmente levou uma eternidade
-+    para as pessoas notarem, e tinha mudanças semânticas que agora
-+    significam que corrigir a regressão poderia causar uma _nova_
-+    regressão, então isso pode me levar a dizer "Ah, agora a nova semântica
-+    é com o que temos de conviver".
-+
-+* De `2017-10-26(2) <https://lore.kernel.org/lkml/CA+55aFxW7NMAMvYhkvz1UPbUTUJewRt6Yb51QAx5RtrWOwjebg@mail.gmail.com/>`_::
-+
-+    Houve exceções, mas são raras, e geralmente têm algum motivo maior e
-+    fundamental para terem acontecido, basicamente totalmente inevitável, e
-+    as pessoas _tentaram_muito_ evitá-las. Talvez não consigamos mais
-+    suportar o hardware, na prática, depois de décadas de idade e de
-+    ninguém mais usá-lo com kernels modernos. Talvez haja um problema de
-+    segurança sério em como fizemos as coisas, e as pessoas de fato
-+    dependiam daquele modelo fundamentalmente quebrado. Talvez tenha havido
-+    alguma outra quebra fundamental que simplesmente _tinha_ de ter um dia
-+    de virada por razões muito centrais e fundamentais.
-+
-+Sobre situações em que atualizar algo no espaço de usuário pode resolver
-+regressões
-+~~~~~~~~~~
-+
-+* De `2018-08-03 <https://lore.kernel.org/all/CA+55aFwWZX=CXmWDTkDGb36kf12XmTehmQjbiMPCqCRG2hi9kw@mail.gmail.com/>`_::
-+
-+    E caramba, nós atualizamos o kernel O TEMPO TODO sem atualizar nenhum
-+    outro programa. Isso é absolutamente necessário, porque flag days
-+    e dependências são terrivelmente ruins.
-+
-+    E também é necessário simplesmente porque eu, como desenvolvedor do
-+    kernel, não atualizo ferramentas aleatórias das quais nem me importo
-+    enquanto desenvolvo o kernel, e quero que qualquer um dos meus usuários
-+    se sinta seguro fazendo o mesmo.
-+
-+* De `2017-10-26(3) <https://lore.kernel.org/lkml/CA+55aFxW7NMAMvYhkvz1UPbUTUJewRt6Yb51QAx5RtrWOwjebg@mail.gmail.com/>`_::
-+
-+    Mas se algo de fato quebrar, então a mudança precisa ser corrigida ou
-+    revertida. E ela é corrigida no *kernel*. Não dizendo "bem, corrija o
-+    seu espaço de usuário então". Foi uma mudança no kernel que expôs o
-+    problema, precisa ser o kernel que corrija isso, porque temos um modelo
-+    de "atualizar no lugar". Não temos um "atualizar com espaço de usuário
-+    novo".
-+
-+    E eu vou seriamente me recusar a aceitar código de pessoas que não
-+    entendem e não honram esta regra muito simples.
-+
-+    Esta regra também não vai mudar.
-+
-+    E sim, eu percebo que o kernel é "especial" nesse aspecto. Tenho
-+    orgulho disso.
-+
-+* De `2017-10-26(4) <https://lore.kernel.org/all/CA+55aFwiiQYJ+YoLKCXjN_beDVfu38mg=Ggg5LFOcqHE8Qi7Zw@mail.gmail.com/>`_::
-+
-+    Se você quebra configurações de espaço de usuário existentes, ISSO É
-+    UMA REGRESSÃO.
-+
-+    Não é aceitável dizer "mas nós vamos corrigir a configuração do espaço
-+    de usuário".
-+
-+    Sério. NÃO É ACEITÁVEL.
-+
-+O que qualifica como interface: ABI, API e documentação
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+* De `2026-01-20 <https://lore.kernel.org/all/CAHk-=wga8Qu0-OSE9VZbviq9GuqwhPhLUXeAt-S7_9+fMCLkKg@mail.gmail.com/>`_::
-+
-+    Então eu absolutamente detesto toda a noção de "mudanças de ABI". É um
-+    conceito sem sentido, e eu o odeio com paixão, [...]
-+
-+    A regra do Linux para regressões baseia-se basicamente na questão
-+    filosófica de "se uma árvore cai na floresta e ninguém está por perto
-+    para ouvir, ela faz som?".
-+
-+    Então a única coisa que importa é se algo quebra comportamento
-+    *consciente* do usuário.
-+
-+    E quando isso acontece, a distinção entre "correção de bug" e "nova
-+    funcionalidade" e "mudança de ABI" não importa nem um pouco, e a
-+    mudança precisa ser feita de outra forma.
-+
-+    [...]
-+
-+    Eu só queria apontar que o argumento sobre ser ou não uma mudança de
-+    ABI é irrelevante. Se ocorrer de algum programa - não um script de
-+    teste, mas algo relevante para as expectativas conscientes do usuário -
-+    depender do comportamento antigo e quebrado, então isso precisa ser
-+    feito de outra maneira.
-+
-+* De `2026-02-13 <https://lore.kernel.org/all/CAHk-=whY-N8kjm8kiFUV5Ei-8AuYw--EPGD-AR3Pd+5GTx2sAQ@mail.gmail.com/>`_::
-+
-+    > [...] isto não deveria se enquadrar na regra de não quebrar o espaço
-+    > de usuário [...]
-+
-+    Note que a regra é sobre quebrar *usuários*, não quebrar o espaço de
-+    usuário em si. [...]
-+
-+    Se alguma configuração de usuário quebra, as coisas precisam ser
-+    corrigidas.
-+
-+    [...] mas quero deixar muito claro que não há desculpas quanto a
-+    "aplicações de espaço de usuário".
-+
-+* De `2021-09-20(4) <https://lore.kernel.org/all/CAHk-=wi7DB2SJ-wngVvsJ7Ak2cM556Q8437sOXo4EJt2BWPdEg@mail.gmail.com/>`_::
-+
-+    [...] uma regressão é um pouco como o gato de Schrödinger - se ninguém
-+    está por perto para notá-la e ela de fato não afeta nenhuma carga de
-+    trabalho real, então você pode tratar a regressão como se não
-+    existisse.
-+
-+* De `2020-05-21 <https://lore.kernel.org/all/CAHk-=wiVi7mSrsMP=fLXQrXK_UimybW=ziLOwSzFTtoXUacWVQ@mail.gmail.com/>`_::
-+
-+    As regras sobre regressões nunca foram sobre qualquer tipo de
-+    comportamento documentado, ou sobre onde o código vive.
-+
-+    As regras sobre regressões são sempre sobre "quebrar o fluxo de
-+    trabalho do usuário".
-+
-+    Os usuários são literalmente a _única_ coisa que importa.
-+
-+* De `2019-09-15 <https://lore.kernel.org/lkml/CAHk-=wiP4K8DRJWsCo=20hn_6054xBamGKF2kPgUzpB5aMaofA@mail.gmail.com/>`_::
-+
-+    Uma reversão _particularmente_ de última hora é o commit mais ao topo
-+    (ignorando a mudança de versão em si) feito pouco antes do lançamento,
-+    e, embora seja muito chata, é talvez também instrutiva.
-+
-+    O que é instrutivo nela é que eu reverti um commit que não tinha bug
-+    algum. De fato, ele fazia exatamente o que se propunha a fazer, e fazia
-+    muito bem. Tão bem que os padrões de E/S muito melhores que ele causou
-+    acabaram revelando uma regressão visível ao usuário, devido a um bug
-+    real em uma área completamente não relacionada.
-+
-+    Os detalhes reais dessa regressão, porém, não são o motivo pelo qual
-+    aponto aquela reversão como instrutiva. É mais que ela é um exemplo
-+    instrutivo do que conta como regressão e do que significa a regra do
-+    kernel de "sem regressões".
-+
-+    [...] O commit revertido não mudou nenhuma API e não introduziu nenhum
-+    bug novo. Mas acabou expondo outro problema e, assim, fez uma atualização
-+    de kernel falhar para um usuário. Então foi revertido.
-+
-+    O ponto aqui é que revertemos com base no _comportamento_ relatado pelo
-+    usuário, não com base em algum conceito de "isso muda a ABI" ou "isso
-+    causou um bug". O problema já existia de fato, e simplesmente não tinha
-+    disparado antes. [...]
-+
-+    Conclusão de tudo isso: não se trata de saber se você muda a ABI entre
-+    kernel e espaço de usuário, ou se corrige um bug, ou se o código antigo
-+    "nunca deveria ter funcionado". Trata-se de saber se algo quebra o
-+    fluxo de trabalho dos usuários existentes.
-+
-+* De `2017-11-05 <https://lore.kernel.org/all/CA+55aFzUvbGjD8nQ-+3oiMBx14c_6zOj2n7KLN3UsJ-qsd4Dcw@mail.gmail.com/>`_::
-+
-+    E a nossa regra de regressão nunca foi "o comportamento não muda".
-+    Isso significaria que nunca poderíamos fazer mudança alguma.
-+
-+* De `2020-05-21 <https://lore.kernel.org/all/CAHk-=wiVi7mSrsMP=fLXQrXK_UimybW=ziLOwSzFTtoXUacWVQ@mail.gmail.com/>`_::
-+
-+    Nenhuma quantidade de "você não deveria ter usado isso" ou "aquele
-+    comportamento era indefinido, a culpa é sua por seu aplicativo ter
-+    quebrado" ou "aquilo funcionava só por causa de um bug do kernel" é
-+    minimamente relevante.
-+
-+* De `2021-05-21 <https://lore.kernel.org/all/CAHk-=wiVi7mSrsMP=fLXQrXK_UimybW=ziLOwSzFTtoXUacWVQ@mail.gmail.com/>`_::
-+
-+    Mas não, "estava documentado como quebrado" (seja porque o código
-+    estava em staging, seja porque a página de manual dizia outra coisa) é
-+    irrelevante. Se o código de staging é tão útil que as pessoas acabam
-+    usando, isso significa que ele é basicamente código normal do kernel com
-+    uma tag dizendo "por favor, limpe isto".
-+
-+    [...]
-+
-+    O outro lado da moeda é que as pessoas que falam em "estabilidade de
-+    API" estão totalmente erradas. APIs também não importam. Você pode fazer
-+    qualquer mudança em uma API que quiser - desde que ninguém note.
-+
-+    De novo, a regra de regressão não é sobre documentação, não é sobre
-+    APIs e não é sobre a fase da lua.
-+
-+* De `2012-07-06 <https://lore.kernel.org/all/CA+55aFwnLJ+0sjx92EGREGTWOx84wwKaraSzpTNJwPVV8edw8g@mail.gmail.com/>`_::
-+
-+    > Agora isso me fez perguntar se o Debian _unstable_ de fato se
-+    > qualifica como espaço de usuário de distribuição padrão.
-+
-+    Ah, se o kernel quebra algum espaço de usuário padrão, isso conta.
-+    Muitíssimas pessoas rodam Debian unstable
-+
-+* De `2011-05-06 <https://lore.kernel.org/all/BANLkTi=KVXjKR82sqsz4gwjr+E0vtqCmvA@mail.gmail.com/>`_::
-+
-+    Claramente NÃO é um tracepoint interno. Por definição. Ele está sendo
-+    usado pelo powertop.
-+
-+Sobre regressões notadas por usuários ou por suítes de teste/CI
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+* De `2026-01-22 <https://lore.kernel.org/all/CAHk-=wheQNiW_WtHGO7bKkT7Uib-p+ai2JP9M+z+FYcZ6CAxYA@mail.gmail.com/>`_::
-+
-+    Usuários reclamando é a única linha real no fim das contas.
-+
-+    [...] uma suíte de teste reclamando é então frequentemente uma
-+    indicação *muito* boa de que talvez os usuários esbarrem em algum
-+    problema, e problemas de suíte de teste devem ser levados muito a sério
-+    [...]
-+
-+    Mas um erro de suíte de teste não é necessariamente onde se deve traçar
-+    a linha - é um grande sinal de alerta [...]
-+
-+* De `2024-29-01 <https://lore.kernel.org/all/CAHk-=wg8BrZEzjJ5kUyZzHPZmFqH6ooMN1gRBCofxxCfucgjaw@mail.gmail.com/>`_::
-+
-+    A regra "sem regressões" não é sobre um "se eu fizer isto, o
-+    comportamento muda" inventado.
-+
-+    A regra "sem regressões" é sobre *usuários*.
-+
-+    Se você tem um usuário real que vem fazendo coisas insanas, e nós
-+    mudamos algo, e agora a coisa insana não funciona mais, nesse ponto é
-+    uma regressão, e nós vamos suspirar, dizer "usuários são insanos" e
-+    ter de corrigir.
-+
-+    Mas se você tem algum teste aleatório que agora se comporta de modo
-+    diferente, não é uma regressão. É um sinal de *alerta*, claro: testes
-+    são úteis.
-+
-+Sobre aceitar quando uma regressão ocorreu
+ 
++Mais aspectos sobre regressões que os desenvolvedores devem conhecer
++---------------------------------------------------------------------
++
++
++Como lidar com mudanças em que há risco conhecido de regressão
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Avalie quão grande é o risco de regressões, por exemplo realizando uma
++busca de código em distribuições Linux e em forjas Git. Considere também
++pedir a outros desenvolvedores ou a projetos provavelmente afetados que
++avaliem ou até testem a mudança proposta; se surgirem problemas, talvez
++seja possível encontrar alguma solução aceitável para todos.
++
++Se ao final o risco de regressões parecer relativamente pequeno,
++prossiga com a mudança, mas informe todas as partes envolvidas sobre o
++risco. Assim, garanta que a descrição do seu patch torne esse aspecto
++óbvio. Depois que a mudança for mesclada, conte ao rastreador de
++regressões do kernel Linux e à lista de discussão de regressões sobre o
++risco, para que todos tenham a mudança no radar caso relatos comecem a
++aparecer. Dependendo do risco, você também pode querer pedir ao
++mantenedor do subsistema que mencione o assunto no pull request dele
++para o mainline.
++
++O que mais há para saber sobre regressões?
 +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+* De `2026-01-22 <https://lore.kernel.org/all/CAHk-=wheQNiW_WtHGO7bKkT7Uib-p+ai2JP9M+z+FYcZ6CAxYA@mail.gmail.com/>`_::
++Confira Documentation/admin-guide/reporting-regressions.rst; ele cobre
++vários outros aspectos que você pode querer conhecer:
 +
-+    Mas começar a discutir com usuários que relatam mudanças quebradas é
-+    basicamente a linha final para mim. Tenho algumas pessoas na minha lista
-+    de bloqueio de spam com as quais me recuso a ter qualquer coisa a ver, e
-+    em geral foi exatamente por isso.
++ * o propósito da regra "sem regressões"
 +
-+    Note que não é sobre cometer erros e _causar_ a regressão. Isso é
-+    normal. Isso é desenvolvimento. Mas discutir sobre isso é proibido.
++ * quais problemas de fato se qualificam como regressão
 +
-+* De `2024-06-23 <https://lore.kernel.org/all/CAHk-=wi_KMO_rJ6OCr8mAWBRg-irziM=T9wxGC+J1VVoQb39gw@mail.gmail.com/>`_::
++ * quem é responsável por encontrar a causa raiz de uma regressão
 +
-+    Nós não introduzimos regressões e depois culpamos os outros.
++ * como lidar com situações complicadas, por exemplo quando uma
++   regressão é
++   causada por uma correção de segurança ou quando corrigir uma
++   regressão pode causar outra
 +
-+    Há uma regra muito clara no desenvolvimento do kernel: coisas que
-+    quebram outras coisas NÃO SÃO CORREÇÕES.
++A quem pedir conselho quando se trata de regressões
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+    NUNCA.
++Envie um e-mail para a lista de discussão de regressões
++(regressions@lists.linux.dev) com o rastreador de regressões do kernel
++Linux (regressions@leemhuis.info) em CC; se o assunto puder ser tratado
++melhor em particular, sinta-se à vontade para omitir a lista.
 +
-+    Elas são revertidas, ou a coisa que quebraram é corrigida.
 +
-+* De `2021-06-05 <https://lore.kernel.org/all/CAHk-=wiUVqHN76YUwhkjZzwTdjMMJf_zN4+u7vEJjmEGh3recw@mail.gmail.com/>`_::
++Mais sobre o acompanhamento de regressões e o regzbot
++------------------------------------------------------
 +
-+    NÃO HÁ ARGUMENTOS VÁLIDOS PARA REGRESSÕES.
 +
-+    Honestamente, as pessoas de segurança precisam entender que "não
-+    funcionar" não é um caso de sucesso da segurança. É um caso de falha.
++Por que o kernel Linux tem um rastreador de regressões e por que o
++regzbot é usado?
++~~~~~~~~~~~~~~~~
 +
-+    Sim, "não funcionar" pode ser seguro. Mas segurança, nesse caso, é
-+    *inútil*.
++Regras como "sem regressões" precisam de alguém que garanta que sejam
++seguidas, caso contrário são quebradas por acidente ou de propósito. A
++história tem mostrado que isso é verdadeiro também para o kernel Linux.
++É por isso que Thorsten Leemhuis se ofereceu para ficar de olho nas
++coisas como rastreador de regressões do kernel Linux, sendo
++ocasionalmente ajudado por outras pessoas. Nenhum deles é pago para
++fazer isso, e é por isso que o acompanhamento de regressões é feito na
++base do melhor esforço.
 +
-+* De `2017-10-26(5) <https://lore.kernel.org/lkml/CA+55aFwiiQYJ+YoLKCXjN_beDVfu38mg=Ggg5LFOcqHE8Qi7Zw@mail.gmail.com/>`_::
++Tentativas anteriores de acompanhar regressões manualmente mostraram que
++é um trabalho exaustivo e frustrante, motivo pelo qual foram abandonadas
++depois de um tempo. Para evitar que isso acontecesse de novo, Thorsten
++desenvolveu o regzbot para facilitar o trabalho, com o objetivo de longo
++prazo de automatizar o acompanhamento de regressões o máximo possível
++para todos os envolvidos.
 +
-+    [...] quando regressões *de fato* ocorrem, nós as admitimos e as
-+    corrigimos, em vez de culpar o espaço de usuário.
-+
-+    O fato de você aparentemente estar negando a regressão há três semanas
-+    significa que eu vou reverter, e vou parar de aceitar pull requests do AppArmor até que as pessoas envolvidas entendam como o desenvolvimento do
-+    kernel é feito.
-+
-+Sobre idas e vindas
-+~~~~~~~~~~~~~~~~~~~
-+
-+* De `2024-05-28 <https://lore.kernel.org/all/CAHk-=wgtb7y-bEh7tPDvDWru7ZKQ8-KMjZ53Tsk37zsPPdwXbA@mail.gmail.com/>`_::
-+
-+    A regra "sem regressões" é que não introduzimos bugs NOVOS.
-+
-+    Ela surgiu *literalmente* porque tínhamos uma dança sem fim de
-+    "corrigir dois bugs, introduzir um novo", e isso então resultava em um
-+    sistema em que você NÃO PODE CONFIAR.
-+
-+* De `2021-09-20(1) <https://lore.kernel.org/all/CAHk-=wi7DB2SJ-wngVvsJ7Ak2cM556Q8437sOXo4EJt2BWPdEg@mail.gmail.com/>`_::
-+
-+    E o que torna as regressões especiais é que, na época em que eu não era
-+    tão rígido com essas coisas, acabávamos em "situações de gangorra" sem
-+    fim, em que alguém corrigia algo, isso quebrava outra coisa, então essa
-+    outra coisa quebrava, e nunca se convergia de fato para nada confiável.
-+
-+* De `2015-08-13 <https://lore.kernel.org/all/CA+55aFxk8-BsiKwr_S-c+4G6wihKPQVMLE34H9wOZpeua6W9+Q@mail.gmail.com/>`_::
-+
-+    A política estrita de sem regressões começou, na verdade, principalmente
-+    em relação a problemas de suspender/retomar, em que o vai e vem de
-+    "corrigir uma máquina, quebrar outra" causava problemas sem fim, e
-+    significava que não necessariamente fazíamos progresso algum, apenas
-+    movendo um problema de lugar.
-+
-+Sobre mudanças com risco de causar regressões
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+* De `2023-06-02 <https://lore.kernel.org/all/CAHk-=wgyAGUMHmQM-5Eb556z5xiHZB7cF05qjrtUH4F7P-1rSA@mail.gmail.com/>`_::
-+
-+    Então o que penso que você deveria fazer é corrigir o bug direito, com
-+    um patch limpo e sem gambiarras malucas. Isso é algo que podemos então
-+    aplicar e testar. Sabendo o tempo todo que "é, isto é uma mudança
-+    visível, pode ser que tenhamos de revertê-la".
-+
-+    Se então alguma carga *real* acabar mostrando uma regressão, podemos
-+    simplesmente estar ferrados. Nosso comportamento atual pode ter bugs,
-+    mas temos a regra de que, uma vez que o espaço de usuário dependa de bugs
-+    do kernel, eles se tornam funcionalidades basicamente por definição, por
-+    mais que possamos não gostar disso.
-+
-+Sobre soluções de contorno no kernel para evitar regressões
++Como funciona o acompanhamento de regressões com o regzbot?
 +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+* De `2017-10-26(6) <https://lore.kernel.org/lkml/CA+55aFxW7NMAMvYhkvz1UPbUTUJewRt6Yb51QAx5RtrWOwjebg@mail.gmail.com/>`_::
++O robô observa as respostas aos relatos de regressões acompanhadas. Além
++disso, ele procura patches publicados ou commitados que referenciem tais
++relatos com tags "Closes:"; respostas a esses envios de patch também são
++acompanhadas. Combinados, esses dados oferecem boa visão do estado atual
++do processo de correção.
 +
-+    Mudanças de comportamento acontecem, e talvez não suportemos mais
-+    alguma funcionalidade. Há vários campos em /proc/<pid>/stat que são
-+    impressos como zeros, simplesmente porque eles nem *existem* mais no
-+    kernel, ou porque mostrá-los foi um erro (tipicamente um vazamento de
-+    informação). Mas os números foram substituídos por zeros, para que o
-+    código que analisava os campos ainda funcione. O usuário pode não ver
-+    tudo o que costumava ver, e assim o comportamento é claramente
-+    diferente, mas as coisas ainda _funcionam_, mesmo que possam não mostrar
-+    mais informações sensíveis (ou não mais relevantes).
++O regzbot procura fazer o seu trabalho com a menor sobrecarga possível
++tanto para quem relata quanto para os desenvolvedores. Na verdade,
++apenas quem relata recebe um dever extra: é preciso informar ao regzbot
++sobre o relato de regressão usando o comando ``#regzbot introduced``
++descrito acima; se a pessoa não fizer isso, alguém pode cuidar disso
++usando ``#regzbot ^introduced``.
 +
-+Sobre regressões causadas por correções de bug
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++Para os desenvolvedores normalmente não há trabalho extra envolvido;
++eles só precisam garantir que fazem algo esperado muito antes de o
++regzbot existir: adicionar à descrição do patch links para todos os
++relatos sobre o problema corrigido.
 +
-+* De `2018-08-03 <https://lore.kernel.org/all/CA+55aFwWZX=CXmWDTkDGb36kf12XmTehmQjbiMPCqCRG2hi9kw@mail.gmail.com/>`_::
++Eu preciso usar o regzbot?
++~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+    > O kernel tinha um bug que foi corrigido
++É do interesse de todos que você use, pois mantenedores do kernel como
++Linus Torvalds se apoiam em parte no acompanhamento do regzbot em seu
++trabalho -- por exemplo, ao decidir lançar uma nova versão ou estender a
++fase de desenvolvimento. Para isso, eles precisam estar cientes de todas
++as regressões não corrigidas; para tanto, sabe-se que Linus examina os
++relatórios semanais enviados pelo regzbot.
 +
-+    Isso é *COMPLETAMENTE* irrelevante.
++Preciso contar ao regzbot sobre toda regressão com que eu esbarrar?
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+    Gente, se algo tinha bug ou não NÃO IMPORTA.
++O ideal é que sim: somos todos humanos e esquecemos facilmente de
++problemas quando algo mais importante surge de repente -- por exemplo,
++um problema maior no kernel Linux ou algo na vida real que nos mantenha
++longe do teclado por um tempo. Assim, é melhor contar ao regzbot sobre
++toda regressão, exceto quando você escreve uma correção imediatamente e
++a commita em uma árvore regularmente mesclada na série de kernel
++afetada.
 +
-+    [...]
++Como ver quais regressões o regzbot acompanha no momento?
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+    É basicamente dizer "peguei algo que funcionava, e eu o quebrei, mas
-+    agora está melhor". Vocês não veem o quanto essa afirmação é insana?
++Consulte a `interface web do regzbot
++<https://linux-regtracking.leemhuis.info/regzbot/>`_ para as informações
++mais recentes; alternativamente, `procure o relatório de regressões mais
++recente
++<https://lore.kernel.org/lkml/?q=%22Linux+regressions+report%22+f%3Aregzbot>`_,
++que o regzbot normalmente envia uma vez por semana, no domingo à noite
++(UTC), algumas horas antes de Linus publicar novas versões (ou
++pré-versões).
 +
-+Sobre mudanças de API internas
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++Quais lugares o regzbot monitora?
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+* De `2017-10-26(7) <https://lore.kernel.org/lkml/CA+55aFxW7NMAMvYhkvz1UPbUTUJewRt6Yb51QAx5RtrWOwjebg@mail.gmail.com/>`_::
++O regzbot observa as listas de discussão mais importantes do Linux, bem
++como os repositórios git do linux-next, do mainline e das séries
++stable/longterm.
 +
-+    Quebramos API _dentro_ do kernel o tempo todo. Corrigimos problemas
-+    internos dizendo "agora você precisa fazer XYZ", mas então se trata de
-+    APIs internas do kernel, e quem faz isso obviamente também tem de
-+    consertar todos os usuários daquela API dentro do kernel. Ninguém pode
-+    dizer "eu quebrei a API que você usava, e agora _você_ precisa
-+    consertar". Quem quebrou algo também tem de consertar.
++Que tipo de problema deve ser acompanhado pelo regzbot?
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Sobre regressões descobertas só depois de muito tempo
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++O robô serve para acompanhar regressões; portanto, não envolva o regzbot
++em problemas comuns. Mas não há problema, para o rastreador de
++regressões do kernel Linux, se você usar o regzbot para acompanhar
++problemas graves, como relatos de travamentos, dados corrompidos ou
++erros internos (Panic, Oops, BUG(), warning, ...).
 +
-+* De `2024-03-28 <https://lore.kernel.org/all/CAHk-=wgFuoHpMk_Z_R3qMXVDgq0N1592+bABkyGjwwSL4zBtHA@mail.gmail.com/>`_::
++Posso adicionar ao acompanhamento do regzbot regressões encontradas por
++sistemas de CI?
++~~~~~~~~~~~~~~~
 +
-+    Definitivamente não vou reverter um patch de quase uma década atrás
-+    como regressão.
++Fique à vontade para fazê-lo, se a regressão em questão provavelmente
++tiver impacto em casos de uso práticos e, assim, puder ser notada por
++usuários; portanto, não envolva o regzbot em regressões teóricas com
++pouca chance de se manifestarem no uso real.
 +
-+    Se levou tanto tempo para descobrir, não pode ser uma regressão tão
-+    crítica assim.
++Como interagir com o regzbot?
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+    Então sim, vamos tratá-la como um bug comum.
++Usando um 'comando do regzbot' em uma resposta direta ou indireta ao
++e-mail com o relato de regressão. Esses comandos precisam estar em seu
++próprio parágrafo (ou seja: precisam ser separados do restante do e-mail
++por linhas em branco).
 +
-+Sobre testar correções de regressão no linux-next
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++Um desses comandos é ``#regzbot introduced: <versão ou commit>``, que
++faz o regzbot considerar o seu e-mail como um relato de regressão
++adicionado ao acompanhamento, como já descrito acima; ``#regzbot
++^introduced: <versão ou commit>`` é outro desses comandos, que faz o
++regzbot considerar o e-mail pai como um relato de uma regressão que ele
++passa a acompanhar.
 +
-+* No `mantenedores summit 2024 <https://lwn.net/Articles/990599/>`_::
++Depois que um desses dois comandos tiver sido usado, outros comandos do
++regzbot podem ser usados em respostas diretas ou indiretas ao relato.
++Você pode escrevê-los abaixo de um dos comandos `introduced` ou em
++respostas ao e-mail que usou um deles, ou que por sua vez seja resposta
++a esse e-mail:
 +
-+   Então rodar correções pelo linux-next é só uma perda de tempo.
++ * Definir ou atualizar o título::
 +
-+Sobre alguns outros aspectos relacionados a regressões
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++       #regzbot title: foo
 +
-+* De `2025-07-29(2)
-+  <https://lore.kernel.org/all/CAHk-=wjj9DvOZtmTkoLtyfHmy5mNKy6q_96d9=4FUEDXre=cww@mail.gmail.com/>`_
-+  [`que não é bem uma regressão, mas um enorme incômodo <https://lore.kernel.org/all/CAHk-=wgO0Rx2LcYT4f75Xs46orbJ4JxO2jbAFQnVKDYAjV5HeQ@mail.gmail.com/>`_]::
++ * Monitorar uma discussão ou um ticket em bugzilla.kernel.org onde
++   aspectos
++   adicionais do problema ou de uma correção são discutidos -- por
++   exemplo, a publicação de um patch que corrige a regressão::
 +
-+    Não tenho mais som.
++       #regzbot monitor:
++       https://lore.kernel.org/all/30th.anniversary.repost@klaava.Helsinki.FI/
 +
-+    Também suspeito que seja puramente porque "make oldconfig" não
-+    funciona, e provavelmente desligou minhas configurações antigas do Intel
-+    HDA. Ou algo assim.
++   O monitoramento funciona apenas para lore.kernel.org e
++   bugzilla.kernel.org; o regzbot considerará todas as mensagens naquele
++   encadeamento ou ticket como relacionadas ao processo de correção.
 +
-+    Renomear parâmetros de configuração é *ruim*. Tenho batido na tecla de
-+    que a fase Kconfig da compilação do kernel é provavelmente o nosso ponto
-+    mais desagradável, e um ponto de dor real para quem se envolve com o
-+    desenvolvimento, simplesmente porque compilar o próprio kernel pode ser
-+    tão intimidador com centenas de perguntas bastante esotéricas.
++ * Apontar para um lugar com mais detalhes de interesse, como uma
++   mensagem em
++   lista de discussão ou um ticket em um rastreador de bugs que sejam
++   levemente relacionados, mas sobre outro assunto::
 +
-+..
-+   fim-do-conteúdo
-+..
-+   Este texto está disponível sob GPL-2.0+ ou CC-BY-4.0, como declarado
-+   no topo do arquivo. Se você quiser distribuir este texto apenas sob
-+   CC-BY-4.0, use "The Linux kernel developers" como atribuição de
-+   autoria e vincule isto como fonte:
-+   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/process/handling-regressions.rst
-+..
-+   Nota: apenas o conteúdo deste arquivo RST, como encontrado nas fontes
-+   do kernel Linux, está disponível sob CC-BY-4.0, pois versões deste
-+   texto que foram processadas (por exemplo, pelo sistema de compilação
-+   do kernel) podem conter conteúdo retirado de arquivos que usam uma
-+   licença mais restritiva.
++       #regzbot link:
++       https://bugzilla.kernel.org/show_bug.cgi?id=123456789
++
++ * Marcar uma regressão como corrigida por um commit que está indo para
++   o
++   upstream ou já foi aplicado::
++
++       #regzbot fix: 1f2e3d4c5d
++
++ * Marcar uma regressão como duplicada de outra já acompanhada pelo regzbot::
++
++       #regzbot dup-of: https://lore.kernel.org/all/30th.anniversary.repost@klaava.Helsinki.FI/
++
++ * Marcar uma regressão como inválida::
++
++       #regzbot invalid: wasn't a regression, problem has always existed
++
++Há mais a dizer sobre o regzbot e seus comandos?
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Informações mais detalhadas e atualizadas sobre o robô de acompanhamento
++de regressões do kernel Linux podem ser encontradas na sua `página do
++projeto <https://gitlab.com/knurd42/regzbot>`_, que entre outras coisas
++contém um `guia de primeiros passos
++<https://gitlab.com/knurd42/regzbot/-/blob/main/docs/getting_started.md>`_
++e `documentação de referência
++<https://gitlab.com/knurd42/regzbot/-/blob/main/docs/reference.md>`_,
++ambos cobrindo mais detalhes do que a seção acima.
++
 
 -- 
 2.53.0
