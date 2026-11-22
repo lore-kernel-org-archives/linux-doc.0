@@ -1,55 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795307298;
-	b=RM4IOQe2CJ4Isypj4+Txb0TdCSXq8KyG//klO9sd6aSHIEPlO+zerqX3iKZj6/RYDw0i
-	 EbWEjSyiMj4IL36pNbRSly5C5QrMWhqbh8zPXFJW0fPZL1lJayY3VGDPuDFlJ9/u/96uQ
-	 9a1xIftjNONj8pRHu8q6q5bzCmAe+fQObUGBjsyjsmwfAqAaNDmNDgSYzVvcEWaR7dGOo
-	 zvewo7lWmIWlg7OodqGUfAzLzn55FvOVtkdhSm1cf2hVWTn4Gn1koarjqQ2xuisaxLO/V
-	 xeE0u3ygPRBp3RXlj+XJvLg3k0iLjsVddXTcB79k4pUiOUF5ovqoK0dYIhYsTnAkSmg==
+	t=1795307723;
+	b=AZqTG5dwURSS5YBXJ8AmrWRrelhISktCdj3XNu6j2jqox8mmZaY0BHI0YghcaZLqACTO
+	 Amec+JZTa5LG++NutGV1QcL8X5ZdM0wRnZJchW/NQnnyn2wLr+rDzQctfrwb1ve3yIX+I
+	 YZ4KcVGHFDcjmBPQSMD6/3VhBiFAMUCJPhNZg7lxi0q5uQE7VKPxyM2kBtOMEf4xat6lq
+	 R8dKYJPMX+gjfjPcZoyvBQ9Moh9gtj8OieJbE6u5M7hVFTD9QFzBty68x08JLrScxivmn
+	 VX33Wp+I2K9RUbhyEKSuaKixWfftEr7W3sQVdB/F7wP1/aYHaa3CYCCNIqtvN9Jm2hw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795307298;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=8RhArZNo8p16GcHuh6NIuiaO1SE3vke5Fkl7bF9WXX4=;
-	b=4tauX0ElZcTOPXwlwQqPgQIhx2yONqERoRE9bWf9tc1TfpFLmhZbk9HKGxDNzUqt4sEj
-	 oQgllHVxklDR+SkvzmMqtig7CeBJlGnZEHUpGbh8RIf6uoxjObQZrO+c65XlOSzFmuDR4
-	 FoHNy01d/LLSRhMt4bySz2hwa4p0koGdVSvh6ZHmFAiyB/CURHrAwic+4Bu1SPwqMuLaY
-	 D5XEf0o2BuJj1uF4uvPFEAVd+FhWiDAPH0Npull32ALbHFK6uksKdFKIaD75RdDmjfQFJ
-	 C7+czJPUE84ACFT+bl838u/CZQ7CFF+yWo08334xxKfrFfdNEn62goOg24HUhn63Cdw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795307723;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=kjaMl1GYSNrUShVsKdQDcYu8vOCY8jN+h3QDwdEh4x0=;
+	b=NOcHVRAg9BBMinjyNawm6Dp1eae/9JdzKSgUJi40fBm3zPEg0lBOKl8rxq+sAgjiC3d7
+	 iLufgkta+pOQYz0qDlvsaKTe9QRUkMPdzesrqzdpYC1g+ViJTzX52s5j8XT3l1Kyn3SRD
+	 eB37gJM3I3lbBC70N4fIO7SFFR7heZWdznseiZo1SxEUF8JGdN5l8+3wLKGhWdJZAN15Z
+	 z4e2fcpCTSEpLfLCnhzMBRlAyaDA8p3LIL1xKWt2LYNbt9SGrPtF+QlJjjQ/A2GF6RL9J
+	 h2aNC69fkgIirK2rAQSkIwYqLFvw/ZcZU5z1lOwUUx8R7s4u6Dsdrc99i830ezA9Zhg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UGhRLrFg;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=G7OdNw8u;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A869606A332
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 00:28:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC80606A337
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 00:35:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DCC80606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UGhRLrFg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E092E1F0089E
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 00:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795307297;
-	bh=8RhArZNo8p16GcHuh6NIuiaO1SE3vke5Fkl7bF9WXX4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=UGhRLrFgtuywO9ZMC+tmRQw0GrZhEJWe37Hj5LwNPGYSWfalQC+IuGbM0vR7f33cm
-	 QbFU3k0iT31YsR/mr5ZQrOvtpgJuwcVSDLVtGQWZxPx+MC/vRZagmohzuwEJh4BMfk
-	 VeOqpsQ+P9mxUKmCdzQyaOc8UNTFQA28tmFMMhZyg2/eU0KGlf2xjRH3+xP9pvBANe
-	 h7ekRMiLhsLBcJbjAAGcBTq6emCPbJ6yVgmrOL/YNmau1hDfbSGG0hfp9JsGpeL8Am
-	 q9ZmXv08zExR02+uWxG4Tsd2JZLe0OOGPDNUycMothSucpHj5Zlg8x3vTEqXQfIJGY
-	 qUBaS4S5jzaOw==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5bfa65c8617so1301945e87.0
-        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 16:28:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFnY0mTHPpBVXy2QDAtHOfkbgL2DWkeCyIZ25uq7ABFy23qQS55fBD43hYlJgHax5aptBefAic5y5Q=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ZdXIpr/nRGUsEHgh3Ohk9UZj6rK6q6nE1H7dBzgeM2b4RUiU/
-	O5XUXdnExuiKKwZboETn3g0vITfj4wBgJfPPMGrxxT7dfy5Rkmgv8psP6BKo3UziuwrKhAnRHU8
-	htMD2dOy3hgREhwdjpJZIrJSkJ4yer6s=
-X-Received: by 2002:a05:6512:1042:b0:5c1:606b:ae8f with SMTP id
- 2adb3069b0e04-5c1bc660882mr2353410e87.7.1795307296619; Sat, 21 Nov 2026
- 16:28:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=G7OdNw8u
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb6c7b6dbdso19406415e9.0
+        for <linux-doc@vger.kernel.org>; Sat, 21 Nov 2026 16:35:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795307721; x=1795912521; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kjaMl1GYSNrUShVsKdQDcYu8vOCY8jN+h3QDwdEh4x0=;
+        b=G7OdNw8ubMfnu0UlmljrLYczxmam37Hvlt7nwb3a7fIYbFNVpqqckCTvlyUy1f4gwX
+         63fw7LL0vzy3rhl29hr2xbMTePxVpQvdpxLddNixhyBNaxZ45M/43wRuyMv/1gdQgFCy
+         ylAMaoojgKS69rcL33985uN2DvVtg3Xsf/hOI+B7tNZyJL3Mq0WlmBWQV2R87SbI0NKo
+         jg17r3X9bdBEPbNxBUheGepbPqBX8ql0Kcfa74PbzAVoEBOpxgXSDTdXx2sk/m27assf
+         jICviUjUsNVIg8krFyn90l/h5CgnJnRl3QcZOZIZQnzCIEEwuff/PMsKrATRzfZqC/+t
+         YtEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795307721; x=1795912521;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kjaMl1GYSNrUShVsKdQDcYu8vOCY8jN+h3QDwdEh4x0=;
+        b=Jwf1PYc883dLlmq7vIfKwMoHNCWc7RDOLTP+E6PxwFaMzWdFXucLrOvMIZrKLOjjCc
+         yVWLT3aHKHEw+tB5u8naX7Eb5Oegoti/6Fwl+PYC1n/KQN05pbQadgC711Oq5yiwf6X0
+         WZzVjhta2/2EO2a1+6U6ERVakVJQVyu3QoJm6Xn+Z0imocgjKtpU7JS+KynC255sOIbc
+         A70nWnbbanFqW0zUZrjSPazk9+QIj4wGk+Ico5bY5LUllsquVPVKAuILjvqePvqA2vKj
+         kYtnTd3W4FDYPvmo9HYUJ6XUrqJhHZMpbv3zS1QBRX+HzeZzpEpENUGQ8YvH4P4Sb/RB
+         OULw==
+X-Forwarded-Encrypted: i=1; AL+hErEWGwi7/0hK4ZFlbA7bbG8NsV9qpHyxt4KRdk2Y997d5oNKKBAOtJks090kYmlGcz+mMdqI4Ccd3pE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8PGtJMBWQFfA2pqsMojDvm+J1GsJZxqEvDvJRFb8IzfaEjWmEm
+	tiaxIke4FsZuUJo87JF5pCBuz6rS+FFJPJSjLMx6ugOgfHbcp0avRTSlYwO2ug==
+X-Gm-Gg: AZFdTZcnJEdfEuZzxyHSHzvROr0N9rqgZbJfqktZLgM93jhvwvUNVMKwQO+Mqv5uIjY
+	NxDvSBB95ddo2UQaUiOiDRwYoJvCuGahYqyViQGk3EMA3khSYeosOGTMmaRczTVbZf7wmnuMUM7
+	w0cOQIJ7m231LvfZfxeicVSFUKC2X+N2Ma9bqk50/aR3WujuUpncp8lnSJyh9+Ig0HLAU4wCAkQ
+	CQ4OCNJ6a4L6ntyXL2Z5B4Xt1Qf/G+tzOxE7KIvlq+UO1LxUW1pDezeMvHDkWhWFgQ1ynUt1Gmy
+	Vo4u0kvo1q5BUKMo/0rtHXJsQ5vnugc2B4eKr3sPy5XvhgvKbdQ8Pg6aZ1eTSH0eiaB+ZTIuTlD
+	w4pFrsPNkzA/6eZVpSoRB9OJHAKZl9IHQ2vEZ/hVfzfvykhEm/atLOWuxF6iEuQeAHoc6XktZeB
+	xiLDqS3wfg+xVo70BqjTPs3LnrQa0ob7Xdg1TA15JXG8k7hPOqFAqPsTx/wK7dF2lsq88BwA8DR
+	kC3c4PJP+DrF8czHie5j8UTtG3PNsM2Gd0/Ii3BQ9fS9cxfw/3b0OVZlJAdoevgFzmqeAYmMCeK
+	YLytRb/RaBLIMtwch5f4KvOKFvAoZOdsKCJW2CTvGn7gmaiaJBLCDQWGYnIAYQ/XfUFnchs4idO
+	4KiJTCdz91xMRVf4jxhcqEC/5mfl1VU9Tnx5QrHK14BYfiPOQQ2qvvgVWxTF1es/msCyx96z2P6
+	5EQx17uHx7xeVHCwNBBgbm9dIz1olm/GaSpYb9mtMxF+dGm7DlmuQAYiN+hX2M1Eckr8KjO1IRY
+	fANrw43MnvaYFa/iA==
+X-Received: by 2002:a05:600c:45d4:b0:4bb:6994:abf0 with SMTP id 5b1f17b1804b1-4bb88817d91mr170289725e9.23.1795307721109;
+        Sat, 21 Nov 2026 16:35:21 -0800 (PST)
+Received: from longitude (2a02-8434-fda5-4201-2025-a95f-1d53-595d.rev.sfr.net. [2a02:8434:fda5:4201:2025:a95f:1d53:595d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906817ccsm74017825e9.5.2026.11.21.16.35.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Nov 2026 16:35:20 -0800 (PST)
+From: Eduardo Mucelli Rezende Oliveira <edumucelli@gmail.com>
+To: mhiramat@kernel.org
+Cc: rostedt@goodmis.org,
+	mathieu.desnoyers@efficios.com,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] tools/bootconfig: Preserve tracing settings across export and replay
+Date: Sun, 22 Nov 2026 01:34:57 +0100
+Message-ID: <cover.1795307698.git.edumucelli@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,69 +101,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261015142552.4128028-1-ryan.roberts@arm.com> <20261015142552.4128028-7-ryan.roberts@arm.com>
-In-Reply-To: <20261015142552.4128028-7-ryan.roberts@arm.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Sun, 22 Nov 2026 01:28:04 +0100
-X-Gmail-Original-Message-ID: <CAD++jLkik4jJd0h2jnZFFQa_rZrnkoF6U2n69vPOoDMEFo5tgg@mail.gmail.com>
-X-Gm-Features: Aa3M54o4IKo8fD9YUMMNm9Se3tMa7QPg9dEL1ZzSewcxTabcAD38a3EgY369qO4
-Message-ID: <CAD++jLkik4jJd0h2jnZFFQa_rZrnkoF6U2n69vPOoDMEFo5tgg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 06/15] misc/arm-cla: Accelerator context save and restore
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jean-Philippe Brucker <jpb@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Ryan, Jean-Philippe,
+Hi Masami,
 
-thanks for your patch!
+Thanks for reviewing the earlier bootconfig fixes. I found two more cases
+where a tracefs export loses a setting when you use it again. The graph
+depth is exported under a name the kernel doesn't recognize at boot, and
+an all-f CPU mask is left out entirely.
 
-On Thu, Oct 15, 2026 at 4:27=E2=80=AFPM Ryan Roberts <ryan.roberts@arm.com>=
- wrote:
+I checked the rendered kernel command line and exercised export and replay
+on my Ubuntu machine using a tracefs fixture. The series is based on
+bootconfig/core, including the earlier CPU mask quoting fix.
 
-> From: Jean-Philippe Brucker <jpb@kernel.org>
->
-> Add helpers to save and restore CLA context for later domain switching.
-> The saved state includes DATA registers, LRESP, per-accelerator SRSTATE
-> and any implementation-defined internal accelerator state exposed
-> through the IAS register window.
->
-> Use ENTERSR to stop each accelerator and collect SRSTATE, then read the
-> advertised internal register state with REGREAD. Restore by entering SR
-> mode from a reset, idle accelerator, writing the saved internal state
-> with REGWRITE and completing the transition with EXITSR.
->
-> Reject accelerators that require SAVE/RESTORE operations during setup,
-> since that path needs a DMA buffer for state storage. Allocate
-> per-device save areas for all CLAs in a domain, sized from the combined
-> IASSIZE discovered at setup time.
->
-> Signed-off-by: Jean-Philippe Brucker <jpb@kernel.org>
+Thanks,
+Eduardo
 
-This just describes mechanism and not use.
+Eduardo Mucelli Rezende Oliveira (2):
+  tools/bootconfig: Use the registered global tracing parameter names
+  tools/bootconfig: Preserve all-f tracing CPU masks on export
 
-I see what the code is doing but not how it is used.
+ Documentation/trace/boottime-trace.rst   |  8 ++++----
+ tools/bootconfig/scripts/bconf2ftrace.sh | 21 ++++++++++++++++-----
+ tools/bootconfig/scripts/ftrace2bconf.sh |  9 ++++-----
+ 3 files changed, 24 insertions(+), 14 deletions(-)
 
-E.g. part of me think: if it is technically a part of the CPU,
-why is the context not stored in pt_regs?
 
-So I assume the context change at other points than when
-the process on the current CPU is preempted or scheduled
-in.
+base-commit: 0ad31c3252d4c626a93ae6251340ef86b18342d0
+-- 
+2.53.0
 
-This context (ha!) is needed here so we can understand
-the *purpose* of this context switch.
-
-Maybe the use of contexts and context switching need to
-be in the cover letter?
-
-Yours,
-Linus Walleij
