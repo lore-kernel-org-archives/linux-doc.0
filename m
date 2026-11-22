@@ -1,52 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795378639;
-	b=LeTKhCcfYD5OnpQ63dHXVR/GzgFy/CMsgwv2z1HXSSBwwHytBBGAOrx1jKmb+D7TwLQr
-	 0CFWY3nk84q97p/5v1E0sy/ypFZHSNESAg9DEqvpltln9JVGlUr7l8L9i+olYfMKXcUig
-	 Hes8iacm3auYEmogkCNY78OhzMbKcQBM1gMHqDM6gbM4OgjFLeIMLwRcpKOcZHPP+QwtP
-	 relguKrq56hlw0U3GWDeUkf4vPAaZHeNNgmhiwrFfU021oTgMDIm0MbGgWqqqZZbQA3E9
-	 tMw8NFuzuR5OofYPK+YoogvRSVaam2c6CYPsbufno3J+L6GPpw0GJJGmI4UcLer71QQ==
+	t=1795378869;
+	b=mL3WM+SuioPmYRMYWHG94FWpx+Jbm3h2Fr4mARgFg9FP0c3ts25zQMT+4oi8JIllkPtl
+	 ihJFXwCFnYalXN3FIBoFBfEgrR4+giTU6qIN3ow+rDa0lRMV1UjzTZBSxRds1AHmKHyFL
+	 ooWGDZtHUQVKawPfCUF/jWkkjpNji95IsW1l7Cz+pEfOK7EtGoE/ywOHj+QQrAwkCmMRP
+	 F8Lqx8MUFG6311FLdSGGC8n5fyFwNdOW7qA6wpzl1y7VkelRYunl9LJmsaDoD2w70cDOu
+	 KKLH4vzORoqEt4ASLWvF4sQe3oIz3hwf8/KXg6DtpBgvySpcmGqS40SkKti9+NqhRog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795378639;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=eRHsra6RBQdHsm+/rz4srEJmAl36q57hdP0Dh3GlsWw=;
-	b=CH07x0RV/Fvo02a9k04qtUtcmF5U6MZsoTF2ZnBpylfZCA8nJQPXkSjAYZm8aYIaUqY1
-	 11pDqgZoTLtPG8jx3XwW5jTV0k2KUpmvXdQ3zlU5FBzLpWjejdi8oMsFNKMi1sxXOsTQR
-	 wYKe1+u630YBLkmZ9xeuxRW4eSdG7PhknzLK/l5LwO7tKir8W4i+WcLFY4lGhxDGvy5Or
-	 fe5iUMu1g7mfkKRmBzdVkA2KpezEr78cTsQx4aaRF8d1dNEtsDdLqz3Vl2JQcscjBOLfR
-	 znvDGEF6/NlpKGGuorJ+B2qgmpmiA2mJ/U49ZP3/s1+/lSeMd819ml2QUFCTVGnGqZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795378869;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=KoXhXnM3oUjZYemCskQWf/r+E20vle0w0i0hVE/eaXs=;
+	b=DkkQw5uJhhc8tTSUZRn1QKEcjmWwxOtwtyf2FVR3AYeJdmAN9sAQO1lpj/XKKiJA56Pz
+	 jR03+n1kPddfJRDssjFOLUz14RsrKnssDqgbtNW1jPW9V3T30eOlSu4JT0dW/xMW2/zpx
+	 A9FHSOZNeWEnKn4nSFNX2qiWHaXi7wtwr0a3jnyKXSi68i3WCCytUrfTLIl0/U+MIOOqU
+	 4meCb61kXtnRlYaiyxS0duBQXVkixgvyQOfkzopb95vH1OEh9b9cAM0trrVevXGAKtT5p
+	 tPvozPR1EPztd815hmMNZ6UTR1mz8zn02xBoiTlZIZ0+tC3SkirjCycysSILsajeicw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=corp.free.fr;
-	spf=pass smtp.mailfrom=corp.free.fr;
-	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b="KV6a/Ax0";
-	arc=none smtp.remote-ip=212.27.60.169
-Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Aiko/QHp";
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A65606A31E;
-	Sun, 22 Nov 2026 20:17:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9A65606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF11C606A31A
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 20:21:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF11C606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=KV6a/Ax0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
-	t=1795378630; bh=reaXzdgyMMqRj1zA2Esagitp1XJA0FQvEzoZ17ZFMmI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KV6a/Ax0sBJ8OshW7PRXLVfGl41wyZ6N/c3AOKxOLU/ncq+3wpMoUzOF1cgQam+X0
-	 gSlsHOJC9VonxEVes6wxFuYhlz4oAyN/vy17UgWpyJLXYG3BVax7T3gXf+W07SCZ/R
-	 OLtU4KJcK3Vz0AjJguVkD0M8M+xGCf903Z6/vwWmb0ecxVsd/ePR9pFJaK5+Pb7aRm
-	 i2ZmCGKRc8Acw3APo5oSKUxemfDzfFF4g7FpUNsd6zrKlcE597REeOHXftyoVjlsyl
-	 uG3Rq9STohXFHqb2T8HVOuQuyErCFnFeRzQSBgWOwnwA4K/KrwCzBQneySRRSzuY84
-	 OKZ7imniFQ22A==
-Received: from [0.0.0.0] (unknown [213.228.1.188])
-	by rcs.proxad.net (Postfix) with ESMTPSA id 895A944C036C;
-	Sun, 22 Nov 2026 21:17:08 +0100 (CET)
-Message-ID: <3b3dff0d-e879-4a14-9f17-2b3015b6da39@corp.free.fr>
-Date: Sun, 22 Nov 2026 21:17:07 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Aiko/QHp
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4acb44dcd7bso2022877f8f.0
+        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 12:21:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795378867; x=1795983667; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KoXhXnM3oUjZYemCskQWf/r+E20vle0w0i0hVE/eaXs=;
+        b=Aiko/QHpxS4m+8HRxXBSv5+ixx06RuTCPhMu4FgAhsd94YdYr+nyapSE+UdjBEyQDX
+         aFhMRUB6psPuLOJcrI6+rwr7lOWuSVpFW3qDdkr/dzfmJ9imzuedEJ398ConmVuXFwVA
+         Z6WsFP2ooogDcTrARJ6/mGNpR746L/52C2OD8qmO7H8dW1fbp8oV6AdSmVXV3BYsomDU
+         vad0Lv8VSl9s6j1c8CLaJFyW7TC55nAIzu4wZphZhEsFL4YkzOh3EWywDQ1NaJUuIGEm
+         68MFJujoTgXIXv3zPKYfyqdgLaE+WnSn+G0+s2qnVFHHt92q34NMz3/nLB86jorPq5LC
+         32VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795378867; x=1795983667;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KoXhXnM3oUjZYemCskQWf/r+E20vle0w0i0hVE/eaXs=;
+        b=VNaKrFlMwTReycUPA1+kKDuYv9VktrNjGgC3fcrAFZtfDZJ26aqvVVrGbSVCzFJKdu
+         olyE3OoxDHXZFa4lIna8WEQyJZM0TTtNFl/cinOU648l+SQju3Sg6pzGMa2dsQZjYUSn
+         T8y1B1+hoerulneYrjz+LxU7P6NYEt9+mIf1Zyd5vvzzBdwhGTVgK2W1kzPwQ6PDJg5X
+         572WaTv4viXUJ4DRONAkDk2R/lPxtGKQWJE0re+4t97SMpaMEM4jbSNZypHmw5li2H6w
+         WfEhvSHby2rZK+Lgm34LxnGqhEUmCmyQEL64+UFCljLGrN9iXUEpRN5+qwuUagxA92/H
+         wLow==
+X-Forwarded-Encrypted: i=1; AL+hErFCo8BEhPeBDz0zt/JagRNrqYrJwdmOqKrEU1rjj+foLPCrpaoDYHXvobaIU5rT0fKGKXcBSIWCqSI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8UBkKE7INqQg/osAcfI4SOb+SgNlH+q6QHz4jlQ914piSpjD81
+	dH2lGhju3mOW5Pht8y7AQG/XARIjssG0hwLaN93a/mOpvkSYXQ4GC9o+
+X-Gm-Gg: AZFdTZcbgmlH1Krx3TMu1ST274SKEHLZswqjbkCIRo8f28A5W8Plrz6vuHQoZzgNgo6
+	utvqgrGP+YyIn10SPoA3pP68hKnKVhpgCKp0AuqgfQ8jhSBE1Cf+s4saXv0r1CZHUhdotAhGRjd
+	JvzZQBsOWTnyHlAo5a+xnWkfNtOjoDUiNouvZmW+BCB4ML4Yq+3v4jwr2p0W2HqsTBa2KNdV9pj
+	yMSZQjVfmw/nhfEZDnX0tSKZMIEEqQP/9GjxroRlGWh2QaWNiT/SLpPWsTEh1E1J1GXXNn4kKa2
+	T3ETgCDHS9Gq/WlUcMEFJpxDZQ2BZN3VZmLm8iO79Vb3scktAwYo2aek6aSlONcm2GaRIaDEzpi
+	wHOdWe+CfW8jHxhOY0sScDTJ/tvvn18b8W6bNyEuy0vovEWhByXD3H5GwIsGw9tlkrbgmN8WMkb
+	yuoWiOGtGDCXf284sPELSIFYWosKq051FOMjvO+88IwXgCYKrA2/9DoG1JIOe50oghBugNexcIT
+	jAmg5nw4Em3neSrwPDnXnNWAoo/LDsO3eYhHLVMQwFpQlyIUKfHdZdDiI3oHxM4m2tuGzxXRZCc
+	s4eybd4b+LjRDOcRKT5U/GOp9ptPruMoVRiDSJdMOhvRogjH2Qd9eOuc4DtxdFG4jsThCGUvJL2
+	LAfgRk/NO/h7l2g6zYcROpLTRQlam2+CNnWitZEd7g5F7YqHaE/tFI65fKDwFceEUG0VoK8GnYG
+	gsiIe7i7D1oyCKoLgPJtODku0qnff4Jw==
+X-Received: by 2002:a05:600c:4f07:b0:4bb:5dbf:af06 with SMTP id 5b1f17b1804b1-4bb88804d58mr235773315e9.9.1795378867083;
+        Sun, 22 Nov 2026 12:21:07 -0800 (PST)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-a14a-2801-2d6d-9df0-1f3c-62cb.310.pool.telefonica.de. [2a02:3100:a14a:2801:2d6d:9df0:1f3c:62cb])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8526cbd0sm381533945e9.0.2026.11.22.12.21.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Nov 2026 12:21:06 -0800 (PST)
+Date: Sun, 22 Nov 2026 21:21:03 +0100
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Wen Yang <wen.yang@linux.dev>, 
+	linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v2 9/9] rv: Test IRQ-exit softirq provenance and
+ handoff
+Message-ID: <awNNrVvXCFVPhgk_@gmail.com>
+References: <20261107171252.25090-1-kmehltretter@gmail.com>
+ <20261107171252.25090-10-kmehltretter@gmail.com>
+ <e8b9a9afb9587ed1f41c0fafd486ec9be82928db.camel@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -56,71 +111,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 05/10] net/mlx5e: TC, reject a partial tunnel
- key with tunnel mapping
-To: netdev-bot+sashiko@kernel.org
-Cc: saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
- jhs@mojatatu.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, michael.chan@broadcom.com,
- pavan.chebbi@broadcom.com, bharat@chelsio.com, donald.hunter@gmail.com,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- dsahern@kernel.org, idosch@nvidia.com, shuah@kernel.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- oss-drivers@corigine.com
-References: <20261117092915.255194-6-acassen@corp.free.fr>
- <179514543838.3136.15751272244504735479@kernel.org>
-Content-Language: en-US
-From: Alexandre Cassen <acassen@corp.free.fr>
-In-Reply-To: <179514543838.3136.15751272244504735479@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e8b9a9afb9587ed1f41c0fafd486ec9be82928db.camel@redhat.com>
 
+On Sat, Nov 21, 2026 at 03:01:13PM +0100, Gabriele Monaco wrote:
+> On Sat, 2026-11-07 at 18:12 +0100, Karl Mehltretter wrote:
+> > On PREEMPT_RT, verify that worker events do not report hardirq provenance.
+> > Do not run the synthetic inline IRQ-exit cases there. IRQ exit defers
+> > softirqs to workers, and serving-softirq state is task-local rather than
+> > encoded solely in preempt_count().
+> > 
+> > Snapshot reaction counts inside synthetic IRQ-disabled and hardirq
+> > intervals, then evaluate the KUnit expectations after restoring normal task
+> > context.
+> > 
+> > Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+> 
+> I still couldn't read the KUnit tests, but from what I get quickly scanning
+> these, it's massive. A total of almost 3k lines of KUnit tests for 2 simple
+> models is probably a bit much.
 
-On 11/20/26 04:30, netdev-bot+sashiko@kernel.org wrote:
-> [Severity: Low]
-> Should this check depend on the tunnel type? For VXLAN and Geneve the
-> tunnel id is a 24-bit VNI, but this check requires all 32 mask bits.
->
-> The VXLAN and Geneve parsers already refuse keys that do not fit in 24
-> bits:
->
-> drivers/net/ethernet/mellanox/mlx5/core/en/tc_tun_geneve.c:mlx5e_tc_tun_parse_geneve_vni() {
->      ...
-> 	if (be32_to_cpu(enc_keyid.key->keyid) >= MLX5E_TC_TUN_N_VNI) {
->      ...
-> 	MLX5_SET(fte_match_set_misc, misc_c, geneve_vni, be32_to_cpu(enc_keyid.mask->keyid));
->      ...
-> }
->
-> mlx5e_tc_tun_parse_vxlan() has the same check. The mask is then written
-> into the 24-bit vxlan_vni or geneve_vni field of fte_match_set_misc, so
-> MLX5_SET() cuts it down to 0xffffff. On the VXLAN-GBP path,
-> tunnel_header_1 gets mask << 8, which is 0xffffff00 for both masks.
->
-> As a result, enc_key_id <vni>/0xffffff and enc_key_id <vni>/0xffffffff
-> program the same hardware match. Also, key & 0x00ffffff equals key for
-> every key the parser accepts. So the wrong-tunnel-id case from the commit
-> message does not seem possible with this mask.
->
-> After "net/sched: cls_flower: add enc_key_id mask" later in this series,
-> a VXLAN or Geneve rule with the natural full-VNI mask 0xffffff would get
-> -EOPNOTSUPP on every tunnel-mapping path. That covers rules in a chain
-> greater than 0, and chain 0 rules with goto or sample actions.
->
-> Would it work better to compare against the id width of the tunnel (24
-> bits for VXLAN/Geneve, 32 for GRE)? Another option is to compare the mask
-> only over the bits the device actually programs.
+Agreed. I'll cut the KUnit tests down to a much smaller set focused on
+the monitor transitions.
 
+> 
+> Keep in mind you are testing your unit, which is an RV monitor, so you may want
+> to stress transitions, mess around with the environment as little as you can
+> (e.g. disable interrupts) and use mocks/stubs where you can. It isn't always
+> easy, but the fact you're touching softirq.c doesn't look right. Your
+> unit isn't the softirq machinery, you should interact with it as least as
+> possible.
 
-No. This is the question of v1 [1]. On VXLAN and GENEVE, N/0xffffff matches
-the same packets as the exact key N and the exact key works in chains.
-A check per tunnel width would only accept a second spelling of the same 
-rule.
+Makes sense. I'll drop the test hooks from softirq.c and simulate the
+events instead.
 
-[1] 
-https://lore.kernel.org/netdev/35bf2a1f-7f65-45fa-a854-dd4f4c4c0d90@corp.free.fr/
+I'll address your comments on the other patches as well.
 
-
+Thanks,  
+Karl
