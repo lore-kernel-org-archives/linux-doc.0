@@ -1,79 +1,80 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795355190;
-	b=GNeoMjdQbIMW0rPsP0FFdJ/ogxurobLp4U6faf+3QxgEtHanhrCzf7fYpsXyVfB+8TsE
-	 aYeAGiWFjz9HXLJavL17R96U5nsb/Wyxx4U2ERoDtYQW2Ny3XNVOLQa8VsT+xAoqbtd2I
-	 3Sva9addAwiIxL5ZyZdiSI88z742/txosbAWWD2TbfaVaNgE++/SzQiFybYEU9MDglypw
-	 fSB47HaBEX1UKyn5YSwLX+fb1ZuehUXjg4xpoBWQJ47oDlqtH06eRY76fmwyTWY5popT9
-	 +UPLyKUi1Y9zWFVGAQXGhkQmqk1TxHeNedlR+HqZbGPfzFSU7816JuH/FXcsTuufu1w==
+	t=1795356092;
+	b=XL5lOe+aPms5Mjuzvh+oWTGKwWqTltGvEVhvTXlBxFWxeGj0FHK8YC4IkzPL8PqkeL83
+	 v+D/eRh4RuwDZQofWdmdoHQCgi7hpdvYdL5ma/J4hc44JkbhuNn/P499+2X4q61v6gvJk
+	 Tba5c/N6YlS/WXVLDvjIEluchm3rmdLX4fxdj/XW++cQAw2Yt+wygZVYZWD3GD3gvpZs5
+	 HY04WZv73f/q0tqjSHnom/fnyz4bE+km4gUvFy39d9enYmhbIbz3gscm5BHlu0h5UOaYO
+	 2UqivK75K5DNypRGTMQ0vfm+zOkwsRtNMy6cMqEwZ5GrkLUlBp5iJ3Fg6B3zJwZF7OQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795355190;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=LGNIYXh0L3oq3PeBKYd3gdGYODLqyGaDs0D5vOhJde0=;
-	b=FGLAMUSMN/J5tV3GLO7nFxwpwYljklkg/xP1wRl1ETd4J0IoK2T8fECdB0wPdQecsDxh
-	 QWY77cNFUYNYeDs0WDkkvNu2P/hnEjquikhkdHrdrMRppDT4uK+krsiMftM+PgV3+Wk9A
-	 2jBNOwVkNTN35V0vlqDoTct87Vpjos3W7iBCTY7Y666uajhgvC1Qf5UaY1QOBVuuu92Ty
-	 1YYbQ75g306DZhCP2T1J4wvTnj1gHETisGMh3orTpyTDUSwbiWwqEIhE6gf0Y1R0Rwxw0
-	 RN4dMWH3tLa/8WNFCkYMSEUKE1+eLuXfl+K+ljR+li5sN0tYcmIrl9hKSYKUmArTrFg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795356092;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=eIcHEVvzW4cB/FaFVqRo+G3fbS5VCOT94KwesOV7ZjI=;
+	b=Hlr9en2hziE5lPDlDvFMUF4TtfTvCx/8nTylLpZ7rFDUmAuxi4nR4ch/IQLSBD0dcd1A
+	 h1b7dx8ie2DC5+a3+xDuntc0GYaaeX+Xy0x9mSBLORZEzCfhNPs6jUzlxE9Gf4UZhSR4H
+	 P31LgARvvcDJQEtlJGO7XXtZFgJvpnYkb7DL/g+BVSMKfdUO9C4WlRW7wHx0S4quZ8gLb
+	 e7PpVf8f27+7gS1rSZvkR0ql3AibOwwg6TBDUY1hsScvw/eFiZveo9+itHpB8PuHJ4Unb
+	 OdzVIp/6UnJhn8netXCZXCiiCjTS0vs45hjbC7rO8OViAMXnRhVMm2q/lZu4DjiDrWg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HY+fixDP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ADBRkGcd;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D8F606A32A
-	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 13:46:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5DF606A320
+	for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 14:01:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HY+fixDP
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ADBRkGcd
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795355190;
-	b=vJ7eaxLZmSCXdpgoO2eRUVaNcYnLW+/78bowaokydqDou/5o6dtAguiw1tQ1HPaZTtS5
-	 35sCtqpAdT6y1+UkMudtfXgAzGtEoETsHWcf6aYS204rKIPtjdpr3Pe0+4qBikY56c7im
-	 uIkpbN4ourAhPJG8CADDpAC5KMm+OGBel5ag6HidW99/fb+zt2vSo8z20nPhP95N548WY
-	 sXg8A3WKcp1XJdZ1m5Hx5IQsRO4H1J/KAYI1c/JO0ZsJTGgsIhPWrcke5oSeItysRXlZx
-	 6Sj1E20qUjYoybA7uGREAPuw/Vj9ZVfipF1aPmZkYYgBHrrQQlt+s1ZRIcP7DWO6cEA==
+	t=1795356091;
+	b=NCa8uCPXAeKMggrxJBsqWOi51CgH1aOlY47eVY0ScGyqPSPANBqmfldHf/qXO/HdDOHL
+	 iZ2PScdJhx6dNAeS1auIbqTDfwwjFS6QAMKGcDQNynUHvW82vXj22A/JPtpR6VRn4YJkx
+	 HHFzh1p5bWvtO5JH2Hie76g4UmEn/9nWFn+MbD/n14NQiarANW3eJbd14fkHOW2Dv9NDk
+	 UYs9PjD21+tVpRP8dzoKV2BqdWN4rjyFKKc9vHHN5IvMsalFFPCmeRlfo78p2gnYffkDH
+	 qWcvh4AqoaB1S4boxLhbkmY6CCkpJS/Yl5ppprIZ6gpuFuAd9sY+LUKY0qPkXtr/6vw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795355190;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=LGNIYXh0L3oq3PeBKYd3gdGYODLqyGaDs0D5vOhJde0=;
-	b=kfgwT4WvvkpeqSfJnnb6RIFKXUrdM8EQd7cLbhb3Or22MHeXIC1ECFDmR8YWBhUdxtYW
-	 QGq3qbauz3EsRoOgOSoq0t7C7J+xzrbAqOv37X4sG2w5iFuC5Ta+jQc3w4jNsATOMVRqK
-	 OVEVQzeIAiyC/mm6BgWMj39h5/xdhwAWGdbaVD/CL5j/EhYN7MH5Ahrm1TYG6sHEngsgD
-	 DZUP6YmzXDdF192vdRNh30LV5V1gJXwwFC8SwlgFHKunfjCeYFFZY4GtZurKJPWTHkj5j
-	 bykdBAWEiB/XXh9cQvSBkc1tkNGuFkQajhtk2yhccETagHJ+sq8zYYTgWuecFXWszBg==
+	c=relaxed/relaxed; t=1795356091;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=eIcHEVvzW4cB/FaFVqRo+G3fbS5VCOT94KwesOV7ZjI=;
+	b=06WRGd2r98UIEf2XGjMkisr6Rr+lvB6r0AtGrwizencNzmxTeN07pbWOcgBOivpqw9qt
+	 1lwELK+3EczHZ3oEAFcvjTY3kHEPl938xgpLh0U12sRNqo8sg+cUBIPRH+yOkSC/abt4u
+	 s2p/7H40aAGsTkCmzKHID2dOMsqFmsytwDSzCVwTjZCLed+GcA5Ez5gpRrQu/iQqDL0Se
+	 66G+AovcEMQUEl9II472NlZJK634/qNorru+wf4sgMouRr24ZirOHvXBEk20a6K2uekt1
+	 fkueeht/v8J+E1cJP28B4so5XejXDnvHKRMFvcrFvpeBqmGRAGh9KTk7aPGrrxwWWcA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2C1221F000CA;
-	Sun, 22 Nov 2026 13:46:17 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 72C6D1F000C6;
+	Sun, 22 Nov 2026 14:01:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795355189;
-	bh=LGNIYXh0L3oq3PeBKYd3gdGYODLqyGaDs0D5vOhJde0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=HY+fixDP5rYVxt3Cd5zWGvn7+JPa+oed4eHwUywARxisGwSZUbCFdNc4iQVcq2FBk
-	 MwMrUIjBz5Cb/bcCN8fC5B4dTl2A0zwVK555eRY+RtvNzpfjO5Ptne0OkojNcf5Cwo
-	 LYxkISA0cPJVz3IS6UaUZp4zZGGo3/mgMEELOHBTD6vVcajOL/XdTwOQ4IoPc8vSRK
-	 upIo0T4bOyyZYthFYn1bbosxPHIwTsLaIXQ5KDjfarm+bM9aaZczb3Vl4jYyIKI5lC
-	 Yc0HxDfsODXa42C55r+J9yI5Ef3wtaHPP13YEIYzwi1qkJoFDfTvbA1Bpt7S4qovud
-	 uGMBPGyaQkcFA==
+	s=k20260515; t=1795356091;
+	bh=eIcHEVvzW4cB/FaFVqRo+G3fbS5VCOT94KwesOV7ZjI=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=ADBRkGcdVFvpJUqSGIUQiq2ykP7G7w3Vx365PGVssdPpcTEo7bSBeTjSW3LWCLhoE
+	 m+tp48mlMNfUG6IRCrlYhJvWmVweNeuSWYEJ+Lf/fsPgQnShii4E81/QZVomPqaHa/
+	 XzXm1ui2jI076OJvFaovG2Av677o8kwFdWaWBDt99yUmnYHWmbeAsK53+vOWtmGAjg
+	 0tjlFRtXXL4knjryHOqpdXr8mX/UJiyw2E1N2PC/tc1xdcQbzbSNEBtblYvr1wlcZI
+	 g7cDgJdJRTJz/sOhQBquzqZN50aZrkk3Uw7bVLB57rFBwcuAi8C+8xLcs73wEsUu5b
+	 ZGVUaLUk6bSuQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id ABAEB4C0C2;
-	Sun, 22 Nov 2026 13:46:16 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id C81214C0D4;
+	Sun, 22 Nov 2026 14:01:26 +0000 (UTC)
 From: Eduardo Pereira Cruz via B4 Relay <devnull+dreduardocruz.gmail.com@kernel.org>
-Date: Sun, 22 Nov 2026 10:46:16 -0300
-Subject: [PATCH v3 1/3] docs/translations/pt_BR: process: add
- handling-regressions.rst (1/3)
+Subject: [PATCH v4 0/3] docs/translations/pt_BR: process: add
+ handling-regressions.rst
+Date: Sun, 22 Nov 2026 11:01:25 -0300
+Message-Id: <20261122-handling-regressions-v4-0-b6b9f2070290@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,379 +85,73 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261122-handling-regressions-v3-1-e3d5ea982948@gmail.com>
-References: <20261122-handling-regressions-v3-0-e3d5ea982948@gmail.com>
-In-Reply-To: <20261122-handling-regressions-v3-0-e3d5ea982948@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42Nyw7CIBBFf6VhLYZOSy2u/A/jgsdIMX0YqETT9
+ N+FunGnyzO5c85CAnqHgRyLhXiMLrhpTFDvCqI7OVqkziQmwKApSwCajqZ3o6UerceQ94EKXkq
+ umGYtMyS93j1e3XPTni8fDg91Qz1nV150LsyTf23dCHn3IxGBMgqcH4ziUom6OdlBun6vp4HkR
+ Kz+kVRJgpXhKEULom6/Jeu6vgG0JapWDwEAAA==
+X-Change-ID: 20261122-handling-regressions-951a5b0c080d
 To: linux-doc@vger.kernel.org
-Cc: danielmaraboo@gmail.com, corbet@lwn.net, rdunlap@infradead.org, 
- skhan@linuxfoundation.org, Eduardo Pereira Cruz <dreduardocruz@gmail.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, danielmaraboo@gmail.com, 
+ rdunlap@infradead.org, Eduardo Pereira Cruz <dreduardocruz@gmail.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795355175; l=16045;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795356085; l=2059;
  i=dreduardocruz@gmail.com; s=20261119; h=from:subject:message-id;
- bh=Si8hFraNdEddmRmWfRFBbEa6X8eBV3kEcWuUXNqyWhI=;
- b=mjcTeGAW6emPjjoPUCh90097AFQhN6JU6djCWBnHDcV8xtxngE1EPTcPS1iBykZzAt++khxq8
- dqlLEVdLLadDFARpvmPmuRloXOS+0JI2YiaBFaOF3oPR7NtCy6URuSO
+ bh=piaR4pVX3njhKNRnfIxX/CMHnLB9/5ah13wj0salF4k=;
+ b=KkXmyDkEZE0g/JHmRWS6jzCcLUuaCVAJ9XnBVNR5+xVsVO+vM9n9+pWtpha2+JglcJCrneGgD
+ RHyXuhBP8aXBex+Hb3xsZoWo3RqlagiwHbz1LdsTwdrxfyykuKVC3cH
 X-Developer-Key: i=dreduardocruz@gmail.com; a=ed25519;
  pk=2dtL+BL/x70sROmAvlskv9dbjj274zlPkLBVu4gJJiA=
 X-Endpoint-Received: by B4 Relay for dreduardocruz@gmail.com/20261119 with
  auth_id=1571
 X-Original-From: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
 Reply-To: dreduardocruz@gmail.com
-Content-Transfer-Encoding: 8bit
 
-From: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
-
-Start the Brazilian Portuguese translation of
-Documentation/process/handling-regressions.rst, covering the summary of
-the essential points and the basic guidance on handling regression
-reports and on fixing them.
+This series adds the Brazilian Portuguese translation of
+Documentation/process/handling-regressions.rst, the document that
+describes what the "no regressions" rule means in practice for
+developers.
 
 The translation follows the original file as last changed by commit
 fdd100ee60a0 ("docs: process: use gender-neutral pronouns") and keeps
 its structure: section levels, literal blocks, URLs, :ref: roles and the
 regzbot commands are preserved verbatim.
 
-The file is added in three parts to keep the review tractable.
+It is split in three parts to keep the review tractable. The last patch
+also wires the new document into the pt_BR process index.
 
-Signed-off-by: Eduardo Pereira Cruz <dreduardocruz@gmail.com>
+Changes in v4:
+- Join the section titles that were still split over two lines and give
+  them a matching underline; one title had also lost its underline.
+- Rejoin the two #regzbot command lines whose URL had been moved to the
+  following line, which made the command unusable.
+- Use a single "::" before literal blocks instead of ":::".
+
+Changes in v3:
+- Split the SPDX header back into two comment lines; the previous
+  version merged them into one, which breaks the directive.
+- Keep each section title on a single line with a matching underline.
+- Replace the remaining "etiqueta" and "maintainer" occurrences with
+  "tag" and "mantenedor", and use "flag day" consistently.
+- Fix wording issues found on review: "nem sequer compila", "versão
+  mainline ... de fato" instead of "adequada", and the AppArmor
+  sentence.
+- Keep proper nouns such as "Maintainers Summit 2024".
+
 ---
- .../pt_BR/process/handling-regressions.rst         | 326 +++++++++++++++++++++
- 1 file changed, 326 insertions(+)
+Eduardo Pereira Cruz (3):
+      docs/translations/pt_BR: process: add handling-regressions.rst (1/3)
+      docs/translations/pt_BR: process: add handling-regressions.rst (2/3)
+      docs/translations/pt_BR: process: add handling-regressions.rst (3/3)
 
-diff --git a/Documentation/translations/pt_BR/process/handling-regressions.rst b/Documentation/translations/pt_BR/process/handling-regressions.rst
-new file mode 100644
-index 000000000000..6129cde22ec1
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/handling-regressions.rst
-@@ -0,0 +1,326 @@
-+.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
-+.. Consulte o final deste arquivo para informações adicionais de
-+.. redistribuição.
-+
-+Lidando com regressões
-+++++++++++++++++++++++
-+
-+*Nós não causamos regressões* -- este documento descreve o que essa
-+"primeira regra do desenvolvimento do kernel Linux" significa na prática
-+para os desenvolvedores. Ele complementa
-+Documentation/admin-guide/reporting-regressions.rst, que cobre o assunto
-+do ponto de vista do usuário; se você nunca leu aquele texto, vá lá e ao
-+menos dê uma passada de olhos antes de continuar aqui.
-+
-+Os pontos essenciais (também conhecidos como "o TL;DR")
-+=======================================================
-+
-+#. Garanta que os inscritos na `lista de discussão de regressões
-+   <https://lore.kernel.org/regressions/>`_
-+   (regressions@lists.linux.dev) saibam rapidamente de qualquer novo
-+   relato de regressão:
-+
-+    * Ao receber um relato por e-mail que não tenha a lista em CC,
-+      inclua-a
-+      imediatamente no circuito enviando ao menos um breve "Responder a
-+      todos" com a lista em CC.
-+
-+    * Reencaminhe ou redirecione para a lista qualquer relato enviado em
-+      rastreadores de bugs.
-+
-+#. Faça o robô de acompanhamento de regressões do kernel Linux,
-+   "regzbot",
-+   acompanhar o problema (isto é opcional, mas recomendado):
-+
-+    * Para relatos enviados por e-mail, verifique se o autor incluiu uma
-+      linha como ``#regzbot introduced: v5.13..v5.14-rc1``. Caso não
-+      tenha, envie uma resposta (com a lista de regressões em CC)
-+      contendo um parágrafo como o seguinte, que informa ao regzbot
-+      quando o problema começou a ocorrer::
-+
-+       #regzbot ^introduced: 1f2e3d4c5b6a
-+
-+    * Ao reencaminhar relatos de um rastreador de bugs para a lista de
-+      regressões (veja acima), inclua um parágrafo como o seguinte::
-+
-+       #regzbot introduced: v5.13..v5.14-rc1
-+       #regzbot from: Some N. Ice Human <some.human@example.com>
-+       #regzbot monitor: http://some.bugtracker.example.com/ticket?id=123456789
-+
-+#. Ao enviar correções para regressões, adicione tags "Closes:" à
-+   descrição do patch apontando para todos os lugares onde o problema
-+   foi relatado, conforme exigido por
-+   Documentation/process/submitting-patches.rst e
-+   :ref:`Documentation/process/5.Posting.rst <development_posting>`. Se
-+   você estiver corrigindo apenas parte do problema que causou a
-+   regressão, pode usar tags "Link:" em vez disso. No momento, o regzbot
-+   não faz distinção entre as duas.
-+
-+#. Tente corrigir as regressões rapidamente assim que o culpado for
-+   identificado; as correções da maioria das regressões devem ser
-+   mescladas em até duas semanas, mas algumas precisam ser resolvidas em
-+   dois ou três dias.
-+
-+
-+Todos os detalhes sobre regressões no kernel Linux relevantes para os
-+desenvolvedores
-+===============
-+
-+
-+O básico importante em mais detalhes
-+-------------------------------------
-+
-+
-+O que fazer ao receber relatos de regressão
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Garanta que o rastreador de regressões do kernel Linux e os demais
-+inscritos na `lista de discussão de regressões
-+<https://lore.kernel.org/regressions/>`_ (regressions@lists.linux.dev)
-+saibam de qualquer regressão recém-relatada:
-+
-+ * Ao receber por e-mail um relato que não tenha a lista em CC, inclua-a
-+   imediatamente no circuito enviando ao menos um breve "Responder a
-+   todos" com a lista em CC; procure garantir que ela volte a ser
-+   incluída caso você responda a uma resposta que a tenha omitido.
-+
-+ * Se um relato enviado em um rastreador de bugs chegar à sua caixa de
-+   entrada, reencaminhe-o ou redirecione-o para a lista. Considere
-+   verificar antes os arquivos da lista, no caso de o autor já ter
-+   reencaminhado o relato conforme instruído por
-+   Documentation/admin-guide/reporting-issues.rst.
-+
-+Em ambos os casos, considere fazer com que o robô de acompanhamento de
-+regressões do kernel Linux, "regzbot", comece a acompanhar o problema
-+imediatamente:
-+
-+ * Para relatos enviados por e-mail, verifique se o autor incluiu um
-+   "comando
-+   do regzbot" como ``#regzbot introduced: 1f2e3d4c5b6a``. Caso não
-+   tenha, envie uma resposta (com a lista de regressões em CC) com um
-+   parágrafo como o seguinte:::
-+
-+       #regzbot ^introduced: v5.13..v5.14-rc1
-+
-+   Isso informa ao regzbot a faixa de versões em que o problema começou
-+   a ocorrer; você também pode especificar uma faixa usando commit-ids
-+   ou indicar um único commit-id, no caso de o autor ter feito bisseção
-+   do culpado.
-+
-+   Observe o circunflexo (^) antes de "introduced": ele pede ao regzbot
-+   que trate o e-mail pai (aquele ao qual você está respondendo) como o
-+   relato inicial da regressão que você quer ver acompanhada; isso é
-+   importante, pois mais tarde o regzbot vai procurar patches com tags
-+   "Closes:" que apontem para o relato nos arquivos em lore.kernel.org.
-+
-+ * Ao reencaminhar uma regressão relatada em um rastreador de bugs,
-+   inclua um
-+   parágrafo com estes comandos do regzbot:::
-+
-+       #regzbot introduced: 1f2e3d4c5b6a
-+       #regzbot from: Some N. Ice Human <some.human@example.com>
-+       #regzbot monitor: http://some.bugtracker.example.com/ticket?id=123456789
-+
-+   O regzbot então associará automaticamente os patches ao relato que
-+   contenham tags "Closes:" apontando para o seu e-mail ou para o ticket
-+   mencionado.
-+
-+O que é importante ao corrigir regressões
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Você não precisa fazer nada de especial ao enviar correções para
-+regressões; apenas lembre-se de fazer o que
-+Documentation/process/submitting-patches.rst,
-+:ref:`Documentation/process/5.Posting.rst <development_posting>` e
-+Documentation/process/stable-kernel-rules.rst já explicam em mais
-+detalhes:
-+
-+ * Aponte para todos os lugares onde o problema foi relatado usando tags
-+   "Closes:" ::
-+
-+       Closes: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
-+       Closes: https://bugzilla.kernel.org/show_bug.cgi?id=1234567890
-+
-+   Se você estiver corrigindo apenas parte do problema, pode usar
-+   "Link:" em vez disso, como descrito no primeiro documento mencionado
-+   acima. No momento, o regzbot trata os dois de forma equivalente e
-+   considera os relatos vinculados como resolvidos.
-+
-+ * Adicione uma tag "Fixes:" especificando o commit que causou a
-+   regressão.
-+
-+ * Se o culpado foi mesclado em um ciclo de desenvolvimento anterior,
-+   marque
-+   explicitamente a correção para backport usando a tag ``Cc:
-+   stable@vger.kernel.org``.
-+
-+Tudo isso é esperado de você e importante quando se trata de regressão,
-+pois essas tags têm grande valor para todos (inclusive você) que possam
-+estar investigando o problema semanas, meses ou anos depois. Essas tags
-+também são cruciais para ferramentas e scripts usados por outros
-+desenvolvedores do kernel ou por distribuições Linux; uma dessas
-+ferramentas é o regzbot, que depende fortemente das tags "Closes:" para
-+associar relatos de regressão às mudanças que os resolvem.
-+
-+Expectativas e boas práticas para corrigir regressões
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Como desenvolvedor do kernel Linux, espera-se que você dê o seu melhor
-+para evitar situações em que uma regressão causada por uma mudança
-+recente sua deixe aos usuários apenas estas opções:
-+
-+ * Rodar um kernel com uma regressão que impacta o uso.
-+
-+ * Mudar para uma série de kernel mais antiga ou mais nova.
-+
-+ * Continuar rodando um kernel desatualizado e, portanto, potencialmente
-+   inseguro, por mais de três semanas após a identificação do culpado
-+   pela regressão. O ideal é que seja menos de duas. E deveria ser
-+   questão de poucos dias, se o problema for grave ou afetar muitos
-+   usuários -- seja de modo geral, seja em ambientes prevalentes.
-+
-+Como concretizar isso na prática depende de vários fatores. Use as
-+regras gerais a seguir como guia.
-+
-+Em geral:
-+
-+ * Priorize o trabalho em regressões acima de qualquer outro trabalho no
-+   kernel Linux, a menos que este último envolva um problema grave (por
-+   exemplo, vulnerabilidade de segurança aguda, perda de dados, hardware
-+   inutilizado, ...).
-+
-+ * Agilize a correção de regressões do mainline que recentemente
-+   entraram em
-+   uma versão mainline, stable ou longterm de fato (seja diretamente,
-+   seja via backport).
-+
-+ * Não considere as regressões do ciclo atual como algo que pode esperar
-+   até o
-+   fim do ciclo, pois o problema pode desestimular ou impedir que
-+   usuários e sistemas de CI testem o mainline agora ou de modo geral.
-+
-+ * Trabalhe com o cuidado necessário para evitar danos adicionais ou
-+   maiores,
-+   mesmo que resolver o problema leve mais tempo do que o descrito
-+   abaixo.
-+
-+Sobre prazos quando o culpado de uma regressão é conhecido:
-+
-+ * Procure levar uma correção ao mainline em dois ou três dias, se o
-+   problema
-+   for grave ou incomodar muitos usuários -- seja de modo geral, seja em
-+   condições prevalentes, como um ambiente de hardware específico, uma
-+   distribuição ou uma série stable/longterm.
-+
-+ * Procure levar uma correção ao mainline até o domingo seguinte ao
-+   próximo,
-+   se o culpado entrou em uma versão mainline, stable ou longterm
-+   recente (seja diretamente, seja via backport); se o culpado ficou
-+   conhecido no início da semana e é simples de resolver, tente levar a
-+   correção ao mainline na mesma semana.
-+
-+ * Para outras regressões, procure levar as correções ao mainline antes
-+   do
-+   último domingo dentro das próximas três semanas. Um ou dois domingos
-+   depois é aceitável, se a regressão for algo com que as pessoas
-+   consigam conviver facilmente por um tempo -- como uma regressão leve
-+   de desempenho.
-+
-+ * É fortemente desaconselhado adiar correções de regressão para a
-+   próxima
-+   janela de merge, exceto quando a correção for extraordinariamente
-+   arriscada ou quando o culpado tiver sido levado ao mainline há mais
-+   de um ano.
-+
-+Sobre procedimento:
-+
-+ * Sempre considere reverter o culpado, pois costuma ser a forma mais
-+   rápida e
-+   menos perigosa de corrigir uma regressão. Não se preocupe em levar ao
-+   mainline uma variante corrigida depois: isso deve ser direto, já que
-+   a maior parte do código passou por revisão uma vez.
-+
-+ * Procure resolver qualquer regressão introduzida no mainline nos
-+   últimos
-+   doze meses antes que o ciclo de desenvolvimento atual termine: Linus
-+   quer que tais regressões sejam tratadas como as do ciclo atual, a
-+   menos que a correção envolva riscos incomuns.
-+
-+ * Considere colocar Linus em CC nas discussões ou na revisão do patch,
-+   se uma
-+   regressão parecer emaranhada. Faça o mesmo em casos precários ou
-+   urgentes -- especialmente se o mantenedor do subsistema puder estar
-+   indisponível. Coloque também a equipe stable em CC quando souber que
-+   tal regressão entrou em uma versão mainline, stable ou longterm.
-+
-+ * Para regressões urgentes, considere pedir a Linus que pegue a
-+   correção
-+   diretamente da lista de discussão: ele não vê problema nisso para
-+   correções sem controvérsia. O ideal, porém, é que tais pedidos
-+   aconteçam em acordo com os mantenedores do subsistema ou venham
-+   diretamente deles.
-+
-+ * Caso não tenha certeza se uma correção vale o risco de ser aplicada
-+   poucos
-+   dias antes de uma nova versão mainline, envie a Linus um e-mail com
-+   as listas e pessoas habituais em CC; nele, resuma a situação e peça
-+   que ele considere pegar a correção diretamente da lista. Ele então
-+   pode tomar a decisão e, quando necessário, até adiar a versão. Tais
-+   pedidos, novamente, devem idealmente acontecer em acordo com os
-+   mantenedores do subsistema ou vir diretamente deles.
-+
-+Sobre kernels stable e longterm:
-+
-+ * Você é livre para deixar regressões para a equipe stable, se elas em
-+   momento algum ocorreram no mainline ou já foram corrigidas lá.
-+
-+ * Se uma regressão entrou em uma versão mainline de fato nos últimos
-+   doze
-+   meses, garanta marcar a correção com "Cc: stable@vger.kernel.org",
-+   pois uma tag "Fixes:" sozinha não garante um backport. Adicione a
-+   mesma tag caso saiba que o culpado foi levado por backport para
-+   kernels stable ou longterm.
-+
-+ * Ao receber relatos sobre regressões em séries de kernel stable ou
-+   longterm
-+   recentes, avalie ao menos brevemente se o problema pode ocorrer
-+   também no mainline atual -- e, se isso parecer provável, assuma o
-+   relato. Em caso de dúvida, peça ao autor que verifique o mainline.
-+
-+ * Sempre que quiser resolver rapidamente uma regressão que recentemente
-+   também entrou em uma versão mainline, stable ou longterm de fato,
-+   corrija-a rapidamente em mainline; quando apropriado, envolva então
-+   Linus para acelerar a correção (veja acima). Isso porque a equipe
-+   stable normalmente não reverte nem corrige mudanças que causem os
-+   mesmos problemas no mainline.
-+
-+ * Em caso de correções urgentes de regressão, você pode querer garantir
-+   um
-+   backport célere enviando uma nota à equipe stable assim que a
-+   correção for levada ao mainline; isso é especialmente recomendável
-+   durante janelas de merge e logo depois delas, pois de outro modo a
-+   correção pode parar no fim de uma fila enorme de patches.
-+
-+Sobre o fluxo de patches:
-+
-+ * Desenvolvedores, ao tentarem alcançar os prazos mencionados acima,
-+   lembrem-se de considerar o tempo necessário para que as correções
-+   sejam testadas, revisadas e mescladas por Linus, idealmente passando
-+   ao menos brevemente pelo linux-next. Assim, se uma correção for
-+   urgente, deixe isso óbvio para garantir que os outros a tratem
-+   adequadamente.
-+
-+ * Revisores, pedimos gentilmente que auxiliem os desenvolvedores a
-+   cumprir
-+   os prazos mencionados acima revisando as correções de regressão em
-+   tempo hábil.
-+
-+ * Mantenedores de subsistema, vocês também são encorajados a agilizar o
-+   tratamento de correções de regressão. Assim, avaliem se pular o
-+   linux-next é uma opção para a correção em questão. Considerem também
-+   enviar pull requests do git com mais frequência que o habitual quando
-+   necessário. E procurem evitar segurar correções de regressão durante
-+   os fins de semana -- especialmente quando a correção estiver marcada
-+   para backport.
-+
-+
+ .../pt_BR/process/handling-regressions.rst         | 1136 ++++++++++++++++++++
+ 1 file changed, 1136 insertions(+)
+---
+base-commit: 4405c18c95d2d0f99f6c581ef0ee8591a1aa6ccd
+change-id: 20261122-handling-regressions-951a5b0c080d
 
--- 
-2.53.0
+Best regards,
+--  
+Eduardo Pereira Cruz <dreduardocruz@gmail.com>
 
 
