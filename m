@@ -1,77 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795396648;
-	b=lwMFAWY4Sth6+Te52M7XEozZaLO60hAPaExl/Zuin7YOQ3M9/NQde7U3ZnEZ/Ko1gzUH
-	 i3Vgj124yCUIO41BecVB3AAt7OGsAmZUyboFQah/4Eew50qsGBiN2LFM2XZRfWR7oR8Se
-	 KWrHhtST46TBY99c51r5zIKIP7ll0XsFKs/jiJGyFOl7Kclf3EzyYs9MYvPJd3dmV7kAt
-	 4uTVjHINqZsoZn+IdSR1FWAwKCkTQSYC4SIdDEi6LUAbs8smL8IvN7Tifs7HAngzadRCP
-	 rqsO+amKYFuvemVKyD/xKNIMGBDjJ4Zsyi6SdysUt/YzxlQwuCfdBOaOvdC0oeOz/9g==
+	t=1795397024;
+	b=Zq0PStqQ65XGqjlZlN7IMxj2/PshIwGZrlt6NNz/mXxGMbttyibP4kyFOS2L14VhmGhI
+	 tiNa9dm9ITXOVdbaCe5AMDya63anOU508sS3Sq75kWIZrOEKN8hWsq3J+O6N+HQ+isl7z
+	 d1ZwaZwXjMMh7GgCv8iHtRRyFpJC77v7lUG2KW1RR9dwR/hDNdA0R0DLDt73L7McjEMoT
+	 1lkgxXmqhvavYzJY7JptYJkDJDFgvZlsWHtC+VhS6fmJFs2JsErnl2sz6+BPFGdFdMxB1
+	 TdSRcwt74qwPcXDM8rBCKaksx8xVxmMWA5P9VswJR34iRFDqoTxyX7BP7q+EiCmPzhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795396648;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=0aOCQuegkDUwskKeZ1j/NRStwGaSRAPMc97ZLi2jvTo=;
-	b=t1PlF5JNadRi3FQbyKzCijaUJIj6Um/BPLdNRNl1OCmVoB1hS87Ie8hMgTyQSWUjctJx
-	 uHS3YfMVkM4YUDuT6xcIhPmuKQtIzGL9qM/bHaoZUxGcQQhTnOFUI3XqwyUtyOTixYzO4
-	 6lRMkswUdISJBSE2nowPZXp4+L1CqjUOPofCU5bTSBTf+8ic7fascEJm3T37TYS9Tooqz
-	 x+B/EDLxOjcQbwsry4h4sA6n4eftKBUsXlJSXXgnmvyx6RBh89EZn63VO5L2IbB93n/ay
-	 9GaRimYkJ5hvHGfwD+ewjw5jSioHXwjV7yhIr0XL+TPdTySp2zFx6gw9q8A4FZgPvMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795397024;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=QSMho1NjVP5XGqEqimgjpY4GbPekT5vt0w3BGd5duAI=;
+	b=xYilUaQDK7BTyK71/8CInxeV+MAQl9l6KM9al4JDDOzJ5g0ZxqL44maAZYniVRwnj+8p
+	 MZMGr6cl3I2iS1f6c79Rakz7hU5ofKN9h2UqO6KgBXjOO+Ad1Y8JKptOacoaJf+OQ9y/t
+	 1y9yOVr6W4RXYo4veadk7Z3jWll8s909UCpGTEf6rTeNrQmItn+QbpAvO1MJuRE7BK84P
+	 Y2/1+gcHAAX0LWdEQoe7r2o3ziTAYgxu6DmYReBDO6k1rxDE8LwDBSMOe1rmmdpZgeA+L
+	 vQpPKt5qVQwZpE3cYFH/LnYTHO2p5V/270ysSll62F57zWehL4B3ZzX2DP20qQhBsKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oU88Ot+D;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=TLCLPRKt;
+	arc=none smtp.remote-ip=95.215.58.151
+Received: from mta1.migadu.com (out-151.mta1.migadu.com [95.215.58.151])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 7C5BF606A31A;
-	Mon, 23 Nov 2026 01:17:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1525606A31D
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 01:23:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1525606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oU88Ot+D
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 51A941F000C0;
-	Mon, 23 Nov 2026 01:17:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795396648;
-	bh=0aOCQuegkDUwskKeZ1j/NRStwGaSRAPMc97ZLi2jvTo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oU88Ot+DNQP+6mgTLa+2Y0T8my6gPsAHGZ88SJHShFaf8cOQRDR/RsBGJuK8xoFLK
-	 ie9hfueXtMCampSV8SKLb3OF0QNXZC677qfYNG23pJ5iHahuOwYmCYQaDeoNgy4F/v
-	 WrSodOYpWarCv74fRWHad1uMwFGvOjPMCZF6v7Wi0+rA5eMcDfTGMme0DFDaIYr4Bj
-	 BV8BCmSY+LkBq+1fjI9o6dPp9AmTJdXStFcDzKkDk5gAEWZ2CVD8G/BBRGYx8zrMSG
-	 V37z3MaBHsr34qCd4KVhM7YMEkrvDZO2nf/YcaxeI9eniMitk/+WJmG2GXL3uA5PBi
-	 C9nhE3GDUd0ug==
-Date: Mon, 23 Nov 2026 03:17:24 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
-	containers@lists.linux.dev, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Aleksa Sarai <aleksa@amutable.com>,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Giuseppe Scrivano <giuseppe@scrivano.org>,
-	Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	KP Singh <kpsingh@kernel.org>,
-	Lennart Poettering <lennart@poettering.net>,
-	Neal Gompa <neal@gompa.dev>, Oleg Nesterov <oleg@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
-Message-ID: <awOUJCbB_j0BuHvo@kernel.org>
-References: <20261122193539.3334213-1-jarkko@kernel.org>
- <DN25ST0D5K1J.1NI5236BF2BPY@gmail.com>
- <awOQDOel_72Xwjm7@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=TLCLPRKt
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=SyzFxx8j0goNtlq88x6jpGh70AV+UkBtEoBlAWhDzcY=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795397021; v=1; x=1796001821;
+ b=TLCLPRKtJ+XUIOxiMYbm3LeZcd/UebZ0Btq8DrOwbK6DFZH107uau9hfwumboTSFs+2/3xWZ
+ dXIt8IIAiH06/edkE871N/haqxIR2Lktd3Ssxg2oiU4g3w6+epN09QM1ZY3mwemBddPwLxgXoET
+ 2LaXnQ3QlI4jIgofKSd63z4XbebAFZEO9cRh1NFCYVbpLubenaKvXdDLqzsvku+4KxZpNCa+eow
+ Lbw2kGB+RyRNicVY27NDOSpvN9j9eF1j8OTEDpoN7faeU/PQiPFRPU0pH/vphoSwe8Wf5J1YPii
+ lJ3xlQ8rikR/QUPrYqbgiua1rEk8fPEAu9YiEw0VuenWg==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 384d2ed1f0f21d74;
+	Mon, 23 Nov 2026 01:23:41 +0000
+X-Mizu-Trace-ID: 384d2ed1f0f21d74
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 23 Nov 2026 09:23:37 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
+Cc: Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 03/25] docs/zh_TW: process: sync 4.Coding.rst with the
+ English original
+Message-ID: <awOVmVPNOCNTzLcD@wyuan.org>
+References: <20261106113142.706783-1-chenyou910331@gmail.com>
+ <20261106113142.706783-4-chenyou910331@gmail.com>
+ <avVQdrfqVqRfY5ex@wyuan.org>
+ <CAKspUhLvHoWW9unBOFfFrykdxpBswBraaBJnbxpC9rg7yvTFUQ@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,45 +71,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <awOQDOel_72Xwjm7@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKspUhLvHoWW9unBOFfFrykdxpBswBraaBJnbxpC9rg7yvTFUQ@mail.gmail.com>
 
-On Mon, Nov 23, 2026 at 03:00:00AM +0200, Jarkko Sakkinen wrote:
-> On Mon, Nov 23, 2026 at 12:21:16AM +0000, Alexei Starovoitov wrote:
-> > On Sun, Nov 22, 2026 at 11:35 AM Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > > v6: https://lore.kernel.org/linux-fsdevel/20261122011809.2667684-1-jarkko@kernel.org/
-> > 
-> > v7 was sent 18 hours after v6. v6 got replies from the bots only.
-> > v1 was +2559 lines. v7 is +5782.
-> > All six findings of sashiko on v6 are still in v7.
-> > None of the seven versions got a reply from the vfs or LSM maintainers.
+On Thu, Nov 19, 2026 at 07:50:57PM +0800, 葉宸佑 wrote:
+> On Thu, Nov 12, 2026 at 01:36:54PM +0800, Weijie Yuan wrote:
+> > You used <tw_codingstyle> label here, but after rendering, the html
+> > output is still "Documentation/process/coding-style.rst", which is
+> > pointing to the zh-tw translation, not the original one. So it is
+> > inconsistent, right?
 > 
-> Apologies, I started testing this with bare metal as a result of
-> hotplug, and things just started to roll out as I got a better touch on
-> its use as a result.  The growth is by majority in kselftest. The
-> feature has not really grown but API has shrunk along the way. Still,
-> demonstrating that full detachment from syscall API is important,
-> because it sets a bar for any approach trying to do this.
+> You're not misunderstanding, you're right. With :ref:`text <label>`, the
+> text is displayed as is and only the label decides where the link goes.
+> Since the label exists, Sphinx has nothing to warn about.
 > 
-> I had no idea that e.g., that  quality would be even possible but
-> one thing led to another this went a bit out of hands.
+> > I suggest that in this series, either use the full path to refer to a
+> > file directly, or stick to the discouraged writing style and wait until
+> > once these two series are completed, we can then carry out a thorough
+> > cleanup. What do you think?
 > 
-> I also wanted this to as good form as possible before going on
-> holiday, which I'll be starting tomorrow but this was not a
-> motivative reason.
+> I'll go with the second option for v2: keep the :ref:s and labels, but
+> display the zh_TW path, e.g.
 > 
-> So yeah, again, apologies.
+>   :ref:`Documentation/translations/zh_TW/process/coding-style.rst
+> <tw_codingstyle>`
 > 
-> > 
-> > The way you're spamming people you're only reducing chances of anything going in.
+> so the text matches where the link goes. Turning them into plain paths
+> can then go into the cleanup together with the label work.
 > 
-> I personally think that "getting in" should not be a goal in the first
-> place. I care more about that whaever gets in has a high bar of
-> quality enough. It can be something different than this but
-> when I read the LWN article about Cells I was alarmed enough
-> so that I had to do this and prove my point.
+> To make sure nothing is missed, I checked every :ref: in both series
+> with a script. Besides the ones displaying an English path, it found
+> one in embargoed-hardware-issues.rst copied from the English text as
+> "Documentation/admin-guide/ <securitybugs>", where both the text and the
+> target are English. The zh_TW security-bugs.rst has no label, so I'll
+> use its full path there instead.
 
-For completeness: I'll consider this final RFC.
+Thanks!
 
-Br, Jarkko
+> > Regarding the "ref" of one specific section, I remember that it could be
+> > referred to using a relative path, and with a label?
+> 
+> A :ref: only takes a label, so a section needs one, like
+> <tw_interleaved_replies> in 2.Process.rst, which points at a section of
+> submitting-patches.rst. A relative path works with :doc:, but that
+> links a whole document, and for that a plain path is simpler since
+> automarkup turns it into a link.
+
+Okay, got it.
+
+> I'll leave your Reviewed-by off this patch in v2.
+
+Aha, that was completely my carelessness ;-)
+
+Sorry that my schedule has been a bit tight recently, but I'll try to
+take a look at the rest soon. But of course you can start brewing your
+v2 if you have time now. ;-)
+
+Thanks.
