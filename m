@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795431820;
-	b=JeX76F6AmP8r2RaKEOcLg/WFbUBMCrh08Jzr4WqjCWj3QKuxpJqhvZg/oS4P8N/pKRAH
-	 mCIw8EkPevgIZxsGvSwUnmeUwoVsGTZOkVreFq40fCgN85QoqQeIjgkWZVCVB5AXtn5N9
-	 1qufkO7M2aoeAjvwwzJ7NQCx3tASLuKBazrYhzOqXnjKEiui4wYcYfbt9avVA7wDBFC//
-	 6J6YD6yVO5lFNBagUAYsmtIwwJk9s0YDQQfxYIsP+sMsAHwnvFVXFdJy23e1//6a/8To1
-	 TEguAlD0nR1vI4mI6/RXoHvBlxbB/BXDuDs3PoeF/X/s3R4KudLp3ya11Qd/Q12drSg==
+	t=1795431823;
+	b=RwpHC7CgryZuALcdo3WirrAsbJtzuwUycWK3b9DhZABOYvlFjdJvkOsYXnoGECDNj7Ef
+	 +HyjDcAHzLeGn8Rf8WVYznJKDbMM/TuaQQrwUQrAiHunT7GO7jmCX78VhpkrQQoliaAxl
+	 /L6054dkrdcjq4DNz09ABIDLC1Y5QdUgAFyytvVBfgqMDeeccbBfMnYGQVJYxf+wqmpTP
+	 oMkJ9JID/HxWHFPRZD9xXzwSbIb3EtC5XKzuJIYTCthX4bTS6SlTsdvTCttrFrhL+eG5e
+	 XyNTBWKkWonneyuxQIFAAP3ujQWRUloQYiwRs/jZzfD5sf4lYTi0OCie5O+CbvLUpzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795431820;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795431823;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=rfQ4cTE+eoZbY55pgsRZ/8CqV2xYReraBWYYC65CKhc=;
-	b=2EtWGTOPoXJnT0vh8wAiur72QQnLWyS3hopnndi5ZuRSM4APpm4FFqgxBLOIlZmQ73oQ
-	 bG19f3aFrTc3XYyZVIGLkfeYKcnA1R64NXzeMwznAwId6p0KNWIOAQu+0SgRAaOvMXSJZ
-	 UR4tyFedMuDHwjNm82sJX9p0Fw4rV5sYDtLUMrPsY1V8VuZnX4JF3L01bzLF6pexMZ6PJ
-	 nqEbQEFoKVanAKCcHuC5Jfnp43RcocgA8RYGyuO+TtWu/KNQbzsoNvrVkTLR5+2yr6bSW
-	 Hp/1nhBUmcC8pB+OF9sXtXhS+WX3oU5w9NGSe+h6ouHzbj7VLGgAZjQK9aTjlY5o07w==
+	bh=hCmyRgBNPoUT5seicaavjjK6JIguP1Xyj5MJMPT1yUE=;
+	b=oscBdMItjfZejINWhHLhpfnuv+7r1rNh/J56FqxM8A+bvD7xjUpfcprbHm3u7MvgXmMf
+	 WXgL1bV4+Yeo+pQtbQUtsrBREbSHnDLyAAlcOfCWnc9k+BJf2EiCIZpujWCGZDnMYvzhz
+	 z6Hpe3IHPhwFL1IfSdTpIDS0IqfBUux2lmUZHPjz2MkgtfYD7rxeugZjxYfl+gM2XKDho
+	 EtP4wlh9dzcmGlM4L7cRsHJ8uA6BW1j3PqsNbeR5tfXj0gDxjoL+wQYzRKOBlRAzPYbN6
+	 PV1tdghcY7sn+wBe8HjQzvWsekxivmJiB84ZzU1Glsk3X13QuyqKrCSWtmk9OfgDYqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vwK53B7A;
-	arc=none smtp.remote-ip=209.85.214.177
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="ZrXWIJ/a";
+	arc=none smtp.remote-ip=209.85.214.171
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEE7606A6BB
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:03:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFEE7606A6BB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A87606A689
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:03:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8A87606A689
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vwK53B7A
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ed58279115so1590125ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:03:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZrXWIJ/a
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2f083477981so363435ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:03:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795431819; x=1796036619; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795431822; x=1796036622; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=rfQ4cTE+eoZbY55pgsRZ/8CqV2xYReraBWYYC65CKhc=;
-        b=vwK53B7AmpfTfUPIv7WMHUZavXAy+9WX5L9gq4bFWgADg1ydspPTCFwnXKmi/4JZBz
-         oit/acODAKXDAKZOyJw4Rjv3GBHLSxHAgspbI8iKq18Msqe2I/I/eXrnx2Ohqp0WiCYl
-         +GH+uJfANmfwPYWFSImBQbjV5pdjhQLl2lFrDiilpzGbDN1nWVGz26j5wpWD0xCH9vU0
-         M+MPFlCuVi5+rDb5KHzSFdaLw6TuQx41nKALUKMomQL3+0NO+VxTz0Pm0sJSFmq4RF35
-         sh3Xs1hAQuvg8DIkIIPwymhRf05qJZAcI6xZJrMjh7okY9mqKSFS61zuk0hiOsJHaBn3
-         VclA==
+        bh=hCmyRgBNPoUT5seicaavjjK6JIguP1Xyj5MJMPT1yUE=;
+        b=ZrXWIJ/aPxlOEL3RX4xX2hjbKXTNyXH6EYg8iBrp2Sx9LUofzitfmOsh9n0jlhhZGR
+         5TcLv2IQ5+NUjbGQO/BJEmkstLiSmG61BQOpsyzQBKTVWz72WRRCzG7kcb7H6sCxf7pv
+         WkrKPJdHGXOt15x7+0gxzR4lZBfdtZ+KYuj+iNggI/y/w+aUTsMUIGVCL2c0C+nuMVWC
+         lvjUe7kFCQ3pZLY2E1T5mPhkpHdQnCyxBimYuIuK1YEZT7gBhmQx3lUcO8shFv9xpnVE
+         frCtDP4oFr1k8U5gNsaOs9tnxJWQtsIPsI3+6nbnCNRf2yQxBlQc4tPbr+jkCfBFxT7/
+         zlxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795431819; x=1796036619;
+        d=1e100.net; s=20260707; t=1795431822; x=1796036622;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=rfQ4cTE+eoZbY55pgsRZ/8CqV2xYReraBWYYC65CKhc=;
-        b=qaMv0rgRqLTW1y+Ilvi8lA9GFKgIRa9RabGDa4q+1CBbrj1Rlca6VKu2O/T5fw/mA2
-         UfuxojSGpaCjsa4YT9PDNPb9ahuSZbEUVdiWQz2GF3FU2Lo7mF0/Ko+AvibiQd1yWivS
-         aDIcT76OxXTKXz8xekP9CjHPT1cg8n0UyRSQL1EOrdXg3kkc31gXHPPxKpcdGGHQWenh
-         m+fb12Ls6LZ27Ej+EwWzclY2fcZdMa4dyylArdTYhbnHb+eNGr6/PIGokYOImVpmFTb7
-         G8wsfrk1+zup1rl52p3cEbhPtIblQM/2K96VXbaWRGEYWERnEG8tVXM2l7iVStFaXfen
-         RaVg==
-X-Forwarded-Encrypted: i=1; AL+hErHLyq23KimgEdPlxeUL2tSgYhaw1eD2d6fGyU8OPv2XsONgvljC1ElUz/8sFps0opw2Xdg5WBf+gJc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+XfxDZ9UDAyetkxmlHnKk8glXrFW6xqVehkOO+39AtPZsM19l0
-	JJGIAmU2v1wpaM1eQNKg0syzZLBgw+gFfFW4gVJyB7Uy5hy+GgtSpX+o
-X-Gm-Gg: AZFdTZeQxGsNVA2A0vVHql7SDxkGnVOcB59Gy0O5WvGp5W5KYV3l2SPkNFLByI6hCxI
-	Tx2EipJnu60MHu20as0Mc2T8npwzCW0zdNgTONsH5FF9w6LUI4sECzXNEyW4a40gDhJeGTs4Rn+
-	nIC1nByratbMpLcwRWTo9sOQJN4Z1eKr3OQG22Szauz0/WWszhk/BIXAekhlpFuVIS0iU9C7VPo
-	TQzQxiLjuW5Z/RDBRgsnuqQCOdDXQV7FGpmLEj3324A0lIlyBpyqluws98tTdpqu5IV4nv36gtV
-	DV13UnhxzfqL09pFgoj2aFMz9azHZIBv/hf8hD91cxN/9bR73sloaK0yL4SlUUAVvC1CHQyQQrQ
-	Wz8JtlsbfhwlgibnZxxOiHxbbo8AnPZc+92gw9h3hmPsgjFFMcbzYT2S+xM7jRTola9+H6GUGEp
-	ovv7y/WRQFsLO4/I6jj3DVcsMteMDJsmjW0L+81UcqUxpe6bDlJ/4D4jOC9IeY7kFe9fOwO0csb
-	MJ+826ByQX5UpiDEmq6zrmf8Sb4AQAOFAbFJgSaxUBAU56okWbd8a9b2CwJOQ9D8Q0T3qCjA49z
-	PzI6UPpPKjdaXw0zlNH8lRdjsqW86pOIJnqw7iK84XrE2mJbrJ2jmhkg1pNahRoIcPvD4aZKD+Q
-	Cls5WYdgQp8lJhJW8OT4fSNtjKi2r1hx2S61tXxHf8Lo7ag==
-X-Received: by 2002:a17:903:4688:b0:2f0:7d6d:4a09 with SMTP id d9443c01a7336-2f07d6d4bc1mr63208675ad.1.1795431818798;
-        Mon, 23 Nov 2026 03:03:38 -0800 (PST)
+        bh=hCmyRgBNPoUT5seicaavjjK6JIguP1Xyj5MJMPT1yUE=;
+        b=USFQVAkdBhTULIfasrp+t9uX5a4wBpemSD1yMwiivePqmW6q9NyoquWXm9nT4LqiGB
+         MohY9C6DZFU677pAKS0+u+4NzxvwrRL9jSxiPNuWnvR1zl4U/2Ty1lv+TtgfnZ3akq8o
+         rVVPdh7x/d9SrBLp3SGCWUHjR8ZqGyKjRYcDuEge/30MM8rQgpJv2zP7ZrVRfJW9jNHr
+         3iB5cf+AsQxudp0BnibE7FqocuA7FsYCe2ok7iTAqa1koVEmw8vDqR/cFIfI4cOGJ1gf
+         oTK2M0dV4pvDk0anjeKboK0DWLwdy41A0REE8FXFDJKv6cAcuzssXl5nuAOVtXVOCqUt
+         +QYA==
+X-Forwarded-Encrypted: i=1; AL+hErF+gE/6r3Q345h951vWPw5uQGwykZlasSYuVsnskwdXZ9+XA/WS8NZDxlcB+rYtXLCzdIf+NRVpLp0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9lZHX/SGd/DaiLR8WdPzoaoYicULgahkqJ3GfGokPZCstmtq0N
+	8Ezi10oJ5RKkBv2BXTIjulGNG4CeFRTtKiVb20NUCM2FWOJlSZysOMwz
+X-Gm-Gg: AZFdTZc/ZIt/kW33k/+JxNgjx1r78u0vQ6MPesYKfD5qDgQbRT84RIq1llREiJ1FQX3
+	4tyW/USvyecErHNBhVq4Ay7RJZ894pFSe3DLTlaw/ADyhiUQxXdEx7hoKpgeLGjvi6nulbNcLyZ
+	U9XODSRpQSTyn5/wtG16s2420JUerZCAnjbfdFaeRU1B/24+POlrZ0/3cIWAFnnJ3Qon6ynZ/Gy
+	uEnPYyz1CX9KbxKJnfBh8xFjGHlew7NzUlc9NmBN1kHDNfOgXeHn0FIKOieulKfTHr7RgrX6B/J
+	Pygw/+btY/NAr3z/OdCOWrpuADYKX4yWqObZtLV37AxANixhY6ZibduRT+Y68K/wfxdoKQr2JCw
+	OqSmYUVB1ICVppgHMDuqHt2Jt/KI6qE7Db7/IN+zujxpEtkU+9T2+fcB+OqLBr8HIsAI2z4xra3
+	JeYdpdJNWreF3akDyOtvpEJ8eq5t/0BebL6QAnppaREopfJI0Xpy3R1HfMThU3h+Vj/aOswlTSz
+	mquEnCMBrXI612z8/GmLNCnsI3NeWpt0ivXaQ1TZNMydDB6JNVKcuQYXy8n5/O07wm8RneDfrWL
+	Iae/VhYZh4dzKw79FKtOayU5W3W4PlTFr7/0u7FhMA6l8+hI8u/44Bv8PNw2Cwjc5apywzIZ0um
+	7CrE/+M1uQKiwwf03Lgw+F26QHg==
+X-Received: by 2002:a17:903:1c9:b0:2e9:5714:607b with SMTP id d9443c01a7336-2f03ee6aec7mr177623645ad.0.1795431821703;
+        Mon, 23 Nov 2026 03:03:41 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.16])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1aa3sm50380785ad.21.2026.11.23.03.03.35
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1aa3sm50380785ad.21.2026.11.23.03.03.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 03:03:38 -0800 (PST)
+        Mon, 23 Nov 2026 03:03:41 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: alexs@kernel.org,
 	corbet@lwn.net
@@ -89,9 +89,9 @@ Cc: wy@wyuan.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH v2 23/25] docs/zh_TW: process: sync stable-api-nonsense.rst with the English original
-Date: Mon, 23 Nov 2026 19:02:14 +0800
-Message-ID: <20261123110217.170025-24-chenyou910331@gmail.com>
+Subject: [PATCH v2 24/25] docs/zh_TW: process: sync submit-checklist.rst with the English original
+Date: Mon, 23 Nov 2026 19:02:15 +0800
+Message-ID: <20261123110217.170025-25-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261123110217.170025-1-chenyou910331@gmail.com>
 References: <20261123110217.170025-1-chenyou910331@gmail.com>
@@ -107,312 +107,245 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The translation carries no "update to commit" marker, and a comparison
-against the current English text shows it still follows the original
-2016 version:
+The translation carries no "update to commit" marker.  It was converted
+from zh_CN and, apart from a few later spot fixes (CONFIG_SLUB_DEBUG,
+the abi.rst reference), still follows the flat 24-item list from before
+2021.  Bring it in line with the current English text:
 
-- drop the "<insert link to leech comment from Andrew and Linus here>"
-  placeholder removed by commit 1d2375f048b7 ("doc:process: remove note
-  from 'stable api nonsense'")
-- say "drivers released under a GPL-compatible license" instead of
-  "GPL released drivers", following commit 8f7e6d134bda ("doc: process:
-  GPL -> GPL-compatible")
-- add the subtitle, restore the note block and the emphasis of the
-  introduction, and split the merged paragraphs of "Stable Kernel Source
-  Interfaces" and "What to do" as in the original
-- use a transition instead of the "感謝" section title that the original
-  does not have
+- regroup the items into the "Review your code", "Review Kconfig
+  changes", "Provide documentation", "Check your code with tools",
+  "Build your code" and "Test your code" sections, following
+  commit 5969fbf30274 ("docs: submit-checklist: structure by category")
+  and commit 47c67ec1e8ef ("docs: submit-checklist: use subheadings")
+- fold the ppc64 item into the cross-compile item and replace it with
+  the word size and endianness note from commit 2783096fb1dd ("docs:
+  submit-checklist: Expand on build tests against different word sizes")
+- test against the latest linux-next tag instead of the -mm patchset,
+  turn the checkstack note block into a sentence, and drop the htmldocs
+  sentence from the kernel-doc item, as in commit 5969fbf30274 ("docs:
+  submit-checklist: structure by category")
+- use KCFLAGS instead of EXTRA-CFLAGS, following
+  commit 163ba35ff371 ("doc: use KCFLAGS instead of EXTRA_CFLAGS to pass
+  flags from command line")
+- drop the sparse.rst pointer that the original does not have
 
-Also retranslate the whole text from the English: the old text
-paraphrased several sentences loosely (the "much more volatile" topic
-rendered as an endless one, structure padding, a single build multiplied
-by the number of distributions and releases, Greg's "you will go insane
-over time") and used mainland terminology throughout (內核→核心,
-代碼→程式碼, 操作系統→作業系統, 內存→記憶體, 數據→資料, 體系結構→架構,
-二進制→二進位, 分配→配置, 死鎖→死結, ...).
+Also fix the opening paragraph, which said the checklist is provided
+in submitting-patches.rst rather than going beyond it, link
+submitting-patches.rst and coding-style.rst through their zh_TW labels
+and kernel-doc through the label used by the original, and retranslate
+the text with Taiwanese terminology (內核→核心, 補丁→修補程式,
+代碼→程式碼, 內存→記憶體, 構建→建置, 接口→介面, 菜單→選單, 默認→預設,
+堆棧→堆疊, 字節→位元組, 體系結構→架構, ...).
 
-update to commit 8f7e6d134bda ("doc: process: GPL -> GPL-compatible")
+update to commit 5a63f0369bda ("docs/.../submit-checklist: Use
+Documentation/admin-guide/abi.rst for cross-ref of README")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../zh_TW/process/stable-api-nonsense.rst     | 243 +++++++++---------
- 1 file changed, 127 insertions(+), 116 deletions(-)
+ .../zh_TW/process/submit-checklist.rst        | 159 ++++++++++--------
+ 1 file changed, 91 insertions(+), 68 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
-index 94748429c182..25adea1146c2 100644
---- a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
-+++ b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
-@@ -7,143 +7,154 @@
- :Original: :ref:`Documentation/process/stable-api-nonsense.rst
-            <stable_api_nonsense>`
+diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rst b/Documentation/translations/zh_TW/process/submit-checklist.rst
+index 452fecc7c425..7c25b99288f2 100644
+--- a/Documentation/translations/zh_TW/process/submit-checklist.rst
++++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
+@@ -6,105 +6,128 @@
  
--Linux 內核驅動介面
--==================
-+Linux 核心驅動程式介面
-+========================
+ .. _tw_submitchecklist:
  
--寫作本文檔的目的，是爲了解釋爲什麼Linux既沒有二進制內核介面，也沒有穩定
--的內核介面。這裏所說的內核介面，是指內核裏的介面，而不是內核和用戶空間
--的介面。內核到用戶空間的介面，是提供給應用程序使用的系統調用，系統調用
--在歷史上幾乎沒有過變化，將來也不會有變化。我有一些老應用程序是在0.9版本
--或者更早版本的內核上編譯的，在使用2.6版本內核的Linux發佈上依然用得很好
--。用戶和應用程序作者可以將這個介面看成是穩定的。
-+（你所有的問題在這裡都有解答，而且還不只這些）
+-Linux內核補丁提交檢查單
+-~~~~~~~~~~~~~~~~~~~~~~~
++================================
++Linux 核心修補程式提交檢查清單
++================================
  
-+本文試圖解釋為什麼 Linux **既沒有二進位核心介面，也沒有穩定的核心介面**。
+-如果開發人員希望看到他們的內核補丁提交更快地被接受，那麼他們應該做一些基本
+-的事情。
++以下是開發者若希望自己提交的核心修補程式能更快被接受，應該做到的一些基本
++事項。
  
--執行綱要
----------
-+.. note::
+-這些都是在 Documentation/translations/zh_CN/process/submitting-patches.rst
+-和其他有關提交Linux內核補丁的文檔中提供的。
++這些事項是在
++:ref:`Documentation/translations/zh_TW/process/submitting-patches.rst
++<tw_submittingpatches>`
++及其他關於提交 Linux 核心修補程式的文件所提供的內容之外，還要額外做到的。
+ 
+-1) 如果使用工具，則包括定義/聲明該工具的文件。不要依賴其他頭文件來引入您使用
+-   的頭文件。
++審查你的程式碼
++==============
+ 
+-2) 乾淨的編譯：
++1) 如果你使用了某項功能，就 #include 定義／宣告該功能的檔案。不要依賴其他
++   標頭檔幫你引入你所用到的標頭檔。
+ 
+-   a) 使用合適的 ``CONFIG`` 選項 ``=y``、``=m`` 和 ``=n`` 。沒有 ``gcc``
+-      警告/錯誤，沒有鏈接器警告/錯誤。
++2) 依照
++   :ref:`Documentation/translations/zh_TW/process/coding-style.rst
++   <tw_codingstyle>`
++   所述，檢查你的修補程式是否符合一般的程式碼風格。
+ 
+-   b) 通過 ``allnoconfig`` 、 ``allmodconfig``
++3) 所有記憶體屏障（例如 ``barrier()``、``rmb()``、``wmb()``）都需要在原始碼
++   中加上註解，說明它們所做事情的邏輯及原因。
+ 
+-   c) 使用 ``O=builddir`` 時可以成功編譯
++審查 Kconfig 變更
++=================
+ 
+-   d) 任何 Documentation/ 下的變更都能成功構建且不引入新警告/錯誤。
+-      用 ``make htmldocs`` 或 ``make pdfdocs`` 檢驗構建情況並修復問題。
++1) 任何新增或修改的 ``CONFIG`` 選項都不應弄亂設定選單，且預設應為關閉，
++   除非符合 ``Documentation/kbuild/kconfig-language.rst`` 中
++   Menu attributes: default value 一節所記載的例外條件。
+ 
+-3) 通過使用本地交叉編譯工具或其他一些構建設施在多個CPU體系結構上構建。
++2) 所有新的 ``Kconfig`` 選項都有說明文字。
+ 
+-4) PPC64是一種很好的交叉編譯檢查體系結構，因爲它傾向於對64位的數使用無符號
+-   長整型。
++3) 已針對相關的 ``Kconfig`` 組合仔細審查過。這一點很難單靠測試做對，
++   在這裡多動腦是值得的。
+ 
+-5) 按 Documentation/translations/zh_CN/process/coding-style.rst 所述檢查您的
+-   補丁是否爲常規樣式。在提交之前使用補丁樣式檢查器 ``scripts/checkpatch.pl``
+-   檢查是否有輕微的衝突。您應該能夠處理您的補丁中存在的所有
+-   違規行爲。
++提供文件
++========
+ 
+-6) 任何新的或修改過的 ``CONFIG`` 選項都不應搞亂配置菜單，並默認爲關閉，除非
+-   它們符合 ``Documentation/kbuild/kconfig-language.rst`` 菜單屬性：默認值中
+-   記錄的例外條件。
++1) 加入 :ref:`kernel-doc <kernel_doc>` 來為全域核心 API 撰寫文件。
++   （static 函式不需要，但寫了也可以。）
+ 
+-7) 所有新的 ``kconfig`` 選項都有幫助文本。
++2) 所有新的 ``/proc`` 項目都在 ``Documentation/`` 下有文件記載。
+ 
+-8) 已仔細審查了相關的 ``Kconfig`` 組合。這很難用測試來糾正——腦力在這裏是有
+-   回報的。
++3) 所有新的核心開機參數都記載於
++   ``Documentation/admin-guide/kernel-parameters.rst``。
+ 
+-9) 通過 sparse 清查。
+-   （參見 Documentation/translations/zh_CN/dev-tools/sparse.rst ）
++4) 所有新的模組參數都用 ``MODULE_PARM_DESC()`` 記載。
+ 
+-10) 使用 ``make checkstack`` 並修復他們發現的任何問題。
++5) 所有新的使用者空間介面都記載於 ``Documentation/ABI/``。
++   詳情請參閱 Documentation/admin-guide/abi.rst
++   （或 ``Documentation/ABI/README``）。
++   更改使用者空間介面的修補程式應該副本（CC）給
++   linux-api@vger.kernel.org\ 。
+ 
+-    .. note::
++6) 如果修補程式新增了任何 ioctl，也要更新
++   ``Documentation/userspace-api/ioctl/ioctl-number.rst``。
+ 
+-        ``checkstack`` 並不會明確指出問題，但是任何一個在堆棧上使用超過512
+-        字節的函數都可以進行更改。
++使用工具檢查你的程式碼
++======================
+ 
+-11) 包括 :ref:`kernel-doc <kernel_doc_zh>` 內核文檔以記錄全局內核API。（靜態
+-    函數不需要，但也可以。）使用 ``make htmldocs`` 或 ``make pdfdocs`` 檢查
+-    :ref:`kernel-doc <kernel_doc_zh>` 並修復任何問題。
++1) 提交前先用修補程式風格檢查器（``scripts/checkpatch.pl``）檢查有無輕微的
++   違規。對於修補程式中仍留下的每一項違規，你都應該能說明理由。
+ 
+-12) 通過以下選項同時啓用的測試： ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
+-    ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
+-    ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
+-    ``CONFIG_PROVE_RCU`` 和 ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` 。
++2) 用 sparse 檢查時乾淨無誤。
+ 
+-13) 在 ``CONFIG_SMP``, ``CONFIG_PREEMPT`` 開啓和關閉的情況下都進行構建和運行
+-    時測試。
++3) 使用 ``make checkstack`` 並修正它找到的任何問題。
++   請注意 ``checkstack`` 不會明確指出問題，但任何在堆疊上使用超過 512 位元組
++   的函式，都是應該修改的候選對象。
+ 
+-14) 所有代碼路徑都已在啓用所有死鎖檢測（lockdep）功能的情況下運行。
++建置你的程式碼
++==============
+ 
+-15) 所有新的 ``/proc`` 條目都記錄在 ``Documentation/``
++1) 乾淨地建置：
+ 
+-16) 所有新的內核引導參數都記錄在
+-    Documentation/admin-guide/kernel-parameters.rst 中。
++  a) 使用適用或修改過的 ``CONFIG`` 選項 ``=y``、``=m`` 與 ``=n``。
++     沒有 ``gcc`` 警告／錯誤，也沒有連結器警告／錯誤。
+ 
+-17) 所有新的模塊參數都記錄在 ``MODULE_PARM_DESC()``
++  b) 通過 ``allnoconfig``、``allmodconfig``
+ 
+-18) 所有新的用戶空間接口都記錄在 ``Documentation/ABI/`` 中。有關詳細信息，
+-    請參閱 Documentation/admin-guide/abi.rst (或 ``Documentation/ABI/README``)。
+-    更改用戶空間接口的補丁應該抄送 linux-api@vger.kernel.org\ 。
++  c) 使用 ``O=builddir`` 時可以成功建置
+ 
+-19) 已通過至少注入slab和page分配失敗進行檢查。請參閱 ``Documentation/fault-injection/`` 。
+-    如果新代碼是實質性的，那麼添加子系統特定的故障注入可能是合適的。
++  d) Documentation/ 下的任何變更都能成功建置，且不產生新的警告／錯誤。
++     使用 ``make htmldocs`` 或 ``make pdfdocs`` 檢查建置結果，並修正任何
++     問題。
+ 
+-20) 新添加的代碼已經用 ``gcc -W`` 編譯（使用 ``make EXTRA-CFLAGS=-W`` ）。這
+-    將產生大量噪聲，但對於查找諸如“警告：有符號和無符號之間的比較”之類的錯誤
+-    很有用。
++2) 使用本機的交叉編譯工具或其他建置環境（build farm），在多種 CPU 架構上
++   建置。
++   請注意，針對不同字組大小（32 位元與 64 位元）及不同位元組順序（big-endian
++   與 little-endian）的架構進行測試，能有效找出各種可攜性問題；這些問題源自
++   對可表示的數值範圍、資料對齊或位元組順序等的錯誤假設。
+ 
+-21) 在它被合併到-mm補丁集中之後進行測試，以確保它仍然與所有其他排隊的補丁以
+-    及VM、VFS和其他子系統中的各種更改一起工作。
++3) 新加入的程式碼已用 ``gcc -W`` 編譯過（使用 ``make KCFLAGS=-W``）。這會
++   產生大量雜訊，但很適合用來找出像「warning: comparison between signed and
++   unsigned」這類的錯誤。
+ 
+-22) 所有內存屏障（例如 ``barrier()``, ``rmb()``, ``wmb()`` ）都需要源代碼注
+-    釋來解釋它們正在執行的操作及其原因的邏輯。
++4) 如果你修改的原始碼依賴或使用了與下列 ``Kconfig`` 符號相關的任何核心 API
++   或功能，就要在停用相關 ``Kconfig`` 符號及／或設為 ``=m`` （如果有此選項）
++   的情況下，測試多種建置組合〔不必同時全部停用，只要各種／隨機的組合即可〕：
+ 
+-23) 如果補丁添加了任何ioctl，那麼也要更新
+-    ``Documentation/userspace-api/ioctl/ioctl-number.rst`` 。
++   ``CONFIG_SMP``, ``CONFIG_SYSFS``, ``CONFIG_PROC_FS``, ``CONFIG_INPUT``,
++   ``CONFIG_PCI``, ``CONFIG_BLOCK``, ``CONFIG_PM``, ``CONFIG_MAGIC_SYSRQ``,
++   ``CONFIG_NET``, ``CONFIG_INET=n`` （但後者需搭配 ``CONFIG_NET=y``）。
+ 
+-24) 如果修改後的源代碼依賴或使用與以下 ``Kconfig`` 符號相關的任何內核API或
+-    功能，則在禁用相關 ``Kconfig`` 符號和/或 ``=m`` （如果該選項可用）的情況
+-    下測試以下多個構建[並非所有這些都同時存在，只是它們的各種/隨機組合]：
++測試你的程式碼
++==============
+ 
+-    ``CONFIG_SMP``, ``CONFIG_SYSFS``, ``CONFIG_PROC_FS``, ``CONFIG_INPUT``,
+-    ``CONFIG_PCI``, ``CONFIG_BLOCK``, ``CONFIG_PM``, ``CONFIG_MAGIC_SYSRQ``,
+-    ``CONFIG_NET``, ``CONFIG_INET=n`` （但是最後一個需要 ``CONFIG_NET=y`` ）。
++1) 已在同時啟用 ``CONFIG_PREEMPT``、``CONFIG_DEBUG_PREEMPT``、
++   ``CONFIG_SLUB_DEBUG``、``CONFIG_DEBUG_PAGEALLOC``、``CONFIG_DEBUG_MUTEXES``、
++   ``CONFIG_DEBUG_SPINLOCK``、``CONFIG_DEBUG_ATOMIC_SLEEP``、
++   ``CONFIG_PROVE_RCU`` 與 ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` 的情況下測試過。
+ 
++2) 已在啟用與不啟用 ``CONFIG_SMP`` 及 ``CONFIG_PREEMPT.`` 的情況下，進行過
++   建置與執行期測試。
 +
-+  請注意，本文描述的是 **核心內部** 的介面，而不是核心與使用者空間之間
-+  的介面。
++3) 所有程式碼路徑都已在啟用所有 lockdep 功能的情況下執行過。
 +
-+  核心與使用者空間之間的介面，是應用程式所使用的介面，也就是系統呼叫
-+  （syscall）介面。這個介面長久以來都 **非常** 穩定，也不會被破壞。我有
-+  一些在 0.9 之前某個版本的核心上建置的舊程式，到現在依然可以在最新的
-+  2.6 核心版本上正常執行。使用者和應用程式開發者可以放心地把這個介面當成
-+  穩定的介面。
- 
--你也許以爲自己想要穩定的內核介面，但是你不清楚你要的實際上不是它。你需
--要的其實是穩定的驅動程序，而你只有將驅動程序放到公版內核的源代碼樹裏，
--纔有可能達到這個目的。而且這樣做還有很多其它好處，正是因爲這些好處使得
--Linux能成爲強壯，穩定，成熟的操作系統，這也是你最開始選擇Linux的原因。
++4) 已至少透過注入 slab 與分頁配置失敗進行過檢查。請參閱
++   ``Documentation/fault-injection/``。
++   如果新程式碼的份量很大，加入子系統專屬的故障注入可能也是適當的。
 +
-+摘要
-+----
-+你以為自己想要穩定的核心介面，但其實你並不想要，只是你自己還不知道而已。
-+你真正想要的是一個能穩定執行的驅動程式，而只有當你的驅動程式在核心主線
-+樹裡，你才能得到這一點。驅動程式放進核心主線樹，你還會得到很多其他好處，
-+正是這些好處讓 Linux 成為如此強壯、穩定、成熟的作業系統，而這也是你當初
-+選擇使用它的原因。
- 
- 
--入門
-------
-+前言
-+----
- 
--只有那些寫驅動程序的“怪人”纔會擔心內核介面的改變，對廣大用戶來說，既
--看不到內核介面，也不需要去關心它。
-+只有少數想要撰寫核心驅動程式的人，才需要擔心核心內部介面的改變。世界上
-+大多數的人既看不到這個介面，也完全不在乎它。
- 
--首先，我不打算討論關於任何非GPL許可的內核驅動的法律問題，這些非GPL許可
--的驅動程序包括不公開源代碼，隱藏源代碼，二進制或者是用源代碼包裝，或者
--是其它任何形式的不能以GPL許可公開源代碼的驅動程序。如果有法律問題，請諮
--詢律師，我只是一個程序員，所以我只打算探討技術問題（不是小看法律問題，
--法律問題很實際，並且需要一直關注）。
-+首先，我 **不會** 討論任何關於封閉原始碼、隱藏原始碼、二進位 blob、原始碼
-+包裝器（source wrapper），或其他任何用來描述未以 GPL 釋出原始碼的核心
-+驅動程式的用語所牽涉的法律問題。如果你有任何法律問題，請諮詢律師。我是
-+程式設計師，所以在這裡只會描述技術問題（這並不是要輕忽法律問題，法律問題
-+是真實存在的，你也必須時時留意）。
- 
--既然只談技術問題，我們就有了下面兩個主題：二進制內核介面和穩定的內核源
--代碼介面。這兩個問題是互相關聯的，讓我們先解決掉二進制介面的問題。
-+所以，這裡有兩個主要的主題：二進位核心介面，以及穩定的核心原始碼介面。
-+這兩者互相依賴，不過我們先討論二進位的部分，把它解決掉。
- 
- 
--二進制內核介面
-+二進位核心介面
- --------------
--假如我們有一個穩定的內核源代碼介面，那麼自然而然的，我們就擁有了穩定的
--二進制介面，是這樣的嗎？錯。讓我們看看關於Linux內核的幾點事實：
-+假設核心有穩定的原始碼介面，那麼自然也會有穩定的二進位介面，對吧？錯。
-+請考慮以下關於 Linux 核心的事實：
- 
--    - 取決於所用的C編譯器的版本，不同的內核數據結構裏的結構體的對齊方
--      式會有差別，代碼中不同函數的表現形式也不一樣（函數是不是被inline
--      編譯取決於編譯器行爲）。不同的函數的表現形式並不重要，但是數據
--      結構內部的對齊方式很關鍵。
-+  - 取決於你使用的 C 編譯器版本，不同的核心資料結構會有不同的結構對齊
-+    方式，而且可能以不同的方式包含不同的函式（函式是否被 inline）。個別
-+    函式的組織方式並沒有那麼重要，但資料結構填充（padding）的差異就非常
-+    重要。
- 
--    - 取決於內核的配置選項，不同的選項會讓內核的很多東西發生改變：
-+  - 取決於你選擇的核心建置選項，核心可能會有各式各樣不同的假設：
- 
--      - 同一個結構體可能包含不同的成員變量
--      - 有的函數可能根本不會被實現（比如編譯的時候沒有選擇SMP支持
--        一些鎖函數就會被定義成空函數）。
--      - 內核使用的內存會以不同的方式對齊，這取決於不同的內核配置選
--        項。
-+      - 不同的結構可能包含不同的欄位
-+      - 有些函式可能根本不會被實作（例如在非 SMP 的建置中，有些鎖會被
-+        編譯成什麼都沒有）。
-+      - 核心內的記憶體可能會以不同的方式對齊，這取決於建置選項。
- 
--    - Linux可以在很多的不同體系結構的處理器上運行。在某個體系結構上編
--      譯好的二進制驅動程序，不可能在另外一個體繫結構上正確的運行。
-+  - Linux 可以在許多不同的處理器架構上執行。某個架構的二進位驅動程式，
-+    不可能在另一個架構上正確執行。
- 
--對於一個特定的內核，滿足這些條件並不難，使用同一個C編譯器和同樣的內核配
--置選項來編譯驅動程序模塊就可以了。這對於給一個特定Linux發佈的特定版本提
--供驅動程序，是完全可以滿足需求的。但是如果你要給不同發佈的不同版本都發
--佈一個驅動程序，就需要在每個發佈上用不同的內核設置參數都編譯一次內核，
--這簡直跟噩夢一樣。而且還要注意到，每個Linux發佈還提供不同的Linux內核，
--這些內核都針對不同的硬件類型進行了優化（有很多種不同的處理器，還有不同
--的內核設置選項）。所以每發佈一次驅動程序，都需要提供很多不同版本的內核
--模塊。
-+其中有許多問題，只要針對確切的核心設定，使用與建置核心時完全相同的 C
-+編譯器來編譯你的模組，就可以解決。如果你只想為某個特定 Linux 發行版的
-+某個特定版本提供模組，這樣就足夠了。但是把這一次建置，乘上不同 Linux
-+發行版的數量，再乘上每個發行版所支援的不同版本數量，很快你就會陷入不同
-+版本、不同建置選項的惡夢。還要注意，每個 Linux 發行版的版本都包含多個
-+不同的核心，各自針對不同的硬體類型調校（不同的處理器類型和不同的選項），
-+所以就算只針對單一版本，你也需要建立多個版本的模組。
- 
--相信我，如果你真的要採取這種發佈方式，一定會慢慢瘋掉，我很久以前就有過
--深刻的教訓...
-+相信我，如果你試圖支援這種發布方式，久了一定會發瘋，我很久以前就吃過這
-+個苦頭了……
- 
- 
--穩定的內核源代碼介面
-+穩定的核心原始碼介面
- --------------------
- 
--如果有人不將他的內核驅動程序，放入公版內核的源代碼樹，而又想讓驅動程序
--一直保持在最新的內核中可用，那麼這個話題將會變得沒完沒了。
--內核開發是持續而且快節奏的，從來都不會慢下來。內核開發人員在當前介面中
--找到bug，或者找到更好的實現方式。一旦發現這些，他們就很快會去修改當前的
--介面。修改介面意味着，函數名可能會改變，結構體可能被擴充或者刪減，函數
--的參數也可能發生改變。一旦介面被修改，內核中使用這些介面的地方需要同時
--修正，這樣才能保證所有的東西繼續工作。
--
--舉一個例子，內核的USB驅動程序介面在USB子系統的整個生命週期中，至少經歷
--了三次重寫。這些重寫解決以下問題：
--
--    - 把數據流從同步模式改成非同步模式，這個改動減少了一些驅動程序的
--      複雜度，提高了所有USB驅動程序的吞吐率，這樣幾乎所有的USB設備都
--      能以最大速率工作了。
--    - 修改了USB核心代碼中爲USB驅動分配數據包內存的方式，所有的驅動都
--      需要提供更多的參數給USB核心，以修正了很多已經被記錄在案的死鎖。
--
--這和一些封閉源代碼的操作系統形成鮮明的對比，在那些操作系統上，不得不額
--外的維護舊的USB介面。這導致了一個可能性，新的開發者依然會不小心使用舊的
--介面，以不恰當的方式編寫代碼，進而影響到操作系統的穩定性。
--在上面的例子中，所有的開發者都同意這些重要的改動，在這樣的情況下修改代
--價很低。如果Linux保持一個穩定的內核源代碼介面，那麼就得創建一個新的介面
--；舊的，有問題的介面必須一直維護，給Linux USB開發者帶來額外的工作。既然
--所有的Linux USB驅動的作者都是利用自己的時間工作，那麼要求他們去做毫無意
--義的免費額外工作，是不可能的。
--安全問題對Linux來說十分重要。一個安全問題被發現，就會在短時間內得到修
--正。在很多情況下，這將導致Linux內核中的一些介面被重寫，以從根本上避免安
--全問題。一旦介面被重寫，所有使用這些介面的驅動程序，必須同時得到修正，
--以確定安全問題已經得到修復並且不可能在未來還有同樣的安全問題。如果內核
--內部介面不允許改變，那麼就不可能修復這樣的安全問題，也不可能確認這樣的
--安全問題以後不會發生。
--開發者一直在清理內核介面。如果一個介面沒有人在使用了，它就會被刪除。這
--樣可以確保內核儘可能的小，而且所有潛在的介面都會得到儘可能完整的測試
--（沒有人使用的介面是不可能得到良好的測試的）。
--
--
--要做什麼
-+如果你去問那些試圖讓不在核心主線樹裡的 Linux 核心驅動程式長期保持更新
-+的人，這是個「火藥味」重得多的話題。
-+
-+Linux 核心的開發是持續且快速的，從來不會停下來放慢腳步。因此，核心開發者
-+會在現有的介面中發現 bug，或是想出更好的做法。一旦如此，他們就會修改現有
-+的介面，讓它運作得更好。這時函式名稱可能會改變，結構可能會變大或縮小，
-+函式的參數也可能被重新設計。一旦發生這種情況，核心中所有使用這個介面的
-+地方都會同時被修正，確保一切都能繼續正常運作。
-+
-+舉個具體的例子，核心內部的 USB 介面在這個子系統的生命週期中，至少經歷過
-+三次不同的重寫。這些重寫是為了解決許多不同的問題：
-+
-+  - 把資料串流從同步模型改成非同步模型。這降低了許多驅動程式的複雜度，
-+    並提高了所有 USB 驅動程式的傳輸量，讓我們現在幾乎可以讓所有 USB 裝置
-+    以它們可能的最高速度運作。
-+  - 改變了 USB 驅動程式從 USB 核心配置資料封包的方式，所有驅動程式現在都
-+    需要提供更多資訊給 USB 核心，以修正許多已記錄在案的死結。
-+
-+這和許多封閉原始碼的作業系統形成鮮明對比，它們必須長期維護舊的 USB 介面。
-+這讓新的開發者有可能不小心使用舊介面，以不恰當的方式做事，導致作業系統的
-+穩定性受損。
-+
-+在這兩個例子中，所有開發者都同意這些是必要的重要改動，而這些改動也都以
-+相對很小的代價完成了。如果 Linux 必須確保保留穩定的原始碼介面，那就得
-+建立一個新介面，而舊的、有問題的介面也必須長期維護，給 USB 開發者帶來
-+額外的工作。既然所有 Linux USB 開發者都是用自己的時間在工作，要求程式設計
-+師無償地做毫無收穫的額外工作，是不可能的。
-+
-+安全性問題對 Linux 來說也非常重要。一旦發現安全性問題，它會在很短的時間
-+內被修正。有好幾次，這導致核心內部介面被重寫，以防止安全性問題發生。
-+一旦發生這種情況，所有使用這些介面的驅動程式也會同時被修正，確保安全性
-+問題已經被修正，而且未來不會意外地再次出現。如果核心內部介面不允許改變，
-+就不可能修正這類安全性問題，也無法確保它不會再次發生。
-+
-+核心介面會隨著時間被清理。如果某個現有介面沒有人在使用，它就會被刪除。
-+這確保了核心盡可能地小，並且所有可能的介面都盡可能地得到測試（沒有人使用
-+的介面幾乎不可能測試其正確性）。
-+
-+
-+該怎麼做
- --------
- 
--如果你寫了一個Linux內核驅動，但是它還不在Linux源代碼樹裏，作爲一個開發
--者，你應該怎麼做？爲每個發佈的每個版本提供一個二進制驅動，那簡直是一個
--噩夢，要跟上永遠處於變化之中的內核介面，也是一件辛苦活。
--很簡單，讓你的驅動進入內核源代碼樹（要記得我們在談論的是以GPL許可發行
--的驅動，如果你的代碼不符合GPL，那麼祝你好運，你只能自己解決這個問題了，
--你這個吸血鬼<把Andrew和Linus對吸血鬼的定義鏈接到這裏>）。當你的代碼加入
--公版內核源代碼樹之後，如果一個內核介面改變，你的驅動會直接被修改介面的
--那個人修改。保證你的驅動永遠都可以編譯通過，並且一直工作，你幾乎不需要
--做什麼事情。
--
--把驅動放到內核源代碼樹裏會有很多的好處：
--
--    - 驅動的質量會提升，而維護成本（對原始作者來說）會下降。
--    - 其他人會給驅動添加新特性。
--    - 其他人會找到驅動中的bug並修復。
--    - 其他人會在驅動中找到性能優化的機會。
--    - 當外部的介面的改變需要修改驅動程序的時候，其他人會修改驅動程序
--    - 不需要聯繫任何發行商，這個驅動會自動的隨着所有的Linux發佈一起發
--      布。
--
--和別的操作系統相比，Linux爲更多不同的設備提供現成的驅動，而且能在更多不
--同體繫結構的處理器上支持這些設備。這個經過考驗的開發模式，必然是錯不了
--的 :)
--
--感謝
------
--感謝 Randy Dunlap, Andrew Morton, David Brownell, Hanna Linder,
--Robert Love, and Nishanth Aravamudan 對於本文檔早期版本的評審和建議。
-+那麼，如果你有一個不在核心主線樹裡的 Linux 核心驅動程式，身為開發者的你
-+該怎麼做？為每個發行版的每個不同核心版本釋出二進位驅動程式是一場惡夢，
-+而要跟上不斷變動的核心介面也是件苦差事。
-+
-+很簡單，讓你的核心驅動程式進入核心主線樹（記住，我們這裡談的是以與 GPL
-+相容的授權釋出的驅動程式；如果你的程式碼不屬於這一類，那就祝你好運，你
-+只能靠自己了，你這個吸血鬼）。如果你的驅動程式在核心樹裡，當核心介面改變
-+時，它會由當初做出這項核心修改的人負責修正。這確保了你的驅動程式隨時都能
-+建置，並且長期正常運作，而你幾乎不需要付出什麼心力。
-+
-+把驅動程式放進核心主線樹裡，會帶來以下非常好的附帶效果：
-+
-+  - 驅動程式的品質會提升，而（原始開發者的）維護成本會下降。
-+  - 其他開發者會為你的驅動程式加入新功能。
-+  - 其他人會找出並修正你的驅動程式中的 bug。
-+  - 其他人會在你的驅動程式中找到調校效能的機會。
-+  - 當外部介面的改變需要修改驅動程式時，其他人會幫你更新驅動程式。
-+  - 驅動程式會自動隨著所有 Linux 發行版一起發布，不需要去請求發行版
-+    加入它。
-+
-+Linux「開箱即用」所支援的裝置比其他任何作業系統都多，而且能在比其他任何
-+作業系統更多的處理器架構上支援這些裝置，這種經過驗證的開發模式一定有它
-+做對的地方 :)
-+
-+
-+
-+------
-+
-+感謝 Randy Dunlap、Andrew Morton、David Brownell、Hanna Linder、
-+Robert Love 和 Nishanth Aravamudan 對本文早期草稿的審閱與意見。
++5) 已用 linux-next 最新的標籤測試過，確保它仍能與所有其他排隊中的修補程式，
++   以及 VM、VFS 和其他子系統的各種變更一起正常運作。
 -- 
 2.43.0
 
