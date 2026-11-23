@@ -1,100 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795396633;
-	b=hIbukLg+KwpKdXxMGiM6Vg38nSG9/WgOCQSCdH1ymdZfkgMwMJZwrxabFK+VPDa0xZUI
-	 IHNpxkk/uAfPP2z9lue91pfeLD5YFhe6ctln05svyIE4rUtT/NteZ4TPACAohLpl6nIhf
-	 P3952gojZBw5Y+zDTqzwHUvaadeWaNBFQLRdo8JkAM65s0Y6jPV4zIjAwUx9xNOJHgYKX
-	 ao7AyWz1oQJ1bxuXcctKtuRTXhDA4Rw0dY8Ov1gQEEtWygAMDsLomZZjqMaQHR7FX20BE
-	 2bablOz6hNOcCrV7txTx2R8Bve+shpsX6bN3thCHDP47Lhu+IVjVz0mu/VytFcpMrUw==
+	t=1795396648;
+	b=lwMFAWY4Sth6+Te52M7XEozZaLO60hAPaExl/Zuin7YOQ3M9/NQde7U3ZnEZ/Ko1gzUH
+	 i3Vgj124yCUIO41BecVB3AAt7OGsAmZUyboFQah/4Eew50qsGBiN2LFM2XZRfWR7oR8Se
+	 KWrHhtST46TBY99c51r5zIKIP7ll0XsFKs/jiJGyFOl7Kclf3EzyYs9MYvPJd3dmV7kAt
+	 4uTVjHINqZsoZn+IdSR1FWAwKCkTQSYC4SIdDEi6LUAbs8smL8IvN7Tifs7HAngzadRCP
+	 rqsO+amKYFuvemVKyD/xKNIMGBDjJ4Zsyi6SdysUt/YzxlQwuCfdBOaOvdC0oeOz/9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795396633;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=7UgZ/UaOfprcYE1+TJLcwuO2nl1zM9v7WpMLhsF+tYU=;
-	b=A65iPBjogdHWjoVky4k71imNey7TLCgTvUQbDwfRE8d6QlcRjMxoQdABhMDkEM49bd1t
-	 X8M61tiLYfrIJT5c9VRx24QbDoU5BqeAnjmbbTGoKJm7LxgN2pZbpSKeWqRqibp501vhT
-	 6UkV0T9aVcGiTzB8JIS223SvH7hLWruDugpiZb6Tsvu+Kp3HXQk4N01KxbxzyNI9mdGaw
-	 huOoeb699jqOraEpQeHjN+MJq5txuHJkV2RaZxLTTY8G8o/YGYcjOAPTS7JGt84nE+NUy
-	 bH49W4ivsaYvYD+7SSOEYFUKFs6xaUSavn5yozoIm8xpNDaTZjqNrmf0Q7HcJxwMByA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795396648;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=0aOCQuegkDUwskKeZ1j/NRStwGaSRAPMc97ZLi2jvTo=;
+	b=t1PlF5JNadRi3FQbyKzCijaUJIj6Um/BPLdNRNl1OCmVoB1hS87Ie8hMgTyQSWUjctJx
+	 uHS3YfMVkM4YUDuT6xcIhPmuKQtIzGL9qM/bHaoZUxGcQQhTnOFUI3XqwyUtyOTixYzO4
+	 6lRMkswUdISJBSE2nowPZXp4+L1CqjUOPofCU5bTSBTf+8ic7fascEJm3T37TYS9Tooqz
+	 x+B/EDLxOjcQbwsry4h4sA6n4eftKBUsXlJSXXgnmvyx6RBh89EZn63VO5L2IbB93n/ay
+	 9GaRimYkJ5hvHGfwD+ewjw5jSioHXwjV7yhIr0XL+TPdTySp2zFx6gw9q8A4FZgPvMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=D3oiXrb7;
-	arc=none smtp.remote-ip=74.125.82.49
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oU88Ot+D;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A701606A320
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 01:17:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A701606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 7C5BF606A31A;
+	Mon, 23 Nov 2026 01:17:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=D3oiXrb7
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1b546061d58so6280282c88.1
-        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 17:17:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795396632; x=1796001432; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=7UgZ/UaOfprcYE1+TJLcwuO2nl1zM9v7WpMLhsF+tYU=;
-        b=D3oiXrb7ZmV6BWAyg9ScNT/pB4kPE7fyRC3Fy7kYNpwrjx3he5btiKZvcUhIe41p/G
-         JhAEMuGmmzQPQd4cLdMi6Pji+ComVY+E5+WpVWCvDkb/KE2VjWuqoPzDYDw+vNYAoZHm
-         vh9EZrh06QHbkwflnvIKtYD8TWxfbCB9hquDR+zecgKzlth6KSPemD9z+BExFCcES+5c
-         mERpZRe01ozEDuHbKLe1TRWij5M38D8FHyCfRGJq9CB6LPzvK6hIlkzov7jmAe2JvRdQ
-         +P4NMcO4Vox5Eh/HgYXXkOjWQ/n2T3ZWjhmWkYnLVc5+4WbXYzFcr3PblxFCJhAlcePW
-         OtPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795396632; x=1796001432;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7UgZ/UaOfprcYE1+TJLcwuO2nl1zM9v7WpMLhsF+tYU=;
-        b=YFX0MGd2/wqhD/xiCqWWAUoFZRL287Yr8E0Y10mAjJlUG1/MYcm22nAkTFVptZpD4/
-         ZdyKorEgdFChAluZWRzR5i1fntAnsukHaXjDR7HsOuYypE6heM5dPHQKbvQZUzumCo5a
-         gs7tTQY3Vvr+231zQcACjqbkeGP+HO240wgnziI+5FUt2hkGL1fClHgZ411cdM8J9vn2
-         s2ZVEvLliGfayZKACqNIQiFpc7fHTEHR1qSYytwSx3BTX6s9uzMrfxQTwgoiUhagPm8W
-         MEDYXUQcxxQVR5w7ozD2R5dIKc1BW9mnvhWnAHzUBhPH0mKOs06vvde0lEUvgjokq8jW
-         3f5g==
-X-Forwarded-Encrypted: i=1; AL+hErHG+o4gUeNigQUN+Ou3pFTKrfj+Vymq0ZskX/vnza+SBWlBfDwRnfbwXubGu+L6JK56N6qkFu3BKS4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/SsXNYMbhHAcJxDNamcNVbbyDDEFBhh0dHFD2aktm2loTmURvZ
-	kEz4QDChQNoD5NQA6MDUTn328jcP727W5dFUBoysXadiwxBdZvHrtry5
-X-Gm-Gg: AZFdTZeuuE91uFZP+mF6rOEb9SEMMhoL5W8zQrb3m7KuARIyEvr/vNVlKsIikpy7XDO
-	iKQVc85swLa1/QmzBgkitQBS6nadyiwhNQX+9CXiwCnD9OHSy3w63pQOsKHutmA4PCG2PcuJueq
-	AxRl+Yn+7vK+AOzd1pcR8jYR6I1ObAZik7cmi5HhmukAi9UkO+/prWz8/YK3zcnQ1uuSIaHV4AU
-	iWiQbzi7bZ8AfGiuj/nY3bCE7pukuVE8bLgBrwuJSxc5GtLypmdCGjmy0XsHtZ1Qsy4wuPcZYvr
-	1yXr58i2QpQFuE4CxVsdn+usKDMwMxiR3qOCyOYgoriXT/PAO+uPe+fEg4G7xgf3HDdSyN+AHNu
-	uycVRN7oPmr9P8t0UuqXBcvkGcS1Z5bABMNFCjMEFgc6Dwe3o94COjw+ujWqP4L51p/cpuG5yxS
-	yBstRFgEYSwK7D2voynx45rP1RjsYvm9EQV2nxGNjsMUucuBjwWqvm+azjoJsytA7jPw++WIBQv
-	ulrjTHegJ2BSE581avV/ISRGCG1AENXCtQMDkiGoo7TqKQ3mUGuj/smKHfXiEX03kCBSyxc8ZSN
-	+SpVms7u2u/q4VYVNbKSTWncukmjHhJVZlh3IH5Q/+uRMqeVP94OJqqU7IQZEiZ8rR0fk9w=
-X-Received: by 2002:a05:7022:4181:b0:1b0:4272:4282 with SMTP id a92af1059eb24-1b5568ba440mr16998658c88.17.1795396632411;
-        Sun, 22 Nov 2026 17:17:12 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:f002:4621:aeeb:e0e7])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5566c3052sm23764321c88.1.2026.11.22.17.17.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 17:17:11 -0800 (PST)
-Date: Sun, 22 Nov 2026 17:17:07 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Henk Vergonet <Henk.Vergonet@gmail.com>, 
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <chleroy@kernel.org>
-Cc: Oliver Neukum <oneukum@suse.com>, Martin Diehl <m-diehl@gmx.de>, 
-	"Alfred E . Heggestad" <aeh@db.org>, Thomas Reitmayr <treitmayr@devbase.at>, 
-	Slawomir Stepien <sst@poczta.fm>, Jie Wang <jie.wang@intel.com>, 
-	Manuel Ebner <manuelebnerli@mailbox.org>, Randy Dunlap <rdunlap@infradead.org>, usbb2k-api-dev@nongnu.org, 
-	linux-input@vger.kernel.org, linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Input: remove obsolete yealink USB phone driver
-Message-ID: <awOT9WG0ZdNkIm69@google.com>
-References: <20261111215723.3802209-1-dmitry.torokhov@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oU88Ot+D
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 51A941F000C0;
+	Mon, 23 Nov 2026 01:17:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795396648;
+	bh=0aOCQuegkDUwskKeZ1j/NRStwGaSRAPMc97ZLi2jvTo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oU88Ot+DNQP+6mgTLa+2Y0T8my6gPsAHGZ88SJHShFaf8cOQRDR/RsBGJuK8xoFLK
+	 ie9hfueXtMCampSV8SKLb3OF0QNXZC677qfYNG23pJ5iHahuOwYmCYQaDeoNgy4F/v
+	 WrSodOYpWarCv74fRWHad1uMwFGvOjPMCZF6v7Wi0+rA5eMcDfTGMme0DFDaIYr4Bj
+	 BV8BCmSY+LkBq+1fjI9o6dPp9AmTJdXStFcDzKkDk5gAEWZ2CVD8G/BBRGYx8zrMSG
+	 V37z3MaBHsr34qCd4KVhM7YMEkrvDZO2nf/YcaxeI9eniMitk/+WJmG2GXL3uA5PBi
+	 C9nhE3GDUd0ug==
+Date: Mon, 23 Nov 2026 03:17:24 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
+	containers@lists.linux.dev, linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	Aleksa Sarai <aleksa@amutable.com>,
+	Alexander Mikhalitsyn <alex@amutable.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Giuseppe Scrivano <giuseppe@scrivano.org>,
+	Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
+	KP Singh <kpsingh@kernel.org>,
+	Lennart Poettering <lennart@poettering.net>,
+	Neal Gompa <neal@gompa.dev>, Oleg Nesterov <oleg@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
+Message-ID: <awOUJCbB_j0BuHvo@kernel.org>
+References: <20261122193539.3334213-1-jarkko@kernel.org>
+ <DN25ST0D5K1J.1NI5236BF2BPY@gmail.com>
+ <awOQDOel_72Xwjm7@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,29 +83,43 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261111215723.3802209-1-dmitry.torokhov@gmail.com>
+In-Reply-To: <awOQDOel_72Xwjm7@kernel.org>
 
-On Wed, Nov 11, 2026 at 01:57:21PM -0800, Dmitry Torokhov wrote:
-> This short series removes the obsolete yealink driver for the mid-2000s
-> Yealink USB-P1K (0x6993:0xb001) USB 1.1 Skype/VoIP telephone handset
-> and drops its module selection from ppc6xx_defconfig.
+On Mon, Nov 23, 2026 at 03:00:00AM +0200, Jarkko Sakkinen wrote:
+> On Mon, Nov 23, 2026 at 12:21:16AM +0000, Alexei Starovoitov wrote:
+> > On Sun, Nov 22, 2026 at 11:35 AM Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> > > v6: https://lore.kernel.org/linux-fsdevel/20261122011809.2667684-1-jarkko@kernel.org/
+> > 
+> > v7 was sent 18 hours after v6. v6 got replies from the bots only.
+> > v1 was +2559 lines. v7 is +5782.
+> > All six findings of sashiko on v6 are still in v7.
+> > None of the seven versions got a reply from the vfs or LSM maintainers.
 > 
-> The hardware relied on dedicated userspace bridge utilities (such as
-> usbb2k-api / kb2kskype for the defunct legacy Skype desktop API, or
-> yeaphone for liblinphone) to drive its keypad, segmented LCD, and tones
-> through custom sysfs attributes. That userspace ecosystem has been
-> unmaintained for over 15 years, and the driver itself has seen no
-> functional updates, hardware testing, or new device IDs since 2008
-> while continuing to attract syzbot USB fuzzing reports and drive-by
-> cleanup patches.
+> Apologies, I started testing this with bare metal as a result of
+> hotplug, and things just started to roll out as I got a better touch on
+> its use as a result.  The growth is by majority in kselftest. The
+> feature has not really grown but API has shrunk along the way. Still,
+> demonstrating that full detachment from syscall API is important,
+> because it sets a bar for any approach trying to do this.
 > 
-> Thanks.
+> I had no idea that e.g., that  quality would be even possible but
+> one thing led to another this went a bit out of hands.
 > 
-> Dmitry Torokhov (2):
->   powerpc/configs: drop CONFIG_INPUT_YEALINK from ppc6xx_defconfig
->   Input: yealink - remove driver
+> I also wanted this to as good form as possible before going on
+> holiday, which I'll be starting tomorrow but this was not a
+> motivative reason.
+> 
+> So yeah, again, apologies.
+> 
+> > 
+> > The way you're spamming people you're only reducing chances of anything going in.
+> 
+> I personally think that "getting in" should not be a goal in the first
+> place. I care more about that whaever gets in has a high bar of
+> quality enough. It can be something different than this but
+> when I read the LWN article about Cells I was alarmed enough
+> so that I had to do this and prove my point.
 
-Applied the lot.
+For completeness: I'll consider this final RFC.
 
--- 
-Dmitry
+Br, Jarkko
