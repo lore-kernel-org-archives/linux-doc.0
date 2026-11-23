@@ -1,62 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795447922;
-	b=LQ82fJ3oqMtm1fJsX1zP2o2SYQ2eSj0hJwHMfxi6xNagK0bidaJjFgbICaiiToTg62PH
-	 R21uo1E4Pq4+QcUge2zwI1anJk1VCmHMe71jwt8oQgUoIuh9Qu3DesKes6hsYsETHLizL
-	 37SOdIgdxwV+rVtlWCli0XgO5Td2+4luCzQGXYiahetFF54NcsBxHsD6fi/ONFMpEvSlo
-	 dZ7Ko7mH+XPxluxvFRjfshjUmLzwoNBnyM8EedgTh694waivM8DGv96TJ30bpBlqnoqwe
-	 71TvmP+clSZk1AU9IwLrP68p1zuCPi9kZUeuEWpdQx4NZJR9xwFTGuYuQ3llfPMdLow==
+	t=1795448202;
+	b=X05JsH1x3kMLgZ1M7xdFzlFJPRE9agY4AqvEBKQ1LJwYvHfIUALH0MngHFjrQtF6NBtQ
+	 ZhwFZ5K85rCOj3v8OzpyqInxEHmFDfnRNwbaMtXAvwEeWKr2sPojLNVIbmbf+shso4p0q
+	 gQspsaftznu/W0hD3b6Dbd9QIW0ADeZRvCQ6UoRVezyPV0s7BJublD8K0WTTYWMx/m2z8
+	 o+XllfNy5RV2kc8P/MotJGD1+kK9PYO+XwHYnqOQEQB8eS+0R6joUigA5FVlqdNTuUolM
+	 vJupoWUOpmjIDngAd1DJ2tcZaAr6xB1FEbhLdMHQew/ODaHTJDOsLrC/LqeDjzP361w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795447922;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=IcrKa5wszJlz7KzbvkJ6LYVb8H5e9hHDr4RZJLHWMyM=;
-	b=zw4FjeolIBYEgBI/fGD8Fn8d4EFNPE46ORQons1GjpGJMzWtvU+9DbzVFm6TGah7mDRa
-	 10atLbTc+XvRgXx9dcwxluuthPZlxDfJdEfqbY1IK6M5+tG+zVOXBqZNfGmoT3T6Rlf9L
-	 4JpKoVm+vOLOZdwztd6L4tj7/cEs6fYf58Ip+5/gIeBFPlmZU3dBsTyXgZMvPrUEXAQz0
-	 d22ByA93M1u8NPPEouylruIV+1ojuBdYVK8+TEkIMv4lUtXjOPgiqSV/3CJu3QbG3czIN
-	 5SEEOmDI8w2yl2P9/+7a47Ey9WS/7iVVQvYbSRXOhRO8Ci2ajJoUZmnzL0GLmgafggg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795448202;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding;
+	bh=iMj2t4hUan0LrC5voc+bXHqikDQMoVSMga8MiF5GiH8=;
+	b=AENXsNMK1waXo+Xj0K9+LuvnjH+zVP9RmX3fLh092I+hvT05jz7Afvrz7Hxh7pTwCs/r
+	 XQUqtjxYPkFWYumbGwemjXqDf8H0Sm1BfGJO+SJf6oPy35tLFB4UKOMsmHID/D3uJucel
+	 Op1r5etQ7Swy6b+2vZnqOeOaZkcwyB7fHIxk5atfbRKB4kqxttQA/ZytTSDAuMnDYunM5
+	 o3Ff2FBt/bVTobUEDN2k5ReUHVxOXbN/04zUJkkY218rvaJ8MXqTvnp5LCR+vOwu8P2XW
+	 dyaiWbQtxAg/ZRBrBke5bpPDgiNzTBk5F+8OUsu72S+fCgzvDGeiQ1ak8tM8GVkr7bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="FTdZLh/o";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nWFZkm4v;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F45606A31A;
-	Mon, 23 Nov 2026 15:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0229D606A32D
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 15:36:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0229D606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FTdZLh/o
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D83C61F000CF;
-	Mon, 23 Nov 2026 15:31:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795447922;
-	bh=IcrKa5wszJlz7KzbvkJ6LYVb8H5e9hHDr4RZJLHWMyM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FTdZLh/oKelhDZHb27a8Rjnsbjd5T8QMS1HZ8GXSbzFfWDBRtRlPqH4ej2BHiOxGp
-	 WYaG6MaU2vMTrbJ2jSAAcXK9hewWa08MSj8aSICWcGhhEsVOS7vtEyJuqDySVj2hk2
-	 Dkbnv40jW4fYWr27uMMqSLIBFptb63TGD5lwieU/2Yct6tGqap3hZNpP0fJ8syioa/
-	 Bcv7nFUbzMX561fxkGAC1Fjoy5qVB1c4rTAaAEm4FZQKOlm8aqCDLyYqU9w5h9LWcw
-	 0CHylaAYpxeKP3qe2jsGkle32VHGhSGNKBQ2rXU8WUrZTF9cqIvapDfYcuIc2A7kih
-	 sWlm3f0Xg74pw==
-Date: Mon, 23 Nov 2026 15:31:54 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Fuad Tabba <fuad.tabba@linux.dev>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexandru Elisei <alexandru.elisei@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, kvmarm@lists.linux.dev, 
-	Wei-Lin Chang <weilin.chang@arm.com>, Anup Patel <anup@brainfault.org>, 
-	Atish Patra <atish.patra@linux.dev>, kvm-riscv@lists.infradead.org, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v3 2/3] KVM: Warn userspace against ioctls while an exit
- is pending
-Message-ID: <awRcDlU6vFaL3uKt@gremlin>
-References: <20261123113435.1170711-1-fuad.tabba@linux.dev>
- <20261123113435.1170711-3-fuad.tabba@linux.dev>
- <awRKhCne0gG1gKZN@gremlin>
- <CA+EHjTyM4_P5v0cHEiarq5XAb2A0Esshb762BLuuKnyBvH=y+w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nWFZkm4v
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb6adaf0f1so30257425e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 07:36:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795448200; x=1796053000; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=iMj2t4hUan0LrC5voc+bXHqikDQMoVSMga8MiF5GiH8=;
+        b=nWFZkm4vqoVPoLJ5bAeqhCFLP/tMnyvJhuj/5vvKe4j5l0OYyDIp3QnpbxR774+uUA
+         cMSqdoyHbh2ISX5DOL1Q7rK0RsOYS1sPmQZgfclXSYAK5DTgR1SVx0nBiqzi+vVkudgg
+         HrOFDUz3zsFRUvr7YppSpn5CpWrQKEuaz2LxjZ4PFQbiU+AZxKKWS1bEUMDPHcYGqv8Q
+         VUR3dfV/wtMpc7EJ6MZU4Z4UKukOcZnbgYij9jFOg7IDeGqq6V3WC830bPd6xQ8YYVOZ
+         U5gbJ6bznHFjK6Ss1AjwX/krdJ/TBP1dINwPVOO/PHu5YVWD5kJresWc9JzDbcGp/jOq
+         bJaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795448200; x=1796053000;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=iMj2t4hUan0LrC5voc+bXHqikDQMoVSMga8MiF5GiH8=;
+        b=Lzz2NTYirZU03w5eUKz/ou5m0xzBD4bODh3TelNeFfU64mrPDvYiG/oonji/ZzowmQ
+         Fug/FNKXVCIk/MmFBWo8eP9GCys2zxFuPUmoMi3899hVsX19UvYOHyqqBVIi5UF+m7mo
+         9MpsQeynH8J8sdDMsodH28Ae4by86toxZm6edVQC0OmebX4njLZvwt6xOHiCe8QBI6kH
+         8pMJsoSPmXFeVsWbETk/z2P/tBvyEtUigKlufLyW4jKRu9kOywPW2MqgFDP8h1sfUrcE
+         4vGhBwX8orH0cI5bkf+yrqHqn8Xw/tfT7ro8/LzHHU+sxhEEElplYst2+04KPIoJyr3V
+         1AMw==
+X-Forwarded-Encrypted: i=1; AL+hErHDZIvoG3UE4OQixpXECsJyd3vh5o9yAlBR0gIF/Sn27yf3ljJvAvbSjvxz4uq6VE8nXLO+lOWOfi0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/sNOd5vW2KrrMwPUC9o/NSmHzouN+cAWMvGQ9iweycF9Ro0WNM
+	4CoQsIMbIYDsporv1yeFjInwjDF4iAcUIOhxDy9dqAbUNSVV/dVyCn0H
+X-Gm-Gg: AZFdTZfovA1Py5wsI7YN2lRjT7oehfDiPIcHYcVh1e2pnvZsef2lmRn3Q/95waP1CZG
+	S8Tb03pEnIliSTTWu0A1ycAAYTXWHhAD+MugNjjl6RVHGWhEjFWfVMpZlLcTPTq6a2Z+wWlX6JY
+	u7jKTElDlQJHIkQvJ+ezIhsrtQJB7wFn302L0PTB7Fatzse+TRqMtB1Bk4+g28Lmvc+c1p0k0Dl
+	MY2wJtwWW264Q1V1VwAbkWghx8RFZZiCKBejlLJyiTTNg6g7sA+XERNzRso7bXyY5z9Erg65mcg
+	Wa3jep7v/FpnrJk8mY5XdrIaLobGoqjgkGPXYLGYdq2kB/idxSakWLBOjFfUH+2YBTW1/lWm7xG
+	/e0v75s2opv/0LSI8UkpiGe2u/xc04s6U/6GoQSPvyuUNpBxCbey5NKy1nY02EdTK7KKSfm2pkJ
+	J0//Lq/qIn+gBj7OObdKMMl2Qcye+eD9L2bUuPQeV+lGgbGxGABx/kpzQj8wyVF66AQwCVIbBnF
+	0mooh24iOFWr1m/x53awHOIje+iMeoKxcVKYv+QdkbG2x/ETLgFomnJGR4NKspUxgmEJmagZ3NN
+	GRa8BGFnyVDLIFGNXCla5rzhRI4Zh80KDQ==
+X-Received: by 2002:a05:600c:3b88:b0:4a2:191f:7cbd with SMTP id 5b1f17b1804b1-4bb888078a8mr280286605e9.11.1795448200216;
+        Mon, 23 Nov 2026 07:36:40 -0800 (PST)
+Received: from ArchOarora ([2001:19f0:6c01:2c43:5400:5ff:fef6:1b30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb90655f5asm193318255e9.1.2026.11.23.07.36.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 07:36:39 -0800 (PST)
+From: Oarora Etimis <oaroraetimis@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	jose.exposito89@gmail.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Lucas De Marchi <demarchi@kernel.org>,
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	sebastian.wick@redhat.com,
+	victoria@system76.com,
+	thomas.petazzoni@bootlin.com,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v6 19/43] drm/vkms: Use plane folder name as plane name
+Date: Mon, 23 Nov 2026 16:36:17 +0100
+Message-ID: <awRbCaRRole752Pk@Oarora>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261120-vkms-all-config-v6-19-78ace90f4fc1@bootlin.com>
+References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com> <20261120-vkms-all-config-v6-19-78ace90f4fc1@bootlin.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,78 +127,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CA+EHjTyM4_P5v0cHEiarq5XAb2A0Esshb762BLuuKnyBvH=y+w@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 23, 2026 at 03:23:58PM +0000, Fuad Tabba wrote:
-> On Mon, 23 Nov 2026 at 15:09, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
-> [...]
-> > Very much agree with Sean's take here that we should instil sufficient fear in
-> > users at doing silly things (also in general not only KVM :).
-> >
-> > I wonder if we could add some specific examples or broad description of why it's
-> > unwise for better effect, though? Comments below.
-> >
-> > In general though:
-> >
-> > Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->
-> Thanks!
->
-> > > ---
-> > >  Documentation/virt/kvm/api.rst | 11 +++++++----
-> > >  1 file changed, 7 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> > > index 89eb6be9bc6e3..980ef0cdc1c91 100644
-> > > --- a/Documentation/virt/kvm/api.rst
-> > > +++ b/Documentation/virt/kvm/api.rst
-> > > @@ -6974,10 +6974,13 @@ to the byte array.
-> > >
-> > >        The pending state of the operation is not preserved in state which is
-> > >        visible to userspace, thus userspace should ensure that the operation is
-> > > -      completed before performing a live migration.  Userspace can re-enter the
-> > > -      guest with an unmasked signal pending or with the immediate_exit field set
-> > > -      to complete pending operations without allowing any further instructions
-> > > -      to be executed.
-> > > +      completed before performing a live migration.  In general, userspace should
-> > > +      exercise extreme caution when invoking ioctls other than KVM_RUN prior to
-> > > +      completing the original operation.
-> >
-> > Perhaps worth saying why? E.g. (as I understand it) that for these exits the
-> > operation is only completed on the next KVM_RUN, and that KVM relies on state
-> > left over from the exit (including parts of struct kvm_run such as exit_reason)
-> > to do so, so any ioctl invoked in between might clobber that state?
-> >
-> > I see you intentionally avoided documenting the pre-fault case on its own, but
-> > with the above stated I think a concrete example might be example here, like
-> > e.g.:
-> >
-> > "For example, if you were to ... that would result in ... which would absolutely
-> > ruin your day because ..."
-> >
-> > Kinda thing :)
->
-> :)
->
-> I'm not sure it would help, tbh. I think a reason or an example would
-> have the effect Sean wanted to avoid [1], where a reader takes an
-> ioctl that doesn't match it to be safe.
-
-Ah fair enough, I missed the bit about purposeful fear-inducing vagueness :)
-
-I guess the retort to my suggestion is that a user may think 'oh well I'm not
-doing that so it's fine'.
-
-Fine line to tread I guess!
-
->
-> Cheers,
-> /fuad
->
-> [1] https://lore.kernel.org/all/av5CBjbeidUUWiLq@seanjc-mac.roam.internal/
+ 
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+> index a7ddcfd4e86e..3a1a34643cce 100644
+> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -375,6 +375,12 @@ static struct config_group *make_plane_group(struct config_group *group,
+>  			return ERR_PTR(ret);
+>  		}
+>  
+> +		ret = vkms_config_plane_set_name(plane->config, name, strlen(name));
+> +		if (ret) {
+> +			vkms_config_destroy_plane(plane->config);
+> +			return ERR_PTR(ret);
+> +		}
+> +
+>  		config_group_init_type_name(&plane->group, name, &plane_item_type);
+>  
+>  		config_group_init_type_name(&plane->possible_crtcs_group,
 >
 
---
-Cheers, Lorenzo
+Oops, looks like this leaks the plane allocated by kzalloc_obj() above :)
