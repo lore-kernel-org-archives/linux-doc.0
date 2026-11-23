@@ -1,85 +1,85 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795431803;
-	b=Un7rE/8JEmvo9pElLeOiz6Lc7ssTaOGTaulFXZkZqSMUEjVtInlkGD7wyRN9ySskkzEm
-	 MLtTyBoyTO06sRUASwzJS4zpKSrl9qySlDgNPY8cxvE1uccysspe0GoNvhBjMMHxdEKuD
-	 RoCNZ6Q6H9ZhEIRxaJDJBfENKiVJP1L4+czyYMOYPIKXeBDbyuquRUUIdNpWDYD9Z4EMm
-	 /xuPhKlSSOokCoBD3/iGUY5/SutSciASk1d9krrGyC6NJNbRsCexs6QduJYcTtgGXkdI+
-	 UERvXvqHKdjVEXjVQCuR1IwlTGYT5D9/72/av8fFMS99bGxP5ki1bFHaxKhHoAevKbA==
+	t=1795431808;
+	b=Smo7T/KXhTydtuPeS+JcY2Vka9YVYJltnSCZEgylM27EuPoZv/WWDRLTrKy0UxQ5M8I/
+	 g0q7v2oPF9HP/Ci6bG9GJy8W6BqpnnjidXIRoZlcbvIKcJSeQAUvfryx+g3KCNw3+Hkoc
+	 hTxgx0/IzbIbN1DqDijgGTRr+My7vx9PQNWXyy6Bqsu3JRUTq6uV2faDbRlh33cyp0pzR
+	 Io+lAeV06ojxCgoSSLWU08EjYh59J1d/4PYlHRmCVVzOd9JIZTcPWONKoFEG/bWAM/+du
+	 LpFtPwuQj+JsNDMO3tiM6NKgNzAhBFSZtEPKS0S0+ZkKySJk0yHXkzvzL2d46yR6IuQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795431803;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795431808;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=mR7m2fQTRsXPNQiuhhMPUkmFQDy9mcZA3Fze0rAnqZg=;
-	b=onef9W3eZhncDb1Q55P1Jlfh5+3djrQvJYbHmkRqSOnJYPFQlRqega4mjx5tfkvh81CQ
-	 hOjPKiL+LY3MmFY5hqHEvhRu9qc84eqJxl7RP5bIu6QM1hvyUgYfley0SVA3PUWTUp97d
-	 76y4yO37re12ywGZ8qJyyf4qc5UoVCEM7guYJj4h4SnV/qrXda0n6zJAqn+y+zw+3j0dy
-	 O8sQ++5G6gfDjeE8Cj5EZpyY9cgeRFX8WxPapgjVJQCKycE3Qa7Xobza1yWayeC/NCfbb
-	 AaDiG27tQ0kmL+ZT/2OOcljnoHnnUOTbJvoT+5o2SHVSjdSQurSmiYi4KOF6wpWuRtQ==
+	bh=OTbm/Ps+3ciyKW3mfs97e9UO4ngoC6DP/HzUbO98aVU=;
+	b=rZYJLDr5qGE+3V+xGTKmI7Z0IejfOFgwz5+NE43pfmh94W7iKcytAdRnny6OztVIUXcL
+	 DLa9LZWOZRiqe168Gl+sgm/UMo4gVNLHyvI1iGEOupxGzLHWhFhNzNY75TwsrHYe6pi+b
+	 69ZekJMil9dL45CUZmdP2ucc6gwS7UilNDs4pQ2kx9YH6swN6ibreP426fK7H7oYEoprm
+	 f5wuwNOgFgOnpYuy82KiP8F/5r565KTj8fAlfEWfwXilAZWyvnqQFkVWAJr+wDePu9o5E
+	 V+r1sD01xspn6Dd6bQ1C66Gknf25DS233M7085kT6fKF/h3961tNhQgyuyqk5j7oMDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=O5GcWw9O;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eC69sSaJ;
 	arc=none smtp.remote-ip=209.85.214.171
 Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51351606A685
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:03:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51351606A685
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5493C606A31A
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:03:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5493C606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=O5GcWw9O
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2f05e191b2fso1102775ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:03:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eC69sSaJ
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ee23ca87eeso929885ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:03:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795431803; x=1796036603; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795431807; x=1796036607; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=mR7m2fQTRsXPNQiuhhMPUkmFQDy9mcZA3Fze0rAnqZg=;
-        b=O5GcWw9ODoqti1cDrwLKbaDAPZOfSEnZZltos0FYX4CpKY82J7K3VwyTPWMRgaX3l6
-         dhG5TZhHYMGhSKsemaHUoD7Lsnl3WQRHqcSE2T7g6dw42Wef9aTMWvuCzZd9/kzj4P8e
-         x+LPyDu9eJ6s4hrnnfBQFjYf1Tngpc+fTW7oN5pptDK3aee6cL3sc+82bkVIyNg+XmlC
-         Iwx0bHuiGx0UsnpJcEPwC0k0evizn0h9oYSha9BhvHFXC3EcvjF/Kvctzb/ZErU2ZXVv
-         ID6l9qUbv+Cw6RSJQJnzIIQGAWJiGttYtFL9d/lnkRi+FtjLSIzErpOY95s9eN3A41nj
-         cooA==
+        bh=OTbm/Ps+3ciyKW3mfs97e9UO4ngoC6DP/HzUbO98aVU=;
+        b=eC69sSaJhVuAxaIumgqvc6KTBa82AbDR9eriEymGfZrmUDDok/vbIfvsY7Xm8CNHn/
+         8a+NWP7XqnHypPX9cuFCxqwTsT9CYpknVoqNVbgrAd2ygeb62SMd7cEwTR1MK8jhglUB
+         KYiL+k0qF+ejKDHZS3W6JAjS6B95kV7sYWmQLB/1Gnc1/gYCnORgjybKD9Xxp85YVBn0
+         fy7BGyxYw/eGrM6tZmSnsQ10Y0HA6J7u7DYtT4hJwypCcX9xq5fqyNRYMV3Qnki3YOy7
+         5/Dw84AOVf1ZLlN8E3td6AifqXM6W/CqUqQAc1t9xN/PbPx5M2nQlHBswoYJ1//laopA
+         wJHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795431803; x=1796036603;
+        d=1e100.net; s=20260707; t=1795431807; x=1796036607;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=mR7m2fQTRsXPNQiuhhMPUkmFQDy9mcZA3Fze0rAnqZg=;
-        b=B3yLpgqhmfrCPOEkMATW9MBdBopg0bS+3/aKpI30ceAmdbprAvWR7r65l7cMyjSDNR
-         I6l1xvAO2YYRtuE1rJTuk88QWry9yBFiZrj8etoDSRPmspJXykuD3urhkkf0bGwdJl7o
-         ChhWvSNt1EOiiX4LrWMi1FMGLFuz52aBSAldV4BEn9/7qKrumZ6B7hStu/6oHdZushf5
-         aEyEBjOucLdoBvwqjnc9d7s1Ef3wXDpJYp9sgYlmywWLX8kWtzc9Apxe4Ph8cw+enPLO
-         Q1kvNi0734oP9EKrJkz/fdJb250Hk4gd9JWQQlVMsS40US5IsmZyHJ1PGk3xg86T5GP0
-         G1nQ==
-X-Forwarded-Encrypted: i=1; AL+hErH64hCLh7hfHNO5gkYHALBsES/AMvd1eVpMtFR9ttuwfjXE+yUnc0zrPkY4CIbIy+Mbv/ixvKcr92w=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8ZV5YQ64Re/FaJKvIdyLEGBN4x2nK6dh6fWqIyrDbA/K2CJrbZ
-	evvjxHWCU8DeKNINhk94mXqmYMxkW03VO8LdG+Y22TOgg+lYgCn2d+2OCUzvcVc5
-X-Gm-Gg: AZFdTZcq8BN35Wfa814JS7179+GSOru6mKDyv486ECTtzPU/UhMo2RQwn2gqH5tBaTa
-	sWwFWwSfqs5RsPrRZ+L3dOz8P/MTOmBjO3u5btScoY/71DW+19ggX5h5ySYbo2+X0OPijIe2Z20
-	w/qHMA+gyxfY3d2h+44/Y7IvozKodg0j45IIH5g4R1XvDcKbqVlUp87Y0Q7KqbHyLL5vy0Bi2Tz
-	6w8+htfEuoqsw5nMXsrLq6MvYAJmyG+n0z2gG9OP6V7ZgezcO8r023dM1DLf285vjKxkUQeLSsq
-	9T9C2eWoMOHfnJt78+9v5+FKIfTztyO+24tjxklG7AHNyozmblX6AeWE+CY4Q6lhsQfVvsUypZp
-	yTgFExsDsmLIRoYRodtip5ofhT45fgJnQWrED/72UnbcJjK8z39DnRSDOGOdRo7rxYqV6s9RviK
-	AqyGE5ohPKvkPk/gzerkBFvpXt+jsFJPmu208Ap4jnAbMJcAo0tbS5d6kB2avUoHdhW0WpH9f/i
-	K9XGqEO+wZkwDDYZp8Jl+TFnf62DDJxvvBaI3pmT2exu7jZz8H0nO0yCJPYHGbfC3/kKpIt+kcT
-	0dpGuPTyxMw3CcnA9y7voKpsVT6dkftJ2vnN49BrVD0M6hcXIY7d0Gojph45CZ5no1FMMKInjbV
-	GPgW16XJ3DtxKh9H3XU+V0b9gSg==
-X-Received: by 2002:a17:903:298c:b0:2ef:ee1a:1383 with SMTP id d9443c01a7336-2f03f1b9c1fmr172680035ad.3.1795431802365;
-        Mon, 23 Nov 2026 03:03:22 -0800 (PST)
+        bh=OTbm/Ps+3ciyKW3mfs97e9UO4ngoC6DP/HzUbO98aVU=;
+        b=ytouWR+6iHIzrJNQVwdQQTEr+SfqhBTQgAC6nMp9JE79Y0KENkfCNmOb/p2n7lk54p
+         7sf1UEK4f69PN0tOLYAxFNVpGTnTov3m/anlaRMHrjkrQp7rRX3PEhooYHRdB5CdWRNO
+         zbIiLt1kztZjen1Yl/C0kH8d0ouAHvKR5OQk53fIbrI2LcooQSi0q+6kTLjOXyOqE80a
+         uo6qYCHjGGEgnU/zB3rlVfb5ci44dahBEw5AKiwzyfDOdSVtSgzXd0jJdi/lWCI4h7hC
+         4O7jQbyfhEhPGwt1lETyQIEsae+BgEoz4SnJKg2Cn0vsQ+toMqjHdCRbF0SHRIQfDkjZ
+         kIqA==
+X-Forwarded-Encrypted: i=1; AL+hErH4zL/nv1LFkMBvmuq2oiFpiUKBR78Wf3O1gWbFyusB3Q+mtLvmssDqP14/xGJMCZpCp6gesAIl6C4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8g7oIh7f0TY/UfF5ZlJ6oo32exGhaxY3bWfiKHbnKASFNNSXfK
+	XME3LP15epMsnJagPJ6kZS1RW0dv7Wm7Rl5W4L9jGibCb/U4StDMVIU83ENDni+d
+X-Gm-Gg: AZFdTZdANJA9W0x2e2qEQ3WXsL288SeU1fis0tuA96tjTQHHm2bIYfGRHTsAFbWQEwu
+	BLMUAxzJ735malzwPtoqxZEJK11iJnIwyioYOn9T+gleF7nKrk/s16Ym1Ejtsk+YJm5/XIw5o89
+	rRwCAR1WhphNP2I/N4ExPXglzP1wtYkLyXG32mlEpMd4Zaa3Li0Oq6uSakeCVKa5u8yjFdfBERQ
+	IFdCgXSXJHagBcuPLRSAGaHFepyE4vuhj7nwI+zKGewu4gc89LR2nptAMnG9h1eEcSt7ANdH9aL
+	UDec1bxxn7RegiwXL6WxJY2KHrEUcQ0CGcD7yd0KJjr0dZbohbDDHAvXeUhuGlILtVirjTG0R0O
+	FyUnaE7T6z+ECVKOergPf3nSeufoQK1lH3ynZuNr0tpuJFLaoAQF/GgqjVuEvBtpV3uNXizpbVr
+	OIdGLKdkWlc4PO4b3Zx4oOUQKgDii2HXYHHoMisbKvGPGL5YMKxwACDE7RO3CEOIkq8psp7JbQO
+	PqOwVRHVEBzqKDY7JJTLfvpaNJ1iArkjBJylXPV91RYoYo9/1nUpUZQB2xMgkjR8gia8RFQtlr9
+	lTd2PfNS33aS5uAAVmpMfMBOEzr2z59TjQXM39tWvbs9/5xqrcsdKofQshhxemVxPHZrt4w4RMl
+	JOMKmMCBOzlSGRZp89zzYqCRQoQ==
+X-Received: by 2002:a17:902:e38b:b0:2f0:7707:227c with SMTP id d9443c01a7336-2f0770728c8mr51358875ad.4.1795431806014;
+        Mon, 23 Nov 2026 03:03:26 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.16])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1aa3sm50380785ad.21.2026.11.23.03.03.19
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1aa3sm50380785ad.21.2026.11.23.03.03.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 03:03:21 -0800 (PST)
+        Mon, 23 Nov 2026 03:03:25 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: alexs@kernel.org,
 	corbet@lwn.net
@@ -89,9 +89,9 @@ Cc: wy@wyuan.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH v2 18/25] docs/zh_TW: process: sync 3.Early-stage.rst with the English original
-Date: Mon, 23 Nov 2026 19:02:09 +0800
-Message-ID: <20261123110217.170025-19-chenyou910331@gmail.com>
+Subject: [PATCH v2 19/25] docs/zh_TW: process: sync coding-style.rst with the English original
+Date: Mon, 23 Nov 2026 19:02:10 +0800
+Message-ID: <20261123110217.170025-20-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261123110217.170025-1-chenyou910331@gmail.com>
 References: <20261123110217.170025-1-chenyou910331@gmail.com>
@@ -107,297 +107,684 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The translation carries no "update to commit" marker.  A comparison
-against the current English text shows it never picked up several
-later changes, and the prose was converted from zh_CN with a number of
-sentences that drifted from the original:
+The translation is marked "update to
+commit 323fa4b9608b ("Documentation: Fix syntax of kmalloc_objs example
+in coding style doc")", but that commit only touched the memory
+allocation examples.  A comparison against the current English text
+shows the rest of the file never picked up a number of earlier changes:
 
-- add the missing sentence from
-  commit f1a693994b1c ("Documentation/process: use
-  scripts/get_maintainer.pl on patches") that running the script on a
-  patch is the preferred way to get the Cc list
-- use the HTTPS LWN and Linux Foundation NDA URLs from
-  commit 93431e0607e5 ("Replace HTTP links with HTTPS ones:
-  documentation") and commit 997023047459 ("docs: Update the location of
-  the LF NDA program"), and capitalize Git and write "git log" as in
-  commit 4a0be1a25d98 ("Documentation: process: Capitalize Git, Quilt,
-  and Mercurial consistently")
-- retranslate sentences whose meaning had drifted: audio "dropouts"
-  (rendered as exiting), "your author has seen" (rendered as "some
-  author posted"), "no shortage of people with grand plans and little
-  code", code "not cleared for release under a GPL-compatible
-  license", a company that "legitimately" cannot disclose its plans,
-  "a hostile reaction", and the Devicescape and AppArmor items
-- spell Devicescape and AppArmor as in the original
-- localize terminology (內核→核心, 代碼→程式碼, 項目→專案, 模塊→模組,
-  用戶→使用者, 社區→社群, 文件系統→檔案系統, 信息→資訊, 補丁→修補程式,
-  爲→為, 裏→裡)
-- expand the tabs in the quoted block
+- add the loop braces example from
+  commit 1dbba2cf30c9 ("Documentation/CodingStyle: Add an example for
+  braces")
+- add the 80-column wording from
+  commit bdc48fa11e46 ("checkpatch/coding-style: deprecate 80-column
+  warning") and drop the old "strongly preferred" sentence
+- add the boilerplate kernel-doc paragraph from
+  commit e5880f95a979 ("docs: process: discourage pointless boilerplate
+  kdoc") and use the doc_guide reference and tools/docs/kernel-doc as in
+  the original
+- drop the net/ comment style removed by commit 82b8000c28b5 ("net: drop
+  special comment style")
+- add the EditorConfig paragraph from commit 5a602de99797 ("Add
+  .editorconfig file for basic formatting") and the clangformat
+  reference from commit e3b10a02ca2f ("Docs: Move clang-format from
+  process/ to dev-tools/")
+- add the function-like macro guidance from
+  commit 6813216bbdba ("Documentation: coding-style: ask function-like
+  macros to evaluate parameters")
+- use <linux/dev_printk.h> as in commit c04639a7d2fb ("coding-style.rst:
+  trivial: fix location of driver model macros") and add the dev_dbg
+  guidance from commit 5c7944ca7b13 ("coding-style: Add guidance to
+  prefer dev_dbg")
+- point to array_size.h, stddef.h and minmax.h instead of kernel.h as in
+  commit 197bbebd2581 ("docs: Update documentation to avoid mentioning
+  of kernel.h")
+- translate section 22 "Do not crash the kernel" from
+  commit 1cfd9d7e43d5 ("coding-style.rst: document BUG() and WARN()
+  rules ("do not crash the kernel")")")
+- use the talk title "Kernel CodingStyle" from
+  commit 775a445d9a63 ("coding-style: fix title of Greg K-H's talk")
+- remove a duplicated overflow sentence in section 14, link
+  memory-allocation.rst through its label instead of the zh_CN path,
+  and render "zeroed array" correctly
+- retranslate sentences whose meaning had drifted: the "deliberately
+  broken" example, the trailing whitespace and patch series note,
+  accessor functions, dev_dbg()/VERBOSE_DEBUG, the inline maintenance
+  trade-off and the "!!" construction for bool
+- restore the English inline literals (double-indenting, help
+  readability, one err bugs, classes, ...) and the English convention
+  block in section 16, each followed by a Chinese rendering
+- fix cntusr(), GW-BASIC and Dennis M. Ritchie
+- localize terminology (屏幕→螢幕, 嵌套→巢狀, 操作符→運算子, 補丁→修補程式,
+  協議→協定, 設備→裝置, 分配→配置, 優先級→優先順序, 體系結構→架構, ...)
 
-update to commit 4a0be1a25d98 ("Documentation: process: Capitalize Git,
-Quilt, and Mercurial consistently")
+update to commit 323fa4b9608b ("Documentation: Fix syntax of
+kmalloc_objs example in coding style doc")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../zh_TW/process/3.Early-stage.rst           | 192 +++++++++---------
- 1 file changed, 96 insertions(+), 96 deletions(-)
+ .../zh_TW/process/coding-style.rst            | 286 +++++++++++-------
+ 1 file changed, 185 insertions(+), 101 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/3.Early-stage.rst b/Documentation/translations/zh_TW/process/3.Early-stage.rst
-index 7d7ecf9658e5..deb5baa4e53f 100644
---- a/Documentation/translations/zh_TW/process/3.Early-stage.rst
-+++ b/Documentation/translations/zh_TW/process/3.Early-stage.rst
-@@ -9,155 +9,155 @@
- 早期規劃
- ========
+diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
+index 5778b707503f..c900506a17d3 100644
+--- a/Documentation/translations/zh_TW/process/coding-style.rst
++++ b/Documentation/translations/zh_TW/process/coding-style.rst
+@@ -27,17 +27,17 @@ Linux 核心程式碼風格
+ 2！) 字元深，這幾乎相當於嘗試將圓周率的值定義為 3。
  
--當考慮一個Linux內核開發項目時，很可能會直接跳進去開始編碼。然而，與任何重要
--的項目一樣，許多成功的基礎最好是在第一行代碼編寫之前就打下。在早期計劃和
--溝通中花費一些時間可以在之後節省更多的時間。
-+當考慮一個Linux核心開發專案時，很容易想直接跳進去開始寫程式。然而，與任何
-+重要的專案一樣，許多成功的基礎最好是在寫下第一行程式碼之前就打好。在早期規
-+劃和溝通上花一些時間，可以在之後節省更多的時間。
+ 理由：縮排的全部意義就在於清楚的定義一個控制塊起止於何處。尤其是當你盯著你的
+-屏幕連續看了 20 小時之後，你將會發現大一點的縮排會使你更容易分辨縮排。
++螢幕連續看了 20 小時之後，你將會發現大一點的縮排會使你更容易分辨縮排。
  
- 搞清問題
- --------
+ 現在，有些人會抱怨 8 個字元的縮排會使程式碼向右邊移動的太遠，在 80 個字元
+-的終端屏幕上就很難讀這樣的程式碼。這個問題的答案是，如果你需要 3 級以上的
+-縮排，不管用何種方式你的程式碼已經有問題了，應該修正你的程式。
++的終端機螢幕上就很難讀這樣的程式碼。這個問題的答案是，如果你需要 3 級以上
++的縮排，不管用何種方式你的程式碼已經有問題了，應該修正你的程式。
  
--與任何工程項目一樣，成功的內核改善從清晰描述要解決的問題開始。在某些情況
--下，這個步驟很容易：例如當某個特定硬件需要驅動程序時。不過，在其他情況下，
--很容易將實際問題與建議的解決方案混在一起，這可能會導致麻煩。
-+與任何工程專案一樣，成功的核心改進從清楚描述要解決的問題開始。在某些情況
-+下，這個步驟很容易：例如當某個特定硬體需要驅動程式時。不過，在其他情況下，
-+很容易將實際問題與建議的解決方案混為一談，這可能會導致麻煩。
+-簡而言之，8 個字元的縮排可以讓程式碼更容易閱讀，還有一個好處是當你的函式嵌套太
++簡而言之，8 個字元的縮排可以讓程式碼更容易閱讀，還有一個好處是當你的函式巢狀太
+ 深的時候可以給你警告。留心這個警告。
  
--舉個例子：幾年前，Linux音頻的開發人員尋求一種方法來運行應用程序，而不會因
--系統延遲過大而導致退出或其他問題。他們得到的解決方案是一個連接到Linux安全
--模塊（LSM）框架中的內核模塊；這個模塊可以配置爲允許特定的應用程序訪問實時
--調度程序。這個模塊被實現併發到linux-kernel郵件列表，在那裏它立即遇到了麻煩。
-+舉個例子：幾年前，從事Linux音訊工作的開發人員尋求一種方法，讓應用程式在執
-+行時不會因系統延遲過大而產生斷音或其他雜音。他們得到的解決方案是一個掛接到
-+Linux安全模組（LSM）框架中的核心模組；這個模組可以設定為允許特定的應用程式
-+使用即時排程器。這個模組被實作出來並發送到linux-kernel郵件列表，在那裡它立
-+即遇到了麻煩。
+ 在 switch 語句中消除多級縮排的首選的方式是讓 ``switch`` 和從屬於它的 ``case``
+-標籤對齊於同一列，而不要 ``兩次縮排`` ``case`` 標籤。比如：
++標籤對齊於同一列，而不要把 ``case`` 標籤 ``double-indenting`` (兩次縮排)。比如：
  
--對於音頻開發人員來說，這個安全模塊足以解決他們當前的問題。但是，對於更廣泛的
--內核社區來說，這被視爲對LSM框架的濫用（LSM框架並不打算授予他們原本不具備的
--進程特權），並對系統穩定性造成風險。他們首選的解決方案包括短期的通過rlimit
--機制進行實時調度訪問，以及長期的減少延遲的工作。
-+對於音訊開發人員來說，這個安全模組足以解決他們眼前的問題。但是，對於更廣泛的
-+核心社群來說，這被視為對LSM框架的濫用（LSM框架並不是用來授予行程原本不具備
-+的特權的），並對系統穩定性造成風險。他們偏好的解決方案是短期內透過rlimit機
-+制取得即時排程的權限，長期則持續進行減少延遲的工作。
+ .. code-block:: c
  
--然而，音頻社區無法超越他們實施的特定解決方案來看問題；他們不願意接受替代方案。
--由此產生的分歧使這些開發人員對整個內核開發過程感到失望；其中一個開發人員返回
--到audio列表併發布了以下內容：
-+然而，音訊社群無法跳脫他們已實作的特定解決方案來看問題；他們不願意接受替代
-+方案。由此產生的分歧使這些開發人員對整個核心開發過程感到幻滅；其中一位開發
-+人員回到一個音訊郵件列表上，發表了以下內容：
+@@ -84,8 +84,7 @@ Linux 核心程式碼風格
+ 也不要在一行裡放多個賦值語句。核心程式碼風格超級簡單。就是避免可能導致別人誤讀
+ 的表達式。
  
--	有很多非常好的Linux內核開發人員，但他們往往會被一羣傲慢的傻瓜所壓倒。
--	試圖向這些人傳達用戶需求是浪費時間。他們太“聰明”了，根本聽不到少數
--	人的話。
-+        有很多非常好的Linux核心開發人員，但他們的聲音往往被一大群傲慢的
-+        傻瓜蓋過。試圖向這些人傳達使用者的需求是浪費時間。他們太「聰明」
-+        了，根本不屑聽凡夫俗子的話。
+-除了註解、文件和 Kconfig 之外，不要使用空格來縮排，前面的例子是例外，是有意為
+-之。
++除了註解、文件和 Kconfig 之外，絕不使用空格來縮排，前面的例子是故意寫錯的。
  
--（http://lwn.net/Articles/131776/）
-+(https://lwn.net/Articles/131776/)。
+ 選用一個好的編輯器，不要在行尾留空格。
  
--實際情況卻是不同的；與特定模塊相比，內核開發人員更關心繫統穩定性、長期維護
-+實際情況卻是不同的；與特定模組相比，核心開發人員更關心系統穩定性、長期維護
- 以及找到問題的正確解決方案。這個故事的寓意是把重點放在問題上——而不是具體的
--解決方案上——並在開始編寫代碼之前與開發社區討論這個問題。
-+解決方案上——並在投入時間寫出大量程式碼之前，先與開發社群討論這個問題。
+@@ -95,7 +94,7 @@ Linux 核心程式碼風格
  
--因此，在考慮一個內核開發項目時，我們應該得到一組簡短問題的答案：
-+因此，在考慮一個核心開發專案時，應該先得到以下幾個簡短問題的答案：
+ 程式碼風格的意義就在於使用平常使用的工具來維持程式碼的可讀性和可維護性。
  
-  - 需要解決的問題究竟是什麼？
+-每一行的長度的限制是 80 列，我們強烈建議您遵守這個慣例。
++單行長度的首選上限是 80 列。
  
-- - 受此問題影響的用戶有哪些？解決方案應該解決哪些使用案例？
-+ - 受此問題影響的使用者有哪些？解決方案應該涵蓋哪些使用情境？
+ 長於 80 列的語句要打散成有意義的片段。除非超過 80 列能顯著增加可讀性，並且不
+ 會隱藏資訊。
+@@ -148,7 +147,7 @@ C 語言風格中另外一個常見問題是大括號的放置。和縮排大小
  
-- - 內核現在爲何沒能解決這個問題？
-+ - 核心目前在處理這個問題上有何不足？
+ 全世界的異端可能會抱怨這個不一致性是……呃……不一致，不過所有思維健全的人
+ 都知道 (a) K&R 是 **正確的** 並且 (b) K&R 是正確的。此外，不管怎樣函式都是特
+-殊的 (C 函式是不能嵌套的)。
++殊的 (C 函式是不能巢狀定義的)。
  
--只有這樣，才能開始考慮可能的解決方案。
-+只有這樣，開始考慮可能的解決方案才有意義。
+ 注意結束大括號獨自佔據一行，除非它後面跟著同一個語句的剩餘部分，也就是 do 語
+ 句中的 ``while`` 或者 if 語句中的 ``else`` ，像這樣：
+@@ -174,8 +173,8 @@ C 語言風格中另外一個常見問題是大括號的放置。和縮排大小
+ 理由：K&R。
+ 
+ 也請注意這種大括號的放置方式也能使空 (或者差不多空的) 行的數量最小化，同時不
+-失可讀性。因此，由於你的屏幕上的新行是不可再生資源 (想想 25 行的終端屏幕)，你
+-將會有更多的空行來放置註解。
++失可讀性。因此，由於你的螢幕上的新行是不可再生資源 (想想 25 行的終端機螢幕)，
++你將會有更多的空行來放置註解。
+ 
+ 當只有一個單獨的語句的時候，不用加不必要的大括號。
+ 
+@@ -204,6 +203,15 @@ C 語言風格中另外一個常見問題是大括號的放置。和縮排大小
+ 		otherwise();
+ 	}
+ 
++此外，當迴圈內含有不只一個簡單語句時，也要使用大括號：
++
++.. code-block:: c
++
++	while (condition) {
++		if (test)
++			do_something();
++	}
++
+ 3.1) 空格
+ *********
+ 
+@@ -239,32 +247,32 @@ Linux 核心的空格使用方式 (主要) 取決於它是用於函式還是關
+ 	unsigned long long memparse(char *ptr, char **retptr);
+ 	char *match_strdup(substring_t *s);
+ 
+-在大多數二元和三元操作符兩側使用一個空格，例如下面所有這些操作符::
++在大多數二元和三元運算子兩側使用一個空格，例如下面所有這些運算子::
+ 
+ 	=  +  -  <  >  *  /  %  |  &  ^  <=  >=  ==  !=  ?  :
+ 
+-但是一元操作符後不要加空格::
++但是一元運算子後不要加空格::
+ 
+ 	&  *  +  -  ~  !  sizeof  typeof  alignof  __attribute__  defined
+ 
+-後綴自加和自減一元操作符前不加空格::
++後置遞增和遞減一元運算子前不加空格::
+ 
+ 	++  --
+ 
+-前綴自加和自減一元操作符後不加空格::
++前置遞增和遞減一元運算子後不加空格::
+ 
+ 	++  --
+ 
+-``.`` 和 ``->`` 結構體成員操作符前後不加空格。
++``.`` 和 ``->`` 結構體成員運算子前後不加空格。
+ 
+-不要在行尾留空白。有些可以自動縮排的編輯器會在新行的行首加入適量的空白，然
+-後你就可以直接在那一行輸入程式碼。不過假如你最後沒有在那一行輸入程式碼，有
+-些編輯器就不會移除已經加入的空白，就像你故意留下一個只有空白的行。包含行尾
+-空白的行就這樣產生了。
++不要在行尾留空白。有些具備 ``smart`` 縮排功能的編輯器會在新行的行首加入適量
++的空白，然後你就可以直接在那一行輸入程式碼。不過假如你最後沒有在那一行輸入
++程式碼，有些編輯器就不會移除已經加入的空白，就像你故意留下一個只有空白的行。
++包含行尾空白的行就這樣產生了。
+ 
+-當 git 發現補丁包含了行尾空白的時候會警告你，並且可以應你的要求去掉行尾空白；
+-不過如果你是正在打一系列補丁，這樣做會導致後面的補丁失敗，因為你改變了補丁的
+-上下文。
++當 Git 發現修補程式引入了行尾空白時會警告你，並且可以應你的要求去掉行尾空白；
++不過如果你正在套用一系列修補程式，這樣做可能會改變它們的上下文行，導致該系列
++中後面的修補程式套用失敗。
  
  
- 早期討論
- --------
+ 4) 命名
+@@ -279,7 +287,7 @@ C 程式員不使用類似 ThisVariableIsATemporaryCounter 這樣華麗的名字
  
--在計劃內核開發項目時，在開始實施之前與社區進行討論是很有意義的。早期溝通可以
--通過多種方式節省時間和麻煩：
-+在規劃核心開發專案時，在開始實作之前與社群進行討論是很有意義的。早期溝通可以
-+透過多種方式節省時間和麻煩：
+ 全域變數 (只有當你 **真正** 需要它們的時候再用它) 需要有一個具描述性的名字，就
+ 像全域函式。如果你有一個可以計算活動使用者數量的函式，你應該叫它
+-``count_active_users()`` 或者類似的名字，你不應該叫它 ``cntuser()`` 。
++``count_active_users()`` 或者類似的名字，你不應該叫它 ``cntusr()`` 。
  
-- - 很可能問題是由內核以您不理解的方式解決的。Linux內核很大，具有許多不明顯
--   的特性和功能。並不是所有的內核功能都像人們所希望的那樣有文檔記錄，而且很
--   容易遺漏一些東西。某作者發佈了一個完整的驅動程序，重複了一個其不
--   知道的現有驅動程序。重新發明現有輪子的代碼不僅浪費，而且不會被接受到主線
--   內核中。
-+ - 很可能核心已經以您沒有理解的方式處理了這個問題。Linux核心很大，具有許多不
-+   明顯的特性和功能。並不是所有的核心功能都有人們所希望的那樣完善的文件，很容
-+   易遺漏一些東西。本文作者就曾見過有人發布一個完整的驅動程式，卻與一個新作者
-+   不知道的既有驅動程式重複。重新發明輪子的程式碼不僅浪費，而且也不會被主線核
-+   心接受。
+ 在函式名中包含函式類型 (所謂的匈牙利命名法) 是腦子出了問題——編譯器知道那些類
+ 型而且能夠檢查那些類型，這樣做只能把程式員弄糊塗了。
+@@ -306,7 +314,7 @@ C 程式員不使用類似 ThisVariableIsATemporaryCounter 這樣華麗的名字
+     'blocklist/passlist'
  
-- - 建議的解決方案中可能有一些要素不適合併入主線。在編寫代碼之前，最好先了解
--   這樣的問題。
-+ - 建議的解決方案中可能有一些要素無法被接受合併到主線。在編寫程式碼之前，最好
-+   先發現這類問題。
+ 引入新用法的例外情況是：維護使用者空間ABI/API，或更新現有（截至2020年）硬體或
+-協議規範的程式碼時要求這些術語。對於新規範，儘可能將術語的規範用法轉換為核心
++協定規範的程式碼時要求這些術語。對於新規範，儘可能將術語的規範用法轉換為核心
+ 編碼標準。
  
-  - 其他開發人員完全有可能考慮過這個問題；他們可能有更好的解決方案的想法，並且
--   可能願意幫助創建這個解決方案。
-+   可能願意幫助實作這個解決方案。
+ .. warning::
+@@ -333,7 +341,8 @@ C 程式員不使用類似 ThisVariableIsATemporaryCounter 這樣華麗的名字
  
--在內核開發社區的多年經驗給了我們一個明確的教訓：閉門設計和開發的內核代碼總是
--有一些問題，這些問題只有在代碼發佈到社區中時纔會被發現。有時這些問題很嚴重，
--需要數月或數年的努力才能使代碼達到內核社區的標準。例如：
-+與核心開發社群多年來的經驗給了我們一個明確的教訓：閉門設計和開發的核心程式碼
-+總是有一些問題，這些問題只有在程式碼發布到社群中時才會被發現。有時這些問題很
-+嚴重，需要數月或數年的努力才能使程式碼達到核心社群的標準。例如：
+ 你就知道 ``a`` 是什麼了。
  
-- - 設計並實現了單處理器系統的DeviceScape網絡棧。只有使其適合於多處理器系統，
--   才能將其合併到主線中。在代碼中修改鎖等等是一項困難的任務；因此，這段代碼
--   （現在稱爲mac80211）的合併被推遲了一年多。
-+ - Devicescape網路堆疊是針對單處理器系統設計和實作的。在使其適用於多處理器系
-+   統之前，它無法合併到主線中。事後為程式碼加上鎖等機制是一項困難的任務；因
-+   此，這段程式碼（現在稱為mac80211）的合併被推遲了一年多。
+-很多人認為 typedef ``能提高可讀性`` 。實際不是這樣的。它們只在下列情況下有用：
++很多人認為 typedef ``help readability`` (能提高可讀性)。實際不是這樣的。它們只
++在下列情況下有用：
  
-- - Reiser4文件系統包含許多功能，核心內核開發人員認爲這些功能應該在虛擬文件
--   系統層中實現。它還包括一些特性，這些特性在不將系統暴露於用戶引起的死鎖的
--   情況下是不容易實現的。這些問題過遲發現——以及拒絕處理其中一些問題——已經
--   導致Reiser4置身主線內核之外。
-+ - Reiser4檔案系統包含許多功能，而核心的主要開發人員認為這些功能應該在虛擬檔
-+   案系統層中實作。它還包括一些特性，這些特性很難在不讓系統面臨使用者引起的死
-+   鎖的情況下實作。這些問題過晚才被揭露——以及拒絕處理其中一些問題——導致
-+   Reiser4一直被排除在主線核心之外。
+  (a) 完全不透明的物件 (這種情況下要主動使用 typedef 來 **隱藏** 這個物件實際上
+      是什麼)。
+@@ -342,8 +351,9 @@ C 程式員不使用類似 ThisVariableIsATemporaryCounter 這樣華麗的名字
  
-- - Apparmor安全模塊以被認爲不安全和不可靠的方式使用內部虛擬文件系統數據結構。
--   這種擔心（包括其他）使Apparmor多年來無法進入主線。
-+ - AppArmor安全模組使用內部虛擬檔案系統資料結構的方式，被認為不安全且不可靠。
-+   這個顧慮（以及其他顧慮）使AppArmor多年來無法進入主線。
+      .. note::
  
--在這些情況下，與內核開發人員的早期討論，可以避免大量的痛苦和額外的工作。
-+在這些情況下，只要及早與核心開發人員討論，就可以避免大量的痛苦和額外的工作。
+-       不透明性和“存取函式”本身是不好的。我們使用 pte_t 等類型的原因在於真
+-       的是完全沒有任何共用的可存取資訊。
++       不透明性和 ``accessor functions`` (存取函式) 本身並不是好東西。我們對
++       pte_t 等類型使用它們的原因在於，那裡真的是完全 **沒有** 任何可移植的可存
++       取資訊。
  
- 找誰交流？
- ----------
+  (b) 清楚的整數類型，如此，這層抽象就可以 **幫助** 消除到底是 ``int`` 還是
+      ``long`` 的混淆。
+@@ -370,8 +380,8 @@ C 程式員不使用類似 ThisVariableIsATemporaryCounter 這樣華麗的名字
+      因此，Linux 特有的等同於標準類型的 ``u8/u16/u32/u64`` 類型和它們的有符號
+      類型是被允許的——儘管在你自己的新程式碼中，它們不是強制要求要使用的。
  
--當開發人員決定公開他們的計劃時，下一個問題是：我們從哪裏開始？答案是找到正確
--的郵件列表和正確的維護者。對於郵件列表，最好的方法是在維護者(MAINTAINERS)文件
--中查找要發佈的相關位置。如果有一個合適的子系統列表，那麼其上發佈通常比在
--linux-kernel上發佈更可取；您更有可能接觸到在相關子系統中具有專業知識的開發
--人員，並且環境可能具支持性。
-+當開發人員決定公開他們的計畫時，下一個問題是：我們從哪裡開始？答案是找到正確
-+的郵件列表和正確的維護者。對於郵件列表，最好的方法是在MAINTAINERS檔案中尋找
-+適合發表的相關位置。如果有一個合適的子系統郵件列表，那麼在那裡發表通常比在
-+linux-kernel上發表更好；您更有可能接觸到在相關子系統中具有專業知識的開發人
-+員，而且那裡的環境可能更友善。
+-     當編輯已經使用了某個類型集的已有程式碼時，你應該遵循那些程式碼中已經做出的選
+-     擇。
++     當編輯已經使用了某個類型集的已有程式碼時，你應該遵循那些程式碼中已經做出
++     的選擇。
  
--找到維護人員可能會有點困難。同樣，維護者文件是開始的地方。但是，該文件往往不
--是最新的，並且並非所有子系統都在那裏顯示。實際上，維護者文件中列出的人員可能
--不是當前實際擔任該角色的人員。因此，當對聯繫誰有疑問時，一個有用的技巧是使用
--git（尤其是“git-log”）查看感興趣的子系統中當前活動的用戶。看看誰在寫補丁、
--誰會在這些補丁上加上Signed-off-by行簽名（如有）。這些人將是幫助新開發項目的
--最佳人選。
-+找到維護者可能會比較困難一些。同樣，MAINTAINERS檔案是開始的地方。但是，該檔
-+案往往不一定是最新的，並且並非所有子系統都列在那裡。實際上，MAINTAINERS檔案
-+中列出的人員可能不是目前實際擔任該角色的人員。因此，當不確定要聯繫誰時，一個
-+有用的技巧是使用Git（尤其是「git log」）查看感興趣的子系統中目前有誰在活動。
-+看看誰在寫修補程式，以及有誰（如果有的話）在這些修補程式上加上Signed-off-by
-+行。這些人將是幫助新開發專案的最佳人選。
+  (e) 可以在使用者空間安全使用的類型。
  
--找到合適的維護者有時是非常具有挑戰性的，以至於內核開發人員添加了一個腳本來
--簡化這個過程：
-+找到合適的維護者有時相當具有挑戰性，以至於核心開發人員加入了一個腳本來簡化
-+這個過程：
+@@ -390,7 +400,7 @@ C 程式員不使用類似 ThisVariableIsATemporaryCounter 這樣華麗的名字
+ -------
  
- ::
+ 函式應該簡短而漂亮，並且只完成一件事情。函式應該可以一屏或者兩屏顯示完 (我們
+-都知道 ISO/ANSI 屏幕大小是 80x24)，只做一件事情，而且把它做好。
++都知道 ISO/ANSI 螢幕大小是 80x24)，只做一件事情，而且把它做好。
  
- 	.../scripts/get_maintainer.pl
+ 一個函式的最大長度是和該函式的複雜度和縮排級數成反比的。所以，如果你有一個理
+ 論上很簡單的只有一個很長 (但是簡單) 的 case 語句的函式，而且你需要在每個 case
+@@ -467,13 +477,13 @@ Linux 裡這是提倡的做法，因為這樣可以很簡單的給讀者提供
  
--當給定“-f”選項時，此腳本將返回指定文件或目錄的當前維護者。如果在命令行上
--給出了一個補丁，它將列出可能接收補丁副本的維護人員。有許多選項可以調節
--get_maintainer.pl搜索維護者的嚴格程度；請小心使用更激進的選項，因爲最終結果
--可能會包括對您正在修改的代碼沒有真正興趣的開發人員。
-+當給定「-f」選項時，此腳本將回傳指定檔案或目錄目前的維護者。如果在命令列上
-+傳入一個修補程式，它將列出可能應該收到該修補程式副本的維護者。這是取得修補
-+程式Cc名單的建議方式（而不是使用「-f」選項）。有許多選項可以調整
-+get_maintainer.pl搜尋維護者的積極程度；請小心使用較激進的選項，因為最終可能
-+會包括對您正在修改的程式碼沒有真正興趣的開發人員。
+ 選擇一個能夠說明 goto 行為或它為何存在的標籤名。如果 goto 要釋放 ``buffer``,
+ 一個不錯的名字可以是 ``out_free_buffer:`` 。別去使用像 ``err1:`` 和 ``err2:``
+-這樣的GW_BASIC 名稱，因為一旦你添加或刪除了 (函式的) 退出路徑，你就必須對它們
++這樣的 GW-BASIC 名稱，因為一旦你添加或刪除了 (函式的) 退出路徑，你就必須對它們
+ 重新編號，這樣會難以去檢驗正確性。
  
--如果所有其他方法都失敗了，那麼與Andrew Morton交流是跟蹤特定代碼段維護人員
--的一種有效方法。
-+如果所有其他方法都失敗了，那麼與Andrew Morton交流是找出特定程式碼維護者的一
-+種有效方法。
+ 使用 goto 的理由是：
  
--何時郵寄？
-+何時發表？
- ----------
+ - 無條件語句容易理解和追蹤
+-- 嵌套程度減小
++- 巢狀層數減少
+ - 可以避免由於修改時忘記更新個別的退出點而導致錯誤
+ - 讓編譯器省去刪除冗餘程式碼的工作 ;)
  
--如果可能的話，在早期階段發佈你的計劃只會更有幫助。描述正在解決的問題以及已經
--制定的關於如何實施的任何計劃。您可以提供的任何信息都可以幫助開發社區爲項目
--提供有用的輸入。
-+如果可能的話，在早期階段發表您的計畫只會有幫助。描述正在解決的問題，以及已經
-+擬定的實作計畫。您所能提供的任何資訊都可以幫助開發社群對專案提供有用的意見。
+@@ -501,7 +511,8 @@ Linux 裡這是提倡的做法，因為這樣可以很簡單的給讀者提供
+ 		return result;
+ 	}
  
--在這個階段可能發生的一件令人沮喪的事情不是得到反對意見，而是很少或根本沒有
--反饋。令人傷心的事實是：（1）內核開發人員往往很忙；（2）不缺少有宏偉計劃但
--代碼（甚至代碼設想）很少的人去支持他們；（3）沒有人有義務審查或評論別人發表
--的想法。除此之外，高層級的設計常常隱藏着一些問題，這些問題只有在有人真正嘗試
--實現這些設計時纔會被發現；因此，內核開發人員寧願看到代碼。
-+在這個階段可能發生的一件令人沮喪的事情不是得到敵意的反應，而是很少或根本沒有
-+反應。令人傷心的事實是：（1）核心開發人員往往很忙；（2）有宏大計畫卻只有很少
-+程式碼（甚至連寫出程式碼的指望都沒有）支撐的人並不少見；（3）沒有人有義務審
-+查或評論別人發表的想法。除此之外，高層次的設計常常隱藏著一些問題，這些問題只
-+有在有人真正嘗試實作這些設計時才會被發現；因此，核心開發人員寧願看到程式碼。
+-一個需要注意的常見錯誤是 ``單 err 錯誤`` ，就像這樣：
++一個需要注意的常見錯誤是 ``one err bugs`` (只用一個 err 標籤造成的錯誤)，就像
++這樣：
  
--如果發佈請求評論（RFC）並沒得到什麼有用的評論，不要以爲這意味着無人對此項目
--有興趣，同時你也不能假設你的想法沒有問題。在這種情況下，最好的做法是繼續進
--行，把你的進展隨時通知社區。
-+如果發表徵求意見（RFC）並沒得到什麼回應，不要以為這意味著無人對此專案有興
-+趣。不幸的是，您也不能假設您的想法沒有問題。在這種情況下，最好的做法是繼續
-+進行，並隨時讓社群知道您的進展。
+ .. code-block:: c
  
- 獲得官方認可
- -----------------------
+@@ -537,8 +548,9 @@ Linux 裡這是提倡的做法，因為這樣可以很簡單的給讀者提供
+ 也可以加上它做這些事情的原因。
  
--如果您的工作是在公司環境中完成的，就像大多數Linux內核工作一樣；顯然，在您將
--公司的計劃或代碼發佈到公共郵件列表之前，必須獲得有適當權利經理的許可。發佈
--不確定是否兼容GPL的代碼尤其會帶來問題；公司的管理層和法律人員越早能夠就發佈
--內核開發項目達成一致，對參與的每個人都越好。
-+如果您的工作是在公司環境中完成的——就像大多數Linux核心工作一樣——那麼顯然，
-+在您將公司的計畫或程式碼發表到公開郵件列表之前，必須獲得有適當權限的主管許
-+可。發表尚未獲准以GPL相容授權發布的程式碼尤其會帶來問題；公司的管理層和法務
-+人員越早能夠就發表核心開發專案達成一致，對參與的每個人都越好。
+ 當註解核心 API 函式時，請使用 kernel-doc 格式。詳見
+-Documentation/translations/zh_CN/doc-guide/index.rst 和
+-tools/docs/kernel-doc 。
++:ref:`Documentation/doc-guide/ <doc_guide>` 裡的檔案和
++``tools/docs/kernel-doc``。請注意，過度註解的危險同樣適用於 kernel-doc 註解。
++不要加入只是重複函式簽名中顯而易見的資訊的樣板 kernel-doc。
  
--一些讀者可能會認爲他們的核心工作是爲了支持還沒有正式承認存在的產品。將僱主
--的計劃公佈在公共郵件列表上可能不是一個可行的選擇。在這種情況下，有必要考慮
--保密是否真的是必要的；通常不需要把開發計劃關在門內。
-+一些讀者此時可能會認為，他們的核心工作是為了支援一個尚未正式公開的產品。將
-+雇主的計畫公開在公開郵件列表上可能不是一個可行的選擇。在這種情況下，值得考
-+慮保密是否真的有必要；通常並沒有真正的必要把開發計畫關在門後。
+ 長 (多行) 註解的首選風格是：
  
--的確，有些情況下一家公司在開發過程的早期無法合法地披露其計劃。擁有經驗豐富
--的內核開發人員的公司可能選擇以開環的方式進行開發，前提是他們以後能夠避免
--嚴重的集成問題。對於沒有這種內部專業知識的公司，最好的選擇往往是聘請外部
--開發者根據保密協議審查計劃。Linux基金會運行了一個NDA程序，旨在幫助解決這種
--情況；更多信息參見：
-+話雖如此，也確實有些情況是公司有正當理由無法在開發過程的早期公開其計畫。擁
-+有經驗豐富的核心開發人員的公司，可能會選擇以開環的方式進行開發，前提是他們
-+以後能夠避免嚴重的整合問題。對於沒有這種內部專業知識的公司，最好的選擇往往
-+是聘請外部開發者在保密協定下審查計畫。Linux基金會運作了一個NDA計畫，旨在幫
-+助處理這類情況；更多資訊參見：
+@@ -553,17 +565,6 @@ tools/docs/kernel-doc 。
+ 	 * with beginning and ending almost-blank lines.
+ 	 */
  
--    http://www.linuxfoundation.org/nda/
+-對於在 net/ 和 drivers/net/ 的檔案，首選的長 (多行) 註解風格有些不同。
 -
--這種審查通常足以避免以後出現嚴重問題，而無需公開披露項目。
-+    https://www.linuxfoundation.org/nda/
+-.. code-block:: c
+-
+-	/* The preferred comment style for files in net/ and drivers/net
+-	 * looks like this.
+-	 *
+-	 * It is nearly the same as the generally preferred comment style,
+-	 * but there is no initial almost-blank line.
+-	 */
+-
+ 註解資料也是很重要的，不管是基本類型還是衍生類型。為了方便實作這一點，每一行
+ 應只宣告一個資料 (不要使用逗號來一次宣告多個資料)。這樣你就有空間來為每個資料
+ 寫一段小註解來解釋它們的用途了。
+@@ -572,7 +573,7 @@ tools/docs/kernel-doc 。
+ 9) 你已經把事情弄糟了
+ ---------------------
  
-+這種審查通常足以避免以後出現嚴重問題，而無需公開披露專案。
+-這沒什麼，我們都是這樣。可能你長期使用 Unix 的朋友已經告訴你``GNU emacs``
++這沒什麼，我們都是這樣。可能你長期使用 Unix 的朋友已經告訴你 ``GNU emacs``
+ 能自動幫你格式化 C 原始程式碼，而且你也注意到了，確實是這樣，不過它所使用
+ 的預設值和我們想要的相去甚遠 (實際上，甚至比隨機打的還要差——無數個猴子在
+ GNU emacs 裡打字永遠不會創造出一個好程式)
+@@ -638,7 +639,8 @@ GNU emacs 裡打字永遠不會創造出一個好程式)
+ 不過，GNU indent 也有和 GNU emacs 一樣有問題的設定，所以你需要給它一些命令選
+ 項。不過，這還不算太糟糕，因為就算是 GNU indent 的作者也認同 K&R 的權威性
+ (GNU 的人並不是壞人，他們只是在這個問題上被嚴重的誤導了)，所以你只要給 indent
+-指定選項 ``-kr -i8`` (代表 ``K&R，8 字元縮排``)，或使用 ``scripts/Lindent``
++指定選項 ``-kr -i8`` (代表 ``K&R, 8 character indents``，即 K&R 風格、8 字元
++縮排)，或使用 ``scripts/Lindent``
+ 這樣就可以以最時髦的方式縮排原始程式碼。
+ 
+ ``indent`` 有很多選項，特別是重新格式化註解的時候，你可能需要看一下它的手冊。
+@@ -646,14 +648,18 @@ GNU emacs 裡打字永遠不會創造出一個好程式)
+ 
+ 請注意，您還可以使用 ``clang-format`` 工具幫助您處理這些規則，快速自動重新
+ 格式化部分程式碼，並審閱整個檔案以發現程式碼風格錯誤、打字錯誤和可能的改進。
+-它還可以方便地排序 ``#include`` ，對齊變數/巨集，重排文字和其他類似任務。
+-詳見 Documentation/dev-tools/clang-format.rst 。
++它還可以方便地排序 ``#includes``，對齊變數/巨集，重排文字和其他類似任務。
++詳見 :ref:`Documentation/dev-tools/clang-format.rst <clangformat>`。
++
++如果你使用的編輯器相容於 EditorConfig，一些基本的編輯器設定，例如縮排和行尾
++字元，會自動設定好。更多資訊請參閱 EditorConfig 官方網站：
++https://editorconfig.org/
+ 
+ 
+ 10) Kconfig 設定檔
+ --------------------
+ 
+-對於遍佈源碼樹的所有 Kconfig* 設定文件來說，它們縮排方式有所不同。緊挨著
++對於遍佈原始碼樹的所有 Kconfig* 設定檔來說，它們縮排方式有所不同。緊挨著
+ ``config`` 定義的行，用一個製表符縮排，然而 help 資訊的縮排則額外增加 2 個空
+ 格。舉個例子::
+ 
+@@ -674,7 +680,7 @@ GNU emacs 裡打字永遠不會創造出一個好程式)
+ 	depends on ADFS_FS
+ 	...
+ 
+-要查看設定文件的完整文件，請看 Documentation/kbuild/kconfig-language.rst 。
++要查看設定檔的完整文件，請看 Documentation/kbuild/kconfig-language.rst 。
+ 
+ 
+ 11) 資料結構
+@@ -691,12 +697,12 @@ GNU emacs 裡打字永遠不會創造出一個好程式)
+ 注意上鎖 **不能** 取代引用計數。上鎖是為了保持資料結構的一致性，而引用計數是一
+ 個記憶體管理技巧。通常二者都需要，不要把兩個搞混了。
+ 
+-很多資料結構實際上有 2 級引用計數，它們通常有不同 ``類`` 的使用者。子類計
+-數器統計子類使用者的數量，每當子類計數器減至零時，全域計數器減一。
++很多資料結構實際上有 2 級引用計數，它們通常有不同 ``classes`` (類別) 的使用者。
++子類別計數器統計子類別使用者的數量，每當子類別計數器減至零時，全域計數器減一。
+ 
+-這種 ``多級引用計數`` 的例子可以在記憶體管理 (``struct mm_struct``:
+-mm_users 和mm_count)，和檔案系統 (``struct super_block``: s_count 和
+-s_active) 中找到。
++這種 ``multi-level-reference-counting`` (多級引用計數) 的例子可以在記憶體管理
++(``struct mm_struct``: mm_users 和 mm_count) 和檔案系統 (``struct super_block``:
++s_count 和 s_active) 中找到。
+ 
+ 記住：如果另一個執行線索可以找到你的資料結構，但這個資料結構沒有引用計數器，
+ 這裡幾乎肯定是一個 bug。
+@@ -727,6 +733,27 @@ s_active) 中找到。
+ 				do_this(b, c);		\
+ 		} while (0)
+ 
++帶有未使用參數的類函式巨集應該改寫成 static inline 函式，以避免未使用變數的
++問題：
++
++.. code-block:: c
++
++	static inline void fun(struct foo *foo)
++	{
++	}
++
++由於歷史慣例，許多檔案仍然採用「轉型為 (void)」的方式來對參數求值，但並不建議
++這樣做。行內函式可以解決「有副作用的表達式被求值不只一次」的問題，避開未使用
++變數的問題，而且不知為何通常也比巨集有更好的文件說明。
++
++.. code-block:: c
++
++	/*
++	 * Avoid doing this whenever possible and instead opt for static
++	 * inline functions
++	 */
++	#define macrofun(foo) do { (void) (foo); } while (0)
++
+ 使用巨集的時候應避免的事情：
+ 
+ 1) 影響控制流程的巨集：
+@@ -739,8 +766,8 @@ s_active) 中找到。
+ 				return -EBUGGERED;	\
+ 		} while (0)
+ 
+-**非常** 不好。它看起來像一個函式，不過卻能導致 ``呼叫`` 它的函式退出；不要打
+-亂讀者大腦裡的語法分析器。
++**非常** 不好。它看起來像一個函式呼叫，不過卻能導致 ``calling`` (呼叫它的) 函
++式退出；不要打亂讀者大腦裡的語法分析器。
+ 
+ 2) 依賴於一個固定名字的本地變數的巨集：
+ 
+@@ -754,8 +781,8 @@ s_active) 中找到。
+ 3) 作為左值的帶參數的巨集： FOO(x) = y；如果有人把 FOO 變成一個行內函式的話，這
+    種用法就會出錯了。
+ 
+-4) 忘記了優先級：使用表達式定義常數的巨集必須將表達式置於一對小括號之內。帶參數
+-   的巨集也要注意此類問題。
++4) 忘記了優先順序：使用表達式定義常數的巨集必須將表達式置於一對小括號之內。帶
++   參數的巨集也要注意此類問題。
+ 
+ .. code-block:: c
+ 
+@@ -790,29 +817,31 @@ cpp 手冊對巨集的講解很詳細。gcc internals 手冊也詳細講解了 R
+ 
+ 在小括號裡列印數字 (%d) 沒有任何價值，應該避免這樣做。
+ 
+-<linux/device.h> 裡有一些驅動模型診斷巨集，你應該使用它們，以確保資訊對應
+-於正確的設備和驅動，並且被標記了正確的訊息級別。這些巨集有：dev_err(),
+-dev_warn(),dev_info() 等等。對於那些不和某個特定設備相關連的資訊，
++<linux/dev_printk.h> 裡有一些驅動模型診斷巨集，你應該使用它們，以確保資訊對
++應於正確的裝置和驅動，並且被標記了正確的訊息級別。這些巨集有：dev_err(),
++dev_warn(),dev_info() 等等。對於那些不和某個特定裝置相關連的資訊，
+ <linux/printk.h> 定義了 pr_notice(), pr_info(), pr_warn(), pr_err() 和其他。
++驅動程式正常運作時應該保持安靜，所以除非出了問題，否則優先使用
++dev_dbg/pr_debug。
+ 
+ 寫出好的除錯資訊可以是一個很大的挑戰；一旦你寫出後，這些資訊在遠端除錯時能提
+ 供極大的幫助。然而列印除錯資訊的處理方式同列印非除錯資訊不同。其他 pr_XXX()
+ 函式能無條件地列印，pr_debug() 卻不；預設情況下它不會被編譯，除非定義了 DEBUG
+-或設定了 CONFIG_DYNAMIC_DEBUG。實際這同樣是為了 dev_dbg()，一個相關約定是在一
+-個已經開啟了 DEBUG 時，使用 VERBOSE_DEBUG 來添加 dev_vdbg()。
++或設定了 CONFIG_DYNAMIC_DEBUG。dev_dbg() 也是如此；另一個相關的慣例是使用
++VERBOSE_DEBUG，在 DEBUG 已開啟的訊息之外再加上 dev_vdbg() 訊息。
+ 
+ 許多子系統擁有 Kconfig 除錯選項來開啟對應 Makefile 裡面的 -DDEBUG；在其他
+ 情況下，特定檔案使用 #define DEBUG。當一條除錯資訊需要被無條件列印時，例如，
+ 如果已經包含一個除錯相關的 #ifdef 條件，printk(KERN_DEBUG ...) 就可被使用。
+ 
+ 
+-14) 分配記憶體
++14) 配置記憶體
+ --------------
+ 
+-核心提供了下面的一般用途的記憶體分配函式：
++核心提供了下面的一般用途的記憶體配置函式：
+ kmalloc(), kzalloc(), kmalloc_objs(), kzalloc_objs(), vmalloc() 和 vzalloc()。
+ 請參考 API 文件以獲取有關它們的詳細資訊：
+-Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
++:ref:`Documentation/core-api/memory-allocation.rst <memory_allocation>`
+ 
+ 傳遞結構體大小的首選形式是這樣的：
+ 
+@@ -820,71 +849,72 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
+ 
+ 	p = kmalloc_obj(*p, ...);
+ 
+-另外一種傳遞方式中，sizeof 的操作數是結構體的名字，這樣會降低可讀性，並且可能
+-會引入 bug。有可能指標變數類型被改變時，而對應的傳遞給記憶體分配函式的 sizeof
+-的結果不變。
++另外一種寫法是直接寫出結構體的名字，這樣會降低可讀性，並且可能引入 bug：指標
++變數的類型被改變了，但傳遞給記憶體配置函式的對應 sizeof 卻沒有跟著改。
+ 
+ 強制轉換一個 void 指標回傳值是多餘的。C 語言本身保證了從 void 指標到其他任何
+ 指標類型的轉換是沒有問題的。
+ 
+-分配一個陣列的首選形式是這樣的：
++配置一個陣列的首選形式是這樣的：
+ 
+ .. code-block:: c
+ 
+ 	p = kmalloc_objs(*p, n, ...);
+ 
+-分配一個零長陣列的首選形式是這樣的：
++配置一個清零的陣列的首選形式是這樣的：
+ 
+ .. code-block:: c
+ 
+ 	p = kzalloc_objs(*p, n, ...);
+ 
+-這兩種形式都會檢查分配大小 n * sizeof(...) 是否溢位，如果發生溢位則回傳
++這兩種形式都會檢查配置大小 n * sizeof(...) 是否溢位，如果發生溢位則回傳
+ NULL。
+ 
+-兩種形式都會檢查分配 n * sizeof(...) 大小時記憶體的溢出，如果溢出返回 NULL。
+-
+-在沒有 __GFP_NOWARN 的情況下使用時，這些通用分配函式都會在失敗時發起堆疊轉儲，
++在沒有 __GFP_NOWARN 的情況下使用時，這些通用配置函式都會在失敗時發起堆疊轉儲，
+ 因此當返回NULL時，沒有必要發出額外的失敗訊息。
+ 
+ 15) 行內弊病
+ ------------
+ 
+-有一個常見的誤解是 ``行內`` 是 gcc 提供的可以讓程式碼執行更快的一個選項。
++有一個常見的誤解是 ``inline`` 是 gcc 提供的可以讓程式碼執行更快的一個選項。
+ 雖然使用行內函式有時候是恰當的 (比如作為一種替代巨集的方式，請看第十二章)，
+ 不過很多情況下不是這樣。inline 的過度使用會使核心變大，從而使整個系統執行
+ 速度變慢。因為體積大核心會佔用更多的指令高速快取，而且會導致 pagecache 的
+-可用記憶體減少。想象一下，一次 pagecache 未命中就會導致一次磁碟尋址，將耗
++可用記憶體減少。想象一下，一次 pagecache 未命中就會導致一次磁碟尋軌，將耗
+ 時 5 毫秒。5 毫秒的時間內 CPU 能執行很多很多指令。
+ 
+ 一個基本的原則是如果一個函式有 3 行以上，就不要把它變成行內函式。這個原則的一
+-個例外是，如果你知道某個參數是一個編譯時常數，而且因為這個常數你確定編譯器在
+-編譯時能最佳化掉你的函式的大部分程式碼，那仍然可以給它加上 inline 關鍵字。
++個例外是，如果你知道某個參數是一個編譯時期常數，而且因為這個常數你確定編譯器
++在編譯時期能最佳化掉你的函式的大部分程式碼，那仍然可以給它加上 inline 關鍵字。
+ kmalloc() 行內函式就是一個很好的例子。
+ 
+ 人們經常主張給 static 的而且只用了一次的函式加上 inline，如此不會有任何損失，
+ 因為沒有什麼好權衡的。雖然從技術上說這是正確的，但是實際上這種情況下即使不加
+-inline gcc 也可以自動使其行內。而且其他使用者可能會要求移除 inline，由此而來的
+-爭論會抵消 inline 自身的潛在價值，得不償失。
++inline gcc 也可以自動使其行內。而且一旦出現第二個呼叫者，就得把 inline 移除，
++這項維護負擔的代價，超過了「提示 gcc 去做它本來就會做的事」可能帶來的價值。
+ 
+ 
+ 16) 函式回傳值及命名
+ --------------------
+ 
+ 函式可以返回多種不同類型的值，最常見的一種是表明函式執行成功或者失敗的值。這樣
+-的一個值可以表示為一個錯誤程式碼整數 (-Exxx＝失敗，0＝成功) 或者一個 ``成功``
+-布林值 (0＝失敗，非0＝成功)。
++的一個值可以表示為一個錯誤碼整數 (-Exxx＝失敗，0＝成功) 或者一個 ``succeeded``
++(成功) 布林值 (0＝失敗，非0＝成功)。
+ 
+ 混合使用這兩種表達方式是難於發現的 bug 的來源。如果 C 語言本身嚴格區分整形和
+ 布林型變數，那麼編譯器就能夠幫我們發現這些錯誤... 不過 C 語言不區分。為了避免
+ 產生這種 bug，請遵循下面的慣例::
+ 
+-	如果函式的名字是一個動作或者強制性的命令，那麼這個函式應該返回錯誤代
+-	碼整數。如果是一個判斷，那麼函式應該返回一個“成功”布林值。
++	If the name of a function is an action or an imperative command,
++	the function should return an error-code integer.  If the name
++	is a predicate, the function should return a "succeeded" boolean.
++
++也就是說，如果函式的名字是一個動作或者強制性的命令，那麼這個函式應該返回錯誤
++碼整數。如果是一個判斷，那麼函式應該返回一個「成功」布林值。
+ 
+ 比如， ``add work`` 是一個命令，所以 add_work() 在成功時返回 0，在失敗時返回
+ -EBUSY。類似的，因為 ``PCI device present`` 是一個判斷，所以 pci_dev_present()
+-在成功找到一個匹配的設備時應該返回 1，如果找不到時應該返回 0。
++在成功找到一個匹配的裝置時應該返回 1，如果找不到時應該返回 0。
+ 
+ 所有 EXPORTed 函式都必須遵守這個慣例，所有的公共函式也都應該如此。私有
+ (static) 函式不需要如此，但是我們也推薦這樣做。
+@@ -897,8 +927,8 @@ inline gcc 也可以自動使其行內。而且其他使用者可能會要求移
+ ----------------
+ 
+ Linux核心布林（bool）類型是C99 _Bool類型的別名。布林值只能為0或1，而對布林的
+-隱式或顯式轉換將自動將值轉換為true或false。在使用布林類型時 **不需要** 構造，
+-它會消除一類錯誤。
++隱式或顯式轉換將自動將值轉換為true或false。使用 bool 類型時不需要 !! 這種寫
++法，這消除了一類錯誤。
+ 
+ 使用布林值時，應使用true和false定義，而不是1和0。
+ 
+@@ -906,7 +936,7 @@ Linux核心布林（bool）類型是C99 _Bool類型的別名。布林值只能
+ 並且布林值在儲存時通常比“int”更好。
+ 
+ 如果快取行佈局或值的大小很重要，請不要使用布林，因為其大小和對齊方式根據編譯
+-的體系結構而不同。針對對齊和大小進行最佳化的結構體不應使用布林。
++的架構而不同。針對對齊和大小進行最佳化的結構體不應使用布林。
+ 
+ 如果一個結構體有多個true/false值，請考慮將它們合併為具有1比特成員的位域，或使
+ 用適當的固定寬度類型，如u8。
+@@ -919,22 +949,26 @@ Linux核心布林（bool）類型是C99 _Bool類型的別名。布林值只能
+ 18) 不要重新發明核心巨集
+ ------------------------
+ 
+-標頭檔 include/linux/kernel.h 包含了一些巨集，你應該使用它們，而不要自己寫一些
+-它們的變種。比如，如果你需要計算一個陣列的長度，使用這個巨集
++include/linux/ 裡有許多標頭檔包含了一些巨集，你應該使用它們，而不要自己寫一
++些它們的變種。比如，如果你需要計算一個陣列的長度，使用這個巨集
+ 
+ .. code-block:: c
+ 
+ 	#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+ 
++它定義在 array_size.h 中。
++
+ 類似的，如果你要計算某結構體成員的大小，使用
+ 
+ .. code-block:: c
+ 
+ 	#define sizeof_field(t, f) (sizeof(((t*)0)->f))
+ 
+-還有可以做嚴格的類型檢查的 min() 和 max() 巨集，如果你需要可以使用它們。你可以
+-自己看看那個標頭檔裡還定義了什麼你可以拿來用的東西，如果有定義的話，你就不應
+-在你的程式碼裡自己重新定義。
++它定義在 stddef.h 中。
++
++minmax.h 裡還定義了可以做嚴格的類型檢查的 min() 和 max() 巨集，如果你需要可以
++使用它們。你可以自己看看這些標頭檔裡還定義了什麼你可以拿來用的東西，如果有定
++義的話，你就不應在你的程式碼裡自己重新定義。
+ 
+ 
+ 19) 編輯器模式行和其他需要羅嗦的事情
+@@ -1036,11 +1070,62 @@ Vim 能夠解析這樣的標記：
+ 	#endif /* CONFIG_SOMETHING */
+ 
+ 
++22) 不要讓核心崩潰
++------------------
++
++一般來說，決定是否讓核心崩潰的權力屬於使用者，而不是核心開發者。
++
++避免 panic()
++************
++
++panic() 應該謹慎使用，原則上只在系統開機期間使用。例如，在開機期間記憶體耗盡
++而無法繼續時，使用 panic() 是可以接受的。
++
++使用 WARN() 而非 BUG()
++**********************
++
++不要加入使用任何 BUG() 變體的新程式碼，例如 BUG()、BUG_ON() 或 VM_BUG_ON()。
++請改用 WARN*() 變體，最好是 WARN_ON_ONCE()，並且盡可能加上復原程式碼。如果沒有
++合理的方式可以至少部分復原，就不需要復原程式碼。
++
++「我懶得做錯誤處理」不是使用 BUG() 的藉口。對於無法繼續執行的重大內部損毀，仍
++然可以使用 BUG()，但需要有充分的理由。
++
++使用 WARN_ON_ONCE() 而非 WARN() 或 WARN_ON()
++********************************************
++
++通常應優先使用 WARN_ON_ONCE()，而不是 WARN() 或 WARN_ON()，因為某個警告條件一
++旦發生，往往會發生很多次。這可能會塞滿核心日誌並使其循環覆寫，甚至可能讓系統
++變慢到過量的日誌本身變成另一個問題。
++
++不要輕易 WARN
++*************
++
++WARN*() 是為了意料之外、不應該發生的情況而設計的。WARN*() 巨集不可用於任何在
++正常運作期間預期會發生的事情。例如，它們不是前置條件或後置條件的斷言。再強調
++一次：WARN*() 不可用於預期很容易觸發的條件，例如由使用者空間的操作觸發的條件。
++如果你需要通知使用者某個問題，pr_warn_once() 是一個可能的替代方案。
++
++不必擔心 panic_on_warn 使用者
++*****************************
++
++關於 panic_on_warn 再多說幾句：請記住 ``panic_on_warn`` 是一個可用的核心選項，
++而且很多使用者會設定這個選項。這就是上面有「不要輕易 WARN」這一節的原因。然
++而，panic_on_warn 使用者的存在並不是避免審慎使用 WARN*() 的正當理由。因為任何
++啟用 panic_on_warn 的人都已經明確要求核心在 WARN*() 觸發時崩潰，這些使用者必
++須準備好承擔系統較容易崩潰的後果。
++
++使用 BUILD_BUG_ON() 做編譯時期斷言
++**********************************
++
++使用 BUILD_BUG_ON() 是可以接受而且受到鼓勵的，因為它是編譯時期斷言，在執行時期
++不會有任何影響。
++
+ 附錄 I) 參考資料
+ ----------------
+ 
+ The C Programming Language, 2nd Edition
+-作者：Brian W. Kernighan 和 Denni M. Ritchie.
++作者：Brian W. Kernighan 和 Dennis M. Ritchie.
+ Prentice Hall, Inc., 1988.
+ ISBN 0-13-110362-8 (平裝), 0-13-110370-9 (精裝).
+ 
+@@ -1075,7 +1160,6 @@ GNU 手冊 - 遵循 K&R 標準和此文字 - cpp, gcc, gcc internals and indent,
+ 
+ WG14 是 C 語言的國際標準化工作組，URL: http://www.open-std.org/JTC1/SC22/WG14/
+ 
+-核心文件 Documentation/process/coding-style.rst，
+-作者 greg@kroah.com 發表於 OLS 2002：
++Kernel CodingStyle，作者 greg@kroah.com，發表於 OLS 2002：
+ http://www.kroah.com/linux/talks/ols_2002_kernel_codingstyle_talk/html/
+ 
 -- 
 2.43.0
 
