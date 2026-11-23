@@ -1,95 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795462168;
-	b=ZFdzAQ8GmXJAOxuR1ytvclnGFPRzcgw5f9sJd7kdXdT+c8jTvRA9waifzV6/YBnQ0xX8
-	 lI4gagZ/dkGLRdYQzIryMp7tAGP+mMEyezNV0m50SCVMc/Z8oEKBd5vTfqQJgn/8PKLIn
-	 kThQeSHM123J0I0scq3BH7bmugv/0ohMfCrpOIuUuDVjqB0XOF0kaYTmCQoUnHmd22L2x
-	 yQ/8r81Tja8FqVAHqTnJBrw7ZieS2iyt5sNLOgNCAFrkLWIAl0sf5YcRCPEc+4AzLPHdS
-	 WLxEfEA8/4U4jqzKc3lsvJScTz1SrG/VT0VbAZA59uAidMW44clGlk50DFUyMMg662Q==
+	t=1795462384;
+	b=tjgd73cS9rdNuqWzocB4YXfb/WWLsbiPPQTsa6GYAJd+mV4yJ1qihi9lj6uYdtcAwG26
+	 rIsSEiNxcmRZO8gCmaNhJ8qIfltxk4NuVDxpdslk2xx3AXibDWHdTR5qV6E0LQJ/bOdlN
+	 oT1Ckj7q4tokxmDjSCeLU0UCooC8R0Hm4L7UFD1z+zQODfyoa9G63xm9mQajqn/N2oBVK
+	 ExqluKuZvtaJzZLMuofxAyLSQ1+4mmnCohVDCi9dAM9fhypaj4jEV/ddqkgWnlL2mggS+
+	 oqdHkyRhKmOFAZkBGvT5MpRovho3YEWAJdYAD1+ZIqGMxFpFrBwYCgt5/ie8ZM/k6YQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795462168;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795462384;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:Mail-Followup-To:References:
+	 Date:From:To:Subject:Message-ID:Mail-Followup-To:References:
 	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=dK6izBnVztalFUd9ZDZGnPYRw3kapxyvZkhsazeP+5g=;
-	b=5WR/Yv+/AjUH4cTh66pWNa9W2PvUKRqRDTaAx8a5UOQgOxxjCaLDxahqSNSNqKRxREKd
-	 +oRaj+I9KnGzO4bnHWhZ62tu1VdLweZxVNgXYeBsdfJSWx1Gh3YHOTdjyrouHwBdQiTfu
-	 MXbC8n82nIbQm3QIcvOtDGl6BR9Cq8G4ab7ClJLqepgPApKQSODM/Ye7BNLBMepbu8Hur
-	 +yin/Mh3twH3yMOFWyQ9RZw7I3erfR9wXm/fgx/jTMRpWuBut2eo3SRXeWqTPdBhnYa/g
-	 R1xVgjzyC3dg0D+W3ZZBVwPlF/1ZNoRC1if+3MQKTICO3unYCjaEQlrsIpR3xtFuDPA==
+	bh=glXn7S+m6d9WKK+ny9saY5JJzsG/5FMMUlfMljP3M30=;
+	b=zzvy03XxzA9cUXrUJLJxS2G8m9X38b7yh3HyuoCFPISF8027hkLt+ny3I2gxXMIJbvDI
+	 4yVq0LTCpdH+LoXW/5PVsVC5n6byXHxvcm8bVUuIGHDD8JAQ39m9zs4tQKaafP0q2J/Vy
+	 DcpII75/JJYR95IoG9svzOWR6at+xuhUp5956/iEOzpS/KWp6Y/+LUuamwTLK7WOqPVwa
+	 KduLSe7075QihzyIyWy0Lx+Fon65RsNZEtZfTxMeX1xIcTydzVvo1cYTnP58rzrfD94/m
+	 X/QUKeKQC4NQ4UQhrtAoh3XFFq1ptvyZ6mCXKocOJyiCVcg7VO7gT6VGR+9iKcPa+Cw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nve7NswH;
-	arc=none smtp.remote-ip=209.85.160.47
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cY1APHMt;
+	arc=none smtp.remote-ip=209.85.161.48
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BBD606A321
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 19:29:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35BBD606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D93606A31E
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 19:33:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05D93606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nve7NswH
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-4911df1e196so2087461fac.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:29:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cY1APHMt
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-70b875f6f13so2877816eaf.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:33:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795462167; x=1796066967; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795462382; x=1796067182; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dK6izBnVztalFUd9ZDZGnPYRw3kapxyvZkhsazeP+5g=;
-        b=nve7NswH44QeF2trNPTW/32lsYzTS04DUc00sH3qKWzHNyxnZNSXAfW5B+3N3b8C2C
-         gt6eBP60VsLMaviqNcDj64zFpIU5rEx7r9CVqiCe74CLeDm3PpSPy171FR/oysRgEYve
-         lZyadAcICqg9MkCUZLZaCG6uHde8v5/rupyLKSAAqWXKK4AKEbW08QI3yiHPaIGAoPrU
-         gvS6AOFWy8qxTaL4McAtfajQSnSWGRnzLK3GmZSketdAFLSshvS6fmwEenAYcTiacrNG
-         L42tcfB197w4f6hGn3RXhFVk+GtgKxpUDnVHoV5Xgjm+m7AAa5w1/yaCV1sLXMhhgwmu
-         iWEg==
+         :references:mail-followup-to:message-id:subject:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=glXn7S+m6d9WKK+ny9saY5JJzsG/5FMMUlfMljP3M30=;
+        b=cY1APHMtdW0lhZVXBvhOBqaJTW6dQD6YZXXlv7eosiKXfPvKyiDaYqKSQa/7ghQhDy
+         16kosnNntZ6NaGBBICidqXtv+lMMCukSEPU8AiAmrFbNQcNXUYBjSv7QHM5TKt9glOC2
+         MDiqtPbZ/wWl6mmPGdFSCaEevD5SR1we3IYecWXx0InSJUCLoXkPMxppXb4z7JoHnpvP
+         ZlHcGU1MhvwZSkdyZbJUcX1SXJuTWBhEnQS65aIiduIVPIn+3dM0QVZSYZ6uXS0ncPC2
+         uGBWBzM2c0PRCkGeNUeNX6Q6B0QrQwyBfb93HlnXgi6AsUfvuSKaMwpIRT4O7/zSvKut
+         2mwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795462167; x=1796066967;
+        d=1e100.net; s=20260707; t=1795462382; x=1796067182;
         h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=dK6izBnVztalFUd9ZDZGnPYRw3kapxyvZkhsazeP+5g=;
-        b=U9kxvZKh0q/vg2BNdL+yhKnptBajZyElKcCrGPLIZMXc2xd91NN4MAJpFv89RYEf1K
-         zR90WHnNtALuaq4uzJAqw9GUObRGi/3RG4bWTXJLZxtpyDbPv7e6y5deUcuuBt/6cAdU
-         1N+by0J02sFAqati4qR1nHFkaHAyRtxv0Vy9x//M8GZgJMB0auCaYkdpmlN5/sYHwP8M
-         vdBfw9pzJO7X4CgLsTq5wX+yyX9aXSvnX0wwbkJboylvs8v3TcPvrpkeM14krPJXWd6X
-         SerINRcYhxX2GuAefNdCTLLGf66WO8PwVxWa7Dofp2s9vZdTAatFDmhkDvlps3+KJ86a
-         0gew==
-X-Forwarded-Encrypted: i=1; AL+hErHnG0k0iQLs+OnWmQbkRVZisOBIdYTGVA58fFRKQgukAgl40CttSAFoq40D3KuFFSVysU//jal5FuE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8ndgiiEQX491BXjvK0Pvcg2rDcO4KkogPZGnm4e9T/UL3/lTUQ
-	5XMeegvHk/c2ZJn8pMycDzMSdP5JYj3k+bP2twmLDg1pMK+Q6goShCZ6
-X-Gm-Gg: AZFdTZcrxEO1pZyP5+Chh1DOa9XqpnXH83x/BXl2uKIHzqIHqUEU9N12Xb7X4CwRTZ1
-	oZcOt1+l2GTGkVsYs+hLI86GGr89chXBaTKc2xuh4dbEUZ60Kt6sXyyX7hE5Rj/xhEXB41NLBNe
-	GNA146tFekfsZcG+0z+tPUSl+RkzS2OxvrY0Mq9+zueaFoE+RbweMBb2iXWygTg6YaRomqWbzdw
-	OtcG6/LxhAGkRfseWAVt6AR9yrVoQhfmyrs8Gas8dSM5mfcdhwqkGSTbGqeoL40a1j399LeLaER
-	CdBrOcaNtpdBemfeHYd8uulTnbN/rJnnBmUvTay+Kw/HjmaK7ijyBmCVE1mbSc1bqNq8qdxPBbT
-	lgc+0W5MjNV3ljTtRoJOXMJlk+IHtQFa0zFr3Wm6eJH8pW0mPdZAGh317BJcFLFhLEVDHfiDBhX
-	NwzM1vwrc+MhYPuJVU6BvWfaVmxviIiCpSlGPc65Y/83NI0V3fijt6T4V139+whi8BHmGabddQK
-	sJ++Zfrkm4Wp8lLI/DlM8brv4+a8jkAiu+9FmHcb5jmRPEn1/wFYTW5K9WcbyzJJ5SFtd0FfEIH
-	DXqcaqWVqFUqEUQT3FDFR4LRAYCbc71IUkfpaoXALEXi7uQaLAQRAyHU/43v
-X-Received: by 2002:a05:6871:89f:b0:494:a2cf:8dce with SMTP id 586e51a60fabf-4bc7beaef71mr11196329fac.4.1795462166843;
-        Mon, 23 Nov 2026 11:29:26 -0800 (PST)
-Received: from localhost ([2a03:2880:10ff:44::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4bc60491337sm11539135fac.12.2026.11.23.11.29.25
+         :references:mail-followup-to:message-id:subject:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=glXn7S+m6d9WKK+ny9saY5JJzsG/5FMMUlfMljP3M30=;
+        b=icG0KdiWdVcEZTtVgfILJWw2SnTlzt68JYAljOeHOfO8ySZM2ghXh8FaUj2iVcgtCX
+         IBxatjABdaLVTuRAnWAmlugywKJCgi7/Jd7bwEISlVn+OxHN62JuDdeMrtZxrIfVUbfa
+         ckbcuOt+CdUm4O3eSIWjVD3yjne4IhzuOag9pidVj58HXfoHr4vZ/OuQX8TcgzvpWNAj
+         n2aHE/qplP1wMjQjnhOrnsOpMrM1cGQC6nyoEdtdOi+ryvXxhcnHo8ElqzClAvjcaLiG
+         1YmU+J4Iqd2Hz6tBMDGuVnFKckj218tbuA7krXIq3RwRS3Dy76OTFyyFv7ZDLnvoVdSB
+         rZ6Q==
+X-Forwarded-Encrypted: i=1; AL+hErHpmn5sW/uj3utAuW+xT5xD/uYY8YqgySaBrLgXz+3tC9rw7bGByaUEy0mXw92nu3w/xG8In8iDpgA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8Jpygkd+hY2dblfiLwZq3p9q+K18jlcvuRI7/upJ+dVwBQdMEB
+	a8pZccj1758A05DXdDk/U2dahE+beTWHsEFyqjC0G8fnxlN+HV0Yi15t
+X-Gm-Gg: AZFdTZdNswo7TUiJWCO4DZCld6jMc3JW8S9BeI7A5v+IwRaCHYKZSyBXheqvKdxJOG9
+	rRzt4L1NONZJF8+g/9eqPIFLkOgtfgtThpLjDnpIKQgC1xxiqey3kjIx2fmm56TZ0feKBq55Dq+
+	2PbIh/AJVY0DD39xqZeCNgS4jiXpV2ttOrhgCSaRmxZjZ4xNohysr5fQdppqh1H7z7jgH2VPqav
+	1dpGq9GjCeteC+vnRHerob8ohx6fl2zgQpts5zwZ+hT+b4a+OBPpysuh+UlBM1S00S+DnEoeUJ3
+	sM0F/vxWw+0c+erOr5UIhNXwvHBSERRUUHCVeLUZwUSFlsUG1T8Fowl10foY2v91JRdAHK59rnf
+	GKHPsNpbvliO7sk8K6XkkH5Y1bwOdJPNDpJQxvC0E454OP1hyEyTSefdDuO2Vavh6jf+YvoWqnl
+	rV7EYUG9aFTMoPxpEEkN32Bseclw0chE5HnoSd35pq/j83bvLhZm1bXRgdipr67hHRiy2yaaEMV
+	i9XGKf/v+QjktLnuIh1msvToSZiPxx2zlcZkFVikvF+AU+1AR433SUW7fOX796M7yq0PreVcsif
+	5nm2RJWrJsCT8NvY6El1XR9ISxgIVTUeeiez2hFTILheCD9oRKhF7toTs0LVUw==
+X-Received: by 2002:a05:6820:c2cf:10b0:71a:f0cc:94e1 with SMTP id 006d021491bc7-71b3960c59emr7028444eaf.83.1795462381565;
+        Mon, 23 Nov 2026 11:33:01 -0800 (PST)
+Received: from localhost ([2a03:2880:10ff:4b::])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4bc61081159sm11792209fac.15.2026.11.23.11.33.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 11:29:26 -0800 (PST)
-Date: Mon, 23 Nov 2026 11:29:24 -0800
+        Mon, 23 Nov 2026 11:33:00 -0800 (PST)
+Date: Mon, 23 Nov 2026 11:32:59 -0800
 From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: Li Zhe <lizhe.67@bytedance.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, gourry@gourry.net, 
-	hannes@cmpxchg.org, ljs@kernel.org, mhocko@suse.com, muchun.song@linux.dev, 
-	rakie.kim@sk.com, roman.gushchin@linux.dev, shakeel.butt@linux.dev, 
-	weixugc@google.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org
+To: Li Zhe <lizhe.67@bytedance.com>, akpm@linux-foundation.org, 
+	david@kernel.org, gourry@gourry.net, hannes@cmpxchg.org, ljs@kernel.org, 
+	mhocko@suse.com, muchun.song@linux.dev, rakie.kim@sk.com, 
+	roman.gushchin@linux.dev, shakeel.butt@linux.dev, weixugc@google.com, 
+	ying.huang@linux.alibaba.com, ziy@nvidia.com, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
 Subject: Re: [PATCH v3] mm: add source selector to memory.reclaim
-Message-ID: <awSSDehzWsJ68V5y@devbig011.atn3.facebook.com>
+Message-ID: <awSUhzqM-QEMTX0Y@devbig011.atn3.facebook.com>
 Mail-Followup-To: Li Zhe <lizhe.67@bytedance.com>, 
 	akpm@linux-foundation.org, david@kernel.org, gourry@gourry.net, hannes@cmpxchg.org, 
 	ljs@kernel.org, mhocko@suse.com, muchun.song@linux.dev, rakie.kim@sk.com, 
@@ -97,6 +96,7 @@ Mail-Followup-To: Li Zhe <lizhe.67@bytedance.com>,
 	ying.huang@linux.alibaba.com, ziy@nvidia.com, cgroups@vger.kernel.org, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
 References: <20261116110459.11048-1-lizhe.67@bytedance.com>
+ <awSSDehzWsJ68V5y@devbig011.atn3.facebook.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -108,350 +108,356 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261116110459.11048-1-lizhe.67@bytedance.com>
+In-Reply-To: <awSSDehzWsJ68V5y@devbig011.atn3.facebook.com>
 
-On Mon, Nov 16, 2026 at 07:04:59PM +0800, Li Zhe wrote:
-> memory.reclaim can apply proactive reclaim to a memcg, but it cannot
-> target source nodes the way global node reclaim can. Proactive memcg
-> reclaim follows a fast-to-slow fallback order, which attempts demotion
-> before reclaiming from slower tiers.
+On Mon, Nov 23, 2026 at 11:29:24AM -0800, Joshua Hahn wrote:
+> On Mon, Nov 16, 2026 at 07:04:59PM +0800, Li Zhe wrote:
+> > memory.reclaim can apply proactive reclaim to a memcg, but it cannot
+> > target source nodes the way global node reclaim can. Proactive memcg
+> > reclaim follows a fast-to-slow fallback order, which attempts demotion
+> > before reclaiming from slower tiers.
+> > 
+> > As a result, a memcg controller cannot decide whether reclaim should
+> > start from DRAM or from a slower tier. For a cgroup that is close to OOM
+> > and needs charge reduction, or for a controller trying to shape a
+> > workload's DRAM/CXL resident distribution, the default policy may spend
+> > reclaim effort on the wrong source tier.
+> > 
+> > Add source=nodes:<nodelist> to memory.reclaim. The selector only chooses
+> > the resident source nodes where the existing memcg reclaim path applies
+> > pressure. It does not select demotion targets, force demotion, force
+> > eviction, promote pages, or change completion accounting. Leaving source
+> > unspecified preserves existing behavior.
 > 
-> As a result, a memcg controller cannot decide whether reclaim should
-> start from DRAM or from a slower tier. For a cgroup that is close to OOM
-> and needs charge reduction, or for a controller trying to shape a
-> workload's DRAM/CXL resident distribution, the default policy may spend
-> reclaim effort on the wrong source tier.
+> Hi Zhe,
 > 
-> Add source=nodes:<nodelist> to memory.reclaim. The selector only chooses
-> the resident source nodes where the existing memcg reclaim path applies
-> pressure. It does not select demotion targets, force demotion, force
-> eviction, promote pages, or change completion accounting. Leaving source
-> unspecified preserves existing behavior.
-
-Hi Zhe,
-
-Thanks for the patch and sorry that it took so long to reply.
-I've actually spent a lot of time thinking about this commit to see if
-it can be used to establish per-memcg-tier residency limits on machines
-running multiple workloads via memcgs.
-
-So you could have a daemon running, checking the per-tier usage for a
-cgroup, and creating pressure to evict pages downward from that cgroup
-specifically.
-
-So if a cgroup is using 10G more node0 (DRAM) than it should be, you can
-write "echo 10G source=nodes:0" > memory.reclaim to try and free up that
-space. I'm running some experiments locally and really thinking through
-this to see what that would lead to.
-
-Anyways, to me the only concern that I have is what happens when that
-reclaim fails. Let's say that you have a situation where CXL is
-completely full, preventing future demtions. At the same time, we have
-a memcg that is using too much DRAM, so we try to reclaim from the
-DRAM node and pressure downwards.
-
-The thing is, I think proactive reclaim doesn't allow swapouts on tiered
-systems. 
-
-So what would happen is, you would (1) fail demotions, and then (2) fail
-to swap out, which means the pages have nowhere to go. And repeatedly
-running the same command over and over again will not lead to any
-progress at all.
-
-> With this, userspace can build the policy it needs on top of existing
-> kernel reclaim behavior:
+> Thanks for the patch and sorry that it took so long to reply.
+> I've actually spent a lot of time thinking about this commit to see if
+> it can be used to establish per-memcg-tier residency limits on machines
+> running multiple workloads via memcgs.
 > 
-> 1. start reclaim from lower-tier nodes to reduce the cgroup's memory
->    usage more directly;
-> 2. steer reclaim toward over-represented nodes to shape a workload's
->    DRAM/CXL resident distribution; and
-> 3. reclaim from lower-tier nodes first so later top-tier reclaim has
->    room for demotion.
+> So you could have a daemon running, checking the per-tier usage for a
+> cgroup, and creating pressure to evict pages downward from that cgroup
+> specifically.
 > 
-> Example: nodes 0-2=DRAM, node3=CXL
+> So if a cgroup is using 10G more node0 (DRAM) than it should be, you can
+> write "echo 10G source=nodes:0" > memory.reclaim to try and free up that
+> space. I'm running some experiments locally and really thinking through
+> this to see what that would lead to.
 > 
->   echo 1G > memory.reclaim # progress from nodes 0-3
->   echo "1G source=nodes:3" > memory.reclaim # reclaim from CXL
->   echo "1G source=nodes:0-2" > memory.reclaim # usually demote to CXL
+> Anyways, to me the only concern that I have is what happens when that
+> reclaim fails. Let's say that you have a situation where CXL is
+> completely full, preventing future demtions. At the same time, we have
+> a memcg that is using too much DRAM, so we try to reclaim from the
+> DRAM node and pressure downwards.
+> 
+> The thing is, I think proactive reclaim doesn't allow swapouts on tiered
+> systems. 
 
-And so I can see why you would have to run something like this in order
-to actually make room, moving from the bottom going up. Make space for
-the memory that's about to come in from the top.
+Sorry, I had meant to add more context here. I meant that proactive
+reclaim doesn't allow swapouts directly. See
+6b426d071419 mm: disable top-tier fallback to reclaim on proactive reclaim
+for some more context. 
 
-To me this makes a lot of sense, and it's something that we (Meta) has
-thought about quite extensively internally as well (from Johannes and
-Gregory, who are also CC-ed in this mail).
-
-But at the same time, this is not really an atomic operation. So memory
-usage between the two operations can change very rapidly. I wanted to
-start a conversation about this point and whether this is something that
-the commit should address. I would like to hone in on a use case and
-think about how the users should be expected to use these things first.
-
-Thanks a lot Zhe, and sorry again for the delayed response.
-I hope you have a great day!
-Joshua
-
-> The typed source= form also leaves room for future source selectors
-> without changing the ABI introduced here.
+> So what would happen is, you would (1) fail demotions, and then (2) fail
+> to swap out, which means the pages have nowhere to go. And repeatedly
+> running the same command over and over again will not lead to any
+> progress at all.
 > 
-> Tested in a CXL setup with nodes 0-2 as DRAM and node 3 as CXL. A
-> userspace controller steered eight cgroups toward a 50:50 DRAM:CXL
-> resident ratio while a background workload created reclaim and demotion
-> pressure. With source=nodes, all eight cgroups ended with 45%-55% of
-> their memory on DRAM. Under the same pressure, the plain memory.reclaim
-> baseline left the worst cgroup far away from the target range.
+> > With this, userspace can build the policy it needs on top of existing
+> > kernel reclaim behavior:
+> > 
+> > 1. start reclaim from lower-tier nodes to reduce the cgroup's memory
+> >    usage more directly;
+> > 2. steer reclaim toward over-represented nodes to shape a workload's
+> >    DRAM/CXL resident distribution; and
+> > 3. reclaim from lower-tier nodes first so later top-tier reclaim has
+> >    room for demotion.
+> > 
+> > Example: nodes 0-2=DRAM, node3=CXL
+> > 
+> >   echo 1G > memory.reclaim # progress from nodes 0-3
+> >   echo "1G source=nodes:3" > memory.reclaim # reclaim from CXL
+> >   echo "1G source=nodes:0-2" > memory.reclaim # usually demote to CXL
 > 
-> Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
-> ---
-> v2: https://lore.kernel.org/all/20261102070440.16262-1-lizhe.67@bytedance.com/#t
-> v1: https://lore.kernel.org/all/20261019141401.11927-1-lizhe.67@bytedance.com/
+> And so I can see why you would have to run something like this in order
+> to actually make room, moving from the bottom going up. Make space for
+> the memory that's about to come in from the top.
 > 
-> Changes since v2:
-> - Dropped the separate cover letter and shortened/refocused the commit
->   message, as suggested by Joshua Hahn and Gregory Price.
-> - Added an eight-cgroup CXL test summary under background
->   reclaim/demotion pressure, as suggested by Joshua Hahn.
+> To me this makes a lot of sense, and it's something that we (Meta) has
+> thought about quite extensively internally as well (from Johannes and
+> Gregory, who are also CC-ed in this mail).
 > 
-> ---
->  Documentation/admin-guide/cgroup-v2.rst | 11 ++++++
->  mm/bpf_memcontrol.c                     |  3 +-
->  mm/internal.h                           |  3 +-
->  mm/memcontrol-v1.c                      |  6 ++-
->  mm/memcontrol.c                         | 11 ++++--
->  mm/vmscan.c                             | 49 +++++++++++++++++++++++--
->  6 files changed, 72 insertions(+), 11 deletions(-)
+> But at the same time, this is not really an atomic operation. So memory
+> usage between the two operations can change very rapidly. I wanted to
+> start a conversation about this point and whether this is something that
+> the commit should address. I would like to hone in on a use case and
+> think about how the users should be expected to use these things first.
 > 
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 9e3c67b02ae2..992f9bdc46a1 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1458,6 +1458,7 @@ The following nested keys are defined.
->  
->  	  ==========            ================================
->  	  swappiness            Swappiness value to reclaim with
-> +	  source                Source to apply reclaim pressure to
->  	  ==========            ================================
->  
->  	Specifying a swappiness value instructs the kernel to perform
-> @@ -1468,6 +1469,16 @@ The following nested keys are defined.
->  	The valid range for swappiness is [0-200, max], setting
->  	swappiness=max exclusively reclaims anonymous memory.
->  
-> +	Specifying a source value constrains where proactive reclaim applies
-> +	pressure. Currently only source=nodes:<nodelist> is supported. For
-> +	example::
-> +
-> +	  echo "1G source=nodes:0-1" > memory.reclaim
-> +
-> +	This applies proactive reclaim pressure to memory of the target cgroup
-> +	resident on nodes 0-1. It does not constrain demotion targets and does
-> +	not change memory.reclaim completion accounting.
-> +
->    memory.peak
->  	A read-write single value file which exists on non-root cgroups.
->  
-> diff --git a/mm/bpf_memcontrol.c b/mm/bpf_memcontrol.c
-> index d8f579c28560..7d98f55a044f 100644
-> --- a/mm/bpf_memcontrol.c
-> +++ b/mm/bpf_memcontrol.c
-> @@ -201,7 +201,8 @@ __bpf_kfunc long bpf_proactive_reclaim(struct mem_cgroup *memcg,
->  	nr_reclaimed = try_to_free_mem_cgroup_pages(memcg, nr_pages, GFP_KERNEL,
->  						    MEMCG_RECLAIM_MAY_SWAP |
->  						    MEMCG_RECLAIM_PROACTIVE,
-> -						    swappiness == -1 ? NULL : &swappiness);
-> +						    swappiness == -1 ? NULL : &swappiness,
-> +						    NULL);
->  
->  	return nr_reclaimed * PAGE_SIZE;
->  }
-> diff --git a/mm/internal.h b/mm/internal.h
-> index e3f92883bf23..ff24a58d47e8 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -83,7 +83,8 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
->  					   unsigned long nr_pages,
->  					   gfp_t gfp_mask,
->  					   unsigned int reclaim_options,
-> -					   int *swappiness);
-> +					   int *swappiness,
-> +					   const nodemask_t *source_nodes);
->  
->  #ifdef CONFIG_NUMA
->  extern int sysctl_min_unmapped_ratio;
-> diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
-> index b7f286888507..74aa06fee76a 100644
-> --- a/mm/memcontrol-v1.c
-> +++ b/mm/memcontrol-v1.c
-> @@ -1464,7 +1464,8 @@ static int mem_cgroup_resize_max(struct mem_cgroup *memcg,
->  		}
->  
->  		if (!try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
-> -				memsw ? 0 : MEMCG_RECLAIM_MAY_SWAP, NULL)) {
-> +				memsw ? 0 : MEMCG_RECLAIM_MAY_SWAP,
-> +				NULL, NULL)) {
->  			ret = -EBUSY;
->  			break;
->  		}
-> @@ -1500,7 +1501,8 @@ static int mem_cgroup_force_empty(struct mem_cgroup *memcg)
->  			break;
->  
->  		if (!try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
-> -						  MEMCG_RECLAIM_MAY_SWAP, NULL))
-> +						  MEMCG_RECLAIM_MAY_SWAP,
-> +						  NULL, NULL))
->  			nr_retries--;
->  	}
->  
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index 84f4a8fd4d16..116c6853c9ba 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -2444,7 +2444,7 @@ static unsigned long reclaim_high(struct mem_cgroup *memcg,
->  		nr_reclaimed += try_to_free_mem_cgroup_pages(memcg, nr_pages,
->  							gfp_mask,
->  							MEMCG_RECLAIM_MAY_SWAP,
-> -							NULL);
-> +							NULL, NULL);
->  		psi_memstall_leave(&pflags);
->  	} while ((memcg = parent_mem_cgroup(memcg)) &&
->  		 !mem_cgroup_is_root(memcg));
-> @@ -2774,7 +2774,8 @@ static int try_charge_memcg(struct mem_cgroup *memcg, gfp_t gfp_mask,
->  
->  	psi_memstall_enter(&pflags);
->  	nr_reclaimed = try_to_free_mem_cgroup_pages(mem_over_limit, nr_pages,
-> -						    gfp_mask, reclaim_options, NULL);
-> +						    gfp_mask, reclaim_options,
-> +						    NULL, NULL);
->  	psi_memstall_leave(&pflags);
->  
->  	if (mem_cgroup_margin(mem_over_limit) >= nr_pages)
-> @@ -5001,7 +5002,8 @@ static ssize_t memory_high_write(struct kernfs_open_file *of,
->  		}
->  
->  		reclaimed = try_to_free_mem_cgroup_pages(memcg, nr_pages - high,
-> -					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP, NULL);
-> +					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP,
-> +					NULL, NULL);
->  
->  		if (!reclaimed && !nr_retries--)
->  			break;
-> @@ -5060,7 +5062,8 @@ static ssize_t memory_max_write(struct kernfs_open_file *of,
->  
->  		if (nr_reclaims) {
->  			if (!try_to_free_mem_cgroup_pages(memcg, nr_pages - max,
-> -					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP, NULL))
-> +					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP,
-> +					NULL, NULL))
->  				nr_reclaims--;
->  			continue;
->  		}
-> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> index 6a1af9b92349..15e2e5710468 100644
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -7013,12 +7013,14 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
->  					   unsigned long nr_pages,
->  					   gfp_t gfp_mask,
->  					   unsigned int reclaim_options,
-> -					   int *swappiness)
-> +					   int *swappiness,
-> +					   const nodemask_t *source_nodes)
->  {
->  	unsigned long nr_reclaimed;
->  	unsigned int noreclaim_flag;
->  	struct scan_control sc = {
->  		.nr_to_reclaim = max(nr_pages, SWAP_CLUSTER_MAX),
-> +		.nodemask = source_nodes,
->  		.proactive_swappiness = swappiness,
->  		.gfp_mask = (current_gfp_context(gfp_mask) & GFP_RECLAIM_MASK) |
->  				(GFP_HIGHUSER_MOVABLE & ~GFP_RECLAIM_MASK),
-> @@ -7054,7 +7056,8 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
->  					   unsigned long nr_pages,
->  					   gfp_t gfp_mask,
->  					   unsigned int reclaim_options,
-> -					   int *swappiness)
-> +					   int *swappiness,
-> +					   const nodemask_t *source_nodes)
->  {
->  	return 0;
->  }
-> @@ -8098,20 +8101,51 @@ static unsigned long __node_reclaim(struct pglist_data *pgdat,
->  enum {
->  	MEMORY_RECLAIM_SWAPPINESS = 0,
->  	MEMORY_RECLAIM_SWAPPINESS_MAX,
-> +	MEMORY_RECLAIM_SOURCE,
->  	MEMORY_RECLAIM_NULL,
->  };
->  static const match_table_t tokens = {
->  	{ MEMORY_RECLAIM_SWAPPINESS, "swappiness=%d"},
->  	{ MEMORY_RECLAIM_SWAPPINESS_MAX, "swappiness=max"},
-> +	{ MEMORY_RECLAIM_SOURCE, "source=%s"},
->  	{ MEMORY_RECLAIM_NULL, NULL },
->  };
->  
-> +#define MEMORY_RECLAIM_SOURCE_NODES	"nodes:"
-> +#define MEMORY_RECLAIM_SOURCE_NODES_LEN	(sizeof(MEMORY_RECLAIM_SOURCE_NODES) - 1)
-> +
-> +static int parse_memory_reclaim_source(const char *source,
-> +				       nodemask_t *source_nodes)
-> +{
-> +	const char *nodes;
-> +
-> +	if (strncmp(source, MEMORY_RECLAIM_SOURCE_NODES,
-> +		    MEMORY_RECLAIM_SOURCE_NODES_LEN))
-> +		return -EINVAL;
-> +
-> +	nodes = source + MEMORY_RECLAIM_SOURCE_NODES_LEN;
-> +	if (!*nodes)
-> +		return -EINVAL;
-> +
-> +	nodes_clear(*source_nodes);
-> +	if (nodelist_parse(nodes, *source_nodes))
-> +		return -EINVAL;
-> +
-> +	nodes_and(*source_nodes, *source_nodes, node_states[N_MEMORY]);
-> +	if (nodes_empty(*source_nodes))
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
->  int user_proactive_reclaim(char *buf,
->  			   struct mem_cgroup *memcg, pg_data_t *pgdat)
->  {
->  	unsigned int nr_retries = MAX_RECLAIM_RETRIES;
->  	unsigned long nr_to_reclaim, nr_reclaimed = 0;
->  	int swappiness = -1;
-> +	nodemask_t source_nodes;
-> +	const nodemask_t *source_nodemask = NULL;
->  	char *old_buf, *start;
->  	substring_t args[MAX_OPT_ARGS];
->  	gfp_t gfp_mask = GFP_KERNEL;
-> @@ -8142,6 +8176,14 @@ int user_proactive_reclaim(char *buf,
->  		case MEMORY_RECLAIM_SWAPPINESS_MAX:
->  			swappiness = SWAPPINESS_ANON_ONLY;
->  			break;
-> +		case MEMORY_RECLAIM_SOURCE:
-> +			if (!memcg || source_nodemask)
-> +				return -EINVAL;
-> +			if (parse_memory_reclaim_source(args[0].from,
-> +							&source_nodes))
-> +				return -EINVAL;
-> +			source_nodemask = &source_nodes;
-> +			break;
->  		default:
->  			return -EINVAL;
->  		}
-> @@ -8181,7 +8223,8 @@ int user_proactive_reclaim(char *buf,
->  			reclaimed = try_to_free_mem_cgroup_pages(memcg,
->  						 batch_size, gfp_mask,
->  						 reclaim_options,
-> -						 swappiness == -1 ? NULL : &swappiness);
-> +						 swappiness == -1 ? NULL : &swappiness,
-> +						 source_nodemask);
->  		} else {
->  			struct scan_control sc = {
->  				.gfp_mask = current_gfp_context(gfp_mask),
-> -- 
-> 2.20.1
+> Thanks a lot Zhe, and sorry again for the delayed response.
+> I hope you have a great day!
+> Joshua
+> 
+> > The typed source= form also leaves room for future source selectors
+> > without changing the ABI introduced here.
+> > 
+> > Tested in a CXL setup with nodes 0-2 as DRAM and node 3 as CXL. A
+> > userspace controller steered eight cgroups toward a 50:50 DRAM:CXL
+> > resident ratio while a background workload created reclaim and demotion
+> > pressure. With source=nodes, all eight cgroups ended with 45%-55% of
+> > their memory on DRAM. Under the same pressure, the plain memory.reclaim
+> > baseline left the worst cgroup far away from the target range.
+> > 
+> > Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
+> > ---
+> > v2: https://lore.kernel.org/all/20261102070440.16262-1-lizhe.67@bytedance.com/#t
+> > v1: https://lore.kernel.org/all/20261019141401.11927-1-lizhe.67@bytedance.com/
+> > 
+> > Changes since v2:
+> > - Dropped the separate cover letter and shortened/refocused the commit
+> >   message, as suggested by Joshua Hahn and Gregory Price.
+> > - Added an eight-cgroup CXL test summary under background
+> >   reclaim/demotion pressure, as suggested by Joshua Hahn.
+> > 
+> > ---
+> >  Documentation/admin-guide/cgroup-v2.rst | 11 ++++++
+> >  mm/bpf_memcontrol.c                     |  3 +-
+> >  mm/internal.h                           |  3 +-
+> >  mm/memcontrol-v1.c                      |  6 ++-
+> >  mm/memcontrol.c                         | 11 ++++--
+> >  mm/vmscan.c                             | 49 +++++++++++++++++++++++--
+> >  6 files changed, 72 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> > index 9e3c67b02ae2..992f9bdc46a1 100644
+> > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > @@ -1458,6 +1458,7 @@ The following nested keys are defined.
+> >  
+> >  	  ==========            ================================
+> >  	  swappiness            Swappiness value to reclaim with
+> > +	  source                Source to apply reclaim pressure to
+> >  	  ==========            ================================
+> >  
+> >  	Specifying a swappiness value instructs the kernel to perform
+> > @@ -1468,6 +1469,16 @@ The following nested keys are defined.
+> >  	The valid range for swappiness is [0-200, max], setting
+> >  	swappiness=max exclusively reclaims anonymous memory.
+> >  
+> > +	Specifying a source value constrains where proactive reclaim applies
+> > +	pressure. Currently only source=nodes:<nodelist> is supported. For
+> > +	example::
+> > +
+> > +	  echo "1G source=nodes:0-1" > memory.reclaim
+> > +
+> > +	This applies proactive reclaim pressure to memory of the target cgroup
+> > +	resident on nodes 0-1. It does not constrain demotion targets and does
+> > +	not change memory.reclaim completion accounting.
+> > +
+> >    memory.peak
+> >  	A read-write single value file which exists on non-root cgroups.
+> >  
+> > diff --git a/mm/bpf_memcontrol.c b/mm/bpf_memcontrol.c
+> > index d8f579c28560..7d98f55a044f 100644
+> > --- a/mm/bpf_memcontrol.c
+> > +++ b/mm/bpf_memcontrol.c
+> > @@ -201,7 +201,8 @@ __bpf_kfunc long bpf_proactive_reclaim(struct mem_cgroup *memcg,
+> >  	nr_reclaimed = try_to_free_mem_cgroup_pages(memcg, nr_pages, GFP_KERNEL,
+> >  						    MEMCG_RECLAIM_MAY_SWAP |
+> >  						    MEMCG_RECLAIM_PROACTIVE,
+> > -						    swappiness == -1 ? NULL : &swappiness);
+> > +						    swappiness == -1 ? NULL : &swappiness,
+> > +						    NULL);
+> >  
+> >  	return nr_reclaimed * PAGE_SIZE;
+> >  }
+> > diff --git a/mm/internal.h b/mm/internal.h
+> > index e3f92883bf23..ff24a58d47e8 100644
+> > --- a/mm/internal.h
+> > +++ b/mm/internal.h
+> > @@ -83,7 +83,8 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
+> >  					   unsigned long nr_pages,
+> >  					   gfp_t gfp_mask,
+> >  					   unsigned int reclaim_options,
+> > -					   int *swappiness);
+> > +					   int *swappiness,
+> > +					   const nodemask_t *source_nodes);
+> >  
+> >  #ifdef CONFIG_NUMA
+> >  extern int sysctl_min_unmapped_ratio;
+> > diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
+> > index b7f286888507..74aa06fee76a 100644
+> > --- a/mm/memcontrol-v1.c
+> > +++ b/mm/memcontrol-v1.c
+> > @@ -1464,7 +1464,8 @@ static int mem_cgroup_resize_max(struct mem_cgroup *memcg,
+> >  		}
+> >  
+> >  		if (!try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
+> > -				memsw ? 0 : MEMCG_RECLAIM_MAY_SWAP, NULL)) {
+> > +				memsw ? 0 : MEMCG_RECLAIM_MAY_SWAP,
+> > +				NULL, NULL)) {
+> >  			ret = -EBUSY;
+> >  			break;
+> >  		}
+> > @@ -1500,7 +1501,8 @@ static int mem_cgroup_force_empty(struct mem_cgroup *memcg)
+> >  			break;
+> >  
+> >  		if (!try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
+> > -						  MEMCG_RECLAIM_MAY_SWAP, NULL))
+> > +						  MEMCG_RECLAIM_MAY_SWAP,
+> > +						  NULL, NULL))
+> >  			nr_retries--;
+> >  	}
+> >  
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index 84f4a8fd4d16..116c6853c9ba 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -2444,7 +2444,7 @@ static unsigned long reclaim_high(struct mem_cgroup *memcg,
+> >  		nr_reclaimed += try_to_free_mem_cgroup_pages(memcg, nr_pages,
+> >  							gfp_mask,
+> >  							MEMCG_RECLAIM_MAY_SWAP,
+> > -							NULL);
+> > +							NULL, NULL);
+> >  		psi_memstall_leave(&pflags);
+> >  	} while ((memcg = parent_mem_cgroup(memcg)) &&
+> >  		 !mem_cgroup_is_root(memcg));
+> > @@ -2774,7 +2774,8 @@ static int try_charge_memcg(struct mem_cgroup *memcg, gfp_t gfp_mask,
+> >  
+> >  	psi_memstall_enter(&pflags);
+> >  	nr_reclaimed = try_to_free_mem_cgroup_pages(mem_over_limit, nr_pages,
+> > -						    gfp_mask, reclaim_options, NULL);
+> > +						    gfp_mask, reclaim_options,
+> > +						    NULL, NULL);
+> >  	psi_memstall_leave(&pflags);
+> >  
+> >  	if (mem_cgroup_margin(mem_over_limit) >= nr_pages)
+> > @@ -5001,7 +5002,8 @@ static ssize_t memory_high_write(struct kernfs_open_file *of,
+> >  		}
+> >  
+> >  		reclaimed = try_to_free_mem_cgroup_pages(memcg, nr_pages - high,
+> > -					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP, NULL);
+> > +					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP,
+> > +					NULL, NULL);
+> >  
+> >  		if (!reclaimed && !nr_retries--)
+> >  			break;
+> > @@ -5060,7 +5062,8 @@ static ssize_t memory_max_write(struct kernfs_open_file *of,
+> >  
+> >  		if (nr_reclaims) {
+> >  			if (!try_to_free_mem_cgroup_pages(memcg, nr_pages - max,
+> > -					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP, NULL))
+> > +					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP,
+> > +					NULL, NULL))
+> >  				nr_reclaims--;
+> >  			continue;
+> >  		}
+> > diff --git a/mm/vmscan.c b/mm/vmscan.c
+> > index 6a1af9b92349..15e2e5710468 100644
+> > --- a/mm/vmscan.c
+> > +++ b/mm/vmscan.c
+> > @@ -7013,12 +7013,14 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
+> >  					   unsigned long nr_pages,
+> >  					   gfp_t gfp_mask,
+> >  					   unsigned int reclaim_options,
+> > -					   int *swappiness)
+> > +					   int *swappiness,
+> > +					   const nodemask_t *source_nodes)
+> >  {
+> >  	unsigned long nr_reclaimed;
+> >  	unsigned int noreclaim_flag;
+> >  	struct scan_control sc = {
+> >  		.nr_to_reclaim = max(nr_pages, SWAP_CLUSTER_MAX),
+> > +		.nodemask = source_nodes,
+> >  		.proactive_swappiness = swappiness,
+> >  		.gfp_mask = (current_gfp_context(gfp_mask) & GFP_RECLAIM_MASK) |
+> >  				(GFP_HIGHUSER_MOVABLE & ~GFP_RECLAIM_MASK),
+> > @@ -7054,7 +7056,8 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
+> >  					   unsigned long nr_pages,
+> >  					   gfp_t gfp_mask,
+> >  					   unsigned int reclaim_options,
+> > -					   int *swappiness)
+> > +					   int *swappiness,
+> > +					   const nodemask_t *source_nodes)
+> >  {
+> >  	return 0;
+> >  }
+> > @@ -8098,20 +8101,51 @@ static unsigned long __node_reclaim(struct pglist_data *pgdat,
+> >  enum {
+> >  	MEMORY_RECLAIM_SWAPPINESS = 0,
+> >  	MEMORY_RECLAIM_SWAPPINESS_MAX,
+> > +	MEMORY_RECLAIM_SOURCE,
+> >  	MEMORY_RECLAIM_NULL,
+> >  };
+> >  static const match_table_t tokens = {
+> >  	{ MEMORY_RECLAIM_SWAPPINESS, "swappiness=%d"},
+> >  	{ MEMORY_RECLAIM_SWAPPINESS_MAX, "swappiness=max"},
+> > +	{ MEMORY_RECLAIM_SOURCE, "source=%s"},
+> >  	{ MEMORY_RECLAIM_NULL, NULL },
+> >  };
+> >  
+> > +#define MEMORY_RECLAIM_SOURCE_NODES	"nodes:"
+> > +#define MEMORY_RECLAIM_SOURCE_NODES_LEN	(sizeof(MEMORY_RECLAIM_SOURCE_NODES) - 1)
+> > +
+> > +static int parse_memory_reclaim_source(const char *source,
+> > +				       nodemask_t *source_nodes)
+> > +{
+> > +	const char *nodes;
+> > +
+> > +	if (strncmp(source, MEMORY_RECLAIM_SOURCE_NODES,
+> > +		    MEMORY_RECLAIM_SOURCE_NODES_LEN))
+> > +		return -EINVAL;
+> > +
+> > +	nodes = source + MEMORY_RECLAIM_SOURCE_NODES_LEN;
+> > +	if (!*nodes)
+> > +		return -EINVAL;
+> > +
+> > +	nodes_clear(*source_nodes);
+> > +	if (nodelist_parse(nodes, *source_nodes))
+> > +		return -EINVAL;
+> > +
+> > +	nodes_and(*source_nodes, *source_nodes, node_states[N_MEMORY]);
+> > +	if (nodes_empty(*source_nodes))
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  int user_proactive_reclaim(char *buf,
+> >  			   struct mem_cgroup *memcg, pg_data_t *pgdat)
+> >  {
+> >  	unsigned int nr_retries = MAX_RECLAIM_RETRIES;
+> >  	unsigned long nr_to_reclaim, nr_reclaimed = 0;
+> >  	int swappiness = -1;
+> > +	nodemask_t source_nodes;
+> > +	const nodemask_t *source_nodemask = NULL;
+> >  	char *old_buf, *start;
+> >  	substring_t args[MAX_OPT_ARGS];
+> >  	gfp_t gfp_mask = GFP_KERNEL;
+> > @@ -8142,6 +8176,14 @@ int user_proactive_reclaim(char *buf,
+> >  		case MEMORY_RECLAIM_SWAPPINESS_MAX:
+> >  			swappiness = SWAPPINESS_ANON_ONLY;
+> >  			break;
+> > +		case MEMORY_RECLAIM_SOURCE:
+> > +			if (!memcg || source_nodemask)
+> > +				return -EINVAL;
+> > +			if (parse_memory_reclaim_source(args[0].from,
+> > +							&source_nodes))
+> > +				return -EINVAL;
+> > +			source_nodemask = &source_nodes;
+> > +			break;
+> >  		default:
+> >  			return -EINVAL;
+> >  		}
+> > @@ -8181,7 +8223,8 @@ int user_proactive_reclaim(char *buf,
+> >  			reclaimed = try_to_free_mem_cgroup_pages(memcg,
+> >  						 batch_size, gfp_mask,
+> >  						 reclaim_options,
+> > -						 swappiness == -1 ? NULL : &swappiness);
+> > +						 swappiness == -1 ? NULL : &swappiness,
+> > +						 source_nodemask);
+> >  		} else {
+> >  			struct scan_control sc = {
+> >  				.gfp_mask = current_gfp_context(gfp_mask),
+> > -- 
+> > 2.20.1
