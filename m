@@ -1,61 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795446586;
-	b=1IXKWd2z+BCIA/Dya2hw1ELupjBw9Nb9bYJRDLA4luZymftHIhwWYeIQ327UindjL9Hs
-	 WqV9ew5epBs706pEjuWReQCRtT7XEJ1rOxywGu3s893rqY2owAL98ee/VjLCEYX/uRGZj
-	 kHPsldJD5xFeu+E4xOcBJwt4tw8QD5gDrXedlh7tKvtDVWhF48EcNP+rCmkQvUjBL6SMw
-	 eSvoIP68nu7wz47IdCe7DNrBZHHpu6sJI9klOYJXb7Ud7/w4KghtCcj6tAtUjryp4U829
-	 6zCBLO1C7tVL/12puyLppxKPw3uNKY1Uox+o7J162tarfKOxsRRhFJQjj3gFrN28CWg==
+	t=1795446691;
+	b=2VBbn+ROvHXHpoFqPkad1+d4kFPMNi1NGWnuhAb9NO3lslhzUO/gw06jz8mNdKBMTMMw
+	 YzLkiLEGFGpyDF4jrQ+ZwuhoTcj9VEMd2P8Lr7j6Wn9jNzL/F5QI3NRw92zAW+7ZM0hLS
+	 iQIOvJWANLjVXLp7MhiXrvBrdmS7i7SvRUh++CiRrckopykV6lFpOrVkGWaQPiOrJFrAF
+	 IumbzhF79i9uinS1JCeF3TIIRu8liYSJspsAFnqusqbFQW4WO5SwiKgBxdQGoBx9EHlgq
+	 c+n5B9a6IK28xqSYSJjYxEnJZJdBvMnntYd5obHKIjkAriMzKiC9VjFb4UYdQNLa3cQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795446586;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=dnrRfjLKmIHDzHFw2YMyKPd3bYE0BLJV4hjG0NzpuHY=;
-	b=Jd6OFtQMPmUj2kCkK0IhAO4w7pgXveAzDelTzTmrmRwqfPz5/pS9YlUWsrwWAa6hJU8/
-	 NMddgnss2SjVIsxNs0Z3K3rUEPinwBJcUVw61T6wU758V9H8e0EIn+AD7mAvlodoWN4Aq
-	 ItR2ssAuqgLQwvwRENv9pk+tVbEa0UOFUcTEvpqXHJ1QDhwFHOuAV1kY7Alz/iSWCksJz
-	 UH3ayA8Q32ER+Lrm7PE2iOhF+yP7J0ujh5KHOSevAP1XCvMYC/TP4Pu+2TGa7P+Nvt/+A
-	 Q/JtA+aqsyTDNmy/xHAzVncEJ8h9QN/5hHlR5dSN8kfM5lOrD9sbkDXOfjp4+jLo2cA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795446691;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=S6J608SnbhlVzTHO8nTfTbyQzCC0Wef9AXmftuQK8FM=;
+	b=nFepWEeqIWPG6Z9mr3oi6upvLoKa6lNh6ZCq1IX9p/+EUqI5uVh9a1LYj5EO6huFzWQR
+	 iXPD3aHCmN/vvtw4HxXuRcwcOm0YX1KnPQ2ZUvt93uB6ksjzd8FOh2Nr1xPciptJ5wyID
+	 T+UT65JCdiF+z1aeSBRKnqfxNsK/E314XeTB3TwvNApQGeMh8J497+usbFJMs5cXA5rp8
+	 K2kvuk//EHdlzWMBoZXGAyyVR3+DXrPARwPi5mRdheKyfZjc/pn3YtJ/1L2lXxvgwJ7lI
+	 c00cIWVUWYuKZlgkofQlPh8SpYIG7cdCRGhwl82pVMvfXAf0wm/yvZZWGs9t8Mp1TUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B9x6wQRX;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=ULnOCYsQ;
+	arc=none smtp.remote-ip=209.85.219.53
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1615606A31E;
-	Mon, 23 Nov 2026 15:09:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC21606A680
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 15:11:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAC21606A680
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B9x6wQRX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4A2F1F000C6;
-	Mon, 23 Nov 2026 15:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795446586;
-	bh=dnrRfjLKmIHDzHFw2YMyKPd3bYE0BLJV4hjG0NzpuHY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=B9x6wQRXV+lRd06FkMrkTcZJeaS8e3jKOIyXDTANXZqBMOvrR7KOjDyWtCjEChBDL
-	 j5Y71qINNgguMOorYNzL7fKWDS1xnps2HarzILPgiCJxVqW9l/EC7xCStdAaT/eej2
-	 RJyu8K2qXQou6Nv7kib6MPEB7zCBTWIZYIEwOLADYEg6x/lWkemMCtYlnUVk+utNKl
-	 LWINkzV/1Ome0GRNKk4Mwe/dZFz44LhqCnu7ys9jz8oLXgsulh3anRrU76m0FTriFc
-	 32562AhcsRlcrH3xdfq4ALU+mZnwxHQP766Mmn+QFltMAR685VD564pFHboFGfb1qm
-	 s/gtz/HsAkX0g==
-Date: Mon, 23 Nov 2026 15:09:37 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Fuad Tabba <fuad.tabba@linux.dev>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexandru Elisei <alexandru.elisei@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, kvmarm@lists.linux.dev, 
-	Wei-Lin Chang <weilin.chang@arm.com>, Anup Patel <anup@brainfault.org>, 
-	Atish Patra <atish.patra@linux.dev>, kvm-riscv@lists.infradead.org, Will Deacon <will@kernel.org>, 
-	Fuad Tabba <tabba@google.com>
-Subject: Re: [PATCH v3 2/3] KVM: Warn userspace against ioctls while an exit
- is pending
-Message-ID: <awRKhCne0gG1gKZN@gremlin>
-References: <20261123113435.1170711-1-fuad.tabba@linux.dev>
- <20261123113435.1170711-3-fuad.tabba@linux.dev>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=ULnOCYsQ
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-92110499585so33149026d6.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 07:11:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1795446690; x=1796051490; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=S6J608SnbhlVzTHO8nTfTbyQzCC0Wef9AXmftuQK8FM=;
+        b=ULnOCYsQhWIKDt7pAFJxN5BdezB6uuwO2wH7M3H75HnvcnHu0ePPTzZKt+/E8HJbsq
+         8xNQcunddG9jd5Lyy5gXDUoI6tNcqkgliwQBuS09bcwR4F/99g5XmNioCqy1g81xleyk
+         LHhAxO/sQfFLnE4JLEDu/YBjhGAidQN37cDWd2dzzVWGUITLsdgtKfpXw8jO/nNEuElh
+         tyEhFp/7OKJTeRItfxiGqKUkSnpdV0wQ/c4bCV2HFB7OEb8h0vw3dWK2Ty+VuV9E6Ewn
+         yDkmNQkEnylRuyYGR1sqGLaQPOKxcWwfhEHqIAlHska+tD6+MsFsnDzdHU0merc4Sqat
+         NOxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795446690; x=1796051490;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=S6J608SnbhlVzTHO8nTfTbyQzCC0Wef9AXmftuQK8FM=;
+        b=1ArAzM5t77SuNSBbtCn/2D1SFQMmnV7n3JrVqiRJcZhhcxfTxd/ypy9+5ysNlgOCxW
+         gK1r5EiMK7ip3b32QNOzAhm7wy0DRtc/baEImKxGRkNgTiRSmervKFx8wQzMU05cnNVi
+         uh/gP4m2Su7ZLHmwdNr/0vVnjca/ZSoqnsNg/rVtCom3dO5e7GhsO8FTlUy5f7KrRIfv
+         5F52rS1oO4OZiegrasK3L5VgDwZddR24cR9sZPuyA3DZTn0OG4TkMS7bzRzGb5809Yig
+         qKXjvPZyj4yQNLa5GX6l197/itQOGfeLppL4VG3buhwvsHju9ObNH2/4QJjy9Jhu34lX
+         yFow==
+X-Forwarded-Encrypted: i=1; AL+hErEm/+XPFFU+XNyVQXf5GwHOzfUxE/DrEL3KtU6M+h6JqE5M+mEJzZJ9BpSc5U611VtkCyUUJnucPjU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8EwVpaDhH00YcEaEGf87xk2odSFE/pqGQ9ib3x1DKCqimM4oOE
+	FbSFHYSQReM36Hl4aR1FB0NkhzIyQdTXqDMpnFfRJG0AFFMD8igFRakL21qh4m2weTA=
+X-Gm-Gg: AZFdTZfMMU6QVZaux/YXrZ1U53fVtWhx71xMysPiPaBNE7BnelOZLsYUL+h3/K6buFY
+	Lo3UePZjLvnLan4754zM5ZG5ej04sji2dBDtPqOQpylr0iuRswMZlQ86kNgIGXYudiH6Y9mmxGy
+	SltvYiqB9sftZu0d2V1HPjo6jb8TH1A4A58wh5q69G+YbhH2wBiMtUrza3c/VNB7tXuhnEl1KZQ
+	Y2XXvmaHaLpOvLjLDbL3F0HhBFbmmXHuS+nnofVUvEAloKAL6QzOqRo59i7zalEac/0IsHeDZoV
+	hzebDQhZcFghT3N4Vpqfe0O+xNHvk8/Qdz6VGW+oCLE9YdLwqsZjuqzuaTAM60uyhI16UqSGKHJ
+	6g6cY5lQFqZl5hm7cGYmuGZLpdh8wUIHVqj3kC2u93QZ2dWyPyZNtyinNFyb4szPv/rgn/InqYn
+	ppnd/xwXu0yd+SfdXQ6wuUawX4hzbw2Xp99FNFHIzvPgwrqzc4JCOstpBejfDianVcfiGjj/cXm
+	ZdzEvAROtJ8xPeNygkyKwDsxX73j0d68FaLuG3yJNVEZsFnyFkJ+JsaugPB5rEpYqg4kCSSZM7r
+	EjCNiYPUhSJGDTQwTZKSiBreLHexS0BPcyt4I+n9lNzGp3yR/hyK+rjjq/uk8liRgKVE96HOOuj
+	Owis=
+X-Received: by 2002:a05:6214:4108:b0:921:266f:50ff with SMTP id 6a1803df08f44-92134b3f207mr208575596d6.52.1795446689538;
+        Mon, 23 Nov 2026 07:11:29 -0800 (PST)
+Received: from ziepe.ca (stjhnbsu6iw-159-2-142-59.dhcp-dynamic.fibreop.nb.bellaliant.net. [159.2.142.59])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349b50besm106533186d6.9.2026.11.23.07.11.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 07:11:29 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xVVhY-00000000ro7-1hOk;
+	Mon, 23 Nov 2026 11:11:28 -0400
+Date: Mon, 23 Nov 2026 11:11:28 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Yeoreum Yun <yeoreum.yun@arm.com>, Jiri Pirko <jiri@resnulli.us>,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de,
+	ksinyuk@kernel.org, rodrigo.vivi@intel.com, cedric.xing@intel.com,
+	sameo@meta.com, drdeeglaze@gmail.com,
+	James.Bottomley@hansenpartnership.com, aik@amd.com,
+	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
+	zohar@linux.ibm.com, aneesh.kumar@kernel.org, dave.jiang@intel.com,
+	nik.borisov@suse.com, sergii.dmytruk@3mdeb.com
+Subject: Re: [PATCH RFC v2 9/9] attestation: Add the TDX family implementation
+Message-ID: <20261123151128.GD179082@ziepe.ca>
+References: <20261113160838.2512652-1-jiri@resnulli.us>
+ <20261113160838.2512652-10-jiri@resnulli.us>
+ <awQCrnD5CtEhKRWz@e129823.arm.com>
+ <awQz1P6iXYrL8lv0@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,75 +118,83 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261123113435.1170711-3-fuad.tabba@linux.dev>
+In-Reply-To: <awQz1P6iXYrL8lv0@kernel.org>
 
-On Mon, Nov 23, 2026 at 11:34:34AM +0000, Fuad Tabba wrote:
-> KVM_PRE_FAULT_MEMORY sets run->exit_reason to KVM_EXIT_DIRTY_RING_FULL
-> when it stops on a full dirty ring. If an MMIO exit is pending at that
-> point, the next KVM_RUN on arm64 and riscv doesn't complete it. Rather
-> than document that case alone, which could suggest that other ioctls
-> are safe, warn against invoking any ioctl other than KVM_RUN before a
-> pending exit is completed.
->
-> Suggested-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Fuad Tabba <fuad.tabba@linux.dev>
+On Mon, Nov 23, 2026 at 02:38:44PM +0200, Jarkko Sakkinen wrote:
+> On Mon, Nov 23, 2026 at 09:09:02AM +0000, Yeoreum Yun wrote:
+> > Hi Jiri,
+> > 
+> > [...]
+> > 
+> > > +static void __iomem *tdx_attestation_log_map(size_t *length)
+> > > +{
+> > > +	struct acpi_table_header *header;
+> > > +	struct acpi_table_ccel *ccel;
+> > > +	void __iomem *log = NULL;
+> > > +
+> > > +	if (ACPI_FAILURE(acpi_get_table(ACPI_SIG_CCEL, 0, &header)))
+> > > +		return NULL;
+> > > +	ccel = container_of(header, struct acpi_table_ccel, header);
+> > > +	if (header->length >= sizeof(*ccel) && ccel->log_area_start_address &&
+> > > +	    ccel->log_area_minimum_length &&
+> > > +	    ccel->log_area_minimum_length <= UINT_MAX)
+> > > +		log = acpi_os_map_iomem(ccel->log_area_start_address,
+> > > +					ccel->log_area_minimum_length);
+> > > +	if (log)
+> > > +		*length = ccel->log_area_minimum_length;
+> > > +	acpi_put_table(header);
+> > > +	return log;
+> > > +}
+> > > +
+> > 
+> > I think we don't need to dump log area with the log_area_minimum_length
+> > since the area would include none-event otherwise, pre-exist tool (i.e.
+> > tpm2_eventlog) reports error for them like:
+> > 
+> >   ...
+> >   - EventNum: 21
+> >     PCRIndex: 2
+> >     EventType: EV_EFI_ACTION
+> >     DigestCount: 1
+> >     Digests:
+> >     - AlgorithmId: sha256
+> >       Digest: "b54f7542cbd872a81a9d9dea839b2b8d747c7ebd5ea6615c40f42f44a6dbeba0"
+> >     EventSize: 40
+> >     Event: |-
+> >       Exit Boot Services Returned with Success
+> >   ERROR: corrupted log, insufficient size for event header: 3
+> >   ERROR: failed to parse tpm2 eventlog
+> >   ERROR: Unable to run tpm2_eventlog
+> > 
+> > 
+> > So, what about export *real size* of eventlog like
+> > tpm2_calc_event_log_size()?
+> 
+> Nothing in the patch (neither commit message nor any comment in code)
+> says that TDX attestion registers share the same format as TPM2 even
+> log.
 
-Very much agree with Sean's take here that we should instil sufficient fear in
-users at doing silly things (also in general not only KVM :).
+It comes from the UEFI spec's definition of CCEL:
 
-I wonder if we could add some specific examples or broad description of why it's
-unwise for better effect, though? Comments below.
+ 38.1 Virtual Platform CC Event Log
 
-In general though:
+ If a virtual firmware with confidential computing (CC) capability
+ supports measurement and an event is created, virtual firmware should
+ report the event log with the same data structure in TCG Platform
+ Firmware Profile (PFP) specification with
+ EFI_TCG2_EVENT_LOG_FORMAT_TCG_2 format. The index created by the
+ virtual firmware in the event log should be the index for the
+ confidential computing (CC) measurement register. It is CC vendor
+ specific.
 
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+It makes sense that the kernel would size it correctly.
 
-> ---
->  Documentation/virt/kvm/api.rst | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 89eb6be9bc6e3..980ef0cdc1c91 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -6974,10 +6974,13 @@ to the byte array.
->
->        The pending state of the operation is not preserved in state which is
->        visible to userspace, thus userspace should ensure that the operation is
-> -      completed before performing a live migration.  Userspace can re-enter the
-> -      guest with an unmasked signal pending or with the immediate_exit field set
-> -      to complete pending operations without allowing any further instructions
-> -      to be executed.
-> +      completed before performing a live migration.  In general, userspace should
-> +      exercise extreme caution when invoking ioctls other than KVM_RUN prior to
-> +      completing the original operation.
+> As per the function, perhaps tpm2_calc_event_log_size() should be
+> relocated to lib and have non-TPM name like firmware_event_log_size()
+> or something.
 
-Perhaps worth saying why? E.g. (as I understand it) that for these exits the
-operation is only completed on the next KVM_RUN, and that KVM relies on state
-left over from the exit (including parts of struct kvm_run such as exit_reason)
-to do so, so any ioctl invoked in between might clobber that state?
+Probably under drivers/attestation since that is where all the TCG
+formatted logs should end up. It should be 'tcg_event_log_size()' or
+something. Maybe a tiny module for it like we would have done in lib/
 
-I see you intentionally avoided documenting the pre-fault case on its own, but
-with the above stated I think a concrete example might be example here, like
-e.g.:
-
-"For example, if you were to ... that would result in ... which would absolutely
-ruin your day because ..."
-
-Kinda thing :)
-
-
-> +
-> +      Userspace can re-enter the guest with an unmasked signal pending or with
-> +      the immediate_exit field set to complete pending operations without
-> +      allowing any further instructions to be executed.
->
->  ::
->
-> --
-> 2.47.3
->
->
-
---
-Cheers, Lorenzo
+Jason
