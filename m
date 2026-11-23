@@ -1,58 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.225
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795398820;
-	b=izhHWkqxvCKl42J9msMUfcuoU6+JrvZJABZqNLlMa7hdEcRo8wrEr4KsRt1x0wJFSDjs
-	 H0tAc5pg2AIUJQwvCUDioXpuvatgCMWhwluwOwIDTy/ZCaDoERoqU8qPODearaGKihoCn
-	 x5G31Xx8zKDzSjlARCf+f7tBg2KCD/47I7YZuOWJEG/UDY8738oe/d4gTNoNK9UO8imBI
-	 ZZEGXGBW0G0I6Mh2hDlW62JjmYd1lnfQs4g+EIukMp4WBB71dh7Y2e8IcvwL3qh3D5FTT
-	 qI2QQ8Ux7RanlXGVyjOV3m/QNJimIpsSjc+mmG2NOBn7wNrh9VSBPIL/yp3LvYNeY6Q==
+	t=1795398935;
+	b=c6M00XuhCN2Y3w3cNC4dT/OhgQiiAFa21lLsIq0rtRD4QrncnwFaEeId8E3cXF1L3Y3w
+	 edodvPaYjvXEjZX4TfZta9BehNm18mcn7JH/pCPdkmoCGHSwG3BM1X4h+CwponypT0hji
+	 EG14GPPk002Rr85RHst+XuQ7d+AcgQPDFGAGO4E76BxB+EPKXCUHRX94w4yS5wsmRcTR3
+	 anvSDirI+MrTals8lweCRSCjTxBCHKrnmABAxsqeo5nA7UIFMW9+n66mDhj+l1+jkkr2K
+	 d3B6oasEfQ2l/Gr92cL4GEX3WVyrudFiEVXajrs273TPiFr56c6LbywlnGdbqVSrxcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795398820;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795398935;
 	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
 	 Date:MIME-Version:User-Agent:Subject:To:References:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
 	 X-ClientProxiedBy;
-	bh=CD4/0sDs+ZXoSH0LgjtFOvyFH4FPPfLo3U/meqzwEc8=;
-	b=rChkcSp1VbHXU0pfQ0A2ga8Zu3wno0Mj3WgjhWOZweZIRPvK225MwSFyaHpSnCTnsTxb
-	 Oc0KQ4wjz0ZwRUlFliAaLJuhK72lH6PXZn/WnOsfwzC8DjmzBzgbweKzHabcdphhlkywl
-	 4TaMIRbBcog6n8JEtFepJnlgjLKAo/T9oryuf1wPAn1ELJJw4NFJnvO/AFq/y0bpmzH/e
-	 2kaaE0n/WnzFVh1Bsk72djMdPA0ueT1UK3TqZtdDWN9ObW9koPgMLG8rv2ksaYSF/ZAqT
-	 ZFC6Zx8EqDQfcH9e2O2AWXCOmr6yqgpO71eGf+e5Hl2FtPHIljrP5dTWEYDYLbjR4cg==
+	bh=ypTqzR0CAqZHoUFtIenNiUBMbByDWcX7WCNHsgy4Gm4=;
+	b=JSwxXqgMiS/ZrDbp4b/xTWOX55DAxaT0lD7t6tpGi073S6oh0TdvjhSIhPar45R1C55H
+	 H9oeBpO3vK3c1jAhwoqOW8nhDBq9Lz99h2lP4K19Aio9ODpT1UOpdp2lTqNdqJptaskzM
+	 US107ASenZApRRPR4YNyuFBvvnnaV/VoWE+fZFjTUtEa0pGbljhaEGVl8qeF9sge47sa+
+	 CxG2hGhMKF1Gp5fYxaAqfXnONX7PnvTPNyfkJ1PhUFhTU2OTMSqEgcQgXkfJqxUmBqL/W
+	 pyiyhilGWmHBn1A6lZi/WbbW488C6blzWX7visPlg9+MeRN4oW6+5jjIqq6TgOg8f8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=huawei.com;
 	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=o7sM7u7Z;
-	arc=none smtp.remote-ip=113.46.200.219
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=JKhQPQZw;
+	arc=none smtp.remote-ip=113.46.200.225
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0429E606A31A;
-	Mon, 23 Nov 2026 01:53:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0429E606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D27606A31A;
+	Mon, 23 Nov 2026 01:55:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52D27606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=o7sM7u7Z
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=JKhQPQZw
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=CD4/0sDs+ZXoSH0LgjtFOvyFH4FPPfLo3U/meqzwEc8=;
-	b=o7sM7u7ZM+n9kIu0F8Hd+iRPxErrHliygU8ZZU9b1tVyHgVAJaego/Zc280mAYnGuGV1OJF4+
-	q80E8UpkhYiJ2B3xas4ouy1kyf4e2xkC1RIwhK1+03rss10MUSJ3A7SgGftDnZ1c5GV7kEW4YDf
-	U3FpAyiSHfRYWXkKaJCl0G4=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4jXpqn1L7qz1prM1;
-	Mon, 23 Nov 2026 09:53:09 +0800 (CST)
+	bh=ypTqzR0CAqZHoUFtIenNiUBMbByDWcX7WCNHsgy4Gm4=;
+	b=JKhQPQZwNJZgKtwKaRtC56O40Oe+dGTWUGEBfJyzaFP5sggNQ22xsMI4x64y1VfBvhrvYxnwf
+	+ULbt6JliENq3vb6ytp4JFg8wowY5p3XHdRC6OrxnW3pfWyUf8DuPS265Yn1vskoDtgO3B3yp/D
+	1/yULR0vBDgmpyWMrMo+rws=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4jXpt43jDqz1K9Cn;
+	Mon, 23 Nov 2026 09:55:08 +0800 (CST)
 Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id D43824057F;
-	Mon, 23 Nov 2026 09:53:24 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 0F3064056C;
+	Mon, 23 Nov 2026 09:55:25 +0800 (CST)
 Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
  (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 23 Nov
- 2026 09:53:23 +0800
-Message-ID: <390433eb-30d8-442a-8d7e-30f15bbe8f9d@huawei.com>
-Date: Mon, 23 Nov 2026 09:53:23 +0800
+ 2026 09:55:23 +0800
+Message-ID: <50143d02-b3a7-43dd-a2c8-bf9bf550f0ec@huawei.com>
+Date: Mon, 23 Nov 2026 09:55:23 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,8 +63,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/6] fs/resctrl: Release the limbo RMIDs when the CDP
- state changes
+Subject: Re: [PATCH v6 3/6] fs/resctrl: Clear the CDP state after the cleanup
 To: Ben Horgan <ben.horgan@arm.com>, <tony.luck@intel.com>,
 	<reinette.chatre@intel.com>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
 	<babu.moger@amd.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
@@ -73,10 +72,10 @@ To: Ben Horgan <ben.horgan@arm.com>, <tony.luck@intel.com>,
 	<zengheng4@huawei.com>, <x86@kernel.org>, <linux-kernel@vger.kernel.org>,
 	<linux-doc@vger.kernel.org>
 References: <20261119094858.813874-1-ruanjinjie@huawei.com>
- <20261119094858.813874-6-ruanjinjie@huawei.com>
- <6dd79d09-576b-4086-ba5c-7f8663292a6e@arm.com>
+ <20261119094858.813874-4-ruanjinjie@huawei.com>
+ <6b0ccb0d-487a-4985-ac7b-81808848fd0b@arm.com>
 From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <6dd79d09-576b-4086-ba5c-7f8663292a6e@arm.com>
+In-Reply-To: <6b0ccb0d-487a-4985-ac7b-81808848fd0b@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
@@ -84,184 +83,95 @@ X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
 
 
 
-在 2026/11/20 0:49, Ben Horgan 写道:
+在 2026/11/19 19:21, Ben Horgan 写道:
 > Hi Jinjie,
 
 Hi Ben,
 
 > 
 > On 19/11/2026 09:48, Jinjie Ruan wrote:
->> On MPAM the counter of an RMID is selected by the PARTIDs of the CLOSID
->> that owned it. Without CDP, CLOSID c is PARTID c; with CDP it is
->> PARTIDs 2c and 2c+1. An RMID that stays in limbo across an unmount and
->> a mount that changes the CDP state is read through the PARTIDs of the
->> new state, which are not the PARTIDs its cache lines are tagged with.
+>> To support CDP, resctrl halves the number of CLOSIDs available to
+>> resource groups and gives each remaining CLOSID two hardware
+>> configurations instead of one, distinguished by index: 2 * CLOSID for
+>> data and 2 * CLOSID + 1 for code. Without CDP a CLOSID has a single
+>> configuration, at index CLOSID. Every architecture computes these
+>> indices the same way.
 >>
->> With 5 PARTIDs:
+>> Unmounting clears the CDP state before it undoes what the groups were
+>> given, so the cleanup computes index CLOSID where the group was set up
+>> with 2 * CLOSID and 2 * CLOSID + 1. The group's two configurations are
+>> left in place and index CLOSID is cleared instead, which with CDP
+>> enabled is a configuration of a different CLOSID. The architecture may
+>> keep this state for as long as the resource exists.
 >>
->>   mount                  CDP off, CLOSID c -> PARTID c
->>   mkdir g1..g4           CLOSIDs 1..4
->>   umount                 RMIDs enter limbo with CLOSIDs 1..4
->>   mount -o cdp           CDP on, CLOSID c -> PARTIDs 2c, 2c+1
->>   limbo handler          reads CLOSID 2 as PARTID 5 > PARTID_MAX 4
->>                          MSC error interrupt, mpam_disable()
->>
->> The other direction is worse because nothing reports it. If resctrl is
->> mounted with CDP and mounted again without it, CLOSID c is read as
->> PARTID c, which is in range, so the limbo handler silently tests the
->> occupancy of the PARTID of a different CLOSID and frees or keeps the
->> RMIDs based on it.
->>
->> Where the RMID depends on the CLOSID, as on MPAM, release the RMIDs in
->> limbo without reading them when a mount changes the CDP state, instead
->> of restarting the limbo handler. Cache lines that still carry those
->> RMIDs are accounted to the next user of each RMID. Where the RMID does
->> not depend on the CLOSID, as on x86, the CDP state does not change how
->> an RMID is read and the limbo handler is restarted as before.
->>
->> Compare the CDP state of every resource, not just the L3: on MPAM, CDP
->> enabled on any resource gives every CLOSID two PARTIDs in all MSCs, so
->> mounting with -o cdpl2 alone also changes how the L3 monitors read a
->> CLOSID, and cache levels beyond the L3 would too.
->>
->> Reproduced on QEMU with the sequence above:
->>
->>   mpam:__mpam_irq_handler: error irq from msc:1 'MSMONCFG_ID_RANGE', partid:5, pmg: 0, ris: 0
->>   mpam:mpam_disable: MPAM disabled due to hardware error interrupt
->>
->> With the change the sequence completes without an error.
->>
->> Fixes: 6789fb99282c ("arm_mpam: resctrl: Add CDP emulation")
->> Suggested-by: Ben Horgan <ben.horgan@arm.com>
->> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
->> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->> Cc: <stable@vger.kernel.org>
->> ---
->> v6:
->> - Drop resctrl_arch_mon_cdp_enabled() and compare the CDP state of
->>   every resouce's cdp state, with a comment on why they are
->>   checked (Reinette, Ben).
->> - Restrict the release to the systems where the RMID depends on the
->>   CLOSID, in the changelog and the comments, and keep the hardware IDs
->>   out of the file system comments (Reinette).
->> - Reword the limbo_cdp_enabled comment (Reinette).
->> - Drop the stable version range, the Fixes tag already gives it.
->> v5:
->> - Split the change of the limbo handler lifetime into the previous
->>   patch. The limbo handler now stops while resctrl is unmounted on every
->>   architecture, and only the release of the RMIDs depends on
->>   CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID.
->> - Drop the cqm_work_cpu changes. resctrl_limbo_resume() cancels the
->>   worker before it queues it again or releases the RMIDs.
->> - Move the rdt_disable_ctx() reordering to a separate patch.
->> - Add resctrl_arch_mon_cdp_enabled() instead of comparing the CDP state
->>   of L2 in the file system.
->> - Rename limbo_cdp to limbo_cdp_enabled and document that it is only set
->>   with CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID.
->> - Check QOS_L3_OCCUP_EVENT_ID first and drop the rmid_busy_llc check.
->> - Use lockdep_assert_cpus_held() at the start of resctrl_limbo_resume().
->> - Describe the reverse sequence, from CDP on to CDP off.
->> - Link to v4: https://lore.kernel.org/all/20261105070934.2258613-4-ruanjinjie@huawei.com/
->> v4:
->> - Use resctrl_mounted instead of a separate limbo_paused flag.
->> - Record the CDP state once when resctrl is mounted.
->> - Add resctrl_limbo_resume(), called once resctrl_mounted is set.
->> - Previous Link: https://lore.kernel.org/all/20261031094616.1691026-1-ruanjinjie@huawei.com/
->> ---
->>  fs/resctrl/monitor.c | 35 +++++++++++++++++++++++++++++++++--
->>  1 file changed, 33 insertions(+), 2 deletions(-)
->>
->> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
->> index ede1708b920e..2c8c60138768 100644
->> --- a/fs/resctrl/monitor.c
->> +++ b/fs/resctrl/monitor.c
->> @@ -70,6 +70,13 @@ static u32 *closid_num_dirty_rmid;
->>   */
->>  static unsigned int rmid_limbo_count;
->>  
->> +/*
->> + * @limbo_cdp_enabled - True if the RMIDs in limbo were placed there while CDP
->> + *     was enabled. Only used when CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID is
->> + *     defined.
->> + */
->> +static bool limbo_cdp_enabled;
->> +
->>  /*
->>   * @rmid_entry - The entry in the limbo and free lists.
->>   */
->> @@ -1044,12 +1051,15 @@ int setup_rmid_lru_list(void)
->>   * cqm_resume_limbo_handler() - Restart the limbo handler after a mount.
->>   *
->>   * The limbo handler stops while resctrl is unmounted. Restart it on every
->> - * domain that still has RMIDs in limbo.
->> + * domain that still has RMIDs in limbo. Where the RMID depends on the CLOSID
->> + * and the mount changed the RMID index a CLOSID is monitored with, the RMIDs
->> + * in limbo can no longer be read: release them instead.
->>   */
->>  void cqm_resume_limbo_handler(void)
->>  {
->>  	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
->>  	struct rdt_l3_mon_domain *d;
->> +	bool release = false;
->>  
->>  	lockdep_assert_cpus_held();
->>  	lockdep_assert_held(&rdtgroup_mutex);
->> @@ -1057,6 +1067,24 @@ void cqm_resume_limbo_handler(void)
->>  	if (!r->mon_capable || !resctrl_is_mon_event_enabled(QOS_L3_OCCUP_EVENT_ID))
->>  		return;
->>  
->> +	/*
->> +	 * Where the RMID depends on the CLOSID, the RMIDs in limbo can only
->> +	 * be read with the CDP state they were freed under. Check every
->> +	 * resource because CDP enabled on any resource changes how every
->> +	 * CLOSID is monitored, so CDP on another resource alone also changes
->> +	 * how the L3 monitors are read.
->> +	 */
->> +	if (IS_ENABLED(CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID)) {
->> +		struct rdt_resource *res;
->> +		bool cdp_enabled = false;
->> +
->> +		for_each_rdt_resource(res)
->> +			cdp_enabled |= resctrl_arch_get_cdp_enabled(res->rid);
->> +
->> +		release = cdp_enabled != limbo_cdp_enabled;
->> +		limbo_cdp_enabled = cdp_enabled;
->> +	}
->> +
->>  	list_for_each_entry_rcu(d, &r->mon_domains, hdr.list,
->>  				lockdep_is_cpus_held()) {
->>  		if (!has_busy_rmid(d))
->> @@ -1067,7 +1095,10 @@ void cqm_resume_limbo_handler(void)
->>  		 * it is queued again on a CPU picked now.
->>  		 */
->>  		cancel_delayed_work(&d->cqm_limbo);
->> -		cqm_setup_limbo_handler(d, 0, RESCTRL_PICK_ANY_CPU);
->> +		if (release)
->> +			release_limbo_rmids(d);
+>> Only MPAM can reach this today. Of everything the cleanup has to undo,
+>> MPAM addresses only the MBM counter assignment by the translated CLOSID,
+>> and it only began doing so when it implemented assignable counters. 
 > 
-> Rather than release all the rmids don't we want to check them all to see which are busy?
+> This is clearly not ideal but even in MPAM we get away without any usable visible effect. Or am I
 
-We can not read them here using resctrl_arch_rmid_read(). On MPAM, the
-RMID occupancy is read through the PARTID of its CLOSID, and the CDP
-state maps one to the other.
+Should I update the commit message to reflect this?
 
-After the mount operation flips the CDP, this mapping disappears, so the
-read operation either accesses a PARTID greater than PARTID_MAX (i.e.,
-the case of MMSMONCFG_ID_RANGE/mpam_disable()), or silently samples the
-counter of another CLOSID.
+Such as:
+
+"This issue has no visible impact on users in mpam, but it is a silent
+logical error."
 
 Best regards,
 Jinjie
 
+> missing something? We are left with some assigned counters from the MPAM driver point of view but
+> the resctrl is in charge of the assignments and MPAM doesn't check if a counter is already assigned
+> when resctrl asks for a new assignment. The change looks good to me.
 > 
 > Thanks,
 > 
 > Ben
 > 
->> +		else
->> +			cqm_setup_limbo_handler(d, 0, RESCTRL_PICK_ANY_CPU);
->>  	}
->>  }
+> 
+> x86
+>> addresses its counters by RMID alone.
+>>
+>> Clear the CDP state after the cleanup, so that the cleanup runs with the
+>> CDP state the groups were set up under.
+>>
+>> Fixes: 6e0e538a75ce ("arm_mpam: resctrl: Add resctrl_arch_config_cntr() for ABMC use")
+>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>> Cc: <stable@vger.kernel.org>
+>> ---
+>> v6:
+>> - Describe the CDP indices as resctrl filesystem behavior that applies
+>>   to every architecture, and the flow instead of the code (Reinette).
+>> - Drop the stable version range, the Fixes tag already gives it.
+>> ---
+>>  fs/resctrl/rdtgroup.c | 10 ++++++++--
+>>  1 file changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+>> index 5d0351453c2f..3312637fb514 100644
+>> --- a/fs/resctrl/rdtgroup.c
+>> +++ b/fs/resctrl/rdtgroup.c
+>> @@ -3150,13 +3150,19 @@ static void resctrl_unmount(void)
+>>  	cpus_read_lock();
+>>  	mutex_lock(&rdtgroup_mutex);
 >>  
+>> -	rdt_disable_ctx();
+>> -
+>>  	/* Put everything back to default values. */
+>>  	for_each_alloc_capable_rdt_resource(r)
+>>  		resctrl_arch_reset_all_ctrls(r);
+>>  
+>>  	resctrl_fs_teardown();
+>> +
+>> +	/*
+>> +	 * Clear the CDP state after the cleanup. The CDP state decides
+>> +	 * which hardware configuration a CLOSID refers to, so the teardown
+>> +	 * must run with the state the configuration was created under.
+>> +	 */
+>> +	rdt_disable_ctx();
+>> +
+>>  	if (resctrl_arch_alloc_capable())
+>>  		resctrl_arch_disable_alloc();
+>>  	if (resctrl_arch_mon_capable())
 > 
 
