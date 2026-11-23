@@ -1,112 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795446691;
-	b=2VBbn+ROvHXHpoFqPkad1+d4kFPMNi1NGWnuhAb9NO3lslhzUO/gw06jz8mNdKBMTMMw
-	 YzLkiLEGFGpyDF4jrQ+ZwuhoTcj9VEMd2P8Lr7j6Wn9jNzL/F5QI3NRw92zAW+7ZM0hLS
-	 iQIOvJWANLjVXLp7MhiXrvBrdmS7i7SvRUh++CiRrckopykV6lFpOrVkGWaQPiOrJFrAF
-	 IumbzhF79i9uinS1JCeF3TIIRu8liYSJspsAFnqusqbFQW4WO5SwiKgBxdQGoBx9EHlgq
-	 c+n5B9a6IK28xqSYSJjYxEnJZJdBvMnntYd5obHKIjkAriMzKiC9VjFb4UYdQNLa3cQ==
+	t=1795446797;
+	b=zN1FR6JRmH7wbr0/FYGb3GkYIsJX86wv6VgB5X3FTVX0iutmkEqjP0L79wuq3zxN1FjF
+	 RFILNF0bF1CyIg3rHqJg+akFFFjIL8HaQ5298BS5lrioPqYL0MDd+wqunj9Cj+j3gYlpV
+	 cqNZjIehfaqZFyuxUC0mCTXjI28xD17tv2lgQxcC+zI4105LebXEHPFQtmLwiCGghbMSV
+	 OrmFnvh1TFz9IiE5omt2danGA7UWkb2xcOx3HRFdeHf9EvwiXhRkAjDcMD0kg5N+orCqa
+	 EDL4W82ghTsiQFn3DxTGx3wToC5h/0RzNLMdZ/RO2AWT1mzP1yzOtz+SizMBGEDZbvQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795446691;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=S6J608SnbhlVzTHO8nTfTbyQzCC0Wef9AXmftuQK8FM=;
-	b=nFepWEeqIWPG6Z9mr3oi6upvLoKa6lNh6ZCq1IX9p/+EUqI5uVh9a1LYj5EO6huFzWQR
-	 iXPD3aHCmN/vvtw4HxXuRcwcOm0YX1KnPQ2ZUvt93uB6ksjzd8FOh2Nr1xPciptJ5wyID
-	 T+UT65JCdiF+z1aeSBRKnqfxNsK/E314XeTB3TwvNApQGeMh8J497+usbFJMs5cXA5rp8
-	 K2kvuk//EHdlzWMBoZXGAyyVR3+DXrPARwPi5mRdheKyfZjc/pn3YtJ/1L2lXxvgwJ7lI
-	 c00cIWVUWYuKZlgkofQlPh8SpYIG7cdCRGhwl82pVMvfXAf0wm/yvZZWGs9t8Mp1TUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795446797;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Rgusygp+RlAE67y/ngtutPu5kD5yNG5Fz8DTmip9El4=;
+	b=kf5Zx52esWVP6Xjq2dDLDMEISH1KCov2ES/JVyWtc9bqp0Zj7NBRiDGlma2Hsy9HK35t
+	 it1mrjwinAJdWhBaJR7vKaD4jaxl0CdzdF+F5hIuyG9reU5QpSfGTqhviTRDTu6Q9gLoj
+	 5qyZlujxtsWb7T3Q2c3dFWpPte1rYcJBvgCdOMdZB9lcdEa7kZh4QiQamxPZLoVEI8Coj
+	 0fE2b/8G7Nyk2n5kbcAaANoxVvkxdnHJawDrfGurUtKaRahECM9u8tMe1dC1GiDYd96+4
+	 /S1yVQyaycMxDo/v6hNXPKvDRCCNo0p5p+vGbjKNWxlRLe42ojiX3dlqDh3RWprYHHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=ULnOCYsQ;
-	arc=none smtp.remote-ip=209.85.219.53
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ie1STN6V;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC21606A680
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 15:11:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAC21606A680
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68F8606A31A;
+	Mon, 23 Nov 2026 15:13:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=ULnOCYsQ
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-92110499585so33149026d6.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 07:11:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1795446690; x=1796051490; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=S6J608SnbhlVzTHO8nTfTbyQzCC0Wef9AXmftuQK8FM=;
-        b=ULnOCYsQhWIKDt7pAFJxN5BdezB6uuwO2wH7M3H75HnvcnHu0ePPTzZKt+/E8HJbsq
-         8xNQcunddG9jd5Lyy5gXDUoI6tNcqkgliwQBuS09bcwR4F/99g5XmNioCqy1g81xleyk
-         LHhAxO/sQfFLnE4JLEDu/YBjhGAidQN37cDWd2dzzVWGUITLsdgtKfpXw8jO/nNEuElh
-         tyEhFp/7OKJTeRItfxiGqKUkSnpdV0wQ/c4bCV2HFB7OEb8h0vw3dWK2Ty+VuV9E6Ewn
-         yDkmNQkEnylRuyYGR1sqGLaQPOKxcWwfhEHqIAlHska+tD6+MsFsnDzdHU0merc4Sqat
-         NOxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795446690; x=1796051490;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=S6J608SnbhlVzTHO8nTfTbyQzCC0Wef9AXmftuQK8FM=;
-        b=1ArAzM5t77SuNSBbtCn/2D1SFQMmnV7n3JrVqiRJcZhhcxfTxd/ypy9+5ysNlgOCxW
-         gK1r5EiMK7ip3b32QNOzAhm7wy0DRtc/baEImKxGRkNgTiRSmervKFx8wQzMU05cnNVi
-         uh/gP4m2Su7ZLHmwdNr/0vVnjca/ZSoqnsNg/rVtCom3dO5e7GhsO8FTlUy5f7KrRIfv
-         5F52rS1oO4OZiegrasK3L5VgDwZddR24cR9sZPuyA3DZTn0OG4TkMS7bzRzGb5809Yig
-         qKXjvPZyj4yQNLa5GX6l197/itQOGfeLppL4VG3buhwvsHju9ObNH2/4QJjy9Jhu34lX
-         yFow==
-X-Forwarded-Encrypted: i=1; AL+hErEm/+XPFFU+XNyVQXf5GwHOzfUxE/DrEL3KtU6M+h6JqE5M+mEJzZJ9BpSc5U611VtkCyUUJnucPjU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8EwVpaDhH00YcEaEGf87xk2odSFE/pqGQ9ib3x1DKCqimM4oOE
-	FbSFHYSQReM36Hl4aR1FB0NkhzIyQdTXqDMpnFfRJG0AFFMD8igFRakL21qh4m2weTA=
-X-Gm-Gg: AZFdTZfMMU6QVZaux/YXrZ1U53fVtWhx71xMysPiPaBNE7BnelOZLsYUL+h3/K6buFY
-	Lo3UePZjLvnLan4754zM5ZG5ej04sji2dBDtPqOQpylr0iuRswMZlQ86kNgIGXYudiH6Y9mmxGy
-	SltvYiqB9sftZu0d2V1HPjo6jb8TH1A4A58wh5q69G+YbhH2wBiMtUrza3c/VNB7tXuhnEl1KZQ
-	Y2XXvmaHaLpOvLjLDbL3F0HhBFbmmXHuS+nnofVUvEAloKAL6QzOqRo59i7zalEac/0IsHeDZoV
-	hzebDQhZcFghT3N4Vpqfe0O+xNHvk8/Qdz6VGW+oCLE9YdLwqsZjuqzuaTAM60uyhI16UqSGKHJ
-	6g6cY5lQFqZl5hm7cGYmuGZLpdh8wUIHVqj3kC2u93QZ2dWyPyZNtyinNFyb4szPv/rgn/InqYn
-	ppnd/xwXu0yd+SfdXQ6wuUawX4hzbw2Xp99FNFHIzvPgwrqzc4JCOstpBejfDianVcfiGjj/cXm
-	ZdzEvAROtJ8xPeNygkyKwDsxX73j0d68FaLuG3yJNVEZsFnyFkJ+JsaugPB5rEpYqg4kCSSZM7r
-	EjCNiYPUhSJGDTQwTZKSiBreLHexS0BPcyt4I+n9lNzGp3yR/hyK+rjjq/uk8liRgKVE96HOOuj
-	Owis=
-X-Received: by 2002:a05:6214:4108:b0:921:266f:50ff with SMTP id 6a1803df08f44-92134b3f207mr208575596d6.52.1795446689538;
-        Mon, 23 Nov 2026 07:11:29 -0800 (PST)
-Received: from ziepe.ca (stjhnbsu6iw-159-2-142-59.dhcp-dynamic.fibreop.nb.bellaliant.net. [159.2.142.59])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349b50besm106533186d6.9.2026.11.23.07.11.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 07:11:29 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xVVhY-00000000ro7-1hOk;
-	Mon, 23 Nov 2026 11:11:28 -0400
-Date: Mon, 23 Nov 2026 11:11:28 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: Yeoreum Yun <yeoreum.yun@arm.com>, Jiri Pirko <jiri@resnulli.us>,
-	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de,
-	ksinyuk@kernel.org, rodrigo.vivi@intel.com, cedric.xing@intel.com,
-	sameo@meta.com, drdeeglaze@gmail.com,
-	James.Bottomley@hansenpartnership.com, aik@amd.com,
-	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
-	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
-	zohar@linux.ibm.com, aneesh.kumar@kernel.org, dave.jiang@intel.com,
-	nik.borisov@suse.com, sergii.dmytruk@3mdeb.com
-Subject: Re: [PATCH RFC v2 9/9] attestation: Add the TDX family implementation
-Message-ID: <20261123151128.GD179082@ziepe.ca>
-References: <20261113160838.2512652-1-jiri@resnulli.us>
- <20261113160838.2512652-10-jiri@resnulli.us>
- <awQCrnD5CtEhKRWz@e129823.arm.com>
- <awQz1P6iXYrL8lv0@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ie1STN6V
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C3601F000CA;
+	Mon, 23 Nov 2026 15:13:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795446796;
+	bh=Rgusygp+RlAE67y/ngtutPu5kD5yNG5Fz8DTmip9El4=;
+	h=From:To:Cc:Subject:Date;
+	b=ie1STN6VSXka1O5wuIlHmb2D+6VN2EcNXv6egd3sZtpNduYhKEt/3sI8rK2YwKQ9V
+	 FjjIiDBGekIsRy7TiF9wgpxj8EZuar+wU6vXs4hCw9dNwIFEm2WApWuZ728w6Xoz0q
+	 0cqvdn2Ox02VUSJZaJG5Yjv4Vq61qxeX49R8vFzRGTJyxkxrrFswoeC94M/ufSy/M3
+	 f/bIrYcFlRTJbVoKXRi9NgEcnN8q8PwybX2QkSD2/ZFd8BZTctau+LmZZ7aUjIJASR
+	 0UoX81gFt4ylmLkQd2OEaOZ+m41nB6t69/Vh2hDlqC9MSn3GDzeKDaHhUJopqTg3VE
+	 eiTls4YAeRpyA==
+From: SJ Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SJ Park <sj@kernel.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@davidgow.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH v3 0/6] mm/damon: add sz_ops_filter_passed_last DAMOS stat
+Date: Mon, 23 Nov 2026 07:13:01 -0800
+Message-ID: <20261123151309.82675-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -116,85 +65,106 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awQz1P6iXYrL8lv0@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 23, 2026 at 02:38:44PM +0200, Jarkko Sakkinen wrote:
-> On Mon, Nov 23, 2026 at 09:09:02AM +0000, Yeoreum Yun wrote:
-> > Hi Jiri,
-> > 
-> > [...]
-> > 
-> > > +static void __iomem *tdx_attestation_log_map(size_t *length)
-> > > +{
-> > > +	struct acpi_table_header *header;
-> > > +	struct acpi_table_ccel *ccel;
-> > > +	void __iomem *log = NULL;
-> > > +
-> > > +	if (ACPI_FAILURE(acpi_get_table(ACPI_SIG_CCEL, 0, &header)))
-> > > +		return NULL;
-> > > +	ccel = container_of(header, struct acpi_table_ccel, header);
-> > > +	if (header->length >= sizeof(*ccel) && ccel->log_area_start_address &&
-> > > +	    ccel->log_area_minimum_length &&
-> > > +	    ccel->log_area_minimum_length <= UINT_MAX)
-> > > +		log = acpi_os_map_iomem(ccel->log_area_start_address,
-> > > +					ccel->log_area_minimum_length);
-> > > +	if (log)
-> > > +		*length = ccel->log_area_minimum_length;
-> > > +	acpi_put_table(header);
-> > > +	return log;
-> > > +}
-> > > +
-> > 
-> > I think we don't need to dump log area with the log_area_minimum_length
-> > since the area would include none-event otherwise, pre-exist tool (i.e.
-> > tpm2_eventlog) reports error for them like:
-> > 
-> >   ...
-> >   - EventNum: 21
-> >     PCRIndex: 2
-> >     EventType: EV_EFI_ACTION
-> >     DigestCount: 1
-> >     Digests:
-> >     - AlgorithmId: sha256
-> >       Digest: "b54f7542cbd872a81a9d9dea839b2b8d747c7ebd5ea6615c40f42f44a6dbeba0"
-> >     EventSize: 40
-> >     Event: |-
-> >       Exit Boot Services Returned with Success
-> >   ERROR: corrupted log, insufficient size for event header: 3
-> >   ERROR: failed to parse tpm2 eventlog
-> >   ERROR: Unable to run tpm2_eventlog
-> > 
-> > 
-> > So, what about export *real size* of eventlog like
-> > tpm2_calc_event_log_size()?
-> 
-> Nothing in the patch (neither commit message nor any comment in code)
-> says that TDX attestion registers share the same format as TPM2 even
-> log.
+From: Mattathias Pinchover <mattathias.pinchover@uber.com>
 
-It comes from the UEFI spec's definition of CCEL:
+DAMOS stat sz_ops_filter_passed shows the total bytes that passed
+operations layer-handled DAMOS filters, accumulated from the beginning
+of the scheme's execution.  Users who want the amount for only the
+latest apply interval, e.g., the size of a workload's anonymous memory
+that is cold as of now, have to keep the previous value in user space
+and compute the difference.  To know how many apply intervals a
+difference covers, they have to rely on nr_snapshots.  But nr_snapshots
+is increased once per target per apply interval, so the computation is
+complicated for contexts having multiple targets.
 
- 38.1 Virtual Platform CC Event Log
+This series introduces a new DAMOS stat, sz_ops_filter_passed_last.  It
+shows the amount of sz_ops_filter_passed increase in the last apply
+interval of the scheme.  It is updated at the end of each apply
+interval, and kept unchanged until the next apply interval is
+completed.  Like the other DAMOS stats, it is exposed under the stats/
+directory of the scheme in the DAMON sysfs interface, and refreshed
+together with the other stats when refresh_ms expires or
+update_schemes_stats is written.
 
- If a virtual firmware with confidential computing (CC) capability
- supports measurement and an event is created, virtual firmware should
- report the event log with the same data structure in TCG Platform
- Firmware Profile (PFP) specification with
- EFI_TCG2_EVENT_LOG_FORMAT_TCG_2 format. The index created by the
- virtual firmware in the event log should be the index for the
- confidential computing (CC) measurement register. It is CC vendor
- specific.
+Patches sequence
+================
 
-It makes sense that the kernel would size it correctly.
+Patch 1 introduces the stat to the DAMON core.  Patch 2 exposes it via
+the DAMON sysfs interface.  Patch 3 adds a kunit test.  Patches 4-6
+update the design, usage, and ABI documents, respectively.
 
-> As per the function, perhaps tpm2_calc_event_log_size() should be
-> relocated to lib and have non-TPM name like firmware_event_log_size()
-> or something.
+Tests
+=====
 
-Probably under drivers/attestation since that is where all the TCG
-formatted logs should end up. It should be 'tcg_event_log_size()' or
-something. Maybe a tiny module for it like we would have done in lib/
+I ran the DAMON kunit tests (all 50 pass, including the new one), built
+mm/damon/ with W=1 (no warnings), built htmldocs (no new warnings
+compared to mm-new), and ran checkpatch.pl --strict on the patches (it
+reports a warning and an error on each patch because it does not
+recognize the Assisted-by tag, and four alignment checks on patches 2
+and 3 for the continuation line alignment that the existing DAMON code
+uses).
 
-Jason
+I also ran the DAMON selftests in a QEMU VM without KVM, on mm-new and
+on mm-new with this series.  On mm-new, 12 tests pass, 2 fail
+(sysfs_update_schemes_tried_regions_wss_estimation.py and
+damos_tried_regions.py), and 1 is skipped (sysfs_memcg_path_leak.sh,
+because kmemleak is not available).  With this series, 13 pass, 1 fails
+(the wss_estimation one), and the same one is skipped, so I saw no
+failure that mm-new does not also have.
+
+None of the selftests read the new stat, so I also checked it on a
+live kernel.  In the same kind of VM running this series, I started two
+Docker containers, each running a Python process that allocates 512 MiB
+and 2 GiB of anonymous memory and then holds it.  Each process was
+monitored by its own kdamond, using the vaddr operations set and a
+stat scheme with an anon operations layer filter, with refresh_ms set
+to 1000.  Output from sz_ops_filter_passed_last was correct:
+
+    # cd /sys/kernel/mm/damon/admin/kdamonds
+    # cat 0/contexts/0/schemes/0/stats/sz_ops_filter_passed_last
+    546385920
+    # cat 1/contexts/0/schemes/0/stats/sz_ops_filter_passed_last
+    2157043712
+
+Tool use
+========
+
+Claude (Anthropic) assisted with the code, kunit test, documents, and
+changelogs of this series, as noted by the Assisted-by: tags.  I
+reviewed all of it and ran the tests listed above.
+
+Changes from v2
+- v2: https://lore.kernel.org/20261117-damon-sz-ops-b4-v2-0-439888fa04ac@uber.com
+- Collect R-b: from SJ.
+Changes in v2:
+- Patch 2: join the attribute declaration onto one line
+- Patch 3: call damos_set_filters_default_reject() before adding the
+  scheme
+- Patch 4: keep only the stats list bullet, dropping the explanation
+  that the stat is not accumulated
+- Patch 5: wrap the stats line in the usage document
+- Link to v1: https://patch.msgid.link/20261116-damon-sz-ops-b4-v1-0-1cffe7227e6d@uber.com
+
+Mattathias Pinchover (6):
+  mm/damon/core: introduce sz_ops_filter_passed_last stat
+  mm/damon/sysfs-schemes: add sz_ops_filter_passed_last file
+  mm/damon/tests/core-kunit: test sz_ops_filter_passed_last
+  Docs/mm/damon/design: update for sz_ops_filter_passed_last
+  Docs/admin-guide/mm/damon/usage: update for sz_ops_filter_passed_last
+  Docs/ABI/damon: update for sz_ops_filter_passed_last
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |  7 ++
+ Documentation/admin-guide/mm/damon/usage.rst  |  9 +-
+ Documentation/mm/damon/design.rst             |  2 +
+ include/linux/damon.h                         |  6 ++
+ mm/damon/core.c                               |  5 +
+ mm/damon/sysfs-schemes.c                      | 16 ++++
+ mm/damon/tests/core-kunit.h                   | 93 +++++++++++++++++++
+ 7 files changed, 135 insertions(+), 3 deletions(-)
+
+
+base-commit: 60a393b8ae5d63691c0ea9b21571441911afd81a
+-- 
+2.47.3
