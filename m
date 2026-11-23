@@ -1,123 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.228
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795449509;
-	b=sWOY3GXeZJrstF7huaHK41dR2Qj2oldrXr3jNUVYdleX0RvgzzAD2aHrA8N3TBDKB9Bk
-	 M992teyn0DoJmjSS4ATazyoZRYMsruKJHmKZhawbYEMlfXMmovfOz1m1+q9sAk1LIDCaL
-	 eh37LCGn1GFRHI/n3SC5BoZlBuT9BeZcsYiTmSZY3wFyZc4j+fiRpqT+f2tkvhcu5VvkO
-	 Qq/LqxiU3FiKf8PgRG5oNW0kGtQWG77GmCXwBZL0VusepnzXa5xsPVA8EL2JtYpJeescU
-	 YOEz/qmDCB22RCON+74YiMExbdYxbKwzyHVktLjRoQNAEd7172LhC+u0htHtyfG1gCw==
+	t=1795450224;
+	b=M1zD51skiO1f9x9k0CNz+Hp0HlJ8Tztf5NlqyDgFaVEPZozX96SA7KCckPGchvRJgdrx
+	 wJr8IAgXqX1Zl1Zcaky+v+npm8JlbiJYm8N/PKAvsbU1pOyaztBtFglyOWIHUyIUzG1m9
+	 mgo5bLyxOSmnqtKCj6rbz10dIGfOvZut/mR1FiWUYnWNab+3CVLJ/vMAvRChL4rEEiURp
+	 IK2ITA3goMs5Rcr5mrybBiVRttYYlc/QlyxPltJS8ggHEXPiJPBQYJVMvBqLhmjLRxeXg
+	 vYH+OITyKxiLpW+7t+JkFzlgv+xIh/jrjgrW2gxlUQ7CHsLrzxRiRBSH+Ur2uaTrXTA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795449509;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding;
-	bh=E7V1Mp8qcb2Pgn8vLfudKigHDe8jvtrjrih2NQ7mefs=;
-	b=3fA6HpFtavuY2hlyWLPkHUeRj4O0rU0kXG9uK6tIcN3+iHruu8RBBjixitHdDR7wbVf+
-	 xzOIbbE7JeosAs7AKkRwQk2oGyWxP36eu1FB6gAEeXX345KenCTZvDBB6Ihj5phbZKvqy
-	 6V81KKzXF5f+QyAqRZ4umgZJOGuwyhSNVpunm6VS82Cs+PNmKM+x1ybxJZzOdLP24wvED
-	 iHjRm8CEquW9+in2GHL4TY4oz1dP1fyI6qnXp9iIv1SGiR0W1aJ9pVGvGLgABSGF+JWKm
-	 KntdoLoIhI6sn7iRTD1sErIoa3s5ib7caWckQ2/i+f9isj4jgOlWGf22pvJ53x/xRBQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795450224;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
+	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-DetectorID-Processed;
+	bh=ypOSzkfJxIBRiqRs4/JLRl10BT/rd5hCCDRvucj2Z1Q=;
+	b=oISNWd0JRwfzeW68TjoaGxJJNk30netZTN2p1AiUHqA0doB7EWYpHHp7dW0m8SyuwFtt
+	 +rscWfXMNFS/IV4DDG0ZuC+w7HsU6WpSpx0/6y3a+wYNgw0I+hEo6FuewOVHrdRiFfNxr
+	 0HVN3wF3DREcbozrBhUUk/TNgRNlhcP8CJRXNc/eyKnRO0W4QQf4296JEEKvFXvOwkwdH
+	 vZpOZvVCCL02fWMCpo2fbl0XELXAJUPKr+g3d3EuSPQYgwewUTQ5nUBn1n/iILK3J9dEX
+	 oOgSGoCXeJTwDwdMGGZX4FOIqrO4rfU6k8XLtGNTzUli+2Khlv3GzQwWBwYxy7hVPtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pPuJJBV4;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dmarc=pass header.from=broadcom.com;
+	spf=fail smtp.mailfrom=broadcom.com;
+	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=gM81qaTc;
+	arc=none smtp.remote-ip=209.85.221.228
+Received: from mail-vk1-f228.google.com (mail-vk1-f228.google.com [209.85.221.228])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F05606A31F
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 15:58:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15F05606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37578606A31A
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 16:10:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37578606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pPuJJBV4
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so32492215e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 07:58:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795449507; x=1796054307; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=E7V1Mp8qcb2Pgn8vLfudKigHDe8jvtrjrih2NQ7mefs=;
-        b=pPuJJBV4k/NV/FpE0NEfi1sotg07S8b9f7yRjPUrhGmBoAdCgkPc4gwu6ZY5sDWQMX
-         OSy0AlaIMQecASC1Vv5ECirBLzUED3rPJbs2Td9gKDnQGdZvJPcmVz+2oI8raDLi7+C+
-         Xa1Hf5TVycK5LRLk8OmYWg3LtEZGFAHAe7Ns2JjUPmcKIzn4poXfMJ1raZrMoD7j0X9B
-         WjzX431T6IOP6LLO0fkU2Ozev48DKYrJwzIobPriLpGN81Y4gJ1m0JAtasQI/mFTyQMd
-         Mx+g4A+8diYSFif60jfVnE2FVdxFuPZKQVCQre0vWJJj9c4RzNmkIC41Hw/6Vir6KKN0
-         Zpsg==
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=gM81qaTc
+Received: by mail-vk1-f228.google.com with SMTP id 71dfb90a1353d-5ee36376a0dso2007105e0c.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 08:10:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795449507; x=1796054307;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=E7V1Mp8qcb2Pgn8vLfudKigHDe8jvtrjrih2NQ7mefs=;
-        b=p5ALPJfwsRHSZjis2d+z40O/0nZP/9n2Xrb6SMYoq6PC+MYWeKrlDIBz1p9zBbxqu6
-         rWnGVfns6BCJwG1TvozvK8CnnNmaKobx7lC0dPEvftcTi1ps/W96KIMGYO2pkGyySh3v
-         HcoutK1iKyXIg6S8eWkje44bpfj7pNV5w3skFtWyLGAnjkG4f5Lh4CE0BIQAs83ld8W5
-         0t963jdnyjprc9p8PaQ1ZaLthKdNC6gnBoj7dBV1bfevcHtWGckUeg6SWO6nZKGtTy52
-         hjA4JpIiB3NTIT9qhpsa7DWrOIIOmFi1uiqBJoEygWlMM7D3Vw+Cr9KuMqlm/FkQXS+I
-         v5Bg==
-X-Forwarded-Encrypted: i=1; AL+hErHbJM1+7fdU7/303pzos7GefOohnGeBm2fwlPHK6IGfd7Bx3iUV1ubiP2sgNG+RANEXEbqhKBoC8Po=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8o6PxW/DxFJw6YHey95XZV0yqI8rac9n0Qs8l4yeeAeMnHRzNF
-	rBlSTQsJ/43w/Q0oSTINxgpxypWcyzJ8qdVxW8QBnOOoI8ri5qvArqPM
-X-Gm-Gg: AZFdTZdmmX/qDl9on6LMybcAfxhM0qi7GZ+KV3s9qEFXRlhJfMlabqh9jFcwkhBd32+
-	bU/k6+MX/1b5+0piAQh4JkF3asUP71uBxVNW3fBwxaRHv9wsUUGeaPdpJWIIR0jwmxeb/zWKrmK
-	FDZjep1mqfqrx0sENdtTWm7u44l6INbssoTvt2APBk2w41aPd0F84YuDsUCV58T4o6RpOFYZegD
-	JLABai03mmjhs0TW50JodKsNvKrNJeLiys8f0i3F22NMEaiD+Yyj17Ve0UkMlqPk2GP8G7/vdZK
-	y9gXhF5XPOty0xF3sDGRckz0XM2i6uwbF/RipditQtE44j663lWRFAFFUX7Bn0DFyxUFjgyugdp
-	EfDgVE5PwiI17ENI1nG6iOsCcSzVNDUZsgxWkCC4fDxHcM+y8OiIgklXYlGHETtxER1nSJvvd3x
-	8kCy7HHxW4xW+xOvWGOKU+qlyqnZV7JJFKiSAD9VYSGN3xuqWqmr5CU4NyCcc71ArVDp4Vq6n3n
-	HGaFZX43MF3s3ECT8y4lqRHsyGujx0uy8TJBIpldvZ9ix7FLA1KnnNLyAdlSzJIsr5tkAMfCYPa
-	qDHZ/ZH6SRat1Lk/i08VubyWzCb8bFLuYdvg0ilk3/4H3ULmziBjHy8=
-X-Received: by 2002:a05:600c:5307:b0:4a3:d327:6ed with SMTP id 5b1f17b1804b1-4bb888283d8mr232622925e9.17.1795449507258;
-        Mon, 23 Nov 2026 07:58:27 -0800 (PST)
-Received: from ArchOarora ([2001:19f0:6c01:2c43:5400:5ff:fef6:1b30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906cdcc1sm175808205e9.2.2026.11.23.07.58.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 07:58:26 -0800 (PST)
-From: Oarora Etimis <oaroraetimis@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	jose.exposito89@gmail.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Lucas De Marchi <demarchi@kernel.org>,
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	sebastian.wick@redhat.com,
-	victoria@system76.com,
-	thomas.petazzoni@bootlin.com,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v6 34/43] drm/vkms: Rename vkms_connector_init to vkms_connector_init_static
-Date: Mon, 23 Nov 2026 16:58:05 +0100
-Message-ID: <awRiOQv8H-nI8bpq@Oarora>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261120-vkms-all-config-v6-34-78ace90f4fc1@bootlin.com>
-References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com> <20261120-vkms-all-config-v6-34-78ace90f4fc1@bootlin.com>
+        d=1e100.net; s=20260707; t=1795450223; x=1796055023;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=ypOSzkfJxIBRiqRs4/JLRl10BT/rd5hCCDRvucj2Z1Q=;
+        b=Jx1248s/ecgFNYqcgx/wIRm+9jkR6fWYLV8yIKIdS9w9zqGRziQDorNBH3pq73zo75
+         Z3HbtGCAk6Cmxl/U9Czk2Jh5IMcxhz5EjahsfKHekQAlwo0blSpI1MlX1Ko1EgUUf3fR
+         epbNsAE9ku+RTcYIdVpKITOBkUgS3X1JeFrkOaxwiPrd8G0j1LTJeBrHp64V0R9cNZQI
+         vK+RjVz/alP40nHU9C/gvebCTwTFIdBrPMW6l+HGKd4XalIQkh38G9CPJcI04V+Hr6rY
+         S3V7D9T029trfQefx/scZi75FMr4EVlZbMaZkp2Tr7XeMImkwSbeIOlbUcKSFWwpCx9U
+         nYRw==
+X-Forwarded-Encrypted: i=1; AL+hErFq6N6UCSWd/AC3zbjg4k7uXHoV2tZytkhEtLeWu5VLHjb1kuj0ihUyNULuHT4H3XT9RBXbRS9qLLc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/44ESPeiDjVuWgmWcxe0DqTkd4ONqWK2RsPesylSNSDt+q6HxC
+	OdyiWFyId9FWNcO2b4v5TFMH+yHGokvMmcThusAu6Pzqrd+EPVkBAltkydr2yKF96LCsasOtooE
+	ygfLdOGtp3URL5nG3d5Gyb3ogTszYaZF9R3+7cvjklk08QLBxDxhdpmdx5gCg4UiNnLRUYaWVW1
+	QqbqzXueW8EaKo+x19TXkn7UENahxj+ZvKutQ/M6udP7x9ikAWGq09P812G8ygSXF51PCx9pLQR
+	2u/QuK7lSZXlvLCvhG+
+X-Gm-Gg: AZFdTZdTvykYdsC9UcnWQR31eTRrSX0UTQ5e5YyUyqFBDA4CQweMWvXzEoz1VgnUbes
+	zzJUOImuopGDpPNSXW6YudNb2UUESoEEUTYmyEOoZXveUipxLRyxVlWlcmlXlFhgwq1XL6/78aa
+	HNfV3rzWdSiTaKYalyDhXUoY9jl7brOaSWWZNNVQXNNzHzMu4Abq6hEdRb/ioo7Phl5qGuwIF29
+	WyyUW/duFDzjUsBNzXHFKTsyFKdvEjEoMFGheZw1yg7SqZlc6AP1zhEDlMGBl4k2WaZRvm6GtaJ
+	AWSUfnht9cKNzIJEx26DGQmJGVuU1G/TNq98giMah8dJ98fMKSltU3z17qvyGSDlOAwycTAlKAE
+	+Ai5NB71BCRS/9CERC+kDIKNAFyNkktHV1qmOBlwj9yVeO+WJaFXcDIKUtjsM9oNqUKQV0iNT6D
+	ifhPKyspKAzFvywdKVtToq0IRhd2qWwaetKKuLrwWMrws=
+X-Received: by 2002:a05:6122:d8f:b0:5ee:3276:58d5 with SMTP id 71dfb90a1353d-5ee8ae8eb46mr6697141e0c.5.1795450222998;
+        Mon, 23 Nov 2026 08:10:22 -0800 (PST)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-100.dlp.protect.broadcom.com. [144.49.247.100])
+        by smtp-relay.gmail.com with ESMTPS id a1e0cc1a2514c-99e6e14451esm1194603241.11.2026.11.23.08.10.22
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 23 Nov 2026 08:10:22 -0800 (PST)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-1b3b63b9665so2710132c88.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 08:10:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1795450222; x=1796055022; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ypOSzkfJxIBRiqRs4/JLRl10BT/rd5hCCDRvucj2Z1Q=;
+        b=gM81qaTcVbNLppi4ERhQA+iFdyvhxyA786MlSXuu3iNrSvd4cnB56s3iPQjEE7BQM8
+         0y/lgC9jhTwcgipShOESHGZbMmHHhnRRNiKna5v7KEfhutwTlaq0K8by6QaPfnxuoHgq
+         gA1Q2PRZOkAygqHKS+wSuND+r/V3zOC37D5/U=
+X-Forwarded-Encrypted: i=1; AL+hErFg53bQJfVwYaZB8J/tC8ALg3Q39XAt/1Ljht4qRzCd3V606GYUIwBDaq7RVKmsjsu2LvVEiYbaZ74=@vger.kernel.org
+X-Received: by 2002:a05:701a:ccda:10b0:144:fb42:52 with SMTP id a92af1059eb24-1b5568fd903mr12257213c88.28.1795450221727;
+        Mon, 23 Nov 2026 08:10:21 -0800 (PST)
+X-Received: by 2002:a05:701a:ccda:10b0:144:fb42:52 with SMTP id a92af1059eb24-1b5568fd903mr12257183c88.28.1795450221034;
+        Mon, 23 Nov 2026 08:10:21 -0800 (PST)
+Received: from [192.168.10.3] (ip70-187-214-22.oc.oc.cox.net. [70.187.214.22])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b55ff0e4e6sm22003793c88.11.2026.11.23.08.10.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2026 08:10:20 -0800 (PST)
+Message-ID: <b5a899c1-c1b8-409e-8b50-ca722c229f5b@broadcom.com>
+Date: Mon, 23 Nov 2026 08:10:16 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -127,78 +106,119 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 6/9] net: flow_offload: allow drivers to validate
+ and invalidate cached paths
+To: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: netdev@vger.kernel.org, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <rafal@milecki.pl>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Jonas Gorski <jonas.gorski@gmail.com>,
+ Vladimir Oltean <olteanv@gmail.com>, Florian Westphal <fw@strlen.de>,
+ Phil Sutter <phil@nwl.cc>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ "open list:NETFILTER" <netfilter-devel@vger.kernel.org>,
+ "open list:NETFILTER" <coreteam@netfilter.org>
+References: <20261116222519.1416501-1-florian.fainelli@broadcom.com>
+ <20261116222519.1416501-7-florian.fainelli@broadcom.com>
+ <awI-mtwn3ohPw-fF@chamomile>
+Content-Language: en-US
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <awI-mtwn3ohPw-fF@chamomile>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-On Fri, Nov 20, 2026 at 06:59:16PM +0100, Louis Chauvet wrote:
-> With the introduction of dynamic connectors we will have two way of
-> initializing a VKMS connector. Rename the current function to clarify
-> the case.
-> 
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_connector.c | 5 ++---
->  drivers/gpu/drm/vkms/vkms_connector.h | 6 +++---
->  drivers/gpu/drm/vkms/vkms_output.c    | 2 +-
->  3 files changed, 6 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
-> index f5e99e77e84f..64d79b778551 100644
-> --- a/drivers/gpu/drm/vkms/vkms_connector.c
-> +++ b/drivers/gpu/drm/vkms/vkms_connector.c
-> @@ -75,9 +75,8 @@ static void vkms_connector_static_cfg_release(struct drm_device *dev, void *res)
->  	vkms_config_connector_put(connector->cfg);
->  }
->  
-> -
-> -struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev,
-> -					   struct vkms_config_connector *connector_cfg)
-> +struct vkms_connector *vkms_connector_init_static(struct vkms_device *vkmsdev,
-> +						  struct vkms_config_connector *connector_cfg)
->  {
->  	struct drm_device *dev = &vkmsdev->drm;
->  	struct vkms_connector *connector;
-> diff --git a/drivers/gpu/drm/vkms/vkms_connector.h b/drivers/gpu/drm/vkms/vkms_connector.h
-> index 89d7f3a15d6e..61a8dd55d7f7 100644
-> --- a/drivers/gpu/drm/vkms/vkms_connector.h
-> +++ b/drivers/gpu/drm/vkms/vkms_connector.h
-> @@ -23,15 +23,15 @@ struct vkms_connector {
->  };
->  
->  /**
-> - * vkms_connector_init() - Initialize a connector
-> + * vkms_connector_init_static() - Initialize a connector
->   * @vkmsdev: VKMS device containing the connector
->   * @connector_cfg: Connector's configuration
->   *
->   * Returns:
->   * The connector or an error on failure.
->   */
-> -struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev,
-> -					   struct vkms_config_connector *connector_cfg);
-> +struct vkms_connector *vkms_connector_init_static(struct vkms_device *vkmsdev,
-> +						  struct vkms_config_connector *connector_cfg);
->  
->  /**
->   * vkms_trigger_connector_hotplug() - Update the device's connectors status
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 7783a2f6d343..2b0f7a8a80b5 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -97,7 +97,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->  		struct vkms_config_encoder *possible_encoder;
->  		unsigned long idx = 0;
->  
-> -		connector_cfg->connector = vkms_connector_init(vkmsdev, connector_cfg);
-> +		connector_cfg->connector = vkms_connector_init_static(vkmsdev, connector_cfg);
->  		if (IS_ERR(connector_cfg->connector)) {
->  			DRM_ERROR("Failed to init connector\n");
->  			return PTR_ERR(connector_cfg->connector);
-> 
-> -- 
-> 2.56.0
->
 
-Reviewed-by: Oarora Etimis <oaroraetimis@gmail.com>
+
+On 11/21/2026 5:00 PM, Pablo Neira Ayuso wrote:
+> On Mon, Nov 16, 2026 at 02:25:16PM -0800, Florian Fainelli wrote:
+> [...]
+>> +static int nf_flow_offload_validate(unsigned long cookie)
+>> +{
+>> +	struct flow_offload *flow = nf_flow_offload_cookie_flow(cookie);
+>> +	unsigned int dir;
+>> +
+>> +	for (dir = 0; dir < FLOW_OFFLOAD_DIR_MAX; dir++) {
+>> +		struct flow_offload_tuple *tuple = &flow->tuplehash[dir].tuple;
+>> +		struct flow_offload_tuple *other = &flow->tuplehash[!dir].tuple;
+>> +		struct dst_entry *dst = tuple->dst_cache;
+>> +		struct neighbour *neigh;
+>> +		u8 mac[ETH_ALEN];
+>> +		bool valid;
+>> +
+>> +		if (!dst)
+>> +			return -EOPNOTSUPP;
+>> +		/* This is the actual route selected with the packet's policy
+>> +		 * context, including mark, DSCP and the reverse lookup's oif.
+>> +		 */
+>> +		if (!dst_check(dst, tuple->dst_cookie))
+>> +			return -ESTALE;
+>> +		if (tuple->xmit_type != FLOW_OFFLOAD_XMIT_DIRECT)
+>> +			continue;
+>> +		/* A stacked path may have a different final Ethernet neighbour.
+>> +		 * Do not mistake that unsupported context for a stale owner.
+>> +		 */
+>> +		if (dst->dev->ifindex != tuple->out.ifidx)
+>> +			return -EOPNOTSUPP;
+>> +		neigh = dst_neigh_lookup(dst, &other->src_v4);
+>> +		if (!neigh)
+>> +			return -ESTALE;
+>> +		neigh_ha_snapshot(mac, neigh, dst->dev);
+>> +		valid = (READ_ONCE(neigh->nud_state) & NUD_VALID) &&
+>> +			ether_addr_equal(mac, tuple->out.h_dest);
+>> +		neigh_release(neigh);
+>> +		if (!valid)
+>> +			return -ESTALE;
+>> +	}
+>> +	return 0;
+> 
+> This validation to catch for stale entries looks very similar to what
+> I'm working on. I guess there is a chance to consolidate all this in
+> common infrastructure for both software and hardware modes.
+
+Excellent, happy to point you to an off the shelf device where you could 
+be testing this on, if you would like to?
+-- 
+Florian
+
