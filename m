@@ -1,113 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.198
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795415322;
-	b=EcWUtLtuG9Nz1SytULO6ZR79gfR4XoWF6kTqVezK99gl18EfDQh1L1fs658WOsA7zSK4
-	 HJCsHFyesDlabA8xOGiFKTzv17Nrpb0742lobVgqt+WJp82XxtYpuzAoXYHzO/gMNhyvs
-	 nS7GY2eYXgGePkxwhFuuwARZY/uil0rv9g8NprTTAd5fAN23Xcx49B7sZRdtGqXEd4BJA
-	 CjH2MOffaNECxgMZo1D3mufUPN6rd8wFiqHkyTJk/bKR2+NQtv+3l9X1Mw8C/yfCuomxx
-	 sOOe6Ma5p580ZhDZl8HhM7VQpFPdbA9SCfkNgcc0BQH6a2SfU8jbKGUJXsegiOtFRVw==
+	t=1795415773;
+	b=TXzrW5L00FA8VJ1/b+bF+SN7pasWacf5FBOjp1bSGpkpX/V3PLq9yHRYYhC5g7azPRAG
+	 mxlSY4xcVKLBqfgXoWQtpH9P7NszkNKr/BO10DHYCTsWYL+5UkLyBycWB7nbwF7qN2ave
+	 nKZc4T30OR1x5qdHFBliMoGtMGd0881hDRhLtmHqN6SyrKX3yIzZC5xLCSmDXfk5d/fhb
+	 tie//rsl9LDWTOYyzH7nbGtO3PMEKcnW2+Qr46F1BB1pyc9qK4CGqNrTFvDy4wH7VMRpp
+	 7h0aMKC/AjREEBcYBR7TcHTh6w/hw5d1QSpHzfTLOW8KwzNyXVVRfhMB5LDS/nnVZzA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795415322;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
-	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-Spam-Details-Enc:
-	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=FV2kvxs1IFwwuAIX4a7ofc1Xp++52aPBEPq6MOE4ur4=;
-	b=SSKHAWOPxxxLAJ7QwtjO0TDvRLVuc5sX7Cp3SibbLbmqsFvrFwQvFtDkNLmnnQL9hgi1
-	 xNRpvCNnsdJ5xmFF+TNtk7ISg5WE3GQDuFO6vaehGH/3QGfAz21rVmDRTlt8uZpmsjkVS
-	 4sA37SSRjQ9oHV2sK8RFlYBcaqKZm783Xqr67zremoHapGy4EvPVut/OU0VTHHjli69Mq
-	 jTSjdE5usAGilSfkySypsukk1FLz7CtZXVPhAckukLWC0Kee/y5GaRVdi07JBYPoqww3W
-	 41SawQZzurS1do0F8lWF4LImLMWgCjTPpQuxxJWDNGacEs+Rl3LNdkhsJIaDdzWzRVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795415773;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=BrBSPPpRxeUHkZ8Aspm71PBog/B6QtNxw8MB+kxwe5s=;
+	b=bEej2z0rUkJ9IC1Zc8e8KTykmWLwvP4k+WkVNfFHE63RIIZlmEitGX14Yz2Dol0Ip89j
+	 1rFyPZve+voviSE4TfCGqQcf7/loWfaudnhXAqngFlHZFMUeJ/Fy0jpo7xRLUDHC4ljBZ
+	 rbpbLXlYyVhPM9PfHIaxby/cJSQb+Ud8YhMxX5ICnER1R7DYO/fOqfUdCtF/uKgmn/1Tq
+	 +eIWHt1uECAHyrj6TJMm0Bnl9v9kRF1Nx7owAqeNM4t6053YoQlFX8vp75/0/K2xVcCYs
+	 r7dAN+PPG60g6p8iSW0jrAtbRxEavDrZmvqW9KSSzpgbgYhPIQQ3BMWLMEus9jHjZjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=UMJg+wre;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ilfybtdj;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--starchang.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=ndf82j9A;
+	arc=none smtp.remote-ip=209.85.167.198
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BBA606A6B5
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 06:28:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04BBA606A6B5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4162F606A31E
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 06:36:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4162F606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--starchang.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=UMJg+wre;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ilfybtdj
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AN6DrK01422362
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 06:28:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	FV2kvxs1IFwwuAIX4a7ofc1Xp++52aPBEPq6MOE4ur4=; b=UMJg+wrePNQB4HQ4
-	CdCBhvAGR1de5EDesyuJAadNtMsVccQJOT+ColTZY+Rx+pSwjJnl8aS+HKauA+85
-	39uy0BsKabIRnxod5eDJLtybcA9KukxNqvCcdCIqUMCvtEwLzqVKYqDsfYbCHoqn
-	4cE7lKCMqpWQFqyz7GtTonfioPwBuKiR68m8b1QDQ+lw3qckN+2rCRtcG4H5yzGs
-	U8+knegZlINqlde3jKlAK0sj6UO59owJgxvQUXmUht8FgIQqNxU3nJBzaClxpvhR
-	JO3uOccGBP8Y3jIVe0lbH+JaN+bFLMuMKzMwI4aASFCjN8JFLdYiezckQxCpbee0
-	QtHyVA==
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j4g1p81f8-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 06:28:41 +0000 (GMT)
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-540537f959fso3219843b6e.0
-        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 22:28:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=ndf82j9A
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-55bf11583d9so3136533b6e.1
+        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 22:36:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795415320; x=1796020120; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FV2kvxs1IFwwuAIX4a7ofc1Xp++52aPBEPq6MOE4ur4=;
-        b=ilfybtdjJjTH4p4WzZTQmWfirlFAZo6w0oPe1W2nMx6lKi6UKs8t6g1gnfjhRMmb6v
-         TBXwk6rGScH8fyn1wopWgAfaLdZzYA7icsb7g0g+hhlkGqoWeeuRfqpeKzJ6wgPG09to
-         UkoQoGvrVayl3IItYoypI9iCLTQVsyHqV8hhYrHYaYdMXcIYv1g1xDXEZVohNje6f/KT
-         /tqxpC18eUznAs5SGrwNETH42yCntmdsOAgjos3Nz6C0EuHzgevbQx3wf4S2dxtOZYyt
-         H91k9vBEhfEDbPyoKT7yM8Tp8T6O0KXdjL+C611/HFVTwgso9rzq6f7daFVBq9YSmuNw
-         UKFA==
+        d=google.com; s=20260707; t=1795415772; x=1796020572; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BrBSPPpRxeUHkZ8Aspm71PBog/B6QtNxw8MB+kxwe5s=;
+        b=ndf82j9AD419mQdAmC6YLQ7YDAJmogSheYNYRMMJyb1tGQ6Z3uKEVwr02fSesodckD
+         u8a7mmizquPt/l6tI0UGe53paB0APeUL58w12k1NlcV1vT2F3Xr8a+RbUZe5mLoLt9qX
+         wHA1jPpedn12bHqJvNAxCRVbrr9LhcBtczwB+BwN108APCiOWZxPLjYNeCOyoCAwQzpu
+         QigWr6Ba/sT0Ys6laFaKXpsEAjd7RH0815FN8vJtgc9JSK9+h4IKsAJmsrI7rkrsAPYl
+         XJJs+cW++2gS9pBKcc7CGypjxUmSn2c5lF9ucSf7KuYz8NTrfv/Y1HkbiqfzObQpFQ12
+         47Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795415320; x=1796020120;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1795415772; x=1796020572;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=FV2kvxs1IFwwuAIX4a7ofc1Xp++52aPBEPq6MOE4ur4=;
-        b=RgL7yWBRkYPuxmIrJjg+0RhxGvCcJarawuLv872O0ZPoNM4NjXealFfuu5wP0FRC4y
-         fhfYp/R0Ah48bZwK/va2DjtfHWNtJ/9DfOcn4V1TBYbs9NIX6/8gvWyK+g2jYtUxz+Xr
-         87alwPazuXPrZS9W4fuPsvSCCN8nFEcp/8X5OtJDsYuvnehFzSG8T2qseL8GYm+cCTe5
-         R+YSa8y8qZs5YHvdWn3z+rSAklGe8BMExLWXzFP+Ap74F5JL+H6weddRLXuwFWF78+SG
-         v+uETK2TnlUFpZFaYISYaEcCkl7lR44GMnyr54qQkgbMYGuD1jfnFu/4GQxUSxGQkPFL
-         v25g==
-X-Forwarded-Encrypted: i=1; AL+hErFVrlqTHvh6wJ/oVEYFMgBpo7TiWlRZ3YVMqApfbyWJZvbHRhkpQeSFaupojpefOey5nZoiqSPh4+o=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/7wHMoUE9jgrwtnqM2cA+ytjC6gIhkMHUzdJ61PuSLF5DMjNfA
-	BV3gvnKSZQ6zfoEcQtP/09wfNADcx25iAQGliDdyG3pZIZtqiHhujRwLDnOCQ9bM+PMDbdQEmFE
-	meU4aY3vzH0Cl7n2+RV0J396uE5lh65rnWIRNtL6VVgGi++Zu/6GD7UyDFGvheug=
-X-Gm-Gg: AZFdTZcsyr7CHwrfH6mhFo4bt1w54wobaKxgl3P+//7A+3WZe/WCcaegnjHjUKrpWAS
-	nhGU2tuEEryTKki0z79F3t18AhXEBx5ccIVlBTSelm/hRvIIfJSwyX9l6fk3oWYYHUS+aLRIoks
-	vMkhOZjy6oEJPTctkEWlxZzq+JmBwTYGenAo4MCNg2g2YXb/m7Q2ZILAyG6ndfU4zkGTH9yKXD7
-	Yt6GKSZFuwBoTzeem3V80pM6l7qT7n5wYT5X1j6uVPoMWPdhno+Q3vUb+nS07IlBr2ySFS4SVrI
-	Fe3q/tvd9dWVnd7yqwn7hTWmZV1Q1uNUB+w/gykHu8wq1ajXMM6Yk8cNB3oL2OY6V/bRF64ypIK
-	MceU2A/16tv8Wbdb1KGVGUBIg9WzObBn9f42Zre7sALT+yA4sIo3o1KCrYDk0CCQJcDpCxU3HgG
-	tF67jCkzs8rBmdiMSPDrwIscUzcQ==
-X-Received: by 2002:a05:6808:198d:b0:577:2888:47a9 with SMTP id 5614622812f47-57a065045c3mr12137605b6e.7.1795415320329;
-        Sun, 22 Nov 2026 22:28:40 -0800 (PST)
-X-Received: by 2002:a05:6808:198d:b0:577:2888:47a9 with SMTP id 5614622812f47-57a065045c3mr12137576b6e.7.1795415319816;
-        Sun, 22 Nov 2026 22:28:39 -0800 (PST)
-Received: from hu-fenglinw-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a362575fbsm8762533b6e.17.2026.11.22.22.28.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 22:28:39 -0800 (PST)
-From: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
-Date: Sun, 22 Nov 2026 22:28:10 -0800
-Subject: [PATCH v2 4/4] leds: rgb: leds-qcom-lpg: Add PWM frequency mode
- support
+        bh=BrBSPPpRxeUHkZ8Aspm71PBog/B6QtNxw8MB+kxwe5s=;
+        b=fycEv4dZrgSzFf7CTe45eRZ2WNEyoo8Oz9djZ5Z0QUYxjyuoXvnwbFZdNvvCG1vEwj
+         9s0bPFV28D6XLH7I8qlcgTmd0XgmyKsztqXklGBS9MMMemlEJHZYK5tSgTrW4kqpwSXd
+         9t23O1zWItyyV6QwzPOwLkOULxms4u5IplW6dUY4zn+mrsHl4+M/OEA+LblETsTdtizZ
+         MW/ad+sti7212KgIsymedXpy9ghlr4wAd+QsrD4INAupTU7tWbLvMPNGYEC4XAQjDb/9
+         x9pKEYgS9MSB9tiCLkN8rxelC3Q7aynaqC5lJlMgtIsYIcrIJhryrUYDa0hkjPzd0w+4
+         hmoA==
+X-Forwarded-Encrypted: i=1; AL+hErGlkenacYV8YBzoMdqug5SA0YMXZsXQ00S/WkaSOPuB1ZCYmfdji0zEUUO/2lsc+yXlBzNrJ8fAJrI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+v59AJelwb0aXoIhieP2W06CaDqZzHa0NToVPVzEXu8gbzHIzQ
+	l6AjRw6XO+HARgkUq93Ug8bxFfylFhLFfYmZPyD5S219bddeKZZd0YFt4elQD7qTuuZKF66ZfKu
+	XACSIlgFfWLpUSO4wGw==
+X-Received: from oibdu15.prod.google.com ([2002:a05:6808:628f:b0:56d:b7b4:fabf])
+ (user=starchang job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6808:199f:b0:568:2782:d1b4 with SMTP id 5614622812f47-57a0bd95bcemr8831086b6e.32.1795415771832;
+ Sun, 22 Nov 2026 22:36:11 -0800 (PST)
+Date: Mon, 23 Nov 2026 06:36:08 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -116,583 +75,155 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261122-led-qcom-leds-multiple-fixes-and-pwm-fm-support-v2-4-2e885f60fbeb@oss.qualcomm.com>
-References: <20261122-led-qcom-leds-multiple-fixes-and-pwm-fm-support-v2-0-2e885f60fbeb@oss.qualcomm.com>
-In-Reply-To: <20261122-led-qcom-leds-multiple-fixes-and-pwm-fm-support-v2-0-2e885f60fbeb@oss.qualcomm.com>
-To: linux-arm-msm@vger.kernel.org, Lee Jones <lee@kernel.org>,
-        Pavel Machek <pavel@kernel.org>,
-        Griffin Kroah-Hartman <griffin@kroah.com>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Anjelique Melendez <quic_amelende@quicinc.com>,
-        Guru Das Srinagesh <linux@gurudas.dev>,
-        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc: David Collins <david.collins@oss.qualcomm.com>,
-        Subbaraman Narayanamurthy <subbaraman.narayanamurthy@oss.qualcomm.com>,
-        Kamal Wadhwa <kamal.wadhwa@oss.qualcomm.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-doc@vger.kernel.org, Fenglin Wu <fenglin.wu@oss.qualcomm.com>
-X-Mailer: b4 0.16-dev-17187
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795415311; l=16928;
- i=fenglin.wu@oss.qualcomm.com; s=20260324; h=from:subject:message-id;
- bh=BIhHuQSThaJwecK9SHOzTn+hC8MMlKDwp57dhc/SqWU=;
- b=IWB8PvVKNqRgueuh2sqVdOvKzfRqjxtorhlfQV6agzGyOE1dWMxjgp9x1/bWq6elU4iunmwAT
- 4PQOzpu8s8GCUr99DgCWbtYsh6og8/SQCGWQoMzv9/4rqoiCMLXs/nx
-X-Developer-Key: i=fenglin.wu@oss.qualcomm.com; a=ed25519;
- pk=hJdt3E7o54lql+miD2GaxwF74cDyhgNwMbmFOZ46bRU=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIzMDAyNSBTYWx0ZWRfX0eQVPAH5bXvf
- xJ1e1YblK7TFCvRYNhFkRVeNZddWDySMN5qp669vSvlYfQL5uuHcplI0ch0gZxv5PhbEM3FxQwC
- VqmsU3+axbNAGeU7da6Ph2zJjuHc72bQRKbrqHVcuzMv0lDF3ffAboHXoHmEvmhJQpSrdV2WYK2
- jmjen7QwBnkDelGwFu2FDtpATILxcqUnlcjHs0o+KP1RFEX/Z20+IS0RnM/Mu5+eYUwfbKCNdFh
- ZumgIv5r51KekXvicCKCwDPCH0oAIuUK8kfrU4YmEzYW2UnC6dNYigTWlMUK5V0/pIywPngOf4g
- anJVBAwzBjViZwczl3nf9Oipujwzk2zGrH4L5BUVor0eiXSbX6RhRlarL2D6ensHvZJ9dOX1Z+w
- gXC8KCV4gHeA1TFWDG7TmcLmid48uIOpeAtGvqig7R8jQZwHv2W60TJqZElT9eQsYUIatE4HE29
- RCrIOdHmJyuOD6atl3w==
-X-Authority-Analysis: v=2.4 cv=AeIkjHXG c=1 sm=1 tr=0 ts=6b03dd19 cx=c_pps
- a=WJcna6AvsNCxL/DJwPP1KA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=NSaPA566YKEXnaOw_k0A:9 a=QEXdDO2ut3YA:10
- a=_Y9Zt4tPzoBS9L09Snn2:22
-X-Proofpoint-GUID: g_wONkJjEXqYShmKcNWtG5mm73Yo772Q
-X-Proofpoint-ORIG-GUID: g_wONkJjEXqYShmKcNWtG5mm73Yo772Q
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIzMDAyNSBTYWx0ZWRfX2vla70BJ1S65
- pcX1bTj3ZjXx5HyuQUhgbtrFyBEDhLNSogYtoez6l607z1hVqdLttd8KEJaQBb6CnO3Ozxn5llL
- h1ryOV0B4NSFSp9uxxayLAH9ztM7wTs=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-23_01,2026-11-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 adultscore=0 clxscore=1015
- suspectscore=0 phishscore=0 impostorscore=0 malwarescore=0 bulkscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611230025
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
+Message-ID: <20261123063608.3665186-1-starchang@google.com>
+Subject: [PATCH net v6] arp: Do not update neighbours from ARP in L2
+ multicast/broadcast frames
+From: Star Chang <starchang@google.com>
+To: "David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: Simon Horman <horms@kernel.org>, David Ahern <dsahern@kernel.org>, 
+	Ido Schimmel <idosch@nvidia.com>, Julian Anastasov <ja@ssi.bg>, Johannes Berg <johannes@sipsolutions.net>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wangroger@google.com, 
+	starchang@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-Certain PWM channels on a PMIC (e.g. PM8350C PWM4) support a Frequency
-Mode (FM) that can generate waveforms with more frequency points than
-the standard LPG PWM mode. The trade-off is that the duty cycle can
-only be fixed at 50%. Add the FM support and try to use it when the
-PWM channel is requested to set a duty cycle to exactly 50%.
+The drop_unicast_in_l2_multicast sysctl drops unicast IP packets that
+are received in link-layer multicast or broadcast frames. On Wi-Fi this
+protects against the "Hole-196" attack, where any station that knows
+the group key injects frames as group-addressed traffic.
 
-Instead of always selecting the frequency mode which might generate
-the PWM waveform with less timing accuracy, the Codex AI suggested
-and implemented an update that compares the PWM period and duty timing
-accuracy in standard PWM mode versus frequency mode, then selects
-the better option.
+ARP is not covered. A broadcast ARP request or reply with sip set to
+the gateway address and sha set to the attacker MAC still creates or
+updates the gateway neighbour entry, so the attacker can poison the
+ARP cache of other stations. ARP requests are legitimately broadcast
+and cannot be dropped, and drop_gratuitous_arp only catches sip == tip.
 
-The change was tested on the Maili QRD device with pmh0101 by exercising
-the pwm4 channel with a fixed 50% duty cycle and a period range of 40us
-to 55us in 0.5us steps, and confirmed in the log that correct frequency
-mode configuration was selected.
+When drop_unicast_in_l2_multicast is set, do not pass ARP packets
+received in L2 multicast/broadcast frames to neigh_event_ns() or
+neigh_update(), so they can neither create nor change neighbour
+entries. Requests for local and proxied addresses are still answered;
+neighbours are learned from unicast replies to our own requests.
 
-Signed-off-by: Fenglin Wu <fenglin.wu@oss.qualcomm.com>
+Fixes: 12b74dfadb5a ("ipv4: add option to drop unicast encapsulated in L2 multicast")
+Suggested-by: Julian Anastasov <ja@ssi.bg>
+Signed-off-by: Star Chang <starchang@google.com>
 ---
- drivers/leds/rgb/leds-qcom-lpg.c | 349 ++++++++++++++++++++++++++++++++++++---
- 1 file changed, 330 insertions(+), 19 deletions(-)
+v6:
+ - Instead of dropping L2 BMC ARP replies, skip neigh_event_ns() and
+   neigh_update() for any ARP received in L2 BMC frames, which also
+   covers broadcast requests with sip = gateway (Julian)
+ - Drop the frame and release reply_dst on that path (Julian)
+v5: https://lore.kernel.org/netdev/20261030031136.607720-1-starchang@google.com/
+v4: https://lore.kernel.org/netdev/20261027015619.1745984-1-starchang@google.com/
+v3: https://lore.kernel.org/netdev/20261026150539.1357037-1-starchang@google.com/
 
-diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-index 5d8f82ed228a..0858001f5ae3 100644
---- a/drivers/leds/rgb/leds-qcom-lpg.c
-+++ b/drivers/leds/rgb/leds-qcom-lpg.c
-@@ -22,6 +22,8 @@
- #define  LPG_SUBTYPE_PWM	0xb
- #define  LPG_SUBTYPE_HI_RES_PWM	0xc
- #define  LPG_SUBTYPE_LPG_LITE	0x11
-+#define PWM_STATUS1_REG		0x08
-+#define  PWM_FM_PRESENT		BIT(0)
- #define LPG_PATTERN_CONFIG_REG	0x40
- #define LPG_SIZE_CLK_REG	0x41
- #define  PWM_CLK_SELECT_MASK	GENMASK(1, 0)
-@@ -43,6 +45,10 @@
- #define PWM_SEC_ACCESS_REG	0xd0
- #define PWM_DTEST_REG(x)	(0xe2 + (x) - 1)
- 
-+/* offset 0x50: PWM_FM_MODE_REG on LPG_SUBTYPE_PWM */
-+#define PWM_FM_MODE_REG		0x50
-+#define  PWM_FM_ENABLE		BIT(7)
-+
- #define SDAM_REG_PBS_SEQ_EN		0x42
- #define SDAM_PBS_TRIG_SET		0xe5
- #define SDAM_PBS_TRIG_CLR		0xe6
-@@ -111,6 +117,8 @@ struct lpg_data;
-  * @ramp_hi_pause_ms: pause (in milliseconds) after iterating over pattern
-  * @pattern_lo_idx: start index of associated pattern
-  * @pattern_hi_idx: last index of associated pattern
-+ * @freq_mode_capable: hardware supports Frequency Mode
-+ * @enable_freq_mode: set the period using Frequency Mode
-  * @has_lut: channel uses the associated LUT allocation
-  */
- struct lpg_channel {
-@@ -148,6 +156,8 @@ struct lpg_channel {
- 
- 	unsigned int pattern_lo_idx;
- 	unsigned int pattern_hi_idx;
-+	bool freq_mode_capable;
-+	bool enable_freq_mode;
- 	bool has_lut;
- };
- 
-@@ -249,11 +259,13 @@ struct lpg {
-  * @sdam_offset:	Channel offset in LPG SDAM
-  * @base:		base address for PWM channel registers
-  * @triled_mask:	bitmask for controlling this channel in TRILED
-+ * @freq_mode_capable:	channel hardware supports Frequency Mode
-  */
- struct lpg_channel_data {
- 	unsigned int sdam_offset;
- 	unsigned int base;
- 	u8 triled_mask;
-+	bool freq_mode_capable;
- };
- 
- /**
-@@ -450,6 +462,116 @@ static const unsigned int lpg_pre_divs[] = {1, 3, 5, 6};
- static const unsigned int lpg_pwm_resolution[] = {6, 9};
- static const unsigned int lpg_pwm_resolution_hi_res[] = {8, 9, 10, 11, 12, 13, 14, 15};
- 
-+/*
-+ * Compare exact physical durations without rounding to whole nanoseconds.
-+ * Return positive if the candidate is longer, negative if the best is longer,
-+ * and zero if both durations are equal.
-+ */
-+static int lpg_pwm_compare_candidate_duration(u64 candidate_duration_numerator,
-+					      unsigned int candidate_clk_rate,
-+					      u64 best_duration_numerator,
-+					      unsigned int best_clk_rate)
-+{
-+	u32 candidate_remainder;
-+	u32 best_remainder;
-+	u64 candidate_whole_ns;
-+	u64 best_whole_ns;
-+	u64 candidate_fraction;
-+	u64 best_fraction;
-+
-+	candidate_whole_ns = div_u64_rem(candidate_duration_numerator,
-+					 candidate_clk_rate,
-+					 &candidate_remainder);
-+	best_whole_ns = div_u64_rem(best_duration_numerator, best_clk_rate,
-+				    &best_remainder);
-+	candidate_fraction = (u64)candidate_remainder * best_clk_rate;
-+	best_fraction = (u64)best_remainder * candidate_clk_rate;
-+
-+	if (candidate_whole_ns != best_whole_ns)
-+		return candidate_whole_ns > best_whole_ns ? 1 : -1;
-+
-+	if (candidate_fraction != best_fraction)
-+		return candidate_fraction > best_fraction ? 1 : -1;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Period calculation for PWM working in Frequency mode:
-+ *
-+ *          (pwm_value + 1) * 2^(exponent + 1) * NSEC_PER_SEC
-+ * period = --------------------------------------------------
-+ *                            clock_rate
-+ *
-+ * The duty cycle is fixed at half of the period.
-+ */
-+#define PWM_FM_PERIOD_NUMERATOR(exponent, pwm_value) \
-+	(((u64)((pwm_value) + 1) << ((exponent) + 1)) * NSEC_PER_SEC)
-+
-+static int lpg_calc_freq_in_freq_mode(struct lpg_channel *chan, u64 period_ns, u64 duty_ns)
-+{
-+	unsigned int best_clk_sel = 0;
-+	unsigned int best_pwm_exp = 0;
-+	unsigned int best_pwm_value = 0;
-+	u64 best_period_numerator = 0;
-+	u64 max_period_ns;
-+
-+	max_period_ns = div_u64(PWM_FM_PERIOD_NUMERATOR(LPG_MAX_M, U8_MAX),
-+				lpg_clk_rates[1]);
-+	period_ns = min(period_ns, max_period_ns);
-+	duty_ns = min(duty_ns, max_period_ns / 2);
-+
-+	for (unsigned int clk_sel = 1;
-+	     clk_sel < ARRAY_SIZE(lpg_clk_rates); clk_sel++) {
-+		for (unsigned int pwm_exp = 0; pwm_exp <= LPG_MAX_M; pwm_exp++) {
-+			u64 duty_counter_length;
-+			u64 counter_length;
-+			u64 period_numerator;
-+
-+			counter_length = div64_u64(period_ns * lpg_clk_rates[clk_sel],
-+						   (u64)NSEC_PER_SEC << (pwm_exp + 1));
-+			duty_counter_length = div64_u64(duty_ns * lpg_clk_rates[clk_sel],
-+							(u64)NSEC_PER_SEC << pwm_exp);
-+			/* The counter must satisfy both period and fixed 50% duty bounds. */
-+			counter_length = min(counter_length, duty_counter_length);
-+			counter_length = min(counter_length, (u64)U8_MAX + 1);
-+			if (!counter_length)
-+				continue;
-+
-+			period_numerator =
-+				PWM_FM_PERIOD_NUMERATOR(pwm_exp, counter_length - 1);
-+			/*
-+			 * All candidates are within the requested bounds, so the
-+			 * longest period has the smallest timing error.
-+			 */
-+			if (!best_clk_sel ||
-+			    lpg_pwm_compare_candidate_duration(period_numerator,
-+							       lpg_clk_rates[clk_sel],
-+							       best_period_numerator,
-+							       lpg_clk_rates[best_clk_sel]) > 0) {
-+				best_clk_sel = clk_sel;
-+				best_pwm_exp = pwm_exp;
-+				best_pwm_value = counter_length - 1;
-+				best_period_numerator = period_numerator;
-+			}
-+		}
-+	}
-+
-+	if (!best_clk_sel)
-+		return -EINVAL;
-+
-+	chan->clk_sel = best_clk_sel;
-+	chan->pre_div_exp = best_pwm_exp;
-+	chan->pwm_value = best_pwm_value;
-+	/* Frequency mode does not use PRE-DIV and PWM resolution settings. */
-+	chan->pre_div_sel = 0;
-+	chan->pwm_resolution_sel = 0;
-+	chan->period = DIV_ROUND_UP_ULL(best_period_numerator,
-+					lpg_clk_rates[best_clk_sel]);
-+
-+	return 0;
-+}
-+
- static int lpg_calc_freq(struct lpg_channel *chan, uint64_t period)
- {
- 	unsigned int i, pwm_resolution_count, best_pwm_resolution_sel = 0;
-@@ -577,6 +699,112 @@ static void lpg_calc_duty(struct lpg_channel *chan, uint64_t duty)
- 	chan->pwm_value = min(val, max);
- }
- 
-+static u64 lpg_pwm_duration_numerator(const struct lpg_channel *chan, bool duty_cycle)
-+{
-+	unsigned int resolution;
-+	unsigned int pwm_value;
-+
-+	if (chan->enable_freq_mode) {
-+		u64 period_numerator;
-+
-+		period_numerator = PWM_FM_PERIOD_NUMERATOR(chan->pre_div_exp, chan->pwm_value);
-+		return duty_cycle ? period_numerator / 2 : period_numerator;
-+	}
-+
-+	if (chan->subtype == LPG_SUBTYPE_HI_RES_PWM)
-+		resolution = lpg_pwm_resolution_hi_res[chan->pwm_resolution_sel];
-+	else
-+		resolution = lpg_pwm_resolution[chan->pwm_resolution_sel];
-+
-+	pwm_value = duty_cycle ? chan->pwm_value : BIT(resolution) - 1;
-+	return (u64)NSEC_PER_SEC * pwm_value * lpg_pre_divs[chan->pre_div_sel] *
-+		BIT(chan->pre_div_exp);
-+}
-+
-+static bool lpg_pwm_config_has_smaller_timing_error(const struct lpg_channel *candidate,
-+						    const struct lpg_channel *best)
-+{
-+	const unsigned int *clk_rates;
-+	unsigned int candidate_clk_rate;
-+	unsigned int best_clk_rate;
-+	u64 candidate_duration_numerator;
-+	u64 best_duration_numerator;
-+	int period_comparison;
-+	int duty_comparison;
-+
-+	clk_rates = candidate->subtype == LPG_SUBTYPE_HI_RES_PWM ?
-+		lpg_clk_rates_hi_res : lpg_clk_rates;
-+	candidate_clk_rate = clk_rates[candidate->clk_sel];
-+	best_clk_rate = clk_rates[best->clk_sel];
-+
-+	/*
-+	 * Both configurations are within the requested bounds, so the longer
-+	 * period has the smaller error. Use duty only to break a period tie.
-+	 */
-+	candidate_duration_numerator =
-+		lpg_pwm_duration_numerator(candidate, false);
-+	best_duration_numerator =
-+		lpg_pwm_duration_numerator(best, false);
-+	period_comparison =
-+		lpg_pwm_compare_candidate_duration(candidate_duration_numerator,
-+						   candidate_clk_rate,
-+						   best_duration_numerator,
-+						   best_clk_rate);
-+	if (period_comparison)
-+		return period_comparison > 0;
-+
-+	candidate_duration_numerator =
-+		lpg_pwm_duration_numerator(candidate, true);
-+	best_duration_numerator =
-+		lpg_pwm_duration_numerator(best, true);
-+
-+	duty_comparison =
-+		lpg_pwm_compare_candidate_duration(candidate_duration_numerator,
-+						   candidate_clk_rate,
-+						   best_duration_numerator,
-+						   best_clk_rate);
-+
-+	return duty_comparison > 0;
-+}
-+
-+static int lpg_calc_pwm_state(struct lpg_channel *chan,
-+			      const struct pwm_state *state)
-+{
-+	struct lpg_channel standard = *chan;
-+	struct lpg_channel frequency = *chan;
-+	u64 half_period_ns = state->period / 2;
-+	int ret;
-+
-+	standard.enable_freq_mode = false;
-+	ret = lpg_calc_freq(&standard, state->period);
-+	if (!ret)
-+		lpg_calc_duty(&standard, state->duty_cycle);
-+
-+	if (chan->freq_mode_capable &&
-+	    (state->duty_cycle == half_period_ns ||
-+	     state->duty_cycle == half_period_ns + (state->period & 1)) &&
-+	    !lpg_calc_freq_in_freq_mode(&frequency, state->period,
-+					 state->duty_cycle)) {
-+		frequency.enable_freq_mode = true;
-+		if (ret) {
-+			*chan = frequency;
-+			return 0;
-+		}
-+
-+		if (lpg_pwm_config_has_smaller_timing_error(&standard, &frequency))
-+			*chan = standard;
-+		else
-+			*chan = frequency;
-+
-+		return 0;
-+	}
-+
-+	if (!ret)
-+		*chan = standard;
-+
-+	return ret;
-+}
-+
- static void lpg_apply_freq(struct lpg_channel *chan)
- {
- 	unsigned long val;
-@@ -817,11 +1045,50 @@ static void lpg_apply_dtest(struct lpg_channel *chan)
- 		     chan->dtest_value);
- }
- 
--static void lpg_apply(struct lpg_channel *chan)
-+static int lpg_apply_freq_mode(struct lpg_channel *chan)
- {
-+	struct lpg *lpg = chan->lpg;
-+	bool enable_freq_mode = false;
-+
-+	if (!chan->freq_mode_capable || !chan->enabled)
-+		return 0;
-+
-+	if (chan->enable_freq_mode && chan->enabled)
-+		enable_freq_mode = true;
-+
-+	return regmap_update_bits(lpg->map, chan->base + PWM_FM_MODE_REG,
-+				  PWM_FM_ENABLE,
-+				  enable_freq_mode ? PWM_FM_ENABLE : 0);
-+}
-+
-+static int __lpg_apply(struct lpg_channel *chan, bool check_freq_mode)
-+{
-+	bool enable_freq_mode = chan->enable_freq_mode && chan->enabled;
-+	unsigned int val;
-+	int ret;
-+
- 	lpg_disable_glitch(chan);
-+
-+	if (check_freq_mode && chan->freq_mode_capable) {
-+		ret = regmap_read(chan->lpg->map,
-+				  chan->base + PWM_FM_MODE_REG, &val);
-+		if (ret)
-+			goto out_glitch;
-+
-+		if (!!(val & PWM_FM_ENABLE) != enable_freq_mode) {
-+			ret = regmap_update_bits(chan->lpg->map,
-+						 chan->base + PWM_ENABLE_CONTROL_REG,
-+						 LPG_ENABLE_CONTROL_OUTPUT, 0);
-+			if (ret)
-+				goto out_glitch;
-+		}
-+	}
-+
- 	lpg_apply_freq(chan);
- 	lpg_apply_pwm_value(chan);
-+	ret = lpg_apply_freq_mode(chan);
-+	if (ret && check_freq_mode)
-+		goto out_glitch;
- 	lpg_apply_control(chan);
- 	lpg_apply_sync(chan);
- 	if (chan->lpg->lpg_chan_sdam)
-@@ -829,6 +1096,17 @@ static void lpg_apply(struct lpg_channel *chan)
- 	else
- 		lpg_apply_lut_control(chan);
- 	lpg_enable_glitch(chan);
-+
-+	return 0;
-+
-+out_glitch:
-+	lpg_enable_glitch(chan);
-+	return ret;
-+}
-+
-+static void lpg_apply(struct lpg_channel *chan)
-+{
-+	__lpg_apply(chan, false);
- }
- 
- static void lpg_brightness_set(struct lpg_led *led, struct led_classdev *cdev,
-@@ -1433,28 +1711,30 @@ static int lpg_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- {
- 	struct lpg *lpg = lpg_pwm_from_chip(chip);
- 	struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
-+	struct lpg_channel config;
- 	int ret = 0;
- 
- 	if (state->polarity != PWM_POLARITY_NORMAL)
- 		return -EINVAL;
- 
--	mutex_lock(&lpg->lock);
-+	guard(mutex)(&lpg->lock);
- 
-+	config = *chan;
-+	config.enable_freq_mode = false;
- 	if (state->enabled) {
--		ret = lpg_calc_freq(chan, state->period);
--		if (ret < 0)
--			goto out_unlock;
--
--		lpg_calc_duty(chan, state->duty_cycle);
-+		ret = lpg_calc_pwm_state(&config, state);
-+		if (ret)
-+			return ret;
- 	}
--	chan->enabled = state->enabled;
- 
--	lpg_apply(chan);
-+	config.enabled = state->enabled;
-+	ret = __lpg_apply(&config, true);
-+	if (ret)
-+		return ret;
- 
--out_unlock:
--	mutex_unlock(&lpg->lock);
-+	*chan = config;
- 
--	return ret;
-+	return 0;
- }
- 
- static int lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-@@ -1462,8 +1742,10 @@ static int lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
- {
- 	struct lpg *lpg = lpg_pwm_from_chip(chip);
- 	struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
-+	bool freq_mode_enabled = false;
- 	unsigned int resolution;
- 	unsigned int pre_div;
-+	unsigned int clk_idx;
- 	unsigned int refclk;
- 	unsigned int val;
- 	unsigned int m;
-@@ -1477,7 +1759,7 @@ static int lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
- 		return ret;
- 
- 	if (chan->subtype == LPG_SUBTYPE_HI_RES_PWM) {
--		unsigned int clk_idx = FIELD_GET(PWM_CLK_SELECT_HI_RES_MASK, val);
-+		clk_idx = FIELD_GET(PWM_CLK_SELECT_HI_RES_MASK, val);
- 
- 		if (clk_idx >= ARRAY_SIZE(lpg_clk_rates_hi_res))
- 			return -EINVAL;
-@@ -1485,7 +1767,8 @@ static int lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
- 		refclk = lpg_clk_rates_hi_res[clk_idx];
- 		resolution = lpg_pwm_resolution_hi_res[FIELD_GET(PWM_SIZE_HI_RES_MASK, val)];
- 	} else {
--		refclk = lpg_clk_rates[FIELD_GET(PWM_CLK_SELECT_MASK, val)];
-+		clk_idx = FIELD_GET(PWM_CLK_SELECT_MASK, val);
-+		refclk = lpg_clk_rates[clk_idx];
- 		resolution = lpg_pwm_resolution[FIELD_GET(PWM_SIZE_SELECT_MASK, val)];
- 	}
- 
-@@ -1501,9 +1784,28 @@ static int lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
- 		if (ret)
- 			return ret;
- 
--		state->period = DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC * ((1 << resolution) - 1) *
--						 pre_div * (1 << m), refclk);
--		state->duty_cycle = DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC * pwm_value * pre_div * (1 << m), refclk);
-+		if (chan->freq_mode_capable) {
-+			ret = regmap_read(lpg->map, chan->base + PWM_FM_MODE_REG, &val);
-+			if (ret)
-+				return ret;
-+
-+			freq_mode_enabled = !!(val & PWM_FM_ENABLE);
-+		}
-+
-+		if (freq_mode_enabled) {
-+			u64 period_numerator;
-+
-+			pwm_value &= 0xff;
-+			period_numerator = PWM_FM_PERIOD_NUMERATOR(m, pwm_value);
-+			state->period = DIV_ROUND_UP_ULL(period_numerator, refclk);
-+			state->duty_cycle = DIV_ROUND_UP_ULL(period_numerator / 2,
-+							     refclk);
-+		} else {
-+			state->period = DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC *
-+					((1 << resolution) - 1) * pre_div * (1 << m), refclk);
-+			state->duty_cycle = DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC *
-+					pwm_value * pre_div * (1 << m), refclk);
-+		}
- 	} else {
- 		state->period = 0;
- 		state->duty_cycle = 0;
-@@ -1691,7 +1993,8 @@ static int lpg_init_channels(struct lpg *lpg)
- {
- 	const struct lpg_data *data = lpg->data;
- 	struct lpg_channel *chan;
--	int i;
-+	unsigned int status;
-+	int ret, i;
- 
- 	for (i = 0; i < data->num_channels; i++) {
- 		chan = &lpg->channels[i];
-@@ -1703,6 +2006,14 @@ static int lpg_init_channels(struct lpg *lpg)
- 		chan->sdam_offset = data->channels[i].sdam_offset;
- 
- 		regmap_read(lpg->map, chan->base + LPG_SUBTYPE_REG, &chan->subtype);
-+
-+		if (chan->subtype == LPG_SUBTYPE_PWM && data->channels[i].freq_mode_capable) {
-+			ret = regmap_read(lpg->map, chan->base + PWM_STATUS1_REG, &status);
-+			if (ret < 0)
-+				return ret;
-+
-+			chan->freq_mode_capable = !!(status & PWM_FM_PRESENT);
-+		}
- 	}
- 
- 	return 0;
-@@ -2029,7 +2340,7 @@ static const struct lpg_data pm8350c_pwm_data = {
- 		{ .base = 0xe800, .triled_mask = BIT(7), .sdam_offset = 0x48 },
- 		{ .base = 0xe900, .triled_mask = BIT(6), .sdam_offset = 0x56 },
- 		{ .base = 0xea00, .triled_mask = BIT(5), .sdam_offset = 0x64 },
--		{ .base = 0xeb00 },
-+		{ .base = 0xeb00, .freq_mode_capable = true },
- 	},
- };
- 
+ Documentation/networking/ip-sysctl.rst |  4 ++-
+ net/ipv4/arp.c                         | 38 +++++++++++++++++++-------
+ 2 files changed, 31 insertions(+), 11 deletions(-)
 
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index 208f46967ee5..d603588266b4 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -2298,7 +2298,9 @@ promote_secondaries - BOOLEAN
+ 
+ drop_unicast_in_l2_multicast - BOOLEAN
+ 	Drop any unicast IP packets that are received in link-layer
+-	multicast (or broadcast) frames.
++	multicast (or broadcast) frames. ARP packets received in such
++	frames are not used to create or update neighbour entries,
++	but ARP requests for local addresses are still answered.
+ 
+ 	This behavior (for multicast) is actually a SHOULD in RFC
+ 	1122, but is disabled by default for compatibility reasons.
+diff --git a/net/ipv4/arp.c b/net/ipv4/arp.c
+index d409f606aec0..17b5f32736aa 100644
+--- a/net/ipv4/arp.c
++++ b/net/ipv4/arp.c
+@@ -714,6 +714,7 @@ static int arp_process(struct net *net, struct sock *sk, struct sk_buff *skb)
+ 	struct neighbour *n;
+ 	struct dst_entry *reply_dst = NULL;
+ 	bool is_garp = false;
++	bool bmc_no_learn;
+ 
+ 	/* arp_rcv below verifies the ARP header and verifies the device
+ 	 * is ARP'able.
+@@ -791,6 +792,10 @@ static int arp_process(struct net *net, struct sock *sk, struct sk_buff *skb)
+ 	    (!IN_DEV_ROUTE_LOCALNET(in_dev) && ipv4_is_loopback(tip)))
+ 		goto out_free_skb;
+ 
++	bmc_no_learn = (skb->pkt_type == PACKET_BROADCAST ||
++			   skb->pkt_type == PACKET_MULTICAST) &&
++			  IN_DEV_ORCONF(in_dev, DROP_UNICAST_IN_L2_MULTICAST);
++
+  /*
+   *	For some 802.11 wireless deployments (and possibly other networks),
+   *	there will be an ARP proxy and gratuitous ARP frames are attacks
+@@ -850,14 +855,19 @@ static int arp_process(struct net *net, struct sock *sk, struct sk_buff *skb)
+ 			if (!dont_send && IN_DEV_ARPFILTER(in_dev))
+ 				dont_send = arp_filter(sip, tip, dev);
+ 			if (!dont_send) {
+-				n = neigh_event_ns(&arp_tbl, sha, &sip, dev);
+-				if (n) {
+-					arp_send_dst(ARPOP_REPLY, ETH_P_ARP,
+-						     sip, dev, tip, sha,
+-						     dev->dev_addr, sha,
+-						     reply_dst);
+-					neigh_release(n);
++				n = NULL;
++				/* Do not learn the sender from a BMC frame */
++				if (!bmc_no_learn) {
++					n = neigh_event_ns(&arp_tbl, sha, &sip, dev);
++					if (!n)
++						goto out_consume_skb;
+ 				}
++				arp_send_dst(ARPOP_REPLY, ETH_P_ARP,
++					     sip, dev, tip, sha,
++					     dev->dev_addr, sha,
++					     reply_dst);
++				if (n)
++					neigh_release(n);
+ 			}
+ 			goto out_consume_skb;
+ 		} else if (IN_DEV_FORWARD(in_dev)) {
+@@ -866,9 +876,11 @@ static int arp_process(struct net *net, struct sock *sk, struct sk_buff *skb)
+ 			     arp_fwd_pvlan(in_dev, dev, rt, sip, tip) ||
+ 			     (rt->dst.dev != dev &&
+ 			      pneigh_lookup(&arp_tbl, net, &tip, dev)))) {
+-				n = neigh_event_ns(&arp_tbl, sha, &sip, dev);
+-				if (n)
+-					neigh_release(n);
++				if (!bmc_no_learn) {
++					n = neigh_event_ns(&arp_tbl, sha, &sip, dev);
++					if (n)
++						neigh_release(n);
++				}
+ 
+ 				if (NEIGH_CB(skb)->flags & LOCALLY_ENQUEUED ||
+ 				    skb->pkt_type == PACKET_HOST ||
+@@ -887,6 +899,10 @@ static int arp_process(struct net *net, struct sock *sk, struct sk_buff *skb)
+ 		}
+ 	}
+ 
++	/* ARP received in L2 BMC frames must not change the neighbour table */
++	if (bmc_no_learn)
++		goto out_drop_dst;
++
+ 	/* Update our ARP tables */
+ 
+ 	n = __neigh_lookup(&arp_tbl, &sip, dev, 0);
+@@ -945,6 +961,8 @@ static int arp_process(struct net *net, struct sock *sk, struct sk_buff *skb)
+ 	dst_release(reply_dst);
+ 	return NET_RX_SUCCESS;
+ 
++out_drop_dst:
++	dst_release(reply_dst);
+ out_free_skb:
+ 	kfree_skb(skb);
+ 	return NET_RX_DROP;
 -- 
-2.43.0
+2.56.1.750.gf70dc682cf-goog
 
