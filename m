@@ -1,54 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.85
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795439381;
-	b=1C2vicqxms8JxAda2b9sOaco/ILkQ7w+skO9BlhmdHp8xsS4YE0aqdOoT7/RkifSSH9N
-	 cKE/dj5izxQMIv0e3REquKP1+IG/2SWETttuFaFEQ7jrRU9LgqorNUZcA6VFKCSxmcHP2
-	 w20+FMCeOEJVO46y2fDE24bmgw9Jdaybfj+/mpQWyYhaoaQPrVSaTqHHoBKazlJKcMq3j
-	 OHd5z9ZMJnkbrUNeUu305heV3eAn0I+Sr7FuzokWsimhpLEyRGdiScap1Z3FJCx7qxzTk
-	 BrbP7tVJx5KpBipQEhlIn7lqb9MSiYnuOTjnlM4SYHjb5X9ThrBBU23KTJvtldd37kQ==
+	t=1795439459;
+	b=KzP2uUPd0S6FGaG2MAcnGPLgW3Wb8h5MRLhA/yK0WnSvSEF7RuIw1yEP4DtQemEHYh1e
+	 nut12ZXXsq8RcTQqsVmO7f8CUu+/NbIDBYlbe170TX0MpPn1/R9BxmvVhXsMIDVjHXGPY
+	 Q+i/6iDaqzh2GAocbBMG3CUM//s0IuGjcm8jKRfFWL1T7vvl0uVIZmsGNmIPys49inCWl
+	 PuUgoYHxH8pcVMPvvVTOcItM8oy9kbftu8IBxHCKoCmpek/AufBxEhr31TUcPmsfQZIhL
+	 rdsjAuc/ob6kZzi6j0Slqt3dUK5WMCHprSF19UVdbsloFO8K8Fh9z6OlIdB4cpkD9MA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795439381;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Nd5CZyfgwE7sFhk6acA7AVJ7d2R8SkDrM35xdBcCb20=;
-	b=OO9/zP2ZBDMvW/1r5Wub+jf2lmINbsFLNLVdPSnwaguRzNLizH4+sdPqK61Ysza6PxXO
-	 +KViUjvpeX/55aVCX9qn0z6VEXRDtcvcVYhBMd8nj9+1IvYYxE68O6GByzQcyYbqo3oEj
-	 QLLBvRg0ya3YV8/y5i8Ze8DGvclNZ3PsPW5DK//qLPiZMALxn4U0mkMtYGNr7RjVwqVLi
-	 XYhEoeZxa9qYPV1ZPpCXLRFR8bYEmyLck2saTevPTtcnY9K1e5mqM+Pk3vK2JKWw9Ljht
-	 ULA/xtG7JQO03qheBjLbgUhpvsjAySjVW5s2z1d+H6BSK2bDymkLMXGmMkrMk1ECrNw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795439459;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
+	 In-Reply-To:References:Subject:Message-Id:Date:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-Mailer:
+	 X-Last-TLS-Session-Version;
+	bh=iYTNCDdhiKPgMC3oUL4xKYF1Z1+fSJpoO0nf2r4oKIE=;
+	b=p2TlDJSukcbzU+Afdy5rhglUVtXoqIICrEOpg61J4IxpyWf0PXxo9yZbw9pcKiv3pc8f
+	 URHjCsvYXQRtsTtu3kPakrDDFeofGEyYb8W0rgMbwtSDN3WtNBSZBFsFtSY4ky4gMtmz5
+	 sx+XwvNsj9uDqmw53Nsp1BgF6JzHOnAGdn2PLd/vSohoZLwlNW2TFBqqenHzKfYT+HKen
+	 cfySQkSspLnkzd+YN4t4QleyqhQqsB0scY3RlpiZ/35H+FfaUZWGVJBUu5e6yeF/sEkQu
+	 HuKnkyDB6JaanNbhcY7f14An5w1PmoeJPS/hYPTzhDllOehOoZMORf+DPMXm8V9VvWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BvURa1Xl;
-	arc=none smtp.remote-ip=95.215.58.85
-Received: from mta1.migadu.com (out-85.mta1.migadu.com [95.215.58.85])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=1KAIw7x3;
+	arc=none smtp.remote-ip=185.171.202.116
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65549606A31F
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 13:09:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65549606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B188C606A31A
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 13:10:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B188C606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BvURa1Xl
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Kv6rN9MEKoiRHQDVdRKHKD/KMDKdWjoWG0A+b+UDD8s=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795439378; v=1; x=1796044178;
- b=BvURa1XlwXBtVXOp1GHIZSfHVZ3wHaEiX25ev9cxSkZqV4En8XnmSSar1zKHxO14eiTk3i2D
- 5LHf2uES0dI7e9krR4YNZpMGTRziJk9s1VUNa/cFUsaADqUim8D4b8qN3BMY47TPxEpCToxZj1G
- kZzixOeX2dGdr2S7hdFRiAEk=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 9a2a31f03a0d30f3;
-	Mon, 23 Nov 2026 13:09:37 +0000
-X-Mizu-Trace-ID: 9a2a31f03a0d30f3
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <86f3466a-c1a8-4673-98db-4c9a95277ab7@linux.dev>
-Date: Mon, 23 Nov 2026 21:09:30 +0800
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=1KAIw7x3
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 3E7B0C69146;
+	Mon, 23 Nov 2026 13:11:03 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 13063601E1;
+	Mon, 23 Nov 2026 13:10:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A658D11E689D2;
+	Mon, 23 Nov 2026 14:10:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795439454; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=iYTNCDdhiKPgMC3oUL4xKYF1Z1+fSJpoO0nf2r4oKIE=;
+	b=1KAIw7x3WCOP+VMklmFO7H9LvbiZTkrdRWb9qNp49RSl+AScir3UsUK9/WvuRGVSZrFx/g
+	j15CsuSslue+kOdwUh7fzTRc5MpyYOFhdFsVlH2G7n38KNbp2BQOyjSF86x9ccgXBvUxX5
+	j4K+cMYTuP6Sy9aZ7Ipi+LbeJHcHDG4/k25O4VT3FKdsI3LKIaK0NxMJyUJ6sIE1MMOLZA
+	f5MiKCllX4OBXQhfCcMhNkYvXBcJfnoqiwpfTJwIeQf6FAlrmpqsxwEIdJxzRUP7ZQFBde
+	k1Mo1Wn/oYJBDHEk71QJ1zQdeyLSAY8uoKYMcBT/PkUUs7XrTTd1AIKyiZOMIw==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Sasha Finkelstein <k@chaosmail.tech>, Janne Grunau <j@jannau.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+In-Reply-To: <20261106-drm-panel_bridge-remove-drmm_of_get_bridge-v1-0-c0ea3382b798@bootlin.com>
+References: <20261106-drm-panel_bridge-remove-drmm_of_get_bridge-v1-0-c0ea3382b798@bootlin.com>
+Subject: Re: [PATCH 0/3] drm: remove drmm_of_get_bridge()
+Message-Id: <179543943896.276287.6561955057050063323.b4-ty@b4>
+Date: Mon, 23 Nov 2026 14:10:38 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,51 +79,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] Add RCU docs Chinese translation
-To: alexs@kernel.org, si.yanteng@linux.dev, dzm91@hust.edu.cn
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- paulmck@kernel.org, linux-doc@vger.kernel.org, rcu@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261118131636.5131-1-xiongwei.song@linux.dev>
-From: Bruce Song <xiongwei.song@linux.dev>
-In-Reply-To: <20261118131636.5131-1-xiongwei.song@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16.0
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Experts,
 
-Could you please take some time to review the series?
+On Fri, 06 Nov 2026 17:17:03 +0100, Luca Ceresoli wrote:
+> drmm_of_get_bridge() is deprecated. By now it is just a complicated wrapper
+> to of_drm_get_bridge_by_endpoint(), and it does not implement bridge
+> refcounting. Replace the only user and remove it.
+> 
+> == Grand plan
+> 
+> This is part of the work to support hotplug of DRM bridges.
+> 
+> [...]
 
-Regards,
-Xiongwei
+Applied, thanks!
 
-On 11/18/2026 9:16 PM, xiongwei.song@linux.dev wrote:
-> From: Xiongwei Song <xiongwei.song@linux.dev>
-> 
-> Changes for v2:
-> 	Fixed build warnings and errors for both RCU/index.rst and RCU/whatisRCU.rst.
-> 
-> v1:
-> 	https://lore.kernel.org/linux-doc/20261113013054.5662-1-xiongwei.song@linux.dev/
-> 
-> The following 2 patches are adding RCU docs Chinese translation for the first
-> time.
-> 
-> Currently, RCU is not listed in TODOList in subsystem-apis.rst. I propose
-> adding it.
-> 
-> Thank you
-> 
-> Xiongwei Song (2):
->    docs/zh_CN: Add RCU/index.rst translation
->    docs/zh_CN: Add RCU/whatisRCU.rst Chinese translation
-> 
->   .../translations/zh_CN/RCU/index.rst          |   50 +
->   .../translations/zh_CN/RCU/whatisRCU.rst      | 1220 +++++++++++++++++
->   .../translations/zh_CN/subsystem-apis.rst     |    1 +
->   3 files changed, 1271 insertions(+)
->   create mode 100644 Documentation/translations/zh_CN/RCU/index.rst
->   create mode 100644 Documentation/translations/zh_CN/RCU/whatisRCU.rst
-> 
+[1/3] drm: adp: stop using deprecated drmm_of_get_bridge()
+      commit: 8c3eaa2149c1852a5701831bce07fac6cba98bf4
+[2/3] drm/panel: remove drmm_of_get_bridge()
+      commit: 01f2c4238fa101fd58696d0f0671d1edfaa247a3
+[3/3] drm/todo: remove drmm_of_get_bridge()
+      commit: 0bd6e1ffd6a85914092b110b08f5a19271f3dbd4
+
+Best regards,
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
