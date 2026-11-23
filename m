@@ -1,16 +1,16 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.12.33
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795426488;
-	b=diFj4LDtgwanoIfckAXF485apw8Wle+67X8cUN4fvZ3FKBL1bquru45/IgBkfuKYbEA2
-	 DvPFVtIchKwMuVi/QaYsFxXXnLub0LLJYg1py2Z75i+0zokyV6cXWGcnCtDaQFWA87T2w
-	 ldXvc/YzNy8MP2nzbwvvsUZKAW942mdwaDdGZAO4l09xoJdpFBcXMEWU8aFLcOPqLbFkf
-	 7p+32YYI7xjxkxUpaIWJQ6PTA+YsesybAuG9c3lACSL26e31crmOZQrK1BxhiXu7KwoAW
-	 f5gBCv8zga9PLDB/Uu8QwN14nXexpH97hm0DxtDmUEo7aEGnAwkNBrEJglcUFI94yZQ==
+	t=1795426489;
+	b=j+BrGnknnxzII3ot8UjH0ixiglrZFzLM8UKRqX56eBSKgZxKUwjqPI1ALp1qCRZ2Mk5+
+	 D0RLUtBsIYVzyF0OoWrcM96CzYAa/GD10noCsKtdIFwYJVG3ow88ixCyEx3EZN8KHVNcR
+	 a6Kjz/NsjYigh8jTMGNnJh5QGVX1SDO0jrXQaMQNPx4ZnmMYJzCwBA22xjbQ6Xm5hoP0m
+	 StMO0JVdr/0CHL0y6sjBAYeOfkNxGxK+aMq4DLgVYMqE2dxtEwVFLYKhRBWx4T+ZSmxOL
+	 Oz+/3ZPPsgiLtLD7Vgg6aqFTnRLL5CHsqQgb2rkuNj2dhWHnU2n0LSOmj2NdWyXrY/Q==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795426488;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795426489;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:Accept-Language:
-	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
 	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
 	 x-ms-office365-filtering-correlation-id:
 	 x-ms-exchange-slblob-mailprops:x-microsoft-antispam:
@@ -26,50 +26,50 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-id:
 	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=Vr9js6lJ45Qmm2DWd4ewv+0Q2ymoCpee1vMvzWkkXyc=;
-	b=ptVIPdM+571MUU0WSJeg8xmujIbvEBJYLy+xqvCSOE6U7Dsv9QD5Lxe3skoDH3g+GUM4
-	 +D00/+Bp8KqciXOmLjaalV771Dgi4oZ8+Hb2VYFD2I2ZNwqQhb+YguI85PF90tMKSROUt
-	 SYcb6x+J4dGOYW5AV/mKH51ja7tyvtjBit5MG3vv4dKQmj9vmAsiZTtbL/HMgMuGNi3oy
-	 Rq5Ft07fbHWAkcl/N5ZJhJDEN5X/e6MA64V6qe0p3pNFeTZugi2A8lvnCoDNCpJkProFA
-	 82G+AjAM9mW9Wgv+fMY4Hkt/kgXEHLvK09zsjpGb8mkOqOLcTHy1cuRipPyOyAElzrg==
+	bh=drV9wELZzCMv5wWxkBbIj1Ajt4YMUf/uSqo/wLY4HIo=;
+	b=leRhGJQgQUmm132zjm7yg4ubG8IZ5zOSS+k120oehP2EKEAI4BSsSJobKX88wNJP2rtv
+	 RiR7Odr0lgdsOOQgxsIk0DdD/OuMStw5FaCqk40D20JqkPZ8KxKS975wNNVJiZiKUwyZM
+	 LZrwbNvs30KkYLSGfRujRP82gL40a/EDuuD5zZCY0qZMa/Vf+1jEvAMf5P2XM437KOLIY
+	 YQ4faAeYkewtHVBFZhjLWBpRnsd05VLsftFNqKYhYp9UeVVKBhQq9hoh53mkIGqKSuNlh
+	 OzpDBWi0pZroP30hr52QFh4e8SKyCoABwuA05Y0BfvxBaZb4zqW0aJ0IqE1aAiYixQA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=outlook.com;
 	spf=pass smtp.mailfrom=outlook.com;
-	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=UEt+N5NP;
+	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=cosjtf6e;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.12.33
 Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azolkn19011033.outbound.protection.outlook.com [52.103.12.33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EA4606A31A;
-	Mon, 23 Nov 2026 09:34:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6EA4606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAAC606A31E;
+	Mon, 23 Nov 2026 09:34:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3BAAC606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=UEt+N5NP
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=cosjtf6e
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L251MSlMmxXdNldXDfzWIAOMk/luqDNg960RQsqh0T7xoJtCQ4d0Q3FonmXKV0aB9Xw4VjM2D5xHeUHnpt0+AefQffayaL1Z3hNcwfDTnfdWIbhXq4GdP0nNFlwupdBFroyQmqKf60yrjJoQSrfK1QIekJqDhsizVRtcmMOF5KGykJmYqGMXQvY1dYeskHykqIuX6MtVe8a48rfx0eSS/YHCu8SEIswg6IKNgCHz5ppLJpcoo6IEcMEp4O827MP37iGxk8ePOFbP8Rey0hptgPr2cHFQ9rPL77u40b+KD5/l3Tc16aRr6LW4Zf2Ps2VlWI/7bBt6O22Ce5Nz+OZJ0w==
+ b=D/XqyogzZeXrCfyIHngUqgIIR7+/atlx7v49DY4CsEABJpR4e5EttrBIthxuOGCkM1l+FMqQJZrVhUVf7rjN2oISN74iJeTDXfFH34fUxa6CSRkzkNJglrl4P3G1ddvL8K3ZyF5Fgz6X+JaduYYCsJyq4gQRT5JUxHtna/a7hQA6eD9fYUqpXDePd7y/9FF8LO5Lg1ILFEKsIA3o+7D2DTwEqByAuB0+0HXzxaLYaJ1qvwuI01N8Sn+hMvKTEVuoEXnmK3ylwI7xFT8uimkn3jFcVu/c8BBE0hceuYtQSCtIjpncwVtUWCoPBkNOjKxBMGSjyZz5Zq+y1/5wZruT9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=Vr9js6lJ45Qmm2DWd4ewv+0Q2ymoCpee1vMvzWkkXyc=;
- b=mwSoS9e+CJTYKvRMH/2R5A9re2G9neFDHz6r/Cuj2RVphfBCKKDb79P/zRXdMOuzaP4qVe2eKdMi6DkPWn6NvWdpQghl7vLJiYAv0owM6jMH+Tz1ggmmYktZFJsC3QwO6VLMjhwzszNaiXQ/fi6gmVWrnnMOVaGOiTr/3Ze8jDsufgsdyDTo4gd9EGT8wBKwBlBNhGi7D0HsXRW4ZufMffVfmXdua9eobP2uqVEo4lTLoBPuOPHOC28/v08YIIUcfS9DK0pp2eBN6mBlf2buBkbKyM9nlvqxskm3WQYKzeCjrBHInEtg3oxer53HMrHIcPJfIiNFYFC44EbU47T4CA==
+ bh=drV9wELZzCMv5wWxkBbIj1Ajt4YMUf/uSqo/wLY4HIo=;
+ b=hKrNmQUDq9n2t4NatKl9D0GznAbP0sRuHOeNT2Y1VJ/6leG3f/SDV1YSzV4AmGNu4VDMfyGcvYgRyq3q0JtZeyJ6xEzqaSzxvXuptEBMSeLbiYYY5rhUhsaZAY0La8XZUwM7RQzpIElUc+0EBuw4zJmYzLwd6eWaWbWTDBDoS1wjr4E89w9HZn36/qMGee4mxIUM9TNI+SvHWZPBNrBgNEByeCz68UvVta8bawc7GaXustDggySrY4rm2pdJrp9RMhJNssor/rC29ygkkeZlU5VSWWaRTaupN4H3NIyUP66BDCd3swqB4GOni7QJX0N6BsxLNrIoYop7pJikJ7K4hg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vr9js6lJ45Qmm2DWd4ewv+0Q2ymoCpee1vMvzWkkXyc=;
- b=UEt+N5NP1JUdezmzP0LJ7+muMma2rkyWyxerOCdM5W4/wtwXsgdT6zB5Ql7vlm92nGYU6wVksOk6cFFlAeBFzbjMjX03ZLk7xqv73ucuuQeyfpDyvQaZE4hhvCyguNhuwSko11EqYL7kIXO4p29UkizcawLk7POfpE2OwbU/Rhbwq1tGKNjl1okhjhTJBUtw0sU5QnwodJnFLwTVy21NEE58JFqslEPYB8UAkYiEjYpP1bofC649K5RXe9s3GNtwxXyMRHYOo+cPGFM40MiMTQTCy3DOFZE4AL1gwol6StPE/2pc9XjPP4MX95QPSA9kShGsnVKZ8Z17V0PG2HFt+A==
+ bh=drV9wELZzCMv5wWxkBbIj1Ajt4YMUf/uSqo/wLY4HIo=;
+ b=cosjtf6ePSEGJBc0vnMW4gpeyWtMmMHYdA796dcR2JQpDUxUg9b+jN+9fPEcm1/vGq1gARsJ2cS3frZCD4Nd/exjNQCGQXrnDvAufQh4JN9Ax1Qj7KMpq4Q0xLGZaoPClh8wPGDgCBbOE+9YOCLPMeomQFFHmzDDGuS82uHnndQYkCxQ6k8oPliIU6oMA/ETEyGycOxJmxWEnLba2Xi2FU2Gl49bZfkTNv/69ug/L5IV4//A9E2ELEZCXlgrHGLD1aQHpFnc5IPS20HyZ8mKZPtsGUPV5qV3xyyjlD1MAx4GEQ7VrJ4aMX55rB032ZGI7hfc/7+jkpaMyqCcFsiQZw==
 Received: from BN6PR05MB3281.namprd05.prod.outlook.com (2603:10b6:405:40::35)
  by SJ0PR05MB8664.namprd05.prod.outlook.com (2603:10b6:a03:394::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Mon, 23 Nov
- 2026 09:04:32 +0000
+ 2026 09:04:34 +0000
 Received: from BN6PR05MB3281.namprd05.prod.outlook.com
  ([fe80::5b9b:67c7:5397:c42]) by BN6PR05MB3281.namprd05.prod.outlook.com
  ([fe80::5b9b:67c7:5397:c42%5]) with mapi id 15.21.0639.011; Mon, 23 Nov 2026
- 09:04:32 +0000
+ 09:04:34 +0000
 From: Yingjie Wang <x-professor@outlook.com>
 To: "netdev@vger.kernel.org" <netdev@vger.kernel.org>
 CC: "mptcp@lists.linux.dev" <mptcp@lists.linux.dev>,
@@ -87,72 +87,75 @@ CC: "mptcp@lists.linux.dev" <mptcp@lists.linux.dev>,
 	<geliang@kernel.org>, "ycheng@google.com" <ycheng@google.com>,
 	"weiwan@google.com" <weiwan@google.com>, "joel.granados@kernel.org"
 	<joel.granados@kernel.org>
-Subject: [PATCH net-next v4 0/2] tcp/mptcp: prevent blackhole timeout
- arithmetic wraparound
-Thread-Topic: [PATCH net-next v4 0/2] tcp/mptcp: prevent blackhole timeout
- arithmetic wraparound
-Thread-Index: AQHdeymn8lJ4XQWO202US2XHZsJUCQ==
-Date: Mon, 23 Nov 2026 09:04:32 +0000
-Message-ID: <cover.1795424546.git.x-professor@outlook.com>
+Subject: [PATCH net-next v4 1/2] tcp: avoid wrapping Fast Open blackhole
+ timeout
+Thread-Topic: [PATCH net-next v4 1/2] tcp: avoid wrapping Fast Open blackhole
+ timeout
+Thread-Index: AQHdeymopn+nzxVVO0mLnbX4ck3mkw==
+Date: Mon, 23 Nov 2026 09:04:34 +0000
+Message-ID:
+ <f16def1cfc888fd26dad40f52e3e92b138bd3319.1795424547.git.x-professor@outlook.com>
+References: <cover.1795424546.git.x-professor@outlook.com>
+In-Reply-To: <cover.1795424546.git.x-professor@outlook.com>
 Accept-Language: en-US, zh-CN
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: BN6PR05MB3281:EE_|SJ0PR05MB8664:EE_
-x-ms-office365-filtering-correlation-id: b5fc9a9b-08bf-4007-fbfa-08df4940c9d1
+x-ms-office365-filtering-correlation-id: f2223ddb-892e-455f-2f45-08df4940cafe
 x-ms-exchange-slblob-mailprops:
- obhAqMD0nT+6TxoHw5fNkboUl/ASnSn2aDUe2oMT6Cctkw//qk4l6AkPKai972W72OdusDyVSzWWS2jzYgy39Z+/fICAYBAtQaXz1/FPo24Av8NgM2ZeQcB/4rGa2+YLTCAfkG7IpjKIZ2L9i4kOaDZfm6oWSjJKf7AtSbG92kzNjXzELIv97ttufCQSqzkLzlO/kaz2WcVrW8yStxgviWAwsnZhLLXFXj6H9L7HrccF0kJ4mZ+s4r+k83NZBL27fl6c9lJTcY5jqQD4heh334e6CDlvyoIsYifczTxsDADQxY8CX++FtmqhGrvmNttkEOQ2E8TEnMTjZ4gRM7Qj2ML3rjMGxEDoQ2Ad48rcM4C10mRzKjpbq6MqkC/4FVG1X3kzaekAmA6SxdL7GKW+9jcIWLjApf8zJrBwadFgO2PgN5Swy7kTKyPjU1lsodUdj9lYHYsVKvHQn/ueYjPZufPrIg1pIyd6MJlV28y5pr8+sB/VmQTGxKyJXngQaqJ57Qv2Ny8vBl1gvgnUMMY791xV/TLmUalJ0z9xUZUtEISFcKDZ+vvBRAxD0vQSmWCVctkk4Zc7Zg0pTeUmHE03hp0ezmNWKBOho90/2ok7E3naI0S/Sq76Jk94aJf6uUybVaehG0ryLp/+xRBkA0GBqxvPezwWYW3giBAtIf5kGBbA0eWIUENZvUSVlT6T5Osl7zZYwM0rcqSj/J/l50RuBEQwiGLUrBNTfxIAFY4v6hj9TUGBL3C1Oml2YkLG5vELuC5aCZOjUnNz1FXxr5gOyRCDO1tmDmhMBoyxY1NC9ujrMl09SE+tV4Z9lSejciCH
+ AZnQBsB9XmrTkIzDOCxR6E7nJ4I/6XZ7aPC0o7eel15pxjKSqRG/i5y098ndLT/kpNBi2EbxM5vOxshk7m902ZPsiI0Nlf27OrmJLGIS6cRmYjFQDl8dtTGMkguNY7K7ceXjNoOwtJFZX0MIIbU5l6vTXAxW7wc+QyAP2BBhdpn3XLCGnaPF1XmGGBy5z13l04GicpdYQlarcI+BC5hjhjkLmv0vvTiqS8gue4RpHARD2SYYm2OoDCVXF0ux5PXOTFM5vbYlX3mCePpalQxtFap06f1JiHusA5gBlCyAB35sfcwwPmX2Mqnziqghy7wjk8laKM2l5uoUYkZheKHGSNj5xpragJL7ApYMuO57VhmKsMTF8oHwmUr2ShOCdZ5T+MnSk1lKDS1cdBGucbtwL5jPI8BcyX3CPw/U276NCkg0iAB+pIYVLM57rG5OqcHy/LWO3bpLKo+8V29OWUFr/Xlqp8YzLwuqzm00+RcqU4Hd43tEpxXHIu9cpsirKhfN2pw6lOtzfORY77+jTDMTyJHgR1X6dtMLfYCpd6MOXpxogqW2euIzkTi7f2MOhtmJ+7Pr1FbLKPVGGDLfYB69U+RWkqPNQqVjwc6rLI/+ZS2aW67v+Q+VU/qITckzbN3u3Z2/hXkPGdZwR7ZLX2WSd6ygZapvD8Y8oxfexEQfVqvqHJqHBXSZ81bPDHMBXGUI1hCRgLEvXj39oh4XDl8YtOaw7/s85lZCgWN3JucaoiDypXqc3GxUW5N0euaZ+R64t1yCREsmwfI=
 x-microsoft-antispam:
- BCL:0;ARA:14566002|15080799012|31061999003|38102599003|22091999003|5062599005|8062599012|19110799012|8060799015|51005399006|24121999003|25010399006|4140399003|24021099003|4302099013|440099028|3412199025|102099032|1602099012|10035399007|40105399003|26121999007;
+ BCL:0;ARA:14566002|15080799012|31061999003|38102599003|22091999003|8062599012|19110799012|41001999006|8060799015|51005399006|24121999003|25010399006|4140399003|24021099003|440099028|3412199025|102099032|40105399003|30101999006|26121999007;
 x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?VKSWSIZo24L0zQ+Urek3XyawcMEvtaI1x718WBcUErGmbz590EoP667Cx0?=
- =?iso-8859-1?Q?HN19EJGwZcgubiiQEWvl+Pinut1cjkx3hoOvmNUaSr11Xr3EuBp4azXS+a?=
- =?iso-8859-1?Q?20SK+9pH6UOeDFzUIJaNm6p6v1D5gPMmikR6urq5mFliNexnYEKXrN7XGA?=
- =?iso-8859-1?Q?qCDj+NzuI8jrLlsqPehyF+6fvov8w9jUDdLJHO2vZZl2da1MbrXsty4/Ve?=
- =?iso-8859-1?Q?4gwKOvUTcM3U7ioknaWPE68FPU3JWxWL6cKf7cM1EzNwTlnh1rYZ6gdvdy?=
- =?iso-8859-1?Q?4c5/nADhVBiArl7ep9uxjnG8Wem9s+fNyGtLhKzpJBqPunMEtZdgYv84qn?=
- =?iso-8859-1?Q?1pBOzTFRClaXphVqfUwhNRtbBOZh0FT+Be3ZeZdqBiyyyls0Tglt78GWs8?=
- =?iso-8859-1?Q?M5ZUkikuBTy5C3SsTgtae1kKeQWQlBfW7VXuNznBeFoSmp9PAHfL0ev/SE?=
- =?iso-8859-1?Q?aEG0/eUh42MyPtuhtn3BFxzaSe/Js5Nog9hBZ0nTq4sJscyBHYJLlo5GcJ?=
- =?iso-8859-1?Q?KO0OMYnWvsnM1mahR13OBQiD1F4HU0uXjFunAl028QfkFavVSaG/bf0R1O?=
- =?iso-8859-1?Q?7UjczVSLx78eVX86ILrdr8zkPkBIkyLVdq2864n7V7CqnfWzlQp0QHVqHR?=
- =?iso-8859-1?Q?uBLsA3TZ1dsYdhOeN6Uh2ouykcO1O0dRX6vbCr2lS3BFO+5mI8gYLLBOqx?=
- =?iso-8859-1?Q?LwuWIlMi4X5JdpTW+Pv9C+Vh7osUx1jyk8MiprBfFISDNZRi8q7INK1FPb?=
- =?iso-8859-1?Q?biqdSmao3EFL34netEDu4IA1Xt+YuwPSZJ2hFTvZ4Pmowky3SjVDWR1sPn?=
- =?iso-8859-1?Q?ro6PMw7tmfxNtbZ6NxUfPMdX+oYgPmJFRuxdn2/cFSuwO0diZqEw/96LmN?=
- =?iso-8859-1?Q?HPUeSpKSyS8swJ93zhYeGC9gkVzhnBEEiZYw2fo1dq71DEQR8GvEuaX/rY?=
- =?iso-8859-1?Q?nbwci6iJhzeiPunGhm6owID1P6WvJZT+DyqLn4zIDPJDzw2BBPpWRD12cy?=
- =?iso-8859-1?Q?XzsymrFQjiX2Dh+h2fisEc3oeGhKSlZIgmY2w0XewmOG4Gq1RwPqwnwv4C?=
- =?iso-8859-1?Q?fIjWv2ZFvEOtYpr3C8Fzx869txuJN13w3HXVOk8yT8HJU2s0BRG5hE6nIE?=
- =?iso-8859-1?Q?fTtRWmILxEmOyR6dtPa0vUpnL8Rb57I/moXMv6S1BkIhPyPXNe?=
+ =?iso-8859-1?Q?PGCHxdUwiDYYyoVj3ji9ycNvICTszZxvXntjCUqgEOImFBTaqsjXbqss6X?=
+ =?iso-8859-1?Q?S0shybZo3/rYWIgEXk9F3+9hdTur6zndnjl91fOpVY0a3G3BZxxIteC2u7?=
+ =?iso-8859-1?Q?6d8bKyS+lVMa+CrFIzjoTa7mwUpOusSfKNuFKjliIYB/Gej0XUFsZAG+X3?=
+ =?iso-8859-1?Q?X3GQRPNY71Bwc4OkwQ/hkRrekwsfGCufeqi2oxaMC93BrooauriVaECQXb?=
+ =?iso-8859-1?Q?tzLCdf8lB7VJ7+r3JTEeJW9tWDLd9VOoTLSbPoWIru/LBAyQnGLLtHm0P/?=
+ =?iso-8859-1?Q?29CvwwSwcEl+4teakJYB5OiznqV9Zm0trLzAHz2jMi4ztxvrclxcjE6OFd?=
+ =?iso-8859-1?Q?MDZ61Mgq5idJQf33xEA8aVcvjWbpRJqcoF3gTO+9nLTrjjZSeBNzUcBDuv?=
+ =?iso-8859-1?Q?AUxlCCXKCeNNcIdncoHAQsgxwV1bOMPAb6/4BrLfvuJGS8PWaPUCuAj8HP?=
+ =?iso-8859-1?Q?imellsG5xim4tiSPl9QoRPUyQAzyDtw4k/NhmIfnEveHB7JMMVmxQAOXp7?=
+ =?iso-8859-1?Q?vD902lkG0lvzf9IZPFyOKF/s19O5XC2w/irE99/Rg1Jmm+wJ5tMqEobv54?=
+ =?iso-8859-1?Q?6Nx2vvynT8Nfudfim6GruqIiFKmUIYMae9SCsI1ELdzkicj1OGIlcEPK+I?=
+ =?iso-8859-1?Q?caSpOFU5GZkOGG12xOwTQ0UsRtkzvgC6csc7xTsVoIJoJzQ6q3qFQjfT1D?=
+ =?iso-8859-1?Q?huNoNeDzQ29KwVoq82aKZsE9FlPPLcec/rGDVNV0l0it7Ijo3P7TIYK0u+?=
+ =?iso-8859-1?Q?8fhj3wZdkRoOHvzImSNGwwOxmbnIOVGYZLC1aeVGCVBwiy9vrULWOXW8w8?=
+ =?iso-8859-1?Q?c2kZ6GMgc40f6BBAgIG3sfy48nBerBfJupyowtTK4UaNhs1Fo4QFIXkClt?=
+ =?iso-8859-1?Q?RiyrFtFTNKrzibJQUqxR5vNmYTXiCKcn2HSPxTg4iM29/KSHa+VnOtCn6X?=
+ =?iso-8859-1?Q?EdJRz3GqbQ9IKbFYObwvukWeyKP0yVvjN+6FQeMHwelvyAzYAEkkd1hRQ+?=
+ =?iso-8859-1?Q?Zn6sfIkcGCYHZQNfYPDXGHAiyabdhEwyz61gG6JEL5d5E8DS1s4oG7Jmpl?=
+ =?iso-8859-1?Q?D9/6ETnYniLFJMWyc4T/Sxd2kDLmeEdL5MW82IyE2zMZLqdOMo40jwCXN/?=
+ =?iso-8859-1?Q?qxgbRXv05ul/kcATKzFv87mAFAxHNZDct7uGYDh6PMKeSsV2pd?=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?5/QAZHTV84GhZcoRM1AOkL9ApqCcyhoJFyNtGgcF1bjhxUUGVMkU8proNw?=
- =?iso-8859-1?Q?ed8w6jyuH3Zua2FDCc6o4NRjiwYTmG+TuuEhhLUVTqG/eVAQQq+KxJWV1t?=
- =?iso-8859-1?Q?nV30z7hSthqVxVKl1PAIqXVoAkCD25Q2AJVoG/VYicSb9Yuammdbccp7B+?=
- =?iso-8859-1?Q?z4rlL5MKcCRNcZZeRPxYrUWg2Cd/JKVMzuBw/cYCWV3MpXUe1gECeMPsnI?=
- =?iso-8859-1?Q?I8xmoAy0QKml2swXqLCI9NmS07FpE6dNMcBGaR0ahLuD/rDNmBl9GkkhzU?=
- =?iso-8859-1?Q?rmZGXFdnS5FnHrFGzT0m8B0pA6ze0gLzDKeEK/wT625iU0asyxkRiEd3CE?=
- =?iso-8859-1?Q?WSOeYFlOvQfdlNvMGWE6KJfhQL2irFvzyFQTmZqdqHTRwWdA5QTr3uJYLJ?=
- =?iso-8859-1?Q?IBvYSCQ52teLoEkMTuwRjU98y/IvXJ52Iu6mXdJj3kOWyBZrQJROa73wsw?=
- =?iso-8859-1?Q?eZ0TtEc2jAAxro3HQi4OVBEPQdvkKfOy5qN7D2vzYTZ8/0uUBOiO0/9a8E?=
- =?iso-8859-1?Q?axspG7qbkDPkLNDutTjw5D0m3ftBWoV4SG6LrRv5jxWOd2vRczOtio3r1P?=
- =?iso-8859-1?Q?4i9b4Rg+WKm9Lw4z9vkuv3F1agFxcvf4JMuNGFZVQrJ2i7TdebPEzLw1mg?=
- =?iso-8859-1?Q?XPpkxAK71zgrl3RyQORhRcSd8CHEmOQ1CKrAFqaKIqyZDFhr+FKthys0Pi?=
- =?iso-8859-1?Q?wfSi0gmrPYCSAEvzTXVznMpiyhCYDaNwyPfHouaV3js5+u29oNrx4HRa8s?=
- =?iso-8859-1?Q?FzfR+3G68j2V/5SP8lw5BXt7em/l6UsRP4pkPv8abmZq0XOJT5STB1FbAZ?=
- =?iso-8859-1?Q?USAbOh66eLuGul21urrxchGXjoZgu/7mg/zw7oKEZjl+5+wquNJn89HHW8?=
- =?iso-8859-1?Q?ep04XxcWN+sIHftar1bXjJowZwH4ueTXLTfvz5GPo6z5md7v4g2G/S9AeD?=
- =?iso-8859-1?Q?KD2HRlhCssTnssSxEaVK59xVpPJYy/qxh6YeZLzE4YHLWO96Z9NZmAvl+J?=
- =?iso-8859-1?Q?swwk/tNf4S8mRhYM9k4LfjPgT9New2qYyF1XfSeXqSChvBcx5yCyApxGd7?=
- =?iso-8859-1?Q?l6wrs/vRXgrQzGIBUOO/NaS+SRZ4cZuLFaJ1LK51zvkemnoX2Dv9K1uJPm?=
- =?iso-8859-1?Q?AI/5+HEpFRjhqee+01WIvULzljXPtPF7khpXYb/2oDs8QZYjQD0MoN2906?=
- =?iso-8859-1?Q?uER3sLKE/i3Dd7QQc1yDrMIHKQ4/nWs5aUffT4W4CaL+z3iHDv2Zj0JbRh?=
- =?iso-8859-1?Q?AfUNCkgtUqafCPofqs7ANPGythj14SIEJkhkWT3hb2rDuXWsXCweyBonF4?=
- =?iso-8859-1?Q?kFCA38RTbZIXjnqtxkZKDFFpEdcSQZ2Ds54SK+AmcSkZD6lDCfZe4KYb8J?=
- =?iso-8859-1?Q?sOEh44H/SS8Ujlb4uNJUdGsnBx1/2sykziao4UP+cGRgnZtAQtwSAIz6bj?=
- =?iso-8859-1?Q?aDMl9EbzkOcq80oA?=
+ =?iso-8859-1?Q?qRUuw9ScNrZOKW+3Ria6M+BdRBEkpKoAJ5BumEfWgXJ0XLn3fmDjDGQRnU?=
+ =?iso-8859-1?Q?Xs611URwrukllVrSpjkvMJzm32iniC3/+qoRCMc/qy6bxjsEg8zaQnsNJJ?=
+ =?iso-8859-1?Q?Z6IluanXpJh0hcJ1+jwdy0LBVCiBzGYWbQ2FZaZR4C0Zu0dzouwxCqM4NI?=
+ =?iso-8859-1?Q?91lDnDv40ocsXhT8RQncX2EACZCDoITc21V9c9YBYDWIaUg2mjI/hWoQlb?=
+ =?iso-8859-1?Q?fnvSeTlcXl+jSlWyZsblPxDro+pSmXs9vIon8HjnMqXIawwklz0ghu9KVv?=
+ =?iso-8859-1?Q?vQtD40D4pg0tW0J8T9CLpB10HJyZnQ51BIOO7f6WiYl7rP2rHbctL5rYDs?=
+ =?iso-8859-1?Q?LeJqHvf3YFvcBbihyn+CHuuvLC2zyw2H4zYmzGDlFwa2fEPEQV4LoTxA2P?=
+ =?iso-8859-1?Q?tR/R0Ot2Xjam5ZS1/qlcOtf4c7NAETYbQrlYOKWYit94UgTxMywloZnnnB?=
+ =?iso-8859-1?Q?TSQAJSZfLrpA3xCnr3pRBQQLpx5oQKYdmDwNfPG4MXkbMfTZJvyBmDuRq5?=
+ =?iso-8859-1?Q?dDty930XhlZJePWR3KoeBq+m35GekKLj2YJG3omhGcI2HLHQYJ+QXGDM/1?=
+ =?iso-8859-1?Q?TKIprJQi5GgzGgrGEgDeKCZLrMwrhCxbLbmWVyOzRxKo3r4cr6LwHjyQr3?=
+ =?iso-8859-1?Q?uP7HxVdsMCtrCzkbgZtlazObUWicSFni0u0fKmvix9m3SYxGLR0khaUHYM?=
+ =?iso-8859-1?Q?W4Wihi3VLGrKN4+aa/0OTWefqVqiHnZvj/3GzPnWoVglpperUPh3DerEIL?=
+ =?iso-8859-1?Q?vjxZe1AXOq7+otMkETyr7pRuGKinnof8Bj9+gLgyt7iBJz+harMbfUiopC?=
+ =?iso-8859-1?Q?ilIEgTtT3FsMlQINdyZPkq8/htaL+39zapf01lhpt+yHRbLxhWiabPDT3i?=
+ =?iso-8859-1?Q?RXSNyIl/pwJOXGrk/m+50Ko0OTxOu/U/WDcSnakOdz14B7LFo++blXqQNk?=
+ =?iso-8859-1?Q?bxA17ENSUb0gpJmqBerVCunwyTOVYf6o10oWCJH4Eaol2krizAoz0jl4NF?=
+ =?iso-8859-1?Q?T6zywfDHNB11Cb/hsSNpdaOVpLSXFq4c07qC0dm4qOCIT/gQMqBsbF+grQ?=
+ =?iso-8859-1?Q?AyzfLUckjTVFJWAin2QvfqboAO6tNWxokQu1GX5Kiq16hBiuo/dISO4sA1?=
+ =?iso-8859-1?Q?jcpU7Hkh85RumeGLpM9hjLeydfVma8zu/EytMbRzwPtVlxWQ0Xq5rAakcE?=
+ =?iso-8859-1?Q?M44yjZOAJb/KJsbZXga5wgBeCV0OF/5Ho/AYWXWfvdB8LC8GlPgKu5yodv?=
+ =?iso-8859-1?Q?w64ujgPJA20mLTnHBQ8/62jFbKwvYcmYOp6CQQV7YX+/90/11MbibxuZNy?=
+ =?iso-8859-1?Q?/gNxHtSSWNwXnpjKYOfYwUIZAmxB1x3i00fOXLbt7tji8rBbI4uaB4/F9F?=
+ =?iso-8859-1?Q?CSoevENDIjzKSnfTCPtdDxcBrGUIbpOOZmLhtjxOy2lbHF05CeZD21/JXr?=
+ =?iso-8859-1?Q?uuRW/EBh68QTibeS?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -168,75 +171,114 @@ X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BN6PR05MB3281.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5fc9a9b-08bf-4007-fbfa-08df4940c9d1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2026 09:04:32.2213
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2223ddb-892e-455f-2f45-08df4940cafe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2026 09:04:34.2129
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR05MB8664
 
-The TCP Fast Open and MPTCP blackhole timeout calculations can wrap in=0A=
-32-bit unsigned arithmetic, even on 64-bit kernels. With HZ=3D1000 and a=0A=
-64-fold backoff, 67109 seconds becomes 8.7 seconds instead of about=0A=
-50 days.=0A=
+tcp_fastopen_active_should_disable() calculates the active-disable=0A=
+interval as multiplier * tfo_bh_timeout * HZ. Since all operands are=0A=
+32-bit, a large tcp_fastopen_blackhole_timeout_sec can wrap the delay,=0A=
+even on 64-bit kernels, and re-enable active Fast Open too soon.=0A=
 =0A=
-Compute both delays in u64, cap them at MAX_JIFFY_OFFSET, and limit both=0A=
-initial timeout sysctls to one day. The new input limits reject values=0A=
-that were previously accepted, so this series remains for net-next and=0A=
-is not intended for stable.=0A=
+With HZ=3D1000 and the maximum multiplier of 64, any timeout above 67108=0A=
+seconds wraps. For example, 67109 seconds should produce 4,294,976,000=0A=
+jiffies (about 50 days), but the calculation truncates it to 8,704=0A=
+jiffies (8.7 seconds).=0A=
 =0A=
+This issue was found using a static analysis tool. It was confirmed with=0A=
+a loopback reproducer that induces 12 Fast Open blackholes and opens=0A=
+another connection 10 seconds later: with a 67109 second timeout, the=0A=
+unpatched kernel retried active Fast Open. The reproducer needs neither=0A=
+kernel modifications nor error injection.=0A=
+=0A=
+Compute the interval in u64 and cap it at MAX_JIFFY_OFFSET before adding=0A=
+it to the saved timestamp. On 32-bit kernels, the cap keeps the interval=0A=
+within the range that time_before() can compare, which limits the longest=
+=0A=
+backoff there to about 12.4 days at HZ=3D1000.=0A=
+=0A=
+Also limit the writable initial timeout to one day, so the exponential=0A=
+backoff does not start from an impractically long period. Writes above=0A=
+86400 seconds, which were previously accepted, now fail with -EINVAL and=0A=
+leave the current value unchanged. The wider calculation is still needed=0A=
+below that limit, as the 67109 second example shows.=0A=
+=0A=
+Suggested-by: Kuniyuki Iwashima <kuniyu@google.com>=0A=
+Signed-off-by: Yingjie Wang <x-professor@outlook.com>=0A=
+---=0A=
 Changes since v3:=0A=
-=0A=
-- Drop the Fixes tags from both patches.=0A=
+- Drop Fixes, as requested by Matthieu.=0A=
 - Leave the existing comments unchanged, as requested by Matthieu.=0A=
-- Combine the MPTCP arithmetic fix and input limit into one patch.=0A=
-- Name the MPTCP limit one_day_secs, as in TCP.=0A=
-- Drop Gang Yan's Reviewed-by from the combined MPTCP patch because the=0A=
-  added input limit was outside the patch he reviewed. Keep Eric's=0A=
-  Suggested-by for the MPTCP input limit.=0A=
-- Add Kuniyuki's Suggested-by for requesting a limit on the TCP sysctl.=0A=
-- Move the test notes out of the commit messages, as requested by Eric.=0A=
-- Rebase on net-next eb6d6c80d354.=0A=
+- Add Kuniyuki's Suggested-by for requesting the input limit.=0A=
+- Move the test notes below the separator, as requested by Eric.=0A=
+- Rebase on current net-next.=0A=
 =0A=
-v3: https://lore.kernel.org/r/cover.1794847474.git.x-professor@outlook.com=
+Testing: the loopback reproducer kept active Fast Open disabled, and=0A=
+the sysctl accepted 86400 and rejected 86401. The TCP selftests were=0A=
+not run.=0A=
 =0A=
-v2: https://lore.kernel.org/r/cover.1794672619.git.x-professor@outlook.com=
+ Documentation/networking/ip-sysctl.rst | 1 +=0A=
+ net/ipv4/sysctl_net_ipv4.c             | 1 +=0A=
+ net/ipv4/tcp_fastopen.c                | 4 +++-=0A=
+ 3 files changed, 5 insertions(+), 1 deletion(-)=0A=
 =0A=
-v1: https://lore.kernel.org/r/cover.1794325665.git.x-professor@outlook.com=
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/network=
+ing/ip-sysctl.rst=0A=
+index 3cc80d9b024b..c2b05ca14ff8 100644=0A=
+--- a/Documentation/networking/ip-sysctl.rst=0A=
++++ b/Documentation/networking/ip-sysctl.rst=0A=
+@@ -1055,6 +1055,7 @@ tcp_fastopen_blackhole_timeout_sec - INTEGER=0A=
+ 	get detected right after Fastopen is re-enabled and will reset to=0A=
+ 	initial value when the blackhole issue goes away.=0A=
+ 	0 to disable the blackhole detection.=0A=
++	The maximum value is one day (86400 seconds).=0A=
+ =0A=
+ 	By default, it is set to 0 (feature is disabled).=0A=
+ =0A=
+diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c=0A=
+index 9df93ad219db..fb0f3124836d 100644=0A=
+--- a/net/ipv4/sysctl_net_ipv4.c=0A=
++++ b/net/ipv4/sysctl_net_ipv4.c=0A=
+@@ -1152,6 +1152,7 @@ static const struct ctl_table ipv4_net_table[] =3D {=
 =0A=
-=0A=
-Testing on v4 and its unmodified base, x86-64, HZ=3D1000:=0A=
-=0A=
-- Loopback reproducers induced 12 blackholes with a 67109 second timeout=0A=
-  and opened another connection 10 seconds later. The base kernel=0A=
-  retried active TFO and MP_CAPABLE; v4 kept both disabled. Both probes=0A=
-  completed using TCP on v4.=0A=
-- Both sysctls accepted 0, 1, 3600, 86399 and 86400, and rejected negative=
-=0A=
-  and above-limit values with EINVAL without changing the stored value.=0A=
-  These checks passed in the initial and a new network namespace, with=0A=
-  unchanged defaults and independent namespace values.=0A=
-- The affected objects built at each commit on x86-64 and i386 with=0A=
-  W=3D1 and KCFLAGS=3D-Werror.=0A=
-=0A=
-The 32-bit cap was checked by compilation and arithmetic, not at runtime.=
-=0A=
-The TCP and MPTCP selftests were not run locally.=0A=
-=0A=
-Yingjie Wang (2):=0A=
-  tcp: avoid wrapping Fast Open blackhole timeout=0A=
-  mptcp: avoid wrapping blackhole timeout=0A=
-=0A=
- Documentation/networking/ip-sysctl.rst    | 1 +=0A=
- Documentation/networking/mptcp-sysctl.rst | 1 +=0A=
- net/ipv4/sysctl_net_ipv4.c                | 1 +=0A=
- net/ipv4/tcp_fastopen.c                   | 4 +++-=0A=
- net/mptcp/ctrl.c                          | 6 +++++-=0A=
- 5 files changed, 11 insertions(+), 2 deletions(-)=0A=
-=0A=
-=0A=
-base-commit: eb6d6c80d35449c27471b1874f13066c09a8964d=0A=
+ 		.mode		=3D 0644,=0A=
+ 		.proc_handler	=3D proc_tfo_blackhole_detect_timeout,=0A=
+ 		.extra1		=3D SYSCTL_ZERO,=0A=
++		.extra2		=3D &one_day_secs,=0A=
+ 	},=0A=
+ #ifdef CONFIG_IP_ROUTE_MULTIPATH=0A=
+ 	{=0A=
+diff --git a/net/ipv4/tcp_fastopen.c b/net/ipv4/tcp_fastopen.c=0A=
+index 7f7eb3cc1c04..aeefd605414f 100644=0A=
+--- a/net/ipv4/tcp_fastopen.c=0A=
++++ b/net/ipv4/tcp_fastopen.c=0A=
+@@ -613,6 +613,7 @@ bool tcp_fastopen_active_should_disable(struct sock *sk=
+)=0A=
+ 	unsigned long timeout;=0A=
+ 	int tfo_da_times;=0A=
+ 	int multiplier;=0A=
++	u64 delay;=0A=
+ =0A=
+ 	if (!tfo_bh_timeout)=0A=
+ 		return false;=0A=
+@@ -626,10 +627,11 @@ bool tcp_fastopen_active_should_disable(struct sock *=
+sk)=0A=
+ =0A=
+ 	/* Limit timeout to max: 2^6 * initial timeout */=0A=
+ 	multiplier =3D 1 << min(tfo_da_times - 1, 6);=0A=
++	delay =3D (u64)multiplier * tfo_bh_timeout * HZ;=0A=
+ =0A=
+ 	/* Paired with the WRITE_ONCE() in tcp_fastopen_active_disable(). */=0A=
+ 	timeout =3D READ_ONCE(sock_net(sk)->ipv4.tfo_active_disable_stamp) +=0A=
+-		  multiplier * tfo_bh_timeout * HZ;=0A=
++		  min(delay, MAX_JIFFY_OFFSET);=0A=
+ 	if (time_before(jiffies, timeout))=0A=
+ 		return true;=0A=
+ =0A=
 -- =0A=
 2.43.0=0A=
 =0A=
