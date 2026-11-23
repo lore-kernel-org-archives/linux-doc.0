@@ -1,92 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795476596;
-	b=eiPIDbjtE2for+byjcUbixXawKqQsjGa+3MSy4U5Z4CMmI7pP0krYJryKGXsgFLumGHm
-	 xlSP0nIWE5Rk1Xl6tY+hCPPX1Yt3uKgrL0itEOToQyS5eDQu0JiBDvOlyb+5A/vw8P6pA
-	 H4E5SxQtjusyiU7kjJEb1rIHqP9bm7g7aQyrR2v1PmFSQ0va94t00lsqf4K6TLazmb8wQ
-	 DrQkeZIusMOLMo8dqf+OMMWRYmAQXCvclBm4Ry52lJCb6sBGLTgp/661CIFM1Hix8WQOY
-	 rIzlUURW354YE5h6akSAvNttE01GqI2leiPT3TfxMf6mxDYS4fYP+xEB7WdqP75TeMw==
+	t=1795477171;
+	b=EfhbdzcB0bTWpKMfb+V6QwrTyPAPRJPcgo8VCUj9myTG9dT+QMKugVbgcDczxebAZH3X
+	 KNovM7O5JOyiwfqqvWgPc8L5MooEViAGaB2jlkI+e9XPpiH2nEN/tiHKz/BBfC8Zvx21+
+	 x4ZrX07nYHCjY2lNXkXCTVMqsTMsTalhGiM9EvRY0NQLCiLB23WWy726R+/Tb1PapbQb7
+	 KUA4s48DS2WmHtzq9dvPgifGLIPLOL+4FeC6481u5eDUJpzitmRVyWpH05Cl5l2xz6a5V
+	 8Sugksp6HtwJaP+USblRrZzo48NHxVgNhcmsMPcqCmmNt30IcwbjSXu3AWfXGiUo+vw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795476596;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=ij62NLxX4FUHE68o/nDUnkcGX/NAQzCWZMg6PCtAUGA=;
-	b=zAoHrWfeclkOkXO3x4bCkxcKrhxQTWnqCx9zVM46Z/LFm3ZOhkGYMkhUII2slSWyhtRK
-	 uWUDmIJJZ6EQPnWRcTvaHlaeIFDeFGvkiWUy1iNYQlhoBpCJqL1Q4zXRhkj8zciqiBHLR
-	 eIq40L4/DGb241M1VlHH6S4FuXu4scnyzqOBkuSMgndBi7F5l9+jIsi6P8fGFQAnvHAnr
-	 nhLvfyptdYwy6GmeFZMTgcCEwFTBkNz+zY4zvZTiI2nos5R2BX1ICk9xVFaVVUAaiShLd
-	 NY5fYyOIfzY9vExcdnTcqRE8dC2OWjEPIZdn439+leF0iS2RK1sj0mt3hCsfU2e+rgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795477171;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=M1DlTHNw5rbNjmyWDgD7Ukr9dsG77Kyw3Ulz2ICIXFc=;
+	b=Ov9VfTltr3AfRhIJzrGfL2Ih0x1fk0KEcBohd73xwOXCdM2LMCtjunOcXNGzBmAAV+CU
+	 nerDpk/xFTNu0fmrAnbQsN74/N1/hZF6WC3gaeLZeXpQRgP5K6Q+mDgCZCGM0oohuj39p
+	 4Cwo2OaYSha12nv+1i6cK46kedX6m4f+FBKDBDXgRJqml9oNSkV+V9WOuFcgrlWr+inKy
+	 hbHnjjPonTWYlz4FbjLI6ZNYw4mx4Wg/WDbqFELlyPHsnmc9HkL5Tvgh8+yzRins7mav/
+	 Hp26lX/1kB1NcMAuDg8KKT3lWjpwHRwYYX1bmQU35F3/gw42g688fMu3kaRO+LqQQTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hRGm1da0;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=W9a8CmD2;
+	arc=none smtp.remote-ip=209.85.160.72
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53ACE606A321;
-	Mon, 23 Nov 2026 23:29:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53ACE606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F341606A322
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 23:39:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F341606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hRGm1da0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795476597; x=1827012597;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+aoNxvX7CA7N3D6kz0fvGw63xB3T4spyF1H1SMyB54M=;
-  b=hRGm1da023mP8MnCj0/8asUjl0Beef4canXEMSKYxDKx7AOjNP9DnXLc
-   Ez7nIqmVpTGD6LuivkQ5mJDrYSefmAHXFCHdUz3xQ4XxY5Dos/tiho9hH
-   KDjYvt6qb12lOAVAA+nFTrPKCb+OAFw/L5lmcELb2UA2yrtVoy7j9MuN7
-   KkUvlTGqcedNZacw/0lnEZ0cxUevoDl2uQicqNfsF3Lg7w4hjWlxj9WBO
-   FKstJNoFwTPz9aRG4kpWrROug6fs0XV2BoibQL4TAm4RNCb/j5Z+sw0W5
-   oc7PMfmYkXaLEkoSU1l4bdXyRODxu/1kCgbxcDIhYz4Pnl7fcjCv8wp52
-   Q==;
-X-CSE-ConnectionGUID: giYxY96DS1aex8mJx3XqOw==
-X-CSE-MsgGUID: 4uESkZ9hQjmK/1L8BeuATw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4345323"
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="4345323"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 15:29:53 -0800
-X-CSE-ConnectionGUID: i7U20as+TeeqpmGBO9jDcA==
-X-CSE-MsgGUID: QplunU+aTYG6CetzR8lwVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="13106883"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 23 Nov 2026 15:29:47 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xVdTk-00000001O74-0NaF;
-	Mon, 23 Nov 2026 23:29:44 +0000
-Date: Tue, 24 Nov 2026 07:28:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Abel Vesa <abelvesa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 08/24] ASoC: codecs: wsa884x: register the die
- temperature as a thermal zone
-Message-ID: <20261124071812.oiRgQnHg-lkp@intel.com>
-References: <20261122161437.5994-9-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=W9a8CmD2
+Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-45e6091d8a1so2897862fac.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 15:39:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795477169; x=1796081969; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=M1DlTHNw5rbNjmyWDgD7Ukr9dsG77Kyw3Ulz2ICIXFc=;
+        b=W9a8CmD2H+ZvIbXJP/dQPZq99kTY62jnf9dmGlAFQFrB4C7WbENtqsqEFPACF7xu7W
+         wuCFcrytbdFI+5m1mA+7HoGPKKKDFnb/4z0x3AKYU+CsZH0tE++2a/I/J5vOdqP5cz4l
+         8+EEM1RCiH5HCif8V8RvDNtvrCHN2BuoAzFSKfvrvaUCsZr/6a40ieeMk+q8fcu3jCk0
+         VE+M1oWB05KGbU2bQOEiYFtUnyVkL4Tl2hO0zHr3Hd3wJqgZTgaRo/N0heQ/2na9eMKZ
+         3hm+XSWzOnHKgXdWqIjy18B0oss5eYAbQ7EO1rTG9X0WtnLxGJY8DoQnlE64DNuCRBg/
+         MESg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795477169; x=1796081969;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=M1DlTHNw5rbNjmyWDgD7Ukr9dsG77Kyw3Ulz2ICIXFc=;
+        b=ZKkRmlEEYt8rsvVDJAp+obAMyu1pBoZ8r222xvyhyZeIoyKK7P3WnNE2YgHEtEDdrZ
+         Vh+j8h5/JImuo4q7dQ6I6j/u6qaKsjlzuKrNM0jKGEtyHG4764pF/0Gr1vgmDYF38G2c
+         AEfl6OWNCHtAVk5UR6qY8s7eWpHWUJI9jJeoeZwOUaObLBo0sNo7UCmb850fZyC15ZJz
+         LD1kooNZ8/dFe4ePkhIGeYODJwaK8p3c92YhAxYzR3ev5EAZYlGOlUBbc8s4aRJB/7gc
+         0PH+zBMw21KpdIQUXpYg+3Z5YecjXfqjJt8Gxhck27gJkIxwHyN6Zkxq8vLj7gTKdYA+
+         y0Qg==
+X-Forwarded-Encrypted: i=1; AL+hErGCElcYelO24eB1fvy7V8bXsya1cOtPz1S6VE8hUnX9dcHsv/wF0tcNkQ9WqiMmx0aJVo3oHITJMv4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z83W8DlBNIDqsWEHjuroUy6kDPVxvxGVpi8wHiPzzVjsrR8pDcq
+	0mwGyi/pXvy/vjRpOQ4UFCCdPNWAST94x/jDbjrQe9SdpPkn0B6Plkw2mwZZh/dMLfQvSCASQaw
+	gQAuZ6ma3zbcG0Q==
+X-Received: from ilb10-n1.prod.google.com ([2002:a05:6e02:530a:10b0:522:f1fe:e456])
+ (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6808:3503:b0:4f5:eaac:5151 with SMTP id 5614622812f47-57a0b0414a8mr14759642b6e.39.1795477169164;
+ Mon, 23 Nov 2026 15:39:29 -0800 (PST)
+Date: Mon, 23 Nov 2026 23:39:05 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -95,176 +75,322 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261122161437.5994-9-srinivas.kandagatla@oss.qualcomm.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
+Message-ID: <20261123233924.3970932-1-dmatlack@google.com>
+Subject: [PATCH v5 00/18] liveupdate: Preserve tmpfs files across Live Update
+From: David Matlack <dmatlack@google.com>
+To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org
+Cc: Alexander Graf <graf@amazon.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Mike Rapoport <rppt@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	David Matlack <dmatlack@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Srinivas,
+This series can be found on GitHub:
 
-kernel test robot noticed the following build errors:
+  https://github.com/dmatlack/linux/tree/liveupdate/tmpfs/v5
 
-[auto build test ERROR on next-20261120]
-[cannot apply to broonie-sound/for-next tiwai-sound/for-next tiwai-sound/for-linus robh/for-next v7.4-rc3 v7.4-rc2 v7.4-rc1 linus/master v7.4-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This series allows userspace to preserve files on tmpfs mounts across a
+Live Update, in addition to memfds. Today only memfds are supported, so
+userspace has to put every in-memory file it wants to preserve in a
+memfd, which works for VM guest memory but not for other files that live
+on tmpfs mounts and need a path, owner and mode, such as in-memory logs,
+binaries, and configuration files.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/ASoC-soc-pcm-add-multi_direction_codecs-link-flag/20261122-161415
-base:   next-20261120
-patch link:    https://lore.kernel.org/r/20261122161437.5994-9-srinivas.kandagatla%40oss.qualcomm.com
-patch subject: [PATCH v2 08/24] ASoC: codecs: wsa884x: register the die temperature as a thermal zone
-config: sparc64-randconfig-1000-20261124 (https://download.01.org/0day-ci/archive/20261124/20261124071812.oiRgQnHg-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261124/20261124071812.oiRgQnHg-lkp@intel.com/reproduce)
+The kernel preserves the contents and size of each file, and the file
+position and seals of memfds. After the Live Update, userspace creates
+an empty file on a tmpfs mount of its choice, with the owner, mode and
+other metadata it wants, e.g. with O_TMPFILE, and the kernel restores
+the contents of a preserved tmpfs file into it. Userspace then links the
+file at the path of its choice, so userspace decides the directory
+structure, names, owners and permissions of the restored files.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261124071812.oiRgQnHg-lkp@intel.com/
+Patches 2-4 come from v1 of this series [1], posted by Pasha. They add
+a file-handler-specific argument to LIVEUPDATE_SESSION_PRESERVE_FD and
+LIVEUPDATE_SESSION_RETRIEVE_FD, as suggested on the RFC [2]. The design
+of retrieving tmpfs files was discussed on v1 [3] and on v3 [4].
 
-All errors (new ones prefixed by >>):
+[1] https://lore.kernel.org/kexec/20261015093816.2438942-1-pasha.tatashin@soleen.com/
+[2] https://lore.kernel.org/kexec/2vxz7bjmkjeu.fsf@kernel.org/
+[3] https://lore.kernel.org/kexec/atE53vmlDeA4cWD2@google.com/
+[4] https://lore.kernel.org/kexec/20261105-sitzordnung-nahkampf-ausbleiben-6db911d0333e@brauner/
 
->> sound/soc/codecs/wsa884x.c:2248:11: error: passing 'const struct thermal_zone_device_ops *' to parameter of type 'struct thermal_zone_device_ops *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    2248 |                                                            &wsa884x_tz_ops,
-         |                                                            ^~~~~~~~~~~~~~~
-   include/linux/thermal.h:333:38: note: passing argument to parameter 'ops' here
-     333 |                                         struct thermal_zone_device_ops *ops,
-         |                                                                         ^
-   1 error generated.
+Series Overview
+---------------
+
+This series implements the following:
+
+  1. Remove an outdated list of steps from the comment of
+     luo_preserve_file() (patch 1).
+
+  2. Let userspace pass a file-handler-specific argument to
+     LIVEUPDATE_SESSION_PRESERVE_FD and LIVEUPDATE_SESSION_RETRIEVE_FD,
+     and let file handlers mark retrieve failures as retryable, so that
+     userspace can fix a bad argument and try again without losing the
+     preserved file (patches 2-4).
+
+  3. Rename memfd_luo to shmem_luo, since it will also handle tmpfs
+     files (patch 5).
+
+  4. Fix a WARN_ON() that userspace can trigger when tracking a
+     retrieved file fails (patch 6).
+
+  5. Let file handlers retrieve into an existing file: They claim the
+     file before they restore the preserved state into it, so that LUO
+     can reject a file that it already manages before the preserved
+     state is consumed (patches 7-8).
+
+  6. Make shmem_luo retrieves that fail before they restore the folios
+     retryable (patch 9).
+
+  7. Require permission to preserve a file, since preserving a file
+     freezes its size for all of its users (patch 10).
+
+  8. Retrieve files preserved from a tmpfs mount into an empty file that
+     userspace created on a tmpfs mount, passed in the new struct
+     liveupdate_shmem_retrieve_arg (patch 11).
+
+  9. Allow preserving tmpfs files (patch 12).
+
+  10. Add tests for which tmpfs files can be preserved to the liveupdate
+      selftest, which doesn't need a kexec (patch 13), and add a kexec
+      selftest for retrieving tmpfs files, split by feature into several
+      patches (patches 14-18).
+
+uAPI Changes
+------------
+
+  - struct liveupdate_session_preserve_fd and struct
+    liveupdate_session_retrieve_fd gain a 64-bit @arg field, a pointer
+    to a handler-specific argument that starts with a 32-bit size
+    field. Callers that pass the old struct size are not affected.
+
+  - Passing a non-zero @arg when retrieving a token that was already
+    retrieved fails with -EBUSY.
+
+  - A file handler can leave a token intact when a retrieve fails
+    before it consumes the preserved state, e.g. because of an invalid
+    @arg, so that the retrieve can be retried.
+
+  - New struct liveupdate_shmem_retrieve_arg, with @fd, the file to
+    restore a preserved tmpfs file into. It must be an empty regular
+    file on a tmpfs mount, opened for writing.
+    LIVEUPDATE_SESSION_RETRIEVE_FD returns a new file descriptor for the
+    same open file, like for any other retrieve. Files that were
+    preserved from a tmpfs mount can only be retrieved with it, and
+    memfds can only be retrieved without it. Before this series, the
+    memfd file handler accepted unlinked tmpfs files (e.g. created with
+    O_TMPFILE) by mistake and retrieved them as memfds. That was a bug,
+    and such files now require the argument like all other tmpfs files.
+
+  - Preserving a file now requires the file to be opened for reading
+    and the caller to have permission to write to it, and append-only
+    files can't be preserved (see Permission Model).
+
+ABI Changes
+-----------
+
+  - struct shmem_luo_ser (formerly struct memfd_luo_ser) gains a
+    SHMEM_LUO_FLAG_TMPFS flag in its existing @flags field, which
+    records that a file was on a tmpfs mount rather than the internal
+    shmem mount that memfds use.
+
+Permission Model
+----------------
+
+Preserving a file freezes its size until it is unpreserved: For all
+users of the file, truncating it, fallocate() and writes past its end
+fail with -EPERM, and the owner of the file can't undo that. Without a
+permission check, anyone with a session fd could preserve e.g. a
+world-readable file in /dev/shm through a read-only fd and break the
+owner's use of the file.
+
+Patch 10 therefore requires the file to be opened for reading, since the
+retrieved file can be read, and the caller to have permission to write
+to the file (inode_permission(MAY_WRITE)). It doesn't require a file
+opened for writing or a writable mount. The owner may also preserve a
+file that is immutable or on a read-only superblock, since its size
+can't change anyway. Append-only files are rejected.
+
+The checks apply to memfds too. They only reject memfds that are opened
+write-only, that are append-only, or whose mode was changed to deny the
+caller write permission, since memfds are created with mode 0777 (0666
+with MFD_NOEXEC_SEAL).
+
+Retrieving a tmpfs file needs no permission check beyond a file opened
+for writing, since restoring the contents is a write to that file.
+
+Merge Plan
+----------
+
+This series applies on top of the next branch of liveupdate.git
+(commit 4209b08181c7 ("Merge branch 'lu-pci-preservation' into
+next")) and is targeting Linux 7.5.
+
+The series will be merged through liveupdate.git.
+
+This series conflicts with the following series, which also change
+mm/memfd_luo.c. Whichever lands second will need to be rebased.
+
+  - Pratyush's "mm/memfd_luo: don't use memfd_pin_folios()" [5] and
+    "memfd_luo: keep memfd frozen until finish" [6]. Keeping retrieved
+    files frozen until the session is finished, as suggested in [7], is
+    left for [6], which will then also apply to tmpfs files.
+
+  - Tarun's "kho, liveupdate: Add feature header for fine-grained ABI
+    compatibility" [8], which changes the memfd_luo ABI structs that
+    patch 11 adds SHMEM_LUO_FLAG_TMPFS to.
+
+[5] https://lore.kernel.org/kexec/20261123130115.4021199-1-pratyush@kernel.org/
+[6] https://lore.kernel.org/kexec/20261123130509.4032642-1-pratyush@kernel.org/
+[7] https://lore.kernel.org/kexec/179322496574.1894369.544573858973645958.b4-review@b4/
+[8] https://lore.kernel.org/kexec/20261110050202.529473-1-tarunsahu@google.com/
+
+Testing
+-------
+
+All patches were build-tested individually. The series was tested on
+x86_64 in QEMU using the Live Update selftests:
+
+  - luo_tmpfs (new): kexec test cases covering the contents, size and
+    holes of restored files; that only the contents and size of the
+    target change; which targets are accepted (open for writing, empty,
+    regular, on a tmpfs mount, not immutable, not managed by LUO);
+    executing restored binaries after the session is finished;
+    retrieving files that were preserved through read-only fds, on
+    read-only mounts and superblocks, and immutable files; block
+    accounting on the target mount, including large folios that extend
+    past the end of the file; mount and memcg limits; memfds; invalid
+    arguments; retrieving a token twice; and that no kernel warnings are
+    triggered.
+
+  - liveupdate, including the new preserve_memfd_with_arg test and the
+    new tests for which tmpfs files can be preserved (permissions,
+    read-only and append-only files) and operations on preserved
+    files.
+
+  - luo_kexec_simple, luo_multi_session, luo_stress_files and
+    luo_stress_sessions.
+
+The selftests were run with vmtest.sh:
+
+  $ tools/testing/selftests/liveupdate/vmtest.sh -T luo_tmpfs
+
+luo_tmpfs was also run on bare-metal x86_64.
+
+Changelog
+---------
+
+v5:
+ - Rebase onto the latest liveupdate/next.
+ - Collect Reviewed-by tags from Pratyush.
+ - Patch 2: Pass NULL instead of 0 for the argument in
+   liveupdate_get_file_incoming() (Pratyush). Initialize karg at its
+   allocation, and pass the checked size to the handler instead of the
+   one fetched again with the argument (Sashiko). Document the errors of
+   copying the argument.
+ - Patch 3: Set @arg in the old-struct-size test, to check that the
+   kernel ignores it (Sashiko).
+ - Patch 6: Only untrack files that were successfully retrieved when
+   finishing the file set, and do it before fput(). This was in patch 7
+   in v4 (Pratyush).
+ - Patch 8: Go back to returning a new file descriptor from
+   LIVEUPDATE_SESSION_RETRIEVE_FD when a file handler retrieves into an
+   existing file, since another thread can close() the file descriptor
+   that userspace passed in, or dup2() over it, before the ioctl returns
+   (Christian).
+ - Drop v4 patch 9, which left freeing the preserved state to finish()
+   (Pratyush). The leak fixes will be sent on top of Pratyush's "keep
+   memfd frozen until finish" series.
+ - Patch 9: Keep freeing the preserved state on the permanent failures,
+   now that v4 patch 9 is dropped.
+ - Patch 11: Return a new file descriptor (see patch 8). Document that
+   userspace must not use the target, e.g. map it, until the retrieve
+   returns (Sashiko). Raise fallocend while adding the folios, so that
+   splitting a large folio doesn't drop its pages past i_size (Sashiko).
+   Rename shmem_inode_on_internal_mount() to shmem_inode_internal(), add
+   a truncate label, and list the retrieve errors in the uAPI docs
+   (Pratyush). Pratyush's Reviewed-by is not carried over because of
+   these changes.
+ - Patch 13: Rename the frozen_size test to preserved_ops, and only
+   check the exact errno where it is documented (Pratyush). Remove the
+   temporary directory if mounting tmpfs fails (Sashiko).
+ - Patches 14-18: Update for the new file descriptor, and only check the
+   exact errno where it is documented. Use fcntl() from libc unless
+   built with nolibc, and fix an fd leak in start_exe() and a memcg
+   leak in memcg_limit_verify() (Sashiko).
+
+v4: https://lore.kernel.org/kexec/20261111002358.1842967-1-dmatlack@google.com/
+v3: https://lore.kernel.org/kexec/20261103010216.3447716-1-dmatlack@google.com/
+v2: https://lore.kernel.org/kexec/20261022225035.377445-1-dmatlack@google.com/
+v1: https://lore.kernel.org/kexec/20261015093816.2438942-1-pasha.tatashin@soleen.com/
+rfc: https://lore.kernel.org/kexec/20260901180713.4185641-1-dmatlack@google.com/
 
 
-vim +2248 sound/soc/codecs/wsa884x.c
+David Matlack (15):
+  liveupdate: Remove the list of steps from luo_preserve_file()'s
+    comment
+  mm: Rename memfd_luo to shmem_luo
+  liveupdate: Don't WARN if tracking a retrieved file fails
+  liveupdate: Add helpers to track the files that LUO manages
+  liveupdate: Let file handlers retrieve into an existing file
+  mm/shmem_luo: Don't make early retrieve failures permanent
+  mm/shmem_luo: Require permission to preserve a file
+  mm/shmem_luo: Retrieve tmpfs files into a file created by userspace
+  mm/shmem_luo: Allow preserving tmpfs files
+  selftests/liveupdate: Test which tmpfs files can be preserved
+  selftests/liveupdate: Add a test for retrieving tmpfs files
+  selftests/liveupdate: Test memfds and LUO interactions in luo_tmpfs
+  selftests/liveupdate: Test the targets of retrieved tmpfs files
+  selftests/liveupdate: Test retrieving tmpfs files preserved read-only
+  selftests/liveupdate: Test block accounting of retrieved tmpfs files
 
-  2143	
-  2144	static int wsa884x_probe(struct sdw_slave *pdev,
-  2145				 const struct sdw_device_id *id)
-  2146	{
-  2147		struct device *dev = &pdev->dev;
-  2148		struct wsa884x_priv *wsa884x;
-  2149		unsigned int i;
-  2150		int ret;
-  2151	
-  2152		wsa884x = devm_kzalloc_obj(dev, *wsa884x);
-  2153		if (!wsa884x)
-  2154			return -ENOMEM;
-  2155	
-  2156		mutex_init(&wsa884x->sp_lock);
-  2157	
-  2158		for (i = 0; i < WSA884X_SUPPLIES_NUM; i++)
-  2159			wsa884x->supplies[i].supply = wsa884x_supply_name[i];
-  2160	
-  2161		ret = devm_regulator_bulk_get(dev, WSA884X_SUPPLIES_NUM,
-  2162					      wsa884x->supplies);
-  2163		if (ret)
-  2164			return dev_err_probe(dev, ret, "Failed to get regulators\n");
-  2165	
-  2166		ret = regulator_bulk_enable(WSA884X_SUPPLIES_NUM, wsa884x->supplies);
-  2167		if (ret)
-  2168			return dev_err_probe(dev, ret, "Failed to enable regulators\n");
-  2169	
-  2170		ret = devm_add_action_or_reset(dev, wsa884x_regulator_disable,
-  2171					       wsa884x->supplies);
-  2172		if (ret)
-  2173			return ret;
-  2174	
-  2175		ret = wsa884x_get_reset(dev, wsa884x);
-  2176		if (ret)
-  2177			return ret;
-  2178	
-  2179		dev_set_drvdata(dev, wsa884x);
-  2180		wsa884x->slave = pdev;
-  2181		wsa884x->dev = dev;
-  2182		wsa884x->dev_mode = WSA884X_SPEAKER;
-  2183		wsa884x->sconfig.ch_count = 1;
-  2184		wsa884x->sconfig.bps = 1;
-  2185		wsa884x->sconfig.direction = SDW_DATA_DIR_RX;
-  2186		wsa884x->sconfig.type = SDW_STREAM_PDM;
-  2187	
-  2188		/*
-  2189		 * Port map index starts with 0, however the data port for this codec
-  2190		 * are from index 1
-  2191		 */
-  2192		if (of_property_read_u32_array(dev->of_node, "qcom,port-mapping", &pdev->m_port_map[1],
-  2193						WSA884X_MAX_SWR_PORTS))
-  2194			dev_dbg(dev, "Static Port mapping not specified\n");
-  2195	
-  2196		pdev->prop.sink_ports = GENMASK(WSA884X_MAX_SWR_PORTS - 1, 0) & ~BIT(WSA884X_PORT_VISENSE);
-  2197		pdev->prop.source_ports = BIT(WSA884X_PORT_VISENSE);
-  2198		pdev->prop.simple_clk_stop_capable = true;
-  2199		pdev->prop.sink_dpn_prop = wsa884x_sink_dpn_prop;
-  2200		pdev->prop.src_dpn_prop = wsa884x_src_dpn_prop;
-  2201		pdev->prop.scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
-  2202	
-  2203		wsa884x_reset_deassert(wsa884x);
-  2204		ret = devm_add_action_or_reset(dev, wsa884x_reset_powerdown, wsa884x);
-  2205		if (ret)
-  2206			return ret;
-  2207	
-  2208		wsa884x->regmap = devm_regmap_init_sdw(pdev, &wsa884x_regmap_config);
-  2209		if (IS_ERR(wsa884x->regmap))
-  2210			return dev_err_probe(dev, PTR_ERR(wsa884x->regmap),
-  2211					     "regmap_init failed\n");
-  2212	
-  2213		/* Start in cache-only until device is enumerated */
-  2214		regcache_cache_only(wsa884x->regmap, true);
-  2215	
-  2216		if (IS_REACHABLE(CONFIG_HWMON)) {
-  2217			struct device *hwmon;
-  2218	
-  2219			hwmon = devm_hwmon_device_register_with_info(dev, "wsa884x",
-  2220								     wsa884x,
-  2221								     &wsa884x_hwmon_chip_info,
-  2222								     NULL);
-  2223			if (IS_ERR(hwmon))
-  2224				return dev_err_probe(dev, PTR_ERR(hwmon),
-  2225						     "Failed to register hwmon sensor\n");
-  2226		}
-  2227	
-  2228		pm_runtime_set_autosuspend_delay(dev, 3000);
-  2229		pm_runtime_use_autosuspend(dev);
-  2230		pm_runtime_mark_last_busy(dev);
-  2231		pm_runtime_set_active(dev);
-  2232		ret = devm_pm_runtime_enable(dev);
-  2233		if (ret)
-  2234			return ret;
-  2235	
-  2236		if (IS_REACHABLE(CONFIG_THERMAL)) {
-  2237			char tz_name[THERMAL_NAME_LENGTH];
-  2238			struct thermal_zone_device *tz;
-  2239	
-  2240			/*
-  2241			 * Register after runtime PM is enabled, as the zone is read
-  2242			 * right away. dev_name() is too long for a zone name.
-  2243			 */
-  2244			scnprintf(tz_name, sizeof(tz_name), "wsa-%d-%u",
-  2245				  pdev->bus->id, pdev->id.unique_id);
-  2246			tz = thermal_tripless_zone_device_register(tz_name,
-  2247								   wsa884x,
-> 2248								   &wsa884x_tz_ops,
-  2249								   NULL);
-  2250			if (IS_ERR(tz)) {
-  2251				dev_warn(dev,
-  2252					 "thermal zone '%s' registration failed (%ld); SP T0 kcontrol will read 0 for this codec\n",
-  2253					 tz_name, PTR_ERR(tz));
-  2254			} else {
-  2255				ret = devm_add_action_or_reset(dev,
-  2256							       wsa884x_tz_unregister,
-  2257							       tz);
-  2258				if (ret)
-  2259					return ret;
-  2260	
-  2261				thermal_zone_device_enable(tz);
-  2262			}
-  2263		}
-  2264	
-  2265		return devm_snd_soc_register_component(dev,
-  2266						       &wsa884x_component_drv,
-  2267						       wsa884x_dais,
-  2268						       ARRAY_SIZE(wsa884x_dais));
-  2269	}
-  2270	
+Pasha Tatashin (3):
+  liveupdate: Pass user argument to file preserve and retrieve
+  selftests/liveupdate: Add tests for preserve and retrieve user
+    argument
+  liveupdate: Allow file handlers to mark retrieve failures as retryable
 
+ Documentation/core-api/liveupdate.rst         |    2 +-
+ Documentation/mm/index.rst                    |    2 +-
+ Documentation/mm/memfd_preservation.rst       |   23 -
+ Documentation/mm/shmem_preservation.rst       |   23 +
+ MAINTAINERS                                   |    4 +-
+ include/linux/kho/abi/{memfd.h => shmem.h}    |   57 +-
+ include/linux/liveupdate.h                    |   75 +-
+ include/uapi/linux/liveupdate.h               |   70 +-
+ kernel/liveupdate/Kconfig                     |    9 +-
+ kernel/liveupdate/luo_file.c                  |  216 +-
+ kernel/liveupdate/luo_internal.h              |    5 +-
+ kernel/liveupdate/luo_session.c               |    6 +-
+ mm/Makefile                                   |    2 +-
+ mm/internal.h                                 |    1 +
+ mm/shmem.c                                    |    9 +
+ mm/{memfd_luo.c => shmem_luo.c}               |  345 ++-
+ tools/testing/selftests/liveupdate/Makefile   |    1 +
+ tools/testing/selftests/liveupdate/config     |    4 +
+ .../liveupdate/lib/include/libliveupdate.h    |    3 +
+ .../selftests/liveupdate/lib/lu_utils.c       |   17 +-
+ .../testing/selftests/liveupdate/liveupdate.c |  364 +++
+ .../testing/selftests/liveupdate/luo_tmpfs.c  | 2140 +++++++++++++++++
+ .../selftests/liveupdate/run-vmtests.sh       |    1 +
+ 23 files changed, 3204 insertions(+), 175 deletions(-)
+ delete mode 100644 Documentation/mm/memfd_preservation.rst
+ create mode 100644 Documentation/mm/shmem_preservation.rst
+ rename include/linux/kho/abi/{memfd.h => shmem.h} (53%)
+ rename mm/{memfd_luo.c => shmem_luo.c} (55%)
+ create mode 100644 tools/testing/selftests/liveupdate/luo_tmpfs.c
+
+
+base-commit: 4209b08181c75ea02164832cd8f47526de28d40c
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.56.1.809.ga0b61035b5-goog
+
