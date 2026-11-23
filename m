@@ -1,77 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.138
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795393574;
-	b=n2o/OFk77fcUGA46Sc0QZ9o6CMcVH0jmTSkY7IhLC5tjTsAEc+jUW8HWH/rn2JNsUHwA
-	 brubhQM4D7W1Nqpew5fu7ukUs43VVPoEDkuaR1McI6x6o6m1Q7jfRaDRzT3nbilh89Cab
-	 BpWowLSzhuJkTgNKX0vZEBzaTWPFLMz8/JqI235LrfA58turEUKsJUpZ2nB7Z3/WbMPe0
-	 n+Un2EYMp2jGxx42EkHxek3AD/+spn1Ggu2+WaG1wVXRhbuxsppGOdpd0NGay1Tu/J/10
-	 PJjjsiVzZojwMCFkW4E4pTiCP8SjlMTZcCEilnWlscyVqDtsfrd5br2W8WKa8CDwpmw==
+	t=1795394706;
+	b=pjWJOQxg5rJDJbKJO+pKfosEsMJGDLtzrlyzXGj21XN44ZKULdDcgy2Qw6cJhpU1c4FJ
+	 BL9DHUSCzlVelsJpvrcxhz96NDPSqgOgf+8aBKosY8CGr8XoBpg73/SBnVi62lSgPoFJ2
+	 jK7oaAzAg+fBOYQIjkK0pRdt25XncfBvv7JVsrb74qNG62ftqN8k15LzhHTTO3MabBA58
+	 fIaZ/Z9y9OsPKimG/82uWs3E29ZOaHMUdufRi9qh0cO10o5luzaJLUR58uKp3u5UqgIpu
+	 RVWh4pkMWt+z2ZryNjgAGrqKjl6HXJGAimha8IiGF6QwcJOTBWHVB4A51s9l/tiZNIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795393574;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Np7fZSYURVKo0ykLKnKN/e1CFyZ5GmziW7UTv6oqkBg=;
-	b=JPghQysTF/xfVx2xM+qwIFL0XwQDHoxXDFpZzxpqnLidbstXL90Y3ncwVfZh1FZcvt4o
-	 7bELXuB08zd3HEn6+3TmsQOZ5J02UGQ1C606Q5EUTawcgMQ8K6HqAeg3UqIDTxmnsn33x
-	 0EHaj4NZr8mr/vh6Ekf/uy4i03+bDetjnLL/PNXMggbfANql4oc9p4cVau0QmzsrqYjeD
-	 GFVkM9npoZwPx9jHL2Z6FyuVZMSSfcqm/XLExYJoemBXDlYkHl/IcCir9KI+K7BdeiKr/
-	 dXAnFFX5yWUDopjQFppchNCIsBcEccr1gNwLm7dWU3S6kFUVwwIxd/P0Jg6V4In8gyg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795394706;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=kX99/gXWIZciXrOiBltglJv5UcPXRGkk6vEMktxyA5Q=;
+	b=G3Ai2mGDhUGr1OFEpCUTsXxMRe3OG9mkY0OMZeQKvdjPazI4rJrc7WFSz/SsiO7XaeG8
+	 Iq9qe/vLIHEZCQ9HcZ1R/5Z6Cd/LgCPrmm8FrGtJsHTeb8mUWMOJFXcB4y5cYu4upFbRz
+	 Yhp3bZ47vvNxlI9MqwIMHhLd9wZWwvEusxek/lJ66brvcznM7aTrms6qxqFixqLzOhfEy
+	 cPtRwNF5LQMgKOlott90W/8jOXWeONjB7gnjq1UGxV/kf4aeECmrTPztDgftOpUoMHyQJ
+	 Qyu0gGXG/ScTgl5OvhHCyxjcJqFypCZ0E/zDGdwe26YixJ9vAV5jlT6Tis8opbN7ztg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XTTYuAtT;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=NZelCqgD;
+	arc=none smtp.remote-ip=91.218.175.138
+Received: from mta0.migadu.com (out-138.mta0.migadu.com [91.218.175.138])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 92486606A320;
-	Mon, 23 Nov 2026 00:26:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540C1606A31A
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 00:45:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 540C1606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XTTYuAtT
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 77F411F000C6;
-	Mon, 23 Nov 2026 00:26:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795393574;
-	bh=Np7fZSYURVKo0ykLKnKN/e1CFyZ5GmziW7UTv6oqkBg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XTTYuAtTfAlg0WH9XZNPNM7S+HLBop3wyxrt6AZb8BiQ/Gcs79kUj59MMdnE7zjKQ
-	 6xk0zPvaGdlG8o9ZUMGLAaOiaoDh4dLG6WNkRYPhuhQSyEsvPBz3KMQjuS6m7xd5dG
-	 Ot9O95tbcPRy9IHFMgYR0M5uFEZsIn+69FEAQlQR3rWR6ymXF88kwRbDdIo+Jw4lgY
-	 YKAHH8A25VOQvWrywy5q8chM2R+ortwz1L4AYTL89LZ/Swh1LO/3fuwj1dPvoYQS1e
-	 rxcdFPD4rGTTlycsU6r7F/Z5zD9ej6TCW+7qcXWzVmur1oME5eDf3FDMxcpULj0bY5
-	 LbOIMT1N38+0Q==
-Date: Mon, 23 Nov 2026 02:26:10 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org, Andy Lutomirski <luto@amacapital.net>
-Cc: bpf@vger.kernel.org, containers@lists.linux.dev,
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-security-module@vger.kernel.org,
-	Aleksa Sarai <aleksa@amutable.com>,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Giuseppe Scrivano <giuseppe@scrivano.org>,
-	Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	KP Singh <kpsingh@kernel.org>,
-	Lennart Poettering <lennart@poettering.net>,
-	Neal Gompa <neal@gompa.dev>, Oleg Nesterov <oleg@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
-Message-ID: <awOIIuoNvNLZ_scF@kernel.org>
-References: <20261122193539.3334213-1-jarkko@kernel.org>
- <awOEa303zNUDrzA3@kernel.org>
- <awOFGIWekH9-vlhM@kernel.org>
- <awOHVCpztLQv4Uwv@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=NZelCqgD
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=zwMKkgyYaXrDyX5PUeYSmlGf6nUyB94pqRxlWXhE6SE=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795394703; v=1; x=1795999503;
+ b=NZelCqgDqsQOJ0zY2UY/5riQHs/e1UAK1x9k9GbSxtb5X8h8V7DdK7fRmpia7AZSWlhrzaer
+ n/dyjjGMhfK6p7HaOvekaF2C9UWay0o8fZzrraGdJCFiri+DfTI6cuElmArIk3vvUaXSofq0kB7
+ SpPFwKWxyDUIpBHJ6ozEtcrd20Jty4n1oafvCHNKOlP5IKxOVTHADtIIAK/si7WpAbgB1m+yaza
+ VTFOGa5ycYDMcTQvnVfbrvZXHY+PFaJBWQY60I8TiY+ukeFHGn11RL5EiGUDlGiDAuZOg+3wHuk
+ QcuYSbp82oX1D6R2iStrSd35ncgvt0dXRB8e4MtIbjqOA==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id f5d92b824d053942;
+	Mon, 23 Nov 2026 00:45:02 +0000
+X-Mizu-Trace-ID: f5d92b824d053942
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 23 Nov 2026 08:44:54 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
+Cc: Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/25] docs/zh_TW: process: sync 1.Intro.rst with the
+ English original
+Message-ID: <awOMhisHPuKu-aGR@wyuan.org>
+References: <20261106113142.706783-1-chenyou910331@gmail.com>
+ <20261106113142.706783-2-chenyou910331@gmail.com>
+ <avRotoTK1Gt9MzAX@wyuan.org>
+ <CAKspUhKNVoOBRiXxu3py2M=d5uDCjwFL-dWyt_fCTVKxusSMvg@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,47 +71,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <awOHVCpztLQv4Uwv@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKspUhKNVoOBRiXxu3py2M=d5uDCjwFL-dWyt_fCTVKxusSMvg@mail.gmail.com>
 
-On Mon, Nov 23, 2026 at 02:22:49AM +0200, Jarkko Sakkinen wrote:
-> On Mon, Nov 23, 2026 at 02:13:16AM +0200, Jarkko Sakkinen wrote:
-> > On Mon, Nov 23, 2026 at 02:10:23AM +0200, Jarkko Sakkinen wrote:
-> > > On Sun, Nov 22, 2026 at 09:35:13PM +0200, Jarkko Sakkinen wrote:
-> > > > SYSCALLS
-> > > > ========
-> > > > 
-> > > > Two new system calls are proposed:
-> > > > 
-> > > > 1. userland_open(): open an opaque staircase-initialized container
-> > > >    object (modeled on Intel SGX enclave initialization with separate
-> > > >    build and live states) with no embryonic state, opting selected
-> > > >    shared namespaces in via an allow-list instead of unshare semantics.
-> > > > 2. userns_set_idmap(): configure all UID, GID, and project ID map
-> > > >    extents for a container user namespace in a single atomic system
-> > > >    call.
-> > > 
-> > > Andy, perhaps a bit too far of the box idea but I'll just throw this out.
-> > > 
-> > > An alternative to userland_open() would a file e.g., virtual device
-> > > file, and necessary wiring for open().
-> > > 
-> > > Then the added syscall surface would reduce only to userns_set_idmap(),
-> > > and it adds more robustness to access control (e.g. who can create
-> > > containers).
-> > > 
-> > > What do you think of this?
-> > 
-> > Also, easy way to detect the feature. This does make sense to me.
+On Thu, Nov 19, 2026 at 07:49:00PM +0800, 葉宸佑 wrote:
+> On Wed, Nov 11, 2026 at 09:08:06PM +0800, Weijie Yuan wrote:
+> > I'm wondering where the term "三子句 BSD" originated from? Sounds like
+> > machine-translated to me.
+> >
+> > I checked that wikipedia (tw) calls it "三句版 BSD". And wikipedia(cn)
+> > calls it "三句版 BSD" Or more specific: 三句版 BSD 授權條款 三條款 BSD 授權條款
 > 
-> This as a side-effect would enable LKM compilation, and reorganization
-> of the beef of the core feature as a driver. Not sure what would be
-> the best location for the driver tho, perhaps just drivers/userland.
-> 
-> I.e., full decoupling from the syscalls.
+> It was carried over from the original translation, and I agree it reads
+> like a literal one. I'll change it to "三條款BSD授權條款" in v2, which
+> also matches the "授權條款" wording I plan to use for "license" across
+> zh_TW.
 
-Right, and LKMs are great for live patching. This has enough quantative
-weight.
+Oh yeah it's carried over, so I think that an independent patch is also
+okay and makes sense. Any way you prefer. ;)
 
-Br, Jarkko
+Thanks.
