@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795431778;
-	b=L/5+cIUz3G1t3jxP34JX9SBrCgKUaPYmgAqr30aYeBm8CxW3PsoPqeNDKkMOVnfVYeer
-	 sG4hzNj8hMBQ5gAYRAbJa4JPxT47O6ysE2DTN1svR/F0Bs1HfXgZ+irrsEZ8kf/FuZ8ma
-	 i/i6ajPWPzcoAF3DZ0wR9uOCtlmXr6iuJGn01fCgM0Gdwai4Dk0Z7VdPIsxKPSxv1MLL2
-	 qbZmNEPpDWsf+uuI2KrIk+SbzruSYR2MpP9xnpJik4didhm8vfWhubOa3iadWh7YIl0l7
-	 qHOKqmr2k4wXtB5gnCe+XyGiIkLWZJsURM2w2WVT/R0/RFNWynMw2d4RkWV4uGq9wSg==
+	t=1795431781;
+	b=b9ZNT8AgrB1rt9CdTnX1uQWuTLTkGfBUEFJc6ONCKmkI98sqaMZccUPxNkInEYbQN57U
+	 p3+n0LzjXiPASJlk3bXrmVHMmfgsOdyTQ57OCMP4p0axn7oBkil9Ifk6RBvp8robviU3z
+	 YRfPuFsR48tHxnuKdPfvCu550aXaIswbx7x7CDOymRXdxXgDFvAvrLcyCSHPpeU/nTRvv
+	 P7kr8fz9Mr9K/NEJnIz67XeAGIIkYB0PNAVmg+xZC5EQ0ehDeGgfMkO2+nK3PuPH26Jyz
+	 TrmDQtGVpzSJOjp58+//WDekir9LAo5tLvLR1+ra1Tt9e07WYiojwmo3aDlzXagcOlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795431778;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795431781;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=+5CEc3xRBtlmi0Ruv0ajJzuep+GZVYYLK7wyckUonGw=;
-	b=WIkxcWQKu87Xxh26NuHWNSWfMZrm6V4GTVfL1LHJB6rmDhPI761dY2S/JnqsjvBltkD/
-	 bD2WioEN3Hr6SUbZmoOHOaVzhUhewaasKgq5lruj8aUHQ16stxBdwaebA1AGjxC63X4lQ
-	 aB7VFp7WJdfqrMG1TxUo3JGzYIcyMD/ZJY/+F8hSSGF3NGLFSLDsjOgxnd8ve0c8VMs0m
-	 xSzjNAfRh1X5PYT48v65VIz5HA4S1gYowJJRbZiXIzzu+uZp+XW3QDTynGexFWAyCALFq
-	 ijYCBYP3KmgO6xHFSRTv8rIqonUgsH/839E8u7/B1UMKkBnIp/7vLfE7gPcZBQMOtgA==
+	bh=47jS88Ka87svuDyf0K4DC+GO0aBmX9P2j0Nyp9C+Ix4=;
+	b=lrNyYKtRBKSoG4LC6NbDPnN8fIn2eV13YWX0i3r0S7Dl0W01X9Yzyx2A+11WAERo9h3B
+	 mFUQ/dj1PEBnuRxzFWpvjW/0f8mZ70Il/bE7MlWh6TnvDsLwqSQmK8+DZYc4gzg2hRwK2
+	 gKfcDmLzRYvH3fTqSeouN55V8fiFGyEDwZOiZ1Cbfzha6lRrYzWWUT+43O4LNm0f4aSKM
+	 qtk07ohP+ZGmxsd/elOV8rOm+1dmPgXzDRFmPsNTfIWsgQCQcTyupzjJRNjAhopaQD7Ox
+	 Ac6Nb66AP3FUrMA/DSPlh/ACkAzXEvq5rzGwmXYLikHRso+ObPUjTYuly0RakSHhWUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xa2vl+3M;
-	arc=none smtp.remote-ip=209.85.214.176
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ocdymkwb;
+	arc=none smtp.remote-ip=209.85.214.173
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6B1606A688
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:02:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B6B1606A688
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B4F606A32E
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:03:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5B4F606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xa2vl+3M
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2eb33b5c067so2355405ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:02:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ocdymkwb
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2f07de402dfso668115ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:03:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795431777; x=1796036577; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795431780; x=1796036580; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=+5CEc3xRBtlmi0Ruv0ajJzuep+GZVYYLK7wyckUonGw=;
-        b=xa2vl+3M7vuWvkPRr2bcY+a9dL88SQ/0B4vhxkW4tHv3pS1LE5/56cYIFyOyZ/KDBg
-         8CMotNFlxDumIhMlZvv665uAU9bEaI6Ar0RCFMjs/TrHpnLRTnkBlE/P1r0gJ+KBwe7n
-         5ZSMznyVu36D4XTjyfaw2dI2CnMFHuJPNidknVzIoKXGm4CvNEM2cIjA/kz8lYfcq+li
-         y/qhSOMYes3WonYC0lwVAWlrTXf6xykjZpaUAk3keyrQS8r0P2F9M01cv6DIZqFhol50
-         ihHLWcNRb3+gUp+CUllvO5xDO0LoTmHckD06Gq0c/+fuuL6henDEkKpOqch2QYN7WF9a
-         g46g==
+        bh=47jS88Ka87svuDyf0K4DC+GO0aBmX9P2j0Nyp9C+Ix4=;
+        b=OcdymkwbFaf5+YUkTOxt1yw8VEcsXE9K4oakwBcWEwMHvCj9EFNWD3IOcuaq5p464F
+         8ept51muGSfoG1mcRnYlPu+zqJb0SQ7Ua0Bc+C0f1xw5g28AYuwUyx8UsSunGuT74XbU
+         4alSkvX6LEaaEReOivbPnvkauTHKlrinZPcYKVCuio0jwTcbm7Yl0cLs2cBirJw9LQ8A
+         CLsLEHxXI/wF7puAw3JH/rMtFaJoDS6ElwoDvbtTFyb92/9VYrtBvqeZH9P9SNtouUHa
+         Jjxq0FyHO2LaA/gAILoVWh8AUuDN2f9oL4B19PD2UN8SFEbvc7zGq4GjND+tMFnVir7c
+         LmVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795431777; x=1796036577;
+        d=1e100.net; s=20260707; t=1795431780; x=1796036580;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+5CEc3xRBtlmi0Ruv0ajJzuep+GZVYYLK7wyckUonGw=;
-        b=YJWmajVQV4EyC8mQaW7Ys/wYs3KYp99tcppE1w+ZYhBZWvxFvbx/8OkcJJq0tdTuKM
-         9gTf11L7KzPongDpWrK+q+4HMM00H4Ci6TLj+zW6XQv7L5HMRQosN5lrBbFIwMj/4Ci7
-         vr3Ss1T+/aaE8SdT+mxkSBiDy4a7nlv7aB+YsV3nF+4HLNvI9lmjAKZVdF/spv2em3DV
-         NwGqUf1YQb7T3H9uW91UBnwB95w6xaKKum0VIGN0KG4uBfLjDW1aTbRqHefPvW8G+JF9
-         gg4V/Ll6jNN5zLEADLbqlnqRP4RgWpmXm11sckgObfhGGRTt/jWgYYs11WrLNZ6n72we
-         XXUA==
-X-Forwarded-Encrypted: i=1; AL+hErHFMp06VShLqW+TjZnRGdfoMrNs+C/OHj5GPjzhiHBy9r92EdQoE57Hqn3bxoJGKX/gx3LSj1l2YYA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+0mXgt1pKIiaXjoq2tj4ykSAik8vCufRE+dViO/SaJy2orJ3Hg
-	qCgERzVJeQbGteFIxYi0WHNPNDVPSez1ku4ez7yplKJdyeSVXM2vtpMn
-X-Gm-Gg: AZFdTZdy0yXYMs/k9ongzCqzn/tZ1GFQ48ceRJRQPrCcT4v0outymmZwbbxUTrZHl2U
-	7KG8DKw4ZYMtkFDRrZQzsRW1tRkKGmgfm89HnX/DMOSy6Qp+fVvbS2bRQW4guBNy86PpTjLjQPE
-	BOplhpgtMUcIFQU3tHpHBFhrG8rurouXvtCEgrza5C3wp0kcLvrtG2g+5UaxTLR24pFk3NUy0Lv
-	59s6MxXvYdQe13olVOIOci2HSXas6XOjGOzcFRShntG8L50A5mDWL2jmaMUsR0Lb0JLl1WhNyhR
-	mBnze2PTEHYmUE2ZAEMpCWjKX4oj4rQBCrYEkIrrlOF1z94kj7VhinXyJzkOUIPKa1YnfVUkt8T
-	wSYdz2OBYKPUtp/TpvLbpOCsbEL4YSYr8KMROm3F3q+0qzOVYW1C+BaskpDb880NDBj9cFDHMUz
-	br8QgGUu8gFllSuQUKuRSMiui9FSNmYrahFzVBDN0nTAsqPmO8ExnemyZqzFaCF1FoHESuhXF2t
-	xdIjLv00Bq35lRhzEHWF49zso1Pw7EwvKe18eqB7yfc4+euK1p9++87hLryxxyEkV+1ScD5kyCM
-	DTKpa4JNdOnabhXFfLWUvSiGAV8T+SWjNmxpQQbvo/zoV0Zi6oznGVUS14mnAyFrjOU7IpFZGCZ
-	B5Ex4aUOBklcIKGvDx6rtBL1T
-X-Received: by 2002:a17:903:4586:b0:2f0:3cbf:743d with SMTP id d9443c01a7336-2f03f16db29mr164980595ad.4.1795431776860;
-        Mon, 23 Nov 2026 03:02:56 -0800 (PST)
+        bh=47jS88Ka87svuDyf0K4DC+GO0aBmX9P2j0Nyp9C+Ix4=;
+        b=yDQNY3bVK/oZ1uot7zORz4Ieci2NshjSb4uLAF7PzA+X4IUn4TuTCx8zFNU4fW8z43
+         pWCJV0QklQ7LDZ0E/UNtYVkvYLsyW2Iky1xl8aVSVh3y929qphPqv6yy87pu09nAWVkS
+         neaGbpDV37V4lWX61t/K7mondOoBymH26Epo6JQNAfpF4XRTik8QP9+mysZb2TzpYCFm
+         yV+1Vf8qgHoWxSgI6yMrvxFzD2ixITFKQEcYgs4s8TBYSJD8G2ycYaFTk+GdpWliO/6z
+         Tl73cqNFTqxN7CtYUGcPFDz4WYmMlD++09WSXt3WdrHPKDPStzH7Wo1UMED0vl+idfZl
+         QDgg==
+X-Forwarded-Encrypted: i=1; AL+hErG9PUhcUC1GxiKTEytzmlfVFgaV+4D5eadohnY1rYTcKrqYdhpJlxJsOzYR4K5zzj2zyQIYam2z1P4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9xbRNXhwB1oH3MQoyPd1FhdqqZOk+OgNE3rZKFgA6yRCNcQMsj
+	J98j6qc8UkmuqICkU0+CNjCUP9gLxmp4XEErh3DtZwM815Mf/DayWWc1
+X-Gm-Gg: AZFdTZcHyKFRsIyRoSj0xa0Y1PkC4LkMIBzqdhWUIR44K0bGZOU9sHzNhz/RUKHj5U6
+	NDc2rzL9eSeqnf6zugqAgJS3pj/63rcsxhTXXc8SmPdhtH1tr36Fg3GUEcE6BW+Plux1aWDd4rE
+	IerSC6o9q8VW+ZIMWvcYMvtH1uaxI5n4eOdCSQdAGeCFvro50Awtv1FVBoeNjPnOJZ8tokrbuCq
+	4B8OowCZus5bi1jwJcXSpiS5b19MjgCHe1KY+sClX8HbZZ7TUx3GDwxs/Az0J8GXUHDf082mrK3
+	FUIugVMyyxSlGVFR47Y4l64XQYCvF6Z/Sq+enFbKbj9RJoCJdTPXOIN0to78Exg0TZIlDmelM7f
+	GIkKsrHx8dZo+N341u5UTeVHCuqEUh5KcbquQU/q8x/6+Qae7N/elppxNdnPnkGVaxliA/XSfCQ
+	S9/sG/iZq+3qj+OSCoWLLRqTp0iojxtfgEMgDx4svy8142UnrdQQ8EgOIkr/APoDwTGeujQPC6p
+	1IzZEufxC3mPQDmaJca/WiO3+AeDz5PMTtyeNCIwt7O4IBALoXDzEzJ4s9m52IFJ7UWjYyhppKq
+	dR0h9FFdxqljksG/ofcyj2SGv+2S8uVlMj5c3vyTRtIoaIfMSskTQaPwLgn/WCVxJqUnLXUBe1U
+	3KqJUZq9/TPBUz4V9GsmMh9fU
+X-Received: by 2002:a17:903:32ca:b0:2e9:5c29:9955 with SMTP id d9443c01a7336-2f03f1e871amr179469315ad.4.1795431779972;
+        Mon, 23 Nov 2026 03:02:59 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.16])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1aa3sm50380785ad.21.2026.11.23.03.02.53
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1aa3sm50380785ad.21.2026.11.23.03.02.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 03:02:56 -0800 (PST)
+        Mon, 23 Nov 2026 03:02:59 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: alexs@kernel.org,
 	corbet@lwn.net
@@ -89,9 +89,9 @@ Cc: wy@wyuan.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH v2 10/25] docs/zh_TW: process: sync gdb-kernel-debugging.rst with the English original
-Date: Mon, 23 Nov 2026 19:02:01 +0800
-Message-ID: <20261123110217.170025-11-chenyou910331@gmail.com>
+Subject: [PATCH v2 11/25] docs/zh_TW: process: sync development-process.rst with the English original
+Date: Mon, 23 Nov 2026 19:02:02 +0800
+Message-ID: <20261123110217.170025-12-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261123110217.170025-1-chenyou910331@gmail.com>
 References: <20261123110217.170025-1-chenyou910331@gmail.com>
@@ -107,245 +107,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The translation carries "update to commit d5af79c05e93 ("Documentation:
-move dev-tools debugging files to process/debugging/")", but as
-commit e07f694cbd09 ("docs/zh_TW: move gdb-kernel-debugging to
-process/debugging/") already noted, that marker was the oldest baseline
-checktransupdate.py could see after the move, not the version the text
-follows.  A section-by-section comparison against the current English
-text shows the translation includes the lx_per_cpu examples from
-commit 09e1d93a421f ("scripts/gdb: update documentation for
-lx_per_cpu"), but lacks the "make scripts_gdb" step from
-commit 6b219431037b ("docs/scripts/gdb: add necessary make scripts_gdb
-step") and the "Debugging GDB scripts" section from
-commit 7f7f468548ce ("Documentation: Provide hints on how to debug
-Python GDB scripts").  Bring it in line with the full current original:
+The translation carried no "update to commit" marker.
+commit 2b7703e15a55 ("docs: use toctree :caption: and move
+introduction") moved the introductory paragraph above the table of
+contents, but the zh_TW file now has that paragraph twice: once above
+the toctree, as in the English text, and a second, older copy left below
+it in simplified-style characters (軟件, 裏, 瞭解).  A comparison
+against the current English text brings it in line with the full current
+original:
 
-- add the "Build the gdb scripts" step and the "Debugging GDB scripts"
-  section
-- drop text the original does not have: the "(kernel source build)"
-  note on the cd step and the "(command not found)" note on the
-  auto-load warning, and a duplicated word in the breakpoint step
-- translate "convenience functions" and "a snapshot of the initial
-  version" as written instead of as "debugging helpers" and "some
-  examples of the initial version"
-- replace the mainland terms left over from the zh_CN conversion
-  (調試, 內核, 模塊, 加載, 接口, 硬件, 信息, 文檔, 命令行, 函數, 字段,
-  斷點, 鏡像, 控制檯, ...) with Taiwanese usage, and use 為, 啟 and 才
-- add the SPDX-License-Identifier line carried by the other zh_TW
-  translations in process/
+- drop the stale copy of the introduction below the toctree
+- retranslate the introduction and the title with zh_TW terminology
+  (內核→核心, 文檔→文件, 社區→社群, 編程→程式設計), and rephrase "in a
+  way which is accessible to" instead of the literal "可以訪問"
+- wrap the :Original: line and the introduction to keep them within
+  80 columns, as in 8.Conclusion.rst
 
-Now that the file is in sync, drop the unmaintained-zh_TW.rst notice
-that commit 6561dd301873 ("docs/zh_TW: add a notice for translations
-not kept in sync") added until it was updated.
-
-update to commit 7f7f468548ce ("Documentation: Provide hints on how to
-debug Python GDB scripts")
+update to commit 2b7703e15a55 ("docs: use toctree :caption: and move
+introduction")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../debugging/gdb-kernel-debugging.rst        | 104 ++++++++++--------
- 1 file changed, 60 insertions(+), 44 deletions(-)
+ .../zh_TW/process/development-process.rst            | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst b/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst
-index 45f178c0bf59..81e6433f16e4 100644
---- a/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst
-+++ b/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst
-@@ -1,67 +1,75 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. highlight:: none
+diff --git a/Documentation/translations/zh_TW/process/development-process.rst b/Documentation/translations/zh_TW/process/development-process.rst
+index 1d22aa0d3711..906e635cf830 100644
+--- a/Documentation/translations/zh_TW/process/development-process.rst
++++ b/Documentation/translations/zh_TW/process/development-process.rst
+@@ -2,14 +2,18 @@
  
- .. include:: ../../disclaimer-zh_TW.rst
--.. include:: ../../unmaintained-zh_TW.rst
+ .. include:: ../disclaimer-zh_TW.rst
  
- :Original: Documentation/process/debugging/gdb-kernel-debugging.rst
+-:Original: :ref:`Documentation/process/development-process.rst <development_process_main>`
++:Original: :ref:`Documentation/process/development-process.rst
++           <development_process_main>`
  
--通過gdb調試內核和模塊
--=====================
-+透過gdb對核心與模組除錯
-+=======================
-+
-+核心除錯器kgdb、QEMU等hypervisor，或基於JTAG的硬體介面，都能在執行期間使用
-+gdb對Linux核心及其模組除錯。Gdb提供了強大的python腳本介面，核心也提供了一組
-+輔助腳本，可以簡化典型的核心除錯步驟。本文是一份簡短的教學，說明如何啟用與
-+使用這些腳本。本文以QEMU/KVM虛擬機器作為目標，但其中的範例也同樣適用於其他
-+gdb stub。
+ .. _tw_development_process_main:
  
--Kgdb內核調試器、QEMU等虛擬機管理程序或基於JTAG的硬件接口，支持在運行時使用gdb
--調試Linux內核及其模塊。Gdb提供了一個強大的python腳本接口，內核也提供了一套
--輔助腳本以簡化典型的內核調試步驟。本文檔爲如何啓用和使用這些腳本提供了一個簡要的教程。
--此教程基於QEMU/KVM虛擬機，但文中示例也適用於其他gdb stub。
+-內核開發過程指南
++核心開發過程指南
+ ================
  
-+需求
-+----
+-本文檔的目的是幫助開發人員（及其經理）以最小的挫折感與開發社區合作。它試圖記錄這個社區如何以一種不熟悉Linux內核開發（或者實際上是自由軟體開發）的人可以訪問的方式工作。雖然這裡有一些技術資料，但這是一個面向過程的討論，不需要深入了解內核編程就可以理解。
++本文件的目的是幫助開發人員（及其經理）以最少的挫折與開發社群合作。它試圖以
++一種讓不熟悉 Linux 核心開發（或者說，一般的自由軟體開發）的人也能理解的方式，
++記錄這個社群的運作方式。雖然這裡有一些技術內容，但這基本上是一份以流程為主的
++討論，不需要對核心程式設計有深入了解也能讀懂。
  
--環境配置要求
--------------
-+- gdb 7.2+（建議：7.4+），並啟用python支援（各發行版通常都已啟用）
- 
--- gdb 7.2+ (推薦版本: 7.4+) 且開啓python支持 (通常發行版上都已支持)
- 
--設置
-+設定
- ----
- 
--- 創建一個QEMU/KVM的linux虛擬機（詳情請參考 www.linux-kvm.org 和 www.qemu.org ）。
--  對於交叉開發，https://landley.net/aboriginal/bin 提供了一些鏡像和工具鏈，
--  可以幫助搭建交叉開發環境。
-+- 為QEMU/KVM建立一台Linux虛擬機器（詳情請參考www.linux-kvm.org與
-+  www.qemu.org）。若要進行交叉開發，https://landley.net/aboriginal/bin 提供了
-+  一批機器映像檔與工具鏈，可以作為起點。
-+
-+- 建置核心時啟用CONFIG_GDB_SCRIPTS，但保持CONFIG_DEBUG_INFO_REDUCED關閉。
-+  如果你的架構支援CONFIG_FRAME_POINTER，請保持啟用。
- 
--- 編譯內核時開啓CONFIG_GDB_SCRIPTS，關閉CONFIG_DEBUG_INFO_REDUCED。
--  如果架構支持CONFIG_FRAME_POINTER，請保持開啓。
-+- 在guest上安裝該核心，必要時在核心命令列加上“nokaslr”以關閉KASLR。
-+  另外，QEMU也可以透過-kernel、-append、-initrd這些命令列選項直接啟動核心。
-+  這通常只在你不依賴模組時才有用。關於此模式的詳細資訊，請參閱QEMU文件。
-+  在這種情況下，如果架構支援KASLR，應該在停用CONFIG_RANDOMIZE_BASE的情況下
-+  建置核心。
- 
--- 在guest環境上安裝該內核。如有必要，通過在內核command line中添加“nokaslr”來關閉KASLR。
--  此外，QEMU允許通過-kernel、-append、-initrd這些命令行選項直接啓動內核。
--  但這通常僅在不依賴內核模塊時纔有效。有關此模式的更多詳細信息，請參閱QEMU文檔。
--  在這種情況下，如果架構支持KASLR，應該在禁用CONFIG_RANDOMIZE_BASE的情況下構建內核。
-+- 建置gdb腳本（v5.1以上的核心需要此步驟）::
- 
--- 啓用QEMU/KVM的gdb stub，可以通過如下方式實現
-+    make scripts_gdb
- 
--    - 在VM啓動時，通過在QEMU命令行中添加“-s”參數
-+- 啟用QEMU/KVM的gdb stub，可以
-+
-+    - 在VM啟動時，於QEMU命令列加上“-s”
- 
-   或
- 
--    - 在運行時通過從QEMU監視控制檯發送“gdbserver”
-+    - 在執行期間，從QEMU monitor主控台下達“gdbserver”
- 
--- 切換到/path/to/linux-build(內核源碼編譯)目錄
-+- cd /path/to/linux-build
- 
--- 啓動gdb：gdb vmlinux
-+- 啟動gdb：gdb vmlinux
- 
--  注意：某些發行版可能會將gdb腳本的自動加載限制在已知的安全目錄中。
--  如果gdb報告拒絕加載vmlinux-gdb.py（相關命令找不到），請將::
-+  注意：某些發行版可能會將gdb腳本的自動載入限制在已知安全的目錄。
-+  如果gdb回報拒絕載入vmlinux-gdb.py，請將::
- 
-     add-auto-load-safe-path /path/to/linux-build
- 
--  添加到~/.gdbinit。更多詳細信息，請參閱gdb幫助信息。
-+  加入~/.gdbinit。詳情請參閱gdb的說明。
- 
--- 連接到已啓動的guest環境::
-+- 連線到已開機的guest::
- 
-     (gdb) target remote :1234
- 
- 
--使用Linux提供的gdb腳本的示例
------------------------------
-+使用Linux提供的gdb輔助工具的範例
-+--------------------------------
- 
--- 加載模塊（以及主內核）符號::
-+- 載入模組（以及主核心）的符號::
- 
-     (gdb) lx-symbols
-     loading vmlinux
-@@ -74,18 +82,18 @@ Kgdb內核調試器、QEMU等虛擬機管理程序或基於JTAG的硬件接口
-     ...
-     loading @0xffffffffa0000000: /home/user/linux/build/drivers/ata/ata_generic.ko
- 
--- 對一些尚未加載的模塊中的函數函數設置斷點，例如::
-+- 對某個尚未載入的模組函式設定中斷點，例如::
- 
-     (gdb) b btrfs_init_sysfs
-     Function "btrfs_init_sysfs" not defined.
-     Make breakpoint pending on future shared library load? (y or [n]) y
-     Breakpoint 1 (btrfs_init_sysfs) pending.
- 
--- 繼續執行::
-+- 讓目標繼續執行::
- 
-     (gdb) c
- 
--- 加載模塊並且能觀察到正在加載的符號以及斷點命中::
-+- 在目標上載入模組，觀察符號的載入以及中斷點的觸發::
- 
-     loading @0xffffffffa0034000: /home/user/linux/build/lib/libcrc32c.ko
-     loading @0xffffffffa0050000: /home/user/linux/build/lib/lzo/lzo_compress.ko
-@@ -95,7 +103,7 @@ Kgdb內核調試器、QEMU等虛擬機管理程序或基於JTAG的硬件接口
-     Breakpoint 1, btrfs_init_sysfs () at /home/user/linux/fs/btrfs/sysfs.c:36
-     36              btrfs_kset = kset_create_and_add("btrfs", NULL, fs_kobj);
- 
--- 查看內核的日誌緩衝區::
-+- 傾印目標核心的日誌緩衝區::
- 
-     (gdb) lx-dmesg
-     [     0.000000] Initializing cgroup subsys cpuset
-@@ -107,21 +115,21 @@ Kgdb內核調試器、QEMU等虛擬機管理程序或基於JTAG的硬件接口
-     [     0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
-     ....
- 
--- 查看當前task struct結構體的字段（僅x86和arm64支持）::
-+- 檢視目前task struct的欄位（僅支援x86與arm64）::
- 
-     (gdb) p $lx_current().pid
-     $1 = 4998
-     (gdb) p $lx_current().comm
-     $2 = "modprobe\000\000\000\000\000\000\000"
- 
--- 對當前或指定的CPU使用per-cpu函數::
-+- 針對目前或指定的CPU使用per-cpu函式::
- 
-     (gdb) p $lx_per_cpu(runqueues).nr_running
-     $3 = 1
-     (gdb) p $lx_per_cpu(runqueues, 2).nr_running
-     $4 = 0
- 
--- 使用container_of查看更多hrtimers信息::
-+- 使用container_of輔助函式深入檢視hrtimers::
- 
-     (gdb) set $leftmost = $lx_per_cpu(hrtimer_bases).clock_base[0].active.rb_root.rb_leftmost
-     (gdb) p *$container_of($leftmost, "struct hrtimer", "node")
-@@ -144,10 +152,11 @@ Kgdb內核調試器、QEMU等虛擬機管理程序或基於JTAG的硬件接口
-     }
- 
- 
--命令和輔助調試功能列表
------------------------
-+命令與函式列表
-+--------------
- 
--命令和輔助調試功能可能會隨着時間的推移而改進，此文顯示的是初始版本的部分示例::
-+命令與便利函式（convenience function）的數量可能會隨時間演進，以下只是初始
-+版本的快照::
- 
-  (gdb) apropos lx
-  function lx_current -- Return current task
-@@ -159,6 +168,13 @@ Kgdb內核調試器、QEMU等虛擬機管理程序或基於JTAG的硬件接口
-  lx-lsmod -- List currently loaded modules
-  lx-symbols -- (Re-)load symbols of Linux kernel and currently loaded modules
- 
--可以通過“help <command-name>”或“help function <function-name>”命令
--獲取指定命令或指定調試功能的更多詳細信息。
-+命令的詳細說明可以透過“help <command-name>”取得，便利函式的詳細說明則可以
-+透過“help function <function-name>”取得。
-+
-+除錯GDB腳本
-+-----------
-+
-+GDB並未啟用完整的Python回溯（backtrace），這可能讓除錯GDB腳本變得比必要的
-+更困難。以下設定可以印出python環境的完整回溯::
- 
-+ (gdb) set python print-stack full
+ .. toctree::
+    :caption: 內容
+@@ -24,5 +28,3 @@
+    6.Followthrough
+    7.AdvancedTopics
+    8.Conclusion
+-
+-本文檔的目的是幫助開發人員（及其經理）以最小的挫折感與開發社區合作。它試圖記錄這個社區如何以一種不熟悉Linux內核開發（或者實際上是自由軟件開發）的人可以訪問的方式工作。雖然這裏有一些技術資料，但這是一個面向過程的討論，不需要深入瞭解內核編程就可以理解。
 -- 
 2.43.0
 
