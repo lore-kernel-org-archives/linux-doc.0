@@ -1,57 +1,140 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=219.143.121.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=59.120.207.196
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795399966;
-	b=rXc/7yk7NFxQMK9QKfl2v7Gxs0OW+mjQz0tOfM0loQkcreOa2kIfoE3QDNZrv0UgS81b
-	 f+6lezsp2mrIqdnB30AHbc/jXJnRA/+ObwWgMdoUL/vQtxBOp97HIXjVwB5pvcZ4Bkgex
-	 ZJvmJAltc/Kg9lrj8xFm/k/zhgAL3AmPUfvPprBwKDu/SwkcZ6KciwjKBQVm3LpP5fEQR
-	 MoArVVAgrXHwZE0qsMYfMrU8fW1VH2buPuFHFSi+wUXMi6daTpv25XfcGbXCOZa5Ojvsc
-	 pBBJvg89m8R0hnbPnbnL5lXYitBOsF7X1fEmoiTUc8Y5OLXUS7UcDNS/n3D+cHv2NBA==
+	t=1795403145;
+	b=07ieTwJ/JPQjE6vWznVCTa3/o+iICf8qiLRTZkX+PGIM/8qB+bUrFljbHxWFHrQ2xpo7
+	 BzfWAeCQT4Vi1+o1ckJ1564ggU+zhwjM1/bbVo3Y4fPeeVvMWfTQCppmCdRiO2r5HPX5M
+	 LOM36XpcvXMhkjdqkLSKvpL3Pj+MePJI0gsIvSyQ3HZiftJSqf80Vvo82QrPfJeA54Uex
+	 /IlVcbpfN29YllK93Xe6ts6eaiFwrSdTPH6CML8S+FMcC5lAPzKZr1rY7Odhn2Cq9mvN/
+	 ozzZllFMZoyByIHCL+M27mlUY3k1WniBrAjQjLqqcpJ7DFNyS6tcuZfY07zX906oGig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795399966;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-TLS:X-ENVELOPE-SENDER:X-SOURCE-IP:
-	 X-FangMail-Miltered:X-FangMail-Envelope:X-FangMail-Bounce-Flag:
-	 X-FangMail-Outinfo:X-CLEAN:Message-Id:X-Fangmail-Anti-Spam-Filtered:
-	 X-Fangmail-MID-QID;
-	bh=nSc9TTba62DX6YsMsddUwwRihYANY4v0PIpNQc2e4Sc=;
-	b=MuR51+0E5pxiNxw4NSuYJnKpRkSDnCZBt9KDX4sp1kPYM1Ag7Cq2D07yyNmkfCWV1+yR
-	 q0MUG8w1mzP7908O2wFZTDQhDXZz0UYyxSZMrh1ffhLTs48tFYQPNMfiSjXEzmOCaStWa
-	 LKdbmYCCFPc8Q7pEJNSxKzLggFSoKahjHKZS0guznF5c50PQYk0tMLCwquJulsUj/vD+E
-	 OBuOIlQRM71Bwuo1bXf1coMlJxKNquVxV3tyiOYVMGeW8Wvbzv/5v9Bo6pVrXjQzMK1r4
-	 0c/A97+58ASU9l/EvR3DA3ZKCPWYbZa1ObUhYpIxfHeyb/YfvL+gguF+0noWwjaVWYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795403145;
+	h=DMARC-Filter:X-UUID:X-CID-CACHE:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:
+	 X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:Received:X-UUID:
+	 X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:
+	 X-CID-RHF:X-UUID:Received:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-originating-ip:x-tm-as-product-ver:x-tm-as-result:
+	 x-tmase-matchedrid:x-tm-as-user-approved-sender:
+	 x-tm-as-user-blocked-sender:x-tmase-result:x-tmase-version:
+	 x-tm-snts-smtp:Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=TnLydP/q0OcHaQiyLeY7n0laxjesdk+CQW1eJ2FF2TQ=;
+	b=inA6qIF45JI6aB6gQmkuEuJJjHfNt/mnSQFpiLpoNU/onXd1vudJKsCC4wi8AChKtxzy
+	 8y5+90v6GXVQ5yRvWWvQq175aa4hOGcoarMPAxV/3T8CaotfiB+rhfp6/CIFffgBAXEcH
+	 FfBn2ZtjfKiSfyPZ084aOkwNPrNFudOxsgeh0TzpugANsKWNFTd0tP2qNhV+Y8wXxthFt
+	 +Sx0rIwT/ExJZfwTdGTOY0ML4Ohnhg49bwhmVylyPxAM0Axtr8Gx2rrOB3n78gHg8AAJ/
+	 LY7kyzmDGCKOfzWlSKWIGgbpp4W09o9KpNVX7Ga64ZCVU4HMqwtv/aF73BGG3IIyX0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=isoftstone.com;
-	spf=pass smtp.mailfrom=isoftstone.com;
-	arc=none smtp.remote-ip=219.143.121.9
-Received: from spam.isoftstone.com (smg.isoftstone.com [219.143.121.9])
+	dmarc=pass header.from=compal.com;
+	spf=pass smtp.mailfrom=compal.com;
+	arc=none smtp.remote-ip=59.120.207.196
+Received: from tpecef21.compal.com (exmail3.compal.com [59.120.207.196])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADBEE606A689;
-	Mon, 23 Nov 2026 02:12:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ADBEE606A689
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=isoftstone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isoftstone.com
-Received: from ldzh.. (unknown [221.226.109.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlzhangak@isoftstone.com)
-	by spam.isoftstone.com (FangMail) with ESMTPSA id 4jXqGK1FBjz36gl;
-	Mon, 23 Nov 2026 10:12:41 +0800 (CST)
-From: Daolong Zhang <dlzhangak@isoftstone.com>
-To: Ilya Dryomov <idryomov@gmail.com>,
-	Alex Markuze <amarkuze@redhat.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: ceph-devel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Daolong Zhang <dlzhangak@isoftstone.com>
-Subject: [PATCH v2] ceph: add compression_hint mount option
-Date: Mon, 23 Nov 2026 10:12:40 +0800
-X-Mailer: git-send-email 2.48.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD86606A31A;
+	Mon, 23 Nov 2026 03:05:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AD86606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
+X-UUID: bdd98fc8e6ea11f1b2470fb4f881575f-20261123
+X-CID-CACHE: Type:Local,Time:202611231105+08,HitQuantity:1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.20,REQID:12a4dbc3-3f4a-4585-9149-66d08a2b0137,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:291e20b,CLOUDID:b6ee69bf-d29a-4186-997b-c51a4a814dc4,B
+	ulkID:nil,BulkQuantity:0,SF:80|81|82|83|102|110|111|836|865|888|898,TC:-5,
+	Content:0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:n
+	il,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: bdd98fc8e6ea11f1b2470fb4f881575f-20261123
+Received: from sdmg11.sdbg.compal.com [(10.113.168.9)] by tpecef21.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1779342535; Mon, 23 Nov 2026 11:05:30 +0800
+X-UUID: bad2729ae6ea11f1907ca11d1ee29896-20261123
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:428bed8c-8d26-4c2f-9d25-701d38411628,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e276073,CLOUDID:24e8556d-7094-42ec-b0fc-880bdbe65e51,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
+	898,TC:-5,Content:0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS
+	:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,A
+	RC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: bad2729ae6ea11f1907ca11d1ee29896-20261123
+Received: from sdbmbx11.tpe.compalcomm.com [(10.113.2.135)] by sdmg11.sdbg.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
+	with ESMTP id 1716193816; Mon, 23 Nov 2026 11:05:25 +0800
+Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
+ SDBMBX11.tpe.compalcomm.com (10.113.2.135) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Mon, 23 Nov 2026 11:05:20 +0800
+Received: from SDBMBX13.tpe.compalcomm.com ([fe80::23a8:5ed2:f09e:3abf]) by
+ SDBMBX13.tpe.compalcomm.com ([fe80::23a8:5ed2:f09e:3abf%11]) with mapi id
+ 15.02.2562.056; Mon, 23 Nov 2026 11:05:20 +0800
+From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
+To: "netdev-bot+sashiko@kernel.org" <netdev-bot+sashiko@kernel.org>
+CC: "loic.poulain@oss.qualcomm.com" <loic.poulain@oss.qualcomm.com>,
+	"ryazanov.s.a@gmail.com" <ryazanov.s.a@gmail.com>,
+	"johannes@sipsolutions.net" <johannes@sipsolutions.net>,
+	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "davem@davemloft.net"
+	<davem@davemloft.net>, "kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "wen-zhi.huang@mediatek.com"
+	<wen-zhi.huang@mediatek.com>, "shi-wei.yeh@mediatek.com"
+	<shi-wei.yeh@mediatek.com>, "Minano.tseng@mediatek.com"
+	<Minano.tseng@mediatek.com>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, "angelogioacchino.delregno@collabora.com"
+	<angelogioacchino.delregno@collabora.com>, "horms@kernel.org"
+	<horms@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "Yu. Robert (GSM)"
+	<robert_yu@compal.com>, "Chang. Jeff (GSM)" <Jeff_Chang@compal.com>,
+	"edumazet@kernel.org" <edumazet@kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: Re: [PATCH net-next v12 1/6] net: wwan: t9xx: Add PCIe core
+Thread-Topic: [PATCH net-next v12 1/6] net: wwan: t9xx: Add PCIe core
+Thread-Index: AQHdevd54De0Y6zWOkihERTiFY38IA==
+Date: Mon, 23 Nov 2026 03:05:20 +0000
+Message-ID: <e0c8e3ba67c44497929214dc4af457d9@compal.com>
+References: <20261117-t9xx_driver_v1-v12-1-e181b616b820@compal.com>,<179526494505.3135.4658538684680862441@kernel.org>
+In-Reply-To: <179526494505.3135.4658538684680862441@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-30338.002
+x-tm-as-result: No-10--6.787900-8.000000
+x-tmase-matchedrid: FYPNOy2BwYguv++HU7VXryRFbfQbCufdN0X64jGy2dZJTOxleK2tZuZd
+	NI5cmL7EsdzeBfTA9wJLyT/MN7wrGexAkh/4iTFXsX4aFYAMIYOdVbkPpTjx93ip853bfdtlrUT
+	d4rjs9C9xvCC56QlYKQlMuaZyxNaOvcFcLkIKgogLOnhkOkWpfX6u8VnsVatciGVApiRLArlald
+	PULa7AQCsdNWM5hW1JcgK7xmCFN17L4EjeSe7K+B1wPM2CYnhNMa2390tjr7+N7me0G16g/GhrD
+	xsfTpHEfwQ1wVmT5NxM8oF1lOcJpN5xM13XxOl1prktoeU+bT7jwao3bN2eydTHFoOVTUKP/fcJ
+	RwrfXvl6+Fy6rKzWhqD8aIfkI3jSRLJXbemaGaJFg2HO5lmNEJFx8VBGp0H2ED0N8WyOeXF/jW0
+	J1+/nWm5okWypgcy3tZWH9XyytR6HQaA1x89VwycOunEIf0eXQahV9NsL7Q+L12p7cZqBWARb8n
+	rC2fmyNzjZg+C+I37KvNGNmG0SU6+eCSMeOiOkA/lH/MvdoiYmkrgX3CciJtFJvI9LYcV3ImxnQ
+	vgkai0DmyMy7NxgFv6mDCw61sljTsUVzafMt+vqmyQquMhRu65d4IbM4cXIY35lXsc1ptReheOh
+	f9vXhZHs7bBd7vh4a1SF0R3OwPNaebaOpYUQ7GMZqqlp63mW39InOc4KUjGgIAoCghvZZgz+8rP
+	HUa6xHcvjWJiii5la1X5Zxk7x/Q==
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--6.787900-8.000000
+x-tmase-version: SMEX-14.0.0.3239-9.1.2019-30338.002
+x-tm-snts-smtp: 4C3FC59DB10D8A9E35C1569EDD467391D4C3B4065E1AAB9E488F7CCA55FFE3CF2000:8
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -61,587 +144,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TLS: YES
-X-ENVELOPE-SENDER: dlzhangak@isoftstone.com
-X-SOURCE-IP: 221.226.109.28 unknown Mon, 23 Nov 2026 10:12:41 +0800
-X-FangMail-Miltered: at fangwg01 with ID 6B03A118.004 by FangMail milter!
-X-FangMail-Envelope: 1795399961/4jXqGK1FBjz36gl/6B03A118.004/221.226.109.28/[221.226.109.28]/ldzh../<dlzhangak@isoftstone.com>
-X-FangMail-Bounce-Flag: 1795399961.6B03A118.004
-X-FangMail-Outinfo: 1795399961/6B03A118.004/4jXqGK1FBjz36gl/dlzhangak@isoftstone.com/1
-X-CLEAN: YES
-Message-Id: <1795399963.6B03A118.004.4jXqGK1FBjz36gl@fangwg01>
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6B03A118.004/4jXqGK1FBjz36gl
 
-Add support for the compression_hint=<none|compressible|incompressible>
-mount option to the CephFS kernel client, matching the existing RBD
-compression_hint option.
-
-When set to 'compressible' or 'incompressible', CephFS prepends a
-CEPH_OSD_OP_SETALLOCHINT operation with
-CEPH_OSD_ALLOC_HINT_FLAG_COMPRESSIBLE or
-CEPH_OSD_ALLOC_HINT_FLAG_INCOMPRESSIBLE (and zero expected object/write
-sizes) before data writes across page writeback, uninline, direct I/O
-(including AIO retries), and sync writes. For compound writes with
-leading guard operations (ASSERT_VER/CREATE in fscrypt RMW sync writes
-and CMPXATTR in uninline writes), the alloc hint is placed after the
-guard operation and before the WRITE operation so that the guard executes
-before SETALLOCHINT can create the object.
-
-When set to 'none' (the default), no CEPH_OSD_OP_SETALLOCHINT operation
-is sent. The option is also displayed in /proc/mounts and can be updated
-on remount while preserving the existing hint when omitted.
-
-Link: https://tracker.ceph.com/issues/81140
-Signed-off-by: Daolong Zhang <dlzhangak@isoftstone.com>
----
-v2:
-- Track whether compression_hint was explicitly passed in
-  struct ceph_parse_opts_ctx so ceph_reconfigure_fc() preserves the
-  existing alloc_hint_flags when omitted while still allowing
-  compression_hint=none to clear it explicitly (Alex Markuze).
-- Rebase onto the latest ceph-client testing branch.
-
- Documentation/filesystems/ceph.rst | 13 +++++
- fs/ceph/addr.c                     | 82 ++++++++++++++++++++++--------
- fs/ceph/file.c                     | 58 +++++++++++++++------
- fs/ceph/super.c                    | 51 +++++++++++++++++++
- fs/ceph/super.h                    |  1 +
- 5 files changed, 167 insertions(+), 38 deletions(-)
-
-diff --git a/Documentation/filesystems/ceph.rst b/Documentation/filesystems/ceph.rst
-index ee2ca0c0c654..0cfedc8645ee 100644
---- a/Documentation/filesystems/ceph.rst
-+++ b/Documentation/filesystems/ceph.rst
-@@ -214,6 +214,19 @@ Mount Options
- 	  of them. If an inode contains any stale file locks, read/write on the
- 	  inode is not allowed until applications release all stale file locks.
- 
-+  compression_hint=<none|compressible|incompressible>
-+	Hint to the underlying OSD object store backend (e.g. BlueStore)
-+	whether written data is compressible or incompressible. The default
-+	is "none".
-+
-+	* none: do not send compression hints.
-+
-+	* compressible: hint that the data is compressible, enabling
-+	  compression when the OSD compression mode is set to passive.
-+
-+	* incompressible: hint that the data is incompressible, disabling
-+	  compression when the OSD compression mode is set to aggressive.
-+
- More Information
- ================
- 
-diff --git a/fs/ceph/addr.c b/fs/ceph/addr.c
-index 49b58f85dc17..d1df051ce875 100644
---- a/fs/ceph/addr.c
-+++ b/fs/ceph/addr.c
-@@ -1068,6 +1068,8 @@ static int write_folio_nounlock(struct folio *folio,
- 	struct ceph_osd_request *req;
- 	bool caching = ceph_is_cache_enabled(inode);
- 	struct page *bounce_page = NULL;
-+	u32 alloc_hint_flags = READ_ONCE(fsc->mount_options->alloc_hint_flags);
-+	unsigned int op_idx = alloc_hint_flags ? 1 : 0;
- 
- 	boutc(cl, "%llx.%llx folio %p idx %lu\n", ceph_vinop(inode), folio,
- 	      folio->index);
-@@ -1129,7 +1131,8 @@ static int write_folio_nounlock(struct folio *folio,
- 		fsc->write_congested = true;
- 
- 	req = ceph_osdc_new_request(osdc, &ci->i_layout, ceph_vino(inode),
--				    page_off, &wlen, 0, 1, CEPH_OSD_OP_WRITE,
-+				    page_off, &wlen, op_idx, op_idx + 1,
-+				    CEPH_OSD_OP_WRITE,
- 				    CEPH_OSD_FLAG_WRITE, snapc,
- 				    ceph_wbc.truncate_seq,
- 				    ceph_wbc.truncate_size, true);
-@@ -1141,6 +1144,9 @@ static int write_folio_nounlock(struct folio *folio,
- 		return PTR_ERR(req);
- 	}
- 
-+	if (alloc_hint_flags)
-+		osd_req_op_alloc_hint_init(req, 0, 0, 0, alloc_hint_flags);
-+
- 	if (wlen < len)
- 		len = wlen;
- 
-@@ -1167,7 +1173,7 @@ static int write_folio_nounlock(struct folio *folio,
- 	/* it may be a short write due to an object boundary */
- 	WARN_ON_ONCE(start + len > folio_size(folio));
- 	page = bounce_page ? bounce_page : &folio->page;
--	osd_req_op_extent_osd_data_pages(req, 0, &page, wlen, start, false,
-+	osd_req_op_extent_osd_data_pages(req, op_idx, &page, wlen, start, false,
- 					 false);
- 	boutc(cl, "%llx.%llx %llu~%llu (%llu bytes, %sencrypted)\n",
- 	      ceph_vinop(inode), page_off, len, wlen,
-@@ -1252,6 +1258,7 @@ static void writepages_finish(struct ceph_osd_request *req)
- 	struct ceph_fs_client *fsc = ceph_inode_to_fs_client(inode);
- 	struct ceph_mds_client *mdsc = ceph_sb_to_mdsc(inode->i_sb);
- 	unsigned int len = 0;
-+	unsigned int first_write_op = 0;
- 	bool remove_page;
- 	struct ceph_journal_info __ji;
- 
-@@ -1277,8 +1284,12 @@ static void writepages_finish(struct ceph_osd_request *req)
- 	remove_page = !(ceph_caps_issued(ci) &
- 			(CEPH_CAP_FILE_CACHE|CEPH_CAP_FILE_LAZYIO));
- 
-+	if (req->r_num_ops > 1 &&
-+	    req->r_ops[0].op == CEPH_OSD_OP_SETALLOCHINT)
-+		first_write_op = 1;
-+
- 	/* clean all pages */
--	for (i = 0; i < req->r_num_ops; i++) {
-+	for (i = first_write_op; i < req->r_num_ops; i++) {
- 		if (req->r_ops[i].op != CEPH_OSD_OP_WRITE) {
- 			pr_warn_client(cl,
- 				"%llx.%llx incorrect op %d req %p index %d tid %llu\n",
-@@ -1342,7 +1353,7 @@ static void writepages_finish(struct ceph_osd_request *req)
- 
- 	ceph_put_wrbuffer_cap_refs(ci, total_pages, snapc);
- 
--	osd_data = osd_req_op_extent_osd_data(req, 0);
-+	osd_data = osd_req_op_extent_osd_data(req, first_write_op);
- 	if (osd_data->pages_from_pool)
- 		mempool_free(osd_data->pages, ceph_wb_pagevec_pool);
- 	else
-@@ -1645,10 +1656,14 @@ bool is_folio_index_contiguous(const struct ceph_writeback_ctl *ceph_wbc,
- }
- 
- static inline
--bool is_num_ops_too_big(struct ceph_writeback_ctl *ceph_wbc)
-+bool is_num_ops_too_big(struct ceph_fs_client *fsc,
-+			struct ceph_writeback_ctl *ceph_wbc)
- {
--	return ceph_wbc->num_ops >=
--		(ceph_wbc->from_pool ?  CEPH_OSD_SLAB_OPS : CEPH_OSD_MAX_OPS);
-+	unsigned int extra_ops =
-+		READ_ONCE(fsc->mount_options->alloc_hint_flags) ? 1 : 0;
-+
-+	return ceph_wbc->num_ops + extra_ops >=
-+		(ceph_wbc->from_pool ? CEPH_OSD_SLAB_OPS : CEPH_OSD_MAX_OPS);
- }
- 
- static inline
-@@ -1754,7 +1769,7 @@ void ceph_process_folio_batch(struct address_space *mapping,
- 		 */
- 		if (ceph_wbc->locked_pages &&
- 		    !is_folio_index_contiguous(ceph_wbc, folio) &&
--		    is_num_ops_too_big(ceph_wbc)) {
-+		    is_num_ops_too_big(fsc, ceph_wbc)) {
- 			folio_unlock(folio);
- 			break;
- 		}
-@@ -1854,6 +1869,8 @@ int ceph_submit_write(struct address_space *mapping,
- 	struct ceph_osd_request *req = NULL;
- 	struct folio *folio = NULL;
- 	bool caching = ceph_is_cache_enabled(inode);
-+	u32 alloc_hint_flags;
-+	unsigned int first_op, write_ops, submitted_ops;
- 	u64 offset, start, end, last_len = 0;
- 	u64 len;
- 	unsigned int i, align;
-@@ -1862,19 +1879,25 @@ int ceph_submit_write(struct address_space *mapping,
- 	folio = ceph_fscrypt_pagecache_folio(page_folio(ceph_wbc->pages[0]));
- 	ceph_folio_write_range(folio, &offset, &end);
- 	len = ceph_wbc->wsize;
-+	alloc_hint_flags = READ_ONCE(fsc->mount_options->alloc_hint_flags);
-+	first_op = alloc_hint_flags ? 1 : 0;
-+	write_ops = min_t(unsigned int, ceph_wbc->num_ops,
-+			  CEPH_OSD_MAX_OPS - first_op);
- 
- 	req = ceph_osdc_new_request(&fsc->client->osdc,
- 				    &ci->i_layout, vino,
--				    offset, &len, 0, ceph_wbc->num_ops,
-+				    offset, &len, first_op,
-+				    write_ops + first_op,
- 				    CEPH_OSD_OP_WRITE, CEPH_OSD_FLAG_WRITE,
- 				    ceph_wbc->snapc, ceph_wbc->truncate_seq,
- 				    ceph_wbc->truncate_size, false);
- 	if (IS_ERR(req)) {
-+		write_ops = min_t(unsigned int, ceph_wbc->num_ops,
-+				  CEPH_OSD_SLAB_OPS - first_op);
- 		req = ceph_osdc_new_request(&fsc->client->osdc,
- 					    &ci->i_layout, vino,
--					    offset, &len, 0,
--					    min(ceph_wbc->num_ops,
--						CEPH_OSD_SLAB_OPS),
-+					    offset, &len, first_op,
-+					    write_ops + first_op,
- 					    CEPH_OSD_OP_WRITE,
- 					    CEPH_OSD_FLAG_WRITE,
- 					    ceph_wbc->snapc,
-@@ -1884,6 +1907,9 @@ int ceph_submit_write(struct address_space *mapping,
- 		BUG_ON(IS_ERR(req));
- 	}
- 
-+	if (alloc_hint_flags)
-+		osd_req_op_alloc_hint_init(req, 0, 0, 0, alloc_hint_flags);
-+
- 	folio = ceph_fscrypt_pagecache_folio(
- 			page_folio(ceph_wbc->pages[ceph_wbc->locked_pages - 1]));
- 	ceph_folio_write_range(folio, &start, &end);
-@@ -1926,7 +1952,7 @@ int ceph_submit_write(struct address_space *mapping,
- 	/* Format the osd request message and submit the write */
- 	len = 0;
- 	ceph_wbc->data_pages = ceph_wbc->pages;
--	ceph_wbc->op_idx = 0;
-+	ceph_wbc->op_idx = first_op;
- 	align = offset_in_page(offset);
- 	for (i = 0; i < ceph_wbc->locked_pages; i++) {
- 		u64 cur_offset;
-@@ -2010,10 +2036,11 @@ int ceph_submit_write(struct address_space *mapping,
- 
- 	BUG_ON(ceph_wbc->op_idx + 1 != req->r_num_ops);
- 
-+	submitted_ops = req->r_num_ops - first_op;
- 	ceph_wbc->from_pool = false;
- 	if (i < ceph_wbc->locked_pages) {
--		BUG_ON(ceph_wbc->num_ops <= req->r_num_ops);
--		ceph_wbc->num_ops -= req->r_num_ops;
-+		BUG_ON(ceph_wbc->num_ops <= submitted_ops);
-+		ceph_wbc->num_ops -= submitted_ops;
- 		ceph_wbc->locked_pages -= i;
- 
- 		/* allocate new pages array for next request */
-@@ -2024,7 +2051,7 @@ int ceph_submit_write(struct address_space *mapping,
- 		memset(ceph_wbc->data_pages + i, 0,
- 			ceph_wbc->locked_pages * sizeof(*ceph_wbc->pages));
- 	} else {
--		BUG_ON(ceph_wbc->num_ops != req->r_num_ops);
-+		BUG_ON(ceph_wbc->num_ops != submitted_ops);
- 		/* request message now owns the pages array */
- 		ceph_wbc->pages = NULL;
- 	}
-@@ -3081,6 +3108,8 @@ int ceph_uninline_data(struct file *file)
- 	struct ceph_snap_context *snapc = NULL;
- 	u64 inline_version = CEPH_INLINE_NONE;
- 	struct page *pages[1];
-+	u32 alloc_hint_flags;
-+	unsigned int write_op;
- 	int err = 0;
- 	u64 len;
- 
-@@ -3152,18 +3181,23 @@ int ceph_uninline_data(struct file *file)
- 	if (err < 0)
- 		goto out_unlock;
- 
-+	alloc_hint_flags = READ_ONCE(fsc->mount_options->alloc_hint_flags);
-+	write_op = alloc_hint_flags ? 2 : 1;
-+
- 	req = ceph_osdc_new_request(&fsc->client->osdc, &ci->i_layout,
--				    ceph_vino(inode), 0, &len, 1, 3,
--				    CEPH_OSD_OP_WRITE, CEPH_OSD_FLAG_WRITE,
--				    snapc, ci->i_truncate_seq,
--				    ci->i_truncate_size, false);
-+				    ceph_vino(inode), 0, &len, write_op,
-+				    write_op + 2, CEPH_OSD_OP_WRITE,
-+				    CEPH_OSD_FLAG_WRITE, snapc,
-+				    ci->i_truncate_seq, ci->i_truncate_size,
-+				    false);
- 	if (IS_ERR(req)) {
- 		err = PTR_ERR(req);
- 		goto out_unlock;
- 	}
- 
- 	pages[0] = folio_page(folio, 0);
--	osd_req_op_extent_osd_data_pages(req, 1, pages, len, 0, false, false);
-+	osd_req_op_extent_osd_data_pages(req, write_op, pages, len, 0,
-+					 false, false);
- 
- 	{
- 		__le64 xattr_buf = cpu_to_le64(inline_version);
-@@ -3176,11 +3210,15 @@ int ceph_uninline_data(struct file *file)
- 			goto out_put_req;
- 	}
- 
-+	if (alloc_hint_flags)
-+		osd_req_op_alloc_hint_init(req, 1, 0, 0, alloc_hint_flags);
-+
- 	{
- 		char xattr_buf[32];
- 		int xattr_len = snprintf(xattr_buf, sizeof(xattr_buf),
- 					 "%llu", inline_version);
--		err = osd_req_op_xattr_init(req, 2, CEPH_OSD_OP_SETXATTR,
-+		err = osd_req_op_xattr_init(req, write_op + 1,
-+					    CEPH_OSD_OP_SETXATTR,
- 					    "inline_version",
- 					    xattr_buf, xattr_len, 0, 0);
- 		if (err)
-diff --git a/fs/ceph/file.c b/fs/ceph/file.c
-index 75fb12be209b..1b9481171fe0 100644
---- a/fs/ceph/file.c
-+++ b/fs/ceph/file.c
-@@ -1399,8 +1399,11 @@ static void ceph_aio_complete_req(struct ceph_osd_request *req)
- 	int rc = req->r_result;
- 	struct inode *inode = req->r_inode;
- 	struct ceph_aio_request *aio_req = req->r_priv;
--	struct ceph_osd_data *osd_data = osd_req_op_extent_osd_data(req, 0);
--	struct ceph_osd_req_op *op = &req->r_ops[0];
-+	unsigned int op_idx = (req->r_num_ops > 1 &&
-+			       req->r_ops[0].op == CEPH_OSD_OP_SETALLOCHINT) ?
-+			      1 : 0;
-+	struct ceph_osd_data *osd_data = osd_req_op_extent_osd_data(req, op_idx);
-+	struct ceph_osd_req_op *op = &req->r_ops[op_idx];
- 	struct ceph_client_metric *metric = &ceph_sb_to_mdsc(inode->i_sb)->metric;
- 	unsigned int len = osd_data->bvec_pos.iter.bi_size;
- 	bool sparse = (op->op == CEPH_OSD_OP_SPARSE_READ);
-@@ -1497,6 +1500,7 @@ static void ceph_aio_retry_work(struct work_struct *work)
- 	struct ceph_inode_info *ci = ceph_inode(inode);
- 	struct ceph_snap_context *snapc;
- 	struct ceph_osd_request *req;
-+	unsigned int i, op_idx;
- 	int ret;
- 
- 	spin_lock(&ci->i_ceph_lock);
-@@ -1512,8 +1516,8 @@ static void ceph_aio_retry_work(struct work_struct *work)
- 	}
- 	spin_unlock(&ci->i_ceph_lock);
- 
--	req = ceph_osdc_alloc_request(orig_req->r_osdc, snapc, 1,
--			false, GFP_NOFS);
-+	req = ceph_osdc_alloc_request(orig_req->r_osdc, snapc,
-+				      orig_req->r_num_ops, false, GFP_NOFS);
- 	if (!req) {
- 		ret = -ENOMEM;
- 		req = orig_req;
-@@ -1524,10 +1528,13 @@ static void ceph_aio_retry_work(struct work_struct *work)
- 	ceph_oloc_copy(&req->r_base_oloc, &orig_req->r_base_oloc);
- 	ceph_oid_copy(&req->r_base_oid, &orig_req->r_base_oid);
- 
--	req->r_ops[0] = orig_req->r_ops[0];
-+	for (i = 0; i < orig_req->r_num_ops; i++)
-+		req->r_ops[i] = orig_req->r_ops[i];
- 
-+	op_idx = (orig_req->r_num_ops > 1 &&
-+		  orig_req->r_ops[0].op == CEPH_OSD_OP_SETALLOCHINT) ? 1 : 0;
- 	req->r_mtime = aio_req->mtime;
--	req->r_data_offset = req->r_ops[0].extent.offset;
-+	req->r_data_offset = req->r_ops[op_idx].extent.offset;
- 
- 	ret = ceph_osdc_alloc_messages(req, GFP_NOFS);
- 	if (ret) {
-@@ -1609,6 +1616,9 @@ ceph_direct_read_write(struct kiocb *iocb, struct iov_iter *iter,
- 		struct ceph_osd_req_op *op;
- 		int readop = sparse ? CEPH_OSD_OP_SPARSE_READ : CEPH_OSD_OP_READ;
- 		int extent_cnt;
-+		u32 alloc_hint_flags = write ?
-+			READ_ONCE(fsc->mount_options->alloc_hint_flags) : 0;
-+		unsigned int op_idx = alloc_hint_flags ? 1 : 0;
- 
- 		if (write)
- 			size = min_t(u64, size, fsc->mount_options->wsize);
-@@ -1617,8 +1627,8 @@ ceph_direct_read_write(struct kiocb *iocb, struct iov_iter *iter,
- 
- 		vino = ceph_vino(inode);
- 		req = ceph_osdc_new_request(&fsc->client->osdc, &ci->i_layout,
--					    vino, pos, &size, 0,
--					    1,
-+					    vino, pos, &size, op_idx,
-+					    op_idx + 1,
- 					    write ? CEPH_OSD_OP_WRITE : readop,
- 					    flags, snapc,
- 					    ci->i_truncate_seq,
-@@ -1629,7 +1639,11 @@ ceph_direct_read_write(struct kiocb *iocb, struct iov_iter *iter,
- 			break;
- 		}
- 
--		op = &req->r_ops[0];
-+		if (alloc_hint_flags)
-+			osd_req_op_alloc_hint_init(req, 0, 0, 0,
-+						   alloc_hint_flags);
-+
-+		op = &req->r_ops[op_idx];
- 		if (!write && sparse) {
- 			extent_cnt = __ceph_sparse_read_ext_count(inode, size);
- 			ret = ceph_alloc_sparse_ext_map(op, extent_cnt);
-@@ -1646,9 +1660,10 @@ ceph_direct_read_write(struct kiocb *iocb, struct iov_iter *iter,
- 			break;
- 		}
- 		if (len != size)
--			osd_req_op_extent_update(req, 0, len);
-+			osd_req_op_extent_update(req, op_idx, len);
- 
--		osd_req_op_extent_osd_data_bvecs(req, 0, bvecs, num_bvecs, len);
-+		osd_req_op_extent_osd_data_bvecs(req, op_idx, bvecs, num_bvecs,
-+						 len);
- 
- 		/*
- 		 * To simplify error handling, allow AIO when IO within i_size
-@@ -1841,6 +1856,8 @@ ceph_sync_write(struct kiocb *iocb, struct iov_iter *from, loff_t pos,
- 		bool first, last;
- 		struct iov_iter saved_iter = *from;
- 		size_t off;
-+		u32 alloc_hint_flags;
-+		unsigned int write_op;
- 
- 		ceph_fscrypt_adjust_off_and_len(inode, &write_pos, &write_len);
- 
-@@ -2095,9 +2112,13 @@ ceph_sync_write(struct kiocb *iocb, struct iov_iter *from, loff_t pos,
- 			}
- 		}
- 
-+		alloc_hint_flags =
-+			READ_ONCE(fsc->mount_options->alloc_hint_flags);
-+		write_op = (rmw ? 1 : 0) + (alloc_hint_flags ? 1 : 0);
-+
- 		req = ceph_osdc_new_request(osdc, &ci->i_layout,
--					    ceph_vino(inode), write_pos, &write_len,
--					    rmw ? 1 : 0, rmw ? 2 : 1,
-+					    ceph_vino(inode), write_pos,
-+					    &write_len, write_op, write_op + 1,
- 					    CEPH_OSD_OP_WRITE,
- 					    CEPH_OSD_FLAG_WRITE,
- 					    snapc, ci->i_truncate_seq,
-@@ -2109,9 +2130,10 @@ ceph_sync_write(struct kiocb *iocb, struct iov_iter *from, loff_t pos,
- 		}
- 
- 		boutc(cl, "write op %lld~%llu\n", write_pos, write_len);
--		osd_req_op_extent_osd_data_pages(req, rmw ? 1 : 0, pages, write_len,
--						 offset_in_page(write_pos), false,
--						 true);
-+		osd_req_op_extent_osd_data_pages(req, write_op, pages,
-+						 write_len,
-+						 offset_in_page(write_pos),
-+						 false, true);
- 		req->r_inode = inode;
- 		req->r_mtime = mtime;
- 
-@@ -2132,6 +2154,10 @@ ceph_sync_write(struct kiocb *iocb, struct iov_iter *from, loff_t pos,
- 			}
- 		}
- 
-+		if (alloc_hint_flags)
-+			osd_req_op_alloc_hint_init(req, rmw ? 1 : 0, 0, 0,
-+						   alloc_hint_flags);
-+
- 		ceph_osdc_start_request(osdc, req);
- 		ret = ceph_osdc_wait_request(osdc, req);
- 
-diff --git a/fs/ceph/super.c b/fs/ceph/super.c
-index bb5591c1e154..1c2f192ee7d2 100644
---- a/fs/ceph/super.c
-+++ b/fs/ceph/super.c
-@@ -177,6 +177,7 @@ enum {
- 	Opt_snapdirname,
- 	Opt_mds_namespace,
- 	Opt_recover_session,
-+	Opt_compression_hint,
- 	Opt_source,
- 	Opt_mon_addr,
- 	Opt_test_dummy_encryption,
-@@ -210,12 +211,27 @@ static const struct constant_table ceph_param_recover[] = {
- 	{}
- };
- 
-+enum ceph_compression_hint {
-+	Opt_compression_hint_none,
-+	Opt_compression_hint_compressible,
-+	Opt_compression_hint_incompressible,
-+};
-+
-+static const struct constant_table ceph_param_compression_hint[] = {
-+	{ "none",		Opt_compression_hint_none },
-+	{ "compressible",	Opt_compression_hint_compressible },
-+	{ "incompressible",	Opt_compression_hint_incompressible },
-+	{}
-+};
-+
- static const struct fs_parameter_spec ceph_mount_parameters[] = {
- 	fsparam_flag_no ("acl",				Opt_acl),
- 	fsparam_flag_no ("asyncreaddir",		Opt_asyncreaddir),
- 	fsparam_s32	("caps_max",			Opt_caps_max),
- 	fsparam_u32	("caps_wanted_delay_max",	Opt_caps_wanted_delay_max),
- 	fsparam_u32	("caps_wanted_delay_min",	Opt_caps_wanted_delay_min),
-+	fsparam_enum	("compression_hint",		Opt_compression_hint,
-+			 ceph_param_compression_hint),
- 	fsparam_u32	("write_congestion_kb",		Opt_congestion_kb),
- 	fsparam_flag_no ("copyfrom",			Opt_copyfrom),
- 	fsparam_flag_no ("dcache",			Opt_dcache),
-@@ -250,6 +266,7 @@ static const struct fs_parameter_spec ceph_mount_parameters[] = {
- struct ceph_parse_opts_ctx {
- 	struct ceph_options		*copts;
- 	struct ceph_mount_options	*opts;
-+	bool				compression_hint_set;
- };
- 
- /*
-@@ -470,6 +487,30 @@ static int ceph_parse_mount_param(struct fs_context *fc,
- 		else
- 			BUG();
- 		break;
-+	case Opt_compression_hint:
-+		switch (result.uint_32) {
-+		case Opt_compression_hint_none:
-+			fsopt->alloc_hint_flags &=
-+				~(CEPH_OSD_ALLOC_HINT_FLAG_COMPRESSIBLE |
-+				  CEPH_OSD_ALLOC_HINT_FLAG_INCOMPRESSIBLE);
-+			break;
-+		case Opt_compression_hint_compressible:
-+			fsopt->alloc_hint_flags |=
-+				CEPH_OSD_ALLOC_HINT_FLAG_COMPRESSIBLE;
-+			fsopt->alloc_hint_flags &=
-+				~CEPH_OSD_ALLOC_HINT_FLAG_INCOMPRESSIBLE;
-+			break;
-+		case Opt_compression_hint_incompressible:
-+			fsopt->alloc_hint_flags |=
-+				CEPH_OSD_ALLOC_HINT_FLAG_INCOMPRESSIBLE;
-+			fsopt->alloc_hint_flags &=
-+				~CEPH_OSD_ALLOC_HINT_FLAG_COMPRESSIBLE;
-+			break;
-+		default:
-+			BUG();
-+		}
-+		pctx->compression_hint_set = true;
-+		break;
- 	case Opt_source:
- 		if (fc->source)
- 			return invalfc(fc, "Multiple sources specified");
-@@ -729,6 +770,7 @@ static int ceph_show_options(struct seq_file *m, struct dentry *root)
- {
- 	struct ceph_fs_client *fsc = ceph_sb_to_fs_client(root->d_sb);
- 	struct ceph_mount_options *fsopt = fsc->mount_options;
-+	u32 alloc_hint_flags = READ_ONCE(fsopt->alloc_hint_flags);
- 	size_t pos;
- 	int ret;
- 
-@@ -782,6 +824,11 @@ static int ceph_show_options(struct seq_file *m, struct dentry *root)
- 	if (fsopt->flags & CEPH_MOUNT_OPT_CLEANRECOVER)
- 		seq_show_option(m, "recover_session", "clean");
- 
-+	if (alloc_hint_flags & CEPH_OSD_ALLOC_HINT_FLAG_COMPRESSIBLE)
-+		seq_show_option(m, "compression_hint", "compressible");
-+	else if (alloc_hint_flags & CEPH_OSD_ALLOC_HINT_FLAG_INCOMPRESSIBLE)
-+		seq_show_option(m, "compression_hint", "incompressible");
-+
- 	if (!(fsopt->flags & CEPH_MOUNT_OPT_ASYNC_DIROPS))
- 		seq_puts(m, ",wsync");
- 	if (fsopt->flags & CEPH_MOUNT_OPT_NOPAGECACHE)
-@@ -1484,6 +1531,10 @@ static int ceph_reconfigure_fc(struct fs_context *fc)
- 	else
- 		ceph_clear_mount_opt(fsc, LAZYIO);
- 
-+	if (pctx->compression_hint_set)
-+		WRITE_ONCE(fsc->mount_options->alloc_hint_flags,
-+			   fsopt->alloc_hint_flags);
-+
- 	if (strcmp_null(fsc->mount_options->mon_addr, fsopt->mon_addr)) {
- 		kfree(fsc->mount_options->mon_addr);
- 		fsc->mount_options->mon_addr = fsopt->mon_addr;
-diff --git a/fs/ceph/super.h b/fs/ceph/super.h
-index 0e6c8968b80d..7955e5e1e755 100644
---- a/fs/ceph/super.h
-+++ b/fs/ceph/super.h
-@@ -94,6 +94,7 @@ struct ceph_mount_options {
- 	int caps_max;
- 	unsigned int max_readdir;       /* max readdir result (entries) */
- 	unsigned int max_readdir_bytes; /* max readdir result (bytes) */
-+	u32 alloc_hint_flags;           /* CEPH_OSD_ALLOC_HINT_FLAG_* */
- 
- 	bool new_dev_syntax;
- 
--- 
-2.48.1
-
+VGhhbmtzIGZvciB0aGUgcmV2aWV3Lg0KDQo+IElzIGl0IHNhZmUgdG8gY2FsbCBwY2lfZnJlZV9p
+cnFfdmVjdG9ycygpIGhlcmUgYW5kIGluIG10a19wY2lfcmVtb3ZlKCkgd2hlbg0KPiB0aGUgZGV2
+aWNlIHdhcyBlbmFibGVkIHdpdGggcGNpbV9lbmFibGVfZGV2aWNlKCk/DQo+DQo+IHBjaW1fZW5h
+YmxlX2RldmljZSgpIHNldHMgcGRldi0+aXNfbWFuYWdlZC4gQmVjYXVzZSBvZiB0aGF0LA0KPiBw
+Y2lfYWxsb2NfaXJxX3ZlY3RvcnMoKSBpbiBtdGtfcGNpX3JlcXVlc3RfaXJxKCkgZ29lcyB0aHJv
+dWdoDQo+IHBjaV9zZXR1cF9tc2lfY29udGV4dCgpLT5wY2ltX3NldHVwX21zaV9yZWxlYXNlKCks
+IHdoaWNoIHJlZ2lzdGVycw0KPiBwY2ltX21zaV9yZWxlYXNlKCkgYXMgYSBkZXZyZXMgYWN0aW9u
+Lg0KPg0KPiBUaGUga2VybmVsLWRvYyBvZiBwY2lfZnJlZV9pcnFfdmVjdG9ycygpIGluIGRyaXZl
+cnMvcGNpL21zaS9hcGkuYyBzYXlzOg0KPg0KPiAgKiBXQVJOSU5HOiBEbyBub3QgY2FsbCB0aGlz
+IGZ1bmN0aW9uIGlmIHRoZSBkZXZpY2UgaGFzIGJlZW4gZW5hYmxlZA0KPiAgKiB3aXRoIHBjaW1f
+ZW5hYmxlX2RldmljZSgpLiBJbiB0aGF0IGNhc2UsIElSUSB2ZWN0b3JzIGFyZSBhdXRvbWF0aWNh
+bGx5DQo+ICAqIG1hbmFnZWQgdmlhIHBjaW1fbXNpX3JlbGVhc2UoKSBhbmQgY2FsbGluZyBwY2lf
+ZnJlZV9pcnFfdmVjdG9ycygpIGNhbg0KPiAgKiBsZWFkIHRvIGRvdWJsZS1mcmVlIGlzc3Vlcy4N
+Cj4NCj4gQWZ0ZXIgYSBmYWlsZWQgcHJvYmUsIG9yIG9uY2UgbXRrX3BjaV9yZW1vdmUoKSByZXR1
+cm5zLCBkZXZyZXMgY2FsbHMNCj4gcGNpX2ZyZWVfaXJxX3ZlY3RvcnMoKSBhIHNlY29uZCB0aW1l
+LiBUb2RheSB0aGF0IGRvZXMgbm90aGluZywgYmVjYXVzZQ0KPiBwY2lfZGlzYWJsZV9tc2l4KCkg
+cmV0dXJucyBlYXJseSB3aGVuICFkZXYtPm1zaXhfZW5hYmxlZC4gVGhlIFRPRE8gaW4NCj4gZHJp
+dmVycy9wY2kvbXNpL21zaS5jIHNheXMgdGhpcyBpbXBsaWNpdCBtYW5hZ2VkIGJlaGF2aW91ciBp
+cyBnb2luZyB0bw0KPiBjaGFuZ2UsIHRob3VnaCwgc28gdGhlIGRyaXZlciB3b3VsZCB0aGVuIGJl
+IHJlbHlpbmcgb24gYW4gaWRlbXBvdGVuY2UgdGhhdA0KPiBtYXkgZ28gYXdheS4NCj4NCj4gVGhp
+cyBpcyBzdGlsbCB0aGUgc2FtZSBhdCB0aGUgZW5kIG9mIHRoZSBzZXJpZXMuDQoNCk5vIGNoYW5n
+ZS4gIFRoZSB2ZWN0b3JzIGhhdmUgdG8gYmUgZnJlZWQgYWZ0ZXIgbXRrX21oY2NpZl9leGl0KCkg
+YW5kDQpiZWZvcmUgdGhlIHJlc2V0LCBhbmQgZGV2cmVzIG9ubHkgcnVucyBvbmNlIHJlbW92ZSgp
+IGhhcyByZXR1cm5lZCwgdGhhdA0KaXMgYWZ0ZXIgdGhlIHJlc2V0IGFuZCBhZnRlciBwY2lfcmVz
+dG9yZV9zdGF0ZSgpOyBvbiB0aGUga2V4ZWMgc2h1dGRvd24NCnBhdGggaXQgZG9lcyBub3QgcnVu
+IGF0IGFsbC4gIFRoZSBsYXRlciBwY2ltX21zaV9yZWxlYXNlKCkgZmluZHMNCm1zaXhfZW5hYmxl
+ZCBjbGVhciBhbmQgcmV0dXJucywgYW5kIGlmIHRoZSBpbXBsaWNpdCBtYW5hZ2VkIGJlaGF2aW91
+ciBpcw0KcmVtb3ZlZCwgYXMgdGhlIFRPRE8gc2F5cywgdGhlIGV4cGxpY2l0IGNhbGwgaXMgd2hh
+dCByZW1haW5zLCBzbyBub3RoaW5nDQpoZXJlIGRlcGVuZHMgb24gaXQuICB0N3h4IGVuYWJsZXMg
+d2l0aCBwY2ltX2VuYWJsZV9kZXZpY2UoKSBhbmQgZnJlZXMNCml0cyB2ZWN0b3JzIHRoZSBzYW1l
+IHdheS4NCg0KPiBDb3VsZCBwY2llaHAgdHJlYXQgdGhpcyByZXNldCBhcyBhIHN1cnByaXNlIHJl
+bW92YWwgb2YgdGhlIG1vZGVtPw0KPg0KPiBNUlNULl9SU1QgaW4gbXRrX3BjaV9wbGRyKCkgaXMg
+YSBwbGF0Zm9ybSByZXNldCB0aGF0IGRyb3BzIGFuZCByZXRyYWlucyB0aGUNCj4gbGluay4gVGhl
+IE1IQ0NJRiBERVZfRVZUX0gyRF9ERVZJQ0VfUkVTRVQgZmFsbGJhY2sgYmVsb3cgbWF5IGRyb3Ag
+dGhlIGxpbmsNCj4gdG9vLCBkZXBlbmRpbmcgb24gdGhlIGZpcm13YXJlLg0KPg0KPiBOZWl0aGVy
+IHBhdGggaXMgd3JhcHBlZCBpbiBwY2lfaHBfaWdub3JlX2xpbmtfY2hhbmdlKCkgYW5kDQo+IHBj
+aV9ocF91bmlnbm9yZV9saW5rX2NoYW5nZSgpIG9uIHBkZXYtPmJ1cy0+c2VsZi4gVGhlaXIga2Vy
+bmVsLWRvYyBjb3ZlcnMNCj4gdGhpcyBjYXNlOg0KPg0KPiAgKiBNYXJrIHRoZSBiZWdpbm5pbmcg
+b2YgYSBjb2RlIHNlY3Rpb24gY2F1c2luZyBzcHVyaW91cyBsaW5rIGNoYW5nZXMgb24gdGhlDQo+
+ICAqIFNlY29uZGFyeSBCdXMgb2YgQHBkZXYsIGUuZy4gYXMgYSBzaWRlIGVmZmVjdCBvZiBhIFNl
+Y29uZGFyeSBCdXMgUmVzZXQsDQo+ICAqIEQzY29sZCB0cmFuc2l0aW9uLCBmaXJtd2FyZSB1cGRh
+dGUgb3IgRlBHQSByZWNvbmZpZ3VyYXRpb24uDQo+ICAuLi4NCj4gICogTXVzdCBiZSBwYWlyZWQg
+d2l0aCBwY2lfaHBfdW5pZ25vcmVfbGlua19jaGFuZ2UoKS4gIE1heSBiZSBjYWxsZWQgYm90aA0K
+PiAgKiBmcm9tIHRoZSBQQ0kgY29yZSBhbmQgZnJvbSBFbmRwb2ludCBkcml2ZXJzLg0KPg0KPiBw
+Y2llaHBfaXN0KCkgaWdub3JlcyB0aGUgbGluayBldmVudHMgb25seSB3aGVuIHRoYXQgYnJhY2tl
+dCBpcyBzZXQ6DQo+DQo+IGRyaXZlcnMvcGNpL2hvdHBsdWcvcGNpZWhwX2hwYy5jOnBjaWVocF9p
+c3QoKSB7DQo+ICAgICAuLi4NCj4gICAgICAgICBpZiAoKGV2ZW50cyAmIChQQ0lfRVhQX1NMVFNU
+QV9QREMgfCBQQ0lfRVhQX1NMVFNUQV9ETExTQykpICYmDQo+ICAgICAgICAgICAgIChwY2lfZHBj
+X3JlY292ZXJlZChwZGV2KSB8fCBwY2lfaHBfc3B1cmlvdXNfbGlua19jaGFuZ2UocGRldikpICYm
+DQo+ICAgICAgICAgICAgIGN0cmwtPnN0YXRlID09IE9OX1NUQVRFKSB7DQo+ICAgICAuLi4NCj4g
+fQ0KPg0KPiBXaXRob3V0IHRoZSBicmFja2V0LCBvbiBhIGhvdHBsdWctY2FwYWJsZSB1cHN0cmVh
+bSBwb3J0LA0KPiBwY2llaHBfaGFuZGxlX3ByZXNlbmNlX29yX2xpbmtfY2hhbmdlKCkgd291bGQg
+ZGlzYWJsZSB0aGUgc2xvdCwgbWFyayB0aGUNCj4gZGV2aWNlIGRpc2Nvbm5lY3RlZCBhbmQgcmUt
+ZW51bWVyYXRlIGl0Lg0KPg0KPiBPbmNlIHRoZSBkZXZpY2UgaXMgbWFya2VkIGRpc2Nvbm5lY3Rl
+ZCwgcGNpX2RldmljZV9pc19wcmVzZW50KCkgcmV0dXJucw0KPiBmYWxzZS4gVGhlIDUwIHggMjAg
+bXMgcG9sbCBvbiBtdGtfcGNpX2xpbmtfY2hlY2soKSB0aGVuIHJ1bnMgdG8gdGhlIGVuZCBhbmQN
+Cj4gdGhlICJkZXZpY2Ugbm90IGJhY2siIHdhcm5pbmcgZmlyZXMuIHBjaV9yZXN0b3JlX3N0YXRl
+KCkgaXMgdGhlbiBzZW50IHRvIGENCj4gZGV2aWNlIHRoZSBjb3JlIGhhcyBhbHJlYWR5IGdpdmVu
+IHVwIG9uLg0KPg0KPiBUaGUgY29yZSdzIG93biBwY2llaHBfcmVzZXRfc2xvdCgpIGJyYWNrZXRz
+IGl0cyBsaW5rLWRyb3BwaW5nIGJ1cyByZXNldCB3aXRoDQo+IHRoZXNlIGhlbHBlcnMuIFdvdWxk
+IGl0IG1ha2Ugc2Vuc2UgdG8gZG8gdGhlIHNhbWUgYXJvdW5kIGJvdGggcmVzZXQgcGF0aHMNCj4g
+aGVyZT8gbXRrX3BjaV9zaHV0ZG93bigpIHJ1bnMgdGhpcyBzYW1lIGNvZGUgZHVyaW5nIGEga2V4
+ZWMgcmVib290Lg0KPg0KPiBUaGlzIGlzIHN0aWxsIHRoZSBzYW1lIGF0IHRoZSBlbmQgb2YgdGhl
+IHNlcmllcy4NCg0KTm8gY2hhbmdlIGZvciB0aGUgYnJhY2tldCBpbiB0aGlzIHNlcmllczogcGNp
+X2hwX2lnbm9yZV9saW5rX2NoYW5nZSgpDQphbmQgcGNpX2hwX3VuaWdub3JlX2xpbmtfY2hhbmdl
+KCkgYXJlIG5vdCBleHBvcnRlZCB0byBtb2R1bGVzLCBhbmQgdGhpcw0KZHJpdmVyIGNhbiBiZSBi
+dWlsdCBhcyBvbmUuICBUaGVpciBvbmx5IGNhbGxlciBpcyBwY2llaHBfcmVzZXRfc2xvdCgpOw0K
+cGNpX2Rldl9hY3BpX3Jlc2V0KCkgYW5kIHRoZSBNUlNULl9SU1QgcmVzZXQgaW4gdDd4eCBhcmUg
+bm90IGJyYWNrZXRlZA0KZWl0aGVyLiAgT24gYSBob3RwbHVnLWNhcGFibGUgcG9ydCB0aGUgcmVz
+dWx0IGlzIHdoYXQgeW91IGRlc2NyaWJlOiB0aGUNCnBvbGwgcnVucyBvdXQsIHRoZSB3YXJuaW5n
+IGlzIHByaW50ZWQsIGFuZCBwY2llaHAgcmVtb3ZlcyBhbmQNCnJlLWVudW1lcmF0ZXMgdGhlIG1v
+ZGVtLCB3aGljaCBsZWF2ZXMgaXQgd2l0aCB2YWxpZCBjb25maWcgc3BhY2UuICBJDQp3aWxsIHN0
+YXRlIHRoaXMgaW4gdGhlIGNvbW1pdCBtZXNzYWdlLCBhbmQgYWRkIHRoZSBicmFja2V0IG9uY2Ug
+dGhlDQpoZWxwZXJzIGNhbiBiZSBjYWxsZWQgZnJvbSBhIG1vZHVsZS4NCg0KV2lsbCBmaXggaW4g
+djEzIHRoZSBrZXhlYyBjYXNlIHRoYXQgZm9sbG93cyBmcm9tIGl0OiB0aGVyZSBwY2llaHAgY2Fu
+DQp1bmJpbmQgdGhlIGRldmljZSBhZnRlciAuc2h1dGRvd24gaGFzIGFscmVhZHkgcnVuIHRoZSB0
+ZWFyZG93biwgc28NCm10a19wY2lfZGV2X2V4aXQoKSB3aWxsIHJldHVybiBlYXJseSB3aGVuIGl0
+IGhhcyBhbHJlYWR5IHJ1bi4NCg0KVGhhbmtzLA0KSmFjaw0KDQpwdy1ib3Q6IGNy
