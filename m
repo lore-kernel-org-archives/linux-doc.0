@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795431798;
-	b=YuGK/YrvjPdDODCHnWZk4fpMJ+EjwW3coNTs/aw+nTudKc2xGont2SXkk76A3GmDsgrN
-	 NrAhbkqG6TKr576lciXyhDzVKNv8WVhtLRse2ZnBLThnFM2n+v2FMUlCSaDNwsEtNzcRo
-	 HIlmR0I1OxjSl3uuLf1wpVnDLOeiGPhjsc/KWAWz4+2xTq/vMVDfYt/gT9Uj1mSFlXkbo
-	 gaq5q62gZnnGXkKuVo1ZvMjZYcy70GcoI4gVVANFnU687qFu4yjA0yxaoNmkTWE3r4b/l
-	 T/ToUQCuN8UxEa20GhXWKHr4umxDSjh7PqHGKHw+IzEtgxX3Y4X3rHWzkR/dSpP/P2w==
+	t=1795431800;
+	b=tLwgADtzYD9fsvlj/h/O/CaC1oKbDPs6+KMc8txscHFMBQWw8IO5ca9dmS6dxP/JJXj3
+	 CUA/EtyZdMrrNIYLOqKtWrVCAeLiZirYXmp4j+qRyi9V8yeq6tuR73aWSsl+im4GcjyEW
+	 OzmZynvsrMNduknFL4DBmPADGAv8NusiU/4By74AV/rzelkzPrbZFrAF0gm2b0L6CKOkv
+	 xhhcziyU9IbvTk3DaGVCJ/uLrIPXtu6SeYqJ0oCalvOwUwWbZC/CBh781oirFMNf5sD4d
+	 uZSrp3peSzL/FV+9F+9YQUQxK1A/4D9DkBPLsuQ24sGcWyTKRUD2xMGiY7wFZcFG9Mw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795431798;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795431800;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=4+W/y1+xKwI/Q11z+x4eNw/QII2gfHgjNOLpuKt+j0k=;
-	b=hav9A7qycX4H4/Yzu9MF6C7xUg/I5CK2DluxKbCfmGcdv4EL7M6rC42ALnxzQUcqPSoy
-	 q+B3niSR6BQNj76de3HFXs2fGvqQ+XVubKQzggrXGGjMspUBttSgZOxWQlpLA+1gbhFcz
-	 aXD8kwjpZbyMPg7Yl0P5bmpI6FvhwPHTPCzZ7zgwRYcXOHBrgqhF/ofZwE4sURhyzLHde
-	 rapKgZRYqCtfUai8OjvDibRF6aLKYlQgZxhD8iLxzJJVDqo9SAbVN0BfFnYYfvrh//nKT
-	 SOJ6UHGFfyTJ4jouasQEUbnMBCgQVg+f2i5m/G6zXRjKZaKyHn5lwthA8zfBr2qsXBg==
+	bh=lTzeddrlkJ6EM0T9eywUnBlh4s5kow/CLOIaopcE9eE=;
+	b=dNCKDGg3+ZuZEaa2IR9ZwjtAVr1If1elwYb5iEs2pm4HFU0SY6aBxz8NLhkn5VE6+iLt
+	 b04oAaHjWbUWUt3zZkTfHTQ3Vn0cZ19PTa2GiQ3ZcGr+Q9l1KJp6utmB7RuTCClyclm3v
+	 0iGLJkb3qP5/TLHO16YCo+ZW3vaZoa49hHn/PNaEj8s1ghvLpRVwaRfGLCbThu0xz+iGN
+	 QKcf+kGqqxyjEeLKpYnQ1MAK1dssBRdr3eDRDhmsF7YoFWiRtIOSuIwQbTPrUJ59tTRsv
+	 cc6bra85Ar1pnOocgoUC1r4JCAr8886qN3LsMEySv3SKYiBn1sYZnz45/IyguVZoaag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xM8LCHsv;
-	arc=none smtp.remote-ip=209.85.214.179
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q4Oz248P;
+	arc=none smtp.remote-ip=209.85.216.52
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D844606A31E
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:03:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D844606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284FB606A321
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:03:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 284FB606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xM8LCHsv
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2eb33b5c067so2355725ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:03:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q4Oz248P
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3b4200f59e1so305827a91.2
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:03:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795431796; x=1796036596; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795431799; x=1796036599; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=4+W/y1+xKwI/Q11z+x4eNw/QII2gfHgjNOLpuKt+j0k=;
-        b=xM8LCHsvJWDWEE6FWu6om2M0AYsDW3L2Cdhzz7NdM3Ige9y7RUKJD85OzC+DuZxNmT
-         HORaxgfk4D6fdq3WQn1PGY2KnFiNEGW/mQrRBJN0uXrbuEZ5T0JynRBPdU4aBobBbma3
-         nRFgOx2yt3wkTt8WF1RK2KjASmK8monI2JM1hLSHODqIAV9yLSXfCQq9eM5K2tcI8706
-         QTINdWns5EnKNsPFMAXCH8mJMOf3FvToQSPPTbvQcD6qpoRdTsfaNW+JdtOuyHzIpHcD
-         wLhQeGgqUUNClQxYY/t1y7B8s203HNAp8KsJLzjFzbmHFXFK8daiOis249g1UwEbJCwu
-         u/Ag==
+        bh=lTzeddrlkJ6EM0T9eywUnBlh4s5kow/CLOIaopcE9eE=;
+        b=Q4Oz248PtkPJC6oieqlckLH+ERJcHPIzfc2/4jndwm9hWSpKMnvMCa2cGyiC6W/Oh/
+         IRXieA8tZp1xzooKCG5+F05lksdNgSeda8Qx0r3TSU5M9ZAlnOFO0WeCYbvzLPCuuNmY
+         kCA6QCRIHB7RG9mTBTrllNu68K6+Amp0ELldYSVRKsAr3jbPk+Y+mSgb1uGhoMRVljxc
+         9Yn25O3hTFYVI0MVoz29Uffdd6x3RSU3XV+QM69URuZB2WcggvKX887kYq+mOaLMGcOh
+         xLdPHWrs8fYHBzqQbyC7RXhsDWUtP+HE5rTbAORxnyB8+5i9+t1tiaQu9oX1ARsOttHA
+         OYig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795431796; x=1796036596;
+        d=1e100.net; s=20260707; t=1795431799; x=1796036599;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4+W/y1+xKwI/Q11z+x4eNw/QII2gfHgjNOLpuKt+j0k=;
-        b=ORl9m/MZFSP2+MINNURULFbeAyP1tF7Ltn7Utoow8d4xQkpVWkdAx+tqpJr0vjVBDE
-         3npGS6vYWiHAVE9TpzyI4FB/GmkHPZMSWp8JzqLLQoD18A6A4Y1rb7fGREno7fjv+DBk
-         2UOLR25220Wg+Ld2ijPzT6JJzjI/4P+64UlyOcn7KWDqaQqy+2w9wWd1r40dm/txBdN+
-         BXD8guST0JT1k9fRIhAyPDywddBkTXxRVqPRMCyXfq5/vU+wNLruzfCZ6pNu6PMy1TmF
-         HkSHeVaXKYrP/a+6ZyLuIf6WXST8vjpMwmkpmWibpCrl0aEnj4XxYpi2RPHCMwcsUIVX
-         dErw==
-X-Forwarded-Encrypted: i=1; AL+hErEUxLH5OOk17MuYWQhwVQwcoCjgnFS5Azq6/56MjI/Mk2o+Fb4GSXdtPpmYdi1dyf8yAyi2QdjbDxs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8iihnSRNfvRVX5HP23ctJPUEEnV4h6fBqT8kR02QM8kLm1xIaR
-	k3ddCHFmR9eypfop3qx0zQaaonyWl9ousoPrritgmhQJt+QA9LE/4pyo
-X-Gm-Gg: AZFdTZcFXGVGxMDuqhKF+HQrd669CkWRL9RceB3KsaH94lQ5aI8ZucYG5KXxryTkavw
-	/BQXyU9Hs4Pp5ko8R4Z4QXI/uU8/jo6XmGoHE9pQ/psYtGnrPu2GKRcmVApv+fxrall6Vn8XsHC
-	uNcoujR4/B9S28C14jA1vjFZZ3mADqm0OP/rT11iJbG+vD26Xt7km2JkusZBnEXF4JCSmWMd5h/
-	lsl+0e596gQQbNJFX48LS0qcEYT2oYVMk2/wKGl+fbFLaRbL8xp6FZj8oJJCUZDJ7m2vqCYY7CA
-	g6kH2p0nGWgzTOMiVbtCbWp2Eo/oND3dq6wzY6VZ6RyWzlMwI0/jv9hr997WGVS3YjA2+odA98D
-	ysH6OazaGx1/A3BBwH5xOv9qiCj9y5SXzrdcqj0XVY1qf2DU2W8aiXVwhlobkTDkni4tTsVoQB2
-	0JW1iyGynBlyq/prdAtqwO71HGN9oyNf58sCHCAnVYmPUXNn7zrvMN07Go38XkiyZ8lZBtdzyIK
-	VwuIZD+wGkvQkv9m5/GhVrYlIrkFVXk5BctSAsvk3+J7QN723Okj0NOY6OQ11VCJrqYUKglS7Mo
-	gYWumiG5rWsrQD9Ehu9w8iSaHuAmsEyj9KOO0vM7vCE69iHHiTkulIOrP4hpfxwxefwl+w+8cyv
-	qzeZEKZrClzWdm41j0ZihRUe4hw==
-X-Received: by 2002:a17:903:4586:b0:2f0:3cbf:743d with SMTP id d9443c01a7336-2f03f16db29mr164993465ad.4.1795431796008;
-        Mon, 23 Nov 2026 03:03:16 -0800 (PST)
+        bh=lTzeddrlkJ6EM0T9eywUnBlh4s5kow/CLOIaopcE9eE=;
+        b=d9Huh7lEw/34JoUJdKoJC/tyU3fdtVjtaYVkYW0p47ELn7ephrdrRVDybj9U+UjTOD
+         AXgreAPkKVv9/JoJYv5wTL3GFSDpqLnp06C8uONYr+BTcgJl7SQ3tRz/31EWlFO2RrTn
+         DB3TrzCbWwbf0zrCQ8TvfuoRtXdsm3EbAa+OlrPEpEjRPr31ID29TjdDkLj7wP7kSdPi
+         EzKpYUUB9ncllr9PNONn6Zu0CGUiMQ1nkb4WPHHKzktDBJPFP92HMGtsBrvUR7/RR2TM
+         tFe6bsNMaNGvXChOB3Z58WQEk3oqXtxDREGwCtsfvq0ud6bvxPu8Lw4mBDjBM/XEwmyZ
+         P2jw==
+X-Forwarded-Encrypted: i=1; AL+hErG8JYARNQM9vWT2ReM7OpFogJ8IdzyKFU6XvNrvQUpmXqOyFr2dGPCS57IKa/zemjXiO5D+98e3H5g=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9tYr8OWk6hhUW1WLrapAfF6/s+43tTPjgZmnbFn3gzX/2MLN/R
+	Cs1qsOhL3KsFDEJGVv/ubpIIRg2dKNBI0i96897qk2LVyGkSmecwYrRD
+X-Gm-Gg: AZFdTZflU5mI90nPAJltG9SOV2XLdAV482mOOApGGx6Szz12i/6QmTlZLZTUhMMNt7k
+	YJCRi/7jkh8wOMcS0P/c8O0YE9E/+BMwstMvXqfJmkuLFC4Zve49sY/zFzjj5xNTZXi/SzpotQh
+	GYx67PfLoQVx69A9ILIZ5W2GSKVZQIgTZr5mR2yFujZpab2G05s93etK0n8Dni2eOY3rSanX1jO
+	e1CAxPo1G/Ass8WlBA/D/Sk3XyXpw0OcfM0fSKc9lQldOUCMD6UeuiP0tKQ/JdxXkmlQhWRXdTg
+	Ed26gPOppGW64hr5mxqyjltvtCInq+J+nAoOYY56JgNErNEvoEu4PwgOcGBtRdp4zf8iXktV5w6
+	jJx9N+PmGPchlLS/4525l7hwOkEl07KCiTMRv2HC1GacLSbyz+DUupph1hGJTR4OSi9ocfBsPCY
+	tyxCGMbApCl8Ip8lkxwwQohPctvp2APNkzaLALBMhHlnvf4EJ9GtFuINbOjlq8Vna+cc2gmJyja
+	4oT/Q4thfWX/bAZso5psIgo3ORv4g15xdhDs58FZdtjlE+z2ASFdHv95dZjlbJd4YqpD06weAQt
+	jnIqzDjU0ciZOsnOtiLbqRHxpoVi/cKpvHOyQTt/e5XXyk+byDqVPs1NxDdKElONFD3SIJJ3WEJ
+	2GOidb6N2+nKoREv75gbXbNbZsg==
+X-Received: by 2002:a17:90b:3d8d:b0:3ab:a188:b898 with SMTP id 98e67ed59e1d1-3b41c80b970mr16577450a91.2.1795431799097;
+        Mon, 23 Nov 2026 03:03:19 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.16])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1aa3sm50380785ad.21.2026.11.23.03.03.13
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1aa3sm50380785ad.21.2026.11.23.03.03.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 03:03:15 -0800 (PST)
+        Mon, 23 Nov 2026 03:03:18 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: alexs@kernel.org,
 	corbet@lwn.net
@@ -89,9 +89,9 @@ Cc: wy@wyuan.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH v2 16/25] docs/zh_TW: process: sync security-bugs.rst with the English original
-Date: Mon, 23 Nov 2026 19:02:07 +0800
-Message-ID: <20261123110217.170025-17-chenyou910331@gmail.com>
+Subject: [PATCH v2 17/25] docs/zh_TW: process: sync volatile-considered-harmful.rst with the English original
+Date: Mon, 23 Nov 2026 19:02:08 +0800
+Message-ID: <20261123110217.170025-18-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261123110217.170025-1-chenyou910331@gmail.com>
 References: <20261123110217.170025-1-chenyou910331@gmail.com>
@@ -107,392 +107,192 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The translation still mirrors the 2021 text: a short "Contact" section
-pointing at security@kernel.org and a coordination section about the old
-vs.openwall.org list and its "[vs]" subject prefix.  Since then the
-English document has been rewritten section by section, so retranslate
-it in full against the current text:
+The translation carries no "update to commit" marker.  A comparison
+against the current English text shows every paragraph is present, but
+the prose was converted from zh_CN and several sentences drifted from
+the original:
 
-- add "Preparing your report" with the mandatory and desirable items
-  (commit 496fa1befba1 ("Documentation: clarify the mandatory and
-  desirable info for security reports"), commit e447f7f33fa0 ("docs:
-  security-bugs: clarify what counts as a valid version"))
-- add "What qualifies as a security bug", including the threat-model
-  link and the rule that AI-found bugs are to be treated as public
-  (commit a03ef333fbd6 ("Documentation: security-bugs: explain what is
-  and is not a security bug"), commit 561458db0d6b ("docs:
-  security-bugs: add a link to the threat-model documentation"),
-  commit 4bf85afb9f3e ("Documentation: security-bugs: clarify
-  requirements for AI-assisted reports"))
-- add "Identifying contacts" with the get_maintainer.pl examples
-  (commit a72b832a4823 ("Documentation: explain how to find maintainers
-  addresses for security reports"))
-- add "Responsible use of AI to find bugs" and the steps an AI assistant
-  must follow (commit 4bf85afb9f3e ("Documentation: security-bugs:
-  clarify requirements for AI-assisted reports"),
-  commit 6ffecfe0805e ("docs: security-bugs: clarify some mandatory
-  steps for AI reports"))
-- add "Sending the report": collaboration with the reporter, when to
-  "Cc:" the security team, the plain-text requirement
-  (commit d49172bbd7eb ("Documentation: clarify the expected
-  collaboration with security bugs reporters"),
-  commit ceddb2c001d9 ("Documentation: insist on the plain-text
-  requirement for security reports"),
-  commit aed3c3346765 ("Documentation: security-bugs: do not
-  systematically Cc the security team"))
-- replace the coordination and CVE sections with the current
-  "Coordination with other groups" and "CVE assignment" text
-  (commit 4fee0915e649 ("Documentation: security-bugs.rst: update
-  preferences when dealing with the linux-distros group"),
-  commit 0217f3944aeb ("Documentation: security-bugs.rst: linux-distros
-  relaxed their rules"), commit 3c1897ae4b6b ("Documentation:
-  security-bugs.rst: clarify CVE handling"),
-  commit 5928d411557e ("Documentation: Document the Linux Kernel CVE
-  process"))
-- localize terminology (內核→核心, 信息→資訊, 代碼→程式碼, 爲→為,
-  發佈→發布)
+- cpu_relax() "happens to serve as a compiler barrier", not a memory
+  barrier
+- the use of volatile "is likely to be seen as a bug" and will bring
+  additional scrutiny, rather than simply being a bug
+- I/O memory accesses are "always" done through accessor functions,
+  and "busy-waiting is generally an anti-social act"
+- render the "fixing it would be more trouble than it is worth" clause
+  of the jiffies item and the "justification" required of patches
+  removing volatile variables as in the original
+- restore the emphasis on "within" in the critical section paragraph
+- localize terminology (內核→核心, 代碼→程式碼, 內存→記憶體,
+  寄存器→暫存器, 變量→變數, 訪問→存取, 優化→最佳化, 線程→執行緒,
+  網絡適配器→網路卡, 爲→為, 裏→裡)
+- use the same heading underline characters as the original, and put
+  the references and credit lines in separate paragraphs so they no
+  longer run together in the rendered output
 
-zh_TW has no translation of process/cve.rst, so the CVE section names
-Documentation/process/cve.rst as plain text rather than a :doc: link.
-
-Now that the file is in sync, drop the not-kept-in-sync notice.
-
-update to commit 6ffecfe0805e ("docs: security-bugs: clarify some
-mandatory steps for AI reports")
+update to commit 93431e0607e5 ("Replace HTTP links with HTTPS ones:
+documentation")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../zh_TW/process/security-bugs.rst           | 296 +++++++++++++++---
- 1 file changed, 249 insertions(+), 47 deletions(-)
+ .../process/volatile-considered-harmful.rst   | 115 +++++++++---------
+ 1 file changed, 59 insertions(+), 56 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/security-bugs.rst b/Documentation/translations/zh_TW/process/security-bugs.rst
-index 783d7c77b5fa..bdb8f8f35a9c 100644
---- a/Documentation/translations/zh_TW/process/security-bugs.rst
-+++ b/Documentation/translations/zh_TW/process/security-bugs.rst
-@@ -1,74 +1,276 @@
- .. SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst b/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
+index edfc83f32672..6c54c9442524 100644
+--- a/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
++++ b/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
+@@ -7,92 +7,95 @@
+ :Original: :ref:`Documentation/process/volatile-considered-harmful.rst
+            <volatile_considered_harmful>`
  
- .. include:: ../disclaimer-zh_TW.rst
--.. include:: ../unmaintained-zh_TW.rst
+-爲什麼不應該使用“volatile”類型
+-==============================
++為什麼不應該使用“volatile”類型
++------------------------------
  
- :Original: :doc:`../../../process/security-bugs`
+-C程序員通常認爲volatile表示某個變量可以在當前執行的線程之外被改變；因此，在內核
+-中用到共享數據結構時，常常會有C程序員喜歡使用volatile這類變量。換句話說，他們經
+-常會把volatile類型看成某種簡易的原子變量，當然它們不是。在內核中使用volatile幾
+-乎總是錯誤的；本文檔將解釋爲什麼這樣。
++C程式設計師常認為volatile表示變數可能在目前的執行緒之外被改變；因此，在核心中
++使用共享資料結構時，他們有時會想用volatile。換句話說，他們常把volatile類型當成
++某種簡易的原子變數，但它並不是。在核心程式碼中使用volatile幾乎從來都不正確；
++本文件將說明原因。
  
- 安全缺陷
- =========
+-理解volatile的關鍵是知道它的目的是用來消除優化，實際上很少有人真正需要這樣的應
+-用。在內核中，程序員必須防止意外的併發訪問破壞共享的數據結構，這其實是一個完全
+-不同的任務。用來防止意外併發訪問的保護措施，可以更加高效的避免大多數優化相關的
+-問題。
++理解volatile的關鍵在於：它的目的是抑制最佳化，而這幾乎從來不是我們真正想做的
++事。在核心中，必須保護共享資料結構免受不必要的並行存取，這是一個完全不同的任
++務。防範不必要並行的過程，也能以更有效率的方式避免幾乎所有與最佳化相關的問題。
  
--Linux內核開發人員非常重視安全性。因此我們想知道何時發現了安全漏洞，以便儘快
--修復和披露。請向Linux內核安全團隊報告安全漏洞。
-+Linux 核心開發人員非常重視安全性。因此，我們希望在發現安全缺陷時能夠得知，
-+以便盡快修復並披露。
+-像volatile一樣，內核提供了很多原語來保證併發訪問時的數據安全（自旋鎖, 互斥量,內
+-存屏障等等），同樣可以防止意外的優化。如果可以正確使用這些內核原語，那麼就沒有
+-必要再使用volatile。如果仍然必須使用volatile，那麼幾乎可以肯定在代碼的某處有一
+-個bug。在正確設計的內核代碼中，volatile能帶來的僅僅是使事情變慢。
++和volatile一樣，核心中讓資料並行存取變得安全的原語（自旋鎖、互斥鎖、記憶體屏障
++等）也是為了防止不必要的最佳化而設計的。如果正確使用了這些原語，就不需要再使用
++volatile。如果仍然需要volatile，那麼程式碼中幾乎肯定在某處有bug。在正確撰寫的
++核心程式碼中，volatile只會讓事情變慢。
  
--聯絡
-------
-+準備你的報告
-+------------
+-思考一下這段典型的內核代碼::
++思考一下這段典型的核心程式碼::
  
--可以通過電子郵件<security@kernel.org>聯繫Linux內核安全團隊。這是一個安全人員
--的私有列表，他們將幫助驗證錯誤報告並開發和發佈修復程序。如果您已經有了一個
--修復，請將其包含在您的報告中，這樣可以大大加快進程。安全團隊可能會從區域維護
--人員那裏獲得額外的幫助，以理解和修復安全漏洞。
-+和任何缺陷報告一樣，安全缺陷報告需要開發人員進行大量的分析工作，因此你能提供
-+的問題資訊越多越好。如果你不清楚哪些資訊有幫助，請參閱
-+Documentation/admin-guide/reporting-issues.rst 中概述的步驟。以下資訊在
-+**任何** 安全缺陷報告中都是絕對必要的：
+     spin_lock(&the_lock);
+     do_something_on(&shared_data);
+     do_something_else_with(&shared_data);
+     spin_unlock(&the_lock);
  
--與任何缺陷一樣，提供的信息越多，診斷和修復就越容易。如果您不清楚哪些信息有用，
--請查看“Documentation/translations/zh_CN/admin-guide/reporting-issues.rst”中
--概述的步驟。任何利用漏洞的攻擊代碼都非常有用，未經報告者同意不會對外發布，除
--非已經公開。
-+  * **受影響的核心版本範圍**：沒有標明版本的報告將不會被處理。注意，像「最新
-+    的 mainline」這類會隨時間改變的版本是不可接受的，必須提供穩定的識別方式，
-+    例如 commit ID 或確切的版本號碼。非來自 kernel.org 的核心（例如發行版
-+    核心）的版本號碼對維護者沒有意義，也不會被處理。相當一部分報告針對的是
-+    已經修復的缺陷，因此務必在較新的版本（開發樹或最新的穩定版）上驗證漏洞，
-+    至少要確認自發現問題的版本以來，相關程式碼沒有改變。
+-如果所有的代碼都遵循加鎖規則，當持有the_lock的時候，不可能意外的改變shared_data的
+-值。任何可能訪問該數據的其他代碼都會在這個鎖上等待。自旋鎖原語跟內存屏障一樣—— 它
+-們顯式的用來書寫成這樣 —— 意味着數據訪問不會跨越它們而被優化。所以本來編譯器認爲
+-它知道在shared_data裏面將有什麼，但是因爲spin_lock()調用跟內存屏障一樣，會強制編
+-譯器忘記它所知道的一切。那麼在訪問這些數據時不會有優化的問題。
++如果所有程式碼都遵循加鎖規則，那麼在持有the_lock期間，shared_data的值不可能意
++外改變。任何其他想要操作該資料的程式碼都會在這個鎖上等待。自旋鎖原語會充當記憶
++體屏障——它們是刻意這樣撰寫的——這表示資料存取不會被跨越它們而最佳化。所以編譯器
++可能自認為知道shared_data裡會是什麼，但由於spin_lock()呼叫充當記憶體屏障，會強
++制編譯器忘掉它所知道的一切。存取這些資料時不會有最佳化的問題。
  
--請儘可能發送無附件的純文本電子郵件。如果所有的細節都藏在附件裏，那麼就很難對
--一個複雜的問題進行上下文引用的討論。把它想象成一個
--:doc:`常規的補丁提交 <../process/submitting-patches>` （即使你還沒有補丁）：
--描述問題和影響，列出復現步驟，然後給出一個建議的解決方案，所有這些都是純文本的。
-+  * **問題描述**：必須詳細描述問題，附上顯示問題如何出現的追蹤記錄，並說明你
-+    為什麼認為觀察到的行為是核心的問題。
+-如果shared_data被聲名爲volatile，鎖操作將仍然是必須的。就算我們知道沒有其他人正在
+-使用它，編譯器也將被阻止優化對臨界區內shared_data的訪問。在鎖有效的同時，
+-shared_data不是volatile的。在處理共享數據的時候，適當的鎖操作可以不再需要
+-volatile —— 並且是有潛在危害的。
++如果把shared_data宣告為volatile，加鎖仍然是必要的。但編譯器也會因此無法在臨界
++區 *內* 最佳化對shared_data的存取，而此時我們明知沒有其他人能操作它。在持有鎖期
++間，shared_data並不是volatile的。處理共享資料時，正確的加鎖讓volatile變得不必要
++——而且可能有害。
  
--披露和限制信息
-----------------
-+  * **重現程式**：開發人員需要能夠重現問題，才能確認修復有效。這包括觸發問題
-+    的方法，以及確認問題確實發生的方法。需要提供依賴項簡單的重現程式（原始碼、
-+    shell 腳本、一系列操作步驟、檔案系統映像檔等）。只有二進位執行檔的重現程式
-+    不被接受。可用的漏洞利用程式（exploit）非常有幫助，未經報告者同意不會對外
-+    發布，除非它們已經公開。按照定義，無法重現的問題就無法被利用，因此也不是
-+    安全缺陷。
+-volatile的存儲類型最初是爲那些內存映射的I/O寄存器而定義。在內核裏，寄存器訪問也應
+-該被鎖保護，但是人們也不希望編譯器“優化”臨界區內的寄存器訪問。內核裏I/O的內存訪問
+-是通過訪問函數完成的；不贊成通過指針對I/O內存的直接訪問，並且不是在所有體系架構上
+-都能工作。那些訪問函數正是爲了防止意外優化而寫的，因此，再說一次，volatile類型不
+-是必需的。
++volatile儲存類別原本是為記憶體映射的I/O暫存器而設計的。在核心中，暫存器存取同樣
++應該受鎖保護，但我們也不希望編譯器“最佳化”臨界區內的暫存器存取。不過在核心中，
++I/O記憶體存取一律透過存取函式完成；直接透過指標存取I/O記憶體是不被認可的做法，
++而且並非在所有架構上都能運作。這些存取函式就是為了防止不必要的最佳化而撰寫的，
++所以，再說一次，volatile是不必要的。
  
--安全列表不是公開渠道。爲此，請參見下面的協作。
-+  * **條件**：如果缺陷取決於特定的設定選項、sysctl、權限、時序、程式碼修改等，
-+    應該一併註明。
+-另一種引起用戶可能使用volatile的情況是當處理器正忙着等待一個變量的值。正確執行一
+-個忙等待的方法是::
++另一種可能讓人想使用volatile的情況，是處理器忙等（busy-wait）某個變數的值。執行
++忙等的正確方式是::
  
--一旦開發出了健壯的補丁，發佈過程就開始了。對公開的缺陷的修復會立即發佈。
-+此外，以下資訊也非常需要：
+     while (my_variable != what_i_want)
+         cpu_relax();
  
--儘管我們傾向於在未公開缺陷的修復可用時即發佈補丁，但應報告者或受影響方的請求，
--這可能會被推遲到發佈過程開始後的7日內，如果根據缺陷的嚴重性需要更多的時間，
--則可額外延長到14天。推遲發佈修復的唯一有效原因是爲了適應QA的邏輯和需要發佈
--協調的大規模部署。
-+  * **疑似的缺陷位置**：疑似存在缺陷的檔案名稱與函式非常重要，至少有助於把報告
-+    轉給適當的維護者。如果無法提供（例如「每次執行這個指令系統都會凍結」），
-+    安全團隊會協助找出缺陷的來源。
+-cpu_relax()調用會降低CPU的能量消耗或者讓位於超線程雙處理器；它也作爲內存屏障一樣出
+-現，所以，再一次，volatile不是必需的。當然，忙等待一開始就是一種反常規的做法。
++cpu_relax()呼叫可以降低CPU功耗，或讓位給超執行緒（hyperthreaded）的另一個邏輯處
++理器；它同時也剛好充當編譯器屏障，所以，再說一次，volatile是不必要的。當然，忙
++等本身通常就是一種不顧他人的行為。
  
--雖然可能與受信任的個人共享受限信息以開發修復，但未經報告者許可，此類信息不會
--與修復程序一起發佈或發佈在任何其他披露渠道上。這包括但不限於原始錯誤報告和
--後續討論（如有）、漏洞、CVE信息或報告者的身份。
-+  * **建議的修復**：在原始碼中分析過缺陷成因的報告者，幾乎總是很清楚該如何修復
-+    它，因為他們花了很長時間研究缺陷及其影響。提出經過測試的修復能為維護者節省
-+    大量時間，即使該修復最終並不正確也一樣，因為它有助於理解缺陷。提出經過測試
-+    的修復時，請務必將其整理成可以直接合併的格式（請參閱
-+    Documentation/process/submitting-patches.rst）。如果修復被接受，這能省去
-+    一些來回溝通，而你也會因為發現並修復這個問題而獲得認可。注意，在這種情況
-+    下，當報告者與作者是同一人時，只需要 ``Signed-off-by:`` 標籤，不需要
-+    ``Reported-by:``。
+-在內核中，一些稀少的情況下volatile仍然是有意義的：
++在核心中，仍有少數罕見的情況下使用volatile是合理的：
  
--換句話說，我們唯一感興趣的是修復缺陷。提交給安全列表的所有其他資料以及對報告
--的任何後續討論，即使在解除限制之後，也將永久保密。
-+  * **緩解措施**：在分析缺陷的過程中，經常會找到一些緩解問題的方法。分享這些
-+    方法很有用，因為在終端使用者套用修復之前的這段時間，它們有助於保護使用者。
+-  - 在一些體系架構的系統上，允許直接的I/0內存訪問，那麼前面提到的訪問函數可以使用
+-    volatile。基本上，每一個訪問函數調用它自己都是一個小的臨界區域並且保證了按照
+-    程序員期望的那樣發生訪問操作。
++  - 在確實支援直接存取I/O記憶體的架構上，上述存取函式可能會使用volatile。基本
++    上，每一次存取函式呼叫本身就成為一個小的臨界區，確保存取依照程式設計師預期
++    的方式發生。
  
--協調
--------
-+什麼才算安全缺陷
-+----------------
+-  - 某些會改變內存的內聯彙編代碼雖然沒有什麼其他明顯的附作用，但是有被GCC刪除的可
+-    能性。在彙編聲明中加上volatile關鍵字可以防止這種刪除操作。
++  - 會修改記憶體、但沒有其他可見副作用的行內組合語言程式碼，有被GCC刪除的風險。
++    在asm敘述中加上volatile關鍵字可以防止這種刪除。
  
--對敏感缺陷（例如那些可能導致權限提升的缺陷）的修復可能需要與私有郵件列表
--<linux-distros@vs.openwall.org>進行協調，以便分發供應商做好準備，在公開披露
--上游補丁時發佈一個已修復的內核。發行版將需要一些時間來測試建議的補丁，通常
--會要求至少幾天的限制，而供應商更新發布更傾向於週二至週四。若合適，安全團隊
--可以協助這種協調，或者報告者可以從一開始就包括linux發行版。在這種情況下，請
--記住在電子郵件主題行前面加上“[vs]”，如linux發行版wiki中所述：
--<http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>。
-+大多數缺陷都應該公開處理，才能讓最多的人參與並找到最好的解決方案，這一點很
-+重要。就本質而言，在少數參與者之間以非公開討論處理的缺陷，比較不容易得到最好
-+的修復（例如可能遺漏合理的使用情境、測試能力有限）。
+-  - Jiffies變量是一種特殊情況，雖然每次引用它的時候都可以有不同的值，但讀jiffies
+-    變量時不需要任何特殊的加鎖保護。所以jiffies變量可以使用volatile，但是不贊成
+-    其他跟jiffies相同類型變量使用volatile。Jiffies被認爲是一種“愚蠢的遺留物"
+-    （Linus的話）因爲解決這個問題比保持現狀要麻煩的多。
++  - jiffies變數很特殊，每次引用它時都可能得到不同的值，但讀取它時不需要任何特殊
++    的加鎖。所以jiffies可以是volatile，但強烈不贊成再新增其他這類變數。在這方
++    面，jiffies被認為是一個“愚蠢的歷史遺留”問題（Linus的原話）；修正它的麻煩會
++    比它的價值還大。
  
--CVE分配
-+事實上，透過安全團隊回報的缺陷，大多只是一般缺陷，只因為不了解 Linux 核心的
-+威脅模型（如 Documentation/process/threat-model.rst 所述）而被錯誤地認定為
-+安全缺陷；它們原本應該透過 Documentation/admin-guide/reporting-issues.rst
-+所述的一般管道回報。
-+
-+安全列表是為緊急缺陷而設的：這類缺陷讓攻擊者在設定正確的生產系統上獲得原本不
-+應擁有的能力，而且容易被利用，對許多使用者構成迫切的威脅。回報之前，請想一想
-+這個問題在這樣的系統上是否確實跨越了信任邊界。
-+
-+**如果你藉助 AI 找到缺陷，就必須將其視為已公開**。雖然你可能有合理的理由認為
-+並非如此，但安全團隊的經驗顯示，以這種方式發現的缺陷總是會同時被多位研究人員
-+發現，而且往往就在同一天。在這種情況下，不要公開分享重現程式，因為這可能造成
-+意料之外的傷害；只要說明有重現程式即可，維護者如果需要，可能會私下向你索取。
-+
-+如果你不確定某個問題是否符合條件，寧可選擇私下回報：安全團隊寧願分流處理一份
-+模稜兩可的報告，也不願錯過真正的漏洞。然而，把一般缺陷回報到安全列表並不會讓
-+它們處理得更快，反而會消耗其他報告所需的分流人力。
-+
-+找出聯絡對象
-+------------
-+
-+回報安全缺陷最有效的方式，是直接寄給受影響子系統的維護者，並 Cc: Linux 核心
-+安全團隊。在這個階段不要寄到公開的郵件列表，除非你有充分的理由認為這個問題已經
-+公開或很容易被發現（例如任何人都能重複執行、廣泛可得的自動化漏洞掃描工具所找到
-+的結果，或是使用 AI 工具找到的問題）。
-+
-+如果你要回報的問題影響核心中的多個部分，即使這些問題相當類似，也請分別寄送訊息
-+（想想看，維護者們不會同時處理這些問題）。唯一的例外是，問題涉及的是由完全相同
-+的一組維護者所維護、彼此密切相關的部分，而且這些部分預期會由同一個 commit 一次
-+修復，這時一起回報或許是可以接受的。
-+
-+對大多數第一次回報的人來說，困難之一是找出報告該寄給哪些收件人。在 Linux 核心
-+中，所有正式的維護者都是受信任的，因此不小心把錯誤的維護者加進收件人，後果基本
-+上只是給那個人多一點雜訊，並不嚴重。因此，找出維護者名單的一個合適方法（核心
-+安全人員也是這麼做的）是使用 get_maintainer.pl 腳本，並調整參數讓它只列出
-+維護者。把檔案名稱傳給這個腳本時，它會在 MAINTAINERS 檔案中尋找該路徑，找出
-+相關維護者的階層式名單。第一次以最精細的過濾層級呼叫它，多數時候會回傳這個特定
-+檔案的少數幾位維護者::
-+
-+  $ ./scripts/get_maintainer.pl --no-l --no-r --pattern-depth 1 \
-+    drivers/example.c
-+  Developer One <dev1@example.com> (maintainer:example driver)
-+  Developer Two <dev2@example.org> (maintainer:example driver)
-+
-+接著就應該把訊息寄給這兩位維護者。如果指令沒有回傳任何結果，表示受影響的檔案
-+屬於一個更大的子系統，因此我們應該放寬範圍::
-+
-+  $ ./scripts/get_maintainer.pl --no-l --no-r drivers/example.c
-+  Developer One <dev1@example.com> (maintainer:example subsystem)
-+  Developer Two <dev2@example.org> (maintainer:example subsystem)
-+  Developer Three <dev3@example.com> (maintainer:example subsystem [GENERAL])
-+  Developer Four <dev4@example.org> (maintainer:example subsystem [GENERAL])
-+
-+在這裡，挑選最前面、範圍最明確的那幾位就足夠了。名單很長時，可以像下面這樣
-+產生一行以逗號分隔、適合用在郵件客戶端 To: 欄位的電子郵件地址列表::
-+
-+  $ ./scripts/get_maintainer.pl --no-tree --no-l --no-r --no-n --m \
-+    --no-git-fallback --no-substatus --no-rolestats --no-multiline \
-+    --pattern-depth 1 drivers/example.c
-+  dev1@example.com, dev2@example.org
-+
-+或者像下面這樣產生範圍較廣的名單::
-+
-+  $ ./scripts/get_maintainer.pl --no-tree --no-l --no-r --no-n --m \
-+    --no-git-fallback --no-substatus --no-rolestats --no-multiline \
-+    drivers/example.c
-+  dev1@example.com, dev2@example.org, dev3@example.com, dev4@example.org
-+
-+如果到了這一步，你仍然難以找出正確的維護者，**而且只有在這種情況下**，才可以
-+只把報告寄給 Linux 核心安全團隊。你的訊息會經過分流處理，如有需要，你會收到
-+應該聯絡誰的指示。你的訊息也可能被原封不動地轉寄給相關維護者。
-+
-+負責任地使用 AI 尋找缺陷
-+------------------------
-+
-+提交給安全團隊的缺陷報告中，有相當大一部分其實是借助 AI 工具進行程式碼審查的
-+結果。雖然這可以是在鮮少有人探索的領域中找到缺陷的有效手段，卻也造成維護者的
-+負擔過重，有時他們不得不因為這類報告的品質或準確度太差而忽略它們。因此，報告者
-+必須特別注意以下幾點，它們往往讓這些報告變得不必要地難以處理：
-+
-+  * **長度**：AI 產生的報告往往過於冗長，包含多個章節與過多細節。這使得受影響
-+    的檔案、版本與影響等重要資訊難以找到。請確保先列出清楚的問題摘要與所有關鍵
-+    細節。不要讓負責分流的工程師閱讀好幾頁的文字。請設定你的工具，讓它產生簡潔、
-+    像人寫的報告。
-+
-+  * **格式**：大多數 AI 產生的報告充斥著 Markdown 標記。這些裝飾讓尋找重要資訊
-+    變得更困難，而且在轉寄或回覆所涉及的引用過程中也無法保留。寄出之前，請
-+    **務必把報告轉換成純文字**，不要帶任何格式裝飾。
-+
-+  * **影響評估**：許多 AI 產生的報告缺乏對核心威脅模型的理解（請參閱
-+    Documentation/process/threat-model.rst），並費盡心思杜撰理論上的後果。
-+    這只會增加雜訊，讓分流更複雜。請只陳述可驗證的事實（例如「這個缺陷讓任何
-+    使用者都能取得 CAP_NET_ADMIN」），不要列舉推測性的影響。請在評估過程中讓
-+    你的工具閱讀這份文件。
-+
-+  * **重現程式**：AI 工具通常有能力產生重現程式。請務必確保你的工具提供重現
-+    程式，並 **徹底測試它**。如果重現程式無法運作，或工具無法產生重現程式，就
-+    應該嚴肅質疑這份報告的有效性。注意，由於報告會被張貼到公開的郵件列表，重現
-+    程式只應在維護者要求時才分享。
-+
-+  * **提出修復**：許多 AI 工具其實比較擅長寫程式碼，而不是評估程式碼。請在回報
-+    問題之前，要求你的工具提出修復並 **測試它**。如果因為修復依賴罕見的硬體或
-+    幾乎絕跡的網路協定而無法測試，這個問題很可能就不是安全缺陷。無論如何，如果
-+    提出了修復，它都必須遵守 Documentation/process/submitting-patches.rst，並
-+    包含一個 'Fixes:' 標籤，指出引入該缺陷的 commit。
-+
-+沒有考慮這些要點的報告，可能會面臨被忽略的風險。
-+
-+評估報告時請運用常識。如果受影響的檔案已經超過一年沒有被修改，而且只由單一個人
-+維護，那麼它的使用量很可能已經下降，受影響的使用者幾乎不存在（例如非常老舊硬體
-+的驅動程式、過時的檔案系統）。在這種情況下，沒有必要用不重要的報告佔用維護者的
-+時間。如果問題顯然微不足道且可被公開發現，你應該直接回報到公開的郵件列表。
-+
-+至少，在使用 AI 助理尋找並回報缺陷時，要讓助理在開始之前先閱讀這份文件與
-+threat-model.rst，並讓它遵循 coding-assistants.rst 中描述的程序：在最新的
-+mainline 樹上工作並記下 commit ID、確認缺陷確實存在、撰寫修復、建置時沒有警告
-+且通過 checkpatch 檢查、以 Fixes 標籤提交 commit，並用 get_maintainer.pl 找出
-+維護者。
-+
-+除了該程序之外，AI 助理 **必須**：
-+
-+1. 準備一份說明問題的純文字報告。報告必須包含本文開頭列為絕對必要的四個項目：
-+   遵循上述程序時記下的受影響版本或 commit ID、問題描述、重現程式或其狀態，以及
-+   觸發條件。
-+2. 在報告開頭加上一個暫時的段落，列出收件人地址（補丁寄給維護者加郵件列表，報告
-+   與重現程式只寄給維護者），並附上提醒報告者確認其郵件客戶端設定正確的說明（請
-+   參閱 email-clients.rst），再由報告者自行刪除這個暫時的段落。
-+
-+更詳細的流程請參閱 https://github.com/masoncl/kres.git 。
-+
-+寄送報告
- --------
+-  - 由於某些I/0設備可能會修改連續一致的內存,所以有時,指向連續一致內存的數據結構
+-    的指針需要正確的使用volatile。網絡適配器使用的環狀緩存區正是這類情形的一個例
+-    子，其中適配器用改變指針來表示哪些描述符已經處理過了。
++  - 指向一致性記憶體（coherent memory）中、可能被I/O裝置修改的資料結構的指標，有
++    時可以正當地使用volatile。網路卡使用的環形緩衝區就是這類情況的一個例子，網路
++    卡會改變其中的指標，以表示哪些描述符已經處理完畢。
  
--安全團隊通常不分配CVE，我們也不需要它們來進行報告或修復，因爲這會使過程不必
--要的複雜化，並可能耽誤缺陷處理。如果報告者希望在公開披露之前分配一個CVE編號，
--他們需要聯繫上述的私有linux-distros列表。當在提供補丁之前已有這樣的CVE編號時，
--如報告者願意，最好在提交消息中提及它。
-+報告只能透過電子郵件寄送。請使用可正常收發的電子郵件地址，最好就是你希望出現在
-+``Reported-by`` 標籤（如果有的話）中的地址。如果不確定，請先把報告寄給自己。
+-對於大多代碼，上述幾種可以使用volatile的情況都不適用。所以，使用volatile是一種
+-bug並且需要對這樣的代碼額外仔細檢查。那些試圖使用volatile的開發人員需要退一步想想
+-他們真正想實現的是什麼。
++對大多數程式碼來說，上述使用volatile的理由都不適用。因此，使用volatile很可能被
++視為bug，並使程式碼受到額外的審查。想使用volatile的開發者應該退一步，想想自己真
++正想達成的是什麼。
  
--保密協議
-----------
-+安全團隊與維護者幾乎總是需要報告最初所提供內容以外的額外資訊，並仰賴與報告者
-+積極而有效率的協作來進行進一步的測試（例如驗證版本、設定選項、緩解措施或補丁）。
-+在聯絡安全團隊之前，報告者必須確保自己有空說明發現、參與討論並執行額外的測試。
-+如果報告者沒有即時回應，或無法有效地討論其發現，而溝通又沒有很快改善，報告就
-+可能被擱置。
-+
-+報告必須寄給維護者。如果你的訊息收件人只有兩位或更少，你也必須一律 Cc: Linux
-+核心安全團隊，他們會確保訊息送達正確的人，並能協助小型維護團隊處理他們可能不
-+熟悉的流程。對於較大的團隊，在你最初的幾份報告，或需要特定協助時（例如重新寄送
-+一封一週內都沒有得到回應的訊息），請 Cc: Linux 核心安全團隊。當你在幾份報告之後
-+已經熟悉這個流程，寄給大型團隊時就不再需要 Cc: 安全列表。可以透過電子郵件
-+<security@kernel.org> 聯絡 Linux 核心安全團隊。這是一個由安全人員組成的私有
-+列表，他們會協助驗證缺陷報告，並協助開發修復的開發人員。安全團隊可能會請相關
-+領域的維護者提供額外協助，以理解並修復安全漏洞。
-+
-+請盡可能寄送不帶附件的 **純文字** 電子郵件。如果所有細節都藏在附件裡，就很難
-+針對一個複雜的問題進行引用上下文的討論。把它想成一次
-+:doc:`一般的補丁提交 <../process/submitting-patches>`
-+（即使你還沒有補丁）：描述問題和影響，列出重現步驟，然後附上建議的修復，全部
-+都以純文字呈現。Markdown、HTML 與 RST 格式的報告特別不受歡迎，因為它們對人類
-+來說相當難讀，還會促使人使用專門的檢視器，有時甚至是線上檢視器，而這對機密的
-+安全報告來說，按照定義就是不可接受的。注意，有些郵件客戶端預設會弄亂純文字的
-+格式，更多資訊請參閱 Documentation/process/email-clients.rst。
-+
-+披露與保密期資訊
-+----------------
-+
-+安全列表不是披露管道。關於披露，請參閱下面的「協調」一節。
-+
-+一旦開發出可靠的修復，發布流程就會開始。已公開缺陷的修復會立即發布。
-+
-+雖然我們傾向在修復可用時就立即發布尚未公開缺陷的修復，但應報告者或受影響方的
-+要求，發布可以從發布流程開始起延後最多 7 個日曆天；如果大家同意缺陷的嚴重程度
-+需要更多時間，可以例外延長到 14 個日曆天。延後發布修復唯一正當的理由，是為了
-+配合 QA 以及需要協調發布的大規模部署的作業安排。
+-非常歡迎刪除volatile變量的補丁 － 只要證明這些補丁完整的考慮了併發問題。
++一般都歡迎移除volatile變數的補丁——只要附上能證明並行問題已經過周全考慮的理由。
  
--Linux內核安全團隊不是一個正式的機構實體，因此無法簽訂任何保密協議。
-+雖然為了開發修復，保密期內的資訊可能會與受信任的個人分享，但未經報告者許可，
-+這些資訊不會隨修復一起發布，也不會在任何其他披露管道上公開。這包括但不限於原始
-+的缺陷報告與後續討論（如果有的話）、漏洞利用程式、CVE 資訊或報告者的身分。
+-註釋
+-----
 +
-+換句話說，我們唯一關心的是修好缺陷。提交到安全列表的所有其他資訊，以及關於該
-+報告的任何後續討論，即使在保密期解除之後，也會永久保密。
-+
-+與其他團隊協調
-+--------------
-+
-+核心安全團隊只專注於修復缺陷，而其他團隊則專注於修復發行版中的問題，以及協調
-+作業系統廠商之間的披露。協調通常由 "linux-distros" 郵件列表負責，披露則由公開
-+的 "oss-security" 郵件列表負責，兩者關係密切，並在 linux-distros wiki 中有所
-+介紹：
-+<https://oss-security.openwall.org/wiki/mailing-lists/distros>
-+
-+請注意，由於這三個列表追求的目標不同，它們各自的政策與規則也不同。核心安全團隊
-+與其他團隊之間的協調並不容易，因為對核心安全團隊而言，偶爾設定的保密期（受最多
-+允許天數的限制）是從修復可用時開始計算，而 "linux-distros" 則是從首次張貼到該
-+列表時開始計算，不論修復是否可用。
-+
-+因此，核心安全團隊強烈建議，身為潛在安全問題的報告者，在受影響程式碼的維護者
-+接受修復之前，以及在你讀過上述的發行版 wiki 頁面、並完全理解聯絡
-+"linux-distros" 會對你和核心社群帶來哪些要求之前，千萬不要聯絡 "linux-distros"
-+郵件列表。這也表示，一般來說同時 Cc: 兩個列表並沒有意義，除非是在修復已被接受
-+但尚未合併的期間，或許為了協調而這麼做。換句話說，在修復被接受之前不要 Cc:
-+"linux-distros"，而在修復被合併之後，不要 Cc: 核心安全團隊。
-+
-+CVE 分配
-+--------
-+
-+安全團隊不分配 CVE，也不要求報告或修復必須有 CVE，因為這可能讓流程變得不必要地
-+複雜，並可能延誤缺陷的處理。如果報告者希望為已確認的問題分配 CVE 識別碼，可以
-+聯絡核心 CVE 分配團隊取得（請參閱 Documentation/process/cve.rst）。
-+
-+保密協議
-+--------
++參考資料
++========
  
-+Linux 核心安全團隊不是正式的組織，因此無法簽訂任何保密協議。
+ [1] https://lwn.net/Articles/233481/
++
+ [2] https://lwn.net/Articles/233482/
+ 
+ 致謝
+-----
++====
++
++最初由Randy Dunlap推動並進行研究
+ 
+-最初由Randy Dunlap推動並作初步研究
+ 由Jonathan Corbet撰寫
+-參考Satyam Sharma，Johannes Stezenbach，Jesper Juhl，Heikki Orsila，
+-H. Peter Anvin，Philipp Hahn和Stefan Richter的意見改善了本檔。
+ 
++感謝Satyam Sharma、Johannes Stezenbach、Jesper Juhl、Heikki Orsila、
++H. Peter Anvin、Philipp Hahn和Stefan Richter的意見讓本文件得以改進。
 -- 
 2.43.0
 
