@@ -1,132 +1,150 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795425045;
-	b=rfgGKLdbYilLW+WsBPuhjACNlCDoor8jP7KltORPzZLYLm8Ik+MfF2XjjSbTC/c0wzDb
-	 8etD8RK3g+zV7jG3NWIaGF0B7ZECBcKtyrkhsBRqTov3HwwL0Kx/akGCylP6JLKu2F1gZ
-	 dJX7AHHcu8tSn7NaiAdr4gDvcTMNxSoLpXObEB6jCc6HY9ycg2aXhsvvrFfaurEDyqmLN
-	 u8371XLbkRm9wQ3yX8b6MjZbm5s+jc4ubdlzdQ1NzGXccV3w2ogpK+Wowz9VJbvGvV60l
-	 fYaMZp80blE25w38r7jSOO4mP2HwSMnVC6xtyJL7ClMVcoLTQa4YIj2xoDK4QzjSVuA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795425045;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Autocrypt:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=ecm2PV2gI1P0bnbXEOX8qjFIo1KpUBcbqXWnncfBn1c=;
-	b=xEVJxVLliliLFolENxVJnBpuNelJdTeShEk9gCXpd7zuRJfJvp7WOV4bVWMrBDfdeRQS
-	 LQeGHkqQkqMGBJruqzlLW8CnAp5TfdccbVhWeX4oKlIRltQLMjnwBlZlDrrBpL2j61bZu
-	 dYysT0u3FpQ+lqueLZCK14hmFykOSNJ88TBbai1Em5NI6AhFy0l8NF/qLYl54j7GxbwP7
-	 nYydK+VvXsbektFf8Z6MGvpe7Xffj/DP45tCecJnoTacKSzyXzvAHKPuS/rwLCh17SA5O
-	 t1hzeA5XJ/FX12nHH4mhYVCF77PvHH0Hjb/OLkYPv+dI3q1iFU5RON8fCdY1mXM3A9A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=PZq1TMse;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=aVdvSkFO;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=139.219.146.109
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795425058;
+	b=VQ/pE4FhVCtRdyg9Pg0bbkKPAQTro95zUrU4+6qqKhSEKYyO+vgywPRTM5YefebRUApF
+	 VKyfDYR7tnfGF3EGpq86MSjoiOxENRTdV748Ph5xmn6XGc4eLb+F32I2WHI3zAkPJg21Z
+	 915E/+Y4uv3dNbUuLP95pnvyreCgd1rzrrTHF5PK6DoTk1iNKwzZd7l668AjwBOV1suV1
+	 mUFe0ZoSDDjoaZc4pQx4A/rq6MIZ5u08y77l8fPEp7cSR9Iw/B4gdXeSJuhpF3a4kr+w6
+	 EVulYCNTSFg5OOTU0ah4pU/c2nUEViQXFtC/b+Z9SZjg3FQ6yY1hD7jcBVPfmeSvL4w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795425058;
+	h=DMARC-Filter:Received:Received:From:To:CC:Subject:Thread-Topic:
+	 Thread-Index:Date:Message-ID:References:In-Reply-To:Accept-Language:
+	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
+	 x-microsoft-antispam:x-microsoft-antispam-message-info:
+	 x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=2vR1bhDDylDCqnVideQPa1qxPGWB/4JKDRQDTkTHEq8=;
+	b=Mp4cPdnW0qmPJLqiBIYEEkyao0mHnu6swV2RJBZDshz29BYJhZ4YjA/MLg4vR8+V5e2B
+	 18ybxtNxLHD1KzUEN9xwlsmDi/PWqyhFkPOvks1oJxV0QUDvPP2lGxAqtdgNYpGvkXWgc
+	 Gy639ahM6XX3ta08+YUDOu9UN4DV1zUsGFSI8B7mI8NFARETeo+cWgPx7Bcdp1QR1mJ3D
+	 5BsCLyvN0pqes44I03eSaGFzoVKxS2T0891CN6dS0IupoIIib1+DsrVZ2eoQX/ybNqV4m
+	 vmBetnyTuhB2Tbkhp2ot2dfC5NpRrMrSQieC8l+TI/3Si88F1jBNSteY+AAs/wZUvRw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=starfivetech.com;
+	spf=pass smtp.mailfrom=starfivetech.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=139.219.146.109
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2109.outbound.protection.partner.outlook.cn [139.219.146.109])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC32606A31A
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 09:10:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2CC32606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=PZq1TMse;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=aVdvSkFO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795425043;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ecm2PV2gI1P0bnbXEOX8qjFIo1KpUBcbqXWnncfBn1c=;
-	b=PZq1TMse/ERr17WHnFn6Fwa6tzq1FOrQ1gOmwo4GD1YHbn8sHV+8R5nM0jmfBwH7PWzosv
-	hXupiLkut1Du425A4UAmqV7eTWQefct0xhb8e428fxkMu46WX0u2lWA6gSBS4GeFT4qQxI
-	VlpfHMB1xEm+Pur9rJ27tNbjLdkbquU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-117-hM_nzQ0dPXqb1g7FhPkzIw-1; Mon, 23 Nov 2026 09:10:41 +0000
-X-MC-Unique: hM_nzQ0dPXqb1g7FhPkzIw-1
-X-Mimecast-MFC-AGG-ID: hM_nzQ0dPXqb1g7FhPkzIw_1795425040
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4ba078abd78so18589355e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 01:10:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1795425040; x=1796029840; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ecm2PV2gI1P0bnbXEOX8qjFIo1KpUBcbqXWnncfBn1c=;
-        b=aVdvSkFOdghrvKCDXIQaSLPS34J6lztjph0LSP1aY4sa3PvJpC925MFnIUefQQjw8p
-         6rzfTfm0f2Dwtrlh/CTupOGBTRJaCOr27ucukbX1uWfQ3ptpLa5mQX4ekegNiYwuWdBC
-         BVrVjsH/tba4CAZBzlI1f3VYR/5poPETgi1+/0SQS3+9JRVx+dnHlo2Th0r5dQ1pAj9f
-         9OruF5LzpIrr6PZMCo57gSHeHEQTxHz+JtYNbGSqMUuD9HTq7pwyNRs/TvufLc7tpzqK
-         owhUukCJE3w0ZgtBTlBJ61sRM65VBsDvRB9kL2nFZKMtcRw2GGrScQk+zusCUHezu7O5
-         fiaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795425040; x=1796029840;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ecm2PV2gI1P0bnbXEOX8qjFIo1KpUBcbqXWnncfBn1c=;
-        b=fnyveJcLM4DcMUgU6x10zUAklppHj84glzAAfUpfshefQYnvEIPDnebuqBzb+0XZz6
-         KY3ZAOSKFaJCPYHOQ2tJ6StpJ6fdrjRO8xUxmwWnT508zrxJRqtxRWlJdI5pLfZAY5qS
-         ZupyKCk4120v7B2EHG8SplYAzC8t6/VJc3PEBC6sQpQ1Al9u/Z9Q4yFRJyA3oeyuIcot
-         QnvYsaFrwZnR91EX4Gn7t/n1s8/bdkUt1/+UO6fL937+6akzCgZ5L0enSAdPBiGr4FX0
-         pBO27es+jQ9fgP1ascqmj0o0EySIK1b73gTGwZv61S0IaP9M27JLqpHFYnEpTxTZVGkS
-         KRHw==
-X-Forwarded-Encrypted: i=1; AL+hErHeeqGKJMDc2nVHz7wFAu8RQDZFhY4CgFxZW6VcRrFw/hhvktapvi5CtpsDKecFNdu0p6gd0TXUbU8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9lyZI8wHNDySZC4inzXtV1Nv7T97EMGh9cNO6lDA8Nrqy7mH5F
-	LejDqgy9iqm2HVaTsn9ynlNXoCFSmL0sEv8uWU87qVjiT87Fhq1kGTi7YPhnlUXTrMkupcsb3kH
-	Eakhh2aLrrw/YY2EUHsVxOL0Wp/ogilRaQZ5e7Zn7ZqKdJ/CTHAFe6RX5NgfVcg==
-X-Gm-Gg: AZFdTZd/Kxgv/AmbzYFzWDVKlxbQUKaZfQYuzfakLmKlXlPN6pnRaIYNBuNcJDEzOqM
-	6wyMhL9DkNzt9iZLuFcBPdzcaiKNWVlFD2nnClyAVfhcL4BCxRuomuDD9EWWPHhnQdK3o6Xw32/
-	fFTowrdlDQSIeX0h8kH6Y0qhXY/E998fokWd7bGqNDTFRLyDA/NaMaQKeIcqKiJBV7hmWZ4MT5p
-	IoS38OD2pxCgzrUbwXZsgrnKNATB89ScjYkKZPL3kYYnK71dz68sVHpbwXjq4nCXwQrVhickdUS
-	NR7bceHBQSQdOU8l5TmF9uHxC9NiVsamJoXb//gAvHqUkieAGJ7rypeVe15sGjZFwpmkoshJJAP
-	aHJP6T29SSgNEv4ZrqA5fFAeeuA00KrwQXDvX0Hch0Av10RWils3N50El39EtB6PJJPWw8gDpwY
-	fo
-X-Received: by 2002:a05:600c:5246:b0:4bb:60ba:49e0 with SMTP id 5b1f17b1804b1-4bb88930707mr236628785e9.26.1795425040195;
-        Mon, 23 Nov 2026 01:10:40 -0800 (PST)
-X-Received: by 2002:a05:600c:5246:b0:4bb:60ba:49e0 with SMTP id 5b1f17b1804b1-4bb88930707mr236628515e9.26.1795425039893;
-        Mon, 23 Nov 2026 01:10:39 -0800 (PST)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.168.96.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884a3a3dsm317775305e9.10.2026.11.23.01.10.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 01:10:39 -0800 (PST)
-Message-ID: <96080be96fbb96ec77e3e015779da807fa4ce64e.camel@redhat.com>
-Subject: Re: [PATCH 6/6] rv: Do not send the trailing NUL to userspace
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Wei Li <liwei1412@hotmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
- Jonathan Corbet
-	 <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
-	 <rdunlap@infradead.org>, Masami Hiramatsu <mhiramat@kernel.org>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, Nam Cao <namcao@linutronix.de>
-Cc: linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	liwei391@huawei.com
-Date: Mon, 23 Nov 2026 10:10:36 +0100
-In-Reply-To: <CY8PR19MB7009D39FB627A9576A9868AFB7682@CY8PR19MB7009.namprd19.prod.outlook.com>
-References: 
-	<CY8PR19MB70098BF493A3B67418C7B9ABB7682@CY8PR19MB7009.namprd19.prod.outlook.com>
-	 <CY8PR19MB7009D39FB627A9576A9868AFB7682@CY8PR19MB7009.namprd19.prod.outlook.com>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
- cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
- T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
- eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
- 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
-Content-Type: text/plain; charset="UTF-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372F8606A31E;
+	Mon, 23 Nov 2026 09:10:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 372F8606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B9HEwoLNLPHUESOYhImWzFg3snalHnpvZQQSUClCA4PEYrc5Nrcl8mps3kVf8j2/xnCEROJxzifN3XgbEEGHxmdXyrwUnIJbAcF5fLBHjKVzMY+LRQ6axns+bv9v/3z4avo3rnGH9bIRl8Dwy6MgPXCA8FJens4q1ZeRkj2j8ycEdVgjLQ9RWRjZz+9tEeWf+YFVw5BlhRmdd0Pcf6Mj0NvT0sA7j3Rd8aSooVy3/miXMuW4/tXfWjA5XwbHr44vAX09CLZhK4ftTsVl9S1ooWZVmkjH0f/In+n7MIRmAANqRJm32FLvXEq3eA1trWpL/NpQV4ORuUULyKKnSLBxdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2vR1bhDDylDCqnVideQPa1qxPGWB/4JKDRQDTkTHEq8=;
+ b=SjJxUcqFz2WZdXa/lL3Jf7KRTmA0cmO94m314brDYqTijxTJV7SNcpyI8bH0ByW0ajItd1en/ZYZTWdR6eUG5KLeKn36GdE2xKtsILoRxlDbQ1aHlNwFkI3wou+jvzgK+A4QVczLRhI4gLfJBx9U1DGG3WECuy2rS+WNP9gpVXxDZlvZ4EPIODf1D7sXXpvWl7Qh3/vUAcDdamVwsUWxVKjFMJEz1S/xafEgxyUe/Mbk65jUxuw+7woB8J6EhMgO8MP/eSXT/fT7q1KwnH68zFEHQOJ9EDb5JHq5ZpiSfQC/OCA41QKQvyIV/CSsjErIiN2yT4P9qbfsXNMzMBLFTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Received: from ZQ4PR01MB1202.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:17::6) by ZQ4PR01MB1234.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:17::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.19; Mon, 23 Nov
+ 2026 09:10:44 +0000
+Received: from ZQ4PR01MB1202.CHNPR01.prod.partner.outlook.cn
+ ([fe80::e7d4:256c:b066:850d]) by
+ ZQ4PR01MB1202.CHNPR01.prod.partner.outlook.cn ([fe80::e7d4:256c:b066:850d%6])
+ with mapi id 15.21.0615.017; Mon, 23 Nov 2026 09:10:44 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Joel
+ Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Chia-Wei Wang <chiawei_wang@aspeedtech.com>, Oskar Senft <osk@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Shuah Khan <skhan@linuxfoundation.org>, Jani Nikula
+	<jani.nikula@intel.com>, Vitaly Lubart <lubvital@gmail.com>, Hanjun Guo
+	<guohanjun@huawei.com>, Andrew Morton <akpm@linux-foundation.org>, Alexander
+ Usyskin <alexander.usyskin@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>, Breno
+ Leitao <leitao@debian.org>, Philipp Zabel <p.zabel@pengutronix.de>, James
+ Morse <james.morse@arm.com>, Paolo Abeni <pabeni@redhat.com>, Stephen
+ Hemminger <stephen@networkplumber.org>, Dave Penkler <dpenkler@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>, Jonathan Cameron <jic23@kernel.org>, Dan
+ Williams <djbw@kernel.org>, Mukesh Rathor <mrathor@linux.microsoft.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>, Alexandra Winter
+	<wintera@linux.ibm.com>, Julian Braha <julianbraha@gmail.com>, Karthikeyan KS
+	<karthiproffesional@gmail.com>, Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>
+Subject: Re: [PATCH v4 0/4] Add support for StarFive JHB100 UART Routing
+Thread-Topic: [PATCH v4 0/4] Add support for StarFive JHB100 UART Routing
+Thread-Index: AQHdX7GSpJ2Zeip1d026/L066K6O9bc7laXQ
+Date: Mon, 23 Nov 2026 09:10:44 +0000
+Message-ID:
+ <ZQ4PR01MB120270E5CFF0F70B1E71014DF2452@ZQ4PR01MB1202.CHNPR01.prod.partner.outlook.cn>
+References: <20261019100643.49099-1-changhuang.liang@starfivetech.com>
+In-Reply-To: <20261019100643.49099-1-changhuang.liang@starfivetech.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: ZQ4PR01MB1202:EE_|ZQ4PR01MB1234:EE_
+x-ms-office365-filtering-correlation-id: 37262dd5-9c1e-4b92-443d-08df4941a79a
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|38070700021|10067099003|56012099006|261028144727099003|261102123227099003|261021135927099003|261022105027099003|261022075727099003|261021123027099003|261021121427099003|261026140227099003|261026121527099003|261009223327099003|261009223027099003|261009221727099003|261009221227099003|261009220027099003|22082099003|18002099003;
+x-microsoft-antispam-message-info:
+ lclvUU/q65351EqKN60B05CJ+WwcViVlYafDD4eM9hdg9dmusLXr/4P3JsP61YRJHq5c5C09OYp8lhCscO9EoJ3VNkE6gnnVP0lzJHxlFFoPAip5H28nUO3Ig0qXEv/Zax5KJ7lKbXzJAnMlwXODziiwAIpcsxDNLvrdH25QnPWhtYwm5TcxyGgGGpxj8rtMoz+RbjR7W7tB7+Bl17ycj5NORRZTFAgIdiFJJIhaspG/AohwVSRmuSrD8QBfmiIMh6Ngeq8td43nYwr3I+g05L6P7kEzaUYfzHty1ikNn4h4wEYSND1TBxtkyFFXo9JrtjY0FxprYGYNJFeN99Z3OvMCBUptatEJdoF8SYDAMHq+9thyAC0C2xp/zOHQMuy0l87guqwlzsMWS/Tv1ylJ65qai7EWSlafaZ5x1fOlsAmcvnWGCb5E8z6OYaPZuwZMkYEkzp3Sisi9DWDlsz1PzRdIWEyNQJ1PI2CNA6A9BAmCzUB5pQyszLZBzBEl+TI9sFOfS9dzOaTMNHai0wBgjqrzg8wWWuLdcCoBWxffASdIKQ7bGn78nxL2kLh5UBxE
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ4PR01MB1202.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(38070700021)(10067099003)(56012099006)(261028144727099003)(261102123227099003)(261021135927099003)(261022105027099003)(261022075727099003)(261021123027099003)(261021121427099003)(261026140227099003)(261026121527099003)(261009223327099003)(261009223027099003)(261009221727099003)(261009221227099003)(261009220027099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?BfEovWpO6b9zcOiOjoQDrrruCMwn/G+grBsU+5dzt2Fa6eGLcf9q9c4OoF92?=
+ =?us-ascii?Q?gcbCqXkoRyoXj71JX+8z0YP15MpFojggcaLwQFwptZgsw0WReI6Dn8CV7QvK?=
+ =?us-ascii?Q?+KyBiDo8RujYRVprkXHgp3GIn+TMWU+GhTJ7jHdv5m9dPC8D2O0K7zL7QDBh?=
+ =?us-ascii?Q?CWd2nRscB1WfVlDAmOMl8IM0+nmAqm/TfZ49tJaL0VcDNPJXsKGsUOPzUNxF?=
+ =?us-ascii?Q?JQUpzGCVj6TZTyWCEphf2Usz8tB7bblCM//02ye6ES2lX5bpIJq+Ow4TNqF+?=
+ =?us-ascii?Q?4JlteOQS3D07vXfnz5ZJ74Evw12A0SVIzOvwyvN71Tv3uTWSisS5hDD4a0pF?=
+ =?us-ascii?Q?pp3N+hCELwIYk+FsHFH/2q7ABzmW4NskjW3Mp3wJs3myjk5OP4lCp632uzpH?=
+ =?us-ascii?Q?/Du/6NHd9MIZMa8syX7xTqD7RRWzhqZwJNrNfVUXChwawva+YhpvspCskZRv?=
+ =?us-ascii?Q?GhKfnylBGQ7/K31CzJ/b4qa9xg+SCCBHDz9NqERrn35uukX9p/kT8OTyas4G?=
+ =?us-ascii?Q?pxtnmYTLG4dLsJNoxy4mcO+rghGitNLDuP8kinx35/C7tgqv8+rRTqyI+mmo?=
+ =?us-ascii?Q?GFiJiiiwuG/jEHSFE9vey5K0htMR6c3+KsMBRvZQ2/LpYZUFYM0nkgY0V5jQ?=
+ =?us-ascii?Q?vPQWEeUfIWKTzAb0oKu30/9GPsYdA7dXN7Ye6mK9tfjPHVGWafIGtTZ/gU/f?=
+ =?us-ascii?Q?EcnD13s1R+kn5nPBmpBbEwgW7xuAZD1RQcjcUZ/wQgMHf44AGl1OiAAOWq69?=
+ =?us-ascii?Q?Asl1vRhLX2FY7fcEWHa51ejrkEAIESJpvGXKtUbtQZFkLywv8p4tIF6vmfQ8?=
+ =?us-ascii?Q?ivtRoWWEuwDA/hrFAFJQpHJXXqk0n3OtQYB9WaYb9pOS8bq7mj04iuJWg6VO?=
+ =?us-ascii?Q?rQzHI8q5NE4zTxkWMjGHZDGbpsDserKliGASVDXXPApksZBsLuYMMJOtCSDC?=
+ =?us-ascii?Q?sVYNEQmat1MrnZzCqHUp9htpyRIIvEO/7uF133D1X+x+b5dgVbiXOAhFTmOY?=
+ =?us-ascii?Q?gTZIyHzBdFxaIn899z3w9A2yVPoeq8h9wGyC8AQ9qJC+EU8TATAEOfjHiUuK?=
+ =?us-ascii?Q?/ZqJyN3Q8zn0zyYFXIkn7/qzEmS618JwIOhlxoTKsF1++9DsVMZIRWxkmOPj?=
+ =?us-ascii?Q?B95imfqCTMTPJz5rGEJal0ialCmbM15lnyiKsj5eopE9frl8jikim712ipKy?=
+ =?us-ascii?Q?11yMR0t3Pe8HTOn+qnkITrp7U/SZgjYfOTl4JBMcfXtujMgJJgc9IKOLpWeB?=
+ =?us-ascii?Q?xP5hbKLmRosR7nbYGcxwBIMyjjR+DFu4kLwG0gcVJzK7px2p122tg7tr0vZG?=
+ =?us-ascii?Q?agk7ytHeRBpADGdDDZ5WOuFomPrB+wxMRplf1MudgsO+n8J9ZRbigdsmEX3s?=
+ =?us-ascii?Q?5M7p9Rf3dSKBwEBUJhykuY0qecP+AcNhRKsMvgKARfEgqI0phXtoxTwJh2QR?=
+ =?us-ascii?Q?0Yls1Yy1SRM+UEpYsxm9bkxrh+VBJ2RHUyM3QhimWQqyZiYZgIOXuAswg6aS?=
+ =?us-ascii?Q?8ShILoPB9lfP3CyUH9kCwPI1UMdJ5OP/abLF139ePdn5mz0nqkd2XG9PJ2/Z?=
+ =?us-ascii?Q?+3f8n98wl3JFlD/dZTSFIbyxeBfImRlx8JxAv5CkkG9zApUOOLbYMe1qryYJ?=
+ =?us-ascii?Q?V41PKM8tfGTU/NmsALKrHsZZFs5Mdfl6BIP1P8U/hZyIZ1tjhkV9A5SOLaCv?=
+ =?us-ascii?Q?H6Gj/0Hp7yzKhI/cOdgChkEZNv8g0VSlmKwKS5HWABS4BgRJy5Ybb3LDyrBU?=
+ =?us-ascii?Q?tp7OBHAXsZelNwCMmCuztVIVznF1WV8=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.1 (3.62.1-1.fc45) 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -136,72 +154,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: ZQ4PR01MB1202.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37262dd5-9c1e-4b92-443d-08df4941a79a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2026 09:10:44.3391
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: F3ZeLeAESbsog/go4/c9y9xB+YCaHaeH3Fe0V72DziaGUqgki2GMZ+cyQBwZFw0n0MeqSEhoL2UQkIqrb0x4U3xZ+20SzSC5C+K6kpLiqrKjVALW+vSONKmJHHqqMRhk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ4PR01MB1234
 
-On Wed, 2026-11-04 at 17:21 +0800, Wei Li wrote:
-> From: Wei Li <liwei391@huawei.com>
+Hello, Aspeed colleagues,
+
+> Currently, since Aspeed also has a similar driver, there is some code wit=
+h
+> identical structures on both sides, but a common framework is lacking.
+> Therefore, this series introduces a generic UART routing framework. It al=
+so
+> moves aspeed-uart-routing.c under this generic framework and makes it use
+> the interfaces provided by the generic framework. At the same time, StarF=
+ive
+> also registers its own driver based on this generic framework.
 >=20
-> In the rv module, there are three read handlers that pass
-> 'strlen(buff) + 1' to simple_read_from_buffer(). The terminator byte is
-> not data, so the read returns one extra byte. Pass strlen(buff)
-> instead.
+> StarFive JHB100 UART Routing allows dynamic routing of inputs between
+> built-in UARTs and physical serial I/O ports, enabling use cases such as =
+Host <->
+> BMC communication via UARTs.
 >=20
-> Signed-off-by: Wei Li <liwei391@huawei.com>
-> ---
-
-Good catch, thanks!
-
-Acked-by: Gabriele Monaco <gmonaco@redhat.com>
-
-> =C2=A0kernel/trace/rv/rv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 4 ++--
-> =C2=A0kernel/trace/rv/rv_reactors.c | 2 +-
-> =C2=A02 files changed, 3 insertions(+), 3 deletions(-)
+> This series has been tested on the EVB1 board.
 >=20
-> diff --git a/kernel/trace/rv/rv.c b/kernel/trace/rv/rv.c
-> index 7846e4092b9c..835d53978961 100644
-> --- a/kernel/trace/rv/rv.c
-> +++ b/kernel/trace/rv/rv.c
-> @@ -483,7 +483,7 @@ static ssize_t monitor_desc_read_data(struct file *fi=
-lp,
-> char __user *user_buf,
-> =C2=A0
-> =C2=A0=09snprintf(buff, sizeof(buff), "%s\n", mon->description);
-> =C2=A0
-> -=09return simple_read_from_buffer(user_buf, count, ppos, buff,
-> strlen(buff) + 1);
-> +=09return simple_read_from_buffer(user_buf, count, ppos, buff,
-> strlen(buff));
-> =C2=A0}
-> =C2=A0
-> =C2=A0static const struct file_operations interface_desc_fops =3D {
-> @@ -752,7 +752,7 @@ static ssize_t monitoring_on_read_data(struct file *f=
-ilp,
-> char __user *user_buf,
-> =C2=A0
-> =C2=A0=09buff =3D rv_monitoring_on() ? "1\n" : "0\n";
-> =C2=A0
-> -=09return simple_read_from_buffer(user_buf, count, ppos, buff,
-> strlen(buff) + 1);
-> +=09return simple_read_from_buffer(user_buf, count, ppos, buff,
-> strlen(buff));
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void turn_monitoring_off(void)
-> diff --git a/kernel/trace/rv/rv_reactors.c b/kernel/trace/rv/rv_reactors.=
-c
-> index 06f21bcdd6cf..8a4f0740e3ab 100644
-> --- a/kernel/trace/rv/rv_reactors.c
-> +++ b/kernel/trace/rv/rv_reactors.c
-> @@ -353,7 +353,7 @@ static ssize_t reacting_on_read_data(struct file *fil=
-p,
-> =C2=A0
-> =C2=A0=09buff =3D rv_reacting_on() ? "1\n" : "0\n";
-> =C2=A0
-> -=09return simple_read_from_buffer(user_buf, count, ppos, buff,
-> strlen(buff)+1);
-> +=09return simple_read_from_buffer(user_buf, count, ppos, buff,
-> strlen(buff));
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void turn_reacting_off(void)
+> changes since v3:
+>=20
+> PATCH 1:
+> - Use dev_get/set_drvdata() to obtain struct uart_routing * to avoid
+>   null-ptr-deref issues.
+> - Update uart-routing.rst: since dev_set_drvdata() is now used by the
+>   framework, remind the SoC driver side not to use dev_set_drvdata().
+>=20
+> PATCH 3:
+> - Add Rob's "Reviewed-by" tag.
+>=20
+> v3:
+> https://lore.kernel.org/all/20260925050947.9900-1-changhuang.liang@star
+> fivetech.com/
+> v2:
+> https://lore.kernel.org/all/20260905102901.126035-1-changhuang.liang@st
+> arfivetech.com/
+> v1:
+> https://lore.kernel.org/all/20260830065118.51551-1-changhuang.liang@star
+> fivetech.com/
+>=20
+> Changhuang Liang (4):
+>   uart-routing: Add common UART routing framework
+>   soc: aspeed: Move UART routing driver to drivers/uart-routing
+>   dt-bindings: soc: starfive: Add StarFive JHB100 UART routing
+>   uart-routing: Add UART Routing driver for StarFive JHB100 SoC
+
+Could someone help to test this series? Thank you very much.
+
+>  .../sysfs-driver-starfive-uart-routing        |  49 ++
+>  .../soc/starfive/starfive,uart-routing.yaml   |  46 ++
+>  Documentation/driver-api/index.rst            |   1 +
+>  Documentation/driver-api/uart-routing.rst     | 144 +++++
+>  MAINTAINERS                                   |  25 +
+>  drivers/Kconfig                               |   2 +
+>  drivers/Makefile                              |   1 +
+>  drivers/soc/aspeed/Kconfig                    |  10 -
+>  drivers/soc/aspeed/Makefile                   |   1 -
+>  drivers/soc/aspeed/aspeed-uart-routing.c      | 601 ------------------
+>  drivers/uart-routing/Kconfig                  |  45 ++
+>  drivers/uart-routing/Makefile                 |   5 +
+>  drivers/uart-routing/aspeed-uart-routing.c    | 415 ++++++++++++
+>  drivers/uart-routing/starfive-uart-routing.c  | 192 ++++++
+>  drivers/uart-routing/uart-routing.c           | 183 ++++++
+>  drivers/uart-routing/uart-routing.h           |  84 +++
+>  16 files changed, 1192 insertions(+), 612 deletions(-)  create mode 1006=
+44
+> Documentation/ABI/testing/sysfs-driver-starfive-uart-routing
+>  create mode 100644
+> Documentation/devicetree/bindings/soc/starfive/starfive,uart-routing.yaml
+>  create mode 100644 Documentation/driver-api/uart-routing.rst
+>  delete mode 100644 drivers/soc/aspeed/aspeed-uart-routing.c
+>  create mode 100644 drivers/uart-routing/Kconfig  create mode 100644
+> drivers/uart-routing/Makefile  create mode 100644
+> drivers/uart-routing/aspeed-uart-routing.c
+>  create mode 100644 drivers/uart-routing/starfive-uart-routing.c
+>  create mode 100644 drivers/uart-routing/uart-routing.c
+>  create mode 100644 drivers/uart-routing/uart-routing.h
+>=20
+> --
+> 2.25.1
+
+Best Regards,
+Changhuang
 
