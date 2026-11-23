@@ -1,78 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795460031;
-	b=rVrensBLlTe0/vk9TJlWfVai9aDAVkYH6eqAGYOvH1vgetj2F+WV+DydK1AJJqBZOCyq
-	 UVSIQVejVF001bU54C0tIlw4jtPdb5MltqC/+2UenN+NWWVO4CGxpV9gR92YKu2Lllwbj
-	 IVvoMJp0Tp4KHeyW0BHZUB6iO2JJOi8EWnXftpGx5f23A3eHbjTfAd9bkLIIyou8oBMvn
-	 kHt2sxxI3eOtJ3p+1ZkzLnLlzLI8onICTLAzE4pU/Tj63/DqopJNq80R91I/ZQuIoXFne
-	 nDqqC1ppqLBpsZDo1d49qJcF6dezhhG+UkHs9onp+TnJrWv7edTdJfXJqLRRx1nYtEw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795460031;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=DzT/xUc8ZCEsmES1lvYoTZAcG/yg9FkH/3wyr37nKM0=;
-	b=sBevy9e3kPuzKJykRRTGD5aA6q2xepS5DKlH+gdp0woDcFF8ISmWC35ZeIQczxz1ox95
-	 gpwjNO6eYzJld8WRvkCaNEiEGlX24OyyL1m8lvKIXCnRmle2yzYECz12j5SQvsPzqlokD
-	 x/VYaqAXl3o7YbjbXNR8BtnTWgFjFuso96/2/rFlLEwghDs3mS/zDb9KtwjGDhu/2i2QF
-	 3QOnceJuBv/JmWTSHQ2Ho76LUfsb23K84qMTNEMKk5tKqiIYiy6TiCR6+EzHpGc4r6K+n
-	 HkkuzHby+bdA8FCT/+QTmdLhuCumAGO2SfQcpaqKnCnpaL0TFvNQ0OSKcSWkMpf0BYA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="C/v5q04U";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84604606A33E;
-	Mon, 23 Nov 2026 18:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C/v5q04U
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795460031;
-	b=hVSj1WuV1HleJnZTMJDXKGbaiyL4qR6C5Qh878MX2metAr7Mj4tdHPzMymSXoBzrieTG
-	 OonAwXAINeynVNPlKBw0YIcJQnEYaHqtR/80zGWTdIGgpLOxbx/vJTfKwG148yHTQvZY7
-	 ZQZOOwFnjhWp89yMscO6Z7qGNLGfvrA5DMdsuYMihK1B0I2TqBbJvbeMKXBtP5so/O0Rn
-	 DUsDnGPnz/WWvILUa+EpA4xnG93qqaHcuR942bc9LZiz8SjBTUB4IcRHl6DFY1uGZCOy6
-	 +Opvz1Xu9EY9T8DCj+JyQdRBBlZXa+QT0CLy1VreT7zkoVzGg9VzjSwlbvdAVf9NnxA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795460031;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=DzT/xUc8ZCEsmES1lvYoTZAcG/yg9FkH/3wyr37nKM0=;
-	b=b7BFueW5SP6Tg5HWYmKhYrmLQNe9byH19XF+gdqcwpUWqs84q32VRQwuP/xCWl5pwM0V
-	 2+trSAfULZBHYwH6UvF8I8xgk+cW56+krjt1AVsqUa0LOjTDWFT6zU0Cmf8GQ83Om1/Ui
-	 NgzjrHHjk+cvfsJzw6hPfpf/XqKEYDexLvneFi+XPUQISmK2nCAnG42+W887d8+IqqCMt
-	 /gvfqUIGyoycP7RmvBRzt7/66Y3ZDAbgFEXOwW4TUPC1cZg8voFG6MWKm5TpiVr1UN5Dc
-	 qokg/zz3EI1JYw8x0qJAYRLTcBUl3bANHbLvSOWlAz+G79/NoP5k1VoI4VaU9o0vYVw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.70
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795460460;
+	b=Wpj081nFygeflkNf1MFx/K7ZE+zInMHTAp0HcZ8JRRkjnfGxwV6HAnK5REeZ0K5a4Nfz
+	 zKo3O9mpNJIhX7OR0CIh4E5j2h0YfxULQhRqqRiLlGBKD8zYWi0R+x4F0HQaVgtiuQo7B
+	 6gGtjdU0Gj+rrA7usoK01edMOGmfklQiVUEZQbnya0GQUiN67sneoCYPAU++dVl8QXao7
+	 G3OE1XZoYDZgNUNBQvyFkPA6xodRUr1q7/nOx9lCqQ5RkE2JR6N5Psyzx2afbJvrvFtZb
+	 XyK/R3KN8He+JGRm4ZpfWWUiXblm2E4ZcIkXWnBgdPg+FfBQ8AyFxp2YEu3JPF9yEdQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795460460;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=l4CNQ2xoCIzIiOKM0YDrq2t5ezZfH9cmVn2diC4Zwwo=;
+	b=A+4QHpp31N2aJcjN7cmr8FPzEMQPlMe9fhTojlPl+hD3DWbQ0gKyzLYN5HigU3qtSliU
+	 I9w+PMquHyzv69MZItm7FfHgBSWsRR8btuYBcnqmE9rDTv921Tcq2q4XDnjbc4BcJMI3G
+	 S2/bCZUI3pjdKuYXFuWPWaHvAQkfsfJ2xrQL7EK2jcpc5CeS3qULCOPST/71427CXANhz
+	 RStc8NZiNro4sBQeqEub4lOFhRlPd9w5OAymxZ6Qp1upWPOwlCkMpkXRsWeRX3atBC6Bf
+	 9sZV5qfMb3rie/n2dut3s+Lz5bOl/QWk8vFNDPoWXrnpGAPZv0/8dErYt6uir1VATNQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="OiZ1Pm/r";
+	arc=none smtp.remote-ip=209.85.210.70
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 701EE1F000C4;
-	Mon, 23 Nov 2026 18:53:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795460031;
-	bh=DzT/xUc8ZCEsmES1lvYoTZAcG/yg9FkH/3wyr37nKM0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=C/v5q04U8/3ug6jVO2zWIZfehF5Nj1RdJsGEvyuCOgL9vJxLHvUijCPkVw864qYzw
-	 cRyiAKxrjve1QLZBXM8gn7pbQW67pzuRgrznNOfQGOdXMimEohj7T0DxHu8a3LqmGM
-	 ZiQe/LAS6bABw0fppZcsbzm4z39TcQcbRea0yhn866KgUKd5BZzpPh63EBbbCYXIFD
-	 Y/qkj+Q1uvXBu7jHbeH20oFGaVqYG+p2u06oOv8y5MAm6yPJyi7DoiraIiWMa5fcRk
-	 gzxezQxLXYXIikV5/MVtH6tWOXvc1FAZdmNDTQRwxgfLFllVyW+nOkkjSiuT2ktXKv
-	 KdQavuoffQCtA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 3ACFA4C671;
-	Mon, 23 Nov 2026 18:53:02 +0000 (UTC)
-From: Kairui Song via B4 Relay <devnull+kasong.tencent.com@kernel.org>
-Date: Tue, 24 Nov 2026 02:53:10 +0800
-Subject: [PATCH v6 18/18] mm/mglru: make folio_inc_lru_refs lruvec lockless
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D51606A31A
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 19:00:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0D51606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OiZ1Pm/r
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-862a543c4bcso3963904a34.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:00:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795460459; x=1796065259; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=l4CNQ2xoCIzIiOKM0YDrq2t5ezZfH9cmVn2diC4Zwwo=;
+        b=OiZ1Pm/rf2W2kWZ413DRMWc1UPeAD60b75DE0ryDO0KxzIogWOP2M4Zm2vhHiW/C4m
+         OI3CgmqI25P/8rHF14ccSKK9viiHAUiUvxhJQbu3gETvPxOwXB412Hg4TkT1ASuct+3p
+         BW1oU3R31hAt3Fjcer85FY3FuYMTOPgFJqSDV1Ef1kz88uVINh3BxDSc1fPL9KomRZ8w
+         H0Jm4UJduzGaWToOs9LJfuOZC/Txu8OfwekLqp6ylov0GmE9sx+JUAmrrjJ1iZTTieEp
+         VAhKslxMosTiIgXUGUjgtAg9HyAEefmu/kt8+0jW1OSDm8TeP3aZPwOp+Kc1154eGQtF
+         Brvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795460459; x=1796065259;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=l4CNQ2xoCIzIiOKM0YDrq2t5ezZfH9cmVn2diC4Zwwo=;
+        b=N9/PoOcMnreYBOp0tT3s0QPo8xdjUzT5xFruRam1OrxArJW31nhlj4zVNFOVwmMpTk
+         dmfZK62OvqCGVaZsXorg+ZwmfIKqcYZ8Z2/CM30cFItEo+c+BLRmVJFvWE/ctc3RWSRH
+         NxPg+bchOkVeyQg1k52VlvNQaUSEG+Go3OXmNpyd348n9IM7GNL1NWswaHe1OM6B+fuo
+         XId5LPO4e/MYz12ygQgfyto9eYmBTU6WotTJKDMB1bEBQFXEwZ2N8tr9iXFYC6mp2zR9
+         F0/dVd7G3c5IAzB7z/pC7iGB3LeLFHfD2mGiT89NlCxbNHr8ox4/ERUfK+zPNxd9Afwz
+         7YYw==
+X-Forwarded-Encrypted: i=1; AL+hErG+NuL3qjOdiNRgcV6J44v86o1gCOkolL/8tgWgtgHEOnGQbr+sTw/7DEJ6kJiV50AkU6N53Xtzdnk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9sMhjMoO3C5EpPLOAo2kbkBcYOtrHMUZ/daHVgIY0HcBWGrf1v
+	qhDbM+XzWKe/iUHUHQ8mNNDJ7a/qtt17uK7gBxfwcCvCRWDp1WOoEDiDUcfcwhTkdJ9qb7jfr4G
+	bXJR29+gnn6PlsQ==
+X-Received: from ilbcb19.prod.google.com ([2002:a05:6e02:3193:b0:54f:8d15:4dbc])
+ (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6808:3084:b0:55c:844:98ff with SMTP id 5614622812f47-57a0a93940fmr14754171b6e.34.1795460458168;
+ Mon, 23 Nov 2026 11:00:58 -0800 (PST)
+Date: Mon, 23 Nov 2026 19:00:42 +0000
+In-Reply-To: <20261118223704.3286085-4-dmatlack@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,261 +78,55 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261124-mglru-fg-v6-18-8ffea39934a6@tencent.com>
-References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
-In-Reply-To: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
-To: linux-mm@kvack.org
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
- Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>, 
- Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>, 
- Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
- Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
- Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>, 
- Zi Yan <ziy@nvidia.com>, Gregory Price <gourry@gourry.net>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
- Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
- SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, 
- Yu Zhao <yuzhao@google.com>, Vernon Yang <vernon2gm@gmail.com>, 
- Zicheng Wang <wangzicheng@honor.com>, Tal Zussman <tz2294@columbia.edu>, 
- Kairui Song <ryncsn@gmail.com>, Xiang Liu <liuxiang.277@bytedance.com>, 
- Ehab Ababneh <ehab.ababneh@intel.com>, 
- Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, 
- Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
- Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, 
- Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org, 
- cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org, 
- Tianyi Chen <hi@tychen.cc>, Kairui Song <kasong@tencent.com>, 
- Ridong Chen <ridong.chen@linux.dev>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795459977; l=8138;
- i=kasong@tencent.com; s=kasong-sign-tencent; h=from:subject:message-id;
- bh=98177vt1OglL82gztUX/EbOw0UvOi4GjiFKgTcy/MHo=;
- b=lBjYmotb+ySa2fIWkROeOCyMpcTaqydsJhwBMvXZJ4Uy1RPDLNQjk8vOBroK1JvAny2eG5OzE
- r+CJ+hmVAgqBKWNO6Lw8XYQN07RofDMXRn5buGju896Qbd0+UHf79zD
-X-Developer-Key: i=kasong@tencent.com; a=ed25519;
- pk=kCdoBuwrYph+KrkJnrr7Sm1pwwhGDdZKcKrqiK8Y1mI=
-X-Endpoint-Received: by B4 Relay for kasong@tencent.com/kasong-sign-tencent
- with auth_id=562
-X-Original-From: Kairui Song <kasong@tencent.com>
-Reply-To: kasong@tencent.com
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20261118223704.3286085-4-dmatlack@google.com>
+X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
+Message-ID: <20261123190045.2166865-1-dmatlack@google.com>
+Subject: [PATCH] fixup! PCI: liveupdate: Track incoming preserved PCI devices
+From: David Matlack <dmatlack@google.com>
+To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org
+Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alex Williamson <alex.williamson@nvidia.com>, 
+	Alex Williamson <alex@shazbot.org>, Alexander Graf <graf@amazon.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Chris Down <chris@chrisdown.name>, Chris Li <chrisl@kernel.org>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, 
+	Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Kairui Song <kasong@tencent.com>
+pci_flb_finish() logged args->data, but LUO does not pass args->data to
+the FLB .finish() callback, so it always logged 0x0. Log the physical
+address of the incoming struct pci_ser instead.
 
-The lruvec spinlock in folio_inc_lru_refs was only taken to keep
-concurrent aging from corrupting the size counters.  This is no
-longer needed: the per-generation counters are atomic, and the
-active/inactive ABI counters are updated per folio and linearized by
-the CAS on the folio flags, so concurrent aging can no longer corrupt
-them.  The same argument is what lets folio_reset_lru_refs() update
-the counters without the lruvec lock.
+Reported by Sashiko.
 
-Use folio_lruvec_live_get()/folio_lruvec_live_put() to hold the RCU
-read lock around the lruvec lookup, and drop the spinlock entirely.
-
-Without the lock, aging can advance max_seq while a promotion is in
-flight.  Generations are indexed by seq % MAX_NR_GENS, so the folio
-flags can return to the value read earlier and the cmpxchg succeeds
-with a target gen computed from a stale max_seq.  Recheck max_seq after
-a gen-changing cmpxchg: if it moved, account the committed update and
-retry with LRU_REF_FORCE, which promotes the folio to the newest gen.
-The retry may count the access twice, which is acceptable and avoids
-folio_activate(), whose LRU lock causes latency jitter.  smp_rmb()
-orders the flags read, including the one returned by a failed
-cmpxchg(), before the max_seq read.
-
-Also simplify the post-CAS accounting guards: gen is only assigned
-non-negative values after the old_gen < 0 early exit, so gen != old_gen
-implies gen >= 0, and lru_gen_update_size() needs no explicit guard.
-The active/inactive ABI update keeps its gen >= 0 check because an
-off-LRU folio has no lruvec to update.
-
-Tested-by: Andrew Morton <akpm@linux-foundation.org>
-Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
-Signed-off-by: Kairui Song <kasong@tencent.com>
+Signed-off-by: David Matlack <dmatlack@google.com>
 ---
- include/linux/mm_inline.h | 10 +++++-----
- include/linux/mmzone.h    |  3 ++-
- mm/vmscan.c               | 51 +++++++++++++++++++++++++++++------------------
- 3 files changed, 39 insertions(+), 25 deletions(-)
+ drivers/pci/liveupdate.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
-index b0f062e3a190..36b80a2a0e74 100644
---- a/include/linux/mm_inline.h
-+++ b/include/linux/mm_inline.h
-@@ -335,10 +335,9 @@ static inline bool lru_gen_is_old(struct lruvec *lruvec, int type, int gen)
- 	       gen == lru_gen_from_seq(min_seq + 1);
- }
- 
--static inline void lru_gen_update_size(struct lruvec *lruvec, struct folio *folio,
--				       int old_gen, int new_gen)
-+static inline void lru_gen_update_size(struct lruvec *lruvec, int type,
-+				       struct folio *folio, int old_gen, int new_gen)
+diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+index 493576119a76..520c7530475c 100644
+--- a/drivers/pci/liveupdate.c
++++ b/drivers/pci/liveupdate.c
+@@ -409,7 +409,8 @@ static void pci_flb_finish(struct liveupdate_flb_op_args *args)
  {
--	int type = folio_is_file_lru(folio);
- 	int zone = folio_zonenum(folio);
- 	int delta = folio_nr_pages(folio);
- 	struct lru_gen_folio *lrugen = &lruvec->lrugen;
-@@ -417,7 +416,7 @@ static inline bool __lru_gen_add_folio(struct lruvec *lruvec, struct folio *foli
- 	/* use the refs from the atomic snapshot to avoid raced update */
- 	refs = lru_get_refs_flags(flags);
+ 	struct pci_flb_incoming *incoming = args->obj;
  
--	lru_gen_update_size(lruvec, folio, -1, gen);
-+	lru_gen_update_size(lruvec, type, folio, -1, gen);
- 	if (lru_refs_is_active(refs))
- 		lru += LRU_ACTIVE;
- 	__update_lru_size(lruvec, lru, zone, delta);
-@@ -447,6 +446,7 @@ static inline bool lru_gen_del_folio(struct lruvec *lruvec, struct folio *folio,
- 	unsigned long flags;
- 	unsigned int refs;
- 	int gen;
-+	int type = folio_is_file_lru(folio);
- 	int zone = folio_zonenum(folio);
- 	int delta = folio_nr_pages(folio);
- 	enum lru_list lru = folio_is_file_lru(folio) * LRU_INACTIVE_FILE;
-@@ -470,7 +470,7 @@ static inline bool lru_gen_del_folio(struct lruvec *lruvec, struct folio *folio,
- 	if (!reclaiming && ((max_seq - gen) % MAX_NR_GENS) < MIN_NR_GENS)
- 		folio_set_active(folio);
+-	pr_debug("Finished struct pci_ser (0x%llx)\n", args->data);
++	pr_debug("Finished struct pci_ser (0x%llx)\n",
++		 (u64)virt_to_phys(incoming->ser));
+ 	pci_check_all_devices_released(incoming->ser, &incoming->block_set);
  
--	lru_gen_update_size(lruvec, folio, gen, -1);
-+	lru_gen_update_size(lruvec, type, folio, gen, -1);
- 	if (lru_refs_is_active(refs))
- 		lru += LRU_ACTIVE;
- 	__update_lru_size(lruvec, lru, zone, -delta);
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 42afb5375c27..14c58bbd1606 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -540,9 +540,10 @@ enum lruvec_flags {
- #define LRU_TIER_MIN		0U
- #define LRU_TIER_MAX		(MAX_NR_TIERS - 1)
- 
--/* Access source flags for folio_inc_lru_refs() */
-+/* Flags for folio_inc_lru_refs() */
- #define LRU_REF_MAPPED		0x1U
- #define LRU_REF_EXEC		0x2U
-+#define LRU_REF_FORCE		0x4U
- 
- #define LRU_REFS_REFERENCED	0x1
- #define LRU_REFS_WORKINGSET	0x2
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index ccf3497bd3a4..81797b71228f 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -876,37 +876,35 @@ void folio_inc_lru_refs(struct folio *folio, unsigned int flags)
- 	long nr_pages = folio_nr_pages(folio);
- 	struct lru_gen_folio *lrugen;
- 	struct lruvec *lruvec = NULL;
-+	bool aged = false;
- 
-+retry:
- 	old_flags = READ_ONCE(*folio_flags(folio, 0));
- 	do {
- 		new_flags = old_flags;
- 		old_gen = lru_get_gen_flags(old_flags);
- 		old_refs = lru_get_refs_flags(old_flags);
--		file = folio_flags_is_file_lru(&old_flags);
- 		refs = old_refs + 1;
- 		gen = old_gen;
-+		file = folio_flags_is_file_lru(&old_flags);
- 		if (old_gen < 0)
- 			goto out;
--		/*
--		 * Lock the lruvec if the folio is on-list. We are already
--		 * doing lazy promotion so in theory we don't need this,
--		 * but for now, concurrent aging would still corrupt the
--		 * size counters.  This is a temporary limitation and
--		 * will be lifted very soon, so the lock here is not a
--		 * performance concern.
--		 */
- 		if (!lruvec) {
--			lruvec = lruvec_live_lock_irq(folio_lruvec(folio));
-+			lruvec = folio_lruvec_live_get(folio);
- 			lrugen = &lruvec->lrugen;
- 		}
-+		/*
-+		 * Read the flags before max_seq, paired with the store of a
-+		 * gen, which samples max_seq first.
-+		 */
-+		smp_rmb();
- 		max_seq = READ_ONCE(lrugen->max_seq);
- 		max_gen = lru_gen_from_seq(max_seq);
- 		if (old_gen == max_gen)
- 			goto out;
--
--		if (flags & (LRU_REF_MAPPED | LRU_REF_EXEC)) {
--			/* Promote second page table access or executable */
--			if (refs > LRU_REFS_REFERENCED || flags & LRU_REF_EXEC)
-+		if (flags & (LRU_REF_MAPPED | LRU_REF_EXEC | LRU_REF_FORCE)) {
-+			if (lru_refs_is_workingset(refs) ||
-+			    flags & (LRU_REF_EXEC | LRU_REF_FORCE))
- 				gen = max_gen;
- 			/* First access only defers eviction of an old generation */
- 			else if (lru_gen_is_old(lruvec, file, old_gen))
-@@ -931,9 +929,19 @@ void folio_inc_lru_refs(struct folio *folio, unsigned int flags)
- 			break;
- 	} while (!try_cmpxchg(folio_flags(folio, 0), &old_flags, new_flags));
- 
--	if (gen != old_gen)
--		lru_gen_update_size(lruvec, folio, old_gen, gen);
--	if (lru_refs_is_active(old_refs) != lru_refs_is_active(refs) && old_gen >= 0) {
-+	if (gen != old_gen) {
-+		/*
-+		 * Gen-index reuse can fool cmpxchg(). Retry locklessly, accepting
-+		 * an extra reference to avoid folio_activate() latency.
-+		 */
-+		if (unlikely(READ_ONCE(lrugen->max_seq) != max_seq)) {
-+			flags = LRU_REF_FORCE;
-+			aged = true;
-+		}
-+		lru_gen_update_size(lruvec, file, folio, old_gen, gen);
-+	}
-+
-+	if (lru_refs_is_active(old_refs) != lru_refs_is_active(refs) && gen >= 0) {
- 		enum lru_list lru = file * LRU_INACTIVE_FILE;
- 
- 		__update_lru_size(lruvec, lru + lru_refs_is_active(old_refs),
-@@ -941,8 +949,12 @@ void folio_inc_lru_refs(struct folio *folio, unsigned int flags)
- 		__update_lru_size(lruvec, lru + lru_refs_is_active(refs),
- 				  folio_zonenum(folio), nr_pages);
- 	}
-+	if (aged) {
-+		aged = false;
-+		goto retry;
-+	}
- 	if (lruvec)
--		lruvec_unlock_irq(lruvec);
-+		folio_lruvec_live_put(lruvec);
- }
- 
- /**
-@@ -3527,12 +3539,13 @@ static int __folio_inc_gen(struct lruvec *lruvec, struct folio *folio,
- /* protect pages selected by the tier PID controller */
- static int folio_inc_gen(struct lruvec *lruvec, struct folio *folio, int old_gen)
- {
-+	int type = folio_is_file_lru(folio);
- 	int new_gen;
- 	bool gen_increased;
- 
- 	new_gen = __folio_inc_gen(lruvec, folio, old_gen, &gen_increased);
- 	if (gen_increased)
--		lru_gen_update_size(lruvec, folio, old_gen, new_gen);
-+		lru_gen_update_size(lruvec, type, folio, old_gen, new_gen);
- 
- 	return new_gen;
- }
+ 	xa_destroy(&incoming->xa);
 
+base-commit: fd54e32f7903199e8acb2762dd2debfffe4501c4
 -- 
-2.56.1
-
+2.56.1.809.ga0b61035b5-goog
 
