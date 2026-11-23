@@ -1,84 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.173
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795458406;
-	b=FKk15hkiC6Q30nTMFJnjbHwPLWOa2O0NnSAlb/LoCIpUy9qGJl5mT2FCNqvH11Ev8SoR
-	 jBQx487K4jaQ1HPM3SPCPVeeG2suPeWtRldNkGYdvILDA8QYTsPFBoyqwlJbvk47ETq3R
-	 Fkebem1A8idCVK0qf+O3uAMK5d6QK+pi9imuh+/5ZO/aEKUoKetkx+UsUdn0LZYJYAA0E
-	 xZxPzx4vX3Lky+5VWpLClboxmXcEEkVDKstWe0lYjPluoL8cvjbNAhNSGdA2PhLurh9m+
-	 6m9OPOywbgnPeVluxp6yKKKIgzszsydAh7BsLBd/zlWLL95/XWfn78wD1oyJWUC98uA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795458406;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
-	bh=thHuqHmooBy0uGsMcFJyj79jvgcNxfQof3z9Kg8ZrOQ=;
-	b=EjCS4+P0jWfhf6ioHjCVgOjwn2CGgddxLgfok+IJcJMdtEQ7ikc6HysOeR+3Jyg/VdtT
-	 ZTwkAEJADupViIFQlLwli+HRWNlTAKgyBpELUoJwFxAeJmdbR6ymUU9kyw6Bf89+0+9cC
-	 S+jpxdXHIYesFHMvQCcYtDXKd7tJ0rA02XBM4jk/uUSvnpqs1IVCZCf1FUI5ozEt9uKxz
-	 AKtIrgEGEroJs172xRFZSRsyoLNOuR6ltQ2mO8KVB7Y7mbUsgAOYQzIKuvOL5vEnP/5Gz
-	 IvZ1siboFiRpzYPDjQdaEBZUU7E/fkk5AwRjBfoP/SnTik5siEy7G5dOWMPTVbX5E7w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=A3CgtlLr;
-	arc=none smtp.remote-ip=209.85.214.173
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795459993;
+	b=2mPffEmPGTrv1ZmYvz9CRsLiFAZbRt5mmGlsVfaBgetYO/0S3yWoOfjO5MXZnZy8/Jjk
+	 6YpiHQs6QvIakgPGsJHT4io+DdP9+9ntF7Y61bij/WODFuhFXSzEDxVBR53c/zQXXIpQo
+	 Qblpe19sWgtec4dih9lfZ0OCXTASXA5G5BqUVkQ6lmMi7sMH1t/lowW7YOhsINAANDRJ2
+	 FN86S5Z+wDq3u3MMSlOA4clsCJ5dCdZCxpcnki6GIvV6RgnHlALXvNYCe1Vj4LvOX6zEC
+	 JWHNLCTW38ru4E6SZjfctQ612LBcNM4UV34TmhzhwGvJ768CFdhUFumXfsZzND9XzFQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795459993;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=1rCE3K77C597tnpDa8DpHCzRg0yY18+BUyGptbSaO8M=;
+	b=CeEx6NvagnKY4ElUH/EHG8jzXwj70iwvWB3oyIHQs61Z1T7YR58fFnaZBH5qgxmNY+w7
+	 IsXt4v2pJcd3b6IbHfoYPaNE33tdCE54IHZ1A1CRuyMFiU1W80T35IWzN1NW3QchPAnyT
+	 iGHIww0LhBLpOhNkOK5jQjK/lgLqOnDZ+9to8uKTJ6N7et/bb+rFCGaqlI3OB+XidhEIp
+	 GSZw4SXsOss1tqMM0vs7mKjtAC4vcNvPchuOvERm10CjPe5w0zncqQFWq+Ado4PbiQZ2z
+	 TSUAMoZj8ZYXnrcv3wlLk8E8oMeD1ax31hFLHVRTYJwAapGysrDW9P9SRxuLHwsMJUg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SoqzW3ro;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9890606A32D;
+	Mon, 23 Nov 2026 18:53:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SoqzW3ro
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795459993;
+	b=bqhDcFLRttrhaMfzhfYIqqYHF5vH8qS8rizifTObbzmnr8Twidvfh+9RKu8JGW1GidIJ
+	 cN3OYmTWCmlIEbx2kYwS6cq4tr9kc7lHt6u8UZQEIChcXPBjR7txPL9gpV7onNF+QmkBK
+	 TKu6wpppshW/Rv0pOxCP4t4YeWf0un3HmZ3VRG+1ZtfnmTj3ubVNkm7MvSeSMD9oCwgzl
+	 tt+fGQlP3zdaAuzlGimbkjkGuvq6UgRAPLlhEnL0h7O3kQpuBXiFL/weCzLVWh3Xz7MOl
+	 qKxp/hFU/rPl4n8T9b4X/5+RS/EyqxVYCuTF8WmveDMemvFogIcuZ4p/cO5fuEUx5Lw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795459993;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=1rCE3K77C597tnpDa8DpHCzRg0yY18+BUyGptbSaO8M=;
+	b=Kl1dxIjc2Rb7fApi7pkPOXKg2BpbGwenatCX5e1jveIyRQUiiRaOytM2mn+C0ct6Mept
+	 S9Yi1/HEth80DAZi3Xw8R7pzKuGEDE3xUuMF8jSqqB/MCj+BRbR1btD3M+V+nuBST8AUp
+	 QLvv+AauNXKF/NNfEENQWdpUkofnGliwE/2Gacm3ds2bTQ/FndEwOGZpikCOiPwHyPke+
+	 gQ+sFYEKUUqK+SoOEfcJrD6I+ZgvTXYrtXMZj5+zIhNeSnmVb0zJRdwouTUaEtQ7f03Lu
+	 9rmsQGVv5/+Px8J6XjqptZoy8AoBKkB6mNDSfDdKZht6/uq9V8rBpdfkwO3kcSuQJaw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA0F606A31A
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 18:26:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3DA0F606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=A3CgtlLr
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2f03920c4a0so22946415ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 10:26:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795458405; x=1796063205; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=thHuqHmooBy0uGsMcFJyj79jvgcNxfQof3z9Kg8ZrOQ=;
-        b=A3CgtlLrKMI/0wVqoxsYUWu7YEQMcNCo/SoU3XWimCZPRdYmKz6jWB6VbK0N6DGBBM
-         MW7LmbyTpBgl2XThw5/fstI6W2Rv8yxc8XG6zYPxg8ZUYNgt7MS7vAQllENT/gWjOUBc
-         NUkjtO73p0y06ZchiOAZBKAR0NmkPfAZ6BoVw3kxcoF87eYmiV6YGN66uIH8j6wfugKg
-         0wyCXn4iAws+ZGfFmw0hBfPhM+9JsHWjG06N/zgoRM0KEilK/p8WhkB05sKl9EAl2foW
-         SywtFBvUlcMwn3rMobIEFlmuLLCTcKNE8Ny1fFBkV6/ZuuPqunA9lD9YpmKegCnNI+19
-         A6Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795458405; x=1796063205;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=thHuqHmooBy0uGsMcFJyj79jvgcNxfQof3z9Kg8ZrOQ=;
-        b=oBnIzHD2V+v/FXB6maw6pxhpwjltMBol/kqweNqBeNFpZFw1SHtb65yc1Em5+cWA6G
-         2FsHmtcjmCdV8+JndL4+M233lViEZHL/CDM3j17SeBY4si0yVByhfrvqPqJEhXTsq0gJ
-         34W1tOx93oFVBpsPnhbEGoWPU6QTxfK1YGjsBaBfibC07muj2DZ1zz8r23s69yTP4Vpc
-         OV9Qak0kOy8ZFpv78cLw6o7G2e0hrwiPWQI9CnBjcf9W6JVDSBZ9dPFqzw0toYLcYz3F
-         5DfFj3hIhiwci6Pk6CaNxcnNBru152WRqHKHLWGV8pt7k4oK6NSbYfRhghXBsdrbo3xS
-         h4Xw==
-X-Forwarded-Encrypted: i=1; AL+hErFzHbgEu8amFqxdhlkYpDj8vTvD437431blt8ANf8lQAa0dC1++9N6bDSu0xzAe0EXRINw+DuGReV8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+yWlBY6uUBRqrzFCiJx9ycIhnZwGCzu0kAlNPfTuNohceKcNcD
-	2WZXI3vBzYRVYAgWPEj1pvyeBboNj4TzB+fn8/QsGo5HhYg5oXrU3pb0casuJ4q36g==
-X-Gm-Gg: AZFdTZdVsQdOvDvcnmOMdWUdE7rnj9E6uaDdRPsEwE+l8CicSyiGY1MWsZlKKHl2OwX
-	/4X0lDG5JmWmWoXywJIbKjTvIAVdIdAp5CdHUx8CsJDT8sEj278VWFMj3pd1c7ReHNp7KbIvwi7
-	K+XT4+PyxlwVOC9K2AqIvPqls6wKIeW+EioiPSDZHkMbTWUv8ZMf8cAQPKKDtHwAKghssXQiHyS
-	A2rppylOhe9CI0cDuQe4kOQhIN+tv30V2Fh9ib4pVXllji+jngz1sh7A0edwB8ZjwsCStBJ2uaF
-	uOz+LHZaVK9ivX8gFhwGWXvw3Eg1LOK+FYQU7vN0ZUVNJIOyBmUg99bYIGwSnDRc5NXmlUbetuO
-	/AWAFjeSNx+aT/zt3i5GDFsTBIEU0FI/eMHEm7FOjU/pPr8DyxRWJEvH168NYeo8ZF96NFktfp9
-	gBdfIEjsI1SmnOmyBl1KoufdosfmAS0JmODyeCOaGqD2U9lQXyWjN8V+YwqiqDoBYBrKy9/r6mC
-	C0+46VJ0HrOouslEI8GGLSgzZ0VUbyZxmQa+XmO4NOCPhTMMLbvWF7+wulLcb4675chbjnmhiAW
-	WTR88EDDD50M9YN4Swg5yOBI85sBzKd9VBqfxFc0DgPoyRVQJ4UXzU0R7jL8ys2Iew==
-X-Received: by 2002:a17:902:d542:b0:2e9:6790:212c with SMTP id d9443c01a7336-2f03f190776mr120496345ad.30.1795458405057;
-        Mon, 23 Nov 2026 10:26:45 -0800 (PST)
-Received: from localhost (33.79.127.34.bc.googleusercontent.com. [34.127.79.33])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f120282sm56755105ad.59.2026.11.23.10.26.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 10:26:44 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id 933801F000E1;
+	Mon, 23 Nov 2026 18:53:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795459993;
+	bh=1rCE3K77C597tnpDa8DpHCzRg0yY18+BUyGptbSaO8M=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=SoqzW3roBfAZ3tFOA8zhqdBmWzG3eJAbx5u8uC2YIErbKuw1WXJ/ttU+Qbm834M4d
+	 ZKeKcQo9nFKaXf4YJiqWwZ/tAx/WQxJ/VNNXNVOA4HWlAh788Hw/6pzYGUEIj276ND
+	 uzEGNMsf4058YXwvP8xPwoYiVKahcOGk5QpAIEVXeuBzcScj4qxM3Gbej3sdnz5Pdq
+	 OmFeDhgkJ6ANMmp1zAk0agWA8XEm4E4fch6F4sgt30qzHgbACgq2l043J2ZSPj0wcG
+	 TNjqyegDb3374F+bSHabFNNzzXSkUR50z1THb5LZNSwi4165e4eg/vFeQFkCI8pZEM
+	 ke0l6ojUH+zhQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 19F304C61E;
+	Mon, 23 Nov 2026 18:53:00 +0000 (UTC)
+From: Kairui Song via B4 Relay <devnull+kasong.tencent.com@kernel.org>
+Date: Tue, 24 Nov 2026 02:52:53 +0800
+Subject: [PATCH v6 01/18] mm/mglru: rename the generation offset in
+ lru_gen_folio_seq()
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,62 +82,116 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Nov 2026 10:26:43 -0800
-Message-Id: <DN2SVVWX66U1.37JRVKARDRNYN@google.com>
-Cc: <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-mm@kvack.org>, "Alexander Graf" <graf@amazon.com>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Baolin Wang" <baolin.wang@linux.alibaba.com>,
- "Christian Brauner" <brauner@kernel.org>, "David Hildenbrand"
- <david@kernel.org>, "Hugh Dickins" <hughd@google.com>, "Jonathan Corbet"
- <corbet@lwn.net>, "Liam R. Howlett" <liam@infradead.org>, "Lorenzo Stoakes"
- <ljs@kernel.org>, "Michal Hocko" <mhocko@suse.com>, "Mike Rapoport"
- <rppt@kernel.org>, "Pasha Tatashin" <pasha.tatashin@soleen.com>, "Randy
- Dunlap" <rdunlap@infradead.org>, "Samiullah Khawaja" <skhawaja@google.com>,
- "Shuah Khan" <skhan@linuxfoundation.org>, "Suren Baghdasaryan"
- <surenb@google.com>, "Vlastimil Babka" <vbabka@kernel.org>
-Subject: Re: [PATCH v4 14/19] selftests/liveupdate: Test which tmpfs files
- can be preserved
-From: "David Matlack" <dmatlack@google.com>
-To: "Pratyush Yadav" <pratyush@kernel.org>, "David Matlack"
- <dmatlack@google.com>
-X-Mailer: aerc 0.21.0
-References: <20261111002358.1842967-1-dmatlack@google.com>
- <20261111002358.1842967-15-dmatlack@google.com>
- <2vxzh5hb1sqo.fsf@kernel.org>
-In-Reply-To: <2vxzh5hb1sqo.fsf@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261124-mglru-fg-v6-1-8ffea39934a6@tencent.com>
+References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
+In-Reply-To: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
+To: linux-mm@kvack.org
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>, 
+ Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
+ Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+ Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>, 
+ Zi Yan <ziy@nvidia.com>, Gregory Price <gourry@gourry.net>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+ Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
+ SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, 
+ Yu Zhao <yuzhao@google.com>, Vernon Yang <vernon2gm@gmail.com>, 
+ Zicheng Wang <wangzicheng@honor.com>, Tal Zussman <tz2294@columbia.edu>, 
+ Kairui Song <ryncsn@gmail.com>, Xiang Liu <liuxiang.277@bytedance.com>, 
+ Ehab Ababneh <ehab.ababneh@intel.com>, 
+ Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, 
+ Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
+ Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, 
+ Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org, 
+ cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org, 
+ Tianyi Chen <hi@tychen.cc>, Kairui Song <kasong@tencent.com>, 
+ Ridong Chen <ridong.chen@linux.dev>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795459977; l=2457;
+ i=kasong@tencent.com; s=kasong-sign-tencent; h=from:subject:message-id;
+ bh=on9PEefPrnrWULo5N6A+huTmLVTp8DOK4KQGDrtfCuk=;
+ b=k5w2EsjoX/bzOEsAS9dWQMREbqipjNq4MTFKSvXR62sapovupL7OAfzxXHx/FEdKFSDvVsq/m
+ LPR3LW9KAAICkw7ayuMLIbGlQoHMlZd+Jb96r6pjoa0gTwy/SGGSIPh
+X-Developer-Key: i=kasong@tencent.com; a=ed25519;
+ pk=kCdoBuwrYph+KrkJnrr7Sm1pwwhGDdZKcKrqiK8Y1mI=
+X-Endpoint-Received: by B4 Relay for kasong@tencent.com/kasong-sign-tencent
+ with auth_id=562
+X-Original-From: Kairui Song <kasong@tencent.com>
+Reply-To: kasong@tencent.com
 
-On Fri Nov 20, 2026 at 6:29 AM PST, Pratyush Yadav wrote:
-> On Wed, Nov 11 2026, David Matlack wrote:
-[...]
->> +TEST_F(preserve_tmpfs, frozen_size)
->
-> Nit: This test isn't really for "frozen size", it makes sure a preserved
-> file behaves as we expect it to. So perhaps call it "preserved_ops" and
-> update the comment?
+From: Ridong Chen <chenridong@xiaomi.com>
 
-Will do.
+lru_gen_folio_seq() computes how many generations below max_seq a folio
+should be added to, but stores it in a variable named "gen". Elsewhere in
+MGLRU "gen" means an index into lrugen->folios[], i.e. seq % MAX_NR_GENS,
+so reusing the name for a relative offset is confusing.
 
->> +	EXPECT_EQ(ftruncate(fd, page_size), -1);
->> +	EXPECT_EQ(errno, EPERM);
->> +	EXPECT_EQ(ftruncate(fd, 4 * page_size), -1);
->> +	EXPECT_EQ(errno, EPERM);
->> +	EXPECT_EQ(fallocate(fd, 0, 0, 4 * page_size), -1);
->> +	EXPECT_EQ(errno, EPERM);
->> +	EXPECT_EQ(fallocate(fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE, 0,
->> +			    page_size), -1);
->> +	EXPECT_EQ(errno, EPERM);
->> +	EXPECT_EQ(pwrite(fd, "x", 1, 2 * page_size), -1);
->> +	EXPECT_EQ(errno, EPERM);
->
-> Nit: Is there any point in matching the exact error code? Wouldn't
-> checking for a failed syscall be enough?
+Rename it to "age", which matches what the value means: the newest
+generation is age 1, and a larger age is an older generation.
 
-The documentation that patch 11 adds to shmem_luo.c says these fail
-with -EPERM, so I'd like the test to check that. But you have a point
-for the other tests in this patch: the documentation only states the
-permission rules for preserving a file, not the error codes, so in v5
-those tests will just check that preserving fails.
+No functional change.
+
+Signed-off-by: Ridong Chen <chenridong@xiaomi.com>
+[kasong: dropped the comment table part, the series rewrites it]
+Reviewed-by: Barry Song <baohua@kernel.org>
+Reviewed-by: Lian Wang <lianux.mm@gmail.com>
+Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
+Tested-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Kairui Song <kasong@tencent.com>
+---
+ include/linux/mm_inline.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
+index f6f4bc9a704f..2395ca8ee305 100644
+--- a/include/linux/mm_inline.h
++++ b/include/linux/mm_inline.h
+@@ -302,7 +302,7 @@ static inline unsigned long lru_gen_folio_seq(const struct lruvec *lruvec,
+ 					      const struct folio *folio,
+ 					      bool reclaiming)
+ {
+-	int gen;
++	int age;
+ 	int type = folio_is_file_lru(folio);
+ 	const struct lru_gen_folio *lrugen = &lruvec->lrugen;
+ 
+@@ -319,17 +319,17 @@ static inline unsigned long lru_gen_folio_seq(const struct lruvec *lruvec,
+ 	 * |<---------------------------- MAX_NR_GENS ---------------------------->|
+ 	 */
+ 	if (folio_test_active(folio))
+-		gen = MIN_NR_GENS - folio_test_workingset(folio);
++		age = MIN_NR_GENS - folio_test_workingset(folio);
+ 	else if (reclaiming)
+-		gen = MAX_NR_GENS;
++		age = MAX_NR_GENS;
+ 	else if ((!folio_is_file_lru(folio) && !folio_test_swapcache(folio)) ||
+ 		 (folio_test_reclaim(folio) &&
+ 		  (folio_test_dirty(folio) || folio_test_writeback(folio))))
+-		gen = MIN_NR_GENS;
++		age = MIN_NR_GENS;
+ 	else
+-		gen = MAX_NR_GENS - (folio_test_workingset(folio) || folio_test_referenced(folio));
++		age = MAX_NR_GENS - (folio_test_workingset(folio) || folio_test_referenced(folio));
+ 
+-	return max(READ_ONCE(lrugen->max_seq) - gen + 1, READ_ONCE(lrugen->min_seq[type]));
++	return max(READ_ONCE(lrugen->max_seq) - age + 1, READ_ONCE(lrugen->min_seq[type]));
+ }
+ 
+ static inline bool __lru_gen_add_folio(struct lruvec *lruvec, struct folio *folio,
+
+-- 
+2.56.1
+
+
