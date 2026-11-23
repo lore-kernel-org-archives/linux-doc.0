@@ -1,63 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795417403;
-	b=q2oWbCkCaR6TQwLwnS3XwQ8xsXNdwCzgD6hjbBjcWdVmLXuvDs6zcoCCYPjB4mUL0usr
-	 qdp5uahD+0WvCPiGIbAVXXNVoOwrjyT+m5EgfQh3EG5NpAswzOBZxNftRsjLtlFB0SS7W
-	 EN9fFjvl8TZFn9GqaJULnZ4zSsyFEC1yIbEkV9Rb/tgXquhMkEpDVsAgOMsBjlenp5ZeM
-	 G+YY/Y0tibjGN6rAvzRfrP44ROKoxXX7GXOmmNBZQFkoYzHxO0aKx9LqAuzu/STjWuRII
-	 /DApQebyrYyaJQunLaQ3ywKw8/dLy3fgUy3rQY/NCHdeanXo2bBUsX8iNWs3meh4XMg==
+	t=1795417657;
+	b=JFX50QnvsA3AJjNco2bvs1xgE8dEAlOojc7niawZgQnpkli8H3nNbw+3M6zL4W+Pczkk
+	 BXnfuoAnV3x+QXAfLf/4lKrWhqg4gZiorDyL0NKS+jmpKigRIkjvuYQPuPEBfFnUWrQl3
+	 /wpA4nYL13KU0YRWTnP+oFLxJLRW6yGBGSLz7mnTxF6WxEeKTnK9Q5trwsoH2CKJt6ndQ
+	 D+6RM1EiKwUE2sHm+u3nmCPyalZU4FvkTYnDeZYwV3wRFkfdEB+Blm52sH8QQKEvGLvci
+	 SlCN6SUJchW2sdAimkiFbqcomiAzJADO4rX0sD2rwll39Nz6vWS0KyjtQnzw3HiMPnw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795417403;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=66EgM4zK7IG8zCwjPTbi5vNEz/2nI2TGX5jJdEmsI1w=;
-	b=3f5TkPYFlv98HwsK6RC6LPnq0uhUSXqZVYXTGH17ufwO0Y/Iu99d6jcvS0QHZQEjcDx0
-	 aeQuLbLcQBoLcO/HqqBrBceKrtrUf2tbZol98WaevZ+hc/wyURviL/HalBbkDVhhoLZU5
-	 NH1A+N9T5fUgP5JkUgitaLxk1sqbYu8BYoyY02rUEPu0EIHN2BJt9GI5zhw7kJiev88YU
-	 yR+j6x8F7CRiKPSAzBW+X0fimudut8FjiRedqUPRtxZtzo+Esd+OrDigCtcKWsuVLnSCV
-	 XK4QMh65f94zRrQ4Q6H3E6Hm6L1gf+w0gxyStIdpoALe9oUdCc+fMw9tq3sOJ1MWbGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795417657;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=MsxSnERYYFOLpooDmz9phzS6JSJAH8F8JlBPwPYUgdE=;
+	b=jAtFaO6x0qSDPlFTq8wHMXp9I7WRw7BbK7ARrOUVzgD6FMkv6jT9YdA9+a7aZgK4aigP
+	 3h/n9rJNZnNSNIjBqme9gF4EuB2+nOojdCoHw6zOCRxO0P26fYsiJMeHezNBL8T2mHZhn
+	 xnFTWUqp0duyNmJ/R8gOtY3tAllWSppHhUfNvEyfbk9UjM0P77+DIKdfTnF4KxbTSEmA5
+	 PpdOMr0di9j9sEfGLitifcwn4ISsxQeN4mc0NZPsCcADEx8uimKqTqZOGDHPNgDAGbMUZ
+	 UQ92o6zrwD0sVIwN8YeF7JvO/4tvPHHCH9YDWPyBwuO5XC5ZX+0ubUf0cg5ftjDg2GA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="L/sdxyYw";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--starchang.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=U+lWctsR;
+	arc=none smtp.remote-ip=209.85.210.199
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5AA606A31A;
-	Mon, 23 Nov 2026 07:03:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E38F606A31A
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 07:07:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E38F606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--starchang.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L/sdxyYw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D6F1F000C6;
-	Mon, 23 Nov 2026 07:03:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795417403;
-	bh=66EgM4zK7IG8zCwjPTbi5vNEz/2nI2TGX5jJdEmsI1w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=L/sdxyYwswL8f2rMWAqr3ihbnMkAIAtcHSXZRSy1l2QDyg2A5hK52dS56/KD4UCo7
-	 1ScMdhRxOaGteIvmGFmYqewqT2eyLZrYpFuwojA56X3B23UiCtYFXm8vId9JR350MW
-	 9U4SPAhiFXoTw+42YLk72O8/c6kIaTa1XF6dNdym/wWvhVdQ1zCsOhNgtJQ6ufyDVE
-	 m+fALj0z0zXsa3XoifoTRsQjrMkTs7CpOnqPalJtmgSlX4AAC+65LdUeDTpOz/we0s
-	 y4UHq0Vu3UKF4UdufTGdwVKu8ZGlpr0fM64QnMSUs3yPdgkW/YiLNcq+bVI9sj1qu5
-	 vBNGDLVQc1tsA==
-Date: Sun, 22 Nov 2026 23:03:21 -0800
-From: Drew Fustini <fustini@kernel.org>
-To: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-Cc: joro@8bytes.org, palmer@dabbelt.com, tony.luck@intel.com,
-	reinette.chatre@intel.com, tomasz.jeznach@linux.dev, jgg@ziepe.ca,
-	james.morse@arm.com, ben.horgan@arm.com, xiaqinxin@huawei.com,
-	will@kernel.org, robin.murphy@arm.com, pjw@kernel.org,
-	aou@eecs.berkeley.edu, alex@ghiti.fr, Dave.Martin@arm.com,
-	babu.moger@amd.com, kevin.tian@intel.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, shuah@kernel.org,
-	randy.dunlap@infradead.org, cuiyunhui@bytedance.com,
-	yuanzhu@bytedance.com, iommu@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	x86@kernel.org
-Subject: Re: [RFC PATCH v2 0/4] resctrl: Assign registered devices to
- resource groups
-Message-ID: <awPlOY9vr8Mqq2vJ@thelio>
-References: <20261116071338.35991-6-zhangzhanpeng.jasper@bytedance.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=U+lWctsR
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-8b930598cf0so5143348b3a.1
+        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 23:07:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795417657; x=1796022457; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MsxSnERYYFOLpooDmz9phzS6JSJAH8F8JlBPwPYUgdE=;
+        b=U+lWctsRGzRFPIowLeFXgiiB6l4PafdP0ufQnLQM460wToUfWjkYeAmQgpG/S76Dff
+         hF4P4QUg39kTO2662erx1wIxq1ld2FBQcb7PTTzaSxgaAK6ZhGxEAtwOwG3Cr54uGUpR
+         po2M6XPV6Jr9wL9YBgYZhNuhAXt47Uyg6TR8b3BpULTyrf3H15vDbkhc0nMoBzkP/fac
+         dpoHwMlbWi6wHi5jJvj5WxXHdcbIlkWQR1UDaFWl6eKEjxqqBqPbjnqX2vVWpyFGyA3v
+         xKKrisqHYyAXaBI3qcAqlIxnAKdWdGIhDwE4/AlcXYFIdm5SnZcuIanTpwrfJFwOO5Ea
+         18bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795417657; x=1796022457;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MsxSnERYYFOLpooDmz9phzS6JSJAH8F8JlBPwPYUgdE=;
+        b=VJBYblONdT9SpPnV9GqeGNDDtkEASFec53rmtafX6iXPGHxgA3JwJpv3h7Yqb1PeEy
+         Jyno8T9AKVCrwFR87zdTCAsAwfnqnpmnzRJohkhSHeC+uhMIT5ymeG0qSjL7a7jxZfxn
+         vUtsAE/y64lD8tZ+nMXU4gjLqcU3qM12HplhOQjll38TkLzu9TsQewNWBYMjAJuB+Qnx
+         Mx0fEkpq3YbRvj9W32Nskc9y/qpykdqIhMTvGk7hd8Fj1sAPZqpv5QYzLRwyUMKvpqtb
+         vCKvwDYu0hiMgWgBF3zp7/lm8/nbV+jS5JKnwdxwh83hZclx6Fq1IBB3+n5QMUcOwsCi
+         N68w==
+X-Forwarded-Encrypted: i=1; AL+hErF8lyQHkrPP41HBVnssUCRnsMG7tHxKgn2rp1KY3cQ5wLbKRiIpWEDuetBEmFQIhF66X+FqOFp0tWg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/aB1CpA2/QSy3AuSnxbxBJsPs1PxgIkMNxTv9ftd0+SRm8zE2R
+	ILhj0PQ9X1/I++nBXljuRddQYfua3QX5e/2biERAoEYw+1mJpiJn/wBvjughY2pQMPXeYIXFmgT
+	EMwEa54wIbrhdnCo6oQ==
+X-Received: from pfgu2.prod.google.com ([2002:a05:6a00:982:b0:89f:afc:76b5])
+ (user=starchang job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a00:984:b0:8bf:e028:7864 with SMTP id d2e1a72fcca58-8c87663e154mr10249455b3a.0.1795417656556;
+ Sun, 22 Nov 2026 23:07:36 -0800 (PST)
+Date: Mon, 23 Nov 2026 07:07:34 +0000
+In-Reply-To: <179541590924.3294.14959742776383569350@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,32 +78,37 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261116071338.35991-6-zhangzhanpeng.jasper@bytedance.com>
+Mime-Version: 1.0
+References: <20261123063608.3665186-1-starchang@google.com> <179541590924.3294.14959742776383569350@kernel.org>
+X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
+Message-ID: <20261123070734.3686009-1-starchang@google.com>
+Subject: Re: [PATCH net v6] arp: Do not update neighbours from ARP in L2
+ multicast/broadcast frames
+From: Star Chang <starchang@google.com>
+To: netdev-bot+sinfo@kernel.org
+Cc: "David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>, Julian Anastasov <ja@ssi.bg>, 
+	Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wangroger@google.com, 
+	starchang@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 16, 2026 at 03:13:39PM +0800, Zhanpeng Zhang wrote:
-> This RFC lets resctrl groups include devices as well as CPU tasks. It
-> uses the RISC-V IOMMU QoS ID extension as the first provider and builds
-> on Drew Fustini's CBQRI resctrl v12 series [1] on Linux v7.4-rc1.
+Hi,
 
-It does not seem like riscv-iommu in qemu models qosid. Are you testing
-this on a hardware implementation?
+How it was found: internal security review of Wi-Fi "Hole-196"
+mitigations, which found that drop_unicast_in_l2_multicast does not
+cover ARP.
 
-> Feedback would be particularly helpful on:
-> 
->   * The provider registration and lifetime contract, including how to
->     represent devices that share a tagging context.
->   * The bus/name token versus using an existing sysfs identity.
->   * The scope of protection after a command queue failure. If an update
->     leaves the hardware state uncertain, the current code prevents ID
->     reuse by blocking group removal and future mounts, including for
->     groups unrelated to the failed update. Would reserving only the
->     affected old and target IDs be sufficient?
+Triggered: yes, reproduced in a lab setup on a WPA2-PSK network.
+Another station injected a group-addressed ARP reply (sip = gateway,
+sha = attacker MAC), and after the locktime the victim's gateway
+neighbour entry was changed to the attacker MAC (seen with "ip neigh").
+There are no kernel messages or crashes, only the wrong neighbour
+entry. The broadcast request variant (sip = gateway, tip = other host)
+was pointed out by Julian during review; it goes through the same
+neigh_event_ns() path.
 
-It seems like blocking future mounts would be too much since resctrl
-should still be able to handle cpu tasks.
-
-Thanks,
-Drew
+Best regards,
+Star
