@@ -1,85 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795421221;
-	b=Z+BRdKzax6c88fHnqCEJcTRn7SiK9Id36H+v9LjC8zdO3Y7bA1RtYgj5GRa6iq/ZZDn6
-	 aLGYlFjEqwUuvJ69qDLWTCzNmrQSsCct5QBsvAArd9zrWJKA90UUUHhLo9u2OiBq4ahAG
-	 GoTdcJE3fJ8bOp97w/8Iey+KCEVbXKcS1HBOG8Qx/HjEmbuJ7pbp8+ADFusRJ1HzF8U3C
-	 QfHv3ozNN4sEld0ZOVjfy1KbNzgSas+x9G/jHcnbJ6tKN4XowhxgX6nM+c9bPiO0Q0AqT
-	 L7UKPJrKQH7iHbj/9ddGd1fWuZn4BPTaHf8glizLqoYtQ1M17jE5SJ1A8RAsVxrEqBA==
+	t=1795421315;
+	b=u/wUosvcttJ/uEs/CmPUeRpK+h+onr+U1zSo06qmIzFNjUa1iSDPinTzlepR7eW9qLb0
+	 ic8TgC5j7jPYxZFcavZ/pbT1KF4EzwZml5PHEmWTieS0w9EmoiNqXL69gssuj+3MyjZYh
+	 DTLpUAp1japtJFi0hyPZzwSUQnp1qdRjMR2x6rd9iK2FS4XgpD/0yrmwhQ3Yp20fAjpM+
+	 A+XbTIaP4iLrTf6ZKq5dHWQlQ0ZeSwjOc3zdHX/mRxMDHbqfMhoN1aUyCpMWM+gEHfKo5
+	 PBUb/jeD0yC8pnB9+BpPTC4cOstQuQXPsvx8QB+ulCwNZFHBhWdrChUmpqnWAUIx+aQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795421221;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=GdWbto/GYuZDXyTvm+7T3nEGrjgUlN0uIoNMYNUd3jo=;
-	b=09D2GijnH6n+Y4RSKQhTlWfnfwts2BryfZAreRGa/vleh1uoN88oqEPwxbRWkO3Yjlnt
-	 c8sy0zYWYFmTobBt7/Rbr0kjIdOYkRfxrR9msvdRv3qhMU4iraY3YURonUs7thYvsfDUa
-	 A6c3LhWs0drYOG1B0cw9zeM7MuS0TNd0q/DCmJJGD/4cqwuBDIT+nw55zJMhyqNegmmdK
-	 0pqJqNrKuVY/jj6I3GbAZ4BxTT/qLldmCpjMLBK6/lukpvgvPbz7lu5cBGjw1FhVk/nNh
-	 +2IpVgsaYfuY9jOvTzjk0xk/m0nN9t7PrJ9ic+5ptPk4538aKV5kzVvvXbU+1ki8NtQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795421315;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-Rspamd-Queue-Id:X-Spam-Level:
+	 X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:
+	 X-Spam-Score;
+	bh=8XFStxtIyu/bWdCANZfW2ox1JdG4p0sGe2XRHxMcJOI=;
+	b=daQzAqPnxXuAh1pFT52q53A6fJxaaYQlaBHC6SOz3VrkT1Z/MO0MkkYvCf0zahzkgcpR
+	 qUQ0EsKf5dj+bVxCYD7f3Yi7u24BAbW0w4zwKMprUU6xaI3MDr9c9oyWXScViBf+uBDEh
+	 MJ1zi/Wcj0uMg9HWBKLlJ8me3ksdWY6qZHmUNjLXB/5iJ+aTN0Luj3FarRTK6gr945YHA
+	 N6Wdex9RtAF3dzfIelAaxViut2iV+PlQ5/7B8WRGot9sDmMBYD6x6P1lKA5qQrAeliYCg
+	 6AEhx35PFsYgoTIaGs6kbzfA6HPR09P6+pAW4DvGDGgb0mPGDztXGpPodOEsAT77ykQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=UbEDloij;
-	arc=none smtp.remote-ip=209.85.222.179
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=ujBumtdu;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=ujBumtdu;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC506071510
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 08:06:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4EC506071510
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E7C606A31A;
+	Mon, 23 Nov 2026 08:08:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2E7C606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=UbEDloij
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-9497a167a6aso507085685a.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 00:06:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1795421218; x=1796026018; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=GdWbto/GYuZDXyTvm+7T3nEGrjgUlN0uIoNMYNUd3jo=;
-        b=UbEDloij11O9wu6jNn+7P7+RZvZz4DV6AR9vzS0fBzrCehXkVi8FOnGNXNLIlq3OFN
-         rCOsnG3X3QGQiYNFwNBZQvVWlmIntqs5/WJfYWYXfHntN863rJIHHZTTX2sLk9DadYAh
-         X7mwrYku1mJRpu7QCeTz76l1LWFiNv9wX+8lJ+dyFLhh7T7coDHq+YmCQpQmF0KSfLAE
-         9axnyb0s2etYFlHigdYQlixa19gpIFF4IlLkDUP/DJBpH2LsHFTuoxzst9SFQAkBwo3W
-         CxDF/n/80StXZi/eyfYksm+TAH6RyPX3cmBYA54kpqV7TFm36nQo/8FDZjHvtxTROyuE
-         REoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795421218; x=1796026018;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GdWbto/GYuZDXyTvm+7T3nEGrjgUlN0uIoNMYNUd3jo=;
-        b=uyAQ+FFl376XX9wI/I1qkjLwb7wHcndoOt/4E+8hPtQOI8oy5q8riC+ESGc2C4DnP2
-         or98ESAAqnni5uGM0XVEEVavKLp/ky3mdVYgfzKDVbxhbGkmRV0onFVFTRL1Rfl/onDA
-         eK6icSUqLyr6M4+vcyPbZcCBp97KCKXwPrL2sOog8oePeEDbUsl5M9NKHKIa3tAhHBMF
-         Un1o2bxsukunHp2AxGfS8xisTERROkOuB9voI810rLfJqzOH9Gpzbpf27iZ7tz9VejZS
-         jPTZxsDCMZ69O1F/RsJxn18LG28iyfQz4psmA3cDqQZdLuNKDqehjclB80hEHDKZnHUP
-         RJyQ==
-X-Forwarded-Encrypted: i=1; AL+hErFNs9yZ5/rvL0SHeBcprKO9ZzUJLp/HvjbN2zyuQrQyC4GYxsKgU2xLI6ZXQvrYjYI7Ky/8B8JVC04=@vger.kernel.org
-X-Gm-Message-State: APuU4Z972vnjdO7TP6oDivivEi+Esn9BzTWyEwBWgakMavl5UWwotNc6
-	BJp+w5E68wRmOGudB5VCcQdhP4vJDZzGv+W28Xg9/t0+6Yy59dVAwat1WdvUIfkQTPw=
-X-Gm-Gg: AZFdTZeULlY0PHjRFYIFCS5fsQ6iJV7ktpyPSCJpTPnu/xxdRr8rsau+U8bfULatw6T
-	ay/VS1jQWGQRIr9vZsno8Ug8eLAzV4V6cYh1DAMAIYN8uQxl7Tnld+PFz4myRxuQErMmEc5QUCG
-	pABQ6reTjnrkaA8j3w3mrOU+PtZGTm5bnTugyRksOiE1bJDPNPPOmf5VDXUUMr0zTVrAvHG5slh
-	70zbQRuym5556Db9CUSJoBYJAo2utEiUKOKL52uNjeyIt1xIoByaVNuBzHlLAdcVyOGJ8fqCbm6
-	/RBBKRsDdwr+3YgAvt4HuObP6/mA8av2r7Ery36HtqMGWoFQkBtH1c1pSfZu2Y/GsU23OlaZOTy
-	l2KkUzSJh7HSZPEtGkSrbNy0FoDnPjsBYfmplkNTgcme+0uKST1J8QTeqx2vLLCSWCiITvbOT/Q
-	xfxpbgzAq04L0VhLLViVwVJ5Qu+ylU1mnj4EEkquHEswFJANMaLBndj7bfMzi8A8BzfJvjD8lwk
-	U3BsnQShyZ2IK3w82Xz5uCZyglW8rwCku9c7WykQARTVLiYYuSdLyKYlXrTYDfY1SnQW5Mp4/Da
-	JCawJxE6gv+1te8BO1SqlNH+/wAhr0FwS8jUSOGtFsRP4rU0VdF8tD3j0XcKqBo3cVGJTZjP7UY
-	sdkS0mrmGLxL78p7KSq0VmfvdKYz1
-X-Received: by 2002:a05:620a:4481:b0:93f:2571:bb6d with SMTP id af79cd13be357-949bab32ff9mr1727268685a.39.1795421218145;
-        Mon, 23 Nov 2026 00:06:58 -0800 (PST)
-Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb349db3sm745619285a.7.2026.11.23.00.06.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 00:06:57 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=ujBumtdu;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=ujBumtdu
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6EE2722091;
+	Mon, 23 Nov 2026 08:08:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1795421306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=8XFStxtIyu/bWdCANZfW2ox1JdG4p0sGe2XRHxMcJOI=;
+	b=ujBumtdu5qabRFa2EmZPloprrS6teEXfopGm/yvpXJYyt6wNfXMayH4+fb3exsccFOlZIr
+	BM1l/Dm0zvtd1Be+DIZvinUM9QLsKwWD9ldAKQpAMZ3DJSiyCElSJmvGEv8x9eMnbCoR7Z
+	fvTdcMI9CBnl3MnQrxFh29ojEf/WVJE=
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=ujBumtdu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1795421306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=8XFStxtIyu/bWdCANZfW2ox1JdG4p0sGe2XRHxMcJOI=;
+	b=ujBumtdu5qabRFa2EmZPloprrS6teEXfopGm/yvpXJYyt6wNfXMayH4+fb3exsccFOlZIr
+	BM1l/Dm0zvtd1Be+DIZvinUM9QLsKwWD9ldAKQpAMZ3DJSiyCElSJmvGEv8x9eMnbCoR7Z
+	fvTdcMI9CBnl3MnQrxFh29ojEf/WVJE=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 949B713510;
+	Mon, 23 Nov 2026 08:08:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ezOKG3n0A2u9TwAAD6G6ig
+	(envelope-from <jgross@suse.com>); Mon, 23 Nov 2026 08:08:25 +0000
+From: Juergen Gross <jgross@suse.com>
+To: linux-kernel@vger.kernel.org,
+	x86@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Cc: Juergen Gross <jgross@suse.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Tony Luck <tony.luck@intel.com>,
+	Ashok Raj <ashok.raj.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH] msr: replace rdmsr()/wrmsr() in comments
+Date: Mon, 23 Nov 2026 09:08:22 +0100
+Message-ID: <20261123080822.3426355-1-jgross@suse.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,164 +112,182 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 00/60] Private NUMA nodes
-From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: Yury Norov <ynorov@nvidia.com>
-Cc: "Gregory Price (Meta)" <gourry@gourry.net>, 
- Yury Norov <yury.norov@gmail.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- David Hildenbrand <david@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Oscar Salvador <osalvador@suse.de>, Johannes Weiner <hannes@cmpxchg.org>, 
- Suren Baghdasaryan <surenb@google.com>, 
- Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Johan Hovold <johan@kernel.org>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
- Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
- Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>, 
- Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>, 
- Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
- K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
- Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Michal Hocko <mhocko@kernel.org>, David Rientjes <rientjes@google.com>, 
- Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
- Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
- Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>, 
- Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
- Youngjun Park <youngjun.park@lge.com>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>, 
- Tejun Heo <tj@kernel.org>, 
- =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
- Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
- Dave Jiang <dave.jiang@intel.com>, 
- Alison Schofield <alison.schofield@intel.com>, 
- Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
- driver-core@lists.linux.dev, damon@lists.linux.dev, 
- linux-pm@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
- linux-kselftest@vger.kernel.org
-In-Reply-To: <awNavE8dAGr-amfQ@yury>
-References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
- <awMdeK8O-5mffg2m@yury>
- <179537469194.412063.13456998694958645706.b4-reply@b4>
- <awNavE8dAGr-amfQ@yury>
-Date: Mon, 23 Nov 2026 03:06:55 -0500
-Message-Id: <179542121527.412063.3452837736734095837.b4-reply@b4>
-X-Mailer: b4 0.17-dev
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 6EE2722091
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-10.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_CC(0.00)[suse.com,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,lwn.net,linuxfoundation.org,infradead.org,arm.com,google.com,intel.com,linaro.org,roeck-us.net,gmail.com];
+	DKIM_TRACE(0.00)[suse.com:+];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	R_RATELIMIT(0.00)[to_ip_from(RLkdkdrsxe9hqhhs5ask8616i6)];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Score: -10.51
 
-On 2026-11-22 16:12 -0500, Yury Norov wrote:
-> On Sun, Nov 22, 2026 at 02:11:31PM -0500, Gregory Price (Meta) wrote:
-> > On 2026-11-22 11:51 -0500, Yury Norov wrote:
-> > > On Fri, Nov 20, 2026 at 01:08:51PM -0500, Gregory Price via B4 Relay wrote:
-> > > > This is v6 of the Private NUMA node series. The series falls into four
-> > > > parts, each building on the one before:
-> > > > 
-> > > >    1-18  mm: introduce N_MEMORY_COMMON
-> > > 
-> > > I walked through this part, mostly. It looks like you can substantially
-> > > decrease the patch count if you keep N_MEMORY meaning unchanged, and
-> > > add another type, like N_MEMORY_NOALLOC.
-> > > 
-> > 
-> > I don't see how this would reduce the patch count substatially, you
-> > still need to convert existing N_MEMORY users and need to differentiate
-> > between general purpose memory nodes and private memory nodes.
-> 
-> Please check this quick attempt with my codex. The patch count is reduced
-> to 52:
-> 
-> https://github.com/norov/linux/tree/private-nodes-v6-n-memory-folded
-> 
-... snip ...
+Replace all mentioning of rdmsr() and wrmsr() in comments with
+rdmsrq() and wrmsrq(), as the former functions are no longer
+existing.
 
-Patch count is not what we want to be optimizing for here.
+Signed-off-by: Juergen Gross <jgross@suse.com>
+---
+To be applied on top of current core/msr branch of the tip tree.
 
-Your branch carries the same code (+3 lines net actually).
+ Documentation/arch/x86/microcode.rst  | 2 +-
+ arch/x86/events/amd/ibs.c             | 2 +-
+ arch/x86/events/intel/core.c          | 2 +-
+ arch/x86/events/intel/lbr.c           | 6 +++---
+ arch/x86/include/asm/shared/msr.h     | 2 +-
+ arch/x86/kernel/cpu/feat_ctl.c        | 2 +-
+ drivers/hwmon/coretemp.c              | 2 +-
+ drivers/platform/x86/intel/ifs/load.c | 5 +++--
+ 8 files changed, 12 insertions(+), 11 deletions(-)
 
-The patch reduction comes from squashing the per-subsystem conversions
-into one 16-file commit.
-
-It also broke get_mempolicy(MPOL_F_MEMS_ALLOWED) - it now returns
-memoryless nodes even if the system doesn't have a private node.
-
-> The more important thing is that N_MEMORY and the proposed N_MEMORY_NOALLOC
-> is a disjoint, contrary to N_MEMORY and N_MEMORY_COMMON.
-
-The proposal here is not novel - version 5 was also disjoint:
-https://lore.kernel.org/linux-mm/20260720193431.3841992-5-gourry@gourry.net/
-
-   N_MEMORY and N_MEMORY_PRIVATE are mutually exclusive states.
-
-I moved away from that because it changes the definition of N_MEMORY.
-
-The subset model is easy to understand
-
-N_MEMORY               - a node has memory
- -> N_HIGH_MEMORY      - subset of N_MEMORY
- -> N_NORMAL_MEMORY    - subset of N_MEMORY
- -> N_MEMORY_COMMON    - subset of N_MEMORY
- -> N_MEMORY_PRIVATE   - subset of N_MEMORY
-                         (COMMON and PRIVATE partition N_MEMORY)
- -> N_MEMORY_<FEATURE> - subset of N_MEMORY
-                         all N_MEMORY_COMMON
-			 some N_MEMORY_PRIVATE
-
-It's additive. Users pick the set of nodes they want for their purpose
-and don't have to cobble sets together or remember special helpers.
-Users don't even need to know about private nodes most of the time
-(mempolicy being the one major exception here).
-
-In the disjoint model, N_MEMORY no longer means "has memory". Recovering
-that set requires new helpers, and the meaning changes silently for
-every in-tree and out-of-tree user. Anything that wanted "has memory"
-quietly misses private nodes.
-
-Either way you have to audit each N_MEMORY reference and decide whether
-it wants that state or a feature variant (N_MEMORY_RECLAIM, COMPACTION).
-
-The difference is how a missed site fails. In the joint model the
-zonelist and the common-memory folio checks backstop allocation and
-access, so a missed placement site costs some additional work.
-
-In the disjoint model a missed site silently drops a node from stats
-and accounting - or worse fails to allocate per-node meta data.
-
-So no, I do not think we should go back to the disjoint model.
-
-> > And N_MEMORY_NOALLOC is not a good name.
-> 
-> Sure, I'm not attached to any particular name. Although,
-> N_MEMORY_COMMON nothing better to me. It answers the question
-> 'what for this thing' even worse.
-> 
-
-happy to wordsmith the names here.
-
-N_MEMORY_GENERAL? _DEFAULT?  _COMMON felt intuitive but I am happy
-to rename it whatever.
-
+diff --git a/Documentation/arch/x86/microcode.rst b/Documentation/arch/x86/microcode.rst
+index b627c6f36bcf..df1fb2c82333 100644
+--- a/Documentation/arch/x86/microcode.rst
++++ b/Documentation/arch/x86/microcode.rst
+@@ -151,7 +151,7 @@ are also treated as fatal by the kernel.
+ On certain Intel machines, MCEs are also broadcast to all threads in a
+ system. If one thread is in the middle of executing WRMSR, a MCE will be
+ taken at the end of the flow. Either way, they will wait for the thread
+-performing the wrmsr(0x79) to rendezvous in the MCE handler and shutdown
++performing the wrmsrq(0x79) to rendezvous in the MCE handler and shutdown
+ eventually if any of the threads in the system fail to check in to the
+ MCE rendezvous.
+ 
+diff --git a/arch/x86/events/amd/ibs.c b/arch/x86/events/amd/ibs.c
+index f43949bde19c..2ef0530b6561 100644
+--- a/arch/x86/events/amd/ibs.c
++++ b/arch/x86/events/amd/ibs.c
+@@ -591,7 +591,7 @@ static void perf_ibs_start(struct perf_event *event, int flags)
+ 		 *  o Set VAL bit            CTL2[Dis] = 1
+ 		 *  o Raise NMI --.        o ...
+ 		 *                 \       o ->start()
+-		 *                  \        wrmsr(IBS_{FETCH|OP}_CTL, new value);
++		 *                  \        wrmsrq(IBS_{FETCH|OP}_CTL, new value);
+ 		 *                   \       (wrmsr clears the VAL bit)
+ 		 *                    `--> o Receives delayed NMI
+ 		 *                           (Unknown NMI since VAL bit is cleared)
+diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
+index 96bcbf823aec..1b6213ef2ced 100644
+--- a/arch/x86/events/intel/core.c
++++ b/arch/x86/events/intel/core.c
+@@ -6963,7 +6963,7 @@ static bool check_msr(unsigned long msr, u64 mask)
+ 		return false;
+ 
+ 	/*
+-	 * Quirk only affects validation in wrmsr(), so wrmsrq()'s value
++	 * Quirk only affects validation in wrmsrq(), so wrmsrq()'s value
+ 	 * should equal rdmsrq()'s even with the quirk.
+ 	 */
+ 	if (val_new != val_tmp)
+diff --git a/arch/x86/events/intel/lbr.c b/arch/x86/events/intel/lbr.c
+index beac04502b73..760d5e465a56 100644
+--- a/arch/x86/events/intel/lbr.c
++++ b/arch/x86/events/intel/lbr.c
+@@ -222,7 +222,7 @@ enum {
+  * are the TSX flags when TSX is supported, but when TSX is not supported
+  * they have no consistent behavior:
+  *
+- *   - For wrmsr(), bits 61:62 are considered part of the sign extension.
++ *   - For wrmsrq(), bits 61:62 are considered part of the sign extension.
+  *   - For HW updates (branch captures) bits 61:62 are always OFF and are not
+  *     part of the sign extension.
+  *
+@@ -231,8 +231,8 @@ enum {
+  *   1) LBR format LBR_FORMAT_EIP_FLAGS2
+  *   2) CPU has no TSX support enabled
+  *
+- * ... then any value passed to wrmsr() must be sign extended to 63 bits and any
+- * value from rdmsr() must be converted to have a 61 bits sign extension,
++ * ... then any value passed to wrmsrq() must be sign extended to 63 bits and
++ * any value from rdmsrq() must be converted to have a 61 bits sign extension,
+  * ignoring the TSX flags.
+  */
+ static inline bool lbr_from_signext_quirk_needed(void)
+diff --git a/arch/x86/include/asm/shared/msr.h b/arch/x86/include/asm/shared/msr.h
+index a20b1c08c99f..c46188ca5403 100644
+--- a/arch/x86/include/asm/shared/msr.h
++++ b/arch/x86/include/asm/shared/msr.h
+@@ -13,7 +13,7 @@ struct msr {
+ };
+ 
+ /*
+- * The kernel proper already defines rdmsr()/wrmsr(), but they are not for the
++ * The kernel proper already defines rdmsrq()/wrmsrq(), but they are not for the
+  * boot kernel since they rely on tracepoint/exception handling infrastructure
+  * that's not available here.
+  */
+diff --git a/arch/x86/kernel/cpu/feat_ctl.c b/arch/x86/kernel/cpu/feat_ctl.c
+index 7228fc2bb43e..0c10b1f35270 100644
+--- a/arch/x86/kernel/cpu/feat_ctl.c
++++ b/arch/x86/kernel/cpu/feat_ctl.c
+@@ -36,7 +36,7 @@ static void init_vmx_capabilities(struct cpuinfo_x86 *c)
+ 	 * features that can be turned off.  Ignore the allowed-0 settings,
+ 	 * if a feature can be turned on then it's supported.
+ 	 *
+-	 * Use raw rdmsr() for primary processor controls and pin controls MSRs
++	 * Use raw rdmsrq() for primary processor controls and pin controls MSRs
+ 	 * as they exist on any CPU that supports VMX, i.e. we want the WARN if
+ 	 * the RDMSR faults.
+ 	 */
+diff --git a/drivers/hwmon/coretemp.c b/drivers/hwmon/coretemp.c
+index 96d57fe12de6..83bad446ecc2 100644
+--- a/drivers/hwmon/coretemp.c
++++ b/drivers/hwmon/coretemp.c
+@@ -67,7 +67,7 @@ enum coretemp_attr_index {
+  * @last_updated: The time when the current temperature value was updated
+  *		earlier (in jiffies).
+  * @cpu_core_id: The CPU Core from which temperature values should be read
+- *		This value is passed as "id" field to rdmsr/wrmsr functions.
++ *		This value is passed as "id" field to rdmsrq/wrmsrq functions.
+  * @status_reg: One of IA32_THERM_STATUS or IA32_PACKAGE_THERM_STATUS,
+  *		from where the temperature values should be read.
+  * @attr_size:  Number of sysfs attributes in this temperature data group.
+diff --git a/drivers/platform/x86/intel/ifs/load.c b/drivers/platform/x86/intel/ifs/load.c
+index 6320a0e45d38..74041a3410c3 100644
+--- a/drivers/platform/x86/intel/ifs/load.c
++++ b/drivers/platform/x86/intel/ifs/load.c
+@@ -110,8 +110,9 @@ static void auth_err_message(struct device *dev, u32 err_code)
+ /*
+  * To copy scan hashes and authenticate test chunks, the initiating cpu must point
+  * to the EDX:EAX to the test image in linear address.
+- * Run wrmsr(MSR_COPY_SCAN_HASHES) for scan hash copy and run wrmsr(MSR_AUTHENTICATE_AND_COPY_CHUNK)
+- * for scan hash copy and test chunk authentication.
++ * Run wrmsrq(MSR_COPY_SCAN_HASHES) for scan hash copy and run
++ * wrmsrq(MSR_AUTHENTICATE_AND_COPY_CHUNK) for scan hash copy and test chunk
++ * authentication.
+  */
+ static void copy_hashes_authenticate_chunks(struct work_struct *work)
+ {
 -- 
-~Gregory
+2.56.0
 
