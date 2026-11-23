@@ -1,41 +1,124 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.76.78.106
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795440966;
-	b=wGoZCdvuiPKOVdTt4m6mLbYC4NkNE9AU+gt9lKSv93EUVRNTn1wgZiGOVh+XIonH29iL
-	 s26akgwd1DLO9iL1WvJ323yLTE8Ix2jib9wAShKyR7POmwVX3Df4Bq0DwrHr2mPk+qCuV
-	 q5DGL7veooe0ISUDD2sb0w/sTw+CGFxtGJYftPVnOc95yUX9mg5JcSFGY2HBmukKYf2UP
-	 97FjdUauI+qgau8zAdxpLg8yEKmdm8gdGhopIHSjKbLAbuFFpG1IpRTBO7TduFk9DjO9P
-	 sD70AIMftax/TUplQqwAqrciMKS0S/Yo9FBPCj9wFRX2IcJU304a2XTl/HdaNaCXsmg==
+	t=1795440971;
+	b=1JQoyHk6r3HaLg/2kqBgGjZiy+dGZOP7wk4Z1/zyJ8SC63UEl9MhJQiihhp0fwYpY5lK
+	 jGjMC3ZDZotSXQbjeDZbhHIRRyx6xSuJsok18rU+I/iolspRubN9Zo64iqfr8quONnoBu
+	 C9qFkPR1LDxFBlCnNJN+JiZXj6cBGZKObGrbQeGh/ROsiJp+xjqDHLKNlF1sT8ynVJ1eH
+	 bo9B1KvghpB+XghCgr+TjF3X/R/kA6xe6OHxTMGaAMoaMEH49nvrGktksn6B3Xlhza6E2
+	 U5fvTDmF6YigDnHIw7L05KkVHQ6431S4aAWnsHnJMYADO2DzdtSjX3wP2T0TZwikSqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795440966;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=7yjwnvCrO/yovNPhanUmx93sJHkGxytKmqH2TNIe9FA=;
-	b=x9lqkuadyf4WQ7UufKOilWp/3aeF4TlGH9pqNCJnKy97YtuX7b+0xYASGb0KncCaCHcv
-	 jmi4WcCgS7vjwx7A+5dgw3IC9Jo5L8tlwwlEcrTldDbeJ2B1OkPoxDamueqdPsx2wskSu
-	 1nKF9RAY4TIGewik+UlJuszrNBcb60rt5+hFeeiIUY9j9/sZiEjdOkL4fwV3+rl6IqoSp
-	 Hd1c0xTXSjZlxv8ZxUQMvBnZxs5OX4lb+3pcDv7F343rKSNRDfjgxkZsDo3495sqDQUEw
-	 L49Y21AHGd3j2ibNPtR9Utn9pIDEQTmSzPVVssSYBmTQSuG2ByGlVgv/4G1RCVCv/Ag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795440971;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding;
+	bh=ndp8NPT5TSJ6UFCJr6F45UdWtUB0BU/WIyewS4Od3DQ=;
+	b=vrQkbWJqFJaVzLDewP/Wr2oM3ct6iw0m5OPvgxWH1JeWgzDo5S3m7b/nlvSkcetraK8I
+	 BvYCseg0P7dj9P68N/kgkLUP5rgAgs3ltzNdPyzsqvBSahr22NFqTfhBNFnZJ+cuHboTe
+	 HhYRlGc5i8XgUNKosJ4c6Tq2i8rAEhDF3BWmR02FcZRPsS9f/IPIM8UKlT8dQTGSE2YwW
+	 qIsf2M6C//TuUOjJ2lNLb9HYME81gWzE9fIo2xE83Dp9fiSWGT75mrpT5OjvJG0nLZNXx
+	 Bp+xYHPrzvZGQBT8PJtW4Db76ioHyriHntnmJ3EKbxnFXmBgnxpA8n4bzMK23+O5dPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=13.76.78.106
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68E0E606A31A;
-	Mon, 23 Nov 2026 13:36:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68E0E606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with UTF8SMTP id IAEQrMDWm2c5QQRrEkiXAA--.38179S2;
-	Mon, 23 Nov 2026 21:35:53 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wBHQDcxQQRr1MhrAA--.17616S2;
-	Mon, 23 Nov 2026 21:35:47 +0800 (CST)
-Message-ID: <18824ff5-1f87-43ae-befe-807fd94d73bc@hust.edu.cn>
-Date: Mon, 23 Nov 2026 21:35:43 +0800
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=C8NkCasO;
+	arc=none smtp.remote-ip=209.85.208.48
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D3B606A321
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 13:36:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96D3B606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=C8NkCasO
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6b87408c797so4175388a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 05:36:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795440969; x=1796045769; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ndp8NPT5TSJ6UFCJr6F45UdWtUB0BU/WIyewS4Od3DQ=;
+        b=C8NkCasOiTGUTMWrPsgLV37fI9kQ9YrrJZ8gfujEZtxbS7/qQxoklxszJx19UpPBr9
+         cuO67x3bL5EcN2EUpGrInSAOswXt8qchrGpVw2cnQB6caJabNyP9C9jhgsATri6nJNMh
+         iuua2m+gQn3QTupxA/tfVB3wbC/Vs87k07D2DuYx1AgVdV8k1x08zfLl31dWu2C5JURr
+         lA/UZ8yuv/pkWkahCzRVo1BIfIuKIEh5Re9hqD3BAz2tubqV6L9Zm8uBZ1UWuy14ll92
+         /cEotwE1V5A8p8s74iCkfXPBt2bajfpg0A52EuW6vitqKaO97n5BaoVhymSUgZW7Giig
+         M5pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795440969; x=1796045769;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ndp8NPT5TSJ6UFCJr6F45UdWtUB0BU/WIyewS4Od3DQ=;
+        b=nXVKj4VbhXrOYleQ2cTKTY/YnxzyWHLelEDZQ/JhPtkCKCUZOZKWdtEzFOUHDCyy0Q
+         GZddJdfxyFLftVK8DidudJYYLxQsUqEv+tvFjRaqpXBG+x7ZZtj+wRsRFYxPM4c4ae8X
+         S1RZaDoGRFpJwfQf2UpuXMGtUBqmMERwq68NKN5ObEBPLk6WdxupC6DsJNxOHAiWWMeZ
+         O0vPo89gjJA6mO2SBNqDTYzC3six0zBloO7uFrKlYZB+U1N5UnU0b/35whZ2I3lS3Hza
+         aBCmdAi/6UO7UTmXoqLVYubOGSejqiYSUf3Ron0sWWgKeFqnfGjZ3fzUdnFzZolq6M2K
+         PWTA==
+X-Forwarded-Encrypted: i=1; AL+hErE1pDmwgaB0Dgq39UCW6DIrFM6OHeRcNdzfuvefMzOd3b8CW26uPoFhPxCaKd2QPNrHy9x1lzP+8OU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9TcISTYi9VzkH7kS+/eAqM8Uo3fNnsd7A4bNX8N66Z7o1YAA45
+	MYjT4FpzM4IeCDbltTaXWXUGQFovsEgIZdu0uzIN7Kpwypiv/pNI9GYu
+X-Gm-Gg: AZFdTZelUBsVwVkMw7ukitBMFAzbFgXg3Xl7qSL7NPGsqH3uzY2MmhycpLchVdIHwSz
+	Tcsn659C1a2/Dz8I2D99ysffK+r8qhFjE4CKmgVC+TjVlp4ujpDLK4H0e0h0FOTNol7i85LRTBe
+	PcrPGW0ejK6fuGJauZ9p7VjLEEuwxjycNALy4fqYN05iOlRgufWv8bl509Uaqci1mOg+5tYKzok
+	AWPYDjXIrRpkXOwxvwkEZgoAT7RdKP3E0joSIETq0Tgbbfi4JLloQSRWDN2lVa5Xru4Ot/Dmr2e
+	CbeYBFBdcGjFI+wgj2bi7aYuPZe7vzBs+RxTB15PG11dZ4q65gqn3KxErTYWRB/Suwqg19ypQaf
+	vC1w4FfCnAts0W35svLrmK4gMqoBwGswt0U3weUrsx7XYMJQwwTdyuma5SR0PZPOLxZM8cr3VXS
+	8Lta4uGPPUNFYlaPjs5d5+5NddBO6XR4MttG7HIaM0qdo3Swpinb4x1B1RXew0e4W34K4kqn1HO
+	DV5UTcwTgJzu8rUg27XXnXbUwSnTw4tm+GL70qKti3eN4+t9pm//5ty2zAvD1y/iu7vhK/sISB4
+	fWNSkoIUA0+ZjQGv4HY0C4wSzHDyQxy6hw==
+X-Received: by 2002:a05:6402:210d:b0:6ac:c1fc:8a98 with SMTP id 4fb4d7f45d1cf-6ba37ec77e3mr8770739a12.42.1795440968562;
+        Mon, 23 Nov 2026 05:36:08 -0800 (PST)
+Received: from ArchOarora ([2001:19f0:6c01:2c43:5400:5ff:fef6:1b30])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ba854bed08sm3275302a12.30.2026.11.23.05.35.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 05:36:08 -0800 (PST)
+From: Oarora Etimis <oaroraetimis@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	jose.exposito89@gmail.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Lucas De Marchi <demarchi@kernel.org>,
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	sebastian.wick@redhat.com,
+	victoria@system76.com,
+	thomas.petazzoni@bootlin.com,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	llvm@lists.linux.dev,
+	=?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito@redhat.com>
+Subject: Re: [PATCH v6 16/43] drm/vkms: Explicitly display plane type
+Date: Mon, 23 Nov 2026 14:35:48 +0100
+Message-ID: <awRA6XtJ8O13Enq_@Oarora>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261120-vkms-all-config-v6-16-78ace90f4fc1@bootlin.com>
+References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com> <20261120-vkms-all-config-v6-16-78ace90f4fc1@bootlin.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -45,778 +128,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] docs: doc-guide: add a guide for translators
-To: Daniel Pereira <danielmaraboo@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Chen-Yu Yeh <chenyou910331@gmail.com>,
- Weijie Yuan <wy@wyuan.org>, Federico Vaga <federico.vaga@vaga.pv.it>,
- Akira Yokosawa <akiyks@gmail.com>, Carlos Bilbao <carlos.bilbao@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261119041009.63651-1-danielmaraboo@gmail.com>
- <20261119041009.63651-2-danielmaraboo@gmail.com>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <20261119041009.63651-2-danielmaraboo@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:IAEQrMDWm2c5QQRrEkiXAA--.38179S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvAXoWfXr1xKrWfJw4fXF1kXw1fZwb_yoW5Cw1rAo
-	WSvr45CFn2yrn8A3W7CrW8JF15WFsrCr4kJr15Cw4qgF1Iqa15Cw18Zwn0g3yfCa1rWFy3
-	Jr97A3WrGFWkJF1rn29KB7ZKAUJUUUUD529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUOl7k0a2IF6w4kM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-	IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xv
-	wVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxV
-	WUAVWUtwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY
-	07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI
-	0_Gr1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4U
-	JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_Jw0_GFylc2
-	xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2Iq
-	xVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r
-	18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
-	r41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
-	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
-	x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IUYF2MUUUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-
-On 11/19/26 12:10 PM, Daniel Pereira wrote:
-> The documentation has seven translations, but nothing in the English
-> documentation explains how to contribute to them. The only guide that
-> exists, Documentation/translations/zh_CN/how-to.rst, is written in
-> Chinese and covers the zh_CN translation only.
->
-> As a result, the same problems come up over and over in the review of
-> translation patches: labels and citations copied from the original,
-> which are global in Sphinx and collide with the English ones; partial
-> builds with SPHINXDIRS that hide those collisions; lines over 80
-> columns; translations not added to any toctree; missing commit
-> descriptions, tags separated by blank lines, HTML email rejected by the
-> lists, and the documentation maintainer left out of the recipients.
->
-> Add Documentation/doc-guide/translations.rst, a guide that covers the
-> whole workflow of a translation: choosing what to translate, the layout
-> of a translated document (path, header, labels, citations,
-> cross-references, what must not be translated), translation quality and
-> terminology, adding the document to the build, checking it, preparing
-> and sending the patch, the review process, keeping translations up to
-> date and starting a new translation. The commit message format it
-> suggests is the one already recognized by tools/docs/checktransupdate.py.
->
-> Link the guide from the doc-guide index and from the translations
-> index.
->
-> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
-> Acked-by: Carlos Bilbao <carlos.bilbao@kernel.org>
-Acked-by: Dongliang Mu <dzm91@hust.edu.cn>
+On Fri, Nov 20, 2026 at 06:58:58PM +0100, Louis Chauvet wrote:
+> Debug information are mainly read by human, so use full name instead
+> of values.
+> 
+> Reviewed-by: José Expósito <jose.exposito@redhat.com>
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
-> Changes in v3:
-> - State the path-mirroring rule explicitly, and exempt documents that
->    exist only in a translation, such as a glossary or a language-specific
->    how-to (Chen-Yu Yeh, Dongliang Mu, Weijie Yuan).
-> - Make ":Original:" optional, needed only when the path does not mirror
->    the original, and drop it from the header example (Jani Nikula, Weijie
->    Yuan, Dongliang Mu).
-> - Drop the sections that duplicated Documentation/doc-guide/sphinx.rst
->    and Documentation/process/submitting-patches.rst, keeping only the
->    points specific to translations, and link to those documents instead
->    (Federico Vaga, Jonathan Corbet).
-> - Encourage translators to send a fix for the English original when they
->    find a problem in it while translating (Jonathan Corbet).
-> - Mention b4 as an alternative for preparing and sending a patch series
->    (Weijie Yuan).
-> - Drop avadhut.naik@amd.com from the recipients; the address bounced
->    twice on v2.
+>  drivers/gpu/drm/vkms/vkms_config.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+> index 03f2d0f0e327..44ded8a86a6e 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> @@ -391,8 +391,8 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>  
+>  	vkms_config_for_each_plane(vkmsdev->config, plane_cfg) {
+>  		seq_puts(m, "plane:\n");
+> -		seq_printf(m, "\ttype=%d\n",
+> -			   vkms_config_plane_get_type(plane_cfg));
+> +		seq_printf(m, "\ttype=%s\n",
+> +			   drm_get_plane_type_name(vkms_config_plane_get_type(plane_cfg)));
+>  	}
+>  
+>  	vkms_config_for_each_crtc(vkmsdev->config, crtc_cfg) {
+> 
+> -- 
+> 2.56.0
 >
-> v2: https://lore.kernel.org/linux-doc/20261015125644.12908-1-danielmaraboo@gmail.com/
-> v1: https://lore.kernel.org/linux-doc/20261013003702.5824-2-danielmaraboo@gmail.com/
-> ---
->   Documentation/doc-guide/index.rst        |   1 +
->   Documentation/doc-guide/translations.rst | 652 +++++++++++++++++++++++
->   Documentation/translations/index.rst     |   3 +
->   3 files changed, 656 insertions(+)
->   create mode 100644 Documentation/doc-guide/translations.rst
->
-> diff --git a/Documentation/doc-guide/index.rst b/Documentation/doc-guide/index.rst
-> index f078baddf..0016aed59 100644
-> --- a/Documentation/doc-guide/index.rst
-> +++ b/Documentation/doc-guide/index.rst
-> @@ -12,4 +12,5 @@ How to write kernel documentation
->      parse-headers
->      contributing
->      maintainer-profile
-> +   translations
->      checktransupdate
-> diff --git a/Documentation/doc-guide/translations.rst b/Documentation/doc-guide/translations.rst
-> new file mode 100644
-> index 000000000..1a77451aa
-> --- /dev/null
-> +++ b/Documentation/doc-guide/translations.rst
-> @@ -0,0 +1,652 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +====================================
-> +Translating the kernel documentation
-> +====================================
-> +
-> +The kernel documentation is written in English, and English is the only
-> +official version of it.  Translations exist to make that documentation
-> +accessible to people who are more comfortable reading in another
-> +language; they live under ``Documentation/translations/``, with one
-> +directory per language.
-> +
-> +This document explains how to contribute to those translations: how to
-> +pick something to translate, how a translated document is laid out, how
-> +to check your work, how to send it, what to expect from the review, and
-> +how to keep a translation current once it has been merged.  It also
-> +covers what is needed to start a translation into a new language.
-> +
-> +It does not replace the general documents on how to contribute to the
-> +kernel; a translation patch is a kernel patch, and everything described
-> +in Documentation/process/submitting-patches.rst applies to it.  What
-> +follows focuses on the details that are specific to translations and on
-> +the mistakes that most often cause translation patches to be sent back.
-> +
-> +Some translations have additional, language-specific guidance written in
-> +their own language; for example, the Simplified Chinese team maintains
-> +Documentation/translations/zh_CN/how-to.rst.  Where such a guide exists,
-> +read it as well.
-> +
-> +
-> +Principles
-> +==========
-> +
-> +Before starting, read the disclaimer in
-> +:ref:`Documentation/translations/index.rst <translations_disclaimer>`.
-> +Its main points shape everything else in this document:
-> +
-> +- **English is authoritative.**  When a translation and the English
-> +  original disagree, the English version is correct.
-> +
-> +- **A translation is not a fork.**  It must not add, remove or change
-> +  information.  If you find an error, an omission or an outdated
-> +  statement in the original, fix the English document first, with a
-> +  separate patch sent to the documentation maintainers.  Once that change
-> +  is merged, the translation can follow it.
-> +
-> +  Translating closely is also a good way to find problems in the
-> +  original: an unclear sentence, a stale reference, a missing word.
-> +  Send a fix for those too; it improves the documentation for every
-> +  reader, not only those of your language.
-> +
-> +- **Translation maintainers only accept translation work**: new
-> +  translations, updates that follow changes in the original, and fixes
-> +  to existing translations.
-> +
-> +- **Adapting is allowed; changing the meaning is not.**  Every language
-> +  has its own grammar and idioms, and a literal word-for-word rendering
-> +  is often wrong.  Rephrase as much as your language needs, as long as
-> +  the reader ends up with the same information as a reader of the
-> +  original.
-> +
-> +
-> +Before you start
-> +================
-> +
-> +Find the translation team
-> +-------------------------
-> +
-> +Each translation is listed in the MAINTAINERS file with a ``F:`` line
-> +pointing to its directory.  You can find the people responsible for a
-> +translation with::
-> +
-> +  $ scripts/get_maintainer.pl -f Documentation/translations/<lang>/
-> +
-> +Look at recent discussions on the linux-doc mailing list
-> +(https://lore.kernel.org/linux-doc/) to get a feel for how the team works,
-> +which conventions it follows and what reviewers usually ask for.  If you
-> +are unsure about something, ask on the list before investing a lot of
-> +work; translation maintainers are generally happy to help newcomers.
-> +
-> +Choose what to translate
-> +------------------------
-> +
-> +Good candidates are documents that many people read: the development
-> +process documents under ``Documentation/process/``, the admin guide,
-> +and the guides for writing documentation.  Long, rapidly changing or very
-> +specialized documents are harder to keep current and are better left for
-> +later.
-> +
-> +Check that the document is not already translated, and that nobody else
-> +is working on it:
-> +
-> +- look in ``Documentation/translations/<lang>/``;
-> +
-> +- search the linux-doc archive on lore.kernel.org for the file name; a
-> +  pending patch, or a recent review, means someone is already on it;
-> +
-> +- use ``tools/docs/checktransupdate.py`` to list the documents that have
-> +  no translation yet::
-> +
-> +    $ tools/docs/checktransupdate.py -l <lang> --print-missing-translations
-> +
-> +  See Documentation/doc-guide/checktransupdate.rst for the details.
-> +
-> +Avoid having several people translate files in the same directory at the
-> +same time.  The patches then tend to touch the same ``index.rst`` and end
-> +up conflicting with each other.  If you plan to translate a whole
-> +directory, say so on the list.
-> +
-> +If you are new to kernel development, start with a short document.  The
-> +first patch is where most of the process problems show up, and they are
-> +much easier to fix on a 60-line file than on a 2000-line one.
-> +
-> +Set up your environment
-> +-----------------------
-> +
-> +Translations are merged through the documentation tree, so base your
-> +work on its ``docs-next`` branch (the ``T:`` line of the DOCUMENTATION
-> +entry in MAINTAINERS gives its location)::
-> +
-> +  $ git remote add docs git://git.lwn.net/linux.git
-> +  $ git fetch docs
-> +  $ git switch -c my-translation docs/docs-next
-> +
-> +Some translations are collected in their own tree first; if the
-> +MAINTAINERS entry for your language has its own ``T:`` line, ask the
-> +translation maintainers which branch to use.
-> +
-> +You will need a working Sphinx installation to build the documentation.
-> +``tools/docs/sphinx-pre-install`` checks your system and tells you what is
-> +missing; Documentation/doc-guide/sphinx.rst has the details.
-> +
-> +You will also need to be able to send plain-text email with
-> +``git send-email`` or a mail client configured as described in
-> +Documentation/process/email-clients.rst.  The vger.kernel.org mailing
-> +lists reject HTML email, so replies sent from a web mail interface in its
-> +default configuration never reach the list.
-> +
-> +
-> +Anatomy of a translated document
-> +================================
-> +
-> +Location and file name
-> +----------------------
-> +
-> +A translation mirrors the path of its original under the language
-> +directory, and keeps the same file name::
-> +
-> +  Documentation/process/howto.rst
-> +  Documentation/translations/<lang>/process/howto.rst
-> +
-> +This is a rule, not a convention: do not translate file or directory
-> +names.  The documentation build uses this mapping to add, at the top of
-> +every page, links to the same page in the other languages, and
-> +``tools/docs/checktransupdate.py`` relies on it to find the commits a
-> +translation is missing; both silently stop working for a file whose path
-> +does not match.  Keep the translation at the matching path when the
-> +original moves or is renamed (see "Keeping translations up to date"
-> +below).
-> +
-> +A document that exists only in a translation, such as a glossary or a
-> +language-specific how-to, has no original to mirror and is exempt from
-> +this rule.
-> +
-> +The file header
-> +---------------
-> +
-> +Start the file with the same SPDX license identifier as the original.
-> +Most translations then include the language's disclaimer, in some form.
-> +For example, the Italian translation uses::
-> +
-> +  .. include:: ../disclaimer-ita.rst
-> +
-> +Some translations also carry a ``:Original:`` field naming the English
-> +path, for example ``:Original: Documentation/core-api/symbol-namespaces.rst``.
-> +It is only useful when that path does not match the translation's own,
-> +since the documentation build already links every page to its original
-> +through the path mirroring described above; add it only in that case. A
-> +plain path is enough: the build turns ``Documentation/...`` paths into
-> +links automatically.
-> +
-> +The exact header differs from one language to another: some include a
-> +disclaimer in every file, some only on their index page, and some list
-> +the translators while others leave contact information to MAINTAINERS.
-> +Copy the header of a recently merged document in your language rather
-> +than inventing your own, and adjust the relative path of any
-> +``include::`` directive to the depth of your file.
-> +
-> +If your language lists translators in each file, avoid duplicating
-> +information that already lives in MAINTAINERS.  Email addresses in
-> +documents go stale; MAINTAINERS is the place where they are kept current.
-> +
-> +Labels
-> +------
-> +
-> +Sphinx labels (``.. _label:``) are global to the whole documentation
-> +build.  A label copied unchanged from the original therefore defines the
-> +same name twice, which breaks the build or, at best, makes references
-> +resolve to the wrong document.
-> +
-> +- Labels placed at the very top of a file are usually not needed at all
-> +  in the translation; simply drop them.
-> +
-> +- Labels that are needed, for example because other parts of the
-> +  translated document refer to them, must be made unique by adding a
-> +  language prefix.  Each translation already uses one; look at existing
-> +  files to find it (``it_``, ``sp_``, ``cn_``, ``tw_``, ``pt_``, ...)::
-> +
-> +    .. _it_process_howto:
-> +
-> +- References to labels of the English documentation are fine and
-> +  expected.  When the target document is not translated yet, linking to
-> +  the English version is the right thing to do.
-> +
-> +Citations and other named targets
-> +---------------------------------
-> +
-> +Named citations are global as well.  If the original contains::
-> +
-> +  ... the C programming language [c-language]_ ...
-> +
-> +  .. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
-> +
-> +then a translation that keeps the name ``c-language`` produces a
-> +"duplicate citation" warning for every citation in the file.  Add the
-> +language prefix to both the definitions and their uses::
-> +
-> +  ... a linguagem de programação C [pt-c-language]_ ...
-> +
-> +  .. [pt-c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
-> +
-> +The same applies to any other construct that defines a name visible
-> +outside the file.
-> +
-> +Cross-references
-> +----------------
-> +
-> +Keep every cross-reference of the original, and decide for each one where
-> +it should point:
-> +
-> +- if the target document is already translated into your language, point
-> +  to the translation, so that readers stay in their language;
-> +
-> +- otherwise, keep the reference to the English document.
-> +
-> +Inside the translation directory, ``:doc:`` accepts paths relative to the
-> +current file, so a document in ``Documentation/translations/<lang>/process/``
-> +can refer to the translated ``howto.rst`` with ``:doc:`howto```.  Absolute
-> +paths such as ``:doc:`/process/howto``` always point to the English
-> +documentation.
-> +
-> +Translate the visible text of a reference where appropriate, but never
-> +the target::
-> +
-> +  :ref:`Criando um tracepoint <process/debugging/driver_development_debugging_guide:ftrace>`
-> +
-> +What must not be translated
-> +---------------------------
-> +
-> +Some content has to stay exactly as it is in the original:
-> +
-> +- literal blocks (``::``), ``code-block`` directives, command lines and
-> +  their output, log messages and code examples; they are copied verbatim,
-> +  including indentation and tab characters;
-> +
-> +- identifiers: function, structure, variable and macro names, Kconfig
-> +  options, file names and paths, command names and options, sysfs and
-> +  procfs entries;
-> +
-> +- the targets of references, URLs, and the arguments of directives such
-> +  as ``kernel-doc``, ``include`` or ``toctree``;
-> +
-> +- the names of tags and other fixed strings that people have to type,
-> +  such as ``Signed-off-by:`` or ``Reviewed-by:``.
-> +
-> +The text around those elements is translated as usual.  When a sentence
-> +quotes an identifier, keep the identifier and its markup and translate
-> +the rest of the sentence.
-> +
-> +Document structure and formatting
-> +---------------------------------
-> +
-> +Keep the structure of the original: the same sections, in the same order,
-> +with the same heading levels, and ideally the same paragraphs.  This makes
-> +the translation much easier to review, and much easier to update later,
-> +because a change in the original maps to an obvious place in the
-> +translation.
-> +
-> +Follow the usual rules for kernel documentation:
-> +
-> +- wrap lines at 80 columns; literal blocks, tables and long URLs are the
-> +  usual exceptions;
-> +
-> +- make heading underlines (and overlines) at least as long as the heading
-> +  text, taking into account that East Asian characters occupy two
-> +  columns;
-> +
-> +- use UTF-8, without a byte order mark, and no trailing whitespace;
-> +
-> +- keep reStructuredText markup valid.  Inline markup, such as emphasis or
-> +  inline literals, must be separated from the surrounding text by
-> +  whitespace or punctuation, and the word order of a translation can
-> +  change what surrounds it.  When markup has to be followed directly by
-> +  text, separate them with an escaped space (a backslash followed by a
-> +  space), which does not appear in the output::
-> +
-> +    ``vmstat``\ *, mas por processo*
-> +
-> +If something really needs to be explained to readers of the translation,
-> +such as a term that has no established equivalent, mark it clearly as a
-> +translator's note (``.. note::``) instead of mixing it into the translated
-> +text.  Use such notes sparingly; they are not a way to add content.
-> +
-> +
-> +Translation quality
-> +===================
-> +
-> +Faithfulness
-> +------------
-> +
-> +Compare your translation with the original paragraph by paragraph before
-> +sending it.  Look for:
-> +
-> +- sentences or list items that were skipped or added;
-> +
-> +- statements whose meaning has shifted, for example a relative pronoun
-> +  that refers to a different noun after translation, or a "should" that
-> +  became a "must";
-> +
-> +- numbers, versions, option names and paths that changed while being
-> +  retyped.
-> +
-> +Terminology
-> +-----------
-> +
-> +Use the same terms as the rest of the translation into your language.
-> +Before choosing a translation for a technical term, search the existing
-> +documents::
-> +
-> +  $ git grep -i "<term>" Documentation/translations/<lang>/
-> +
-> +Some teams maintain a glossary (for example
-> +Documentation/translations/zh_CN/glossary.rst); follow it if there is
-> +one.  Many English terms (kernel, patch, commit, driver, ...) are commonly
-> +used as they are by developers who speak other languages, and the
-> +translation should follow the established usage of the community rather
-> +than force a literal equivalent.
-> +
-> +If you disagree with an established term, propose a change separately,
-> +for the whole translation, instead of introducing a second term in a new
-> +document.
-> +
-> +Language
-> +--------
-> +
-> +Write natural, grammatically correct text in your language.  A reviewer
-> +who has to correct agreement, punctuation or word order in every
-> +paragraph cannot pay attention to the content.  Reading the rendered HTML
-> +page, rather than the source file, is a good way to catch awkward
-> +sentences.
-> +
-> +Machine translation and AI tools
-> +--------------------------------
-> +
-> +You are responsible for every word you submit.  If you use machine
-> +translation or an AI assistant, review and correct the result as
-> +carefully as if you had written it yourself; translations submitted
-> +without that work are unlikely to be accepted, and reviewers may ask how
-> +a translation was produced.
-> +
-> +The rules in Documentation/process/coding-assistants.rst apply to
-> +translations as to any other contribution; in particular, the
-> +``Signed-off-by:`` tag can only be added by the human who certifies the
-> +contribution.
-> +
-> +
-> +Adding the document to the build
-> +================================
-> +
-> +A new document has to be listed in a ``toctree``, or Sphinx warns that it
-> +"isn't included in any toctree" and readers cannot find it.
-> +
-> +Add it to the ``index.rst`` of the directory in your language, in the
-> +same position it occupies in the English ``index.rst``.  If the
-> +directory does not exist yet in your translation, create it with an
-> +``index.rst`` of its own and link that index from the parent one.
-> +
-> +Some translations keep a list of documents that are not translated yet
-> +in their index files.  If yours does, remove the document from that list
-> +in the same patch.
-> +
-> +
-> +Building and checking your work
-> +===============================
-> +
-> +Follow Documentation/doc-guide/sphinx.rst to set up and run the build,
-> +and to look at the generated page.  The one thing specific to
-> +translations is which build to run: build the complete documentation
-> +with ``make htmldocs``, not only your language with ``SPHINXDIRS``::
-> +
-> +  $ make SPHINXDIRS=translations/<lang> htmldocs   # fine while working
-> +  $ make htmldocs                                  # required before sending
-> +
-> +A partial build does not contain the English documents, so it cannot
-> +detect labels or citations that collide with them, and it reports every
-> +reference to an English document as unknown, which hides real problems
-> +among the noise.
-> +
-> +The full build already produces some warnings that have nothing to do
-> +with your change.  Compare the warnings before and after your patch to
-> +check that you did not add any, remembering that ``make cleandocs`` is
-> +needed first, since an incremental build does not repeat warnings for
-> +files it did not rebuild::
-> +
-> +  $ make cleandocs && make htmldocs 2>&1 | tee ../before.log
-> +  $ git am my-translation.patch      # or switch to your branch
-> +  $ make cleandocs && make htmldocs 2>&1 | tee ../after.log
-> +  $ diff <(grep -E 'WARNING|ERROR' ../before.log | sort) \
-> +         <(grep -E 'WARNING|ERROR' ../after.log | sort)
-> +
-> +Also run ``tools/docs/checktransupdate.py`` on your file, to confirm it
-> +recognizes the translation, and ``scripts/checkpatch.pl --strict -g
-> +HEAD``, as for any other kernel patch (see
-> +Documentation/process/submitting-patches.rst).  The checkpatch warnings
-> +most often seen on translation patches are:
-> +
-> +- a missing SPDX license identifier;
-> +
-> +- lines longer than the limit;
-> +
-> +- a missing commit description;
-> +
-> +- "added, moved or deleted file(s), does MAINTAINERS need updating?";
-> +  this one can be ignored when the translation directory is already
-> +  covered by a MAINTAINERS entry, which is the case for all existing
-> +  translations.
-> +
-> +
-> +Preparing the patch
-> +===================
-> +
-> +Scope
-> +-----
-> +
-> +Send one document per patch.  Several related documents can be sent as a
-> +patch series, with one patch per document.
-> +
-> +Never mix changes to the English documentation and to a translation in
-> +the same patch.  They are reviewed by different people, and the English
-> +change may need several revisions before the translation can follow it.
-> +
-> +Subject line
-> +------------
-> +
-> +Use the prefix that your translation already uses; ``git log --oneline
-> +-- Documentation/translations/<lang>/`` shows it.  Examples of prefixes
-> +currently in use are ``docs/zh_CN:``, ``docs/zh_TW:``, ``doc:it_IT:`` and
-> +``docs: pt_BR:``.  Then describe the change briefly::
-> +
-> +  docs: pt_BR: translate process/programming-language.rst
-> +
-> +Commit message
-> +--------------
-> +
-> +Write the commit message in English, so that everybody involved in
-> +merging the patch can read it.  Say which document is translated or
-> +updated, and on which state of the original the translation is based.
-> +The ``checktransupdate.py`` script recognizes this sentence, followed by
-> +the abbreviated (12-character) hash and the subject of the last commit
-> +that changed the original::
-> +
-> +  Update the translation through commit 1234567890ab
-> +  ("docs: some subject of the last change to the original")
-> +
-> +With it, the script can tell exactly which changes to the original are
-> +still missing from the translation, even if the translation was written
-> +long after that commit.  The hash and subject are shown by::
-> +
-> +  $ git log -1 --format='%h ("%s")' --abbrev=12 -- Documentation/<path>.rst
-> +
-> +Tags
-> +----
-> +
-> +Tags go in a single block at the end of the commit message, as described
-> +in Documentation/process/submitting-patches.rst.  ``Signed-off-by:`` must
-> +carry your real name.
-> +
-> +When you send a new version of a patch, keep the ``Reviewed-by:`` and
-> +``Acked-by:`` tags you received for it, unless the patch changed
-> +significantly since they were given.
-> +
-> +
-> +Sending the patch
-> +=================
-> +
-> +Recipients
-> +----------
-> +
-> +Run ``scripts/get_maintainer.pl`` on the patch to get the list of
-> +recipients::
-> +
-> +  $ scripts/get_maintainer.pl 0001-docs-pt_BR-translate-something.patch
-> +
-> +For a translation this normally includes the maintainers of the
-> +translation, the documentation maintainer and the linux-doc mailing list.
-> +Send the patch to all of them; leaving out the documentation maintainer,
-> +who applies most translation patches, is a common way of getting a patch
-> +ignored.
-> +
-> +Sending
-> +-------
-> +
-> +Follow Documentation/process/submitting-patches.rst to send the patch,
-> +and any new version it needs after review, the same way as for any other
-> +kernel patch.  Many contributors use ``b4 prep`` and ``b4 send`` to
-> +prepare and send a patch series; it handles threading and version
-> +numbering automatically, which helps avoid duplicate subject lines and
-> +broken threads when resending.
-> +
-> +
-> +The review process
-> +==================
-> +
-> +Translation patches are reviewed by the translation maintainers and by
-> +other speakers of the language, and are usually applied by the
-> +documentation maintainer once the translation maintainer is satisfied.
-> +A ``Reviewed-by:`` from the translation maintainer is usually the signal
-> +that the patch is ready.
-> +
-> +Reviewers typically check:
-> +
-> +- that the patch applies and builds without new warnings;
-> +
-> +- the file header, labels, citations and index entries described above;
-> +
-> +- faithfulness to the original;
-> +
-> +- grammar, style and consistency of terminology;
-> +
-> +- the commit message and the tags.
-> +
-> +Everyone is welcome to review translation patches.  Reviews from other
-> +speakers of the language are valuable, and reviewing other people's work
-> +is also one of the best ways to learn the conventions of a translation.
-> +If you have checked a patch carefully and agree with it, say so with a
-> +``Reviewed-by:`` tag.
-> +
-> +Be patient.  Translation maintainers are volunteers, and it can take a
-> +week or two to get an answer, more during the merge window.
-> +
-> +
-> +Keeping translations up to date
-> +===============================
-> +
-> +The English documentation changes all the time, and an outdated
-> +translation can be worse than none.  ``tools/docs/checktransupdate.py``
-> +lists, for each translated file, the commits to the original that are
-> +not reflected in the translation yet::
-> +
-> +  $ tools/docs/checktransupdate.py -l <lang>
-> +  $ tools/docs/checktransupdate.py Documentation/translations/<lang>/process/howto.rst
-> +
-> +To update a translation, apply the same changes that the listed commits
-> +made to the original, and nothing else.  Mention those commits in the
-> +commit message, ending with the "Update the translation through commit"
-> +sentence described above, so that the next run of the script starts from
-> +the right place.
-> +
-> +When an original document is moved or renamed, move its translation in
-> +the same way, so that the paths keep matching.  When an original is
-> +removed, remove the translation as well.
-> +
-> +
-> +Starting a new translation
-> +==========================
-> +
-> +A new language is a long-term commitment: someone has to review
-> +contributions and keep the existing documents up to date for years.
-> +Before starting one, discuss it on the linux-doc mailing list.
-> +
-> +The first patch series of a new translation should contain a small number
-> +of carefully translated documents that build without warnings, plus the
-> +infrastructure that every translation needs:
-> +
-> +- a directory ``Documentation/translations/<ll_CC>/``, named after the
-> +  language and country codes (for example ``pt_BR``);
-> +
-> +- an ``index.rst`` for the language, with a translation of the disclaimer
-> +  in :ref:`Documentation/translations/index.rst <translations_disclaimer>`,
-> +  usually in a separate file included by the index;
-> +
-> +- an entry in the ``toctree`` of Documentation/translations/index.rst;
-> +
-> +- an entry in the ``all_languages`` dictionary of
-> +  ``Documentation/sphinx/translations.py``, which produces the language
-> +  links at the top of each page.
-> +
-> +The last two lists are sorted alphabetically by the English name of the
-> +language; keep them that way.
-> +
-> +Look at the index of an existing translation as a model.  Note that the
-> +``raw:: latex`` directives found in those files select the fonts used for
-> +the PDF output, and that languages written with East Asian characters
-> +need different settings from the others.
-> +
-> +A MAINTAINERS entry for the new translation is not part of the first
-> +submission.  It is something that is earned by demonstrated, sustained
-> +effort, and is best discussed with the documentation maintainer once the
-> +translation has been around for a while.
-> +
-> +
-> +Checklist
-> +=========
-> +
-> +Before sending a translation patch, check that:
-> +
-> +- the original document is not already translated, and nobody else is
-> +  working on it;
-> +
-> +- the file mirrors the path and name of the original;
-> +
-> +- the header follows the conventions of your language, starting with the
-> +  SPDX identifier;
-> +
-> +- top-of-file labels from the original have been removed, and every
-> +  remaining label and citation name carries the language prefix;
-> +
-> +- references point to translated documents where they exist, and to the
-> +  English ones otherwise;
-> +
-> +- literal blocks, code, identifiers and reference targets are unchanged;
-> +
-> +- the structure of the original is preserved and lines fit in 80
-> +  columns;
-> +
-> +- the translation is faithful, grammatically correct and uses the
-> +  established terminology;
-> +
-> +- the document is listed in the right ``index.rst``;
-> +
-> +- the full ``make htmldocs`` build adds no warning, and the HTML page
-> +  renders correctly;
-> +
-> +- ``scripts/checkpatch.pl --strict`` is clean;
-> +
-> +- the commit message is in English, describes the change and says on
-> +  which commit of the original the translation is based;
-> +
-> +- all tags are in one block and ``Signed-off-by:`` uses your real name;
-> +
-> +- the patch goes to everyone listed by ``scripts/get_maintainer.pl``, as
-> +  plain text.
-> diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
-> index b6d24f6f1..181e45fbf 100644
-> --- a/Documentation/translations/index.rst
-> +++ b/Documentation/translations/index.rst
-> @@ -57,3 +57,6 @@ in a different form.
->   If you need to communicate with the Linux community but you do not feel
->   comfortable writing in English, you can ask the translation's maintainers
->   for help.
-> +
-> +If you want to help translate the documentation, see
-> +Documentation/doc-guide/translations.rst.
 
+Reviewed-by Oarora Etimis <oaroraetimis@gmail.com>
