@@ -1,123 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795446404;
-	b=2Fey3gELzFzFpRwBeTx/wuvT/fgpQWyRyyjdIbkPrYq+i+UM9GEZj5MB44Z3cCzQLfUO
-	 dmV8Clw+7cNpXMmOwdOSoLAqJdNOMzMem+8vg7JrqsD4GsJO0CvBWvsjGzU6zj3gycVnw
-	 Kg+8MbtM6XakyVQ1iNW18rSg0N8sydkumsjQwtrMzEJp5orhPjDwbpiW8XkReQYmP68gy
-	 uPfS71pjqCNr2MUp4z6jgL4uI9Zlx3kVWkqbyKljKF5MP9YXQThgRJp6In64wKoOn9OcQ
-	 fLpD5uFjBnY0hCfVzbheaooPUk2L3qBq+PvhxvfHOrUSq+3ZKTacpZNROKhxpQF4MZg==
+	t=1795446586;
+	b=1IXKWd2z+BCIA/Dya2hw1ELupjBw9Nb9bYJRDLA4luZymftHIhwWYeIQ327UindjL9Hs
+	 WqV9ew5epBs706pEjuWReQCRtT7XEJ1rOxywGu3s893rqY2owAL98ee/VjLCEYX/uRGZj
+	 kHPsldJD5xFeu+E4xOcBJwt4tw8QD5gDrXedlh7tKvtDVWhF48EcNP+rCmkQvUjBL6SMw
+	 eSvoIP68nu7wz47IdCe7DNrBZHHpu6sJI9klOYJXb7Ud7/w4KghtCcj6tAtUjryp4U829
+	 6zCBLO1C7tVL/12puyLppxKPw3uNKY1Uox+o7J162tarfKOxsRRhFJQjj3gFrN28CWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795446404;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding;
-	bh=EC2mcbhZaUCQFFpEa+7YYJ6zsvThGtcbiOMpvNNHs8M=;
-	b=ujz2Kxsbfu0sX8Hv3Alv87obo/sPfOOdwbHqA47vTw23Ml9ZB3Q4QuwtPH//3aug8qZ8
-	 4US6TomkiC0p5QVOWS/2oguHnJdA0NXn+99KQ7/WW4isfYXvnQOkPJOsKNNJbTK68J5xm
-	 638jUuLnEKoMIzSbLlBtB6EmEWQy6TYHElIGx0qs5Cf286omdz4hOHse+doBjdXavz+sj
-	 F5+3jOYQosoy8dgduOw8gkC0NWTm57vWomMzbue1xf/jqWuAa5YOtbPL5iN94R9JlOTAS
-	 PEbqepDT8jd7li+2gV9ZVnNpbJFIfvDgAvOruZ0BJNEQG9KMo1BG/QXVGWJ7f0d/YvQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795446586;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=dnrRfjLKmIHDzHFw2YMyKPd3bYE0BLJV4hjG0NzpuHY=;
+	b=Jd6OFtQMPmUj2kCkK0IhAO4w7pgXveAzDelTzTmrmRwqfPz5/pS9YlUWsrwWAa6hJU8/
+	 NMddgnss2SjVIsxNs0Z3K3rUEPinwBJcUVw61T6wU758V9H8e0EIn+AD7mAvlodoWN4Aq
+	 ItR2ssAuqgLQwvwRENv9pk+tVbEa0UOFUcTEvpqXHJ1QDhwFHOuAV1kY7Alz/iSWCksJz
+	 UH3ayA8Q32ER+Lrm7PE2iOhF+yP7J0ujh5KHOSevAP1XCvMYC/TP4Pu+2TGa7P+Nvt/+A
+	 Q/JtA+aqsyTDNmy/xHAzVncEJ8h9QN/5hHlR5dSN8kfM5lOrD9sbkDXOfjp4+jLo2cA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="p/gPGOl2";
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B9x6wQRX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA63606A31E
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 15:06:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FA63606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1615606A31E;
+	Mon, 23 Nov 2026 15:09:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p/gPGOl2
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so33277825e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 07:06:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795446403; x=1796051203; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EC2mcbhZaUCQFFpEa+7YYJ6zsvThGtcbiOMpvNNHs8M=;
-        b=p/gPGOl2AjZNLZFe6F4Wk681dmbZdcCIz/meIO31oOhZZGXQt3h6/CMRVP/Jqp+/v8
-         IsFfPQtxZCjUFyGSLQi/YuFxseavi3mwMYnG5JH/pwXsru4f3M9Qvf4lmt1jiy+/VEun
-         AIDSeXfBCksOEUfxvtc0HADMAJsewLbe+jNj0twQAuG0tKLAMqxsZVEII2eQN35R4t9A
-         LJCIYmvtu45Q3uCX0i9+/G3L3BWdVi1afYT6vqANYc0LP8WWtjS21oC95qizuEh7FFDT
-         qcl7D7V3Jar7IU7D+knRUXQXk6di7CfOrhtcinnOVqw8ws98NTu9bpZUbmROVTPz55zS
-         pk1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795446403; x=1796051203;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=EC2mcbhZaUCQFFpEa+7YYJ6zsvThGtcbiOMpvNNHs8M=;
-        b=KdH9CMImRv5ngsj585mkuETUZvWPNzBM6ESMnl2LFdyNPPwTlrofQeQYaagyi+knoO
-         yYHrObAQTGFaW3UpQfNWQPcMFYFrlmQ7hTE1CDWv/wvSwi6c/vBNSgc24bKQxqAx2kIW
-         hiZM2tOGh41QSrpMSUmskGajRoPQqUApmtZOu+Lipdbvzt2SZGIxcH7+ViUUtxgo7ib6
-         NSuOm2SFiYKwgcRD0tSspl0WQQc+KVI7VRxQte9v6pkwXrRxvKmtXqS9jByhUUyuQtka
-         l+WNF6RdjvzQoIyUU5gHGwmqTgjabjyE/ziuf0e1zjA9oFK6wHFZXtnr3BPSB1VTP/Tb
-         bhqg==
-X-Forwarded-Encrypted: i=1; AL+hErHX1POQAoE5sXGUiSPpXkp0yiRRNk+08VYn4tutHa/9qduJ7HtsPx0/piAaYlVoFCxmC1RWBJnc22g=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9IA9mPJSDB2BvLq9sTeTVfc0uhpi/EFLRXM86OVpvCYosFdH/R
-	YVHn/4LJwjVYAqu0aCwI77sEUC5d1/HpM5Kvqpx3MmOHD0hp+RPXNrKH
-X-Gm-Gg: AZFdTZfkFiGRRTsPP+Yg7Z7f457o2BJhCztwH2Fr2GHsEjPj5+XsDxS+ELfU5z1jiI/
-	fz+xwiHkWXJeYB+vj+zQv4lU8eymQF4XPkY8p1pZyazTWN34edgsfIyf/XDEhhvKYzG/IYa9Z1B
-	3SNLpr+U4FVIQjbqR6iL9xWC7MMuL8W06MMKFfA+jGgS/bTbhoPgesTWTnFeas3ieF2UyavHnZz
-	vC61oi4m7dX4zK7oLp3pF6qD2kv/14AlBYqiyErK1mBEQSnNeuSjks1lfN4S/VqAUlb0y9fxKwd
-	3/fufTSY31UxPUhhZbIlqzyPJipTpJpjdPIdxJCxFCyqmzQ3Lm8M0gxT93GP2gKZDjYf8PSODsz
-	UJFd0c8sHZ4BIY0GWXUwTZUHoeJea7oM3EbQkAoeYBMyEO+yBu5RppdO2bPkAO//p5hPojYUZu8
-	B86UpNfLxdp1RxPwKsbx9md6YUq/93QSVl/lRBEL9/3/kTulfy0K4D350iZLNvOjFMv5JtYOQJE
-	tkYmdX1RpK+kfxKAXO1yMdrFnZNfywRkTadB3OPZm8kQM3OcVgrxWUrucU6MOvmZd2UM2cjpkDD
-	C7UY2Q2mg5dx7X21lbLTmm6Xt0jVeDI1IA==
-X-Received: by 2002:a05:600c:4755:b0:4bb:7033:de79 with SMTP id 5b1f17b1804b1-4bb8881dd02mr248093335e9.35.1795446402877;
-        Mon, 23 Nov 2026 07:06:42 -0800 (PST)
-Received: from ArchOarora ([2001:19f0:6c01:2c43:5400:5ff:fef6:1b30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6bb989b3sm22848177f8f.51.2026.11.23.07.06.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 07:06:42 -0800 (PST)
-From: Oarora Etimis <oaroraetimis@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	jose.exposito89@gmail.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Lucas De Marchi <demarchi@kernel.org>,
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	sebastian.wick@redhat.com,
-	victoria@system76.com,
-	thomas.petazzoni@bootlin.com,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v6 18/43] drm/vkms: Introduce config for plane name
-Date: Mon, 23 Nov 2026 16:06:14 +0100
-Message-ID: <awRWEiYaktJcbFfU@Oarora>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <18c7d8af-1156-4bee-be0d-f78334d1908d@bootlin.com>
-References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com> <20261120-vkms-all-config-v6-18-78ace90f4fc1@bootlin.com> <awRQxKxzVyw10pFr@ArchOarora> <18c7d8af-1156-4bee-be0d-f78334d1908d@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B9x6wQRX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4A2F1F000C6;
+	Mon, 23 Nov 2026 15:09:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795446586;
+	bh=dnrRfjLKmIHDzHFw2YMyKPd3bYE0BLJV4hjG0NzpuHY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=B9x6wQRXV+lRd06FkMrkTcZJeaS8e3jKOIyXDTANXZqBMOvrR7KOjDyWtCjEChBDL
+	 j5Y71qINNgguMOorYNzL7fKWDS1xnps2HarzILPgiCJxVqW9l/EC7xCStdAaT/eej2
+	 RJyu8K2qXQou6Nv7kib6MPEB7zCBTWIZYIEwOLADYEg6x/lWkemMCtYlnUVk+utNKl
+	 LWINkzV/1Ome0GRNKk4Mwe/dZFz44LhqCnu7ys9jz8oLXgsulh3anRrU76m0FTriFc
+	 32562AhcsRlcrH3xdfq4ALU+mZnwxHQP766Mmn+QFltMAR685VD564pFHboFGfb1qm
+	 s/gtz/HsAkX0g==
+Date: Mon, 23 Nov 2026 15:09:37 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Fuad Tabba <fuad.tabba@linux.dev>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexandru Elisei <alexandru.elisei@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, kvmarm@lists.linux.dev, 
+	Wei-Lin Chang <weilin.chang@arm.com>, Anup Patel <anup@brainfault.org>, 
+	Atish Patra <atish.patra@linux.dev>, kvm-riscv@lists.infradead.org, Will Deacon <will@kernel.org>, 
+	Fuad Tabba <tabba@google.com>
+Subject: Re: [PATCH v3 2/3] KVM: Warn userspace against ioctls while an exit
+ is pending
+Message-ID: <awRKhCne0gG1gKZN@gremlin>
+References: <20261123113435.1170711-1-fuad.tabba@linux.dev>
+ <20261123113435.1170711-3-fuad.tabba@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -127,11 +65,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261123113435.1170711-3-fuad.tabba@linux.dev>
 
-> Can I keep your R-by with this change?
+On Mon, Nov 23, 2026 at 11:34:34AM +0000, Fuad Tabba wrote:
+> KVM_PRE_FAULT_MEMORY sets run->exit_reason to KVM_EXIT_DIRTY_RING_FULL
+> when it stops on a full dirty ring. If an MMIO exit is pending at that
+> point, the next KVM_RUN on arm64 and riscv doesn't complete it. Rather
+> than document that case alone, which could suggest that other ioctls
+> are safe, warn against invoking any ioctl other than KVM_RUN before a
+> pending exit is completed.
+>
+> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Fuad Tabba <fuad.tabba@linux.dev>
 
-Yes, please.
- 
+Very much agree with Sean's take here that we should instil sufficient fear in
+users at doing silly things (also in general not only KVM :).
+
+I wonder if we could add some specific examples or broad description of why it's
+unwise for better effect, though? Comments below.
+
+In general though:
+
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
+> ---
+>  Documentation/virt/kvm/api.rst | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 89eb6be9bc6e3..980ef0cdc1c91 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -6974,10 +6974,13 @@ to the byte array.
+>
+>        The pending state of the operation is not preserved in state which is
+>        visible to userspace, thus userspace should ensure that the operation is
+> -      completed before performing a live migration.  Userspace can re-enter the
+> -      guest with an unmasked signal pending or with the immediate_exit field set
+> -      to complete pending operations without allowing any further instructions
+> -      to be executed.
+> +      completed before performing a live migration.  In general, userspace should
+> +      exercise extreme caution when invoking ioctls other than KVM_RUN prior to
+> +      completing the original operation.
+
+Perhaps worth saying why? E.g. (as I understand it) that for these exits the
+operation is only completed on the next KVM_RUN, and that KVM relies on state
+left over from the exit (including parts of struct kvm_run such as exit_reason)
+to do so, so any ioctl invoked in between might clobber that state?
+
+I see you intentionally avoided documenting the pre-fault case on its own, but
+with the above stated I think a concrete example might be example here, like
+e.g.:
+
+"For example, if you were to ... that would result in ... which would absolutely
+ruin your day because ..."
+
+Kinda thing :)
+
+
+> +
+> +      Userspace can re-enter the guest with an unmasked signal pending or with
+> +      the immediate_exit field set to complete pending operations without
+> +      allowing any further instructions to be executed.
+>
+>  ::
+>
+> --
+> 2.47.3
+>
+>
+
+--
+Cheers, Lorenzo
