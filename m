@@ -1,78 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.204.34.129
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.217
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795403395;
-	b=1i+4U5rbZsinrVtPcXCpauhTQLt7qoombjcLIqz8mK2Kk4imyDP7iGoc1Hw87ZgAgzCw
-	 aX85gV6hEAUD/iW2cAPKlYwmbw8gaHIlvjglXXrXp4VgX0giElvX7EBvyQcZvtjAiUK2y
-	 Tldn+0b2n+YJBoGS+ueNDeHLL+1CSDHgJMntbxTjDQvrIYaG3W/Hz32cFIrwDfL7IZJNs
-	 wm/stcyBuxlvJxI+ZNnzKwF0AAqWbZZwZ7PmQS/qVuZmTPUa9yq1s4Vb82dXBcxy3rZz6
-	 PBpf3CRsRmwIJBPXwFULwAONTx9WJt1kOKhjvZFdUBPq8pAXAuotgzXZNRgTzDKXIMg==
+	t=1795404757;
+	b=LA0wMTPjiIE8WA6oWW7kk5ZAerhbeqmGpdE1kY4K9R4GB2LizzYKWq+UKdwjZLmTx+vB
+	 C4EQi1EsCzzqh8riK3W9XxBsF7iiUyTveDXS4tAvC8MHD4hgiL8E63/4E+qrj1SJExCbd
+	 AFuEwanuysSKkjk/QSDt3syEvMSzmJLnete5w0Hi3A+lnOEXOil/sv1igw03u513lmNby
+	 s/5NWbfIR+TnjMg3yEjFUH0tc5kalc+bj0JrMRJIzF8/qbDsb6KHV6+jx1OGRlieuVB/Y
+	 3IA3U19Pc8M3LPxqXj3PhXw+crW/vVm46k3gwtXuwP9avj9g//ZvA0wDnXepi4gdDsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795403395;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795404757;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:
 	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
-	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=oNfCshgfylwcbv5xC9TWUsVsDyDxPcrICrC9vT/UFVQ=;
-	b=L3c5fscJhe8n++pjIBvNG+WLR2640YLWLhZ8AED9VBXU02q9I4QRk/c9N4/40oEZaszi
-	 rPHT675sGmTuSOYD6h1bLkLym9OfmR3rwtMeXG+JsiYmsjP9V6beNZLGH1KEJyvETQKKC
-	 Ygjui8UDv6zrXw/7KmUMfc38Ds3CkQPiffADS5MHUFdN8UQ+oTCyaqXweMRvO9yatXHEh
-	 Hf8fQeRwtAlRd6ssPA6Y+gK3r4PY1/fWNhiT4evEBwVQy3owG+k/hLYNHPGNtLVUYDKuA
-	 LqLQBwIRIsuH5BA03JjZ2j4SiKvD+4o6tYEHBVj5VL2HmReODrOsCIT69J8oQMZVxMQ==
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=HTuc4PPVjvPSPrnzlo65kpf6x+DRB3BoRJK0cybPyUc=;
+	b=rmiTNNWaWHVC+Rsz4YAnMctQQ8ZtAITN+ToWTOqaQaihhSPAePrFNOXzfePzNu8hbtkm
+	 hjEOUn4aaGKaqhxr3HJhyTfjnFMIoCAp+FybF/WDp/6th+LVSWIiroEyTh53dik6yklup
+	 JrQsbgJ38OcBbKyWBiasWxH5qMM6D6r+FHQLucN/UqbJ4dYviT1RzvZ0lhdp+9kG6wUf2
+	 N0G8i/dbaVMN7hDDr0/xSWor60rRo/e8HwQaD2sPSvVc8sRdx3sBp70vnUs6O7EAfbaVO
+	 MCwG8XTcVq08eh6gxsUtSwL/m8pcjYjxbN1Rj19REX8tkhugXnlmJVC/LjpFzl73IRA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=uniontech.com;
-	spf=pass smtp.mailfrom=uniontech.com;
-	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=V+h2ShV3;
-	arc=none smtp.remote-ip=54.204.34.129
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Ypsah1jH;
+	arc=none smtp.remote-ip=113.46.200.217
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7ABC606A31A;
-	Mon, 23 Nov 2026 03:09:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7ABC606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA65606A31A;
+	Mon, 23 Nov 2026 03:32:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4DA65606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=V+h2ShV3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1795403358;
-	bh=oNfCshgfylwcbv5xC9TWUsVsDyDxPcrICrC9vT/UFVQ=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=V+h2ShV36q7W84wvDn5DE9l7+VNJFpAcIwzbLn/qbNVafCAvu2CeSHyCL8XjdJ7aq
-	 935Y9QkCNxv5hg4/H6kaNoTNA/OxnXPwliIovTtd2WsSDJdjwMCtMATIZVNG3UlSm1
-	 hCRoOFIRNlb6HvLppob1oJTsx6E4PEgr1ABW4abw=
-X-QQ-mid: zesmtpsz2t1795403352t73ab4d9c
-X-QQ-Originating-IP: oyGw9ttpeTpeqils+8yDH5/B7JsCcA7IMaplBy638c0=
-Received: from PECI3347 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 23 Nov 2026 11:09:06 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 919220475888949696
-EX-QQ-RecipientCnt: 18
-From: zhaozhengzhuo <zhaozhengzhuo@uniontech.com>
-To: linux-mm@kvack.org,
-	linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	zhaozhengzhuo <zhaozhengzhuo@uniontech.com>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Mike Rapoport <rppt@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Subject: [PATCH v2] Docs/mm: fix stale split page table lock references
-Date: Mon, 23 Nov 2026 11:09:03 +0800
-Message-ID: <6E11B4A6A6E0DCF9+20261123030904.57369-1-zhaozhengzhuo@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Ypsah1jH
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=HTuc4PPVjvPSPrnzlo65kpf6x+DRB3BoRJK0cybPyUc=;
+	b=Ypsah1jHxA0fC+6TtqOU7fe6cKNpFUlt2u9yxuH8l/CyfzcHuYy+3kksNxTlrniD4ZRy69ugW
+	CLd3rgkeYxYRqJxMaxf/n1boqVwv8sqQ27E9BvaCyx2NfG4PUynq0wjsHpP0nhbEBDKWIDqIAO+
+	GBdTWGgyWG5LIomVqswrGcI=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4jXs193VM5zcbS2;
+	Mon, 23 Nov 2026 11:31:25 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id C45C340537;
+	Mon, 23 Nov 2026 11:32:26 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 23 Nov
+ 2026 11:32:25 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<james.morse@arm.com>, <rppt@kernel.org>, <arnd@arndb.de>,
+	<kmehltretter@gmail.com>, <dapeng1.mi@linux.intel.com>, <elver@google.com>,
+	<enelsonmoore@gmail.com>, <bp@alien8.de>, <jlayton@kernel.org>,
+	<catalin.marinas@arm.com>, <sean@starlabs.systems>, <will@kernel.org>,
+	<jonathan.cameron@oss.qualcomm.com>, <tzungbi@kernel.org>, <kas@kernel.org>,
+	<steven.price@arm.com>, <chenhuacai@kernel.org>, <tzimmermann@suse.de>,
+	<wenst@chromium.org>, <ruanjinjie@huawei.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<vladimir.murzin@arm.com>
+Subject: [PATCH] arm64: sdei: add sdei_nmi.disabled= to keep the GIC NMI path reachable
+Date: Mon, 23 Nov 2026 11:32:22 +0800
+Message-ID: <20261123033222.1067923-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,75 +76,124 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz5b-2
-X-QQ-XMAILINFO: NHDJBjaQv4EtxhMPydh/IDyd6L3yTQRF632UhwULb8u7W6ttwPhUXYZ8
-	Xhog0MU7BoOZnJYpJN74QU0ZNoOyZc+qN1g4Zu4xSqYlK1yXVg49MqF8WfaVrYrDiWSeMiJ
-	tLD/64XejCu9gWyyRO620jkXJg13snvgoyCYIbp8+OyQfzPrSFwXz4f8MHa5FCUE+8b/jDG
-	P9DLsF7ViPEyCG6ae0kL0E+K40Qo+rB18rHS/6Msp/c4T0iwthqexrHrn/Q8RsFjYds1TEw
-	yQ8bWmpG0kJ3m133u5sQ8RQl0Avs2AVdXf1vzkaO0epOr6+qd2HC+4eHfmT62aEkWZ4IVmc
-	Gmj+IqMoYwFhrYBbnfw10AdS7O91VeiP44jPyecty/2foeHQELZ2uz6YgnQ4uWNsCLfQrH+
-	43gqO8X4fB/cjyJW/E2WUBXorc9xg177x6X5HfM3uR7YDTRrxHEaYbK05Fx6rzYuwM2vtZR
-	g8u3oiE1c7XnbMlgwZA9Hv8qt3vCdj00BhjellhJ1H1gFmbLG0gTIgJ2v7RBew8cTewFD+q
-	CnWpITN2FdbLig/0l+MuGVsS0RHJR8v3rmZEhryWDOpZY9DXqfFMDU9REeuZe8/z6OwSGmp
-	cCUD7yL+XfJZOtFtEzDc8/STFh5S0tucu97NYtJVoXqwtIQq0RNTZ4nekufKym5JmPLIfYP
-	LtGi78/R3d6b7XiNKryzcZGb4qE0EmwEQAr6hiof/eqvcfOipc3FX7xO5mQqsC0mWL1guYq
-	Bg+mcOswXb0QYuWhaPoOyzvFIg0Zq639cEPTJgHDNHYmma9im7kcvQlKSIAAs8kOeQobvxR
-	D3VhDcRu46+0p3ShZR0sQOCZtpvMoMrbWaNcrEsEU8l+fKzkj51EKgTzn917KDCSEnz0Wld
-	bVjegBKqeAFyaZNsDe3GxO5b0PzoCpSuu15rjZ4acreq8dDIXHTCt1lAZ8CWAhPXCjjs8Ls
-	yINfGma+4VJmE1y4lqZ9ziiPSZ650VGWNYflqXXELEBjCxg0KjmdWosbXwOby6EowvDUwnv
-	upES0xnP7ctQg9Dz0hL+syJG7FC2I=
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-The USE_SPLIT_PTE_PTLOCKS and USE_SPLIT_PMD_PTLOCKS macros were turned
-into Kconfig options, and CONFIG_SPLIT_PTLOCK_CPUS was replaced, but two
-Documentation/mm files still refer to the old names.
+While the SDEI cross-CPU NMI is active it claims every cross-CPU
+backtrace, so on a platform whose firmware exposes SDEI event 0
+the irqchip NMI path can never be used.  There is no way to opt out.
 
-Update both references.  Point readers to mm/Kconfig for the dependencies
-instead of restating information that can become stale.
+Add a boot parameter "sdei_nmi.disabled".
 
-Fixes: 394290cba966 ("mm: turn USE_SPLIT_PTE_PTLOCKS / USE_SPLIT_PTE_PTLOCKS into Kconfig options")
-Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-Signed-off-by: zhaozhengzhuo <zhaozhengzhuo@uniontech.com>
+With sdei_nmi.disabled=1, the SDEI NMI stays registered and simply
+declines every request, so arch_trigger_cpumask_backtrace() falls
+through to its IPI path and smp_send_stop() skips its SDEI rung.
+
+Suggested-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
-Changes in v2:
- - Point to mm/Kconfig instead of restating SPLIT_PTE_PTLOCKS dependencies,
-   as suggested by David.
+ .../admin-guide/kernel-parameters.txt         |  8 +++++++
+ drivers/firmware/Kconfig                      |  4 ++++
+ drivers/firmware/arm_sdei_nmi.c               | 23 +++++++++++++++++--
+ 3 files changed, 33 insertions(+), 2 deletions(-)
 
- Documentation/mm/process_addrs.rst         | 2 +-
- Documentation/mm/split_page_table_lock.rst | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/process_addrs.rst
-index 04b649818cc1..0b6355e6d1d5 100644
---- a/Documentation/mm/process_addrs.rst
-+++ b/Documentation/mm/process_addrs.rst
-@@ -659,7 +659,7 @@ acquired in :c:func:`!__p4d_alloc`, :c:func:`!__pud_alloc` and
-    references the :c:member:`!mm->page_table_lock`.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 176648941aec..9a3ce8ed18f4 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6958,6 +6958,14 @@ Kernel parameters
+ 			1 -- enable.
+ 			Default value is 1.
  
- Allocating a PTE will either use the :c:member:`!mm->page_table_lock` or, if
--:c:macro:`!USE_SPLIT_PMD_PTLOCKS` is defined, a lock embedded in the PMD
-+:c:macro:`!CONFIG_SPLIT_PMD_PTLOCKS` is enabled, a lock embedded in the PMD
- physical page metadata in the form of a :c:struct:`!struct ptdesc`, acquired by
- :c:func:`!pmd_ptdesc` called from :c:func:`!pmd_lock` and ultimately
- :c:func:`!__pte_alloc`.
-diff --git a/Documentation/mm/split_page_table_lock.rst b/Documentation/mm/split_page_table_lock.rst
-index cc3cd46abd1b..52c992b6bcfa 100644
---- a/Documentation/mm/split_page_table_lock.rst
-+++ b/Documentation/mm/split_page_table_lock.rst
-@@ -37,8 +37,8 @@ There are helpers to lock/unlock a table and other accessor functions:
-  - pmd_lockptr()
- 	returns pointer to PMD table lock;
++	sdei_nmi.disabled= [ARM64,EARLY]
++			Disable SDEI-based cross-CPU NMI and leave the GIC NMI
++			path in place. Requires the kernel to be built with
++			CONFIG_ARM_SDEI_NMI.
++			Format: { "0" | "1" }
++			0 -- enable (default).
++			1 -- disable.
++
+ 	serialnumber	[BUGS=X86-32]
  
--Split page table lock for PTE tables is enabled compile-time if
--CONFIG_SPLIT_PTLOCK_CPUS (usually 4) is less or equal to NR_CPUS.
-+Split page table lock for PTE tables is enabled at compile time when
-+CONFIG_SPLIT_PTE_PTLOCKS is enabled; see mm/Kconfig for its dependencies.
- If split lock is disabled, all tables are guarded by mm->page_table_lock.
+ 	sev=option[,option...] [X86-64]
+diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
+index 43e2e2a64594..4c8b917867dd 100644
+--- a/drivers/firmware/Kconfig
++++ b/drivers/firmware/Kconfig
+@@ -58,6 +58,10 @@ config ARM_SDEI_NMI
+ 	  regardless of the target's PSTATE.DAIF -- forced delivery into a
+ 	  CPU wedged with interrupts locally masked.
  
- Split page table lock for PMD tables is enabled, if it's enabled for PTE
++	  This provider takes over every cross-CPU backtrace; set the
++	  kernel parameter "sdei_nmi.disabled" to 1 to use the irqchip
++	  NMI path instead.
++
+ 	  If unsure, say N.
+ 
+ config EDD
+diff --git a/drivers/firmware/arm_sdei_nmi.c b/drivers/firmware/arm_sdei_nmi.c
+index 038eb79e28ac..baf89f88c4f1 100644
+--- a/drivers/firmware/arm_sdei_nmi.c
++++ b/drivers/firmware/arm_sdei_nmi.c
+@@ -62,6 +62,18 @@
+ 
+ static bool sdei_nmi_available;
+ 
++/*
++ * Mirrors irqchip.gicv3_pseudo_nmi=: the architected NMI path
++ * is preferred when asked for, and SDEI stays out of the way.
++ */
++static bool sdei_nmi_disabled __ro_after_init;
++
++static int __init sdei_nmi_disable_setup(char *str)
++{
++	return kstrtobool(str, &sdei_nmi_disabled);
++}
++early_param("sdei_nmi.disabled", sdei_nmi_disable_setup);
++
+ #define SDEI_NMI_EVENT			0
+ 
+ /*
+@@ -168,7 +180,7 @@ static void sdei_nmi_raise_backtrace(cpumask_t *mask)
+  */
+ bool sdei_nmi_trigger_cpumask_backtrace(const cpumask_t *mask, int exclude_cpu)
+ {
+-	if (!sdei_nmi_available)
++	if (!sdei_nmi_available || sdei_nmi_disabled)
+ 		return false;
+ 
+ 	nmi_trigger_cpumask_backtrace(mask, exclude_cpu,
+@@ -178,7 +190,7 @@ bool sdei_nmi_trigger_cpumask_backtrace(const cpumask_t *mask, int exclude_cpu)
+ 
+ bool sdei_nmi_active(void)
+ {
+-	return sdei_nmi_available;
++	return sdei_nmi_available && !sdei_nmi_disabled;
+ }
+ 
+ /*
+@@ -194,6 +206,9 @@ void sdei_nmi_stop_cpus(const cpumask_t *mask)
+ {
+ 	unsigned int cpu;
+ 
++	if (sdei_nmi_disabled)
++		return;
++
+ 	WRITE_ONCE(sdei_nmi_stopping, true);
+ 
+ 	/*
+@@ -238,6 +253,10 @@ static int __init sdei_nmi_init(void)
+ 	}
+ 
+ 	sdei_nmi_available = true;
++	if (sdei_nmi_disabled) {
++		pr_info("SDEI cross-CPU NMI disabled by sdei_nmi.disabled.\n");
++		return 0;
++	}
+ 	pr_info("using SDEI cross-CPU NMI (SDEI_EVENT_SIGNAL, event %u)\n",
+ 		SDEI_NMI_EVENT);
+ 
 -- 
-2.50.1
+2.34.1
 
