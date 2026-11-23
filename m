@@ -1,83 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795432008;
-	b=F9UzjWAMPZVU2nD/mVv8TcK/3IpkCDu/iThojuFQ5sIGY4pFPBScHIYG2XJ7GFfYh8qM
-	 zE4LwJL6rPxaYhWcn+L6EzPbjeeXkVRGxUk8Rf3FL5Eq9CYD7k24iKK0ARGDRt5wW0CJM
-	 Z/GTWvIhcKG0gYfB1ladAx0cimWJ13dd3/COzj7mc2NzOc6CAnpvry4rCqc+CH7SHpGLu
-	 4rN3ggJK9RMzhyUyrnwPyjxhQw9C2hfFMd4vAxt56/gm5kQ7GaIQ+4f4jheabMAg9JXhB
-	 gu2AnL8FvqrBIDEyIFxFbczkFB64JyMEo0Jjrk4ehdayXGSZ05UJ+n3ObGOp02mI5pg==
+	t=1795432011;
+	b=QZNh/JpBzLq0PeGE7P46yiwsacelCuYQIm1MwvHPuoIIPYUvcakf/XOQFQ9lAHHDsTkx
+	 4xcNRyqvahQIwePnYzoVagmHqebREN+hNjnMI5Hd65uBQelyGFAoxl2zmAEmzuGFY324V
+	 DHn1+iPlY1fdtbcXNd45IGgtbrqhXwgAxpuXlPEJv7KfiSkkuo5N78ANy4XGaJ9AJnJNk
+	 ovse6pidv/ptG4HM6VKmHfZSllYvatfjmYRTtVoO0MTNDo20TlRgJpnhXsS7gzvLse6KD
+	 xYcayF5ENcH4t9YacIPNBlWlECsl1VS/KwelNcCAJI0VlHraVs9ffpoUHsNRKWla3rw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795432008;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795432011;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=x8YQa1D4D7Z8Lu5JGDQU9m0aos2cqq5iQXG2x9p7/pM=;
-	b=E/ftqHuhx985CJGPrMWAcpi2oSnTgIgXTlRHukhqbAGhZG4WY/5o3brx/ZcXOe66HruL
-	 c3oVjMYvRcAw87AVEGMDfns7hEe1739DMKjgJU2vOwW/Nww008hJeP64cDAGLqryWrkc1
-	 ANFVbkTM66QpkVWM2+V7Rn+mqz7/dThLCt8wqhL3omT2C3vhOHZ1jfDxJWAfg23tWwmpW
-	 Gy9DMb0gKZ6muLc9jrWcO/yBNUaCBcEDI0A438CLDY7UeRPCOhJUo/Vkh2YJk3pMPNGP3
-	 HzN0llCPA+idD/lbT51stiqlpmiEWSGSgLu3owCq+Tk/5XEb67fbnr7++m1iXN4FSLA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=x2Tbjo1AzwjlabGDk8wWzHIhO4lDKk/H2fZK+YLGVr0=;
+	b=oYKUeM3ErYHJyYlK2ox2iw+F7bqikNMRPWbxIbr9m2TlWExqOByYSC+JtqPC42wZe0Ho
+	 krPt7pvFToGDXHfYG2UCptLdv9Sks9W5jh9NVLW5nPTdu4XvOd02WOAI/KIrZh7+NQmBT
+	 k2mkRPwMjbN23mW2JhhY8badhIZMJMzuJP9YZxKL4NeDVaGtmk/FrhC9hGDetFIoSqNKa
+	 QcuVACYnDGr8GEGdcc3XSFYTvTbkqwYzD3n+/HpGXw963S0+xGEbL524AhOzwWM32AtB4
+	 g1mKbOh1pvU54/s2RuJfqw0YjcRHq6cLqbo5/2iMIbjUTKNmDDAvTk/MbYzj35nIFAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=na1coZTh;
-	arc=none smtp.remote-ip=74.125.82.169
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=h5rhgnZd;
+	arc=none smtp.remote-ip=74.125.82.41
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A2B606A31E
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:06:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3A2B606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B515606A327
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:06:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B515606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=na1coZTh
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-3859da5694cso451388eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:06:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=h5rhgnZd
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1af971cd9f9so103427c88.3
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:06:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795432007; x=1796036807; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=x8YQa1D4D7Z8Lu5JGDQU9m0aos2cqq5iQXG2x9p7/pM=;
-        b=na1coZThoYNwYhIV1igqGSdS+NMMFhY8aSV7YS62w3rHRuE98v+/g3gIQCf7QaX/cH
-         K9Ne2nc6A2oYH9ImNSlr5JMrCb4A5945NLHCEyoaNHIohgx2R33uaDmsekY+3zUB+KIG
-         WwlmZ4YYp0mGxzlhi0MXaj1TKIp5tdB0lA5I3byJhW9BqdSsSdqko7eOAGZvVjDG4e2z
-         VQcXTOyAif3dQ5WNku/21NGOvkxChbKr84usGStafIMkz+ainhPijwR+lRiCa6oNgi/V
-         A1O2YGWhSmx6aGhSfFSp5eCUp2ZLluS/lMFulOjUdyvdKex+ez2i7K2QMsWctBHDjQXC
-         /kZA==
+        d=gmail.com; s=20260707; t=1795432010; x=1796036810; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=x2Tbjo1AzwjlabGDk8wWzHIhO4lDKk/H2fZK+YLGVr0=;
+        b=h5rhgnZdeaDEquf4C5SUeMuOUl5z3ott5JiiDQzD1aJHXjVqX1W5fLAVsFRvVX0fgk
+         q0s5pQHdxz+fnnjKYNMZdLxbZ9av5VT9cs3jznTRViv7lJNGG4+bQYm/fbgo2nu3H3rN
+         Pt6Tbv/zGcFx8Tg5EcprFsrf+3YzG5NRF685EkiE0tofDpb6hwXu38HKlse3gjFOkHkZ
+         g52rXZUJscJALtBuHlogyZ2mcQc9kunweZkfzl0TXLeReTnkhEPXtwLvlJP0AHGnrxZ8
+         ck4wjtPunyrCjmYPSBJ5XELbpebteNrTEgg0AWCmLS8DEG3y8gyO/FGggAX6kLmXTXFi
+         Tjdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795432007; x=1796036807;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=x8YQa1D4D7Z8Lu5JGDQU9m0aos2cqq5iQXG2x9p7/pM=;
-        b=s2ICQyS8RcPcHiBFG/gWeZo16vrZDp2bH2kwH5rq8yiUZWBcP55AVsxjuUP2Sn6GxB
-         aUhv2AMgupqvW05HpMCDVekHbMEeUVIDF/5aNLSZFVpUKLgagPE5i6/u2avFhLws6icF
-         K5OK7csQ7ZVGfk5LMgX5EU0qzXFuiBgih5Uqrs6YGCywhiuvNemvl0/GRPX66Wm8pwj2
-         tE+w7MDjcxBpxtmB6kNzeK+dJ0dxT1s9/i+wAH1cqIcYbvbjc4qft1D3eYD/gAVuxCQc
-         rUo4MrALB3SrTz03miipEsq1xpzqHZ1p7c6kxJvq8aOapGDd7PaPKsE18x+F5gNQbs3g
-         7wmw==
-X-Forwarded-Encrypted: i=1; AL+hErGFT9YXqxbYP5xOYVQ/z1Q3Ua2H4fxRBPFWkB4Hc1hIn7SpSRKPkOTSS0zyHgqyoU6eREX8pNGyghs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/P0+vGKT+jrCwXjwsOuKdDR2F1jDfC+W+X4vm6XkrnZtZOepnX
-	m/VGpJJ2QqoINl21zPlVt1O+RV1GHHsruZWzzNn4pQEowZu88FEiAF4M
-X-Gm-Gg: AZFdTZfBALvsYOVQLI6gDVJjbbBydKdM8q4m3hFrRi7mZ9idAyiCNLVVDWuUmLMJHn/
-	EGbSU1UAblo5WWFUyF3RWzm2osOPuuyLDB5gM0wPRZKRHCtshUCp6zeD/DTijUJPdJpW7RCgTPe
-	Z8AMWQLF/5/XFsJfpW8b2Ly7mCnF2Ezu04pmWWfRCFFogjQQnwbAD2dpwpZd+FkkKmTr5ivUGCs
-	eyAAwr4vWO1vZm9IsZ7yVX1fX7CFLW7Oc2e836tRB+DP5sPAh5NTSIISfglr9PGx+gLVG4NDnnr
-	BXHR/KdgigkiuMqojdWwGdMz0YN2nVoUJqgff4uElN/kuK/ohUY89X00m2ZIlgU20IJI87LsiG4
-	GOr1s0h9AxTBVYjDVTLt97tOby5XCPmi2SYjEHLxVaHacXTQPIGYVoPAETUG2KRvcI44sVNQcAx
-	ViwGn8GGqImjNUK1DmpREWZEfn/b38RgksruwdReKYH1jPyC5RibNM4cZYxy2aXOnRb0lbxPhhR
-	hdOH7uosL/PP2xfEmC6oBO5lZFBZIfyfBDoKT1Mta5enYXSpe9JQPXgeoVQHrUXjHG0dp5NnqXa
-	ILoLC2yd8wth6/8tOzVEhIWVF/zltj3BNGonY4bVuj3O5tDGy9N1LTiQYduGsmvB3J2DwJYh79M
-	UgbFbDhRlH26migsTXnU6uJjurJfBrCPzJsX1V/jlmhghtg==
-X-Received: by 2002:a05:701b:450b:20b0:1b5:5a76:dfea with SMTP id a92af1059eb24-1b55a76e18emr14850858c88.0.1795432006886;
-        Mon, 23 Nov 2026 03:06:46 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795432010; x=1796036810;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=x2Tbjo1AzwjlabGDk8wWzHIhO4lDKk/H2fZK+YLGVr0=;
+        b=QFyKH0SlDh3U3HRQISspwK25qO6GNN+9rKnfDE14RHKo6HzTUhMKp6WHHJ12+3mLpU
+         V9YmObsZsPf1vfDkDRY8l/C7MVYOAVImCia4sDtSesoXcEEwqNTwwLStDMfJVrhp0LuT
+         GtDdlb0KvbiMbJ+mWwcysYs+Kg0oqmyC/3GBAJFYhGSTEt0JvrEbVjcmYlt1Qfc+0HDY
+         BwGpwotwWaMoS5cgRlCa4nNHRLehuSFkHOFUFGNfbN0SIT9eZlwIns8JZvom6TUdcRxU
+         NqmKlNlqP1mITBmeGBhQtLpwk3RZeByElS8tl7o49BmUcfEXHxXSBFODVQECU79nYvBR
+         oThQ==
+X-Forwarded-Encrypted: i=1; AL+hErFr8WCaVNgvjcW+JsW2QLg090om3MHfnEl5Sve1kfSix7JJBEs4JcA9JFSbFttHUQIMP6woGgPsEfE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/G4x5g/lOuOjxjo/PdhDmQ+qSm46mNkwozafV6muf+3DIyXsGL
+	8noXLR/1d/FpQf0EBKoKCxHMgnQL8rtfFiTp3mmoQR+UbpuJmIZy3YD5
+X-Gm-Gg: AZFdTZftmegkHa/Jq1haOA07uMB4MizR1hxH8QHQEI763fiiKJUaHkBANUXyTJDDOPZ
+	TDtQ8j5MNioIELjeYw7+RLLZdTT0lXaWx0V8PNNQMjamylhpNz175hg+FP7NfHAdV3cPzwBKVEx
+	rugX17itUaIMf+kWgbJujwBZePLQyV3oZVR5iqyt1DQmO/fqz+kzlrlqf9ZZIHuJYcCn1J6MIII
+	blM/K7gtGFVbEOzkUL+0KI7AEgIg63hDc3NbbxqEhl7XviW0fW6xbva03N//n+rBu+r8E7sOiNN
+	CdZlSNWx/LJOY39jNJJoHD/9N65sqmUe8KmtDm/k9MeovkR4K02EPvDbR2t5TmMNJG1mzeu4S81
+	gJf/kozu3uGZK9jFdXdU37tfpZjuTvILZqWeZe/SzRZ2q31LP+iqhhyJ/swKWGdf3+Qn9WS6T53
+	62a9TtXpKqnK8ZU+vwCdr450tCtkllf7w/rrlXguQ5oevpKyXZEVm3hQrwAkuAzIMEzNnBm9Smi
+	9HM2CpGsh882DyjHC/lsTkhZLzlxqpEnjts783s+dLcP1+8XKlTFq7DM09J7d6IAAltu3riMmKj
+	Jz3eDWLl+v9NStQrFTvIdRK772HSqWZzQ8s2YZ6ZV9xaDm7/JWWk7P4etpAt8iMnrjK1b7dAT/v
+	fWGyMOxC0Fmr90bceMoK0yyfI
+X-Received: by 2002:a05:7022:b90d:b0:127:def:dd72 with SMTP id a92af1059eb24-1b55687f1a1mr15744484c88.2.1795432009821;
+        Mon, 23 Nov 2026 03:06:49 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.16])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm30054074c88.6.2026.11.23.03.06.43
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm30054074c88.6.2026.11.23.03.06.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 03:06:46 -0800 (PST)
+        Mon, 23 Nov 2026 03:06:49 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: alexs@kernel.org,
 	corbet@lwn.net
@@ -87,10 +89,12 @@ Cc: wy@wyuan.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH v2 00/13] docs/zh_TW: process: add translations of 13 documents
-Date: Mon, 23 Nov 2026 19:06:23 +0800
-Message-ID: <20261123110637.172045-1-chenyou910331@gmail.com>
+Subject: [PATCH v2 01/13] docs/zh_TW: process: add researcher-guidelines.rst translation
+Date: Mon, 23 Nov 2026 19:06:24 +0800
+Message-ID: <20261123110637.172045-2-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261123110637.172045-1-chenyou910331@gmail.com>
+References: <20261123110637.172045-1-chenyou910331@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,81 +104,191 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-I previously promised Jon that if no contributors stepped forward
-within two months, the maintainers would have to produce some results
-ourselves.
+Translate Documentation/process/researcher-guidelines.rst into
+Traditional Chinese from the current English text, including the
+"Surveys" section from commit ad93f083bdb7 ("docs: Add a section on
+surveys to the researcher guidelines") and the tech-board list address
+from commit 27103dddc2da ("Documentation: update mailing list
+addresses").  The zh_CN translation was consulted for wording only.
 
-This series adds zh_TW translations for 13 process/ documents that had
-no Traditional Chinese version, and moves each one from the TODOList
-into the toctree of process/index.rst.
+Keep the three reference link titles and the example commit log in
+English, as in the original.
 
-It is independent of the "resync translations with the English
-originals" series sent alongside it, and applies on its own.
+List the new file in the toctree of process/index.rst, after
+management-style as in the English index, and drop it from the
+TODOList.
 
-Terminology follows the decisions in that series; whole-file
-terminology unification and the glossary.rst update will follow
-separately.
+update to commit 27103dddc2da ("Documentation: update mailing list
+addresses")
 
-The series is based on the docs-next branch of
-https://github.com/kernel-zh/linux-zh_TW.
-
-Changes in v2:
- - Drop the seven labels that nothing refers to (Dongliang)
- - handling-regressions.rst: display the zh_TW path in the :ref:s that
-   point at zh_TW labels, so the text matches where the link goes
-   (Weijie)
- - maintainer-handbooks.rst: link to the zh_TW development-process.rst
-   instead of the English one
- - Collect Weijie's Reviewed-by on 01, 03, 04 and 13
-
-v1: https://lore.kernel.org/all/20261106113545.708896-1-chenyou910331@gmail.com/
-
-Chen-Yu Yeh (13):
-  docs/zh_TW: process: add researcher-guidelines.rst translation
-  docs/zh_TW: process: add cve.rst translation
-  docs/zh_TW: process: add applying-patches.rst translation
-  docs/zh_TW: process: add maintainer-pgp-guide.rst translation
-  docs/zh_TW: process: add changes.rst translation
-  docs/zh_TW: process: add handling-regressions.rst translation
-  docs/zh_TW: process: add deprecated.rst translation
-  docs/zh_TW: process: add kernel-docs.rst translation
-  docs/zh_TW: process: add maintainer-handbooks.rst translation
-  docs/zh_TW: process: add contribution-maturity-model.rst translation
-  docs/zh_TW: process: add conclave.rst translation
-  docs/zh_TW: process: add threat-model.rst translation
-  docs/zh_TW: process: add maintainers.rst translation
-
- .../zh_TW/process/applying-patches.rst        | 390 +++++++
- .../translations/zh_TW/process/changes.rst    | 530 ++++++++++
- .../translations/zh_TW/process/conclave.rst   |  35 +
- .../process/contribution-maturity-model.rst   |  83 ++
- .../translations/zh_TW/process/cve.rst        |  90 ++
- .../translations/zh_TW/process/deprecated.rst | 361 +++++++
- .../zh_TW/process/handling-regressions.rst    | 969 ++++++++++++++++++
- .../translations/zh_TW/process/index.rst      |  35 +-
- .../zh_TW/process/kernel-docs.rst             | 353 +++++++
- .../zh_TW/process/maintainer-handbooks.rst    |  20 +
- .../zh_TW/process/maintainer-pgp-guide.rst    | 793 ++++++++++++++
- .../zh_TW/process/maintainers.rst             | 125 +++
- .../zh_TW/process/researcher-guidelines.rst   | 134 +++
- .../zh_TW/process/threat-model.rst            | 187 ++++
- 14 files changed, 4087 insertions(+), 18 deletions(-)
- create mode 100644 Documentation/translations/zh_TW/process/applying-patches.rst
- create mode 100644 Documentation/translations/zh_TW/process/changes.rst
- create mode 100644 Documentation/translations/zh_TW/process/conclave.rst
- create mode 100644 Documentation/translations/zh_TW/process/contribution-maturity-model.rst
- create mode 100644 Documentation/translations/zh_TW/process/cve.rst
- create mode 100644 Documentation/translations/zh_TW/process/deprecated.rst
- create mode 100644 Documentation/translations/zh_TW/process/handling-regressions.rst
- create mode 100644 Documentation/translations/zh_TW/process/kernel-docs.rst
- create mode 100644 Documentation/translations/zh_TW/process/maintainer-handbooks.rst
- create mode 100644 Documentation/translations/zh_TW/process/maintainer-pgp-guide.rst
- create mode 100644 Documentation/translations/zh_TW/process/maintainers.rst
+Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+Reviewed-by: Weijie Yuan <wy@wyuan.org>
+---
+ .../translations/zh_TW/process/index.rst      |   2 +-
+ .../zh_TW/process/researcher-guidelines.rst   | 134 ++++++++++++++++++
+ 2 files changed, 135 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/translations/zh_TW/process/researcher-guidelines.rst
- create mode 100644 Documentation/translations/zh_TW/process/threat-model.rst
 
+diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
+index bd638264bbe4..fd53103aeb33 100644
+--- a/Documentation/translations/zh_TW/process/index.rst
++++ b/Documentation/translations/zh_TW/process/index.rst
+@@ -70,11 +70,11 @@ TODOList:
+    stable-api-nonsense
+    stable-kernel-rules
+    management-style
++   researcher-guidelines
+ 
+ TODOList:
+ 
+ * contribution-maturity-model
+-* researcher-guidelines
+ * generated-content
+ * coding-assistants
+ * conclave
+diff --git a/Documentation/translations/zh_TW/process/researcher-guidelines.rst b/Documentation/translations/zh_TW/process/researcher-guidelines.rst
+new file mode 100644
+index 000000000000..f1b71e4f5899
+--- /dev/null
++++ b/Documentation/translations/zh_TW/process/researcher-guidelines.rst
+@@ -0,0 +1,134 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_TW.rst
++
++:Original: Documentation/process/researcher-guidelines.rst
++
++研究人員指南
++++++++++++++
++
++Linux 核心社群歡迎對 Linux 核心、產生核心所涉及的活動，以及其開發過程中的
++任何其他副產品進行透明的研究。Linux 從這類研究中獲益良多，而 Linux 的大多
++數面向也都以某種形式受到研究的推動。
++
++社群非常感謝研究人員在公開研究結果之前先分享初步發現，特別是涉及安全性的
++研究。及早參與既有助於提升研究的品質，也有助於 Linux 從研究中獲得改進。無
++論如何，都建議與社群分享已發表研究的開放取用（open access）版本。
++
++本文件旨在說明 Linux 核心社群在進行這類研究時，認為哪些做法可以接受、哪些
++不可接受。這類研究及相關活動至少應遵循標準的研究倫理規範。關於一般的研究
++倫理、科技倫理，特別是針對開發者社群之研究的更多背景資訊，請參閱：
++
++* `History of Research Ethics <https://www.unlv.edu/research/ORI-HSR/history-ethics>`_
++* `IEEE Ethics <https://www.ieee.org/about/ethics/index.html>`_
++* `Developer and Researcher Views on the Ethics of Experiments on Open-Source Projects <https://arxiv.org/pdf/2112.13217.pdf>`_
++
++Linux 核心社群期望每一位與本專案互動的人，都是本著善意參與，為了讓 Linux
++變得更好。歡迎對 Linux 核心社群產出的任何公開成果（包括但不限於原始程式碼）
++進行研究，但以開發者為對象的研究必須明確採取選擇加入（opt-in）的方式。
++
++完全基於公開來源（包括公開郵件列表上的貼文，以及公開儲存庫中的提交）的被
++動研究，顯然是允許的。不過，如同任何研究一樣，仍然必須遵循標準的倫理規範。
++
++然而，針對開發者行為的主動研究，必須在取得相關開發者個人的明確同意，並向
++他們完整揭露的情況下進行。未經同意，不得與開發者互動或對他們進行實驗；這
++同樣是標準的研究倫理。
++
++問卷調查
++========
++
++研究經常採取向維護者或貢獻者發送問卷調查的形式。不過，一般而言，核心社群
++從這些問卷調查中獲得的價值很少。核心開發流程之所以能夠運作，是因為每位開
++發者都能從自己的參與中受益，即使是與目標不同的其他人一起工作也是如此。然
++而，回覆問卷調查是加諸在忙碌開發者身上的單向要求，對他們自己或整個核心社
++群都沒有相對應的好處。因此，我們不鼓勵這種研究方法。
++
++核心社群成員收到的電子郵件已經太多了，很可能會把問卷調查的請求視為又一項
++占用他們時間的要求。發送這類請求會剝奪社群寶貴的貢獻者時間，而且不太可能
++得到具有統計意義的回應。
++
++作為替代方案，研究人員應該考慮參加開發者活動，舉辦說明研究專案及其對參與
++者之好處的場次，並在那裡直接與社群互動。這樣獲得的資訊會比電子郵件問卷調
++查豐富得多，而社群也能從你的見解中學習並因此受益。
++
++補丁
++====
++
++說明一下：向開發者發送補丁 *確實是* 與他們互動，但他們已經同意接收
++*善意的貢獻*。他們並未同意接收刻意帶有缺陷或漏洞的補丁，也未同意在討論中
++被提供誤導性的資訊。這類交流可能對開發者造成傷害（例如耗費時間、精力和士
++氣），也會損害專案：它會侵蝕整個開發者社群對該貢獻者（以及該貢獻者所屬組
++織整體）的信任，破壞為貢獻者提供建設性回饋的努力，並使終端使用者暴露於軟
++體缺陷的風險之中。
++
++研究人員參與 Linux 本身的開發，與其他任何人一樣，都是受到歡迎與鼓勵的。研
++究 Linux 程式碼是常見的做法，尤其是在開發或執行能產生具體可行結果的分析工
++具時。
++
++在與開發者社群互動時，發送補丁向來是發揮影響力的最佳方式。Linux 已知的缺
++陷已經夠多了——更有幫助的是經過審查的修復。在貢獻之前，請仔細閱讀相關文件：
++
++* Documentation/process/development-process.rst
++* Documentation/process/submitting-patches.rst
++* Documentation/admin-guide/reporting-issues.rst
++* Documentation/process/security-bugs.rst
++
++然後發送補丁（包括附有下列所有細節的提交日誌），並跟進其他開發者的任何回饋。
++
++發送由研究產生的補丁時，提交日誌至少應包含以下細節，讓開發者有適當的背景
++來理解這項貢獻。請回答：
++
++* 發現的具體問題是什麼？
++* 在執行中的系統上，如何觸發這個問題？
++* 遇到這個問題會對系統造成什麼影響？
++* 問題是如何發現的？請具體說明所使用的任何測試、靜態或動態分析程式，以及
++  用於完成這項工作的任何其他工具或方法的細節。
++* 問題是在哪個 Linux 版本上發現的？強烈建議使用最新的發布版本或近期的
++  linux-next 分支（請參閱 Documentation/process/howto.rst）。
++* 為了修復問題做了哪些修改？為什麼認為這些修改是正確的？
++* 這項修改是如何進行建置測試和執行期測試的？
++* 這項修改修復的是之前的哪一個提交？如文件所述，這應該寫在 "Fixes:" 標籤中。
++* 還有誰審查過這個補丁？這應該寫在適當的 "Reviewed-by:" 標籤中；請見下文。
++
++例如::
++
++  From: Author <author@email>
++  Subject: [PATCH] drivers/foo_bar: Add missing kfree()
++
++  The error path in foo_bar driver does not correctly free the allocated
++  struct foo_bar_info. This can happen if the attached foo_bar device
++  rejects the initialization packets sent during foo_bar_probe(). This
++  would result in a 64 byte slab memory leak once per device attach,
++  wasting memory resources over time.
++
++  This flaw was found using an experimental static analysis tool we are
++  developing, LeakMagic[1], which reported the following warning when
++  analyzing the v5.15 kernel release:
++
++   path/to/foo_bar.c:187: missing kfree() call?
++
++  Add the missing kfree() to the error path. No other references to
++  this memory exist outside the probe function, so this is the only
++  place it can be freed.
++
++  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=y using GCC
++  11.2 show no new warnings, and LeakMagic no longer warns about this
++  code path. As we don't have a FooBar device to test with, no runtime
++  testing was able to be performed.
++
++  [1] https://url/to/leakmagic/details
++
++  Reported-by: Researcher <researcher@email>
++  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar")
++  Signed-off-by: Author <author@email>
++  Reviewed-by: Reviewer <reviewer@email>
++
++如果你是第一次貢獻，建議在把補丁發布到公開列表之前，先私下請其他人審查補
++丁本身。（如果有人明確告訴過你，你的補丁需要更仔細的內部審查，這就是必要
++的。）最終的補丁中應包含這些人的 "Reviewed-by" 標籤。找一位熟悉 Linux 貢獻
++流程的開發者，尤其是你所屬組織內部的人，請他們在補丁發送到公開郵件列表之
++前協助審查，往往能顯著提升最終補丁的品質，從而減輕其他開發者的負擔。
++
++如果找不到人在內部審查補丁，而你需要協助尋找這樣的人，或者你對本文件以及
++開發者社群的期望有任何其他問題，請聯絡技術諮詢委員會（Technical Advisory
++Board）的私人郵件列表：<tech-board@groups.linuxfoundation.org>。
 -- 
 2.43.0
 
