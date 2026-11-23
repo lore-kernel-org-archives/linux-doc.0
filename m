@@ -1,84 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.72.192.73
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795437405;
-	b=T6CiNAdH/IIYzUmJA1gm1obVetUZonUXw4Qb+fxqaFtbgzRX2Cr6aHtFMncU3phZaRdM
-	 a0fMK+jrOJ0maspyjDXCpomPgnb06j/TcAup2dXs5B4a8sBmlF4U/P1Vo/LUrKp/wkBfg
-	 Kv+k2iiLru7w8BG7LXtIHp0O7Q3ncXThPBJsulp+57AURVE0QPXO7O73eKa2Pn3QMKQGS
-	 Fvu7kY/zxcv4ROUGLeI/wh+TTORt2AZVxF2B8qw/GpDrdpHTx9AQj0TkL7mEsu0Wp8NZ+
-	 gLpCGEplwG3JVIEC70gyqSm58yNPA5KP46ZcmEkKGjE0uzPWyXhmTrgPd28PB9ysI1w==
+	t=1795437428;
+	b=j7hiCqIeAIF0n1srW5WpbIN2B+rdmf5mkHEnzhDzA50jc3wJKCM8qH1irnKdM12a44go
+	 kLHo+Ms8oplSzrJDUoyG7G91CGvPzwF8iK8t21g14Mhh2d3MtsRtW7lDx8dNjYL6LMh0y
+	 6t4ZMA369HU11gJ3dDxiPKzubYhXzixGREmwxlR6DyIXRmB8N+3hcev3hrt/1ItJKtslB
+	 CTEjKihmdJUZ6Zo357woJaXUcltmPhHmjsBupjHI7d7OILORlHr5rL1Onmu4/4zRFI/k9
+	 yMFn7BfBjrswAufkm8QMRhSFTs3wcpFVdD5PA6HCxjtbETF3/K6fFKfDLshmMhrCNgw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795437405;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
-	bh=nTpF2pwZDOpG1HOobitpj0pCNTVMR7ybRW6PhOQZM7I=;
-	b=yJA7NMryqFkaPMgA9ZC0my3ep/44FfGL7mwMRj0V5CxCIRVRvmZpryZWg98nqSka4X4+
-	 l1uIMSq9PNTQWfJ1ErKWWPJ7I2d0Rcu0FFTdL1/VdJyvIw0/vgufXCzX7TQ6TFeSCPq4y
-	 xwG8GkkKRg0MP/eniXFBn+VclgNEEid8x8ZstpqBIOcl1a1WG8r4+6wFTuGr9qX2I7vXS
-	 K3YOSgl027VHMHCeZnxbnuhv00c6QNyvHas0WA1zJ5Awt/uHuOI5Ons8WmYxSfljumNQm
-	 oeHA9cBf7979mZOzCegQz15gqRagC50YUE0Hg+E6OFTCIPVw7UQj1C8wLczkag/CAUw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795437428;
+	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
+	 X-UI-Sender-Class:Received:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:
+	 UI-OutboundReport;
+	bh=l925ZWGbqN1yJ3oYRddUoTyEflV8xChX7JXyYMyuMo4=;
+	b=FS0w6Kf1ztGHipdWOx3B3oCKQnOOfVIJ1HmIp16L89JsQ3vuanbE/zcMKRTVwff6EXp8
+	 ryn8HK9xFavGB2vIYJKU8NRAr5T1ZJoGaiJ+2uSDjTxRb5skiSYdtZRqhwX7mh9lH+3Gd
+	 6DrDPITUUt/yEQXoCXGdbo7l+nIfwUsebW4Wp7ofkhCpFJhDWjgBqgMc/pn01KmGSiZfk
+	 4vRmTH1DpaNzbZtmKtcriX4tdbDMZQ6oexWaqh0uGfiZpKpg6gIClFftlxlCm35HW7/zs
+	 302mhGgvtFlccF+pRvnvT5HYqEGj9FwOql3wJ9pv9Paw7jEB75na5mC7zwYVTkTN40A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KABHXdtq;
-	arc=none smtp.remote-ip=209.85.128.180
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=jonasjelonek.de;
+	spf=pass smtp.mailfrom=jonasjelonek.de;
+	dkim=pass header.d=jonasjelonek.de header.i=jonas@jonasjelonek.de header.a=rsa-sha256 header.s=s1-ionos header.b=wZN5i8RC;
+	arc=none smtp.remote-ip=217.72.192.73
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B946606A68F
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 12:36:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B946606A68F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFA5606A330
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 12:37:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EFA5606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jonasjelonek.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jonasjelonek.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KABHXdtq
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-8b4efdc8c20so18436677b3.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 04:36:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795437404; x=1796042204; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=nTpF2pwZDOpG1HOobitpj0pCNTVMR7ybRW6PhOQZM7I=;
-        b=KABHXdtq87A4INr3N1czsoLYrtxg8YpNUdvQJnTlE8f9fsOzD06V5UbJxhVfSAk2KV
-         o1+VuguvHw8rhxjK5YaBocryyHQhnBPsDPnA+gRBbSSkSYabgFubEI2bW4M2K2RLLJe0
-         5CRRFEj2qzavTtqy0GGY0fYcTPrlKlkfdSo0e17zhLF30320OQyM7nlr5DkpSjlHTB1W
-         pWS/95/g66AExEmLpk9IGGYBzCllKYohUPizlx2NP7nam1oJaoZq3BDjINnXWAcGeAgv
-         D43sva55hFZf8XH+M/1Fnl8ZXLxN5x2l1Dm10UQrTxpCs74uBnzW9uK9yaZ8j9FMYc91
-         3wTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795437404; x=1796042204;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nTpF2pwZDOpG1HOobitpj0pCNTVMR7ybRW6PhOQZM7I=;
-        b=CniecDVeCW0poNrWLAnNyqVLgpiTYgMXLF5bXxdtVz6jXO+7ycaKmkoMD9Xnq7jVkW
-         y3PdbufAsSNQnl0d2G2ujgzhbIAofvmWxCNJWbrWgjNnwPJG7UKUo+5yF9naWj0XqNyA
-         Sjjznm5UwVZC7rpbrDkMmkpgN+yoYLaq2it/mqMAwNjkSuFBD6kKdlcVWtDzC0o8dz42
-         MMUbvBx+T1QDVRjPjiCk1AkIFbFiS6YrUgJL8gyA5GyhOVcQRdiHMMmco2umTd8eEBtY
-         WC4RymA1ZMjIygheYzaQnrhdD+HFai/p4lQK6DPwHGQImY9d66SHwWgBNviIucfjlHet
-         siaQ==
-X-Forwarded-Encrypted: i=1; AL+hErGNtHrqABuoFtGMzfElxnv7qENKNYDj6CLArxmY+i1u5RnSzItVZJdDa/NpcCj/RGpP5xl7Jxzwz88=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9ykPgFtIwvEw8ititrHU/yN3VQFgQbXEYSz/67ZmJ2pdk+Aw91
-	2nbtwGeXKl2ud2ipF08EbsG62X0EG4vXkKoinn1XXgt+8s5S5fJd8/v2
-X-Gm-Gg: AZFdTZf4aDQBvVxXFD/CmcB0rIIrDGTTyvxaRFyWYvE6YcYwZoW32kLCY2iA388Pr3L
-	Rfd3L6rG/KRM+o5rIJX/uTT7jQ9QiaUsniwzK1IhIcSQ4mwc/Tfm4f8cGwcN3gGe8vDLXNcv0yy
-	TXWr2YE6tlrRKiOFa8Ydyp7PPLJ/9XFgjSt63gwg/8XIPqWfmFTOsKNg4huFxIx3zrE1k6nwbL3
-	U6sP4iX6AekNvcCVtEtdI6hp+EAY6KSLLX0JJmabySZ467YvpUKO4ICU3cadhed5U1OVwDZpQrw
-	hchrv3HEKZDZOprybPFLUcCYslnH4KwFnhkmdtubjUUR80vCk9D88jYiwfeSYiFSbT/mKQuv60M
-	5VewTPpFp3l98o8+LGewrK9vGxlriqjERmuY3IUbBXSs4If9qgp3CEfJ4xLlxqalKqCGvstH/HV
-	txYZdV1cjglv7b24bC+EJfTUbW/qw7lotcFTVfFVmE1ycQArBWE+yOVXvsSLfQTzE8GPxou5E7m
-	Wa8hv6/hXpT+7kFxh+0D6BSWjYnQEDh32yziDBWMZEfnDp3HOancAjZ2UpECNJXcNdPvjzDqd9I
-	hyeC0+4kYWgZ6yU6bQc0yW78waWvfKr7BfE=
-X-Received: by 2002:a05:690c:6886:b0:8b3:1fab:fbdc with SMTP id 00721157ae682-8b52051799emr42051537b3.64.1795437404195;
-        Mon, 23 Nov 2026 04:36:44 -0800 (PST)
-Received: from localhost ([2600:1700:4a51:2210::11])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67df330d552sm5305608d50.5.2026.11.23.04.36.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 04:36:43 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=jonasjelonek.de header.i=jonas@jonasjelonek.de header.a=rsa-sha256 header.s=s1-ionos header.b=wZN5i8RC
+DKIM2-Signature:  i=1; m=1; t=1795437425;
+ mf=PGpvbmFzQGpvbmFzamVsb25lay5kZT4=;
+ rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+ d=jonasjelonek.de;
+ s=s1-ionos:rsa-sha256:G+Y+95TBW5oLKz4ig+DWg71uQcub
+   lQn9Nr2kZ85QHs8zqJ7fzJwlwWwjDi7OqrP8lKzkCAme2mTSzjZYbYjg5iK+Dmt1tnwAjiuJXwX
+   6o0bST1u5mbBo2myVVIWR5tuGGkNgP51+hBNzoL//MCrfza6bzY+sNZovGmKty4WTmgqBrKinWY
+   cUGp9yBlFVTA/PSlFeUoG/RRwyHRPrUkLTtZ4zKN0p55RawcLvQlHnnGlsfYI3ZvZVlG1UqsEcU
+   ft4NHvSQecvU/fyavT04PZ2aJF522OhN8wcG0ae9JDC91HQVOiFRnBy2rJmhW4YQRldfShzxfQz
+   2Hd12jDlWqjPBw==;
+Message-Instance:  m=1;
+ h=sha256:
+   qCggyGSepEfwd6Ws17fS0jgkH06TMthdsnY7dniNvbk=:
+   10qJieUpEb4nI3vpsi0Ab0qPkuyKz9JLg1FBgTO6Cus=,
+  sha512:
+   7N0/k+/wlEJ2cZaevImKMqfMpI0Ngy4gE50xyrW8ZPA1Ko6mZfenVjADCDL1l49JixnjEcjCQ0sfv6zA0koXHw==:
+   2D1sQUisp1i/mbcx3Qd1m/5aZZoUE7UliGWDbQdeSLcZdCFSm/WBthHQlLOzRU2cOphrzlUeTuLVoqK9EV95Fw==;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jonasjelonek.de;
+	s=s1-ionos; t=1795437394; x=1796042194; i=jonas@jonasjelonek.de;
+	bh=l925ZWGbqN1yJ3oYRddUoTyEflV8xChX7JXyYMyuMo4=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=wZN5i8RCk3un1ss/rNJE+6mE9hblNLFvVdLMi4JcWjpSTmQofpcZbZ/WrV7pyi2L
+	 fMnq1xHlLbpBxlOdvvy/xMcCM9xn3ohDM7Vf8XKOQBjZUaKdgAM5DAR2/HPfEJQrY
+	 BRmgWjK2TtITeEDyLd/b3uiVCm8tOmPNMYZZO0t1Z7ntRVRGDTFF5oaSxpY5hNI50
+	 I5Kllocc2CPZ8EFaoMuW5alZOZwxCrIaKSTxpArwqmMNbQqI40OjPG3leM7itenzL
+	 M7f9QTQ5xoku+LvAT096gIRGPTPkWWlGQiSIiR8b0S+uyImtT9YO2l6GTh7y33I8I
+	 8MEAuwoGUHZn4uTBQg==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from client.hidden.invalid by mrelayeu.kundenserver.de (mreue108
+ [213.165.67.113]) with ESMTPSA (Nemesis) id 1MYvPq-1y0HoY0rEu-00XfeH; Mon, 23
+ Nov 2026 13:36:34 +0100
+Message-ID: <6fecc631-e493-4e05-aa3c-61a8b0d2d1cc@jonasjelonek.de>
+Date: Mon, 23 Nov 2026 13:36:26 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,208 +80,182 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next 0/2] Add Realtek XSGMII interface mode
+Content-Language: en-US
+To: Andrew Lunn <andrew@lunn.ch>, Christian Marangi <ansuelsmth@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ netdev@vger.kernel.org, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20261117084748.2387647-1-jonas@jonasjelonek.de>
+ <df35e0d4-9f1f-4882-bc6b-257add4e9fb1@lunn.ch>
+From: Jonas Jelonek <jonas@jonasjelonek.de>
+In-Reply-To: <df35e0d4-9f1f-4882-bc6b-257add4e9fb1@lunn.ch>
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Nov 2026 07:36:41 -0500
-Message-Id: <DN2LFVSRGDPE.U9JFJ59G1RX8@gmail.com>
-Cc: <kuba@kernel.org>, <willemdebruijn.kernel@gmail.com>,
- <davem@davemloft.net>, <edumazet@kernel.org>, <pabeni@redhat.com>,
- <horms@kernel.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
- <rdunlap@infradead.org>, <donald.hunter@gmail.com>,
- <andrew+netdev@lunn.ch>, <shuah@kernel.org>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <willemb@google.com>
-Subject: Re: [PATCH net-next v5 4/6] psp: defer tx key deletions for SADB
- drivers
-From: "Daniel Zahka" <daniel.zahka@gmail.com>
-To: <netdev-bot+sashiko@kernel.org>, <daniel.zahka@gmail.com>
-X-Mailer: aerc 0.21.0-threadmapfix
-References: <20261118-psp-v5-4-b9ec840e0296@gmail.com>
- <179530218277.3135.14647055020229146998@kernel.org>
-In-Reply-To: <179530218277.3135.14647055020229146998@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:neKmgYZDofjCZsVDLf+n7cuzeb01P8X804PywG8qYRSDgmuIMNh
+ ofB4XQ2jgUHIbyzj3lsIED/SkDHi7PbRJDVFl2R8oQcYmgoAo7J0BBMvLjRNUAl1kUXpOnj
+ arGNHV5T6wiqXqylmDQacAhn8CW8eDb2jbgIMKMs40q2LQpbz5JdfiBdo3VGs+GbPTv5bQg
+ rxFLmPLI20zTx41NAKHTA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:GX0+nk2N86Y=;XTifLCGyDObhAk3n7MnmvGsdWY8
+ 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
+ 9Fw==
 
-On Sat Nov 21, 2026 at 6:03 PM EST, netdev-bot+sashiko wrote:
-> Thank you for your contribution! Sashiko AI review found 3 potential
-> issue(s) to consider.
->
-> Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 1 =C2=B7 Low: 2
->
-> If you believe none of the issues are legitimate, please reply to each
-> issue of Medium severity or higher and explain why the AI is wrong.
-> If any of them are legitimate and you plan to respin, please let patchwor=
-k
-> know by including "pw-bot: cr" as a separate line at the end of your repl=
-y
-> (one such reply per series is enough).
->
-> - [Medium] With the -EOPNOTSUPP guard gone from psp_sock_tx_rekey()
->   (net/psp/psp_sock.c), any unprivileged owner of an established PSP TCP=
-=E2=80=A6
-> - [Low] The applied commit message does not say that this patch turns on
->   Tx rekey for SADB devices.
-> - [Low] The kernel-doc for psp_dev_ops::tx_key_add and ::tx_key_del in
->   include/net/psp/types.h still says only that each callback 'Can be=E2=
-=80=A6
->
-> --
->
-> psp: defer tx key deletions for SADB drivers
->
-> This patch adds a deferred Tx key deletion queue for PSP devices that
-> store Tx keys in an SADB. Before calling psp_dev_tx_key_del(), the core
-> snapshots BQL queued byte counts per Tx queue and polls until those bytes
-> have completed. It also removes the -EOPNOTSUPP restriction on Tx rekey
-> for SADB devices and makes CONFIG_INET_PSP depend on CONFIG_BQL.
->
->> diff --git a/net/psp/psp_main.c b/net/psp/psp_main.c
->> index ba44154cf8dc0..789315dae2373 100644
->> --- a/net/psp/psp_main.c
->> +++ b/net/psp/psp_main.c
->
-> [ ... ]
->
->> @@ -75,7 +77,8 @@ psp_dev_create(struct net_device *netdev,
->>  		    !psd_ops->rx_spi_alloc ||
->>  		    !psd_ops->get_stats ||
->>  		    (!psd_ops->tx_key_add !=3D !psd_ops->tx_key_del) ||
->> -		    (psd_caps->assoc_drv_spc && !psd_ops->tx_key_add)))
->> +		    (psd_caps->assoc_drv_spc && !psd_ops->tx_key_add) ||
->> +		    (psd_ops->tx_key_add && !netdev_need_ops_lock(netdev))))
->>  		return ERR_PTR(-EINVAL);
->
-> [Severity: Low]
-> Should the kernel-doc for tx_key_add and tx_key_del in
-> include/net/psp/types.h be updated along with this check? It still only
-> says:
->
-> 	 * @tx_key_add: add a Tx key to the device
-> 	 * Install an association in the device. Core will allocate space
-> 	 * for the driver to use at drv_data.
-> 	 * Can be left NULL if device does not store Tx keys and @tx_key_del
-> 	 * is also NULL.
->
-> With this patch, a driver that implements these callbacks needs an ops
-> locked netdev. Without one, psp_dev_create() hits the WARN_ON and returns
-> -EINVAL.
->
-> The driver also needs exact, in-order BQL accounting and has to follow
-> the dql_reset() and real_num_tx_queues rules that psp_deferred_del_work()
-> relies on.
->
-> These rules are only written down in Documentation/networking/psp.rst,
-> and the ops kernel-doc doesn't point there. A driver written from the
-> struct documentation alone could hit the registration WARN, stall the
-> grace period, or end it too early.
->
-> Could the kernel-doc reference the new "Deferred Tx key deletion"
-> section? No later patch in the series appears to update it.
->
->> diff --git a/net/psp/psp_sock.c b/net/psp/psp_sock.c
->> index d497f41c483e1..8de313805af03 100644
->> --- a/net/psp/psp_sock.c
->> +++ b/net/psp/psp_sock.c
->
-> [ ... ]
->
->> @@ -287,10 +302,6 @@ psp_sock_tx_rekey(struct sock *sk, struct psp_dev *=
-psd, struct psp_assoc *pas,
->>  	struct psp_assoc *new;
->>  	int err;
->> =20
->> -	if (psp_dev_has_sadb(psd)) {
->> -		NL_SET_ERR_MSG(extack, "Tx rekey not supported on this device");
->> -		return -EOPNOTSUPP;
->> -	}
->>  	if (!pas->peer_tx) {
->>  		NL_SET_ERR_MSG(extack, "Socket PSP state is not fully established");
->>  		return -EBUSY;
->
-> [Severity: Low]
-> This isn't a bug, but could the commit message say outright that Tx
-> rekey is now allowed on SADB devices?
->
-> The earlier commit "psp: support tx rekey operation" said SADB drivers
-> would "return -EOPNOTSUPP for now". With this guard removed,
-> PSP_CMD_TX_ASSOC on a socket that already has a Tx key now succeeds on
-> mlx5, where it used to fail.
->
-> The only explicit mention is "allow tx rekey on SADB devices" in the v2
-> changelog below the --- line, and that part is dropped when the patch is
-> applied.
->
-> The same goes for the new registration requirement in psp_dev_create():
->
-> 	(psd_ops->tx_key_add && !netdev_need_ops_lock(netdev))
->
-> The body only says drivers "must meet the requirements in
-> Documentation/networking/psp.rst".
->
->> @@ -322,6 +333,7 @@ psp_sock_tx_rekey(struct sock *sk, struct psp_dev *p=
-sd, struct psp_assoc *pas,
->>  	list_move(&pas->assocs_list, &psd->stale_assocs);
->> =20
->>  	rcu_assign_pointer(sk->psp_assoc, new);
->> +	pas->flags |=3D PSP_ASSOC_DEFER_TX_KEY_DEL;
->>  	psp_assoc_put(pas);
->> =20
->>  	return 0;
->
-> [Severity: Medium]
-> Can an unprivileged user use up the device's hardware Tx key pool
-> through this path?
->
-> PSP_CMD_TX_ASSOC has no GENL_ADMIN_PERM. psp_sock_assoc_set_tx() enters
-> psp_sock_tx_rekey() whenever pas->tx.spi is already set, and each call
-> allocates a new hardware key:
->
-> psp_sock_tx_rekey()
->   psp_assoc_set_tx()
->     psp_dev_tx_key_add()
->       mlx5e_psp_assoc_add()
->         mlx5_create_encryption_key()
->
-> The old key then goes onto the deferred deletion queue, which has no
-> upper bound:
->
-> net/psp/psp_deferred_del.c:psp_deferred_del_queue() {
-> 	list_move_tail(&pas->assocs_list, &psd->tx_del.next);
-> 	schedule_delayed_work(&psd->tx_del.work, 0);
-> }
->
-> psp_deferred_del_work() handles one grace period at a time and polls
-> every PSP_TX_GRACE_POLL_MS (1000 ms). Keys queued during a grace period
-> wait for the next one. A single socket can therefore pin as many DEKs as
-> it can rekey in that window, where before each socket held at most one.
->
-> Suppose a queue below real_num_tx_queues never completes the bytes
-> snapshotted in psp_tx_grace_start(). Would every later rekey then pin a
-> DEK, a psp_assoc and a psd reference until psp_dev_unregister()?
->
-> When a grace period does end, psp_deferred_del_work() calls
-> psp_dev_tx_key_del() for the whole batch while holding psd->lock. On mlx5
-> each call is a firmware command:
->
-> 	list_for_each_entry(pas, &to_free, assocs_list)
-> 		psp_dev_tx_key_del(psd, pas);
->
-> Would that block other PSP netlink operations, and psp_assoc_free() for
-> every socket on the device, until the batch is done?
->
-> The psp_assoc allocation uses GFP_KERNEL_ACCOUNT, but the hardware DEK
-> pool is shared by the whole device and is not charged to any cgroup. One
-> local user could make tx_key_add fail for other users' sockets. That
-> includes sockets in other netns that were delegated the same device.
->
-> The commit message acknowledges this ("users should avoid presenting PSP
-> devices to users they don't trust to abuse this"). In the main netns,
-> though, every local user can reach the device. Nothing later in the
-> series appears to change these paths.
->
-> Is a cap on the deferred queue length, or a per-socket rate limit,
-> needed before SADB rekey is allowed?
+Hi Andrew,
 
-As discussed on every prior posting of this series, in the commit
-message, and cover letter, the rate limiting is left for future work.
-The psp dev should be hidden from a user that can't be trusted to do
-this.
+On 22.11.26 22:24, Andrew Lunn wrote:
+> On Tue, Nov 17, 2026 at 08:47:46AM +0000, Jonas Jelonek wrote:
+>> Hi,
+>>
+>> This RFC adds an explicit PHY interface mode for Realtek's proprietary
+>> XSGMII transport. It carries eight 10/100/1000 Mbps ports over one
+>> 10.3125 Gbaud SerDes lane. Each logical port remains limited to 1 Gbps;
+>> the aggregate serial rate is not a per-port Ethernet speed.
+> We should be careful with naming. We have already have QSGMII and
+> PSGMII, for Quad and Pent. X is too vague. So we should somehow
+> indicate 8, Oct.
+
+In principal I agree, the naming doesn't really fit the others. I just use=
+d
+Realtek's naming for now, they use XSGMII everywhere for this.
+
+> But...
+>
+>> Protocol identity and naming
+>> ----------------------------
+>>
+>> XSGMII is the name Realtek uses for this interface. Calling it simply
+>> "octal SGMII" would describe its capacity without identifying its
+>> protocol. Existing modes such as QSGMII and PSGMII already distinguish
+>> multiplexed MAC-PHY transports; the PSGMII introduction is an example o=
+f
+>> adding the generic mode definitions separately from a driver user [1].
+>>
+>> Cisco USGMII is a relevant comparison, but equivalent port capacity doe=
+s
+>> not establish interoperability. Cisco defines Q-USGMII for four ports
+>> over 5.0 Gb/s and O-USGMII for eight ports over 10.0 Gb/s, using 8b/10b
+>> coding and a packet-control header [2]. Linux already represents the
+>> quad variant as "qusgmii", with its own control-word decoding [3].
+>>
+>> Realtek documents XSGMII and O-USGMII as separate RTL8218E interfaces:
+>> XSGMII runs at 10.3125 Gb/s and O-USGMII at 10.0 Gb/s, with different
+>> hardware strap selections [4]. The SDK also distinguishes them in
+>> phy_8218e_macIntfSerdesMode_get() and applies separate initialization
+>> tables. Realtek's O-USGMII is therefore the candidate for comparison
+>> with Cisco's octal USGMII; it is not evidence that XSGMII can be rename=
+d
+>> to USGMII. Compatibility of those O-USGMII implementations would need
+>> separate confirmation.
+>>
+>> This proposal retains the vendor's XSGMII name rather than assigning an
+>> existing protocol name to a distinct hardware configuration. It does
+>> not assume a particular XSGMII line encoding merely from the line rate.
+> https://deepwiki.com/lotusmomo/airoha_sdk/3.1-sgmiixsgmii-drivers-and-ap=
+is
+>
+> Airoha also seems to have an XSGMII. Is it the same, or different?
+
+Looking at the referenced code it seems to me that this is rather used
+like 'xSGMII' - an umbrella term for SGMII, HSGMII and USXGMII in the
+SDK code. Probably the deepwiki side summarized that incorrectly.
+
+Overall I found no other usage or naming of a real XSGMII mode apart
+from Realtek switch SoCs and PHYs. Those PHYs (mostly RTL8218D
+and RTL8218E) apparently are exclusively used with Realtek switches.
+The RTL8218E might be used elsewhere too but in contrast, it explicitly
+also support O-USGMII as a separate interface next to XSGMII.
+
+> Adding Christian.
+>
+> I hope we are not going to have vendors introducing there own
+> variants, and we need
+>
+> PHY_INTERFACE_MODE_REALTEK_OSGMII & PHY_INTERFACE_MODE_AIROHA_OSGMII,
+> etc.
+
+Doing some more research on this, as already mentioned in the patch,
+there is O-USGMII: described by Cisco, being compatible to SGMII and
+QSGMII, using 8b/10b coding, 10Gbaud rate. Though, this should be
+totally separate from the proposed mode because it uses 10Gbaud
+instead of 10.3125Gbaud like XSGMII does.
+
+Apart from that I occasionally saw some vague information about an
+extension to USXGMII, allowing 8 ports and reusing the USXGMII spec
+control word and format.
+
+There is no detailed documentation about XSGMII, so assuming it uses
+any standardized frame format would be risky and very likely doesn't
+apply. The naming of the mode - given it'll be accepted somehow -=C2=A0
+should reflect that and not conflict with variants like 10G-QXGMII.
+
+>
+>        Andrew
+
+Best,
+Jonas
