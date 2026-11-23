@@ -1,70 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.149
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.187
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795441324;
-	b=ydIVSEJStQBo0CKdddRADI6c7ZLEbU8/z8tLusv/d2I5z9LYXM2W5NFI14U89UgjzDA/
-	 dV9tIYg5dOd4gO/V/OiGLYOBlop62FZNEDf1b+uSeBnmZCX3w7TEN6ItgmQctrxkNKg6j
-	 pINMuXIsI3FtfUFWLF9IM+Hr+9w16fpjAeFcy6RB07NKWydF8rs9hG9DF0dDM3KT/4bxf
-	 2SPnLPOY/s/Bl+mykTnrs0LrQOTa4zvr0LXg2Acr8qgvcymoW0d3atKQlSo+hqHbOnVGZ
-	 vpYv86FmtWixqA5tcBc5JcwPPZdNhKVs/VH9WDrok9Jh+lU5QG9uD9LookmlN2qn6mA==
+	t=1795442405;
+	b=jHKQ6eem+sKK/0C6UJMNntfSLzPsx0QiJF+qcWa5Cmb1FDLo+gdtHpbgeB832qsVm/V9
+	 zGDnR/IhRD1Vw4qZUAs8Iu7nhBtNMbmT0q9qlRj3Ee4Ne5Q7KBeLXkreH3YoOI8f1EK4A
+	 G7784hSjlzy4Yfo1rAbFxX3p7SJG+vWWSoRmYKoYblYn+QNQ/Scsp016lSTvrj2EOVibZ
+	 UnzYtId4iohvE7BTFYGgpey1rFcXTz9H48BSjlb6UYYjXXJXgGsfxX8A+weDFCsms12So
+	 IDT+kbCWKxdYRaE0vCZ5YTRYZPAGK5DnhWRdpW658gQJ505ugGkcGnJx7jD3eSCAcfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795441324;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795442405;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=GGnM0TZCofw/NWgW1vYpZRtaqJU+biK+2YkRW/4cIC8=;
-	b=H+tWpGWrxnqwtCXSPnA7OYK0zrXvct/syDiCgsU8FKDWkolSuRksMG+6Zq+5YfybNE2y
-	 Lvlk4k8bFhFomLP+owrPnpwYPtjtaEOKCBTmiCNsx+Z4SxtTxI9xzcxgRrw2LeEnf9DJU
-	 RB0hfPj0UUXqrzc1jEoybFLrUXslkpUKwJ58NglVb8ZOsVsMtqwru3d/U02NbtWCqcje+
-	 K43fu2+B2pr68n4bdPB4wUFjsyuU2OryVAfIXAMgG/cKC2GNQVxmuE72RP951XrKH21C/
-	 2Cx4T8x8g3HFeOYBufo3rV6jycW3FmAHTq9cPte60LZr+BSpGM/Vlp3igBI+Ng/EwRA==
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=KTNFFpQ3kER92nljtjnxslEg2HatMNO3Pm/4eF+/uVo=;
+	b=u0kXmj8y1fvzxEiVwu15tGNmTKK+ycjMPlpoiR0wp4Z7EdMoq5vAy7/pIYNztCrqQisJ
+	 bovkCK9bok0DdKxB3wD8m27ITTVgwWxmaJ93bKH7g1Zwd29jAIT+gJzQ/6CmE1MnRIgoG
+	 K2YjOzpXcJqsaeRy7Vk67+L59XbVTUd6WgI6W0tlH5P3wIJfJYjWqNKfhcOgF9Nh5nS/y
+	 nHFAIed/ZBGj1wGWuaYChssh8Cy1TYRxK3F/arbpcM7GaW/MO+uONRgp2XZ2A/8ehDhci
+	 HLm6qmICFFbYZkPXIAbOxgc1l47YZvGIe6UItQ/1wTL8ocUz2PVnTwfxPoC0QQyTQjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=faabQryq;
-	arc=none smtp.remote-ip=95.215.58.149
-Received: from mta1.migadu.com (out-149.mta1.migadu.com [95.215.58.149])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=HSaCR1P4;
+	arc=none smtp.remote-ip=95.215.58.187
+Received: from mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67568606A695
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 13:42:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67568606A695
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089AF606A31F
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 14:00:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 089AF606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=faabQryq
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=HSaCR1P4
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=9M2PxqsBIT5oufgzXeepgRVpkrLEF6NDh3LaxXiKaPs=;
- c=simple/simple; d=wyuan.org;
+DKIM-Signature: a=rsa-sha256; bh=Q+a6mEtr7v7r3AOnn5SeGdS5lSXCWUahw75AjJpOxjY=;
+ c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795441320; v=1; x=1796046120;
- b=faabQryqhpI7sWN12aKNkKNNdNKFtwncuHJb1a/9yhKTycu71GR9pAdoyqIURYOj0ZdgRkDd
- HacX3WI0GaT8OeM2D7X/jqFK7teMnFJ8QFIh/JhjW4f5s4bdEDAsruA7LTGZ+Ftg2KkYnays93j
- zKqUvlqCETsinHmDV19wnJNvIZKqQyw7KvSXWtkGTfE5MzcXZJrQxzSzeFyxVfstAJ0ta2LbWtA
- nXYpVhjapzoZxG0ttEzG5lqjJb6kR1zAgajbWVaovnScWR/79DOz+NC0z6PvfRTfPRnmNGA5gmC
- OixtiooC2l2PvcuvJw+CmnpvJsiZqnFxCasL91Xvr77fw==
+ t=1795442403; v=1; x=1796047203;
+ b=HSaCR1P4legPkF6kIb5xXNUX70+TzNIKQiy91SGabZEsMrUkIJDPKchokqE2YZdH2OIu8tMe
+ nf40zv1YulwKl+13ksCphNkK2UZI3JfcIMS203PCxciZzTg6WV+IOyro/yK90jcTKw5WJvJlmdi
+ DgLethbld3AEN4cUFrJ9KvO8=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b8e188c9b65a6afe;
-	Mon, 23 Nov 2026 13:42:00 +0000
-X-Mizu-Trace-ID: b8e188c9b65a6afe
+Received: by smtp.migadu.com with ESMTPS id e58aebc7aa3e4872;
+	Mon, 23 Nov 2026 14:00:01 +0000
+X-Mizu-Trace-ID: e58aebc7aa3e4872
 X-Migadu-Flow: FLOW_OUT
-Date: Mon, 23 Nov 2026 21:41:56 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Chen-Yu Yeh <chenyou910331@gmail.com>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Carlos Bilbao <carlos.bilbao@kernel.org>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] docs: doc-guide: add a guide for translators
-Message-ID: <awRCpJIjpKMbA2J5@wyuan.org>
-References: <20261119041009.63651-1-danielmaraboo@gmail.com>
- <20261119041009.63651-2-danielmaraboo@gmail.com>
+Message-ID: <062359fb-c169-4253-aade-07cba63a279e@linux.dev>
+Date: Mon, 23 Nov 2026 14:58:23 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -74,58 +58,94 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261119041009.63651-2-danielmaraboo@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/24] ASoC: soc-pcm: add multi_direction_codecs link
+ flag
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20261122161437.5994-3-srinivas.kandagatla@oss.qualcomm.com>
+ <b3df76ad-e002-4ec0-a1a6-812d22b51432@linux.dev>
+ <e10e701e-b478-4fe5-a62a-2365507e5d8c@oss.qualcomm.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <e10e701e-b478-4fe5-a62a-2365507e5d8c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 19, 2026 at 01:10:08AM -0300, Daniel Pereira wrote:
-> The documentation has seven translations, but nothing in the English
-> documentation explains how to contribute to them. The only guide that
-> exists, Documentation/translations/zh_CN/how-to.rst, is written in
-> Chinese and covers the zh_CN translation only.
-> 
-> As a result, the same problems come up over and over in the review of
-> translation patches: labels and citations copied from the original,
-> which are global in Sphinx and collide with the English ones; partial
-> builds with SPHINXDIRS that hide those collisions; lines over 80
-> columns; translations not added to any toctree; missing commit
-> descriptions, tags separated by blank lines, HTML email rejected by the
-> lists, and the documentation maintainer left out of the recipients.
-> 
-> Add Documentation/doc-guide/translations.rst, a guide that covers the
-> whole workflow of a translation: choosing what to translate, the layout
-> of a translated document (path, header, labels, citations,
-> cross-references, what must not be translated), translation quality and
-> terminology, adding the document to the build, checking it, preparing
-> and sending the patch, the review process, keeping translations up to
-> date and starting a new translation. The commit message format it
-> suggests is the one already recognized by tools/docs/checktransupdate.py.
-> 
-> Link the guide from the doc-guide index and from the translations
-> index.
-> 
-> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
-> Acked-by: Carlos Bilbao <carlos.bilbao@kernel.org>
 
-Acked-by: Weijie Yuan <wy@wyuan.org>
+>>> +Typical use case: a smart-amp speaker protection link where the CPU
+>>> +side is a playback-only DMA (e.g. ``WSA_CODEC_DMA_RX_0`` on Qualcomm
+>>> +AudioReach), but the codec side exposes both a playback SPKR DAI and a
+>>> +companion capture V/I-sense DAI on the same SoundWire bus.  Opening the
+>>> +playback FE should bring up both the amplifier output chain *and* its
+>>> +V/I feedback capture chain atomically, without userspace having to open
+>>> +a secondary PCM.
+>>
+>> This is a valid use case that has been problematic for some time on
+>> other platform as well.
+>>
+>> What puzzles me in your approach is that the codec-side will be
+>> configured/started, but *something* will need to grab/process the
+>> feedback IV data generated by the codec DAI. That part seems to be
+>> completely hidden in your approach, is this intentional? How would a
+>> capture DAI be configured on the CPU side so that the data is provided
+> 
+> In this setup there is no capture codec cpu dai. The capture data is
+> never seen by the userspace. VI Feeback data is directly feed into
+> Speaker Protection module within the DSP using the codec-to-codec setup.
 
-Thanks!
+Humm, even if there's no user-space visibility, don't you have a
+SoundWire capture port? How would that be configured? At the very least
+it should be prepared and enabled.
 
-> ---
-> Changes in v3:
-> - State the path-mirroring rule explicitly, and exempt documents that
->   exist only in a translation, such as a glossary or a language-specific
->   how-to (Chen-Yu Yeh, Dongliang Mu, Weijie Yuan).
-> - Make ":Original:" optional, needed only when the path does not mirror
->   the original, and drop it from the header example (Jani Nikula, Weijie
->   Yuan, Dongliang Mu).
-> - Drop the sections that duplicated Documentation/doc-guide/sphinx.rst
->   and Documentation/process/submitting-patches.rst, keeping only the
->   points specific to translations, and link to those documents instead
->   (Federico Vaga, Jonathan Corbet).
-> - Encourage translators to send a fix for the English original when they
->   find a problem in it while translating (Jonathan Corbet).
-> - Mention b4 as an alternative for preparing and sending a patch series
->   (Weijie Yuan).
-> - Drop avadhut.naik@amd.com from the recipients; the address bounced
->   twice on v2.
+> Host only drives the playback data and the VI feedback path is entirely
+> with-in the DSP.
+> 
+>> to a DSP? Some of the patches, e.g. 11/24, mention a capture dai but I
+>> can't connect the dots with the suggested codec-dai changes.
+>>
+>> In addition the feedback loop can be made of not only I/V sense but may
+>> also carry an echo reference, and that may have to go all the way to
+>> userspace depending on where the processing is handled, possibly with a
+>> split between IV sense and echo reference making the topology even more
+>> complex.
+> 
+> multi_direction_flag is really agnostic to driving data(VI or echo
+> reference)
+> All this flag is doing is setting up the codec which are configured in
+> opposite direction.
+
+but the configuration of the capture part is missing entirely, no?
+
+>> And last the SoundWire core exposes a concept of 'stream' that is single
+>> direction, and so far we've used a 1:1 mapping between dailinks and
+>> streams. If part of the dailink is dual-direction, don't we have a
+>> problem on the SoundWire side?
+> 
+> 04 patch addresses this, we create two separate runtime streams per
+> direction instead of one.
+ok, that should be made clearer in the introduction, which mentions
+codec dais but omits the gory details of SoundWire management.
+
+I have mixed feelings about having 2 streams. It 'works' but it's not
+optimal. Maybe it's time to revisit and extend this concept to deal with
+data that's closely related to the regular PCM data but flowing to
+another direction and used for a specific purpose.
+
+There's the case of the IV sense, but also the companion amp which may
+require a device-to-device communication scheme. It would be much better
+if all the prepare was done in one shot for all the direction/ports used
+for a given use case, and likewise the enable should be done with a
+single bank switch. Not to mention that this sort of solution should be
+handled at the SoundWire core level, so that we don't have to implement
+this dual-stream implementation for every platform.
