@@ -1,87 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795442560;
-	b=5n1IzCRtYGzNosSIuJqQgZ2TUrbm+8Ejyp87o8xOLyQWfQnkH+iLSYW92h9NP9gJ3OqS
-	 +xtMXVccRmnpSWoKQSb8719qzSPEX1PHPKvP5CZtcn8GO3d1pYwG062tBfEUG/Oo6LdR5
-	 RE5r5wkQiGIFtCb2ovNbUgJ7nxZJuzqS+wqufnym4r3J+mt/DL4ZSr7kOJ6aU5jdrM7Bl
-	 4eBNYaqkVzs8Pql42YNqkdnFGBrh2Jbd9fpBQUjHGIYV5i4K+vJI5OVOCxjyt+9i3nAyK
-	 o2jQDfyn+njjDZIxPDELL/R4aa9W53eapbFVUZo/STn5jdxJ69L8McK1wKehX6pCnvA==
+	t=1795442719;
+	b=hPlfLbhsLECsfxuuhtDFXTTIwIyCO755etLodsTz4B+3w8O9przLqJcobBgSJ5dBEaJf
+	 UnrYGOcr8F3Rl89FVY7ms5O3zpxktBoM8Losgnpy5uKljV51oyWSqQbXJt+mGAnL9bqCu
+	 TIAEJ+YTUhHQjXWEY3YM3wTLeTpf4+eRB9+kbqtVNIKucHXUA05CoIgkYUV7ThZZC5ABY
+	 yBWSX+2lTQ38xKrbS3yOUu3iipTDtlTi+1C965Yhm8uyNHJoDFxWVM5nL16dppCmMMhN4
+	 1BWe1peZknutsVsD2I0bY7Trsk4z6PaRHMNsLTnBph7jjozDFRfqn2VjJ4HOYXpD/HA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795442560;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795442719;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type;
-	bh=3/3NnMftymq31jTNwytygShkMtc6etp5T9SffMvYwsc=;
-	b=glGcNU0S5VfEtAHLTxlH0PCqSUpppYogUCEVNTOdZk1932UGyNgNSWTXvO8Br++lvzF1
-	 mehB2f7vEfaftaSL2nzODtQPqIJrZ9csV6UeNIC0Zc5v7ZG50q8meBFdRWncq0T3UEnI5
-	 GK5EL+udQlzMUWniYIsynwCEH4DG3yOsHn1mVSC5Lmn8bl6HzXB2nO0HcdvP+gzAo0ItI
-	 UPn3CogDNBZPysD4WUy62yYUT9s2HKZmmb1RFqUC6lC5M9aMJMSAJGsTA1pTE0y0DA90q
-	 BpHI4IbEUBRr2Ekv7Iqra91pW8US8gw8jfIzCY3SGdlMBLR8RCPnf60JPVVvOogHlWA==
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=njozbmbCn9bcbYemCFYN4fFcerXn8LRoys/sYPRNDos=;
+	b=FgrSDsFQ+u+0EpC98OY2YemO5MZGFcS/P+wL6R8b1aXo0pEDU+AxzQbEpKMBoidMz5JV
+	 klgQMJ5de6zl/a94dlPacbzWKQLdhoo+E6R1ayUnPms0D0VlAyui+7jsJK4Tbvkb3wrGs
+	 qFIS79QBL/n5uAPGmR7ce3D4TXTef1upiRouJMDaDjnNv4CSyZDirH7W5qhPX1uPYOZjI
+	 PJUZUbdU0G3V3dHuczfheNcQZw0yo3Jhat32MTNcqyhOU456zIAJ4tdRBK8VOplMQ/U6D
+	 KBD/KyXBWmQPCzKUZumo8mzsCKtYp+whuxq2RZ/BSrdkpZ7K5MjEbs7ADbdTh3H+ehg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=fhAj3P3Z;
-	arc=none smtp.remote-ip=209.85.218.49
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=igq0rNBf;
+	arc=none smtp.remote-ip=74.125.224.50
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F6F606A33A
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 14:02:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3F6F606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B11A606A330
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 14:05:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B11A606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=fhAj3P3Z
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c5127c7abd5so529095266b.3
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 06:02:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=igq0rNBf
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-679a2b5fe87so3115352d50.3
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 06:05:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795442558; x=1796047358; darn=vger.kernel.org;
-        h=content-type:in-reply-to:autocrypt:from:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+        d=gourry.net; s=google; t=1795442717; x=1796047517; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=3/3NnMftymq31jTNwytygShkMtc6etp5T9SffMvYwsc=;
-        b=fhAj3P3Z8br2eyC8mzuf/0H9cWjIIu3LrYWWLhw0ewWbWbBHK+SHhmfMegmuizuaub
-         GdJhaP41zEbEGijwMseRHoCEM3c9r5OxhNCNHPD3wk5zCieaO0J+eLwWuNTnimS0tFGM
-         Qmo1kQ67VR53GZLUKdUP0qi7GMEGOaL/r3/BNvT046cjUVvDZp9uinRAOvLsf/PN1Xtv
-         eiMaOvHD8BUfPskHcXK0i42FWdmEmfALU/NLY4Ck+0rYKj9e4Z//Xl4FIhSE7WmXGjbD
-         ISD3EgdiRhNdBdkGkH7G7Z47vcfL+s7uxzqLgp3tWxr1TcfKkxqA66naGryNLKvJAx51
-         qVCQ==
+        bh=njozbmbCn9bcbYemCFYN4fFcerXn8LRoys/sYPRNDos=;
+        b=igq0rNBfR5HbxAZkN3J9ZVhbsB1qEA961sp/d7IqeNGyTiy13BYtzWR9s/RamaGEgu
+         kc4sU+btJ7XNLZ5KXBxvURVrVQTw+iIpKNkheMbVp3xGacR1R1kfOolkY9OvEfyDy2WU
+         t8c3MRu8Ph/FVIkYBtPSoZ4kr+2q46nvdG4OkaZ8HKw2uHjsXYgGlmshpBuDHEEM6Ue2
+         CnIWmzY9CuCkfe/LjkxDPgvTI37B5eL8NNhGF5PzhFOodXssf4pgSvAhXFcLZzhsXatI
+         zvry3mYpF+760cfsuTrJwWemnN2NLrmMWr51jTqFRXg7TtEf6JJSY0VorkioDqKLVzoA
+         4mWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795442558; x=1796047358;
-        h=content-type:in-reply-to:autocrypt:from:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
+        d=1e100.net; s=20260707; t=1795442717; x=1796047517;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3/3NnMftymq31jTNwytygShkMtc6etp5T9SffMvYwsc=;
-        b=OUJyZ7KQfTkNgsIC2HHMd1Yok5nt1kpEFkfVqmxIUAhjRoXyt+ck/XyoeMZH6dAnaZ
-         de3Ljmmc3sBUwtR+FR/26EAiqcmg4nYC2AuTLQqEK4cuoNmyrDn7h9sgFOsaW3NKokUE
-         eI4BM+kcCpfDAWg9VV9ZzhW8wHrAMWyw8+6JMC1PIRV6I5YMH4fcg9cDKHnPX1erAWdo
-         ENft7F6ALEfBQ3pSGaue4whzZbbj78rHJHBABCkWkNHHHRFHPiF4Uv+VwHb0YWtO5l4l
-         tKFER/Gg/PBRQHEVP14oiaa3z9TyY29I10lKDeZ1LkAmgjfY+rpSI/z80TeXXr0lD635
-         9kjw==
-X-Forwarded-Encrypted: i=1; AL+hErHU5UA21XpUICjjXkCA2MrwZtvF/VMTp3jBei9pQ40xDw3AZ1uLAvJkev7lHI2+//miJ726Z5vgjRk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/Z8+GpPU9yB8NCCZj6wl/Lp1oTmp3i/e2dIEMPML43yNvcuOJV
-	PFaW0f4RtenGZPp/hSC6JZcRoGF4a+gfrvWzhwGSf9PfdG1+p8+ESk5prT9sIqN+Ao0=
-X-Gm-Gg: AZFdTZcA76dS1+5y78t5oB9t9e3TTtWnxxuW+pgJoDqexccQPMi1mfEwuZISOy7k9sF
-	9RdSpyZCUIuqxqLWJ0GE6HceOfV+s4RT1DfrTU4Jqr0M0YqRx1S/f53VMmif85sqn3DbMa0qBym
-	y9gNbEIu3/NCKeft0JhoRTOGJPg5Y4mnH08k9IgYdiRARQb4TGaDq+V8R2MoxKexhzSMqcUVo1N
-	AYOekMKRVC7iU4E8l5ThAZzR8QroYh3Wy6dBdpEqKGY6yGRrWJHUITlM7SDlJVSel3tV2DZWpxV
-	vvwvJhqChzUxQEyvFJcllOrKHpmWTfySIZZ/SQyBMcLR1g23VwkeMnpQ4ShRVV0pGnTeGcDjhoQ
-	CiguAN6z1m+Aa/Vk+OUx7KgwX5FLdU4hFz6PyfO8gc3TQKRVzCrNn4HEDe1Z1HUDSPdRgBFAitt
-	Hed6pyTBw2tXPaevF4Hd8rBK4mjxIxqOhBXkCJ6XY8xiPwy9qWY138V6Oyp63/ppCFQwx2bSPGT
-	AQRPnOXkqWawLCSREn0hZD9b9Kr6QVdX1qboVzYEXFfSN+2XXeMDgZLomUXxpQsNcz+WDGLLeGK
-	dw+wyQeIBLYjDfFrzuxS8GXPo83BUxMePY40fH52zzMMFmEF0j+tgQeoX/4FGVf5vO7nsw/OfCD
-	JgrJKG4UP7JD6SGIoqDzC0M9oDlwPjphdfgJXslm2Ms8OHbbgXeM=
-X-Received: by 2002:a17:907:3cb:b0:c51:40e:847c with SMTP id a640c23a62f3a-c513a84ab4emr576437666b.23.1795442557948;
-        Mon, 23 Nov 2026 06:02:37 -0800 (PST)
-Received: from ?IPV6:2a00:12d0:afa3:c01:92cc:e257:77ba:97a1? (2a00-12d0-afa3-c01-92cc-e257-77ba-97a1.ip.tng.de. [2a00:12d0:afa3:c01:92cc:e257:77ba:97a1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513ad026a4sm420786766b.2.2026.11.23.06.02.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 06:02:37 -0800 (PST)
-Message-ID: <dfe51a0b-e5b6-4887-b5d8-195d8ef0ca93@suse.com>
-Date: Mon, 23 Nov 2026 15:02:36 +0100
+        bh=njozbmbCn9bcbYemCFYN4fFcerXn8LRoys/sYPRNDos=;
+        b=SK5hhkPJCWWCkJqK40Hv0MQOL09iA6EpBTSkD0CBj/QcHvAJI1tiauFlIJ8mqPKcl0
+         ZQLr5GRNghrn+sVYmragiG+hZgIr9RJdto/SAdyYuwrlzRxy2ZlvylWvPRFM+kfFNnaz
+         79N5OWL5dchJd6KKgFqObo38fu2+a0lKJHVZopNER3ZdX8vh22TgtxMDKc7MkIzpew1o
+         louiV97wrU8IOBoHC7rY8BFlW8qCW+SUT/X34wl8vz5xH7a1UpSMnJsEvi4PBHDek3qh
+         vQmXTgs3fsUieORQD2FM8GchvJs5HV8nwHyCMrHlYVO396DDMo3mQmyHRt2unuLeKS0t
+         Mb2Q==
+X-Forwarded-Encrypted: i=1; AL+hErFRd03ByfreU+DNXUHCDBCd2JC9hVaDQeB+EQKDvKdjrhJbmJ6PRpW/BubeGmDOrYkW4gC35MXJ5uE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/lD7FDm61McU/8UGR6FsCMl25YMPIQDqgSG67p/mzlg7nzEYb/
+	BfpVwr3dvPMR+os3CkFMT4oP4lZLO9to/zqn6O4ol++2RyWsgAhJlWyYKMBnIrrz8Ww=
+X-Gm-Gg: AZFdTZe1IEILRT5tg9LkfWS5wTAVyhIYOxG8b+2e2yme7Vw15nn/SwlpkjNoDTqKOfe
+	UlOPCLEEnIVA/MKKewGIPqxwvq75tNceXpCz/FCg10qe5JNWa/Xvj3gIcPijVzlsJnegArCsujS
+	dzxa0gRLGqt36qee9HJBXFi4GCWcSj/4cOL/Qs6ZEVOXTUV+W3bFIMOG59ogl2HfbyFTwIC3Bha
+	F/V9GTRru4lbq2inncWSFtHfR1Fa36KnC9pCLz+Mj/KJiY2iW59I8IBE+Hwt9DqzQCH1p1bcP+x
+	++l3WuRI2i5gIeLSdr+m12W2cVeMkFDTZWBK7HEBuX74poM1jGWJoeA5YiriADqAPgjQ6dL4AhT
+	FIVbAGTcOaBdRyoLngdlZxliSOy7Elupb5g2ENx6Q4qKGoWVLBDtd8WupnSiHNJcpPSRuddBaac
+	yAEcMDnhcoO2GT18IFwQbzQ+oN5KG/rATWaCu+cT0t5Gndm/FWUDE7kHz60OiXhRxFu3iztufka
+	508G6bzuV7Y9oWl266BFDubz08S5wmUlaDj4JQGpQdtNOF1FvGHaE1UkcIPd/ch3Hf67bM2+iBn
+	lRtOfS8w66DyQNj6sKjhekggTIy62mf9cGQEnDpNuf4ctc5SS/1YdYx5qkbZFMyKnHrrEQll7ig
+	gegcwH5R86Vs6JBYGaVGro1J4xRsW
+X-Received: by 2002:a05:690e:4881:10b0:67c:efb:636c with SMTP id 956f58d0204a3-67df4425656mr2221811d50.51.1795442717363;
+        Mon, 23 Nov 2026 06:05:17 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-92134a08552sm106091806d6.34.2026.11.23.06.05.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 06:05:16 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,143 +89,120 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] msr: replace rdmsr()/wrmsr() in comments
-To: =?UTF-8?Q?Asaf_Nuri_Bertizlio=C4=9Flu?= <asafbertizlioglu@gmail.com>
-Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux@roeck-us.net, tglx@kernel.org,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- peterz@infradead.org, acme@kernel.org, namhyung@kernel.org,
- mark.rutland@arm.com, alexander.shishkin@linux.intel.com, jolsa@kernel.org,
- irogers@google.com, adrian.hunter@intel.com, james.clark@linaro.org,
- tony.luck@intel.com, ashok.raj.linux@gmail.com, hansg@kernel.org,
- ilpo.jarvinen@linux.intel.com
-References: <20261123080822.3426355-1-jgross@suse.com>
- <20261123133338.39023-1-asafbertizlioglu@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <20261123133338.39023-1-asafbertizlioglu@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------zH1KUH40miOPx8xJHy05aI0t"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 23/60] mm/damon: restrict DAMON-native folio operations
+ to common memory
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Yury Norov <ynorov@nvidia.com>
+Cc: gourry@gourry.net, Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ David Hildenbrand <david@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Oscar Salvador <osalvador@suse.de>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>, 
+ Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Michal Hocko <mhocko@kernel.org>, David Rientjes <rientjes@google.com>, 
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+ Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>, 
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+ Youngjun Park <youngjun.park@lge.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>, 
+ Tejun Heo <tj@kernel.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
+ driver-core@lists.linux.dev, damon@lists.linux.dev, 
+ linux-pm@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org
+In-Reply-To: <awMcsTqyCgQ0dISw@yury>
+References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+ <20261120-private_nodes_v6-v1-23-74f5f9a115c2@gourry.net>
+ <awMcsTqyCgQ0dISw@yury>
+Date: Mon, 23 Nov 2026 09:05:14 -0500
+Message-Id: <179544271490.412063.3555696768623975197.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------zH1KUH40miOPx8xJHy05aI0t
-Content-Type: multipart/mixed; boundary="------------PY1alFJmAlhg5Ibj03MF0bME";
- protected-headers="v1"; hp="clear"
-Message-ID: <dfe51a0b-e5b6-4887-b5d8-195d8ef0ca93@suse.com>
-Date: Mon, 23 Nov 2026 15:02:36 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] msr: replace rdmsr()/wrmsr() in comments
-To: =?UTF-8?Q?Asaf_Nuri_Bertizlio=C4=9Flu?= <asafbertizlioglu@gmail.com>
-Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux@roeck-us.net, tglx@kernel.org,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- peterz@infradead.org, acme@kernel.org, namhyung@kernel.org,
- mark.rutland@arm.com, alexander.shishkin@linux.intel.com, jolsa@kernel.org,
- irogers@google.com, adrian.hunter@intel.com, james.clark@linaro.org,
- tony.luck@intel.com, ashok.raj.linux@gmail.com, hansg@kernel.org,
- ilpo.jarvinen@linux.intel.com
-References: <20261123080822.3426355-1-jgross@suse.com>
- <20261123133338.39023-1-asafbertizlioglu@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <20261123133338.39023-1-asafbertizlioglu@gmail.com>
+On 2026-11-22 11:47 -0500, Yury Norov wrote:
+> On Fri, Nov 20, 2026 at 01:09:14PM -0500, Gregory Price via B4 Relay wrote:
+> > From: "Gregory Price (Meta)" <gourry@gourry.net>
+> > 
+> > DAMON acquires folios to age them, check their accesses, and apply LRU
+> > operations and migration. Treat these as general-purpose MM services
+> > and restrict them to N_MEMORY_COMMON.
+> > 
+> > Memory outside N_MEMORY_COMMON can still hold ordinary LRU folios, so
+> > it would pass the checks that keep ZONE_DEVICE memory out of these
+> > operations.
+> > 
+> > Treat these folios like ZONE_DEVICE memory.
+> > 
+> > DAMON cannot acquire such a folio, so it never ages one and virtual
+> > address monitoring reports it as accessed, and DAMOS cannot isolate
+> > one for migration.
+> > 
+> > Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
+> > ---
+> >  mm/damon/ops-common.c | 5 +++--
+> >  mm/damon/vaddr.c      | 2 +-
+> >  2 files changed, 4 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/mm/damon/ops-common.c b/mm/damon/ops-common.c
+> > index 15cabc79613b..57201a0c5e3a 100644
+> > --- a/mm/damon/ops-common.c
+> > +++ b/mm/damon/ops-common.c
+> > @@ -17,8 +17,9 @@
+> >  
+> >  static bool damon_folio_acceptable(struct folio *folio, bool monitor)
+> >  {
+> > -	return folio_test_lru(folio) ||
+> > -		(monitor && folio_test_hugetlb(folio));
+> > +	return folio_is_common_memory(folio) &&
+> > +		(folio_test_lru(folio) ||
+> > +		 (monitor && folio_test_hugetlb(folio)));
+> 
+> Can you minimize the diff? That would also improve on readability IMO:
+> 
+>         if (!folio_is_common_memory())
+>                 return false;
+> 
+> 	return folio_test_lru(folio) ||
+> 		(monitor && folio_test_hugetlb(folio));
 
---------------PY1alFJmAlhg5Ibj03MF0bME
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+that's reasonable, thanks!
 
-T24gMjMuMTEuMjYgMTQ6MzMsIEFzYWYgTnVyaSBCZXJ0aXpsaW/En2x1IHdyb3RlOg0KPiBP
-biBNb24sIE5vdiAyMywgMjAyNiBhdCAwOTowODoyMkFNICswMTAwLCBKdWVyZ2VuIEdyb3Nz
-IHdyb3RlOg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaHdtb24vY29yZXRlbXAuYyBiL2Ry
-aXZlcnMvaHdtb24vY29yZXRlbXAuYw0KPj4gLS0tIGEvZHJpdmVycy9od21vbi9jb3JldGVt
-cC5jDQo+PiArKysgYi9kcml2ZXJzL2h3bW9uL2NvcmV0ZW1wLmMNCj4+IEBAIC02Nyw3ICs2
-Nyw3IEBAIGVudW0gY29yZXRlbXBfYXR0cl9pbmRleCB7DQo+PiAgICAqIEBjcHVfY29yZV9p
-ZDogVGhlIENQVSBDb3JlIGZyb20gd2hpY2ggdGVtcGVyYXR1cmUgdmFsdWVzIHNob3VsZCBi
-ZSByZWFkDQo+PiAtICoJCVRoaXMgdmFsdWUgaXMgcGFzc2VkIGFzICJpZCIgZmllbGQgdG8g
-cmRtc3Ivd3Jtc3IgZnVuY3Rpb25zLg0KPj4gKyAqCQlUaGlzIHZhbHVlIGlzIHBhc3NlZCBh
-cyAiaWQiIGZpZWxkIHRvIHJkbXNycS93cm1zcnEgZnVuY3Rpb25zLg0KPiANCj4gVGhpcyBz
-ZW50ZW5jZSBoYXMgYmVlbiBpbmFjY3VyYXRlIHNpbmNlIGl0IHdhcyBhZGRlZCBpbiB2My4w
-Og0KPiBjcHVfY29yZV9pZCBpcyBuZXZlciBwYXNzZWQgdG8gYW4gTVNSIGFjY2Vzc29yLiBj
-b3JldGVtcCByZWFkcyB0aGUNCj4gTVNScyB3aXRoIHJkbXNycV9vbl9jcHUoKS9yZG1zcnFf
-c2FmZV9vbl9jcHUoKSBvbiB0aGUgbG9naWNhbCBDUFUNCj4gKHRkYXRhLT5jcHUpLCBhbmQg
-Y3B1X2NvcmVfaWQgaXMgb25seSB1c2VkIGZvciB0aGUgIkNvcmUgTiIgbGFiZWwsDQo+IHRo
-ZSBzeXNmcyBhdHRyaWJ1dGUgaW5kZXggYW5kIHNpYmxpbmcgbWF0Y2hpbmcuIFRoZSBjdXJy
-ZW50IGRyaXZlcg0KPiBhbHNvIGRvZXMgbm90IHdyaXRlIGFueSBNU1IuDQo+IA0KPiBJIHRo
-aW5rIHRoZSBzZW50ZW5jZSBzaG91bGQgYmUgZHJvcHBlZCByYXRoZXIgdGhhbiByZW5hbWVk
-LiBJZiB5b3UNCj4gcHJlZmVyIHRvIGtlZXAgdGhpcyBwYXRjaCBtZWNoYW5pY2FsLCBJIGNh
-biBzZW5kIGEgc2VwYXJhdGUgY29yZXRlbXANCj4gcGF0Y2ggZm9yIGl0Lg0KSSdtIGhhcHB5
-IHRvIHNlbmQgYSBWMiB3aXRoIHRoZSBzZW50ZW5jZSBkcm9wcGVkLg0KDQoNCkp1ZXJnZW4N
-Cg==
+-- 
+~Gregory
 
---------------PY1alFJmAlhg5Ibj03MF0bME--
-
---------------zH1KUH40miOPx8xJHy05aI0t
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmsER3wFAwAAAAAACgkQsN6d1ii/Ey8/
-CAgAgt4TOdkpIzszPfXgnswTL7+egIO6JxCHi3n8zPafAnVpX+jSXV5DTq73HrDyLGSdZmwb0H+q
-g/szYBHqy9PI4izvWLRbOANf13fv39U302/tewlzKbB+gylkqCOmrecPeYZJ8l4juFG7z1WXg8PP
-sMe0T50VTgT5f4DAwH+Jg7EmYJgF6k1Nabp3TYKjG6AXMErFKSk29HebGI8juU/4BizcUtkiqIfF
-9V4Oi8H8ITAm3HcDF7+B8XhmTu3icGnIfVQ+hJIaTMw3D6STxTNXiynep+zztOOtfH8qtS8qsmke
-dGG6Y4kHOdCaQqX+y2CvD2YStrRwHkB3ax5fhB0eFQ==
-=xaim
------END PGP SIGNATURE-----
-
---------------zH1KUH40miOPx8xJHy05aI0t--
