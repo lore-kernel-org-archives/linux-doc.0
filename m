@@ -1,79 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795431864;
-	b=p2ifFMQwaBs5QRXrY4c99WoEBNR8uOu1m74X8vZep6tvABi2c1Qk6w4ClYEUnZXEbgBq
-	 x3M8vWmEYFdy3LI2Cvu//KHbB62UgVAb4oQ5ymuSuZM8y5mpuuOsaeTZEl3qk8x0i7IDH
-	 4gjP5Xn5dC1+63h89JISGjYZ6QNg+PsYVJby20fOO3YJXy6mDbMtEUcYUbuviuKgAMIsJ
-	 C0KHlvehfRHubLWeqjrSMvOsOmYAD2gbW3UAikJG7Yhv23n31e7+UZ4lu25NEgaC1/IzO
-	 lksqL1gYzXPWUSWHrCPH0Rt7PDv8aAOPzJorWRVzWfjqHyVkVr/kV17saCVb0L4urLg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795431864;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Sy1hEmrM6yrrP/2YFylQYTk/EF85CVn0Vom/iqjAOJQ=;
-	b=KI6CB+9LuJnw2tkj5ket5u0osQ0gqSP908CTgoqLrvpAV1ek7zEDyxMkKSY/wtTqP77u
-	 7Z8prC3f0hhrXN9EUQcal9HvAgPOZbIIQtviUW12sqngclTXqRIG9B0tEGp3adRpRcMUf
-	 drsJbe/fdOJlUhPKMIJzBUvhNbDHalZdxc5xbkbV81TIvVUnjT/T6oWa+MO4psXEzmRJW
-	 Dt5+rMPVWDgY8TmvDi64ZhBIpz/dD8Dph/4wz16Ho+fL6GZEimlvlcnyt20mEagNG9f9t
-	 72Fi8ZIVuAgnGZJWWOSBb6qRHXSUFrFYD7XnQtlmOPnL6CUYcMF6sYWGl9gdIVmodgA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WzbVDYhF;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A1E606A6BE;
-	Mon, 23 Nov 2026 11:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WzbVDYhF
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795431863;
-	b=a7WG+aTPt+51rEexSG8w+kiqNVtJhmnv9LBFeRbvgRdIyJRmfpiGKqdwMOA+KquMp3Ou
-	 GzPzHnyZT3vuq/ucPlLezqdcCPI6PrUhSanZ7Fvkn7LbF9leQ4xvGVe4KFFTIv9TQ5SPW
-	 P2wGR4O9gmVVSgCukLoVOL7lxaV6Cmnh7aLcu4Q4C31mbkwMI6LPPQQR6tSkAsKRAIHGe
-	 XYWCALbHE6SvY/Cjq3pxyANcOWwo0ShRpJepreEwU2hyL4treRmSHeyKxNPfATz8btH0e
-	 9lBMfiT0zBaNaf86pVQTGYtl3mqNE0FDT7PF7ok0XSZYoHzl0LMgxlLcRG1f8NlzH5g==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795431863;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Sy1hEmrM6yrrP/2YFylQYTk/EF85CVn0Vom/iqjAOJQ=;
-	b=RWHKTixiit2fWNJTXUiPR68aSEdgGmZT9yVanxN544rzUwXyMwvxaTYyi7/rWEm7TYCL
-	 szkjoJo49Q46i50ZqF5gQqhabFprE8J3xz7qBzs3/ry6m4WbIHL1RMWdrvcnNAqgYVTUs
-	 IFmUEnYQUhOsWF196ld5elyd/3PzI4sUVX5TvJC/ngEqedJTMEV37C86ih6eOuQSxEmaW
-	 XnuHOoXTFuwo36rJPJ6MEaEPCsXxjkdxlsBFRYbhh+Z4tuk8nby91LIey8AZTYy8TZrAT
-	 f1S07Nhuh8KGpBgSGqLMC2M8ny5D40/6E8HhSlFP9oog54Mszjkpny2DSW0ubN96vag==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795432008;
+	b=F9UzjWAMPZVU2nD/mVv8TcK/3IpkCDu/iThojuFQ5sIGY4pFPBScHIYG2XJ7GFfYh8qM
+	 zE4LwJL6rPxaYhWcn+L6EzPbjeeXkVRGxUk8Rf3FL5Eq9CYD7k24iKK0ARGDRt5wW0CJM
+	 Z/GTWvIhcKG0gYfB1ladAx0cimWJ13dd3/COzj7mc2NzOc6CAnpvry4rCqc+CH7SHpGLu
+	 4rN3ggJK9RMzhyUyrnwPyjxhQw9C2hfFMd4vAxt56/gm5kQ7GaIQ+4f4jheabMAg9JXhB
+	 gu2AnL8FvqrBIDEyIFxFbczkFB64JyMEo0Jjrk4ehdayXGSZ05UJ+n3ObGOp02mI5pg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795432008;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=x8YQa1D4D7Z8Lu5JGDQU9m0aos2cqq5iQXG2x9p7/pM=;
+	b=E/ftqHuhx985CJGPrMWAcpi2oSnTgIgXTlRHukhqbAGhZG4WY/5o3brx/ZcXOe66HruL
+	 c3oVjMYvRcAw87AVEGMDfns7hEe1739DMKjgJU2vOwW/Nww008hJeP64cDAGLqryWrkc1
+	 ANFVbkTM66QpkVWM2+V7Rn+mqz7/dThLCt8wqhL3omT2C3vhOHZ1jfDxJWAfg23tWwmpW
+	 Gy9DMb0gKZ6muLc9jrWcO/yBNUaCBcEDI0A438CLDY7UeRPCOhJUo/Vkh2YJk3pMPNGP3
+	 HzN0llCPA+idD/lbT51stiqlpmiEWSGSgLu3owCq+Tk/5XEb67fbnr7++m1iXN4FSLA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=na1coZTh;
+	arc=none smtp.remote-ip=74.125.82.169
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A50721F000D0;
-	Mon, 23 Nov 2026 11:04:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795431863;
-	bh=Sy1hEmrM6yrrP/2YFylQYTk/EF85CVn0Vom/iqjAOJQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=WzbVDYhFk5c784oIDyHqHTGWV7yl+uKLxKdtnmNonYOMy0PdYlCcJyZ674i/G5+Qg
-	 sqwsa+zVGFG9vuwHhuUY23P/oSZPb1s3Ap8LA4/QhngFJkZ3UED46AKPsa/Wd6KuVE
-	 8UmFrujZ9V82bzOSuKep0ueC0p/tf1HVZgMI52Vrd9NlDqdVPqkZsX4IcftkyHxESD
-	 JAwJTpAbVXncuAewnAE5PfYmQL/ZD4bLeaucDfwBmKIjYRdA30ECI3DCO/yf+MXSvT
-	 cpUUokads0YmkZXG14AISswYbFY20hBNtuUKeUBZXm5lvspmwchlfkdvKBDeZbXU+T
-	 avGuy1mGcHhFw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 3691F4C43A;
-	Mon, 23 Nov 2026 11:04:11 +0000 (UTC)
-From: Yongjian Wang via B4 Relay <devnull+echoowall.gmail.com@kernel.org>
-Date: Mon, 23 Nov 2026 19:04:10 +0800
-Subject: [PATCH net-next v3 2/2] selftests/net: packetdrill: test
- tcp_mtu_probe_floor
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A2B606A31E
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:06:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3A2B606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=na1coZTh
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-3859da5694cso451388eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:06:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795432007; x=1796036807; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=x8YQa1D4D7Z8Lu5JGDQU9m0aos2cqq5iQXG2x9p7/pM=;
+        b=na1coZThoYNwYhIV1igqGSdS+NMMFhY8aSV7YS62w3rHRuE98v+/g3gIQCf7QaX/cH
+         K9Ne2nc6A2oYH9ImNSlr5JMrCb4A5945NLHCEyoaNHIohgx2R33uaDmsekY+3zUB+KIG
+         WwlmZ4YYp0mGxzlhi0MXaj1TKIp5tdB0lA5I3byJhW9BqdSsSdqko7eOAGZvVjDG4e2z
+         VQcXTOyAif3dQ5WNku/21NGOvkxChbKr84usGStafIMkz+ainhPijwR+lRiCa6oNgi/V
+         A1O2YGWhSmx6aGhSfFSp5eCUp2ZLluS/lMFulOjUdyvdKex+ez2i7K2QMsWctBHDjQXC
+         /kZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795432007; x=1796036807;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=x8YQa1D4D7Z8Lu5JGDQU9m0aos2cqq5iQXG2x9p7/pM=;
+        b=s2ICQyS8RcPcHiBFG/gWeZo16vrZDp2bH2kwH5rq8yiUZWBcP55AVsxjuUP2Sn6GxB
+         aUhv2AMgupqvW05HpMCDVekHbMEeUVIDF/5aNLSZFVpUKLgagPE5i6/u2avFhLws6icF
+         K5OK7csQ7ZVGfk5LMgX5EU0qzXFuiBgih5Uqrs6YGCywhiuvNemvl0/GRPX66Wm8pwj2
+         tE+w7MDjcxBpxtmB6kNzeK+dJ0dxT1s9/i+wAH1cqIcYbvbjc4qft1D3eYD/gAVuxCQc
+         rUo4MrALB3SrTz03miipEsq1xpzqHZ1p7c6kxJvq8aOapGDd7PaPKsE18x+F5gNQbs3g
+         7wmw==
+X-Forwarded-Encrypted: i=1; AL+hErGFT9YXqxbYP5xOYVQ/z1Q3Ua2H4fxRBPFWkB4Hc1hIn7SpSRKPkOTSS0zyHgqyoU6eREX8pNGyghs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/P0+vGKT+jrCwXjwsOuKdDR2F1jDfC+W+X4vm6XkrnZtZOepnX
+	m/VGpJJ2QqoINl21zPlVt1O+RV1GHHsruZWzzNn4pQEowZu88FEiAF4M
+X-Gm-Gg: AZFdTZfBALvsYOVQLI6gDVJjbbBydKdM8q4m3hFrRi7mZ9idAyiCNLVVDWuUmLMJHn/
+	EGbSU1UAblo5WWFUyF3RWzm2osOPuuyLDB5gM0wPRZKRHCtshUCp6zeD/DTijUJPdJpW7RCgTPe
+	Z8AMWQLF/5/XFsJfpW8b2Ly7mCnF2Ezu04pmWWfRCFFogjQQnwbAD2dpwpZd+FkkKmTr5ivUGCs
+	eyAAwr4vWO1vZm9IsZ7yVX1fX7CFLW7Oc2e836tRB+DP5sPAh5NTSIISfglr9PGx+gLVG4NDnnr
+	BXHR/KdgigkiuMqojdWwGdMz0YN2nVoUJqgff4uElN/kuK/ohUY89X00m2ZIlgU20IJI87LsiG4
+	GOr1s0h9AxTBVYjDVTLt97tOby5XCPmi2SYjEHLxVaHacXTQPIGYVoPAETUG2KRvcI44sVNQcAx
+	ViwGn8GGqImjNUK1DmpREWZEfn/b38RgksruwdReKYH1jPyC5RibNM4cZYxy2aXOnRb0lbxPhhR
+	hdOH7uosL/PP2xfEmC6oBO5lZFBZIfyfBDoKT1Mta5enYXSpe9JQPXgeoVQHrUXjHG0dp5NnqXa
+	ILoLC2yd8wth6/8tOzVEhIWVF/zltj3BNGonY4bVuj3O5tDGy9N1LTiQYduGsmvB3J2DwJYh79M
+	UgbFbDhRlH26migsTXnU6uJjurJfBrCPzJsX1V/jlmhghtg==
+X-Received: by 2002:a05:701b:450b:20b0:1b5:5a76:dfea with SMTP id a92af1059eb24-1b55a76e18emr14850858c88.0.1795432006886;
+        Mon, 23 Nov 2026 03:06:46 -0800 (PST)
+Received: from chenyou.ncku.edu.tw ([140.116.19.16])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm30054074c88.6.2026.11.23.03.06.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 03:06:46 -0800 (PST)
+From: Chen-Yu Yeh <chenyou910331@gmail.com>
+To: alexs@kernel.org,
+	corbet@lwn.net
+Cc: wy@wyuan.org,
+	dzm91@hust.edu.cn,
+	si.yanteng@linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen-Yu Yeh <chenyou910331@gmail.com>
+Subject: [PATCH v2 00/13] docs/zh_TW: process: add translations of 13 documents
+Date: Mon, 23 Nov 2026 19:06:23 +0800
+Message-ID: <20261123110637.172045-1-chenyou910331@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,94 +100,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261123-tcp-mtu-probing-doc-v1-v3-2-c288c2df9666@gmail.com>
-References: <20261123-tcp-mtu-probing-doc-v1-v3-0-c288c2df9666@gmail.com>
-In-Reply-To: <20261123-tcp-mtu-probing-doc-v1-v3-0-c288c2df9666@gmail.com>
-To: corbet@lwn.net, kuba@kernel.org, edumazet@kernel.org, pabeni@redhat.com, 
- davem@davemloft.net, shuah@kernel.org
-Cc: Yongjian Wang <echoowall@gmail.com>, ncardwell@google.com, 
- kuniyu@google.com, rdunlap@infradead.org, linux-kselftest@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, skhan@linuxfoundation.org, horms@kernel.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795431849; l=2254;
- i=echoowall@gmail.com; s=20261026; h=from:subject:message-id;
- bh=L2mM/OhObLn59aLpNJ9Spn+BLz/qgLoUlYL6TTs8CZQ=;
- b=3V8xSAG8iabgXfHb/kqahTVUGbuhiAxkOHPUCsW3ZCsx63YVBJMhGj9eT4AgqJMBi2224D5Ab
- GlroLvG6p5qDpMJ7QPV0620sAitddv4LfNE36jGAfM1NGJJwWEXoq/J
-X-Developer-Key: i=echoowall@gmail.com; a=ed25519;
- pk=9XP6JhqjjPsHCF6UZZZTeqTRnXIa4+ufggnxXtTJ+no=
-X-Endpoint-Received: by B4 Relay for echoowall@gmail.com/20261026 with
- auth_id=1323
-X-Original-From: Yongjian Wang <echoowall@gmail.com>
-Reply-To: echoowall@gmail.com
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-From: Yongjian Wang <echoowall@gmail.com>
+I previously promised Jon that if no contributors stepped forward
+within two months, the maintainers would have to produce some results
+ourselves.
 
-tcp_mtu_probe_floor has no selftest coverage.
+This series adds zh_TW translations for 13 process/ documents that had
+no Traditional Chinese version, and moves each one from the TODOList
+into the toctree of process/index.rst.
 
-Add a test where a full-sized segment keeps timing out without any ICMP
-feedback. After the first detection falls back to tcp_base_mss, check
-that each further retransmission timeout halves the MSS, and that the
-MSS stops at tcp_mtu_probe_floor.
+It is independent of the "resync translations with the English
+originals" series sent alongside it, and applies on its own.
 
-Use tcp_retries1=1 and disable TLP, as in
-tcp_mtu_probing_blackhole_no_tlp_retries1_is_1.pkt, so that every
-retransmission comes from the RTO timer.
+Terminology follows the decisions in that series; whole-file
+terminology unification and the glossary.rst update will follow
+separately.
 
-Signed-off-by: Yongjian Wang <echoowall@gmail.com>
-Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
----
- .../tcp_mtu_probing_blackhole_floor.pkt            | 37 ++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+The series is based on the docs-next branch of
+https://github.com/kernel-zh/linux-zh_TW.
 
-diff --git a/tools/testing/selftests/net/packetdrill/tcp_mtu_probing_blackhole_floor.pkt b/tools/testing/selftests/net/packetdrill/tcp_mtu_probing_blackhole_floor.pkt
-new file mode 100644
-index 000000000000..dd040d9beca0
---- /dev/null
-+++ b/tools/testing/selftests/net/packetdrill/tcp_mtu_probing_blackhole_floor.pkt
-@@ -0,0 +1,37 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Test that after black hole detection, each further retransmission timeout
-+// halves the MSS, but not below tcp_mtu_probe_floor.
-+
-+`./defaults.sh
-+sysctl -q net.ipv4.tcp_mtu_probing=1
-+sysctl -q net.ipv4.tcp_base_mss=1024
-+sysctl -q net.ipv4.tcp_mtu_probe_floor=300
-+sysctl -q net.ipv4.tcp_retries1=1
-+sysctl -q net.ipv4.tcp_early_retrans=0`
-+
-+    0 socket(..., SOCK_STREAM, IPPROTO_TCP) = 3
-+   +0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
-+   +0 bind(3, ..., ...) = 0
-+   +0 listen(3, 1) = 0
-+
-+   +0 < S 0:0(0) win 65535 <mss 1460,nop,nop,sackOK>
-+   +0 > S. 0:0(0) ack 1 <mss 1460,nop,nop,sackOK>
-+  +.1 < . 1:1(0) ack 1 win 65535
-+   +0 accept(3, ..., ...) = 4
-+
-+   +0 write(4, ..., 1460) = 1460
-+   +0 > P. 1:1461(1460) ack 1
-+  +.3 > P. 1:1461(1460) ack 1
-+
-+// The first detection falls back to tcp_base_mss.
-+  +.6 > . 1:1025(1024) ack 1
-+
-+// Each further timeout halves the MSS.
-+ +1.2 > . 1:513(512) ack 1
-+
-+// Half of 512 is below tcp_mtu_probe_floor, so the floor is used.
-+ +2.4 > . 1:301(300) ack 1
-+
-+// The MSS does not go below the floor.
-+ +4.8 > . 1:301(300) ack 1
-+  +.1 < . 1:1(0) ack 1461 win 65535
+Changes in v2:
+ - Drop the seven labels that nothing refers to (Dongliang)
+ - handling-regressions.rst: display the zh_TW path in the :ref:s that
+   point at zh_TW labels, so the text matches where the link goes
+   (Weijie)
+ - maintainer-handbooks.rst: link to the zh_TW development-process.rst
+   instead of the English one
+ - Collect Weijie's Reviewed-by on 01, 03, 04 and 13
+
+v1: https://lore.kernel.org/all/20261106113545.708896-1-chenyou910331@gmail.com/
+
+Chen-Yu Yeh (13):
+  docs/zh_TW: process: add researcher-guidelines.rst translation
+  docs/zh_TW: process: add cve.rst translation
+  docs/zh_TW: process: add applying-patches.rst translation
+  docs/zh_TW: process: add maintainer-pgp-guide.rst translation
+  docs/zh_TW: process: add changes.rst translation
+  docs/zh_TW: process: add handling-regressions.rst translation
+  docs/zh_TW: process: add deprecated.rst translation
+  docs/zh_TW: process: add kernel-docs.rst translation
+  docs/zh_TW: process: add maintainer-handbooks.rst translation
+  docs/zh_TW: process: add contribution-maturity-model.rst translation
+  docs/zh_TW: process: add conclave.rst translation
+  docs/zh_TW: process: add threat-model.rst translation
+  docs/zh_TW: process: add maintainers.rst translation
+
+ .../zh_TW/process/applying-patches.rst        | 390 +++++++
+ .../translations/zh_TW/process/changes.rst    | 530 ++++++++++
+ .../translations/zh_TW/process/conclave.rst   |  35 +
+ .../process/contribution-maturity-model.rst   |  83 ++
+ .../translations/zh_TW/process/cve.rst        |  90 ++
+ .../translations/zh_TW/process/deprecated.rst | 361 +++++++
+ .../zh_TW/process/handling-regressions.rst    | 969 ++++++++++++++++++
+ .../translations/zh_TW/process/index.rst      |  35 +-
+ .../zh_TW/process/kernel-docs.rst             | 353 +++++++
+ .../zh_TW/process/maintainer-handbooks.rst    |  20 +
+ .../zh_TW/process/maintainer-pgp-guide.rst    | 793 ++++++++++++++
+ .../zh_TW/process/maintainers.rst             | 125 +++
+ .../zh_TW/process/researcher-guidelines.rst   | 134 +++
+ .../zh_TW/process/threat-model.rst            | 187 ++++
+ 14 files changed, 4087 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/translations/zh_TW/process/applying-patches.rst
+ create mode 100644 Documentation/translations/zh_TW/process/changes.rst
+ create mode 100644 Documentation/translations/zh_TW/process/conclave.rst
+ create mode 100644 Documentation/translations/zh_TW/process/contribution-maturity-model.rst
+ create mode 100644 Documentation/translations/zh_TW/process/cve.rst
+ create mode 100644 Documentation/translations/zh_TW/process/deprecated.rst
+ create mode 100644 Documentation/translations/zh_TW/process/handling-regressions.rst
+ create mode 100644 Documentation/translations/zh_TW/process/kernel-docs.rst
+ create mode 100644 Documentation/translations/zh_TW/process/maintainer-handbooks.rst
+ create mode 100644 Documentation/translations/zh_TW/process/maintainer-pgp-guide.rst
+ create mode 100644 Documentation/translations/zh_TW/process/maintainers.rst
+ create mode 100644 Documentation/translations/zh_TW/process/researcher-guidelines.rst
+ create mode 100644 Documentation/translations/zh_TW/process/threat-model.rst
 
 -- 
-Git-157)
-
+2.43.0
 
