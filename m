@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795432014;
-	b=29nSbYuKNBB+587YRbMl+HrL+zRgwOxldPYTzcu/PsUXxE9HuI0PXDcisQZR6tpfnb39
-	 uY2BKbLCXHHFD3ueaxtAYDET8XOa2o3tq3+72J8pSfZAOUWrBnbFlPHSZxVUICeCXvTQI
-	 9r/GtiTYKQIjJqW+n9wKq0f9+YgxCZ+0IUoUk/+Vq7DtMV2h7H0dW5edPIfi1z6O2kitH
-	 KqH5om+97GdhZKUmWX5jcsGJYFoVO6AWAvdTr+9t0VgRaT3wfXpAoarwWT1KItr+k3x8f
-	 f9+AZV5L7yWzJm7txGMy6SXJBtuNq76Qw8MLA1LeadRyv3rUgZ7rjzc/IUlGq8SnkXA==
+	t=1795432018;
+	b=5FWKh9nxFQhuC1PmQLaUFR3rJimCyfLfYqz6u95Fcg66dTe4yqYVnsTXkm+56+TEot3u
+	 7ldWpKlEvx3wWLuxzz6s98aqVKvhmAP+/94WpEe4nCff2j+JdFys1PWV6LHbhZz9BM9aX
+	 P3vwIirwHUFv7yJZj00zpIFJOm98+omDZcIo5KSH/ySDWdLUhin3M4RpChs30wahL/yGT
+	 obOC34DAB+sLYtPHIRFrG/77kCyTe0Atbl1Bfk7HA8tasuznNvlgrxA6JPxSMAxcBp6gW
+	 ajK2xpIUqtyeDyUoiSioeFMOuTjV7rwVx4PXaER2YXRsKz46cydpU9N6lwent1bwiXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795432014;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795432018;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=UBi8ffpUVq2DEgCD2ok6KZJXbr+tM2D+x6SEBDyvQ8I=;
-	b=aat/ytk2BRRE0QRcQVYUSFozMilje4D/j4A4v185myjiEdYdcbAnyOjaomwHQHz9Sn5Y
-	 FwC2Q4ezheI2UJB6G5MNJybBEa1Gw675MsUXIsJBzIFWvGjQp0Cp5UGEmI6SNLi666iwA
-	 tRMd9cNJDpxlfv5v/SwywPEikCfm1z/fH8zJOs8KrA1v8IFcRsx6HFhbNsMPpLhMGP7E8
-	 8UYDI7teX+7DsLcK63ft8YUtepyUb8pm5fm09Avs5OE+BUSj7LrAi8yDry2G+H+Csw+Pj
-	 qdotmtWDWbHH06WyQnvrUK8g8Jk24IDM+hLKTUsr/FEP7fugiwHb7clAGYUv4tQrHEg==
+	bh=CwkImvIXAAhlQo7AZ0J1aig04Nt8sGXoi3ElWZmznRw=;
+	b=pmB7BIo068eAWlRW3OliiB0MX4Azt9OQnvK3pNdJ5IzQC2KwbuNreztSkB3QpuCnMCvM
+	 Y6QEk37fVjwKHMH3gi/lUR3b/YzTvkrRk+w4UdWAe6T0ny2wqBWeY9uPtNVwPfq2OJHbL
+	 w5G3d/ayxq+hIgZsIS8Fx/3SVVMXAhw7SroeHr1bkurf8ShP+w1/3kc0mc5Y/dRZbBtDT
+	 pp5+3QCZLxSGoqAQsgQzv8kUyMoq8UBJM7Bpi76ukcPH+KAL0GMv2iaxXVkVxVZcCuEAx
+	 mTcZ/3vmWCa95d5prnkopngDeXyZ0OcQpeqVyzZumpLyhVGX/PHpOZdv1ni1qfmfmDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=npPsxfuU;
-	arc=none smtp.remote-ip=74.125.82.179
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=E7pXsPgy;
+	arc=none smtp.remote-ip=74.125.82.50
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA011606A32C
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:06:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA011606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EE9606A321
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:06:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38EE9606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=npPsxfuU
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-384d74c9dfdso403876eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:06:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=E7pXsPgy
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-168de2167deso33610c88.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:06:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795432013; x=1796036813; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795432016; x=1796036816; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=UBi8ffpUVq2DEgCD2ok6KZJXbr+tM2D+x6SEBDyvQ8I=;
-        b=npPsxfuUfB/QADMEfbU32ob8DsR8Gj3f34w93KOGb44pG8C7IHpoDNmeXLS+dQYR5b
-         ds3igzdDaweJHJ392GIfiaBqkqQuryBzqufIlOu/yJvXLfyqoHvi/QWMV2WRplkY0hP6
-         LbvSx4eOVuSV7Nal+U9yFp9z2of7s1lbDr+F4OeXVHBMyCWaMNdrqNVw7XIFDqBCdfDf
-         X43AokV3wMEpkonTXdOS86bseVR8C1FuNN9mWYo82oRGGiyJ9W2GA5u4Yd5Lg3expUqP
-         Cay8z1cWGjFnRywCOahhzPMuIfiJpmkVY/MdHlPcPAp/35+DL6X21VVd2/rJuBkpHz8P
-         hF9A==
+        bh=CwkImvIXAAhlQo7AZ0J1aig04Nt8sGXoi3ElWZmznRw=;
+        b=E7pXsPgyGAYZUViFSitPw0bupSmxyFmk7sZO2WzUVQswUQTYlpLocUNgSbU9gGPl+P
+         XXWap7nPyubQsHdQOsBM0Ds/uI9tIISM7/toyQ6WQabDwptmqjCbB7GBs0NlNpcRrrlV
+         +6K77I+bk9djrj422Q5rAlJ8fMzuTF8FxkdARowMZVodJzQnU9ajuXQ2QO4ALOiq7X7/
+         C2O/VEKWp+ozut/v96XXsFGQ37pSxbtHAzwFav1HJnC8G0rV+MHsAM7NXCvA8qPtSIF6
+         Paa6VVYIXaU3KCTvesizm8kv52JgSg53cve7ONf+nSZvjsppyP6Mm8VGOhRuK4CT8tnx
+         8BKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795432013; x=1796036813;
+        d=1e100.net; s=20260707; t=1795432016; x=1796036816;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=UBi8ffpUVq2DEgCD2ok6KZJXbr+tM2D+x6SEBDyvQ8I=;
-        b=wVuKyBWtS/KEpgYkG6NB2DDO+0tSVbeGjSvUpvVgMLklP84SkmHrPMscp9ibHVtOR/
-         RuX1PauXxFzpJmd3OQ3DcmRsrMR3DGtHASCnTSHvR9VxjUP7Z4iCa+DYiBzAPALU7zGH
-         67wVDkkWZFbY0bqnQZEuNTWxBWkxiibGKFdTzO/+0lp5gItoqwlXY8O4h8DnUkzyhcIr
-         ybI0evR3AzGQuuvNNQi+HI+CN0Vw2HbEXRA3BFFeJMLXUVW4+UZRAeLu7Bo8YPmM8Bbx
-         BgoQHxgcIlJq1meEl/a1UjHme/8hy/nXwz8j6TXtdWhzqSD9wLpIH96WVaEx+fpqX2Ix
-         yuTw==
-X-Forwarded-Encrypted: i=1; AL+hErFuUUthJIaCLDM+AlbGs7RNvRkeGg4TxunDwt0R9NT0i+EHwxlHCBW6D2A6pm1MdCt+jWiyPrZA9yE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/Qif0qAnNE/DnD8PEDttukplM8+dCvDIjTrCNCqtW1ryCHg44i
-	8EPOmxguc+/IVuYNPCW4706HRKeMU8Q385vCkxTJaHga7dZRmWyEzVoY
-X-Gm-Gg: AZFdTZcKVVEUI4TG1Cim1YN9qLJjBP9sp+FtgrlX8AOHftWRZjJm5mcw0fS98U4/1NL
-	+HwdKjzwH/H7uUKdvydgapo0iqaxVgKXk2vf937uoHYse38Byl2YL8bdra2XUByy5pqPowao+qW
-	O0EvsZfyPabSqMtqm8WdwCUtL7lh9rMZiZZS5tw5gMJn7iC0EQ1t4BQyO5E/riXGrTWLyy3YGBD
-	Yo2vSq5DRi+W9zOX0sIhROGeCBKOoSAb2RK580s+uDr3D5Zrxl8SiUOhA7qJ2rqDDjfvLIxUTb1
-	wPMA2wI1FI44odlPseyHukLk2m+p5TBlSXXUIg+htocdvVF9xe6Kzg+vF0M3QI9PeS5QQgKbtlu
-	iHXKwFT10l//ScR9HymQX7zDEA8XrWU3cRqFGB/WMGyhY4AcVCZXWhhDOr9M+8vfofw93TBh4gb
-	AMHKdL5L6AeDffgoDEVwcrleiIU3G7JA9ZDSnxuYsWaKy3U8llfZz/Iem3dUoUK1zFcFYwWuGEU
-	KSEi+dAhP84doyuny7RNGbALF/rRbRnS/nmY/qWf8bi79QBBTCNds3ygdizWiKYBxTK3jwS2boX
-	T7fTuYCm8tm5F/hNjbz9pxq2Ky+gF/0urnzXddNNZlJaOFvEvrDEHUCpv7n/U+KcJ8dmxX4+yu3
-	BejSmvUrysM78vVBqosxWZhRBUPge5ohR38eA8/0HvufgHQ==
-X-Received: by 2002:a05:701b:4554:10b0:1b5:4596:8371 with SMTP id a92af1059eb24-1b5566e72c7mr16919931c88.0.1795432012763;
-        Mon, 23 Nov 2026 03:06:52 -0800 (PST)
+        bh=CwkImvIXAAhlQo7AZ0J1aig04Nt8sGXoi3ElWZmznRw=;
+        b=qPhMWXoPbhkDD1uuITpqyo0E9L7rWOatoh95B7pccK5v3nwo2evT6znyrTWE2jvG5r
+         JUpkthWANVpe1OlGncHDNwQA6l7IyOfc+NSO1FRcSYy+lKsqlMSxPlzGGgnekZNkf6Fh
+         qIV2vIYv2adU5rJxOnzTxsD/X95E/2r32EJ0oZpJV2fvj0rmYF8kDUyITLAivsJzIErY
+         4oHvJYl+oAhxk6b5zjMRFAfgwL62Ut1qPKa2fKwCzY71hlQFlxebvsqxxVbLNAZYzSxM
+         tyTfKLCsMoBFn3paRjL0yRaQzRvjdpRfHHVADVNh19yQHf41NZ0TRvqTNRI86tcdY7dE
+         2vWw==
+X-Forwarded-Encrypted: i=1; AL+hErFEy28U9dPptq/NN0LDU/3MzJTfo36Txd1BfabFMsk3L+ojFfdqHU1VW/O3L65QpZTK12u+R48Gaco=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/dRBSJqDJPd2Xs+0ni6OAeYVevHP6dUx2q/rda5y5YWEGClCNz
+	2w4WZwc0KiXZz0BTfwmfMSxA/m1roir+sVIXspUNefxZu8Q8fWCh2HUfOKI/rdn0
+X-Gm-Gg: AZFdTZe5kIkEKqbsApqD3hqp9BhFH/OY2fOaq0snKxINSPn/BBcx1bVncre6MArrFLX
+	nI1XjQ9IUFpzQaIxP5u5teuEEItzyFGY8Ygxy8VG7JGh1UhtI/zgn/qv4rozLvKFYtkYJUd2tZo
+	AChLxKwdX22W557xx/pHILE1lRIEBnLt5auFruq5YowUAEsOfKFkYzmXgf4LxF/Ad1ZtxhlBaOn
+	xM8TRiBdSRZEk50frUIc4BHzS7BJa36mEDAAkSD/YHGixFixXo/Ocd0SWbXjsRoWqvFGUeL3CB3
+	T4bcotRUXDbO15pfvzygz8gu5EtTk/XoOQaxqM3mTil81XCSsGAaCtLedqE8h89HiaBDIz81DFE
+	Tav6LdjKWpZY90hhH6q4Jp6YS7/+zpR8hb4A1pSunTyFH+OHHWbaPo5XMRg/sVcopDYW54VaWAz
+	60QeF86K+n+HH6EToUD40NHTi/B2wjm9rNkE9rgV6qAJttBINQycRHfgtSxsSrz3AJcrFMaZxcC
+	WQ25iMvOQNgCOlZjQVeH4/w25g9Se7d6FAUJoUhEyg3iqPxUL1DdDwFXCP8NUPekojmSUffxwAn
+	/xjmo+3bOZ4vCIYZLzk+IPyuEKqapuIEBkI3QyZWut3O5JH8wiT5WpeI1CDNao9yDNa0H3Wp13T
+	IbxvwSRWhveIHlMsrgpYABW34
+X-Received: by 2002:a05:7022:b90d:b0:127:def:dd72 with SMTP id a92af1059eb24-1b55687f1a1mr15744789c88.2.1795432015894;
+        Mon, 23 Nov 2026 03:06:55 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.16])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm30054074c88.6.2026.11.23.03.06.50
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm30054074c88.6.2026.11.23.03.06.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 03:06:52 -0800 (PST)
+        Mon, 23 Nov 2026 03:06:55 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: alexs@kernel.org,
 	corbet@lwn.net
@@ -89,9 +89,9 @@ Cc: wy@wyuan.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH v2 02/13] docs/zh_TW: process: add cve.rst translation
-Date: Mon, 23 Nov 2026 19:06:25 +0800
-Message-ID: <20261123110637.172045-3-chenyou910331@gmail.com>
+Subject: [PATCH v2 03/13] docs/zh_TW: process: add applying-patches.rst translation
+Date: Mon, 23 Nov 2026 19:06:26 +0800
+Message-ID: <20261123110637.172045-4-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261123110637.172045-1-chenyou910331@gmail.com>
 References: <20261123110637.172045-1-chenyou910331@gmail.com>
@@ -107,138 +107,440 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate Documentation/process/cve.rst into Traditional Chinese from
-the current English text.  The zh_CN translation was consulted for
-wording only.
+Translate Documentation/process/applying-patches.rst into Traditional
+Chinese from the current English text, including the "Normal patches"
+and "Incremental patches" subsections of "The 5.x.y kernels".  The
+zh_CN translation was consulted for wording only.
 
 List the new file in the toctree of process/index.rst, after
-security-bugs as in the English index, and drop it from the TODOList.
+email-clients as in the English index, and drop it from the TODOList.
 
-update to commit 5928d411557e ("Documentation: Document the Linux
-Kernel CVE process")
+update to commit fa04150b8ef7 ("Documentation: describe how to apply
+incremental stable patches")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+Reviewed-by: Weijie Yuan <wy@wyuan.org>
 ---
- .../translations/zh_TW/process/cve.rst        | 90 +++++++++++++++++++
- .../translations/zh_TW/process/index.rst      |  2 +-
- 2 files changed, 91 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_TW/process/cve.rst
+ .../zh_TW/process/applying-patches.rst        | 390 ++++++++++++++++++
+ .../translations/zh_TW/process/index.rst      |   2 +-
+ 2 files changed, 391 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_TW/process/applying-patches.rst
 
-diff --git a/Documentation/translations/zh_TW/process/cve.rst b/Documentation/translations/zh_TW/process/cve.rst
+diff --git a/Documentation/translations/zh_TW/process/applying-patches.rst b/Documentation/translations/zh_TW/process/applying-patches.rst
 new file mode 100644
-index 000000000000..186cd47f5474
+index 000000000000..ab1960c5de4e
 --- /dev/null
-+++ b/Documentation/translations/zh_TW/process/cve.rst
-@@ -0,0 +1,90 @@
++++ b/Documentation/translations/zh_TW/process/applying-patches.rst
+@@ -0,0 +1,390 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +.. include:: ../disclaimer-zh_TW.rst
 +
-+:Original: Documentation/process/cve.rst
++:Original: Documentation/process/applying-patches.rst
 +
-+====
-+CVEs
-+====
++將修補程式套用到 Linux 核心
+++++++++++++++++++++++++++++
 +
-+Common Vulnerabilities and Exposure（CVE®）編號的設計初衷，是提供一種
-+明確的方式，來識別、定義與編錄公開披露的安全漏洞。隨著時間推移，CVE 編號
-+對核心專案的用處逐漸降低，而且經常以不恰當的方式、出於不恰當的理由被分配。
-+因此，核心開發社群一向傾向迴避它們。然而，要求分配 CVE 及其他形式安全識別
-+碼的壓力持續不斷，加上核心社群以外的個人與公司持續濫用，已經清楚顯示核心
-+社群應該掌控這些分配。
++原作者：
++    Jesper Juhl，2005 年 8 月
 +
-+Linux 核心開發團隊確實有能力為潛在的 Linux 核心安全問題分配 CVE。這項分配
-+獨立於 :doc:`一般的 Linux 核心安全缺陷回報流程 <../process/security-bugs>`。
++.. note::
 +
-+所有已分配給 Linux 核心的 CVE 列表，可以在 linux-cve 郵件列表的存檔中找到，
-+見 https://lore.kernel.org/linux-cve-announce/ 。若要收到已分配 CVE 的
-+通知，請 `訂閱 <https://subspace.kernel.org/subscribing.html>`_ 該郵件列表。
++   本文件已經過時。在大多數情況下，你幾乎一定會想改用 Git，而不是手動
++   執行 ``patch``。
 +
-+流程
-+====
++Linux 核心郵件列表上經常有人問：要如何把修補程式套用到核心？更具體地
++說，針對眾多樹或分支之一所製作的修補程式，應該套用到哪個基礎核心上？
++希望本文件能為你解答這些問題。
 +
-+作為一般穩定版發布流程的一部分，可能構成安全問題的核心變更，會由負責 CVE
-+編號分配的開發者辨識出來，並自動為其分配 CVE 編號。這些分配會以公告的形式，
-+頻繁地發布在 linux-cve-announce 郵件列表上。
++除了說明如何套用與撤銷修補程式，本文件也會簡要介紹不同的核心樹（並舉例
++說明如何套用各個核心樹特有的修補程式）。
 +
-+注意，由於 Linux 核心在系統中所處的層級，幾乎任何缺陷都可能被利用來危害
-+核心的安全性，但在修復缺陷時，被利用的可能性往往並不明顯。因此，CVE 分配
-+團隊採取過度謹慎的做法，會為他們辨識出的任何缺陷修復分配 CVE 編號。這也
-+說明了為什麼 Linux 核心團隊發布的 CVE 數量看起來如此之多。
 +
-+如果 CVE 分配團隊漏掉了某個特定的修復，而任何使用者認為它應該被分配 CVE，
-+請寄送電子郵件至 <cve@kernel.org>，那裡的團隊會與你一起處理。請注意，任何
-+潛在的安全問題都不應寄到這個信箱，它「僅」用於為已經進入已發布核心樹的修復
-+分配 CVE。如果你認為自己發現了一個尚未修復的安全問題，請依照
-+:doc:`一般的 Linux 核心安全缺陷回報流程 <../process/security-bugs>` 處理。
++什麼是修補程式？
++================
 +
-+Linux 核心中尚未修復的安全問題不會被自動分配 CVE；只有在修復已經可用並套用
-+到穩定核心樹之後，才會自動進行分配，並以原始修復的 git commit id 來追蹤。
-+如果有人希望在問題透過提交解決之前就分配 CVE，請聯絡核心 CVE 分配團隊
-+<cve@kernel.org>，從他們保留的一批識別碼中取得一個。
++修補程式是一份小型文字文件，記錄原始碼樹兩個不同版本之間的差異。修補
++程式由 ``diff`` 程式產生。
 +
-+對於 Stable/LTS 核心團隊目前未積極支援的核心版本中發現的任何問題，都不會
-+分配 CVE。目前支援的核心分支列表可在 https://kernel.org/releases.html 找到。
++要正確套用修補程式，你需要知道它是以哪個版本為基礎產生的，以及它會把
++原始碼樹變成哪個新版本。這兩項資訊應該都記錄在修補程式檔案的中繼資料
++中，或者可以從檔名推斷出來。
 +
-+對已分配 CVE 的爭議
-+===================
 +
-+對特定核心變更所分配的 CVE 提出爭議或加以修改的權限，僅屬於受影響的相關
-+子系統的維護者。這項原則確保了漏洞回報的高度準確性與可問責性。只有對該子
-+系統具備深厚專業知識與深入了解的人，才能有效評估所回報漏洞的有效性與範圍，
-+並判定其適當的 CVE 認定。任何在此指定權限之外修改或爭議 CVE 的嘗試，都可
-+能導致混亂、不準確的回報，最終危及系統。
++如何套用或撤銷修補程式？
++========================
 +
-+無效的 CVE
++使用 ``patch`` 程式套用修補程式。patch 程式會讀取 diff 檔（或修補程式
++檔），並依照其中的描述修改原始碼樹。
++
++Linux 核心的修補程式是以存放核心原始碼目錄的上層目錄為基準產生的。
++
++這表示修補程式檔案中的檔案路徑，會包含產生修補程式時所用的核心原始碼
++目錄名稱（或「a/」與「b/」之類的其他目錄名稱）。
++
++這個名稱不太可能與你本機上的核心原始碼目錄名稱相同（不過，對於沒有標示
++版本的修補程式，它常常是判斷其基礎版本的有用資訊），所以你應該先切換到
++核心原始碼目錄，套用修補程式時再去掉修補程式檔案中檔名路徑的第一個部分
++（``patch`` 的 ``-p1`` 參數就是做這件事）。
++
++要撤銷先前套用的修補程式，請對 patch 使用 -R 參數。所以，如果你是這樣
++套用修補程式的::
++
++	patch -p1 < ../patch-x.y.z
++
++就可以這樣撤銷（復原）它::
++
++	patch -R -p1 < ../patch-x.y.z
++
++
++如何把修補程式檔或 diff 檔交給 ``patch``？
++==========================================
++
++這件事（就像在 Linux 和其他類 UNIX 作業系統上常見的那樣）有好幾種不同
++的做法。
++
++在下面所有的範例中，我都用以下語法，透過標準輸入（stdin）把（未壓縮的）
++檔案交給 patch::
++
++	patch -p1 < path/to/patch-x.y.z
++
++如果你只是想照著下面的範例操作，不想知道 patch 的其他用法，那麼本節讀到
++這裡就可以了。
++
++patch 也可以透過 -i 參數取得要使用的檔案名稱，像這樣::
++
++	patch -p1 -i path/to/patch-x.y.z
++
++如果你的修補程式檔案是用 gzip 或 xz 壓縮的，而你不想在套用前先解壓縮，
++可以改用這種方式把它交給 patch::
++
++	xzcat path/to/patch-x.y.z.xz | patch -p1
++	bzcat path/to/patch-x.y.z.gz | patch -p1
++
++如果你想在套用前先手動解壓縮修補程式檔案（下面的範例都假設你已經這樣
++做了），只要對檔案執行 gunzip 或 xz 即可，像這樣::
++
++	gunzip patch-x.y.z.gz
++	xz -d patch-x.y.z.xz
++
++這樣會留下一個純文字的 patch-x.y.z 檔案，你可以依自己的喜好，透過標準
++輸入或 ``-i`` 參數把它交給 patch。
++
++patch 還有幾個好用的參數：``-s`` 讓 patch 除了錯誤以外不輸出任何訊息，
++可以避免錯誤訊息太快捲出螢幕；``--dry-run`` 讓 patch 只列出將會發生的
++事情，而不實際做任何修改。最後，``--verbose`` 讓 patch 輸出更多關於
++處理過程的資訊。
++
++
++套用修補程式時的常見錯誤
++========================
++
++patch 套用修補程式檔案時，會用各種方式檢查檔案是否合理。
++
++檢查檔案看起來是否像有效的修補程式檔案，以及檢查要修改的部分周圍的程式碼
++是否與修補程式提供的上下文相符，只是 patch 所做的兩項基本檢查。
++
++如果 patch 遇到看起來不太對的地方，它有兩種選擇：拒絕套用變更並中止，
++或者設法稍作調整，讓修補程式能夠套用。
++
++patch 會嘗試修正的「不太對」的情況之一，是上下文全部相符、要修改的行也
++相符，但行號不同。舉例來說，如果修補程式修改的是檔案中間的內容，而檔案
++開頭附近因為某些原因增加或刪除了幾行，就會發生這種情況。此時一切看起來
++都沒問題，只是位置上下移動了一些，patch 通常會調整行號並套用修補程式。
++
++每當 patch 必須稍微修改修補程式才能套用時，它會告訴你修補程式是經過
++**fuzz** （模糊比對）才套用的。你應該對這類變更保持警覺，因為雖然 patch
++很可能處理正確，但它並不/總是/正確，結果有時會是錯的。
++
++當 patch 遇到無法用 fuzz 修正的變更時，會直接拒絕它，並留下一個副檔名為
++``.rej`` 的檔案（拒絕檔）。你可以閱讀這個檔案，確切了解哪項變更無法套用，
++以便視需要手動修正。
++
++如果你的核心原始碼沒有套用任何第三方修補程式，只套用了來自 kernel.org
++的修補程式，而且套用順序正確，也沒有自行修改過原始碼檔案，那麼你應該
++永遠不會看到 patch 輸出 fuzz 或拒絕的訊息。如果你還是看到了這類訊息，
++那麼你的本機原始碼樹或修補程式檔案很有可能已經以某種方式損毀。此時你
++大概應該試著重新下載修補程式；如果問題依舊，建議你從 kernel.org 重新
++完整下載一份全新的原始碼樹，從頭開始。
++
++下面進一步看看 patch 可能輸出的幾種訊息。
++
++如果 patch 停下來並顯示 ``File to patch:`` 提示，表示 patch 找不到要修改
++的檔案。最可能的原因是你忘了指定 -p1，或者你所在的目錄不對。比較少見的
++情況是，你會遇到需要用 ``-p0`` 而不是 ``-p1`` 套用的修補程式（閱讀修補
++程式檔案應該就能看出是否如此；如果是，這是製作修補程式的人的錯誤，但並
++不致命）。
++
++如果你看到 ``Hunk #2 succeeded at 1887 with fuzz 2 (offset 7 lines).``
++或類似的訊息，表示 patch 必須調整變更的位置（在這個例子中，它必須把變更
++從預期的位置移動 7 行才能套用）。
++
++產生的檔案不一定正確，要看檔案與預期不同的原因而定。
++
++當你嘗試套用一個以不同核心版本產生的修補程式，而不是以你要修改的版本
++產生的修補程式時，經常會發生這種情況。
++
++如果你看到像 ``Hunk #3 FAILED at 2387.`` 這樣的訊息，表示修補程式無法
++正確套用，patch 程式也無法透過 fuzz 完成套用。這會產生一個 ``.rej`` 檔，
++其中包含導致修補程式失敗的變更，還會產生一個 ``.orig`` 檔，顯示無法修改
++的原始內容。
++
++如果你看到
++``Reversed (or previously applied) patch detected!  Assume -R? [n]``
++，表示 patch 偵測到修補程式中的變更似乎已經存在。
++
++如果你確實之前已經套用過這個修補程式，只是不小心又套用了一次，那就回答
++[n]o 並中止這個修補程式。如果你之前套用過這個修補程式，本來就打算撤銷
++它，只是忘了指定 -R，那麼可以在這裡回答 [**y**]es，讓 patch 替你撤銷。
++
++如果修補程式的製作者在製作時把來源目錄與目的目錄弄反了，也會發生這種
++情況；此時撤銷修補程式實際上就是套用它。
++
++類似 ``patch: **** unexpected end of file in patch`` 或
++``patch unexpectedly ends in middle of line`` 的訊息，表示 patch 完全
++無法理解你交給它的檔案。可能是你下載的檔案已損壞、你沒有先解壓縮就把
++壓縮過的修補程式檔案交給 patch，或者你使用的修補程式檔案在傳遞途中被
++某個郵件用戶端或郵件傳輸代理弄亂了，例如把一行過長的內容拆成兩行。通常
++只要把被拆開的兩行重新接（串接）起來，就能輕鬆解決這類警告。
++
++如前所述，如果你把 kernel.org 的修補程式套用到版本正確、未經修改的原始碼
++樹上，這些錯誤應該永遠不會發生。所以，如果你在套用 kernel.org 的修補程式
++時遇到這些錯誤，大概就該認定你的修補程式檔案或原始碼樹已經損壞；建議你
++重新下載完整的核心樹和要套用的修補程式，從頭開始。
++
++
++除了 ``patch`` 還有其他選擇嗎？
++===============================
++
++
++有的。
++
++你可以使用 ``interdiff`` 程式 (http://cyberelk.net/tim/patchutils/)
++產生一個代表兩個修補程式之間差異的修補程式，然後套用這個結果。
++
++這樣就能一步從 5.7.2 之類的版本更新到 5.7.3。interdiff 的 -z 選項甚至
++可以讓你直接傳入以 gzip 或 bzip2 壓縮的修補程式，不必使用 zcat 或 bzcat，
++也不必手動解壓縮。
++
++以下是一步從 5.7.2 更新到 5.7.3 的做法::
++
++	interdiff -z ../patch-5.7.2.gz ../patch-5.7.3.gz | patch -p1
++
++雖然 interdiff 可以幫你省下一兩個步驟，但一般仍建議你執行那些額外的步驟，
++因為 interdiff 在某些情況下會出錯。
++
++另一個選擇是 ``ketchup``，它是一個自動下載並套用修補程式的 Python 指令碼
++(https://www.selenic.com/ketchup/)。
++
++其他好用的工具還有：diffstat，顯示修補程式所做變更的摘要；lsdiff，簡短
++列出修補程式檔案影響到的檔案，並可選擇一併顯示每段修補程式的起始行號；
++以及 grepdiff，列出修補程式中內容符合指定正規表示式的部分所修改的檔案。
++
++
++可以從哪裡下載修補程式？
++========================
++
++修補程式可以在 https://kernel.org/ 取得。
++首頁有最新修補程式的連結，但它們也各自有固定的存放位置。
++
++5.x.y（-stable）與 5.x 修補程式位於
++
++    https://www.kernel.org/pub/linux/kernel/v5.x/
++
++5.x.y 增量修補程式位於
++
++    https://www.kernel.org/pub/linux/kernel/v5.x/incr/
++
++-rc 修補程式不存放在網頁伺服器上，而是從 git 標籤按需產生，例如
++
++    https://git.kernel.org/torvalds/p/v5.1-rc1/v5.0
++
++穩定版的 -rc 修補程式位於
++
++    https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/
++
++
++5.x 核心
++========
++
++這些是 Linus 發布的基礎穩定版本。版本號最大的就是最新的版本。
++
++如果發現迴歸或其他嚴重缺陷，就會在這個基礎版本之上發布 -stable 修正
++修補程式（見下文）。一旦新的 5.x 基礎核心發布，也會提供一個修補程式，
++內容是前一個 5.x 核心與新核心之間的差異。
++
++要套用從 5.6 更新到 5.7 的修補程式，請依照下列步驟操作（請注意，這類
++修補程式 **不能** 套用在 5.x.y 核心之上，而是套用在基礎 5.x 核心之上；
++如果你要從 5.x.y 更新到 5.x+1，必須先撤銷 5.x.y 修補程式）。
++
++以下是一些範例::
++
++	# moving from 5.6 to 5.7
++
++	$ cd ~/linux-5.6		# change to kernel source dir
++	$ patch -p1 < ../patch-5.7	# apply the 5.7 patch
++	$ cd ..
++	$ mv linux-5.6 linux-5.7	# rename source dir
++
++	# moving from 5.6.1 to 5.7
++
++	$ cd ~/linux-5.6.1		# change to kernel source dir
++	$ patch -p1 -R < ../patch-5.6.1	# revert the 5.6.1 patch
++					# source dir is now 5.6
++	$ patch -p1 < ../patch-5.7	# apply new 5.7 patch
++	$ cd ..
++	$ mv linux-5.6.1 linux-5.7	# rename source dir
++
++
++5.x.y 核心
 +==========
 +
-+如果某個安全問題出現在僅由某個 Linux 發行版支援的 Linux 核心中，原因是該
-+發行版所做的變更，或是該發行版支援的核心版本已不再屬於 kernel.org 支援的
-+版本之一，那麼 Linux 核心 CVE 團隊無法分配 CVE，必須向該 Linux 發行版本身
-+申請。
++版本號有三段數字的核心是 -stable 核心。它們包含針對某個 5.x 核心中發現
++的安全問題或重大迴歸所做的（較）小型關鍵修正。
 +
-+任何由核心 CVE 分配團隊以外的團體，針對積極支援中的核心版本分配給 Linux
-+核心的 CVE，都不應被視為有效的 CVE。請通知核心 CVE 分配團隊
-+<cve@kernel.org>，讓他們能透過 CNA 補救流程使這類條目失效。
++對於想要最新穩定核心、又無意幫忙測試開發版或實驗版的使用者，建議使用
++這個分支。
 +
-+特定 CVE 的適用性
-+=================
++如果沒有可用的 5.x.y 核心，那麼版本號最大的 5.x 核心就是目前的穩定核心。
 +
-+由於 Linux 核心可以用許多不同的方式使用，外部使用者存取它的方式也有很多種，
-+甚至完全無法存取，因此任何特定 CVE 的適用性應由 Linux 的使用者自行判斷，
-+而不是由 CVE 分配團隊決定。請不要聯絡我們，試圖確認任何特定 CVE 的適用性。
++-stable 團隊同時提供一般修補程式與增量修補程式。以下說明如何套用這些
++修補程式。
 +
-+此外，由於原始程式碼樹非常龐大，而任何一個系統都只會使用其中一小部分，所有
-+Linux 使用者都應該了解，大量已分配的 CVE 與他們的系統並不相關。
++一般修補程式
++~~~~~~~~~~~~
 +
-+簡而言之，我們不知道你的使用情境，也不知道你使用了核心的哪些部分，因此我們
-+無從判斷特定的 CVE 是否與你的系統相關。
++這類修補程式不是增量的，也就是說，例如 5.7.3 修補程式並不是套用在
++5.7.2 核心原始碼之上，而是套用在基礎 5.7 核心原始碼之上。
 +
-+一如既往，最好採用所有已發布的核心變更，因為它們是由許多社群成員作為一個
-+統一的整體一起測試過的，而不是一個個單獨挑選（cherry-pick）出來的變更。
-+另外也請注意，對於許多缺陷來說，整體問題的解決方案並不在單一變更中，而是
-+由許多層層疊加的修復共同構成。理想情況下，所有問題的所有修復都會被分配
-+CVE，但有時我們會沒有注意到某些修復，因此請假設某些沒有分配 CVE 的變更
-+也可能值得採用。
++因此，要把 5.7.3 修補程式套用到你現有的 5.7.2 核心原始碼，必須先撤銷
++5.7.2 修補程式（回到基礎 5.7 核心原始碼），再套用新的 5.7.3 修補程式。
++
++以下是一個簡單的範例::
++
++	$ cd ~/linux-5.7.2		# change to the kernel source dir
++	$ patch -p1 -R < ../patch-5.7.2	# revert the 5.7.2 patch
++	$ patch -p1 < ../patch-5.7.3	# apply the new 5.7.3 patch
++	$ cd ..
++	$ mv linux-5.7.2 linux-5.7.3	# rename the kernel source dir
++
++增量修補程式
++~~~~~~~~~~~~
++
++增量修補程式則不同：它們不是套用在基礎 5.x 核心之上，而是套用在前一個
++穩定版核心（5.x.y-1）之上。
++
++以下是套用這類修補程式的範例::
++
++	$ cd ~/linux-5.7.2		# change to the kernel source dir
++	$ patch -p1 < ../patch-5.7.2-3	# apply the new 5.7.3 patch
++	$ cd ..
++	$ mv linux-5.7.2 linux-5.7.3	# rename the kernel source dir
++
++
++-rc 核心
++========
++
++這些是候選發布版（release-candidate）核心。每當 Linus 認為目前的 git
++（核心的原始碼管理工具）樹處於相當穩健、足以進行測試的狀態時，就會發布
++這種開發版核心。
++
++這些核心並不穩定，如果你打算執行它們，應該預期偶爾會出問題。不過，這是
++幾個主要開發分支中最穩定的一個，也是最終會成為下一個穩定核心的分支，
++所以讓越多人測試它越好。
++
++如果你想幫忙測試開發版核心，但又不想執行真正實驗性的東西，這是個適合
++執行的分支（想執行實驗性內容的人，請參閱下文關於 -next 與 -mm 核心的
++章節）。
++
++-rc 修補程式不是增量的，它們和上文介紹的 5.x.y 修補程式一樣，套用在
++基礎 5.x 核心之上。-rcN 字尾前面的核心版本，表示這個 -rc 核心最終會
++成為的核心版本。
++
++所以，5.8-rc5 表示這是 5.8 核心的第五個候選發布版，這個修補程式應該
++套用在 5.7 核心原始碼之上。
++
++以下是三個套用這類修補程式的範例::
++
++	# first an example of moving from 5.7 to 5.8-rc3
++
++	$ cd ~/linux-5.7			# change to the 5.7 source dir
++	$ patch -p1 < ../patch-5.8-rc3		# apply the 5.8-rc3 patch
++	$ cd ..
++	$ mv linux-5.7 linux-5.8-rc3		# rename the source dir
++
++	# now let's move from 5.8-rc3 to 5.8-rc5
++
++	$ cd ~/linux-5.8-rc3			# change to the 5.8-rc3 dir
++	$ patch -p1 -R < ../patch-5.8-rc3	# revert the 5.8-rc3 patch
++	$ patch -p1 < ../patch-5.8-rc5		# apply the new 5.8-rc5 patch
++	$ cd ..
++	$ mv linux-5.8-rc3 linux-5.8-rc5	# rename the source dir
++
++	# finally let's try and move from 5.7.3 to 5.8-rc5
++
++	$ cd ~/linux-5.7.3			# change to the kernel source dir
++	$ patch -p1 -R < ../patch-5.7.3		# revert the 5.7.3 patch
++	$ patch -p1 < ../patch-5.8-rc5		# apply new 5.8-rc5 patch
++	$ cd ..
++	$ mv linux-5.7.3 linux-5.8-rc5		# rename the kernel source dir
++
++
++-mm 修補程式與 linux-next 樹
++============================
++
++-mm 修補程式是 Andrew Morton 發布的實驗性修補程式。
++
++過去 -mm 樹也用來測試子系統的修補程式，但這項功能現在改由
++`linux-next` (https://www.kernel.org/doc/man-pages/linux-next.html)
++樹負責。子系統維護者會先把他們的修補程式推送到 linux-next，並在合併視窗
++期間直接發送給 Linus。
++
++-mm 修補程式可以說是新功能和其他未經子系統樹合併的實驗性修補程式的試驗場。
++這類修補程式在 -mm 中經過一段時間證明其價值後，Andrew 就會把它推送給
++Linus，以納入主線。
++
++linux-next 樹每天更新，並包含 -mm 修補程式。兩者都持續變動，包含許多
++實驗性功能、大量不適合進入主線的除錯修補程式等，是本文件所介紹的各分支
++中最具實驗性的。
++
++這些修補程式不適合用在需要保持穩定的系統上，執行它們的風險也比其他任何
++分支都高（請確保你有最新的備份——這適用於任何實驗性核心，對 -mm 修補
++程式或使用 linux-next 樹的核心更是如此）。
++
++我們非常感謝大家測試 -mm 修補程式與 linux-next，因為它們存在的意義，
++就是在變更合併進更穩定的 Linus 主線樹之前，找出迴歸、當機、資料損毀
++缺陷、建置失敗（以及其他一般的缺陷）。
++
++不過，-mm 與 linux-next 的測試者應該要知道，這些樹出問題的頻率比其他
++任何樹都高。
++
++
++各種核心樹的說明到此結束。希望你現在已經清楚如何套用各種修補程式，並能
++幫忙測試核心。
++
++感謝 Randy Dunlap、Rolf Eike Beer、Linus Torvalds、Bodo Eggert、
++Johannes Stezenbach、Grant Coady、Pavel Machek，以及其他可能被我遺漏
++的人，感謝他們對本文件的審閱與貢獻。
 diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
-index fd53103aeb33..80fff2203e55 100644
+index 80fff2203e55..7917fb96dd01 100644
 --- a/Documentation/translations/zh_TW/process/index.rst
 +++ b/Documentation/translations/zh_TW/process/index.rst
-@@ -90,13 +90,13 @@ TODOList:
- 
-    debugging/index
-    security-bugs
-+   cve
-    embargoed-hardware-issues
+@@ -43,13 +43,13 @@
+    programming-language
+    coding-style
+    email-clients
++   applying-patches
+    volatile-considered-harmful
  
  TODOList:
  
- * handling-regressions
- * threat-model
--* cve
- 
- 維護者資訊
- ----------
+ * changes
+ * maintainer-pgp-guide
+-* applying-patches
+ * backporting
+ * adding-syscalls
+ * botching-up-ioctls
 -- 
 2.43.0
 
