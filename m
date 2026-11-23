@@ -1,76 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795465106;
-	b=uuobfx5mWKgz5kza50QY5/70Uc/XRhBPsLJP0vYZCmsi5lIA6rqrEZZaTTXTdeKmkRQW
-	 wHGEFZXTNyYzDyg4ZFrQ328aklsuKRdSYJriR/hp6zEdvVi9SQjEwLIcAHDeynAqyJ4XG
-	 8Wo2j731CD0KzNy/JyEcPCQyV3+Cfh5fNDL/pwzo7zcWUMObfQWhdmoWOZZwhZjIYYpHz
-	 zIuRnFCBm+gvjYeJfvbIhPqfksUXjrJRY8thHYlH3o4lfo3akzak7mjsk+fBUOTBHmETG
-	 yXx8cnp/xJoyUqU+EephDdXxPqZGe2VKHyx4O7fNJRTBIQXiQdBtBqKEur7sd3+pdqQ==
+	t=1795465346;
+	b=tKX+JVysR6Pr7cUVyak+ZO38uo5oirngFU1l+XTY7iHO03uLg4vmaELxowXIRm7X3xNt
+	 7dbQ9hOOk62jy2yfOcJfYkt9FVLXeWgw23YkNBKPpTjlj+4qb8OiCOtjph6HBWog1wGjR
+	 Of9ihCLsYs8yurhUHhO1xU3+ZdsLSmM+iT3MJ0dUZ+tmmtbsMWV4sMBtVBHlwj1Iot8Nt
+	 rM1jzhQ385PLWCJikBH5QuJp/LYbWCtX/2erq5b7lBJgWZx8tKSS7gQpCXKC70hLF833A
+	 swsUy8mRw5tatQUn90O0KpM+Mj2P75+SRyO4gRbsVkTOsAqhb8JYjrsNf/7g5YS9lqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795465106;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=8AUjLkJf+AzfntX6iFDwsoJRr0FO8Zc2d0H24MDxBvI=;
-	b=5qjDrhLWQJ2tBo552pH8dySfLUau+cXiTrfAMuWXsF8E2SqhCYgfd2JOtoDfOKs8s+Bb
-	 CZjo2TOO2UCPWMMauUueGXtZ9MrwU4MegOL0CyxBTpOYqYsKJmmT6yE7cRD5HZUtdSib8
-	 2D9mxI6hEM1SV7rAZN3kM6GZDALitg235KDkFTVcHLJGkj4bpzrQMA6+opoDEmIV0zsyw
-	 E9QvfvQKdbxYfjv2jh9iNny+L6RJQhjQ5w4aFwSKLUxPYilHDQTzALS74kecZXbLDccsW
-	 5uoTSEdMFtjkD0W9E6J+Vu3a+QlzY9VS8WB4X0THdrPjcyk1P8YEgfs9/WsTGpc/SIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795465346;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
+	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=25UVLybwoRnEcpbdXV2pFcFQ0Vqv+61x2so2s19OgUM=;
+	b=jaD2Boq/m0vTissas0mSgLSUOuJY8lUmnI3t14SMnwZJHbQeH0/bWRTS8yxvTgUu2PwQ
+	 24jGpSk2qwxnXFbUT72BdvpT/CtKIu6f6vjA3nopx5zYebiRVAb/Xg8W8LrfxLJxeN5jH
+	 vZu/S6U6uUN1Pdln9Oi+YzI5xCzRM3T6mB64xN/o2U9XTE17zPJJmvxa1SBWAb0TsOv13
+	 BRL84MTnkiorTpefRLJ1n63aJ/mSpU5eUdjsIBD4TcdUZLzm03FqXXRh60wc/XfKg5Hpb
+	 Th1hcah9aA/yT7m3hOCo98DUIFU41m/n2Z6Yp0RmeA5WjB7JgnNQaqFoQgKaabfk9PQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UVyzKebp;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=DwAC8cHH;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id D833A606A31E;
-	Mon, 23 Nov 2026 20:18:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CCB606A31E;
+	Mon, 23 Nov 2026 20:22:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UVyzKebp
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 674E81F000C0;
-	Mon, 23 Nov 2026 20:18:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795465106;
-	bh=8AUjLkJf+AzfntX6iFDwsoJRr0FO8Zc2d0H24MDxBvI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UVyzKebpzwIv1Yn/drpovJ7QjKcAtXZdZD3OApmocb00ceKrmEfJyDHHIOPR6rxGL
-	 dTlkkM2zSU+UbZRpUQ+0dvozMcV8vxWcZeWOo0r5n6suKMFSxE8JBMe1jVb3u4rql3
-	 ms3Ao00f7Pon1f08VL7Hn46kMq6Iz6j3sYGeU35V56ovusnZnR6pYUrnDPbWr/p+wb
-	 gIPYdrgT9PV8u20SWsFW944fnSAR4vKt9Jf/y5k3dQM9rNHyJbrWrSx4gBe9b8kfLw
-	 1jiBkulqoMOpNt8DLyxG67WYmZUqfyURRMTL1VvHecFgRyFtDF6VEFNUqMvhuv5ulT
-	 aypeV1ThO2hjw==
-Date: Mon, 23 Nov 2026 22:18:22 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Casey Schaufler <casey@schaufler-ca.com>
-Cc: Andy Lutomirski <luto@amacapital.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	"Hallgrimur H. Gunnarsson" <halg@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Serge Hallyn <sergeh@kernel.org>, Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	David Howells <dhowells@redhat.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Jonathan Calmels <jcalmels@3xx0.net>, Jann Horn <jannh@google.com>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Singh KP <kpsingh@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-	containers@lists.linux.dev, keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] userns: introduce capability bounding set for
- user namespacesg
-Message-ID: <awSfjslSDxyWvrHt@kernel.org>
-References: <20261119104208.782900-1-halg@google.com>
- <20261119104208.782900-2-halg@google.com>
- <CALCETrVqc+1bjH1bhqHee9bsUdk2B6314z7PMexbsnNpMhk14g@mail.gmail.com>
- <CALCETrV=zSxb6sgA08DLiK2bQovdMEj9ycG=Cc71mLn2C5Pgeg@mail.gmail.com>
- <4db941ba-3001-4019-8910-63e534b29f89@schaufler-ca.com>
- <awSVO9Zc-233M7_P@kernel.org>
- <awSWK7o9PCk4ApM8@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=DwAC8cHH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04ACC1F000EB;
+	Mon, 23 Nov 2026 20:22:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1795465346;
+	bh=25UVLybwoRnEcpbdXV2pFcFQ0Vqv+61x2so2s19OgUM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=DwAC8cHHY+5qU8NdK2ZbrsvhxFqopogKwAxsWk8kEnCCVT6Hmbtw0V6XziVvGOJFl
+	 UqXnmynokZ9RofSYPre5yp5SaL+eP7gD+iVzbExurknf8l0NwCrdN3RTO1xJ6LK71f
+	 8PNPmpHS6+1C0lJh+4nQoWqAlcS3s5LQourJH+QE=
+Date: Mon, 23 Nov 2026 12:22:23 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kasong@tencent.com
+Cc: Kairui Song via B4 Relay <devnull+kasong.tencent.com@kernel.org>,
+ linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>, Muchun Song
+ <muchun.song@linux.dev>, Qi Zheng <qi.zheng@linux.dev>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Chris Li <chrisl@kernel.org>, Baoquan He
+ <baoquan.he@linux.dev>, Nico Pache <nico.pache@linux.dev>, Usama Arif
+ <usama.arif@linux.dev>, Michal Hocko <mhocko@kernel.org>, Roman Gushchin
+ <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, David
+ Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie
+ <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Vlastimil Babka
+ <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Nhat Pham
+ <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>, Zi Yan
+ <ziy@nvidia.com>, Gregory Price <gourry@gourry.net>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>, Dev
+ Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, Hugh Dickins
+ <hughd@google.com>, SJ Park <sj@kernel.org>, David Rientjes
+ <rientjes@google.com>, Yu Zhao <yuzhao@google.com>, Vernon Yang
+ <vernon2gm@gmail.com>, Zicheng Wang <wangzicheng@honor.com>, Tal Zussman
+ <tz2294@columbia.edu>, Kairui Song <ryncsn@gmail.com>, Xiang Liu
+ <liuxiang.277@bytedance.com>, Ehab Ababneh <ehab.ababneh@intel.com>, Zhao
+ Zhenzhuo <zhaozhengzhuo@uniontech.com>, Lian Wang <lianux.mm@gmail.com>,
+ Joanne Koong <joannelkoong@gmail.com>, Kunwu Chan <kunwu.chan@gmail.com>,
+ Hui Zhu <hui.zhu@linux.dev>, Maxim Muzafarov <maxmuzaf@gmail.com>,
+ linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+ damon@lists.linux.dev, linux-doc@vger.kernel.org, Tianyi Chen
+ <hi@tychen.cc>, Ridong Chen <ridong.chen@linux.dev>
+Subject: Re: [PATCH v6 00/18] mm/mglru: frequency guided promotion
+ (MGLRU-FG) and flag cleanup
+Message-Id: <20261123122223.ea225d3b6424c274679b41de@linux-foundation.org>
+In-Reply-To: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
+References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,92 +82,38 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <awSWK7o9PCk4ApM8@kernel.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 23, 2026 at 09:38:23PM +0200, Jarkko Sakkinen wrote:
-> On Mon, Nov 23, 2026 at 09:35:16PM +0200, Jarkko Sakkinen wrote:
-> > On Mon, Nov 23, 2026 at 09:22:29AM -0800, Casey Schaufler wrote:
-> > > On 11/20/2026 9:09 AM, Andy Lutomirski wrote:
-> > > >> On Nov 19, 2026, at 2:52 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> > > >> ﻿On Thu, Nov 19, 2026 at 2:43 AM Hallgrimur H. Gunnarsson
-> > > >> <halg@google.com> wrote:
-> > > >>> When a process creates a new user namespace, it receives a full set of
-> > > >>> capabilities (CAP_FULL_SET) scoped to that namespace. While namespaced
-> > > >>> in scope, several of these capabilities (such as CAP_NET_ADMIN and
-> > > >>> CAP_NET_RAW) expose broad kernel attack surface that many sandboxes and
-> > > >>> containers never need. However, there is currently no configurable way
-> > > >>> to withhold such capabilities from user namespaces while still granting
-> > > >>> them to workloads that require them.
-> > > >>
-> > > >> One thought (from the rootns thread): the other decent sized attack
-> > > >> surface here is CAP_MOUNT_ADMIN.  Which doesn't exist as a capability
-> > > >> bit.
-> > > >>
-> > > >> A sort of horrible solution (but maybe not so awful) would be to
-> > > >> declare that the bits in cap_userns aren't actually capability bits,
-> > > >> and that you need the bit in cap_userns *and* the bit in cap_effective
-> > > >> to do sensitive things, and that mounting needs cap_userns to have
-> > > >> NSCAP_MOUNT_ADMIN *and* cap_effective to have CAP_SYS_ADMIN.
-> > > >>
-> > > >> I want to sleep on this.  It might actually solve several problems,
-> > > >> e.g. controlling creation of ipv4 and ipv6 loopback or tunnel devices
-> > > >> or whatever.
-> > > > I slept on it. Here’s a counterproposal.  I’m not saying I think this
-> > > > is better than this patch set, but I think it’s worth weighting the
-> > > > options.
-> > > >
-> > > > Define a whole new set of privilege bits.  As a
-> > > > poorly-painted-bikeshed option, I’ll call them eprivs (for exposure
-> > > > privileges - it’s a crappy name but at least it’s pronounceable).
-> > > 
-> > > I played with a mechanism I called "chits" (all the good terms for security
-> > > bits have been consumed for a very long time) that looks a lot like
-> > > what you're proposing. I did it to address the CAP_SYS_ADMIN problem,
-> > > where any use of the capability opens up a whole barrel of worms.
-> > > I cannot, unfortunately, find my patches. :( The basic approach is:
-> > > 
-> > > A process has an optional set of chits. A process without a chit set is
-> > > unaffected by the mechanism. A process with a chit set is allowed only
-> > > those operations for which it has a chit. The existing but empty chit set
-> > > allows no operations. A process may drop a chit, but not the set, which,
-> > > again, can be empty.
-> > > 
-> > > Because I was after CAP_SYS_ADMIN, I envisioned a call
-> > > 	cap_able_chit(capability, chit-list)
-> > > but there's no reason there couldn't be a
-> > > 	chit_able(chit-list)
-> > > as well.
-> > > 
-> > > I wrote this as an LSM, but the system-wide aspect of it made that
-> > > a questionable choice.
-> > > 
-> > > If you have any interest, I could dig more deeply to try to find the
-> > > patches. Otherwise, I'm happy to look at what you come up with.
-> > 
-> > What if eprivs or chits would take each capability and subvidide
-> > them into pieces? CAP_MAC_ADMIN would be formally a set of chits
-> > (or eprivs).
-> > 
-> > And process having e.g., CAP_MAC_ADMIN, would actually have the
-> > set of chits that are included to CAP_MAC_ADMIN.
-> > 
-> > Without that type of relation there's just a space full of chit
-> > ;-)
+On Tue, 24 Nov 2026 02:52:52 +0800 Kairui Song via B4 Relay <devnull+kasong.tencent.com@kernel.org> wrote:
+
+> This series implements MGLRU-FG following the idea proposed at LSF/MM/BPF
+> this year [1], based on current mm-new. Depending on the workload, it
+> improves the performance or reduces IO by roughly 10% to over 50%,
+> fixes multiple long-standing issues with MGLRU metrics, and drops one
+> page flag.
+
+Great, I'll add this to mm-new and shall move it into mm-unstable
+(hence linux-next) promptly.
+
+I tested v4 quite hard last week and I view the risk of breaking
+linux-next to be low.
+
+> The series has been tested on multiple platforms (desktop, large server,
+> Android phone, x86_64 and arm64 VM boxes) covering many typical benchmarks,
+> databases and real applications, so far everything looks nice, with good
+> test reports from other individual testers too.
 > 
-> This would not prevent from combining your own collections of chit
-> that do not map to any specific cap, only that each cap should map
-> to a specific set.
+> Different workloads may get a flat, minor or dramatic improvement, the
+> gain here is mostly from real improvement of LRU's ability to distinguish
+> the hotter workingset.
 
-With decompose/compose relation it would neither matter if caps
-would have for some reason the same chit. Internally task could
-have just this sets and caps can be dynamically refreshed if
-the process' set has all the chits that compose it.
+Well, the hunt is on to find something which got slower.  No luck so far!
 
-I.e., that would make caps a cached result refresh, and chits
-the actually stored security tokens.
+> - Minor optimization for clearing refs:
+>  https://lore.kernel.org/all/CAMgjq7Dd=Y+GekSD9WO5oGdoa+S1eG3T-U=VsCexopvb723zFA@mail.gmail.com/
 
-Br, Jarkko
+Right.  That was the only question mark I could find and it sounds like
+you erased that one.
+
