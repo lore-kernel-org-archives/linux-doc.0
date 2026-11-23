@@ -1,62 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795441281;
-	b=V30NJGEniMWPMfBw70jZmou0jz6kftCvgMjyVIxgolQWtUyPYINh584EtTA+W8zqwn0+
-	 fLExI0FjPpiUfuin5ayBaVkbtQBNwEVIqaPpdlCB9v3GSCZGCEqkYjlBmhHBoSEGWWIYW
-	 UehqNb0HvELcgO8BaSGd1x636xsCPaV8VNl6/XyIKSYASR/UQphLoDUyoiheVpT4jJBMm
-	 vr2gVh5+c1Vg2EvcMkO00VrTcscadjDn8P+oJM2AdaHn3bTOwapDsgIqj3fR+y7UTfzut
-	 XufqL5qB+tgEbkBu4lkivi9PBPGteEHwXLFwyhvYg5/AIaWY6Y26ge4y5+GsUG5Lu2Q==
+	t=1795441283;
+	b=H4PHBMqmXj/kZwGjHxTvk/pd6IVeYalDN44uQvwxvKS4FoE2AzDT1uZa3aZhsAyHNmTz
+	 LWSQAz0HJ7QfDVWzFBJ3lEqN/KLwpPDzfTP5duHFKguC6djLNcjJMz32Kbq8mE8IgWmCc
+	 Q9OHyMOL46fl3Ldh3PHw27V+dF6LBYx/2fZ5jyg0dlYCerieoee8CSbICjUfSUoKycN1V
+	 SEn+ru5FD5eMZUk2CspZufdvcEKu0B3/0x9zRuVZAwDfL3HMFktY18JBLlpXt7fABC29O
+	 hP7A5G3f6rQXOF690t3Vvjxp16MymGUNXJzCq43dPXh4b2WL3eqa1IIh7H6od0aeJFg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795441281;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795441283;
 	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:Date:
 	 Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=qXEviCNNm3Wk7uhp6pzpAJzifpuXgS2QBwatR2ePNBM=;
-	b=jb7drLjQtLkjvSkuFK1HtceExEBBY13yw6G9BHBroX+Qdu/7p0PwCGRz5whMH5ncRciP
-	 0H93bsOjh4RNf9Loh++2fnKq8/cB4+lrLfs4WjCvvSWfoinxfVnEy56SLkBEyor2qT6kH
-	 tbUxpSRnqx3DpUzuBfyFZqsHNdLzFLFL3H47iUkZjFE7cRdupQNzsqTM8lWxJ1YmdUAxU
-	 KM2uj9ZRdbcLE2BR+EE+bszzPjtK9cO5Sr5rI6YVbIu3kXHrh8GXaIKM64zxgsalq6yyM
-	 Si3mXNwOeVDLAyIrJ36depjy7xEOjbkmeoyCPVLuI5pFKQjp1k7CUuHI5rOw/5Mz0tg==
+	bh=brLBc8W9Y3ec6CKEQmu9jutydKZ1CGkRjeXdsbZR1Ws=;
+	b=R9SeCuNqHOv025szmI8xR4TOwm1W/Nq1lf6GwqLh7N9MTpu8eJBJyCbCdEl4pDAC0yDE
+	 ERYK9u+ftE0SO2tqPPG5BlzLa3nCCZs1mpMqofIjbrWJ/UeAGXZ2p9mjUO/Xg3EL0/NYu
+	 +XMfFAhntsDJNClan7UyYgsKubajArUWO8aj7liN/9dG0JxgZQ+6XDDd2MMT8NfRVcHZ/
+	 uWjMtXOyT0OhBjVq5L8jLKJ11kO/0STdRd9JAjrC9Qht/DVIN4UOUGswxjVDhdMMiIFKR
+	 pn9NpFK5+5JvM+aJUKvWDiay38mD3tCvyCeDDdl0NjrVQ5NwAZXi47JT25JQ+mqbvvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linutronix.de;
 	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Ue+I4C8J;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=F3GI4z+V;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Y2j8bAZl;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=v6Cs+nvi;
 	arc=none smtp.remote-ip=193.142.43.55
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C87606A321;
-	Mon, 23 Nov 2026 13:41:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85C87606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB22606A338;
+	Mon, 23 Nov 2026 13:41:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4AB22606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Ue+I4C8J;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=F3GI4z+V
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Y2j8bAZl;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=v6Cs+nvi
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1795441278;
+	s=2020; t=1795441279;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qXEviCNNm3Wk7uhp6pzpAJzifpuXgS2QBwatR2ePNBM=;
-	b=Ue+I4C8JfKGwdTjbY7G4gRbyD6fBLNcmC+lBI92G/nha7xwpRR+o7VADLoFojO3+Fuahgx
-	433iqHfFL6iMUvItr24a85LsOO8v96hzDQGhKrgYTSIgty8NsLPvPn5df1otgHyY+9GM1F
-	Gxw43lUsPmSBSAEQd68XpK1hVrJPv57hCI2Bjc3HFJO4IIwhvXurl5jXul1ACXVSBeN35z
-	CbkF22uTTGcMhdWGyk3OHakE5G1z+CxzrWMlIeImwKTjp/NxZduUIVwVU4tSNrbXeKSjbj
-	UX0tRoJaEyGCHOLujTYNck91deTA1PoiE4OZIhZXcmWGmCwooIVb3wJ4d9N6+w==
+	bh=brLBc8W9Y3ec6CKEQmu9jutydKZ1CGkRjeXdsbZR1Ws=;
+	b=Y2j8bAZlWCmBcEhNKANVVUrj8Vb+rZYsvVYDQJVSEjfZ7zEZ7RB+RyT3ZsIwvQcmkUb/Tc
+	amhEQR9r6XgBE/Rt9sN2RtYt6rVE5h6Rtrb18UdtAafH4/VjvP/bvo+yM3Q7PofjOW0L+A
+	xGaXuOKy91DrYkmb2LYjevhiTET1/S3Lhr3TK/e382PbueH14yTD3gQZGtk5KRQG1EFhjy
+	BlMVwLvtt0y10NGqgWJCyOUyr9AvycgqCF7Yc5zgE3Xdl8kOYPC4PU9HAZMH5mPOmo5hUc
+	SBH5Ip5SBI8SQAXFkqEvos5AAT7wjrWWZBL65itnjagowaZg7yM+NMnInYOwkQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1795441278;
+	s=2020e; t=1795441279;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qXEviCNNm3Wk7uhp6pzpAJzifpuXgS2QBwatR2ePNBM=;
-	b=F3GI4z+VPWOU45X1sbVYFH5Pkp9KXn3nd14WsyHQYSZ6HGId24BaGyioQ9ICkg1eR48eCB
-	jA3q1+nhNXldD+AQ==
+	bh=brLBc8W9Y3ec6CKEQmu9jutydKZ1CGkRjeXdsbZR1Ws=;
+	b=v6Cs+nvi80lJiwn84sJ5LpOkc/TUZGPtireMauVpq0JcWnRRngdUi6D4d480XtRb18nmxQ
+	Ky6FrJuzGnHDwJBg==
 To: linux-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org,
 	rcu@vger.kernel.org,
@@ -94,9 +94,9 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
 	Qais Yousef <qyousef@layalina.io>,
 	John Ogness <john.ogness@linutronix.de>
-Subject: [PATCH v4 1/6] sched: Mark RT_GROUP_SCHED broken
-Date: Mon, 23 Nov 2026 14:41:07 +0100
-Message-ID: <20261123-sched_dl-v4-1-d523e4d960d3@linutronix.de>
+Subject: [PATCH v4 2/6] sched: Move DL's admission control to sysfs
+Date: Mon, 23 Nov 2026 14:41:08 +0100
+Message-ID: <20261123-sched_dl-v4-2-d523e4d960d3@linutronix.de>
 In-Reply-To: <20261123-sched_dl-v4-0-d523e4d960d3@linutronix.de>
 References: <20261123-sched_dl-v4-0-d523e4d960d3@linutronix.de>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -111,187 +111,463 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-The RT_GROUP_SCHED is broken beyond repair and it is best to not enable
-it during compile. If enabled it is recommended to disable it at boot
-time with the rt_group_sched=3D option.
-With it enabled it is not possible to set the policy of a task to
-SCHED_{FIFO|RR} because its cgroup has no runtime assigned. The runtime
-can not be assigned with cgroup v2. The root group has however all the
-runtime assigned meaning the global sysctl runtime parameter
-(sched_rt_runtime_us) can no be reduced because the new bandwidth will
-be less than what is current available.
-It is possible to schedule SCHED_DEADLINE tasks but the admission
-control is stuck can only be disabled via -1 (same sysctl parameter).
+SCHED_DL uses the sysctl sched_rt_{period|runtime}_us to configure its
+admission control. It is used to verify that it does not allocate more
+time globally to SCHED_DL tasks than it can theoretically handle.
 
-As a result all major distors (Debian, Open Suse, Fedora, Archlinux)
-have it disabled.
+This sysctl used to control RT throttling. With the introduction of the
+DL server this knob controls RT throttling within a RT-cgroup if
+CONFIG_RT_GROUP_SCHED is enabled. In this case the knob is also stuck
+and can not be changed. So it can not be used for SCHED_DL control at
+all. Unless to disable it by writing -1.
 
-There is work on Hierarchical constant bandwidth server (HCBS) which aim
-to group multiple real-time tasks within one deadline configuration.
+Split the DL bits into its knob at sysfs' location. Once the DL logic
+is out, sched_domains_mutex.*() and rebuild_sched_domains() can be
+removed from sched_rt_handler().
 
-Mark CONFIG_RT_GROUP_SCHED broken. Move code which is not under
-RT_GROUP_SCHED but only used by it within its IFDEF section. This
-includes also RT_RUNTIME_SHARE.
-Update the documentation, to state that it is not related to real-time
-tasks in general but only to RT-group scheduling. While at it, also
-update the current defaults.
+Move SCHED_DL usage of this sysctl to /sys/kernel/sched/ as
+dl_runtime_us + dl_period_us. Replace global_rt_period()/
+global_rt_runtime() with sysfs_dl_period/ sysfs_dl_runtime. Store the
+new attributes in ns. Move global_rt_period()/ global_rt_runtime() to
+CONFIG_RT_GROUP_SCHED.
+Preserve compatibility for DL-admission update via the proc interface.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- Documentation/scheduler/sched-rt-group.rst |  7 ++++++-
- init/Kconfig                               |  2 +-
- kernel/sched/features.h                    |  2 ++
- kernel/sched/rt.c                          |  6 ------
- kernel/sched/sched.h                       | 19 +++++++++++--------
- 5 files changed, 20 insertions(+), 16 deletions(-)
+ Documentation/arch/arm64/asymmetric-32bit.rst |   2 +-
+ Documentation/scheduler/sched-deadline.rst    |  23 ++--
+ kernel/sched/deadline.c                       | 162 ++++++++++++++++++++++=
+++--
+ kernel/sched/rt.c                             |  13 +--
+ kernel/sched/sched.h                          |  33 +++---
+ 5 files changed, 179 insertions(+), 54 deletions(-)
 
-diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/sch=
-eduler/sched-rt-group.rst
-index ab464335d3204..cd69c93baeb6a 100644
---- a/Documentation/scheduler/sched-rt-group.rst
-+++ b/Documentation/scheduler/sched-rt-group.rst
-@@ -18,6 +18,11 @@ Real-Time group scheduling
- 0. WARNING
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+diff --git a/Documentation/arch/arm64/asymmetric-32bit.rst b/Documentation/=
+arch/arm64/asymmetric-32bit.rst
+index fc0c350c5e001..375958f8971e5 100644
+--- a/Documentation/arch/arm64/asymmetric-32bit.rst
++++ b/Documentation/arch/arm64/asymmetric-32bit.rst
+@@ -105,7 +105,7 @@ affinity for the task is updated and any saved mask fro=
+m a prior
+ Explicit admission of a 32-bit deadline task to the default root domain
+ (e.g. by calling ``sched_setattr(2)``) is rejected on an asymmetric
+ 32-bit system unless admission control is disabled by writing -1 to
+-``/proc/sys/kernel/sched_rt_runtime_us``.
++``/sys/kernel/sched/dl_runtime_us``.
 =20
-+ This document applies to RT group scheduling provided by CONFIG_RT_GROUP_=
-SCHED.
-+ If you don't use RT-group scheduling, schedule real-time tasks and experi=
-ence
-+ throttling issues please look into Documentation/scheduler/sched-deadline=
-.rst
-+ for the fair_server.
-+
-  Fiddling with these settings can result in an unstable system, the knobs =
-are
-  root only and assumes root knows what he is doing.
+ ``execve(2)`` of a 32-bit program from a 64-bit deadline task will
+ return ``-ENOEXEC`` if the root domain for the task contains any
+diff --git a/Documentation/scheduler/sched-deadline.rst b/Documentation/sch=
+eduler/sched-deadline.rst
+index 9019b66f6a5ba..4441bb689cca1 100644
+--- a/Documentation/scheduler/sched-deadline.rst
++++ b/Documentation/scheduler/sched-deadline.rst
+@@ -590,24 +590,19 @@ Deadline Task Scheduling
+ 4.1 System wide settings
+ ------------------------
 =20
-@@ -111,7 +116,7 @@ lack an EDF scheduler to make non-uniform periods usabl=
-e.
+- The system wide settings are configured under the /proc virtual file syst=
+em.
++ The system wide settings are configured under /sys/kernel/sched.
+=20
+- For now the -rt knobs are used for -deadline admission control and with
+- CONFIG_RT_GROUP_SCHED the -deadline runtime is accounted against the (roo=
+t)
+- -rt runtime. With !CONFIG_RT_GROUP_SCHED the knob only serves for the -dl
+- admission control. We realize that this isn't entirely desirable; however=
+, it
+- is better to have a small interface for now, and be able to change it eas=
+ily
+- later. The ideal situation (see 5.) is to run -rt tasks from a -deadline
+- server; in which case the -rt bandwidth is a direct subset of dl_bw.
++ The ideal situation (see 5.) is to run -rt tasks from a -deadline server;=
+ in
++ which case the -rt bandwidth is a direct subset of dl_bw.
+=20
+  This means that, for a root_domain comprising M CPUs, -deadline tasks
+  can be created while the sum of their bandwidths stays below:
+=20
+-   M * (sched_rt_runtime_us / sched_rt_period_us)
++   M * (dl_runtime_us / dl_period_us)
+=20
+  It is also possible to disable this bandwidth management logic, and
+  be thus free of oversubscribing the system up to any arbitrary level.
+- This is done by writing -1 in /proc/sys/kernel/sched_rt_runtime_us.
++ This is done by writing -1 in /sys/kernel/sched/dl_runtime_us.
+=20
+=20
+ 4.2 Task interface
+@@ -648,11 +643,11 @@ Deadline Task Scheduling
+ 4.3 Default behavior
  ---------------------
 =20
- The default values for sched_rt_period_us (1000000 or 1s) and
--sched_rt_runtime_us (950000 or 0.95s).  This gives 0.05s to be used by
-+sched_rt_runtime_us (1000000 or 1s).  This gives 0s to be used by
- SCHED_OTHER (non-RT tasks). These defaults were chosen so that a run-away
- real-time tasks will not lock up the machine but leave a little time to re=
-cover
- it.  By setting runtime to -1 you'd get the old behaviour back.
-diff --git a/init/Kconfig b/init/Kconfig
-index c8a7cfa60a6ea..4c00c02aa1c14 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -981,7 +981,7 @@ config CFS_BANDWIDTH
+- The default value for SCHED_DEADLINE bandwidth is to have rt_runtime equa=
+l to
+- 950000. With rt_period equal to 1000000, by default, it means that -deadl=
+ine
+- tasks can use at most 95%, multiplied by the number of CPUs that compose =
+the
++ The default value for SCHED_DEADLINE bandwidth is to have dl_runtime_us e=
+qual to
++ 1000000. With rt_period equal to 1000000, by default, it means that -dead=
+line
++ tasks can use at most 100%, multiplied by the number of CPUs that compose=
+ the
+  root_domain, for each root_domain.
+- This means that non -deadline tasks will receive at least 5% of the CPU t=
+ime,
++ This means that non -deadline tasks will receive at least 0% of the CPU t=
+ime,
+  and that -deadline tasks will receive their runtime with a guaranteed
+  worst-case delay respect to the "deadline" parameter. If "deadline" =3D "=
+period"
+  and the cpuset mechanism is used to implement partitioned scheduling (see
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index dfae08625342e..49ab477bb9bd1 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -23,6 +23,14 @@
+ #include "sched.h"
+ #include "pelt.h"
 =20
- config RT_GROUP_SCHED
- 	bool "Group scheduling for SCHED_RR/FIFO"
--	depends on CGROUP_SCHED
-+	depends on CGROUP_SCHED && BROKEN
- 	default n
- 	help
- 	  This feature lets you explicitly allocate real CPU bandwidth
-diff --git a/kernel/sched/features.h b/kernel/sched/features.h
-index 8f0dee8fc4755..acc1c3fdfe2a2 100644
---- a/kernel/sched/features.h
-+++ b/kernel/sched/features.h
-@@ -122,7 +122,9 @@ SCHED_FEAT(RT_PUSH_IPI, false)
- # endif
- #endif
-=20
-+#ifdef CONFIG_RT_GROUP_SCHED
- SCHED_FEAT(RT_RUNTIME_SHARE, false)
-+#endif
- SCHED_FEAT(LB_MIN, false)
- SCHED_FEAT(ATTACH_AGE_LOAD, true)
-=20
-diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
-index 1535046a23ffa..cdeddd3fc9af2 100644
---- a/kernel/sched/rt.c
-+++ b/kernel/sched/rt.c
-@@ -944,12 +944,6 @@ static inline const struct cpumask *sched_rt_period_ma=
-sk(void)
- 	return cpu_online_mask;
++/*
++ * Admission control for DL tasks. For a root_domain comprising M CPUs,
++ * -deadline tasks can be created while the sum of their bandwidths stays
++ *  below:  M * (dl_runtime / dl_period)
++ */
++static u64 sysfs_dl_period  =3D 1000000 * NSEC_PER_USEC;
++u64 sysfs_dl_runtime =3D 1000000 * NSEC_PER_USEC;
++
+ /*
+  * Default limits for DL period; on the top end we guard against small util
+  * tasks still getting ridiculously long effective runtimes, on the bottom=
+ end we
+@@ -509,10 +517,10 @@ static void init_dl_rq_bw_ratio(struct dl_rq *dl_rq);
+ void init_dl_bw(struct dl_bw *dl_b)
+ {
+ 	raw_spin_lock_init(&dl_b->lock);
+-	if (global_rt_runtime() =3D=3D RUNTIME_INF)
++	if (sysfs_dl_runtime =3D=3D RUNTIME_INF)
+ 		dl_b->bw =3D -1;
+ 	else
+-		dl_b->bw =3D to_ratio(global_rt_period(), global_rt_runtime());
++		dl_b->bw =3D to_ratio(sysfs_dl_period, sysfs_dl_runtime);
+ 	dl_b->total_bw =3D 0;
  }
 =20
--static inline
--struct rt_rq *sched_rt_period_rt_rq(struct rt_bandwidth *rt_b, int cpu)
--{
--	return &cpu_rq(cpu)->rt;
--}
+@@ -3687,10 +3695,8 @@ DEFINE_SCHED_CLASS(dl) =3D {
+  */
+ u64 dl_cookie;
+=20
+-int sched_dl_global_validate(void)
++static int sched_dl_global_validate(u64 runtime, u64 period)
+ {
+-	u64 runtime =3D global_rt_runtime();
+-	u64 period =3D global_rt_period();
+ 	u64 new_bw =3D to_ratio(period, runtime);
+ 	u64 cookie =3D ++dl_cookie;
+ 	struct dl_bw *dl_b;
+@@ -3728,18 +3734,18 @@ int sched_dl_global_validate(void)
+=20
+ static void init_dl_rq_bw_ratio(struct dl_rq *dl_rq)
+ {
+-	if (global_rt_runtime() =3D=3D RUNTIME_INF) {
++	if (sysfs_dl_runtime =3D=3D RUNTIME_INF) {
+ 		dl_rq->bw_ratio =3D 1 << RATIO_SHIFT;
+ 		dl_rq->max_bw =3D dl_rq->extra_bw =3D 1 << BW_SHIFT;
+ 	} else {
+-		dl_rq->bw_ratio =3D to_ratio(global_rt_runtime(),
+-			  global_rt_period()) >> (BW_SHIFT - RATIO_SHIFT);
++		dl_rq->bw_ratio =3D to_ratio(sysfs_dl_runtime,
++			  sysfs_dl_period) >> (BW_SHIFT - RATIO_SHIFT);
+ 		dl_rq->max_bw =3D dl_rq->extra_bw =3D
+-			to_ratio(global_rt_period(), global_rt_runtime());
++			to_ratio(sysfs_dl_period, sysfs_dl_runtime);
+ 	}
+ }
+=20
+-void sched_dl_do_global(void)
++static void sched_dl_do_global(void)
+ {
+ 	u64 new_bw =3D -1;
+ 	u64 cookie =3D ++dl_cookie;
+@@ -3747,8 +3753,8 @@ void sched_dl_do_global(void)
+ 	int cpu;
+ 	unsigned long flags;
+=20
+-	if (global_rt_runtime() !=3D RUNTIME_INF)
+-		new_bw =3D to_ratio(global_rt_period(), global_rt_runtime());
++	if (sysfs_dl_runtime !=3D RUNTIME_INF)
++		new_bw =3D to_ratio(sysfs_dl_period, sysfs_dl_runtime);
+=20
+ 	for_each_possible_cpu(cpu)
+ 		init_dl_rq_bw_ratio(&cpu_rq(cpu)->dl);
+@@ -4099,3 +4105,135 @@ void print_dl_stats(struct seq_file *m, int cpu)
+ {
+ 	print_dl_rq(m, cpu, &cpu_rq(cpu)->dl);
+ }
++
++#define SCHED_ATTR(_name)					\
++	static struct kobj_attribute sched_attr_## _name =3D	\
++	__ATTR(_name, 0644, sched_attr_##_name##_show, sched_attr_##_name##_store)
++
++int sched_dl_try_boundary(int runtime, int period)
++{
++	static DEFINE_MUTEX(sched_dl_update_lock);
++	u64 runtime_ns, period_ns;
++	int ret;
++
++	guard(mutex)(&sched_dl_update_lock);
++	if (runtime) {
++		if (runtime < 0)
++			runtime_ns =3D RUNTIME_INF;
++		else
++			runtime_ns =3D (u64)runtime * NSEC_PER_USEC;
++	} else {
++		runtime_ns =3D sysfs_dl_runtime;
++	}
++
++	if (period)
++		period_ns =3D (u64)period * NSEC_PER_USEC;
++	else
++		period_ns =3D sysfs_dl_period;
++
++	if (runtime_ns !=3D RUNTIME_INF) {
++		if (runtime_ns > period_ns || runtime_ns > MAX_BW)
++			return -EINVAL;
++	}
++
++	sched_domains_mutex_lock();
++	ret =3D sched_dl_global_validate(runtime_ns, period_ns);
++	if (ret) {
++		sched_domains_mutex_unlock();
++		return ret;
++	}
++
++	sysfs_dl_period =3D period_ns;
++	sysfs_dl_runtime =3D runtime_ns;
++
++	sched_dl_do_global();
++	sched_domains_mutex_unlock();
++	/*
++	 * After changing maximum available bandwidth for DEADLINE, we need to
++	 * recompute per root domain and per cpus variables accordingly.
++	 */
++	rebuild_sched_domains();
++	return 0;
++}
++
++static ssize_t sched_attr_dl_runtime_us_show(struct kobject *kobj,
++					     struct kobj_attribute *attr, char *buf)
++{
++	u64 val =3D sysfs_dl_runtime;
++
++	if (val =3D=3D RUNTIME_INF)
++		val =3D -1;
++	else
++		do_div(val, NSEC_PER_USEC);
++
++	return sysfs_emit(buf, "%lld\n", val);
++}
++
++static ssize_t sched_attr_dl_runtime_us_store(struct kobject *kobj,
++					      struct kobj_attribute *attr,
++					      const char *buf, size_t count)
++{
++	int val, ret;
++
++	ret =3D kstrtoint(buf, 0, &val);
++	if (ret)
++		return ret;
++
++	if (!(val =3D=3D -1 || val > 0))
++		return -EINVAL;
++
++	ret =3D sched_dl_try_boundary(val, 0);
++	if (ret)
++		return ret;
++	return count;
++}
++SCHED_ATTR(dl_runtime_us);
++
++static ssize_t sched_attr_dl_period_us_show(struct kobject *kobj,
++					    struct kobj_attribute *attr, char *buf)
++{
++	u64 val =3D sysfs_dl_period;
++
++	do_div(val, NSEC_PER_USEC);
++	return sysfs_emit(buf, "%lld\n", val);
++}
++
++static ssize_t sched_attr_dl_period_us_store(struct kobject *kobj,
++					     struct kobj_attribute *attr,
++					     const char *buf, size_t count)
++{
++	int val, ret;
++
++	ret =3D kstrtoint(buf, 0, &val);
++	if (ret)
++		return ret;
++	if (val <=3D 0)
++		return -EINVAL;
++
++	ret =3D sched_dl_try_boundary(0, val);
++	if (ret)
++		return ret;
++	return count;
++}
++SCHED_ATTR(dl_period_us);
++
++static struct attribute *sched_global_attrs[] =3D {
++	&sched_attr_dl_runtime_us.attr,
++	&sched_attr_dl_period_us.attr,
++	NULL,
++};
++
++static const struct attribute_group sched_global_attrs_group =3D {
++	.attrs =3D sched_global_attrs,
++};
++
++static int __init sched_dl_init(void)
++{
++	struct kobject *sched_kobj;
++
++	sched_kobj =3D kobject_create_and_add("sched", kernel_kobj);
++	if (!sched_kobj)
++		return -ENOMEM;
++	return sysfs_create_group(sched_kobj, &sched_global_attrs_group);
++}
++late_initcall(sched_dl_init);
+diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
+index cdeddd3fc9af2..bd37dbf2bebbe 100644
+--- a/kernel/sched/rt.c
++++ b/kernel/sched/rt.c
+@@ -2871,7 +2871,6 @@ static int sched_rt_handler(const struct ctl_table *t=
+able, int write, void *buff
+ 	int ret;
+=20
+ 	mutex_lock(&mutex);
+-	sched_domains_mutex_lock();
+ 	old_period =3D sysctl_sched_rt_period;
+ 	old_runtime =3D sysctl_sched_rt_runtime;
+=20
+@@ -2882,26 +2881,18 @@ static int sched_rt_handler(const struct ctl_table =
+*table, int write, void *buff
+ 		if (ret)
+ 			goto undo;
+=20
+-		ret =3D sched_dl_global_validate();
++		ret =3D sched_dl_try_boundary(sysctl_sched_rt_runtime,
++					    sysctl_sched_rt_period);
+ 		if (ret)
+ 			goto undo;
 -
- static void __enable_runtime(struct rq *rq) { }
- static void __disable_runtime(struct rq *rq) { }
+-		sched_dl_do_global();
+ 	}
+ 	if (0) {
+ undo:
+ 		sysctl_sched_rt_period =3D old_period;
+ 		sysctl_sched_rt_runtime =3D old_runtime;
+ 	}
+-	sched_domains_mutex_unlock();
+ 	mutex_unlock(&mutex);
+=20
+-	/*
+-	 * After changing maximum available bandwidth for DEADLINE, we need to
+-	 * recompute per root domain and per cpus variables accordingly.
+-	 */
+-	rebuild_sched_domains();
+-
+ 	return ret;
+ }
 =20
 diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index a4e6696e3a516..4d4128d5600f3 100644
+index 4d4128d5600f3..e755572f1cbb1 100644
 --- a/kernel/sched/sched.h
 +++ b/kernel/sched/sched.h
-@@ -313,6 +313,7 @@ struct rt_prio_array {
- 	struct list_head queue[MAX_RT_PRIO];
- };
+@@ -109,6 +109,7 @@ extern long calc_load_fold_active(struct rq *this_rq, l=
+ong adjust);
 =20
-+#ifdef CONFIG_RT_GROUP_SCHED
- struct rt_bandwidth {
- 	/* nests inside the rq lock: */
- 	raw_spinlock_t		rt_runtime_lock;
-@@ -321,6 +322,7 @@ struct rt_bandwidth {
- 	struct hrtimer		rt_period_timer;
- 	unsigned int		rt_period_active;
- };
-+#endif
+ extern void call_trace_sched_update_nr_running(struct rq *rq, int count);
+=20
++extern u64 sysfs_dl_runtime;
+ extern int sysctl_sched_rt_period;
+ extern int sysctl_sched_rt_runtime;
+ extern int sched_rr_timeslice;
+@@ -326,7 +327,7 @@ struct rt_bandwidth {
 =20
  static inline int dl_bandwidth_enabled(void)
  {
-@@ -581,6 +583,7 @@ extern void start_cfs_bandwidth(struct cfs_bandwidth *c=
-fs_b);
- extern void unthrottle_cfs_rq(struct cfs_rq *cfs_rq);
- extern bool cfs_task_bw_constrained(struct task_struct *p);
+-	return sysctl_sched_rt_runtime >=3D 0;
++	return sysfs_dl_runtime >=3D 0 && sysfs_dl_runtime !=3D RUNTIME_INF;
+ }
 =20
-+#ifdef CONFIG_RT_GROUP_SCHED
- extern void init_tg_rt_entry(struct task_group *tg, struct rt_rq *rt_rq,
- 		struct sched_rt_entity *rt_se, int cpu,
- 		struct sched_rt_entity *parent);
-@@ -589,6 +592,14 @@ extern int sched_group_set_rt_period(struct task_group=
- *tg, u64 rt_period_us);
- extern long sched_group_rt_runtime(struct task_group *tg);
- extern long sched_group_rt_period(struct task_group *tg);
- extern int sched_rt_can_attach(struct task_group *tg, struct task_struct *=
-tsk);
-+extern void init_rt_bandwidth(struct rt_bandwidth *rt_b, u64 period, u64 r=
-untime);
-+extern bool sched_rt_bandwidth_account(struct rt_rq *rt_rq);
+ /*
+@@ -354,8 +355,6 @@ struct dl_bw {
+ };
+=20
+ extern void init_dl_bw(struct dl_bw *dl_b);
+-extern int  sched_dl_global_validate(void);
+-extern void sched_dl_do_global(void);
+ extern int  sched_dl_overflow(struct task_struct *p, int policy, const str=
+uct sched_attr *attr);
+ extern void __setparam_dl(struct task_struct *p, const struct sched_attr *=
+attr);
+ extern void __getparam_dl(struct task_struct *p, struct sched_attr *attr, =
+unsigned int flags);
+@@ -364,6 +363,8 @@ extern bool dl_param_changed(struct task_struct *p, con=
+st struct sched_attr *att
+ extern int  dl_cpuset_cpumask_can_shrink(const struct cpumask *cur, const =
+struct cpumask *trial);
+ extern int  dl_bw_deactivate(int cpu);
+ extern s64 dl_scaled_delta_exec(struct rq *rq, struct sched_dl_entity *dl_=
+se, s64 delta_exec);
++extern int sched_dl_try_boundary(int runtime, int period);
 +
-+static inline int rt_bandwidth_enabled(void)
+ /*
+  * SCHED_DEADLINE supports servers (nested scheduling) with the following
+  * interface:
+@@ -599,6 +600,19 @@ static inline int rt_bandwidth_enabled(void)
+ {
+ 	return sysctl_sched_rt_runtime >=3D 0;
+ }
++
++static inline u64 global_rt_period(void)
 +{
-+	return sysctl_sched_rt_runtime >=3D 0;
++	return (u64)sysctl_sched_rt_period * NSEC_PER_USEC;
 +}
-+#endif
++
++static inline u64 global_rt_runtime(void)
++{
++	if (sysctl_sched_rt_runtime < 0)
++		return RUNTIME_INF;
++
++	return (u64)sysctl_sched_rt_runtime * NSEC_PER_USEC;
++}
+ #endif
 =20
  extern struct task_group *sched_create_group(struct task_group *parent);
- extern void sched_online_group(struct task_group *tg,
-@@ -877,11 +888,6 @@ struct scx_rq {
- };
- #endif /* CONFIG_SCHED_CLASS_EXT */
+@@ -2532,19 +2546,6 @@ extern union sched_feat_key sched_feat_keys[__SCHED_=
+FEAT_NR];
+ extern struct static_key_false sched_numa_balancing;
+ extern struct static_key_false sched_schedstats;
 =20
--static inline int rt_bandwidth_enabled(void)
+-static inline u64 global_rt_period(void)
 -{
--	return sysctl_sched_rt_runtime >=3D 0;
+-	return (u64)sysctl_sched_rt_period * NSEC_PER_USEC;
 -}
 -
- /* RT IPI pull logic requires IRQ_WORK */
- #if defined(CONFIG_IRQ_WORK) && defined(CONFIG_SMP)
- # define HAVE_RT_PUSH_IPI
-@@ -3076,9 +3082,6 @@ extern void resched_curr(struct rq *rq);
- extern void resched_curr_lazy(struct rq *rq);
- extern void resched_cpu(int cpu);
-=20
--extern void init_rt_bandwidth(struct rt_bandwidth *rt_b, u64 period, u64 r=
-untime);
--extern bool sched_rt_bandwidth_account(struct rt_rq *rt_rq);
+-static inline u64 global_rt_runtime(void)
+-{
+-	if (sysctl_sched_rt_runtime < 0)
+-		return RUNTIME_INF;
 -
- extern void init_dl_entity(struct sched_dl_entity *dl_se);
-=20
- extern void init_cfs_throttle_work(struct task_struct *p);
+-	return (u64)sysctl_sched_rt_runtime * NSEC_PER_USEC;
+-}
+-
+ /*
+  * Is p the current execution context?
+  */
 
 --=20
 2.55.0
