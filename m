@@ -1,142 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.8
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795476574;
-	b=MbapFLbWqw0Lj8wafbgDicx0hTF1DLaZHazrFCRo8YE6cIvzpTUCTMnJufDNL/cPGEze
-	 V89rJSpYgg7PUznaCPoBz4zqnb12SyIpu0XYL2TVHEtTV4kIlmY5UU5mJhlsqVt2/Ssur
-	 xAgFwTkakao5MLCTY4AAjLlG62A/vTFmZufwvBUZD2OeyYXkkMnqCtlH6VosbcZBki4Vw
-	 Fa25E+yQG0wi19omy4MknNsuTQKrYZzKq7vkP7IWRP+/yZE7wATOrMoyeJTZya3IjYbku
-	 ZZvq6q0+OoLrAmi78wBLms1zzCkyvQyel1IrJ5Y1dt5Ldbc3SCqJCtSOWL1TGOEmflQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795476574;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795476596;
+	b=eiPIDbjtE2for+byjcUbixXawKqQsjGa+3MSy4U5Z4CMmI7pP0krYJryKGXsgFLumGHm
+	 xlSP0nIWE5Rk1Xl6tY+hCPPX1Yt3uKgrL0itEOToQyS5eDQu0JiBDvOlyb+5A/vw8P6pA
+	 H4E5SxQtjusyiU7kjJEb1rIHqP9bm7g7aQyrR2v1PmFSQ0va94t00lsqf4K6TLazmb8wQ
+	 DrQkeZIusMOLMo8dqf+OMMWRYmAQXCvclBm4Ry52lJCb6sBGLTgp/661CIFM1Hix8WQOY
+	 rIzlUURW354YE5h6akSAvNttE01GqI2leiPT3TfxMf6mxDYS4fYP+xEB7WdqP75TeMw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795476596;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:DKIM-Signature:Received:Received:Message-ID:Date:User-Agent:
-	 Subject:To:References:Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=qfT1JTEsvt+cv31zz4dgTEKdPON9nHhE8EVSV1IOvgc=;
-	b=j7Benb8SHAk239NGFL1tugWbT1FwUnJr4CiKxfJtbLe7SSM9rMqe4JxaCQpy926t/5aA
-	 d7prciNr+93D5H5N677dk+12kKOFsyjUuxojOVtBDEeUpxtPQ1gG2jMXs48wqcBT3FrlT
-	 kPe9UU9tuBchdJtgk1UDQLLPpeiI9GEU1UTHdEnr8xFDvnspvNZjFLUYkVJ5I4MtrZ/9i
-	 mOVSCnBvoGYpfYk4pLMMSEh1l2+dn/dNFNy8Cl4NGP+1T+BZExPCDLb67G3CEFJy/WJeB
-	 SQCZivagoiyTq23thyBE0fszUeXVAWQRYtEqfnmAxpeOuUmEK6J0fbqPkwKlrT0h73w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=ij62NLxX4FUHE68o/nDUnkcGX/NAQzCWZMg6PCtAUGA=;
+	b=zAoHrWfeclkOkXO3x4bCkxcKrhxQTWnqCx9zVM46Z/LFm3ZOhkGYMkhUII2slSWyhtRK
+	 uWUDmIJJZ6EQPnWRcTvaHlaeIFDeFGvkiWUy1iNYQlhoBpCJqL1Q4zXRhkj8zciqiBHLR
+	 eIq40L4/DGb241M1VlHH6S4FuXu4scnyzqOBkuSMgndBi7F5l9+jIsi6P8fGFQAnvHAnr
+	 nhLvfyptdYwy6GmeFZMTgcCEwFTBkNz+zY4zvZTiI2nos5R2BX1ICk9xVFaVVUAaiShLd
+	 NY5fYyOIfzY9vExcdnTcqRE8dC2OWjEPIZdn439+leF0iS2RK1sj0mt3hCsfU2e+rgg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BxQu+2V+;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=selector1 header.b=AsuXMxVQ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hRGm1da0;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32947606A322;
-	Mon, 23 Nov 2026 23:29:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32947606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53ACE606A321;
+	Mon, 23 Nov 2026 23:29:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53ACE606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BxQu+2V+;
-	dkim=pass (1024-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=selector1 header.b=AsuXMxVQ
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hRGm1da0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795476574; x=1827012574;
-  h=message-id:date:subject:to:references:from:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=PuJXQrQvpg4Oxzd/rpYoIH4wqKRS83Nbt6AgZQM3JWQ=;
-  b=BxQu+2V+C5n7Cd7SQVScWccnwkaqKl70ztMaoDGSSH36heFnGMs4NlLF
-   4yvVkenrvriKvO+TnM2sj6P035aWS3Ut9IkZhA9m1hd5zhvYQkfSqLp5x
-   /mcxh8cuiewmDbPkiqB2NThEM69URqL3E+U/08gmf2yf401ViB6iWIofm
-   zAydtJBOHIJQNjKZ6qrztNvqfBqXQAYXCsWGuFCBhtfUnbvfzIhjlzbZZ
-   K89OQFIJZJHrUjzTA+C87vy7KAjY3znL36BafIAVgpsviEUO4eh/Cmtgw
-   PohmEEZpoplm97keqJOBqASrNd48Uf/EVcdT1j8UWUdKxfL1SnBjSKwd8
+  t=1795476597; x=1827012597;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+aoNxvX7CA7N3D6kz0fvGw63xB3T4spyF1H1SMyB54M=;
+  b=hRGm1da023mP8MnCj0/8asUjl0Beef4canXEMSKYxDKx7AOjNP9DnXLc
+   Ez7nIqmVpTGD6LuivkQ5mJDrYSefmAHXFCHdUz3xQ4XxY5Dos/tiho9hH
+   KDjYvt6qb12lOAVAA+nFTrPKCb+OAFw/L5lmcELb2UA2yrtVoy7j9MuN7
+   KkUvlTGqcedNZacw/0lnEZ0cxUevoDl2uQicqNfsF3Lg7w4hjWlxj9WBO
+   FKstJNoFwTPz9aRG4kpWrROug6fs0XV2BoibQL4TAm4RNCb/j5Z+sw0W5
+   oc7PMfmYkXaLEkoSU1l4bdXyRODxu/1kCgbxcDIhYz4Pnl7fcjCv8wp52
    Q==;
-X-CSE-ConnectionGUID: Rkla2yHAQtSTZWxyk1zO0Q==
-X-CSE-MsgGUID: QrZJn6gLRj+lI7k+JTPG8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4193922"
+X-CSE-ConnectionGUID: giYxY96DS1aex8mJx3XqOw==
+X-CSE-MsgGUID: 4uESkZ9hQjmK/1L8BeuATw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4345323"
 X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="4193922"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 15:29:33 -0800
-X-CSE-ConnectionGUID: Xrhj1iv6Qe6tgBg8G6d/bA==
-X-CSE-MsgGUID: nHh7MpViT2GdQpV8G3lZmg==
+   d="scan'208";a="4345323"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 15:29:53 -0800
+X-CSE-ConnectionGUID: i7U20as+TeeqpmGBO9jDcA==
+X-CSE-MsgGUID: QplunU+aTYG6CetzR8lwVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="13406485"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa013.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 15:29:33 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.57; Mon, 23 Nov 2026 15:29:32 -0800
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.57 via Frontend Transport; Mon, 23 Nov 2026 15:29:32 -0800
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.71) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Mon, 23 Nov 2026 15:29:32 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZaP6IGdXiCn/AHZ/mMK4sz9pI9xB18YVzoKFIM77OCoL6w6sdv+ekTkAuPEJPLn9ymZmOgqv9U4sxutP36ttt6BbWHrlgkzW/PFPIDxx0WmDJCNcYF5wU5ZHw5RMbszcGd6uOm4OOsTX0kcB5PLUSfOA/dZTrSz+XSvv97smaiqWf3xf8dCJ1eX00MhH+PkW9xftFQv7eGdNZUwhB1dUE9NyOz33mxxlmfcgkBasNBUEdPo3XrojRtNS2jsF8mr/7mdszK8pHxyjDDwgVoCQ98YN5GY/hpijJ3Hhy0GT2YkskrJMRS5NLBzbH6GwTrM/cPl/xCkm09I7wRX5zYt2oA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qfT1JTEsvt+cv31zz4dgTEKdPON9nHhE8EVSV1IOvgc=;
- b=lYEHjntiJzSR8u4S0lO07jFNRP2s81mQUp8w7V5fyztSmwqGmwnslN9LsOMLFZR5BkBbVwWtQcU8kkiT/1GJST6tAKNI4cuxaezlOzV7P+Zx4sPwncRupFg+Ky7Ttaj5OK9FBtCSy8yMKz20oHioCkknudmshLpStqSAb0iW2Vwrj6s161Sr6+q5SYgjsK899elLpHPuHj0nGBcJyaJ9PC/Y4wSONHJcoiG/pb7VLkrpWer/NVjoonxGcwu+Ub82fiWy2TWI+Mupdk7+MAOW5kkFxOEx5qMyHtTM/CkrBN9zfnn8dgQG+uAAqJq9ccgx8SlI8HNhEIeH1DO/Uq5ewA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qfT1JTEsvt+cv31zz4dgTEKdPON9nHhE8EVSV1IOvgc=;
- b=AsuXMxVQRL5LfIhTQ0L/nT0OqeGGgs6FImSFx0X/QaOhg5bIyJwjxc2dLwb9ILSngLWunS9e3BflTWVBsd7U6ytHRX+8D0F/FgRLVLHvK+7CZ/gD8ZixoCKxrNeeZSZ14YOcefwp2VCs7PQOQqkZqfK/AhMP1qKpiJJtbgp8JIc=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
- by CHBPR11MB205345.namprd11.prod.outlook.com (2603:10b6:610:407::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Mon, 23 Nov
- 2026 23:29:26 +0000
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc%5]) with mapi id 15.21.0615.009; Mon, 23 Nov 2026
- 23:29:26 +0000
-Message-ID: <68bea280-a08e-4874-8b08-ae1bb25e8e5e@intel.com>
-Date: Mon, 23 Nov 2026 15:29:23 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/6] fs/resctrl: Stop the limbo handler while resctrl
- is unmounted
-To: Jinjie Ruan <ruanjinjie@huawei.com>, <tony.luck@intel.com>,
-	<Dave.Martin@arm.com>, <james.morse@arm.com>, <babu.moger@amd.com>,
-	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
-	<bp@alien8.de>, <tan.shaopeng@fujitsu.com>, <gshan@redhat.com>,
-	<ben.horgan@arm.com>, <jic23@kernel.org>, <fenghuay@nvidia.com>,
-	<zengheng4@huawei.com>, <x86@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-References: <20261119094858.813874-1-ruanjinjie@huawei.com>
- <20261119094858.813874-5-ruanjinjie@huawei.com>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <20261119094858.813874-5-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0056.namprd03.prod.outlook.com
- (2603:10b6:303:8e::31) To SJ2PR11MB8370.namprd11.prod.outlook.com
- (2603:10b6:a03:540::20)
+   d="scan'208";a="13106883"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa012.fm.intel.com with ESMTP; 23 Nov 2026 15:29:47 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xVdTk-00000001O74-0NaF;
+	Mon, 23 Nov 2026 23:29:44 +0000
+Date: Tue, 24 Nov 2026 07:28:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Abel Vesa <abelvesa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 08/24] ASoC: codecs: wsa884x: register the die
+ temperature as a thermal zone
+Message-ID: <20261124071812.oiRgQnHg-lkp@intel.com>
+References: <20261122161437.5994-9-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -146,104 +96,175 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|CHBPR11MB205345:EE_
-X-MS-Office365-Filtering-Correlation-Id: e89a50a2-b04c-4ac2-3476-08df49b99cb9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|7416014|261026140227099003|261102123227099003|261026121527099003|261022105027099003|261028144727099003|921020|261021121427099003|11063799006|5023799004|56012099006|4143699003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: R23EU26ubPCcTJgC+Uy2xWJ1d7NafhLOBp3Ecz5IStPsRfzR7lv/a/mrFctjWvp1Xy9PZDvcXy9ZYyBniDI1tWwmf/Kl6NXopS9JywgQP3rlx+O8M74fSoZFnorQYaQWGdChvzw1w5dev5I2N60O5LMo2pOqKRHjmr8GzXMlmEaGY2ZcJUM4lgSM5wmrEQFzt7a5gCMJy4DeMn0L+najGY2vZxCNUp46RvKQpYVQyFaimWmNKHSIIY7WRggSF6Xkn9lqjNrSC2qtLMsu3FN33JBRGfd6QluuEcOIXEPe+/Gu5OIY20xGqKu5Ktt1d8k8FprR2Z+cUyKYTxourEElPCMao1D3WFFJ1szw1IUFXfFMVoV0aD6itJ8kjAkOAmFp+jEyc9inJ6qUlSbSSX1Su12ho++ljFfXmeHlYWAsB/DtdVQl1TvPFZ302Invo84CYftz1eUvX5Hhl/eAZ6jwMWTwX5x3cpoU9tg02+7JwABcfBXrL71pXyj/+RL61DR7VNkLtXVhsNu+OHP1hW0CVjvLC+CuBUv1oR+48psIPktRk2ImaRCV8r2SBNRRPNuZnwJV3qLPQRioSLF54TmopfEwdCB0BoQAknz8C27bl/yvKYXamHRTpAYPAwKsmeIybyoedTz8hRf7QBE5rkXJNZK/gJ2S08unwBMDVTlhpKd7AUu5pN7sRvnM8oE/a9Z6o4/Abw81pJGfFc/DorTFwQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(7416014)(261026140227099003)(261102123227099003)(261026121527099003)(261022105027099003)(261028144727099003)(921020)(261021121427099003)(11063799006)(5023799004)(56012099006)(4143699003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L21zNFFTc3pWaUg1alV3STBmREx1aU42ZWFxMi9KcU0xWU8xb3M5N25rZTN5?=
- =?utf-8?B?elY5RHdqU24wQmdtMVBWVzMvSDJDT2JPVXpTSnU1Y0xyMWFrUkd5MXFTNmlu?=
- =?utf-8?B?eW5JWW52bkxteVNMUnBENHluMU5RbmxFVGQ0Skx6azNGbVFIUnR0T1U4c2U0?=
- =?utf-8?B?bC9ha3pteWZhWTdqTnZTUTZPYkdSUzhBNW95eHVSWTNxSEI1SEJYRC9WSXhT?=
- =?utf-8?B?SnZGbDZqZXlPRVZYbFJiY29QWlhhL0ZKSDZSNVJIN3R1TTdEMW9DRldTVTRs?=
- =?utf-8?B?b0kzRGtUbDhUUE9kYVliYjJxWnFTYmFpTVdsRmsySTJwY1NuckNiZ285dzI0?=
- =?utf-8?B?Z21OaUlNRFdpNk50bFY3akhIY1RSb2RFYWRncW9uUXVKS1lLMmxSMVhKWXBU?=
- =?utf-8?B?SWRHWW03UHZoc1RiVVErbDQvZ055ekFtdDJYT1ZxUHVsdlBXMEF6anFqVnow?=
- =?utf-8?B?WlJEb25uUlBxN0xUZkg2WVQ0Z0FJczJVNklsdEFBaWNTQmNNWlFmaHg4VE9l?=
- =?utf-8?B?OFVLTjBRc2FBd3VWTmpHRWZsVnd4VENRSVIrbmo3RnkzMlNpV1ZzNHRjMVVi?=
- =?utf-8?B?QjJTSjhCYzhYekdXZkxEelhaRFhkb2JjV2k5MmVrK0hMSzV3OWVuY3IrUHdM?=
- =?utf-8?B?UllxMWhUWnJoYmdjZlV3cDdYY21CeDVrTGpscGh2MU1nT3NyNUFldVV0VjEv?=
- =?utf-8?B?cEdKbU1JUlc2a3lyUzJyU1M0MUNwL1dra0IwZUd3Ym9yd3AvMWJXRkZ3VEFM?=
- =?utf-8?B?V2lxaTJmSjEzU01idjlUSnBmQzFWdkg3aTZaNFB3dEFRSm5POU5OTjFGd0ww?=
- =?utf-8?B?OWtFN2toVXlrdGdjL3dUNGhiU2g3TllOQlVOOFJNdjU0dTNRWjB6WWJjOUw5?=
- =?utf-8?B?TDM2SHdMTlIrMmJRSkcvcWdFbWNlYTZBRE54QWZPbGcwQ21CWDB4S0Q0Risw?=
- =?utf-8?B?TC94Y094SjQvZzZSeTdNQW9zQzgyYnpLa1BjQkJJNXNwb1N1Sk5oWjlLRmtO?=
- =?utf-8?B?SXJuSVpyQ1NUcE5PYkFYODJ0RjMyV0hubHJUcWpMemNVTDMyOGkwZVJBQmdv?=
- =?utf-8?B?RWI4OHdhWXZGd0J4dDV6WWJSMEMzYjVaNkJraTZLL1YySnlLd3JUeWg1bXh6?=
- =?utf-8?B?ZnB6UHpLUmVVcldYRHRIK2JLUHkzTks3TlltR3BlRmV0YUdMUEIyT2VONnh4?=
- =?utf-8?B?SEJpdHpHOGRVS3ZLNHhKbG5ZdUFSYlBwOER4elE2YUlFcGZiRXprd3JSeVkw?=
- =?utf-8?B?OHR2RHJaZ2p6YmZpTFl1ZEJJcGhqQ1FLQWpiOFErMFhuNWYvc3ZrcFhNZlMy?=
- =?utf-8?B?UmE5TWdWZjBIcFo1Z0VOdmhXSENoQ0lGRjg5dmwrMGo4S0dCckxaQnV1aGhs?=
- =?utf-8?B?WFhrK2lPQzdDVlFlbFdBand3a2ZDNXpaODM3K2VUQXUyZEQ3SGh0eFl2Uit4?=
- =?utf-8?B?QnM2eG9JWG5oSTVUMTJwelB6Q0RZR3FPSDJKT1ppblh6WmZDRXRzc1pqNU1L?=
- =?utf-8?B?N3RMN04vek1iczB6RWRmazdqbC9YcGlJaWNwRTQzaEJmQ3VaUDlkU2JCR2dC?=
- =?utf-8?B?YWJ1Y09QUnFpQnpFWUtoOFIwbDB1WmV1c1BINElMQ3VITWJSaG1VTkI4WWtq?=
- =?utf-8?B?TFFMRXVqMWlvNXpDc0lzOENhNVRvcHJ1U0hQM1E0N05iRWVUeHRpSzlibENa?=
- =?utf-8?B?U25OMlJucGlIRXdBZ082dDZiRkJZd3hQTUNsRTVWYloxUysyeVZsRm9QS3U3?=
- =?utf-8?B?ZjlENVRKL3FmRFFVeUZCZzJyQTlocmxBbVAxdjFsZXl1WXV5OC8yWThWSXZq?=
- =?utf-8?B?Q0Y0UGEwdmR4aktNam44TFFiR2hNd1JZMXRvc1M4WlVkOERlb2ZheDR2UkZC?=
- =?utf-8?B?WEpJeVVPL0wwdkJ0bWZNSjBiNUg2UHQ3NUhuU2phWVNJMmNEbkRacUtVM2dq?=
- =?utf-8?B?YVoxOVRpSEJJUVd4VXhzZldud09SbnhWdkRRYStCNUVCSjBVNFNNMmVoa0x3?=
- =?utf-8?B?NVN2YjZpazJYaGhKRU5aQ3RuYm1SeE81dHNTTjd6L3N2Q2dQWTFVSGJwVHlS?=
- =?utf-8?B?TWlsMDNTOGtRZm5YUWtPajJpZHgrS29nTm9DbTFIMW94TlRnc3IrOW9YQ282?=
- =?utf-8?B?WDJ4M3J1dDZrWlAwa3N0WHRxQ2liN0swckZSdENpV0JTc3NjVlFNNmoxMktR?=
- =?utf-8?B?Z3g5L2ErUnQ5dEVxK2liYWFLMW9QN2Q4L0lhTENhc1R2dHRGRjQyc3BESUlu?=
- =?utf-8?B?RHE1M2Fjd3JmcjVhUG9BNHkvbWpaNnpSbTFZcmpZeGpuZFRDZlZzbzZoMTNV?=
- =?utf-8?B?bGM2cExpRi9zeEYraTBINVJLY1QzeXhNZ1ZjSGJwUDd5VmJFSllkT3FTRTkx?=
- =?utf-8?Q?sBsWOR7cYA39kDKA=3D?=
-X-Exchange-RoutingPolicyChecked: QLhIs5Yku6etGYbn/bFd53ys0aEnLZc45iVAMUql68brCzoDs2jpX1Nyr9gDJogN+ykeTe9YkL/W20Q6oIodXtzgZ+TAlVHAreADWuhwHHEqYBijSMq7BzZlaWBD6K3utnmd1Fyfk2hg8RKLVZTzQl04WGvuji0QE84xUhS7/Ak7umVX7FPR763lI2Im3SUNz9TRc3BlhB895cm7Dg6PW5GnK6aR8a4niJbpT8EBgCWqB2DxVF4l4PgfzoTwULw7rOlvH+mbUim3aZeD4Mtp4zLmz9WVZN1ln6ga1mOgWnDrshNWtOU3aO2MNxk34XIPry6f7Gd8X1pF4oIP8240pw==
-X-MS-Exchange-CrossTenant-Network-Message-Id: e89a50a2-b04c-4ac2-3476-08df49b99cb9
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2026 23:29:25.9616
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1NfrysmNrhtoJZ3310Scv6yZ32lkqH9TbyPoJXmw5VdONYfYwcSj7uBnqY243Yy2E6Au0Q7e+nMq8aS9z6irrjj8e61Viz71yCDJ9JARKl4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CHBPR11MB205345
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261122161437.5994-9-srinivas.kandagatla@oss.qualcomm.com>
 
-Hi Jinjie,
+Hi Srinivas,
 
-On 11/19/26 1:48 AM, Jinjie Ruan wrote:
-> A monitoring group's RMID is not returned to the free list when the
-> group is removed. It stays in limbo until the cache occupancy still
-> counted against it has dropped low enough for the RMID to be reused,
-> which the limbo handler checks once a second.
-> 
-> The limbo handler keeps running after resctrl is unmounted, where there
-> is nothing for it to achieve. An RMID is only allocated when a group is
-> created, which needs resctrl to be mounted, so no RMID the limbo handler
-> returns to the free list can be used before the next mount, and that
-> mount can check them itself. The MBM overflow handler already stops for
-> this reason once resctrl_mounted is cleared.
-> 
-> Reading the RMIDs in limbo while resctrl is unmounted is not safe on
-> every architecture. On MPAM the counter of an RMID is selected by the
-> CLOSID that owns it, and the CLOSID depends on the CDP state. Unmount
-> clears the CDP state, so the limbo handler that keeps running reads the
-> RMIDs freed under CDP through the CLOSIDs of the cleared state.
-> 
-> Stop the limbo handler while resctrl is unmounted, as the overflow
-> handler does, and restart it after a mount on every domain that still
-> has RMIDs in limbo. The worker can stay queued across the unmount, so
-> cancel it before queuing it again.
-> 
-> Fixes: 6789fb99282c ("arm_mpam: resctrl: Add CDP emulation")
-> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> Cc: <stable@vger.kernel.org>
-> ---
+kernel test robot noticed the following build errors:
 
-Thank you.
+[auto build test ERROR on next-20261120]
+[cannot apply to broonie-sound/for-next tiwai-sound/for-next tiwai-sound/for-linus robh/for-next v7.4-rc3 v7.4-rc2 v7.4-rc1 linus/master v7.4-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-With line break issue pointed out by Ben fixed:
-| Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/ASoC-soc-pcm-add-multi_direction_codecs-link-flag/20261122-161415
+base:   next-20261120
+patch link:    https://lore.kernel.org/r/20261122161437.5994-9-srinivas.kandagatla%40oss.qualcomm.com
+patch subject: [PATCH v2 08/24] ASoC: codecs: wsa884x: register the die temperature as a thermal zone
+config: sparc64-randconfig-1000-20261124 (https://download.01.org/0day-ci/archive/20261124/20261124071812.oiRgQnHg-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261124/20261124071812.oiRgQnHg-lkp@intel.com/reproduce)
 
-Reinette
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261124071812.oiRgQnHg-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+>> sound/soc/codecs/wsa884x.c:2248:11: error: passing 'const struct thermal_zone_device_ops *' to parameter of type 'struct thermal_zone_device_ops *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+    2248 |                                                            &wsa884x_tz_ops,
+         |                                                            ^~~~~~~~~~~~~~~
+   include/linux/thermal.h:333:38: note: passing argument to parameter 'ops' here
+     333 |                                         struct thermal_zone_device_ops *ops,
+         |                                                                         ^
+   1 error generated.
+
+
+vim +2248 sound/soc/codecs/wsa884x.c
+
+  2143	
+  2144	static int wsa884x_probe(struct sdw_slave *pdev,
+  2145				 const struct sdw_device_id *id)
+  2146	{
+  2147		struct device *dev = &pdev->dev;
+  2148		struct wsa884x_priv *wsa884x;
+  2149		unsigned int i;
+  2150		int ret;
+  2151	
+  2152		wsa884x = devm_kzalloc_obj(dev, *wsa884x);
+  2153		if (!wsa884x)
+  2154			return -ENOMEM;
+  2155	
+  2156		mutex_init(&wsa884x->sp_lock);
+  2157	
+  2158		for (i = 0; i < WSA884X_SUPPLIES_NUM; i++)
+  2159			wsa884x->supplies[i].supply = wsa884x_supply_name[i];
+  2160	
+  2161		ret = devm_regulator_bulk_get(dev, WSA884X_SUPPLIES_NUM,
+  2162					      wsa884x->supplies);
+  2163		if (ret)
+  2164			return dev_err_probe(dev, ret, "Failed to get regulators\n");
+  2165	
+  2166		ret = regulator_bulk_enable(WSA884X_SUPPLIES_NUM, wsa884x->supplies);
+  2167		if (ret)
+  2168			return dev_err_probe(dev, ret, "Failed to enable regulators\n");
+  2169	
+  2170		ret = devm_add_action_or_reset(dev, wsa884x_regulator_disable,
+  2171					       wsa884x->supplies);
+  2172		if (ret)
+  2173			return ret;
+  2174	
+  2175		ret = wsa884x_get_reset(dev, wsa884x);
+  2176		if (ret)
+  2177			return ret;
+  2178	
+  2179		dev_set_drvdata(dev, wsa884x);
+  2180		wsa884x->slave = pdev;
+  2181		wsa884x->dev = dev;
+  2182		wsa884x->dev_mode = WSA884X_SPEAKER;
+  2183		wsa884x->sconfig.ch_count = 1;
+  2184		wsa884x->sconfig.bps = 1;
+  2185		wsa884x->sconfig.direction = SDW_DATA_DIR_RX;
+  2186		wsa884x->sconfig.type = SDW_STREAM_PDM;
+  2187	
+  2188		/*
+  2189		 * Port map index starts with 0, however the data port for this codec
+  2190		 * are from index 1
+  2191		 */
+  2192		if (of_property_read_u32_array(dev->of_node, "qcom,port-mapping", &pdev->m_port_map[1],
+  2193						WSA884X_MAX_SWR_PORTS))
+  2194			dev_dbg(dev, "Static Port mapping not specified\n");
+  2195	
+  2196		pdev->prop.sink_ports = GENMASK(WSA884X_MAX_SWR_PORTS - 1, 0) & ~BIT(WSA884X_PORT_VISENSE);
+  2197		pdev->prop.source_ports = BIT(WSA884X_PORT_VISENSE);
+  2198		pdev->prop.simple_clk_stop_capable = true;
+  2199		pdev->prop.sink_dpn_prop = wsa884x_sink_dpn_prop;
+  2200		pdev->prop.src_dpn_prop = wsa884x_src_dpn_prop;
+  2201		pdev->prop.scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
+  2202	
+  2203		wsa884x_reset_deassert(wsa884x);
+  2204		ret = devm_add_action_or_reset(dev, wsa884x_reset_powerdown, wsa884x);
+  2205		if (ret)
+  2206			return ret;
+  2207	
+  2208		wsa884x->regmap = devm_regmap_init_sdw(pdev, &wsa884x_regmap_config);
+  2209		if (IS_ERR(wsa884x->regmap))
+  2210			return dev_err_probe(dev, PTR_ERR(wsa884x->regmap),
+  2211					     "regmap_init failed\n");
+  2212	
+  2213		/* Start in cache-only until device is enumerated */
+  2214		regcache_cache_only(wsa884x->regmap, true);
+  2215	
+  2216		if (IS_REACHABLE(CONFIG_HWMON)) {
+  2217			struct device *hwmon;
+  2218	
+  2219			hwmon = devm_hwmon_device_register_with_info(dev, "wsa884x",
+  2220								     wsa884x,
+  2221								     &wsa884x_hwmon_chip_info,
+  2222								     NULL);
+  2223			if (IS_ERR(hwmon))
+  2224				return dev_err_probe(dev, PTR_ERR(hwmon),
+  2225						     "Failed to register hwmon sensor\n");
+  2226		}
+  2227	
+  2228		pm_runtime_set_autosuspend_delay(dev, 3000);
+  2229		pm_runtime_use_autosuspend(dev);
+  2230		pm_runtime_mark_last_busy(dev);
+  2231		pm_runtime_set_active(dev);
+  2232		ret = devm_pm_runtime_enable(dev);
+  2233		if (ret)
+  2234			return ret;
+  2235	
+  2236		if (IS_REACHABLE(CONFIG_THERMAL)) {
+  2237			char tz_name[THERMAL_NAME_LENGTH];
+  2238			struct thermal_zone_device *tz;
+  2239	
+  2240			/*
+  2241			 * Register after runtime PM is enabled, as the zone is read
+  2242			 * right away. dev_name() is too long for a zone name.
+  2243			 */
+  2244			scnprintf(tz_name, sizeof(tz_name), "wsa-%d-%u",
+  2245				  pdev->bus->id, pdev->id.unique_id);
+  2246			tz = thermal_tripless_zone_device_register(tz_name,
+  2247								   wsa884x,
+> 2248								   &wsa884x_tz_ops,
+  2249								   NULL);
+  2250			if (IS_ERR(tz)) {
+  2251				dev_warn(dev,
+  2252					 "thermal zone '%s' registration failed (%ld); SP T0 kcontrol will read 0 for this codec\n",
+  2253					 tz_name, PTR_ERR(tz));
+  2254			} else {
+  2255				ret = devm_add_action_or_reset(dev,
+  2256							       wsa884x_tz_unregister,
+  2257							       tz);
+  2258				if (ret)
+  2259					return ret;
+  2260	
+  2261				thermal_zone_device_enable(tz);
+  2262			}
+  2263		}
+  2264	
+  2265		return devm_snd_soc_register_component(dev,
+  2266						       &wsa884x_component_drv,
+  2267						       wsa884x_dais,
+  2268						       ARRAY_SIZE(wsa884x_dais));
+  2269	}
+  2270	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
