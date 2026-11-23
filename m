@@ -1,77 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.72.192.73
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795437428;
-	b=j7hiCqIeAIF0n1srW5WpbIN2B+rdmf5mkHEnzhDzA50jc3wJKCM8qH1irnKdM12a44go
-	 kLHo+Ms8oplSzrJDUoyG7G91CGvPzwF8iK8t21g14Mhh2d3MtsRtW7lDx8dNjYL6LMh0y
-	 6t4ZMA369HU11gJ3dDxiPKzubYhXzixGREmwxlR6DyIXRmB8N+3hcev3hrt/1ItJKtslB
-	 CTEjKihmdJUZ6Zo357woJaXUcltmPhHmjsBupjHI7d7OILORlHr5rL1Onmu4/4zRFI/k9
-	 yMFn7BfBjrswAufkm8QMRhSFTs3wcpFVdD5PA6HCxjtbETF3/K6fFKfDLshmMhrCNgw==
+	t=1795437528;
+	b=wVxPkYpsEjlTBf0mRudkITk4kUnTqyj7lbTj20sH2EyzARIfo7BYOO1/BsCYgj7HhXej
+	 4RRDKIiVwz1OBwGFUsC6KAPaUu7AzFm+m08+oAswzdChceU15FmKQZ4CStiny+RZ4A/YR
+	 ZCVYTwoMuUvV61NILtJxri3vGhySi12ad0C1eXvGc9P+83WzpGx3lTgJED7sMTmp73vMU
+	 iAChR95rq23kg6u2BvSLO2MzgvCVLv1xnP6+VmbyhpewbMc9axcOOyoUfcYqAegrGB02N
+	 /EdpU2dVz14B8ZuO5krHH7xxOppndqsqy0LDyGNLgMFVnDyB+KyvOaasFSBOjrx1K0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795437428;
-	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
-	 X-UI-Sender-Class:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:Content-Language:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:
-	 UI-OutboundReport;
-	bh=l925ZWGbqN1yJ3oYRddUoTyEflV8xChX7JXyYMyuMo4=;
-	b=FS0w6Kf1ztGHipdWOx3B3oCKQnOOfVIJ1HmIp16L89JsQ3vuanbE/zcMKRTVwff6EXp8
-	 ryn8HK9xFavGB2vIYJKU8NRAr5T1ZJoGaiJ+2uSDjTxRb5skiSYdtZRqhwX7mh9lH+3Gd
-	 6DrDPITUUt/yEQXoCXGdbo7l+nIfwUsebW4Wp7ofkhCpFJhDWjgBqgMc/pn01KmGSiZfk
-	 4vRmTH1DpaNzbZtmKtcriX4tdbDMZQ6oexWaqh0uGfiZpKpg6gIClFftlxlCm35HW7/zs
-	 302mhGgvtFlccF+pRvnvT5HYqEGj9FwOql3wJ9pv9Paw7jEB75na5mC7zwYVTkTN40A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795437528;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=wgdw9pPnqudyZcHtC7gRmtcks/LYJQ7P/2uuTiaSpCE=;
+	b=vGOBZvEthuTrkMwrMAqpPlJZjgfeu7zAiEfFnlUxfwos7guufNgfxMNZGi3me9kqpgtC
+	 FzPQ1Hc4hmbd/0WTfR1d47goDSFMCjmeuoFRhoO//ZTZYZXwswT1cBcl+moF9qNMV37AH
+	 GbmHni5YTmZmmnhP89SnolhOo0JqVyTXJ0XO3+2a1zOxngYnMTen1VFYeyQu8lntYle0g
+	 p8KLY4XN2xeAs1ETS2xjddWVIz4FzJL27D3bZJBl85g92j9IlCkYeuGd7Eei9EgMaKI1+
+	 sp3AuUhnq1lFNljhSR7lmnR5Yixys6R+nHRzR/a0+n6o6HM1MS+tHxIGpefjA4zn4KQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=jonasjelonek.de;
-	spf=pass smtp.mailfrom=jonasjelonek.de;
-	dkim=pass header.d=jonasjelonek.de header.i=jonas@jonasjelonek.de header.a=rsa-sha256 header.s=s1-ionos header.b=wZN5i8RC;
-	arc=none smtp.remote-ip=217.72.192.73
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O7HwZ9ed;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFA5606A330
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 12:37:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EFA5606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jonasjelonek.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jonasjelonek.de
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 761BC606A31A;
+	Mon, 23 Nov 2026 12:38:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=jonasjelonek.de header.i=jonas@jonasjelonek.de header.a=rsa-sha256 header.s=s1-ionos header.b=wZN5i8RC
-DKIM2-Signature:  i=1; m=1; t=1795437425;
- mf=PGpvbmFzQGpvbmFzamVsb25lay5kZT4=;
- rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
- d=jonasjelonek.de;
- s=s1-ionos:rsa-sha256:G+Y+95TBW5oLKz4ig+DWg71uQcub
-   lQn9Nr2kZ85QHs8zqJ7fzJwlwWwjDi7OqrP8lKzkCAme2mTSzjZYbYjg5iK+Dmt1tnwAjiuJXwX
-   6o0bST1u5mbBo2myVVIWR5tuGGkNgP51+hBNzoL//MCrfza6bzY+sNZovGmKty4WTmgqBrKinWY
-   cUGp9yBlFVTA/PSlFeUoG/RRwyHRPrUkLTtZ4zKN0p55RawcLvQlHnnGlsfYI3ZvZVlG1UqsEcU
-   ft4NHvSQecvU/fyavT04PZ2aJF522OhN8wcG0ae9JDC91HQVOiFRnBy2rJmhW4YQRldfShzxfQz
-   2Hd12jDlWqjPBw==;
-Message-Instance:  m=1;
- h=sha256:
-   qCggyGSepEfwd6Ws17fS0jgkH06TMthdsnY7dniNvbk=:
-   10qJieUpEb4nI3vpsi0Ab0qPkuyKz9JLg1FBgTO6Cus=,
-  sha512:
-   7N0/k+/wlEJ2cZaevImKMqfMpI0Ngy4gE50xyrW8ZPA1Ko6mZfenVjADCDL1l49JixnjEcjCQ0sfv6zA0koXHw==:
-   2D1sQUisp1i/mbcx3Qd1m/5aZZoUE7UliGWDbQdeSLcZdCFSm/WBthHQlLOzRU2cOphrzlUeTuLVoqK9EV95Fw==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jonasjelonek.de;
-	s=s1-ionos; t=1795437394; x=1796042194; i=jonas@jonasjelonek.de;
-	bh=l925ZWGbqN1yJ3oYRddUoTyEflV8xChX7JXyYMyuMo4=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=wZN5i8RCk3un1ss/rNJE+6mE9hblNLFvVdLMi4JcWjpSTmQofpcZbZ/WrV7pyi2L
-	 fMnq1xHlLbpBxlOdvvy/xMcCM9xn3ohDM7Vf8XKOQBjZUaKdgAM5DAR2/HPfEJQrY
-	 BRmgWjK2TtITeEDyLd/b3uiVCm8tOmPNMYZZO0t1Z7ntRVRGDTFF5oaSxpY5hNI50
-	 I5Kllocc2CPZ8EFaoMuW5alZOZwxCrIaKSTxpArwqmMNbQqI40OjPG3leM7itenzL
-	 M7f9QTQ5xoku+LvAT096gIRGPTPkWWlGQiSIiR8b0S+uyImtT9YO2l6GTh7y33I8I
-	 8MEAuwoGUHZn4uTBQg==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from client.hidden.invalid by mrelayeu.kundenserver.de (mreue108
- [213.165.67.113]) with ESMTPSA (Nemesis) id 1MYvPq-1y0HoY0rEu-00XfeH; Mon, 23
- Nov 2026 13:36:34 +0100
-Message-ID: <6fecc631-e493-4e05-aa3c-61a8b0d2d1cc@jonasjelonek.de>
-Date: Mon, 23 Nov 2026 13:36:26 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O7HwZ9ed
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 3869C1F000C4;
+	Mon, 23 Nov 2026 12:38:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795437527;
+	bh=wgdw9pPnqudyZcHtC7gRmtcks/LYJQ7P/2uuTiaSpCE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=O7HwZ9ed0qjYQGF+5m/LM7lsw9NNNpVO+v17o9k4r29ALiKw8N3+95VwUb1/W1MXm
+	 uGX8o4caIIHC5itax3bCc6GPpKSPb5AxTQPCPeK13+axXc3B8fEpbZ0yYCRAm2Xv1W
+	 dpgQXMFsEHbkPnmffPmlzCrKg8sTkbl038FJ6Kwp+vcIJWZ85dEb3uqAzJ2e/67VGO
+	 BvZkfrUx9RwT20o2VE0VRxQhTTQI1adBVfD8/7jjGZeKsIE2JI2TQXqJzapWKUUbLY
+	 IGoZOWG3CokgqlxdmKg6OwRBFgD6Up7WeWaxtwfNF5HEAPQ8q8yLJLr0SG2BpCLpmp
+	 05HU5IQQ8VeTg==
+Date: Mon, 23 Nov 2026 14:38:44 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: Jiri Pirko <jiri@resnulli.us>, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	jgg@ziepe.ca, david.quigley@intel.com, lukas@wunner.de,
+	ksinyuk@kernel.org, rodrigo.vivi@intel.com, cedric.xing@intel.com,
+	sameo@meta.com, drdeeglaze@gmail.com,
+	James.Bottomley@hansenpartnership.com, aik@amd.com,
+	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
+	zohar@linux.ibm.com, aneesh.kumar@kernel.org, dave.jiang@intel.com,
+	nik.borisov@suse.com, sergii.dmytruk@3mdeb.com
+Subject: Re: [PATCH RFC v2 9/9] attestation: Add the TDX family implementation
+Message-ID: <awQz1P6iXYrL8lv0@kernel.org>
+References: <20261113160838.2512652-1-jiri@resnulli.us>
+ <20261113160838.2512652-10-jiri@resnulli.us>
+ <awQCrnD5CtEhKRWz@e129823.arm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,181 +70,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next 0/2] Add Realtek XSGMII interface mode
-Content-Language: en-US
-To: Andrew Lunn <andrew@lunn.ch>, Christian Marangi <ansuelsmth@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- netdev@vger.kernel.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20261117084748.2387647-1-jonas@jonasjelonek.de>
- <df35e0d4-9f1f-4882-bc6b-257add4e9fb1@lunn.ch>
-From: Jonas Jelonek <jonas@jonasjelonek.de>
-In-Reply-To: <df35e0d4-9f1f-4882-bc6b-257add4e9fb1@lunn.ch>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:neKmgYZDofjCZsVDLf+n7cuzeb01P8X804PywG8qYRSDgmuIMNh
- ofB4XQ2jgUHIbyzj3lsIED/SkDHi7PbRJDVFl2R8oQcYmgoAo7J0BBMvLjRNUAl1kUXpOnj
- arGNHV5T6wiqXqylmDQacAhn8CW8eDb2jbgIMKMs40q2LQpbz5JdfiBdo3VGs+GbPTv5bQg
- rxFLmPLI20zTx41NAKHTA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:GX0+nk2N86Y=;XTifLCGyDObhAk3n7MnmvGsdWY8
- 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
- 9Fw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <awQCrnD5CtEhKRWz@e129823.arm.com>
 
-Hi Andrew,
+On Mon, Nov 23, 2026 at 09:09:02AM +0000, Yeoreum Yun wrote:
+> Hi Jiri,
+> 
+> [...]
+> 
+> > +static void __iomem *tdx_attestation_log_map(size_t *length)
+> > +{
+> > +	struct acpi_table_header *header;
+> > +	struct acpi_table_ccel *ccel;
+> > +	void __iomem *log = NULL;
+> > +
+> > +	if (ACPI_FAILURE(acpi_get_table(ACPI_SIG_CCEL, 0, &header)))
+> > +		return NULL;
+> > +	ccel = container_of(header, struct acpi_table_ccel, header);
+> > +	if (header->length >= sizeof(*ccel) && ccel->log_area_start_address &&
+> > +	    ccel->log_area_minimum_length &&
+> > +	    ccel->log_area_minimum_length <= UINT_MAX)
+> > +		log = acpi_os_map_iomem(ccel->log_area_start_address,
+> > +					ccel->log_area_minimum_length);
+> > +	if (log)
+> > +		*length = ccel->log_area_minimum_length;
+> > +	acpi_put_table(header);
+> > +	return log;
+> > +}
+> > +
+> 
+> I think we don't need to dump log area with the log_area_minimum_length
+> since the area would include none-event otherwise, pre-exist tool (i.e.
+> tpm2_eventlog) reports error for them like:
+> 
+>   ...
+>   - EventNum: 21
+>     PCRIndex: 2
+>     EventType: EV_EFI_ACTION
+>     DigestCount: 1
+>     Digests:
+>     - AlgorithmId: sha256
+>       Digest: "b54f7542cbd872a81a9d9dea839b2b8d747c7ebd5ea6615c40f42f44a6dbeba0"
+>     EventSize: 40
+>     Event: |-
+>       Exit Boot Services Returned with Success
+>   ERROR: corrupted log, insufficient size for event header: 3
+>   ERROR: failed to parse tpm2 eventlog
+>   ERROR: Unable to run tpm2_eventlog
+> 
+> 
+> So, what about export *real size* of eventlog like
+> tpm2_calc_event_log_size()?
 
-On 22.11.26 22:24, Andrew Lunn wrote:
-> On Tue, Nov 17, 2026 at 08:47:46AM +0000, Jonas Jelonek wrote:
->> Hi,
->>
->> This RFC adds an explicit PHY interface mode for Realtek's proprietary
->> XSGMII transport. It carries eight 10/100/1000 Mbps ports over one
->> 10.3125 Gbaud SerDes lane. Each logical port remains limited to 1 Gbps;
->> the aggregate serial rate is not a per-port Ethernet speed.
-> We should be careful with naming. We have already have QSGMII and
-> PSGMII, for Quad and Pent. X is too vague. So we should somehow
-> indicate 8, Oct.
+Nothing in the patch (neither commit message nor any comment in code)
+says that TDX attestion registers share the same format as TPM2 even
+log.
 
-In principal I agree, the naming doesn't really fit the others. I just use=
-d
-Realtek's naming for now, they use XSGMII everywhere for this.
+I was just trying to understand where does this derive from but since
+there is no reference, I'm confused.
 
-> But...
->
->> Protocol identity and naming
->> ----------------------------
->>
->> XSGMII is the name Realtek uses for this interface. Calling it simply
->> "octal SGMII" would describe its capacity without identifying its
->> protocol. Existing modes such as QSGMII and PSGMII already distinguish
->> multiplexed MAC-PHY transports; the PSGMII introduction is an example o=
-f
->> adding the generic mode definitions separately from a driver user [1].
->>
->> Cisco USGMII is a relevant comparison, but equivalent port capacity doe=
-s
->> not establish interoperability. Cisco defines Q-USGMII for four ports
->> over 5.0 Gb/s and O-USGMII for eight ports over 10.0 Gb/s, using 8b/10b
->> coding and a packet-control header [2]. Linux already represents the
->> quad variant as "qusgmii", with its own control-word decoding [3].
->>
->> Realtek documents XSGMII and O-USGMII as separate RTL8218E interfaces:
->> XSGMII runs at 10.3125 Gb/s and O-USGMII at 10.0 Gb/s, with different
->> hardware strap selections [4]. The SDK also distinguishes them in
->> phy_8218e_macIntfSerdesMode_get() and applies separate initialization
->> tables. Realtek's O-USGMII is therefore the candidate for comparison
->> with Cisco's octal USGMII; it is not evidence that XSGMII can be rename=
-d
->> to USGMII. Compatibility of those O-USGMII implementations would need
->> separate confirmation.
->>
->> This proposal retains the vendor's XSGMII name rather than assigning an
->> existing protocol name to a distinct hardware configuration. It does
->> not assume a particular XSGMII line encoding merely from the line rate.
-> https://deepwiki.com/lotusmomo/airoha_sdk/3.1-sgmiixsgmii-drivers-and-ap=
-is
->
-> Airoha also seems to have an XSGMII. Is it the same, or different?
+As per the function, perhaps tpm2_calc_event_log_size() should be
+relocated to lib and have non-TPM name like firmware_event_log_size()
+or something.
 
-Looking at the referenced code it seems to me that this is rather used
-like 'xSGMII' - an umbrella term for SGMII, HSGMII and USXGMII in the
-SDK code. Probably the deepwiki side summarized that incorrectly.
+> 
+> 
+> Otherwise, look good to me.
+> 
+> [...]
+> 
+> 
+> Thanks!
+> 
+> -- 
+> Sincerely,
+> Yeoreum Yun
 
-Overall I found no other usage or naming of a real XSGMII mode apart
-from Realtek switch SoCs and PHYs. Those PHYs (mostly RTL8218D
-and RTL8218E) apparently are exclusively used with Realtek switches.
-The RTL8218E might be used elsewhere too but in contrast, it explicitly
-also support O-USGMII as a separate interface next to XSGMII.
-
-> Adding Christian.
->
-> I hope we are not going to have vendors introducing there own
-> variants, and we need
->
-> PHY_INTERFACE_MODE_REALTEK_OSGMII & PHY_INTERFACE_MODE_AIROHA_OSGMII,
-> etc.
-
-Doing some more research on this, as already mentioned in the patch,
-there is O-USGMII: described by Cisco, being compatible to SGMII and
-QSGMII, using 8b/10b coding, 10Gbaud rate. Though, this should be
-totally separate from the proposed mode because it uses 10Gbaud
-instead of 10.3125Gbaud like XSGMII does.
-
-Apart from that I occasionally saw some vague information about an
-extension to USXGMII, allowing 8 ports and reusing the USXGMII spec
-control word and format.
-
-There is no detailed documentation about XSGMII, so assuming it uses
-any standardized frame format would be risky and very likely doesn't
-apply. The naming of the mode - given it'll be accepted somehow -=C2=A0
-should reflect that and not conflict with variants like 10G-QXGMII.
-
->
->        Andrew
-
-Best,
-Jonas
+Br, Jarkko
