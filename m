@@ -1,97 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795446898;
-	b=vl8mlr6umAgnvmoI/hOsy+r9OZHU6ZKk/QCx0HbytABg5LMsHRT/Obz+f/bPkZG31h/l
-	 Csd8oyBwSrSpInd6322xEmNhCAkUIYRx9up9LIKVClm7pNaujnvz1OSk/t4A9OFl5LDf/
-	 557iPtXydXFmjugXI/aCS+/FyRLJ1DyzoSqq7jaGmp5Bu/gc316mG+Dki9orfGYQre20K
-	 AB2S2t1j+B9jeG/JnzrQRThdM/wEL4CCQvCaFDtIkGaQUZtsU3h/rZhag76UDGdno5/zr
-	 vhngcryDuoK/nHiG1yWWxeC/dWeE/JvvoICghUQLiDptActz89Wk00A8lUW+tb5lJQg==
+	t=1795446964;
+	b=SsEfjlV/jGPP+tepcOzUozHM8lG8ywXVBXeRCf0JbE4chkoWlucWnyuU3pDRH7SIyXNU
+	 RuffR40pHeue7OwNi6zpJP7Kg4N0qQ47tQZO5y5v1NLfk7a9thfyR09Sg76BNrhbdD87c
+	 2sf/hW8UfmVCvU+8x96K0M1gcM+nUnXmsHnWt8eE7alsWf/raxWRw2l3aoGeM/ZZx+zYw
+	 82Gz3gWVAgAuK36Zme1/IqhjEgT1jpY+H74qoNeo+7zKlPb3i6Hhi5ecIW/yfu+8XHlhe
+	 orYvw2+3HDJydKA3pU+RJ00DWwuX5pvg4tAEAo9D0IJNeEkLIsKFImV0tOemAclnGvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795446898;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To;
-	bh=L5M3f6tXuCeudVEXZHMryiVzKAWS6njMK2AQVRvQJEE=;
-	b=MARUkWmYmPzU8QMunU+pSJ4w5EY38YJgu79+9nu3/5Rkh1GZT1HndYqeYa2K508abKmP
-	 ekTJTOBUFSl85oiMOI1d21P1T2TZdGFym3rG3RuRU+nXVngkf/xd2F6VyagupVoO3Gvat
-	 Pon2ooCAPdyyTA0wDhULLwyaB2q0Mc7r+cw+DdOZg0w2wH3cZwckJeBCWpnb8z7N0iQo/
-	 0qF+N9YUFL+tHsxlDlHS0cFIGNXhCFsFYNYLjutHP5uhRNXBWn7eRdw7LMHQ0LMpFdSs9
-	 EKa6Ko3ykhFA+6bmyww8CmdsHrNIh1rcGSUXo7y+TWKRg3eupHmOIAewWzxojQCYHSg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795446964;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Yw9cCn0CIO0jjIfkfgWF97yMkgCCAH2a1Wqmh2ZFkkg=;
+	b=2HLm5VPu18XuaFCtS3oaFo12tKryX/6luoPCeNYRgo+5/OEpTw88uyVXI2VUMCRaIouJ
+	 vLA1bOVBGImJzeJ/riW16FEea9vP3yuKlLbr/Nk4UsDDWgg19Ni78NTIXomYMDbSlbgk0
+	 Xk3+Z+py+YCH88O7jeqtrCt0DpdzLugz5ujA6HM/djWGsUCOGdMWSbhd4+qzxT3Tz3tXe
+	 zyPohLlyyOi8riN1KWc68h8ixEu+AGC2Ew5rFDJ5JwwDkOjcB2JiGsLp1OXwK/4gbDYVF
+	 YHeJSyUHnhEr0ZMSSEoccNeBQ2CYjTTHnfkB4bK825Hehxl76egucn3Sq2o4rG6FQLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HWJhogjW;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RfqzJa46;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E09606A31F
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 15:14:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7E09606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id CC8C6606A32C;
+	Mon, 23 Nov 2026 15:16:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HWJhogjW
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so3330042f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 07:14:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795446896; x=1796051696; darn=vger.kernel.org;
-        h=in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=L5M3f6tXuCeudVEXZHMryiVzKAWS6njMK2AQVRvQJEE=;
-        b=HWJhogjW4F7JhplhpATcu7xz59o+fdiJyJlkt4Gd5l5/alTmIffqCyC0lg0JI87ZC2
-         fA/OtviKtevbQLCl2rIUMBl7Ek+oP1Ud7Pjnca/Gv0LTzFPZZDRFooI76KWfhXOqv93h
-         9uP98akzjfJ3mjOzyCA2srhUm2bD2Ry1Bxvs6nAw3OPXRN6Edbamdyhho39D6Bc+02rc
-         ZuhDfErCAJzIsFZjkfDLHMixxhJjOO7bDj7V8iq52XySePXOBpm/CX5ufH5KlPItNWsZ
-         CAbXKtJtwZMPPhH7O8d5xBhV5U+gLxoKlRN0stX6IW/2cWExG+NLrT9GC8zOp8ox3ErA
-         /sUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795446896; x=1796051696;
-        h=in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=L5M3f6tXuCeudVEXZHMryiVzKAWS6njMK2AQVRvQJEE=;
-        b=c+NgEqlgtO5Y4KmF0Fgu0vd9nV9Vqryt89xps3XwPqn0r8fLksTeQsoBiJVc7BBsfQ
-         +zv2eCGG3yvytc9DyufmnKtTqnRw33BfO8+Beu4hpwYaP8NQBKKHIdiTVh0BjOB2Qjcv
-         sRw45SpHRvFZjdKQb8Fhk/ld5q47Glz8G4NZICd6iduIyNBbe4Lq8jOKfEgNK59g8fmW
-         mFoNOKvDAJkmtR0A9f0ckuELrUpD8IcPsVyKgjABFxuIhrWz+K2fxKBjMzpmR5rDGBt3
-         rlNmNuovfcPcB3hxCjpt7eJlDExiCyKIOZmsj8dKepXDMnRLzhkcD9uw+s2u7fGYySxy
-         5wsw==
-X-Forwarded-Encrypted: i=1; AL+hErE+par3A/+LXtvbYG0oI6La/UvT0gu5jPzR38J5RpSRK+SWjPny9rTYAj5qrhkDnEZqsmGQep4RL/I=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9BjmjrQpw17tGBQvrWc5exhuaSfDwQgM/kEw73BOx3nFbddygE
-	wRtQtq8tgJbcCHbRA1DszI5cgPiparwA+l/uaJJZegzo2xjjm7SwUtkY
-X-Gm-Gg: AZFdTZehAZYrFN7hIEbUR4UPe27N/mudk2CIkO0UuU7DYaP9OfEpi8fe3o3vyFIqXIu
-	jHQeQCIIQR5q1G1GNtmcoIxHACKtoWYbGyG0Gpuh+I5QtkJVCHdshFomYHP1PtQf2XKBQLzwSPk
-	Jrwl6P/UA2mYDv/6CYsB+EK9iEof2/f0uw2BR9/wvd/Pudzb9cXTaRM6wByPy70MiGOs79qnO8I
-	R062aPv/ZJHr5OEJ7E1SFPVt2TA1+NxutboP07GGCDkHDBdqkecl62KF7zkQMg8q3RTQFs+sktv
-	b6Mqo4fVd7R314u31oVInwCbcWS4korXg5ezoYFd5AD10Zg6ZzelW4+ICBf7bidCi7NuzUzPjjO
-	kPCIHMHDfjGZWcFZQvxv2EJiyTNDzd58K+9iazSwppPEWK/lmNmUGMnNGSGPU33aoxxzR7CXFGs
-	chFWaexqYnXtknaElJZrMSqzJ/JfrGE5iK4w7rLtDqaHI9MB9KjGBzQi/o1LBJuNxWFDk+i8Bca
-	zlHX6WdTf7WSFI/p6vzRqhXOwL1a0yQQrOeDbVWFJxQMKBcrH5ft8YUp1NWHbdic/B2DWUfCIQ6
-	sHYV2lDYRC/Ys7yCkbeMTt9R9OMM3X2JX8Kv6BrAJRo4o7+QVc4Sp9VAH/pMVkL2GAXdkjAaAYf
-	5ZNg=
-X-Received: by 2002:a05:6000:4b15:b0:48d:df08:307c with SMTP id ffacd0b85a97d-4abb8ac0d92mr20304624f8f.44.1795446895827;
-        Mon, 23 Nov 2026 07:14:55 -0800 (PST)
-Received: from localhost.localdomain ([196.178.137.149])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm19778632f8f.17.2026.11.23.07.14.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 07:14:55 -0800 (PST)
-From: mohamedalibouhaouala@gmail.com
-To: jack@suse.cz
-Cc: willy@infradead.org,
-	corbet@lwn.net,
-	mohamedalibouhaouala@gmail.com,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: filesystems: update filesystem type, superblock and inode documentation
-Date: Mon, 23 Nov 2026 16:14:38 +0100
-Message-ID: <20261123151438.47681-1-mohamedalibouhaouala@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <p7wf376fhejkqtke2l6jxwzytlhiiaidjdaeapw36jxukbk2qx@kyk2wc5m
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RfqzJa46
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 437981F00A00;
+	Mon, 23 Nov 2026 15:16:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795446964;
+	bh=Yw9cCn0CIO0jjIfkfgWF97yMkgCCAH2a1Wqmh2ZFkkg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RfqzJa461hlxdRfUNStU6dOzBjnUTN27T5Pf8O5+h1yq37MBOix+RnogdWb7lwKkg
+	 49QhbIxqPOmHbebgKIDDe0MGIZbybkzBVtZ8skfq5ni26BvhMY6DtZe5fu2nO/1JOP
+	 3LJqvZJ/ZkBFM60f4ep4Av+m9nWOEOx9pD2GU3viUUU7pfAW8QkCJvvTXJoYvCphqb
+	 McO0BTGs6ui9RupZq3oMnGY5jddUQqgR18Ti1vx1TbrSSF9LN+y60ez1466bw77Zad
+	 ZTO3WVnmyEmPVDpaWxf2KMLsxnxz89OFUvWPYfF6tc0kw1gm8q5woM40NpZI4dBrdC
+	 ed9frS/+EmDmQ==
+Date: Mon, 23 Nov 2026 17:15:59 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yeoreum Yun <yeoreum.yun@arm.com>, Jiri Pirko <jiri@resnulli.us>,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de,
+	ksinyuk@kernel.org, rodrigo.vivi@intel.com, cedric.xing@intel.com,
+	sameo@meta.com, drdeeglaze@gmail.com,
+	James.Bottomley@hansenpartnership.com, aik@amd.com,
+	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
+	zohar@linux.ibm.com, aneesh.kumar@kernel.org, dave.jiang@intel.com,
+	nik.borisov@suse.com, sergii.dmytruk@3mdeb.com
+Subject: Re: [PATCH RFC v2 9/9] attestation: Add the TDX family implementation
+Message-ID: <awRYr7yB8IWj7S3G@kernel.org>
+References: <20261113160838.2512652-1-jiri@resnulli.us>
+ <20261113160838.2512652-10-jiri@resnulli.us>
+ <awQCrnD5CtEhKRWz@e129823.arm.com>
+ <awQz1P6iXYrL8lv0@kernel.org>
+ <20261123151128.GD179082@ziepe.ca>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,21 +71,92 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-
-hurn>
-References: <p7wf376fhejkqtke2l6jxwzytlhiiaidjdaeapw36jxukbk2qx@kyk2wc5m
-hurn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261123151128.GD179082@ziepe.ca>
 
-Hello Jan,
+On Mon, Nov 23, 2026 at 11:11:28AM -0400, Jason Gunthorpe wrote:
+> On Mon, Nov 23, 2026 at 02:38:44PM +0200, Jarkko Sakkinen wrote:
+> > On Mon, Nov 23, 2026 at 09:09:02AM +0000, Yeoreum Yun wrote:
+> > > Hi Jiri,
+> > > 
+> > > [...]
+> > > 
+> > > > +static void __iomem *tdx_attestation_log_map(size_t *length)
+> > > > +{
+> > > > +	struct acpi_table_header *header;
+> > > > +	struct acpi_table_ccel *ccel;
+> > > > +	void __iomem *log = NULL;
+> > > > +
+> > > > +	if (ACPI_FAILURE(acpi_get_table(ACPI_SIG_CCEL, 0, &header)))
+> > > > +		return NULL;
+> > > > +	ccel = container_of(header, struct acpi_table_ccel, header);
+> > > > +	if (header->length >= sizeof(*ccel) && ccel->log_area_start_address &&
+> > > > +	    ccel->log_area_minimum_length &&
+> > > > +	    ccel->log_area_minimum_length <= UINT_MAX)
+> > > > +		log = acpi_os_map_iomem(ccel->log_area_start_address,
+> > > > +					ccel->log_area_minimum_length);
+> > > > +	if (log)
+> > > > +		*length = ccel->log_area_minimum_length;
+> > > > +	acpi_put_table(header);
+> > > > +	return log;
+> > > > +}
+> > > > +
+> > > 
+> > > I think we don't need to dump log area with the log_area_minimum_length
+> > > since the area would include none-event otherwise, pre-exist tool (i.e.
+> > > tpm2_eventlog) reports error for them like:
+> > > 
+> > >   ...
+> > >   - EventNum: 21
+> > >     PCRIndex: 2
+> > >     EventType: EV_EFI_ACTION
+> > >     DigestCount: 1
+> > >     Digests:
+> > >     - AlgorithmId: sha256
+> > >       Digest: "b54f7542cbd872a81a9d9dea839b2b8d747c7ebd5ea6615c40f42f44a6dbeba0"
+> > >     EventSize: 40
+> > >     Event: |-
+> > >       Exit Boot Services Returned with Success
+> > >   ERROR: corrupted log, insufficient size for event header: 3
+> > >   ERROR: failed to parse tpm2 eventlog
+> > >   ERROR: Unable to run tpm2_eventlog
+> > > 
+> > > 
+> > > So, what about export *real size* of eventlog like
+> > > tpm2_calc_event_log_size()?
+> > 
+> > Nothing in the patch (neither commit message nor any comment in code)
+> > says that TDX attestion registers share the same format as TPM2 even
+> > log.
+> 
+> It comes from the UEFI spec's definition of CCEL:
+> 
+>  38.1 Virtual Platform CC Event Log
+> 
+>  If a virtual firmware with confidential computing (CC) capability
+>  supports measurement and an event is created, virtual firmware should
+>  report the event log with the same data structure in TCG Platform
+>  Firmware Profile (PFP) specification with
+>  EFI_TCG2_EVENT_LOG_FORMAT_TCG_2 format. The index created by the
+>  virtual firmware in the event log should be the index for the
+>  confidential computing (CC) measurement register. It is CC vendor
+>  specific.
+> 
+> It makes sense that the kernel would size it correctly.
+> 
+> > As per the function, perhaps tpm2_calc_event_log_size() should be
+> > relocated to lib and have non-TPM name like firmware_event_log_size()
+> > or something.
+> 
+> Probably under drivers/attestation since that is where all the TCG
+> formatted logs should end up. It should be 'tcg_event_log_size()' or
+> something. Maybe a tiny module for it like we would have done in lib/
 
-I checked the patch against both master and vfs-7.5.misc. It applies cleanly on top of both branches, without conflicts.
++1 for the name, as it is obviously more accurate prefix.
 
-The previous documentation work I submitted was a separate patch updating Documentation/filesystems/locking.rst.
-I wasn't aware of any ongoing work overlapping with the changes in this patch.
+> 
+> Jason
 
-Please let me know if you had a different set of changes in mind.
-
-Best regards,
-Mohamed Ali
+Br, Jarkko
