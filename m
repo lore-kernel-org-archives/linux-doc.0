@@ -1,67 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.112
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795436614;
-	b=x9FCQNHor7JjR/bg+7kFDJ7JO4/Dzt9zCgq8swL9W2YLXnHo43puXzzTVxV1vW5N5+vU
-	 3AB9u3tF9oIbZFeiPnGkC3MTdqK3eR+MsDjjZSEArtrDImf7AVQI24Lx/nGDuvMemZAcP
-	 wbM5FUM9/sxdIT1/cOhucyJJ3eE5uokuHpFbrI+Bd2A+c9mKIihMFu2fFB33qiS64RBGc
-	 G8ISscmfjR+ogJYggFc9EULJegVhuhKv+dZ392KnC4m3D+SRrpq8Zi5GNYf9M0VPYSWjZ
-	 UAGYdA3vFnwpLjrWWQOil3AIkDhQ8AQLSgvmjt3FMF+TWcnRZ25X4/Rm+kW8MouOhZg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795436614;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:
-	 MIME-Version:User-Agent:X-ZohoMailClient;
-	bh=+0Iq7/O1gnMZeJW4lf9/hEDndImbz4PDUBPnQB4YBz4=;
-	b=YGzucWDuy+riZOY1BqaSsNFTg0nInzhte55n4MU/BKt2joazkr37jFF/lsSS0RNzuQj1
-	 FBXx+v6TNdXJhAMXp9uRBPkc9BeBjynD5QggVQ8aeP6WaU6Bv2Cl8wHJWgI0MDZRDP8Vi
-	 JYOZCa5C088rTjrnWMeUB8ZIGk8BKY1Z5mHdvb67OOiwiw8N5RWD9/gpPAY6omwOQn7v8
-	 mtNK4/Sxc8JHSQLorRY43iTMsDYeJZ8zcbQqqrT+DKo1XhABEtdPwqwV2cnAVW92UPV7K
-	 3GU7O/ibCRbkWCzQpGQf7m0q0H7DC9J+uWhounuDwf6Qd7UhIkWq17umqIbgXJ7Ov3g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rong.moe;
-	spf=pass smtp.mailfrom=rong.moe;
-	dkim=pass header.d=rong.moe header.i=@rong.moe header.a=rsa-sha256 header.s=zmail2048 header.b=FyEjOoa1;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.112
-Received: from sender5-pp-f112.zoho.com (sender5-pp-f112.zoho.com [165.173.182.112])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.124
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795437164;
+	b=gWHCL9Pi4rPMz+vc+ni2YcwBP4mqUzRxBe3vd2Xyl/Lgxw+aaAHeKmFlRgo3GhM4AKkw
+	 MIVyGTUMX3IcWUFGKlV0PyiWjUJAtdCTA8NcBLieyWOeukSBXzqghDkF/plwslpZiNI7A
+	 eaxVPNcyLBLnlhY/ycegSycvUu/awEypf5IFELam3Kimdhh8K17hehMmiAR6IeUnpcEke
+	 DRxVq/jTReRI/gs1IdUdoNqcIKySNhfE3/iwecnqNU/vzFNxwPwTBYJTgGUTa7qGKMsiZ
+	 Vu6fTqGkrD20DeJd9fZZ7K1JgmnHTmdF+fsxWZJCLkrfyV/LFrnpE/cVn1HA2VT32Iw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795437164;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
+	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
+	 To:X-Mailer;
+	bh=e2RVQ3O8W1C8YW2wJ9aXaBh6gRelyzfxjUCFahQNfPU=;
+	b=Ia7RJhOieWm1NyHqhw94JseUgszgl6fsdp7lIwxE1WAfhn2OIWEw5rha3FAEmzFTxH3t
+	 CPgQ+zK1w7grTCiAtEM+vYUbJeRz556y/12ayiW7isAMOVBZk7APIkXovQmGboOjfGYKT
+	 WB8TqqbMWSRXjXi2jbbKkd4BxKIdKAusJjiyF/nRRchpJJVsI5y0uzAoVGHEdA0OUoM/h
+	 F6gbKtjL1NgmHx79dSl7MuFnH1+RDoT917PJiv0BqFXCVeXIGe1o/w6MjOEKx+lrK5UBl
+	 OAVi5IF6bJ1ojHoKSXj74C9TYAb47kPjM9Nrx/S5R1kf1vbJrW9T+evqPJ62Jrv4kaA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=g6yK4vC5;
+	arc=none smtp.remote-ip=91.218.175.124
+Received: from mta0.migadu.com (out-124.mta0.migadu.com [91.218.175.124])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30079606A31A;
-	Mon, 23 Nov 2026 12:23:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30079606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97338606A321
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 12:32:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97338606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rong.moe header.i=@rong.moe header.a=rsa-sha256 header.s=zmail2048 header.b=FyEjOoa1
-ARC-Seal: i=1; a=rsa-sha256; t=1795436533; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=X+QKPJ4XIrMNZ9ThznmxhHmobGWLEMNUskjNy8KJG2oTnIhfwwWMapW1PLe5z14cKlNInZtRY68q2I6D5vVKuq9DN3e3H2d3ftcrhazg9yr39znkSataGzrDiF6BhHpItWFMgOsBTWVrjhkq8N9z4WEJShj+3bro9cNeaNCjJUw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1795436533; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=+0Iq7/O1gnMZeJW4lf9/hEDndImbz4PDUBPnQB4YBz4=; 
-	b=OY7iWwF29wtuqnJ0dGxJGCYEgIUbk0aBiEqbZKc9lCyHS1auo9sW9iXayLam4lBy+xcJlr9lyteNW51AzpUAvefElwK3/C1o4DDJWQ+osQBQQnJFdgB3mWXf+n2aM3rSzarMCzapu+mg5gjM6SON2KiDOJPpDBe9Mu02sKMIcto=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: a=rsa-sha256; b=FyEjOoa1Qdxf64k2Z7IuOt/v3Ymn/gePU/cqmgaDgiYKf9H2HE/ei9y7Sg79KAcr+VFAoffbScfTD6izEG6kAMjxKaq3XYz7FT3r2e9mS5FzKmeVvRqhr7+pzP1TPYeZTMZCTC+3jaRtdi5JgHSiBwXzJ8gU8R0IH4zQ1Are/canbaY31X+ZLopDkVwmM0YRdhX0IkmxkwLeLk961JNsH4HNl5wg88MeuZqTflIDwNSnQbY6FWFXK3vEwE4yfXqnn5KSDCnN8dtZ3+o0blkoTIoJ3xSCtf96rTfYYhbIsZsb8OaVNo4xFh0rFGsuWsp5qaUf7SyFK1TQ1TRu8fjX5w==; c=relaxed/relaxed; s=zmail2048; d=rong.moe; v=1; bh=+0Iq7/O1gnMZeJW4lf9/hEDndImbz4PDUBPnQB4YBz4=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1795436530959650.8267467877844;
-	Mon, 23 Nov 2026 04:22:10 -0800 (PST)
-Message-ID: <fcabaf8647e0c1ab487cd612d5a290082613ec0b.camel@rong.moe>
-Subject: Re: [PATCH v2] platform/x86: lenovo-wmi-other: Add raw
- GetDataByPackage interface
-From: Rong Zhang <i@rong.moe>
-To: Alan Pluto <alanpluto@163.com>, platform-driver-x86@vger.kernel.org
-Cc: mpearson-lenovo@squebb.ca, derekjohn.clark@gmail.com, W_Armin@gmx.de, 
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- hansg@kernel.org, 	ilpo.jarvinen@linux.intel.com,
- linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org
-In-Reply-To: <20261123061120.18740-1-alanpluto@163.com>
-References: <20261116040532.154928-1-alanpluto@163.com>
-	 <20261123061120.18740-1-alanpluto@163.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Nov 2026 20:21:26 +0800
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=g6yK4vC5
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=IaXfb5Hi/QpRbuwTQppmoutVL2pV2Zxy6b6NwmIDvTU=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795437161; v=1; x=1796041961;
+ b=g6yK4vC5n37WbsNdGMf0BkpnaNq+7uKBUXX15GD4SctWed5eePPBRCkJyQwRQZ4z/2o4XLKV
+ YjmYuMufUFgSZOOqhTlUeP2HjKWGmRdRX2H20UrtpcOKL+huQpOCQUOCQ19bckPFv9Cpco69Ln0
+ n04OISklYq56LohQvRYFpXuk=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 6fa58fd50eb09120;
+	Mon, 23 Nov 2026 12:32:41 +0000
+X-Mizu-Trace-ID: 6fa58fd50eb09120
+X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain;
+	charset=us-ascii
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,473 +57,192 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Evolution 3.62.1-4 
-X-ZohoMailClient: External
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
+Subject: Re: [PATCH v5 04/17] mm/memcg: add folio-based lruvec live helper
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <awMX9W-Ykjw4maRg@KASONG-MC4>
+Date: Mon, 23 Nov 2026 20:32:16 +0800
+Cc: Muchun Song <muchun.song@linux.dev>,
+ kasong@tencent.com,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Qi Zheng <qi.zheng@linux.dev>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Chris Li <chrisl@kernel.org>,
+ Baoquan He <baoquan.he@linux.dev>,
+ Nico Pache <nico.pache@linux.dev>,
+ Usama Arif <usama.arif@linux.dev>,
+ Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>,
+ Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>,
+ linux-mm@kvack.org,
+ Nhat Pham <nphamcs@gmail.com>,
+ Youngjun Park <youngjun.park@lge.com>,
+ Zi Yan <ziy@nvidia.com>,
+ Gregory Price <gourry@gourry.net>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>,
+ Lance Yang <lance.yang@linux.dev>,
+ Hugh Dickins <hughd@google.com>,
+ SJ Park <sj@kernel.org>,
+ David Rientjes <rientjes@google.com>,
+ Yu Zhao <yuzhao@google.com>,
+ Vernon Yang <vernon2gm@gmail.com>,
+ Zicheng Wang <wangzicheng@honor.com>,
+ Chen Ridong <chenridong@xiaomi.com>,
+ Tal Zussman <tz2294@columbia.edu>,
+ Xiang Liu <liuxiang.277@bytedance.com>,
+ Ehab Ababneh <ehab.ababneh@intel.com>,
+ Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>,
+ Lian Wang <lianux.mm@gmail.com>,
+ Joanne Koong <joannelkoong@gmail.com>,
+ Kunwu Chan <kunwu.chan@gmail.com>,
+ Hui Zhu <hui.zhu@linux.dev>,
+ linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org,
+ damon@lists.linux.dev,
+ linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <71FD1E6D-6F79-42B7-AED8-FCFACAB541AB@linux.dev>
+References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com>
+ <20261119-mglru-fg-v5-4-9eee2fe97a2d@tencent.com>
+ <42207e26-ba7f-4df5-8c80-71fa1b84d26e@linux.dev>
+ <awMX9W-Ykjw4maRg@KASONG-MC4>
+To: Kairui Song <ryncsn@gmail.com>
+X-Mailer: Apple Mail (2.3901.200.71.1.16)
 
-Hi Alan,
 
-On Mon, 2026-11-23 at 14:11 +0800, Alan Pluto wrote:
-> Lenovo's userspace utility uses the Other Mode WMI GetDataByPackage
 
-What's the purpose of the utility? Could you provide some context? You
-can ignore this question if it's confidential, but in general providing
-necessary context can help maintainers and reviewers learn about the
-intent.
-
-> method (99) to check device readiness. Expose the method through debugfs
-> so the firmware request and response can be inspected on Linux without
-> adding a stable userspace ABI.
+> On Nov 23, 2026, at 01:03, Kairui Song <ryncsn@gmail.com> wrote:
 >=20
-> The interface is disabled by default and can be enabled by passing
-> enable_get_data_by_package=3D1 when loading the module.
+> On Sun, Nov 22, 2026 at 03:53:44PM +0800, Muchun Song wrote:
+>>=20
+>>=20
+>> On 2026/11/19 05:03, Kairui Song via B4 Relay wrote:
+>>> From: Kairui Song <kasong@tencent.com>
+>>>=20
+>>> Add a helper that resolves a live lruvec for a folio under RCU
+>>> without taking the lruvec lock.  It takes a folio directly so the
+>>> lruvec lookup happens inside the RCU read-side critical section,
+>>> which a lruvec-based interface cannot guarantee.  The first user is
+>>> the lockless folio_inc_lru_refs() path later in the series.
+>>>=20
+>>> Factor the ancestor walk out of lruvec_live_lock_irq() into
+>>> __lruvec_get_live(), so that both entry points share it, and spell
+>>> out why the walk is enough while only the RCU read lock is held:
+>>> reparenting of a memcg that starts dying waits for a grace period,
+>>> so it cannot race with the caller until the lock is released.
+>>>=20
+>>> Move memcg_is_dying() up in memcontrol.h, next to the other memcg =
+state
+>>> predicates, and use it for the walk rather than repeating the open =
+coded
+>>> css_is_dying() test a few definitions away from where it is =
+explained.
+>>>=20
+>>> No functional change for existing callers.
+>>>=20
+>>> Tested-by: Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>
+>>> Signed-off-by: Kairui Song <kasong@tencent.com>
+>>=20
+>> Reviewed-by: Muchun Song (ByteDance) <muchun.song@linux.dev>
+>>=20
+>> Some nits bellow:
+>>=20
+>>> ---
+>>>  include/linux/memcontrol.h | 71 =
+++++++++++++++++++++++++++++++++++++----------
+>>>  1 file changed, 56 insertions(+), 15 deletions(-)
+>>>=20
+>>> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+>>> index 980358bc6f49..441a5d57e723 100644
+>>> --- a/include/linux/memcontrol.h
+>>> +++ b/include/linux/memcontrol.h
+>>> @@ -571,6 +571,11 @@ static inline bool mem_cgroup_disabled(void)
+>>>   	return !cgroup_subsys_enabled(memory_cgrp_subsys);
+>>>  }
+>>> +static inline bool memcg_is_dying(struct mem_cgroup *memcg)
+>>=20
+>> Let's make it const for @memcg along the way.
 >=20
-> Signed-off-by: Alan Pluto <alanpluto@163.com>
-> ---
-> Changes in v2:
-> - Replace the character device with a debugfs file, disabled by default.
-> - Allow one open per WMI device and require a single read for the respons=
-e.
-> - Use scoped locks, lockdep checks, automatic buffer cleanup, and the
->   WMI helper's minimum response size check.
+> Good idea, but css_is_dying isn't constified, maybe we can do it later =
+I think.
+
+Fine.
+
 >=20
->  Documentation/wmi/devices/lenovo-wmi-other.rst |  12 +-
->  drivers/platform/x86/lenovo/wmi-other.c        | 208 +++++++++++++++++++=
-++++++
->  2 files changed, 219 insertions(+), 1 deletion(-)
+>>> @@ -1510,28 +1520,41 @@ static inline void lruvec_lock_irq(struct =
+lruvec *lruvec)
+>>>   spin_lock_irq(&lruvec->lru_lock);
+>>>  }
+>>> -static inline struct lruvec *lruvec_live_lock_irq(struct lruvec =
+*lruvec)
+>>> +/*
+>>> + * Reparenting moves a dying memcg's LRU state to its parent at any =
+time,
+>>> + * so anything added to that LRU afterwards would be lost.  This =
+helper
+>>> + * walks up to the nearest live ancestor while the caller must hold =
+the
+>>> + * RCU read lock: reparenting of a memcg that starts dying waits =
+for a
+>>> + * grace period, so it cannot race with the caller until the lock =
+is
+>>> + * released.
+>>> + */
+>>> +static inline struct lruvec *__lruvec_get_live(struct lruvec =
+*lruvec)
+>>=20
+>> Cound @lruvec be const as well?
 >=20
-> diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst b/Documentati=
-on/wmi/devices/lenovo-wmi-other.rst
-> index 011054d64eac5b601333373c4d405f9c5117ffc2..42e1525a8852bd7c8ddc04cc4=
-047b1f09c5b770f 100644
-> --- a/Documentation/wmi/devices/lenovo-wmi-other.rst
-> +++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
-> @@ -33,6 +33,15 @@ under the following path:
-> =20
->  Additionally, this driver also exports attributes to HWMON.
-> =20
-> +GetDataByPackage diagnostics
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> The argument is fine, but tricky for the return value: when nothing is =
+dying it
+> hands back @lruvec unchanged, so a const argument means a const return =
+(which
+> isn't right) or a cast dropping it again.
 
-Missing a ~
-
-> +
-> +The driver does not create the diagnostic file by default. To enable it,
-> +pass ``enable_get_data_by_package=3D1`` when loading ``lenovo-wmi-other`=
-`.
-> +The file is at ``lenovo_wmi/<WMI device>/get_data_by_package``.
-> +Not all devices support the method. Use only commands whose behavior and
-> +side effects are understood.
-> +
->  LENOVO_CAPABILITY_DATA_00
->  -------------------------
-> =20
-> @@ -107,7 +116,8 @@ WMI interface description
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> =20
->  The WMI interface description can be decoded from the embedded binary MO=
-F (bmof)
-> -data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
-> +data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility. This =
-older
-> +example lists ``Max(40)`` for GetDataByPackage; newer firmware uses 100 =
-bytes.
-
-??? Could you move the sentence to the right place?
-
-> =20
->  ::
-> =20
-> diff --git a/drivers/platform/x86/lenovo/wmi-other.c b/drivers/platform/x=
-86/lenovo/wmi-other.c
-> index bd64e7b44669db684145298ae088dd2c7f539d29..827b4215c612fbfc052bbadff=
-0672e68e65517f0 100644
-> --- a/drivers/platform/x86/lenovo/wmi-other.c
-> +++ b/drivers/platform/x86/lenovo/wmi-other.c
-> @@ -27,13 +27,16 @@
->   */
-> =20
->  #include <linux/acpi.h>
-> +#include <linux/atomic.h>
->  #include <linux/bitfield.h>
->  #include <linux/cleanup.h>
->  #include <linux/component.h>
->  #include <linux/container_of.h>
-> +#include <linux/debugfs.h>
->  #include <linux/device.h>
->  #include <linux/export.h>
->  #include <linux/firmware_attributes.h>
-> +#include <linux/fs.h>
->  #include <linux/gfp_types.h>
->  #include <linux/hwmon.h>
->  #include <linux/idr.h>
-> @@ -41,9 +44,12 @@
->  #include <linux/kobject.h>
->  #include <linux/limits.h>
->  #include <linux/module.h>
-> +#include <linux/mutex.h>
->  #include <linux/platform_profile.h>
->  #include <linux/power_supply.h>
-> +#include <linux/slab.h>
->  #include <linux/types.h>
-> +#include <linux/uaccess.h>
->  #include <linux/wmi.h>
-> =20
->  #include <acpi/battery.h>
-> @@ -90,6 +96,8 @@ enum lwmi_feature_id_psu {
-> =20
->  #define LWMI_FEATURE_VALUE_GET 17
->  #define LWMI_FEATURE_VALUE_SET 18
-> +#define LWMI_DATA_PACKAGE_GET 99
-> +#define LWMI_DATA_PACKAGE_INPUT_MAX 100
-> =20
->  #define LWMI_FAN_ID_BASE 1
->  #define LWMI_FAN_NR 4
-> @@ -141,6 +149,8 @@ struct lwmi_om_priv {
->  =09struct device *fw_attr_dev;
->  =09struct kset *fw_attr_kset;
->  =09struct wmi_device *wdev;
-> +=09struct dentry *debugfs_dir;
-> +=09atomic_t package_opened;
->  =09int ida_id;
-> =20
->  =09struct lwmi_fan_info fan_info[LWMI_FAN_NR];
-> @@ -156,6 +166,23 @@ struct lwmi_om_priv {
->  =09bool bh_registered;
->  };
-> =20
-> +struct lwmi_package_response {
-> +=09__le32 data_size;
-> +=09u8 data[];
-> +};
-
-Even though there is no gap between data_size and data, please add a
-__packed annotation to clearly indicate your intent.
-
-> +
-> +struct lwmi_package_file {
-> +=09struct lwmi_om_priv *priv;
-> +=09/* Protects the pending response on shared descriptors. */
-> +=09struct mutex lock;
-> +=09struct lwmi_package_response *response;
-> +=09size_t response_len;
-> +};
-> +
-> +static bool enable_get_data_by_package;
-> +module_param(enable_get_data_by_package, bool, 0400);
-> +MODULE_PARM_DESC(enable_get_data_by_package, "Enable the GetDataByPackag=
-e debugfs interface");
-> +
->  /*
->   * Visibility of fan channels:
->   *
-> @@ -1611,6 +1638,174 @@ static void lwmi_om_fw_attr_remove(struct lwmi_om=
-_priv *priv)
-> =20
->  /* =3D=3D=3D=3D=3D=3D=3D=3D Self (master: lenovo-wmi-other) =3D=3D=3D=3D=
-=3D=3D=3D=3D */
-> =20
-> +static int lwmi_package_open(struct inode *inode, struct file *file)
-> +{
-> +=09struct lwmi_om_priv *priv =3D inode->i_private;
-> +=09struct lwmi_package_file *state __free(kfree) =3D NULL;
-
-The declarations of __free() pointers should be placed at where it's
-allocated, i.e., ...
-
-> +
-> +=09if ((file->f_mode & (FMODE_READ | FMODE_WRITE)) !=3D (FMODE_READ | FM=
-ODE_WRITE))
-> +=09=09return -EINVAL;
-> +
-> +=09state =3D kzalloc_obj(*state);
-
-...here.
-
-Meanwhile,=C2=A0opening the file while priv->package_opened =3D=3D 1 alloca=
-tes
-memory in vain. Could you move it below the package_opened check? In this
-manner you don't need the __free() either.
-
-> +=09if (!state)
-> +=09=09return -ENOMEM;
-> +
-> +=09if (atomic_cmpxchg(&priv->package_opened, 0, 1))
-
-atomic_cmpxchg_acquire()
-
-> +=09=09return -EBUSY;
-> +
-> +=09mutex_init(&state->lock);
-> +=09state->priv =3D priv;
-> +=09file->private_data =3D no_free_ptr(state);
-> +
-> +=09return stream_open(inode, file);
-> +}
-> +
-> +static int lwmi_package_release(struct inode *inode, struct file *file)
-> +{
-> +=09struct lwmi_package_file *state =3D file->private_data;
-> +=09struct dentry *dentry =3D file->f_path.dentry;
-> +
-> +=09kfree_sensitive(state->response);
-
-You didn't explain what data it is in your replies. "Can contain
-sensitive data" is not an acceptable explanation.
-
-Please grep the occurrence of kfree_sensitive() in the kernel tree, and
-you'll find that they are mostly credentials. Does the data passed by the
-interface fall into the same category?=20
-
-TBH, anything goes through WMI is *never* secret. If a manufacturer ever
-decided to use it to deliver "sensitive" data, it either misunderstood
-the word or chose the wrong interface.
-
-An ACPI-WMI method goes through the ACPICA, then the WMI core, and
-finally here. The former two's temporary buffers are either on stack or
-freed by the vanilla kfree(). If leaking "sensitive" response were really
-a concern, it must had been leaked before it reached your code.
-
-Please don't use kfree_sensitive() unless you really understand the data
-flow path and have a strong reason to use it. If you insist on it, please
-answer both questions.
-
-> +=09mutex_destroy(&state->lock);
-> +
-> +=09/* Unlike read and write, release can run after debugfs removal. */
-
-The comment is not helpful, as it's just repeating well-known knowledge.
-Please explain what it protects:
-
-   The release() callback may be called after state->priv has been freed.
-   Only when the debugfs file hasn't been removed is the pointer valid.
-
-> +=09if (!debugfs_file_get(dentry)) {
-> +=09=09atomic_set(&state->priv->package_opened, 0);
-
-atomic_set_release()
-
-> +=09=09debugfs_file_put(dentry);
-> +=09}
-> +
-> +=09kfree(state);
-> +=09return 0;
-> +}
-> +
-> +static int lwmi_package_invoke(struct lwmi_package_file *state, u8 *data=
-)
-> +{
-> +=09struct lwmi_om_priv *priv =3D state->priv;
-> +=09struct wmi_buffer input =3D { .length =3D LWMI_DATA_PACKAGE_INPUT_MAX=
-, .data =3D data };
-> +=09struct wmi_buffer output;
-> +=09u32 data_size;
-> +=09int ret;
-> +
-> +=09lockdep_assert_held(&state->lock);
-> +
-> +=09/* The tested firmware needs two calls before its response is usable.=
- */
-> +=09ret =3D wmidev_invoke_method(priv->wdev, 0, LWMI_DATA_PACKAGE_GET,
-> +=09=09=09=09   &input, &output, 0);
-> +=09if (ret)
-> +=09=09return ret;
-> +
-> +=09kfree_sensitive(output.data);
-> +
-> +=09ret =3D wmidev_invoke_method(priv->wdev, 0, LWMI_DATA_PACKAGE_GET,
-> +=09=09=09=09   &input, &output, sizeof(struct lwmi_package_response));
-> +=09if (ret)
-> +=09=09return ret;
-> +
-> +=09struct lwmi_package_response *response __free(kfree_sensitive) =3D ou=
-tput.data;
-> +
-> +=09data_size =3D le32_to_cpu(response->data_size);
-> +=09if (data_size > output.length - sizeof(*response))
-
-Why not use struct_size() here? Considering that...
-
-> +=09=09return -EPROTO;
-> +
-> +=09state->response_len =3D struct_size(response, data, data_size);
-
-...you've used it here, you may introduce a on-stack variable to
-temporarily store the calculated size and use it here and there.
-
-> +=09state->response =3D no_free_ptr(response);
-> +=09return 0;
-> +}
-> +
-> +static ssize_t lwmi_package_write(struct file *file, const char __user *=
-buffer,
-> +=09=09=09=09  size_t count, loff_t *ppos)
-> +{
-> +=09struct lwmi_package_file *state =3D file->private_data;
-> +=09u8 input[LWMI_DATA_PACKAGE_INPUT_MAX] =3D {};
-> +=09int ret;
-> +
-> +=09if (!count || count > sizeof(input))
-> +=09=09return -EINVAL;
-> +
-> +=09ACQUIRE(mutex_try, state_guard)(&state->lock);
-> +=09if (ACQUIRE_ERR(mutex_try, &state_guard) || state->response)
-> +=09=09return -EBUSY;
-
-I don't think it's a good idea to share the same errno between the two
-cases.
-
-While ACQUIRE_ERR(mutex_try, &state_guard) should return -EBUSY, a
-pending state->response should return something like -EALREADY or
--ENOTEMPTY.
-
-> +
-> +=09if (copy_from_user(input, buffer, count))
-> +=09=09return -EFAULT;
-> +
-> +=09ret =3D lwmi_package_invoke(state, input);
-> +=09if (ret)
-> +=09=09return ret;
-> +
-> +=09return count;
-> +}
-> +
-> +static ssize_t lwmi_package_read(struct file *file, char __user *buffer,
-> +=09=09=09=09 size_t count, loff_t *ppos)
-> +{
-> +=09struct lwmi_package_file *state =3D file->private_data;
-> +=09size_t len;
-> +
-> +=09if (!count)
-> +=09=09return 0;
-> +
-> +=09ACQUIRE(mutex_try, state_guard)(&state->lock);
-> +=09if (ACQUIRE_ERR(mutex_try, &state_guard))
-> +=09=09return -EBUSY;
-> +
-> +=09if (!state->response)
-> +=09=09return 0;
-
-Reading the file without writing to it in prior is a mistake, isn't it?
-Thus:
-
-=09=09return -ENODATA;
-
-> +
-> +=09len =3D state->response_len;
-> +=09if (len > count)
-> +=09=09return -ENOSPC;
-
-Returning -ENOSPC is confusing as there is nothing to allocate during
-read. How about -ENOBUFS?
-
-> +
-> +=09if (copy_to_user(buffer, state->response, len))
-> +=09=09return -EFAULT;
-> +
-> +=09kfree_sensitive(state->response);
-> +=09state->response =3D NULL;
-> +=09return len;
-> +}
-> +
-> +static const struct file_operations lwmi_package_fops =3D {
-> +=09.owner =3D THIS_MODULE,
-> +=09.open =3D lwmi_package_open,
-> +=09.release =3D lwmi_package_release,
-> +=09.read =3D lwmi_package_read,
-> +=09.write =3D lwmi_package_write,
-> +};
-> +
-> +static void lwmi_package_debugfs_remove(void *data)
-> +{
-> +=09debugfs_remove_recursive(data);
-> +}
-> +
-> +static int devm_lwmi_package_debugfs_add(struct lwmi_om_priv *priv)
-> +{
-> +=09struct device *dev =3D &priv->wdev->dev;
-> +=09struct dentry *dir, *entry;
-> +=09int ret;
-> +
-> +=09if (!wmidev_instance_count(priv->wdev))
-> +=09=09return 0;
-> +
-> +=09dir =3D lwmi_debugfs_create_dir(priv->wdev);
-> +=09if (IS_ERR(dir))
-> +=09=09return PTR_ERR(dir);
-> +
-> +=09atomic_set(&priv->package_opened, 0);
-
-Why would you need this? The struct is kzalloc()-allocated.
-
-> +
-> +=09ret =3D devm_add_action_or_reset(dev, lwmi_package_debugfs_remove, di=
-r);
-> +=09if (ret)
-> +=09=09return ret;
-> +
-> +=09entry =3D debugfs_create_file("get_data_by_package", 0600, dir, priv,=
- &lwmi_package_fops);
-> +=09if (IS_ERR(entry)) {
-> +=09=09devm_release_action(dev, lwmi_package_debugfs_remove, dir);
-> +=09=09return PTR_ERR(entry);
-> +=09}
-> +
-> +=09priv->debugfs_dir =3D dir;
-
-Why would you need this? The dir is devm-managed.
-
-> +=09return 0;
-> +}
-> +
->  /**
->   * lwmi_om_master_bind() - Bind all components of the other mode driver
->   * @dev: The lenovo-wmi-other driver basic device.
-> @@ -1693,6 +1888,7 @@ static int lwmi_other_probe(struct wmi_device *wdev=
-, const void *context)
->  {
->  =09struct component_match *master_match =3D NULL;
->  =09struct lwmi_om_priv *priv;
-> +=09int ret;
-> =20
->  =09priv =3D devm_kzalloc_obj(&wdev->dev, *priv);
->  =09if (!priv)
-> @@ -1708,12 +1904,24 @@ static int lwmi_other_probe(struct wmi_device *wd=
-ev, const void *context)
->  =09if (IS_ERR(master_match))
->  =09=09return PTR_ERR(master_match);
-> =20
-> +=09if (enable_get_data_by_package) {
-> +=09=09ret =3D devm_lwmi_package_debugfs_add(priv);
-> +=09=09if (ret)
-> +=09=09=09dev_warn(&wdev->dev, "failed to create GetDataByPackage debugfs=
- files: %d\n",
-
-The file is named get_data_by_package.
-
-> +=09=09=09=09 ret);
-> +=09}
-> +
->  =09return component_master_add_with_match(&wdev->dev, &lwmi_om_master_op=
-s,
->  =09=09=09=09=09       master_match);
->  }
-> =20
->  static void lwmi_other_remove(struct wmi_device *wdev)
->  {
-> +=09struct lwmi_om_priv *priv =3D dev_get_drvdata(&wdev->dev);
-> +
-> +=09if (priv->debugfs_dir)
-> +=09=09devm_release_action(&wdev->dev, lwmi_package_debugfs_remove, priv-=
->debugfs_dir);
-
-Why would you need this? The interface does not depend on the components.
+A cast is not nice. Let's keep things as they are.
 
 Thanks,
-Rong
+Muchun
 
-> +
->  =09component_master_del(&wdev->dev, &lwmi_om_master_ops);
->  }
-> =20
+>=20
+>>> @@ -1561,6 +1584,34 @@ static inline bool folio_matches_lruvec(const =
+struct folio *folio,
+>>>          lruvec_memcg(lruvec) =3D=3D folio_memcg(folio);
+>>>  }
+>>> +/**
+>>> + * folio_lruvec_live_get - get a live lruvec for a folio under RCU
+>>> + * @folio: the folio
+>>> + *
+>>> + * Same as folio_lruvec(), except that a folio whose memcg is dying =
+is
+>>> + * accounted to the nearest live ancestor, which is where =
+reparenting
+>>> + * would put it anyway.
+>>> + *
+>>> + * Return: the live lruvec, with rcu_read_lock() held.  Pair it =
+with
+>>> + * folio_lruvec_live_put().
+>>> + */
+>>> +static inline struct lruvec *folio_lruvec_live_get(struct folio =
+*folio)
+>>=20
+>> const folio?
+>=20
+> This is doable, will do!
+>=20
+> Thanks for the review!
+
+
