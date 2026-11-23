@@ -1,85 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795455546;
-	b=bXFLyCATVcNsV0+jdEVkfuyoxC1IMoRNXHlbvwVoRKqfDRma3xR6cGJD6hnxf9BFGLpi
-	 QE89YrGUSSVV2dH7a9ITl3YgRMJmnIyNbDGzO/y2ei3gfyDWW2vsRZhERRCmWvGu8IpAF
-	 L4VGiaWFEL7VtE4AuD/Qrnkf2wBtHF+EyhfJaT4xzuk3wcoQwVhsfumW0+RsXHDa/HWt8
-	 8k6ZXjmnesdEYlc/GsRshdwkwqWsLxYi66Nt/xPOzTjRi3zCpS3KWjdke8MjOW4Ghb862
-	 VtBaKpt7JUxVOD5e6Ix3jA9noqy6ijRcB0RQmxZfa1IyEpgwrTZBkzDq/NZlhZ9oTEg==
+	t=1795456142;
+	b=eU9ZPeNtN1SrmQTCyJsxNGCjL4/ibNJh+Jc5y7kEaPUCbHb37Six48zmnpOVArHYq3Ho
+	 csan3FsR2FhfNWG4SmIy7RtXr7XFgL/jYoYqeJK4FQ10+ULDOG6B/OVeK1F8ayBqUwgFS
+	 7YDc9DrrKLRqxG9tq2cvdsKZXUr4OwQIHJEwbVd73uHiykIuaeR8Ki5C2/xT1nlXx1hVl
+	 rGJ1s21vw0ToVUzMoepWhOCj04Np6P1Kv0cYocPf6KYqiNIhcgU3kUrxrqMS8Dq9A0QgY
+	 z2wo5U+g08vn4+IwVpjXqS9zKlHZgNrt67WfOZ53YDb8KlXVgqFHwPP2hugsUfbmhFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795455546;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:Date:
-	 Message-Id:To:Cc:In-Reply-To:References:X-Mailer;
-	bh=6/YqHUloJtkZbpJ39+cQO94H2zNky60itqgdCHgeegQ=;
-	b=03SIkPCKKg9my88wrE8PDtpwyZXPT1URXpL2w8T0EP5l3Nhhd7g5gZfZt3bvruXI2pAI
-	 sxMGgru5fAPUn8Px/9Mza8u79bugfHakasY3j8RM0EkCd1HbBCsO2N6y3ksVXuK1X4tVh
-	 TQwFojfdrC5McY6lle8gpSv8HlnfVcZrRtrnfZeEVP4X9sZo3gwLD2CtT1wEOK9FSg5qk
-	 YXLptG9Eh5RmQJZiacBae2Ptj0jlHKypKoGmUoLXyHkqAci5pTFoyo3CSf5CWrrqZh77k
-	 8uP9vzgqla3nInp7H9bolJ3tznIxfg16Wed3qnGyCnytvcihcs4k2Qz4J+Ako/JtHQA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795456142;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=aLmnnnAOGo4iOMHkgiEOkhD4uv93DlGUvs9MnxD+3v4=;
+	b=p6P5X6yv0/uaT/zZUvsa+2rv2IdA/qQLQDA78yKVinI66+G2EFi9k3moQZUiAnMbORKc
+	 nixJEkAb9TdVFDSr+1PvTey5bbJQooLBHz8GCnlwcv+kTelK8h3M6+2z5giwbZN1JMC+P
+	 OKs8CtojymRt6/kpMx6kwhHPtXD+bPrjXMbKCuIdyVF04zkLo/eQqiiDneX1dftptKuQi
+	 hL6OnEVpI9NABjjbz+525U2Dv22ycDiJV8E+IMGiiHGWUaK+27KJgHMnCW9sMbIv18cZg
+	 a+LRs8BR0hTyLhYBpEopt704tSQZ4bvp91lH9RbPaKxfNQDDiYnZE1yUOIMaTSiFn9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YtgiM6Qq;
-	arc=none smtp.remote-ip=74.125.229.4
-Received: from mail-dy2-f4.google.com (mail-dy2-f4.google.com [74.125.229.4])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=tK0GtuXy;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47392606A31E
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 17:39:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47392606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589EB606A31E;
+	Mon, 23 Nov 2026 17:49:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 589EB606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YtgiM6Qq
-Received: by mail-dy2-f4.google.com with SMTP id 5a478bee46e88-36f2f262b19so1400658eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 09:39:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795455545; x=1796060345; darn=vger.kernel.org;
-        h=references:in-reply-to:cc:to:message-id:date:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=6/YqHUloJtkZbpJ39+cQO94H2zNky60itqgdCHgeegQ=;
-        b=YtgiM6QqXRQEENoKa1m3heyRy4YKImPfI99jFknmv1nqresZy/NsP8rOaGeOjtRnmS
-         GHIEZZgZP47f7ZKTR7cyBWlBHZ5/QszI7XtUY84Y/AUPwPH7GFt8sEftfsVidIbmzdUn
-         4J8tieews9I9FZS0tJ6gbD1rmCG8/QPkjd/53y3RAwFlk74TVTlyoQXUJeklVCsZGFne
-         vJY8nUIOdLkYVsGeUmvlIQk7YXQroLNoBmuAs5+Vov/PaNHx/23Tf5+pGdtSO7bt4AaU
-         UK2eDpc/nnKk/o+4UejxuUaaYR6VCvcA2ikybR0NRA/rlqZGfZji44A0Mn1Z1KzcWY8P
-         4IBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795455545; x=1796060345;
-        h=references:in-reply-to:cc:to:message-id:date:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6/YqHUloJtkZbpJ39+cQO94H2zNky60itqgdCHgeegQ=;
-        b=JTCTnISuPagcpSXzu8y+ORSOeLIqJ320n6Fso3fFb0wJf0mwhVFuv9SAnhm/2j8YLf
-         FYLJk8yp0M3BrunkwzexK/hWD7wIo6aI7jELQwa9hadau3Ww6A4tgm4jJ2atNZcYBEZM
-         /9lP1Flub+QH1ZeLqt0SBfhZvqwA9iVCGX91Zx0E7/RR2soIP4VGgILQwK4FRv7gyQ0N
-         2HZIqDAxYO6glQ916Pmue7DgUsYDRByyycXkAwK4eAiTy0iqCUN/h2WkJGmmK7fCmwE1
-         9QHSCjlEHbyUILJYKCjKfgPRpk+s1td4umta0sp8sA/cYzlGNMHA0I4X2tKy0IAAkPZd
-         4yWg==
-X-Forwarded-Encrypted: i=1; AL+hErE95VODwQD9I/uVP6F8qX50kXB5J/oJ6vtjzvDcboFUt3vGlDSw/cs8eVrePRTMHItkQZfzNkHpzS4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z87ltZrIRToXp8+C5Ljy/OyDvmngj2ol8CapcxOl19UiT/rqm2c
-	VEwYkGV57W04JJQcx/TxbtidzrHwI0892oxPLXeAF9Q4yOyxcETaHbGp
-X-Gm-Gg: AZFdTZcYrPpDQI6agS0LHjzcVPZCFqBlREU7erY4ZWWa5fTTGmaZwt1XiwBgJ0PlmwK
-	BCQkizhrUqq9qPqQZpSeB+xv3AJFntLSlu+D5dGYDwBbg9qyLwBqHT3Po4246VbV0nY+ZOpIIou
-	DaXLEXAHQBrPykTRen3BGiiPTtUCvQ/rpieOs32P01xLkZ+p78GJJ4gH8zVCo7Hyv5kk3L4D8uD
-	/zhfo2IkO5KSMpsjNYQEGZGQqW/Bdzx1ffpeHrIzUhJQiywp/8Z0P346W91dNvW8e+8CyIXKIVX
-	OZf4QyIzxuaLWDu6evduPTJts8Bt8ooY/USG9ZCTUrNZhk3xKLJ9KFS6fxbIBxjVmm2k8iueusH
-	sbwEd6969QFZd0+GMmWZyv9lE1EUxN7SDlvQ6zmI6TqLwTRhT3/h4grODWaFJzJoIpMw1jNo2n6
-	rOyURmNEXoGquK+/wRterHzZYGmaCejdvx0kVGnO+FhZUn+lSsosQ7NmEX6bZ1pUGSy7vzEdkLe
-	xHL3OaCB55h6VjVXe6cb4QCpmM3Licutx6Hjg3PACUPTKwrUJN/MbLKy2kaGaOv3UPj20IVRvtC
-	He+KHmHd9QXDEspAChqtZKCTMKWo6YbK49/CGCTu6pUcl/zKioF5L9/Xa86A7DqHnVIphZMlPzg
-	qhHajqdIs7fdmxYPP9j4clLTQUy7m8BTnA+gzpNzjBhIRDa3kWJ75F8iM9CMlVw==
-X-Received: by 2002:a05:7300:1486:b0:369:d8e1:7bb6 with SMTP id 5a478bee46e88-38570e24c35mr16246805eec.25.1795455545227;
-        Mon, 23 Nov 2026 09:39:05 -0800 (PST)
-Received: from localhost (n106-71-19-159.sun21.vic.optusnet.com.au. [106.71.19.159])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38567abb870sm31532302eec.25.2026.11.23.09.38.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 09:39:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=tK0GtuXy
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=aLmnnnAOGo4iOMHkgiEOkhD4uv93DlGUvs9MnxD+3v4=; b=tK0GtuXycY+DyBoFUzL3aU2hVT
+	eNdHtTVHLCYOfZ9UANmYJFwT8hDWm0U29nwfwPlKm7FC7UO+PgzQuRut6IwfpxVSmWxgMTw5Bb52c
+	FiGZTKo4bdqFR/u1xwbJZe53tSGQPlZEVpdRJmBxTbvRHNx9PR8hrYF3x0ob5Cz9kPDl8Fk9ngKDe
+	LeIWsw/fhR4Ed2szotcOEN+/5kjHBrI2dUKwXaM49ww7X1hHL95Kbh4NiEquopL4BIRecLkr1QyxJ
+	UVWQ/uSjgzlCjV7tkb+qWjt7vexO/xaQm+Xo5rGtuzFSPLD4LRZKe9QNcKu58a2Qvo3AmQZc2dHqj
+	bMVcU5NQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xVYA1-00000004QG3-24fa;
+	Mon, 23 Nov 2026 17:49:01 +0000
+Message-ID: <1968cf9c-59d1-488b-8fb2-077f420f600f@infradead.org>
+Date: Mon, 23 Nov 2026 09:49:01 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,34 +58,85 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: submitting-patches: use :ref: links and remove
+ unused anchor
+To: Zenghui Yu <zenghui.yu@linux.dev>, linux-doc@vger.kernel.org,
+ workflows@vger.kernel.org
+Cc: corbet@lwn.net, skhan@linuxfoundation.org
+References: <20261121163923.73026-1-zenghui.yu@linux.dev>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20261121163923.73026-1-zenghui.yu@linux.dev>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 26/27] Docs/admin-guide/mm/damon/usage: update for
- user_report report support
-From: Aveline Noir <jm5905938@gmail.com>
-Date: Tue, 24 Nov 2026 03:49:25 +1100
-Message-Id: <179545256509.4.13115689957500135208.b4-reply@b4>
-To: SJ Park <sj@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
- Jonathan Corbet <corbet@lwn.net>, damon@lists.linux.dev, 
- linux-doc@vger.kernel.org, linux-mm@kvack.org, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20261121210013.130397-27-sj@kernel.org>
-References: <20261121210013.130397-1-sj@kernel.org>
- <20261121210013.130397-27-sj@kernel.org>
-X-Mailer: b4 0.16.0
 
-Hi SJ,
 
-On Sat, 21 Nov 2026 13:00:10 -0800 SJ Park wrote:
 
-> Update DAMON usage document for the newly added user_report type data
-> attribute report support.
+On 11/21/26 8:39 AM, Zenghui Yu wrote:
+> Convert three plain-text references to the "Tagging people requires
+> permission" section into proper :ref: links using the existing
+> tagging_people anchor. Remove the explicit_in_reply_to anchor, which is not
+> referenced anywhere.
+> 
+> Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
 
-LGTM, thanks.
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-Reviewed-by: Aveline Noir <jm5905938@gmail.com>
+Thanks.
 
-Thanks,
-Aveline Noir
+> ---
+>  Documentation/process/submitting-patches.rst | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index f271d7413f72..7126f25e2ac4 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -496,8 +496,9 @@ If a person has had the opportunity to comment on a patch, but has not
+>  provided such comments, you may optionally add a ``Cc:`` tag to the patch.
+>  This tag documents that potentially interested parties have been included in
+>  the discussion. Note, this is one of only three tags you might be able to use
+> -without explicit permission of the person named (see 'Tagging people requires
+> -permission' below for details).
+> +without explicit permission of the person named (see
+> +:ref:`Tagging people requires permission <tagging_people>` below for
+> +details).
+>  
+>  Co-developed-by: states that the patch was co-created by multiple developers;
+>  it is used to give attribution to co-authors (in addition to the author
+> @@ -545,7 +546,8 @@ followed by a Closes: tag pointing to the report, unless the report is not
+>  available on the web. The Link: tag can be used instead of Closes: if the patch
+>  fixes a part of the issue(s) being reported. Note, the Reported-by tag is one
+>  of only three tags you might be able to use without explicit permission of the
+> -person named (see 'Tagging people requires permission' below for details).
+> +person named (see :ref:`Tagging people requires permission <tagging_people>`
+> +below for details).
+>  
+>  A Tested-by: tag indicates that the patch has been successfully tested (in
+>  some environment) by the person named.  This tag informs maintainers that
+> @@ -598,8 +600,9 @@ A Suggested-by: tag indicates that the patch idea is suggested by the person
+>  named and ensures credit to the person for the idea: if we diligently credit
+>  our idea reporters, they will, hopefully, be inspired to help us again in the
+>  future. Note, this is one of only three tags you might be able to use without
+> -explicit permission of the person named (see 'Tagging people requires
+> -permission' below for details).
+> +explicit permission of the person named (see
+> +:ref:`Tagging people requires permission <tagging_people>` below for
+> +details).
+>  
+>  A Fixes: tag indicates that the patch fixes a bug in a previous commit. It
+>  is used to make it easy to determine where an issue originated, which can help
+> @@ -822,8 +825,6 @@ lore.kernel.org archive link) is recommended to help reviewers::
+>  See more details on the proper patch format in the following
+>  references.
+>  
+> -.. _explicit_in_reply_to:
+> -
+>  Explicit In-Reply-To headers
+>  ----------------------------
+>  
+
+-- 
+~Randy
