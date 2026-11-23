@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795432038;
-	b=QZz0HnYx8+RSqIwRNXHqZicUvO+5EAc8hVHjRK5X9fQVEKxTYAEsZeozzUTqQ2E6oWLq
-	 JcPph6Ysk3PSe6dBpCbn9lP4zfENjUHbIOJ+rnPirZixIErqfNMdoVVW1aLtfcGaEj2Pt
-	 WpyGCrT+JTCJmKE4d/WVoQCIhujjoXx/hbt2HEGonGnRXfwiikxQCEJTLxvUHpK5l1EK7
-	 cnkrvVULrdcLHetrM4fGzh0lpJCnM0X9gOCitltc5vK1brvLMWwtoqBU/9kc2ZdIt+tbZ
-	 EorXvg8ptKGM8vIp8nnGMndt4yVQmmdhaAHu4uUQX6JJXbZm3HP0hTLSvFoBf6Of0lg==
+	t=1795432041;
+	b=nKKg1lAPHVm0tqftXSIdlRwimQ6o8TIFR5GGBm4CHOGURghttQ2ZpuHZcaxfp80B5dpa
+	 rSQ/saDo2WbulBQjE+khsziYEXqTJJDd0DQia3zEVP8ri7Csj+D9zCLSwwt+eSh4eMiTZ
+	 m29CPlmdPQt3nEvVntt0nwOyidnU5nxO4JeuBY9meueHXVaWfTwMuFOu3WDP61cD5xNiR
+	 D8QjQxlZ1xxJA/j+4Q4TZEDxDNwbxXWZ/ygGFOhilR2xPQOh5xUF7xu+vuaY4Xb7MrXwd
+	 47x/ydBE+K5TpEjvqwwkYh+/zhRwJkbQ73W7pFI/6Egs2hXwHYXZ5oirzsLByXSP0ww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795432038;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795432041;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=y57InZirlLt6ybEBJOPgbYT+AZ2EqSl7I8kTv4hT9BA=;
-	b=ENUvl+yO79DbBNNjRDxOIHpx2Wu6NbGD8Vz655Y6QgMXY7+LZnosNrqk1fjMi9MYMYpw
-	 1wZRvgRwONdRH0oLZFWHSZWPVDQlcUEL8RCyxy98kQ0iWKBiBZFYzjru5LmWNsIwxzdUM
-	 n37GUTTuYQnRbft1WB+nxGSQTJ2XI3UiyEJWMcg3IusbhjENQ7EN74tlQotHUNhClS5N7
-	 /jYmQ4gkvkJLURIP8VccdJpyTE+i8aOHeju2GmetkcIKpMNdQOmFmP6LbC0Qsp5WrnMwh
-	 pDLTW4U4fhbK+71stXoIK9/GEYvVK4wLgUXFUybXQ4C6ZQ2dCsPgva8Nkgd8aL0vhkQ==
+	bh=84LN+yk9SHs1lNdtGDMF3pv5mILXj5e9lWibGv9y35Y=;
+	b=dqrnkwqKz7h3Uhvbq/cRoAGCNOYCQYq+WF0hk68rPa8RcfipLqmgMH6jqy9rGeUFk0qK
+	 P6oP+Iu3Nox1U0lUARyRElF1pSY/EHmpmfN79uHJCMf2Dw/HwZ8VgEIAuLjSzf0KI0hNg
+	 5B2ToHdHGxssyK0Dsfbk7YQY5NLO8N3Xn1ht9ZUcAw3zUir/ZJqPQurtyLyye8DzaRfJt
+	 aNEvyZrh18YYbuAiLBXp3p2E4ogZVae4QbjzEBJiZiF67J4KquEdJY7jcJyMiH1xR8sc9
+	 rAp91YbX9cSV7CzBdu9vAVfYddmS297n6TnGRxAhnjq2vWGgwmeNCfmQns+xAH2RBqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JNerKwnW;
-	arc=none smtp.remote-ip=74.125.82.49
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SLZUnMg0;
+	arc=none smtp.remote-ip=74.125.82.182
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AFA1606A697
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:07:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0AFA1606A697
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEA3606A6A0
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:07:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EEA3606A6A0
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JNerKwnW
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1b3ae17c535so378876c88.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:07:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SLZUnMg0
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-33bb5afa736so347383eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:07:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795432037; x=1796036837; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795432040; x=1796036840; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=y57InZirlLt6ybEBJOPgbYT+AZ2EqSl7I8kTv4hT9BA=;
-        b=JNerKwnWgrzXZ9HN7LFgZSPwxkby4wsyp4EnlOWVdOc6rX19+DrQavmXXkj3myc2n5
-         dP4CcmSdTOzJPQquOdMJuLTGreaUe0mflZ4For3VDPle0LDfFdviSgdcdfvp0IZm32BK
-         Lzz6Rs4uWrOd7wHVlQl+x/is9DUtrRWY+gsLkQiJtZl2vqsar35cCpssymmRL/pEkLz9
-         FgQQz8V4CQN8W5+d4HUpD478wuvXJ7/+5KbrqSHMVSQPUkP8t1Q2TThrBc0LODZLhyRI
-         YDUgCXIaOUt2FZWYGAkalamA0OMTtC43WTJHHIT5W7OlK0f1dhz7IooeDLXxcD8MXJt+
-         uuog==
+        bh=84LN+yk9SHs1lNdtGDMF3pv5mILXj5e9lWibGv9y35Y=;
+        b=SLZUnMg0lYVDrjVaQt1rC5r1K6WjWWLx4tONuSpHvdaM+jNB5t32HrAXNHPgyNoEhW
+         OXnrvEECbnIk1t+60eTR4/etFkf0Pvlid2CuKkm75QdFllLfVg6xM6BX0x7Hmc3mHO9G
+         O8CiAiqRySeDZ14i8IOiE7GHAWikolkIGkrAn4uPgOoWMsd9cI0WiG3JWU+L03zJJSMv
+         6/kqSEnnQn+Kj1RDdMC13wXLnOH9hCDqt6QCoY8Lm0OJturdmZ3qnp2GDbIE/1VgQCB6
+         rbnt2dWZbVO7ZsxGMQFLw8AcScmWiaX42QcNvi6BWF8fHmOwAN12UDGWJ527tO2bhMwI
+         agTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795432037; x=1796036837;
+        d=1e100.net; s=20260707; t=1795432040; x=1796036840;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=y57InZirlLt6ybEBJOPgbYT+AZ2EqSl7I8kTv4hT9BA=;
-        b=WDna1KOcLGSdVTMPx+3WuaIXDzJKb518ScYE1wxx9XIOMdgIsM/ZZ0DU1BFLMfE4cP
-         lDQITlgSqxBrUEp++bJquLZlAhx1EhftPH9RWwGqM0UWGjJn2Q2WcWr0ZNpZphi0GMI6
-         9ARv7p28lIZlcAtQA9BCeegesIC/cwqerevtH3p6p1xW0Qf0TJp1+5GlHj4KhBZowrtC
-         vcuTnyc2yS8+yUQoDiWzmHk7VIIm7umImsNsbLpDDEuj1Mo8m90WGyzCkmemtcAsZSi5
-         i0Kb9ziUOazSIZrM9Z+6d+UZMQ+/hJx5i2QxqPBxKYf82+Xlj/Hjz1NGV6mtp2TKJbmV
-         lBtA==
-X-Forwarded-Encrypted: i=1; AL+hErGfhikaSV20YOj34oP9u1fNH9Wd9PZNVvwHWkGgEaUAnjiOwezqutHmXV2EgPZqalCyYKx3+VVQ+48=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9m6+R28M/q9hmMwygzuzBbCctlTNIgDCkslnD0IuwSxC/DZjpj
-	XOxyaDtuZOShsWoUNdfaiZgeGve+iJF5i6IrHfF8HkH8d6V0ox7gFpLZ
-X-Gm-Gg: AZFdTZc+MpkoLbBGqqRJy6ypOMNqFFpdehivKJxv4bqHcKV0gexdwWnzW/toU6zrO+u
-	0PbV/BDyOwEIUt3x0t3Ed+1pnodLtvLRgoNmgcVf5teJ9pWIGoIwvqiz0Dc5LMtKja/fb17egu6
-	Wg0DKZhgWIrurSfTAKQI6r3i9ykqngVBfDACZjS5kglQ8YuQ1GQkYeZDX3vmvxdQbNAOEMbmXeU
-	aajo35y7hAWWa6FyNVBgP57bO+weuznTjkuNjzP0ALvvb3waAyLvM68XM3fDSVa/sqT4QcuD7ZH
-	QLEuG2MsR3KksJyKCoAn6EUC3jIaeC5KxA28kOZconbCp5mVXRky5uN51gwJoJKGYGuJTVkR4fq
-	oH8qrEE5rp22TVuQb5eZ75LiCyE0kG9LmEaOkFfxGBJ7UcBc5o3aAWGKBHe4aMxrjl4FxFVfbaL
-	XGehTbB3B6n6CbniCGb1opS07eLWn7rnzmSsDPXJHuZxToOp6wi9oOw4uRVoFpgmIZLHMGKsqnh
-	2U5EBoQ9iT5oWwcJ+bKLTWNzqSn7rlFyuRE8Pclvqz2HNTNStomv1T1tXJRPLsJYVQY7s0lJ4EX
-	jDGhGVHKswRF9BJRhKMz7N4TAO3D0ExJDWDCSwqCNKOhHEizFajdj+mm/MImMGZL5NGkm13imQq
-	jtjJt1wf9j2P5jEZ0yMQ6gmkO
-X-Received: by 2002:a05:701b:21c8:b0:144:fd17:3b21 with SMTP id a92af1059eb24-1b5566e577bmr15106822c88.0.1795432036978;
-        Mon, 23 Nov 2026 03:07:16 -0800 (PST)
+        bh=84LN+yk9SHs1lNdtGDMF3pv5mILXj5e9lWibGv9y35Y=;
+        b=KQELQxYRFR7I+kkX+kZRV+eEU7jW5MJ2HrvdfjvnfZUtWPvPlmZh0tls3k9tmhl8PU
+         a7Png2+NiJyaNstw1zJ0Zl2IttSWB4c+nxckuhzgJDqOA1FI37YPoAxqPxudS9KVWC1V
+         3yrzM6y0HzAi65/qM+NbSS5J4XeSM+fgbEAcsNuhuZJRp1oAkESBdrsSRS5JMxvJfPcC
+         TskxGy4+L4oMOwCLHB2NWITVcXdBJSri31DvU9VKTbKnt2mGvBYR7vC2scc+SN2WQuM+
+         jkb7CrI2y3o8ixv4n7+XGKcR7xyE3ujY+KFI+7UIPDZ0TCmcqUXmHdHeXQBWSXIGKBt1
+         4nLA==
+X-Forwarded-Encrypted: i=1; AL+hErEvwuA1vbhqVfXU7VzihGyrQWmoEpNRr+Tvnpx5Bk5Tt4ZGZbybXfLHk+naMU8+Q4W6NI8hwoODPvc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/w27Tkn8IZJj9oT/0TO7iS5YyeC2n8o3R1k+2Cs+xUh353TYNk
+	pyC17Oo4ycCy512woChwlw1Kx1pdWVkEvhaUKieX4STKCwGRoemiFvKj
+X-Gm-Gg: AZFdTZen+WsSkb9A/D4jcLm5SUxvh6iPyIqvRGQDyPRl6ySsaCt32ogk9BeTpgw4HqP
+	vmN0gzvS67eS4qh9/2vOsFPKtjYg3WD7618YDPgYnYom7aiclv70EU6Ht+eV7fSZScvOXHZEIHt
+	z5Kj5/l4UDFl8UmaJiVDFQ+HkdTqRq+5NQA7FkSrYbcEAnd+IuR8uNmepnkmCIS7Cgs+ogOtY8D
+	surSl9sWgn91gDZO+cDncyJ3oFQ72mVoFX3KA+mz7H/0fpsUcVXFCXfB6Pp/1L1fsLK0LtK+Fi9
+	KIbxYgcSJdDjUvNX+Do8k40NZcdbW9twMbz+YiLf686PU3aS2eOYoj94GHVAZA6G1fYAgtAqUyN
+	RHTHMw6Atx3bTibO9ByxZtOnNJF5DDaxq+nK+Ce1K6xc+LwnUX9hMVefCGPyMRHbtIwGThFAW9h
+	mPOFiUQw2yumQxntXwQNKoYg5Z1zqAWPDbtl/uJU6qHBC170RdtfKIq5Gyp3rzaCz1hgTH1CSu4
+	MSrqcJWA43owJnVHVzWBcl2fJg9R3idbiGQmPRd+GvQjDhhFI3j0YjzpebwQB6yL1ZysX0320nl
+	1U8+J4+YdXF3RXBiL7t/PLuMeRvQCrrpC5qvXzETH+8sSjXGbx+suz/TK1IwkAHa7YRxGaK0jcd
+	hKdY2jBabbNWtXc5wZKlw9qZL
+X-Received: by 2002:a05:701a:cc90:20b0:146:ffa9:2117 with SMTP id a92af1059eb24-1b5697a0445mr9227216c88.1.1795432039775;
+        Mon, 23 Nov 2026 03:07:19 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.16])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm30054074c88.6.2026.11.23.03.07.14
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm30054074c88.6.2026.11.23.03.07.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 03:07:16 -0800 (PST)
+        Mon, 23 Nov 2026 03:07:19 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: alexs@kernel.org,
 	corbet@lwn.net
@@ -89,9 +89,9 @@ Cc: wy@wyuan.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH v2 10/13] docs/zh_TW: process: add contribution-maturity-model.rst translation
-Date: Mon, 23 Nov 2026 19:06:33 +0800
-Message-ID: <20261123110637.172045-11-chenyou910331@gmail.com>
+Subject: [PATCH v2 11/13] docs/zh_TW: process: add conclave.rst translation
+Date: Mon, 23 Nov 2026 19:06:34 +0800
+Message-ID: <20261123110637.172045-12-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261123110637.172045-1-chenyou910331@gmail.com>
 References: <20261123110637.172045-1-chenyou910331@gmail.com>
@@ -107,133 +107,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate Documentation/process/contribution-maturity-model.rst into
-Traditional Chinese from the current English text.  There is no zh_CN
-translation of this file to consult.
+Translate Documentation/process/conclave.rst into Traditional Chinese
+from the current English text.  There is no zh_CN translation of this
+file to consult.
 
 List the new file in the toctree of process/index.rst, after
-code-of-conduct-interpretation as in the English index, and drop it
-from the TODOList.
+researcher-guidelines (generated-content and coding-assistants, which
+precede it in the English index, are not translated), and drop it from
+the TODOList.
 
-update to commit 10a29eb658b3 ("Documentation/process: Add Linux
-Kernel Contribution Maturity Model")
+update to commit 102606402f4f ("Documentation: Project continuity")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../process/contribution-maturity-model.rst   | 83 +++++++++++++++++++
+ .../translations/zh_TW/process/conclave.rst   | 35 +++++++++++++++++++
  .../translations/zh_TW/process/index.rst      |  2 +-
- 2 files changed, 84 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_TW/process/contribution-maturity-model.rst
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_TW/process/conclave.rst
 
-diff --git a/Documentation/translations/zh_TW/process/contribution-maturity-model.rst b/Documentation/translations/zh_TW/process/contribution-maturity-model.rst
+diff --git a/Documentation/translations/zh_TW/process/conclave.rst b/Documentation/translations/zh_TW/process/conclave.rst
 new file mode 100644
-index 000000000000..1091aab4a7eb
+index 000000000000..e237b84fd3fa
 --- /dev/null
-+++ b/Documentation/translations/zh_TW/process/contribution-maturity-model.rst
-@@ -0,0 +1,83 @@
++++ b/Documentation/translations/zh_TW/process/conclave.rst
+@@ -0,0 +1,35 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +.. include:: ../disclaimer-zh_TW.rst
 +
-+:Original: Documentation/process/contribution-maturity-model.rst
++:Original: Documentation/process/conclave.rst
 +
-+========================
-+Linux 核心貢獻成熟度模型
-+========================
++Linux 核心專案延續性
++====================
 +
++Linux 核心開發專案的分布非常廣泛，有超過 100 位維護者，各自努力讓變更在他們
++自己的儲存庫中持續推進。不過，最後一步是集中式的：變更會被拉取（pull）進主線
++儲存庫。這項工作通常由 Linus Torvalds 負責，但正如 2018 年 4.19 版發布時所
++展現的，在有需要時，也有其他人能夠承擔這項工作。
 +
-+背景
-+====
++若該儲存庫的維護者今後不願意或無法再承擔這項工作（包括協助交接），本專案將
++需要立即找到一位或多位接替者。完成此事的流程列於下方。$ORGANIZER 指的是最近
++一次維護者高峰會（Maintainer Summit）的籌辦人，或以 Linux 基金會（Linux
++Foundation，LF）技術諮詢委員會（Technical Advisory Board，TAB）的現任主席
++作為備援。
 +
-+在 2021 年 Linux 核心維護者高峰會（Linux Kernel Maintainers’ Summit）上，有一場
-+關於招募核心維護者以及維護者接班所面臨之挑戰的 `討論
-+<https://lwn.net/Articles/870581/>`_。該討論得出的部分結論包括：身為 Linux 核心
-+社群一份子的公司，需要允許工程師將擔任維護者作為其工作的一部分，讓他們能夠成長
-+為受人尊敬的領導者，並最終成為核心維護者。為了支持穩定的人才輸送管道，應該允許
-+並鼓勵開發者承擔上游貢獻，例如審查他人的修補程式、重構核心基礎架構，以及撰寫
-+文件。
++- 在 72 小時內，$ORGANIZER 將與最近一次已結束的維護者高峰會（Maintainers
++  Summit）的受邀者展開討論。這些受邀者與 TAB 之間的會議（線上或實體皆可）將
++  盡快安排，並以能讓最多人參與的方式進行。
 +
-+為此，Linux 基金會技術諮詢委員會（Technical Advisory Board，TAB）提出這份 Linux
-+核心貢獻成熟度模型。這些關於參與上游社群的共同期望，旨在提升個別開發者的影響力、
-+增進組織之間的協作，並改善 Linux 核心生態系的整體健康。
++- 若過去 15 個月內沒有舉行過維護者高峰會，本次會議的受邀者名單將由 TAB 決定。
 +
-+TAB 呼籲各組織持續評估自身的開源（Open Source）成熟度模型，並承諾進行改進，以與
-+本模型保持一致。為了讓評估有成效，評估應納入來自整個組織的回饋，包括管理階層以及
-+各個資歷層級的開發者。秉持開源精神，我們鼓勵各組織公開其評估結果，以及改善其與
-+上游社群互動的計畫。
++- 本次會議的受邀者可視需要再邀請其他維護者加入。
 +
-+第 0 級
-+=======
++- 本次會議由 $ORGANIZER 主持，將考量頂層核心儲存庫後續管理的各種選項，且所做
++  的選擇須符合「能最大化本專案及其社群的長期健康」此一期望。
 +
-+* 不允許軟體工程師向 Linux 核心貢獻修補程式。
++- 在兩週內，此小組的一位代表將透過 ksummit@lists.linux.dev 郵件列表，向更廣大
++  的社群說明接下來的步驟。
 +
-+
-+第 1 級
-+=======
-+
-+* 允許軟體工程師向 Linux 核心貢獻修補程式，無論是作為其工作職責的一部分，
-+  還是利用個人時間。
-+
-+第 2 級
-+=======
-+
-+* 期望軟體工程師將貢獻 Linux 核心作為其工作職責的一部分。
-+* 軟體工程師參加 Linux 相關會議將獲得支持，並視為其工作的一部分。
-+* 軟體工程師的上游程式碼貢獻，將在升遷與績效考核中納入考量。
-+
-+第 3 級
-+=======
-+
-+* 期望軟體工程師將審查修補程式（包括其他公司工程師所撰寫的修補程式）作為其
-+  工作職責的一部分。
-+* 在 Linux 相關會議或學術會議（例如由 Linux 基金會、Usenix、ACM 等主辦的會議）
-+  上發表簡報或論文，視為工程師工作的一部分。
-+* 軟體工程師的社群貢獻，將在升遷與績效考核中納入考量。
-+* 組織將定期回報其開源貢獻的指標，並長期追蹤這些指標。這些指標可以只在組織內部
-+  公開，也可以由組織自行決定將部分或全部對外公開。強烈建議的指標包括：
-+
-+  * 依團隊或組織計算的上游核心貢獻數量（例如所有向同一位經理、總監或副總裁回報
-+    的人員）。
-+  * 已做出上游貢獻的核心開發者，佔組織內核心開發者總數的百分比。
-+  * 組織的伺服器和／或產品所使用的核心，與其內部核心所依據的上游核心發布日期
-+    之間的時間間隔。
-+  * 內部核心中所含樹外（out-of-tree）提交的數量。
-+
-+第 4 級
-+=======
-+
-+* 鼓勵軟體工程師將一部分工作時間投入上游工作（Upstream Work），其定義包括審查
-+  修補程式、擔任議程委員會（program committee）成員、改善專案的關鍵基礎架構
-+  （例如撰寫或維護測試）、減少上游的技術債、撰寫文件等。
-+* 軟體工程師協助籌辦 Linux 相關會議將獲得支持。
-+* 組織在正式的績效考核中，將考量社群成員的回饋。
-+
-+第 5 級
-+=======
-+
-+* 上游核心開發被視為正式的職位，工程師至少有三分之一的時間用於上游工作。
-+* 組織將主動徵求社群成員的回饋，作為正式績效考核的一項因素。
-+* 組織將定期在內部報告上游工作與直接追求商業目標之工作兩者的比例。
++Linux 基金會將在 TAB 的指導下，採取必要的步驟來支持並執行此計畫。
 diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
-index a4ae46350636..ae63704e3794 100644
+index ae63704e3794..d9ac35e0660f 100644
 --- a/Documentation/translations/zh_TW/process/index.rst
 +++ b/Documentation/translations/zh_TW/process/index.rst
-@@ -65,6 +65,7 @@ TODOList:
-    license-rules
-    code-of-conduct
-    code-of-conduct-interpretation
-+   contribution-maturity-model
-    kernel-enforcement-statement
-    kernel-driver-statement
-    stable-api-nonsense
-@@ -74,7 +75,6 @@ TODOList:
+@@ -72,12 +72,12 @@ TODOList:
+    stable-kernel-rules
+    management-style
+    researcher-guidelines
++   conclave
  
  TODOList:
  
--* contribution-maturity-model
  * generated-content
  * coding-assistants
- * conclave
+-* conclave
+ 
+ 處理缺陷
+ --------
 -- 
 2.43.0
 
