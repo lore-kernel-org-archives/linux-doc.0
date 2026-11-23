@@ -1,124 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795441189;
-	b=qL4gyTnX06YI8/P9X+rOx3qdpY36StvuD48P6emGAyx3mYkm41koEufAtqgQdxmV1ikS
-	 a04tb9GI36gH6fcTwAt1P9AkKDiCbh6hcjw2FZW9bxp/taWdqd5mOTr4MTeoCAe1S39gQ
-	 UiVCE+Dpc84VLcnr05iyEA0dqvc5zeQnkFe+4S3aWiWBE6zPLNEclDyNH7Uqy7WqcKjDj
-	 xWDJX8RBsNUBpG/uSPAeVg9O5htq65l624F+Ia9TMgM0oM1vxLfWUZapCJDFo4nmifyW8
-	 D+JHfWCJzY7cqtPyO0aTA+sXa0BnvyHbMasbqimi6+F2XuUs4ZrvDU2fChMzUmtj9lA==
+	t=1795441280;
+	b=cwOdmnfDx8cQ4zYMS5Ztb33PKqVs4OAgoaTWn/YEZn4V7TLGo5q58hoirxXnAX/cnISx
+	 Tiy1gtLsY04QxSdufvg5d33dNgQdUmLq14YYVylxaflZL48ist7LUbrPvH15EkIEMsnPT
+	 oGqc9HFrB5l8jcGl3eKPcze0f/Vrdc4BLRH0sIzG3eD62Gt8EiZrObsnZ6VwZnPfnEaXt
+	 pg2JZSpYVM1bSjpay6MNyA13pHUHpbBpmSCUN/f2ZWmrfZs2GJqoN8WClDb+T1K8hRfs+
+	 StH6gakURU2cUd5aEKX/a5jNfor5ix0sNsecywYj4i8XOagSFgIyCXIYi/DJUIg9XXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795441189;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795441280;
+	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:Date:
+	 Message-ID:MIME-Version:Content-Type:X-Change-ID:
 	 Content-Transfer-Encoding;
-	bh=bAL0t2TGrbFIeMgy/8ZLqGke+0HtmGCWss+5lXHsJKU=;
-	b=wJuoFwnTfyVvcpuzAf9Pfe9axI7ztRVa2iAOyWTktOM/EWCyfWfGeifyz3hF7pB9jASI
-	 tilw+UX+CHoihqaZWZqLobKrvgP7RFwRBfSiLZA2m/5VZmohvm4ikHwXxxze7IFAEL0Np
-	 jtKBQ0u6eOYKKEW4ERUJqDBvPkbHwRwHCrWsZ8hcTMleAO4B56ABdSh7SeBf2gw6E0Xm5
-	 EeUPYyr1rujjol73gT92GxCOCor0BQ1S1ZB34XVGsOmwJorwRP+2yZ5rZI8iZnEVUe7nq
-	 3VJuUT+317YQWtL3k7rRYqldkHWdPl44/gHltn5mn5rmDwu9UGaZnKjSTSd6KZRV80g==
+	bh=P72trEonM6Y7XOEGHhhXrhsy7lLIVh2meQdrUiqYi4o=;
+	b=1f6+RqZq/P7p6dUeCrXfGPj4DMVF+7LnPiCBhApTtSk0an7ygnDCRD4z4VLmpMM3nEqN
+	 pdtrYV/PVJ/4nSqUfcd7tWa20UR+thWvXCeOwfkT2bkA5mwsfbuFSyKFZ6Q4JuFecDduX
+	 kWaxRDcVMEgsWWZKjgIaL2Yzm6c/63AosGl/MHc+r0vR+XdUkGbgPnfeV2Ktm5lAT0wfH
+	 AUp9Qap4Z+6MXUOeBab0zwkv68a+lay/O2E50mIFlxWFbJeKKqGmqsrePLd+A/0w2d7nu
+	 r/xlP/KBnNCfqATjrWLh1+eLEGt/zrpati2sxHXlqSqKR4iQrwK3r83lTnc6Owa4qaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="D/rZn9iL";
-	arc=none smtp.remote-ip=209.85.208.44
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=A+IyIYva;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=udifRIrb;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3D4606A33C
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 13:39:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E3D4606A33C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33176606A31E;
+	Mon, 23 Nov 2026 13:41:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33176606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=D/rZn9iL
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b596afb4c5so3588903a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 05:39:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795441186; x=1796045986; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bAL0t2TGrbFIeMgy/8ZLqGke+0HtmGCWss+5lXHsJKU=;
-        b=D/rZn9iL7SvQLhKaIC13oOloWU3T6jk/laV5o+SF2tzXaGFCYDNQlE7/NaEDs8iqf1
-         7dYSobf+5CdcDfZ3xvm9tSKC4KgUWrVziU+kTiDtrWQjrmYF/GKeT+2ZDfW+rB3o8WKI
-         gujciW2akjcBxGAziH9CZjbxLR4QVaZbqDsgeNRBkyMeM3dGJIBcAiTYq/18t0oGOWs4
-         5Hl86Te9ihOqZ2ZYukXC+8PnVdMvPPlSZAmxhYPl17D96Hp1hxESJ8Xc8YhVeqd6yRiC
-         cxRINzCUB/qzQj5e4OyivB608aFwCvhWSzEKLeAmafS9S9gTYZZr5QoFOO12KO3RgA5P
-         DN2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795441187; x=1796045987;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=bAL0t2TGrbFIeMgy/8ZLqGke+0HtmGCWss+5lXHsJKU=;
-        b=JQArtqSn0kqLwuVN1kMHaisB2ts2QTo4WwBGD+tSDd9+3IpnxKruU2wil9oo0LgnTl
-         /Gm6cPTL4KScsV2JWDdy+H/C7S680cRj5Pb7R7QegHC8FFlBtiU+zO56hxiwvZZFxD9c
-         w4Ec5jKhV+DEyxYWuPJN2eSA2PGpP+MrBehvAeMiYFnDccQDcBGDdQ5p8d8WOTQtkbbz
-         BP7hdm1zkarTg+9W26zhQiZe1WOGx5c9pxLszBWNQOFlna8+wzVoxqBpo8vVtHwEE475
-         zvTQ+gnh4VqMKMB7pyBIAekmRviPK09v7kcHD/CSMVvtdXhzmqAzrbGTpWu5UMpfppaI
-         qVaw==
-X-Forwarded-Encrypted: i=1; AL+hErEbDt/zMRW3GFMJbwvEm0+xuTePgBtpOBiZ1Nc94coYO6veEXtTWuL9mdpNuiutO7d9e9ELCBPyQfM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+pe5WHvumHbSZBs+d0mdKSfbRTv9WIvQ/iZ5rP+z8iucPQjHKg
-	ao0f5afyvCZb6txuXwzMppqUclBe+U26N8Ppwm4KSTNayVXz5ifUE9Dg
-X-Gm-Gg: AZFdTZfHZuYLrAjtXnUdHhjjiYf/5YGqkzbxiU/DXAoiSwIQX+QJju4Hg3Rl+lh4Lf+
-	8u9FNXhMmwm2aCtQEnlMszWBwIb1wIv3dmJQ5S9OLkMMZY+cV+yl7W68QhIQNuBPq0yQtINCARs
-	QlpSJX02zvxUw9SgsXkUyWvwqat3zO6GmjVY3vId51DmHY7aOHAOiXw+2Zvl6Cri6lThXaZRlta
-	g9Y/POPLoSTNzq3KY5KS7ax7ELhMz92KLIWusRyCWFcdvakD2iUf+hlML9cPsyBSjIXl2X0Nq2n
-	nax2QOLowiB+TC5PE45e3b1Bx5C2DLRJfsCM0g4UDtBptWs/sWoUieib9zixA4z6QoOqmNib1tI
-	5UUCY4gtRqJhD50LjhGrLzux91/bSKy6phZayCZnkeWE1PzN1JZz5WdYxMDz3dMitKY2meYIY2b
-	0FZnNVH+dDpwuiBN2QW0RPNMyzR15aubKUScXA9asJm7FriUTsr27PnIGTGX3K9i2JrYKLGQMN9
-	Oi/YuiZ6JXB4hqU9IYAg8fMY6zOSvkdVXfCZajsTjJk/caz0Bhi0CZJg5gDx3ACVAD5NfZCWZ4H
-	3ABbqSWCSN9FtLNSsnvmi7SOF9WMlUdMXLC0kM/KgfczcmsyprH2+j0=
-X-Received: by 2002:aa7:d351:0:b0:6b4:86e1:cc67 with SMTP id 4fb4d7f45d1cf-6ba37ea0b91mr5687764a12.27.1795441186526;
-        Mon, 23 Nov 2026 05:39:46 -0800 (PST)
-Received: from ArchOarora ([2001:19f0:6c01:2c43:5400:5ff:fef6:1b30])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ba36e355easm5212663a12.3.2026.11.23.05.39.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 05:39:45 -0800 (PST)
-From: Oarora Etimis <oaroraetimis@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	jose.exposito89@gmail.com,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=A+IyIYva;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=udifRIrb
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1795441275;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=P72trEonM6Y7XOEGHhhXrhsy7lLIVh2meQdrUiqYi4o=;
+	b=A+IyIYvauqbZDlTuFJrCwiyTiIrTR6vriQFNX+JdYJu4q8savXR4NH/dytBwbZGhjsntJd
+	YnK0tmB62KjWzfNg5gquw/NhJZAWFbbufoDxyJNfowT2pCaT34i9k6sarSM6qSzHbO8jtQ
+	Vx/Fk4WSB4qt6hMfaC7Kmij4NGzA7zbaN97S39RzvS73DNRkxIspmj36KJU6E/BI5qB8s7
+	sbEqy16YoKSmPvKdOFncc6fXrgiwl8qY0x9ICE+tK0leB5FV8vRMsneOGWU1Rfm2pT0F65
+	KwGxi3zY+mWkVgbsTmOQONY2tJDxnopqSVcLBkP9Qbu12tkaz/ypJd1Vj0Z16g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1795441275;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=P72trEonM6Y7XOEGHhhXrhsy7lLIVh2meQdrUiqYi4o=;
+	b=udifRIrbEh/keW0kFfcUyYMsULoybeOen4TtMT0Qo4cawCyDADEASsnztHVzeJQ/M9HIYi
+	/Ay43CgGfEjxNDDQ==
+To: linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Lucas De Marchi <demarchi@kernel.org>,
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	sebastian.wick@redhat.com,
-	victoria@system76.com,
-	thomas.petazzoni@bootlin.com,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	llvm@lists.linux.dev,
-	=?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito@redhat.com>
-Subject: Re: [PATCH v6 17/43] drm/vkms: Use enabled/disabled instead of 1/0 for debug
-Date: Mon, 23 Nov 2026 14:39:25 +0100
-Message-ID: <awRBxApeQdS0tPZn@Oarora>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261120-vkms-all-config-v6-17-78ace90f4fc1@bootlin.com>
-References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com> <20261120-vkms-all-config-v6-17-78ace90f4fc1@bootlin.com>
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	luca abeni <luca.abeni@santannapisa.it>,
+	Yuri Andriaccio <yurand2000@gmail.com>,
+	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+	Qais Yousef <qyousef@layalina.io>,
+	John Ogness <john.ogness@linutronix.de>
+Subject: [PATCH v4 0/6] sched: RT throttling cleanup and a bit of documentation
+Date: Mon, 23 Nov 2026 14:41:06 +0100
+Message-ID: <20261123-sched_dl-v4-0-d523e4d960d3@linutronix.de>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -128,47 +104,121 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20261110-sched_dl-a9727787112f
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 20, 2026 at 06:58:59PM +0100, Louis Chauvet wrote:
-> Debug information are mainly read by human, so display human
-> readable values.
-> 
-> Reviewed-by: José Expósito <jose.exposito@redhat.com>
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_config.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-> index 44ded8a86a6e..4127fb176a87 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.c
-> +++ b/drivers/gpu/drm/vkms/vkms_config.c
-> @@ -1,6 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  
->  #include <linux/slab.h>
-> +#include <linux/string_choices.h>
->  
->  #include <drm/drm_connector.h>
->  #include <drm/drm_print.h>
-> @@ -397,8 +398,8 @@ static int vkms_config_show(struct seq_file *m, void *data)
->  
->  	vkms_config_for_each_crtc(vkmsdev->config, crtc_cfg) {
->  		seq_puts(m, "crtc:\n");
-> -		seq_printf(m, "\twriteback=%d\n",
-> -			   vkms_config_crtc_get_writeback(crtc_cfg));
-> +		seq_printf(m, "\twriteback=%s\n",
-> +			   str_enabled_disabled(vkms_config_crtc_get_writeback(crtc_cfg)));
->  	}
->  
->  	vkms_config_for_each_encoder(vkmsdev->config, encoder_cfg)
-> 
-> -- 
-> 2.56.0
->
+People used to disable the RT throttling mechanism by writing -1 to
+/proc/sys/kernel/sched_rt_runtime_us. Since v6.12 they can still do this
+but they don't disable RT throttling anymore. Instead this throttling
+mechanism has been taken over by the fair_server which can be configured
+via debugfs.
+This is not really documented but a hint appeared a few cycles later in
+Documentation/scheduler/sched-rt-group.rst. This can be found once you
+know what you are looking for because this document describes the RT
+group scheduling (CONFIG_RT_GROUP_SCHED). The fair_server is used even
+without it.
+The then there is global DL resource control which also shares this
+file proc file (which is stuck if CONFIG_RT_GROUP_SCHED is enabled).
 
-Reviewed-by Oarora Etimis <oaroraetimis@gmail.com>
+This little series:
+- Marks CONFIG_RT_GROUP_SCHED as broken because I was not allowed to
+  remove it.
+
+- Untangles DL usage of sched_rt_runtime_us and moves it to
+    /sys/kernel/sched/dl_period_us
+    /sys/kernel/sched/dl_runtime_us
+
+  This keeps the _us semantic that we used to have /proc. It _could_ be
+  changed to ns instead.
+  The updates to the proc interface are mirrored to the /sys interface
+  and produce warning on the first write without CONFIG_RT_GROUP_SCHED
+  enabled.
+
+- rcutorture is not touched anymore. Joel Fernandes is working on it.
+  The rcutorture can be fixed independently since the sysctl variables
+  are no longer removed.
+
+- Adds sysfs interface under /sys/kernel/sched/cpuX to represent the
+  runqueues. The only knob for now is fair_server_{period|runtime}
+  representing the fair_server parameters. If all goes well, debugfs
+  could be removed. The ext server could be moved, too.
+
+- I tried to correct/ update documentation while at it. I added the -doc
+  folks on Cc so they are aware. I can drop them in the next posting, I
+  expect that this gets routed via the sched/-tip.
+
+v3=E2=80=A6v4: https://patch.msgid.link/20261113-sched_dl-v3-0-a76ffa1cdeee=
+@linutronix.de
+  - Drop the cpu_active() verification for DL admission control updates.
+    Mathieu is working on getting it to work so I preserve it and don't
+    touch it.
+
+  - Drop the RCU-torture changes. Joel is reworking it so it no longer
+    needs to disable the RT-throttling (or the fair_server now).
+
+  - The proc/ sysctl knobs are not removed. Update to the sysctl
+    interface are mirror to the sysfs admission control but not the
+    other way around. An update to the sysctl interface without
+    CONFIG_RT_GROUP_SCHED enabled will print a warning.
+    LTP was complaining about the removal. On the other hand it was just
+    complaining that writting -2 to runtime resulted in EBADF instead
+    EINVAL. So=E2=80=A6
+
+v2=E2=80=A6v3: https://patch.msgid.link/20261110-sched_dl-v2-0-cc9399f7aeb1=
+@linutronix.de
+  - Corrected in wording sched-rt-group.rst (Pointed out by Randy)
+  - RCU-torture now disables the fair_server from its boost-thread. The
+    code expects the CPU to be active which is after the CPU-hotplug
+    notifier is run. An alternative would be to not start the
+    fair_server (in the RCU-torture built-in case).
+  - sched_dl_try_boundary() has now a private mutex to perform the
+    update. sashiko complains that the values are read outside of
+    sched_domains_mutex and written back while it is held, making it
+    possible to write stale period/ runtime values back.
+  - proper u64 casting for NSEC_PER_USEC multiplication.
+  - sysfs_dl_runtime is not static and accessed in
+    dl_bandwidth_enabled(). This was missed earlier.
+    The remaining sysctl_sched_rt_{runtime|period} are now also hidden
+    behind CONFIG_RT_GROUP_SCHED.
+
+v1=E2=80=A6v2: https://lore.kernel.org/all/20261105164724.yxONBd03@linutron=
+ix.de/
+  - Tejun and PeterZ asked for marking CONFIG_RT_GROUP_SCHED broken
+    first.
+  - Everything after patch #1 that got queued up.
+
+RFC=E2=80=A6v1: https://lore.kernel.org/all/20261023161348.t3lpPLQZ@linutro=
+nix.de/
+  - Try to remove RT-GROUP-sched after figuring out that it is useless.
+
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+
+---
+Sebastian Andrzej Siewior (6):
+      sched: Mark RT_GROUP_SCHED broken
+      sched: Move DL's admission control to sysfs
+      sched: Add sysfs files for the per-CPU fair_server knobs
+      sched: Limit sysctl sched_rt_{period|runtime}_us to RT_GROUP_SCHED
+      Documentation/sched: Drop the section enumeration in sched-deadline
+      Documentation/sched: Add fairserver to sched-deadline
+
+ Documentation/arch/arm64/asymmetric-32bit.rst |   2 +-
+ Documentation/scheduler/sched-deadline.rst    | 149 ++++++------
+ Documentation/scheduler/sched-rt-group.rst    |   7 +-
+ init/Kconfig                                  |   2 +-
+ kernel/sched/deadline.c                       | 312 ++++++++++++++++++++++=
++++-
+ kernel/sched/debug.c                          |  56 +----
+ kernel/sched/features.h                       |   2 +
+ kernel/sched/rt.c                             |  27 +--
+ kernel/sched/sched.h                          |  65 +++---
+ 9 files changed, 432 insertions(+), 190 deletions(-)
+---
+base-commit: a4d7daea71be591034445c17d4d81132a1785a12
+change-id: 20261110-sched_dl-a9727787112f
+
+Best regards,
+--=20=20
+Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+
