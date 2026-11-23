@@ -1,78 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.32
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795396140;
-	b=B/gRJfw0BvUs5ldw+vfoha68TijSFgCAojvml183k/oLwIPYDLnZCd8bim7RX4GgZl4E
-	 8oq7ASm0hb5Ac4GltAvX2ERpfXYgf3FSlbC84FATaOg/5gVxsmzk3uxm646ywVP4l9ohU
-	 JC7Cwh1anpldqI3fZ1WH45xXqKGPuTmmndOk2x9nuK+z8Rm/AirWFgZWchAFE7H/xPvYK
-	 hNzwx90uUUwQi3A1rdBC9pgvAEDw+LYTwoYRj9OgtVxYj+2Tr2nDMhbbhKhw8gD9JXSBx
-	 kyz03nRzoxb4Nm7yw4+DdUEUVzlawcf3gmsZY7mFRnfmW26tpX57BMK21grLSGbeXvA==
+	t=1795396341;
+	b=wNh7IsXZOaJSgWUa1uizJ7fGRpC5mSJmAbuvc6ogPY44K1v4dufGwK8R2MQSW5PIYApE
+	 P81mo7UM+l9FRYFc0ZN8GyvgTeuJzKhbZEbVUNeO4RqobfKa0DjbxyMFoaisleyJDCGiv
+	 KBDmZQ3QKU/BuWC5lT02HvIfUNJ9+TNmDi+zkQZjRQzT9iGRkNcn19hBHt7dr8Msb8y68
+	 x7Pn73oPJggYcBwm2xlidtdjU84Nywrnj6dST7PDoiBgsK3yBXS7NyWRRclqEtQde1HGO
+	 PuwDvffipaHjwJCQdRObtK5Z+zwWuJC5QwmIp0EADp6RJckxBpNU3ryvrARTRekEkaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795396140;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=54suIHluMeZO/ufn4/dBIrDiE7/KVFZ3u4m3JUaSiGc=;
-	b=mFXOX//Y414qUeWO8kH+SQN8LukPPtTGfQHXhs43Ad+AMjlB/OOyFWdncukuj7eloEzZ
-	 vrk4cMEXALE/L0DcSprBieD96lNpqhSNEAWMZo76z094qXBW2UPIwIc6mBtbGIT3znl9y
-	 lcql+wp3vV85lt69wge4ax+lG5zl5cJDHZLAolzT8GJGTV+my4LAgTcq0GqfxqE9Wrezj
-	 OiHPryxjGXcBlzjm6ncPKK+qPlyXucNSL1o0HQwH/JY+t+CaIpnOqDHe6oC9UjXA4KTkQ
-	 Yh2yvGubPAEqwPKrrByIK7V1g00/+C6SxLhrwQoHGiX7SI9mj9QOtjszE/W9btOv3Ww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795396341;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=J+HND5YBV7kChPbgIXL61bamk8iqt4LzJEz27wSwaas=;
+	b=uR9k9QIYBdIydAOJN0MpCowTq+wqabUCuP1RSSH/V5fCohXnHNz5lPqYgYGjT/tgOECz
+	 84s4Gr6TLYw3zLIVEv5XlQQ5q+F910WWYhInLXghSgQUuyyawzHhjcA4c6FZ/dp+EgMS4
+	 WL3032UVkVIPp+yQ94c7LSOC7Hx0UfrB9oo4VtpTrIt1eZ/6QQKRCW3MtGAXSea+VyzEX
+	 IrSLMQf2S7NcnVFJr/eYqoY4uicelubBNpv0g6VN/PONNmotCrUWn3W8NBEZIiAfrDmpp
+	 8RAvaPk1eXQ7WmOIDub9pfWofhM8NswRnT7PS06pDs2tKxb8S52sFLjEfvagwbLOqGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HF9uETWv;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=J2WjZIB+;
+	arc=none smtp.remote-ip=91.218.175.32
+Received: from mta0.migadu.com (out-32.mta0.migadu.com [91.218.175.32])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 4B333606A31A;
-	Mon, 23 Nov 2026 01:09:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B064606A31D
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 01:12:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B064606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HF9uETWv
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5FAE31F000C0;
-	Mon, 23 Nov 2026 01:08:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795396140;
-	bh=54suIHluMeZO/ufn4/dBIrDiE7/KVFZ3u4m3JUaSiGc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HF9uETWvgDgCbmGGppAFO03CUDvTiOIhaCY09lktVw3xBo+nBNXLRW9vgavEdg8Yq
-	 w6jb69qUgfdhMLLUmmEukONSxkeSOgm4ac11L4U2+6RHH7AfddReVAfDbiWC20UZJ1
-	 ObzV8+KU9EaJEEKwf9vQ0MB3DAwy3F+GuZAUWZiOM7AyEKWqXvrFk7f7TpuEGttoN4
-	 Fy8mjA8UXStRyDAuKWmm+xzq5TtrHIVGOHkgItUyaQRjYNC63yXCwvcjmrZVfvnU/t
-	 +zElr+nCAMWfHgU4XzXa9pP0+2Ljdb0uQglf4xGcMb1ZolxErN/TPOiWi0uas5nrft
-	 DoyDlnL5SNLMA==
-Date: Mon, 23 Nov 2026 03:08:56 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org, Andy Lutomirski <luto@amacapital.net>
-Cc: bpf@vger.kernel.org, containers@lists.linux.dev,
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-security-module@vger.kernel.org,
-	Aleksa Sarai <aleksa@amutable.com>,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Giuseppe Scrivano <giuseppe@scrivano.org>,
-	Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	KP Singh <kpsingh@kernel.org>,
-	Lennart Poettering <lennart@poettering.net>,
-	Neal Gompa <neal@gompa.dev>, Oleg Nesterov <oleg@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
-Message-ID: <awOSKAvA-65pF3kw@kernel.org>
-References: <20261122193539.3334213-1-jarkko@kernel.org>
- <awOEa303zNUDrzA3@kernel.org>
- <awOFGIWekH9-vlhM@kernel.org>
- <awOHVCpztLQv4Uwv@kernel.org>
- <awOIIuoNvNLZ_scF@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=J2WjZIB+
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=O5EPEU02cgGPXQzJa27xqcB4cI8/JMpEsqVMlNnHGcA=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795396338; v=1; x=1796001138;
+ b=J2WjZIB+68KWnSeS+N4ktIcRo/uieQMzTNG28RqnpCkl2B5QeY39C/k79X1v5tveYfhrWMGJ
+ Z0s8Sisi3XTJ7Wi7Z/t+x7fwc0NHPtummzhG2x3LK3eYQ2f23CsZTQzVSGQNwkKRIcVynbwkmPs
+ IkGHMOiKzxbDM2YrbUeJXlb3b4uCwrUi5no6u9oJoxmhtSuFO+xSbWVazLmnbslZTAOjriAeudM
+ kmByfaIb/Eu7govPa9b1xn2h9yCes8s/LG3b3VFkjjDUvakGfpItr3GGjbYT8DeJk69EnoJ9iFS
+ V6w7eMcssMwrUrNabHycw2GS/x5DLt8I1/jSxrlNmrv1Q==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id d9fdd380da22c5a6;
+	Mon, 23 Nov 2026 01:12:18 +0000
+X-Mizu-Trace-ID: d9fdd380da22c5a6
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 23 Nov 2026 09:12:11 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
+Cc: Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 02/25] docs/zh_TW: process: sync 2.Process.rst with the
+ English original
+Message-ID: <awOS692gFhyjK5Md@wyuan.org>
+References: <20261106113142.706783-1-chenyou910331@gmail.com>
+ <20261106113142.706783-3-chenyou910331@gmail.com>
+ <avR8baubOL7Aoeh9@wyuan.org>
+ <CAKspUhKRkx_UW9mep2h2HuDy5Rj7OwurdsmEe6+1f04Rv=2YWw@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -82,52 +71,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <awOIIuoNvNLZ_scF@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKspUhKRkx_UW9mep2h2HuDy5Rj7OwurdsmEe6+1f04Rv=2YWw@mail.gmail.com>
 
-On Mon, Nov 23, 2026 at 02:26:14AM +0200, Jarkko Sakkinen wrote:
-> On Mon, Nov 23, 2026 at 02:22:49AM +0200, Jarkko Sakkinen wrote:
-> > On Mon, Nov 23, 2026 at 02:13:16AM +0200, Jarkko Sakkinen wrote:
-> > > On Mon, Nov 23, 2026 at 02:10:23AM +0200, Jarkko Sakkinen wrote:
-> > > > On Sun, Nov 22, 2026 at 09:35:13PM +0200, Jarkko Sakkinen wrote:
-> > > > > SYSCALLS
-> > > > > ========
-> > > > > 
-> > > > > Two new system calls are proposed:
-> > > > > 
-> > > > > 1. userland_open(): open an opaque staircase-initialized container
-> > > > >    object (modeled on Intel SGX enclave initialization with separate
-> > > > >    build and live states) with no embryonic state, opting selected
-> > > > >    shared namespaces in via an allow-list instead of unshare semantics.
-> > > > > 2. userns_set_idmap(): configure all UID, GID, and project ID map
-> > > > >    extents for a container user namespace in a single atomic system
-> > > > >    call.
-> > > > 
-> > > > Andy, perhaps a bit too far of the box idea but I'll just throw this out.
-> > > > 
-> > > > An alternative to userland_open() would a file e.g., virtual device
-> > > > file, and necessary wiring for open().
-> > > > 
-> > > > Then the added syscall surface would reduce only to userns_set_idmap(),
-> > > > and it adds more robustness to access control (e.g. who can create
-> > > > containers).
-> > > > 
-> > > > What do you think of this?
-> > > 
-> > > Also, easy way to detect the feature. This does make sense to me.
-> > 
-> > This as a side-effect would enable LKM compilation, and reorganization
-> > of the beef of the core feature as a driver. Not sure what would be
-> > the best location for the driver tho, perhaps just drivers/userland.
-> > 
-> > I.e., full decoupling from the syscalls.
+On Thu, Nov 19, 2026 at 07:49:33PM +0800, 葉宸佑 wrote:
+> On Wed, Nov 11, 2026 at 10:32:13PM +0800, Weijie Yuan wrote:
+> > The Enlish version uses tab here, not space.
+> >
+> > Is this a big deal that requires a reroll?
 > 
-> Right, and LKMs are great for live patching. This has enough quantative
-> weight.
+> You're right, the English text uses tabs there and I expanded them. The
+> rendered output is the same, but the translation differs from the
+> original for no good reason, which also makes future syncs harder to
+> compare.
+> 
+> Since I need a v2 anyway (see my reply to 03/25), I'll restore the tabs
+> on the lines kept verbatim from the English text, i.e. the URLs and
+> Andrew Morton's quote. For the two tables I'd like to keep spaces, as
+> their rows contain CJK text: editors and docutils don't agree on where a
+> tab stop falls after double-width characters, so tab-aligned rows easily
+> end up misaligned. Does that sound OK to you?
 
-Not actually sure given clone flags etc. if detachment is doable, or
-even if it can be, makes sense. Likely not so great idea after all,
-after thinking this for a while  (at least not in this form).
+Yes yes, please, using spaces are more friendly to CJK text of course.
 
-Br, Jarkko
+It reminds me the discussion a while ago:
+
+https://lore.kernel.org/linux-doc/akn4oYmihmNHFOY7@wyuan.org/
+(Ah, seems that my ideas at that time was not accurate)
+
+As long as it doesn't annoy sphinx, I think it's fine.
+
+Thanks for bringing this up.
