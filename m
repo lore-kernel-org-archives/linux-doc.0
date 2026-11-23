@@ -1,54 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.135
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795397314;
-	b=WsKlaEa3rUreBEcHyMO46FswBRQ/BwdNqYFz/RXRgNZP6JucayjHWVTLjf+BPMgGJ3rr
-	 AiIdF2B8JTnlsSYmIUcxVO4dPiz6HWS7/KqY0/nob/ySXPSO6BQ5diEiJOPvZsUCqhvsg
-	 34TUGf7+/DdYKw7KOKvo5X467neh+82I/bngQbT0GOCoLBYrC5EvgL7S/lMOqoX5udw0A
-	 NK7V1q7L/ophrsPEn+LBv+3BX95Bcdq4KD7GXavAK9R3Zciz7pFKHLV0Xgtd54wJEjzL0
-	 GToyCB9r2e66Wy0NJnAYU3lL6bLCElLAlh23BKZlCT5/9J89bL2Oh2y4fqUQ5vmQPjA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795397314;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=3nVlInPmwKkJl4MGaIbIDMUH25e+EWVO33tmlKLpUuQ=;
-	b=mSD5Scg2UtnItJuTjkI93zzCT3cfK/a9KE6/QonkarQD7kqhShFN/K6AvmNjuudGU3CG
-	 bHT7AtJiU8To2ykH6KT+xLhqNE764vyeLa49rn9MaK5vj04vKyACxuOf/ya7BeWLoQXzo
-	 3L2yO/bn8M6vYZMj/0jxL9vh8xnqnVH/Jk74RADAbBoqvADZUMxz7dQYwc54kRkmJAME1
-	 dzy3OFZVD5A7pt5W7adzNaPRjJ7OnTstMnF0zHmxpHRy+affvrvZV9kKUNTZxEmbQ+OaG
-	 G0RlTaTeeyywKgMuSMBXWfeE1IHFQPJEF1X9GoAQYmn3/T7O8aqqiz4qoEo5hMqScBA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=HFXJi+iV;
-	arc=none smtp.remote-ip=91.218.175.135
-Received: from mta0.migadu.com (out-135.mta0.migadu.com [91.218.175.135])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.54
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795397438;
+	b=pVOCd9JLcWupNcyMESJMLGR+qVLdGLgZG3vxV8eWOPGmNuKcTCTcUwEdNguaIAAck4aL
+	 sf4a2iPJVCrbnjOidmYyi6B0UDu87POr8WSoB843y2PANpSGv4tqYs5ZP7BJQftNNbuV+
+	 jOe0cBexCsR22XDO/xuZUEUvWKtoBZyS22E65w/A1yTVsu3i7J4cL1VwOAvJWjhd+Djy1
+	 VYrNeSnrFRLDrC/QC5i4aVmwS1tw1zdNaTAbzzDJvw9XIH/l14yMMeOC5SuJ7yZ/TKk0w
+	 GjhoK0bnsh6HS4h/i0bjvOGnaMqMtAreJabvyfKfExI20ZNvJ0GE0QXsjHugB/nSVgA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795397438;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=PHYlamw7fybYjzeLc3iuK4CS+fPI6wiuuTA9v+wgAMM=;
+	b=GPIHB56OUcDnvH+VEKyQa4ufteiAqb41xlmDQwvvpK+S1e+mtiafxh7t0L4Hqy958puT
+	 3XaO0+P6O3CUqRltMhjLVVAQd+WtoeVeqF1xs3SXnYwzM6wCZQHwQTcYDhrQv+TzEXw6m
+	 0ZYxU5eEc3nVD0ff+IePjo+wXv+k8Qs4cHLvXxk9inwyUTheKC0pw8tpzaD4gDSrMoVyw
+	 2ccwfeTKSGsY9lD5ePsfTjw1SDJHcFRZUgLxXzWXLJu481Ki195uXWfXU8zM9m/JjDl6B
+	 lLHulTGhox7ogP1biRjR7B382bmRMjVQdyXyOfQgvu91s2l4zcl64NeJD4YmHQM7vmA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PMOdzkga;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC8A606A31E
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 01:28:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AEC8A606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124C8606A320
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 01:30:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 124C8606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=HFXJi+iV
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=yfkDOFNangaKsew0JIB+tHmbNmAGU3mvMCj7TinFEwA=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795397305; v=1; x=1796002105;
- b=HFXJi+iVfgmqTCIRPIxX4n5w2KGjTayE6KuyYt42eqaZJ03ZOaxoubQ3tpkB/1aabwoJrRu1
- l7vhJdqbDNb2WnBAJoEjY6D3PYH78e2KJ8WzrsY/mpOTbtVe5LeGG7MyJwPFRF9TQb0e7S7Ig/f
- N8y/Hi81NRbbH4uD4jenQA5g=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 20b39d6dbaa3b65f;
-	Mon, 23 Nov 2026 01:28:25 +0000
-X-Mizu-Trace-ID: 20b39d6dbaa3b65f
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <e9860ead-c5f3-4dd0-beaa-d92396c266d9@linux.dev>
-Date: Mon, 23 Nov 2026 09:28:07 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PMOdzkga
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a2d6d01ecbso14626695e9.0
+        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 17:30:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795397436; cv=none;
+        d=google.com; s=arc-20260327;
+        b=EogTUo+4sMG99T/lpQXtPW8iw/yG79n4jxGQjl9JbQ/atYTnC0rWHqFp+mS63vOaSK
+         ezwttzz93eQhtPcNHQf3/tov0UfSV/AeiHnoQySZBRH7qCHH86qJlLLOwiELHBN6oKAt
+         HBU4w5KuOyJkYPFJVsmNMBreEhAZym8a+XIaJRZAcTcjfJGcyE0o3fqdt8NL78qf+thA
+         DiLpxmkUwjTDqQZ49wCAgQOzU0OYstgFcNu0kPXZQYIYyjMF4xw2ggcX3ulg9r1RLm9g
+         X/LrPYdloyyyCa1V9FNnAzc/Gmbn6wM+kmR9dU4x53502QY+wuoKKZh4sLG7kH5FJOao
+         67GA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PHYlamw7fybYjzeLc3iuK4CS+fPI6wiuuTA9v+wgAMM=;
+        fh=sTNM2/mYBgi2lCMHL4hSvkWfjWg2nSZ6bPNN2KkB+io=;
+        b=T7hOewHTLBop7LziphrGDqZA6aHRJlVpThA0TQlpIPfRMYniBcYFopaXr3NrybqqIz
+         p3LnJkrryWUtm2nNNWtPRMlt08Y9T28Of7CibFIvZgaF4gmtQtqJ/ceGGBNgcVBLt77X
+         LCwF9nButHsUxJYb4adJaHMMEYj0QtxSg2ymivwIGtUYCZqZ9B+JouiLzKR2lxKp59/W
+         Wn928LvG9q6/yKW8YwJtdVMTgeLeHbLlPKMk9Eq7yTatUVBACKptZT/FOlmGdtzLL3Xx
+         v8OvLoDISwMih0jOxrL5uJdyogGIKSMBT6pfTe1AoKbWABQpspxod515d2xBz45qYTJ1
+         WnaA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795397436; x=1796002236; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PHYlamw7fybYjzeLc3iuK4CS+fPI6wiuuTA9v+wgAMM=;
+        b=PMOdzkgauSkSu06keInAVbQ1hpbuUbZlTieYOQocRbk2trdC3tbSifWCXpDjQmM5y2
+         zTQHo01mJ9VTN/ldIe8a+icbQRaz3c11r9X6o3eJZAWX9yfaDWNMZ/SZZg9foXo+7wYB
+         UvWlqTVjYL7uSYFjgTQPjciQfrw1tjn4ArrwFKviG6XrhJrYDszJhmBG3z0epuV8kpax
+         PlzK6Wmg8BijSlDvgBM2ViDG8XehWTTJPzc6/4FJG8MYO2J7148gCIrGT4k7KaKPUvXI
+         sqr3i+pKrj95bXE3VQCkbyw4dXFA5quyDBFerr9bW3TYzEzZfLeE8GJsVnv/Bbq6WYr0
+         ZrkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795397436; x=1796002236;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PHYlamw7fybYjzeLc3iuK4CS+fPI6wiuuTA9v+wgAMM=;
+        b=BwAzpIJvCMSejS96yxjH7+/UU6WoeYIFADb3PFTxJJI8s14nUYp7embktUu7myF77u
+         aP2lX558ZbXWs3mw9S5D9PovHkBmywtSj5MJ9uGJLZYrFAtnGb8vXRMh4B6JC0Fn95Wi
+         HEX7GoRWGXYUEzt/vPWwKqCU/mb6eyLmXoY3cetjDMeMuWu0jT2CBEn5Qvn6ircGKkKx
+         DN+41lqlmhG+rKaXmxMGdss+ldb2Be4yOhsgHfIaqB2SoeggwHJSFMvtpYU1aTCQwiCM
+         sNh3J3o/rqxQHQSm1nAlOMoj91gtJxIcal7sIuN69DIUVAMsCQN6EFchaWD0vF9FuYSX
+         TuXQ==
+X-Forwarded-Encrypted: i=1; AL+hErHfhyfqkjv3F9uC1Lbe+1dyyTF9xve4gidUiZ5GTI7j0GkpYh8Hrccmh856O7a8Xdc7f3aGMcaoN7Q=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8BNi6h7n88ucXpy4EXUeu+pmSgDoLhFyllzI8UsU9um4O5pk1A
+	z1TOVRVVjzZ6HrIVbhJa6JVjgXdgpvNfIx53ZoxaZ7t2gGw0AZYxx9HDw5ShPrh3/0q9fb2LGvZ
+	XQhnFQV2Bk3VIf6GRQBc7AXNXqVfPU3s=
+X-Gm-Gg: AZFdTZd31RQsqRYP4LUHJ+5PJHsXYeDczcE6/vSjAgg0rsYG3NUrA2uKAXCQxg1p4+W
+	Y1a7MF3LsC0G7zX9GlzgXbGImU25p86GJrSV6likl7RPZ+3sGnwdrhq6s7xaxyeNecZHr9d9lpG
+	6FMoSbj6pKx+FBJNUqXDywR1B6PuteicLJIAbqcPxeUQHfHCzLSTwFWavKdIQPffOHzEYEZwRUD
+	lB3ME68FWxB0JUzVViUqsO0K7j5NCgomozPvStdyVF75PO4P6BIEnfaKorZJ5tlOM4hDZzqcDCg
+	N4rSKm6bf1haQ0UZ3PPMw7Rdl9023vCU6FczhB8f7kFpLUSfDC72+AXJpIqCeuyzhQ/0b4xhlZQ
+	Pjo6hQu41bk3RjTsXA94A5MmG03QCGkXUQbRNvd3cSZupo8sycN7271nbmppgrbeeefuP+cjwNf
+	EhD91orR1rtE4tozSZmch+No35V0xUn9x+mkg1jxJMthyxbYUTWC2RdaWJDk9TBrpZtixfw3jSt
+	Q==
+X-Received: by 2002:a05:600c:5395:b0:4b1:4017:c4f4 with SMTP id
+ 5b1f17b1804b1-4bb8880ca2fmr202326895e9.20.1795397435229; Sun, 22 Nov 2026
+ 17:30:35 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,181 +106,169 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 6/8] fs: add FMODE_CAN_DMABUF_IO and require it for
- dma-buf I/O contexts
-To: Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Anuj Gupta <anuj1072538@gmail.com>, Nitesh Shetty
- <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
- Philipp Stanner <phasta@kernel.org>, Dan Williams <djbw@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>, tytso@mit.edu,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo
- <ojaswin@linux.ibm.com>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
- Zhang Yi <yi.zhang@huawei.com>, asml.silence@gmail.com,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-ext4@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Li Wang <liwang@kylinos.cn>,
- Mengmeng Zhao <zhaomengmeng@kylinos.cn>
-References: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
- <20261113070621.273953-7-mengmeng.zhao@linux.dev>
- <20261120-faust-bohnenkraut-reduzieren-a30811186a15@brauner>
-From: Mengmeng Zhao <mengmeng.zhao@linux.dev>
-In-Reply-To: <20261120-faust-bohnenkraut-reduzieren-a30811186a15@brauner>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20261119-mglru-fg-v5-0-9eee2fe97a2d@tencent.com>
+ <20261119-mglru-fg-v5-17-9eee2fe97a2d@tencent.com> <CAN_Opa9APLNic4cnohrtZ4-HcdoNvSFvnAKiC6nn+C=thbTAAA@mail.gmail.com>
+ <awFbU_VGf0hotbyR@KASONG-MC4>
+In-Reply-To: <awFbU_VGf0hotbyR@KASONG-MC4>
+From: KunWu Chan <kunwu.chan@gmail.com>
+Date: Mon, 23 Nov 2026 09:30:23 +0800
+X-Gm-Features: Aa3M54otUxeoT9sHoHYTq2p_UuIGttJQaGd17GdUT_OXTaZ8k51r48Rl1cQl1ww
+Message-ID: <CAN_Opa9ppGsKPhh1jmveYDCwHgZtv0Tm38FB2WoAjTtOPMmpmw@mail.gmail.com>
+Subject: Re: [PATCH v5 17/17] mm/mglru: make folio_test_workingset() work
+ based on folio LRU refs
+To: Kairui Song <ryncsn@gmail.com>
+Cc: kasong@tencent.com, linux-mm@kvack.org, 
+	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Muchun Song <muchun.song@linux.dev>, Qi Zheng <qi.zheng@linux.dev>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Chris Li <chrisl@kernel.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Nico Pache <nico.pache@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
+	Gregory Price <gourry@gourry.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
+	SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, Yu Zhao <yuzhao@google.com>, 
+	Vernon Yang <vernon2gm@gmail.com>, Zicheng Wang <wangzicheng@honor.com>, 
+	Chen Ridong <chenridong@xiaomi.com>, Tal Zussman <tz2294@columbia.edu>, 
+	Xiang Liu <liuxiang.277@bytedance.com>, Ehab Ababneh <ehab.ababneh@intel.com>, 
+	Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, Lian Wang <lianux.mm@gmail.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, linux-kernel@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/20/26 17:55, Christian Brauner wrote:
-> On Fri, Nov 13, 2026 at 03:06:19PM +0800, Mengmeng Zhao wrote:
->> From: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
->>
->> Add a file mode bit for files that can be the target of dma-buf I/O and
->> require it when a buffer is registered.  Block device files set it when
->> the backing disk supports dma-buf I/O, and filesystems can set it for
->> inodes whose data can be reached without the page cache.  The bit is
->> coarse: a driver that installs ->init_dma_buf_io_ctx for every
->> namespace, like nvme, still decides per device at registration.
->>
->> dma_buf_io_ctx_create() is the only caller of ->init_dma_buf_io_ctx, so
->> the capability and the O_DIRECT requirement are checked there for every
->> file type rather than in each helper; O_DIRECT belongs at registration
->> because F_SETFL can change it afterwards.  Add bdev_can_dmabuf_io() so
->> the open-time and registration checks share one predicate.
->>
->> Signed-off-by: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
->> Signed-off-by: Li Wang <liwang@kylinos.cn>
->> ---
->>  block/bdev.c                 |  8 ++++----
->>  block/fops.c                 |  2 +-
->>  drivers/dma-buf/dma-buf-io.c | 13 +++++++++----
->>  include/linux/blkdev.h       |  7 ++++++-
->>  include/linux/fs.h           |  8 +++++++-
->>  5 files changed, 27 insertions(+), 11 deletions(-)
->>
->> diff --git a/block/bdev.c b/block/bdev.c
->> index 88e3f552f5d4..4e7a7f7e1e8b 100644
->> --- a/block/bdev.c
->> +++ b/block/bdev.c
->> @@ -61,14 +61,12 @@ struct block_device *file_bdev(struct file *bdev_file)
->>  }
->>  EXPORT_SYMBOL(file_bdev);
->>  
->> -int bdev_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
->> +int bdev_init_dma_buf_io_ctx(struct block_device *bdev,
->>  			     struct dma_buf_io_ctx *ctx)
->>  {
->> -	if (!(file->f_flags & O_DIRECT))
->> -		return -EINVAL;
->>  	if (ctx->dmabuf->size > UINT_MAX)
->>  		return -EINVAL;
->> -	if (!bdev->bd_disk->fops->init_dma_buf_io_ctx)
->> +	if (!bdev_can_dmabuf_io(bdev))
->>  		return -EOPNOTSUPP;
->>  	return bdev->bd_disk->fops->init_dma_buf_io_ctx(bdev, ctx);
->>  }
->> @@ -1041,6 +1039,8 @@ int bdev_open(struct block_device *bdev, blk_mode_t mode, void *holder,
->>  
->>  	bdev_file->f_flags |= O_LARGEFILE;
->>  	bdev_file->f_mode |= FMODE_CAN_ODIRECT;
->> +	if (bdev_can_dmabuf_io(bdev))
->> +		bdev_file->f_mode |= FMODE_CAN_DMABUF_IO;
->>  	if (bdev_nowait(bdev))
->>  		bdev_file->f_mode |= FMODE_NOWAIT;
->>  	if (mode & BLK_OPEN_RESTRICT_WRITES)
->> diff --git a/block/fops.c b/block/fops.c
->> index 86bf1f298b79..7e5702e047a2 100644
->> --- a/block/fops.c
->> +++ b/block/fops.c
->> @@ -1008,7 +1008,7 @@ static int blkdev_mmap_prepare(struct vm_area_desc *desc)
->>  static int blkdev_init_dma_buf_io_ctx(struct file *file,
->>  				      struct dma_buf_io_ctx *ctx)
->>  {
->> -	return bdev_init_dma_buf_io_ctx(file, file_bdev(file), ctx);
->> +	return bdev_init_dma_buf_io_ctx(file_bdev(file), ctx);
->>  }
->>  
->>  const struct file_operations def_blk_fops = {
->> diff --git a/drivers/dma-buf/dma-buf-io.c b/drivers/dma-buf/dma-buf-io.c
->> index 8440151de860..9575b7d65ec5 100644
->> --- a/drivers/dma-buf/dma-buf-io.c
->> +++ b/drivers/dma-buf/dma-buf-io.c
->> @@ -152,9 +152,11 @@ static void dma_buf_io_ctx_shutdown(struct dma_buf_io_ctx *ctx)
->>   * @out_ctx:	[out]	resulting ctx
->>   *
->>   * Create a new I/O context from the given DMA buffer for the given file.
->> - * It only works with files implementing ->init_dma_buf_io_ctx and fails
->> - * with -EOPNOTSUPP otherwise. Once created, the user can create a map
->> - * and use it to issue I/O, such as read/write requests, to @file.
->> + * It only works with files implementing ->init_dma_buf_io_ctx,
->> + * advertising FMODE_CAN_DMABUF_IO and currently opened for direct I/O,
->> + * and fails with -EOPNOTSUPP or -EINVAL otherwise. Once created, the
->> + * user can create a map and use it to issue I/O, such as read/write
->> + * requests, to @file.
->>   */
->>  int dma_buf_io_ctx_create(struct file *file,
->>  			   struct dma_buf *dmabuf,
->> @@ -164,8 +166,11 @@ int dma_buf_io_ctx_create(struct file *file,
->>  	struct dma_buf_io_ctx *ctx;
->>  	int ret;
->>  
->> -	if (!file->f_op->init_dma_buf_io_ctx)
->> +	if (!file->f_op->init_dma_buf_io_ctx ||
->> +	    !(file->f_mode & FMODE_CAN_DMABUF_IO))
->>  		return -EOPNOTSUPP;
->> +	if (!(file->f_flags & O_DIRECT))
->> +		return -EINVAL;
->>  
->>  	ctx = kzalloc_obj(*ctx);
->>  	if (!ctx)
->> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
->> index b98f43478cc0..0cfb6fb6b4e2 100644
->> --- a/include/linux/blkdev.h
->> +++ b/include/linux/blkdev.h
->> @@ -1610,9 +1610,14 @@ struct block_device_operations {
->>  	int (*alternative_gpt_sector)(struct gendisk *disk, sector_t *sector);
->>  };
->>  
->> -int bdev_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
->> +int bdev_init_dma_buf_io_ctx(struct block_device *bdev,
->>  			     struct dma_buf_io_ctx *ctx);
->>  
->> +static inline bool bdev_can_dmabuf_io(struct block_device *bdev)
->> +{
->> +	return !!bdev->bd_disk->fops->init_dma_buf_io_ctx;
->> +}
->> +
->>  #ifdef CONFIG_COMPAT
->>  extern int blkdev_compat_ptr_ioctl(struct block_device *, blk_mode_t,
->>  				      unsigned int, unsigned long);
->> diff --git a/include/linux/fs.h b/include/linux/fs.h
->> index 99caef43ff3c..f5524fc770d4 100644
->> --- a/include/linux/fs.h
->> +++ b/include/linux/fs.h
->> @@ -121,7 +121,13 @@ typedef int (dio_iodone_t)(struct kiocb *iocb, loff_t offset,
->>  /* File supports atomic writes */
->>  #define FMODE_CAN_ATOMIC_WRITE	((__force fmode_t)(1 << 7))
->>  
->> -/* FMODE_* bit 8 */
->> +/*
->> + * File can be the target of dma-buf I/O.  Set it for files whose data can be
->> + * reached with direct I/O without the page cache: a dma-buf iterator has no
->> + * pages to copy, so a buffered path cannot serve it.  The bit is coarse; both
->> + * the device behind it and O_DIRECT are checked when a buffer is registered.
->> + */
->> +#define FMODE_CAN_DMABUF_IO	((__force fmode_t)(1 << 8))
-> 
-> This is stealing yet another FMODE_* bit for special-purpose stuff.
-> We're really really short of them. Did Christoph suggest this?
-Hi Christian, thanks for pointing out this. If I understand correctly, 
-Christoph suggests a new file->f_mode to allow dma-buf check in RFC v1[1]. 
+On Sun, Nov 22, 2026 at 4:13=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wrot=
+e:
+>
+> On Fri, Nov 20, 2026 at 05:53:36PM +0800, KunWu Chan wrote:
+> > On Thu, Nov 19, 2026 at 5:04=E2=80=AFAM Kairui Song via B4 Relay
+> > <devnull+kasong.tencent.com@kernel.org> wrote:
+> > >
+> > > From: Kairui Song <kasong@tencent.com>
+> > >
+> > > folio_test_workingset() currently tests the PG_workingset bit, which
+> > > is only the second lowest access bit of the folio LRU refs count now.
+> > > Folios with refs 4 or 5 carry it in the LRU_REFS_MASK field
+> > > and no longer have PG_workingset set, so the bit test misses them.
+> > >
+> > > folio_set_workingset() currently sets the PG_workingset bit with a
+> > > plain set_bit(), which also over-promotes folios at a higher refs
+> > > count: e.g. a folio at refs 4 is bumped to refs 6, advancing it
+> > > toward LRU_REFS_MAX and an earlier generation promotion.
+> > >
+> > > Move the test into mm_inline.h as an inline helper based on
+> > > folio_lru_refs(), checking refs >=3D LRU_REFS_WORKINGSET.  The set
+> > > stays a plain PG_workingset bit operation reserved for the
+> > > classical LRU: under MGLRU the refs count is maintained by
+> > > folio_inc_lru_refs(), and now triggers a debug WARN when called
+> > > while MGLRU is fully on (the switching window is exempt, as the
+> > > classical paths legitimately run alongside MGLRU then).  The one
+> > > PageWorkingset() user in erofs is converted to the folio helper.
+> > >
+> > > Under the classical LRU the refs count is not maintained, so the
+> > > test is equivalent to the PG_workingset bit test, which is the old
+> > > behavior.
+> > >
+> > > Tested-by: Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>
+> > > Signed-off-by: Kairui Song <kasong@tencent.com>
+> > > ---
+>
+> ...
+>
+> > > +/*
+> > > + * For the classical LRU only: with MGLRU the PG_workingset bit is
+> > > + * part of the folio refs count maintained by folio_inc_lru_refs(),
+> > > + * and a raw set would corrupt it.  The switching window is exempt
+> > > + * because the classical paths legitimately run alongside MGLRU then=
+.
+> > > + */
+> > > +static __always_inline void folio_set_workingset(struct folio *folio=
+)
+> > > +{
+> > > +       VM_WARN_ON_ONCE(lru_gen_enabled() && !lru_gen_switching());
+> >
+> > Could shrink_active_list() still hit this WARN after the switch
+> > to MGLRU completes? It can reschedule after isolating folios and
+> > reach this setter after lru_switch is cleared.
+>
+> Hi Kunwu, thanks for the very careful review!
+>
+> Right I thought a lot about it after your reply, first your concern
+> is right, thanks! I should just remove and replace this WARN with
+> something else.
+>
+> And in theory, we should only call this for isolated folio (for CLRU
+> it means a folio moving out of active workingset, isolation is always
+> the first step), so this helper is fine - except, for the MADV cold
+> case, it will call it on for a on-list folio, and will could skew
+> the counter and if it raced with switching. Switching is so painful
+> I hope we can get rid of it soon :/
+>
+> But, good thing is it's easy to fix, we just need (part of this belong
+> to another patch, a trimmed diff just for reference):
+>
+> diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
+> index 4f65867446dc..c936d1fadfbd 100644
+> --- a/include/linux/mm_inline.h
+> +++ b/include/linux/mm_inline.h
+> @@ -261,8 +262,9 @@ static inline void __folio_set_lru_refs(struct folio =
+*folio, unsigned int refs)
+>
+>         do {
+>                 new_flags =3D old_flags;
+> -               VM_WARN_ON_ONCE(lru_get_gen_flags(old_flags) !=3D -1);
+>                 lru_set_refs_flags(&new_flags, refs);
+> +               if (lru_get_gen_flags(old_flags) !=3D -1)
+> +                       break;
+>                 if (new_flags =3D=3D old_flags)
+>                         break;
+>         } while (!try_cmpxchg(folio_flags(folio, 0), &old_flags, new_flag=
+s));
+> @@ -569,16 +571,16 @@ static inline void folio_clear_lru_refs(struct foli=
+o *folio)
+>   */
+>  static __always_inline void folio_set_workingset(struct folio *folio)
+>  {
+> -       VM_WARN_ON_ONCE(lru_gen_enabled() && !lru_gen_switching());
+> -       set_bit(PG_workingset, folio_flags(folio, FOLIO_HEAD_PAGE));
+> +       unsigned long flags;
+> +
+> +       flags =3D set_mask_bits(folio_flags(folio, 0), BIT(PG_workingset)=
+,
+> +                             BIT(PG_workingset));
+> +       VM_WARN_ON_ONCE(lru_get_gen_flags(flags) !=3D -1);
+>  }
+>
+>  static __always_inline
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index bbbb729ed647..a73d89a2ecca 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -374,11 +374,12 @@ static void madvise_cold_prep_folio(struct folio *f=
+olio)
+>          * as a workingset refault, and the referenced bit always needs t=
+o
+>          * be cleared even for inactive folios. For MGLRU, MADV_COLD clea=
+rs
+>          * refs in folio_deactivate(); MADV_PAGEOUT handles refs after is=
+olation.
+>          */
+>         if (!lru_gen_enabled()) {
+>                 folio_clear_lru_refs(folio);
+>                 if (folio_test_active(folio))
+> -                       folio_set_workingset(folio);
+> +                       __folio_set_lru_refs(folio, LRU_REFS_WORKINGSET);
+>         }
+>  }
 
-Hi Christoph, do you have any comments or suggestions? I'am happy to adjust
-this in the next version if there is a better approach.
+Thanks, Kairui. That covers the shrink_active_list() case I was
+worried about. With these changes folded into v5, feel free to
+add my tag to 17/17.
 
-[1] https://lore.kernel.org/all/20261106104403.GC5668@lst.de/
+Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
