@@ -1,54 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795442405;
-	b=jHKQ6eem+sKK/0C6UJMNntfSLzPsx0QiJF+qcWa5Cmb1FDLo+gdtHpbgeB832qsVm/V9
-	 zGDnR/IhRD1Vw4qZUAs8Iu7nhBtNMbmT0q9qlRj3Ee4Ne5Q7KBeLXkreH3YoOI8f1EK4A
-	 G7784hSjlzy4Yfo1rAbFxX3p7SJG+vWWSoRmYKoYblYn+QNQ/Scsp016lSTvrj2EOVibZ
-	 UnzYtId4iohvE7BTFYGgpey1rFcXTz9H48BSjlb6UYYjXXJXgGsfxX8A+weDFCsms12So
-	 IDT+kbCWKxdYRaE0vCZ5YTRYZPAGK5DnhWRdpW658gQJ505ugGkcGnJx7jD3eSCAcfw==
+	t=1795442486;
+	b=zPUzTQrDJIrgOs0NBbyU98jMyVbP1TntxBuCVdTGJqU7vZIu9o15sHwDoGsCTZWhsRxU
+	 KkKm1f1dxRNTZ5YLhKdCCC6PmyNJXwE0od8xjgrxhCEh1R5EgjCtYaJTnE5Rl0WZqh9vC
+	 d80eoh/7svsrm7fW0mUyQRGoXGD9Z1z1f0/mFVS39n/i+19x9Kv47WdERtLgN8UkK4S0A
+	 gaJ5s6JVizvW2YuczKIWEScPdDl/PX9SO4KV7Ba/sbPBInR+d6UDQBWc/n4v2/tywlNFb
+	 Co1TKsCA0vK9/SgmxCZYRRWR3JB1f5uh+ssYKk+0qJQP/TqcUi5JaqTvotda/5v2YfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795442405;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=KTNFFpQ3kER92nljtjnxslEg2HatMNO3Pm/4eF+/uVo=;
-	b=u0kXmj8y1fvzxEiVwu15tGNmTKK+ycjMPlpoiR0wp4Z7EdMoq5vAy7/pIYNztCrqQisJ
-	 bovkCK9bok0DdKxB3wD8m27ITTVgwWxmaJ93bKH7g1Zwd29jAIT+gJzQ/6CmE1MnRIgoG
-	 K2YjOzpXcJqsaeRy7Vk67+L59XbVTUd6WgI6W0tlH5P3wIJfJYjWqNKfhcOgF9Nh5nS/y
-	 nHFAIed/ZBGj1wGWuaYChssh8Cy1TYRxK3F/arbpcM7GaW/MO+uONRgp2XZ2A/8ehDhci
-	 HLm6qmICFFbYZkPXIAbOxgc1l47YZvGIe6UItQ/1wTL8ocUz2PVnTwfxPoC0QQyTQjw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795442486;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=vG8DGIHiY7DMGeo+eA0u14jrv8r12vq2uH5/qp0e+4w=;
+	b=FOkwL/5UznQlM3WNZ+AoYInlEBmSK8uucvXyS+PRUWHMgVTFpvGZxEwq3wxn6eDH0bE7
+	 A0ptC+YeH7z2RTvuQeADNmpxjaGo+wyKJZRCn4zULAvWi0/mzErjW/9PcI2OXinoL4IpT
+	 3bJ0ZlLvFHIi/pzwJ4zoOmVJ9WVenikcNiJc/vFeyZsVNo4GDumU88hVW2mUFKaa/ouUN
+	 +qQ+TgQsMv3SiN2VCz6mSr8gELhFzN+yG04IR+Xro+Ykz2inYcviSJckrXBOn85VZBtcP
+	 JiZSBy2SbXR2iemGn7adNqqT1uUbtWsezqFcH/N1HN3XnRQm2iDIbaJYk2/glji8NWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=HSaCR1P4;
-	arc=none smtp.remote-ip=95.215.58.187
-Received: from mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=HvoqpFfv;
+	arc=none smtp.remote-ip=209.85.160.170
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089AF606A31F
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 14:00:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 089AF606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E2D606A32D
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 14:01:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0E2D606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=HSaCR1P4
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Q+a6mEtr7v7r3AOnn5SeGdS5lSXCWUahw75AjJpOxjY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795442403; v=1; x=1796047203;
- b=HSaCR1P4legPkF6kIb5xXNUX70+TzNIKQiy91SGabZEsMrUkIJDPKchokqE2YZdH2OIu8tMe
- nf40zv1YulwKl+13ksCphNkK2UZI3JfcIMS203PCxciZzTg6WV+IOyro/yK90jcTKw5WJvJlmdi
- DgLethbld3AEN4cUFrJ9KvO8=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id e58aebc7aa3e4872;
-	Mon, 23 Nov 2026 14:00:01 +0000
-X-Mizu-Trace-ID: e58aebc7aa3e4872
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <062359fb-c169-4253-aade-07cba63a279e@linux.dev>
-Date: Mon, 23 Nov 2026 14:58:23 +0100
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=HvoqpFfv
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-55d30c054dfso37594951cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 06:01:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1795442485; x=1796047285; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=vG8DGIHiY7DMGeo+eA0u14jrv8r12vq2uH5/qp0e+4w=;
+        b=HvoqpFfvQJEyD7yCLKdxLSgIAzaLXp3MuIOJlQD/xTNp3eiDg6Ra/gTk2UwtMg8a7r
+         51Fdi8rwbAEzrbgpfyQRcX6ocwx3JbZqs3lMtg+oSCOxztbX4sMSEqwzwBMMXIZhbH2z
+         +cWKiZlrDbUnOjK2Dc/xmxc6lhEP7P0zCv9fK8Q6R+LbGf8sSkVAJ3VI047utN/3Xvv4
+         E+aRxCbXLC4Q26EJEfMDphlos6jB6B2Elx2CW7JhFNTETwNm4m8/cfY28pwtDbaTGmPb
+         vBtJ7fUBmY372UX/XLhDP7oxTPwPWEyn4GbQKKsOdOJ00EB3fq5g2EwkvonKgUxXTVD5
+         DPmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795442485; x=1796047285;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vG8DGIHiY7DMGeo+eA0u14jrv8r12vq2uH5/qp0e+4w=;
+        b=AMBkPzc54SqjdpwQs5cUNZrrdS7B9xJ2ykPQUH5+4yw4XhDcWk9I2ZXu9N0EDlYlrU
+         5aan8iYKHq0bub8SzxpBSjqKRT5carG3kqADyCUZT0EKdTD85FW66n/viLblW6ttmnSK
+         ldBoiKS7IWdZHiSMIvDcdHGT2sXxCSbjjR/TVZ4NGXlQ82jSm9xSp/3f2Iowrmz2Yhxp
+         xR5Uvw1GiQwsfJ4BFMbsCCAyLwW3l8lbJlpcxBawS5Ve0JLnpkE4lLBCSqOP/ehuoLgl
+         R/PifsYq0Iw1+KrdGuh1UU1Oe+e4OjmxHEEqlLFH53xQLJlowrA0fQKcRRFfVn0lTbD+
+         1mcw==
+X-Forwarded-Encrypted: i=1; AL+hErHv63B8pTcGU5d2FDdk329dGF9FNe29lzv9JtyDHKLSzGhej/EPdw9jK5uvTOeFKb4G66sQ7nJHrW4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8J5FOwIby70y12KPByQqGawGVweddWEh9IAJNcxBOzRX/LVf+P
+	y+NquveTpIU8SxosUN+knLTNiqZy98lyRc0M+3jWr04ao+ABxjnQTYXR2sn3pmlxuqU=
+X-Gm-Gg: AZFdTZee8mp568JUa229fDKF8U5zTSyf1aUcrv4O+HlKvGG+UOzwKLqo3TGpexmnP2W
+	w36vOn91d2bFk0Rrwt2FkTdKYPL6wNei+wlfQHzTUx8zEtYr2/gl78ecNNRIEUhrXy4f0cl86OT
+	DBQ59io0WQX0S+5/ijH+eepJk7UdhwNdFq5VbjimdhnmvXa6cCLpZ4CNIC1q9KZhAHP8PJeUeTb
+	9Cfya3tov8kSNHlCYGyxVTxj3Rme+y3G84n81h3Fq3zVKjmQHv2sVkAf5VvzOcCbk76ZLyjqucO
+	W4wDdLiZU6lcuCpzPbm4RVZY8ItMK+Uk/35tvkaGXTo7KKdfi78BpqzF/3hkxFUlRNDuxuXqW/0
+	JjJVlv/95L4O2QPDJF1/k3bPbiXhcDU6WUmPgmhd0/M5jqAZK45RBgc0kTeJCFw9em/H30GJWnV
+	KQP2IXvsiJPJiyCB6P9PfVdBmTUnEBIAW03O9aeJKjg+bj3ioOuvTsl6xzEZEGrzer6wzgFYUY/
+	4JJ2FF8J7vZ7PusFahZZl47Ja6EG1TL3DxD+f0UK85tIZ61za4dFbnRpU7b2FRrzUTKzowVI/zO
+	8KYz9XO1Eql+mZ30tvyqoLEgc16744aTLH6hqVM2OHNf/jIIlQyadYImy3ZGaMd01IPagxBih5Z
+	jnThsxtA=
+X-Received: by 2002:a05:622a:8413:10b0:55d:8475:aafb with SMTP id d75a77b69052e-55d8475ad43mr113506371cf.71.1795442484804;
+        Mon, 23 Nov 2026 06:01:24 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d788074desm99999281cf.7.2026.11.23.06.01.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 06:01:24 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,94 +89,142 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/24] ASoC: soc-pcm: add multi_direction_codecs link
- flag
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
- <20261122161437.5994-3-srinivas.kandagatla@oss.qualcomm.com>
- <b3df76ad-e002-4ec0-a1a6-812d22b51432@linux.dev>
- <e10e701e-b478-4fe5-a62a-2365507e5d8c@oss.qualcomm.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <e10e701e-b478-4fe5-a62a-2365507e5d8c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 01/60] nodemask: add node-state iterators
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Yury Norov <ynorov@nvidia.com>
+Cc: gourry@gourry.net, Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ David Hildenbrand <david@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Oscar Salvador <osalvador@suse.de>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>, 
+ Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Michal Hocko <mhocko@kernel.org>, David Rientjes <rientjes@google.com>, 
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+ Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>, 
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+ Youngjun Park <youngjun.park@lge.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>, 
+ Tejun Heo <tj@kernel.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
+ driver-core@lists.linux.dev, damon@lists.linux.dev, 
+ linux-pm@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org
+In-Reply-To: <awMK9V6TbU9Xtzn9@yury>
+References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+ <20261120-private_nodes_v6-v1-1-74f5f9a115c2@gourry.net>
+ <awMK9V6TbU9Xtzn9@yury>
+Date: Mon, 23 Nov 2026 09:01:22 -0500
+Message-Id: <179544248227.412063.16491857533875192357.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-
->>> +Typical use case: a smart-amp speaker protection link where the CPU
->>> +side is a playback-only DMA (e.g. ``WSA_CODEC_DMA_RX_0`` on Qualcomm
->>> +AudioReach), but the codec side exposes both a playback SPKR DAI and a
->>> +companion capture V/I-sense DAI on the same SoundWire bus.  Opening the
->>> +playback FE should bring up both the amplifier output chain *and* its
->>> +V/I feedback capture chain atomically, without userspace having to open
->>> +a secondary PCM.
->>
->> This is a valid use case that has been problematic for some time on
->> other platform as well.
->>
->> What puzzles me in your approach is that the codec-side will be
->> configured/started, but *something* will need to grab/process the
->> feedback IV data generated by the codec DAI. That part seems to be
->> completely hidden in your approach, is this intentional? How would a
->> capture DAI be configured on the CPU side so that the data is provided
+On 2026-11-22 10:32 -0500, Yury Norov wrote:
+> On Fri, Nov 20, 2026 at 01:08:52PM -0500, Gregory Price via B4 Relay wrote:
+> > From: "Gregory Price (Meta)" <gourry@gourry.net>
+> > 
+> > Add first_node_state() and next_node_state(), so callers can walk any
+> > node state the way first_memory_node and next_memory_node walk N_MEMORY.
+> > 
+> > Add for_each_node_mask_state(), which iterates a nodemask intersected
+> > with a node state using the bitmap intersection helpers, without a
+> > temporary nodemask.
+> > 
+> > Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
+> > ---
+> >  include/linux/nodemask.h | 17 +++++++++++++++++
+> >  1 file changed, 17 insertions(+)
+> > 
+> > diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
+> > index 607373bd83ee..90bdcffa42ea 100644
+> > --- a/include/linux/nodemask.h
+> > +++ b/include/linux/nodemask.h
+> > @@ -411,6 +411,11 @@ enum node_states {
+> >  
+> >  extern nodemask_t node_states[NR_NODE_STATES];
+> >  
+> > +/* Iterate the nodes in a mask that also belong to the specified state. */
+> > +#define for_each_node_mask_state(node, mask, state)			\
 > 
-> In this setup there is no capture codec cpu dai. The capture data is
-> never seen by the userspace. VI Feeback data is directly feed into
-> Speaker Protection module within the DSP using the codec-to-codec setup.
-
-Humm, even if there's no user-space visibility, don't you have a
-SoundWire capture port? How would that be configured? At the very least
-it should be prepared and enabled.
-
-> Host only drives the playback data and the VI feedback path is entirely
-> with-in the DSP.
+> for_each_node_state_and? We've got for_each_node(), and we've got
+> for_each_node_state(), so let's figure out consistent naming.
 > 
->> to a DSP? Some of the patches, e.g. 11/24, mention a capture dai but I
->> can't connect the dots with the suggested codec-dai changes.
->>
->> In addition the feedback loop can be made of not only I/V sense but may
->> also carry an echo reference, and that may have to go all the way to
->> userspace depending on where the processing is handled, possibly with a
->> split between IV sense and echo reference making the topology even more
->> complex.
+> Did you check the codebase for exsisting candidates for this helper?
 > 
-> multi_direction_flag is really agnostic to driving data(VI or echo
-> reference)
-> All this flag is doing is setting up the codec which are configured in
-> opposite direction.
 
-but the configuration of the capture part is missing entirely, no?
+for_each_node_mask_and() would be more consistent, change just requires
+passing node_state[N_MEMORY_X] instead of just the node state bit.
 
->> And last the SoundWire core exposes a concept of 'stream' that is single
->> direction, and so far we've used a 1:1 mapping between dailinks and
->> streams. If part of the dailink is dual-direction, don't we have a
->> problem on the SoundWire side?
+> > +	for_each_and_bit(node, nodes_addr(mask),			\
+> > +			 nodes_addr(node_states[state]), MAX_NUMNODES)
+> > +
 > 
-> 04 patch addresses this, we create two separate runtime streams per
-> direction instead of one.
-ok, that should be made clearer in the introduction, which mentions
-codec dais but omits the gory details of SoundWire management.
+> Please use nr_node_ids instead of MAX_NUMNODES.
+> 
 
-I have mixed feelings about having 2 streams. It 'works' but it's not
-optimal. Maybe it's time to revisit and extend this concept to deal with
-data that's closely related to the regular PCM data but flowing to
-another direction and used for a specific purpose.
+I followed for_each_node_mask() which uses MAX_NUMANODES but let me
+look.
 
-There's the case of the IV sense, but also the companion amp which may
-require a device-to-device communication scheme. It would be much better
-if all the prepare was done in one shot for all the direction/ports used
-for a given use case, and likewise the enable should be done with a
-single bank switch. Not to mention that this sort of solution should be
-handled at the SoundWire core level, so that we don't have to implement
-this dual-stream implementation for every platform.
+> >  #if MAX_NUMNODES > 1
+> >  static __always_inline int node_state(int node, enum node_states state)
+> >  {
+> > @@ -435,6 +440,12 @@ static __always_inline int num_node_state(enum node_states state)
+> >  #define for_each_node_state(__node, __state) \
+> >  	for_each_node_mask((__node), node_states[__state])
+> >  
+> > +#define first_node_state(state)	first_node(node_states[state])
+> > +static __always_inline unsigned int next_node_state(int nid, enum node_states state)
+> > +{
+> > +	return next_node(nid, node_states[state]);
+> > +}
+> 
+> At least the following {first,next}_{online,memory}_node must be
+> switched to the new helpers. Can you check through the rest of the
+> kernel to make sure all candidates of the proposed helpers are
+> converted?
+> 
+
+I originally intended to delete first/next_memory_node, to make
+usage of N_MEMORY a bit more obviously, but dropped it to save an
+extra patch or two.  I will probably add that back in.
+
+But yeah i can update these otherwise.
+
+-- 
+~Gregory
+
