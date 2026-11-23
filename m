@@ -1,99 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.49
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795408693;
-	b=GtQ5EbUdgqekfQUNks2r9mfhBYtu34UFzE3RdgHgqlGEFvJdznJ90rtuEfpdq8uLfMcv
-	 ygmtsh4kVxuRcffBS+XnzLtXM+yRxFx8IDLVlPqIcp0avY+3HpjatgFj8udaO47bBWRFk
-	 7/QPVX76QDqVQsSBy0zgBWxw+53H94eLDnYMZQrqw6BjmCgWA5AKouL0M/gBmQ9L7Ypys
-	 cVnXY+VDpGxtzi68WKNPvROxlFjf13xMer9AEqY+WkZcsX0BtWzW2UcFuJQAtYVsJsnHi
-	 b7z21ekblxV07Gji3bAfJ+BDl7BoutaNB1v0Cj8AoBdoKdJZrSG2dYRkt8e+Yj28c2Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795408693;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=01DOf2iRHDHQOjpqPMN2Rm96jVRX0YsMS0cwL0w5nL0=;
-	b=2gbXt8T2kwSn7MOME1riFJCuIgjyri37Fta/ezJ5Xua3N8KB2plISKpXZxewa48KdVTF
-	 y24wa7c//wvk4sFUUSjQUjksNX8PUyJ20/NtJxUWrg4m6dHyabwNa2tum7z9RLeIHh8WV
-	 WzDOQVBrJ65Ls6wew/MVmFp7zBbLGNba/IBGWF215T8OinRY16JJhMvtQSrY+xSke3eOd
-	 st8aEyJuG3qBeYsbA9thm9iGWdylFzGspq15WPXNwZXkZWJWCJ+CEPGX+q2ITsKQKihsr
-	 myqajdzvtV8ZdF+e9iHydmSauBWx9I+L8kScB8ASl63EDAG+Sa12qQ2fZd7jTFOIf9A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Sl6aBOjm;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.49
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.34
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795410438;
+	b=13FtipUK3vRiXVrv21rikOlPTvI/lLnNHQFBxQKeMqcDqcPcUznpnJHjWtBrVuZsoGIh
+	 Ex1ORB3dO3neCNkXQz6/sydFJ318zShzJ5RHu6X/6Z2df1sElnGt2FLBkutZT55om1zyc
+	 UvpVFAvhtKCgDXC4ruVthC/zguHA3ZHr5lhPJGi1O2YXi/f84f3kYJabkVVjQGG9Wdj00
+	 qshKjNKABWt6mFgxYdWKHgkZN+7fYdDt7QYE/qGYKXq8ZC0IXHZcdjQ0n5NvURsGSRliF
+	 rESgN7STuExGEgKVC2TdhFHHZ4C5/LDcVKdJoAtfQJWuIoSwpl/QueTHzWdT2zAJh5w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795410438;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 Mime-Version:Subject:Reply-To:Sender:From:To:CC:X-Priority:
+	 X-Content-Kind-Code:X-CPGS-Detection:X-Drm-Type:X-Msg-Generator:
+	 X-Msg-Type:X-Reply-Demand:Message-ID:Date:X-CMS-MailID:
+	 Content-Transfer-Encoding:Content-Type:X-Sendblock-Type:CMS-TYPE:
+	 X-CPGSPASS:X-CPGSPASS:cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:
+	 References;
+	bh=Cd6iHPL7zgNWtBUtUa4Lg14WBOVuuUn85F3LluQ9xdQ=;
+	b=BeKuquZ1P5/yzxpU5IdHuDWTzcWjII/aI/aFUTRicBqTXDjG/VIz/pXJeK5Yo4k+9IuY
+	 NCSein2brnWltZioH29wqcDUlgRyqmRJW0cxDDIk6oIALA2hBoDHP0SYqTOPafpElFFYJ
+	 7X17f9/5CjI2AxfEqZa6DjyTcypOFPcrMFI/rQU6BH+82TRDKOjZa+Zgv3KzkLlBJoRl+
+	 0poh4A7yFDzKwxeMK2wPUP5yTa4QeKyb0CKcgQWM2UWyb9aCnVe3TJ9OZ/QePhDTnZyxX
+	 CTOtkyKeql8GXVEjeKqKzahNiFDorfDPuXdvZHUq7k57/cfznkyJQ8twh42/roDr+Sw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b="JK/CA5RF";
+	arc=none smtp.remote-ip=203.254.224.34
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2E3606A327
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 04:38:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E2E3606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC44606A335
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 05:07:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9BC44606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Sl6aBOjm
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-843cf077f10so4208172a34.1
-        for <linux-doc@vger.kernel.org>; Sun, 22 Nov 2026 20:38:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795408692; cv=none;
-        d=google.com; s=arc-20260327;
-        b=cMQI2WivpMW16nePV2wtNytyBaC48SkN6KdAh4laF7VbWr5mhfmLbHyrxj/kYiufY0
-         v/gGWhIZKMO8UYfahMzwkXSiXQq6vJnOM5nYxpDWd51EunrYTXdJD1wJ6g5QYWYiMELK
-         APW7xeELvuQHuKcof0tTzwuis32rp7cgPGtezbf099KkJ04qesGoN8GuBjRaMeKlCAfc
-         oJl2am0zOeX/HRsLl/Nxtf5O6d0+pfB/e+gNHfHZj4I2wiLS8V79bQtuaSlp+7A9MSN3
-         G6G9GhHYJUKIV7PWDnuMK7wUz+T8WvCwx4y7Jyg/m+NamW3zf6tlpsPxAwYebdkKn85e
-         pEYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=01DOf2iRHDHQOjpqPMN2Rm96jVRX0YsMS0cwL0w5nL0=;
-        fh=6zCqLl/2+S5AAc61QnDvaJah7PvOsi6PY7Sc30/ATCk=;
-        b=UiZgCEoM2unIjO9CGazqwx7ENBRQQJDNAJATCAE6S+JdgI53hNpje2Ry8STDtWBF99
-         xS9Cg4KlZNryGTVJ/VzA4rTQ1Vg/1Lpzd6FDw5Vp9Le1vCK4wKtdGB1thNx7ekOvDHHD
-         3GaDpvBR9WMxh4ZM4665u+KIWVJi8aFdrWhCpDV5HekVXJBIeOTlMLEPTDKDkgI45rVS
-         tPm96Pq63f5QsP1w/H5bkZKVrcSlIGHw0gkGwlyjQM0exfBJRVi0TNdpqWq5GwvEMsDW
-         erm/qtFZkevIAaamgRtbyxRSVmI3gJGrtIMs8wPC1le765Jc5Y+bYjB3XehLfQ+6RcU4
-         kafQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795408692; x=1796013492; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=01DOf2iRHDHQOjpqPMN2Rm96jVRX0YsMS0cwL0w5nL0=;
-        b=Sl6aBOjmfdJYiC93IpBafu/98klT+7Vvi64r9/V7BBFpVK/IjO7f8734XlL1eP+SUU
-         bLHnJXBSFfM0DXJrPgkv/1DP9eEuwBcawVJtMDpAHU/ZCsDXb8VkGW7Z2MZ2rdEZrxPq
-         HoVaMj/jC6a3Jw5YMa9yhhewScQ2lg3ph0DsEp9o+D/jpnDeyQL0iDE978QUjoZFrdsv
-         5MN339ODhzmGp4O1ifePS4BAlC8X5DXf34SBGmOhs6Kfx0DC3DE69VbjjczSsQAlqcj7
-         dkxpGkQ/ex2QlXgm7jLuEECBc9IxXp1Nc3swTunZkaDJlTVKgGDiTvCLTe+JNiNZ/cX9
-         1XKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795408692; x=1796013492;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=01DOf2iRHDHQOjpqPMN2Rm96jVRX0YsMS0cwL0w5nL0=;
-        b=UlAjrEhpuB9FVjg1eDfxT8QQfpcbmU2MOO4y57tN6eckbfT+D2EcHG7NGjd8cIXW5Z
-         RB3M9ABYLx3gtw2UvXbhmczqADcLNMmw5QLiUvSBqS1RWWJHqAKr+MUkNCZqYvOyvTxS
-         KrHKMIsRaPdmrRGmIuIqPMwyw5wMZmFJtK4sKlaHRHmehhk3CCwK+vzhGvCeuLcAdQ24
-         U6Riam1gjXGzV0g/Lu/AegevNRKLqnNoPeBCmSq5YGA7IpuulZWYxJZQXxnQnTTdoIGn
-         RO4eKI4yAgkCd2IkgZ/Pyc8k50hJysrdd4U9QMr8/tS1jT8smIsubnvw0C7a5ju29E32
-         B98g==
-X-Forwarded-Encrypted: i=1; AL+hErH4WhD+z189vuqVecnBgYo7X8upJaxbBZJOTWuHixg3UKzpMEA2ZmSa5PepMih4TXPFzq4JNSk74zA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8wLNx99V7JYMFeVRr1kpfLy1vo1E/g+rYW476k2LNER4ZzgY8g
-	t4Tml5iUaBcNL8LXAbHLP4JLOivY1TKT82mx1UR95HK5rxwIzB/oOOKkIN1wWL5GUBK9yWXC2xI
-	OC2U7cq1wMDR0w0MAj3UpvJbJe37jPOk=
-X-Gm-Gg: AZFdTZcHTU8DNM0g8EYg7PBVTbs7xEoeClGJYyrn0vI68Cpim3m0ARe20Pz3Ry3zglL
-	UR1+l4wMhU+Af1KU/MU9LGfgSAFIczPppDwA2LBQ1IdbE1Ww3U4DeDCdlX1oJ7tRsCh5gPe+9x/
-	+RfJo+FIq/pzpdAnu4evhRZqH+XKNiWvYpmaz8ss9lgkcLxPdPtR8g6nQwojgIBR6DBCnhlsi+l
-	Hr36Uk7cOLP9o5cQX6wTD3Dls3/yPhiHXPiFRdmCiVCLXEvV9MirTDvlNQoHkLw5yrkkmINfSX7
-	yNgr78H08AhFtlCk7eJgr0u7i3flvQQDt58LcmVntTKJnHWyAw9yrvbowwL4YYNKgSBqhShHfN9
-	AEvjRI/ym+fP94dYgkzkyfWwalti4fbwkyWiNV7j58Tk/zntSUqAwojGWWbQNSyWojybVjAE=
-X-Received: by 2002:a05:6808:4fe1:b0:4fb:bfc2:1a64 with SMTP id
- 5614622812f47-57a0b44cd17mr11494284b6e.31.1795408692409; Sun, 22 Nov 2026
- 20:38:12 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=JK/CA5RF
+Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20261123050709epoutp0413f28876f09b1d4ef0d8a081b934311d~qlEX5Cx6c1148311483epoutp04K
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 05:07:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20261123050709epoutp0413f28876f09b1d4ef0d8a081b934311d~qlEX5Cx6c1148311483epoutp04K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1795410429;
+	bh=Cd6iHPL7zgNWtBUtUa4Lg14WBOVuuUn85F3LluQ9xdQ=;
+	h=Subject:Reply-To:From:To:CC:Date:References:From;
+	b=JK/CA5RFIUxMigklVPEChG6FnqttLpYm5TtU9IPXMWnFnQN4QQpznr4djUWqX+Bmo
+	 1V/Lkokh4g9i245kgAXJW7Avz8m+2EAcl1K8HqBbP+9Bnv0h4XXch/oX2IAw96wGhN
+	 lfhujWJdEyvpO35jEaXNQY0/HK9OtoG9Amx0P+EY=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas2p2.samsung.com (KnoxPortal) with ESMTPS id
+	20261123050709epcas2p2757ff5f18749871f30c2f80973c0c6ca~qlEXPgCa92179421794epcas2p2C;
+	Mon, 23 Nov 2026 05:07:09 +0000 (GMT)
+Received: from epcas2p3.samsung.com (unknown [182.195.38.206]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4jXv7c4wcRz6B9mF; Mon, 23 Nov
+	2026 05:07:08 +0000 (GMT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,25 +62,192 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261114-kdoc-dup-warnings-v1-0-265f89bc3f9c@gmail.com>
-In-Reply-To: <20261114-kdoc-dup-warnings-v1-0-265f89bc3f9c@gmail.com>
-From: Prateekshit Jaiswal <prateekshitjaiswal73@gmail.com>
-Date: Mon, 23 Nov 2026 10:08:01 +0530
-X-Gm-Features: Aa3M54r_6zFrjE47vx1VIyjklPLWdMiuvshDWQnxuz_-5roWSbw3R6AYghZ4C6k
-Message-ID: <CANYW1HwYge3KexMovtx8UiU_RBqv9VDqO==TLVLD5zD9i57Ypw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] docs: kdoc: print each warning once, and only for
- selected symbols
-To: "corbet@lwn.net" <corbet@lwn.net>, mchehab@kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Subject: [RFC PATCH 0/3] block: cgroup-based and explicit write stream
+ placement for NVMe FDP
+Reply-To: suho.son@samsung.com
+Sender: Suho Son <suho.son@samsung.com>
+From: Suho Son <suho.son@samsung.com>
+To: "axboe@kernel.dk" <axboe@kernel.dk>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>
+CC: "tj@kernel.org" <tj@kernel.org>, "hannes@cmpxchg.org"
+	<hannes@cmpxchg.org>, "mkoutny@suse.com" <mkoutny@suse.com>,
+	"corbet@lwn.net" <corbet@lwn.net>, "skhan@linuxfoundation.org"
+	<skhan@linuxfoundation.org>, "rdunlap@infradead.org"
+	<rdunlap@infradead.org>, "viro@zeniv.linux.org.uk"
+	<viro@zeniv.linux.org.uk>, "brauner@kernel.org" <brauner@kernel.org>,
+	"jack@suse.cz" <jack@suse.cz>, "io-uring@vger.kernel.org"
+	<io-uring@vger.kernel.org>, "cgroups@vger.kernel.org"
+	<cgroups@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20261123050708epcms2p2f9404899881a0554cc6417ef7b1d670d@epcms2p2>
+Date: Mon, 23 Nov 2026 14:07:08 +0900
+X-CMS-MailID: 20261123050708epcms2p2f9404899881a0554cc6417ef7b1d670d
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-CPGSPASS: Y
+X-CPGSPASS: Y
+cpgsPolicy: CPGSC10-223,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261123050708epcms2p2f9404899881a0554cc6417ef7b1d670d
+References: <CGME20261123050708epcms2p2f9404899881a0554cc6417ef7b1d670d@epcms2p2>
 
-Hi Jon, Mauro,
+Hello,
 
-Gentle ping on this series. Randy has tested it and gave a Tested-by
-on patch 2/2. Please let me know if you would like any changes.
+This RFC proposes an operator- and application-controlled write stream
+interface on top of the existing write stream plumbing
+(sqe->write_stream, bio->bi_write_stream, and the NVMe FDP placement
+translation, which are unchanged by this series):
 
-Thanks,
-Prateekshit
+  1/3 block: distinguish unspecified and explicit device-default write streams
+  2/3 io_uring: add IORING_WRITE_STREAM_DEFAULT for explicit device-default placement
+  3/3 blk-cgroup: add cgroup-based write stream placement
+
+The series is based on the block tree's for-next branch (see the
+base-commit below).
+
+Motivation and background are described in our HotStorage '26 paper:
+
+  Link: https://doi.org/10.1145/3837053.3837343
+
+Motivation
+
+NVMe Flexible Data Placement reduces write amplification by grouping
+similarly-aged data into per-reclaim-unit placement handles, and the
+kernel already lets a single application tag writes through io_uring.
+Two gaps remain:
+
+  (a) an operator cannot place whole workloads per cgroup without
+      modifying applications, and
+  (b) an application cannot force the device-default placement and be
+      sure that no policy overrides that choice.
+
+The series addresses the root cause shared by both: write stream zero
+currently means both "unspecified" and "device default", so lower-
+precedence producers cannot tell whether a stream was requested.  The
+resulting precedence, most specific first, is:
+
+  explicit io_uring stream (including DEFAULT)
+    > inode write hint
+    > cgroup io.stream
+    > device default (0)
+
+Patch 1 introduces the WRITE_STREAM_NONE sentinel for unspecified
+streams, resolves it centrally before the bio reaches the driver, and
+carries ki_write_stream through kiocb_clone() used by forwarded direct
+I/O.  Patch 2 adds the explicit-default UAPI value, decided at prep
+time so it survives async re-issues.  Patch 3 adds the io.stream cgroup
+v2 interface: per-device upsert entries, "inherit" reset, explicit 0,
+validation against device queue limits, lazy policy activation, and a
+single-word policy state read locklessly under RCU, with writers
+serialized by the queue lock held across blkg_conf_prep().
+
+Runtime verification
+
+We exercised the series, as posted, on an NVMe 2.0 FDP device (8 RUHs)
+with bpftrace observers at blkcg_set_iostream() entry/return,
+__submit_bio() and the nvme_setup_cmd() dsmgmt export:
+
+  - explicit streams 2/5/8 -> placement IDs 1/4/7 (tracepoint-verified)
+  - IORING_WRITE_STREAM_DEFAULT -> concrete 0, no placement exported,
+    not overridable by an io.stream policy
+  - stream > max_write_streams -> -EINVAL, no bio issued
+  - io.stream explicit value observed end-to-end; nested cgroup
+    inherits the parent's entry; explicit io.stream 0 resolves the
+    sentinel to 0
+  - io.stream rejects streams above the device limit and the reserved
+    255 with -EINVAL, and devices without write streams with
+    -EOPNOTSUPP; the root cgroup has no io.stream file
+  - the inode write hint beats the io.stream value, as documented
+  - IOSQE_ASYNC: an explicit stream, IORING_WRITE_STREAM_DEFAULT and
+    the submitting task's cgroup association all survive io-wq
+    deferral
+  - a 512K direct write splits into multiple bios; all keep the stream
+  - 64 concurrent writers with a common stream: 64/64 tagged, stable,
+    no warnings
+  - buffered writeback on a mounted ext4: writeback bios adopt the
+    first-dirtying cgroup via wbc_init_bio() and carry the resulting
+    placement ID to the device; the nested cgroup inherits the
+    parent's entry, explicit 0 and the child's own entry override it,
+    and "inherit" restores the parent's value
+
+Each patch builds without warnings at W=1, with
+CONFIG_BLK_CGROUP_IOSTREAM both enabled and disabled.
+
+Not yet verified (please treat accordingly)
+
+  - WAF improvements on a production multi-tenant workload are not yet
+    measured; device-level fdp status counters moved consistently with
+    the placement IDs, but per-case deltas were below the background
+    noise of the test setup
+
+RFC aspects we would like feedback on
+
+  - the API shape of io.stream (per-device "MAJ:MIN <stream>" string,
+    upsert and inherit semantics, explicit 0 as a real entry)
+  - the WRITE_STREAM_NONE sentinel as a u8 reservation, which caps
+    addressable streams at 254 through the io_uring interface and
+    excludes 255 from io.stream
+  - whether io.stream belongs in io.* under cgroup v2, and its
+    interaction with the existing io controller file hierarchy
+  - buffered writeback semantics: attribution to the writeback owner is
+    arguably what an operator wants, but degenerate share cases deserve
+    a second opinion
+
+No MAINTAINERS update is needed: block/ is covered by the BLOCK LAYER
+entry, and the io_uring paths by the IO_URING entry.
+
+Tool use
+
+This series was developed with substantial help from LLM coding
+assistants, in an interactive session rather than from a single prompt.
+The assistant drafted a large part of the implementation (the
+WRITE_STREAM_NONE sentinel and its central resolution, the fops.c
+precedence rework, the kiocb_clone() propagation, and the io.stream
+single-word policy state and its RCU lifetime), the changelogs, the
+cgroup-v2.rst section and this cover letter.  It also wrote the
+io_uring and bpftrace test harnesses used for the runtime verification
+above, and rebased the series onto the current tree.  I made the design
+decisions, directed and reviewed the testing, and reviewed, revised and
+take responsibility for all of the code and text.
+
+Suho Son (3):
+  block: distinguish unspecified and explicit device-default write
+    streams
+  io_uring: add IORING_WRITE_STREAM_DEFAULT for explicit device-default
+    placement
+  blk-cgroup: add cgroup-based write stream placement
+
+ Documentation/admin-guide/cgroup-v2.rst |  58 ++++-
+ block/Kconfig                           |  16 ++
+ block/Makefile                          |   1 +
+ block/bio.c                             |   3 +-
+ block/blk-core.c                        |  14 ++
+ block/blk-iostream.c                    | 315 ++++++++++++++++++++++++
+ block/blk-iostream.h                    |  18 ++
+ block/fops.c                            |  25 +-
+ include/linux/blk_types.h               |  13 +
+ include/linux/fs.h                      |  11 +-
+ include/linux/io_uring_types.h          |   4 +
+ include/uapi/linux/io_uring.h           |  26 ++
+ io_uring/rw.c                           |  16 ++
+ 13 files changed, 510 insertions(+), 10 deletions(-)
+ create mode 100644 block/blk-iostream.c
+ create mode 100644 block/blk-iostream.h
+
+
+base-commit: d09b6d9d1fcce0770c1824c8b2b8ab153f2672d2
+-- 
+2.43.0
+
