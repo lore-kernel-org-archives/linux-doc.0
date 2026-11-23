@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795431816;
-	b=JhEHceZZ7r9T6nyz9Pgn8+YJUEH1ytgTpcL+rUNovT9wob08DZiGagFe7DL3TvtYxFQ1
-	 xUyeXCUcbDp9ZehSVVcozsKxBOe1Zji6x7zVEXYc6zHgL+T5XNvBZ1xRNvfLB77K0Ulaa
-	 kRI4WfddiprGvKSSQuIk1iKdt8tz4MNrXhXjwMilJD6YV6c1mBmRXQmQBTljyyyLAULme
-	 QgNnYCzwZGl2cXGk9krpV+gJaovs/c9suSyDZOrFLctKowYCe7ncU0Uhq9yE+q1ffE2sF
-	 +NCDXxXjCg5Eu+uy5K3hF5X4SuBrCiTEf0yo6WL13lk7/Xz6P9ySLc43u+oVTGLmP3Q==
+	t=1795431820;
+	b=JeX76F6AmP8r2RaKEOcLg/WFbUBMCrh08Jzr4WqjCWj3QKuxpJqhvZg/oS4P8N/pKRAH
+	 mCIw8EkPevgIZxsGvSwUnmeUwoVsGTZOkVreFq40fCgN85QoqQeIjgkWZVCVB5AXtn5N9
+	 1qufkO7M2aoeAjvwwzJ7NQCx3tASLuKBazrYhzOqXnjKEiui4wYcYfbt9avVA7wDBFC//
+	 6J6YD6yVO5lFNBagUAYsmtIwwJk9s0YDQQfxYIsP+sMsAHwnvFVXFdJy23e1//6a/8To1
+	 TEguAlD0nR1vI4mI6/RXoHvBlxbB/BXDuDs3PoeF/X/s3R4KudLp3ya11Qd/Q12drSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795431816;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795431820;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=sGxQMhreNpJZXCRi33dCNvWyL0pHBrE/F0jfngcCQpM=;
-	b=AYQoPWWxQBa6mGBj357+P+hEjTrLep6alQDdGuIHAgKC6I38DLysGGti+Hi7cZWoVEaX
-	 u1BlF8+CtyCUC110A1GgvpvbE64HsanzQM/aQ1olYAlkn34/nISiP6vvEnClN7M9PBI2W
-	 oT310LJlOVeDhA4Dw5xwOxKBHCEqVGP4fTArH7+83zIJuQHZkHrT2TmpJr1bFnQZXk0Qk
-	 To0Duim0QqUXl4CbVJLvLcpKoMrqA1VHUrArBuWlClCnsIPs9pbSoTx0jn7JH4hdgcWHD
-	 DU4uBQQS4dwnADUSklu1Y27Pc1tilj0dBRymBq/r7u8W84+fAsu1UFanp6Qls3Smblw==
+	bh=rfQ4cTE+eoZbY55pgsRZ/8CqV2xYReraBWYYC65CKhc=;
+	b=2EtWGTOPoXJnT0vh8wAiur72QQnLWyS3hopnndi5ZuRSM4APpm4FFqgxBLOIlZmQ73oQ
+	 bG19f3aFrTc3XYyZVIGLkfeYKcnA1R64NXzeMwznAwId6p0KNWIOAQu+0SgRAaOvMXSJZ
+	 UR4tyFedMuDHwjNm82sJX9p0Fw4rV5sYDtLUMrPsY1V8VuZnX4JF3L01bzLF6pexMZ6PJ
+	 nqEbQEFoKVanAKCcHuC5Jfnp43RcocgA8RYGyuO+TtWu/KNQbzsoNvrVkTLR5+2yr6bSW
+	 Hp/1nhBUmcC8pB+OF9sXtXhS+WX3oU5w9NGSe+h6ouHzbj7VLGgAZjQK9aTjlY5o07w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uuuzI4Zh;
-	arc=none smtp.remote-ip=209.85.214.174
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vwK53B7A;
+	arc=none smtp.remote-ip=209.85.214.177
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABA0606A6AD
-	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:03:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7ABA0606A6AD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEE7606A6BB
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 11:03:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFEE7606A6BB
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uuuzI4Zh
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ea63087d6eso2070175ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:03:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vwK53B7A
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ed58279115so1590125ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 03:03:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795431816; x=1796036616; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795431819; x=1796036619; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=sGxQMhreNpJZXCRi33dCNvWyL0pHBrE/F0jfngcCQpM=;
-        b=uuuzI4Zhx8Teak4IxFq4j1QRhv7yIY9TFpLO0JQ3lcvFUCVA8lvB1cahvIAKGHTlKv
-         +A2H42klrGzAmkxzaTPsJUiZ3ZcWYGQQruzWdVght2PqFP9s6wIXXP3XP5JrIEcu0aT/
-         a/MLZbKHkeKUcxtmb2CT8oW9NXo+AzstN9otp5s8y1Ra9MXxdJ/Itx5Zrhd4x4KFTVLx
-         qsWFqeeW09m9Po1pcozqp1ef/ZRfHp2l/2gj3Y+39WYfB0sVfSjV8H3aIK8FMatoVls0
-         Dq5g8J/MwjVwUif0Kqxi5hmuFIBnKs4Tcn/YwQ1CC4b8l18eH4VQtwRSkY05KpFO+egK
-         S+Cw==
+        bh=rfQ4cTE+eoZbY55pgsRZ/8CqV2xYReraBWYYC65CKhc=;
+        b=vwK53B7AmpfTfUPIv7WMHUZavXAy+9WX5L9gq4bFWgADg1ydspPTCFwnXKmi/4JZBz
+         oit/acODAKXDAKZOyJw4Rjv3GBHLSxHAgspbI8iKq18Msqe2I/I/eXrnx2Ohqp0WiCYl
+         +GH+uJfANmfwPYWFSImBQbjV5pdjhQLl2lFrDiilpzGbDN1nWVGz26j5wpWD0xCH9vU0
+         M+MPFlCuVi5+rDb5KHzSFdaLw6TuQx41nKALUKMomQL3+0NO+VxTz0Pm0sJSFmq4RF35
+         sh3Xs1hAQuvg8DIkIIPwymhRf05qJZAcI6xZJrMjh7okY9mqKSFS61zuk0hiOsJHaBn3
+         VclA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795431816; x=1796036616;
+        d=1e100.net; s=20260707; t=1795431819; x=1796036619;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sGxQMhreNpJZXCRi33dCNvWyL0pHBrE/F0jfngcCQpM=;
-        b=A+w2zGhiAQsZN8lb8+LiiidcmGOc4sdGWjjkHizaw3S5ILhw2b8H5OBaTvTXlB5UW4
-         C6zy4iy3mcvK5sJIFc6d+HtPFyHTMEUxgyy9x0Tfm/iakdW6ewHY/oXIhqBlJI4kQ9CX
-         g4nB7xH2KBL9qAyAGH/Vhra5Z3wi0DWr/JibFfG/Z7U7tvtu/NuXVDK5zsXPnEYoI6uw
-         p++4r2RcgWp4JxovYuYatGVdd4jwbRE8B/X40T2gfTQPJo5SPbmxlep13rFILx+7P9Id
-         vQP8cP6APolPIOF02M7IKVMoTBD2Ynh6XGljydaeV5kzuS5kkvaIY7JtkBCPnjrMnEEi
-         tUqA==
-X-Forwarded-Encrypted: i=1; AL+hErFMqW6ahYkBUF2huYUg0WmYtmsRITxjNJi7x2KEE6AvF5Wk/Edrph+jIikW9e6/lOzXymvklaCWsJY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+RJQ6SMYfdOFkK9UlyVhaQrvcNZMTOgJFHErYaVkrDkmaxtbB5
-	Jo4dxPl0WwoDFoEfbsau+Q+oxlNuLci+Vpj6SFLNNRHZIhhpoUG7ixMEl0OsSHKc
-X-Gm-Gg: AZFdTZef0O2sYa7Bes+bSw6zNL1c6EHRWd9Ad18rBl+8FX1TlyoBG/VR448Ja2Jsp4U
-	9XEGs22UXWg6VObzAy+mgIgBq2hsg7YKbDgRfRYGD3UzaiAzjnF8jR+Y2PEzoq+rcEWigSbk/cE
-	jvFRgw1JK2lLRFGbm6Ml4AFVDewOJpiCssbVd+2TtFIQF7VJfWjAywQ6LHstwrjeTk3RexDuTMW
-	YGyPHHs/ebqUENtjNF5dD9F2s1IPwM+h0v3L15yTkkYL7F3b0gsfU1yCgk4a1+sYXUMaR7pSZga
-	RX6vCBxcx2mQj1YJy9USkfkbwUWiBkPgMZ/kqD40cHw/SNsDbMESS0RwZWsyvzc4OQR7QpVwukZ
-	CJigmyCYNvzvymxfDy+qgAmi3QTGifTVSxpVSKGHolrpmxn1jlz5u//KgmYQhx6bi829y0YPCLS
-	SDUHraQnnxVsG4gEIP6M6CPuHmtVDEz9j0vCTFZVyWIXMM2I1U16qHSccsLjRVwph53H+uliurs
-	54vtLZ3P28bMFMD4vXVt380fTtCS8SaaX11EQn3lrvnHOVc/tWwbuYVSxBhKqGYaAk+4tzWtiGy
-	teij25UmB/ChhIfCHxo52cMXXZE1hvdBbtk3DaSym6Y8ddF6XVYgUTICup89E/zA+u07TB0qrys
-	SX2oxbTB5tXX6iI81Gg9xnN3z
-X-Received: by 2002:a17:903:4586:b0:2f0:3cbf:743d with SMTP id d9443c01a7336-2f03f16db29mr165008455ad.4.1795431815583;
-        Mon, 23 Nov 2026 03:03:35 -0800 (PST)
+        bh=rfQ4cTE+eoZbY55pgsRZ/8CqV2xYReraBWYYC65CKhc=;
+        b=qaMv0rgRqLTW1y+Ilvi8lA9GFKgIRa9RabGDa4q+1CBbrj1Rlca6VKu2O/T5fw/mA2
+         UfuxojSGpaCjsa4YT9PDNPb9ahuSZbEUVdiWQz2GF3FU2Lo7mF0/Ko+AvibiQd1yWivS
+         aDIcT76OxXTKXz8xekP9CjHPT1cg8n0UyRSQL1EOrdXg3kkc31gXHPPxKpcdGGHQWenh
+         m+fb12Ls6LZ27Ej+EwWzclY2fcZdMa4dyylArdTYhbnHb+eNGr6/PIGokYOImVpmFTb7
+         G8wsfrk1+zup1rl52p3cEbhPtIblQM/2K96VXbaWRGEYWERnEG8tVXM2l7iVStFaXfen
+         RaVg==
+X-Forwarded-Encrypted: i=1; AL+hErHLyq23KimgEdPlxeUL2tSgYhaw1eD2d6fGyU8OPv2XsONgvljC1ElUz/8sFps0opw2Xdg5WBf+gJc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+XfxDZ9UDAyetkxmlHnKk8glXrFW6xqVehkOO+39AtPZsM19l0
+	JJGIAmU2v1wpaM1eQNKg0syzZLBgw+gFfFW4gVJyB7Uy5hy+GgtSpX+o
+X-Gm-Gg: AZFdTZeQxGsNVA2A0vVHql7SDxkGnVOcB59Gy0O5WvGp5W5KYV3l2SPkNFLByI6hCxI
+	Tx2EipJnu60MHu20as0Mc2T8npwzCW0zdNgTONsH5FF9w6LUI4sECzXNEyW4a40gDhJeGTs4Rn+
+	nIC1nByratbMpLcwRWTo9sOQJN4Z1eKr3OQG22Szauz0/WWszhk/BIXAekhlpFuVIS0iU9C7VPo
+	TQzQxiLjuW5Z/RDBRgsnuqQCOdDXQV7FGpmLEj3324A0lIlyBpyqluws98tTdpqu5IV4nv36gtV
+	DV13UnhxzfqL09pFgoj2aFMz9azHZIBv/hf8hD91cxN/9bR73sloaK0yL4SlUUAVvC1CHQyQQrQ
+	Wz8JtlsbfhwlgibnZxxOiHxbbo8AnPZc+92gw9h3hmPsgjFFMcbzYT2S+xM7jRTola9+H6GUGEp
+	ovv7y/WRQFsLO4/I6jj3DVcsMteMDJsmjW0L+81UcqUxpe6bDlJ/4D4jOC9IeY7kFe9fOwO0csb
+	MJ+826ByQX5UpiDEmq6zrmf8Sb4AQAOFAbFJgSaxUBAU56okWbd8a9b2CwJOQ9D8Q0T3qCjA49z
+	PzI6UPpPKjdaXw0zlNH8lRdjsqW86pOIJnqw7iK84XrE2mJbrJ2jmhkg1pNahRoIcPvD4aZKD+Q
+	Cls5WYdgQp8lJhJW8OT4fSNtjKi2r1hx2S61tXxHf8Lo7ag==
+X-Received: by 2002:a17:903:4688:b0:2f0:7d6d:4a09 with SMTP id d9443c01a7336-2f07d6d4bc1mr63208675ad.1.1795431818798;
+        Mon, 23 Nov 2026 03:03:38 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.16])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1aa3sm50380785ad.21.2026.11.23.03.03.32
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1aa3sm50380785ad.21.2026.11.23.03.03.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 03:03:35 -0800 (PST)
+        Mon, 23 Nov 2026 03:03:38 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: alexs@kernel.org,
 	corbet@lwn.net
@@ -89,9 +89,9 @@ Cc: wy@wyuan.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH v2 22/25] docs/zh_TW: process: sync license-rules.rst with the English original
-Date: Mon, 23 Nov 2026 19:02:13 +0800
-Message-ID: <20261123110217.170025-23-chenyou910331@gmail.com>
+Subject: [PATCH v2 23/25] docs/zh_TW: process: sync stable-api-nonsense.rst with the English original
+Date: Mon, 23 Nov 2026 19:02:14 +0800
+Message-ID: <20261123110217.170025-24-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261123110217.170025-1-chenyou910331@gmail.com>
 References: <20261123110217.170025-1-chenyou910331@gmail.com>
@@ -107,220 +107,312 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The previous update was marked as synced to
-commit ebf1bafd0907 ("LICENSES: Explicitly allow
-SPDX-FileCopyrightText"), but the content still predated several earlier
-English changes.  Bring the translation in line with the current English
-text:
+The translation carries no "update to commit" marker, and a comparison
+against the current English text shows it still follows the original
+2016 version:
 
-- point the deprecated licenses at LICENSES/deprecated/ and use ISC and
-  GPL-1.0 as the examples, following commit 6132c37ca543 ("docs: Don't
-  reference the ZLib license in license-rules.rst") and
-  commit 62be257e986d ("LICENSES: Rename other to deprecated")
-- add the missing "Dual Licensing Only" section from
-  commit 8ea8814fcdcb ("LICENSES: Clearly mark dual license only
-  licenses") and renumber the exceptions section
-- restore the Linux-syscall-note example and the "/\* \*/" literal
-- fix the mistranslated purpose of the MODULE_LICENSE() tag and the
-  numbered list markup of the "Placement" item
+- drop the "<insert link to leech comment from Andrew and Linus here>"
+  placeholder removed by commit 1d2375f048b7 ("doc:process: remove note
+  from 'stable api nonsense'")
+- say "drivers released under a GPL-compatible license" instead of
+  "GPL released drivers", following commit 8f7e6d134bda ("doc: process:
+  GPL -> GPL-compatible")
+- add the subtitle, restore the note block and the emphasis of the
+  introduction, and split the merged paragraphs of "Stable Kernel Source
+  Interfaces" and "What to do" as in the original
+- use a transition instead of the "感謝" section title that the original
+  does not have
 
-Also localize a few remaining mainland terms (表達式→表示式,
-通信→通訊, 擴展→擴充, 行業→產業, 當前→目前, 導入→匯入).
+Also retranslate the whole text from the English: the old text
+paraphrased several sentences loosely (the "much more volatile" topic
+rendered as an endless one, structure padding, a single build multiplied
+by the number of distributions and releases, Greg's "you will go insane
+over time") and used mainland terminology throughout (內核→核心,
+代碼→程式碼, 操作系統→作業系統, 內存→記憶體, 數據→資料, 體系結構→架構,
+二進制→二進位, 分配→配置, 死鎖→死結, ...).
 
-update to commit ebf1bafd0907 ("LICENSES: Explicitly allow
-SPDX-FileCopyrightText")
+update to commit 8f7e6d134bda ("doc: process: GPL -> GPL-compatible")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../zh_TW/process/license-rules.rst           | 86 ++++++++++++++-----
- 1 file changed, 65 insertions(+), 21 deletions(-)
+ .../zh_TW/process/stable-api-nonsense.rst     | 243 +++++++++---------
+ 1 file changed, 127 insertions(+), 116 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/license-rules.rst b/Documentation/translations/zh_TW/process/license-rules.rst
-index 0a4558b7fc76..abc1f7e40d32 100644
---- a/Documentation/translations/zh_TW/process/license-rules.rst
-+++ b/Documentation/translations/zh_TW/process/license-rules.rst
-@@ -31,7 +31,7 @@ MIT等許可。
+diff --git a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
+index 94748429c182..25adea1146c2 100644
+--- a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
++++ b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
+@@ -7,143 +7,154 @@
+ :Original: :ref:`Documentation/process/stable-api-nonsense.rst
+            <stable_api_nonsense>`
  
- 使用者空間API（UAPI）標頭檔描述了使用者空間程式與核心的介面，這是一種特殊
- 情況。根據核心COPYING檔案中的註解，syscall介面是一個明確的邊界，它不會將
--GPL要求擴展到任何使用它與核心通信的軟體。由於UAPI標頭檔必須包含在建立在
-+GPL要求擴充到任何使用它與核心通訊的軟體。由於UAPI標頭檔必須包含在建立在
- Linux核心上執行的可執行檔案的任何原始檔中，因此此例外必須記錄在特別的許可
- 證表述中。
+-Linux 內核驅動介面
+-==================
++Linux 核心驅動程式介面
++========================
  
-@@ -41,7 +41,7 @@ Linux核心上執行的可執行檔案的任何原始檔中，因此此例外必
+-寫作本文檔的目的，是爲了解釋爲什麼Linux既沒有二進制內核介面，也沒有穩定
+-的內核介面。這裏所說的內核介面，是指內核裏的介面，而不是內核和用戶空間
+-的介面。內核到用戶空間的介面，是提供給應用程序使用的系統調用，系統調用
+-在歷史上幾乎沒有過變化，將來也不會有變化。我有一些老應用程序是在0.9版本
+-或者更早版本的內核上編譯的，在使用2.6版本內核的Linux發佈上依然用得很好
+-。用戶和應用程序作者可以將這個介面看成是穩定的。
++（你所有的問題在這裡都有解答，而且還不只這些）
  
- 樣板文本的替代方法是在每個原始檔中使用軟體套件資料交換（SPDX）許可證識別碼。
- SPDX許可證識別碼是機器可解析的，並且是用於提供檔案內容的許可證的精確縮寫。
--SPDX許可證識別碼由Linux 基金會的SPDX 工作組管理，並得到了整個行業，工具
-+SPDX許可證識別碼由Linux 基金會的SPDX 工作組管理，並得到了整個產業，工具
- 供應商和法律團隊的合作夥伴的一致同意。有關詳細資訊，請參閱
- https://spdx.org/
++本文試圖解釋為什麼 Linux **既沒有二進位核心介面，也沒有穩定的核心介面**。
  
-@@ -53,7 +53,7 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
- 許可識別碼語法
+-執行綱要
+---------
++.. note::
++
++  請注意，本文描述的是 **核心內部** 的介面，而不是核心與使用者空間之間
++  的介面。
++
++  核心與使用者空間之間的介面，是應用程式所使用的介面，也就是系統呼叫
++  （syscall）介面。這個介面長久以來都 **非常** 穩定，也不會被破壞。我有
++  一些在 0.9 之前某個版本的核心上建置的舊程式，到現在依然可以在最新的
++  2.6 核心版本上正常執行。使用者和應用程式開發者可以放心地把這個介面當成
++  穩定的介面。
+ 
+-你也許以爲自己想要穩定的內核介面，但是你不清楚你要的實際上不是它。你需
+-要的其實是穩定的驅動程序，而你只有將驅動程序放到公版內核的源代碼樹裏，
+-纔有可能達到這個目的。而且這樣做還有很多其它好處，正是因爲這些好處使得
+-Linux能成爲強壯，穩定，成熟的操作系統，這也是你最開始選擇Linux的原因。
++
++摘要
++----
++你以為自己想要穩定的核心介面，但其實你並不想要，只是你自己還不知道而已。
++你真正想要的是一個能穩定執行的驅動程式，而只有當你的驅動程式在核心主線
++樹裡，你才能得到這一點。驅動程式放進核心主線樹，你還會得到很多其他好處，
++正是這些好處讓 Linux 成為如此強壯、穩定、成熟的作業系統，而這也是你當初
++選擇使用它的原因。
+ 
+ 
+-入門
+------
++前言
++----
+ 
+-只有那些寫驅動程序的“怪人”纔會擔心內核介面的改變，對廣大用戶來說，既
+-看不到內核介面，也不需要去關心它。
++只有少數想要撰寫核心驅動程式的人，才需要擔心核心內部介面的改變。世界上
++大多數的人既看不到這個介面，也完全不在乎它。
+ 
+-首先，我不打算討論關於任何非GPL許可的內核驅動的法律問題，這些非GPL許可
+-的驅動程序包括不公開源代碼，隱藏源代碼，二進制或者是用源代碼包裝，或者
+-是其它任何形式的不能以GPL許可公開源代碼的驅動程序。如果有法律問題，請諮
+-詢律師，我只是一個程序員，所以我只打算探討技術問題（不是小看法律問題，
+-法律問題很實際，並且需要一直關注）。
++首先，我 **不會** 討論任何關於封閉原始碼、隱藏原始碼、二進位 blob、原始碼
++包裝器（source wrapper），或其他任何用來描述未以 GPL 釋出原始碼的核心
++驅動程式的用語所牽涉的法律問題。如果你有任何法律問題，請諮詢律師。我是
++程式設計師，所以在這裡只會描述技術問題（這並不是要輕忽法律問題，法律問題
++是真實存在的，你也必須時時留意）。
+ 
+-既然只談技術問題，我們就有了下面兩個主題：二進制內核介面和穩定的內核源
+-代碼介面。這兩個問題是互相關聯的，讓我們先解決掉二進制介面的問題。
++所以，這裡有兩個主要的主題：二進位核心介面，以及穩定的核心原始碼介面。
++這兩者互相依賴，不過我們先討論二進位的部分，把它解決掉。
+ 
+ 
+-二進制內核介面
++二進位核心介面
  --------------
+-假如我們有一個穩定的內核源代碼介面，那麼自然而然的，我們就擁有了穩定的
+-二進制介面，是這樣的嗎？錯。讓我們看看關於Linux內核的幾點事實：
++假設核心有穩定的原始碼介面，那麼自然也會有穩定的二進位介面，對吧？錯。
++請考慮以下關於 Linux 核心的事實：
  
--1.安置:
-+1. 安置:
+-    - 取決於所用的C編譯器的版本，不同的內核數據結構裏的結構體的對齊方
+-      式會有差別，代碼中不同函數的表現形式也不一樣（函數是不是被inline
+-      編譯取決於編譯器行爲）。不同的函數的表現形式並不重要，但是數據
+-      結構內部的對齊方式很關鍵。
++  - 取決於你使用的 C 編譯器版本，不同的核心資料結構會有不同的結構對齊
++    方式，而且可能以不同的方式包含不同的函式（函式是否被 inline）。個別
++    函式的組織方式並沒有那麼重要，但資料結構填充（padding）的差異就非常
++    重要。
  
-    核心檔案中的SPDX許可證識別碼應添加到可包含註解的檔案中的第一行。對於大多
-    數檔案，這是第一行，除了那些在第一行中需要'#!PATH_TO_INTERPRETER'的腳本。
-@@ -76,7 +76,7 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
-       .dts{i}:	// SPDX-License-Identifier: <SPDX License Expression>
+-    - 取決於內核的配置選項，不同的選項會讓內核的很多東西發生改變：
++  - 取決於你選擇的核心建置選項，核心可能會有各式各樣不同的假設：
  
-    如果特定工具無法處理標準註解樣式，則應使用工具接受的相應註解機制。這是在
--   C 標頭檔中使用“/\*\*/”樣式註解的原因。過去在使用產生的.lds檔案中觀察到
-+   C 標頭檔中使用「/\* \*/」樣式註解的原因。過去在使用產生的.lds檔案中觀察到
-    建置被破壞，其中'ld'無法解析C++註解。現在已經解決了這個問題，但仍然有較
-    舊的組譯器工具無法處理C++樣式的註解。
+-      - 同一個結構體可能包含不同的成員變量
+-      - 有的函數可能根本不會被實現（比如編譯的時候沒有選擇SMP支持
+-        一些鎖函數就會被定義成空函數）。
+-      - 內核使用的內存會以不同的方式對齊，這取決於不同的內核配置選
+-        項。
++      - 不同的結構可能包含不同的欄位
++      - 有些函式可能根本不會被實作（例如在非 SMP 的建置中，有些鎖會被
++        編譯成什麼都沒有）。
++      - 核心內的記憶體可能會以不同的方式對齊，這取決於建置選項。
  
-@@ -84,9 +84,9 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
+-    - Linux可以在很多的不同體系結構的處理器上運行。在某個體系結構上編
+-      譯好的二進制驅動程序，不可能在另外一個體繫結構上正確的運行。
++  - Linux 可以在許多不同的處理器架構上執行。某個架構的二進位驅動程式，
++    不可能在另一個架構上正確執行。
  
- 3. 句法:
+-對於一個特定的內核，滿足這些條件並不難，使用同一個C編譯器和同樣的內核配
+-置選項來編譯驅動程序模塊就可以了。這對於給一個特定Linux發佈的特定版本提
+-供驅動程序，是完全可以滿足需求的。但是如果你要給不同發佈的不同版本都發
+-佈一個驅動程序，就需要在每個發佈上用不同的內核設置參數都編譯一次內核，
+-這簡直跟噩夢一樣。而且還要注意到，每個Linux發佈還提供不同的Linux內核，
+-這些內核都針對不同的硬件類型進行了優化（有很多種不同的處理器，還有不同
+-的內核設置選項）。所以每發佈一次驅動程序，都需要提供很多不同版本的內核
+-模塊。
++其中有許多問題，只要針對確切的核心設定，使用與建置核心時完全相同的 C
++編譯器來編譯你的模組，就可以解決。如果你只想為某個特定 Linux 發行版的
++某個特定版本提供模組，這樣就足夠了。但是把這一次建置，乘上不同 Linux
++發行版的數量，再乘上每個發行版所支援的不同版本數量，很快你就會陷入不同
++版本、不同建置選項的惡夢。還要注意，每個 Linux 發行版的版本都包含多個
++不同的核心，各自針對不同的硬體類型調校（不同的處理器類型和不同的選項），
++所以就算只針對單一版本，你也需要建立多個版本的模組。
  
--   <SPDX許可證表達式>是SPDX許可證列表中的SPDX短格式許可證識別碼，或者在許可
-+   <SPDX許可證表示式>是SPDX許可證列表中的SPDX短格式許可證識別碼，或者在許可
-    證例外適用時由“WITH”分隔的兩個SPDX短格式許可證識別碼的組合。當應用多個許
--   可證時，表達式由分隔子表達式的關鍵字“AND”，“OR”組成，並由“（”，“）”包圍。
-+   可證時，表示式由分隔子表示式的關鍵字“AND”，“OR”組成，並由“（”，“）”包圍。
+-相信我，如果你真的要採取這種發佈方式，一定會慢慢瘋掉，我很久以前就有過
+-深刻的教訓...
++相信我，如果你試圖支援這種發布方式，久了一定會發瘋，我很久以前就吃過這
++個苦頭了……
  
-    帶有“或更高”選項的[L]GPL等許可證的許可證識別碼透過使用“+”來表示“或更高”
-    選項來建置。::
-@@ -94,7 +94,7 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
-       // SPDX-License-Identifier: GPL-2.0+
-       // SPDX-License-Identifier: LGPL-2.1+
  
--   當需要修正的許可證時，應使用WITH。 例如，linux核心UAPI檔案使用表達式::
-+   當需要修正的許可證時，應使用WITH。 例如，linux核心UAPI檔案使用表示式::
+-穩定的內核源代碼介面
++穩定的核心原始碼介面
+ --------------------
  
-       // SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note
-       // SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note
-@@ -112,7 +112,7 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
- 
-       // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
- 
--   核心中雙許可檔案中許可表達式的範例::
-+   核心中雙許可檔案中許可表示式的範例::
- 
-       // SPDX-License-Identifier: GPL-2.0 OR MIT
-       // SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-@@ -134,7 +134,7 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
- 許可識別碼
- ----------
- 
--當前使用的許可證以及添加到核心的程式碼許可證可以分解為：
-+目前使用的許可證以及添加到核心的程式碼許可證可以分解為：
- 
- 1. _`優先許可`:
- 
-@@ -209,24 +209,25 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
- 
- |
- 
--2. 不推薦的許可證:
-+2. 已棄用的許可證:
- 
--   這些許可證只應用於現有程式碼或從其他專案導入程式碼。這些許可證在核心目錄::
-+   這些許可證只應用於現有程式碼或從其他專案匯入程式碼。這些許可證位於核心
-+   原始程式碼樹的目錄::
- 
--      LICENSES/other/
-+      LICENSES/deprecated/
- 
-    此目錄中的檔案包含完整的許可證文本和 `元標記`_ 。檔名與SPDX許可證識別碼
-    相同，後者應用於原始檔中的許可證。
- 
-    例如::
- 
--      LICENSES/other/ISC
-+      LICENSES/deprecated/ISC
- 
--   包含國際系統聯合許可文本和所需的元標籤::
-+   包含 Internet Systems Consortium 許可證文本和所需的元標籤::
- 
--      LICENSES/other/ZLib
-+      LICENSES/deprecated/GPL-1.0
- 
--   包含ZLIB許可文本和所需的元標籤.
-+   包含 GPL 版本 1 許可證文本和所需的元標籤。
- 
-    元標籤:
- 
-@@ -249,7 +250,49 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
- 
- |
- 
--3. _`例外`:
-+3. 僅限雙重許可
+-如果有人不將他的內核驅動程序，放入公版內核的源代碼樹，而又想讓驅動程序
+-一直保持在最新的內核中可用，那麼這個話題將會變得沒完沒了。
+-內核開發是持續而且快節奏的，從來都不會慢下來。內核開發人員在當前介面中
+-找到bug，或者找到更好的實現方式。一旦發現這些，他們就很快會去修改當前的
+-介面。修改介面意味着，函數名可能會改變，結構體可能被擴充或者刪減，函數
+-的參數也可能發生改變。一旦介面被修改，內核中使用這些介面的地方需要同時
+-修正，這樣才能保證所有的東西繼續工作。
+-
+-舉一個例子，內核的USB驅動程序介面在USB子系統的整個生命週期中，至少經歷
+-了三次重寫。這些重寫解決以下問題：
+-
+-    - 把數據流從同步模式改成非同步模式，這個改動減少了一些驅動程序的
+-      複雜度，提高了所有USB驅動程序的吞吐率，這樣幾乎所有的USB設備都
+-      能以最大速率工作了。
+-    - 修改了USB核心代碼中爲USB驅動分配數據包內存的方式，所有的驅動都
+-      需要提供更多的參數給USB核心，以修正了很多已經被記錄在案的死鎖。
+-
+-這和一些封閉源代碼的操作系統形成鮮明的對比，在那些操作系統上，不得不額
+-外的維護舊的USB介面。這導致了一個可能性，新的開發者依然會不小心使用舊的
+-介面，以不恰當的方式編寫代碼，進而影響到操作系統的穩定性。
+-在上面的例子中，所有的開發者都同意這些重要的改動，在這樣的情況下修改代
+-價很低。如果Linux保持一個穩定的內核源代碼介面，那麼就得創建一個新的介面
+-；舊的，有問題的介面必須一直維護，給Linux USB開發者帶來額外的工作。既然
+-所有的Linux USB驅動的作者都是利用自己的時間工作，那麼要求他們去做毫無意
+-義的免費額外工作，是不可能的。
+-安全問題對Linux來說十分重要。一個安全問題被發現，就會在短時間內得到修
+-正。在很多情況下，這將導致Linux內核中的一些介面被重寫，以從根本上避免安
+-全問題。一旦介面被重寫，所有使用這些介面的驅動程序，必須同時得到修正，
+-以確定安全問題已經得到修復並且不可能在未來還有同樣的安全問題。如果內核
+-內部介面不允許改變，那麼就不可能修復這樣的安全問題，也不可能確認這樣的
+-安全問題以後不會發生。
+-開發者一直在清理內核介面。如果一個介面沒有人在使用了，它就會被刪除。這
+-樣可以確保內核儘可能的小，而且所有潛在的介面都會得到儘可能完整的測試
+-（沒有人使用的介面是不可能得到良好的測試的）。
+-
+-
+-要做什麼
++如果你去問那些試圖讓不在核心主線樹裡的 Linux 核心驅動程式長期保持更新
++的人，這是個「火藥味」重得多的話題。
 +
-+   這些許可證只應用於對程式碼進行雙重許可，作為優先許可之外的另一個許可證。
-+   這些許可證位於核心原始程式碼樹的目錄::
++Linux 核心的開發是持續且快速的，從來不會停下來放慢腳步。因此，核心開發者
++會在現有的介面中發現 bug，或是想出更好的做法。一旦如此，他們就會修改現有
++的介面，讓它運作得更好。這時函式名稱可能會改變，結構可能會變大或縮小，
++函式的參數也可能被重新設計。一旦發生這種情況，核心中所有使用這個介面的
++地方都會同時被修正，確保一切都能繼續正常運作。
 +
-+      LICENSES/dual/
++舉個具體的例子，核心內部的 USB 介面在這個子系統的生命週期中，至少經歷過
++三次不同的重寫。這些重寫是為了解決許多不同的問題：
 +
-+   此目錄中的檔案包含完整的許可證文本和 `元標記`_ 。檔名與 SPDX 許可證識別碼
-+   相同，後者應用於原始檔中的許可證。
++  - 把資料串流從同步模型改成非同步模型。這降低了許多驅動程式的複雜度，
++    並提高了所有 USB 驅動程式的傳輸量，讓我們現在幾乎可以讓所有 USB 裝置
++    以它們可能的最高速度運作。
++  - 改變了 USB 驅動程式從 USB 核心配置資料封包的方式，所有驅動程式現在都
++    需要提供更多資訊給 USB 核心，以修正許多已記錄在案的死結。
 +
-+   例如::
++這和許多封閉原始碼的作業系統形成鮮明對比，它們必須長期維護舊的 USB 介面。
++這讓新的開發者有可能不小心使用舊介面，以不恰當的方式做事，導致作業系統的
++穩定性受損。
 +
-+      LICENSES/dual/MPL-1.1
++在這兩個例子中，所有開發者都同意這些是必要的重要改動，而這些改動也都以
++相對很小的代價完成了。如果 Linux 必須確保保留穩定的原始碼介面，那就得
++建立一個新介面，而舊的、有問題的介面也必須長期維護，給 USB 開發者帶來
++額外的工作。既然所有 Linux USB 開發者都是用自己的時間在工作，要求程式設計
++師無償地做毫無收穫的額外工作，是不可能的。
 +
-+   包含 Mozilla Public License 版本 1.1 許可證文本和所需的元標籤::
++安全性問題對 Linux 來說也非常重要。一旦發現安全性問題，它會在很短的時間
++內被修正。有好幾次，這導致核心內部介面被重寫，以防止安全性問題發生。
++一旦發生這種情況，所有使用這些介面的驅動程式也會同時被修正，確保安全性
++問題已經被修正，而且未來不會意外地再次出現。如果核心內部介面不允許改變，
++就不可能修正這類安全性問題，也無法確保它不會再次發生。
 +
-+      LICENSES/dual/Apache-2.0
++核心介面會隨著時間被清理。如果某個現有介面沒有人在使用，它就會被刪除。
++這確保了核心盡可能地小，並且所有可能的介面都盡可能地得到測試（沒有人使用
++的介面幾乎不可能測試其正確性）。
 +
-+   包含 Apache License 版本 2.0 許可證文本和所需的元標籤。
 +
-+   元標籤:
-+
-+   「其他」許可證的元標籤要求與 `優先許可`_ 的要求相同。
-+
-+   檔案格式範例::
-+
-+      Valid-License-Identifier: MPL-1.1
-+      SPDX-URL: https://spdx.org/licenses/MPL-1.1.html
-+      Usage-Guide:
-+        Do NOT use. The MPL-1.1 is not GPL2 compatible. It may only be used for
-+        dual-licensed files where the other license is GPL2 compatible.
-+        If you end up using this it MUST be used together with a GPL2 compatible
-+        license using "OR".
-+        To use the Mozilla Public License version 1.1 put the following SPDX
-+        tag/value pair into a comment according to the placement guidelines in
-+        the licensing rules documentation:
-+      SPDX-License-Identifier: MPL-1.1
-+      License-Text:
-+        Full license text
-+
-+|
-+
-+4. _`例外`:
++該怎麼做
+ --------
  
-    某些許可證可以修改，並允許原始許可證不具有的某些例外權利。這些例外在
-    核心目錄::
-@@ -262,8 +305,9 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
- 
-       LICENSES/exceptions/Linux-syscall-note
- 
--   包含Linux核心的COPYING檔案中記錄的Linux系統呼叫例外，該檔案用於UAPI
--   標頭檔。例如::
-+   包含Linux核心的COPYING檔案中記錄的Linux系統呼叫例外，該例外用於 UAPI
-+   標頭檔。例如
-+   /\* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note \*/::
- 
-       LICENSES/exceptions/GCC-exception-2.0
- 
-@@ -337,8 +381,8 @@ _`模組許可`
-    許可證資訊（SPDX-License-Identifier），也不以任何方式表示或確定提供模組
-    原始程式碼的確切許可證。
- 
--   此標記的唯一目的是提供足夠的資訊，該模組是否是自由軟體或者是核心模組加
--   載器和使用者空間工具的專有模組。
-+   此標記的唯一目的是為核心模組載入器和使用者空間工具提供足夠的資訊，以判斷
-+   該模組是自由軟體還是專有軟體。
- 
-    MODULE_LICENSE（）的有效許可證字串是:
- 
+-如果你寫了一個Linux內核驅動，但是它還不在Linux源代碼樹裏，作爲一個開發
+-者，你應該怎麼做？爲每個發佈的每個版本提供一個二進制驅動，那簡直是一個
+-噩夢，要跟上永遠處於變化之中的內核介面，也是一件辛苦活。
+-很簡單，讓你的驅動進入內核源代碼樹（要記得我們在談論的是以GPL許可發行
+-的驅動，如果你的代碼不符合GPL，那麼祝你好運，你只能自己解決這個問題了，
+-你這個吸血鬼<把Andrew和Linus對吸血鬼的定義鏈接到這裏>）。當你的代碼加入
+-公版內核源代碼樹之後，如果一個內核介面改變，你的驅動會直接被修改介面的
+-那個人修改。保證你的驅動永遠都可以編譯通過，並且一直工作，你幾乎不需要
+-做什麼事情。
+-
+-把驅動放到內核源代碼樹裏會有很多的好處：
+-
+-    - 驅動的質量會提升，而維護成本（對原始作者來說）會下降。
+-    - 其他人會給驅動添加新特性。
+-    - 其他人會找到驅動中的bug並修復。
+-    - 其他人會在驅動中找到性能優化的機會。
+-    - 當外部的介面的改變需要修改驅動程序的時候，其他人會修改驅動程序
+-    - 不需要聯繫任何發行商，這個驅動會自動的隨着所有的Linux發佈一起發
+-      布。
+-
+-和別的操作系統相比，Linux爲更多不同的設備提供現成的驅動，而且能在更多不
+-同體繫結構的處理器上支持這些設備。這個經過考驗的開發模式，必然是錯不了
+-的 :)
+-
+-感謝
+-----
+-感謝 Randy Dunlap, Andrew Morton, David Brownell, Hanna Linder,
+-Robert Love, and Nishanth Aravamudan 對於本文檔早期版本的評審和建議。
++那麼，如果你有一個不在核心主線樹裡的 Linux 核心驅動程式，身為開發者的你
++該怎麼做？為每個發行版的每個不同核心版本釋出二進位驅動程式是一場惡夢，
++而要跟上不斷變動的核心介面也是件苦差事。
++
++很簡單，讓你的核心驅動程式進入核心主線樹（記住，我們這裡談的是以與 GPL
++相容的授權釋出的驅動程式；如果你的程式碼不屬於這一類，那就祝你好運，你
++只能靠自己了，你這個吸血鬼）。如果你的驅動程式在核心樹裡，當核心介面改變
++時，它會由當初做出這項核心修改的人負責修正。這確保了你的驅動程式隨時都能
++建置，並且長期正常運作，而你幾乎不需要付出什麼心力。
++
++把驅動程式放進核心主線樹裡，會帶來以下非常好的附帶效果：
++
++  - 驅動程式的品質會提升，而（原始開發者的）維護成本會下降。
++  - 其他開發者會為你的驅動程式加入新功能。
++  - 其他人會找出並修正你的驅動程式中的 bug。
++  - 其他人會在你的驅動程式中找到調校效能的機會。
++  - 當外部介面的改變需要修改驅動程式時，其他人會幫你更新驅動程式。
++  - 驅動程式會自動隨著所有 Linux 發行版一起發布，不需要去請求發行版
++    加入它。
++
++Linux「開箱即用」所支援的裝置比其他任何作業系統都多，而且能在比其他任何
++作業系統更多的處理器架構上支援這些裝置，這種經過驗證的開發模式一定有它
++做對的地方 :)
++
++
++
++------
++
++感謝 Randy Dunlap、Andrew Morton、David Brownell、Hanna Linder、
++Robert Love 和 Nishanth Aravamudan 對本文早期草稿的審閱與意見。
 -- 
 2.43.0
 
