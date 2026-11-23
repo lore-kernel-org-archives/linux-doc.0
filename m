@@ -1,59 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795424937;
-	b=nOkXSBaKpnlpLGGL5pCWEajBLPDNtkP7SUnAQ9rrMplJACSWpzMg2kxWrfivtWJGffFe
-	 /SaWUjdngMKT4cvvaUAywJ0O49ar88SnrDS4kCQA2ocQyxv2l6UYhdLKnCohhZLMgui5U
-	 aQOjMeXemHR4qnsFuk3oaMOmo+dmn73t/wFdeakcLO4wYhtldS92A9uFC5U7exKZEUw1g
-	 glGYIF8tImRzKi3L51PhVp35vOfABk0Q2X73hTQEw/sUZ0mCCnGySJ0NLdOu5pIRkmP+S
-	 Kh9PVWPUhZXhyPuyi9gIbXZp0YJNG1V7uuctzayrQ48S6o9VEazRpoYZSJAOGYxaplg==
+	t=1795424950;
+	b=Oq3caeav14SueV8SeQMLII990v/g8JLNE1kY0+aRwZkJcMKtc94Rl36Xnemq0w/0MvY8
+	 BIbEv4JqN2RY+bVOwo/U5gXjPWZY4t6taPgoFAcrpsa8217JefTiQI9X+nJ7DrwqsHs3Q
+	 crKnGi3npX6MBo9FVwaH+YJsCabkcVyvfx4/nCwi4MoKytsGOsDJ16tzBi6R3dGgcImFq
+	 nIwKTxLYACJsSVydQ63eQoFKUb8yaLBW1I6wceLmu82noHp7QKdlgTin2ZFHAjJBxwcgQ
+	 nbz5g6taZ+UQuMsGnPXBIR/nwOriCwg4i+F2GojWzeGWgh5Z0F1iQK04Wzp24p6M+/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795424937;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=HCIl0ZnJ2Bwec3GAhVJ2XAZj1hRoXxBmMeJmz7Rzc5M=;
-	b=MDrrKXyDD3Bbjc7b5P4J2uW1Hf1vaqrXovcDJinNYOLi6KxMOJgAidRIaXwofjug5Iu4
-	 mIzox5KQECXz/044w6XlR4nXWrN6FdSkdHsOw24qGYAf1KFmwZ63/tIpNFHOoel5NDtKl
-	 hCgPPv/3ArlMMhgYFQs1npztAcJvcRgggt5ohUal1iiU1HH8yT3zshgPOayt04RZHrNkA
-	 j3EE2hDDJn50+n6tfb87GaOt7KOswo1AU5gTsZztGn+NrjSJMVDQYl7ewyt9wcM1KI3NP
-	 UqLowfDZQ4/wajh8PxDUv9oviXIRpojM13Rfe4SVGWar23G/cyYWHUSX8IKiNFpvwHA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795424950;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=O02VVtRWSBlBTffNTMdkr0d21ECe3B1DyZ7TQUqkyYc=;
+	b=Oy2uh9N1/2hIyADVX6XuWeQ7lrts8uz4Bxq9BhDWvY7agjOfk1wvSi6qdnivrgmuwjKd
+	 bY/Ekkh6dRiRtf1UBDvKIXgf3WnolYwBa3GKUb/oCOBGT/UVm6H7M31kW7bmjvZd+bR8z
+	 +lbk2KXCkOQe+xB8M0a/doSE/Sl3v0iCUayu4wiRLU8Tt4EBswYuiAzNImPmhVom33R02
+	 OZb1m9CAZE8Ik34eXs1v4E8/gMffh8+GyERZwYHAkzgDSt0RqTxBt88OH80x0fqYivdhW
+	 SiN2rDPatPxNQ8duJ+sI6cWd/n52nDtoDvDGinOTLv7E71OCCewdNebI16yJFCMYhuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nwvZSsHg;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0EB606A31A;
-	Mon, 23 Nov 2026 09:08:57 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=qS0UZJq0;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A821606A321;
+	Mon, 23 Nov 2026 09:09:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A821606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nwvZSsHg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 256721F000C0;
-	Mon, 23 Nov 2026 09:08:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795424937;
-	bh=HCIl0ZnJ2Bwec3GAhVJ2XAZj1hRoXxBmMeJmz7Rzc5M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nwvZSsHgYx1vv8X6s6NsF6Oyvu9b9ARL0/7lhP0t5iTFD/TzZbAmihNBDWryR5I+c
-	 wMRUbGejIrGo/ROTPB1lbA33y6gKlv1hgIEPJtJBFnpTQMZz5zFVpP6z3c3H4Ishck
-	 FrGs9OFc9oss3DAlpMzOp/6DVojFb3JxgafkzK0oxy606G9flJlvDuaYOOWGEpyWPP
-	 0FgUuUkW2Od01O3IK3PPZ70X7suDmQCHVeZ2jjQeZz+zBBKaSAurIEs/+HDXlKklbL
-	 nYc8zSEx3gVMJoCs5BxKCSuN9jQ5LCXz3Q8FfeYo9o72oJA7VF36PXIcbzPuKbsZKn
-	 xcQsNqzVKSWKA==
-Date: Mon, 23 Nov 2026 10:08:53 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: =?utf-8?B?RGF2w63DsA==?= Steinn Geirsson <david@dsg.is>
-Cc: Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>, 
-	linux-hwmon@vger.kernel.org, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, linux-pwm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: hwmon: adt7475: Add
- #thermal-sensor-cells
-Message-ID: <20261123-analytic-papaya-jackdaw-aeb5db@quoll>
-References: <20261114004110.328050-1-david@dsg.is>
- <20261114004110.328050-2-david@dsg.is>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=qS0UZJq0
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B53A1476;
+	Mon, 23 Nov 2026 01:09:06 -0800 (PST)
+Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 08FBC3F632;
+	Mon, 23 Nov 2026 01:09:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795424949; bh=jm/tu+I4qmiRATBKNiNwWj7t44LL0Pz4nclHyYCT45w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qS0UZJq0Kphetvr/RKKkXdDctKNYhKx2Lb7gDOhRTb+fw+Pt7bJLaCJFjIOCuaDet
+	 WzNxU0kfTkTwgpy1gCegKFTBnvk5ksbsvMaHz3veGEgevLHwY3BpX9MKubSvB90g1M
+	 OeAl6pNM3coIibp4WW/8Wwm3yziZe2NFBgy7L1Gg=
+Date: Mon, 23 Nov 2026 09:09:02 +0000
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, jgg@ziepe.ca, david.quigley@intel.com,
+	lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com,
+	cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com,
+	James.Bottomley@hansenpartnership.com, aik@amd.com,
+	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
+	jarkko@kernel.org, zohar@linux.ibm.com, yeoreum.yun@arm.com,
+	aneesh.kumar@kernel.org, dave.jiang@intel.com, nik.borisov@suse.com,
+	sergii.dmytruk@3mdeb.com
+Subject: Re: [PATCH RFC v2 9/9] attestation: Add the TDX family implementation
+Message-ID: <awQCrnD5CtEhKRWz@e129823.arm.com>
+References: <20261113160838.2512652-1-jiri@resnulli.us>
+ <20261113160838.2512652-10-jiri@resnulli.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,31 +72,66 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20261114004110.328050-2-david@dsg.is>
+In-Reply-To: <20261113160838.2512652-10-jiri@resnulli.us>
 
-On Sat, Nov 14, 2026 at 12:41:07AM +0000, Dav=C3=AD=C3=B0 Steinn Geirsson w=
-rote:
-> The ADT7473, ADT7475, ADT7476 and ADT7490 measure two remote
-> temperatures and their own. Add the "#thermal-sensor-cells" property so
-> that thermal zones can use these as sensors. Its single cell selects the
-> temperature channel: 0 for Remote 1, 1 for Local and 2 for Remote 2.
->=20
-> Signed-off-by: Dav=C3=AD=C3=B0 Steinn Geirsson <david@dsg.is>
-> ---
-> This patch was written with Claude Code, using the models Claude
-> Opus 5.5 and Claude Fable 5.2. They wrote the code and the initial
-> commit message draft, which I cleaned up. I directed the design,
-> reviewed the result, compared against the datasheet as far as I
-> could, and ran tests including on actual hardware.
->=20
->  .../devicetree/bindings/hwmon/adt7475.yaml       | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+Hi Jiri,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+[...]
 
-Best regards,
-Krzysztof
+> +static void __iomem *tdx_attestation_log_map(size_t *length)
+> +{
+> +	struct acpi_table_header *header;
+> +	struct acpi_table_ccel *ccel;
+> +	void __iomem *log = NULL;
+> +
+> +	if (ACPI_FAILURE(acpi_get_table(ACPI_SIG_CCEL, 0, &header)))
+> +		return NULL;
+> +	ccel = container_of(header, struct acpi_table_ccel, header);
+> +	if (header->length >= sizeof(*ccel) && ccel->log_area_start_address &&
+> +	    ccel->log_area_minimum_length &&
+> +	    ccel->log_area_minimum_length <= UINT_MAX)
+> +		log = acpi_os_map_iomem(ccel->log_area_start_address,
+> +					ccel->log_area_minimum_length);
+> +	if (log)
+> +		*length = ccel->log_area_minimum_length;
+> +	acpi_put_table(header);
+> +	return log;
+> +}
+> +
 
+I think we don't need to dump log area with the log_area_minimum_length
+since the area would include none-event otherwise, pre-exist tool (i.e.
+tpm2_eventlog) reports error for them like:
+
+  ...
+  - EventNum: 21
+    PCRIndex: 2
+    EventType: EV_EFI_ACTION
+    DigestCount: 1
+    Digests:
+    - AlgorithmId: sha256
+      Digest: "b54f7542cbd872a81a9d9dea839b2b8d747c7ebd5ea6615c40f42f44a6dbeba0"
+    EventSize: 40
+    Event: |-
+      Exit Boot Services Returned with Success
+  ERROR: corrupted log, insufficient size for event header: 3
+  ERROR: failed to parse tpm2 eventlog
+  ERROR: Unable to run tpm2_eventlog
+
+
+So, what about export *real size* of eventlog like
+tpm2_calc_event_log_size()?
+
+
+Otherwise, look good to me.
+
+[...]
+
+
+Thanks!
+
+-- 
+Sincerely,
+Yeoreum Yun
