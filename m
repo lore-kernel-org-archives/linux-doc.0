@@ -1,72 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.112
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795447473;
-	b=Cf0mau1xcKbJBFfq7HT2F+XUE2isNl+8qIaqqokAsVE4Xf8eREQoHv8cTY6mb8ShcEbd
-	 y5Y674kMaNGPMLnJxp9cnN9/+Q8ObtHv+OAv2/qxogwUEnQ3pJCr3OQSpZ8PBnBxt/ejt
-	 +IxRMK4bwlYbzDBkrJpm5xZSm0tk7f2rx0Kjl2Ar6cqlt2FT+x4FvShA+GYYYDeJ+SIOu
-	 eFn7ieqzldt7EAnugjDEkIWxKkfUIPIADidvSvZs+N/w8e3/Hu09BxicbMOC1IGmACQPL
-	 TczLDTks6JFm91xFyAN1qIzfNWf5j3xCW8zUcUmBZXO7GGEhiuhHtRrQz6Hi0uReXhA==
+	t=1795447479;
+	b=gWurxZDypG+UJdkfJacH5AJqB6Dvy3ulb5p5ph/9htBS1fjZh3+HDXsU0O3AOdk4DLy/
+	 aTd20YWeiwkH0cQWuHNB73R4+jCSwUbBot/wC7JNHwWk6kBpvfMp+RJ5po3h7B4iuQh/6
+	 4QRH4LeMmTeDvC85d6UvzbzMPeI6IpDANKvTiq1x0ds7VkO80mUE/8r1s3d3zCbty/57O
+	 1wJHnrv/y5cSA3KEpyROhgCGhLE2frh9fsdZ+9u7IQ4AJxe2bMJfPEwp+W/a1q7+lPQDa
+	 hRXUGYXiYuyKW7tUNRP0Y6O9FOSO0XuXm2hbmh+y3VZHOH/op/8RlvNxqmAM3WKIYrg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795447473;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=quJ9x6vCaEZENj0BcSZX26iJFFHGXwFCBIa4eWkw88s=;
-	b=kTuNbIVcphN2KE+1W/mw9jqzBwpPRD5l7PTnkp+9daIbmOWE58uc6syfekpsRVsGvpk6
-	 a+DDpCOkM78cx5Xl4CIGYG0LUfH50q5STcgeKdN5jPvkkuzqlUk1Da/MhHPXk50qyNBuj
-	 nC5/3NfEcsmlNBaNaFsyIHw78BWn76iYVlLN/UUJ+ORUuW0Ww8hqsYZ81dVVQG0jnRWDn
-	 WA/GnZsW7xOXdckAACraN9QkdbhTuxx0hx+ulRklj0DsM7k0HI91G653a+ZzAg9FZx8fZ
-	 5WwkUxcU5Gh4fCWZaPs3HwVA8R1Je2d++sfoikl+rmQxyLCwv8S+WIFWmoAL6z2/PEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795447479;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=Hh8fRu5vFtpaCjWKRWOVh0V8299B/cNlEtDS6Intpqo=;
+	b=lm+e4gxeSAzBgKJVofBww/9lpIvZmcHxraYE6BWz1m2CTLVx5KiqfR7WwfrvIJHIphjU
+	 6ofyv6sL2xlK+Rw8TJ89FPQp1kVWmH8dIsik4V10MGKoz+ToUF7/MHcRedRozriGGcbyK
+	 Xv4DrkHFj+6OzxuiSUNz6gK7drnqBpypvUE7KWU4UIujQGGpQ6uZ8gnj/TbkDbNxg/2Dm
+	 lgC+gBMuLAPj7vXFSlRVkJAosgG8kABRs/QCzotmtf8noYGtvx1JxGLG9q2PHewOBXXlV
+	 4+Pln56NKvuQlebc1LokWcjcDvRdcHMIvBFNS8hzTdxi0MM4zXJKLWNyCHWdbVMf7VA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=tgnHFYnt;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="Q/rvAn2M";
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="ZnRu5R/j";
+	arc=none smtp.remote-ip=91.218.175.112
+Received: from mta0.migadu.com (out-112.mta0.migadu.com [91.218.175.112])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFCE606A31F;
-	Mon, 23 Nov 2026 15:24:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BEFCE606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE7F606A327
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 15:24:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0CE7F606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=tgnHFYnt;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=Q/rvAn2M
-Date: Mon, 23 Nov 2026 16:24:27 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1795447470;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=quJ9x6vCaEZENj0BcSZX26iJFFHGXwFCBIa4eWkw88s=;
-	b=tgnHFYntZ/tLKwZ/6vBAjPKXx9TBqrBwzDGWDWdtsXqhE0tWbEnPD0J0FBYZw6rhbz2Jgs
-	dyCUeAMtrOGLEKTjqwGZke08gRR/kmlM8EmFWg6Rdpzryx6n2GJvQVaU88V5i1jp3ECiKT
-	KqAqQXDRyVyMtb3Bo4EO38eNd93vqwWTqDF04hbmiSdb/vrBcnA/908FExH5GLj5JJJKOf
-	6YOP0z3Ps63wOlg1iY6asQn5gBadc4Uj82gBon/QLbNfYKIIqxxRrtxiTvho68puEvRwql
-	JQqVhfVHcuS7uoV7VVHYt/8W61yrFK3PLZuWgu4so1+9wHUllU8zN38eLsFQcQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1795447470;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=quJ9x6vCaEZENj0BcSZX26iJFFHGXwFCBIa4eWkw88s=;
-	b=Q/rvAn2MU1pnnIupXzqNs/NkdvRU3tHlIbLF/KOfs/acTN73HI2UUh7I+Us+6+GCIFweDL
-	GyB2/kNEPCb5plBg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Zixin Wang <w1355457260@gmail.com>, frederic@kernel.org,
-	"Ahmed S. Darwish" <darwi@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>
-Cc: linux-doc@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	clrkwllms@kernel.org, rostedt@goodmis.org, corbet@lwn.net,
-	frederic@kernel.org, wagi@monom.org, atomlin@atomlin.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] Documentation: real-time: Add boot parameters and
- task isolation section
-Message-ID: <20261123152427.UC03D36n@linutronix.de>
-References: <20261121093740.4133-1-w1355457260@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ZnRu5R/j
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=gnvbL4VdHXSgoWEMo9YirAKMsnzbccETpFKUkQOB1eY=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795447475; v=1; x=1796052275;
+ b=ZnRu5R/jegKRQwGIblsnoG3qnjDNS+9TNClqycIO5QPuw57xpruKPDqbY5vMK/m3JBrzEg0x
+ qnBIUSyyBgB8Kp2nZmLvqWKV27rKrrVA/O8Hk5tDxMDV1ieZRhlV0c3GM6lZBp9A32hxpq4zy2+
+ mD21572Prb3rBmui16/+2HsI=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id d74e3a58404d7f74;
+	Mon, 23 Nov 2026 15:24:35 +0000
+X-Mizu-Trace-ID: d74e3a58404d7f74
+X-Migadu-Flow: FLOW_OUT
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5c144eb2f43so9677e87.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 07:24:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFilQYYbipX6gibtOKtdcCFNtAx4+7xaTCK3H4LIwaWIoHe1PojswCZGJqNaISpykznlED5Xh2HL60=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8SOPLhB+FkHNPQcjtTVJPjGl48QVI3C9DzCbCKgSXYvTGNuBlD
+	C0NXhLDxUD63ZqKtuntkMsrdJJ56k44Fn6X/WjjSfF2BgR4vJoMafPjsAwkbEMpgZsXhlvHtqlj
+	LioeV18ZLEFIXuZ478NI78LGO82Jq2aM0Msz7gZ6Q
+X-Received: by 2002:a05:6512:1591:b0:5c1:4cc8:2f22 with SMTP id
+ 2adb3069b0e04-5c21a249d31mr226456e87.8.1795447474671; Mon, 23 Nov 2026
+ 07:24:34 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,242 +66,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261121093740.4133-1-w1355457260@gmail.com>
+References: <20261123113435.1170711-1-fuad.tabba@linux.dev>
+ <20261123113435.1170711-3-fuad.tabba@linux.dev> <awRKhCne0gG1gKZN@gremlin>
+In-Reply-To: <awRKhCne0gG1gKZN@gremlin>
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Mon, 23 Nov 2026 15:23:58 +0000
+X-Gmail-Original-Message-ID: <CA+EHjTyM4_P5v0cHEiarq5XAb2A0Esshb762BLuuKnyBvH=y+w@mail.gmail.com>
+X-Gm-Features: Aa3M54ohqjfMpFnSPURFY6Wicp7yckb5JMX6NA8ywvncNdbk8_vZnEW0TzRhLu0
+Message-ID: <CA+EHjTyM4_P5v0cHEiarq5XAb2A0Esshb762BLuuKnyBvH=y+w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] KVM: Warn userspace against ioctls while an exit
+ is pending
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexandru Elisei <alexandru.elisei@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, kvmarm@lists.linux.dev, 
+	Wei-Lin Chang <weilin.chang@arm.com>, Anup Patel <anup@brainfault.org>, 
+	Atish Patra <atish.patra@linux.dev>, kvm-riscv@lists.infradead.org, 
+	Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-any statement from the folks in To:?
+On Mon, 23 Nov 2026 at 15:09, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+[...]
+> Very much agree with Sean's take here that we should instil sufficient fear in
+> users at doing silly things (also in general not only KVM :).
+>
+> I wonder if we could add some specific examples or broad description of why it's
+> unwise for better effect, though? Comments below.
+>
+> In general though:
+>
+> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-On 2026-11-21 17:37:40 [+0800], Zixin Wang wrote:
-> Document the boot parameters and runtime tunables that affect the
-> worst-case latency of a real-time system, alongside the existing
-> kernel configuration guidance.
-> 
-> Cover CPU isolation, nohz_full, RCU callback offloading, interrupt
-> affinity, and C-state limits, with references to the relevant
-> documentation.  Keep the C-state parameters next to CONFIG_CPU_IDLE
-> and the tickless trade-off next to CONFIG_NO_HZ, so each option stays
-> with its configuration guidance.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=220633
-> Link: https://github.com/elisa-tech/wg-aerospace/issues/222
-> Signed-off-by: Zixin Wang <w1355457260@gmail.com>
-> ---
-> Thanks Sebastian for the review.
-> 
-> v3 -> v4:
->   - Fold the C-state parameters into the CONFIG_CPU_IDLE section,
->     which already documents processor.max_cstate=1 and cpupower, and
->     drop the separate "Idle state limits" subsection.
->   - Point CONFIG_NO_HZ/CONFIG_NO_HZ_FULL at nohz_full= and avoid
->     repeating the tickless-transition explanation in the isolation
->     section.
->   - Add a CONFIG_RCU_NOCB_CPU section for rcu_nocbs= and rcu_nocb_poll,
->     and reference it from the isolation section.
->   - Remove repeated statements within the isolation section: the
->     domain side effect, the duplicate isolcpus=nohz/nohz_full=
->     description, and the nohz_full/rcu_nocbs cross-statement.
->   - Keep the boot parameter section focused on the cross-cutting
->     isolation parameters and their interactions.
-> 
-> Testing:
->   make SPHINXDIRS="core-api" htmldocs and checkpatch.pl pass.
-> 
->   Host boot test (AMD Ryzen 5 5600H, acpi_idle): with
->   processor.max_cstate=1, /sys/module/processor/parameters/max_cstate
->   is 1 and cpupower idle-info reports only POLL/C1; without the
->   parameter the host reports POLL/C1/C2/C3.  intel_idle.max_cstate was
->   not tested because the host uses acpi_idle.
-> 
->   Host latency comparison (cyclictest, CPU 2 isolated, performance
->   governor): the idle-phase average latency was 15 us with
->   processor.max_cstate=1, 32 us with processor.max_cstate=2, and
->   248 us without a limit; the corresponding maxima were 879 us,
->   2407 us, and 3336 us.  The tight-phase maxima were dominated by a
->   device IRQ (about 3.2 ms), so the idle phase is the relevant
->   comparison.  C2 and C3 usage was confirmed by the cpuidle usage
->   counters.
-> 
->   QEMU test: the default ACPI tables have no _CST; with a small _CST
->   SSDT loaded via -acpitable, the guest registers POLL/C1/C2/C3, and
->   processor.max_cstate=1 limits them to POLL/C1.  This verifies the
->   parameter behavior; the QEMU setup does not measure real host
->   C-state latency.
-> 
->  .../real-time/kernel-configuration.rst        | 128 ++++++++++++++++++
->  1 file changed, 128 insertions(+)
-> 
-> diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/Documentation/core-api/real-time/kernel-configuration.rst
-> index d7f08e7b..315960cf 100644
-> --- a/Documentation/core-api/real-time/kernel-configuration.rst
-> +++ b/Documentation/core-api/real-time/kernel-configuration.rst
-> @@ -98,6 +98,11 @@ can be achieved by using the boot parameter [1]_::
->  
->    processor.max_cstate=1
->  
-> +On x86 systems using ``intel_idle``, the ``intel_idle.max_cstate=`` boot
-> +parameter sets the maximum C-state depth (1-9).  A value of 0 disables
+Thanks!
 
-Please remove 1-9. According to
-	https://edc.intel.com/content/www/us/en/design/ipla/software-development-platforms/client/platforms/alder-lake-desktop/12th-generation-intel-core-processors-datasheet-volume-1-of-2/011/package-c-states/
+> > ---
+> >  Documentation/virt/kvm/api.rst | 11 +++++++----
+> >  1 file changed, 7 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index 89eb6be9bc6e3..980ef0cdc1c91 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -6974,10 +6974,13 @@ to the byte array.
+> >
+> >        The pending state of the operation is not preserved in state which is
+> >        visible to userspace, thus userspace should ensure that the operation is
+> > -      completed before performing a live migration.  Userspace can re-enter the
+> > -      guest with an unmasked signal pending or with the immediate_exit field set
+> > -      to complete pending operations without allowing any further instructions
+> > -      to be executed.
+> > +      completed before performing a live migration.  In general, userspace should
+> > +      exercise extreme caution when invoking ioctls other than KVM_RUN prior to
+> > +      completing the original operation.
+>
+> Perhaps worth saying why? E.g. (as I understand it) that for these exits the
+> operation is only completed on the next KVM_RUN, and that KVM relies on state
+> left over from the exit (including parts of struct kvm_run such as exit_reason)
+> to do so, so any ioctl invoked in between might clobber that state?
+>
+> I see you intentionally avoided documenting the pre-fault case on its own, but
+> with the above stated I think a concrete example might be example here, like
+> e.g.:
+>
+> "For example, if you were to ... that would result in ... which would absolutely
+> ruin your day because ..."
+>
+> Kinda thing :)
 
-there is a C10. I *think* this is entirely platform dependent and there
-is no real limit on the upper number.
+:)
 
-> +``intel_idle`` and falls back to ``acpi_idle``; it does not disable
-> +C-states.
-> +
->  Higher C-states can be acceptable depending on the user workload's latency
->  requirements.  For ACPI-based platforms, use the ``cpupower idle-info``
->  command to inspect the available idle states.
-> @@ -179,6 +184,9 @@ the extra accounting and state book-keeping.
->    ``NO_HZ_FULL`` may be beneficial.  In such cases, users should offload the
->    kernel housekeeping to dedicated CPUs and isolate compute cores.
->  
-> +``nohz_full=`` enables tickless operation for a set of CPUs; see
-> +:ref:`real_time_boot_parameters` for its interaction with ``isolcpus=``.
-> +
->  See also Documentation/timers/no_hz.rst
->  
->  ``CONFIG_PREEMPT_RT``
-> @@ -190,6 +198,36 @@ See also Documentation/timers/no_hz.rst
->  This option must be enabled, or the resulting kernel will not be fully
->  preemptible and real-time capable.
->  
-> +``CONFIG_RCU_NOCB_CPU``
-> +-------------------------
-> +
-> +:Expectation: allowed
-> +:Severity: *info*
-> +
-> +Enable support for offloading RCU callback invocation from selected CPUs
-> +to per-CPU ``rcuo`` kthreads.  The offload is selected with ``rcu_nocbs=``
-> +or implied by ``nohz_full=``; enabling this option alone does not change
-> +callback placement.  Use it when RCU callback processing causes jitter on
-> +CPUs dedicated to latency-sensitive tasks.  See
-> +Documentation/admin-guide/cpu-isolation.rst.
-> +
-> +``rcu_nocbs[=cpu-list]``
-> +  Offload RCU callback invocation from the listed CPUs to the
-> +  corresponding ``rcuo`` kthread, which can run on a housekeeping CPU.
-> +  This keeps callbacks from being invoked on the CPU that enqueued them.
-> +  On a non-real-time kernel this also moves invocation out of softirq
-> +  context; with PREEMPT_RT, callbacks already run in kthread context
-> +  because ``rcutree.use_softirq`` is false, and the offload only changes
-> +  the CPU they run on.  If omitted, no CPU is offloaded at boot; the mode
-> +  can still be toggled at runtime through cpusets.
-> +
-> +``rcu_nocb_poll``
-> +  Make the ``rcuo`` kthreads poll for callbacks instead of requiring the
-> +  offloaded CPUs to wake them.  This improves the real-time response at
-> +  the cost of higher power consumption, because the kthreads wake up
-> +  periodically to do the polling.  Consider this option only when wakeup
-> +  latency matters more than power.
-> +
->  ``CONFIG_TRACING`` (and tracing options)
->  ----------------------------------------
->  
-> @@ -216,6 +254,96 @@ just by being enabled.
->  These tracers do incur measurable latency overhead even when tracing is not
->  currently active.
->  
-> +.. _real_time_boot_parameters:
-> +
-> +Boot parameters and task isolation
-> +==================================
-> +
-> +Kernel configuration options alone do not determine a real-time system's
-> +worst-case latency.  Integrators commonly rely on boot parameters and
-> +runtime tunables as well, to keep kernel housekeeping work away from
-> +latency-sensitive tasks.  The parameters below complement the options
-> +described above.  Some of them correspond to a configuration option and
-> +are referenced from that option's section, so the configuration and
-> +runtime guidance stay together.  Each one is documented in detail in
-> +Documentation/admin-guide/kernel-parameters.rst; the notes here focus on
-> +the aspects that matter for real-time latency.  Consider these options
-> +only when the workload suffers from the corresponding interference;
-> +leave them disabled otherwise, as each of them trades flexibility or
-> +power for a lower worst-case latency.  The notes below follow the
-> +decisions an integrator has to make: whether to keep tasks off a CPU,
-> +whether to stop its tick, and where interrupts should run.  Idle state
-> +limits are discussed with ``CONFIG_CPU_IDLE`` above, and RCU callback
-> +offloading with ``CONFIG_RCU_NOCB_CPU`` above.
-> +For the full CPU isolation model and its limitations, see
-> +Documentation/admin-guide/cpu-isolation.rst.
-> +
-> +.. caution::
-> +
-> +  CPU isolation is best effort.  Work that is explicitly bound to an
-> +  isolated CPU, such as per-CPU kernel threads, bound workqueues, and
-> +  interrupts, may still run there unless it is steered away.  Measure
-> +  the resulting latency with tools such as ``osnoise``, ``timerlat``,
-> +  and ``rtla`` rather than assuming that an isolated CPU is free of
-> +  kernel noise.  See Documentation/timers/no_hz.rst and
-> +  Documentation/tools/rtla/index.rst.
-> +
-> +CPU isolation
-> +-------------
-> +
-> +``isolcpus=``
-> +  Format: ``[flag-list,]<cpu-list>``.  Isolates the listed CPUs from the
-> +  disturbances selected by the flag list (default: ``domain``):
-> +
-> +  ``domain``
-> +    Remove the CPUs from the scheduler domains.  This is the default
-> +    when no flag is given.  Domain isolation cannot be undone at
-> +    runtime; use cpusets when the isolated CPU set must change
-> +    dynamically.  Isolated CPUs remain usable through CPU affinity or
-> +    cpusets.  Unbound workqueues and unbound kernel threads are
-> +    confined to the housekeeping CPUs as a side effect.  Consider it
-> +    for CPUs dedicated to a latency-sensitive workload.
-> +
-> +  ``nohz``
-> +    Equivalent to ``nohz_full=``; see below.
-> +
-> +  A practical configuration therefore combines ``isolcpus=`` with
-> +  ``nohz_full=``, ``rcu_nocbs=``, an interrupt affinity mask, and, on
-> +  x86 systems, a C-state limit.
-> +
-> +  Timer placement follows the same choice.  By default a migratable
-> +  timer expires on the CPU that armed it; with ``nohz`` (or
-> +  ``nohz_full=``), timers and hrtimers armed on the isolated CPUs are
-> +  migrated to housekeeping CPUs.
-> +
-> +``nohz_full=``
-> +  Format: ``<cpu-list>``.  Requires ``CONFIG_NO_HZ_FULL=y``.  Stops the
-> +  scheduler tick on the listed CPUs whenever possible.  The boot CPU is
-> +  forced outside the range to maintain timekeeping, and the RCU
-> +  callbacks of the listed CPUs are offloaded as if they had been
-> +  passed to ``rcu_nocbs=``; see the ``CONFIG_RCU_NOCB_CPU`` section
-> +  above.  This parameter takes precedence over
-> +  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
-> +
-> +  The residual 1 Hz tick is offloaded to workqueues; the global
-> +  workqueue ``cpumask`` (/sys/devices/virtual/workqueue/cpumask) can
-> +  further restrict where unbound work runs.
+I'm not sure it would help, tbh. I think a reason or an example would
+have the effect Sean wanted to avoid [1], where a reader takes an
+ioctl that doesn't match it to be safe.
 
-If you keep this short, and move everything up to the ``nohz`` section
-above then it is like the source. And I *think* the workqueue part is
-mentioned in the nohz section because workqueue uses the "domain" mask
-by default. This part you left out.
+Cheers,
+/fuad
 
-> +  The trade-off between tickless operation and the kernel-to-userspace
-> +  transition latency is described in the ``CONFIG_NO_HZ`` /
-> +  ``CONFIG_NO_HZ_FULL`` section above.
-> +
-> +Interrupt affinity
-> +------------------
-> +
-> +``irqaffinity=``
-> +  Format: ``<cpu-list>``.  Sets the default affinity mask for
-> +  interrupts that do not have an explicit affinity, steering them to
-> +  the housekeeping CPUs.  Managed interrupts are not affected by this
-> +  setting and cannot be redirected through ``/proc/irq/*``.  Verify
-> +  the resulting placement in ``/proc/interrupts``.  See
-> +  Documentation/core-api/irq/managed_irq.rst.
-> +
->  Kernel Debug Options
->  ====================
->  
-
-Sebastian
+[1] https://lore.kernel.org/all/av5CBjbeidUUWiLq@seanjc-mac.roam.internal/
