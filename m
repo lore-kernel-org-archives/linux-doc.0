@@ -1,78 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795437329;
-	b=HMRbMC+3ZXkgIhh1kxdxjAsSdxXK0fnMqvGjbQd1o6wU1PO/xTUwm2C1F/5cn4iY4iEh
-	 yacide33BckjqVNEhjBFtkFeMWz/yO/dVYN6W4Gddk2mR2P97x3cXgqGwduclsLkxHlej
-	 aI8fsr8ib7JCFORl84509XvezWzbIfKuasAuUgVuQENIYeNoA1BY4wbwR/H4oL58EtB7N
-	 a0Mkd7itOtkFj71yt0LmGWL6Je17QO68q20xklFl0Y/4t1xnxmI1sCxN+s9o/C+VS4fen
-	 l6gqb1bomPtvK5BJiAb6Z0K6voCkA/EGkVMBiHkyDc4YOAEAqGNCpnYVQLoELNlRHKw==
+	t=1795437405;
+	b=T6CiNAdH/IIYzUmJA1gm1obVetUZonUXw4Qb+fxqaFtbgzRX2Cr6aHtFMncU3phZaRdM
+	 a0fMK+jrOJ0maspyjDXCpomPgnb06j/TcAup2dXs5B4a8sBmlF4U/P1Vo/LUrKp/wkBfg
+	 Kv+k2iiLru7w8BG7LXtIHp0O7Q3ncXThPBJsulp+57AURVE0QPXO7O73eKa2Pn3QMKQGS
+	 Fvu7kY/zxcv4ROUGLeI/wh+TTORt2AZVxF2B8qw/GpDrdpHTx9AQj0TkL7mEsu0Wp8NZ+
+	 gLpCGEplwG3JVIEC70gyqSm58yNPA5KP46ZcmEkKGjE0uzPWyXhmTrgPd28PB9ysI1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795437329;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:Date:To:cc:
-	 Subject:In-Reply-To:Message-ID:References:MIME-Version:Content-Type;
-	bh=ApFgw7+o3U9zs2dyYUlSp5SAIMfdWHuDTcKP7e9pINk=;
-	b=MVsxSfj2U6FterVKXdhZysIf6HKGXSyfba731sE0/3Cq19tC/X1mREF+MTeMrQXE2WT6
-	 zJ/ETXO8jX4O8AB9YjHZfGk2gFXFyff5ilUnffk4Efjp/xzua+HbJoj6gtzO+hCbgRs9i
-	 TAf8sDZdxFIMWjXmydgKYAV9YjYl1LqfdaDPCRkJDieSTf66GedZ71FAErnfGx8ACshl7
-	 xETfPFlXZifg4bmOp4QuWY6hUaozHyEzR4X6BcY3wcE8rSQbpRKacDlJwUA/ymorJ6m7n
-	 ZJBFpW526jRj7kslaLKW0k4Mg88XJ+aflpByhO0p28Ox8BIvz1Ik4ERvLyIO7a7JZIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795437405;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
+	bh=nTpF2pwZDOpG1HOobitpj0pCNTVMR7ybRW6PhOQZM7I=;
+	b=yJA7NMryqFkaPMgA9ZC0my3ep/44FfGL7mwMRj0V5CxCIRVRvmZpryZWg98nqSka4X4+
+	 l1uIMSq9PNTQWfJ1ErKWWPJ7I2d0Rcu0FFTdL1/VdJyvIw0/vgufXCzX7TQ6TFeSCPq4y
+	 xwG8GkkKRg0MP/eniXFBn+VclgNEEid8x8ZstpqBIOcl1a1WG8r4+6wFTuGr9qX2I7vXS
+	 K3YOSgl027VHMHCeZnxbnuhv00c6QNyvHas0WA1zJ5Awt/uHuOI5Ons8WmYxSfljumNQm
+	 oeHA9cBf7979mZOzCegQz15gqRagC50YUE0Hg+E6OFTCIPVw7UQj1C8wLczkag/CAUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hZnoisja;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KABHXdtq;
+	arc=none smtp.remote-ip=209.85.128.180
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4616D606A31A;
-	Mon, 23 Nov 2026 12:35:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4616D606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B946606A68F
+	for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 12:36:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B946606A68F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hZnoisja
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795437330; x=1826973330;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=JMzHUPNU5wsmSvP3Lub0OYgKpsZUan5IFXp32manYDM=;
-  b=hZnoisjaKXL5t54dQv17t+ccGBdvesRMOEv/ZLad4XAc9V2tN6mKkXhr
-   oRocgaUT4iaTsZkZ3BFUpuBcQH0CogU7n9yn4ECMbHElLlY6hX1aC2w2W
-   sQ2o+jOxg08TEXMk3nC1A5FZax2cH63LSgAjfXBmUOOBdc5rMt/qxNhsT
-   R+5if36Uex4FyatvpN6KX+V0rpVk71UI+Qdwx6E1PD5e7Ap3MKGqULhaW
-   +RLXP6eixBen6FrIQMwvwCaqii7Up6hUUCpUH/qTPi0FCKkc6XN9kzcVi
-   rIPxtaIa8cEyVGkK+attMjPXUXWkyupirl3A8GI3CHZUBWE65wVy33hw/
-   Q==;
-X-CSE-ConnectionGUID: whn3luujQTWwdgoKVavivQ==
-X-CSE-MsgGUID: gxRPB7v+S+KSgMUzgCsbHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11974"; a="4224070"
-X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
-   d="scan'208";a="4224070"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 04:35:29 -0800
-X-CSE-ConnectionGUID: GvW2UXRUS2Ka1XD4Msxv8A==
-X-CSE-MsgGUID: Xw/RlPSlTpunuAHDMMEhYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
-   d="scan'208";a="11704730"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.225])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 04:35:24 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 23 Nov 2026 14:35:20 +0200 (EET)
-To: Rong Zhang <i@rong.moe>
-cc: Alan Pluto <alanpluto@163.com>, platform-driver-x86@vger.kernel.org, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, derekjohn.clark@gmail.com, 
-    W_Armin@gmx.de, corbet@lwn.net, skhan@linuxfoundation.org, 
-    rdunlap@infradead.org, Hans de Goede <hansg@kernel.org>, 
-    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] platform/x86: lenovo-wmi-other: Add raw GetDataByPackage
- interface
-In-Reply-To: <fcabaf8647e0c1ab487cd612d5a290082613ec0b.camel@rong.moe>
-Message-ID: <983f2e32-cc6e-fa3f-3aee-6aad1e5fa7c8@linux.intel.com>
-References: <20261116040532.154928-1-alanpluto@163.com>  <20261123061120.18740-1-alanpluto@163.com> <fcabaf8647e0c1ab487cd612d5a290082613ec0b.camel@rong.moe>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KABHXdtq
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-8b4efdc8c20so18436677b3.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 04:36:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795437404; x=1796042204; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=nTpF2pwZDOpG1HOobitpj0pCNTVMR7ybRW6PhOQZM7I=;
+        b=KABHXdtq87A4INr3N1czsoLYrtxg8YpNUdvQJnTlE8f9fsOzD06V5UbJxhVfSAk2KV
+         o1+VuguvHw8rhxjK5YaBocryyHQhnBPsDPnA+gRBbSSkSYabgFubEI2bW4M2K2RLLJe0
+         5CRRFEj2qzavTtqy0GGY0fYcTPrlKlkfdSo0e17zhLF30320OQyM7nlr5DkpSjlHTB1W
+         pWS/95/g66AExEmLpk9IGGYBzCllKYohUPizlx2NP7nam1oJaoZq3BDjINnXWAcGeAgv
+         D43sva55hFZf8XH+M/1Fnl8ZXLxN5x2l1Dm10UQrTxpCs74uBnzW9uK9yaZ8j9FMYc91
+         3wTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795437404; x=1796042204;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nTpF2pwZDOpG1HOobitpj0pCNTVMR7ybRW6PhOQZM7I=;
+        b=CniecDVeCW0poNrWLAnNyqVLgpiTYgMXLF5bXxdtVz6jXO+7ycaKmkoMD9Xnq7jVkW
+         y3PdbufAsSNQnl0d2G2ujgzhbIAofvmWxCNJWbrWgjNnwPJG7UKUo+5yF9naWj0XqNyA
+         Sjjznm5UwVZC7rpbrDkMmkpgN+yoYLaq2it/mqMAwNjkSuFBD6kKdlcVWtDzC0o8dz42
+         MMUbvBx+T1QDVRjPjiCk1AkIFbFiS6YrUgJL8gyA5GyhOVcQRdiHMMmco2umTd8eEBtY
+         WC4RymA1ZMjIygheYzaQnrhdD+HFai/p4lQK6DPwHGQImY9d66SHwWgBNviIucfjlHet
+         siaQ==
+X-Forwarded-Encrypted: i=1; AL+hErGNtHrqABuoFtGMzfElxnv7qENKNYDj6CLArxmY+i1u5RnSzItVZJdDa/NpcCj/RGpP5xl7Jxzwz88=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9ykPgFtIwvEw8ititrHU/yN3VQFgQbXEYSz/67ZmJ2pdk+Aw91
+	2nbtwGeXKl2ud2ipF08EbsG62X0EG4vXkKoinn1XXgt+8s5S5fJd8/v2
+X-Gm-Gg: AZFdTZf4aDQBvVxXFD/CmcB0rIIrDGTTyvxaRFyWYvE6YcYwZoW32kLCY2iA388Pr3L
+	Rfd3L6rG/KRM+o5rIJX/uTT7jQ9QiaUsniwzK1IhIcSQ4mwc/Tfm4f8cGwcN3gGe8vDLXNcv0yy
+	TXWr2YE6tlrRKiOFa8Ydyp7PPLJ/9XFgjSt63gwg/8XIPqWfmFTOsKNg4huFxIx3zrE1k6nwbL3
+	U6sP4iX6AekNvcCVtEtdI6hp+EAY6KSLLX0JJmabySZ467YvpUKO4ICU3cadhed5U1OVwDZpQrw
+	hchrv3HEKZDZOprybPFLUcCYslnH4KwFnhkmdtubjUUR80vCk9D88jYiwfeSYiFSbT/mKQuv60M
+	5VewTPpFp3l98o8+LGewrK9vGxlriqjERmuY3IUbBXSs4If9qgp3CEfJ4xLlxqalKqCGvstH/HV
+	txYZdV1cjglv7b24bC+EJfTUbW/qw7lotcFTVfFVmE1ycQArBWE+yOVXvsSLfQTzE8GPxou5E7m
+	Wa8hv6/hXpT+7kFxh+0D6BSWjYnQEDh32yziDBWMZEfnDp3HOancAjZ2UpECNJXcNdPvjzDqd9I
+	hyeC0+4kYWgZ6yU6bQc0yW78waWvfKr7BfE=
+X-Received: by 2002:a05:690c:6886:b0:8b3:1fab:fbdc with SMTP id 00721157ae682-8b52051799emr42051537b3.64.1795437404195;
+        Mon, 23 Nov 2026 04:36:44 -0800 (PST)
+Received: from localhost ([2600:1700:4a51:2210::11])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67df330d552sm5305608d50.5.2026.11.23.04.36.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2026 04:36:43 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,349 +87,208 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-731521474-1795437320=:1065"
-
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323328-731521474-1795437320=:1065
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Date: Mon, 23 Nov 2026 07:36:41 -0500
+Message-Id: <DN2LFVSRGDPE.U9JFJ59G1RX8@gmail.com>
+Cc: <kuba@kernel.org>, <willemdebruijn.kernel@gmail.com>,
+ <davem@davemloft.net>, <edumazet@kernel.org>, <pabeni@redhat.com>,
+ <horms@kernel.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+ <rdunlap@infradead.org>, <donald.hunter@gmail.com>,
+ <andrew+netdev@lunn.ch>, <shuah@kernel.org>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <willemb@google.com>
+Subject: Re: [PATCH net-next v5 4/6] psp: defer tx key deletions for SADB
+ drivers
+From: "Daniel Zahka" <daniel.zahka@gmail.com>
+To: <netdev-bot+sashiko@kernel.org>, <daniel.zahka@gmail.com>
+X-Mailer: aerc 0.21.0-threadmapfix
+References: <20261118-psp-v5-4-b9ec840e0296@gmail.com>
+ <179530218277.3135.14647055020229146998@kernel.org>
+In-Reply-To: <179530218277.3135.14647055020229146998@kernel.org>
 
-On Mon, 23 Nov 2026, Rong Zhang wrote:
+On Sat Nov 21, 2026 at 6:03 PM EST, netdev-bot+sashiko wrote:
+> Thank you for your contribution! Sashiko AI review found 3 potential
+> issue(s) to consider.
+>
+> Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 1 =C2=B7 Low: 2
+>
+> If you believe none of the issues are legitimate, please reply to each
+> issue of Medium severity or higher and explain why the AI is wrong.
+> If any of them are legitimate and you plan to respin, please let patchwor=
+k
+> know by including "pw-bot: cr" as a separate line at the end of your repl=
+y
+> (one such reply per series is enough).
+>
+> - [Medium] With the -EOPNOTSUPP guard gone from psp_sock_tx_rekey()
+>   (net/psp/psp_sock.c), any unprivileged owner of an established PSP TCP=
+=E2=80=A6
+> - [Low] The applied commit message does not say that this patch turns on
+>   Tx rekey for SADB devices.
+> - [Low] The kernel-doc for psp_dev_ops::tx_key_add and ::tx_key_del in
+>   include/net/psp/types.h still says only that each callback 'Can be=E2=
+=80=A6
+>
+> --
+>
+> psp: defer tx key deletions for SADB drivers
+>
+> This patch adds a deferred Tx key deletion queue for PSP devices that
+> store Tx keys in an SADB. Before calling psp_dev_tx_key_del(), the core
+> snapshots BQL queued byte counts per Tx queue and polls until those bytes
+> have completed. It also removes the -EOPNOTSUPP restriction on Tx rekey
+> for SADB devices and makes CONFIG_INET_PSP depend on CONFIG_BQL.
+>
+>> diff --git a/net/psp/psp_main.c b/net/psp/psp_main.c
+>> index ba44154cf8dc0..789315dae2373 100644
+>> --- a/net/psp/psp_main.c
+>> +++ b/net/psp/psp_main.c
+>
+> [ ... ]
+>
+>> @@ -75,7 +77,8 @@ psp_dev_create(struct net_device *netdev,
+>>  		    !psd_ops->rx_spi_alloc ||
+>>  		    !psd_ops->get_stats ||
+>>  		    (!psd_ops->tx_key_add !=3D !psd_ops->tx_key_del) ||
+>> -		    (psd_caps->assoc_drv_spc && !psd_ops->tx_key_add)))
+>> +		    (psd_caps->assoc_drv_spc && !psd_ops->tx_key_add) ||
+>> +		    (psd_ops->tx_key_add && !netdev_need_ops_lock(netdev))))
+>>  		return ERR_PTR(-EINVAL);
+>
+> [Severity: Low]
+> Should the kernel-doc for tx_key_add and tx_key_del in
+> include/net/psp/types.h be updated along with this check? It still only
+> says:
+>
+> 	 * @tx_key_add: add a Tx key to the device
+> 	 * Install an association in the device. Core will allocate space
+> 	 * for the driver to use at drv_data.
+> 	 * Can be left NULL if device does not store Tx keys and @tx_key_del
+> 	 * is also NULL.
+>
+> With this patch, a driver that implements these callbacks needs an ops
+> locked netdev. Without one, psp_dev_create() hits the WARN_ON and returns
+> -EINVAL.
+>
+> The driver also needs exact, in-order BQL accounting and has to follow
+> the dql_reset() and real_num_tx_queues rules that psp_deferred_del_work()
+> relies on.
+>
+> These rules are only written down in Documentation/networking/psp.rst,
+> and the ops kernel-doc doesn't point there. A driver written from the
+> struct documentation alone could hit the registration WARN, stall the
+> grace period, or end it too early.
+>
+> Could the kernel-doc reference the new "Deferred Tx key deletion"
+> section? No later patch in the series appears to update it.
+>
+>> diff --git a/net/psp/psp_sock.c b/net/psp/psp_sock.c
+>> index d497f41c483e1..8de313805af03 100644
+>> --- a/net/psp/psp_sock.c
+>> +++ b/net/psp/psp_sock.c
+>
+> [ ... ]
+>
+>> @@ -287,10 +302,6 @@ psp_sock_tx_rekey(struct sock *sk, struct psp_dev *=
+psd, struct psp_assoc *pas,
+>>  	struct psp_assoc *new;
+>>  	int err;
+>> =20
+>> -	if (psp_dev_has_sadb(psd)) {
+>> -		NL_SET_ERR_MSG(extack, "Tx rekey not supported on this device");
+>> -		return -EOPNOTSUPP;
+>> -	}
+>>  	if (!pas->peer_tx) {
+>>  		NL_SET_ERR_MSG(extack, "Socket PSP state is not fully established");
+>>  		return -EBUSY;
+>
+> [Severity: Low]
+> This isn't a bug, but could the commit message say outright that Tx
+> rekey is now allowed on SADB devices?
+>
+> The earlier commit "psp: support tx rekey operation" said SADB drivers
+> would "return -EOPNOTSUPP for now". With this guard removed,
+> PSP_CMD_TX_ASSOC on a socket that already has a Tx key now succeeds on
+> mlx5, where it used to fail.
+>
+> The only explicit mention is "allow tx rekey on SADB devices" in the v2
+> changelog below the --- line, and that part is dropped when the patch is
+> applied.
+>
+> The same goes for the new registration requirement in psp_dev_create():
+>
+> 	(psd_ops->tx_key_add && !netdev_need_ops_lock(netdev))
+>
+> The body only says drivers "must meet the requirements in
+> Documentation/networking/psp.rst".
+>
+>> @@ -322,6 +333,7 @@ psp_sock_tx_rekey(struct sock *sk, struct psp_dev *p=
+sd, struct psp_assoc *pas,
+>>  	list_move(&pas->assocs_list, &psd->stale_assocs);
+>> =20
+>>  	rcu_assign_pointer(sk->psp_assoc, new);
+>> +	pas->flags |=3D PSP_ASSOC_DEFER_TX_KEY_DEL;
+>>  	psp_assoc_put(pas);
+>> =20
+>>  	return 0;
+>
+> [Severity: Medium]
+> Can an unprivileged user use up the device's hardware Tx key pool
+> through this path?
+>
+> PSP_CMD_TX_ASSOC has no GENL_ADMIN_PERM. psp_sock_assoc_set_tx() enters
+> psp_sock_tx_rekey() whenever pas->tx.spi is already set, and each call
+> allocates a new hardware key:
+>
+> psp_sock_tx_rekey()
+>   psp_assoc_set_tx()
+>     psp_dev_tx_key_add()
+>       mlx5e_psp_assoc_add()
+>         mlx5_create_encryption_key()
+>
+> The old key then goes onto the deferred deletion queue, which has no
+> upper bound:
+>
+> net/psp/psp_deferred_del.c:psp_deferred_del_queue() {
+> 	list_move_tail(&pas->assocs_list, &psd->tx_del.next);
+> 	schedule_delayed_work(&psd->tx_del.work, 0);
+> }
+>
+> psp_deferred_del_work() handles one grace period at a time and polls
+> every PSP_TX_GRACE_POLL_MS (1000 ms). Keys queued during a grace period
+> wait for the next one. A single socket can therefore pin as many DEKs as
+> it can rekey in that window, where before each socket held at most one.
+>
+> Suppose a queue below real_num_tx_queues never completes the bytes
+> snapshotted in psp_tx_grace_start(). Would every later rekey then pin a
+> DEK, a psp_assoc and a psd reference until psp_dev_unregister()?
+>
+> When a grace period does end, psp_deferred_del_work() calls
+> psp_dev_tx_key_del() for the whole batch while holding psd->lock. On mlx5
+> each call is a firmware command:
+>
+> 	list_for_each_entry(pas, &to_free, assocs_list)
+> 		psp_dev_tx_key_del(psd, pas);
+>
+> Would that block other PSP netlink operations, and psp_assoc_free() for
+> every socket on the device, until the batch is done?
+>
+> The psp_assoc allocation uses GFP_KERNEL_ACCOUNT, but the hardware DEK
+> pool is shared by the whole device and is not charged to any cgroup. One
+> local user could make tx_key_add fail for other users' sockets. That
+> includes sockets in other netns that were delegated the same device.
+>
+> The commit message acknowledges this ("users should avoid presenting PSP
+> devices to users they don't trust to abuse this"). In the main netns,
+> though, every local user can reach the device. Nothing later in the
+> series appears to change these paths.
+>
+> Is a cap on the deferred queue length, or a per-socket rate limit,
+> needed before SADB rekey is allowed?
 
-> Hi Alan,
->=20
-> On Mon, 2026-11-23 at 14:11 +0800, Alan Pluto wrote:
-> > Lenovo's userspace utility uses the Other Mode WMI GetDataByPackage
->=20
-> What's the purpose of the utility? Could you provide some context? You
-> can ignore this question if it's confidential, but in general providing
-> necessary context can help maintainers and reviewers learn about the
-> intent.
->=20
-> > method (99) to check device readiness. Expose the method through debugf=
-s
-> > so the firmware request and response can be inspected on Linux without
-> > adding a stable userspace ABI.
-> >=20
-> > The interface is disabled by default and can be enabled by passing
-> > enable_get_data_by_package=3D1 when loading the module.
-> >=20
-> > Signed-off-by: Alan Pluto <alanpluto@163.com>
-> > ---
-> > Changes in v2:
-> > - Replace the character device with a debugfs file, disabled by default=
-=2E
-> > - Allow one open per WMI device and require a single read for the respo=
-nse.
-> > - Use scoped locks, lockdep checks, automatic buffer cleanup, and the
-> >   WMI helper's minimum response size check.
-> >=20
-> >  Documentation/wmi/devices/lenovo-wmi-other.rst |  12 +-
-> >  drivers/platform/x86/lenovo/wmi-other.c        | 208 +++++++++++++++++=
-++++++++
-> >  2 files changed, 219 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst b/Documenta=
-tion/wmi/devices/lenovo-wmi-other.rst
-> > index 011054d64eac5b601333373c4d405f9c5117ffc2..42e1525a8852bd7c8ddc04c=
-c4047b1f09c5b770f 100644
-> > --- a/Documentation/wmi/devices/lenovo-wmi-other.rst
-> > +++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
-> > @@ -33,6 +33,15 @@ under the following path:
-> > =20
-> >  Additionally, this driver also exports attributes to HWMON.
-> > =20
-> > +GetDataByPackage diagnostics
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~
->=20
-> Missing a ~
->=20
-> > +
-> > +The driver does not create the diagnostic file by default. To enable i=
-t,
-> > +pass ``enable_get_data_by_package=3D1`` when loading ``lenovo-wmi-othe=
-r``.
-> > +The file is at ``lenovo_wmi/<WMI device>/get_data_by_package``.
-> > +Not all devices support the method. Use only commands whose behavior a=
-nd
-> > +side effects are understood.
-> > +
-> >  LENOVO_CAPABILITY_DATA_00
-> >  -------------------------
-> > =20
-> > @@ -107,7 +116,8 @@ WMI interface description
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> > =20
-> >  The WMI interface description can be decoded from the embedded binary =
-MOF (bmof)
-> > -data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
-> > +data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility. Thi=
-s older
-> > +example lists ``Max(40)`` for GetDataByPackage; newer firmware uses 10=
-0 bytes.
->=20
-> ??? Could you move the sentence to the right place?
->=20
-> > =20
-> >  ::
-> > =20
-> > diff --git a/drivers/platform/x86/lenovo/wmi-other.c b/drivers/platform=
-/x86/lenovo/wmi-other.c
-> > index bd64e7b44669db684145298ae088dd2c7f539d29..827b4215c612fbfc052bbad=
-ff0672e68e65517f0 100644
-> > --- a/drivers/platform/x86/lenovo/wmi-other.c
-> > +++ b/drivers/platform/x86/lenovo/wmi-other.c
-> > @@ -27,13 +27,16 @@
-> >   */
-> > =20
-> >  #include <linux/acpi.h>
-> > +#include <linux/atomic.h>
-> >  #include <linux/bitfield.h>
-> >  #include <linux/cleanup.h>
-> >  #include <linux/component.h>
-> >  #include <linux/container_of.h>
-> > +#include <linux/debugfs.h>
-> >  #include <linux/device.h>
-> >  #include <linux/export.h>
-> >  #include <linux/firmware_attributes.h>
-> > +#include <linux/fs.h>
-> >  #include <linux/gfp_types.h>
-> >  #include <linux/hwmon.h>
-> >  #include <linux/idr.h>
-> > @@ -41,9 +44,12 @@
-> >  #include <linux/kobject.h>
-> >  #include <linux/limits.h>
-> >  #include <linux/module.h>
-> > +#include <linux/mutex.h>
-> >  #include <linux/platform_profile.h>
-> >  #include <linux/power_supply.h>
-> > +#include <linux/slab.h>
-> >  #include <linux/types.h>
-> > +#include <linux/uaccess.h>
-> >  #include <linux/wmi.h>
-> > =20
-> >  #include <acpi/battery.h>
-> > @@ -90,6 +96,8 @@ enum lwmi_feature_id_psu {
-> > =20
-> >  #define LWMI_FEATURE_VALUE_GET 17
-> >  #define LWMI_FEATURE_VALUE_SET 18
-> > +#define LWMI_DATA_PACKAGE_GET 99
-> > +#define LWMI_DATA_PACKAGE_INPUT_MAX 100
-> > =20
-> >  #define LWMI_FAN_ID_BASE 1
-> >  #define LWMI_FAN_NR 4
-> > @@ -141,6 +149,8 @@ struct lwmi_om_priv {
-> >  =09struct device *fw_attr_dev;
-> >  =09struct kset *fw_attr_kset;
-> >  =09struct wmi_device *wdev;
-> > +=09struct dentry *debugfs_dir;
-> > +=09atomic_t package_opened;
-> >  =09int ida_id;
-> > =20
-> >  =09struct lwmi_fan_info fan_info[LWMI_FAN_NR];
-> > @@ -156,6 +166,23 @@ struct lwmi_om_priv {
-> >  =09bool bh_registered;
-> >  };
-> > =20
-> > +struct lwmi_package_response {
-> > +=09__le32 data_size;
-> > +=09u8 data[];
-> > +};
->=20
-> Even though there is no gap between data_size and data, please add a
-> __packed annotation to clearly indicate your intent.
->=20
-> > +
-> > +struct lwmi_package_file {
-> > +=09struct lwmi_om_priv *priv;
-> > +=09/* Protects the pending response on shared descriptors. */
-> > +=09struct mutex lock;
-> > +=09struct lwmi_package_response *response;
-> > +=09size_t response_len;
-> > +};
-> > +
-> > +static bool enable_get_data_by_package;
-> > +module_param(enable_get_data_by_package, bool, 0400);
-> > +MODULE_PARM_DESC(enable_get_data_by_package, "Enable the GetDataByPack=
-age debugfs interface");
-> > +
-> >  /*
-> >   * Visibility of fan channels:
-> >   *
-> > @@ -1611,6 +1638,174 @@ static void lwmi_om_fw_attr_remove(struct lwmi_=
-om_priv *priv)
-> > =20
-> >  /* =3D=3D=3D=3D=3D=3D=3D=3D Self (master: lenovo-wmi-other) =3D=3D=3D=
-=3D=3D=3D=3D=3D */
-> > =20
-> > +static int lwmi_package_open(struct inode *inode, struct file *file)
-> > +{
-> > +=09struct lwmi_om_priv *priv =3D inode->i_private;
-> > +=09struct lwmi_package_file *state __free(kfree) =3D NULL;
->=20
-> The declarations of __free() pointers should be placed at where it's
-> allocated, i.e., ...
->=20
-> > +
-> > +=09if ((file->f_mode & (FMODE_READ | FMODE_WRITE)) !=3D (FMODE_READ | =
-FMODE_WRITE))
-> > +=09=09return -EINVAL;
-> > +
-> > +=09state =3D kzalloc_obj(*state);
->=20
-> ...here.
->=20
-> Meanwhile,=C2=A0opening the file while priv->package_opened =3D=3D 1 allo=
-cates
-> memory in vain. Could you move it below the package_opened check? In this
-> manner you don't need the __free() either.
->=20
-> > +=09if (!state)
-> > +=09=09return -ENOMEM;
-> > +
-> > +=09if (atomic_cmpxchg(&priv->package_opened, 0, 1))
->=20
-> atomic_cmpxchg_acquire()
->=20
-> > +=09=09return -EBUSY;
-> > +
-> > +=09mutex_init(&state->lock);
-> > +=09state->priv =3D priv;
-> > +=09file->private_data =3D no_free_ptr(state);
-> > +
-> > +=09return stream_open(inode, file);
-> > +}
-> > +
-> > +static int lwmi_package_release(struct inode *inode, struct file *file=
-)
-> > +{
-> > +=09struct lwmi_package_file *state =3D file->private_data;
-> > +=09struct dentry *dentry =3D file->f_path.dentry;
-> > +
-> > +=09kfree_sensitive(state->response);
->=20
-> You didn't explain what data it is in your replies. "Can contain
-> sensitive data" is not an acceptable explanation.
->=20
-> Please grep the occurrence of kfree_sensitive() in the kernel tree, and
-> you'll find that they are mostly credentials. Does the data passed by the
-> interface fall into the same category?=20
->=20
-> TBH, anything goes through WMI is *never* secret. If a manufacturer ever
-> decided to use it to deliver "sensitive" data, it either misunderstood
-> the word or chose the wrong interface.
->=20
-> An ACPI-WMI method goes through the ACPICA, then the WMI core, and
-> finally here. The former two's temporary buffers are either on stack or
-> freed by the vanilla kfree(). If leaking "sensitive" response were really
-> a concern, it must had been leaked before it reached your code.
->=20
-> Please don't use kfree_sensitive() unless you really understand the data
-> flow path and have a strong reason to use it. If you insist on it, please
-> answer both questions.
->=20
-> > +=09mutex_destroy(&state->lock);
-> > +
-> > +=09/* Unlike read and write, release can run after debugfs removal. */
->=20
-> The comment is not helpful, as it's just repeating well-known knowledge.
-> Please explain what it protects:
->=20
->    The release() callback may be called after state->priv has been freed.
->    Only when the debugfs file hasn't been removed is the pointer valid.
->=20
-> > +=09if (!debugfs_file_get(dentry)) {
-> > +=09=09atomic_set(&state->priv->package_opened, 0);
->=20
-> atomic_set_release()
->=20
-> > +=09=09debugfs_file_put(dentry);
-> > +=09}
-> > +
-> > +=09kfree(state);
-> > +=09return 0;
-> > +}
-> > +
-> > +static int lwmi_package_invoke(struct lwmi_package_file *state, u8 *da=
-ta)
-> > +{
-> > +=09struct lwmi_om_priv *priv =3D state->priv;
-> > +=09struct wmi_buffer input =3D { .length =3D LWMI_DATA_PACKAGE_INPUT_M=
-AX, .data =3D data };
-> > +=09struct wmi_buffer output;
-> > +=09u32 data_size;
-> > +=09int ret;
-> > +
-> > +=09lockdep_assert_held(&state->lock);
-> > +
-> > +=09/* The tested firmware needs two calls before its response is usabl=
-e. */
-> > +=09ret =3D wmidev_invoke_method(priv->wdev, 0, LWMI_DATA_PACKAGE_GET,
-> > +=09=09=09=09   &input, &output, 0);
-> > +=09if (ret)
-> > +=09=09return ret;
-> > +
-> > +=09kfree_sensitive(output.data);
-> > +
-> > +=09ret =3D wmidev_invoke_method(priv->wdev, 0, LWMI_DATA_PACKAGE_GET,
-> > +=09=09=09=09   &input, &output, sizeof(struct lwmi_package_response));
-> > +=09if (ret)
-> > +=09=09return ret;
-> > +
-> > +=09struct lwmi_package_response *response __free(kfree_sensitive) =3D =
-output.data;
-> > +
-> > +=09data_size =3D le32_to_cpu(response->data_size);
-> > +=09if (data_size > output.length - sizeof(*response))
->=20
-> Why not use struct_size() here? Considering that...
->=20
-> > +=09=09return -EPROTO;
-> > +
-> > +=09state->response_len =3D struct_size(response, data, data_size);
->=20
-> ...you've used it here, you may introduce a on-stack variable to
-> temporarily store the calculated size and use it here and there.
->=20
-> > +=09state->response =3D no_free_ptr(response);
-> > +=09return 0;
-> > +}
-> > +
-> > +static ssize_t lwmi_package_write(struct file *file, const char __user=
- *buffer,
-> > +=09=09=09=09  size_t count, loff_t *ppos)
-> > +{
-> > +=09struct lwmi_package_file *state =3D file->private_data;
-> > +=09u8 input[LWMI_DATA_PACKAGE_INPUT_MAX] =3D {};
-> > +=09int ret;
-> > +
-> > +=09if (!count || count > sizeof(input))
-> > +=09=09return -EINVAL;
-> > +
-> > +=09ACQUIRE(mutex_try, state_guard)(&state->lock);
-> > +=09if (ACQUIRE_ERR(mutex_try, &state_guard) || state->response)
-> > +=09=09return -EBUSY;
->=20
-> I don't think it's a good idea to share the same errno between the two
-> cases.
->=20
-> While ACQUIRE_ERR(mutex_try, &state_guard) should return -EBUSY, a
-> pending state->response should return something like -EALREADY or
-> -ENOTEMPTY.
-
-Generally, one should be mostly be returning the error from ACQUIRE_ERR()=
-=20
-for that case.
-
-=09ret =3D ACQUIRE_ERR(..);
-=09if (ret)
-=09=09return ret;
-
---=20
- i.
-
---8323328-731521474-1795437320=:1065--
+As discussed on every prior posting of this series, in the commit
+message, and cover letter, the rate limiting is left for future work.
+The psp dev should be hidden from a user that can't be trusted to do
+this.
