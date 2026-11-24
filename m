@@ -1,54 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.93
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795491209;
-	b=me1t/Lf+oHNVzS5oaMbpVHIjkGbsIWkicJLHc88hLtQV/0iQieHq1CefhhtgknjWaJAA
-	 DXI1vNThRlSEHcwRzR3A83h6ia5XKoP8bMF3CzW4uru4DN1ce3g2uChGAGaPHat0R8fuT
-	 xRhJmvFDMyTKHOo2h0Rre8poGbRaO01eambIebWoRLJadXlldfx/JXuP3qMfbarovu0S7
-	 aEH+b2Oa7hYGJVesxjWHQzwekRCySedoAZ1aF5WZXD1MTFKPEnXlxcAbvCmXKA/W+E4S7
-	 ewR/AB0b0MAJOIHDx5DTX5XA2tYy+uN/8ZZb9mEsoz5n7I0IDFVU9EAMA4JexD2MT1w==
+	t=1795491478;
+	b=V4ZoQcpmc2NNGwmHlYv2Aj+X1p64KgSp8juzaxxkjeq8tHdo8l78tz9nTmy4E3IyIgGZ
+	 ioAWUg1Kg7NXT+5EUwqUJ6G3zgu23oRSa9wqbQMsYBvI5vgcAokj3W10xBNuQEwjCeBYJ
+	 lH7Wg+W2Q4vpipu0siAfun+o7MolPy82Dur0Zy4H+6d8VxLVTBbbQXz5xpj2ZI7SKL1H2
+	 JKF7HY21lx3tzxOD+58DLoIHasJy3l7N9A0yWx83G3XEvAlXjNw29SKbeAz/QjMDJZP1P
+	 fB5UEIcWWLcWhtbejSNaTYTimJE2B+7hrAVEAneUtHBz/0l4fpMJnH2b1lvJ5jnbZPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795491209;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=I5IYt5lD0t4uzj8miQUAufXofOEz3QHtC3aQ7LCE8Bw=;
-	b=X/PvQJau3DyUgjAuHlrU1+UEu10zuVHIDOJx+dAfT4700yB+J/1NHldjmKVBvLfzb1bS
-	 0E6YdiDu7AETQGChCef5Dad232LMM7Dbnnm0fDhIYoWpep7J+SZcY4luQuRvgNiHpTo1k
-	 6MStVt3ZWWjLmpIrRDMJ/hkmQroHpGK+3SXBX/lwoKS6b1B7LEry+uvGd09NtQtqa6x8h
-	 JM63soAp4MumuWe0DLwbNY+6MD64c7scyLwDPPPeNT/i2h84Wz+6Bl88A5bzNAKbC2f4Z
-	 6JHMHJMCW67GGr65Ua11GrLFT3uw43CBMy0/qMw1t8w9qf5B+kVmpxOFzmwNP0sRy4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795491478;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=+eRa9i7CtmafJcWw1IGcHObp/3OCLe48VR0aUW22rk4=;
+	b=gWC0k/Ad59Sh32o33pILtLOU+W0kxGAulryxOaAl4U1ukLPlkrdpJVqc41DtUmO6vv0n
+	 BnMDuSkGCzjEpTR+EIURVwmbuwZ0RNeMfWrU+DHDEG380+J8Klzl8v/AQIJhUFf9NyOju
+	 /Qu9jbl3nzvyDI19zNEu08Zy9pAYLh0cbiMB41mbUps8evA9gAxaaeqC5MhG0mAmhwlwk
+	 HlxknTFxoTb/BtiYB8ZpXXc0GKjxbcApdEkZ23U0pkWTX2x5+rfuFK5oLsl227tjiBFgJ
+	 61JREQAsC0oZRKnn7OmJDRlofJTc2Hg3K2qLJ1/jfvyE5NZSSjtLiiRNfB//AfRmS4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LDoHQM6n;
-	arc=none smtp.remote-ip=91.218.175.93
-Received: from mta0.migadu.com (out-93.mta0.migadu.com [91.218.175.93])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hl37Zxfq;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EB4606A31E
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 03:33:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9EB4606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 5AAC3606A31E;
+	Tue, 24 Nov 2026 03:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LDoHQM6n
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=SFcrls7zpUQel+GbWPMlPJigKtY/3Ba5jJ274MNY1KU=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795491205; v=1; x=1796096005;
- b=LDoHQM6nbU+G4M565Q29Wvwmf3IzIV/k0LjbazbPfZ1FpHDxexHeAzkLtVy8IL9yW1DJZ3Ru
- VO10yhUwcHpWgUUFVFOa+YSjvEvtC/hUTrP6i7pXmsFuo+bPehnCNXTQGXlrpOEk/oujppeHgDo
- d3a2uYGL6pmh+AwrcyuXFZOs=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 5b1f3acdb92f82be;
-	Tue, 24 Nov 2026 03:33:25 +0000
-X-Mizu-Trace-ID: 5b1f3acdb92f82be
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <fd62d092-a90a-4711-a3aa-16caa03bc806@linux.dev>
-Date: Tue, 24 Nov 2026 11:33:13 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hl37Zxfq
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CDC1A1F000C4;
+	Tue, 24 Nov 2026 03:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795491477;
+	bh=+eRa9i7CtmafJcWw1IGcHObp/3OCLe48VR0aUW22rk4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Hl37Zxfq1YEb/KW6XeaIPjFuYb4guOvBMUFj3yJB/7niV5bf4UPy09XENiuDlE9Ro
+	 LAgxCwk64dt6h019EHmRmYSy46uw6JBtlDnXyxDEfQX2za1Sme7AvkduutqDAAccg9
+	 O+Dod/5SGwPR3ree5ZExwPLvTmHgQeo/k1s9iYM7Rj72CZFTed3+mVRzYLxvI0gfY+
+	 l4vATV8jbRU+l6KcJ25ccKrWiDViDDYUk+XZ25WsEq+cE9ZhnAmulrMGJH7do/ALdP
+	 xRi/t7qoD6nkbm8NsRwRO0e3p3o3XyK9D2KYBactsLrtGTZB1RIpE1U2DD9tJEzf3j
+	 OOlFdDsneTPpg==
+Date: Tue, 24 Nov 2026 05:37:53 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: bpf@vger.kernel.org, containers@lists.linux.dev,
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+	linux-security-module@vger.kernel.org,
+	Aleksa Sarai <aleksa@amutable.com>,
+	Alexander Mikhalitsyn <alex@amutable.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Giuseppe Scrivano <giuseppe@scrivano.org>,
+	Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
+	KP Singh <kpsingh@kernel.org>,
+	Lennart Poettering <lennart@poettering.net>,
+	Neal Gompa <neal@gompa.dev>, Oleg Nesterov <oleg@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
+Message-ID: <awUGkYoyDXp4P5LJ@kernel.org>
+References: <20261122193539.3334213-1-jarkko@kernel.org>
+ <awTmJIErjasO4lqq@kernel.org>
+ <awToL2PFNKVgIfqs@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,81 +81,68 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] arm64: errata: Set GIC-700 #2941627 Kconfig entry
- to N/A
-To: TAKANO Mitsuhiro <takano32@gmail.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-arm-kernel@lists.infradead.org,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261121083950.1957044-1-takano32@gmail.com>
- <20261121083950.1957044-2-takano32@gmail.com>
-Content-Language: en-US
-From: Zenghui Yu <zenghui.yu@linux.dev>
-In-Reply-To: <20261121083950.1957044-2-takano32@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <awToL2PFNKVgIfqs@kernel.org>
 
-On 11/21/26 4:39 PM, TAKANO Mitsuhiro wrote:
-> The GIC-700 #2941627 entry in the arm64 silicon-errata table names
-> ARM64_ERRATUM_2941627 in its Kconfig column, but no Kconfig file defines
-> that symbol and no code refers to it.
-> 
-> The workaround has no Kconfig option: drivers/irqchip/irq-gic-v3.c
-> passes the GICD_IIDR value to gic_enable_quirks(), which compares it
-> against gic_quirks[]; the matching quirk,
-> gic_enable_quirk_arm64_2941627(), enables a static branch.  The table
-> already records GIC-driver workarounds that have no Kconfig symbol as
-> "N/A", for example the NVIDIA T241-FABRIC-4 row, whose workaround is
-> likewise in the GIC driver.
-> 
-> Set the Kconfig column to "N/A" for this row.  Leave the row in place:
-> only the Kconfig column is wrong, and the table should keep recording the
-> erratum.
-> 
-> No functional change; this only touches Documentation, so no build was
-> run.  The change and this changelog were written with the help of an LLM
-> assistant (Hermes Agent); I reviewed both and am responsible for them.
+On Tue, Nov 24, 2026 at 03:28:19AM +0200, Jarkko Sakkinen wrote:
+> On Tue, Nov 24, 2026 at 03:19:36AM +0200, Jarkko Sakkinen wrote:
+> > On Sun, Nov 22, 2026 at 09:35:13PM +0200, Jarkko Sakkinen wrote:
+> > > SYSCALLS
+> > > ========
+> > > 
+> > > Two new system calls are proposed:
+> > > 
+> > > 1. userland_open(): open an opaque staircase-initialized container
+> > >    object (modeled on Intel SGX enclave initialization with separate
+> > >    build and live states) with no embryonic state, opting selected
+> > >    shared namespaces in via an allow-list instead of unshare semantics.
+> > > 2. userns_set_idmap(): configure all UID, GID, and project ID map
+> > >    extents for a container user namespace in a single atomic system
+> > >    call.
+> > 
+> > I played on patching systemd and userns_set_idmap() alone does already
+> > a lot of good. I'm figuring out userland_open() integration next.
+> > 
+> > For the test implementation I probe the opcode's and dependening on that
+                                            ~~~~~~~~
+					    syscalls
 
-Please ask your Agent for a more concise commit message. Most of the words
-are not necessary to be kept in it.
-
+> > use either "userland path" or "fallback path".
+> > 
+> > This auto-probing is done so that I can commit the patches to my kernel
+> > test harness, which already has systemd, and try them out when built
+> > against userland-enabled kernel (via LINUX_OVERRIDE_SRCDIR):
+> > 
+> > https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd-test.git/tree/?h=main
+> > 
+> > The project builds a hybrid ISO, which is a bootable bootc/composefs
+> > based operating system, and has toolbx bundled i.e., a reasonable test
+> > environment for all of this. It is also device-installable via "npx
+> > @puu/install"
+> > 
+> > I had to level the harness up a lot so that I could realistically test
+> > lockdown-hibernate but it is is also pretty good emulation environment
+> > for any possible container features.
 > 
-> Fixes: 6fe5c68ee6a1 ("irqchip/gic-v3: Workaround for GIC-700 erratum 2941627")
-> Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
-> ---
-> v2: the change is the same as in v1; only the index and hunk line
-> numbers moved with the rebase.  One changelog sentence is replaced in
-> each patch: in 1/2 v1 called the table row the tree's only record of
-> the erratum, but irq-gic-v3.c records it in gic_quirks[]; in 2/2 the
-> sentence about the symbol is reworded to name arch/arm64/Kconfig.
-> Both changelogs now say that no build was run.
-> v1: https://lore.kernel.org/all/20261106234541.1474324-1-takano32@gmail.com/
-> A duplicate submission went out the same night with different subjects
-> on 1/2 and 2/2 (20261106235616.1533003); please ignore it.
-> 
->  Documentation/arch/arm64/silicon-errata.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-> index bffaa46c664b..4bb5707a880a 100644
-> --- a/Documentation/arch/arm64/silicon-errata.rst
-> +++ b/Documentation/arch/arm64/silicon-errata.rst
-> @@ -297,7 +297,7 @@ stable kernels.
->  | ARM            | MMU S3          | #3995052,       | N/A                         |
->  |                |                 | #3673557        |                             |
->  +----------------+-----------------+-----------------+-----------------------------+
-> -| ARM            | GIC-700         | #2941627        | ARM64_ERRATUM_2941627       |
-> +| ARM            | GIC-700         | #2941627        | N/A                         |
->  +----------------+-----------------+-----------------+-----------------------------+
->  | ARM            | SI L1           | #4311569        | ARM64_ERRATUM_4311569       |
->  +----------------+-----------------+-----------------+-----------------------------+
+> Kernel is ukified and systemd-boot is used as the boot loader i.e., for
+> kernel testing purposes corresponds to something like Silverblue except
+> not using GRUB.
 
-Otherwise,
+Experimental systemd patches:
 
-Reviewed-by: Zenghui Yu (Huawei) <zenghui.yu@linux.dev>
+https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd-test.git/commit/?h=main&id=e4d6b15da3376ad09c0c575cedf467f69db32a52
 
-Thanks,
-Zenghui
+The patches are layered per syscall feature:
+
+- 1-5: userns_set_idmap
+- 6-10: userland_open()
+
+Virtual device would add path/mount complexity and generally dependency
+to mounts i.e., I think it was an awful idea. At least initially this
+feels fairly lean way of doing container things now that I've trialed
+systemd-nspawn a bit.
+
+I'll update the patches over time.
+
+Br, Jarkko
