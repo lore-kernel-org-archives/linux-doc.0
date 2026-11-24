@@ -1,119 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795524257;
-	b=bmsoAr88y7cpCl+tvPt1Xa6/2Ci6A1EJU7dxidHWJqzqqThZUMhPgMBaU2Qe/S4QN8Si
-	 ynSD52YnP2wPjzje7RxjxpmSISldtIz0oaa+F6XeT04tt5ptBSMfHKuN+YzCAwoXo2SRx
-	 LlNPGYtgwXvs+QjWt9EtOHVSeT5q866CDq/e4VMugn5S3+2UCu6kzxyQm/0Ew7/qoUhqU
-	 08+xnzAVMWDdT0ySXk/3t5xv86UO8z4SS7OjiuT0Nd/QVd+hLMgIk41+9DmfwsbzT7SaL
-	 qDWak7wunPFUo04VKKe9PF/BMh2qHo4uGsJLcEv4yFOA/vnRTXujpM6O4QKO3Ti0yNA==
+	t=1795524481;
+	b=rCEWwzFdfax0na2M9Bs4qG4nxHV5FsJRGbJqL/b0qhEy885ljlYqEa9kPNS6YSsFQP4a
+	 wodUJV9JA7pZGkJ1SxEyIGL5KOPKTj7vN5LAZloUZsTgFjHZ9iZmrKLQcUUmwcgsWyG6n
+	 nLV/gjSeu5Bw6wjjv67iPYQ3it/jOPn2P0mCNA6TW6yX8jsZFy5/BgxQOZ22PwrYXid4e
+	 Mk5VJ3ZvboWslgIKLjqFLdVqYiRFhhRzzeLOBYBd9CzhUKXteeCphJ4pTYfmB9Ypwcntb
+	 U+LB3ZXpTMuXFKlokbNHnjwxJ7R60HthwEuQ44ikN1Nxk+5PSbBNqxDytjGPRkyyuQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795524257;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=Pi9W+SnUbuME95dbO6kC+pZvkmFqMfmgqlTyjXruwiU=;
-	b=fma5NPqne+INW3tM7VA/DSmnO7Nl8jKXOkCmZtXASQDHYqs1NHOxNJhxKSGcR7/x0FI3
-	 oHn19JPj5FerapneMNL9L+qeJgfcP3HP63z9fVaMXyD7MhNhithHM+G9UtPajSZF9XqjS
-	 Ov2trSqeNbO0D7C/XtLK/mJrbNdZfr56MnQueUjNVGQxpTwwk3EuLYCEELjtuFhnU4g57
-	 VFf0f95QMiUh/WgjvbgfaWX0uKHn2XGj6jZpom1ABB5BxiJPBPRiqefpnQjn8ZKOgMeIR
-	 b1+v35vXyutPyeq3KZDz0AwTWkGRHyhUMB9XOGGzQQ+RYTetz4F8tUeVnuFJ+3E/PMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795524481;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=AuDHHV5SIiUlpjAuQTXBK/FlHwXFuSjZa8VsGCc1sR8=;
+	b=z+RiTNsW8Q+0TGDqjkZVmV+7QRWKfPLka8tdHSB7gYeo0IQ8NOEciOklI4LR9xHczZx6
+	 ++R98FgnwW1LDXElP4Avig1kzbUDAgtwhEkWolmzTnr1UF1G80pe4tGEA9caV7nPdscoP
+	 4jG4IxHWd7pPIWVCRtj5zHrUIg83og2OxT3dEqsjyWaWtUU8hAyTfjyE3p/hPPKh7OZxY
+	 HAL7oJ4B9nFclJNoED3jyStosKT7upX3wv9LkTcNj4UbvkY1CasVwQllShWlq1k1KW18P
+	 WO/mxPjzIl1y/rmcnoRAZNjfN1tg85dUAzon7XMjLpl3G8n9fzjn5cyi76DK3SQO+FQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=QkOHIVZX;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GVg5tcBy;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=QkOHIVZX;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GVg5tcBy;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K4imERTG;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B672606A322;
-	Tue, 24 Nov 2026 12:44:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B672606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155B1606A322;
+	Tue, 24 Nov 2026 12:48:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=QkOHIVZX;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GVg5tcBy;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=QkOHIVZX;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GVg5tcBy
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1E97522033;
-	Tue, 24 Nov 2026 12:44:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795524255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Pi9W+SnUbuME95dbO6kC+pZvkmFqMfmgqlTyjXruwiU=;
-	b=QkOHIVZXhSD8KwFDyjeilmchuvxo2cMmW6NjN5QQqSs9e2KfN2Ikkt9GI16v7zaJXd8XFG
-	9Hw+Ze+txFU+ADcajTYiWOyWBfvoUc7uMKqs0skBcA+gThuzXrR2kyfykDF6iPGHYDSlce
-	MG7DZenNK8CGBMdYudKZsbBaycgWT+4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795524255;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Pi9W+SnUbuME95dbO6kC+pZvkmFqMfmgqlTyjXruwiU=;
-	b=GVg5tcByOGKz+yfnWng6l0RnHOTdGdvAtiEkeA0LZfig20EgSs/jnUxehg9wc84S1jgivQ
-	mZ/0AL0gNWQG44CA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QkOHIVZX;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=GVg5tcBy
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795524255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Pi9W+SnUbuME95dbO6kC+pZvkmFqMfmgqlTyjXruwiU=;
-	b=QkOHIVZXhSD8KwFDyjeilmchuvxo2cMmW6NjN5QQqSs9e2KfN2Ikkt9GI16v7zaJXd8XFG
-	9Hw+Ze+txFU+ADcajTYiWOyWBfvoUc7uMKqs0skBcA+gThuzXrR2kyfykDF6iPGHYDSlce
-	MG7DZenNK8CGBMdYudKZsbBaycgWT+4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795524255;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Pi9W+SnUbuME95dbO6kC+pZvkmFqMfmgqlTyjXruwiU=;
-	b=GVg5tcByOGKz+yfnWng6l0RnHOTdGdvAtiEkeA0LZfig20EgSs/jnUxehg9wc84S1jgivQ
-	mZ/0AL0gNWQG44CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C0D01339F;
-	Tue, 24 Nov 2026 12:44:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zf/5Fp6GBWt/FAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 24 Nov 2026 12:44:14 +0000
-Date: Tue, 24 Nov 2026 13:44:10 +0100
-Message-ID: <8733sqbdr9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: mynameisjune111@gmail.com,
-	Joonho Lee via B4 Relay <devnull+mynameisjune111.gmail.com@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
-	Matias Ezequiel Vara Larsen <mvaralar@redhat.com>,
-	tiwai@suse.com,
-	perex@perex.cz,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH v33 00/18] ALSA: virtio: preserve PCM progress
-In-Reply-To: <20261113-fix-virtio-snd-recovery-final-v33-0-13a934ad5ece@gmail.com>
-References: <20261113-fix-virtio-snd-recovery-final-v33-0-13a934ad5ece@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K4imERTG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42C9E1F000CF;
+	Tue, 24 Nov 2026 12:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795524480;
+	bh=AuDHHV5SIiUlpjAuQTXBK/FlHwXFuSjZa8VsGCc1sR8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=K4imERTG+CUU0k+/mkGtfdSII7pvHIrnfOHmfwMzMYsnIr+c3wXCnsUU+QO8WwYyW
+	 ZpD5GzxKwBczBXkkx5yJr+6nL+d3dqi5Yytp22WRG56T6DaaRZ0tjO5D1Fe18RYJ6y
+	 yWrXVU3QkNOv43+mlmo3RdK0agMA4Mx1DKm+JrX1GFCgzmfLpGZHkBJYsWtN3ULoqq
+	 iZh/1v3lOi/lESdRVgdXUwI5+VouvJLFVlxHTDaCc1S1dz1EBmzhRHQEHqfSfB0GNx
+	 Wr8tpdr1ZiJ4UOB9Cwx1oEr+AkCveZlnUqFui9tZuJgdRKR7gAQTxhlktVpvzdSGxs
+	 aQ0Cn5M3b4XfA==
+Date: Tue, 24 Nov 2026 13:47:51 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Juergen Gross <jgross@suse.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Guenter Roeck <linux@roeck-us.net>, Tony Luck <tony.luck@intel.com>,
+	Ashok Raj <ashok.raj.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: Re: [PATCH v2] msr: replace rdmsr()/wrmsr() in comments
+Message-ID: <awWHd9ygPFipisb3@gmail.com>
+References: <20261124064108.2440277-1-jgross@suse.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -122,132 +75,44 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-11.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[mynameisjune111.gmail.com];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -11.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 1E97522033
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261124064108.2440277-1-jgross@suse.com>
 
-On Fri, 13 Nov 2026 10:21:24 +0100,
-Joonho Lee via B4 Relay wrote:
+
+* Juergen Gross <jgross@suse.com> wrote:
+
+> Replace all mentioning of rdmsr() and wrmsr() in comments with
+> rdmsrq() and wrmsrq(), as the former functions are no longer
+> existing.
 > 
-> This series is based on sound.git commit
->  a4311e9447bbb219044db38897f95be112f46a8a.
+> In drivers/hwmon/coretemp.c drop mentioning rdmsr/wrmsr, as the
+> comment was incorrect in this regard.
 > 
-> Previous revision:
-> https://lore.kernel.org/linux-sound/20261113-fix-virtio-snd-recovery-final-v32-0-4e95979e312c@gmail.com/T/
-> 
-> Changes since v32:
-> 
-> - Keep a replacement capture stream in DRAINING intact when an older
->   sync_stop callback arrives. The active-state check now covers capture
->   and playback, with the teardown marker retained for later cleanup.
-> - Check the settled device state while holding the queue and stream locks
->   before rolling back a failed PAUSE. A late successful STOP keeps the
->   queue closed and does not restore the old capture quiet sequence.
-> - Give each uncertain control incident one additional window of four
->   msg_timeout_ms intervals. Sleepable callbacks share the remaining time.
-> - Close transfer admission and quiesce period work before waiting for a
->   late control reply. Preserve the stop marker on failure and resample
->   teardown state after the reply settles.
-> 
-> These changes are folded into patches 12 and 18. The other sixteen
-> retained patches have unchanged diffs.
-> 
-> Automatic device reset from v32 patch 20 is deferred. Its review exposed
-> an ALSA link/open lock cycle and unresolved ordering with transport reset
-> and power management. The supporting CONFIG_PM-independent suspension
-> change from v32 patch 19 is also omitted. Their review findings remain
-> open for a separate recovery design.
-> 
-> A permanently unanswered PCM control request still requires an explicit
-> driver rebind. Late control replies remain supported by patch 18.
-> 
-> Validation:
-> 
-> - ARM64 virtio-snd module build with W=1: no warnings. The review-fix diff
->   passes checkpatch without errors or warnings.
-> - Eight QEMU KASAN/lockdep cases cover RW/MMAP capture, RESET/DRAIN,
->   reopen, and playback. All passed with the loaded module hash checked.
-> - A test-only sync_stop gate forced an old DROP to resume after a new
->   capture reached DRAINING. The original first-eighteen-patch baseline lost
->   the readable tail with -EBADFD; the candidate preserved it and returned
->   32 frames. Both used the same fixture.
-> - A 1500 ms delayed STOP reply smoke test passed on v32 and this candidate.
-> - Scarlett 2i2 input 1, macOS VZ, 48 kHz: v32 and the candidate each
->   passed twelve captures totalling 170 seconds, including 70-second RW
->   and MMAP captures and repeated reopen. The candidate passed four more
->   short captures after a fresh VM boot. All three VMs shut down normally.
-> 
-> The physical tests used the existing ABI-matched 7.3.0-rc7 KASAN kernel
-> with rebuilt driver modules, capture_packed_status=1 and
-> capture_pause_restart=0. Other host recorder processes remained running.
-> Expected frame counts and nonzero signal windows were checked; no known
-> waveform oracle was available to prove exact sample continuity.
-> 
-> The delayed STOP smoke test does not force the exact late-reply/PAUSE
-> rollback interleaving. No fresh KCSAN run or full-kernel rebuild is claimed
-> for this revision. Automatic transport reset and PM recovery are outside
-> this reduced series.
-> 
-> Assisted-by: LLM
-> 
+> Signed-off-by: Juergen Gross <jgross@suse.com>
 > ---
-> Joonho Lee (18):
->       ALSA: pcm: mark stop-threshold accesses for capture policy sampling
->       ALSA: pcm: report partial progress under the stream lock
->       ALSA: pcm: add an optional reset operation under the stream lock
->       ALSA: pcm: notify drivers after linked prepare completes
->       ALSA: pcm: serialize linked buffer actions
->       ALSA: virtio: propagate playback send failures through ACK
->       ALSA: virtio: Recover PCM state after a failed start
->       ALSA: virtio: Retain queued messages through device reset
->       ALSA: virtio: bound PCM transfers and retain DMA buffers
->       ALSA: virtio: Keep control payloads alive through DMA completion
->       ALSA: virtio: wait through signals for PCM teardown
->       ALSA: virtio: use request-owned capture and serialize recovery
->       ALSA: virtio: prioritize capture period work
->       docs: describe virtio-sound capture options
->       ALSA: virtio: reject invalid playback completions
->       ALSA: pcm: add an explicit application pointer to indirect playback transfer
->       ALSA: virtio: preserve playback progress across pause and buffer access
->       ALSA: virtio: settle PCM control state from late replies
+> To be applied on top of current core/msr branch of the tip tree.
+> V2:
+> - drop comment in drivers/hwmon/coretemp.c (Asaf Nuri Bertizlioglu)
+> ---
+>  Documentation/arch/x86/microcode.rst  | 2 +-
+>  arch/x86/events/amd/ibs.c             | 2 +-
+>  arch/x86/events/intel/core.c          | 2 +-
+>  arch/x86/events/intel/lbr.c           | 6 +++---
+>  arch/x86/include/asm/shared/msr.h     | 2 +-
+>  arch/x86/kernel/cpu/feat_ctl.c        | 2 +-
+>  drivers/hwmon/coretemp.c              | 3 +--
+>  drivers/platform/x86/intel/ifs/load.c | 5 +++--
+>  8 files changed, 12 insertions(+), 12 deletions(-)
 
-So v33 is supposed to be the final one?  Or any newer is planned?
+Yeah, so I've already applied -v1 without the coretemp.c bits,
+ie. just the mechanical renames.
 
+Mind sending the coretemp.c part as a standalone patch, with
+Asaf Nuri Bertizlioğlu's (presumed) Acked-by?
 
-thanks,
+Thanks,
 
-Takashi
+	Ingo
