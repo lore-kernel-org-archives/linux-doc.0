@@ -1,84 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795538186;
-	b=TeV9PnkEtOtI5hFQbTO2eRX/7RaQSqFO/u798jRf2eILam5iT53H+BmdErlTgdOpyH+j
-	 xSgDh+gz4ZGvQWt8zARWJ3FeYHpOV55s5+c5IaZN/xN37h0UrA9a6ncOS5axQ8dfj+WW1
-	 bsbVrFM2w40va8ce0alXSYwz48OGwndFSlsrtHlXs6CEDrmQUDNiLrWUad7N6dkBLnIf0
-	 pHMGKxLAvTXby45dpRRTsqkJV3zKckpm7jtk/v4hjWlRvphcBddD7zMNGqpu8RumH1FvD
-	 90Y08ZDx1hvP8k4VMxMLJkLDJxL6xNqV4h/WHIdSD7sBt9oQqZ+6ZEjdVkKOZ/9TwNQ==
+	t=1795538613;
+	b=Wjzia6Nf1PrBcTEZcxVRofmojo5nGtzginM/h2kiTRh6F+kX3e482LGQCIHlOFI32a7t
+	 qZAhTPNHJEaxFkzIX+aXjO+TtSTequc7RhqY0067NznqguwR7S+8PfVZCBHvl/pQ1N/+m
+	 ek0Ng7TQFohnvLMsU0ozoVSdONEIHKEtkPHMhRS1c0fU2g/7LLFqvhhVQI3C6U2E0pg0l
+	 2ffsCLKLt7/hSl947uvw23fV5X92dZVO35DpAla+VumcG8ACguNeV4XgjJElvt2OUSkAP
+	 ArMnUD6A3TzeiSa/fEpq3aJA+J+BOM1zRARpOOEmQiRdGDatMf8DLiKGuGX3YXFD0Wg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795538186;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 From:To:Cc:Subject:X-Mailer:References:In-Reply-To;
-	bh=qvYwNBiIdSxY1ryMKCuJ8Xp5CwhF8vXQvRGoOqfiz+Q=;
-	b=sDQYRtuQrbUEOy2AMsYt7r/GiNNjJZnsjin5QYC58QHmBh+DAWJJC0TWVpsT7cqvvo2F
-	 mlsmb/9j7m3w/aIu5l3UW/c2p4DsJRkQPq2MDMxM5tAULGEIhZll/qYqHQl9X+QpNMxdV
-	 KhGdyQwSxJ2Rlt9EKsvbkaX/a7v+wv/jyXNTuI+ecljc3iDaz1D1lYdu/9DxVQywc2VRx
-	 SLi0GUr4zSeAYawNQcPwfxSP7QSv5MT6jxkIHI/3pkyNfO4iN2TFxnJ+bLmFFrGZl9nB4
-	 KqV0ZEnNBiPJwuubYVPsfOWU2lDxt6HA0NCEtN3JF5RlnWQ3e0UlpATHp2YqyzK0ZkA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795538613;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Organization:
+	 Content-Transfer-Encoding;
+	bh=VawyBAYS49mZE+tLhGihQ2q9UYWN7C8vca8HSsuxFKQ=;
+	b=AyzPlzooJLapPdlqxi2PySzIR2mTvXRYfiD4rsjdufuvOAVJ9ueei9vXWTOajd/UKKRC
+	 YaI9wILvR4s8sx7Je/qym0CBCTJ5lONXDaHnn9RhxVeBI2rS8vF9caq9mrYADjuwB//Au
+	 L7chEW26dALLD6/GZ/15DJJ4hpolmgCllYfEdBKT302d5neT9KhyJuRA1PIZDhjoIp87G
+	 10v5ZCEbVbJm38N6Yh0ylG78f6P+a0PViHkRS4gpP8rKaAp352JGpaQGMqIRX87KS2mZu
+	 I6hVZk7sgwLxXw/3ZG5cW97cNgiUaiu8wB6WoHoshns0HXodypubWM0N1WQBQ6asJkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=KNMG4n6e;
-	arc=none smtp.remote-ip=209.85.214.177
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AVMWWSMe;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB34606A323
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 16:36:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EB34606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5A7606A31E
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 16:43:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C5A7606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=KNMG4n6e
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2f04ad2c46dso27949855ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 08:36:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795538184; x=1796142984; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=qvYwNBiIdSxY1ryMKCuJ8Xp5CwhF8vXQvRGoOqfiz+Q=;
-        b=KNMG4n6e2D2p0ePKYdVnnqC+xmPY4eU+i6suMxwCdLWC4vK5WeNQNS42eCI767BoZl
-         gs3vtmySBpRIiU4uvvZnCODrvNxvZ8epDrUY8w+mNhE18jCz4oBzDKGNx7aZ8DV4zv1S
-         /sGYoDAhoFmpF899683cVg+yFsYWeBh8I6M9yXpBE3/6aHGLqSVmPkORCkIc7w+55upY
-         qibWPy3pUkD6KR7Ivwig/n55zTj5AUnU2bWbYAil5nb8uBjJ0DSn06HpltLkJJIovU6h
-         fOcEwGof59hH7z6cZCRtIT3pdwHg1RgxU6SFzBzRgtoF8L3Q31aRjlM6MSnHXTIFnJHP
-         eIOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795538184; x=1796142984;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qvYwNBiIdSxY1ryMKCuJ8Xp5CwhF8vXQvRGoOqfiz+Q=;
-        b=G65h7hS3fFOKGVZ07hdP+v4CGjnosmi93HvmouZtWkgUZl70q9YyjaHzs+aNR1bmYp
-         s7dtjykL9oqaamCkacqXcveoTKxhwu7nnViygZ7zteMX30tvm13kSVTbmdsge9xFp+3n
-         LOBGVtqepJeTPHJcGunnsrRMgsNYN/pch8gRDdgudpL+s+3KeOAADYLApMmpBeZ/lk/B
-         q4iJv8iSEVhlpDqHaTSubbPY8QfSrFDf71g4imS9iQVWR0nPjzmlPDxQ2G7EwC8eXPFO
-         ylNG3jHtSqr1TR0M8hrZKf/CPcreXzUkC7w8ecE3/MQPVcvK3PdD/jRUuvDIwM4sJrx5
-         5zGQ==
-X-Forwarded-Encrypted: i=1; AL+hErG+K3ZzuXpP6jGU/O/7b7rDTIq+Zx5WXyARlv7xYaU8nYcxuDCCw+B43LBBcwrqioZu7/WWAW7EiPA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+DGgQad83InIahlyPyrb8a5W871mDLxrdYIjjVWNYI3B21UNh+
-	RadSUQoIA0mNiRuqWPfPKj1pXs/wBYA4n173NkzdMm1cq29TngiJwqMD5lDbTuIRCg==
-X-Gm-Gg: AZFdTZeBp2UXGQqi+XJkYHlIGdtIlznO5CSTWJPcY1CBCQPlcqjelxL530HvNY6lc7X
-	nmOhD7zUt0FICbRN9/sL3xDU2CzY2CDavUBkQ+RWZSfRTJRD97YeiDn4l0P7GhwmrgzcfiS/Hjb
-	/8/JtdLS9CPf/FzmCor+5O/6qRoQ3+gOXZrhWYXmfeTCh4tTgIbqPBTe2ybEXDJO8+LNGbySfKw
-	T6NriaFnbJ++FaLx/LJsw7T1VrzS5vZzmcvwNouCKky4jcBz2YTeGwiciMa6dRuKaAgY+dZA7xs
-	j1PnvGdzgjxsHg1KgE1ncAH0/KtXX2nn+0gLIO5rsc9ZAgT7ci1AkPXD+x+9V6LCRGrGVbItNPc
-	zuDXFxyFemV796zAb0m0K1IRkerEswkdaJgdbv7m275YLPr5Emp4bbIvJjnC0oatNRFNA4KOX46
-	aGiozzoVWaQJKqiArW0R5Hz4FrzCBFSVuPs8/HMsZDCXvlIAqzqgh3p4bAu43cv93WBiVeaSKky
-	7F4Ng4Hd3g1k3PnwCwe5vPVrt+f67ngSsH+OwCDzj1q0Nyhg8IwDFcW+Kv9gMI9IGTmQqTQX9mv
-	PrccmEiYxIoMXro5HG5MSTN1WAwP+IsN7k34V3Vu+3LjpMafNZS3hLel36CW7mpJ
-X-Received: by 2002:a17:902:eccf:b0:2e9:64b9:a333 with SMTP id d9443c01a7336-2f03f17c766mr149220465ad.19.1795538183777;
-        Tue, 24 Nov 2026 08:36:23 -0800 (PST)
-Received: from localhost (33.79.127.34.bc.googleusercontent.com. [34.127.79.33])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f120830sm71740805ad.61.2026.11.24.08.36.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Nov 2026 08:36:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AVMWWSMe
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795538612; x=1827074612;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Wex8W2SqXXpZeeH1lsm5Osq+xJ1+mTpxvrgaVi2dXyQ=;
+  b=AVMWWSMe98K8eULZuBo/gh3l6uvxgIwYA8ll2m2PRHISgm1UWNdHuQhl
+   B8wQQEtStg8kx4jcB/7U8JzCDzQP1xrVb+NKpyXbgK+g+fQtjDGGDcNmj
+   JkmV7cqq22iFR8tO32SLfP25s67/qp/ev/VqFexkzwSw9vYBw2b80W0d/
+   yLCCfzt6dWyFgh42Yl6RJTeclnDoUhaWMbafmc3cHCiiWllOW+dM4TCmn
+   q1YaW8GMC91iQalAZEgtO5XGVDJcvvhR77O059TKJqkEZ0WEYo7U5TFKg
+   lKFZYtk8SOdz+5X70D4mHYPbbBBeE2H4EvfdyOYuLJ57wlmWWs4zzMMnu
+   w==;
+X-CSE-ConnectionGUID: by9eH+ydSOG2YEugOceGUA==
+X-CSE-MsgGUID: vQTf+vyLQhKrRx4mQMJ/ig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4252446"
+X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
+   d="scan'208";a="4252446"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 08:38:27 -0800
+X-CSE-ConnectionGUID: 2GlGEuQFTWewHOHemn7T0A==
+X-CSE-MsgGUID: WZy/zFj3SLCcrTxVLyRfDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
+   d="scan'208";a="11620532"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.215])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 08:38:25 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: linux-doc@vger.kernel.org
+Cc: jani.nikula@intel.com
+Subject: [PATCH] docs: conf.py: use master_doc instead of hardcoding index
+Date: Tue, 24 Nov 2026 18:38:20 +0200
+Message-ID: <20261124163820.1587424-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,68 +76,55 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 24 Nov 2026 08:36:22 -0800
-Message-Id: <DN3L5XQDSVO9.1NJFYQJTS16ID@google.com>
-From: "David Matlack" <dmatlack@google.com>
-To: "Mike Rapoport" <rppt@kernel.org>, "David Matlack" <dmatlack@google.com>
-Cc: <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-pci@vger.kernel.org>, "Adithya Jayachandran"
- <ajayachandra@nvidia.com>, "Alexander Graf" <graf@amazon.com>, "Alex
- Williamson" <alex@shazbot.org>, "Alex Williamson"
- <alex.williamson@nvidia.com>, "Bjorn Helgaas" <bhelgaas@google.com>, "Chris
- Down" <chris@chrisdown.name>, "Chris Li" <chrisl@kernel.org>, "David
- Rientjes" <rientjes@google.com>, "Jacob Pan"
- <jacob.pan@linux.microsoft.com>, "Jason Gunthorpe" <jgg@nvidia.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Josh Hilke" <jrhilke@google.com>,
- "Leon Romanovsky" <leonro@nvidia.com>, "Lukas Wunner" <lukas@wunner.de>,
- "Parav Pandit" <parav@nvidia.com>, "Pasha Tatashin"
- <pasha.tatashin@soleen.com>, "Pranjal Shrivastava" <praan@google.com>,
- "Pratyush Yadav" <pratyush@kernel.org>, "Randy Dunlap"
- <rdunlap@infradead.org>, "Saeed Mahameed" <saeedm@nvidia.com>, "Samiullah
- Khawaja" <skhawaja@google.com>, "Shuah Khan" <skhan@linuxfoundation.org>,
- "Vipin Sharma" <vipinsh@google.com>, "William Tu" <witu@nvidia.com>, "Yi
- Liu" <yi.l.liu@intel.com>
-Subject: Re: [PATCH v11 00/13] PCI: liveupdate: PCI core support for Live
- Update
-X-Mailer: aerc 0.21.0
-References: <20261118223704.3286085-1-dmatlack@google.com>
- <DN0FL1752MH5.1FSZE620OJBM0@google.com> <awKlfqlQYhphXCvf@kernel.org>
- <DN2TQRX57C04.ZT5UUS6AQ1L6@google.com> <awVjqLFrXY_PCm7X@kernel.org>
-In-Reply-To: <awVjqLFrXY_PCm7X@kernel.org>
+MIME-Version: 1.0
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+Content-Transfer-Encoding: 8bit
 
-On Tue Nov 24, 2026 at 2:15 AM PST, Mike Rapoport wrote:
-> On Mon, Nov 23, 2026 at 11:07:04AM -0800, David Matlack wrote:
->> On Sun Nov 22, 2026 at 12:19 AM PST, Mike Rapoport wrote:
->>=20
->> Hopefully I did this all correctly... This is my first time sending
->> in-reply-to fixup! patches.
->
-> This is my first time merging !fixup patches and it seems b4 managed it
-> well :)
->
-> Please check I didn't miss anything:
->
-> https://git.kernel.org/liveupdate/linux/l/lu-pci-preservation
+The name of the root document is specified by the master_doc
+configuration option. Use that instead of hardcoding "index" in conf.py.
 
-Thanks Mike!
+It would be preferrable to use root_doc, but that was only introduced in
+Sphinx 4.0. While at it, add a FIXME comment next to master_doc about
+it.
 
-I checked the updated lu-pci-preservation branch and the code is
-identical to the v12 I had prepared locally.
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ Documentation/conf.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-One commit message nit: "Freeze preservation status during shutdown"
-ended up with two Link: trailers, the original v11 patch and the amend!
-patch:
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 5ab26ce89daf..6c986f64f764 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -103,9 +103,8 @@ def config_init(app, config):
+ 
+         # get index.rst, if it exists
+         doc = os.path.basename(app.srcdir)
+-        fname = "index"
+-        if os.path.exists(os.path.join(app.srcdir, fname + ".rst")):
+-            latex_documents.append((fname, doc + ".tex",
++        if os.path.exists(os.path.join(app.srcdir, master_doc + ".rst")):
++            latex_documents.append((master_doc, doc + ".tex",
+                                     "Linux %s Documentation" % doc.capitalize(),
+                                     "The kernel development community",
+                                     "manual"))
+@@ -114,7 +113,7 @@ def config_init(app, config):
+     # When building all docs, or when a main index.rst doesn't exist, seek
+     # for it on subdirectories
+     for doc in os.listdir(app.srcdir):
+-        fname = os.path.join(doc, "index")
++        fname = os.path.join(doc, master_doc)
+         if not os.path.exists(os.path.join(app.srcdir, fname + ".rst")):
+             continue
+ 
+@@ -267,6 +266,7 @@ source_suffix = {
+ # source_encoding = 'utf-8-sig'
+ 
+ # The master toctree document.
++# FIXME: switch to root_doc when needs_sphinx gets bumped to >= 4.0.
+ master_doc = "index"
+ 
+ # General information about the project.
+-- 
+2.47.3
 
-  Link: https://patch.msgid.link/20261118223704.3286085-12-dmatlack@google.=
-com
-  Link: https://patch.msgid.link/20261123190045.2166865-4-dmatlack@google.c=
-om
-
-whereas "Adopt ACS controls in incoming preserved devices" only has the
-original Link: (not the amend! Link).
-
-Not sure which is correct.
