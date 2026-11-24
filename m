@@ -1,100 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.48
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795530860;
-	b=YFeVxJe0zIIuei92oWoJsjFmwy3iQZQzda8yo3/Hc9pCvUVsM7stV2k/FzAbNPliuofL
-	 /es3LC/Hz4/WHdPsYzfa9t8M9UYZDAChjL0LhcQSEVNXB36kXH2k2kAShEavLomEMLiSr
-	 18wbzzkRJLvbpLfNTEgXfPZieOL2mfBPhmNQVkdw2Edci20m4fWa1i5unefewFcFrNwwv
-	 cDpT9fD/qLysHM7blknTfKg1Nw2tFQfDpMDetoNJEfrp3ekSoz0sn3fUnQmGizXC/Jo9/
-	 NMF2jCBlkjV5kI2dMGUzGCpwSE9F9BCulKmax6MiIHNLNEcxXYxTENdRUYjvwJs8upQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795530860;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=hS5QgEEx1tklgksYhfvpWC9lTYvUv8y2W5i5K54YV1g=;
-	b=iOUKzk70ZJDUEzL+aYPQNh3y9XrxOqkrogOnn6vYK+xFlSd7I9JwNjG+uflDtcY5HSUb
-	 cptbqDSRcyppfIQJwpGs+IViT6XDnJ6MWe08QmELgQ35lc/+zk8g35LmD8HRe9+Gw3gTh
-	 tprcMlU5RlPn5d7myxEedt1t/SkJbEni9PqzF+x3Mj+ADPTXhVYhW1DdNhzuUtJmDRsr1
-	 XPhkC+gzzG6AXU99Qp9Zajl8K9mfBw4TC0m03EPP6m3pXJqjYzKffYvT1ytgyoBtbuAto
-	 FSV5IcpItZLha2jaoym+V2vIFhHxXBuPEJeW7sNChda5uiYCz4aE7MG8vunITdLDiaA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qg5IK6iC;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.48
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795531655;
+	b=SGmn9RJuv4LeuEdaA6LcPH3EMfrhMzxb90nPRY6cUgxUo8So/FDAxoTqtNcrH9dFoEUN
+	 j30XbyEbK+ETup5UYY7Lg4hssHqOBvVU9GYiNxUiJKKUvQjhDFvrPzrwfBq9EojGTXQ9Q
+	 qSCQk5RaSkMAYiT4hP4UDkvqTHR2VjbujbZgPgrfCwHp9n0paU7lT2b4P0dS9nKQWA3Z2
+	 V8EpeSfnF/3usPoF4C4gskAtqWvNzofaWgJ9VLR9gnA1s/WAuZk1Cd8VWbDeoB5HFbD6N
+	 dck99hj/QbsfdytuBaC6E6hVRh65RrzYji5eAd53XRK040we+QGd/cOR6jDZDwWt4vg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795531655;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=yF49Z1BigzOsvjFQC+5yrWqssjl3iTCT5GlauHiBNgU=;
+	b=p0p3RfqzK3aIybqp1R6N2cZA+9ScY98h55sFA5oskn2rQslOsrZ2zHHqjrOwzEBTuHE1
+	 mmZiJGhliLl67wjdNfYkG7qWTyahZHvsfMUn0hmNl2yX6WmtSk10AdldVVScuSyS5FOHK
+	 B++f46FZXP9OMUcC0kqM9F1VW7Ij2lJdIPCvfGA8w78dDq7+KIidlI/SEl/QRNa7fEez8
+	 bQvBGsGwRm91IpITAnrzkh0f7t9wTiUPDHS7ulMB2DXbuTNNCqKFSU5JUxi+QPILsDX43
+	 YIngQfwKKyVa2rUlFzx2twTEutOeGR3VTT04MOrNMtFzxaS8oyiaiwt7EYQBf30/4ew==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JJURJPKz;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9796C606A321
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 14:34:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9796C606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01DC606A31E;
+	Tue, 24 Nov 2026 14:47:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qg5IK6iC
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3b44bdcea8aso2258737a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 06:34:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795530859; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oG4q06soCqPtl7nsm0pfvpKoPHUgIAGzG6DA4kQRLhhqqlE5xXngVDj3rogFkW92uM
-         aMp49RgGoXb2DwBwCP1WYonULeyJ3GytwWwoLPhg6FuOlcyNu+qZuJvt6Xh+KR57z9vo
-         Soynab3eYLdeIOr7V93Xhg+7AlLXNBAEfgOdGnFB807vpQK25DsnZVsptFBmlo5SCYME
-         8haUyY04PchG5QrCAUAKVfU1Eh97CJ3sP320gs1VpjDUm6Xwr4vVUTmbLSqWS8D3IPq9
-         gAPNr34qEBkK4a/oaRCD32KjE+gBcWKAaSYizTF5rQ+KnA8qi4qJCt0uUIFL1g91RKPZ
-         GxVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hS5QgEEx1tklgksYhfvpWC9lTYvUv8y2W5i5K54YV1g=;
-        fh=zIe5TwapZ0NDqWK438+Ky6VV66E8Pi/CaSKsdUo2U4U=;
-        b=f5EAuNYbwPoL5NRNXMi7GCO4do+7HSt7vadj8Wc5MeShhOOa1rrk22xbACKvZjY90b
-         5nBYi4ZxWXIQ26MhC2klRpe0GPGBDxOLK/o8VjkWWXFd5N1/WQcPCO07A6OJiJJbPXo1
-         IVucNKSDp1fE5PmlHYG6xa+ujDsXhuWyfcbbNCnshuYxuS9kqDBQTLnhAnemMh3oNPWG
-         IfQfbA2OMuoMdlczEZE3dorFlUpn5Q5PL2BeAZ90Q1aI1nkLaeAOHaA0M0bVRiJ8pV0x
-         7OxYOZA8eykNz+UQjiFVumrbzZL71vNouhcksfyUx27eY3oOVEZNBlTzFhX1mf2QFQxt
-         CUSQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795530859; x=1796135659; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hS5QgEEx1tklgksYhfvpWC9lTYvUv8y2W5i5K54YV1g=;
-        b=qg5IK6iCkghKN/Y/DZjLQKj/E2qBnS5qQ0u12N4SM9CIqa9uoN0AYTK4HfRSDMgV6X
-         6ihjhE+9mJs3CdYRPq2L80EMHn+kmLijO3iG30QIKESMMLEYT/CysKuXphG05M1oCk+X
-         /nR9+jqjixnZMk3qxsfWgqn35OA/BF3A+NbkpieP/YqaiRb5Qqwy8Bd1voPP8hCpELOQ
-         31U0vsyJTM4F8EULf//yBEQlI+Ajx5s1NA/5l+w9PK6XV76632BMdrALpyb/vs6yyIWi
-         RXgmyr5GeOLIQ1AbzS8ljT/ecVul/0EnN29aL4SODC0wq+0kFj1mlj9ChgIaiEPCPOsA
-         KdtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795530859; x=1796135659;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hS5QgEEx1tklgksYhfvpWC9lTYvUv8y2W5i5K54YV1g=;
-        b=xgnLynfGPPG1UePG0Rla+bJ5KFatb2MHlUHqKr1dc+7zMHuXMe7iD1+s8e23jpdOTN
-         1k5EYVZg8Ma56+JbArXNSrySZRHww0vth0X6nSFWv/sLru5i0/EotfB42JWUfRj/j59x
-         efyk/At9VcHysNogT9rhq3wK64aeap46rELC2ypnwoAzbv2WFMlNxXGF0FqbjVnC5k5w
-         Dnvf0inyAsimQBEKQAgWVjuUdDkxAHukZ5vYJkyOhrmTgymwOCG08psly2QOQDE+oYyN
-         /agcrj8bncGP5ygwHNApSzer8pnmjfqT/P9vFBudeIAdBUGrjBd2E25T1epFTi+Wt4ZU
-         NA1Q==
-X-Forwarded-Encrypted: i=1; AL+hErEjryPUjhhX0zGPOEk01JH38f5qKZbnUkXCveAQT5/cQenh8cg/qeSsyE/4gCJnOdjyx3rjNqvgCjE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+2yUL4IMZzNSWwpsICBXtEfQpHoSgGgPcGdRAakdXemTtnzVFf
-	vTiOJ1KnEf6xHLkh/Iqc3NNJZYkDfnFmNW8H27g+vr4GZCecJI/JaAACQSgbRfqrUI+m4KN6Bx4
-	KivqahRVYXdL1e8GwM1pjc459U+it6jY=
-X-Gm-Gg: AZFdTZcGPmCC/n5FxRdDgyK7sR7dIVO+iT+gI/zUmR7VmN0rqOWXXO9xfMEJI9JMeB7
-	vF1CCxJGD2KSwOt70JPMFQxV1aklmfqJfCjW99/XF26Aoykw+70nwTYU/LOOHH/lrj9ADBjOw8j
-	2ADTTZYUSmDR2dBrAdMXb/HNv3RrdwSHmH2QVh9R0Mp+3HsI1g5nc/YpDE9aIFCsl8C08yuj5In
-	WWSn6rtibQnj8jc6DTQ+VmgEieKnGE3/nSzcKBXl2ig3YKZeTdGKJ3bLnixB2+zKRrlLusGVUwE
-	MBpLP4f3+DVdnUwLAAob7WtYPKsSMTxqgDOQme9VJwgQz0SMgwo+R7j/vsVyKC1qjlLpPLa0mB1
-	QBvlrwXatRe7ADcvEuVjsSiRVG3jwuUwddEkQv30=
-X-Received: by 2002:a17:90b:3b8f:b0:3ac:b3c7:de04 with SMTP id
- 98e67ed59e1d1-3b41c95f0e1mr9916840a91.34.1795530858458; Tue, 24 Nov 2026
- 06:34:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JJURJPKz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20B151F000C0;
+	Tue, 24 Nov 2026 14:47:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795531655;
+	bh=yF49Z1BigzOsvjFQC+5yrWqssjl3iTCT5GlauHiBNgU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=JJURJPKzk5VxQ2NUQyKsRXz/HG+t2htw2wOXyITw2ENEnBufzQNwol4wUk6k2Yy7a
+	 L3iz//qxA2+y82R7MNQ5s7EfxM2/EY9RD7v6R6ws6GBLAG4BemPIRmOpQPEmy7jeof
+	 DUQB1uaEhwwOZTiACOqmtET9qmP4tIGos8LM9QZJB+LGmB+2t2FQOzBYJpYUYzvTek
+	 N0FIirMUoaq/AqOeBb5XYs5oZi7k8FoZZRZRvkw9y6O6zKqRvxWtDtL0k7g8cy54cY
+	 s/QdRiAN+f3hT9kv8zMAIgY97fcrAGvH0r4VVZMwk0q+ufQvAn0cdtx0TsmI/D+7Sw
+	 XYi1RPDUSvKHw==
+Subject: Re: [PATCH net v7] arp: Do not update neighbours from ARP in L2
+ multicast/broadcast frames
+From: netdev-bot+sashiko@kernel.org
+To: starchang@google.com
+Cc: davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, willemb@google.com, horms@kernel.org, dsahern@kernel.org,
+ idosch@nvidia.com, ja@ssi.bg, johannes@sipsolutions.net, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wangroger@google.com
+Date: Tue, 24 Nov 2026 14:47:33 +0000
+Message-ID: <179553165359.3135.5730863120205025514@kernel.org>
+In-Reply-To: <20261123144535.155300-1-starchang@google.com>
+References: <20261123144535.155300-1-starchang@google.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,860 +65,180 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261124112707.118678-1-bjorn@kernel.org> <20261124125654.183091-6-bjorn@kernel.org>
-In-Reply-To: <20261124125654.183091-6-bjorn@kernel.org>
-From: Magnus Karlsson <magnus.karlsson@gmail.com>
-Date: Tue, 24 Nov 2026 15:34:05 +0100
-X-Gm-Features: Aa3M54qKl1OMgoup1B2gY7tanBh1jIDvMvtePBuNFJLWwM_Jb3N7Yv62zEuX8ew
-Message-ID: <CAJ8uoz3f2MPpDevbMY3q_Nx=SQ2Om1ojAxBTsYhNw1V9_NXQMA@mail.gmail.com>
-Subject: Re: [PATCH net-next 06/15] xsk: Lend UMEM chunks to the page pools of
- a queue
-To: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-Cc: Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexander Duyck <alexanderduyck@fb.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, 
-	Leon Romanovsky <leon@kernel.org>, Michael Chan <michael.chan@broadcom.com>, 
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, bpf@vger.kernel.org, netdev@vger.kernel.org, 
-	Stuart Clark <stuclar@meta.com>, Stanislav Fomichev <sdf@fomichev.me>, Simon Horman <horms@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Mina Almasry <almasrymina@google.com>, 
-	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
-	Randy Dunlap <rdunlap@infradead.org>, kernel-team@meta.com, 
-	Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>, Bobby Eshleman <bobbyeshleman@meta.com>, 
-	Mohsin Bashir <mohsin.bashr@gmail.com>, Kees Cook <kees@kernel.org>, 
-	Breno Leitao <leitao@debian.org>, Maxime Chevallier <maxime.chevallier@bootlin.com>, 
-	Tao Cui <cuitao@kylinos.cn>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	"Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Jiayuan Chen <jiayuan.chen@linux.dev>, Martin Karsten <mkarsten@uwaterloo.ca>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, 
-	Pavel Begunkov <asml.silence@gmail.com>, linux-rdma@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, 24 Nov 2026 at 13:59, Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org> wrot=
-e:
->
-> Currently, AF_XDP zero copy makes the device fill one UMEM chunk per
-> buffer, at the UMEM headroom. Drivers bend their RX geometry to that
-> and carry a second RX path for it, and packets that the stack would
-> build from several buffers, or pack into one page, cannot be received
-> without a copy.
->
-> Let the device lay out buffers in UMEM chunks as it does in pages, for
-> a UMEM registered with the new flag XDP_UMEM_DRV_LAYOUT. First, let
-> the chunks of such a UMEM back the RX page pools of the bound queue,
-> through a sink memory provider that the socket installs with the queue
-> management API, so drivers need no AF_XDP code.
->
-> The chunk is the unit of ownership. A FILL entry lends a chunk to the
-> kernel until the kernel gives it back, see the next patch. A chunk
-> that is lent twice, or lies outside the UMEM, counts as an invalid
-> FILL entry, so userspace cannot make the device use a chunk twice. A
-> refill takes at most a page pool cache worth of FILL entries, bounding
-> the NAPI work. Chunks that a page pool released when it went away, as
-> at a queue restart, stay on a list that refills take from only when
-> FILL gives too few, so every chunk taken from it stays in circulation.
-> The pool allocates no xdp_buff_xsk per chunk, which saves 128 bytes
-> per 4 KiB chunk. The kernel mapping of the UMEM is the XDP view of its
-> net_iovs, so XDP reads the chunks in place.
->
-> The provider refuses page pools with pages larger than a chunk, with
-> another DMA device, or so large that the device could hold every
-> chunk. Binding needs a native XDP program, which cannot be detached
-> while the provider is installed, as drivers would otherwise build skbs
-> around the buffers. Unbind restarts the queue without the provider, or
-> closes the device if that fails, as the old queue may go on receiving
-> into the UMEM. Device unregister may uninstall the provider before the
-> socket unbinds, and unbind then only frees what is left.
->
-> Bind sets the RX need_wakeup flag before the queue starts, as the
-> queue may need FILL entries to start. After that only the queue NAPI
-> changes the flag, asking for a kick only while FILL is empty.
-> Process-context refills, as when bnxt fills a new queue, leave it
-> alone.
->
-> DMA syncs work as with page pools. The UMEM is mapped once, at bind,
-> the provider syncs a chunk for the device when it lends it, page pools
-> sync the chunks they recycle, and drivers sync each buffer for the CPU
-> before XDP runs.
->
-> None of this is reachable until UMEM registration accepts
-> XDP_UMEM_DRV_LAYOUT, two patches later.
->
-> Signed-off-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
-> ---
->  include/linux/netdevice.h         |   2 +
->  include/net/xsk_buff_pool.h       |   3 +
->  include/uapi/linux/if_xdp.h       |   7 +
->  net/core/dev.c                    |  30 +++
->  net/xdp/Kconfig                   |   1 +
->  net/xdp/Makefile                  |   2 +-
->  net/xdp/xsk_buff_pool.c           |  30 ++-
->  net/xdp/xsk_sink.c                | 416 ++++++++++++++++++++++++++++++
->  net/xdp/xsk_sink.h                |  14 +
->  tools/include/uapi/linux/if_xdp.h |   7 +
->  10 files changed, 505 insertions(+), 7 deletions(-)
->  create mode 100644 net/xdp/xsk_sink.c
->  create mode 100644 net/xdp/xsk_sink.h
->
-> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> index 5fd2bec1178a..5a7247873ce8 100644
-> --- a/include/linux/netdevice.h
-> +++ b/include/linux/netdevice.h
-> @@ -4459,6 +4459,8 @@ u32 dev_xdp_prog_id(struct net_device *dev, enum bp=
-f_xdp_mode mode);
->
->  u32 dev_get_min_mp_channel_count(const struct net_device *dev);
->  bool dev_mp_blocks_xdp(const struct net_device *dev);
-> +bool dev_has_xdp_only_mp(const struct net_device *dev);
-> +bool dev_xdp_drv_prog_held(struct net_device *dev);
->
->  int __dev_forward_skb(struct net_device *dev, struct sk_buff *skb);
->  int dev_forward_skb(struct net_device *dev, struct sk_buff *skb);
-> diff --git a/include/net/xsk_buff_pool.h b/include/net/xsk_buff_pool.h
-> index 02e89350faf9..376408994a33 100644
-> --- a/include/net/xsk_buff_pool.h
-> +++ b/include/net/xsk_buff_pool.h
-> @@ -11,6 +11,7 @@
->  #include <net/xdp.h>
->
->  struct xsk_buff_pool;
-> +struct xsk_sink;
->  struct xdp_rxq_info;
->  struct xsk_cb_desc;
->  struct xsk_queue;
-> @@ -54,6 +55,8 @@ struct xsk_buff_pool {
->         spinlock_t xsk_tx_list_lock;
->         refcount_t users;
->         struct xdp_umem *umem;
-> +       /* RX in the device's buffer layout, see net/xdp/xsk_sink.c */
-> +       struct xsk_sink *sink;
->         struct work_struct work;
->         /* Protects generic receive in shared and non-shared umem mode. *=
-/
->         spinlock_t rx_lock;
-> diff --git a/include/uapi/linux/if_xdp.h b/include/uapi/linux/if_xdp.h
-> index 50d67df78911..160a437ed540 100644
-> --- a/include/uapi/linux/if_xdp.h
-> +++ b/include/uapi/linux/if_xdp.h
-> @@ -45,6 +45,13 @@
->   */
->  #define XDP_UMEM_TX_METADATA_LEN       (1 << 2)
->
-> +/* RX buffers follow the device's layout: a page-sized chunk may hold
-> + * several of them, a packet may span chunks, and the device picks the
-> + * offsets. A FILL entry lends a chunk to the kernel. Needs aligned
-> + * page-sized chunks and no headroom.
-> + */
-> +#define XDP_UMEM_DRV_LAYOUT            (1 << 4)
+Thank you for your contribution! Sashiko AI review found 3 potential
+issue(s) to consider.
 
-First of all, this looks a lot better than the previous patch set.
-Much simpler from a driver point of view, fewer changes to core
-networking code, and that with just a small change/extension to the
-uAPI.
+Critical: 0 · High: 0 · Medium: 2 · Low: 1
 
-But I do not think this name is good. Most users of this API do not
-care about driver details such as the layout. Why not call it
-something that has to do with what has changed from the user's point
-of view? Previously we had implicit ownership transfers. You got a
-packet in Rx, you own the chunk. Now we have explicit ownership
-transfer. You do not own the chunk the packet is in, unless you get
-the new flag back (introduced later). So something with "explicit
-ownership" or something similar would be better. Or focus the name on
-that you can support larger chunks, but that is for later patches so
-might not be the best choice.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
->  struct sockaddr_xdp {
->         __u16 sxdp_family;
->         __u16 sxdp_flags;
-> diff --git a/net/core/dev.c b/net/core/dev.c
-> index 8a1d5a284e53..3bc20c7e409f 100644
-> --- a/net/core/dev.c
-> +++ b/net/core/dev.c
-> @@ -10860,6 +10860,11 @@ static int dev_xdp_attach(struct net_device *dev=
-, struct netlink_ext_ack *extack
->                 NL_SET_ERR_MSG(extack, "Active program does not match exp=
-ected");
->                 return -EEXIST;
->         }
-> +       if (cur_prog && !new_prog && !link && mode =3D=3D XDP_MODE_DRV &&
-> +           dev_has_xdp_only_mp(dev)) {
-> +               NL_SET_ERR_MSG(extack, "An XDP-only memory provider needs=
- the program");
-> +               return -EBUSY;
-> +       }
->
->         /* put effective new program into new_prog */
->         if (link)
-> @@ -11163,6 +11168,31 @@ bool dev_mp_blocks_xdp(const struct net_device *=
-dev)
->         return false;
->  }
->
-> +/* A native program is attached, and dev_xdp_attach() keeps it while an
-> + * AF_XDP socket receives in the buffer layout of @dev. A BPF link could=
- go
-> + * without asking, and so could a program that an upper device propagate=
-d.
-> + */
-> +bool dev_xdp_drv_prog_held(struct net_device *dev)
-> +{
-> +       return dev_xdp_prog_id(dev, XDP_MODE_DRV) &&
-> +              !dev_xdp_link(dev, XDP_MODE_DRV) && !dev->xdp_from_upper;
-> +}
-> +
-> +/* A queue of @dev has an XDP-only memory provider */
-> +bool dev_has_xdp_only_mp(const struct net_device *dev)
-> +{
-> +       const struct memory_provider_ops *ops;
-> +       unsigned int i;
-> +
-> +       for (i =3D 0; i < dev->real_num_rx_queues; i++) {
-> +               ops =3D dev->_rx[i].mp_params.mp_ops;
-> +               if (ops && ops->flags & MP_XDP_ONLY)
-> +                       return true;
-> +       }
-> +
-> +       return false;
-> +}
-> +
->  u32 dev_get_min_mp_channel_count(const struct net_device *dev)
->  {
->         int i;
-> diff --git a/net/xdp/Kconfig b/net/xdp/Kconfig
-> index 71af2febe72a..c9c68d3b3712 100644
-> --- a/net/xdp/Kconfig
-> +++ b/net/xdp/Kconfig
-> @@ -2,6 +2,7 @@
->  config XDP_SOCKETS
->         bool "XDP sockets"
->         depends on BPF_SYSCALL
-> +       select PAGE_POOL
->         default n
->         help
->           XDP sockets allows a channel between XDP programs and
-> diff --git a/net/xdp/Makefile b/net/xdp/Makefile
-> index 30cdc4315f42..73a638f12843 100644
-> --- a/net/xdp/Makefile
-> +++ b/net/xdp/Makefile
-> @@ -1,4 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  obj-$(CONFIG_XDP_SOCKETS) +=3D xsk.o xdp_umem.o xsk_queue.o xskmap.o
-> -obj-$(CONFIG_XDP_SOCKETS) +=3D xsk_buff_pool.o
-> +obj-$(CONFIG_XDP_SOCKETS) +=3D xsk_buff_pool.o xsk_sink.o
->  obj-$(CONFIG_XDP_SOCKETS_DIAG) +=3D xsk_diag.o
-> diff --git a/net/xdp/xsk_buff_pool.c b/net/xdp/xsk_buff_pool.c
-> index 5ec092f7cb6f..7ece7d9e3937 100644
-> --- a/net/xdp/xsk_buff_pool.c
-> +++ b/net/xdp/xsk_buff_pool.c
-> @@ -7,6 +7,7 @@
->  #include <net/xdp_sock_drv.h>
->
->  #include "xsk_queue.h"
-> +#include "xsk_sink.h"
->  #include "xdp_umem.h"
->  #include "xsk.h"
->
-> @@ -69,9 +70,14 @@ struct xsk_buff_pool *xp_create_and_assign_umem(struct=
- xdp_sock *xs,
->         if (!pool)
->                 goto out;
->
-> -       pool->heads =3D kvzalloc_objs(*pool->heads, umem->chunks);
-> -       if (!pool->heads)
-> -               goto out;
-> +       /* Receiving in the device's buffer layout and copy TX take none =
-*/
-> +       if (!(umem->flags & XDP_UMEM_DRV_LAYOUT)) {
-> +               pool->heads =3D kvzalloc_objs(*pool->heads, umem->chunks)=
-;
-> +               if (!pool->heads)
-> +                       goto out;
-> +               pool->heads_cnt =3D umem->chunks;
-> +               pool->free_heads_cnt =3D umem->chunks;
-> +       }
->
->         if (xs->tx)
->                 if (xp_alloc_tx_descs(pool, xs, max_segs))
-> @@ -79,8 +85,6 @@ struct xsk_buff_pool *xp_create_and_assign_umem(struct =
-xdp_sock *xs,
->
->         pool->chunk_mask =3D ~((u64)umem->chunk_size - 1);
->         pool->addrs_cnt =3D umem->size;
-> -       pool->heads_cnt =3D umem->chunks;
-> -       pool->free_heads_cnt =3D umem->chunks;
->         pool->headroom =3D umem->headroom;
->         pool->chunk_size =3D umem->chunk_size;
->         pool->chunk_shift =3D ffs(umem->chunk_size) - 1;
-> @@ -211,6 +215,13 @@ int xp_assign_dev(struct xsk_buff_pool *pool,
->          */
->         hlist_add_head(&pool->dev_node, &netdev->xsk_pools);
->
-> +       if (pool->umem->flags & XDP_UMEM_DRV_LAYOUT) {
-> +               err =3D xsk_sink_bind(pool, netdev, queue_id, flags);
-> +               if (err)
-> +                       goto err_unbind;
-> +               return 0;
-> +       }
-> +
->         if (force_copy)
->                 /* For copy-mode, we are done. */
->                 return 0;
-> @@ -268,6 +279,7 @@ int xp_assign_dev(struct xsk_buff_pool *pool,
->  err_unreg_pool:
->         if (!force_zc)
->                 err =3D 0; /* fallback to copy mode */
-> +err_unbind:
->         if (err) {
->                 pool->umem->flags =3D umem_flags;
->                 xsk_clear_pool_at_qid(netdev, queue_id);
-> @@ -285,6 +297,9 @@ int xp_assign_dev_shared(struct xsk_buff_pool *pool, =
-struct xdp_sock *umem_xs,
->         struct xdp_umem *umem =3D umem_xs->umem;
->
->         flags =3D umem->zc ? XDP_ZEROCOPY : XDP_COPY;
-> +       /* The device layout has no copy mode */
-> +       if (umem->flags & XDP_UMEM_DRV_LAYOUT)
-> +               flags =3D 0;
->
->         if (umem->flags & XDP_UMEM_SG_FLAG)
->                 flags |=3D XDP_USE_SG;
-> @@ -300,7 +315,10 @@ static void __xp_clear_dev(struct xsk_buff_pool *poo=
-l)
->         struct net_device *netdev =3D pool->netdev;
->
->         netdev_assert_locked_ops_compat(netdev);
-> -       xp_disable_drv_zc(pool);
-> +       if (pool->sink)
-> +               xsk_sink_unbind(pool);
-> +       else
-> +               xp_disable_drv_zc(pool);
->         xsk_clear_pool_at_qid(netdev, pool->queue_id);
->         hlist_del(&pool->dev_node);
->         pool->netdev =3D NULL;
-> diff --git a/net/xdp/xsk_sink.c b/net/xdp/xsk_sink.c
-> new file mode 100644
-> index 000000000000..b78116f25e71
-> --- /dev/null
-> +++ b/net/xdp/xsk_sink.c
-> @@ -0,0 +1,416 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* AF_XDP RX in the device's buffer layout
-> + *
-> + * Userspace lends page-sized UMEM chunks through the FILL ring. Each ch=
-unk
-> + * becomes a net_iov of a page pool memory provider, and the device spli=
-ts it
-> + * as it splits pages: a chunk may hold several RX buffers, and a packet=
- may
-> + * span chunks.
-> + *
-> + * The kernel maps the chunks through the UMEM mapping, so XDP programs =
-read
-> + * and write the packets in place. The kernel stores none of its own dat=
-a in
-> + * the chunks: the shared info of a packet lives in the sink, see
-> + * %XDP_FLAGS_SINFO_EXT, and the core turns every verdict that would bui=
-ld an
-> + * skb or a frame in the buffers into a drop.
-> + */
-> +
-> +#include <linux/nospec.h>
-> +#include <net/netdev_queues.h>
-> +#include <net/netdev_rx_queue.h>
-> +#include <net/page_pool/helpers.h>
-> +#include <net/page_pool/memory_provider.h>
-> +#include <net/xdp_sock_drv.h>
-> +
-> +#include "../core/dev.h"
-> +#include "xsk_queue.h"
-> +#include "xsk_sink.h"
-> +
-> +#define XSK_SINK_DMA_ATTR (DMA_ATTR_WEAK_ORDERING | DMA_ATTR_SKIP_CPU_SY=
-NC)
-> +/* Chunks a refill tops up to with released ones */
-> +#define XSK_SINK_RESERVE       32
-> +
-> +/* &net_iov.mp_state: whether userspace has the chunk or lent it */
-> +enum {
-> +       XSK_SINK_USER,
-> +       XSK_SINK_LENT,
-> +};
-> +
-> +struct xsk_sink {
-> +       struct net_iov_area area;
-> +       struct device *dev;
-> +       /* Valid until the socket unbinds */
-> +       struct xsk_buff_pool *pool;
-> +       /* NULL once no queue uses the provider */
-> +       struct netdev_rx_queue *rxq;
-> +       /* Protects fq, which stays set while the UMEM is mapped, and kee=
-ps
-> +        * refills the only taker of released chunks. Besides the queue N=
-API,
-> +        * drivers refill from process context, as bnxt fills the rings o=
-f a
-> +        * new queue while the old one still runs.
-> +        */
-> +       spinlock_t lock;
-> +       struct xsk_queue *fq;
-> +       refcount_t refs;
-> +       /* One node per chunk: chunks that page pools released, from any
-> +        * context
-> +        */
-> +       struct llist_node *nodes;
-> +       struct llist_head released;
-> +};
-> +
-> +static void xsk_sink_free(struct xsk_sink *sink)
-> +{
-> +       kvfree(sink->nodes);
-> +       kvfree(sink->area.niovs);
-> +       kfree(sink);
-> +}
-> +
-> +static void xsk_sink_put(struct xsk_sink *sink)
-> +{
-> +       if (refcount_dec_and_test(&sink->refs))
-> +               xsk_sink_free(sink);
-> +}
-> +
-> +static int xsk_sink_init(struct page_pool *pp)
-> +{
-> +       struct xsk_sink *sink =3D pp->mp_priv;
-> +
-> +       /* Each net_iov is one chunk, mapped for one device */
-> +       if (pp->p.order)
-> +               return -E2BIG;
-> +       if (pp->p.dev !=3D sink->dev || pp->p.offset + pp->p.max_len > PA=
-GE_SIZE)
-> +               return -EINVAL;
-> +       /* Rings that keep every chunk posted leave none to replace the o=
-nes
-> +        * the device filled: mlx5 posts about 16K pages per queue at MTU
-> +        * 9000.
-> +        */
-> +       if (pp->p.pool_size + PP_ALLOC_CACHE_SIZE >=3D sink->area.num_nio=
-vs)
-> +               return -ENOSPC;
-> +
-> +       refcount_inc(&sink->refs);
-> +       return 0;
-> +}
-> +
-> +static void xsk_sink_destroy(struct page_pool *pp)
-> +{
-> +       xsk_sink_put(pp->mp_priv);
-> +}
-> +
-> +/* Takes the chunks that FILL entries lend into the cache of @pp, which =
-still
-> + * holds those it gave back before. A chunk that an earlier page pool st=
-ill
-> + * holds goes back to it. Returns the number of chunks taken.
-> + */
-> +static u32 xsk_sink_take_fill(struct xsk_sink *sink, struct page_pool *p=
-p)
-> +{
-> +       struct net_iov *niov, *niovs =3D sink->area.niovs;
-> +       u32 i, entries, cons, mask, nr, n =3D 0;
-> +       struct xsk_queue *fq =3D sink->fq;
-> +       struct xdp_umem_ring *ring;
-> +       struct page_pool *owner;
-> +       netmem_ref netmem;
-> +       u64 addr;
-> +
-> +       lockdep_assert_held(&sink->lock);
-> +
-> +       /* One cache worth, bounding NAPI work */
-> +       entries =3D fq ? xskq_cons_nb_entries(fq, PP_ALLOC_CACHE_SIZE) : =
-0;
-> +       if (!entries)
-> +               return 0;
-> +
-> +       nr =3D sink->area.num_niovs;
-> +       ring =3D (struct xdp_umem_ring *)fq->ring;
-> +       mask =3D fq->ring_mask;
-> +       cons =3D fq->cached_cons;
-> +       for (i =3D 0; i < entries; i++) {
-> +               addr =3D ring->desc[(cons + i) & mask];
-> +               niov =3D &niovs[array_index_nospec((u32)(addr >> PAGE_SHI=
-FT),
-> +                                                nr)];
-> +               /* A chunk lent twice would be in two places at once */
-> +               if (unlikely(addr >=3D (u64)nr << PAGE_SHIFT ||
-> +                            READ_ONCE(niov->mp_state) =3D=3D XSK_SINK_LE=
-NT)) {
-> +                       fq->invalid_descs++;
-> +                       continue;
-> +               }
-> +
-> +               WRITE_ONCE(niov->mp_state, XSK_SINK_LENT);
-> +               netmem =3D net_iov_to_netmem(niov);
-> +               owner =3D netmem_get_pp(netmem);
-> +               if (owner && owner !=3D pp) {
-> +                       page_pool_put_unrefed_netmem(owner, netmem, -1, f=
-alse);
-> +                       continue;
-> +               }
-> +               if (!owner)
-> +                       net_mp_niov_set_page_pool(pp, niov);
-> +               pp->alloc.cache[n++] =3D netmem;
-> +       }
-> +
-> +       xskq_cons_release_n(fq, entries);
-> +       __xskq_cons_release(fq);
-> +       return n;
-> +}
-> +
-> +/* Tops up the cache of @pp, which holds @n chunks, with chunks that pag=
-e
-> + * pools released. A reserve, not a source. Each chunk it adds stays in
-> + * circulation, so take only what FILL could not give. The lock keeps th=
-is
-> + * the only consumer of the list, as llist_del_first() needs.
-> + */
-> +static u32 xsk_sink_take_released(struct xsk_sink *sink, struct page_poo=
-l *pp,
-> +                                 u32 n)
-> +{
-> +       struct llist_node *node;
-> +       struct net_iov *niov;
-> +
-> +       lockdep_assert_held(&sink->lock);
-> +
-> +       /* The page pool cache has 8 entries with 64K pages */
-> +       while (n < min(XSK_SINK_RESERVE, PP_ALLOC_CACHE_SIZE)) {
-> +               node =3D llist_del_first(&sink->released);
-> +               if (!node)
-> +                       break;
-> +               niov =3D &sink->area.niovs[node - sink->nodes];
-> +               net_mp_niov_set_page_pool(pp, niov);
-> +               pp->alloc.cache[n++] =3D net_iov_to_netmem(niov);
-> +       }
-> +       return n;
-> +}
-> +
-> +static netmem_ref xsk_sink_alloc_netmems(struct page_pool *pp, gfp_t gfp=
-)
-> +{
-> +       struct xsk_sink *sink =3D pp->mp_priv;
-> +       /* The NAPI owns the need_wakeup flags */
-> +       bool napi =3D in_softirq() && !in_hardirq();
-> +       struct xsk_queue *fq;
-> +       dma_addr_t dma;
-> +       u32 i, n;
-> +
-> +       /* The page pool refills only an empty cache */
-> +       if (WARN_ON_ONCE(pp->alloc.count))
-> +               return 0;
-> +
-> +       spin_lock_bh(&sink->lock);
-> +       n =3D xsk_sink_take_fill(sink, pp);
-> +       n =3D xsk_sink_take_released(sink, pp, n);
-> +       fq =3D sink->fq;
-> +       /* Ask for kicks only while FILL runs dry, as zero copy drivers d=
-o: a
-> +        * kick schedules the NAPI, which a busy poller would rather run
-> +        * itself. Process context refills new queues only and leaves the
-> +        * flags to their NAPI and to bind.
-> +        */
-> +       if (napi && fq && sink->pool->uses_need_wakeup) {
+- [Medium] When drop_unicast_in_l2_multicast is set, every ARP frame that
+  arrives as L2 broadcast/multicast and that arp_process() does not…
+- [Medium] The patch reuses the existing IP-only
+  drop_unicast_in_l2_multicast knob to block all ARP neighbour learning…
+- [Low] The documentation and in-function comments do not match the new
+  behaviour.
 
-Was not need_wakeup a requirement for using this new mode? If so, why
-not just set it somewhere and not test it after that?
+--
 
-> +               if (n)
-> +                       xsk_clear_rx_need_wakeup(sink->pool);
-> +               else
-> +                       xsk_set_rx_need_wakeup(sink->pool);
-> +       }
-> +       if (fq && !n)
-> +               fq->queue_empty_descs++;
-> +       spin_unlock_bh(&sink->lock);
-> +       if (!n)
-> +               return 0;
-> +
-> +       for (i =3D 0; i < n; i++) {
-> +               dma =3D page_pool_get_dma_addr_netmem(pp->alloc.cache[i])=
-;
-> +               dma_sync_single_range_for_device(pp->p.dev, dma, pp->p.of=
-fset,
-> +                                                pp->p.max_len, pp->p.dma=
-_dir);
-> +       }
-> +
-> +       pp->alloc.count =3D n - 1;
-> +       return pp->alloc.cache[n - 1];
-> +}
-> +
-> +static bool xsk_sink_release_netmem(struct page_pool *pp, netmem_ref net=
-mem)
-> +{
-> +       struct net_iov *niov =3D netmem_to_net_iov(netmem);
-> +       struct xsk_sink *sink =3D pp->mp_priv;
-> +
-> +       net_mp_niov_clear_page_pool(niov);
-> +       llist_add(&sink->nodes[net_iov_idx(niov)], &sink->released);
-> +       return false;
-> +}
-> +
-> +static int xsk_sink_nl_fill(void *mp_priv, struct sk_buff *rsp,
-> +                           struct netdev_rx_queue *rxq)
-> +{
-> +       return 0;
-> +}
-> +
-> +/* No queue DMAs to the UMEM any longer */
-> +static void xsk_sink_stop(struct xsk_sink *sink)
-> +{
-> +       bool unmap;
-> +
-> +       spin_lock_bh(&sink->lock);
-> +       WRITE_ONCE(sink->rxq, NULL);
-> +       unmap =3D sink->fq;
-> +       sink->fq =3D NULL;
-> +       spin_unlock_bh(&sink->lock);
-> +
-> +       /* Wait for wakeups that found the sink or the queue */
-> +       synchronize_net();
-> +       if (unmap)
-> +               xp_dma_unmap(sink->pool, XSK_SINK_DMA_ATTR);
-> +}
-> +
-> +/* Device unregister, after the queue stopped */
-> +static void xsk_sink_uninstall(void *mp_priv, struct netdev_rx_queue *rx=
-q)
-> +{
-> +       memset(&rxq->mp_params, 0, sizeof(rxq->mp_params));
-> +       xsk_sink_stop(mp_priv);
-> +}
-> +
-> +static const struct memory_provider_ops xsk_sink_ops =3D {
-> +       .alloc_netmems  =3D xsk_sink_alloc_netmems,
-> +       .release_netmem =3D xsk_sink_release_netmem,
-> +       .init           =3D xsk_sink_init,
-> +       .destroy        =3D xsk_sink_destroy,
-> +       .nl_fill        =3D xsk_sink_nl_fill,
-> +       .uninstall      =3D xsk_sink_uninstall,
-> +       .flags          =3D MP_XDP_ONLY,
-> +};
-> +
-> +static struct xsk_sink *xsk_sink_create(struct xsk_buff_pool *pool,
-> +                                       struct device *dev)
-> +{
-> +       u32 i, nr =3D pool->umem->chunks;
-> +       struct xsk_sink *sink;
-> +       struct net_iov *niov;
-> +       dma_addr_t dma;
-> +
-> +       sink =3D kzalloc_obj(*sink, GFP_KERNEL_ACCOUNT);
-> +       if (!sink)
-> +               return ERR_PTR(-ENOMEM);
-> +
-> +       /* See &xdp_rxq_info.sink_area */
-> +       BUILD_BUG_ON(offsetof(struct xsk_sink, area));
-> +
-> +       sink->area.niovs =3D kvcalloc(nr, sizeof(*niov), GFP_KERNEL_ACCOU=
-NT);
-> +       sink->nodes =3D kvcalloc(nr, sizeof(*sink->nodes), GFP_KERNEL_ACC=
-OUNT);
-> +       if (!sink->area.niovs || !sink->nodes) {
-> +               xsk_sink_free(sink);
-> +               return ERR_PTR(-ENOMEM);
-> +       }
-> +
-> +       sink->area.num_niovs =3D nr;
-> +       /* Chunks are pages, see XDP_UMEM_DRV_LAYOUT */
-> +       sink->area.xdp_vaddr =3D pool->addrs;
-> +       sink->area.xdp_vsize =3D (size_t)nr << PAGE_SHIFT;
-> +       sink->area.xdp_shift =3D PAGE_SHIFT;
-> +       sink->dev =3D dev;
-> +       sink->pool =3D pool;
-> +       sink->fq =3D pool->fq;
-> +       spin_lock_init(&sink->lock);
-> +       init_llist_head(&sink->released);
-> +       refcount_set(&sink->refs, 1);
-> +
-> +       /* Chunks are pages, see XDP_UMEM_DRV_LAYOUT */
-> +       for (i =3D 0; i < nr; i++) {
-> +               niov =3D &sink->area.niovs[i];
-> +               dma =3D pool->dma_pages[i] & ~XSK_NEXT_PG_CONTIG_MASK;
-> +               net_iov_init(niov, &sink->area, NET_IOV_XSK);
-> +               if (net_mp_niov_set_dma_addr(niov, dma)) {
-> +                       xsk_sink_free(sink);
-> +                       return ERR_PTR(-ERANGE);
-> +               }
-> +       }
-> +
-> +       return sink;
-> +}
-> +
-> +/* Sockets sharing the pool find no sink after the grace period of
-> + * xsk_sink_stop(), see xsk_wakeup()
-> + */
-> +static void xsk_sink_detach(struct xsk_buff_pool *pool)
-> +{
-> +       struct xsk_sink *sink =3D pool->sink;
-> +
-> +       WRITE_ONCE(pool->sink, NULL);
-> +       xsk_sink_stop(sink);
-> +       xsk_sink_put(sink);
-> +       static_branch_dec(&xdp_sink_key);
-> +}
-> +
-> +/**
-> + * xsk_sink_bind - install the UMEM of @pool as the provider of an RX qu=
-eue
-> + * @pool: buffer pool with an XDP_UMEM_DRV_LAYOUT UMEM
-> + * @dev: device of the queue
-> + * @queue_id: RX queue
-> + * @flags: bind flags
-> + *
-> + * Context: RTNL and the instance lock of @dev.
-> + * Return: 0 on success. No copy mode takes over on error.
-> + */
-> +int xsk_sink_bind(struct xsk_buff_pool *pool, struct net_device *dev,
-> +                 u16 queue_id, u16 flags)
-> +{
-> +       u32 needed =3D NETDEV_XDP_ACT_BASIC | NETDEV_XDP_ACT_REDIRECT;
-> +       struct pp_memory_provider_params p =3D { .mp_ops =3D &xsk_sink_op=
-s };
-> +       struct device *dma_dev;
-> +       struct xsk_sink *sink;
-> +       int err;
-> +
-> +       if (flags & XDP_USE_SG)
-> +               needed |=3D NETDEV_XDP_ACT_RX_SG;
-> +       if (flags & XDP_COPY || !dev->queue_mgmt_ops ||
-> +           (dev->xdp_features & needed) !=3D needed ||
-> +           queue_id >=3D dev->real_num_rx_queues)
-> +               return -EOPNOTSUPP;
-> +
-> +       /* The program of another device would see a leased queue's packe=
-ts */
-> +       if (netif_rxq_is_leased(dev, queue_id))
-> +               return -EOPNOTSUPP;
-> +
-> +       /* The device of the queue's page pools, which may differ per que=
-ue */
-> +       dma_dev =3D netdev_queue_get_dma_dev(dev, queue_id, NETDEV_QUEUE_=
-TYPE_RX);
-> +       if (!dma_dev)
-> +               return -EOPNOTSUPP;
-> +
-> +       /* Without a program, drivers would build skbs from the buffers *=
-/
-> +       if (!dev_xdp_drv_prog_held(dev))
-> +               return -ENOENT;
-> +
-> +       err =3D xp_dma_map(pool, dma_dev, XSK_SINK_DMA_ATTR, pool->umem->=
-pgs,
-> +                        pool->umem->npgs);
-> +       if (err)
-> +               return err;
-> +
-> +       sink =3D xsk_sink_create(pool, dma_dev);
-> +       if (IS_ERR(sink)) {
-> +               xp_dma_unmap(pool, XSK_SINK_DMA_ATTR);
-> +               return PTR_ERR(sink);
-> +       }
-> +
-> +       /* Until the first refill of the NAPI: the queue may need FILL to
-> +        * start. Set before the NAPI runs, which owns the flags after th=
-at.
-> +        */
-> +       if (pool->uses_need_wakeup)
-> +               xsk_set_rx_need_wakeup(pool);
-> +
-> +       /* The core keeps sink buffers to the socket once the queue runs =
-*/
-> +       static_branch_inc(&xdp_sink_key);
-> +       sink->rxq =3D __netif_get_rx_queue(dev, queue_id);
-> +       pool->sink =3D sink;
-> +       p.mp_priv =3D sink;
-> +       err =3D netif_mp_open_rxq(dev, queue_id, &p, NULL);
-> +       if (err) {
-> +               xsk_sink_detach(pool);
-> +               return err;
-> +       }
-> +
-> +       return 0;
-> +}
+arp: Do not update neighbours from ARP in L2 multicast/broadcast frames
 
-At a first glance it feels like some of this code could be shared with
-the current bind, but I guess you have already tried and it is not
-worth it, or? The commonality seems somewhat spread out.
+This patch extends the drop_unicast_in_l2_multicast sysctl to ARP. When
+the sysctl is set, ARP packets received in link-layer broadcast or
+multicast frames are no longer passed to neigh_event_ns() or
+neigh_update(), so they cannot create or change neighbour entries.
+Requests for local and proxied addresses are still answered.
 
+> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+> index d3523c9064a22..fd2ffb2d28126 100644
+> --- a/Documentation/networking/ip-sysctl.rst
+> +++ b/Documentation/networking/ip-sysctl.rst
+> @@ -2302,7 +2302,9 @@ promote_secondaries - BOOLEAN
+>  
+>  drop_unicast_in_l2_multicast - BOOLEAN
+>  	Drop any unicast IP packets that are received in link-layer
+> -	multicast (or broadcast) frames.
+> +	multicast (or broadcast) frames. ARP packets received in such
+> +	frames are not used to create or update neighbour entries,
+> +	but ARP requests for local addresses are still answered.
+
+[Severity: Low]
+This isn't a bug, but should this text also mention proxied addresses?
+
+The commit message says "Requests for local and proxied addresses are
+still answered". In arp_process(), the IN_DEV_FORWARD branch still handles
+BMC frames when arp_fwd_proxy(), arp_fwd_pvlan() or pneigh_lookup()
+matches. It either replies through arp_send_dst() or defers through
+pneigh_enqueue().
+
+Separately, the comment block above the request handling in arp_process()
+still says:
+
+ *  and in the case of requests for us we add the requester to the arp
+ *  cache.
+
+That is no longer true when bmc_no_learn is set. Could that comment be
+updated too?
+
+> diff --git a/net/ipv4/arp.c b/net/ipv4/arp.c
+> index 3bc8db6ccd68e..cc69ea07fc2de 100644
+> --- a/net/ipv4/arp.c
+> +++ b/net/ipv4/arp.c
+
+[ ... ]
+
+> @@ -794,6 +795,10 @@ static int arp_process(struct net *net, struct sock *sk, struct sk_buff *skb)
+>  	    (!IN_DEV_ROUTE_LOCALNET(in_dev) && ipv4_is_loopback(tip)))
+>  		goto out_free_skb;
+>  
+> +	bmc_no_learn = (skb->pkt_type == PACKET_BROADCAST ||
+> +			skb->pkt_type == PACKET_MULTICAST) &&
+> +		       IN_DEV_ORCONF(in_dev, DROP_UNICAST_IN_L2_MULTICAST);
 > +
-> +/* Context: RTNL and the instance lock of the device */
-> +void xsk_sink_unbind(struct xsk_buff_pool *pool)
-> +{
-> +       struct xsk_sink *sink =3D pool->sink;
-> +       struct pp_memory_provider_params p =3D {
-> +               .mp_ops =3D &xsk_sink_ops,
-> +               .mp_priv =3D sink,
-> +       };
+
+[ ... ]
+
+> @@ -890,6 +902,10 @@ static int arp_process(struct net *net, struct sock *sk, struct sk_buff *skb)
+>  		}
+>  	}
+>  
+> +	/* ARP received in L2 BMC frames must not change the neighbour table */
+> +	if (bmc_no_learn)
+> +		goto out_drop_dst;
 > +
-> +       /* Unregister may have uninstalled the provider already. A queue =
-that
-> +        * cannot restart without it may still use the UMEM: stop the dev=
-ice.
-> +        */
-> +       if (READ_ONCE(sink->rxq) &&
-> +           netif_mp_close_rxq(pool->netdev, pool->queue_id, &p))
-> +               netif_close(pool->netdev);
-> +       xsk_sink_detach(pool);
-> +}
-> diff --git a/net/xdp/xsk_sink.h b/net/xdp/xsk_sink.h
-> new file mode 100644
-> index 000000000000..3f201163c530
-> --- /dev/null
-> +++ b/net/xdp/xsk_sink.h
-> @@ -0,0 +1,14 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/* AF_XDP RX in the device's buffer layout, see xsk_sink.c */
+>  	/* Update our ARP tables */
+>  
+>  	n = ipv4_neigh_lookup(dev, &sip);
+
+[Severity: Medium]
+Is this exit also meant to catch broadcast ARP replies and gratuitous ARP?
+
+ARPOP_REPLY never enters the request branch. So every reply or
+announcement that arrives in a BMC frame now leaves here, before the
+neigh_update() block. That also skips the existing handling for broadcast
+replies further down:
+
+		if (arp->ar_op != htons(ARPOP_REPLY) ||
+		    skb->pkt_type != PACKET_HOST)
+			state = NUD_STALE;
+		neigh_update(n, sha, state,
+			     override ? NEIGH_UPDATE_F_OVERRIDE : 0, 0);
+
+On hosts that already have drop_unicast_in_l2_multicast enabled (commonly
+Wi-Fi clients), some behaviour seems to change:
+
+IPv4 link-local peers that broadcast their ARP replies, as RFC 3927
+section 2.5 requires, would never resolve. Our INCOMPLETE entry never gets
+an lladdr and goes to FAILED. Before this patch, the broadcast reply
+resolved it as NUD_STALE.
+
+Gratuitous ARP and announcements sent after an IP takeover or MAC change
+are ignored. Examples are arp_notify, bonding, VRRP/keepalived failover
+and VM migration. Traffic keeps going to the old MAC until NUD probing
+fails.
+
+arp_accept no longer has any effect for BMC frames on such interfaces.
+
+This changes the semantics of an existing IP-only knob, and the patch
+carries a Fixes: tag, so it will likely be backported to stable. Should
+the commit message and the ip-sysctl.rst text describe these effects?
+
+> @@ -953,6 +969,9 @@ static int arp_process(struct net *net, struct sock *sk, struct sk_buff *skb)
+>  	dst_release(reply_dst);
+>  	return NET_RX_SUCCESS;
+>  
+> +out_drop_dst:
+> +	dst_release(reply_dst);
 > +
-> +#ifndef XSK_SINK_H_
-> +#define XSK_SINK_H_
-> +
-> +struct net_device;
-> +struct xsk_buff_pool;
-> +
-> +int xsk_sink_bind(struct xsk_buff_pool *pool, struct net_device *dev,
-> +                 u16 queue_id, u16 flags);
-> +void xsk_sink_unbind(struct xsk_buff_pool *pool);
-> +
-> +#endif /* XSK_SINK_H_ */
-> diff --git a/tools/include/uapi/linux/if_xdp.h b/tools/include/uapi/linux=
-/if_xdp.h
-> index 50d67df78911..160a437ed540 100644
-> --- a/tools/include/uapi/linux/if_xdp.h
-> +++ b/tools/include/uapi/linux/if_xdp.h
-> @@ -45,6 +45,13 @@
->   */
->  #define XDP_UMEM_TX_METADATA_LEN       (1 << 2)
->
-> +/* RX buffers follow the device's layout: a page-sized chunk may hold
-> + * several of them, a packet may span chunks, and the device picks the
-> + * offsets. A FILL entry lends a chunk to the kernel. Needs aligned
-> + * page-sized chunks and no headroom.
-> + */
-> +#define XDP_UMEM_DRV_LAYOUT            (1 << 4)
-> +
->  struct sockaddr_xdp {
->         __u16 sxdp_family;
->         __u16 sxdp_flags;
-> --
-> 2.56.1
->
->
+>  out_free_skb:
+>  	kfree_skb(skb);
+>  	return NET_RX_DROP;
+
+[Severity: Medium]
+Should these packets be consumed instead of dropped?
+
+With the sysctl set, every BMC ARP that arp_process() does not answer now
+takes goto out_drop_dst. Ordinary broadcast who-has requests for other
+hosts on the LAN are the common case. They end in kfree_skb() with
+SKB_DROP_REASON_NOT_SPECIFIED and return NET_RX_DROP. Before this patch,
+the same frames went through consume_skb() and returned NET_RX_SUCCESS.
+
+Normal background ARP would then show up as unexplained drops in
+drop_monitor, dropwatch and the skb:kfree_skb tracepoint.
+
+NF_HOOK returns the okfn result, so arp_rcv() also returns NET_RX_DROP to
+netif_receive_skb(). Drivers that count that return value would then
+increment rx_dropped. One example is rx_default_dqrr() in dpaa_eth.c:
+
+	if (unlikely(netif_receive_skb(skb) == NET_RX_DROP)) {
+		percpu_stats->rx_dropped++;
+
+arp_rcv() in the same file avoids this on purpose for ARP that it
+ignores:
+
+	/* do not tweak dropwatch on an ARP we will ignore */
+	if (dev->flags & IFF_NOARP ||
+	    skb->pkt_type == PACKET_OTHERHOST ||
+	    skb->pkt_type == PACKET_LOOPBACK)
+		goto consumeskb;
+
+The other users of the same sysctl, ip_rcv_finish_core() and
+ip6_rcv_core(), use SKB_DROP_REASON_UNICAST_IN_L2_MULTICAST when they
+drop.
+
+The ip-sysctl.rst text and the commit message say these ARP packets are
+not used for neighbour entries. Neither says they are dropped. The v6
+changelog does say "Drop the frame and release reply_dst on that path", so
+the drop looks intentional.
+
+If the drop is intended, could it at least use a specific drop reason?
+Otherwise, could this path go to out_consume_skb, so the frame is consumed
+and NET_RX_SUCCESS is returned?
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261123144535.155300-1-starchang%40google.com
