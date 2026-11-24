@@ -1,58 +1,116 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795539230;
-	b=JQcSyQ+0+b28e6kLjTTGzhsJIT8WKg9CjnSgZPVI1usqKxhCrRmyFIF43/2zy9ARPnJH
-	 vwJtQagq++UN6+FsYRXyY7l53tKQkGSvU9HHUTSradP315yi6KfYrhWzisla0OHaUAiDb
-	 43ELSSCn7pwz80KVOAQT9g65a4ttwh8K/9zJi+Dzrd+kyiaSEfXM8m6MQz4ie31d3V2T1
-	 ZzDOgJUE1Nyl1NG7bDVap4ZWXVT3iaAlqkwPNdSvqgP0rqW4XA8cEpR3ZCRmlSzkhGcfu
-	 RrG/80BGipQ8uXpG6cuaFI5dgAKPDTr/Apdu7hMxy8pPdhW4dtz8DaP+YrUyhMy5dJg==
+	t=1795541094;
+	b=Jn3u7YUsTCcvkW6MOKtNL9qztIwKUmvLcbymbvLdjObReVn3rtDe3Yl7+L5RrBnvbTGt
+	 6MGLBjvMSVBMtD1ZZCVx1fG5GWdN/ETLUCv3FAld3dXqgeuybmtJORROx0WZt5xsIPgGm
+	 aac2SgKMVIhmnFI9Z1wqp6plo3fBE4HnLO+rE0ljBDdMMffzjr5X0mCagt/WwAeqwd9uy
+	 NkQooOnsj3HKYGu6F9AsizLQ9kZlSvazjFU16jCNp0c76/Se784UmrAeXUSI73agy31JM
+	 0WGnu7ApSAy25ti5cqomyltFiW2t2m6uehz0zWlBZJLK4ruJIDnfSJ+Ljt66XJ26WLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795539230;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=TGS0p3l5aUvQSsnJUtozcXV+gafJYP1vaRPZ8q+1yVs=;
-	b=SaEHNv2Cy+3jtGuhn8PPDnZGRXvZ9EFoLdoEI9YLvhjPT88SZAvMKj3k4djkCfg2tVme
-	 3cCRMtylwWnVwuNJlvSQLOIZ+tSYfXr9SsGWV6gpfJ5KC+yj9dUx3TCL+U7xvmpbRB229
-	 buRPpiUr7z8KDCLgwFZsXTUSzjKl3cTk46SB7OwJxulRwm22wBqjGh3t6+L1EHJyCQPUn
-	 IEboFCNYp1qw7FCbi7JNiOEF2hW+kDWviakmcl0Kf1pSsicLlX5sdDh+Y1vaczCLy3zgO
-	 SHB3oc1BVfKwGbJI1X9zRoZUdWZhv20zh+CDh02kBxbsPX3tgKkv4r6JQHGOwEY9KpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795541094;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=ozTidCXqTzSwi9dcCKWD5fJGGI9rCJsLQ/Ov08gLSsk=;
+	b=FK0ElCp80OctkAOjt3t1k/c6dXz6h0BMvCtmgYTwjq+tq0T0Zs6mbJfmFXX23Wpx7nKI
+	 73d4Ql+xv9vWTtrFDcWmaPwI2hjyMgeSFgAvASu+5AiufiLQUVlfTIHj6PzoU9cVSLw93
+	 lElfJVDWUdCl1brl85Xru9sQm5uA5IFPhVdgBgdveqAWyzhlAonFu3qtsEsOm4aw769xL
+	 wZF9asu+gNv4oYN7oJi8HEnCZ3oe5a8CSOeidInf7q50D84a1aB04piAUyeNBxjFpbCzw
+	 PKTNPWtU9CmP8/fZTR3AxhdZzTo93DDh6x2UoNUx4cp+QgjU/PM66b2uWEMCdI4U75A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="W+Q/DLky";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UEsvIshR;
+	arc=none smtp.remote-ip=209.85.214.180
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AD0606A330;
-	Tue, 24 Nov 2026 16:53:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2478606A32E
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 17:24:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2478606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W+Q/DLky
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0D721F000EB;
-	Tue, 24 Nov 2026 16:53:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795539230;
-	bh=TGS0p3l5aUvQSsnJUtozcXV+gafJYP1vaRPZ8q+1yVs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=W+Q/DLkygKoWveglsObwnQuDQHgHhVTLQBYYieM2oxOIAYtQwAL3WEOF2DLCZL2rS
-	 SLsGk1yYj0c5ZhKJxzpeyjJzcVtuG2Se1RWtmT4trrESXCTrIN8m7qgE0VbXPKsRE4
-	 mdcWRycOFo5nBnfBLfr9yrKwu1fySVR64C0gXTQ28Y4kaOOAsfR/hzNg3tWVrgnBTR
-	 l019oR6l78Ai6rXpy1paM+/c2kolkIcYvlIhh8nQz0ome6zV/4CRCET1tE2TVg2AFU
-	 6l+uALjhvT1IN939gxT23Xpl+bUli61HeqMiWL/7rK/0tONu2P735MhETaICOWf/ir
-	 wcG9si/y7Wosw==
-Date: Tue, 24 Nov 2026 16:53:48 +0000
-From: Harry Yoo <harry@kernel.org>
-To: arina.kharlamova@mbzuai.ac.ae
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
-	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH] slab: fix the kernel-doc of kmalloc_flex() on counter
- overflowy
-Message-ID: <awWxR-AsjwmkLE1Z@thinkstation>
-References: <20261124-slab-doc-v1-1-9f14dfce47c8@mbzuai.ac.ae>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UEsvIshR
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2f0a0d1a1e5so11644215ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 09:24:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795541093; x=1796145893; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ozTidCXqTzSwi9dcCKWD5fJGGI9rCJsLQ/Ov08gLSsk=;
+        b=UEsvIshRIY9txsH2W7YuViBjWyb6RCmLJ1dlolrxjjdbyMWW9RSfAuE9mVkyY4ufZF
+         8FqH0V9X71v8mD8MmM0dodRkQVkzFJayU5PbfS5SUlKcQbQNIhmha312AWigEQacHXvz
+         tlnJ+cXXRtr3CeJHvWoUEP1wLuvCJhLY3xGgX5UGoXy34aaRiRbh2mM2C6hREOrMuzd+
+         0HL60opQThWLEOzStOspPHJ508wq8IPVtyTge/TpJczhosNhj0+uO5zfRoaDcTTXL78F
+         qGmrthQRxbkjyyqlkMbgk/kUdP/CkQc8Fsl1Uby5M2xrJzqUzzuCunvvAzUvLaQSbJbY
+         SVJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795541093; x=1796145893;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ozTidCXqTzSwi9dcCKWD5fJGGI9rCJsLQ/Ov08gLSsk=;
+        b=zLAubH7+s4w8nrsYrpSgCJ8UCy2kvHp85vQAB6dNQnh3EtpT3OPRkCYshe9bsPUntq
+         6wrrNkWsN8lyeOYwfYnuHEpHCEIQQpyKNddWFtgJYEHsa1o8iu6MLmw2olcbTK3OLoCD
+         GRG4hlDFwzAr50+Ghl68taPTc+vDG8sCO8geat/EcPO8nCt2B+RngUfzbGd/p086OJJX
+         b6jb+EtJxTvZUs9XjxbCO1TwiQv0yAHbDpgiEEEVdZ+HQZevvTJiMGbyjBJcazgtlu5M
+         gExlF9k7y+luOgkMpcYLNDi6Vk/MOtse+wDUPDyMPbfCHuM0HWs0C73DrmN/A/Tb8SQW
+         m4tg==
+X-Forwarded-Encrypted: i=1; AL+hErFMZqlwn2CKytf6LvcTLr4kYc7ViLwOR+SggEkU3ezeBj/4i5fovf89AyG8t7YyrXXGHDcTgnSkLY0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z92PSc1WtcURG0vCPd/543a63CG2HY+CVZLF+PM3FHiw7Lo0Vb/
+	x4xHlj7r7i0WfwXJGDKsBDYODrEc/J0n6r7VkcICuZuBReXWzqxfn+TL
+X-Gm-Gg: AZFdTZfN9JNo9BeOwDYRRTlbbZ8TSKzfwBfPchlBOCt/+6+lJjowS2LeLH0BWlXzd8I
+	IfPLzocbPyKwEFBqvO6LtbDMswdekRZahC9ZUCodXv0Q/AaFpHDBoOYeyDdsJMB+uS4ykH4EBNA
+	lTiy0q9v8pn16AURbpNZleH6mX2+enoGUpN8vuH2nVgHf94XRg5eVmqEUOYh1vTX1K2nuiyQBYI
+	wR4KZkcBIHkmJgVEhB7KOvfMSL/t2ob7pp8R3OXaGQ8uIaEykz4Oq2W5yi/W+UO54fvBEhLcsp8
+	HfLnRi0ic6NCWSdHmFgJHgB0rwPD3vvYU16LOrhA0hHEnVRp46Q7i0NPwDPwZVx+qa2UyBwUGGH
+	UTKC+DhHX/O2Ci6Rok0ClQHoWYjPf2mvzIEyOUXV8ZyAnW+R0uJSGaHIuPfXduhypCir8fqroK2
+	b0uCboa7NpMBmHzmWzcm49WruRRUtXrE8KHhM2IIS6RlzJ3UmFTr9BvUYysoZa5ZnjkdcYEZqxd
+	StmMpsZkBYU85+PlPkoEx7MV7DjkHsTpa6RxVmy5rqGDVo0EDNC+lSIhzwUqAPJjsp9x5VCVzOV
+	EDrfChzCKc8CypcXeNT5AdscNwL5cCgy+Wy65AJmsVEjGT3AZVGLfIGfTMi9D3/dAul27AA=
+X-Received: by 2002:a17:902:f647:b0:2ef:e130:1505 with SMTP id d9443c01a7336-2f03f17d196mr143597245ad.10.1795541093208;
+        Tue, 24 Nov 2026 09:24:53 -0800 (PST)
+Received: from KASONG-MC4 ([101.32.222.185])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f102fc4sm72406805ad.43.2026.11.24.09.24.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 09:24:52 -0800 (PST)
+Date: Wed, 25 Nov 2026 01:24:38 +0800
+From: Kairui Song <ryncsn@gmail.com>
+To: Zi Yan <ziy@nvidia.com>
+Cc: kasong@tencent.com, linux-mm@kvack.org, 
+	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Muchun Song <muchun.song@linux.dev>, Qi Zheng <qi.zheng@linux.dev>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
+	Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Gregory Price <gourry@gourry.net>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
+	Hugh Dickins <hughd@google.com>, SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Yu Zhao <yuzhao@google.com>, Vernon Yang <vernon2gm@gmail.com>, 
+	Zicheng Wang <wangzicheng@honor.com>, Tal Zussman <tz2294@columbia.edu>, 
+	Xiang Liu <liuxiang.277@bytedance.com>, Ehab Ababneh <ehab.ababneh@intel.com>, 
+	Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, Lian Wang <lianux.mm@gmail.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, 
+	Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	damon@lists.linux.dev, linux-doc@vger.kernel.org, Tianyi Chen <hi@tychen.cc>, 
+	Ridong Chen <ridong.chen@linux.dev>
+Subject: Re: [PATCH v6 15/18] mm/huge_memory: mark folio as accessed more
+ accurately on split
+Message-ID: <awXABa3dYhEN0YEt@KASONG-MC4>
+References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
+ <20261124-mglru-fg-v6-15-8ffea39934a6@tencent.com>
+ <DN2V8E26C4EL.2TU52TEVLUFA@nvidia.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,161 +122,42 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261124-slab-doc-v1-1-9f14dfce47c8@mbzuai.ac.ae>
+In-Reply-To: <DN2V8E26C4EL.2TU52TEVLUFA@nvidia.com>
 
-Hi Arina,
-
-On Tue, Nov 24, 2026 at 03:58:53AM +0400, Arina Kharlamova via B4 Relay wrote:
-> From: Arina Kharlamova <arina.kharlamova@mbzuai.ac.ae>
-
-Please consider improving readability of the commit message and the
-comment. LLMs are good at writing a bunch of "technically correct" texts
-that are completely unreadable by human.
-
-> Commit fa5c82f4d2bb ("slab.h: disable completely broken overflow handling
-> in flex allocations") removed the overflows_flex_counter_type() check from
-> __alloc_flex(), but left the kernel-doc of __alloc_flex() and
-> kmalloc_flex(), and the text in deprecated.rst, saying that the
-> allocation fails when COUNT cannot be represented by the __counted_by()
-> counter.
-
-Good catch.
-
-Hmm, commit fa5c82f4d2bb says it needs to be inserted into
-__set_flex_counter but conditionally but apparently there is no
-follow-up. Kees?
-
-> The code instead allocates COUNT elements and stores COUNT into the
-> counter, truncated to the counter's type. With a u8 counter,
-> kmalloc_flex(*p, array, 256) returns a 256-element object whose counter
-> is 0.
-
-> With compilers that lack __builtin_counted_by_ref() the counter is
-> not written at all.
-
-Yup, which is benign as the counter is only used by hardening checks,
-right?
-
-And they should be skipped with such a compiler?
-
-> A caller that relies on the documented check and does not bound COUNT
-> itself gets an object whose __counted_by() size is smaller than the
-> allocation. Accesses inside the allocation are then reported by
-> UBSAN_BOUNDS, and readers that loop up to the counter see fewer elements.
-
-Good point but a counter overflow is an obvious bug so this explanation
-is unnecessary and verbose.
-
-> Make the documentation describe what the code does, and fix the
-> Returns: text of overflows_flex_counter_type(), which still describes
-> the inverted logic that the same commit corrected.
-
-Ok.
-
-> Returning NULL, as the old text described, is not done here. Some
-> callers allocate one element more than the counter can hold and then set
-> the counter themselves: ext4_htree_store_dirent() calls kzalloc_flex()
-> with ent_name->len + 1 elements for a struct whose name_len is a __u8,
-> so a 255-byte name would then fail with -ENOMEM.
-
-again, this pagraph doesn't add much value in the commit message IMHO.
-
-> Found while checking a summary of the kmalloc_obj() family against the
-> v7.0 to v7.4-rc2 text of slab.h with a battery of inputs compiled by
-> GCC 15.2, with the help of an AI coding assistant (Claude); I reviewed
-> the analysis and the patch. A KUnit case (not part of this patch) that
-> calls kmalloc_flex() with a u8 counter and COUNT 256 gets a non-NULL
-> object with the counter 0 on v7.4-rc2 (UML, GCC 15.2.0); with
-> UBSAN_BOUNDS, writing element 255 of that object reports "index 255 is
-> out of range for type 'u32 [*]'". This patch changes comments only;
-> scripts/kernel-doc -Wall reports the same warnings for slab.h and
-> overflow.h before and after it.
-
-again, we don't really put a paragraph like this in the commit message.
-
-> Fixes: fa5c82f4d2bb ("slab.h: disable completely broken overflow handling in flex allocations")
-> Signed-off-by: Arina Kharlamova <arina.kharlamova@mbzuai.ac.ae>
-> ---
->  Documentation/process/deprecated.rst |  8 ++++----
->  include/linux/overflow.h             |  5 +++--
->  include/linux/slab.h                 | 15 +++++++++------
->  3 files changed, 16 insertions(+), 12 deletions(-)
+On Mon, Nov 23, 2026 at 03:17:05PM +0800, Zi Yan wrote:
+> On Mon Nov 23, 2026 at 1:53 PM EST, Kairui Song via B4 Relay wrote:
+> > From: Kairui Song <kasong@tencent.com>
+> >
+> > The behavior of updating the folio's access info isn't consistent for
+> > huge mapping splitting or ordinary unmapping. The page table's young
+> > flag has to be translated into folio's access info.
+> >
+> > Right now it only checks and sets the folio's referenced flag, which isn't
+> > enough since folio flag updates on access have their own rules. Ordinary
+> > unmapping (zapping) calls folio_mark_accessed(), and it also checks
+> > if the VMA has recency to avoid false updates.
 > 
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index 22a5e62c92ea..f8b7fb6f9629 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -405,7 +405,7 @@ become, respectively::
->  	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
->  
->  The argument gfp is optional, the default value is GFP_KERNEL.
-> -If `ptr->flex_member` is annotated with __counted_by(), the allocation
-> -will automatically fail if `count` is larger than the maximum
-> -representable value that can be stored in the counter member associated
-> -with `flex_member`.
-> +If `ptr->flex_member` is annotated with __counted_by(), the counter
-> +member associated with `flex_member` is set to `count` on compilers that
-> +support it. `count` is not checked against the type of the counter, so
-> +the caller must make sure it fits.
-> diff --git a/include/linux/overflow.h b/include/linux/overflow.h
-> index d0f04436343e..6ce610dbc12e 100644
-> --- a/include/linux/overflow.h
-> +++ b/include/linux/overflow.h
-> @@ -566,8 +566,9 @@ static __always_inline size_t __must_check size_sub(size_t minuend, size_t subtr
->   * @FAM: Member name of the FAM within @TYPE.
->   * @COUNT: Value to check against the __counted_by annotated @FAM's counter.
->   *
-> - * Returns: true if @COUNT can be represented in the @FAM's counter. When
-> - * @FAM is not annotated with __counted_by(), always returns true.
-> + * Returns: true if @COUNT cannot be represented in the @FAM's counter.
-> + * When @FAM is not annotated with __counted_by(), or the compiler cannot
-> + * resolve the counter, @COUNT is checked against size_t.
->   */
->  #define overflows_flex_counter_type(TYPE, FAM, COUNT)		\
->  	(overflows_type(COUNT, typeof_flex_counter(((TYPE *)NULL)->FAM)))
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index ad645967a3ee..69fa9066137f 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -1091,10 +1091,13 @@ void *kmalloc_nolock(size_t size, gfp_t gfp_flags, int node);
->   * @FAM: The name of the flexible array member of @TYPE structure.
->   * @COUNT: how many @FAM elements to allocate space for.
->   *
-> + * If @FAM is annotated with __counted_by() and the compiler supports
-> + * __builtin_counted_by_ref(), the counter member is set to @COUNT. @COUNT
-> + * is not checked against the type of that member: a value it cannot
-> + * represent is stored truncated, so the caller must bound @COUNT.
-> + *
->   * Returns: Newly allocated pointer to @TYPE with @COUNT-many trailing
-> - * @FAM elements, or NULL on failure or if @COUNT cannot be represented
-> - * by the member of @TYPE that counts the @FAM elements (annotated via
-> - * __counted_by()).
-> + * @FAM elements, or NULL on failure.
->   */
->  #define __alloc_flex(KMALLOC, GFP, TYPE, FAM, COUNT)			\
->  ({									\
-> @@ -1137,9 +1140,9 @@ void *kmalloc_nolock(size_t size, gfp_t gfp_flags, int node);
->   * @...: optional GFP flags for the allocation (GFP_KERNEL when not specified).
->   *
->   * Returns: newly allocated pointer to @VAR_OR_TYPE on success, NULL on
-> - * failure. If @FAM has been annotated with __counted_by(), the allocation
-> - * will immediately fail if @COUNT is larger than what the type of the
-> - * struct's counter variable can represent.
-> + * failure. If @FAM has been annotated with __counted_by(), the struct's
-> + * counter variable is set to @COUNT when the compiler supports it. @COUNT
-> + * must fit in the type of that variable; it is not checked.
->   */
->  #define kmalloc_flex(VAR_OR_TYPE, FAM, COUNT, ...) \
->  	__alloc_flex(kmalloc, default_gfp(__VA_ARGS__), typeof(VAR_OR_TYPE), FAM, COUNT)
-> 
-> ---
-> base-commit: 9b95c9eeec894e969d590f45f9b760e88ba92876
-> change-id: 20261124-slab-doc-1894ca04d006
-> 
-> Best regards,
-> --  
-> Arina Kharlamova <arina.kharlamova@mbzuai.ac.ae>
+> Can you elaborate on why vma_has_recency() should be used? "false updates"
+> might be too vague.
 
--- 
-Cheers,
-Harry / Hyeonggon
+Thanks for the careful review!
+
+Right, maybe I shouldn't say these are "false updates" indeed. But it
+makes sense to do so, will reword that paragraph.
+
+The young PTE becomes folio hotness via the LRU refs to help improve
+LRU accuracy: telling the LRU that the folio is accessed, so it should
+be protected as it is more likely to be reused soon.
+
+But vma_has_recency() is the app's hint that these accesses are not a
+recency signal: MADV_RANDOM expects "page references in random order",
+POSIX_FADV_NOREUSE sets FMODE_NOREUSE, and MADV_SEQUENTIAL expects
+pages which "may be freed soon after they are accessed", which is the
+opposite of what the refs mean. In all these cases, marking the folio
+referenced from a PTE access hurts instead of helping.
+
+zap_pte_range() and folio_referenced_one() already ignore the accessed
+bit for such VMAs. The split path is the last place translating a young
+PTE into folio hotness without it. So while converting to the more
+useful folio_mark_accessed(), also add the missing recency check to
+avoid wrong promotion.
