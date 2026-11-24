@@ -1,107 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795502474;
-	b=TKJyqxENDyi+4iCyj1WHRsSDzHHzaBzNcSkp++JhccQIyRk7bj4HNe3u0Dh5QldP0u8Y
-	 xM9TRqFYUyaOUHdrX8odfZncXXthZ3ZaU0PAj+rnBDNb8ysJUnA9Rhzo35cN1NaHwyCmr
-	 Y1ETHX+JgzDn/zxQtnEVV/u+xWCYGrZmeEvN71jHam+18u/axsGKh7c21TH8f9ZC9L/T7
-	 fJnEU0y5L/2iK1mYtcea2xpJvoPpuVdDBVy71WHisCXGUuYZSC7+6DWYXPsZOtAIbGfNp
-	 pdLLLiCUImGVZLnozmhpghtYfoCeVbkXE1WKBLZF8ySbz5e+OuyUX+5CmIy7nwclu1A==
+	t=1795503902;
+	b=Sr3cDAVrqouMdvOu+eXEdM7bl/UIPeDht8yCM4dSlf3t96+igEHAI1UqGwYRzbet/Uem
+	 +a/JCzxE8n+7OpznbOstiHmQAujkWfywkkctn4xzgdUFYZPW9gcFJknBKWrmulFMylKLF
+	 jrLXx2jqWADcZnZiILDH8Ei2yFryE1vFNwC9m3jlFYdjURl0vVepdpZntWYOj5l59Rcwk
+	 gDVop2Fh+ia3HMexrdNkKLU2odHqMvQZxjjdt5cM91k316RY73MqupFkAwdzcR2c8ng28
+	 vhywK0s5bXlDPTa9N0Dalmc57C93jBQPxY6ZywfzsLlh09FCFlUTBzLau5FNrhEB5kw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795502474;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:
-	 X-Spam-Score;
-	bh=/hXeQQdmCcFIYejm32YeM2sCSWjzrW5ddVMP6NBf6kI=;
-	b=AaSNhTvmAAZJDfv+dqOSyDUaiRQeUJJ7EKIbm5oDeuPWW5/rKcZkDVohX2AMzJJaEt8Q
-	 NLev5GQY4y6u0KkQAdexqP36eZwHNaBOepkNeh+pYeQeiVhx10YYZe6RBS1D0yhdnWPmY
-	 JtksNmgMz58ZdYi2EaG5INtAHpza5FeGshtZoEfXaoVyPZz8nIUJ4PMGJnKK2q8f3EyvO
-	 aDmi6Kaf0LsERYztBaYVd/PWNwky7Ykp53AyuXkBqrCFtit4HcVXq2o5V6Xy8au1LnbXW
-	 EplWCCAxSwymAGh+pL46f6hsTcELX0qtE3rNsAMU19vmiAod3xdJxCYkr8S3RsKu9TA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795503902;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding;
+	bh=BIMw7C3LdL9dEcQe5UAN8K0d6FbiCwVm0msm5sc6v58=;
+	b=U65MDDAyzLJvRr4IbQNSZUIVpD9MvWsFBkeJlJ6MTKFKaFK5goDzHvtCgDUKOlU+9uKL
+	 yanEjj0fjddM/cFhgUz1v53pox9kNyg03d+IkF2gTaqklXNwbSSt0db+Et5R1DD+dfC2S
+	 X7vvezeqK9Kfe7SRTdAkE97yLTlZV7tzp2cVXmraZmaAqsLANiCwVJVq7HGCJ3355lyDJ
+	 fueuZp4FRo30XeeMUYr7TKFkslF2d/E/oZvqD+2taqdwGIdw2GJn7o5GMgSS/Rl1AuKkZ
+	 q1SZcrVD/eUdQH0X9O/aQwsXwboUFSrPaPR+04NBiVZMfltC2sFUs34xWTM2QhyBMDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=qmGAPux5;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=qmGAPux5;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="mO/mZZbu";
+	arc=none smtp.remote-ip=209.85.221.49
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5911A606A326;
-	Tue, 24 Nov 2026 06:41:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5911A606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F942606A321
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 07:05:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F942606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=qmGAPux5;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=qmGAPux5
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6997022076;
-	Tue, 24 Nov 2026 06:41:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1795502471; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=/hXeQQdmCcFIYejm32YeM2sCSWjzrW5ddVMP6NBf6kI=;
-	b=qmGAPux5feV/IK5E/dEfT9nur5vEcG+lQnRdjCXnm4XcGttQRfkcJUqPXaod4Abd66J1wP
-	P11kld2OMWM7fPDwgS78Pj+LJjBdcbDzFuFhAiwHjeNscq6f4GqSVjT7IABnp7MwjWFHqd
-	49eQRr7mVk9QoSLjmtaMA159nnPa3Vo=
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1795502471; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=/hXeQQdmCcFIYejm32YeM2sCSWjzrW5ddVMP6NBf6kI=;
-	b=qmGAPux5feV/IK5E/dEfT9nur5vEcG+lQnRdjCXnm4XcGttQRfkcJUqPXaod4Abd66J1wP
-	P11kld2OMWM7fPDwgS78Pj+LJjBdcbDzFuFhAiwHjeNscq6f4GqSVjT7IABnp7MwjWFHqd
-	49eQRr7mVk9QoSLjmtaMA159nnPa3Vo=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8ECDB13505;
-	Tue, 24 Nov 2026 06:41:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XfqRGYYxBWsqIAAAD6G6ig
-	(envelope-from <jgross@suse.com>); Tue, 24 Nov 2026 06:41:10 +0000
-From: Juergen Gross <jgross@suse.com>
-To: linux-kernel@vger.kernel.org,
-	x86@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Cc: Juergen Gross <jgross@suse.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mO/mZZbu
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4a7b8abe209so3131806f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Nov 2026 23:05:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795503900; x=1796108700; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BIMw7C3LdL9dEcQe5UAN8K0d6FbiCwVm0msm5sc6v58=;
+        b=mO/mZZbueEgry9+LtmX+rpAkAbrYWNZLKMp198Y/yWZOYXOT6GgnfQMF+GWrUBCrHo
+         5j2zb6r6TP4k5KV3k7zZ2GECskcs3dM7QwYIO/qNCA4CFyfJXhonVaq8Kn0BLoSm3LiU
+         RJbH5UWbyHg1VHrKWkU+Ll+DtzyPm1zGiovDujH4FgcguLgpClTY8+Xoel/L2nEozEsz
+         ntXyiClfi6iPDQvrTWRLIPD2nzqgAjaiS+bpWbLoiiTm5twO05w4BMAcONkBUVYoBMoq
+         Tq4RQkP6KABDPsLgpKlVxyDjn3jTcvM46Uzb7Xbz/0kxOMPXSMDU7H6CscaM/dYtwdfP
+         YdfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795503900; x=1796108700;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=BIMw7C3LdL9dEcQe5UAN8K0d6FbiCwVm0msm5sc6v58=;
+        b=mEKecygg5pH0VcCd34vBiUeVFnNbHuYR9Z40YgQNAaHqNwUu1lIlS0kx6wICM8H3I3
+         oNXrw9vlgAmN9qW2Kdd8LJ/a5Q6EkgDr1WbIfUTloT0MDuVnd57tfvJiIC5xZ3uLCx2x
+         iCq3ffWEl597/ABO0P/IAS/QWSaWiCdy93cX/MVB13OiacQh76kUdiFek/JwcukRjimT
+         sptexsWZxQipN9SQTjz0zgUiOuKc+sxNvpxQlnQOAbu3kbfJj1XB0MkhAixJ+z0VODHn
+         OyZTlJz+cjouOrhesBDlBp7n6q0C3kXOn8ut0l30gjq9sezBhJUBvTdqMN73+vqkpFNy
+         6gdA==
+X-Forwarded-Encrypted: i=1; AL+hErHMJY1OGon/cI+P4fSFTJnHeFGfG+1lCKV2w3ed6QwrSZfB03TzOrJYhhiLaCGm662O/M0+RzPa/9U=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+8p9wCfUthigFHkJqS+nJZFk+L8BrSDXRDe3ojv97WFsQ26BMr
+	o7reLTj0VskcOf7U5fkNnNDYqInT+ZrwNDR6cr8h45hqgGUA8tGxgFenUVdh7iX4oRsKKA==
+X-Gm-Gg: AZFdTZebqpOJi1tettiQv+XYMLiwm3GAUyy5Uiv2+g9EKOnGW+R7Cqa9/zuHJvX0zDi
+	6IWqYSlMHYcNkuYH0NfVwvkoJvirpjETTRMCmihZNZXELM1feQUrLPtQe+AamNru20uVG96FI9F
+	DsgmKIfXEJtDzJevGI/eDABj+l/q93EeGoE2qLr4wfIf0y3uYj3F709gC8nxu8LgCvcDT/lkTB+
+	tFG4ibhGNh1tW9hwfLF8FIkALiJP2AWMHSJeAZlosNBO2v04rl3JA7YBwgyOdzG1jDV6pPeT7Q5
+	eZiZmG7ayxozmVmNtGmJlH0HK0XCorANtQhu/ZSQHE8lrjKNCEPgIGJ17l3lH4a51lWctF1aeWQ
+	jRuegG63ofRQ7x5JswhXXM92+tQSUhJGgrjdDYcx3hOcOSQFxLbeEcRzaNRnBLVGbduUpsdPHK1
+	t9BL5EanPuPEUzzHgTP2QlEg+69zcnh9KHuxGdbwWmlHDCX459T1JLw9nEyyTNTEllq4C5XKe6y
+	2Vd+wOcFK/WRrDdphVPmSQmURuo7mh2EM0jRuaK1b8j/mS0Md40VyhzC9IEXGcK0inBGkZt8P5s
+	WE7XeSfQz76XjHt6Hs/AEiCrD6cwvZ38Vw==
+X-Received: by 2002:a05:600c:4ecd:b0:4a3:12fb:1ef1 with SMTP id 5b1f17b1804b1-4bb8881e81cmr291163845e9.29.1795503899706;
+        Mon, 23 Nov 2026 23:04:59 -0800 (PST)
+Received: from ArchOarora ([2001:19f0:6c01:2c43:5400:5ff:fef6:1b30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb9066f6e6sm173032935e9.3.2026.11.23.23.04.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 23:04:58 -0800 (PST)
+From: Oarora Etimis <oaroraetimis@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	jose.exposito89@gmail.com,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Lucas De Marchi <demarchi@kernel.org>,
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Tony Luck <tony.luck@intel.com>,
-	Ashok Raj <ashok.raj.linux@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v2] msr: replace rdmsr()/wrmsr() in comments
-Date: Tue, 24 Nov 2026 07:41:08 +0100
-Message-ID: <20261124064108.2440277-1-jgross@suse.com>
-X-Mailer: git-send-email 2.56.0
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	sebastian.wick@redhat.com,
+	victoria@system76.com,
+	thomas.petazzoni@bootlin.com,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v6 32/43] drm/vkms: Introduce connector type
+Date: Tue, 24 Nov 2026 08:04:45 +0100
+Message-ID: <awU0T4JnNWB7xU5O@Oarora>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261120-vkms-all-config-v6-32-78ace90f4fc1@bootlin.com>
+References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com> <20261120-vkms-all-config-v6-32-78ace90f4fc1@bootlin.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -111,179 +127,136 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-10.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[suse.com,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,lwn.net,linuxfoundation.org,infradead.org,arm.com,google.com,intel.com,linaro.org,roeck-us.net,gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_HAS_DN(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLfdszjqhz8kzzb9uwpzdm8png)];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Score: -10.30
 
-Replace all mentioning of rdmsr() and wrmsr() in comments with
-rdmsrq() and wrmsrq(), as the former functions are no longer
-existing.
+On Fri, Nov 20, 2026 at 06:59:14PM +0100, Louis Chauvet wrote:
+> In order to emulate connector-specific behavior, add the connector type
+> to the connector configuration.
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/vkms/tests/vkms_config_test.c |  5 +++++
+>  drivers/gpu/drm/vkms/vkms_config.c            |  3 +++
+>  drivers/gpu/drm/vkms/vkms_config.h            | 24 ++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_connector.c         |  2 +-
+>  4 files changed, 33 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+> index a43dff511fc3..257ba0342034 100644
+> --- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+> +++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+> @@ -137,6 +137,7 @@ static void vkms_config_test_default_config(struct kunit *test)
+>  	struct vkms_config *config;
+>  	struct vkms_config_plane *plane_cfg;
+>  	struct vkms_config_crtc *crtc_cfg;
+> +	struct vkms_config_connector *connector_cfg;
+>  	int n_primaries = 0;
+>  	int n_cursors = 0;
+>  	int n_overlays = 0;
+> @@ -211,6 +212,10 @@ static void vkms_config_test_default_config(struct kunit *test)
+>  
+>  	/* Connectors */
+>  	KUNIT_EXPECT_EQ(test, vkms_config_get_num_connectors(config), 1);
+> +	vkms_config_for_each_connector(config, connector_cfg) {
+> +		KUNIT_EXPECT_EQ(test, vkms_config_connector_get_type(connector_cfg),
+> +				DRM_MODE_CONNECTOR_VIRTUAL);
+> +	}
+>  
+>  	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+> index 963e32d5adf7..291c0330bc56 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> @@ -651,6 +651,8 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>  		seq_printf(m, "\tstatus=%s\n",
+>  			   drm_get_connector_status_name(
+>  				   vkms_config_connector_get_status(connector_cfg)));
+> +		seq_printf(m, "\ttype=%s\n",
+> +			   drm_get_connector_type_name(vkms_config_connector_get_type(connector_cfg)));
+>  	}
+>  
+>  	return 0;
+> @@ -984,6 +986,7 @@ struct vkms_config_connector *vkms_config_create_connector(struct vkms_config *c
+>  
+>  	connector_cfg->config = config;
+>  	connector_cfg->status = connector_status_connected;
+> +	vkms_config_connector_set_type(connector_cfg, DRM_MODE_CONNECTOR_VIRTUAL);
+>  	xa_init_flags(&connector_cfg->possible_encoders, XA_FLAGS_ALLOC);
+>  	kref_init(&connector_cfg->refcnt);
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+> index 9d0a0087c9da..88429e01089b 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> @@ -138,6 +138,7 @@ struct vkms_config_encoder {
+>   * struct vkms_config_connector
+>   *
+>   * @link: Link to the others connector in vkms_config
+> + * @type: Store the type of connector using DRM_MODE_CONNECTOR_* values
+>   * @config: The vkms_config this connector belongs to
+>   * @status: Status (connected, disconnected...) of the connector
+>   * @possible_encoders: Array of encoders that can be used with this connector
+> @@ -150,6 +151,7 @@ struct vkms_config_connector {
+>  	struct list_head link;
+>  	struct vkms_config *config;
+>  
+> +	int type;
+>  	enum drm_connector_status status;
+>  	struct xarray possible_encoders;
+>  
+> @@ -371,6 +373,28 @@ vkms_config_plane_set_default_pipeline(struct vkms_config_plane *plane_cfg,
+>  }
+>  
+>  /**
+> + * vkms_config_connector_get_type() - Return the connector type
+> + * @connector_cfg: Connector to get the type from
+> + */
+> +static inline int
+> +vkms_config_connector_get_type(const struct vkms_config_connector *connector_cfg)
+> +{
+> +	return connector_cfg->type;
+> +}
+> +
+> +/**
+> + * vkms_config_connector_set_type() - Set the connector type
+> + * @connector_cfg: Connector to set the type to
+> + * @type: New connector type
+> + */
+> +static inline void
+> +vkms_config_connector_set_type(struct vkms_config_connector *connector_cfg,
+> +			       int type)
+> +{
+> +	connector_cfg->type = type;
+> +}
+> +
+> +/*
+>   * vkms_config_plane_get_default_rotation() - Get the default rotation for a plane
+>   * @plane_cfg: Plane to get the default rotation from
+>   *
+> diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
+> index 11e313440225..f5e99e77e84f 100644
+> --- a/drivers/gpu/drm/vkms/vkms_connector.c
+> +++ b/drivers/gpu/drm/vkms/vkms_connector.c
+> @@ -88,7 +88,7 @@ struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev,
+>  		return ERR_PTR(-ENOMEM);
+>  
+>  	ret = drmm_connector_init(dev, &connector->base, &vkms_connector_funcs,
+> -				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
+> +				  vkms_config_connector_get_type(connector_cfg), NULL);
+>  	if (ret)
+>  		return ERR_PTR(ret);
+>  
+> 
+> -- 
+> 2.56.0
+>
 
-In drivers/hwmon/coretemp.c drop mentioning rdmsr/wrmsr, as the
-comment was incorrect in this regard.
+Aww, makes sense! Missed colon earlier.
 
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
-To be applied on top of current core/msr branch of the tip tree.
-V2:
-- drop comment in drivers/hwmon/coretemp.c (Asaf Nuri Bertizlioglu)
----
- Documentation/arch/x86/microcode.rst  | 2 +-
- arch/x86/events/amd/ibs.c             | 2 +-
- arch/x86/events/intel/core.c          | 2 +-
- arch/x86/events/intel/lbr.c           | 6 +++---
- arch/x86/include/asm/shared/msr.h     | 2 +-
- arch/x86/kernel/cpu/feat_ctl.c        | 2 +-
- drivers/hwmon/coretemp.c              | 3 +--
- drivers/platform/x86/intel/ifs/load.c | 5 +++--
- 8 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/arch/x86/microcode.rst b/Documentation/arch/x86/microcode.rst
-index b627c6f36bcf..df1fb2c82333 100644
---- a/Documentation/arch/x86/microcode.rst
-+++ b/Documentation/arch/x86/microcode.rst
-@@ -151,7 +151,7 @@ are also treated as fatal by the kernel.
- On certain Intel machines, MCEs are also broadcast to all threads in a
- system. If one thread is in the middle of executing WRMSR, a MCE will be
- taken at the end of the flow. Either way, they will wait for the thread
--performing the wrmsr(0x79) to rendezvous in the MCE handler and shutdown
-+performing the wrmsrq(0x79) to rendezvous in the MCE handler and shutdown
- eventually if any of the threads in the system fail to check in to the
- MCE rendezvous.
- 
-diff --git a/arch/x86/events/amd/ibs.c b/arch/x86/events/amd/ibs.c
-index f43949bde19c..2ef0530b6561 100644
---- a/arch/x86/events/amd/ibs.c
-+++ b/arch/x86/events/amd/ibs.c
-@@ -591,7 +591,7 @@ static void perf_ibs_start(struct perf_event *event, int flags)
- 		 *  o Set VAL bit            CTL2[Dis] = 1
- 		 *  o Raise NMI --.        o ...
- 		 *                 \       o ->start()
--		 *                  \        wrmsr(IBS_{FETCH|OP}_CTL, new value);
-+		 *                  \        wrmsrq(IBS_{FETCH|OP}_CTL, new value);
- 		 *                   \       (wrmsr clears the VAL bit)
- 		 *                    `--> o Receives delayed NMI
- 		 *                           (Unknown NMI since VAL bit is cleared)
-diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
-index 96bcbf823aec..1b6213ef2ced 100644
---- a/arch/x86/events/intel/core.c
-+++ b/arch/x86/events/intel/core.c
-@@ -6963,7 +6963,7 @@ static bool check_msr(unsigned long msr, u64 mask)
- 		return false;
- 
- 	/*
--	 * Quirk only affects validation in wrmsr(), so wrmsrq()'s value
-+	 * Quirk only affects validation in wrmsrq(), so wrmsrq()'s value
- 	 * should equal rdmsrq()'s even with the quirk.
- 	 */
- 	if (val_new != val_tmp)
-diff --git a/arch/x86/events/intel/lbr.c b/arch/x86/events/intel/lbr.c
-index beac04502b73..760d5e465a56 100644
---- a/arch/x86/events/intel/lbr.c
-+++ b/arch/x86/events/intel/lbr.c
-@@ -222,7 +222,7 @@ enum {
-  * are the TSX flags when TSX is supported, but when TSX is not supported
-  * they have no consistent behavior:
-  *
-- *   - For wrmsr(), bits 61:62 are considered part of the sign extension.
-+ *   - For wrmsrq(), bits 61:62 are considered part of the sign extension.
-  *   - For HW updates (branch captures) bits 61:62 are always OFF and are not
-  *     part of the sign extension.
-  *
-@@ -231,8 +231,8 @@ enum {
-  *   1) LBR format LBR_FORMAT_EIP_FLAGS2
-  *   2) CPU has no TSX support enabled
-  *
-- * ... then any value passed to wrmsr() must be sign extended to 63 bits and any
-- * value from rdmsr() must be converted to have a 61 bits sign extension,
-+ * ... then any value passed to wrmsrq() must be sign extended to 63 bits and
-+ * any value from rdmsrq() must be converted to have a 61 bits sign extension,
-  * ignoring the TSX flags.
-  */
- static inline bool lbr_from_signext_quirk_needed(void)
-diff --git a/arch/x86/include/asm/shared/msr.h b/arch/x86/include/asm/shared/msr.h
-index a20b1c08c99f..c46188ca5403 100644
---- a/arch/x86/include/asm/shared/msr.h
-+++ b/arch/x86/include/asm/shared/msr.h
-@@ -13,7 +13,7 @@ struct msr {
- };
- 
- /*
-- * The kernel proper already defines rdmsr()/wrmsr(), but they are not for the
-+ * The kernel proper already defines rdmsrq()/wrmsrq(), but they are not for the
-  * boot kernel since they rely on tracepoint/exception handling infrastructure
-  * that's not available here.
-  */
-diff --git a/arch/x86/kernel/cpu/feat_ctl.c b/arch/x86/kernel/cpu/feat_ctl.c
-index 7228fc2bb43e..0c10b1f35270 100644
---- a/arch/x86/kernel/cpu/feat_ctl.c
-+++ b/arch/x86/kernel/cpu/feat_ctl.c
-@@ -36,7 +36,7 @@ static void init_vmx_capabilities(struct cpuinfo_x86 *c)
- 	 * features that can be turned off.  Ignore the allowed-0 settings,
- 	 * if a feature can be turned on then it's supported.
- 	 *
--	 * Use raw rdmsr() for primary processor controls and pin controls MSRs
-+	 * Use raw rdmsrq() for primary processor controls and pin controls MSRs
- 	 * as they exist on any CPU that supports VMX, i.e. we want the WARN if
- 	 * the RDMSR faults.
- 	 */
-diff --git a/drivers/hwmon/coretemp.c b/drivers/hwmon/coretemp.c
-index 96d57fe12de6..ad5e8f40ad0c 100644
---- a/drivers/hwmon/coretemp.c
-+++ b/drivers/hwmon/coretemp.c
-@@ -66,8 +66,7 @@ enum coretemp_attr_index {
-  *		IA32_TEMPERATURE_TARGET MSR.
-  * @last_updated: The time when the current temperature value was updated
-  *		earlier (in jiffies).
-- * @cpu_core_id: The CPU Core from which temperature values should be read
-- *		This value is passed as "id" field to rdmsr/wrmsr functions.
-+ * @cpu_core_id: The CPU Core from which temperature values should be read.
-  * @status_reg: One of IA32_THERM_STATUS or IA32_PACKAGE_THERM_STATUS,
-  *		from where the temperature values should be read.
-  * @attr_size:  Number of sysfs attributes in this temperature data group.
-diff --git a/drivers/platform/x86/intel/ifs/load.c b/drivers/platform/x86/intel/ifs/load.c
-index 6320a0e45d38..74041a3410c3 100644
---- a/drivers/platform/x86/intel/ifs/load.c
-+++ b/drivers/platform/x86/intel/ifs/load.c
-@@ -110,8 +110,9 @@ static void auth_err_message(struct device *dev, u32 err_code)
- /*
-  * To copy scan hashes and authenticate test chunks, the initiating cpu must point
-  * to the EDX:EAX to the test image in linear address.
-- * Run wrmsr(MSR_COPY_SCAN_HASHES) for scan hash copy and run wrmsr(MSR_AUTHENTICATE_AND_COPY_CHUNK)
-- * for scan hash copy and test chunk authentication.
-+ * Run wrmsrq(MSR_COPY_SCAN_HASHES) for scan hash copy and run
-+ * wrmsrq(MSR_AUTHENTICATE_AND_COPY_CHUNK) for scan hash copy and test chunk
-+ * authentication.
-  */
- static void copy_hashes_authenticate_chunks(struct work_struct *work)
- {
--- 
-2.56.0
+Reviewed-by: Oarora Etimis <oaroraetimis@gmail.com>
 
+Reviewby
