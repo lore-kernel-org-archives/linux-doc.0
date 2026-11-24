@@ -1,75 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.71
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795542253;
-	b=SWTIGC+G2Ks7Yb1Qlxc6L72IVkV4ZQkLIEjV6gHJZA2gykqScrw4OJYi+2EFhKyKd8cq
-	 fgTaweu0WpYZ2e9yAS6J6OCtq+TnN/LNTesBMJdtwaKudyeUpA1YGMPlWdz18bOGrh8u3
-	 SI81T6cWq3HoFXkVUhuFrwThcrZJuvPOiV6btC114JH73GrjmioRZ07q4HtKMqYua8sHk
-	 ikiwUEngOIdLjZ2QEHHvOj0RyF/yCIX17eOl6a+s8BivLBiXH0iha80Kd3AZeFZwSUOec
-	 wDjf1kJJV8EOrzoBOSJBE8+4uJdfJ2+lhEV1g3meNnJb5MaCIJLP8P16sHQWXvGWjnA==
+	t=1795542522;
+	b=tfwRNfiZ2mYuSpavG9tGu7QF9ZiZIeWfneQvaQOgOz3xgiKKK0VrvgOrdkflmqvquuVe
+	 e2Pk28ClBlOSyPoJUL1Kbc+1im9dZi9UTUO4bl5zMGTTg99+LZbnp2xK7ovKOqv2bwkIi
+	 665A15Cxt2cq22HVCbw1hfbdKybmOOjS1cRb2Ki4rG2Bb6kUA3zs1jj6K5nKXSgiOFtxH
+	 ammPhwG+hWYf0QVR8C8q29tvnXxDmGQEpDsdHYwga0IykhjR4PwxIVL7kGdpD50nJ/+IA
+	 Uz8Pe9hSIB5+UIZnnyvyKg/5QZh/dpDcAqr8MgsP/y8fhHvor16BCcCzmBqFhwjkXJQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795542253;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=AA1FxlB1wIsiVBWKGbYXdSD5iGjxbbQKg8GOAcVUoD0=;
-	b=ySyQC8au3zz7L24EAFbZ6SI6ExpsgXruvjqLzmGuLXgjlREvTzpSU4mDMc8lRiVgqvvm
-	 u2HeYSW5SneF67WXZwigx8MW37Jm8TavJDF926esacMSrcEq8F4OpLWNyhf+UWuOTdNyA
-	 CA+1KYhakxEWiZnq0NfnsGyWhZ7RJLK7ChvdQaeE5cdmpDP8DonLn+CnX/GE7u39dn/xk
-	 I+Cbt9U+lsdw0Ya00ZDk6eKCcPCsShPw9NbbHrLMPrexZ906gIWzfjWXvoYYS3sGnWigY
-	 cpAIFQ6JFDcd29fZXstsgT1tbix7mJVgF07ptADy94Y89e2SijnHFsNZFgWdc/h10Ow==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795542522;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=iAxXNBw21OAhqAVbpLzIkcF+I6WgYNRYnju4tgLuhNo=;
+	b=ogoV68Y6/UurZKUIZAO50ODyOnlNdqcGJ/sb0dzlD15bv/D5mltA3WRzWEfZqHs+BoUi
+	 ux8TnBKmiqKi7pZH9vDxnYrja8B2zAbaW25ZjRLHnUtTXCQKJNH43TzQzMHwWqx8dMdnS
+	 0WTfE1vlL9LO3SwAcMhP2Kxl5O4LGacUT5JuyGoN+kc0/nDZqVaqjPdPucWHZ8YMDlGyB
+	 B5bOYm+S3whXgyJVc3A4KnakKWgxsTogK24ZOmUA6uAWN6jBwrP6u2M6k3GMqlxGmaben
+	 5khyg+C30sHLY6QKvQVh+OvY0v/gutIyGwijdjkwQ5dntWqzYVPMTI0HypJ3bjv4B9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UiYvQjLv;
-	arc=none smtp.remote-ip=209.85.216.71
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=o9oSUpqr;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="378Q0/Lt";
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A03606A321
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 17:44:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09A03606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D6B606A31E;
+	Tue, 24 Nov 2026 17:48:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21D6B606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UiYvQjLv
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3ae7faf4ff7so5863443a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 09:44:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795542252; x=1796147052; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AA1FxlB1wIsiVBWKGbYXdSD5iGjxbbQKg8GOAcVUoD0=;
-        b=UiYvQjLvg/dD1tCSWefP5QrPsFFRp5iXlT+nm9Mnl8uNBuRz5H7ahG6sNLFLOLMjgs
-         ptpXWJdaq11jXMjwjGk73Pz1VBPIsypaPmqPZGuxttol6VaIKGiCCOKHYpxZ3chuCCDL
-         xk/tgdYCH/6c0E5sTqI+YSzXAeUdTJikqEa5MiorGNaG7b1dH5U1Par6WamULKijHjn0
-         zoDQC67gSRjBA9yBw6fb1vj0t2pLmkFnM+xRzrCsjVucuclm8xgK3TeKnhe2JN8xhi7X
-         dShYp1xCRmS4dSTjLqobvWeiDh9VRsKVoHblGcTn/BC7AplTPLU9IObhuI14/chIdbRD
-         TUtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795542252; x=1796147052;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AA1FxlB1wIsiVBWKGbYXdSD5iGjxbbQKg8GOAcVUoD0=;
-        b=1/VNozCzbk/0PeYVBlBlFrI0H9ckBkXHWu653MiC0oUmtd2N974kJHzN6N/iHFfb/o
-         +OMuFeZok2eEiwjAqkovlY7nDB7CrgEQEJ/MEyb7OdeD+/aaMvo9Y1It8/f25vHNh9Am
-         zB813i3NuCMkTswQXMGHn0XXgVvwJjRXBwI8XLdETn4JYmu+hcYanUzYZNdNF9WB8LO4
-         HojnuqriTL4VPg8ijLKAz4lqJ8FcQ01CqCkBGCW7T9L/im1ErE14jxMxtMVhJ5tNjmx/
-         R0mxcR5KM6QfQIVzvchMYcxX+Au88l9e6r1x9kk3Z3UWXn02rwNnfhd4MIhYstmuAOd6
-         Oyhg==
-X-Forwarded-Encrypted: i=1; AL+hErFmRJMIbRWVcbg//+ESsWYtpFx/waJBr51E8Mb4hrZb/qQez8pOKaTenhxe+UJZ3oAzWMsThJWE3ik=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+7wDlzoGR7EWaMqpPxFrM/oHaCWbngkB1Nxpw4tURYJkgzsoZi
-	JwTe1+0tPb3WfRlwgWjbbNeUqlcfOE21AZofsw+9Xit/XAA4JbvFKW1wsk+20xZxhzZMsd77FuZ
-	DtuqVNk7R986Zkq9DdppO+UnpjWfaZPizCQ==
-X-Received: from pjbci6.prod.google.com ([2002:a17:90a:fc86:b0:3ae:c401:753])
- (user=rathodpriyank job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:3c11:b0:3b4:1336:4f6b with SMTP id 98e67ed59e1d1-3b41c905a49mr14294021a91.33.1795542252059;
- Tue, 24 Nov 2026 09:44:12 -0800 (PST)
-Date: Tue, 24 Nov 2026 17:44:10 +0000
-In-Reply-To: <20261110002437.2376944-1-rathodpriyank@google.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=o9oSUpqr;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=378Q0/Lt
+Date: Tue, 24 Nov 2026 18:48:37 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1795542519;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iAxXNBw21OAhqAVbpLzIkcF+I6WgYNRYnju4tgLuhNo=;
+	b=o9oSUpqr51DMerEkCYl2Zk2l2Yc1flM2MDtCTpSw3Fp3rz6kv9jCmEQF/Xh36oYu9ipRJa
+	xnY4510j0DppTsblJJYCGpHsEWNSIl5QOriw6dUmjNmKi6hzDY+bDT0Tjnj7s2EE6O/fUC
+	NRcydLhv89OUUus/gL1Dn3Z3cs4im9+ODQNggFVfLLxQ3rePiIHM5d4XS5twp4e2PBaF6T
+	aRw3GUTuTVF9o0cByks8lQeo0UFuQDZEJz1L3P+EwtzuPi6eeng76L+IuSFXmOmgRWbSk2
+	UUxpGbb/D4p1v74nmozvZzCCrDTbQaHC1QTB00ELu9azBAYaEmWaAhuJ+DWulg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1795542519;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iAxXNBw21OAhqAVbpLzIkcF+I6WgYNRYnju4tgLuhNo=;
+	b=378Q0/LtFoKLUUPTs/BLM0vx6CsDeF1MrAPHTV3ZaSQ7qkB4ECH4qbg9fkhUIkcF8mhdvO
+	nhcGsdqsXtub47DA==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Zixin Wang <w1355457260@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	bigeasy@linutronix.de, frederic@kernel.org,
+	john.ogness@linutronix.de, clrkwllms@kernel.org,
+	rostedt@goodmis.org, corbet@lwn.net, wagi@monom.org,
+	atomlin@atomlin.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] Documentation: real-time: Add boot parameters and
+ task isolation section
+Message-ID: <awXN9RY3x5xEGFe4@lx-t490>
+References: <20261124163202.56921-1-w1355457260@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,39 +74,154 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261012-pcie-link-endpoints-v7-0-36aba9c91f10@google.com> <20261110002437.2376944-1-rathodpriyank@google.com>
-X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
-Message-ID: <20261124174411.4183038-1-rathodpriyank@google.com>
-Subject: Re: [PATCH v7 0/2] PCI: Add Lane Margining at the Receiver debugfs interface
-From: Priyank Rathod <rathodpriyank@google.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, 
-	"=?UTF-8?q?Ilpo=20J=C3=A4rvinen?=" <ilpo.jarvinen@linux.intel.com>, Lukas Wunner <lukas@wunner.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, linux-pci@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261124163202.56921-1-w1355457260@gmail.com>
 
-Hi Bjorn, Ilpo, Lukas,
+Hi Zixin,
 
-Gentle ping on this series.
+On Tue, 24 Nov 2026, Zixin Wang wrote:
+> +
+> +``rcu_nocbs[=cpu-list]``
+> +  Offload RCU callback invocation from the listed CPUs to the
+> +  corresponding ``rcuo`` kthread, which can run on a housekeeping CPU.
+> +  This reduces callback-processing jitter on the CPU that enqueued them.
+> +  On a non-real-time kernel this also moves invocation out of softirq
+> +  context; with PREEMPT_RT, callbacks already run in kthread context
+> +  because ``rcutree.use_softirq`` is false, and the offload only changes
+> +  where they run.  If the parameter is given without a CPU list, no CPU
+> +  is offloaded at boot; the mode can still be toggled at runtime through
+> +  cpusets.  The parameter takes precedence over
+> +  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
+> +
+> +``rcu_nocb_poll``
+> +  Make the ``rcuo`` kthreads poll for callbacks instead of requiring the
+> +  offloaded CPUs to wake them.  This improves the real-time response at
+> +  the cost of higher power consumption, because the kthreads wake up
+> +  periodically to do the polling.  Consider this option only when wakeup
+> +  latency matters more than power.
+> +
+...
+> +.. _real_time_boot_parameters:
+> +
+> +Boot parameters and task isolation
+> +==================================
+> +
+> +Kernel configuration options alone do not determine a real-time system's
+> +worst-case latency.  Integrators commonly rely on boot parameters and
+> +runtime tunables as well, to keep kernel housekeeping work away from
+> +latency-sensitive tasks.  The parameters below complement the options
+> +described above.  Some of them correspond to a configuration option and
+> +are referenced from that option's section, so the configuration and
+> +runtime guidance stay together.  Each one is documented in detail in
+> +Documentation/admin-guide/kernel-parameters.rst; the notes here focus on
+> +the aspects that matter for real-time latency.  Consider these options
+> +only when the workload suffers from the corresponding interference;
+> +leave them disabled otherwise, as each of them trades flexibility or
+> +power for a lower worst-case latency.  The notes below follow the
+> +decisions an integrator has to make: whether to keep tasks off a CPU,
+> +whether to stop its tick, and where interrupts should run.  Idle state
+> +limits are discussed with ``CONFIG_CPU_IDLE`` above, and RCU callback
+> +offloading with ``CONFIG_RCU_NOCB_CPU`` above.
+> +For the full CPU isolation model and its limitations, see
+> +Documentation/admin-guide/cpu-isolation.rst.
+> +
+> +.. caution::
+> +
+> +  CPU isolation is best effort.  Work that is explicitly bound to an
+> +  isolated CPU, such as per-CPU kernel threads, bound workqueues, and
+> +  interrupts, may still run there unless it is steered away.  Measure
+> +  the resulting latency with tools such as ``osnoise``, ``timerlat``,
+> +  and ``rtla`` rather than assuming that an isolated CPU is free of
+> +  kernel noise.  See Documentation/timers/no_hz.rst and
+> +  Documentation/tools/rtla/index.rst.
+> +
+> +CPU isolation
+> +-------------
+> +
+> +``isolcpus=``
+> +  Format: ``[flag-list,]<cpu-list>``.  Isolates the listed CPUs from the
+> +  disturbances selected by the flag list (default: ``domain``):
+> +
+> +  ``domain``
+> +    Remove the CPUs from the scheduler domains.  This is the default
+> +    when no flag is given.  Domain isolation cannot be undone at
+> +    runtime; use cpusets when the isolated CPU set must change
+> +    dynamically.  Isolated CPUs remain usable through CPU affinity or
+> +    cpusets.  Unbound workqueues and unbound kernel threads are
+> +    confined to the housekeeping CPUs as a side effect.  Consider it
+> +    for CPUs dedicated to a latency-sensitive workload.
+> +
+> +  ``nohz``
+> +    Equivalent to ``nohz_full=``; see below.  The residual 1 Hz tick is
+> +    offloaded to workqueues, which must be affine to the housekeeping
+> +    CPUs through the global workqueue ``cpumask``
+> +    (/sys/devices/virtual/workqueue/cpumask).  By default the global
+> +    workqueue runs on all CPUs; configure this cpumask manually after
+> +    boot, or use the ``domain`` flag to confine unbound workqueues.
+> +
+> +  A practical configuration therefore combines ``isolcpus=`` with
+> +  ``nohz_full=``, ``rcu_nocbs=``, an interrupt affinity mask, and, on
+> +  x86 systems, a C-state limit.
+> +
+> +  Timer placement follows the same choice.  By default a migratable
+> +  timer expires on the CPU that armed it; with ``nohz`` (or
+> +  ``nohz_full=``), timers and hrtimers armed on the isolated CPUs are
+> +  migrated to housekeeping CPUs.
+> +
+> +``nohz_full=``
+> +  Format: ``<cpu-list>``.  Requires ``CONFIG_NO_HZ_FULL=y``.  Stops the
+> +  scheduler tick on the listed CPUs whenever possible.  The boot CPU is
+> +  forced outside the range to maintain timekeeping, and the RCU
+> +  callbacks of the listed CPUs are offloaded as if they had been
+> +  passed to ``rcu_nocbs=``; see the ``CONFIG_RCU_NOCB_CPU`` section
+> +  above.  This parameter takes precedence over
+> +  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
+> +
+> +  The trade-off between tickless operation and the kernel-to-userspace
+> +  transition latency is described in the ``CONFIG_NO_HZ`` /
+> +  ``CONFIG_NO_HZ_FULL`` section above.
+> +
+> +Interrupt affinity
+> +------------------
+> +
+> +``irqaffinity=``
+> +  Format: ``<cpu-list>``.  Sets the default affinity mask for
+> +  interrupts that do not have an explicit affinity, steering them to
+> +  the housekeeping CPUs.  Managed interrupts are not affected by this
+> +  setting and cannot be redirected through ``/proc/irq/*``.  Verify
+> +  the resulting placement in ``/proc/interrupts``.  See
+> +  Documentation/core-api/irq/managed_irq.rst.
+> +
+>
 
-Note that since pci_force_enable_link_state() and the bitmask return
-value of pcie_aspm_enabled() were deferred before v7.4-rc1, v7 as posted
-no longer compiles on current pci/next (and has a minor Kconfig context
-conflict after PCIE_EDR).
+Thanks for the write-up above.
 
-I have rebased the series locally onto pci/next, resolved the Kconfig
-conflict, and replaced those deferred ASPM calls with a small
-PCI-internal, reference-counted pcie_aspm_inhibit() helper in
-drivers/pci/pcie/aspm.c (leaving include/linux/pci.h, pci.c, and
-pci-driver.c untouched, and preserving existing ASPM/L1SS/Clock PM
-state across sessions).
+I wrote the RT configuration guide some time ago, where "configuration"
+here implied kconfig build-time .config generation.
 
-Would you like me to post the rebased v8 series now, or hold until any
-broader ASPM API rework settles?
+It is true, of course, that "kernel configuration options alone do not
+determine a real-time system's worst-case latency".  But this does not mean
+that all the RT optimization tricks above must be squeezed together into
+the kernel RT /configuration/ guide.
 
-Thanks,
-Priyank
+There's also a kernel configuration checker that produces lots of links to
+this guide:
+
+    https://msgid.link/20261106091922.7560-1-darwi@linutronix.de
+
+So I don't think that expanding the scope of this document into overall RT
+optimizations tricks will help.
+
+Since the whole of Documentation/real-time/ is dedicated to PREEMPT_RT, why
+not integrate these RT-optimization information into a proper guide there?
+
+Then, let this configuration guide link to the relevant sections only when
+necessary.  This way, scope creep is avoided.
+
+Thanks!
+
+--
+Ahmed S. Darwish
+Linutronix GmbH
