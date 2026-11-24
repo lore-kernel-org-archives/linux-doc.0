@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795513482;
-	b=Eq0WTtWIJub442i+N/Spj6RFcIPDtHjU1kDROLUf0dJe7h//EA9gNai64zqGFePFdsxI
-	 I8xDOuTug0ZSlzfLNRyykqeizo2B44EsNTiftHzRttNec/lXorGdZKfv8XEunw2jyIhhM
-	 Uo7tPBRzFw7bcuYJo8IL2lq+eVwh2y4euCtDp3FfJ2TmaBCk5oaUxFwq29skv6BdDnteI
-	 Q/HlY+NK74RLOe63MIdJWobJUtLjiOqmmIthzOXw3Xemge1bf+mv3KF/adfhiotpzSLVR
-	 o49mvnjaLhlB4i3mBxGmWRWN8QL+yFvyh+NotEBzHevSLGsdDMJPSEowIAGRb/sNo+g==
+	t=1795513495;
+	b=dpK/0gR3SJ2lDeKM7GIdTYznJ2TW8yO2hcD7Cu8SpbVoTCdyIeMkmMo5H8S9j4PHe3XH
+	 JS7ouvbNhS1wJJAXyQJaCRsPyKQ9vaOMrC+4nu78GWak7WwLIlJ1uCzq0HOApDLZNDEaf
+	 e2ZtH8u6K7IKV/5mffusCbWitEUxGX8eP4sBuTMYD/srKI/yoJIEtQ5CaNYbXmCtapI9K
+	 4wMuCp5W4sZSwyheXjxpsALDLj2NHYQVC/saXufD6OyCSdWT5qspgsnKJx3+lgRDo1Hc6
+	 W+L9taSV+zpvDkGs1d/QE+tUA9hUVRwhP0YvPzw2hMruMfGnYzq0PIOInyYzUW9Gd2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795513482;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795513495;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 Content-Transfer-Encoding;
-	bh=Zo2nWdiL6YEo2G0GsZnQyRDF6TQweGSzc4WECw2Gtr8=;
-	b=aJC5hD2ICDR9CXem//7xVZWTYI9nwvLNrQp014DN0bHBbKjBuAEnr4PKilAReBOjLE8t
-	 GgLGduarkxBgf0ybZuoxWnLj86XLv1+07O4VVyf0vkLBweh4tJCzEDZmcR7iSoLU7zNZ5
-	 9wuuJp+kTkDnYF9Mq5qwLxTgeHz/qW/9sDC0aHX8kGVkL0Kifk/6rgVn7z0YU6WTVwzGR
-	 2goE05GkpkTPPT2tQbPHtGpyCyetjqRPqg9zSRMuUx+DOS4CdLbjmZFuqXrMm1X7nZrd4
-	 3k9Mt9xL+0/n1jZwz9mHHW7buC09InYTJx20YrI50vd2DPCo3acMlQ5F2b9L3MmICfA==
+	bh=wbkmNHR1nRw2+5k8665nB5tZwQXzmDpbNKqdau8pHu8=;
+	b=0mdLsCD5NuGBThJQ4aadyX3nRYgbSQzEbnF1Z1SppsBHxcL4Q2lJYWL3nqD1pgdkvdTj
+	 y8bGQ3HVZQGp4eMACJWy+pCExxqDrL+wG1WgI4uvD74sjcmr4qO4er1rGYgY5N+Gcc1fb
+	 12mg/Cr0FDtjX6eo6j78clxkMvkiwMeM77XSxatYOT2HtRU6FGg7otPHluyaotj3Dzoqy
+	 ZCiX2OfTVMbdgNlgeH5sbSBtDk6vvy/xi+UwxZ4OKAVse04Fh2G1zM4R0mUDnfVKSl/2U
+	 y9GPtOrt7H7QiDt7i26/J059Mg63lvzNdUIrxnYgi5QO9tf/8Mj5FNPIn/bhq2KFOtw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hCzzhuV8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E+QwfXHX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F782606A6B3;
-	Tue, 24 Nov 2026 09:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0FC606A687;
+	Tue, 24 Nov 2026 09:44:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hCzzhuV8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FCCC1F000D4;
-	Tue, 24 Nov 2026 09:44:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E+QwfXHX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 485151F01571;
+	Tue, 24 Nov 2026 09:44:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795513482;
-	bh=Zo2nWdiL6YEo2G0GsZnQyRDF6TQweGSzc4WECw2Gtr8=;
+	s=k20260515; t=1795513495;
+	bh=wbkmNHR1nRw2+5k8665nB5tZwQXzmDpbNKqdau8pHu8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=hCzzhuV8eWBG4AfXP+7+b2h+Hxq807kLdzMk4iPl7z7TE21BUD8yoiPpYSjrXTOAC
-	 sGzXXhj1ys/ACItFAeu7a/uiILFeXYN0RUHkj4ZyTG9FzU/dITl/joHNHslEvH22nJ
-	 SVtVvJyxBApNIyUQR/CNnt+rZx+T7FS+FdxJ+k2QVun+mR6NlOdh2Ll03aguesqeTw
-	 RTyetfOWSsHZ3ha2xOpiMZNhliZ4hBbuI1ogKcAiPe+3RkiPNR0c2Fo9Oqlp1/wRuB
-	 GZy/jE0AxdoSv++ew5gi69CpIlLxHIHvw+iKf6vmVzsU0R69v4m87HQqkQbr4pMPWo
-	 ODX9iGK/viB3Q==
+	b=E+QwfXHXS5IG/odlN7brAQZlVr9TWZPj6Yyuy8/tTE/qaCY1di8E6SrkCocdW5eUB
+	 66hebez9PG9t8U7vHZzgpBLcRFAJsjPZNGyEqePG4zJVBVsI2X78KC0jXx6oFV7V9W
+	 b4VTuVu5FlipZkB3tdxH+5vgHGa3B83MELw3qtpsh8lmqzZYsg0tHCSFUNOGPqtDDK
+	 rCzqEkFMC+8dnafvXqe1q9QTj0sIyI3CplwTgprrvhcBOTxp/8wc7gQ6p4hRfFWp5Q
+	 8KdggQ1IZ3wgRq1aO4Wiwij8L/KbJL4h6VTyEpopQcdLbPfs6rE38OCm6dOEHEW219
+	 pm0sO2Ye0Y89Q==
 From: Leon Romanovsky <leon@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -100,9 +100,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@suse.de>,
 	linux-sound@vger.kernel.org,
 	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH v4 07/33] USB: Release interface claims according to binding state
-Date: Tue, 24 Nov 2026 11:43:38 +0200
-Message-ID: <20261124-device-trust-core-v4-7-037eb0d17b1f@nvidia.com>
+Subject: [PATCH v4 05/33] USB: Reject claims of DT-disabled interfaces
+Date: Tue, 24 Nov 2026 11:43:36 +0200
+Message-ID: <20261124-device-trust-core-v4-5-037eb0d17b1f@nvidia.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
 References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
@@ -121,81 +121,40 @@ Content-Transfer-Encoding: 8bit
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-A driver such as CDC-ACM can claim a sibling interface before it is
-registered. Disabling USB bus autoprobing between the claim and
-registration leaves dev->driver set without adding the interface to the
-driver's bound-device list.
+USB core skips registration of DT-disabled interfaces but keeps their
+objects available to sibling drivers. A CDC-ACM control interface can
+therefore claim a disabled data interface: manual claims check USB
+authorization without checking Device Tree availability.
 
-Releasing that interface through driver core then attempts to remove an
-unattached list node, causing a NULL pointer dereference.
-
-Fixes: b8c5cec23d5c ("Driver core: udev triggered device-<>driver binding")
+Fixes: 01fdf179f4b0 ("usb: core: skip interfaces disabled in devicetree")
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/usb/core/driver.c | 37 ++++++++++++++++++++++---------------
- 1 file changed, 22 insertions(+), 15 deletions(-)
+ drivers/usb/core/driver.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index 735ae3310b45d..d902708416d06 100644
+index e1de348cc0cac..735ae3310b45d 100644
 --- a/drivers/usb/core/driver.c
 +++ b/drivers/usb/core/driver.c
-@@ -612,6 +612,15 @@ int usb_driver_claim_interface(struct usb_driver *driver,
- }
- EXPORT_SYMBOL_GPL(usb_driver_claim_interface);
+@@ -28,6 +28,7 @@
+ #include <linux/device.h>
+ #include <linux/slab.h>
+ #include <linux/export.h>
++#include <linux/of.h>
+ #include <linux/usb.h>
+ #include <linux/usb/quirks.h>
+ #include <linux/usb/hcd.h>
+@@ -560,8 +561,8 @@ int usb_driver_claim_interface(struct usb_driver *driver,
  
-+static void usb_unbind_claim(struct usb_interface *iface)
-+{
-+	struct device *dev = &iface->dev;
-+
-+	usb_unbind_interface(dev);
-+	dev_set_drvdata(dev, NULL);
-+	dev->driver = NULL;
-+}
-+
- /**
-  * usb_driver_release_interface - unbind a driver from an interface
-  * @driver: the driver to be unbound
-@@ -631,27 +640,25 @@ void usb_driver_release_interface(struct usb_driver *driver,
- {
- 	struct device *dev = &iface->dev;
+ 	device_lock(dev);
  
--	/* this should never happen, don't release something that's not ours */
--	if (!dev->driver || dev->driver != &driver->driver)
--		return;
--
--	/* don't release from within disconnect() */
-+	/* Avoid recursive locking from disconnect(). */
- 	if (iface->condition != USB_INTERFACE_BOUND)
- 		return;
-+
-+	device_lock(dev);
-+	if (!dev->driver || dev->driver != &driver->driver ||
-+	    iface->condition != USB_INTERFACE_BOUND)
-+		goto unlock;
- 	iface->condition = USB_INTERFACE_UNBINDING;
- 
--	/* Release via the driver core only if the interface
--	 * has already been registered
--	 */
--	if (device_is_registered(dev)) {
--		device_release_driver(dev);
--	} else {
--		device_lock(dev);
--		usb_unbind_interface(dev);
--		dev_set_drvdata(dev, NULL);
--		dev->driver = NULL;
-+	if (device_is_bound(dev)) {
- 		device_unlock(dev);
-+		device_release_driver(dev);
-+		return;
+-	/* reject claim if interface is not authorized */
+-	if (!iface->authorized) {
++	if (!iface->authorized ||
++	    (dev->of_node && !of_device_is_available(dev->of_node))) {
+ 		retval = -ENODEV;
+ 		goto unlock;
  	}
-+
-+	usb_unbind_claim(iface);
-+unlock:
-+	device_unlock(dev);
- }
- EXPORT_SYMBOL_GPL(usb_driver_release_interface);
- 
 
 -- 
 2.56.1
