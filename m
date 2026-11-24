@@ -1,90 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795509819;
-	b=RtkvKrkE8tC4RUFprO20+stWtP969v1gB1vVqkOyrBfa8NSu5EGGmrQqqgYkhia6Qpwh
-	 yhO2nTkuutmomb4XHAWH0vVFHm1d0JvN8gkRVeCT/vMzvsiivwiwyCYM7An0UgDRoygAP
-	 Ndtjezc6StcQczbvR5WPET8V6lhNkfp+DyZ4707adQQstjLOIeqZz5DIqy+5WTOrp9hta
-	 AxZ9M63ISQkI4fv/zOOu0Aae0kEUM1BZCGREv3w5HQF9rzRLYU/UVX4G4urFWvqreRcTk
-	 a4RLvFTybje8gyQ1x5zwIlWowIZRmzYpVIWaxgk9kWUpSTTW6U5xxC7tiPNA2jJzZog==
+	t=1795510740;
+	b=qJGxKjyWtCW6JH+DJixj+A295gxB/Wm0dRT0u4mtlYtg9/ZLUsLUUJT61KPjRllow5Ds
+	 Jq0tcMdffW+hGTR8hUrm8mEtb2v1P5FvuGdRebTxRf12Sr4jTUQ1gu0A3JFcITGtfxBBb
+	 O7nH5Aiwz9Ewcoi62rDscqhft6fUCfpVwPrZjPPzGt/O8OasbYOzTxq0RrFZmrMPfnyjr
+	 xwKX6+SrO9y+knS6OsqfWM2ZCiupBO3xj4740yQUtEi7aj9+TJm/iNpVi9Hvnlpfy3se/
+	 d98pGzk3BRclXulv+v44Dp5AipGbTl7+7uCabnfKMtSbfMEC+YVGT0Ia9544J0LcALg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795509819;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 In-Reply-To:MIME-Version:Content-Transfer-Encoding:X-CMS-MailID:
-	 X-Msg-Generator:Content-Type:X-Sendblock-Type:CMS-TYPE:cpgsPolicy:
-	 X-CFilter-Loop:X-CMS-RootMailID:References;
-	bh=bv+w4SPqJHgJSc/Ri/nAxGFknxpTeekag4KmQjPOdAY=;
-	b=HuKmHZz1uCbvmAD1vUZuH/bYaFCFHRnaTGrXIQ14h0X1VW6TPygfWsrlSuqzoxn+fQrD
-	 pz7gVA7RWCKPapvYslrIkwrul1mk6A8Je7gx7tSTtSsiV1hRSTK1EO/V+wro++YKeu/aD
-	 9i05M7qxzjO4Lu1NsVXAP8jTC654rdLH1oRA3ZGa8bARZv2XlN4FnetVNIisOiC63iX4w
-	 cDeuFN31qcU6HxOYjWoxwF4ekre0XKscbkzFbp5GNlg/rkt+Z27XU7/TRFJBOttvq01aw
-	 ANpjDUznqpkvxKBIMpPfjbndQbexyTY/9rOeD2bq6vZqOoqRZCKhADQtGd/sOSybNIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795510740;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=iYjv7RbotbqaHt7QdXT/8Tg8XeFQ6Uk7hTPrb5SAdJ8=;
+	b=Tlxh8rRjVuxs8h1o9ESm1TMqkaTXVzPO0oQUQylH2I/nGETRd3uVcPtSyHRuYaIYb8Mh
+	 3P7i+6ukfimm6OYQjCpLuqnqfMeaslVV7UJypzvIn0FBlOa+L8YXvZ5FTynaDCHEm9pnv
+	 q3WNcAGze9l5qKiCwTkqEueBNmq2rw0cmpSKvPFaaotVV14ZrCvisqgtd0Lxsbn11dgg9
+	 46umjVbsypduIWS8BKdvK8zlU9kp+9hl8ESuX51xvRRHIluJdEGG/qvE+jeVSoqlUFiko
+	 jl85F3oKbWCi4yMYuT0YCTxNKU1/e/6rGYNzSlgUad4/jrZAmOCmVGLg58/Osopzh5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=FmBAPLPP;
-	arc=none smtp.remote-ip=203.254.224.33
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k1QFahsn;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD86606A335;
-	Tue, 24 Nov 2026 08:43:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2CD86606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 733BB606A31E;
+	Tue, 24 Nov 2026 08:59:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=FmBAPLPP
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20261124084335epoutp0378f116da01da84f15e0af23bfa22fa36~q7qogInvm1692416924epoutp03d;
-	Tue, 24 Nov 2026 08:43:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20261124084335epoutp0378f116da01da84f15e0af23bfa22fa36~q7qogInvm1692416924epoutp03d
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1795509815;
-	bh=bv+w4SPqJHgJSc/Ri/nAxGFknxpTeekag4KmQjPOdAY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FmBAPLPP2mhGFVwNHvYu9RLbxnRYBoVw/8ymAq7p6DsxiuqRByG2O+15P/bQz45wH
-	 ONOcDc3+s/GAA8aVXLubnSYuAWzZF6xY/sedOKG3cCL32MYutURDGQnzSa2eejzxiF
-	 6GioVndOT2s5GhkSElScO45slA2g1jz2ijYeqjn0=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20261124084335epcas5p2c84e920886d69e131764edcb7537c200~q7qnxZ8BJ1183811838epcas5p2V;
-	Tue, 24 Nov 2026 08:43:35 +0000 (GMT)
-Received: from epcas5p3.samsung.com (unknown [182.195.38.87]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4jYbtt2JwWz6B9mC; Tue, 24 Nov
-	2026 08:43:34 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20261124084131epcas5p3098eab1bc134da7aefcc83c646b54a9d~q7o0df1RC0651506515epcas5p3W;
-	Tue, 24 Nov 2026 08:41:31 +0000 (GMT)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20261124084126epsmtip20d1bb7fc51b7be9416c78f041855e347~q7owLbH482941029410epsmtip2v;
-	Tue, 24 Nov 2026 08:41:26 +0000 (GMT)
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: Mengmeng Zhao <mengmeng.zhao@linux.dev>
-Cc: Anuj Gupta <anuj20.g@samsung.com>, Christoph Hellwig <hch@lst.de>, Anuj
-	Gupta <anuj1072538@gmail.com>, Nitesh Shetty <nj.shetty@samsung.com>, Pavel
-	Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Sumit
-	Semwal <sumit.semwal@linaro.org>, Christian Koenig
-	<christian.koenig@amd.com>, Philipp Stanner <phasta@kernel.org>, Dan
-	Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, Jan Kara
-	<jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
-	<brauner@kernel.org>, Theodore Ts'o <tytso@mit.edu>, Andreas Dilger
-	<adilger.kernel@dilger.ca>, Baokun Li <libaokun@linux.alibaba.com>, Ojaswin
-	Mujoo <ojaswin@linux.ibm.com>, Ritesh Harjani <ritesh.list@gmail.com>, Zhang
-	Yi <yi.zhang@huawei.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Li Wang
-	<liwang@kylinos.cn>, Mengmeng Zhao <zhaomengmeng@kylinos.cn>
-Subject: Re: [RFC PATCH v2 0/8] ext4: Add dma-buf read/write support
-Date: Tue, 24 Nov 2026 14:10:25 +0530
-Message-Id: <20261124084025.2101804-1-anuj20.g@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <361c4312-f77b-495f-9ee4-e0b9612b4463@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k1QFahsn
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id DE6741F000C0;
+	Tue, 24 Nov 2026 08:58:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795510739;
+	bh=iYjv7RbotbqaHt7QdXT/8Tg8XeFQ6Uk7hTPrb5SAdJ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=k1QFahsnF0x+zCcltI5RHNJkWBpdEzrqZsbILpvtucLNDMLYBfD6HWPxRRuOpcHVm
+	 B66SoPYuvfdPFugWs2E1SoH2Vokq28QQ9oQQ7MtJ8nyM0BJfp6WotjqfE56EijnxfU
+	 NP8mgmGthJgV7XbUfHSEev5bMps1Q0zcY5GY2p1n0R7ZrwysvhdXu5vXlcCgDkx+Uo
+	 MYOmOIgF8uCyWYV0/QGGjTFZkVnF4jMMv7qpzw3G1Etf56xsKLlv1wUVPQD1P6epM9
+	 CHd6CiLmUEwl567ey9CMCYt2Fjs9101x/9q2KbVqhb2F3stKSmENWpqGOf4572Dj4R
+	 LIUH5hhlX0zOw==
+Date: Tue, 24 Nov 2026 10:58:55 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: bpf@vger.kernel.org, containers@lists.linux.dev,
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+	linux-security-module@vger.kernel.org,
+	Aleksa Sarai <aleksa@amutable.com>,
+	Alexander Mikhalitsyn <alex@amutable.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Giuseppe Scrivano <giuseppe@scrivano.org>,
+	Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
+	KP Singh <kpsingh@kernel.org>,
+	Lennart Poettering <lennart@poettering.net>,
+	Neal Gompa <neal@gompa.dev>, Oleg Nesterov <oleg@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
+Message-ID: <awVRz8XC54nfevtW@kernel.org>
+References: <20261122193539.3334213-1-jarkko@kernel.org>
+ <awTmJIErjasO4lqq@kernel.org>
+ <awToL2PFNKVgIfqs@kernel.org>
+ <awUGkYoyDXp4P5LJ@kernel.org>
+ <awULfmZR-pESj2EC@kernel.org>
+ <awVInf04kGC0uZZo@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -94,40 +84,100 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20261124084131epcas5p3098eab1bc134da7aefcc83c646b54a9d
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261124084131epcas5p3098eab1bc134da7aefcc83c646b54a9d
-References: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
-	<20261120154153.GC28611@lst.de>
-	<361c4312-f77b-495f-9ee4-e0b9612b4463@linux.dev>
-	<CGME20261124084131epcas5p3098eab1bc134da7aefcc83c646b54a9d@epcas5p3.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <awVInf04kGC0uZZo@kernel.org>
 
-On Mon, Nov 23, 2026 at 09:51:41AM +0800, Mengmeng Zhao wrote:
-> Hi Anuj, I'd be happy to help pull our patches together into a single
-> unified series and send it out for review, if you're okay with that—and
-> would appreciate your review once it's posted as well. Please let me know how
-> you'd like to coordinate, or if you have any updates in progress on your
-> side before I put the series together.
+On Tue, Nov 24, 2026 at 10:19:46AM +0200, Jarkko Sakkinen wrote:
+> On Tue, Nov 24, 2026 at 05:58:58AM +0200, Jarkko Sakkinen wrote:
+> > On Tue, Nov 24, 2026 at 05:37:58AM +0200, Jarkko Sakkinen wrote:
+> > > On Tue, Nov 24, 2026 at 03:28:19AM +0200, Jarkko Sakkinen wrote:
+> > > > On Tue, Nov 24, 2026 at 03:19:36AM +0200, Jarkko Sakkinen wrote:
+> > > > > On Sun, Nov 22, 2026 at 09:35:13PM +0200, Jarkko Sakkinen wrote:
+> > > > > > SYSCALLS
+> > > > > > ========
+> > > > > > 
+> > > > > > Two new system calls are proposed:
+> > > > > > 
+> > > > > > 1. userland_open(): open an opaque staircase-initialized container
+> > > > > >    object (modeled on Intel SGX enclave initialization with separate
+> > > > > >    build and live states) with no embryonic state, opting selected
+> > > > > >    shared namespaces in via an allow-list instead of unshare semantics.
+> > > > > > 2. userns_set_idmap(): configure all UID, GID, and project ID map
+> > > > > >    extents for a container user namespace in a single atomic system
+> > > > > >    call.
+> > > > > 
+> > > > > I played on patching systemd and userns_set_idmap() alone does already
+> > > > > a lot of good. I'm figuring out userland_open() integration next.
+> > > > > 
+> > > > > For the test implementation I probe the opcode's and dependening on that
+> > >                                             ~~~~~~~~
+> > > 					    syscalls
+> > > 
+> > > > > use either "userland path" or "fallback path".
+> > > > > 
+> > > > > This auto-probing is done so that I can commit the patches to my kernel
+> > > > > test harness, which already has systemd, and try them out when built
+> > > > > against userland-enabled kernel (via LINUX_OVERRIDE_SRCDIR):
+> > > > > 
+> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd-test.git/tree/?h=main
+> > > > > 
+> > > > > The project builds a hybrid ISO, which is a bootable bootc/composefs
+> > > > > based operating system, and has toolbx bundled i.e., a reasonable test
+> > > > > environment for all of this. It is also device-installable via "npx
+> > > > > @puu/install"
+> > > > > 
+> > > > > I had to level the harness up a lot so that I could realistically test
+> > > > > lockdown-hibernate but it is is also pretty good emulation environment
+> > > > > for any possible container features.
+> > > > 
+> > > > Kernel is ukified and systemd-boot is used as the boot loader i.e., for
+> > > > kernel testing purposes corresponds to something like Silverblue except
+> > > > not using GRUB.
+> > > 
+> > > Experimental systemd patches:
+> > > 
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd-test.git/commit/?h=main&id=e4d6b15da3376ad09c0c575cedf467f69db32a52
+> > > 
+> > > The patches are layered per syscall feature:
+> > > 
+> > > - 1-5: userns_set_idmap
+> > > - 6-10: userland_open()
+> > > 
+> > > Virtual device would add path/mount complexity and generally dependency
+> > > to mounts i.e., I think it was an awful idea. At least initially this
+> > > feels fairly lean way of doing container things now that I've trialed
+> > > systemd-nspawn a bit.
+> > > 
+> > > I'll update the patches over time.
+> > 
+> > "userland_open" is just a name as I don't have anything better for the
+> > time being (perhaps <something>fd() e.g., containerfd(), would work
+> > better).
+> 
+> What I did at late 2025 was simply going through the old ML discussions
+> for David's patches and addressed the remarks one by one. Then I
+> improved the patch set bit further until other stuff came along, and I
+> forgot the whole thing for some time.  Last week's burst was really
+> unwritten todo list starting to remind about itself in flashbacks.
+> 
+> There's not much more in API sense to do except maybe syscall rename and
+> associated prefixes in constants etc. My Git branch has additional fixes
+> (e.g., more LSM plumbing) on top of this but they don't change the gist
+> of this by any possible way so no new RFCs for the time being.
+> 
+> The most up to date version:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/log/?h=vault
 
-Hi Mengmeng,
+The key function to look up from here is spawn_userland_container():
 
-We already have updates in progress on the XFS side.
+	https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd-test.git/tree/br2-external/patches/systemd/0010-nspawn-Start-containers-in-an-experimental-userland.patch?h=main
 
-We will consolidate the combined series along with your ext4 work and
-related patches, keeping your authorship.
+It demonstrates an initialization flow that ends up cleanly with
+clone(). userland_share_host_ns() demonstrates the ioctl I added
+previous week i.e., USERLAND_SHARE_NSFD, which is used to punch those
+host namespaces that the guest actually needs. This is the allow-list
+part, which is usually the favorable principle over deny-list.
 
-One more thing that we are looking at combining is the ability to share
-the registration across files. Pavel had mentioned this earlier in our
-xfs series [1] and posted a series too [2] which needs some more work.
-
-FWIW, we also had ext4 changes, but intentionally started with one
-filesystem (XFS) so that the common interface could settle first.
-
-[1] https://lore.kernel.org/linux-block/4649a20f-aba9-418e-987f-66f21ab24410@gmail.com/
-[2] https://lore.kernel.org/linux-block/cover.1793751001.git.asml.silence@gmail.com/
+Br, Jarkko
