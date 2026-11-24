@@ -1,79 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795542193;
-	b=dLpgCBeUgDJ+1Q2tTkPRVy5+hE80r20dJ1cAIfcl7xNdLDxcFJJeTxndop1SqawVOySV
-	 TRaElZAb1FHcg8SkNR/2uVn2za2Z4+qiHApByCvTgmsljwlT2K0R5G5cSR4hfPrGonAQ5
-	 OTbfbS9gaP+5xqxe+b8hbpTMmZASlbguos4tlqH8OWpo1l4WQasT8WztskWpG2g3omHGm
-	 J3F5+aYoH0GLC9IJMrg8nGxFR+LiOdOpE85RCbkoHcZ0Js2heDmCTrvafn4f6EuhTOIaT
-	 1vib3hdzA5D+PLEY8TVCU4qsgwTkZVL4na4gRtWm+v4kcbP16CrnIHbWGW9aPonAy0A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795542193;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=sCc0kofNvkDa3L6oT1taaFE+OREB6QTLHsXJrjG7pts=;
-	b=KdI8P01sotWvjD90NbGkS1qzocov4eu+THUFhDt/h88JCnjZ4ALamNxP5kspwlSVxzIe
-	 OsoSaANEDP/UbuuAy2Ggj5whO+KlpX5c8Fua7KbVl0PbmwZO/7Jas9zBt4FPszztQt2bE
-	 Z5SpuQ/Twg9HVDizlImwTpk2ougMen46Xa1EgejCTEFzU12BrpIdhtFVjeKoWyvQAESIW
-	 ehXfOovZtg7ywskUNXO0ld06lBAPtOvPeiEBCaL2eJXna/JkOAsoup1X9VfTeMOW8FPBy
-	 rmSldYyqZ6nseoobYxSx3ELhDny0/7IiXEjG7mF7PHmu5BcKzGwni7NjAVbm/G+Pnkw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PVy7FqQD;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B09606A335;
-	Tue, 24 Nov 2026 17:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PVy7FqQD
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795542192;
-	b=vB7DpqTiwU7aLdEhT6qrpEd30G9lOu3bviaAmBd4l9NFNe8EIbCJOPN+JOWB0GbpvGUs
-	 59n2eRf+BJ/fgx70HAR0+qgVnQNfGB5nnVnW2O5YKxTEatc2RwjnxIfI+D6Wc3VrXVE0l
-	 Om2Yiiu21ka/PzXplGeDD1+xaNnsjlLO/rSG5gJ1U1/J/KjB9lX97tTT97EqEeL6OUD52
-	 bOVtWaWF8hBzReNL4/oKTVW8W3OfI6hPSBPoKkb/vpo03dBG0OXe4PedLIa7rT01IGIjZ
-	 m5iSaALTmkTGmLtoh9b4IoK/tBoXQa/cRyPna1XyanvlWAW/IjuZTX1+WBYwoMrg/9w==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795542192;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=sCc0kofNvkDa3L6oT1taaFE+OREB6QTLHsXJrjG7pts=;
-	b=misdtEuTjgp41MVdSRijqaT9dZazi+dz7VeE0bYpvyjGN4aU0hPbQQNXNfdQ9nfs5kKc
-	 rT2tBrfcKCjKEy7IE/Lj/Q9GIMqf0rIJWDL49BuwJrW3k2O+PIqf1j/CKhRyiihAEiI2B
-	 9DplKUv3Zlk/szR5f/JdrOHLJ4NHVaBe3lxwv2J8hjRm//eT/Kyp0MXm0E5tnhZ6PwwjZ
-	 sTg7JCdCDYpMr7vkD7sS+NQYYWEPFJ51eDO0WAbsgS9nY2pYkpKZWXhONnbJ3tUoDcQdN
-	 g2nqIUGPHVp7x47Gf0gFdCc9/51Rnk690uEAyQgRGrxIzk9DUmw6kEx6RXLdtvZhbSw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.71
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795542253;
+	b=SWTIGC+G2Ks7Yb1Qlxc6L72IVkV4ZQkLIEjV6gHJZA2gykqScrw4OJYi+2EFhKyKd8cq
+	 fgTaweu0WpYZ2e9yAS6J6OCtq+TnN/LNTesBMJdtwaKudyeUpA1YGMPlWdz18bOGrh8u3
+	 SI81T6cWq3HoFXkVUhuFrwThcrZJuvPOiV6btC114JH73GrjmioRZ07q4HtKMqYua8sHk
+	 ikiwUEngOIdLjZ2QEHHvOj0RyF/yCIX17eOl6a+s8BivLBiXH0iha80Kd3AZeFZwSUOec
+	 wDjf1kJJV8EOrzoBOSJBE8+4uJdfJ2+lhEV1g3meNnJb5MaCIJLP8P16sHQWXvGWjnA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795542253;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=AA1FxlB1wIsiVBWKGbYXdSD5iGjxbbQKg8GOAcVUoD0=;
+	b=ySyQC8au3zz7L24EAFbZ6SI6ExpsgXruvjqLzmGuLXgjlREvTzpSU4mDMc8lRiVgqvvm
+	 u2HeYSW5SneF67WXZwigx8MW37Jm8TavJDF926esacMSrcEq8F4OpLWNyhf+UWuOTdNyA
+	 CA+1KYhakxEWiZnq0NfnsGyWhZ7RJLK7ChvdQaeE5cdmpDP8DonLn+CnX/GE7u39dn/xk
+	 I+Cbt9U+lsdw0Ya00ZDk6eKCcPCsShPw9NbbHrLMPrexZ906gIWzfjWXvoYYS3sGnWigY
+	 cpAIFQ6JFDcd29fZXstsgT1tbix7mJVgF07ptADy94Y89e2SijnHFsNZFgWdc/h10Ow==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UiYvQjLv;
+	arc=none smtp.remote-ip=209.85.216.71
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 5F5DD1F000C6;
-	Tue, 24 Nov 2026 17:43:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795542192;
-	bh=sCc0kofNvkDa3L6oT1taaFE+OREB6QTLHsXJrjG7pts=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=PVy7FqQDlTr4xSNME9EwWR+FxkDm0KhHUAsrjE6TZICUij3sQ3WMLgknX+Jk2/kLa
-	 0ko7a6jLBq8Kq3RRNZpbqhVtLSnbOLBeMPP/pMlg7uVFr970WU6EttsIQZ0jsFolKN
-	 idI6lP5mJ8fhjT870yt0ClLCswsgUus/A+XZwN009V8dpJ4Mnx54GPpdxP3AUxR+98
-	 RiK0sZy7YjdLqiWMxqGuczdb+c2OUp7EGqgkgcGToOul0jRS4M7KWLH+c0K1NDE0iC
-	 1PYZpssr1QKZSw6DadhAhpFYOXLSro2uV+Yqy79E51ieeUQdhsKluDXB4inW5XXT/P
-	 pGwd6z2+fo8dQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id B7F424CB18;
-	Tue, 24 Nov 2026 17:43:00 +0000 (UTC)
-From: Armandas Kvietkus via B4 Relay <devnull+armandas.kvietkus.proton.me@kernel.org>
-Subject: [PATCH 0/4] Add FPC1540 fingerprint sensor support through QSEE
-Date: Tue, 24 Nov 2026 18:42:59 +0100
-Message-Id: <20261124-fpc1540-tee-v1-0-6c6985f05b06@proton.me>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A03606A321
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 17:44:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09A03606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UiYvQjLv
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3ae7faf4ff7so5863443a91.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 09:44:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795542252; x=1796147052; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AA1FxlB1wIsiVBWKGbYXdSD5iGjxbbQKg8GOAcVUoD0=;
+        b=UiYvQjLvg/dD1tCSWefP5QrPsFFRp5iXlT+nm9Mnl8uNBuRz5H7ahG6sNLFLOLMjgs
+         ptpXWJdaq11jXMjwjGk73Pz1VBPIsypaPmqPZGuxttol6VaIKGiCCOKHYpxZ3chuCCDL
+         xk/tgdYCH/6c0E5sTqI+YSzXAeUdTJikqEa5MiorGNaG7b1dH5U1Par6WamULKijHjn0
+         zoDQC67gSRjBA9yBw6fb1vj0t2pLmkFnM+xRzrCsjVucuclm8xgK3TeKnhe2JN8xhi7X
+         dShYp1xCRmS4dSTjLqobvWeiDh9VRsKVoHblGcTn/BC7AplTPLU9IObhuI14/chIdbRD
+         TUtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795542252; x=1796147052;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AA1FxlB1wIsiVBWKGbYXdSD5iGjxbbQKg8GOAcVUoD0=;
+        b=1/VNozCzbk/0PeYVBlBlFrI0H9ckBkXHWu653MiC0oUmtd2N974kJHzN6N/iHFfb/o
+         +OMuFeZok2eEiwjAqkovlY7nDB7CrgEQEJ/MEyb7OdeD+/aaMvo9Y1It8/f25vHNh9Am
+         zB813i3NuCMkTswQXMGHn0XXgVvwJjRXBwI8XLdETn4JYmu+hcYanUzYZNdNF9WB8LO4
+         HojnuqriTL4VPg8ijLKAz4lqJ8FcQ01CqCkBGCW7T9L/im1ErE14jxMxtMVhJ5tNjmx/
+         R0mxcR5KM6QfQIVzvchMYcxX+Au88l9e6r1x9kk3Z3UWXn02rwNnfhd4MIhYstmuAOd6
+         Oyhg==
+X-Forwarded-Encrypted: i=1; AL+hErFmRJMIbRWVcbg//+ESsWYtpFx/waJBr51E8Mb4hrZb/qQez8pOKaTenhxe+UJZ3oAzWMsThJWE3ik=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+7wDlzoGR7EWaMqpPxFrM/oHaCWbngkB1Nxpw4tURYJkgzsoZi
+	JwTe1+0tPb3WfRlwgWjbbNeUqlcfOE21AZofsw+9Xit/XAA4JbvFKW1wsk+20xZxhzZMsd77FuZ
+	DtuqVNk7R986Zkq9DdppO+UnpjWfaZPizCQ==
+X-Received: from pjbci6.prod.google.com ([2002:a17:90a:fc86:b0:3ae:c401:753])
+ (user=rathodpriyank job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:3c11:b0:3b4:1336:4f6b with SMTP id 98e67ed59e1d1-3b41c905a49mr14294021a91.33.1795542252059;
+ Tue, 24 Nov 2026 09:44:12 -0800 (PST)
+Date: Tue, 24 Nov 2026 17:44:10 +0000
+In-Reply-To: <20261110002437.2376944-1-rathodpriyank@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -82,67 +78,39 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzNDQyMT3bSCZENTEwPdktRU3WQLyyRjUyPzVHOjRCWgjoKi1LTMCrBp0bE
- QfnFpUlZqcgnICKXaWgABVT8WbwAAAA==
-X-Change-ID: 20261124-fpc1540-tee-c89b3527e72a
-To: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
- Armandas Kvietkus <armandas.kvietkus@proton.me>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795542180; l=1509;
- i=armandas.kvietkus@proton.me; h=from:subject:message-id;
- bh=xOzpTrKsIgO9EFs8IZauDfSC/Ubdmarcofr0n2Gl3BM=;
- b=AczOttScH5/OAPV3Cnqt7WmEyirdiwHPYuF3W5zL6ePdL/mVcDkBYicWVRtGm1LjC23JxPGtf
- A5Qh83g54DEDFjZPZcpqTqPDWUb9iFNXd3+mupcLsSjqbealYUKUzLG
-X-Developer-Key: i=armandas.kvietkus@proton.me; a=ed25519;
- pk=wuqmImJ9sKlDVcwALOvfGhjj7G8EBjjM4TpCdmlrAf8=
-X-Endpoint-Received: by B4 Relay for armandas.kvietkus@proton.me/default
- with auth_id=974
-X-Original-From: Armandas Kvietkus <armandas.kvietkus@proton.me>
-Reply-To: armandas.kvietkus@proton.me
+Mime-Version: 1.0
+References: <20261012-pcie-link-endpoints-v7-0-36aba9c91f10@google.com> <20261110002437.2376944-1-rathodpriyank@google.com>
+X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
+Message-ID: <20261124174411.4183038-1-rathodpriyank@google.com>
+Subject: Re: [PATCH v7 0/2] PCI: Add Lane Margining at the Receiver debugfs interface
+From: Priyank Rathod <rathodpriyank@google.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, 
+	"=?UTF-8?q?Ilpo=20J=C3=A4rvinen?=" <ilpo.jarvinen@linux.intel.com>, Lukas Wunner <lukas@wunner.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, linux-pci@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On some Qualcomm phones the FPC1540 is driven by a QSEE app and Linux
-only has to power the sensor, load the app and pass commands to it.
+Hi Bjorn, Ilpo, Lukas,
 
-The first patch adds the qcom_scm calls to start and stop an app and to
-load a services image. The rest adds the binding and the driver, which
-exposes the app to userspace through /dev/fpc_tee.
+Gentle ping on this series.
 
----
-Armandas Kvietkus (4):
-      firmware: qcom: scm: Add QSEE app start, shutdown and services image load
-      dt-bindings: vendor-prefixes: Add Fingerprint Cards AB
-      dt-bindings: misc: Add FPC1540 fingerprint sensor driven by a QSEE app
-      misc: Add FPC1540 fingerprint sensor driver for QSEE apps
+Note that since pci_force_enable_link_state() and the bitmask return
+value of pcie_aspm_enabled() were deferred before v7.4-rc1, v7 as posted
+no longer compiles on current pci/next (and has a minor Kconfig context
+conflict after PCIE_EDR).
 
- .../devicetree/bindings/misc/fpc,fpc1540-tee.yaml  |  74 +++
- .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
- Documentation/userspace-api/ioctl/ioctl-number.rst |   2 +
- MAINTAINERS                                        |   8 +
- drivers/firmware/qcom/qcom_scm.c                   |  83 ++++
- drivers/misc/Kconfig                               |  10 +
- drivers/misc/Makefile                              |   1 +
- drivers/misc/fpc1540-tee.c                         | 512 +++++++++++++++++++++
- include/linux/firmware/qcom/qcom_scm.h             |  23 +
- include/uapi/linux/fpc1540-tee.h                   |  20 +
- 10 files changed, 735 insertions(+)
----
-base-commit: ef922b721a5e99348fc1f5801fdeb427ee14ee9f
-change-id: 20261124-fpc1540-tee-c89b3527e72a
+I have rebased the series locally onto pci/next, resolved the Kconfig
+conflict, and replaced those deferred ASPM calls with a small
+PCI-internal, reference-counted pcie_aspm_inhibit() helper in
+drivers/pci/pcie/aspm.c (leaving include/linux/pci.h, pci.c, and
+pci-driver.c untouched, and preserving existing ASPM/L1SS/Clock PM
+state across sessions).
 
-Best regards,
---  
-Armandas Kvietkus <armandas.kvietkus@proton.me>
+Would you like me to post the rebased v8 series now, or hold until any
+broader ASPM API rework settles?
 
-
+Thanks,
+Priyank
