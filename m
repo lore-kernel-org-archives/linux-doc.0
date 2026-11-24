@@ -1,55 +1,129 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795564374;
-	b=RB4sDvc007ubbYsNn7I2Caif3PtSV8FNm1RJOawOuEMMrkq8dnX3Jw0tk4tXrVDC8XE9
-	 Ml9IwlrQnKyIyMyT2gz82eksO1es1kU4h16+cqgHyVn1GwoBpzDlmXNS6EIKa0VT6h5vM
-	 cWXhwP2KXA4rj5L9KK/ogpbUz2W6PWc/7TLhYBaWanfP3oHkHpqehcJ6OuNRVQWALD/pT
-	 wC4z9IYh5LO4RMGiMacoxoxCtzBCA2zZVW6bgxwZXGXBcQlaM2R6bQA281MLGAzs3eTlr
-	 IXSzyVm4sAOR2RUSiaJL2BGZs00oT+girp5r0XmHxbZNUkMRhsnClHsotXdteKXedhw==
+	t=1795564792;
+	b=kcd00kBE1WUd2WJJ7yYaULO3BdmFnkg9B/BIIWr9QlKFYiJ2cdVjwKlUX/4RhvzzYJkk
+	 XHZJQesqJ+g+L07HCZufqcbfR2L8EF4xbEXpGbphETenCdKsekE1P4B1KX/xm76sXxG1d
+	 Dpt00wLEnQCCpOpvXoh8SmA08z2ei1AKzph4+6sCrKtB+oFDppcYRSvfkbPrN6DCgsZN0
+	 iRvUHP0mBgDIgEo3Bw6ZSmrsiuukE9KsUw0ZCZwMmxnvRbHJJf1llOxqpcCSAHzDHxZqC
+	 O9w82/NrwvY9JB69WYsiElkTNREq21sEEh8T3cxnGzllDcBgXCxVszv1QPvTeTMOZmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795564374;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=FdmbSo5Y/+1WVcBaZi3UOeVDRS7HdI9UnXMTYxRF8pM=;
-	b=wy3wo0nDNdTemXW9TKkIaevls4gteyAzl6lZt5Lj0V76arYy4ZhmX+pfhmjsyUqfiIll
-	 fCOABJQFJ/c523zHAH180qXRBOtWYKeBy6fk/ZcpFJCFHM0VaVmefkX3wenqZWB3AZ/K+
-	 VJOQTmawDjGve8DQ/CFIJyo5BxUir1hHlTy7pPLKysWRbggLtw1G+L6byxeJTzl00tvG3
-	 tZqSTnkasEzHRycFGwF39N8kAbjWP9t4mPmrIUYlCnSjNhDkjTmGAc3ZBWyxvhd1ssQDW
-	 nc4TtXzG/tbGl14zbEZb3kSYYA333+aNvLkwz4DoNE1g5NBZ8ddD7GXO2rdBCWUtT0g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795564792;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=JbGMGU3Ni5klOILvUXiLZ0e6e10FjAtQOC+P8hG45Jo=;
+	b=Y6xgm8vwJxTwIiUCGAj1Ui96f5tkf9XgFsU/ycRvQEoisS27XpMdF88syVncrdAx7JBx
+	 llfo2bR8JU9KmSQDsu9OQxvo3+MpXTyGasbhEWoeoILYYhfYyOPfNIsLdU5p4iztgy+p1
+	 GpNWqxe1jhl4CS4IWVfyU2yRk0j1jSwFkQDdOOclnaHZ7NjiCczOilPD2GuLjLliIlCQ6
+	 8qyv5Smojgxv+mdS/hIQUbrEPEyYGSmsn30rGLtery5Knib9Vm7lFy2GMUPJbymUIb2L1
+	 Y8+oJIRcKsJZfgjoUtbp2x10jzHiPrsJ6Ag0EaWooAnBmtNK4ZhpS8NlYtdazZISYhQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jy1KLICg;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=fvTDaTI0;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=L1wzSz+m;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354C7606A323
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 23:52:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB8A606A323
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 23:59:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BB8A606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jy1KLICg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 083FD1F000CA
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 23:52:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795564374;
-	bh=FdmbSo5Y/+1WVcBaZi3UOeVDRS7HdI9UnXMTYxRF8pM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=jy1KLICgiWSXqsqyyn/gjKmfh+rsCDzaG2EVfNWUB4gbGN8xmKT6uSv5yG+2iL1G7
-	 IK3zduScRh3Q4Zuq4FZneQ9tmRu1TiDvJln8Te05PBA79SXVpiyXqG8mF9i3SwLHvk
-	 Oo8sB4hdZxHtCrY9Yp/82RTOL5ehb+IOdHnv7vuI+nTa+CypiHlDIRHTzAW0fd85Wb
-	 kGQeDv0vEfxPIYQoKOwKqTq61J+hvj7UQXwjN02iepCKKWyx6iMZPrcx5PhnfGSIwv
-	 GOBypqMenmIXZEadzSQwUM1+/LKppHQa8uUZJVDduDzJvol8Tl2PH8TZBl1ISExNwK
-	 9DbZFcLqMeomQ==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5c158c4c15fso6366845e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 15:52:53 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErH7P9PgcoCH3dSN/8DQh/bP8dytH4Tzqe+zCZirYAKuyrBrY/JIHfcru+BptZgmCyJlmmEUQTVaiZs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8lfTAxnU42PYs+4P4JysaDDf7nihwgOrPhNE4ENXOOgXdyf/BD
-	zhjNaDwa5A9WgR2YaB9JJipbPOa6hXkLWlYGIX64e/xAM/3JUrIxWnUsgI+4bBB2VeaBYx8f66n
-	ihdFI9bfPlbiAJl9t6wet45ZhbCP/7DQ=
-X-Received: by 2002:a05:6512:3c86:b0:5bf:a34f:14ce with SMTP id
- 2adb3069b0e04-5c1b7bcb80cmr4369964e87.11.1795564372635; Tue, 24 Nov 2026
- 15:52:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=fvTDaTI0;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=L1wzSz+m
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOMbGo7031333
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 23:59:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	JbGMGU3Ni5klOILvUXiLZ0e6e10FjAtQOC+P8hG45Jo=; b=fvTDaTI04iPBE2tG
+	fT2dwxkTu1GMDapg5uyWy8BRGAZHsY0cNlcPM44To5jMPkYrRdBpEUqcu8bSIsEf
+	9rLlSv3gScNWirlesMvhM9T4LRVJWij4ad5BTLcH0NO6WLRtHiL+uANnJV+dan3n
+	5KjKUEEJZ+C3Im2ixhvi4jaRaZ0HJhtFTkESP1MM0erMHPhycuqBKlutRxM+xr1n
+	AJ4Lj/ZbsFygB5XZ05EXlGtJhWQLZgBSKa8qrDtDYLwk1HeJfY1pWHa71i0j9XOU
+	DEm8/9PzJBLysnAyalWivhojUx54wvDnIJ1yF7OrctOXRkA6geGXAPpufSFWBeFk
+	bbh7qA==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j5ad7ttq9-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 23:59:50 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-386a65fca25so3957731eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 15:59:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1795564790; x=1796169590; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=JbGMGU3Ni5klOILvUXiLZ0e6e10FjAtQOC+P8hG45Jo=;
+        b=L1wzSz+mxj7v/PUNvzFmam5Moij5EPD27ScRLRSDcdHM8ymQpWRy71KTiuj++t7brb
+         7Ffnc7/Wu17vmvJ3f28s34D9sTRSgAZLJr0x5UmDUjCbiM1sVL005FaVxci5gG1jz6WU
+         fkE32DyvLNyLWgtP/SmcXrNnr8S0vCgwGgl0hUUQNCMoa0xVlmEjMbGCDbP6PXKO6GXo
+         yzbU5jXEazksORzdnbFK4sbxTW3hmCL2Toa0Uz2OygSbFDYj2/c938lavtf6UledxQhV
+         YRF6NAn0Sx+C3FZ5+XF03qmGwd7AIYXzDZd0sSOZKK9WPg1Iyz4X8s5iua6iwbdTEp08
+         uZ/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795564790; x=1796169590;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JbGMGU3Ni5klOILvUXiLZ0e6e10FjAtQOC+P8hG45Jo=;
+        b=zQh/vd5uGV2V6kXSLvUCg4BxPiAS/4QEs/3Vuj270QX0EIfyWduL5v71kJrbOFDNOa
+         5gsHX/uPK9lHKlZ/QKeERje5GpstMKUY7C6IZKP8jR5MvC+tw84HERynM/yiugXjx7SW
+         7qwSu/3fFhnsXiLcsHxSt62dKxHKl8O4WlTiCaHEuCVPSZIhKYvN+jixvafyKfEaRpos
+         NodKuOv+eBxtTRcK8UWpqwKbp5hxwQxePiLTPB8vLpXYEpFa1fLO3U5epg/wfC0m7H5d
+         kk26EIwRZ8XE2ZH5G7fphSEimxEPKfnSwoAF1cY5DpkgzglB1B3NcYTIwIYIMHr98jip
+         hB/A==
+X-Forwarded-Encrypted: i=1; AL+hErHkLbgdwXDykR1tTgXbwhkIo0mTLNmNhEtX9SVPo6kfumlCZp93NoxmlizgyekNRTai+xOWOliCr3g=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/8auX9Q6Kh8C11D5fA0n9y3p4+CDwgPVqdXbGe7jtPR4eyxQB/
+	p45YX86jndGDq8gyf+yw83EezOI6rUbLF1mO9p4qY/tpME5HOqBc+N1JA9ESyC/i+85z80tyYL2
+	4zqJ3u6sU2dkiAv07gr4nfzWvFMklgQ4RQ1/yRH/Tb1aW8pNaIW200g9xBuEzHRg=
+X-Gm-Gg: AZFdTZdkXFsd83EVU1ggkv4As0c9vT6+N7va84QOEz+ZDg78oahFutOb9JdPnkmICXe
+	at3Orjhol4wnozbxdMpwWA6Uy8c75nSpKewqw9XuQoSxb3eu1Vnc3pTXqcBqs4JZ8+q1GwsbbVP
+	r1iFdmP2Xn6Q1Umiaq7r69B6Ory8WJQPK3otOjBQTgcI5jwjAn1eJLpxVHRi0CLkqSkE5ylfB4z
+	XUHo0Q8jCXeeV/+QqOXy9WtiuCqY/7rwA6TnM70TIT76QGWHhbqfOdkCA2QA4tERqlaJBjbyS+n
+	w6c89j1n4cbOWhT1ZDrW/bz6VAonflltMscY8poGliUmbbh6C6XekecqSvMIXVDu2nwWuKLDQzF
+	FOR/vnKa9zqz6/7/f4ziqOsFl7XWwZR048vTtqFqWEc+USSrZCDGAXttp0L4DDcAf2HEJ1SfB5W
+	W5peAr651zrJenDC5IOl/u4vMcpzU=
+X-Received: by 2002:a05:7301:2108:b0:386:b99:8ff9 with SMTP id 5a478bee46e88-3860b999354mr14495400eec.40.1795564789583;
+        Tue, 24 Nov 2026 15:59:49 -0800 (PST)
+X-Received: by 2002:a05:7301:2108:b0:386:b99:8ff9 with SMTP id 5a478bee46e88-3860b999354mr14495349eec.40.1795564788926;
+        Tue, 24 Nov 2026 15:59:48 -0800 (PST)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386b9bdafb5sm15214484eec.9.2026.11.24.15.59.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 15:59:48 -0800 (PST)
+Date: Tue, 24 Nov 2026 15:59:40 -0800
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+        f.fainelli@gmail.com, vincent.guittot@linaro.org,
+        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+        d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+        philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
+        leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
+        usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v17 11/34] firmware: arm_scmi: Add Telemetry basic
+ attributes enumeration
+Message-ID: <20261124155940.0000336d@oss.qualcomm.com>
+In-Reply-To: <20261124194841.1147072-12-cristian.marussi@arm.com>
+References: <20261124194841.1147072-1-cristian.marussi@arm.com>
+	<20261124194841.1147072-12-cristian.marussi@arm.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,169 +133,129 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261015142552.4128028-1-ryan.roberts@arm.com> <20261015142552.4128028-14-ryan.roberts@arm.com>
-In-Reply-To: <20261015142552.4128028-14-ryan.roberts@arm.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 25 Nov 2026 00:52:40 +0100
-X-Gmail-Original-Message-ID: <CAD++jLmpMQ1KExszFo-So-dQ2rxDiG2fo1GYGV_T0VPQM2b=MQ@mail.gmail.com>
-X-Gm-Features: Aa3M54pFqitfpRija09wdUEiLNXZP7zwbQjloIBuStVWLIh0bhqixHx00fUO9n0
-Message-ID: <CAD++jLmpMQ1KExszFo-So-dQ2rxDiG2fo1GYGV_T0VPQM2b=MQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 13/15] misc/arm-cla: Add stage-2 MTC and VM context switch
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jean-Philippe Brucker <jpb@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDA5NCBTYWx0ZWRfXy+BaqriZwFfb
+ tPiV96FUFzr1rBUFLBQ26kR1EkAV8Ee9LOxl5C3YWFstdeFwVLlGgVeTw3lMHv50Wjrxf7WFZNi
+ 1YBJ2CdatUyTo9WPZBSoNqYLN3gOaKY=
+X-Authority-Analysis: v=2.4 cv=cI51IVeN c=1 sm=1 tr=0 ts=6b0624f6 cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=7CQSdrXTAAAA:8 a=AXIch-7a5tO8ZeyO9HQA:9 a=CjuIK1q_8ugA:10
+ a=bBxd6f-gb0O0v-kibOvt:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDA5NCBTYWx0ZWRfX21Gq3JB4+qr1
+ myS0Wgs4sAaUlgxOCEW6ks8HmpKvPxX+ubVBie1JygB7uYBDJrhM/GW6vb15xJe9C/o88UsLJ0l
+ kIkCPS56gplz4sxSq/ivxQ4oSmLo4TPmXIFfLvTgIeI699tny80kiziDk9Ogo4910mc3T3PmISR
+ fOzaqr2XzhnAmW4EcaQBWxSSPQKqmgz8jB2IkvqC5ZL8VNHczJbgT8zKMcSG/4xIjSHop3US5E7
+ ydkNe/OlGpqDIpCZX38C7vg3JbruFuFrlZpy6tYs4+8C4qHSa9Kup4NkY5M/GY9hgoGReDKWVW+
+ RHW7qTnvoXpdL3bV3C+ze0L6sJE8wIhK6IHYtyS3ZeKj1SWQRTZQTq2jxBE5yNAXkZXMOG18OUf
+ QJEtG9ejBHTiauYpnbgLiZm8DUlIfJvsL79iKZjQAdGT62Z+uZ1rPSb89eF0V9KYGN9MmMqps7L
+ /WUdhuenu5jz7694a7g==
+X-Proofpoint-ORIG-GUID: _eDyccZowtAWG5fdyaV_ADqmTSCxddVV
+X-Proofpoint-GUID: _eDyccZowtAWG5fdyaV_ADqmTSCxddVV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-24_06,2026-11-23_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 suspectscore=0
+ clxscore=1015 impostorscore=0 spamscore=0 adultscore=0 malwarescore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611240094
 
-Hi Ryan, Jean-Philippe,
+On Tue, 24 Nov 2026 19:48:17 +0000
+Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-On Thu, Oct 15, 2026 at 4:27=E2=80=AFPM Ryan Roberts <ryan.roberts@arm.com>=
- wrote:
+> Add SCMIv4.0 Telemetry basic support for minimal initialization and
+> protocol attributes enumeration: expose telemetry instance descriptor
+> via a simple information retrieval protocol operation.
+> 
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> ---
+> v15 --> v16
+>  - ignore groups
 
-> From: Jean-Philippe Brucker <jpb@kernel.org>
->
-> Add functions to switch the guest MTC. Reset the accelerators and CLA
-> registers on switch. No save/restore of accelerators at the moment, we
-> only restore the kernel's PL0CTL.
->
-> Signed-off-by: Jean-Philippe Brucker <jpb@kernel.org>
-(...)
+Partly... Need to do a lot more ignoring to make this true and consistent.
+There are a few things in here, but key is we need the whole framework
+to be as unaware of groups as possible. At least up to the userspace interface
+layer where we may need to ensure extensibility.
 
-> +/**
-> + * struct cla_regs_pl1 - Saved CLA register state (PL1)
-> + * @pl0ctrl: Host PL0 control register
-> + *
-> + * Most registers are simply reset when transitionning to and from VMs, =
-since we
-> + * don't support shared assignment.
-> + */
-> +struct cla_regs_pl1 {
-> +       u64 pl0ctrl;
+Jonathan
+
+
+
+> diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
+> index 3f7cc35eb861..f076ce5601cf 100644
+> --- a/include/linux/scmi_protocol.h
+> +++ b/include/linux/scmi_protocol.h
+> @@ -2,17 +2,19 @@
+>  /*
+>   * SCMI Message Protocol driver header
+>   *
+> - * Copyright (C) 2018-2021 ARM Ltd.
+> + * Copyright (C) 2018-2026 ARM Ltd.
+>   */
+>  
+>  #ifndef _LINUX_SCMI_PROTOCOL_H
+>  #define _LINUX_SCMI_PROTOCOL_H
+>  
+>  #include <linux/bitfield.h>
+> +#include <linux/bitops.h>
+>  #include <linux/device-id/scmi.h>
+>  #include <linux/device.h>
+>  #include <linux/notifier.h>
+>  #include <linux/types.h>
+> +#include <linux/uuid.h>
+>  
+>  #define SCMI_MAX_STR_SIZE		64
+>  #define SCMI_SHORT_NAME_MAX_SIZE	16
+> @@ -828,6 +830,35 @@ struct scmi_pinctrl_proto_ops {
+>  	int (*pin_free)(const struct scmi_protocol_handle *ph, u32 pin);
+>  };
+>  
+> +struct scmi_telemetry_base_info {
+> +	unsigned int version;
+> +	uuid_t primary_revision;
+> +	unsigned int num_des;
+> +	unsigned int num_groups;
+
+My gut instinct would be to introduce this only in set 2 that adds
+groups controls.  The best form of no groups is no reference to them at all
+except in userspace ABI where you stub them out for now.
+
+> +	unsigned int num_intervals;
+> +	unsigned int num_shmtis;
+Ideally grow this as you add support for things. num_intervals and num_shmtis aren't used yet.
+
 > +};
 > +
+> +struct scmi_telemetry_info {
+> +	bool single_read_support;
+> +	bool continuous_update_support;
+> +	bool per_group_config_support;
 
-> +enum cla_ctx_type {
-> +       CLA_CTX_PL0,
-> +       CLA_CTX_PL1,
+Logically without group support we don't care.  I'm less bothered though
+on whether you rip out a simple support bit but if we are going for clean
+separation this would go as well.
+
+> +	bool reset_support;
+> +	bool fc_support;
+> +	struct scmi_telemetry_base_info base;
 > +};
-
-Please add authoritative definitions of the these two context states
-here so we know exactly what they are for.
-
->   * Mutable, written by domain reassignment, device work, and CPU hotplug=
-:
->   * @regs:              State for each device in domain.
->   * @asid:              Pinned ASID of live context.
-> + * @guest_mmu:         Stage 2 translation configuration.
-
-Since they are now in a union there is some information missing here,
-asid for PL0, guest_mmu for PL1?
-
->   */
->  struct cla_ctx {
->         struct kref refcnt;
-> @@ -191,7 +220,10 @@ struct cla_ctx {
->         refcount_t users;
->         struct list_head queue_node;
->         void **regs;
-> -       unsigned int asid;
-> +       union {
-> +               unsigned int asid;
-> +               struct kvm_arch_guest_mmu *guest_mmu;
-> +       };
->         wait_queue_head_t waitq;
->  };
-
-(...)
-
->  /**
->   * cla_ctx_create - Create a context or increase its user count
->   * @domain: CLA domain
-> @@ -48,8 +79,12 @@ struct cla_ctx *cla_ctx_create(struct cla_domain *doma=
-in,
->         INIT_LIST_HEAD(&ctx->queue_node);
->         init_waitqueue_head(&ctx->waitq);
->
-> -       mmgrab(key->mm);
-> -       get_file(key->file);
-> +       if (cla_ctx_is_pl0(ctx)) {
-> +               mmgrab(key->mm);
-> +               get_file(key->file);
-> +       } else {
-> +               WARN_ON(!cla_ctx_get_pl1(ctx));
-> +       }
-
-This WARN_ON looks more like an assert() of some kind?
-Since it's an enum and assigned from those everywher
-this is basically a check for memory corruption...?
-
-Well maybe better safe than sorry.
-
-If you want to employ this pattern, and especially if there
-will be PL2, PL3 etc in the future, do a switch?
-
-switch (ctx->key.type) {
-case CLA_CTX_PL0:
-    mmgrab(key->mm);
-    get_file(key->file);
-    break;
-case CLA_CTX_PL1:
-    break;
-default:
-    WARN_ON(1); /* Should never happen */
-    break;
-}
-
-So you would then use that pattern also here:
-
-> -       mmdrop(key->mm);
-> -       fput(key->file);
-> +       if (cla_ctx_is_pl0(ctx)) {
-> +               mmdrop(key->mm);
-> +               fput(key->file);
-> +       } else {
-> +               cla_ctx_put_pl1(ctx);
-> +       }
-
-And here:
-
-> -       mmdrop(ctx->key.mm);
-> -       fput(ctx->key.file);
-> +       if (cla_ctx_is_pl0(ctx)) {
-> +               mmdrop(ctx->key.mm);
-> +               fput(ctx->key.file);
-> +       } else {
-> +               cla_ctx_put_pl1(ctx);
-> +       }
-
-
->  #define cla_kernel_mtc \
->         (cla_kernel_pl =3D=3D 2 ? CLA_MTC_REGIDX_PL2 : CLA_MTC_REGIDX_PL1=
-)
->
+> +
 > +/**
-> + * struct cla_mtc_s2 - Stage 2 MTC configuration for the host or a VM.
-> + * @hcr: HCR_EL2 register value.
-> + * @vttbr: VTTBR_EL2 register value.
-> + * @vtcr: VTCR_EL2 register value.
+> + * struct scmi_telemetry_proto_ops - represents the various operations provided
+> + *	by SCMI Telemetry Protocol
+> + *
+> + * @info_get: get the general Telemetry information.
 > + */
-> +struct cla_mtc_s2 {
-> +       u64 hcr;
-> +       u64 vttbr;
-> +       u64 vtcr;
+> +struct scmi_telemetry_proto_ops {
+> +	const struct scmi_telemetry_info *(*info_get)
+> +		(const struct scmi_protocol_handle *ph);
 > +};
+> +
+>  /**
+>   * struct scmi_notify_ops  - represents notifications' operations provided by
+>   * SCMI core
 
-At this point I have no idea what "stage 1" and "stage 2" is, but I just
-assume it is something everyone working on virtualization knows about.
-Maybe it could be explained briefly in the commit message for the
-rest of us?
-
-Yours,
-Linus Walleij
