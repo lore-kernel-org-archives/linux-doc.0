@@ -1,97 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795528789;
-	b=Ly+w5GqdgIaCxE+4Mf02ZgEGMXs88hEh1J7SPjMxbSX1LG3zeMDa6L1wGaZld9vzhNpx
-	 024M940I8nnrGSNAXck0l+2vZgp/hLLWSW9QBPWHHBdr0L0R9ennIGnzvdGDvHkrBUm2N
-	 9qclEGbxzDIAXuAgKugv4RFWeZBE7tfAQFolg5qQZeMOnAur1dESdVFLKr2/8YsFFlvB1
-	 MHuT2wysXpZd1tr7kq7CbppgGS//iE73PoE7NUZxbGD1E89HdHbUhoKkTKgLUEUhe99p2
-	 hGb+Ijf17NhEnKPtCYeG3FGa0Bnc8h3QA5CKREtPQ24H6wM+eNYtDym/HJErBMw6IvQ==
+	t=1795529299;
+	b=X+chbYgPWIsOBszbYun8INbJlIbXCyWXtM8JhpKku6IOciovtFGAw8pGPVIM57t6053g
+	 ySbQBzwILmadR9ZR0Xm5coQlnsvbNi2rVsha/FuJidGsZccMxR6NCcgwjjodob26ihea+
+	 neej+CV3Oi5ahCt2iVhaJL176ETwXI/PvUHjLM8/NA9xvIJDFvB0wNy9dy8Ral67dD3qm
+	 XWOjUL69L1YVdAu4k/8IEHLvfilXre+1mtHtiuFKeo8w40ZPu1HjEDF+FTNDx4ibIq0sq
+	 QmnDvBXGbZA2T7b8yIoodAcP16+jviMc47IydmP0MRB8cguOyw9ZxvGzq9L9buwfgWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795528789;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=WqOCSpfhRpfrcDKrgHuNviXW0yZq+NMD1bfim2qiamo=;
-	b=jNJZXqybnwLL2TqXx8TGZDcbWMExKtxhVmPJv3mZNQQiqSIfcF7RD7EcdGe7oPKc56ZJ
-	 /hcpVkWbpm7yk+xlMrQ8ro/ANnNyTFD+txcA/QHgIX4gf0AGvgCsZhc8qWZOPNYZKsaY/
-	 vRdJ8yvSAic7Rf+1Ig6UPH2swUCT+CFBJh2mh3Nf1Gun39j4UQD7ul1H4c1dSD77k0exZ
-	 2Ae688J/2Le2kUHUsvDBaHJZoXs/4MDbz+1sxGOmAUfyndPz8K/lE8CPcfjhUekI3VvfG
-	 qwmd7R1/Z3Yg/Oxp2cTQ9bc9BftRYIRpXlI6rqtYqbAURnimHtilMxZXTxFZug5bjsg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795529299;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding;
+	bh=anD5m1AxXBnKPgg8ZQZ0gwUoffnh9QZT8UfPtY8eE3c=;
+	b=tHQ1i5gF3mzhafDOvtsPbixl6l6GKD8DlpcneqLX/N+t+6bndeSsUgJnhAun7dldYkDC
+	 fXPwZkrDhYC0nlilwBKjo9fFg7Nbg53EKSimPAtGyFTRGXj8CBeSEIZwe9WuF+Yk9oLEc
+	 x0ghFORRg5yzA13BJFKdTnDNnV3aHk1FLSnse1dhJt19u2QXV11ojcjoWMRcxhIqJd+QU
+	 /LmNK1HOM0uWirY4KJzqr/EHfAyciXBR49NGUa5XmcNzIPr8i2bciLhV+v1OBG5btqPMW
+	 pTedN7D+aVZvFXmgTnzBF3+tJWZFMluwuudW6UWG/lRiRkTpAEF8cm/Byj7At87bV3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=OY1QJ+xs;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=uuogxUnW;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lUbEhfEB;
+	arc=none smtp.remote-ip=209.85.218.54
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99FD606A31E;
-	Tue, 24 Nov 2026 13:59:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B99FD606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E182606D0DC
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 14:08:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E182606D0DC
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=OY1QJ+xs;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=uuogxUnW
-Date: Tue, 24 Nov 2026 14:59:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1795528786;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WqOCSpfhRpfrcDKrgHuNviXW0yZq+NMD1bfim2qiamo=;
-	b=OY1QJ+xsSMAeWL0nvkyFs5MphIDdK1xPv+lgUVqMIqSesNji9sr4swYSXJF29vQiZIWi7N
-	BTBg+8ndYK7LMybD9He0rfBIvwmcDvWDge65KnIx1sAkZx6/BPK8vojELdoDRTQUiGzAkb
-	UIrDK4P3LRGM/FMK0Qen5I0m6h32YQkXoHFG1m4JwAGpAvmuTe94eBPFDsp+V9RtE/8/Yo
-	/2+vBbc8fNd+A8yT22bSiKbV3/WrftIafDci4BpfvqXIVBiksTU29BSpEjSt97CHA7mOBK
-	fBhMU8t6kQg6R2nK69oddTAnTqYjssq6hzpdGWwusldiGePMMQXtdFSs6sVqvQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1795528786;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WqOCSpfhRpfrcDKrgHuNviXW0yZq+NMD1bfim2qiamo=;
-	b=uuogxUnWw0+F9dwOGlBmLU11KNq5qd1/+4wQJVCPqbo7cSj+xIq+saL8J+LZRgxMmwV4cY
-	qPVftjI9N2b+iSAg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Juri Lelli <juri.lelli@redhat.com>
-Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-	rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lUbEhfEB
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c5133831027so651891766b.2
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 06:08:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795529298; x=1796134098; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=anD5m1AxXBnKPgg8ZQZ0gwUoffnh9QZT8UfPtY8eE3c=;
+        b=lUbEhfEBgzS6vFKGKFSIx8aFwnOpFSyP2NjkZKphp/89gyhsGsd4KNqI3I2ZIadB7Y
+         m31JgrxDn/SWN3+7MrtULm0E1lvbcRXSW706YN/qayL97IqY89aMDyMNV+40wCwqpOe5
+         5P1PbnE7FytUI9lsOATmcCsVTQG4Whip9zIuGQpApc9LgCOrEM54le1YNwAx1QUvfJt7
+         QWV6D9Uze300EOVBp7eY77vVITtsacOUIk9cR0y0vq59vWtouZarXBeopX7qB8Hv+vmQ
+         ehmQC0vVU7dlTXHShcoFze6qcdOnyXQjJ30Wqdw32dXgwLyF2RYisBNS8b2GC4cbZVRD
+         AHOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795529298; x=1796134098;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=anD5m1AxXBnKPgg8ZQZ0gwUoffnh9QZT8UfPtY8eE3c=;
+        b=GaJWx5aYUCh+wTTHWHZouMFgR28w0yzd99rBocSPJFs4StdC2PNx7rYHUZpHsvlSW3
+         ZYzW0lLxTM3xV8Zz84AwuXGjppFrVBtnDBnphyUIeMT4tdfJjWPSA6jUr7gSkZ4XE83/
+         ufVBrnvX6IMsVQj3kP++TyzgaY9WX718Qg+orpQ6CcR3iQKnsQWBu50jQMfwB1PUuUqz
+         U9WQTfHW5rn2Bgvuzxsnc0inkm9I38IYffxph+A3AC99gQPDhmDA/f0aGDd6+j8bMJFC
+         O50J7y4WF0hoZDIXNiCaKVPCRek9SL7T0KeybKnhZJdftTI6Uhb53fA/19GvAl1gWqAO
+         aarA==
+X-Forwarded-Encrypted: i=1; AL+hErFFhk2gPgbH5YjE9pKe82Bj3Ovib1M0UED5VabYMbPYqN9CfWyLGm4ug6y3g3ovqeJw2R9rP57yTog=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+aVNVn/IN+khuOzioIsf69MVhpGBdlCpboe4GG6YAiTWIbPnZY
+	VCgkIKUvDzoGMmd3IwT21qrWtV9iLnq/PPqMnUC1eLiK4Mr6V9U18nHB
+X-Gm-Gg: AZFdTZdSk0EMGz30ofpJZWMgN8PH8b9dRv2I5uLrQIYGCmVLlVozjUgAPSLUp8tQy76
+	BPwIN2Qh7MBqnYowk1E5gPbnEZ7UPUYPpEc2w3QWa6rFDOwX8yzV36rL9OV0ZOIl3U3Xf76uzdo
+	HKQTo9+84kaCqcNUNicOjE65GS5sYGrh3WSjt3ZlSGjeJbXyLvMgNtp+8C7hTZ3YtHs+c99q7ia
+	+UFuMq1gIZgac+7HScczJJ4ZmpV3NZ9d2hgOMl4xbkmPe0xpC3VnoTdw8J5wc/YdLwVFbDahg+P
+	ZADxY6Q37ayGLJhEqWpxuQnN6mVKOMFlVJSut/8MrhUKaeL+fP3SSxF+AA570BC6vZU+o2FdX/r
+	PM03R8d7ODKRiNNwtM7N412ctQyWhrGmhq43vKow3ngzu/c3X3fB4aIwo4/yEDSn0xQO2AxuWoT
+	QXPZ5Z2C2ZdNGxyRxVBC7dGAvBoG1sy61pVW6qIedibetSyJlLSch7zDhdemj070IE0PphrYe9q
+	7n7kqQnSQnW63Pm34SGqXEf0LKGyYNA1XUBU3Q60kXG2jrl6Xd7RgCwzk6AQM3qyYUIQv3C970N
+	srv2XAo4PcmQX3uL1tCSogCry2t9yrA=
+X-Received: by 2002:a17:907:3e92:b0:c51:9ab4:393c with SMTP id a640c23a62f3a-c519ab43c77mr120246166b.32.1795529297432;
+        Tue, 24 Nov 2026 06:08:17 -0800 (PST)
+Received: from ArchOarora ([95.179.249.152])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513aea1fd8sm512929666b.38.2026.11.24.06.08.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 06:08:16 -0800 (PST)
+From: Oarora Etimis <oaroraetimis@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	jose.exposito89@gmail.com,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Lucas De Marchi <demarchi@kernel.org>,
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	luca abeni <luca.abeni@santannapisa.it>,
-	Yuri Andriaccio <yurand2000@gmail.com>,
-	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
-	Qais Yousef <qyousef@layalina.io>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: Re: [PATCH v4 4/6] sched: Limit sysctl sched_rt_{period|runtime}_us
- to RT_GROUP_SCHED
-Message-ID: <20261124135944.VIRpdBBG@linutronix.de>
-References: <20261123-sched_dl-v4-0-d523e4d960d3@linutronix.de>
- <20261123-sched_dl-v4-4-d523e4d960d3@linutronix.de>
- <awVi0VQJCBNYc8u9@jlelli-thinkpadt14gen4.remote.csb>
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	sebastian.wick@redhat.com,
+	victoria@system76.com,
+	thomas.petazzoni@bootlin.com,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v6 09/43] drm/connector: Export drm_get_colorspace_name
+Date: Tue, 24 Nov 2026 15:08:02 +0100
+Message-ID: <awWaMHsJ2EAn1Tpa@Oarora>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261120-vkms-all-config-v6-9-78ace90f4fc1@bootlin.com>
+References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com> <20261120-vkms-all-config-v6-9-78ace90f4fc1@bootlin.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,58 +129,32 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <awVi0VQJCBNYc8u9@jlelli-thinkpadt14gen4.remote.csb>
+Content-Transfer-Encoding: 8bit
 
-On 2026-11-24 11:11:29 [+0100], Juri Lelli wrote:
-> Hello,
-Hi,
-
-> It looks like subject and changelog still describe the previous version,
-> as we are not removing the interface anymore?
-
-Updated:
-
-|sched: Issue a warning for sysctl sched_rt_{period|runtime}_us on !RT_GROUP_SCHED
-
-|The admission control for SCHED_DL has been moved to sysfs and updates
-|via proc are mirrored to the sysfs interface. The sysctl knob controls
-|RT throttling within a RT group if RT_GROUP_SCHED is enabled. Without
-|RT_GROUP_SCHED it serves no further purpose.
-
-|Add a warning in the !RT_GROUP_SCHED case to encourage people to move to
-|the new interface.
-|Move the declaration of sysctl_sched_rt_{period|runtime} to
-|RT_GROUP_SCHED because it is not accessed outside this define.
-
-> >  kernel/sched/rt.c    | 8 ++++++++
-> >  kernel/sched/sched.h | 5 +++--
-> >  2 files changed, 11 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
-> > index bd37dbf2bebbe..258b187459bb9 100644
-> > --- a/kernel/sched/rt.c
-> > +++ b/kernel/sched/rt.c
-> > @@ -2877,6 +2877,14 @@ static int sched_rt_handler(const struct ctl_table *table, int write, void *buff
-> >  	ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-> >  
-> >  	if (!ret && write) {
-> > +		if (!IS_ENABLED(CONFIG_RT_GROUP_SCHED)) {
-> > +			const char *msg =
-> > +			"Please note that DL admission control (via sched_rt_period_us, sched_rt_runtime_us) moved to sysfs.\n"
-> > +			"This update will be mirrored. Controls for RT throttling moved to the fair_server.\n"
-> > +			"This will not be mirrored. The fair_server settings are under /sys/kernel/sched/cpuX/.\n";
+On Fri, Nov 20, 2026 at 06:58:51PM +0100, Louis Chauvet wrote:
+> Export drm_get_colorspace_name so it could be used by VKMS
 > 
-> I am not sure a user who hasn't followed this thread will understand
-> what "mirrored" means in this context. What about something like (names
-> depending on the unit discussion):
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/drm_connector.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->  sched_rt_{period,runtime}_us only control SCHED_DEADLINE admission control,
->  now also available in /sys/kernel/sched/dl_{period,runtime}_us.
->  RT throttling is done by the fair server, see /sys/kernel/sched/cpuX/fair_server_{period,runtime}.
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index d66188521881..fbff5871355d 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1528,6 +1528,7 @@ const char *drm_get_colorspace_name(enum drm_colorspace colorspace)
+>  	else
+>  		return "(null)";
+>  }
+> +EXPORT_SYMBOL(drm_get_colorspace_name);
+>  
+>  static const u32 hdmi_colorspaces =
+>  	BIT(DRM_MODE_COLORIMETRY_SMPTE_170M_YCC) |
+> 
+> -- 
+> 2.56.0
+> 
 
-Updated.
-
-> Thanks,
-> Juri
-
-Sebastian
+Reviewed-by: Oarora Etimis <oaroraetimis@gmail.com>
