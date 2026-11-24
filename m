@@ -1,114 +1,159 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.153.120
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795558772;
-	b=hcfZItHsbhgUOtfe6hufHCfcS5g6kI8ZoCWRxS22dmMnvy0gGpFhc99jw312G3q+YDn9
-	 b0nGD4KHyYqX8G2l8EEE25G6CUgX8tnLxx4/XkFPL3NATCAaRQe/ncZSnVe078ClLJUxx
-	 lY+XLMqlZl+I/tIRrPINEpt7FbNIIrt/I6fkXHpxvhtBnekSOGeslHoqVfvkSKvLLZjzw
-	 sGonwcds9Rih8cwJagPi+B9G2XCYzvJUzCEH7TMramPpL5V2WrizBmsYvIxqSG85zb9L0
-	 HcN7Z25COZExiLDQQmsaTMzL7PPXp4NO2rLE4emkLasSF3+8oA21KqJslLqKFyRbBCw==
+	t=1795559860;
+	b=Z672OizisNfFfkoRDfvzcasV6QrCP9MUV5qGoOR9F8Kom/oJ4XIhcLQ/ffusO4Ln93p+
+	 SZbVWk0u3hw0R54KCLibk5fLYfsiscxHJ/SVWmJ1AUGMQOsqBBDc4Si5p6UZTfT3tlFa6
+	 g0e+oUy2u3hy4j2VvP6xF/32tCmRv3So9hlu5VjPIK9uFZdNpkLlqANkrzjTJCvHscLWG
+	 /3JOv9LyW/da57YWMcWM1tquFzP3o4AE0SSlfjn2pQTJA01tcmLMuHz32p4OYn319u/YV
+	 Q4GyCxvwiKJ9vjA5JahkmXZHBLv7+CiIxbFHCvUzWNGQNcYIGVxmGNU33kbuLXqneHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795558772;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Virus-Version;
-	bh=j5SmxxlHeHuDubsUdf1mgIAqyrkIlAIH3ZJ7uXPrmuY=;
-	b=ex1Snee+9JCE2uAPKJe/rVPrXW3b/bBXokaIy0+ofyjSvQNvEWGgjrQlDE9ay9XN4YnL
-	 /Cr5sO/iZ/IBNC/dMu+8j6EDh7hhKmqaL19tMmxVdgE1APg2fC/lEdYw+euMbc7tMXybj
-	 SBYIMFQIMzbp1eSwYMKcSHiRMWE9e+lxfTRx96y7FZ7ExRjFZIsDUlRIoUgQrYdgo3FJP
-	 gGPXZINfHmQ1f6Kdz0P3ruGzRpMC3nXn/rmNR5WR2ETdrX2AERQx5ZJ4th1D05Mn+SpQ1
-	 8TEts3Ll9N+6Cs5+mp9gwPEsJQbJwTxCuP9b/6Ka0dBSwzs0tibGOFnSmGmB++T6zTQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795559860;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
+	 Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
+	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:MIME-Version:
+	 X-Exchange-RoutingPolicyChecked:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
+	 Content-Language:Content-Type:Content-Transfer-Encoding;
+	bh=/EmiOGva4Ztgbu5cer4Jn8C748Er38gfhrj6qAjYyJU=;
+	b=PeLCQoo4ewZx2JY5tohv4t+fYfLH2wyHTCB9tZ7J4yUwO2t/ow5bece9lqeXGcTCwTzW
+	 T+1wP3+jSksuHyzykUUnN+/IZ3cMy9bT5DqBK5dUPxx/K6gOj/wtrCKUgh9zogVE/lY6O
+	 lwZwMIrg9kKCT19QkL5wubL4YgvazOVaMgOwxM6a1MqflpmQoNjy/fZT4ADtBtE0SVZNv
+	 LreU6/ytK3oi8T0r/gzmxVpsQ0I24dh69gdym8HerDB9ieIjLHzGAYXxKqQ2/F913uOju
+	 yJIwvRXxyoykn1GRFX97YEdJ3dHt3PFLuXPj6cmyt07fccNNPyJ9S/9tpMdOBEbCtYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=meta.com;
-	spf=pass smtp.mailfrom=meta.com;
-	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=DZuwcYOU;
-	arc=none smtp.remote-ip=67.231.153.30
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+	dmarc=pass header.from=onsemi.com;
+	spf=pass smtp.mailfrom=onsemi.com;
+	arc=none smtp.remote-ip=170.10.153.120
+Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21A9606A33D;
-	Tue, 24 Nov 2026 22:19:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B21A9606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=DZuwcYOU
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOMB8Uf1293071;
-	Tue, 24 Nov 2026 14:18:27 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=j5SmxxlHeHuDubsUdf1mgIAqyrkIlAIH3ZJ7u
-	XPrmuY=; b=DZuwcYOUD+QwjhInR6UhnzosW2crPSOs20IKHGAQ7rMJFV3o/yyWi
-	sfWVBwsLkgpl4OSnFbBYx6Ab3BJrPRMzbds1hPX1JbGk6pi1YVzxx8a9CIj3SlQJ
-	WM9x58dYjUp5ZGa+JfsKogmPzH6K+T6aothBC0JanF1R3KJQy/0Ay8hSxMoSkbm9
-	1qxw/nTeHmq0zxQq7YQqKl/P+NBMjaO3l0frjpEhBhlTzxV3chPRytL1nIkG2YaB
-	6m30JocXn2ZOr0NeSq85lgwcsSUYQ/aGJ+3SJEBlsI9om2NuY4NyKxEvf3IvYYAn
-	w4KxGsS+6KzDqx+DgkLkEHF0PFFK63TuA==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4j5gqwh6m8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 24 Nov 2026 14:18:26 -0800 (PST)
-Received: from localhost (2620:10d:c0a8:fe::f072) by mail.thefacebook.com
- (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Tue, 24 Nov
- 2026 22:18:25 +0000
-From: Todd Freed <toddfreed@meta.com>
-To: <netdev@vger.kernel.org>
-CC: "David S. Miller" <davem@davemloft.net>,
-        Andrew Lunn
-	<andrew+netdev@lunn.ch>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?=
-	<bjorn@kernel.org>,
-        Boris Pismenny <borisp@nvidia.com>, Cosmin Ratiu
-	<cratiu@nvidia.com>,
-        Daniel Zahka <daniel.zahka@gmail.com>,
-        Donald Hunter
-	<donald.hunter@gmail.com>,
-        Dragos Tatulea <dtatulea@nvidia.com>,
-        Eric Dumazet
-	<edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-        Jamal Hadi Salim
-	<jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>,
-        Leon Romanovsky
-	<leon@kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-rdma@vger.kernel.org>, Mark Bloch <mbloch@nvidia.com>,
-        Paolo Abeni
-	<pabeni@redhat.com>,
-        Pedro Tammela <pctammela@mojatatu.com>,
-        Saeed Mahameed
-	<saeedm@nvidia.com>, Simon Horman <horms@kernel.org>,
-        Tariq Toukan
-	<tariqt@nvidia.com>, Wei Wang <weiwan@google.com>,
-        Willem de Bruijn
-	<willemdebruijn.kernel@gmail.com>,
-        Kuniyuki Iwashima <kuniyu@google.com>, <bpf@vger.kernel.org>,
-        =?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?=
-	<ast@fiberby.net>,
-        Qingfang Deng <qingfang.deng@linux.dev>,
-        =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
-        Shuah Khan
-	<shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan
-	<skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Matthieu
- Baerts <matttbe@kernel.org>,
-        David Ahern <dsahern@kernel.org>,
-        =?UTF-8?q?Jonas=20K=C3=B6ppeler?= <j.koeppeler@tu-berlin.de>,
-        Hangbin Liu
-	<hangbin.liu@linux.dev>
-Subject: [PATCH net-next v3 08/12] selftests: drv-net: psp: test socket-less associations and the tc psp action
-Date: Tue, 24 Nov 2026 14:17:54 -0800
-Message-ID: <20261124221758.3230929-9-toddfreed@meta.com>
-X-Mailer: git-send-email 2.53.1
-In-Reply-To: <20261124221758.3230929-1-toddfreed@meta.com>
-References: <20261124221758.3230929-1-toddfreed@meta.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C76606A321
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 22:37:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75C76606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
+	s=mimecast20250127; t=1795559847;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/EmiOGva4Ztgbu5cer4Jn8C748Er38gfhrj6qAjYyJU=;
+	b=C6TXD9BrcvAQRsM9FdVxU2agw6KwRZUhV8dK3Z1NQbRhU5uU5Dg9fwR/6ExGqMA94ZOBQ9
+	O2O+D9xBLoEkYsSmMdf4FojcomUa+HFhgK8Y52ZfMqaHae7te8iYw/m/62mUlTaZzjbFZ5
+	idGDwxzeEwczUuIvcbyDDNmmAcdbRjLk00zSQyVZBfyW6irllD0wcQkbbGT1axHtXRK5Ar
+	hBUqh/wWd5SRWvntTG93Y55FwLqKpBA5th+PqzKrAe6KTsTgQz/5HkS3jNSshfNRzs0A9a
+	fV+VEx+6OIeDpdQiYAJdXMT0rdLgO3RhmOrucoGBN6u9SsVbeY4b/lT05H9FjA==
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010044.outbound.protection.outlook.com [52.101.46.44])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id usb-mta-2-yZ4uEhyeMy-CD6XPpBM4Lw-1; Tue,
+ 24 Nov 2026 22:37:22 +0000
+X-MC-Unique: yZ4uEhyeMy-CD6XPpBM4Lw-1
+X-Mimecast-MFC-AGG-ID: yZ4uEhyeMy-CD6XPpBM4Lw_1795559834
+Received: from DM8PR02MB7864.namprd02.prod.outlook.com (2603:10b6:8:23::23) by
+ CY8PR02MB9469.namprd02.prod.outlook.com (2603:10b6:930:70::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.639.13; Tue, 24 Nov 2026 22:37:13 +0000
+Received: from DM8PR02MB7864.namprd02.prod.outlook.com
+ ([fe80::3cde:db1f:188:bc80]) by DM8PR02MB7864.namprd02.prod.outlook.com
+ ([fe80::3cde:db1f:188:bc80%6]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
+ 22:37:12 +0000
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>, Andrew Lunn
+	<andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+	<linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, Parthiban Veerasooran
+	<parthiban.veerasooran@microchip.com>, Richard Cochran
+	<richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Eric
+ Dumazet <edumazet@kernel.org>, Piergiorgio Beruto
+	<piergiorgio.beruto@gmail.com>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Jerry Ray
+	<jerry.ray@microchip.com>, Ciprian Regus <ciprian.regus@analog.com>
+Subject: RE: [PATCH net-next v12 09/15] net: ethernet: oa_tc6: Support for
+ vendor specific MMS
+Thread-Topic: [PATCH net-next v12 09/15] net: ethernet: oa_tc6: Support for
+ vendor specific MMS
+Thread-Index: AQHdfGCeyiQ0fQdR/k6JvaCoiPFolrc9zVlg
+Date: Tue, 24 Nov 2026 22:37:12 +0000
+Message-ID: <DM8PR02MB7864038451A3F313289F87C383442@DM8PR02MB7864.namprd02.prod.outlook.com>
+References: <20261124-s2500-mac-phy-support-v12-0-3575855d99f9@onsemi.com>
+ <20261124-s2500-mac-phy-support-v12-9-3575855d99f9@onsemi.com>
+In-Reply-To: <20261124-s2500-mac-phy-support-v12-9-3575855d99f9@onsemi.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR02MB7864:EE_|CY8PR02MB9469:EE_
+x-ms-office365-filtering-correlation-id: f11566ea-ddbb-482c-8bfd-08df4a7b7bcc
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|366016|18002099003|6133799003|22082099003|921020|4143699003|56012099006|11063799006|10067099003|261102123227099003|261028144727099003|261026121527099003|261026140227099003|261022105027099003|261021121427099003|261022075727099003|38070700021
+x-microsoft-antispam-message-info: yY5G3AhR4TqKbYfIOJoFLiM7rQpGv5mx8DjiIP2+aIC++OkXlW06kKTJ7bDjE4ka6ZV+zf3I/UETaqcIiR+O4GLkTVus/E9oVvsfbKZ+xqelvXYt5zFQCaHeBa2bn8HwGY1RJUpaZP4FWivngaxS5wdMM/Af4K55zi9xbs9J4VlHFtuhQfoyLQjU7G7wBAvr2LuNv4o2x8gU9OKBkcvZj2FTJ0pXqv6rgHjDEld2ITkcmw5taqkiv0rRxcz+etnqTRgN1KOUzDMn4tAtKBLUKAtGx/k41iA4dNukOMM4rJe0BFUvYYssbKNZHLLREuvSosSoAa6lOePyokhkrnpVWRjXbKV8nGrsUM+x09X/LswmqYv33JHaYDcTi4nEJ81Pxc7L8jFiJUPqx33YxGVJ1+Tf6qKrLNhY4dR4tPxIB4RxPDFAFFHcXKEjD/gc4CQEDbkixwSl+zN+zxetkRbDF66zGh9SjTu6gY4Y4GYXohs9s/Fw9LHBCt/p1LMJRO4VlzwmHgy2QpSxpObY0jf2ysbS5ZpZaM6dYHOzelnKljv9yPlpPS578C5J9KXWWMl0dYoox4r1E6/XrLeM6YQKujMQbw20qk/qgIfPlq093cCqqCQzG7FSsexV5aLdSsLoBKCw101CTSByZc0PBjplZVKOhA8diUB3Ufz7fOQlNihMcZf/UcmHOf/6FNEyzxMgbh39JJgbABJBehVP15NvXnEZyySWNM12M9s/iRykery3lpgtduJAYImDeFxBdy4R
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR02MB7864.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(366016)(18002099003)(6133799003)(22082099003)(921020)(4143699003)(56012099006)(11063799006)(10067099003)(261102123227099003)(261028144727099003)(261026121527099003)(261026140227099003)(261022105027099003)(261021121427099003)(261022075727099003)(38070700021);DIR:OUT;SFP:1101
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RUJScXcxd2sydW9MMDlMdDY2cHpOWlBwU3hLN3IvUFp2OURUbDA1ZXdTRnpF?=
+ =?utf-8?B?Q3FkY1VhMEQ5ajl0ZlNlVHZzelFLQVhMM1ViVENQTXhsRFI1a1VwU2xqK2Fq?=
+ =?utf-8?B?OUR5M2VYVWFYRXBtdmNwZGF0UG9YSUVXSUpIamVzbEtnVVhuMmRlNUc4TGdn?=
+ =?utf-8?B?T1dPVTNQcUNYZ0Q4eDZkT3Evdkw4UnFQWVBkb01LZHJNNnFNWmU0Y1l0Ykk1?=
+ =?utf-8?B?Y3hWUEt4M2dFaFRxN00vcXlEdVZrdloremo2QzlQcXdSdjZJeUU3TWZIMFNs?=
+ =?utf-8?B?bHd3MTF4THE0clc1eHZCMTdYajB3ampURW1RV0kyaG9GbThRdEg4UkpFc2VL?=
+ =?utf-8?B?eTNXTW9MOHV4TXRuT29vVDduVmFlVWJmdVgycldQUW11NXQ2RkRqUGtJQmtV?=
+ =?utf-8?B?dk5TZzZPWm5QeVhEQjJ0UjZuWThLTHFEVjZNVERQbDd2UVdCelVIeWE5cDNy?=
+ =?utf-8?B?WjhQWTBQMFpFaFdicjdPS0VEbyt5NVFYd0kxeXdVbmgrUEpNb0xqVVlONTBj?=
+ =?utf-8?B?b0VBeXJMZU05eWhQS2dZMXNzTThPd0Y3QVpSeTlZUG9PYmwySFhpQ1V0QzE5?=
+ =?utf-8?B?dkZqOS94aFY2WXdwWndTSXBRY3VGUHlRVW9ud25tZ2Q4eE4wTytMbXpVVkVw?=
+ =?utf-8?B?bXVERDIrMStkT0pNVE8zbmNNb0FhNU9ST25ISzVmaGhZc3hqZlphQW1pRnJC?=
+ =?utf-8?B?cnVxMWVTVGtPREowcm5iNnNMUUtBK0V1bUt2aENjSlIwOC9CK2xpRlRFd1dR?=
+ =?utf-8?B?TU03MFpJbFhXSExTQUc2bXlYRldNRkJBK2kwYVc4eHBSOVZSeDZ2ZGQxV2cy?=
+ =?utf-8?B?Nm1rYXl4TXBYeEtWREdhRkkvRW9MS2pNTkpITXJtNm1tZ1F0Z1ArQzRKSjVR?=
+ =?utf-8?B?Wll0aDVqWFZGbEhKOHl4alE5NndxQmREMnBFbmtXS2hqeGZZUVZGbDZaajJQ?=
+ =?utf-8?B?TlhOU2lBYVdiMnBJYTJWU1hSSkFsS2hEZWM4L0x5RFcxbDQ1bmduUThNamJX?=
+ =?utf-8?B?bXBrVWlWcmFvdVhTMW9ubFlrVHBIdGM2K2hvV2x5cHJIVFlOWGlxVDFpaHd4?=
+ =?utf-8?B?cldBQmozUDN1dUVsTkpSZUhLLzhlU25TYnArcVk4Tyt3U0hQYnlTeSticm5n?=
+ =?utf-8?B?UnYvbjlpd215YlFyaVhSSHBhZTBUV0Z6TjNjUGJkWCtBWTZXZURUYmhuTWRC?=
+ =?utf-8?B?Vng3THFOTlQ1Y3FPNUFYUjNMSktnU0lqL1ZtckhjOEpCN21NbEhubzAxaktn?=
+ =?utf-8?B?bUhMNlh6TWh2M3F6NDA2ZkwzM095WEJwRXNLYUVob3pVSW5lWVI5Qk5HMmcw?=
+ =?utf-8?B?cldLalFpYk5tU3dZUUpnMzNhbyt0dDNhZmFCYmM0R09pTmZwclp2T2lLa1RU?=
+ =?utf-8?B?MHFvYlAxNTNRSWhxTThTL3gxSWZEM3NKU0VwOWI2bi95K2tTelVoS3BsYmtC?=
+ =?utf-8?B?Q2ttSHlOZlpLRkdaMGs2aWRXSUZDc05NRVNEZDNzVFpGaVEzWEUvSEtxUHg5?=
+ =?utf-8?B?OTFjM0YrcG5yTUU1SDNkMUJ3NmdXRjhmQ3dVUXM2QnE1SlRMTjQvQTdMWHdl?=
+ =?utf-8?B?Y2pKSC9ETHNVSFI0QW9JK1hac3lZZU04R1FrUzdrQWdHUWRFY0dyYitTL2p6?=
+ =?utf-8?B?dFh3NGlzTWVCSWpHVDJGOXYyNGNlUUE2TkxuWG82cGJBRmVJa3JiV2dZeTBR?=
+ =?utf-8?B?UlFJVXZYNEpmUHA5aVdYTGUrK0ZWZ2UrT3dWbElIQ0F1R3gybFQxQ0wrS05E?=
+ =?utf-8?B?dHFhWUFtSXZSemcydzlSNUI1SS8xTDF0L1JhRGFKb2hZdzJPVlVvTnlmeEVh?=
+ =?utf-8?B?M2NubFlNRkdpQzlUWTVaRXJjTW5hOE9PSXVvdktxeFR1QVZ0R3FTNHdMT1dZ?=
+ =?utf-8?B?RU9DdFZPK1NIVnRWOHIzMzE2TWR1UDVobjNUZy9OTGpsZU5xU3pHUktUQXVt?=
+ =?utf-8?B?RjM4N29UVzg2b1R6bllKVFJYcStna20xZXBDTm9sNnhmd015dDREbEFLSGxL?=
+ =?utf-8?B?V2tIZ3dBTTNxYkdFV1hYa1plUzA5S0UxQndNakp3WmdXTFloSncyVUprUUdq?=
+ =?utf-8?B?N1FYdUlORmFSQ1Rvbzk1UXhlbzltZUpMbk5XRHFWOEhsWnVDNUFrRnFGcW1x?=
+ =?utf-8?B?M3NMWW1hSjhnVkVGTmdWZDZMbXIvZkY1cmVjU1hZVVNVcEpudjFBWW9kN294?=
+ =?utf-8?B?cUFjbXRwOGsxSUJzME1CMXptSFhwQTlNZzZCNzBTOUVvdVNaVktROGF3UVZn?=
+ =?utf-8?B?UkFNUlFDMVRlSWRQczg0TDE0RWZ1TWlzTHNOMzdYMjhCUG9mbzBKcHE4NTZ2?=
+ =?utf-8?B?anZ1cUpSeVF4U3FEb3h3MjFPYzNzYm1nWmVwdEtiWi9sNDRYSG5QMEZwb2Jl?=
+ =?utf-8?Q?5q/Ic92QPMGCX3+8=3D?=
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -118,647 +163,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: qfGFNgSZku6QjCgVAvXriGkJYP1VcNVM
-X-Proofpoint-GUID: qfGFNgSZku6QjCgVAvXriGkJYP1VcNVM
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDA4NyBTYWx0ZWRfX44/x7Tkk054a
- qPu6FZMIDz1td5RWUytpSV++itVVS+MnEgIt+bxQfSa6Iwa3ATyWuyJNmJbO549i1j56Btzq23p
- Lfk4O/Oa+e+04pom19KXmjTlKAcCK+E=
-X-Authority-Analysis: v=2.4 cv=eJyGH3p1 c=1 sm=1 tr=0 ts=6b060d32 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=JnKecZnUtZousrUlYMGU:22 a=VabnemYjAAAA:8 a=Tg9yRN0CKSX-gpsRQOMA:9
- a=O8hF6Hzn-FEA:10 a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDA4NyBTYWx0ZWRfX+ogG9GeckfFj
- 1EYfLL5JjkAPiAmA4AgTsl6EBN0mAAiV6qak43cG1cG1BYrUBkkAa6w/DR6/bT9+uwOy3kA8x3h
- RIJ/JIF4aqFf+iXCxdp7cJLPaf9GcDG2ODdL2l6uckUmHg5A5XN3zl95KvodQV0PPtrWckC4I4G
- IkEyU/AGORHXzfp77Pq/bxrbI7JAj6aRr1E1fkJykSs2EtM2V9kq1MN9qvEMhheXBicjqOliiiz
- HW+YfIPTcxA1zVmSS/cRiiuwD5H90H07xfiuRkt3Gpsk04SXgv3N/T/QnwtXvVDXaA2PmfKp7bk
- ljfZwbZ5Df/enJWVee6JcC7TI2+wDJwsvJahvnqlI0quHzjNcMK1BQEEFP3blI9eq5np4vTcPtO
- NRmkpTuuD6LiyFMRU3NgAxwRrGqoq0iPItBJr5IaANQQZnAwyxg87RNo1L5CzDaddJ5iiNxirRN
- SM4cdJMaHWIxVItDDEA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-24_06,2026-11-23_01,2025-10-01_01
+X-Exchange-RoutingPolicyChecked: eyiciElWH7bNV8eEwlM1dT0yEwEkdZ8y7iQSNfp717nU1M3uOi1w7+tF+IPKoCpKJCe9L1jgtdVqC3yr1CxjLFSlw0SCyu3s3MPMtpU8gsp5ckOCxgFZD7ImnBDy3I2w14RqvqGlflHcY+ncehu7xxE1gp8d4VePN7Yq5hDGUXWcJRNxtr57ZXcOxehcc/Z0kAahFVEocuyFa9mczWV1wVk2Loa0Uqpih3LMF3oAnFzkaoQp70vSg0S2jfMFC7QOJ1MAupwI3NyLux01ZigqxxNnb6hJCc0ZvwL/zk9lKyilbHqia+KnqnYEG9zM3r8mut5PTzx8RpBjEEU37NUlng==
+X-OriginatorOrg: onsemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR02MB7864.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f11566ea-ddbb-482c-8bfd-08df4a7b7bcc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2026 22:37:12.8115
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nSH4PM3FNCbDJUsW+R0bAQPQD07l99rgTtCtpO0at3W8UoIcUgeH+/G1i35lWQsGt0I4L/eXPO1XeKDKHopLN6F74DvtUSA++uhN4FWD6MQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR02MB9469
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Udkl1za40oVaNDpNoIBFqJXw3-UVftUBZC8N_oo76FA_1795559834
+X-Mimecast-Originator: onsemi.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Cover the socket-less PSP commands and the tc psp action.
-
-The data path tests connect a plain local TCP socket to a PSP socket of
-the responder, and give the local side PSP with tc and socket-less PSP:
-on ingress, flower psp_spi, psp_ver and psp_dev match what was decrypted
-with the local Rx SPI, and psp decap removes its PSP state; on egress,
-psp encap attaches the Tx association to the socket's packets, which
-the device encrypts.
-
-Test cases:
-
-  assoc_sockless_basic     rx-spi-alloc, and assoc-add / get / dump / del
-                           of a Tx association, only the SPI is ever
-                           reported
-  assoc_sockless_rotations rx-spi-alloc reports the key rotations, Tx
-                           associations are unaffected by them
-  assoc_sockless_bad       bad device, key size, missing key
-  assoc_sockless_tc        encap rejects an unknown association and
-                           takes a Tx association, decap is accepted
-                           without one
-  data_tc_basic_send       data to the responder and its ACKs back, for
-                           each PSP version and IP version
-  data_tc_no_decap         decrypted packets don't reach a plain socket
-  data_tc_assoc_del        the Tx association deleted while encap uses
-                           it, which holds it
-  data_tc_decap_match      decap only takes the packets of the filter's
-                           SPI, version and device
-  data_tc_encap_wrong_dev  packets redirected to another device drop
-  data_tc_encap_short_hdr  an IPv4 packet shorter than its header
-                           length is dropped by encap
-  data_tc_encap_too_big    packets which won't fit the MTU once
-                           encapsulated are dropped, with and without GSO
-  data_tc_encap_psp_sock   packets of a PSP socket, which are marked
-                           decrypted, are dropped by the psp encap action
-  removal_device_tc        PSP device removed while tc holds its Tx
-                           association
-
-Note that the tc tests require a newer tc, which has support for the psp
-action and the flower psp matches. If tc is missing that support, the tc
-tests skip.
-
-Signed-off-by: Todd Freed <toddfreed@meta.com>
----
- tools/testing/selftests/drivers/net/config |   3 +
- tools/testing/selftests/drivers/net/psp.py | 511 ++++++++++++++++++++-
- 2 files changed, 509 insertions(+), 5 deletions(-)
-
-diff --git a/tools/testing/selftests/drivers/net/config b/tools/testing/selftests/drivers/net/config
-index 4838adf27fa1..baf1c9d0dd13 100644
---- a/tools/testing/selftests/drivers/net/config
-+++ b/tools/testing/selftests/drivers/net/config
-@@ -1,9 +1,12 @@
- CONFIG_CONFIGFS_FS=y
- CONFIG_DEBUG_INFO_BTF=y
- CONFIG_DEBUG_INFO_BTF_MODULES=n
-+CONFIG_DUMMY=m
- CONFIG_INET_PSP=y
- CONFIG_IPV6=y
- CONFIG_MACSEC=m
-+CONFIG_NET_ACT_MIRRED=m
-+CONFIG_NET_ACT_PSP=m
- CONFIG_NET_ACT_SKBEDIT=m
- CONFIG_NET_CLS_ACT=y
- CONFIG_NET_CLS_BPF=y
-diff --git a/tools/testing/selftests/drivers/net/psp.py b/tools/testing/selftests/drivers/net/psp.py
-index 67577f722b3b..936ac37dd913 100755
---- a/tools/testing/selftests/drivers/net/psp.py
-+++ b/tools/testing/selftests/drivers/net/psp.py
-@@ -15,7 +15,8 @@ from contextlib import contextmanager
- 
- from lib.py import defer
- from lib.py import ksft_run, ksft_exit, ksft_pr
--from lib.py import ksft_true, ksft_eq, ksft_ne, ksft_gt, ksft_raises
-+from lib.py import ksft_true, ksft_eq, ksft_ne, ksft_gt, ksft_ge
-+from lib.py import ksft_raises
- from lib.py import ksft_not_none
- from lib.py import ksft_variants, KsftNamedVariant
- from lib.py import KsftSkipEx, KsftFailEx
-@@ -23,9 +24,10 @@ from lib.py import NetDrvEpEnv, NetDrvContEnv
- from lib.py import Netlink, NlError, PSPFamily, RtnlFamily
- from lib.py import NetNSEnter
- from lib.py import bkg, rand_port, wait_port_listen
--from lib.py import ip
-+from lib.py import cmd, ip, tc
- 
- TCP_ULP = 31
-+UDP_SEGMENT = 103
- 
- 
- _PSP_MAX_KEY_LEN = 32
-@@ -171,9 +173,9 @@ def _req_echo(cfg, s):
-     ksft_eq(_recv_careful(s, 5), b'echo\0')
- 
- 
--def _check_data_outq(s, exp_len, force_wait=False):
-+def _check_data_outq(s, exp_len, force_wait=False, tries=10):
-     outq = 0
--    for _ in range(10):
-+    for _ in range(tries):
-         outq = _get_outq(s)
-         if not force_wait and outq == exp_len:
-             break
-@@ -938,6 +940,504 @@ def data_mss_adjust(cfg, ipver):
-     _data_mss_adjust(cfg, ipver)
- 
- 
-+#
-+# Socket-less associations and the tc psp action
-+#
-+
-+def _assoc_del(cfg, assoc_id):
-+    """ Delete a socket-less assoc, unless the test already did """
-+    try:
-+        cfg.pspnl.assoc_del({"id": assoc_id})
-+    except NlError as e:
-+        if e.nl_msg.error != -errno.ENOENT:
-+            raise
-+
-+
-+def _sockless_assocs(cfg, version=0):
-+    """ Allocate an Rx SPI and add a Tx assoc with its key """
-+    rx = cfg.pspnl.rx_spi_alloc({"dev-id": cfg.psp_dev_id,
-+                                 "version": version})
-+    tx = cfg.pspnl.assoc_add({"dev-id": cfg.psp_dev_id,
-+                              "version": version,
-+                              "tx-key": rx['rx-key']})
-+    defer(_assoc_del, cfg, tx['id'])
-+    return rx, tx
-+
-+
-+def _require_tc_psp(cfg):
-+    if not hasattr(cfg, 'tc_psp'):
-+        # tc exits with an error either way, look at what it says. The
-+        # tests need both the psp action and the flower psp keys.
-+        try:
-+            act = cmd("tc action add action psp help", fail=False)
-+            flt = cmd("tc filter add dev lo ingress flower help",
-+                      fail=False)
-+        except FileNotFoundError:
-+            cfg.tc_psp = False
-+        else:
-+            cfg.tc_psp = ("psp encap" in act.stdout + act.stderr and
-+                          "psp_spi" in flt.stdout + flt.stderr)
-+    if not cfg.tc_psp:
-+        raise KsftSkipEx("tc does not support the psp action and matches")
-+
-+
-+def _tc_proto(ipver):
-+    return "ip" if ipver == "4" else "ipv6"
-+
-+
-+def _tc_clsact(ifname, host=None):
-+    """ Add clsact to @ifname, unless it has one already: the env or the
-+    host may use it too, so only remove it if it was added here
-+    """
-+    qdiscs = tc(f"qdisc show dev {ifname}", json=True, host=host)
-+    if any(q['kind'] == 'clsact' for q in qdiscs):
-+        return
-+    tc(f"qdisc add dev {ifname} clsact", host=host)
-+    defer(tc, f"qdisc del dev {ifname} clsact", host=host)
-+
-+
-+def _make_tc_conn(cfg, version, ipver):
-+    """ Connect a plain socket to a PSP socket of the responder """
-+    _send_with_ack(cfg, b'conn psp\0' + struct.pack('BB', version, version))
-+    family = socket.AF_INET if ipver == "4" else socket.AF_INET6
-+    s = socket.socket(family, socket.SOCK_STREAM)
-+    # The stack doesn't know tc will add PSP headers (40 bytes), leave room
-+    # for them. TCP takes its options off the MSS.
-+    mtu = ip(f"link show dev {cfg.ifname}", json=True)[0]['mtu']
-+    iph = 20 if ipver == "4" else 40
-+    s.setsockopt(socket.IPPROTO_TCP, socket.TCP_MAXSEG,
-+                 mtu - 40 - iph - 20)
-+    s.connect((cfg.remote_addr_v[ipver], cfg.comm_port))
-+    defer(_tc_conn_close, cfg, s)
-+    return s
-+
-+
-+def _tc_conn_close(cfg, s):
-+    """ Close a test's connection, unless the test got to do it """
-+    if s.fileno() != -1:
-+        _close_psp_conn(cfg, s)
-+
-+
-+def _tc_psp_conn(cfg, version, ipver, decap=True):
-+    """
-+    Connect a plain socket to a PSP socket of the responder, and give that
-+    flow PSP encap using socket-less assocs and tc: decap what was decrypted
-+    with its Rx SPI, version and device on ingress, encap its packets on
-+    egress, which the device encrypts. Returns the socket and the assocs.
-+    """
-+    proto = _tc_proto(ipver)
-+
-+    # The Rx SPI and the decap rule first: once connected, the responder
-+    # waits for our key, and an error in between would leave the comm
-+    # channel out of step
-+    rx = cfg.pspnl.rx_spi_alloc({"dev-id": cfg.psp_dev_id,
-+                                 "version": version})
-+
-+    _tc_clsact(cfg.ifname)
-+    # The responder starts sending with our SPI as soon as it has our key
-+    if decap:
-+        tc(f"filter add dev {cfg.ifname} ingress pref 10 handle 1 "
-+           f"protocol {proto} flower psp_spi {rx['rx-key']['spi']:#x} "
-+           f"psp_ver {version} psp_dev {cfg.psp_dev_id} action psp decap")
-+        defer(tc, f"filter del dev {cfg.ifname} ingress pref 10 handle 1 "
-+              f"protocol {proto} flower")
-+
-+    s = _make_tc_conn(cfg, version, ipver)
-+    tx_key = _spi_xchg(s, rx['rx-key'])
-+    tx = cfg.pspnl.assoc_add({"dev-id": cfg.psp_dev_id,
-+                              "version": version,
-+                              "tx-key": tx_key})
-+    defer(_assoc_del, cfg, tx['id'])
-+
-+    # Make sure the SPI exchange got through in clear text
-+    _check_data_outq(s, 0)
-+
-+    # The comm socket goes to the same port, match on ours
-+    sport = s.getsockname()[1]
-+    tc(f"filter add dev {cfg.ifname} egress pref 10 handle 1 "
-+       f"protocol {proto} flower ip_proto tcp src_port {sport} "
-+       f"action psp encap assoc {tx['id']}")
-+    defer(tc, f"filter del dev {cfg.ifname} egress pref 10 handle 1 "
-+          f"protocol {proto} flower")
-+
-+    return s, rx, tx
-+
-+
-+def _tc_action_stats(cfg, direction):
-+    """ Stats of the psp action of the pref 10 filter """
-+    filters = tc(f"-s filter show dev {cfg.ifname} {direction} pref 10",
-+                 json=True)
-+    for flt in filters:
-+        for act in flt.get("options", {}).get("actions", []):
-+            if act["kind"] == "psp":
-+                return act["stats"]
-+    raise KsftFailEx(f"no psp action on {direction}")
-+
-+
-+def assoc_sockless_basic(cfg):
-+    """ Test socket-less Rx SPIs and Tx associations """
-+    _init_psp_dev(cfg)
-+
-+    rx, tx = _sockless_assocs(cfg)
-+    ksft_eq(rx['dev-id'], cfg.psp_dev_id)
-+    ksft_gt(rx['rx-key']['spi'], 0)
-+    ksft_eq(len(rx['rx-key']['key']), 16)
-+    ksft_eq(rx['key-rotations'], _get_stat(cfg, 'key-rotations'))
-+    # The kernel keeps no state for an Rx SPI
-+    ksft_true('id' not in rx)
-+    ksft_eq(tx['dev-id'], cfg.psp_dev_id)
-+
-+    # Only the SPI is ever reported, never the key
-+    version = cfg.pspnl.consts["version"].entries_by_val[0].name
-+    assoc = cfg.pspnl.assoc_get({"id": tx['id']})
-+    ksft_eq(assoc['dev-id'], cfg.psp_dev_id)
-+    ksft_eq(assoc['version'], version)
-+    ksft_eq(assoc['tx-key'], {'spi': rx['rx-key']['spi']})
-+    ksft_true('rx-key' not in assoc)
-+
-+    ids = [x['id'] for x in cfg.pspnl.assoc_get({}, dump=True)]
-+    ksft_true(tx['id'] in ids)
-+
-+    cfg.pspnl.assoc_del({"id": tx['id']})
-+    with ksft_raises(NlError) as cm:
-+        cfg.pspnl.assoc_get({"id": tx['id']})
-+    ksft_eq(cm.exception.nl_msg.error, -errno.ENOENT)
-+    with ksft_raises(NlError) as cm:
-+        cfg.pspnl.assoc_del({"id": tx['id']})
-+    ksft_eq(cm.exception.nl_msg.error, -errno.ENOENT)
-+
-+
-+def assoc_sockless_rotations(cfg):
-+    """ Test rx-spi-alloc reports the key rotations, Tx assocs survive them """
-+    _init_psp_dev(cfg)
-+
-+    rx, tx = _sockless_assocs(cfg)
-+    rotations = _get_stat(cfg, 'key-rotations')
-+    ksft_eq(rx['key-rotations'], rotations)
-+    for i in range(2):
-+        cfg.pspnl.key_rotate({"id": cfg.psp_dev_id})
-+        new = cfg.pspnl.rx_spi_alloc({"dev-id": cfg.psp_dev_id,
-+                                      "version": 0})
-+        ksft_eq(new['key-rotations'], rotations + i + 1)
-+    # A Tx assoc holds the peer's key, which the device key rotation
-+    # doesn't affect
-+    assoc = cfg.pspnl.assoc_get({"id": tx['id']})
-+    ksft_eq(assoc['tx-key'], {'spi': rx['rx-key']['spi']})
-+
-+
-+def assoc_sockless_bad(cfg):
-+    """ Test socket-less associations with bad arguments """
-+    _init_psp_dev(cfg)
-+
-+    with ksft_raises(NlError) as cm:
-+        cfg.pspnl.rx_spi_alloc({"dev-id": cfg.psp_dev_id + 1234567,
-+                                "version": 0})
-+    ksft_eq(cm.exception.nl_msg.error, -errno.ENODEV)
-+
-+    with ksft_raises(NlError) as cm:
-+        cfg.pspnl.assoc_add({"dev-id": cfg.psp_dev_id + 1234567,
-+                             "version": 0,
-+                             "tx-key": {"spi": 1, "key": b'\0' * 16}})
-+    ksft_eq(cm.exception.nl_msg.error, -errno.ENODEV)
-+
-+    # Key of the wrong size for the version
-+    with ksft_raises(NlError) as cm:
-+        cfg.pspnl.assoc_add({"dev-id": cfg.psp_dev_id,
-+                             "version": 0,
-+                             "tx-key": {"spi": 1, "key": b'\0' * 32}})
-+    ksft_eq(cm.exception.nl_msg.error, -errno.EINVAL)
-+
-+    with ksft_raises(NlError) as cm:
-+        cfg.pspnl.assoc_add({"dev-id": cfg.psp_dev_id, "version": 0})
-+    ksft_eq(cm.exception.nl_msg.error, -errno.EINVAL)
-+
-+
-+def assoc_sockless_tc(cfg):
-+    """ Test the tc psp action takes the right assoc """
-+    _init_psp_dev(cfg)
-+    _require_tc_psp(cfg)
-+
-+    _, tx = _sockless_assocs(cfg)
-+    unknown = max(x['id'] for x in cfg.pspnl.assoc_get({}, dump=True)) + 1
-+
-+    # encap takes an existing Tx assoc. tc itself refuses decap with an
-+    # assoc, so the kernel's check of that can't be tested with tc.
-+    defer(cmd, "tc action del action psp index 101", fail=False)
-+    ret = cmd(f"tc action add action psp encap assoc {unknown} index 101",
-+              fail=False)
-+    ksft_ne(ret.ret, 0)
-+    ksft_true("PSP association not found" in ret.stderr, comment=ret.stderr)
-+
-+    defer(cmd, "tc action del action psp index 100", fail=False)
-+    for act in (f"encap assoc {tx['id']}", "decap"):
-+        tc(f"action add action psp {act} index 100")
-+        tc("action del action psp index 100")
-+
-+
-+@ksft_variants(_get_psp_ver_ip_variants())
-+def data_tc_basic_send(cfg, version, ipver):
-+    """ Test data send with socket-less assocs and the tc psp action """
-+    cfg.require_ipver(ipver)
-+    _init_psp_dev(cfg)
-+    _require_tc_psp(cfg)
-+    if version:
-+        _require_version(cfg, version)
-+
-+    rx_pkts = _get_stat(cfg, 'rx-packets')
-+    tx_pkts = _get_stat(cfg, 'tx-packets')
-+
-+    s, _, _ = _tc_psp_conn(cfg, version, ipver)
-+
-+    data_len = _send_careful(cfg, s, 100)
-+    _check_data_rx(cfg, data_len)
-+    # ... and the ACKs got through decap
-+    _check_data_outq(s, 0)
-+
-+    ksft_gt(_get_stat(cfg, 'rx-packets'), rx_pkts)
-+    ksft_gt(_get_stat(cfg, 'tx-packets'), tx_pkts)
-+    ksft_gt(_tc_action_stats(cfg, "ingress")["packets"], 0)
-+    ksft_gt(_tc_action_stats(cfg, "egress")["packets"], 0)
-+    _close_psp_conn(cfg, s)
-+
-+
-+def data_tc_no_decap(cfg):
-+    """ Test decrypted packets don't reach a plain socket without decap """
-+    _init_psp_dev(cfg)
-+    _require_tc_psp(cfg)
-+
-+    s, _, _ = _tc_psp_conn(cfg, 0, cfg.addr_ipver, decap=False)
-+
-+    # Without ACKs we can't send more than the initial window
-+    data_len = _send_careful(cfg, s, 1)
-+    _check_data_rx(cfg, data_len)
-+    # The responder's ACKs come encrypted, and get dropped
-+    _check_data_outq(s, data_len, force_wait=True)
-+    _close_psp_conn(cfg, s)
-+
-+
-+def data_tc_assoc_del(cfg):
-+    """ Test deleting the Tx assoc while encap uses it: encap holds it """
-+    _init_psp_dev(cfg)
-+    _require_tc_psp(cfg)
-+
-+    s, _, tx = _tc_psp_conn(cfg, 0, cfg.addr_ipver)
-+
-+    data_len = _send_careful(cfg, s, 10)
-+    _check_data_rx(cfg, data_len)
-+
-+    cfg.pspnl.assoc_del({"id": tx['id']})
-+
-+    data_len += _send_careful(cfg, s, 10)
-+    _check_data_rx(cfg, data_len)
-+    _check_data_outq(s, 0)
-+    _close_psp_conn(cfg, s)
-+
-+
-+def data_tc_decap_match(cfg):
-+    """ Test decap only takes what the filter's PSP matches allow """
-+    _init_psp_dev(cfg)
-+    _require_tc_psp(cfg)
-+
-+    ipver = cfg.addr_ipver
-+    s, rx, _ = _tc_psp_conn(cfg, 0, ipver)
-+    spi, dev = rx['rx-key']['spi'], cfg.psp_dev_id
-+
-+    def match(m_spi, m_ver, m_dev):
-+        return f"psp_spi {m_spi:#x} psp_ver {m_ver} psp_dev {m_dev}"
-+
-+    data_len = _send_careful(cfg, s, 10)
-+    _check_data_rx(cfg, data_len)
-+    _check_data_outq(s, 0)
-+
-+    # flower can only replace a filter with one matching the same keys
-+    def decap_filter(keys):
-+        tc(f"filter replace dev {cfg.ifname} ingress pref 10 handle 1 "
-+           f"protocol {_tc_proto(ipver)} flower {keys} action psp decap")
-+
-+    for keys in (match(spi ^ 1, 0, dev), match(spi, 1, dev),
-+                 match(spi, 0, dev + 1)):
-+        # The responder's ACKs don't match, and the socket drops them
-+        decap_filter(keys)
-+        n = _send_careful(cfg, s, 1)
-+        data_len += n
-+        _check_data_rx(cfg, data_len)
-+        _check_data_outq(s, n, force_wait=True)
-+
-+        # Once they match again, the retransmits get through
-+        decap_filter(match(spi, 0, dev))
-+        _check_data_outq(s, 0, tries=500)
-+    _close_psp_conn(cfg, s)
-+
-+
-+def data_tc_encap_wrong_dev(cfg):
-+    """ Test packets with an assoc sent to another device are dropped """
-+    _init_psp_dev(cfg)
-+    _require_tc_psp(cfg)
-+
-+    ip("link add psp-dummy0 type dummy")
-+    defer(ip, "link del psp-dummy0")
-+    ip("link set psp-dummy0 up")
-+
-+    ipver = cfg.addr_ipver
-+    s, _, tx = _tc_psp_conn(cfg, 0, ipver)
-+
-+    sport = s.getsockname()[1]
-+    tc(f"filter replace dev {cfg.ifname} egress pref 10 handle 1 "
-+       f"protocol {_tc_proto(ipver)} flower ip_proto tcp src_port {sport} "
-+       f"action psp encap assoc {tx['id']} pipe "
-+       f"action mirred egress redirect dev psp-dummy0")
-+
-+    def dummy_drops():
-+        dev = ip("-s link show dev psp-dummy0", json=True)[0]
-+        return dev['stats64']['tx']['dropped']
-+
-+    drops = dummy_drops()
-+    data_len = _send_careful(cfg, s, 10)
-+    _check_data_outq(s, data_len, force_wait=True)
-+    _check_data_rx(cfg, 0)
-+    ksft_gt(dummy_drops(), drops)
-+    _close_psp_conn(cfg, s)
-+
-+
-+def data_tc_encap_short_hdr(cfg):
-+    """ Test encap drops an IPv4 packet shorter than its header length """
-+    cfg.require_ipver("4")
-+    _init_psp_dev(cfg)
-+    _require_tc_psp(cfg)
-+
-+    _, tx = _sockless_assocs(cfg)
-+    loc, rem = cfg.addr_v["4"], cfg.remote_addr_v["4"]
-+    _tc_clsact(cfg.ifname)
-+    # An IP protocol nothing else sends, so the filter only takes the
-+    # test's frame
-+    tc(f"filter add dev {cfg.ifname} egress pref 10 handle 1 protocol ip "
-+       f"flower ip_proto 0xfd dst_ip {rem} "
-+       f"action psp encap assoc {tx['id']}")
-+    defer(tc, f"filter del dev {cfg.ifname} egress pref 10 handle 1 "
-+          f"protocol ip flower")
-+
-+    # A 20 byte IPv4 header which claims 60 (ihl 15), and nothing after
-+    # it. Encap must not take the 40 missing bytes for header. (Its total
-+    # length check would drop it too: this covers the IPv4 length checks
-+    # together.)
-+    iph = struct.pack("!BBHHHBBH4s4s", 0x4f, 0, 60, 0, 0, 64, 253, 0,
-+                      socket.inet_aton(loc), socket.inet_aton(rem))
-+    eth = (b"\xff" * 6 + bytes.fromhex(cfg.dev["address"].replace(":", "")) +
-+           struct.pack("!H", 0x0800))
-+
-+    drops = _tc_action_stats(cfg, "egress")["drops"]
-+    with socket.socket(socket.AF_PACKET, socket.SOCK_RAW) as ps:
-+        ps.bind((cfg.ifname, 0x0800))
-+        try:
-+            ps.send(eth + iph)
-+        except OSError as e:
-+            # The drop on egress is reported to the sender
-+            if e.errno != errno.ENOBUFS:
-+                raise
-+    ksft_eq(_tc_action_stats(cfg, "egress")["drops"], drops + 1,
-+            comment="short IPv4 header dropped by encap")
-+
-+
-+def data_tc_encap_too_big(cfg):
-+    """ Test packets too big for the MTU once encapsulated are dropped """
-+    _init_psp_dev(cfg)
-+    _require_tc_psp(cfg)
-+
-+    ipver = cfg.addr_ipver
-+    _, tx = _sockless_assocs(cfg)
-+    port = rand_port(socket.SOCK_DGRAM)
-+    _tc_clsact(cfg.ifname)
-+    tc(f"filter add dev {cfg.ifname} egress pref 10 handle 1 "
-+       f"protocol {_tc_proto(ipver)} flower ip_proto udp dst_port {port} "
-+       f"action psp encap assoc {tx['id']}")
-+    defer(tc, f"filter del dev {cfg.ifname} egress pref 10 handle 1 "
-+          f"protocol {_tc_proto(ipver)} flower")
-+
-+    # The UDP payload which fits the MTU once the device adds UDP, the PSP
-+    # header and the ICV (40 bytes)
-+    mtu = ip(f"link show dev {cfg.ifname}", json=True)[0]['mtu']
-+    room = mtu - 40 - (20 if ipver == "4" else 40) - 8
-+
-+    family = socket.AF_INET if ipver == "4" else socket.AF_INET6
-+    dst = (cfg.remote_addr_v[ipver], port)
-+    with socket.socket(family, socket.SOCK_DGRAM) as s:
-+        s.sendto(b'x' * room, dst)
-+        with ksft_raises(OSError) as cm:
-+            s.sendto(b'x' * (room + 1), dst)
-+        ksft_eq(cm.exception.errno, errno.EMSGSIZE)
-+
-+        # GSO (UDP_SEGMENT): each segment must fit
-+        s.setsockopt(socket.IPPROTO_UDP, UDP_SEGMENT, room)
-+        s.sendto(b'x' * room * 2, dst)
-+        s.setsockopt(socket.IPPROTO_UDP, UDP_SEGMENT, room + 1)
-+        with ksft_raises(OSError) as cm:
-+            s.sendto(b'x' * (room + 1) * 2, dst)
-+        ksft_eq(cm.exception.errno, errno.EMSGSIZE)
-+    ksft_ge(_tc_action_stats(cfg, "egress")["packets"], 4)
-+
-+
-+def data_tc_encap_psp_sock(cfg):
-+    """
-+    Test psp encap drops packets of a PSP socket, which already have a crypto
-+    offload
-+    """
-+
-+    _init_psp_dev(cfg)
-+    _require_tc_psp(cfg)
-+
-+    s = _establish_psp_conn(cfg, 0)
-+    defer(_tc_conn_close, cfg, s)
-+    data_len = _send_careful(cfg, s, 10)
-+    _check_data_rx(cfg, data_len)
-+
-+    _, sl_tx = _sockless_assocs(cfg)
-+    _tc_clsact(cfg.ifname)
-+    sport = s.getsockname()[1]
-+    tc(f"filter add dev {cfg.ifname} egress pref 10 handle 1 "
-+       f"protocol {_tc_proto(cfg.addr_ipver)} flower ip_proto tcp "
-+       f"src_port {sport} action psp encap assoc {sl_tx['id']}")
-+    flt = defer(tc, f"filter del dev {cfg.ifname} egress pref 10 handle 1 "
-+                f"protocol {_tc_proto(cfg.addr_ipver)} flower")
-+
-+    n = _send_careful(cfg, s, 1)
-+    _check_data_outq(s, n, force_wait=True)
-+    _check_data_rx(cfg, data_len)
-+    ksft_gt(_tc_action_stats(cfg, "egress")["drops"], 0)
-+
-+    # Without the rule, the retransmits get through
-+    flt.exec()
-+    _check_data_outq(s, 0, tries=500)
-+    _check_data_rx(cfg, data_len + n)
-+    _close_psp_conn(cfg, s)
-+
-+
-+def removal_device_tc(cfg):
-+    """ Test removing a PSD with tc actions holding its assocs """
-+    cfg.require_nsim()
-+    _require_tc_psp(cfg)
-+    # Only look the device up: enabling PSP would register an undo for the
-+    # device which the test removes
-+    if not hasattr(cfg, 'psp_dev_id'):
-+        for dev in cfg.pspnl.dev_get({}, dump=True):
-+            if dev['ifindex'] == cfg.ifindex:
-+                cfg.psp_info = dev
-+                cfg.psp_dev_id = dev['id']
-+                break
-+        else:
-+            raise KsftSkipEx("No PSP devices found")
-+
-+    _, tx = _sockless_assocs(cfg)
-+    tc(f"action add action psp encap assoc {tx['id']} index 100")
-+    defer(tc, "action del action psp index 100")
-+
-+    __nsim_psp_rereg(cfg)
-+
-+    # The Tx assoc of the removed device can no longer be looked up
-+    with ksft_raises(NlError) as cm:
-+        cfg.pspnl.assoc_get({"id": tx['id']})
-+    ksft_eq(cm.exception.nl_msg.error, -errno.ENOENT)
-+
-+
- def _check_assoc_list(cfg, psp_dev_id, ifindex, nsid=None):
-     """Verify assoc-list contains device with given ifindex, no duplicates."""
-     dev_info = cfg.pspnl.dev_get({'id': psp_dev_id})
-@@ -1436,7 +1936,8 @@ def main() -> None:
-                                                          timeout=1)
- 
-                 cases = [data_basic_send, data_mss_adjust,
--                         rekey_rx_basic, rekey_tx_basic, rekey_both_sides]
-+                         rekey_rx_basic, rekey_tx_basic, rekey_both_sides,
-+                         data_tc_basic_send]
- 
-                 if has_cont:
-                     cases += [
--- 
-2.53.1-Meta
-
+QW5kcmV3LA0KDQpJIGhhdmUgcmVtb3ZlZCB0aGUgIlJldmlld2VkLWJ5IiB0YWcgZm9yIHRoaXMg
+cGF0Y2guIEJlY2F1c2UgdGhlIGltcGxlbWVudGF0aW9uIGhhcyANCmNoYW5nZWQgc2luY2UgeW91
+IGxhc3QgcmV2aWV3ZWQuIEFzIHdlIGhhdmUgcXVpcmtzIHN0cnVjdHVyZSBub3csIGl0IGlzIGVh
+c2llciB0byBwYXNzIA0KdmVuZG9yIHNwZWNpZmljIE1NUyB0byBvYV90YzZfaW5pdC4NCg0KQXMg
+eW91IG1heSBiZSBhd2FyZSwgdXNlIG9mIG9hX3RjNl9zZXRfdmVuZDFfbW1zIHdvdWxkIHdvcmsg
+b25seSBhZnRlciBvYV90YzZfaW5pdA0KaGFzIHJldHVybmVkLiBUaGF0IG1lYW5zIG9hX3RjNl9n
+ZXRfcGh5X2M0NV9tbXMgZnVuY3Rpb24gd291bGQgZmFpbCBkdXJpbmcNCm1kaW8gcmVnaXN0cmF0
+aW9uIHdoaWNoIGlzIGRvbmUgaW5zaWRlIG9hX3RjNl9pbml0Lg0KDQpTaW5jZXJlbHkNClNlbHZh
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU2VsdmFtYW5pIFJhamFn
+b3BhbCB2aWEgQjQgUmVsYXkNCj4gPGRldm51bGwrU2VsdmFtYW5pLlJhamFnb3BhbC5vbnNlbWku
+Y29tQGtlcm5lbC5vcmc+DQo+IFNlbnQ6IFR1ZXNkYXksIE5vdmVtYmVyIDI0LCAyMDI2IDI6MTAg
+UE0NCj4gVG86IEFuZHJldyBMdW5uIDxhbmRyZXdAbHVubi5jaD47IEhlaW5lciBLYWxsd2VpdCA8
+aGthbGx3ZWl0MUBnbWFpbC5jb20+OyBSdXNzZWxsDQo+IFN1YmplY3Q6IFtQQVRDSCBuZXQtbmV4
+dCB2MTIgMDkvMTVdIG5ldDogZXRoZXJuZXQ6IG9hX3RjNjogU3VwcG9ydCBmb3IgdmVuZG9yIHNw
+ZWNpZmljDQo+IE1NUw0KPiANCj4gDQo+IGNoYW5nZXMgaW4gdjEyDQo+IC0gRHJvcHBlZCBSZXZp
+ZXdlZC1ieSBmcm9tIEFuZHJldyBMdW5uIGFzIHRoZSBjb2RlIGhhcyBjaGFuZ2VkLg0KPiAtIE1N
+RCBWRU5EMSBtYXBwaW5nIGlzIG5vdyBwYXJ0IG9mIHRoZSBxdWlya3MsIG5vdCBhbiBBUEkuDQoN
+Cg0KPiANCj4gaWYgKHF1aXJrcykNCj4gLSB0YzYtPnF1aXJrX2ZsYWdzID0gcXVpcmtzLT5xdWly
+a19mbGFnczsNCj4gKyB0YzYtPnF1aXJrcyA9ICpxdWlya3M7DQo+ICsNCj4gKyBpZiAoIXRjNi0+
+cXVpcmtzLnZlbmQxX21tcykNCj4gKyB0YzYtPnF1aXJrcy52ZW5kMV9tbXMgPSAtRU9QTk9UU1VQ
+UDsNCj4gKyBlbHNlIGlmICh0YzYtPnF1aXJrcy52ZW5kMV9tbXMgPCBPQV9UQzZfVkVORE9SX01N
+U19NSU4gfHwNCj4gKyB0YzYtPnF1aXJrcy52ZW5kMV9tbXMgPiBPQV9UQzZfVkVORE9SX01NU19N
+QVgpDQo+ICsgcmV0dXJuIEVSUl9QVFIoZGV2X2Vycl9wcm9iZSgmc3BpLT5kZXYsIC1FSU5WQUws
+DQo+ICsgIkludmFsaWQgVkVORDEgTU1TOiAlZFxuIiwNCj4gKyB0YzYtPnF1aXJrcy52ZW5kMV9t
+bXMpKTsNCj4gDQo+IC8qIFNldCB0aGUgU1BJIGNvbnRyb2xsZXIgdG8gcHVtcCBhdCByZWFsdGlt
+ZSBwcmlvcml0eSAqLw0KPiB0YzYtPnNwaS0+cnQgPSB0cnVlOw0KDQoNCg0KDQo+IA0KPiBzdHJ1
+Y3Qgb2FfdGM2X3F1aXJrcyB7DQo+IGVudW0gb2FfdGM2X3F1aXJrX2ZsYWcgcXVpcmtfZmxhZ3M7
+DQo+ICsgaW50IHZlbmQxX21tczsNCj4gfTsNCj4gDQo+IHN0cnVjdCBvYV90YzYgKm9hX3RjNl9p
+bml0KHN0cnVjdCBzcGlfZGV2aWNlICpzcGksIHN0cnVjdCBuZXRfZGV2aWNlICpuZXRkZXYsDQo+
+IA0KPiAtLQ0KPiAyLjQzLjANCg0K
