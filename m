@@ -1,77 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.15.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795530574;
-	b=PafzjmBeqoEI2CA/WnRMjR6WMpl7Q0h248+NuQup8lyhKGPXG5M4McpBhBvVJQE1BEb0
-	 C6+XYnX1XN4JNEEt0ZIH2gJL7vgSlLqupmtbMP1EA+iUmiQLV6IzgPfD9wM+/wpxkgX2w
-	 VG8Acz9Xv367V/oQQrA+qe4iBm9SYEFEtGML7LNn9pJUiOIgU0zd+C0Jh3SFC5ZI8YOrf
-	 h2f6d4KLgdgYliMJSpXb3K9oNo5YjjucQOqOfEdRDywKeioY0qE1aVNpZO8R8GRX5mshd
-	 fnaFKondoaqO51u1pFqFXSVNqWDL0vi0f6dgLEl6luxcZ3SAQLVgT34DtYQJbeMdQCA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795530574;
-	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
-	 X-UI-Sender-Class:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:
-	 UI-OutboundReport;
-	bh=DI+a4jIfe5CnQQI4pwwiI7gpDuiZJ97mn1WUEUkdeOM=;
-	b=Jv/iiJuTJKxzbvnRhKShA3yCTixRz3AG9SmzJX8xyTbugHE7AZ1PmFEQQUQV0yLztv4O
-	 drRIzvU9FUA2FfYpFKs2VUG2fKvKTFLSOEXAZCgxD7VHzYIaDwSXduJMEeLyRuXY7HZsL
-	 Av+lzSefHDKtbdeQbjhxjLReUnOGi0jXQpnKj6B6r+gkPTg0NRzd5FkEFUzp6oXLVR75g
-	 OQGeRp2l/ct+QIDAI1rifTnlQf3qHSmClSnaaSHQvYyyHRj6llpGYUShQmf3AwSs1ZA1T
-	 pAtiNsTo5lr789ZRE1fXPyx6cdgZeS2s8X/NHRdV8ZrUBBxVJT4Rec8Lo6Va5udDn+w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmx.de;
-	spf=pass smtp.mailfrom=gmx.de;
-	dkim=pass header.d=gmx.de header.i=w_armin@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=VX+kBW5D;
-	arc=none smtp.remote-ip=212.227.15.18
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.48
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795530860;
+	b=YFeVxJe0zIIuei92oWoJsjFmwy3iQZQzda8yo3/Hc9pCvUVsM7stV2k/FzAbNPliuofL
+	 /es3LC/Hz4/WHdPsYzfa9t8M9UYZDAChjL0LhcQSEVNXB36kXH2k2kAShEavLomEMLiSr
+	 18wbzzkRJLvbpLfNTEgXfPZieOL2mfBPhmNQVkdw2Edci20m4fWa1i5unefewFcFrNwwv
+	 cDpT9fD/qLysHM7blknTfKg1Nw2tFQfDpMDetoNJEfrp3ekSoz0sn3fUnQmGizXC/Jo9/
+	 NMF2jCBlkjV5kI2dMGUzGCpwSE9F9BCulKmax6MiIHNLNEcxXYxTENdRUYjvwJs8upQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795530860;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=hS5QgEEx1tklgksYhfvpWC9lTYvUv8y2W5i5K54YV1g=;
+	b=iOUKzk70ZJDUEzL+aYPQNh3y9XrxOqkrogOnn6vYK+xFlSd7I9JwNjG+uflDtcY5HSUb
+	 cptbqDSRcyppfIQJwpGs+IViT6XDnJ6MWe08QmELgQ35lc/+zk8g35LmD8HRe9+Gw3gTh
+	 tprcMlU5RlPn5d7myxEedt1t/SkJbEni9PqzF+x3Mj+ADPTXhVYhW1DdNhzuUtJmDRsr1
+	 XPhkC+gzzG6AXU99Qp9Zajl8K9mfBw4TC0m03EPP6m3pXJqjYzKffYvT1ytgyoBtbuAto
+	 FSV5IcpItZLha2jaoym+V2vIFhHxXBuPEJeW7sNChda5uiYCz4aE7MG8vunITdLDiaA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qg5IK6iC;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.48
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93850606A338
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 14:29:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93850606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9796C606A321
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 14:34:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9796C606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=VX+kBW5D
-DKIM2-Signature:  i=1; m=1; t=1795530571;
- mf=PFdfQXJtaW5AZ214LmRlPg==;
- rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
- d=gmx.de;
- s=s31663417:rsa-sha256:kwXvJvrRn/o/A3Qw18tn5OKbADY8
-   LNFsslx5s9CzvXRXKqyXf6JKEmiuVHNCxNRKzj+wJRySRucXBdqtn8iCS3LmB6WRQ3HJwfBU31F
-   M+kex8lvjulEHZ2DS+1JixOyBFwCAPq4Q9/rXEv30LFLEJjyof9CITO9pn3+TSRMvw2T9YsLuN+
-   1jheVfG7qxEKOwI1VU3/xqRUAhCHz1adbefBVUUbdX2soA36OD38SPVObg3MG6PPvK19H18Fi2D
-   TOVJ/XURgsH2l4mykLaxyNSXdrbONiBwuyMzEiuJyhzsq66IZC8RKegUgFGgu8jxOADZCooAr9C
-   EyzwQnaZZRPsRQ==;
-Message-Instance:  m=1;
- h=sha256:
-   QjDtxW7QPICaGRGf1D37OGhF9jStnWEEhK1aVsPVAbY=:
-   DI+a4jIfe5CnQQI4pwwiI7gpDuiZJ97mn1WUEUkdeOM=,
-  sha512:
-   Xps67wr/KGtKNaKKXf3sb1rVj63Ar8iLf0dqRzWkKgR3SqBN1ENLUCMja2Ic6MYLX291SSPOd995n/za/Wr1sQ==:
-   wVu/XvlOVGcIxAZx2LCwECkVVZEXPBkZj806eA+R8Vs9TtwJyGEak1W+XvfQOXPMaGDvG/W6tPAHTBJZ+n70OA==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1795530566; x=1796135366; i=w_armin@gmx.de;
-	bh=DI+a4jIfe5CnQQI4pwwiI7gpDuiZJ97mn1WUEUkdeOM=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=VX+kBW5DVD3DLG/bK79lwOld7LI1e0SlXHciu+V+GMW5oxVTHT9sstna2IEF/If4
-	 nki+aGzmF/UP7OHkAaEV6AFjkc5O7Oxp3BZFVxSBx5VC7G2kNIvrvZoM6Pge3FGo3
-	 8qMeQl8+kZpzEw1fZDGhUVBqvDupqsc5CPAuVpfgLfsEB4yBgYzJoQR6tvSMcSpAH
-	 MATBLlfr2B63TmhW+YuHS8PgnwFVWEc4A4Phh+eyXKc6PSov+urb53DY+1Komdfdk
-	 FJcqvzzZrKlbNe9mA1WaK91ynC3mZxXliP2lyJW7/jJ30KjY8hPM/bytOiiphMyNp
-	 3C9/sX8ut+1oWxnGGQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MLiCo-1xnWth3PnM-00PQHT; Tue, 24
- Nov 2026 15:29:25 +0100
-Message-ID: <12ff3c7e-0425-42ea-9994-69f9d56a4591@gmx.de>
-Date: Tue, 24 Nov 2026 15:29:21 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qg5IK6iC
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3b44bdcea8aso2258737a91.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 06:34:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795530859; cv=none;
+        d=google.com; s=arc-20260327;
+        b=oG4q06soCqPtl7nsm0pfvpKoPHUgIAGzG6DA4kQRLhhqqlE5xXngVDj3rogFkW92uM
+         aMp49RgGoXb2DwBwCP1WYonULeyJ3GytwWwoLPhg6FuOlcyNu+qZuJvt6Xh+KR57z9vo
+         Soynab3eYLdeIOr7V93Xhg+7AlLXNBAEfgOdGnFB807vpQK25DsnZVsptFBmlo5SCYME
+         8haUyY04PchG5QrCAUAKVfU1Eh97CJ3sP320gs1VpjDUm6Xwr4vVUTmbLSqWS8D3IPq9
+         gAPNr34qEBkK4a/oaRCD32KjE+gBcWKAaSYizTF5rQ+KnA8qi4qJCt0uUIFL1g91RKPZ
+         GxVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hS5QgEEx1tklgksYhfvpWC9lTYvUv8y2W5i5K54YV1g=;
+        fh=zIe5TwapZ0NDqWK438+Ky6VV66E8Pi/CaSKsdUo2U4U=;
+        b=f5EAuNYbwPoL5NRNXMi7GCO4do+7HSt7vadj8Wc5MeShhOOa1rrk22xbACKvZjY90b
+         5nBYi4ZxWXIQ26MhC2klRpe0GPGBDxOLK/o8VjkWWXFd5N1/WQcPCO07A6OJiJJbPXo1
+         IVucNKSDp1fE5PmlHYG6xa+ujDsXhuWyfcbbNCnshuYxuS9kqDBQTLnhAnemMh3oNPWG
+         IfQfbA2OMuoMdlczEZE3dorFlUpn5Q5PL2BeAZ90Q1aI1nkLaeAOHaA0M0bVRiJ8pV0x
+         7OxYOZA8eykNz+UQjiFVumrbzZL71vNouhcksfyUx27eY3oOVEZNBlTzFhX1mf2QFQxt
+         CUSQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795530859; x=1796135659; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hS5QgEEx1tklgksYhfvpWC9lTYvUv8y2W5i5K54YV1g=;
+        b=qg5IK6iCkghKN/Y/DZjLQKj/E2qBnS5qQ0u12N4SM9CIqa9uoN0AYTK4HfRSDMgV6X
+         6ihjhE+9mJs3CdYRPq2L80EMHn+kmLijO3iG30QIKESMMLEYT/CysKuXphG05M1oCk+X
+         /nR9+jqjixnZMk3qxsfWgqn35OA/BF3A+NbkpieP/YqaiRb5Qqwy8Bd1voPP8hCpELOQ
+         31U0vsyJTM4F8EULf//yBEQlI+Ajx5s1NA/5l+w9PK6XV76632BMdrALpyb/vs6yyIWi
+         RXgmyr5GeOLIQ1AbzS8ljT/ecVul/0EnN29aL4SODC0wq+0kFj1mlj9ChgIaiEPCPOsA
+         KdtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795530859; x=1796135659;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hS5QgEEx1tklgksYhfvpWC9lTYvUv8y2W5i5K54YV1g=;
+        b=xgnLynfGPPG1UePG0Rla+bJ5KFatb2MHlUHqKr1dc+7zMHuXMe7iD1+s8e23jpdOTN
+         1k5EYVZg8Ma56+JbArXNSrySZRHww0vth0X6nSFWv/sLru5i0/EotfB42JWUfRj/j59x
+         efyk/At9VcHysNogT9rhq3wK64aeap46rELC2ypnwoAzbv2WFMlNxXGF0FqbjVnC5k5w
+         Dnvf0inyAsimQBEKQAgWVjuUdDkxAHukZ5vYJkyOhrmTgymwOCG08psly2QOQDE+oYyN
+         /agcrj8bncGP5ygwHNApSzer8pnmjfqT/P9vFBudeIAdBUGrjBd2E25T1epFTi+Wt4ZU
+         NA1Q==
+X-Forwarded-Encrypted: i=1; AL+hErEjryPUjhhX0zGPOEk01JH38f5qKZbnUkXCveAQT5/cQenh8cg/qeSsyE/4gCJnOdjyx3rjNqvgCjE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+2yUL4IMZzNSWwpsICBXtEfQpHoSgGgPcGdRAakdXemTtnzVFf
+	vTiOJ1KnEf6xHLkh/Iqc3NNJZYkDfnFmNW8H27g+vr4GZCecJI/JaAACQSgbRfqrUI+m4KN6Bx4
+	KivqahRVYXdL1e8GwM1pjc459U+it6jY=
+X-Gm-Gg: AZFdTZcGPmCC/n5FxRdDgyK7sR7dIVO+iT+gI/zUmR7VmN0rqOWXXO9xfMEJI9JMeB7
+	vF1CCxJGD2KSwOt70JPMFQxV1aklmfqJfCjW99/XF26Aoykw+70nwTYU/LOOHH/lrj9ADBjOw8j
+	2ADTTZYUSmDR2dBrAdMXb/HNv3RrdwSHmH2QVh9R0Mp+3HsI1g5nc/YpDE9aIFCsl8C08yuj5In
+	WWSn6rtibQnj8jc6DTQ+VmgEieKnGE3/nSzcKBXl2ig3YKZeTdGKJ3bLnixB2+zKRrlLusGVUwE
+	MBpLP4f3+DVdnUwLAAob7WtYPKsSMTxqgDOQme9VJwgQz0SMgwo+R7j/vsVyKC1qjlLpPLa0mB1
+	QBvlrwXatRe7ADcvEuVjsSiRVG3jwuUwddEkQv30=
+X-Received: by 2002:a17:90b:3b8f:b0:3ac:b3c7:de04 with SMTP id
+ 98e67ed59e1d1-3b41c95f0e1mr9916840a91.34.1795530858458; Tue, 24 Nov 2026
+ 06:34:18 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,192 +104,860 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] platform: dell: smbios: Add quirk for non-functional
- calling interface
-To: Brian Mak <bmak@nvidia.com>, Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Kurt Borja <kuurtb@gmail.com>, Stuart Hayes <stuart.w.hayes@gmail.com>,
- Matthew Garrett <mjg59@srcf.ucam.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?=
- <pali@kernel.org>, Lyndon Sanche <lsanche@lyndeno.ca>,
- Prasanth Ksr <prasanth.ksr@dell.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- "Dell.Client.Kernel@dell.com" <Dell.Client.Kernel@dell.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20261121000556.173028-1-bmak@nvidia.com>
- <20261121000556.173028-7-bmak@nvidia.com>
- <f3dc7e25-9c22-4b1d-9555-e83db82d05a1@gmx.de>
- <792a7fdd-b2a0-4a2d-88b3-7aecf1af3d7c@nvidia.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <792a7fdd-b2a0-4a2d-88b3-7aecf1af3d7c@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20261124112707.118678-1-bjorn@kernel.org> <20261124125654.183091-6-bjorn@kernel.org>
+In-Reply-To: <20261124125654.183091-6-bjorn@kernel.org>
+From: Magnus Karlsson <magnus.karlsson@gmail.com>
+Date: Tue, 24 Nov 2026 15:34:05 +0100
+X-Gm-Features: Aa3M54qKl1OMgoup1B2gY7tanBh1jIDvMvtePBuNFJLWwM_Jb3N7Yv62zEuX8ew
+Message-ID: <CAJ8uoz3f2MPpDevbMY3q_Nx=SQ2Om1ojAxBTsYhNw1V9_NXQMA@mail.gmail.com>
+Subject: Re: [PATCH net-next 06/15] xsk: Lend UMEM chunks to the page pools of
+ a queue
+To: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexander Duyck <alexanderduyck@fb.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, 
+	Leon Romanovsky <leon@kernel.org>, Michael Chan <michael.chan@broadcom.com>, 
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+	Stuart Clark <stuclar@meta.com>, Stanislav Fomichev <sdf@fomichev.me>, Simon Horman <horms@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Mina Almasry <almasrymina@google.com>, 
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
+	Randy Dunlap <rdunlap@infradead.org>, kernel-team@meta.com, 
+	Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>, Bobby Eshleman <bobbyeshleman@meta.com>, 
+	Mohsin Bashir <mohsin.bashr@gmail.com>, Kees Cook <kees@kernel.org>, 
+	Breno Leitao <leitao@debian.org>, Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+	Tao Cui <cuitao@kylinos.cn>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
+	"Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	Jiayuan Chen <jiayuan.chen@linux.dev>, Martin Karsten <mkarsten@uwaterloo.ca>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, 
+	Pavel Begunkov <asml.silence@gmail.com>, linux-rdma@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:SVLLjynhMaqgPmtLuset/ES6aexdAN43xQs9S+W/vioo9REYxLw
- Ny7UhmNDYtpHh3FGxiQOnD6eUlwyyjt4Cv+W7KWAknRdMG+rKsBEYOet8vbVOwjKSqOCYNp
- 4ndEwNzISAng4kQgcW5285xKjWtOlLstNyIHUWoe12gls/titxoxHNjXUcF1/HrT0X0ElDu
- qtvicAEjWWq72RZWSr7YA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:eQNXhmjlv7M=;e50dZ7nrs5JL2WrF0yJFNa1RgWF
- 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
 
-Am 24.11.26 um 00:43 schrieb Brian Mak:
-> On 11/21/26 05:49, Armin Wolf wrote:
->> Am 21.11.26 um 01:05 schrieb Brian Mak:
->>
->>> On Dell RTX Spark laptops, the SMBIOS calling interface completes ever=
-y
->>> request with an all-zero buffer, even for requests that should fail.
->>> Drivers that rely on it, such as dell-laptop and dell-pc, end up
->>> reporting bogus state, like battery charge modes and thermal modes.
->>>
->>> Add a DMI quirk list for platforms with a non-functional calling
->>> interface, and export dell_smbios_calls_functional() so that consumers
->>> can avoid loading on them. dell-smbios itself still loads, as dell-wmi
->>> depends on it.
->>
->> Hi,
->>
->> do you have access to such a machine? I would be _very_ interested in
->> the output
->> of acpidump on this machine, maybe this could be an issue with ACPICA.
->=20
-> Hi Armin,
->=20
-> I've attached the acpidump.
+On Tue, 24 Nov 2026 at 13:59, Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org> wrot=
+e:
+>
+> Currently, AF_XDP zero copy makes the device fill one UMEM chunk per
+> buffer, at the UMEM headroom. Drivers bend their RX geometry to that
+> and carry a second RX path for it, and packets that the stack would
+> build from several buffers, or pack into one page, cannot be received
+> without a copy.
+>
+> Let the device lay out buffers in UMEM chunks as it does in pages, for
+> a UMEM registered with the new flag XDP_UMEM_DRV_LAYOUT. First, let
+> the chunks of such a UMEM back the RX page pools of the bound queue,
+> through a sink memory provider that the socket installs with the queue
+> management API, so drivers need no AF_XDP code.
+>
+> The chunk is the unit of ownership. A FILL entry lends a chunk to the
+> kernel until the kernel gives it back, see the next patch. A chunk
+> that is lent twice, or lies outside the UMEM, counts as an invalid
+> FILL entry, so userspace cannot make the device use a chunk twice. A
+> refill takes at most a page pool cache worth of FILL entries, bounding
+> the NAPI work. Chunks that a page pool released when it went away, as
+> at a queue restart, stay on a list that refills take from only when
+> FILL gives too few, so every chunk taken from it stays in circulation.
+> The pool allocates no xdp_buff_xsk per chunk, which saves 128 bytes
+> per 4 KiB chunk. The kernel mapping of the UMEM is the XDP view of its
+> net_iovs, so XDP reads the chunks in place.
+>
+> The provider refuses page pools with pages larger than a chunk, with
+> another DMA device, or so large that the device could hold every
+> chunk. Binding needs a native XDP program, which cannot be detached
+> while the provider is installed, as drivers would otherwise build skbs
+> around the buffers. Unbind restarts the queue without the provider, or
+> closes the device if that fails, as the old queue may go on receiving
+> into the UMEM. Device unregister may uninstall the provider before the
+> socket unbinds, and unbind then only frees what is left.
+>
+> Bind sets the RX need_wakeup flag before the queue starts, as the
+> queue may need FILL entries to start. After that only the queue NAPI
+> changes the flag, asking for a kick only while FILL is empty.
+> Process-context refills, as when bnxt fills a new queue, leave it
+> alone.
+>
+> DMA syncs work as with page pools. The UMEM is mapped once, at bind,
+> the provider syncs a chunk for the device when it lends it, page pools
+> sync the chunks they recycle, and drivers sync each buffer for the CPU
+> before XDP runs.
+>
+> None of this is reachable until UMEM registration accepts
+> XDP_UMEM_DRV_LAYOUT, two patches later.
+>
+> Signed-off-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
+> ---
+>  include/linux/netdevice.h         |   2 +
+>  include/net/xsk_buff_pool.h       |   3 +
+>  include/uapi/linux/if_xdp.h       |   7 +
+>  net/core/dev.c                    |  30 +++
+>  net/xdp/Kconfig                   |   1 +
+>  net/xdp/Makefile                  |   2 +-
+>  net/xdp/xsk_buff_pool.c           |  30 ++-
+>  net/xdp/xsk_sink.c                | 416 ++++++++++++++++++++++++++++++
+>  net/xdp/xsk_sink.h                |  14 +
+>  tools/include/uapi/linux/if_xdp.h |   7 +
+>  10 files changed, 505 insertions(+), 7 deletions(-)
+>  create mode 100644 net/xdp/xsk_sink.c
+>  create mode 100644 net/xdp/xsk_sink.h
+>
+> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+> index 5fd2bec1178a..5a7247873ce8 100644
+> --- a/include/linux/netdevice.h
+> +++ b/include/linux/netdevice.h
+> @@ -4459,6 +4459,8 @@ u32 dev_xdp_prog_id(struct net_device *dev, enum bp=
+f_xdp_mode mode);
+>
+>  u32 dev_get_min_mp_channel_count(const struct net_device *dev);
+>  bool dev_mp_blocks_xdp(const struct net_device *dev);
+> +bool dev_has_xdp_only_mp(const struct net_device *dev);
+> +bool dev_xdp_drv_prog_held(struct net_device *dev);
+>
+>  int __dev_forward_skb(struct net_device *dev, struct sk_buff *skb);
+>  int dev_forward_skb(struct net_device *dev, struct sk_buff *skb);
+> diff --git a/include/net/xsk_buff_pool.h b/include/net/xsk_buff_pool.h
+> index 02e89350faf9..376408994a33 100644
+> --- a/include/net/xsk_buff_pool.h
+> +++ b/include/net/xsk_buff_pool.h
+> @@ -11,6 +11,7 @@
+>  #include <net/xdp.h>
+>
+>  struct xsk_buff_pool;
+> +struct xsk_sink;
+>  struct xdp_rxq_info;
+>  struct xsk_cb_desc;
+>  struct xsk_queue;
+> @@ -54,6 +55,8 @@ struct xsk_buff_pool {
+>         spinlock_t xsk_tx_list_lock;
+>         refcount_t users;
+>         struct xdp_umem *umem;
+> +       /* RX in the device's buffer layout, see net/xdp/xsk_sink.c */
+> +       struct xsk_sink *sink;
+>         struct work_struct work;
+>         /* Protects generic receive in shared and non-shared umem mode. *=
+/
+>         spinlock_t rx_lock;
+> diff --git a/include/uapi/linux/if_xdp.h b/include/uapi/linux/if_xdp.h
+> index 50d67df78911..160a437ed540 100644
+> --- a/include/uapi/linux/if_xdp.h
+> +++ b/include/uapi/linux/if_xdp.h
+> @@ -45,6 +45,13 @@
+>   */
+>  #define XDP_UMEM_TX_METADATA_LEN       (1 << 2)
+>
+> +/* RX buffers follow the device's layout: a page-sized chunk may hold
+> + * several of them, a packet may span chunks, and the device picks the
+> + * offsets. A FILL entry lends a chunk to the kernel. Needs aligned
+> + * page-sized chunks and no headroom.
+> + */
+> +#define XDP_UMEM_DRV_LAYOUT            (1 << 4)
 
-Thank you very much.
+First of all, this looks a lot better than the previous patch set.
+Much simpler from a driver point of view, fewer changes to core
+networking code, and that with just a small change/extension to the
+uAPI.
 
->=20
->> Alternatively, maybe the wrong backend get selected. Currently the dell=
--
->> smbios-smm
->> backend will try to read a specific token in test_wsmt_enabled() to
->> determine if
->> the WSMT ACPI table is active. This might not work on arm64 machines, s=
-o
->> maybe parsing
->> the real WSMT ACPI table would fix this problem?
->=20
-> dell-smbios-smm is not available outside of x86, as it depends on
-> DCDBAS, which depends on X86. It would only be using the WMI backend.
->=20
-> Thanks,
-> Brian
+But I do not think this name is good. Most users of this API do not
+care about driver details such as the layout. Why not call it
+something that has to do with what has changed from the user's point
+of view? Previously we had implicit ownership transfers. You got a
+packet in Rx, you own the chunk. Now we have explicit ownership
+transfer. You do not own the chunk the packet is in, unless you get
+the new flag back (introduced later). So something with "explicit
+ownership" or something similar would be better. Or focus the name on
+that you can support larger chunks, but that is for later patches so
+might not be the best choice.
 
-If i understand the ACPI code correctly, then it seems that the WMI=20
-interface interacts with a OperationRegion handled by the ARML0002=20
-device, associated with the ARM FFA interface.
+>  struct sockaddr_xdp {
+>         __u16 sxdp_family;
+>         __u16 sxdp_flags;
+> diff --git a/net/core/dev.c b/net/core/dev.c
+> index 8a1d5a284e53..3bc20c7e409f 100644
+> --- a/net/core/dev.c
+> +++ b/net/core/dev.c
+> @@ -10860,6 +10860,11 @@ static int dev_xdp_attach(struct net_device *dev=
+, struct netlink_ext_ack *extack
+>                 NL_SET_ERR_MSG(extack, "Active program does not match exp=
+ected");
+>                 return -EEXIST;
+>         }
+> +       if (cur_prog && !new_prog && !link && mode =3D=3D XDP_MODE_DRV &&
+> +           dev_has_xdp_only_mp(dev)) {
+> +               NL_SET_ERR_MSG(extack, "An XDP-only memory provider needs=
+ the program");
+> +               return -EBUSY;
+> +       }
+>
+>         /* put effective new program into new_prog */
+>         if (link)
+> @@ -11163,6 +11168,31 @@ bool dev_mp_blocks_xdp(const struct net_device *=
+dev)
+>         return false;
+>  }
+>
+> +/* A native program is attached, and dev_xdp_attach() keeps it while an
+> + * AF_XDP socket receives in the buffer layout of @dev. A BPF link could=
+ go
+> + * without asking, and so could a program that an upper device propagate=
+d.
+> + */
+> +bool dev_xdp_drv_prog_held(struct net_device *dev)
+> +{
+> +       return dev_xdp_prog_id(dev, XDP_MODE_DRV) &&
+> +              !dev_xdp_link(dev, XDP_MODE_DRV) && !dev->xdp_from_upper;
+> +}
+> +
+> +/* A queue of @dev has an XDP-only memory provider */
+> +bool dev_has_xdp_only_mp(const struct net_device *dev)
+> +{
+> +       const struct memory_provider_ops *ops;
+> +       unsigned int i;
+> +
+> +       for (i =3D 0; i < dev->real_num_rx_queues; i++) {
+> +               ops =3D dev->_rx[i].mp_params.mp_ops;
+> +               if (ops && ops->flags & MP_XDP_ONLY)
+> +                       return true;
+> +       }
+> +
+> +       return false;
+> +}
+> +
+>  u32 dev_get_min_mp_channel_count(const struct net_device *dev)
+>  {
+>         int i;
+> diff --git a/net/xdp/Kconfig b/net/xdp/Kconfig
+> index 71af2febe72a..c9c68d3b3712 100644
+> --- a/net/xdp/Kconfig
+> +++ b/net/xdp/Kconfig
+> @@ -2,6 +2,7 @@
+>  config XDP_SOCKETS
+>         bool "XDP sockets"
+>         depends on BPF_SYSCALL
+> +       select PAGE_POOL
+>         default n
+>         help
+>           XDP sockets allows a channel between XDP programs and
+> diff --git a/net/xdp/Makefile b/net/xdp/Makefile
+> index 30cdc4315f42..73a638f12843 100644
+> --- a/net/xdp/Makefile
+> +++ b/net/xdp/Makefile
+> @@ -1,4 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  obj-$(CONFIG_XDP_SOCKETS) +=3D xsk.o xdp_umem.o xsk_queue.o xskmap.o
+> -obj-$(CONFIG_XDP_SOCKETS) +=3D xsk_buff_pool.o
+> +obj-$(CONFIG_XDP_SOCKETS) +=3D xsk_buff_pool.o xsk_sink.o
+>  obj-$(CONFIG_XDP_SOCKETS_DIAG) +=3D xsk_diag.o
+> diff --git a/net/xdp/xsk_buff_pool.c b/net/xdp/xsk_buff_pool.c
+> index 5ec092f7cb6f..7ece7d9e3937 100644
+> --- a/net/xdp/xsk_buff_pool.c
+> +++ b/net/xdp/xsk_buff_pool.c
+> @@ -7,6 +7,7 @@
+>  #include <net/xdp_sock_drv.h>
+>
+>  #include "xsk_queue.h"
+> +#include "xsk_sink.h"
+>  #include "xdp_umem.h"
+>  #include "xsk.h"
+>
+> @@ -69,9 +70,14 @@ struct xsk_buff_pool *xp_create_and_assign_umem(struct=
+ xdp_sock *xs,
+>         if (!pool)
+>                 goto out;
+>
+> -       pool->heads =3D kvzalloc_objs(*pool->heads, umem->chunks);
+> -       if (!pool->heads)
+> -               goto out;
+> +       /* Receiving in the device's buffer layout and copy TX take none =
+*/
+> +       if (!(umem->flags & XDP_UMEM_DRV_LAYOUT)) {
+> +               pool->heads =3D kvzalloc_objs(*pool->heads, umem->chunks)=
+;
+> +               if (!pool->heads)
+> +                       goto out;
+> +               pool->heads_cnt =3D umem->chunks;
+> +               pool->free_heads_cnt =3D umem->chunks;
+> +       }
+>
+>         if (xs->tx)
+>                 if (xp_alloc_tx_descs(pool, xs, max_segs))
+> @@ -79,8 +85,6 @@ struct xsk_buff_pool *xp_create_and_assign_umem(struct =
+xdp_sock *xs,
+>
+>         pool->chunk_mask =3D ~((u64)umem->chunk_size - 1);
+>         pool->addrs_cnt =3D umem->size;
+> -       pool->heads_cnt =3D umem->chunks;
+> -       pool->free_heads_cnt =3D umem->chunks;
+>         pool->headroom =3D umem->headroom;
+>         pool->chunk_size =3D umem->chunk_size;
+>         pool->chunk_shift =3D ffs(umem->chunk_size) - 1;
+> @@ -211,6 +215,13 @@ int xp_assign_dev(struct xsk_buff_pool *pool,
+>          */
+>         hlist_add_head(&pool->dev_node, &netdev->xsk_pools);
+>
+> +       if (pool->umem->flags & XDP_UMEM_DRV_LAYOUT) {
+> +               err =3D xsk_sink_bind(pool, netdev, queue_id, flags);
+> +               if (err)
+> +                       goto err_unbind;
+> +               return 0;
+> +       }
+> +
+>         if (force_copy)
+>                 /* For copy-mode, we are done. */
+>                 return 0;
+> @@ -268,6 +279,7 @@ int xp_assign_dev(struct xsk_buff_pool *pool,
+>  err_unreg_pool:
+>         if (!force_zc)
+>                 err =3D 0; /* fallback to copy mode */
+> +err_unbind:
+>         if (err) {
+>                 pool->umem->flags =3D umem_flags;
+>                 xsk_clear_pool_at_qid(netdev, queue_id);
+> @@ -285,6 +297,9 @@ int xp_assign_dev_shared(struct xsk_buff_pool *pool, =
+struct xdp_sock *umem_xs,
+>         struct xdp_umem *umem =3D umem_xs->umem;
+>
+>         flags =3D umem->zc ? XDP_ZEROCOPY : XDP_COPY;
+> +       /* The device layout has no copy mode */
+> +       if (umem->flags & XDP_UMEM_DRV_LAYOUT)
+> +               flags =3D 0;
+>
+>         if (umem->flags & XDP_UMEM_SG_FLAG)
+>                 flags |=3D XDP_USE_SG;
+> @@ -300,7 +315,10 @@ static void __xp_clear_dev(struct xsk_buff_pool *poo=
+l)
+>         struct net_device *netdev =3D pool->netdev;
+>
+>         netdev_assert_locked_ops_compat(netdev);
+> -       xp_disable_drv_zc(pool);
+> +       if (pool->sink)
+> +               xsk_sink_unbind(pool);
+> +       else
+> +               xp_disable_drv_zc(pool);
+>         xsk_clear_pool_at_qid(netdev, pool->queue_id);
+>         hlist_del(&pool->dev_node);
+>         pool->netdev =3D NULL;
+> diff --git a/net/xdp/xsk_sink.c b/net/xdp/xsk_sink.c
+> new file mode 100644
+> index 000000000000..b78116f25e71
+> --- /dev/null
+> +++ b/net/xdp/xsk_sink.c
+> @@ -0,0 +1,416 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* AF_XDP RX in the device's buffer layout
+> + *
+> + * Userspace lends page-sized UMEM chunks through the FILL ring. Each ch=
+unk
+> + * becomes a net_iov of a page pool memory provider, and the device spli=
+ts it
+> + * as it splits pages: a chunk may hold several RX buffers, and a packet=
+ may
+> + * span chunks.
+> + *
+> + * The kernel maps the chunks through the UMEM mapping, so XDP programs =
+read
+> + * and write the packets in place. The kernel stores none of its own dat=
+a in
+> + * the chunks: the shared info of a packet lives in the sink, see
+> + * %XDP_FLAGS_SINFO_EXT, and the core turns every verdict that would bui=
+ld an
+> + * skb or a frame in the buffers into a drop.
+> + */
+> +
+> +#include <linux/nospec.h>
+> +#include <net/netdev_queues.h>
+> +#include <net/netdev_rx_queue.h>
+> +#include <net/page_pool/helpers.h>
+> +#include <net/page_pool/memory_provider.h>
+> +#include <net/xdp_sock_drv.h>
+> +
+> +#include "../core/dev.h"
+> +#include "xsk_queue.h"
+> +#include "xsk_sink.h"
+> +
+> +#define XSK_SINK_DMA_ATTR (DMA_ATTR_WEAK_ORDERING | DMA_ATTR_SKIP_CPU_SY=
+NC)
+> +/* Chunks a refill tops up to with released ones */
+> +#define XSK_SINK_RESERVE       32
+> +
+> +/* &net_iov.mp_state: whether userspace has the chunk or lent it */
+> +enum {
+> +       XSK_SINK_USER,
+> +       XSK_SINK_LENT,
+> +};
+> +
+> +struct xsk_sink {
+> +       struct net_iov_area area;
+> +       struct device *dev;
+> +       /* Valid until the socket unbinds */
+> +       struct xsk_buff_pool *pool;
+> +       /* NULL once no queue uses the provider */
+> +       struct netdev_rx_queue *rxq;
+> +       /* Protects fq, which stays set while the UMEM is mapped, and kee=
+ps
+> +        * refills the only taker of released chunks. Besides the queue N=
+API,
+> +        * drivers refill from process context, as bnxt fills the rings o=
+f a
+> +        * new queue while the old one still runs.
+> +        */
+> +       spinlock_t lock;
+> +       struct xsk_queue *fq;
+> +       refcount_t refs;
+> +       /* One node per chunk: chunks that page pools released, from any
+> +        * context
+> +        */
+> +       struct llist_node *nodes;
+> +       struct llist_head released;
+> +};
+> +
+> +static void xsk_sink_free(struct xsk_sink *sink)
+> +{
+> +       kvfree(sink->nodes);
+> +       kvfree(sink->area.niovs);
+> +       kfree(sink);
+> +}
+> +
+> +static void xsk_sink_put(struct xsk_sink *sink)
+> +{
+> +       if (refcount_dec_and_test(&sink->refs))
+> +               xsk_sink_free(sink);
+> +}
+> +
+> +static int xsk_sink_init(struct page_pool *pp)
+> +{
+> +       struct xsk_sink *sink =3D pp->mp_priv;
+> +
+> +       /* Each net_iov is one chunk, mapped for one device */
+> +       if (pp->p.order)
+> +               return -E2BIG;
+> +       if (pp->p.dev !=3D sink->dev || pp->p.offset + pp->p.max_len > PA=
+GE_SIZE)
+> +               return -EINVAL;
+> +       /* Rings that keep every chunk posted leave none to replace the o=
+nes
+> +        * the device filled: mlx5 posts about 16K pages per queue at MTU
+> +        * 9000.
+> +        */
+> +       if (pp->p.pool_size + PP_ALLOC_CACHE_SIZE >=3D sink->area.num_nio=
+vs)
+> +               return -ENOSPC;
+> +
+> +       refcount_inc(&sink->refs);
+> +       return 0;
+> +}
+> +
+> +static void xsk_sink_destroy(struct page_pool *pp)
+> +{
+> +       xsk_sink_put(pp->mp_priv);
+> +}
+> +
+> +/* Takes the chunks that FILL entries lend into the cache of @pp, which =
+still
+> + * holds those it gave back before. A chunk that an earlier page pool st=
+ill
+> + * holds goes back to it. Returns the number of chunks taken.
+> + */
+> +static u32 xsk_sink_take_fill(struct xsk_sink *sink, struct page_pool *p=
+p)
+> +{
+> +       struct net_iov *niov, *niovs =3D sink->area.niovs;
+> +       u32 i, entries, cons, mask, nr, n =3D 0;
+> +       struct xsk_queue *fq =3D sink->fq;
+> +       struct xdp_umem_ring *ring;
+> +       struct page_pool *owner;
+> +       netmem_ref netmem;
+> +       u64 addr;
+> +
+> +       lockdep_assert_held(&sink->lock);
+> +
+> +       /* One cache worth, bounding NAPI work */
+> +       entries =3D fq ? xskq_cons_nb_entries(fq, PP_ALLOC_CACHE_SIZE) : =
+0;
+> +       if (!entries)
+> +               return 0;
+> +
+> +       nr =3D sink->area.num_niovs;
+> +       ring =3D (struct xdp_umem_ring *)fq->ring;
+> +       mask =3D fq->ring_mask;
+> +       cons =3D fq->cached_cons;
+> +       for (i =3D 0; i < entries; i++) {
+> +               addr =3D ring->desc[(cons + i) & mask];
+> +               niov =3D &niovs[array_index_nospec((u32)(addr >> PAGE_SHI=
+FT),
+> +                                                nr)];
+> +               /* A chunk lent twice would be in two places at once */
+> +               if (unlikely(addr >=3D (u64)nr << PAGE_SHIFT ||
+> +                            READ_ONCE(niov->mp_state) =3D=3D XSK_SINK_LE=
+NT)) {
+> +                       fq->invalid_descs++;
+> +                       continue;
+> +               }
+> +
+> +               WRITE_ONCE(niov->mp_state, XSK_SINK_LENT);
+> +               netmem =3D net_iov_to_netmem(niov);
+> +               owner =3D netmem_get_pp(netmem);
+> +               if (owner && owner !=3D pp) {
+> +                       page_pool_put_unrefed_netmem(owner, netmem, -1, f=
+alse);
+> +                       continue;
+> +               }
+> +               if (!owner)
+> +                       net_mp_niov_set_page_pool(pp, niov);
+> +               pp->alloc.cache[n++] =3D netmem;
+> +       }
+> +
+> +       xskq_cons_release_n(fq, entries);
+> +       __xskq_cons_release(fq);
+> +       return n;
+> +}
+> +
+> +/* Tops up the cache of @pp, which holds @n chunks, with chunks that pag=
+e
+> + * pools released. A reserve, not a source. Each chunk it adds stays in
+> + * circulation, so take only what FILL could not give. The lock keeps th=
+is
+> + * the only consumer of the list, as llist_del_first() needs.
+> + */
+> +static u32 xsk_sink_take_released(struct xsk_sink *sink, struct page_poo=
+l *pp,
+> +                                 u32 n)
+> +{
+> +       struct llist_node *node;
+> +       struct net_iov *niov;
+> +
+> +       lockdep_assert_held(&sink->lock);
+> +
+> +       /* The page pool cache has 8 entries with 64K pages */
+> +       while (n < min(XSK_SINK_RESERVE, PP_ALLOC_CACHE_SIZE)) {
+> +               node =3D llist_del_first(&sink->released);
+> +               if (!node)
+> +                       break;
+> +               niov =3D &sink->area.niovs[node - sink->nodes];
+> +               net_mp_niov_set_page_pool(pp, niov);
+> +               pp->alloc.cache[n++] =3D net_iov_to_netmem(niov);
+> +       }
+> +       return n;
+> +}
+> +
+> +static netmem_ref xsk_sink_alloc_netmems(struct page_pool *pp, gfp_t gfp=
+)
+> +{
+> +       struct xsk_sink *sink =3D pp->mp_priv;
+> +       /* The NAPI owns the need_wakeup flags */
+> +       bool napi =3D in_softirq() && !in_hardirq();
+> +       struct xsk_queue *fq;
+> +       dma_addr_t dma;
+> +       u32 i, n;
+> +
+> +       /* The page pool refills only an empty cache */
+> +       if (WARN_ON_ONCE(pp->alloc.count))
+> +               return 0;
+> +
+> +       spin_lock_bh(&sink->lock);
+> +       n =3D xsk_sink_take_fill(sink, pp);
+> +       n =3D xsk_sink_take_released(sink, pp, n);
+> +       fq =3D sink->fq;
+> +       /* Ask for kicks only while FILL runs dry, as zero copy drivers d=
+o: a
+> +        * kick schedules the NAPI, which a busy poller would rather run
+> +        * itself. Process context refills new queues only and leaves the
+> +        * flags to their NAPI and to bind.
+> +        */
+> +       if (napi && fq && sink->pool->uses_need_wakeup) {
 
-AFAIK the linux kernel currently does not support this device, maybe=20
-this is the reason why all SMBIOS calls fail.
+Was not need_wakeup a requirement for using this new mode? If so, why
+not just set it somewhere and not test it after that?
 
-I also noticed that the device supports the WMI interface used by the
-dell-smm-hwmon driver. If you want i can try to enable this driver on
-arm64 too, but IMHO it should be considered optional at best.
+> +               if (n)
+> +                       xsk_clear_rx_need_wakeup(sink->pool);
+> +               else
+> +                       xsk_set_rx_need_wakeup(sink->pool);
+> +       }
+> +       if (fq && !n)
+> +               fq->queue_empty_descs++;
+> +       spin_unlock_bh(&sink->lock);
+> +       if (!n)
+> +               return 0;
+> +
+> +       for (i =3D 0; i < n; i++) {
+> +               dma =3D page_pool_get_dma_addr_netmem(pp->alloc.cache[i])=
+;
+> +               dma_sync_single_range_for_device(pp->p.dev, dma, pp->p.of=
+fset,
+> +                                                pp->p.max_len, pp->p.dma=
+_dir);
+> +       }
+> +
+> +       pp->alloc.count =3D n - 1;
+> +       return pp->alloc.cache[n - 1];
+> +}
+> +
+> +static bool xsk_sink_release_netmem(struct page_pool *pp, netmem_ref net=
+mem)
+> +{
+> +       struct net_iov *niov =3D netmem_to_net_iov(netmem);
+> +       struct xsk_sink *sink =3D pp->mp_priv;
+> +
+> +       net_mp_niov_clear_page_pool(niov);
+> +       llist_add(&sink->nodes[net_iov_idx(niov)], &sink->released);
+> +       return false;
+> +}
+> +
+> +static int xsk_sink_nl_fill(void *mp_priv, struct sk_buff *rsp,
+> +                           struct netdev_rx_queue *rxq)
+> +{
+> +       return 0;
+> +}
+> +
+> +/* No queue DMAs to the UMEM any longer */
+> +static void xsk_sink_stop(struct xsk_sink *sink)
+> +{
+> +       bool unmap;
+> +
+> +       spin_lock_bh(&sink->lock);
+> +       WRITE_ONCE(sink->rxq, NULL);
+> +       unmap =3D sink->fq;
+> +       sink->fq =3D NULL;
+> +       spin_unlock_bh(&sink->lock);
+> +
+> +       /* Wait for wakeups that found the sink or the queue */
+> +       synchronize_net();
+> +       if (unmap)
+> +               xp_dma_unmap(sink->pool, XSK_SINK_DMA_ATTR);
+> +}
+> +
+> +/* Device unregister, after the queue stopped */
+> +static void xsk_sink_uninstall(void *mp_priv, struct netdev_rx_queue *rx=
+q)
+> +{
+> +       memset(&rxq->mp_params, 0, sizeof(rxq->mp_params));
+> +       xsk_sink_stop(mp_priv);
+> +}
+> +
+> +static const struct memory_provider_ops xsk_sink_ops =3D {
+> +       .alloc_netmems  =3D xsk_sink_alloc_netmems,
+> +       .release_netmem =3D xsk_sink_release_netmem,
+> +       .init           =3D xsk_sink_init,
+> +       .destroy        =3D xsk_sink_destroy,
+> +       .nl_fill        =3D xsk_sink_nl_fill,
+> +       .uninstall      =3D xsk_sink_uninstall,
+> +       .flags          =3D MP_XDP_ONLY,
+> +};
+> +
+> +static struct xsk_sink *xsk_sink_create(struct xsk_buff_pool *pool,
+> +                                       struct device *dev)
+> +{
+> +       u32 i, nr =3D pool->umem->chunks;
+> +       struct xsk_sink *sink;
+> +       struct net_iov *niov;
+> +       dma_addr_t dma;
+> +
+> +       sink =3D kzalloc_obj(*sink, GFP_KERNEL_ACCOUNT);
+> +       if (!sink)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       /* See &xdp_rxq_info.sink_area */
+> +       BUILD_BUG_ON(offsetof(struct xsk_sink, area));
+> +
+> +       sink->area.niovs =3D kvcalloc(nr, sizeof(*niov), GFP_KERNEL_ACCOU=
+NT);
+> +       sink->nodes =3D kvcalloc(nr, sizeof(*sink->nodes), GFP_KERNEL_ACC=
+OUNT);
+> +       if (!sink->area.niovs || !sink->nodes) {
+> +               xsk_sink_free(sink);
+> +               return ERR_PTR(-ENOMEM);
+> +       }
+> +
+> +       sink->area.num_niovs =3D nr;
+> +       /* Chunks are pages, see XDP_UMEM_DRV_LAYOUT */
+> +       sink->area.xdp_vaddr =3D pool->addrs;
+> +       sink->area.xdp_vsize =3D (size_t)nr << PAGE_SHIFT;
+> +       sink->area.xdp_shift =3D PAGE_SHIFT;
+> +       sink->dev =3D dev;
+> +       sink->pool =3D pool;
+> +       sink->fq =3D pool->fq;
+> +       spin_lock_init(&sink->lock);
+> +       init_llist_head(&sink->released);
+> +       refcount_set(&sink->refs, 1);
+> +
+> +       /* Chunks are pages, see XDP_UMEM_DRV_LAYOUT */
+> +       for (i =3D 0; i < nr; i++) {
+> +               niov =3D &sink->area.niovs[i];
+> +               dma =3D pool->dma_pages[i] & ~XSK_NEXT_PG_CONTIG_MASK;
+> +               net_iov_init(niov, &sink->area, NET_IOV_XSK);
+> +               if (net_mp_niov_set_dma_addr(niov, dma)) {
+> +                       xsk_sink_free(sink);
+> +                       return ERR_PTR(-ERANGE);
+> +               }
+> +       }
+> +
+> +       return sink;
+> +}
+> +
+> +/* Sockets sharing the pool find no sink after the grace period of
+> + * xsk_sink_stop(), see xsk_wakeup()
+> + */
+> +static void xsk_sink_detach(struct xsk_buff_pool *pool)
+> +{
+> +       struct xsk_sink *sink =3D pool->sink;
+> +
+> +       WRITE_ONCE(pool->sink, NULL);
+> +       xsk_sink_stop(sink);
+> +       xsk_sink_put(sink);
+> +       static_branch_dec(&xdp_sink_key);
+> +}
+> +
+> +/**
+> + * xsk_sink_bind - install the UMEM of @pool as the provider of an RX qu=
+eue
+> + * @pool: buffer pool with an XDP_UMEM_DRV_LAYOUT UMEM
+> + * @dev: device of the queue
+> + * @queue_id: RX queue
+> + * @flags: bind flags
+> + *
+> + * Context: RTNL and the instance lock of @dev.
+> + * Return: 0 on success. No copy mode takes over on error.
+> + */
+> +int xsk_sink_bind(struct xsk_buff_pool *pool, struct net_device *dev,
+> +                 u16 queue_id, u16 flags)
+> +{
+> +       u32 needed =3D NETDEV_XDP_ACT_BASIC | NETDEV_XDP_ACT_REDIRECT;
+> +       struct pp_memory_provider_params p =3D { .mp_ops =3D &xsk_sink_op=
+s };
+> +       struct device *dma_dev;
+> +       struct xsk_sink *sink;
+> +       int err;
+> +
+> +       if (flags & XDP_USE_SG)
+> +               needed |=3D NETDEV_XDP_ACT_RX_SG;
+> +       if (flags & XDP_COPY || !dev->queue_mgmt_ops ||
+> +           (dev->xdp_features & needed) !=3D needed ||
+> +           queue_id >=3D dev->real_num_rx_queues)
+> +               return -EOPNOTSUPP;
+> +
+> +       /* The program of another device would see a leased queue's packe=
+ts */
+> +       if (netif_rxq_is_leased(dev, queue_id))
+> +               return -EOPNOTSUPP;
+> +
+> +       /* The device of the queue's page pools, which may differ per que=
+ue */
+> +       dma_dev =3D netdev_queue_get_dma_dev(dev, queue_id, NETDEV_QUEUE_=
+TYPE_RX);
+> +       if (!dma_dev)
+> +               return -EOPNOTSUPP;
+> +
+> +       /* Without a program, drivers would build skbs from the buffers *=
+/
+> +       if (!dev_xdp_drv_prog_held(dev))
+> +               return -ENOENT;
+> +
+> +       err =3D xp_dma_map(pool, dma_dev, XSK_SINK_DMA_ATTR, pool->umem->=
+pgs,
+> +                        pool->umem->npgs);
+> +       if (err)
+> +               return err;
+> +
+> +       sink =3D xsk_sink_create(pool, dma_dev);
+> +       if (IS_ERR(sink)) {
+> +               xp_dma_unmap(pool, XSK_SINK_DMA_ATTR);
+> +               return PTR_ERR(sink);
+> +       }
+> +
+> +       /* Until the first refill of the NAPI: the queue may need FILL to
+> +        * start. Set before the NAPI runs, which owns the flags after th=
+at.
+> +        */
+> +       if (pool->uses_need_wakeup)
+> +               xsk_set_rx_need_wakeup(pool);
+> +
+> +       /* The core keeps sink buffers to the socket once the queue runs =
+*/
+> +       static_branch_inc(&xdp_sink_key);
+> +       sink->rxq =3D __netif_get_rx_queue(dev, queue_id);
+> +       pool->sink =3D sink;
+> +       p.mp_priv =3D sink;
+> +       err =3D netif_mp_open_rxq(dev, queue_id, &p, NULL);
+> +       if (err) {
+> +               xsk_sink_detach(pool);
+> +               return err;
+> +       }
+> +
+> +       return 0;
+> +}
 
-Thanks,
-Armin Wolf
+At a first glance it feels like some of this code could be shared with
+the current bind, but I guess you have already tried and it is not
+worth it, or? The commonality seems somewhat spread out.
 
->> Thanks,
->> Armin Wolf
-
+> +
+> +/* Context: RTNL and the instance lock of the device */
+> +void xsk_sink_unbind(struct xsk_buff_pool *pool)
+> +{
+> +       struct xsk_sink *sink =3D pool->sink;
+> +       struct pp_memory_provider_params p =3D {
+> +               .mp_ops =3D &xsk_sink_ops,
+> +               .mp_priv =3D sink,
+> +       };
+> +
+> +       /* Unregister may have uninstalled the provider already. A queue =
+that
+> +        * cannot restart without it may still use the UMEM: stop the dev=
+ice.
+> +        */
+> +       if (READ_ONCE(sink->rxq) &&
+> +           netif_mp_close_rxq(pool->netdev, pool->queue_id, &p))
+> +               netif_close(pool->netdev);
+> +       xsk_sink_detach(pool);
+> +}
+> diff --git a/net/xdp/xsk_sink.h b/net/xdp/xsk_sink.h
+> new file mode 100644
+> index 000000000000..3f201163c530
+> --- /dev/null
+> +++ b/net/xdp/xsk_sink.h
+> @@ -0,0 +1,14 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* AF_XDP RX in the device's buffer layout, see xsk_sink.c */
+> +
+> +#ifndef XSK_SINK_H_
+> +#define XSK_SINK_H_
+> +
+> +struct net_device;
+> +struct xsk_buff_pool;
+> +
+> +int xsk_sink_bind(struct xsk_buff_pool *pool, struct net_device *dev,
+> +                 u16 queue_id, u16 flags);
+> +void xsk_sink_unbind(struct xsk_buff_pool *pool);
+> +
+> +#endif /* XSK_SINK_H_ */
+> diff --git a/tools/include/uapi/linux/if_xdp.h b/tools/include/uapi/linux=
+/if_xdp.h
+> index 50d67df78911..160a437ed540 100644
+> --- a/tools/include/uapi/linux/if_xdp.h
+> +++ b/tools/include/uapi/linux/if_xdp.h
+> @@ -45,6 +45,13 @@
+>   */
+>  #define XDP_UMEM_TX_METADATA_LEN       (1 << 2)
+>
+> +/* RX buffers follow the device's layout: a page-sized chunk may hold
+> + * several of them, a packet may span chunks, and the device picks the
+> + * offsets. A FILL entry lends a chunk to the kernel. Needs aligned
+> + * page-sized chunks and no headroom.
+> + */
+> +#define XDP_UMEM_DRV_LAYOUT            (1 << 4)
+> +
+>  struct sockaddr_xdp {
+>         __u16 sxdp_family;
+>         __u16 sxdp_flags;
+> --
+> 2.56.1
+>
+>
