@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795528366;
-	b=UjaoFyxUB/CvnxMstf0lEbdoe/nPE7U+OQ3bJ8Q7rtoZEybDhssLn+55VIUIQZyosnxJ
-	 zTsUsae2PlgHfkcSNAn4rNAfJVVkIEQdBFWc0yhg9iVVgQKmVo2yWyg4f/KHep7q2K99E
-	 amCmNzw8Uo2ohePZMvL/EoULi93VdTtxJrNYkyxgD/AkH3JrLD8w4RzJaBgF5WADL5ClE
-	 l1ukv+91ZbIh9R3N35NZHYbpMouq3dHmrGviHpCZoLgH7PMfw+bDOA6i8Y8km2zN97+YQ
-	 CXtfULnvS+Y85c9qD4Jl8/TsuIYGXIa4CtlMI7xYX8pvOnaAMJbHZ/FxSseoPoOJZUw==
+	t=1795528415;
+	b=CWRB/3/3LT7FoxB9XLC+vaSvJp1sCv1dt1mGPvkMKKm8rCYkDniopGevKX+SgG4tSqql
+	 bH6q8NUzHkV6WHEGnZ/yZTLcehS/ktfH6WoHl6YOgXS8vvIqbDhdSHLBamQOkZhmyzmkR
+	 sxPxtUdoVMPkEiLW0Pcxxvyk+go6OXoc9jtlLPcN23lGH+yfQQPJnZPETkPWN4sSyZYSG
+	 drAFMUlFFFgmCSsllUcGsrRTes7e1rLTMkp0hYNNqLtiiJAMxZcTJ7rEDEjweVLbsiwov
+	 eYcMd93RzpvefyPc3u/xbmkZQnJJEJ6+lgR1QELSO4wLaaBHWOhRnytm/ufkIXFpmhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795528366;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795528415;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Disposition:
 	 Content-Transfer-Encoding;
-	bh=HZKKQf4VXfezngqUfgj7MhmoCUm8tU6EzL5wE2W3U7c=;
-	b=KkikumVOFizq963mssCnQuZJQN44Z2FrGCic02IqQZr2CaCDJVwUEJjfHMLBCMZ406+A
-	 T3tV/uxNMidJO4bjDC5RnYlz2qHFW832BGSjc6MT4l9yIj2QwxBxYrdBFq1jmEzUrhF2A
-	 rw5hI5fvX4fqAFscDpXlerOQtw1Fi91BQ3PkYwKu1e7qtsdLQe2TaatEfsx89MpP0xnKv
-	 LAfs2yC7r2e7OyQkD/CNnc4/C8BX38A/Kf2YLUnYnpO5naZwAID3wuRSzFdvsTritprvF
-	 Deo3m6075LJW5eVnBotoStsRxCZJsWgrtruYT0tqn//6NUmalvTHiV1Kk/OSRZxsu8g==
+	bh=q6JmaR/skCNhplZj+MXI58e71T+5r4bXzYFahMOHLqU=;
+	b=L0RwRKOjZwmom8tGxScoIDamnfeBJ3iiSkmpX/xPTYEgbondtUMngfurU33GXJDJcTGX
+	 UuqwSQtXb2kn+pVPvxsdsT7jQilKkBw/0yMo0LdWLT9tVhLMDx3XhzgIum4iPNQxGjTLm
+	 sLe9wsTBPWwzqrjssI1WoUE369kYFu5L1PMeDV8/uKHF316gG4r5mLT3WPUP1awHid7GM
+	 /VVerax2Ob8fP097uIpVIRpajqPdkZtvVEvwHNWZYfSUo8xcJAsGZSDjf3Xged7YWOe+0
+	 ZuR6rpqdUi/vaFFlYk1mHO0jvTcpZ4UWq8FV3gRZeSwZExSaVS+ZFWVw3Rm+kTDn1gA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p8oMBJxA;
-	arc=none smtp.remote-ip=209.85.208.53
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aLN+A24F;
+	arc=none smtp.remote-ip=209.85.208.45
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C87606A31E
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 13:52:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03C87606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA26606A321
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 13:53:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAA26606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p8oMBJxA
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6b87408c797so6128360a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 05:52:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aLN+A24F
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6b8815693e2so5203379a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 05:53:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795528364; x=1796133164; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795528413; x=1796133213; darn=vger.kernel.org;
         h=content-transfer-encoding:content-disposition:content-type
          :mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HZKKQf4VXfezngqUfgj7MhmoCUm8tU6EzL5wE2W3U7c=;
-        b=p8oMBJxAx6x3jrAj+qLWsbMnExh+m0b1TDLDWSf2O06ANZAz9+SN8L8cBlKhDtYVVv
-         yjp0NrP0a1Rxr5SmB5DjgViu+xxATWx5uJlKvy9HaZtUfnog5Ri2UF6Zw4Y1CBVi9zGb
-         wMNPbBjqh9sNC0MSKymoM8csiUT5iMG4YHcYdpQnsrybTdGoSKx5aVPDGL3+PTAFNgv4
-         20FzR+vqn+eA6tPO+5qJBKvy55aqkzkXIGQRb4usG4ZNcFlYaNJJ4BFkmmCZi2XO2/jI
-         HAhz1Of3qk4PXRAeW7JluwGThK8DfDBQ114r4/GMjMWB+FYM686D2iY2QzCZVAd9EHnx
-         DuyQ==
+        bh=q6JmaR/skCNhplZj+MXI58e71T+5r4bXzYFahMOHLqU=;
+        b=aLN+A24FpcTksAvfHE8G0f+UplORhvw8/bXY3U82W2pf+lsZWIWXWX/nafyLTh047G
+         r1onB5x/eH4tSPvpNCASvyFlUYRQp//42ZEhqX4kLhCP/7b6mTxU52rDhsrNv92QNHsK
+         22lGdW0m7GzfIs964YdQNmo4/i5nLQSPWfdE5QkIYGgFoDwusrMDPTIsgk9l/rL8DR03
+         xcyEatZ4m+TH8CaDZWoj5inFyPcaO44w++BTiN0Jhwazt0/1CpVw0OVF5oatqyNsuAfY
+         c/s7CbWVdGlNsO+fq9FdI6skKk76U8kam3euoI+v+LN3tLy7fm66o8SxfO50RuVrGtDD
+         9I/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795528364; x=1796133164;
+        d=1e100.net; s=20260707; t=1795528413; x=1796133213;
         h=content-transfer-encoding:content-disposition:content-type
          :mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=HZKKQf4VXfezngqUfgj7MhmoCUm8tU6EzL5wE2W3U7c=;
-        b=P2Vz5AL5P1RXOw3jgLXj5y3iSKeAIm3cUlGD1ID3AHDTP5sFpj34VjE3I1lLgLpqAj
-         a+9uqupX730+PUvjTWaLoauyPl6Z+FnSNzbw0pMQmv5hEe/UiiDRA2Jwe3EUr0TuLFXv
-         VwrRR7BfL8v5xsDGdq4/s0entHp94x/mkSQ6Y2+hjnVoi4jPvsTrItNkZ0n78K9yOMWY
-         GWgaDnWihr/v2z3C6NfRanYaPDgG0mKJh6z0DUE6OqnbtaR/6fPyflHE1Ce92Fqh6/bR
-         YIOUkUfyEHIUHSeCBgrIx5/J0EcHxIMmY4l3IpnvWbjbsn07e1RGPW5MEBKhyOIzldO6
-         DkYA==
-X-Forwarded-Encrypted: i=1; AL+hErEzO/MNNjvpCLljh4UbOsUqZ8C60qeFVfEZ2fES+rlkAkwQQuiwux0awdJYXi6q1YbHgcW9+OUEJ5E=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8XXzagoClh6DW5AoGLTfnnARRuhRX89L+jugGvLD6AqS5B8cZL
-	i17Ug5+Xuj6VTuvCyIjMZjLUbuEU1t4iJkMrRin7sywkJfLWl/nU2bv9
-X-Gm-Gg: AZFdTZfJ9cxfXD3lFm28FnOn4eOTakSEyDWfymDg9+xaEUKDiQ/t+OwMRhgnSLXvBEL
-	oiFwIaJTQe1yPZr8RNVZJhGu+0Lq96cbMWqhAITsSZLpzn4Cyp3BYhFy+OZY7qVRq01BV8G7iuy
-	ZXlsZJ9/PoiaTK8dMwp5173dpkbUs6IsXSjuw0zBgJ8EAoUhfrtnvvlunTbbP4nZZqspAlwZm0/
-	Fi7YkghmRDQuG5nkrA4cPHIgvOD2swdmZT8I3cMAV0zmfuq/ow2oDIFQoXngFhpth2IOR3PjSrc
-	XH5Rs22tiNrZSusPgc2MjNIUTiEMSeWQDAVjgi0cdtdeb2WeD16hupvJOgeaRG+U5qWZ1MkGP7X
-	W/ioxh4I0Dub31OSXeL1Tyrk4Jpt8OEYyBhZ00CPthCBjZwI2io9oHvXqrfesWHIzYnL59MRLYn
-	+5EO8w1e44JR6nGiyJqLI5kmzVcCWXXJ74Ala/swJwsrul4Vr83JU65ST6L72gVMd0mkrBS1Qlk
-	jINh/lpexGCX5LBva6AnoyQw3J8mdQbHWlS7XqCgqY+UaPgh4KQyVe7nsEs3wSwq65tamKze60T
-	7NtUd5/l35MzXF1WsSP9trxpp/d0OHIWVDKouG4lm1ypavgkiraj
-X-Received: by 2002:a05:6402:3222:b0:6b8:7e86:3e90 with SMTP id 4fb4d7f45d1cf-6ba654bcff6mr8479709a12.38.1795528364057;
-        Tue, 24 Nov 2026 05:52:44 -0800 (PST)
+        bh=q6JmaR/skCNhplZj+MXI58e71T+5r4bXzYFahMOHLqU=;
+        b=CPmxqRGC0Vxr0acwJMQgJCzaYWbgrsLyNVsqo9m6gQ8fyMAlzMTdFqHHLN9ll/+/h5
+         uytjTBOg5xviXEk/XhMrJZfLtNUB88oYOMKuJTb/dHTRgkjhhUmtPx6++WJ2SGW99pev
+         LGzUPFMncnmXIC+2RqB76F21gNYMwMeGlVoaasvIwgeU9QvC2TSBe8chSdJxVETRZjC7
+         2QzHE/eiS4IMRdA+sgUW/Aaym6PRZgde3tjIF+GBfubW0KAW/gYgwdEKi8syF6RYCzNj
+         fPLlG0kipNGFc8bQOqeilOK2qBwAoMwOKy7kjDyUHZH1TelbirG4H8LEV2dOqUqodOwd
+         ArMQ==
+X-Forwarded-Encrypted: i=1; AL+hErHXJ+92DkNr5fLAZVSJjPGP2S0ewQPr4tcqkVlArl9ZCbiz37nD/O0eud2Pgx/B6kh8hhvk+1sv1eY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9Ab6tMppXPVyMJRM700sLc+GJ1oKRFSx5ygMpfWWXBxMmJAdzf
+	kjRViix5tKEsRwhKykDyMz4M9lF8Xo6QiOaF3Mmr69FgtpjB3qhlznDb
+X-Gm-Gg: AZFdTZcIMFAY/NwQb+ML5d8Mi2rC4YquniDLAl5pwbNK0mvlZJuFHQ8G3gAR99CLh6E
+	vTQQoqDN5p+GRuOayoGkMt8lHWC76eoFZkpLjgEWDq8FD+3i2ZsfNZytTAtB+PqPXgj3rtxtU+f
+	yMyLkdhInGfnsNByCH5KAFeSSjYT3AUCfJeqTvI2yUmxqHhypPR7jNkrp27HrMLAkt+N5MuOSNS
+	azNBCIEAVQGnm0mKol/CdOGaW78RMLQPai2m5sQGjVAJnQQ23/vDIEVHSLDHyiIP9P9wGAXFIxt
+	xSfU44fRq5+7wyAeUdM1IUcBQ6TKSbkbFIgh4ZI/AOpUoFugPTPdpihnd9/AB+U+HIOfimyinAh
+	5eE9dxL7kXOCaAJ+vI1jziFPPqtAORRGjJLeaRz9HT34S3raElqe2JelUeW56exfN0Jtx/JQnPM
+	hTaB2W3xNyX8O1u2qOjIQcwHex0/5AVFOJJfMCONJjZSnZLpSoiAqMKkSzcYiKW19qNRBFiJVcP
+	HnT4Mgbeumbll4orM7R0i97ZLa/CsTMWfKc/95L98CjF93YhzOfNoB4oCuuDLi0gPG7gpJTkBqy
+	a2V88GmDmDO2q4k7Y0Q13QXyAhzrRtU=
+X-Received: by 2002:a05:6402:c70c:20b0:6ba:1347:5cd with SMTP id 4fb4d7f45d1cf-6ba37c7ad6bmr7580207a12.2.1795528412985;
+        Tue, 24 Nov 2026 05:53:32 -0800 (PST)
 Received: from ArchOarora ([95.179.249.152])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ba37109b55sm6582079a12.32.2026.11.24.05.52.32
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ba36d730d1sm6833598a12.0.2026.11.24.05.53.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 05:52:43 -0800 (PST)
+        Tue, 24 Nov 2026 05:53:32 -0800 (PST)
 From: Oarora Etimis <oaroraetimis@gmail.com>
 To: Louis Chauvet <louis.chauvet@bootlin.com>
 Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
@@ -112,12 +112,12 @@ Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
 	linux-doc@vger.kernel.org,
 	Simona Vetter <simona.vetter@ffwll.ch>,
 	llvm@lists.linux.dev
-Subject: Re: [PATCH v6 07/43] drm/drm_color_mgmt: Expose drm_get_color_encoding_name
-Date: Tue, 24 Nov 2026 14:52:28 +0100
-Message-ID: <awWVztVSyL8uOIzt@Oarora>
+Subject: Re: [PATCH v6 08/43] drm/drm_color_mgmt: Expose drm_get_color_range_name
+Date: Tue, 24 Nov 2026 14:53:15 +0100
+Message-ID: <awWWuPbKPoIkMxNC@Oarora>
 X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261120-vkms-all-config-v6-7-78ace90f4fc1@bootlin.com>
-References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com> <20261120-vkms-all-config-v6-7-78ace90f4fc1@bootlin.com>
+In-Reply-To: <20261120-vkms-all-config-v6-8-78ace90f4fc1@bootlin.com>
+References: <20261120-vkms-all-config-v6-0-78ace90f4fc1@bootlin.com> <20261120-vkms-all-config-v6-8-78ace90f4fc1@bootlin.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -131,66 +131,67 @@ Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 20, 2026 at 06:58:49PM +0100, Louis Chauvet wrote:
-> drm_get_color_encoding_name can be useful to display debug information
-> outside drm core. Export it so it could be used for VKMS
+On Fri, Nov 20, 2026 at 06:58:50PM +0100, Louis Chauvet wrote:
+> drm_get_color_range_name can be useful to print debugging information.
+> Export it so it could be used from VKMS.
 > 
 > Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
 >  drivers/gpu/drm/drm_color_mgmt.c    | 2 +-
->  drivers/gpu/drm/drm_crtc_internal.h | 2 --
->  include/drm/drm_color_mgmt.h        | 2 ++
->  3 files changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/drm_crtc_internal.h | 4 ----
+>  include/drm/drm_color_mgmt.h        | 1 +
+>  3 files changed, 2 insertions(+), 5 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-> index e4e31bc0153e..de219c23322f 100644
+> index de219c23322f..a65fef5702ab 100644
 > --- a/drivers/gpu/drm/drm_color_mgmt.c
 > +++ b/drivers/gpu/drm/drm_color_mgmt.c
-> @@ -496,7 +496,7 @@ const char *drm_get_color_encoding_name(enum drm_color_encoding encoding)
+> @@ -512,7 +512,7 @@ const char *drm_get_color_range_name(enum drm_color_range range)
 >  
->  	return color_encoding_name[encoding];
+>  	return color_range_name[range];
 >  }
-> -EXPORT_SYMBOL_IF_KUNIT(drm_get_color_encoding_name);
-> +EXPORT_SYMBOL(drm_get_color_encoding_name);
+> -EXPORT_SYMBOL_IF_KUNIT(drm_get_color_range_name);
+> +EXPORT_SYMBOL(drm_get_color_range_name);
 >  
 >  /**
->   * drm_get_color_range_name - return a string for color range
+>   * drm_plane_create_color_properties - color encoding related plane properties
 > diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
-> index 3492787c3697..f3a3ffd358dc 100644
+> index f3a3ffd358dc..168799fac7c8 100644
 > --- a/drivers/gpu/drm/drm_crtc_internal.h
 > +++ b/drivers/gpu/drm/drm_crtc_internal.h
 > @@ -38,7 +38,6 @@
 >  #include <linux/err.h>
 >  #include <linux/types.h>
 >  
-> -enum drm_color_encoding;
->  enum drm_color_range;
+> -enum drm_color_range;
 >  enum drm_connector_force;
 >  enum drm_mode_status;
-> @@ -121,7 +120,6 @@ int drm_mode_destroy_dumb_ioctl(struct drm_device *dev,
+>  
+> @@ -119,9 +118,6 @@ int drm_mode_mmap_dumb_ioctl(struct drm_device *dev,
+>  int drm_mode_destroy_dumb_ioctl(struct drm_device *dev,
 >  				void *data, struct drm_file *file_priv);
 >  
->  /* drm_color_mgmt.c */
-> -const char *drm_get_color_encoding_name(enum drm_color_encoding encoding);
->  const char *drm_get_color_range_name(enum drm_color_range range);
->  
+> -/* drm_color_mgmt.c */
+> -const char *drm_get_color_range_name(enum drm_color_range range);
+> -
 >  /* IOCTLs */
+>  int drm_mode_gamma_get_ioctl(struct drm_device *dev,
+>  			     void *data, struct drm_file *file_priv);
 > diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
-> index 5140691f476a..133ca77d91c7 100644
+> index 133ca77d91c7..e91f494e5a63 100644
 > --- a/include/drm/drm_color_mgmt.h
 > +++ b/include/drm/drm_color_mgmt.h
-> @@ -113,6 +113,8 @@ enum drm_color_range {
->  	DRM_COLOR_RANGE_MAX,
+> @@ -114,6 +114,7 @@ enum drm_color_range {
 >  };
 >  
-> +const char *drm_get_color_encoding_name(enum drm_color_encoding encoding);
-> +
+>  const char *drm_get_color_encoding_name(enum drm_color_encoding encoding);
+> +const char *drm_get_color_range_name(enum drm_color_range range);
+>  
 >  int drm_plane_create_color_properties(struct drm_plane *plane,
 >  				      u32 supported_encodings,
->  				      u32 supported_ranges,
 > 
 > -- 
 > 2.56.0
-
+ 
 Reviewed-by: Oarora Etimis <oaroraetimis@gmail.com>
