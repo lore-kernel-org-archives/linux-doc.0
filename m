@@ -1,123 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.36
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795541500;
-	b=5YUQbRyGjEnq5EjSly6BaGgDki6TYQetdQq/8vQFkR2eZrbkBv6TLeaggNY1r/2Jujev
-	 28ZJzT/fMIL1/kqCupAj0Vu06z6llLwrioWHOL8Kx85V647cjGmvzCxH4kYr3E8Zef6Sl
-	 8bsidXyhi1uSmCRLEaHuxreviEsKoZ+VDBbZqhRNGibbaJOgWFCOpBHoqIZrtd7OI0Kr4
-	 AsVEGSSwf2KmVXB7O19WeUsZ/lxFykJf92ja9QnYOUrtKvkLBzdETuo3LJ+MVydiKtRtj
-	 bxtJBbXMnyZ2wpz4WrQTBXiYEjucSJOoYr1U05tapxbz6qpgjYsMGrcC6uGU302Wtdw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795541500;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:X-Mailer:Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:X-MS-Reactions:X-ClientProxiedBy:
-	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=Dy5kX1aCdrvyNkM5BNtLn8+eP2PB7kblmaAnDwcJZxA=;
-	b=hMxMDzCuoQgfyMUORYaJuVLikhyOwR8bxLM42b8KnPqN03wVSMPvkpXR9oTIKFIDPcP+
-	 C98KB1yvVHVDhvx6YcTyAfNACyBme53HV/dP/uSqGJZDFUlnSrXxTGRnIUY2PAsLMaPuz
-	 KzW2hQE4t98rYYZAECXmTg7CHbLZ2cURIsGNXiZEOBxXfdmqeA7N8BcPO0pBxUvjg0y+n
-	 uSl/bOtCFfLUkZJoNCmcDaetpG/deD0i724UHbzgYBDyARo0bemkbQdZSR428PGModJl0
-	 wSy6Xutuo4FLcXgvb5Pd7smBGJj5pEs9R1kt/q25Wq/jd5rxcvNjxjKQokDOVgRg7BQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b="uHMnL/jr";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.36
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013036.outbound.protection.outlook.com [40.93.201.36])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795541720;
+	b=BEWRAgROaynT9XaI/M5Mq8m7oznTWpVxVDXY1iCIQLs8xHv6Ecg5R8kxmfWN1q9lFsJz
+	 Hi/6G2KB4Kn48j0j+qXTLWLt42MgGEMRnJkC3wJG6Pxb1T1SBB+Nen1P3S0GWX24fCoxb
+	 dkRMWcaj7i68tRqNEcc5kTWSZ15edeQyXBm4GmGK/5jqYX5lUddxD/E90hSTOKoafkAzB
+	 xnAxoVan9na9YIu2hs1I5+ZBOye2AHbPqR81VxbYvvjtU+IfDl9vaYoR1ibhLuJyj0chS
+	 P2XTptQE9UsiMzkPSB9HH8TlZB0Zot0r+FR84AFIaHsSziBoOfMxIuaHl8OnYYT5S/w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795541720;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=DmBwmrmEWgysYKtSDSRrr9hV9wxgIOlNWVL3lTij1CU=;
+	b=pSlKLxWlsvFag1Lxze5ZWbwKWGk7XeR6LjA6EmJtCGGE1x1oRpr7GYq9Uja/89HpAt2P
+	 tAqc9xRO/ieD4Xm4n/ds1SWZ0p2qP9jrOeR1Gyndzz8tp1M/geoPLv4M5NPnhZA7fbdMb
+	 WS14ArlOwntUAnpZ2Op/BEMQ2LDhWM6ZoY9vop8es+3dc0fdG+rfx18wBGwM5Joq8HJaP
+	 R1mpN0/Jo1Rc8YlfGllC0rFvDJ6TmNGh2CC9gaqQa3PSmRd3X9+4eA5SMvPpMIYUPSVzB
+	 DSLzp2WLPfE6G16FKvSd9NIYYpNIXSk/h7uH8hFPeBQFXkn2P8A6qDdv17itYLC4xow==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b="OmDIg5/y";
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316EB606A31E;
-	Tue, 24 Nov 2026 17:31:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 316EB606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44255606A33E
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 17:35:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44255606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=uHMnL/jr
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SM4+ah5ltwCiJ7hbV2kNEbPsIhbW9UenIz9OAi/1Fsua0sww4iN6FQN9wdv7dyUFEsqN1y7i6hsViViEY6BPiAnLtEiKjgaPb28rEnNKcHcyHYm4B+EMta7CbZXDGiVdDxtXPI7lvinPO2sM5vZMfWjBVvlqxoKJr3bT2qLvOesBfE+GHa3Bs7le8fqVGpZzUo0Uy1eu34xiv5niMHLfQi/Cp/nJHTx3yKPrY1Rc27TlJlsKAI6ONZfhjaP+KeRBdlBTuZYRCjrTiXwwZ79sQ0NUSpsjFkOdfJs0Tm3c6huxM3lUVNPSMC9K3dAcCqechSkUHZtTRvBXMJlojR51Lw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Dy5kX1aCdrvyNkM5BNtLn8+eP2PB7kblmaAnDwcJZxA=;
- b=qlAPlGujXti8GFdDWwwiw8utuDC8Y+SX9tDVxybTOJAv8SmNDbyd0D86d7KGkw+2xEibo0xRMAFAjLS2zbIL5DTnpMEG3YGW9HeGOd6IWSvXtIAiB83/qPRnCfmFYXxyM/2F3vv52xPy3diumRlPC9cap315zEWAg59fgFggWaQUWwC+xIa8YXBbblf738WeDoG3hNx9tvVBQ9YHh0d2bG/zB/wjOmrR9CqrwcmpI/tGvYbeDospS4KZflZMcByoHphPdE3sQ6vvQZAOM+FLqM9rFYuzFLNVxlIi0ffv4e4euVeg1CHXEgV8rbMdBw3yQiPT0i6ITzkJ0SL69dNA9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dy5kX1aCdrvyNkM5BNtLn8+eP2PB7kblmaAnDwcJZxA=;
- b=uHMnL/jrfWH/+zysoe+XbHV0Btg2hMuliLVrQyj44vZPjdVgmFitqsKg96q6Rgo4IP/44BeTYkzVOBKUEkC2LD+XLYRoDm3sy0Fx2iBV7Fg5XPfTsDMov61PxU7/W30OJkSXX5UfbmDyhYlXedyxumULyQFLOmmiAMRTSubiDerHUCfhq4LSlmnM3jqi+vH/pXsc7h4pBQm/CFfExw7ZLlykHKJrLv3bIxWHrwpOM7kUMcMmW989dKZ6lOH55abVhVimswSAF2nh5gD2U2tL9HgAqRBDXi0/vy1IAtNbVoEJGO0mboiFNke29vWKl85p/lZMo6f6PpA2drjZDi7LBA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by MN0PR12MB5858.namprd12.prod.outlook.com (2603:10b6:208:379::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.10; Tue, 24 Nov
- 2026 17:31:24 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 17:31:24 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Kairui Song <ryncsn@gmail.com>
-Cc: kasong@tencent.com, linux-mm@kvack.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>,
- Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>,
- Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
- Gregory Price <gourry@gourry.net>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>,
- SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>,
- Yu Zhao <yuzhao@google.com>, Vernon Yang <vernon2gm@gmail.com>,
- Zicheng Wang <wangzicheng@honor.com>, Tal Zussman <tz2294@columbia.edu>,
- Xiang Liu <liuxiang.277@bytedance.com>,
- Ehab Ababneh <ehab.ababneh@intel.com>,
- Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, Lian Wang <lianux.mm@gmail.com>,
- Joanne Koong <joannelkoong@gmail.com>, Kunwu Chan <kunwu.chan@gmail.com>,
- Hui Zhu <hui.zhu@linux.dev>, Maxim Muzafarov <maxmuzaf@gmail.com>,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, damon@lists.linux.dev,
- linux-doc@vger.kernel.org, Tianyi Chen <hi@tychen.cc>,
- Ridong Chen <ridong.chen@linux.dev>
-Subject: Re: [PATCH v6 11/18] mm/mglru, smaps: convert to LRU refs based
- operations for MGLRU
-Date: Tue, 24 Nov 2026 12:31:21 -0500
-X-Mailer: MailMate (3.0r7038)
-Message-ID: <EE0631DE-AA2D-414D-AB67-4C8790ECD64A@nvidia.com>
-In-Reply-To: <awXIalgUrVIf5VP9@KASONG-MC4>
-References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
- <20261124-mglru-fg-v6-11-8ffea39934a6@tencent.com>
- <DN2UPVW6W83J.I1S5XXQ2DPLV@nvidia.com> <awXIalgUrVIf5VP9@KASONG-MC4>
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-MS-Reactions: disallow
-X-ClientProxiedBy: MN0P223CA0004.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:208:52b::14) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=OmDIg5/y
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4bb6ba3b244so49785945e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 09:35:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1795541718; x=1796146518; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DmBwmrmEWgysYKtSDSRrr9hV9wxgIOlNWVL3lTij1CU=;
+        b=OmDIg5/ygmndD+Kv5JZu155dClMlLF1P+Gd3Gn+MXXxkkH9P++zAq0uJKz7MJzb9Ep
+         9GAOFzNT1AiHFEb6YOH7An1RM5Kq3wKKivuk4nuQ2F26uGAsn26+eKf47b2vNUBiLy2o
+         yP7/7A+G9S+n+sSz5kEIYc0UjZhSJvbHU/YoXUjrUU1PrBb0qhXyaiW1jNz3XiXKNMPJ
+         ftLnedCmAW9WeUTEO1ihLGasy5eI6rs360qul+IGcrXJSktAlmICnamarnC/z0xWRbud
+         x156i62ARhcbuRiMmhd3W+b9uhcIWJ0YsWm3wC7Ad+cY1/U/8deDAuJYKwx5DiRFMU0f
+         pJ6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795541718; x=1796146518;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DmBwmrmEWgysYKtSDSRrr9hV9wxgIOlNWVL3lTij1CU=;
+        b=S56dDD78ME+zKjOEqvFnb5LMHyzbVL5LzTxHlCE4AywjtRwV9d1GSkiT2Rb204J7go
+         GAgixs4qZZO7DJAbjkNpijw7OfGo4IA/IOoyEWQbwnU2fyLGEpgxxLdjJNinwLF9Nmtf
+         v3gDd/Tn8GZBNYs/Qkkr0tiRJzBbWoaU/FKw02sC3CJV31qsZKL5UG0qeF4ZGUIZrCY/
+         Ujxg+zvdDmzp31y0roVtzkhhK3nCdFgeiopzxIcSSR09YxMCwoLr3gf0WwNOZ/uEA9lw
+         8kCj0TwYLp7xD2e4VLFz1oM2XvBMxam/wRQVGHLVz581kHxj0g5VYOTO9bkq3kVzTu6x
+         672g==
+X-Forwarded-Encrypted: i=1; AL+hErFUEMEKum1LYlqSVu/LVONq2oUB/LIXIJPxUW9g3qNsh61bToK7ljs80oPkbi9aL8QtgBBdQFRosGo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9qqUfO5C74n+b5hGlwCLxyNFQYd+jWYA4oqBuoKhBCxp0tG349
+	T/x/y/dEBLT5jBh1f8OPffT8eD0Bp6Fb7sZIzkHnOtjr56rvYQ21lwlI8UT+lcc5HAc=
+X-Gm-Gg: AZFdTZdGfaEDOnSPq5INdHIKHX5I3ihSbC1OFxOHK90i+GpSkH3lEQ3LgXTBT+ckNQP
+	ftw3Q3XB9qseAB0UafaWqwmf/Yw4RIUZ4hFESuKPonr24wCedvkoiwVrlvs63dDb5uZOgZMXpqv
+	+cJosd7Eo1Wub7RcPDiti97lB3tYYfzHI7YqUTqAH1EZAuHY9E9U8k+P1iKX9bmL43GbVWrHpiv
+	GsPzxFFzxcDdf3dkDdf3OnS3lznygOQ3iWfvEdCObJKPaby12U0iVYQsrQaZxD2ycWv+pfKl70h
+	6JHX07cHXOosHGlsTamat3fjZeDZw25BgslqBev3jCsbom2LoPtaEUE9PsdcbC/XWixkrUa+IEb
+	CwC0+yapmtYnMy1OEDg6lmnoV2OoebwbxlDUXa+t4/5DLXnn6hcBChI+d8e/YuAdfWjbK6P5fZG
+	oosCjG6SgOiXQMDsyYsqVmAQgmJw0PBcTX1gTj1QttSYUATkC7eoSNS+HvPbT14+wYHnwEa/3fU
+	yFyg0zuSjFFitJ5CVadpDFGuRZ3ho23/qfa44NzjbyUXIlGNUMbzNyl7j5Y//lTu5iTyFDodlCb
+	YlR27iBFQz2zKGj8YMa0elrXDQc=
+X-Received: by 2002:a05:600c:a08e:b0:4bb:647d:dabe with SMTP id 5b1f17b1804b1-4bb887c3afamr345794445e9.3.1795541717677;
+        Tue, 24 Nov 2026 09:35:17 -0800 (PST)
+Received: from localhost ([82.192.120.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884865a2sm460171975e9.3.2026.11.24.09.35.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 09:35:17 -0800 (PST)
+From: Andrea della Porta <andrea.porta@suse.com>
+To: Guenter Roeck <linux@roeck-us.net>,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	linux-pwm@vger.kernel.org,
+	Gary Guo <gary@garyguo.net>,
+	Andrea della Porta <andrea.porta@suse.com>
+Subject: [PATCH v2 0/1] hwmon: Add fan tachometer support for Raspberry Pi RP1
+Date: Tue, 24 Nov 2026 18:38:59 +0100
+Message-ID: <20261124173900.31266-1-andrea.porta@suse.com>
+X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -127,174 +102,71 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|MN0PR12MB5858:EE_
-X-MS-Office365-Filtering-Correlation-Id: 499412d7-41c2-4ac1-911d-08df4a50c33d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|376014|366016|23010399003|261102123227099003|261026140227099003|261026121527099003|261021121427099003|11063799006|261022105027099003|4143699003|261022075727099003|56012099006|261028144727099003|10067099003|261009223027099003|261021123027099003|8126099003|22082099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	jxCVHCtfezRq4strxkEUZ+1N7yD72LZak1Hw1+Syxx/Chkll7onOvteYWUDI9qjT/IANw9sFCw4DvDT2dVnv00kIQHSE+aBE0hRNB4Q7kSkF3uDbmOYxmIk+vdLxUO23BW5NiDTCoj7In0UsANTA6hTh4YIb8lZa65AeJVxBlzcnsHlV0n8aGyWmcF1481NeGBDUQIjhi5JcMTNmn+JLnKBi43nGpsXh8tirB5M7zgmV4GGItaumsbOIvpeNlFSqLeg1UFxwIOeAPQxcpCHpuxufGy9kucILzMkXtOPwQLzgcVKYGWo5DD8gTzZXno69x/5BDVbeEatnhr2Jv6lXvtAp84CmfLPk8yzKcK+5VU+VRyekWmPbVSkLmIlIX6Rc7w2k3arMfaxlmKlWkXCXpwZ+0W+SmOlUgvVqvAlgiF4jpHYkSQF6H+H67edb43EYI7Lk8BQN3zNnLwub/iK5YjZGIEt2hRk3BReYbsCQ39Xq4t1ghznkjQLIFUnIVM+7oOeq3bwZjo8NSAhbCAXl8asC7a63IhAAwkqDXqEzomYlI0vD1kcNnw20VrbbX3izarWKfoz5GqgXV+WvBMihgJjps7QdZ/vs6M84vkuQthGTiasA84PfHc3Qd3FBuzZn7Hv1zwZpHkAMEsl21qzZY9CPw38GIN3phOoYbYtTpPk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(23010399003)(261102123227099003)(261026140227099003)(261026121527099003)(261021121427099003)(11063799006)(261022105027099003)(4143699003)(261022075727099003)(56012099006)(261028144727099003)(10067099003)(261009223027099003)(261021123027099003)(8126099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?FPYfPN4kP8V1bOKJRBZAXxEHhBwMlpNjGjBk9ybiMC0wKXC4yf377qLOcNYL?=
- =?us-ascii?Q?zpzMJuWZ2ldfJRW5OJtVRu+dxJhDKy4FSSsCbUEyRcbYKYcvoG68cCphON0r?=
- =?us-ascii?Q?uBv2UIO+LPN2kiMQlD8r/dwe5iPazAxVQMhx6L2Suuh5t9tfppz4W3/L8MIr?=
- =?us-ascii?Q?k/wShccvcQ7Rph2J0te/dYeeU0JTXqVpycCU86G/r00UCaHfwPAETJQBN/4N?=
- =?us-ascii?Q?Te2SNx/takeoRVfmCVxwaEkXOK+o5UvXIWeeOJcyGL87PPuRlLMWQSROH1RA?=
- =?us-ascii?Q?+oUmcaXy9BOS4W19KiAAU5EbZwY67tS1r3cuHGHL49ag4uYIOGlkmco11z5H?=
- =?us-ascii?Q?kqJhQWVlSKaGvKRYeCybapUipje5g3wN4WiMa1zaCH68W/Uhh9Dg0FVQ9eTj?=
- =?us-ascii?Q?wEckyYPxeQkOQ1DMfIHe9IiGk5Op43l/Xzw5HVwt/FF/K9+kNiD/3kx2Ww7Y?=
- =?us-ascii?Q?NLfXUAFRToJ0zld6e6slO/tKEs5aV17gWntMH/9LsH/GwntKnC82vcPbjSU1?=
- =?us-ascii?Q?9wtzo3L3FHl11hnKVvXhalRjkfCP6QE0ooRK6vyZ1cmt8St5L5OkEz5ka/LT?=
- =?us-ascii?Q?QBzQs8I5X87aTocVmbGST2+BDETEtYtip9q8oi5BKPemhBD4tlm/POlekvjW?=
- =?us-ascii?Q?BrCiWPTyWQuG8/qfsAlJcMFH5HOXmxlD+2Vdatntuka3lGGC1PkfQsEDXHIF?=
- =?us-ascii?Q?zxFw0CsiQ63yz4ukSVggAf+J6/oP+EnTOTqNAQZ/8tsECkhfc3PaK6/ESzbK?=
- =?us-ascii?Q?pn7kdPuLGpdZbJ2NK7QtBzPzvH39e9yGWGrfd4n8J6xcqWucyyZWyHkV2bBp?=
- =?us-ascii?Q?QN56sfQoaXglBmK6TWPt7UKaYaXZKqzfz7rJekcDRb33J+OTyHw9ScAB9Ioc?=
- =?us-ascii?Q?NhC9XlV9tqgt/AUJMvzf76AhsDcCSjyK7N2FYxIHlLWNhogBbuhG0lHTgyjj?=
- =?us-ascii?Q?qXTT+D0DA6koI4qWd5Oqo4ZammuDs/JmrMgwtDC0VbnFlKDXk+y7iyel8BbT?=
- =?us-ascii?Q?1thfcgF7As6P03WHbrORLQLC/k6fGswOl3Kku0L19dsLbHJEeodtvNrlZeQz?=
- =?us-ascii?Q?Uu/7sVtS8n/ezFBhTMkXK4Dv0mFED29UvslttY0QSVGqqVa0yugLPdBu39Re?=
- =?us-ascii?Q?34KBEYy8z9At/GOmEz+oPLAK30xH04hErfuaGR/iDPa1QkSeOU75v91Mp1zS?=
- =?us-ascii?Q?jZBF1snJjbXsL4gl1TIvEzjRAk0TcWffE9y6L62RFCrfAyG/yVF6oHtCl6NC?=
- =?us-ascii?Q?sCCJJJ2clWMD4xUfq1VXO/386bbKfiX87RKRk+XQjyIg9Iv19dHLKKrk92H/?=
- =?us-ascii?Q?4KaicaUa5i/N2ys57WU625wCFAHyBW7QQ0psNrwmfnniatl6qZhau+Srgi05?=
- =?us-ascii?Q?9x2nGAbV1hY5ODQxU4Agw4pqBceuF/uvtYYE7SGkK4o5fQ5NJ1jjroJepgUI?=
- =?us-ascii?Q?/slg3OrekrixSn+dq9Qi9plEG+Ab8OTiZ7/DbKVkulPMnYBTYNro0WOR3sjM?=
- =?us-ascii?Q?DL8A5BoaaAp0zr0tpmUzjrzOWLcFdKA5Nr6G5WrMoa2vhmL9dsD8/c6wTcmQ?=
- =?us-ascii?Q?rl1VD5A+55+/KFfijeofivP8hqiEud1nbPhCcLlYN3gMZifoMIoDIZXufnwG?=
- =?us-ascii?Q?kYKUCxzp7x3wkzgTDkFqRT5CChjNXi1Hp23xb40HYqXId60Y1DOvg3nxz90M?=
- =?us-ascii?Q?r6gNg0tr0xVY/qpuutZszlF9MwdJfJmGiGJWgNo6onWvlZvF?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 499412d7-41c2-4ac1-911d-08df4a50c33d
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 17:31:24.4945
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pNTUTniXzhLolP33+h8K+SlBU4s0MkDQ+SzOrvqVIouboefxgfBuGVyh18MkttUJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5858
+Content-Transfer-Encoding: 8bit
 
-On 24 Nov 2026, at 12:29, Kairui Song wrote:
+Hi,
 
-> On Mon, Nov 23, 2026 at 02:52:55PM +0800, Zi Yan wrote:
->> On Mon Nov 23, 2026 at 1:53 PM EST, Kairui Song via B4 Relay wrote:
->>> From: Kairui Song <kasong@tencent.com>
->>>
->>> PG_referenced is only the lowest bit of the folio LRU refs count
->>> (LRU_REFS_FLAGS) now, and MGLRU never kept it stable: promotion used =
-to
->>> clear it, and now it toggles as the count grows. But with the LRU
->>> referenced count as a stable API now, we can use two helpers to provi=
-de
->>> in-kernel users a stable and sane reading of the referenced status of=
+This patch adds fan tachometer / RPM monitoring support for the
+Raspberry Pi RP1 southbridge found on the Raspberry Pi 5.
 
->>> an LRU managed folio.
->>>
->>> Add folio_check_lru_refs() and folio_clear_lru_refs(), which use the =
-refs
->>> count when MGLRU is enabled and PG_referenced otherwise, and switch t=
-he
->>> smaps paths over to them. The lru_gen_enabled() test stays inside the=
+The fan speed is measured by the RP1 Cortex-M firmware, which writes the
+computed RPM value into a register of the RP1 PWM controller block.
 
->>> helpers, so its static key is not splattered over the few call sites.=
+Following the discussion on the RFC [1], the driver is now implemented
+as an auxiliary driver: the RP1 PWM driver registers a "fan" auxiliary
+device (pwm_rp1.fan.<id>) and this driver binds to it, reading the RPM
+through rp1_pwm_read_tachometer(), exported by the PWM driver in the
+'RP1_PWM' symbol namespace (as suggested in the auxiliary bus
+documentation and agreed in [2]).
 
->>>
->>> Convert smaps as the first user of them. MGLRU now reports every foli=
-o
->>> with a nonzero count, so the reading no longer flickers and clearing =
-no
->>> longer results in an ambiguous status.
->>>
->>> The classical LRU case is unchanged.
->>>
->>> Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
->>> Tested-by: Andrew Morton <akpm@linux-foundation.org>
->>> Signed-off-by: Kairui Song <kasong@tencent.com>
->>> ---
->>>  fs/proc/task_mmu.c        |  6 +++---
->>>  include/linux/mm_inline.h | 31 +++++++++++++++++++++++++++++++
->>>  2 files changed, 34 insertions(+), 3 deletions(-)
->>>
->>
->> <snip>
->>
->>> +/**
->>> + * folio_check_lru_refs - Test if an LRU managed folio has been refe=
-renced.
->>> + * @folio: The folio to test.
->>> + *
->>> + * Returns true if the MGLRU refs count is nonzero, or PG_referenced=
- is set,
->>> + * which is also correct for the non-MGLRU case. Kept as a separate =
-helper,
->>> + * to avoid splattering the lru_gen_enabled() static key.
->>> + */
->>> +static inline bool folio_check_lru_refs(const struct folio *folio)
->>> +{
->>> +	if (lru_gen_enabled())
->>> +		return folio_lru_refs(folio) > 0;
->>> +	return folio_test_referenced(folio);
->>> +}
->>> +
->>> +/**
->>> + * folio_clear_lru_refs - Clear the referenced state of an LRU manag=
-ed folio.
->>> + * @folio: The folio to clear.
->>> + *
->>> + * Reset the MGLRU refs count to zero, or clear PG_referenced, leavi=
-ng
->>> + * PG_workingset alone for the non-MGLRU case. Kept as a separate he=
-lper
->>> + * just like folio_check_lru_refs().
->>> + */
->>> +static inline void folio_clear_lru_refs(struct folio *folio)
->>> +{
->>> +	if (lru_gen_enabled())
->>> +		folio_set_lru_refs(folio, 0);
->>> +	else
->>> +		folio_clear_referenced(folio);
->>> +}
->>> +
->>>  static __always_inline
->>>  void lruvec_add_folio(struct lruvec *lruvec, struct folio *folio)
->>>  {
->>
->> I assume this mean people should stop use folio_*_referenced() directl=
-y.
->> Are you planning to remove PG_referenced helpers to achieve that?
->
-> They are still there for CLRU, but yeah, and actually there is an earli=
-er
-> RFC where we can remove PG_referenced and PG_workingset, just like this=
-:
-> https://lore.kernel.org/linux-mm/20260502-mglru-fg-v1-31-913619b014d9@t=
-encent.com/
->
-> And this:
-> https://lore.kernel.org/linux-mm/20260502-mglru-fg-v1-32-913619b014d9@t=
-encent.com/
->
-> It doesn't really reduce the flags usage but make the code cleaner.
->
-> The co-exist of MGLRU & CLRU makes it looks weird, hopefully we
-> can solve that soon, let's do it step by step.
+This series depends on the RP1 PWM series [3], which provides both the
+auxiliary device and the exported accessor.
 
-Makes sense. Thank you for the above info.
+Changes since RFC:
+- converted from platform driver to auxiliary driver
+- dropped the 'raspberrypi,rp1-fan' DT binding and the DTS node: the
+  device is now instantiated by the PWM driver
+- dropped the DT phandle lookup, device link and reference handling:
+  the auxiliary device is a child of the PWM controller, so the driver
+  model already guarantees the correct lifetime and unbind ordering
+- rp1_pwm_read_tachometer() now takes the auxiliary device and returns
+  the RPM through a pointer, separating it from the error code
+- Kconfig: depend on PWM_RASPBERRYPI_RP1 without the COMPILE_TEST
+  alternative, fixing the link error reported by the kernel test robot
+  when the hwmon driver is built-in and the PWM driver is a module
+- removed <linux/mod_devicetable.h> and the other unneeded includes (Uwe)
+- updated Documentation/hwmon/rp1-fan.rst to reflect the changes
+- added a dedicated MAINTAINERS entry for the driver, instead of adding
+  it to the RP1 PCI driver entry
 
->
->> Other than that, LGTM.
->>
->> Acked-by: Zi Yan <ziy@nvidia.com>
->
-> Thanks.
+[1] - https://lore.kernel.org/all/cover.1792748690.git.andrea.porta@suse.com/
+[2] - https://lore.kernel.org/all/ae9a4df9-b1f2-4f00-ab86-d9cf8d9bc387@roeck-us.net/
+[3] - https://lore.kernel.org/all/20261124173658.31030-1-andrea.porta@suse.com/
+
+Thanks,
+Andrea
+
+This version has been prepared with the help of an AI coding assistant
+(Claude Opus 5.5).
+
+Andrea della Porta (1):
+  hwmon: Add driver for Raspberry Pi RP1 fan tachometer
+
+ Documentation/hwmon/index.rst   |  1 +
+ Documentation/hwmon/rp1-fan.rst | 43 ++++++++++++++++++
+ MAINTAINERS                     |  7 +++
+ drivers/hwmon/Kconfig           | 11 +++++
+ drivers/hwmon/Makefile          |  1 +
+ drivers/hwmon/rp1-hwmon.c       | 78 +++++++++++++++++++++++++++++++++
+ 6 files changed, 141 insertions(+)
+ create mode 100644 Documentation/hwmon/rp1-fan.rst
+ create mode 100644 drivers/hwmon/rp1-hwmon.c
 
 
-Best Regards,
-Yan, Zi
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+prerequisite-patch-id: 8a9c7c53e94bfc4dd1dc40e8277f22c1f410f404
+prerequisite-patch-id: 3053bded44bcd6a78ecae5a255ae876c5a9cb49b
+prerequisite-patch-id: ade915a82dd15722ecb44802d307ff9d60a79228
+-- 
+2.51.0
+
