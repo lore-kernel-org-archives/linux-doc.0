@@ -1,86 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795533179;
-	b=kcqIptr2at5oK9/myxT+2W7Cq1Sf7o4N3qEIko0cEtnGSpBKJq9cg9sQB3JrMVjuZjVR
-	 dFJjNuQCN/811nqoYZIobgamyMKOIcy0kexRek8dt2+XfcHd5L+ZVkzW+AxRw7ILARdqn
-	 vvQdAaG+7l8nB6zHlk+H5PJsOabQAybqbjZx5eb2uNLgdGZEf+4s5twQCKGdMfhnowOb3
-	 UPH9yVwRvgAH8FusMtfuouGH/4lUmltJwbO71KgEk/Lpz1o5P8xeVwVjZ+oqop5wU43TX
-	 RgMLZzASY3aUeZpql6W8mkXRslHw5CyuocKAmWktcKfzdnlAp9LMvxVlMSUNRPsWvQg==
+	t=1795533615;
+	b=1quXm06xQdG4j0hMAV8LVhN4UV2BwQzYTsJOqZ38vopVk8rfGjBbTr/TYc+ePJagmdcs
+	 CSum2a4M5XEJfKr9a3hsJUz4LFXS7HzEDsxgIOuN3ZLzVbYPbSeX/kcMK8FYEFdmfMg/H
+	 SMGuS/dnABJpZ/Ln6z8ATTHVUTKPvF4YB0d57blJWnfGhqjVIefWrRr5QeIoprN3NoeX3
+	 tQDC0UwduNjtteBE5dH5ZN64ftNaDn3eicO8NqYKTmLBEtZqr/1uX/H3e542dml3EanjL
+	 hKQMs9oC1oo9w/XDUN5PMpmljPTsxd8CcWUbVX+59wV4BI/txhrWKIa7s4oY5zAIHBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795533179;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=6Uar3t/+oC60cS1BrmaHO8k37ywHjnvxhO9kNhoiN88=;
-	b=SHEswaAwRouk0qCTBoqbFQOlj4GZzzS8BMfntL5nBGiZFx5J9dcdgy7f0l++bhsXyLD1
-	 gSH52JQ3RbuwjKT9/1AWpIcwh/eAc3lF5lrZjqO9VFiRIxsery1i2oqCppAtbxtXgBeK2
-	 Q9qOikJ+iG4SCb7anxDuVC85efbKr+aH7gzBvWzWfhPCfQt4anIT01kx58xz8slNf10l6
-	 H33Le82RSiCwMuiC0REknKxN87xgHIbkKLpefVqpEF10Ru69+5784mAbwi2X4dNC6eCq3
-	 HqpEJhttG1r2dbPIsK9CNXwlsflSUThiA7b234HvxbhdIDtZrb/aBqaFD390MVoKodw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795533615;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Scanned-By;
+	bh=iOPu+6NiMDC/b3ju45EqsPsXdKCHiL1eY1o26WitY9s=;
+	b=wu0VUEUs8XjbSSgo2ouVE+MLITbcjlyazHx6oOgXzduFzYf9smXUf8KcVFRw7HkCNmiG
+	 MfsJOdYWQ+t1wvd3wQAAl7hn3A17oWEmHIXWYvDTyzELqth8mKn06AuK5XP7DktcRXQSg
+	 IDomUqUjU6c1gpZ9lmZHyT41dW6L0NKY73t6wxX5hKOQDkAmNY8dJ9ZGOoXGgD5up2AHB
+	 xj0/ZdIzksqhd5gQ3mAafcOEKduLmI+HcCWIBpUQ8pGG52+TaKPoBIHZOI23uUP9V0Cm8
+	 iXasOqnYTv5p3/fP6go5IrCYQzUkZsdUl+v1HDKsWxgICF002q2fXRrknlfl0YLEiog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G+nNIFQ6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=WgbXIFSu;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C46606A31E;
-	Tue, 24 Nov 2026 15:12:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6CC606A323
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 15:20:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D6CC606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G+nNIFQ6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 160881F000D0;
-	Tue, 24 Nov 2026 15:12:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795533178;
-	bh=6Uar3t/+oC60cS1BrmaHO8k37ywHjnvxhO9kNhoiN88=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=G+nNIFQ6jPsv18hssdU/aidLe43A5eos1FHdc/bh6x+c8CD5jfD6I4PWARXscaOBN
-	 D7E1ZsP0YHF4CzUVbWfjmhXcrl1aPrxDi3UHNgE3xSX9ZHzHWTCTsm1wsiVwh1pMtt
-	 ZNP4NYqq6RnetdnFjGdn8KDvSFjYBBqz3ctBl9/+UbzwNl3A74itsQerDBIzPI55Xb
-	 yGQdtSmdx15Ss8gU6fcPzdrtmR3jcgtOcKLOuFKG3GOhgHDN1zcdmOqNIWQ5tfLMHF
-	 DhCgfRZwEMHxdd1sm+y8zc15LdE+6SA1YJ4bM4fRExDteZHrNevMaCA5YY7z7JHWw/
-	 eX3XpigD1u5OQ==
-From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-To: Magnus Karlsson <magnus.karlsson@gmail.com>
-Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, John
- Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi
- <memxor@gmail.com>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Alexander Duyck <alexanderduyck@fb.com>, Saeed Mahameed
- <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
- <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Michael Chan
- <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- bpf@vger.kernel.org, netdev@vger.kernel.org, Stuart Clark
- <stuclar@meta.com>, Stanislav Fomichev <sdf@fomichev.me>, Simon Horman
- <horms@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Mina Almasry
- <almasrymina@google.com>, Song Liu <song@kernel.org>, Yonghong Song
- <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
- <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, Randy
- Dunlap <rdunlap@infradead.org>, kernel-team@meta.com, Dimitri Daskalakis
- <dimitri.daskalakis1@gmail.com>, Bobby Eshleman <bobbyeshleman@meta.com>,
- Mohsin Bashir <mohsin.bashr@gmail.com>, Kees Cook <kees@kernel.org>, Breno
- Leitao <leitao@debian.org>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Tao Cui <cuitao@kylinos.cn>, Vadim
- Fedorenko <vadim.fedorenko@linux.dev>, "Mike Marciniszyn (Meta)"
- <mike.marciniszyn@gmail.com>, Kuniyuki Iwashima <kuniyu@google.com>,
- Jiayuan Chen <jiayuan.chen@linux.dev>, Martin Karsten
- <mkarsten@uwaterloo.ca>, Nikolay Aleksandrov <razor@blackwall.org>, David
- Wei <dw@davidwei.uk>, Pavel Begunkov <asml.silence@gmail.com>,
- linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 06/15] xsk: Lend UMEM chunks to the page pools
- of a queue
-In-Reply-To: <CAJ8uoz3f2MPpDevbMY3q_Nx=SQ2Om1ojAxBTsYhNw1V9_NXQMA@mail.gmail.com>
-References: <20261124112707.118678-1-bjorn@kernel.org>
- <20261124125654.183091-6-bjorn@kernel.org>
- <CAJ8uoz3f2MPpDevbMY3q_Nx=SQ2Om1ojAxBTsYhNw1V9_NXQMA@mail.gmail.com>
-Date: Tue, 24 Nov 2026 16:12:56 +0100
-Message-ID: <875wxmp8jr.fsf@all.your.base.are.belong.to.us>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=WgbXIFSu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795533614;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iOPu+6NiMDC/b3ju45EqsPsXdKCHiL1eY1o26WitY9s=;
+	b=WgbXIFSuiZ3Xa2TXGSCpOb+yYGsg8eDohJeW2rRbBmZY2XPdQcYzCnSzVmZ4RbyvB4jniI
+	NlccMt4h1bPnLqEtcZKxje4JgtiiZ5vG2MV5AS+teAy9IFNHG841JGHgMOZj68dvCJZobv
+	NUfNQyiwrVR01/FN0Xrjmh+Yic4VWdA=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-399-htAi2dU3ObOwTYEJTuqWmQ-1; Tue,
+ 24 Nov 2026 15:20:09 +0000
+X-MC-Unique: htAi2dU3ObOwTYEJTuqWmQ-1
+X-Mimecast-MFC-AGG-ID: htAi2dU3ObOwTYEJTuqWmQ_1795533605
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AF5B119774EE;
+	Tue, 24 Nov 2026 15:20:04 +0000 (UTC)
+Received: from pauld.westford.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 538E71800551;
+	Tue, 24 Nov 2026 15:19:58 +0000 (UTC)
+Date: Tue, 24 Nov 2026 10:19:55 -0500
+From: Phil Auld <pauld@redhat.com>
+To: Juri Lelli <juri.lelli@redhat.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+	rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	luca abeni <luca.abeni@santannapisa.it>,
+	Yuri Andriaccio <yurand2000@gmail.com>,
+	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Qais Yousef <qyousef@layalina.io>,
+	John Ogness <john.ogness@linutronix.de>
+Subject: Re: [PATCH v4 3/6] sched: Add sysfs files for the per-CPU
+ fair_server knobs
+Message-ID: <20261124151955.GA1855213@pauld.westford.csb>
+References: <20261123-sched_dl-v4-0-d523e4d960d3@linutronix.de>
+ <20261123-sched_dl-v4-3-d523e4d960d3@linutronix.de>
+ <awVDG-ABOvj7zGRg@jlelli-thinkpadt14gen4.remote.csb>
+ <20261124080833.0I9HFgtf@linutronix.de>
+ <awVgALGuilf2FMsT@jlelli-thinkpadt14gen4.remote.csb>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,168 +109,68 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <awVgALGuilf2FMsT@jlelli-thinkpadt14gen4.remote.csb>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Magnus Karlsson <magnus.karlsson@gmail.com> writes:
-
-> On Tue, 24 Nov 2026 at 13:59, Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org> wr=
-ote:
->> +/* RX buffers follow the device's layout: a page-sized chunk may hold
->> + * several of them, a packet may span chunks, and the device picks the
->> + * offsets. A FILL entry lends a chunk to the kernel. Needs aligned
->> + * page-sized chunks and no headroom.
->> + */
->> +#define XDP_UMEM_DRV_LAYOUT            (1 << 4)
+On Tue, Nov 24, 2026 at 10:59:28AM +0100 Juri Lelli wrote:
+> On 24/11/26 09:08, Sebastian Andrzej Siewior wrote:
+> > On 2026-11-24 08:56:11 [+0100], Juri Lelli wrote:
+> > > Hello,
+> > > 
+> > > On 23/11/26 14:41, Sebastian Andrzej Siewior wrote:
+> > > > The fair_server exposes the runtime and period knobs per-CPU in the
+> > > > debugfs folder. The debugfs interface is not a stable ABI.
+> > > > Make the /sys/kernel/debug/sched/fair_server/cpu*/{period|runtime} knobs
+> > > > available as /sys/kernel/sched/cpuX/{fair_server_period|fair_server_runtime}.
+> > > > 
+> > > > It adds a struct kobject to the rq and exposes only those two. The
+> > > > per-runqueue folder is named `cpu' rather than `rq' since it might be
+> > > > more intuitive to the user than `rq' or `runqueue'.
+> > > > 
+> > > > The set logic is pulled from the debugfs folder but it is still shared.
+> > > > That debugfs logic could be removed (after providing the same for
+> > > > ext-server) or symlinked for a while.
+> > > 
+> > > ...
+> > > 
+> > > > +static ssize_t rq_fair_server_runtime_show(struct kobject *kobj, struct kobj_attribute *attr,
+> > > > +					   char *buf)
+> > > > +{
+> > > > +	struct rq *rq = kobj_to_rq(kobj);
+> > > > +	struct sched_dl_entity *dl_se;
+> > > > +
+> > > > +	dl_se = &rq->fair_server;
+> > > > +
+> > > > +	return sysfs_emit(buf, "%llu\n", dl_se->dl_runtime);
+> > > > +}
+> > > 
+> > > Since these files are new and meant to replace debugfs, how about using
+> > > ns everywhere (you partly commented about it in the cover letter), as
+> > > sched_attr and the dl_server parameters already do, with the unit in the
+> > > name? I.e. fair_server_{runtime,period}_ns here and
+> > > dl_{runtime,period}_ns in 2/6, with only the procfs compatibility path
+> > > converting from us. Right now /sys/kernel/sched/ has dl_*_us in us next
+> > > to cpuX/fair_server_* in ns without a suffix.
+> > 
+> > I can do both in ns (or us depending what is easier/ more useful). Let
+> > me update that then.
+> 
+> Mind that it would be nice to hear from others in this thread before I
+> make you do changes that others might not agree with. :)
 >
-> First of all, this looks a lot better than the previous patch set.
-> Much simpler from a driver point of view, fewer changes to core
-> networking code, and that with just a small change/extension to the
-> uAPI.
 
-Thanks, I do as well. Credits to Kuba that took me down this path.
+I did notice the lack of units on the fair files.  I'd certainly go along
+with adding the _ns to those at least. I don't have a strong preference
+about them both being the same unit if they are properly named.
 
-> But I do not think this name is good. Most users of this API do not
-> care about driver details such as the layout. Why not call it
-> something that has to do with what has changed from the user's point
-> of view? Previously we had implicit ownership transfers. You got a
-> packet in Rx, you own the chunk. Now we have explicit ownership
-> transfer. You do not own the chunk the packet is in, unless you get
-> the new flag back (introduced later). So something with "explicit
-> ownership" or something similar would be better. Or focus the name on
-> that you can support larger chunks, but that is for later patches so
-> might not be the best choice.
-
-Magnus... naming is hard! Good point. There are two things in play; You
-cannot choose your geometry, and explicit ownership.
-
-XDP_UMEM_EXPLICIT_OWNERSHIP?
-XDP_UMEM_EXPLICIT_RELEASE?
-XDP_UMEM_CHUNK_COMPLETION?
-XDP_UMEM_PACKED_RX?
-
-I'm leaning towards XDP_UMEM_EXPLICIT_RELEASE, and naming the flag
-XDP_RX_CHUNK_RELEASED?
-
->> diff --git a/net/xdp/xsk_sink.c b/net/xdp/xsk_sink.c
->> new file mode 100644
->> index 000000000000..b78116f25e71
->> --- /dev/null
->> +++ b/net/xdp/xsk_sink.c
-
->> +static netmem_ref xsk_sink_alloc_netmems(struct page_pool *pp, gfp_t gf=
-p)
->> +{
->> +       struct xsk_sink *sink =3D pp->mp_priv;
->> +       /* The NAPI owns the need_wakeup flags */
->> +       bool napi =3D in_softirq() && !in_hardirq();
->> +       struct xsk_queue *fq;
->> +       dma_addr_t dma;
->> +       u32 i, n;
->> +
->> +       /* The page pool refills only an empty cache */
->> +       if (WARN_ON_ONCE(pp->alloc.count))
->> +               return 0;
->> +
->> +       spin_lock_bh(&sink->lock);
->> +       n =3D xsk_sink_take_fill(sink, pp);
->> +       n =3D xsk_sink_take_released(sink, pp, n);
->> +       fq =3D sink->fq;
->> +       /* Ask for kicks only while FILL runs dry, as zero copy drivers =
-do: a
->> +        * kick schedules the NAPI, which a busy poller would rather run
->> +        * itself. Process context refills new queues only and leaves the
->> +        * flags to their NAPI and to bind.
->> +        */
->> +       if (napi && fq && sink->pool->uses_need_wakeup) {
->
-> Was not need_wakeup a requirement for using this new mode? If so, why
-> not just set it somewhere and not test it after that?
-
-Argh, indeed. 08/15 makes XDP_USE_NEED_WAKEUP mandatory and removes both
-checks when it enables the mode. I'll move that so the requirement is
-clear from the start. Good catch.
-
->> +int xsk_sink_bind(struct xsk_buff_pool *pool, struct net_device *dev,
->> +                 u16 queue_id, u16 flags)
->> +{
->> +       u32 needed =3D NETDEV_XDP_ACT_BASIC | NETDEV_XDP_ACT_REDIRECT;
->> +       struct pp_memory_provider_params p =3D { .mp_ops =3D &xsk_sink_o=
-ps };
->> +       struct device *dma_dev;
->> +       struct xsk_sink *sink;
->> +       int err;
->> +
->> +       if (flags & XDP_USE_SG)
->> +               needed |=3D NETDEV_XDP_ACT_RX_SG;
->> +       if (flags & XDP_COPY || !dev->queue_mgmt_ops ||
->> +           (dev->xdp_features & needed) !=3D needed ||
->> +           queue_id >=3D dev->real_num_rx_queues)
->> +               return -EOPNOTSUPP;
->> +
->> +       /* The program of another device would see a leased queue's pack=
-ets */
->> +       if (netif_rxq_is_leased(dev, queue_id))
->> +               return -EOPNOTSUPP;
->> +
->> +       /* The device of the queue's page pools, which may differ per qu=
-eue */
->> +       dma_dev =3D netdev_queue_get_dma_dev(dev, queue_id, NETDEV_QUEUE=
-_TYPE_RX);
->> +       if (!dma_dev)
->> +               return -EOPNOTSUPP;
->> +
->> +       /* Without a program, drivers would build skbs from the buffers =
-*/
->> +       if (!dev_xdp_drv_prog_held(dev))
->> +               return -ENOENT;
->> +
->> +       err =3D xp_dma_map(pool, dma_dev, XSK_SINK_DMA_ATTR, pool->umem-=
->pgs,
->> +                        pool->umem->npgs);
->> +       if (err)
->> +               return err;
->> +
->> +       sink =3D xsk_sink_create(pool, dma_dev);
->> +       if (IS_ERR(sink)) {
->> +               xp_dma_unmap(pool, XSK_SINK_DMA_ATTR);
->> +               return PTR_ERR(sink);
->> +       }
->> +
->> +       /* Until the first refill of the NAPI: the queue may need FILL to
->> +        * start. Set before the NAPI runs, which owns the flags after t=
-hat.
->> +        */
->> +       if (pool->uses_need_wakeup)
->> +               xsk_set_rx_need_wakeup(pool);
->> +
->> +       /* The core keeps sink buffers to the socket once the queue runs=
- */
->> +       static_branch_inc(&xdp_sink_key);
->> +       sink->rxq =3D __netif_get_rx_queue(dev, queue_id);
->> +       pool->sink =3D sink;
->> +       p.mp_priv =3D sink;
->> +       err =3D netif_mp_open_rxq(dev, queue_id, &p, NULL);
->> +       if (err) {
->> +               xsk_sink_detach(pool);
->> +               return err;
->> +       }
->> +
->> +       return 0;
->> +}
->
-> At a first glance it feels like some of this code could be shared with
-> the current bind, but I guess you have already tried and it is not
-> worth it, or? The commonality seems somewhat spread out.
-
-Pool setup and registration are already shared in xp_assign_dev(). The
-main difference is how we start the queue. Classic ZC calls the driver
-with XDP_SETUP_XSK_POOL; this path maps the UMEM and installs a memory
-provider with netif_mp_open_rxq().
-
-I'll look for checks we can share without mixing the two setup and
-unwind paths.
+It probably makes sense but I leave it to people who know dl better to
+say if sub-us configuration makes sense.
 
 
-Thanks for having a look!
-Bj=C3=B6rn
+Cheers,
+Phil
+
+-- 
+
