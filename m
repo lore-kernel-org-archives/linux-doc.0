@@ -1,76 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795532293;
-	b=TydZ1pzs5lzWlYfVN84Sv7WFHfZsEd658LiUXKnig3s+4PNeI27NDyU7kfrHe4Pn77F6
-	 mC7U2DyjnxdjeKSxYvuZCW2jwWVngkyezPfj+HPuNA/Foa4foYkB+JYCuwQB1dbLEvF87
-	 aQoVtgsEHKFhbh28AJmaPiu7BA53lPXkV8teyGzbWMM8rjyvfEOOjdwSh3jqz4Zk5kpF2
-	 cRu/cbjCNU4s6MJl9CHf0zrG80qpKG+Ocp9Ij1kE+dy7zHqHE/hpQjox5ThXy9IkMr2HZ
-	 DsSktVYSEqm28TQyRpkHG1p8rcAEM98DZMJ6u/hcwuY0OgZpkyUAdTYTkMeUX0iA9AQ==
+	t=1795532596;
+	b=BMkarrBGQkJx1rzyNmb4o7KZlLw5s/7YyGDlTWVM0mejashrCrADf/ZsmQeVxS6MIm//
+	 ilt/7cEB20QOMRemLjpwdS6lkoTrvzcIe9PU5OgJ7s1ZD5GXWkPCPJGtw2zlP/dbSjCQB
+	 L2pns7lAbxa41Q7QgHF1yCIUcFyXKwZqh9eAyyZGTYUflrCyLLopE/ihiPxvHrx21E/r0
+	 CqNAV1HrbC95FECRtrinXRZs0CtDUbU7QmWVVM3AXKYm6q5KnG2sL97TRr2yjq5Iwk6P7
+	 598oMInbDcNrlsDG/Y894C/VKinbhEhf/Xd0b3+x1G8CSzgfu1EUZI9mPwKFo4K3U0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795532293;
-	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
-	 X-UI-Sender-Class:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:From:To:Cc:References:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:
-	 UI-OutboundReport;
-	bh=nw1HJ1rYH0om1Cll57QBh5/myBqA0mV9sEjrJO/Tvyw=;
-	b=Ct3Je6QNzMnLTwfIZA6lBz+bGljdIdy6Ak37/lWe9GMGobIajmkMsABsFWAYUxkFn40P
-	 eMnZUyCODatIUKdDxag3LYEXA1hWWaatnXXyVv7rjv/IR9ndywRG1eai4jmy2Rp78nJS6
-	 vKqyt+QEoyeWWn1AHLjuxv+9FSDjQtoSTkNg6pnDJkPDkU91b2ev5XmtrjDC9lFVloE5X
-	 WRXCYuG25IcGy4LqaVvKR9j7TznN0+y1nJsLtaTamGHn95HnIs2tytT9emygDtGdWTXmI
-	 qEqRg+ugW0Qy+ETnN9/RF6gOw1oC5sugh+87f4qR+6BvZ9MPn/4mRRzrMr5Io9LZKog==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795532596;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=REPVVlJkeD+ZeFzs7zAo1+Ptfc+JAlFq2umyUtgb25c=;
+	b=cPbqwtvkIF0wk377NvrZMm9xIxER0MBR0gSY/ItaZsyzJwCxTStx6S+osJGCjaECziGZ
+	 Es6I++PVF3a8DH70hgfvSKzrqKB/yMicbycNr8ssCjP0/ZU1OFxPWnuiW6ij8zCTVGfuW
+	 1H4O93lBzlVHO4YNRE/OeNEbt6bPr+PoqosYdRW3ldXSAtw7PWKkmSLd67hcvmz7+GRJF
+	 Cahby+CxAHBS/Kjp95QgAQCeB21CH7fWex+EKrNdJCxD+oSXR3K7gmaAkqvD/6b2EOHFQ
+	 OrB5gL2edAnaaZsLwINrYdSQFgnsu7vERfvtTqkZidhF59C8KEOzOU4XYRez22k3dQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmx.de;
-	spf=pass smtp.mailfrom=gmx.de;
-	dkim=pass header.d=gmx.de header.i=w_armin@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=ioD1yLkd;
-	arc=none smtp.remote-ip=212.227.15.19
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rgt3qNyH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EAD606A31E
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 14:58:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6EAD606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32BB606A323;
+	Tue, 24 Nov 2026 15:03:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=ioD1yLkd
-DKIM2-Signature:  i=1; m=1; t=1795532290;
- mf=PFdfQXJtaW5AZ214LmRlPg==;
- rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
- d=gmx.de;
- s=s31663417:rsa-sha256:P7fnpf9wPJR5FUH2urIsXXfJHZJt
-   7Hv/L3mHe1m4w+7PW3wWV3JD0quKNKA8r4vTr87b5ayWERoXACPFY4AI7cFBqWiL6wcAT3On0ab
-   UBtw4Q5eN6fNwCujiva036oxaE16tPPijzvEZnjJVN0EtxeAu+M8FWBQ0r1dqFCdCXewrsJ1evC
-   M7wTIWeiuzi0rRCf4vDR3Syzsq15DOE6BsG+zPEIxkWxFi//9ZFR+Fe7tFadLzRZbjW0FAL2wH7
-   D4wcPIKlYP0kEJFwSp/FE4E1dXg116NwnctilMQa4oFBFFllTOo63kvlrZ7KtLwTlAHTid9Pp7r
-   FCg+oloJMMwklw==;
-Message-Instance:  m=1;
- h=sha256:
-   FuIrUOKldo05j14qRYAbAwspo+pkP97aPw3FzVECCSc=:
-   nw1HJ1rYH0om1Cll57QBh5/myBqA0mV9sEjrJO/Tvyw=,
-  sha512:
-   GS/O3MxWRF+5DN+MMFHyfYiDzg7EYm2uUHfNsH7dmIYZlKKnQWf6loF4WilWvceVvRPQzwWzbcH7vX4n2MvYQg==:
-   oZ37l+6+9++RQfHjgJ7f8I697CnZxE4rs4SLku24WhlrafKrrXVbr5k6WEk9fQs5/ckVmr+BWmQ+FQ+DMYfRZQ==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1795532266; x=1796137066; i=w_armin@gmx.de;
-	bh=nw1HJ1rYH0om1Cll57QBh5/myBqA0mV9sEjrJO/Tvyw=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
-	 Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=ioD1yLkd2R7cXGQWoxHP5HSNxVMR8z/hC+X04KTy7/JB7CX7OEfsHkN3IjzCs1Zs
-	 ax4X8djCZ71xLw3V+DUR9zHZReSrGrb9gp8QxZNSDdB80niWpuAyfH3Wn8fw646Lk
-	 eb/wDXy6mAqJ22xOa4kakXX9wTQXcbcWF6AVWoYLHCVvfeVnL+mcInqDtGZ5eFp+B
-	 FyfemEerGaDxr10zbGf+Z2Xgfy5nHfnYe/kAlUmWQbc6/RIzb7uFLRtO/OdZD6O97
-	 j8ngdJLyi+Ubk8Qe9nAjRE+bB3OIDzt3nvQT/3OQsa0CrSbQ0gcOUNkqcCcjqsFHC
-	 KNYJplGI3CZkB6MnvQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MDhhN-1xdo2n0nUV-00GFLG; Tue, 24
- Nov 2026 15:57:46 +0100
-Message-ID: <a851c757-3110-4ecc-b920-a98736b190b5@gmx.de>
-Date: Tue, 24 Nov 2026 15:57:43 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rgt3qNyH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E33E51F000E0;
+	Tue, 24 Nov 2026 15:03:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795532595;
+	bh=REPVVlJkeD+ZeFzs7zAo1+Ptfc+JAlFq2umyUtgb25c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=Rgt3qNyHPCldkjic2773LwWjg9d3P/FLq5Qu1r0gEa12eaPtA6b7aA0ONNNWg+Q16
+	 3MfPbdPUHrYiiRtHBN8UHBcbbVwSQH6Nxwtr4Vauzk0jdXWVWTNwZW2Q0U1jAkSg/I
+	 a8jjMCJFLDOGujcH8zGjkxrbasfDekPP2ucvZ2rPiNWCHHS73zxGZWYhlzEVmPdvTb
+	 YIAZGT5zRos71jgHCl5iotePibJWLcBWeFVNhUyF6P8IitYK6Ilzkdb+nYWenk4yzv
+	 ZiLUWimuKPUmIfOmwI2kpapgw9Kn5gUqxdpMc4Swk2LhTfMzrU4jHWJNAuXbSZC2te
+	 G3U/5Zf2x/zRg==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: "David Matlack" <dmatlack@google.com>
+Cc: "Pratyush Yadav" <pratyush@kernel.org>,  <kexec@lists.infradead.org>,
+  <linux-doc@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
+  <linux-kselftest@vger.kernel.org>,  <linux-mm@kvack.org>,  "Alexander
+ Graf" <graf@amazon.com>,  "Andrew Morton" <akpm@linux-foundation.org>,
+  "Baolin Wang" <baolin.wang@linux.alibaba.com>,  "Christian Brauner"
+ <brauner@kernel.org>,  "David Hildenbrand" <david@kernel.org>,  "Hugh
+ Dickins" <hughd@google.com>,  "Jonathan Corbet" <corbet@lwn.net>,  "Liam
+ R. Howlett" <liam@infradead.org>,  "Lorenzo Stoakes" <ljs@kernel.org>,
+  "Michal Hocko" <mhocko@suse.com>,  "Mike Rapoport" <rppt@kernel.org>,
+  "Pasha Tatashin" <pasha.tatashin@soleen.com>,  "Randy Dunlap"
+ <rdunlap@infradead.org>,  "Samiullah Khawaja" <skhawaja@google.com>,
+  "Shuah Khan" <skhan@linuxfoundation.org>,  "Suren Baghdasaryan"
+ <surenb@google.com>,  "Vlastimil Babka" <vbabka@kernel.org>
+Subject: Re: [PATCH v4 07/19] liveupdate: Add helpers to track the files
+ that LUO manages
+In-Reply-To: <DN2SLUVNO0L5.3NUHFPC0J7QTG@google.com> (David Matlack's message
+	of "Mon, 23 Nov 2026 10:13:37 -0800")
+References: <20261111002358.1842967-1-dmatlack@google.com>
+	<20261111002358.1842967-8-dmatlack@google.com>
+	<2vxzbj7j3ga2.fsf@kernel.org> <DN2SLUVNO0L5.3NUHFPC0J7QTG@google.com>
+Date: Tue, 24 Nov 2026 15:03:09 +0000
+Message-ID: <2vxz7bi2z2z6.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,221 +73,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] platform: dell: smbios: Add quirk for non-functional
- calling interface
-From: Armin Wolf <W_Armin@gmx.de>
-To: Brian Mak <bmak@nvidia.com>, Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Kurt Borja <kuurtb@gmail.com>, Stuart Hayes <stuart.w.hayes@gmail.com>,
- Matthew Garrett <mjg59@srcf.ucam.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?=
- <pali@kernel.org>, Lyndon Sanche <lsanche@lyndeno.ca>,
- Prasanth Ksr <prasanth.ksr@dell.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- "Dell.Client.Kernel@dell.com" <Dell.Client.Kernel@dell.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20261121000556.173028-1-bmak@nvidia.com>
- <20261121000556.173028-7-bmak@nvidia.com>
- <f3dc7e25-9c22-4b1d-9555-e83db82d05a1@gmx.de>
- <792a7fdd-b2a0-4a2d-88b3-7aecf1af3d7c@nvidia.com>
- <12ff3c7e-0425-42ea-9994-69f9d56a4591@gmx.de>
-Content-Language: en-US
-In-Reply-To: <12ff3c7e-0425-42ea-9994-69f9d56a4591@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Ld8ZVesk+gj1QBy8nsMrbZb2a2UaH7Z4WtfF1PRjh3zadifidaN
- 5uQc3S379qzEyMm8TjFyAvUaYH6Gn3lSF3xr75cPZ8FRpUocyBoOFzXNLSi435bXyZMBPMn
- dsOAGnD/slIWRVGBBAgMar/JHcqaGLRGkFVMgwZjQjHq6FZyn55ux2si5GjS2mlCEPluN3Z
- A17vFwVXV3Au3qvUwpgeQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:mERlOi2wNA8=;dEloxCMpmtFyqni2ri7PxK87ngD
- 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
+Content-Type: text/plain
 
-Am 24.11.26 um 15:29 schrieb Armin Wolf:
-> Am 24.11.26 um 00:43 schrieb Brian Mak:
->> On 11/21/26 05:49, Armin Wolf wrote:
->>> Am 21.11.26 um 01:05 schrieb Brian Mak:
->>>
->>>> On Dell RTX Spark laptops, the SMBIOS calling interface completes eve=
-ry
->>>> request with an all-zero buffer, even for requests that should fail.
->>>> Drivers that rely on it, such as dell-laptop and dell-pc, end up
->>>> reporting bogus state, like battery charge modes and thermal modes.
->>>>
->>>> Add a DMI quirk list for platforms with a non-functional calling
->>>> interface, and export dell_smbios_calls_functional() so that consumer=
-s
->>>> can avoid loading on them. dell-smbios itself still loads, as dell-wm=
-i
->>>> depends on it.
->>>
->>> Hi,
->>>
->>> do you have access to such a machine? I would be _very_ interested in
->>> the output
->>> of acpidump on this machine, maybe this could be an issue with ACPICA.
->>
->> Hi Armin,
->>
->> I've attached the acpidump.
->=20
-> Thank you very much.
->=20
->>
->>> Alternatively, maybe the wrong backend get selected. Currently the del=
-l-
->>> smbios-smm
->>> backend will try to read a specific token in test_wsmt_enabled() to
->>> determine if
->>> the WSMT ACPI table is active. This might not work on arm64 machines, =
-so
->>> maybe parsing
->>> the real WSMT ACPI table would fix this problem?
->>
->> dell-smbios-smm is not available outside of x86, as it depends on
->> DCDBAS, which depends on X86. It would only be using the WMI backend.
->>
->> Thanks,
->> Brian
->=20
-> If i understand the ACPI code correctly, then it seems that the WMI=20
-> interface interacts with a OperationRegion handled by the ARML0002=20
-> device, associated with the ARM FFA interface.
->=20
-> AFAIK the linux kernel currently does not support this device, maybe=20
-> this is the reason why all SMBIOS calls fail.
+On Mon, Nov 23 2026, David Matlack wrote:
 
-After doing some more research it seems that the associated WMI method
-tries to call a ARM FFA service using a FFixedHardware opregion.=20
-Theoretically Linux already supports this, did you enable CONFIG_ACPI_FFH?
+> On Fri Nov 20, 2026 at 3:15 AM PST, Pratyush Yadav wrote:
+>> On Wed, Nov 11 2026, David Matlack wrote:
+>>> @@ -788,8 +797,7 @@ int luo_file_finish(struct luo_file_set *file_set)
+>>>  		luo_file_finish_one(file_set, luo_file);
+>>>  
+>>>  		if (luo_file->file) {
+>>> -			xa_erase(&luo_preserved_files,
+>>> -				 luo_get_id(luo_file->fh, luo_file->file));
+>>> +			luo_untrack_file(luo_file->fh, luo_file->file);
+>>
+>> This looks dangerous.
+>>
+>> Since the previous patch set luo_file->file when xa_insert() failed,
+>> this will trigger in a failed retrieve. Except, the file was never
+>> tracked to begin with.
+>>
+>> While I don't see anything that actually breaks because of this today,
+>> I think it is a bug in the making.
+>>
+>> I think the below is a bit better. Although this change probably makes
+>> more sense in the previous patch, since that introduced the problem.
+>> This patch should just replace the xa_erase() with luo_untrack_file().
+>>
+>> 	if (luo_file->file)
+>> 		fput(luo_file->file);
+>>
+>> 	if (luo_file->retrieve_status > 0)
+>> 		luo_untrack_file(luo_file->fh, luo_file->file);
+>
+> Good catch, I'll fix this in the previous patch in v5.
+>
+> (But luo_untrack_file() needs to be called before fput() in case the
+> latter drops the last reference.)
+>
+> So:
+>
+> 	if (luo_file->retrieve_status > 0)
+> 		luo_untrack_file(luo_file->fh, luo_file->file);
+>
+> 	if (luo_file->file)
+> 		fput(luo_file->file);
 
-Thanks,
-Armin Wolf
+Right, makes sense. Thanks!
 
-> I also noticed that the device supports the WMI interface used by the
-> dell-smm-hwmon driver. If you want i can try to enable this driver on
-> arm64 too, but IMHO it should be considered optional at best.
->=20
-> Thanks,
-> Armin Wolf
->=20
->>> Thanks,
->>> Armin Wolf
->=20
->=20
+-- 
+Regards,
+Pratyush Yadav
