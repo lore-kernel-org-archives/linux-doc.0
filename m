@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795558220;
-	b=abq/4AXZ7XjciU62bik5Qedn/hDYL8NG0U2eurbMSs+HSwuVqs6uiegsKVs2+B7G5hlj
-	 HNMSocFHI7AoEHoJPwR9uhPKuVQcsXx4DF1Ymuqx2KuhM5NQuiqs9keCuHd23Y+/Jy6/R
-	 XOWuLvuPZFlqwn2kTdXz/da1OLd9Bln7gmZ6GuNCsgraVelVzIYP+WRl2mtgpblytWDgD
-	 EvWrUXATuHBCISefuK88UlCzTZwUYx7CKkjgCwOVRkeWhM3LCTmIeUFXgD2OdEkXJe2ME
-	 /jTNoqNcdybt5kmfVlpVMId1VD1NA6zB4FcqeTq1EBNGayWLNAo/HXT30/jYP8Xmh+g==
+	t=1795558222;
+	b=14G7YuWtkfPZawq4235MyQBxSJwJqF64SgbhKxd9MVKr5y0ZBNsKUeU+TDheEzZnml4C
+	 2nj98EvKQkFfRy85YFYjq9JyegM2fSJxftCQiq+dqkuNW57ryAWWI6QsbWnJlDf7UFN6W
+	 DvgPQMTBQFkcPOOe8+ET93e0peORMuQ+4jI+2mapQenz7QYuXYKmx6TOdot7P+JEDrcyv
+	 93st6rS/ZCelu/hTyrVBPcggDkA5qZsrSBn2Vh65FISpAk+4uZZ2xV9T3fUHQanvNhxrc
+	 RgdXIXdmzPt0HsTlNSlnJaLJLhpeXXprbR5Nv9+XMGUkpyTjjCY9KKtSw/bdlXD4jPQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795558220;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795558222;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=nswBVZdCxLMglHPqDPCiGmN98qoPf819Vz94uZ+XzpA=;
-	b=Q7WaF0KgOgQ5hgI5KIiS4yaghvcKvx82ErZaNQ9onwD7oIllxTc3Ok63V3FJbITbhTom
-	 Z1xRP26UUm6YtnL3v8Qznf7pEknyYTYPiptt7GKckaz5Y1NUNWXaYvu7rIyripnz+gGdC
-	 pVkcdExLwC1ZmbqIzcF/cW/IOUAD9tkqTW7pCCbj3mW4UZN3iXoFlzQhxaep7Ilhioylu
-	 zv8xksXCYMYcUUWTAU7tzITuu4ims7uMOa/g+PVfopOWoOXTawehNg0JIDEYZK2JlIL0+
-	 +bv8n6PFz5R8aRFDBENhCGkKalSGaAnTpG4O5a9g7yUMt046cOzPwXosTRtMlME1kdw==
+	bh=v6bJWGJV5mMZDYLX31c8NtD1QW48bqWZ0xQYf+Io+I8=;
+	b=D7JsuM/kgqj+gENah0ydrM6iefbGZybHjYS40cHldsblndB6hYejvHRUpvUwNyybd+uz
+	 7CYwLpf7f7WxVLJSknX3tLQBVPT7dc4JslYKDCXx+yq7CaCMMMdPrMKAjnFWP0RKOWFM+
+	 IKLTwEGjDbSbcIMtOlIcYCoeDyF1HFoTQgOkDOoDYW++nN5j1BdEw+EeOrx/xd7kmSCbR
+	 BQdue7S9xsQCAdJmkGDjUuTrhkaVn/BYHej1qqd43DynVHi/9f5yQbPBePOWqqCrD5D/D
+	 Pu2PZwNxvxCgMUIYvhXAIuamQmmvuLtLo5Mi3cFM6yjL+4x7HSZGnu18y8cdVnoOkiA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kf1TRmmw;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cn9rH4dx;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D6D606A6A7;
-	Tue, 24 Nov 2026 22:10:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0488960A2639;
+	Tue, 24 Nov 2026 22:10:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kf1TRmmw
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cn9rH4dx
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795558219;
-	b=baIQk22ui7f83ewjJ6mhfjIEBh9XoqlT20xDlrfa2d346yGDYgRSXkneLe6OFi2sYCfB
-	 ZK+dMMLj2bn1NCTM7RNLCkF7fbunJE+4dkXuIusFjFb9bt/1d0MXLU1wo6Cnib4wv7dDQ
-	 mVAAmKHDRnFW+1pedEO+2favUmT9u+RG1Ak9GhxSgxfYQN+DyyubARpRYaQdZCbImUMVs
-	 kQkkLd1cxxD1p73vAsPGFkUInVn+WpRbqsoqPQQdVG+DIR4Yq7AaDjYcY94r3u54AwLJJ
-	 VomvFnx8TnLX+e4jzuMsYN46QXqUsPS8RCxju9ZmstA5TDCyLLNcq4QWGgYOpL53nDw==
+	t=1795558221;
+	b=CeeSYXsAvjy9wxH40o4DYe4X7lDfJt87m5fuwQQewxumDaQpVikiXMj0wtvFStztsQ9B
+	 6liBAWFQ59YaV7k/lZntR17kjbdCnhB/OAEMWUtCPDmHGb5+0Wt8cT613QusZ0UXbIiDC
+	 ftphn+WBJaJj8YbXOHKhsWtQpesQ27YFOEbcune2M7vlRahgwoN67/yhFUKZFH0Mffkvq
+	 QCAFOMaLTXLpgEo3zExApCF/SUIuQMvVJ5OYY7gYB2MH0M2O33v9bqpwiOqNHAbNemuob
+	 mkIpGepbnkyIwkmqNXAfO3pXAvXNnpfsDiAXAH4JCZu7CUIowpPm0/VmsG77/3JXY+Q==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795558219;
+	c=relaxed/relaxed; t=1795558221;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=nswBVZdCxLMglHPqDPCiGmN98qoPf819Vz94uZ+XzpA=;
-	b=HNTAQpP2RdF5QjtjiLzxWupgcfETVp4rYUAjX63pyq9OatHldi3eXJ1OXmguVcSddYje
-	 gZI6JmmHFxD0c6N4KDPjrM4wKPXdGxKYudn1Qr6z4N4YOzIXvH2tJvwyi1FTUKSUhc1un
-	 twa4hizrtVHmJI6cvUO+4S8V1UgrvKcvvs/HDrf6RwbxsiP3M8AGvjGB39DgnuxqOFzay
-	 LfhaE+b+G82xmt4+wcufOa7ChhHJQtGemQfIzhHFKz3mh5IFAl0skArHoA9dde8f/mVeb
-	 pmDMuu37U4EhrVTujwGr16U8FUHZImSu8ruWCUnOnrGi6hPCDEdo8c1o8GW9mnIRFag==
+	bh=v6bJWGJV5mMZDYLX31c8NtD1QW48bqWZ0xQYf+Io+I8=;
+	b=yxClCCv4cFCjIeNWmbuT0/3qxINpPAn/x/bRohwqpBV3GM0tn7BFn4hdFazDgURyNTVl
+	 5gg5ALTMz+5yPoN2Rzc/lsXZ4ZQeDaytAiRnDU/DjxkcEdu+c/kDMiBNtmDadAQIObZlM
+	 /Mwv4y1mM+U1Qc+TWnlemzFtoQnAawB6DdOK9e3YDp7k0M5D3ue7ZkfnmwJCLTnzCSl6F
+	 pMjUPq2xXpsOZ6PZxHH6DP/arXcyqyp5wjL8+c7PG9tIol1qthqGH1IeNYznjF/zTk6Fq
+	 wzQfB9DIzcKkJiEjZk+pe7PxyaK3mFKW567Kg/b7GUm9WP3Ow+6QA7eLARaHd73ZNbA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 629C11F000ED;
+	by smtp.kernel.org (Postfix) with ESMTPS id 86BB61F000EF;
 	Tue, 24 Nov 2026 22:10:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795558219;
-	bh=nswBVZdCxLMglHPqDPCiGmN98qoPf819Vz94uZ+XzpA=;
+	s=k20260515; t=1795558221;
+	bh=v6bJWGJV5mMZDYLX31c8NtD1QW48bqWZ0xQYf+Io+I8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=Kf1TRmmwqcqN7jk4wXSDNUAWVjmfirCpADEbs20fGQOzgrvgfBjyPAy+F7pIHyR8e
-	 P8v7q+XFmtMZX6ZwNDG/yddFY7DY5BDPK1lLBnSzHXvS/Tm2BeqE7thfOTwMWsr1Ec
-	 Z8I4GG+1CsrqpdYJySGRh7zx5w3d8VX2ObfCWdgULbJkzqcU78QZ1lGaRSuWROoEaN
-	 WLbV97Rdyts+RyHJsPba9zrM62/72Nxghg43apO7e8PiGgmX+13K0dvpciFEGI1NoN
-	 O0RQuNpwsJQNzGsIAV8DTPrXtmJoOaO7SmpN4rKxDkg+SyTW43oqYhp8iucmugXJgJ
-	 fQtx74Xm/20wA==
+	b=Cn9rH4dxV97wntT6RzTZO6nEH77XxRbkhcTkpCGLAV879g+OX9xOZf8KUYr26RZSo
+	 JyGM5Ev3dlY/cULN0LaTN3ATglwZovQgNXd7mbsBSEOjBg9RNBt4IVDyyLtmehrU+m
+	 ssN5OsiP/5paMN3G5hDkPizs9VPC+H1MNj2nYaXXJmblH85+89pXyCqzwMP3kvVesx
+	 NosfuOii2pyZAgNlcOFm3bj2OYK2IFlnEIjyD8mXZpIUoged19Zj1hmMEQJ4kgZtZV
+	 AWiObd62VsZaNtSDYzHDjjglF48mKatrvYPvYGrWLcEZRawAON8K0IGLJzvIOB2CPP
+	 TTtGLARwVxWQA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id ACE9A4CBE9;
+	by lkml.kernel.org (Postfix) with ESMTP id CADC84CBED;
 	Tue, 24 Nov 2026 22:09:57 +0000 (UTC)
 From: Selvamani Rajagopal via B4 Relay <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
-Date: Tue, 24 Nov 2026 14:09:58 -0800
-Subject: [PATCH net-next v12 10/15] net: ethernet: oa_tc6: APIs to
- customize CONFIG0 settings
+Date: Tue, 24 Nov 2026 14:09:59 -0800
+Subject: [PATCH net-next v12 11/15] net: phy: ncn26000: Enable enhanced
+ noise immunity
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261124-s2500-mac-phy-support-v12-10-3575855d99f9@onsemi.com>
+Message-Id: <20261124-s2500-mac-phy-support-v12-11-3575855d99f9@onsemi.com>
 References: <20261124-s2500-mac-phy-support-v12-0-3575855d99f9@onsemi.com>
 In-Reply-To: <20261124-s2500-mac-phy-support-v12-0-3575855d99f9@onsemi.com>
 To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
@@ -106,11 +106,11 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ciprian Regus <ciprian.regus@analog.com>, 
  Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795558193; l=7885;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795558193; l=2436;
  i=Selvamani.Rajagopal@onsemi.com; s=20260531; h=from:subject:message-id;
- bh=Tn4qWJ+KFSw9aGl6Q6VzMJbvXt57m8JvDM/gl/PybZM=;
- b=p7j4SSbr4p/WbELw+XYJSjjMFLeABk2s9XCiDfhFcNKoYqAwNPwXE/okv24Q9uKPEARIlmr4P
- bEwG/ORqH3yC94obRhUP1MvaBfZk8m8PzWvxjTnVTgcCBjkOPvpxKdq
+ bh=C966iz3saGflBqVM1+r8sZrgsCLRry/KSK6GQ55D7VM=;
+ b=6odO8G91jLGqNTePKgtHxLVUmJqbZd01Z89tS+zzSR3StKHNx6SjXmxd4FjZF9ftjrPjjN+aW
+ w6f/27zPrIbDFXQqWBxNz/xqykICC7G/uu7NeN2y+7fZtGkzb6XC/XD
 X-Developer-Key: i=Selvamani.Rajagopal@onsemi.com; a=ed25519;
  pk=5QRdM0HS/LGWWcUZZ9hVfZ+qbPQGZCumcTXOiN7Fyug=
 X-Endpoint-Received: by B4 Relay for
@@ -121,212 +121,87 @@ Content-Transfer-Encoding: 7bit
 
 From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
-Add oa_tc6_tx_credit_threshold_set() to let a vendor driver set the
-minimum transmit credits the MAC-PHY needs before it asserts the
-interrupt.
+Intercept PLCA enable/disable requests in set_plca_cfg() and set or
+clear the proprietary ENI bit accordingly. By setting the ENI bit,
+noise immunity is improved and it is specifically meant for PLCA
+enabled nodes.
 
-Add the OA_TC6_CONFIG_RX_CUT_THROUGH quirk flag. When set,
-oa_tc6_init() enables receive cut-through before the SYNC bit is set.
-This can't be done after oa_tc6_init(), which sets the SYNC bit.
-The flag is ignored if the MAC-PHY does not report cut-through
-capability.
-
-Existing drivers are not affected: the default credit threshold is
-unchanged and cut-through stays disabled unless the quirk is set.
-
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
 ---
 changes in v12
-  - Moved the TX credit threshold API and the RX cut-through
-    quirk out of the S2500 driver patch.
-  - New patch in v12.
+  - No change
+changes in v11
+  - Updated commit message to be more accurate
+changes in v10
+  - No change
+changes in v9
+  - Added Reviewed tag
+changes in v8
+  - No change
+changes in v7
+  - No change
+changes in v6
+  - No change
+changes in v5
+  - No changes
+changes in v4
+  - No changes
+changes in v3
+  - Moved as a separate patch
 ---
- Documentation/networking/oa-tc6-framework.rst | 20 +++++++++
- drivers/net/ethernet/oa_tc6/oa_tc6_main.c     | 62 +++++++++++++++++++++++++++
- drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h  |  1 +
- include/linux/oa_tc6.h                        |  7 +++
- 4 files changed, 90 insertions(+)
+ drivers/net/phy/ncn26000.c | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/oa-tc6-framework.rst b/Documentation/networking/oa-tc6-framework.rst
-index 558dc25038d3..2ce95ae58923 100644
---- a/Documentation/networking/oa-tc6-framework.rst
-+++ b/Documentation/networking/oa-tc6-framework.rst
-@@ -476,6 +476,9 @@ The quirk_flags field supports:
+diff --git a/drivers/net/phy/ncn26000.c b/drivers/net/phy/ncn26000.c
+index cabdd83c614f..888d74b83125 100644
+--- a/drivers/net/phy/ncn26000.c
++++ b/drivers/net/phy/ncn26000.c
+@@ -35,6 +35,9 @@
  
- - OA_TC6_BROKEN_PHY: Leave MDIO bus registration and PHY connection to the
-   vendor driver instead of the framework.
-+- OA_TC6_CONFIG_RX_CUT_THROUGH: Enable receive cut-through in the CONFIG0
-+  register. It is ignored if the MAC-PHY does not report cut-through
-+  capability.
+ #define TO_TMR_DEFAULT			32
  
- A zero value for vend1_mms means no Clause 45 ``MDIO_MMD_VEND1``
- mapping is requested; it does not select MMS 0. For any nonzero value
-@@ -519,6 +522,23 @@ Zero align receive frame feature can be enabled to align all receive ethernet
- frames data to start at the beginning of any receive data chunk payload with a
- start word offset (SWO) of zero.
- 
-+.. c:function:: int oa_tc6_tx_credit_threshold_set(struct oa_tc6 *tc6, \
-+                                                   u8 thresh)
++#define NCN26000_REG_PHYCFG1		0x8001
++#define NCN26000_PHYCFG1_ENI		BIT(7)
 +
-+Sets the minimum number of free transmit credits that must be available
-+before the MAC-PHY asserts the interrupt. The default is one credit
-+according to OPEN Alliance 10BASE-T1x MAC-PHY Serial Interface specification.
-+
-+The thresh argument is the encoded TXCTHRESH field value of the CONFIG0
-+register, not the credit count:
-+
-+- 0: one or more credits (default)
-+- 1: four or more credits
-+- 2: eight or more credits (OA_TC6_CONFIG0_TXCTHRESH_8)
-+- 3: sixteen or more credits
-+
-+A value above 3 does not fit the field and fails with -EINVAL.
-+
- .. c:function:: int oa_tc6_ptp_register(struct oa_tc6 *tc6, \
-                                         struct ptp_clock_info *info)
- 
-diff --git a/drivers/net/ethernet/oa_tc6/oa_tc6_main.c b/drivers/net/ethernet/oa_tc6/oa_tc6_main.c
-index 228cc2a3dc2d..c078f22c32d6 100644
---- a/drivers/net/ethernet/oa_tc6/oa_tc6_main.c
-+++ b/drivers/net/ethernet/oa_tc6/oa_tc6_main.c
-@@ -289,9 +289,29 @@ static int oa_tc6_update_standard_capability(struct oa_tc6 *tc6)
- 		return ret;
- 	if (regval & OA_TC6_STDCAP_FTSC_CAPABILITY) /* Timestamp */
- 		tc6->ftsc_capable = true;
-+	if (regval & OA_TC6_STDCAP_CTC_CAPABILITY) /* Cut-through */
-+		tc6->ctc_capable = true;
+ static int ncn26000_config_init(struct phy_device *phydev)
+ {
+ 	/* HW bug workaround: the default value of the PLCA TO_TIMER should be
+@@ -100,6 +103,24 @@ static int ncn26000_read_status(struct phy_device *phydev)
  	return 0;
  }
  
-+static int oa_tc6_rx_cut_through_enable(struct oa_tc6 *tc6)
-+{
-+	u32 regval;
-+	int ret;
-+
-+	if (!tc6->ctc_capable)
-+		return 0;
-+
-+	ret = oa_tc6_read_register(tc6, OA_TC6_REG_CONFIG0, &regval);
-+	if (ret)
-+		return ret;
-+
-+	/* Set Receive Cut-Through Enable */
-+	regval |= OA_TC6_CONFIG0_RXCTE;
-+
-+	return oa_tc6_write_register(tc6, OA_TC6_REG_CONFIG0, regval);
-+}
-+
- static __be32 oa_tc6_prepare_ctrl_header(u32 addr, u8 length,
- 					 enum oa_tc6_register_op reg_op)
- {
-@@ -1618,6 +1638,36 @@ int oa_tc6_zero_align_receive_frame_enable(struct oa_tc6 *tc6)
- }
- EXPORT_SYMBOL_GPL(oa_tc6_zero_align_receive_frame_enable);
- 
-+/**
-+ * oa_tc6_tx_credit_threshold_set - function to set the minimum number of free
-+ * transmit credits needed before the MAC-PHY asserts the interrupt.
-+ * @tc6: oa_tc6 struct.
-+ * @thresh: transmit credit threshold field value, e.g.
-+ *	OA_TC6_CONFIG0_TXCTHRESH_8.
-+ *
-+ * Return: 0 on success, -EINVAL if @thresh does not fit the TXCTHRESH
-+ * field, otherwise a negative error code from the register access.
++/* Intercept PLCA enable/disable request to
++ * set the proprietary, ENI mode accordingly
 + */
-+int oa_tc6_tx_credit_threshold_set(struct oa_tc6 *tc6, u8 thresh)
++static int ncn26000_c45_plca_set_cfg(struct phy_device *phydev,
++				     const struct phy_plca_cfg *plca_cfg)
 +{
-+	u32 regval;
-+	int ret;
++	int ret = genphy_c45_plca_set_cfg(phydev, plca_cfg);
++	u16 eni_cfg = 0;
 +
-+	if (thresh > OA_TC6_CONFIG0_TXCTHRESH_16)
-+		return -EINVAL;
-+
-+	ret = oa_tc6_read_register(tc6, OA_TC6_REG_CONFIG0, &regval);
-+	if (ret)
++	if (ret || plca_cfg->enabled < 0)
 +		return ret;
 +
-+	/* Set Transmit Credit Threshold */
-+	regval &= ~OA_TC6_CONFIG0_TXCTHRESH_MASK;
-+	regval |= FIELD_PREP(OA_TC6_CONFIG0_TXCTHRESH_MASK, thresh);
-+
-+	return oa_tc6_write_register(tc6, OA_TC6_REG_CONFIG0, regval);
++	eni_cfg = (plca_cfg->enabled) ? NCN26000_PHYCFG1_ENI : 0;
++	return phy_modify_mmd(phydev, MDIO_MMD_VEND2,
++			      NCN26000_REG_PHYCFG1,
++			      NCN26000_PHYCFG1_ENI, eni_cfg);
 +}
-+EXPORT_SYMBOL_GPL(oa_tc6_tx_credit_threshold_set);
 +
- /**
-  * oa_tc6_start_xmit - function for sending the tx skb which consists ethernet
-  * frame.
-@@ -1779,6 +1829,18 @@ struct oa_tc6 *oa_tc6_init(struct spi_device *spi, struct net_device *netdev,
- 		return ERR_PTR(ret);
- 	}
- 
-+	/* Cut-through bits must be configured before SYNC bit is set
-+	 * in CONFIG0 register.
-+	 */
-+	if (tc6->quirks.quirk_flags & OA_TC6_CONFIG_RX_CUT_THROUGH) {
-+		ret = oa_tc6_rx_cut_through_enable(tc6);
-+		if (ret) {
-+			dev_err(&tc6->spi->dev,
-+				"Failed to enable RX cut-through: %d\n", ret);
-+			return ERR_PTR(ret);
-+		}
-+	}
-+
- 	ret = oa_tc6_unmask_macphy_error_interrupts(tc6);
- 	if (ret) {
- 		dev_err(&tc6->spi->dev,
-diff --git a/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h b/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h
-index cc7cda673f1b..245a1b316395 100644
---- a/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h
-+++ b/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h
-@@ -140,6 +140,7 @@ struct oa_tc6 {
- 	struct list_head ttsc_skb_list;
- 	struct ptp_clock *ptp_clock;
- 	bool ftsc_capable; /* Timestamp capability */
-+	bool ctc_capable;  /* cut-through capability */
- 	u64 tx_hwtstamp_pkts;
- 	u64 tx_hwtstamp_lost;
- 	u64 tx_hwtstamp_err;
-diff --git a/include/linux/oa_tc6.h b/include/linux/oa_tc6.h
-index f34ed8218a7c..35b536741d01 100644
---- a/include/linux/oa_tc6.h
-+++ b/include/linux/oa_tc6.h
-@@ -20,6 +20,7 @@
- /* Standard Capabilities Register */
- #define OA_TC6_REG_STDCAP			0x0002
- #define OA_TC6_STDCAP_DIRECT_PHY_REG_ACCESS	BIT(8)
-+#define OA_TC6_STDCAP_CTC_CAPABILITY		BIT(7)
- #define OA_TC6_STDCAP_FTSC_CAPABILITY		BIT(6)
- 
- /* Reset Control and Status Register */
-@@ -30,6 +31,10 @@
- #define OA_TC6_REG_CONFIG0			0x0004
- #define OA_TC6_CONFIG0_SYNC			BIT(15)
- #define OA_TC6_CONFIG0_ZARFE_ENABLE		BIT(12)
-+#define OA_TC6_CONFIG0_TXCTHRESH_MASK		GENMASK(11, 10)
-+#define OA_TC6_CONFIG0_TXCTHRESH_8		2	/* 0b10: >=8 credits */
-+#define OA_TC6_CONFIG0_TXCTHRESH_16		3	/* 0b11: >=16 credits */
-+#define OA_TC6_CONFIG0_RXCTE			BIT(8)
- #define OA_TC6_CONFIG0_FTSE_ENABLE		BIT(7)
- #define OA_TC6_CONFIG0_FTSS_64BIT_TSTAMP	BIT(6)
- #define OA_TC6_CONFIG0_PROTE			BIT(5)
-@@ -82,6 +87,7 @@ struct oa_tc6;
- 
- enum oa_tc6_quirk_flag {
- 	OA_TC6_BROKEN_PHY = BIT(0),
-+	OA_TC6_CONFIG_RX_CUT_THROUGH = BIT(1),
- };
- 
- struct oa_tc6_quirks {
-@@ -104,6 +110,7 @@ int oa_tc6_read_registers(struct oa_tc6 *tc6, u32 address, u32 value[],
- 			  u8 length);
- netdev_tx_t oa_tc6_start_xmit(struct oa_tc6 *tc6, struct sk_buff *skb);
- int oa_tc6_zero_align_receive_frame_enable(struct oa_tc6 *tc6);
-+int oa_tc6_tx_credit_threshold_set(struct oa_tc6 *tc6, u8 thresh);
- int oa_tc6_mdiobus_read_c45(struct mii_bus *bus, int addr, int devnum,
- 			    int regnum);
- int oa_tc6_mdiobus_write_c45(struct mii_bus *bus, int addr, int devnum,
+ static irqreturn_t ncn26000_handle_interrupt(struct phy_device *phydev)
+ {
+ 	int ret;
+@@ -151,7 +172,7 @@ static struct phy_driver ncn26000_driver[] = {
+ 		.read_status		= ncn26000_read_status,
+ 		.handle_interrupt       = ncn26000_handle_interrupt,
+ 		.get_plca_cfg		= genphy_c45_plca_get_cfg,
+-		.set_plca_cfg		= genphy_c45_plca_set_cfg,
++		.set_plca_cfg		= ncn26000_c45_plca_set_cfg,
+ 		.get_plca_status	= genphy_c45_plca_get_status,
+ 		.soft_reset             = genphy_soft_reset,
+ 	},
 
 -- 
 2.43.0
