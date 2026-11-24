@@ -1,79 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795478343;
-	b=iebKBIoyE2qpy4F5xyuTNiKZTGm+Bu8X7GMpymdrFBzBeBS1MobP4c0hR1a6xh6xhkGd
-	 YDIcEbw6o97LabtrfuSyyWYtcccvX1adBNdEShSB4YKqLNs3m2KQoJxlesk+o4kyAeRin
-	 JT2HGrtyyKfFHFZ/Og3MeAqpOqmmdE9dnAhFMdugYavdEvxShUrtdq48eK46ViQcZWk8m
-	 qBSRz8ED8fSeTasbWFCLCjFW3IFSK75tuG1JCdW/rFkfGNc3PuvZcKM0801WsyzohZeUx
-	 0DSSYsakX3R4BcbMxjoYMENQPhpgpiuxgw348+axI+V0sjWe4LgOAfXnvz1yR+HsBYA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795478343;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Hwii7vj0qMB50+PolmP4b2hhHOl1mk2HpN/JxsVpo4s=;
-	b=CfArPpiZLFqRthmUXS5brxjTQKX/lz4fgvLtoEZl/52zDHjzNxUOvn816Ni6lV/FrWUo
-	 ci9RKA2q2N5VBUNC7QiO49c4w+K18ujwsbTqTW/hR/3HBtSg/GEwyIJbt2OOPdwpcrYg6
-	 wBOoDROtN/pfTv4nAhX1+dALUnQTl10LtBka5t+buuuhlWyFr/1cksxfifstK7Zo9XAfS
-	 4Gh5aXOF+nFHPQ/nbhxDNWlVBz1TTVaAZfBxD8JmUruDcnQLKo7kXDNGiHmXWRW9d9PuZ
-	 s1twU+8OiDeNbmPc4rLqPEqgMrg5Kf1TX7+n22Qwz7TG//V9sDldRwpt+mcr4x8yBDg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YlpsnZCn;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795479958;
+	b=flQDlSzegfRvXVJy/TWEfq8nH2Vkb9HjUI/mideAemUSfS1V5nhxb9AfuiKJC6nQAxTU
+	 pzKJ/phKGK/htlrAmd7r/xkeCn9FGApTBhRSFRrQ1aNW9ne57O2FRuY6o2TTvdcTxYDWe
+	 qXllPjPpyNk4Txuw4VuyzYL5oBWM56EWh6SL5jG9zsitslVwobL2np6CjABkeHJ+ZSEU3
+	 NISe9sNYUaxfsSA3bOawpLnbjw+9dni2aCpHTqXdlGCU5sH+K2OsaBc2eD3v+dKDIbk3E
+	 83SDd7ktkGvL9NgsiJEMopfY63pSYZ6xPZmcxUVwoegTxn2WgyNLZ0RQ6ZXHZ3kqM7A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795479958;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Kxj3LTKCk8n1ShsiLvXIwCrcjkbbdAXHYZZDDBMTS0o=;
+	b=05PSXuZGMb0FXIGxyw4m73xiVhGn9ECzUdww/ISrHbmr4h+1jifRXbu8qblFTjUcYfv/
+	 pXfSennvsMSuPs6uZ837pXY11RgMLoc9bK/y15b3zZtddLZ7nSqcGAfHDajy0m33t+2Kg
+	 db3ADa2H7iCM4IfwqUhKiIn6D7zwrOUQ21aP5nG77irRUmf9ddt8jPIjqr7xWwkv3Ln6b
+	 qdo2jSf9zZQNhmevfiNpS2jG1eW0eaugXVErXaBZNnJgPa9ARUbvyGCkQiPQsrXgXvGFx
+	 x3AndFXdN4Yi7WuFhmeL28580mIHTncONi/B3eOGodejXRSk4eWRNfLSI1ialaP4Kmw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YpBk1rkM;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E094606A326;
-	Mon, 23 Nov 2026 23:59:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51366606A321;
+	Tue, 24 Nov 2026 00:25:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51366606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YlpsnZCn
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795478342;
-	b=s0tbTPdR+jWQhQlrAz3b4dE4ZENRC3wbNwE64JedaM5vKUKUctXnEn/dmIgFRP19UENl
-	 IlNfKuUTsZK5lEdhtSDEJ2S83mr/tMbge0Ef6jP0KuNmKc3Nmi0hVGSkOR4E0deP51NH2
-	 DYiXl6ppTKRuK8pprZfQulhCdzHumqSmdI6pmjsvEzqQ+w+ONSlm4/J26Ia02/zpBgQT/
-	 4jU+13HLJ8pix5M/qK5DvWLkPMlxGqxAattu4Tj7ClJ0pVUWr3sP5TiNTruXz5PuvbZA/
-	 1pe0U0DRnmBQ3v/JUabY5pr69315/fr0p8ACXfTRljBIUzeszZY8qhO9zw57VqwyQ7A==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795478342;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Hwii7vj0qMB50+PolmP4b2hhHOl1mk2HpN/JxsVpo4s=;
-	b=XYInjS1GxG7qiFVEf7LmpRchml6NeSMQqrXU1yTBdpF1bu6K32cHznHtmV9+s5+klrb0
-	 MUik16lg93JnDhPGjc1ql+hpC+CQQK1cCjd38iUz7LYGHnkjDbOkFC3Y2YgNNhIRz6NLM
-	 iAZxcvYHWr1dFN3U6HLJQYwQyYSY8hIoiy5bWySFd3bDNRzIf8vf67u5JvLSXOM4khN9n
-	 ZKqqakOpmTQ3tbjE0VbvUAd2V2ngg2yHHKs0g58k3eI5e/TOKDQb7kUEeIqAr/BF9Iva/
-	 RKxnqXMsCb+52l1x9n7PQUfzz4b9151tG9Pq8xTzfc1ue2c4Cp0nh9G+5JmaFHC8gKA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id ABA141F000C0;
-	Mon, 23 Nov 2026 23:58:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795478342;
-	bh=Hwii7vj0qMB50+PolmP4b2hhHOl1mk2HpN/JxsVpo4s=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=YlpsnZCnDYM5Y0Efu8Qa1tc5iLxAkr65MLam+itVHAxa2cstPu6J+PD9Ih1ZSyL1z
-	 sMVeBZ35Aw24mZS5rtIK+DvMvr71FSOzWaQMmMvKbhHfTi/2KaGDmlDwKbpOnn/zm/
-	 D8USCp6ArjhEw9PeN60I07WfDX3rCAGz5zO/wQKpZ4PTPzDSmIwEeGseTXhQ8yO9xk
-	 myTtx1y5VEhbH1oAL9EaUShQaY1zVcTEtw7HKKZ4cwq5l4PxPyZwCh5x5BVgQ76Bwo
-	 hkByU1MUQcc1itm9smeQpBCnRUMlrGBS+uEvsZABU4B/84er93dXaLZe1bTrl348Q8
-	 9mzkR8XUkaFkQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 0F7B44C7CC;
-	Mon, 23 Nov 2026 23:58:57 +0000 (UTC)
-From: Arina Kharlamova via B4 Relay <devnull+arina.kharlamova.mbzuai.ac.ae@kernel.org>
-Date: Tue, 24 Nov 2026 03:58:53 +0400
-Subject: [PATCH] slab: fix the kernel-doc of kmalloc_flex() on counter
- overflow
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YpBk1rkM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795479958; x=1827015958;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nVAmdEDaDnYRQHSgXYadxkqn7jxNQZQ2b8Lekb4iy7U=;
+  b=YpBk1rkMpMyymwGqaUnfHgVnYj+Y3NcZRQM0Pxlq/MFAoNTQyIy2wLes
+   7E+uohyc/PcLc2tH2wRqRcUUn3/eT0FMr2SgM1HW9hdMnh5CUl95nVJRm
+   /lA/P82e65km376OIRyx8ug73j94jjVF3dPuX2IqlOMJZluNKOUM5zgej
+   AXupFwHxCxQp64fEf5y/YRERJtRZIk6rJQkcZD3XH3weK9JH9f/Ti1IQb
+   RfC7A8rXNkedC1R2H5wkBnPhV7qRKRwrmZm8gxN74JgAjBzkl3rL0NQl0
+   uS3MgSyxqV1RFr43sS/j+nh4q9Bi1MS4GVHAUA7Jrjx+BDB4vXp2rQeUS
+   Q==;
+X-CSE-ConnectionGUID: C7N8MUl1RtWcOLvTx+RtEA==
+X-CSE-MsgGUID: MgLs3Q7BRTydw/j9D9Jm0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4189354"
+X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
+   d="scan'208";a="4189354"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 16:25:57 -0800
+X-CSE-ConnectionGUID: k14Qo0u8TLu1N32wmi9GQw==
+X-CSE-MsgGUID: dPCKt2FpRF6mZjF3kBUgNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
+   d="scan'208";a="11543163"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 23 Nov 2026 16:25:52 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xVeM1-00000001OBi-0g1j;
+	Tue, 24 Nov 2026 00:25:49 +0000
+Date: Tue, 24 Nov 2026 08:25:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Srinivas Kandagatla <srini@kernel.org>,
+	Abel Vesa <abelvesa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 08/24] ASoC: codecs: wsa884x: register the die
+ temperature as a thermal zone
+Message-ID: <20261124081056.uJlgRhV6-lkp@intel.com>
+References: <20261122161437.5994-9-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,159 +95,176 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261124-slab-doc-v1-1-9f14dfce47c8@mbzuai.ac.ae>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM3QpAQBCG4VvRHNva3TbhVuRgfwYjoR2k5N4tD
- p96v+8CxkjIUGcXRDyIaZkTVJ6BH+zco6CQDFrqQiltBE/WibB4ocrKeCtNkLKAlK8ROzq/q6b
- 9zbsb0W/vHu77Aa5/koJsAAAA
-X-Change-ID: 20261124-slab-doc-1894ca04d006
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
- Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
- David Rientjes <rientjes@google.com>, 
- Roman Gushchin <roman.gushchin@linux.dev>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
- linux-mm@kvack.org, Arina Kharlamova <arina.kharlamova@mbzuai.ac.ae>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795478335; l=6300;
- i=arina.kharlamova@mbzuai.ac.ae; s=20261123; h=from:subject:message-id;
- bh=5QShQXRZX54gNTgo0Gx3CJ2jzLByJpRHbpnqHOcnA1Q=;
- b=1eSZpwSTpC+3FeEXiCh//wqMlujfe0v75aaKlaNcdfpPcrsBt+RFLknIU+B407OxXm5P23JDj
- 87e/QpMtB2lBBq4wxtsV6OJt5sc0ya3E/trBJjv9gwM1F/sPOy9RgXc
-X-Developer-Key: i=arina.kharlamova@mbzuai.ac.ae; a=ed25519;
- pk=DzQWwMpUtJvSDuzprqvRdbrC72n4Sq8dW6cq3NRt2Mk=
-X-Endpoint-Received: by B4 Relay for arina.kharlamova@mbzuai.ac.ae/20261123
- with auth_id=1625
-X-Original-From: Arina Kharlamova <arina.kharlamova@mbzuai.ac.ae>
-Reply-To: arina.kharlamova@mbzuai.ac.ae
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261122161437.5994-9-srinivas.kandagatla@oss.qualcomm.com>
 
-From: Arina Kharlamova <arina.kharlamova@mbzuai.ac.ae>
+Hi Srinivas,
 
-Commit fa5c82f4d2bb ("slab.h: disable completely broken overflow handling
-in flex allocations") removed the overflows_flex_counter_type() check from
-__alloc_flex(), but left the kernel-doc of __alloc_flex() and
-kmalloc_flex(), and the text in deprecated.rst, saying that the
-allocation fails when COUNT cannot be represented by the __counted_by()
-counter.
+kernel test robot noticed the following build warnings:
 
-The code instead allocates COUNT elements and stores COUNT into the
-counter, truncated to the counter's type. With a u8 counter,
-kmalloc_flex(*p, array, 256) returns a 256-element object whose counter
-is 0. With compilers that lack __builtin_counted_by_ref() the counter is
-not written at all.
+[auto build test WARNING on next-20261120]
+[cannot apply to broonie-sound/for-next tiwai-sound/for-next tiwai-sound/for-linus robh/for-next v7.4-rc3 v7.4-rc2 v7.4-rc1 linus/master v7.4-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-A caller that relies on the documented check and does not bound COUNT
-itself gets an object whose __counted_by() size is smaller than the
-allocation. Accesses inside the allocation are then reported by
-UBSAN_BOUNDS, and readers that loop up to the counter see fewer elements.
+url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/ASoC-soc-pcm-add-multi_direction_codecs-link-flag/20261122-161415
+base:   next-20261120
+patch link:    https://lore.kernel.org/r/20261122161437.5994-9-srinivas.kandagatla%40oss.qualcomm.com
+patch subject: [PATCH v2 08/24] ASoC: codecs: wsa884x: register the die temperature as a thermal zone
+config: i386-buildonly-randconfig-1001-20261124 (https://download.01.org/0day-ci/archive/20261124/20261124081056.uJlgRhV6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261124/20261124081056.uJlgRhV6-lkp@intel.com/reproduce)
 
-Make the documentation describe what the code does, and fix the
-Returns: text of overflows_flex_counter_type(), which still describes
-the inverted logic that the same commit corrected.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261124081056.uJlgRhV6-lkp@intel.com/
 
-Returning NULL, as the old text described, is not done here. Some
-callers allocate one element more than the counter can hold and then set
-the counter themselves: ext4_htree_store_dirent() calls kzalloc_flex()
-with ent_name->len + 1 elements for a struct whose name_len is a __u8,
-so a 255-byte name would then fail with -ENOMEM.
+All warnings (new ones prefixed by >>):
 
-Found while checking a summary of the kmalloc_obj() family against the
-v7.0 to v7.4-rc2 text of slab.h with a battery of inputs compiled by
-GCC 15.2, with the help of an AI coding assistant (Claude); I reviewed
-the analysis and the patch. A KUnit case (not part of this patch) that
-calls kmalloc_flex() with a u8 counter and COUNT 256 gets a non-NULL
-object with the counter 0 on v7.4-rc2 (UML, GCC 15.2.0); with
-UBSAN_BOUNDS, writing element 255 of that object reports "index 255 is
-out of range for type 'u32 [*]'". This patch changes comments only;
-scripts/kernel-doc -Wall reports the same warnings for slab.h and
-overflow.h before and after it.
-
-Fixes: fa5c82f4d2bb ("slab.h: disable completely broken overflow handling in flex allocations")
-Signed-off-by: Arina Kharlamova <arina.kharlamova@mbzuai.ac.ae>
----
- Documentation/process/deprecated.rst |  8 ++++----
- include/linux/overflow.h             |  5 +++--
- include/linux/slab.h                 | 15 +++++++++------
- 3 files changed, 16 insertions(+), 12 deletions(-)
-
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 22a5e62c92ea..f8b7fb6f9629 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -405,7 +405,7 @@ become, respectively::
- 	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
- 
- The argument gfp is optional, the default value is GFP_KERNEL.
--If `ptr->flex_member` is annotated with __counted_by(), the allocation
--will automatically fail if `count` is larger than the maximum
--representable value that can be stored in the counter member associated
--with `flex_member`.
-+If `ptr->flex_member` is annotated with __counted_by(), the counter
-+member associated with `flex_member` is set to `count` on compilers that
-+support it. `count` is not checked against the type of the counter, so
-+the caller must make sure it fits.
-diff --git a/include/linux/overflow.h b/include/linux/overflow.h
-index d0f04436343e..6ce610dbc12e 100644
---- a/include/linux/overflow.h
-+++ b/include/linux/overflow.h
-@@ -566,8 +566,9 @@ static __always_inline size_t __must_check size_sub(size_t minuend, size_t subtr
-  * @FAM: Member name of the FAM within @TYPE.
-  * @COUNT: Value to check against the __counted_by annotated @FAM's counter.
-  *
-- * Returns: true if @COUNT can be represented in the @FAM's counter. When
-- * @FAM is not annotated with __counted_by(), always returns true.
-+ * Returns: true if @COUNT cannot be represented in the @FAM's counter.
-+ * When @FAM is not annotated with __counted_by(), or the compiler cannot
-+ * resolve the counter, @COUNT is checked against size_t.
-  */
- #define overflows_flex_counter_type(TYPE, FAM, COUNT)		\
- 	(overflows_type(COUNT, typeof_flex_counter(((TYPE *)NULL)->FAM)))
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index ad645967a3ee..69fa9066137f 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -1091,10 +1091,13 @@ void *kmalloc_nolock(size_t size, gfp_t gfp_flags, int node);
-  * @FAM: The name of the flexible array member of @TYPE structure.
-  * @COUNT: how many @FAM elements to allocate space for.
-  *
-+ * If @FAM is annotated with __counted_by() and the compiler supports
-+ * __builtin_counted_by_ref(), the counter member is set to @COUNT. @COUNT
-+ * is not checked against the type of that member: a value it cannot
-+ * represent is stored truncated, so the caller must bound @COUNT.
-+ *
-  * Returns: Newly allocated pointer to @TYPE with @COUNT-many trailing
-- * @FAM elements, or NULL on failure or if @COUNT cannot be represented
-- * by the member of @TYPE that counts the @FAM elements (annotated via
-- * __counted_by()).
-+ * @FAM elements, or NULL on failure.
-  */
- #define __alloc_flex(KMALLOC, GFP, TYPE, FAM, COUNT)			\
- ({									\
-@@ -1137,9 +1140,9 @@ void *kmalloc_nolock(size_t size, gfp_t gfp_flags, int node);
-  * @...: optional GFP flags for the allocation (GFP_KERNEL when not specified).
-  *
-  * Returns: newly allocated pointer to @VAR_OR_TYPE on success, NULL on
-- * failure. If @FAM has been annotated with __counted_by(), the allocation
-- * will immediately fail if @COUNT is larger than what the type of the
-- * struct's counter variable can represent.
-+ * failure. If @FAM has been annotated with __counted_by(), the struct's
-+ * counter variable is set to @COUNT when the compiler supports it. @COUNT
-+ * must fit in the type of that variable; it is not checked.
-  */
- #define kmalloc_flex(VAR_OR_TYPE, FAM, COUNT, ...) \
- 	__alloc_flex(kmalloc, default_gfp(__VA_ARGS__), typeof(VAR_OR_TYPE), FAM, COUNT)
-
----
-base-commit: 9b95c9eeec894e969d590f45f9b760e88ba92876
-change-id: 20261124-slab-doc-1894ca04d006
-
-Best regards,
---  
-Arina Kharlamova <arina.kharlamova@mbzuai.ac.ae>
+   sound/soc/codecs/wsa884x.c: In function 'wsa884x_probe':
+>> sound/soc/codecs/wsa884x.c:2248:60: warning: passing argument 3 of 'thermal_tripless_zone_device_register' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    2248 |                                                            &wsa884x_tz_ops,
+         |                                                            ^~~~~~~~~~~~~~~
+   In file included from sound/soc/codecs/wsa884x.c:26:
+   include/linux/thermal.h:333:73: note: expected 'struct thermal_zone_device_ops *' but argument is of type 'const struct thermal_zone_device_ops *'
+     333 |                                         struct thermal_zone_device_ops *ops,
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
 
 
+vim +2248 sound/soc/codecs/wsa884x.c
+
+  2143	
+  2144	static int wsa884x_probe(struct sdw_slave *pdev,
+  2145				 const struct sdw_device_id *id)
+  2146	{
+  2147		struct device *dev = &pdev->dev;
+  2148		struct wsa884x_priv *wsa884x;
+  2149		unsigned int i;
+  2150		int ret;
+  2151	
+  2152		wsa884x = devm_kzalloc_obj(dev, *wsa884x);
+  2153		if (!wsa884x)
+  2154			return -ENOMEM;
+  2155	
+  2156		mutex_init(&wsa884x->sp_lock);
+  2157	
+  2158		for (i = 0; i < WSA884X_SUPPLIES_NUM; i++)
+  2159			wsa884x->supplies[i].supply = wsa884x_supply_name[i];
+  2160	
+  2161		ret = devm_regulator_bulk_get(dev, WSA884X_SUPPLIES_NUM,
+  2162					      wsa884x->supplies);
+  2163		if (ret)
+  2164			return dev_err_probe(dev, ret, "Failed to get regulators\n");
+  2165	
+  2166		ret = regulator_bulk_enable(WSA884X_SUPPLIES_NUM, wsa884x->supplies);
+  2167		if (ret)
+  2168			return dev_err_probe(dev, ret, "Failed to enable regulators\n");
+  2169	
+  2170		ret = devm_add_action_or_reset(dev, wsa884x_regulator_disable,
+  2171					       wsa884x->supplies);
+  2172		if (ret)
+  2173			return ret;
+  2174	
+  2175		ret = wsa884x_get_reset(dev, wsa884x);
+  2176		if (ret)
+  2177			return ret;
+  2178	
+  2179		dev_set_drvdata(dev, wsa884x);
+  2180		wsa884x->slave = pdev;
+  2181		wsa884x->dev = dev;
+  2182		wsa884x->dev_mode = WSA884X_SPEAKER;
+  2183		wsa884x->sconfig.ch_count = 1;
+  2184		wsa884x->sconfig.bps = 1;
+  2185		wsa884x->sconfig.direction = SDW_DATA_DIR_RX;
+  2186		wsa884x->sconfig.type = SDW_STREAM_PDM;
+  2187	
+  2188		/*
+  2189		 * Port map index starts with 0, however the data port for this codec
+  2190		 * are from index 1
+  2191		 */
+  2192		if (of_property_read_u32_array(dev->of_node, "qcom,port-mapping", &pdev->m_port_map[1],
+  2193						WSA884X_MAX_SWR_PORTS))
+  2194			dev_dbg(dev, "Static Port mapping not specified\n");
+  2195	
+  2196		pdev->prop.sink_ports = GENMASK(WSA884X_MAX_SWR_PORTS - 1, 0) & ~BIT(WSA884X_PORT_VISENSE);
+  2197		pdev->prop.source_ports = BIT(WSA884X_PORT_VISENSE);
+  2198		pdev->prop.simple_clk_stop_capable = true;
+  2199		pdev->prop.sink_dpn_prop = wsa884x_sink_dpn_prop;
+  2200		pdev->prop.src_dpn_prop = wsa884x_src_dpn_prop;
+  2201		pdev->prop.scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
+  2202	
+  2203		wsa884x_reset_deassert(wsa884x);
+  2204		ret = devm_add_action_or_reset(dev, wsa884x_reset_powerdown, wsa884x);
+  2205		if (ret)
+  2206			return ret;
+  2207	
+  2208		wsa884x->regmap = devm_regmap_init_sdw(pdev, &wsa884x_regmap_config);
+  2209		if (IS_ERR(wsa884x->regmap))
+  2210			return dev_err_probe(dev, PTR_ERR(wsa884x->regmap),
+  2211					     "regmap_init failed\n");
+  2212	
+  2213		/* Start in cache-only until device is enumerated */
+  2214		regcache_cache_only(wsa884x->regmap, true);
+  2215	
+  2216		if (IS_REACHABLE(CONFIG_HWMON)) {
+  2217			struct device *hwmon;
+  2218	
+  2219			hwmon = devm_hwmon_device_register_with_info(dev, "wsa884x",
+  2220								     wsa884x,
+  2221								     &wsa884x_hwmon_chip_info,
+  2222								     NULL);
+  2223			if (IS_ERR(hwmon))
+  2224				return dev_err_probe(dev, PTR_ERR(hwmon),
+  2225						     "Failed to register hwmon sensor\n");
+  2226		}
+  2227	
+  2228		pm_runtime_set_autosuspend_delay(dev, 3000);
+  2229		pm_runtime_use_autosuspend(dev);
+  2230		pm_runtime_mark_last_busy(dev);
+  2231		pm_runtime_set_active(dev);
+  2232		ret = devm_pm_runtime_enable(dev);
+  2233		if (ret)
+  2234			return ret;
+  2235	
+  2236		if (IS_REACHABLE(CONFIG_THERMAL)) {
+  2237			char tz_name[THERMAL_NAME_LENGTH];
+  2238			struct thermal_zone_device *tz;
+  2239	
+  2240			/*
+  2241			 * Register after runtime PM is enabled, as the zone is read
+  2242			 * right away. dev_name() is too long for a zone name.
+  2243			 */
+  2244			scnprintf(tz_name, sizeof(tz_name), "wsa-%d-%u",
+  2245				  pdev->bus->id, pdev->id.unique_id);
+  2246			tz = thermal_tripless_zone_device_register(tz_name,
+  2247								   wsa884x,
+> 2248								   &wsa884x_tz_ops,
+  2249								   NULL);
+  2250			if (IS_ERR(tz)) {
+  2251				dev_warn(dev,
+  2252					 "thermal zone '%s' registration failed (%ld); SP T0 kcontrol will read 0 for this codec\n",
+  2253					 tz_name, PTR_ERR(tz));
+  2254			} else {
+  2255				ret = devm_add_action_or_reset(dev,
+  2256							       wsa884x_tz_unregister,
+  2257							       tz);
+  2258				if (ret)
+  2259					return ret;
+  2260	
+  2261				thermal_zone_device_enable(tz);
+  2262			}
+  2263		}
+  2264	
+  2265		return devm_snd_soc_register_component(dev,
+  2266						       &wsa884x_component_drv,
+  2267						       wsa884x_dais,
+  2268						       ARRAY_SIZE(wsa884x_dais));
+  2269	}
+  2270	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
