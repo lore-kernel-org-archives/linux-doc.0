@@ -1,145 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.50
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795546338;
-	b=4Lr8BOFlgXeYoKi/5M18fmoMnLiEzRvbqp7bu51zg3takVxpEEksaVld+4DUVMIwou1w
-	 b3M5aGqLd6pNcMxojZ2F2NjgGnpCFvK79rAtqt0DNqc6mBd6dcvpO5ErejtanuSPcWC32
-	 xODC7GB+GAaAs04VAOkDX7pnFHRy6IwVl7OkTBXfB07cgfe78wEtbFkHfU2jgd1PZwqkY
-	 ObsFimduK09/24t1XBwYZ96NLiHgYs6hfHovkC6sg2BX8sJR6/U53FZs0cFbY0MTtW63C
-	 Rex8iuGoDbw5L7N4rFpG8o5uq2zDY1IXn/hAQk2XCHi4lferAR6G0zn/CuAtlrwfh5Q==
+	t=1795549164;
+	b=ZgyWZikoVPmSOC241lvMmSS2b9jInroJfknywM8lFEBOGeZ0rveIZXN8dmUjH4T/Kj5x
+	 7igAf8udAjaSuVfgl+NVJwmPy41XJQzj4HM9pYujf0qT2fx1tyINH+Tw79bspjCP/9pHC
+	 IOTN26gVg7U6KJntO+LZKAsF0Xat3N/hpRIQQFuozDTWZE/0unpBq3/bN3nn/PfPboIam
+	 x8OywfCHwBcvcEmvQeyouxnJ93T5cdK/pi9ld7c6Nb60vGdCJw4mKMBgOsrijLs3FbsXK
+	 OsILviWfNLGUPV4fCK/Not/4x3LQE9WYnRs4GDewwe2Itbgoa07MDMv+Xsr4M6vlK4Q==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795546338;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:DKIM-Signature:Received:Received:Message-ID:Date:User-Agent:
-	 Subject:To:References:From:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=Vqh3xpyKeJeBls6s/kI3oP0HTW1ahAXRorRdea6j4Vw=;
-	b=tuf/p+bV7+x+Mwvt9qmH8oW2UsovHBZ1wZqDLfBJW99Lw1ZR/w7BGcVIomy8HG+B/kro
-	 TtfS5cGa1W2jYua6t1uuZN1R23J9/XL+Z7jGKDqlEFAMxDaK78qaI+3O5iXVFhJlB+zfX
-	 TV1RqUc2PbUKzHoXIlAch89JB5KfblGk2eGeylGZGyGqi4OVHjQr+osvkmEXHZLnGN2a5
-	 aTOHJtqqkDmBXIsA5JpggASp06WZ2G8ShUSDe2zX7yShut2/+cSaVzpbzPBADKsAqZgwe
-	 69/rlTDKkhybcYeOIuK5gY1RmtOXBX/4QFQQCafZF5+d5txUywqqYup2yZhVKY8GJ3A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795549164;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=wu6tXx6YfE7l4Mva2JR2OLNsbHXUq95QfytVnLKi2kk=;
+	b=5CI5NOUOjwa4wTr6X/XEfY1oegIjp6sgQd3dXOZUmT91KBo+dKoIc9OgxsWtAzdHU0KU
+	 osFOWVOUlV200VlL+tJj3WllSftSDfzFQnDQqsEnFXzI50y6niwxhKxc0voJggrtTEqzp
+	 jNzUJ+OEMqIOHqFaOnGw3VrJMpFsvzgT+At8rE6NekLKZL8WU7QYYzTdbz+kkUWkSn1I+
+	 E2yluT2RF+pA6OjHVRZG+ISjmrDwIdVyzhevETbLgblalxB0uZJWgQN/5MiqtBX7Un2ao
+	 0/gEDoH2TkWIvjR/a+6WwsB9gDMvlTwEaWWSTGZizcyXkRcdAv5RFqVhGXmkIoicxww==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="YnCiIR8/";
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=selector1 header.b=apD8x6Qg;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cW2rwNVJ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.50
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDF9606A331;
-	Tue, 24 Nov 2026 18:52:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BDF9606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC41A606A323
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 19:39:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC41A606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YnCiIR8/;
-	dkim=pass (1024-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=selector1 header.b=apD8x6Qg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795546338; x=1827082338;
-  h=message-id:date:subject:to:references:from:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=I5MMF/O8IOPDcqiIvJMY3asHuctA8EVhYY2d0skUhfU=;
-  b=YnCiIR8/lcFMstBup14ePgragOAdkRQZdh9su3Bkc8h1VjqNKq2zO5qn
-   tiZCqCuuHSviCpZlpAiuzeFbDXvzv5QHTvF2Kg32C5YecK8GMJcOys5J3
-   Esoo35X/0kjRTpMO/CHDc3FA9wEwUoodVuZGGZ4CX13mhD1wVeN+j++jv
-   dV0YIbCulEK1W40CIlmjtqoBkFP4J4BfeF45MO57YB/2AAc5T+qlDpLdu
-   I1YPSHpYMeBxCbQRJzP/CwHHe1tR9nhgLS64Yf6dq+MI/jFaA8t/OB3eR
-   nvSYPXtZgcJ7xeTgAeNF3PKrKBLuJ/Gvwj3Vu2vkWmbkig7F91e/JmERJ
-   g==;
-X-CSE-ConnectionGUID: ZM8/3ngBRsGvswGU9vQ3QA==
-X-CSE-MsgGUID: XbAiwrydRVikQ8LAEfX+7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4419494"
-X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
-   d="scan'208";a="4419494"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 10:31:54 -0800
-X-CSE-ConnectionGUID: 7xxF86vKTkin2rpLEWDNVg==
-X-CSE-MsgGUID: Vupg9wYSRAOUYXQvggxh/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
-   d="scan'208";a="11977012"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 10:04:08 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.57; Tue, 24 Nov 2026 10:04:07 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.57 via Frontend Transport; Tue, 24 Nov 2026 10:04:07 -0800
-Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.35) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.57; Tue, 24 Nov 2026 10:04:07 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ag/6n8wyhZlSSS6d/x5jinL9iN1Yvda4Yk+BxKahR7dWwDpwEhc4oBtQiW0sc1eki/bPGGqlhEH31ytmSV9PswEGq48b9hPe/mD0n/Pmuq3WwK4bFjrKnLQltSvXXWw0Y6X25kx0/4OceT+TEnYeQtbpMreWENHe6b2kEZnEvKDIDctvMs6LCxn6rnyCSYUsY4CSwK0M/Pvoi+TAYxr3kvF67p8d3cbzSYuoxKdx+Hma02wEG5MjhrSQfDAJ3Kvw3ZNztEndX14SHxgGD5UI6iSiuxNe8BSMezU3Brqn9oLdfzdgI32nZYq2pGV0VFPghBYIsz7SxAODrZ4OOhp72w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vqh3xpyKeJeBls6s/kI3oP0HTW1ahAXRorRdea6j4Vw=;
- b=XYO2b434XG/hSfbdO5NQ6QK6e8kGm1RzT2JwHcNAhF8pG4lvAd3Nf6Pt1JnNhrKVFnz6VetoMsLWKj1yhqJSeCGZbZdBIauJf6jlQKSDa4t12+vcnCfjDwjghJ62p3jPam6YcZ+mNoYSRiZT/iMIkdToEEzWUdky3CWtgYpiBt8+TGjaJKkiqoJoah/6rVHUOC/9yF8wX6Lsgg+RgsBLsU3Fgo0lBVVxKdCczrlcaI46538w2I/Ak43tEzkkNo6u4SUrtVvmkc1V93eCgN1jH1rVEF3FjrHwGLXea5PlBmQEqXexifLFSjzoxTj6OfLFJRiwA5lkHO9CN7Hm9PSsYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vqh3xpyKeJeBls6s/kI3oP0HTW1ahAXRorRdea6j4Vw=;
- b=apD8x6QgFb76Dusy+DRmTxTKXU1zff94dhXTEhw2qwhocQkLjHA9FnUM8i+f+LIBz4L6OpDme1M2cVMFyDgSVHBW2w84h2jMLGkIxwOriIXPsANlh8c91SXTQKdUR85UZOZXQWBR8cOFqPZblMQWOzwoDGp4DMaBdAMmr4DjcpI=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
- by MW4PR11MB7126.namprd11.prod.outlook.com (2603:10b6:303:222::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Tue, 24 Nov
- 2026 18:04:03 +0000
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc%5]) with mapi id 15.21.0615.009; Tue, 24 Nov 2026
- 18:04:03 +0000
-Message-ID: <4712b9de-811f-44f8-8ee4-54cd0df8892c@intel.com>
-Date: Tue, 24 Nov 2026 10:03:59 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/6] fs/resctrl: Release the limbo RMIDs when the CDP
- state changes
-To: Ben Horgan <ben.horgan@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>,
-	<tony.luck@intel.com>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
-	<babu.moger@amd.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<rdunlap@infradead.org>, <bp@alien8.de>, <tan.shaopeng@fujitsu.com>,
-	<gshan@redhat.com>, <jic23@kernel.org>, <fenghuay@nvidia.com>,
-	<zengheng4@huawei.com>, <x86@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-References: <20261119094858.813874-1-ruanjinjie@huawei.com>
- <20261119094858.813874-6-ruanjinjie@huawei.com>
- <6dd79d09-576b-4086-ba5c-7f8663292a6e@arm.com>
- <390433eb-30d8-442a-8d7e-30f15bbe8f9d@huawei.com>
- <03bd150c-f44a-4ae6-b544-3f819e4bb7f2@arm.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <03bd150c-f44a-4ae6-b544-3f819e4bb7f2@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR04CA0375.namprd04.prod.outlook.com
- (2603:10b6:303:81::20) To SJ2PR11MB8370.namprd11.prod.outlook.com
- (2603:10b6:a03:540::20)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cW2rwNVJ
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-9214032a2fdso40116336d6.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 11:39:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795549163; cv=none;
+        d=google.com; s=arc-20260327;
+        b=kz3QlNJI9R7LnHn02xXYZ5UPLJbMMwScb7zqNND0LCNm438GDqr5wHSluu5+ipF4Op
+         KF6qCOB1wDnxufyzWYsSMWikMyUDHd7MEWm9GErx1le4NcTGcL3MYz4Y3WezKXolELNv
+         iGABRla65V/BmhPpzoBkuAzWa3vYb7zr2Yt3buFX8HRuQK+3WvHQn+vVyIQgveqdi9Xp
+         INh1DlQRZZEhYy0UQ5jQfV3LAM79ZY7fsQ5spbILOF3yYAXJHuj+AIw3J9DE/mlHM9OI
+         tLNDdDCsR3wHoTq+hOQHIW862Zu9bjWFj4x9J77ArH2N/z2H7L+zNxkUnZ8CadLQN00U
+         EezQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wu6tXx6YfE7l4Mva2JR2OLNsbHXUq95QfytVnLKi2kk=;
+        fh=+lC4j+6wjn6+19QVN7vHJOOYUrZyCsgQY9szq++2ENM=;
+        b=sRCyquSLQDlek/gADZx9H5bUWgSwdvyZ4HF+J7HCLHcmXHOf8+CS4nuVLjtnHG39Ff
+         e5CS9vN/m/zEOaPLrJE+MRS8ikvypxdoZemsgAPZ65VKEF9cx0prPgMxUUcxPWPPjNS+
+         p4XL6KRaiXuC6hIBKWOt0Ur083QZjpLpFloWnJagy+xwn9TuAELWG1wZVXihkDMlSnLd
+         bUx0ftHaWkGLLvd/kOX6nrUWOUd1lfmLQlleytgticBLu1C7BPd/vY/Oc9VsGuBw1+dc
+         44H8Z1FvGuNfXBu1fWD4cNJaPUgTqNU0ezaECK09YELnT/0toqJYL7nF78GMCwaaFxse
+         lJlA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795549162; x=1796153962; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wu6tXx6YfE7l4Mva2JR2OLNsbHXUq95QfytVnLKi2kk=;
+        b=cW2rwNVJI6HxHt+wItMR2czZyFM8ow0B06BcI45fbba+VQFvn1Z0TXpWSTRRWCwRZe
+         8T60OJmWcm5C+mon3iZZDG6m2QDYKL0T1i8+sFCuPN0jVqjgomqe3HEQSH9fXycJ+GG9
+         alRSQ4xAVZwqaC/6LzbYEREJ0M7v+pMFEguNQs4Qwq7HONhVTapJ/XnaQEZgsMn/P4SL
+         aA6rG2RZG5qRTRrQ+4C/uRkiS1FSOIwgFHPuU8wi3u69EWkim6F7ZHAZzD6gnPLaZdrl
+         BxKkIaD+i9B1PaXiYnydaY96GoTsMjJkvMnhAXVtuccblVLlQVvz5p9cLpKDEJ98Q5pk
+         pszA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795549163; x=1796153963;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wu6tXx6YfE7l4Mva2JR2OLNsbHXUq95QfytVnLKi2kk=;
+        b=QKchiPPVd/B3nTf4eHXeSg7BDuyr9Yrk5rso2LjTUHKREB6fpl5VhaVrfIqm2xRTWf
+         smTJLCHpqcBb5LGt/OzWFjR0iGtA/vPCx1ZgLMvHPrJ4sd+NmGrPNTBxLJfmBC86g5n6
+         qWU/DfgeTGpzRPyxKMd4EgjLhAYOnFnQQe3peCPkaRKvbVxwufp37oJqVesfGuJy+RwP
+         S94CFJFZtlTcy7vQLj6vSHMdjOsdPsN+YJVmNwekSnIZ2t+astnZ801o8JYadVPsBdIX
+         7jVlktGQm5Bie1Ejx+MfBfryYi/m+V7c2fxEfKvBTrubLB9KCYfXCrzi23uaCYnaWJgE
+         WPVg==
+X-Forwarded-Encrypted: i=1; AL+hErFncgii/yjPSERHJFw8jujzL2hfwg7Dgm6l7KOAjeFcrqbgJT+YsTvoJHRdEFW9YzgVaRrY8hUCPOY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9qUZOO1J6x6E05tnyoA+9A7AGS7a9eLZ2VAdaUa3fsBETc8XTl
+	Qj2IN+VbeproYu2mCv2yVbdHltjBV4/NaL8Pxvohb7ewcnRvB/tMqP3aoFcDRchikpojxkTt4J5
+	tQitbu0gxUr0YEGr3/EuCDO2NmMqfQ64=
+X-Gm-Gg: AZFdTZe+Z4W9OSG+VV8diOo5+y674KnV4ZzR1JRkGt16HIIhYcjcs9xoRjUcZoEcWt7
+	iOgZBk0IBW0omOclpJDd4p550gJzruWlCMyuFgpqMjCRTSBiRUJ7a8cNY36Y5kHFyQR+Yz6Dqzn
+	NebTt34xJF+ltUulSgVror9QsMwbyB9jKJs23+mkhGvhZ3qeFP438RoDa6kZwwh93pPxjpK3FgP
+	UZ2B25BnNjkH0Ng1AXIW10OABqrTBBt+dfKd9KSdAmzK2obYBtzoXnxzdkq6fZvTddIhxOCbIGh
+	XYyoa670eS3fukQ8ZPiDhsXePmZmEeD+ZDiqBy56Qjb3Hu3mkME+19NpbklpsSh8SKcxQeVy8hW
+	TDPuExIXlY7QAYpa8tMjbbMXWbRlXma61+SqY
+X-Received: by 2002:ad4:4ea5:0:b0:921:2a52:7961 with SMTP id
+ 6a1803df08f44-92134a69adfmr276073706d6.11.1795549162306; Tue, 24 Nov 2026
+ 11:39:22 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -149,222 +104,223 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|MW4PR11MB7126:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed52d7a0-9f26-40cc-00fe-08df4a5552e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|921020|261022105027099003|10067099003|261026140227099003|5023799004|11063799006|4143699003|56012099006|261026121527099003|261009223027099003|261021123027099003|261021121427099003|261022075727099003|261028144727099003|261102123227099003|18002099003|22082099003|6133799003;
-X-Microsoft-Antispam-Message-Info: 36mrxOsqlMfbW/gmTjlSPCiHlXo0Iv6j9voX29Oc/9Mc0f+bI0bBw0e3jesg7Y/irR5dk/qIA5hWgau32ROeMaOGkCGwYxISsKGaT3sGHEqb7/e7hULfsnsQ7dWCq/CxSVoIGW0/Bd7c7iw8wxZEK7iV6rumGDDaYYmVA3o9RP/G22zdWtlOM16HbCamHtohwIEhLeFtgHvyjlj7wVe1WvACuERp7/jBr57j6XqzK9mASu2JRvGKjvJQLCAuRC8DljK2RpTVXmhLxkSrQOSa6UcsNell844C98N/iGo+V6qUDsEVz18s7K6DiBHy3rp61z4xwEYice+KEPtoDyCUql8Kc1DG65zXqQi3Fk8GhCr6JATX4jnXDtKq6bms+oyPIt+QYsDPBEYtd+TjI8vUAaLH/hmyl7m68U4H2VZH8K5IPnfj8tzETsLs5ekknfQGiY7EY9qbcJRAKY4+mm8sxzezyUO5yPiH4lE20bRB9M1U21Dwo6UtazaWQ3i0/lY3iGvT8dE9QawkNCrPqRUvhi/pcD1VcOZvZYZVnqNhJ8x3BzV/gYiU8sG1oI0MyIVhAo6qim7FntMj6iQb736JZkwPS1uhEp1xoCi8ZJmi6eBCH0a9P1TpTZCWnLXQnsdf+1i1WqelGKy1S2UOkDiaY/508tYnfoqt4iy61vs8/0OfpVgsE8IBi858zcMFALPbKHIVmdwo+96p6389Gedh8g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(921020)(261022105027099003)(10067099003)(261026140227099003)(5023799004)(11063799006)(4143699003)(56012099006)(261026121527099003)(261009223027099003)(261021123027099003)(261021121427099003)(261022075727099003)(261028144727099003)(261102123227099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a2JQQ0V2V28vUU5PVjIwdk9CK3N1SHpHKythOXdjZVJvTUdKL2NFRk15WTRw?=
- =?utf-8?B?a2FQV2hid0NIQS85eS9FV1VaNFpzUFdFVEd4VkJFSHZWd3BpOG1qelV4Rmdw?=
- =?utf-8?B?dHhmRlBRR21pcUVYN01yblgxV3pVVGF5eWFOYitjQ2dOL25qU3lIU0NZQURR?=
- =?utf-8?B?M2dTaTVUNXIvcGJMcWd5ZUlMWjh1OGo5OHlOa0F5OTIwZEJGM1ZyNWJyOFVT?=
- =?utf-8?B?RGhUMW1QRktoeDFEbjB3ZGhnZ3puN0NnSStLT05MQXdwaTlkZHhub3FsK0hx?=
- =?utf-8?B?VGw3TjZ0Y0VIWE5Ma2JrRDhNcVdGZ1VzOTBzb0gwZExlbVY5WVdYaFIraXhP?=
- =?utf-8?B?VThKSDN2S0hQbDR6a0Q5am9XR2xjdG9qSDhzUHJqdUpNd0plN2ora3lhYTVC?=
- =?utf-8?B?ZzU0cktmcGFHSDB5bHFkOHVveUF4TU9IV0lMeW5Qa1VaV3M1S0VwMS9DNGZk?=
- =?utf-8?B?OWNqMHdvcEY0dSs4QkRlQWJVNnpSN2lDaWJ1OWE2QWNDZlJnZUR1aGVCaUc1?=
- =?utf-8?B?ajB1WU9IZC9nVUZ6cTF2ZFQvdUF0YzQ5K255ekhkT20xbGM0V1lDZVl4NWZM?=
- =?utf-8?B?WERFUktzbHIrdmJ0VkhmVmt2ZXJ4WFg4clJmTk54UDhhRFJwcVo5enU5OVdG?=
- =?utf-8?B?bHR1ZVZyMG1kYk8weCtwSGwvUGE3eHdTcU53UDQ3VHNVVHhzV3ZCMVl5MktC?=
- =?utf-8?B?aEY5a2JGYlVyTlNZWG9lZmg4UXBUcUQxdDdhcFJNdi9qYWRpc255ck5LQzZa?=
- =?utf-8?B?SXV1cjZwUzhYTFJybGQ4OUQ2WEVNVnlSYkNiU1FzdGlEMnh1QUtEYmtCZ3FE?=
- =?utf-8?B?eTJ3OTJ6NkxZLzFCeU1VSnJoNFVKS215OERWamFKcmkwS0x5c3czUDRWbkZv?=
- =?utf-8?B?bDBUWm9pQXVFUzRoZGdidXV2Wkc2cG0vSkNnN0pjUTRBUnFQUGpjQXpPbnNR?=
- =?utf-8?B?YW1pT2FiOVhJbUgvUEpGemw5WE5nZnZxb2NwaEpWZ1dPcmpwaUloSmJ1WkJP?=
- =?utf-8?B?eE11RGFvUEczMmFidVVaeWgzazF0aWNkdlFTSDRvSWc5UVV5TDR4dFpKRkdJ?=
- =?utf-8?B?K1ZTQ1hIQ1QwbFFCWm5CVmhMNjQwTjEzRFdYNk1vRUZ4YWpvL2VWMEwvWEhQ?=
- =?utf-8?B?bUNNTkRYSWdjcnRadHJyckxVNC9TMUlVS1RwOVpsRG1Ma3FCSkRjNnBScWRx?=
- =?utf-8?B?UmZraDBTdmRYMzR2Q296bUdWN0V4UFkwMmRzbEVrbmZqTWZxbXRENTVlZWwr?=
- =?utf-8?B?cWlNZkxlS1dveU96ZHU1ZmRIVTBIVTh5YU04ckxIV04zeU5hVm5QN2UyM3Zi?=
- =?utf-8?B?M05Wc3hRRVN1Z0U0VEF1YkdNalY2ZUlMMGVrTlZha1dWbTRYMFQ5L3JBaURr?=
- =?utf-8?B?dmJweVpzTUR5ZGRVTDlGd2dHR205ZXZMN2JkeWZ2K21VZVJUeFBSU3hjRFlR?=
- =?utf-8?B?N29ubDhidDlNck56ZU44cDk5SnNGaUhlSzI3ODA3NlRlMVl1OVI3am4yaStZ?=
- =?utf-8?B?cGl6eWtlK3J4c0dZOXJIL2g3aHEyb2RDN00wdktTakUyOGl3cnRhY2Z2REdj?=
- =?utf-8?B?cG8vaG5RVHc5OTFHbFRLTm16c0dJaEhIWVlhMU9pUHZTYVpsKytjVEhWTktp?=
- =?utf-8?B?TWx1UEtCNmlrdFVBWTI4anVOc0lybUx1ejFIV0pIY1BURU5WNmdJcGgrdWJ6?=
- =?utf-8?B?L1paRnViUDFpZkxSMy9uQ1RKaFFQaSs5THhReVA1bjFSbUtzaTR3SkRqd0Nk?=
- =?utf-8?B?elRNN1BqR2ExWEYvZXFXYVBZSWt2TWdKdDRpTlBJSmxnRkEvTmFKVjZJTXQ2?=
- =?utf-8?B?ZTlybkUrL3dSeCtzdFJER3Y5RDVIdGlHUHU3bmo0eURlS0xtK3pCMzh1UFJh?=
- =?utf-8?B?WUJaL1RYaU9jQ2JBUktZeGpBblN5eGZUQTJXZG1mK0p0K0ErWjZpeGhIcDVY?=
- =?utf-8?B?Nk12bnVFc0dla1hySkNBRGNLeGZieDhjbnVvMEVTVU0yZnRJS3FMSnZDdXRa?=
- =?utf-8?B?UThuMHluZ01pWFhvSHZJNWZheXVlV1c1QmdmQzJjcEp5VmdFeWxCV2piT2Qy?=
- =?utf-8?B?dmQ3eVZXUVZTcjBqSjdGWVI3ejZPcVgrYi9HNlp4VFFXd1lERlhhRnFndS93?=
- =?utf-8?B?V1VGdktQNTU2MkNYMzMvZU10T1ZCbzB3SE1aSk1GVnk0dUozWGlPNXFlN3gr?=
- =?utf-8?B?aDU0elNJY09vU3ZkY0hqdXpjbEJncHpFdk16bHlFVW10SGtsaW5mQjJmWW1n?=
- =?utf-8?B?NXg2WVQ5Z1FXUDNJM1RJM253RC83YzdzZGVPeU1URjFYZzdWaTRyc3pPblVY?=
- =?utf-8?B?aFQ3bW5mK3k1M214NThUblI4QUxBNlJDUkZaR05lMFVEaE1IMXZBMzRGMVJS?=
- =?utf-8?Q?Le4zh1NrjT63tbss=3D?=
-X-Exchange-RoutingPolicyChecked: Nj3YfAifQ2N9qzUOsv4/dm32mNKWcBKk6Y10JrJJrCY9WHTHE8nv6rVnxA+9bE6O2Dm1Eui1muJKjicwv/0bnkYYC42dJZnP2rNNhyKi5QI3g9goNlOsQrpAZm76RmkRtvOfrlLrDHsYDe6Srf9PGtXwoDQNHDudg5d6gE1RxlZ2ZmsAHkCDScoJKGgqOeltmnZbk7xTUj/x1Fo0oxXbQo2V69BUMXNgd2qFBFACrFHjhIqO4Ow0r1iMwBnrh25ZjllSGzsRZT4zEwazIZAXH306/Tegygzh8POx1scJxhfkrEmCriSBhli0o2a0UQn2eyQw6FNexXKyWzfO0mTVyQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed52d7a0-9f26-40cc-00fe-08df4a5552e8
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 18:04:03.6660
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bZ96EP00M+SvQhXZ6i2lcbvvzoyfOV6UjE1Or+JD49j8fvu7pN6bqv9/68gICwVZ5LgW2PAhlQEp81LUa6DlQ0ziuFPp9RNLZlSb/1/AFSM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7126
-X-OriginatorOrg: intel.com
+References: <20261110020632.4003499-1-svv@google.com> <20261110020632.4003499-4-svv@google.com>
+ <CANRwn3S63O+WRTGhpcNR__ybSuYUb2uEJavUY3b9Uaa_vEhWXQ@mail.gmail.com>
+In-Reply-To: <CANRwn3S63O+WRTGhpcNR__ybSuYUb2uEJavUY3b9Uaa_vEhWXQ@mail.gmail.com>
+From: Jason Gerecke <killertofu@gmail.com>
+Date: Tue, 24 Nov 2026 11:39:11 -0800
+X-Gm-Features: Aa3M54o2OOpleRkrCFNEdlqQD3MYtqXEWF3YvkJU9bfSOLKz15MuchopzE_T5qU
+Message-ID: <CANRwn3QjnmnhJP2y7tihZWrvgkdT9PG+qGaNbEW=x=mgUP4OHg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] HID: wacom: report ABS_TWIST alongside ABS_Z for pen twist
+To: Siarhei Vishniakou <svv@google.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Ping Cheng <ping.cheng@wacom.com>, 
+	Jason Gerecke <jason.gerecke@wacom.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ben and Jinjie,
+On Fri, Nov 13, 2026 at 3:29=E2=80=AFPM Jason Gerecke <killertofu@gmail.com=
+> wrote:
+>
+> On Mon, Nov 9, 2026 at 6:21=E2=80=AFPM Siarhei Vishniakou <svv@google.com=
+> wrote:
+> >
+> > Historically, Wacom tablets reported stylus barrel rotation (twist)
+> > via ABS_Z because a dedicated evdev axis did not exist. Now that we
+> > have this axis, report pen twist on ABS_TWIST in addition to ABS_Z.
+> >
+> > Keep reporting ABS_Z to maintain backward compatibility for existing
+> > applications that support Wacom devices.
+> >
+> > Signed-off-by: Siarhei Vishniakou <svv@google.com>
+> > ---
 
-On 11/23/26 2:07 AM, Ben Horgan wrote:
-> On 23/11/2026 01:53, Jinjie Ruan wrote:
->> 在 2026/11/20 0:49, Ben Horgan 写道:
->>> On 19/11/2026 09:48, Jinjie Ruan wrote:
->>>> On MPAM the counter of an RMID is selected by the PARTIDs of the CLOSID
->>>> that owned it. Without CDP, CLOSID c is PARTID c; with CDP it is
->>>> PARTIDs 2c and 2c+1. An RMID that stays in limbo across an unmount and
->>>> a mount that changes the CDP state is read through the PARTIDs of the
->>>> new state, which are not the PARTIDs its cache lines are tagged with.
->>>>
->>>> With 5 PARTIDs:
->>>>
->>>>   mount                  CDP off, CLOSID c -> PARTID c
->>>>   mkdir g1..g4           CLOSIDs 1..4
->>>>   umount                 RMIDs enter limbo with CLOSIDs 1..4
->>>>   mount -o cdp           CDP on, CLOSID c -> PARTIDs 2c, 2c+1
->>>>   limbo handler          reads CLOSID 2 as PARTID 5 > PARTID_MAX 4
->>>>                          MSC error interrupt, mpam_disable()
->>>>
->>>> The other direction is worse because nothing reports it. If resctrl is
->>>> mounted with CDP and mounted again without it, CLOSID c is read as
->>>> PARTID c, which is in range, so the limbo handler silently tests the
->>>> occupancy of the PARTID of a different CLOSID and frees or keeps the
->>>> RMIDs based on it.
->>>>
->>>> Where the RMID depends on the CLOSID, as on MPAM, release the RMIDs in
->>>> limbo without reading them when a mount changes the CDP state, instead
->>>> of restarting the limbo handler. Cache lines that still carry those
->>>> RMIDs are accounted to the next user of each RMID. Where the RMID does
->>>> not depend on the CLOSID, as on x86, the CDP state does not change how
->>>> an RMID is read and the limbo handler is restarted as before.
->>>>
->>>> Compare the CDP state of every resource, not just the L3: on MPAM, CDP
->>>> enabled on any resource gives every CLOSID two PARTIDs in all MSCs, so
->>>> mounting with -o cdpl2 alone also changes how the L3 monitors read a
->>>> CLOSID, and cache levels beyond the L3 would too.
->>>>
->>>> Reproduced on QEMU with the sequence above:
->>>>
->>>>   mpam:__mpam_irq_handler: error irq from msc:1 'MSMONCFG_ID_RANGE', partid:5, pmg: 0, ris: 0
->>>>   mpam:mpam_disable: MPAM disabled due to hardware error interrupt
->>>>
->>>> With the change the sequence completes without an error.
->>>>
->>>> Fixes: 6789fb99282c ("arm_mpam: resctrl: Add CDP emulation")
->>>> Suggested-by: Ben Horgan <ben.horgan@arm.com>
->>>> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
->>>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->>>> Cc: <stable@vger.kernel.org>
->>>> ---
+Still waiting for the requested inline comments, but in the meantime
+I've been able to test and verify that the code works as expected:
 
-...
+Tested-by: Jason Gerecke <jason.gerecke@wacom.com>
 
->>>> ---
->>>>  fs/resctrl/monitor.c | 35 +++++++++++++++++++++++++++++++++--
->>>>  1 file changed, 33 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
->>>> index ede1708b920e..2c8c60138768 100644
->>>> --- a/fs/resctrl/monitor.c
->>>> +++ b/fs/resctrl/monitor.c
->>>> @@ -70,6 +70,13 @@ static u32 *closid_num_dirty_rmid;
->>>>   */
->>>>  static unsigned int rmid_limbo_count;
->>>>  
->>>> +/*
->>>> + * @limbo_cdp_enabled - True if the RMIDs in limbo were placed there while CDP
->>>> + *     was enabled. Only used when CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID is
->>>> + *     defined.
->>>> + */
->>>> +static bool limbo_cdp_enabled;
->>>> +
->>>>  /*
->>>>   * @rmid_entry - The entry in the limbo and free lists.
->>>>   */
->>>> @@ -1044,12 +1051,15 @@ int setup_rmid_lru_list(void)
->>>>   * cqm_resume_limbo_handler() - Restart the limbo handler after a mount.
->>>>   *
->>>>   * The limbo handler stops while resctrl is unmounted. Restart it on every
->>>> - * domain that still has RMIDs in limbo.
->>>> + * domain that still has RMIDs in limbo. Where the RMID depends on the CLOSID
->>>> + * and the mount changed the RMID index a CLOSID is monitored with, the RMIDs
->>>> + * in limbo can no longer be read: release them instead.
->>>>   */
->>>>  void cqm_resume_limbo_handler(void)
->>>>  {
->>>>  	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
->>>>  	struct rdt_l3_mon_domain *d;
->>>> +	bool release = false;
->>>>  
->>>>  	lockdep_assert_cpus_held();
->>>>  	lockdep_assert_held(&rdtgroup_mutex);
->>>> @@ -1057,6 +1067,24 @@ void cqm_resume_limbo_handler(void)
->>>>  	if (!r->mon_capable || !resctrl_is_mon_event_enabled(QOS_L3_OCCUP_EVENT_ID))
->>>>  		return;
->>>>  
->>>> +	/*
->>>> +	 * Where the RMID depends on the CLOSID, the RMIDs in limbo can only
->>>> +	 * be read with the CDP state they were freed under. Check every
->>>> +	 * resource because CDP enabled on any resource changes how every
->>>> +	 * CLOSID is monitored, so CDP on another resource alone also changes
->>>> +	 * how the L3 monitors are read.
->>>> +	 */
->>>> +	if (IS_ENABLED(CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID)) {
->>>> +		struct rdt_resource *res;
->>>> +		bool cdp_enabled = false;
->>>> +
->>>> +		for_each_rdt_resource(res)
->>>> +			cdp_enabled |= resctrl_arch_get_cdp_enabled(res->rid);
->>>> +
->>>> +		release = cdp_enabled != limbo_cdp_enabled;
->>>> +		limbo_cdp_enabled = cdp_enabled;
->>>> +	}
->>>> +
->>>>  	list_for_each_entry_rcu(d, &r->mon_domains, hdr.list,
->>>>  				lockdep_is_cpus_held()) {
->>>>  		if (!has_busy_rmid(d))
->>>> @@ -1067,7 +1095,10 @@ void cqm_resume_limbo_handler(void)
->>>>  		 * it is queued again on a CPU picked now.
->>>>  		 */
->>>>  		cancel_delayed_work(&d->cqm_limbo);
->>>> -		cqm_setup_limbo_handler(d, 0, RESCTRL_PICK_ANY_CPU);
->>>> +		if (release)
->>>> +			release_limbo_rmids(d);
->>>
->>> Rather than release all the rmids don't we want to check them all to see which are busy?
->>
->> We can not read them here using resctrl_arch_rmid_read(). On MPAM, the
->> RMID occupancy is read through the PARTID of its CLOSID, and the CDP
->> state maps one to the other.
->>
->> After the mount operation flips the CDP, this mapping disappears, so the
-> 
-> Yes, the old indexing becomes invalid. The user visible effects of limbo
-> handler running between mounts should be maintained. As such, if the
-> limbo handler can't just be simply resumed I would expect that the array
-> of dirty rmid was recreated. If we put all the rmid (except for the
-> default rmid) in the dirty rmid array then the limbo handler will take
-> care of releasing those that are free. How does this sound to you?
-> 
-Thank you very much Ben. I think this is a better solution that better matches
-what the limbo list aims to solve. It looks to me like the trigger for this
-rebuild of the list should be the CDP change by itself, not whether there is
-anything in limbo (so no has_busy_rmid(d) test).
-Ben already states this with "all the rmid" but I think it is worth highlighting
-that this also includes RMID considered free.
-Consider the scenario:
-- Under CDP the default group's CLOSID 0 selects PARTIDs 0 and 1, so its
-  code accesses tag cache lines with PARTID 1, PMG 0.
-- re-mounted without CDP, CLOSID 1 is PARTID 1, so a new group given CLOSID 1
-  and RMID 0 starts out counting the default group's leftover code lines.
-  That RMID was never in limbo.
+Jason (she/they)
+---
+Now instead of four in the eights place /
+you=E2=80=99ve got three, =E2=80=98Cause you added one  /
+(That is to say, eight) to the two,     /
+But you can=E2=80=99t take seven from three,    /
+So you look at the sixty-fours....
 
-Reinette
-
+> >  drivers/hid/wacom_wac.c | 35 +++++++++++++++++++++++++++++------
+> >  1 file changed, 29 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+> > index 614f2adab563..7676bc26a027 100644
+> > --- a/drivers/hid/wacom_wac.c
+> > +++ b/drivers/hid/wacom_wac.c
+> > @@ -802,8 +802,10 @@ static void wacom_exit_report(struct wacom_wac *wa=
+com)
+> >                 input_report_key(input, BTN_STYLUS2, 0);
+> >                 input_report_key(input, BTN_TOUCH, 0);
+> >                 input_report_abs(input, ABS_WHEEL, 0);
+> > -               if (features->type >=3D INTUOS3S)
+> > +               if (features->type >=3D INTUOS3S) {
+> >                         input_report_abs(input, ABS_Z, 0);
+> > +                       input_report_abs(input, ABS_TWIST, 0);
+> > +               }
+> >         }
+> >         input_report_key(input, wacom->tool[idx], 0);
+> >         input_report_abs(input, ABS_MISC, 0); /* reset tool id */
+> > @@ -981,6 +983,7 @@ static int wacom_intuos_general(struct wacom_wac *w=
+acom)
+> >                         t =3D (data[7] & 0x20) ? ((t > 900) ? ((t-1) / =
+2 - 1350) :
+> >                                 ((t-1) / 2 + 450)) : (450 - t / 2) ;
+> >                         input_report_abs(input, ABS_Z, t);
+> > +                       input_report_abs(input, ABS_TWIST, t);
+> >                 } else {
+> >                         /* 4D mouse 2nd packet */
+> >                         t =3D (data[6] << 3) | ((data[7] >> 5) & 7);
+> > @@ -1411,6 +1414,7 @@ static void wacom_intuos_pro2_bt_pen(struct wacom=
+_wac *wacom)
+> >                                 input_report_abs(pen_input, ABS_TILT_Y,
+> >                                                  (signed char)frame[8])=
+;
+> >                                 input_report_abs(pen_input, ABS_Z, rota=
+tion);
+> > +                               input_report_abs(pen_input, ABS_TWIST, =
+rotation);
+> >                                 input_report_abs(pen_input, ABS_WHEEL,
+> >                                                  get_unaligned_le16(&fr=
+ame[11]));
+> >                         }
+> > @@ -1935,7 +1939,7 @@ static void wacom_map_usage(struct input_dev *inp=
+ut, struct hid_usage *usage,
+> >         int resolution;
+> >
+> >         if (equivalent_usage =3D=3D HID_DG_TWIST) {
+> > -               resolution_code =3D ABS_RZ;
+> > +               resolution_code =3D ABS_TWIST;
+> >         }
+>
+> Requesting a comment here just to make sure that anyone that is only
+> casually reading doesn't think this code is dead. Setting *some* kind
+> of radial axis here (be it ABS_RZ or ABS_TWIST) is critical to
+> ensuring HID properly calculates the resolution for ABS_Z, and that
+> might not be obvious when you see HID_DG_TWIST forcing the
+> resolution_code to ABS_TWIST.
+>
+> >
+> >         resolution =3D hidinput_calc_abs_res(field, resolution_code);
+> > @@ -2332,6 +2336,7 @@ static void wacom_wac_pen_usage_mapping(struct hi=
+d_device *hdev,
+> >                 break;
+> >         case HID_DG_TWIST:
+>
+> Also requesting a comment for this case that explains that the usage
+> here is mapped twice for backwards-compatibility, and that the order
+> matters since the latter call will override `usage->type` and
+> `usage->code`, preventing wacom_wac_pen_event from automatically
+> emitting an ABS_Z event.
+>
+> >                 wacom_map_usage(input, usage, field, EV_ABS, ABS_Z, 0);
+> > +               wacom_map_usage(input, usage, field, EV_ABS, ABS_TWIST,=
+ 0);
+> >                 break;
+> >         case HID_DG_ERASER:
+> >                 input_set_capability(input, EV_KEY, BTN_TOOL_RUBBER);
+> > @@ -2522,10 +2527,21 @@ static void wacom_wac_pen_event(struct hid_devi=
+ce *hdev, struct hid_field *field
+> >                 return;
+> >
+> >         /* send pen events only when the pen is in range */
+> > -       if (wacom_wac->hid_data.inrange_state)
+> > -               input_event(input, usage->type, usage->code, value);
+> > -       else if (wacom_wac->shared->stylus_in_proximity && !wacom_wac->=
+hid_data.sense_state)
+> > -               input_event(input, usage->type, usage->code, 0);
+> > +       if (!wacom_wac->hid_data.inrange_state) {
+> > +               if (!wacom_wac->shared->stylus_in_proximity ||
+> > +                   wacom_wac->hid_data.sense_state)
+> > +                       return;
+> > +               value =3D 0;
+> > +       }
+> > +
+> > +       input_event(input, usage->type, usage->code, value);
+> > +       /*
+> > +        * ABS_Z was used to report twist data, because ABS_TWIST was n=
+ot yet
+> > +        * defined at the time. For compatibility purposes, also report=
+ twist
+> > +        * via ABS_Z.
+> > +        */
+>
+> I think this comment could be a little more clear, perhaps referencing
+> the double-mapping in wacom_wac_pen_usage_mapping (and how we need to
+> send data out of both ABS_TWIST and ABS_Z but that `usage->type` and
+> `usage->code` can only be set to one of those two)
+>
+> Jason (she/they)
+> ---
+> Now instead of four in the eights place /
+> you=E2=80=99ve got three, =E2=80=98Cause you added one  /
+> (That is to say, eight) to the two,     /
+> But you can=E2=80=99t take seven from three,    /
+> So you look at the sixty-fours....
+>
+> > +       if (equivalent_usage =3D=3D HID_DG_TWIST)
+> > +               input_report_abs(input, ABS_Z, value);
+> >  }
+> >
+> >  static void wacom_wac_pen_pre_report(struct hid_device *hdev,
+> > @@ -3741,6 +3757,7 @@ void wacom_setup_device_quirks(struct wacom *waco=
+m)
+> >                 __clear_bit(BTN_TOOL_PENCIL, wacom_wac->pen_input->keyb=
+it);
+> >                 __clear_bit(BTN_TOOL_AIRBRUSH, wacom_wac->pen_input->ke=
+ybit);
+> >                 __clear_bit(ABS_Z, wacom_wac->pen_input->absbit);
+> > +               __clear_bit(ABS_TWIST, wacom_wac->pen_input->absbit);
+> >                 __clear_bit(ABS_DISTANCE, wacom_wac->pen_input->absbit)=
+;
+> >                 __clear_bit(ABS_TILT_X, wacom_wac->pen_input->absbit);
+> >                 __clear_bit(ABS_TILT_Y, wacom_wac->pen_input->absbit);
+> > @@ -3823,6 +3840,8 @@ int wacom_setup_pen_input_capabilities(struct inp=
+ut_dev *input_dev,
+> >         case CINTIQ_COMPANION_2:
+> >                 input_set_abs_params(input_dev, ABS_Z, -900, 899, 0, 0)=
+;
+> >                 input_abs_set_res(input_dev, ABS_Z, 287);
+> > +               input_set_abs_params(input_dev, ABS_TWIST, -900, 899, 0=
+, 0);
+> > +               input_abs_set_res(input_dev, ABS_TWIST, 287);
+> >                 wacom_setup_cintiq(wacom_wac);
+> >                 break;
+> >
+> > @@ -3835,6 +3854,8 @@ int wacom_setup_pen_input_capabilities(struct inp=
+ut_dev *input_dev,
+> >         case INTUOS4S:
+> >                 input_set_abs_params(input_dev, ABS_Z, -900, 899, 0, 0)=
+;
+> >                 input_abs_set_res(input_dev, ABS_Z, 287);
+> > +               input_set_abs_params(input_dev, ABS_TWIST, -900, 899, 0=
+, 0);
+> > +               input_abs_set_res(input_dev, ABS_TWIST, 287);
+> >                 fallthrough;
+> >
+> >         case INTUOS:
+> > @@ -3855,6 +3876,8 @@ int wacom_setup_pen_input_capabilities(struct inp=
+ut_dev *input_dev,
+> >
+> >                 input_set_abs_params(input_dev, ABS_Z, -900, 899, 0, 0)=
+;
+> >                 input_abs_set_res(input_dev, ABS_Z, 287);
+> > +               input_set_abs_params(input_dev, ABS_TWIST, -900, 899, 0=
+, 0);
+> > +               input_abs_set_res(input_dev, ABS_TWIST, 287);
+> >
+> >                 wacom_setup_intuos(wacom_wac);
+> >                 break;
+> > --
+> > 2.56.0.455.g6c5a503b38-goog
+> >
+> >
