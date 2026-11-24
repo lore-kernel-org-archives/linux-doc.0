@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.230
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795489795;
-	b=NdCmvRRrY3NEtL3BklnfZCMR9Kjf830Ngnv48ls+SHGo99a6WL7djQIsOqeIBgwuX6ZF
-	 xpG7L95Hd5QRL0sBugcq+PyOhMUOlUI6h7+zSl0TlthwBIzAFPMv16x4GB9yfObXuJgdJ
-	 VQGMaOLiDmZldpLKl1O6bgWakOrtrG2s/Dyz8HB26eFU29dzMKwyk4GMX05VTaQT+5zYN
-	 4DZ1xtlFifMFop/ZWTzKjbyoKP5/tsdli7RhorOE7QI5U/ipnDe0nNN3synBpGybO6H3h
-	 XjJa8+3qHDDTubshWBrMIIGQMIT2vtDD2ZlUT/GZ4Jr/s1ydP5e7Dbh6+dDHhcm6QQA==
+	t=1795490877;
+	b=WVANlrbrYHInifUadHeCFPMHmY6pDFgKs6oFC66KYanbxzM5XrL4uE1LqPKmQGYoa1oG
+	 qFb7DM1a+AE8NVLZmFOWVsbU5y7mfrR/Gu7znahT3XyzB9yaXH330aAuOv3FHRdZDj8CL
+	 Hywy/hLWDW7ku+tTm9v9Uj75ORu1g/ar4UNXRJjNUq/rToUJZl5OeM7Cj4ylQFXTRjVbl
+	 rMpLHJJpB+E9CwffjikJJkxYZNALF4kBo9+b8POWeJ7vAc/2LQ407CgLXTx9XPX5zSnq3
+	 D5AiXuLKvWqYGusZQ/LLHG3TCwwFJVvwPSMs46uSXq00k6m/C2lylq90CoEvRmMO3Gg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795489795;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795490877;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=LeVH1Wb7I2cz1kvArxz3Yqt1F/X3e5c7jawrva0ZrZ0=;
-	b=NFUPD+fSXKISLdSAWYevM695wB8Y5etM4Q1tNz/H/gdBhHHovvZIdPfYAIGqVNSCWpbv
-	 qT0nDR6oH0zdaeS4J/TZY73rTyuSjnEDQRnoro1KhBzGUIIPqbDV8Ww3Sn0Pi77AXv9c1
-	 2HGHMyiyJ0pvrqYQ/au9Od9i/WI76wOdrYIO05DgLYlZu5nnzpLgnK62zcrQjQuMOI7Us
-	 nMtAzuQXlC3cHhnhjCMtsveF3DujRl9dXuc0q0EBSGhBWdTiiWA+sLUtKEYL9ujfKpDyY
-	 6vsw04L9gXY4zUbVaR7QZRN6Z4JCqZWVmam7/kLYDLoFygagVj1CyBbN9xza6/7nu2g==
+	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=oN/cZp9q5wZoqC1lfLoWR2vXWj83Wie4hQDwsy7qSN4=;
+	b=RStWs8BVSn6+qhkgWKTdGRPh5vTWZoE7pu9zKlYJG7SNZ3OjCPGkgOoMxx/KtdUjK/7u
+	 34pjIk43IrCHNGw/R6UPArNtqU7Q43i28KTLW3/t1ukGWkYxMUryoj+gu4aqOYdmkfME1
+	 0f3o25uDiMvq59YyluCZ3rmfF6kmIPGEAJIwsjNDhwkNY++F/2yAxh4Rd84+wpKE5g1CK
+	 4ilPafKnW+g4VL7EEamx8oFjrXRyMG2Gd34JSftxp1hSpZbmupx/ok8F0TO76OUeSTjw7
+	 kGeYfD8xTs+O0o6Vv1u1ti0wL9gTSUlku1/yvBMc45hCI27iFQ26RNbt905LRkH1lhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=piESi2If;
-	arc=none smtp.remote-ip=91.218.175.72
-Received: from mta0.migadu.com (out-72.mta0.migadu.com [91.218.175.72])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LvWVL2vm;
+	arc=none smtp.remote-ip=95.215.58.230
+Received: from mta1.migadu.com (out-230.mta1.migadu.com [95.215.58.230])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CAF7606A322
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 03:09:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7CAF7606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5D2606A32A
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 03:27:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D5D2606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=piESi2If
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LvWVL2vm
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=OgGjLcQqQkF/sMaNd876V9rWHHm4sRIP4rYDo2hI4Zw=;
+DKIM-Signature: a=rsa-sha256; bh=ma8JFmeoCyTpTT72snN16G84AYASmM5bzTvQRXIbf+Q=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795489792; v=1; x=1796094592;
- b=piESi2IfxfWUbEXHDYg5846LTjpUQxvAF5h+6RANrJRN4BvjlTiP4ePP4NbIQN3J7v+EnWEQ
- de7/u54/6QeKbG15VJGCwQhOcgPGKGdN0XR8lr97XjBX7pa2oAsvfyO0wMIi5Ljlet0YwpacuIY
- EPc3vp3X+sHINKDQ+TA2C+dQ=
+ t=1795490874; v=1; x=1796095674;
+ b=LvWVL2vmsqiZ07mYjNpuAy99QXZuRLBrA2LsGEFgea6IxXzbjLHtY6FcdNW+vf0aQ1JwtXbR
+ vvbmLznQ2MmvaKilhcmJqcCaUnJIn2U1ihYWD+UkMD6uKnpcbZv/ztJI1+2JOeAENQSKe6mflxe
+ /CShumiobZa//kXBpy2ao2ug=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 72f020aafd17f071;
-	Tue, 24 Nov 2026 03:09:52 +0000
-X-Mizu-Trace-ID: 72f020aafd17f071
+Received: by smtp.migadu.com with ESMTPS id 1a2ced6113f13d6e;
+	Tue, 24 Nov 2026 03:27:54 +0000
+X-Mizu-Trace-ID: 1a2ced6113f13d6e
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <ed325697-76b3-4859-906c-8755532bb54c@linux.dev>
-Date: Tue, 24 Nov 2026 11:09:43 +0800
+Message-ID: <7dbec7f4-35d0-4351-a61d-ab0a649c41d6@linux.dev>
+Date: Tue, 24 Nov 2026 11:27:43 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,9 +65,8 @@ To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
  Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
  <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
  Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Ridong Chen <ridong.chen@linux.dev>,
- Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Juri Lelli <juri.lelli@redhat.com>,
+ <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
  Vincent Guittot <vincent.guittot@linaro.org>,
  Dietmar Eggemann <dietmar.eggemann@arm.com>,
  Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
@@ -77,18 +76,18 @@ To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
  Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@kernel.org>
 Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Guopeng Zhang <guopeng.zhang@linux.dev>,
  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 References: <20261123041209.382726-1-longman@redhat.com>
  <20261123041209.382726-3-longman@redhat.com>
-Content-Language: en-US
-From: Guopeng Zhang <guopeng.zhang@linux.dev>
+From: Ridong Chen <ridong.chen@linux.dev>
 In-Reply-To: <20261123041209.382726-3-longman@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
-在 2026/11/23 12:12, Waiman Long 写道:
+On 11/23/2026 12:12 PM, Waiman Long wrote:
 > It is reported that with CONFIG_CPUSETS=n, a kernel booted with
 > isolcpus=domain,0 hits the BUG() in select_fallback_rq() during boot
 > [1]. At boot time, cpu 0 is the only CPU online and an unbound kworker
@@ -121,57 +120,61 @@ Content-Transfer-Encoding: 8bit
 > [2] https://sashiko.dev/#/patchset/20261108180849.1268263-1-longman%40redhat.com
 > 
 > Signed-off-by: Waiman Long <longman@redhat.com>
+
+This fixes a boot-time BUG(), so it seems worth a Fixes?
+
+
 > ---
->  .../admin-guide/kernel-parameters.txt         |  7 +++---
->  kernel/sched/isolation.c                      | 22 +++++++++++++++----
->  2 files changed, 22 insertions(+), 7 deletions(-)
+>   .../admin-guide/kernel-parameters.txt         |  7 +++---
+>   kernel/sched/isolation.c                      | 22 +++++++++++++++----
+>   2 files changed, 22 insertions(+), 7 deletions(-)
 > 
 > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
 > index 930cee4de79a..1c8bf3583b0b 100644
 > --- a/Documentation/admin-guide/kernel-parameters.txt
 > +++ b/Documentation/admin-guide/kernel-parameters.txt
 > @@ -2954,11 +2954,12 @@ Kernel parameters
->  
->  			  You can move a process onto or off an "isolated" CPU via
->  			  the CPU affinity syscalls or cpuset.
+>   
+>   			  You can move a process onto or off an "isolated" CPU via
+>   			  the CPU affinity syscalls or cpuset.
 > -			  <cpu number> begins at 0 and the maximum value is
 > -			  "number of CPUs in system - 1".
 > +			  <cpu number> begins at 0 and the maximum value
 > +			  is "number of CPUs in system - 1". However boot
 > +			  CPU (cpu 0) cannot be domain isolated as it
 > +			  may cause problem with some kernel subsystems.
->  
->  			managed_irq
+>   
+>   			managed_irq
 > -
->  			  Isolate from being targeted by managed interrupts
->  			  which have an interrupt mask containing isolated
->  			  CPUs. The affinity of managed interrupts is
+>   			  Isolate from being targeted by managed interrupts
+>   			  which have an interrupt mask containing isolated
+>   			  CPUs. The affinity of managed interrupts is
 > diff --git a/kernel/sched/isolation.c b/kernel/sched/isolation.c
 > index c0c8b8862cbd..de8152351450 100644
 > --- a/kernel/sched/isolation.c
 > +++ b/kernel/sched/isolation.c
 > @@ -231,6 +231,7 @@ static int __init housekeeping_setup(char *str, unsigned long flags)
->  {
->  	cpumask_var_t non_housekeeping_mask, housekeeping_staging;
->  	unsigned int first_cpu;
+>   {
+>   	cpumask_var_t non_housekeeping_mask, housekeeping_staging;
+>   	unsigned int first_cpu;
 > +	int boot_cpu = smp_processor_id();
->  	int err = 0;
->  
->  	if ((flags & HK_FLAG_KERNEL_NOISE) && !(housekeeping.flags & HK_FLAG_KERNEL_NOISE)) {
+>   	int err = 0;
+>   
+>   	if ((flags & HK_FLAG_KERNEL_NOISE) && !(housekeeping.flags & HK_FLAG_KERNEL_NOISE)) {
 > @@ -253,12 +254,25 @@ static int __init housekeeping_setup(char *str, unsigned long flags)
->  
->  	first_cpu = cpumask_first_and(cpu_present_mask, housekeeping_staging);
->  	if (first_cpu >= nr_cpu_ids || first_cpu >= setup_max_cpus) {
+>   
+>   	first_cpu = cpumask_first_and(cpu_present_mask, housekeeping_staging);
+>   	if (first_cpu >= nr_cpu_ids || first_cpu >= setup_max_cpus) {
 > -		__cpumask_set_cpu(smp_processor_id(), housekeeping_staging);
 > -		__cpumask_clear_cpu(smp_processor_id(), non_housekeeping_mask);
 > +		__cpumask_set_cpu(boot_cpu, housekeeping_staging);
 > +		__cpumask_clear_cpu(boot_cpu, non_housekeeping_mask);
->  		if (!housekeeping.flags) {
+>   		if (!housekeeping.flags) {
 > -			pr_warn("Housekeeping: must include one present CPU, "
 > -				"using boot CPU:%d\n", smp_processor_id());
 > +			pr_warn("Housekeeping: must include one present CPU, using boot CPU:%d\n",
 > +				boot_cpu);
->  		}
+>   		}
 > +	} else if ((flags & HK_FLAG_DOMAIN) &&
 > +		   cpumask_test_cpu(boot_cpu, non_housekeeping_mask)) {
 > +		/*
@@ -185,14 +188,16 @@ Content-Transfer-Encoding: 8bit
 > +			 boot_cpu);
 > +		__cpumask_set_cpu(boot_cpu, housekeeping_staging);
 > +		__cpumask_clear_cpu(boot_cpu, non_housekeeping_mask);
->  	}
->  
->  	if (cpumask_empty(non_housekeeping_mask))
+>   	}
+>   
+>   	if (cpumask_empty(non_housekeeping_mask))
 
-Built and boot-tested on a 32-vCPU x86-64 VM with CONFIG_CPUSETS=y/n.
-Verified CPU 0 handling with combined and separate domain/managed_irq
-parameters, including a successful boot with CONFIG_CPUSETS=n and
-isolcpus=domain,0. The cpuset selftests passed with CONFIG_CPUSETS=y.
+The code change itself looks good to me.
 
-Acked-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
-Tested-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
+Reviewed-by: Ridong Chen <ridong.chen@linux.dev>
+Thanks.
+
+-- 
+Best regards
+Ridong
+
