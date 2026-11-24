@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795543152;
-	b=v0IqfNnl++yx/FXUHpG3w607BQpYk0GN6Ep6LJ5HRrJMCH7scJfg5T+8dl1ySN5cfLvn
-	 MDN9IKet7zxJUa8HhdNKdstS38wjRLYzqIX8CFvZpUFfG2JGwG6SBlLrd3Jq+fZ3AQ80F
-	 v+m/1cEkffs83v3Rc+SQjUtl6UFNeqepGGomKg7kJ9fAm4BUnIwrvrBYyrTRX+m5zsj19
-	 nXFV6O4gZH/wVNuwUyCH3uKYmlvQlv88kBBacYC3H4cnRpQIQtfcS3CCD35FDZdDFWZY+
-	 i9yidAtDWlT54bWtZodjRTtOTZ4/YoLtArwH0s9xpvghnPExTNCRQZclMxqCSmAtdrw==
+	t=1795543159;
+	b=mMqUGAc/p+Zw7K90RHokYQCvPah5O0nR8WijVUTiw3beY/6zxARy1sULVmFd2JNwtOe2
+	 XGAqshc1OrefdBcWmJ+AfWVs5yU9p7HTxO9EtreSKZkipXZ2zo8PP5lkSsnYqeCy/RAaQ
+	 D6xy2dCIN2kaISMslLzEHgNpIfIrLRREuaxSmCJ05f5PKXzbDAchUB9YEjg4RHNpOKYH5
+	 jPVoRiT7J4RnPAIIfZF4tsPKI3VxBSvSBG80s2Ios9fUWiKNE8GbhjOnGdiF63/MnzF6M
+	 VFOFS6ZX/ta9DCD51TomBcdebG1Inn53iHmv2HfDl1rXzp/Pu1r3kY2Ymes9v55j5DQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795543152;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795543159;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=6glrrO4iMtJDIDWR6sOQoTne0bt/qURyzBuSmuqJvbY=;
-	b=JuYlzs2Y0WnDadnyLikU/jPassNLnjcgnl7STzV/yiALqJ0lER13iz1gg/yFMR2myFob
-	 bGBu9Q1rSoIPVXXK0x5v7GbcX0RbnFQ9J2Gp2q0uF9Www8/cBFYkrpeomdwW0L9DaZa0c
-	 Tk83ybkKA7u1Ypf1weKBKz1hX6HiPowDHfibktaJY8Sqk4e2u4LejXMMvBz3AYY+svK7d
-	 Ry6DPJaVljsUHpLcj/5SV1jcosvYQHg3ViiYWOcIy+aKzvIhq/mOYX0eGFw2HZfSFb5kj
-	 11RJCMEhkzxUFjljZsNaEHJEpYW4y3p95X61pbrd1Ben7hHB2rTSC9h6182g0jfOicw==
+	bh=I6CWNjzytqFO6xp4oK4sRQFEMC8juUinAICNfV+h+aY=;
+	b=zcQLqYqtqeiGo4B5FzyDf7VxEGIpXId4UZGJUWfJaqa5ZbOU9qDky8Z89ZdXxxLcfp4d
+	 usBE4hX186iSm0YecjxAN/9TO/qt9bpeHzDARKMRzmKwq10hycVOe3AWm5plQHw/DKEXh
+	 IEEDbNJPaJORKL2H2Zq0n+TdlsRc/fETkh464MLyurX0wN4BUARLDaNlS4WyU5kRfFSJv
+	 DvdrKpYLx365AmrAVaY3jI4/CG7eeb2FfuEmbKfgFA79Sf9Mw41uWVtPMlN4BcRakUgSL
+	 pj2lBnz/cBw+XqDZQ2gKjv4ScECOw6FUm8JNLCwOJaCKEsWNULV8EOW67gSJYHyBarQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cloudflare.com;
 	spf=pass smtp.mailfrom=cloudflare.com;
-	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=TKGIOCLt;
-	arc=none smtp.remote-ip=209.85.208.50
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=MyVfoGAW;
+	arc=none smtp.remote-ip=209.85.208.41
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE678606A323
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 17:59:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE678606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976EA606A321
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 17:59:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 976EA606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=TKGIOCLt
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6b894d9a075so5303648a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 09:59:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=MyVfoGAW
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6bab10844b5so4276880a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 09:59:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google09082023; t=1795543150; x=1796147950; darn=vger.kernel.org;
+        d=cloudflare.com; s=google09082023; t=1795543157; x=1796147957; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=6glrrO4iMtJDIDWR6sOQoTne0bt/qURyzBuSmuqJvbY=;
-        b=TKGIOCLtAO2CK8L6MARiBYgpiGwWdwUIEZTJuQPfMpmjvHsqEh373/6ow+9Oe/CeQv
-         +aL+BMAKCAd8sO19xGcfS2WcdbFMGMyeo+VcqQ0IKpaPTeCmhsYgXlnJGjlbfU20iKBY
-         kzpi5FLILRQPvkOcU5HT1VzksZj661Opl55g3lS6SRvxNvnIT7yhth4nsbgWDXVJovwK
-         Hr2Zx6ilS4MKQbKVaKuFUh5vSSupqrQWR290SgbARco/o++Nr06SliEXHEqEcaFmekpL
-         UEYOX3Xw+bWAreA1h6vAIqvw/VioAr3XZsJdjAcd3aYdMyk+xauercUtkavDaElmvdbK
-         lL6Q==
+        bh=I6CWNjzytqFO6xp4oK4sRQFEMC8juUinAICNfV+h+aY=;
+        b=MyVfoGAWY7pDwibENpp54PQZ96hKrVeRjy87mhXDAdF3gDrDz6byidSoFE3sQJa/Yf
+         YKKLOrklKZLngfXuNCvnSyR7wNw6uptr4nxUo7VkxhToUddsrZbdNqAJ+WwZV4ouJTwx
+         99jxEB/eMtQn9OX2OsqNNsgenNx0gehCMw+dmn5+X3Md++fMySh0s+Y8vblH0/lzVnhE
+         LVzt5JAvFDdhB/GXE0gm4k7fPEKOf0Yr0S1ytytpdUEvePAIqmYmGMfok5ytDu0NH5Yr
+         p6aLrtVKZaPkK/sFf5k8g2XqIvYsdqtBCfVObWIubgTtPiPMZURI3Ty7Mesl03IifELI
+         6k9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795543150; x=1796147950;
+        d=1e100.net; s=20260707; t=1795543157; x=1796147957;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6glrrO4iMtJDIDWR6sOQoTne0bt/qURyzBuSmuqJvbY=;
-        b=ExX4LO5pH6a/wcwNXkXjVrc/jjLF2oOhA2rkQbUWkcDV4pLN0aVAKEqUUxkHWNts3H
-         Ns9qnJqG0AhETAS73HWACLfo8ROi9eIDChmTb2jbS8LtLQptnzyw+89rfV4ExjHRZn1l
-         B1Xw5/HCxoa8WTRWcxRZkdm3mzHDATSJuKEOfIH861gwwtVzwARKp28jlIsi+X1lvUaF
-         GCyDpZ5ehC7NRyNOQMTStwxY43K09QRUHD0AczHJnFcsmBdyexy+eruwQVAwyNl3vsQV
-         9jfkdJLznXM5GjwGJG/4f48d0bzWwfGI6mNF47JOweQqw0qzexam6eaxqwT73XnBu7D3
-         BRtQ==
-X-Forwarded-Encrypted: i=1; AL+hErFKZaXH2ob9/jGmp83CKzOrKLYugqxnVyxInhRI8Ml1jc29gyHZdNxGt4rU+G0vTGCkPG7RoB0BPbM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9n7UPV7w9b0IlAnstg7SBkdvteylPfA+icNH5VKvHrscWqUj0r
-	jXlQXSSX3gkrZEgHEfBti4y+Zhds7t9gfYTm+dcL9ZIhrljELgSjwHpRytMOVzXKG84=
-X-Gm-Gg: AZFdTZe/b2HId98UHrZCAkBDdqg9Z3Soc+LB7tKkwefuTvyc1B+evHuXfu16V3cgpm6
-	RVKC+pmYi6Dvp9MuMFA+O5KC62SoCzbcXqr7BYGicSpQVv8l2ExhJ5nraCuWHaYkV7ixo8YhvSr
-	ZAcatI+JC+vk2u+4Nng684hGssP9B5U3+RTRjvGxGDTMdBMk/hpl/mAPT592fk2Og4N6wiKk//8
-	oNGa1gkv2cNcQaMixfR8UhmyXKbAXhKwL+VIVlUeCQwoYld8cOLfgGMaucZbR/yj9dsKDvnTXWx
-	oLGNR0nhGSAbrFlLA2pvLfk/XxQnTgpnRA8Kky0eiJdHaT6MQ3Y+rFs7D1eWJ0NJE2VngZCOZs6
-	7PRsfztmZeO7tEvLjEnyI87ZPG/0jm55eRj2sJeb2FGdGe+sQgZiHrtVxsinVsCiAyNPIhEMlTB
-	1s1QEQVq2FP8/6pNzPFeHoNznKQjzJTOueuNZ1l01PWQXMCAAOQxUlDCeTNgVTanEK2ZPmi+soP
-	xklsOUcjOURyEORwEp+JUWDWd0nn4Ef3EMzkO2Q7SWvdExhNKfYxzR5qjGKozpzTGZ8MD3AFlU4
-	PTt6P8Cf/vsnumvr73WeLS04pqkul+qdtAhFrncG0di500DL
-X-Received: by 2002:a05:6402:42c8:b0:6ba:9b7c:d897 with SMTP id 4fb4d7f45d1cf-6ba9b7ce6c6mr6139701a12.33.1795543150231;
-        Tue, 24 Nov 2026 09:59:10 -0800 (PST)
+        bh=I6CWNjzytqFO6xp4oK4sRQFEMC8juUinAICNfV+h+aY=;
+        b=uduNg+NFQbEVXDZbTYehWV74nGu3KwCTyWC3fB5ahWiMTMXCUSviQ7Ks4AVJnuzDiM
+         wroflIulgwaRG4VqSUfVFTyfEJVYSQhgr8X22a9aQKHnYOb6el/nsCRuIPzA37/CHFFi
+         cgkTP2LGxj7rbfnB5Mc+CCbydx3ley4RnXft1PM2uCfR8oOmEyW+TfBZz2zFPi4G8l7t
+         tn4AK+3uI9JHNmLCO3H5cMZ6eXzy+FoA44VPqn140t77lbRT8IHzk/DPD26TkQ5H8Ig4
+         +IV1AFGX3y3niI8iQbi+DJHvDTJp9BV7ODXZofKxnAeqMT/wplw5ERtXRksuv2x0TyAz
+         1Tcw==
+X-Forwarded-Encrypted: i=1; AL+hErHfso5W345OZIG0uPjnQsz3DEhrGNsHjt44Ic2r0qnIxAa/wPPLcqbO0ImtwDrF6vt1RZV75y3YBj8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/2L5fFl+ldft0AnY7B1UvkZfFf2ACRRMBjtDq/Q3ila1MuZF2P
+	QbUdX5jMTD0Ozleqw7wKFH5s9JFN3FiV00dXGx4dp4cCe2HvO1/3fUKZGz6lVRE0JwE=
+X-Gm-Gg: AZFdTZdEYslc7eF5LD7iEGYrHUPxPVmb2HUCNLpcuj7IvVimplerAQfU0NUwmdxXKPT
+	5n08BZwX95D7x0PSTEv5nbYB4KbbQSmBhKDmtmxU3kKrz+xdEzK4tTb0OF1xphorXSJ5NB0ddLy
+	YDPjqo0Ae0nXCwOXC5QSQ9/QxfL4jw6aWL6xHdHNT2Mkd7BpnKiK10VHS9Heu9wrIngtbvunNjo
+	ugXmtO6ts335AyvuokTrctwU3QBDrrh6spg5RteNCd8TKfo3a60/AS0rf/RuVSMSV8GSEhZmucy
+	CuuT7Qj4wVHUxjhsNRnVS3BGctVJFNpSJEcruebg7efrAzDg3pogdMTbYsGQv9mbWZnNvPoq5Sp
+	fLyOfWVzDYLeilG7DZiNQBCrbRhEeFZDhwiggXhaLiFmE/RuK+bbfYMa0jWxVdlpOt0FeliQ2rk
+	e0xGAduHNNPxWCHW0Z9bczFZLdxQ1/bJdG33BDmxk0UGDDsl7ehYNrFWd9z+hXIs14szM4y75o1
+	palLyXk/nTXts7/AbRU3bEJaSo/74AzWtfYwIqf1Q1Vr88KUc+B768KRf3PVqbe4fGy7MYeYmRY
+	qAA8cvqiMobpw4wI9llqOoRaGachgnrA73MZ6Yxc7oA2Wa8=
+X-Received: by 2002:a05:6402:13d6:b0:6ba:a799:d9bb with SMTP id 4fb4d7f45d1cf-6baa799dc20mr5236322a12.9.1795543157028;
+        Tue, 24 Nov 2026 09:59:17 -0800 (PST)
 Received: from L9JK9NPFH9 ([2a09:bac6:37ad:1e5a::306:5])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ba3711ad52sm7205762a12.35.2026.11.24.09.59.03
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ba3711ad52sm7205762a12.35.2026.11.24.09.59.10
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 24 Nov 2026 09:59:08 -0800 (PST)
+        Tue, 24 Nov 2026 09:59:16 -0800 (PST)
 From: Tianyi Gao <tianyi@cloudflare.com>
 To: netdev@vger.kernel.org,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -149,9 +149,9 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Jeff Layton <jlayton@kernel.org>,
 	Tianyi Gao <tianyi.gao@linux.dev>,
 	Tianyi Gao <tianyi@cloudflare.com>
-Subject: [PATCH net-next v3 06/11] bpf, tcx: Set tx_extra_headroom from a decl tag on egress programs
-Date: Tue, 24 Nov 2026 17:58:19 +0000
-Message-ID: <20261124175824.60470-7-tianyi@cloudflare.com>
+Subject: [PATCH net-next v3 07/11] selftests: net: tx_extra_headroom: test a push at TC egress
+Date: Tue, 24 Nov 2026 17:58:20 +0000
+Message-ID: <20261124175824.60470-8-tianyi@cloudflare.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261124175824.60470-1-tianyi@cloudflare.com>
 References: <20261124175824.60470-1-tianyi@cloudflare.com>
@@ -166,265 +166,263 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A program at TC egress can push headers, for example to encapsulate a
-packet. A locally generated UDP, raw or AF_PACKET packet gets only
-LL_RESERVED_SPACE() of headroom, so bpf_skb_adjust_room() reallocates
-every such packet.
+Add test cases for the "tx_extra_headroom:<bytes>" decl tag on tcx
+egress programs.
 
-The kernel cannot know how many bytes a program pushes. Let the program
-declare it with a BTF decl tag on its main function:
+The new programs in tx_extra_headroom.bpf.c push 20 or 30 bytes after
+the MAC header with bpf_skb_adjust_room() and record whether skb->head
+changed. A new skb->head means that pskb_expand_head() reallocated the
+packet. The record program from the previous patch runs first and
+records tx_extra_headroom. The cases check that:
 
-	SEC("tcx/egress")
-	__attribute__((btf_decl_tag("tx_extra_headroom:64")))
-	int prog(struct __sk_buff *skb)
+- a push without a tag reallocates and a push with a tag of 20 does not;
+- tx_extra_headroom is 20 with the tagged program and 0 after it is
+  detached;
+- with XDP on the peer, tx_extra_headroom is 256 + 20;
+- with tags of 20 and 30, tx_extra_headroom is 50 and neither push
+  reallocates;
+- with a tag of 512 and XDP on the peer, tx_extra_headroom is 512 and
+  not 256 + 512.
 
-The verifier parses the tag when the program is loaded, as it does for
-"exception_callback:", and stores the value in struct bpf_prog_aux. The
-new field fills a hole after freplace_link_cnt, so struct bpf_prog_aux
-does not grow. The verifier rejects the program if the tag does not
-parse or exceeds NETDEV_TX_EXTRA_HEADROOM_MAX (512 bytes).
-tx_extra_headroom is then recalculated with
-netdev_update_tx_extra_headroom() under RTNL whenever an egress program
-is attached, detached or replaced.
+The next patch tests the tags that the verifier rejects.
 
-The egress programs of a device run one after another, so the headers
-that they push can add up. Their tags are summed and added to the
-headroom for XDP on the veth peer. The total is capped at
-NETDEV_TX_EXTRA_HEADROOM_MAX.
-
-Tags on programs at tcx ingress, on tail call targets and on freplace
-programs are ignored, like "exception_callback:" on subprogs. An ingress
-program does not see transmitted packets. A tail call target or a
-freplace program is never attached at tcx, so its tag is never added.
-The tag on the attached program covers the whole chain.
-
-Only tcx is supported. A cls_bpf filter is attached to a tc block,
-which can be shared by several devices.
-
-Suggested-by: Dragos Tatulea <dtatulea@nvidia.com>
 Signed-off-by: Tianyi Gao <tianyi@cloudflare.com>
 ---
-v3:
-- Document the -EEXIST failure for two tags (Sashiko).
-- Name the packets that get only LL_RESERVED_SPACE() of headroom
-  (Sashiko).
+The push program follows
+tools/testing/selftests/bpf/progs/test_dst_clear.c.
+
+Replacing a program with BPF_F_REPLACE or BPF_LINK_UPDATE is not
+tested, because bpftool cannot do either.
 
 v2:
-- New patch, replaces IFLA_TX_EXTRA_HEADROOM for the TC egress case
-  (Dragos, Willem, Stephen).
+- Built from v1 5/8. Attach with tcx and declare the headroom with
+  a decl tag, instead of a tc filter and IFLA_TX_EXTRA_HEADROOM.
+- Add the detach, peer XDP, two program and maximum cases.
 ---
- Documentation/networking/netdevices.rst | 15 ++++++++++++
- include/linux/bpf.h                     |  1 +
- include/net/tcx.h                       |  6 +++++
- kernel/bpf/tcx.c                        | 24 +++++++++++++++++++
- kernel/bpf/verifier.c                   | 31 +++++++++++++++++++++++++
- net/core/dev.c                          |  4 +++-
- 6 files changed, 80 insertions(+), 1 deletion(-)
+ .../selftests/net/tx_extra_headroom.bpf.c     | 59 +++++++++++-
+ .../selftests/net/tx_extra_headroom.py        | 92 ++++++++++++++++++-
+ 2 files changed, 148 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/networking/netdevices.rst b/Documentation/networking/netdevices.rst
-index a1c12ca704d6..280ad3bf5559 100644
---- a/Documentation/networking/netdevices.rst
-+++ b/Documentation/networking/netdevices.rst
-@@ -463,6 +463,7 @@ values:
+diff --git a/tools/testing/selftests/net/tx_extra_headroom.bpf.c b/tools/testing/selftests/net/tx_extra_headroom.bpf.c
+index d80f4567873a..df6cf112af90 100644
+--- a/tools/testing/selftests/net/tx_extra_headroom.bpf.c
++++ b/tools/testing/selftests/net/tx_extra_headroom.bpf.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
+-/* Record the headroom fields of a test packet. */
++/* Record the headroom fields of a test packet and push headers onto it. */
+ #include <stdbool.h>
+ #include <linux/bpf.h>
+ #include <linux/if_ether.h>
+@@ -12,6 +12,8 @@
+ #include <bpf/bpf_helpers.h>
  
- * ``XDP_PACKET_HEADROOM`` (256 bytes) minus ``needed_headroom``, when the
-   peer of a veth or netkit device has an XDP program
-+* the headroom that the programs at tcx egress of the device declare
+ #define UDP_TEST_PORT 9999
++#define PUSH_LEN 20
++#define PUSH_MARK 0x1d
  
- The kernel updates ``tx_extra_headroom`` when an XDP program is attached
- to or detached from the peer, to reserve the headroom that XDP needs.
-@@ -470,6 +471,20 @@ Native XDP on veth still copies locally generated packets, because
- their head is not a page fragment. ``tx_extra_headroom`` is not updated
- when a bridge or openvswitch changes ``needed_headroom`` later.
+ struct net_device {
+ 	unsigned short needed_headroom;
+@@ -20,6 +22,8 @@ struct net_device {
  
-+A program at tcx egress declares its headroom with a BTF decl tag on its
-+main function. The value is a decimal number of bytes:
-+
-+.. code-block:: c
-+
-+  SEC("tcx/egress")
-+  __attribute__((btf_decl_tag("tx_extra_headroom:64")))
-+  int prog(struct __sk_buff *skb)
-+
-+The tag of the attached program covers the whole tail call chain. Tags on
-+tail call targets, freplace programs and programs at tcx ingress are
-+ignored. Loading a program whose tag is above 512 or does not parse fails
-+with ``-EINVAL``. Loading a program with two tags fails with ``-EEXIST``.
-+
- NETDEV_INTERNAL symbol namespace
- ================================
+ struct sk_buff {
+ 	struct net_device *dev;
++	unsigned char *head;
++	unsigned char *data;
+ 	__u8 pp_recycle:1;
+ } __attribute__((preserve_access_index));
  
-diff --git a/include/linux/bpf.h b/include/linux/bpf.h
-index fdbf638300fc..bca6d0b960cb 100644
---- a/include/linux/bpf.h
-+++ b/include/linux/bpf.h
-@@ -1952,6 +1952,7 @@ struct bpf_prog_aux {
- 	u64 (*bpf_exception_cb)(u64 cookie, u64 sp, u64 bp, u64, u64);
- 	u16 stack_arg_sp_adjust;
- 	u16 freplace_link_cnt; /* counts freplace links extending this prog */
-+	u16 tx_extra_headroom; /* from the "tx_extra_headroom:" decl tag */
- #ifdef CONFIG_SECURITY
- 	void *security;
- #endif
-diff --git a/include/net/tcx.h b/include/net/tcx.h
-index 23a61af13547..9ab299ecd902 100644
---- a/include/net/tcx.h
-+++ b/include/net/tcx.h
-@@ -164,6 +164,7 @@ int tcx_prog_attach(const union bpf_attr *attr, struct bpf_prog *prog);
- int tcx_link_attach(const union bpf_attr *attr, struct bpf_prog *prog);
- int tcx_prog_detach(const union bpf_attr *attr, struct bpf_prog *prog);
- void tcx_uninstall(struct net_device *dev, bool ingress);
-+unsigned int tcx_tx_extra_headroom(struct net_device *dev);
+@@ -29,6 +33,9 @@ __u32 count;
+ __u32 needed_headroom;
+ __u32 tx_extra_headroom;
+ bool pp_recycle;
++__u32 pushes;
++__u32 headroom;
++bool reallocated;
  
- int tcx_prog_query(const union bpf_attr *attr,
- 		   union bpf_attr __user *uattr);
-@@ -193,6 +194,11 @@ static inline int tcx_prog_detach(const union bpf_attr *attr,
- 	return -EINVAL;
+ static bool is_test_packet(struct __sk_buff *skb)
+ {
+@@ -78,4 +85,54 @@ int record(struct __sk_buff *skb)
+ 	return TCX_NEXT;
  }
  
-+static inline unsigned int tcx_tx_extra_headroom(struct net_device *dev)
++static int push(struct __sk_buff *skb, int len)
 +{
-+	return 0;
++	struct sk_buff *kskb;
++	unsigned char *head;
++
++	if (skb->mark != PUSH_MARK && !is_test_packet(skb))
++		return TCX_NEXT;
++
++	kskb = bpf_cast_to_kern_ctx(skb);
++	headroom = kskb->data - kskb->head;
++
++	/* pskb_expand_head() always allocates a new skb->head. */
++	head = kskb->head;
++	if (!bpf_skb_adjust_room(skb, len, BPF_ADJ_ROOM_MAC, 0))
++		pushes++;
++	if (kskb->head != head)
++		reallocated = true;
++
++	/* The next program cannot parse the packet after the push. */
++	skb->mark = PUSH_MARK;
++	return TCX_NEXT;
 +}
 +
- static inline int tcx_prog_query(const union bpf_attr *attr,
- 				 union bpf_attr __user *uattr)
- {
-diff --git a/kernel/bpf/tcx.c b/kernel/bpf/tcx.c
-index 02db0113b8e7..99da16e13981 100644
---- a/kernel/bpf/tcx.c
-+++ b/kernel/bpf/tcx.c
-@@ -46,6 +46,8 @@ int tcx_prog_attach(const union bpf_attr *attr, struct bpf_prog *prog)
- 			tcx_skeys_inc(ingress);
- 		}
- 		bpf_mprog_commit(entry);
-+		if (!ingress)
-+			netdev_update_tx_extra_headroom(dev);
- 	} else if (created) {
- 		tcx_entry_free(entry);
- 	}
-@@ -86,6 +88,8 @@ int tcx_prog_detach(const union bpf_attr *attr, struct bpf_prog *prog)
- 		bpf_mprog_commit(entry);
- 		if (!entry_new)
- 			tcx_entry_free(entry);
-+		if (!ingress)
-+			netdev_update_tx_extra_headroom(dev);
- 	}
- out:
- 	rtnl_unlock();
-@@ -119,6 +123,20 @@ void tcx_uninstall(struct net_device *dev, bool ingress)
- 		tcx_entry_free(entry);
- }
- 
-+unsigned int tcx_tx_extra_headroom(struct net_device *dev)
++SEC("tcx/egress")
++int push_untagged(struct __sk_buff *skb)
 +{
-+	struct bpf_mprog_entry *entry = tcx_entry_fetch(dev, false);
-+	unsigned int headroom = 0;
-+	struct bpf_mprog_fp *fp;
-+	struct bpf_prog *prog;
-+
-+	if (!entry)
-+		return 0;
-+	bpf_mprog_foreach_prog(entry, fp, prog)
-+		headroom += prog->aux->tx_extra_headroom;
-+	return headroom;
++	return push(skb, PUSH_LEN);
 +}
 +
- int tcx_prog_query(const union bpf_attr *attr, union bpf_attr __user *uattr)
- {
- 	bool ingress = attr->query.attach_type == BPF_TCX_INGRESS;
-@@ -160,6 +178,8 @@ static int tcx_link_prog_attach(struct bpf_link *link, u32 flags, u32 id_or_fd,
- 			tcx_skeys_inc(ingress);
- 		}
- 		bpf_mprog_commit(entry);
-+		if (!ingress)
-+			netdev_update_tx_extra_headroom(dev);
- 	} else if (created) {
- 		tcx_entry_free(entry);
- 	}
-@@ -193,6 +213,8 @@ static void tcx_link_release(struct bpf_link *link)
- 		bpf_mprog_commit(entry);
- 		if (!entry_new)
- 			tcx_entry_free(entry);
-+		if (!ingress)
-+			netdev_update_tx_extra_headroom(dev);
- 		tcx->dev = NULL;
- 	}
- out:
-@@ -237,6 +259,8 @@ static int tcx_link_update(struct bpf_link *link, struct bpf_prog *nprog,
- 		oprog = xchg(&link->prog, nprog);
- 		bpf_prog_put(oprog);
- 		bpf_mprog_commit(entry);
-+		if (!ingress)
-+			netdev_update_tx_extra_headroom(dev);
- 	}
- out:
- 	rtnl_unlock();
-diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-index 5e4700fda66b..e241ee20927a 100644
---- a/kernel/bpf/verifier.c
-+++ b/kernel/bpf/verifier.c
-@@ -2683,6 +2683,33 @@ static int add_subprog(struct bpf_verifier_env *env, int off)
- 	return i;
- }
- 
-+static int bpf_find_tx_extra_headroom(struct bpf_verifier_env *env)
++SEC("tcx/egress")
++__attribute__((btf_decl_tag("tx_extra_headroom:20")))
++int push_tagged(struct __sk_buff *skb)
 +{
-+	struct bpf_prog_aux *aux = env->prog->aux;
-+	const struct btf_type *t;
-+	const char *value;
-+	u16 headroom;
-+
-+	if (!aux->func_info_cnt)
-+		return 0;
-+	t = btf_type_by_id(aux->btf, aux->func_info[0].type_id);
-+	value = btf_find_decl_tag_value(aux->btf, t, -1, "tx_extra_headroom:");
-+	if (IS_ERR(value)) {
-+		if (PTR_ERR(value) == -ENOENT)
-+			return 0;
-+		verbose(env,
-+			"multiple tx_extra_headroom tags for main subprog\n");
-+		return PTR_ERR(value);
-+	}
-+	if (!isdigit(*value) || kstrtou16(value, 10, &headroom) ||
-+	    headroom > NETDEV_TX_EXTRA_HEADROOM_MAX) {
-+		verbose(env, "invalid tx_extra_headroom tag '%s'\n", value);
-+		return -EINVAL;
-+	}
-+	aux->tx_extra_headroom = headroom;
-+	return 0;
++	return push(skb, PUSH_LEN);
 +}
 +
- static int bpf_find_exception_callback_insn_off(struct bpf_verifier_env *env)
- {
- 	struct bpf_prog_aux *aux = env->prog->aux;
-@@ -3264,6 +3291,10 @@ static int add_subprogs(struct bpf_verifier_env *env)
- 		}
- 	}
- 
-+	ret = bpf_find_tx_extra_headroom(env);
-+	if (ret < 0)
-+		return ret;
++SEC("tcx/egress")
++__attribute__((btf_decl_tag("tx_extra_headroom:30")))
++int push_tagged_30(struct __sk_buff *skb)
++{
++	return push(skb, 30);
++}
 +
- 	ret = bpf_find_exception_callback_insn_off(env);
- 	if (ret < 0)
- 		return ret;
-diff --git a/net/core/dev.c b/net/core/dev.c
-index c1788a18f0fd..dd34daf5f3b4 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -10692,8 +10692,10 @@ static void __netdev_update_tx_extra_headroom(struct net_device *dev,
- 	if (peer && dev_xdp_prog_count(peer) &&
- 	    needed_headroom < XDP_PACKET_HEADROOM)
- 		tx_extra_headroom = XDP_PACKET_HEADROOM - needed_headroom;
-+	tx_extra_headroom += tcx_tx_extra_headroom(dev);
++SEC("tcx/egress")
++__attribute__((btf_decl_tag("tx_extra_headroom:512")))
++int tag_max(struct __sk_buff *skb)
++{
++	return TCX_NEXT;
++}
++
+ char _license[] SEC("license") = "GPL";
+diff --git a/tools/testing/selftests/net/tx_extra_headroom.py b/tools/testing/selftests/net/tx_extra_headroom.py
+index 49a61ad17671..02ae509ae8c2 100755
+--- a/tools/testing/selftests/net/tx_extra_headroom.py
++++ b/tools/testing/selftests/net/tx_extra_headroom.py
+@@ -7,7 +7,7 @@ import socket
+ import struct
+ from pathlib import Path
  
--	WRITE_ONCE(dev->tx_extra_headroom, tx_extra_headroom);
-+	WRITE_ONCE(dev->tx_extra_headroom,
-+		   min(tx_extra_headroom, NETDEV_TX_EXTRA_HEADROOM_MAX));
- }
+-from lib.py import ksft_run, ksft_exit, ksft_eq, ksft_gt
++from lib.py import ksft_run, ksft_exit, ksft_eq, ksft_ge, ksft_gt
+ from lib.py import KsftSkipEx, KsftFailEx
+ from lib.py import ksft_busy_wait, ksft_variants, KsftNamedVariant
+ from lib.py import cmd, defer, ip, bpftool, bpf_prog_map_ids
+@@ -18,8 +18,10 @@ XDP_OBJ = Path(__file__).parent / "lib/xdp_dummy.bpf.o"
+ XDP_HELPER = Path(__file__).parent / "lib/xdp_helper"
+ PIN_DIR = Path("/sys/fs/bpf/tx_extra_headroom")
+ PORT = 9999  # UDP_TEST_PORT in tx_extra_headroom.bpf.c
++PUSH_LEN = 20  # PUSH_LEN in tx_extra_headroom.bpf.c
+ ETH_P_ALL = 0x0003
+ XDP_PACKET_HEADROOM = 256
++TX_EXTRA_HEADROOM_MAX = 512  # NETDEV_TX_EXTRA_HEADROOM_MAX
  
- /**
+ 
+ def _setup_addrs(peer_ns, dev, peer):
+@@ -270,6 +272,87 @@ def test_bridge_vxlan() -> None:
+             XDP_PACKET_HEADROOM)
+ 
+ 
++@ksft_variants([
++    KsftNamedVariant("untagged", "push_untagged", 0, True),
++    KsftNamedVariant("tagged", "push_tagged", PUSH_LEN, False),
++])
++def test_push(prog, tx_extra_headroom, reallocated) -> None:
++    """Check that the tag of a tcx program avoids a reallocation."""
++    with NetNS() as send_ns, NetNS() as peer_ns, NetNSEnter(str(send_ns)):
++        _setup_veth(peer_ns)
++        map_id = _load_progs()
++        _attach_tcx("veth0", "egress", "record")
++        _attach_tcx("veth0", "egress", prog)
++        _send_udp4()
++        bss = _read_bss(map_id)
++
++    ksft_eq(bss["pushes"], 1)
++    ksft_eq(bss["tx_extra_headroom"], tx_extra_headroom)
++    ksft_eq(bss["reallocated"], reallocated)
++
++
++def test_push_detach() -> None:
++    """Check that detaching the tagged program clears tx_extra_headroom."""
++    with NetNS() as send_ns, NetNS() as peer_ns, NetNSEnter(str(send_ns)):
++        _setup_veth(peer_ns)
++        map_id = _load_progs()
++        _attach_tcx("veth0", "egress", "record")
++        _attach_tcx("veth0", "egress", "push_tagged")
++        _send_udp4()
++        ksft_eq(_read_bss(map_id)["tx_extra_headroom"], PUSH_LEN)
++        # Without a program argument, bpftool detaches the last program.
++        bpftool("net detach tcx_egress dev veth0")
++        _send_udp4()
++        ksft_eq(_read_bss(map_id)["tx_extra_headroom"], 0)
++
++
++def test_push_peer_xdp() -> None:
++    """Check that the tag adds to the headroom for XDP on the peer."""
++    with NetNS() as send_ns, NetNS() as peer_ns, NetNSEnter(str(send_ns)):
++        _setup_veth(peer_ns)
++        map_id = _load_progs()
++        _attach_tcx("veth0", "egress", "record")
++        _attach_tcx("veth0", "egress", "push_tagged")
++        _attach_xdp(peer_ns)
++        _send_udp4()
++        bss = _read_bss(map_id)
++
++    ksft_eq(bss["pushes"], 1)
++    ksft_eq(bss["tx_extra_headroom"], XDP_PACKET_HEADROOM + PUSH_LEN)
++    ksft_ge(bss["headroom"] - PUSH_LEN, XDP_PACKET_HEADROOM,
++            "headroom left for XDP after the push")
++
++
++def test_push_two_progs() -> None:
++    """Check that the tags of two tcx programs add up."""
++    with NetNS() as send_ns, NetNS() as peer_ns, NetNSEnter(str(send_ns)):
++        _setup_veth(peer_ns)
++        map_id = _load_progs()
++        _attach_tcx("veth0", "egress", "record")
++        _attach_tcx("veth0", "egress", "push_tagged")
++        _attach_tcx("veth0", "egress", "push_tagged_30")
++        _send_udp4()
++        bss = _read_bss(map_id)
++
++    ksft_eq(bss["pushes"], 2)
++    ksft_eq(bss["tx_extra_headroom"], PUSH_LEN + 30)
++    ksft_eq(bss["reallocated"], False, "a push reallocated the head")
++
++
++def test_tag_max() -> None:
++    """Check that the maximum tag is accepted and that the sum is capped."""
++    with NetNS() as send_ns, NetNS() as peer_ns, NetNSEnter(str(send_ns)):
++        _setup_veth(peer_ns)
++        map_id = _load_progs()
++        _attach_tcx("veth0", "egress", "record")
++        _attach_tcx("veth0", "egress", "tag_max")
++        _attach_xdp(peer_ns)
++        _send_udp4()
++        bss = _read_bss(map_id)
++
++    ksft_eq(bss["tx_extra_headroom"], TX_EXTRA_HEADROOM_MAX)
++
++
+ def main() -> None:
+     """Run all test cases."""
+     if "/sys/fs/bpf type bpf" not in cmd("mount").stdout:
+@@ -279,7 +362,12 @@ def main() -> None:
+               test_peer_xdp_netkit,
+               test_detach,
+               test_bond,
+-              test_bridge_vxlan])
++              test_bridge_vxlan,
++              test_push,
++              test_push_detach,
++              test_push_peer_xdp,
++              test_push_two_progs,
++              test_tag_max])
+     ksft_exit()
+ 
+ 
 -- 
 2.56.0
 
