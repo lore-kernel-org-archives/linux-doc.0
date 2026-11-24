@@ -1,78 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795515317;
-	b=iVslgoAZ76U4cMSbHbR3CvVm8v+4QFwA/NNn7TCIYuAsBROaZgJnECVyqnLuD9Xm5sIx
-	 hBLyBKJwveGziuSVJKPpsa9XF4QxMP31p0g1DwjiUtsSDQM6i+Juc3yuybFuCXZQYDOuz
-	 0VQJlMIuyqO42ekJYSS64b7ELr70zTSYLZmsAAOKmZeaWKph9E9aK8ZPKSaRnXUeQBhRB
-	 yccZ7b0lJ3QD5w94Gei61/cV8UivGoY4ROHwwM4uo560MuIuQaG4eTjDKBbmyk4RI3i4z
-	 Rn/voTfDf2ZRGB8afiQMxxLpFLd3eY/3zWHZgwW8HmJhSS+Q4Iopx3v+nohqNfI49mg==
+	t=1795516207;
+	b=NisW0lFccBda+N/YIHNfQAb7cR/CGaNWQNwuZ9iDlHoBs2XcOYRM5S/PkNaFF6RqpG/o
+	 j4p3mSxBtnCmcV10HRexJyuOBcckjIsGc8p8lMPuv62MwNQuvq7ZD7452jC5f8UC0avkl
+	 3PZ1Ln86vtSJwqJv8puRxaywwGEbDgqCobX/ykmK7DiWs+pcDY625O+EntEETLr0Bgq7E
+	 9ru5KaSJELdLY+epPITT4eYRusXFqTncfPYyeDOW0iFcHLkIlNEx2MlzSr5NdlxWNKoyI
+	 w1Jx2vo3wx3NfYrbrkDz6vHV4QxgfcOdyNiyEZnKm5D4MFDUyo/jsMGoknZ4iUD3bBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795515317;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=hHECIuUR9HcEzeZJ8C7pKu2f5dLD2DBLgztjbd6Qj3I=;
-	b=MhQsUWZN3XUk5Ee2XMS4k1XqvoEYJ195h4DAAADFyuZE2dtmVxegQuR8u/beN2b7B5pl
-	 18akgjW9DR6ueaELbl4dNOzeeRvBVN/V/lvohTFONUUZq958zp3ZIBYtAna5NCeQn1WBl
-	 t1OxevJogsfvDDg5S0AM+R/3Qdq2HmIr3eNtt06pqr31z5tuMSS7ORWil0G/rUYBVC6R4
-	 hEjnEOgpXuRF5BmBh2cO/f1NecuuEnGkw8GWeT8GxYfOItWzbyWvrBWig8vA+atHKy/fe
-	 1iTbARDxZkXadgSqzt24ZgrmWs2J0+Edp2wpnocbvC3y+iUy/nSYCEXi4BUTP5MVEZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795516207;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=p04gJ0YIJ5K6riQxsGKSSOf2n8Ia55dpM/nGFJB50fg=;
+	b=iUtY137DhrMm9HdjZ59J/wMRZ9w0zz5MOgVv/fG6ed4b72rMdFu7QHBPY9l59mikV7uY
+	 kb4/0FlqIiKtkVnIEUD7th2R53JW42K7Dtmw0HHPik+DyeSEM2AWkc2NL4kzWKhqm19p+
+	 QYbOAt3RxfE+1BkOdwRf2beP+U5eSDod3mkZbNlS17NPOThQ6QTKAOoJVkM6AjdYaqTiz
+	 KMyxjealyvE4Qs99Kncgmb3a/BUpf6IUlLCUGACGBAhnqEMWIKaFQr/YFoWJYACVdkRNQ
+	 gwRro2v1aljHT8OcNzd9c0S7Frs1pHfN4l/qrBUNUfV+ZNCyx4KyJlK6NLPo+cdpE1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dPWKFZ5L;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="lZYGD/b9";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D93606A32D;
-	Tue, 24 Nov 2026 10:15:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337AB606A327;
+	Tue, 24 Nov 2026 10:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dPWKFZ5L
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88E031F000C0;
-	Tue, 24 Nov 2026 10:15:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lZYGD/b9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 431441F000C6;
+	Tue, 24 Nov 2026 10:30:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795515317;
-	bh=hHECIuUR9HcEzeZJ8C7pKu2f5dLD2DBLgztjbd6Qj3I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dPWKFZ5LG9YCMDzt2kiKA/v9gin8Z5x5M8m2NT7aGz3CCfIJbdV04+DqSdm8fUw/y
-	 HcfWdjV/MgD4Q+SHwFPx6zJVZQvjtnQ44m9MwLz8lV8p5m2D43+hdZwctL1wLtvWuz
-	 yODDoYeYLT6gtj4nJIDi6u7UIh1VTYeU0hn88qSrp126h1r9fY0p8eBz61Hj6TaKu9
-	 i2SuPF0ywEaGPdevN74Hb2UVMyQLGn4R0MwB4yjw8L/t7p09RHj3wuhsEvDAvaP+MA
-	 shL/P5t2LSFLsKwtd4zWfCarVE5KK448QJf/Vzn/+6WbPNQ1cwJX4LJqYk5tPHWz5v
-	 aWTdOo//a6l6w==
-Date: Tue, 24 Nov 2026 12:15:04 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Alex Williamson <alex.williamson@nvidia.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Chris Down <chris@chrisdown.name>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v11 00/13] PCI: liveupdate: PCI core support for Live
- Update
-Message-ID: <awVjqLFrXY_PCm7X@kernel.org>
-References: <20261118223704.3286085-1-dmatlack@google.com>
- <DN0FL1752MH5.1FSZE620OJBM0@google.com>
- <awKlfqlQYhphXCvf@kernel.org>
- <DN2TQRX57C04.ZT5UUS6AQ1L6@google.com>
+	s=k20260515; t=1795516206;
+	bh=p04gJ0YIJ5K6riQxsGKSSOf2n8Ia55dpM/nGFJB50fg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=lZYGD/b9PWZnsLKFV2Jpl+y8igi5teKVAdohlAf2virTpMeHDZT7Xma+03f56SxRl
+	 Zj40lHQ53eQNr+L8AwHiRwNbx69ANdq8y8TflYO9gh1FSgEWjTPKeKWJU4Z5dXUesq
+	 SVqUI3wmiGh4GVrj4DgIYLLMFDvZoSND9Ad5quWiPe4YSFIvpCUG9bLLaqOnFw2frV
+	 gerOKEnnN6bTgHJY0TSHBnw26E7zDD3yFLx+Uda0k7dOY012z0R5GT5SYByozZhcX6
+	 JDEoekpq+e2U82WuuohN3NdsOeZ124XNwyx0dR38t7FHnjhQj34F3Z0TmwLNSSy8dD
+	 OAGeLWFbboDPw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3A46E3931025;
+	Tue, 24 Nov 2026 10:30:06 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -82,23 +53,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DN2TQRX57C04.ZT5UUS6AQ1L6@google.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v4 1/2] tcp: fix shift-out-of-bounds in SYN-ACK
+ retransmit
+ timers
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179551620503.3433632.13292310482168574240.git-patchwork-notify@kernel.org>
+Date: Tue, 24 Nov 2026 10:30:05 +0000
+References: <20261120040447.195446-1-jiayuan.chen@linux.dev>
+In-Reply-To: <20261120040447.195446-1-jiayuan.chen@linux.dev>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: netdev@vger.kernel.org, stable@vger.kernel.org, edumazet@kernel.org,
+ davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, willemb@google.com,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, ncardwell@google.com, kuniyu@google.com,
+ linux-doc@vger.kernel.org
 
-On Mon, Nov 23, 2026 at 11:07:04AM -0800, David Matlack wrote:
-> On Sun Nov 22, 2026 at 12:19 AM PST, Mike Rapoport wrote:
+Hello:
+
+This series was applied to netdev/net.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Fri, 20 Nov 2026 12:04:35 +0800 you wrote:
+> req->num_timeout counts the SYN-ACK timeouts of a request and is used as
+> a shift amount:
 > 
-> Hopefully I did this all correctly... This is my first time sending
-> in-reply-to fixup! patches.
+> 	/* tcp_reqsk_timeout() */
+> 	u64 timeout = (u64)req->timeout << req->num_timeout;
+> 	/* tcp_fastopen_synack_timer() */
+> 	req->timeout << req->num_timeout
+> 
+> [...]
 
-This is my first time merging !fixup patches and it seems b4 managed it
-well :)
+Here is the summary with links:
+  - [net,v4,1/2] tcp: fix shift-out-of-bounds in SYN-ACK retransmit timers
+    https://git.kernel.org/netdev/net/c/9f2264b0730a
+  - [net,v4,2/2] tcp: fix shift-out-of-bounds in inet_csk_rto_backoff()
+    https://git.kernel.org/netdev/net/c/c5de2ce2fccd
 
-Please check I didn't miss anything:
-
-https://git.kernel.org/liveupdate/linux/l/lu-pci-preservation
-
+You are awesome, thank you!
 -- 
-Sincerely yours,
-Mike.
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
