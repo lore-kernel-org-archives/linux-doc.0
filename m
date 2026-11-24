@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795542195;
-	b=3CwJeV8Ix/zN22cZuc6uzeWE4PNLxRXT9Fmd12VzHovi8INkY48cIt8Ij52/HIgAm1kk
-	 xgFYRYIbQdK7Vp2l0T+0eX7WVOjOa1SdoTvwbGg8l8pSOZyJuQIE5nBRTlU1uzxwq+L05
-	 tFO8PW9PK33d9sbN6anwnX0+XcEjzu4YQ67jHBK+3TmxIdJyqd8LAI8Oz5FhSdXn8Hi01
-	 7g4QUkEtWsspBNcB3dHMtv2pX8RY3+ZfLFNghcqOCCHHsXr9/cgmbEQG4oZtyvtVAqG5c
-	 vgx2wgkSJI+5U7C7l8afTZCmZNoQSfBPR8BKi3QY4YZFC5lO5KulVAtmKjZx5uKBjYA==
+	t=1795542193;
+	b=dLpgCBeUgDJ+1Q2tTkPRVy5+hE80r20dJ1cAIfcl7xNdLDxcFJJeTxndop1SqawVOySV
+	 TRaElZAb1FHcg8SkNR/2uVn2za2Z4+qiHApByCvTgmsljwlT2K0R5G5cSR4hfPrGonAQ5
+	 OTbfbS9gaP+5xqxe+b8hbpTMmZASlbguos4tlqH8OWpo1l4WQasT8WztskWpG2g3omHGm
+	 J3F5+aYoH0GLC9IJMrg8nGxFR+LiOdOpE85RCbkoHcZ0Js2heDmCTrvafn4f6EuhTOIaT
+	 1vib3hdzA5D+PLEY8TVCU4qsgwTkZVL4na4gRtWm+v4kcbP16CrnIHbWGW9aPonAy0A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795542195;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=kIaLyFmWlXu0jjs/ghjuJd5PVRPDSe2ojXPLL1BJp2w=;
-	b=LG8L2wUvxzVWfwEzOytskWzPsaPG8gkgTotIZmVU/9QRTQS4dWhZ1EjSUhMuNh8kbvCI
-	 2FphUktyVe3Ul6Rv7baCpUtbOjqdFu2TVpEW/Y9ucCkRW/kezH5c6CO1GVK3RDbaxfma5
-	 44tBaVNpqO5y/rOS5Q/SfVikqNgApaKbOSPGg/fO4Xxdra7jXVL121F+eyICdxb+ILjmF
-	 /4T35Qj0g3xDdb5JfciyeuFn023UEsRhXEetk+lLw+08kKAoDdfYdIc93o7uKq+jRnBHp
-	 R9icwe6HatE+2+m0O7bk4ZuBL2dg2T2fP4rCJ3K8ZHdquXMGHzU8qNS/7WP2lefbpqg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795542193;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=sCc0kofNvkDa3L6oT1taaFE+OREB6QTLHsXJrjG7pts=;
+	b=KdI8P01sotWvjD90NbGkS1qzocov4eu+THUFhDt/h88JCnjZ4ALamNxP5kspwlSVxzIe
+	 OsoSaANEDP/UbuuAy2Ggj5whO+KlpX5c8Fua7KbVl0PbmwZO/7Jas9zBt4FPszztQt2bE
+	 Z5SpuQ/Twg9HVDizlImwTpk2ougMen46Xa1EgejCTEFzU12BrpIdhtFVjeKoWyvQAESIW
+	 ehXfOovZtg7ywskUNXO0ld06lBAPtOvPeiEBCaL2eJXna/JkOAsoup1X9VfTeMOW8FPBy
+	 rmSldYyqZ6nseoobYxSx3ELhDny0/7IiXEjG7mF7PHmu5BcKzGwni7NjAVbm/G+Pnkw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cxjqHsQY;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PVy7FqQD;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D101D606A332;
-	Tue, 24 Nov 2026 17:43:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B09606A335;
+	Tue, 24 Nov 2026 17:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cxjqHsQY
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PVy7FqQD
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795542195;
-	b=w7YfSZJoWn7rL8J6DhHNKEVCjUHPgyvfIRRZNTbh15Oeic5idrtyGwTamAyXL1yGvKtQ
-	 A4N9w9gqjQScUIzX0CmQMwnTOUTvm0gnct0JV8OCjYpiQBIoVdZHOBJGCeM1Pb/U+ShcU
-	 rhxg/mY1M9tBJUyyxnxqVQA/tyrDpYKzwyMHZzmqo1PE1aO8tGsnW6TyxH7OZZOBx5LjG
-	 BYFo9I/26TN8EcvTNNAmvjhbfWO2DRXiBMiQ/5PmLFv2kpxlr9JLMWCu3ejPD7bFnylWG
-	 IaIySMnn8ofwjCWA5bpe8ebTkCygBoCdYyqpjuW1ExvvGkLOV6oEh9JvAxAQvYCJPkw==
+	t=1795542192;
+	b=vB7DpqTiwU7aLdEhT6qrpEd30G9lOu3bviaAmBd4l9NFNe8EIbCJOPN+JOWB0GbpvGUs
+	 59n2eRf+BJ/fgx70HAR0+qgVnQNfGB5nnVnW2O5YKxTEatc2RwjnxIfI+D6Wc3VrXVE0l
+	 Om2Yiiu21ka/PzXplGeDD1+xaNnsjlLO/rSG5gJ1U1/J/KjB9lX97tTT97EqEeL6OUD52
+	 bOVtWaWF8hBzReNL4/oKTVW8W3OfI6hPSBPoKkb/vpo03dBG0OXe4PedLIa7rT01IGIjZ
+	 m5iSaALTmkTGmLtoh9b4IoK/tBoXQa/cRyPna1XyanvlWAW/IjuZTX1+WBYwoMrg/9w==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795542195;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=kIaLyFmWlXu0jjs/ghjuJd5PVRPDSe2ojXPLL1BJp2w=;
-	b=lZtyggwWYReREm+RtTZf4Ai+uOmjj4CzvaHYkHmPMoogDQgln3hE9D7Py/Q6Td4JAWJH
-	 kWsDhLjcxFbsiQnIYvSuJmoI6H9qYfbuAQKqCC1+hoFtCzCM0nmWijihcZhcnT75OhdHp
-	 gAtc1oZPNTOBhLeJvVKsWD5Mdi2iUjRyMQj0aHczu+Yn5dJtL8HV5MYJzu8CUfKPCQxIT
-	 V4fM2ssCB+b4gQbYGkJf8DAhZu6Y995jtdena99m11Qt9csXYWbfXBk8UMJfLqT+kdIHn
-	 NofNgaPgYf5xus1RRV27zPZX2OGknd9ZLC8WUpravqkgwuAvtnxmiwNfhO7fQhlYzZg==
+	c=relaxed/relaxed; t=1795542192;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=sCc0kofNvkDa3L6oT1taaFE+OREB6QTLHsXJrjG7pts=;
+	b=misdtEuTjgp41MVdSRijqaT9dZazi+dz7VeE0bYpvyjGN4aU0hPbQQNXNfdQ9nfs5kKc
+	 rT2tBrfcKCjKEy7IE/Lj/Q9GIMqf0rIJWDL49BuwJrW3k2O+PIqf1j/CKhRyiihAEiI2B
+	 9DplKUv3Zlk/szR5f/JdrOHLJ4NHVaBe3lxwv2J8hjRm//eT/Kyp0MXm0E5tnhZ6PwwjZ
+	 sTg7JCdCDYpMr7vkD7sS+NQYYWEPFJ51eDO0WAbsgS9nY2pYkpKZWXhONnbJ3tUoDcQdN
+	 g2nqIUGPHVp7x47Gf0gFdCc9/51Rnk690uEAyQgRGrxIzk9DUmw6kEx6RXLdtvZhbSw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6FE721F000CF;
+	by smtp.kernel.org (Postfix) with ESMTPS id 5F5DD1F000C6;
 	Tue, 24 Nov 2026 17:43:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795542195;
-	bh=kIaLyFmWlXu0jjs/ghjuJd5PVRPDSe2ojXPLL1BJp2w=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=cxjqHsQYQJbvfDTHrmpdBS4k1ebRIaKn0crxwWUVx9nkz/RuW5Qff2RIAH3t7lVkZ
-	 r0JlF1EB+V8QXWp8+cpBECgrPMULyvjxVrMdHGRVs4WNar4iKzEcnrRyo7NKqU/he1
-	 0Gq4zUiB7ZOAh5V1zr7ePsn89woIkqExFlgUDMgkj0sSiBAvvCCbbEOBPDoonx9Nx9
-	 iYr606NOTQdS9oTMklM75D+0CbJatf0Tlrm4wy5bvV68BPmCxC3vQlCrd8Q835QQZV
-	 AE6bcmxiXVWwta4BZJxN7C7MJu8ApxR6Fzc3LrTW7cAZ7sCDYQD1esaJnH5sJEl3jx
-	 yH6y7LfszUuyA==
+	s=k20260515; t=1795542192;
+	bh=sCc0kofNvkDa3L6oT1taaFE+OREB6QTLHsXJrjG7pts=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=PVy7FqQDlTr4xSNME9EwWR+FxkDm0KhHUAsrjE6TZICUij3sQ3WMLgknX+Jk2/kLa
+	 0ko7a6jLBq8Kq3RRNZpbqhVtLSnbOLBeMPP/pMlg7uVFr970WU6EttsIQZ0jsFolKN
+	 idI6lP5mJ8fhjT870yt0ClLCswsgUus/A+XZwN009V8dpJ4Mnx54GPpdxP3AUxR+98
+	 RiK0sZy7YjdLqiWMxqGuczdb+c2OUp7EGqgkgcGToOul0jRS4M7KWLH+c0K1NDE0iC
+	 1PYZpssr1QKZSw6DadhAhpFYOXLSro2uV+Yqy79E51ieeUQdhsKluDXB4inW5XXT/P
+	 pGwd6z2+fo8dQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 015CF4CB1C;
-	Tue, 24 Nov 2026 17:43:01 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id B7F424CB18;
+	Tue, 24 Nov 2026 17:43:00 +0000 (UTC)
 From: Armandas Kvietkus via B4 Relay <devnull+armandas.kvietkus.proton.me@kernel.org>
-Date: Tue, 24 Nov 2026 18:43:01 +0100
-Subject: [PATCH 2/4] dt-bindings: vendor-prefixes: Add Fingerprint Cards AB
+Subject: [PATCH 0/4] Add FPC1540 fingerprint sensor support through QSEE
+Date: Tue, 24 Nov 2026 18:42:59 +0100
+Message-Id: <20261124-fpc1540-tee-v1-0-6c6985f05b06@proton.me>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,9 +84,11 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261124-fpc1540-tee-v1-2-6c6985f05b06@proton.me>
-References: <20261124-fpc1540-tee-v1-0-6c6985f05b06@proton.me>
-In-Reply-To: <20261124-fpc1540-tee-v1-0-6c6985f05b06@proton.me>
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQyMT3bSCZENTEwPdktRU3WQLyyRjUyPzVHOjRCWgjoKi1LTMCrBp0bE
+ QfnFpUlZqcgnICKXaWgABVT8WbwAAAA==
+X-Change-ID: 20261124-fpc1540-tee-c89b3527e72a
 To: Bjorn Andersson <andersson@kernel.org>, 
  Konrad Dybcio <konradybcio@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -97,43 +100,49 @@ Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
  Armandas Kvietkus <armandas.kvietkus@proton.me>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795542180; l=802;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795542180; l=1509;
  i=armandas.kvietkus@proton.me; h=from:subject:message-id;
- bh=bb1E4uO7yTmae2IdZoOdJAzIoFi+Onctna6tkTmtNX4=;
- b=IF4dBQyJ2xQca/bjfj3E9mICaY7LIC9mawwx/9jbS+KZ9Sh7CHqidQKi9qdqtWPeJ9WMzSYsa
- Xf+Jj9DMJKUAQenRokC+lCdW6mnLcjoJ1ulQNQBJRxcUDzJQwWF+e/C
+ bh=xOzpTrKsIgO9EFs8IZauDfSC/Ubdmarcofr0n2Gl3BM=;
+ b=AczOttScH5/OAPV3Cnqt7WmEyirdiwHPYuF3W5zL6ePdL/mVcDkBYicWVRtGm1LjC23JxPGtf
+ A5Qh83g54DEDFjZPZcpqTqPDWUb9iFNXd3+mupcLsSjqbealYUKUzLG
 X-Developer-Key: i=armandas.kvietkus@proton.me; a=ed25519;
  pk=wuqmImJ9sKlDVcwALOvfGhjj7G8EBjjM4TpCdmlrAf8=
 X-Endpoint-Received: by B4 Relay for armandas.kvietkus@proton.me/default
  with auth_id=974
 X-Original-From: Armandas Kvietkus <armandas.kvietkus@proton.me>
 Reply-To: armandas.kvietkus@proton.me
-Content-Transfer-Encoding: 7bit
 
-From: Armandas Kvietkus <armandas.kvietkus@proton.me>
+On some Qualcomm phones the FPC1540 is driven by a QSEE app and Linux
+only has to power the sensor, load the app and pass commands to it.
 
-Add the vendor prefix for Fingerprint Cards AB.
+The first patch adds the qcom_scm calls to start and stop an app and to
+load a services image. The rest adds the binding and the driver, which
+exposes the app to userspace through /dev/fpc_tee.
 
-Signed-off-by: Armandas Kvietkus <armandas.kvietkus@proton.me>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+Armandas Kvietkus (4):
+      firmware: qcom: scm: Add QSEE app start, shutdown and services image load
+      dt-bindings: vendor-prefixes: Add Fingerprint Cards AB
+      dt-bindings: misc: Add FPC1540 fingerprint sensor driven by a QSEE app
+      misc: Add FPC1540 fingerprint sensor driver for QSEE apps
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 5471a06f93f1..f0153a5f0687 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -628,6 +628,8 @@ patternProperties:
-     description: Shanghai FourSemi Semiconductor Co.,Ltd.
-   "^foxlink,.*":
-     description: Foxlink Group
-+  "^fpc,.*":
-+    description: Fingerprint Cards AB
-   "^freebox,.*":
-     description: Freebox SAS
-   "^freecom,.*":
+ .../devicetree/bindings/misc/fpc,fpc1540-tee.yaml  |  74 +++
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ Documentation/userspace-api/ioctl/ioctl-number.rst |   2 +
+ MAINTAINERS                                        |   8 +
+ drivers/firmware/qcom/qcom_scm.c                   |  83 ++++
+ drivers/misc/Kconfig                               |  10 +
+ drivers/misc/Makefile                              |   1 +
+ drivers/misc/fpc1540-tee.c                         | 512 +++++++++++++++++++++
+ include/linux/firmware/qcom/qcom_scm.h             |  23 +
+ include/uapi/linux/fpc1540-tee.h                   |  20 +
+ 10 files changed, 735 insertions(+)
+---
+base-commit: ef922b721a5e99348fc1f5801fdeb427ee14ee9f
+change-id: 20261124-fpc1540-tee-c89b3527e72a
 
--- 
-2.56.0
+Best regards,
+--  
+Armandas Kvietkus <armandas.kvietkus@proton.me>
 
 
