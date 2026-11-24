@@ -1,79 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795508386;
-	b=qBVsg27/PaLnQYPMMUnW0MLKjUBgqrX4Od9xISpNxKL2fQQaXxyj7XbfqSTFx24g85Kh
-	 8I4F3VfanQSKQ5zM5jQXwIelu5f666ekMJrbAGeczGmkAhc4tmPXB+HC8RL1TS/mlgI2v
-	 jdV3ay23uUth84zG9ChAVylsDtleGNNUrTop7agQoGb2wEPHT9kgvsvuDthlLNX7JUvs7
-	 FIe5zx/k35v0Jq7eAljWA49ri7fNIo063nTwfXDdphZN7+G8bZf1CiVRVsIT1Fmv1P2zg
-	 6LkKB7QS4Lq717zpbyhxopLCMAfWYKkC/g9rGoQ6YXO/mlPJqt4YHFx4yGT72udsDOw==
+	t=1795508588;
+	b=EhFjT10bxGq1alrg4Ae4vYDUsMAQLIiTX71l8VwyhR4M4eXW8FyHQCnCoauwYVzA8ieW
+	 yCzE0hnZZmmVsApwJuhFSdYatLgma8x/RcCFPXfek7z9v96+nspdzy/rlDajkDIMDaXke
+	 XoVeLfnor9LIW05nCaoDLfdMtDWX1uD/N+xI/6G5X/ZhKjNHQYe0K8351kPB4Pe4AQkIc
+	 /XNvfpdLyLZNf/7pRCdinWZZ/iSmCk3nFLq9JAQvnmYtJEyRVtTvxYpeu9WIKhqaOQRZf
+	 Grf6fuHzNIsEsfCkpIdbWgSAuaPjRKFGWOo7EAMuFRTPRi648uF7WjqYjwCsmh2AwWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795508386;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=E9abjPcthtIyY+MMEtQrTLzJvidQaqZjoo58q53HUoc=;
-	b=4bL36zJAWuFafEASIHo+41ON0b9Uclh5QYwRub0Szu22knTeTYftxtDPxYgRBgrZKwgO
-	 1bm7S1Ua8X1btUZss8aZa0fb1AGoQkbbcDbAR3C31m7wUEPBMlefzk1cO2W7vk3++FhiF
-	 vaEzOe0WY6WqQG+j71x9PKfQtLkCYxwwxe/pCcGWq7BJyImQ2ffgJf8Aqgj3R8GN6Faol
-	 0NRyY5Q/6YkXoRt0Ed08s73iseo7U0h9jThxh0GTKoPLgwo4Ao/CGJ7D+KIjW+Zpec1Vi
-	 08hE+A35CEE3Dvz2VHTqguR8+evlzlPpXGjYh/A4tGXaNmxyD7ecnXVl3zS3gszc7AQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795508588;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=85ylmbeALAYwawIKijj0hXBlUEBRMQLc81ieNVbxchc=;
+	b=QG4oiBhr4/6TgIESH07vC1iMHG8KRFy4icjfomopKQg6v5OmQVzLuGI5kl8CZkYZLq9O
+	 0U18h86Usakpns7goAUjygA/GQLPMUOfDQQQhyoj04NCUGvQoMi8mnqS+Y1Oot1lv72+U
+	 rTBDz2XPfjOQA2ja6X3VGp3g9ssov5V8nqVw7lfYFM+/u8EW0zGO8UGaTnxCzg3BhSJNa
+	 HA6QaW/TDlovv2cHg/UNmLqst+BZ/PbPMTEZP9Txm0zy3MHwGLYSwYUkDpzOwz8zwlC69
+	 nDjXZtl7lLNUU6hlX0LgAX0zZKWU1dpQVcEJ9dtiRqS2ye+7MvUcmXvZc/e00Ci27KQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e3O83Rok;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FTcl0jLk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 10324606A330;
-	Tue, 24 Nov 2026 08:19:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227CB606A31E;
+	Tue, 24 Nov 2026 08:23:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e3O83Rok
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CDE391F000CA;
-	Tue, 24 Nov 2026 08:19:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FTcl0jLk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8C3D1F000CF;
+	Tue, 24 Nov 2026 08:23:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795508385;
-	bh=E9abjPcthtIyY+MMEtQrTLzJvidQaqZjoo58q53HUoc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=e3O83RokhWRQvZwd1DE9oTpgGvx6IqeB+fzR6eFpiyChO2W7NR7MJQGtBcoiAgXR8
-	 Wn3CnXsXOg60lEc79jyvbWLaENSpj7epk3SWKZSxsfG/TzzsD96HViD8sVrUPvjHiI
-	 Uu3bfmaxPEXAcEMAc1H7CfoY+IZGDYCSroILEOWmGmLpFtMqe71KxLTvROwTUBBEjK
-	 ZVvaTxYXqgEAgFgyKpJXSMDUSEV3VLF1gE9e9SbjHCr8Ql87moA1+n2j36wPzWax7i
-	 zLVJg4VgAJDdKWFmBmBJnIeOjxrS95srOseTu7pz6bMmjmadSVRv7TQ8qDqTHAkRSB
-	 BmAIIyq5qxSzQ==
-Date: Tue, 24 Nov 2026 10:19:41 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: bpf@vger.kernel.org, containers@lists.linux.dev,
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-security-module@vger.kernel.org,
-	Aleksa Sarai <aleksa@amutable.com>,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Giuseppe Scrivano <giuseppe@scrivano.org>,
-	Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	KP Singh <kpsingh@kernel.org>,
-	Lennart Poettering <lennart@poettering.net>,
-	Neal Gompa <neal@gompa.dev>, Oleg Nesterov <oleg@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
-Message-ID: <awVInf04kGC0uZZo@kernel.org>
-References: <20261122193539.3334213-1-jarkko@kernel.org>
- <awTmJIErjasO4lqq@kernel.org>
- <awToL2PFNKVgIfqs@kernel.org>
- <awUGkYoyDXp4P5LJ@kernel.org>
- <awULfmZR-pESj2EC@kernel.org>
+	s=k20260515; t=1795508588;
+	bh=85ylmbeALAYwawIKijj0hXBlUEBRMQLc81ieNVbxchc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=FTcl0jLkzHHNyCJMixZj3pcRaGFGdP5oXwfaEOZ0pcUeTE00z20ZJTr3DqtaTzusn
+	 bu2Z+p/Jirb6BNooVKLPKwPwc3VcgHXhceJ+dYepddjDYR/oZA+ZeoJ3696ZrFRkPx
+	 /6nJJtsubVIAZDvm/eCXe3qYyF7ulWd3WtAX4VaEdBhcO+OldPtJMVmNJ4U+aFHGlZ
+	 /JzOB9lXIlEyNXUmFWEG6ah/5IqZbsyDGdsymZILsq5J0eSQyFWThGFHPXf78hsZSR
+	 CL/TieEXgsX2Wb5nnC2KaJzMyn8W/PI3/ow+MvLi2JRF8XuM80sa8BYdJcjDEDhBe2
+	 nq+xnQaizMqRA==
+From: David Hildenbrand <david@kernel.org>
+To: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+ zhaozhengzhuo <zhaozhengzhuo@uniontech.com>
+Cc: linux-kernel@vger.kernel.org, 
+ "David Hildenbrand (Arm)" <david@kernel.org>, 
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Qi Zheng <qi.zheng@linux.dev>, 
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+In-Reply-To: <6E11B4A6A6E0DCF9+20261123030904.57369-1-zhaozhengzhuo@uniontech.com>
+References: <6E11B4A6A6E0DCF9+20261123030904.57369-1-zhaozhengzhuo@uniontech.com>
+Subject: Re: [PATCH v2] Docs/mm: fix stale split page table lock references
+Message-Id: <179550858346.7182.6655589672684235643.b4-ty@b4>
+Date: Tue, 24 Nov 2026 09:23:03 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,91 +68,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awULfmZR-pESj2EC@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16.0
 
-On Tue, Nov 24, 2026 at 05:58:58AM +0200, Jarkko Sakkinen wrote:
-> On Tue, Nov 24, 2026 at 05:37:58AM +0200, Jarkko Sakkinen wrote:
-> > On Tue, Nov 24, 2026 at 03:28:19AM +0200, Jarkko Sakkinen wrote:
-> > > On Tue, Nov 24, 2026 at 03:19:36AM +0200, Jarkko Sakkinen wrote:
-> > > > On Sun, Nov 22, 2026 at 09:35:13PM +0200, Jarkko Sakkinen wrote:
-> > > > > SYSCALLS
-> > > > > ========
-> > > > > 
-> > > > > Two new system calls are proposed:
-> > > > > 
-> > > > > 1. userland_open(): open an opaque staircase-initialized container
-> > > > >    object (modeled on Intel SGX enclave initialization with separate
-> > > > >    build and live states) with no embryonic state, opting selected
-> > > > >    shared namespaces in via an allow-list instead of unshare semantics.
-> > > > > 2. userns_set_idmap(): configure all UID, GID, and project ID map
-> > > > >    extents for a container user namespace in a single atomic system
-> > > > >    call.
-> > > > 
-> > > > I played on patching systemd and userns_set_idmap() alone does already
-> > > > a lot of good. I'm figuring out userland_open() integration next.
-> > > > 
-> > > > For the test implementation I probe the opcode's and dependening on that
-> >                                             ~~~~~~~~
-> > 					    syscalls
-> > 
-> > > > use either "userland path" or "fallback path".
-> > > > 
-> > > > This auto-probing is done so that I can commit the patches to my kernel
-> > > > test harness, which already has systemd, and try them out when built
-> > > > against userland-enabled kernel (via LINUX_OVERRIDE_SRCDIR):
-> > > > 
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd-test.git/tree/?h=main
-> > > > 
-> > > > The project builds a hybrid ISO, which is a bootable bootc/composefs
-> > > > based operating system, and has toolbx bundled i.e., a reasonable test
-> > > > environment for all of this. It is also device-installable via "npx
-> > > > @puu/install"
-> > > > 
-> > > > I had to level the harness up a lot so that I could realistically test
-> > > > lockdown-hibernate but it is is also pretty good emulation environment
-> > > > for any possible container features.
-> > > 
-> > > Kernel is ukified and systemd-boot is used as the boot loader i.e., for
-> > > kernel testing purposes corresponds to something like Silverblue except
-> > > not using GRUB.
-> > 
-> > Experimental systemd patches:
-> > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd-test.git/commit/?h=main&id=e4d6b15da3376ad09c0c575cedf467f69db32a52
-> > 
-> > The patches are layered per syscall feature:
-> > 
-> > - 1-5: userns_set_idmap
-> > - 6-10: userland_open()
-> > 
-> > Virtual device would add path/mount complexity and generally dependency
-> > to mounts i.e., I think it was an awful idea. At least initially this
-> > feels fairly lean way of doing container things now that I've trialed
-> > systemd-nspawn a bit.
-> > 
-> > I'll update the patches over time.
+On Mon, 23 Nov 2026 11:09:03 +0800, zhaozhengzhuo wrote:
+> The USE_SPLIT_PTE_PTLOCKS and USE_SPLIT_PMD_PTLOCKS macros were turned
+> into Kconfig options, and CONFIG_SPLIT_PTLOCK_CPUS was replaced, but two
+> Documentation/mm files still refer to the old names.
 > 
-> "userland_open" is just a name as I don't have anything better for the
-> time being (perhaps <something>fd() e.g., containerfd(), would work
-> better).
+> Update both references.  Point readers to mm/Kconfig for the dependencies
+> instead of restating information that can become stale.
+> 
+> [...]
 
-What I did at late 2025 was simply going through the old ML discussions
-for David's patches and addressed the remarks one by one. Then I
-improved the patch set bit further until other stuff came along, and I
-forgot the whole thing for some time.  Last week's burst was really
-unwritten todo list starting to remind about itself in flashbacks.
+Applied, thanks!
 
-There's not much more in API sense to do except maybe syscall rename and
-associated prefixes in constants etc. My Git branch has additional fixes
-(e.g., more LSM plumbing) on top of this but they don't change the gist
-of this by any possible way so no new RFCs for the time being.
+tree: mm/core.git
+branch: core-7.5.misc
 
-The most up to date version:
+Applied patches will appear soon in mm-next, followed by linux-next.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/log/?h=vault
+Please report any outstanding bugs that were missed during review, so we
+can either drop the patch series or decide how to fix it up.
 
-Br, Jarkko
+It is encouraged to provide Acked-bys, Reviewed-bys, and Tested-bys even
+though the patches have already been applied. If possible, patch trailers
+will be updated.
 
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. Further, this is not a guarantee that the
+patches will go upstream. If in doubt, please check the listed branch.
+
+[1/1] Docs/mm: fix stale split page table lock references
+      https://git.kernel.org/mm/core/c/51626ff4
+
+-- 
+Cheers,
+
+David
 
