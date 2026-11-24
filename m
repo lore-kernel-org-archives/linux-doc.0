@@ -1,72 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.15.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795531773;
-	b=J3JCez9mCj42eGaaF4vvHtVOPwt5SILmIbKkDP/GJRpdo+HsbRYqBvEKRkAXdbO4282C
-	 e6lORNRy7sQCyD8qs8T8p6SwUUQVQoISYu0RcMWzNTV90hHVzKHBpjqry6katcPcUCGhR
-	 SQulW1F9NXu5F/Ky3o/0obG3JAzjp9YmhkcADb6pC7t7oEAyJ73yaebIjK87ntgrhXfGF
-	 59K++xF0bEDE+DgRUa62P6wYTYMUpUWzBz+wOezMshfVu4WH+Uk6vUGEYSsqZrn1jYqu0
-	 HTvoeVulAvFvs9nNTDf8wY2z+UQFGFPUKKDb6LuUsb/se/YRI48ztyE/yi0/ABNjOpA==
+	t=1795532293;
+	b=TydZ1pzs5lzWlYfVN84Sv7WFHfZsEd658LiUXKnig3s+4PNeI27NDyU7kfrHe4Pn77F6
+	 mC7U2DyjnxdjeKSxYvuZCW2jwWVngkyezPfj+HPuNA/Foa4foYkB+JYCuwQB1dbLEvF87
+	 aQoVtgsEHKFhbh28AJmaPiu7BA53lPXkV8teyGzbWMM8rjyvfEOOjdwSh3jqz4Zk5kpF2
+	 cRu/cbjCNU4s6MJl9CHf0zrG80qpKG+Ocp9Ij1kE+dy7zHqHE/hpQjox5ThXy9IkMr2HZ
+	 DsSktVYSEqm28TQyRpkHG1p8rcAEM98DZMJ6u/hcwuY0OgZpkyUAdTYTkMeUX0iA9AQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795531773;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=Liq722qa1oZCB1bf61DGQU/yCePJsouxsSertUBO8Fo=;
-	b=bc4BjgLCQJIPhMdCDyROb/tA9qFE7yNT+R61lMrgg457uVKB8/U5i/W1mxVnBLNHvHk+
-	 Lc4Yehn5wu0mqPi2CWrkYoTD0phBR0Hq1meMBvAFNBadS+sFGe7dXRdBPh9UhRz8tu41W
-	 N5C5a2XyLoGtJ8VQFNzob4JA25rjbUx2ITTqtyiw5cOlH8CCS3JqD1fQ4hEWtwgddg0f4
-	 jUWNfuk3aKNTu6V9dBypaeG2pxulGLUoVDpwFFabYNGvqnBfInX0tAkExg4aj/jLSDHcs
-	 VfrRcWIBUl6gSFexFs0W7hY5zENlkZ2DvABNByO5HubjTZuNYHYVvPQ7i8Yv/diUKIQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795532293;
+	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
+	 X-UI-Sender-Class:Received:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:From:To:Cc:References:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:
+	 UI-OutboundReport;
+	bh=nw1HJ1rYH0om1Cll57QBh5/myBqA0mV9sEjrJO/Tvyw=;
+	b=Ct3Je6QNzMnLTwfIZA6lBz+bGljdIdy6Ak37/lWe9GMGobIajmkMsABsFWAYUxkFn40P
+	 eMnZUyCODatIUKdDxag3LYEXA1hWWaatnXXyVv7rjv/IR9ndywRG1eai4jmy2Rp78nJS6
+	 vKqyt+QEoyeWWn1AHLjuxv+9FSDjQtoSTkNg6pnDJkPDkU91b2ev5XmtrjDC9lFVloE5X
+	 WRXCYuG25IcGy4LqaVvKR9j7TznN0+y1nJsLtaTamGHn95HnIs2tytT9emygDtGdWTXmI
+	 qEqRg+ugW0Qy+ETnN9/RF6gOw1oC5sugh+87f4qR+6BvZ9MPn/4mRRzrMr5Io9LZKog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=fcSVGhck;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dmarc=pass header.from=gmx.de;
+	spf=pass smtp.mailfrom=gmx.de;
+	dkim=pass header.d=gmx.de header.i=w_armin@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=ioD1yLkd;
+	arc=none smtp.remote-ip=212.227.15.19
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FCC606A31E;
-	Tue, 24 Nov 2026 14:49:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5FCC606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EAD606A31E
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 14:58:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6EAD606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=fcSVGhck
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Liq722qa1oZCB1bf61DGQU/yCePJsouxsSertUBO8Fo=; b=fcSVGhckVln1ICsiaCxOynWGAm
-	Y7ZkI5a9bALJIN4mYtqT6aLPSUmzQz4K+D0dVB0SzTsEeCEmBlKAZVezeVhv2ALtmkj47OhxXUmbx
-	VFvAfyu9Q+AXrfMaz/20gdBJAVVk//BDBoRiSSoRYts0qXy8S0eKmPAQtwOx2ub/CkeV5MdrV9LCU
-	gaiiroTGC0rBy/7HePaMlm/emOU2Mlv8Bk569tNk5rWLQBC3bH6JOdpOSuGzNabUHQX3s19oGOU/3
-	5W+xN5DE+5wAEhNjLLcHW/OOCMdnUgKnpVWgfscCsowZS/5EH+ICqDTBrIHuDoQ22kJO9/ps79Nwc
-	YqBCMnIA==;
-Received: from [38.23.173.23] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVrpb-00000006oUw-16wp;
-	Tue, 24 Nov 2026 14:49:15 +0000
-Date: Tue, 24 Nov 2026 09:49:12 -0500
-From: "Liam R. Howlett" <liam@infradead.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Peter Xu <peterx@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] mm/userfaultfd: prevent poison marker loss
-Message-ID: <rll5o4nigyd345qjzjrpyud2jqbrhmztzmrgzt2xxcrjjg6qjd@meuxtqqbih2c>
-References: <20261116-b4-uffd_marker_loss-v2-1-0fe9c5d1b43a@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=ioD1yLkd
+DKIM2-Signature:  i=1; m=1; t=1795532290;
+ mf=PFdfQXJtaW5AZ214LmRlPg==;
+ rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+ d=gmx.de;
+ s=s31663417:rsa-sha256:P7fnpf9wPJR5FUH2urIsXXfJHZJt
+   7Hv/L3mHe1m4w+7PW3wWV3JD0quKNKA8r4vTr87b5ayWERoXACPFY4AI7cFBqWiL6wcAT3On0ab
+   UBtw4Q5eN6fNwCujiva036oxaE16tPPijzvEZnjJVN0EtxeAu+M8FWBQ0r1dqFCdCXewrsJ1evC
+   M7wTIWeiuzi0rRCf4vDR3Syzsq15DOE6BsG+zPEIxkWxFi//9ZFR+Fe7tFadLzRZbjW0FAL2wH7
+   D4wcPIKlYP0kEJFwSp/FE4E1dXg116NwnctilMQa4oFBFFllTOo63kvlrZ7KtLwTlAHTid9Pp7r
+   FCg+oloJMMwklw==;
+Message-Instance:  m=1;
+ h=sha256:
+   FuIrUOKldo05j14qRYAbAwspo+pkP97aPw3FzVECCSc=:
+   nw1HJ1rYH0om1Cll57QBh5/myBqA0mV9sEjrJO/Tvyw=,
+  sha512:
+   GS/O3MxWRF+5DN+MMFHyfYiDzg7EYm2uUHfNsH7dmIYZlKKnQWf6loF4WilWvceVvRPQzwWzbcH7vX4n2MvYQg==:
+   oZ37l+6+9++RQfHjgJ7f8I697CnZxE4rs4SLku24WhlrafKrrXVbr5k6WEk9fQs5/ckVmr+BWmQ+FQ+DMYfRZQ==;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1795532266; x=1796137066; i=w_armin@gmx.de;
+	bh=nw1HJ1rYH0om1Cll57QBh5/myBqA0mV9sEjrJO/Tvyw=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
+	 Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=ioD1yLkd2R7cXGQWoxHP5HSNxVMR8z/hC+X04KTy7/JB7CX7OEfsHkN3IjzCs1Zs
+	 ax4X8djCZ71xLw3V+DUR9zHZReSrGrb9gp8QxZNSDdB80niWpuAyfH3Wn8fw646Lk
+	 eb/wDXy6mAqJ22xOa4kakXX9wTQXcbcWF6AVWoYLHCVvfeVnL+mcInqDtGZ5eFp+B
+	 FyfemEerGaDxr10zbGf+Z2Xgfy5nHfnYe/kAlUmWQbc6/RIzb7uFLRtO/OdZD6O97
+	 j8ngdJLyi+Ubk8Qe9nAjRE+bB3OIDzt3nvQT/3OQsa0CrSbQ0gcOUNkqcCcjqsFHC
+	 KNYJplGI3CZkB6MnvQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MDhhN-1xdo2n0nUV-00GFLG; Tue, 24
+ Nov 2026 15:57:46 +0100
+Message-ID: <a851c757-3110-4ecc-b920-a98736b190b5@gmx.de>
+Date: Tue, 24 Nov 2026 15:57:43 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,389 +80,221 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261116-b4-uffd_marker_loss-v2-1-0fe9c5d1b43a@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/8] platform: dell: smbios: Add quirk for non-functional
+ calling interface
+From: Armin Wolf <W_Armin@gmx.de>
+To: Brian Mak <bmak@nvidia.com>, Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Kurt Borja <kuurtb@gmail.com>, Stuart Hayes <stuart.w.hayes@gmail.com>,
+ Matthew Garrett <mjg59@srcf.ucam.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>, Lyndon Sanche <lsanche@lyndeno.ca>,
+ Prasanth Ksr <prasanth.ksr@dell.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ "Dell.Client.Kernel@dell.com" <Dell.Client.Kernel@dell.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20261121000556.173028-1-bmak@nvidia.com>
+ <20261121000556.173028-7-bmak@nvidia.com>
+ <f3dc7e25-9c22-4b1d-9555-e83db82d05a1@gmx.de>
+ <792a7fdd-b2a0-4a2d-88b3-7aecf1af3d7c@nvidia.com>
+ <12ff3c7e-0425-42ea-9994-69f9d56a4591@gmx.de>
+Content-Language: en-US
+In-Reply-To: <12ff3c7e-0425-42ea-9994-69f9d56a4591@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Ld8ZVesk+gj1QBy8nsMrbZb2a2UaH7Z4WtfF1PRjh3zadifidaN
+ 5uQc3S379qzEyMm8TjFyAvUaYH6Gn3lSF3xr75cPZ8FRpUocyBoOFzXNLSi435bXyZMBPMn
+ dsOAGnD/slIWRVGBBAgMar/JHcqaGLRGkFVMgwZjQjHq6FZyn55ux2si5GjS2mlCEPluN3Z
+ A17vFwVXV3Au3qvUwpgeQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:mERlOi2wNA8=;dEloxCMpmtFyqni2ri7PxK87ngD
+ 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
 
-On 26/11/16 04:17PM, David Hildenbrand (Arm) wrote:
-> Unregistering userfaultfd leaves poison markers in the page tables.
-> However, once unregistered, hugetlb PMD tables can be shared again.
-> 
-> Further, shmem page-table retraction can discard poison markers even
-> while registered in missing mode, and fork() can skip copying page
-> tables containing poison markers.
-> 
-> To fix it, add VM_MAYBE_UFFD_POISON and set it before installing poison
-> markers. Preserve it across unregistration, splits, merges and fork(),
-> just like we do with guard markers.
-> 
-> Use the new atomic VMA flag to disable PMD sharing and page-table
-> retraction, and to force page-table copying during fork().
-> 
-> Move VM_UFFD_WP to bit 44 and make HAVE_ARCH_USERFAULTFD_WP depend on
-> 64BIT, freeing bit 12 for the new flag on both 32-bit and 64-bit systems.
-> Expose the flag as "up" in smaps.
-> 
-> Losing poison markers, while unpleasant, is not really fatal, and the
-> use case is rather a niche thing. In addition, we rely on the atomic
-> VMA flags infrastructure ... so let's not CC stable.
-> 
-> Fixes: fc71884a5f59 ("mm: userfaultfd: add new UFFDIO_POISON ioctl")
-> Fixes: 8a13897fb0da ("mm: userfaultfd: support UFFDIO_POISON for hugetlbfs")
-> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+Am 24.11.26 um 15:29 schrieb Armin Wolf:
+> Am 24.11.26 um 00:43 schrieb Brian Mak:
+>> On 11/21/26 05:49, Armin Wolf wrote:
+>>> Am 21.11.26 um 01:05 schrieb Brian Mak:
+>>>
+>>>> On Dell RTX Spark laptops, the SMBIOS calling interface completes eve=
+ry
+>>>> request with an all-zero buffer, even for requests that should fail.
+>>>> Drivers that rely on it, such as dell-laptop and dell-pc, end up
+>>>> reporting bogus state, like battery charge modes and thermal modes.
+>>>>
+>>>> Add a DMI quirk list for platforms with a non-functional calling
+>>>> interface, and export dell_smbios_calls_functional() so that consumer=
+s
+>>>> can avoid loading on them. dell-smbios itself still loads, as dell-wm=
+i
+>>>> depends on it.
+>>>
+>>> Hi,
+>>>
+>>> do you have access to such a machine? I would be _very_ interested in
+>>> the output
+>>> of acpidump on this machine, maybe this could be an issue with ACPICA.
+>>
+>> Hi Armin,
+>>
+>> I've attached the acpidump.
+>=20
+> Thank you very much.
+>=20
+>>
+>>> Alternatively, maybe the wrong backend get selected. Currently the del=
+l-
+>>> smbios-smm
+>>> backend will try to read a specific token in test_wsmt_enabled() to
+>>> determine if
+>>> the WSMT ACPI table is active. This might not work on arm64 machines, =
+so
+>>> maybe parsing
+>>> the real WSMT ACPI table would fix this problem?
+>>
+>> dell-smbios-smm is not available outside of x86, as it depends on
+>> DCDBAS, which depends on X86. It would only be using the WMI backend.
+>>
+>> Thanks,
+>> Brian
+>=20
+> If i understand the ACPI code correctly, then it seems that the WMI=20
+> interface interacts with a OperationRegion handled by the ARML0002=20
+> device, associated with the ARM FFA interface.
+>=20
+> AFAIK the linux kernel currently does not support this device, maybe=20
+> this is the reason why all SMBIOS calls fail.
 
+After doing some more research it seems that the associated WMI method
+tries to call a ARM FFA service using a FFixedHardware opregion.=20
+Theoretically Linux already supports this, did you enable CONFIG_ACPI_FFH?
 
-Reviewed-by: Liam R. Howlett (Google) <liam@infradead.org>
+Thanks,
+Armin Wolf
 
-> ---
-> Now that Lorenzo's atomic vma flag fixes are in, we can also use it
-> for userfaultfd POISON markers.
-> 
-> We use a new VM_MAYBE_UFFD_POISON to remember that we had POISON markers
-> installed by uffd. We then use that to fix marker handling during fork(),
-> during hugetlb PMD table sharing, and during retract_page_tables().
-> 
-> Once review finished, I will take this through core.git, where it
-> depends on a related try_collapse_pte_mapped_thp() cleanup/fix.
-> 
-> This is not urgent, just something that should be fixed properly.
-> 
-> [1] https://lore.kernel.org/linux-mm/20261031-fixes_core-v3-18-d6437171ecc3@kernel.org/
-> ---
-> Changes in v2:
-> - Picked up Ack/RB
-> - Dropped second cleanup patch for now
-> - Use vma_test_single_mask() in userfaultfd_wp()
-> - Reshuffle VM_MAYBE_UFFD_POISON, VMA_UFFD_WP etc definitions
-> - Link to v1: https://patch.msgid.link/20261107-b4-uffd_marker_loss-v1-0-82926b22704c@kernel.org
-> ---
->  Documentation/filesystems/proc.rst |  1 +
->  fs/proc/task_mmu.c                 |  3 +++
->  include/linux/mm.h                 | 40 ++++++++++++++++++++++++--------------
->  include/linux/userfaultfd_k.h      |  9 ++++++---
->  include/trace/events/mmflags.h     |  9 ++++++++-
->  mm/Kconfig                         |  1 +
->  mm/khugepaged.c                    |  9 +++++----
->  mm/userfaultfd.c                   |  3 +++
->  tools/testing/vma/include/dup.h    | 20 ++++++++++++++-----
->  9 files changed, 67 insertions(+), 28 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index fa7a468e8edf2..bcbcb41814d96 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -614,6 +614,7 @@ encoded manner. The codes are the following:
->      lf    lock on fault pages
->      dp    always lazily freeable mapping
->      gu    maybe contains guard regions (if not set, definitely doesn't)
-> +    up    maybe contains poison markers installed by userfaultfd
->      ==    =============================================================
->  
->  Note that there is no guarantee that every flag and associated mnemonic will
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index e3d894ed2b913..d7f9934d0e499 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -1106,6 +1106,7 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
->  		[ilog2(VM_GROWSDOWN)]	= "gd",
->  		[ilog2(VM_PFNMAP)]	= "pf",
->  		[ilog2(VM_MAYBE_GUARD)]	= "gu",
-> +		[ilog2(VM_MAYBE_UFFD_POISON)]	= "up",
->  		[ilog2(VM_LOCKED)]	= "lo",
->  		[ilog2(VM_IO)]		= "io",
->  		[ilog2(VM_SEQ_READ)]	= "sr",
-> @@ -1131,7 +1132,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
->  		[ilog2(VM_NOHUGEPAGE)]	= "nh",
->  		[ilog2(VM_MERGEABLE)]	= "mg",
->  		[ilog2(VM_UFFD_MISSING)]= "um",
-> +#ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
->  		[ilog2(VM_UFFD_WP)]	= "uw",
-> +#endif
->  #ifdef CONFIG_ARM64_MTE
->  		[ilog2(VM_MTE)]		= "mt",
->  		[ilog2(VM_MTE_ALLOWED)]	= "",
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 6a34dd3800f56..fa56d9e9f3ebd 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -302,7 +302,7 @@ enum {
->  	/* Page-ranges managed without "struct page", just pure PFN */
->  	DECLARE_VMA_BIT(PFNMAP, 10),
->  	DECLARE_VMA_BIT(MAYBE_GUARD, 11),
-> -	DECLARE_VMA_BIT(UFFD_WP, 12),	/* wrprotect pages tracking */
-> +	DECLARE_VMA_BIT(MAYBE_UFFD_POISON, 12),
->  	DECLARE_VMA_BIT(LOCKED, 13),
->  	DECLARE_VMA_BIT(IO, 14),	/* Memory mapped I/O or similar */
->  	DECLARE_VMA_BIT(SEQ_READ, 15),	/* App will access data sequentially */
-> @@ -346,6 +346,7 @@ enum {
->  	DECLARE_VMA_BIT(UFFD_MINOR, 41),
->  	DECLARE_VMA_BIT(SEALED, 42),
->  	DECLARE_VMA_BIT(UFFD_RWP, 43),
-> +	DECLARE_VMA_BIT(UFFD_WP, 44),	/* wrprotect pages tracking */
->  	/* Flags that reuse flags above. */
->  	DECLARE_VMA_BIT_ALIAS(PKEY_BIT0, HIGH_ARCH_0),
->  	DECLARE_VMA_BIT_ALIAS(PKEY_BIT1, HIGH_ARCH_1),
-> @@ -406,7 +407,14 @@ enum {
->  #endif
->  #define VM_PFNMAP	INIT_VM_FLAG(PFNMAP)
->  #define VM_MAYBE_GUARD	INIT_VM_FLAG(MAYBE_GUARD)
-> +#define VM_MAYBE_UFFD_POISON	INIT_VM_FLAG(MAYBE_UFFD_POISON)
-> +#ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
->  #define VM_UFFD_WP	INIT_VM_FLAG(UFFD_WP)
-> +#define VMA_UFFD_WP	mk_vma_flags(VMA_UFFD_WP_BIT)
-> +#else
-> +#define VM_UFFD_WP	VM_NONE
-> +#define VMA_UFFD_WP	EMPTY_VMA_FLAGS
-> +#endif
->  #define VM_LOCKED	INIT_VM_FLAG(LOCKED)
->  #define VM_IO		INIT_VM_FLAG(IO)
->  #define VM_SEQ_READ	INIT_VM_FLAG(SEQ_READ)
-> @@ -508,7 +516,6 @@ enum {
->   * whose bitmap cannot hold it.
->   */
->  #define VMA_UFFD_MISSING	mk_vma_flags(VMA_UFFD_MISSING_BIT)
-> -#define VMA_UFFD_WP		mk_vma_flags(VMA_UFFD_WP_BIT)
->  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
->  #define VMA_UFFD_MINOR		mk_vma_flags(VMA_UFFD_MINOR_BIT)
->  #else
-> @@ -602,7 +609,8 @@ enum {
->  #define VMA_LOCKED_MASK	mk_vma_flags(VMA_LOCKED_BIT, VMA_LOCKONFAULT_BIT)
->  
->  /* These flags can be updated atomically via VMA/mmap read lock. */
-> -#define VMA_ATOMIC_SET_ALLOWED mk_vma_flags(VMA_MAYBE_GUARD_BIT)
-> +#define VMA_ATOMIC_SET_ALLOWED mk_vma_flags(VMA_MAYBE_GUARD_BIT, \
-> +					    VMA_MAYBE_UFFD_POISON_BIT)
->  
->  /* Arch-specific flags to clear when updating VM flags on protection change */
->  #ifndef VM_ARCH_CLEAR
-> @@ -620,16 +628,16 @@ enum {
->   *                       merged VMA should be considered soft-dirty also as it
->   *                       operates at a VMA granularity.
->   *
-> - * VMA_MAYBE_GUARD_BIT - If a VMA may have guard regions in place it implies
-> - *                       that mapped page tables may contain metadata not
-> - *                       described by the VMA and thus any merged VMA may also
-> - *                       contain this metadata, and thus we must make this flag
-> - *                       sticky.
-> + * VMA_MAYBE_GUARD_BIT / VMA_MAYBE_UFFD_POISON_BIT - Page tables may contain guard
-> + *                       or poison markers not described by the VMA. Any
-> + *                       merged VMA may also contain this metadata, so these
-> + *                       flags must be sticky.
->   */
->  #ifdef CONFIG_MEM_SOFT_DIRTY
-> -#define VMA_STICKY_FLAGS mk_vma_flags(VMA_SOFTDIRTY_BIT, VMA_MAYBE_GUARD_BIT)
-> +#define VMA_STICKY_FLAGS mk_vma_flags(VMA_SOFTDIRTY_BIT, VMA_MAYBE_GUARD_BIT, \
-> +				     VMA_MAYBE_UFFD_POISON_BIT)
->  #else
-> -#define VMA_STICKY_FLAGS mk_vma_flags(VMA_MAYBE_GUARD_BIT)
-> +#define VMA_STICKY_FLAGS mk_vma_flags(VMA_MAYBE_GUARD_BIT, VMA_MAYBE_UFFD_POISON_BIT)
->  #endif
->  
->  /*
-> @@ -667,13 +675,15 @@ enum {
->   *                           retrieve from page cache, and skip copying
->   *                           will lose those info.
->   *
-> - *          VM_MAYBE_GUARD - Could contain page guard region markers which
-> - *                           by design are a property of the page tables
-> - *                           only and thus cannot be reconstructed on page
-> - *                           fault.
-> + *          VM_MAYBE_GUARD - Could contain guard markers which cannot be
-> + *                           reconstructed on page fault.
-> + *
-> + *   VM_MAYBE_UFFD_POISON - Could contain poison markers which cannot be
-> + *                           reconstructed on page fault, including after
-> + *                           userfaultfd unregister.
->   */
->  #define VM_COPY_ON_FORK (VM_PFNMAP | VM_MIXEDMAP | VM_UFFD_WP | VM_UFFD_RWP | \
-> -			 VM_MAYBE_GUARD)
-> +			 VM_MAYBE_GUARD | VM_MAYBE_UFFD_POISON)
->  
->  /*
->   * mapping from the currently active vm_flags protection bits (the
-> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> index dff9a5c9a0dfa..75c3e9270b62a 100644
-> --- a/include/linux/userfaultfd_k.h
-> +++ b/include/linux/userfaultfd_k.h
-> @@ -167,11 +167,14 @@ static inline bool is_mergeable_vm_userfaultfd_ctx(struct vm_area_struct *vma,
->  
->  /*
->   * Never enable huge pmd sharing on userfaultfd registered VMAs, because
-> - * userfaultfd state can be tracked per VMA or per page table entry.
-> + * userfaultfd state can be tracked per VMA or per page table entry. Similarly,
-> + * handle poison markers that stick around even after userfaultfd was
-> + * unregistered.
->   */
->  static inline bool uffd_disable_huge_pmd_share(struct vm_area_struct *vma)
->  {
-> -	return vma->vm_userfaultfd_ctx.ctx;
-> +	return vma->vm_userfaultfd_ctx.ctx ||
-> +	       vma_test_atomic_flag(vma, VMA_MAYBE_UFFD_POISON_BIT);
->  }
->  
->  /*
-> @@ -198,7 +201,7 @@ static inline bool userfaultfd_missing(struct vm_area_struct *vma)
->  
->  static inline bool userfaultfd_wp(struct vm_area_struct *vma)
->  {
-> -	return vma_test_any_mask(vma, VMA_UFFD_WP);
-> +	return vma_test_single_mask(vma, VMA_UFFD_WP);
->  }
->  
->  static inline bool userfaultfd_minor(struct vm_area_struct *vma)
-> diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
-> index 3c153b3ad8450..942746e4de15b 100644
-> --- a/include/trace/events/mmflags.h
-> +++ b/include/trace/events/mmflags.h
-> @@ -184,6 +184,12 @@ IF_HAVE_PG_ARCH_3(arch_3)
->  #define IF_HAVE_VM_SOFTDIRTY(flag,name)
->  #endif
->  
-> +#ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
-> +# define IF_HAVE_UFFD_WP(flag, name) {flag, name},
-> +#else
-> +# define IF_HAVE_UFFD_WP(flag, name)
-> +#endif
-> +
->  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
->  # define IF_HAVE_UFFD_MINOR(flag, name) {flag, name},
->  #else
-> @@ -247,7 +253,8 @@ IF_HAVE_PG_ARCH_3(arch_3)
->  IF_HAVE_UFFD_MINOR(VM_UFFD_MINOR,	"uffd_minor"	)		\
->  	{VM_PFNMAP,			"pfnmap"	},		\
->  	{VM_MAYBE_GUARD,		"maybe_guard"	},		\
-> -	{VM_UFFD_WP,			"uffd_wp"	},		\
-> +	{VM_MAYBE_UFFD_POISON,		"maybe_uffd_poison"	},		\
-> +IF_HAVE_UFFD_WP(VM_UFFD_WP,		"uffd_wp")			\
->  IF_HAVE_UFFD_RWP(VM_UFFD_RWP,		"uffd_rwp"	)		\
->  	{VM_LOCKED,			"locked"	},		\
->  	{VM_IO,				"io"		},		\
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index afff1b25b5438..ad9236933aab3 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -1357,6 +1357,7 @@ config ANON_VMA_NAME
->  
->  config HAVE_ARCH_USERFAULTFD_WP
->  	bool
-> +	depends on 64BIT
->  	help
->  	  Arch has userfaultfd write protection support
->  
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 42d9eb26d5fab..2a5ee8fc42335 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -2107,16 +2107,17 @@ static bool file_backed_vma_is_retractable(struct vm_area_struct *vma)
->  		return false;
->  
->  	/*
-> -	 * If the VMA contains guard regions then we can't collapse it.
-> +	 * Preserve guard and poison markers when retracting page tables.
->  	 *
-> -	 * This is set atomically on guard marker installation under mmap/VMA
-> +	 * These flags are set atomically on marker installation under mmap/VMA
->  	 * read lock, and here we may not hold any VMA or mmap lock at all.
->  	 *
->  	 * This is therefore serialised on the PTE page table lock, which is
-> -	 * obtained on guard region installation after the flag is set, so this
-> +	 * obtained on marker installation after the flag is set, so this
->  	 * check being performed under this lock excludes races.
->  	 */
-> -	if (vma_test_atomic_flag(vma, VMA_MAYBE_GUARD_BIT))
-> +	if (vma_test_atomic_flag(vma, VMA_MAYBE_GUARD_BIT) ||
-> +	    vma_test_atomic_flag(vma, VMA_MAYBE_UFFD_POISON_BIT))
->  		return false;
->  
->  	return true;
-> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-> index 169f681f9849b..bb6069320b347 100644
-> --- a/mm/userfaultfd.c
-> +++ b/mm/userfaultfd.c
-> @@ -963,6 +963,9 @@ static __always_inline ssize_t mfill_atomic(struct userfaultfd_ctx *ctx,
->  	if (err)
->  		goto out;
->  
-> +	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_POISON))
-> +		vma_set_atomic_flag(state.vma, VMA_MAYBE_UFFD_POISON_BIT);
-> +
->  	/*
->  	 * If this is a HUGETLB vma, pass off to appropriate routine
->  	 */
-> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
-> index dc4927d26296c..f9bafe4e20158 100644
-> --- a/tools/testing/vma/include/dup.h
-> +++ b/tools/testing/vma/include/dup.h
-> @@ -117,7 +117,7 @@ enum {
->  	/* Page-ranges managed without "struct page", just pure PFN */
->  	DECLARE_VMA_BIT(PFNMAP, 10),
->  	DECLARE_VMA_BIT(MAYBE_GUARD, 11),
-> -	DECLARE_VMA_BIT(UFFD_WP, 12),	/* wrprotect pages tracking */
-> +	DECLARE_VMA_BIT(MAYBE_UFFD_POISON, 12),
->  	DECLARE_VMA_BIT(LOCKED, 13),
->  	DECLARE_VMA_BIT(IO, 14),	/* Memory mapped I/O or similar */
->  	DECLARE_VMA_BIT(SEQ_READ, 15),	/* App will access data sequentially */
-> @@ -160,6 +160,7 @@ enum {
->  #endif
->  	DECLARE_VMA_BIT(UFFD_MINOR, 41),
->  	DECLARE_VMA_BIT(SEALED, 42),
-> +	DECLARE_VMA_BIT(UFFD_WP, 44),	/* wrprotect pages tracking */
->  	/* Flags that reuse flags above. */
->  	DECLARE_VMA_BIT_ALIAS(PKEY_BIT0, HIGH_ARCH_0),
->  	DECLARE_VMA_BIT_ALIAS(PKEY_BIT1, HIGH_ARCH_1),
-> @@ -218,7 +219,12 @@ enum {
->  #endif
->  #define VM_PFNMAP	INIT_VM_FLAG(PFNMAP)
->  #define VM_MAYBE_GUARD	INIT_VM_FLAG(MAYBE_GUARD)
-> +#define VM_MAYBE_UFFD_POISON	INIT_VM_FLAG(MAYBE_UFFD_POISON)
-> +#ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
->  #define VM_UFFD_WP	INIT_VM_FLAG(UFFD_WP)
-> +#else
-> +#define VM_UFFD_WP	VM_NONE
-> +#endif
->  #define VM_LOCKED	INIT_VM_FLAG(LOCKED)
->  #define VM_IO		INIT_VM_FLAG(IO)
->  #define VM_SEQ_READ	INIT_VM_FLAG(SEQ_READ)
-> @@ -367,7 +373,8 @@ enum {
->  #define VMA_LOCKED_MASK	mk_vma_flags(VMA_LOCKED_BIT, VMA_LOCKONFAULT_BIT)
->  
->  /* These flags can be updated atomically via VMA/mmap read lock. */
-> -#define VMA_ATOMIC_SET_ALLOWED mk_vma_flags(VMA_MAYBE_GUARD_BIT)
-> +#define VMA_ATOMIC_SET_ALLOWED mk_vma_flags(VMA_MAYBE_GUARD_BIT, \
-> +					    VMA_MAYBE_UFFD_POISON_BIT)
->  
->  #define RLIMIT_STACK		3	/* max stack size */
->  #define RLIMIT_MEMLOCK		8	/* max locked-in-memory address space */
-> @@ -375,14 +382,17 @@ enum {
->  #define CAP_IPC_LOCK         14
->  
->  #ifdef CONFIG_MEM_SOFT_DIRTY
-> -#define VMA_STICKY_FLAGS mk_vma_flags(VMA_SOFTDIRTY_BIT, VMA_MAYBE_GUARD_BIT)
-> +#define VMA_STICKY_FLAGS mk_vma_flags(VMA_SOFTDIRTY_BIT, VMA_MAYBE_GUARD_BIT, \
-> +				      VMA_MAYBE_UFFD_POISON_BIT)
->  #else
-> -#define VMA_STICKY_FLAGS mk_vma_flags(VMA_MAYBE_GUARD_BIT)
-> +#define VMA_STICKY_FLAGS mk_vma_flags(VMA_MAYBE_GUARD_BIT, \
-> +				      VMA_MAYBE_UFFD_POISON_BIT)
->  #endif
->  
->  #define VMA_IGNORE_MERGE_FLAGS VMA_STICKY_FLAGS
->  
-> -#define VM_COPY_ON_FORK (VM_PFNMAP | VM_MIXEDMAP | VM_UFFD_WP | VM_MAYBE_GUARD)
-> +#define VM_COPY_ON_FORK (VM_PFNMAP | VM_MIXEDMAP | VM_UFFD_WP | \
-> +			 VM_MAYBE_GUARD | VM_MAYBE_UFFD_POISON)
->  
->  #define pgprot_val(x)		((x).pgprot)
->  #define __pgprot(x)		((pgprot_t) { (x) } )
-> 
-> ---
-> base-commit: df3c65887715e66e2cba69116924020c37996cd8
-> change-id: 20261106-b4-uffd_marker_loss-f0f56ec12ce6
-> 
-> Best regards,
-> --  
-> David Hildenbrand (Arm) <david@kernel.org>
-> 
+> I also noticed that the device supports the WMI interface used by the
+> dell-smm-hwmon driver. If you want i can try to enable this driver on
+> arm64 too, but IMHO it should be considered optional at best.
+>=20
+> Thanks,
+> Armin Wolf
+>=20
+>>> Thanks,
+>>> Armin Wolf
+>=20
+>=20
