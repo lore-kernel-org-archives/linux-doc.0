@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1795558222;
-	b=14G7YuWtkfPZawq4235MyQBxSJwJqF64SgbhKxd9MVKr5y0ZBNsKUeU+TDheEzZnml4C
-	 2nj98EvKQkFfRy85YFYjq9JyegM2fSJxftCQiq+dqkuNW57ryAWWI6QsbWnJlDf7UFN6W
-	 DvgPQMTBQFkcPOOe8+ET93e0peORMuQ+4jI+2mapQenz7QYuXYKmx6TOdot7P+JEDrcyv
-	 93st6rS/ZCelu/hTyrVBPcggDkA5qZsrSBn2Vh65FISpAk+4uZZ2xV9T3fUHQanvNhxrc
-	 RgdXIXdmzPt0HsTlNSlnJaLJLhpeXXprbR5Nv9+XMGUkpyTjjCY9KKtSw/bdlXD4jPQ==
+	b=2Q2Asb2AyrVKQ7mPVRlq3RJZVf/hsA1miOnulh19uXLdgBSpAHk1gT06Uhi1I6tdiJiD
+	 xDPJYo75rMxYbRZjP6usltEeYQlrQpFhgWEe+sTRE2yr3yaFeubweECB6vdh5s/VCDDbb
+	 7/dQlt/MyBzfGSiQDmJn0C7UK/N7SMRz2JOuUmg3E8Xx7UU5SERCdsk0YfrDhb5Z+VRMV
+	 UE2b6krDAPhFLGX3wXHT4xXGiuRbsHtaRvDcdWPXXVBIKyFSKBg2jdYY9HggExLIbI8QX
+	 y1Aet8C95JN/3Ile/fQL9EJxHa6kVrA60dS2CgM1rXvGDXMY6AFG93yje1v5uFpbc0Q==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795558222;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=v6bJWGJV5mMZDYLX31c8NtD1QW48bqWZ0xQYf+Io+I8=;
-	b=D7JsuM/kgqj+gENah0ydrM6iefbGZybHjYS40cHldsblndB6hYejvHRUpvUwNyybd+uz
-	 7CYwLpf7f7WxVLJSknX3tLQBVPT7dc4JslYKDCXx+yq7CaCMMMdPrMKAjnFWP0RKOWFM+
-	 IKLTwEGjDbSbcIMtOlIcYCoeDyF1HFoTQgOkDOoDYW++nN5j1BdEw+EeOrx/xd7kmSCbR
-	 BQdue7S9xsQCAdJmkGDjUuTrhkaVn/BYHej1qqd43DynVHi/9f5yQbPBePOWqqCrD5D/D
-	 Pu2PZwNxvxCgMUIYvhXAIuamQmmvuLtLo5Mi3cFM6yjL+4x7HSZGnu18y8cdVnoOkiA==
+	bh=/2IWogm2fwSHZvOr+N+Ys3nu3YFFva9IZtPdG8Z6fRU=;
+	b=idz6vLyaEQcgNTTmwjai6NhwVLlTzz8iDPkCG57IVD9l8sE5iP3VCEfP8lKkkl+Q0imK
+	 Haa5qUVSIcikPAYcGU7HCmGRHVoZotNgaywWZLcH6R4dt+zZYNR6lmPgstCjwLsquMalZ
+	 rkIucpJE7F2taAZwXI2m62TUHS/1Yv/xUrc52rxV2X8zgfxeBKXvZRpQHIAK+gGTdQzrk
+	 t7vecgaCex44S4kY1rfuqBf2iohBHdZhLVnFUeJ2PhXX9ER9MEoRsAUpc+DZpFAPM9pTE
+	 WEEpMvzQdUvoExcNBIHwird2+FuOAVFHCZjEnbnU/Z6jFXDwP8YNRS/1sHPWiaA8yXA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cn9rH4dx;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GBXgHKIj;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0488960A2639;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509BA606A690;
 	Tue, 24 Nov 2026 22:10:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cn9rH4dx
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GBXgHKIj
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1795558221;
-	b=CeeSYXsAvjy9wxH40o4DYe4X7lDfJt87m5fuwQQewxumDaQpVikiXMj0wtvFStztsQ9B
-	 6liBAWFQ59YaV7k/lZntR17kjbdCnhB/OAEMWUtCPDmHGb5+0Wt8cT613QusZ0UXbIiDC
-	 ftphn+WBJaJj8YbXOHKhsWtQpesQ27YFOEbcune2M7vlRahgwoN67/yhFUKZFH0Mffkvq
-	 QCAFOMaLTXLpgEo3zExApCF/SUIuQMvVJ5OYY7gYB2MH0M2O33v9bqpwiOqNHAbNemuob
-	 mkIpGepbnkyIwkmqNXAfO3pXAvXNnpfsDiAXAH4JCZu7CUIowpPm0/VmsG77/3JXY+Q==
+	b=fkAixQ22z7K9FqDIKLux2hazCISCkMm4673fGTYOw/f5GXRTbCdqrW7UrSRWD9NeSPwE
+	 68gMDiF5l7ce3JYnPfTJXlAE3HXy7Iu72UJTnjUtrutJqJ3KId5lFrYnZFT8QjabEm7ls
+	 0nQu8zlSEyyCSm123xlH6PvEyroaRUSIEsPxPHoSFPtP3+A3s9kbAoGUOqIrE7n3yAcrm
+	 xW0uLUFegIxu2DXhg0q8goZUNXRnKCOPvP4v/mZqytT/j9akY+FVtx20FP3dIopARZowJ
+	 NTNvrcitog7LPp+k3vjm0ImwkUcULrUl2PKVuXON/if6hcalVUJW7NkfmC+75b0AdNQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1795558221;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=v6bJWGJV5mMZDYLX31c8NtD1QW48bqWZ0xQYf+Io+I8=;
-	b=yxClCCv4cFCjIeNWmbuT0/3qxINpPAn/x/bRohwqpBV3GM0tn7BFn4hdFazDgURyNTVl
-	 5gg5ALTMz+5yPoN2Rzc/lsXZ4ZQeDaytAiRnDU/DjxkcEdu+c/kDMiBNtmDadAQIObZlM
-	 /Mwv4y1mM+U1Qc+TWnlemzFtoQnAawB6DdOK9e3YDp7k0M5D3ue7ZkfnmwJCLTnzCSl6F
-	 pMjUPq2xXpsOZ6PZxHH6DP/arXcyqyp5wjL8+c7PG9tIol1qthqGH1IeNYznjF/zTk6Fq
-	 wzQfB9DIzcKkJiEjZk+pe7PxyaK3mFKW567Kg/b7GUm9WP3Ow+6QA7eLARaHd73ZNbA==
+	bh=/2IWogm2fwSHZvOr+N+Ys3nu3YFFva9IZtPdG8Z6fRU=;
+	b=Gj3K/JOKfXoKcQq9rvaEAI2X4zwH8Sxvz93z7vVdRWGy6wLEo1jEIxc1OqnQz5LA2/hO
+	 ZdDXXV0ehXzExMMJ817xLbm4eXLFDQ/9jYLuYxgI851feOdRz7GKyGuDoC+QlaXCAvjQu
+	 LDhC852qejuTDMDyl9kAIDja+v9o2yYMFJ9FtypRhtk0ND18Wap9a79QU+xwCITdMx5tC
+	 u+IENqUXnWGsGv99n0Y5MC1UPM6VVyU2juMntMke9oNK9RPdUJrJu4YvvthyOkiqGo0Dr
+	 M0u6rmUOVPcYjLgXTO1yXppzWypravVxu4tadzsawtxLrgwfpaQLsfHVLx+vCJzjIGQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 86BB61F000EF;
-	Tue, 24 Nov 2026 22:10:08 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 2B6DC1F000C0;
+	Tue, 24 Nov 2026 22:10:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1795558221;
-	bh=v6bJWGJV5mMZDYLX31c8NtD1QW48bqWZ0xQYf+Io+I8=;
+	bh=/2IWogm2fwSHZvOr+N+Ys3nu3YFFva9IZtPdG8Z6fRU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=Cn9rH4dxV97wntT6RzTZO6nEH77XxRbkhcTkpCGLAV879g+OX9xOZf8KUYr26RZSo
-	 JyGM5Ev3dlY/cULN0LaTN3ATglwZovQgNXd7mbsBSEOjBg9RNBt4IVDyyLtmehrU+m
-	 ssN5OsiP/5paMN3G5hDkPizs9VPC+H1MNj2nYaXXJmblH85+89pXyCqzwMP3kvVesx
-	 NosfuOii2pyZAgNlcOFm3bj2OYK2IFlnEIjyD8mXZpIUoged19Zj1hmMEQJ4kgZtZV
-	 AWiObd62VsZaNtSDYzHDjjglF48mKatrvYPvYGrWLcEZRawAON8K0IGLJzvIOB2CPP
-	 TTtGLARwVxWQA==
+	b=GBXgHKIjLnsYWYNZsBF/sNdmhwqUx/Rsxy/LOx+gx4QO/gQtw2nynISm/4e1yn8F1
+	 oz3oo2FwkW1OC+NuVnShnLGJqT1jNy+jpYv2KL6ziDynTH+Mql1fRBfcVFSgrlRWLB
+	 W3kWGMq2AIXe6+i/TIC5gSfw9GFufO71aYjphyD6OruCPaOZTmZNxn53EZsUYGuqY9
+	 fQYrlDKUEFH/k0VYxwjD37AlW+boZp0YQAVbCOo2KCNJSA/jIv3RfDu9B+GNP1f0u9
+	 GcBlngbjUoDnD7vvcUxU9srsyLfVb+7xQ1cR2bKJby9asjPwdCucn7MJE0n0anh7ky
+	 K2+vkhAVmzUtw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id CADC84CBED;
-	Tue, 24 Nov 2026 22:09:57 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 116D04CBF5;
+	Tue, 24 Nov 2026 22:09:58 +0000 (UTC)
 From: Selvamani Rajagopal via B4 Relay <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
-Date: Tue, 24 Nov 2026 14:09:59 -0800
-Subject: [PATCH net-next v12 11/15] net: phy: ncn26000: Enable enhanced
- noise immunity
+Date: Tue, 24 Nov 2026 14:10:01 -0800
+Subject: [PATCH net-next v12 13/15] net: phy: ncn26000: Support for
+ onsemi's S2500 internal phy
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261124-s2500-mac-phy-support-v12-11-3575855d99f9@onsemi.com>
+Message-Id: <20261124-s2500-mac-phy-support-v12-13-3575855d99f9@onsemi.com>
 References: <20261124-s2500-mac-phy-support-v12-0-3575855d99f9@onsemi.com>
 In-Reply-To: <20261124-s2500-mac-phy-support-v12-0-3575855d99f9@onsemi.com>
 To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
@@ -106,11 +106,11 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ciprian Regus <ciprian.regus@analog.com>, 
  Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795558193; l=2436;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795558193; l=6253;
  i=Selvamani.Rajagopal@onsemi.com; s=20260531; h=from:subject:message-id;
- bh=C966iz3saGflBqVM1+r8sZrgsCLRry/KSK6GQ55D7VM=;
- b=6odO8G91jLGqNTePKgtHxLVUmJqbZd01Z89tS+zzSR3StKHNx6SjXmxd4FjZF9ftjrPjjN+aW
- w6f/27zPrIbDFXQqWBxNz/xqykICC7G/uu7NeN2y+7fZtGkzb6XC/XD
+ bh=33vN8LGUyb0Bkdk4IC7K6emvRpLmqk57tr5NivfYGP4=;
+ b=Sn8Dsaua3MtAr1stl23pR/g4FLbqPFHe5bCi9eo5Iji6uXwhscLysbY2V1Fh4FZzfX/TJtwcB
+ Qdl/LcskfJoBdr/mL6aWB54jQplKd+mgZHDhTewvcZ3Z2yN2WutaMXr
 X-Developer-Key: i=Selvamani.Rajagopal@onsemi.com; a=ed25519;
  pk=5QRdM0HS/LGWWcUZZ9hVfZ+qbPQGZCumcTXOiN7Fyug=
 X-Endpoint-Received: by B4 Relay for
@@ -121,10 +121,21 @@ Content-Transfer-Encoding: 7bit
 
 From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
-Intercept PLCA enable/disable requests in set_plca_cfg() and set or
-clear the proprietary ENI bit accordingly. By setting the ENI bit,
-noise immunity is improved and it is specifically meant for PLCA
-enabled nodes.
+Add support for internal PHY of the integrated media access
+controller S2500. PLCA tx opportunity timer's default value
+is correct in this device, compared to the currently supported
+PHY NCN26000.
+
+The S2500 entry additionally supports SQI reporting, OATC14 cable
+testing and loopback, and enables direct Clause 45 MMD access. The
+S2500 entry works in polled mode only.
+
+S2500 uses its own config_aneg that sets BMCR_ANENABLE without
+affecting other bits in BMCR register. Also this keeps NCN26000
+behavior unchanged.
+
+Also add S2500 support to the Kconfig help text, add a MAINTAINERS
+entry and a MODULE_AUTHOR line.
 
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
@@ -133,75 +144,164 @@ Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 changes in v12
   - No change
 changes in v11
-  - Updated commit message to be more accurate
+  - Copyright year changed from 2022 to 2022-2026
+    Previous patch had 2026 only.
+  - Added more information in commit message
+  - s2500 has its own config_aneg so that it won't cause any
+    change in behavior to ncn26000.
 changes in v10
-  - No change
+  - removed config_intr callback as PHY driver is in polled mode
 changes in v9
   - Added Reviewed tag
 changes in v8
-  - No change
+  - changes to use newer API for read/write_mmd callback
 changes in v7
   - No change
 changes in v6
   - No change
 changes in v5
-  - No changes
+  - No change
 changes in v4
-  - No changes
+  - no change
 changes in v3
-  - Moved as a separate patch
+   added new PHY support in a separate patch
+   changed model comparison to use phy_id_compare_model
+changes in v2
+   Removed bug fixes. Retained only S2500 specific changes
+changes in v1
+   Added support for an internal PHY of onsemi's MAC-PHY S2500
 ---
- drivers/net/phy/ncn26000.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+ MAINTAINERS                |  1 +
+ drivers/net/phy/Kconfig    |  2 +-
+ drivers/net/phy/ncn26000.c | 45 ++++++++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 44 insertions(+), 4 deletions(-)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a5275c6bff0a..5020e938604a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -21028,6 +21028,7 @@ F:	arch/mips/boot/dts/ralink/omega2p.dts
+ 
+ ONSEMI ETHERNET PHY DRIVERS
+ M:	Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
++M:	Selvamani Rajagopal <selvamani.rajagopal@onsemi.com>
+ L:	netdev@vger.kernel.org
+ S:	Supported
+ W:	http://www.onsemi.com
+diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
+index 30e9d22c8d1a..cff58dbe391d 100644
+--- a/drivers/net/phy/Kconfig
++++ b/drivers/net/phy/Kconfig
+@@ -396,7 +396,7 @@ config NCN26000_PHY
+ 	help
+ 	  Adds support for the onsemi 10BASE-T1S Ethernet PHY.
+ 	  Currently supports the NCN26000 10BASE-T1S Industrial PHY
+-	  with MII interface.
++	  with MII interface and the S2500 10BASE-T1S PHY.
+ 
+ source "drivers/net/phy/qcom/Kconfig"
+ 
 diff --git a/drivers/net/phy/ncn26000.c b/drivers/net/phy/ncn26000.c
-index cabdd83c614f..888d74b83125 100644
+index 888d74b83125..ec2ebddef5b9 100644
 --- a/drivers/net/phy/ncn26000.c
 +++ b/drivers/net/phy/ncn26000.c
-@@ -35,6 +35,9 @@
+@@ -2,7 +2,7 @@
+ /*
+  *  Driver for the onsemi 10BASE-T1S NCN26000 PHYs family.
+  *
+- * Copyright 2022 onsemi
++ * Copyright 2022-2026 onsemi
+  */
+ #include <linux/kernel.h>
+ #include <linux/bitfield.h>
+@@ -14,6 +14,7 @@
  
- #define TO_TMR_DEFAULT			32
+ #include "mdio-open-alliance.h"
  
-+#define NCN26000_REG_PHYCFG1		0x8001
-+#define NCN26000_PHYCFG1_ENI		BIT(7)
-+
++#define PHY_ID_S2500			0x180FF411
+ #define PHY_ID_NCN26000			0x180FF5A1
+ 
+ #define NCN26000_REG_IRQ_CTL            16
+@@ -40,13 +41,18 @@
+ 
  static int ncn26000_config_init(struct phy_device *phydev)
  {
++	int ret = 0;
++
  	/* HW bug workaround: the default value of the PLCA TO_TIMER should be
-@@ -100,6 +103,24 @@ static int ncn26000_read_status(struct phy_device *phydev)
- 	return 0;
+ 	 * 32, where the current version of NCN26000 reports 24. This will be
+ 	 * fixed in future PHY versions. For the time being, we force the
+ 	 * correct default here.
+ 	 */
+-	return phy_write_mmd(phydev, MDIO_MMD_VEND2, MDIO_OATC14_PLCA_TOTMR,
+-			     TO_TMR_DEFAULT);
++	if (phy_id_compare_model(phydev->drv->phy_id, PHY_ID_NCN26000))
++		ret = phy_write_mmd(phydev, MDIO_MMD_VEND2,
++				    MDIO_OATC14_PLCA_TOTMR,
++				    TO_TMR_DEFAULT);
++	return ret;
  }
  
-+/* Intercept PLCA enable/disable request to
-+ * set the proprietary, ENI mode accordingly
+ static int ncn26000_config_aneg(struct phy_device *phydev)
+@@ -62,6 +68,17 @@ static int ncn26000_config_aneg(struct phy_device *phydev)
+ 	return phy_write(phydev, MII_BMCR, NCN26000_BCMR_LINK_CTRL_BIT);
+ }
+ 
++/* Kept separate to leave ncn26000_config_aneg() unchanged. BMCR is
++ * modified instead of overwritten, to keep loopback enabled.
 + */
-+static int ncn26000_c45_plca_set_cfg(struct phy_device *phydev,
-+				     const struct phy_plca_cfg *plca_cfg)
++static int s2500_config_aneg(struct phy_device *phydev)
 +{
-+	int ret = genphy_c45_plca_set_cfg(phydev, plca_cfg);
-+	u16 eni_cfg = 0;
++	phydev->mdix_ctrl = ETH_TP_MDI_AUTO;
++	phydev->mdix = ETH_TP_MDI;
 +
-+	if (ret || plca_cfg->enabled < 0)
-+		return ret;
-+
-+	eni_cfg = (plca_cfg->enabled) ? NCN26000_PHYCFG1_ENI : 0;
-+	return phy_modify_mmd(phydev, MDIO_MMD_VEND2,
-+			      NCN26000_REG_PHYCFG1,
-+			      NCN26000_PHYCFG1_ENI, eni_cfg);
++	return phy_set_bits(phydev, MII_BMCR, NCN26000_BCMR_LINK_CTRL_BIT);
 +}
 +
- static irqreturn_t ncn26000_handle_interrupt(struct phy_device *phydev)
+ static int ncn26000_read_status(struct phy_device *phydev)
  {
- 	int ret;
-@@ -151,7 +172,7 @@ static struct phy_driver ncn26000_driver[] = {
- 		.read_status		= ncn26000_read_status,
- 		.handle_interrupt       = ncn26000_handle_interrupt,
- 		.get_plca_cfg		= genphy_c45_plca_get_cfg,
--		.set_plca_cfg		= genphy_c45_plca_set_cfg,
-+		.set_plca_cfg		= ncn26000_c45_plca_set_cfg,
- 		.get_plca_status	= genphy_c45_plca_get_status,
- 		.soft_reset             = genphy_soft_reset,
- 	},
+ 	/* The NCN26000 reports NCN26000_LINK_STATUS_BIT if the link status of
+@@ -162,6 +179,26 @@ static int ncn26000_config_intr(struct phy_device *phydev)
+ }
+ 
+ static struct phy_driver ncn26000_driver[] = {
++	{
++		PHY_ID_MATCH_MODEL(PHY_ID_S2500),
++		.name                  = "S2500",
++		.features              = PHY_BASIC_T1S_P2MP_FEATURES,
++		.config_init           = ncn26000_config_init,
++		.config_aneg           = s2500_config_aneg,
++		.read_status           = ncn26000_read_status,
++		.set_loopback          = genphy_loopback_no_speed,
++		.set_plca_cfg          = ncn26000_c45_plca_set_cfg,
++		.get_plca_cfg          = genphy_c45_plca_get_cfg,
++		.get_plca_status       = genphy_c45_plca_get_status,
++		.soft_reset            = genphy_soft_reset,
++		.get_sqi               = genphy_c45_oatc14_get_sqi,
++		.get_sqi_max           = genphy_c45_oatc14_get_sqi_max,
++		.read_mmd              = genphy_read_mmd_c45,
++		.write_mmd             = genphy_write_mmd_c45,
++		.cable_test_get_status =
++			genphy_c45_oatc14_cable_test_get_status,
++		.cable_test_start      = genphy_c45_oatc14_cable_test_start,
++	},
+ 	{
+ 		PHY_ID_MATCH_MODEL(PHY_ID_NCN26000),
+ 		.name			= "NCN26000",
+@@ -182,11 +219,13 @@ module_phy_driver(ncn26000_driver);
+ 
+ static const struct mdio_device_id __maybe_unused ncn26000_tbl[] = {
+ 	{ PHY_ID_MATCH_MODEL(PHY_ID_NCN26000) },
++	{ PHY_ID_MATCH_MODEL(PHY_ID_S2500) },
+ 	{ }
+ };
+ 
+ MODULE_DEVICE_TABLE(mdio, ncn26000_tbl);
+ 
++MODULE_AUTHOR("Selvamani Rajagopal <selvamani.rajagopal@onsemi.com>");
+ MODULE_AUTHOR("Piergiorgio Beruto");
+ MODULE_DESCRIPTION("onsemi 10BASE-T1S PHY driver");
+ MODULE_LICENSE("Dual BSD/GPL");
 
 -- 
 2.43.0
