@@ -1,101 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795541723;
-	b=nEirVFWj9OUgS1Xz9an9U6AmtbdWHFYG65Hp1ficcC3bgh6n9lZSy/lnLdmqlw7Sr8J3
-	 Is2ka8RIJqE480KjXMCvl7U1Uuoj21lvx/dn17wXTc7dz22dj+EFZ/BLEIpIkdohQy5Kr
-	 YRA9GRwmBTxPe4xuDiJ/VGP/9/VJC3rrcX4vCXtaP4TobugEvkGSku00DD/MiDmzXFNt9
-	 pXPFm6FtZiWiZwaaJDWuyEzeRxslUI0OHhdcskIUzqHlQGqKOlybFvRDXRr8H4C6J+cfB
-	 haFBOpLAxSP0mwGpF+2h99GxNe1t7j9Hbzb2lUxdA67l2Rk3GRxlKCObV40buIat9tA==
+	t=1795541741;
+	b=sxzUMPj7NxLhWKPiEnyfrTZmZcDI79t10UM/vFajfbgE50jdGJWr/PEDG+d3dS+2ou5g
+	 xpJrAdvbeFGm6yxSP5gnCpA6iaolzyUyO/fp141XIzlwpjHNirdtLvuf9awTwCPAHSqBK
+	 lwpZU0+21rAbBMMSyEf6o+DtiU0KWNR7wXhx5PupSqjSJpY5fVU4iTQMMFmOHPcsCUg5p
+	 dMpBrlxeZV06vFqAFHeec60Ofl+NKdgbs6bGdXut2wDoRmrpdX0ThPaIVWviLUm1N9Y+v
+	 /nyHIl5b8m87INnwiT+r1UxhiAE2+KaNdx3Pr6m3hyd3eoYobAVhH9w+SfZLJs6v9JA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795541723;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795541741;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=l0LEHthhhZRejZwuG3VyXNFXNWhsNskJajjPoPmUNCU=;
-	b=dnjOe+OHqYb4JilW/gTacFzuS3MSxf1rZB3OeUCiH9Q7Ugx8JOWjrINwploeTvCvBUS1
-	 Ikk/uPILKp1wVu6Mn0l0DFDUXUY/nm41iyY2Z2eAvPa/84kpUZMvduIn//F9il5MRKjs1
-	 bw8nokghcDvN/vFI3F7BhtiNr4rAZJWaT4edCdrfH6LqAaDkF2vnMdAutS2Hd/TCy+vqo
-	 k0mIh77a0FzIdHhinxdEaahwZ8x3bQhqGENkss5li6fekvN3QrM+GguATFCmaNCdSBlvJ
-	 sOrEES9/CNgJQbI+wEiIvOT4CfaOhu+VKBaRnqA6gExWK4twDtpmG/Dp9In8Ks2UxFA==
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Cerw/Z7KIbXX4bOl2Vw1MF/BZKr852ZbBEpPnDE+6mw=;
+	b=4cZKJAAaWXIumQhS9vuZvlNdXz4fEqAPD4B684mMlYeQc3j07stmVeBualH3HSXJbVym
+	 CX3ka41Wm011vP0H1XmaY/2uCMpqbAy5TMVw6sxJImv3lvW3pcrrmYJobmQqQAkzI3kzZ
+	 8HXytTLKM2aV/Mkk4oW+NvYFy0TdHNdyTsG3L2ESNifyFkdT2ZVtmlXvLapG66GeCJZEN
+	 BR0hwacoclfhnaYEbaewRA/glBwbQFA8AxSq68W2h3EMtkbwSwNiKQr7bvDKXtWq2Ncb/
+	 mwmRHJ761p065X/KfeMrwkxfsOL8Ya4cgg/v05jOLjOM0T3/trkZ4hTHo4gH6MRq3Ng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=JXuQnV0h;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dmarc=pass header.from=linaro.org;
+	spf=pass smtp.mailfrom=linaro.org;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=bD8uc4vF;
+	arc=none smtp.remote-ip=209.85.221.44
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5313F606A32A
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 17:35:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5313F606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0544606A333
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 17:35:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0544606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=JXuQnV0h
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4bb666304fdso51821975e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 09:35:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=bD8uc4vF
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-491971ac844so4399412f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 09:35:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795541719; x=1796146519; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=l0LEHthhhZRejZwuG3VyXNFXNWhsNskJajjPoPmUNCU=;
-        b=JXuQnV0hcXVJJOzI8OOKGAK1D106+tf42dJm/p5QcmU+NkdTcwy/KCVRZOpzUIaU81
-         BdPOP5W9NmlcfZzoIsU2TPqnceWHESBWiDH6IKMgRc58dI8ko7gv/1zU8oeatjWYiRrf
-         wAHvu0Y90UWdPy9TQRiQC6OAL7LyHVft37yWZunC7Sxtt4QLeMPCSAKLhLa6qnj+B38f
-         cCIFlZFat2axUOrTCa6N9a8IW/URU/jyFgnL4KSUQc9aXyTJn/wdZZofYc4cD4RqHEbb
-         yoxtojarjgTYWI9/KKke4BK9BIBJoXXqnlIP8HnHoqye1zU3sXZRmaN+0OVcwSxfI8es
-         KoJA==
+        d=linaro.org; s=google; t=1795541739; x=1796146539; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Cerw/Z7KIbXX4bOl2Vw1MF/BZKr852ZbBEpPnDE+6mw=;
+        b=bD8uc4vF8J9geK8iH88yaXJBF/maPWDjivN/U9G4xSaoBmWPAOsXoLld6tJg7fXty3
+         haMkXbr/fKxihHDLmWFA9i136CGI8AQXavJ2jZmOGAQ5M4cq90284QmA1euiXzwxBhcy
+         /yvLyPAHaa/6vqfizpyrfCiKT7kCY2Wz8ZQifPdWEpRIrXP4KReRnI4LFnIeEDvY7sJT
+         t7MS4LyIbjYh8drWTGpjynNun+6KlHWr/lEq+GclIE4mo92jBQGnnlDZlNT51UGJ3qXx
+         GYsYh102xj9SDAoJuSdRgdJPhbXLryRfHGO7ytr3PJNzUfrNka7SvGGIheWJL7uiXCSU
+         q7qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795541719; x=1796146519;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=l0LEHthhhZRejZwuG3VyXNFXNWhsNskJajjPoPmUNCU=;
-        b=tIsalufQnnpBtuNJUDoJFbzjNU3jVkVuXc2ARpK9CIf/Kd3G1MXMnCLOFumBc5nLpU
-         u0pQdWQeRD9BD9wlAjWdPwbTBMrbKN/mYRlSwyi8knXu98w7FawOmY0vzK1L7lY2tAmc
-         y98v9CJ27HZd9uTTyRvGjsOFf82nUoYC0rHTSzHXhBwzB5hjkDr1i0pt5el8Nn6ZwPuR
-         CibMClRN+Jgli33dWDmhpRxIthBciwJEYOfriZCyeYKfPIjfGkrPI3HXIqdI5S1g6Bcn
-         7MS3TM1feUOuKzkth0QtxLcmLyED+PjFH+F12iz+wzHlqp7C509y+bb+J/0bhE3YzkVs
-         eshg==
-X-Forwarded-Encrypted: i=1; AL+hErHNIu3OC5kJWUZt4S1H+Msf6Xmnh+K86UtYeZWBxog7sCB8iwyw3kMxUt0xIraokTwxfkw41J3BAeE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ib0RS2cWAW6s7pIPEaWzKuAUgKEL16cM5BI74+T5n8rhDhegj
-	EhsMoJ3346K3UlOG6RT2ub2DxgiiQGU6+XyOXOqK0aQFP5HwYAvge190RaC4Qm9YpjM=
-X-Gm-Gg: AZFdTZcgmldGpdicQW54RFdyu0OjvZqUbOpRypbGW6wMDD3QU8jMT5URF9KpFPHqlLj
-	WbAh3a8Q6YOegqL3L+lioVS2TFQc1s6HlruapPT3Qc8HjrTO+4f0rCKQ2C5kPoHn7a3f9Czcqrx
-	2ILQXx8/Jfh6wJb0QbguM6bAA2/9IH58BJqHVJygeb7tAxv6tcWrVAus/yTuv5GD3p2BnMc8GDX
-	4ghSksoXL7qAygmOoE7/D2fYpbD/wggTCu+UYqOPPghxFqT5FOgWgzESE6+JOTs/gIJj9cKkDRP
-	nC33NzikAJytIltqVvq8GwQgfuhRkNrwWcvs8SbTNlXZoF6HexSiQHIPZ5lzyhF7U2tm2Q9BZyr
-	AkkoCC3jR3hc+A1CfIpTR/dtJg4Bnbp6aQGQBFxrZ/3U5LO9x3bk7NBb41+YCaLdgLfOTTA689t
-	REgdDj3avPm0moBWlEXtiyhf3JY4/PFZEvVXMlKdxs5xhtKRFQjfaxjhq0+T5d4/ZEBks2jXeN3
-	HNzXKBUq2P0dbuwN9krB6zn79Q2+aUmOLhWL2bv82aTglC6FRfHT/ZjBqEMMUHn2ijrtcnscLev
-	sm4tyFmBujBDh3zE3zPojywDoCc=
-X-Received: by 2002:a05:600c:5303:b0:4ba:4928:8aec with SMTP id 5b1f17b1804b1-4bb88807d7cmr297533605e9.9.1795541718663;
-        Tue, 24 Nov 2026 09:35:18 -0800 (PST)
-Received: from localhost ([82.192.120.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8d4f9aa8sm410773215e9.4.2026.11.24.09.35.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 09:35:18 -0800 (PST)
-From: Andrea della Porta <andrea.porta@suse.com>
-To: Guenter Roeck <linux@roeck-us.net>,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	linux-pwm@vger.kernel.org,
-	Gary Guo <gary@garyguo.net>,
-	Andrea della Porta <andrea.porta@suse.com>
-Subject: [PATCH v2 1/1] hwmon: Add driver for Raspberry Pi RP1 fan tachometer
-Date: Tue, 24 Nov 2026 18:39:00 +0100
-Message-ID: <20261124173900.31266-2-andrea.porta@suse.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20261124173900.31266-1-andrea.porta@suse.com>
-References: <20261124173900.31266-1-andrea.porta@suse.com>
+        d=1e100.net; s=20260707; t=1795541739; x=1796146539;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Cerw/Z7KIbXX4bOl2Vw1MF/BZKr852ZbBEpPnDE+6mw=;
+        b=eWfYtDJX+P5Br/c9UGK+/WOL8pActJrE62XjuA6cnRhK+V9vnvteNDn5CmY+b4KZsN
+         YBDbzPvZzQtOApZu//vyG1IaAdbb3L19cudKV8TF+79gaCjQXfgJqlNyWNvWoL5ih1NZ
+         1OWIAGveI4rW4j0UJeJMEWYcCqK02/3wHG+exqIUgkv0zotnxJqTL0camwkAWk3bjHwH
+         lsTl3Jrv3rp6xV6yxnNBAcUEcXW7eHamL2h3WxEX0DKROP6+5HC4U/Rj8qCfkn6uPa5U
+         LYMeVe2bAqgwu43TNoDLntZS1d+raaZHFXiqC7z8wWd2ASZh+FH0oIYdV3Ugq4zjWZvW
+         TkTA==
+X-Forwarded-Encrypted: i=1; AL+hErGj0WBlvaPN/Gg6QpNBZyEDfzzPMioACG7gGiHY8nZIeAteHnCzBm4W0v/ptE4hWUKxXeRvmjVswB8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9jwTB9RMyDLreZXjELJkRPyTJzQKXwN/i3uisG+rj+VzwXXDW8
+	sqtaAE8LB7ED6rR66RVIaiP1BO/B+gZHrnOcfesv6W3oGcZlqOpymelt3muhBMePiTI=
+X-Gm-Gg: AZFdTZchpLhGfPa4WvyRP7XHLY9sAAkrPtrAfaM9M+g3R63iWnEYe+Y1ZP3aORvEbX8
+	g4BvRZvkl0XRE6JFxYQbNlttt5nit0lqVPdvpLmTyGaCJYCmUwBuwQB2FFbcD752AQ5NT/QJ+iG
+	ihkT2W5aB7s6iCbjwn6CRQB6ZRhE5TcIOxh+xFnMo/Cl9ZzD31kWjjTD5hs2+1ZpfVce+sUAO9z
+	GeAM5QM5bpaJ4wZcekAbjrRHjgbYZIYp0wHns2bcaXjKkTFft54YTV1PJxvPp5KWfEC61SiK1nF
+	VKn7TbmXWItsRGpr8B0CcZqvZZwXMmvdQXYblYgYaQ18x68pdr0LbBGtCIfkOHak/sGObkikE/L
+	nSks+A2nwDRusRlHdSsE21cbuSym5Vvd8sAT0VXkZvvI+vWhqwkkYtdKkU/iiCDbticXjnHTn1M
+	kZPuqxWbZiSb/lMHMQtqKQocqQC+egeUyr16Wp/rPtF5U58oFFyHbWaf5za/YBAxmU85HNeZRVq
+	oJrMhqV3al1H+9ZilhZZeJol6SzcVEbda+sRaEefb6Pe9VPSo9cZKHXvW3nPuico4ZqmMHCj2op
+	JmyH8HEeuOaNN9PIPd8xJer9Aj13NiTmZD6aMP32fsMw/4rleMVc8U8=
+X-Received: by 2002:a05:6000:990:b0:493:ec0:861c with SMTP id ffacd0b85a97d-4abb0c5d53fmr28875984f8f.16.1795541739288;
+        Tue, 24 Nov 2026 09:35:39 -0800 (PST)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6ae2dd55sm28453844f8f.30.2026.11.24.09.35.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 09:35:38 -0800 (PST)
+Message-ID: <fa4e19d5-2e66-4468-9860-19cd9f3ea8db@linaro.org>
+Date: Tue, 24 Nov 2026 17:35:37 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,233 +92,149 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/19] perf cs-etm: Per-thread mode fixes and snapshot
+ wrap support
+To: Adrian Hunter <adrian.hunter@intel.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
+ <mike.leach@arm.com>, Leo Yan <leo.yan@arm.com>,
+ Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>,
+ linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+ linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org,
+ John Garry <john.garry@linux.dev>, Leo Yan <leo.yan@linux.dev>
+References: <20261105-james-cs-unformatted-per-thread-fix-v4-0-7759e0ce2449@linaro.org>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20261105-james-cs-unformatted-per-thread-fix-v4-0-7759e0ce2449@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add a hardware monitoring driver to support the fan tachometer on the
-Raspberry Pi RP1 southbridge, found on the Raspberry Pi 5.
 
-The RP1 PWM controller block contains an MMIO register that holds the
-current fan speed in RPM. This register is periodically updated by the
-RP1 internal firmware based on the tachometer pulses.
 
-The RP1 PWM driver registers a "fan" auxiliary device for the
-tachometer. This driver binds to it as an auxiliary driver and reads
-the RPM value through rp1_pwm_read_tachometer(), exported by the PWM
-driver in the 'RP1_PWM' symbol namespace. Since the auxiliary device is
-a child of the PWM controller, no Device Tree node is needed and the
-lifetime of this driver is bound to the one of the PWM controller.
+On 05/11/2026 11:44, James Clark wrote:
+> This series depends on:
+> https://lore.kernel.org/linux-perf-users/20261030-perf_cs_etm_fix_non_taken-v3-0-7629b52ab047@arm.com/
+> 
+> Fix a few issues with per-thread mode:
+>    - On nVHE, everything looks like guest trace instead of host
+>    - Tracing multiple threads didn't really work
+> 
+> After adding a tests for those, it turns out there were some snapshot
+> bugs not picked up by the other snapshot tests. That showed that the
+> different snapshot searches for Intel BTS and Arm SPE were inconsistent
+> and I think all tracers can benefit from using the same pointer fixup
+> logic, so that gets refactored into the common auxtrace.c. Then SPE can
+> just share the Intel BTS search as it was obviously copied from it
+> originally. IntelPT keeps the more advanced duplicate data search, but
+> in the future that could probably be made the common one and all tracers
+> would benefit from using it (except maybe BTS if it always has a very
+> small buffer, but I doubt the overhead of the duplicate search would be
+> an issue). For now this is more of a refactor rather than behavioral
+> change so don't do that yet.
+> 
+> Signed-off-by: James Clark <james.clark@linaro.org>
+> ---
+> Changes in v4:
+> - Change test snapshot size to 128K for 64K machines
+> - Put patchset depencency in cover letter text
+> - Link to v3: https://patch.msgid.link/20261102-james-cs-unformatted-per-thread-fix-v3-0-dbcb0c281b9b@linaro.org
+> 
+> Changes in v3:
+> - Keep the find_snapshot() callback instead of adding
+>    snapshot_has_wrapped() and monotonic_snapshot_head boolean (Adrian)
+> - Add auxtrace_record__default_find_snapshot() for the simple search for
+>    BTS and SPE (Adrian)
+> - Add auxtrace_record__snapshot_fixup() for any snapshot search
+>    implementation to use to update the pointers (Adrian)
 
-Provides the standard hwmon sysfs attribute 'fan1_input'.
+Hi Adrian,
 
-Signed-off-by: Andrea della Porta <andrea.porta@suse.com>
----
- Documentation/hwmon/index.rst   |  1 +
- Documentation/hwmon/rp1-fan.rst | 43 ++++++++++++++++++
- MAINTAINERS                     |  7 +++
- drivers/hwmon/Kconfig           | 11 +++++
- drivers/hwmon/Makefile          |  1 +
- drivers/hwmon/rp1-hwmon.c       | 78 +++++++++++++++++++++++++++++++++
- 6 files changed, 141 insertions(+)
- create mode 100644 Documentation/hwmon/rp1-fan.rst
- create mode 100644 drivers/hwmon/rp1-hwmon.c
+Did you get a chance to check these changes? Sorry it took a while to 
+send the V3 after your comments.
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 199ca79621e9..2d81cf3b46ff 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -240,6 +240,7 @@ Hardware Monitoring Kernel Drivers
-    q54sj108a2
-    qnap-mcu-hwmon
-    raspberrypi-hwmon
-+   rp1-fan
-    sbrmi
-    sbtsi_temp
-    sch5627
-diff --git a/Documentation/hwmon/rp1-fan.rst b/Documentation/hwmon/rp1-fan.rst
-new file mode 100644
-index 000000000000..d345551306d8
---- /dev/null
-+++ b/Documentation/hwmon/rp1-fan.rst
-@@ -0,0 +1,43 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+Raspberry Pi RP1 fan tachometer
-+=======================================
-+
-+Supported chips:
-+
-+ * Raspberry Pi RP1
-+
-+   Prefix: 'rp1_fan'
-+
-+   Addresses scanned: -
-+
-+   Datasheet: not public
-+
-+Author: Andrea della Porta <andrea.porta@suse.com>
-+
-+Description
-+-----------
-+
-+The Raspberry Pi RP1 is a multi-function I/O controller (southbridge) used
-+on boards such as the Raspberry Pi 5. Among its peripherals, the RP1 includes
-+a PWM controller responsible for fan control.
-+
-+In addition to standard PWM output, the RP1 provides fan speed monitoring
-+(tachometer). The tachometer pulse measurement is performed internally by
-+firmware running on the RP1 Cortex-M microcontroller core. The computed fan
-+speed (RPM) is periodically updated by the firmware directly into dedicated
-+MMIO registers located within the RP1 PWM block.
-+
-+The RP1 PWM controller driver registers an auxiliary device (pwm_rp1.fan.<id>)
-+for the tachometer. This driver binds to that auxiliary device, reads the
-+firmware-updated register through the PWM driver and exposes the fan speed as
-+standard hwmon sysfs attributes. No dedicated Device Tree node is required.
-+
-+Sysfs entries
-+-------------
-+
-+The following attributes are supported.
-+
-+======================= ========================================================
-+fan1_input              fan tachometer speed in RPM (RO)
-+======================= ========================================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 26f8520c02ee..f4d011630389 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23368,6 +23368,13 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
- F:	drivers/media/platform/raspberrypi/rp1-cfe/
- 
-+RASPBERRY PI RP1 FAN TACHOMETER DRIVER
-+M:	Andrea della Porta <andrea.porta@suse.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/rp1-fan.rst
-+F:	drivers/hwmon/rp1-hwmon.c
-+
- RASPBERRY PI RP1 PCI DRIVER
- M:	Andrea della Porta <andrea.porta@suse.com>
- S:	Maintained
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 18c682e1a475..c668b1f458b5 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -2020,6 +2020,17 @@ config SENSORS_RASPBERRYPI_HWMON
- 	  This driver can also be built as a module. If so, the module
- 	  will be called raspberrypi-hwmon.
- 
-+config SENSORS_RP1_FAN
-+	tristate "Raspberry Pi RP1 PWM Fan Support"
-+	depends on PWM_RASPBERRYPI_RP1
-+	help
-+	  If you say yes here you get support for reading the fan tachometer
-+	  from Raspberry Pi RP1. The driver binds to the auxiliary device
-+	  registered by the RP1 PWM controller driver.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called rp1-hwmon.
-+
- config SENSORS_SL28CPLD
- 	tristate "Kontron sl28cpld hardware monitoring driver"
- 	depends on MFD_SL28CPLD || COMPILE_TEST
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index d4c345ed7261..5c5ffc900a12 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -211,6 +211,7 @@ obj-$(CONFIG_SENSORS_PT5161L)	+= pt5161l.o
- obj-$(CONFIG_SENSORS_PWM_FAN)	+= pwm-fan.o
- obj-$(CONFIG_SENSORS_QNAP_MCU_HWMON)	+= qnap-mcu-hwmon.o
- obj-$(CONFIG_SENSORS_RASPBERRYPI_HWMON)	+= raspberrypi-hwmon.o
-+obj-$(CONFIG_SENSORS_RP1_FAN)	+= rp1-hwmon.o
- obj-$(CONFIG_SENSORS_SBTSI)	+= sbtsi_temp.o
- obj-$(CONFIG_SENSORS_SCH56XX_COMMON)+= sch56xx-common.o
- obj-$(CONFIG_SENSORS_SCH5627)	+= sch5627.o
-diff --git a/drivers/hwmon/rp1-hwmon.c b/drivers/hwmon/rp1-hwmon.c
-new file mode 100644
-index 000000000000..473e6c95f638
---- /dev/null
-+++ b/drivers/hwmon/rp1-hwmon.c
-@@ -0,0 +1,78 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Hardware monitoring fan driver for Raspberry Pi RP1
-+ *
-+ * The fan speed is measured by the RP1 firmware and reported through a
-+ * register of the RP1 PWM controller. The PWM driver registers a "fan"
-+ * auxiliary device which this driver binds to.
-+ */
-+
-+#include <linux/auxiliary_bus.h>
-+#include <linux/err.h>
-+#include <linux/hwmon.h>
-+#include <linux/module.h>
-+#include <soc/bcm2835/raspberrypi-pwm-rp1.h>
-+
-+static int rp1_fan_read(struct device *dev, enum hwmon_sensor_types type,
-+			u32 attr, int channel, long *val)
-+{
-+	struct auxiliary_device *adev = dev_get_drvdata(dev);
-+	u32 rpm;
-+	int ret;
-+
-+	if (type != hwmon_fan || attr != hwmon_fan_input)
-+		return -EOPNOTSUPP;
-+
-+	ret = rp1_pwm_read_tachometer(adev, &rpm);
-+	if (ret)
-+		return ret;
-+
-+	*val = rpm;
-+
-+	return 0;
-+}
-+
-+static const struct hwmon_channel_info * const rp1_fan_info[] = {
-+	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
-+	NULL
-+};
-+
-+static const struct hwmon_ops rp1_fan_hwmon_ops = {
-+	.visible = 0444,
-+	.read = rp1_fan_read,
-+};
-+
-+static const struct hwmon_chip_info rp1_fan_chip_info = {
-+	.ops = &rp1_fan_hwmon_ops,
-+	.info = rp1_fan_info,
-+};
-+
-+static int rp1_fan_probe(struct auxiliary_device *adev,
-+			 const struct auxiliary_device_id *id)
-+{
-+	struct device *hwmon_dev;
-+
-+	hwmon_dev = devm_hwmon_device_register_with_info(&adev->dev, "rp1_fan",
-+							 adev,
-+							 &rp1_fan_chip_info,
-+							 NULL);
-+
-+	return PTR_ERR_OR_ZERO(hwmon_dev);
-+}
-+
-+static const struct auxiliary_device_id rp1_fan_ids[] = {
-+	{ .name = "pwm_rp1.fan" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(auxiliary, rp1_fan_ids);
-+
-+static struct auxiliary_driver rp1_fan_driver = {
-+	.probe = rp1_fan_probe,
-+	.id_table = rp1_fan_ids,
-+};
-+module_auxiliary_driver(rp1_fan_driver);
-+
-+MODULE_AUTHOR("Andrea della Porta <andrea.porta@suse.com>");
-+MODULE_DESCRIPTION("Raspberry Pi RP1 HWMon Fan Driver");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("RP1_PWM");
--- 
-2.51.0
+Thanks
+James
+
+> - Reword UINT64_MAX timestamp comment (Leo)
+> - Fix disassembly test after rebasing onto exception sample fixes
+> - Only take 'perf_guest' into account if there is no PIDFMT_CTXTID2
+> - Improve decoding of old files by hard coding queue 0 for per-thread
+> - Link to v2: https://patch.msgid.link/20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org
+> 
+> Changes in v2:
+> - Remove stale "may be reset to -1 in per-thread mode" comment
+> - Set CPU when queueing auxtrace fragments otherwise
+>    auxtrace_queues__add_event() overwrites the queue's CPU
+> - Link to v1: https://patch.msgid.link/20260811-james-cs-unformatted-per-thread-fix-v1-0-90565318f5f8@linaro.org
+> 
+> ---
+> James Clark (19):
+>        perf cs-etm: Fix nVHE per-thread decoding
+>        perf cs-etm: Warn for invalid timestamp option
+>        perf cs-etm: Turn on context packet timestamps in per-thread mode
+>        perf cs-etm: Use per-CPU queues for per-thread mode
+>        perf test: cs-etm: Increase window size in disassembly test
+>        perf cs-etm: Don't drop previous target for kernel samples
+>        perf python: Expose sample instruction length
+>        perf cs-etm: Use instruction length in disassembly script
+>        perf cs-etm: Increase default timestamp generation period
+>        perf auxtrace: Turn Intel BTS snapshot search into a generic one
+>        perf arm-spe: Use generic snapshot search
+>        perf auxtrace: intel-pt: Use common snapshot pointer fixup
+>        perf cs-etm: Queue partial AUX records
+>        perf cs-etm: Don't print missing buffers in snapshot mode
+>        perf auxtrace: cs-etm: Capture wrapped snapshots
+>        perf test: Allow infinite named_thread loops
+>        perf test: cs-etm: Add test for per-thread mode
+>        perf test: cs-etm: Test multiple per-thread threads
+>        perf test: cs-etm: Increase snapshot size
+> 
+>   tools/perf/Documentation/perf-test.txt             |   2 +-
+>   tools/perf/arch/arm/util/cs-etm.c                  |  34 ++++-
+>   tools/perf/arch/arm64/util/arm-spe.c               | 147 +--------------------
+>   tools/perf/arch/x86/util/intel-bts.c               | 115 +---------------
+>   tools/perf/arch/x86/util/intel-pt.c                |  21 +--
+>   tools/perf/python/arm-cs-trace-disasm.py           |  22 +--
+>   tools/perf/python/perf.pyi                         |   1 +
+>   .../perf/tests/shell/coresight/per-thread-multi.sh |  76 +++++++++++
+>   tools/perf/tests/shell/coresight/per-thread.sh     |  48 +++++++
+>   .../perf/tests/shell/coresight/raw_dump_stress.sh  |   5 -
+>   .../shell/coresight/test_arm_coresight_disasm.sh   |   8 +-
+>   tools/perf/tests/workloads/named_threads.c         |   7 +-
+>   tools/perf/util/auxtrace.c                         | 145 +++++++++++++++++++-
+>   tools/perf/util/auxtrace.h                         |  18 +++
+>   tools/perf/util/cs-etm.c                           | 113 +++++++++++-----
+>   tools/perf/util/python.c                           |   1 +
+>   16 files changed, 420 insertions(+), 343 deletions(-)
+> ---
+> base-commit: 28ef93607ad52acc8f8be25199711153ba11a0c2
+> change-id: 20260605-james-cs-unformatted-per-thread-fix-50e723aa7f0e
+> prerequisite-message-id: <20261030-perf_cs_etm_fix_non_taken-v3-0-7629b52ab047@arm.com>
+> prerequisite-patch-id: 4ef889ad751e344ae47c1d75a2a2e6cb2eadf6e1
+> prerequisite-patch-id: 636b39730334cbc5a76642c070e704ffe178e7be
+> prerequisite-patch-id: fb58f6daebdf5a194f8aa56ccc4022f932a5a6e5
+> prerequisite-patch-id: d240c10c6824f8ae6c3f10a1da01226a957f05fb
+> prerequisite-patch-id: 17b291db261e32dcb0d6f1ab2ed0adb7e0411813
+> prerequisite-patch-id: 45ae1d523c9e5c8c573309f1dab107a598f3d4f8
+> prerequisite-patch-id: 39a3eb25b3a45f4481760c25fa270773bcfd94f5
+> prerequisite-patch-id: 5723a15636c2a28ec40eb6b5c9836d162e971786
+> prerequisite-patch-id: d18054b586fc38bc832ead185e8c1fbb0ce46f39
+> prerequisite-patch-id: 6735b192189d7945613458abce3da871cb79b35d
+> prerequisite-patch-id: 387cb2c6181bef8f45a8fb167e8ef86e4a54ff69
+> prerequisite-patch-id: 50243a8d1739141aa24aa371a8452d4d2d078a99
+> prerequisite-patch-id: 2ae6f1e7707ba0c71a0678331b02d738fb25cb3c
+> prerequisite-patch-id: 1fa0a90cfbc904c4429c1427409125ac44b27aed
+> 
+> Best regards,
+> --
+> James Clark <james.clark@linaro.org>
+> 
 
