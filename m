@@ -1,49 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.93
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795491009;
-	b=4YABMKXb/TvGnp2P91MFku2czO96JZOIX/JdW+N0f/YjlRqzj9dNJCarVzakHZCgkL14
-	 dXawkE1AujrjcfzO9ezziauI+YoLaDOsqvI/5vRbzs9AGVEvJDdPJiBf08thEIdJ/FIA2
-	 YIL2AevLqMXJ1G3JIvZMCHAc/BlaEs+kCQCQer+U1k63oE0R7BqdcOm3ZItPHFkJhNtgC
-	 SmSIt6H5mzuzUPgJIJZc9jgS2HMmNstsTWi5GZVP9LIjL8LTQ9Ha61lRYzSIwD/lj3N/p
-	 8/zMjBTKd8CkZsuepkL4k2OROP4Shcq2kc//fe0sFfjV/7+L6abJPnfxsAifwjkDp5g==
+	t=1795491209;
+	b=me1t/Lf+oHNVzS5oaMbpVHIjkGbsIWkicJLHc88hLtQV/0iQieHq1CefhhtgknjWaJAA
+	 DXI1vNThRlSEHcwRzR3A83h6ia5XKoP8bMF3CzW4uru4DN1ce3g2uChGAGaPHat0R8fuT
+	 xRhJmvFDMyTKHOo2h0Rre8poGbRaO01eambIebWoRLJadXlldfx/JXuP3qMfbarovu0S7
+	 aEH+b2Oa7hYGJVesxjWHQzwekRCySedoAZ1aF5WZXD1MTFKPEnXlxcAbvCmXKA/W+E4S7
+	 ewR/AB0b0MAJOIHDx5DTX5XA2tYy+uN/8ZZb9mEsoz5n7I0IDFVU9EAMA4JexD2MT1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795491009;
-	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
-	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc;
-	bh=ppeMvnM7iphv0dyG+8k2gMRO8bZqWsT19t+Kx9LEsyM=;
-	b=FPBkw4HylRPBXxjku4JSThVrL5p8POw4iRUFbe+58ouWWNLB7uPe1OTHkLPHRVXNwRcx
-	 RfUt/2oadmx1awfT2/ThoIwy00Xz8vTeB4MiFBB+j0FhICf/3yheQD7ugaSQRjwkQ1d5A
-	 hKsRz/nEczLDLN32aDkptVIH43tep5v00Yq80g2pJiAVfnehFo/ZN9lcxloUrtuCcirRW
-	 v1cNxkUqY/Y9PTfZ2d9uY+hNhGQTprvuqs1ZpXZK3Uer88bzVK+xqBiGNITXFVkryTU8e
-	 k8KLOS5SK1PZ7ecZehrXw7fk7W6JsOauJF/tFJglaohsPripTjC/fViAW2iSl1jYrPQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795491209;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=I5IYt5lD0t4uzj8miQUAufXofOEz3QHtC3aQ7LCE8Bw=;
+	b=X/PvQJau3DyUgjAuHlrU1+UEu10zuVHIDOJx+dAfT4700yB+J/1NHldjmKVBvLfzb1bS
+	 0E6YdiDu7AETQGChCef5Dad232LMM7Dbnnm0fDhIYoWpep7J+SZcY4luQuRvgNiHpTo1k
+	 6MStVt3ZWWjLmpIrRDMJ/hkmQroHpGK+3SXBX/lwoKS6b1B7LEry+uvGd09NtQtqa6x8h
+	 JM63soAp4MumuWe0DLwbNY+6MD64c7scyLwDPPPeNT/i2h84Wz+6Bl88A5bzNAKbC2f4Z
+	 6JHMHJMCW67GGr65Ua11GrLFT3uw43CBMy0/qMw1t8w9qf5B+kVmpxOFzmwNP0sRy4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KzqNROVQ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LDoHQM6n;
+	arc=none smtp.remote-ip=91.218.175.93
+Received: from mta0.migadu.com (out-93.mta0.migadu.com [91.218.175.93])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B5B606A322;
-	Tue, 24 Nov 2026 03:30:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EB4606A31E
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 03:33:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9EB4606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KzqNROVQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 441D41F000E0;
-	Tue, 24 Nov 2026 03:30:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795491009;
-	bh=ppeMvnM7iphv0dyG+8k2gMRO8bZqWsT19t+Kx9LEsyM=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=KzqNROVQhEf5pGyYP/EuST3zXDSFPq125OosIMKUZSgHI9BJJ/O5Yx8E+qway6VfQ
-	 be+o4KsoHQjcY6kp/nTTpajzrWeWMtOfKy9acY7Nv3vgbJycw5DwJCqC4oBkQrTovB
-	 0gbEnw28Y71yPZTFh+y1/YJbrl0tnZmQC4ibQDtOUfHdqTwVqol4yxhEyx2km0PVAL
-	 kV3a4tcC/F70UuvAeiBLLjsYLnN8yzdb5eeX7pqD2Ilc1PJWu874H8ikpZK4msJs1+
-	 Z5QuVHmIMbcVj3+FFLfocaPjlXGE0n4NfpqD65u0cBZgMDVyr/ZrwDoJK4HX9QP7Sx
-	 L2JqUaeTMs2YQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3A2AA39302D7;
-	Tue, 24 Nov 2026 03:30:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LDoHQM6n
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=SFcrls7zpUQel+GbWPMlPJigKtY/3Ba5jJ274MNY1KU=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795491205; v=1; x=1796096005;
+ b=LDoHQM6nbU+G4M565Q29Wvwmf3IzIV/k0LjbazbPfZ1FpHDxexHeAzkLtVy8IL9yW1DJZ3Ru
+ VO10yhUwcHpWgUUFVFOa+YSjvEvtC/hUTrP6i7pXmsFuo+bPehnCNXTQGXlrpOEk/oujppeHgDo
+ d3a2uYGL6pmh+AwrcyuXFZOs=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 5b1f3acdb92f82be;
+	Tue, 24 Nov 2026 03:33:25 +0000
+X-Mizu-Trace-ID: 5b1f3acdb92f82be
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <fd62d092-a90a-4711-a3aa-16caa03bc806@linux.dev>
+Date: Tue, 24 Nov 2026 11:33:13 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,54 +58,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v2 0/2] Documentation/bpf: Fix stale references
- in
- map docs
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <179549100776.3259463.7305380478503758837.git-patchwork-notify@kernel.org>
-Date: Tue, 24 Nov 2026 03:30:07 +0000
-References: <20261123155200.16676-1-supersonix03@gmail.com>
-In-Reply-To: <20261123155200.16676-1-supersonix03@gmail.com>
-To: Ahmad Wicaksono <supersonix03@gmail.com>
-Cc: bpf@vger.kernel.org, jakub@cloudflare.com, mhal@rbox.co, ast@kernel.org,
- daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com,
- martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
- jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- davem@davemloft.net, kuba@kernel.org, hawk@kernel.org,
- john.fastabend@gmail.com, sdf@fomichev.me, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] arm64: errata: Set GIC-700 #2941627 Kconfig entry
+ to N/A
+To: TAKANO Mitsuhiro <takano32@gmail.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-arm-kernel@lists.infradead.org,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261121083950.1957044-1-takano32@gmail.com>
+ <20261121083950.1957044-2-takano32@gmail.com>
+Content-Language: en-US
+From: Zenghui Yu <zenghui.yu@linux.dev>
+In-Reply-To: <20261121083950.1957044-2-takano32@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello:
-
-This series was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
-
-On Mon, 23 Nov 2026 22:51:58 +0700 you wrote:
-> Two documentation fixes for the BPF map pages.
+On 11/21/26 4:39 PM, TAKANO Mitsuhiro wrote:
+> The GIC-700 #2941627 entry in the arm64 silicon-errata table names
+> ARM64_ERRATUM_2941627 in its Kconfig column, but no Kconfig file defines
+> that symbol and no code refers to it.
 > 
-> Patch 1 records which program types may still mutate a sockmap or
-> sockhash: tracing programs attached to the sockmap iterator, sock_ops
-> (delete only), sk_reuseport and sk_lookup. Anything else is rejected
-> with "cannot update sockmap in this context". The kernel-side sections
-> of map_sockmap.rst did not mention this. It also drops the reference to
-> progs/test_sockmap_update.c, removed by
-> commit 5de7a6eaed89 ("selftests/bpf: Drop
-> tc/xdp/flow_dissector/socket_filter sockmap mutation tests").
+> The workaround has no Kconfig option: drivers/irqchip/irq-gic-v3.c
+> passes the GICD_IIDR value to gic_enable_quirks(), which compares it
+> against gic_quirks[]; the matching quirk,
+> gic_enable_quirk_arm64_2941627(), enables a static branch.  The table
+> already records GIC-driver workarounds that have no Kconfig symbol as
+> "N/A", for example the NVIDIA T241-FABRIC-4 row, whose workaround is
+> likewise in the GIC driver.
 > 
-> [...]
+> Set the Kconfig column to "N/A" for this row.  Leave the row in place:
+> only the Kconfig column is wrong, and the table should keep recording the
+> erratum.
+> 
+> No functional change; this only touches Documentation, so no build was
+> run.  The change and this changelog were written with the help of an LLM
+> assistant (Hermes Agent); I reviewed both and am responsible for them.
 
-Here is the summary with links:
-  - [bpf-next,v2,1/2] Documentation/bpf: Update sockmap docs for mutation restrictions
-    https://git.kernel.org/bpf/bpf-next/c/7cc87577394a
-  - [bpf-next,v2,2/2] Documentation/bpf: Fix stale selftests file references
-    https://git.kernel.org/bpf/bpf-next/c/2d602d0e4296
+Please ask your Agent for a more concise commit message. Most of the words
+are not necessary to be kept in it.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> 
+> Fixes: 6fe5c68ee6a1 ("irqchip/gic-v3: Workaround for GIC-700 erratum 2941627")
+> Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
+> ---
+> v2: the change is the same as in v1; only the index and hunk line
+> numbers moved with the rebase.  One changelog sentence is replaced in
+> each patch: in 1/2 v1 called the table row the tree's only record of
+> the erratum, but irq-gic-v3.c records it in gic_quirks[]; in 2/2 the
+> sentence about the symbol is reworded to name arch/arm64/Kconfig.
+> Both changelogs now say that no build was run.
+> v1: https://lore.kernel.org/all/20261106234541.1474324-1-takano32@gmail.com/
+> A duplicate submission went out the same night with different subjects
+> on 1/2 and 2/2 (20261106235616.1533003); please ignore it.
+> 
+>  Documentation/arch/arm64/silicon-errata.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+> index bffaa46c664b..4bb5707a880a 100644
+> --- a/Documentation/arch/arm64/silicon-errata.rst
+> +++ b/Documentation/arch/arm64/silicon-errata.rst
+> @@ -297,7 +297,7 @@ stable kernels.
+>  | ARM            | MMU S3          | #3995052,       | N/A                         |
+>  |                |                 | #3673557        |                             |
+>  +----------------+-----------------+-----------------+-----------------------------+
+> -| ARM            | GIC-700         | #2941627        | ARM64_ERRATUM_2941627       |
+> +| ARM            | GIC-700         | #2941627        | N/A                         |
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | ARM            | SI L1           | #4311569        | ARM64_ERRATUM_4311569       |
+>  +----------------+-----------------+-----------------+-----------------------------+
 
+Otherwise,
 
+Reviewed-by: Zenghui Yu (Huawei) <zenghui.yu@linux.dev>
+
+Thanks,
+Zenghui
