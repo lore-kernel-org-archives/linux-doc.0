@@ -1,143 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795518273;
-	b=qqkahaybAUewptz8tTTE80aLCskglqO/UKLKR4X98HWNIOgl2ly2gHxkxGdAuCXLJ1DW
-	 eOdYm1hHc+u5d+vbVOqH8VrBGshH42eyKL5aPuyZEJciScAAxHPTeuziXQ6zrdL+c/BtS
-	 3x1RbkF4wEQDoGjcL/Cff4I/Gnj6+ftD7TOWFTFWleXzvnyZCuiL/2vGkx1qwCDNw++4a
-	 V81zSH1e4cyaT07hxCDex5FvrkqP9zm7XfZRl+74Fi2o1NqeaBsagYK5BJph6xsIAYmUz
-	 33jeFDJPU0UfcXFBRTrpFm7GfDgrNtwYvrAXYVBFMSZ2d5/RnSgi+yhMn31QYGI9qpQ==
+	t=1795519196;
+	b=0AZAQtNAHs4DMDCEjNZYRkO1cvErrlsfWoprkEZXyKQCIxW+HRaM6dqGIeuKP9w7dV0i
+	 nBszuajwN2Xb+LMx7QCilSQHPomo81nEPRGPZn0y3+PjP4KWESeTElpWQ8lM1H0ty9qcp
+	 Jt/eVSl6MzZ29Q9Rjq08uArt5ixb1vaouokDhwduk+0N749fAXwMIBLaOfk9zJZgVmTci
+	 Qw04G4hT/2sdQ5F5WW+IReff492GjG9tVRrLHOx/Vq2G4Ad9joaKkXUapXYvLiZLjGbul
+	 G5EZMVAs3HA0EHKhDuqnQlWfMFMWKJDKQg3YvuWgvh/SoFABQt05SEn4mGkgn+dUdtA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795518273;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=TTlOMlop88MYRf1Y2eOatTSKCEHNu2LBs6PIdGIA3ts=;
-	b=SvBc0M3GpT7THaqezU1N2sJxmDW1g+uxkyKfIJbDuBvIlL0EVm/F3bcJOCdgfka10Qoo
-	 iN4wQdAS/UaKDV8o5pvnPxAsXu8qNjVYiqTwgUqBoJP81zRm0mXDFObJ193c4FBVMyN4p
-	 qECQlrfSAhZLZVSUKszDtY8vDsOK6pbsOF1GSKKWUhiBzvQ60Vsq6AmZSZirZsji1bGSh
-	 +F62u26kHBBAlMKnts+Uh0/gU5HquU26edgvStKAbx5HhCO5T5awOWwgs3xBpSNw2YSFv
-	 rIkf5VJQqNzDMZ4AW3z8FxTqOAbactbUoeqbC40hti7X+ZJsMAVpnDDOf54bHaiHnSg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795519196;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:References:Content-Language:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=RHww58L6rt3u4SPdVeeTOs1lSGoLjvc9RTNcF4tg334=;
+	b=iVLmwQhvduHs5ilVasWTH7BXTk1aP9aaSlEIt7vWr+obFpukFjHxhCdWFv+8CJ0xWiYo
+	 ioAP+0fuUiqjYk5JVWhJff761TbIsYgBGl0dNRfClo+/5YxpKo2WCBd4uSZNPK2jE3TV9
+	 CT6V0evG2OayNlWoGeRl8jf55JC/KRaYHj1TjIuJL+08+n2yy+eE2FsFe6jFAYx/zDQX0
+	 CvuDWaFfuZXZWmtpdOxvMCKoAXm3VBpwyLBkmw3b4JLpbnKs6Q+D+kexu/psrAegsJyUO
+	 H3TZu0fBfCICgmZzAtxDBu/mNric4xCVqPVGq6SFcsIBKtPCG6F8g8rhpnmE+qkQ0ww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Gx0jwKic;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=cI8cddPG;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3620E606A321
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 11:04:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3620E606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=CAmSoyn6;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CC30606A321;
+	Tue, 24 Nov 2026 11:19:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4CC30606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Gx0jwKic;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=cI8cddPG
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795518272;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TTlOMlop88MYRf1Y2eOatTSKCEHNu2LBs6PIdGIA3ts=;
-	b=Gx0jwKicO6PYN0KjC0d1hd5uBlP1rWdYMXJMVgWllSqFONNKSmOaPMhq4XAJ8o/lVwllkb
-	K3iiKZ+DB1KLOpGclifctS0oNLhHl4Rg0FACq9N7FMNFyI1W0QSgwFLdP0pD64d/jYHsB8
-	CYitJQprsGT+V5d9qDPt//h4zwf2AnE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-378-xiCWFx86MpWxXpT64bMi1w-1; Tue, 24 Nov 2026 11:04:30 +0000
-X-MC-Unique: xiCWFx86MpWxXpT64bMi1w-1
-X-Mimecast-MFC-AGG-ID: xiCWFx86MpWxXpT64bMi1w_1795518269
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-4a799d93bc3so2073338f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 03:04:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1795518269; x=1796123069; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TTlOMlop88MYRf1Y2eOatTSKCEHNu2LBs6PIdGIA3ts=;
-        b=cI8cddPGERKUW1Hg1Xcj05XFux6gB6hsbwlfhHILhMVjH9xrBGWddA61SymLnf3vvk
-         C0tuSKGgbr2dUZIk9Wdpm3CGFt0IFCzHLVS7tkSm8XJz094j24tIY0OEM8H16oIibybs
-         L6S6/HrZ7T+MuXhJ4d1Enx5nvErwS5A+8ZqQVnHiIz0urEhlteHDoVWhk52WZq4mHYdV
-         GTiRFrZmM13sdHQTtcXes5r11rSIVhpxzxG9bY9jXmNft1UFUV2A6zR6lcQaOW1thk1t
-         LLtRL0UMZ/LMPh7F9fE4E3Ou7b8MdKOT/vQ38s4yYnTSNJ8QUmZHPkzC56kf1ber0Vqn
-         EP4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795518269; x=1796123069;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TTlOMlop88MYRf1Y2eOatTSKCEHNu2LBs6PIdGIA3ts=;
-        b=TWrNKGA42118XSM4uI/YpBR/wJXBbUKZZ12cHgVSbndmETfwN3FG7SwNOi+OtR9lLV
-         A/dMaIdDEquIPEfItV3pJ8Ks5sxNt3qkYAXnsZONuvHLuGKLa1iGnLXsxedyZI+oyzL3
-         BThBQQrQ774xBO/geNEZ+ORxhN+6zupwExifmntvO6yTlzPkY5BXfVUKQqmDQXQXtIrU
-         26ff27o4ASaRamKmb7nERR8Jb/ExGLjZ/FyP1VRv+7DUBuPIHUr7JfKYyLHRL5yM0Ic/
-         Z+EI4k9s97Gz+pM2jivZzK5PR/XPepsk1O5KtY4wkIw7fUQpevxnk8IIw0Pni/V0Pnc4
-         cJ0A==
-X-Forwarded-Encrypted: i=1; AL+hErEZ4ZMxDZyejiq9JrBxaKEyZubXoItpwrk+DU0Kitar4Hgwv2MWYexhhsOXpFLt/Xo4hg2Hc2O7yxA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/eqnJkIOOzbf7xuU6kvxyEQCF9zFyBuB9XmPJvL4j4blGkUoD1
-	sg3i37S5jTbDf+PfQKdhJ8NhnCftBmfyg/YoNqLeU/xEIuPvQAD2HXbIXxPfakYYZBIpNBIeSWB
-	ocTJDBbhfTFCkA2VBG6a9gUSThSPr8zVirPx7160h0FNq7wexMH1vzJazVrrhYA==
-X-Gm-Gg: AZFdTZfHlLyXb4gU8ha0HqWFnAG/+5HSKrhdYwSyUoGVfsj1hSbwHEDcHSsVGwL5gyA
-	9J6775yntw51y8b4NlwbCZnVfjogvuphDcF7b97PQEA7Q3Jy4Et8EVv9335i6ndGvhyJ9AW+u3r
-	7gs2xz+6ZgxPdrQnb4eahGATY1SuGQOrWikHxaHGy5C5H2nz33GIM4RBeJBD+ACfbxs3d/XgiRU
-	zeKx+iGjAmroU2hIdzbRUebDC75PwCmQpB6KZ1mehJ37thnEX3NvR1+TtRlHtB0Vpp4OeUG4igD
-	/NePlDvUAOkgADWUXCAzDKFHiCqV9hGLZxrKP/XA34BCgdt+IzocyZw80pCsBzpql0qVF0yDlfz
-	4scnXMQUnHP++HCfgceAhZWEm2C6RblXismbWgJxyFMD6cWE8eGa0QrDLhGlttGIBMk3Xba0z8O
-	EPSnI=
-X-Received: by 2002:a05:6000:184d:b0:48c:7386:af18 with SMTP id ffacd0b85a97d-4abacfea55cmr29663609f8f.8.1795518268959;
-        Tue, 24 Nov 2026 03:04:28 -0800 (PST)
-X-Received: by 2002:a05:6000:184d:b0:48c:7386:af18 with SMTP id ffacd0b85a97d-4abacfea55cmr29663561f8f.8.1795518268563;
-        Tue, 24 Nov 2026 03:04:28 -0800 (PST)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4b34e9c3ffesm10976795f8f.19.2026.11.24.03.04.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 03:04:27 -0800 (PST)
-Date: Tue, 24 Nov 2026 12:04:24 +0100
-From: Juri Lelli <juri.lelli@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-	rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	luca abeni <luca.abeni@santannapisa.it>,
-	Yuri Andriaccio <yurand2000@gmail.com>,
-	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Qais Yousef <qyousef@layalina.io>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: Re: [PATCH v4 2/6] sched: Move DL's admission control to sysfs
-Message-ID: <awVvOGe-RwmLCqDv@jlelli-thinkpadt14gen4.remote.csb>
-References: <20261123-sched_dl-v4-0-d523e4d960d3@linutronix.de>
- <20261123-sched_dl-v4-2-d523e4d960d3@linutronix.de>
- <awU9KmFsbiyvbcOr@jlelli-thinkpadt14gen4.remote.csb>
- <20261124075332.nZysJRfS@linutronix.de>
- <awVfotZsGc8S_aB0@jlelli-thinkpadt14gen4.remote.csb>
- <20261124103507.4u5Sz_bU@linutronix.de>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=CAmSoyn6
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E7FB339;
+	Tue, 24 Nov 2026 03:19:51 -0800 (PST)
+Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F051A3F86F;
+	Tue, 24 Nov 2026 03:19:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795519194; bh=HHH4tUb3mjaWhl7bqXTmi6Gdr+JOz30M77C6UvlW+9E=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=CAmSoyn69UFsxm5mReroXL8Ug7UJsi7XwWfyZ51BXWZ/RLB0rb9rO6DjTcUCX0K1x
+	 OC8iAorqBgmxjAmuNF3PAnR0n34r5sJ9nPH3s+bYP7+dV51X9z1DA0GPYw+D6ByMT3
+	 KI8k/fz18F02QZ6kEJEPCBc/Gtn7QhgxtUIBSfpk=
+Message-ID: <6fee2695-3edc-4beb-8877-76c7e1b056af@arm.com>
+Date: Tue, 24 Nov 2026 11:19:49 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -147,48 +53,128 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261124103507.4u5Sz_bU@linutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 RESEND 7/7] fs/resctrl: Add info/moveable_mon_group
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Jinjie Ruan <ruanjinjie@huawei.com>, tony.luck@intel.com,
+ Dave.Martin@arm.com, james.morse@arm.com, babu.moger@amd.com,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, hpa@zytor.com, fenghuay@nvidia.com,
+ tan.shaopeng@fujitsu.com, will@kernel.org, gshan@redhat.com,
+ zengheng4@huawei.com, jic23@kernel.org, x86@kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20261110133938.3768632-1-ruanjinjie@huawei.com>
+ <20261110133938.3768632-8-ruanjinjie@huawei.com>
+ <efd9c3d5-a732-47bf-bca1-50a8650fd0ef@intel.com>
+ <7d27b172-d186-4b7a-87af-d0d25554b964@huawei.com>
+ <7ce15dbf-d4d7-4fb3-ad50-f47f782a7440@arm.com>
+ <0e51dda0-8be0-439c-91f0-ce292fb0c13b@intel.com>
+Content-Language: en-US
+From: Ben Horgan <ben.horgan@arm.com>
+In-Reply-To: <0e51dda0-8be0-439c-91f0-ce292fb0c13b@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 24/11/26 11:35, Sebastian Andrzej Siewior wrote:
-> On 2026-11-24 10:57:54 [+0100], Juri Lelli wrote:
+Hi Reinette,
 
-...
-
-> > > I assumed you use the proc interface because you don't know better. The
-> > > warning makes you aware that the throttling knobs and DL knobs moved to
-> > > sysfs. The DL bits are mirror to the sysfs interface in case you ignore
-> > > the warning and keep using proc.
-> > > If you move to using sysfs then everything is fine. From here, going
-> > > back to proc looks odd.
-> > 
-> > Odd indeed, but I wondered if it might happen that a sysadmin configures
-> > things properly using the new interface and some time later, say, an old
-> > application that hasn't switched yet to the new interface resets/tweaks
-> > using the old interface?
+On 23/11/2026 17:51, Reinette Chatre wrote:
+> Hi Ben,
 > 
-> Therefore I wanted to remove the old interface. The legitime users would
-> want to change the default DL attributes. I am more afraid of those that
-> intend to disable RT throttling and are failing to do so.
+> On 11/12/26 9:16 AM, Ben Horgan wrote:
+>> On 12/11/2026 01:42, Jinjie Ruan wrote:
+>>> 在 2026/11/12 2:34, Reinette Chatre 写道:
+>>>> On 11/10/26 5:39 AM, Jinjie Ruan wrote:
+>>>>> Moving a MON group into the mon_groups directory of another CTRL_MON
+>>>>> group changes the CLOSID of the group while its RMID stays the same.
+>>>>> Where the RMID is only meaningful together with the CLOSID, as on arm64
+>>>>> MPAM, the move changes the RMID index of the group and is rejected with
+>>>>> -EOPNOTSUPP.
+>>>>>
+>>>>> Userspace cannot tell whether the move is supported without trying it.
+>>>>> Add "info/moveable_mon_group", which reads 1 when a MON group can be
+>>>>> moved to another CTRL_MON group and 0 when the move is rejected, and
+>>>>> refer to it where resctrl.rst describes the move.
+>>>>>
+>>>>> Suggested-by: Ben Horgan <ben.horgan@arm.com>
+>>>>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>>>>
+>>>> Do you find that this binary "supported/unsupported" accurately captures
+>>>
+>>> I think this behavior is deterministic on MPAMv1, so that's enough for mpam.
+>>>
+>>>> everything that MPAM may ever want to do in this area? Could it be that, for
+>>>
+>>> That would be what the new version of MPAM does (such as v2 mentioned
+>>> below), the behavior of the mapmv1 version is already determined..
+>>>
+>>>> example, one day MPAM may be asked to support the move of a monitor group to
+>>>> support scenarios where the reset of monitor counts is acceptable to the customer
+>>>> and availability of PMG will be managed as part of the scenario needing support?
+>>
+>> For such a destructive move I would have thought it would be better to
+>> forbid the move and just rely on the user deleting the existing monitor
+>> group and creating a new one at the new location. If we consider only
+>> llc_occupancy on MPAM, which isn't affected by any requirement to be
+>> free running as effectively the hardware re-measures the cache occupancy
+>> on each read, then allowing monitor groups to be moved still gives a
+>> misleading impression to the users. The actual cache occupancy of the
+>> tasks in the moved monitor group stays the same but only the cache lines
+>> allocated after the move with the new (PARTID, PMG) association are
+>> accounted for in llc_occupancy. The tasks still get cache hits for the
+>> lines allocated previous to the monitor group move.
+>>
+>> Having said that, one problem with relying on deleting and creating a
+>> new monitor group is that you have to keep track of the associated tasks
+>> which isn't necessarily straight forward, e.g. when a child task is
+>> started after deleting the monitor group.
+>>
+>> Any relaxation of expectations of what happens when a monitor group is
+>> moved would need explicit buy-in from the user as otherwise they could
+>> rightly expect the established resctrl behaviour.
+> 
+> Exactly. Hence the idea of this potentially needing support via a resctrl
+> interface. This is hypothetical. I am not advocating for adding this
+> support but instead advocating that this feature keeps extensibility in mind.
 
-Agreed, that's the group to worry about, but they never touch sysfs, so
-an error after sysfs was used wouldn't reach them; the warning and the
-docs do.
+Ack
 
-> We could also make the proc interface return -EINVAL on read/ write once
-> the sysfs was used. What about it?
+> 
+> All the caveats you list are valid. Even so, consider, for example, your
+> point about the impact on LLC occupancy: When I look at a feature like PLZA
+> that supports a customer request [1] that only seems to consider memory bandwidth
+> it does not seem as though LLC occupancy is always of concern since PLZA
+> assigns a global CLOSID for _all_ kernel mode work, including cache allocation.
 
-Hummm, I'm not convinced. Whether old tools work would then depend on whether
-somebody wrote to sysfs since boot, which isn't visible anywhere: LTP's
-proc_sched_rt01 would fail again, just only sometimes?
+I feel I'm missing the significance of what you are saying here but I do agree that LLC occupancy
+may not be particularly important to some users.
 
-Earlier you actually offered:
+> >>
+>> I haven't understood the reason why groups that monitor cpus can't be
+>> moved. Is this impossible to implement even on an x86 system? Why can't
+>> the cpus move move between control groups in the way that tasks do?
+> 
+> resctrl has a contract that MON groups may only include CPUs that belong to
+> its parent CTRL_MON group. Simply moving the MON group with its CPU will thus
+> break that contract, unless its CPUs are moved with it to the new control group.
+> The implementation of the feature stopped short of making such a significant change
+> for which I do not think there was a use case at the time.
 
-> I could look into making the sysfs values appear in proc, too.
+As hypothetically support for moving MON groups that monitor CPUs could be added I think we also
+need to take this into account when designing for extensibility. The two current behaviours for MON
+group moving across control groups are, not allowed and allowed only if no CPUs are being monitored.
+Perhaps, info/moveable_mon_group could show "no" when when moving is not allowed and "tasks" or
+"tasks_only" if it is allowed. The "tasks"/"tasks_only" does seem but a bit awkward but I can't
+think of anything better at the moment. Using a word means that if we want to support destructive
+moves later on then we could later use "destructive" for that.
 
-This might be simpler. For !RT_GROUP_SCHED, procfs could become a view
-of the sysfs_dl_* state, with no second copy. sysctl_sched_rt_* would
-only be needed for RT_GROUP_SCHED (which is marked BROKEN anyway, and
-what we end up with depends on the HCBS discussion).
+Thanks,
+
+Ben
+
+> 
+> Reinette
+> 
+> [1] https://lore.kernel.org/lkml/3c3029e61d4602476b7836d82614ba4ec71b3a99.1769029977.git.babu.moger@amd.com/
 
