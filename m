@@ -1,101 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795535095;
-	b=j1CaVOnK05wdADW9OE9nl6kgLouOhUsTMjzcZE5cIjgjFSwMabSwRTbscPdEeImplAvJ
-	 +RIZDmyL37ukzpwNpHmKssPquZei0CRXc0VsPXjoxp3yBdpnBJQ4lRdJkONa3842NJQwu
-	 aNtNp/Fr5cacjahjg2YUWOKxwOEi1UwmuN4SiWDWnatYG0nVEJ/wA7qQuZyVymktV7sNt
-	 RKn5N7U6x37piUhMHnK94Nx5wAtzMy+VIWT31LJy+XYOj7T4XsnV+fd24zD1OTHpA7lxb
-	 xg5wHGp92au4FAk3bLAifpi8iNuBM1SQQaYBCL7iaO84c3QINwVYLMXcwEzHwgtC0oA==
+	t=1795536092;
+	b=h0o9bLOQjrpUFQbK76dVQMluwOyl3CGk3FFCxDyGBR10mjlKdeEDOFROmEKg3jCSvZ5A
+	 U43dbkqw35TAztXypUWToWXlSZ9SPkYL9jX4+RxjGfdSv++DFXBdf1jBIPDvpeX7U+uqc
+	 vQD/jH1T4muazMCZrduRCslelSaTJXAiRjRKIkLOK33+pPHS8ygB6O8vvJFHu/Wlkbd9e
+	 nYqzZjnh42FFmO2+q4Dizl64ZjcbmxH/rqz2SQ67ZnC64leQ3iw6fpDTB0MkXGFRn2+aX
+	 RJqFxFBziTK9ic/JIU+tNBT3VdZfZjIbJRfw0Yuf1Pxrzh/LKLbeIVs74HrCDgB5xKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795535095;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795536092;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=9mjyaWQC6SVnzKDMu2HOf5eLMdckGl8sK2GwpVxh/TY=;
-	b=1tIraFJx985CQyEK+P5i+hoptfWxVxikebeJOdQJDDeNhaCinjdgsrQ3nA6Rwfs08MWf
-	 d8CfXksskYphNGvDpcsialSssMaoGinMn8yCJwI1b7hd/wuVO0OMTcgPNHkr8Doxea+DN
-	 Hl4btm7Ofg6w0WzaG/NEj3lWVlUOGvebHiS4yULVJ0TvyeV/qCO8LmgGo9+jmkeu6Hnl7
-	 mE9ZIJw1eMw7AQ4rDFNo/uM1hqx+sM9hEr92pHTeG1BWKm7HBMlZXkjhgTZh1Ny9uQgLT
-	 agCN8mg2bDVhHDZCl7pndtl0fnFl1f+AdDNQGPRnXQllyqrpHBA9OoMy2P4cO58gN2w==
+	bh=q9AzOcx7lT/GAxuFckU0BqUnqN5Gf6MdjD8AIDI3n7g=;
+	b=T3IK1iMyPB8EDU/JudRbCf3coBRsSHT21cTkUK5GtOYmt60MiBX80Zkgcvk3zDWmyOY7
+	 vnZVSOgb+57Od6MalPzh1QWAAOy5UczzFtp7fohM/XwubZ5eZ9Fu3mrhUZH6gUrHg8+4N
+	 8/4hTZrKmeQ0sPzmB9x/Tog2XG2sAe3sa6S3TZB8cx5uC2Y5Uis6KqpzTsN3UXJPua+c5
+	 CCf/dygBEBEfSeOb65aw55quq/OPoODUNueOkiycFBLa0N6NzTYXe08qMFLxd2ODprOtk
+	 xZf77RKMVc6dSpxes74c4jK1s49L59RKiYYfCjS+4vC5mhm9trY4qXyQPQcRdHro43A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=erRhFTRI;
-	arc=none smtp.remote-ip=74.125.82.50
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VyKVdbNh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42029606A32C
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 15:44:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42029606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DAC606A31E;
+	Tue, 24 Nov 2026 16:01:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=erRhFTRI
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-1aefd1bf74aso2136800c88.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 07:44:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795535094; x=1796139894; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9mjyaWQC6SVnzKDMu2HOf5eLMdckGl8sK2GwpVxh/TY=;
-        b=erRhFTRIESVHa4MVmmAwtnkzTILgN2kxIwMcta4WCneblnsNHnLpA+4lHENubl+1EB
-         NeX7cdDVjZ0UsVlhceHkgtde8Smzh/lFTINcZNjicqTzQC0yerbIUe0jbdWnTJMDcUVP
-         jzroSfv4NFogn3XA4MAJLpoZtnKPtXO3IlboXK5Y1phBgw6owPga9y9eVetx1ifpAdxy
-         kCSN/aiIyJT54cx76N1KyoPEOD59pOsSyHR6hz0KiuUjUN3jnSZSyFtVa2ULnEPIl+Ah
-         Fq766EE64Um8UDL345C7mmI+RfopdE30K1Ish9N3Hckj3nOWVQuj1MKXh3Ela0DlkMeK
-         P9aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795535094; x=1796139894;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9mjyaWQC6SVnzKDMu2HOf5eLMdckGl8sK2GwpVxh/TY=;
-        b=PGRIJtRV7jaW4poG+ZKM3aLmqtJ3d9KbEb9BSB9t8Wyxa8T8nj8My9cjOS6N02e6Gb
-         YqRM6GdooWhGHE1385BSjySPvzNNjttif2nnU53JGTtkZNhgt6/M2+pfC6Zxc3aA7hJV
-         zK7PgIKRgkqekMVekyorS9zKTt2eeIEEKSf/4IwX+br2pF2oxPi/dHUT67/t4jxSjO3+
-         zYP2+x7V32XqVIsNN7qjvGd93tvWKsVgqLGTfHYkOb3q/MnptPJ0wQUgW4k109zQ7Dzi
-         Fyze8lGC2cwfftzMN2eTqLIv5KflWFSayg4j3H8SY/2uh7HVUIA0y8ulifyc4Wkn5hF6
-         xVVg==
-X-Forwarded-Encrypted: i=1; AL+hErHF1Av6/uTbCTvNVTohnsI68KGEmyoW7xJadGlszBnFzwfNtLNublqo7jgXkDb4Yc3A6OW7gyIe5YA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+s8EI7mxxAfgkrPjSRnwhy5gasLn6foi0wzkPp1OkUjNyU10VN
-	AZQMrojjZd4TOkdnf3rLnSy4zlXnKYH3p6DI3RzCefb29mvZ4Ef/Wxj0ktWrhA7c
-X-Gm-Gg: AZFdTZeTDPT/9z5P9bGKowFpYnQNUCAf1HAGrTEdRdA6P9ocIZAvNpLOW/B4vg9sxLu
-	1IJceXJ77mc7bBSj2nhueDh7JAfFC/ZkJ4c6CQbQdj3eky+FpCtpt/WRUHSpuCXY1YaaTVb6nAG
-	JZmfMX+9YEQQIDHQy1qQxBmWAmidFpMi/yfnn01OEP+ETJZga07PqcZwJGxbqK0sSd0RJDAb41n
-	jcQsd5k5/RXiu7LRv6ulnIS3EzdAcl4nRCbd3uPBYMliuU6o2zYK0vXbgZ7cvWIZON6i6pAUxSA
-	a5QVkHnwDZLitjkWOePFgclJvskV7NbMD2L8g8yIcxyfSxij3pI1ph/Sp0BEd3XTgKW4Xpng4pY
-	sSewN/OSCNJndVZArvXlwTtyLK1/lkin7039c5oSGahFInzP8JMi2kmB1GU+mUA63oUOb+Y8paz
-	+Z6oqWAP+12vhPCN2mx7N64tPMRsq4A7QA3fRL8Bgd7CwnbulEUCTOc+GS/Vveuo+h7RW9D4T+/
-	Gm/RAAbNUYa1LCWSsJAw3GzcrEBSsYNiLQdBEVWPEu92SYykJN68bsQueTDQZY+SPrQUeWupAaP
-	wH84Z4/SLP4YqRl2rpTp9HvCSmqMOoAG7dObP6meog==
-X-Received: by 2002:a05:701b:21cd:b0:1b3:be0d:696c with SMTP id a92af1059eb24-1b5567e661emr14794229c88.1.1795535094310;
-        Tue, 24 Nov 2026 07:44:54 -0800 (PST)
-Received: from a1-free ([161.33.196.121])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b556829d31sm58746964c88.9.2026.11.24.07.44.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 07:44:54 -0800 (PST)
-From: TAKANO Mitsuhiro <takano32@gmail.com>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Zenghui Yu <zenghui.yu@linux.dev>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VyKVdbNh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FEC31F000C6;
+	Tue, 24 Nov 2026 16:01:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795536091;
+	bh=q9AzOcx7lT/GAxuFckU0BqUnqN5Gf6MdjD8AIDI3n7g=;
+	h=From:To:Cc:Subject:Date;
+	b=VyKVdbNhhNwvY2U4T2D2HYlO9FeOrSAMOP7NjSY3IrbQntMzm6T+dbybYTGx7ypXk
+	 4dsrslN9SyjdilOwkCNyJ2RCjmzOLD3EInnSHJNZwPi4XfOpvLO6TGpDi2xJqhzFGX
+	 Ay7K9jIKM5abcBUIv4JRAxeQ3yfuJw+9X9tWsfQrlEYRywpCZ/wYokMOyp1y6pCrMt
+	 Dgwy1S8FQIXk/lCcr8ehMcK/e6ncqN6pA6JLTmBjcuT3Ue20/RoGLGqFNB365nvlBA
+	 vB0wv5xyLi0cEFXRO8Jqm7lANlFV8vzZPDlyutxmtC1xsjmFQbTaxEfTecgEvGfTbb
+	 kLD8UKERnHgwQ==
+From: SJ Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SJ Park <sj@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-arm-kernel@lists.infradead.org,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	damon@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	TAKANO Mitsuhiro <takano32@gmail.com>
-Subject: [PATCH v3 2/2] arm64: errata: Fix Falkor E1041 Kconfig name
-Date: Tue, 24 Nov 2026 15:44:46 +0000
-Message-ID: <20261124154446.1094507-3-takano32@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261124154446.1094507-1-takano32@gmail.com>
-References: <20261124154446.1094507-1-takano32@gmail.com>
+	linux-mm@kvack.org
+Subject: [PATCH mm-new 0/4] mm/damon: update documents for mm-next onboarding
+Date: Tue, 24 Nov 2026 08:01:18 -0800
+Message-ID: <20261124160124.93482-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,39 +64,39 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Falkor E1041 row in the arm64 silicon-errata table names
-QCOM_FALKOR_ERRATUM_1041, but the symbol is QCOM_FALKOR_ERRATUM_E1041,
-defined in arch/arm64/Kconfig and used in
-arch/arm64/include/asm/assembler.h.  The E-less spelling matched the
-E1003 and E1009 rows and looked consistent; QCOM_FALKOR_ERRATUM_E1041 is
-the only Falkor symbol that carries the E.
+Right after the 7.5-rc1 release, DAMON will onboard the mm-next
+transition [1].  The major change is that it will use mm/damon.git [2]
+and mm/linux.git [3] instead of sj/linux.git [4] and akpm/mm.git [5].
 
-Only the Kconfig column is wrong.
+Update MAINTAINERS file to capture the change, via patch 1.  Further
+update DAMON maintainer-profile document for the change, step by step,
+via patches 2-4.
 
-No functional change.  The change and this changelog were written with
-the help of an LLM assistant (Hermes Agent); I reviewed both and am
-responsible for them.
+[1] https://lore.kernel.org/bed81e01-7303-4957-bd7d-38e3a094e96f@kernel.org/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/mm/damon.git/
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/mm/linux.git/
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/
 
-Fixes: 932b50c7c1c6 ("arm64: Add software workaround for Falkor erratum 1041")
-Reviewed-by: Zenghui Yu (Huawei) <zenghui.yu@linux.dev>
-Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
----
- Documentation/arch/arm64/silicon-errata.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes from RFC
+- RFC: https://lore.kernel.org/20261121193331.108587-1-sj@kernel.org
+- Update patch 2 commit message for DAMON section name update.
+- Rebase to the latest mm-new.
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index 5dce49a57864..6e2d94a8d3c0 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -372,7 +372,7 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | Qualcomm Tech. | QDF2400 ITS     | E0065           | QCOM_QDF2400_ERRATUM_0065   |
- +----------------+-----------------+-----------------+-----------------------------+
--| Qualcomm Tech. | Falkor v{1,2}   | E1041           | QCOM_FALKOR_ERRATUM_1041    |
-+| Qualcomm Tech. | Falkor v{1,2}   | E1041           | QCOM_FALKOR_ERRATUM_E1041   |
- +----------------+-----------------+-----------------+-----------------------------+
- | Qualcomm Tech. | Kryo4xx Gold    | N/A             | ARM64_ERRATUM_1463225       |
- +----------------+-----------------+-----------------+-----------------------------+
+Huge thanks to Andrew for his tremendous mm.git works that raised DAMON
+up to the current state.
+
+SJ Park (4):
+  MAINTAINERS: change DAMON SCM tree to mm/damon.git
+  Docs/mm/damon/maintainer-profile: use damon.git for patch baselines
+  Docs/mm/damon/maintainer-profile: drop 'SCM Trees' section
+  Docs/mm/damon/maintainer-profile: update key cycle dates for damon.git
+
+ Documentation/mm/damon/maintainer-profile.rst | 57 ++++++++++---------
+ MAINTAINERS                                   | 36 ++++++------
+ 2 files changed, 46 insertions(+), 47 deletions(-)
+
+
+base-commit: 39902b38a4f121b7b3c847622585858cc8070c97
 -- 
-2.53.0
-
+2.47.3
