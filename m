@@ -1,159 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.153.120
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795559860;
-	b=Z672OizisNfFfkoRDfvzcasV6QrCP9MUV5qGoOR9F8Kom/oJ4XIhcLQ/ffusO4Ln93p+
-	 SZbVWk0u3hw0R54KCLibk5fLYfsiscxHJ/SVWmJ1AUGMQOsqBBDc4Si5p6UZTfT3tlFa6
-	 g0e+oUy2u3hy4j2VvP6xF/32tCmRv3So9hlu5VjPIK9uFZdNpkLlqANkrzjTJCvHscLWG
-	 /3JOv9LyW/da57YWMcWM1tquFzP3o4AE0SSlfjn2pQTJA01tcmLMuHz32p4OYn319u/YV
-	 Q4GyCxvwiKJ9vjA5JahkmXZHBLv7+CiIxbFHCvUzWNGQNcYIGVxmGNU33kbuLXqneHQ==
+	t=1795559945;
+	b=z0iIwjDfbPyaU20QLeP3Vz02ecvbGp7P+bnt4EH456XWmFzZEzXKhNBEOk3tINsK09V4
+	 i/y01QLMRhO09M3DLK3yOF09a6r+FhARjMVVlXGLKXz9Pifo6EgYduKyJAYDiDxx9hTOj
+	 JoxyPwQbnKy+GyqhByYaX2843HUpkkhTJP8EuXe9LMK5D+zI9EoDDKhtcWfLLYv4l0Upb
+	 1HO0dceA/IaUKPAq68YvRBcXIAij1HURtv4W/7jvhFPNCpW/bqzDFQld3LsDjW4O1BijR
+	 /nJcGvIW3+LBwT1AAtjhW9Qq/ziWhN1NbIFHS00OWy+cOkz3kTH8TDlfBdpc3k18piw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795559860;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:MIME-Version:
-	 X-Exchange-RoutingPolicyChecked:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Language:Content-Type:Content-Transfer-Encoding;
-	bh=/EmiOGva4Ztgbu5cer4Jn8C748Er38gfhrj6qAjYyJU=;
-	b=PeLCQoo4ewZx2JY5tohv4t+fYfLH2wyHTCB9tZ7J4yUwO2t/ow5bece9lqeXGcTCwTzW
-	 T+1wP3+jSksuHyzykUUnN+/IZ3cMy9bT5DqBK5dUPxx/K6gOj/wtrCKUgh9zogVE/lY6O
-	 lwZwMIrg9kKCT19QkL5wubL4YgvazOVaMgOwxM6a1MqflpmQoNjy/fZT4ADtBtE0SVZNv
-	 LreU6/ytK3oi8T0r/gzmxVpsQ0I24dh69gdym8HerDB9ieIjLHzGAYXxKqQ2/F913uOju
-	 yJIwvRXxyoykn1GRFX97YEdJ3dHt3PFLuXPj6cmyt07fccNNPyJ9S/9tpMdOBEbCtYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795559945;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=xxisPRU76epkJqBWYTOk/RRq8HtvboTSfe3gDitjQJo=;
+	b=3tTtS24zyu96p4cU6YQMdHRPRV5vRtVn5jGYnKJMT2rNN0cS+gAhwEe/jEhmLK/bL+T9
+	 Fn5IfV4a5fV++sy6LHajasNC9vjMUBJQV+k1gN8WQA+tNGdZK/mRoY568fTatU56Tgrks
+	 lbBfH1prudbT1U687LgLG47keFu6Rh3c3dlCuo3P1+0r9YAhlrR/qxrdiVj+M0HjeVquC
+	 QuvTZiPwk8nADUa4X+poKV2PDdW3QcixaZWTs3QCZsDhfTL1qKakiKo1F7G6E3wSqtOB6
+	 O7lo7yy2LfVIFM34iCP7B7gpnFfu7sdtHAug23RDJVLb0vWNnCAnlG14ynclrDbyXgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=onsemi.com;
-	spf=pass smtp.mailfrom=onsemi.com;
-	arc=none smtp.remote-ip=170.10.153.120
-Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cWp0QmNj;
+	arc=none smtp.remote-ip=209.85.221.48
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C76606A321
-	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 22:37:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75C76606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
-	s=mimecast20250127; t=1795559847;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/EmiOGva4Ztgbu5cer4Jn8C748Er38gfhrj6qAjYyJU=;
-	b=C6TXD9BrcvAQRsM9FdVxU2agw6KwRZUhV8dK3Z1NQbRhU5uU5Dg9fwR/6ExGqMA94ZOBQ9
-	O2O+D9xBLoEkYsSmMdf4FojcomUa+HFhgK8Y52ZfMqaHae7te8iYw/m/62mUlTaZzjbFZ5
-	idGDwxzeEwczUuIvcbyDDNmmAcdbRjLk00zSQyVZBfyW6irllD0wcQkbbGT1axHtXRK5Ar
-	hBUqh/wWd5SRWvntTG93Y55FwLqKpBA5th+PqzKrAe6KTsTgQz/5HkS3jNSshfNRzs0A9a
-	fV+VEx+6OIeDpdQiYAJdXMT0rdLgO3RhmOrucoGBN6u9SsVbeY4b/lT05H9FjA==
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010044.outbound.protection.outlook.com [52.101.46.44])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id usb-mta-2-yZ4uEhyeMy-CD6XPpBM4Lw-1; Tue,
- 24 Nov 2026 22:37:22 +0000
-X-MC-Unique: yZ4uEhyeMy-CD6XPpBM4Lw-1
-X-Mimecast-MFC-AGG-ID: yZ4uEhyeMy-CD6XPpBM4Lw_1795559834
-Received: from DM8PR02MB7864.namprd02.prod.outlook.com (2603:10b6:8:23::23) by
- CY8PR02MB9469.namprd02.prod.outlook.com (2603:10b6:930:70::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.639.13; Tue, 24 Nov 2026 22:37:13 +0000
-Received: from DM8PR02MB7864.namprd02.prod.outlook.com
- ([fe80::3cde:db1f:188:bc80]) by DM8PR02MB7864.namprd02.prod.outlook.com
- ([fe80::3cde:db1f:188:bc80%6]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 22:37:12 +0000
-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>, Andrew Lunn
-	<andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
-	<linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Parthiban Veerasooran
-	<parthiban.veerasooran@microchip.com>, Richard Cochran
-	<richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Eric
- Dumazet <edumazet@kernel.org>, Piergiorgio Beruto
-	<piergiorgio.beruto@gmail.com>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Jerry Ray
-	<jerry.ray@microchip.com>, Ciprian Regus <ciprian.regus@analog.com>
-Subject: RE: [PATCH net-next v12 09/15] net: ethernet: oa_tc6: Support for
- vendor specific MMS
-Thread-Topic: [PATCH net-next v12 09/15] net: ethernet: oa_tc6: Support for
- vendor specific MMS
-Thread-Index: AQHdfGCeyiQ0fQdR/k6JvaCoiPFolrc9zVlg
-Date: Tue, 24 Nov 2026 22:37:12 +0000
-Message-ID: <DM8PR02MB7864038451A3F313289F87C383442@DM8PR02MB7864.namprd02.prod.outlook.com>
-References: <20261124-s2500-mac-phy-support-v12-0-3575855d99f9@onsemi.com>
- <20261124-s2500-mac-phy-support-v12-9-3575855d99f9@onsemi.com>
-In-Reply-To: <20261124-s2500-mac-phy-support-v12-9-3575855d99f9@onsemi.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR02MB7864:EE_|CY8PR02MB9469:EE_
-x-ms-office365-filtering-correlation-id: f11566ea-ddbb-482c-8bfd-08df4a7b7bcc
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|366016|18002099003|6133799003|22082099003|921020|4143699003|56012099006|11063799006|10067099003|261102123227099003|261028144727099003|261026121527099003|261026140227099003|261022105027099003|261021121427099003|261022075727099003|38070700021
-x-microsoft-antispam-message-info: yY5G3AhR4TqKbYfIOJoFLiM7rQpGv5mx8DjiIP2+aIC++OkXlW06kKTJ7bDjE4ka6ZV+zf3I/UETaqcIiR+O4GLkTVus/E9oVvsfbKZ+xqelvXYt5zFQCaHeBa2bn8HwGY1RJUpaZP4FWivngaxS5wdMM/Af4K55zi9xbs9J4VlHFtuhQfoyLQjU7G7wBAvr2LuNv4o2x8gU9OKBkcvZj2FTJ0pXqv6rgHjDEld2ITkcmw5taqkiv0rRxcz+etnqTRgN1KOUzDMn4tAtKBLUKAtGx/k41iA4dNukOMM4rJe0BFUvYYssbKNZHLLREuvSosSoAa6lOePyokhkrnpVWRjXbKV8nGrsUM+x09X/LswmqYv33JHaYDcTi4nEJ81Pxc7L8jFiJUPqx33YxGVJ1+Tf6qKrLNhY4dR4tPxIB4RxPDFAFFHcXKEjD/gc4CQEDbkixwSl+zN+zxetkRbDF66zGh9SjTu6gY4Y4GYXohs9s/Fw9LHBCt/p1LMJRO4VlzwmHgy2QpSxpObY0jf2ysbS5ZpZaM6dYHOzelnKljv9yPlpPS578C5J9KXWWMl0dYoox4r1E6/XrLeM6YQKujMQbw20qk/qgIfPlq093cCqqCQzG7FSsexV5aLdSsLoBKCw101CTSByZc0PBjplZVKOhA8diUB3Ufz7fOQlNihMcZf/UcmHOf/6FNEyzxMgbh39JJgbABJBehVP15NvXnEZyySWNM12M9s/iRykery3lpgtduJAYImDeFxBdy4R
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR02MB7864.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(366016)(18002099003)(6133799003)(22082099003)(921020)(4143699003)(56012099006)(11063799006)(10067099003)(261102123227099003)(261028144727099003)(261026121527099003)(261026140227099003)(261022105027099003)(261021121427099003)(261022075727099003)(38070700021);DIR:OUT;SFP:1101
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RUJScXcxd2sydW9MMDlMdDY2cHpOWlBwU3hLN3IvUFp2OURUbDA1ZXdTRnpF?=
- =?utf-8?B?Q3FkY1VhMEQ5ajl0ZlNlVHZzelFLQVhMM1ViVENQTXhsRFI1a1VwU2xqK2Fq?=
- =?utf-8?B?OUR5M2VYVWFYRXBtdmNwZGF0UG9YSUVXSUpIamVzbEtnVVhuMmRlNUc4TGdn?=
- =?utf-8?B?T1dPVTNQcUNYZ0Q4eDZkT3Evdkw4UnFQWVBkb01LZHJNNnFNWmU0Y1l0Ykk1?=
- =?utf-8?B?Y3hWUEt4M2dFaFRxN00vcXlEdVZrdloremo2QzlQcXdSdjZJeUU3TWZIMFNs?=
- =?utf-8?B?bHd3MTF4THE0clc1eHZCMTdYajB3ampURW1RV0kyaG9GbThRdEg4UkpFc2VL?=
- =?utf-8?B?eTNXTW9MOHV4TXRuT29vVDduVmFlVWJmdVgycldQUW11NXQ2RkRqUGtJQmtV?=
- =?utf-8?B?dk5TZzZPWm5QeVhEQjJ0UjZuWThLTHFEVjZNVERQbDd2UVdCelVIeWE5cDNy?=
- =?utf-8?B?WjhQWTBQMFpFaFdicjdPS0VEbyt5NVFYd0kxeXdVbmgrUEpNb0xqVVlONTBj?=
- =?utf-8?B?b0VBeXJMZU05eWhQS2dZMXNzTThPd0Y3QVpSeTlZUG9PYmwySFhpQ1V0QzE5?=
- =?utf-8?B?dkZqOS94aFY2WXdwWndTSXBRY3VGUHlRVW9ud25tZ2Q4eE4wTytMbXpVVkVw?=
- =?utf-8?B?bXVERDIrMStkT0pNVE8zbmNNb0FhNU9ST25ISzVmaGhZc3hqZlphQW1pRnJC?=
- =?utf-8?B?cnVxMWVTVGtPREowcm5iNnNMUUtBK0V1bUt2aENjSlIwOC9CK2xpRlRFd1dR?=
- =?utf-8?B?TU03MFpJbFhXSExTQUc2bXlYRldNRkJBK2kwYVc4eHBSOVZSeDZ2ZGQxV2cy?=
- =?utf-8?B?Nm1rYXl4TXBYeEtWREdhRkkvRW9MS2pNTkpITXJtNm1tZ1F0Z1ArQzRKSjVR?=
- =?utf-8?B?Wll0aDVqWFZGbEhKOHl4alE5NndxQmREMnBFbmtXS2hqeGZZUVZGbDZaajJQ?=
- =?utf-8?B?TlhOU2lBYVdiMnBJYTJWU1hSSkFsS2hEZWM4L0x5RFcxbDQ1bmduUThNamJX?=
- =?utf-8?B?bXBrVWlWcmFvdVhTMW9ubFlrVHBIdGM2K2hvV2x5cHJIVFlOWGlxVDFpaHd4?=
- =?utf-8?B?cldBQmozUDN1dUVsTkpSZUhLLzhlU25TYnArcVk4Tyt3U0hQYnlTeSticm5n?=
- =?utf-8?B?UnYvbjlpd215YlFyaVhSSHBhZTBUV0Z6TjNjUGJkWCtBWTZXZURUYmhuTWRC?=
- =?utf-8?B?Vng3THFOTlQ1Y3FPNUFYUjNMSktnU0lqL1ZtckhjOEpCN21NbEhubzAxaktn?=
- =?utf-8?B?bUhMNlh6TWh2M3F6NDA2ZkwzM095WEJwRXNLYUVob3pVSW5lWVI5Qk5HMmcw?=
- =?utf-8?B?cldLalFpYk5tU3dZUUpnMzNhbyt0dDNhZmFCYmM0R09pTmZwclp2T2lLa1RU?=
- =?utf-8?B?MHFvYlAxNTNRSWhxTThTL3gxSWZEM3NKU0VwOWI2bi95K2tTelVoS3BsYmtC?=
- =?utf-8?B?Q2ttSHlOZlpLRkdaMGs2aWRXSUZDc05NRVNEZDNzVFpGaVEzWEUvSEtxUHg5?=
- =?utf-8?B?OTFjM0YrcG5yTUU1SDNkMUJ3NmdXRjhmQ3dVUXM2QnE1SlRMTjQvQTdMWHdl?=
- =?utf-8?B?Y2pKSC9ETHNVSFI0QW9JK1hac3lZZU04R1FrUzdrQWdHUWRFY0dyYitTL2p6?=
- =?utf-8?B?dFh3NGlzTWVCSWpHVDJGOXYyNGNlUUE2TkxuWG82cGJBRmVJa3JiV2dZeTBR?=
- =?utf-8?B?UlFJVXZYNEpmUHA5aVdYTGUrK0ZWZ2UrT3dWbElIQ0F1R3gybFQxQ0wrS05E?=
- =?utf-8?B?dHFhWUFtSXZSemcydzlSNUI1SS8xTDF0L1JhRGFKb2hZdzJPVlVvTnlmeEVh?=
- =?utf-8?B?M2NubFlNRkdpQzlUWTVaRXJjTW5hOE9PSXVvdktxeFR1QVZ0R3FTNHdMT1dZ?=
- =?utf-8?B?RU9DdFZPK1NIVnRWOHIzMzE2TWR1UDVobjNUZy9OTGpsZU5xU3pHUktUQXVt?=
- =?utf-8?B?RjM4N29UVzg2b1R6bllKVFJYcStna20xZXBDTm9sNnhmd015dDREbEFLSGxL?=
- =?utf-8?B?V2tIZ3dBTTNxYkdFV1hYa1plUzA5S0UxQndNakp3WmdXTFloSncyVUprUUdq?=
- =?utf-8?B?N1FYdUlORmFSQ1Rvbzk1UXhlbzltZUpMbk5XRHFWOEhsWnVDNUFrRnFGcW1x?=
- =?utf-8?B?M3NMWW1hSjhnVkVGTmdWZDZMbXIvZkY1cmVjU1hZVVNVcEpudjFBWW9kN294?=
- =?utf-8?B?cUFjbXRwOGsxSUJzME1CMXptSFhwQTlNZzZCNzBTOUVvdVNaVktROGF3UVZn?=
- =?utf-8?B?UkFNUlFDMVRlSWRQczg0TDE0RWZ1TWlzTHNOMzdYMjhCUG9mbzBKcHE4NTZ2?=
- =?utf-8?B?anZ1cUpSeVF4U3FEb3h3MjFPYzNzYm1nWmVwdEtiWi9sNDRYSG5QMEZwb2Jl?=
- =?utf-8?Q?5q/Ic92QPMGCX3+8=3D?=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA46606A321
+	for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 22:39:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FA46606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cWp0QmNj
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4aa5833c263so4891308f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 14:39:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795559943; x=1796164743; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xxisPRU76epkJqBWYTOk/RRq8HtvboTSfe3gDitjQJo=;
+        b=cWp0QmNj2rBF3IXsUKTErrbQ8LQ9OuXoSez2HmnDH+AGW5hpVwLcrqJ1jC3LiGssEc
+         3o4tjScCQKQob6pJq3aosAmTcjRGexdzn/8T8nuwRdiDn+dFpAfPzHGknAo/eyzpc/AW
+         QyqDLYaCLoY47aIvoU1MSFRSsgZxcAzkvx6sOpcHix/mglY6sAiHEGCTdt7cGsEsXVnf
+         tLHRNjndmKoSylxdtlMD/pBE2hnItP5cAliMfT2pBfwJK8jHG7qaY695coK3b/jp8DSv
+         JI3M+DN0snBlh8k2UVzpRag+ogDzaHzmti0RT4QilGwvXn+TvYj6DyXUcw5aa9tTjAL4
+         JaOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795559943; x=1796164743;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xxisPRU76epkJqBWYTOk/RRq8HtvboTSfe3gDitjQJo=;
+        b=gdzZMj1ooOXyEQwzO3a3sAIhcBgDD20aWTXKZ1wSaMgTdqQYEmnzIp++yPq0QH+fuV
+         HKDu0+i17Mo2JV6SSNYAuBOVadpbYWt2y9Puf3uHz9Y+4Z+78/979Wl5j0LahJwGbNpi
+         DX/8g1KHI1wbYyIeCx9M0O/7n+gSY8nUKzvvxQlmli2LCjMEfV9ZxkEk54JBmal2VU0c
+         cGWaOibNyBMZqzE+R2csjFmpTogdXoxAqnIf+ZJ1SyMObFCfBph4blROBFl6vrmJsaC+
+         ZsVZEYXHFTeX99H9U9wM7FviE54NqzHg3hXg7NKmS4cNfQTCckhGhuqB5aMevOY54WLN
+         WTFA==
+X-Forwarded-Encrypted: i=1; AL+hErGPKqPNrmJ9Bm1qGYvYVBD2IuVu2MhUYwvERoqJi9RwNWNQbZU0/1lKXbdRH1wJ25on460+Io9s25E=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9aE+wBWi+40rTujThzRtEj4St25NOfHwC36HCirvkcuJD7rcxH
+	ZxrWyFUxfc5+tsvQjRi9spxaMKtepvj94C5nGoGL9WElR56+khisXWoozyftCq4H
+X-Gm-Gg: AZFdTZdclzLTuk0dlPJcKAjO7dXQWz+56ISPc3k1Q+vJucqWibteIl0gDCCZraGANbt
+	ueRXxbIrAFbqQIqHEsya0ACqhctPDAsnELjFjIuy91U5GwsmNpV0j1Y8Ti2Xi9XzIE1bgLQnQtb
+	DFQE8saRyhxJ/KhI1Z6qSMap/j3al9Bxlxp7PqmNREzeeAfauVaof6OXXyQZz3rxk5oAEk3/7mX
+	7KH2viLirOglQdZysXpHS9+7NbXDLdMvfprw+nJ3qAyXEWqy6zUfq6vze9UaIZ/92NZHixIJyyV
+	S/DdLZyTrvmHQZNknBVDn8LV5AJMLwwDgFzlYxD0HrEACsf0IVJKT+SHWIB4JuoTI08+aL3ah5D
+	R5UX5XTkr2CvJbRz8TF+JsflU60nVSHSSk4+ThxXKqto1DRlfQB0tTmAc4AwsWF/RiDQFulzFZF
+	dr+mEVwb3wEGag8cUtAx7/vPN9e616YXVdCJg+AMw2+rAOSSus0RKHj9oqnuc4Uhw79kN28OLLL
+	ZxvBhFthu7wW82UmftmwbinYBUY0VfA9h8O6huu8yxb7ZwMjZ8G0QOJt8h1hBnOtQrDQuU4ZkrQ
+	LSOoPJGSmBidZ2Qvwor3paV01QhDELxgOGFmpcApujlq1VfIo9p+R27zNK3aFq+TKDxkmlXJ8Kh
+	tAZkceb/aTA==
+X-Received: by 2002:a05:600c:64c9:b0:4bb:8701:bb14 with SMTP id 5b1f17b1804b1-4bb88804d1cmr356715265e9.5.1795559943054;
+        Tue, 24 Nov 2026 14:39:03 -0800 (PST)
+Received: from mohamedali-HP-EliteBook-840-G8-Notebook-PC.. ([197.21.41.197])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab5ffcad11sm29362193f8f.0.2026.11.24.14.39.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 14:39:02 -0800 (PST)
+From: mohamedalibouhaouala@gmail.com
+To: jack@suse.cz
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	mohamedalibouhaouala@gmail.com,
+	rdunlap@infradead.org,
+	skhan@linuxfoundation.org,
+	willy@infradead.org
+Subject: [PATCH v2] docs: filesystems: update filesystem type, superblock and inode documentation
+Date: Tue, 24 Nov 2026 23:38:41 +0100
+Message-ID: <20261124223841.45091-1-mohamedalibouhaouala@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <47rkrhjkulqvgfkp3ssvgrrmsfmeof6adtjrght2fcmq6ykbn3@dis6c75io7ri>
+References: <47rkrhjkulqvgfkp3ssvgrrmsfmeof6adtjrght2fcmq6ykbn3@dis6c75io7ri>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -163,52 +104,372 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: eyiciElWH7bNV8eEwlM1dT0yEwEkdZ8y7iQSNfp717nU1M3uOi1w7+tF+IPKoCpKJCe9L1jgtdVqC3yr1CxjLFSlw0SCyu3s3MPMtpU8gsp5ckOCxgFZD7ImnBDy3I2w14RqvqGlflHcY+ncehu7xxE1gp8d4VePN7Yq5hDGUXWcJRNxtr57ZXcOxehcc/Z0kAahFVEocuyFa9mczWV1wVk2Loa0Uqpih3LMF3oAnFzkaoQp70vSg0S2jfMFC7QOJ1MAupwI3NyLux01ZigqxxNnb6hJCc0ZvwL/zk9lKyilbHqia+KnqnYEG9zM3r8mut5PTzx8RpBjEEU37NUlng==
-X-OriginatorOrg: onsemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR02MB7864.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f11566ea-ddbb-482c-8bfd-08df4a7b7bcc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2026 22:37:12.8115
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nSH4PM3FNCbDJUsW+R0bAQPQD07l99rgTtCtpO0at3W8UoIcUgeH+/G1i35lWQsGt0I4L/eXPO1XeKDKHopLN6F74DvtUSA++uhN4FWD6MQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR02MB9469
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Udkl1za40oVaNDpNoIBFqJXw3-UVftUBZC8N_oo76FA_1795559834
-X-Mimecast-Originator: onsemi.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-QW5kcmV3LA0KDQpJIGhhdmUgcmVtb3ZlZCB0aGUgIlJldmlld2VkLWJ5IiB0YWcgZm9yIHRoaXMg
-cGF0Y2guIEJlY2F1c2UgdGhlIGltcGxlbWVudGF0aW9uIGhhcyANCmNoYW5nZWQgc2luY2UgeW91
-IGxhc3QgcmV2aWV3ZWQuIEFzIHdlIGhhdmUgcXVpcmtzIHN0cnVjdHVyZSBub3csIGl0IGlzIGVh
-c2llciB0byBwYXNzIA0KdmVuZG9yIHNwZWNpZmljIE1NUyB0byBvYV90YzZfaW5pdC4NCg0KQXMg
-eW91IG1heSBiZSBhd2FyZSwgdXNlIG9mIG9hX3RjNl9zZXRfdmVuZDFfbW1zIHdvdWxkIHdvcmsg
-b25seSBhZnRlciBvYV90YzZfaW5pdA0KaGFzIHJldHVybmVkLiBUaGF0IG1lYW5zIG9hX3RjNl9n
-ZXRfcGh5X2M0NV9tbXMgZnVuY3Rpb24gd291bGQgZmFpbCBkdXJpbmcNCm1kaW8gcmVnaXN0cmF0
-aW9uIHdoaWNoIGlzIGRvbmUgaW5zaWRlIG9hX3RjNl9pbml0Lg0KDQpTaW5jZXJlbHkNClNlbHZh
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU2VsdmFtYW5pIFJhamFn
-b3BhbCB2aWEgQjQgUmVsYXkNCj4gPGRldm51bGwrU2VsdmFtYW5pLlJhamFnb3BhbC5vbnNlbWku
-Y29tQGtlcm5lbC5vcmc+DQo+IFNlbnQ6IFR1ZXNkYXksIE5vdmVtYmVyIDI0LCAyMDI2IDI6MTAg
-UE0NCj4gVG86IEFuZHJldyBMdW5uIDxhbmRyZXdAbHVubi5jaD47IEhlaW5lciBLYWxsd2VpdCA8
-aGthbGx3ZWl0MUBnbWFpbC5jb20+OyBSdXNzZWxsDQo+IFN1YmplY3Q6IFtQQVRDSCBuZXQtbmV4
-dCB2MTIgMDkvMTVdIG5ldDogZXRoZXJuZXQ6IG9hX3RjNjogU3VwcG9ydCBmb3IgdmVuZG9yIHNw
-ZWNpZmljDQo+IE1NUw0KPiANCj4gDQo+IGNoYW5nZXMgaW4gdjEyDQo+IC0gRHJvcHBlZCBSZXZp
-ZXdlZC1ieSBmcm9tIEFuZHJldyBMdW5uIGFzIHRoZSBjb2RlIGhhcyBjaGFuZ2VkLg0KPiAtIE1N
-RCBWRU5EMSBtYXBwaW5nIGlzIG5vdyBwYXJ0IG9mIHRoZSBxdWlya3MsIG5vdCBhbiBBUEkuDQoN
-Cg0KPiANCj4gaWYgKHF1aXJrcykNCj4gLSB0YzYtPnF1aXJrX2ZsYWdzID0gcXVpcmtzLT5xdWly
-a19mbGFnczsNCj4gKyB0YzYtPnF1aXJrcyA9ICpxdWlya3M7DQo+ICsNCj4gKyBpZiAoIXRjNi0+
-cXVpcmtzLnZlbmQxX21tcykNCj4gKyB0YzYtPnF1aXJrcy52ZW5kMV9tbXMgPSAtRU9QTk9UU1VQ
-UDsNCj4gKyBlbHNlIGlmICh0YzYtPnF1aXJrcy52ZW5kMV9tbXMgPCBPQV9UQzZfVkVORE9SX01N
-U19NSU4gfHwNCj4gKyB0YzYtPnF1aXJrcy52ZW5kMV9tbXMgPiBPQV9UQzZfVkVORE9SX01NU19N
-QVgpDQo+ICsgcmV0dXJuIEVSUl9QVFIoZGV2X2Vycl9wcm9iZSgmc3BpLT5kZXYsIC1FSU5WQUws
-DQo+ICsgIkludmFsaWQgVkVORDEgTU1TOiAlZFxuIiwNCj4gKyB0YzYtPnF1aXJrcy52ZW5kMV9t
-bXMpKTsNCj4gDQo+IC8qIFNldCB0aGUgU1BJIGNvbnRyb2xsZXIgdG8gcHVtcCBhdCByZWFsdGlt
-ZSBwcmlvcml0eSAqLw0KPiB0YzYtPnNwaS0+cnQgPSB0cnVlOw0KDQoNCg0KDQo+IA0KPiBzdHJ1
-Y3Qgb2FfdGM2X3F1aXJrcyB7DQo+IGVudW0gb2FfdGM2X3F1aXJrX2ZsYWcgcXVpcmtfZmxhZ3M7
-DQo+ICsgaW50IHZlbmQxX21tczsNCj4gfTsNCj4gDQo+IHN0cnVjdCBvYV90YzYgKm9hX3RjNl9p
-bml0KHN0cnVjdCBzcGlfZGV2aWNlICpzcGksIHN0cnVjdCBuZXRfZGV2aWNlICpuZXRkZXYsDQo+
-IA0KPiAtLQ0KPiAyLjQzLjANCg0K
+From: Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
+
+Update the VFS documentation to reflect changes in
+file_system_type, super_operations, inode_operations structs.
+
+Refresh the documented structure members and callback signatures
+for super_operations and inode_operations, including missing
+members from documented structs  such as sync_inode_metadata(),
+remove_bdev(), shutdown(), report_error(), and fiemap().
+
+Clarify inode allocation and destruction semantics, RCU requirements,
+inode eviction behavior, filesystem freezing, and block device
+removal handling.
+
+Also fix outdated terminology, callback descriptions, and
+documentation references.
+
+Signed-off-by: Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
+---
+ Documentation/filesystems/vfs.rst | 178 +++++++++++++++++++++---------
+ 1 file changed, 128 insertions(+), 50 deletions(-)
+
+diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+index 1824462a4371..da4aefb1cc90 100644
+--- a/Documentation/filesystems/vfs.rst
++++ b/Documentation/filesystems/vfs.rst
+@@ -129,6 +129,8 @@ members are defined:
+ 		struct lock_class_key i_mutex_key;
+ 		struct lock_class_key invalidate_lock_key;
+ 		struct lock_class_key i_mutex_dir_key;
++
++		struct lock_class_key d_lookup_key;
+ 	};
+ 
+ ``name``
+@@ -156,14 +158,14 @@ members are defined:
+ 	for internal VFS use: you should initialize this to THIS_MODULE
+ 	in most cases.
+ 
+-``next``
++``list``
+ 	for internal VFS use: you should initialize this to NULL
+ 
+ ``fs_supers``
+ 	for internal VFS use: hlist of filesystem instances (superblocks)
+ 
+   s_lock_key, s_umount_key, s_vfs_rename_key, s_writers_key,
+-  i_lock_key, i_mutex_key, invalidate_lock_key, i_mutex_dir_key: lockdep-specific
++  i_lock_key, i_mutex_key, invalidate_lock_key, i_mutex_dir_key, d_lookup_key: lockdep-specific
+ 
+ The Superblock Object
+ =====================
+@@ -186,15 +188,16 @@ filesystem.  The following members are defined:
+ 
+ 		void (*dirty_inode) (struct inode *, int flags);
+ 		int (*write_inode) (struct inode *, struct writeback_control *wbc);
++		int (*sync_inode_metadata)(struct inode *inode, struct writeback_control *wbc);
+ 		int (*drop_inode) (struct inode *);
+ 		void (*evict_inode) (struct inode *);
+ 		void (*put_super) (struct super_block *);
+ 		int (*sync_fs)(struct super_block *sb, int wait);
+-		int (*freeze_super) (struct super_block *sb,
+-					enum freeze_holder who);
++		int (*freeze_super)(struct super_block *sb, enum freeze_holder who,
++			    const void *owner);
+ 		int (*freeze_fs) (struct super_block *);
+-		int (*thaw_super) (struct super_block *sb,
+-					enum freeze_wholder who);
++		int (*thaw_super)(struct super_block *sb, enum freeze_holder who,
++			const void *owner);
+ 		int (*unfreeze_fs) (struct super_block *);
+ 		int (*statfs) (struct dentry *, struct kstatfs *);
+ 		void (*umount_begin) (struct super_block *);
+@@ -206,12 +209,15 @@ filesystem.  The following members are defined:
+ 
+ 		ssize_t (*quota_read)(struct super_block *, int, char *, size_t, loff_t);
+ 		ssize_t (*quota_write)(struct super_block *, int, const char *, size_t, loff_t);
+-		struct dquot **(*get_dquots)(struct inode *);
++		struct dquot __rcu **(*get_dquots)(struct inode *);
+ 
+ 		long (*nr_cached_objects)(struct super_block *,
+ 					struct shrink_control *);
+ 		long (*free_cached_objects)(struct super_block *,
+ 					struct shrink_control *);
++		int (*remove_bdev)(struct super_block *, struct block_device *);
++		void (*shutdown)(struct super_block *);
++		void (*report_error)(const struct fserror_event *);
+ 	};
+ 
+ All methods are called without any locks being held, unless otherwise
+@@ -219,23 +225,46 @@ noted.  This means that most methods can block safely.  All methods are
+ only called from a process context (i.e. not from an interrupt handler
+ or bottom half).
+ 
++Exceptions:
++
++* ``->free_inode`` is called from an RCU callback and must not block.
++* ``->drop_inode`` is called with ``inode->i_lock`` held and must not block.
++
+ ``alloc_inode``
+ 	this method is called by alloc_inode() to allocate memory for
+ 	struct inode and initialize it.  If this function is not
+ 	defined, a simple 'struct inode' is allocated.  Normally
+ 	alloc_inode will be used to allocate a larger structure which
+ 	contains a 'struct inode' embedded within it.
++	A filesystem that defines ->alloc_inode must also define
++	->free_inode or ->destroy_inode (see below), because the VFS
++	default would free the inode into its own cache.
+ 
+ ``destroy_inode``
+-	this method is called by destroy_inode() to release resources
+-	allocated for struct inode.  It is only required if
+-	->alloc_inode was defined and simply undoes anything done by
+-	->alloc_inode.
++   This method is called by :c:func:`destroy_inode` to release resources
++   allocated for ``struct inode``. It is called synchronously, before
++   the inode memory is freed.
++
++   The VFS handles inode memory as follows:
++
++   * If ``->free_inode`` is defined, the VFS frees the inode through an
++     RCU callback that invokes ``->free_inode``. In this case,
++     ``->destroy_inode``, if defined, must release only other resources
++     and must not free the inode itself.
++
++   * If ``->destroy_inode`` is defined without ``->free_inode``, it is
++     responsible for freeing the inode memory, including deferring
++     reclamation until it is safe to do so.
++
++   * If neither is defined, the VFS frees the inode to its own cache.
++     This is only correct when ``->alloc_inode`` is also not defined.
+ 
+ ``free_inode``
+-	this method is called from RCU callback. If you use call_rcu()
+-	in ->destroy_inode to free 'struct inode' memory, then it's
+-	better to release memory in this method.
++	this method is called from RCU callback, after
++	``->destroy_inode`` (if any), and must free the memory of the inode.
++	It must not block.  Prefer it over calling  :c:func:`call_rcu` from
++	``->destroy_inode``: if ``->free_inode`` is defined, the VFS does the
++	:c:func:`call_rcu` for you.
+ 
+ ``dirty_inode``
+ 	this method is called by the VFS when an inode is marked dirty.
+@@ -251,18 +280,30 @@ or bottom half).
+ 	disc.  The second parameter indicates whether the write should
+ 	be synchronous or not, not all filesystems check this flag.
+ 
++``sync_inode_metadata``
++	called by the writeback code to synchronize inode metadata
++	that was previously written asynchronously.
++	The writeback_control argument describes the writeback mode.
++
++	Optional.
++
+ ``drop_inode``
+ 	called when the last access to the inode is dropped, with the
+-	inode->i_lock spinlock held.
++	``inode->i_lock`` spinlock held; it must not block.
+ 
+ 	This method should be either NULL (normal UNIX filesystem
+-	semantics) or "inode_just_drop" (for filesystems that do
+-	not want to cache inodes - causing "delete_inode" to always be
+-	called regardless of the value of i_nlink)
++	semantics) or ``inode_just_drop`` (for filesystems that do
++	not want to cache inodes).
++
++	A non-zero return value makes the VFS evict the inode immediately,
++	regardless of the value of i_nlink:
++	``->evict_inode`` is called if the filesystem provides it,
++	otherwise the VFS truncates the page cache and clears the inode
++	itself.
+ 
+-	The "inode_just_drop()" behavior is equivalent to the old
+-	practice of using "force_delete" in the put_inode() case, but
+-	does not have the races that the "force_delete()" approach had.
++	The :c:func:`inode_just_drop` behavior is equivalent to the old
++	practice of using :c:func:`force_delete` in the :c:func:`put_inode` case, but
++	does not have the races that the :c:func:`force_delete` approach had.
+ 
+ ``evict_inode``
+ 	called when the VFS wants to evict an inode. Caller does
+@@ -281,11 +322,13 @@ or bottom half).
+ 	should wait until the write out has been completed.  Optional.
+ 
+ ``freeze_super``
+-	Called instead of ->freeze_fs callback if provided.
+-	Main difference is that ->freeze_super is called without taking
+-	down_write(&sb->s_umount). If filesystem implements it and wants
+-	->freeze_fs to be called too, then it has to call ->freeze_fs
+-	explicitly from this callback. Optional.
++	Called instead of ``->freeze_fs`` callback if provided.
++	Main difference is that ``->freeze_super`` is called without taking
++	down_write(``&sb->s_umount``).  The second parameter identifies the
++	freeze holder, and the third identifies the owner of the freeze.
++	If filesystem implements it and wants ``->freeze_fs`` to be called too,
++	then it has to call ``->freeze_fs`` explicitly from this callback.
++	Optional.
+ 
+ ``freeze_fs``
+ 	called when VFS is locking a filesystem and forcing it into a
+@@ -332,6 +375,7 @@ or bottom half).
+ 
+ ``get_dquots``
+ 	called by quota to get 'struct dquot' array for a particular inode.
++	Managed under RCU rules. More info in Documentation/RCU/whatisRCU.rst.
+ 	Optional.
+ 
+ ``nr_cached_objects``
+@@ -339,16 +383,17 @@ or bottom half).
+ 	return the number of freeable cached objects it contains.
+ 	Optional.
+ 
+-``free_cache_objects``
++``free_cached_objects``
+ 	called by the sb cache shrinking function for the filesystem to
+ 	scan the number of objects indicated to try to free them.
+ 	Optional, but any filesystem implementing this method needs to
+-	also implement ->nr_cached_objects for it to be called
++	also implement ``->nr_cached_objects`` for it to be called
+ 	correctly.
+ 
+-	We can't do anything with any errors that the filesystem might
+-	encountered, hence the void return type.  This will never be
+-	called if the VM is trying to reclaim under GFP_NOFS conditions,
++	The VFS cannot do anything with errors the filesystem might
++	encounter, so no error code is returned: the return value is the
++	number of objects freed.  This will never be called if the VM
++	is trying to reclaim under GFP_NOFS conditions,
+ 	hence this method does not need to handle that situation itself.
+ 
+ 	Implementations must include conditional reschedule calls inside
+@@ -357,8 +402,32 @@ or bottom half).
+ 	about whether implementations will cause holdoff problems due to
+ 	large scan batch sizes.
+ 
+-Whoever sets up the inode is responsible for filling in the "i_op"
+-field.  This is a pointer to a "struct inode_operations" which describes
++``remove_bdev``
++	Called when a block device backing the filesystem is being
++	removed. Filesystems that support graceful removal of a
++	device and can continue read-write operations should
++	implement this callback.
++
++	Return 0 if the filesystem can continue read-write
++	operations. A non-zero return value, or the absence of
++	this callback, causes the filesystem to be shut down as usual.
++
++	Optional.
++
++``shutdown``
++	Called when the filesystem needs to be shut down following
++	block device removal.
++
++	Optional.
++
++``report_error``
++	Called to report a filesystem error. The callback receives
++	a pointer to an error event describing the error.
++
++	Optional.
++
++Whoever sets up the inode is responsible for filling in the ``i_op``
++field.  This is a pointer to a ``struct inode_operations`` which describes
+ the methods that can be performed on individual inodes.
+ 
+ 
+@@ -410,7 +479,7 @@ struct inode_operations
+ -----------------------
+ 
+ This describes how the VFS can manipulate an inode in your filesystem.
+-As of kernel 2.6.22, the following members are defined:
++The following members are defined:
+ 
+ .. code-block:: c
+ 
+@@ -433,8 +502,9 @@ As of kernel 2.6.22, the following members are defined:
+ 		int (*setattr) (const struct mnt_idmap *, struct dentry *, struct iattr *);
+ 		int (*getattr) (const struct mnt_idmap *, const struct path *, struct kstat *, u32, unsigned int);
+ 		ssize_t (*listxattr) (struct dentry *, char *, size_t);
+-		void (*update_time)(struct inode *inode, enum fs_update_time type,
+-				    int flags);
++		int (*fiemap)(struct inode *, struct fiemap_extent_info *, u64 start, u64 len);
++		int (*update_time)(struct inode *inode, enum fs_update_time type,
++			unsigned int flags);
+ 		void (*sync_lazytime)(struct inode *inode);
+ 		int (*atomic_open)(struct inode *, struct dentry *, struct file *,
+ 				   unsigned open_flag, umode_t create_mode);
+@@ -460,16 +530,18 @@ otherwise noted.
+ ``lookup``
+ 	called when the VFS needs to look up an inode in a parent
+ 	directory.  The name to look for is found in the dentry.  This
+-	method must call d_add() to insert the found inode into the
+-	dentry.  The "i_count" field in the inode structure should be
++	method returns ``d_splice_alias(inode, dentry)``;
++	(or :c:func:`d_add` plus return NULL for non-directories,
++	and for negative dentries).
++	The ``i_count`` field in the inode structure should be
+ 	incremented.  If the named inode does not exist a NULL inode
+ 	should be inserted into the dentry (this is called a negative
+ 	dentry).  Returning an error code from this routine must only be
+ 	done on a real error, otherwise creating inodes with system
+-	calls like create(2), mknod(2), mkdir(2) and so on will fail.
++	calls like ``create(2)``, ``mknod(2)``, ``mkdir(2)`` and so on will fail.
+ 	If you wish to overload the dentry methods then you should
+-	initialise the "d_dop" field in the dentry; this is a pointer to
+-	a struct "dentry_operations".  This method is called with the
++	initialise the ``d_dop`` field in the dentry; this is a pointer to
++	a struct ``dentry_operations``.  This method is called with the
+ 	directory inode semaphore held
+ 
+ ``link``
+@@ -487,28 +559,29 @@ otherwise noted.
+ 	d_instantiate() just as you would in the create() method
+ 
+ ``mkdir``
+-	called by the mkdir(2) system call.  Only required if you want
++	called by the ``mkdir(2)`` system call.  Only required if you want
+ 	to support creating subdirectories.  You will probably need to
+-	call d_instantiate_new() just as you would in the create() method.
++	call :c:func:`d_instantiate` just as you would in the :c:func:`create` method
++	but preferably :c:func:`d_instantiate_new`.
+ 
+-	If d_instantiate_new() is not used and if the fh_to_dentry()
++	If :c:func:`d_instantiate_new` is not used and if the :c:func:`fh_to_dentry`
+ 	export operation is provided, or if the storage might be
+ 	accessible by another path (e.g. with a network filesystem)
+-	then more care may be needed.  Importantly d_instantate()
+-	should not be used with an inode that is no longer I_NEW if there
++	then more care may be needed.  Importantly :c:func:`d_instantiate`
++	should not be used with an inode that is no longer ``I_NEW`` if there
+ 	any chance that the inode could already be attached to a dentry.
+ 	This is because of a hard rule in the VFS that a directory must
+ 	only ever have one dentry.
+ 
+ 	For example, if an NFS filesystem is mounted twice the new directory
+ 	could be visible on the other mount before it is on the original
+-	mount, and a pair of name_to_handle_at(), open_by_handle_at()
+-	calls could instantiate the directory inode with an IS_ROOT()
++	mount, and a pair of :c:func:`name_to_handle_at`, :c:func:`open_by_handle_at`
++	calls could instantiate the directory inode with an :c:func:`IS_ROOT`
+ 	dentry before the first mkdir returns.
+ 
+ 	If there is any chance this could happen, then the new inode
+-	should be attached with d_splice_alias().  The returned
+-	dentry (if any) should be returned by ->mkdir().
++	should be attached with :c:func:`d_splice_alias`.  The returned
++	dentry (if any) should be returned by ``->mkdir()``.
+ 
+ ``rmdir``
+ 	called by the rmdir(2) system call.  Only required if you want
+@@ -587,6 +660,11 @@ otherwise noted.
+ 	called by the VFS to list all extended attributes for a given
+ 	file.  This method is called by the listxattr(2) system call.
+ 
++``fiemap``
++	called by the VFS to report the extent layout of a file
++	via the FIEMAP ioctl.
++	More info in Documentation/filesystems/fiemap.rst.
++
+ ``update_time``
+ 	called by the VFS to update a specific time or the i_version of
+ 	an inode.  If this is not defined the VFS will update the inode
+-- 
+2.43.0
+
