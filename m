@@ -1,67 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795611464;
-	b=POc3H3w+fi/kSkMpOULmhuqWNdWA/gBlEDCBHnt1Q/8YYON8ePkoVI4NPejnCmN/2QD9
-	 c/rvJJnIeYsv0T2Y50Z9ktuYmlkIutOqBvq9tgF1REYDM4zj0BpbsXZS6XRL1AEW1ikQ0
-	 IMmmV+2C5E+l8kLSkk3RIYjOYQEDl1YHvVV499oqk5W2d78cGxrURUuErq5U76fwUk4nf
-	 FRO1fr28NMpHVMk30Jkiro6ueJ67HokXSLzmL+KPEFWXa9ZZtAN1WPq54RWjH7M7XXTmp
-	 nQdmrbE9j5yhGc6Nw7vWVtppVt0YG1faUU859Vc3i51TzS14hQRdlxZGmscn6f0CNcA==
+	t=1795612345;
+	b=G0Rp/iGIumL78EfOoCW4zp+ptnhGu5/4TffYLuF+kB0pxWci5jnTME0Ok3mjuJJf0JCq
+	 I+vh88/ebDV2S4Me1t5W/BLCvlCSfI2YUNJyvQPrVmr7EHpfSM+U1AcMyp2+/GNKAluMI
+	 F3vd7Uz420b32OCqVMeDTazHT4cYZJj6sAPpfpM4P0vxX3CRGIops2md5NDUYz2m4777Y
+	 ACwBXv9yz35OsA6GrOwZ9q6jZCYFZI4YE/POKavbgF4qB8yisNWLcsjcUiZFyFGFa5iiu
+	 2JHyTeQb4BrQSvGykwxKh0bF0YO3OyH300UC3XAVzS+yCvViQS7FTpWcRunna7lkJvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795611464;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=M9m+DYYVTEfjlMZl8Bvn+mQHXB+lKYN0EEAjTjy3d8U=;
-	b=qhXBETjHBoX6jMtkZh0kTnBWcKGk++QhMPjl0ukb32yiBpxIwvCW0AOkIxYRSoZMsudl
-	 1udpDLbiFBzmMbdFerHL1Mtq/WpdvgOXDzIvxNhsiJ7FNTZEiJVFG4ytJkGrD52OPgDRq
-	 1qo1qPjSMfQjphSPVDJbAVz0iojYPRMB/jsO8ilpl6zt0Z6Zgbo69WFRuLv1j0CRj8UDW
-	 YTMV31W2mMjigEoFrw+VLEOmCPtvfU1sLmthwWrWnYFSBLwxL7ZA7FpHanFBrU0E1u9zg
-	 7s46fXwVQjATMtk7LdiV70RcvPFQ9XOu70rH6oFezcpGXfuPAUVHNmv5uMeX/WiA1lQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795612345;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=CSy0760iv92AUsgP20PxMm7qkWdFkHwobtNBYYjUqJ4=;
+	b=SFiKN5mk1PM3iTcbFbFpCCyDR9ioJmae/NoWgNEq6amyeWCk3+PLuFiJq9KjfxTiycT1
+	 pR8NKsSoldp1ONWl56rWKY1b6mO/agWtnbYp5KSJjLL+HUQpkbMOJ8bTmdby4MJJJDSL0
+	 fKK/By+9IkLp9UnuzxlY8ibKXa76A0a9LET2wCgl8LpCDcVe1mZ/F7Ns3pMBVrBxcidLX
+	 nOkv4bWT/1DwqidOW1fvZLzqvE8jPQVIyMv7gAdX5Sn6xWF3k1vviWX6xj2tbIatJRLTf
+	 C+a4+gXDYo60AqpbDURVFlhjOyO/LsaNMJk57PZSBvjUYHV7uB4j2DRnsQWq4mS8Zgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IpzjfdZW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fzOaOKNR;
+	arc=none smtp.remote-ip=209.85.160.175
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204E7606A31E;
-	Wed, 25 Nov 2026 12:57:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA47D606A32C
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 13:12:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA47D606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IpzjfdZW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16A021F000C4;
-	Wed, 25 Nov 2026 12:57:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795611463;
-	bh=M9m+DYYVTEfjlMZl8Bvn+mQHXB+lKYN0EEAjTjy3d8U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IpzjfdZWB3dTPfW9QE2qvesQLxvPNzr3zhxEdno4gF7Y0bjuhvat3eADhro8KWjF9
-	 l0NIob0SfhWWEl6TIig1+LRsGh2igG6VKhgw1SxGC3RWQInP5ZX19Fj5IgZ3TL7oUq
-	 boHIHuHxg0N2NMNQP5XyygxuyTgbfOK1Z0P1HkUJgpUIlxvMAyMdT2pDpzzDD+dDlj
-	 qsxFKH8dI72OSoNI/4h2YKO8A0HW1Iv9qVihJPwr3dErm7/B8yS/e9+hiLPS+x+put
-	 4OyGhNvhCs3p8H83/bacaF334ihyCZo9sAC+JBJ9hAq7GANl6mTmDUjpJUX7I03dyj
-	 KXLGoezNPpzfw==
-Date: Wed, 25 Nov 2026 14:57:39 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Willy Tarreau <w@1wt.eu>
-Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: submitting-patches: ask bug fixes for their
- user-visible impact
-Message-ID: <20261125125739.GA14811@unreal>
-References: <20261116200515.352387-1-sashal@kernel.org>
- <20261117092723.GA124972@unreal>
- <avxtxScVa9KvUH_K@laps>
- <20261117152721.GC162713@unreal>
- <av7s5eV7Ws9Io3cE@1wt.eu>
- <20261119125947.GK162713@unreal>
- <av7zGbqXizmXY4R-@1wt.eu>
- <20261122085022.GB14811@unreal>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fzOaOKNR
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-55c48582654so64750581cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 05:12:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795612344; x=1796217144; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:message-id:date
+         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CSy0760iv92AUsgP20PxMm7qkWdFkHwobtNBYYjUqJ4=;
+        b=fzOaOKNR08ayDz631qIR5YM6RbDX4cXMRZT7PE5kvvn/ZKKFy8OqDo0kxL/CGZipfh
+         yXsGpHHPH7x4KIMUFiT0hBdTKg/FHDQ+cFEBZ56hKsPDzqho3JjjnjCYeAOgQuhqrCCx
+         Kyuv2Qgb2LwbL3/jeN6fbvh05cZA5VXL+0kBnF+1toR/jZjXSZvEN7CM5ELf3o5aREvn
+         Eluy+jaX3sWqlm/AYzmzvCNEWh8yt3FwyrbW07O1L9zQIfpd2BGAQi/jkH+nk0STPApP
+         ptq4+5w9OImGltbnF0OW7sw20wlbr2yCaaAbLC2GzlR8rCvoWGScBAMjYdoKnZdgnhiD
+         xAyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795612344; x=1796217144;
+        h=mime-version:content-transfer-encoding:content-type:message-id:date
+         :references:in-reply-to:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CSy0760iv92AUsgP20PxMm7qkWdFkHwobtNBYYjUqJ4=;
+        b=2yp9fuR891Z2mvBNo7G0nMLFmtTn4BY1SpOwHEI2m+QNwkLigTPQYuM5j3EuVBo3VP
+         A11pTtDA3qSMkLN6reJLbCxs47LJK/hdQvNjbas4xN8Z8Pg3WROuI27ctj5n4+xWgu1G
+         kGGLQ4HzOIy+KCmskdVcahxr313zzQH+rj/A3LD3Wlv8hJiBBCt5tFARUxxyx5S9Nn6r
+         7SaG1ulBBBa4/t+vXHxZiFwBcLrYPSVAUWgqOBzQwvcRQKntKfm/RrXMYYJiX4SFWSwa
+         PrRmkCiEGEfIYUonx59YKfyVmqlq2X7U68bn63lpLycMOTtoRZg4hIW6OZ39tiiIp0Ba
+         W0nA==
+X-Forwarded-Encrypted: i=1; AL+hErEoZMriR4Vk9N0C0wa3I1H2O9sa06PizYZBHTTM7cbOt1Jec9JqsQ84+stZbJWUxBASY6um38dj8xU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+DlR5z2gP3/LC3Siil1QNq7uI4u1MRjIB5l6+PV1i490YEn1sZ
+	x1h0TuxdKmslv9WcPdH6EisZ5SEGQqR4lZdzQEcVlExnl1zHHFVVCgo=
+X-Gm-Gg: AZFdTZe6jxDmjpMEMyg3cVfk6rdw2jGV9K+K03KdE3svAsxs2eJq9jQdwuBopajJ9FI
+	aLNPx2aXB6ntyEMsWnjVCtTnUQrrMQhspe8yDG5dVaRJqDnqz2Tp+EJEiuIEQMwJAVjzc6SJjEf
+	CxdNkEVZOirNkKcoiJZE+I3H3yLpENgydo7VV/ZN6wQDRw7VOJsrgp1jnW3XC0vh/BqB/zWvbbb
+	Qxmi2J62K0GlHkEZ5OhTnNQRdaBCJiT+7aiz5yYpnN2lJVkl/3nDt3j4/x9oCWCTnAIHo/iYtdw
+	LlSQ/X+EdDfp8v0YMoRRZYRmG6Gs7WAOArIiThOr+cYGxFdWVvvA1MpVmwFy33oEVdAFefR58xI
+	eQHeptlCJk7WeS+xmnzbpmZUoRICmFKwc2lj3o1p6tBXWRGULClIS0/qTX8rta1H9v0vscBNwB9
+	nyPWe0LKnYhYZ/cD/8U5jkqcvdw91Xjic87jEddIFeG+r4EKr3s/fuqCRhBiTv2JMJGzha6fq9q
+	jqbdXKCn7DamRdKmYFahSLYjp8OADSIL9W+CtQ0JVlnBPjBDbcor3a2C6jpUReOjnyOIN1OJ6ez
+	39gqfwyEOm+7sVO/+PGFFnSA1VjpUJl32la6xSAL3YU5z517CXLlBj7MKDHJjLw+Iu2krY4IAo6
+	etni3e67jOfjJUNoHxbHUlj0KBJwXHfeyZ3iJxjA9rEcg5jk4BX2+dN3BPkYYbPuNsSeGGw==
+X-Received: by 2002:a05:622a:410b:b0:535:157b:ea22 with SMTP id d75a77b69052e-55d76ac5e33mr308582181cf.40.1795612343642;
+        Wed, 25 Nov 2026 05:12:23 -0800 (PST)
+Received: from [127.0.1.1] (207-237-119-98.s2383.c3-0.nyr-cbr1.nyr.ny.cable.rcncustomer.com. [207.237.119.98])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d7889f8b6sm155981971cf.28.2026.11.25.05.12.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 05:12:22 -0800 (PST)
+From: Eugenio Zuccarelli <eugenio.zuccarelli@gmail.com>
+To: david@davidgow.net, brendan.higgins@linux.dev, corbet@lwn.net
+Cc: danielmaraboo@gmail.com, raemoar63@gmail.com, skhan@linuxfoundation.org, rdunlap@infradead.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v2] Documentation: kunit: document --summary and --failed options
+In-Reply-To: <179558107134.36587.13120861622026385297@gmail.com>
+References: <179558107134.36587.13120861622026385297@gmail.com>
+Date: Wed, 25 Nov 2026 13:12:21 -0000
+Message-ID: <179561234149.225312.4673144866194884043@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,88 +99,10 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261122085022.GB14811@unreal>
 
-On Sun, Nov 22, 2026 at 10:50:22AM +0200, Leon Romanovsky wrote:
-> On Thu, Nov 19, 2026 at 02:01:13PM +0100, Willy Tarreau wrote:
-> > On Thu, Nov 19, 2026 at 02:59:47PM +0200, Leon Romanovsky wrote:
-> > > On Thu, Nov 19, 2026 at 01:34:45PM +0100, Willy Tarreau wrote:
-> > > > On Tue, Nov 17, 2026 at 05:27:21PM +0200, Leon Romanovsky wrote:
-> > > > > > > Since you're already making changes in that area, could you add a sentence
-> > > > > > > asking reporters to provide the full dmesg stack trace?
-> > > > > > 
-> > > > > > In this doc, we already ask them not to [1] :)
-> > > > > 
-> > > > > This is really bad. You assumed they would trim the logs correctly, and I,
-> > > > > as the recipient was expected to trust that they were accurate. They are not.
-> > > > > 
-> > > > > They trim everything, which makes these logs useless to me. As I said, they
-> > > > > include AI-generated reports, cases with reproductions that are impossible
-> > > > > with upstream code, and reports for completely out-of-tree code. Everything
-> > > > > like that was visible in original dump stack and it is lost now.
-> > > > > 
-> > > > > > 
-> > > > > > > Many AI-generated patches reduce it to one or two lines, which gives no
-> > > > > > > indication of whether the report is genuine or fabricated. Early in the AI
-> > > > > > > era, I saw some completely fabricated stack traces.
-> > > > > > 
-> > > > > > Is it still an issue?
-> > > > > 
-> > > > > I don't know about faked, but useless yes, especially in the cases where
-> > > > > in-kernel API is involved.
-> > > > 
-> > > > The situation completely changed over the last year. LLMs that would
-> > > > hallucinate bugs and dmesg in single-turn conversations have been
-> > > > replaced with agents/harnesses calling shell commands and able to
-> > > > capture contents without inventing them. I agree that we should ask
-> > > > them to capture such dmesg which nowadays have no reason to be faked
-> > > > anymore.
-> > > 
-> > > The meaning of "faked" has shifted. As you said, it previously referred to a
-> > > completely imaginary call stack, now it refers to a custom module that abuses
-> > > the in-kernel API. The latter is still "faked" because it cannot be done with
-> > > the current code and unlikely will be possible in the future.
-> > 
-> > Ah OK we were indeed not speaking about the same cases.
-> 
-> Over the weekend, I realized that after this wave of incorrect and deliberate
-> misuse of kernel APIs, we’ll see the next level - misuse of internal driver
-> APIs as well.
-> 
-> I’m referring to the various EXPORT_SYMBOL()s in large, complex drivers
-> such as mlx5, bnxt, and Intel’s drivers.
-> 
-> The idea that “let’s trim the dmesg stack” is going to be a disaster for
-> everyone involved.
+Hi David,
 
-And here comes example of this:
-https://lore.kernel.org/all/20261111105346.3220427-1-lee@jaeyeong.cc/
-with very brief, trimmed version of log:
-  BUG: KASAN: slab-use-after-free in _raw_spin_lock_irqsave
-  complete
-  rsc_event_notifier
+Thanks for the review, good suggestions. v3 follows with both.
 
-and here comes full log:
-https://lore.kernel.org/all/20261122103855.51859-1-lee@jaeyeong.cc/
-with completely faked situation in the driver:
-[   13.847526] mlx5_dct_repro: loading out-of-tree module taints kernel.
-[   13.915884] MLX5-DCT-REPRO: forcing DRAIN_DCT to fail with command interface down
-[   13.916736] MLX5-DCT-REPRO: destroy failed as required: -67
-[   13.916817] MLX5-DCT-REPRO: failed destroy retained DCT ffff88800b112c58 in dct_xa
-[   13.916862] MLX5-DCT-REPRO: mimicking DEVX create unwind kfree(ffff88800b112c00)
-[   13.916924] MLX5-DCT-REPRO: delivering DCT_DRAINED event through actual notifier
-
-mlx5_dct_repro is an out-of-tree module that has nothing in common with the
-real hardware device or the flows it handles.
-
-Thanks
-
-> 
-> Thanks
-> 
-> > 
-> > Willy
-> 
+Thanks,
+Eugenio
