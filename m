@@ -1,88 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795600678;
-	b=mh3uMIoujeSQ5wVHgLVOrvqYPK9uQwKPEiQBNd2Q8FUtdcvXTB/zpz3781eEdZ9Vr15i
-	 u3l9DwUQA4kbixPhywZ3tJgtOG2VfL0hilDKgmFCH9L6Wu0k8r2TpCXFUsdnYYEXHIM9Z
-	 6KzyCvFDFFsAL7KCX+H3J7X47YR0EoBE8YeNmrtzK7q/SFgfklo3E1jOS/jpcm7kFg4JZ
-	 2sM05hQV/TkWjfA2B3f7oYxqs8qvAY1sL+wgCi2UBZTy52EnqN9nm5NgpqwDtGNcoBMWW
-	 KjKBvw9CZDSh175J6irmniIZQJth0Rn/x2ZgWm9zLNPzIK0US1+wBamYXLPFTX6wgqg==
+	t=1795600993;
+	b=OflfKZMZUejS12CD+N0xgSRQMVghhb8Eq5CkNB4ky88Vxrl0WiluDDNJpYKbF++F6wmH
+	 cRBfWmzliXcIzaD0vXuk9S9fYyDI6V0uD5bLvFQSybHt5buV2UiczTMP1FpMmDGpUX+oJ
+	 MUxslcTqAUeyAYDjIkvSKL5NkM3XcCnzM9H+zuXFavmGQFyRO23vCM1sWBPCxnGehyxK3
+	 QI91KtZ2sLhiflRV4HXYXzfkQqnPSc8ru8Jd0Deu9IvoeFuLPoIUd3dNbbBDKgT+kGelb
+	 cs3vaFlO3GaikqSgQ0CPyBpfAp4au++2+mYNBD1QJQWwqZk73uOqMFOyEMv+W7K7Cfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795600678;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=k6KEcTl/pyiQsKyyg/2eQ+l+POB59ejsRYmW+NNyeA8=;
-	b=w1lx8KasjQhe3jlKTD3memePk55oL1WfPXArag0jQOidLpbJdnThbSaoq+5T/DQ9VYoj
-	 ZGem6u1yTXNDbcDIzLINeMeMMx0O7T3tClaPpZHqQn93PQsEB5PILxss1i2VAaGVcGlMZ
-	 OCU9JYlEHQH+/RWss9ITVPqhuCU27rIiTr8c5R/UmJJM3X5+15whEDXI7hp/hHXa4iD8+
-	 /oRLhnWMADkaJ2NnxQrIqUFdHqmLmrjJWtYd1uWjBspHplzAB0oPafCFYxxPZYg9reeDr
-	 A8mwIbT2O+ePjjPJO7uZuDLzEr3JN/h0sp2JRrsc220npdUeP7JH3HND0IqosnPTrxw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795600993;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=ahAD1nTlJMyKd+Ivy4YWjGLtR4U+tnl+mOngOadx7yo=;
+	b=TLIvgcSMytRV9o9kuHm+C3gq9Gul3FWgq9571oz2+SybLdTKz1HWTA59YMK7Em9gPJak
+	 EVnPLB27dRh2KSneQiOJRc8fp1dBrTP53zN0ofnrqswATaUi1mHk+gBOs1ru4ZOd3tIWt
+	 cLhN+7BAvgwqR6bc3osvi/MHDph6SWNwLykdk9kV9Zxr9WrpqDrHKGOS99jedj96A+wSp
+	 jfc4J8/iWG0TqdU6TqTkZP90rqPqdowBVqG7D4UECXCLTv1TnxOO4M+C2zBnldYh8BuAU
+	 cKTZVpwUBvv8awcl90fXzdFqnF9gxGGW7X7myPeoWRDdM0f2fAakCTht+lJIZjn40Cw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linaro.org;
-	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=U4ho5SIW;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aB9TCN5u;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69120606A323
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 09:57:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69120606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76E4606A321
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 10:03:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=U4ho5SIW
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48e09aa5264so3174773f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 01:57:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1795600676; x=1796205476; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=k6KEcTl/pyiQsKyyg/2eQ+l+POB59ejsRYmW+NNyeA8=;
-        b=U4ho5SIWBLfAJh6L5LxddeznA40KG8rNkgKkmJbUOGnKML97JS7z0daSK34Zyvnr9Z
-         emW4BnhTJPTGzn7MDO/XQ6XFuGAkn8PqfR9lmVM0j/npQJm39KhqnCc5mQozsg9zFA+k
-         nTSmV7GBL+NT8vrX+Pa7YX6Ru7xTGU3qM4CTFBA8YOieDt6N4g/1BiI6yxOrWS2aEow8
-         FD4gXsInN6ZPK2FqjU/gAVh5kZCCcJGd27RWkC3rnlR+1ThU7hUb+s02kJRgG7hQmeZ7
-         re6IrPGN9TT1ywerZEdUzP/LM47cfXwtQjFH72RWIUB23Wx/B17BIfb9f+7Dj7GSHpJO
-         SiKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795600676; x=1796205476;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=k6KEcTl/pyiQsKyyg/2eQ+l+POB59ejsRYmW+NNyeA8=;
-        b=HyAIp8MdIa+/l3jFZJeQbNLdJf3nzMtFHOfURmIx2FnmsIoWZE/EIeE/qW1BhV7h6e
-         PgMqLYTtpHmpRcR2AO8FmAJHEE99YYb+Dt41Tw0cu/xN4uClqMUFk/r4MIdn769RC1iI
-         W3d9TJ4l5RbJgzfFTQ//qx2C8jPPyxsoJq28EIf9pVdxKtbLt7mt2glq73WXwBnnLGh5
-         89NbXCg8M+uKcMq96LOao+lufivyn8A82vZntMeA+sYtgHdulQKcJJ55vVF6nbMI1kIv
-         0uob44N7ZIe0p2W+WjuUGkSPjuwizvHvdiEvFibbO2tny7QnFCPlf7G5s0+1SKaHuC1M
-         C4hg==
-X-Forwarded-Encrypted: i=1; AL+hErF2C+Q2Dc49RiuPlNEYVQP/O5h2oMryMhHLZj6jNf2GLbphx4Owjsb00dAumtyzxuTvZlujnwIrF9k=@vger.kernel.org
-X-Gm-Message-State: APuU4Z87J3EbMRz7bU2dzcyTihItjUtDLmlg5YX/7Z5YpeUDU3+6HGJW
-	EGrvM04TPykSLFbDbe+StYuVG0PSGsRl1V3ZrWaGyJ6OP5APeQNwptDeEd7BYtMYxjI=
-X-Gm-Gg: AZFdTZfbbfkW2CagH0kjNyKgbQHQCgZh4Nvo0UDrxpXhMFAZ2zzOZz+c3ur00czU81/
-	0E5txYGSssR6YMzjKBEK5oS4YrsI++e+gdWpoNN9NsOFXLLIs1Ek4sSL2AHp/lzBrAVadiQAKvF
-	uRatAHNicm9q9mKv3U22mKJmG6gY+KtQV4tQ7ItL+g/ewTcKtnUZXCHVX79BuDRR8DPnlstk3c5
-	A2KZEE3dnXAz/2NvvQWjhF4Y+wFoK5C+ojF2tD+Y7J0dWDXQ9TvRlBcgcKWp62WJLKtHuz6KdOQ
-	RpnNzLdUxAehFwZJC0UMcnSdjhDzRg9RegRsAo3ZaLs5fVbRK+e9/9XIaMKVmyBwMDRZVFFLN4p
-	c9gamf7g7vLHYVi3hCqQE05rQF0/HrSnFCru1hAB0rWbxtB7Zd/U/bmQrDZfX42bVrqJ2MT9MVk
-	dSqrPGPYEcP3qC77p5zoaOa5fSp+320aE1TV0phVQ7yd9TyuPw7pvDquaU1sabptQ+1U9+qwNXY
-	jbqLZJ6T1KmyK0/NOq9rBkuH9XzNM2aeRd6W2R/2+ZrAOxHR7n9AVRSdykuVJAQtJFfjEyu0ss2
-	wwa7u/YPgtcIsB6t0Q72i2tURM3cQMqcdg==
-X-Received: by 2002:a5d:64c9:0:b0:488:88ec:59c3 with SMTP id ffacd0b85a97d-4abb0f3c071mr35368426f8f.14.1795600675654;
-        Wed, 25 Nov 2026 01:57:55 -0800 (PST)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf6804sm32730070f8f.10.2026.11.25.01.57.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 01:57:55 -0800 (PST)
-Message-ID: <d2ae7970-63cb-4c8a-8c04-483d88fcbffb@linaro.org>
-Date: Wed, 25 Nov 2026 09:57:53 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aB9TCN5u
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 523AB1F00A00
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 10:03:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795600993;
+	bh=ahAD1nTlJMyKd+Ivy4YWjGLtR4U+tnl+mOngOadx7yo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=aB9TCN5un+FY44DyzDWOfl/JnifH+71Ve+hTPGcSbb5FWibTB8+3/a03RedeyXNtw
+	 Ut9a/5zRNkzIfwPM6/c+S+na0kzX2kwPZHrDCK52XhWFCBtUhcZrVR5Upx3aWadPFo
+	 8NJWiQuMjAfswvt25VnnqVlrijaEO4ceNFKGLCrVfyg8PKFfhQM49xUc4KNORl245l
+	 xwGeI6stLtGCII8QWnG9I6IawEmJ4MBCp6r1t47BEYd7Yu5SmPp38aOviFYzyzKXUM
+	 ZMhk/UIIo8OdYZxxNmfjRj7D5vITgRvSjWY5jFCjjYLxbODxTN94UtKki/yrvlBR7h
+	 59NtENOfSatLw==
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-9496473b511so661024085a.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 02:03:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGtfd8uE7PQ4mPrE8XMgcSLZrJLYLYm1H1ipGTpCej3hnEC3zmVMUnYFidWrDtm6XhzOIhitmDD9dk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+z+9OaqWb8mob24YhYzGTxFOowwzi64m2lVWFD+uLGQtXFMxwX
+	kbTK+DkF9ETGTteeKjqgBEDNNzgglSVfZRIpXm+zpslRzx6JUuJLLTtYguzyJUG4aZ/V15kjKme
+	FEXYf0ijp2g2I9B2HNaIZ+hchVCexgmA=
+X-Received: by 2002:a05:620a:4011:b0:949:82b5:402d with SMTP id
+ af79cd13be357-949ba955997mr2986180585a.12.1795600992351; Wed, 25 Nov 2026
+ 02:03:12 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,71 +59,162 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 15/19] perf auxtrace: cs-etm: Capture wrapped snapshots
-To: Adrian Hunter <adrian.hunter@intel.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
- <mike.leach@arm.com>, Leo Yan <leo.yan@arm.com>,
- Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>,
- linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
- linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
- Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org,
- John Garry <john.garry@linux.dev>, Leo Yan <leo.yan@linux.dev>
-References: <20261105-james-cs-unformatted-per-thread-fix-v4-0-7759e0ce2449@linaro.org>
- <20261105-james-cs-unformatted-per-thread-fix-v4-15-7759e0ce2449@linaro.org>
- <8b37f5ea-9427-43f6-8abf-07a36a9bbb72@intel.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <8b37f5ea-9427-43f6-8abf-07a36a9bbb72@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com> <20261124-mglru-fg-v6-17-8ffea39934a6@tencent.com>
+In-Reply-To: <20261124-mglru-fg-v6-17-8ffea39934a6@tencent.com>
+From: Barry Song <baohua@kernel.org>
+Date: Wed, 25 Nov 2026 18:02:58 +0800
+X-Gmail-Original-Message-ID: <CAGsJ_4zuAmNt9xYJdU1dmc06PRsCnDc8H+hV=5vU6oRAyWsSCA@mail.gmail.com>
+X-Gm-Features: Aa3M54rjOxmsiKxZY9PTg72qI_9AeJX3OFX-7i-N7MNLDLDrtS6AQM6YTnwOk90
+Message-ID: <CAGsJ_4zuAmNt9xYJdU1dmc06PRsCnDc8H+hV=5vU6oRAyWsSCA@mail.gmail.com>
+Subject: Re: [PATCH v6 17/18] mm/mglru: folio LRU refs based active/inactive
+ number accounting
+To: kasong@tencent.com
+Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>, 
+	Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
+	Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
+	Gregory Price <gourry@gourry.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
+	SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, Yu Zhao <yuzhao@google.com>, 
+	Vernon Yang <vernon2gm@gmail.com>, Zicheng Wang <wangzicheng@honor.com>, 
+	Tal Zussman <tz2294@columbia.edu>, Kairui Song <ryncsn@gmail.com>, 
+	Xiang Liu <liuxiang.277@bytedance.com>, Ehab Ababneh <ehab.ababneh@intel.com>, 
+	Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, Lian Wang <lianux.mm@gmail.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Kunwu Chan <kunwu.chan@gmail.com>, 
+	Hui Zhu <hui.zhu@linux.dev>, Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org, 
+	Tianyi Chen <hi@tychen.cc>, Ridong Chen <ridong.chen@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Nov 24, 2026 at 2:53=E2=80=AFAM Kairui Song via B4 Relay
+<devnull+kasong.tencent.com@kernel.org> wrote:
+>
+> From: Kairui Song <kasong@tencent.com>
+>
+> Currently the active/inactive LRU sizes exported through /proc/vmstat
+> and memory.stat are derived from the generation window: folios in the
+> two newest generations are accounted as active, the rest as inactive.
+> This causes several problems:
+>
+> - Unmapped file folios can stay in older gens despite repeated use,
+>   so active files can be under-reported, unlike classical LRU.
+>
+> - The reading is jumpy: on aging, the second-newest gen, previously
+>   active, becomes inactive all at once, causing a huge drop of active
+>   folios without any change in use.
+>
+> - The reading is reversed on swapless machines. When swapping is
+>   disabled or unavailable, MGLRU ages anon by moving the gens directly
+>   without walking or touching any folio, to reduce the overhead. So
+>   inactive anon folios can suddenly count as active, or vice versa,
+>   despite no change in their hotness.
+>
+> With frequency guided promotion, hotness is already tracked per folio by
+> its referenced count, so we can do folio level accounting instead: a
+> folio is active once its refs reach LRU_REFS_ACTIVATED (currently
+> LRU_REFS_PROTECTED).
+>
+> On reaching this threshold, folios are accounted to the active part.
+> On forced per-folio aging or PID protection, refs are capped at
+> LRU_REFS_WORKINGSET, dropping active folios to the inactive part.
+> Note that on swapless machines anon refs are not reset by aging (the
+> shortcut skips the per-folio walk), but the counts no longer oscillate
+> as the generation indices wrap.
+>
+> The accounting is now per folio and lruvec independent, so no size
+> adjustment is needed when reparenting a dying memcg: the hierarchical
+> stats keep the counts in the parent automatically.
 
+I'm still struggling to understand whether the local LRU accounting
+is correct here. But if there is a bug, it wasn't introduced by
+this patch.
 
-On 24/11/2026 20:41, Adrian Hunter wrote:
-> On 05/11/2026 13:45, James Clark wrote:
->> find_snapshot() isn't implemented for Coresight, so when a wrap occurs
->> we only save from offset 0 to current head, modulo buffer size, rather
->> than capturing the whole buffer. Coresight drivers currently use a
->> monotonic head pointer even in snapshot mode, which gives a lot more
->> information for taking snapshots than a wrapped pointer. It means we
->> don't need to search for data at the end of the buffer to guess if a
->> wrap has occurred, and we can go back to saving partial buffers after a
->> wrap by checking if the next size to take is less than the buffer
->> size.
->>
->> The drivers will always be able to generate a monotonic head because
->> TRBE has a bytes written counter, so even if we stop generating an AUX
->> record on every overflow, we can check if the counter indicated an
->> overwrite and offset head by a whole buffer size if it wrapped. This
->> forces userspace to read the whole buffer rather than between last and
->> current head. ETR and other sinks use software double buffering, so can
->> continue as they are.
->>
->> Add auxtrace_record__monotonic_find_snapshot() and use it for Coresight.
->> A monotonic head can't be auto-detected in the default find_snapshot()
->> by checking if head > buffer size, because before the first wrap a
->> monotonic head looks the same as a wrapped one. The search would then
->> falsely detect a wrap when head is near the end of the buffer, and the
->> wrapped pointer fixup moves 'old' and 'head' a whole buffer ahead of the
->> driver's head. With a wrapped head that doesn't matter because only the
->> offset within the buffer is used, but with a monotonic head the next
->> snapshot would either save already saved data again or drop up to a
->> buffer's worth of new data.
->>
->> Reviewed-by: Leo Yan <leo.yan@arm.com>
->> Tested-by: Leo Yan <leo.yan@arm.com>
->> Signed-off-by: James Clark <james.clark@linaro.org>
-> 
-> Reviewed-by: Adrian Hunter <adrian.hunter@intel.com>
-> 
+[...]
 
-Thanks!
+> @@ -4743,7 +4823,6 @@ static void __lru_gen_reparent_memcg(struct lruvec =
+*child_lruvec, struct lruvec
+>                                      int zone, int type)
+>  {
+>         struct lru_gen_folio *child_lrugen, *parent_lrugen;
+> -       enum lru_list lru =3D type * LRU_INACTIVE_FILE;
+>         int gen;
+>
+>         child_lrugen =3D &child_lruvec->lrugen;
+> @@ -4756,8 +4835,6 @@ static void __lru_gen_reparent_memcg(struct lruvec =
+*child_lruvec, struct lruvec
+>          */
+>         for (gen =3D 0; gen < MAX_NR_GENS; gen++) {
+>                 long nr_pages =3D atomic_long_read(&child_lrugen->nr_page=
+s[gen][type][zone]);
+> -               int child_lru_active =3D lru_gen_is_active(child_lruvec, =
+gen) ? LRU_ACTIVE : 0;
+> -               int parent_lru_active =3D lru_gen_is_active(parent_lruvec=
+, gen) ? LRU_ACTIVE : 0;
+>
+>                 /* Assuming that child pages are colder than parent pages=
+ */
+>                 list_splice_tail_init(&child_lrugen->folios[gen][type][zo=
+ne],
+> @@ -4765,11 +4842,6 @@ static void __lru_gen_reparent_memcg(struct lruvec=
+ *child_lruvec, struct lruvec
+>
+>                 atomic_long_set(&child_lrugen->nr_pages[gen][type][zone],=
+ 0);
+>                 atomic_long_add(nr_pages, &parent_lrugen->nr_pages[gen][t=
+ype][zone]);
+> -
+> -               if (lru_gen_is_active(child_lruvec, gen) !=3D lru_gen_is_=
+active(parent_lruvec, gen)) {
+> -                       __update_lru_size(child_lruvec, lru + child_lru_a=
+ctive, zone, -nr_pages);
+> -                       __update_lru_size(parent_lruvec, lru + parent_lru=
+_active, zone, nr_pages);
+> -               }
+>         }
+>  }
+>
 
+The old code also skips updating the local stats when
+lru_gen_is_active(child_lruvec, gen) =3D=3D
+lru_gen_is_active(parent_lruvec, gen), as we skip
+__update_lru_size() in that case.
+
+But we do have some code in mm/workingset.c that relies on the
+local stats:
+
+        if (sc->memcg && shadow_nodes.memcg_aware) {
+                struct lruvec *lruvec;
+                int i;
+
+                mem_cgroup_flush_stats_ratelimited(sc->memcg);
+                lruvec =3D mem_cgroup_lruvec(sc->memcg, NODE_DATA(sc->nid))=
+;
+                for (pages =3D 0, i =3D 0; i < NR_LRU_LISTS; i++)
+                        pages +=3D lruvec_page_state_local(lruvec,
+                                                         NR_LRU_BASE + i);
+                pages +=3D lruvec_page_state_local(
+                        lruvec, NR_SLAB_RECLAIMABLE_B) >> PAGE_SHIFT;
+                pages +=3D lruvec_page_state_local(
+                        lruvec, NR_SLAB_UNRECLAIMABLE_B) >> PAGE_SHIFT;
+        }
+
+So unless the local stats are transferred elsewhere during memcg
+reparenting, this seems to be a pre-existing bug.
+
+It would be relatively straightforward to fix in the old code.
+With the new code, would we need to account for active/inactive
+pages on a folio-by-folio basis during reparenting, or is there
+still a way to transfer the stats in bulk?
+
+Thanks,
+Barry
