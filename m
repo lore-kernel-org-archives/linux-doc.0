@@ -1,61 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795623695;
-	b=N1Eqk/OoeZc2CaGvjnyuHAzdwOQC5/xkxCljRxQK838ViV24P+FFFUrlA/yUXo74Q/7o
-	 bFZfy6+iYUsZVMcvktUDX1OfQDdydoF8ehJ2RUuV3c9WKYSKvZmxqsPYL2CsCUb3n0gKM
-	 MnsWn/tY0lmYN9genimWPXwpeTC02Ny7ZBPeqLjlf9gFugLx6QLYYLHwM9VuK/8guIjHC
-	 /7EjjuJSkrF+Pio6YzqRFt73CfvD1DdCdEJt8C97lVwIfy15mRot+09PhMAOtImPpNkwe
-	 CM7Cagpu9jvZoeRolfkHilKpzvpQxsha75HPAc5h5ij26tFx3vNCCHMIO0cj8Mp4RPA==
+	t=1795623730;
+	b=4V68O9EwGfx+z1mnNqTEaIontGEWAYL0vaOZoVNH3ppqyXYsqdCfPO5EdYk7UefW1lrZ
+	 7ScuhlK9lxlPJ0M6h6bESpUnTlndeULPYkLqPS7zaLovt3Dtz9jb7HTwR7UQutOOWcqgZ
+	 i6MQW0qqJei+qrMSBnIITqxojctsMlN9g5d1NwrMCnfs7qfgoBfkpp6j3jHboMOWBAZvr
+	 B4ciZAJNJq0tRG+GRwH4Nb5ebrJCjRolZ913fBgRaYSayh+p7UTwti+DEx7vlUbvPj+QM
+	 sKGeNGXYKv+PAHuV7GxqcShp5skpHcC77pNFm2ODwNdYE6IQdbfQnoGZq1wmv2Vkf4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795623695;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:Feedback-ID:
-	 X-Pm-Original-To:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=sRMctCIyHFl/rubK1Zvyz0tzvLwm3/RXHacDMmrLKwY=;
-	b=U8ht1hvkBricjOaZ4OwPyeKS3PKdjqzBCAPLaMNPPPlz8tsgBSVHRoQOxyBV9BSzjWx7
-	 VFxPCBgd5FIiRSbxW3N0gSQVFrFMnKJJQrZQW0fLm+hXX9uN3zQqdNexI+hniwffzNUhF
-	 hjtr3FkdLDDE96519ADeDtE6aZ6gC8t+Jd7iRHq70dAgPv5FbzA6tWnPyts2CVhz2JDIn
-	 lYwGjaHbuEu2+tJLza2TWo6BHzxiTvj/YDxMUqA23iEU9/oiKi2XtRcv0N3tyTm8c1uYr
-	 g73U+eajJ/hsRa0M6ODup6KUmuBZ64EJIKwogGTTZjzEpxEeefXu/pG/SsMFPWi6j/w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795623730;
+	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=swORf6ZkbkssP3sk4dxly7lUzk15uKzGyli1ThbO+fI=;
+	b=Sd9HD1Na0Tk2+RwP4XnvFI3wUyylQ+35JraUckwwJLgV2zzItzvIGIk+nEpRAY7SVwx/
+	 +MvL5BKm7iHnW39mwHhO3bYXe0PPoScy4QEdJVBqbEBt8v74x7ibclrroEcPyAqxyzaOo
+	 7sOTx9EqiFjbo70VC2n9WoprkssT0SC24CsgNKVpGUYncSMZRGAJUPt2uh9wrd0PvP9It
+	 d8t2j993VuoF63/mD1K62FIlQAyY2BfBZ7qreaDerJWH1s16c2rRJLOzGgpq5UeCxEWpi
+	 pO7cX7MRTiPKKhWNSXQsvFw4KKl68O5GAaeuovyVooeOgLyKBmXreUnF7x+9r7cDXsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=atomlin.com;
-	spf=pass smtp.mailfrom=atomlin.com;
-	dkim=pass header.d=atomlin.com header.i=@atomlin.com header.a=rsa-sha256 header.s=purelymail2 header.b=JaRz1fVk;
-	dkim=pass header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail2 header.b=I4jXZS4T;
-	arc=none smtp.remote-ip=34.202.193.197
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+	dmarc=pass header.from=lwn.net;
+	spf=pass smtp.mailfrom=lwn.net;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=hrCp4Gix;
+	arc=none smtp.remote-ip=45.79.88.28
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61004606A336
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 16:21:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61004606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB790606A321;
+	Wed, 25 Nov 2026 16:22:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB790606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=atomlin.com header.i=@atomlin.com header.a=rsa-sha256 header.s=purelymail2 header.b=JaRz1fVk;
-	dkim=pass (2048-bit key, unprotected) header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail2 header.b=I4jXZS4T
-DKIM-Signature: a=rsa-sha256; b=JaRz1fVkCfMLTnnLV57pzTTK1Ne42yfaj1IQX7jkKpXoYRm2xfPAeUWitfuGkVkuBkYPfwSQi6GVts1W8ILi/8fKG3fd6woyrygZcvrYMGO7+Fn2m7PsE5NEAAQWDIe8LOPCpFTgKzb+37wUWO8o3cB/9juGJGuBJnrD6oQBmjCT31iFtD06jOAPhhADuPk2K1hJ1TsZXt8Qc5vvB5o68ViOziNwX6cg0TC/LADlzhNY8k4yJwlinxgWIBmNZn4+GpacEOD0UoFqxgmRwPcJ3HE/Q0RFp9wdO01pC6fjTgJW6+iYGA/Lp8ajKzL0zrgJzKFi/maclLHm/2t50hCoQg==; s=purelymail2; d=atomlin.com; v=1; bh=JpXvq6kgsv07UGUTorie+7FWgV7cwV+gGchX02qK4cs=; h=Received:Date:From:To:Subject:Message-ID;
-DKIM-Signature: a=rsa-sha256; b=I4jXZS4T8UIPssnHu0O3SGNngfH1JK0VCZY2wnvzTqpBZZkwIKsLrgxuFaCz6RFMXLvZVACSGPonpZlXOl03dO4uxIlr7kANcxRRizZp5ka9Me0Jfp7YIsQrW1fvILuU2VN92x6pDsgjQYYnZHVvnU1PmFtKpFsQf8c907Tbiwm9c89SXcKpiCt+KCjq2LcK+C6LfPSEz0qgPjS7PJK8nhfDV0Vv9i6FdgMBR58smK5k4ILe+4mXr9x9v6ehlRFk4TV5u3ZYV7kHxxW7HNgu42hvDGvau202rfSyErr6hQmyAzb1aArsuZUk3f+1ZkSmkMIsEyoEzKy4uChAJe5fDA==; s=purelymail2; d=purelymail.com; v=1; bh=JpXvq6kgsv07UGUTorie+7FWgV7cwV+gGchX02qK4cs=; h=Feedback-ID:Received:Date:From:To:Subject:Message-ID;
-Feedback-ID: 1802931:67223:null:purelymail
-X-Pm-Original-To: linux-doc@vger.kernel.org
-Authentication-Results: purelymail.com; auth=pass
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -217530310;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Wed, 25 Nov 2026 16:20:17 +0000 (UTC)
-Date: Wed, 25 Nov 2026 11:20:16 -0500
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: david@kernel.org, corbet@lwn.net, akpm@linux-foundation.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	rientjes@google.com, shakeel.butt@linux.dev, sean@ashe.io, neelx@suse.com, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH] mm/oom_kill: optionally log victim command-line
- arguments on OOM kill
-Message-ID: <4gedpy2buvhc2urtsabb6kz56f4s3njwvjmxbd4whpz2bvgv4s@visad5hfhylk>
-References: <20261124205043.1010247-1-atomlin@atomlin.com>
- <awb6I0qAySbhBIsW@gremlin>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=hrCp4Gix
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F294E410D3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1795623729; bh=swORf6ZkbkssP3sk4dxly7lUzk15uKzGyli1ThbO+fI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=hrCp4GixfliWZptsIouALi5uTnRlTR43WsVChzdqYJjhiPfo2qStMeYnjkMD0IEtY
+	 JV7RL3ZoL5VqOQVNa0D+T4u8NsW1/TVV5BO6sNvvXkM6DqjnTNvvggSZIp7hM1mhI9
+	 gyG4qsvQ5AmhMVzVanc3GmdhzDrpBDyeWH7dtHNO6xm/qFV5FLC+mBslKeg/BHmkJG
+	 81JYC/YF8HTMQCVRyUij6v5C2sLT5G1zuCZoHvv24ayQuhWOfGoBv3XJR/S4e3k04Q
+	 1JRC6AuxEXgqTMXbGbul0SsnSY1nodrRXNFHdj0mRJy921f6rsxlYPmCBwpvleYyU5
+	 fqzWgWDFYcNXQ==
+Received: from localhost (unknown [205.220.129.44])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id F294E410D3;
+	Wed, 25 Nov 2026 16:22:07 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Willy Tarreau <w@1wt.eu>
+Cc: skhan@linuxfoundation.org, Randy Dunlap <rdunlap@infradead.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ gregkh@linuxfoundation.org, Johan Hovold <johan@kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>
+Subject: Re: [PATCH v2 00/14] security-bugs doc updates
+In-Reply-To: <20261114190014.17826-1-w@1wt.eu>
+References: <20261114190014.17826-1-w@1wt.eu>
+Date: Wed, 25 Nov 2026 09:22:00 -0700
+Message-ID: <87zeuwx4nr.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,28 +71,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <awb6I0qAySbhBIsW@gremlin>
+Content-Type: text/plain
 
-On Wed, Nov 25, 2026 at 03:33:28PM +0000, Lorenzo Stoakes (ARM) wrote:
-> Nackity nackity NACK NACK NACK!
-> 
-> This is terribly, horribly broken both in concept and implementation.
+Willy Tarreau <w@1wt.eu> writes:
 
-Hi Lorenzo,
+> Hi,
+>
+> Here comes the v2 of a new batch of updates for the security bugs
+> doc, essentially to make it more readable and to address some of
+> its apparent contradictions for those not reading it entirely. Some
+> additions were made to explain how to send a patch and a reproducer
+> separately, and to ask that first-time reporters send a single report
+> at once first.
 
-Fair enough.
+Would you like me to pick this up, or did you have another path in mind?
 
-For context, using mmap_read_trylock() before queue_oom_reaper() was
-intentional to avoid blocking under oom_lock, which is why I sent it as an
-RFC. That said, I take your point: touching mmap_lock and walking page
-tables via folio_walk_start() in __oom_kill_process(), along with the stack
-footprint and adding a new vm sysctl ABI, is the wrong trade-off at OOM
-time when dump_oom_victim() provides memcg context.
+Thanks,
 
-Thanks for taking a look.
-
-Kind regards,
--- 
-Aaron Tomlin
+jon
