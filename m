@@ -1,54 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.167
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795612481;
-	b=YsD8y8jYBLafl3So0W9wxQGe74bA/ttMobXaiACz84saWf3snCW+g/sgNGuXFO7qmZF3
-	 Bbz0hcAqB8EBz1HZK9pNDMc8fQlKCI1cvWFOz5VnOtXrthLg8V/FQbbjmtZhX5kzmgPiO
-	 xD/xDq0b4IvA7I8p+0Hldm47eH2/6Twzu8ki0XyWyQwy7Yy372XdbR/H9NysHwhKF3/zx
-	 lIPTWHF8AozLIF7zjsrzhm/zTBj5HfJOO5wg9aNpuKxkItef5miAlaAIehEe6oyw/OFWq
-	 IOrFOO0GdNFMPDf5f6SM/bQQfUraOUtmoVlL7F4mCdKeJYiuzAcZxqQ0bBM8iUW5yJQ==
+	t=1795612847;
+	b=OcZTxZZhbqRBByU0PcLVruVXFgfl4Or5H5ol0903LbcbnRoX/lUTnQCp252QJY6yZJAb
+	 PFC2eMGgcscci0MFOsZbW5v9kBd4Qs5F+T3Y+rB4hvvT/OMvP0Em9t7hRrI0SiyZSZEW7
+	 5cLqKJdPwLrjEjOzO6GmPgcBGjdAPn2ikmEcg2t9wovh33RkDw1kRKdAmXRAYo1Snl08G
+	 aodlj9v8kfSz4NUIrpQfcNc/nRRxwT4nOtqKGsLupCylAJM7oDSysdFFjCqSKVYZVNhke
+	 TZiuLbQKG9gQ9F8DPHOO24FVowP3pg7chJrq1z8x+voHiaZf2EAe7+7ipHXm0gPb77g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795612481;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=0nMz/PU6p6rxstnwsd4g3DPOFgXmUrtZFmxHK6dNxgY=;
-	b=mmPtGNAKbGcIxY6xiWlJfjIZn2xHaMNZX88MQ0IuCRamIikzhUEPNKwbOl1F02xtMwGO
-	 8JfQkunurkYtMWwZ9CdhttATVWZ8V6WwHajzDvvJCqLRB2hmIWJg14dbgPeMEZ/pohsOv
-	 uMi5+qV7hRiKpL4lv37YT4Pplzq81QTIKEnpTK4KwuprclQY+AOAhHTi6KS6EawyBhoap
-	 vkmsp+l/YpgH55GUbAGkuBwGRvUstmS3OdgJ2uv1tlNmr4syBna4LTU6fOFss/9XXmL5A
-	 poniCoMWyftJFlihuSXgSGSIVLGoPjvd2OFRyZ5EQKA8Iw20eWGxgQW2ay+G/wPXsmQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795612847;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=BpbsyFzLIuLLRIYUo5HYMqPLpIFsXjaSEvpIntsRtr0=;
+	b=ONk4f8k+1F+19CpHMUWTTjSStN7p9ygBXxEStu9j03aDZNHLNmjDsF//KLV4IomYVq+J
+	 iWx6FriO0wlCf/oRCVUMBMUrrb2fZhKv+JHTrBLrPSRslT08UsvTUU4uMM3Xnnzaup4zh
+	 kP4pT4PhGdjfqrl/gKOcxyTfhg0pbg1SJC4dKqM4CXq9A/XWdzuUNp1Wa8sTktqNCInhp
+	 NwU6LDoyyJLxdqnHNkKhG1YtM+suDCcJWh+ADq7/Hst7Shij7S3fDM86lhyGIFW5Jb+EZ
+	 7rXY2gvnXjmUlQUnmoK6Z/NC+lSLYPITa/KScQlWlNk4iIadUVWBjve0SnWeWZnU6/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=xqX0RlJB;
-	arc=none smtp.remote-ip=91.218.175.167
-Received: from mta0.migadu.com (out-167.mta0.migadu.com [91.218.175.167])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nz28PkFL;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A7A606A323
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 13:14:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79A7A606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30807606A321;
+	Wed, 25 Nov 2026 13:20:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=xqX0RlJB
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=+3skVRQZws6mNDzAhaeG8SDVhHgNE+CK66G995MnGIs=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795612473; v=1; x=1796217273;
- b=xqX0RlJBnTer6Ss4NYAHzHHbl+FJllRia84UCOmPQZJ0/3YL2OCRDj1jBXwDM5yFUDV1VNcY
- NAKLkdpaFVxC+DFvRh6BIppIEQsHQcuAlk370oH2GZ4OainXVDkSXgBVgeP89HUldrjW6nqGFpc
- zvlQJ+rh9aBcMSpXlXcw4YC0=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 4b3a9389f4f16c39;
-	Wed, 25 Nov 2026 13:14:33 +0000
-X-Mizu-Trace-ID: 4b3a9389f4f16c39
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <66189c93-6f82-4ac7-9538-2a036842f70e@linux.dev>
-Date: Wed, 25 Nov 2026 21:14:22 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nz28PkFL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFEFA1F000C6;
+	Wed, 25 Nov 2026 13:20:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795612846;
+	bh=BpbsyFzLIuLLRIYUo5HYMqPLpIFsXjaSEvpIntsRtr0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Nz28PkFLFYFGWEiprnX/yPyrxQsP8nKvrvdcWwUgxzh3FoRp12gGpD9UROXfm5y0m
+	 iELAGyxgX94lNmbKmbz7a+PDFZGWWFZVBOOlveXfIO+glA29LEo0b79CylwE0HLTeS
+	 lg4mYoJysr3g/ef8KSfuhvairPs7vvKvxQSKOaqCIRcCi2t3nUw9lmw01Kp9/sVd48
+	 teXoxuJUqe9Fwu9tVtBL1k3gn85WoEpdPOVcLj95stwXkMma4faYwFGKxu+l4YSpZo
+	 jvkts9N34r680JGLJzjZ1DZwsudXjP7R/5nVXMj1x37vR3EkvOmtbBQqyYz5QBio46
+	 R54G/sSyh7cbA==
+Date: Wed, 25 Nov 2026 14:20:43 +0100
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Zixin Wang <w1355457260@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	bigeasy@linutronix.de, darwi@linutronix.de,
+	john.ogness@linutronix.de, clrkwllms@kernel.org,
+	rostedt@goodmis.org, corbet@lwn.net, wagi@monom.org,
+	atomlin@atomlin.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6] Documentation: real-time: Add runtime tuning guide
+Message-ID: <awbgq0xQyJATel0_@localhost.localdomain>
+References: <20261125074658.33117-1-w1355457260@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,113 +60,68 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] docs/zh_CN: Add RCU/whatisRCU.rst Chinese
- translation
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, alexs@kernel.org, si.yanteng@linux.dev,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- paulmck@kernel.org, linux-doc@vger.kernel.org, rcu@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261118131636.5131-1-xiongwei.song@linux.dev>
- <20261118131636.5131-3-xiongwei.song@linux.dev>
- <09ef3d3d-0e68-49c6-a6a2-c754104ede9e@hust.edu.cn>
- <946792d2-4241-445d-820b-301a570ee2c3@linux.dev> <awZZVV3BlovD-xNf@wyuan.org>
-From: Bruce Song <xiongwei.song@linux.dev>
-In-Reply-To: <awZZVV3BlovD-xNf@wyuan.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261125074658.33117-1-w1355457260@gmail.com>
 
+Le Wed, Nov 25, 2026 at 07:46:58AM +0000, Zixin Wang a �crit :
+> +CPU isolation
+> +=============
 
+Isn't it kind of duplicating Documentation/admin-guide/cpu-isolation.rst ?
 
-On 11/25/2026 11:43 AM, Weijie Yuan wrote:
-> On Tue, Nov 24, 2026 at 10:23:50PM +0800, Bruce Song wrote:
-> 
-> [...]
-> 
->>>> +:翻译:
->>>> +
->>>> + 宋雄微 Xiongwei Song <xiongwei.song@linux.dev>
->>>> +
->>>> +:校译:
->>>> +
->>>> +.. _zh_cn_whatisrcu_doc:
->>>
->>>
->>> Please double check all the references. If one reference is not referred
->>> from other places, please remove it in the translation.
->>
->> Ok, I will do that.
-> 
-> Let's make it a rule or instruction, shall we?
-> 
-> I didn't find any specific rules for label usage in doc-guide dir. (only
-> no more top-level label on list) But I suspect there must be unused
-> labels in English docs.
-> 
-> We either:
-> 
-> (1) make it consistent, i.e. keep adding unused labels.
+> +
+> +.. caution::
+> +
+> +  CPU isolation is best effort.  Work that is explicitly bound to an
+> +  isolated CPU, such as per-CPU kernel threads, bound workqueues, and
+> +  interrupts, may still run there unless it is steered away.  Measure
+> +  the resulting latency with tools such as ``osnoise``, ``timerlat``,
+> +  and ``rtla`` rather than assuming that an isolated CPU is free of
+> +  kernel noise.  See Documentation/timers/no_hz.rst and
 
-I feel like this one is better. Maybe the unsued labels will be used in 
-the future?
+And cpunoise but that's all in Documentation/admin-guide/cpu-isolation.rst
 
-> 
-> or
-> 
-> (2) check usused labels and do not create new labels for it.
-> 
-> 1 may be easier for manual translating jobs that you don't need to check
-> every label manually. You just need to add a '_zh' before each original
-> label. But apparently this will create tons of unused labels. So, no?
-> 
-> 2 may costs more attention, but I guess agents could handle this
-> nowadays with proper prompts.
-> 
-> I forgot to mention this thing in Daniel's series [*], shall we mention
-> this now, or send a RFC patch after they get merged?
-> 
-> And also, add a rule for English docs that _do_not_ write a label which
-> is not used? This will make our job easier.
-> 
-> [*] https://lore.kernel.org/linux-doc/20261119041009.63651-1-danielmaraboo@gmail.com/
-> 
-> 
-> [...]
-> 
-> 
->>>> +概括起来如下：
->>>> +
->>>> +-    使用rcu_read_lock()和rcu_read_unlock()守护RCU读端临界区。
->>>> +
->>>> +-    在一个RCU读端临界区之内, 使用rcu_dereference()解引用RCU保护的指针。
->>>> +
->>>> +-    使用可靠的设计（例如锁或信号量）保持在互相干扰的情况下并发更新。
->>>
->>>
->>> |The original says to use locks or semaphores to prevent concurrent
->>> updates from interfering with each other. Please change this to “使用可
->>> 靠的设计（例如锁或信号量）防止并发更新互相干扰”。|
->>
->> The verb in original doc is "keep", and the objective is "updates" here.
->> IMO, "prevent" has changed the original meaning, and the objective has been
->> changed to "interfering with each other". Or do you have any other thoughts?
-> 
-> In my dictionary, "keep A from doing B" means "防止 A 做 B",
-> so something like:
-> 
-> Use some solid design (such as locks or semaphores) to keep
-> concurrent updates from interfering with each other.
-> 
-> 采用可靠的同步机制（例如锁或信号量），防止并发更新相互干扰。
+> +RCU callback offloading
+> +=======================
+> +
+> +``CONFIG_RCU_NOCB_CPU`` in
+> +Documentation/core-api/real-time/kernel-configuration.rst enables support
+> +for offloading RCU callback invocation from selected CPUs to per-CPU
+> +``rcuo`` kthreads.  The offload is selected with ``rcu_nocbs=``, implied
+> +by ``nohz_full=``, or enabled for all CPUs by
+> +``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL`` when neither parameter is given.
+> +
+> +``rcu_nocbs[=cpu-list]``
+> +  Offload RCU callback invocation from the listed CPUs to the
+> +  corresponding ``rcuo`` kthread, which can run on a housekeeping CPU.
+> +  This reduces callback-processing jitter on the CPU that enqueued them.
+> +  On a non-real-time kernel this also moves invocation out of softirq
+> +  context; with PREEMPT_RT, callbacks already run in kthread context
+> +  because ``rcutree.use_softirq`` is false, and the offload only changes
+> +  where they run.  If the parameter is given without a CPU list, no CPU
+> +  is offloaded at boot; the mode can still be toggled at runtime through
+> +  cpusets.  The parameter takes precedence over
+> +  ``CONFIG_RCU_NOCB_CPU_DEFAULT_ALL``.
+> +
+> +``rcu_nocb_poll``
+> +  Make the ``rcuo`` kthreads poll for callbacks instead of requiring the
+> +  offloaded CPUs to wake them.  This improves the real-time response at
+> +  the cost of higher power consumption, because the kthreads wake up
+> +  periodically to do the polling.  Consider this option only when wakeup
+> +  latency matters more than power.
 
-I tried the google translator, and the translation looks similar with 
-the above one. But one thing I'd like to mention is maybe "采用可靠的设计" is 
-more accurate than "采用可靠的同步机制"？
+Does nocb polling really improve real time response?
+I have doubts.
 
-To be honest, I used the google translator sometimes when I translated 
-this article. However, I don't think the results are good as we 
-expected, so I never trust it 100%.
+It checks callbacks and grace periods every jiffy instead of waiting
+for actual callbacks and grace period events.
 
-Regards,
-Xiongwei
+This means introducing jiffy worst case latencies.
+
+Thanks.
+
+-- 
+Frederic Weisbecker
+SUSE Labs
