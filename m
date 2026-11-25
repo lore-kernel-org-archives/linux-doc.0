@@ -1,102 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795620930;
-	b=v0Rvx83xuTK10n02V0Pcc0s/2D0/b1GwAeNM7/2rndREGe2KICrEdkyZwgkacHP2XnB8
-	 PwBelL0gihuHQN8qb6e6MVyfe+3qAd+1iNJemN1FME3V7JPAKk7wI01rrEqC+sKbeqHSQ
-	 ZUnbNz9piAcfZRLVnanjY+n5DsAkmZy5qaViFlumuFWuqA2XJ/texw92gQXmv4QJ1Ny8j
-	 xv9daAm1f6jqJXsMZyIP5n0/5z6Tok0SGT2HXS0cSiWZKDd7MY9tpDYyT0Rpgk8FsE4YJ
-	 PuPZg8Ainft7NwtTWww43GyXE95+d/7Vpb2oWgTvR8MM6cVBr99F1LtUnzcsBLGt1dg==
+	t=1795620989;
+	b=giZuY6JiyvzbjRB75PoSui+/u4HeRlWKCvipBFp0KiU9hv3GuqtE1ym/hfpsCN0qTdQS
+	 GIv2sP5YeRSFYQ5GkWKyGuzAWikBq2hOG66LaBEtOmNwlX1drYciQYHD1XGOmT5phtaxA
+	 0ZW1/AjfMbRSqKSGSF4Zqqu4QJEPI+y6OZCV0p1ua/R/LcsQhHUUqzljrXSTUI99Yw0pZ
+	 e+ItbYk02bgVJnudhzuQ2tC9ImyXYyxoWn3YC/VkkY2df9sKbNEYU+8RCX7Xm0foBao8U
+	 toicpa+xsPvuCXsl3fe98UfFd0uRLoZnnO9UBgw9ZX5PEAVoV+jMQ1BPy3x3IE6IzyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795620930;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=YgbzK8ibSGsIrs51CljrXndaFhLfFEHG1dcdzH3xvHM=;
-	b=Ze3b9rXA1bG+KvhovePQIKoy8/oUyMePyIi2iMt5atRj8gneDlZ7aGBcJaUtFTA54gEz
-	 b/UOLnCW1IU3uon7a5l4F7/3FNa1+dlECmsxl9uHsYrYfVlHQj2I3ppZw/n1Xq4fMYGu5
-	 rdK+M0/3WztysiaCh0oVb2aJqoTTqgSxWPL2PJLNRNbbB68/KfAIvyLA6aRcPiINMlTju
-	 p4OT3R0rxjCzwH5bCfkSp8whMhg2RN04uix+RAW1nTczf7TJm5lcRYOWbQrAyTXHftzF0
-	 v9ASo09xYqManj2jIXCP2USCU1aAOK4w2gV5x4skFUQ/6NrdzTN7stHDzTrSBzW1StA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795620989;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=dPaNfzEm8Q/pGFCJLoSAYcv2nDmTyjHZh8qs5K/cDfI=;
+	b=zLdmymC3yIR4UpnRSHvBHlcYHLCP28OqJt47doc5lfaSC5YJ/QGJrln6l56GCuYTd4Ij
+	 CIANMv3+42aTE1VOFa6cXKhE9mwRC5f7EtevS/W+MHSerN+kieHt8UMlA+IcosCFrZOS+
+	 453R7L52KW0ZUPPXjE2nLuhN/OgP/ML4anOMOmBYT9/i/Cvpt/jmsChSrjnI+lIJ4G2qU
+	 WehbKW/jqJIGTwgCfavn7S8ZvizJAwn1O7DCjLA4BofLu+qZWhsnF0Lqgy89M/tjUNmYZ
+	 S3k4AMdCsycx4U2jrFhCbpzZdaPGEFA970KPaCVWJWyW+c0AHP8BtthRidhGujrIDyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linbit.com;
-	spf=pass smtp.mailfrom=linbit.com;
-	dkim=pass header.d=linbit.com header.i=@linbit.com header.a=rsa-sha256 header.s=google header.b=ffmHMm5r;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NhT6m+S4;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B488606A6A0
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 15:35:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B488606A6A0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linbit.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id A8D15606A33C;
+	Wed, 25 Nov 2026 15:36:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linbit.com header.i=@linbit.com header.a=rsa-sha256 header.s=google header.b=ffmHMm5r
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so50515645e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 07:35:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linbit.com; s=google; t=1795620927; x=1796225727; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YgbzK8ibSGsIrs51CljrXndaFhLfFEHG1dcdzH3xvHM=;
-        b=ffmHMm5rp7v5ywmmeByUKwGrCM9qkBnSpyMKk832u8XteyMMVBNNmYN7GnvKaoysZT
-         HY0DgreFH8IbKhb43hP9FjMwrBRokPxJ5xBCeJ1h0abWj8qXWjFvix4xsKn9kaaEFiuS
-         CZUoAhnk0Q6HmMth1UDZOBz5TZ2r7/5cayoqz9m2Oht00gIhwPFuCo4fKA4JnEbYPeRM
-         z/KsapnIBhA8Th5eJTdUAIAapyYOYTpTI5PnRZtwweX0swvXfQt3RB7tqYAB7XYBqdfj
-         1JEvO8inaZpDwMoSnfem2nOJIQ/inV0+DM9KwXwSGTpSSCKGfO7V7M1CM3pwnA6WjKAk
-         hNzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795620927; x=1796225727;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YgbzK8ibSGsIrs51CljrXndaFhLfFEHG1dcdzH3xvHM=;
-        b=nTq8Jfx9cUpcf2RrqYsiKWNbx6W46n6OKcAHQkGqHFHCcTVWOLb5YBaUDX/V2U5+1R
-         NKAqSXjyq7zmI3kpA+A6h4Y5YAl5B0z5lBxsDQYoMfXKs8jFh0uIr9s/i144r1zYMgv5
-         JgIhTuR0E6FtGt9tBZ62UtxjmxNTIqEUD9xXDSbsZ0/VPfhpkLJUzRobKCyHrUdzrUT0
-         WCx5S0WexI9BuCkz8Fjru6RIC7/h/pVJENiW1604/m6iEG1qDJh6qozgjADomhxlX8RI
-         n+kJCiGx9KVrKepT8HshTNZnD9lAbcgLji/TVz9WHk++WCrw8XzHneJKDX5Pymtnh2KP
-         yGpw==
-X-Forwarded-Encrypted: i=1; AL+hErHnLoX+h1zqguKPh8x6DXpDDvc7AjhWq85gznE+FmhBqDudyQd8qH1cBqCFqW/UWqi8zecTi6AUW8A=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/UElb0eKGW+JpVpHdfc0VrevgaX5eQc1/9gbatngg7YUQBxGgf
-	oKa6rib4qu1FeCx0yIk0e8fcnYFtlhSWJj2B6WqJFDXhtGFqrqraBd3+rrdQgfMCiP8=
-X-Gm-Gg: AZFdTZfQ/9okcKGoqsTmkm02+CnV2C4ST09I+tRXCn7krBIrCt6vra9WiVCWRKxhAZD
-	vVNvUSE9Ya02yrXbAAgw2gTEougM089jU5P1UBjLXu3srl1UkKazvCZ2EawvHWeK8P4ie8U6KB9
-	rpktrDwhYBrclLFj4RSNBzJ2gHJPn/qzERRLO3OCIN2EqX1IA9T8o2L7KN7wa2fsUOTFaaBqMmR
-	kEmLUrPXmjxPsiWt0ZWWzq1CcsdKyEBAtkDLlWeefHzkumeRLK1zg5yczzkMghykChF/0bQuFK5
-	CkSUijR10MfFzPWjqjHd/Gco2XG5HbWlrKdLP0+gWhhHYJLNtFfgcdNwNRSaru27PYc92Veqxzu
-	U/IZS7Dh5DW/xKlz81DpHcM71MJcRRKVPQzsSJ4Ng/wWPwOKsC40cVPakCk62KxS2lTC2beCNsE
-	thiKClsnJrTaFtaigtoUjlGrbskTtaH3gvXStuvw2FOxtaFlOKFBPjFACRp4sMQOxkAtlKgT7km
-	fYEJbNoiiBJ9wuW6Um1w6ueX1VE05L5Zf9AkPSEMdHaruK1gmT68tNXUD40J7Cr2CR7eXMsDo4q
-	zjC8tsv4NwOyIg3zOUvOw5BURl8U2O1M5kI2PdJYoLFLqDEx/+FmJlsInW7njHORRszCzre+Qg=
-	=
-X-Received: by 2002:a05:600c:64c8:b0:4bb:68e5:b952 with SMTP id 5b1f17b1804b1-4bb88819be1mr349292065e9.16.1795620927423;
-        Wed, 25 Nov 2026 07:35:27 -0800 (PST)
-Received: from linbit.com (h082218129081.host.wavenet.at. [82.218.129.81])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab658e2d60sm35816275f8f.3.2026.11.25.07.35.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 07:35:26 -0800 (PST)
-From: =?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: drbd-dev@lists.linux.dev,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Joel Colledge <joel.colledge@linbit.com>
-Subject: [PATCH v4 09/21] drbd: add application/resync IO synchronization documentation
-Date: Wed, 25 Nov 2026 16:34:59 +0100
-Message-ID: <20261125153511.3060599-10-christoph.boehmwalder@linbit.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261125153511.3060599-1-christoph.boehmwalder@linbit.com>
-References: <20261125153511.3060599-1-christoph.boehmwalder@linbit.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NhT6m+S4
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 74C111F000D4;
+	Wed, 25 Nov 2026 15:36:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795620989;
+	bh=dPaNfzEm8Q/pGFCJLoSAYcv2nDmTyjHZh8qs5K/cDfI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NhT6m+S4ZoYbZbfWHVPSDn37Wq+Nzw9+6fj96NfG1MDhcfAxD9c5FkqacEvvK4d1K
+	 vvYwfQ5ZH6qjtJzbddWJ5x0ak/mK1Tvxd23y8QeRn1nWzT/jBlYwhsBW6Xa8XCI0O5
+	 7IQLGhf0WU9dvLofrG9WoIELDuvcmwnO90VKRO0rR6zEev9BMAeucG0hM+SsZJQQdW
+	 Qv6YcuLfiPsKIbaM4xjQWWVuUNpILSSWEfne7L7LasoES8xdeCglYEFHp075Ye+2Mw
+	 gjvPoiJVlmzel067FC64bksHdKSd1gvFOePbanAM5Mh3vaKJaiSusOWil8o7DhHP0Z
+	 stOUEjdO3fEBA==
+Date: Wed, 25 Nov 2026 17:36:24 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: keyrings@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Alasdair Kergon <agk@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	David Gstir <david@sigma-star.at>,
+	David Howells <dhowells@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ignat Korchagin <ignat@linux.win>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	James Morris <jmorris@namei.org>,
+	James Prestwood <prestwoj@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>,
+	Lukas Wunner <lukas@wunner.de>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Mimi Zohar <zohar@linux.ibm.com>, Paul Moore <paul@paul-moore.com>,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sumit Garg <sumit.garg@kernel.org>
+Subject: Re: [PATCH v2 1/9] KEYS: trusted: Allow ASN.1 TPM2 sealed data
+ shorter than MIN_KEY_SIZE
+Message-ID: <awcAeLUROL0l_g3X@kernel.org>
+References: <20261124194043.1651679-1-jarkko@kernel.org>
+ <20261124194043.1651679-2-jarkko@kernel.org>
+ <20261125090930.698d8f1b@pumpkin>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,247 +83,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125090930.698d8f1b@pumpkin>
 
-Add documentation describing how DRBD synchronizes application and
-resync IO, including the dagtag-based locking scheme introduced with
-the DRBD_FF_RESYNC_DAGTAG feature flag.
+On Wed, Nov 25, 2026 at 09:09:30AM +0000, David Laight wrote:
+> On Tue, 24 Nov 2026 21:40:35 +0200
+> Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> 
+> > tpm2_unseal_cmd() rejects unsealed payloads shorter than MIN_KEY_SIZE (32
+> > bytes) with -EFAULT even when loading an ASN.1 TPMKey (OID_TPMSealedData,
+> > 2.23.133.10.1.5) blob.
+> > 
+> > While kernel-generated trusted keys ("new <keylen>") and legacy old_format
+> > blobs are at least 32 bytes long, external TPM2 tools allow sealing any
+> > non-empty payload up to 128 bytes.
+> > 
+> > Keep MIN_KEY_SIZE for legacy old_format blobs and accept 1..MAX_KEY_SIZE
+> > bytes for ASN.1 TPMKey sealed blobs.
+> > 
+> > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> > ---
+> >  security/keys/trusted-keys/trusted_tpm2.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/security/keys/trusted-keys/trusted_tpm2.c b/security/keys/trusted-keys/trusted_tpm2.c
+> > index 30188a0ec676..d7336f25b514 100644
+> > --- a/security/keys/trusted-keys/trusted_tpm2.c
+> > +++ b/security/keys/trusted-keys/trusted_tpm2.c
+> > @@ -559,9 +559,11 @@ static int tpm2_unseal_cmd(struct tpm_chip *chip,
+> >  	rc = tpm_buf_check_hmac_response(chip, buf, rc);
+> >  
+> >  	if (!rc) {
+> > +		u16 min_len = payload->old_format ? MIN_KEY_SIZE : 1;
+> 
+> There is no point using u16, just use unsigned int.
+> 
+> The same goes for data_len.
 
-Co-developed-by: Joel Colledge <joel.colledge@linbit.com>
-Signed-off-by: Joel Colledge <joel.colledge@linbit.com>
-Signed-off-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
----
- .../application-resync-synchronization.rst    | 208 ++++++++++++++++++
- .../admin-guide/blockdev/drbd/index.rst       |   1 +
- 2 files changed, 209 insertions(+)
- create mode 100644 Documentation/admin-guide/blockdev/drbd/application-resync-synchronization.rst
+Hmm... or just int?
 
-diff --git a/Documentation/admin-guide/blockdev/drbd/application-resync-synchronization.rst b/Documentation/admin-guide/blockdev/drbd/application-resync-synchronization.rst
-new file mode 100644
-index 000000000000..895312453229
---- /dev/null
-+++ b/Documentation/admin-guide/blockdev/drbd/application-resync-synchronization.rst
-@@ -0,0 +1,208 @@
-+=========================================
-+Application and Resync IO Synchronization
-+=========================================
-+
-+This summary describes one aspect of the Distributed Replicated Block Device
-+(DRBD) protocol. For a full definition of the protocol see the DRBD code.
-+
-+IO operations to the DRBD backing device can originate from 2 sources. Normal
-+operations from a filesystem or other user of DRBD are called application IO.
-+Resync operations in DRBD also perform reads and writes. These operations must
-+be synchronized to ensure that the data on the backing device is correct.
-+
-+For instance, the following must be prevented:
-+
-+* Resync read obtains block version v1 on some node
-+* Application writes block version v2 on all nodes
-+* Resync write overwrites block version v2 with version v1
-+
-+In addition, care must be taken to ensure that bitmap bits are only cleared
-+when this block is genuinely in sync between these nodes.
-+
-+Synchronization with resync extents
-+===================================
-+
-+Older versions of DRBD without the feature flag ``DRBD_FF_RESYNC_DAGTAG``
-+perform synchronization using "resync extents". These are also known as "bitmap
-+extents". They are stored in an LRU cache. These extents are exclusive with the
-+activity log extents.
-+
-+Synchronization with data generation tags
-+=========================================
-+
-+When the feature flag ``DRBD_FF_RESYNC_DAGTAG`` is present, DRBD synchronizes
-+resync and application IO using the concept of the "data generation tag"
-+(dagtag). This is coupled with fine-grained locking of the request intervals,
-+implemented internally using an interval tree.
-+
-+For a given node, the dagtag is the number of sectors written by the
-+application on that node. The dagtag is used to determine which node has newer
-+data in certain scenarios. DRBD keeps track of the dagtags of its peers.
-+
-+Whenever a resync request is made, the ``L_SYNC_TARGET`` node making the
-+request sends the dagtag from the current Primary node, if any. The
-+``L_SYNC_SOURCE`` node must wait until it has received the data corresponding
-+to this dagtag before responding to the resync request. This is important for
-+preventing the resync from writing older data over newer data.
-+
-+In addition, the request intervals are locked according to the following
-+scheme:
-+
-+* Primary: The application IO interval is locked while the data is being
-+  written to the backing disk. In addition, conflicting application IO is
-+  prevented until the epoch containing the request is complete. However, this
-+  is effectively a separate lock. Resync IO is not blocked while this lock is
-+  held.
-+* Secondary: The application IO interval is locked while the data is being
-+  written to the backing disk.
-+* Sync target: The ``P_RS_DATA_REQUEST`` interval is locked. The lock is taken
-+  in two phases. Before sending the request, the interval is locked for
-+  conflicts with other peers. Then the dagtag is recorded and the request is
-+  sent. When the reply is received, the interval is additionally locked for
-+  conflicts with ongoing IO, in particular writes from the same peer. The lock
-+  is released when the reply has been received and the data written to the
-+  backing disk.
-+* Sync source: The ``P_RS_DATA_REQUEST`` interval is locked. The lock is taken
-+  when the dagtag for the request is reached. It is released when the
-+  ``P_RS_WRITE_ACK`` is received. This lock is a read lock; it is exclusive
-+  with write locks, but not with other read locks.
-+* Verify source: The online verify interval is marked but does not block any
-+  other requests. The mark is set then the dagtag is recorded and the request
-+  is sent. The mark is removed when the ``P_OV_REPLY`` has been received, the
-+  dagtag from the reply has been reached and the data read. If any conflicting
-+  writes occur while the mark is set, the sectors are skipped.
-+* Verify target: The online verify interval is marked but does not block any
-+  other requests. The mark is set when the dagtag for the request has been
-+  reached. It is removed after reading the data. The latest dagtag received by
-+  this node is sent with the ``P_OV_REPLY``. If any conflicting writes occur
-+  while the mark is set, the sectors are skipped.
-+* Sending ``P_PEERS_IN_SYNC``: Intervals are briefly locked while sending
-+  ``P_PEERS_IN_SYNC`` to ensure that the bits remain in sync until the packet
-+  has been sent.
-+
-+If a conflict occurs when an interval should be locked, the request is delayed
-+until the conflict resolves. Internally this is implemented by storing the
-+interval in the tree in an unlocked form. When an interval is removed from the
-+tree, the tree is searched for any intervals which can now be released.
-+
-+Application IO defers to resync IO. That is, application IO is blocked by
-+resync IO even when that resync IO has not yet obtained the lock for its
-+interval. This is important for ensuring progress. In the normal case, resyncs
-+only make one pass through the data. Hence they will eventually terminate.
-+Application IO, on the other hand, can keep a given region busy for an
-+arbitrary length of time. So resync IO must not wait indefinitely for
-+application IO.
-+
-+Correctness of data
-+-------------------
-+
-+We only consider the synchronization between application and resync IO here.
-+
-+The locking scheme prevents any writes from other peers to the resync request
-+interval from when the request is initiated until the received data is written.
-+After the lock is taken on the target, the dagtag is recorded and the request
-+is sent to the source. The source then waits until it has reached this dagtag
-+before reading. This ensures that the resync data is at least as new as the
-+data on the target when the request was made.
-+
-+Conflicting application writes that reach the target while the resync request
-+is in progress are held until the resync data has been written. Hence they
-+overwrite the resync data. In the case where the source had already received
-+this application write when it performed the resync read, the application write
-+will overwrite the resync write on the target with identical data. This is
-+harmless.
-+
-+Resync requests sent from the target are not exclusive with application writes
-+from the same peer. However, since the resync and application data originate
-+from the same node, they are transmitted in the correct order in the data
-+stream. Application IO defers to received resync IO, ensuring that a resync
-+write received before an application write is also submitted first.
-+
-+Correctness of bitmap bits
-+--------------------------
-+
-+DRBD guarantees that bitmap bits are set, or the corresponding activity log
-+extent is active, on at least one peer whenever 2 nodes are out of sync with
-+each other. A resync is called "stable" when the target is a neighbor of the
-+Primary node, if there is one. After a stable resync, all bitmap bits should be
-+clear. In other situations, DRBD makes a best effort attempt to clear bits when
-+appropriate.
-+
-+Hence we need to ensure that:
-+
-+1. Bits are set when out of sync
-+2. Bits are only cleared when in sync
-+3. Bits are cleared in a stable resync
-+
-+We are only considering the synchronization of application and resync IO here,
-+so we only need to consider interactions between the 2 types. Requirement (1)
-+holds due to the general design for how writes work in DRBD. Requirement (3)
-+holds because there is no operation that sets bits in a stable resync. The
-+potential issues with these interactions arise with requirement (2). We need to
-+ensure that bits are never cleared that have become out of sync during the
-+operation.
-+
-+On a Primary node, writes cause bits to be set and cleared when the
-+corresponding ``P_BARRIER_ACK`` packets are received. On a Secondary node,
-+writes cause bits to be set and cleared when the corresponding ``P_PEER_ACK``
-+is received. On a sync target, bits are cleared when the resync data has been
-+written. On a sync source, bits are cleared when ``P_RS_WRITE_ACK`` is
-+received.
-+
-+The bits cleared by writes must always be in sync because the corresponding
-+nodes have received the write. As demonstrated in the section "correctness of
-+data", they cannot lose this data due to a resync.
-+
-+For a stable resync, bits will not become out of sync for the peer device on
-+either side during the resync operation because both peers receive the
-+application writes.
-+
-+On a sync target for an unstable resync, no application writes are received, so
-+there will be no bits set that could be incorrectly cleared.
-+
-+On a sync source for an unstable resync, the interval is locked until
-+``P_RS_WRITE_ACK`` is received. Hence, when the bit is cleared, the target has
-+the same data for the interval as the source. That is, they are still in sync.
-+
-+For ``P_PEERS_IN_SYNC`` we consider only the 3 node case. There is only one
-+configuration with an unstable resync with 3 nodes. That is a chain
-+A - B - C with A being Primary and a sync from B to C. The only
-+``P_PEERS_IN_SYNC`` packets that have an effect in this configuration are those
-+from B to A indicating that C is in sync for some interval. B only sends this
-+packet when no bitmap bits are set towards C for the interval. In addition,
-+B must ensure that no application write causes bits to be incorrectly cleared
-+on A towards C. This could occur when B has sent ``P_BARRIER_ACK`` for a write
-+which is not yet represented in its bitmap towards C. So B must not send
-+``P_PEERS_IN_SYNC`` for an interval where this may be the case. To do this, it
-+checks that there is no activity in the activity log that overlaps with this
-+interval. To ensure that no writes occur between this check and sending
-+``P_PEERS_IN_SYNC``, it locks the interval temporarily.
-+
-+Deadlock safety
-+---------------
-+
-+We can ignore the locking of application IO until the containing epoch is
-+complete. No other lock acquisition depends on it. To put it another way, it
-+operates on a level above the rest of the locking.
-+
-+The locking on Primary and Secondary while application IO is being written to
-+the backing disk does not depend on any other lock acquisition. So it is
-+guaranteed that a locked interval of this type will eventually be unlocked.
-+
-+Online verify does not block any other operations, so cannot be involved in
-+causing a deadlock.
-+
-+Sending ``P_PEERS_IN_SYNC`` also cannot be involved in causing a deadlock
-+because it does not depend on any other lock acquisition.
-+
-+Resync requests depend on the corresponding peer. If the connection is lost,
-+the operation is aborted, so no deadlock will occur as a result of
-+non-responsive peers.
-+
-+A node cannot be both sync source and sync target simultaneously. Hence there
-+are no locks in the scheme which can block sync source reads indefinitely. So
-+a resync request from a sync target will always eventually receive a reply,
-+which allows it to perform the write and unlock its interval. This in turn
-+guarantees that the sync source will receive an ack and unlock its interval.
-+
-+Hence the locking scheme itself is free from distributed deadlocks.
-diff --git a/Documentation/admin-guide/blockdev/drbd/index.rst b/Documentation/admin-guide/blockdev/drbd/index.rst
-index 561fd1e35917..5d8d6707e4f4 100644
---- a/Documentation/admin-guide/blockdev/drbd/index.rst
-+++ b/Documentation/admin-guide/blockdev/drbd/index.rst
-@@ -15,5 +15,6 @@ Description
- .. toctree::
-    :maxdepth: 1
- 
-+   application-resync-synchronization
-    data-structure-v9
-    figures
--- 
-2.56.0
 
+> 
+> David
+
+
+Br, Jarkko
