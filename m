@@ -1,97 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795593986;
-	b=wSltgDbsAccVdwEGEHnb3TFBQLgkll374jz6AxmLTBR5q7/JemsgkOXX8Y/a7kz7W9Yd
-	 lvjjrdNXmAdvwL7AtvJRpLgS+fcXjRY0JzkXqTBtzVNrWecqx2Wm1fHAZST+wHGViE4Cz
-	 FaUDAJFa3R3tdi5eHHBcQXBPCGREn7Q/FJ8IDNKshhoEXWAasEUy1pYeZoDjtILRakBFA
-	 jX1QNlb4SaRSi4hzuQ/EovSBZmgEPQKuCGU1H7qTJJn9FlgYFyoedCbd8bWaut08FaZkt
-	 DOTFPJhDDOtdyEmgNBNwW2K6UENez7kfiDrBw3ECn1SXDqn9BjnfKMNVvlGv496SpJQ==
+	t=1795594103;
+	b=Hct7wcW1MeH58grzArr0cedkQj6alLRE/nB7dpJwOmVaeSqow76EroLPGd6QUHQFpLCh
+	 nLd51mOT5DrIBk3QGPA9kTNej2JIFY5jzlVYNLfPyngre+pxpQwKVRsC0oi1/JCxdF8L2
+	 mJrPe3Y+SteqEuNEf9G1OXyaNrl75Et4uGhjC5fSa7XPQQWdjtzv5LZ4lPnONK52Uw/VK
+	 +c1cwjjCkznQiiTQoBvtlS7QWP8RjdamIy/cq//C4F/Z5q6FmEUs7xfLHwcYKVVFzGwQF
+	 b6FPHpkkx23DwMcbKenhz2uL2coxNKxHGwPbHMKiRw2yNwrsOuhVM+CUFI3QKzfZ2BQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795593986;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=qtWuoC5FN2MELDFAKVm54MaDOVUHKz/6gxfQ29IMYEs=;
-	b=Hsfs2nAM1xkpvXqykcjYZ3W4PurNyQKOBM0CTsfEjnr5F3yE8G1pgnJCjp/9X1TXnDud
-	 uqnQtnpXkseVBGYplG5wJkOIgUDDfAg5xi5AeAFwr3WVrn40cAY9rkRvdj4gwIeejCAQK
-	 WsErRjR8R2BUEI9Xo8z+2uLOCCR1HsTJXfz7HuFFpnLgGKiKzN3qdPuTvP9uBzkdg8t38
-	 WMtl78VLWKrtU98/ImDF29S2l53/SxAvG5I8CwZp1hQdD6UdR8Ylchy9ln97rmbA+7v5B
-	 sXxjP/9S7VkH/ZBJIXQDuPMb/YHo5t3GHMdmFZdgCKiKtXXo2eZ7A03gIVGiP8IUYaw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795594103;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=wrzhx5t/iGLS3qmtq75RdlxMdlTkWisQNBBhZbaEnus=;
+	b=wNN6e5QTwDpYbfWfYTDdMtmFgEPUTr68gkiN/cH0IHutd81SoEOkL15DVxtV370+tqXd
+	 U5pcw2/9OtJnoTNEjEMIYcz+tLc7CQhvS3UXQwFAcTDXZiGJKjmaxtouqxCzC40lcOTyw
+	 9FJxtzafhQ8qqtGbdseiAQBBGd7a5GdLeeXbTKl2rBLaIgJbPElEhjXKIBTu/WppcS5Cd
+	 iVk9TeK9oH7gEzCK7zHccZlGXcBnOZDIMSX3fRBla5nmNLgejGPlnYF6Na94vQly8o7dr
+	 cSjHtBpdXalkih3P8PEcyJHH/wN18XzAqeNBYY4tYTafhV/pPJDYyXVBgB06pYjxXmw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gUIFb+z3;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=tqS4Klv7;
+	arc=none smtp.remote-ip=113.46.200.219
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED1C606A31E;
-	Wed, 25 Nov 2026 08:06:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49736606A31E;
+	Wed, 25 Nov 2026 08:08:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49736606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gUIFb+z3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0A421F000D4;
-	Wed, 25 Nov 2026 08:06:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795593985;
-	bh=qtWuoC5FN2MELDFAKVm54MaDOVUHKz/6gxfQ29IMYEs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gUIFb+z3EoGY/k5hBc/4s5BAcJqoX9NRdGz5EQ6vBgq3rKgAr7rBRsJERd4dmZigO
-	 sgMEGylJulCdyIpDhHG6/2txMVQjqrlwfpZxIzCQD9ih0XAAV5jcvSffX4lkzrl50w
-	 cDOqkERHka2UohPOATjzjz7RQTUHWII6+yvEv/39m5kvL8wGeIVNx0KY9I4eCtkGIO
-	 7CyKz2J4/slnL7IdCSuRKiy7aSog5s+20Q6CNmFwovssbysi2Rs0WtFZQmgkhVyUTp
-	 WzzU5qaaMeAJRyM1mX5Ul3b1ERZi7ZWbYDbm/BGlP2UbP3Rj7THpZilyDmxSEyIYfZ
-	 j4WqRkjdYr7Qg==
-Date: Wed, 25 Nov 2026 10:06:21 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Chris Lu <chris.lu@mediatek.com>, Mans Rullgard <mans@mansr.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Cornelia Huck <cornelia.huck@de.ibm.com>,
-	Andrew Morton <akpm@osdl.org>, Jeff Garzik <jeff@garzik.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-	Dan Williams <djbw@kernel.org>, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-input@vger.kernel.org,
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-pci@vger.kernel.org, iommu@lists.linux.dev,
-	linux-coco@lists.linux.dev, Alexey Kardashevskiy <aik@amd.com>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Greg Kroah-Hartman <gregkh@suse.de>, linux-sound@vger.kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v4 21/33] driver core: Introduce a generic device trust
- level
-Message-ID: <20261125080621.GW14811@unreal>
-References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
- <20261124-device-trust-core-v4-21-037eb0d17b1f@nvidia.com>
- <1bc8f048-4d35-484b-af60-2d13541e683f@infradead.org>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=tqS4Klv7
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=wrzhx5t/iGLS3qmtq75RdlxMdlTkWisQNBBhZbaEnus=;
+	b=tqS4Klv7lZR7U71zCQvspliNcOl7SRTvkKu0Ui1p+Y5PdwRVxMjBpxFRaIeVw15g3YNxVh010
+	/Yvombh6gXV1DJUdZn2eayPuW8xt9UXo1p91PW0pyQiQjInUMQm7Xv0PQpfwe2KOPh+1iu0Dswd
+	VhL+XpECdeYyxpIcX2aKZHk=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4jZC3M1GPQz1prQf;
+	Wed, 25 Nov 2026 16:07:59 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 308F74057F;
+	Wed, 25 Nov 2026 16:08:16 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 25 Nov
+ 2026 16:08:15 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<james.morse@arm.com>, <rppt@kernel.org>, <arnd@arndb.de>,
+	<kmehltretter@gmail.com>, <dapeng1.mi@linux.intel.com>, <elver@google.com>,
+	<enelsonmoore@gmail.com>, <bp@alien8.de>, <jlayton@kernel.org>,
+	<catalin.marinas@arm.com>, <sean@starlabs.systems>, <suzuki.poulose@arm.com>,
+	<will@kernel.org>, <tzungbi@kernel.org>, <kas@kernel.org>,
+	<wenst@chromium.org>, <steven.price@arm.com>, <tzimmermann@suse.de>,
+	<ruanjinjie@huawei.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<vladimir.murzin@arm.com>
+Subject: [PATCH v2] arm64: sdei: add sdei_nmi.disabled= to keep the GIC NMI path reachable
+Date: Wed, 25 Nov 2026 16:08:12 +0800
+Message-ID: <20261125080812.1225194-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,52 +75,103 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1bc8f048-4d35-484b-af60-2d13541e683f@infradead.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-On Tue, Nov 24, 2026 at 04:13:16PM -0800, Randy Dunlap wrote:
-> Hi Leon,
-> 
-> On 11/24/26 1:43 AM, Leon Romanovsky wrote:
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 0b3c140babd94..8a94482f0b19b 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -1259,6 +1259,20 @@ Kernel parameters
-> >  	dell_smm_hwmon.fan_max=
-> >  			[HW] Maximum configurable fan speed.
-> >  
-> > +	device_trust	[KNL]
-> > +			Enable device trust with blocked as the implicit default.
-> > +
-> > +	device_trust.default=
-> > +			[KNL] Set initial trust policy for all devices, including
-> > +			hotplugged devices.
-> > +			Format: { default | blocked | adversarial | unrestricted }
-> > +			No trust options selects legacy unrestricted mode, preserving
-> 
-> By "No trust options," do you mean using
-> 	"device_trust.default="
-> or just
-> 	"device_trust", which says above means "blocked"?
-> 
-> If I want the status quo (before generic trust levels), do I need to do
-> anything? If so, what?
+While the SDEI cross-CPU NMI provider is active it claims every
+cross-CPU backtrace, so on a platform whose firmware exposes SDEI
+event 0 the irqchip NMI path can never be used.  There is no way to
+opt out.
 
-I mean that if you do nothing and do not write to any device_trust*
-knob, the system will continue to work exactly as it does now. That is
-what "No trust options" means.
+Add a boot parameter "sdei_nmi.disabled".
 
-Thanks
+With sdei_nmi.disabled=1, the SDEI NMI will not be registered, so
+sdei_nmi_available stays false and the hooks decline on their own, which
+lets arch_trigger_cpumask_backtrace() fall through to its IPI path.
 
-> 
-> > +			bus policy and existing authorization. Otherwise blocked is the> +			implicit default. An explicit value wins regardless of option
-> > +			order. default preserves bus policy; other values replace it.
-> > +			unrestricted disables runtime policy changes.
-> > +			See Documentation/driver-api/driver-model/device-trust.rst.
-> 
-> thanks.
-> -- 
-> ~Randy
-> 
+Suggested-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+v2:
+- Alphabetical order.
+- Simplify the code by return before registering event 0.
+---
+ Documentation/admin-guide/kernel-parameters.txt |  8 ++++++++
+ drivers/firmware/Kconfig                        |  4 ++++
+ drivers/firmware/arm_sdei_nmi.c                 | 17 +++++++++++++++++
+ 3 files changed, 29 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 176648941aec..4f07c771b46b 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6934,6 +6934,14 @@ Kernel parameters
+ 			non-zero "wait" parameter.  See weight_single
+ 			and weight_many.
+ 
++	sdei_nmi.disabled= [ARM64,EARLY]
++			Disable SDEI-based cross-CPU NMI and leave the GIC NMI
++			path in place. Requires the kernel to be built with
++			CONFIG_ARM_SDEI_NMI.
++			Format: { "0" | "1" }
++			0 -- enable (default).
++			1 -- disable.
++
+ 	sdw_mclk_divider=[SDW]
+ 			Specify the MCLK divider for Intel SoundWire buses in
+ 			case the BIOS does not provide the clock rate properly.
+diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
+index 43e2e2a64594..4c8b917867dd 100644
+--- a/drivers/firmware/Kconfig
++++ b/drivers/firmware/Kconfig
+@@ -58,6 +58,10 @@ config ARM_SDEI_NMI
+ 	  regardless of the target's PSTATE.DAIF -- forced delivery into a
+ 	  CPU wedged with interrupts locally masked.
+ 
++	  This provider takes over every cross-CPU backtrace; set the
++	  kernel parameter "sdei_nmi.disabled" to 1 to use the irqchip
++	  NMI path instead.
++
+ 	  If unsure, say N.
+ 
+ config EDD
+diff --git a/drivers/firmware/arm_sdei_nmi.c b/drivers/firmware/arm_sdei_nmi.c
+index 038eb79e28ac..0e146e603354 100644
+--- a/drivers/firmware/arm_sdei_nmi.c
++++ b/drivers/firmware/arm_sdei_nmi.c
+@@ -62,6 +62,18 @@
+ 
+ static bool sdei_nmi_available;
+ 
++/*
++ * Mirrors irqchip.gicv3_pseudo_nmi=: the architected NMI path
++ * is preferred when asked for, and SDEI stays out of the way.
++ */
++static bool sdei_nmi_disabled __initdata;
++
++static int __init sdei_nmi_disable_setup(char *str)
++{
++	return kstrtobool(str, &sdei_nmi_disabled);
++}
++early_param("sdei_nmi.disabled", sdei_nmi_disable_setup);
++
+ #define SDEI_NMI_EVENT			0
+ 
+ /*
+@@ -222,6 +234,11 @@ static int __init sdei_nmi_init(void)
+ 	if (!sdei_is_present())
+ 		return 0;
+ 
++	if (sdei_nmi_disabled) {
++		pr_info("SDEI cross-CPU NMI disabled by sdei_nmi.disabled.\n");
++		return 0;
++	}
++
+ 	err = sdei_event_register(SDEI_NMI_EVENT, sdei_nmi_handler, NULL);
+ 	if (err) {
+ 		pr_err("sdei_event_register(%u) failed: %d\n",
+-- 
+2.34.1
+
