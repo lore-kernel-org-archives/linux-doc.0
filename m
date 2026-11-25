@@ -1,80 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795644633;
-	b=zbINbZDTIm358XMssYkPhKrB9LMwGQf+m8rOgPoCBf1krT7sBOGRTFoF1cD+hXS8/V07
-	 gBNXXkW47FLNJ4SZ0rVaLB1+4fEbszbIdJM38OxXmHAshdUI+z1lb4tIzVRHsG3bSEhUt
-	 nMKYGTqaZhQ214+slxRvbRout7Gn3dDLbQCa5e5uub/FyrHZ4CSDGngACR2gJOEXO88RV
-	 Xf6cxcL/KsNAdGCS3cFDdop3otvBwizXZXlSxMvg+dzuH5VD71gHgar9jvY3eaciooT3+
-	 qSqm88WyLeD9lFPYQcKmc9b5QEY62yXBPXacD1vowVcm5i2n5stKkf+DWNXXph+MtXw==
+	t=1795644670;
+	b=Solrdu0TDqx++mgGwLFzaRk1+7hgnp8VbIAj3nOy/Rua9Ey5muMumurN9WRZmRG9hk4A
+	 /uiHopBKLM+OQ83KoYcCWV9fGSrbIoNt1aEKlQe8lR6EshFZk23HrIsLae74BHoeGsGAh
+	 MpqaE0hIwigH9c3WAkCVxiW/9ThdP22mpWIiIhJhq6/ifGA5jXLqVVfsyBx8Isz9kXJYx
+	 9w0efIJBH20y/b0SoWu8Q5apY6qe3SBKvJXcO3vvW5yR3V3tS/pd68cxjLbRGZGMvHNHp
+	 YNQu3b+ZAownM5pnhL4quxltmsP4JDAMV5KMB4Y4bJqyW1pR1FPTH3DRk7lx3PD/LOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795644633;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=HSHUYSAKe2yMTBtSGFVKjWD8rNTq+HH3Hx/MlNX0q80=;
-	b=bDCoraCuNjbV2N0rvC6aczeQByE3CSJu8sV1LByYU3ji28ygCF2o08NgyonH2oTl/tjV
-	 pjPH8FctFl/5iz3Gn6sL7wEy0Sc4Xmvp9GH7lXyevDm8Ur0LJT/Re7BoQjFMwfV6g4XFP
-	 mAmIKyhIirmB8g8Eoxx+sKLWC+7uu4CeOUpXzmoq8RA/fUfiuSlRM+93UEi1FL7INjtyY
-	 0FbiLnkmI0WAOWhoydE+Q59AZjvzROXoR4wIlEhu4CsA/3z0/VEnCXC+xVYqMNKmV/f9F
-	 u+WC2na/3PIWCDXJf5SIQpFYMkVEco2ttVGb+reARXRkkTZ/NsCum7OXZrY/9OHAuag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795644670;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=dbm1Ef+uitQ2LBt7Exj1+18hYcllnIQWCtcGXjjgdas=;
+	b=zH9YNTRC3IogDW34RIFdvLg/cFFeYgE3yzc3MhvYr73OfArp23AYmT/lgkXVpBArdf4Z
+	 HEe2gavpPdUzt1VBsvUBKM8bi/WvXSC9RWIgHxmDZZqzUkJehLmBDSVsLRk50c2BF8kiY
+	 fHY2ue3FSdWWuLtcx1xbS+nyGnLxXPJXIvPjbA0w7Yv042ja/KApAhCR+Lkngwb1glcoX
+	 YQfGImFq3S1uSu4wikJKiu7qynZc/Kt6egSFqhbWVkdy2NEtiNAulRcqcbFwjfkdpCJxH
+	 GFXftyQxsoeQOnXnpGr8VdQAXBjbPBn5XIXk2Pjcy1Fq6EO/3dCLQTboFlnBTUM/u8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hf+8p3yj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=g0TvsH75;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id D2ED1606A32A;
-	Wed, 25 Nov 2026 22:10:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3FE606A323;
+	Wed, 25 Nov 2026 22:11:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D3FE606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hf+8p3yj
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 9AC521F000C4;
-	Wed, 25 Nov 2026 22:10:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795644633;
-	bh=HSHUYSAKe2yMTBtSGFVKjWD8rNTq+HH3Hx/MlNX0q80=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hf+8p3yjBQmkFdqzDqRGCdc/Kw7VJnWjauP4BWPSdrBnME5F+/8HwAiVOwwK5FLYR
-	 nxN9Rau8JRv4oGJrBX6RBc/HO9ObnB9LezNhFVoULBNWVC0czVcf0VTdeS23VxLG5n
-	 xOveEKOcE8jFKJdHBIJokiTLhRU/e1DaTMYVfX0wOhOAFsX33ADJ7wSeF6tnIcYcKM
-	 kkArb/irEn1RhrVBegtpBUPtjT1OsDtJQzFQAl9fJ5kZUrUMUaeHmQpUEChD03IDOU
-	 BaspgZhpp689cUVYVu6ruJOowfU02VCiSLEnwUg65EGHFe7LDxpDgQBOlKEqD65eWY
-	 jUh/a2jbUDX9w==
-Date: Thu, 26 Nov 2026 00:10:29 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: keyrings@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Alasdair Kergon <agk@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	David Gstir <david@sigma-star.at>,
-	David Howells <dhowells@redhat.com>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=g0TvsH75
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=dbm1Ef+uitQ2LBt7Exj1+18hYcllnIQWCtcGXjjgdas=; b=g0TvsH75io6D2rjeMbiqJT3nhj
+	Fohp4Bf/fw24XeVl+aTtSQnnNXv6GkGzMxO1GR3Khppada1xBd51AEX4PkPJtK0+8yx5PGBPT9h1B
+	qKYlx4kOLe34CGjmsr+GMcH4pNHXCcd6aMD1gdg6Gvng87+piaD6mpMyxoexv4TZQtU4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xWLCW-001RjL-T9; Wed, 25 Nov 2026 23:10:52 +0100
+Date: Wed, 25 Nov 2026 23:10:52 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Fil Dunsky <filipp.dunsky@gmail.com>
+Cc: Vladimir Oltean <olteanv@gmail.com>,
 	"David S. Miller" <davem@davemloft.net>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ignat Korchagin <ignat@linux.win>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	James Morris <jmorris@namei.org>,
-	James Prestwood <prestwoj@gmail.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>,
-	Lukas Wunner <lukas@wunner.de>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Mimi Zohar <zohar@linux.ibm.com>, Paul Moore <paul@paul-moore.com>,
-	Peter Huewe <peterhuewe@gmx.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Simon Horman <horms@kernel.org>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
+	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Sumit Garg <sumit.garg@kernel.org>
-Subject: Re: [PATCH v2 2/9] lib/asn1_encoder: Add asn1_encode_integer_bytes()
-Message-ID: <awdc1TmFwwICFmR7@kernel.org>
-References: <20261124194043.1651679-1-jarkko@kernel.org>
- <20261124194043.1651679-3-jarkko@kernel.org>
- <20261125091921.4bf40279@pumpkin>
- <awcBD-bp27JCVpc-@kernel.org>
- <20261125213333.23eedef1@pumpkin>
+	Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC net-next 0/7] net: cortina: CS7542 wired IPv4
+ hardware flowtable offload
+Message-ID: <5e9d9808-3917-4706-889d-ae1c360155e3@lunn.ch>
+References: <20261125-almondplus-offload-rfc-v1-0-703175c6340c@gmail.com>
+ <7252b836-e375-4550-90c9-b0e3ab7fbb6d@lunn.ch>
+ <179564372798.5.10006827612276789857@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,44 +85,17 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261125213333.23eedef1@pumpkin>
+In-Reply-To: <179564372798.5.10006827612276789857@gmail.com>
 
-On Wed, Nov 25, 2026 at 09:33:33PM +0000, David Laight wrote:
-> On Wed, 25 Nov 2026 17:38:55 +0200
-> Jarkko Sakkinen <jarkko@kernel.org> wrote:
+On Thu, Nov 26, 2026 at 12:55:27AM +0300, Fil Dunsky wrote:
+> Hi Andrew,
 > 
-> > On Wed, Nov 25, 2026 at 09:19:21AM +0000, David Laight wrote:
-> > > On Tue, 24 Nov 2026 21:40:36 +0200
-> > > Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > >   
-> > > > Add a helper encoding a positive integer from a byte array in big-endian
-> > > > format.  
-> > > 
-> > > Interesting...
-> > > You allow for integer values longer than 127 bytes but don't allow for the
-> > > much more common likelyhood of the encoding being 'implicit'.  
-> > 
-> > This is the first thing I wrote in 2024 and have not touched since
-> > without further feedback :-)
-> 
-> I wrote an ASN.1 encoder/decoder for a tcap library a few years back.
-> Pretty much everything was implicit and some of the tags exceed 5 bits.
-> About the only things that needed multi-byte lengths were constructed.
-> Oh - and you can't fit in a maximal length SMS if you use the indefinite
-> length for constructed items between 128 and 255 bytes, you have to use
-> the two-byte encoding.
-> 
-> There were a few functions for 'add item to buffer', but I didn't need
-> this one.
+> This is the first standalone offload RFC, v1. The prerequisite CPU-only
+> Ethernet series is v2; this RFC does not replace that series.
 
-TCAP/SMS has pretty much the opposite profile from crypto DER in the
-kernel, which deals with big numbers.
+Ah.
 
-None of the other primitives in lib/asn1_encoder.c take an IMPLICIT tag
-override either, so better to leave that out until something in-tree
-actually needs it.
+One patchset at a time please. Get the basic Ethernet support working
+first. Then start on the next topic.
 
-> 
-> David
-
-Br, Jarkko
+       Andrew
