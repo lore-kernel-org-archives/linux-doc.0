@@ -1,53 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.70.190.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795566566;
-	b=H4DTwKjZh0fu2BkA20iT7q9ORt41OaOEUo7PW2bkIP72hVgeDDWDSOQsdEQUSSkERvmO
-	 pACwpQXgHeWwQ5qx7OFFVevj5rbBSKmG4BMnZIy+K7TkQkJLGCyxOQmilPgIcvBuQ7BjC
-	 FQzf8PqHxedz+nXwTR73HL8jfcuIDBaXCfrZ59GWAf6yW7Xmo1lVu3mdEfm2JCTi/CprB
-	 zsWU3kYOtizeQhnSZXIzO5i7Jyg66HqTrRI0mPn7eGkmzhVylTcS11LqZA3ThAoKyvvob
-	 AFVisLGTGfB63HJaMAPEtx85Kzcz4ed4VZi2zey1ICkGwO6+yqnDsQhtljyjSM/nkiQ==
+	t=1795566650;
+	b=h1G2hWQ7NSedpp/tS/pjVRMysBFTP0Sknfo0BL/gYTr8d/RE7ENpVuru5iFK2VnxHpjS
+	 yKwtGqer9Ue55rNBw1IOEb+GsicXUlMaYtIVMpMi3HodEc7N4znem9MYgnq9yuUhcKrK6
+	 jRdkv+XOb/7Qr4g1YI29Nzsx5RU6oAVwi8rqoqNcIlHZFD6N9vOs2iGtw71zt62RnvK9N
+	 Jsa/73Bq/xsgDoDeKaIYic0yCqatmYlnAvIAwgl8F1a0NgDV0fXFEtGB+eIkmYT4cmgoW
+	 FgHqmfBHuuWgG5N5TA0rIG902f0si/3TajG/RN6JGw3LXGYcIZRHr42VyGUonCj94RA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795566566;
-	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=EFGoYii1SC1+bbZRrgGUgBUua7WO9ouNbjRGTkCeEYI=;
-	b=2Ay0KAaOpDmAKmS/KRiOFTcb0jKC1f/kGPw5iIkWD0zjX8wGhqtpd4Rf0iqqMN18PLk1
-	 c7rIj25xl/bhyUJoHa5U9ZeZa2v5/HtzYgUs1+ye2P3c5Wc88mCb99Al4XvL7sLi8i32J
-	 5Xi2eKja07waLhAuSGzn9+Kh79yKCJtU2cXfOvFXIlEcdGTgSUhSLra7KmFe8u/BiYvR5
-	 PnYSHEmAm+w5tK6jpNTODTBqhduoUpW1L/qz7WlE8EYLacCjMm4TMI86k6rWwrrRjs7G4
-	 BswRP2k/P/oLqPauKJuGiLakZxo+/dJmq/t4XB7ex2x5OEfdAL3KKmbOwe3kQ5BwriA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795566650;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Status:X-Spam-Checker-Version;
+	bh=opO6KqrLeZU2YFUSJAKWKg1/ArS9FwTmKWO3coNyByA=;
+	b=jTIzJkSwr2IpFth10akiLuiGuTvxjPrZy60WOvTnqbxZgx7rxFqcGbmnI3s3gD8iL+87
+	 uHfdLg3taa9WqoCt6K+iJCSTl22pzxCynGOB9s7hnIgh0bA6L2QT1qat+NKsuzuP1B+/z
+	 MWijQmR1BWiIQ6LlSlF3Xwf1yd5g38K80EOOL95Ae+iZ5sTE+QAQ5/5wCkny7Rs00nAUA
+	 ysD/9CEkQlnQuAHsI1nyhKvXVcZHcDR9L3k1LtTPPtFSMgdDGHCFa6/uPLqxXBLdN0LMq
+	 Rv9uPpnXnjd7FptpQDZiz30kcKyI784YOusUh0yEuoxUOQ3a2egT1rImEC4tmepMPhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UVtkqYVE;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=netfilter.org;
+	spf=pass smtp.mailfrom=netfilter.org;
+	dkim=pass header.d=netfilter.org header.i=@netfilter.org header.a=rsa-sha256 header.s=2025 header.b=rLL1wP2W;
+	arc=none smtp.remote-ip=217.70.190.124
+Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA872606A31E;
-	Wed, 25 Nov 2026 00:29:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id EAE1C606A31E;
+	Wed, 25 Nov 2026 00:30:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EAE1C606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UVtkqYVE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 141A81F000CF;
-	Wed, 25 Nov 2026 00:29:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795566566;
-	bh=EFGoYii1SC1+bbZRrgGUgBUua7WO9ouNbjRGTkCeEYI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=UVtkqYVEf6NtA5gxi3S0rdQNpRRBSmEaLl1BtoFmgWy4CWWvC5eRnx1jKQOO99qVj
-	 +MdqYunFW4TbGBGy7Z9umkmIjR8xsLget/7k1c3HsJdCTZLaO1mr6nRRiQOP0wZh6L
-	 Bj6Pav125NsImzsgaZsLLwbPr7zZMCQUuw2i7aZaY4p5w6Htd9gkuvdTs5rqYA84eV
-	 lCdbDCqe5Bx3dZbr+C6WamIXfK1zVMa+KwS50lqRDGZu/HS0ViOtFNG0SDFO7W8Mgf
-	 Qio+iR8T4ev15tk648F4G7wSQm7H8/ekS6kGCf97nko82Snv9s4ssvQNrTspCyv/7A
-	 Qsw4lj/7q26VQ==
-Date: Tue, 24 Nov 2026 14:29:25 -1000
-Message-ID: <2efd4eef27cbd033bae9e4f5d5ba30bb@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Lai Jiangshan <jiangshanlai@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, Matthew Brost <matthew.brost@intel.com>, =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] workqueue: fix cancel_work_sync() on ordered workqueues
-In-Reply-To: <20261118-ordered-wq-cancel-v1-1-916e01f9affe@google.com>
-References: <20261118-ordered-wq-cancel-v1-0-916e01f9affe@google.com> <20261118-ordered-wq-cancel-v1-1-916e01f9affe@google.com>
+	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.a=rsa-sha256 header.s=2025 header.b=rLL1wP2W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
+	s=2025; t=1795566647;
+	bh=opO6KqrLeZU2YFUSJAKWKg1/ArS9FwTmKWO3coNyByA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rLL1wP2WAiEAH+1CzJfQMLdmOeZ3TwhZfbvAbLLd2Ki9tOUStpQdz6SyBW6BN3nap
+	 sq8dLhfJoCTe9aq5TFnkDw0mFXYul9OsjPwvTm3tgkcLc0Gnu2fKLmtw+UDWSSvBwy
+	 1H+O/GjncKALc449Sz3B/omNJrQBz+gi4eczr1nWVoC59kU8fnEpojCAY8QEwMT7xu
+	 c748JkTW+s1xwjcIIgMEi2/3o9GsqovIFM3tUayLdO+AB4xgS4ICwhg5dAFYHV4psh
+	 LNFshBpcvPhnnwwJD6ytopeGZggf3kp2siaE6Ai3YOA1kidDBMpONjWYkgxAFbVz16
+	 g6uVosNgxT2cQ==
+Received: from netfilter.org (mail-agni [217.70.190.124])
+	by mail.netfilter.org (Postfix) with UTF8SMTPSA id 4C65E6007A;
+	Wed, 25 Nov 2026 01:30:47 +0100 (CET)
+Date: Wed, 25 Nov 2026 01:30:44 +0100
+From: Pablo Neira Ayuso <pablo@netfilter.org>
+To: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: netdev@vger.kernel.org,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jonas Gorski <jonas.gorski@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	"open list:NETFILTER" <netfilter-devel@vger.kernel.org>,
+	"open list:NETFILTER" <coreteam@netfilter.org>
+Subject: Re: [PATCH net-next 6/9] net: flow_offload: allow drivers to
+ validate and invalidate cached paths
+Message-ID: <awYsNPjUfgpDAgMr@chamomile>
+References: <20261116222519.1416501-1-florian.fainelli@broadcom.com>
+ <20261116222519.1416501-7-florian.fainelli@broadcom.com>
+ <awI-mtwn3ohPw-fF@chamomile>
+ <b5a899c1-c1b8-409e-8b50-ca722c229f5b@broadcom.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -57,30 +84,117 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <b5a899c1-c1b8-409e-8b50-ca722c229f5b@broadcom.com>
 
-Hello, Alice.
+Hi Florian,
 
-On Wed, Nov 18, 2026 at 05:09:51PM +0000, Alice Ryhl wrote:
-> +		if (unlikely(pwq->wq->flags & __WQ_ORDERED)) {
-> +			struct pool_workqueue *oldest_pwq =
-> +				list_first_or_null_rcu(&pwq->wq->pwqs,
-> +						       struct pool_workqueue,
-> +						       pwqs_node);
-> +
-> +			if (oldest_pwq)
-> +				offq_pool = oldest_pwq->pool;
-> +		}
+On Mon, Nov 23, 2026 at 08:10:16AM -0800, Florian Fainelli wrote:
+> 
+> 
+> On 11/21/2026 5:00 PM, Pablo Neira Ayuso wrote:
+> > On Mon, Nov 16, 2026 at 02:25:16PM -0800, Florian Fainelli wrote:
+> > [...]
+> > > +static int nf_flow_offload_validate(unsigned long cookie)
+> > > +{
+> > > +	struct flow_offload *flow = nf_flow_offload_cookie_flow(cookie);
+> > > +	unsigned int dir;
+> > > +
+> > > +	for (dir = 0; dir < FLOW_OFFLOAD_DIR_MAX; dir++) {
+> > > +		struct flow_offload_tuple *tuple = &flow->tuplehash[dir].tuple;
+> > > +		struct flow_offload_tuple *other = &flow->tuplehash[!dir].tuple;
+> > > +		struct dst_entry *dst = tuple->dst_cache;
+> > > +		struct neighbour *neigh;
+> > > +		u8 mac[ETH_ALEN];
+> > > +		bool valid;
+> > > +
+> > > +		if (!dst)
+> > > +			return -EOPNOTSUPP;
+> > > +		/* This is the actual route selected with the packet's policy
+> > > +		 * context, including mark, DSCP and the reverse lookup's oif.
+> > > +		 */
+> > > +		if (!dst_check(dst, tuple->dst_cookie))
+> > > +			return -ESTALE;
+> > > +		if (tuple->xmit_type != FLOW_OFFLOAD_XMIT_DIRECT)
+> > > +			continue;
+> > > +		/* A stacked path may have a different final Ethernet neighbour.
+> > > +		 * Do not mistake that unsupported context for a stale owner.
+> > > +		 */
+> > > +		if (dst->dev->ifindex != tuple->out.ifidx)
+> > > +			return -EOPNOTSUPP;
+> > > +		neigh = dst_neigh_lookup(dst, &other->src_v4);
+> > > +		if (!neigh)
+> > > +			return -ESTALE;
+> > > +		neigh_ha_snapshot(mac, neigh, dst->dev);
+> > > +		valid = (READ_ONCE(neigh->nud_state) & NUD_VALID) &&
+> > > +			ether_addr_equal(mac, tuple->out.h_dest);
+> > > +		neigh_release(neigh);
+> > > +		if (!valid)
+> > > +			return -ESTALE;
+> > > +	}
+> > > +	return 0;
+> > 
+> > This validation to catch for stale entries looks very similar to what
+> > I'm working on. I guess there is a chance to consolidate all this in
+> > common infrastructure for both software and hardware modes.
+> 
+> Excellent, happy to point you to an off the shelf device where you could be
+> testing this on, if you would like to?
 
-@pwq still has @work queued on it here, so it's linked on wq->pwqs and the
-list can't be empty. Maybe drop the NULL check? e.g.
+I have a setup with Banana pi r64 and openwrt, I have this large
+series of backports to synchronize with with current upstream trees:
 
-  if (unlikely(pwq->wq->flags & __WQ_ORDERED))
-  	offq_pool = list_entry_rcu(pwq->wq->pwqs.next, struct pool_workqueue,
-  				   pwqs_node)->pool;
+patches/generic-backport/951-netfilter-flowtable-inline-vlan-encapsulation-in-xmi.patch
+patches/generic-backport/952-netfilter-flowtable-inline-pppoe-encapsulation-in-xm.patch
+patches/generic-backport/953-netfilter-flowtable-remove-hw_ifidx.patch
+patches/generic-backport/953-netfilter-flowtable-use-tuple-address-to-calculate-n.patch
+patches/generic-backport/954-netfilter-flowtable-Add-IPIP-rx-sw-acceleration.patch
+patches/generic-backport/955-netfilter-flowtable-Add-IPIP-tx-sw-acceleration.patch
+patches/generic-backport/956-netfilter-always-set-route-tuple-out-ifindex.patch
+patches/generic-backport/957-netfilter-Add-ctx-pointer-in-nf_flow_skb_encap_proto.patch
+patches/generic-backport/958-netfilter-Introduce-tunnel-metadata-info-in-nf_flowt.patch
+patches/generic-backport/959-netfilter-flowtable-Add-IP6IP6-rx-sw-acceleration.patch
+patches/generic-backport/960-netfilter-flowtable-Add-IP6IP6-tx-sw-acceleration.patch
+patches/generic-backport/961-netfilter-flowtable-dedicated-slab-for-flow-entry.patch
+patches/generic-backport/962-netfilter-nf_flow_table_ip-reset-mac-header-before-v.patch
+patches/generic-backport/963-netfilter-replace-skb_try_make_writable-by-skb_ensur.patch
+patches/generic-backport/964-netfilter-flowtable-fix-inline-vlan-encapsulation-in.patch
+patches/generic-backport/965-netfilter-fix-inline-pppoe-encapsulation-i.patch
+patches/generic-backport/966-flowtable-use-skb_pull_rcsum-to-pop-vlan-p.patch
+patches/generic-backport/967-netfilter-flowtable-avoid-num_encaps-underflow-on-br.patch
+patches/generic-backport/967-netfilter-flowtable-bail-out-if-forward-path-cannot-.patch
+patches/generic-backport/968-netfilter-flowtable-fix-and-simplify-IP6IP6-tunnel-h.patch
+patches/generic-backport/969-netfilter-flowtable-use-dst-in-this-direction-when-p.patch
+patches/generic-backport/970-netfilter-flowtable-Validate-iph-ihl-in-nf_flow_ip4_.patch
+patches/generic-backport/971-netfilter-flowtable-IPIP-tunnel-hardware-offload-is-.patch
+patches/generic-backport/972-netfilter-flowtable-support-IPIP-tunnel-with-direct-.patch
+patches/generic-backport/973-netfilter-flowtable-use-correct-direction-to-set-up-.patch
+patches/generic-backport/974-netfilter-flowtable-tear-down-flow-entries-with-stal.patch
+patches/generic-backport/975-netfilter-flowtable-consolidate-net_device-field-in-.patch
+patches/generic-backport/976-netfilter-flowtable-consolidate-flowtable-device-che.patch
+patches/generic-backport/977-net-dsa-stop-at-the-user-device-in-.fill_forward_pat.patch
+patches/generic-backport/978-net-do-not-advance-stack-index-from-dev_fwd_path.patch
+patches/generic-backport/979-net-pass-dst-via-net_device_path-in-dev_fill_forward.patch
+patches/generic-backport/980-netfilter-flowtable-release-tunnel-route-on-error-wh.patch
+patches/generic-backport/981-net-pass-net_device_path_ctx-to-dev_fill_forward_pat.patch
+patches/generic-backport/982-net-remove-WARN_ON_ONCE-from-the-dev_fill_forward_pa.patch
+patches/generic-backport/982-0001-netfilter-flowtable-generalize-pending-status-bit.patch
+patches/generic-backport/983-netfilter-nft_meta-add-double-tagged-vlan-and-pppoe-.patch
+patches/generic-backport/984-net-netfilter-add-ether_type-to-net_device_path_ctx-.patch
+patches/generic-backport/985-netfilter-flowtable-rename-tun.l3_proto-to-tun.inner.patch
+patches/generic-backport/986-netfilter-flowtable-rename-ctx.tun.proto-to-ctx.tun..patch
+patches/generic-backport/987--netfilter-flowtable-store-ethertype-in-flowtable-con.patch
+patches/generic-backport/987-netfilter-flowtable-move-ipv4-and-ipv6-xmit-path-to-.patch
+patches/generic-backport/988-netfilter-flowtable-detach-layer-2-encapsulation-par.patch
+
+I guess this should be fine for testing this patch, maybe there is a
+better way.
+
+I still have to automate testing more classic scenarios in the real
+hardware, such as PPPoE (I have configuration to make this local),
+vlan, ipip tunnels, wireguard, etc.
+
+If there's anything else I'm missing, please, let me know.
 
 Thanks.
-
---
-tejun
