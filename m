@@ -1,111 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795604246;
-	b=uvwqbZBuLkEcBXIH6UsySFpeUEs7uBqNzkRsG/W1u0NEy9JNxdDCYvRSZWHwh0Hs2aMD
-	 88jPNTy1321xGVtche1ZSR4mfNKg+PKOvR26VsJk/SF5QyVpAU/lelyLhvBLCiwUYpiiV
-	 ZmNZGS9uNIdZJ3TbalTmnusMCmEcxjRznkOE2KVe/E/LxXJG/BQzL1ogw6kZKqucaOnEw
-	 3cZEaTeDZZaMARllg9/AZvznmjDq3aywdRq2A9qD4rK6AF7ql+reqiK+TZ0wjgqwk6eYV
-	 /kZW/Ixq4ne0/fhLPZ0oIJNKAcUBweOJmDQvK71ZS4AY9Qx4pdNS+RAx+6yoxV4eiYQ==
+	t=1795608196;
+	b=wmq1zxKS5asmHsCk08a83wZ1FXq50h+mhg/9EE5dVffuhJvj2Si5EVRGddAjF7nFz68V
+	 8J/EV12Lp5mMj7cScKxECMViAKtZizulh9LZcBerg8TLAi/0EWTIlph3qFP6/S7amObuc
+	 tcirdy09Wlj1P0KrNSZg2iQZwiU2+SHCGk0efnJadUwHAue4a3JZWuTSN4QbNVNqGJdhj
+	 HL0RQ24g4mlIjhnkF0vek0XcfBfFo9Y+0DoblS26SNzgXtnpuDds8G/f3ZaMSbk//lcQm
+	 FQVKzoF06ru8SqA8gCp90hnr26iPzd1txA31NghSc4wDG2wcL0dux66bKFdSOqLcTlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795604246;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=6DzF8BpUesnkTDGC3vGLBqxidELpfvE698aw+tvKd3E=;
-	b=5Tpdebeup/ca8pNuR3PdFdca4so59EQlHPssKTBWYw/+j89XhnkYiRlb0ubcD+5gGHRr
-	 TnpFddyNNzOsKLHarddBELh17goa39G+az1K9bQ1QUIb/GeGJhCu1jZFKDHGiCvO3C/mi
-	 t5Q1uxnQhcenA3snBPu2AUwx2+EN1tciKhHxCKzWy+Y8/R8lmIzD9E04NcfknNiF9dcK2
-	 /L7rkinETy7fBhStZ056E5yWyICxI4Hq9n2u6iB9vCS4EMkmmazKtwnmo/4/51r6ctd9u
-	 oQmwWxGPRBMZdnC+kFHjsNtbyCNQ6//vCPWr4l3zU1DVtO99vVDmFJO1v283rWegj0w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795608196;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-B4-Tracking:X-Change-Id:X-Developer-Key:X-Developer-Signature:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=zmdVCyES1Z5dR10b8jDmGep4AsueZq3jndQhX7uyqEA=;
+	b=G7E6kFuw4NtzXOVOj+T9IZNs3dBQWgdv+9wLmC48h0R2TCzd4ERVt9T33zP0kMHV/AMI
+	 eIz85t5J4pbcYXNykjRFqS07AF8XWHFCD9ZisEvteoaIrDMMqSKNhiLCuuiYtpJ5Mr7gh
+	 B5SSdto6yeg3j1N6zwm63J3tbZaG7Oid1AXiebim/eCf8bnPUFH+1sy1Wu+gx5x6In5TH
+	 nF1uxoDl3+GFr5+0FQFmOdsHIE1zkKMHfTxNH6TiMPmaPCLVIRXsijxVXFoEwEYavsAs+
+	 aEIWhIFLfdZIbdiskNBXbQd19HkFmmbWiJlG5mq1IgpJbptcA17fxTK5BN86+OY/PSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="U3/9eESd";
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ifzydRbO;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=JkaYobyP;
+	arc=none smtp.remote-ip=209.85.128.71
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA65606A31E
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 10:57:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAA65606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D165C606A337
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 12:03:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D165C606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=U3/9eESd;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ifzydRbO
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AP9mHId2121176
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 10:57:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	6DzF8BpUesnkTDGC3vGLBqxidELpfvE698aw+tvKd3E=; b=U3/9eESd1EiDqFmu
-	Htw1EFqHz3dcSU9MlAw8eNl/xqnRwlg5yGQO7QZqbYbMyHec6YzyV7vP/Hrlgeei
-	+/sU16/4ewe+HKVwdjWstxny5JbHnUFzBB8AyDuTkOc0U9IRp/JLtGDTgMoTAZPF
-	aCXY2hB4Y00wSQUq3e68zW5ttLtniHmj+5DXXZ5/qAOyoOkkPEJE/aogmnHWiEsh
-	WL+hWwredsAC5CWuSEJUjhRwLKSyT7ocd+5kPLBzwhJcc7lk2nS5k4xPw6Quqkjg
-	+u9f1HocgqWDKM2eLceENQrpwn8TaSR4VNuJLOnYNOHvUIUX37aY4wtUViZyg3yU
-	VkCCDQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j5vukrfhm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 10:57:24 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-94993a54a73so51033585a.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 02:57:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=JkaYobyP
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4a359c7f47bso47644795e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 04:03:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795604244; x=1796209044; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6DzF8BpUesnkTDGC3vGLBqxidELpfvE698aw+tvKd3E=;
-        b=ifzydRbOJO0fEF184DfHUFE9gWc3Bq6FoZCg5CoUDP2SYj6vpn9cBB1m40xy5sDfUZ
-         3/g9CvAcOzafwpaZzptJfAgS7o9vyDme1areiettQOc1jfb1/BangZ0LdtZCmE6ahGXL
-         IToFNN/2h+yVq25EHBSPY7riBA0XeSyPCMKEwO3biSKcTb9Tp9QFAJwHsQfGIPAgYYOx
-         lAnvpyJKZ6VtGX2L6JXkoeL9JJ3qYwEtI2WCOwXjl51R6SSSU2mxJcGSE0HCqNkZWA5t
-         pAxmxOJlo1RIammECTLNKwSOjy+5lsw2fmeCoZvfqEgel8wPqbBFYchiVNkL1VKvMWaT
-         3g7g==
+        d=google.com; s=20260707; t=1795608194; x=1796212994; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zmdVCyES1Z5dR10b8jDmGep4AsueZq3jndQhX7uyqEA=;
+        b=JkaYobyPESzkFhDEdX+cvPmYJQXmz6i910XI6H6GEzkLpjS0AJXbBWoSWEveOh5vcj
+         zCSQ8AsbEWa1wI3ZPMmKtZZqpNpqo8xeYkezdeno5BBVujd4YNNVhq2zpRUUEK9dmOC6
+         cSIksxW4NZfiEUCm6+ftnyyFSix5hZaw5Rqj099rL7tCK4L35Zk0hReCls9snwBjZNLf
+         8qGQLQnP5OBo+tH2mS2aCg81xEzQhFGkZbgKzwYi2+ePGMKEzCTvs3CUtLyauQnpjrLO
+         QPCERVb6/BuuRQ4UdPtMy+YxPTg1+TUJnO0Y8+a2Uh1O270tjaZl98RbaDJsawebAHii
+         JC0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795604244; x=1796209044;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6DzF8BpUesnkTDGC3vGLBqxidELpfvE698aw+tvKd3E=;
-        b=He1WKX2ds1ZYLYjfhls+fys+7HcI5O9OMp5uqFlUeOtBoIJ/psgM16XVm27Y4obM1a
-         MDg+mpCkgJb/osP7lyeF+wveoKTn23slWB/spfW1v6Vr2BR89EC6EdNt1BuTLhYUAQNi
-         0qe02weK/zhyHjQGwwZl44SJOyHVL9kDKwMCMvVzzfU8HrOlBSyARpEeiNU88zpQL6sv
-         7hUHJy5ifNQXmaVAIV4L9SLQnxqW5pmS3IrLmiYcYkXhCK/V1atBnhAzdi2qgFWWgGx9
-         9KAzE5nq0AqOt97N/hFtVQdVEnEPp+wIGEYGFCN5ZFz8ffFU0fUk4YZx83qwwe1uUEy8
-         j7hQ==
-X-Forwarded-Encrypted: i=1; AL+hErGxLpGVBymucyo9LFnpgUEeBj80hXBoQhkxakgbGtsUlFjXaxgfu0vbnj2ozk594xhruRaFTdq16rA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/p0SVkg58EwkbCAWetyX8/lm2qgcM9K2YSmAuaSHz+sHvK2uvw
-	kRRkXDfwNHKc/y4GstPd/kTkWamitJtgkcgsy1YtMnGpUWJZ0pYYYPy9y/V5aHTaAJl3Shyrrxl
-	OKyC1mttThXezrZbbASLStq2as+P9CA63pRjksIEMoZ/pDCKGuRHIZTxcVNQptp8=
-X-Gm-Gg: AZFdTZcs9gElubBceod2yTL8ZeDzxjudJhfr+bxYWXavrEG7BQ82uCBt5OK12Y3wlY0
-	hFm/fAxUeLR8LuK8TbU3cy5BMku5eMwFZxBmSIbwLN7uMj/9nkHRVXeXSMbusVjRViLh/2MBwWg
-	rEL8M350Ctn+Djwxh0a+VHKZaAwSpxgkVmj8YSq+/1WOHZr1JzZXqzwTunZBZ5Bi+vs37mFlCUO
-	Pc683tznaF/cG+BDcpHkvwdWGt+UmbE0dVC8qiQ71tZeFuTpEY0U9RlTDmokjc9emGDIp3WRfQG
-	Q1yHJNKUxInsSg2Nic23JSEwzx/EWO05boKOcQuIx7A0TgvvcekzNrRbpi5q2mYmLEO5X3xrbRN
-	nz597xwmwDgurSnkPie9WIpD5I+lDtSMLXXx0Ij/hfbNAZ8Nb4/QkaKzIX2b7RRFuoC+EoB8=
-X-Received: by 2002:a05:620a:5399:10b0:949:6fa5:1edf with SMTP id af79cd13be357-949ba7f2491mr2901805685a.1.1795604244029;
-        Wed, 25 Nov 2026 02:57:24 -0800 (PST)
-X-Received: by 2002:a05:620a:5399:10b0:949:6fa5:1edf with SMTP id af79cd13be357-949ba7f2491mr2901802585a.1.1795604243589;
-        Wed, 25 Nov 2026 02:57:23 -0800 (PST)
-Received: from [192.168.226.72] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ba37108c8esm8206482a12.31.2026.11.25.02.57.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 02:57:22 -0800 (PST)
-Message-ID: <e70f9afb-339a-429d-a569-fc9c452b1cdf@oss.qualcomm.com>
-Date: Wed, 25 Nov 2026 11:57:20 +0100
+        d=1e100.net; s=20260707; t=1795608194; x=1796212994;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zmdVCyES1Z5dR10b8jDmGep4AsueZq3jndQhX7uyqEA=;
+        b=g5BgXtTO098QLMwlzBuwvHYS1M2KK2v0p+CqYUDhycFGOsvFWRYUlRVsGIIinblzyL
+         GOk6WDNGA/Ec/R8hl8wide4TLOpwLAKhOAPokH0FXCxc0Yc2hN/yK6q8vhnVrmgPsNRV
+         2FfFmG6sTyfklpLA/EbH2d/R9O21awcQWQjTGv48vWqjIHNElR2adfdr5t07uDGvnnnL
+         QgMlg0HxWC2XsjB3j52qT+SjszPUmro/aDOQPzQHJ3S1EG3P7KpIbtlLqT1CU96iSMM3
+         AVxNE6qhFdu5brfidNEgYOg32YBnkchxS62d0RUOQ3BZUOG/gRQLG9NTFO+aE79zheaC
+         MUvA==
+X-Forwarded-Encrypted: i=1; AL+hErHpFG4nvmuiWkeiPqasbZVNwpYP0yNVvRkUx2FxhhAyXFlhQ9HEQ1vxkZHzSndNr3MB0NhHBbSqpwM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9o9urHUtgUtyZuGkR2GoTH/uxd3Nrc1ixqyIFqM0EtIcLH/NrJ
+	Qym26hoabNdMi1ODjl+yiu97YYIbEnnhE1lXwEjdzon9kjh/1ubqSXFs0cERDWxn1ivHKTe9XxQ
+	EjS6L9ZaTAgq0jIlKKw==
+X-Received: from wmfq11.prod.google.com ([2002:a05:600c:2e4b:b0:4a3:5dec:ff72])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:e40b:b0:4bb:9a6c:8712 with SMTP id 5b1f17b1804b1-4bb9a6c8724mr143643655e9.12.1795608194039;
+ Wed, 25 Nov 2026 04:03:14 -0800 (PST)
+Date: Wed, 25 Nov 2026 12:03:05 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -114,70 +76,145 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] firmware: qcom: scm: Add QSEE app start, shutdown and
- services image load
-To: armandas.kvietkus@proton.me, Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Abel Vesa <abelvesa@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap
- <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20261124-fpc1540-tee-v1-0-6c6985f05b06@proton.me>
- <20261124-fpc1540-tee-v1-1-6c6985f05b06@proton.me>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20261124-fpc1540-tee-v1-1-6c6985f05b06@proton.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=KfVHIgYD c=1 sm=1 tr=0 ts=6b06bf14 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=VwQbUJbxAAAA:8 a=br21HGidAAAA:8 a=6imIkYERwPMp48qjzFQA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=rq5_1Q1BYlbxkLLkNd_B:22
-X-Proofpoint-ORIG-GUID: H-rOgCLga50C5VNTsrQDR5ABu_mevlnJ
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI1MDA0MyBTYWx0ZWRfX8ASTxL8i7Zn6
- 7A7e6SZKOmXn02lfLXw9QfHjqczBP3cfQ4mCfXmphsppg6we6NJxRhA4lY+Ps/hgAchM+x0Y7Dn
- VBRtVRoRtUZ9HKh821gdlRkHzb6Wny4=
-X-Proofpoint-GUID: H-rOgCLga50C5VNTsrQDR5ABu_mevlnJ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI1MDA0MyBTYWx0ZWRfXxSFJbpMA9L94
- fS7ELSMSHhwP2eXfDi5Xqu6zY+sCI2DwHus8UsLsxP7LWE/W+5AFn0pmwnAEhPc1uzd/MuFtAo1
- XHbVU2RHm1g+TxJNYpHZ66IsPqC4kniaGEjf82gfja/chEQIolGGtaLPQWyyku6yMdpDdtqgL2T
- MdC7asbNqrY36tKphdVXJiz0ZymLExg8PoBGQHczN56+GBEHABfb3e68SjO8z/ZxA7+FLj5AFWj
- 2e00xCEfb9qJk1Vm2RcbCuosUbtSpGVOffb+tcTDAFk0dZOnygembpF4qKVCH3ripeJdJ6RPUd+
- RtAoouQoOHpROtVcnt5p9CWAMO7rRDaRbocbXZ4ZZAgIiYK9ZQj955zbHqW6xoNT7ixfm+Ncihg
- h5dCJz03KLVRyEP+Lbk3vTLSY9MFcaP7PnnpQq3Y0UM7ZtJgfalUNCXzW8Oz+pas5qdpSr0h9gJ
- i0l3Fn9rTZRJPILOKhA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-25_03,2026-11-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
- impostorscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611250043
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAHjOBmsC/32NQQ6CMBBFr0Jm7ZhONURceQ/DopZfaIJUWoMa0
+ rtbOYDL95L//koJ0SPRuVopYvHJh6mA3lVkBzP1YN8VJq10LSInDrFDRMevma2ZLEauDzeloRy MPVLZPSKcf2/Na1t48OkZ4me7WORn/9UWYcWN1FDiGuMcLn0I/Yi9DXdqc85fo7B99rMAAAA=
+X-Change-Id: 20261118-ordered-wq-cancel-63b02e0feac4
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4860; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=MEqp6I5oT2DwwWG++mrJvLdQqFqXXQNSXG2o5tVy1A4=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBrBs597HHdRB4YFrPM62zg+Un1OBq5rHO+JQWi5
+ ndixzfGysqJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCawbOfQAKCRAEWL7uWMY5
+ RsjWD/93B2e6uccyr9nPTBtpWLMQMe79t5s8KHITEgNqBTKW5udxk2H7X1Bp5+7YH06jKqilyKO
+ /IuIQ0hXXTC2kgwqQr3rX/7QgriAet8Neg4Hv2pu92ezFhiKeTujBOolRBvbf097wkzfUz2bAph
+ vBHDETsqbE+jmTwNfZqSa1kwhVbMpkcTirDhyiBvzQ/Nitg1Qb8b+iC9LQ/dUObn//dh+7xIsEw
+ NuS263rYySpa+2kiVGVFwZA/MWwQpPeEX/I3Fh9CA5OjPvy3CFncddjQFWhMqlPCKcexnVe3EhJ
+ hyqnbR8fGRe9HTvYS4qy965R/mY29ExbeC7K+7GyXOMtBr764QvnZGJtxYmhKY/PhdBhUTuBpPU
+ 2z9msTMWyH5PSW4Gr4066nhFnk675S2eLLJH4C9FepAF5nJ7Lh7vYNSUstfwkxwYA+jCVtn+9BV
+ L0vltE8nUVTRsWOrDvClJMQO3PhmBFNAGB8ZUMJOSCulUa5/w01vqUMgf6jidSS8rm26k/v50Cl
+ 7osTn6PxAv2wFFnY85/QxpK74fssMnmT5o6jRMrO0JdH8XDs5HB0BSrArc0kn7ZGbTL4X3tbfir
+ FfReMYRlbEP9yfel5EuuITyXdQa2jdNKYCx2zoFVIZBr2l1sas5fB4jkvMyeNU7ArBH3UWejeY/ LU2qI2Dc7wNAO/w==
+X-Mailer: b4 0.14.3
+Message-ID: <20261125-ordered-wq-cancel-v2-1-13620a09773f@google.com>
+Subject: [PATCH v2] workqueue: fix cancel_work_sync() on ordered workqueues
+From: Alice Ryhl <aliceryhl@google.com>
+To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Boqun Feng <boqun@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	"=?utf-8?q?Christian_K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>, 
+	"=?utf-8?q?Thomas_Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, 
+	Liviu Dudau <liviu.dudau@arm.com>, "=?utf-8?q?Onur_=C3=96zkan?=" <work@onurozkan.dev>, 
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On 11/24/26 6:43 PM, Armandas Kvietkus via B4 Relay wrote:
-> From: Armandas Kvietkus <armandas.kvietkus@proton.me>
-> 
-> qseecom can only talk to apps that are already running in QSEE. Add
-> the app manager calls to start an app from an image, shut it down and
-> load a services image such as cmnlib64.
-> 
-> Signed-off-by: Armandas Kvietkus <armandas.kvietkus@proton.me>
-> ---
+There is currently a scenario where cancel_work_sync() /
+disable_work_sync() does not wait for the work to finish execution on an
+ordered workqueue (__WQ_ORDERED). This is because ordered workqueues
+contain multiple workqueues internally (pwqs). Consider the following
+scenario:
 
-I see there's a lot of interest here. Please coordinate with the
-other efforts from Dawid:
+1. @work starts executing on pwq A (pool A), the oldest and only
+   unplugged pwq in wq->pwqs.
+2. Writing a new cpumask to /sys/devices/virtual/workqueue/cpumask
+   allocates a new dfl_pwq (pwq B, backed by pool B) with
+   pwq->plugged = true and appends it to wq->pwqs behind pwq A.
+3. While @work is still executing on pool A, it is re-queued to the same
+   ordered workqueue. Unlike normal workqueues, __queue_work() skips
+   last_pool redirection on ordered workqueues so re-queued items do not
+   jump ahead of work already waiting on pwq B, so @work is placed on
+   pwq B->inactive_works and work->data is overwritten to point to
+   pwq B.
+4. cancel_work_sync() or disable_work_sync() steals @work from pwq B,
+   and try_to_grab_pending() records pwq B->pool->id (pool B) in
+   work->data.
+5. start_flush_work() only inspects the single pool recorded in
+   work->data (pool B, where @work has never executed), finds no worker
+   running @work, and returns while @work is still executing on pool A.
 
-https://lore.kernel.org/linux-arm-msm/6b1853f3-4315-49cb-9b7e-83f967720a2f@dawidwrobel.com/
+Unfortunately, this scenario can lead to UAF if a driver uses
+cancel_work_sync() and then frees the work item (or resources used by
+the work item). And this happens on ordered workqueues in practice:
 
-Konrad
+- drm/sched: drm_sched_wqueue_stop() calling cancel_work_sync() on
+  work_run_job and work_free_job before scheduler teardown.
+- drm/xe: gt_worker_disable() calling disable_work_sync() on
+  gt->reset.worker and gt->wedge.worker.
+- drm/panthor: panthor_device_suspend() calling cancel_work_sync() on
+  ptdev->reset.work before suspending hardware.
+
+Thus, fix try_to_grab_pending() to record the pool of the oldest pwq in
+wq->pwqs when stealing a pending work item from an ordered workqueue, so
+start_flush_work() flushes pool A and waits for @work to finish. If
+@work is not actually executing on pool A, find_worker_executing_work()
+simply returns NULL.
+
+It is also needed for the soundness of the upcoming Rust ScopedWork
+abstraction, which binds a work item to a single workqueue and relies on
+cancel_work_sync() in Drop to guarantee that data borrowed by the work
+item is no longer accessed once drop() returns.
+
+Cc: stable@vger.kernel.org
+Fixes: 58629d4871e8 ("workqueue: Always queue work items to the newest PWQ for order workqueues")
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+This came up while figuring out what to do about this sashiko review:
+https://sashiko.dev/#/patchset/20261020-rust-workqueue-v3-0-ea7c74d02068%40google.com
+---
+Changes in v2:
+- Drop patch 2 ("workqueue: doc: clarify cancel_work_sync() cross-workqueue
+  behavior"), already applied to wq/for-7.5 by Tejun Heo.
+- Use list_entry_rcu(pwq->wq->pwqs.next, ...)->pool in try_to_grab_pending()
+  without the redundant NULL check, per Tejun Heo.
+- Link to v1: https://lore.kernel.org/r/20261118-ordered-wq-cancel-v1-0-916e01f9affe@google.com
+---
+ kernel/workqueue.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+index af845214e78b..9566e8822686 100644
+--- a/kernel/workqueue.c
++++ b/kernel/workqueue.c
+@@ -2263,6 +2263,7 @@ static int try_to_grab_pending(struct work_struct *work, u32 cflags,
+ 	pwq = get_work_pwq(work);
+ 	if (pwq && pwq->pool == pool) {
+ 		unsigned long work_data = *work_data_bits(work);
++		struct worker_pool *offq_pool = pool;
+ 
+ 		debug_work_deactivate(work);
+ 
+@@ -2288,9 +2289,18 @@ static int try_to_grab_pending(struct work_struct *work, u32 cflags,
+ 		/*
+ 		 * work->data points to pwq iff queued. Let's point to pool. As
+ 		 * this destroys work->data needed by the next step, stash it.
++		 *
++		 * For ordered workqueues, __queue_work() skips last_pool
++		 * redirection so @pwq may be plugged while @work is still
++		 * executing on the oldest pwq after a cpumask update. Only the
++		 * oldest pwq is unplugged and can be executing @work, so record
++		 * its pool instead.
+ 		 */
+-		set_work_pool_and_keep_pending(work, pool->id,
+-					       pool_offq_flags(pool));
++		if (unlikely(pwq->wq->flags & __WQ_ORDERED))
++			offq_pool = list_entry_rcu(pwq->wq->pwqs.next, struct pool_workqueue,
++						   pwqs_node)->pool;
++		set_work_pool_and_keep_pending(work, offq_pool->id,
++					       pool_offq_flags(offq_pool));
+ 
+ 		/* must be the last step, see the function comment */
+ 		pwq_dec_nr_in_flight(pwq, work_data);
+
+---
+base-commit: aebb7274476403040d582c61478df8f4a7bf9cd3
+change-id: 20261118-ordered-wq-cancel-63b02e0feac4
+
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
 
