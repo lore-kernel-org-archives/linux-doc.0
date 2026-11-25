@@ -1,104 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.201
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.154
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795616068;
-	b=yordi5SiRj1sGQUxPrYakfK7olYFbp3P6y4dkgXYVMZzq3+8GpGCUF/ViXObG15XaVAX
-	 fPah+HQffzurLD/f783gIE72E+SkpyA6pojt7bn5CcXmnkTEdfZ09khIKk0BvREGI0zoY
-	 hDACAxQSjm4so+PIm0SYjksBUjeWHBMvASWLbE303By2D+SLGd7bruy3/4CNDvOrAlZvW
-	 JPX5gFTy2yIMty1845W4XUCCVJi9A291W2W7WffI0wadBT0uOMBbi5uN/UmQB9BZL6hxB
-	 jJTxkjhV1FD/Bl3kiZghRneZ3KQQ7E2UDvtD6v6V7IU7hlYrFlWYMzyNSliZYAC1p4Q==
+	t=1795616283;
+	b=vwykbprzAzYwSfwUYDbrD/hZNa6nnPZ3Mf2NglduBPGk25mvy8bUOF1AuBnHICkpSjaq
+	 T0KCKMEwJJNbVNDp79aXjT32QJXz6Rh9p3eqLXyF5jKhVu7h/iQZI6pdXDFGNjitb/cUJ
+	 DTXO/vYyAroFXBcC87Vk5uckh+A051RSn4z6Zf22nhoWqIcOzmWGFqyHe6qHsbsc6sFCs
+	 cYFkp9JE5ccdyRxFW5ijNXa5cqVCsvDBN7/TQWiIKg8DKTYAFSJJbZe2XmVuJtYgd6EPl
+	 4uw7FXNMY8wkh76H5gX0YFQbtXHI1T8SfwNsjCEAogwVrlYebwUQfGp4ehsGrkOG5/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795616068;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=I2DpsDtmwlnqqaorb1yvKqGbKiNq2jJLn9vN0lJSvMQ=;
-	b=Xp04z1AqHxwljjqXnfRl9Rq9d0BJO/5z/UUPxD6gHPrpdoCO5oDGPheDCq8C765iEuT9
-	 5bRTdLvlNHBWhZsyJ1JmugS01E/aSiWxxDxVdBIQUQKm9XzpYIY802e5JG5ygqxuJXTlq
-	 G2hjihMy2rrDpluf4FIhFv5HNakvw1TQI/jnWgfCwxY8+iDA/BUhnDPWtvgb/JmqRQAiD
-	 WsfeoSzFIilbgXlFS6Z3h8XArzjSlbL/23V4cwqgPdjeep2ywML68oZi6r4hLPZW7qGNJ
-	 qpiPOWVEh2iOuJ8b+Da55t47XRcWdqWir4RnhO4+M7ugpGdkexnDg/3EJTv28ZhJeoA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795616283;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=cz6q/stH72VoxzJvriTDyhchEoMpXYcJk6FPeliPcts=;
+	b=xa/YsnAzuNGp4s0BoVMzL+Wsuf77bHe60rtLICgpX+uQaN9XpXkee7rO5PFQ/Wtk+kk1
+	 XRbpvOWeaBaE/9yCocz2uLVQtFVXm1xHZQt1qDilAp1h0vy3UEu6FdmmYvSNILWNfMfBm
+	 /5Qb2PlwvDrN298gDPWrmk8XeRfA+C1NnjU922XXcpLACDZFbnGW6bYCNgXsFuSfkoKKM
+	 Xerupyb8XHWtruurviy3QJQSwOIwle553mTvT6jfLDueJyTSQLkdAtR31OhO7NHBNg2nj
+	 Yl3q2WKP0E1kqgrOgiXEPJo+AnhWFRDD3pDfqOzcoE88zNCPcZ2FRutqktjshDXFtxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RDYIHxzo;
-	arc=none smtp.remote-ip=74.125.227.201
-Received: from mail-pi2-f9.google.com (mail-pi2-f9.google.com [74.125.227.201])
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=TACvlVp5;
+	arc=none smtp.remote-ip=91.218.175.154
+Received: from mta0.migadu.com (out-154.mta0.migadu.com [91.218.175.154])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B7D606A327
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 14:14:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02B7D606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F310606A326
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 14:18:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F310606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RDYIHxzo
-Received: by mail-pi2-f9.google.com with SMTP id 41be03b00d2f7-cdb8dad8ea5so855211a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 06:14:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795616067; x=1796220867; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=I2DpsDtmwlnqqaorb1yvKqGbKiNq2jJLn9vN0lJSvMQ=;
-        b=RDYIHxzoMlHxkFOSAbCfAyeuldO+24TCDP30YQu+Dx0GyHEsW4hucRZrhHtVlXY31M
-         Y4F8piuLNlZtiMrOzErisYyBUpe/fwRTFHhbhHh00Lx+bMosSD5obxH0dIgoCWd14IAF
-         bgTVBqcngPw8hBgMk9B4bByu2Km4GvT78sKue6Hz57gihXg9ffkxfwCa3adR31WfpmtY
-         /zUoswsb0vS5Vko1C7oGXhJFIj9+I5RpaT6kBMD9C0vug/HCPmAzZp2+j3kNm6OdY4c0
-         9n6WTjCq0EKfqXXCZNLJB+sf+zkyj2VFlIewiJNbePM4JYHRJt230TT6hmkJZLyhXL7j
-         5l1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795616067; x=1796220867;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=I2DpsDtmwlnqqaorb1yvKqGbKiNq2jJLn9vN0lJSvMQ=;
-        b=V3VU81WgFngB9ITuGjtqY0s29iC+Lee/zWgloDARO15J5P4Q4DFCtzaHHrRWjlEgkc
-         LgikbdEiRF5DDhMfaUZhICgiVg9y+1tr+rNBarZxMW0syGn47VsXhVE5UzcX4cyuAj+0
-         fn+MvG+B/a37IsewfJ3+om/3b9E5KrJ3FHAgccTpk9jjd2EQYxipYzXPQCZT8ZRhuKfI
-         2okkR9aq59o/DLSPHUMMxLIm7p99bKCipW6MQ/rtfxJFLDCFTvsQOaU5lu+gil4Tw51k
-         ZeBDZ/wKgck5Xy9dpUtvwoqTD71JqoynSWcTz6pSwmlVaKibdpBVm0tRiVonB2Nq1kSk
-         Dqrg==
-X-Forwarded-Encrypted: i=1; AL+hErGd/b+8Np7mGZnfNqloON+XCDPdKzX+hW1Xo1BKYvSMFKgmVtZOPwazk7a8d0aM0TeimQiHuCBO65M=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9uutDDRhp3SbW2lftp1YgCz6C8FeZhZwWF3eWAbYqcV/NHTvvJ
-	FJuLHyLVMvNyjKN/NsTE9Vgg62HagJO4YL3YvX7CbF7wlkIew6PB2brN
-X-Gm-Gg: AZFdTZc3YhUgHaE90u4Jv5XsnZ1fCh79KM03H/SS1QpF1gKSJcYd1DbeeLtWtyuFNzz
-	pNqeA6e6chgJoyKAU1EAEgloOmc50Z2Oc6zebq9gw3V4TcdIYVTxk741Gt3vr/stIfsP38yWf1F
-	yvB7UEh977YrcxUM6wH0Ue7zK2FcwdVPYMxEtLwJcEjcGJpE3VckPMHderpLbSjKcw9j1W6VF16
-	YL/PeIA+FVAU+Ga/nJJ9eNfnW6+jRm4j7j5XcK1XuBPLE7jSVGR8ZodtRUjuCPVH8lGJXsrkXM6
-	BlLu+2VWAnbmL7awzE+lWDXMjNiB1m97ZyITn0d7MlboMCXn1nzQjb/RD3VWjKGXYpymBM/t5NT
-	iz2UOEz5SvFEaH4bOKVCFVdJxq6TOQlXkolHik7JqJ2srgJvBjy4gHUZA/wT42ZPpT6OhbN4Xm1
-	zZQAAHw5jQgdVJE8DVxf6fWGRyZSviK5oM5WfSPKUW/t15L0PvSHZGCdwYP5mWmRPVFmcOIis4l
-	fy0v8egc4lgUOucczwDqkcIfY2OctnLakMqwLbRYK3lc4k7WGnQb+zIWSeKNJbhpRBMWyJ5qgOf
-	UE7F5Lj0uQfDlo1ozuyj4wfumB0=
-X-Received: by 2002:aa7:9311:0:b0:8a0:3ed7:93a7 with SMTP id d2e1a72fcca58-8c87c38b689mr16164612b3a.32.1795616067259;
-        Wed, 25 Nov 2026 06:14:27 -0800 (PST)
-Received: from nixos ([2409:8a28:ae4:7f20:3645:b698:a929:4bcd])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c87392d408sm8903369b3a.44.2026.11.25.06.14.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 06:14:26 -0800 (PST)
-From: Zixin Wang <w1355457260@gmail.com>
-To: frederic@kernel.org
-Cc: Zixin Wang <w1355457260@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	"Ahmed S. Darwish" <darwi@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>,
-	linux-doc@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	corbet@lwn.net,
-	wagi@monom.org,
-	atomlin@atomlin.com,
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=TACvlVp5
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=CCa6MLPgSfC0gSv1/TwQ2U1xBZ9d9xJFhl1N8rsJZyk=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795616280; v=1; x=1796221080;
+ b=TACvlVp5XJlw0i9zLKjIX6ViIxnQhY68D8+L3z1Qk9/0o7khe0XjfS8bdJNWYmDr35uQposF
+ yYsf6F31ATQ9+3UIjLRzQoFdRiAtcq1qSzz/NXX1aEXi0pA8jLcetAz2WdvRzoBdgsXmbx322JJ
+ rLod3cW9A+9PU+3UkuLXOnmoqhxQ/A+KhYiLOr+DZy6VnSIoauyZYYlVt+wxM55jEqIhQQl0kG+
+ +4lnyRoaeF+0s1NiCSJLOG2svU0H706jcGj457voz4sd8Ie9Z+R29r8Wf94kAE6O2rpm2ZOVV6L
+ 8e13TDpVgjeQ7WR8s6BlQ+oKuyoWNoE7zvOUEiJUFxnxg==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 5990fbd04151478c;
+	Wed, 25 Nov 2026 14:18:00 +0000
+X-Mizu-Trace-ID: 5990fbd04151478c
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 25 Nov 2026 22:17:52 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Bruce Song <xiongwei.song@linux.dev>, alexs@kernel.org,
+	si.yanteng@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org,
+	rdunlap@infradead.org, paulmck@kernel.org,
+	linux-doc@vger.kernel.org, rcu@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] Documentation: real-time: Add runtime tuning guide
-Date: Wed, 25 Nov 2026 14:14:09 +0000
-Message-ID: <20261125141409.330411-1-w1355457260@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <awbgq0xQyJATel0_@localhost.localdomain>
-References: <20261125074658.33117-1-w1355457260@gmail.com> <awbgq0xQyJATel0_@localhost.localdomain>
+Subject: Re: [PATCH v2 2/2] docs/zh_CN: Add RCU/whatisRCU.rst Chinese
+ translation
+Message-ID: <awbuEAiOpfpfov2b@wyuan.org>
+References: <20261118131636.5131-1-xiongwei.song@linux.dev>
+ <20261118131636.5131-3-xiongwei.song@linux.dev>
+ <09ef3d3d-0e68-49c6-a6a2-c754104ede9e@hust.edu.cn>
+ <946792d2-4241-445d-820b-301a570ee2c3@linux.dev>
+ <awZZVV3BlovD-xNf@wyuan.org>
+ <9d2b25e4-c5a0-4ef0-8698-1a622d05223e@hust.edu.cn>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -108,54 +75,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <9d2b25e4-c5a0-4ef0-8698-1a622d05223e@hust.edu.cn>
 
-Hi Frederic,
+On Wed, Nov 25, 2026 at 10:00:26PM +0800, Dongliang Mu wrote:
+> 
+> On 11/25/26 11:43 AM, Weijie Yuan wrote:
+> > On Tue, Nov 24, 2026 at 10:23:50PM +0800, Bruce Song wrote:
+> > 
+> > [...]
+> > 
+> > > > > +:翻译:
+> > > > > +
+> > > > > + 宋雄微 Xiongwei Song <xiongwei.song@linux.dev>
+> > > > > +
+> > > > > +:校译:
+> > > > > +
+> > > > > +.. _zh_cn_whatisrcu_doc:
+> > > > 
+> > > > Please double check all the references. If one reference is not referred
+> > > > from other places, please remove it in the translation.
+> > > Ok, I will do that.
+> > Let's make it a rule or instruction, shall we?
+> > 
+> > I didn't find any specific rules for label usage in doc-guide dir. (only
+> > no more top-level label on list) But I suspect there must be unused
+> > labels in English docs.
+> > 
+> > We either:
+> > 
+> > (1) make it consistent, i.e. keep adding unused labels.
+> > 
+> > or
+> > 
+> > (2) check usused labels and do not create new labels for it.
+> > 
+> > 1 may be easier for manual translating jobs that you don't need to check
+> > every label manually. You just need to add a '_zh' before each original
+> > label. But apparently this will create tons of unused labels. So, no?
+> > 
+> > 2 may costs more attention, but I guess agents could handle this
+> > nowadays with proper prompts.
+> 
+> 
+> I prefer this solution for some reasons:
+> 
+> 1. If I understand correctly, Jon asked us not to add useless labels in the
+> translations.
 
-Thanks for the review.  You are correct: the CPU isolation section
-duplicated Documentation/admin-guide/cpu-isolation.rst.  I checked the
-remaining runtime tuning content for similar overlap with other
-documentation and will keep the canonical material referenced instead of
-duplicated.
+Yes, true.
 
-On the second point, I ran a local QEMU test with the PREEMPT_RT kernel
-(7.3.5, HZ=1000).  The guest had 8 vCPUs; the test process was pinned to
-CPU 6 with:
+> 2. The labels in original English documents may be invalid, we should
+> not inherit them blindly. Only if you find some place refers to this label,
+> you can add it to our translation.
 
-  isolcpus=domain,nohz,6-7 nohz_full=6-7 rcu_nocbs=6-7 irqaffinity=0-5
+True. So I also hope that the English documentation includes a note (if
+there's no such): do not add unnecessary labels. This way, our new
+translations will not be added in correspondence with them.
 
-The only difference between the two runs was the presence of
-rcu_nocb_poll.  The workload repeatedly created and closed perf events and
-epoll instances, which enqueued RCU callbacks on CPU 6; I traced
-rcu_callback, rcu_invoke_callback, and rcu_nocb_wake, and measured
-enqueue-to-invocation latency (including the grace period).  I ran three
-80-iteration guest runs per mode, giving 480 callbacks per mode.
+I will also try to troubleshoot unused labels in English articles when I
+have time. Sadly, Sphinx does not print out warnings for this, so I have
+to grep them.
 
-  without rcu_nocb_poll:
-    median 4.012 ms, p95 4.203 ms, max 7.040 ms
-  with rcu_nocb_poll:
-    median 7.003 ms, p95 9.971 ms, max 12.542 ms
+> > I forgot to mention this thing in Daniel's series [*], shall we mention
+> > this now, or send a RFC patch after they get merged?
+> 
+> If it is not merged, comment now.
 
-The polling mode showed Poll/WakeNotPoll events and no WakeEmpty/DoWake
-events.  Thus, in this test, polling did not improve real-time response;
-it made callback invocation latency worse.
+Sure, will draft soon. It is expected that his series will not be merged
+quickly.
 
-I have updated the guide accordingly: the CPU isolation details now point
-to Documentation/admin-guide/cpu-isolation.rst instead of being
-duplicated, and the rcu_nocb_poll description no longer claims a real-time
-benefit.  It now states that the kthreads poll every jiffy and can delay
-callback and grace-period processing.
+Thanks.
 
-So far only you and Sebastian have replied to this patch.  I am waiting
-for more reviewer feedback before sending v7.
+> > And also, add a rule for English docs that _do_not_ write a label which
+> > is not used? This will make our job easier.
+> > 
+> > [*] https://lore.kernel.org/linux-doc/20261119041009.63651-1-danielmaraboo@gmail.com/
 
-The kernel-parameters.txt entry still says that rcu_nocb_poll improves
-real-time response; I left that file untouched in this patch, but it may
-need a separate correction.
-
-The test logs and summary are available locally; I can share them if
-useful.
-
-Thanks,
-Zixin
