@@ -1,33 +1,33 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=182.48.54.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795622829;
-	b=TMT+Sd9b77BLq/nPhgl22gw27FYt80JhfdpPC79/r9/uTIVNNZX+gMr12es5J0FIANHl
-	 oJFxv0vzpvL26PmctzOiaXlcRuKzg8FdhMvknnaJsBomZKQw1NC3L4m2m8D5q5IoapvVb
-	 9u0naYclZgg+rJmbohSotPP7uJVYJlKt/gV0GD4EBZyuGa2385ZWHqxb+6zNYC2HL902c
-	 3QeFGz7fjSJcEABj+ruXoxIZ7ChO40vsH4QEgbFIiZKYufRFnMa2bjwsEEyN3ih2o5Lzy
-	 WYVOKBM8zVzsHl1oqPHFP1uIEHfhkDmX1JjLMAGMn15WUP2pFyitVGXp4kiD5WTtSxg==
+	t=1795622830;
+	b=X+Q+8rPosE63OvqAQbN+Ew2yda8E9P64MDOL0sUVBSJpPvSPzkCugMJi3OLbVMd1HDJd
+	 aT/sttUpIu3uOj0MVB1lKGbNIGPj0pIRubobnwWOXtNXY8nhsyVo5P7dOqr396GDM3Dkf
+	 yvgq9G3iLWddqDgik+KP4CTcXk9jtSLBR5f+homOWwaiDb22fO0Y7OlknzO8MuhLbezvr
+	 ThwJ1dwFZ0e9FimNSE6VN5xd/WohX3V3bKG2Xb2mw25/bIGqCjoTr6W0/3URqftsEYW5W
+	 SoZj473kYyUmP44j057a1moHWHBFDFXoJNpgf5ojcVNRCyhUI6IroKW6m1mPWnrVlEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795622829;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795622830;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
 	 References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=G6T7jpstO8PkN3s/pf9ze2EnC64looMz52Ecp4aw0pc=;
-	b=kSxHVjV0mwqWyrKloBUjY4hiB4WbCHvbzZ4e11hZftF85tul52f/pjqwZ1raR4ZPUQ8a
-	 khFWy1BRdQz3CkASo+aVmXMY7Mx2LSCMbjRdc+6/bbB1IrBw9PR++x0Ml7Kj3LAxNf2GP
-	 JQqCnEPU6J2uYkHru29LRcRxcLn3i2GHGGyubM204H6jVEe4UdeCRQmhDQtwfnuyQ121P
-	 /v31Tsd2cw7K0blWh3mcEHCud3irVXFeAGbi113p+Jq2ltM8vbPy/sZY+vWOfRw6tuOgK
-	 x5dTO0t4uQpHbXUrRJkAOJ82oMZNK14HF2o1VOFXV6TpDQRiImN+Yi0N1Alz73cIOug==
+	bh=PvKsNKTH+N/wo+qc+k6pH61Gkxzo7WgdYLcaOadWIBU=;
+	b=SNRHwlEj3ntZyTvRZsdgvIEChc2RQvNFRV8UQGT2ckUFG/aYq1Z/uU+A4/c4bAP1DOxH
+	 wHfjxO54Wssm8oEEhjlP2UJcqhvJxWGIR8UuOoG+EW4baiNeFcRMN0VIaUg2mQcbziR7P
+	 Zckygv+86nA4amnOnAsFb/6GvigivnW8HUG+Ie+y2Uju8MOg+Wv+qlLQaUr4Avx4HARoQ
+	 McNlm5QTr8mPC3N+c2kGlRGkuOcZISAJ8DYbuwj1ZI26rQ3qlOQ3g37j2B4YLiVnKp42n
+	 by6Wv7h64Em32yVCB7nYVAuUsUfJxpx+jKnPSsOpBkAnYPo+omNOa+xZ5LOeROeKjLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=snowrabbit.org;
 	spf=pass smtp.mailfrom=snowrabbit.org;
 	arc=none smtp.remote-ip=182.48.54.220
 Received: from bambi.snowrabbit.org (bambi.snowrabbit.org [182.48.54.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 274CB606A32C;
-	Wed, 25 Nov 2026 16:07:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 274CB606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62F7E606A684;
+	Wed, 25 Nov 2026 16:07:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62F7E606A684
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=snowrabbit.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snowrabbit.org
 Received: by bambi.snowrabbit.org (Postfix, from userid 3001)
-	id 6E425C935F; Thu, 26 Nov 2026 01:07:01 +0900 (JST)
+	id A394BC936F; Thu, 26 Nov 2026 01:07:05 +0900 (JST)
 From: Showta Ishizaki <zakinko@snowrabbit.org>
 To: "Michael S. Tsirkin" <mst@redhat.com>,
 	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
@@ -54,9 +54,9 @@ Cc: Eric Dumazet <edumazet@kernel.org>,
 	linux-um@lists.infradead.org,
 	linux-doc@vger.kernel.org,
 	Showta Ishizaki <zakinko@snowrabbit.org>
-Subject: [PATCH RFC net v8 3/6] virtio_net: parse tunnel csum_start little-endian
-Date: Thu, 26 Nov 2026 01:06:44 +0900
-Message-ID: <20261126.rfcv8.99797.3.zakinko@snowrabbit.org>
+Subject: [PATCH RFC net v8 5/6] net: virtio: compute the outer checksum of non-GSO tunnel packets
+Date: Thu, 26 Nov 2026 01:06:46 +0900
+Message-ID: <20261126.rfcv8.99797.5.zakinko@snowrabbit.org>
 In-Reply-To: <20261126.rfcv8.99797.0.zakinko@snowrabbit.org>
 References: <20261126.rfcv8.99797.0.zakinko@snowrabbit.org>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -71,47 +71,180 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-From: "Michael S. Tsirkin" <mst@redhat.com>
+A packet may be tagged as UDP tunnel GSO and still be too small to
+segment. Then nothing consumes the pseudo-header seed the sender left in
+the outer UDP checksum. The GSO layer is not run, and transmit checksum
+offload completes only the inner checksum, so the seed goes out as the
+outer checksum.
 
-All tunnel related virtio features are > 32, so none of this
-functionality can be enabled on legacy mixed-endian device.
+Zeroing it is not an option either: IPv6 receivers drop a zero UDP
+checksum unless the tunnel opted in (RFC 6935, RFC 6936).
 
-Accordingly, all tunnel header fields, csum_start included, are
-little-endian.
+Compute the outer checksum when VIRTIO_NET_HDR_F_UDP_TUNNEL_CSUM asks
+for one: with local checksum offload while the inner checksum is still
+partial, or by a full sum once the inner one was completed in software
+because its metadata did not match the packet. Such packets no longer
+need to be dropped.
 
-The nested virtio net header import parses csum_start that way, but the
-inner transport offset is parsed with the endianness specified by the
-interface.
-
-If tun is misconfigured to legacy big-endian mode while the tunnel
-features are enabled, the two parses of this field disagree, and the
-value stored in skb->inner_transport_header - which is only
-bounds-checked from below - can point past the end of the packet, where
-GSO segmentation later dereferences it.
-
-To fix, parse the field little-endian in both places.
+The addresses come from the outer header in the frame and the length
+from the UDP header. udp_set_csum() is not used: it is built with
+CONFIG_INET, which virtio_net does not depend on.
 
 Fixes: a2fb4bc4e2a6 ("net: implement virtio helpers to handle UDP GSO tunneling.")
-Cc: Paolo Abeni <pabeni@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Suggested-by: Willem de Bruijn <willemb@google.com>
 Signed-off-by: Showta Ishizaki <zakinko@snowrabbit.org>
 ---
- include/linux/virtio_net.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/virtio_net.h | 105 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 98 insertions(+), 7 deletions(-)
 
 diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
-index fc9667176..3135dae03 100644
+index e9057767b..5d5049418 100644
 --- a/include/linux/virtio_net.h
 +++ b/include/linux/virtio_net.h
-@@ -490,7 +490,7 @@ virtio_net_hdr_tnl_to_skb(struct sk_buff *skb,
- 	inner_l3min = virtio_l3min(inner_isv6);
- 	outer_l3min = ETH_HLEN + virtio_l3min(outer_isv6);
+@@ -8,8 +8,10 @@
+ #include <linux/netdevice.h>
+ #include <linux/udp.h>
+ #include <net/ip.h>
++#include <net/ip6_checksum.h>
+ #include <net/ipv6.h>
+ #include <net/tcp.h>
++#include <net/udp.h>
+ #include <uapi/linux/tcp.h>
+ #include <uapi/linux/virtio_net.h>
  
--	inner_th = __virtio16_to_cpu(little_endian, hdr->csum_start);
-+	inner_th = __virtio16_to_cpu(true, hdr->csum_start);
- 	inner_nh = le16_to_cpu(vhdr->inner_nh_offset);
- 	outer_th = le16_to_cpu(vhdr->outer_th_offset);
- 	if (outer_th < outer_l3min ||
+@@ -545,6 +547,64 @@ virtio_net_tnl_offsets_ok(struct sk_buff *skb, bool has_eth, bool outer_isv6,
+ 	return ip_proto == IPPROTO_UDP && outer_th == thoff;
+ }
+ 
++/* Fill in the outer UDP checksum of a tunnel packet that is not GSO.
++ * While the inner checksum is still CHECKSUM_PARTIAL this is local
++ * checksum offload, as udp_set_csum() does for udp_tunnel_xmit_skb(),
++ * and needs the transport header at @outer_th.  Once the inner
++ * checksum has been completed the datagram is summed in full.
++ *
++ * The pseudo-header comes from the frame, not from the seed the sender
++ * put in uh->check: the addresses of the outer IP header and the
++ * length of the UDP header, which skb->len exceeds when the frame is
++ * padded.
++ *
++ * udp_set_csum() itself is not used: it is built with CONFIG_INET,
++ * which virtio_net does not depend on.
++ */
++static inline int
++virtio_net_tnl_set_outer_csum(struct sk_buff *skb, bool has_eth,
++			      bool outer_isv6, unsigned int outer_th)
++{
++	unsigned int thoff;
++	struct udphdr *uh;
++	int ip_proto, nhoff;
++	__be16 proto;
++	__wsum csum;
++	int len, err;
++
++	/* virtio_net_tnl_offsets_ok() has passed; this finds nhoff. */
++	if (!virtio_net_l3_start(skb, has_eth, &nhoff, &proto) ||
++	    !virtio_net_l4_start(skb, nhoff, proto, &thoff, &ip_proto))
++		return -EINVAL;
++
++	err = skb_ensure_writable(skb, outer_th + sizeof(*uh));
++	if (err)
++		return err;
++
++	uh = (struct udphdr *)(skb->data + outer_th);
++	len = ntohs(uh->len);
++	uh->check = 0;
++	if (skb->ip_summed == CHECKSUM_PARTIAL)
++		csum = lco_csum(skb);
++	else
++		csum = skb_checksum(skb, outer_th, skb->len - outer_th, 0);
++
++	if (outer_isv6) {
++		const struct ipv6hdr *ip6h = (void *)(skb->data + nhoff);
++
++		uh->check = udp_v6_check(len, &ip6h->saddr, &ip6h->daddr,
++					 csum);
++	} else {
++		const struct iphdr *iph = (void *)(skb->data + nhoff);
++
++		uh->check = udp_v4_check(len, iph->saddr, iph->daddr, csum);
++	}
++	if (uh->check == 0)
++		uh->check = CSUM_MANGLED_0;
++
++	return 0;
++}
++
+ /*
+  * Return value:
+  * 0 - success
+@@ -560,6 +620,7 @@ virtio_net_hdr_tnl_to_skb(struct sk_buff *skb,
+ 			  bool little_endian)
+ {
+ 	const struct virtio_net_hdr *hdr = (const struct virtio_net_hdr *)vhdr;
++	typeof(skb->transport_header) old_transport = skb->transport_header;
+ 	unsigned int inner_nh, outer_th, inner_th;
+ 	unsigned int inner_l3min, outer_l3min;
+ 	u8 gso_inner_type, gso_tunnel_type;
+@@ -631,15 +692,26 @@ virtio_net_hdr_tnl_to_skb(struct sk_buff *skb,
+ 
+ 	inner_proto = inner_isv6 ? htons(ETH_P_IPV6) : htons(ETH_P_IP);
+ 
+-	/* NEEDS_CSUM is set, so this is CHECKSUM_PARTIAL.  A packet whose
+-	 * inner metadata does not match cannot be segmented, and completing
+-	 * the inner checksum alone would leave the outer one to the seed
+-	 * the sender put there.
+-	 */
++	/* NEEDS_CSUM is set, so this is CHECKSUM_PARTIAL. */
+ 	if (unlikely(!virtio_net_csum_partial_ok_at_offset(skb, gso_inner_type,
+ 							   inner_nh,
+-							   inner_proto)))
+-		return -EINVAL;
++							   inner_proto))) {
++		/* __virtio_net_hdr_to_skb set the transport header to
++		 * csum_start, restore it to a known good value.
++		 */
++		skb->transport_header = old_transport;
++
++		ret = __virtio_net_resolve_csum_partial_mismatch(skb);
++		if (ret > 0 && hdr->flags & VIRTIO_NET_HDR_F_UDP_TUNNEL_CSUM) {
++			int err = virtio_net_tnl_set_outer_csum(skb, has_eth,
++								outer_isv6,
++								outer_th);
++
++			if (err)
++				return err;
++		}
++		return ret;
++	}
+ 
+ 	skb_set_inner_protocol(skb, inner_proto);
+ 	if (hdr->flags & VIRTIO_NET_HDR_F_UDP_TUNNEL_CSUM) {
+@@ -653,6 +725,25 @@ virtio_net_hdr_tnl_to_skb(struct sk_buff *skb,
+ 	skb->inner_mac_header = inner_nh + skb_headroom(skb);
+ 	skb->transport_header = outer_th + skb_headroom(skb);
+ 	skb->encapsulation = 1;
++
++	if (!skb_is_gso(skb)) {
++		/* Too small to segment.  Senders do tag small packets with
++		 * GSO headers, e.g. packetdrill sets gso_type and gso_size
++		 * with --mss, whatever the packet size.  Nothing consumes
++		 * the seed the sender left in the outer uh->check without
++		 * GSO, so compute the outer checksum if one was asked for.
++		 */
++		skb_shinfo(skb)->gso_type &= ~(SKB_GSO_UDP_TUNNEL_CSUM |
++					       SKB_GSO_UDP_TUNNEL);
++		if (hdr->flags & VIRTIO_NET_HDR_F_UDP_TUNNEL_CSUM) {
++			ret = virtio_net_tnl_set_outer_csum(skb, has_eth,
++							    outer_isv6,
++							    outer_th);
++			if (ret)
++				return ret;
++		}
++	}
++
+ 	return 0;
+ }
+ 
 -- 
 2.54.0 (Apple Git-157)
 
