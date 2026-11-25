@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795619432;
-	b=JLu78O2WhUK/174pBY/CGaU0NjCg9ZbvsLEYRdRADoKrRPiaJRMDjZgj5o2A9zKHm32u
-	 SsVqGUcOf35pNoZgEgVaaZmn9SVl2v2Vnxy+abRMNIyPY3G2jN0YW8ZVWLrvCOCe3ydSU
-	 Zuu64EGiRVxP7wXFL8fi3CZfzH9rZYXoDqlP21yv4XoOHvgsbK7UZ5bnTev4BmVoP6XwL
-	 qSmyPu2puYA/KGWtFCh8HqiFNfA2Ck2Zb6DXsSUij8vYLBcPReVOH8WUiw1tE6Oiiwhej
-	 3paEA5oPXK2SV6r+KcBXY/Hgm7MdNYWd16KH6Vlz0x/VrCxJUUTTevSRHlJ4Rmi1WSg==
+	t=1795619435;
+	b=CrEZKeijHLArV6nvLm4p2Y/UHZv178IxWpW3NaMAPL2RaWdb7KIo8VdUZm/r/DGRhPdK
+	 iSBw3f4fkwB25Cj09zPZlk1IkSe8h9VPube7gXlUAlW5oLibrcohAqgchCKvW0hF70oqN
+	 CwQWxZTl6lISGpge2FyBJdhW+9T/AkfEI3t6CToO6qudW/A8Ankccaqm7WJLb6DqcchZY
+	 KH5+agsqjXSges0e+49iyNBhQ/47KcKte8XEizgyx71xLFR6GOQ8g26q3CE8D8Gk3vzii
+	 RDaAyONetJ6iWnGG3gQRHpq3zn14tZsYV0fnKyiJGn3Xgu9joUnb4bhHhIW0coiNbXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795619432;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795619435;
 	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
 	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
 	 In-Reply-To:To:Cc;
-	bh=GiXPKBrZhlKiza0lYXApFCrNfx3oQ+fQzITI0X6eNmY=;
-	b=W5DntXBcRaWI36iSMZ6hVZ2mdw29SjSKeXPNdjGj2QKWC3UnqOwybDGqAVKsZW2GxsV1
-	 rPU9vaPk9qgsAc3NwHBq9m4JYuk69QDmNbzhyNcScLhuYH9B50Z0Tb/dEac8XgTaR5u6J
-	 1WN8l+VmXsJUAWSPYEcpmyc0rfggD0C8584knL1MrF8XE+YTVWqi5gOqpPVWjxvCz297p
-	 Er6Air8K/ax6WCMQGlTyXipbfmH9JtrcEoLwFNLkcyGWWsJVsA6LnycoX3UA0jPACGarV
-	 4TcPgf05eaGLKOz5ASgnk1+4vDjlxQ/g1fUO36knJWsAivnkvNjIrFJt2rvNLFqmNJw==
+	bh=llv31cCB0qW307sqInFshDFY3rFrRfABQYRSbjvxbig=;
+	b=KrvduTJZ1OxX9cQNinXyoYFWgroh+rgiEtXX+2PoQXKLAEJ90cAdSrWsTA9EyY/jvO0N
+	 phFsmA6h3mWtwqJ39qsl4vmv4T+r5UIfa5ghwEfbUOoSzxTpvAF8mfmgpi8+REYfwKbB+
+	 NtSvVROoniCWPpCXvNy0wlxJ1th5EAF7a/Or8pHBuxB8SpfYNwnnHVpxFV4JqXTwbzyYR
+	 rWaomFo57VGJWbONRFKfZqno7y0Xpgs+SYFY98O0ODzl6KPB91cUH9ceR/n9vSvjorguR
+	 ws+bYORiHQbsVRBL0GDOzGVJPKfSsD61Ub15hn/Q0CzYj7+yRWJlhHIk9S3NjBaKe/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bQebbPqB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lHhNlO01;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A49606A332;
-	Wed, 25 Nov 2026 15:10:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55B1606A695;
+	Wed, 25 Nov 2026 15:10:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bQebbPqB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8058A1F000C0;
-	Wed, 25 Nov 2026 15:10:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lHhNlO01
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 818C91F000E1;
+	Wed, 25 Nov 2026 15:10:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795619432;
-	bh=GiXPKBrZhlKiza0lYXApFCrNfx3oQ+fQzITI0X6eNmY=;
+	s=k20260515; t=1795619435;
+	bh=llv31cCB0qW307sqInFshDFY3rFrRfABQYRSbjvxbig=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=bQebbPqBjS4InVz1gKFSikuQN4abyzopqtmBDsFA/xR0ZUWc6OO+KGzFRKtnk2Gss
-	 deGkbVFpS/49UeRWwflwbIhcO2jPjF7rOpUfXKISTHXZ5x/tnlF7V2A+4NPqhHVTCB
-	 AUmVYpHMxZyQ+IwkfpIjJbMJVnJvEA/EqSErSLUDVwuc4UcJ6KZpGdZjM2poxDVIZM
-	 aftU1HZ8p3ITWgs9lEYG9BxZ77QpOTkZT7huGbkxf/dMpGjmo43kscSX0j8WaUV/GK
-	 ClaSq/2uZtalGZi8uFu6ibGoIGyRPt9pbKInEfCHOKxPP3AUPCwOh8IQT0l+R3SpHt
-	 zm2eHyUhDTdfQ==
+	b=lHhNlO01p5zd8k0VE4L8ab0FjRMu3csmbUJLoVvCZFQ3wECEQYDciuxLvtQzJJuB7
+	 bLEmwbWbB0RqJspnI8fuKXvvFOGQvL9xfp0G3WDaUHZzldQnWp/qCut2pUQD1/SCif
+	 qd9GGsX82pP4BcYpdSIG90eBeeETn0DNO9Ajh7GTgriA97p9PlsT8/6rcPxPM6jdg8
+	 SJM/DJ/OdScs3C2noE5psZC+gf1KBzsjrwPNYjVDD+iemVHKCxbmB4jJzqOoFPMRW0
+	 dqW22l1FLcp81IzHbVyoOu36E32aYUig57emfziNKyH3BqkZpKjxy3tSXwrXdz7Exi
+	 +HVCzGIebHoYA==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 773C53808209;
-	Wed, 25 Nov 2026 15:10:32 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7729E3808209;
+	Wed, 25 Nov 2026 15:10:35 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,57 +54,43 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v6] net: dsa: motorcomm: Add devlink info and
- resources
+Subject: Re: [PATCH net-next 0/2] net/mlx5e: Fix mlx5e counters documentation
+ errors
 From: patchwork-bot+netdevbpf@kernel.org
 Message-Id: 
- <179561943101.592665.13746917343838856671.git-patchwork-notify@kernel.org>
-Date: Wed, 25 Nov 2026 15:10:31 +0000
-References: <20261119171528.681819-1-mmyangfl@gmail.com>
-In-Reply-To: <20261119171528.681819-1-mmyangfl@gmail.com>
-To: David Yang <mmyangfl@gmail.com>
-Cc: netdev@vger.kernel.org, jiri@resnulli.us, davem@davemloft.net,
- edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- andrew@lunn.ch, olteanv@gmail.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
+ <179561943401.592665.4261692466901114316.git-patchwork-notify@kernel.org>
+Date: Wed, 25 Nov 2026 15:10:34 +0000
+References: <20261120083050.2540739-1-tariqt@nvidia.com>
+In-Reply-To: <20261120083050.2540739-1-tariqt@nvidia.com>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, gal@nvidia.com,
+ corbet@lwn.net, leon@kernel.org, linux-doc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, mbloch@nvidia.com, noren@nvidia.com,
+ rrameshbabu@nvidia.com, rdunlap@infradead.org, saeedm@nvidia.com,
+ skhan@linuxfoundation.org, horms@kernel.org
 
 Hello:
 
-This patch was applied to netdev/net-next.git (main)
+This series was applied to netdev/net-next.git (main)
 by Paolo Abeni <pabeni@redhat.com>:
 
-On Fri, 20 Nov 2026 01:15:06 +0800 you wrote:
-> Expose the ASIC model via devlink info (ASIC_ID), and register devlink
-> resources for ACLs and meters. Document the devlink support.
+On Fri, 20 Nov 2026 10:30:46 +0200 you wrote:
+> Hi,
 > 
-> Signed-off-by: David Yang <mmyangfl@gmail.com>
-> ---
-> v6:
->  - add devlink document
-> v5: https://lore.kernel.org/r/20261116121627.1182631-1-mmyangfl@gmail.com
->  - minor stylistic fixes
-> v4: https://lore.kernel.org/r/20261112002031.1475005-1-mmyangfl@gmail.com
->  - remove FDB-related changes
-> v3: https://lore.kernel.org/r/20261109163117.1792478-1-mmyangfl@gmail.com
->  - remove the buggy sub-resources
-> v2: https://lore.kernel.org/r/20261108094512.1285796-1-mmyangfl@gmail.com
->  - fix issues reported by sashiko
->  Documentation/networking/devlink/index.rst  |   1 +
->  Documentation/networking/devlink/yt921x.rst |  37 +++++++
->  MAINTAINERS                                 |   1 +
->  drivers/net/dsa/motorcomm/Makefile          |   1 +
->  drivers/net/dsa/motorcomm/chip.c            |   8 ++
->  drivers/net/dsa/motorcomm/devlink.c         | 107 ++++++++++++++++++++
->  drivers/net/dsa/motorcomm/devlink.h         |  18 ++++
->  7 files changed, 173 insertions(+)
->  create mode 100644 Documentation/networking/devlink/yt921x.rst
->  create mode 100644 drivers/net/dsa/motorcomm/devlink.c
->  create mode 100644 drivers/net/dsa/motorcomm/devlink.h
+> This series by Gal fixes errors in the mlx5e counters documentation.
+> 
+> Commit 8ce3b586faa4 ("net/mlx5: Add counter information to mlx5 driver
+> documentation") added descriptions for counters that do not exist, and
+> referenced one counter by a wrong name.
+> 
+> [...]
 
 Here is the summary with links:
-  - [net-next,v6] net: dsa: motorcomm: Add devlink info and resources
-    https://git.kernel.org/netdev/net-next/c/4cd558c2f1de
+  - [net-next,1/2] net/mlx5e: Remove documentation of nonexistent counters
+    https://git.kernel.org/netdev/net-next/c/79dbc8001fab
+  - [net-next,2/2] net/mlx5e: Fix incorrect name of rx_symbol_err_phy counter in documentation
+    https://git.kernel.org/netdev/net-next/c/356f4400c1fe
 
 You are awesome, thank you!
 -- 
