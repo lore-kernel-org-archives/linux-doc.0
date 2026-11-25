@@ -1,97 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795596559;
-	b=2KtqMyO4Iourzk2hYttn5GFPPoCKv6EmG04Z/i/GAKvjqgxT3goXnSgX9KnNTD5uRkFO
-	 My//Vf/oqyd4Wls/f5wpNa3BFWhlwAfhtmHwvVSn1qmiCAqLPxeXRjPxvwAgO57LTwaok
-	 N7ubEMqW+A4mpoCkGQ43IJD1U03rQ80p4MqKITTSbhb4+1/bHX7V3GZY+T09Er25zd8nL
-	 NAchWsVSp/pTkcB0G30HHqZFZTWe+i+5yd5gOvUV7WNvKsSlKllMesBUueYK1udpOYBcM
-	 2RfOIEFgO7tAS+gljD/+l3C/paHWuCgmlWfrTuSx0EboVo4Mo9EpjCr38YycBfv3djw==
+	t=1795597088;
+	b=opQYjZz64J37YQftw7Jr2VTlpjFdKQdYsHqlSDw8H+H+kGt0wB5U0v9kU2uIY8+rtv5w
+	 nQ3uVfruPaUamqqEQoSbJoZ0ukUjYxHJlyjS5HcaSEyuInefaemDcyB1afRWmIB2M8XUd
+	 3pS8NibXKqmFWbU1QVllTRmj6lf//VVgZJ41qsOkN5oud4eVTVx0uWCAHTRoLE3K2ZS2C
+	 Ef8vq8yVtSWLqvH23p2ca8T8U8du6fLzipLcE6Q5qV8zDy9X4vFv+X43WnkdGcLku9P3A
+	 fhxR/9pDDXLabaf6ZePFN5q3jTYVneLfzGje2YdSrCiAqgPYyxc4VOjTi+ENpKvnz5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795596559;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=TlND/jXIyTOutFCDB5DXoV3ddiKsYWv3HLDMVOOuvUk=;
-	b=LQE0vBSdlPqY7FItSS5Dr/dXeU+XAOTqmx3rdyr7nSCtCBSzyk+CVGhkxIp30kXbnVin
-	 XrupdkSZSCnG5UsKMEq9dDGfzH8XfCSzJGj395bQT9RH8KAQVeB2Plennd22/fmN5wamK
-	 fgztazqQ+NMWDzbq7DqS5QDQ9kEYjq1Cjb7y1ilXLolDSENXAZqF4vHKA4JJGOpbjR/Ga
-	 C39LFiRAWs1dO7X7u/FZbRC2jQtYwlvwJ0GcKUjrPjA0MW8gN8tmdVZJukSr2ZhqY358L
-	 ydb0FZvg20BMPXJIb1mwNGictZEYP2s2E3o3yE3KOdfBvHKEYjuwDJhCqypagD1+ruQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795597088;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=mVMrsFYyFATOUmkvDDEKuZs5AfG2ET/j4dYuZDcY0kQ=;
+	b=kpidPXl4SYjWd/guHjV8s4lz2aEptGBIfzaWaasDC8asrozLiWdbks7E+BCXT+MVaCwX
+	 q7wk7xzQSTjl1NmPiXA+XMpUBuGaQDWOP5XQ6ZzsI8BvN/VKEACLHNGgCK2PK7YQAEyc2
+	 lT5OjX31vJFu3AEulQzunm8jcjQiaZt8uBcQVZqmePbUlFv+YGceS6SN+5xhxQ0JnX/CE
+	 J9h4v6DsQU9c0V5fp4HzqM1E1NnDo0ha9dX/aUhvUDetSVIA9LC4tKqBSiAtxjwARvBqF
+	 IUxoOFz8soFACepw/LJKSZzyKxQ06jtFRr4jRTVcLmU4O+CU9DQyreeg7JxEdZ9QKMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CbvI696z;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.217.54
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0287606A68D;
-	Wed, 25 Nov 2026 08:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CbvI696z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FDEF1F00A00;
-	Wed, 25 Nov 2026 08:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795596559;
-	bh=TlND/jXIyTOutFCDB5DXoV3ddiKsYWv3HLDMVOOuvUk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CbvI696zR6OtVXAPCG7g/iPy03A2oTw21RBe6JaPhJHFPRXi+H17lOBRzJrgNARtn
-	 r+fRoufm0OiktxQGgsxLm9zCVTMRoj9kPsTPBWqqSY5vGYQEAuqD+14yaCOmlKMYgF
-	 j1qfbL6ZNKLE7MMyEMUkcV3l/4FT2ZkmMgDykuG0RcIRla9mWdpv0NQJXIM+9jb3cF
-	 VJt8oZcFXReeREr1uqelf/3atuLgWEoBVmlLglOje+t6FyydCXpPAQKHBjUs9j0ERg
-	 xnHTGpj/TffLtZ2xQ+zgZOe75RLjcDXEPhX2RuZKUdYZKO2pec6w3jDkKOOwtf+v8j
-	 Gmrfe0Cs12QCA==
-Date: Wed, 25 Nov 2026 10:49:05 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Chris Lu <chris.lu@mediatek.com>, Mans Rullgard <mans@mansr.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Cornelia Huck <cornelia.huck@de.ibm.com>,
-	Andrew Morton <akpm@osdl.org>, Jeff Garzik <jeff@garzik.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-	Dan Williams <djbw@kernel.org>, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-input@vger.kernel.org,
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-pci@vger.kernel.org, iommu@lists.linux.dev,
-	linux-coco@lists.linux.dev, Alexey Kardashevskiy <aik@amd.com>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Greg Kroah-Hartman <gregkh@suse.de>, linux-sound@vger.kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v4 02/33] Bluetooth: btusb: Fix MediaTek ISO claim locking
-Message-ID: <20261125084905.GX14811@unreal>
-References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
- <20261124-device-trust-core-v4-2-037eb0d17b1f@nvidia.com>
- <65749362-927a-492d-8bff-573c277fe456@suse.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF49606A323
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 08:58:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAF49606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-7d2b25786d9so2868725137.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 00:58:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795597087; x=1796201887;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=mVMrsFYyFATOUmkvDDEKuZs5AfG2ET/j4dYuZDcY0kQ=;
+        b=xqFUTNTzj9RJebKITu8z2T0lSboa/0wWAZg5HVrwtb5EEC8jJnLKlgRD9my7O2dR7S
+         FsLgSfB8VK3kGD2WXiymBMX7HQLbsb1JqorMpJvW4+p+sMFDKEYFc/cLEyYDM0ckvWKJ
+         p8vRr8rD5zR+GIWUfbjDW6sFU7GUywg7XSNz5m5BLM2qF2tuiO7HIj+TZ28vSbeGwB5V
+         5iA04doGSjkufJhbaHmmPd6YQF3CZ+ovLRZyOUfyHDYfdDgE9sxw2bUPMBirJLaV/+co
+         MzW3r/mkTWfPhPzx6vu9v2q6sJoSujDso8W61F86vgWqyV0xTZEQBQBzu+SRUsKSNIPg
+         uw8g==
+X-Forwarded-Encrypted: i=1; AL+hErECZhPS6C9K1T+oroRL1qt7Je+2ldtj5HRhGjquQc3nAZpUYYJ+rhsZUMFb++EvHlXgQp2qKZ70bu4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/IupbNS5TIksLY0YwO5mfUplJBtmmCEX2g3yEwPmhBGT203Wt7
+	Aqbu2CegzgTL5lFHbUQzxsGZ/pHlxvwhqMiZSIJkVWXJY2MO5ohOYBEmknwbajRv
+X-Gm-Gg: AZFdTZe+AkjS0d4CzqCldBjLmw1Sj2JlBOiR9vW2ZoMz3S0+LzZAm5PUk0GBmTs/o3i
+	eBrdMJ4gTFRxc6yKf2h6vurAzFYt9fxJq/DYsLmfDDgtEM1fesf4f2DbO/oK4q5haseqAa3Vu1W
+	xTZ4zDbn0D+DtFKNIY2YOHNcNmZuy5eoT5a6kvy95Rd9kINLj8SA8+bhJFgUJUTnzzjt1w8YKVk
+	0Oy3aGbciMoixKvVTI56BmnkxLD3ihPNSapvUKm2wgI8qhWJP95zBk6C/vGdo/kELWQjRqT0KlO
+	6MCmt52Je/azG5WLqR0ufYKuqeWVyT40EHd8BS59MpDWtxH8mBxM5bo3xmzy13+/9JaLUTafoux
+	nuGdcQ26xoHPFX0wVT4npMXk4H17ujDbYmv2PBVtVPp+y66ZAQCtGHIPVRh6k3O4Y2jULzQ6az4
+	EyRsBr62OvJSkbfxOlkOVtzukGfw86OHCnE8tewlxZIbjpWnD05I+8ntFxMtASeahJ0d4hCVK1U
+	krjVoSmzxMQRcTVHzmBwzcXvvXxh/YF3v7fFU9M16mbZbtXriK8iaSYapuvloEfXPhQBR6RYhDn
+	7BxKpT3xtMLOeaAutJs9HN7/nMX3SWjZmaTmGVXzDfG0aLVD0hRXRtV+9A1YLnz8pn0=
+X-Received: by 2002:a05:6102:5112:b0:7d2:d1e2:c218 with SMTP id ada2fe7eead31-7d72b364924mr9615489137.5.1795597086677;
+        Wed, 25 Nov 2026 00:58:06 -0800 (PST)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d6e7f3d819sm18263737137.3.2026.11.25.00.58.06
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Nov 2026 00:58:06 -0800 (PST)
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-990703f817fso2840292241.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 00:58:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFTZxbaADGHWYYYctkLwf7jZMmYMC/xAcb0YHtb2mgwvpNjA9+JwCybp+IpahReowndzwKxKZEiusw=@vger.kernel.org
+X-Received: by 2002:a05:6102:50a4:b0:7cc:2bb7:1335 with SMTP id
+ ada2fe7eead31-7d7395e01b0mr9404227137.33.1795597085866; Wed, 25 Nov 2026
+ 00:58:05 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,41 +80,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <65749362-927a-492d-8bff-573c277fe456@suse.com>
+References: <179558805924.3383392.1456615917266025706.ref@yahoo.com> <179558805924.3383392.1456615917266025706@yahoo.com>
+In-Reply-To: <179558805924.3383392.1456615917266025706@yahoo.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 25 Nov 2026 09:57:53 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXNqQCKFnpxzHVaFM0deF0VdyJSvLzmy6JT46sRA9kJow@mail.gmail.com>
+X-Gm-Features: Aa3M54psEuOxhCRq9HluWMLPt6_pP0Ynh7Bge75tt4s9aGAJoNbnstuvmOdPM-E
+Message-ID: <CAMuHMdXNqQCKFnpxzHVaFM0deF0VdyJSvLzmy6JT46sRA9kJow@mail.gmail.com>
+Subject: Re: [PATCH] agents: add a skill to determine the target tree of a change
+To: Daniel Ramos <capitain_jack@yahoo.com>
+Cc: Sasha Levin <sashal@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Nov 24, 2026 at 11:39:40AM +0100, Oliver Neukum wrote:
-> 
-> 
-> On 24.11.26 10:43, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > MediaTek ISO claims are performed from HCI setup work outside USB probe.
-> > Locking only the interface does not protect the claim against teardown
-> > of the parent device. Unconditionally waiting for the parent lock can
-> > deadlock with disconnect while it drains the setup work.
-> Hi,
-> 
-> your patch raises a question. Can usb_claim_interface() ever be
-> used safely outside probe() without this kind of locking?
+Hi Daniel,
 
-No, it cannot. This is why need_parent_lock is set for every caller of
-usb_driver_claim_interface() running from .probe().
+On Wed, 25 Nov 2026 at 07:34, Daniel Ramos <capitain_jack@yahoo.com> wrote:
+> From: Daniel Campos Ramos <Capitain_Jack@yahoo.com>
+>
+> Whether a change goes into the current release during its -rc weeks or
+> waits for the next merge window is decided by hand, and being a fix is
+> often taken as enough. Linus asked that new development and test cases
+> be kept on a separate branch so that they can be merged during the merge
+> window, and noted that fixes for subtle bugs that went unnoticed for a
+> long time can themselves be buggy.
+>
+> Add a skill that sends the agent to the parts of 2.Process.rst,
+> howto.rst and handling-regressions.rst that describe the cycle, and to
+> the maintainer profiles of the changed files, and adds the checks agents
+> tend to get wrong: reading where the cycle stands, using the kernel's
+> meaning of a regression, keeping fixes for old bugs, new tests, cleanups
+> and new development for the next merge window, splitting mixed changes,
+> and counting every added line when judging a change sent during the -rc
+> weeks. The skill proposes a target; the maintainer decides.
+>
+> Most of the skill points at existing documents. Keeping new tests on a
+> separate branch for the merge window, and counting lines that are not
+> built by default, come from Linus's mail and are not in Documentation/
+> yet.
+>
+> Point the bug-fix procedure in coding-assistants.rst at the skill.
+>
+> Link: https://lore.kernel.org/r/CAHk-=whyUfwzMDMTpih8Xs1MxmhwTCDAc_YwUSZG79vXFMLU=Q@mail.gmail.com
+> Link: https://lore.kernel.org/r/CAHk-=whOCnAwXz-FMRdQEDJQ+9b2YXh9M=GHgRay0o4cxSmPVg@mail.gmail.com
+> Signed-off-by: Daniel Campos Ramos <Capitain_Jack@yahoo.com>
 
-> If the answer to that is negative, should the locking be integrated into
-> usbcore?
+Thanks for your patch!
 
-Not in the current upstream code. Currently, only two callers of
-usb_driver_claim_interface() do not run through .probe: MediaTek and usbfs.
-usbfs already holds the lock, leaving only MediaTek, which does not.
+> --- /dev/null
+> +++ b/agents/skills/target-tree/SKILL.md
 
-Therefore, the caller should take the lock, and MediaTek is the only caller
-that needs to be fixed.
+[...]
 
-Thanks
+All of this seems to apply to humans, too.
+Either this duplicates existing general documentation, or fills in
+gaps in general documentation.
+So IMHO it does not belong under agents.
 
-> 
-> 	Regards
-> 		Oliver
-> 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
