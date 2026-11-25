@@ -1,59 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795566490;
-	b=OD85tzws9qf7jNHlQhi/PJj4Js2woD8OQl0s2jhojN/Fc6SXwxetH0R3S+NGC8Bl7oIu
-	 tWtbRxHR7+QTupNOIYoTP8Ge99FA9PJSPeaJ/R+GlEIN4k8ZHtkUgXldPl+WuZ1cZYSlO
-	 pruG9mYLHCN+519mw3q0GzEEx2PWhRlJ1TNPagrMrsOd4CQYAeuWDXLYu7/fyd39GoICm
-	 PrKSq9Ot+L0ba2CbqJ4p3zjw/ksne5FudJgXeZmwqvujHBfXxKS1tbpRVx+WprYyISZqz
-	 CtNYycBb7eeVhCCr/erhDxiD0slc5q3autbgDhgYCqRHRx8gTJgUXQFRKorwZCD7NwQ==
+	t=1795566566;
+	b=H4DTwKjZh0fu2BkA20iT7q9ORt41OaOEUo7PW2bkIP72hVgeDDWDSOQsdEQUSSkERvmO
+	 pACwpQXgHeWwQ5qx7OFFVevj5rbBSKmG4BMnZIy+K7TkQkJLGCyxOQmilPgIcvBuQ7BjC
+	 FQzf8PqHxedz+nXwTR73HL8jfcuIDBaXCfrZ59GWAf6yW7Xmo1lVu3mdEfm2JCTi/CprB
+	 zsWU3kYOtizeQhnSZXIzO5i7Jyg66HqTrRI0mPn7eGkmzhVylTcS11LqZA3ThAoKyvvob
+	 AFVisLGTGfB63HJaMAPEtx85Kzcz4ed4VZi2zey1ICkGwO6+yqnDsQhtljyjSM/nkiQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795566490;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ShzhlyGDiRC7J5U37WWxub5Q+gr6NCnkh429eHZhijk=;
-	b=5dxXvpkTJ7rK7FGfltUP3uiB3wdydNUHxEMnDNx0CDNk3laPihesoQ/LwfZFrrug/Q3o
-	 pMN5LBwBEP0e/I3JE0cCncFy/rq29CgfXOzRz20E5R0ma4fh/t/lcO3cTc0FqDgk6dyzw
-	 OieRPeh0RvmI8R0IyUhoquInXyio2LNPvbvs50Pxdb8hDOTIVKU7FojQi20mNKeddmwYv
-	 XFjNZkrX5zVt4x+NjEMp7UtHdZGpWno/ix9HqpQL07zWwpF39w3AAmH/FgfgWGevj6CNf
-	 uQZeKBaHIGZM+b5Tw0sCn5K7sVRPSZj9y/M2LYj3j/HNnzqUgfe7APA8VPc7+JIIrRA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795566566;
+	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=EFGoYii1SC1+bbZRrgGUgBUua7WO9ouNbjRGTkCeEYI=;
+	b=2Ay0KAaOpDmAKmS/KRiOFTcb0jKC1f/kGPw5iIkWD0zjX8wGhqtpd4Rf0iqqMN18PLk1
+	 c7rIj25xl/bhyUJoHa5U9ZeZa2v5/HtzYgUs1+ye2P3c5Wc88mCb99Al4XvL7sLi8i32J
+	 5Xi2eKja07waLhAuSGzn9+Kh79yKCJtU2cXfOvFXIlEcdGTgSUhSLra7KmFe8u/BiYvR5
+	 PnYSHEmAm+w5tK6jpNTODTBqhduoUpW1L/qz7WlE8EYLacCjMm4TMI86k6rWwrrRjs7G4
+	 BswRP2k/P/oLqPauKJuGiLakZxo+/dJmq/t4XB7ex2x5OEfdAL3KKmbOwe3kQ5BwriA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bPW74Dx3;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UVtkqYVE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618C7606A31E;
-	Wed, 25 Nov 2026 00:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA872606A31E;
+	Wed, 25 Nov 2026 00:29:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bPW74Dx3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B84C81F000CF;
-	Wed, 25 Nov 2026 00:28:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UVtkqYVE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 141A81F000CF;
+	Wed, 25 Nov 2026 00:29:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795566489;
-	bh=ShzhlyGDiRC7J5U37WWxub5Q+gr6NCnkh429eHZhijk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=bPW74Dx341iMuPCuB42uOqQiqXrd1Uo401JAnEo1pz0vZ/U9bHXGAplacO6KcZ0Nu
-	 EQ/rrlSFaA/uV9GFJkVqgiOFYhIXDOgIOaDBv6snShD2WoB8HZHlnt+Yx7VBFGZetr
-	 JE69pQAvNPUIbtDtaprkwnpfZZK5Bdt5TmXdyg/4QN54CXQo6WLe6fBuf+h7mw65Wo
-	 XHMpewH9f0Hl8f+mERZn5R+Z4h8nF2f9qD/LvtGvG2i0ey2G4NC/+S+9YyCfGOzKgF
-	 KDcVRC0TWQMwzWiHvelRSNmced/1wVabvOyISlrKNDs6X+C2nrD8IlbcW+ju91QiqL
-	 ZK8MOHHJQzx/w==
-Date: Tue, 24 Nov 2026 18:28:08 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Priyank Rathod <rathodpriyank@google.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 0/2] PCI: Add Lane Margining at the Receiver debugfs
- interface
-Message-ID: <20261125002808.GA1198022@bhelgaas>
+	s=k20260515; t=1795566566;
+	bh=EFGoYii1SC1+bbZRrgGUgBUua7WO9ouNbjRGTkCeEYI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=UVtkqYVEf6NtA5gxi3S0rdQNpRRBSmEaLl1BtoFmgWy4CWWvC5eRnx1jKQOO99qVj
+	 +MdqYunFW4TbGBGy7Z9umkmIjR8xsLget/7k1c3HsJdCTZLaO1mr6nRRiQOP0wZh6L
+	 Bj6Pav125NsImzsgaZsLLwbPr7zZMCQUuw2i7aZaY4p5w6Htd9gkuvdTs5rqYA84eV
+	 lCdbDCqe5Bx3dZbr+C6WamIXfK1zVMa+KwS50lqRDGZu/HS0ViOtFNG0SDFO7W8Mgf
+	 Qio+iR8T4ev15tk648F4G7wSQm7H8/ekS6kGCf97nko82Snv9s4ssvQNrTspCyv/7A
+	 Qsw4lj/7q26VQ==
+Date: Tue, 24 Nov 2026 14:29:25 -1000
+Message-ID: <2efd4eef27cbd033bae9e4f5d5ba30bb@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, Matthew Brost <matthew.brost@intel.com>, =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] workqueue: fix cancel_work_sync() on ordered workqueues
+In-Reply-To: <20261118-ordered-wq-cancel-v1-1-916e01f9affe@google.com>
+References: <20261118-ordered-wq-cancel-v1-0-916e01f9affe@google.com> <20261118-ordered-wq-cancel-v1-1-916e01f9affe@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,31 +58,29 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261124174411.4183038-1-rathodpriyank@google.com>
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 24, 2026 at 05:44:10PM +0000, Priyank Rathod wrote:
-> Hi Bjorn, Ilpo, Lukas,
-> 
-> Gentle ping on this series.
-> 
-> Note that since pci_force_enable_link_state() and the bitmask return
-> value of pcie_aspm_enabled() were deferred before v7.4-rc1, v7 as posted
-> no longer compiles on current pci/next (and has a minor Kconfig context
-> conflict after PCIE_EDR).
-> 
-> I have rebased the series locally onto pci/next, resolved the Kconfig
-> conflict, and replaced those deferred ASPM calls with a small
-> PCI-internal, reference-counted pcie_aspm_inhibit() helper in
-> drivers/pci/pcie/aspm.c (leaving include/linux/pci.h, pci.c, and
-> pci-driver.c untouched, and preserving existing ASPM/L1SS/Clock PM
-> state across sessions).
-> 
-> Would you like me to post the rebased v8 series now, or hold until any
-> broader ASPM API rework settles?
+Hello, Alice.
 
-If you could rebase it, that would be great.  Unless it depends on
-other changes already in pci/next, you could rebase to v7.4-rc1, since
-that's what topic branches are based on.
+On Wed, Nov 18, 2026 at 05:09:51PM +0000, Alice Ryhl wrote:
+> +		if (unlikely(pwq->wq->flags & __WQ_ORDERED)) {
+> +			struct pool_workqueue *oldest_pwq =
+> +				list_first_or_null_rcu(&pwq->wq->pwqs,
+> +						       struct pool_workqueue,
+> +						       pwqs_node);
+> +
+> +			if (oldest_pwq)
+> +				offq_pool = oldest_pwq->pool;
+> +		}
 
-Bjorn
+@pwq still has @work queued on it here, so it's linked on wq->pwqs and the
+list can't be empty. Maybe drop the NULL check? e.g.
+
+  if (unlikely(pwq->wq->flags & __WQ_ORDERED))
+  	offq_pool = list_entry_rcu(pwq->wq->pwqs.next, struct pool_workqueue,
+  				   pwqs_node)->pool;
+
+Thanks.
+
+--
+tejun
