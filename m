@@ -1,98 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795635048;
-	b=QFHP2yFFKcbLaHwmXWiShKQk19gDrKqFwHhWWPxCX9ePYH5GxMAoFQKWwtmMXO2rBSeV
-	 B50XLnKvGtqrkOppPA1F3YcSC/Dyt43zv35Hi9OIYFVD/U2H0dkgOlvwf3IcYRXBJstkZ
-	 6nFjEvxSY9XggWfDqAyJeEXzPUcJ0ctqd/6XqGhIGCSaR+U71+Sjo14zzls0If7lE0FHe
-	 MjiSa5MMRa/3g1tJK+2WjBTeDM5KVV+A6/YeNhnxVGUXQ18Jn4KX+4di9o2fKKhWdoWOK
-	 +y6V2n9jugLzMi4XnQihKGP9pUyT6efdPEcxA8MlA9klKZMqZJchdC13iDDwf2trTww==
+	t=1795635293;
+	b=l4ScD/vGhYAWVfxUVUAUiqzKOWUEx60VX9j9Rs6PTQUbYzjkCqE8jKia5fGoImNVvJWX
+	 CBZZsvzNHo7wlNTykzLDRgvu5rnRROnlZp0sDI5YP2Kghu0KKGejbyk4Tvtz1obXbhpQ6
+	 28UvXJyg//ZX6XhlEtQuEB2hxNv/Ux/I0UAmE/c2n2e7iL2C5n63zBBQjMipMm2T+5b9D
+	 JuCZeNAMWW4p1M5WShvD/hQ1BbmIkeM1ZeDxxaJrm+9Rf6rYJQfDmIy+uCa/5AlUgsSIl
+	 Ib8zgyLq0ty68O1KIZtVGRZ6uuhhtFCJ+pt9xAjNuMhoEBfwnO8QQznqkGhQ4RruR1Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795635048;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=4c1FYCoWuV0D5AZnd9JhUkc3urYu3tiqyGnrAo0dVsQ=;
-	b=B6iXpH7G+PRE39Bdze/NkDJWHEjUEUSLnfwG34Ib4E1QeAjs82akZv0qbpAyiGGICce0
-	 LV/tHz37CNn0gmFExI0IAjgB3uFYH9yBjYK99kNTk8Vkph9rSiSc2rItAIjxkaYm03aOw
-	 Xj1AbnQl6Ls2zfk/ZYSBtIOUPtJnKcABqIS8GYWflp9fAjBdW1hkV1jWjfIu7E+77fEXO
-	 LDYMb3btGS84PY95ytGVpbWWhcSfWBNAlAu2pvfnbahs6pHlD4MD0W2byOA7LxqwXKeBy
-	 sSTvW8g2StQbzx4AoLkY0wgSa7wUW45lSu4G2mnMa4Z9pBpKWJ6LCqb/Ar8V3zrpfSg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795635293;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type;
+	bh=dYZOemA/qTJTEoh2g11GwnoMyEY6Vi5ttKSGXwzq7LY=;
+	b=xZtVKMkYUPlFg0FRYM0HdKx1w8m4osRxP2CuBxvd1K/A58baDMTHHh8CkZn+ZcpsKGIK
+	 arRZb7IkwV2Dm5zCaFTw/3tzMMXN9wqyA5UJg+goSzpBADyL86zEBAevVucz01iEAgUG6
+	 fCYlo+FpAR04Z7VAdpOxuFRin4ppg0vWAkSY96H6WhCse2OC6Vny/M7c4lVhLyPJHTw4P
+	 tXnuBe+aGtquCJIjmiAePq76C7ZQwfz+UHEEWfaLGSxV5Cxae/9Vbx8g2Vg4mAeM7oi6U
+	 Rw5cY71EOnxtAoztdopTKl0SeabB0XDiydEcge4WjwIhr9iNdH5ByPPaArIwpKbuF/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tdCXUk2b;
-	arc=none smtp.remote-ip=209.85.214.177
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cKi3ccR2;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3935E606A321
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 19:30:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3935E606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31B6606A31E;
+	Wed, 25 Nov 2026 19:34:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tdCXUk2b
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2f02ee04378so49708435ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 11:30:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795635047; x=1796239847; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4c1FYCoWuV0D5AZnd9JhUkc3urYu3tiqyGnrAo0dVsQ=;
-        b=tdCXUk2bln2JaFny46JeCc5ZMNDw/3+qR+WmADxAJaxlBXAqX0v7O+dGqHDQ7i9OSO
-         HbGkyILfSoi2nqfk8zUQWh5tDLUrxLt3p6sOytd4oLf7WVgE71Wp5Lihy5FPwPFaBdLh
-         AlZc4yBCwG/sE+NOF4koYCSIT//r7D3Kb041g2LQMvdiJa97tXnZREWzUbqsDTNvvk09
-         t3r5BXnhfp4OWgjpsu7ninDi+MrCPp05mwXwwCH3+hMI10yLSwnsYAf2X+Vz71K2i1ps
-         +D5udO8qxBudO1hPoqXH+t9LpgyRwdoRTAkmaN3dxj/FOvhXutPMEGExsJqi+wVE5f6D
-         R3sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795635047; x=1796239847;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4c1FYCoWuV0D5AZnd9JhUkc3urYu3tiqyGnrAo0dVsQ=;
-        b=KDx9mvMRobhbmiNcdHnfcKKQ3FccM0ibS/8B/h4gVnvlrDkAwlXBYdgiAiOshPIbG0
-         HOhU+sj494Bm2dDiyv/N2MbNUOWS2tEESb2Hb3vXnzWum3xd8QZ6HEnjmwwDPIlVa7DS
-         Gb6T9ZeFAE2sGLTg4RTHZ8WVMNqIkpKAvcy2e0mhXroyCes0XVgyowwUrZpASBdjHvyb
-         agDTmb38Kmvtp3++v7v9UX/GDPgcd3lc/KHz3ibDhbw+hpC4+zr43tU9La9bF3Y1joRO
-         kiRjlmfzjHHv8nNJKjNiE87Mo2b//2mCiIkZqzoZ30iwJ8xsSRAHMy9gmMTDLzQ0c7Uf
-         i/ew==
-X-Forwarded-Encrypted: i=1; AL+hErEilHZ7DTtc7Ii4JUz1B5WrX/y1UHnAIDe1GyN91/B9j3oDVf4YIslOsdVNyaG6Wnj9E342fke+OuQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/I+6rHOBOdUyt8jcnrD5Nh29nClcxOFn0clZTpiYb6o2Cov2Cv
-	9DwI5VnlC3bdF3G2QQPtnXNPyzSjcCBUG0OBeydBJT0vOV5HF/ETwRm+
-X-Gm-Gg: AZFdTZfx7cQwzD4I2twqDiE22f76uyhEJFc0D9erHS/KoNOnYGDgxs6epDYTs/3xPjt
-	7B51Jki3W1vRy03J3+9PRmX387I8wSTnRbi1lj8vs8LNloewS2cyI954UhNA/sXoeaSVYyqiOJR
-	LsOiXYrtZsqkoD/ErLEYjajoXmUJ2yINff0a3qtHEnj/a2tKt41DMVooR2+BMzuM+jvZ3FG9lqc
-	Y5ZwvU/oNtlE2VeIYSToMWIzUpWFXhDcP1bCHND2ilgZs2xWK8mznHspAOumWSwFkEzPm3cRVMd
-	uJqLRlH+ePvGcQ2Cnmg7rW/kR34HL13cIh+Jc+6v9Z4EJtZ6YopwTi4+111rVaGvLRi276FPS1Y
-	cziEmd+H9bygR+eZREL2i8glEpIDwSTwL+U4mlNMlqL9wycyzFsD6sEQAPvM4BIkTsLyfB+eKve
-	72+hYLFEz9k02Yqs4ltF9yAfknah/F7Pdvl2Uq0sRDeZ24UHRxfcTKTxHMSSSOAa+CYjqrG667N
-	MqAVJSBEE1kxMWRHOxtEMVGyzAfJducRKLlYiDjzJe6iGsVYViKTNAiCawupr4Tf3iYn+X+hr50
-	VFLJOp8IkNZF/fTOu9lq
-X-Received: by 2002:a17:903:19cb:b0:2e9:3dd0:c8d with SMTP id d9443c01a7336-2f03f1cf44emr208593395ad.14.1795635047369;
-        Wed, 25 Nov 2026 11:30:47 -0800 (PST)
-Received: from a1-free ([2603:c021:8021:f000:0:1865:8c38:18fc])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03ee84425sm93698535ad.6.2026.11.25.11.30.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 11:30:46 -0800 (PST)
-From: TAKANO Mitsuhiro <takano32@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Dan Williams <djbw@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	linux-mm@kvack.org,
-	linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	TAKANO Mitsuhiro <takano32@gmail.com>
-Subject: [PATCH] docs: Fix the name of the memory hotplug online type configs
-Date: Wed, 25 Nov 2026 19:30:39 +0000
-Message-ID: <20261125193039.2437025-1-takano32@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cKi3ccR2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D4A21F000C4;
+	Wed, 25 Nov 2026 19:34:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795635293;
+	bh=dYZOemA/qTJTEoh2g11GwnoMyEY6Vi5ttKSGXwzq7LY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=cKi3ccR2YGoo7Tc8miltHOfUD8mmvx6/MHxsMi0eT3eS6LDkCqxwMCkwEW6puFpIS
+	 xppn7v12LpUDEfpfCx6LtMW9vdZUHRVOWstgH+/RFzUFuz1+a/kbo/qQyeUV2KAmAT
+	 /iq2nVXN4vLgHIpAvud5FKM2AeDGFbTD+svS6gb9346St9wi+yalpd7RtIluHBLdE6
+	 219PQmUySdaQChKecr+DPTnNnq2IiWJTUOwUrdjnUJ8GlITA2YWu+IbZoPjG7PDyM5
+	 J5Vzd4Vzayyf/MRo77TesrYiHMVus61hL0QbSvrciZHUbcQZCuYXWOG9QQ+qWkIb5V
+	 DGK/xnFnTvfGg==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: netdev-bot+sashiko@kernel.org
+Cc: magnus.karlsson@intel.com, maciej.fijalkowski@intel.com,
+ davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, ast@kernel.org,
+ daniel@iogearbox.net, hawk@kernel.org, john.fastabend@gmail.com,
+ andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com,
+ ilias.apalodimas@linaro.org, alexanderduyck@fb.com, saeedm@nvidia.com,
+ tariqt@nvidia.com, mbloch@nvidia.com, leon@kernel.org,
+ michael.chan@broadcom.com, pavan.chebbi@broadcom.com, corbet@lwn.net,
+ shuah@kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
+ stuclar@meta.com, sdf@fomichev.me, horms@kernel.org, martin.lau@linux.dev,
+ almasrymina@google.com, song@kernel.org, yonghong.song@linux.dev,
+ jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev,
+ rdunlap@infradead.org, kernel-team@meta.com,
+ dimitri.daskalakis1@gmail.com, bobbyeshleman@meta.com,
+ mohsin.bashr@gmail.com, kees@kernel.org, leitao@debian.org,
+ maxime.chevallier@bootlin.com, cuitao@kylinos.cn,
+ vadim.fedorenko@linux.dev, mike.marciniszyn@gmail.com, kuniyu@google.com,
+ jiayuan.chen@linux.dev, mkarsten@uwaterloo.ca, razor@blackwall.org,
+ dw@davidwei.uk, asml.silence@gmail.com, linux-rdma@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 01/15] xdp: Let memory providers offer XDP a
+ view of their net_iovs
+In-Reply-To: <179561567567.3135.2081478467669976102@kernel.org>
+References: <20261124125654.183091-1-bjorn@kernel.org>
+ <179561567567.3135.2081478467669976102@kernel.org>
+Date: Wed, 25 Nov 2026 20:34:49 +0100
+Message-ID: <87v75kogbq.fsf@all.your.base.are.belong.to.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,116 +78,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-The default online type is a Kconfig choice, so the symbols it defines
-are CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE, _ONLINE_AUTO,
-_ONLINE_KERNEL and _ONLINE_MOVABLE.  There is no
-CONFIG_MHP_DEFAULT_ONLINE_TYPE symbol, but five files name one:
+netdev-bot+sashiko@kernel.org writes:
 
-  Documentation/admin-guide/kernel-parameters.txt
-  Documentation/admin-guide/mm/memory-hotplug.rst
-  Documentation/driver-api/cxl/linux/early-boot.rst
-  Documentation/driver-api/cxl/linux/memory-hotplug.rst
-  Documentation/driver-api/cxl/linux/overview.rst
+> Thank you for your contribution! Sashiko AI review found more severe
+> issue(s) in other patches of this series. This mail is only an FYI, in case
+> you want to address the nit picks below when you respin.
+>
+> Low priority / nit picks for your consideration:
+>
+> - [Low] Two comments in include/net/xdp.h now contradict each other.
+>
+> --
+>
+> xdp: Let memory providers offer XDP a view of their net_iovs
+>
+> This commit lets a net_iov area expose an XDP view: an address and size
+> for its net_iovs, plus a shift that gives the per-net_iov stride. It adds
+> xdp_netmem_address() and xdp_frag_address(). The XDP buffer helpers in
+> net/core/filter.c now use them, so they can read and write frags backed by
+> net_iovs that have a view.
+>
+>> diff --git a/include/net/xdp.h b/include/net/xdp.h
+>> index 07231adfb5f82..1629e347b71fb 100644
+>> --- a/include/net/xdp.h
+>> +++ b/include/net/xdp.h
+>> @@ -164,6 +164,40 @@ xdp_init_buff(struct xdp_buff *xdp, u32 frame_sz, struct xdp_rxq_info *rxq)
+>>  #endif
+>>  }
+>>  
+>> +/* XDP view of net_iovs: a memory provider may give XDP an address for its
+>> + * net_iovs, see &net_iov_area.xdp_vaddr. XDP code may read and write a
+>> + * net_iov only through these helpers, and only if its provider offers a
+>> + * view; such buffers must not become skb frags or xdp_frames. For the core
+>> + * and the stack every net_iov stays unreadable: netmem_address() and
+>> + * skb_frag_address() give NULL for it. A net_iov without a view gives NULL
+>> + * here too, so a reader that does not use these helpers fails closed.
+>> + */
+>
+> [Severity: Low]
+> This isn't a bug, but does this comment now contradict the older one on
+> XDP_FLAGS_FRAGS_UNREADABLE in the same header?
+>
+> include/net/xdp.h:
+> 	/* frags have unreadable mem, this can't be true for real XDP packets,
+> 	 * but drivers may use XDP helpers to construct Rx pkt state even when
+> 	 * XDP program is not attached.
+> 	 */
+> 	XDP_FLAGS_FRAGS_UNREADABLE	= BIT(2),
+>
+> The new block says XDP code may read and write net_iov frags when the
+> provider offers a view. That means XDP programs are expected to run on
+> buffers with net_iov frags.
+>
+> xdp_buff_add_frag() still sets the flag for every net_iov frag, whether or
+> not it has a view. After the later patch "xdp: Run programs on buffers
+> that must not hold kernel structures", it sets both
+> XDP_FLAGS_FRAGS_UNREADABLE and XDP_FLAGS_SINK on NET_IOV_XSK frags:
+>
+> 	if (unlikely(netmem_is_net_iov(netmem))) {
+> 		xdp_buff_set_frag_unreadable(xdp);
+> 		/* AF_XDP sink memory may only go to the socket of its queue */
+> 		if (netmem_to_net_iov(netmem)->type == NET_IOV_XSK)
+> 			xdp->flags |= XDP_FLAGS_SINK;
+> 	}
+>
+> Native XDP programs then run on those buffers, so real XDP packets carry
+> the flag. At the end of the series, the old comment is unchanged.
+>
+> Could the XDP_FLAGS_FRAGS_UNREADABLE comment be updated to match?
 
-Spell the family with a trailing _* so that a reader looking the symbol
-up in a .config finds one that exists.
-
-early-boot.rst also gives the zone choices as _NORMAL and _MOVABLE.
-The symbols are _ONLINE_KERNEL and _ONLINE_MOVABLE, so write those.
-
-Verification: a build of the tree defines
-CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE and no bare
-CONFIG_MHP_DEFAULT_ONLINE_TYPE in include/generated/autoconf.h, and
-grep finds no reference to the bare symbol under Documentation/ after
-the change.
-
-Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
----
- Documentation/admin-guide/kernel-parameters.txt       | 2 +-
- Documentation/admin-guide/mm/memory-hotplug.rst       | 2 +-
- Documentation/driver-api/cxl/linux/early-boot.rst     | 4 ++--
- Documentation/driver-api/cxl/linux/memory-hotplug.rst | 2 +-
- Documentation/driver-api/cxl/linux/overview.rst       | 2 +-
- 5 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 176648941aec..8580099b98c1 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3948,7 +3948,7 @@ Kernel parameters
- 			[KNL] Set the initial state for the memory hotplug
- 			onlining policy. If not specified, the default value is
- 			set according to the
--			CONFIG_MHP_DEFAULT_ONLINE_TYPE kernel config
-+			CONFIG_MHP_DEFAULT_ONLINE_TYPE_* kernel config
- 			options.
- 			See Documentation/admin-guide/mm/memory-hotplug.rst.
- 
-diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-index 0207f8725142..c7de458a962f 100644
---- a/Documentation/admin-guide/mm/memory-hotplug.rst
-+++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-@@ -280,7 +280,7 @@ The following files are currently defined:
- 		       blocks; configure auto-onlining.
- 
- 		       The default value depends on the
--		       CONFIG_MHP_DEFAULT_ONLINE_TYPE kernel configuration
-+		       CONFIG_MHP_DEFAULT_ONLINE_TYPE_* kernel configuration
- 		       options.
- 
- 		       See the ``state`` property of memory blocks for details.
-diff --git a/Documentation/driver-api/cxl/linux/early-boot.rst b/Documentation/driver-api/cxl/linux/early-boot.rst
-index 414481f33819..be9d5e510f99 100644
---- a/Documentation/driver-api/cxl/linux/early-boot.rst
-+++ b/Documentation/driver-api/cxl/linux/early-boot.rst
-@@ -34,7 +34,7 @@ which dictate how memory will be managed by Linux during early boot.
-   * Linux Build config option that dictates whether the kernel supports
-     Specific Purpose memory.
- 
--* CONFIG_MHP_DEFAULT_ONLINE_TYPE
-+* CONFIG_MHP_DEFAULT_ONLINE_TYPE_*
- 
-   * Linux Build config that dictates whether and how Specific Purpose memory
-     converted to a dax device should be managed (left as DAX or onlined as
-@@ -61,7 +61,7 @@ SystemRAM.  This will expose the memory to the kernel page allocator in
- If `Specific Purpose` is set and supported, :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_*`
- dictates whether the memory is onlined by default (:code:`_OFFLINE` or
- :code:`_ONLINE_*`), and if online which zone to online this memory to by default
--(:code:`_NORMAL` or :code:`_MOVABLE`).
-+(:code:`_ONLINE_KERNEL` or :code:`_ONLINE_MOVABLE`).
- 
- If placed in :code:`ZONE_MOVABLE`, the memory will not be available for most
- kernel allocations (such as :code:`struct page` or page tables).  This may
-diff --git a/Documentation/driver-api/cxl/linux/memory-hotplug.rst b/Documentation/driver-api/cxl/linux/memory-hotplug.rst
-index af368c2bc9cf..df27520b193f 100644
---- a/Documentation/driver-api/cxl/linux/memory-hotplug.rst
-+++ b/Documentation/driver-api/cxl/linux/memory-hotplug.rst
-@@ -19,7 +19,7 @@ Default Online Behavior
- The default-online behavior of hotplug memory is dictated by the following,
- in order of precedence:
- 
--- :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE` Build Configuration
-+- :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_*` Build Configuration
- - :code:`memhp_default_state` Boot parameter
- - :code:`/sys/devices/system/memory/auto_online_blocks` value
- 
-diff --git a/Documentation/driver-api/cxl/linux/overview.rst b/Documentation/driver-api/cxl/linux/overview.rst
-index 648beb2c8c83..d567353e1dab 100644
---- a/Documentation/driver-api/cxl/linux/overview.rst
-+++ b/Documentation/driver-api/cxl/linux/overview.rst
-@@ -17,7 +17,7 @@ are generated.
- 
-     i) EFI_MEMORY_SP
-     ii) CONFIG_EFI_SOFT_RESERVE
--    iii) CONFIG_MHP_DEFAULT_ONLINE_TYPE
-+    iii) CONFIG_MHP_DEFAULT_ONLINE_TYPE_*
-     iv) nosoftreserve
- 
-   b) Memory Map Creation
-
-base-commit: b6a9fa34ce4187cb69d3c588a4bbffc31ce5db8f
--- 
-2.53.0
-
+Yes, I'll fix this in the next version.
