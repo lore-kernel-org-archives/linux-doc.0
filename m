@@ -1,49 +1,87 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795575010;
-	b=p0JwYCu9FaMdbp+zCpZ9jcTlHo5UGKGrc1KUFc8XSl0+sUb3hJGhJUIh2G/0Dpz0TkY5
-	 tzVaKmbgzga1vvKodhv4nRiNihFGFQyoJdq6vFmaK3D1UljrQK+LG8m0sqXmfj66njeHV
-	 6Wv1AHVy292vRbqb/AaRZM2F+FD8K9flrKm6lzYy4mJg0j5qJUNHLOWB9zZ8P6p8vu3oO
-	 oZY4D9EQ3nZdVsC4m8q4HaNYomuS4be+YUbPe7FLo0vTRkJRMwWJqYGIqjS2tuONzWSVf
-	 N1XWzzwfh9g8WHgPCB/r3qpM/8k2S0fMk7BGjdUTxx9zEJSke0BELxlmzF3tVftJH+g==
+	t=1795577108;
+	b=v16GOWG7WgiBdovi/VQLIH+2N4nBqTAnDFWo0vQrHP/qP2a/FK6o2xUN3Dd0qINBD29z
+	 i1peom51RKLlIZ/9rd6nVLOqLFOlzTNJBKCV32DzHVcT3KRgu71AaX90IA5UNjfdCDpc2
+	 ROADgT2oKP02FNDD5/yrCyuOPzEHDfISV0SH3mTQ/Ga7cEYxd6heTXJIOaOQeGCkd40H6
+	 cPnE1lHKK69OOgUzDHPW3lDH2kLwCDdPXZmCZeqfCBJbrl98gzG4dgeSdQTDyxooUyAUM
+	 8gtgi2hSB8lqwQBk610SXAr6t0ETPPbjV+MIv+LRV93x2V3HbqH+zWfk3X75YHYWX/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795575010;
-	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
-	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc;
-	bh=JHvutqVI3UTf5KPiqly4KEao0n0pd5IR5xQU3YvP3BY=;
-	b=14KEYAQNLER4G2Y34zOvcZBTYg9rYgVaHSBXIPf6h57dB9Mtj6Q5APeCO4Ze72ExWVUg
-	 qM/OkzY5bWagQsJIIBLK0+pfsc6Z2FtskDjXwP1ri/E1yXAbyXkUvOSYcnvsNNvSmQ7Av
-	 iYWCAZVVGuT039H9qmGk5hKgok+bjglG+/6AeLlCPu88EBoVRuOsBqivAjoCQ8au40mxE
-	 krNC+wzYC33whwIA8eb071G9kMtGGqlQ2zlELVLQBG6viPHcSrWs9rMCmT/+v/vtPJgCX
-	 UeSYNqP+mzjRcihS2q54mi0nKAkCStGlxq9rCjeRta77bOuWlR4EV4BHNQz7ECnPUNw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795577108;
+	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=jm765WKY/zC72jkI2x569XRAtZ95jMdKBRn4kx2NFXU=;
+	b=rrjW1BcU/nROFseWCk6q7Qo7TzWqkB3pNnX9HSi0VYG7k5tDQ44Mqhjh67DnGcGqTwhU
+	 yBovC1HEDZ2KwVLJToknA9iPCqzOIFV/NwfB8YHZJPRx+3iGlA6GCgDy98gYEGENx66Md
+	 uGMhpCZXZ32fWh6NMAR8SunISKW9k5xhlXGHznp4W9EiNYFXiCaNY5K5YfQY7E7H3rCld
+	 UiDAGOD2kfyh6j8MpLg2NacQQtt8dG5ahg8wZpRajOHLnjQCgQnauy9pHvziq9r1RmfMD
+	 WgheNPh033Kc+bld/QmlUJTkkEKWYDoJ93OQplN3Xp3znFUVrIxZ+qOySq11D2bmIbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ndolS7q4;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V4AGWGfe;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7578D606A321;
-	Wed, 25 Nov 2026 02:50:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057F4606A31E;
+	Wed, 25 Nov 2026 03:25:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ndolS7q4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0844C1F000D0;
-	Wed, 25 Nov 2026 02:50:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V4AGWGfe
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 722391F00A3D;
+	Wed, 25 Nov 2026 03:25:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795575010;
-	bh=JHvutqVI3UTf5KPiqly4KEao0n0pd5IR5xQU3YvP3BY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=ndolS7q4vKe6lQ3Qkr5cmwT4nBehUaxCv26jyr4sEe/BFBS+hYnoaF4WW8uli5bfb
-	 YfpdVX0CLRkAYPe9nUTUgkuXR3XloMxT6Y7fOa6VXWMtih4pxC0kmYQTTLIMBBzGZz
-	 X5zYHLP2MqDugyRx6lB1VkQeC/z5mC10bGSM5Qw6TU0YKg5dj/W86gKiFOMWSAuFYm
-	 PAQJIfDyGrdXUjNta8ABATyX8OAJP2JNBiIrVSa0HJlLe3zp8rZbV5A3uq8k3OJjwA
-	 clUnNOot1YGnJz9M/jF1fE+dr5tVXMQPL1ZZWNjHW+tFPoJkVqmeK6JsWjIKgXRH30
-	 Dk16iOSkxMLHA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F14D43808209;
-	Wed, 25 Nov 2026 02:50:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1795577107;
+	bh=jm765WKY/zC72jkI2x569XRAtZ95jMdKBRn4kx2NFXU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=V4AGWGfeZLmrhtquKRv6EviHYCknQ6uF6sSccjviJ4oFSvgpAICCuQyib02WKudKy
+	 WZzoevJXnvM5e8NOpUoL9Ig82rYSxXxmUF9Jr1DLDbm4EjtTfslgzFUp9UHxUlPTv9
+	 wrZwz+G0W0uX1L3CBHkaI1MEt38fA9MYeSZuWLQ37eiV+uutE2OGEeTf1isC4/809q
+	 ZNbCkMcYIXb3teD/R3X/bXjffIjQmZgy38Wakf++rKKgIEMtzE5TK9nhDC09ZhOLli
+	 riBulMJ56RdCaDMuJt8qSHKFWjz1+SQJPB/Yzgx1/6vGL5v3z03GsZeS1enRqA31wI
+	 ei8UTG7MewgQw==
+Date: Tue, 24 Nov 2026 17:25:06 -1000
+Message-ID: <8fefdabc4b1d9e0c0d0b3bae1995e784@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Boqun Feng <boqun@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Corey Minyard <corey@minyard.net>, openipmi-developer@lists.sourceforge.net,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, linux-arm-msm@vger.kernel.org,
+ linux-pm@vger.kernel.org,
+ "D. Wythe" <alibuda@linux.alibaba.com>, Dust Li <dust.li@linux.alibaba.com>,
+ Sidraya Jayagond <sidraya@linux.ibm.com>,
+ Mahanta Jambigi <mjambigi@linux.ibm.com>,
+ Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, linux-rdma@vger.kernel.org,
+ linux-s390@vger.kernel.org, netdev@vger.kernel.org,
+ Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>,
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, virtualization@lists.linux.dev
+Subject: Re: [PATCH 2/2] workqueue: doc: clarify cancel_work_sync() cross-workqueue behavior
+In-Reply-To: <20261118-ordered-wq-cancel-v1-2-916e01f9affe@google.com>
+References: <20261118-ordered-wq-cancel-v1-0-916e01f9affe@google.com> <20261118-ordered-wq-cancel-v1-2-916e01f9affe@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,51 +91,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v3 0/3] ionic: make the device command timeout
- configurable
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <179557500851.181897.10642489657303885354.git-patchwork-notify@kernel.org>
-Date: Wed, 25 Nov 2026 02:50:08 +0000
-References: <20261119-b4-ionic-cmd-timeout-v3-0-2cdb8fca15fd@amd.com>
-In-Reply-To: <20261119-b4-ionic-cmd-timeout-v3-0-2cdb8fca15fd@amd.com>
-To: Nikhil P. Rao <nikhil.rao@amd.com>
-Cc: brett.creeley@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
- abhijit.gangurde@amd.com, allen.hubbe@amd.com, jgg@ziepe.ca, leon@kernel.org,
- jiri@resnulli.us, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-doc@vger.kernel.org, eric.joyner@amd.com, ArunKumar.Prakash@amd.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-Hello:
+Applied to wq/for-7.5.
 
-This series was applied to netdev/net-next.git (main)
-by Willem de Bruijn <willemb@google.com>:
+Note that cancel_work_sync() and friends haven't been waiting for a work
+item which is still running from a different workqueue since 606a5020b9bd
+("workqueue: gut flush[_delayed]_work_sync()") which went in in v3.7. This
+has been broken for well over a decade and the documentation now says so.
 
-On Thu, 19 Nov 2026 00:32:30 +0000 you wrote:
-> ionic waits a fixed 5 seconds for device and admin queue commands, and
-> the RDMA driver gives its admin queue 2 seconds. Some commands can take
-> the firmware longer than that, for example while a PFC configuration
-> change flaps the links. The firmware is alive but slow, yet the
-> timed-out command and everything queued behind it fail, and an RDMA
-> admin queue timeout resets the RDMA LIF so that later verbs fail with
-> -ENODEV.
-> 
-> [...]
+The following queue the same work item on more than one workqueue and then
+sync-cancel or flush it. As cancel_work_sync() doesn't guarantee that the
+work item is quiescent in that case, they need to make sure in some other
+way, e.g. by flushing the workqueues that are involved. Note that system_wq
+and system_percpu_wq, which schedule_work() uses, are different workqueues.
+cc'ing the maintainers.
 
-Here is the summary with links:
-  - [net-next,v3,1/3] ionic: make the command timeout per device
-    https://git.kernel.org/netdev/net-next/c/243b74542587
-  - [net-next,v3,2/3] RDMA/ionic: Use the ionic command timeout for the admin queue
-    https://git.kernel.org/netdev/net-next/c/54b7ae13fea9
-  - [net-next,v3,3/3] ionic: add devlink param for command timeout
-    https://git.kernel.org/netdev/net-next/c/1ea3c5d90fa5
+- drivers/char/ipmi/ipmi_msghandler.c: smi_work
+- drivers/md/dm-mpath.c: trigger_event
+- net/smc/smc_llc.c: llc_event_work
+- sound/soc/codecs/rt5651.c: jack_detect_work
+- sound/soc/codecs/rt5682s.c: jack_detect_work
+- sound/soc/soc-jack.c: snd_soc_jack_gpio.work
+- drivers/input/misc/palmas-pwrbutton.c: input_work
+- drivers/cpufreq/qcom-cpufreq-hw.c: throttle_work
+- drivers/vdpa/vdpa_user/vduse_dev.c: vduse_virtqueue.inject
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Thanks.
 
-
+--
+tejun
