@@ -1,64 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795620262;
-	b=Mx+yytExkPiD+HBmAzvym45lYUvUX6nrmeidRa3arpL/7UjSGvNTTjelZeLSmHYmnHQT
-	 uI9ji6hNBCscG0k43gc4fsis2BNGJMC07DO2QbyOggwfyHHDMm3Cc+e/NnYMUqpo81XIY
-	 ECwQODrd+rz502iO+oaZdNNmDK78l19d8pIThsOSPyUBmQArXxIpSVKTg6kYILeGA/pyh
-	 s4vFXZbFGN0fIQ3jetXyGocygEatw15NqOEIy9EHsS8dJGgvNlwNO+LRMaHjl3dDzqm3i
-	 B77Y6ICoMMbw6WvysmVPmDTDYuRmbeVRrLWRd/bM6+DD0JTNgPm/T8KogTeWLjp4o5g==
+	t=1795620356;
+	b=TcQtXIWYLN6yr6bCEwLD9xou0rTJolGStUfGsRsjvZYtZKewSjRnxW/wjfb/kLBzDzVs
+	 sge1yPkz5QgT3TdLT/+lCeaTPK60sU2Vxx6Ec/pa0bNWRWKIUFpEAGm6ecwA11V3oDyRx
+	 KPvZ2+4ut9UMkLQV++DIUp29VoE/Q3ZzHJZKBBE3FM29KtdY8bbx6vho/n8SzIudsVYfM
+	 BX79odkwbKYOOCdn44Q+K7H0gP6YCXBj/32b0EuSbotbZQrdGiSxqX5AuHXpMnJSBfySL
+	 hMNAZ11PMoi1BJcoaqd2wimtRND7x3DBvssWBhrpm8f7DilZvNuiPkak4brkxflWkPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795620262;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795620356;
 	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
 	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=BszTx2TV1cfaVUeSJv4bTbWbaiboouVqaL4PeMuZsN0=;
-	b=y7HFoKLovAH1nGKDnUzcFquKRIZo3of+1Cn/8EFa9Uaj/66D1a6yxd5eS304pgGerAuO
-	 p6oKuljXaVMR/8JojkJLymncO5gl+beb/pD3kL+Kl3rtrGm3MvY0BZykJQI6DeMDfPHYB
-	 tMS4Pv5n8nC/U9r5bTqGYKds5h76v9jUkjmSugyUiFsRGdJDf2LrLU9GvPZ3ESWcuACah
-	 wPRY383vZIDPpLo3Rwyp+oxmtTfhCP3fMLAnqXf7QXXK8H3C9wB9H/UICHD4tTLdd0Cfk
-	 4UHvKHz2fAGd+gj5+2JVkKmDDgY3NlThAyt2cMddqPgVwSdFJe+gqGjm5VLEAmFFmcg==
+	bh=JuiFzg0AsuPaU2C/K6V3PlAbkJG/chJ9lFUKLU/ZD68=;
+	b=vmH89zjnkq1VxQ32JlRFFcYuOAATPmmQLNPfAPwhP/MtcAkORUomHiswZQ25u/Itj1A5
+	 efJxP7qaw4/kJOPB17OZRtZcr1KU8USCrGxMyo6HgPhM31CjsYR9Pqzl0y9tYsvdZQUvX
+	 u4aOnjYcGsBcH1anAnkwTIva0YAM/IxHM4iyblSD1A7UHlCSoZSWK7//eYS+qtLJkDP8h
+	 DmDFzDdt3kJWMrYFfqEH86mouBYcHF6H6ImBxJgNgp3GbJeVIq+YvqodDlTj8eFJ0n2Kb
+	 lZK4qHAzSgIELe98WT20WONUTWnT0bLVoxss9mEPbN4Rr7KNwLcf4U3Y04yYosFcjZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=lwn.net;
 	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b="lT1zvTk/";
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=M6cwfCnT;
 	arc=none smtp.remote-ip=45.79.88.28
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CE8606A323;
-	Wed, 25 Nov 2026 15:24:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56CE8606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837A9606A31E;
+	Wed, 25 Nov 2026 15:25:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 837A9606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=lT1zvTk/
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 237A1410D8
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=M6cwfCnT
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 85285410D8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1795620260; bh=BszTx2TV1cfaVUeSJv4bTbWbaiboouVqaL4PeMuZsN0=;
+	t=1795620356; bh=JuiFzg0AsuPaU2C/K6V3PlAbkJG/chJ9lFUKLU/ZD68=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=lT1zvTk/XDrWEshJ/RMaTkqWUoQzDPT4VtyzSK2TOSWyaLH4betjAejk0TtaQIm9X
-	 AV0X8pOVPwpziYQXgNp31azMbnaEnOrr+LsRFJlatnqvbCSVtfCYI/FQj6L+Xq1faw
-	 OaURqXi6mtg/ktlLRRU+scP5zxdtoTJV+TKjmjIsJrEoapCK3N82lU0riX+m1a8aBC
-	 /uyy3ajvX/9NxF5TushReJwoWRDWLLk4f1CAFPJz+iDfNqkE/B2IOcpqhR0VdKyW72
-	 uNbYuMGteBbwThwZG1HNBbMkarMbp1mQ5/0pQ39MtTjfDGfFspI9YvhQ/t85O9ONyS
-	 kGoptlh0xTC+g==
+	b=M6cwfCnT5jW8b6mp6MVqK+/AmNUppc+h3m/N3Hr0AYYpSsvXqiU2/nckkjFoYtTDt
+	 ESlDeunY6dVR78DASRTg0irgAE0gcDB0pEgfmLb34MDy99EOUPLyNpIe4QS3c3zcH9
+	 YJGffe1IDU7/fkZx0UPw33sL+EDb1ATz5ghIEb98gVRP1Fphr+V1LkaOVbDH9Bkiwx
+	 Yn8DS/tNPz2nxySW9qo/6lWotZXcN7XIRHi3l1O3k+Q1Ckk9pq6m0nvJ/L50h0GEg5
+	 hk19+GA5jPb/0ZW6ouf0yDr5HD6tUrtrsQX1LRDKBNyzVDKn+Z5qQG1E0wMijeUunz
+	 z+ilrB1Cf3zVQ==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 237A1410D8;
-	Wed, 25 Nov 2026 15:24:18 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 85285410D8;
+	Wed, 25 Nov 2026 15:25:52 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Zenghui Yu <zenghui.yu@linux.dev>, linux-doc@vger.kernel.org,
- workflows@vger.kernel.org
-Cc: skhan@linuxfoundation.org, rdunlap@infradead.org, Zenghui Yu
- <zenghui.yu@linux.dev>
-Subject: Re: [PATCH] docs: submitting-patches: use :ref: links and remove
- unused anchor
-In-Reply-To: <20261121163923.73026-1-zenghui.yu@linux.dev>
-References: <20261121163923.73026-1-zenghui.yu@linux.dev>
-Date: Wed, 25 Nov 2026 08:24:10 -0700
-Message-ID: <877bi1ylwl.fsf@trenco.lwn.net>
+To: Manuel Ebner <manuelebnerli@mailbox.org>, Richard Weinberger
+ <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes
+ Berg <johannes@sipsolutions.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>, Renzo Davoli
+ <renzo@cs.unibo.it>, linux-um@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: UML: user_mode_linux_howto_v2: Fix bracket
+In-Reply-To: <20261120175509.1369714-2-manuelebnerli@mailbox.org>
+References: <20261120175509.1369714-2-manuelebnerli@mailbox.org>
+Date: Wed, 25 Nov 2026 08:25:44 -0700
+Message-ID: <8733spyltz.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,19 +72,22 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Zenghui Yu <zenghui.yu@linux.dev> writes:
+Manuel Ebner <manuelebnerli@mailbox.org> writes:
 
-> Convert three plain-text references to the "Tagging people requires
-> permission" section into proper :ref: links using the existing
-> tagging_people anchor. Remove the explicit_in_reply_to anchor, which is not
-> referenced anywhere.
+> Add missing ')'.
 >
-> Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
+> CC: Renzo Davoli <renzo@cs.unibo.it>
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 > ---
->  Documentation/process/submitting-patches.rst | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
+> [v2]
+>  Correct position of closing bracket (Randy Dunlap)
+>
+> [v1]
+>  https://lore.kernel.org/all/20260909140051.1365758-2-manuelebnerli@mailbox.org/
+> ---
+>  Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-If I were being pedantic, I'd say that the tag removal should really
-have been a separate patch.  But I've applied this, thanks.
+Applied, thanks.
 
 jon
