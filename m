@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795646087;
-	b=ONK+XO9fstYsCJQYY9nHWxvPXsVV66jPY28EQolebbkF7TWE7UMotxuEtTUOMfDse+r6
-	 fP0q2oqV8crtUXMrEq1cWbcvNeTh/Y612mvstidJrU0LtUv2doOynFStDOTCbBEJ1S1E2
-	 jWyO1EXsqdMVYc9LAb4FAqsq2ZA/BX8iKMo6g+wfqunTu09hQ9GnPNezEMY791NSWt8l3
-	 b1U63XnDuz8hT0BeZ3UGUm/KL8iO6HQ6l9E9UjKpZ/UVYMR39Guz5yB5e5oTGwDlSpD49
-	 5WS0G5Z9UdXkdoRAXd3qF/yq6RCk1mQ6imoGYZdgpCrAx5JsZFkqoyEqzDtNqbE+0Rg==
+	t=1795646102;
+	b=sRzeqi16wFclNuPX/LXb0I5R3qReK2z1jZzqasPLvfOM9P06ieiEA93Xh33uxxBrPsUg
+	 gkVc2ertqgi9+QzHI4yfDFPikwNKp+WzWfSddoZ6LPB1Kw+r6X5a5HWFbOzGYrRyK+csY
+	 QgeAo51jHQvTN70eM3HwW80AXUgQJ1aIhLIKhoiyoa9v+opxQPy8POY1km+HFSaMNY2SE
+	 M8mx9AsIa1YTGQGzQihA61pJH4PkqTi3kHFVljsZOpWqHGUbR/JEYpNoe3eNQYq5KqBlX
+	 bapX97A1UHsSQsgc+jTx93oQP4ytI98zZqG6ZpOlVDzzXKvbOOEltouMA7NUZqFmKyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795646087;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795646102;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=+7eQOKRTJo3SLTBv1Jd05JmL/1qkaOFv7kkY51zdPi8=;
-	b=dVy8OkqJAXS8v7cfTKgEIJxGkgwRGqq2HSPio2DRzIfJH8b7H9YtQBanRyUeXfCMmrSd
-	 01W6Itl6zlA5u+ArdzUHpzJDaZtxM8UtBAddq+BJMo890Rk5a8wLdsTmZPnmz8JMlnLo4
-	 Ai8rg7ist8JZh5XtZCNyh1UgBRHGj1N4grEIymOgeYZN8RwgAxzjq70NSsR/ahy1e6qOk
-	 yMZASnzXcXTJX3XoH8hGKG2ALtqxG57wpnNq8LR/l8aBtxnye1CMNni/XDYFHryC2+R9C
-	 jG74x0qQpbHeDy+lbYvK5j8na0eTPy+H5z+sMdORiGCdFsp74Dc4HxFNYNqFfPmoEQg==
+	bh=rfL5x6QN4uMtbxP3f8hbUSFP2Tb3L1Ge5tQU0VKhPiU=;
+	b=vlCdDXpuGB24ax6qj/6Oa+DjIYsHdR/F3qbNDU7RKTxmwfd3xgqVaFGZ2aBwuHCwYmL2
+	 wqjlZ7w9J6uwhMdOwljDxaacnEnvBj+Kngw1aFDuZSg9nLl5AP0Kdo9RFHRv2jFMMKPch
+	 SwOkYEzFYbOLO0mG/3n4qwNiw3AHKCSGXbovrzVfxXxTDTaAjIyA7ZDq/9RMRRj5VgAlE
+	 ggWZYHpgTZpNe3kuKk6iQ5EYLwb6bBTrfWhyoOTDtiDHcQHrUr+konJdKtKG9v3UgIBwj
+	 LNKwlXg12Y2u+l9K8elta9imeiGupE0fBih6sXFDyVgJkp+P6upwgos9toy+f/paVAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XS55ov+z;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b9nyDQ2J;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18591606A31E;
-	Wed, 25 Nov 2026 22:34:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C424B606A339;
+	Wed, 25 Nov 2026 22:35:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XS55ov+z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB2211F000E6;
-	Wed, 25 Nov 2026 22:34:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b9nyDQ2J
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43E2E1F000D8;
+	Wed, 25 Nov 2026 22:34:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795646086;
-	bh=+7eQOKRTJo3SLTBv1Jd05JmL/1qkaOFv7kkY51zdPi8=;
+	s=k20260515; t=1795646102;
+	bh=rfL5x6QN4uMtbxP3f8hbUSFP2Tb3L1Ge5tQU0VKhPiU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=XS55ov+zqWoVcnX4hPssMBTYab88z/dEVQhSp3UYfJX8JimTbKs5+14jIjxvktxOv
-	 CmlOhqWq9d1GIPrDcgOgRzNHTg8A3LxMHspSf/h5cRwVX6dtsWLHSuoOpPTMx8BvPT
-	 oq2zzO3tNyTrWvrlilSG99kw0BF0O/NLxKEbdUCu1ilDUwNsfHqdzGfK/A5S2m421W
-	 T2sXkbyk++z1LuqN9xr2ENeAhfGOHOfH9RHjWJR/foZBRcfqGR5TYBkVN9XlqsMIN5
-	 cdGugAAMR9VWpn0gbVllfwqz2SQq8YbbzPeRJjEEOnozWftq+AqrVFTPeVxGLKQ4RZ
-	 NW+RVHKlnx0SA==
+	b=b9nyDQ2J/RIU42aEm7BmZJbfvXcRFNipTjhfwdSgRn0KzkRLJdvdxcUi9aMl1YWyy
+	 TMHtFurAtb3rTwa/SqNviyHbah/r8l0b9Jj7s43SnuUcATIvotOlhb91ZJGwL1W9M8
+	 Ip9bBn89Ra7CmDp/hoab/W4xrVJS6qW4XbFBQMct+5eso2M/+mWCzUfSUjhaX79JVK
+	 h8DYuAWlix+O3sgFNPzVew0i8bcRct4KI0fiYeEbJ0JQH3SstmPi8gQte0qYzfsMYP
+	 EcT6sgUk9AqPVGaMPCTh+LNfFYpAIKt90ZC/1tdl47XLlkSKII75q4vHiiMfUpzzGz
+	 qGK/u2K08DVjg==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Wed, 25 Nov 2026 23:33:03 +0100
-Subject: [PATCH 05/21] mm/hugetlb: free surplus folios of other nodes on
- free
+Date: Wed, 25 Nov 2026 23:33:04 +0100
+Subject: [PATCH 06/21] hugetlbfs: fix deadlock between hole punching and
+ memory failure
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-hugetlb_fixes_2-v1-5-db27fd2f71a8@kernel.org>
+Message-Id: <20261125-hugetlb_fixes_2-v1-6-db27fd2f71a8@kernel.org>
 References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 In-Reply-To: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
@@ -95,133 +95,144 @@ To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
 Cc: linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>, 
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Andrew Morton <akpm@osdl.org>, linux-doc@vger.kernel.org, 
- "David Hildenbrand (Arm)" <david@kernel.org>, stable@vger.kernel.org, 
- Chris Mason <mason@kernel.org>
+ "David Hildenbrand (Arm)" <david@kernel.org>, 
+ Chris Mason <mason@kernel.org>, stable@vger.kernel.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4706; i=david@kernel.org;
- h=from:subject:message-id; bh=TlH3URFqdFZZwxSAcYE/TmvkYUeArrst3wv1uC1N/aE=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1QuVaQ35Nxa47v6yKM3ry7+KD2/+/fnD4kF0r/sc
- mRls38od5SyMIhxMMiKKbIEBd83ePlyXW21Gx8zzBxWJpAhDFycAjAR86sM/8uXxx5IUmJRTX7w
- t1Xwv872I9vuthqXPZlyhuetpMv0Fc8YGV5vluE/H3auWvxGi+Gfnh95bAW7+B4bmR1iXz2DY6I
- jOxMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5106; i=david@kernel.org;
+ h=from:subject:message-id; bh=8Ks2EUC02lGqJ75Fw8MnkFmyG7Ap+d4rJhnmmYI1Rhc=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1RcNk/jPB8lsK6CY6/E85woho3/zc0WJMVvMX3g7
+ /D7xfopHaUsDGIcDLJiiixBwfcNXr5cV1vtxscMM4eVCWQIAxenAExE8jzDf8fJ9sIrVruEJDzt
+ lPhmECz0s2C7kZcZi/S5vZP+qO9hKWdkeJb0ILqSp4Zr/3OtJBHnRRb9h9SeSs/Vvmt0Q++LUfk
+ eFgA=
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-Surplus hugetlb folios are accounted per node, but reservations are
-global. When free_huge_folio() frees a hugetlb folio whose node doesn't
-have any surplus folios, we currently keep it as a free hugetlb folio.
+From: Chris Mason <mason@kernel.org>
 
-However, we might then have surplus folios on other nodes that are no
-longer required for the global reservations.
+Punching a hole that isn't aligned to the huge page size can deadlock
+against memory_failure() on a mapped folio at the edge of the hole.
 
-This can be reproduced with two NUMA nodes, nr_hugepages=1 on node 0 and
-nr_overcommit_hugepages=1:
+hugetlbfs_punch_hole() locks and zeroes the partial folios with
+i_mmap_rwsem held for write, following the hugetlbfs locking order
+documented in mm/rmap.c: i_mmap_rwsem before the folio lock.
 
- (1) Allocate the single hugetlb folio on node 0 from the pool.
- (2) With MPOL_BIND to node 1, mmap(MAP_SHARED) a hugetlb memfd that
-     needs a single folio. This will reserve + allocate a surplus folio
-     on node 1.
- (3) Free the folio from (1).
- (4) With MPOL_BIND to node 0, fault in the folio of the memfd, which
-     consumes the reservation and allocates node 0's free folio, and
-     immediately punch a hole, freeing the folio without restoring the
-     reservation. Node 0 has no surplus folios, so the folio is kept.
+However, try_memory_failure_hugetlb() locks the folio first, and then
+collects the processes to kill under i_mmap_rwsem:
 
-The pool ends up with a free surplus folio on node 1 that nobody
-reserved:
+    hugetlbfs_punch_hole()              try_memory_failure_hugetlb()
+    ======================              ============================
+    i_mmap_lock_write()
+                                        folio_lock()
+    hugetlbfs_zero_partial_page()       hwpoison_user_mappings()
+      filemap_lock_hugetlb_folio()        collect_procs_file()
+        waits for the folio lock            i_mmap_lock_read()
+                                              waits for the writer
 
-  HugePages_Total:       2
-  HugePages_Free:        2
-  HugePages_Rsvd:        0
-  HugePages_Surp:        1
+In fact, the documentation is outdated: hugetlbfs_punch_hole() is the
+*only* one that still takes i_mmap_rwsem before the folio lock. All
+other scenarios always take the folio lock before the i_mmap_rwsem.
 
-Let's fix it by freeing a surplus folio of another node when
-free_huge_folio() keeps a folio whose node has no surplus folios, using
-the same rule as for the folio's own node: the free folios cover all
-reservations without it.
+Only memory failure can deadlock with the hole punch:
 
-With this fix, the surplus folio is already freed in (3), as the two
-free folios then exceed the single reservation, and we correctly end up
-with a single free folio on node 0 and no surplus folios.
+* truncation and hole punching of full folios are serialized against it
+  through the inode lock
+* unmap_ref_private() holds the lock of an anon folio, not of a page
+  cache folio that the hole punch zeroes
+* migration only tries to take the i_mmap_rwsem.
 
-Note that the freed surplus folio might have been required by a task
-that was bound to that node. But we don't care about that: reservations
-are inherently not NUMA aware, and anybody who needs guarantees on
-specific nodes has to preallocate, like QEMU does, for example.
+There is no need to zero the partial folios under i_mmap_rwsem. The lock
+only protects the VMA tree and PMD table sharing, nothing about zeroing;
+the inode lock and the folio lock are sufficient.
 
-This has low urgency.
+Let's fix it by only holding i_mmap_rwsem while unmapping the full
+folios of the hole.
 
-Fixes: 7893d1d505d5 ("hugetlb: Try to grow hugetlb pool for MAP_PRIVATE mappings")
+Update the documented locking order in mm/rmap.c and the function
+comment above hugetlb_folio_mapping_lock_write().
+hugetlb_folio_mapping_lock_write() could now take the lock
+unconditionally, but we leave that for a separate change.
+
+The order of the folio lock and i_mmap_rwsem now matches the one for
+other folios, which is nice.
+
+This has low urgency, as the race shouldn't really happen all that often
+in practice (never seen).
+
+Fixes: 68d32527d340 ("hugetlbfs: zero partial pages during fallocate hole punch")
 Cc: <stable@vger.kernel.org>
-Reported-by: Chris Mason <mason@kernel.org>
+Signed-off-by: Chris Mason <mason@kernel.org>
+[ david: adjust comment and description ]
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- mm/hugetlb.c | 31 +++++++++++++++++++++++++------
- 1 file changed, 25 insertions(+), 6 deletions(-)
+ fs/hugetlbfs/inode.c | 6 ++----
+ mm/hugetlb.c         | 3 +--
+ mm/rmap.c            | 4 ++--
+ 3 files changed, 5 insertions(+), 8 deletions(-)
 
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 4a92f31c88e1a..2e8672ae2fd52 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -684,8 +684,6 @@ static long hugetlbfs_punch_hole(struct inode *inode, loff_t offset, loff_t len)
+ 		return -EPERM;
+ 	}
+ 
+-	i_mmap_lock_write(mapping);
+-
+ 	/* If range starts before first full page, zero partial page. */
+ 	if (offset < hole_start)
+ 		hugetlbfs_zero_partial_page(h, mapping,
+@@ -693,10 +691,12 @@ static long hugetlbfs_punch_hole(struct inode *inode, loff_t offset, loff_t len)
+ 
+ 	/* Unmap users of full pages in the hole. */
+ 	if (hole_end > hole_start) {
++		i_mmap_lock_write(mapping);
+ 		if (mapping_mapped(mapping))
+ 			hugetlb_vmdelete_list(mapping,
+ 					      hole_start >> PAGE_SHIFT,
+ 					      hole_end >> PAGE_SHIFT, 0);
++		i_mmap_unlock_write(mapping);
+ 	}
+ 
+ 	/* If range extends beyond last full page, zero partial page. */
+@@ -704,8 +704,6 @@ static long hugetlbfs_punch_hole(struct inode *inode, loff_t offset, loff_t len)
+ 		hugetlbfs_zero_partial_page(h, mapping,
+ 				hole_end, offset + len);
+ 
+-	i_mmap_unlock_write(mapping);
+-
+ 	/* Remove full pages from the file. */
+ 	if (hole_end > hole_start)
+ 		remove_inode_hugepages(inode, hole_start, hole_end);
 diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index c67f9bc3fa3bc..0f3db932266d7 100644
+index 0f3db932266d7..befa2670cb03f 100644
 --- a/mm/hugetlb.c
 +++ b/mm/hugetlb.c
-@@ -142,6 +142,8 @@ static void hugetlb_unmap_range(struct mmu_gather *tlb,
- 				unsigned long end, struct folio *folio,
- 				zap_flags_t zap_flags);
- static struct resv_map *vma_resv_map(struct vm_area_struct *vma);
-+static struct folio *remove_pool_hugetlb_folio(struct hstate *h,
-+		nodemask_t *nodes_allowed, bool acct_surplus);
- 
- static inline bool subpool_is_free(struct hugepage_subpool *spool)
+@@ -1871,8 +1871,7 @@ void init_new_hugetlb_folio(struct folio *folio)
+  * Find and lock address space (mapping) in write mode.
+  *
+  * Upon entry, the folio is locked which means that folio_mapping() is
+- * stable.  Due to locking order, we can only trylock_write.  If we can
+- * not get the lock, simply return NULL to caller.
++ * stable. If we cannot get the lock immediately, we simply return NULL.
+  */
+ struct address_space *hugetlb_folio_mapping_lock_write(struct folio *folio)
  {
-@@ -1760,6 +1762,7 @@ void free_huge_folio(struct folio *folio)
- 	struct hstate *h = folio_hstate(folio);
- 	int nid = folio_nid(folio);
- 	struct hugepage_subpool *spool = hugetlb_folio_subpool(folio);
-+	struct folio *surplus_folio = NULL;
- 	bool restore_reserve;
- 	unsigned long flags;
+diff --git a/mm/rmap.c b/mm/rmap.c
+index fe354fa6cc43a..f35b671d26514 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -49,8 +49,8 @@
+  *   hugetlb_fault_mutex (hugetlbfs specific page fault mutex)
+  *     vma_lock (hugetlb specific lock for pmd_sharing)
+  *       mapping->invalidate_lock (when allocating page cache folios)
+- *         mapping->i_mmap_rwsem (also used for hugetlb pmd sharing)
+- *           folio_lock
++ *         folio_lock
++ *           mapping->i_mmap_rwsem (also used for hugetlb pmd sharing)
+  */
  
-@@ -1808,19 +1811,35 @@ void free_huge_folio(struct folio *folio)
- 		folio_clear_hugetlb_temporary(folio);
- 		spin_unlock_irqrestore(&hugetlb_lock, flags);
- 		update_and_free_hugetlb_folio(h, folio, true);
-+		return;
- 	} else if (h->surplus_huge_pages_node[nid] &&
- 		   h->free_huge_pages >= h->resv_huge_pages) {
- 		/* Free this surplus folio that is not required globally. */
- 		remove_hugetlb_folio(h, folio, true);
- 		spin_unlock_irqrestore(&hugetlb_lock, flags);
- 		update_and_free_hugetlb_folio(h, folio, true);
--	} else {
--		mod_node_page_state(folio_pgdat(folio), NR_HUGETLB,
--				    -(long)pages_per_huge_page(h));
--		arch_clear_hugetlb_flags(folio);
--		enqueue_hugetlb_folio(h, folio);
--		spin_unlock_irqrestore(&hugetlb_lock, flags);
-+		return;
- 	}
-+
-+	mod_node_page_state(folio_pgdat(folio), NR_HUGETLB,
-+			    -(long)pages_per_huge_page(h));
-+	arch_clear_hugetlb_flags(folio);
-+	enqueue_hugetlb_folio(h, folio);
-+
-+	/*
-+	 * This is not a surplus folio on this node, but we might have surplus
-+	 * folios on other nodes that are no longer required, as reservations
-+	 * are global and surplus folios are per node. So free another folio
-+	 * instead.
-+	 */
-+	if (h->surplus_huge_pages &&
-+	    h->free_huge_pages > h->resv_huge_pages)
-+		surplus_folio = remove_pool_hugetlb_folio(h, &node_states[N_MEMORY],
-+							  /* acct_surplus= */ true);
-+	spin_unlock_irqrestore(&hugetlb_lock, flags);
-+	/* We might be in atomic context, but freeing might need vmemmap pages. */
-+	if (surplus_folio)
-+		update_and_free_hugetlb_folio(h, surplus_folio, true);
- }
- 
- /*
+ #include <linux/mm.h>
 
 -- 
 2.56.1
