@@ -1,33 +1,33 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=182.48.54.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795622817;
-	b=pQh3DlbFLIUBmyPNX0vNI+S1fdKBwsJohUJHNkTU9miQI8eO9k96LIU3c4qrXsskYK6t
-	 wxjslImzu8hjV8KsgTtWVUuaIGB7jl3uQCdMw2xxN2/8U5XXlZCMP0Moxh5aFdd5WU06H
-	 VGhCCv2cYJlAxw+JjqsdUfbHcsSl/30ZGQM21+Ule/4C2++HWZtqfrJIWCGA0ewtDRB/6
-	 6D5ud2ZJJviHZnJJohqx04o0xAe0X+mYbrnumpoDc9fU6X3GW+Pit0X7aMGZYosmW1RfY
-	 xFaEkDZDNQIrdoRBIh95FOXqu91pd0kV2LihWj8RwmvhwrIHpbUhOQtbCjMABNqwOhQ==
+	t=1795622819;
+	b=2uJEdkDVkYbglheM2BtZOxh/ojRz4jfFMp9AuoZW3XT9vdrG69hjRRXMk+t0IJqinMUj
+	 +uvsGcwIaMmVSYopzvQN2PMoglYLxwejarhIE6Ms2bssUreSm8K3O4PVAW3QLUZry2HI8
+	 jXB4JgCNuIkLGTNFe6Ai2ek+LVFXpGEJALhphcBs58NblKf512f1fs7kezbXSKq9/xtp3
+	 mYxRgcBgjWD2aCEzWRA35M+nB5aAMlSwMceFLMvbrTK+imSK3ouvfcWMs4qvFQRJWB0d7
+	 h0dHOo8A0qfNnbDgzpo4A4XlXsRY/fxMHXnnlnXG8b5DOaIoFR015ZPH2jzUWQD9hdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795622817;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=tbHtq4u5qNw0coKzM67hn3NfizR9DRcO7y7V+ZSUs48=;
-	b=ZECnogIVvElSmgTG2ss5S3NW+19bwiq/IetMS6ipwlcgJ+DL5iauCZDyvpHoSlpUxYJ6
-	 yDVOQRYJKeNgweQafm7SWhOWnjJygBH6QfvBXX7leSGkPGhKKLHnm4hOfPHxqEVR9wfjl
-	 NXcLuNBhrptuiGPr5hgPVZhwqkn92JBzjVWgW3D19Ee7a4IzSv0RP1PK33gshtSOH8I1z
-	 8XgYvCBct0ehoFbCKO0CTN439Xqml0AFxlTUwwx3Z6srM2WV1SXWUCYiQ0MkXrXvVMqGT
-	 eHE0PYKlgeEtEYrq4eWwwJN4GnZNh3hFhFmihOt5oSgTa3eta8R2olDMIP3FaZmgLaA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795622819;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
+	 References:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=ksMJKs0gUygVZv/UgIj2JPHhtagLD5xU3umu5CFNJH0=;
+	b=5Zr5Y3oFrWetmofxosl5nAoeLma+guG01U8nMbui2flOlMaGAdIy848Xu6MnBYGkkfkH
+	 X+mL+v5RiE2C5mFXjLz8rYO1lxNDPjqiwhACJfw6MsYalBoqhbwceeiK5NX2/nSLYY4yK
+	 D69MdwS3V7jMvt9D6uffnpxTFRlqpb8GPRBNxsNoBhMzZwrYu7Ekl2HO9bgsQLkqzv6H0
+	 Uk7/eNRdxIYohpljaxyP1buzz5LyDP7kFhFu2VMc6bKvyrwS6DN/CdWn9rNGk+O+9rh8f
+	 guNg7Pw0N3IjzfAY6GalQdzKwv/4M2Bi7JSvtUYxI4D8HjnbkeyT4bL/liCNVkB9KNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=snowrabbit.org;
 	spf=pass smtp.mailfrom=snowrabbit.org;
 	arc=none smtp.remote-ip=182.48.54.220
 Received: from bambi.snowrabbit.org (bambi.snowrabbit.org [182.48.54.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81B88606A680;
-	Wed, 25 Nov 2026 16:06:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81B88606A680
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02CD3606A33C;
+	Wed, 25 Nov 2026 16:06:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02CD3606A33C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=snowrabbit.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snowrabbit.org
 Received: by bambi.snowrabbit.org (Postfix, from userid 3001)
-	id 2B33CC9300; Thu, 26 Nov 2026 01:06:55 +0900 (JST)
+	id 41BB6C9314; Thu, 26 Nov 2026 01:06:57 +0900 (JST)
 From: Showta Ishizaki <zakinko@snowrabbit.org>
 To: "Michael S. Tsirkin" <mst@redhat.com>,
 	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
@@ -54,9 +54,11 @@ Cc: Eric Dumazet <edumazet@kernel.org>,
 	linux-um@lists.infradead.org,
 	linux-doc@vger.kernel.org,
 	Showta Ishizaki <zakinko@snowrabbit.org>
-Subject: [PATCH RFC net v8 0/6] more virtio-net csum hardening
-Date: Thu, 26 Nov 2026 01:06:41 +0900
-Message-ID: <20261126.rfcv8.99797.0.zakinko@snowrabbit.org>
+Subject: [PATCH RFC net v8 1/6] net: account for ingress-resolved virtio net hdr state
+Date: Thu, 26 Nov 2026 01:06:42 +0900
+Message-ID: <20261126.rfcv8.99797.1.zakinko@snowrabbit.org>
+In-Reply-To: <20261126.rfcv8.99797.0.zakinko@snowrabbit.org>
+References: <20261126.rfcv8.99797.0.zakinko@snowrabbit.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,79 +71,193 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Michael wrote in v7 that he would be on other things for a while and
-posted it in case anyone wants to take it up, so here it is, rebased and
-with the review comments addressed. Michael, if you already have a newer
-version, I am happy to drop this one in favor of it. Patches 1-4 and 6
-are yours; what I changed is noted above my sign-off.
+From: "Michael S. Tsirkin" <mst@redhat.com>
 
-Changes since v7:
-- Rebased. Commit 73e08d50eb13 ("net: virtio: validate outer protocol of
-  UDP tunnel GSO packets") has the header parsing helpers and the outer
-  header checks, so those are gone from patch 4.
-- Patch 4: has_eth is passed to virtio_net_hdr_to_skb() as well, instead
-  of looking at the device type. I dropped Chris' Tested-by, as this is
-  no longer what he tested.
-- Patch 4: the tnl_csum_negotiated check is ahead of the validation
-  again, as Willem pointed out.
-- Patch 5 is new: the outer checksum of tunnel packets that are too small
-  to segment. Willem asked for it as a separate patch.
-- Patch 6: the sysctl does not turn off the outer header checks, which
-  are in the tree unconditionally now. I turned the Reviewed-by tags into
-  Cc, as that changes what was reviewed.
+A later patch will add ingress resolution of uncommon virtio net
+hdr checksum metadata (software checksum completion at ingress) which
+adds performance overhead to the packet processing.
 
-The two issues Michael listed as open in v7 are still open, hence the
-RFC: the inner packet of a tunnel can have a valid header at
-inner_nh_offset that overlaps the real transport header, and completing
-the checksum at input breaks nf/BPF programs that edit the payload and
-rely on CHECKSUM_PARTIAL.
+We should make it visible, so a hypothetical workload relying on
+uncommon metadata can be distinguished from none at all. This way issues
+in the parsing will be reported and not quietly pay the host-CPU
+checksum overhead instead of offload.
 
-I compared no patches, 1-4 and 1-6 on arm64 (qemu, TCG) with frames
-written to a tap:
+Flip every call to virtio_net_hdr_to_skb to test for negative errno
+only.  The um vector raw transport even ignored the return value
+altogether: rejected packets went on into the stack with their
+metadata unvalidated, so check it there as well.
 
-- Non-GSO UDP tunnel packets that ask for the outer checksum, over IPv4
-  and IPv6, go out with a wrong one without the series and with 1-4, and
-  with a correct one with 1-6.
-- When the inner packet is a fragment, 1-4 reject them with EINVAL, and
-  1-6 send them with a correct checksum.
-- GSO behind an IPv6 AH is accepted without the series, and rejected
-  with 1-4 and with 1-6.
-- A plain UDP packet with csum_offset at the destination port is
-  completed at input and counted in rx_csum_sw. One with good metadata is
-  not counted.
+Have tun count these events per device as rx_csum_sw, exposed via
+ethtool -S.
 
-The objects touched build on x86_64 with W=1 after each patch. At the end
-of the series I also built the um objects, and linked an arm64 kernel
-with CONFIG_INET=n and VIRTIO_NET=y.
+Reviewed-by: Willem de Bruijn <willemb@google.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+[showta: rebased on the has_eth argument of virtio_net_hdr_tnl_to_skb()]
+Signed-off-by: Showta Ishizaki <zakinko@snowrabbit.org>
+---
+ arch/um/drivers/vector_transports.c |  4 ++-
+ drivers/net/tap.c                   |  4 +--
+ drivers/net/tun.c                   | 44 ++++++++++++++++++++++++++---
+ drivers/net/virtio_net.c            |  2 +-
+ net/packet/af_packet.c              |  4 +--
+ 5 files changed, 48 insertions(+), 10 deletions(-)
 
-Based on net e6474ead54b8, where the tests were run as well.
-
-Michael S. Tsirkin (5):
-  net: account for ingress-resolved virtio net hdr state
-  um: vector: trim skbs before verifying the header
-  virtio_net: parse tunnel csum_start little-endian
-  net: resolve uncommon partial checksums at ingress
-  net: add a sysctl to opt out of virtio net hdr checksum validation
-
-Showta Ishizaki (1):
-  net: virtio: compute the outer checksum of non-GSO tunnel packets
-
- Documentation/admin-guide/sysctl/net.rst |  19 ++
- arch/um/drivers/vector_kern.c            |   6 +-
- arch/um/drivers/vector_transports.c      |   4 +-
- drivers/net/tap.c                        |   4 +-
- drivers/net/tun.c                        |  44 +++-
- drivers/net/tun_vnet.h                   |   4 +-
- drivers/net/virtio_net.c                 |   2 +-
- include/linux/virtio_net.h               | 247 ++++++++++++++++++++++-
- include/net/netns/core.h                 |   1 +
- net/core/dev.c                           |   7 +
- net/core/net_namespace.c                 |   1 +
- net/core/sysctl_net_core.c               |  50 +++++
- net/packet/af_packet.c                   |  16 +-
- 13 files changed, 381 insertions(+), 24 deletions(-)
-
-
-base-commit: e6474ead54b8acecb8b0462dde2d77f46d2b7dc1
+diff --git a/arch/um/drivers/vector_transports.c b/arch/um/drivers/vector_transports.c
+index e1fb2a76f..8b7548458 100644
+--- a/arch/um/drivers/vector_transports.c
++++ b/arch/um/drivers/vector_transports.c
+@@ -210,7 +210,9 @@ static int raw_verify_header(
+ 		return 1;
+ 
+ 	skb_set_network_header(skb, ETH_HLEN);
+-	virtio_net_hdr_to_skb(skb, vheader, virtio_legacy_is_little_endian());
++	if (virtio_net_hdr_to_skb(skb, vheader,
++			virtio_legacy_is_little_endian()) < 0)
++		return -1;
+ 	return 0;
+ }
+ 
+diff --git a/drivers/net/tap.c b/drivers/net/tap.c
+index 2f19fb07b..101994870 100644
+--- a/drivers/net/tap.c
++++ b/drivers/net/tap.c
+@@ -650,7 +650,7 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
+ 
+ 	if (vnet_hdr_len) {
+ 		err = tun_vnet_hdr_to_skb(q->flags, skb, &vnet_hdr);
+-		if (err) {
++		if (err < 0) {
+ 			rcu_read_unlock();
+ 			drop_reason = SKB_DROP_REASON_DEV_HDR;
+ 			goto err_kfree;
+@@ -1090,7 +1090,7 @@ static int tap_get_user_xdp(struct tap_queue *q, struct xdp_buff *xdp)
+ 
+ 	if (vnet_hdr_len) {
+ 		err = tun_vnet_hdr_to_skb(q->flags, skb, gso);
+-		if (err) {
++		if (err < 0) {
+ 			rcu_read_unlock();
+ 			goto err_kfree;
+ 		}
+diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+index ae05b1e58..19647fa97 100644
+--- a/drivers/net/tun.c
++++ b/drivers/net/tun.c
+@@ -211,6 +211,7 @@ struct tun_struct {
+ 	u32 flow_count;
+ 	u32 rx_batched;
+ 	atomic_long_t rx_frame_errors;
++	atomic64_t rx_csum_sw;
+ 	struct bpf_prog __rcu *xdp_prog;
+ 	struct tun_prog __rcu *steering_prog;
+ 	struct tun_prog __rcu *filter_prog;
+@@ -1969,11 +1970,15 @@ static ssize_t tun_get_user(struct tun_struct *tun, struct tun_file *tfile,
+ 		break;
+ 	}
+ 
+-	if (tun_vnet_hdr_tnl_to_skb(tun->flags, features, skb, &hdr,
+-				    (tun->flags & TUN_TYPE_MASK) == IFF_TAP)) {
++	err = tun_vnet_hdr_tnl_to_skb(tun->flags, features, skb, &hdr,
++				      (tun->flags & TUN_TYPE_MASK) == IFF_TAP);
++	if (err < 0) {
+ 		atomic_long_inc(&tun->rx_frame_errors);
+ 		err = -EINVAL;
+ 		goto free_skb;
++	} else if (err > 0) {
++		atomic64_inc(&tun->rx_csum_sw);
++		err = 0;
+ 	}
+ 
+ 	if ((tun->flags & TUN_TYPE_MASK) == IFF_TAP)
+@@ -2663,12 +2668,15 @@ static int tun_xdp_one(struct tun_struct *tun,
+ 	/* Frames always start with an Ethernet header here, as the
+ 	 * eth_type_trans() call below expects.
+ 	 */
+-	if (tun_vnet_hdr_tnl_to_skb(tun->flags, features, skb, tnl_hdr,
+-				    true)) {
++	ret = tun_vnet_hdr_tnl_to_skb(tun->flags, features, skb, tnl_hdr, true);
++	if (ret < 0) {
+ 		atomic_long_inc(&tun->rx_frame_errors);
+ 		kfree_skb(skb);
+ 		ret = -EINVAL;
+ 		goto out;
++	} else if (ret > 0) {
++		atomic64_inc(&tun->rx_csum_sw);
++		ret = 0;
+ 	}
+ 
+ 	skb->protocol = eth_type_trans(skb, tun->dev);
+@@ -3821,7 +3829,35 @@ static void tun_get_channels(struct net_device *dev,
+ 	channels->max_combined = tun->flags & IFF_MULTI_QUEUE ? MAX_TAP_QUEUES : 1;
+ }
+ 
++#define TUN_STATS_LEN	1
++static const char tun_ethtool_strings[TUN_STATS_LEN][ETH_GSTRING_LEN] = {
++	"rx_csum_sw",
++};
++
++static int tun_get_sset_count(struct net_device *dev, int sset)
++{
++	return sset == ETH_SS_STATS ? TUN_STATS_LEN : -EOPNOTSUPP;
++}
++
++static void tun_get_strings(struct net_device *dev, u32 stringset, u8 *data)
++{
++	if (stringset == ETH_SS_STATS)
++		memcpy(data, tun_ethtool_strings,
++		       sizeof(tun_ethtool_strings));
++}
++
++static void tun_get_ethtool_stats(struct net_device *dev,
++				  struct ethtool_stats *stats, u64 *data)
++{
++	struct tun_struct *tun = netdev_priv(dev);
++
++	data[0] = atomic64_read(&tun->rx_csum_sw);
++}
++
+ static const struct ethtool_ops tun_ethtool_ops = {
++	.get_sset_count		= tun_get_sset_count,
++	.get_strings		= tun_get_strings,
++	.get_ethtool_stats	= tun_get_ethtool_stats,
+ 	.supported_coalesce_params = ETHTOOL_COALESCE_RX_MAX_FRAMES,
+ 	.get_drvinfo	= tun_get_drvinfo,
+ 	.get_msglevel	= tun_get_msglevel,
+diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
+index 1cd64f9e1..fb9359ef4 100644
+--- a/drivers/net/virtio_net.c
++++ b/drivers/net/virtio_net.c
+@@ -2548,7 +2548,7 @@ static void virtnet_receive_done(struct virtnet_info *vi, struct receive_queue *
+ 	skb_set_network_header(skb, ETH_HLEN);
+ 	if (virtio_net_hdr_tnl_to_skb(skb, &hdr->tnl_hdr, true, vi->rx_tnl,
+ 				      vi->rx_tnl_csum,
+-				      virtio_is_little_endian(vi->vdev))) {
++				      virtio_is_little_endian(vi->vdev)) < 0) {
+ 		net_warn_ratelimited("%s: bad gso: type: %x, size: %u, flags %x tunnel %d tnl csum %d\n",
+ 				     dev->name, hdr->hdr.gso_type,
+ 				     hdr->hdr.gso_size, hdr->hdr.flags,
+diff --git a/net/packet/af_packet.c b/net/packet/af_packet.c
+index e0ebd0627..930e85e4b 100644
+--- a/net/packet/af_packet.c
++++ b/net/packet/af_packet.c
+@@ -2941,7 +2941,7 @@ static int tpacket_snd(struct packet_sock *po, struct msghdr *msg)
+ 		}
+ 
+ 		if (has_vnet_hdr) {
+-			if (virtio_net_hdr_to_skb(skb, &vnet_hdr, vio_le())) {
++			if (virtio_net_hdr_to_skb(skb, &vnet_hdr, vio_le()) < 0) {
+ 				tp_len = -EINVAL;
+ 				goto tpacket_error;
+ 			}
+@@ -3164,7 +3164,7 @@ static int packet_snd(struct socket *sock, struct msghdr *msg, size_t len)
+ 
+ 	if (vnet_hdr_sz) {
+ 		err = virtio_net_hdr_to_skb(skb, &vnet_hdr, vio_le());
+-		if (err)
++		if (err < 0)
+ 			goto out_free;
+ 		len += vnet_hdr_sz;
+ 	}
 -- 
-2.54.0
+2.54.0 (Apple Git-157)
+
