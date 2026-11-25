@@ -1,105 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.223
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795570338;
-	b=h4lKkEzpwW6zgquEgUJR18oxopvgrQCwsx6ayoc23Gq5tWDuTH+kcODvDKkLeXtB0Bl4
-	 XSYMmQo+9YiuJYU3CJVDfgBbnRZ8N9WRdK+FefYwrFO2oez26/PpPrITjy+FdL5fdjLqm
-	 muZHMl2B5pHnmZBVkc5byIiwYldTDZdFvfPdRU+m5tJsLl7YX88Q1UOnnYFSNjy4ZvS94
-	 /cVkCSwqX7PXFMesduAKQ2GqJ2OWh2lrnSL/cmUlDqEECCx2GgzzBgEbVt3GNjzOSOkKS
-	 Vj3J6/Zwo8ro15grqNqoO6NDYMbb2Tzm45UohkoQXGTIKEQcX/U/klJBv9qHtsVsk2g==
+	t=1795570588;
+	b=O8dboAOv8kIMX0BqYqaC1JSwuiRE+OlY7nNzE7dDJzp+UpL79YDPwYJ1BKgH1ulzC5yX
+	 WV4qCf4k8IBJclq/GuZGVQxAHKte2HNad6a+xIiYhzmvcGFAwC7IOs6XzLLryuKtrYXiM
+	 FjNOsi9VmG3R+9511kUYZl/wjWe4zJ0cPi47CA0IcaGKmHMkSLzm2FLxA52rm1Ork0qUQ
+	 GEmLn8+/Kt46YI5rnMmQjEXwPz3S9j0xvfc9ldfsLmakYnVeQpXHC2SqtHXKg/KMgQqfV
+	 Und6xyatfbpmXGnJTr2W3xFwFdblU2cWyo3IhLFffW/7f+uyuFFqvc57MuLEA0PZf5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795570338;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=og5FI6XPTPwFhyPH6I0WYk7eOtsOgs0wLbpVaIplXks=;
-	b=a6/mQm9Yds+PjmEtZOC9aQseH1NZaWtkz5z1M9HkWq5lChMcmaa7UWsYWWkSBe9DT3nh
-	 qZXR515xFljzdlIXjEo/tM/SHEU8ecvpQa272N6DJ2giTIMKaszbWiP56nrEYqEtOdJiX
-	 TZN43l3YjIy9eE3IBzYV2jEBQRagEviRZVViYJMW7THtvZ0Iz3X/k0w4BBASGhS7zVWpr
-	 /qXOfPWGoGeE9fL1odO4ayB+MuduRnBekCrRnJcAMQJF1HCNkOYGOdUu5Mh/CoKkfXhx5
-	 pXnb9m4xTj54HEkVcUSWFL2VvljTidr11PPISmkSycV+0IJHE2BNa608k1sRLWAzpRA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795570588;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=CoDH69e6XzIOtyxojAs/Hua9h2l7rwpIoBGHHmKkX/0=;
+	b=XPcBx0mz5cyis01khxIsp/VGtHzgLQw7NVmz5pTOZr2ThwAwvkot9PkY8erRKUjKc19m
+	 IZ7ZJTTYVdoYVpWF0gLbHzE3acgOAC7C8QnWstixARJ7Sv6qAiKleL2MAE0zHvNBkGKpI
+	 sQf+DLAsV7ZHx+R0DKTDgBeJfdoMsgNNJ7REkeZPmn7n+aJHOUCaye9WgUXCB2U2RUFLn
+	 qTA0ClcAIB20VJM9raYj0KN91zJ9tr2gldokWH+fKs8MME7yXiFBBH9yLqxh/3Z/hIUSC
+	 P3GymIlmIPr5gyjXv50wdBDU+blRLr1q3tRa1w/ZId6Soi5JN/4Vs8L4Bxg/F2nGb9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AUrEpXVA;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=AJzm+MRn;
+	arc=none smtp.remote-ip=113.46.200.223
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249A6606A31E;
-	Wed, 25 Nov 2026 01:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14D4606A321;
+	Wed, 25 Nov 2026 01:36:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E14D4606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AUrEpXVA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B4D91F000CA;
-	Wed, 25 Nov 2026 01:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795570337;
-	bh=og5FI6XPTPwFhyPH6I0WYk7eOtsOgs0wLbpVaIplXks=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=AUrEpXVAjM8bz2I2DWmDW2a2h7J84X+Q58Pkdgk4IdFrP8XGgwZcEnJBoy1LsUTiY
-	 AMz4FUNqo5EpmLOZiikYpnpe6t96aHKMh4sQSuXJZcYPUGhFLTTgXemKdOiLVVDcr2
-	 QmfEORqou1gCEsegiiOo7JrLL3NfHUybgf+bXhhe7T/1xN3HI4vzGa5G5QgFo1G9LH
-	 dR1zjSrZfeY0WAOtxikEDFS8P2pYEK94IDviO9sMC372CSoYrdp9J793W2ByKcrSKq
-	 NyESCGqoPviJQLWp0Yfyy3bdfISde/0fW1yWjKY5bdYnjWeWFG0Z4LKpGMNyG4Qo4s
-	 qssgyk+G1rX+w==
-From: SJ Park <sj@kernel.org>
-To: Kairui Song via B4 Relay <devnull+kasong.tencent.com@kernel.org>
-Cc: SJ Park <sj@kernel.org>,
-	linux-mm@kvack.org,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Chris Li <chrisl@kernel.org>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Nico Pache <nico.pache@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Barry Song <baohua@kernel.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Gregory Price <gourry@gourry.net>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Lance Yang <lance.yang@linux.dev>,
-	Hugh Dickins <hughd@google.com>,
-	David Rientjes <rientjes@google.com>,
-	Yu Zhao <yuzhao@google.com>,
-	Vernon Yang <vernon2gm@gmail.com>,
-	Zicheng Wang <wangzicheng@honor.com>,
-	Tal Zussman <tz2294@columbia.edu>,
-	Kairui Song <ryncsn@gmail.com>,
-	Xiang Liu <liuxiang.277@bytedance.com>,
-	Ehab Ababneh <ehab.ababneh@intel.com>,
-	Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>,
-	Lian Wang <lianux.mm@gmail.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Kunwu Chan <kunwu.chan@gmail.com>,
-	Hui Zhu <hui.zhu@linux.dev>,
-	Maxim Muzafarov <maxmuzaf@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	Tianyi Chen <hi@tychen.cc>,
-	Kairui Song <kasong@tencent.com>,
-	Ridong Chen <ridong.chen@linux.dev>
-Subject: Re: [PATCH v6 02/18] mm/memcontrol: allow update of LRU statistic without holding LRU lock
-Date: Tue, 24 Nov 2026 17:32:07 -0800
-Message-ID: <20261125013208.98216-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261124-mglru-fg-v6-2-8ffea39934a6@tencent.com>
-References: 
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=AJzm+MRn
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=CoDH69e6XzIOtyxojAs/Hua9h2l7rwpIoBGHHmKkX/0=;
+	b=AJzm+MRn1kIlxfFbZWUb3cfgNUmek2GqBNhHqigRQR025B6jY0e8r+99HpWLGK442Q8ZphyXA
+	JiUtke7ZEpnOGfX8cb6EbnGzNf9t1PU0KQ+WVpUFlWPBVZfamdxDURNKiYMOOH9EUlZMwJNUW4v
+	3IrPdCwyI5CzYsze9KE9Sy0=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4jZ2M52YhZzmV6H;
+	Wed, 25 Nov 2026 09:36:01 +0800 (CST)
+Received: from whupemk300003.china.huawei.com (unknown [7.152.185.49])
+	by mail.maildlp.com (Postfix) with ESMTPS id E542B40563;
+	Wed, 25 Nov 2026 09:36:24 +0800 (CST)
+Received: from huawei.com (10.50.87.204) by whupemk300003.china.huawei.com
+ (7.152.185.49) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 25 Nov
+ 2026 09:36:23 +0800
+From: Zhang Yuwei <zhangyuwei20@huawei.com>
+To: Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+	<mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Joerg Roedel <joro@8bytes.org>, Will
+ Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <iommu@lists.linux.dev>,
+	<chenjun102@huawei.com>, <zhangyuwei20@huawei.com>
+Subject: [PATCH] iommu: Trace I/O page fault response latency
+Date: Wed, 25 Nov 2026 09:34:30 +0800
+Message-ID: <20261125013430.2144822-1-zhangyuwei20@huawei.com>
+X-Mailer: git-send-email 2.22.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -110,30 +74,273 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ whupemk300003.china.huawei.com (7.152.185.49)
 
-On Tue, 24 Nov 2026 02:52:54 +0800 Kairui Song via B4 Relay <devnull+kasong.tencent.com@kernel.org> wrote:
+From: Chen Jun <chenjun102@huawei.com>
 
-> From: Kairui Song <kasong@tencent.com>
-> 
-> To enable moving file pages in folio_mark_accessed directly and lazily
-> for MGLRU, allow updating the LRU statistic atomically without holding a
-> lock. It may cause temporary counter underflow, which should be fine as
-> the counter is eventually consistent and only serves as an estimate.
+Carry an optional monotonic timestamp with each IOPF and preserve it
+across group construction, including allocation error paths. Sample it
+at the common report entry point and record latency after the driver's
+page_response callback returns.
 
-Makes sense to me.
+Cover asynchronous group responses and synchronous error responses. For
+grouped requests, measure from reporting the last fault in the group.
+Use existing tracing configuration and record fault identity, response
+code and elapsed nanoseconds without command submission return values.
+Print PASID validity inline as pasid(v) or pasid(i), retaining the raw
+validity field for programmatic consumers.
 
-> 
-> Reviewed-by: Barry Song <baohua@kernel.org>
-> Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
-> Tested-by: Andrew Morton <akpm@linux-foundation.org>
-> Acked-by: Muchun Song (ByteDance) <muchun.song@linux.dev>
-> Reviewed-by: Lian Wang <lianux.mm@gmail.com>
-> Signed-off-by: Kairui Song <kasong@tencent.com>
+Document the software timing boundaries and tracefs interface.
 
-Reviewed-by: SJ Park <sj@kernel.org>
+The implementation was validated with x86_64 builds with tracing
+enabled and tracing disabled.
 
+Signed-off-by: Chen Jun <chenjun102@huawei.com>
+Signed-off-by: Zhang Yuwei <zhangyuwei20@huawei.com>
+---
+ Documentation/trace/index.rst      |  1 +
+ Documentation/trace/iommu-iopf.rst | 52 ++++++++++++++++++++++++++++++
+ MAINTAINERS                        |  2 ++
+ drivers/iommu/io-pgfault.c         | 17 ++++++++++
+ drivers/iommu/iommu-traces.c       |  1 +
+ include/linux/iommu.h              |  2 ++
+ include/trace/events/iommu.h       | 36 +++++++++++++++++++++
+ 7 files changed, 111 insertions(+)
+ create mode 100644 Documentation/trace/iommu-iopf.rst
 
-Thanks,
-SJ
+diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+index f4058e8e92e3..e61e428ecd68 100644
+--- a/Documentation/trace/index.rst
++++ b/Documentation/trace/index.rst
+@@ -57,6 +57,7 @@ applications.
+    events-landlock
+    events-pci
+    events-pci-controller
++   iommu-iopf
+    boottime-trace
+    histogram
+    histogram-design
+diff --git a/Documentation/trace/iommu-iopf.rst b/Documentation/trace/iommu-iopf.rst
+new file mode 100644
+index 000000000000..259cf23c6899
+--- /dev/null
++++ b/Documentation/trace/iommu-iopf.rst
+@@ -0,0 +1,52 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++IOMMU I/O page fault response latency
++====================================
++
++The event uses the existing IOMMU I/O page fault handling and event tracing
++configuration; no additional configuration option is needed. For example,
++``CONFIG_ARM_SMMU_V3_SVA`` selects the I/O page fault handling infrastructure
++for ARM SMMUv3.
++
++The ``iommu:iopf_latency`` event measures software response latency from
++entry to ``iommu_report_device_fault()`` until the IOMMU driver's
++``page_response()`` callback returns. Both asynchronous group responses
++and synchronous error responses are covered. It includes software queueing
++and fault handling, but excludes time in hardware queues before reporting.
++The meaning of callback completion depends on the driver; for ARM SMMUv3
++it is after RESUME command submission returns, not after transaction
++recovery. No additional command synchronization is issued.
++
++For grouped requests, one sample measures the interval from reporting the
++last fault in the group to responding to that group. Earlier partial
++requests do not each receive a separate latency event when assembled into
++a group. The address and PASID fields identify the last fault. A
++synchronous error response instead identifies the fault being rejected.
++For ARM SMMUv3 EVTQ stall faults, each reported event is marked as the last
++fault of its group.
++
++For example, with tracefs mounted at ``/sys/kernel/tracing``::
++
++    echo 1 > /sys/kernel/tracing/events/iommu/iopf_latency/enable
++    cat /sys/kernel/tracing/trace_pipe
++    echo 0 > /sys/kernel/tracing/events/iommu/iopf_latency/enable
++
++Each response records the device name, PASID and its validity, group ID
++(stall tag on ARM SMMUv3), fault address, response code, and ``duration_ns``
++in nanoseconds.
++Response codes are
++``IOMMU_PAGE_RESP_SUCCESS`` (0), ``IOMMU_PAGE_RESP_INVALID`` (1), and
++``IOMMU_PAGE_RESP_FAILURE`` (2). The event does not report whether command
++submission succeeded.
++
++Timestamps are taken only while the tracepoint has an enabled consumer.
++A response without a sampled start time produces no latency event. A
++sampled request may span disabling and re-enabling the event, in which case
++the full interval is reported if the tracepoint is enabled at response
++time. Enable transitions are best effort with respect to concurrent faults.
++Trace filters and ring buffer overruns can discard records as usual.
++
++``tracing_on=0`` stops trace buffer recording but does not necessarily
++disable the tracepoint. Other consumers, including perf and BPF, can also
++keep it enabled. Events that never reach the response callback have no
++completed interval to report.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 782389bd5cd3..82217afd67e2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13704,10 +13704,12 @@ L:	iommu@lists.linux.dev
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git
+ F:	Documentation/devicetree/bindings/iommu/
++F:	Documentation/trace/iommu-iopf.rst
+ F:	drivers/iommu/
+ F:	include/linux/iommu.h
+ F:	include/linux/iova.h
+ F:	include/linux/of_iommu.h
++F:	include/trace/events/iommu.h
+ F:	rust/kernel/iommu/
+ 
+ IOMMUFD
+diff --git a/drivers/iommu/io-pgfault.c b/drivers/iommu/io-pgfault.c
+index c16ff1fc4b95..72e654ea5ffe 100644
+--- a/drivers/iommu/io-pgfault.c
++++ b/drivers/iommu/io-pgfault.c
+@@ -6,11 +6,14 @@
+  */
+ 
+ #include <linux/iommu.h>
++#include <linux/ktime.h>
+ #include <linux/list.h>
+ #include <linux/sched/mm.h>
+ #include <linux/slab.h>
+ #include <linux/workqueue.h>
+ 
++#include <trace/events/iommu.h>
++
+ #include "iommu-priv.h"
+ 
+ /*
+@@ -96,6 +99,7 @@ static struct iopf_group *iopf_group_alloc(struct iommu_fault_param *iopf_param,
+ 
+ 	group->fault_param = iopf_param;
+ 	group->last_fault.fault = evt->fault;
++	group->last_fault.report_time_ns = evt->report_time_ns;
+ 	INIT_LIST_HEAD(&group->faults);
+ 	INIT_LIST_HEAD(&group->pending_node);
+ 	list_add(&group->last_fault.list, &group->faults);
+@@ -155,6 +159,14 @@ static struct iommu_attach_handle *find_fault_handler(struct device *dev,
+ 	return attach_handle;
+ }
+ 
++static void iopf_trace_response(struct device *dev, const struct iopf_fault *evt,
++				const struct iommu_page_response *resp)
++{
++	if (trace_iopf_latency_enabled() && evt->report_time_ns)
++		trace_iopf_latency(dev, evt, resp,
++				   ktime_get_ns() - evt->report_time_ns);
++}
++
+ static void iopf_error_response(struct device *dev, struct iopf_fault *evt)
+ {
+ 	const struct iommu_ops *ops = dev_iommu_ops(dev);
+@@ -166,6 +178,7 @@ static void iopf_error_response(struct device *dev, struct iopf_fault *evt)
+ 	};
+ 
+ 	ops->page_response(dev, evt, &resp);
++	iopf_trace_response(dev, evt, &resp);
+ }
+ 
+ /**
+@@ -219,6 +232,9 @@ int iommu_report_device_fault(struct device *dev, struct iopf_fault *evt)
+ 	struct iopf_group abort_group = {};
+ 	struct iopf_group *group;
+ 
++	/* Error paths may respond synchronously before reporting returns. */
++	evt->report_time_ns = trace_iopf_latency_enabled() ? ktime_get_ns() : 0;
++
+ 	attach_handle = find_fault_handler(dev, evt);
+ 	if (!attach_handle)
+ 		goto err_bad_iopf;
+@@ -334,6 +350,7 @@ void iopf_group_response(struct iopf_group *group,
+ 
+ 	mutex_lock(&fault_param->lock);
+ 	ops->page_response(dev, &group->last_fault, &resp);
++	iopf_trace_response(dev, iopf, &resp);
+ 	list_del_init(&group->pending_node);
+ 	mutex_unlock(&fault_param->lock);
+ }
+diff --git a/drivers/iommu/iommu-traces.c b/drivers/iommu/iommu-traces.c
+index 23416bf76df9..ce2ab3277b5f 100644
+--- a/drivers/iommu/iommu-traces.c
++++ b/drivers/iommu/iommu-traces.c
+@@ -25,3 +25,4 @@ EXPORT_TRACEPOINT_SYMBOL_GPL(unmap);
+ 
+ /* iommu_error */
+ EXPORT_TRACEPOINT_SYMBOL_GPL(io_page_fault);
++EXPORT_TRACEPOINT_SYMBOL_GPL(iopf_latency);
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index ac43b8b93f14..d797b42fdb20 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -125,6 +125,8 @@ struct iopf_fault {
+ 	struct iommu_fault fault;
+ 	/* node for pending lists */
+ 	struct list_head list;
++	/* Fault report timestamp in ns, or zero if not sampled. */
++	u64 report_time_ns;
+ };
+ 
+ struct iopf_group {
+diff --git a/include/trace/events/iommu.h b/include/trace/events/iommu.h
+index 373007e567cb..cfcc29a792b2 100644
+--- a/include/trace/events/iommu.h
++++ b/include/trace/events/iommu.h
+@@ -11,6 +11,8 @@
+ #if !defined(_TRACE_IOMMU_H) || defined(TRACE_HEADER_MULTI_READ)
+ #define _TRACE_IOMMU_H
+ 
++#include <linux/device.h>
++#include <linux/iommu.h>
+ #include <linux/tracepoint.h>
+ 
+ struct device;
+@@ -156,6 +158,40 @@ DEFINE_EVENT(iommu_error, io_page_fault,
+ 
+ 	TP_ARGS(dev, iova, flags)
+ );
++
++TRACE_EVENT(iopf_latency,
++
++	TP_PROTO(struct device *dev, const struct iopf_fault *evt,
++		 const struct iommu_page_response *resp, u64 duration_ns),
++
++	TP_ARGS(dev, evt, resp, duration_ns),
++
++	TP_STRUCT__entry(
++		__string(device, dev_name(dev))
++		__field(u32, pasid)
++		__field(bool, pasid_valid)
++		__field(u32, grpid)
++		__field(u64, addr)
++		__field(u32, response)
++		__field(u64, duration_ns)
++	),
++
++	TP_fast_assign(
++		__assign_str(device);
++		__entry->pasid = evt->fault.prm.pasid;
++		__entry->pasid_valid = evt->fault.prm.flags &
++			IOMMU_FAULT_PAGE_REQUEST_PASID_VALID;
++		__entry->grpid = resp->grpid;
++		__entry->addr = evt->fault.prm.addr;
++		__entry->response = resp->code;
++		__entry->duration_ns = duration_ns;
++	),
++
++	TP_printk("device=%s pasid(%c)=%u grpid=%u addr=0x%llx response=%u duration_ns=%llu",
++		  __get_str(device), __entry->pasid_valid ? 'v' : 'i', __entry->pasid,
++		  __entry->grpid, __entry->addr, __entry->response,
++		  __entry->duration_ns)
++);
+ #endif /* _TRACE_IOMMU_H */
+ 
+ /* This part must be outside protection */
+-- 
+2.22.0
 
-[...]
