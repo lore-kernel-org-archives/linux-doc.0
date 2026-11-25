@@ -1,58 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=93.77.172.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795626112;
-	b=ZHf2AFzvy85f5nlu4ZA2Ueb/a8BxtONUn8arEkPMt9m4QgKXA+UcJBoadFSgB2p8qfJ/
-	 ktJlfozbqecLcCmG5PnRysvFpxwbytxd2WFXwnMdy7Mj5Fo69a0Ad30VEieab9Otsg7ux
-	 M+WedaCFScXUmXlOnKs2lGmD+SbN1WR1v3cb1aTHyDyTUNyg49A3EDD+Y9jOiMQDVRfGE
-	 ZU6k9BvZK6wJdT5cGQztQRXrmTAPNXq2cnGXJVsnmkZ7uNYTDM/PXVMnq0BNgjtYASqmQ
-	 LHUUectWzkP2UT/C4xyUTSD/Sm8FTc72CPdmumo/Ry8Z/KTuYhuDOb8ItAgTyhf/K7Q==
+	t=1795626230;
+	b=k6HKtzi8HwxtImYUKRVeCDRc/PS6egOKsQA3Nt2GHX1BD1zHhlo69XLLdFvAXgCLNjK4
+	 Uw8UjGTodhU9QQ+1D5aTP8j/f6tuTZpsS+1bAnI3cx7gs4D5AoJS2LOXECgq0QMeSKjyb
+	 ClcSzcEumby4RIX1heoW7aVBum3IxdbfOJyn+0HXoMbTOQNRDpcO/wna1MNmz8K5dNEpf
+	 Hy0iPYDMgedAqJ37gyaHtI96MDzY8opeM9+LzK0zNO5Qq2resOmCvYNWQzp6Yh0S2NzMP
+	 fDluLnTgCBasgYSPmhszwSP6L6B31XbdKX1OfP+phUB3z0QvobgLWQxrLeuiuMsg1Uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795626112;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=+nUYa6c+5WDvUv90mQky2tB8VpUV0DepU9SZC2YSRME=;
-	b=Gzo4/OnFuj2r9n1uaF/35JA0e00WJRdeE9WOLBQbJLQsAOv5ef3SgfxAyNJw04JuoVWX
-	 JRpqztz/NCIYvsonuD7oOpxS25gtUIB6p24h3eJm7z0G8PQQPs2sCJp+Xom/PhrxLuXYI
-	 W+6bMAvcAIl+miI/V5c9tjiU/8ACEy7+GdP8OLPN9K975Das69nloNNkEJdyGmbdcMgYU
-	 D2fU6YhZ8lCfCb04BuwfzKwunRQ4+hEzp3KhAiFesRMeMAO6inCDAzMWKm/z7w07sGzHM
-	 6432tzPizIRxqgDyWbZuFLESns2hbimXh6sUOph8I6CAgpQl2kzOBuyMZ1/e9K+FGuw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795626230;
+	h=DMARC-Filter:Received:Received:X-Yandex-Fwd:DKIM-Signature:From:
+	 Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=5fyibea5xsAv0DxgVuzf78dNLQbsIr/IVZ3YzJ6A8X0=;
+	b=dBq2rWsjshCu+ePQAcPt11YNDrIqF0rZKZthQ/v6wuCLTYNrcx8KfRuOuxF5NC8jccJh
+	 iwQ3b/cXT4T01auXCHC0WCymGca85DCveEApbtqBz+gREezTbiWqQLGC+NuvzCvVx56aH
+	 D85paL/oUJwQQwdMllESaJoXraB1YmlR4k3SCaASvCF1TD+6wSlC07+aUpJPpJMgyyCXt
+	 BwjogJJoogDxaivAxpvo8mEx6d0cnivxrKXuDkCpy7nLmyPafIzLE1NyFz4lMXJfhcQiV
+	 JSHioftdC7j4hWLWCo+F1RzNW4CNdRpTvL+1YPvRU1mahHLOiFmizTRTxvIhiw5/5PQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ox/JaE3E";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=yandex-team.ru;
+	spf=pass smtp.mailfrom=yandex-team.ru;
+	dkim=pass header.d=yandex-team.ru header.i=@yandex-team.ru header.a=rsa-sha256 header.s=default header.b=aKmJIWCR;
+	arc=none smtp.remote-ip=93.77.172.5
+Received: from forwardcorp2e.mail.yandex.net (forwardcorp2e.mail.yandex.net [93.77.172.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225F4606A31E;
-	Wed, 25 Nov 2026 17:01:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53977606A31E;
+	Wed, 25 Nov 2026 17:03:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53977606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex-team.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ox/JaE3E
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0159D1F000C6;
-	Wed, 25 Nov 2026 17:01:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795626111;
-	bh=+nUYa6c+5WDvUv90mQky2tB8VpUV0DepU9SZC2YSRME=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ox/JaE3E8aRrpR4xKKhExs9j+oNdc++Ij5WHK9IxOIQxB8NrX81eyvNK1cs8159Z+
-	 s0IHlC92PcjVEu6vNmseYg8unAAmfNNVBSjhpBEtry5ozIqKiNoC67PdQyDdLUQhEz
-	 F4Zf+G5283T3YfLsc/+0GhKeeHU54k1iTyzdq2B+wpXRvqDRCn1ZTvcJsAJtEyz5ES
-	 b4DZxxMQ3zcnCPYhtbjic+ixudhTyiD0tMkRUATbUlz6ImcNpShdnL7vUEYy86JNJf
-	 FyJCReCwDnvMKausiLA+BVM0ut7BdNDLJdSdV1vp1x8vYQneCbAMrFcauS+ei3Mdd+
-	 NqKQce0yVZSpg==
-Date: Wed, 25 Nov 2026 18:01:48 +0100
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Zixin Wang <w1355457260@gmail.com>, linux-doc@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, darwi@linutronix.de,
-	john.ogness@linutronix.de, clrkwllms@kernel.org,
-	rostedt@goodmis.org, corbet@lwn.net, wagi@monom.org,
-	atomlin@atomlin.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] Documentation: real-time: Add runtime tuning guide
-Message-ID: <awcUfLXNfhoYvHJa@localhost.localdomain>
-References: <20261125074658.33117-1-w1355457260@gmail.com>
- <awbgq0xQyJATel0_@localhost.localdomain>
- <20261125145253.iWfxNCmy@linutronix.de>
+	dkim=pass (1024-bit key, unprotected) header.d=yandex-team.ru header.i=@yandex-team.ru header.a=rsa-sha256 header.s=default header.b=aKmJIWCR
+Received: from mail-nwsmtp-smtp-corp-main-80 (mail-nwsmtp-smtp-corp-main-80.yp-c.yandex.net)
+	by forwardcorp2e.mail.yandex.net (postfix) with ESMTPS id BDD10C02AF;
+	Wed, 25 Nov 2026 20:03:39 +0300 (MSK)
+Received: from [127.0.1.1]
+	by mail-nwsmtp-smtp-corp-main-80 with ESMTPSA id a3lrP22Zo8c0-42NguKdy;
+	Wed, 25 Nov 2026 20:03:39 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+	s=default; t=1795626219;
+	bh=5fyibea5xsAv0DxgVuzf78dNLQbsIr/IVZ3YzJ6A8X0=;
+	h=Cc:To:Message-Id:Date:Subject:From;
+	b=aKmJIWCRFpLJGwyIXhwL4qDqJkPOWvlFxpoxvA7QEnoOKlkJVev9qiCttoz75Zteg
+	 +d4EUsuZmhd0Rg/y1xuane2A+gLvyZrCJ4Czbd3aYSSnxNj6WrIdb6g6m/lJ+cmn1n
+	 GOAGkFjoRZTu+pswm7r6h5p2Yf8m1pwa2WbgZ+oY=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-80; dkim=pass header.i=@yandex-team.ru
+From: Mikhail Rudenko <xyzzy@yandex-team.ru>
+Subject: [PATCH 0/3] Implement handoff for EFI earlycon
+Date: Wed, 25 Nov 2026 20:03:24 +0300
+Message-Id: <20261125-efi-earlycon-v1-0-49ac2c0a430b@yandex-team.ru>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,43 +61,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261125145253.iWfxNCmy@linutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQyNT3dS0TN3UxKKcyuT8PF1Tw+QUk6RUk1SLFGMloJaCIqB0Bdi46Fg
+ Iv7g0KSs1uQRkhlJtLQCwffS9cAAAAA==
+X-Change-ID: 20261125-efi-earlycon-51cd4be4e8d3
+To: Ard Biesheuvel <ardb@kernel.org>, 
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Peter Jones <pjones@redhat.com>, 
+ Helge Deller <deller@gmx.de>, Hans de Goede <hansg@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Mikhail Rudenko <xyzzy@yandex-team.ru>
+X-Mailer: b4 0.15.2
 
-Le Wed, Nov 25, 2026 at 03:52:53PM +0100, Sebastian Andrzej Siewior a écrit :
-> On 2026-11-25 14:20:43 [+0100], Frederic Weisbecker wrote:
-> > Le Wed, Nov 25, 2026 at 07:46:58AM +0000, Zixin Wang a écrit :
-> > > +CPU isolation
-> > > +=============
-> > 
-> > Isn't it kind of duplicating Documentation/admin-guide/cpu-isolation.rst ?
-> 
-> That is why you are here. I would suggest a minimum here to make sense
-> and point the details to that one.
+This small series aims at making EFI earlycon a better debugging
+tool. Currently, when earlycon=efifb us requested, there are two
+options. (1) By default, earlycon is unregistered as soon as real
+console comes up, before devices init. Sometimes, "real" device is VT
+with dummycon, resulting in no console output untile framebuffer/drm
+console takes over. (2) When keep_bootcon option is used, earlycon
+never unregisters. This solves the issue of (1), but results in
+display corruption when both EFI earlycon and framebuffer/drm drivers
+write to the same aperture.
 
-Right.
+The approach here is to take the best from (1) and (2): EFI earlycon
+unregisters exactly when the frambuffer/drm driver claims
+aperture. This new behavior is gated with 'earlycon=efifb,handoff'
+option, so the default case does not change.
 
-> The wording is the old "RCU documentation" and it is a bit strong. The
-> "power consumption" comes from the part that the RCU threads are woken
-> up to check for work. The better improved "real-time response" response
-> comes the fact things like call_rcu() do less work (in their IRQ-off
-> section, including waking a task) so the critical section is smaller.
-> I wouldn't expect a huge difference except on small HW where every
-> opcode becomes visible.
+Patch 1 aligns EFI earlycon framebuffer unmapping time with actual
+console unregistration.
 
-Ah yes indeed, from the call_rcu() perspective it's indeed less work,
-especially if the queue is empty, the first callback doesn't need
-to do the wake-up. That could be worth mentioning.
+Patch 2 moves aperture ackquisition in efifb and simplefb before
+mapping the framebuffer. Also it moves resource size checks before
+aperture ackquisition in simpledrm.
 
-Thanks.
+Finally, patch 3 implements "handoff" option for efifb, and wires
+conditional EFI earlycon unregistration to
+devm_aperture_acquire_for_platform_device(),
+aperture_remove_conflicting_devices() and
+aperture_remove_conflicting_pci_devices().
 
-> 
-> > Thanks.
-> 
-> Sebastian
+Signed-off-by: Mikhail Rudenko <xyzzy@yandex-team.ru>
+---
+Mikhail Rudenko (3):
+      efi: earlycon: unmap framebuffer when the console is unregistered
+      video: acquire firmware framebuffer apertures before mapping
+      video: aperture: hand off EFI earlycon on aperture ackquisition
 
--- 
-Frederic Weisbecker
-SUSE Labs
+ Documentation/admin-guide/kernel-parameters.txt |  5 ++-
+ drivers/firmware/efi/earlycon.c                 | 49 ++++++++++++++++++++++---
+ drivers/gpu/drm/sysfb/simpledrm.c               | 28 +++++++-------
+ drivers/video/aperture.c                        | 13 ++++++-
+ drivers/video/fbdev/efifb.c                     | 12 +++---
+ drivers/video/fbdev/simplefb.c                  | 11 +++---
+ include/linux/efi.h                             |  7 ++++
+ 7 files changed, 93 insertions(+), 32 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261125-efi-earlycon-51cd4be4e8d3
+
+Best regards,
+--  
+Mikhail Rudenko <xyzzy@yandex-team.ru>
+
