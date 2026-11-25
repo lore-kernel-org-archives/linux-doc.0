@@ -1,75 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795586061;
-	b=qRHZfO4mxyfzNKqDsaAaUEhYHmvc/9qKUQPc+YuxU54cBRHv3ngxjkFGfzdAnQr7Ah37
-	 vJMwwu6FOkHQYrCWLct9uNS9fMCrZIGe9Z5QFy0N/fngn2rFZG3v+JaJ9iuotVbcHTFGH
-	 /W3cVvx+GR0b+RtgwQGHQMbxdtmCmkEjKX5mdPtsvUIIEeNlmQNvAGf1wvi9JN/jz4o1N
-	 gNbCvrVDTMtNu5sJ0njuQyKCa/RYzuX/75LJG7sa2A5ibzHvCnSDDX7vR6JqLIGx5jHSm
-	 OZce5snfDYvLcCdjbM6837V6OJcnI6YTNgSQRu+6wGpXzw5UrmaHED74ni+jTemHrZw==
+	t=1795587121;
+	b=qsbyHUfAhrqa/2NGqDjrJ/iA/IwGINJ4bcqO2SwBX7F9fG03Z4Y8z3dPvah5tI5kBXod
+	 /IO1X7qt/IyKCnafaVVERGfkBVfja5fiysyh9jUuX00zZuaeugdI9BAC8s3ua1QKPeNhG
+	 olsudOQdqdez2tlyxd7nK8KVNAAJ/g7yzDc26JLbgRAbp3I6LH2mGOyB7hSXGquFb2Ajm
+	 uedGlgeXKYYyZRBC0XoxGBx2Rf2/d9EUXJfzhBbe1Z0BBXd0Z0fdpq4lihe7BU0mMsGDC
+	 fRpd/kE7N4zdKourPDT9WN4RKIcFaVV1kR4AqvPF4LqqLg4sErMkCLoU5IWfzuSkiVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795586061;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=+Bg1tcVFicbbXaykMYvFz5W401OjX0GZjBhGqh2OgKc=;
-	b=lE7LwH6en3OpnzTKGJWLxf9kzyRXemVSgyF7KTsPLsvvws/1XiTXL8PgnK0y0zfNsi8Y
-	 Wk3bsgLckm7JLNNenYMaYa2yzgihQSMY/LVwFXqhjwwLS1CuGYVZ0eiHNf+cEoZ8cvHXe
-	 drZgZMcennS8r2osasESjvUREP6hSAe+K7kFalRTrniwZ87dIuyAoBkDP8ahbcZT/DzLo
-	 TISFD64eK9vlrnKaY9cphMLOxxSOLiu7ZCBDuuv/CocyQXhz6f28DckrpPBqpv7OcSa+B
-	 3FpeMNh9rNPk2+t9jfdIggxVNExmCOymIEijX07CE5krhooM8D9rc9qcCVsidLWNLww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795587121;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=QFqAXcQkxOquMyWdhHaXd2jZau8ELeRT34k6c5WkgOA=;
+	b=Htnq4LLnlr8XRafUkVKtSSV/tNHWL5y0q3Zxvo4plcga49BTXmhKfs/GZ0afFxBgO39Q
+	 dmvdsEqraqhgFafscBPaG42O7sLMMV6TzoEg+PwPdNGombySATAdrWTZ/CVG+gHiNLUmN
+	 1Qq1aB/q2iX4BvGNpvBKuDxEcP4bXVty8ZKKvxoL8HsnyQjWXWePri4gdlfdtsKPdWTGQ
+	 ihw32TaburbFkIIqYZKCyuRKFOoy3Y+O4uUdXUOKK0Ue1hXa5zoR8VTf6UMRau+Y0r34I
+	 ztMMOu0ouNAgjJC2QKqK8urTftXF6+zDlcNYpbnKyqrH8I8g7UCIZ+zVl6xYYYJfXsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--starchang.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="B/L4cdtp";
-	arc=none smtp.remote-ip=209.85.215.199
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8DF606A326
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 05:54:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC8DF606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--starchang.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=B/L4cdtp
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cdd97f89731so3183423a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 21:54:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795586060; x=1796190860; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+Bg1tcVFicbbXaykMYvFz5W401OjX0GZjBhGqh2OgKc=;
-        b=B/L4cdtpUN1r61Do/Avk7MB+fEHXhtLtoi1+4dDF85c4N39C2chGUEwp260pb14DRV
-         PDpN7fYYpBtwBBqWzMK7PneIVbFtHK+Q5tUWfGHSxIZ+g13P/j04BFWMDzquMTTJIesQ
-         iIrr7sab8PBM2rLOGh9CsppAxEU79Nzmcy/4W5TfEWvRZYDQLplf2Vno6Vdr9KqOw/qq
-         v4xrhjHy7A34AmUlsjDSeLFg/9nBsddyRVv4voI/Zr8yfjSWR0DCaTAt5Oip6nIBmTtJ
-         sPuZSAa12Fwf7DluuROQuQOtJ9DGa63LAobE0GRJdg0Q/iTpXxumUsnfXMNZZcPDKGXp
-         Ul0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795586060; x=1796190860;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+Bg1tcVFicbbXaykMYvFz5W401OjX0GZjBhGqh2OgKc=;
-        b=qF5gzGRKfvaQNzmjud3+yvdQB2JUrasqG77tMNbMXHnzQcf1S8obbXokv+Osn09QFK
-         UUv5kuTWIU3oylmMCxOeFqL0owpYRb0WatjmueuPxib5bDbddSgL0w6XFeH+p3eqx894
-         MyihNJvoivFPJhKQrCECXdOvPvatCBfG77LTFlCBk3bq+QDp7REtJkuW+F+wIchnJgdH
-         w/XFeLcJR5BcfRxKPMLZZ76AD/rsU/ouSoOcJP6cPAMxXtjpRQrY6lvgMNQwAMVPQoJR
-         Uu+iBK7mv4PqUGoSrb0FLP0lpBUO0Mo120P0mzwkOchYL5xxfW/h4zX7J/9ydEJdFoJ8
-         zg9Q==
-X-Forwarded-Encrypted: i=1; AL+hErFAmsUareZubFMyzVK04aQtn0xBubvIDW0hQoHdUy0D72PAGpc6yJyLfZEWsrkJutbVaZXQAIBlDgc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/TIVO6fuScef1bZlzwFDRTZQ2Wwg/sMk4xlsfDC4xeDqlgwSTL
-	coN9nfePOqjhBOReGVYK28LvNGILbUpJn0tgSPvnjv6bWeC2qlHX6By+IlRU8345ORT4vxXw/Fu
-	aqqNEkEeo3Mj8nxgzyg==
-X-Received: from pgin25-n1.prod.google.com ([2002:a05:6a02:8799:10b0:cda:d1e4:341b])
- (user=starchang job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:164d:b0:3b3:a575:846a with SMTP id 98e67ed59e1d1-3b40a5de1bcmr13038342a91.22.1795586059832;
- Tue, 24 Nov 2026 21:54:19 -0800 (PST)
-Date: Wed, 25 Nov 2026 05:54:16 +0000
-In-Reply-To: <179553165359.3135.5730863120205025514@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA656606A31E;
+	Wed, 25 Nov 2026 06:12:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA656606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 4D49468AFE; Wed, 25 Nov 2026 07:11:54 +0100 (CET)
+Date: Wed, 25 Nov 2026 07:11:54 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Mengmeng Zhao <mengmeng.zhao@linux.dev>
+Cc: Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Anuj Gupta <anuj1072538@gmail.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+	Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
+	Philipp Stanner <phasta@kernel.org>, Dan Williams <djbw@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, tytso@mit.edu,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Baokun Li <libaokun@linux.alibaba.com>,
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+	Zhang Yi <yi.zhang@huawei.com>, asml.silence@gmail.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, Li Wang <liwang@kylinos.cn>,
+	Mengmeng Zhao <zhaomengmeng@kylinos.cn>
+Subject: Re: [RFC PATCH v2 6/8] fs: add FMODE_CAN_DMABUF_IO and require it
+ for dma-buf I/O contexts
+Message-ID: <20261125061154.GA20910@lst.de>
+References: <20261113070621.273953-1-mengmeng.zhao@linux.dev> <20261113070621.273953-7-mengmeng.zhao@linux.dev> <20261120-faust-bohnenkraut-reduzieren-a30811186a15@brauner> <e9860ead-c5f3-4dd0-beaa-d92396c266d9@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,42 +66,21 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261123144535.155300-1-starchang@google.com> <179553165359.3135.5730863120205025514@kernel.org>
-X-Mailer: git-send-email 2.56.1.831.g720f3f5937-goog
-Message-ID: <20261125055416.1987174-1-starchang@google.com>
-Subject: Re: [PATCH net v7] arp: Do not update neighbours from ARP in L2
- multicast/broadcast frames
-From: Star Chang <starchang@google.com>
-To: netdev-bot+sashiko@kernel.org
-Cc: "David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Willem de Bruijn <willemb@google.com>, Simon Horman <horms@kernel.org>, David Ahern <dsahern@kernel.org>, 
-	Ido Schimmel <idosch@nvidia.com>, Julian Anastasov <ja@ssi.bg>, Johannes Berg <johannes@sipsolutions.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, wangroger@google.com, starchang@google.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e9860ead-c5f3-4dd0-beaa-d92396c266d9@linux.dev>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Thanks for the review.
+On Mon, Nov 23, 2026 at 09:28:07AM +0800, Mengmeng Zhao wrote:
+> > This is stealing yet another FMODE_* bit for special-purpose stuff.
+> > We're really really short of them. Did Christoph suggest this?
+> Hi Christian, thanks for pointing out this. If I understand correctly, 
+> Christoph suggests a new file->f_mode to allow dma-buf check in RFC v1[1]. 
+> 
+> Hi Christoph, do you have any comments or suggestions? I'am happy to adjust
+> this in the next version if there is a better approach.
 
-> [Medium] Should these packets be consumed instead of dropped?
+I didn't suggest a particular approach, but the FMODE_ bits seems very
+fitting here as it sorts out the support issue very well.
 
-I chose to drop them because, with the knob set, ARP in L2 BMC frames
-is rejected for neighbour learning, similar to how the IP paths drop
-unicast packets in L2 BMC frames. But you have a point that ordinary
-broadcast requests for other hosts would then show up as drops. I'm
-fine with switching to consume_skb() or a specific drop reason if the
-maintainers prefer.
-
-> [Medium] ... changes the semantics of an existing IP-only knob
-
-This is intended. With the knob set, ARP in L2 BMC frames is not trusted
-for neighbour learning: a forged GARP or broadcast reply/request with
-sip = gateway is exactly the attack. Ignoring announcements and arp_accept
-for such frames follows from that, and the knob is opt-in
-(drop_gratuitous_arp already drops GARP entirely).
-
-The same applies to IPv4 link-local peers that broadcast their replies
-(RFC 3927): exempting them would let an attacker forge those entries
-again, so I'd rather keep it strict and document it, if wanted.
