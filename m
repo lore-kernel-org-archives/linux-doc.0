@@ -1,104 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795593065;
-	b=cQ0unfpT+d1Xh8Y9mWXrdRYXL4oxZ2vLfXOMvxPscp0R+tFjo3zc+FWfohToD30muG0Q
-	 bu5sWyccg5FEG0uRFjU/e+eK38qVO1FLsK2lSGLirgaRSUW3GFd63zQuS/9ICwpOoQMJK
-	 XAKECaIDKb1EmpL3w4/RC0MrBbvit0gjRiF71XeKY1MEVW9wQhS92sbyBu0aoJcYSDvJ4
-	 qNxfOlo8TXqgpIcLfsF6xyQ+tQ05+1j/tOdhfpKo+petlbiMn5G/SULAhiW5ViDz61brb
-	 8XDEOljL7gJw5s5zeda7M0lQeYbGkJXNhl3bOQqeuaRwfJpYAD5ltUQJPAqYunwprcA==
+	t=1795593986;
+	b=wSltgDbsAccVdwEGEHnb3TFBQLgkll374jz6AxmLTBR5q7/JemsgkOXX8Y/a7kz7W9Yd
+	 lvjjrdNXmAdvwL7AtvJRpLgS+fcXjRY0JzkXqTBtzVNrWecqx2Wm1fHAZST+wHGViE4Cz
+	 FaUDAJFa3R3tdi5eHHBcQXBPCGREn7Q/FJ8IDNKshhoEXWAasEUy1pYeZoDjtILRakBFA
+	 jX1QNlb4SaRSi4hzuQ/EovSBZmgEPQKuCGU1H7qTJJn9FlgYFyoedCbd8bWaut08FaZkt
+	 DOTFPJhDDOtdyEmgNBNwW2K6UENez7kfiDrBw3ECn1SXDqn9BjnfKMNVvlGv496SpJQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795593065;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=CvAjV0S+oO0YGxdmFbKoXiKIWCesLPGwRDNvZl4jprQ=;
-	b=MifcDGUI56T+H7VQiHnz+vlmGHaS8zl0me1PrTNhUqA3fEJf9N6kDF0/n6TkhNXWkoWG
-	 6A15kRfJwdWHuwWlI0NUAG6eyxUyOO6wKIRNNVb7HAhX+z3Pousqb9EVV+nyeZtcLJjeO
-	 3Y4pSx4wPYc2xamB8xx3N/u+JnG9IK+c7czm9VJyI5NDCg5SQHUMUGX2ax78bfwG0IMni
-	 XekiZoslWcVH5sgYbEgOHML5wjQx8KyQEjA9dy4vu/A3RWpg6fWm1bkV9GJt4601MNLkW
-	 yM9z1p1nvtYV/5368c1Tk5cH/Uye5AVHnw5EwVZ8wJ2GjnTKtWHPnw7YGybHJWmhxEg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795593986;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=qtWuoC5FN2MELDFAKVm54MaDOVUHKz/6gxfQ29IMYEs=;
+	b=Hsfs2nAM1xkpvXqykcjYZ3W4PurNyQKOBM0CTsfEjnr5F3yE8G1pgnJCjp/9X1TXnDud
+	 uqnQtnpXkseVBGYplG5wJkOIgUDDfAg5xi5AeAFwr3WVrn40cAY9rkRvdj4gwIeejCAQK
+	 WsErRjR8R2BUEI9Xo8z+2uLOCCR1HsTJXfz7HuFFpnLgGKiKzN3qdPuTvP9uBzkdg8t38
+	 WMtl78VLWKrtU98/ImDF29S2l53/SxAvG5I8CwZp1hQdD6UdR8Ylchy9ln97rmbA+7v5B
+	 sXxjP/9S7VkH/ZBJIXQDuPMb/YHo5t3GHMdmFZdgCKiKtXXo2eZ7A03gIVGiP8IUYaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zFqko7p5;
-	arc=none smtp.remote-ip=74.125.227.130
-Received: from mail-pj2-f2.google.com (mail-pj2-f2.google.com [74.125.227.130])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gUIFb+z3;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0ED606A32E
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 07:51:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F0ED606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED1C606A31E;
+	Wed, 25 Nov 2026 08:06:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zFqko7p5
-Received: by mail-pj2-f2.google.com with SMTP id 98e67ed59e1d1-3b14c80b210so1225407a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 23:51:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795593065; x=1796197865; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=CvAjV0S+oO0YGxdmFbKoXiKIWCesLPGwRDNvZl4jprQ=;
-        b=zFqko7p5m+zohQoNl5FgNLHWrDGTuOAae/lxM/3iRDil0k0nCuKQQ45aIyogl4s+eV
-         2eBdL+zTBhWLsOHDnJbwqKioxMih/+IRCgGQ7sI4Wh/OMjzf2GDVOAFHoPsZIwUbV7dI
-         COWuQFyYhMg9cg5yOiHmHdVMo7KDfjZnnN8q3k8yj10oKjDDR8dMr85xDSd5OSDxgllK
-         lHmHNVFEosZbtynQVfCIBUr8LZp5d5mHJmB5xQC2TaefiFtdLjs/06tz9R2aPFsYN9YL
-         YdAB6FwSApuk5qQktw8vr4pzVnszotzkAUTzLB+VIeb74DUajvQTUThFW/4x6xaXzNlO
-         uDqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795593065; x=1796197865;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CvAjV0S+oO0YGxdmFbKoXiKIWCesLPGwRDNvZl4jprQ=;
-        b=oq6sMnull92gLUZeIWu/y8PSYDIG/fLA3VsPXEQnW08f2IMtT0MsyLZ6YrRxSLVPLn
-         Ls4XEuuvFCkPxezd6xFupHLe0VPzfz3RbNiiWoGSrxbf8qH+8brElQL45Q0G3tpFtFpg
-         44S3p3//ePtVFKAENUoErto3BNg53vm4e/Z69S1kv+hzCgpOD6TFsH7pcIdKVtjo0dYk
-         fb5uS7YlO47YcvbWtbducTIeyyQr2BoXj6ZQLFLU2H6deSJxyuRgsyh5vuisNujHNZk2
-         kSnE9/HL4IXn7uXAA0qQn2dawGODPnEH6kUCXt4AmoucFlfMp/YKw3zFUMoWr0atlDjZ
-         Ef9w==
-X-Forwarded-Encrypted: i=1; AL+hErG9mXW9vaDc/2L/23PfickFhFFRm+yFmDJlH7g2zM802nAwlKBHlZ52EGM3jl3F8CGNbK2eRGatCek=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/9ReXFvXMk7qMQVIWpGADnRW/hDnaAcloYp4H/euIblQTtiGuz
-	F0oiG9fuB3wvMtcrqNGM62WH0IXxa6nOCr6gGutG9k9aMIeb2o0Eh3lB
-X-Gm-Gg: AZFdTZenr5DTjq7FecJ9RpHL4f/eZG8K0SVrABz0batu+tJvVfmocCa4VZq4O035+iT
-	e6tFtb+ZPIEl6dGWRDAEXPAHLvf1r56wI7uZogGhoDHxNbzJOTeKTZ1+b3jbZxcWAp7A0UlieZl
-	YYJL03lv0CntGSRIVH89CoYDoaR9DSGT7Gv+DKdtdPGxpC5SskfXLJT7nW0JQB+f4YPktWRv6Ok
-	J0Sn/kmsIMuVAZ4fSv6FD0M4c3k9cOZ2AXZ+biCpOVHevCTlgdRQXT+5TgA16T7jSNCO16N+lYp
-	5JTJcqUUfUADg5B+3djWOZvKXccbzu3Fq/W38A7YsNbtolSfauQ7aGvwv/Xzew0BdBRkD0eJCvr
-	XmN1fjc1TYrcqoznHVvXatWWQePBWfZeB9W2vRmGIHZ+vhi1hcLM25VxswhzQhJ77J8IXpx2jJS
-	6ddampS4bb+zC2/Ex5XO1hpa9JVSJEE2/8e2/BhT4+FPTEVsrDi/J4svyljTKhjcwIDingirKWt
-	0mlj9NS2qcRURs9K97YWryaVKYMKSd/yShGUMNm0NiPzTeKFv5lCYHUvTd1Qy1Getcv8CZUbA6c
-	DfEWxbJ4kVtcE7kdber4FxhYtQ==
-X-Received: by 2002:a17:90b:57c4:b0:3b0:9cc6:62ba with SMTP id 98e67ed59e1d1-3b41caead33mr14614340a91.38.1795593064735;
-        Tue, 24 Nov 2026 23:51:04 -0800 (PST)
-Received: from nixos ([2409:8a28:ae4:7f20:3645:b698:a929:4bcd])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b44b7c6513sm12341521a91.4.2026.11.24.23.51.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 23:51:04 -0800 (PST)
-From: Zixin Wang <w1355457260@gmail.com>
-To: "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc: Zixin Wang <w1355457260@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	linux-doc@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	corbet@lwn.net,
-	wagi@monom.org,
-	atomlin@atomlin.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] Documentation: real-time: Add boot parameters and task isolation section
-Date: Wed, 25 Nov 2026 07:49:43 +0000
-Message-ID: <20261125075037.33630-1-w1355457260@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <awXN9RY3x5xEGFe4@lx-t490>
-References: <20261124163202.56921-1-w1355457260@gmail.com> <awXN9RY3x5xEGFe4@lx-t490>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gUIFb+z3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0A421F000D4;
+	Wed, 25 Nov 2026 08:06:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795593985;
+	bh=qtWuoC5FN2MELDFAKVm54MaDOVUHKz/6gxfQ29IMYEs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gUIFb+z3EoGY/k5hBc/4s5BAcJqoX9NRdGz5EQ6vBgq3rKgAr7rBRsJERd4dmZigO
+	 sgMEGylJulCdyIpDhHG6/2txMVQjqrlwfpZxIzCQD9ih0XAAV5jcvSffX4lkzrl50w
+	 cDOqkERHka2UohPOATjzjz7RQTUHWII6+yvEv/39m5kvL8wGeIVNx0KY9I4eCtkGIO
+	 7CyKz2J4/slnL7IdCSuRKiy7aSog5s+20Q6CNmFwovssbysi2Rs0WtFZQmgkhVyUTp
+	 WzzU5qaaMeAJRyM1mX5Ul3b1ERZi7ZWbYDbm/BGlP2UbP3Rj7THpZilyDmxSEyIYfZ
+	 j4WqRkjdYr7Qg==
+Date: Wed, 25 Nov 2026 10:06:21 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	Chris Lu <chris.lu@mediatek.com>, Mans Rullgard <mans@mansr.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Cornelia Huck <cornelia.huck@de.ibm.com>,
+	Andrew Morton <akpm@osdl.org>, Jeff Garzik <jeff@garzik.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+	Dan Williams <djbw@kernel.org>, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-input@vger.kernel.org,
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-pci@vger.kernel.org, iommu@lists.linux.dev,
+	linux-coco@lists.linux.dev, Alexey Kardashevskiy <aik@amd.com>,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Greg Kroah-Hartman <gregkh@suse.de>, linux-sound@vger.kernel.org,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v4 21/33] driver core: Introduce a generic device trust
+ level
+Message-ID: <20261125080621.GW14811@unreal>
+References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
+ <20261124-device-trust-core-v4-21-037eb0d17b1f@nvidia.com>
+ <1bc8f048-4d35-484b-af60-2d13541e683f@infradead.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -108,25 +101,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1bc8f048-4d35-484b-af60-2d13541e683f@infradead.org>
 
-Hi Ahmed,
+On Tue, Nov 24, 2026 at 04:13:16PM -0800, Randy Dunlap wrote:
+> Hi Leon,
+> 
+> On 11/24/26 1:43 AM, Leon Romanovsky wrote:
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index 0b3c140babd94..8a94482f0b19b 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -1259,6 +1259,20 @@ Kernel parameters
+> >  	dell_smm_hwmon.fan_max=
+> >  			[HW] Maximum configurable fan speed.
+> >  
+> > +	device_trust	[KNL]
+> > +			Enable device trust with blocked as the implicit default.
+> > +
+> > +	device_trust.default=
+> > +			[KNL] Set initial trust policy for all devices, including
+> > +			hotplugged devices.
+> > +			Format: { default | blocked | adversarial | unrestricted }
+> > +			No trust options selects legacy unrestricted mode, preserving
+> 
+> By "No trust options," do you mean using
+> 	"device_trust.default="
+> or just
+> 	"device_trust", which says above means "blocked"?
+> 
+> If I want the status quo (before generic trust levels), do I need to do
+> anything? If so, what?
 
-Thanks for the review and for pointing out the scope issue.  I have sent v6,
-which moves the runtime tuning material out of kernel-configuration.rst into
-a new Documentation/core-api/real-time/runtime-tuning.rst, and keeps the
-configuration guide focused on Kconfig options.
+I mean that if you do nothing and do not write to any device_trust*
+knob, the system will continue to work exactly as it does now. That is
+what "No trust options" means.
 
-The existing CONFIG_* section headings and anchors in kernel-configuration.rst
-are unchanged, so the documentation links generated by kconfig-checker remain
-valid.  I ran the preempt_rt rules from your v1 checker (reconstructed in the
-7.3.5 tree, since the tool is not merged there): all 12 generated
-documentation URLs resolve to anchors in the built HTML.
+Thanks
 
-The C-state, EFI runtime, CPU isolation, RCU offload, and interrupt affinity
-content from v5 is now in the runtime tuning guide, and the configuration
-guide links to the relevant sections.
-
-Thanks,
-Zixin
+> 
+> > +			bus policy and existing authorization. Otherwise blocked is the> +			implicit default. An explicit value wins regardless of option
+> > +			order. default preserves bus policy; other values replace it.
+> > +			unrestricted disables runtime policy changes.
+> > +			See Documentation/driver-api/driver-model/device-trust.rst.
+> 
+> thanks.
+> -- 
+> ~Randy
+> 
