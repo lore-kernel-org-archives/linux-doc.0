@@ -1,143 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795587252;
-	b=ewHlSMP8rpLkWIDVpUu41zVc6v846CBULUzYbDWL5lgRx7JME+UPXSC9h7OJgI5uOe6o
-	 zw8bWzmquWmjXhxbNSG54VNa7+3CQLVhpGRsRQoBlSdBhg6wJjO86d7/hEDMAG61GXm4E
-	 rXy/Xmr1i2daMHBgj1bQG53juSDuBJPxDUKuWDb1ydTD0eUCqESGD/hxPWZAqlDwS+A7G
-	 I6WI7BPjtWWkCMaaWwnkTqWgvH7MW1ovnDwEGxBmmfcHzbWCWuFiqPWdFDRx2D2z0JbIg
-	 xqqc9/ItCuDetehAUUyEEazeanAX/2Tc0Rm4wM38wSWMGaY1YkGdMLxH7VELnQxMftg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795587252;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=nH1JDKUpxZKr2E7xywv7sSC/lG5A4nxPxWDHndTmH+U=;
-	b=hUhEEe/BfZ5BXebxZ3LAwfTmiEjluT69SppI5QVfVblHOxk88Kodfewj3MaGdqcKs03T
-	 mkhZpRKKAfCQaYxsNXTj+bfW6j1ij8UoIu2tEDxGo8O+sM/rIp5J3OHgcvO2TRCGI7RKF
-	 DbwomOpyLkM2ULZRD1y/+belpPDmBhTO01Y44XYoNmH0h08JPhm3+0LiYnDzzcQhIOj9N
-	 F4VFnSuiEz4vtWLsTlHuu1NT96oftX7pZu5p041qm3Ky+L0TK2SPa72rGR8EMjLPYYu39
-	 7mvQF41r1fbgBxZ3N3heLL19aL5g4pvZci/jyOOTyL5Hb2ix/QcdWE347c22d/HJQww==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=OQ10UQlo;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795588049;
+	b=FlVOMDHbVZv5KXYAo9GDY9+dBPMgl63uuo5PfSlyMgEhpz0XhrplaKX2INOKogrX6wjW
+	 E4gMko22DfQW1X755q0APbDgaeYqSGcYUo4EnS7i1TrSnSKMVw2fqPe5XzfKarO9Gu1SO
+	 8JXb+I6ZYo1HHm/KO/+7eGxisuO70+3IrqY/DipdsCj8fZCmPB6VcPvko7G9Aa6uHXOtX
+	 FhP4ebe/8/9BPzjyjsJse9ZkuB1dFOyRgHmnyUxz2K0XWGOIGP/1ljT2KZzqvs9Fr5Bxc
+	 lge3nMmVVUKGx/NC6MTE0xQJ83dhXQult3yY4Hezh6Wu1AhGppp3uv78Mx3osHunKVg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795588049;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=Wq/CsLeOaCNni5DP6DJOa3Z+MAQ6SwcdPNThAhwhRHc=;
+	b=CMwR7Y96XBfycLMR11LDfISWIk6PrXPby+AhFJ50s/seqzAjcSfG43ljL5qczKCfIz33
+	 8Vpum/eOrprolbbqeJuW8Y5Z1jy3I/e+/qUS2B9DWVHfIrX/JlCOpbi0hB1u96vGAXHwW
+	 JOwYkZwyDq5Z0EJZteOVlmP6juRhg8IuNyOdw0ppE0WGKSdxoI/hDogIgwpbc27RBtaGR
+	 qNfVOel0I0Tg3C29At8feFNdjdqllh3WBDnmN9063MKSx7kKcUMh/6NOUS2kxMq2BG+To
+	 WYDrdAemGnDSf1kBELYhPBR7ZNAt3V+LOgwEWJ5vf9WBJSm2lJi0zYn6X29Vqj773Lg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GDrNdTRK;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89372606A699;
+	Wed, 25 Nov 2026 06:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GDrNdTRK
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795588049;
+	b=gnwLB2HTEip39pDh1BrIjR9m7VOpsBuUJIEIb9SY/D8my7E3ZADhLEJr8ON5JEJ1lm0A
+	 Ee5lIQVs1MfgQTsZsue+hTffPm2XrDyyjWVpoKjrINQFVslmFZBrwuZh74hvh1oynI+e1
+	 TZXkPzoLN1Yskrm/p7U7/OUTfVAzznCVttEtks6wHe7FbZaTbJoUdO3YyK7k0Jml8p6nq
+	 thIKaioXLSVy1iJ49P/PunImn+5h/TwlGjcMX6yTUtiIj7Ae+8Nxk+jvc7z5nmgD8L8bj
+	 txyWM4U/gJkRPyWzqnXJLp09RCMIamVNBy2vrpSdwPmcbzRX10SaebPB/tnBHJSY2Aw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795588049;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=Wq/CsLeOaCNni5DP6DJOa3Z+MAQ6SwcdPNThAhwhRHc=;
+	b=iN9dmAqnjFXNWsjUveQF1l0WkDUrEq3wS479P5RjJ9SZiKO1mjf3DlWBzdmJMIRVnZti
+	 C2LgVNCPpEWie6IRnRDz4POjuplDZNrtJ2vHJtYfrE1bjizYO7uoVVh6PanbVOHfvo0Dd
+	 ZCqsaFHxm5rVMFERJaUwcNrv9xlxvkAb+j/3hrxR/8RJ6KLqeSocjRvVUykz57nkFQF7v
+	 dD45kVla7WlKZPdxfNi4eI8n5WjT86V5iJe0hFeJqWD1ZjmKbt4DnsKL8p8Oom0RfxtkH
+	 tTwX9pVHG1Myi1QswDqbHTyu0T+cFQtB3oYK/enODEBIau4HIfiQ4c2aPjnIfr73IaQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC72606E94B;
-	Wed, 25 Nov 2026 06:14:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FC72606E94B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=OQ10UQlo
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=nH1JDKUpxZKr2E7xywv7sSC/lG5A4nxPxWDHndTmH+U=; b=OQ10UQlojOOElMejsET63HIbzZ
-	3DHzvbtYIGqi3qtZVmlnOiTGbSwjJaXCrsDgpHInm2eUGr8Xc79IeDQYDrtJVitNB0FwJZCPO4B8q
-	+iOBeVWlbGzBejGX44u6FBx6jMlOzwnzs0/RPybD92JWe+ZEhd2F0VZXPfoSXXKlqmHkpJj3BYeff
-	PI7xG81lPzaQFyumhKdnS4tNxkr8IW9Cdx3c7fbkK4m5X/Zh5Rgxrc0VYPw9ZDhRuFltHqM60uFWP
-	hZDBs8jxgJq594XvPuA6d95qyJlYfVavjeq76w/EreE8GdBtyeqVTX0Sp6D1XhKyU0S94iu4liry5
-	Ut1LqIcw==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW6Gh-00000008Wvh-0GYM;
-	Wed, 25 Nov 2026 06:14:11 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	linux-mm@kvack.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	David Heidelberg <david@ixit.cz>,
-	oe-linux-nfc@lists.linux.dev,
-	Chas Williams <3chas3@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	Helge Deller <deller@gmx.de>,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	MPT-FusionLinux.pdl@broadcom.com,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	linux-scsi@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	linux-mtd@lists.infradead.org,
-	Neill Kapron <nkapron@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	xen-devel@lists.xenproject.org,
-	Hans de Goede <hansg@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	kvm@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	linux-ext4@vger.kernel.org,
-	Mike Marshall <hubcap@omnibond.com>,
-	devel@lists.orangefs.org,
-	Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	linux-cifs@vger.kernel.org,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org,
-	Matthew Brost <matthew.brost@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Subject: [PATCH v3 12/12] docs: ioctl-number: update DRM entries
-Date: Tue, 24 Nov 2026 22:13:39 -0800
-Message-ID: <20261125061340.3402300-13-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261125061340.3402300-1-rdunlap@infradead.org>
-References: <20261125061340.3402300-1-rdunlap@infradead.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id C9B5D1F000D2;
+	Wed, 25 Nov 2026 06:27:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795588049;
+	bh=Wq/CsLeOaCNni5DP6DJOa3Z+MAQ6SwcdPNThAhwhRHc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=GDrNdTRKmXOXxR6fp3Q9PBz9JCJzmo2g2XGOFpI4+FQSDh0zyCFCwD6sXNoDJhbpS
+	 LdVG4YX2SMtblWHwco9ykqit9fQIKlKp18FJR2YM7OjTB8/pMp9HGUcgo4+AWRaBO+
+	 aeZ3poKxsXpjN6J5LryWfXrCkf9R1xagHhAXxK+j6IZWk8tLPON/9UD/sCW+ZI/IlA
+	 T+05hUtjSZyg5GLUPjyFVlrnqs+JFJpeEp2m1wm29j8yiBmeXDJb1/5I8FNMe5B47R
+	 tOpFzmzXh3unTEkontv+GsLlIsR6d1jjyOjgEhreHcCTwZxj2IQPjCHZx0tjh1hnKS
+	 GuwU0oimt+GZg==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 5951A4CD58;
+	Wed, 25 Nov 2026 06:27:20 +0000 (UTC)
+From: Jack Wu via B4 Relay <devnull+jackbb_wu.compal.com@kernel.org>
+Date: Wed, 25 Nov 2026 14:27:15 +0800
+Subject: [PATCH net-next v13 2/6] net: wwan: t9xx: Add control plane
+ transaction layer framework
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -147,66 +83,194 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261125-t9xx_driver_v1-v13-2-92d9be5fb51e@compal.com>
+References: <20261125-t9xx_driver_v1-v13-0-92d9be5fb51e@compal.com>
+In-Reply-To: <20261125-t9xx_driver_v1-v13-0-92d9be5fb51e@compal.com>
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>, 
+ Sergey Ryazanov <ryazanov.s.a@gmail.com>, 
+ Johannes Berg <johannes@sipsolutions.net>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Jack Wu <jackbb_wu@compal.com>, 
+ Wen-Zhi Huang <wen-zhi.huang@mediatek.com>, 
+ Shi-Wei Yeh <shi-wei.yeh@mediatek.com>, 
+ Minano Tseng <Minano.tseng@mediatek.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Robert Yu <robert_yu@compal.com>, 
+ Jeff Chang <Jeff_Chang@compal.com>, Eric Dumazet <edumazet@kernel.org>, 
+ Eric Dumazet <edumazet@kernel.org>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-doc@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795588037; l=4358;
+ i=jackbb_wu@compal.com; s=20260526; h=from:subject:message-id;
+ bh=zSDBqT4BY6TNZmOsjeeRLHg7Yj+X8Pi/vmZtc8ZE+0E=;
+ b=DcAWWsz0XFyJu6JgGBTXZFTnyI1gkyWKf3vGJJxS9+XOIB5Tt7DAO18zLrZzbIJuEz2YssdVb
+ iQOj+N69tzrDFOHdbFwauqsvB29vx5ODTLa6K00FWVodZMH1hnl5yBe
+X-Developer-Key: i=jackbb_wu@compal.com; a=ed25519;
+ pk=VH1prTWixNl8OEUPPSfII3p46MzJpQN8J3+ecE1tZXg=
+X-Endpoint-Received: by B4 Relay for jackbb_wu@compal.com/20260526 with
+ auth_id=793
+X-Original-From: Jack Wu <jackbb_wu@compal.com>
+Reply-To: jackbb_wu@compal.com
+Content-Transfer-Encoding: 7bit
 
-Update the list of files where DRM ioctls are defined.
+From: Jack Wu <jackbb_wu@compal.com>
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Introduce the control plane and transaction layer framework
+for the T9XX WWAN driver. This patch adds the core data
+structures (mtk_ctrl_blk, mtk_ctrl_trans) and initialization
+entry points that subsequent patches build upon.
+
+The control plane block (ctrl_blk) starts out with only the
+device back-pointer and an opaque pointer to the transport
+context; later patches add the port layer and FSM hooks to
+it. The actual DMA engine and TX/RX service
+implementations are added in subsequent patches, and
+mtk_ctrl_init() and mtk_ctrl_exit() get their first callers
+there, in pcie/mtk_trans_ctrl.c.
+
+Signed-off-by: Jack Wu <jackbb_wu@compal.com>
 ---
-v2: no change
-v3: rebase
+ drivers/net/wwan/t9xx/Makefile              |  1 +
+ drivers/net/wwan/t9xx/mtk_ctrl_plane.c      | 45 +++++++++++++++++++++++++++++
+ drivers/net/wwan/t9xx/mtk_ctrl_plane.h      | 19 ++++++++++++
+ drivers/net/wwan/t9xx/mtk_dev.h             |  3 ++
+ drivers/net/wwan/t9xx/pcie/mtk_trans_ctrl.h | 15 ++++++++++
+ 5 files changed, 83 insertions(+)
 
-[Since having multiple maintainers trying to merge these would
-cause some conflicts, it would be more manageable for Jon to
-take all of these through the docs-next tree.]
+diff --git a/drivers/net/wwan/t9xx/Makefile b/drivers/net/wwan/t9xx/Makefile
+index 0eb5fb1be0e2..65b3c1f70c36 100644
+--- a/drivers/net/wwan/t9xx/Makefile
++++ b/drivers/net/wwan/t9xx/Makefile
+@@ -3,4 +3,5 @@
+ obj-$(CONFIG_MTK_T9XX) += mtk_t9xx.o
+ 
+ mtk_t9xx-y := \
++	mtk_ctrl_plane.o \
+ 	pcie/mtk_pci.o
+diff --git a/drivers/net/wwan/t9xx/mtk_ctrl_plane.c b/drivers/net/wwan/t9xx/mtk_ctrl_plane.c
+new file mode 100644
+index 000000000000..b755b6f03a72
+--- /dev/null
++++ b/drivers/net/wwan/t9xx/mtk_ctrl_plane.c
+@@ -0,0 +1,45 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2022, MediaTek Inc.
++ */
++
++#include <linux/device.h>
++
++#include "mtk_ctrl_plane.h"
++
++/**
++ * mtk_ctrl_init() - Initialize the control plane block.
++ * @mdev: Pointer to the MTK modem device.
++ *
++ * Allocates and initializes the control plane block
++ * associated with @mdev.  Runs once per bind; the allocation is
++ * devres managed and is released at unbind, not by
++ * mtk_ctrl_exit().
++ *
++ * Return: 0 on success, -ENOMEM on allocation failure.
++ */
++int mtk_ctrl_init(struct mtk_md_dev *mdev)
++{
++	struct mtk_ctrl_blk *ctrl_blk;
++
++	ctrl_blk = devm_kzalloc_obj(mdev->dev, *ctrl_blk);
++	if (!ctrl_blk)
++		return -ENOMEM;
++
++	ctrl_blk->mdev = mdev;
++	mdev->ctrl_blk = ctrl_blk;
++
++	return 0;
++}
++
++/**
++ * mtk_ctrl_exit() - Clean up the control plane block.
++ * @mdev: Pointer to the MTK modem device.
++ *
++ * Clears the control plane block pointer. The allocation
++ * itself is managed by devres and freed on driver detach.
++ */
++void mtk_ctrl_exit(struct mtk_md_dev *mdev)
++{
++	mdev->ctrl_blk = NULL;
++}
+diff --git a/drivers/net/wwan/t9xx/mtk_ctrl_plane.h b/drivers/net/wwan/t9xx/mtk_ctrl_plane.h
+new file mode 100644
+index 000000000000..16b60eeb0aaf
+--- /dev/null
++++ b/drivers/net/wwan/t9xx/mtk_ctrl_plane.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0-only
++ *
++ * Copyright (c) 2022, MediaTek Inc.
++ */
++
++#ifndef __MTK_CTRL_PLANE_H__
++#define __MTK_CTRL_PLANE_H__
++
++#include "mtk_dev.h"
++
++struct mtk_ctrl_blk {
++	struct mtk_md_dev *mdev;
++	void *ctrl_hw_priv;
++};
++
++int mtk_ctrl_init(struct mtk_md_dev *mdev);
++void mtk_ctrl_exit(struct mtk_md_dev *mdev);
++
++#endif /* __MTK_CTRL_PLANE_H__ */
+diff --git a/drivers/net/wwan/t9xx/mtk_dev.h b/drivers/net/wwan/t9xx/mtk_dev.h
+index d969a04d4413..fe2cd8c95719 100644
+--- a/drivers/net/wwan/t9xx/mtk_dev.h
++++ b/drivers/net/wwan/t9xx/mtk_dev.h
+@@ -26,11 +26,14 @@ enum mtk_dev_evt_d2h {
+ 	DEV_EVT_D2H_ASYNC_HS_NOTIFY_MD	= BIT(6),
+ };
+ 
++struct mtk_ctrl_blk;
++
+ /* mtk_md_dev defines the structure of MTK modem device */
+ struct mtk_md_dev {
+ 	struct device *dev;
+ 	void *hw_priv;
+ 	u32 hw_ver;
++	struct mtk_ctrl_blk *ctrl_blk;
+ };
+ 
+ #endif /* __MTK_DEV_H__ */
+diff --git a/drivers/net/wwan/t9xx/pcie/mtk_trans_ctrl.h b/drivers/net/wwan/t9xx/pcie/mtk_trans_ctrl.h
+new file mode 100644
+index 000000000000..1827cb1d4959
+--- /dev/null
++++ b/drivers/net/wwan/t9xx/pcie/mtk_trans_ctrl.h
+@@ -0,0 +1,15 @@
++/* SPDX-License-Identifier: GPL-2.0-only
++ *
++ * Copyright (c) 2022, MediaTek Inc.
++ */
++
++#ifndef __MTK_TRANS_CTRL_H__
++#define __MTK_TRANS_CTRL_H__
++
++#include "../mtk_dev.h"
++
++struct mtk_ctrl_trans {
++	struct mtk_md_dev *mdev;
++};
++
++#endif
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: intel-xe@lists.freedesktop.org
+-- 
+2.34.1
 
- Documentation/userspace-api/ioctl/ioctl-number.rst |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
 
---- linux-next-20261123.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ linux-next-20261123/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -98,6 +98,7 @@ Code  Seq#    Include File
- 0x1b  all                                                              InfiniBand Subsystem
-                                                                        <http://infiniband.sourceforge.net/>
- 0x20  all    drivers/cdrom/cm206.h
-+0x20  00-01  drivers/gpu/drm/amd/amdgpu/amdgpu_umr.h
- 0x22  all    scsi/sg.h
- 0x3E  00-0F  linux/counter.h                                           <mailto:linux-iio@vger.kernel.org>
- '!'   00-1F  uapi/linux/seccomp.h
-@@ -268,7 +269,7 @@ Code  Seq#    Include File
- 'c'   08     drivers/scsi/ch.c                                         conflict!
- 'c'   80-9F  arch/s390/include/asm/chsc.h                              conflict!
- 'c'   A0-AF  arch/x86/include/asm/msr.h conflict!
--'d'   00-FF  linux/char/drm/drm.h                                      conflict!
-+'d'   00-FF  drm/drm.h                                                 conflict!
- 'd'   02-40  pcmcia/ds.h                                               conflict!
- 'd'   F0-FF  linux/digi1.h
- 'e'   all    linux/digi1.h                                             conflict!
-@@ -292,6 +293,8 @@ Code  Seq#    Include File
-                                                                        <mailto:zapman@interlan.net>
- 'h'   00-1F  linux/hpet.h                                              conflict!
- 'h'   80-8F  fs/hfsplus/ioctl.c
-+'i'   00-02  drm/i915_drm.h
-+'i'   00-04  drm/xe_drm.h
- 'i'   00-3F  linux/i2o-dev.h                                           conflict!
- 'i'   0B-1F  linux/ipmi.h                                              conflict!
- 'i'   80-8F  linux/i8k.h
