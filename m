@@ -1,123 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795581463;
-	b=cdlcaJxhhD1EvOqjjUo7+CgEdSi6x7CxzilbDmcSZsamkPjZ3Wy4GlDnG1eJmtzb/4G6
-	 KHUzUDGBwPMfAYkoyDA1ta0NIoWP6Trb1u5lQBG0fnE/s94avslDklAzIOBSNt09fDnQ9
-	 9A6G8NFMnWhKUu9+wMkOgyVXUtyUNb/xmZQZuLc4n2u7UjiQevR4+bN2e3GrfvBWCajCc
-	 5ewI3n7EQEULIFeVKhLUY/GchntqaQKV3gPpnxVt15I8OlwfBAXQeifmzqhAbFTB9dgtZ
-	 P8L2RxRiklqShR7yqcH++gCa5FP7seA+pBCbslMAJV/hjthX91oGGKaf0mBtKDhwkhA==
+	t=1795582006;
+	b=Lbr1XMQVPojUZj/NyBLSO1j19h2DiR9dDKnbh+uhddxTt++KgkOw8tLZChosobS/FzDP
+	 j7Rvjf2FLQauKVmgcscuwE2O1holjsS3Sxt1h3TUKORTNu0XGqDwO9gglSp8/w4zXB501
+	 v9AiJwhYOwqFPB1PQU4c6RQaJ45Wz1n5Oi1HjruVpei6T62baB5ujgVy6RC1AxqvIpm/L
+	 WudrPHSxEGAcSKXfbEDEYeJGXBvwbrX2IqvCgQSqt1XHhfuLo4Fqs/SGLq1asB+/alBMh
+	 2zHmyMmubRj7bnr39TMZ6G5TtEPTLr/CpRXEc22CjSBAEF+XN2/fPa7eIc4zy43SJsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795581463;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=Th0U5TzJmX7EaDDFA+PHgDoYo8RCe0k6TY8cW8gRTLA=;
-	b=tB8xukHfPd/BW3Cw5VFYKlrvlrEIQ2L4IYe5VQ2bG307OqJfGBdEgLzZlvZ1OLhGciB7
-	 onKQm3GR1KRnX1KTmMTTFIWLg1YKMBrFpTA1t62mvfyjzKmqu2FlnqrCpnU5nnbm0MGe7
-	 x/jhmCov+i7OsVEhAkM/ocw7RrFivXPnMdCdZKn7APU9pofz+y22Du/stCOjPeSAbVc9F
-	 B4U4vwrRqfXVYy3nzIi90lA25GfteucQr82vkbJyhiDQPOwzlcjUaDgk0lxaiqsX282CI
-	 Qei/FI3Ex9/D0YGKCDI/GyzEA8he0HCZmajdXV2H4WKaiKfIJh2y8TEC8naUfjYLCJQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795582006;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:From:To:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:
+	 X-Spam-Score;
+	bh=pANba8wl/OyGTtYYVOpmrlRZMgySE6JCgtNDwnH0y/k=;
+	b=ZZ8g0xZgbazTxzszk5HTvGL9xAhhpOuaQmeNwdM6wAuXoZPVyP5t1Yo+ywiiCviJpt8l
+	 2/W4hLT8yrCPowtipRne0NAGXcl1Vc/gz1QCmSU2ay4HF1yDukUOtpcXd5yvgBVksLz3H
+	 r8gFtWT7FuZzjtMACHFtHOqTgsS059soFIrjyFXxCUIOfrbdxTx/mlspGCw7r/3Oh6Up+
+	 oLhW+aSzjaRPTKeaExiUyuRjnFxKEPAnJYb9NzS4f2Oq3wf1CV2vCh3OoaIXte1qvOfb8
+	 mIPG+HJ+kDjqkoo9mbTh26Gn61UqelL7UYWwQZK8BgsJSmNlUUfraZbUWB7EDECAw+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ydZwfXs4;
-	arc=none smtp.remote-ip=209.85.214.179
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=UNMtE80R;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=M1BTdAXO;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471E4606A326
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 04:37:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 471E4606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57460606A31E;
+	Wed, 25 Nov 2026 04:46:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57460606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ydZwfXs4
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2f05b465cd1so27562265ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 20:37:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795581462; x=1796186262; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Th0U5TzJmX7EaDDFA+PHgDoYo8RCe0k6TY8cW8gRTLA=;
-        b=ydZwfXs4itqQiYJPjgaUOOO0SQIyr1DBTGTbktl7OG2/yC5Dblolhcn3IS42km/rf+
-         tVkzDsddKnEt2tLiPCLnhOg/KKr6yW0dYeWYUUgzJl+Ubn1XLTHgYqH3xvldlSDKy2rA
-         mD+BT3arUSXfXqCSlhE6qWm+2gP4E+jZ5pXeU9aQeWLR3wE4JdQZxV7uIxsB3wpYRzBa
-         VYiMQTNNXsMnGgJYUeP9YCSVmibS06kpZzwaCLjiheizhm32L19Q8c0lXmlLsUeVVl9T
-         Jt/d2ovu1QdMREbgiVNGZzR+No7PtC13I9Il5FbUY3Vu+/PQ+P1iBCilGgZUYlrjlKzo
-         ZWuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795581462; x=1796186262;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Th0U5TzJmX7EaDDFA+PHgDoYo8RCe0k6TY8cW8gRTLA=;
-        b=XIlH44h5O8474zne2TFmcwHy03BHtfrZBnC/eba6O3IoaunAiqeTg6BitHjanQihIt
-         zb25B2RsfjAk15EkXn5/cHbXjjkjtQLPp5nVlph97jsyVvFiIfsO+flOQD33821B5mr9
-         Y0HQnm8Wn/Ozm4gdrposHaYzS+OQAiLqueLik3Kut5+HmFZF6HT5fXBn0Rh53yqUpu16
-         4GJYw4QRoXaeefhD62Ew/31e5wyHQymTHxgAcY1PrkBjgz6R1h0qgBvgFP/1UNSBNSNh
-         m9Yzb/niWChJruR2vWCQ0oxr9FjioL8ZNVm6+h+1jOnfQxmNQEr5eArLE5uE0+uoSLzH
-         tW/Q==
-X-Gm-Message-State: APuU4Z+pHtdacMrfjLMdEJYQe1+AwSBWMJndM8mObogu5LxwfL4loV6k
-	AUnkzKL2gcPQomXKylIrHnz7xsnagek+xezjEIt++0GFNgkmIO5B9Xa3
-X-Gm-Gg: AZFdTZdVQLLfqLJdC/4MN0lxbgAfgduSzUi1FRIGW9SIynIvfSdawN4V7knLD+oXmuD
-	pC7yUCo1ZH15dTXK8rlRgfO4Qb9TpvnxwuHPZsyyaoDYJgpok5E2yOnLlpbTMo0Z5acrd5vd3Fh
-	BDeIjX3Xvc7IH07Czki6D187huspEze/yX1n8FeMcQ7RLFCIvmtq/uPYuUbNQNa3FSrHSxBEkLd
-	9ors0hBF2Upryf8Bpd3VEXk0p9mO5lv5FLFUmXDCX+uay0OBpNxc+/98LTClB2TUDDnJQNAzXhV
-	Zpb2QRffQ7hUtmRQUZxmXylBQsKrf83LQ1ENL51vLp9kbR8+op31391AzhSBiZ5iHlzin4aBh8U
-	Jw1nYV5m6LfqSsUGmL51QRkOadqWustgOFnIXOpQH5gV9r1BcXhO34I5VQaalTlIq2S/VLjhoXe
-	/PfD8wOELVFucuZTICdhiFlT7XijfiAy4/F4oK3haZkyllKWe/uVw8nr8k3+OKKxCHmX4JebxTp
-	lRbW8t6EUWktjl3lcHsd1cMcSrGgrkqhjRKQpVRkbCWxaP8HaQ7pJdtt6PH35Z0Tp1BCVCVxAnX
-	0hLVG538I5ImjbzhUMy1km+8lOL037JNRuZEuq20ZrQKuuPJ
-X-Received: by 2002:a17:903:294f:b0:2ed:630:40ad with SMTP id d9443c01a7336-2f03f11826cmr93907705ad.19.1795581461579;
-        Tue, 24 Nov 2026 20:37:41 -0800 (PST)
-Received: from localhost ([2001:19f0:8000:4ce8:5400:7ff:fe0e:e6b2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c2ad2sm78350235ad.16.2026.11.24.20.37.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 20:37:41 -0800 (PST)
-From: Inochi Amaoto <inochiama@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Aksh Garg <a-garg7@ti.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Rhys Tumelty <rhys@tumelty.co.uk>,
-	Manikandan K Pillai <mpillai@cadence.com>,
-	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-	Qiang Yu <qiang.yu@oss.qualcomm.com>,
-	Hans Zhang <18255117159@163.com>,
-	Yao Zi <me@ziyao.cc>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	Yixun Lan <dlan@gentoo.org>,
-	Longbin Li <looong.bin@gmail.com>
-Subject: [PATCH v5 8/8] ata: ahci_imx: Use bulk PHY APIs for calibration PHYs
-Date: Wed, 25 Nov 2026 12:36:39 +0800
-Message-ID: <20261125043639.249525-9-inochiama@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=UNMtE80R;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=M1BTdAXO
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3840E223A1;
+	Wed, 25 Nov 2026 04:46:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1795582003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=pANba8wl/OyGTtYYVOpmrlRZMgySE6JCgtNDwnH0y/k=;
+	b=UNMtE80RBUDC9kO2+x0EegfMLyZ5Yp5xQv60znaH2AbtAZrdr/u3vWJjLRuEmsHmlxFqUc
+	QVpgY0DKWvi/6APbX07O/qrSJBoWLIctFePIqYDLJTBJG/+7L2uaLHU5yFrIac4f8ppZYg
+	54lEtH2FO9yINrhGtV0N8EJrIp0Hy70=
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1795582002; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=pANba8wl/OyGTtYYVOpmrlRZMgySE6JCgtNDwnH0y/k=;
+	b=M1BTdAXO/3vAaHaPJ2yJL6J4bQgRJhXW1CgSaINIPFMVBITqHjsXY2+/QHTzN8oz4EIWN3
+	/5vNuDQcXh7UNYI3VCEw3Msz7AoZuP6l7fzfR7r6lmt3vgwQhN+Nd9XfGyNhpeJFcB/2ui
+	4VwYHnxxPcQK5M+1Q1jeGSE+577IAeY=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44548134CA;
+	Wed, 25 Nov 2026 04:46:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id JCM2Iy9oBmuHDAAAD6G6ig
+	(envelope-from <wqu@suse.com>); Wed, 25 Nov 2026 04:46:39 +0000
+From: Qu Wenruo <wqu@suse.com>
+To: linux-btrfs@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] btrfs: add a maintainer entry profile
+Date: Wed, 25 Nov 2026 15:16:21 +1030
+Message-ID: <0037554862c0d9dce3ddafd1238347e4b16a5079.1795581896.git.wqu@suse.com>
 X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261125043639.249525-1-inochiama@gmail.com>
-References: <20261125043639.249525-1-inochiama@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -128,140 +86,226 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,btrfs.readthedocs.io:url,imap1.dmz-prg2.suse.org:helo,suse.com:email,agent.md:url];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -11.80
 
-The i.MX8QM SATA PHY relies on the first two HSIO lanes for shared
-impedance calibration. Store these calibration PHYs in a bulk array
-and acquire them by name with devm_phy_bulk_get().
+This new file is mostly based on my personal preferences, focusing on
+how to improve the human readability in the LLM era.
 
-Initialize both calibration PHYs before powering them on in lane order,
-then keep the SATA PHY initialization, mode selection and power-on
-separate. Use the bulk helpers to release the calibration PHYs after
-SATA startup and to unwind failures without repeating power-off after
-a failed bulk power-on.
+The new file should also act as a guide for humans that want to be a
+long term contributor to btrfs.
 
-Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
+Signed-off-by: Qu Wenruo <wqu@suse.com>
 ---
- drivers/ata/ahci_imx.c | 57 ++++++++++++++++--------------------------
- 1 file changed, 21 insertions(+), 36 deletions(-)
+Changelog:
+RFC->v1:
+- Use maintainer entry profile instead of agent.md
 
-diff --git a/drivers/ata/ahci_imx.c b/drivers/ata/ahci_imx.c
-index 6aaa18e29abc..18faa033e44f 100644
---- a/drivers/ata/ahci_imx.c
-+++ b/drivers/ata/ahci_imx.c
-@@ -25,6 +25,8 @@
- 
- #define DRV_NAME "ahci-imx"
- 
-+#define NUM_CALIPHY		2
+- Further simplfy the content for human readers
+
+---
+ Documentation/process/maintainer-btrfs.rst | 154 +++++++++++++++++++++
+ MAINTAINERS                                |   2 +
+ 2 files changed, 156 insertions(+)
+ create mode 100644 Documentation/process/maintainer-btrfs.rst
+
+diff --git a/Documentation/process/maintainer-btrfs.rst b/Documentation/process/maintainer-btrfs.rst
+new file mode 100644
+index 000000000000..5170dd73e655
+--- /dev/null
++++ b/Documentation/process/maintainer-btrfs.rst
+@@ -0,0 +1,154 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- enum {
- 	/* Timer 1-ms Register */
- 	IMX_TIMER1MS				= 0x00e0,
-@@ -66,8 +68,7 @@ struct imx_ahci_priv {
- 	struct clk *ahb_clk;
- 	struct regmap *gpr;
- 	struct phy *sata_phy;
--	struct phy *cali_phy0;
--	struct phy *cali_phy1;
-+	struct phy_bulk_data cali_phys[NUM_CALIPHY];
- 	bool no_device;
- 	bool first_time;
- 	u32 phy_params;
-@@ -428,30 +429,20 @@ static int imx8_sata_enable(struct ahci_host_priv *hpriv)
- 	 * Initialize the first two lane PHYs here, although only the
- 	 * third lane PHY is used by SATA.
- 	 */
--	ret = phy_init(imxpriv->cali_phy0);
-+	ret = phy_bulk_init(NUM_CALIPHY, imxpriv->cali_phys);
- 	if (ret) {
- 		dev_err(dev, "cali PHY init failed\n");
- 		return ret;
- 	}
--	ret = phy_power_on(imxpriv->cali_phy0);
-+	ret = phy_bulk_power_on(NUM_CALIPHY, imxpriv->cali_phys);
- 	if (ret) {
- 		dev_err(dev, "cali PHY power on failed\n");
--		goto err_cali_phy0_exit;
--	}
--	ret = phy_init(imxpriv->cali_phy1);
--	if (ret) {
--		dev_err(dev, "cali PHY1 init failed\n");
--		goto err_cali_phy0_off;
--	}
--	ret = phy_power_on(imxpriv->cali_phy1);
--	if (ret) {
--		dev_err(dev, "cali PHY1 power on failed\n");
--		goto err_cali_phy1_exit;
-+		goto err_cali_phy_exit;
- 	}
- 	ret = phy_init(imxpriv->sata_phy);
- 	if (ret) {
- 		dev_err(dev, "sata PHY init failed\n");
--		goto err_cali_phy1_off;
-+		goto err_cali_phy_off;
- 	}
- 	ret = phy_set_mode(imxpriv->sata_phy, PHY_MODE_SATA);
- 	if (ret) {
-@@ -465,10 +456,8 @@ static int imx8_sata_enable(struct ahci_host_priv *hpriv)
- 	}
- 
- 	/* The cali_phy# can be turned off after SATA PHY is initialized. */
--	phy_power_off(imxpriv->cali_phy1);
--	phy_exit(imxpriv->cali_phy1);
--	phy_power_off(imxpriv->cali_phy0);
--	phy_exit(imxpriv->cali_phy0);
-+	phy_bulk_power_off(NUM_CALIPHY, imxpriv->cali_phys);
-+	phy_bulk_exit(NUM_CALIPHY, imxpriv->cali_phys);
- 
- 	/* RxWaterMark setting */
- 	val = readl(hpriv->mmio + IMX8QM_SATA_AHCI_PTC);
-@@ -480,14 +469,10 @@ static int imx8_sata_enable(struct ahci_host_priv *hpriv)
- 
- err_sata_phy_exit:
- 	phy_exit(imxpriv->sata_phy);
--err_cali_phy1_off:
--	phy_power_off(imxpriv->cali_phy1);
--err_cali_phy1_exit:
--	phy_exit(imxpriv->cali_phy1);
--err_cali_phy0_off:
--	phy_power_off(imxpriv->cali_phy0);
--err_cali_phy0_exit:
--	phy_exit(imxpriv->cali_phy0);
-+err_cali_phy_off:
-+	phy_bulk_power_off(NUM_CALIPHY, imxpriv->cali_phys);
-+err_cali_phy_exit:
-+	phy_bulk_exit(NUM_CALIPHY, imxpriv->cali_phys);
- 
- 	return ret;
- }
-@@ -839,19 +824,19 @@ static const struct scsi_host_template ahci_platform_sht = {
- 
- static int imx8_sata_probe(struct device *dev, struct imx_ahci_priv *imxpriv)
- {
-+	int ret;
++Btrfs patch guidelines
++======================
 +
- 	imxpriv->sata_phy = devm_phy_get(dev, "sata-phy");
- 	if (IS_ERR(imxpriv->sata_phy))
- 		return dev_err_probe(dev, PTR_ERR(imxpriv->sata_phy),
- 				     "Failed to get sata_phy\n");
- 
--	imxpriv->cali_phy0 = devm_phy_get(dev, "cali-phy0");
--	if (IS_ERR(imxpriv->cali_phy0))
--		return dev_err_probe(dev, PTR_ERR(imxpriv->cali_phy0),
--				     "Failed to get cali_phy0\n");
--	imxpriv->cali_phy1 = devm_phy_get(dev, "cali-phy1");
--	if (IS_ERR(imxpriv->cali_phy1))
--		return dev_err_probe(dev, PTR_ERR(imxpriv->cali_phy1),
--				     "Failed to get cali_phy1\n");
-+	imxpriv->cali_phys[0].id = "cali-phy0";
-+	imxpriv->cali_phys[1].id = "cali-phy1";
++Human readability comes first. A reviewer should be able to understand the
++problem and the fix from the message and code.
 +
-+	ret = devm_phy_bulk_get(dev, NUM_CALIPHY, imxpriv->cali_phys);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get cali_phy\n");
- 	return 0;
- }
- 
++Bloated LLM-generated information only wastes precious human time, no matter
++whether it is in a comment or a commit message.
++
++Code comments
++-------------
++
++* **Necessary comment only**
++
++  Comment is for things that are not obvious by itself, e.g. a locking
++  rule, an ordering requirement or a non-trivial reason for a workaround.
++
++  Keep the comment short if possible.
++
++  Don't repeat what the code does.
++
++* **Add kernel-doc only for complex and/or exported functions**
++
++  If the function and parameter names are self-explaining, don't waste words
++  on the kernel-doc.
++
++Commit messages and cover letters
++---------------------------------
++
++* **Keep it simple**
++
++  Use short and simple sentences, avoid long paragraphs.
++
++  Simple patch for simple bug. Don't write a full [BUG] [CAUSE] [FIX] analysis
++  for something like a simple error handling enhancement.
++
++  And we don't care how you or your LLM found the bug unless it's hit in the
++  real world, so don't put such information even after the "---" line.
++
++* **Prefer visual aids over long sentences**
++
++  See "Visual aids" section below.
++
++* **Follow the style of well-known btrfs developers**
++
++  Check ``git log -- fs/btrfs`` for recent examples before drafting.
++
++Visual aids
++-----------
++
++Prefer visual aids like an ASCII chart over words, e.g.:
++
++* A race. Show the race window, do not describe it in prose only.
++* An error handling bug in a function, seen from several call sites.
++* A call chain across layers, where the bug only shows on a certain path.
++
++Example, a race::
++
++   CPU0 (endio)                       CPU1 (fsync)
++   end_bbio_data_write()
++   |-btrfs_folio_clear_writeback()
++   |                                  btrfs_sync_file()
++   |                                  |-filemap_fdatawait_range()
++   |                                  | Returns after writeback finished
++   |                                  |
++   |                                  \-test_and_clear_bit(COW_WRITE_ERROR)
++   |                                    Still 0, skips waiting
++   \-set_bit(COW_WRITE_ERROR)
++     Too late.
++
++Example, an error handling bug, from commit c9583ada8cc4. The callee cleans up
++on error, then the caller cleans up again::
++
++   btrfs_do_readpage()
++   |-submit_extent_page()
++   | \-submit_one_bio()
++   |   \-btrfs_submit_data_bio()
++   |     \-bio_endio()
++   |       Calls end_page_read() and unlock_extent().
++   |
++   \-end_page_read() and unlock_extent()
++     Cleaned up again, the subpage reader count underflows.
++
++Versioned patches
++-----------------
++
++* **Full history**
++
++  Include all versions, not only the changes of the last version.
++
++* **Newest version first**
++
++  E.g.::
++
++    v3:
++    - Rename the helper to xxx()
++    - Add a missing lock in yyy()
++
++    v2:
++    - Fix the build failure on 32-bit
++
++* **Changelog location**
++
++  Put it in the cover letter for a patch series, or after the "---" line for
++  a single patch.
++
++  Don't put it in the commit message body.
++
++Review
++------
++
++* **Follow the review**
++
++  Don't send a patch and just forget it. If you're not a well known developer,
++  it's uncommon to get merged on the first try.
++
++  One will need to communicate with the reviewers to get at least one review
++  from a well known btrfs developer, before getting the patch merged.
++
++* **Check Sashiko**
++
++  Sashiko posts AI-generated review for patches sent to the mailing list. The
++  btrfs list is at https://sashiko.dev/#/?list=org.kernel.vger.linux-btrfs
++
++  If a report is valid, address it in a newer version.
++
++  If a report is obviously wrong, it can be ignored. If the report is wrong but
++  the reason is not obvious, explaining it on the mailing list can help.
++
++Testing
++-------
++
++* **Run full fstests**
++
++  That's the main test suite we use.
++
++* **Testing procedures and results are only for complex patches**
++
++  Simple fixes shouldn't need a long paragraph on how to verify the fix.
++  Those simple fixes should be explained well by the commit message and code.
++
++  Bloated LLM-generated test procedures and results only waste human time.
++
++Before sending a patch
++----------------------
++
++* **Check the development branch**
++
++* **Check the mailing list**
++
++If your bug was found by an LLM, someone else may have already found, or even
++fixed, it.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 44540a1eb2b8..55f0b3dca133 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5838,9 +5838,11 @@ S:	Maintained
+ W:	https://btrfs.readthedocs.io
+ Q:	https://patchwork.kernel.org/project/linux-btrfs/list/
+ C:	irc://irc.libera.chat/btrfs
++P:	Documentation/process/maintainer-btrfs.rst
+ T:	git https://github.com/btrfs/linux.git for-next
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+ F:	Documentation/filesystems/btrfs.rst
++F:	Documentation/process/maintainer-btrfs.rst
+ F:	fs/btrfs/
+ F:	include/linux/btrfs*
+ F:	include/trace/events/btrfs.h
 -- 
 2.56.1
 
