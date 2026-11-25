@@ -1,69 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.190
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795578205;
-	b=o0HJtw2W6AnwN16XwS5EtHi1otQbaBm8z/XCoJPCnnrwExzeOVAk+x/ESIhTRgMuDOGC
-	 n9nSxlEuF9OaV2C8Rb7XfgbTXO+J1f0M/sPaPLimRDpcLyIB7P32D1TSK5dTO6ulkTssC
-	 KrXLhsGpr6fX2JThumGgygKD2s7IbUevIhw9LyDMg/rMwIqJ+lTlkO8jGj3YWmP53cdBp
-	 kD9XDrM9hGwyDuOBPBva3G6JRQC0DMy9VGSZrUEcvnbYuFlHEJ05vRXCXi+Th1kX67Aje
-	 cTA/DhqcqO20glkPThzgy69Ey1x6dN24pPPVamtvX3kqCHpVfQeFfOhIf7vibKRqFCQ==
+	t=1795581074;
+	b=3wtPf8KQNrzZXgAOYK3R7I3QrJFJFL7Cu7lR2gcNoOO2NByG+V5Cw4zU2/HlQqG6Say3
+	 lYZ8apKpaHWT8Bd5JWKEgQ2P8W4OSP1+u14mZiTrnPsTNtA/eoGsRt36AAAxYhJF/Tu5t
+	 WK7KdDyzefvE8DpMH9jv3mMOhkCj9iK2EwV8JieWlk/IJ457L6TdT2Ldm1dX4nHMIegfa
+	 AoX373Fl3sGfOLl4gx1CsnORRKPk9me7Mb89VP0aQIaFi+ZaPbZjKuwW8KHv/KAtz9iuz
+	 W6z0HqmttM/5up8EVqrNBnNraG1oLKiCayPRGt5PSfi93+PZlsPpNIS8vmOJLG5VBeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795578205;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=SoZ7grorL+n8DKqrdd1wAaI5dBboW50o8fMv+joHKz8=;
-	b=lm6gzOwoxKagQRK5Dh/IvWW3X1MxMprrSWBTyG6tfAcVqHaTpuj4YPSRKYfo5xGZmpON
-	 NfdyVe/mJLUSIbbGDwXFtf+8JXOPqz2KXD7FHrzcPLDnfmeEM/yO6vUBZPESdQu1b2CeZ
-	 x5wBH7qnyTps8Ef3NLFbQBw5hlx3fbS1gHyR2lqEv4frpbnbY/8JsxOTBHN1SeAsD1Al3
-	 aWkk6+h6F118Tb1M3wh2NFlQ1SQklAcPEmb1icEujU3Gz+QdUogKILWA5r1hvYoT/Fdee
-	 4DZtkSLkeEviBCfhWNcMOVHUJh1UBPUcqUUU78o+JlJ/8WEmjC1QkGJxRiUDRjw174g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795581074;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Date:Subject:To:Cc:Message-ID:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=LqCAbsFv75X8FpT2kuDVemXn9DMtQ2UrANDaKURHbUU=;
+	b=rfSmt4n1qHaWysjevY5ohqLYxf5t/A5mvK31Ys2reNQs+dE3b8B4rIX+Cu+oyM0E3i4V
+	 15dsE9ct7+FiffsVRK3OH6D/rfciEYy0Bu1kKEwA10DV4Fq1chB/TyCDcBb57odRH2DIf
+	 ZntRgcs3sBWgXpFb6zfg9MPErBoIy0tcN3BkSAsQ2Hz3OXJFcvBKZ6dgjEg84J5VQtt0L
+	 MopT3oAyW/6YcNvSLxGBWByqkIKVpFTs4QfU2tdEk3uWVK6dPu8gAlWb2hH1twrCuEWPp
+	 WMGpsJSTkjiYzerA6WciFAJOnrAwCA2ZKoso2/OHr1y1oQZUVzmvTbEgYAvaAJIWUvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=JVi+Vb13;
-	arc=none smtp.remote-ip=95.215.58.190
-Received: from mta1.migadu.com (out-190.mta1.migadu.com [95.215.58.190])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t9xaBilI;
+	arc=none smtp.remote-ip=209.85.160.176
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009B3606A327
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 03:43:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 009B3606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BEB606A31E
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 04:31:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08BEB606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=JVi+Vb13
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=CbClVjeawVI/BOCBHpvWu57rNo0mDD9eas63Rjr+JY4=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795578202; v=1; x=1796183002;
- b=JVi+Vb13T6gOdXif0a2wbiRzxe/Lbbza81Uc4kwNq1trALER7zgK7l4lhdpn406UvOrSmXpn
- pXlVg0ZrxVf/mnuAMdls0RhaD9/k49a2UeadtYu1ac/PrpxzNXhDdXHt1/oe5fZAKSzFcjmhcjW
- 4rPJ3zJW7XnyriU+qsJ8NeBdNC1gOKbVxpwxiBILjR7ZIHyHMTiBGow7nM4z7U+qavqPP/VTbMT
- 7r7q0Tr9LxxYk7iC7nxYlpTXpj9SK1Og8Fbt8Rwo2lJR9yw03DjW3qXIqSnEfAHhnkgwkTVvel7
- 3fEP11pX4rYIPsxwNhiESdku1cH9aUdxXBsulG6aYXzhw==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f97d83fc035d789e;
-	Wed, 25 Nov 2026 03:43:21 +0000
-X-Mizu-Trace-ID: f97d83fc035d789e
-X-Migadu-Flow: FLOW_OUT
-Date: Wed, 25 Nov 2026 11:43:17 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Bruce Song <xiongwei.song@linux.dev>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, alexs@kernel.org,
-	si.yanteng@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org,
-	rdunlap@infradead.org, paulmck@kernel.org,
-	linux-doc@vger.kernel.org, rcu@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] docs/zh_CN: Add RCU/whatisRCU.rst Chinese
- translation
-Message-ID: <awZZVV3BlovD-xNf@wyuan.org>
-References: <20261118131636.5131-1-xiongwei.song@linux.dev>
- <20261118131636.5131-3-xiongwei.song@linux.dev>
- <09ef3d3d-0e68-49c6-a6a2-c754104ede9e@hust.edu.cn>
- <946792d2-4241-445d-820b-301a570ee2c3@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t9xaBilI
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-53644ab1f7bso47633661cf.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 20:31:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795581073; x=1796185873; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:message-id:cc:to:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LqCAbsFv75X8FpT2kuDVemXn9DMtQ2UrANDaKURHbUU=;
+        b=t9xaBilIOSfrKNfdyYoYv0fqw8MH2K4V/ls2xdv/XMF2Y7q+0FeBKT08Y8d356eHZx
+         ZZrO0XeB7oddmjUFHDeCZuq09o6W4o3F5l679+WsVsjdpvVjrBPpYqTziW7ImtZ350k8
+         p1iBOcySHX2sS+BpiR9BlFHzYvx1Xf5ON00IpOEVWKdWm1jVnlRFvOGGzkWOZ7Fji893
+         S8y5w1WZGalKSlup2KqBhICVzJi2gliF55C2HldJQMjAtm7KkLZy2sC67sVDx8rhKCws
+         c1q3Kwib5FBhJNmqRxDoxocCrWBe2NOGQ4Hdek/jYKrlEBbApxyLcDVCiAAO6dN3AfZl
+         nEug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795581073; x=1796185873;
+        h=content-transfer-encoding:content-type:message-id:cc:to:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LqCAbsFv75X8FpT2kuDVemXn9DMtQ2UrANDaKURHbUU=;
+        b=y7BhqX032JrK2sIpzXX1lucJREYU1f7dSIzfkN48m74I/sejXVAdnsfyKcbGPVG8eC
+         3uslWzpI0invK4vXKQJ3oMtprSCKkxbJWl5WVYxEDmzpDUPgDFHJMcYIW6zh0HSUt0UV
+         MM0IXekOMbqJtDA2+d9CuhqHUpFoVyuXfga+7vXkOU9L392gepBNrqguFdY7dI3OrMQH
+         Jd3Ax+lUz/kMjh8QA3L/DpLjOm81iy9FLPWyvTimrI4MU/XlZRNXOgl3SO8EktuP3t7Z
+         XfZftQ1as8baYRllNJ4IW/lGQLI9smnH5jqVB25zUou/l+KBz8cuutPw8V25KuBokrcn
+         lZjg==
+X-Forwarded-Encrypted: i=1; AL+hErEcBeoPrETtp6o0kGpSNaYHxbhOQrs12oK003xK08XjJMxkW2QYYg/QhhJppeVF8a2sEm9M9W2RdEI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9X2owfPVlgXyZxntW81ats40w1Gkt3Rv367mV/YUWWUGd6rdG7
+	/cS9BTk6nsFEjhn2E5/M5GTguiwwV6i6oRfArxHHw8I+x8ufezTqlEU=
+X-Gm-Gg: AZFdTZcetonJ/nHgc5dEfmEdN/PLj/+vQLBV9k1Atb4jKuzwCQjpQ3807Q5aQul0fnh
+	usQF1+GTd5YfSifI0/vlI7Nr6msPlaLorJNGakDwEtzlmqY/E2ysxYa84xzd86mq1PlXrss2Gc8
+	c/VbAMdtlNEJcqiplwCDs90jz6kyesM+VMg23AvohOPRxE6VrvTE87rGDF2oX3oQ+oMp/eF+jc1
+	jp5Cox4yuUFiTG9dgcjsHN4tjyxOu5dmRbpLEqAYKzgyxF6triV6MmEGzsLObWQK1/+pBmIBwK6
+	SOPgpi7r8jjfOLCQDkufQfSy3buEvExllbsZFOzyay/rTlsneWRTsSYpzYEvoE48wQURVIKGriw
+	g7L/DsJ0AcNVVVWWktsnUeRJAOe6oFBLYuG/EaH6kse7a0f4OuXArzaCbsiQf8AgXDhJhGwWDp+
+	M/18WW0NaedZTxNSpq1dUEPCk6682HruE6NlTBdWza5AcMCXme0v+cC83UHunB53DHYEwvhNeG1
+	pWKvSueuXghfeKD8Z2xc20T28mWgcYg60ofx336VbHpVphUDZpG6qv3DwYAioBy3TbliOjLCHod
+	GRk8ns/N85KdrPfcg281SWfyFhu0igTWFBRzo7EH72jprqALhAa28xS+AReLaU/iMF+pSauWxuP
+	I10/YlwuTGKZrGEZutcPFvEAiKi3MmtY0HxJRuxeQOGBDNGCOTaPEiKWlmLOF/RFwwNQ+WrubcC
+	j9SLUQgt83ynZceQc=
+X-Received: by 2002:ac8:6545:0:b0:55c:f5a5:3900 with SMTP id d75a77b69052e-55d76aa8574mr311966681cf.62.1795581072923;
+        Tue, 24 Nov 2026 20:31:12 -0800 (PST)
+Received: from [127.0.1.1] (207-237-119-98.s2383.c3-0.nyr-cbr1.nyr.ny.cable.rcncustomer.com. [207.237.119.98])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d7889f8absm143087821cf.27.2026.11.24.20.31.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 20:31:12 -0800 (PST)
+From: Eugenio Zuccarelli <eugenio.zuccarelli@gmail.com>
+Date: Wed, 25 Nov 2026 04:31:11 -0000
+Subject: [PATCH RESEND v2] Documentation: kunit: document --summary and
+ --failed
+ options
+To: david@davidgow.net, brendan.higgins@linux.dev, corbet@lwn.net
+Cc: danielmaraboo@gmail.com, raemoar63@gmail.com, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <179558107134.36587.13120861622026385297@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,86 +100,52 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <946792d2-4241-445d-820b-301a570ee2c3@linux.dev>
 
-On Tue, Nov 24, 2026 at 10:23:50PM +0800, Bruce Song wrote:
+Commit 062a9dd9bad7 ("kunit: tool: Only print the summary") and commit
+3c67a2c09b3c ("kunit: tool: print failed tests only") added the --summary
+and --failed options to kunit.py, but the matching entries in the
+run_wrapper documentation were never added.
 
-[...]
+Add descriptions for both options next to the other output options, so
+the documentation lists the arguments the tool actually accepts.
 
-> > > +:翻译:
-> > > +
-> > > + 宋雄微 Xiongwei Song <xiongwei.song@linux.dev>
-> > > +
-> > > +:校译:
-> > > +
-> > > +.. _zh_cn_whatisrcu_doc:
-> > 
-> > 
-> > Please double check all the references. If one reference is not referred
-> > from other places, please remove it in the translation.
-> 
-> Ok, I will do that.
+An LLM-based coding assistant helped draft these entries; I checked them
+against kunit.py and kunit_parser.py.
 
-Let's make it a rule or instruction, shall we?
+Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
+Signed-off-by: Eugenio Zuccarelli <eugenio.zuccarelli@gmail.com>
+---
+Resending: no changes since v2 (26 Oct), only Daniel's Reviewed-by added.
 
-I didn't find any specific rules for label usage in doc-guide dir. (only
-no more top-level label on list) But I suspect there must be unused
-labels in English docs.
+Changes in v2:
+- Moved the tool disclosure into the changelog text; the Assisted-by
+  trailer is no longer described in Documentation/process.
 
-We either:
+ Documentation/dev-tools/kunit/run_wrapper.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-(1) make it consistent, i.e. keep adding unused labels.
+diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
+index cecc110a..641ab50a 100644
+--- a/Documentation/dev-tools/kunit/run_wrapper.rst
++++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+@@ -327,6 +327,14 @@ command line arguments:
+ - ``--junit``: If set, stores the test results in JUnit XML format and prints to `stdout` or
+   saves to a file if a filename is specified.
+ 
++- ``--summary``: If set, prints only the summary line for parsed test
++  results, rather than the result of every individual test. Does nothing
++  if ``--raw_output`` is set.
++
++- ``--failed``: If set, prints only the tests that failed or crashed, along
++  with the summary line, once all tests have run. Does nothing if
++  ``--raw_output`` is set.
++
+ - ``--filter``: Specifies filters on test attributes, for example, ``speed!=slow``.
+   Multiple filters can be used by wrapping input in quotes and separating filters
+   by commas. Example: ``--filter "speed>slow, module=example"``.
 
-or
-
-(2) check usused labels and do not create new labels for it.
-
-1 may be easier for manual translating jobs that you don't need to check
-every label manually. You just need to add a '_zh' before each original
-label. But apparently this will create tons of unused labels. So, no?
-
-2 may costs more attention, but I guess agents could handle this
-nowadays with proper prompts.
-
-I forgot to mention this thing in Daniel's series [*], shall we mention
-this now, or send a RFC patch after they get merged?
-
-And also, add a rule for English docs that _do_not_ write a label which
-is not used? This will make our job easier.
-
-[*] https://lore.kernel.org/linux-doc/20261119041009.63651-1-danielmaraboo@gmail.com/
+base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+-- 
+2.34.1
 
 
-[...]
-
-
-> > > +概括起来如下：
-> > > +
-> > > +-    使用rcu_read_lock()和rcu_read_unlock()守护RCU读端临界区。
-> > > +
-> > > +-    在一个RCU读端临界区之内, 使用rcu_dereference()解引用RCU保护的指针。
-> > > +
-> > > +-    使用可靠的设计（例如锁或信号量）保持在互相干扰的情况下并发更新。
-> > 
-> > 
-> > |The original says to use locks or semaphores to prevent concurrent
-> > updates from interfering with each other. Please change this to “使用可
-> > 靠的设计（例如锁或信号量）防止并发更新互相干扰”。|
-> 
-> The verb in original doc is "keep", and the objective is "updates" here.
-> IMO, "prevent" has changed the original meaning, and the objective has been
-> changed to "interfering with each other". Or do you have any other thoughts?
-
-In my dictionary, "keep A from doing B" means "防止 A 做 B",
-so something like:
-
-Use some solid design (such as locks or semaphores) to keep
-concurrent updates from interfering with each other.
-
-采用可靠的同步机制（例如锁或信号量），防止并发更新相互干扰。
-
-Thanks.
