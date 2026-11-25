@@ -1,55 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795573148;
-	b=3/A7i9j+2AE8kvKjEbJjYQ8AC4yWg23v376cXrNITzxCNlcUUa5jH1kNHQLF1w84HMk/
-	 HAvxMiBYvTYRiTPyxqXqhKBWI9L6d+adRmPMIGI/8lWztn6KJDyiJBkOQtYdF7N8ZjdP3
-	 wTPSKTfJdu3LDWt5K7e5E5SKVnke5n9RFrgEZeBuVhzDiVmL8wTg+Eoq7eFAaWgo8W0X1
-	 bJZLUeAw6dE703YIuxpXmYgd3DkTxvze7dc8RfUU7mOTSqEBHuWMWM0nJO0CSqHnN8xN+
-	 OjpaWoIwraFjCz6eBW8JPtadCotQ6dOueW6AfLdTbjj/gdG5C0DD3xyf59m8CQbIcSg==
+	t=1795573913;
+	b=u/y1Zu+Rjzo6ja0kpDFSu8kdG39I0dea1rV1dctIb9Wv1E16xcJnAFB25x65We9TMI5N
+	 WeWqV498EdI0KcdwV+9mQbPPPR+pD3q0nC/mmtQPsQNlZEJAgZsRXzZXsB9xktmxSJIY0
+	 IJdxIxp1Y9Q2zaeokpNUQ0N+UURBURuwMoHkeaAHygf7ao8j4Kv1UtPX8JL28qhFx6jhC
+	 r9Y9iIRY4w0Q9Z1djeESayfW5AN5AlU41z3FmjyoW4VNVHzs/qjGnHYRvkd0DkQmdHPyb
+	 oWOcfGKPoOUQjtEGmSB/gI3XUIUiiHokl2almXw/yd8RxCf4tNCV13qCDaxjZ86JF2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795573148;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=GYoP/F22Ugc6lgcVzIqTK81cwwtgjlrxX6z9WpK5CTY=;
-	b=tZzy7p9i1G880CiIvA9qqWDN2/gA8yv6lPTt0bwZLz7K1qyEWxRl0LhtfyQaHuyYGJ6s
-	 ITB+ccVJXFwUoucd3TLEkmwU4a+KjoTbL4z+badkHBiWfjuIgxWZ+a2vHVuv7BpvOJydE
-	 DPCGlXzfETjTosgS/DXVIYTCwAAQJRWyxf2aqkRE67RS9FsQv5xGqAnQR8LcFtZ+EIQgr
-	 aT+M+7EHtLrASHWl/9D8grLY39QpYHnWRefYM/9TJrrPq+FPhMZXKxXTzhz4AHy0jADNt
-	 owJAlx8GpwJPumNA2N00SDW/NXqlpsEmp31MfxXWZA/QvYroBKwFaWp2mTbNpLX2wHQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795573913;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=XMNffF9gfExpM/riFJmEIEYf1Y6eQwranys00FqUlgs=;
+	b=DJWJvh6iApCM6cxtfd6fdi7+fPYqbmQ8P2Ks/9i2PCllTBS887lbwjBtKsWsPo+q2bX0
+	 SXAMDOf2k9SaePoquj25KD+NRHsmstTO+XqMiSNVGwINHua++mFTXH6oqcVNPKH0bUBlE
+	 tZQ9P7opV6sELaf/mg57ywMQ7sin+sFiCYI/Kd1jBBd6nI56bfSY7Spg2366gj50vpeVk
+	 U1yZnpbcEKgz0Z8+5rLfZa+CpgC9ECJYCAGDwM4tUEbq+2KiVfDTeUW9QfcrvHD06QuVt
+	 HBqcNusrIQzVJIEmkuFa7gW4oBAXkgwlRxTeI4IEEk2IgT8GduCG+wDF3WCZfxUjOnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q6tjINWT;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=dGkil6+B;
+	arc=none smtp.remote-ip=113.46.200.220
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163B3606A326
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 02:19:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA618606A31E;
+	Wed, 25 Nov 2026 02:31:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA618606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q6tjINWT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 821CA1F000E1
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 02:19:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795573147;
-	bh=GYoP/F22Ugc6lgcVzIqTK81cwwtgjlrxX6z9WpK5CTY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Q6tjINWTxW5DThpKjro1fzdg/o1ZQU7XHnEVMC/4QUYLMOI2Meg66g7ftRrhYwjTh
-	 d+Xu9fqAC/A3CjrA+7ZzZ60h6GjixTHMDZkaNeTS32pcnmOBoh/Hc2jiV3L0PbKm/m
-	 /Zrn9zf4V9O+rRkE1vnrSUDaGsISuwAda9l6nF5ZOztf69jlX8OPNmV1pWIgifJS/s
-	 M03CI9JSazWQEcNnePW+hNmaNZv/yftrY+AJ45i+l/2FScRD3Ie96wuI4ddFpeKTUM
-	 SPfrdO3oHEUBHHT3bISFTUiI/IYOEv198dY0hfPrnyO5/0QIZGjZmmQ7itqAWNodHK
-	 H6uorOufadfag==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6bab10842f8so4959743a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 18:19:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFNWVjIlRtp1FQePlmUt1PCTQlW8/AjBdvxcEaC5jVQ1T9dFUzaQ3PfqNO3cCc6+ORnHmzrbI84cNw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8gNKPrSkkCNMLMZLXdEo34dP1+GhcmcjQ3wzTh7U3FiXw++xMx
-	Zo0qA+Ij2vIdyNmHpqEN4VK+Yj3Tz2JWMvFsHjCgmEdMJe2NLnzmuyIL0eGlLjpYpWP2Ics8hNJ
-	iJkven3xTVgapi30WExOGECeJGUApYHI=
-X-Received: by 2002:a05:6402:a592:10b0:6ba:668c:ad92 with SMTP id
- 4fb4d7f45d1cf-6ba668cb3e0mr6721321a12.21.1795573146069; Tue, 24 Nov 2026
- 18:19:06 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=dGkil6+B
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=XMNffF9gfExpM/riFJmEIEYf1Y6eQwranys00FqUlgs=;
+	b=dGkil6+BLq6/4BT9/ArxX1A3ieI6i2qk27rpbInV+DAeN3tZoglWZgUsp5pqnCqTR2le33TsC
+	3fr0MaLOl2NO57PlvTcOrkdkDTLh8sG4GDDA7kFCaHPxiA1ONSHhKHA0QTyNxlwSA5RWQzH/1/9
+	2aYozE+ZEFnRVMfpaqBY/Ow=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4jZ3ZT4NFRz12LkH;
+	Wed, 25 Nov 2026 10:30:57 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id EC74320333;
+	Wed, 25 Nov 2026 10:31:45 +0800 (CST)
+Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 25 Nov
+ 2026 10:31:44 +0800
+Message-ID: <ae1f4fb2-7027-47d9-8981-6b3e2946f6ad@huawei.com>
+Date: Wed, 25 Nov 2026 10:31:44 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,52 +62,65 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261124230746.850528-1-shaopei_1012@163.com>
-In-Reply-To: <20261124230746.850528-1-shaopei_1012@163.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Wed, 25 Nov 2026 11:18:53 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_ap120uprmarov-GuO0fb1eXEgw-U8G08L1xRJ9bv18A@mail.gmail.com>
-X-Gm-Features: Aa3M54phjn4LoQPu6VjS7F5RJeDya9zkDLhO5IKjGgnMkwG9AW2CqozN9PdyGC4
-Message-ID: <CAKYAXd_ap120uprmarov-GuO0fb1eXEgw-U8G08L1xRJ9bv18A@mail.gmail.com>
-Subject: Re: [PATCH v7] exfat: add EXFAT_IOC_COMBINE to append a file's
- clusters to another
-To: Shaopei Zhu <shaopei_1012@163.com>
-Cc: Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, exfat@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Matthew Wilcox <willy@infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: sdei: add sdei_nmi.disabled= to keep the GIC NMI
+ path reachable
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<james.morse@arm.com>, <rppt@kernel.org>, <arnd@arndb.de>,
+	<kmehltretter@gmail.com>, <dapeng1.mi@linux.intel.com>, <elver@google.com>,
+	<enelsonmoore@gmail.com>, <bp@alien8.de>, <jlayton@kernel.org>,
+	<catalin.marinas@arm.com>, <sean@starlabs.systems>, <will@kernel.org>,
+	<jonathan.cameron@oss.qualcomm.com>, <tzungbi@kernel.org>,
+	<steven.price@arm.com>, <chenhuacai@kernel.org>, <tzimmermann@suse.de>,
+	<wenst@chromium.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<vladimir.murzin@arm.com>
+References: <20261123033222.1067923-1-ruanjinjie@huawei.com>
+ <awXQtcWmqf7c_49B@shutemov.name>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <awXQtcWmqf7c_49B@shutemov.name>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-On Wed, Nov 25, 2026 at 8:08=E2=80=AFAM Shaopei Zhu <shaopei_1012@163.com> =
-wrote:
->
-> Cameras and dashcams recording to exFAT SD cards often write the video
-> stream and auxiliary data (e.g. IMU samples) to separate files and merge
-> them when recording stops.  Doing that with read()/write() or
-> copy_file_range() copies all the data of the source, which takes time
-> proportional to its size on such media, wears the flash and needs free
-> space for a second copy.
-Is there a specific device or product expected to use this feature, or
-is it being added as a potentially useful capability without a
-concrete use case? If there is a target device or workflow, could you
-share some details?
+Hi Kiryl,
 
->
-> Filesystems supporting reflink can already avoid the copy by cloning
-> the source to the end of the destination with FICLONERANGE and then
-> unlinking it.  exFAT cannot share clusters between files, so it needs
-> an operation that moves them instead.  Its semantics follow from the
-> exFAT on-disk format (cluster granularity, a single valid_size per
-> file), so it is added as an exfat ioctl rather than a VFS interface;
-> fallocate() does not fit either, as it only takes a single file.
->
-> Add an ioctl that moves the cluster chain of a source file to the end
-> of a destination file and then unlinks the source, so that only
-> metadata changes: the FAT, the stream extension entry of the
-> destination and the entry set of the source:
-I suggest changing EXFAT_IOC_COMBINE to transfer only the source=E2=80=99s
-cluster chain to the destination, leaving the source linked as an
-empty file. Userspace can unlink it afterward if desired.
+在 2026/11/25 2:12, Kiryl Shutsemau (Meta) 写道:
+> On Mon, Nov 23, 2026 at 11:32:22AM +0800, Jinjie Ruan wrote:
+>> While the SDEI cross-CPU NMI is active it claims every cross-CPU
+>> backtrace, so on a platform whose firmware exposes SDEI event 0
+>> the irqchip NMI path can never be used.  There is no way to opt out.
+>>
+>> Add a boot parameter "sdei_nmi.disabled".
+>>
+>> With sdei_nmi.disabled=1, the SDEI NMI stays registered and simply
+>> declines every request, so arch_trigger_cpumask_backtrace() falls
+>> through to its IPI path and smp_send_stop() skips its SDEI rung.
+> 
+> Why keep event 0 registered and enabled when the switch is on?
 
-Thanks for the patch.
+These original codes are left for testing the IPI as NMI function.
+
+> 
+> If sdei_nmi_init() returns before sdei_event_register(),
+> sdei_nmi_available stays false and both hooks already decline.
+
+You are absolutely correct. sdei_nmi_available itself can block all SDEI
+operations, which can simplify many things.
+
+> 
+> Then the flag is read only at init and can be __initdata. None of the
+> other hunks are needed. The check in sdei_nmi_stop_cpus() is not
+> reachable anyway: smp_send_stop() calls it only after sdei_nmi_active().
+
+Yes, you are right! I will update them.
+
+Best regards,
+Jinjie
+
+> 
+> --
+>   Kiryl Shutsemau / Kirill A. Shutemov
+
