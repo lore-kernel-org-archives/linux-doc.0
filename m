@@ -1,63 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=182.48.54.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795622654;
-	b=ndjJ8YuAPjUQlWUOJ6O/KUROSJLpB8Bv/mUTpMdmQd4h3Ejuwe9FtFz9uylhY5HlEsa2
-	 dioTyKGhrJU3LblnVS8uLpjwG47X9dfPdm9ftxE/n4Ggck9HJmcI9u3SYwvO6XZ3B+Qvp
-	 1BWZXuK1jWM22/ELfYYSr4DhNgLX8PHeGqX9C+2VRJFhROsyaJCCmKuywCHfTEEVuo4Y9
-	 aoSRz8z9o+FKeWhHY3JOHbMlYkm816+InjFkucqQiCNv7vDcCSy+V56lms5tAZbR9DQTe
-	 TOlaDxu1n8I8LJRtvMEcyLB1RGFmEwV3G+W9RQi5hJHPrlythcBc6iaHQiiFPfLy2Fw==
+	t=1795622817;
+	b=pQh3DlbFLIUBmyPNX0vNI+S1fdKBwsJohUJHNkTU9miQI8eO9k96LIU3c4qrXsskYK6t
+	 wxjslImzu8hjV8KsgTtWVUuaIGB7jl3uQCdMw2xxN2/8U5XXlZCMP0Moxh5aFdd5WU06H
+	 VGhCCv2cYJlAxw+JjqsdUfbHcsSl/30ZGQM21+Ule/4C2++HWZtqfrJIWCGA0ewtDRB/6
+	 6D5ud2ZJJviHZnJJohqx04o0xAe0X+mYbrnumpoDc9fU6X3GW+Pit0X7aMGZYosmW1RfY
+	 xFaEkDZDNQIrdoRBIh95FOXqu91pd0kV2LihWj8RwmvhwrIHpbUhOQtbCjMABNqwOhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795622654;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=H2tKagOPgmS9HMlxlN0pYlcWypWUh9NQKV85o/DpOkk=;
-	b=hVfdS+d0liNPXhkagD60hiWhVh3tpkvcY9I07MtIt2LR4EsUuF6xmiwaxaa3i6f9zVku
-	 8vI5wp4exMiIBD7A5TJuXFAXUJxlfp0gJj+o7K9+Were5alt4Z68biWgMbL6ru5T6OS64
-	 bKyd7WyOeCD6CRBG3jEFHhueb2ctlDqWjodmwHvuN3bz4d0zc1ZClqDLPfsrtLqx4Zq4T
-	 AAj6gdRA8i9ezes5WXtyAL+1mE4hRbjbTlR3F+HgmA0X36UycX7tw0phE6psarUruegiS
-	 6dji+N05MAP2hnfAlNptOHSnctTS/INkwXBs1jFyhANWira6TzA75fLn5brMdgi52kw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795622817;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=tbHtq4u5qNw0coKzM67hn3NfizR9DRcO7y7V+ZSUs48=;
+	b=ZECnogIVvElSmgTG2ss5S3NW+19bwiq/IetMS6ipwlcgJ+DL5iauCZDyvpHoSlpUxYJ6
+	 yDVOQRYJKeNgweQafm7SWhOWnjJygBH6QfvBXX7leSGkPGhKKLHnm4hOfPHxqEVR9wfjl
+	 NXcLuNBhrptuiGPr5hgPVZhwqkn92JBzjVWgW3D19Ee7a4IzSv0RP1PK33gshtSOH8I1z
+	 8XgYvCBct0ehoFbCKO0CTN439Xqml0AFxlTUwwx3Z6srM2WV1SXWUCYiQ0MkXrXvVMqGT
+	 eHE0PYKlgeEtEYrq4eWwwJN4GnZNh3hFhFmihOt5oSgTa3eta8R2olDMIP3FaZmgLaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=O0J15Gqy;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD78E606A323;
-	Wed, 25 Nov 2026 16:04:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD78E606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=O0J15Gqy
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 60ED6410D3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1795622653; bh=H2tKagOPgmS9HMlxlN0pYlcWypWUh9NQKV85o/DpOkk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=O0J15Gqy9Rr6NOHvH8CQNxOvoEwDF0JkzNvNq5vspbx//SwyHQv5V/fXEmRFlCPZ7
-	 Jsrv4yug919SIfMNvhzahxw2aXN4rA+0sJ0cxppJfzI2qBJGuW4HeMGH3var44cYwG
-	 16ZqvN75r06qxJplO8mOX2vahq2+ib1vqToqTqUtsXj6Qkin8lkrjL4q9BOX2sxVZ6
-	 WeeZhRnCm/x/8IB8u7MAwrkcDmcKagzzO2tZKOvy86LZOL1zu+AM2XzIJTgvdTaOlZ
-	 gRMUgngNQVgbIiEz82YFirQQiNZ2gJYEYD83nEAVrIK5y3vM6tE9OK9m8JDkU5Y5Rs
-	 rNIYEMUi7u3mg==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 60ED6410D3;
-	Wed, 25 Nov 2026 16:04:10 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: doc-guide: add command to output
-In-Reply-To: <20261116072319.1094457-2-manuelebnerli@mailbox.org>
-References: <20261116072319.1094457-2-manuelebnerli@mailbox.org>
-Date: Wed, 25 Nov 2026 09:04:00 -0700
-Message-ID: <878q2gyk27.fsf@trenco.lwn.net>
+	dmarc=none header.from=snowrabbit.org;
+	spf=pass smtp.mailfrom=snowrabbit.org;
+	arc=none smtp.remote-ip=182.48.54.220
+Received: from bambi.snowrabbit.org (bambi.snowrabbit.org [182.48.54.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81B88606A680;
+	Wed, 25 Nov 2026 16:06:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81B88606A680
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=snowrabbit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snowrabbit.org
+Received: by bambi.snowrabbit.org (Postfix, from userid 3001)
+	id 2B33CC9300; Thu, 26 Nov 2026 01:06:55 +0900 (JST)
+From: Showta Ishizaki <zakinko@snowrabbit.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowangio@gmail.com>,
+	netdev@vger.kernel.org
+Cc: Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	=?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Chris Arges <carges@cloudflare.com>,
+	Paulos Yibelo <habte.yibelo@gmail.com>,
+	=?utf-8?b?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+	virtualization@lists.linux.dev,
+	linux-um@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	Showta Ishizaki <zakinko@snowrabbit.org>
+Subject: [PATCH RFC net v8 0/6] more virtio-net csum hardening
+Date: Thu, 26 Nov 2026 01:06:41 +0900
+Message-ID: <20261126.rfcv8.99797.0.zakinko@snowrabbit.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,29 +66,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Manuel Ebner <manuelebnerli@mailbox.org> writes:
+Michael wrote in v7 that he would be on other things for a while and
+posted it in case anyone wants to take it up, so here it is, rebased and
+with the review comments addressed. Michael, if you already have a newer
+version, I am happy to drop this one in favor of it. Patches 1-4 and 6
+are yours; what I changed is noted above my sign-off.
 
-> Add the command './scripts/kernel-doc' to the code block to make it
-> self-explanatory how to reproduce.
->
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> ---
->  Documentation/doc-guide/contributing.rst | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/doc-guide/contributing.rst b/Documentation/doc-guide/contributing.rst
-> index 0f0804f82d..46a44b39d6 100644
-> --- a/Documentation/doc-guide/contributing.rst
-> +++ b/Documentation/doc-guide/contributing.rst
-> @@ -55,6 +55,7 @@ fixes; they should go to the maintainer of the subsystem in question.
->  For example, in a documentation build I grabbed a pair of warnings nearly
->  at random::
->  
-> +  user@PC$ ./scripts/kernel-doc --none drivers/devfreq/devfreq.c
->    ./drivers/devfreq/devfreq.c:1818: warning: bad line:
+Changes since v7:
+- Rebased. Commit 73e08d50eb13 ("net: virtio: validate outer protocol of
+  UDP tunnel GSO packets") has the header parsing helpers and the outer
+  header checks, so those are gone from patch 4.
+- Patch 4: has_eth is passed to virtio_net_hdr_to_skb() as well, instead
+  of looking at the device type. I dropped Chris' Tested-by, as this is
+  no longer what he tested.
+- Patch 4: the tnl_csum_negotiated check is ahead of the validation
+  again, as Willem pointed out.
+- Patch 5 is new: the outer checksum of tunnel packets that are too small
+  to segment. Willem asked for it as a separate patch.
+- Patch 6: the sysctl does not turn off the outer header checks, which
+  are in the tree unconditionally now. I turned the Reviewed-by tags into
+  Cc, as that changes what was reviewed.
 
-*shrug* applied, thanks.
+The two issues Michael listed as open in v7 are still open, hence the
+RFC: the inner packet of a tunnel can have a valid header at
+inner_nh_offset that overlaps the real transport header, and completing
+the checksum at input breaks nf/BPF programs that edit the payload and
+rely on CHECKSUM_PARTIAL.
 
-jon
+I compared no patches, 1-4 and 1-6 on arm64 (qemu, TCG) with frames
+written to a tap:
+
+- Non-GSO UDP tunnel packets that ask for the outer checksum, over IPv4
+  and IPv6, go out with a wrong one without the series and with 1-4, and
+  with a correct one with 1-6.
+- When the inner packet is a fragment, 1-4 reject them with EINVAL, and
+  1-6 send them with a correct checksum.
+- GSO behind an IPv6 AH is accepted without the series, and rejected
+  with 1-4 and with 1-6.
+- A plain UDP packet with csum_offset at the destination port is
+  completed at input and counted in rx_csum_sw. One with good metadata is
+  not counted.
+
+The objects touched build on x86_64 with W=1 after each patch. At the end
+of the series I also built the um objects, and linked an arm64 kernel
+with CONFIG_INET=n and VIRTIO_NET=y.
+
+Based on net e6474ead54b8, where the tests were run as well.
+
+Michael S. Tsirkin (5):
+  net: account for ingress-resolved virtio net hdr state
+  um: vector: trim skbs before verifying the header
+  virtio_net: parse tunnel csum_start little-endian
+  net: resolve uncommon partial checksums at ingress
+  net: add a sysctl to opt out of virtio net hdr checksum validation
+
+Showta Ishizaki (1):
+  net: virtio: compute the outer checksum of non-GSO tunnel packets
+
+ Documentation/admin-guide/sysctl/net.rst |  19 ++
+ arch/um/drivers/vector_kern.c            |   6 +-
+ arch/um/drivers/vector_transports.c      |   4 +-
+ drivers/net/tap.c                        |   4 +-
+ drivers/net/tun.c                        |  44 +++-
+ drivers/net/tun_vnet.h                   |   4 +-
+ drivers/net/virtio_net.c                 |   2 +-
+ include/linux/virtio_net.h               | 247 ++++++++++++++++++++++-
+ include/net/netns/core.h                 |   1 +
+ net/core/dev.c                           |   7 +
+ net/core/net_namespace.c                 |   1 +
+ net/core/sysctl_net_core.c               |  50 +++++
+ net/packet/af_packet.c                   |  16 +-
+ 13 files changed, 381 insertions(+), 24 deletions(-)
+
+
+base-commit: e6474ead54b8acecb8b0462dde2d77f46d2b7dc1
+-- 
+2.54.0
