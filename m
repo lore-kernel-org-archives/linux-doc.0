@@ -1,95 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795612345;
-	b=G0Rp/iGIumL78EfOoCW4zp+ptnhGu5/4TffYLuF+kB0pxWci5jnTME0Ok3mjuJJf0JCq
-	 I+vh88/ebDV2S4Me1t5W/BLCvlCSfI2YUNJyvQPrVmr7EHpfSM+U1AcMyp2+/GNKAluMI
-	 F3vd7Uz420b32OCqVMeDTazHT4cYZJj6sAPpfpM4P0vxX3CRGIops2md5NDUYz2m4777Y
-	 ACwBXv9yz35OsA6GrOwZ9q6jZCYFZI4YE/POKavbgF4qB8yisNWLcsjcUiZFyFGFa5iiu
-	 2JHyTeQb4BrQSvGykwxKh0bF0YO3OyH300UC3XAVzS+yCvViQS7FTpWcRunna7lkJvg==
+	t=1795612350;
+	b=g7Bjl33bDM0PKsDlM44V+OmNuERH6481xS9InpE++8SOMfDRzkNg1NwIce0oIrbUuwj4
+	 2ZEpbsCYM5x+XUrxkXAe86su0E7XZ4uRAgSCvDztGWwSnKrL23CrhugY7LQ+RQI/i2+8a
+	 sIkQLqNw/spDofzJYUUdeRmvZliNXRLLZJL2gqhoSchTrCbDLybXugTV17j+m1IucbfVm
+	 ItqsAXHYyD1yps7Yc9Za927HzkYAA6Llx+d2kZGLNJXtpbb3EWqbe5C68OFjtGMzol3HQ
+	 qqonLGPEX/sZ7QMGHHBV68RYW4C10k5bM068+WIZHa+YEUM8XEnaaaKuY9MGwBgeGzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795612345;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795612350;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=CSy0760iv92AUsgP20PxMm7qkWdFkHwobtNBYYjUqJ4=;
-	b=SFiKN5mk1PM3iTcbFbFpCCyDR9ioJmae/NoWgNEq6amyeWCk3+PLuFiJq9KjfxTiycT1
-	 pR8NKsSoldp1ONWl56rWKY1b6mO/agWtnbYp5KSJjLL+HUQpkbMOJ8bTmdby4MJJJDSL0
-	 fKK/By+9IkLp9UnuzxlY8ibKXa76A0a9LET2wCgl8LpCDcVe1mZ/F7Ns3pMBVrBxcidLX
-	 nOkv4bWT/1DwqidOW1fvZLzqvE8jPQVIyMv7gAdX5Sn6xWF3k1vviWX6xj2tbIatJRLTf
-	 C+a4+gXDYo60AqpbDURVFlhjOyO/LsaNMJk57PZSBvjUYHV7uB4j2DRnsQWq4mS8Zgw==
+	 From:Date:Subject:In-Reply-To:References:To:Cc:Message-ID:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=UvrRlNwsml3xyPKp+kC1AP2uPPMG8CifNGrPGhS5eEI=;
+	b=nEWBkTiiRvrrkqXSMsuTfcvo3NiTPK1KviuH3r1XsuUbnAThcHakKmHehaDPHFFmGSbm
+	 rj6MNAJkCtjZW6X/CtcXRQacpzIWPS2LFUaoYthPayDFlYeCyXO5gzrldF4hVL8UVc+TC
+	 mfRDduvp/svRlkRLzNaiFz6W6qs/eaySaLBrf0zMAzmspyxDa0GeBeA7Cxdqbwxoctp19
+	 Ne0efd+lRWpdglxmjHo67Lv7e3KG6hGkATEaWJ7I9xaiqMkScxm0jHKYSdFvHVVU1i7uH
+	 Qn5jlwmNoMLiq+12VZMlpAHe2sduGxjs+LUaUdLL/LJncqqA7cUXuTLLOuBvSfLWHdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fzOaOKNR;
-	arc=none smtp.remote-ip=209.85.160.175
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nNbG6lhM;
+	arc=none smtp.remote-ip=209.85.160.174
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA47D606A32C
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 13:12:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA47D606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9ED7606A32D
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 13:12:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9ED7606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fzOaOKNR
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-55c48582654so64750581cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 05:12:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nNbG6lhM
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-53644b28706so92037441cf.3
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 05:12:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795612344; x=1796217144; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:message-id:date
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CSy0760iv92AUsgP20PxMm7qkWdFkHwobtNBYYjUqJ4=;
-        b=fzOaOKNR08ayDz631qIR5YM6RbDX4cXMRZT7PE5kvvn/ZKKFy8OqDo0kxL/CGZipfh
-         yXsGpHHPH7x4KIMUFiT0hBdTKg/FHDQ+cFEBZ56hKsPDzqho3JjjnjCYeAOgQuhqrCCx
-         Kyuv2Qgb2LwbL3/jeN6fbvh05cZA5VXL+0kBnF+1toR/jZjXSZvEN7CM5ELf3o5aREvn
-         Eluy+jaX3sWqlm/AYzmzvCNEWh8yt3FwyrbW07O1L9zQIfpd2BGAQi/jkH+nk0STPApP
-         ptq4+5w9OImGltbnF0OW7sw20wlbr2yCaaAbLC2GzlR8rCvoWGScBAMjYdoKnZdgnhiD
-         xAyw==
+        d=gmail.com; s=20260707; t=1795612349; x=1796217149; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:message-id:cc:to:references
+         :in-reply-to:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=UvrRlNwsml3xyPKp+kC1AP2uPPMG8CifNGrPGhS5eEI=;
+        b=nNbG6lhMNlg9s3RxRiJNbZFCcJfSZu9DNa7mYpBntzBscZz1jH+GJVdRxODmIBn/XH
+         9T3QeSZ0dBdrShV+5UTQlvRJDGWmaSFgwPG8xaK78m9+1IsZbQZh8uwdbPQRLpLbeQ4O
+         xVf9SGqpPHCiDraZ/vP2iJjFbnzcI39gmq/x2WCzCnLx8mO2lMKqvHamXx7lbVYnXZLk
+         hcuvxmVxfNp9NbLMuVJ3iDg3B8wRXBSTMgQwkQF6CqLuXOfDj+xbdovSj5yUEFllih75
+         XhL6PeZGqPIxDJiSVo3a5v8EE/vrplOfFcWFgb30mkGU9pUBVGKlZqSfFrPBsPBaAqh7
+         Z59g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795612344; x=1796217144;
-        h=mime-version:content-transfer-encoding:content-type:message-id:date
-         :references:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CSy0760iv92AUsgP20PxMm7qkWdFkHwobtNBYYjUqJ4=;
-        b=2yp9fuR891Z2mvBNo7G0nMLFmtTn4BY1SpOwHEI2m+QNwkLigTPQYuM5j3EuVBo3VP
-         A11pTtDA3qSMkLN6reJLbCxs47LJK/hdQvNjbas4xN8Z8Pg3WROuI27ctj5n4+xWgu1G
-         kGGLQ4HzOIy+KCmskdVcahxr313zzQH+rj/A3LD3Wlv8hJiBBCt5tFARUxxyx5S9Nn6r
-         7SaG1ulBBBa4/t+vXHxZiFwBcLrYPSVAUWgqOBzQwvcRQKntKfm/RrXMYYJiX4SFWSwa
-         PrRmkCiEGEfIYUonx59YKfyVmqlq2X7U68bn63lpLycMOTtoRZg4hIW6OZ39tiiIp0Ba
-         W0nA==
-X-Forwarded-Encrypted: i=1; AL+hErEoZMriR4Vk9N0C0wa3I1H2O9sa06PizYZBHTTM7cbOt1Jec9JqsQ84+stZbJWUxBASY6um38dj8xU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+DlR5z2gP3/LC3Siil1QNq7uI4u1MRjIB5l6+PV1i490YEn1sZ
-	x1h0TuxdKmslv9WcPdH6EisZ5SEGQqR4lZdzQEcVlExnl1zHHFVVCgo=
-X-Gm-Gg: AZFdTZe6jxDmjpMEMyg3cVfk6rdw2jGV9K+K03KdE3svAsxs2eJq9jQdwuBopajJ9FI
-	aLNPx2aXB6ntyEMsWnjVCtTnUQrrMQhspe8yDG5dVaRJqDnqz2Tp+EJEiuIEQMwJAVjzc6SJjEf
-	CxdNkEVZOirNkKcoiJZE+I3H3yLpENgydo7VV/ZN6wQDRw7VOJsrgp1jnW3XC0vh/BqB/zWvbbb
-	Qxmi2J62K0GlHkEZ5OhTnNQRdaBCJiT+7aiz5yYpnN2lJVkl/3nDt3j4/x9oCWCTnAIHo/iYtdw
-	LlSQ/X+EdDfp8v0YMoRRZYRmG6Gs7WAOArIiThOr+cYGxFdWVvvA1MpVmwFy33oEVdAFefR58xI
-	eQHeptlCJk7WeS+xmnzbpmZUoRICmFKwc2lj3o1p6tBXWRGULClIS0/qTX8rta1H9v0vscBNwB9
-	nyPWe0LKnYhYZ/cD/8U5jkqcvdw91Xjic87jEddIFeG+r4EKr3s/fuqCRhBiTv2JMJGzha6fq9q
-	jqbdXKCn7DamRdKmYFahSLYjp8OADSIL9W+CtQ0JVlnBPjBDbcor3a2C6jpUReOjnyOIN1OJ6ez
-	39gqfwyEOm+7sVO/+PGFFnSA1VjpUJl32la6xSAL3YU5z517CXLlBj7MKDHJjLw+Iu2krY4IAo6
-	etni3e67jOfjJUNoHxbHUlj0KBJwXHfeyZ3iJxjA9rEcg5jk4BX2+dN3BPkYYbPuNsSeGGw==
-X-Received: by 2002:a05:622a:410b:b0:535:157b:ea22 with SMTP id d75a77b69052e-55d76ac5e33mr308582181cf.40.1795612343642;
-        Wed, 25 Nov 2026 05:12:23 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795612349; x=1796217149;
+        h=content-transfer-encoding:content-type:message-id:cc:to:references
+         :in-reply-to:subject:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=UvrRlNwsml3xyPKp+kC1AP2uPPMG8CifNGrPGhS5eEI=;
+        b=ogdWE5/+VvyN7uQY1VNKC9FKDciWGB84oT/eNQEFPbRIOGthFClABK+R0aeujFHygE
+         Ujnkgz0TsWskO1JGFXB2U/VC4hTbK0vCZ5XoEqiRRsMeO40TaWPVfPBH3v+TCJPwXleI
+         EpfM4Pl2J8CtMpIw7j42WwlOq0doZpjo5iKbpsw3aC2F0BC+TtPqF1LoUyUivkKNbbrl
+         uzLIWeDW0sYsPdCIWPCyq0hcwAN/yYYzkhFBBeO+SiPMvemJrqIOfEip7MFGxwt4+zba
+         AOSReC/eBqIrZp/7xf22BUPqZaYCrXs8CZ0wGxMoBUBEw6fKOnTRiZiC7yApc/awv6je
+         DzZg==
+X-Forwarded-Encrypted: i=1; AL+hErGySgjBeHjUmv6T1VfSfrXZC3CyiFshzTp0OZD4J1cuJ2mWM2ajdB5Ce1NfvqVUTCDNu/Fx8L9WO5A=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/UK3i13MBHnk90GJ5jKwHNVF6fA0SZvTTrwJMcGv3vkzWZJ3o/
+	4PiDhts4xl1n/cAkN2ydLx+c0iNRiFAm8EnQ5mqg50bgNxfM3TPGzeM=
+X-Gm-Gg: AZFdTZfp1WE1lKa5AKMBAvzal8slsAjyetr8dWh+/eAvVLmXf1EB8e8hC7/0TYDFYU1
+	K6d5RUKrJnb+MdWdwHFI6eHFIr95XxG5Tg2jhDYzrn1Yc/5Tqa8JJL9H7CpucdOUdcY7tGsAHEk
+	FXeA5ftzkEluw1D/8Lhc1SrhpAqmI3ftzA8ZcLMn+RqdyCM084ZgOzmgzy5mOD29bLRtBiC0jxP
+	IuzXCheX0HP/UmMk/0IOGGyPbb8ekd0uHUarJsJ9X9yEPR0vEeSTOQ1IQwVUmd2WnsSKenb38fU
+	q5ljK7c59clmlEuyQ2Wve1TVfNFQh9LKbnsL7s3UTYqHLIfAIMWL9ZaEe4Amzx5VY3hvx45yKu3
+	6jNYG1dN00+BqRcEC5uM5aYTefAVBpJnDpnAwYtuwANGtB+yew5Hxwja9XiV5n1pkTX3Ng0okEI
+	FEC+VULh3n1phlQDEkBaPUEasevJzq2ON6DnPyGS5kdMx6g6TK7OTiEm6cGrI8NZyVUPi/kHUDY
+	6eo+pGzaNfQurl6RtNdXiWLFNKkwDJZCdkt16cry1wSAzILdgKRkhayw9TuZSpF4fJbQKLtHMGC
+	E2VqRE+cqfSwvlJmSb0nxpPqG3gT0QK396gOlpMyJ+7ZDu+WN/bQToMuggq4aJasQeb7qfgwQuY
+	eUKXfwF8FYOEVHjKoinVVdg4dtYLgofn1N+WdSnFO5RXF1I278v/Ilkvb3SbdQfD/i/7GM50=
+X-Received: by 2002:a05:622a:34f:b0:55d:3695:c1b8 with SMTP id d75a77b69052e-55d768a24f3mr359297361cf.11.1795612348580;
+        Wed, 25 Nov 2026 05:12:28 -0800 (PST)
 Received: from [127.0.1.1] (207-237-119-98.s2383.c3-0.nyr-cbr1.nyr.ny.cable.rcncustomer.com. [207.237.119.98])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d7889f8b6sm155981971cf.28.2026.11.25.05.12.21
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d7889f8b6sm155981971cf.28.2026.11.25.05.12.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 05:12:22 -0800 (PST)
+        Wed, 25 Nov 2026 05:12:27 -0800 (PST)
 From: Eugenio Zuccarelli <eugenio.zuccarelli@gmail.com>
-To: david@davidgow.net, brendan.higgins@linux.dev, corbet@lwn.net
-Cc: danielmaraboo@gmail.com, raemoar63@gmail.com, skhan@linuxfoundation.org, rdunlap@infradead.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v2] Documentation: kunit: document --summary and --failed options
-In-Reply-To: <179558107134.36587.13120861622026385297@gmail.com>
-References: <179558107134.36587.13120861622026385297@gmail.com>
 Date: Wed, 25 Nov 2026 13:12:21 -0000
-Message-ID: <179561234149.225312.4673144866194884043@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH v3] Documentation: kunit: document --summary and --failed
+ options
+In-Reply-To: <179561234149.225312.4673144866194884043@gmail.com>
+References: <179558107134.36587.13120861622026385297@gmail.com>
+ <179561234149.225312.4673144866194884043@gmail.com>
+To: david@davidgow.net, brendan.higgins@linux.dev, corbet@lwn.net
+Cc: danielmaraboo@gmail.com, raemoar63@gmail.com, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <179561234149.225312.11200387441465771003@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -98,11 +102,56 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
 
-Hi David,
+Commit 062a9dd9bad7 ("kunit: tool: Only print the summary") and commit
+3c67a2c09b3c ("kunit: tool: print failed tests only") added the --summary
+and --failed options to kunit.py, but the matching entries in the
+run_wrapper documentation were never added.
 
-Thanks for the review, good suggestions. v3 follows with both.
+Add descriptions for both options next to the other output options, so
+the documentation lists the arguments the tool actually accepts.
 
-Thanks,
-Eugenio
+An LLM-based coding assistant helped draft these entries; I checked them
+against kunit.py and kunit_parser.py.
+
+Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
+Reviewed-by: David Gow <david@davidgow.net>
+Signed-off-by: Eugenio Zuccarelli <eugenio.zuccarelli@gmail.com>
+---
+Changes in v3:
+- Reworded both entries per David's suggestions: say what the summary
+  contains, and that --failed hides passed and skipped tests.
+
+Changes in v2:
+- Moved the tool disclosure into the changelog text; the Assisted-by
+  trailer is no longer described in Documentation/process.
+
+ Documentation/dev-tools/kunit/run_wrapper.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
+index cecc110..9e0d83d 100644
+--- a/Documentation/dev-tools/kunit/run_wrapper.rst
++++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+@@ -327,6 +327,15 @@ command line arguments:
+ - ``--junit``: If set, stores the test results in JUnit XML format and prints to `stdout` or
+   saves to a file if a filename is specified.
+ 
++- ``--summary``: If set, prints only the summary of the test results,
++  including the number of tests run and how many failed, rather than the
++  result of every individual test. Does nothing if ``--raw_output`` is set.
++
++- ``--failed``: If set, prints only the tests that failed or crashed,
++  along with the summary line, once all tests have run. Passed and skipped
++  tests are not printed, which makes failures easier to spot in a large
++  run. Does nothing if ``--raw_output`` is set.
++
+ - ``--filter``: Specifies filters on test attributes, for example, ``speed!=slow``.
+   Multiple filters can be used by wrapping input in quotes and separating filters
+   by commas. Example: ``--filter "speed>slow, module=example"``.
+
+base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+-- 
+2.34.1
+
+
