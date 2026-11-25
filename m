@@ -1,108 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795625137;
-	b=d7PihfG8THwoBJDKt1sW+ZleRR42s30RFBmqCyjDrFAWsxuZV4Yr5eV0+TVwQfNKy76l
-	 37MmJxCButtmfr5ujtpQzyKL8CO/BRKTCQLM2IbfP19asYFiBm/7lkTNMK8s/48gFIkZJ
-	 G/MhgwC1+5cTNEcp8xesI4axVxEbe1/Wacm6n70fCji7IFATTISr+2uCuhtP5g2gRLWch
-	 OJR5qaty3Is/CwVWSgXKGO5ZnnrDSE+F+vISrjJDR3nPnYGRATofmLINqWubaHziwPAd6
-	 yGp/RMkR7ffED9cZI7QZzU1VtK1/Mwbwu19nMDCRuyXYODeJBsIpE+/SBNgGN9jIBKA==
+	t=1795625140;
+	b=4Q4lgN+6sxwSFl/vD+22Vwsz+2prGr+jFK4/VlqISQfQwh91WlRtqpi22kxg295zfyoM
+	 jJlUzCOf+qWVy2u6zdLcZpxAe4lLVODFqVTgFl4eLG3Gh5R6sUUyytjxgjaWdUiI8qAzq
+	 7P7s6lE2IMdOLxyrcE8x/GS4UYPHCRT0GohdTq+H9uVYm/eV83RJNVafjbV4ooFjOzN9r
+	 EKsD1XtpwiMcebmfLIU6hGLzxGzC22lLihHuhFvKKOHJHlVA5UDs9FEc1JE8WfqaSRvLf
+	 OavAreRJdPUSV2mgiU03vegqNRJirrQGhH7Q1qKtzfXJKO/8qYCJ+PFdJztLlTGSvuQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795625137;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=11zt4OupvieQqDw22Q2ubqyLm0TwPHTf9uDp8UQ/aNg=;
-	b=PUsbplCsMhlqiymWe4V5Xj/NroXrL6l5nwWUHeAe+tJogdDy8zUOeEkMzFcJNRInmf+Q
-	 Zjji2Mth+x5/ypT5hjyfsZV+DJlbCDhDP9SVZavQG79hsWIvKkMekf0zhvdHPWK4Xisa7
-	 0OLHR1E8Hg7Yvzz3zEDDiiyU729leUZO7zbT0URM5MwvsfrRKVK/VaerhW82piXXxpal5
-	 YY+PM/cgeZQrO1gojlBzOuc1R85JbaT3S7vlqlDVxnKY2gXjGQXbPApahWRk9Q1nGwk6+
-	 /6wQs7SGFbO7KbnQ/Sb2YHFSFjj7A2wxpg2Rm8yyRqjng5fp+Cef4UaWGd6Cw5rmWgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795625140;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=qzSNzkmnLjAnm2o7UEPNC82u2CvWGqHDymHqRLR8nws=;
+	b=lshKRoa9dArZLdNNsCc0KyBLg2VT2YP8Eo9gYgxnrI+GLFH0w/H0M/5365be0225yV12
+	 +EL/pdE7ggr9kVkZY1es5IS2djjyK1+pBYhvUufkrAGBDzJqQ2jtZY+cfaW6eaRavB9ok
+	 UIh3+JSaFKh3K6c5TxW46QuoX5K6puipVr8wdZvIOyUbyJnsiRPwlomfLv4PANABE9dzD
+	 SM2Ay/JS+F145vHS5losBmVB++AEaxB2b8tUzY4bMzB6HHTakuLIzjylo4SB9Ind5VaqP
+	 6MFX12EIc37UYvrvK7h7bxliRBNUyJzV397DjcUtOdQRh1bTCLfGArPV02FvCZw5Nyw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=gYew8w2z;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=VeMZMFlK;
+	arc=none smtp.remote-ip=209.85.221.44
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEEE606A327;
-	Wed, 25 Nov 2026 16:45:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5AEEE606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D84160A2605
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 16:45:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D84160A2605
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=gYew8w2z
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 164CF410D0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1795625135; bh=11zt4OupvieQqDw22Q2ubqyLm0TwPHTf9uDp8UQ/aNg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gYew8w2zbH6+bi/mBbqli+h0aBDamw00BioPDCMMC4Es4g+qCaaIw8gBYOLhfGAsU
-	 9mfNHzR2Wjt3eb5ezNkPplfVvqDZB4yLXc7H/uIjYl6k/R0SNrt0O4pqewchTPc4H+
-	 DoPRzU4+fJgJOU7hPx03jLkV4HVaXJMTTjxyrWRVyiE+GFkUio915W5ZUB0L5VMnbm
-	 Z5AtjEERksNhEMgjG3ZSm0ynjzhzYrKmQP0JaqQq4T6DitPDhHE0cz5cUJ9ItE/n9j
-	 Ip9FDRPDTnpXpMfA3rcqvq+BtjVyvtC+AdbQzNra/9WErFSqw5foLA7PdpN6n18WG/
-	 9pepodyHhS3sA==
-Received: from localhost (unknown [205.220.129.44])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 164CF410D0;
-	Wed, 25 Nov 2026 16:45:34 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, David Hildenbrand
- <david@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Jason
- Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
- linux-mm@kvack.org, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, linux-sound@vger.kernel.org, Jens Axboe
- <axboe@kernel.dk>, linux-block@vger.kernel.org, Marcel Holtmann
- <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- linux-bluetooth@vger.kernel.org, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowangio@gmail.com>,
- David Heidelberg <david@ixit.cz>, oe-linux-nfc@lists.linux.dev, Chas
- Williams <3chas3@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, Helge Deller
- <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, MPT-FusionLinux.pdl@broadcom.com, "James
- E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, "Martin K.
- Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org, Miquel Raynal
- <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Zhihao Cheng <chengzhihao1@huawei.com>,
- linux-mtd@lists.infradead.org, Neill Kapron <nkapron@google.com>, Andrey
- Konovalov <andreyknvl@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, Juergen Gross
- <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
- xen-devel@lists.xenproject.org, Hans de Goede <hansg@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, "Michael S. Tsirkin" <mst@redhat.com>, Eugenio
- =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>, Sean Christopherson
- <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
- virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
- linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
- devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>, Namjae Jeon
- <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org, Jaegeuk Kim
- <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
- linux-f2fs-devel@lists.sourceforge.net, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Tzung-Bi Shih
- <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- intel-gfx@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v3 00/12] docs: ioctl-number: update entries
-In-Reply-To: <20261125061340.3402300-1-rdunlap@infradead.org>
-References: <20261125061340.3402300-1-rdunlap@infradead.org>
-Date: Wed, 25 Nov 2026 09:45:27 -0700
-Message-ID: <875wxkx3ko.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=VeMZMFlK
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4ac08f4a0b2so4256078f8f.3
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 08:45:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1795625138; x=1796229938; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qzSNzkmnLjAnm2o7UEPNC82u2CvWGqHDymHqRLR8nws=;
+        b=VeMZMFlK4XeBzwrDD6z4Doe5ujZ5PmFlBvgdtXgvDNgqyB2+a2sCMN2wk+r327T/uW
+         /r2BhYppBsmLCfA6wEf9rqAgdyevRRA01ag2IXLdtngT05rT8V5qUBbFQDnjjQgYE2gf
+         VRO105Wv3wS0sYOzpdh62UmMxKFuJZsiAfPK9beaxT/i9ZUHpkfJOUrelw8QBpX9lGS4
+         m35Q/nRZpkrOo84dL5yj6BJK1saMLREXy289b+W8lcU1Li54eo2LPH2XZ2BzxTKFv4V2
+         TU/7Cyf6kqOyQ8kgJ2U5PgB/NbN2a8Bu0WSQShF93YOhfgaUMd2kQPQDvfuKKEMIIK8r
+         gfQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795625138; x=1796229938;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qzSNzkmnLjAnm2o7UEPNC82u2CvWGqHDymHqRLR8nws=;
+        b=h9Z2xOW2Dtk2MVTr2fRJAcyI8qq6PmVo46IarqDlPObYoNZ98MbGH1o0XIUTGVRtK6
+         rUiK3/YxlD0UrXqOow3mGQ7grPZgB4g9Kz24nCR1BkM46dOCVPl+A89RyZewxay/Xm1/
+         IdzQpfk2A6p65laMSky5x4ZceqTbDynm1d6D6x5dZfXmXzStW6M38INb8tCfrJgtNM6c
+         jc0m6gC8/aWxa55zJJz9JzJlMRtu0SrvwTDdJgQ7owkqGiiT6lC3nIgj6ZgY6SgegqB7
+         08X0ghOvv9bH5eYwEAjqwdrOTJIZWY1zyoMBUYScS1PvXpYuNCMcGIUIBrNv/RDff3Va
+         Mm1w==
+X-Forwarded-Encrypted: i=1; AL+hErGn2JBbiqoEZVVextpyFn3cEAN9e60fCyW10lsGRuq6bmlLBhI2rgCXILQNrxvbvFXZYd7ZcfNCIL0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Bpx39aI3fgmdTiGafgBPm3EE+HJmxuShUeokEK3E6nRqEqCqA
+	NtftSCeHEBiv6nfJ1OuFA2mv3ZWwvZ88symL2m5EWGJAM5ekmnvOzSRh6VwQfjuKDx0=
+X-Gm-Gg: AZFdTZdh98VmWJ3dRcs8zEYP51PDzHIbvL2Vn6mMuY+Ari4Cbk8f54nZvtBSzQrStZ5
+	XmWbQBSftNhV80qwBJDfvu1MDuS/+LiR7nBjGt9jj9IijXPMSqXdY4nFJXRWasFxiv8wCfXMHI1
+	dHRP4mzAsx0a68WbsBCjns2Dx8rx2JyPgxZsZUccJgy/q6A+o1cou3cn7A1Fty122w05YCkuHEH
+	vwpQb+szcSjt/w3FA4T1ihwWm/aNnJMjrY6Ceap6M6I4in+enYlIBWR2mz91i8MIGTpNKlFe7q0
+	MQTY9MIExzuMWvrkAHPFoz0/+7uTk67+LNoPbdtF6OyN2IUDwcYz7XFX+81WzqZkiHguwaVbiGc
+	5l02vooP0ME5h5yB9yCNWID58ze2S5AlgL5/D3LmO4LaSvzUfC+/E2Yy+0K4zjZi2w+36JNMOM0
+	942cGaJ18NSADZfzsJssETYjfJpl9WITpe00V6+h2Bh/2CPPhljTzIsj5id+A6qz0YVVhs7awPg
+	hsW7b5+r9/aWcFnNEWvnG58pWGy7eQ/UWXseZ934ehCx/xnZFrdtYRSkOzTBt3kiiCvubXG6+Qx
+	cYtRjTYLDNdl+T1jb1lvwyxmju/TSEUIs1hSXk5yMgb2vFdGFNj2gg4vcWX500sV0A==
+X-Received: by 2002:a05:6000:4617:b0:48d:f464:6989 with SMTP id ffacd0b85a97d-4abb18cbe2cmr35982135f8f.27.1795625138335;
+        Wed, 25 Nov 2026 08:45:38 -0800 (PST)
+Received: from ?IPV6:2a07:de40:8100:0:89a9:fd0e:583d:4a53? ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b110c50sm34852448f8f.37.2026.11.25.08.45.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Nov 2026 08:45:37 -0800 (PST)
+Message-ID: <0c2e606e-e0b8-4466-b9dd-4db14cc35d1d@suse.com>
+Date: Wed, 25 Nov 2026 17:45:36 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -112,33 +92,91 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH bpf-next v3 2/9] module: Add module_kallsyms_find_name()
+To: Samuel Wu <wusamuel@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ Emil Tsalapatis <emil@etsalapatis.com>,
+ Ihor Solodrai <ihor.solodrai@linux.dev>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
+ David Laight <david.laight.linux@gmail.com>, kernel-team@android.com,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-modules@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
+References: <20261113221248.3535369-11-wusamuel@google.com>
+ <20261113221248.3535369-13-wusamuel@google.com>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20261113221248.3535369-13-wusamuel@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+On 11/13/26 11:12 PM, Samuel Wu wrote:
+> KALLSYMS_QUERY_BY_NAME, added later in this series, needs to find a
+> symbol name or prefix across module symbols in one pass.
+> module_get_kallsym() walks the module list from the head and runs an
+> export bsearch() for every symbol index.
+> 
+> Add module_kallsyms_find_name(), and put the shared query struct in
+> linux/kallsyms.h, so we have a more efficient linear walk.
+> 
+> Signed-off-by: Samuel Wu <wusamuel@google.com>
+> ---
+> [...]
+> diff --git a/kernel/module/kallsyms.c b/kernel/module/kallsyms.c
+> index 1ff8ce857d92..72006c9bad42 100644
+> --- a/kernel/module/kallsyms.c
+> +++ b/kernel/module/kallsyms.c
+> @@ -406,6 +406,63 @@ int module_get_kallsym(unsigned int symnum, unsigned long *value, char *type,
+>  	return -ERANGE;
+>  }
+>  
+> +/**
+> + * module_kallsyms_find_name - Find a module symbol by name or prefix
+> + * @symnum: in: index to start at; out: index of the match. The index
+> + *          counts the symbols of the searched modules in list order.
+> + * @q: name query; if @q->modname is set, only that module is searched
+> + * @value: set to the symbol address
+> + * @name: set to the symbol name (KSYM_NAME_LEN bytes)
+> + * @module_name: set to the module name (MODULE_NAME_LEN bytes)
+> + *
+> + * Undefined (SHN_UNDEF) symbols are skipped.
+> + *
+> + * Return: 0 on a match, or -ENOENT.
+> + */
+> +int module_kallsyms_find_name(unsigned int *symnum,
+> +			      const struct kallsyms_name_query *q,
+> +			      unsigned long *value, char *name,
+> +			      char *module_name)
 
-> Update file names that define ioctls and update the range of
-> ioctl function numbers that are used where they have changed.
->
-> [Since having multiple maintainers trying to merge these would
-> cause some conflicts, it would be more manageable for Jon to
-> take all of these through the docs-next tree.]
->
->  [PATCH 01/12 v2] docs: ioctl-number: update MM entries
->  [PATCH 02/12 v2] docs: ioctl-number: update sound entries
->  [PATCH 03/12 v2] docs: ioctl-number: update block entries
->  [PATCH 04/12 v2] docs: ioctl-number: update networking entries
->  [PATCH 05/12 v2] docs: ioctl-number: update video/fbdev entries
->  [PATCH 06/12 v2] docs: ioctl-number: update SCSI entries
->  [PATCH 07/12 v2] docs: ioctl-number: update MTD entries
->  [PATCH 08/12 v2] docs: ioctl-number: update USB entries
->  [PATCH 09/12 v2] docs: ioctl-number: update virtualization entries
->  [PATCH 10/12 v2] docs: ioctl-number: update FS entries
->  [PATCH 11/12 v2] docs: ioctl-number: update platform entries
->  [PATCH 12/12 v2] docs: ioctl-number: update DRM entries
->
->  Documentation/userspace-api/ioctl/ioctl-number.rst |   91 ++++++++---
->  1 file changed, 72 insertions(+), 19 deletions(-)
+Nit: kernel/module/kallsyms.c already contains a zoo of lookup functions
+with similar names. Adding module_kallsyms_find_name() adds more to the
+confusion, being similar to module_kallsyms_lookup_name() and
+find_kallsyms_symbol_value().
 
-I've applied the series, thanks.
+I suggest calling it module_kallsyms_query_name() to match the
+kallsyms_name_query parameter and to express that this is a structured
+query, as opposed to a simple by-name lookup. It might be a good idea to
+similarly stick to "query" instead of "find" in kernel/kallsyms.c.
 
-jon
+Otherwise, this looks ok to me from the modules perspective. Feel free
+to add:
+
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+
+-- 
+Thanks,
+Petr
