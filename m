@@ -1,100 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795612399;
-	b=LkDCL/mdTFoAVM3WvO56zBIBtPx+6vBsyYKB95VMgr/qlHvvrnBTXkMCMiD2wq3eqdV1
-	 ihzKONTochwOkDMHZNhsBQeY+TUSB5GZFSvRdYosqmFo8Ci/DrcOW0FFDNynJBM1WvA8X
-	 8ICHG1wzuHktT/tKSpXLTqFWzxWI/ZSHT7dLPPiNHq60P9+3rRO57hhNnOlhVGCuKe7c4
-	 GV+93p+u+LzDwGVmaFN0k66ipKF4gfTKhsOfobBzfV0zXOLpeWeLNMN9KCD7HtyaRwwHY
-	 gzAhFq1uCmIfbVqITFXu/A7FgFjNREINWwI6qpKoI34F8KNEnTuYWAM5moEclRzWEjg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795612399;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=5Yz7JNlPDDcs8XZFhzYAPoSiu941gv9oYg8JZ/90iT4=;
-	b=yHzba0AjceA0XeNHXYMqe+mjda/QYmMJ+SXHWk+/nCwnlU1eD7Iv4vLs3TpIgq59iFJH
-	 x93d0i6xVyz0FjfmBepk2uIhG/+yYp8VHwJSe7K3UEEnHp9g3uLt4mPYZN17EaSnpBm9X
-	 wDAoEvOdIZm9SQcMRm+VykZYGbAq+g3fn3G8pCJ0AWERV1m0CntX5yRw94XsiwTlTxtqA
-	 BCAMCQuWbw59RtEoTXjKqugO3VtUp5queB5mVaA21tltwVMcXYO/gi6FozmqnBcV7Ox6W
-	 LRbTEzHzpdvvCLo2mYkEl/3Twl4YcOf5EhYOx3QZaja6RF3DtxIVIrJbAjDfDbTLLOA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n0vv5HDD;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.44
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.167
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795612481;
+	b=YsD8y8jYBLafl3So0W9wxQGe74bA/ttMobXaiACz84saWf3snCW+g/sgNGuXFO7qmZF3
+	 Bbz0hcAqB8EBz1HZK9pNDMc8fQlKCI1cvWFOz5VnOtXrthLg8V/FQbbjmtZhX5kzmgPiO
+	 xD/xDq0b4IvA7I8p+0Hldm47eH2/6Twzu8ki0XyWyQwy7Yy372XdbR/H9NysHwhKF3/zx
+	 lIPTWHF8AozLIF7zjsrzhm/zTBj5HfJOO5wg9aNpuKxkItef5miAlaAIehEe6oyw/OFWq
+	 IOrFOO0GdNFMPDf5f6SM/bQQfUraOUtmoVlL7F4mCdKeJYiuzAcZxqQ0bBM8iUW5yJQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795612481;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=0nMz/PU6p6rxstnwsd4g3DPOFgXmUrtZFmxHK6dNxgY=;
+	b=mmPtGNAKbGcIxY6xiWlJfjIZn2xHaMNZX88MQ0IuCRamIikzhUEPNKwbOl1F02xtMwGO
+	 8JfQkunurkYtMWwZ9CdhttATVWZ8V6WwHajzDvvJCqLRB2hmIWJg14dbgPeMEZ/pohsOv
+	 uMi5+qV7hRiKpL4lv37YT4Pplzq81QTIKEnpTK4KwuprclQY+AOAhHTi6KS6EawyBhoap
+	 vkmsp+l/YpgH55GUbAGkuBwGRvUstmS3OdgJ2uv1tlNmr4syBna4LTU6fOFss/9XXmL5A
+	 poniCoMWyftJFlihuSXgSGSIVLGoPjvd2OFRyZ5EQKA8Iw20eWGxgQW2ay+G/wPXsmQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=xqX0RlJB;
+	arc=none smtp.remote-ip=91.218.175.167
+Received: from mta0.migadu.com (out-167.mta0.migadu.com [91.218.175.167])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E9C606A329
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 13:13:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6E9C606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A7A606A323
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 13:14:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79A7A606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n0vv5HDD
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b88d143160so7066290a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 05:13:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795612397; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KPKsDi9cYfiS7kTPdv6mnDY/v4rRgG1bvPhhZKH0YGjyuV+IA4uiE4Um5D/w9h75ca
-         uLq/ljGhrLneGrB+aLdi/D5w47l8KixppLpeDG8ypXGZNupOoUG2X6VZD90tdwaWjLFP
-         h4i16IzDo7Nr6gg+llJ5PrvDGtf/qaiCmCIb4bjumTuZ3NIFR65wodIwgydtvKmhpE8y
-         cgwya0ZiB8C9YwCmEDqcsOu99itOLcRkn9CLGIN0MnrEjB32tiUGclTfNn9tvcCmPb5Y
-         KuOnG4Loe0zVbqQLkUJvoBzwUpbLDENEu+PK0074eo3IUxsFwwOK6cRKn+A9MgviqO5o
-         R+9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=5Yz7JNlPDDcs8XZFhzYAPoSiu941gv9oYg8JZ/90iT4=;
-        fh=WVIgW/KuFUgS4+fV4x8hZMucoyy0+MOMI+nhV0XHiR0=;
-        b=gIp1NKbnQjo+afGCWRruDiXq1ddzbBgJWH8gZcLHra2FqdFMmbiHyFRaBslnWLOpXj
-         bCMibVkt5kSLFkO/BPf9M2t5HX4e4a1tMYIO1Vm6XX9jrI5EgGH7K4TgmnGn8I2D9JZN
-         +xgUKcngQqGovg7tXpUSYAnndtDSiQA7TU2zW8LNH8q1PYhf43yPUZXeFUwGxB+fIuzY
-         18avGqBjDaXgse3/cSkntmSwRUPhtLUelxZt92zyxUuQqTdcmtfckMtdI7AVQwZm2f5/
-         XLWs/xwOsUP4uOAZs6uTtRL0SVUYtqtgKFUO2g8pAvmJur+LVOlgwj2cAASXtKcy4lBm
-         Jwcw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795612397; x=1796217197; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5Yz7JNlPDDcs8XZFhzYAPoSiu941gv9oYg8JZ/90iT4=;
-        b=n0vv5HDDhQGJx2A3SZ9UrU+9j+SJMLmyzK7GRIhTgCeVF3W9mHcsWgDDEOIM+SSb5J
-         d0zlmJEZMWQJbBbMP7QULVebH35itoKoCjJ0eHNerucf5DgJiMaidCg5rvo9SmOde1il
-         E1HZ42khDgyKjqkNbwHk/IYMCc3VvVXmJ24IK1eSUsUsq5Sz+0xxCOasIX+zmAD51LsO
-         21MDtIAT4wQCBGMbhKocFMemYjqSPdS11kFF/qU3oIH7R2e80W1dhPd2uTzfbpJhIIsu
-         6/vX6CPqvL2aDs2Z/rHJe9uhXBRc0EGpUV0CAKNi4D+AQsll6t8CBem4My/QX30ws8qS
-         seuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795612397; x=1796217197;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5Yz7JNlPDDcs8XZFhzYAPoSiu941gv9oYg8JZ/90iT4=;
-        b=xc6jVbVE5y6hqPAkUhnu745knAugVKj4EXSIPmKOu8qiYq1E+eJDuuapdBooxAVDCB
-         NLVkp33ZTulSdgGie7Rm/zDEoWf4VDNlOzGKC3ThZPb00UhaCNj8w+nfhtdcGB3CqRDg
-         wLAlJX1H8LGNspayzOO4xD+DYtE9auXRj+Se2CLmblp/tkNAZfcwxvBDksOXodBsvvCG
-         mn3SFpJh8ziNnjBIEhMG/97+QqyMO+QEwO1vQ1FICxBGXvlrTbgCdX0HiDj/7D4PsFfy
-         2RpXNrDp3Yl7palsOzAkN5sVZiOxOHoH6bq5xmBsbKrQvBLFRS13a1mqlRWg4SdBAssP
-         E2hA==
-X-Forwarded-Encrypted: i=1; AL+hErEcf79aebSYt2NiV+D+ACjwdkwrLJ6pGfhzqgS0YNXVgFlF2KzG3nQtEpo/8EFGjX6yarqw4LWDWc0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8O6tPb19IOAQunOVV3zS4XQndJv5DL30swwwLz85IU1OAaL4S9
-	pQ/C6HCrA8kRen3yfqHuplUNfytantir3kXmfuFsgkYcId2vsmFC7fsX8GJ7MiGCsTw/YVJPZq8
-	zI8KlJVMIRy4ipkiAGhybhjwfLNjGhYQ=
-X-Gm-Gg: AZFdTZcoZGGH4TF99H+nNi8XjE5NP+tIiA9wv+c6wf/v3F/okQPX85HN96PMOWzd83y
-	Kd8Je0VJp4azGlyRzDjrwOYxVdBLwa9iSEttugNzw7TveET0AIxcAq0S4k5VT0LaI+bsa4hBsgb
-	Bnqos4owXmqMI1oswTjJ4Y6SdjvFmYEbdT5D7hqo6dytrmJpNI83WjwcDPUrgvCKKytT1fq8/0E
-	7CIgaaVCk0kkEwmHrAsqDdhSXsgCVSt0V8HllvDMW+d09iAr/RUd9bgZzBMGKgfvRHmF93aM3nl
-	sHIA9n7o/SnlWL+dDG/9fpUvntWy0TuE5f0ashrIwm4AZF2X9Fik3U1lX+4/pLDYe4pZKeqkp6k
-	li6OgbCccfmFKafcBvUTKDeRB2TFPxWV68xKwzUS20fbZ9nHJ8qG3QM6pqPQV6Vd7xK6fvA==
-X-Received: by 2002:a17:907:9693:b0:c4c:ddd1:d006 with SMTP id
- a640c23a62f3a-c513ab47f40mr1378964566b.38.1795612396826; Wed, 25 Nov 2026
- 05:13:16 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=xqX0RlJB
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=+3skVRQZws6mNDzAhaeG8SDVhHgNE+CK66G995MnGIs=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795612473; v=1; x=1796217273;
+ b=xqX0RlJBnTer6Ss4NYAHzHHbl+FJllRia84UCOmPQZJ0/3YL2OCRDj1jBXwDM5yFUDV1VNcY
+ NAKLkdpaFVxC+DFvRh6BIppIEQsHQcuAlk370oH2GZ4OainXVDkSXgBVgeP89HUldrjW6nqGFpc
+ zvlQJ+rh9aBcMSpXlXcw4YC0=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 4b3a9389f4f16c39;
+	Wed, 25 Nov 2026 13:14:33 +0000
+X-Mizu-Trace-ID: 4b3a9389f4f16c39
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <66189c93-6f82-4ac7-9538-2a036842f70e@linux.dev>
+Date: Wed, 25 Nov 2026 21:14:22 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,96 +58,113 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
- <20261124-mglru-fg-v6-15-8ffea39934a6@tencent.com> <fc51ad85-16f7-41fb-8eb3-2b8ee595e711@kernel.org>
-In-Reply-To: <fc51ad85-16f7-41fb-8eb3-2b8ee595e711@kernel.org>
-From: Kairui Song <ryncsn@gmail.com>
-Date: Wed, 25 Nov 2026 21:12:40 +0800
-X-Gm-Features: Aa3M54rLCFPdJCUVsWAcKF2l0FhpWm6CiFAaLjU-bCfz_TzbQSOhJaNF1aUKI_Q
-Message-ID: <CAMgjq7D-EFYsivqq1Z4c60ZMh0pBU2ofgfqVaqp_vbPG8wbSiA@mail.gmail.com>
-Subject: Re: [PATCH v6 15/18] mm/huge_memory: mark folio as accessed more
- accurately on split
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>, 
-	Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
-	Gregory Price <gourry@gourry.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
-	SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, Yu Zhao <yuzhao@google.com>, 
-	Vernon Yang <vernon2gm@gmail.com>, Zicheng Wang <wangzicheng@honor.com>, 
-	Tal Zussman <tz2294@columbia.edu>, Xiang Liu <liuxiang.277@bytedance.com>, 
-	Ehab Ababneh <ehab.ababneh@intel.com>, Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, 
-	Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, 
-	Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	damon@lists.linux.dev, linux-doc@vger.kernel.org, Tianyi Chen <hi@tychen.cc>, 
-	Ridong Chen <ridong.chen@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] docs/zh_CN: Add RCU/whatisRCU.rst Chinese
+ translation
+To: Weijie Yuan <wy@wyuan.org>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, alexs@kernel.org, si.yanteng@linux.dev,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ paulmck@kernel.org, linux-doc@vger.kernel.org, rcu@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261118131636.5131-1-xiongwei.song@linux.dev>
+ <20261118131636.5131-3-xiongwei.song@linux.dev>
+ <09ef3d3d-0e68-49c6-a6a2-c754104ede9e@hust.edu.cn>
+ <946792d2-4241-445d-820b-301a570ee2c3@linux.dev> <awZZVV3BlovD-xNf@wyuan.org>
+From: Bruce Song <xiongwei.song@linux.dev>
+In-Reply-To: <awZZVV3BlovD-xNf@wyuan.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 25, 2026 at 6:09=E2=80=AFPM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 11/23/26 19:53, Kairui Song via B4 Relay wrote:
-> > From: Kairui Song <kasong@tencent.com>
-> >
-> > The behavior of updating the folio's access info isn't consistent for
-> > huge mapping splitting or ordinary unmapping. The page table's young
-> > flag has to be translated into folio's access info.
-> >
-> > Right now it only checks and sets the folio's referenced flag, which is=
-n't
-> > enough since folio flag updates on access have their own rules. Ordinar=
-y
-> > unmapping (zapping) calls folio_mark_accessed(), and it also checks
-> > if the VMA has recency to avoid false updates.
-> >
-> > So first just use the right helper here to be more consistent. Keep
-> > accounting the young PTE as a cache access, sticking to the current
-> > behavior.
-> >
-> > Tested-by: Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>
-> > Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
-> > Tested-by: Andrew Morton <akpm@linux-foundation.org>
-> > Signed-off-by: Kairui Song <kasong@tencent.com>
-> > ---
-> >  mm/huge_memory.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> > index 75e8641bf9ff..fa9f6d21e786 100644
-> > --- a/mm/huge_memory.c
-> > +++ b/mm/huge_memory.c
-> > @@ -3122,8 +3122,8 @@ static void __split_huge_pud_locked(struct vm_are=
-a_struct *vma, pud_t *pud,
-> >
-> >       if (!folio_test_dirty(folio) && pud_dirty(old_pud))
-> >               folio_mark_dirty(folio);
-> > -     if (!folio_test_referenced(folio) && pud_young(old_pud))
-> > -             folio_set_referenced(folio);
-> > +     if (pud_young(old_pud) && vma_has_recency(vma))
-> > +             folio_mark_accessed(folio);
->
-> Can we just have a helper that abstracts that? We pass in vma, folio and =
-young
-> state and it takes care of things?
 
-I think we can have a folio_mark_accessed_vma(), and so it will be:
 
-+     if (pud_young(old_pud))
-+             folio_mark_accessed_vma(folio, vma);
+On 11/25/2026 11:43 AM, Weijie Yuan wrote:
+> On Tue, Nov 24, 2026 at 10:23:50PM +0800, Bruce Song wrote:
+> 
+> [...]
+> 
+>>>> +:翻译:
+>>>> +
+>>>> + 宋雄微 Xiongwei Song <xiongwei.song@linux.dev>
+>>>> +
+>>>> +:校译:
+>>>> +
+>>>> +.. _zh_cn_whatisrcu_doc:
+>>>
+>>>
+>>> Please double check all the references. If one reference is not referred
+>>> from other places, please remove it in the translation.
+>>
+>> Ok, I will do that.
+> 
+> Let's make it a rule or instruction, shall we?
+> 
+> I didn't find any specific rules for label usage in doc-guide dir. (only
+> no more top-level label on list) But I suspect there must be unused
+> labels in English docs.
+> 
+> We either:
+> 
+> (1) make it consistent, i.e. keep adding unused labels.
 
-Also converts a few other callsites too, also avoid touching too many
-other folio_mark_accessed callers, there are a lot of them. We can
-audit and see if folio_mark_accessed can benefit more by passing vma
-from more places later.
+I feel like this one is better. Maybe the unsued labels will be used in 
+the future?
+
+> 
+> or
+> 
+> (2) check usused labels and do not create new labels for it.
+> 
+> 1 may be easier for manual translating jobs that you don't need to check
+> every label manually. You just need to add a '_zh' before each original
+> label. But apparently this will create tons of unused labels. So, no?
+> 
+> 2 may costs more attention, but I guess agents could handle this
+> nowadays with proper prompts.
+> 
+> I forgot to mention this thing in Daniel's series [*], shall we mention
+> this now, or send a RFC patch after they get merged?
+> 
+> And also, add a rule for English docs that _do_not_ write a label which
+> is not used? This will make our job easier.
+> 
+> [*] https://lore.kernel.org/linux-doc/20261119041009.63651-1-danielmaraboo@gmail.com/
+> 
+> 
+> [...]
+> 
+> 
+>>>> +概括起来如下：
+>>>> +
+>>>> +-    使用rcu_read_lock()和rcu_read_unlock()守护RCU读端临界区。
+>>>> +
+>>>> +-    在一个RCU读端临界区之内, 使用rcu_dereference()解引用RCU保护的指针。
+>>>> +
+>>>> +-    使用可靠的设计（例如锁或信号量）保持在互相干扰的情况下并发更新。
+>>>
+>>>
+>>> |The original says to use locks or semaphores to prevent concurrent
+>>> updates from interfering with each other. Please change this to “使用可
+>>> 靠的设计（例如锁或信号量）防止并发更新互相干扰”。|
+>>
+>> The verb in original doc is "keep", and the objective is "updates" here.
+>> IMO, "prevent" has changed the original meaning, and the objective has been
+>> changed to "interfering with each other". Or do you have any other thoughts?
+> 
+> In my dictionary, "keep A from doing B" means "防止 A 做 B",
+> so something like:
+> 
+> Use some solid design (such as locks or semaphores) to keep
+> concurrent updates from interfering with each other.
+> 
+> 采用可靠的同步机制（例如锁或信号量），防止并发更新相互干扰。
+
+I tried the google translator, and the translation looks similar with 
+the above one. But one thing I'd like to mention is maybe "采用可靠的设计" is 
+more accurate than "采用可靠的同步机制"？
+
+To be honest, I used the google translator sometimes when I translated 
+this article. However, I don't think the results are good as we 
+expected, so I never trust it 100%.
+
+Regards,
+Xiongwei
