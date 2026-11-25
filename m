@@ -1,61 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795626756;
-	b=viI2A5vgRggAtaj8JuX2jcQd4s6XpXkY8Wi5lh+V8cSc+31q9VmT1fsibvoAbrSsjm+1
-	 y4N2vFASfqhDb01+kBNXFtldO4mXcTuzyqfGr8hlhTZ3fUHwixClWomvfi9MlkHZCuVvQ
-	 fDR75CcoqnU7J616Vpo9/ZwxaiZF1OE3AVx4SDxrmdraNg6nB1BEy0Y/UwFfdleySkvRl
-	 r0ok5OyVRTOXRsJKEuZVRRTlAQAfr19/ZXihnRCYKPlabP3NihILjcC3AE+5pNMI2ctXj
-	 2BChUTWQtx8D7W1JLcX6TgBIansqv6jyoSasgSYwiTJ88nE32cKHAlE8HwZAlzJF6bQ==
+	t=1795626824;
+	b=1zzlhji6Nni8wF+wn8ykGFW1ZRzY4u+VIjk5tzM9MRVP5wfnqrD3WNXSaJJ4RVdWL4mB
+	 0i0tXZQCpMsTdxEUOLFkGAPXSJKybkrTt88Ic8N9K/FnkXX8GpzB2Z8h5s0fNk/nPSNDN
+	 wbGvmkj1lxuQ7QsBIYO/vPzxFUJVd71fRorgCNnsovJ6SbQogz5iGNdFL0dcN4Q+E3BY1
+	 AxVwz1NHClTLdYt6duyE5gpBvpWAWMsv5UhG2XNISiqI+TjBbAgWn3JyP5H6Jf1472y5R
+	 LT6+5j/lx7Yse4fdZwwDlnn4zXdLcIl30HdKYgQLlPPf6YOuy54+fqAmohEvm5FEHMg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795626756;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795626824;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
 	 In-Reply-To;
-	bh=0PlivHjJFe8Czsts+P/E3iVHCWO3TXwLQfQtarBKz68=;
-	b=Ziwgk+m7msv3W/lOYd9bOmLtQPPOpjQP6KhsD0x7I8JvGDcsx10UsaF00IRiU+WTPKGV
-	 dCdb5/30IwAwIIDobcxJIsNHxctO4hrBoH/rrgiTIJN4MZstTVeazJI1IV/CZ2EuHW+kq
-	 +PkjTzxmz2xh8KKdFjANCx7a2xpZ+GzIFyOZhPkhRI8kmLZfkZaDwSJ/R5ZiXvTR+lBt2
-	 onB8ZK55noLiREC7cc893r0xLe35My7RG4kTJUEiRYguasqgAim3SLWwxFH4wT6UkEVuB
-	 UWZIBTG+SE53nQIaq+aXwlg/5h9KSbw05pbz2QEjJjUkPgFRLJAM0e5+m/nyVyAqm2Q==
+	bh=iv+px21u03acEcz/Te2xTvJ8wZ/dIalo57maBeWzen4=;
+	b=a3P7/W4Ur/4qT0OJkJF8JXtlFtg/5pjC2dYy0nA3MDYMJL+TUe3la7DEwQvPoStcMtQv
+	 N+jhlEnhG6r+Z2NNM8YyhrrgAbuWScPWzHqGCzmnLpL4K2nZ1fhAgoUim1Cp5ZnjGv0X5
+	 OmC0Mt4ssUUS72e2JPp86Zn6G6Oslqz9nnbR+7ipgm0rlYKQS/EeZ0svMzeaOyjTmoJDV
+	 25excfR2PayxqptUhlJHrD9teUbXpVQj7hREAYOellahBE16rtmpdgCsGApTVzQdRBITZ
+	 hL0bmVu3BFR4/BpKlL2B5cdHaVWfyydRXPZuX86Kfp4YBMZ+JEV1Dt0H+vJ0iKq28aQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=1wt.eu;
-	spf=pass smtp.mailfrom=1wt.eu;
-	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=XDBF+K9b;
-	arc=none smtp.remote-ip=51.159.59.229
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=JeG4GVwh;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="/tXzigM2";
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FC0606A68E;
-	Wed, 25 Nov 2026 17:12:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1FC0606A68E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91641606A321;
+	Wed, 25 Nov 2026 17:13:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91641606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=XDBF+K9b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1795626746; bh=0PlivHjJFe8Czsts+P/E3iVHCWO3TXwLQfQtarBKz68=;
-	h=From:Message-ID:From;
-	b=XDBF+K9b6mgGmvq1g7kdd/smij+GTnyAWGuoDpdZ0hN4OkPHNDXRN/1R0iTzfUREP
-	 2xW6zek1IrNf5ahY0H77SLkycD3uhfx0MulbEx3ecUqMhynUr/q8FSV/1UcaFIP4lR
-	 nR5P0/1tEzN/vnXte416bQF7QJuZIS+41TQ26QoQ=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 11044C0716;
-	Wed, 25 Nov 2026 18:12:26 +0100 (CET)
-Date: Wed, 25 Nov 2026 18:12:24 +0100
-From: Willy Tarreau <w@1wt.eu>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: skhan@linuxfoundation.org, Randy Dunlap <rdunlap@infradead.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        gregkh@linuxfoundation.org, Johan Hovold <johan@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
-Subject: Re: [PATCH v2 00/14] security-bugs doc updates
-Message-ID: <awcW-AsAJ89rcJu3@1wt.eu>
-References: <20261114190014.17826-1-w@1wt.eu>
- <87zeuwx4nr.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=JeG4GVwh;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=/tXzigM2
+Date: Wed, 25 Nov 2026 18:13:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1795626821;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iv+px21u03acEcz/Te2xTvJ8wZ/dIalo57maBeWzen4=;
+	b=JeG4GVwh6hQPbU/WOqM54k0bb0Gs2JHILuryozuHJ4f/TgN4Sv1dL6D2JeUJYhWdZEpBED
+	utyyFvciF6exfzHVRSeAfm7eJF/owOT1mUz1tntsM1TsLkaqVLzYnAJ82ieJeQfGo8C6wK
+	qP5K7RJjYIWmpfjfV5HhIULdLLVQc+j2qlYuDhHzG8McWUVENv+oTTXypwg/3+owRnPaBF
+	epOR2vluDUeeKlf+dKmXuqaHQWdey7BgM9AbUj+vrOzpZJRZkpQk5SP6sD//4jaM835qNh
+	QVLx6f9kusviOHJyJmqIdGjjgxwVSI2a7WGkedWAUbI9sSRQUw17yQY4TDnhFA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1795626821;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iv+px21u03acEcz/Te2xTvJ8wZ/dIalo57maBeWzen4=;
+	b=/tXzigM2fQGDch4K8anWVS1JgUpnvQjhFWwDLmOId17QOhxAwsIYvDbfwmka4+EcN+xkcB
+	CKLe34eqmgdhy5BA==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Zixin Wang <w1355457260@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	bigeasy@linutronix.de, frederic@kernel.org,
+	john.ogness@linutronix.de, clrkwllms@kernel.org,
+	rostedt@goodmis.org, corbet@lwn.net, wagi@monom.org,
+	atomlin@atomlin.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6] Documentation: real-time: Add runtime tuning guide
+Message-ID: <awcXRDKtZJqNrhby@lx-t490>
+References: <20261125074658.33117-1-w1355457260@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,28 +76,14 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87zeuwx4nr.fsf@trenco.lwn.net>
+In-Reply-To: <20261125074658.33117-1-w1355457260@gmail.com>
 
-Hi Jon!
-
-On Wed, Nov 25, 2026 at 09:22:00AM -0700, Jonathan Corbet wrote:
-> Willy Tarreau <w@1wt.eu> writes:
-> 
-> > Hi,
-> >
-> > Here comes the v2 of a new batch of updates for the security bugs
-> > doc, essentially to make it more readable and to address some of
-> > its apparent contradictions for those not reading it entirely. Some
-> > additions were made to explain how to send a patch and a reproducer
-> > separately, and to ask that first-time reporters send a single report
-> > at once first.
-> 
-> Would you like me to pick this up, or did you have another path in mind?
-
-Oh yes please, I would appreciate it if you pick them up. Do you think
-it's reasonable to have them for the current release, given that as
-always they help us on the sec list by responding with links to the
-doc ?
+On Wed, 25 Nov 2026, Zixin Wang wrote:
+>
+> v5 -> v6:
+>   - Split runtime tuning out of kernel-configuration.rst into
+>     runtime-tuning.rst, following Ahmed's review.
+>   - Keep the CONFIG_* section anchors so kconfig-checker links stay
+>     valid, and link to the new guide from the related options.
 
 Thanks!
-Willy
