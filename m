@@ -1,62 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795624084;
-	b=DqpXV+YVrolQal7YS6Nt9ivElRXHnLoVp5uOxDwEWNJqc4Ljkb26XlJlqC3asaMP5JTB
-	 helBupbtE7e7/7E5pYw6+dgsczjoTSeKxRroU88ZSx/o2jeTX0l93KhnRPg78Z3ZQudwn
-	 SQQ2TYjckhL+E5CROB6VT+0BJXNR48aopge3niHt1P/EwPwq7auFECUzB88X4bXRBQTHo
-	 w6c5scx5hFZJ6xaL7BiOclvXr0IKKZppPyITW0I9YhLkpUC11t/DIfENuur2dcpsIRCc4
-	 qtR2DZ8phRVL1f3u3b+2ldQCVoDMn+waB8Dwkwu4ChcBEZSbnpM42L6C7+wndxCfEJw==
+	t=1795624281;
+	b=El1YUlO826zvJ7M/kMrrXMTsrYl0+4c3ezAeFA34xsCzH/jEA8DUIzhimsQ32C0yUOwR
+	 S/RcOyTHi2f3HAV2fZyOrmmtKmjUscEHkIeypoEvcfdY/rUtDXnBrkBocUgLcWJOasBQl
+	 426g8ml5+eEKUPjC7kUE7vc/l2gR5homqQc4tTUOtho/jUJdmazEK4qOruoWD6RcSQcW0
+	 UZmOcooSP+IQQRWyInn+mWqeekBpjoZ39EGhXoZARzQ8Bm6IIZ4mzFj5pJ/+Cs5r1uCPm
+	 ZT6TDrG84HF+ytqK/HRP3G8dymze/dIxOaYleatUcWclHkQmArpzKbyeHBSCSpVndhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795624084;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795624281;
 	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=KC9kQxeHZ76XiJpzcnKl74l0T9w0iam6Tpv78NX5QEY=;
-	b=nktYIJJ/t4BZyeFRvqcX1ztyIszUnDEzvUdwqYTZk2EyqSgEXqwhc/MxCwccZIrtUVY/
-	 wcW6eS7jig3asWueP9tuJMiQghSTJOey0hhiGfbojghn5C3Ey8pYmAaF5r7d0L1mIq1B3
-	 CbhlsWfSNJfMXRkR024HBdKJi8zW6L0Ws+cIomowSh8vN6sZg7UdsDTydkVOLmI3AIUi3
-	 P1MycKb6wP19XL3O9LuqDkfldY4j2buWRBgZhStfAA8ELwnQRH+luLg89qkhZvTgSTBSG
-	 GzoCOHPAKgPY0tvLiRCRj0+9gwmmqbxGbioPadMOcYpYB5e00heDOydwYX+jrIBSzDg==
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=HzVOdmpjVHxw6KVaXMsBuZaSQgfC5jlhUTcBLoibvJ4=;
+	b=j5hspmptAq4R5wLlZGr0l+nwD8vJPeJ1M2V95tJltXwFNjQRlpNIvV+NDKuIz9lL+eCI
+	 c9xo8evuv18DiACVA5uLwgbdzot/j3ijXpGnFSfISfSG4oGp1/EYxJEKs+cxDhrovb5ts
+	 K2uKt4AAZ0N05gty25wmYuQAcxD4JAwsIXTbiwcfScGYJAPBdCYzgoDGyHol4YEFF4sed
+	 JBESY8Ah+b++V34tIEWz4WbnU+AH3e8FjEz78ZQ4xM/SzQEZfWsieMnK3b+stqvu2+V0f
+	 QVaoXpbmTwL24Slzig/N0GDJ1cwKYhGt+QEdeHwNb5IRZxdL3YqiZdL4b93pXd2xW5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=lwn.net;
 	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=s1AqJYiz;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=QxKyvOc+;
 	arc=none smtp.remote-ip=45.79.88.28
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F507606A321;
-	Wed, 25 Nov 2026 16:28:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F507606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B7D606A6A3;
+	Wed, 25 Nov 2026 16:31:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99B7D606A6A3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=s1AqJYiz
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 18CE2410D0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=QxKyvOc+
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B4A81410D0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1795624083; bh=KC9kQxeHZ76XiJpzcnKl74l0T9w0iam6Tpv78NX5QEY=;
+	t=1795624278; bh=HzVOdmpjVHxw6KVaXMsBuZaSQgfC5jlhUTcBLoibvJ4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=s1AqJYizr+FvP5iYZcPd+N/BfMZmAh5TIpB0LduRqooTCOwLal+xqVZ5FyvkSvlZI
-	 mCpFutShYef3q0d46mkEQfZXNUKhmREQjPQ/1wyvKRmf18uybNZ8+2hjuezRIGwxIA
-	 fsuwa4nGpgsjccM6M8KggnJpguVkCnsEc5l5PkxmcsIF8AW+XjCrMnQ2CvU6eTMBX+
-	 Chnf5IiblTLURG7e8NsZqfy/mEiL7SzpQjF4mI8Lc8RNeijq0SUOgZWPNRlqLvOQaU
-	 NFr9EjMsZLMSxGfTFrQwTjsp/VqjWvUevlgqcFxU0YZoZC++uMEAEaJpM8LNZp4MwG
-	 EhSTOP1n29hyg==
+	b=QxKyvOc+PtW4Gn0sFIWwHTyJzqEKj5V75mTYjS8y/T9jiW0tRj2F5yVsEm1n6k2DI
+	 uizK+xkgug3EYJH0gXO00rEPuJpzYr91h3mZmxT9RgrOCvD6yEiHbXu17uNzi+RbXe
+	 72RvdezyBCC7QEPoCYQrnEKz5nXZQG6wBRCtDNo3SNVXJQ7f+s2em5v1TMW9uCVxwN
+	 JMKck0acUeuj2LgDhbgTbU/hlHlEH/OeGroHoTrlIYlqP3jeT2TTOrlvnzl1qd103E
+	 K8A3pAckLHXsr8q6dNJAeLUgnCpL5GSXXQdXdI5yty2K0c+lF8lQSJRA2zvZuIeNRU
+	 b2JB5nkKJOBgA==
 Received: from localhost (unknown [205.220.129.44])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 18CE2410D0;
-	Wed, 25 Nov 2026 16:28:02 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id B4A81410D0;
+	Wed, 25 Nov 2026 16:31:16 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Kees Cook <kees@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] CREDITS: Regularize email address for Kees Cook
-In-Reply-To: <20261113174357.i.748-kees@kernel.org>
-References: <20261113174357.i.748-kees@kernel.org>
-Date: Wed, 25 Nov 2026 09:27:54 -0700
-Message-ID: <87qzg8x4dx.fsf@trenco.lwn.net>
+To: Akiyoshi Kurita <weibu@redadmin.org>
+Cc: Akira Yokosawa <akiyks@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akiyoshi Kurita
+ <weibu@redadmin.org>
+Subject: Re: [PATCH v2] docs/ja_JP: translate submitting-patches.rst (patch
+ format)
+In-Reply-To: <20261113024405.871312-1-weibu@redadmin.org>
+References: <20261106225619.12869-1-weibu@redadmin.org>
+ <20261113024405.871312-1-weibu@redadmin.org>
+Date: Wed, 25 Nov 2026 09:31:09 -0700
+Message-ID: <87mrqwx48i.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,31 +71,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Kees Cook <kees@kernel.org> writes:
+Akiyoshi Kurita <weibu@redadmin.org> writes:
 
-> Update my email address to better reflect reality: company-specific things
-> (hw embargo) to Google, everything else to @kernel.org, drop less-used
-> aliases, but leave copyright-associated email comments as-is.
+> Translate the sections describing permission requirements for
+> adding tags, the canonical patch format, and subject line
+> conventions into Japanese.
 >
-> Signed-off-by: Kees Cook <kees@kernel.org>
+> Update existing cross-references to point to the newly
+> translated section.
+>
+> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
 > ---
-> I am happy to carry this via pstore or hardening, but figured I'd send
-> it via docs just to avoid any collisions with translation updates.
-> ---
->  Documentation/process/embargoed-hardware-issues.rst           | 2 +-
->  .../translations/pt_BR/process/embargoed-hardware-issues.rst  | 4 ++--
->  .../translations/sp_SP/process/embargoed-hardware-issues.rst  | 2 +-
->  .../translations/zh_CN/process/embargoed-hardware-issues.rst  | 2 +-
->  .../translations/zh_TW/process/embargoed-hardware-issues.rst  | 2 +-
->  fs/pstore/blk.c                                               | 2 +-
->  fs/pstore/zone.c                                              | 2 +-
->  lib/test_firmware.c                                           | 2 +-
->  lib/test_module.c                                             | 2 +-
->  CREDITS                                                       | 3 +--
->  10 files changed, 11 insertions(+), 12 deletions(-)
+> Changes in v2:
+> - Reword the explanation of subject line sorting as suggested
+>   by Akira Yokosawa.
+> - Translate "global" as "=E5=A4=A7=E5=9F=9F=E7=9A=84" instead of "=E4=B8=
+=96=E7=95=8C=E7=9A=84".
+>
+>  .../ja_JP/process/submitting-patches.rst      | 108 ++++++++++++++++--
+>  1 file changed, 100 insertions(+), 8 deletions(-)
 
-I've applied this, thanks.
+Applied, thanks.
 
 jon
