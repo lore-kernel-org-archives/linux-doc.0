@@ -1,109 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795643749;
-	b=nH3+GzcoXYVD5QKI2EEYMDCxQYky4UAi21hsX051horQ9731AONtTibrVzSztyaW/YJJ
-	 qTPlZwR4tjsQmY07NFl6RKlgw7705aJjMn6IK1AFW35r8+gyEo0SSN4c7Ypv6D3qQwERJ
-	 bf3LUZflUjzClJ1PmDsrbfidUm8ud0RirXqKAvB5fLtP2rKd0Dh8EZb/Ja8INkKID/kC1
-	 Ua3b82uLChl+Tu1JbvwvR0I9tnEG5Qbkn8ZIqNJMrLCdlRjb9WkOgOHhoUwOUhESrBlbl
-	 H7PvJ13MFKh9oZ6MopsEE6FFbHOk2K63XEmyHHbUHtUzxD5Ah/0P2bUblDQTNNRuGow==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795643749;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.229.135
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795644628;
+	b=Fk9AZI/mL2OY+/6jNEC34MTRn5/0rced/XLHpOf3bW1YB073bbkQYXIfooEAAV94Ehnt
+	 /dlB8MVzvlZzAL34GOkH+bDSt1wUVNVpmSttQH+CenCZaqbzlnSF9zaNPfduIEpAutymN
+	 FX3z8CeObE7BVt3s3Ij64dGMOvimOP41wuNFbkyiSj2YoNHq0w0YeG8oXkzeGygZfHhPp
+	 uM6n56uO05Ydy+Bh/ooSMvDxvLxo6djoWabgEknrghUwoesT8xhlz5/URD7Qn+ja5acTU
+	 SZq2Zxj62mzlLeYRMghSuDVmao9IZH2w1vbGR/qxZ6cYJDqpF3AexaVJOnkHSHmFozQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795644628;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 Content-Transfer-Encoding:MIME-Version:Content-Type;
-	bh=r/GY1L0M/Jj/tnpXLztwrdoGc8kg+51R6Plf4ICZ1dQ=;
-	b=vczjTsp1WTNzJijB6aKHB6sQBtc65fP/XL4qIFZn7fpxTuxMaYW1J8K6yR10GVQ+Mtp5
-	 PlsYQFgsBpusQNDctxXf6qQjrK1FdbI3ypsCg2frF75gf5Rz/SQAZi+6WQ54+cKMKQ/BW
-	 n9vpY2UXrJ8r5aJ7iroxEEHzKeFIfZkj6e+e3x72znfp/ctwI0Drny9bnV36i1XINQvT3
-	 zxp8kmGUfKghZGQD6EvaRCi8u8Txf/SKTonkUSBaHmzKHeECPoVfyPCKe3o2SYlaVv2d3
-	 WtfbFofoZz5YaaqLVzX9BWPY/MOTvv6NIRwViFQu1V8DK4vNuMjtMJCGAHHC2dJwy7Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=CkBk2j5ivR/mh7ILFij97SNuJfGxESxh8j6/caNV86A=;
+	b=lmDgW7WyjnZkaBZo61l/yKUQVbK11IDGwkyl4Eyvz4cNd2nc+GFylW4r40FzkvR7JnhW
+	 8W+6uBzaQTKM+KFuBTli0RL+Fy9LtfZwFfjDKa8nIP9+UhCQNERosSZvTwaZbDiOa4QP5
+	 O8wyqmqDqvgo3gQ3RCGJa5bPe66rSZ7ollfuZrb6efBMrXgALedeHiaIUb2s8bEwSTh3T
+	 n/Gh2O6cGPIriUl/f1Bblv2KYbcovWxmYSJGj3ja67+erIUXzFoSDOhrFThL086Zti7tL
+	 R1/dcy/8KlgHAB+bADwjCXHNV82ic+9FeN1+FpCsW8Ngax+inVjVit2Ag0Otet8YDRg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="R9/rbOd1";
-	arc=none smtp.remote-ip=209.85.221.52
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=E2F33SEK;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.229.135
+Received: from mail-dl2-f7.google.com (mail-dl2-f7.google.com [74.125.229.135])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A53606A321
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 21:55:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94A53606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273A7606A321
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 22:10:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 273A7606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=R9/rbOd1
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4a7b8abe209so4887097f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 13:55:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=E2F33SEK
+Received: by mail-dl2-f7.google.com with SMTP id a92af1059eb24-139b659a45eso694452c88.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 14:10:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795644627; cv=none;
+        d=google.com; s=arc-20260327;
+        b=UUk+yXU6dRsNB33uz3NpJqYvxXPQF+0csftpdY6W1Oj7y0IvhSJAwKxsWHhTggx/9W
+         UH9Lbv7cK+FfE1ID0rlovXOyvxFkkyl9xBAiZXUjF0arhBYGmmt6oripgeVYePnpbmyP
+         dWB0dJESrQMgam4LdnuV0Z5R5fW2zHUKZQr5nPNkpXkclnWlX1guTUZYlvkkJQzC4lFk
+         cocqIgpCc1ztHZ3VCwBJgFVLDt89dWxcPSR+YVJif1YCls/SRioqwyXklKox/se6DzU5
+         rl5cuv6zTIRpndyCfoSOh6VxNKB+MFE1QD9ftXr9H7tgYJo7L/2Y3jpHvKp3pjc3nDqr
+         AypA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=CkBk2j5ivR/mh7ILFij97SNuJfGxESxh8j6/caNV86A=;
+        fh=WCaO8+tykGopvqnnVh93P+OoxOmLat5HLx7lA9jAFas=;
+        b=rLqpZdfpeRjrV6jk3m0uTVQaxYmo3lUG6sS19XNiWZf4e0VZB46tHdLj8741so/qFh
+         GeTSb+GrXkiSjuUBiLv5KEqsKcJV26lCRMWLXbwjL7Y0FI7GLfh735JTNO9Muv3ciziR
+         /ZAwX0+2UgDspOTsU3zEvX+eSdUkgk6P5LA3BQ/5EYHyVW5guQC7PLZwV/+iqX2T5uyk
+         xeY9SetG8U3LF760jXjfACJ8EVrcbz0jl5pzsLLD7qi9ofV6SZ8fiTPzY8wOiGIHOxKe
+         hem69ORTrifN3LWhlk1xYz2PlSbqoaxfIHcWryaVWX4VMyC7rXV9vDtQLGOv5EyxPZaD
+         DYlg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795643748; x=1796248548; darn=vger.kernel.org;
-        h=content-type:mime-version:content-transfer-encoding:message-id:date
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=r/GY1L0M/Jj/tnpXLztwrdoGc8kg+51R6Plf4ICZ1dQ=;
-        b=R9/rbOd1mzzJwriho6oqu3CgC7K1wSlhXe9zeuBxmFvrEDJLsbJoEnk8sCgoc6cYsC
-         5EALMtdGI5m13pWRUFyc9uNG9bQEXiDQGldI/blAVQj5EuXkESLqrcf7obe0PPkPb6lc
-         jrR7ca1lWajN38Yu8/44Puy170gP+ANH29Qvz49gu8S/jVkfvocflfkB4V/Jd5CVvaBI
-         rfK4//0M452A+GFovixi5kSLnULRU1gFXDdt2Zm0ATaGwbNuf26MuQ4VIg+AfgJ3b8H8
-         YlhboLSrWvXvSrSKb1xIUjsVCol3049mQf32029TwiC9KjNK9iegXnvepXPp6kEHvk42
-         HPPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795643748; x=1796248548;
-        h=content-type:mime-version:content-transfer-encoding:message-id:date
-         :references:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1795644627; x=1796249427; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=r/GY1L0M/Jj/tnpXLztwrdoGc8kg+51R6Plf4ICZ1dQ=;
-        b=l0+xYzrq1M2HnEOfQs947Vx4E4pzt69Cj+Am3YCKBhLu7lFn3Qmr0TGKVADoyEOltq
-         zywbOXqptvLsNvctXW2SebDkO/Q3C2Qefq0mkUVDDspxQmlh3YbphOpxCaShlB91U3QA
-         hZaZvjyWbhTmzj9ks28xUFIQCq2jmWzxAvjxHfYev8DpGXCR2GxDb4K6pi9bTxY0WC5i
-         oJcVSbO4Csskkfa6n9sR29J1novoNDs2aryM2zMyMub/QroZB3o+zODyCylHIai1sacV
-         orSV+rB7bs7yPEgICyscIFPeIGwv9p74ogZM0C0bxFB1OUEv+ZGKhEeuwebaXkHxG5ue
-         4xSQ==
-X-Forwarded-Encrypted: i=1; AL+hErFaWsYKIjoxrZAMv8Ke3LgIKzWeNiaC14Sek9enwxgWvZaGcvuImnbrN7mx62+us9pOLhv9cJVlXBc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9ejGqcuP8MpaAGBNrCQeI903ahlaX6k+yyANQynBmAYx2BTX/j
-	axBliL/kn+GoJAPmMviaqb1oHUBRtTVrT+mW5AuwpS3wNy6PTbIYJcqY
-X-Gm-Gg: AZFdTZdc7z+0EI7P659ngXHjsBlB4eRjEev7sKtwHHoeyzM46SIlHiIpvTEOQoPS3CM
-	rQZ2WjVEi176o6qnqJvB9kKKSD27LXnLgTVVWU2KUbszchmI8I4XpOebhA1KkFhQHADiY5KTPwv
-	zU84aIkbZCSRgsVj7K5VkhJ40nP95DuPpoQ88t177Dlj/X9oDUHVU1R6nONf35D5B9nuO0PS5fz
-	i/b2TaZ5WGbw5XSpO+Tq0dPPdzoB0TxwH4qfp59L13GWrzpydieTthfphW4Tv9QuTdyuGlHVQTT
-	km/JHn6Peumk6pSoQAQoxxHhiT/TqU22k1wnxFWf3nbtvqT+kwB40lgEpa0bq1qCTWIvC+DjLEL
-	g5iTfJo/84pTCsPrjytumnoZXaYT2+CJpTEcdCOJIMcHWVCDQvNHcsl/qfjDIvrBx4FO3SY+/+R
-	V04nWCNbDkQ7jmukMg4+vw4GIfpPk8ZJP8uitwZc8dgsx/qb16t0bAU8xXfxx9rRTUeQwB9gdNw
-	g2vEDHB4SXPwpLcNnRp46utpPg4EvW3V11461ZVnxz2H0Hy27UHiApFRS9hfZmbjt4z3mG4TVnS
-	IS6Z5L9sSbbl1WfIzF0reCIutmgfeNnRiDj+s4mvIFttMDc4vfyA15Q=
-X-Received: by 2002:a05:600c:8b11:b0:4a1:dda8:eb73 with SMTP id 5b1f17b1804b1-4bb8881c630mr403408355e9.27.1795643747772;
-        Wed, 25 Nov 2026 13:55:47 -0800 (PST)
-Received: from [127.0.1.1] (ip-024-180.users.dtel.ru. [91.210.24.180])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884865a2sm566394855e9.3.2026.11.25.13.55.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 13:55:46 -0800 (PST)
-From: Fil Dunsky <filipp.dunsky@gmail.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Vladimir Oltean <olteanv@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
- Simon Horman <horms@kernel.org>, Pablo Neira Ayuso <pablo@netfilter.org>,
- Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
- Hans Ulli Kroll <ulli.kroll@googlemail.com>,
- Linus Walleij <linusw@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Christian Marangi <ansuelsmth@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, netfilter-devel@vger.kernel.org,
- coreteam@netfilter.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC net-next 0/7] net: cortina: CS7542 wired IPv4 hardware
- flowtable offload
-In-Reply-To: <7252b836-e375-4550-90c9-b0e3ab7fbb6d@lunn.ch>
-References: <20261125-almondplus-offload-rfc-v1-0-703175c6340c@gmail.com>
- <7252b836-e375-4550-90c9-b0e3ab7fbb6d@lunn.ch>
-Date: Thu, 26 Nov 2026 00:55:27 +0300
-Message-ID: <179564372798.5.10006827612276789857@gmail.com>
-Content-Transfer-Encoding: 8bit
+        bh=CkBk2j5ivR/mh7ILFij97SNuJfGxESxh8j6/caNV86A=;
+        b=E2F33SEKMppxGebUZlDdnoDy2ah80Ba3VF2XrORg85gV5GXRinr/f3rJMfefdQ9bHe
+         qoN8G6mIWgsXOHhlrbSbDQSALGHDWittkCQlXpOhSdqn3qmZ9/UCKHkp+AgGScaz6YfG
+         eej+x/QOCmlFbssSKtBrttRBNBlhyWXMayOzFKUnc80zXhCKIusyN3HUVxQGpoKWFZGJ
+         6xyHOpcgkGsOKGcWLJVhRS9zT0x/7yKtJc+iDtkpDMfGzyRfad0h4Up/E5Y7kYn/CTrJ
+         lloJMm5f4uUllV1V6ki7jbtwylpDtSyaJVbkzNl/T1Yttpfm8R6KNwJifFIAZAEDwzeL
+         BaZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795644627; x=1796249427;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=CkBk2j5ivR/mh7ILFij97SNuJfGxESxh8j6/caNV86A=;
+        b=MBiMgUutXLhf7k2ILEUqG3+gRt+MYeireOVytqq5e2x2Z92k5sAcfGJGbyv7haiodf
+         2yMMqbhVhks0Q06AeVFI+S3ZYmtbPQS8f0acuFHAAuS+pfx9/XLzEgXSazG/tDh8TkNW
+         LTzhaUGsuHdli2BQqAVNSrWK00MyxUnEF03z0YezdmfNCNgGaNuyqXYUcy2z60NIl7la
+         wAqK70LJasASpFO/Pt7ntHUl1MjPYjdl8DulvYXrOEnzJhVCgVqoEaQsdKWo0L4glmnF
+         usOBqZfdKDGbzxvQwj8/jper0GfZD2JdTJFJ5osczWtk5SYAA7bgXk7OLwcs8FcrRAUj
+         3PXw==
+X-Forwarded-Encrypted: i=1; AL+hErEIzoXmvjx0s740ij35NLec9PbQbd740bD8Hfs2Swh5uVt3PDhWAcS2MYDiFaOwJG8rf0q+GzNEWqg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8G9NfRf8JoSGFt7jCinIXdxIuJ4NQc9K59+PeJ0Fy0DkkE1RCV
+	MYL1jKcq7KBtOJ8PRg4A1PlstoGIUucS8jFkjS1BO/Owe9NDpbw8XgRE0VEAMJdo6/FEss0Tmv4
+	amo2z/VYMD9b9iBEQINkXwTn5jRjKow==
+X-Gm-Gg: AZFdTZdUgKGkpKAydCWwNPG53Ym9ad9+kkQnfprZXIZrOw9C2qSoCL0pXUHOWOz2XH4
+	NfCtxXotUB+JOdmt2gln/VvSvnMnsDyOdYApxP+wHhE5iyKQK8dBBgGQ9qU/ADQTp8fkdUvtwnN
+	e7KMD8GF/s8twNa2/9B4G03pVnKmnPLG6wm9W0UYhyOIeaRCNrvtRkOeWrmKZ2GmK17CkXHeapu
+	yhpCw1j8UMFVpRj1Tk3Izdj1kziX5orgrQsHHkiXxnhgB+PmOvXTyEF/ye/8WEyV+bwlvF5dYAD
+	j7xmb1CpAMAtt4M9MIREVxrXOn78Pew18tbL6h51sZPGjZ5sFPVKkkezH4MXol+56se1wZgyb5E
+	o8A9F6M2KO8Q9dfdSWrzeFzMCtd0FTOKInCV5
+X-Received: by 2002:a05:701a:8148:10b0:143:2719:f800 with SMTP id
+ a92af1059eb24-1b556908ecdmr17988038c88.40.1795644627021; Wed, 25 Nov 2026
+ 14:10:27 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -113,58 +103,157 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format="fixed"
+References: <20261124153636.91854-1-sj@kernel.org>
+In-Reply-To: <20261124153636.91854-1-sj@kernel.org>
+From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Date: Wed, 25 Nov 2026 14:10:15 -0800
+X-Gm-Features: Aa3M54o3hTkahzH_49Bjbc7Zx-dgkzZBTJlliNIgBcED_vBed0zNdkBdD-nvRds
+Message-ID: <CALa+Y14BNfdWH3yBY+ky1+Sb0YvRzW=gRcKKyGWWaBQkysPUkA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/27] mm/damon: let users report their data attribute findings
+To: SJ Park <sj@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, damon@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Andrew,
+Hi SJ,
 
-This is the first standalone offload RFC, v1. The prerequisite CPU-only
-Ethernet series is v2; this RFC does not replace that series. I should
-have made the relationship and architecture much clearer. The next
-revision will carry an explicit v2 and a changelog.
+I tested v2 as it is in mm-new, and wanted to share what I saw.
 
-There are two separate chips on Almond+:
+How I tested:
 
-  LAN1..4, WAN
-       |
-  QCA8337 external switch (existing qca8k DSA driver)
-       | CPU port 0                 | CPU port 6
-       | RGMII                     | RGMII
-       v                           v
-  CS7542 GMAC1 (eth1)          CS7542 GMAC0 (eth0)
-       \                           /
-        CS7542 network/forwarding engine and shared DMA
-                         |
-                        CPU
+The guest is x86_64 with 8 CPUs and 4 GiB of RAM in two NUMA nodes.
+A paddr context watches 1 GiB of node 1, the physical range
+[4 GiB, 5 GiB).  Every 5 ms DAMON samples an address in each region,
+and the context's probes decide whether that sample counts as a hit.
+User reports are submitted through the sysfs producer files.
 
-The proposed CS7542 Ethernet driver exposes two full Ethernet netdevs,
-eth1 and eth0, despite sharing the DMA engine. Those are the conduits
-for the external QCA8337. I am not modelling the CS7542 forwarding
-engine itself as another DSA switch.
+The context has three probes:
 
-The CPU receive path is QCA8337 -> RGMII -> CS7542 DMA -> eth1/eth0 ->
-DSA tagger -> lanN/wan. Transmit follows the reverse path. Ordinary L2
-switching remains the existing QCA8337 driver's responsibility.
+- one with a REPORT_MADE filter for user_report, matching=Y, allow=Y:
+  it counts the samples that find a report;
+- one with the same filter but matching=N: it counts the samples that
+  find no report;
+- one with no filter: it counts all samples.
 
-The accelerated routed IPv4 path in this RFC is QCA8337 -> GMAC1 ->
-CS7542 FE lookup/NAT rewrite -> GMAC1 -> QCA8337 destination port. It
-bypasses the CPU DMA path. The frontend accepts standard nftables
-hardware flowtable requests through TC_SETUP_FT; it is not a new L2
-switchdev implementation.
+For each test I compared the hits of the first two with the number
+they should be, as a share of all samples.
 
-This explains the QCA changes in patch 5: its optional four-byte CPU
-header adds an identifier before the normal QCA metadata. With the
-identifier set to 0x8100, the CS7542 FE parser can locate the inner IPv4
-header. It cannot do that with the ordinary two-byte QCA header. The
-new tagger therefore describes the external switch's wire format, not
-a DSA interface inside CS7542. Header length is global to QCA8337, so
-both CPU ports must agree, although the present accelerated path uses
-only CPU port 0/GMAC1. Management uses MDIO in this mode.
+I tried four cases:
 
-Your patch-2 comment is also correct: the unrelated blank-line changes
-in include/net/dsa.h were my mistake. I have removed them locally;
-only the two protocol-ID additions remain. No replacement series is
-being sent while this discussion is ongoing.
+1. A report that starts exactly at the sampled address, with
+   addr_unit 1 and 4096.
+2. A report over the whole watched range, kept fresh by one to
+   sixteen writers re-submitting it, slowly and then as fast as they
+   can.  Every sample should find it.
+3. Reports with an empty or inverted range, next to one valid report.
+4. A REPORT_MADE filter on a vaddr context instead of paddr.
+
+The DAMON KUnit suites pass.
+
+What I saw
+
+Case 1 works now: with the addr_unit fix in v2, those reports match.
+Thanks.
+
+Cases 2 to 4 do not behave as I expected:
+
+2. As the submit rate goes up, two things go wrong:
+   - with matching=Y, the probe misses the report more and more
+     often, although it is always there;
+   - with matching=N, the probe matches more and more often, although
+     it should never match.
+3. Empty and inverted reports are accepted.  They never match, but
+   they take queue slots, and enough of them push the valid report
+   out.
+4. On a vaddr context the filter is accepted but has no effect.
+
+Where it comes from
+
+Case 2: a busy report queue (13/27, 14/27)
+
+When a lookup finds the report queue locked, for example by a submit,
+it answers "not found" rather than "don't know".  For matching=Y that
+is a miss; for matching=N it is a match.  The more writers, the busier
+the queue, and the more samples go wrong.
+
+The right answer here is 100 % of samples for matching=Y and 0 % for
+matching=N.  What I measured (the last column is the share of submits
+refused as busy):
+
+  writers               matching=Y   matching=N   refused submits
+  1, one submit per ms     99.5 %        0.5 %          0.1 %
+  1, back to back          45.5 %       55.3 %          0.2 %
+  4, back to back          49.0 %       51.3 %         60.2 %
+  16, back to back         15.6 %       84.9 %         79.9 %
+
+The numbers vary somewhat between boots; the trend does not.
+
+Could a lookup that finds the queue busy skip that sample instead of
+counting it as a miss?
+
+Cases 3 and 4: input checks
+
+Two smaller things, both about inputs that are accepted but cannot
+work:
+
+- Submit accepts a report whose start equals its end, or is above it
+  (22/27, 23/27).  It never matches but takes a queue slot: with 1000
+  of them after a valid report, the valid one is found in only 4 % of
+  samples.  Return -EINVAL for these?
+- A vaddr context accepts a REPORT_MADE filter (16/27), but the vaddr
+  operations never evaluate it.  Refuse it for non-paddr contexts for
+  now?
+
+A minor nit in the cover letter: the loop
+"echo submit > producer_state" runs in producers/, so it fails with
+"Permission denied".  It should be "echo submit > 0/producer_state".
 
 Thanks,
-Fil
+Ravi
 
+---
+The case 2 setup, for reference (paddr, node 1 = [4 GiB, 5 GiB)):
+
+  A=/sys/kernel/mm/damon/admin
+  C=$A/kdamonds/0/contexts/0
+  echo 1 > $A/kdamonds/nr_kdamonds
+  echo 1 > $A/kdamonds/0/contexts/nr_contexts
+  echo paddr > $C/operations
+  echo 1 > $C/addr_unit
+  echo 5000 > $C/monitoring_attrs/intervals/sample_us
+  echo 100000 > $C/monitoring_attrs/intervals/aggr_us
+  echo 100 > $C/monitoring_attrs/nr_regions/min
+  echo 100 > $C/monitoring_attrs/nr_regions/max
+  echo 1 > $C/targets/nr_targets
+  echo 1 > $C/targets/0/regions/nr_regions
+  echo $((4 << 30)) > $C/targets/0/regions/0/start
+  echo $((5 << 30)) > $C/targets/0/regions/0/end
+
+  # probe 0: matching=Y, probe 1: matching=N, probe 2: no filter
+  echo 3 > $C/monitoring_attrs/probes/nr_probes
+  for i in 0 1; do
+      F=$C/monitoring_attrs/probes/$i/filters
+      echo 1 > $F/nr_filters
+      echo report_made > $F/0/type
+      echo user_report > $F/0/filter_report_type
+      echo Y > $F/0/allow
+  done
+  echo Y > $C/monitoring_attrs/probes/0/filters/0/matching
+  echo N > $C/monitoring_attrs/probes/1/filters/0/matching
+
+  # one producer covering the whole watched range
+  P=$A/reports/producers
+  echo 1 > $P/nr_producers
+  echo user_report > $P/0/report_type
+  echo $((4 << 30)) > $P/0/addr_start
+  echo $((5 << 30)) > $P/0/addr_end
+  echo on > $P/0/producer_state
+  echo on > $A/kdamonds/0/state
+
+The writers are 1 to 16 copies of a small loop that writes "submit"
+to $P/0/producer_state for 10 s, with a 1 ms sleep (the first row) or
+none.  Hits are read from the damon_region_aggregated tracepoint's
+probe_hits.
