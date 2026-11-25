@@ -1,97 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.169
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795637305;
-	b=tjra0JCghst/0vAD8vvMkhR4rrPWRFLVdnVrEzOVOrsLLzbmthg3+4bUw+Cm4jOIxZ1F
-	 aAl7RJb8MTPpYGz3HwSmI9qVpaJON7wGRFOFLbd8vQIU69dMz5hhL/EsfC3YEPmMrALmW
-	 eap/MlpLU7I8V2pUySsv9HVBrl26EveLLkY2DxDaS9vZrQ0WpYbbbDUUoL3bncQKYVbul
-	 G3N+X+X+gdoMaoLHVj/JnZlTKC99lwacp7//+8H5NrnrMweaLpGvkXS7g/TSG3pygNMvL
-	 aHxFvBoqvQOrDXTubCDmY52nYRd417FhrcRa6vpXWqSJ/C3GJLpVj8gwx/1o1Ef+yHA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795637305;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=g2sz6a7NAkW2VwlSH0qJO9zVczZnv9QOUY1IGuEHJjs=;
-	b=hZ9kh1l1nWVqcsiQgZF9pMFD37gg/8oTKQvkq0ICUt6Z0fHoR9HFgyDYJjFiYvlnmZzs
-	 mn0ufUvdZJJqjAPl1VjDgbGBH3Drn5GqvlPy6mGOgxtTlEVEOGf09lzS27zn3NkdaYjuL
-	 O2A+G5Go89rUi45z6Bjjbt9oMWbzijr1sDDd/ePHY4ffuhGsJIyAEsEvqq1kSEav4l1JU
-	 y3Ot6JY3pSWCUmamUogUwsJNzOnRRJDuTwENvgo4CSBheNuAtJvbSDKkC/TKl/yCnrV1G
-	 O2TXXwqqDg8pARnaiUHo/m8h1+pdzuQCK5uqj+Pq6iecsJTOYV5RfzQuvdnWfaG+aOg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chromium.org;
-	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=SzdBUQhC;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.169
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795637519;
+	b=zorVDEcl1dhdWHhwYAbmCxHc+Xzk84SfXKyBYDmrzlMInt94Wu2HgjxD305N8VaXf/7V
+	 ylOc/MHedq3pPMPlJ6lKjDGp3xatMLjm8pAqyd1M3IuQF5MQ0TN7WoZRAmTIqMsrWY07v
+	 TP77f7XwXLGdkOB5im4a+tMblAClWWMSmxHa9enveY1u/UaeIIvhq0TDSLQAV0QV6LpKl
+	 x+Il6S5YR9kX+5yefx3qGiR6EguV/xisE23rRY6DB9NNg+IYIB/6lzRI+lsiHVC5KQ+LE
+	 PLzjRwUsWvat9whRcnoiqarIUNU6fSrSVBR5aEt/pQJc23t5Dr9l1Izqe3FOxnEt0hg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795637519;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=COM9lytTrC++arFn1pMakoydzKnYeVlJgwdIyF6vsaQ=;
+	b=HjHX7w2QJrqb/+pxbu6b8ndCa67nfw6NL2EmQFzaiXfU3kRqIMzqSLucJhik3JkP6mWq
+	 D326XUGH34t5rKw5tdg15vKXWsFHhDRm9nPLEusCmVOjGkOpsYG+MVOXWicf5kq6lDJbu
+	 4Qm4Ul7q0pi/5QYTVkn5fsGgs6ibGGKVyYlVnNqTuVqGx1buZXabNLb2ilFADSTN9xo0m
+	 /udPSMzK3mX//hHApjfwBwr6wk/GnqvwjuhgIuTXQlKsN0tI1nKj2CKuNxZha22fZ1fja
+	 brD+1efUN/kGabReUqpKo79nIXGCV2JiTq9unIwq0lfLu4Lrd2JtUuFaGyXyqenkLsg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Kh0/HJ0d";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE89606A32A
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 20:08:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EE89606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FD3606A31E;
+	Wed, 25 Nov 2026 20:11:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=SzdBUQhC
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-8b360828905so58027197b3.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 12:08:24 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795637304; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gBuAJwuN4iw+F6m+qxNzVcdPdWPl1wuxGwwXRqohxRP31lFMRkqjZvU4ucELeoitvO
-         90hBqh3gy04dWWGXajzSS35l6ue9VVTuBHXYleB77HRZv09uJI/LY4HQqZ/pleVpze/q
-         NBbqV4Fw1YSiNyt/RByomE2/GGFRstrZqLPcooaLooRqaFTTUrJ6aFjH+WVwz7aYTAwp
-         4seELkTRHGKtXR2TqHg9H3Rv++AV0kYQswrkTxXI4Mgv65jzttbUxszFFLgc2g53X+eB
-         7f3TuZP2H+H95ojUpPloAoYzqbwOTo5D3iYlXofiTTSuoOqWWTcUbDp1ecBPbkZF+kuz
-         3QKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=g2sz6a7NAkW2VwlSH0qJO9zVczZnv9QOUY1IGuEHJjs=;
-        fh=2TJ9NCLHD7hv5mMv2WerECh4jEKhMIuC5O8FsGfl1wM=;
-        b=AmYC9V59yrSKnO/jGE9JoqaeZgpxTkqcEorv+dlMBSwefNb+plN+m7f9YI15j1bZ74
-         LjSBtyIjH4UeUdOO7tBJ3txZUxuy04MKjHC4fPKJj7kjDK8YKvCZe6Z/4UfhTfSoOnVX
-         8w2ix3szGRC1RvPqlfFXDpNa9mMDmjf9tjb0yJi7uiWjyfHteuN/C3HGV1u7V1l+D6Rv
-         iCJdVAn0Z3C4kXMndMZoyF4bBzy1OACKDkWomjDjZyX90ecP+upw2wOJkkyr+jQkE4lf
-         oNGdGQjxZSzpNXfLFydx3hIU0sCoCbm/WqxG45i7r8BK2M6R0k8hzd2yIOVSex3/8KY3
-         EOOA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1795637304; x=1796242104; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=g2sz6a7NAkW2VwlSH0qJO9zVczZnv9QOUY1IGuEHJjs=;
-        b=SzdBUQhCJqf2b1xmvJdwUTWJRZqYk8KZJTkab1RKCRDByJ/NCF6dGEABYYhrJyGV0u
-         RMhn7tlV7TQ0o34p1ttPmZotWI9864QWO4eP7vDQVFFJleUA7H52mGQqkyeswywPh4Q+
-         1d/rizLBhCX5iHzBOJxpBmKS9LxW4eNRG1gd0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795637304; x=1796242104;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=g2sz6a7NAkW2VwlSH0qJO9zVczZnv9QOUY1IGuEHJjs=;
-        b=hK3xA47neqNrQ3Z2/puR9QXQqjb0JcS/m0qN6QpxoedF/DkDkEYd2i5geCF04Yl3lr
-         R8BNSv3azmJ8pdSPQ8cKrPYtc9z2rDmSfB9eZ9XRVgM+U6Fr59BQ8f+RhKGNHzbfp8PT
-         ZFQMPq6XdiM2mjGpCfG2bWDIMQYKJEJmdjD6UVLZ0eSQPSm0qAhzyC+imGMfvaZIx5ZN
-         9RGiZ02g4DRPYaWjNb4MBCjkP3rPGNcimfw5gPWayy0SF9nyR9U769skW2S9w4CgVmWc
-         Of5oUu6BSMYfRX5y4tmfuiKhqNkc76CW7Lvo99Yt8re7kDFMkWai3amaHnlH2chST3o7
-         YZ2w==
-X-Forwarded-Encrypted: i=1; AL+hErHstKLi4h3pVU2fy2QNJCUiysddiXt1itwIhW8uR/kw7crL5KHz0V+sbtG7LjAiKLxpUALewRlZXQ0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9B5PtWYAy4zAEQgpF1ZjXToiRdzqy7Pk/bMp/hkFVOwv7wPqbe
-	meOk5TO3vBfgReG6BdbIqpOK1IqQj9j8hF9GWjrGFvhhsuhPproyJ/oxAZuvgjBappL9Znvm3SX
-	ulVLRe1Fda/BwEJcIvYhz0cLE+tt6xqeiCi2DRJFS
-X-Gm-Gg: AZFdTZcEqzJJ0vNu1LTf+/nm/A7GwlJd5t/7Ow0oCtAWampD0n3EJ+2hZmrPiUxdY8C
-	FAdvN4lyp1OhacHuYq1EopBHuPEYYSEr1/DVIRTVhuJHPEJXLZCw62hZuKitIWIHcqAys/QvSnw
-	phyF+fsZ2kpAbp66676K2iMMJUNu/n1Ulh2f5g4bl+uLfvbUg8EK/o6lsvm9JZgDr5E7UmPlVuP
-	4fpn0qX0r/YyocIGFZQOTKH5QFNYU4aBzuD4Rr4tzEH9ZmaPUE3PsjMMHJ7+LssGGc5qf13jR16
-	XUJPqw+r0GV3XSOS6jqhluP0m1/a1Drh6ah9w4GDsFn6Mj9ZnfmAdAH+7TpkpDTNnfmcE2KpLkW
-	8njcnJWFZWG5wzbNxX28yaBnTLJwraMOwUYsumO5X4ZeStxQC722/A6duax3iTJzVbPs0
-X-Received: by 2002:a05:690e:128f:b0:67d:c8a9:c607 with SMTP id
- 956f58d0204a3-67df447fee9mr7204157d50.58.1795637303877; Wed, 25 Nov 2026
- 12:08:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kh0/HJ0d
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF13E1F000C4;
+	Wed, 25 Nov 2026 20:11:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795637519;
+	bh=COM9lytTrC++arFn1pMakoydzKnYeVlJgwdIyF6vsaQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=Kh0/HJ0d3RliEb0/WwaCv4tKnl2IGXPOttHI3NABKsnpiFvC7jEjd8TvNhsOUtTvV
+	 RIo4UHhfm56+ubnTA6Y0lCaR8cBJS42M4VDvUp7YZKVfHVKqyewN6lIG1+bpsbcYzX
+	 YpZT7O3pH32sgTHVVLHTS/Cu97DZpTRauAhhqKcCdPa+nTLCrTo8JOtlrtU9ajDZL3
+	 2o/lf3WIopsbge7wVXgJVhz+Vk+4H2Djp8E9qx/7SkiM60AkQJdg4C7MeM6UUC61SP
+	 qIVkh4I91DOuFtGkeVwOXf5XMwsbFF6IdYReUsP6BC5fYF+cFls7M0wK5RcyOL3sg5
+	 79MT4vKp9c4Lg==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: netdev-bot+sashiko@kernel.org
+Cc: magnus.karlsson@intel.com, maciej.fijalkowski@intel.com,
+ davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, ast@kernel.org,
+ daniel@iogearbox.net, hawk@kernel.org, john.fastabend@gmail.com,
+ andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com,
+ ilias.apalodimas@linaro.org, alexanderduyck@fb.com, saeedm@nvidia.com,
+ tariqt@nvidia.com, mbloch@nvidia.com, leon@kernel.org,
+ michael.chan@broadcom.com, pavan.chebbi@broadcom.com, corbet@lwn.net,
+ shuah@kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
+ stuclar@meta.com, sdf@fomichev.me, horms@kernel.org, martin.lau@linux.dev,
+ almasrymina@google.com, song@kernel.org, yonghong.song@linux.dev,
+ jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev,
+ rdunlap@infradead.org, kernel-team@meta.com,
+ dimitri.daskalakis1@gmail.com, bobbyeshleman@meta.com,
+ mohsin.bashr@gmail.com, kees@kernel.org, leitao@debian.org,
+ maxime.chevallier@bootlin.com, cuitao@kylinos.cn,
+ vadim.fedorenko@linux.dev, mike.marciniszyn@gmail.com, kuniyu@google.com,
+ jiayuan.chen@linux.dev, mkarsten@uwaterloo.ca, razor@blackwall.org,
+ dw@davidwei.uk, asml.silence@gmail.com, linux-rdma@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 07/15] xsk: Deliver to the socket in the
+ device's buffer layout
+In-Reply-To: <179561570080.3135.17027149687263984243@kernel.org>
+References: <20261124125654.183091-7-bjorn@kernel.org>
+ <179561570080.3135.17027149687263984243@kernel.org>
+Date: Wed, 25 Nov 2026 21:11:55 +0100
+Message-ID: <87jym0n01g.fsf@all.your.base.are.belong.to.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,196 +78,349 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261024-send-upstream-v7-0-abad13174b43@chromium.org>
-In-Reply-To: <20261024-send-upstream-v7-0-abad13174b43@chromium.org>
-From: Jingyuan Liang <jingyliang@chromium.org>
-Date: Wed, 25 Nov 2026 12:08:12 -0800
-X-Gm-Features: Aa3M54oC0J4hEvF8nL8DG0lKyvPdcHpLfWm3L9Zu9MgNC1XuuWU_i9PXhdfqRu4
-Message-ID: <CAEe3GZEWAApD0ZvQX4J5Uo8aajEtpVzg6JsGLqB8GKNv6ug06Q@mail.gmail.com>
-Subject: Re: [PATCH v7 00/11] Add spi-hid transport driver
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	hbarnor@chromium.org, tfiga@chromium.org, fqwqf@fqwqf.xyz, daleyo@gmail.com, 
-	Jarrett Schultz <jaschultz@microsoft.com>, Dmitry Antipov <dmanti@microsoft.com>, 
-	Angela Czubak <acz@semihalf.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Jiri, Benjamin,
+netdev-bot+sashiko@kernel.org writes:
 
-Gentle ping on this series. The DT binding has been reviewed by Rob and
-Conor, and I've replied to the outstanding bot review comments.
-
-Please let me know if you have any further feedback, or if there's
-anything I can do to help move this forward.
-
-Thanks,
-Jingyuan
-
-On Fri, Oct 23, 2026 at 5:51=E2=80=AFPM Jingyuan Liang <jingyliang@chromium=
-.org> wrote:
+> Thank you for your contribution! Sashiko AI review found 3 potential
+> issue(s) to consider.
 >
-> This series picks up the spi-hid driver work originally started by
-> Microsoft. The patch breakdown has been modified and the implementation
-> has been refactored to address upstream feedback and testing issues. We
-> are submitting this as a new series while keeping the original sign-off
-> chain to reflect the history.
+> Critical: 0 =C2=B7 High: 1 =C2=B7 Medium: 1 =C2=B7 Low: 1
 >
-> Same as the original series, there is a change to HID documentation, some
-> HID core changes to support a SPI device, the SPI HID transport driver,
-> and HID over SPI Device Tree binding. We have added the HID over SPI ACPI
-> support, power management, panel follower, and quirks for Ilitek touch
-> controllers.
+> If you believe none of the issues are legitimate, please reply to each
+> issue of Medium severity or higher and explain why the AI is wrong.
+> If any of them are legitimate and you plan to respin, please let patchwork
+> know by including "pw-bot: cr" as a separate line at the end of your reply
+> (one such reply per series is enough).
 >
-> Original authors: Jarrett Schultz <jaschultz@microsoft.com>,
->                   Dmitry Antipov <dmanti@microsoft.com>
-> Link: https://lore.kernel.org/r/86b63b7b-afda-d7f4-7bfa-175085d5a8ef@gmai=
-l.com
+> - [High] xsk: page_pool_put_unrefed_netmem() in take_fill/scrub recycles
+>   to old pool
+> - [Medium] Handed-off chunks can stay on sink->handed indefinitely, so
+>   they never reach userspace.
+> - [Low] The new sink branch in xdp_do_redirect() (net/core/filter.c)
+>   clears ri->map_id/map_type and returns xsk_sink_redirect()'s result=E2=
+=80=A6
 >
-> Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
-> ---
-> Changes in v7:
-> - Drop the error counter sysfs attributes.
-> - Print error codes in power up/down failure messages.
-> - Reject an empty report descriptor.
-> - Check the minimum input report body size instead of max_input_length.
-> - Clear reset_attempts only after the report descriptor check succeeds.
-> - Drop pending work flags when the error handler resets the device.
-> - Don't schedule a reset when GET_FEATURE fails with -ENODEV.
-> - dt-bindings: drop the address/opcode properties and the "hid-over-spi"
->   fallback; the compatible determines them.
-> - dt-bindings: fix authorship to match the Signed-off-by chain.
-> - dt-bindings: update maintainer email addresses.
-> - dt-bindings: drop Rob's Reviewed-by because the binding changed.
-> - of: use per-compatible match data; match only
->   "microsoft,g6-touch-digitizer".
-> - pm: disable reset_work across suspend.
-> - pm: check deassert_reset(); schedule recovery on reset timeout.
-> - pm: skip hid_driver_reset_resume() when the device is not ready.
-> - pm: log power_down() failure instead of rolling back suspend.
-> - pm: use dev_err() instead of dev_WARN_ONCE() for a failed device
->   descriptor request.
-> - panel follower: start with reset_work disabled.
-> - Drop Dale's Tested-by from the OF, PM and panel follower patches
->   because they changed since v4.
-> - Link to v6: https://lore.kernel.org/r/20261019-send-upstream-v6-0-cb9ba=
-4b3d6fa@chromium.org
->
-> Changes in v6:
-> - Take output_lock while reallocating buffers in ll_start()
-> - Don't drop input reports while a refreshed device probes
-> - OF: drop mod_devicetable.h, use named initializers, fix alignment
-> - Move the dt-bindings patch before the OF driver patch
-> - Drop Tested-by from the documentation and DT binding patches
-> - Link to v5: https://lore.kernel.org/r/20261009-send-upstream-v5-0-384af=
-01da3ee@chromium.org
->
-> Changes in v5:
-> - Fix request/response races; match GET_FEATURE responses by report ID
-> - Reset the device on response timeout; wait uninterruptibly
-> - Validate device descriptor and report lengths; fix buffer sizing
-> - Honor rtype in raw_request(); fix GET_REPORT off-by-one
-> - Use hid_safe_input_report(); forward input reports only while open
-> - Disable IRQ around hid_device teardown; fix a sparse warning
-> - Use disable_work_sync() for reset_work in remove()
-> - Cap trace copies at 64 bytes; cacheline-align read approval buffers
-> - ACPI: select RESET_CONTROLLER, use device_reset_optional()
-> - OF & DT: read opcodes as u8, use dev_err_probe(), require reg
-> - PM: cancel reset_work on suspend, wait for reset before
->   reset_resume(), fix IRQ imbalance on resume failure
-> - Panel follower: fix regulator/IRQ imbalance; depend on DRM || !DRM
-> - Link to v4: https://lore.kernel.org/r/20260609-send-upstream-v4-0-b843d=
-5e6ced3@chromium.org
->
-> Changes in v4:
-> - Extended io_lock scope to protect the shid->hid pointer lifecycle
->   against races with the IRQ handler
-> - Cacheline-aligned DMA buffers, enforced 4-byte alignment
-> - Added error rollback for failed suspend/resume transitions
-> - Moved IRQ request to probe with IRQF_NO_AUTOEN (disabled by default)
-> - DT Bindings & OF Driver:
->   - Required a device-specific compatible string in the schema.
->   - Added description to explain why opcodes and addresses properties
->     need to be defined in the schema
->   - Added `spi-peripheral-props.yaml` reference and switched to
->     `unevaluatedProperties: false`.
->   - Added fallback to default timing parameters in OF driver if match
->     data is missing.
-> - Link to v3: https://lore.kernel.org/r/20260402-send-upstream-v3-0-6091c=
-458d357@chromium.org
->
-> Changes in v3:
-> - Add io_lock init
-> - Relocate tracepoints to drivers/hid/spi-hid/ and fix tracepoint macros
-> - Add tracepoints for sync, error handling, reset, and report processing
-> - Clean up internal includes and fix Makefile CFLAGS
-> - Add more details in v2 changelog
-> - Link to v2: https://lore.kernel.org/r/20260324-send-upstream-v2-0-521ce=
-8afff86@chromium.org
->
-> Changes in v2:
-> - Clean up DT bindings: fix formatting and remove timing and flags proper=
-ties
-> - Update DT binding example: use a device-specific compatible and drop
->   reset_assert
-> - Simplify ACPI/OF match tables by removing ACPI_PTR/of_match_ptr
-> - Refactor OF driver to use match data for timing parameters instead
->   of DT properties
-> - Switch to fsleep() for delays in ACPI and OF drivers
-> - Drop patch 12 as it is vendor specific
-> - Add a lock to fix input/output concurrency race
-> - Link to v1: https://lore.kernel.org/r/20260303-send-upstream-v1-0-1515b=
-a218f3d@chromium.org
->
-> ---
-> Angela Czubak (2):
->       HID: spi-hid: add transport driver skeleton for HID over SPI bus
->       HID: spi-hid: add ACPI support for HID over SPI
->
-> Dmitry Antipov (1):
->       dt-bindings: input: Document hid-over-spi DT schema
->
-> Jarrett Schultz (3):
->       Documentation: Correction in HID output_report callback description=
-.
->       HID: Add BUS_SPI support and define HID_SPI_DEVICE macro
->       HID: spi-hid: add device tree support for HID over SPI
->
-> Jingyuan Liang (5):
->       HID: spi-hid: add spi-hid driver HID layer
->       HID: spi-hid: add HID SPI protocol implementation
->       HID: spi-hid: add spi_hid traces
->       HID: spi-hid: add power management implementation
->       HID: spi-hid: add panel follower support
->
->  .../devicetree/bindings/input/hid-over-spi.yaml    |   75 +
->  Documentation/hid/hid-transport.rst                |    4 +-
->  drivers/hid/Kconfig                                |    2 +
->  drivers/hid/Makefile                               |    2 +
->  drivers/hid/hid-core.c                             |    3 +
->  drivers/hid/spi-hid/Kconfig                        |   50 +
->  drivers/hid/spi-hid/Makefile                       |   12 +
->  drivers/hid/spi-hid/spi-hid-acpi.c                 |  261 +++
->  drivers/hid/spi-hid/spi-hid-core.c                 | 1698 ++++++++++++++=
-++++++
->  drivers/hid/spi-hid/spi-hid-core.h                 |  112 ++
->  drivers/hid/spi-hid/spi-hid-of.c                   |  211 +++
->  drivers/hid/spi-hid/spi-hid-trace.h                |  184 +++
->  drivers/hid/spi-hid/spi-hid.h                      |   45 +
->  include/linux/hid.h                                |    2 +
->  14 files changed, 2659 insertions(+), 2 deletions(-)
-> ---
-> base-commit: ee9c669f9bf5fd2c24206746ded9382fe810df89
-> change-id: 20260212-send-upstream-75f6fd9ed92e
->
-> Best regards,
 > --
-> Jingyuan Liang <jingyliang@chromium.org>
 >
+> xsk: Deliver to the socket in the device's buffer layout
+>
+> This patch delivers redirected sink buffers to the receiving AF_XDP
+> socket of the queue. Each buffer becomes one RX descriptor, chained with
+> XDP_PKT_CONTD. Chunks go back to userspace with a new XDP_RX_CHUNK_FREE
+> flag, either on the descriptor of the buffer that freed the chunk or as an
+> empty descriptor posted from a hand-off list at a later flush or refill
+> of the queue NAPI.
+>
+>> diff --git a/net/core/filter.c b/net/core/filter.c
+>> index d5774b2577e72..30b35d00e6b2f 100644
+>> --- a/net/core/filter.c
+>> +++ b/net/core/filter.c
+>> @@ -4775,6 +4775,15 @@ int xdp_do_redirect(struct net_device *dev, struc=
+t xdp_buff *xdp,
+>>  	struct bpf_redirect_info *ri =3D bpf_net_ctx_get_ri();
+>>  	enum bpf_map_type map_type =3D ri->map_type;
+>>=20=20
+>> +	/* A sink buffer goes to an AF_XDP socket of its queue */
+>> +	if (static_branch_unlikely(&xdp_sink_key) && xdp_buff_is_sink(xdp)) {
+>> +		void *fwd =3D ri->tgt_value;
+>> +
+>> +		ri->map_id =3D 0;
+>> +		ri->map_type =3D BPF_MAP_TYPE_UNSPEC;
+>> +		return xsk_sink_redirect(xdp, map_type, fwd);
+>> +	}
+>
+> [Severity: Low]
+> Is it intended that sink redirects skip the redirect tracepoints? This
+> branch returns before __xdp_do_redirect_xsk() or
+> __xdp_do_redirect_frame() run. Those are where the existing redirect
+> paths emit their events:
+>
+> net/core/filter.c:__xdp_do_redirect_xsk() {
+>     ...
+> 	_trace_xdp_redirect_map(dev, xdp_prog, fwd, map_type, map_id, ri->tgt_in=
+dex);
+> 	return 0;
+> err:
+> 	_trace_xdp_redirect_map_err(dev, xdp_prog, fwd, map_type, map_id, ri->tg=
+t_index, err);
+>     ...
+> }
+>
+> As a result, neither xdp:xdp_redirect_map nor xdp:xdp_redirect_map_err
+> fires for sink buffers. That covers successful deliveries and every
+> error that xsk_sink_redirect() returns:
+>
+>   -EOPNOTSUPP for a non-XSKMAP target, such as a devmap or cpumap
+>   redirect. Before this patch, that failed in __xdp_do_redirect_frame()
+>   with a traced error.
+>   -EINVAL for a target that is not the receiving socket.
+>   -ENOBUFS when the RX ring is full.
+>   -EINVAL for the drops in xsk_sink_rcv().
+>
+> Tools that count redirects and redirect errors through these tracepoints,
+> such as xdp-monitor, would see nothing for sink queues. The commit
+> message doesn't mention this, and filter.c isn't changed later in the
+> series.
+>
+> Could the tracepoints be emitted on this path too?
+
+Yes!
+
+>> +
+>>  	if (map_type =3D=3D BPF_MAP_TYPE_XSKMAP)
+>>  		return __xdp_do_redirect_xsk(ri, dev, xdp, xdp_prog);
+>>=20=20
+>
+> [ ... ]
+>
+>> diff --git a/net/xdp/xsk_sink.c b/net/xdp/xsk_sink.c
+>> index b78116f25e712..9f1f7cf822667 100644
+>> --- a/net/xdp/xsk_sink.c
+>> +++ b/net/xdp/xsk_sink.c
+>
+> [ ... ]
+>
+>> @@ -172,12 +192,78 @@ static u32 xsk_sink_take_released(struct xsk_sink =
+*sink, struct page_pool *pp,
+>>  	return n;
+>>  }
+>>=20=20
+>> +/* Posts the chunks that page pools handed off as empty RX descriptors
+>> + * while the ring has room, and puts the rest back on the list. Their o=
+rder
+>> + * does not matter, as userspace tells chunks by their address. Only one
+>> + * NAPI runs a queue at a time, so this is the only consumer of the list
+>> + * while the queue runs, and xsk_sink_scrub() the only one after it sto=
+pped.
+>> + *
+>> + * Context: the queue NAPI
+>> + */
+>> +static void xsk_sink_give_back(struct xsk_sink *sink, struct xdp_sock *=
+xs)
+>> +{
+>> +	struct llist_node *node, *last;
+>> +	u32 idx;
+>> +
+>> +	if (llist_empty(&sink->handed) || !xskq_prod_nb_free(xs->rx, 1))
+>> +		return;
+>> +
+>> +	node =3D llist_del_all(&sink->handed);
+>> +	while (node && xskq_prod_nb_free(xs->rx, 1)) {
+>
+> [ ... ]
+>
+>> +	}
+>> +	if (!node)
+>> +		return;
+>> +
+>> +	/* The ring is full, so userspace is behind */
+>> +	for (last =3D node; last->next; last =3D last->next)
+>> +		;
+>> +	llist_add_batch(node, last, &sink->handed);
+>> +}
+>
+> [ ... ]
+>
+>> @@ -185,17 +271,34 @@ static netmem_ref xsk_sink_alloc_netmems(struct pa=
+ge_pool *pp, gfp_t gfp)
+>>  	if (WARN_ON_ONCE(pp->alloc.count))
+>>  		return 0;
+>>=20=20
+>
+> [ ... ]
+>
+>> +	/* Pairs with xsk_sink_add_sock() */
+>> +	xs =3D smp_load_acquire(&sink->xs);
+>> +	if (xs && napi && !llist_empty(&sink->handed)) {
+>> +		xsk_sink_give_back(sink, xs);
+>> +		xskq_prod_submit(xs->rx);
+>> +		xs->sk.sk_data_ready(&xs->sk);
+>> +	}
+>> +
+>>  	spin_lock_bh(&sink->lock);
+>>  	n =3D xsk_sink_take_fill(sink, pp);
+>>  	n =3D xsk_sink_take_released(sink, pp, n);
+>>  	fq =3D sink->fq;
+>
+> [Severity: High]
+> Does the put in xsk_sink_scrub(), and the one in xsk_sink_take_fill()
+> for a chunk of another page pool, ever reach xsk_sink_release_netmem()?
+>
+> With this patch, a chunk that goes back to userspace through
+> xsk_sink_drop_buf() or xsk_sink_give_back() is in XSK_SINK_USER, but
+> netmem_get_pp() still points at the page pool that allocated it. When
+> userspace lends it again and a different page pool refills,
+> xsk_sink_take_fill() gives it to that owner:
+>
+> net/xdp/xsk_sink.c:xsk_sink_take_fill() {
+>     ...
+> 		owner =3D netmem_get_pp(netmem);
+> 		if (owner && owner !=3D pp) {
+> 			page_pool_put_unrefed_netmem(owner, netmem, -1, false);
+> 			continue;
+> 		}
+>     ...
+> }
+>
+> page_pool_put_unrefed_netmem() does not release a net_iov, though.
+> __page_pool_page_can_be_recycled() is always true for net_iovs, so
+> __page_pool_put_page() keeps the chunk and it lands in owner->ring, or
+> in the owner's alloc cache when page_pool_napi_local() says so. Only
+> page_pool_return_netmem() calls the provider's release_netmem, and on
+> this path that only happens when the ring is full, or when
+> page_pool_scrub() of a destroyed pool empties the ring.
+>
+> That seems to matter in three places:
+>
+>   On a queue restart where the driver fills the new queue before the
+>   old page pool goes away, as bnxt does from bnxt_queue_mem_alloc()
+>   and fbnic from fbnic_queue_start(), every chunk that userspace lends
+>   again moves from FILL into the old pool's ring. sink->released is
+>   empty at that point, so xsk_sink_alloc_netmems() can return 0 for
+>   the new pool and count fq->queue_empty_descs, even with a full FILL
+>   ring. Can that make bnxt fail the restart with -ENOMEM?
+>
+>   Where the old pool is destroyed first, as in mlx5e_queue_start(),
+>   the chunks that userspace holds keep it in flight, so
+>   page_pool_destroy() scrubs its ring once and leaves the rest to
+>   release_dw. Chunks that the new pool takes from FILL after that
+>   sit in the old ring until page_pool_release_retry() runs, up to
+>   DEFER_TIME later.
+>
+>   On unbind, netif_mp_close_rxq() destroys the page pool while
+>   XSK_SINK_USER chunks and the hand-off list are still charged to it.
+>   xsk_sink_scrub() then runs from xsk_sink_stop() and puts them into
+>   the ring of that destroyed pool. They only reach
+>   xsk_sink_release_netmem() once the deferred release runs a second
+>   later, and the page pool and the sink stay around until then.
+>
+> Should the provider release these chunks itself, the way
+> page_pool_return_netmem() would, instead of putting them through the
+> recycling path? Or is there another way for the owner to let go of a
+> chunk that it lent to userspace?
+
+Hmm, same root cause as patch 6. Let's try to fix it.
+
+> [ ... ]
+>
+>>  	if (napi && fq && sink->pool->uses_need_wakeup) {
+>> -		if (n)
+>> +		if (n && llist_empty(&sink->handed))
+>>  			xsk_clear_rx_need_wakeup(sink->pool);
+>>  		else
+>>  			xsk_set_rx_need_wakeup(sink->pool);
+>
+> [ ... ]
+>
+>> @@ -226,12 +329,61 @@ static bool xsk_sink_release_netmem(struct page_po=
+ol *pp, netmem_ref netmem)
+>>  	return false;
+>>  }
+>>=20=20
+>> +/* The last put of a chunk with a buffer in userspace: it goes back to
+>> + * userspace, still charged to @pp. The next flush or refill of the que=
+ue
+>> + * NAPI posts its empty descriptor.
+>> + */
+>> +static bool xsk_sink_hand_off(struct page_pool *pp, netmem_ref netmem)
+>> +{
+>> +	struct net_iov *niov =3D netmem_to_net_iov(netmem);
+>> +	struct xsk_sink *sink =3D pp->mp_priv;
+>> +	struct llist_node *node;
+>> +
+>> +	niov->mp_hand_off =3D false;
+>> +	node =3D &sink->nodes[net_iov_idx(niov)];
+>> +	llist_add(node, &sink->handed);
+>> +	return true;
+>> +}
+>
+> [Severity: Medium]
+> Can chunks stay on sink->handed indefinitely?
+>
+> The commit message says that a handed-off chunk "gives it back at the
+> next flush of the queue NAPI, or at a refill while no packets come". It
+> also says that "the refill asks the socket for a kick while any chunk
+> waits, so that a reader that fell behind gets them once it has drained
+> its ring".
+>
+> While the queue runs, only two places take chunks from sink->handed.
+>
+> The first is xsk_sink_flush(). It is only reached from xsk_flush(), and
+> only for a socket on the XSKMAP flush list:
+>
+> net/xdp/xsk.c:xsk_flush() {
+> 	struct xsk_sink *sink =3D xs->pool->sink;
+>
+> 	if (sink)
+> 		xsk_sink_flush(sink);
+>     ...
+> }
+>
+> A socket only joins that list after a successful xsk_sink_redirect() in
+> the same poll.
+>
+> The second is xsk_sink_alloc_netmems(). The page pool only calls it on
+> the slow path, when both the alloc cache and the ptr_ring are empty.
+>
+> In mlx5, xdp_do_flush() runs inside mlx5e_poll_rx_cq() through
+> mlx5e_xdp_rx_poll_complete(). The WQE pages are released later in the
+> same poll:
+>
+> mlx5e_post_rx_mpwqes()
+>   mlx5e_free_rx_mpwqe()
+>     mlx5e_page_release_fragmented()
+>       page_pool_put_unrefed_netmem()
+>         page_pool_hand_off()
+>           xsk_sink_hand_off()
+>             llist_add(node, &sink->handed)
+>
+> So the final put of a chunk whose mp_hand_off was set in
+> xsk_sink_drop_buf() always comes after that poll's flush.
+>
+> The other pages freed there go straight into the pp cache with
+> allow_direct. As a result, the refill in the same loop usually doesn't
+> reach alloc_netmems either.
+>
+> When the RX ring is full, xsk_sink_give_back() puts the leftover chunks
+> back on the list. While the ring stays full, xsk_sink_rcv() returns
+> -ENOBUFS, so the socket never joins the flush list. Dropped buffers also
+> keep the pp cache from running dry.
+>
+> In both cases, a later NAPI run with no successful delivery and a
+> non-empty cache posts none of the waiting chunks. That includes an idle
+> link, and the NAPI run that the next patch's xsk_sink_wakeup() starts
+> through napi_schedule().
+>
+> The need_wakeup decision in xsk_sink_alloc_netmems() quoted above has a
+> related gap, because it is only evaluated at refill time.
+>
+> If the refill ran before a late hand-off, the flag stays cleared and
+> userspace is not asked to kick.
+>
+> If the refill saw a non-empty list, the flag stays set. Each poll() or
+> recvmsg() then kicks a NAPI that can't post the chunks.
+>
+> The chunks seem to come back only when another packet is delivered, or
+> when the device runs its page pool cache dry. Could an application that
+> waits for XDP_RX_CHUNK_FREE stall for as long as the link is idle? For
+> example, one that waits to refill the fill ring or to reuse chunks for
+> TX.
+>
+> This also looks like it remains at the end of the series. The fbnic
+> patch moves its flush after the refill, but mlx5 and bnxt do not.
+
+Hmm... I think partly, for some chunks, but fewer that this says!
+
+When the socket takes every packet, the chunks of its buffers never go
+back to the pool cache, so the refill after mlx5 frees a WQE usually
+takes the slow path and gives back the chunks handed off before it. What
+waits is what the device lets go of after the last flush/refill of a
+poll, and chunks that found the RX ring full.
+
+A wakeup alone does not post them. With FILL empty, the refill reaches
+the slow path, so the queue does not deadlock!
+
+Maybe flush the mlx5 redirect after repost, and let a wakeup give back
+the chunks that wait...
