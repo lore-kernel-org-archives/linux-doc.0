@@ -1,75 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795630961;
-	b=0ep0LhqIGJ29fL4KvhDfhpMqwUkhpVP7YVS207RgkN+DhSjaYj1jhYcGxctAxpqOR+VP
-	 CZOMTv0pfeIo2hXkvsETQovNWJbsCJZttfR3Ywp0akBythXlBRvzlBJdQWyAfLr5el1D8
-	 ginTyva8x8ciHJctBcxncE29qbws/n92b8VTxq0KVuU6WcghiYSHDslY6eXQo+gjkjhH5
-	 xM3gRkq45wKXrZKjtyEfVhGrFjQFbpV3Rdila0dTcXace2xGoNBPhwFZvoqu1/goD7HH/
-	 PjBhRpt5HawmTdw0/P2rpJ7N9LR+OunS13BqD1Z4Zj0xQeIhv1/AVVaxn8H9S1yfxdQ==
+	t=1795632147;
+	b=VHAVbWHLOJspS9tJlgg2paXJaIatQkD/aEt32xn9+eMHfUtiSiZknIINyn2scDJ9YEgr
+	 ruwRR4WJMrLl9xu+PvJkKqVBL8lJkz/FnCZhQtF7129aC8o2qdRq2XYaA1UqetOIO3o+y
+	 hQSGIW8BE43sEADMqmR6XBD0UvrH4M8C1NYhSxBOJ4MoWKTNe0zK/+saWBSuWF8ZOKy+m
+	 6GJPi/96qG7hNLIs3UGcp0V8e9ZFmYCyTYi9jgulsA2C9xv1wauqsCxJGyfDl68fg4tsy
+	 77UleKdNYzt8VSiGq/nxikEswqC2Xf4aCNGeRx1+sva6pH3V3PU7UdUhtliQqe2woLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795630961;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=sfEVlacBV97ie02thpjOgM2D6cDC2tSVCZoWDEnfrKo=;
-	b=xegiQ1xRry8ErvI0dJK687bIPPFsB8/ynyCf6+vyC0vb2NsN0flfisj8zBRAZnD0HDOE
-	 VNwsY7VVekAuL0gAw32R8fCOSlDCNSakcNL1PVQxuORUvBdY/llYvboFLC8lS+1PzujUL
-	 6TdX6bXX3DDFAB8262RpQ84IeWi2q4SDqhTSjyhZ2gPsipEdSd1xYEMxefOGNd/0Cme7b
-	 bkBs/KBavhFVpZ9KSuL9Tb/Ck7aZTZ18YiFscm6sF2/hlGHzWAaDULkm9v4Yy4xtFup7X
-	 KNHVsgvEqR2sdR6WnHUnqBlCpuPFpXaqPhGI54wjOLsw2ty6QxfLLmeTevkDKMo/CbQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795632147;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=SkOUqs8kh/EKHoDq0DX358tEGX9GWBEQO1PuQCSo4/A=;
+	b=l/o8L3cs3ZA86yFmWbDuNqd+wToIqo4kzU+OJFL/Y1qrT+SQEcECnRtlVf3Z044gn0l8
+	 uQNoUY6f6zzyHe3lbm5Q50/ITrhcSpyUgFeiJsye2UFUhpB8X0BseELkvyy9Ba0VVbAOu
+	 LDfCfpfmXANSeYaaB062EmXPo9lQCYXkkkZBaXRy7cIc73JZ2E8L/cXn8DrW5triiLdFS
+	 bGYMbGx+3R+uQFgcsRHwq8mCaxTgrs86si2J4iXV9kvYPUOhob8VMF5uP5OR0CJAZQi3n
+	 4W91VlD5EeDAVnWyEnKIiTZRt2ald05YFRsIdXF2qXgg8471tIurfkBP53GD1dIoojg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=XltHJeJc;
-	arc=none smtp.remote-ip=209.85.214.200
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E509606A334
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 18:22:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E509606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Mxz+SzuE;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B492606A327;
+	Wed, 25 Nov 2026 18:42:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B492606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=XltHJeJc
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2f053f9631cso70353335ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 10:22:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795630961; x=1796235761; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sfEVlacBV97ie02thpjOgM2D6cDC2tSVCZoWDEnfrKo=;
-        b=XltHJeJcafnoz7rWSdh67DNM8cUVU33Kf/95Saqoq1SakVT7WitG6OsBqDZPGchsCE
-         y/G1PGTFqEJu0lBEmJpEIiHh2bs+IcYU8n5pRQb6MCXjpvL2vVXWyjr78fxLTeBKFKQH
-         LbZNOzgfAlbMrtPg3br43/a0SJZBBByAaTgwqOI1btWwBNj5Ty//bbU2AK1YZTsmpv+P
-         Rx1sqeQZDnE6Me/PAQ2VZSIlCF1Pj+UVs+co5YrbldjuVaIcAFJ5jyFNTi9XJNwyBgom
-         juH/Li+nPLPJ/sXNQ9fbhC3+mMLejxLcvsDBSkMQCDsTkfuIdqvNpOGCTIPpHqYCNwEs
-         6FOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795630961; x=1796235761;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sfEVlacBV97ie02thpjOgM2D6cDC2tSVCZoWDEnfrKo=;
-        b=ajVvkU0oybaSb0374Y6M148nhs7nrjN3nH9pvxPJoLPJKTPl07ZrG254Jv3AP9NVzg
-         1Ju9/fgCVEOPm0mw4DvOCOSGz6bftogc9ZTiE/d+tygw/WLXQ2w8m8V/79MC7u5/QfSX
-         u2iqkjar26GqxqxPqk732RXPj+bYWX3Pt8BC3vtlyfXGidSCvqtBYhjTfRhLtMbSqOpq
-         vUReD3bijL6SzDPsslsYp7WiG9pu78OzhfwYOLjpoOGu7rSC5Ucu4S+c0le4I+WCb/sK
-         YbhNwclSMqZXEzf1YSVUG5iNtfWksEBjEzXXSzLUN+kTR+omsYQApAIwIRou3/5Q1ucF
-         W76w==
-X-Forwarded-Encrypted: i=1; AL+hErGi+MyV9F/6AaXkDaPgIbu+vqpvRklmIqc0yS8sXBlPwZFg9zln5k6MQ73+XN5phc97ZVcS7d0NvV8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/ObycW57OtdrPTelErphpjwicHH5TXq3vfZOZpfgPMXtd+mi9p
-	xUxmW6OlLlxguE+GzfXSn94pJuaIOQ3vnQphvNn8qBAfHA4hmRqAQjwR6MEmvMp8JtlzVhTdRGA
-	X5FYTeKO8jG2VzYMY8Aey+HkgeSLZ+a9i2w==
-X-Received: from plau5.prod.google.com ([2002:a17:903:3045:b0:2f0:349:b3a4])
- (user=rathodpriyank job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:ce85:b0:2f0:3e44:4761 with SMTP id d9443c01a7336-2f03f25e801mr195497385ad.54.1795630960732;
- Wed, 25 Nov 2026 10:22:40 -0800 (PST)
-Date: Wed, 25 Nov 2026 18:22:40 +0000
-In-Reply-To: <115e024d-f49b-256f-550c-7a64b546a076@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Mxz+SzuE
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EED851596;
+	Wed, 25 Nov 2026 10:42:22 -0800 (PST)
+Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 543193F632;
+	Wed, 25 Nov 2026 10:42:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795632145; bh=5/yTrlMerS40XeBeYhkPJ9sgqYnObkxSSdB1SKV7Zjo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Mxz+SzuEIZqlDqJsq8rfzG7sZQiRFga8RZxxg3gJxqHmZ/7oZWjNFWVz7HdntO7o+
+	 BUYVwkeFjQXzluXsgiSKZvWd1Mg7thPChRRBRUNMRHPn5tQoVwGDnUfvUU0mqpiWLw
+	 fU+JrZ0f0MBHbtYacZtjHRaRvJ8MQmXYhM8jKIvM=
+Date: Wed, 25 Nov 2026 18:42:18 +0000
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, jgg@ziepe.ca, david.quigley@intel.com,
+	lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com,
+	cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com,
+	James.Bottomley@hansenpartnership.com, aik@amd.com,
+	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
+	jarkko@kernel.org, zohar@linux.ibm.com, yeoreum.yun@arm.com,
+	aneesh.kumar@kernel.org, dave.jiang@intel.com, nik.borisov@suse.com,
+	sergii.dmytruk@3mdeb.com
+Subject: Re: [PATCH RFC v2 00/15] ctlv: Add a schema-driven TLV uAPI for
+ character devices
+Message-ID: <awcsCt935SgyVIgY@e129823.arm.com>
+References: <20261113155515.2510194-1-jiri@resnulli.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,32 +71,441 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261125-pcie-link-endpoints-v8-0-19d49c17c05f@google.com>
- <20261125-pcie-link-endpoints-v8-1-19d49c17c05f@google.com> <115e024d-f49b-256f-550c-7a64b546a076@linux.intel.com>
-X-Mailer: git-send-email 2.56.1.839.g22a8290db9-goog
-Message-ID: <20261125182240.2292209-1-rathodpriyank@google.com>
-Subject: Re: [PATCH v8 1/3] PCI/ASPM: Add internal pcie_aspm_inhibit() helper
-From: Priyank Rathod <rathodpriyank@google.com>
-To: "=?UTF-8?q?Ilpo=20J=C3=A4rvinen?=" <ilpo.jarvinen@linux.intel.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Lukas Wunner <lukas@wunner.de>, Manivannan Sadhasivam <mani@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-pci@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261113155515.2510194-1-jiri@resnulli.us>
 
-Hi Ilpo,
+I've tested with my FIRME and arm-cca-guest implementations based on
+this patch series. So for this series,
 
-Thanks for the feedback.  I reached out to Manivannan, Bjorn, and you on
-the ASPM thread to check whether Manivannan has a v4 in progress or if I
-can take over finishing the core ASPM changes cleanly first, and to align
-on the per-state counter API details before implementing it.
+Tested-by: Yeoreum Yun <yeoreum.yun@arm.com>
+Reviewed-by: Yeoreum Yun <yeoreum.yun@arm.com>
 
-Also noted on avoiding bullet lists in commit messages, and I will fix the
-port->dev lifetime issue in pci_lmr_release() that sashiko-bot flagged on
-patch 2/3 when preparing the next revision on top of the ASPM prerequisite.
+On Fri, Nov 13, 2026 at 04:54:59PM +0100, Jiri Pirko wrote:
+> From: Jiri Pirko <jiri@nvidia.com>
+> 
+> RFC v1 [1] posted CTLV together with its first user, the attestation
+> subsystem. v2 posts them as two series: this one, and the attestation
+> series, which applies on top of it and is posted alongside as
+> 
+>   [PATCH RFC v2 0/9] attestation: Add a common subsystem and TDX support
+> 
+> CTLV is a schema-driven TLV uAPI on a character device, meant for uAPIs
+> too unconstrained for fixed structures: lists of records, nested and
+> variable-sized data, optional fields. Every request is checked against
+> the family's YAML schema before the driver sees it, and the UAPI
+> header, the bindings and the docs are generated from the same schema.
+> A family grows without versions, by new ops and optional fields. One
+> ioctl over a global number space lets strace or a seccomp supervisor
+> decode any family, and a query whose answer is larger than the
+> caller's buffer is answered in parts, with a cursor and a generation
+> that keep them consistent.
+> 
+> An ioctl with structures of its own fixes their layout, needs pointers
+> to more structures for variable data, and has to be validated and
+> decoded on its own. sysfs and configfs would assemble one request
+> through several files, where CTLV checks and executes it at once.
+> Netlink is built around sockets and network namespaces, while these
+> devices want an fd and the DAC model of a device node, and it was
+> turned down for the TSM's SPDM uAPI [2]. For a value or two, sysfs or a
+> plain ioctl stays simpler, and CTLV is not meant for that.
+> 
+> The uAPI is one ioctl on the device's fd:
+> 
+>   struct ctlv_op_exec {
+>           __u32 size;
+>           __u32 flags;
+>           __aligned_u64 op_id;
+>           __aligned_u64 request;
+>           __aligned_u64 reply;
+>           __u32 request_len;
+>           __u32 reply_len;
+>           __aligned_u64 generation;
+>           __aligned_u64 cursor;
+>   };
+> 
+>   ioctl(fd, CTLV_IOC_OP_EXEC, &exec);
+> 
+> An op is an action, executed once, or a query, which the generation
+> and the cursor carry across replies. Each op needs read or read-write
+> access, checked against the mode the device was opened with. A failed
+> op returns an errno, and in the reply buffer why the request was
+> refused and the offset of the offending TLV.
+> 
+> A family is specified in YAML. The root family, which every device
+> answers, lets a program not compiled against a family discover it. Its
+> first op:
+> 
+>   ops:
+>     # The families this device answers, this one first and the device family
+>     # last. The only names any reply of this family carries.
+>     family-get:
+>       type: query
+>       fd-access: read
+>       reply:
+>         # One entry per family of the chain.
+>         families[]:
+>           # The family ID, which bits 63..48 of the family's types carry.
+>           id: uint
+>           # The registry name, also what a uevent carries. Bounded here, this
+>           # being the only place a message carries a family name.
+>           name: string(..63)
+> 
+> ctlvgen --signatures prints a family's ops as calls, ? marking what
+> may be absent and [] what may repeat. The root family's three, with
+> the purpose of each:
+> 
+>   # The device's family chain, root first.
+>   family-get() -> { families[]: { id, name } }
+> 
+>   # Every op the device publishes, with its type, access and lengths.
+>   op-get() ->
+>       { ops[]: { id, type, availability?, disabled?, request-max-len?,
+>                  action-reply-max-len?, query-reply-min-len?,
+>                  query-reply-suggested-len?, fd-access?, error-info-max-len? } }
+> 
+>   # The tree of one op's request and reply.
+>   op-schema-get(id) -> { request?: schema-node, reply?: schema-node }
+> 
+> libctlv is a small C library for the mechanical parts: opening a
+> device by its family, building requests, parsing replies, reassembling
+> queries and building blob descriptors, with typed bindings generated
+> per family. ctlvctl needs no generated code, only the family's
+> specification, or the .json the build writes from it, for the names.
+> Both build with the kernel's CROSS_COMPILE, LLVM and O=. Here they
+> run in a VM, on a device of the simulation provider from the branch
+> [3], with CTLV_SPEC_DIR pointing at Documentation/ctlv/specs. The
+> device's MR 1 can be extended, and its evidence object 2 is an event
+> log:
+> 
+>   # Every CTLV device and its family chain.
+>   $ ctlvctl list
+>   attestation/attestation0        ctlv/ctlv-attestation/ctlv-attestation-sim
+> 
+>   # The ops the device publishes.
+>   $ ctlvctl ops attestation/attestation0
+>   # ctlv/ctlv-attestation/ctlv-attestation-sim, generation 0
+>   family-get     query   read        fixed  request 16    reply 112..65536
+>   op-get         query   read        fixed  request 16    reply 56..65536
+>   op-schema-get  query   read        fixed  request 40    reply 168..65536
+>   ...
+>   mr-read        query   read        fixed  request 80    reply 112..4096
+>   mr-extend      action  read-write  fixed  request 7232  reply 2824
+>   ...
+> 
+>   # mr-read's request and reply.
+>   $ ctlvctl schema attestation/attestation0 mr-read
+>   mr-read (query)
+>   request:
+>     root record
+>       mr-read id required uint [0, 4294967295]
+>       device-generation optional uint [0, 4294967295]
+>       mr-read options optional record
+>   reply:
+>     root record
+>       device-generation required uint [0, 4294967295]
+>       mr-generation required uint [0, 4294967295]
+>       mr-values required record x23
+>         mr-value.hash-algo required enum [0, 22] {HASH_ALGO_MD4, ...}
+>         mr-value.data required binary len [16, 64]
+> 
+>   # MR 1's banks.
+>   $ ctlvctl exec attestation/attestation0 mr-read id=1
+>   # mr-read, 1 fragment, generation 0
+>     device-generation 0
+>     mr-generation 2
+>     mr-values
+>       mr-value.hash-algo HASH_ALGO_SHA256
+>       mr-value.data hex:0000000000000000000000000000000000000000000000000000000000000000
+>     mr-values
+>       mr-value.hash-algo HASH_ALGO_SHA384
+>       mr-value.data hex:000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+> 
+>   # Extend MR 1 by a digest for each of its banks.
+>   $ ctlvctl exec attestation/attestation0 mr-extend --json '{"id":1,
+>           "mr-values":[
+>             {"hash-algo":"HASH_ALGO_SHA256","data":"hex:b1a3c4fc2b10743a5f79ce443178df6e99b4426fcae2ef3e1f76a6a26d8f0860"},
+>             {"hash-algo":"HASH_ALGO_SHA384","data":"hex:c8a6d5e64f03a5f3cad5125670fccff0c065a9db91f00a81eb6630836629a85969802308430aa28ea0d6fdd8b1eb0cc8"}]}'
+>   # mr-extend, 1 fragment, generation 0
+>     device-generation 0
+>     mr-generation 3
+>     mr-values
+>       mr-value.hash-algo HASH_ALGO_SHA256
+>       mr-value.data hex:b1a3c4fc2b10743a5f79ce443178df6e99b4426fcae2ef3e1f76a6a26d8f0860
+>     mr-values
+>       mr-value.hash-algo HASH_ALGO_SHA384
+>       mr-value.data hex:c8a6d5e64f03a5f3cad5125670fccff0c065a9db91f00a81eb6630836629a85969802308430aa28ea0d6fdd8b1eb0cc8
+> 
+>   # MR 1 again, with its new value and generation.
+>   $ ctlvctl exec attestation/attestation0 mr-read id=1
+>   # mr-read, 1 fragment, generation 1
+>     device-generation 0
+>     mr-generation 3
+>     mr-values
+>       mr-value.hash-algo HASH_ALGO_SHA256
+>       mr-value.data hex:a4fb91fd25115ec617cc4f17a40590e685cc58de5a65bb119e821e09d780a158
+>     mr-values
+>       mr-value.hash-algo HASH_ALGO_SHA384
+>       mr-value.data hex:1dcbf559ca9d6b48d782d268933c07a9e33c96bb21e1b868c2db7be929a852d3c5dbc5cf44427400c268a2f557c38c75
+> 
+>   # The event log, an output blob, written to a file.
+>   $ ctlvctl exec attestation/attestation0 evidence-get --json \
+>           '{"objects":[{"id":2,"data":{"file":"log.bin"}}]}'
+>   # evidence-get, 1 fragment, generation 0
+>     device-generation 0
+>     evidence-get evidence-generation 1
+>     evidence-get results
+>       evidence-get results.format ccel
+>       evidence-get results.length 65
+> 
+> There are no versions. struct ctlv_op_exec carries its size and grows
+> only at its end. A family grows by new ops and new optional fields,
+> and anything incompatible is a new op. Each family has a checked-in
+> ABI snapshot, and regen refuses a change that breaks it.
+> 
+> Events, a per-fd queue of what changed on a device, are left out until
+> their first user is posted, and so are memfd and dma-buf blobs. Both
+> are on the branch [3], with the generator's tests, KUnit, test
+> families and selftests.
+> 
+> The series adds 23787 lines:
+> 
+>   generator, Python                 7864
+>   core, C                           5643
+>   ctlvctl                           3519
+>   libctlv                           3242
+>   docs                              1510
+>   generated files                   1161
+>   meta-schemas, registry             368
+>   root family specification          211
+>   ABI snapshots                      118
+>   build                              151
+> 
+> Changes since RFC v1, each patch listing its own:
+> 
+> - Specs are written as Jason suggested: enums, flags, records and ops,
+>   each op the tree of its request and reply, every type derived from
+>   where its field sits. Attribute groups and sets are gone. The
+>   comment above an item is its doc, in the UAPI headers and the
+>   rendered docs, and ctlvgen --signatures prints the ops as above.
+> - TLV, type, record and field replace attr and nest.
+> - The events are left out, with read() and poll().
+> - A subsystem allocates its device and embeds CTLV, as fwctl does, and
+>   may route the ioctl from its own file operations. The engine is in
+>   lib/ctlv/, and a subsystem's class gets its nodes from CTLV, and
+>   there is no ctlv class.
+> - struct ctlv_op_exec is sized by its size field and read with
+>   copy_struct_from_user(). A reply buffer may be any length, and an
+>   output blob too short fails with EMSGSIZE and the length it needs.
+> - Enum extension points: an enum whose values a descendant family
+>   gives.
+> - An op that reads is <object>-get: families-dump and ops-dump are
+>   family-get and op-get.
+> - Inline messages are at most 64 KiB, and records nest at most 8 deep.
+> - The UAPI headers are in include/uapi/ctlv/.
+> - regen writes the ABI snapshots too, and refuses an ABI break unless
+>   ABI_BREAK=1.
+> - The userspace ABI opens with the goals, a worked example and a
+>   glossary, and collects the compatibility rules. The family guide is
+>   built around a worked example family.
+> - libctlv and ctlvctl are posted. ctlvctl runs every op with exec,
+>   takes a blob in --json as a file, as Aneesh's patched copy did, and
+>   sizes an output blob by the length the op fails with.
+> 
+> The patches:
+> 
+>   1-3    the spec language and generator, the message format and the
+>          family API, and the root family
+>   4      the userspace ABI
+>   5-11   messages, blobs, validation and introspection, then dispatch
+>   12     character device nodes
+>   13     how to write a family
+>   14-15  libctlv and ctlvctl
+> 
+> Note to reviewers: the uAPI, in 1, 2 and 4, and the family API, in 2
+> and 13, matter most at this stage.
+> 
+> [1] https://lore.kernel.org/all/20261015145053.3664509-1-jiri@resnulli.us/
+> [2] https://lore.kernel.org/all/20260921131911.532d81f4@kernel.org/
+> [3] https://github.com/jpirko/linux_mlxsw/commits/wip_attestation_all_2
+> 
+> Jiri Pirko (15):
+>   ctlv: Add the schema language and generator
+>   ctlv: Add the UAPI message format and family API
+>   ctlv: Add the root family specification and generated files
+>   Documentation: ctlv: Add userspace ABI
+>   ctlv: Prepare message input handling
+>   ctlv: Prepare blob descriptor validation
+>   ctlv: Prepare schema validation
+>   ctlv: Prepare message output handling
+>   ctlv: Prepare VA blob handling
+>   ctlv: Prepare runtime introspection
+>   ctlv: Add operation dispatch
+>   ctlv: Add character device nodes
+>   Documentation: ctlv: Describe how to write a family
+>   tools/ctlv: Add the userspace library
+>   tools/ctlv: Add ctlvctl
+> 
+>  Documentation/ctlv/abi/ctlv.yaml              |  111 +
+>  Documentation/ctlv/abi/families.registry.yaml |    7 +
+>  Documentation/ctlv/ctlv-registry-schema.yaml  |   38 +
+>  Documentation/ctlv/ctlv-schema.yaml           |  227 ++
+>  Documentation/ctlv/families.yaml              |   17 +
+>  .../ctlv/generated-files-schema.yaml          |   68 +
+>  Documentation/ctlv/generated-files.yaml       |   18 +
+>  Documentation/ctlv/specs/ctlv.yaml            |  211 ++
+>  Documentation/driver-api/ctlv.rst             |  723 +++++
+>  Documentation/driver-api/index.rst            |    1 +
+>  Documentation/userspace-api/ctlv.rst          |  783 +++++
+>  Documentation/userspace-api/index.rst         |    1 +
+>  .../userspace-api/ioctl/ioctl-number.rst      |    2 +
+>  MAINTAINERS                                   |   12 +
+>  include/linux/ctlv.h                          |  149 +
+>  include/linux/ctlv_device.h                   |   57 +
+>  include/linux/ctlv_family.h                   |  652 ++++
+>  include/linux/ctlv_gen.h                      |  154 +
+>  include/uapi/ctlv/ctlv.h                      |  180 ++
+>  include/uapi/ctlv/ctlv_families_gen.h         |   17 +
+>  include/uapi/ctlv/ctlv_gen.h                  |  278 ++
+>  lib/Kconfig                                   |    2 +
+>  lib/Makefile                                  |    2 +
+>  lib/ctlv/Kconfig                              |   13 +
+>  lib/ctlv/Makefile                             |    5 +
+>  lib/ctlv/blob.c                               |  421 +++
+>  lib/ctlv/blob.h                               |   15 +
+>  lib/ctlv/blob_desc.c                          |  101 +
+>  lib/ctlv/blob_desc.h                          |   29 +
+>  lib/ctlv/builder.c                            |  455 +++
+>  lib/ctlv/builder.h                            |   14 +
+>  lib/ctlv/core.c                               | 1169 +++++++
+>  lib/ctlv/ctlv_gen.c                           |  161 +
+>  lib/ctlv/device.c                             |  179 ++
+>  lib/ctlv/internal.h                           |   87 +
+>  lib/ctlv/introspection.c                      |  505 +++
+>  lib/ctlv/message.c                            |  393 +++
+>  lib/ctlv/message.h                            |   91 +
+>  lib/ctlv/schema.c                             | 1092 +++++++
+>  lib/ctlv/schema.h                             |   54 +
+>  tools/Makefile                                |    9 +-
+>  tools/ctlv/Makefile                           |   62 +
+>  tools/ctlv/ctlv-regen.sh                      |   64 +
+>  tools/ctlv/ctlvctl/.gitignore                 |    4 +
+>  tools/ctlv/ctlvctl/Makefile                   |   64 +
+>  tools/ctlv/ctlvctl/ctlvctl.c                  | 2787 +++++++++++++++++
+>  tools/ctlv/ctlvctl/spec.c                     |  672 ++++
+>  tools/ctlv/ctlvctl/spec.h                     |   60 +
+>  tools/ctlv/ctlvgen/__init__.py                |    1 +
+>  tools/ctlv/ctlvgen/cli.py                     |  178 ++
+>  tools/ctlv/ctlvgen/lib/__init__.py            |    1 +
+>  tools/ctlv/ctlvgen/lib/cenum.py               |  178 ++
+>  tools/ctlv/ctlvgen/lib/cgen.py                |  763 +++++
+>  tools/ctlv/ctlvgen/lib/compat.py              |  877 ++++++
+>  tools/ctlv/ctlvgen/lib/dump.py                |  161 +
+>  tools/ctlv/ctlvgen/lib/errors.py              |   16 +
+>  tools/ctlv/ctlvgen/lib/gen_doc.py             |  684 ++++
+>  tools/ctlv/ctlvgen/lib/gen_family.py          |  285 ++
+>  tools/ctlv/ctlvgen/lib/gen_kernel.py          |  576 ++++
+>  tools/ctlv/ctlvgen/lib/gen_runtime.py         |   66 +
+>  tools/ctlv/ctlvgen/lib/gen_uapi.py            |  182 ++
+>  tools/ctlv/ctlvgen/lib/gen_user.py            |  808 +++++
+>  tools/ctlv/ctlvgen/lib/outputs.py             |  363 +++
+>  tools/ctlv/ctlvgen/lib/semantics.py           | 1219 +++++++
+>  tools/ctlv/ctlvgen/lib/sizes.py               |  239 ++
+>  tools/ctlv/ctlvgen/lib/spec.py                |  813 +++++
+>  tools/ctlv/ctlvgen/lib/tree.py                |  158 +
+>  tools/ctlv/ctlvgen/lib/yamlload.py            |  138 +
+>  tools/ctlv/libctlv/Makefile                   |   41 +
+>  tools/ctlv/libctlv/ctlv.h                     |  413 +++
+>  tools/ctlv/libctlv/ctlv_user_gen.c            |  551 ++++
+>  tools/ctlv/libctlv/device.c                   |  412 +++
+>  tools/ctlv/libctlv/internal.h                 |  161 +
+>  tools/ctlv/libctlv/introspection.c            |  238 ++
+>  tools/ctlv/libctlv/message.c                  |  518 +++
+>  tools/ctlv/libctlv/schema.c                   |  742 +++++
+>  tools/ctlv/libctlv/spec.c                     |  186 ++
+>  tools/ctlv/libctlv/transport.c                |  572 ++++
+>  tools/ctlv/pyproject.toml                     |   30 +
+>  tools/ctlv/requirements.txt                   |    2 +
+>  80 files changed, 23787 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/ctlv/abi/ctlv.yaml
+>  create mode 100644 Documentation/ctlv/abi/families.registry.yaml
+>  create mode 100644 Documentation/ctlv/ctlv-registry-schema.yaml
+>  create mode 100644 Documentation/ctlv/ctlv-schema.yaml
+>  create mode 100644 Documentation/ctlv/families.yaml
+>  create mode 100644 Documentation/ctlv/generated-files-schema.yaml
+>  create mode 100644 Documentation/ctlv/generated-files.yaml
+>  create mode 100644 Documentation/ctlv/specs/ctlv.yaml
+>  create mode 100644 Documentation/driver-api/ctlv.rst
+>  create mode 100644 Documentation/userspace-api/ctlv.rst
+>  create mode 100644 include/linux/ctlv.h
+>  create mode 100644 include/linux/ctlv_device.h
+>  create mode 100644 include/linux/ctlv_family.h
+>  create mode 100644 include/linux/ctlv_gen.h
+>  create mode 100644 include/uapi/ctlv/ctlv.h
+>  create mode 100644 include/uapi/ctlv/ctlv_families_gen.h
+>  create mode 100644 include/uapi/ctlv/ctlv_gen.h
+>  create mode 100644 lib/ctlv/Kconfig
+>  create mode 100644 lib/ctlv/Makefile
+>  create mode 100644 lib/ctlv/blob.c
+>  create mode 100644 lib/ctlv/blob.h
+>  create mode 100644 lib/ctlv/blob_desc.c
+>  create mode 100644 lib/ctlv/blob_desc.h
+>  create mode 100644 lib/ctlv/builder.c
+>  create mode 100644 lib/ctlv/builder.h
+>  create mode 100644 lib/ctlv/core.c
+>  create mode 100644 lib/ctlv/ctlv_gen.c
+>  create mode 100644 lib/ctlv/device.c
+>  create mode 100644 lib/ctlv/internal.h
+>  create mode 100644 lib/ctlv/introspection.c
+>  create mode 100644 lib/ctlv/message.c
+>  create mode 100644 lib/ctlv/message.h
+>  create mode 100644 lib/ctlv/schema.c
+>  create mode 100644 lib/ctlv/schema.h
+>  create mode 100644 tools/ctlv/Makefile
+>  create mode 100755 tools/ctlv/ctlv-regen.sh
+>  create mode 100644 tools/ctlv/ctlvctl/.gitignore
+>  create mode 100644 tools/ctlv/ctlvctl/Makefile
+>  create mode 100644 tools/ctlv/ctlvctl/ctlvctl.c
+>  create mode 100644 tools/ctlv/ctlvctl/spec.c
+>  create mode 100644 tools/ctlv/ctlvctl/spec.h
+>  create mode 100644 tools/ctlv/ctlvgen/__init__.py
+>  create mode 100755 tools/ctlv/ctlvgen/cli.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/__init__.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/cenum.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/cgen.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/compat.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/dump.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/errors.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/gen_doc.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/gen_family.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/gen_kernel.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/gen_runtime.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/gen_uapi.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/gen_user.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/outputs.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/semantics.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/sizes.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/spec.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/tree.py
+>  create mode 100644 tools/ctlv/ctlvgen/lib/yamlload.py
+>  create mode 100644 tools/ctlv/libctlv/Makefile
+>  create mode 100644 tools/ctlv/libctlv/ctlv.h
+>  create mode 100644 tools/ctlv/libctlv/ctlv_user_gen.c
+>  create mode 100644 tools/ctlv/libctlv/device.c
+>  create mode 100644 tools/ctlv/libctlv/internal.h
+>  create mode 100644 tools/ctlv/libctlv/introspection.c
+>  create mode 100644 tools/ctlv/libctlv/message.c
+>  create mode 100644 tools/ctlv/libctlv/schema.c
+>  create mode 100644 tools/ctlv/libctlv/spec.c
+>  create mode 100644 tools/ctlv/libctlv/transport.c
+>  create mode 100644 tools/ctlv/pyproject.toml
+>  create mode 100644 tools/ctlv/requirements.txt
+> 
+> -- 
+> 2.56.0
+> 
 
-Thanks,
-Priyank
+-- 
+Sincerely,
+Yeoreum Yun
