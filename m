@@ -1,76 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795597088;
-	b=opQYjZz64J37YQftw7Jr2VTlpjFdKQdYsHqlSDw8H+H+kGt0wB5U0v9kU2uIY8+rtv5w
-	 nQ3uVfruPaUamqqEQoSbJoZ0ukUjYxHJlyjS5HcaSEyuInefaemDcyB1afRWmIB2M8XUd
-	 3pS8NibXKqmFWbU1QVllTRmj6lf//VVgZJ41qsOkN5oud4eVTVx0uWCAHTRoLE3K2ZS2C
-	 Ef8vq8yVtSWLqvH23p2ca8T8U8du6fLzipLcE6Q5qV8zDy9X4vFv+X43WnkdGcLku9P3A
-	 fhxR/9pDDXLabaf6ZePFN5q3jTYVneLfzGje2YdSrCiAqgPYyxc4VOjTi+ENpKvnz5g==
+	t=1795597549;
+	b=KD5R3UNn+482HXVp52/IOYeOSMWd8baP8XANXj8VEIoYD7Q6gzwH1FkAlbox7cw2BOgQ
+	 jBFLUERtgGhefji+AL6LkOn6NpzePJ5DKwWWBQWPSF5X1jMuFcgFmY2t4087fmlUQe8g6
+	 e49KlvrxOvjv+nV99w0rhWje/Y5QUXxwPXdiZ4J76pQCYJytf2RqUz6CsXvlu8HC/U7DZ
+	 9LT7BjipKUys0s3wO9/9mU+z4AqeW2WK5EpZD/eYUcg/mJAAP16JfTSkiXeC4tNbkSTvl
+	 C+IJ10JRsS3j6z2gLAr3S+RB+Ff2RdmgzWIKbbG6PNnG9/IG17Qs7m30j30UEfVDK3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795597088;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=mVMrsFYyFATOUmkvDDEKuZs5AfG2ET/j4dYuZDcY0kQ=;
-	b=kpidPXl4SYjWd/guHjV8s4lz2aEptGBIfzaWaasDC8asrozLiWdbks7E+BCXT+MVaCwX
-	 q7wk7xzQSTjl1NmPiXA+XMpUBuGaQDWOP5XQ6ZzsI8BvN/VKEACLHNGgCK2PK7YQAEyc2
-	 lT5OjX31vJFu3AEulQzunm8jcjQiaZt8uBcQVZqmePbUlFv+YGceS6SN+5xhxQ0JnX/CE
-	 J9h4v6DsQU9c0V5fp4HzqM1E1NnDo0ha9dX/aUhvUDetSVIA9LC4tKqBSiAtxjwARvBqF
-	 IUxoOFz8soFACepw/LJKSZzyKxQ06jtFRr4jRTVcLmU4O+CU9DQyreeg7JxEdZ9QKMg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795597549;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
+	 Message-ID:MIME-Version:Content-Transfer-Encoding:X-Scanned-By;
+	bh=ZVRLnElhNvuZJWzd4HxxMUfBfr0VMyiNrxcwUirwnQA=;
+	b=sEIeeYi04V1abOkW+a5fql93n8NygE2DuefEb2GVc1qc1s+R+sBkgtKDOcQbJwONYvB7
+	 qG+pPRitm9S/ivH1zGZfrGTsdMKpETl994VnMm1f8PwASRJlDziiRk1gLzaCiOmai2fkT
+	 eqCjzx/eKTN+my8kiV/V4V7Z9KKVIsNVRqzYwK+RfVA+jsix27PK9Lh6oNRVkTcWqc8la
+	 Q9Y3y0t9M5Ad9sVHHMVpeXOVrXFrRwUyZ11tupM1Zbab5EQRJ4OxqMvbdz1ePgzM56Bcc
+	 VbLRophTKEgzHNPzOF4XwlCYuV1ihoC43T4C77HDsZ8MdApimkmhlq1WFr9CJingy0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.217.54
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="AHoQy/a9";
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF49606A323
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 08:58:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAF49606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-7d2b25786d9so2868725137.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 00:58:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795597087; x=1796201887;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=mVMrsFYyFATOUmkvDDEKuZs5AfG2ET/j4dYuZDcY0kQ=;
-        b=xqFUTNTzj9RJebKITu8z2T0lSboa/0wWAZg5HVrwtb5EEC8jJnLKlgRD9my7O2dR7S
-         FsLgSfB8VK3kGD2WXiymBMX7HQLbsb1JqorMpJvW4+p+sMFDKEYFc/cLEyYDM0ckvWKJ
-         p8vRr8rD5zR+GIWUfbjDW6sFU7GUywg7XSNz5m5BLM2qF2tuiO7HIj+TZ28vSbeGwB5V
-         5iA04doGSjkufJhbaHmmPd6YQF3CZ+ovLRZyOUfyHDYfdDgE9sxw2bUPMBirJLaV/+co
-         MzW3r/mkTWfPhPzx6vu9v2q6sJoSujDso8W61F86vgWqyV0xTZEQBQBzu+SRUsKSNIPg
-         uw8g==
-X-Forwarded-Encrypted: i=1; AL+hErECZhPS6C9K1T+oroRL1qt7Je+2ldtj5HRhGjquQc3nAZpUYYJ+rhsZUMFb++EvHlXgQp2qKZ70bu4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/IupbNS5TIksLY0YwO5mfUplJBtmmCEX2g3yEwPmhBGT203Wt7
-	Aqbu2CegzgTL5lFHbUQzxsGZ/pHlxvwhqMiZSIJkVWXJY2MO5ohOYBEmknwbajRv
-X-Gm-Gg: AZFdTZe+AkjS0d4CzqCldBjLmw1Sj2JlBOiR9vW2ZoMz3S0+LzZAm5PUk0GBmTs/o3i
-	eBrdMJ4gTFRxc6yKf2h6vurAzFYt9fxJq/DYsLmfDDgtEM1fesf4f2DbO/oK4q5haseqAa3Vu1W
-	xTZ4zDbn0D+DtFKNIY2YOHNcNmZuy5eoT5a6kvy95Rd9kINLj8SA8+bhJFgUJUTnzzjt1w8YKVk
-	0Oy3aGbciMoixKvVTI56BmnkxLD3ihPNSapvUKm2wgI8qhWJP95zBk6C/vGdo/kELWQjRqT0KlO
-	6MCmt52Je/azG5WLqR0ufYKuqeWVyT40EHd8BS59MpDWtxH8mBxM5bo3xmzy13+/9JaLUTafoux
-	nuGdcQ26xoHPFX0wVT4npMXk4H17ujDbYmv2PBVtVPp+y66ZAQCtGHIPVRh6k3O4Y2jULzQ6az4
-	EyRsBr62OvJSkbfxOlkOVtzukGfw86OHCnE8tewlxZIbjpWnD05I+8ntFxMtASeahJ0d4hCVK1U
-	krjVoSmzxMQRcTVHzmBwzcXvvXxh/YF3v7fFU9M16mbZbtXriK8iaSYapuvloEfXPhQBR6RYhDn
-	7BxKpT3xtMLOeaAutJs9HN7/nMX3SWjZmaTmGVXzDfG0aLVD0hRXRtV+9A1YLnz8pn0=
-X-Received: by 2002:a05:6102:5112:b0:7d2:d1e2:c218 with SMTP id ada2fe7eead31-7d72b364924mr9615489137.5.1795597086677;
-        Wed, 25 Nov 2026 00:58:06 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d6e7f3d819sm18263737137.3.2026.11.25.00.58.06
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 00:58:06 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-990703f817fso2840292241.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 00:58:06 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFTZxbaADGHWYYYctkLwf7jZMmYMC/xAcb0YHtb2mgwvpNjA9+JwCybp+IpahReowndzwKxKZEiusw=@vger.kernel.org
-X-Received: by 2002:a05:6102:50a4:b0:7cc:2bb7:1335 with SMTP id
- ada2fe7eead31-7d7395e01b0mr9404227137.33.1795597085866; Wed, 25 Nov 2026
- 00:58:05 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A08606A32D
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 09:05:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6A08606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=AHoQy/a9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795597548;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZVRLnElhNvuZJWzd4HxxMUfBfr0VMyiNrxcwUirwnQA=;
+	b=AHoQy/a94KrrAXjoe7s8Mflok+SXrzcBo2VwYZFKK2kMNpqR0qcl8waGUAcbhycNNaBtkR
+	0QlgDs2HauhX0D3XxTHcO0326pwNE9Rgy4/yr6EQ69twKG0fRA7M/z7M7U1FjlxUs861wJ
+	Nrf/fv6WyP2kU8CXLqhqTifhDydvimQ=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-42-MOXhwPDOOKS9MeiG2eZqmA-1; Wed,
+ 25 Nov 2026 09:05:44 +0000
+X-MC-Unique: MOXhwPDOOKS9MeiG2eZqmA-1
+X-Mimecast-MFC-AGG-ID: MOXhwPDOOKS9MeiG2eZqmA_1795597542
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E3F121800540;
+	Wed, 25 Nov 2026 09:05:40 +0000 (UTC)
+Received: from poros-thinkpadp16vgen1.tpbc.com (unknown [10.44.48.12])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1E708195B3C5;
+	Wed, 25 Nov 2026 09:05:34 +0000 (UTC)
+From: Petr Oros <poros@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Petr Oros <poros@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Ivan Vecera <ivecera@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH net-next v5 00/14] dpll: add a simulated DPLL device driver
+Date: Wed, 25 Nov 2026 10:05:07 +0100
+Message-ID: <20261125090522.3777494-1-poros@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,72 +89,268 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <179558805924.3383392.1456615917266025706.ref@yahoo.com> <179558805924.3383392.1456615917266025706@yahoo.com>
-In-Reply-To: <179558805924.3383392.1456615917266025706@yahoo.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 25 Nov 2026 09:57:53 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXNqQCKFnpxzHVaFM0deF0VdyJSvLzmy6JT46sRA9kJow@mail.gmail.com>
-X-Gm-Features: Aa3M54psEuOxhCRq9HluWMLPt6_pP0Ynh7Bge75tt4s9aGAJoNbnstuvmOdPM-E
-Message-ID: <CAMuHMdXNqQCKFnpxzHVaFM0deF0VdyJSvLzmy6JT46sRA9kJow@mail.gmail.com>
-Subject: Re: [PATCH] agents: add a skill to determine the target tree of a change
-To: Daniel Ramos <capitain_jack@yahoo.com>
-Cc: Sasha Levin <sashal@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Hi Daniel,
+The DPLL subsystem has no in-tree driver that can run without real
+hardware, so core changes and userspace tooling are hard to exercise in
+CI, and the pin-on-pin and reference sync paths see almost no coverage
+outside the vendors' labs. This series adds dpllsim, a simulated DPLL
+device driver, together with selftests that run against it.
 
-On Wed, 25 Nov 2026 at 07:34, Daniel Ramos <capitain_jack@yahoo.com> wrote:
-> From: Daniel Campos Ramos <Capitain_Jack@yahoo.com>
->
-> Whether a change goes into the current release during its -rc weeks or
-> waits for the next merge window is decided by hand, and being a fix is
-> often taken as enough. Linus asked that new development and test cases
-> be kept on a separate branch so that they can be merged during the merge
-> window, and noted that fixes for subtle bugs that went unnoticed for a
-> long time can themselves be buggy.
->
-> Add a skill that sends the agent to the parts of 2.Process.rst,
-> howto.rst and handling-regressions.rst that describe the cycle, and to
-> the maintainer profiles of the changed files, and adds the checks agents
-> tend to get wrong: reading where the cycle stands, using the kernel's
-> meaning of a regression, keeping fixes for old bugs, new tests, cleanups
-> and new development for the next merge window, splitting mixed changes,
-> and counting every added line when judging a change sent during the -rc
-> weeks. The skill proposes a target; the maintainer decides.
->
-> Most of the skill points at existing documents. Keeping new tests on a
-> separate branch for the merge window, and counting lines that are not
-> built by default, come from Linus's mail and are not in Documentation/
-> yet.
->
-> Point the bug-fix procedure in coding-assistants.rst at the skill.
->
-> Link: https://lore.kernel.org/r/CAHk-=whyUfwzMDMTpih8Xs1MxmhwTCDAc_YwUSZG79vXFMLU=Q@mail.gmail.com
-> Link: https://lore.kernel.org/r/CAHk-=whOCnAwXz-FMRdQEDJQ+9b2YXh9M=GHgRay0o4cxSmPVg@mail.gmail.com
-> Signed-off-by: Daniel Campos Ramos <Capitain_Jack@yahoo.com>
+The driver is controlled through configfs, following gpio-sim. Writing a
+clock ID into a device directory and setting "live" to 1 registers a
+DPLL device with the core. Pins are directories under pins/ with their
+type, frequency, direction and priority as attributes, and all of them
+are registered when the device goes live. The split between creating
+the configuration and going live keeps the register and unregister
+paths reachable from userspace, so they can be exercised repeatedly
+without reloading the module.
 
-Thanks for your patch!
+The patches follow the shape of the zl3073x introduction. The
+driver starts with the device alone, then gains pins and the static pin
+operations one at a time (state, priority, frequency, phase adjustment),
+and every feature patch is followed by the selftest that covers it. The
+last two patches add concurrency stress tests and reference tracker
+leak tests for the lifecycle paths.
 
-> --- /dev/null
-> +++ b/agents/skills/target-tree/SKILL.md
+The simulation loop (lock state machine, phase and frequency
+measurements, monitoring features), the topology features (MUX pin
+hierarchies, reference sync, media failure injection), netdevsim
+integration and device mode setting follow in two further series once
+this one is in, to stay within the 15 patch limit.
 
-[...]
+The driver and the selftests were developed with an LLM coding
+assistant (Claude Code) working under my direction. I chose the
+configfs design, the split into one feature per patch and the test
+scenarios, and I reviewed every line. The assistant wrote most of the
+code and the first drafts of the changelogs, and it found and fixed
+bugs by running the suite on the lab host. The series then went
+through several rounds of an LLM based patch reviewer whose findings
+were fixed, and through a mutation test in which deliberately broken
+driver and core code was caught by the tests.
 
-All of this seems to apply to humans, too.
-Either this duplicates existing general documentation, or fills in
-gaps in general documentation.
-So IMHO it does not belong under agents.
+The selftests live in tools/testing/selftests/drivers/dpll and run
+with "make -C tools/testing/selftests TARGETS=drivers/dpll run_tests".
+The feature, stress and reference leak scripts create dpllsim devices.
+The basic script, which only reads, takes the first hardware DPLL device
+when there is one and creates a dpllsim device otherwise. With
+DPLL_DEV_ID=<id> the basic and feature scripts run against an existing
+device, so the same suite exercises real hardware, and
+DPLL_DRIVER=<module name> picks the first device of that driver, dpllsim
+for a simulated one. The whole suite was run through the kselftest
+runner in a KVM guest with CONFIG_KASAN, CONFIG_PROVE_LOCKING and
+CONFIG_DPLL_REFCNT_TRACKER enabled, and the basic and feature scripts
+were run with DPLL_DRIVER=ice against the DPLL of an ice E810 host,
+where the pin state and priorities of the hardware are left as they
+were. All pass with no warnings in dmesg, on ice the priority test skips
+on the EEC device, whose spare pin sits at the lowest priority already.
 
-Gr{oetje,eeting}s,
+---
+v5:
+- address the findings of the netdev AI review of v4 and the ones of
+  v3 that v4 left open
+- dpllsim: document the phase adjust range, its granularity and its
+  reset, that a pin state set over netlink is not kept across a live
+  transition either and the errors of a live write for the clock ID;
+  the Kconfig help no longer promises pin topologies
+- selftests: skip when dpllsim is built in, check before every test
+  that the pin is still spare and do not let a second signal cut the
+  teardown short, in the stress workers neither
+- selftests: take a pin only when every device it is registered on
+  shows which input it uses or reports unlocked, and leave the NCO
+  input, which iproute2 prints as a pin of unknown type so far, and
+  both pins of a connected reference sync pair alone
+- selftests: leave manual mode out of the state test until the
+  simulator can change its mode, and run the deferred restores only
+  when the test ends early
+- selftests: raise the priority of the test pin only when the
+  selection does not consider it, so that it cannot take over from the
+  reference, and try no priority above 255, which ice truncates to 8
+  bits
+- selftests: offer a disconnected pin to the selection of a device
+  provided by the user only when it ranks below the reference on every
+  device it is registered on, and step the phase adjust and the
+  frequency by small amounts instead of going to the ends of the range
+- selftests: write the current phase adjust back before the test, like
+  the priority and the frequency
+- selftests: fail when a device does not report its mode or a pin its
+  state, both are mandatory
+- selftests: do not hand a stress worker a clock-id range in which a
+  leftover device sits, and fail the test when the devices of a worker
+  cannot be removed
+- selftests: report live objects without a tracked reference as leaks,
+  move the ref_tracker probe test to the library, drop the final check
+  of dpll_reftrack.sh, which repeated the one before it, and skip the
+  leak check when a device was left behind
+- selftests: keep the standard pin layout and the removal of what the
+  ref_tracker probe leaves behind in the library, name the reason of a
+  refused restore and skip a state flood of no changes
+- MAINTAINERS: list the selftests under the DPLL subsystem as well
+- dpllsim: say in the documentation that a failed live write does not
+  name the pin
+- selftests: the basic test goes without the lock for a run against a
+  given device, a failed pin dump of the stress tests is one failure
+  and a too narrow phase adjust range fails on the created device
+- dpllsim: drop the initial reference of the pins group with the device
+- selftests: make the run directory private, skip a stress test whose
+  count is not a positive number and keep the deferred state restore
+  armed when a restore is refused
+- selftests: pass over the clock-ids of devices left behind by an
+  earlier run, require mountpoint and fail a leak check whose tracker
+  dir is gone
+- selftests: skip on a failed device dump only when the kernel has no
+  DPLL netlink family, and look a device the user named up in the dump
+- selftests: report a value that cannot be read back as such, pass over
+  clock-ids other simulated devices hold and return the status of a
+  failed restore
+- selftests: run the cleanup from the INT and TERM handlers, a signal
+  that came while a script exited ended the exit trap before it, and
+  track a device that fails half way and cannot be removed
+- selftests: skip the state test when the selection took the pin since
+  the spare check, and take a device that was there before the run for
+  none of the run in the cleanup and in the leak check of the stress
+  script
+- dpllsim: say on deploy and undeploy that the callers hold the
+  subsystem mutex
+- selftests: fail the run when a deferred restore fails, a refused
+  restore could leave a pin changed behind a skip
+- dpllsim: say why the lock status error is NONE and split the
+  documentation sentence on values set over netlink
+- selftests: say why a failed exec redirection in the lock and the
+  waits of the deploy cycle are safe
+- selftests: skip the deferred restore of the priority, frequency and
+  phase adjust tests once they restored the pin themselves
+- selftests: run a deferred restore only while the pin is changed, take
+  a refused restore of the priority, frequency and phase adjust tests
+  like the state test does, and give the clock-id check a public name
+- selftests: count the tuned pin as changed from before the set, so
+  that a signal during the set restores it too, and track the device of
+  the deploy cycle that fails half way
+- selftests: say why the prereq check passes on a kernel without DPLL
+  and why the priority test tries 1 and 7
+- selftests: skip the priority test when the selection took the pin
+  since the spare check, as the state test does, and move the range of
+  a stress worker past every taken one
+- correct comments and changelogs that did not match the code or the
+  iproute2 dpll tool
+- drop the tags of patches 6 and 8, whose tests were reworked, the
+  other patches keep theirs
 
-                        Geert
+v4:
+- address the findings of the netdev AI review of v3
+- dpllsim: keep the priority and the frequency set over netlink apart
+  from the configured values, so that every live transition starts from
+  what configfs holds and the attributes keep showing it
+- dpllsim: document the pin limit, the frequencies per pin type, the
+  errors of the live write and what happens to values set over netlink;
+  correct the comments on what the subsystem mutex covers
+- selftests: tell a failed device or pin dump from a system without
+  devices or pins, and fail instead of skipping when the simulated
+  device cannot be created
+- selftests: pick the spare input pin by all its parent devices, bail
+  out before touching a pin whose current priority, frequency or phase
+  adjust could not be written back, restore the reference after the
+  test pin in manual mode, do not let a refusal hide an earlier failure
+- selftests: signal only workers that are still children of the script,
+  never delete a device named by the environment or one that existed
+  before, record the mounts before mounting
+- selftests: keep the files of freed objects out of the reference
+  tracker snapshot, fail when the tracker is built in but records
+  nothing, skip the final leak check when a device was left behind
+- selftests: log deferred restores that fail, tell failed pin queries
+  from missing attributes in the remaining places, fail a stress worker
+  that a signal interrupted, enable CONFIG_IKCONFIG_PROC for the
+  tracker probe
+- drop the claim that configfs implies no stable ABI
+- add the Reviewed-by given to patches 2, 5, 6 and 14 of v3 (Ivan
+  Vecera) and keep the other tags, except on patches 7 and 9, where
+  the behaviour of the driver changed and which ask for a new look
+
+v3:
+- move the selftests from tools/testing/selftests/drivers/net/dpll to
+  tools/testing/selftests/drivers/dpll, with the shared library as a
+  TEST_FILES entry of that directory, so that the tests sit where the
+  drivers do
+- let dpllsim refuse pin states that are not valid in the device mode:
+  connected is refused in automatic mode, which the simulator runs in,
+  as Documentation/driver-api/dpll.rst allows it there only for pins
+  with the connected override capability (Ivan Vecera)
+- make the pin state test follow the mode of the device under test and
+  check on the simulator that connected is refused in automatic mode;
+  cycle the stress tests through the states of automatic mode only
+- add DPLL_DRIVER to pick the device of a given driver, or the simulator
+  with DPLL_DRIVER=dpllsim, on a system that has hardware DPLL devices
+- describe what the leak check waits for instead of a concurrent dump
+  holding references, which nothing does (Ivan Vecera)
+- carry the Reviewed-by and the set Acked-by of v2 over to the patches
+  whose code did not change or only moved; patches 2, 5 and 6 changed
+  and ask for a new look
+
+v2:
+- sort tools/testing/selftests/drivers/net/dpll/config alphabetically
+  and make the scripts clean under the shellcheck run of the netdev CI
+  (quoted exit and return values, shellcheck directives for the globals
+  shared between the library and the scripts and for the optional
+  argument of dpllsim_setup_standard_device())
+
+v4: https://lore.kernel.org/all/20261112130359.840795-1-poros@redhat.com/
+v3: https://lore.kernel.org/all/20261109093523.931201-1-poros@redhat.com/
+v2: https://lore.kernel.org/all/20261105151852.1844305-1-poros@redhat.com/
+v1: https://lore.kernel.org/all/20261103093910.596225-1-poros@redhat.com/
+---
+
+Petr Oros (14):
+  dpll: dpllsim: Add simulated DPLL device driver
+  selftests: dpll: add test library and device lifecycle tests
+  dpll: dpllsim: Add configurable pins
+  selftests: dpll: add pin enumeration and property tests
+  dpll: dpllsim: Add support to set input pin state
+  selftests: dpll: add pin state tests
+  dpll: dpllsim: Add support to get/set priority on input pins
+  selftests: dpll: add pin priority test
+  dpll: dpllsim: Add support to set frequency on pins
+  selftests: dpll: add pin frequency test
+  dpll: dpllsim: Add support to adjust phase
+  selftests: dpll: add pin phase adjust test
+  selftests: dpll: add concurrency stress tests
+  selftests: dpll: add reference leak tests
+
+ Documentation/driver-api/dpllsim.rst          |  102 ++
+ Documentation/driver-api/index.rst            |    1 +
+ MAINTAINERS                                   |    9 +
+ drivers/dpll/Kconfig                          |    1 +
+ drivers/dpll/Makefile                         |    1 +
+ drivers/dpll/dpllsim/Kconfig                  |   16 +
+ drivers/dpll/dpllsim/Makefile                 |    4 +
+ drivers/dpll/dpllsim/core.c                   |  483 +++++++
+ drivers/dpll/dpllsim/dpll.c                   |  502 +++++++
+ drivers/dpll/dpllsim/dpllsim.h                |  103 ++
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/drivers/dpll/Makefile |   17 +
+ tools/testing/selftests/drivers/dpll/config   |    8 +
+ .../selftests/drivers/dpll/dpll_basic.sh      |  256 ++++
+ .../selftests/drivers/dpll/dpll_features.sh   |  881 ++++++++++++
+ .../selftests/drivers/dpll/dpll_lib.sh        | 1182 +++++++++++++++++
+ .../selftests/drivers/dpll/dpll_reftrack.sh   |  111 ++
+ .../selftests/drivers/dpll/dpll_stress.sh     |  639 +++++++++
+ tools/testing/selftests/drivers/dpll/settings |    1 +
+ 19 files changed, 4318 insertions(+)
+ create mode 100644 Documentation/driver-api/dpllsim.rst
+ create mode 100644 drivers/dpll/dpllsim/Kconfig
+ create mode 100644 drivers/dpll/dpllsim/Makefile
+ create mode 100644 drivers/dpll/dpllsim/core.c
+ create mode 100644 drivers/dpll/dpllsim/dpll.c
+ create mode 100644 drivers/dpll/dpllsim/dpllsim.h
+ create mode 100644 tools/testing/selftests/drivers/dpll/Makefile
+ create mode 100644 tools/testing/selftests/drivers/dpll/config
+ create mode 100755 tools/testing/selftests/drivers/dpll/dpll_basic.sh
+ create mode 100755 tools/testing/selftests/drivers/dpll/dpll_features.sh
+ create mode 100644 tools/testing/selftests/drivers/dpll/dpll_lib.sh
+ create mode 100755 tools/testing/selftests/drivers/dpll/dpll_reftrack.sh
+ create mode 100755 tools/testing/selftests/drivers/dpll/dpll_stress.sh
+ create mode 100644 tools/testing/selftests/drivers/dpll/settings
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.56.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
