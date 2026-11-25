@@ -1,163 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.151.120
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795629900;
-	b=B0Xqra82odluTU5yUkKBB1k9o7p9xn8ntHyq/Gbh/VGEkpVM6tCQgz6XSXEA+0WoaQmK
-	 2gT9IPZ9420QOY6XFzDAL6Nn/0D2btCSBIzL0ig1Cdew4IGUDLmIwG36SbgXEJM4ZrpUL
-	 rkldtSR1mXlzkrDJscjfvUPJiQzeMz+ZBrDwaMazcWOsptTNS8YQHeViXBVzpjEbbiz6i
-	 yw6Bbd/F7Z5S1U64nb9OzbGmsW65wvAm7hySoJVJyGZvztdw0rB3p2yC3wXX3K6dA47QN
-	 SSpK4vg6feCEH4w1x0zgy8mb+1MmSgU+XuklWT1H6w/p01kuy0vOyPahbV+3X8sx39w==
+	t=1795629993;
+	b=tAE6OKAZTGNgj17j320zyXlFx+0lhVpI9SgpPpr17cJBtRL8g2d6GS53IwZay4haDvft
+	 i5X9GsFkDqwVV1Kcs2ijJOEL8r0rLs0AucJHa2Q3lX7uBPWKEHykCag7bKaejKM7aFHXJ
+	 nbrVyKxTknSZCWY3kPYVuMbH4/j112ly0cSYqr0Iz2kQ8HahkdnVMw3wiMQPDA6EKsLzE
+	 g9XDymtHPMOePykMdt6Huqtg/A+Lm3USbIa5cf036O6v2Lv4fKiY58WhnVjLrPYu++NcI
+	 ZhWXyPEHOTCYw7PZvj5FbVKPva7vBVRxA7/dSTJhrLb2rwBW3B6ukJcZHTGgqqLoJXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795629900;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:MIME-Version:
-	 X-Exchange-RoutingPolicyChecked:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Language:Content-Type:Content-Transfer-Encoding;
-	bh=QTGMXGNfQi0tH16ROkgGJvKUzhPGHpJpVhjEu7HLZXU=;
-	b=ks5aagU45Fy9WmeLYZMJ+CBQ+PXo8+MrQF2M+KHbMryVdEVWpLAASDBiOQ+nbi/v1ffY
-	 M5pzxQ9LVDP+yAEbS3H/FtZMYyLUna/oxaNouIF8buFoajmZV2Nf1FjoYrxMOe5SVqpLz
-	 iORoafoUR6UvbAWoGSUpu4HT0S9R2XTMiePcuUFRCnfvLNolviO5mN7ginGXn5rx+oodT
-	 u42VdBj7+0qsCbdgfMqcG5g+DxdQ2ckd3ouO4nYrznpLCQkUz13yp4DH6EED03LKNuvyT
-	 Kr3O+h7mnqGeQl9R8HO922Uyys35vjM65z8r+PBC0aP3y/Q8UGqChLxgddG1oRNhWig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795629993;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=U00yWHIo8HhrdyFuKMDRdBiL8d54KG7YlSUEsh2C5MM=;
+	b=WHP+fzdJNolBS8vSq4ONiFfx/bt8UOKBBrbNQi5C0gzJqYknaEHoUtCupaG3KmI2aacn
+	 MAIM2bsmOgQ61ZsQFjMBx3dpxgvjpfnkDPt25HR6t2fiwsVhbiAMjnqU5l7oF0A/4fpyT
+	 1GxNd0s9s6tkxLq9ZE9AdLjSpg4yNrWtps7a9Fc9vDvOEk5JUYPpPzYhigMXtlfa6cE0s
+	 vNhahNtekGK2dURCAdW+6o5XzwIL1TNdh/XVcDgeMgRLPUMVhTV/P37p7azhun1xa8kCB
+	 0mrq4NB6Y4g+HJRk79h65mkgx4IcC2C9s2vGLcTieibICZ2n1Pnqxktxo7G9faYQFnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=onsemi.com;
-	spf=pass smtp.mailfrom=onsemi.com;
-	dkim=pass header.d=onsemi.com header.i=@onsemi.com header.a=rsa-sha256 header.s=mimecast20250127 header.b=PCdSz4qn;
-	arc=none smtp.remote-ip=170.10.151.120
-Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.151.120])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SzJaPlqJ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72B5606A31E
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 18:04:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C72B5606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 1FCE2606A31E;
+	Wed, 25 Nov 2026 18:06:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.a=rsa-sha256 header.s=mimecast20250127 header.b=PCdSz4qn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
-	s=mimecast20250127; t=1795629899;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QTGMXGNfQi0tH16ROkgGJvKUzhPGHpJpVhjEu7HLZXU=;
-	b=PCdSz4qnXXLZK6b9syFzJ5yp7qbUYLl1EQ6+iRfHmnI05CfxbwBcmw3SJf7HCMCvaXcgI3
-	Lmg+rjo4vafExMaNonCc1KHU2fnGRYD79iQCo05nBvu6nRFP5NWxhShGqfAqvhhJDqj7KA
-	jMEYbbMmORYcw7j0P08bkUZ4c/O2VtjpqEA6zNyqEtHPeSy6Jr2Od3sKboqmU2IDdpkciV
-	pYugbe7v3hYsEt8pplL3NKi04W+3rTc89LY5hRKOBogjqvYa39sNcCcBlFzsTaIlWyQhXi
-	AApQtT08L2hfUTbHV0mp+nFVaAA2KuEdMU7Z9N2J2+lbeLfSdr8i93nejM/iWg==
-Received: from BL2PR02CU003.outbound.protection.outlook.com
- (mail-eastusazon11011036.outbound.protection.outlook.com [52.101.52.36]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id usb-mta-65-j_nBodyZPHqjsOfdDFZ9ww-1; Wed,
- 25 Nov 2026 18:04:56 +0000
-X-MC-Unique: j_nBodyZPHqjsOfdDFZ9ww-1
-X-Mimecast-MFC-AGG-ID: j_nBodyZPHqjsOfdDFZ9ww_1795629892
-Received: from CH0PR02MB7867.namprd02.prod.outlook.com (2603:10b6:610:110::22)
- by SA6PR02MB10624.namprd02.prod.outlook.com (2603:10b6:806:434::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.7; Wed, 25 Nov
- 2026 18:04:49 +0000
-Received: from CH0PR02MB7867.namprd02.prod.outlook.com
- ([fe80::d722:d686:a9cb:6c2e]) by CH0PR02MB7867.namprd02.prod.outlook.com
- ([fe80::d722:d686:a9cb:6c2e%6]) with mapi id 15.21.0662.004; Wed, 25 Nov 2026
- 18:04:49 +0000
-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>, Andrew Lunn
-	<andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
-	<linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Parthiban Veerasooran
-	<parthiban.veerasooran@microchip.com>, Richard Cochran
-	<richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Eric
- Dumazet <edumazet@kernel.org>, Piergiorgio Beruto
-	<piergiorgio.beruto@gmail.com>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Jerry Ray
-	<jerry.ray@microchip.com>, Ciprian Regus <ciprian.regus@analog.com>
-Subject: RE: [PATCH net-next v12 06/15] net: ethernet: adi: adin1140: Depends
- on PTP_1588_CLOCK_OPTIONAL
-Thread-Topic: [PATCH net-next v12 06/15] net: ethernet: adi: adin1140: Depends
- on PTP_1588_CLOCK_OPTIONAL
-Thread-Index: AQHdfGCaQVQtoOdfLkWRnCaJOU3r/Lc/FfXg
-Date: Wed, 25 Nov 2026 18:04:48 +0000
-Message-ID: <CH0PR02MB78677068A3973BC554972B9083432@CH0PR02MB7867.namprd02.prod.outlook.com>
-References: <20261124-s2500-mac-phy-support-v12-0-3575855d99f9@onsemi.com>
- <20261124-s2500-mac-phy-support-v12-6-3575855d99f9@onsemi.com>
-In-Reply-To: <20261124-s2500-mac-phy-support-v12-6-3575855d99f9@onsemi.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH0PR02MB7867:EE_|SA6PR02MB10624:EE_
-x-ms-office365-filtering-correlation-id: 7a42db0b-318d-4133-bc48-08df4b1e988a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|921020|38070700021|10067099003|11063799006|4143699003|56012099006|261021121427099003|261009223027099003|261102123227099003|22082099003|18002099003|6133799003
-x-microsoft-antispam-message-info: W0Ix+mwd5OXgZA/XBLAzaUfn72MZM2lmNCqdChNbqmQsWfANmg1SMa+UFHGlYgHBCUicuJrFutbSNy+Svw1/YIg9tdt5Wy05vxITjUMOK98PuRdIfMILoJAnQhz8fhXw4kZaTTtU/ZzUQoounCNRHUFGQ5OYypWVo5sl+4NMj6JcuX31u6n6FGk0Fe+E3ow7LAYZ2/BbhF3Yaki37dT03esOOr5PWpRdjQQubJKFjwh83liY81YrDuQ96ooPEN/wSVWfgGXzznBCcRfmPJQ2WMeEdjxYHZTraInmly38+32Pe1Ig16vqA3MKjZ69vsGD+gid+rvpK9sV6RMI2jMe4mOl+6nTid8D4CqGP5KOWlrLN8aA7Gg/jc50X+Z5dhecgWv2E3IpZUKYBpfk0X0l/OKlrkkqmY1YpRDJ5g0ViDLfKj97ACnDBxvON1gEgMkVLtdQi9QE535cEcUJ4lq6liSRacVL4lDFw4mTuYFu5126Y2e6kWM2llLKhsA+PwXyRFNWFSJkfWco6wRZ93Hs8qhG2lhxHvl3aG5P0cdNymv7XRYbe1waCwxl9lhhJbjo2Z+NnQN8jPB4Y1sB+ZSENs65d3farFhI1jKl8Dxn54dt1WElph6KGRdiYMpWgVKupOQhyPof+prBC0TeTSxlx7wGA2dF6l7AOCup8eugRe4YilCenZXIHdWqI4PTPkCqilflHc/I5yigLWjW1+s/toubhwW1vXyG6YPj1yzT/Nu3hPp1mXg1qN87gKE1n8vE
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR02MB7867.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(921020)(38070700021)(10067099003)(11063799006)(4143699003)(56012099006)(261021121427099003)(261009223027099003)(261102123227099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bUFNTEJsK3hjOFl0TEdaTFVSRHZsbkQxcnBtZE50SUQwRW5CZFZ3ck9pOVdP?=
- =?utf-8?B?NVRZZUVoVnp4VFRtZ003Yk9ZMW5kMTFHNVp0MHh2Y2habHVrY3RTVFhPcWVQ?=
- =?utf-8?B?OUVIVjI3MU1jRzJLRmVVZ0VBMGc1UCt4ajhCL0ZqeFJHWFA3ZzJablBUMVVI?=
- =?utf-8?B?UmJBWFdVMDhhS0UwdFk0YnFidXVJbTFZMnhLRm94ZDNkdFBsdXdIaDFJaU9t?=
- =?utf-8?B?Q1M2Kyt1WGl5eTY2N1kvU3BzbkNDRUlpaXdJdllQRGNwQkNNY0Fka01TbkEv?=
- =?utf-8?B?WkNBbzkybE1LS0tnUXNhSG1rUFFQZ0QyOHNyNFpUb3hXR1VxTTlHcExVR1l0?=
- =?utf-8?B?ZGx0TWlvNGlzZ3lOdllFQmk4aEhMcmRRaldyUDhqYlBjU1pVM1VRRUdmNEhZ?=
- =?utf-8?B?TTkzY2lzcG1DTjFvKzB1OTFPOVNKamQ0SFZWQUZ3RktIM01kSCt1MEZUZEJt?=
- =?utf-8?B?eTh4TTNsa09TVEIrM0NiMG5DZ24wYm42b0RCNDVObFVMakFvWWVEREdkU3Jn?=
- =?utf-8?B?L2lGTkNrVFRBMXN5Q0Z6SmNNRURJWGJTZ1lvYURTaW9hU0lNWmpCdUxqblpY?=
- =?utf-8?B?NnlYSjI2YlZ1R2x4UG0ybmhvVFYvZzlTSCtrSkdqS1JkRzlIMERidG1ZM21u?=
- =?utf-8?B?N3RHVktMcVlmamdHRFIwSDQ5NEpZeDlacVZieDhncERzN0lJMGtUanoyQ245?=
- =?utf-8?B?YmJWS2JPd3pLWnQxTUIzSktNY2VpQXpHcExvdFBVSlprYnU3eFBJR2VEN1Zk?=
- =?utf-8?B?ejZxY3A4NDlvc0w0Y0UyaE1COXVpK1oyS054eExqcUxXeFlQSjhGbVJmRVR3?=
- =?utf-8?B?SEsxUmgxbFZnN0VwdlppVmRSVFcyZFh6OEFDZXFwUHpBZkZMM0ExRHYrV2to?=
- =?utf-8?B?bUxvWHRsbDJYK3RoVEdIdlZ3elo5b2lXakpTZTF6NTJQWE13R0dPY3V3amtZ?=
- =?utf-8?B?d2h4S0x0TnNvcEVHVmd5V25aNkc1ZytpbEFzWGthV2R5UTFxQ3hSdk56YThM?=
- =?utf-8?B?ZXd1eFFIbzU0Y2U1UlFDYkM2akFheDBmMnRmNnBQWFk4cnJZNnRMUGcwdGlL?=
- =?utf-8?B?eVkwVmJybDg4R3lCRllWck52L0gwdEtMT1NRM2srVTdCL3kwVk02QlhDTi9t?=
- =?utf-8?B?WkJqTWhGQW9SUG9JVlNvYWxRcVAwb0dGcmJ6TU1KRkhZY24yVHZLa2RTa0Jk?=
- =?utf-8?B?ZWt5ei9PMEc0SDV5TjVmdGhqa1V3bkNVSG00SlBoRlh5d3JDV0tZMlJ2UWhN?=
- =?utf-8?B?SEthTHZadjU0blJhNjVKYWhuZEk0L0tWV0hOaks4c2FHV2p3S3NJSUNoR2F1?=
- =?utf-8?B?SUlQT2kvNGdjWWlzTzJRQlE4VlJUeEoxSm5iWEVCTHZISlB3cjBsMDd2K1dY?=
- =?utf-8?B?WEl5bmpFTEx2bHlCOG1WeDJMMjRLUXVDc3JNbU5ZZDlHL2VqY0g2MWM1UGhT?=
- =?utf-8?B?SXNoOXdGMXFRbEdrdGxjM2Npeno2bkl5L05TSFdYV0hFNXFha2g5WkZLMkFW?=
- =?utf-8?B?Z21QSTRPZC9PdUhaNFEvTlVMMnFOZkUxbnhGZ2RpYjNGT3dCeGFta3NFeXE3?=
- =?utf-8?B?amhrYmpYNTNWWFhSNmN4T2tLWGdVU1hpQ0FDMDY3Z0FQaHRTaG92djF2WThr?=
- =?utf-8?B?RVM2Y1JHZmFjVUN2aldWRjM4MURpQ0lmVGFnays5QU5sZXNiaEhNTEJCNkRR?=
- =?utf-8?B?N0xsL1I4amRwaStBUGhlZmJicllOWDdSNmtSK2pKMTJVNW92MUFDaWFOV0FX?=
- =?utf-8?B?UG5NQUFZdUtGNyt5MW41Vk5hRE5kNE91Y1FxdW9EMGovTko2UEFEUTlTRloy?=
- =?utf-8?B?ZHQ2RzZwTWVWb3lYZ2FhOTRkcEs5eThQc2VPcEUzVDUxcktPQVhYaXoybU0z?=
- =?utf-8?B?dTVZWStOSk5IQUY3UHBrQytOMDdmdHhocmgyYXoxTHE1VFBCSG54bnJXM1hO?=
- =?utf-8?B?NUxnSkJYNit2MTJ6TUU1cko1WFdwQzBqK2hHcUpRUktzb003Um1MRTFzYkRL?=
- =?utf-8?B?R0h1NU5FN2FpdmIyYW9GSmtWaTRZQjlOMWpkVzZHd28wYW1HLzhwVHNNN3lJ?=
- =?utf-8?B?VGUrcjU2a08xR2FPTGc0UUJEaXRLekk1cTh0QWpMSGJPcG1SRTBiVkw1OGw3?=
- =?utf-8?B?QXBZQ3NuUXZndDFHODdNUUF2VHR6YnhNRWhvcE80aVdndzA2SnRFSzdRM2lj?=
- =?utf-8?B?bWZTTFN0VTJFZk82ZXhKOVVvQ05kNFJzZWc5QXBnVFVBZm1qTVg1d1R6M1A3?=
- =?utf-8?B?OWZrcm5tWDhXNU45aEFPbjJieityeG5CWUlRRDhwN2sraXJ2S3pDQVc5NlNC?=
- =?utf-8?B?TUxKTERhV1dROTUvb3BvK3FUWjc2R3pkU3dwNjg3c0FyUDEvWHpJWHQvMkpY?=
- =?utf-8?Q?KQvoMx8KqnOdsDpQ=3D?=
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SzJaPlqJ
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 3E3F71F00A3E;
+	Wed, 25 Nov 2026 18:06:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795629993;
+	bh=U00yWHIo8HhrdyFuKMDRdBiL8d54KG7YlSUEsh2C5MM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=SzJaPlqJ0DMwNK1s6wL3Pkh568FjgSIq0691VFOmewOFIDORl9wUV04BtlYS60a7/
+	 mWivwg/9pA0xq+MoYzyaP24iHOAlXE1/YRbpPdwrybKyV8GH5rlvGV5gjSO/4TVDNF
+	 fVaF75ksLGuVHnE9HTUX1h1e5QzxWuummGvaAUg6F6GzW8AE5z7PcPxxNN7pA0G4Yi
+	 ShgfC8FAAWnbUV951C7RX1xr8Ch56ZwZKnqdHGApP4YOs2TZqSZvgIHGWvT8WzYAMO
+	 /AcZrqpO8pOqm/n/XmVTjftPrfWeb87YAJv0Z4JZJjcrxIKsg8Kk+EaY24F7mXBlRh
+	 xkaEfCG6QHcxA==
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: keyrings@vger.kernel.org
+Cc: Jarkko Sakkinen <jarkko@kernel.org>,
+	dm-devel@lists.linux.dev,
+	linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Alasdair Kergon <agk@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	David Gstir <david@sigma-star.at>,
+	David Howells <dhowells@redhat.com>,
+	David Laight <david.laight.linux@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ignat Korchagin <ignat@linux.win>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>,
+	James Morris <jmorris@namei.org>,
+	James Prestwood <prestwoj@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lukas Wunner <lukas@wunner.de>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sumit Garg <sumit.garg@kernel.org>
+Subject: [PATCH v3 1/9] KEYS: Factor out opt-in KEYCTL_PKEY
+Date: Wed, 25 Nov 2026 20:06:07 +0200
+Message-ID: <20261125180616.1854753-2-jarkko@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261125180616.1854753-1-jarkko@kernel.org>
+References: <20261125180616.1854753-1-jarkko@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -167,37 +90,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: fcT6NGhy8eZhDrbTU1cr17L7yxhLLPpHrZ6E7XBaeUoWvZcS2mzQaDcmZCT9kaYnxdRXYvOxm3tAdugPyfiliZ/xsiAH+bvYCRW/Jvs0+jwpja8BtaHrwoGngH3+fplfdQE2MvaVLBBejdf8NAo1k2TgNfNxe7MoKKfUuAmHK9pqFnKe6W5ltgqMpBJUW1Zr+s5+nHQ6mUlosnWgbr5470PVlPEJ/k4L4EAl0p4ARCixNL8tRefl9FcKZTUH4vybnYyYKn9eO5Zps3d6E+2kRnuB+AmGatZrrscnryHWq6M3wvQ2sAhOjcKkYxYx5jSz2QujvLdSdne+f3VNT0Vdvw==
-X-OriginatorOrg: onsemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR02MB7867.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a42db0b-318d-4133-bc48-08df4b1e988a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2026 18:04:48.9646
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TUNP+CPIs6xC+1TYhrBXxuHAs6bFeSlA8oeSuD/7609bh7ttYA8pnVdidhvpuC44vUBTKE8JXlXZknVTIToFo1nOBnv3Q/6bhGSo3eGQAdo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR02MB10624
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: qD-vor04zFZy7nm5_9WjxHI1ESvNfwDmDfMMpbif2nM_1795629892
-X-Mimecast-Originator: onsemi.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-Q2lwcmlhbg0KDQpBcHByZWNpYXRlIHlvdXIgZmVlZGJhY2svcmV2aWV3IG9uIHRoaXMgY2hhbmdl
-Lg0KDQpTaW5jZXJlbHkNClNlbHZhDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4g
-RnJvbTogU2VsdmFtYW5pIFJhamFnb3BhbCB2aWEgQjQgUmVsYXkNCj4gU3ViamVjdDogW1BBVENI
-IG5ldC1uZXh0IHYxMiAwNi8xNV0gbmV0OiBldGhlcm5ldDogYWRpOiBhZGluMTE0MDogRGVwZW5k
-cyBvbg0KPiBQVFBfMTU4OF9DTE9DS19PUFRJT05BTA0KPiANCj4gDQo+IGRyaXZlcnMvbmV0L2V0
-aGVybmV0L2FkaS9LY29uZmlnIHwgMSArDQo+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L2FkaS9LY29uZmlnIGIv
-ZHJpdmVycy9uZXQvZXRoZXJuZXQvYWRpL0tjb25maWcNCj4gaW5kZXggYmRiOGZmN2QxNWRhLi4x
-MjBhNTJlNmIyODMgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L2FkaS9LY29u
-ZmlnDQo+ICsrKyBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L2FkaS9LY29uZmlnDQo+IEBAIC0yOSw2
-ICsyOSw3IEBAIGNvbmZpZyBBRElOMTExMA0KPiBjb25maWcgQURJTjExNDANCj4gdHJpc3RhdGUg
-IkFuYWxvZyBEZXZpY2VzIEFESU4xMTQwIE1BQy1QSFkiDQo+IGRlcGVuZHMgb24gU1BJDQo+ICsg
-ZGVwZW5kcyBvbiBQVFBfMTU4OF9DTE9DS19PUFRJT05BTA0KPiBzZWxlY3QgQURJTjExNDBfUEhZ
-DQo+IHNlbGVjdCBPQV9UQzYNCj4gaGVscA0KPiANCj4gLS0NCj4gMi40My4wDQoNCg==
+Factor out CONFIG_KEYCTL_PKEY from CONFIG_ASYMMETRIC_KEY_TYPE as an
+off-by-default option so that systems that only need asymmetric keys for
+in-kernel signature verification can choose not expose KEYCTL_PKEY_*
+operations, and other key types can use them without pulling in
+crypto/asymmetric_keys.
+
+Suggested-by: Eric Biggers <ebiggers@kernel.org>
+Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+---
+ security/keys/Kconfig    | 9 +++++++++
+ security/keys/Makefile   | 2 +-
+ security/keys/internal.h | 2 +-
+ security/keys/keyctl.c   | 2 +-
+ 4 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/security/keys/Kconfig b/security/keys/Kconfig
+index 3f64d60d0f8a..75cc4043ca64 100644
+--- a/security/keys/Kconfig
++++ b/security/keys/Kconfig
+@@ -22,6 +22,15 @@ menuconfig KEYS
+ 
+ if KEYS
+ 
++config KEYCTL_PKEY
++	bool "Public-key operations on retained keys"
++	help
++	  This option provides support for querying, encrypting, decrypting,
++	  signing, and verifying signatures via keyctl using public or
++	  asymmetric keys retained in the kernel.
++
++	  If you are unsure as to whether this is required, answer N.
++
+ config KEYS_REQUEST_CACHE
+ 	bool "Enable temporary caching of the last request_key() result"
+ 	help
+diff --git a/security/keys/Makefile b/security/keys/Makefile
+index 5f40807f05b3..aafd28f7ee2f 100644
+--- a/security/keys/Makefile
++++ b/security/keys/Makefile
+@@ -22,7 +22,7 @@ obj-$(CONFIG_PROC_FS) += proc.o
+ obj-$(CONFIG_SYSCTL) += sysctl.o
+ obj-$(CONFIG_PERSISTENT_KEYRINGS) += persistent.o
+ obj-$(CONFIG_KEY_DH_OPERATIONS) += dh.o
+-obj-$(CONFIG_ASYMMETRIC_KEY_TYPE) += keyctl_pkey.o
++obj-$(CONFIG_KEYCTL_PKEY) += keyctl_pkey.o
+ 
+ #
+ # Key types
+diff --git a/security/keys/internal.h b/security/keys/internal.h
+index c452d71cce03..28c6cd942c59 100644
+--- a/security/keys/internal.h
++++ b/security/keys/internal.h
+@@ -314,7 +314,7 @@ static inline long compat_keyctl_dh_compute(
+ #endif
+ #endif
+ 
+-#ifdef CONFIG_ASYMMETRIC_KEY_TYPE
++#ifdef CONFIG_KEYCTL_PKEY
+ extern long keyctl_pkey_query(key_serial_t,
+ 			      const char __user *,
+ 			      struct keyctl_pkey_query __user *);
+diff --git a/security/keys/keyctl.c b/security/keys/keyctl.c
+index d6b10fd67627..417bba539bb1 100644
+--- a/security/keys/keyctl.c
++++ b/security/keys/keyctl.c
+@@ -28,7 +28,7 @@ static const unsigned char keyrings_capabilities[2] = {
+ 	[0] = (KEYCTL_CAPS0_CAPABILITIES |
+ 	       (IS_ENABLED(CONFIG_PERSISTENT_KEYRINGS)	? KEYCTL_CAPS0_PERSISTENT_KEYRINGS : 0) |
+ 	       (IS_ENABLED(CONFIG_KEY_DH_OPERATIONS)	? KEYCTL_CAPS0_DIFFIE_HELLMAN : 0) |
+-	       (IS_ENABLED(CONFIG_ASYMMETRIC_KEY_TYPE)	? KEYCTL_CAPS0_PUBLIC_KEY : 0) |
++	       (IS_ENABLED(CONFIG_KEYCTL_PKEY)		? KEYCTL_CAPS0_PUBLIC_KEY : 0) |
+ 	       (IS_ENABLED(CONFIG_BIG_KEYS)		? KEYCTL_CAPS0_BIG_KEY : 0) |
+ 	       KEYCTL_CAPS0_INVALIDATE |
+ 	       KEYCTL_CAPS0_RESTRICT_KEYRING |
+-- 
+2.47.3
 
