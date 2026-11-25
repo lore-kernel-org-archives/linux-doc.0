@@ -1,84 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.2.64.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795588127;
-	b=FU6ovFmAGdSgWacHz61LTPknj/vakdcOQVLrCUQRkVTT9JT/BDi2AulBVF5wCzT9D0eL
-	 znSLC1rR4mj64oljAQnF79rq/appsPQqyCY3I2sa8LB/IF7wmf+mdqfGgQetSXGXhOXrd
-	 5P+lfQ+ZeLY7rcLAky/615llUCBI3M8+WdqtoDMdwVnYy3E2EYBqlwMttAmkl5aeEc9t2
-	 tywOhtuDXGBrt7T8NlzGFLCSM5nFjYo3Hz0tT4AjBONggI5qkuIpAYqDhNxVnTtqP4/c7
-	 AbUFRLxX9IAmWhHhMQcjE2O/ybbLp1l3hNTQ6cEA6LKW3a6U49KRDcoXygmZqCEAviQ==
+	t=1795588295;
+	b=0ROlZuBBfBwNI+LoF3/beBlm9aLCfx5L0ltR/yO8j2GJ1OmoKYeP8vyZGEpTHX9qPWWo
+	 3+0EU61cAGjUhqPPcb+2FDuexzBXOF2PRc/j07rHWlgTaS4PzRMiC/Ce0/adKalXARcb3
+	 hghJGnohKlJw+3Z1me/wchBIGCUNaFbm+fY1JLnhFv9YOGpKFYdsm8VqxcNseOBrX5G8m
+	 oyy/bnHeaSMO8rxNU9TXFdjDWlidjs0Fd7TiBIurHfEZ0E5ShvYoR3mfTzWVBw0jc565E
+	 uZTf/EFYLYcM7GNcG2S4oPFMiT5L2gmv8MTKwgh5ZrueYpe6GaUWWNsSFbD/Ay/LdyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795588127;
-	h=DMARC-Filter:DKIM-Signature:X-SONIC-DKIM-SIGN:X-YMail-OSG:X-Sonic-MF:
-	 X-Sonic-ID:Received:Received:To:Cc:Subject:Date:Message-ID:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version:From:References:
-	 X-Mailer;
-	bh=E0eWOcYTqBWLqFRgRTdzxD7jH9P+/JMBYE77aiXNxpI=;
-	b=zINEQcXfji5LnsEvP3/1bOb0BnoYk86QNInrDG6Uf1dwuL1zvx4YklE4vxmu0F1oVgcV
-	 yLjEkq8rUsvo3sp45Jx6tG24KTL5VE5pw2N/z37GtoIb42tDKhQXIgERa7PM7mUDDEyNX
-	 bpQD08HR3gV0sp2LSbFhuLtRM5WXl76si19mthDxCDAoB89lxOkl8iy1ck+h1aPkY7yJy
-	 mPyxgOz9zLQCXW5nVbkkorITrcVJGdVpOdp9UEvmdCqv2b6VrxVG/NMDZdCzWpi8QGlhe
-	 +qK9twC1yrMGA/oE9a/WcmRh+ImDCzUCJzZcnA8Kzf6xNudX1XXmYTMlRRCpl88EFAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795588295;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-B4-Tracking:X-Change-Id:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=9E8HWuLfY3Nf/OQ9d6R8gO1UtYxqp2kDEADX+rOyoUE=;
+	b=oWv5GlUIuNNWJkotH1NkvxiNwUW2BOH70g/GeStACcP8S4/8foRWVkVgF9/vpvpD0A6U
+	 +aT+h55RO1cYuIp7SksUwQOAJ1GH2OBDkkU+Wvw7uAgajJ4nodAO98rMfDv7vAFXU3p9f
+	 WkwX1h1UVM7/taoS140ZO9qmygbYJ8pHD6ZX3NPbkA0X8ciS8e4IImcRIJw3oG9ytpeL8
+	 xVXgdWiij4VCKo5fb3yC3K70LYpqwrsVjjOTfZgbpC25z+zoj+gZd0uDJ0iiigPcz8OXo
+	 3r0e+pdsPsqYaDcZ0v+Pov41njNBMKrgnFME9C3mm3xI7YgX3hwGKBGkRooR7j6pv5w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=yahoo.com;
-	spf=pass smtp.mailfrom=yahoo.com;
-	dkim=pass header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=k2vn8qI+;
-	arc=none smtp.remote-ip=34.2.64.18
-Received: from sonic.asd.mail.yahoo.com (sonic-usea1-0019.asd.mail.yahoo.com [34.2.64.18])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=cep0HBaz;
+	arc=none smtp.remote-ip=209.85.214.199
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E636606A326
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 06:28:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E636606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D637C606A323
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 06:31:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D637C606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=k2vn8qI+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1795588125; bh=E0eWOcYTqBWLqFRgRTdzxD7jH9P+/JMBYE77aiXNxpI=; h=To:Cc:Subject:Date:Content-Type:From:References:From:Subject:Reply-To:Content-Type; b=k2vn8qI+JSj+aMfN3pexqIquNsBWeT9a7sdzWAwPcM5pOoiCrvYVn7JajFavSVG1LfjvcNY+r93WzeTQpk7CY/aHnnX9AE5IiNKEK5Wabjlh9p8EV0vPZNDUJMeT0ehgpLEMF6Y+TN5SZKGYW8K9OvfonhHFgQMIq9DrTkwXwGWnvvawzpaNPDJuJm2QYQUoSpdxf7g0T0llY7MM3UmqtTRSSAoTHyU1G3xK80Fe1QAUklyW9y2FyL1NbpB3M7pQqP24sFarOjVWW4s/1Vq5sApnS3aF1C1KvKADNBeahyRKK1yVjbhv6aKNSH5jlHKTGQzlSyynj4FJlKA3vMiKKA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1795588125; bh=WhW9bEyPRtp5yCFOJSF+dbcfrxEuhJxNlvsZof/BVv7=; h=X-Sonic-MF:To:Subject:Date:From:From:Subject; b=nhhkE1Ztk/8IABdJxNWFeUz0ruiFWxxQqAzVtuiIXSBmX4GUOyiPYdEx2KV6n9GiDeScZTBfMt/ksmsJomzO6tnaSQPOAY0VAYE+GJAMZphHzSayMitlbxZMZ5Ge4UxCvDPBhOvgN3uXhHiPxvavxdLSxLWXqfxkFQhQDJ2d/jh3bMFi4Ey4BdF8cNAgbPhbnciWNgV9RAGWPPo9wFB1knxP8LE+iKSB92Lxejn6yk8IJioEw14Og6w+Lpy57/AU+fMqs4hh4/a7bhiNtTuvjckD/a8UsQ9i4sF824RGYiQNHS2wibZv96tLtSypfRvkSzkweNlfYu82gtGki4V5RA==
-X-YMail-OSG: mP95MyIVM1n9xjGwOcqI319ou3oxU0ojvlwKK8XWKrmu3QrHGWOfE_qIr7P44bO
- JTLQVG2VlmdErcSduY2T29X_Io240sYf.KdXP7_1wnV2iCgTcCaZPgwMF7qA11JIHrvcEn9.fNZ4
- ge0HK6_dhodpa8lgnXyKby8StAvlplS3CeSevi5u6A3hh4q4N8T9VxrwL3gGBgZgYcOEeCGZ7KYm
- d_d78ZicxJMjqV38LEwoxy_W3YhgDme_ky19llCHE6pOHAh7NlMysLa4xc7cjvWgI1UBgjPn5B7J
- FA2OaZkxSt1qTSdm.7HPgbxk4lyuDEstptVGZUakBI7aOyUJTtb7hhz7QfhiuLYIHvvZx3NsPd9U
- S1ZiXnzdB_kycWJSP4p6BCb0.2Fp_30uF7tUv0pPjZ7NGgB0k.FfH8lMNWmKhaTRvUAmtEEt.Vb6
- DDwTbUZH511b5TwgEtrM8xwohKACSgxt81EWfBkgOO4T8lS5AIc.2kymnVbTtCjrTGOxsKXCnkJ4
- Jxm8h_MVrjgNF9gHwgntNhFgjW2GYfZdMzqUKVGMVV0JqeYMCk.znR7fWxW1IIZguaQdEm2BMqKO
- mOsfDGGE5jHTCk8WauZXYwYPeCMmw18gu06ygK_BfW5_4MhcI7OJnaFq1mseX0eDm3a0RRb.e7P2
- 73rMDT6Bkhs9S8N1bSCt011f4vmNoQk0PKxxtfwP8iU9nJDSWvlPm.ALcOg6hwf_GBnvzLdi1lL5
- 86cPZB2TnOcI13xWya12xrVfMtBCCgp0UJ3RfEc.jaRHEqtanlbahrX3bmlpUKmIUig6aTQheSl4
- SB5PncLDK0wi8Cvd9BdVTf6MBYvDrmeV77zxaKLt3h16H4qVpcM9FV51GHriVWQWlAJR9_.0fEcx
- nNV73LaLST_SO39zuErKGwI1H6QFVSBjQxwtg6TRoA80WY3NfrQb4AXQSTV9TszVHPGfKpYmj9MI
- I49mNVJdiCNJEzRKX713flPqu05M0AIPgE_dx8TKcpdfpmD7xh.UfzNr61PPQW12T_4PTB2dfPN8
- dcl2x8Qo2TKWLyEwpGBnVJ2hqBFEK87uJNEfTPo2ppRSMCSzGpmqIYFbKTmtng7xttMm1NIAZKgv
- RbLgWtcl5ab3ZM8wsI32enC269bOeEAY9itRVUpjX7JVw8iugGqtN3UYgPStqVdJGdoYc_CFZi48
- bydFK6CgIhKd_TwiO_mK7D0Efx9mgjYE6VOvPdBTRygL4vwn7Y9keF4g9nwHAB0PYemJWVxOz7PS
- tpnZkw1ZX3z7veniGuBOY19Lk_07glvxFJJnrldk7KymWe8MEFhmy6ad6aAH1hWG16FY3_xYR0Pa
- MoGIqwLmtrmyX89ECY2gtd3zOoxcoQ1UhUyXevj5_nuL4ZXjwAqXkZjsZEt9ExUZT53LQsLsw5iF
- mT47jSnUM9wR1oV7ABjHSN.K_fYc6tE99GQ0RQaLzQ_LiVPz5Gm_wM_AWSXRz9pCHCXP1cirbhT0
- EryUBCyT0CWoK5MTiHkyd8oX9x22x0EssBYjYBSEbzg1ZGlWs1CWMZaM5beOfHrJFxKvLTt_jh.H
- OYHfozjMLpbC3f3prH59gGf9yKcmj5E.DRxC.nLFj.1_lTN8qEilyIkBsR6zm_zLaf5ConhMP.HE
- rks4cfn2nD58uD33nQlkwIbCo9ZoiKDyRRUQt2_qvf0cCloX4MClOVSmkP1NID_jQ9rDXNsKn1Jt
- QzqYUOfcyhGlp9EYUDdi8aqon7e0ROMsgTj0ROFuYUWUIXyam9jYib._POrYjLRNM0TmuugpdLmG
- BXrIbAfsJy7FNn_tYQEDgwIKkzY8JuEPOxvN_25DApgCGNqm.mN4LhgGjwNoG3YB0.fFEeYqPnK9
- 8l0.riPZf4rxfs0KF5FVNsSMtZ2gDDxOWtFcSN53GzGbl5Y16VIe4gInxaThnKhMgWZYH0zQXylf
- e7l3M0vlt5dp4VVh2V43VG0NCkPrVASe.WjbSG50hMyfeIG0YRIO_ZiVwZDaiGKI05Os_j5sdw8r
- CYeeVEKpYghnIG7n7BvW8hSfgZh8jFhYKhrwe7jCH.Umq
-X-Sonic-MF: <capitain_jack@yahoo.com>
-X-Sonic-ID: 14d8404e-e460-48f7-9bae-303ebc9a4152
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-usea1-prod-sonicconsumer-svc-103 with HTTP; Wed, 25 Nov 2026 06:28:45 +0000
-Received: from dip115.lsn.bf1.yahoo.com ([67.195.177.124])
-          by hello (SMTP) with SMTP ID affdc4b9c5d43a215838c465b26809fe;
-          Wed, 25 Nov 2026 06:28:39 +0000 (UTC)
-To: Sasha Levin <sashal@kernel.org>, Theodore Ts'o <tytso@mit.edu>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] agents: add a skill to determine the target tree of a change
-Date: Wed, 25 Nov 2026 06:27:39 -0000
-Message-ID: <179558805924.3383392.1456615917266025706@yahoo.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=cep0HBaz
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2edd25534afso45676745ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2026 22:31:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795588294; x=1796193094; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9E8HWuLfY3Nf/OQ9d6R8gO1UtYxqp2kDEADX+rOyoUE=;
+        b=cep0HBazVXzsf9PkAdljOv6G5MXFloV8WG81m90sSHMoYIcmRvOmjhm6oTMSkwpaun
+         pzHHaOTBFmdCmfJ+13KNqBO1FuQGVJum0GJqPzQl4QRFXgyQ8Hvo03jD0JgRHMDwk03B
+         DLYjQsoal4MKgLI3qsnjfCpZ7EBOaoM5ulBq44yBjz53rAkvTYBkVh4iKyNR0GfFRYgS
+         JZDvTwMCAPLeiZLLJGteHxxOc/KhBQrWGw3Ltw+QesLR53YU3Nou+jIfq5gwF/63+eZR
+         n79TEBDEkA8a/fP7k5LHPVjaZYz2yTEIZG3g6403wH3len5MNyLrRwm/4CDJncRMJ+h1
+         ePiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795588294; x=1796193094;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9E8HWuLfY3Nf/OQ9d6R8gO1UtYxqp2kDEADX+rOyoUE=;
+        b=e/1s9V0IYNkj6cIWEvPNbaeUdIU+I6+2S1gp5d7BoSAjtaasAY8aVunjjIC1a6Aobk
+         x/lReh54cP2wt8lPijts8qcXRvuEZomBX0ewkln0OaIc1tGcMFFOjMcdKuCLxnBIIXQe
+         0+NkTsdbbiCBY27BrSHNyicO+G+UkTd1G49CI1rRTLR6lrf5Fza4ndUWjE8gnw5s6A79
+         jRNGg9UAhRPq5wHKmGV/E+sL88eaZULZxl2E+Ao4AF/2uYIjELckfIgNbt+VfPy1/T5Q
+         UJnzLX96gTZl2CPnY7xpO8litBDics5g+eh2ryK9SfJLdMxcqjhNwJdQpoQ9CogVrWxW
+         pdNA==
+X-Forwarded-Encrypted: i=1; AL+hErFUL02K3wjSuRGlHHbNKRb28LOH1kWopkaKl/IyU0KKvqqyxL0+71tvwJTi5oNHAh6XcIlCGLlqCwE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9DfPt4T3fv3HcQG1DnmVC7aYqy5/32Kb8cYjfKwkHcYap7Uja9
+	7v6XbJS2KYPBxttAGypi/qeMcmCqY1PKYUq4nA607NJE+XF9DeYbT9/s5a7oxUaLcogeOeOLvxD
+	IryB54Qu9zGsLoqOk48p4l+i/1orDSddHMQ==
+X-Received: from plrd18.prod.google.com ([2002:a17:902:aa92:b0:2eb:50b1:b505])
+ (user=rathodpriyank job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:902:ecc4:b0:2f0:3c38:9133 with SMTP id d9443c01a7336-2f0c5f91aa0mr41199225ad.43.1795588293874;
+ Tue, 24 Nov 2026 22:31:33 -0800 (PST)
+Date: Wed, 25 Nov 2026 06:31:32 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,174 +76,179 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-From: Daniel Ramos <capitain_jack@yahoo.com>
-References: <179558805924.3383392.1456615917266025706.ref@yahoo.com>
-X-Mailer: WebService/1.1.27100 mail.core.serving.mcws.prd.acl:role.token.mcws.jsmtp.yahoo
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAMSABmsC/43QSWrEMBAF0Ks0WkdBpdJgZZV7hCw0lN0iHcvYj
+ UlofPfIvciATfDyF9T78G9sojHTxJ5ONzbSnKdc+hqahxOLZ993xHOqmUkhjWgQ+BAz8Uvu3zj
+ 1aSi5v07c2YZAiKSTMKx+DiO1+eOuvrzWfM7TtYyf95IZ1uv/3gwcOMoo29Q4JEfPXSndhR5je
+ WcrOMsfxAm1j0guOJg2BhTgkdQGwQMIVkQF5x2EpALqDaK+kbqA2UdURXzS6JqoalncIPoAois SgSxK1FaZsEHMAcSsm2iVLBhtE8oNYn8hIPcRWxE0PngXHbQg/iDLsnwBnEtit1UCAAA=
+X-Change-Id: 20260831-pcie-link-endpoints-978e100d5d06
+X-Mailer: b4 0.14.3
+Message-ID: <20261125-pcie-link-endpoints-v8-0-19d49c17c05f@google.com>
+Subject: [PATCH v8 0/3] PCI: Add Lane Margining at the Receiver debugfs interface
+From: Priyank Rathod <rathodpriyank@google.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, 
+	"=?utf-8?q?Ilpo_J=C3=A4rvinen?=" <ilpo.jarvinen@linux.intel.com>, Lukas Wunner <lukas@wunner.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, linux-pci@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Priyank Rathod <rathodpriyank@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-From: Daniel Campos Ramos <Capitain_Jack@yahoo.com>
+Lane Margining at the Receiver lets software move the sampling point of
+a receiver in time or in voltage while the link stays up, and read back
+the errors the receiver sees, to find out how much margin a link running
+at 16.0 GT/s or faster has.  pcilmr in pciutils does this today by
+writing the capability registers directly from user space.
 
-Whether a change goes into the current release during its -rc weeks or
-waits for the next merge window is decided by hand, and being a fix is
-often taken as enough. Linus asked that new development and test cases
-be kept on a separate branch so that they can be merged during the merge
-window, and noted that fixes for subtle bugs that went unnoticed for a
-long time can themselves be buggy.
+This series adds a debugfs interface for it.  The kernel sets the link
+up for margining and puts it back afterwards:
 
-Add a skill that sends the agent to the parts of 2.Process.rst,
-howto.rst and handling-regressions.rst that describe the cycle, and to
-the maintainer profiles of the changed files, and adds the checks agents
-tend to get wrong: reading where the cycle stands, using the kernel's
-meaning of a regression, keeping fixes for old bugs, new tests, cleanups
-and new development for the next merge window, splitting mixed changes,
-and counting every added line when judging a change sent during the -rc
-weeks. The skill proposes a target; the maintainer decides.
+  - ASPM is temporarily inhibited for the session with an internal
+    reference-counted helper in the ASPM driver, Hardware Autonomous
+    Width/Speed Disable are set on both ends, and both ends are kept
+    runtime resumed.  All of this is undone when the session ends or
+    either end of the link is removed.
+  - Before each margining command, the link is checked against the
+    state the session started in.
+  - User space selects the receiver and the steps; the kernel does not
+    run sweeps or interpret results.
 
-Most of the skill points at existing documents. Keeping new tests on a
-separate branch for the merge window, and counting lines that are not
-built by default, come from Linus's mail and are not in Documentation/
-yet.
+Patch 1 adds the internal pcie_aspm_inhibit() helper in
+drivers/pci/pcie/aspm.c, patch 2 adds the LMR debugfs interface and its
+documentation, and patch 3 adds a kselftest.
 
-Point the bug-fix procedure in coding-assistants.rst at the skill.
+The only PCI core changes outside drivers/pci/pcie/ are the init/exit
+hooks in probe.c and remove.c and internal declarations in
+drivers/pci/pci.h; drivers/pci/pci.c, drivers/pci/pci-driver.c, and
+include/linux/pci.h are not changed.
 
-Link: https://lore.kernel.org/r/CAHk-=whyUfwzMDMTpih8Xs1MxmhwTCDAc_YwUSZG79vXFMLU=Q@mail.gmail.com
-Link: https://lore.kernel.org/r/CAHk-=whOCnAwXz-FMRdQEDJQ+9b2YXh9M=GHgRay0o4cxSmPVg@mail.gmail.com
-Signed-off-by: Daniel Campos Ramos <Capitain_Jack@yahoo.com>
+Signed-off-by: Priyank Rathod <rathodpriyank@google.com>
 ---
-This applies on top of v5 of the agents series [1].
+Note on the v4, v5, and v6 reposts on Oct 6:
+Apologies for posting v4, v5, and v6 within a four-hour window.  The
+root cause was reacting immediately to each incremental automated
+sashiko-bot report on the mailing list instead of running the full
+review pass locally first and batching feedback into a single revision:
 
-None of the skills there says where a change goes in the cycle: the current
-release during its -rc weeks, or the next merge window.
-This one sends the agent to the documents that already say it (2.Process.rst,
-howto.rst, handling-regressions.rst, the maintainer profiles) and adds what
-agents get wrong. It proposes a target and the maintainer decides.
+  1. v4 (16:09 UTC) reworked the series into two patches, dropping
+     pcie_get_link_endpoints() and pci_aspm_inhibit() per Ilpo's review.
+  2. v5 (17:35 UTC) was sent after sashiko-bot flagged
+     'up=$([ "$rx" = 6 ] && echo "$dev" || echo "$partner")' in
+     pcie_lmr.sh, mistaking the PCIe Upstream Port (receiver 6, the
+     child device below the Downstream Port where aspm.c attaches the
+     sysfs 'link/' directory via pcie_aspm_get_link()) for the
+     Downstream Port.  Although the logic in v4 was right, v5 renamed
+     'up' to 'child' and added a comment so human reviewers would not
+     hit the same ambiguity.
+  3. v6 (20:59 UTC) was sent after sashiko-bot flagged on v5 that
+     pci_lmr_reboot_notify() used mutex_trylock(&port->lock) under
+     pci_lmr_mutex and could skip resetting a port if a debugfs command
+     was in flight during reboot/kexec.  v6 replaced that with a kref on
+     struct pci_lmr_port and pci_lmr_end_sessions() so reboot/kexec
+     waits for p->lock outside pci_lmr_mutex.
 
-Two of its rules are not in Documentation/ yet and come from Linus's mail [2]:
-new tests and new development stay on a separate branch for the merge window,
-and every added line counts when a change is sent during the -rc weeks, built
-by default or not.
-If you prefer those two in 2.Process.rst first, I can send that patch.
+Changes in v8:
+- Rebase onto v7.4-rc1.
+- Replace pci_force_enable_link_state() and the bitmask return value of
+  pcie_aspm_enabled() (both deferred before v7.4-rc1) with an internal
+  reference-counted pcie_aspm_inhibit() helper in drivers/pci/pcie/aspm.c.
+- Hold port->lock continuously across claiming and activating a session
+  in pci_lmr_start(), recheck pci_lmr_rebooting under pci_lmr_mutex,
+  wait on starting sessions in pci_lmr_find_session(), and drop runtime
+  PM and partner references outside the device locks in pci_lmr_stop().
+- Preserve unread too_many_errors status in PCI_LMR_LANE_STS when
+  pci_lmr_sync_lane() resets software offsets for a lane.
+- Link to v7: https://lore.kernel.org/r/20261012-pcie-link-endpoints-v7-0-36aba9c91f10@google.com
 
-Sasha, would you take it into your respin, or should it wait until the series
-lands?
+Changes in v7:
+- Match PCI_LMR_LANE_RX | PCI_LMR_LANE_TYPE | PCI_LMR_LANE_PAYLOAD in
+  pci_lmr_no_cmd() instead of U16_MAX, and format the error count in
+  status_show() with %u and an explicit unsigned int cast.
+- In pcie_lmr.sh, check all unreachable receiver numbers for the port
+  type and, on a Downstream Port, discover any retimers on the link
+  (receivers 2..5 via LNKSTA2), test caps and a timing step 1 -> 0
+  round-trip on each present retimer receiver, and verify that absent
+  retimer receivers are rejected with -EINVAL.
+- Link to v6: https://lore.kernel.org/r/20261006-pcie-link-endpoints-v6-0-154d71657d32@google.com
 
-How it was made: I use Claude Code (Claude Opus). It read the v1 to v5 threads,
-Linus's two mails and the documents named in the skill, and wrote the skill and
-the commit message. Each sentence was then checked against its source by a
-script. checkpatch gives the same single MAINTAINERS warning as the other
-skill patches. The skill has not been tried with an agent yet.
+Changes in v6:
+- Add a kref on struct pci_lmr_port and use pci_lmr_end_sessions() in
+  pci_lmr_reboot_notify() so reboot/kexec waits for in-flight commands
+  outside pci_lmr_mutex (preserving the port->lock -> pci_lmr_mutex lock
+  order) instead of skipping ports on mutex_trylock() failure.
+- Link to v5: https://lore.kernel.org/r/20261006-pcie-link-endpoints-v5-0-c1e73235746b@google.com
 
-[1] https://lore.kernel.org/r/20261111225940.1573565-1-tytso@mit.edu
-[2] https://lore.kernel.org/r/CAHk-=whyUfwzMDMTpih8Xs1MxmhwTCDAc_YwUSZG79vXFMLU=Q@mail.gmail.com
+Changes in v5:
+- Clarify in pcie_lmr.sh why the sysfs 'link/' check targets receiver 6
+  (and rename 'up' to 'child'): in PCIe terminology the Upstream Port
+  (receiver 6) is the child device below the Downstream Port, and in
+  drivers/pci/pcie/aspm.c aspm_ctrl_attrs_are_visible() looks up the
+  link via pcie_aspm_get_link(pdev) -> pci_upstream_bridge(pdev)->link_state,
+  so '/sys/bus/pci/devices/<dev>/link/' is attached to the child device
+  below the Downstream Port, not to the Downstream Port itself.
+- Link to v4: https://lore.kernel.org/r/20261006-pcie-link-endpoints-v4-0-ad5398c4260c@google.com
 
- Documentation/process/coding-assistants.rst |  5 +-
- agents/skills/target-tree/SKILL.md          | 66 +++++++++++++++++++++
- 2 files changed, 70 insertions(+), 1 deletion(-)
- create mode 100644 agents/skills/target-tree/SKILL.md
+Changes in v4:
+- Drop the exported pcie_get_link_endpoints(); the partner lookup is
+  private to margin.c (Ilpo).
+- Drop pci_aspm_inhibit() and all aspm.c changes.  Use
+  pcie_aspm_enabled(), pci_disable_link_state() and
+  pci_force_enable_link_state(), call neither when no ASPM state is
+  enabled, and restore Clock PM when CLKREQ# was enabled.  ASPM Control
+  is checked on both ends before each command.  The remaining
+  differences after a session are documented.
+- Remove the MSampleMultipleReceivers capability bit.
+- One receiver per session, selected with a port-level 'receiver'
+  file.  A session starts with receiver 1 on a Downstream Port and 6
+  below it, as pcilmr does; receiver 0 is not used for margining.
+- Add a per-lane 'status' file with the step response and error count,
+  and a per-port 'port' file with the Margining Port bits.  Stop writing
+  Margining Port Status.
+- Locking: take both device locks with pci_dev_trylock() only while a
+  session starts or stops, require both ends to be added, and make no
+  runtime PM calls under the LMR locks.
+- End sessions from pci_lmr_exit() for either end of the link.
+- Commands fail with -EIO after a system suspend.
+- Move debugfs to pcie_lmr_<device> at the debugfs root.
+- Keep per-device state in margin.c instead of struct pci_dev.
+- Split the selftest into its own patch, rename it pcie_lmr, use KTAP,
+  and only start a session on the port named by PCIE_LMR_DEV.
+- Refer to registers by name instead of specification section numbers.
+- Link to v3: https://lore.kernel.org/r/20260904-pcie-link-endpoints-v3-0-4b9a91bd4b35@google.com
 
-diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-index bb927fea5..a3da7453c 100644
---- a/Documentation/process/coding-assistants.rst
-+++ b/Documentation/process/coding-assistants.rst
-@@ -46,6 +46,8 @@ The following skills are available:
-   message or cover letter, and writes the text of a pull request.
- * agents/skills/writing-kunit-tests/SKILL.md designs, writes, verifies, or
-   reviews KUnit unit tests.
-+* agents/skills/target-tree/SKILL.md proposes the tree and release a change is
-+  for: the current release during its -rc weeks, or the next merge window.
- 
- Licensing and Legal Requirements
- ================================
-@@ -97,7 +99,8 @@ these steps:
-    find-fixes skill, and a stable tag if the stable-tag skill calls for one. Do
-    not add a Signed-off-by tag.
- 7. Identify the maintainers and lists using scripts/get_maintainer.pl.
--   Documentation/process/security-bugs.rst shows how to do that.
-+   Documentation/process/security-bugs.rst shows how to do that. Determine the
-+   tree and release the fix is for with the target-tree skill.
- 8. Indicate what could not be done. If the fix could not be built or tested, or
-    if no reproducer could be produced, say so explicitly: maintainers currently
-    waste too much time analyzing unverified reports and untested fixes.
-diff --git a/agents/skills/target-tree/SKILL.md b/agents/skills/target-tree/SKILL.md
-new file mode 100644
-index 000000000..fee4be202
---- /dev/null
-+++ b/agents/skills/target-tree/SKILL.md
-@@ -0,0 +1,66 @@
-+---
-+# SPDX-License-Identifier: GPL-2.0-only
-+name: target-tree
-+description: >-
-+  Decide which tree, branch and release a Linux kernel change is for: the
-+  current release during its -rc weeks, or the next merge window. Use when
-+  preparing a fix, a test, a cleanup or new development for submission,
-+  when preparing a pull request, or when checking where a change should go.
-+---
-+
-+# Determine the target of a change
-+
-+Read "The big picture" and "Next trees" in
-+Documentation/process/2.Process.rst, "Mainline tree" in
-+Documentation/process/howto.rst, and "Expectations and best practices for
-+fixing regressions" in Documentation/process/handling-regressions.rst.
-+Follow the maintainer profiles, the `P:` entries in MAINTAINERS, for the
-+changed files; their trees, branches and cycle dates take precedence.
-+Follow the rules for skills in Documentation/process/coding-assistants.rst.
-+
-+- Find where the cycle stands from the newest tag in Linus Torvalds' tree,
-+  as "Development cycle" in Documentation/process/maintainer-netdev.rst
-+  describes: after a release tag the merge window is most likely open,
-+  after an -rc tag the release is being stabilized. Name the tag in the
-+  result.
-+- Being a fix is not enough to go into the current release. During the -rc
-+  weeks it is meant for fixes of regressions, above all those introduced
-+  in the current cycle, and of bugs that are urgent or critical. A bug
-+  that has always existed is not a regression; its fix goes in only if it
-+  is important. Everything else is for the next merge window.
-+- Use the kernel's meaning of a regression, from
-+  Documentation/admin-guide/reporting-regressions.rst: an application or
-+  use case that ran fine with one kernel works worse or not at all with a
-+  newer one.
-+- A fix for a subtle bug that went unnoticed for a long time fixes
-+  something rare, and can itself be buggy. Unless the bug is important,
-+  propose the fix for the next merge window. It still reaches the stable
-+  trees once it is in mainline, with the tag the stable-tag skill returns.
-+- Do not hold a regression fix back for the next merge window unless the
-+  fix is extraordinarily risky or the culprit was mainlined more than a
-+  year ago. Report whether reverting the culprit would be the quicker and
-+  less dangerous fix.
-+- New development, new tests, cleanups and refactoring are for the next
-+  merge window. Keep them on a branch of their own, and do not fold them
-+  into a fix or a pull request for the current release. Split a change
-+  that mixes them with such a fix, as "Separate your changes" in
-+  Documentation/process/submitting-patches.rst asks.
-+- Count every line a change adds when judging the risk of sending it
-+  during the -rc weeks, including tests that are not built by default and
-+  fixes for other bugs.
-+- A pull request sent after the merge window, or with fixes that look
-+  risky, explains its timing, as Documentation/maintainer/pull-requests.rst
-+  asks. Whether a risky fix goes in days before a release is Linus
-+  Torvalds' call, as handling-regressions.rst describes.
-+- A change for the next merge window should be in the subsystem's tree,
-+  and through it in linux-next, some time before the merge window opens.
-+  Check the key cycle dates in the maintainer profile; after them, propose
-+  the merge window after the next one.
-+- Base the change on the tree and branch the maintainer profile names for
-+  its target, and mark the target where the profile asks for it, as
-+  `[PATCH net]` and `[PATCH net-next]` do in maintainer-netdev.rst.
-+
-+Return the tree, branch and release, the tag that showed where the cycle
-+stands, and the reasons with the documents they come from. The maintainer
-+decides where a change goes. If the target cannot be determined, return no
-+target and say what is missing.
+Changes in v3:
+- Link to v2: https://lore.kernel.org/r/20260904-pcie-link-endpoints-v2-0-16fcb301a3e4@google.com
 
-base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-prerequisite-patch-id: 774c0910c3ff50a2e5ef950cb1059edf20e61e30
-prerequisite-patch-id: 4df6324f28893898e730b3c0ec7c4b6139731191
-prerequisite-patch-id: 73cecd1860937722f43ce4dcd0b0515e4052a3df
-prerequisite-patch-id: 7eddf81879b882b0877f3ad6da6c54755c4d4209
-prerequisite-patch-id: 51559949fc320fa3be648e50755afb3dcbd8df91
-prerequisite-patch-id: b9b23ba3acde59f30659dc2b07c9ab079ea8d72c
+Changes in v2:
+- Link to v1: https://lore.kernel.org/r/20260831-pcie-link-endpoints-v1-1-32c2fd893e9e@google.com
+
+---
+Priyank Rathod (3):
+      PCI/ASPM: Add internal pcie_aspm_inhibit() helper
+      PCI/LMR: Add Lane Margining at the Receiver debugfs interface
+      selftests/pcie_lmr: Add tests for the Lane Margining debugfs interface
+
+ Documentation/PCI/index.rst                  |    1 +
+ Documentation/PCI/pcie-lmr.rst               |  155 +++
+ MAINTAINERS                                  |    8 +
+ drivers/pci/pci.h                            |   14 +
+ drivers/pci/pcie/Kconfig                     |   11 +
+ drivers/pci/pcie/Makefile                    |    1 +
+ drivers/pci/pcie/aspm.c                      |   70 ++
+ drivers/pci/pcie/margin.c                    | 1596 ++++++++++++++++++++++++++
+ drivers/pci/probe.c                          |    1 +
+ drivers/pci/remove.c                         |    1 +
+ include/uapi/linux/pci_regs.h                |   18 +
+ tools/testing/selftests/Makefile             |    1 +
+ tools/testing/selftests/pcie_lmr/Makefile    |    3 +
+ tools/testing/selftests/pcie_lmr/pcie_lmr.sh |  387 +++++++
+ 14 files changed, 2267 insertions(+)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20260831-pcie-link-endpoints-978e100d5d06
+
+Best regards,
 -- 
-2.53.0
+Priyank Rathod <rathodpriyank@google.com>
 
