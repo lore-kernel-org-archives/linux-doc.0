@@ -1,99 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.174
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795612350;
-	b=g7Bjl33bDM0PKsDlM44V+OmNuERH6481xS9InpE++8SOMfDRzkNg1NwIce0oIrbUuwj4
-	 2ZEpbsCYM5x+XUrxkXAe86su0E7XZ4uRAgSCvDztGWwSnKrL23CrhugY7LQ+RQI/i2+8a
-	 sIkQLqNw/spDofzJYUUdeRmvZliNXRLLZJL2gqhoSchTrCbDLybXugTV17j+m1IucbfVm
-	 ItqsAXHYyD1yps7Yc9Za927HzkYAA6Llx+d2kZGLNJXtpbb3EWqbe5C68OFjtGMzol3HQ
-	 qqonLGPEX/sZ7QMGHHBV68RYW4C10k5bM068+WIZHa+YEUM8XEnaaaKuY9MGwBgeGzg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795612350;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.44
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795612399;
+	b=LkDCL/mdTFoAVM3WvO56zBIBtPx+6vBsyYKB95VMgr/qlHvvrnBTXkMCMiD2wq3eqdV1
+	 ihzKONTochwOkDMHZNhsBQeY+TUSB5GZFSvRdYosqmFo8Ci/DrcOW0FFDNynJBM1WvA8X
+	 8ICHG1wzuHktT/tKSpXLTqFWzxWI/ZSHT7dLPPiNHq60P9+3rRO57hhNnOlhVGCuKe7c4
+	 GV+93p+u+LzDwGVmaFN0k66ipKF4gfTKhsOfobBzfV0zXOLpeWeLNMN9KCD7HtyaRwwHY
+	 gzAhFq1uCmIfbVqITFXu/A7FgFjNREINWwI6qpKoI34F8KNEnTuYWAM5moEclRzWEjg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795612399;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:In-Reply-To:References:To:Cc:Message-ID:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=UvrRlNwsml3xyPKp+kC1AP2uPPMG8CifNGrPGhS5eEI=;
-	b=nEWBkTiiRvrrkqXSMsuTfcvo3NiTPK1KviuH3r1XsuUbnAThcHakKmHehaDPHFFmGSbm
-	 rj6MNAJkCtjZW6X/CtcXRQacpzIWPS2LFUaoYthPayDFlYeCyXO5gzrldF4hVL8UVc+TC
-	 mfRDduvp/svRlkRLzNaiFz6W6qs/eaySaLBrf0zMAzmspyxDa0GeBeA7Cxdqbwxoctp19
-	 Ne0efd+lRWpdglxmjHo67Lv7e3KG6hGkATEaWJ7I9xaiqMkScxm0jHKYSdFvHVVU1i7uH
-	 Qn5jlwmNoMLiq+12VZMlpAHe2sduGxjs+LUaUdLL/LJncqqA7cUXuTLLOuBvSfLWHdQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=5Yz7JNlPDDcs8XZFhzYAPoSiu941gv9oYg8JZ/90iT4=;
+	b=yHzba0AjceA0XeNHXYMqe+mjda/QYmMJ+SXHWk+/nCwnlU1eD7Iv4vLs3TpIgq59iFJH
+	 x93d0i6xVyz0FjfmBepk2uIhG/+yYp8VHwJSe7K3UEEnHp9g3uLt4mPYZN17EaSnpBm9X
+	 wDAoEvOdIZm9SQcMRm+VykZYGbAq+g3fn3G8pCJ0AWERV1m0CntX5yRw94XsiwTlTxtqA
+	 BCAMCQuWbw59RtEoTXjKqugO3VtUp5queB5mVaA21tltwVMcXYO/gi6FozmqnBcV7Ox6W
+	 LRbTEzHzpdvvCLo2mYkEl/3Twl4YcOf5EhYOx3QZaja6RF3DtxIVIrJbAjDfDbTLLOA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nNbG6lhM;
-	arc=none smtp.remote-ip=209.85.160.174
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n0vv5HDD;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.44
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9ED7606A32D
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 13:12:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9ED7606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E9C606A329
+	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 13:13:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6E9C606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nNbG6lhM
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-53644b28706so92037441cf.3
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 05:12:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n0vv5HDD
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b88d143160so7066290a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 05:13:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795612397; cv=none;
+        d=google.com; s=arc-20260327;
+        b=KPKsDi9cYfiS7kTPdv6mnDY/v4rRgG1bvPhhZKH0YGjyuV+IA4uiE4Um5D/w9h75ca
+         uLq/ljGhrLneGrB+aLdi/D5w47l8KixppLpeDG8ypXGZNupOoUG2X6VZD90tdwaWjLFP
+         h4i16IzDo7Nr6gg+llJ5PrvDGtf/qaiCmCIb4bjumTuZ3NIFR65wodIwgydtvKmhpE8y
+         cgwya0ZiB8C9YwCmEDqcsOu99itOLcRkn9CLGIN0MnrEjB32tiUGclTfNn9tvcCmPb5Y
+         KuOnG4Loe0zVbqQLkUJvoBzwUpbLDENEu+PK0074eo3IUxsFwwOK6cRKn+A9MgviqO5o
+         R+9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5Yz7JNlPDDcs8XZFhzYAPoSiu941gv9oYg8JZ/90iT4=;
+        fh=WVIgW/KuFUgS4+fV4x8hZMucoyy0+MOMI+nhV0XHiR0=;
+        b=gIp1NKbnQjo+afGCWRruDiXq1ddzbBgJWH8gZcLHra2FqdFMmbiHyFRaBslnWLOpXj
+         bCMibVkt5kSLFkO/BPf9M2t5HX4e4a1tMYIO1Vm6XX9jrI5EgGH7K4TgmnGn8I2D9JZN
+         +xgUKcngQqGovg7tXpUSYAnndtDSiQA7TU2zW8LNH8q1PYhf43yPUZXeFUwGxB+fIuzY
+         18avGqBjDaXgse3/cSkntmSwRUPhtLUelxZt92zyxUuQqTdcmtfckMtdI7AVQwZm2f5/
+         XLWs/xwOsUP4uOAZs6uTtRL0SVUYtqtgKFUO2g8pAvmJur+LVOlgwj2cAASXtKcy4lBm
+         Jwcw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795612349; x=1796217149; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:message-id:cc:to:references
-         :in-reply-to:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=UvrRlNwsml3xyPKp+kC1AP2uPPMG8CifNGrPGhS5eEI=;
-        b=nNbG6lhMNlg9s3RxRiJNbZFCcJfSZu9DNa7mYpBntzBscZz1jH+GJVdRxODmIBn/XH
-         9T3QeSZ0dBdrShV+5UTQlvRJDGWmaSFgwPG8xaK78m9+1IsZbQZh8uwdbPQRLpLbeQ4O
-         xVf9SGqpPHCiDraZ/vP2iJjFbnzcI39gmq/x2WCzCnLx8mO2lMKqvHamXx7lbVYnXZLk
-         hcuvxmVxfNp9NbLMuVJ3iDg3B8wRXBSTMgQwkQF6CqLuXOfDj+xbdovSj5yUEFllih75
-         XhL6PeZGqPIxDJiSVo3a5v8EE/vrplOfFcWFgb30mkGU9pUBVGKlZqSfFrPBsPBaAqh7
-         Z59g==
+        d=gmail.com; s=20260707; t=1795612397; x=1796217197; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5Yz7JNlPDDcs8XZFhzYAPoSiu941gv9oYg8JZ/90iT4=;
+        b=n0vv5HDDhQGJx2A3SZ9UrU+9j+SJMLmyzK7GRIhTgCeVF3W9mHcsWgDDEOIM+SSb5J
+         d0zlmJEZMWQJbBbMP7QULVebH35itoKoCjJ0eHNerucf5DgJiMaidCg5rvo9SmOde1il
+         E1HZ42khDgyKjqkNbwHk/IYMCc3VvVXmJ24IK1eSUsUsq5Sz+0xxCOasIX+zmAD51LsO
+         21MDtIAT4wQCBGMbhKocFMemYjqSPdS11kFF/qU3oIH7R2e80W1dhPd2uTzfbpJhIIsu
+         6/vX6CPqvL2aDs2Z/rHJe9uhXBRc0EGpUV0CAKNi4D+AQsll6t8CBem4My/QX30ws8qS
+         seuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795612349; x=1796217149;
-        h=content-transfer-encoding:content-type:message-id:cc:to:references
-         :in-reply-to:subject:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=UvrRlNwsml3xyPKp+kC1AP2uPPMG8CifNGrPGhS5eEI=;
-        b=ogdWE5/+VvyN7uQY1VNKC9FKDciWGB84oT/eNQEFPbRIOGthFClABK+R0aeujFHygE
-         Ujnkgz0TsWskO1JGFXB2U/VC4hTbK0vCZ5XoEqiRRsMeO40TaWPVfPBH3v+TCJPwXleI
-         EpfM4Pl2J8CtMpIw7j42WwlOq0doZpjo5iKbpsw3aC2F0BC+TtPqF1LoUyUivkKNbbrl
-         uzLIWeDW0sYsPdCIWPCyq0hcwAN/yYYzkhFBBeO+SiPMvemJrqIOfEip7MFGxwt4+zba
-         AOSReC/eBqIrZp/7xf22BUPqZaYCrXs8CZ0wGxMoBUBEw6fKOnTRiZiC7yApc/awv6je
-         DzZg==
-X-Forwarded-Encrypted: i=1; AL+hErGySgjBeHjUmv6T1VfSfrXZC3CyiFshzTp0OZD4J1cuJ2mWM2ajdB5Ce1NfvqVUTCDNu/Fx8L9WO5A=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/UK3i13MBHnk90GJ5jKwHNVF6fA0SZvTTrwJMcGv3vkzWZJ3o/
-	4PiDhts4xl1n/cAkN2ydLx+c0iNRiFAm8EnQ5mqg50bgNxfM3TPGzeM=
-X-Gm-Gg: AZFdTZfp1WE1lKa5AKMBAvzal8slsAjyetr8dWh+/eAvVLmXf1EB8e8hC7/0TYDFYU1
-	K6d5RUKrJnb+MdWdwHFI6eHFIr95XxG5Tg2jhDYzrn1Yc/5Tqa8JJL9H7CpucdOUdcY7tGsAHEk
-	FXeA5ftzkEluw1D/8Lhc1SrhpAqmI3ftzA8ZcLMn+RqdyCM084ZgOzmgzy5mOD29bLRtBiC0jxP
-	IuzXCheX0HP/UmMk/0IOGGyPbb8ekd0uHUarJsJ9X9yEPR0vEeSTOQ1IQwVUmd2WnsSKenb38fU
-	q5ljK7c59clmlEuyQ2Wve1TVfNFQh9LKbnsL7s3UTYqHLIfAIMWL9ZaEe4Amzx5VY3hvx45yKu3
-	6jNYG1dN00+BqRcEC5uM5aYTefAVBpJnDpnAwYtuwANGtB+yew5Hxwja9XiV5n1pkTX3Ng0okEI
-	FEC+VULh3n1phlQDEkBaPUEasevJzq2ON6DnPyGS5kdMx6g6TK7OTiEm6cGrI8NZyVUPi/kHUDY
-	6eo+pGzaNfQurl6RtNdXiWLFNKkwDJZCdkt16cry1wSAzILdgKRkhayw9TuZSpF4fJbQKLtHMGC
-	E2VqRE+cqfSwvlJmSb0nxpPqG3gT0QK396gOlpMyJ+7ZDu+WN/bQToMuggq4aJasQeb7qfgwQuY
-	eUKXfwF8FYOEVHjKoinVVdg4dtYLgofn1N+WdSnFO5RXF1I278v/Ilkvb3SbdQfD/i/7GM50=
-X-Received: by 2002:a05:622a:34f:b0:55d:3695:c1b8 with SMTP id d75a77b69052e-55d768a24f3mr359297361cf.11.1795612348580;
-        Wed, 25 Nov 2026 05:12:28 -0800 (PST)
-Received: from [127.0.1.1] (207-237-119-98.s2383.c3-0.nyr-cbr1.nyr.ny.cable.rcncustomer.com. [207.237.119.98])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d7889f8b6sm155981971cf.28.2026.11.25.05.12.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 05:12:27 -0800 (PST)
-From: Eugenio Zuccarelli <eugenio.zuccarelli@gmail.com>
-Date: Wed, 25 Nov 2026 13:12:21 -0000
-Subject: [PATCH v3] Documentation: kunit: document --summary and --failed
- options
-In-Reply-To: <179561234149.225312.4673144866194884043@gmail.com>
-References: <179558107134.36587.13120861622026385297@gmail.com>
- <179561234149.225312.4673144866194884043@gmail.com>
-To: david@davidgow.net, brendan.higgins@linux.dev, corbet@lwn.net
-Cc: danielmaraboo@gmail.com, raemoar63@gmail.com, skhan@linuxfoundation.org,
- rdunlap@infradead.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <179561234149.225312.11200387441465771003@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20260707; t=1795612397; x=1796217197;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5Yz7JNlPDDcs8XZFhzYAPoSiu941gv9oYg8JZ/90iT4=;
+        b=xc6jVbVE5y6hqPAkUhnu745knAugVKj4EXSIPmKOu8qiYq1E+eJDuuapdBooxAVDCB
+         NLVkp33ZTulSdgGie7Rm/zDEoWf4VDNlOzGKC3ThZPb00UhaCNj8w+nfhtdcGB3CqRDg
+         wLAlJX1H8LGNspayzOO4xD+DYtE9auXRj+Se2CLmblp/tkNAZfcwxvBDksOXodBsvvCG
+         mn3SFpJh8ziNnjBIEhMG/97+QqyMO+QEwO1vQ1FICxBGXvlrTbgCdX0HiDj/7D4PsFfy
+         2RpXNrDp3Yl7palsOzAkN5sVZiOxOHoH6bq5xmBsbKrQvBLFRS13a1mqlRWg4SdBAssP
+         E2hA==
+X-Forwarded-Encrypted: i=1; AL+hErEcf79aebSYt2NiV+D+ACjwdkwrLJ6pGfhzqgS0YNXVgFlF2KzG3nQtEpo/8EFGjX6yarqw4LWDWc0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8O6tPb19IOAQunOVV3zS4XQndJv5DL30swwwLz85IU1OAaL4S9
+	pQ/C6HCrA8kRen3yfqHuplUNfytantir3kXmfuFsgkYcId2vsmFC7fsX8GJ7MiGCsTw/YVJPZq8
+	zI8KlJVMIRy4ipkiAGhybhjwfLNjGhYQ=
+X-Gm-Gg: AZFdTZcoZGGH4TF99H+nNi8XjE5NP+tIiA9wv+c6wf/v3F/okQPX85HN96PMOWzd83y
+	Kd8Je0VJp4azGlyRzDjrwOYxVdBLwa9iSEttugNzw7TveET0AIxcAq0S4k5VT0LaI+bsa4hBsgb
+	Bnqos4owXmqMI1oswTjJ4Y6SdjvFmYEbdT5D7hqo6dytrmJpNI83WjwcDPUrgvCKKytT1fq8/0E
+	7CIgaaVCk0kkEwmHrAsqDdhSXsgCVSt0V8HllvDMW+d09iAr/RUd9bgZzBMGKgfvRHmF93aM3nl
+	sHIA9n7o/SnlWL+dDG/9fpUvntWy0TuE5f0ashrIwm4AZF2X9Fik3U1lX+4/pLDYe4pZKeqkp6k
+	li6OgbCccfmFKafcBvUTKDeRB2TFPxWV68xKwzUS20fbZ9nHJ8qG3QM6pqPQV6Vd7xK6fvA==
+X-Received: by 2002:a17:907:9693:b0:c4c:ddd1:d006 with SMTP id
+ a640c23a62f3a-c513ab47f40mr1378964566b.38.1795612396826; Wed, 25 Nov 2026
+ 05:13:16 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,56 +103,97 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
+ <20261124-mglru-fg-v6-15-8ffea39934a6@tencent.com> <fc51ad85-16f7-41fb-8eb3-2b8ee595e711@kernel.org>
+In-Reply-To: <fc51ad85-16f7-41fb-8eb3-2b8ee595e711@kernel.org>
+From: Kairui Song <ryncsn@gmail.com>
+Date: Wed, 25 Nov 2026 21:12:40 +0800
+X-Gm-Features: Aa3M54rLCFPdJCUVsWAcKF2l0FhpWm6CiFAaLjU-bCfz_TzbQSOhJaNF1aUKI_Q
+Message-ID: <CAMgjq7D-EFYsivqq1Z4c60ZMh0pBU2ofgfqVaqp_vbPG8wbSiA@mail.gmail.com>
+Subject: Re: [PATCH v6 15/18] mm/huge_memory: mark folio as accessed more
+ accurately on split
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>, 
+	Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
+	Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
+	Gregory Price <gourry@gourry.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
+	SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, Yu Zhao <yuzhao@google.com>, 
+	Vernon Yang <vernon2gm@gmail.com>, Zicheng Wang <wangzicheng@honor.com>, 
+	Tal Zussman <tz2294@columbia.edu>, Xiang Liu <liuxiang.277@bytedance.com>, 
+	Ehab Ababneh <ehab.ababneh@intel.com>, Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, 
+	Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, 
+	Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	damon@lists.linux.dev, linux-doc@vger.kernel.org, Tianyi Chen <hi@tychen.cc>, 
+	Ridong Chen <ridong.chen@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit 062a9dd9bad7 ("kunit: tool: Only print the summary") and commit
-3c67a2c09b3c ("kunit: tool: print failed tests only") added the --summary
-and --failed options to kunit.py, but the matching entries in the
-run_wrapper documentation were never added.
+On Wed, Nov 25, 2026 at 6:09=E2=80=AFPM David Hildenbrand (Arm)
+<david@kernel.org> wrote:
+>
+> On 11/23/26 19:53, Kairui Song via B4 Relay wrote:
+> > From: Kairui Song <kasong@tencent.com>
+> >
+> > The behavior of updating the folio's access info isn't consistent for
+> > huge mapping splitting or ordinary unmapping. The page table's young
+> > flag has to be translated into folio's access info.
+> >
+> > Right now it only checks and sets the folio's referenced flag, which is=
+n't
+> > enough since folio flag updates on access have their own rules. Ordinar=
+y
+> > unmapping (zapping) calls folio_mark_accessed(), and it also checks
+> > if the VMA has recency to avoid false updates.
+> >
+> > So first just use the right helper here to be more consistent. Keep
+> > accounting the young PTE as a cache access, sticking to the current
+> > behavior.
+> >
+> > Tested-by: Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>
+> > Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
+> > Tested-by: Andrew Morton <akpm@linux-foundation.org>
+> > Signed-off-by: Kairui Song <kasong@tencent.com>
+> > ---
+> >  mm/huge_memory.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> > index 75e8641bf9ff..fa9f6d21e786 100644
+> > --- a/mm/huge_memory.c
+> > +++ b/mm/huge_memory.c
+> > @@ -3122,8 +3122,8 @@ static void __split_huge_pud_locked(struct vm_are=
+a_struct *vma, pud_t *pud,
+> >
+> >       if (!folio_test_dirty(folio) && pud_dirty(old_pud))
+> >               folio_mark_dirty(folio);
+> > -     if (!folio_test_referenced(folio) && pud_young(old_pud))
+> > -             folio_set_referenced(folio);
+> > +     if (pud_young(old_pud) && vma_has_recency(vma))
+> > +             folio_mark_accessed(folio);
+>
+> Can we just have a helper that abstracts that? We pass in vma, folio and =
+young
+> state and it takes care of things?
 
-Add descriptions for both options next to the other output options, so
-the documentation lists the arguments the tool actually accepts.
+I think we can have a folio_mark_accessed_vma(), and so it will be:
 
-An LLM-based coding assistant helped draft these entries; I checked them
-against kunit.py and kunit_parser.py.
++     if (pud_young(old_pud))
++             folio_mark_accessed_vma(folio, vma);
 
-Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
-Reviewed-by: David Gow <david@davidgow.net>
-Signed-off-by: Eugenio Zuccarelli <eugenio.zuccarelli@gmail.com>
----
-Changes in v3:
-- Reworded both entries per David's suggestions: say what the summary
-  contains, and that --failed hides passed and skipped tests.
-
-Changes in v2:
-- Moved the tool disclosure into the changelog text; the Assisted-by
-  trailer is no longer described in Documentation/process.
-
- Documentation/dev-tools/kunit/run_wrapper.rst | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-index cecc110..9e0d83d 100644
---- a/Documentation/dev-tools/kunit/run_wrapper.rst
-+++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-@@ -327,6 +327,15 @@ command line arguments:
- - ``--junit``: If set, stores the test results in JUnit XML format and prints to `stdout` or
-   saves to a file if a filename is specified.
- 
-+- ``--summary``: If set, prints only the summary of the test results,
-+  including the number of tests run and how many failed, rather than the
-+  result of every individual test. Does nothing if ``--raw_output`` is set.
-+
-+- ``--failed``: If set, prints only the tests that failed or crashed,
-+  along with the summary line, once all tests have run. Passed and skipped
-+  tests are not printed, which makes failures easier to spot in a large
-+  run. Does nothing if ``--raw_output`` is set.
-+
- - ``--filter``: Specifies filters on test attributes, for example, ``speed!=slow``.
-   Multiple filters can be used by wrapping input in quotes and separating filters
-   by commas. Example: ``--filter "speed>slow, module=example"``.
-
-base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
--- 
-2.34.1
-
-
+Also converts a few other callsites too, also avoid touching too many
+other folio_mark_accessed callers, there are a lot of them. We can
+audit and see if folio_mark_accessed can benefit more by passing vma
+from more places later.
