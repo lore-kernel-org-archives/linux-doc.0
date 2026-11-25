@@ -1,111 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.12.53.23
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795647416;
-	b=mRxWCj0E06I4G875CLGGxnO9feJZGy6naXKwmZHhIACiLpibGmj4hhJuqF0HG/xvQnYJ
-	 wB6JulQA2mWTbWxrvM8kPgC+SRboZJ3e3Y3QveZ3FzrKzP6FYRj+Ajk7Bnmtm7M1hTnhh
-	 +F26DSR5xMy7km5+1GOolpWoK3n9L2wPfsyl268Z3GJ2dgMqZ37sjrov+yg7AEgPe0X8S
-	 VtjuceHckmAcwKfCNwRdru1h9GM9hPI4Tku+eD9Hadbng8Oe8Lwz8oFw/Zm9IquhAzoKd
-	 YrmXGJZ6ypNraeqHymXqYhaup0+QFhiL4MUIwsd8tlrgsqfiFrOa5rcZJwqjvGzWPpw==
+	t=1795647641;
+	b=TaoehORYnmUW39IhiGLnNOZRWttU9MCfoOkLZ6YXQW7KFlcDku2uYgg+CQp/5si7oZCp
+	 gxZoF15F9z7b2IKS6vNs6+16DvD3NPTS++elu9c1mkyJUaCJhHQ4R5nLc4CkBTz9iYlok
+	 9TV2wnuJQQlHFQLdkhwo+mR7wPsJhYw7N/nWRcbHyyNrVgMJXRAUXp915UrUqVdB365QV
+	 p5QaLuuIyivlyK8xGrelUQlUaBDKkqGkK5ZXBuHhvgLGPvBfVPHM8+nWW3cs2idChKICw
+	 kA5xMzTBTEhX4jJKF/u8BduhGs+X7R39Zresx3Ta+5h27SRaEqFtlE3Hkj20akN1+9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795647416;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 Content-Transfer-Encoding:MIME-Version:Content-Type;
-	bh=fAkJfhA1e625VlHi6/CjskjkxYNTufG3gb4nVL5CjEE=;
-	b=pVPsifn6vHnh0UC7KGqEskG8VbQBtLT0lMTj1HNEMCor587abK+/TYBBDWuRHyVYaglu
-	 kHdQ6UjL45aVEEV9sjjG9K+JYxcGquO3FGpXdTVQR8/m69QmbTcXlW735pYSlX+MWKPNl
-	 orbbl18/UYRjVX/7FxVj6SAGXycSSC81ETJnVNgi9h5jKT9s/FioPNLi9ogusH8i5amUs
-	 q/fxft3hpXZGyHU1qFU7CSbyROBZilGUG6VDjnq7kKWzolOlr5s47V3aVo9sND16kGVLL
-	 xxZXQ74Km01TVSuWps/ccTPoKrRj0Wv1kswyQY6x9efUAqnNET0oD7zt91V9jUQsJHw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795647641;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=TsY4BV/+ObWxXathrekPiFRx0vLYjHLDJuIBQPvLmmY=;
+	b=RBHfvo1XMubw5X0hdMBL10gZz1hsLD3iNNBnsoZRL4uZnUEwcsvOjxiYB7nSAc5g4wPt
+	 Cmili/Wz9/iLOFyl5lrE1X3X13GfKgHlZvVCjfq9pYMvxtbC6bd7omD9D9LG5TuTvMsPZ
+	 JFdbqFE3KzJ4Nx6pTe08zB0YdCeOa5LHvcNzVU+oikaZRB6AT0PugpWykh3Rd43nDVLEy
+	 fGWtCivU7dohW3i0w5lSPsPp705ORpE9dnV0tIrxjZmxHUUl3iNb1Uhztc6Y0QFWkQGpn
+	 Qq6R6jgY+ysUQ/sKCEUDW0TdXzcBz34ygQWFVXWYOPVPL0rseYCnHK2OEpTLyKn0kPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=R24Rs4io;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.com;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=lsegGIeU;
+	arc=none smtp.remote-ip=52.12.53.23
+Received: from pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.12.53.23])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFBB606A333
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 22:56:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAFBB606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288F1606A336;
+	Wed, 25 Nov 2026 23:00:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 288F1606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=R24Rs4io
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4bb606491faso33972495e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 14:56:55 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=lsegGIeU
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795647414; x=1796252214; darn=vger.kernel.org;
-        h=content-type:mime-version:content-transfer-encoding:message-id:date
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fAkJfhA1e625VlHi6/CjskjkxYNTufG3gb4nVL5CjEE=;
-        b=R24Rs4iordavR6xw7FQ0o/DZGxqlMi1qPyiseaTCiFjx7grVaeSX5uEyVemQjN4std
-         P3Qbx8EGfB7TEqZl5LYeeUmy2V929SvoaF4xo/+uvBBSlDWcVu+jT/Q+pridMe32kf5c
-         3iIK8HUn9cq/1cMPqfqd/w9fZfkHQZYpRRLJang2Ujxh6V6RKnk8txMDjYJpobo70uDT
-         2/Ia9ALqMOcv+hs6xhhqW91UbgncBeY8wxwlb+TPGWgASMR55W2Cy87d6A56nmzgMwMZ
-         fSNjTzium6njFnxG5ATdvgIUt01ncWzg7+Sknc4eQvy1E5rZmoq4ucFg1964Tx+DKk5p
-         0pAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795647414; x=1796252214;
-        h=content-type:mime-version:content-transfer-encoding:message-id:date
-         :references:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fAkJfhA1e625VlHi6/CjskjkxYNTufG3gb4nVL5CjEE=;
-        b=R+D4WCrX+kxSwlB16d+uEmb8wpppu6vZUa4MyrxuCMtj9IoJz5B04umedHgvwnMbLN
-         TAY5S5YkPJw3ui3WZy3gLUMs83ohOT0CZqfpnBzJzvck+zAyhVgUMUKtDZRsyV93meN0
-         fQVEEDge7XevRcwOvTtb8xorOwgF428jGo9OTxvfDt1YCq/R0NJ8OSBa0k5jBMUsnmDV
-         rOaAoM+3OjjfaVFuPfCln5BK5QPfDfG+oLWUQWu4ZGu5CdVvGG9ceUig6u1yfWXVcio2
-         qkOYiFn+68vmmf41DTDVrZwUuk1wwj8Yq+bEdggAdvBUj3hF5vJfNUJA4UVSp5OVBSG+
-         QAJg==
-X-Forwarded-Encrypted: i=1; AL+hErGXtNXl/IJd2pyERpiz74vrgLiZwwLpey201RjfoIys9/Nd5tI0LaftsmLwOjsoyhLathPWBfawjyQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8TlJpWSCesxiRoyLa9QvpalyfFRWvrDWedZum5lbkXurtQk7G8
-	NZw0sA6YHVsuNDeelljNv5ql+cJu5mQRcRNDvBKkfXazfnGnoGjDpXo+
-X-Gm-Gg: AZFdTZefoS1FWlE9rkupWIZkgA2oRxs4Cbnxwqv9wXlR6ZHusB3ZK4xTJHX9fcXr3ga
-	HMAiNB3fHVXbaB8BvdFbLNC9BDySF3MzHDhZRMl6ybjg9S8HXNf9H8uns+ZA9W40R2ZClvvXZ/d
-	ZifYa9b56evcb8B4wmFM9tSzVO/pIdmVu18wKNgfpHH8zoHcFRQ+yGDXTFdkmEXYtoUEq8oGglR
-	L4OzbkvpW/PYlyhUqZi3mGCg1Oocr+5D1BHCiy0LNwOk89J5eZL5O9INmobke3eDNuGtglgNRi1
-	r6d3o6ldaWyeRgAs8Yt5vRI/mSPEEO84BjSFyyoeUebkt9RMUExGhQJ+gzVrg9vZnS9z3wa02JN
-	GO0vy5I0UH+hi6EvFAD2m6RUGS47J9xP/tVYfjiiD/93545uZan65i8CqYo3sE23sKgfd9Y6j4N
-	aisSEO7LB1NpZ1EOH23rwsoclQ9aFyHw9+My6/qwmeLfTFwYZhsu0LBhYn+0sJw5jjnnuvCBh0z
-	lLorOSaQImRxtO2rL2j1hZw3sOX32D4H1yi4ApYJvYDTRlYnrM5LByOejV9zadX2jGklOGTq9+Y
-	vGk/WKDN2Z5RqYmOeujwhs049R656bMGO7lIEWUGFGcEfcpG0TD2278=
-X-Received: by 2002:a05:600c:4515:b0:4bb:659c:b8db with SMTP id 5b1f17b1804b1-4bb88813b27mr402625445e9.12.1795647414193;
-        Wed, 25 Nov 2026 14:56:54 -0800 (PST)
-Received: from [127.0.1.1] (ip-024-180.users.dtel.ru. [91.210.24.180])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884b8429sm865695085e9.14.2026.11.25.14.56.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 14:56:53 -0800 (PST)
-From: Fil Dunsky <filipp.dunsky@gmail.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Vladimir Oltean <olteanv@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
- Simon Horman <horms@kernel.org>, Pablo Neira Ayuso <pablo@netfilter.org>,
- Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
- Hans Ulli Kroll <ulli.kroll@googlemail.com>,
- Linus Walleij <linusw@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Christian Marangi <ansuelsmth@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, netfilter-devel@vger.kernel.org,
- coreteam@netfilter.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC net-next 0/7] net: cortina: CS7542 wired IPv4 hardware
- flowtable offload
-In-Reply-To: <5e9d9808-3917-4706-889d-ae1c360155e3@lunn.ch>
-References: <20261125-almondplus-offload-rfc-v1-0-703175c6340c@gmail.com>
- <7252b836-e375-4550-90c9-b0e3ab7fbb6d@lunn.ch>
- <179564372798.5.10006827612276789857@gmail.com>
- <5e9d9808-3917-4706-889d-ae1c360155e3@lunn.ch>
-Date: Thu, 26 Nov 2026 01:56:38 +0300
-Message-ID: <179564739825.6.2717872099061772018@gmail.com>
-Content-Transfer-Encoding: 8bit
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1795647641; x=1827183641;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=TsY4BV/+ObWxXathrekPiFRx0vLYjHLDJuIBQPvLmmY=;
+  b=lsegGIeUDvUvnoyh1KLIY3AIF/Y0+OL3KonpEG2TuvlGrdd/swuravx+
+   tffr5qnioEwpUZaxdzT5ZOlAIv/NzJLdf9NlAOC1Lmj9MXFBJZ3En4Nue
+   LiU4hlhvMW3AHIAU5t1QTFsPY67BsQSk9K0iCNs04r2Mw1Pw8/Qg68XwG
+   LYSvAbghZdQC9P2xfbss+/ZQTb6PuLPCT4hPH+WYPb/H52AZZKxIxh126
+   nwS1E29svSv0GLCbKnV88qTmjGsAwLIOliTOzw0+1TfTXDlCGHX9BTOBU
+   woDKq40O4HG9vPJ1UYbO0eew2us/zksMIV8PgHpWXSy5ulJc0mWXhI/BV
+   Q==;
+X-CSE-ConnectionGUID: GfgC2pvdTDC0N2f0C9zPuw==
+X-CSE-MsgGUID: H1Q4FsJDRceDLibr+jRLtQ==
+X-IronPort-AV: E=Sophos;i="6.27,233,1787011200"; 
+   d="scan'208";a="34980411"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 23:00:38 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:30233]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.58.48:2525] with esmtp (Farcaster)
+ id 1f3f3ea1-ce68-4516-84dc-fc3b677d619c; Wed, 25 Nov 2026 23:00:38 +0000 (UTC)
+X-Farcaster-Flow-ID: 1f3f3ea1-ce68-4516-84dc-fc3b677d619c
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.57;
+ Wed, 25 Nov 2026 23:00:38 +0000
+Received: from dev-dsk-surenkj-2b-416930d2.us-west-2.amazon.com (10.169.26.94)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.57;
+ Wed, 25 Nov 2026 23:00:37 +0000
+From: Surendran Kanagaraj <surenkj@amazon.com>
+To: <jarkko@kernel.org>
+CC: <corbet@lwn.net>, <graf@amazon.de>, <gunnarku@amazon.com>, <jgg@ziepe.ca>,
+	<joshlev@amazon.com>, <leitao@debian.org>, <linux-doc@vger.kernel.org>,
+	<linux-integrity@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nh-open-source@amazon.com>, <noodles@earth.li>, <peterhuewe@gmx.de>,
+	<rdunlap@infradead.org>, <skhan@linuxfoundation.org>
+Subject: Re: [RFC PATCH v4 1/8] tpm: Add a single table for all TPM wait limits
+Date: Wed, 25 Nov 2026 23:00:34 +0000
+Message-ID: <20261125230034.24726-1-surenkj@amazon.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261118073852.81107-2-surenkj@amazon.com>
+References: <20261118073852.81107-2-surenkj@amazon.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,15 +87,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format="fixed"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWC003.ant.amazon.com (10.13.139.252) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Hi Andrew,
+Hi Jarkko,
 
-Understood. I will focus on getting the basic Ethernet series reviewed
-and ready first, and hold further offload RFC revisions until that
-foundation is settled. Further offload development will stay local in
-the meantime.
+On Wed, Nov 18, 2026 at 07:38:45AM +0000, Surendran Kanagaraj wrote:
+> +static const u32 tpm2_defaults[TPM_NR_LIMITS] = {
+> +	[TPM_LIMIT_A]		= TPM2_TIMEOUT_A * USEC_PER_MSEC,
+> +	[TPM_LIMIT_B]		= TPM2_TIMEOUT_B * USEC_PER_MSEC,
+> +	[TPM_LIMIT_C]		= TPM2_TIMEOUT_C * USEC_PER_MSEC,
+> +	[TPM_LIMIT_D]		= TPM2_TIMEOUT_D * USEC_PER_MSEC,
+> +
+> +	[TPM_LIMIT_SHORT]	= 750 * USEC_PER_MSEC,
+> +	[TPM_LIMIT_MEDIUM]	= 2000 * USEC_PER_MSEC,
+> +	[TPM_LIMIT_LONG]	= 3000 * USEC_PER_MSEC,
+> +	[TPM_LIMIT_LONG_LONG]	= TPM2_DURATION_LONG_LONG * USEC_PER_MSEC,
+> +	[TPM_LIMIT_DEFAULT]	= TPM2_DURATION_DEFAULT * USEC_PER_MSEC,
+> +};
+
+The TPM2_SelfTest duration bump [1] made me realize that mapping the
+TPM 2.0 durations into these TPM 1.x style classes may not hold up long
+term. A spec update to a single command turns into a change that
+affects all commands under the class. I think it is better to keep the
+existing maps as they are and let the driver modify the map if needed.
+This is also what you suggested in commit 207696b17f38 ("tpm: use a
+map for tpm2_calc_ordinal_duration()"): keep a per-chip copy of the
+map and let the leaf driver patch it.
+
+At a high level, the series would become:
+
+1) Set default interface timeouts and duration at chip allocation.
+2) Keep the chip durations in a union of TPM1.x and TPM2.0 durations.
+
+     union tpm_durations {
+             unsigned long tpm1[TPM1_NUM_DURATIONS];
+             struct tpm2_ordinal_duration tpm2[TPM2_NUM_DURATIONS];
+     };
+
+   struct tpm_chip holds the union tpm_durations in place of
+   chip->duration[]
+3) update_durations() now gets the union which TPM1.x and TPM2
+   drivers can adjust.
+4) Show the durations sysfs file for TPM 2.0 chips.
+
+With this, I would drop the limits table, poll APIs and tpm.limits=
+parameter for now and keep the series focused on duration handling.
+
+Does this sound reasonable to you?
+
+[1] https://lore.kernel.org/linux-integrity/20261125182251.19360-1-surenkj@amazon.com/
 
 Thanks,
-Fil
-
+Surendran
