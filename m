@@ -1,64 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795679635;
-	b=H4ngLUq8awycBJ3jahZJCen+tqZ7adnBPyZIfUsCmrT9B7h2RGCy6KIbuiG/CAfK/ETy
-	 hNuxExDhlgf3I93guVp2Gn1BZ9r+FBROy3c4PCvTd7de4M/6+8QyciKmGJa4opdEIjxFq
-	 n3FVrTYq61rIf4a+w9z5zJeRA6OWk/GTSfe7KKl3bpMhGJOwH2WBT13OQeGC/d+WMgMnY
-	 nBHfoQWnKQH3mI7V2J4DOz2q3zLf4H+0aC5o2DOvK5oIffM7Rh2GV97lJz8+4nmyrhIJ/
-	 4CSLIk6kHBHE3Wq/46cEtP/TaFNsQqRvbjPn0AMyxwHS0HJHoeT3uJa1JwFH08hu7QA==
+	t=1795679885;
+	b=HSSglZ3KIHDjuPl7TrSugO3NL1lR0VqWGOD32lUN619iK+K21QKdTI9TeEXTAVe5fnjc
+	 bHD14uXhPjj2UYPFSj/ExyBWce2uVx275/9avmUP//rANXgUF1egO10OiuZGOnVPxpWCp
+	 uhnhDFQazDcPrDB7QEYb+EBEIxKKrBusglItpVQXlVyrxVGl37xmgfMmIWsNTht22JejZ
+	 9+nbTqnzAUxgE9MEs61ILB7zgdUoYox33YgfmXbowlNPjqOE5MFT7US7RgItGbGmpFEcu
+	 wLPLWkZG6nWbrCU+gv9gF/kOLEv5cWB6+6Vt0flr38cQ9vjcUwncvp5GTVVYP/JUuyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795679635;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=6mcRydve0LMwyiwH6iWTrTwCOq45Fwyg68Imy88m+Lk=;
-	b=ZTvZWuht3g1n5kAU33zSlsZLRZ4SZ3fx61KtWXNCru3TJH5fetnf9ahofnTdGq/08USl
-	 MpQ2OTBBRP26Gtg26PYGRoad7akzY7lTqb5FnjsCN0lxwa9aHi6FMLJvAyWoMu2TPHirO
-	 aArZVTRwAWbnjlOXQl0bxxErgUOj5If6b3WVcxRy+Z2QnC1bcGeeJlaIP3Y0KEEaAFyBH
-	 3H126J8Z+0rQvsKBZucemLQ+iEmiX/vUsA8NEsjO5pXEKqEvpZcZSICJNhH7pA0FqNgWk
-	 2F9G1tRqt2yHsE/MHyM3CztRtfFjlQyzhPihIbRWHaHSw7rTZSyFceXlVVFstKTlqUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795679885;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=LvwFbBDWNBefR0kvXHQjNB1xk2tLuKkLL0ZTvCS0RKo=;
+	b=PNrLQzQY+OospP0R9dOLDSJHTEmS0Iabc5tg/qVRvHjrgms4GfvQEG2X4ETmTmAJBN5k
+	 AeZWXsohsco93z6vSnoAOB/PgoW+75HDL519jOiIWrdqKUWkLOQaE2B3P+SBtAKHmI4fn
+	 BXd6freMTC+mV4V8tzm2rSgGDMy3aPm2tmhGt1DKIOnMcjYq9Z0p3phmVK9hHOB0r3OKO
+	 Z6ragBECDXCX6H1n9guBKmIe8rkbEVcwtuE4Ogy9g/K9fY/7dVJ78t5hV2WzWTCOfEog8
+	 HM/C+XYL1+x/7jnZvhH4qqBAKHaAc0EWCrSLnLwiEBTTDHgAVpl3R6syYZluhxSwyLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=mMUjyya9;
-	arc=none smtp.remote-ip=117.135.210.5
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=o6bjUeAs;
+	arc=none smtp.remote-ip=91.218.175.48
+Received: from mta0.migadu.com (out-48.mta0.migadu.com [91.218.175.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75DC9606A31E;
-	Thu, 26 Nov 2026 07:53:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75DC9606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C984606A331
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 07:58:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C984606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=mMUjyya9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=6m
-	cRydve0LMwyiwH6iWTrTwCOq45Fwyg68Imy88m+Lk=; b=mMUjyya9D9TbTiE2SH
-	RfJUZiCmGaP4pqmaYYGR3awJ2zCbrCa/kKdMYWPsg0vewQwVJe8vInIJYB6bbgWU
-	Geg0NWx2Lvt2WDe1onfb561znv1XO8+K6qtTbcsEkBHXopw7WpIbtHgkaaPfk0B6
-	5eVPOa7ifYm8zEvigvF8584zU=
-Received: from ubuntu (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3V55R5QdrnDkPKg--.34500S2;
-	Thu, 26 Nov 2026 15:53:00 +0800 (CST)
-From: Shaopei Zhu <shaopei_1012@163.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	exfat@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v7] exfat: add EXFAT_IOC_COMBINE to append a file's clusters to another
-Date: Thu, 26 Nov 2026 15:52:47 +0800
-Message-ID: <20261126075247.850895-1-shaopei_1012@163.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <CAKYAXd_ap120uprmarov-GuO0fb1eXEgw-U8G08L1xRJ9bv18A@mail.gmail.com>
-References: <20261124230746.850528-1-shaopei_1012@163.com> <CAKYAXd_ap120uprmarov-GuO0fb1eXEgw-U8G08L1xRJ9bv18A@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=o6bjUeAs
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=FjE3HtgmKFq8WFEo5xKnHSon1s4J/tMgqoWdmhdBcjc=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795679882; v=1; x=1796284682;
+ b=o6bjUeAscT1Lwh6QHVgwf2bJ1f75R+7XJvrz13QiJ08OF1Wvc9srPIbjDCJWT656QujjEIKP
+ C45RqbYJStESB/bkq3kguAp8+hhqQh35vGPP3sYNU5Hnvdp3VEuqWvW1n0n4ZDr7tBB1bRGoaUZ
+ /eWlpySvzH0QeYAOBQCoxV/w=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c5246ef4abf9f853;
+	Thu, 26 Nov 2026 07:58:01 +0000
+X-Mizu-Trace-ID: c5246ef4abf9f853
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <b771065b-392d-4bf6-ab63-682179f6ed1f@linux.dev>
+Date: Thu, 26 Nov 2026 15:57:41 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,82 +58,218 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3V55R5QdrnDkPKg--.34500S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAryrAryfGr15Jw1xCFWUCFg_yoW5ZFWkpF
-	WFqrn8tw1kGr1Ikwn7Z3W7WryS9rZ3JF13Xr9IgryDZ390gFy0yFyxKw1UZ3y5Grsaqay0
-	qa1rury5GrZ8ZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UrnY7UUUUU=
-X-CM-SenderInfo: pvkd01phlbiiirs6il2tof0z/xtbC6Rwtu2sH5VxjMQAA3k
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 05/18] mm/memcg: add folio-based lruvec live helper
+To: kasong@tencent.com, linux-mm@kvack.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>,
+ Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>,
+ Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
+ Zi Yan <ziy@nvidia.com>, Gregory Price <gourry@gourry.net>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>,
+ SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>,
+ Yu Zhao <yuzhao@google.com>, Vernon Yang <vernon2gm@gmail.com>,
+ Zicheng Wang <wangzicheng@honor.com>, Tal Zussman <tz2294@columbia.edu>,
+ Kairui Song <ryncsn@gmail.com>, Xiang Liu <liuxiang.277@bytedance.com>,
+ Ehab Ababneh <ehab.ababneh@intel.com>,
+ Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, Lian Wang
+ <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>,
+ Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>,
+ Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org,
+ Tianyi Chen <hi@tychen.cc>
+References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
+ <20261124-mglru-fg-v6-5-8ffea39934a6@tencent.com>
+From: Ridong Chen <ridong.chen@linux.dev>
+In-Reply-To: <20261124-mglru-fg-v6-5-8ffea39934a6@tencent.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 25, 2026 at 11:18 AM Namjae Jeon <linkinjeon@kernel.org> wrote:
-> Is there a specific device or product expected to use this feature, or
-> is it being added as a potentially useful capability without a
-> concrete use case? If there is a target device or workflow, could you
-> share some details?
 
-Hi Namjae,
 
-Thanks for the review.  Yes, it is going to be used in camera products
-that record to exFAT SD cards.  The open source user is exfatcombine,
-posted for exfatprogs [1], and a test for fstests (exfat/002) is posted
-as well.
+On 11/24/2026 2:52 AM, Kairui Song via B4 Relay wrote:
+> From: Kairui Song <kasong@tencent.com>
+> 
+> Add a helper that resolves a live lruvec for a folio under RCU
+> without taking the lruvec lock.  It takes a folio directly so the
+> lruvec lookup happens inside the RCU read-side critical section,
+> which a lruvec-based interface cannot guarantee.  The first user is
+> the lockless folio_inc_lru_refs() path later in the series.
+> 
+> Factor the ancestor walk out of lruvec_live_lock_irq() into
+> __lruvec_get_live(), so that both entry points share it, and spell
+> out why the walk is enough while only the RCU read lock is held:
+> reparenting of a memcg that starts dying waits for a grace period,
+> so it cannot race with the caller until the lock is released.
+> 
+> Move memcg_is_dying() up in memcontrol.h, next to the other memcg state
+> predicates, and use it for the walk rather than repeating the open coded
+> css_is_dying() test a few definitions away from where it is explained.
+> 
+> No functional change for existing callers.
+> 
+> Tested-by: Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>
+> Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
+> Tested-by: Andrew Morton <akpm@linux-foundation.org>
+> Reviewed-by: Qi Zheng <qi.zheng@linux.dev>
+> Reviewed-by: Muchun Song (ByteDance) <muchun.song@linux.dev>
+> Signed-off-by: Kairui Song <kasong@tencent.com>
+> ---
+>   include/linux/memcontrol.h | 71 ++++++++++++++++++++++++++++++++++++----------
+>   1 file changed, 56 insertions(+), 15 deletions(-)
+> 
+> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> index 980358bc6f49..a03f9711522e 100644
+> --- a/include/linux/memcontrol.h
+> +++ b/include/linux/memcontrol.h
+> @@ -571,6 +571,11 @@ static inline bool mem_cgroup_disabled(void)
+>   	return !cgroup_subsys_enabled(memory_cgrp_subsys);
+>   }
+>   
+> +static inline bool memcg_is_dying(struct mem_cgroup *memcg)
+> +{
+> +	return memcg ? css_is_dying(&memcg->css) : false;
+> +}
+> +
+>   static inline void mem_cgroup_protection(const struct mem_cgroup *root,
+>   					 const struct mem_cgroup *memcg,
+>   					 unsigned long *min,
+> @@ -1349,6 +1354,11 @@ static inline bool mem_cgroup_online(struct mem_cgroup *memcg)
+>   	return true;
+>   }
+>   
+> +static inline bool memcg_is_dying(struct mem_cgroup *memcg)
+> +{
+> +	return false;
+> +}
+> +
+>   static inline
+>   unsigned long mem_cgroup_get_zone_lru_size(const struct lruvec *lruvec,
+>   		enum lru_list lru, int zone_idx)
+> @@ -1510,28 +1520,41 @@ static inline void lruvec_lock_irq(struct lruvec *lruvec)
+>   	spin_lock_irq(&lruvec->lru_lock);
+>   }
+>   
+> -static inline struct lruvec *lruvec_live_lock_irq(struct lruvec *lruvec)
+> +/*
+> + * Reparenting moves a dying memcg's LRU state to its parent at any time,
+> + * so anything added to that LRU afterwards would be lost.  This helper
+> + * walks up to the nearest live ancestor while the caller must hold the
+> + * RCU read lock: reparenting of a memcg that starts dying waits for a
+> + * grace period, so it cannot race with the caller until the lock is
+> + * released.
+> + */
+> +static inline struct lruvec *__lruvec_get_live(struct lruvec *lruvec)
+>   {
+>   #ifdef CONFIG_MEMCG
+>   	struct pglist_data *pgdat = lruvec_pgdat(lruvec);
+>   	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+>   
+> -	rcu_read_lock();
+> -
+>   	/*
+>   	 * The memcg can be NULL when the memory controller is disabled.
+>   	 * Otherwise, the caller keeps the memcg owning @lruvec alive.
+>   	 */
+> -	while (unlikely(memcg && css_is_dying(&memcg->css))) {
+> +	while (unlikely(memcg_is_dying(memcg))) {
+>   		memcg = parent_mem_cgroup(memcg);
+>   		lruvec = mem_cgroup_lruvec(memcg, pgdat);
+>   	}
+> +#endif
+> +	return lruvec;
+> +}
+>   
+> +static inline struct lruvec *lruvec_live_lock_irq(struct lruvec *lruvec)
+> +{
+> +#ifdef CONFIG_MEMCG
+> +	rcu_read_lock();
+> +	lruvec = __lruvec_get_live(lruvec);
+>   	spin_lock_irq(&lruvec->lru_lock);
+>   #else
+>   	lruvec_lock_irq(lruvec);
+>   #endif
+> -
+>   	return lruvec;
+>   }
+>   
+> @@ -1561,6 +1584,34 @@ static inline bool folio_matches_lruvec(const struct folio *folio,
+>   	       lruvec_memcg(lruvec) == folio_memcg(folio);
+>   }
+>   
+> +/**
+> + * folio_lruvec_live_get - get a live lruvec for a folio under RCU
+> + * @folio: the folio
+> + *
+> + * Same as folio_lruvec(), except that a folio whose memcg is dying is
+> + * accounted to the nearest live ancestor, which is where reparenting
+> + * would put it anyway.
+> + *
+> + * Return: the live lruvec, with rcu_read_lock() held.  Pair it with
+> + * folio_lruvec_live_put().
+> + */
+> +static inline struct lruvec *folio_lruvec_live_get(const struct folio *folio)
+> +{
+> +#ifdef CONFIG_MEMCG
+> +	rcu_read_lock();
+> +	return __lruvec_get_live(folio_lruvec(folio));
+> +#else
+> +	return folio_lruvec(folio);
+> +#endif
+> +}
+> +
+> +static inline void folio_lruvec_live_put(const struct lruvec *lruvec)
+> +{
+> +#ifdef CONFIG_MEMCG
+> +	rcu_read_unlock();
+> +#endif
+> +}
+> +
+>   /* Don't lock again iff page's lruvec locked */
+>   static inline struct lruvec *folio_lruvec_relock_irq(const struct folio *folio,
+>   		struct lruvec *locked_lruvec)
+> @@ -1826,11 +1877,6 @@ void mem_cgroup_node_filter_allowed(struct mem_cgroup *memcg, nodemask_t *mask);
+>   
+>   void mem_cgroup_show_protected_memory(struct mem_cgroup *memcg);
+>   
+> -static inline bool memcg_is_dying(struct mem_cgroup *memcg)
+> -{
+> -	return memcg ? css_is_dying(&memcg->css) : false;
+> -}
+> -
+>   #else
+>   static inline bool mem_cgroup_kmem_disabled(void)
+>   {
+> @@ -1901,11 +1947,6 @@ static inline void mem_cgroup_node_filter_allowed(struct mem_cgroup *memcg,
+>   static inline void mem_cgroup_show_protected_memory(struct mem_cgroup *memcg)
+>   {
+>   }
+> -
+> -static inline bool memcg_is_dying(struct mem_cgroup *memcg)
+> -{
+> -	return false;
+> -}
+>   #endif /* CONFIG_MEMCG */
+>   
+>   #if defined(CONFIG_MEMCG) && defined(CONFIG_LRU_GEN)
+> 
 
-The workflow: cameras and dashcams keep motion or position data with
-the video, e.g. gyroscope and accelerometer samples for stabilization,
-or GPS.
+LGTM.
+Reviewed-by: Ridong Chen <ridong.chen@linux.dev>
+Thanks.
 
-The products on the market keep that data in one of three ways:
-
-- as a timed metadata track inside the MP4, e.g. GoPro's GPMF, muxed
-  while recording, so that the samples are interleaved with the video
-  in the mdat box and indexed in the moov box;
-- as a separate sidecar file next to the video, e.g. the GPS logs of
-  dashcams;
-- as a trailer appended after the MP4 boxes when recording stops,
-  which players ignore and stabilization tools read.
-
-A sidecar file is lost in practice: users copy, share or import only
-the video file, and matching the two by name breaks once either is
-renamed or moved.  A track needs the muxer to take the samples in real
-time along with the video.  Where the sensor data comes from another
-writer, at a few hundred samples per second, it cannot go into the file
-the muxer is writing, so it is written to a separate file in the same
-directory during recording and appended as a trailer when recording
-stops.
-
-That last step is what this ioctl is for.  Today the sensor file is
-copied into the video file, up to tens of MiB per recording, while the
-user waits for the camera to be ready again, with flash wear and free
-space needed for the copy.  With this ioctl its clusters are appended
-to the video file instead, and the sensor file is removed.
-
-> I suggest changing EXFAT_IOC_COMBINE to transfer only the source's
-> cluster chain to the destination, leaving the source linked as an
-> empty file. Userspace can unlink it afterward if desired.
-
-The sensor file is only a temporary part of the recording.  With the
-unlink in the same call, a power loss, e.g. the battery being pulled
-right after recording stops, leaves one of the two states the
-recording application already handles: not combined yet, or combined.
-With the unlink in user space there is a third one, the combined video
-next to an empty sensor file, which looks like the first one unless
-every application also checks the size of the file.  It would be easy
-to append the sensor data a second time, or to leave an empty file on
-a card that users read directly.
-
-Doing it in the same call also refuses the whole call before anything
-is changed if the source may not be removed, instead of leaving an
-emptied file that cannot be deleted, and it removes the file that was
-passed in, not whatever its name refers to by the time user space gets
-to unlink it.  The unlink goes through start_removing_dentry(),
-security_path_unlink() and vfs_unlink(), so it gets the same checks as
-unlink(2).
-
-Does this address your concern?
-
-Thanks,
-Shaopei
-
-[1] https://github.com/exfatprogs/exfatprogs/pull/412
+-- 
+Best regards
+Ridong
 
