@@ -1,117 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795677406;
-	b=v4vtFBm90Xm4UVpP7Op9+S4phy7ddkT6UdbZ8GR6nfXhvxrthW63zJ2nmMVYPkkC/vIT
-	 2Hu2gmT7CtZUNB38SMro4BIaL2rTk8nkY/7/KTSHRIa+mlK4nWsvK6wDDKrXI0JofbAVr
-	 DcVi7hyRQvTVE2wVgZWB/vVXITeFCa1dULtoM/4PDKz4HVn6HTu4tfChNMv+W2P761QGV
-	 PBhZhLqS8dggh8NzlYRdyXKEOA0lm/4oxQ3G8nA8hjCLOUaw4947/phjc6h6j/PNqSWvP
-	 dZCwjBq5A+zY2pMOIPF1semGU9G6Rq1euMOiRqZ6DUnVmF51YG2yATH6NcTTDnmanbw==
+	t=1795679635;
+	b=H4ngLUq8awycBJ3jahZJCen+tqZ7adnBPyZIfUsCmrT9B7h2RGCy6KIbuiG/CAfK/ETy
+	 hNuxExDhlgf3I93guVp2Gn1BZ9r+FBROy3c4PCvTd7de4M/6+8QyciKmGJa4opdEIjxFq
+	 n3FVrTYq61rIf4a+w9z5zJeRA6OWk/GTSfe7KKl3bpMhGJOwH2WBT13OQeGC/d+WMgMnY
+	 nBHfoQWnKQH3mI7V2J4DOz2q3zLf4H+0aC5o2DOvK5oIffM7Rh2GV97lJz8+4nmyrhIJ/
+	 4CSLIk6kHBHE3Wq/46cEtP/TaFNsQqRvbjPn0AMyxwHS0HJHoeT3uJa1JwFH08hu7QA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795677406;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=tioXBSwm5pktLh4V7ZjeytUoL0urdjzGdHunvMaRHSk=;
-	b=f0JogIIrC3lMtk7espHEZuHuCIUBZCaKeVGnw6p4xzBp04ugd0URjcu8ecjv8LGPvVE5
-	 m6RpT3RPZC3K+ljmq2ANi/CKmMRz6+w4LoZVV4cP9cFvmuzRX1oQeQ9zdtfh4NVDvo+Bw
-	 th38MIcnmWCDI6gL2grUNNfV8CW+McLi4rfmKLqmrlSSsLRyQXVl+EDrOIYQRb3iWWi5d
-	 UCMHUwawpCDJ8aGO8nAIM/EIA50j2hUSc8fm/erUC8mUiP35wq32dAJveWRRnV25tpDKQ
-	 0paQiZBQvGZhzEavTycR8XF3dWlerW9sZ4Q82Cg4Uii0EUVwv6gPgxlj7W4eSiCBG5g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795679635;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=6mcRydve0LMwyiwH6iWTrTwCOq45Fwyg68Imy88m+Lk=;
+	b=ZTvZWuht3g1n5kAU33zSlsZLRZ4SZ3fx61KtWXNCru3TJH5fetnf9ahofnTdGq/08USl
+	 MpQ2OTBBRP26Gtg26PYGRoad7akzY7lTqb5FnjsCN0lxwa9aHi6FMLJvAyWoMu2TPHirO
+	 aArZVTRwAWbnjlOXQl0bxxErgUOj5If6b3WVcxRy+Z2QnC1bcGeeJlaIP3Y0KEEaAFyBH
+	 3H126J8Z+0rQvsKBZucemLQ+iEmiX/vUsA8NEsjO5pXEKqEvpZcZSICJNhH7pA0FqNgWk
+	 2F9G1tRqt2yHsE/MHyM3CztRtfFjlQyzhPihIbRWHaHSw7rTZSyFceXlVVFstKTlqUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oi2Ks9b3;
-	arc=none smtp.remote-ip=209.85.215.177
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=mMUjyya9;
+	arc=none smtp.remote-ip=117.135.210.5
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70FB6606A327
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 07:16:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70FB6606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75DC9606A31E;
+	Thu, 26 Nov 2026 07:53:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75DC9606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oi2Ks9b3
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-cd62c570b5dso4533049a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 23:16:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795677406; x=1796282206; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tioXBSwm5pktLh4V7ZjeytUoL0urdjzGdHunvMaRHSk=;
-        b=oi2Ks9b3T4wlAj8zr6C3H3evvBHdgAPn4MlpNxzpJ39yFK2wco5D5Uai+HoB7RXilR
-         B3329OrtXQcD9E13YoAoDRSV/mttgXULxSRf2+6fjDqsKkCTjsblzC4if3F2kuGA8NEo
-         PV/OsLxIZSKzXnkMd6kb8yPaXCnzs3h8qHdiygf+M//zgca57HRzZm167dBnFxISbboN
-         Knoyv/cC3Jh+HZY4+YgDlwQD8W+5mEvdM6dNEjQ4gizfbmedld31pW8jxgE9uA9XGvuK
-         YSYpG56oLnyIMaDJ6ok858+qzM/jCAA8aJ9r51VbkzJ+1i8jflqPEFbx3ReNdkFqnRjb
-         2AGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795677406; x=1796282206;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tioXBSwm5pktLh4V7ZjeytUoL0urdjzGdHunvMaRHSk=;
-        b=J56GOWRa27HpthlXGK1Qgfn/kjKyKBFhVcVBFTMndzfEk37JgWsh4OgAWKt6kkcPmH
-         WlqFaJyu6GAwMAKn/LaaWTmL8fduyDMX01k4oXV44I63bZN51aXq4c1s4piD/VDZxbDb
-         fzMDPskAg+tzQQsUxSurHdGgY+l1K1ZDQ3eR5O2SiJgpDt6A/jHzCOtGlPngPAPSb0Xn
-         Q6XskyL8xhsuoBko2+YWAu7gJu7gBRoPLxaY93cHDGZryfhR7H/2T86DdHofx5HSH8Db
-         eY9ANIUmrrJdqWwQD98gpqji0Htbt8UorsOsTI6kM37lyRisVWps6lsmjbTXwM+XVK8b
-         rUMw==
-X-Forwarded-Encrypted: i=1; AL+hErGRZu62LqdqSqdJtPNGgJR0pUpy2n4ecZKmu63TAjK2Fnf9A8vq+pavNPTLm9QgIGmeA423kIpGmAM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+niKPDyxVaOiTMf0Xpsxzw58z3YKAacfhnRWOv/wpwKxnqex5q
-	T5ue2G6iWuVda1cSMV9VzO1WD3XeH/H9dzvQoVAhEsQkDz5x4JEmF/wU
-X-Gm-Gg: AZFdTZdC8Kl+LIjtwdYxVsf1lommU7WYiOCz1jKlqm1p1/ppUkIH1U8hWxJNP/s4fFH
-	b7GLo0RbY/+j2GlT0aZxxn95/0fegK/MJ1vqSqxTfK3qgg6nofGSka0NCjU4tEX6M0RDESy5+Qv
-	7zG+TaktRGUdYDZ7CemGkOw9Yt1DNHwN1UIIPOlEOjtgPUVwIV2VINgLxPamyI7zAvXl+a1Mc7e
-	CpsW0dNO72mxdVor9lk8oA7WAqznHzqhdeko3U0pju6ClUeEtn3GJZPwoAELRQ3t3iq/k46Hkb3
-	NHlIG4QJH2Kx1cb5Ov59LcLZjHaonMz1fRweK3lXP0XeNFz6IFhhAb+MXPQHmvmlcPbKDpuK4p3
-	AQef4YE67JWjzRDZNRyTcM2BWV7DNLk38A/88j+mqqMn7/hUJEDUcQOgX/IgZnox6jPoZe2on9B
-	t4wHDOv2Q9q7ZSVzYYYvDmYHO0ForeRzkqC8sslIfF5BF4QYlchfTCpGC8DQDd+aho2y2tqILTm
-	e8DaD+o0M1vBJI048TrZuAAPfmCtQ0U8Q5w+0Qr5a6LO1waEx1WnoOG2haZzJulx0lM3/zmlupU
-	QO/e9yf7ekmhrcz/W2XVzOoom3LCAThdXjkCjgaZxkrm0K6oSgO7grykX5FcZvRvK4vIIGIa/1E
-	=
-X-Received: by 2002:a05:6a20:9389:b0:3eb:9e7e:1ebe with SMTP id adf61e73a8af0-4014b65c9ffmr25687016637.21.1795677405734;
-        Wed, 25 Nov 2026 23:16:45 -0800 (PST)
-Received: from KASONG-MC4 ([43.132.141.21])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c86d821637sm10523020b3a.0.2026.11.25.23.16.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 23:16:45 -0800 (PST)
-Date: Thu, 26 Nov 2026 15:16:32 +0800
-From: Kairui Song <ryncsn@gmail.com>
-To: Vernon Yang <vernon2gm@gmail.com>
-Cc: kasong@tencent.com, linux-mm@kvack.org, 
-	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Muchun Song <muchun.song@linux.dev>, Qi Zheng <qi.zheng@linux.dev>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, Gregory Price <gourry@gourry.net>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
-	Hugh Dickins <hughd@google.com>, SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Yu Zhao <yuzhao@google.com>, Zicheng Wang <wangzicheng@honor.com>, 
-	Tal Zussman <tz2294@columbia.edu>, Xiang Liu <liuxiang.277@bytedance.com>, 
-	Ehab Ababneh <ehab.ababneh@intel.com>, Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, 
-	Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, 
-	Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	damon@lists.linux.dev, linux-doc@vger.kernel.org, Tianyi Chen <hi@tychen.cc>, 
-	Ridong Chen <ridong.chen@linux.dev>
-Subject: Re: [PATCH v6 10/18] mm/mglru, gup: mark folios referenced via a
- fast helper
-Message-ID: <awfb-vGF62XvcX_F@KASONG-MC4>
-References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
- <20261124-mglru-fg-v6-10-8ffea39934a6@tencent.com>
- <6c3d32a9-3004-4a17-b854-7088e69f164a@gmail.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=mMUjyya9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=6m
+	cRydve0LMwyiwH6iWTrTwCOq45Fwyg68Imy88m+Lk=; b=mMUjyya9D9TbTiE2SH
+	RfJUZiCmGaP4pqmaYYGR3awJ2zCbrCa/kKdMYWPsg0vewQwVJe8vInIJYB6bbgWU
+	Geg0NWx2Lvt2WDe1onfb561znv1XO8+K6qtTbcsEkBHXopw7WpIbtHgkaaPfk0B6
+	5eVPOa7ifYm8zEvigvF8584zU=
+Received: from ubuntu (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3V55R5QdrnDkPKg--.34500S2;
+	Thu, 26 Nov 2026 15:53:00 +0800 (CST)
+From: Shaopei Zhu <shaopei_1012@163.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	exfat@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v7] exfat: add EXFAT_IOC_COMBINE to append a file's clusters to another
+Date: Thu, 26 Nov 2026 15:52:47 +0800
+Message-ID: <20261126075247.850895-1-shaopei_1012@163.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <CAKYAXd_ap120uprmarov-GuO0fb1eXEgw-U8G08L1xRJ9bv18A@mail.gmail.com>
+References: <20261124230746.850528-1-shaopei_1012@163.com> <CAKYAXd_ap120uprmarov-GuO0fb1eXEgw-U8G08L1xRJ9bv18A@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -121,60 +68,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6c3d32a9-3004-4a17-b854-7088e69f164a@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3V55R5QdrnDkPKg--.34500S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAryrAryfGr15Jw1xCFWUCFg_yoW5ZFWkpF
+	WFqrn8tw1kGr1Ikwn7Z3W7WryS9rZ3JF13Xr9IgryDZ390gFy0yFyxKw1UZ3y5Grsaqay0
+	qa1rury5GrZ8ZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UrnY7UUUUU=
+X-CM-SenderInfo: pvkd01phlbiiirs6il2tof0z/xtbC6Rwtu2sH5VxjMQAA3k
 
-On Wed, Nov 25, 2026 at 09:47:18PM +0800, Vernon Yang wrote:
-> On Tue, Nov 24, 2026 at 02:53:02AM +0800, Kairui Song via B4 Relay wrote:
-> > +/**
-> > + * folio_inc_lru_refs_fast - Bump folio refs count without promotion.
-> > + * @folio: the folio
-> > + *
-> > + * Raise refs from 0 to LRU_REFS_REFERENCED and leave hotter folios
-> > + * untouched. For a folio off the gen lists with MGLRU off, a plain
-> > + * PG_referenced set.
-> > + */
-> > +static __always_inline void folio_inc_lru_refs_fast(struct folio *folio)
-> > +{
-> > +	unsigned long new_flags, old_flags = READ_ONCE(*folio_flags(folio, 0));
-> > +	unsigned int refs;
-> > +
-> > +	do {
-> > +		refs = lru_get_refs_flags(old_flags);
-> > +		if (lru_get_gen_flags(old_flags) < 0 && !lru_gen_enabled()) {
-> > +			/* For CLRU, just do folio_set_referenced() */
-> > +			if (refs & LRU_REFS_REFERENCED)
-> > +				break;
-> > +			refs |= LRU_REFS_REFERENCED;
-> > +		} else {
-> > +			if (refs)
-> > +				break;
-> > +			refs = LRU_REFS_REFERENCED;
-> > +		}
-> > +		new_flags = old_flags;
-> > +		lru_set_refs_flags(&new_flags, refs);
-> > +	} while (!try_cmpxchg(folio_flags(folio, 0), &old_flags, new_flags));
-> > +}
-> 
-> The implementation code of this function looks a bit convoluted.
-> Would it be better to simplify it into the following code?
-> 
-> 	do {
-> 		bool clru = !lru_gen_enabled() && lru_get_gen_flags(old_flags) < 0;
-> 
-> 		refs = lru_get_refs_flags(old_flags);
-> 		if (clru ? (refs & LRU_REFS_REFERENCED) : refs)
-> 			break;
-> 		new_flags = old_flags;
-> 		lru_set_refs_flags(&new_flags, refs | LRU_REFS_REFERENCED);
-> 	} while (!try_cmpxchg(folio_flags(folio, 0), &old_flags, new_flags));
+On Wed, Nov 25, 2026 at 11:18 AM Namjae Jeon <linkinjeon@kernel.org> wrote:
+> Is there a specific device or product expected to use this feature, or
+> is it being added as a potentially useful capability without a
+> concrete use case? If there is a target device or workflow, could you
+> share some details?
 
-Hello Vernon,
+Hi Namjae,
 
-That's very good suggestion!
+Thanks for the review.  Yes, it is going to be used in camera products
+that record to exFAT SD cards.  The open source user is exfatcombine,
+posted for exfatprogs [1], and a test for fstests (exfat/002) is posted
+as well.
 
-Only one thing here is that
-`!lru_gen_enabled() && lru_get_gen_flags(old_flags) < 0` doesn't mean
-it's classical LRU, maybe it's just isolated. How about bool on_gen?
-Or bool has_gen?
+The workflow: cameras and dashcams keep motion or position data with
+the video, e.g. gyroscope and accelerometer samples for stabilization,
+or GPS.
+
+The products on the market keep that data in one of three ways:
+
+- as a timed metadata track inside the MP4, e.g. GoPro's GPMF, muxed
+  while recording, so that the samples are interleaved with the video
+  in the mdat box and indexed in the moov box;
+- as a separate sidecar file next to the video, e.g. the GPS logs of
+  dashcams;
+- as a trailer appended after the MP4 boxes when recording stops,
+  which players ignore and stabilization tools read.
+
+A sidecar file is lost in practice: users copy, share or import only
+the video file, and matching the two by name breaks once either is
+renamed or moved.  A track needs the muxer to take the samples in real
+time along with the video.  Where the sensor data comes from another
+writer, at a few hundred samples per second, it cannot go into the file
+the muxer is writing, so it is written to a separate file in the same
+directory during recording and appended as a trailer when recording
+stops.
+
+That last step is what this ioctl is for.  Today the sensor file is
+copied into the video file, up to tens of MiB per recording, while the
+user waits for the camera to be ready again, with flash wear and free
+space needed for the copy.  With this ioctl its clusters are appended
+to the video file instead, and the sensor file is removed.
+
+> I suggest changing EXFAT_IOC_COMBINE to transfer only the source's
+> cluster chain to the destination, leaving the source linked as an
+> empty file. Userspace can unlink it afterward if desired.
+
+The sensor file is only a temporary part of the recording.  With the
+unlink in the same call, a power loss, e.g. the battery being pulled
+right after recording stops, leaves one of the two states the
+recording application already handles: not combined yet, or combined.
+With the unlink in user space there is a third one, the combined video
+next to an empty sensor file, which looks like the first one unless
+every application also checks the size of the file.  It would be easy
+to append the sensor data a second time, or to leave an empty file on
+a card that users read directly.
+
+Doing it in the same call also refuses the whole call before anything
+is changed if the source may not be removed, instead of leaving an
+emptied file that cannot be deleted, and it removes the file that was
+passed in, not whatever its name refers to by the time user space gets
+to unlink it.  The unlink goes through start_removing_dentry(),
+security_path_unlink() and vfs_unlink(), so it gets the same checks as
+unlink(2).
+
+Does this address your concern?
+
+Thanks,
+Shaopei
+
+[1] https://github.com/exfatprogs/exfatprogs/pull/412
+
