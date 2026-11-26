@@ -1,124 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795713115;
-	b=Ao0hZraRdz7fKHGmF5y7DGRAJ/VMx2oaQyPhe9wDE3X3Kh78bkNnoo815F1FsALJXQLF
-	 k8XN/w8KvHmbKbo6mWqUX2PbZEO65TY3H1j+JKL+xkbqugzS6xeAQTWHRPlfRtQSYMW+5
-	 tjyYWmqHlU+hwUkswepJnwgN8Me+RC5jXyG+gWFoVmiUAjTsCWOhq6fPwh6sLJBYEONey
-	 WUEXYafSe7UZQ58BZweS1A+jq223DEmGa/r0ly12/xg/pTRd9MOgmQrDnCPtD5W3Z40rD
-	 z+sccuIdvZoZDiCLQSNtgVlT8TQhjvzAEwld8DIYwa1PMyQ+q9+8mxjlMXVh8KkIPGA==
+	t=1795713570;
+	b=oFRoEPj6usUXVXrDV5SQOpjvi52Xwc5PT7zE0bXPbiD63j03bHU1bpMepE9wWImmvujM
+	 XX7gGbF+hpoo3Fc6IPw9uu803DM1fuMYq8n5A2dVm9S6S2mDac8D8eCrEK+21UFpW1gzb
+	 4VWUIgaA0jfuVbaJYQ/JIxOJi1qmJ/ipAzTpsRh8vXKEwP1SUUQ2hE0pLii3fnc5nP+b8
+	 iXY3WOEeaqjeaUQTUC0fOPkgAdhN2A9zK3Dyoz6hRIab+/mp6IpvVYGT8w4BVTEE6HEW3
+	 gcQex7J1GH7rg0R3YwOexRQUpa2ujbb4pBd7LoM+6Bh4hjeevYAkffNBf+RJIapsSYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795713115;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=zcsn+s07qIWSCH6CAt8hTslj76QVGyHgKy0O9c7o/Tg=;
-	b=VF6zbzRGdPem+j48CQDvlZa5tbk1bEqE0wdFO+qUCD+ANd1W4bOj2akOItTxiQTp7xri
-	 YQPOF5O4ZeBkeTRH2885EcIIESE3D69ysU9qKa2BIZv6ycoAtcSh4T8lCw69K5xRGBu3o
-	 LGNPd/YsHsOJq3GfFkeC8rt4lLcExqes6c5sC2kn89qG46tx79A8IWB2PNYOrzSSE92Hd
-	 hJX91qAPerA1LEK81rELA1nTqIjWjFFzxdBFNJTWfj8/fVgGPTSwXnMH7iWpXGLdgk6ZF
-	 0Gv+aeCgil+AYpCQpNa5PFG2wAvpvhS8rnWFD64mGl3S66vt8Si8QkZlKAY1P5ypKXA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795713570;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=oSy2smLc3cNbTuqMdwegN2l5C49OxKMBQCUYEQkVoUo=;
+	b=gN9ZwAsRl45RdZL6jid8zph5udqQCCn/oHRDB2zhON30Wej/Qbi1Mc7YsocoOTt6+mdI
+	 q6LuVevpQg/KwCB9fDkkMLdzGLY85A5813VWqjuAkj3e/EcJ+3aMtk5u2sjZ3vfZbU2g+
+	 TdkJfdSd5BSmrdGAyTzyoFH12oXTPZ+4siZoIGf68/kVT8ZZwyFYI4Uhkw7KotuvhxXJd
+	 SCRo4tWn73lZ1fmnN4R5qLkdOHavcS9uVNQsfT7m+Dv1UcQ1BZ9/q/aLBsvpumyexCGEk
+	 1ab14z1V8W3In5qnQrB/QWkm9fIi3ieUt7ipm3zLuhyq/idn0VqvrGwZjQO2Vh0MnpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=TWdAx69I;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=ND0oRZ09;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UmRWgeKR;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C951A606A31E
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 17:11:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C951A606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2336606A31C;
+	Thu, 26 Nov 2026 17:19:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=TWdAx69I;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=ND0oRZ09
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795713114;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zcsn+s07qIWSCH6CAt8hTslj76QVGyHgKy0O9c7o/Tg=;
-	b=TWdAx69IrYARhTQfZ2JmEinERFzAxF+LtOGWTRh+c/F34S6nk+zuEfj66aownViQk77h/e
-	SY6q0w76eF0/H+X4bQo+D4/0ckOOrbs1iDtUCpMKb2RwL8DL61UWEV8Qu8gWnHqRsle6ST
-	jkAyQ98lr/78engHuv017Az8iLc1yTc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-321-X2DhAOJ0Ox-zbJRzaYOgcg-1; Thu, 26 Nov 2026 17:11:52 +0000
-X-MC-Unique: X2DhAOJ0Ox-zbJRzaYOgcg-1
-X-Mimecast-MFC-AGG-ID: X2DhAOJ0Ox-zbJRzaYOgcg_1795713111
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-4aae099f5baso3626451f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 09:11:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1795713111; x=1796317911; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zcsn+s07qIWSCH6CAt8hTslj76QVGyHgKy0O9c7o/Tg=;
-        b=ND0oRZ09iH5VKNjM3Z3yyODiZusaAt8XXxuQQf8PiLp5ogqthdgeNVANplxk/nlF4o
-         aVsEb3p84X1XCz3LfZSRhBCxKc9kpukv42t9cdHKDwN89tLsx56zTXDsmP2cnGL6aEHR
-         /qG8+5BGufnymkYXWCUp9J/UwrCauibFEpGEZzaHdU3azyOtC42/SViP1Oa04tei2jZ2
-         roggv/8yqSdduW7sek3QGfzFz8bzdGIhAatYFRTB3WX4lNSLI+TFRLDSkXZlarDlWi3u
-         PFb6hbl5v+f7kTexRbIcv3RMn/eV+G1swqknZVWSVM7G+5Pp02olXpyoxtAfq8GnaAdN
-         1mog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795713111; x=1796317911;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zcsn+s07qIWSCH6CAt8hTslj76QVGyHgKy0O9c7o/Tg=;
-        b=i/TtX/ojV/8RJmCditErpXJ0i/Md0OhNiHhkb8foYJMCKbKiK5Gwo+x7BX1qCMR575
-         5eaHYZ9+wxnk2sbvm7wlKZUjFOBxVcwC31kpuI5N3Rfx5pnvMt6W5nyNYFAwKz+2AigI
-         z2sNXxmvgWb8kMObd3ZieJQUwAi0g7w2v2LTNxSYw/wuCxaUWIjyDABg/pPhOUb/2n9p
-         0vueRUiEtfnYapO0ejwi1e9nRjGM3DoxMBL/yJ+kjUnkXObu7uyDkAT6bTytW8vVwJUq
-         AnDEmMSt886ETdGDq2tWJ0BAHCnfMHiImMhkKchFRCWWxctCvWLC8RZ4is48hId8KgnI
-         hmPw==
-X-Forwarded-Encrypted: i=1; AL+hErH9tfqvrp/64O2wWuS0FtSoB/q9ifUxR5f5k9s2y7J/eX2b7usFfiPc5ZjvfeGm1JH9HOhhaLoyRaI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+hxEp7PiClUOrQH5rJYfYIAPvUHJ4FAd3awRrZ+XDuA5MPftuu
-	AkUzedKJZLpZVlMoKt0tgVtHNw0bDz1fg22SNjmu2gMhOldtIeGxBP76HAVCYx3IA4zh5hc25cf
-	HXGcLvN0cf4FbpD70yLEhuRihs+Lnj0FKMuu6gDiyfLlFPCqXpiwcevcycJemGg==
-X-Gm-Gg: AZFdTZdAIRk98wr75QR5mQ6L2qoxZ1IeSpbDfCVidOpdaAsqhzzRyMIbR67IE1AmAkL
-	2mfH00ks2lTMv/OEwiTqip+UuoetPT0Let6jDr2rh2GDCbPDZWVX1qey1hS20HQ272JLeIdDWA4
-	x2DQstGPZQWODC+9YHwuoqao9Uj4OM+yj41TAosBoQXUKr9+n3cq8emLnsMpYTL6onvGMBHdfeB
-	tovpzR7Ebeizhs5zN0WIazhAc/w+7ILJgJL6sJNQYkWhNMnB0JlMi3GcyS3+og5XyirZslA1D7J
-	A4q5JBCFAINlwiCMO1rR/N1CmgStK0aTPhB1mVSH75jGQKl8HSv9Ezaf0U4ljD7MH3YPkxBwbrR
-	Psrl0e1oTzvUWPOCE1s6ufs4gxgut2iWuMNjdAGkOh6JvNyeLKydk4Q==
-X-Received: by 2002:a05:6000:186b:b0:4a6:4f35:336b with SMTP id ffacd0b85a97d-4abab02c60amr43563875f8f.5.1795713110951;
-        Thu, 26 Nov 2026 09:11:50 -0800 (PST)
-X-Received: by 2002:a05:6000:186b:b0:4a6:4f35:336b with SMTP id ffacd0b85a97d-4abab02c60amr43563788f8f.5.1795713110359;
-        Thu, 26 Nov 2026 09:11:50 -0800 (PST)
-Received: from sgarzare-redhat ([80.116.143.202])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b10b5f6sm39482837f8f.34.2026.11.26.09.11.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 09:11:48 -0800 (PST)
-Date: Thu, 26 Nov 2026 18:11:40 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Cc: Bobby Eshleman <bobbyeshleman@meta.com>, 
-	Alexei Starovoitov <ast@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Bryan Tan <bryan-bt.tan@broadcom.com>, Vishnu Dasa <vishnu.dasa@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>, 
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	virtualization@lists.linux.dev, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, bpf@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	Sashiko AI bot <sashiko-bot@kernel.org>
-Subject: Re: [PATCH RFC v4 2/8] vsock: report datagram receive and send queue
- state
-Message-ID: <awhnykxnmbUH3tlG@sgarzare-redhat>
-References: <20261124-vsock-dgram-support-v4-0-3607484e85e8@redhat.com>
- <20261124-vsock-dgram-support-v4-2-3607484e85e8@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UmRWgeKR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FB111F000C0;
+	Thu, 26 Nov 2026 17:19:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795713569;
+	bh=oSy2smLc3cNbTuqMdwegN2l5C49OxKMBQCUYEQkVoUo=;
+	h=From:To:Cc:Subject:Date;
+	b=UmRWgeKRj4DvIvaRNu1iZI/R0f19ezl7i4Zt8PH+IfgoPGiYLw151aOaZUmyWrzOB
+	 Xjcvf/0hLWnwEub2FPU75PZaYXPIMdkd4UNCUl0dlX46BqRndiHo7hru8y5j9LFeZh
+	 pF6/OPmjwHo1elLrVQr+Ka9ycEQ4gVwTm3EB5vLN0F8MLCozwmaDBskJBw89e5q0mM
+	 Msx24JFRNZ2HOw3x6IYBMG4Rryb30Inc6L5NmmHYVvaYHvqcDbQvCHR1RB1RJ+PcDC
+	 aXllP5nFm3SBN1EaH5InqZsyweKzAOCqmq1OI5diu7zEHA39+zXdNJ5PvF44zC1Sba
+	 ZIRQWqww80pVw==
+From: Sasha Levin <sashal@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Sasha Levin <sashal@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Willy Tarreau <w@1wt.eu>,
+	Leon Romanovsky <leon@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Marc Zyngier <maz@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	David Hildenbrand <david@kernel.org>,
+	Security Officers <security@kernel.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] docs: ask AI-assisted patches for short changelogs and a cover letter
+Date: Thu, 26 Nov 2026 12:19:23 -0500
+Message-ID: <20261126171926.2766137-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -128,138 +77,96 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20261124-vsock-dgram-support-v4-2-3607484e85e8@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 24, 2026 at 01:20:20PM +0100, Sergio Lopez wrote:
->Datagram receive queues hold whole messages, and transports may charge
->queued datagrams to the socket send buffer. Report the size of the
->next datagram payload for SIOCINQ under the receive-queue lock, so
+Commit messages written by AI coding assistants are too long, and
+maintainers keep saying so. Greg: "LLMs love to write a lot. Please
+always rewrite the changelog text to be sane and concise." [1] Linus,
+on a pull request text that read like an LLM's: "you can tell it to be
+a bit less verbose" [2]. Marc [3], Eric [4], Hans [5], Andrew [6] and
+Jonathan [7] are a few more examples from this year, from different
+subsystems. security-bugs.rst already carries a paragraph on the length
+of AI-generated reports. The messages read like a copy of the
+assistant's analysis, and what a reader needs is buried in them.
 
-Why only the size of the next datagram?
+When an assistant does trim, the opposite problem shows: a few lines of
+a backtrace do not tell a reviewer how the failure was produced. Leon
+showed a case where only the full log revealed that the crash came from
+an out-of-tree module written to provoke it [8], and Willy suggested a
+short quote in the changelog plus the full log attached [9].
 
->concurrent recvmsg() cannot free the skb during the query. Let
->transports override the length calculation to exclude headers such as
->VMCI's.
->
->Report datagram write readiness only while the send buffer has space.
->Set the asynchronous no-space flag when it is full so freeing pending
->send buffers can wake poll waiters.
->
->Signed-off-by: Sergio Lopez <slp@redhat.com>
->---
-> include/net/af_vsock.h         |  2 ++
-> net/vmw_vsock/af_vsock.c       | 32 ++++++++++++++++++++++++--------
-> net/vmw_vsock/vmci_transport.c |  9 +++++++++
-> 3 files changed, 35 insertions(+), 8 deletions(-)
->
->diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
->index ac061115ed30..e4fbea3b0e46 100644
->--- a/include/net/af_vsock.h
->+++ b/include/net/af_vsock.h
->@@ -124,6 +124,8 @@ struct vsock_transport {
-> 	int (*dgram_enqueue)(struct vsock_sock *, struct sockaddr_vm *,
-> 			     struct msghdr *, size_t len);
-> 	bool (*dgram_allow)(struct vsock_sock *vsk, u32 cid, u32 port);
->+	/* Optional payload length override, called with the receive queue locked. */
->+	size_t (*dgram_payload_len)(const struct sk_buff *skb);
+This series gives each kind of content its place. Patch 1 tells coding
+assistants to keep the commit message to the point and to put the
+evidence into a cover letter, which every patch or series they prepare
+has to come with, a single patch included. It lists seven items that
+the cover letter has to contain at a minimum. Patch 2 names the cover
+letter in security-bugs.rst and keeps the reproducer out of it there,
+as the cover letter goes to a public list with the patch.
 
-I was trying to figure out how it was implemented for virtio with the 
-entire series applied to see if it's just a constant, and thus avoid a 
-callback, but I noticed that it's removed afterward. What's the point of 
-adding it in this patch and removing it right after?
+The cover letter stays in the list archive, and the Link: tag or the
+patch-id of the applied commit leads back to it. The full log can then
+be found from the git history without being part of it.
 
-Thanks,
-Stefano
+What follows is an example of such a cover letter, written for this
+series. The seven items are about both patches unless one is named.
 
->
-> 	/* STREAM. */
-> 	/* TODO: stream_bind() */
->diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
->index d5cf240d4ece..8a271eb66860 100644
->--- a/net/vmw_vsock/af_vsock.c
->+++ b/net/vmw_vsock/af_vsock.c
->@@ -1359,16 +1359,20 @@ static __poll_t vsock_poll(struct file *file, struct socket *sock,
-> 		mask |= vsock_poll_shutdown(sk, peer_shutdown);
->
-> 		/* For datagram sockets we can read if there is something in
->-		 * the queue and write as long as the socket isn't shutdown for
->-		 * sending.
->+		 * the queue and write if the send buffer has space and the
->+		 * socket isn't shutdown for sending.
-> 		 */
-> 		if (!skb_queue_empty_lockless(&sk->sk_receive_queue) ||
-> 		    (sk->sk_shutdown & RCV_SHUTDOWN)) {
-> 			mask |= EPOLLIN | EPOLLRDNORM;
-> 		}
->
->-		if (!(sk->sk_shutdown & SEND_SHUTDOWN))
->-			mask |= EPOLLOUT | EPOLLWRNORM | EPOLLWRBAND;
->+		if (!(sk->sk_shutdown & SEND_SHUTDOWN)) {
->+			if (sock_writeable(sk))
->+				mask |= EPOLLOUT | EPOLLWRNORM | EPOLLWRBAND;
->+			else
->+				sk_set_bit(SOCKWQ_ASYNC_NOSPACE, sk);
->+		}
->
-> 	} else if (sock_type_connectible(sk->sk_type)) {
-> 		const struct vsock_transport *transport;
->@@ -1632,10 +1636,22 @@ static int vsock_do_ioctl(struct socket *sock, unsigned int cmd,
-> 			break;
-> 		}
->
->-		n_bytes = vsock_stream_has_data(vsk);
->-		if (n_bytes < 0) {
->-			ret = n_bytes;
->-			break;
->+		if (sk->sk_type == SOCK_DGRAM) {
->+			struct sk_buff *skb;
->+
->+			spin_lock_bh(&sk->sk_receive_queue.lock);
->+			skb = skb_peek(&sk->sk_receive_queue);
->+			if (skb && vsk->transport->dgram_payload_len)
->+				n_bytes = vsk->transport->dgram_payload_len(skb);
->+			else
->+				n_bytes = skb ? skb->len : 0;
->+			spin_unlock_bh(&sk->sk_receive_queue.lock);
->+		} else {
->+			n_bytes = vsock_stream_has_data(vsk);
->+			if (n_bytes < 0) {
->+				ret = n_bytes;
->+				break;
->+			}
-> 		}
-> 		ret = put_user(n_bytes, arg);
-> 		break;
->diff --git a/net/vmw_vsock/vmci_transport.c b/net/vmw_vsock/vmci_transport.c
->index 1f186e8f8364..2b9493e987d1 100644
->--- a/net/vmw_vsock/vmci_transport.c
->+++ b/net/vmw_vsock/vmci_transport.c
->@@ -1761,6 +1761,14 @@ static int vmci_transport_dgram_enqueue(
-> 	return err - sizeof(*dg);
-> }
->
->+static size_t vmci_transport_dgram_payload_len(const struct sk_buff *skb)
->+{
->+	if (skb->len < sizeof(struct vmci_datagram))
->+		return 0;
->+
->+	return skb->len - sizeof(struct vmci_datagram);
->+}
->+
-> static int vmci_transport_dgram_dequeue(struct vsock_sock *vsk,
-> 					struct msghdr *msg, size_t len,
-> 					int flags)
->@@ -2075,6 +2083,7 @@ static struct vsock_transport vmci_transport = {
-> 	.connect = vmci_transport_connect,
-> 	.dgram_bind = vmci_transport_dgram_bind,
-> 	.dgram_dequeue = vmci_transport_dgram_dequeue,
->+	.dgram_payload_len = vmci_transport_dgram_payload_len,
-> 	.dgram_enqueue = vmci_transport_dgram_enqueue,
-> 	.dgram_allow = vmci_transport_dgram_allow,
-> 	.stream_dequeue = vmci_transport_stream_dequeue,
->
->-- 
->2.56.0
->
+1. Based on docs-next d3b70c91af11 ("docs: ioctl-number: update DRM
+   entries") plus "docs: submitting-patches: ask bug fixes for their
+   user-visible impact" [10], which changes the same step 6 as patch 1.
+   Nothing else was added. No architecture or configuration, these are
+   documentation changes.
+
+2. The problem was reported on the list, in the mails [1] to [9] above.
+   No tool found it. The text of both patches was written with an AI
+   coding assistant, Claude Code.
+
+3. Not a kernel failure. The problem is in the patches that reach the
+   lists: [1] to [7] are replies to such patches and pull requests, and
+   [8] has an example of what a trimmed log can hide.
+
+4. No reproducer.
+
+5. scripts/checkpatch.pl on both patches: 0 errors, 0 warnings.
+   "make SPHINXDIRS=process htmldocs" from an empty output directory,
+   with and without the patches: exit 0 both times and the same 57
+   warnings, none of them new.
+   One trial of an earlier draft of patch 1, from before the paragraph
+   on vulnerabilities was added: Claude Code with Claude Sonnet 5.5 was
+   given a tree with the text applied, at the parent of 8e83fac77aa97
+   ("bootconfig: Fix xbc_verify_tree() to check subkeys of valued
+   keys"), and was asked to fix that bug, with no mention of cover
+   letters. It produced a [PATCH 0/1] with the seven items in order,
+   the captured outputs copied byte for byte, and a commit message of
+   16 lines.
+
+6. Nothing failed, so there is no output to show.
+
+7. Not done: a full "make htmldocs", only Documentation/process was
+   built. One trial with one assistant says little about the others,
+   and the vulnerability case and patch 2 were not tried at all.
+
+[1] https://lore.kernel.org/r/2026073057-moustache-unfixable-5ab1@gregkh
+[2] https://lore.kernel.org/r/CAHk-=wgXU50=KgZNZc1JDxsSxg9Z+DjG1_2yU-fNXpZtUe4XDw@mail.gmail.com
+[3] https://lore.kernel.org/r/861pf9xgkc.wl-maz@kernel.org
+[4] https://lore.kernel.org/r/CANn89iKErdqHOGFpQLM_MAi-LcAaR6ZR2_rhdtZzv1TJc2L4RQ@mail.gmail.com
+[5] https://lore.kernel.org/r/ab5c5ae1-1bfd-4fe4-adef-fb64b5b3dfbb@oss.qualcomm.com
+[6] https://lore.kernel.org/r/ef2eb733-4b94-4c2e-9165-0b324733a482@lunn.ch
+[7] https://lore.kernel.org/r/20261121195920.573a0727@jic23-hlaptop
+[8] https://lore.kernel.org/r/20261125125739.GA14811@unreal
+[9] https://lore.kernel.org/r/av7tY64O34gbJvH_@1wt.eu
+[10] https://lore.kernel.org/r/20261116200515.352387-1-sashal@kernel.org
+
+Sasha Levin (2):
+  docs: coding-assistants: ask for short changelogs and a cover letter
+  docs: security-bugs: ask AI-assisted fixes for their cover letter
+
+ Documentation/process/coding-assistants.rst | 86 ++++++++++++++++++++-
+ Documentation/process/security-bugs.rst     | 17 ++--
+ 2 files changed, 95 insertions(+), 8 deletions(-)
+
+
+base-commit: d3b70c91af11cdf08aebbfdb166b333ada0276be
+prerequisite-patch-id: 3fe9b4033dfb06bcc2898e76439d04a11a239c33
+-- 
+2.53.0
+
