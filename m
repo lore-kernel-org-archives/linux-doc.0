@@ -1,108 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795708270;
-	b=GhwEEKYVSJPdzoIcfmUoR0OvKIDHl6l4FwyKBRBVmly4R2vky7kBkfqwZdjStrnUiCrI
-	 DQgh/G07Rv9Wh/y4g4I6lyMw3qONGYCdftu1aD7CrmOq33cF792RMZtEAwXZ1QHe3c06S
-	 eZ5WA9nmpkfDvFTD6zwQgST846QwJOOmUUEGtRcec/MxeiI8E0lBwz68iaj179xMbp9Bf
-	 CusIWPtfQjKAZoFlc3WOK7UO2nUg7oK9m2VF53AEHJXM85g5CE11vcNG3MJM2aVCK04u8
-	 KSIth6k/FC1hiBWCYdi3kHn8utXX0k518fpbKVOOjTdUmRp+ouQT9Ag9PLb+FWkWPJA==
+	t=1795708494;
+	b=Q+yljGyNguYFAuw4jrJ6DmcjC2zQx8z5M/AgGiRWlUU7Cp12yF7q3i2ja9SzYR1WXXi9
+	 iDFfgcVoKluW6aa6RWWld3Sfg+Ou7t3Gjs65+VISR3DgZ9MxI2BUPAiK1FaQn2uwrHJ7g
+	 XYjiRE8lfrs+PlUYt7i6lszfn6IWY39ZvtGyhD1WDZMzIpGyKc5nJJkFKFNsxx2e37iml
+	 /1XzLFQgwSc6ILLq2dcyedNAhKdPc3cvAtgPfRMg2L8cSxtSOWqXWkaOwwABXA4kAH/oI
+	 WeyJpPotrQDYEeCz8Ylo5pfG+24qG7EmVrO8uNjwXRmWyotibtcRW0phyTA1YuajlCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795708270;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 Reply-To:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:User-Agent:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=rcSC6SHOKAMlPC589ecnuSlpZy8XS2mkiX0DtJsa3g0=;
-	b=nEJHOEmttVkEEyF8JRA1ATcisxtD/YTix+VnxPbQfVC6xlA212voTi6Q4zGdHNENFw6A
-	 sJvKeP7kX8LZe1YtrRdw6tB0hwn5RzKvMMxnpmp9PrLI/+G/bcanBj30Akg/4nJtg47fQ
-	 Xfg3VTta6AoSncIcTAc19+igCSP0uN2oXq7GZJjBMRhNDPKZnjhVDB4mIflupJXnDgFTD
-	 7jebKFpq5y3NF3kecqVz/4qtLOXftU/h/Wsvcv2sQuB8WrVCIerYTfaTUXXIUOOonJv/w
-	 D6wnRR7fLfEM/K9AR3emGeDTsvUnPObDHDet+0Vr6fgb1muhWbktE+I0N9gYt1pSnnA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795708494;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 Received:Received:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+	 In-Reply-To:X-CMS-MailID:X-Msg-Generator:Content-Type:
+	 X-Sendblock-Type:CMS-TYPE:cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:
+	 References;
+	bh=5M9xtfTWt/rD6V3Yq9/gJOzmL0PuY9q0JOmTonMrkYc=;
+	b=tTMXDsUPkUve7LOve57bQ+wovpB8krKhrLyTc2oyUo8bfPs8UHFbmkkco6wY5rUJEBCc
+	 lE+81OIQ7Ujy+oNovCftuduV39P0ZmAG49Ss5d/+y9n7difPoAhPry+QMhEoKV6Huu17k
+	 tq8APb3vqE5uV3xVgtma9mFc+kD96vEUiyg4L/6TCmwFPkoqlZmIE0eM5pDVi5d/QJLQO
+	 b2XRjuLzax61GYeJkPbDoMG98zNLcW4Fy3Hz8UpeEYmB1BwFV/a4nw3YGWN3k7pXmCoRg
+	 j7w9xpNL7V6XUdK4uONuQzToO5ywGHZ7UIeTlrJmuLhhJLhuX1x/697xHlzApjUmR1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=WbcyH0Lo;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NaGNoa1N;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FECM2hlO;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=m2f5Yp+w;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=S8Q+2CV4;
+	arc=none smtp.remote-ip=203.254.224.33
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C06606A31C;
-	Thu, 26 Nov 2026 15:51:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16C06606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A23606A31E;
+	Thu, 26 Nov 2026 15:54:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03A23606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=WbcyH0Lo;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NaGNoa1N;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FECM2hlO;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=m2f5Yp+w
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EB9E122187;
-	Thu, 26 Nov 2026 15:51:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795708268;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rcSC6SHOKAMlPC589ecnuSlpZy8XS2mkiX0DtJsa3g0=;
-	b=WbcyH0LolptFMA7LbvLMaInSQLgkW6kDCsN9PmkxmCr1m75fQvwVs0JB9yT4VMyEjCEOyL
-	emAYj/IC7B3eKame4NT7C3n36dljEHshy32so42RHeFwywIRDNwEshWuOF43gXqarl9xY0
-	9C92e3E4xxUxgOKOaRJJ3EMuoKWtIJc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795708268;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rcSC6SHOKAMlPC589ecnuSlpZy8XS2mkiX0DtJsa3g0=;
-	b=NaGNoa1N9puo2XVXv/2p7X30VwIBuBVdtBwWQXdRSUTWM4jZfEGfvQ4m12E2qNX+4ykQnS
-	GIu0FMz65RpG+cAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=FECM2hlO;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=m2f5Yp+w
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795708267;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rcSC6SHOKAMlPC589ecnuSlpZy8XS2mkiX0DtJsa3g0=;
-	b=FECM2hlO7t/TYc80JieKRBWJfO7p2AlF4bXKxfoEHrqsDEJYqLo8CUkt6xwiw5H3mYmTBr
-	jyyKk3VT+rOMcIuB1GK4uqlU1zDGbkMQPmUCmuSwnDjwkQKEtAtxWwlgm9auwKIYBA7/TK
-	nscnM+Fav0lPUg+a/VAt7B0PlJMZKIA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795708267;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rcSC6SHOKAMlPC589ecnuSlpZy8XS2mkiX0DtJsa3g0=;
-	b=m2f5Yp+wvWSjKhmv9Dzs9KGxZNLCjfeWxIb8uAlJnSjpkn18S/Tvi/Am0Pl/0GYPITgVbA
-	jdYtxGTjd8Ua4ACQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BCC8F134C3;
-	Thu, 26 Nov 2026 15:51:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MkGAHWtVCGuDegAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Thu, 26 Nov 2026 15:51:07 +0000
-Date: Thu, 26 Nov 2026 16:51:06 +0100
-From: David Sterba <dsterba@suse.cz>
-To: Qu Wenruo <wqu@suse.com>
-Cc: linux-btrfs@vger.kernel.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] btrfs: add a maintainer entry profile
-Message-ID: <20261126155105.GD3245297@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-References: <0037554862c0d9dce3ddafd1238347e4b16a5079.1795581896.git.wqu@suse.com>
+	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=S8Q+2CV4
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20261126155444epoutp03dcd4ec9596cec66ed694dc1c2cd611a1~ro1pFr0S32621526215epoutp032;
+	Thu, 26 Nov 2026 15:54:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20261126155444epoutp03dcd4ec9596cec66ed694dc1c2cd611a1~ro1pFr0S32621526215epoutp032
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1795708484;
+	bh=5M9xtfTWt/rD6V3Yq9/gJOzmL0PuY9q0JOmTonMrkYc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=S8Q+2CV47r+jcyB/hxRZQoNdHuxQ/gWyvqpTmqCCGD4I8E1N/8Sp5R2e+BT1h5Dit
+	 Id45RW2ZS5AZJEl/R4M3H3tcJ9xLhuBNVHLz9LrKcWbkmclmhrryoUfbwW/+ukJYtW
+	 oFWXu+LFCdF+trLev1upv67SG1axo8gAriR3T9dQ=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20261126155443epcas5p3efe33a75b41143a93560ac14ae0acd78~ro1oKmgN02527325273epcas5p3D;
+	Thu, 26 Nov 2026 15:54:43 +0000 (GMT)
+Received: from epcas5p4.samsung.com (unknown [182.195.38.95]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4jb1MQ68Ssz3hhT3; Thu, 26 Nov
+	2026 15:54:42 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20261126140745epcas5p4f87a6186091785f4d3de4b69734aed88~rnYO8DwMQ2019420194epcas5p43;
+	Thu, 26 Nov 2026 14:07:45 +0000 (GMT)
+Received: from green245.gost (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20261126140741epsmtip24d507cb1363ab8b6b8b6b2fe8c81b878~rnYK24Eeh1787017870epsmtip2c;
+	Thu, 26 Nov 2026 14:07:41 +0000 (GMT)
+Date: Thu, 26 Nov 2026 19:36:51 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Mengmeng Zhao <mengmeng.zhao@linux.dev>, Anuj Gupta
+	<anuj20.g@samsung.com>, Christoph Hellwig <hch@lst.de>, Christian Brauner
+	<brauner@kernel.org>, Anuj Gupta <anuj1072538@gmail.com>, Jens Axboe
+	<axboe@kernel.dk>, Sumit Semwal <sumit.semwal@linaro.org>, Christian Koenig
+	<christian.koenig@amd.com>, Philipp Stanner <phasta@kernel.org>, Dan
+	Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, Jan Kara
+	<jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, Theodore Ts'o
+	<tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, Baokun Li
+	<libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, Ritesh
+	Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, Jonathan
+	Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy
+	Dunlap <rdunlap@infradead.org>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, Li Wang <liwang@kylinos.cn>, Mengmeng Zhao
+	<zhaomengmeng@kylinos.cn>
+Subject: Re: [RFC PATCH v2 0/8] ext4: Add dma-buf read/write support
+Message-ID: <20261126140651.vzs2gdwajemvf6kt@green245.gost>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -112,60 +92,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <0b76171b-7f2e-41d2-8a5c-102dbe4cb85b@gmail.com>
+X-CMS-MailID: 20261126140745epcas5p4f87a6186091785f4d3de4b69734aed88
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----sfnc.NZyIOBfLTiZTLswaXBSL0w4GQC52Zj1LhBq2cHN2.MV=_ad66_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261124084131epcas5p3098eab1bc134da7aefcc83c646b54a9d
+References: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
+	<20261120154153.GC28611@lst.de>
+	<361c4312-f77b-495f-9ee4-e0b9612b4463@linux.dev>
+	<CGME20261124084131epcas5p3098eab1bc134da7aefcc83c646b54a9d@epcas5p3.samsung.com>
+	<20261124084025.2101804-1-anuj20.g@samsung.com>
+	<3bce3a69-e41c-4683-b1ca-9477dd41a7e0@linux.dev>
+	<0b76171b-7f2e-41d2-8a5c-102dbe4cb85b@gmail.com>
+
+------sfnc.NZyIOBfLTiZTLswaXBSL0w4GQC52Zj1LhBq2cHN2.MV=_ad66_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Disposition: inline
-In-Reply-To: <0037554862c0d9dce3ddafd1238347e4b16a5079.1795581896.git.wqu@suse.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Rspamd-Queue-Id: EB9E122187
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-13.21 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:replyto,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_THREE(0.00)[4]
-X-Spam-Score: -13.21
 
-On Wed, Nov 25, 2026 at 03:16:21PM +1030, Qu Wenruo wrote:
-> This new file is mostly based on my personal preferences, focusing on
-> how to improve the human readability in the LLM era.
-> 
-> The new file should also act as a guide for humans that want to be a
-> long term contributor to btrfs.
+On 26/11/26 10:44AM, Pavel Begunkov wrote:
+>I'll resend it later, how to store the tag is the least interesting
+>part, it can just move inside the block/ext4/etc code, which would
+>be uglier, but whatever.
+>
 
-I understandthe motivation but I'm not sure this is the right way. I've
-avoided adding the maintainer profile and rather created and updated the
-pages in the web documentation,
-https://btrfs.readthedocs.io/en/latest/dev/Developer-s-FAQ.html . It's
-burried so we can make it more visible, but the visibility problem
-applies to the maintainer profile too. The ones who know it exists and
-where to find it are rare. IME it always ends up replying to mails with
-the link.
+What about the f_op method instead of storing the
+tag in multiple users that we support now i.e., block/ext4/xfs code?
+We refined your patches with this approach and it seemed to fit well.
 
-I'd rather keep full contribution documentation on the RTD site, this is
-more flexible to update. As a compromise we can add the maintainer
-profile and add link to the page. We can eventually mention some key
-differences from other subsystems to the maintainer file too, but as
-Leon also noted there's an overlap and lots of General information.
+--
+Nitesh
+
+------sfnc.NZyIOBfLTiZTLswaXBSL0w4GQC52Zj1LhBq2cHN2.MV=_ad66_
+Content-Type: text/plain; charset="utf-8"
+
+
+------sfnc.NZyIOBfLTiZTLswaXBSL0w4GQC52Zj1LhBq2cHN2.MV=_ad66_--
