@@ -1,62 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795727122;
-	b=LwO3w040fKWndpecndNyQnE7CZrRHW0s3A2kH9l7Y45dMe3eYSoOQDho+evmQsulrhsc
-	 vIcfUBNRTDo9zKVC4RqrUbYKeT5Ue/vhaOboiYTVjIKRB/SjRpzI5y/fRPuSkSrfOZkhx
-	 mptKXNYOLKDteVvsQUmeUm74iNMgzulZ5047woWbl3C16WbW012WTZCA73AIaeEZm0RW5
-	 mRy3++Y8Q5IEz95H6g/cSz7aGNVIeo3B3CDwFpA9j9Hvy8AnCA1RZEga1wMb7nZaLRDX8
-	 exBky3KKkULdazymXG8FS3F1cC7V2OZW68cZGiCxF7TTpYvd3FGBTPc4zGf6767YzlA==
+	t=1795727801;
+	b=Ht72IPyGaGGwoK52EOA8m+FK+Kp3BB9qMXWelCiXMejPGyx0xYX+aGrcywPLxxJfY65q
+	 C8jwwcGKq98ROUcw3kkdEahr8P9MJpSc0Rs7FuuIvEek9zB3Z6TRQbf/c1SYPEp8fyAFU
+	 GJQfpy4PGkbuAc2xl4HfR8hw43izT7FZEvevClG0IcNpEGhArU6haOX86npki5Fy0ajQ/
+	 KLPypCsGc6LBnUOlVwhaCFWEFtlnwjvb+YLMMuu2I+nsQ9NvVqwKsepdLqb+8kVopx+hl
+	 cvkmW7++T1NOHOcCLouMwESGdcrSuKMf5/HaehxACly1sbLeeiwYkgVtWN5Yxacspbg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795727122;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=AU7tOSqACc9VyYU5/W+85LR+3JDiRbQenA7UWq30CHA=;
-	b=0W8qpDIaHjYMuKrXeBmTaeHU4rEjdhDjFkOWd+po8NKWK68pMDv00Oa6P4jFU3o/GDXd
-	 +g037Od6S4+3KRzW4Gy/P9zjRgp+lob6dbLXcAxUj+Xd6EKWy9+o+VhVsEzsbHfghukkU
-	 wWKSwaoJ4BFel6VlFufvx5DMiC3DEuC9FaPTn+zqsANrGFcLfqAGHtAOR98mTM1I78SHq
-	 huSe2NeM5lbAsgFxhp3Yl75qksVwGYW1JBRY5coRUyFvm+BkbgkkfaOFDquw18X9ub40d
-	 kMIcRP3mhXVhERRosO3sOirUY9qWeG2qJ6BWy3QYH2hzr2bLalgyJlj5x7cjuFSNSCw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795727801;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=5nCW4MAO5U33E60itT1BNYSCNPq+U7Gmtnf0gOZEkcs=;
+	b=5k+27wBPWnRvQ2ZpjTdhez/Y21m9Niq3H+z0zjZE5d/nox70q3C4fRVHMmSvMPI7XWVV
+	 aNEoNTSqgT+oU00EhyoQOr4Dsbw3EyjOwPNHbfQlMc8ZhNWildlRi5Y3EAXf8S8FFKYiC
+	 u0aMC2n253EEvXgg1b6XAVq/OX1v7MZZS+ibKuXyG/+9uyGxNNBJr92Jmpt97oWLCYee0
+	 BZPlgLeoMwyYPEnHJDw78+e3QWSt6alQoVoVKJkiZe1X3iAbZ5fB48A7jmtQFXT/0HGs+
+	 FhQ3ICseCo/tpkBPfAi0LxzhROhXWPT/MKV6OnoBp6ZTwXSAnOcF/ghlk1pV7BdtnOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wt0fHBhL;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RFCPfX6o;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E84606A31C;
-	Thu, 26 Nov 2026 21:05:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C85606A326;
+	Thu, 26 Nov 2026 21:16:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4C85606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wt0fHBhL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC82D1F000C1;
-	Thu, 26 Nov 2026 21:05:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795727122;
-	bh=AU7tOSqACc9VyYU5/W+85LR+3JDiRbQenA7UWq30CHA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Wt0fHBhLL+7Pgvgh93wEdtikhQUD5HaQHHmaaaAjoGno/76fnASf8aeqAUArImqzc
-	 dHGrInSnTiSFpb8X5yLGjsNDJi/vFg99UYYUwX19go1BZ0FmuAfqZRJKrvtgf2LQ9X
-	 7g/JPSydtTjYIRIVIyAQkiFAH/Sg55RSKCikZQnar5I1L0MIrpNK7liWP7vz3jz1Z/
-	 JjIWVFWePSLI+7LrtPBX3iGRWYb7SBWme6MqWqHcYeMluuSEnKpZIE/LBFhGdvWgoc
-	 fZGUUrYZ3Zb3TY2rXmnc317EeU4lPD4kflZHbnTl4xQbf/c5WK5m/Y21lOip9XY9Sj
-	 kReDhxCqZhrAg==
-From: SJ Park <sj@kernel.org>
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Cc: SJ Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RFCPfX6o
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795727801; x=1827263801;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+b15UN31lbPZUO5Fe6FPuB2I9AA36yHOS5UK/Pyl0sw=;
+  b=RFCPfX6oZca+iTCx98JcUXUmvqFmjgq6iTKPpDmXA/hyF6ps1vZ41eSb
+   CuJKGuWJop2d+RJId+nSxZWqgP5bEp609FYP9pxMBhXzQOQ+89mzQC6vY
+   yc5/wmJxOWLiU9Co5kslMy4JmSLaCDlKqMqX4nUYuwGT+keo53R9ThfJ+
+   cNpu2HikD8MihSO/HTj//gkaur644ijjgh27r42JXE1TseGSM4iV1V8vR
+   7zgVJczP7Gk8W2Cz+JME1EysDcUxU0IYL/UYWk0WOZo5W3ANamIj6nsQw
+   78Ib/LOb60mWf9P8Dql5TbVKMkdN4wHEOZgoCJrOV5SkXB7XQjTFrFMBU
+   A==;
+X-CSE-ConnectionGUID: 79mQUgnMR0SN4ELZgZOxRg==
+X-CSE-MsgGUID: QnSSJprBTuu7W6NeIBIhaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4599560"
+X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
+   d="scan'208";a="4599560"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 13:16:39 -0800
+X-CSE-ConnectionGUID: 9EmEOJZOQTioQ3ydyd6Vhg==
+X-CSE-MsgGUID: D3JfsdMOTOOZuFRZPvpAsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,235,1787036400"; 
+   d="scan'208";a="12167196"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 26 Nov 2026 13:16:35 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWgpT-00000001Uu6-3uKA;
+	Thu, 26 Nov 2026 21:16:31 +0000
+Date: Fri, 27 Nov 2026 05:15:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hannes Reinecke <hare@kernel.org>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <shuah@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v2 00/27] mm/damon: let users report their data attribute findings
-Date: Thu, 26 Nov 2026 13:05:14 -0800
-Message-ID: <20261126210514.97428-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CALa+Y15wc4bgERo_FEwxL4m-NUjx=_o0yPipUN+ymv7HTSUL0g@mail.gmail.com>
-References: 
+	Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Martin Belanger <martin.nvme.dev@gmail.com>
+Subject: Re: [PATCH v7 14/14] nvme-auth: allow to update pre-provisioned keys
+Message-ID: <20261127044024.YlqHcQQx-lkp@intel.com>
+References: <20261126-dhchap-keyring-v4-v7-14-ee438ffea527@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,52 +95,126 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261126-dhchap-keyring-v4-v7-14-ee438ffea527@kernel.org>
 
-On Wed, 25 Nov 2026 23:03:27 -0800 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+Hi Hannes,
 
-> Hi SJ,
-> 
-> On Wed, 25 Nov 2026 18:04:15 -0800 SJ Park <sj@kernel.org> wrote:
-> 
-> [...]
-> > This is the expected result.  The implementation is more strict for type
-> > matching.  If it is unclear, it says the type is not matched.
-> >
-> > For example, if filter type is PGIDLE_SET and we cannot confirm it, it is
-> > treated as not PGIDLE_SET.  For example, DAMON could fail at confirming that if
-> > it was unable to get the folio for the probing memory due to some races.
-> 
-> That makes sense, thank you for explaining.
-> 
-> [...]
-> > In my humble opinion, , the user could work around this issue by not submitting
-> > the report too frequently.
-> >
-> > But the more important question is, if the user really need to do this kind of
-> > frequent report submissions.  I have no clue at the moment.  If it turns out
-> > so, we could improve kernel side.
-> 
-> Agreed, user reports through sysfs are unlikely to be submitted this
-> often.  The main reason I tested at high submit rates was future
-> hardware samplers, which would produce reports much faster than a
-> user would.  I was checking how the queue holds up under that kind of
-> load.
+kernel test robot noticed the following build warnings:
 
-Thank you for confirming the agreement and clarifying the context.  That all
-makes sense to me.
+[auto build test WARNING on 68099cf27253a8c89d703a282d3d811446d9453b]
 
-> I am happy to discuss this further once this series is in and
-> you share more on the next milestones.
+url:    https://github.com/intel-lab-lkp/linux/commits/Hannes-Reinecke/nvme-auth-modify-nvme_auth_transform_key-to-return-status/20261126-151219
+base:   68099cf27253a8c89d703a282d3d811446d9453b
+patch link:    https://lore.kernel.org/r/20261126-dhchap-keyring-v4-v7-14-ee438ffea527%40kernel.org
+patch subject: [PATCH v7 14/14] nvme-auth: allow to update pre-provisioned keys
+config: hexagon-randconfig-1001-20261127 (https://download.01.org/0day-ci/archive/20261127/20261127044024.YlqHcQQx-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project fb29ca8163c3309160711e5a14eb46bc6d4fdad2)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261127/20261127044024.YlqHcQQx-lkp@intel.com/reproduce)
 
-Sure!  Once I sure this will be landed, I will share more details about the
-next plans on the beyond-page table accessed-bit extension project roadmap
-thread [1].
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261127044024.YlqHcQQx-lkp@intel.com/
 
-[1] https://lore.kernel.org/all/20260525225208.1179-1-sj@kernel.org/
+All warnings (new ones prefixed by >>):
+
+>> drivers/nvme/host/sysfs.c:891:17: warning: variable 'old_key' is uninitialized when used here [-Wuninitialized]
+     891 |             key_serial(old_key) != key_serial(key)) {
+         |                        ^~~~~~~
+   drivers/nvme/host/sysfs.c:853:27: note: initialize the variable 'old_key' to silence this warning
+     853 |         struct key *key, *old_key;
+         |                                  ^
+         |                                   = NULL
+   drivers/nvme/host/sysfs.c:996:17: warning: variable 'old_key' is uninitialized when used here [-Wuninitialized]
+     996 |             key_serial(old_key) != key_serial(key)) {
+         |                        ^~~~~~~
+   drivers/nvme/host/sysfs.c:959:27: note: initialize the variable 'old_key' to silence this warning
+     959 |         struct key *key, *old_key;
+         |                                  ^
+         |                                   = NULL
+   2 warnings generated.
 
 
-Thanks,
-SJ
+vim +/old_key +891 drivers/nvme/host/sysfs.c
 
-[...]
+   848	
+   849	static ssize_t dhchap_secret_store(struct device *dev,
+   850			struct device_attribute *attr, const char *buf, size_t count)
+   851	{
+   852		struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+   853		struct key *key, *old_key;
+   854		char *dhchap_secret;
+   855		bool generated = false;
+   856		size_t len;
+   857		int ret;
+   858	
+   859		if (!ctrl->host_key || !count)
+   860			return -EINVAL;
+   861	
+   862		len = strcspn(buf, "\n");
+   863		dhchap_secret = kzalloc(len + 1, GFP_KERNEL);
+   864		if (!dhchap_secret)
+   865			return -ENOMEM;
+   866		memcpy(dhchap_secret, buf, len);
+   867		nvme_auth_stop(ctrl);
+   868	
+   869		key = nvme_auth_extract_key(dhchap_secret, len,
+   870					    &generated);
+   871		if (IS_ERR(key)) {
+   872			kfree_sensitive(dhchap_secret);
+   873			return PTR_ERR(key);
+   874		}
+   875		down_read(&key->sem);
+   876		ret = key_validate(key);
+   877		up_read(&key->sem);
+   878		if (ret) {
+   879			dev_warn(ctrl->device, "key %08x invalidated\n",
+   880				 key_serial(key));
+   881			if (generated) {
+   882				dev_dbg(ctrl->device, "revoke host key %08x\n",
+   883					key_serial(key));
+   884				key_revoke(key);
+   885			}
+   886			key_put(key);
+   887			kfree_sensitive(dhchap_secret);
+   888			return ret;
+   889		}
+   890		if (!generated &&
+ > 891		    key_serial(old_key) != key_serial(key)) {
+   892			dev_warn(ctrl->device, "cannot change pre-populated key %08x\n",
+   893				 key_serial(old_key));
+   894			key_put(key);
+   895			kfree_sensitive(dhchap_secret);
+   896			return -EPERM;
+   897		}
+   898		mutex_lock(&ctrl->dhchap_auth_mutex);
+   899		old_key = ctrl->host_key;
+   900		if (old_key && old_key == key) {
+   901			dev_warn(ctrl->device, "using existing key %08x\n",
+   902				 key_serial(old_key));
+   903			old_key = key;
+   904		} else {
+   905			if (ctrl->host_key_generated) {
+   906				dev_dbg(ctrl->device, "revoke host key %08x\n",
+   907					key_serial(old_key));
+   908				key_revoke(old_key);
+   909			}
+   910			ctrl->host_key = key;
+   911			ctrl->host_key_generated = generated;
+   912		}
+   913		mutex_unlock(&ctrl->dhchap_auth_mutex);
+   914		key_put(old_key);
+   915		kfree_sensitive(dhchap_secret);
+   916		/* Start re-authentication */
+   917		dev_info(ctrl->device, "re-authenticating controller\n");
+   918		queue_work(nvme_wq, &ctrl->dhchap_auth_work);
+   919		flush_work(&ctrl->dhchap_auth_work);
+   920		return count;
+   921	}
+   922	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
