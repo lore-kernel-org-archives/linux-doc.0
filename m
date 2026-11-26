@@ -1,54 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.242
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795686214;
-	b=zRYLShOajR1XI50pz4FgDkXhwxxECT4nAEHUBg10boppHzre1liS7V3ZUgvvoE0Qk7PX
-	 IX+UfZvWkS0fAxPDPoRDlfD7Mqz7e0rzIDY82uYAVYZ97DeSaM5jUAB0wTGEjwqpAeoEf
-	 eDK9/f3Mg/lPiUtObe91VQ2NZ3d7d4KpA3tUY/gE7g/AeFziAN8HqaSO9z66V+zuCWprG
-	 r+t4lDgUjh5i6eLSIWPIznHEp2G80/cnEt5efaSSg2FR0WRwUTvxkNB7lARI8NKFr5ajq
-	 1YhpdLWrMCPHD2JjYzMEbp7zPzUBWQHeCUhdf0prJCnQmAS3LpQf7qwIka5+1w32QHQ==
+	t=1795686330;
+	b=D/DHkqcM/snC7BpjzkJPRUDvKdneVPaLuZjd4Uuflz3KBi7UWcUcp+Y7A7KY8IwZ82/o
+	 uwCq1CAORECaQsjUyohhKelrZ7EhQwx/71urVu8kD7QO/Sq3yUa3zlzBqBPAWOte7nDrN
+	 C2qZqeT/0bDWLlpZrQyOg++y2wxMuBWi/+ZM/K4PEAfDLAoZ+90QsDNFXJgvNteoeCGBG
+	 MGmCo1+mTZtKkKiNaV9fP7CGPRU9Xms2DRk45SqW2RotFHV20zcba/6llrphC5Kh8R14m
+	 KMD9Rhjv4T+AeiDlKlxCokbW+FcYdd5zi0wJfVZ89PjQPrAVt/OgDFtOfIczxR/Q56g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795686214;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=45243M13KOvb9KniU4MCiqJ1WOWt7TIcLK3eH++OB0U=;
-	b=MuEYJccMPXiBKuEYRxks7lRPy8CtcPhgrM/jvz0GnVVag8c23f2lOZgJqSBo/Tuf2a3e
-	 ouGa4JS7UioBwtZTVLq0f3owuELn/zIl+rsYqyHXg/UG11wHD9Vn9TS/oGjeDekIeJ8sS
-	 F5ebe0pA4VqqRxnGW760Q8YwzhHUQJ/IgpwsQ14sGH9i3g2IHvaCZhaps1mDMXTXY3r5n
-	 vUZ3MT0h1qvAeX3tboleh/5Uv5pc+8RqwXSLDWvKSYEyP3FCAdkKU84+n82BxXastpGiT
-	 iBNogr/gMRU7DkvpYFX8A4+Te60jqLxGLuuC9O4yIQYuAp31yaAPCDFevYKbdw8VZ2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795686330;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=RHMpBqQRoMtd9sTA0lpFlz4dxCc29ZbqLl0UJOwJgLQ=;
+	b=gqeQzGdviZOR2YFjSWGlhUtf0zlbQQwEX+TzSeJ/XmhfKkjqXzIY9XKC0m26pWEuO6U6
+	 cEdU0RAyLw8BtU42LVl4ids6+hql0cit2BIUrEcZLnHPmJrnlCh8oyt2IR0j698CPp5Jp
+	 qz7w5+TVBTEMbAFJDRXZb29q3f0Bew2RSfMQq+lLHWNXox67qjjaOHOuWI0UHoMwxuJ6b
+	 fA4JtahTWcR9TDvm+9RG8wPXw1sExW7B5mUB8ZkkUy3sJJl6DW+l7QyefC07UbpdYtSXf
+	 J2UI3SaMqKwbzeNFEktOZTkPaaz8r//sD5ppGSIcbkMSgF2vzSh6iTIuNzL3UdSaYCA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=X5m1zwmm;
-	arc=none smtp.remote-ip=91.218.175.242
-Received: from mta0.migadu.com (out-242.mta0.migadu.com [91.218.175.242])
+	dmarc=fail header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.222.49
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D35606A32D
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 09:43:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4D35606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=X5m1zwmm
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=D32CMv1v+3bZYh/n5UdiiqLQfDC+3bfpicw46CnpCFQ=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795686211; v=1; x=1796291011;
- b=X5m1zwmmUc6pxxpJk42goqzglAFVJR222zZ/211EZRBRW6HPJiZSnrWREX/AIIWBcY2J2KTz
- mGUOV42Gknh3+Low1hXhU7rF90Ple6A06zQh7Mfkh6VUQW8uWnk55o2j+x4M9dpXl/rgbL0N3Cv
- F/Etamn1HGVnTDJBb7qfYZwo=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 5d6fe757d0ca69c4;
-	Thu, 26 Nov 2026 09:43:30 +0000
-X-Mizu-Trace-ID: 5d6fe757d0ca69c4
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <387237c3-c2f8-4782-9ba6-481f459cf7f2@linux.dev>
-Date: Thu, 26 Nov 2026 17:43:14 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F233606A31C
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 09:45:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F233606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-99e156fe905so4921005241.1
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 01:45:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795686329; x=1796291129;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=RHMpBqQRoMtd9sTA0lpFlz4dxCc29ZbqLl0UJOwJgLQ=;
+        b=F5lLvgKr1/VyVJt3CDHii38L7pVuBequatXRbDWZ0HASx5gCndySjnfIDZRo+tOl3i
+         RH4wLML3q/fYEfUn+ADGb0QLU3RH4/W7jNccswg41YCWIMn5fNbYcRhw3P13RsDD6K1I
+         JfOqc1hzpfCDminOO7u6JKkn2pwZS0+PE0PUtNzkTtqEwfLeFchwsnE2iJZtCXaDQ3Cb
+         bZFfalB+opUOoQUjB8q2KmAoMk1Rf3fT577zncwsE6ZBaIPk/vnVPCmlyedh8NPasGuC
+         luHkwsj018n7Xqh2SBc/AHvJzo8pTJq6UnZR86C8102CUwi/63k+zmb5EmYBScksFaj4
+         VHbw==
+X-Forwarded-Encrypted: i=1; AL+hErGcfCH39OfmuDH+KfTrUN+KHl2TLPrEVdsDbre6ErjZEtj1tkcqSOMFeJLs2WFMKZz2TmcQAjuO8lU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+5EU61MdxMMjAbz1zczL3V/T5EiUl8iZjax2qWgbZS/6/5VMrh
+	aCQ/T8s8LS+JTX1zur39d8/rAu1juQ8Cszbc8wTtCbqA7wSYp49aNW0UgTykMphe
+X-Gm-Gg: AZFdTZfXwZ4laLS3RgYAxoYjI+CF6haVfV3Ftc6ZKV3PtvBqaqwcNuqSJQvCU4NCVuZ
+	KwEXXhxioIhzYYNxq3hF1nerY1V+LwLSpghQlgST8EEu/O/OHER8qV+U0IjwOkm/Q5DBrVhI5OH
+	jc/+NZw7TIRuXBRIS/WJUqhod8MZx21pvyWl+jQNqutCt96/JK3hnCa0PAU+PxV+8+2KH1UFfzH
+	kmovmdaoxHG4Xk+GdvOPkFgHT9D7c6yvqRgA1zR8enMJZIZQOLQNVQLA292ETZ4oioNe1bHOcfP
+	B1WhZq7ykW25KqUWKz3gAos1DdB9Hv3fpTda2KOSrn7YavGiZUIsI19QExEVFdyxiWGTzMJYqVI
+	ispiA1HF56CltfwB8wsQSKDKSqgA5avqWqZRa+Rd98Q/X5aXGSjJAJIHgt+5Vlr8eKQfCZgE0Yu
+	FmsvQT8IWkQWlA08JCPRDMMzL83Utg7lOIpgOrmMakEpOyeyybJL31+nVX/7zBwOCbze7UWmN8E
+	8xy7Ia8oTISdY7gQPqToBgnsRKkv90RHTosDDk7hG/3sOvuHiUMTnAqIpPy6+zf01UWnyU9ACR+
+	5brecAHqzM0abm4HYSX9DSrByVwWddyoG3u3RwUAe4qjnSREVzvnqQOUhNNViLgSoOw=
+X-Received: by 2002:a05:6102:3f48:b0:7d2:cdcb:6b4a with SMTP id ada2fe7eead31-7d6db9d311cmr8305482137.22.1795686329308;
+        Thu, 26 Nov 2026 01:45:29 -0800 (PST)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d6e80cb440sm21369613137.7.2026.11.26.01.45.28
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Nov 2026 01:45:29 -0800 (PST)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-78fb1fb9508so5761836137.1
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 01:45:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHVcmVfmvJXvn6y7Oc3MvfVDMHsBTeQfZBM69vxWfJ8O/BdVQRZ3E7/jAcUwTz4HVSDepSnUdr+Ie0=@vger.kernel.org
+X-Received: by 2002:a05:6102:688a:b0:7ce:a873:731e with SMTP id
+ ada2fe7eead31-7d6dba02e20mr8198948137.29.1795686328507; Thu, 26 Nov 2026
+ 01:45:28 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,100 +80,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 02/18] mm/memcontrol: allow update of LRU statistic
- without holding LRU lock
-To: kasong@tencent.com, linux-mm@kvack.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>,
- Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>,
- Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
- Zi Yan <ziy@nvidia.com>, Gregory Price <gourry@gourry.net>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>,
- SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>,
- Yu Zhao <yuzhao@google.com>, Vernon Yang <vernon2gm@gmail.com>,
- Zicheng Wang <wangzicheng@honor.com>, Tal Zussman <tz2294@columbia.edu>,
- Kairui Song <ryncsn@gmail.com>, Xiang Liu <liuxiang.277@bytedance.com>,
- Ehab Ababneh <ehab.ababneh@intel.com>,
- Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, Lian Wang
- <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>,
- Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>,
- Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org,
- Tianyi Chen <hi@tychen.cc>
-References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
- <20261124-mglru-fg-v6-2-8ffea39934a6@tencent.com>
-From: Ridong Chen <ridong.chen@linux.dev>
-In-Reply-To: <20261124-mglru-fg-v6-2-8ffea39934a6@tencent.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20261126-backtrace-timestamps-v1-1-0a645b25e5ae@kernel.org>
+In-Reply-To: <20261126-backtrace-timestamps-v1-1-0a645b25e5ae@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 26 Nov 2026 10:45:17 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW5mxjaAXcu6nAiK1k6umpCVbfCpPPofPCbv6f9xr3_dg@mail.gmail.com>
+X-Gm-Features: Aa3M54rURvENVkVkA3PAfM0AQ_OwL72uCl2_qD-V9nn44piqg3in3pY-rY30d-U
+Message-ID: <CAMuHMdW5mxjaAXcu6nAiK1k6umpCVbfCpPPofPCbv6f9xr3_dg@mail.gmail.com>
+Subject: Re: [PATCH] docs: submitting-patches: Limit backtrace trimming to timestamps
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 11/24/2026 2:52 AM, Kairui Song via B4 Relay wrote:
-> From: Kairui Song <kasong@tencent.com>
-> 
-> To enable moving file pages in folio_mark_accessed directly and lazily
-> for MGLRU, allow updating the LRU statistic atomically without holding a
-> lock. It may cause temporary counter underflow, which should be fine as
-> the counter is eventually consistent and only serves as an estimate.
-> 
-> Reviewed-by: Barry Song <baohua@kernel.org>
-> Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
-> Tested-by: Andrew Morton <akpm@linux-foundation.org>
-> Acked-by: Muchun Song (ByteDance) <muchun.song@linux.dev>
-> Reviewed-by: Lian Wang <lianux.mm@gmail.com>
-> Signed-off-by: Kairui Song <kasong@tencent.com>
+On Thu, 26 Nov 2026 at 09:13, Leon Romanovsky <leon@kernel.org> wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+>
+> AI tools tend to trim backtraces too far. Taint flags, module lists and
+> module names disappear, which hides that an out-of-tree module was
+> involved or that an in-kernel API was misused, especially a driver API
+> that is not meant for general use.
+>
+> Ask authors to remove only the timestamps and drop the example, which
+> shows a trace reduced to bare function names. Timestamps are the one
+> part of a dump that adds only noise.
+>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 > ---
->   include/linux/mm_inline.h | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
-> index 2395ca8ee305..2edb9beef6d3 100644
-> --- a/include/linux/mm_inline.h
-> +++ b/include/linux/mm_inline.h
-> @@ -47,12 +47,11 @@ static __always_inline void __update_lru_size(struct lruvec *lruvec,
->   {
->   	struct pglist_data *pgdat = lruvec_pgdat(lruvec);
->   
-> -	lockdep_assert_held(&lruvec->lru_lock);
->   	WARN_ON_ONCE(nr_pages != (int)nr_pages);
->   
->   	mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-> -	__mod_zone_page_state(&pgdat->node_zones[zid],
-> -				NR_ZONE_LRU_BASE + lru, nr_pages);
-> +	mod_zone_page_state(&pgdat->node_zones[zid],
-> +			    NR_ZONE_LRU_BASE + lru, nr_pages);
->   }
->   
->   static __always_inline void update_lru_size(struct lruvec *lruvec,
-> 
+>  Documentation/process/submitting-patches.rst | 20 ++++----------------
+>  1 file changed, 4 insertions(+), 16 deletions(-)
+>
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 85ba046d66fbf..56b1b38ac59cf 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -763,22 +763,10 @@ phrase``, it is important to be both succinct as well as descriptive.
+>  Backtraces in commit messages
+>  """""""""""""""""""""""""""""
+>
+> -Backtraces help document the call chain leading to a problem. However,
+> -not all backtraces are helpful. For example, early boot call chains are
+> -unique and obvious. Copying the full dmesg output verbatim, however,
+> -adds distracting information like timestamps, module lists, register and
+> -stack dumps.
+> -
+> -Therefore, the most useful backtraces should distill the relevant
+> -information from the dump, which makes it easier to focus on the real
+> -issue. Here is an example of a well-trimmed backtrace::
+> -
+> -  unchecked MSR access error: WRMSR to 0xd51 (tried to write 0x0000000000000064)
+> -  at rIP: 0xffffffffae059994 (native_write_msr+0x4/0x20)
+> -  Call Trace:
+> -  mba_wrmsr
+> -  update_domains
+> -  rdtgroup_mkdir
+> +Backtraces help document the call chain leading to a problem. Remove
+> +only the timestamps and keep the rest of the dump unchanged. Taint
+> +flags, module lists and module names show whether an out-of-tree module
+> +was involved or an in-kernel API was misused.
 
-Hi Kairui,
+Please don't move the burden of distilling the relevant information
+from the (single) sender to the (multiple) receivers.
 
-Just a heads-up: this may conflict with Joanne's "mm: move LRU size stat
-updates out of lru_lock in folio batches" [1], which is in linux-next now.
+Gr{oetje,eeting}s,
 
-That patch makes __update_lru_size() add to a batch attached to the
-lruvec by the lru_lock holder, and relies on lockdep_assert_held() there.
-Once this patch lets folio_inc_lru_refs()/folio_reset_lru_refs() call it
-without the lock, they could write into another CPU's on-stack batch.
-So the lockless paths probably need to bypass the batch.
-
-[1] https://lore.kernel.org/20261029204157.117879-1-joannelkoong@gmail.com
+                        Geert
 
 -- 
-Best regards
-Ridong
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
