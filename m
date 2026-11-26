@@ -1,71 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795686661;
-	b=s+Be1LI+ldVRGl4a1lC1UV9px8Yfhv6QsfDq9GlQVVUkNnFh+g4Hf+aDKjAABkG47cxv
-	 H3KQosyzkqMcyCCVAQu3aPOnDNvjgdOjOui0a3YqcS3yd6QbqVTm50V8W/Qa+IeyS0LFA
-	 utIrB0xpzqoGcCqpQT+Vb1SG6SIEtuWB6j0j1iP9zwVY8GMoc/0PGBhuq5CLkPVWOZ8oM
-	 yM6kTb7cLzgd2r5ANSlce1LVLQnYFRLL/r5TCtIdVSar5aoGsx/w0M0/Wr9N+HTXtWTeN
-	 IRRgvVbjrakbmf5iBV+l+zyADqRZ5MfYgMfxFw7FhPSE1ivi1J1N7nfol//kdnU5BGg==
+	t=1795686704;
+	b=yUxQ1tuYvqSZfuevp6oyx8SN/Z74Wxd3hqx5OELsAuSTsEKPkxjeWUsUmizKTq0Mz4gm
+	 TL0RoSMPzqbNDc9J9vL98w1aVMMpOFQkxy1JYmvnZLUaWhRRubYTNhKXvc1qjUmWS6DFt
+	 GNBv9Mc1XaYDLnNuKGS69i5/w16k8EGpDtTCkvY7P44UWLf9MWTGIRdv+hfTCPEOewhe3
+	 jr/1N/IP0sXepxjvG8kNg0bwnIkl9XAmIV5y9DDGT3KxNGLcpaROtsrEWgpZoAzWTwi3l
+	 oLROsZNQj3YstltRlxktgl66B+j8IrZkG/HQtv7pgXcP/akYoyko2r8v/mRrS0DURkg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795686661;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=MK3NV7+T+iSn6nFA6FDsVXaBOobjfAVGPkOE164EgAo=;
-	b=d+Kv9yi+L4Q1B3AMbmrShY2pehHyK2MCGlypolrkpU8XPVsVQjlZALWSOzVdWoI4LdmU
-	 kUK53upTke8UYJGgniWN9VBi7WKNChjlGaz+CZ2CzGPLQH8nxHJiMAFUOyQnNyxL8V+GJ
-	 fs2V25pF8Oj/DxjeTMxUEOjJalABWdiZMA2veKvUjZW3DBOFVYTc/Ys7pUgRe8uvMCGya
-	 o3elujLI1Jx3UzheAfROUNuwK5eX3M5V7ZkNPt/Ai7SJYfikWFHdvBnBFSMjjaCfR0wKz
-	 e+p3vn2HHHEovMjVENFEYnypfGXnsYRfnCAWWfBCJgocCXCu9A8M+HZm3FtCW6IJsYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795686704;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:
+	 To:Cc:References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=b2b0R37N0cNDG6LwdnW9AOEOCqhnsuMIntkJk3OiCVk=;
+	b=v+PFkA3HR1X5+uDcKyLLMMbfxbt5fXnAkM8a6Ld2TS33Zal2vhLqWYt7sB4xcflU+rSt
+	 pKJQ8jpchRRiIHI9QQrsZ2nf+3p0+lrYODlI5D/CLCK6+xdPqpa/KGfxl0XRq8qy1+YI9
+	 o7sdFDnhlR2ZQmELzvYZpqFLp+FxPHpZugk+clrcqWDJTnN4a0+F1kMlMYIViRBkNZHhJ
+	 BobLWfGoy7Vn9dhbIFnvDdamwMXmBZZ4qfcDrdAqF2We9Y+cOl4Pte+BvNB+GRv0xct6S
+	 NFTKoYKOJwMZcHHk5f+o+nP2a9Wx01spahx+m7af5Pp6numQQ55sR4I/Pe2w3cSIRNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=X1PSdPOj;
-	arc=none smtp.remote-ip=113.46.200.226
-Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=F0XPcewx;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=eSf5YhDs;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B2C606A32C;
-	Thu, 26 Nov 2026 09:51:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0B2C606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C20606A32E
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 09:51:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0C20606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=X1PSdPOj
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=MK3NV7+T+iSn6nFA6FDsVXaBOobjfAVGPkOE164EgAo=;
-	b=X1PSdPOj80Yu2WpyXN2J3qnAZackKclRwi/s6e2J1HWOwDlCBJrf6SlV9hnv8rQrYrNTNRX5A
-	OOH3OZ20GDznNoptF+JYYq+UtjGs/hMaC2jP/mzARsTJ0+V3L5coOJNKXPw4UHM6/a7ncoNvgUQ
-	HFzgHH2qRj8sd/IipSiZVFg=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4jZsHD6qZqzKm4k;
-	Thu, 26 Nov 2026 17:50:32 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 479044057A;
-	Thu, 26 Nov 2026 17:50:52 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 26 Nov
- 2026 17:50:51 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
-	<james.morse@arm.com>, <babu.moger@amd.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <bp@alien8.de>,
-	<tan.shaopeng@fujitsu.com>, <fenghuay@nvidia.com>, <will@kernel.org>,
-	<gshan@redhat.com>, <jic23@kernel.org>, <ben.horgan@arm.com>,
-	<zengheng4@huawei.com>, <x86@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH v7 5/6] fs/resctrl: Recreate the dirty RMIDs when the CDP state changes
-Date: Thu, 26 Nov 2026 17:50:37 +0800
-Message-ID: <20261126095038.2276975-6-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261126095038.2276975-1-ruanjinjie@huawei.com>
-References: <20261126095038.2276975-1-ruanjinjie@huawei.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=F0XPcewx;
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=eSf5YhDs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795686703;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b2b0R37N0cNDG6LwdnW9AOEOCqhnsuMIntkJk3OiCVk=;
+	b=F0XPcewx6TxLhbQUKNoEvbJlQZfPxbOFrH5L57zCNLI3UBqlcmM8ms0g9gd6Zje+9uc5Um
+	QHhaoEZDO7Ju5wuZUQak1ximj2q6G59AfttZVBOM14Ji/Z6y91rxCjIv+ROamf/XnTpZTt
+	rnmwiZhoeLuTKevlXoCp9BJy3crFoZ0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-689--VQ0oovCNiOT4WuOeA7paw-1; Thu, 26 Nov 2026 09:51:38 +0000
+X-MC-Unique: -VQ0oovCNiOT4WuOeA7paw-1
+X-Mimecast-MFC-AGG-ID: -VQ0oovCNiOT4WuOeA7paw_1795686697
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-48e4d1e29f3so5617925f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 01:51:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1795686697; x=1796291497; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=b2b0R37N0cNDG6LwdnW9AOEOCqhnsuMIntkJk3OiCVk=;
+        b=eSf5YhDs7s4d/I+PuOqPG7GnNpSXVv5YHZf2MTaDiGSvROudWXnjtlOkgjVsqw+WpP
+         lTDSssv14eAoLBy0bl1Ci2jfbWBegKn7XEOaliLTA5vt1Z6j1pZiFCA0AAj3hDDltBos
+         6C3+AdPdLxVsXx8Xv/cyIHWJ4ltIx7vVQKZE/K8Nue9lFYlJMLTfgqalzC2E/rzpZQPA
+         O1mCoK87jRv6TIUQaOmHgKqRFIOu4HKDLbFnkUfgPdOLYDcP41qbWWBllhlVS+lVs3lb
+         QH0d9NXFvc+ZBTENAKxP/WwA5UuA0jDFKl8yuoT0dYbrNJ8LouJ070V2AyeDNGcZVAq1
+         XW/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795686697; x=1796291497;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=b2b0R37N0cNDG6LwdnW9AOEOCqhnsuMIntkJk3OiCVk=;
+        b=oIgHEWnEHasN2BIjorHAXZKVyPbcTzR3T4lOszDbajpgqP8e2SwqCNvWsgP1giOZo9
+         zXf+7ptfFRWRihKoY8EBSOSLz1GslKGqseVl+ZBDkZGbwWu3ovn3hYawgFYGrlNxxbmr
+         1u4dBifjQwDnu3UO7fHPg9Zx2VQokgR/wftMjMjLZnTPY7W4MmSiEbvbrtd9XaBmr6SC
+         JardsNExEUDXklNcJe11zbJG1ZJoYhO7zlvc3AX/pN+VJm9V3er1G9pBJfC6tZtKH/Um
+         zlzMOrJ4AHin74rOqg1CgF6RzRo4zeN7qffhtsVfUeTAHl3a8yjKI6OlZ1/4dFRfzj1t
+         UYwg==
+X-Forwarded-Encrypted: i=1; AL+hErE3R51Mre9d93nJ4bX8kwrFTjbtr8sze4+Dt/7263XDKU6YGx+ZJR5TDEmOzyZSu0XmvjhjwMZ+t9w=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9pKwfLs10ePZ3tVhCQ3ze3/zlvM9tOmcYgj8UNlAWKjD8m5S2i
+	pEUjs/hBA9t7mrBhNbmYh+X67KwojIaxZJdrGLXoK1J431AW3byQfkrGnYpDVEB7ZdDWrXIyFLN
+	NjfaXOVOP6119+qbA2NDjB1rRkGSIMK7nVeptU9q/Nv6cCs9XMLMfcx5lri1yRA==
+X-Gm-Gg: AZFdTZcOUDXH9oboaxq0Q+1CZ4YC5w/rWvfxvDYBTuqUTfpI092eHtkH6K4jFsVlkf6
+	LjKndkgOthPSk4u7ZjjkhLkY9SdZ1vA54zqiVrdDhJXYmgiaiJzVALN+4xvXR84D4ZK/bXnxCot
+	kFc4iIiMC9VRD0IWOouPrjbtXceYUERlR2foZy4Cf2Pvit8sYBcKnCxmS7Ef34e/SgyBYRzJzNz
+	3bxccRe831qFHzxYjrP3wu9FJJgcsk4IGk/b4/l18v+LVNJNr1jZs3X1F8ZNIyf5yMkzO7lhAng
+	cCm1WkT/N9d5VHoFWxarnfQBrK5T2XE/p1wErZ4YLksQWxmX8OgP+jvG0jwd9MxE54pLU5rsZ/j
+	9/26ig7irynLVfVKSfVNlnzxow//I59jy2TtDPpCAy2TDeV0oGkNo97B6PCW2bIX/1+kzIqS7Oc
+	eDVTTkDrZDfAZ52uqwiDZRWcjCQiCRm+2xBn/7xV3Ojdd2
+X-Received: by 2002:a05:6000:2c13:b0:4a6:9f2f:4153 with SMTP id ffacd0b85a97d-4abaac57ba9mr38614716f8f.1.1795686697238;
+        Thu, 26 Nov 2026 01:51:37 -0800 (PST)
+X-Received: by 2002:a05:6000:2c13:b0:4a6:9f2f:4153 with SMTP id ffacd0b85a97d-4abaac57ba9mr38614627f8f.1.1795686696684;
+        Thu, 26 Nov 2026 01:51:36 -0800 (PST)
+Received: from [192.168.88.30] (ip231-128-192-82.pool-bba.aruba.it. [82.192.128.231])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6bb989e3sm39627871f8f.52.2026.11.26.01.51.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Nov 2026 01:51:36 -0800 (PST)
+Message-ID: <e07adc3e-838a-4c46-a56c-eb47bb9e77f4@redhat.com>
+Date: Thu, 26 Nov 2026 10:51:34 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,149 +112,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v3 2/2] selftests: net: check TCP IP IDs across
+ tunnels after GRO and GSO
+To: Julius Bairaktaris <julius@bairaktaris.de>, netdev@vger.kernel.org
+Cc: davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+ willemb@google.com, horms@kernel.org, andrew+netdev@lunn.ch,
+ dsahern@kernel.org, idosch@nvidia.com, ncardwell@google.com,
+ kuniyu@google.com, steffen.klassert@secunet.com,
+ herbert@gondor.apana.org.au, richardbgobert@gmail.com,
+ ecree.xilinx@gmail.com, andy.moreton@amd.com, alex.austin@amd.com,
+ linux-net-drivers@amd.com, saeedm@nvidia.com, tariqt@nvidia.com,
+ mbloch@nvidia.com, leon@kernel.org, linux-rdma@vger.kernel.org,
+ alexei.starovoitov@gmail.com, ast@kernel.org, daniel@iogearbox.net,
+ andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com,
+ martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
+ jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev,
+ john.fastabend@gmail.com, sdf@fomichev.me, izaiahsun@gmail.com,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ shuah@kernel.org, bpf@vger.kernel.org, ipsec@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1795284858.git.julius@bairaktaris.de>
+ <2f75527eb49d7d4ffec32a61fd7dd080673dc57f.1795284858.git.julius@bairaktaris.de>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <2f75527eb49d7d4ffec32a61fd7dd080673dc57f.1795284858.git.julius@bairaktaris.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On MPAM an RMID is read through the PARTIDs of its CLOSID: CLOSID c is
-PARTID c without CDP, and PARTIDs 2c and 2c+1 with CDP. A mount that
-changes the CDP state changes how every RMID is read, but the RMIDs keep
-the dirty state they had under the previous CDP state.
+On 11/21/26 19:27, Julius Bairaktaris wrote:
+> Send TCP segments with fixed or incrementing IPv4 IDs from a packet
+> socket, let GRO on a veth merge them, forward the merged packets into
+> IPIP, GRE and VXLAN tunnels over IPv4 and IPv6 and into ESP tunnel and
+> transport mode SAs offloaded to netdevsim, with segmentation done in
+> software, and check that the IDs of the IPv4 header in front of TCP come
+> out as they went in and the IDs of a new outer IPv4 header are unique,
+> or for ESP tunnel mode increment within each packet. Also forward a
+> VXLAN stream with one header's IDs fixed after decapsulation into IPIP,
+> and send the merged packets through a tunnel that the far end
+> decapsulates without segmenting them before it forwards them.
+> 
+> A test where GRO merged nothing is skipped.
+> 
+> Signed-off-by: Julius Bairaktaris <julius@bairaktaris.de>
+This test is very unstable:
 
-With 5 PARTIDs:
+https://netdev.bots.linux.dev/flakes.html?tn-needle=tcp-fixed
 
-  mount                  CDP off, CLOSID c -> PARTID c
-  mkdir g1..g4           CLOSIDs 1..4
-  umount                 RMIDs enter limbo with CLOSIDs 1..4
-  mount -o cdp           CDP on, CLOSID c -> PARTIDs 2c, 2c+1
-  limbo handler          reads CLOSID 2 as PARTID 5 > PARTID_MAX 4
-
-  mpam:__mpam_irq_handler: error irq from msc:1 'MSMONCFG_ID_RANGE', partid:5, pmg: 0, ris: 0
-  mpam:mpam_disable: MPAM disabled due to hardware error interrupt
-
-The other direction fails silently, and the free RMIDs are affected too.
-With CDP the default group's code accesses tag cache lines with PARTID 1.
-Mounted again without CDP, a new group given CLOSID 1 and RMID 0 starts
-out counting those lines, although that RMID was never in limbo.
-
-When a mount changes the CDP state, put every RMID that can be allocated
-back in limbo, so that each one is checked as it is now read before it
-is reused. Until then, creating a group may fail with -EBUSY. The RMIDs
-of a CLOSID that is out of range under the new CDP state can neither be
-read nor allocated, and stay free. CDP on any resource changes how every
-CLOSID is monitored, so the CDP state of every resource is compared.
-Where the RMID does not depend on the CLOSID, as on x86, nothing changes.
-
-Fixes: 6789fb99282c ("arm_mpam: resctrl: Add CDP emulation")
-Suggested-by: Ben Horgan <ben.horgan@arm.com>
-Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: <stable@vger.kernel.org>
----
-v7:
-- Recreate the dirty RMIDs instead of releasing the ones in limbo: the
-  cache lines of every RMID may now be accounted to a different RMID,
-  including the RMIDs that were free, so all of them are checked with
-  the new mapping before they can be reused (Ben, Reinette).
-- Trigger the recreation on the CDP change alone, without testing
-  whether a domain has RMIDs in limbo (Reinette).
-- Leave the RMIDs of a CLOSID that is out of range under the new CDP
-  state on the free list instead of reading them.
-- Do not recreate the dirty RMIDs on the first mount, before which only
-  the default RMID is used, so that a group can be created right after
-  the first mount with CDP.
-- Link to v6: https://lore.kernel.org/all/6dd79d09-576b-4086-ba5c-7f8663292a6e@arm.com/
----
- fs/resctrl/monitor.c | 57 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 56 insertions(+), 1 deletion(-)
-
-diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
-index 5f3d39f0d3ed..8d78360efda8 100644
---- a/fs/resctrl/monitor.c
-+++ b/fs/resctrl/monitor.c
-@@ -70,6 +70,13 @@ static u32 *closid_num_dirty_rmid;
-  */
- static unsigned int rmid_limbo_count;
- 
-+/*
-+ * @limbo_cdp_state - 1 if the RMIDs were last checked with CDP enabled, 0 if
-+ *     not, -1 before the first mount, when only the default RMID has been
-+ *     used. Only used when CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID is defined.
-+ */
-+static int limbo_cdp_state = -1;
-+
- /*
-  * @rmid_entry - The entry in the limbo and free lists.
-  */
-@@ -1040,11 +1047,42 @@ int setup_rmid_lru_list(void)
- 	return 0;
- }
- 
-+/*
-+ * A change of the CDP state changes how every RMID is read, so any RMID, free
-+ * or in limbo, may now count cache lines left by another. Put every RMID that
-+ * can be allocated back in limbo. The others can neither be read nor
-+ * allocated until the CDP state changes back.
-+ */
-+static void recreate_dirty_rmids(struct rdt_resource *r)
-+{
-+	u32 idx_limit = resctrl_arch_system_num_rmid_idx();
-+	struct rdt_l3_mon_domain *d;
-+
-+	lockdep_assert_cpus_held();
-+	lockdep_assert_held(&rdtgroup_mutex);
-+
-+	/* Only the default group exists, so this frees every other RMID. */
-+	list_for_each_entry_rcu(d, &r->mon_domains, hdr.list, lockdep_is_cpus_held())
-+		release_limbo_rmids(d);
-+
-+	/* Skip the default RMID, which stays allocated. */
-+	for (u32 idx = 1; idx < idx_limit; idx++) {
-+		struct rmid_entry *entry = __rmid_entry(idx);
-+
-+		if (entry->closid >= closids_supported())
-+			continue;
-+
-+		list_del(&entry->list);
-+		add_rmid_to_limbo(entry);
-+	}
-+}
-+
- /**
-  * cqm_resume_limbo_handler() - Restart the limbo handler after a mount.
-  *
-  * The limbo handler stops while resctrl is unmounted. Restart it on every
-- * domain that still has RMIDs in limbo.
-+ * domain that still has RMIDs in limbo, after checking every RMID again if
-+ * the mount changed how they are read.
-  */
- void cqm_resume_limbo_handler(void)
- {
-@@ -1057,6 +1095,23 @@ void cqm_resume_limbo_handler(void)
- 	if (!r->mon_capable || !resctrl_is_mon_event_enabled(QOS_L3_OCCUP_EVENT_ID))
- 		return;
- 
-+	/*
-+	 * Where the RMID depends on the CLOSID, the CDP state decides how an
-+	 * RMID is read. CDP on any resource changes how every CLOSID is
-+	 * monitored, including by the L3.
-+	 */
-+	if (IS_ENABLED(CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID)) {
-+		struct rdt_resource *res;
-+		bool cdp_enabled = false;
-+
-+		for_each_rdt_resource(res)
-+			cdp_enabled |= resctrl_arch_get_cdp_enabled(res->rid);
-+
-+		if (limbo_cdp_state >= 0 && cdp_enabled != limbo_cdp_state)
-+			recreate_dirty_rmids(r);
-+		limbo_cdp_state = cdp_enabled;
-+	}
-+
- 	list_for_each_entry_rcu(d, &r->mon_domains, hdr.list, lockdep_is_cpus_held()) {
- 		if (!has_busy_rmid(d))
- 			continue;
--- 
-2.34.1
+/P
 
