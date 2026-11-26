@@ -1,75 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795713573;
-	b=FVeNbWqp+CDzijVBcwLkiVxFH05qWWXG2S+MRnQtdaa7Zgh40Ewuvq1avhpDOLnPRDii
-	 wiBzuqHKzCU2FgcvWNlibYWfUFDwyg0ACTnCCBgopqJKM60sAGpyheb0VCAsg8krdvZAR
-	 d9sRtTt0EJu6BaDzHNQd5fT50sGxdBroOooHbEKSQCLm2uCy34zcviGlTkq7fuWUgOktR
-	 kyqdBzpHqK/sKxFqNN/Ac1Tl4NSS/ieGW6lM/wlV+ZVkOMpJkdFdAl9UnmkrzBI/5aCRY
-	 vn5zekLKc4IAgJOscaQGCWeV4SUySNADN9BTFGXw+VQUz/VGt4pkfGiXtQQ0J5DREsQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795713573;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=DPnOnHKLK8khpk5xKoTeQ5iPnwMY3CVcKZpPvk4R/Nk=;
-	b=QYzg3lp37oz+OTCAZNd2zfZFbTpzVsb64FHfvZyvUbB5HWM0LEOulKvqgmwxzGz8UJ2l
-	 f2LCqjnArLEbUahhz2fdYMjvPjEw9O2LmYeFGYV+fwjbTUxKeJNrR51j136AyJvfMsvym
-	 uwyuAgQnvJW0NQydjuvzs8mSUSMyYOGReyAMygsXOz5DvWFETZZIgVSIybzsWFikXoiXI
-	 ESalTAgZF39v9MwbmKyVQ/NPEbW6HkOIQrBaMW9gE9zeB22NHds2bQbKxZoGfRW/O3SpY
-	 9OojyCHDisHXuVbmkK39n+NciEFIYxM4HCV3CNViKVVzay4wzGXX6bMNNkksEJe0E9g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mJ9eItCN;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.49
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795713687;
+	b=4F14JiNL5XcJbVsHcMdhhNEaUuFPk9cNCik+O8WDdZS76sAMiHAHqmqm5E9cb1lsxzYt
+	 /dOZl7Y8C2DqJ4SrGoRt3wVIrUa+gJM4OZWWD0SdTR+mYorIXLrBDrdX5Qd+5l3/YIBd0
+	 /V8vI/6Gn0JlquSafQDRON57aJNNMKBf2+x2BSRWGycI2X49XQiWiKdfmTjrjRUaal3s/
+	 Ic3lEENLvFBQqm51IPBtAbz/Tlthlx09XkcyBs1Fy+g7DJdxv1YIMhhByR6Ohi264XeAf
+	 mp2V2O5gkh8r695QPcTCoVHOII6zj/+Gh8B9Qv6S2/Lu9noqHNtQ5OAPB/SbPC0h8tQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795713687;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=hFMU0WQIu/Khu5nkOekEsJ9G7/wupBV+7k9T9skPX/c=;
+	b=byfYbdaAhGODHRVbMP9lrbOx++9km8Re1Mc9a/BKn/v7o3xC3mDKWkcCk7JS96xsJsw8
+	 sVDeqLWRZJZ2cNEYexhtU1a5B25J8KClyVYm9aCexw5HccQXXe/WewNPEeJAejLvHKpK5
+	 lmcNynRpAG4nXTU2wGjO0YceLy0CD8wZe4nQn8pyg2OHGUi3AsmfKB/LFWgVi62A5NDNT
+	 9Y0hoffmQvQc12y5BrDYHkXQbhD8DXoGyI9b7NjQY53/NSqWvqscuwFg6BljiPgXbk9c2
+	 ygoU45PUjScs2BayuKDGhDXSLh63AQdnr7X6J9ucx1l9t9sj/KIMgTFJHzvF8TY54Zg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=eAUyELCh;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.49
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD8F606A31C;
-	Thu, 26 Nov 2026 17:19:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80825606A31C
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 17:21:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80825606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mJ9eItCN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D4851F000D1;
-	Thu, 26 Nov 2026 17:19:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795713572;
-	bh=DPnOnHKLK8khpk5xKoTeQ5iPnwMY3CVcKZpPvk4R/Nk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=mJ9eItCNFg3ql+Qd01AlEJ9/YIMrNIkqxxDv2l/GUJ97xyemQcB1tipi4u8dt/aHL
-	 AQj8a3vcX1KUhDarIozeqgoY1CeQc2Mw27ssDzjAHBrXj3SqBRjaBSZM+fdmtvxpaF
-	 ym0C6IRnqgN95BsXCPeJEfmE7O4d6Y7yvM/6uyQTvWAqmAIBbu5jQ+WTPktt6nVoZ0
-	 +6O1G5KY+d0uC9drvXQcay5xfwF6XDJJrotjbC6JyabhgG543hv3EnTG+gq8U31Gx0
-	 gBoYa0/hqJcpOv6ttql+Z1t/9wf9dhTyO8zEiy4C66e3ZGtEAR2eyZ2tx+QXAsiauc
-	 45nzJ8q2oaCEw==
-From: Sasha Levin <sashal@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Sasha Levin <sashal@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Willy Tarreau <w@1wt.eu>,
-	Leon Romanovsky <leon@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Marc Zyngier <maz@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	David Hildenbrand <david@kernel.org>,
-	Security Officers <security@kernel.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] docs: coding-assistants: ask for short changelogs and a cover letter
-Date: Thu, 26 Nov 2026 12:19:24 -0500
-Message-ID: <20261126171926.2766137-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261126171926.2766137-1-sashal@kernel.org>
-References: <20261126171926.2766137-1-sashal@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=eAUyELCh
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c516a1623d0so795023266b.2
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 09:21:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795713686; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rmeBiJ/OWJiQpuJ+Q62I/bBBu9BsGJ3nmH7PWTeyRqifDKiNv6h0jOLD/2RCJtJ5PX
+         W8j/deleMjOroE3toakuJ1GbWh6RtQ1LJXKOtkNCMJ+lJBKb2pnaeHiTElEcj53hfDcM
+         Epqwp41escDrrfj4vxlvZA0VV2Ydl7gwC600iu2DKBgPvf2QviFywf9MKUYx17uOHpY/
+         pB3uIcrk19qXORsbfJKLCG/WcDhW8UZU5AwoEaBZALp0uq59fGEauBvKyXDhm0x4Dkcs
+         cgeubt5mjZZb1HBgiNZ6ziRG5+8ltfaK8V9ourJ0H1O1koOLuuNvRNRePCaQeNUxqdhr
+         Wn8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hFMU0WQIu/Khu5nkOekEsJ9G7/wupBV+7k9T9skPX/c=;
+        fh=/7X8vt2HlvIKKNxhFilXcPlI1kp5igXWRhzYnN/AuHI=;
+        b=qlqDVsQUv3PldfbnOPb7qY+ueEr8bsH1axJl1fbMta3/l1D+yRWtgiQjQkfaeOvUCX
+         VZdIzFW12BAbW4vkJOvfjDBh3yyArXmnTbvz04Ib92lFH39FI9LaiCuvYIIYK8m14Mny
+         CZaMOXdtyD+EwJvAMl/U8Q8ea25EG+740A9zqU+iHhcXSXtKwg/hLQap4bnLH/+V2+am
+         nfvFxbSqJKoeeuNNouJ6uMu3MYOqHGQvy5wb0k/3JNFCbhEbhpLejRZB7vCCDhdXULZW
+         +7xx1KqiSMyAQDlI1grz+aY4CtrYo8QLqOtYH3mn+Jo6mkkT5ojSNnDAZuxua6BIdZpc
+         yqBA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795713686; x=1796318486; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hFMU0WQIu/Khu5nkOekEsJ9G7/wupBV+7k9T9skPX/c=;
+        b=eAUyELChNxN03tFWhGSn40N0o3gjWO71tl5Ghcmskz8b4PGVkssqVMVbtcP1ufdgYD
+         siuET0E8+b/8ouzgAVqs2MIlCaW9vlronDx+CN5r4hENRnHoThYegScR0BXwbEXaFWVv
+         vbCqNQk7tkQOJoCj6JvZkgF6A2MrU7JYcLhNOXZ1Xe1EpXiHSTAa8An0988zX+AY8Pep
+         2FxXxxd9Yyf1K1seELTv3Pu/d0l8SVkab2alnZfc1y6/i2PE4nJZz1OmTUDwKwoKvPhp
+         1ls0QPxv3w/sWpsW686NeXrfa9MjQEe1y8xx6d3P6ciusGwK3AyEX4jEpfF4Bn9DZiMX
+         a+Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795713686; x=1796318486;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hFMU0WQIu/Khu5nkOekEsJ9G7/wupBV+7k9T9skPX/c=;
+        b=NGqDY5kODniwq7b1wXInQn+S2n5PNB9HyLebFgHNpWGU4EmKKzf4R3GDgj+1DOtq2N
+         tyYkgcTvLlKmc5E/TX2fZIe8ovmA4qcLpZU2K7tTsH1vKWzmGjGlL2L5RQInUquJp9LM
+         BZE7Qi+agglkS1bpLFYkZ+0cXC6q75sFHNztHjzm919KeBx5109H2asaYd0ALydrkKhv
+         krEc5xpzdwpwnVFlrcZ+MXLgZlW6V4wPvmh6r++hjOQ/h5Sptk2uHqNgCACKPUOviHG9
+         8iBe47s5PszlT4cBsGAXWTFw9qnWI0yTwn18BOyZWb3VRaeu+sJOXxTOQEmn06Sg5eJh
+         IGMg==
+X-Forwarded-Encrypted: i=1; AL+hErFIsqF4zY2zq2hjSXr09QT1jcRMUa+TSieBz21kdAuEhCrCYcXfWWEoZtGB1Zi9ny1R48/yOJrd+Es=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9XwgwMSwqltRAchD0+E0S3Fxw8dP/KBRMBYIo4qRoQnlcJvgMt
+	AaLtkhmFrzefLPpLmNycNItB1nqrFPmYowNnYTuVvJ9gn6amUnx5+Sle4fFg7QUflh+9OfLceP8
+	P4+ggbJmugFy6X6v5q2ZBVZaPIyZET5YStqgNbnQv
+X-Gm-Gg: AZFdTZcTM8YbGjPgfwo4VxhzS1gIzijy7xZy5D0cnMSnDiTFnWnr/Vgfs8siFdVqzje
+	fW52klWmuat494KMkJ3UiZ/V1Ynnil9nfdjUtOALbOVGjLLcQI6igBAt1tS1As9kaacuHHgAwjd
+	0XSrlZYe5aib44CvMSHVmKIOLm7JfYF51/ZAlpqJz4ersFcfGHwtiGO+1vhxvIHBlNGUUK8Z22V
+	hkBeDORDJdtKKVXZ6+DyK726qlq2vYp72stMCCamc5XGtpKhXmXxuYgvlM0CkhweZpatu66+GUr
+	fUknrjFzfIFnVp+rvyafpMaYng8idDuPL5GmQHIphKGjYPEiil8XZ34+IneBszWkBX2+OB0Z34L
+	aky6A3+nWSKHx8lsFmfgVtf9nax3zKVmakkRv/0eCNkuDjAfZrpmRsyFGf44jY+n5y49ESQ==
+X-Received: by 2002:a17:907:9612:b0:c2e:2baa:a642 with SMTP id
+ a640c23a62f3a-c513a8845femr1932673766b.30.1795713685324; Thu, 26 Nov 2026
+ 09:21:25 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,168 +104,73 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261113221248.3535369-11-wusamuel@google.com>
+ <20261113221248.3535369-14-wusamuel@google.com> <a40ad738-cb7b-469e-b67b-353b64622dbd@suse.com>
+In-Reply-To: <a40ad738-cb7b-469e-b67b-353b64622dbd@suse.com>
+From: Samuel Wu <wusamuel@google.com>
+Date: Thu, 26 Nov 2026 09:21:13 -0800
+X-Gm-Features: Aa3M54rqUPDLnBBM9ls6-9-k9q7s0wsA5-hr6KgHVGGraAEFEEYG4syBhxuXwjw
+Message-ID: <CAG2Kctq7Mb=pb-SFU88eRA1cp2Qt_HJ0nADY5fET7Es-_CcCOQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 3/9] kallsyms: Add KALLSYMS_QUERY_BY_NAME
+ ioctl to /proc/kallsyms
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	David Laight <david.laight.linux@gmail.com>, kernel-team@android.com, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-modules@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit messages written by AI coding assistants are too long.
-Maintainers keep asking for them to be cut down [1][2][3][4]: they read
-like a copy of the assistant's analysis and bury what a reader needs.
-When an assistant does trim, the opposite problem shows. A few lines of
-a backtrace do not tell a reviewer how the failure was produced, and
-Leon Romanovsky showed a case where only the full log revealed that the
-crash came from an out-of-tree module written to provoke it [5]. Willy
-Tarreau suggested a short quote in the changelog plus the full log
-attached [6].
+On Thu, Nov 26, 2026 at 2:45=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wr=
+ote:
+>
+> On 11/13/26 11:12 PM, Samuel Wu wrote:
+> > To find a few kernel symbols, users such as libbpf parse all of
+> > /proc/kallsyms, which is several MB and text based.
+> >
+> > Add the KALLSYMS_QUERY_BY_NAME ioctl. It finds a symbol by exact name o=
+r
+> > by prefix in the entries of /proc/kallsyms, with vmlinux matches first,
+> > and optionally in a single module with module_filter, or all modules by
+> > default. Each call returns one match and its position; pos + 1 continue=
+s
+> > the search, until -ENOENT. The output returns the address, the size, an=
+d
+> > optional name and module buffers. A buffer that is too small gives
+> > -ENAMETOOLONG and the required size.
+>
+> The kallsyms data in the kernel can change between two
+> KALLSYMS_QUERY_BY_NAME calls, for instance, when a new module is loaded.
+> Should the mechanism provide a way to detect such changes, likely by
+> tracking and exposing some kind of generation number, or is it
+> unnecessary?
+>
+> --
+> Thanks,
+> Petr
 
-Give each kind of content its place. Add a "Commit message" section
-that asks for a message that is to the point, and point it at "Patch
-formatting and changelogs" in 5.Posting.rst, which asks for "the most
-direct and concise way possible". Step 6 of the procedure asked for a
-"detailed" message, which reads as a request for length: drop the word
-and refer to the new section.
+I'd like to keep scope of this series simpler, and I feel it's
+unnecessary for now because:
+- today's multiple read() of /proc/kallsyms have the same race
+- vmlinux symbols are immutable (I imagine most queries come here)
+- ioctl is size versioned, so a generation number can be added in
+future as needed
 
-Everything else goes into a cover letter. Require one for every patch
-or series prepared with an AI assistant, a single patch included, and
-list what it has to contain: the base commit and whatever was added to
-the tree to trigger the problem, how the problem was found, whether it
-was seen to happen, the reproducer, how the change was tested, the
-complete output that shows the problem, and what could not be done. The
-output has to be the captured one, unedited, and whatever the commit
-message quotes has to come from it. The items are a minimum: what a
-cover letter usually holds can be added to them. Make writing the cover
-letter a step of the bug fixing procedure, and say that a patch without
-it is not finished.
+I've documented the non-atomic behavior in the UAPI comments, so users
+should know what to expect.
 
-security-bugs.rst does not allow a reproducer on a public list. For a
-bug that is or may be a vulnerability the cover letter therefore only
-says that one exists, and the cover letter step comes after the step
-that tells a vulnerability from a regular bug.
-
-The cover letter is posted with the patch and stays in the list
-archive. The Link: tag of the applied commit, or a lore search for its
-patch-id, leads from the commit to the thread, so the full log can be
-found from the git history without being part of it.
-
-Link: https://lore.kernel.org/r/2026073057-moustache-unfixable-5ab1@gregkh [1]
-Link: https://lore.kernel.org/r/CAHk-=wgXU50=KgZNZc1JDxsSxg9Z+DjG1_2yU-fNXpZtUe4XDw@mail.gmail.com [2]
-Link: https://lore.kernel.org/r/861pf9xgkc.wl-maz@kernel.org [3]
-Link: https://lore.kernel.org/r/20261121195920.573a0727@jic23-hlaptop [4]
-Link: https://lore.kernel.org/r/20261125125739.GA14811@unreal [5]
-Link: https://lore.kernel.org/r/av7tY64O34gbJvH_@1wt.eu [6]
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/process/coding-assistants.rst | 86 ++++++++++++++++++++-
- 1 file changed, 84 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-index ef01ce8d0ff91..98a72561a9c2b 100644
---- a/Documentation/process/coding-assistants.rst
-+++ b/Documentation/process/coding-assistants.rst
-@@ -40,6 +40,84 @@ is responsible for:
- * Adding their own Signed-off-by tag to certify the DCO
- * Taking full responsibility for the contribution
- 
-+Commit message
-+==============
-+
-+The commit message **MUST** be to the point. "Patch formatting and changelogs"
-+in Documentation/process/5.Posting.rst asks for a changelog that conveys what
-+its readers need "in the most direct and concise way possible", and "Describe
-+your changes" in Documentation/process/submitting-patches.rst says what that
-+is. Keep the message as short as its content allows. Leave out markdown,
-+labels such as "Root cause:", a restatement of the subject, lists of what was
-+checked and the story of the investigation. Quote only the few lines of a log
-+that identify the problem, see "Backtraces in commit messages" in
-+Documentation/process/submitting-patches.rst.
-+
-+What reviewers need to check the work, and what does not belong in the git
-+history, goes into the cover letter.
-+
-+Cover letter
-+============
-+
-+Every patch or series prepared with an AI assistant **MUST** come with a cover
-+letter, the "[PATCH 0/N]" mail that the patches are sent as replies to. This
-+includes a single patch; tool use that
-+Documentation/process/generated-content.rst puts out of scope does not count.
-+The cover letter holds the evidence that reviewers need to check the work. It
-+is posted with the patches and stays in the list archive.
-+
-+The cover letter **MUST** contain the following items, in this order. Do not
-+drop an item: if there is nothing to say, write that. For a series, say which
-+patch each item is about.
-+
-+1. The commit ID the work was done on, the architecture and configuration, and
-+   everything that was added to that tree to trigger or observe the problem:
-+   other patches, out-of-tree modules, fault injection, debugging code.
-+2. How the problem was found: a report (give the link), a test, a tool, or
-+   reading the code. Name the tools that were used, as
-+   Documentation/process/generated-content.rst asks.
-+3. Whether the problem was seen to happen: on the unmodified tree, only with
-+   the additions from item 1, or never (found by analysis only).
-+4. The reproducer, or the exact steps that trigger the problem. See below for a
-+   bug that is or may be a vulnerability.
-+5. How the change was tested: the commands, and the results without and with
-+   the change. Leave out the output of successful builds.
-+6. The complete output that shows the problem. For a runtime failure this is
-+   the kernel log from boot up to and including the failure; for a build
-+   failure, a failing test or a tool report it is all the output of that
-+   command.
-+7. What could not be done: not built, not booted, not tested, no reproducer.
-+
-+The output in item 6 **MUST** be what was captured, copied as is. Do not retype
-+it, trim it, reorder it, or write what it would probably look like. If it is
-+too large for one mail, do not cut it:
-+Documentation/admin-guide/reporting-issues.rst says what to do with such
-+files. If the problem was never triggered there is no such output, and item 6
-+says so.
-+
-+Every line of output that the commit message quotes **MUST** come from the
-+output in item 6.
-+
-+These items are the minimum. The cover letter can also hold what a cover
-+letter usually holds, such as the introduction to a series (see
-+Documentation/process/5.Posting.rst) and the changes since its previous
-+version, placed before the items. Whatever else is in it, the items **MUST**
-+be there. The story of the investigation does not belong in it either.
-+
-+Complete logs can contain host names, addresses, serial numbers and command
-+lines. Tell the submitter, who reviews the cover letter like the rest of the
-+contribution and sends it together with the patches.
-+
-+A bug that is or may be a vulnerability, see step 9 of the procedure below,
-+gets its cover letter like any other, but a reproducer for it does not go to a
-+public list. Item 4 then only says that a reproducer exists.
-+Documentation/process/security-bugs.rst says what else is prepared and who
-+receives it, and takes precedence wherever the two documents differ.
-+
-+A patch without its cover letter is not finished and must not be reported as
-+done. Maintainers can expect the cover letter, and may ignore patches prepared
-+with an AI assistant that arrive without one.
-+
- Procedure for finding and fixing bugs
- =====================================
- 
-@@ -63,10 +141,11 @@ these steps:
-    re-running a complete analysis; drop any fix that doesn't work and try
-    another one. The fix must not add build warnings and must pass the
-    checkpatch.pl checks (see submitting-patches.rst).
--6. Commit the working fix with a detailed message describing the problem, its
-+6. Commit the working fix with a message describing the problem, its
-    user-visible impact (see "Describe your changes" in
-    Documentation/process/submitting-patches.rst), the solution and a Fixes
--   tag. Do not add a Signed-off-by tag.
-+   tag. Keep it to the point, see "Commit message" above. Do not add a
-+   Signed-off-by tag.
- 7. Identify the maintainers and lists using scripts/get_maintainer.pl.
-    Documentation/process/security-bugs.rst shows how to do that.
- 8. Indicate what could not be done. If the fix could not be built or tested, or
-@@ -77,3 +156,6 @@ these steps:
-    review (the assistant must never send anything itself). Regular bugs are
-    submitted as described in Documentation/process/submitting-patches.rst,
-    vulnerabilities as described in Documentation/process/security-bugs.rst.
-+10. Write the cover letter described in "Cover letter" above from what the
-+    previous steps produced. This part is not optional, not even for a single
-+    patch or a one-line fix.
--- 
-2.53.0
-
+Thanks!
+Sam
