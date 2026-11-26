@@ -1,99 +1,117 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.229.9
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795676620;
-	b=n5ptMV0Z4Eowm9ZU1kMNaHcEMYaxhuVJNm+HO0Yk1TKNZIDu0Bu7rhvtWaeaAFizW38b
-	 elk1p8h1Yv3Of3RkQd4G5mnciLiiha1syOHSAx1CfSoPgjVX5A9BUGBZblkynRVgq8+u4
-	 IoLl+54MHqx0F4qPy0BrJ9s2yI28nEKE9wE9Qt3wdXOt8O5RJ6dotgjktX+/6Slr4Cv2n
-	 9q3RzRsAXDFiyquHm6K9x6EvHfQ1QwR2+1ktqosAlBLJv//GkLOF3re8RRUMn3EGleEEj
-	 /p4ohogMZS2W6VXquw6f8sFVU921KRh3mOjirklZ6uliHStYAdFlrnCtSwO/0+h6KoA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795676620;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.177
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795677406;
+	b=v4vtFBm90Xm4UVpP7Op9+S4phy7ddkT6UdbZ8GR6nfXhvxrthW63zJ2nmMVYPkkC/vIT
+	 2Hu2gmT7CtZUNB38SMro4BIaL2rTk8nkY/7/KTSHRIa+mlK4nWsvK6wDDKrXI0JofbAVr
+	 DcVi7hyRQvTVE2wVgZWB/vVXITeFCa1dULtoM/4PDKz4HVn6HTu4tfChNMv+W2P761QGV
+	 PBhZhLqS8dggh8NzlYRdyXKEOA0lm/4oxQ3G8nA8hjCLOUaw4947/phjc6h6j/PNqSWvP
+	 dZCwjBq5A+zY2pMOIPF1semGU9G6Rq1euMOiRqZ6DUnVmF51YG2yATH6NcTTDnmanbw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795677406;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=D8z4X9d7XTdPtdZKUVI1Q6jRe3rMzFKexJK1WGJD7qk=;
-	b=rcdLyvgi/kEcfGvTcr/rB+gdI0g1axE4oiv3XEe3FsdhyF0DyP73RqdBrSnlImU+R+g9
-	 dovSVwxRzdCDprvl1k6GHAo/Q+x9gn/OJt93wRT6dEWkcuvXJlwJ2lGWjEVallOsO1AQH
-	 lSxhridbVwP2Lw+zG3wmBZ0TphjJgSnt/x31YDjGhRrDFGr96mNRgtwJS746F96GOTYY0
-	 m3mtUsKzcycFXija2JwhGjAUjSGp+SD3uOCFYbxGk5+vzCRz6MyNj8olM34PCanqU5/mL
-	 qxAxLYCg4nhABWgoBUc6zJIJcT7GeFcjzT8xU2eEVJaQLi8V90IswNW9oEjZM9sQRFw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=tioXBSwm5pktLh4V7ZjeytUoL0urdjzGdHunvMaRHSk=;
+	b=f0JogIIrC3lMtk7espHEZuHuCIUBZCaKeVGnw6p4xzBp04ugd0URjcu8ecjv8LGPvVE5
+	 m6RpT3RPZC3K+ljmq2ANi/CKmMRz6+w4LoZVV4cP9cFvmuzRX1oQeQ9zdtfh4NVDvo+Bw
+	 th38MIcnmWCDI6gL2grUNNfV8CW+McLi4rfmKLqmrlSSsLRyQXVl+EDrOIYQRb3iWWi5d
+	 UCMHUwawpCDJ8aGO8nAIM/EIA50j2hUSc8fm/erUC8mUiP35wq32dAJveWRRnV25tpDKQ
+	 0paQiZBQvGZhzEavTycR8XF3dWlerW9sZ4Q82Cg4Uii0EUVwv6gPgxlj7W4eSiCBG5g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fiIYrwvC;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.229.9
-Received: from mail-dy2-f9.google.com (mail-dy2-f9.google.com [74.125.229.9])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oi2Ks9b3;
+	arc=none smtp.remote-ip=209.85.215.177
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17844606A31E
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 07:03:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17844606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70FB6606A327
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 07:16:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70FB6606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fiIYrwvC
-Received: by mail-dy2-f9.google.com with SMTP id 5a478bee46e88-377157fde7bso2153743eec.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 23:03:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795676619; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QOk8UDgsEbk9Rwu9Re8sz2aiVgNMeEbEfYpV+aQJKp2i6KKCENr9L0EMAPMa+WYsPf
-         500cL3vMpGSfTNXHpezo4oiSQ8yssQvikjyVAqNv5Wev+LwOMaYqOzF3ZaNTsMDt3raX
-         xlsA1DIfn56LQtPYKD12S/FmGAeev+iNhO4SG7iyzG2HdoHwrXVDbDL25RIU262/q2bS
-         7BP6KyIVpYLD6T1JMEgcLYSR6/H192LxjrDhM8elMH6EJlnMpF2JHDqGx+o0bcGcEzae
-         YC80Iw1/eKJYXg1vz94XEcdSjvhMN1pjwGqmzg5nvUBV5h5vcZ3o+Zqx2BFNjhWOkdOL
-         Hesw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=D8z4X9d7XTdPtdZKUVI1Q6jRe3rMzFKexJK1WGJD7qk=;
-        fh=V+EJTkf3bjqbMk1GHlgbSulLrgKv/kJo3cJMZqHPKjo=;
-        b=Nt76wPNcJRObRSBi5LzOqJRa0/0Lak/7ee+3ZmY1GhafOwgacwbLS2pMIL+1zIwj6m
-         BLQnc0iBMUBq779qdo7MeS4B2iUf+6LOJQPnPgKGeA/d7SNNev5MjHJQuhFZm2baRldg
-         XHQFh8MJDStbfH8MDytRKWZKAY22tSIBtKYA/sZdUStER2ZY99zB6xIvSM6YfHShovIW
-         NihEiIxN/f8/Ohq/+cDsa8jf2yAMjNok5m6+QB/n7kaaJ62V7D9OViAY75vVomq4uZYQ
-         0DCL77uvkGhC3XYP/7TTnJYbphCYrde4AGqNVK4z/LEfvptefIUNaPjYClAL+RrCiGvs
-         4Ofg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oi2Ks9b3
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-cd62c570b5dso4533049a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 23:16:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795676619; x=1796281419; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=D8z4X9d7XTdPtdZKUVI1Q6jRe3rMzFKexJK1WGJD7qk=;
-        b=fiIYrwvCBeZKrYtTaJqUYvru4zXLx56SFmsyIIeLyqI6bBd/eZuJrjH/8vUJlyqSeH
-         2WvxKxC5xA3jcMB05Fq8ZbZwTwuY9JFfsRVIOx/0yHz5FzGfM8zSQ64YLA6GTbnTk0Bp
-         PFHUDxyf5ZbUULgQAEXyD8tTOhGellvjT1GGiCW1McfPoDs4j9cEmzISdp+/VAuqwfH9
-         O5VmU0TYYlgOtHRNVRmgCjHv/pgXICsHD3vvctkRl4C+1Dii84GI+1jouEhNTcjAjwQI
-         JuVIrMMFTpNAFAY433XxzAzcCH9fXRY6JFdWyixnHVBQGpZoyEWR6reYIqlVYmx2uOTa
-         PjYA==
+        d=gmail.com; s=20260707; t=1795677406; x=1796282206; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tioXBSwm5pktLh4V7ZjeytUoL0urdjzGdHunvMaRHSk=;
+        b=oi2Ks9b3T4wlAj8zr6C3H3evvBHdgAPn4MlpNxzpJ39yFK2wco5D5Uai+HoB7RXilR
+         B3329OrtXQcD9E13YoAoDRSV/mttgXULxSRf2+6fjDqsKkCTjsblzC4if3F2kuGA8NEo
+         PV/OsLxIZSKzXnkMd6kb8yPaXCnzs3h8qHdiygf+M//zgca57HRzZm167dBnFxISbboN
+         Knoyv/cC3Jh+HZY4+YgDlwQD8W+5mEvdM6dNEjQ4gizfbmedld31pW8jxgE9uA9XGvuK
+         YSYpG56oLnyIMaDJ6ok858+qzM/jCAA8aJ9r51VbkzJ+1i8jflqPEFbx3ReNdkFqnRjb
+         2AGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795676619; x=1796281419;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=D8z4X9d7XTdPtdZKUVI1Q6jRe3rMzFKexJK1WGJD7qk=;
-        b=ApgG9c/wTkydCRFERBJDiaOYWWjqtjICsUe0GLnykSyfuhMGZmcq9+hb/pargJv2By
-         FftFFXxWCuK4IRTJqU5BE50wGn40kdlaALzYgB1Wgi5bvMI7aNBhqE+QMXJV+h3UMI7s
-         06XqbkE1q5Cc40JRfoUNB6dXVVsV/19FQiXkUR2as6FZTZJJOhSX3TtN71TUad7l4pRl
-         ZpWZbUn8Epm+rM2izXcRlrHwcMEzieskkJBzrc12IMakGa+/Oz/ZPG4yGLzspszzVy+2
-         rTQMDLXjsr2nsBDFfE50b6PWk7Yq/kwLztmRaiGFeA/zUeNuEZS4hDxMHsPXQtJmzPG+
-         Nvnw==
-X-Forwarded-Encrypted: i=1; AL+hErFCoWJp9VjaXR/OkROZswUaIJkhkTNi8xwBwC/qCadCxpo0NGln5nQfnFp8eldf2ycRbnrB7YR04PE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8gvFElW11u4YxiStCrK74myYIn+9/utYlSO+EV8lccDEcu+dHj
-	g6dMAMFFA5FWsGX87Mm+fUqqmmvYF27RmOVxOk81EIZmyfPDSx/IqduH4kztWuBed+OuiqQvFJp
-	xG7envCk02j/PU7W3VFwr6QX21ZBXRA==
-X-Gm-Gg: AZFdTZddcI4wAtKscEGrgaJvALsF4OMvzvKLk/d0HEmVg0FSQmi5UHX7LhrV32/0aF5
-	f+J9Z06CPVL6j4aMN5ALiZcwTX4+4oc+oq+FcRav1sKYEhumdedjpc4o30pXuwOxMgTBCPOG+mO
-	AfPwV3ag5TNLGmtZTi4zoHMKgo+I+FU9gNMMYQBVEfA/gp8YjqWkPmg+tpQkJb4hStizsulugYw
-	GRxIcXBe2Si1GkSw0Zja+mb+OpSo+XH7OibooeOv0REpWQBbJynmqGR9vVmDYH9ASGGxshTcYXG
-	Oi8j5mUTnoQ2BHkISXoGvcCebbs5rv1p+7OJhF7urudwnZdaozzvFldbZEDG0PwCFK1DfABk8yU
-	KopuJW89jjXfvKKQUo9DVM5ywNOIALwdSXCAk
-X-Received: by 2002:a05:7022:23aa:b0:1b5:23e7:3387 with SMTP id
- a92af1059eb24-1b55688dd29mr28250607c88.19.1795676619107; Wed, 25 Nov 2026
- 23:03:39 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795677406; x=1796282206;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tioXBSwm5pktLh4V7ZjeytUoL0urdjzGdHunvMaRHSk=;
+        b=J56GOWRa27HpthlXGK1Qgfn/kjKyKBFhVcVBFTMndzfEk37JgWsh4OgAWKt6kkcPmH
+         WlqFaJyu6GAwMAKn/LaaWTmL8fduyDMX01k4oXV44I63bZN51aXq4c1s4piD/VDZxbDb
+         fzMDPskAg+tzQQsUxSurHdGgY+l1K1ZDQ3eR5O2SiJgpDt6A/jHzCOtGlPngPAPSb0Xn
+         Q6XskyL8xhsuoBko2+YWAu7gJu7gBRoPLxaY93cHDGZryfhR7H/2T86DdHofx5HSH8Db
+         eY9ANIUmrrJdqWwQD98gpqji0Htbt8UorsOsTI6kM37lyRisVWps6lsmjbTXwM+XVK8b
+         rUMw==
+X-Forwarded-Encrypted: i=1; AL+hErGRZu62LqdqSqdJtPNGgJR0pUpy2n4ecZKmu63TAjK2Fnf9A8vq+pavNPTLm9QgIGmeA423kIpGmAM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+niKPDyxVaOiTMf0Xpsxzw58z3YKAacfhnRWOv/wpwKxnqex5q
+	T5ue2G6iWuVda1cSMV9VzO1WD3XeH/H9dzvQoVAhEsQkDz5x4JEmF/wU
+X-Gm-Gg: AZFdTZdC8Kl+LIjtwdYxVsf1lommU7WYiOCz1jKlqm1p1/ppUkIH1U8hWxJNP/s4fFH
+	b7GLo0RbY/+j2GlT0aZxxn95/0fegK/MJ1vqSqxTfK3qgg6nofGSka0NCjU4tEX6M0RDESy5+Qv
+	7zG+TaktRGUdYDZ7CemGkOw9Yt1DNHwN1UIIPOlEOjtgPUVwIV2VINgLxPamyI7zAvXl+a1Mc7e
+	CpsW0dNO72mxdVor9lk8oA7WAqznHzqhdeko3U0pju6ClUeEtn3GJZPwoAELRQ3t3iq/k46Hkb3
+	NHlIG4QJH2Kx1cb5Ov59LcLZjHaonMz1fRweK3lXP0XeNFz6IFhhAb+MXPQHmvmlcPbKDpuK4p3
+	AQef4YE67JWjzRDZNRyTcM2BWV7DNLk38A/88j+mqqMn7/hUJEDUcQOgX/IgZnox6jPoZe2on9B
+	t4wHDOv2Q9q7ZSVzYYYvDmYHO0ForeRzkqC8sslIfF5BF4QYlchfTCpGC8DQDd+aho2y2tqILTm
+	e8DaD+o0M1vBJI048TrZuAAPfmCtQ0U8Q5w+0Qr5a6LO1waEx1WnoOG2haZzJulx0lM3/zmlupU
+	QO/e9yf7ekmhrcz/W2XVzOoom3LCAThdXjkCjgaZxkrm0K6oSgO7grykX5FcZvRvK4vIIGIa/1E
+	=
+X-Received: by 2002:a05:6a20:9389:b0:3eb:9e7e:1ebe with SMTP id adf61e73a8af0-4014b65c9ffmr25687016637.21.1795677405734;
+        Wed, 25 Nov 2026 23:16:45 -0800 (PST)
+Received: from KASONG-MC4 ([43.132.141.21])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c86d821637sm10523020b3a.0.2026.11.25.23.16.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 23:16:45 -0800 (PST)
+Date: Thu, 26 Nov 2026 15:16:32 +0800
+From: Kairui Song <ryncsn@gmail.com>
+To: Vernon Yang <vernon2gm@gmail.com>
+Cc: kasong@tencent.com, linux-mm@kvack.org, 
+	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Muchun Song <muchun.song@linux.dev>, Qi Zheng <qi.zheng@linux.dev>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
+	Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, Gregory Price <gourry@gourry.net>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
+	Hugh Dickins <hughd@google.com>, SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Yu Zhao <yuzhao@google.com>, Zicheng Wang <wangzicheng@honor.com>, 
+	Tal Zussman <tz2294@columbia.edu>, Xiang Liu <liuxiang.277@bytedance.com>, 
+	Ehab Ababneh <ehab.ababneh@intel.com>, Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, 
+	Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, 
+	Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	damon@lists.linux.dev, linux-doc@vger.kernel.org, Tianyi Chen <hi@tychen.cc>, 
+	Ridong Chen <ridong.chen@linux.dev>
+Subject: Re: [PATCH v6 10/18] mm/mglru, gup: mark folios referenced via a
+ fast helper
+Message-ID: <awfb-vGF62XvcX_F@KASONG-MC4>
+References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
+ <20261124-mglru-fg-v6-10-8ffea39934a6@tencent.com>
+ <6c3d32a9-3004-4a17-b854-7088e69f164a@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,65 +121,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <CALa+Y14BNfdWH3yBY+ky1+Sb0YvRzW=gRcKKyGWWaBQkysPUkA@mail.gmail.com>
- <20261126020416.87656-1-sj@kernel.org>
-In-Reply-To: <20261126020416.87656-1-sj@kernel.org>
-From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Date: Wed, 25 Nov 2026 23:03:27 -0800
-X-Gm-Features: Aa3M54pr7zZt1s4Atym5UQrDZXCPmYeOf41IBUKmR70FxfH89wL-58DBqEGqTME
-Message-ID: <CALa+Y15wc4bgERo_FEwxL4m-NUjx=_o0yPipUN+ymv7HTSUL0g@mail.gmail.com>
-Subject: Re: [PATCH v2 00/27] mm/damon: let users report their data attribute findings
-To: SJ Park <sj@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, damon@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6c3d32a9-3004-4a17-b854-7088e69f164a@gmail.com>
 
-Hi SJ,
+On Wed, Nov 25, 2026 at 09:47:18PM +0800, Vernon Yang wrote:
+> On Tue, Nov 24, 2026 at 02:53:02AM +0800, Kairui Song via B4 Relay wrote:
+> > +/**
+> > + * folio_inc_lru_refs_fast - Bump folio refs count without promotion.
+> > + * @folio: the folio
+> > + *
+> > + * Raise refs from 0 to LRU_REFS_REFERENCED and leave hotter folios
+> > + * untouched. For a folio off the gen lists with MGLRU off, a plain
+> > + * PG_referenced set.
+> > + */
+> > +static __always_inline void folio_inc_lru_refs_fast(struct folio *folio)
+> > +{
+> > +	unsigned long new_flags, old_flags = READ_ONCE(*folio_flags(folio, 0));
+> > +	unsigned int refs;
+> > +
+> > +	do {
+> > +		refs = lru_get_refs_flags(old_flags);
+> > +		if (lru_get_gen_flags(old_flags) < 0 && !lru_gen_enabled()) {
+> > +			/* For CLRU, just do folio_set_referenced() */
+> > +			if (refs & LRU_REFS_REFERENCED)
+> > +				break;
+> > +			refs |= LRU_REFS_REFERENCED;
+> > +		} else {
+> > +			if (refs)
+> > +				break;
+> > +			refs = LRU_REFS_REFERENCED;
+> > +		}
+> > +		new_flags = old_flags;
+> > +		lru_set_refs_flags(&new_flags, refs);
+> > +	} while (!try_cmpxchg(folio_flags(folio, 0), &old_flags, new_flags));
+> > +}
+> 
+> The implementation code of this function looks a bit convoluted.
+> Would it be better to simplify it into the following code?
+> 
+> 	do {
+> 		bool clru = !lru_gen_enabled() && lru_get_gen_flags(old_flags) < 0;
+> 
+> 		refs = lru_get_refs_flags(old_flags);
+> 		if (clru ? (refs & LRU_REFS_REFERENCED) : refs)
+> 			break;
+> 		new_flags = old_flags;
+> 		lru_set_refs_flags(&new_flags, refs | LRU_REFS_REFERENCED);
+> 	} while (!try_cmpxchg(folio_flags(folio, 0), &old_flags, new_flags));
 
-On Wed, 25 Nov 2026 18:04:15 -0800 SJ Park <sj@kernel.org> wrote:
+Hello Vernon,
 
-[...]
-> This is the expected result.  The implementation is more strict for type
-> matching.  If it is unclear, it says the type is not matched.
->
-> For example, if filter type is PGIDLE_SET and we cannot confirm it, it is
-> treated as not PGIDLE_SET.  For example, DAMON could fail at confirming that if
-> it was unable to get the folio for the probing memory due to some races.
+That's very good suggestion!
 
-That makes sense, thank you for explaining.
-
-[...]
-> In my humble opinion, , the user could work around this issue by not submitting
-> the report too frequently.
->
-> But the more important question is, if the user really need to do this kind of
-> frequent report submissions.  I have no clue at the moment.  If it turns out
-> so, we could improve kernel side.
-
-Agreed, user reports through sysfs are unlikely to be submitted this
-often.  The main reason I tested at high submit rates was future
-hardware samplers, which would produce reports much faster than a
-user would.  I was checking how the queue holds up under that kind of
-load.  I am happy to discuss this further once this series is in and
-you share more on the next milestones.
-
-[...]
-> I agree this could be confusing.  In a sense, that said, those are working as
-> documented.  There is no documentation saying addr_start should be less than
-> addr_end.  DAMOS filter design documentation mentions "support of the filter
-> types depends on the DAMON operations set".  And the probe filter design
-> documentation says "The filters work the same as DAMOS filters".
-
-Agreed.
-
-[...]
-> Good finding, thank you.  Maybe we could ask Andrew to fix this up, but this
-> might be too minor thing that readers could easily find out themselves...?
-
-Agreed, it is a minor nit; can be ignored.
-
-Thanks,
-Ravi
+Only one thing here is that
+`!lru_gen_enabled() && lru_get_gen_flags(old_flags) < 0` doesn't mean
+it's classical LRU, maybe it's just isolated. How about bool on_gen?
+Or bool has_gen?
