@@ -1,98 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795687194;
-	b=V+cu3T238PeNyBZFHJ7pkpSQfsECPSo6xIAkrAPvJALq/welPIRxV3oJX97leqFBATrs
-	 fcpkZfacwY5AYW040jLnxBiKPb/ps/v1JWXGd1SBOnC5rJivCY+0uVNAbXoFSQNUSNecA
-	 QlQouYfOHT3z8lLBVDjXHNVC/NlItxFmh/17pDatTg9fs5+inEuyrNNXoVCOdPsNZCtgj
-	 a5hGEGAmTtVU7ABRHc+/3nXAYVHM++RmUyy47+3e7ER5PK+Tz8tSjJwy0bNgwG+ewXIo7
-	 IN8QeKkccGwq9CstRNJe/mUjXhItBKw2H9w9sygwvdwiykIADwVKKCZGFnmXFbr+03w==
+	t=1795687388;
+	b=ETFCUaBkGERUaMOpELLDE9F6i9VfpGeOcFU6dRARY5N/D4k5TEdPahDYy0wwz8EA2Rd2
+	 HWlesTRr1QHr+idY+58whY87dB0xp1YmT5B6VahPrxGo/+DhgWjQKQAQoaIq43Ax04jIN
+	 VFLcE7ny8kOrGXD8xQ8l5f7f721GOZg3SBq+q8BGm0TKLNj3s2wIaAHBQbiXa5PsxdNRB
+	 o341ImaEAAwkkHPAJtycfPly2CkSZbAT9P7OVyQA9Q13W6zCWKlmBQZUTuzawsFwwj/Do
+	 VzVSbhLrUc52Rp1mL6htJyIKogI/OI/jFHh2zG64H3sYwFNo7fp+SMnCYmONaoqyPGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795687194;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795687388;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=HqYzO/eSRDch7jJCLzvTRvERSohL54BCcWWSz/h0074=;
-	b=IvR00uColyKHLFJAznXJhv9UXkstPbxdvumb+SRX7/rIDza4yKxTuWASi0cXK4ppzP9X
-	 mfzlzSPkQGkn7xgsZ5tSW6B/QtlrCy4Lnj54Ul7ncGTnqW35auT67y5lqpHgfiGwN/+oN
-	 QwN29NoGlz3uVkpcb6jTQfL69+nP9cb4N/Lu8sb5aHZqb1fXzBJWJNm11V33HoAGOnlIt
-	 Ms1glTYg3ZfaPacy+HeMo+CeezRLm4t1JVqlZUXzXJtCtv7UO7K+HIFbR2cAW3O7zs+TA
-	 LEhbBwh/aFEgsXn6dx3gulJL9+C1AcMHoGyMGNmVaZr2/cfU3sx4DrbfK7wrW1Uz1vw==
+	bh=nvUQAu5hfqrCpAWKTZhT16YQ/ndR7wx4b807Dm1ijNE=;
+	b=K3vxrPA6kb1FGBp6VB2wdgky2OBOY89d9dUqGFgHApQQmFqLKJuMPMOBBUF0fSMrUMDF
+	 rEp/DitcNRjVE8iUbRcYl+NycGmmX02GZdVkETdZRfpv5vfQ/EHo7Fkkw2jghRuK9909h
+	 iAwD2eUNo+v48zd5KxFoQYFbnwMwj1ybhPS4N9NBpWnAz81PA0b37F98Z1VHvJsAxKDJZ
+	 7xa+M1t2LBa8N/ccYKVVF1bVGy1AT5W3yX60AMkGpDO9Vv8uCgBLIJUl/7YRKWBBxkwdR
+	 TRwC2MY3PNfa1mX7lS6X1JFImsQXvxxbpYd8UfwisFP4sCXInKRpmP8qx7cFOUAz4Mg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FSbQknkw;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MdrHT3rY;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA591606A31C;
-	Thu, 26 Nov 2026 09:59:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3B6606A31C;
+	Thu, 26 Nov 2026 10:03:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FSbQknkw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E63D1F000CA;
-	Thu, 26 Nov 2026 09:59:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MdrHT3rY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B79E1F000C6;
+	Thu, 26 Nov 2026 10:03:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795687194;
-	bh=HqYzO/eSRDch7jJCLzvTRvERSohL54BCcWWSz/h0074=;
+	s=k20260515; t=1795687388;
+	bh=nvUQAu5hfqrCpAWKTZhT16YQ/ndR7wx4b807Dm1ijNE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FSbQknkw38FgllhfssHvNv0MbT1LPViaDlO7msWVDVWlr2dZ+tvZyZXD8lGkrbJHH
-	 NYatujlK5nSOyXTq1MoXkh0Ui/+V7dJ8bsSqbCC5hfjdzSqaLiy1W1VSJM+Ub8JZZC
-	 lNor7sv13clqY8nIKxzJ22Azl6QAVaWLfd1Q5ifVI2zTt5NOl5GRASRx7HsTxWVb5k
-	 MnVw07RlfYCdZaTyLQqUZz2O5dJkLKr2JUWexPW3r+RU1oQ17f+b0gGD1n/UEvUF1R
-	 4qTCsiY1jEyd6gzvvS/oBdhWhfjw4dE/SZ314lf43F1Y/r0j7juM4+ZoAaYeFow7mR
-	 aI+WWCfDP7aiA==
-Date: Thu, 26 Nov 2026 10:59:35 +0100
-From: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jinmeng Zhou <jinmengzhou22@gmail.com>,
-	Hongfu Li <lihongfu@kylinos.cn>,
-	Andrea Arcangeli <aarcange@redhat.com>,
-	Mike Kravetz <mike.kravetz@oracle.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Dave Airlie <airlied@redhat.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Gerd Hoffmann <kraxel@redhat.com>, Mike Rapoport <rppt@kernel.org>,
-	Mel Gorman <mel@csn.ul.ie>,
-	Dave McCracken <dave.mccracken@oracle.com>,
-	Andy Whitcroft <apw@shadowen.org>, Adam Litke <agl@us.ibm.com>,
-	Lorenzo Stoakes <ljs@kernel.org>, Rik van Riel <riel@surriel.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>,
-	Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>,
-	James Houghton <jthoughton@google.com>,
-	Yang Shi <shy828301@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Pedro Falcato <pfalcato@suse.de>, Gregory Price <gourry@gourry.net>,
-	Zi Yan <ziy@nvidia.com>, Joshua Hahn <joshua.hahnjy@gmail.com>,
-	Rakie Kim <rakie.kim@sk.com>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Wanpeng Li <liwanp@linux.vnet.ibm.com>,
-	Andi Kleen <ak@linux.intel.com>,
-	Kenneth W Chen <kenneth.w.chen@intel.com>,
-	Hugh Dickins <hugh@veritas.com>, Michal Hocko <mhocko@suse.com>,
-	David Rientjes <rientjes@google.com>, Joern Engel <joern@logfs.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	b=MdrHT3rYqxN2GJCrGejAnmr9YhGi/Kt4bJ9mg2PNQ+UdhhhMf/LMqZ//FD2JHkHDf
+	 LC2s6pgDsfLL0duQlAlQ57Bv6tbJuPj19/XqAcQ6fq4iZHnsRYcMQc0qFMRqn9rp/h
+	 4UiUrGux1R5OW56+LSDwRhtW2cfyG9awbe41vA+tIJwfRdFe3PdYLpUksAr7lT4u18
+	 b+hFlJCk3uV3afE4jKafJUeQ85LUdtaY+RyxYKIfor0u+ivooqbOd8fOASOba+26o4
+	 MRCieroIOgwaymMzJUppyJ/FbM1e+5ZjHNTpLKSuPPX4JA4SdFy/Xha1FGBiohtRtk
+	 xjxYQqhAnhD6Q==
+Date: Thu, 26 Nov 2026 12:03:02 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Michal Hocko <mhocko@suse.cz>,
-	"Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
-	KAMEZAWA Hiroyuki <kamezawa.hiroyu@jp.fujitsu.com>,
-	"Kirill A. Shutemov" <kirill@shutemov.name>,
-	Sasha Levin <sasha.levin@oracle.com>,
-	Guillaume Morin <guillaume@morinfr.org>,
-	Wanpeng Li <liwp.linux@gmail.com>, linux-mm@kvack.org,
-	Jason Gunthorpe <jgg@ziepe.ca>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@osdl.org>,
-	linux-doc@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 04/21] mm/memfd: mark new hugetlb folios migratable
-Message-ID: <awgDB3ocsRhKH4dw@localhost.localdomain>
-References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
- <20261125-hugetlb_fixes_2-v1-4-db27fd2f71a8@kernel.org>
+	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: submitting-patches: Limit backtrace trimming to
+ timestamps
+Message-ID: <20261126100302.GG774860@unreal>
+References: <20261126-backtrace-timestamps-v1-1-0a645b25e5ae@kernel.org>
+ <CAMuHMdW5mxjaAXcu6nAiK1k6umpCVbfCpPPofPCbv6f9xr3_dg@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,33 +62,92 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261125-hugetlb_fixes_2-v1-4-db27fd2f71a8@kernel.org>
+In-Reply-To: <CAMuHMdW5mxjaAXcu6nAiK1k6umpCVbfCpPPofPCbv6f9xr3_dg@mail.gmail.com>
 
-On Wed, Nov 25, 2026 at 11:33:02PM +0100, David Hildenbrand (Arm) wrote:
-> memfd_alloc_folio() adds a new hugetlb folio to the page cache, but
-> never sets it migratable, unlike hugetlb_no_page() and
-> hugetlbfs_fallocate().
+On Thu, Nov 26, 2026 at 10:45:17AM +0100, Geert Uytterhoeven wrote:
+> On Thu, 26 Nov 2026 at 09:13, Leon Romanovsky <leon@kernel.org> wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> >
+> > AI tools tend to trim backtraces too far. Taint flags, module lists and
+> > module names disappear, which hides that an out-of-tree module was
+> > involved or that an in-kernel API was misused, especially a driver API
+> > that is not meant for general use.
+> >
+> > Ask authors to remove only the timestamps and drop the example, which
+> > shows a trace reduced to bare function names. Timestamps are the one
+> > part of a dump that adds only noise.
+> >
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  Documentation/process/submitting-patches.rst | 20 ++++----------------
+> >  1 file changed, 4 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> > index 85ba046d66fbf..56b1b38ac59cf 100644
+> > --- a/Documentation/process/submitting-patches.rst
+> > +++ b/Documentation/process/submitting-patches.rst
+> > @@ -763,22 +763,10 @@ phrase``, it is important to be both succinct as well as descriptive.
+> >  Backtraces in commit messages
+> >  """""""""""""""""""""""""""""
+> >
+> > -Backtraces help document the call chain leading to a problem. However,
+> > -not all backtraces are helpful. For example, early boot call chains are
+> > -unique and obvious. Copying the full dmesg output verbatim, however,
+> > -adds distracting information like timestamps, module lists, register and
+> > -stack dumps.
+> > -
+> > -Therefore, the most useful backtraces should distill the relevant
+> > -information from the dump, which makes it easier to focus on the real
+> > -issue. Here is an example of a well-trimmed backtrace::
+> > -
+> > -  unchecked MSR access error: WRMSR to 0xd51 (tried to write 0x0000000000000064)
+> > -  at rIP: 0xffffffffae059994 (native_write_msr+0x4/0x20)
+> > -  Call Trace:
+> > -  mba_wrmsr
+> > -  update_domains
+> > -  rdtgroup_mkdir
+> > +Backtraces help document the call chain leading to a problem. Remove
+> > +only the timestamps and keep the rest of the dump unchanged. Taint
+> > +flags, module lists and module names show whether an out-of-tree module
+> > +was involved or an in-kernel API was misused.
 > 
-> Later faults will find it as an existing folio and never set the
-> migratable flag.
-> 
-> Such a folio can never be isolated for migration, even once it is no
-> longer pinned, which breaks memory offlining, alloc_contig_range() and
-> memory failure handling.
-> 
-> Let's fix it by setting the new folio migratable after adding it to the
-> page cache, like hugetlbfs_fallocate() already does.
-> 
-> This has low urgency.
-> 
-> Fixes: 89c1905d9c14 ("mm/gup: introduce memfd_pin_folios() for pinning memfd folios")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> Please don't move the burden of distilling the relevant information
+> from the (single) sender to the (multiple) receivers.
 
-Reviewed-by: Oscar Salvador (SUSE) <osalvador@kernel.org>
+Kernel dump stacks have evolved over the years into their current form. They
+contain different kinds of information, and you will often look for different
+clues when working on different patches, even within the same subsystem.
 
- 
+The coding style guidance currently documented in Documentation contradicts
+even with the basic debugging aid Greg describes here:
+https://lwn.net/Articles/1103714/:
 
--- 
-Oscar Salvador
-SUSE Labs
+  Tainting (or not) on manual driver binding
+  	...
+	Early in the 7.4 merge window, Greg Kroah-Hartman applied a patch that caused
+	the kernel to be marked as tainted whenever user space manually binds or unbinds
+	a device driver to a device. This change was meant to be a defense against
+	a flood of spurious bug reports generated by fuzzers,
+	...
+
+A commit message should help people understand why a patch is needed. This
+one instead seems designed to persuade an AI to merge it without providing
+enough information.
+
+For reference, see this discussion of how AI fabricates reports today and
+will do so in the future:
+https://lore.kernel.org/workflows/20261116200515.352387-1-sashal@kernel.org/
+
+Thanks
+
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
