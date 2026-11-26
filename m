@@ -1,107 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795683555;
-	b=QUFEVMCrBqpKlniGULrwmYvMLVAaooD4ZkynxFvpVfPyqW7PID98pLvui4WWn99QfKlJ
-	 +2p4yn1JACh35UveEZPqZqabdPuvDURvZuOEeQJ01mMz/yrmOs/+uxNesMz8Gr2MgHoO+
-	 dPMkdE09uy7X/51fUTkoPJ/k9drJUqzKnMqryE9ulBB6D7RPFBkhnmMEV+nEocNaFEz1F
-	 kmGpdVgzwngA6pu5tkHiyakBsp3kTUVnipVZA63uHbj3N+bGid8E7W5a258kiTOJg53U/
-	 JTqb1ifWIfJbhLDHRfOVpdJ5vXaKce4smDdP0jSx2rPJaB3P6GjHIdktUB+z/ZfMKfg==
+	t=1795684515;
+	b=Mds7uhnfJdHRns6g8D/Gy7wEUzDWtrAfEH7Gai1q0QOKJld5m96CoLMEdvs/Dxlh06jB
+	 WDqxMwd+NxG5FnxCL9KU4wNNAppVZDTL+mqBnoMU/fgLagjsceCgfdFEwvlHnEVxc+c1A
+	 QZYZsDsTjGuxI/E9ErANKx8zAmxIAQIvCzb2Of1wPh1bMhJC0u3cE7ObT5cKZhDQTe48u
+	 rlwrQJUdXrvCvdXkbvGnw0Q44hN3qXzONc3ewttRkCxzdIrw0Q0Sow6Dmq1LOt5aGl4yB
+	 r+tnFzocB3NOs8X5GuuBO33EJ9gI/9ErYc8BIiEp5xdUT6g9xNx2u1iigM3netLtLaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795683555;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795684515;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=gzyMYEceM4UybzdO3Fm0gEDCvlgTGJLtnNanAWRt594=;
-	b=Tmz2hfq5mMRQEDu4C5J0yhdXL8Oa+TIdPWj2o9cMBm94vUDftuz3CAC3o5vzyKNF61KC
-	 62dYd1reFis5v305gVMscI8kgrK2Lq4QPIY/B5MK7L/WDJ8iaGzr0gHZXdvfPCOuoXg0y
-	 VB5iTzRfoPffXeTjH5w84r2e1q2cweaOQfZ+nc7Doubh+rCLRqMZERXkPbFOhRSfYrAzL
-	 4AD7Cc9jA8mpOtR0V4iJsauhmuBLZNnk68cGZP41wy93WR1lXfMhUdELunLqA/W5KSty+
-	 XrSJDC2lcspbrGd6UxgjH2NzuWeBpO00WGHDedLlQvGKSTTg6B8DmCbvV3C95qbEuLQ==
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=nOvBGWrpieXjeYeaYeQ4iz+dQ3K5Ruh6yQGDubq0gG0=;
+	b=0wzFo0YeSpgFeEF6JVHw3jWVPEJc8zadCXQTEJETeGVJ3+yOh3oCtABkWVjr3qdqVJoG
+	 dCvmQbVZh0kP8DlwkcEV6Ns7lL1wYtP8ubddD99T2+bzleh3q0Wifh0qT2n1WsU8Q1Ry8
+	 fPyT+NyERBVC/vl477tqVqRnOQn9EXdFSax3yNj1OhINF160xZQYdX30YSmtv77UqB14C
+	 PVAMFlHbk8jntc6rvusizrJ6b/3rcrb71X87qBvfl+bxQ+D7LJH1AZKfZCY8+SYq+g3XW
+	 1sJWvUbkj8TxMenNoKPcR6oTDyalnKefU7locjkYKBkHWRcNeDddQd00hh11597qDhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=COw5EvXd;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=c1eo+N4W;
+	arc=none smtp.remote-ip=209.85.221.42
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0EE606A334
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 08:59:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE0EE606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C0A606A326
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 09:15:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2C0A606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=COw5EvXd
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4ba013938d7so62981095e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 00:59:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=c1eo+N4W
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-49412eb1474so4387658f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 01:15:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795683553; x=1796288353; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gzyMYEceM4UybzdO3Fm0gEDCvlgTGJLtnNanAWRt594=;
-        b=COw5EvXdXCGtsUqe13IFUYRsjRWKtq904i7s8JTQiJ4Hdkzr6jyWG1YkMsXCB1pwqH
-         jJ77B2eERUhok4x6ck04T4D9GOXQBDRfkbZhtETAK5MPcmIoF2phcupZ7SbgzfD3YdF1
-         RC8tE+Z8SVsB5/vbks2o1+Ncv8TMJxmpmPMmSj8YVZveAkpaXx+BkGel1QjrO9Qq7Z5W
-         DRvDVbI5hxpK09S5c57aOkdWXekpihDvySYpz1hHVeWt893OSvk0LkLCMr1tD/G18Y0Z
-         siWpYh5VM8Tnaz9xaoZIGDSVGn2FVag8R/QySxD2LPJI3Qr6xTn9Alij7nfLF1aAt7jk
-         2dXg==
+        d=gmail.com; s=20260707; t=1795684512; x=1796289312; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nOvBGWrpieXjeYeaYeQ4iz+dQ3K5Ruh6yQGDubq0gG0=;
+        b=c1eo+N4Wiv7EjKxwfcL3tfFeqHu8x6Krnvw93i6u/jfF+sGc2puye5EC9fpm2hHm1y
+         fDnPfexBgEGfMjM7yd2zgZdeG0kXNj/pJAQKzYVw85wcUfnVroYZ4LnFf5d3XZ/Hv+et
+         1W7P3Rigw2cYBsDwlqtzjOLuiE3LksmY9qibSpKVPbmGoMONoBR+FKIvmzf2IGbeBtlX
+         LV/KklZVuZLt7eJDYLih0Yky1NMgailveCaxPt2g4YN8gNC8BObSJB3ml6e0M+688hle
+         bflyxMYc4YeEGyPXz4l2LwullUHtEyF4tGS9y1EHOuIJzjQM31WoHbD79J5yLXPq36gm
+         260Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795683553; x=1796288353;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gzyMYEceM4UybzdO3Fm0gEDCvlgTGJLtnNanAWRt594=;
-        b=b0RlLJSR9oBvGDm9SJ8fJnla64dObIjeD960etpDw7Zll+fzIfNrTwWlwQju+h3j0p
-         WAKTUZkdRVPUksxAmndvb9RbFDrScXAo0K0ewRJ5zulE9DDdnJTOWV+K5I+wcayyxPsQ
-         XOi72fytHWca/nrxcsV4pjimiSG9wdSMLHHOHQIamjofQUgCLd6PH9xO7Avcie34SW3c
-         DjhoarHRFPqk1Rkbzgtyh7idjUwXqEhp3Rnb9Lldtcgtl7vjMCSWNtjy86IeUPvWTlTq
-         BahRz6kfJTf5/+PupL7toP4h3ZuQSX/XtxUedg+WDxNjgaNDbPfvwwiLy7LC9oLJSPzU
-         hogA==
-X-Forwarded-Encrypted: i=1; AL+hErHTxMUX+5LSQjiTWr8g2RpXKDx8TMkBL7ODEDhRyd5IemvPtwUy91pu///TJfmd385UU+xl4tlZVkE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/63S93kdJLy7lFL3kl3aMLQwXXSCYHR2sqL/DG7pmcaFzIhIk9
-	WiuyDwYepWnTIwG5DeSMn1LfVgIWpguZ8xR6Cs4mIf/EnmE7CY21ZKnu
-X-Gm-Gg: AZFdTZfgjtIhgSfO2HYsXYgtk3KdWsHByEbGL4zbtHzOm6WnMmyyUQARk8vIzSvX8yK
-	OhMQUTN9U1FQQSqAgDg8WbZ1x+sxB/J6edxfKj0q1MTZKZ2B725H65Ns7SXfXq0UEnZMMMoHzkK
-	F6G1diJ8aMqoaKov2d3Km5fzhdlLGu0+WpIugKdgfMMc8LNmdJLOdcK5c4ruOipftvDe4vgmh1N
-	mMES63yOpiSWqFwWBo8aDG86IjWfyJbkpehUoiXOvwf3zIymUOWHIdT6d2yffdMW6c0CQ6NHTQU
-	I7yKBrFfVIss+6MjZ5jw/roLRTnsy5PMP+BvsRIbtwpzEf/j5H4VFj9QeQJI3o+9/ylClpbWvjs
-	HJVSF0zL3eVGxi3zCAQNycJvc23izf8wYKFUeU5c0iq869t5EYgceK9hMNGYoTBkCsYgyFI1XuA
-	t3WIkb3op0+f+WCKWfWXbZTq9L39rmbF9dwUqBNGNbBTUxwDpHEvzfksTijjV9x5c0DAurrr0fx
-	pa3ai0nBl+ynlBrBQGAuUHEaSDmLEnPtEz7dO1MmvWBOzDUvMPHrsA7w5vskzy46znPpBBy+stY
-	e1yPNO8iZBZqakyL3bqEad7Yl4B5UgR8d2NXAPzjLAAbqxuGvnZVyhLtiw8Hbwihj2+I0N46akk
-	=
-X-Received: by 2002:a05:600c:4585:b0:4a1:83f0:7c91 with SMTP id 5b1f17b1804b1-4bb8882948dmr417095995e9.18.1795683553331;
-        Thu, 26 Nov 2026 00:59:13 -0800 (PST)
-Received: from center.. ([131.189.143.225])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6c61f558sm40313744f8f.58.2026.11.26.00.59.12
+        d=1e100.net; s=20260707; t=1795684512; x=1796289312;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nOvBGWrpieXjeYeaYeQ4iz+dQ3K5Ruh6yQGDubq0gG0=;
+        b=cWFipWJc7x55SaRhp3VRv1ojH/5AtkPYw84qo5nGppfDvAjbxcAy6KTwhWpyD71GmP
+         cEk5CgVqIN+STuPQo1cX0PRxtzT7eai2Pnx4mfq6RyC8IKc3u2S7/i3ObQYRwMB+VB7J
+         fgQnxdHtjsskk79kmJaWS9rrJ3YhsHvZpEHP6HibuLgmNuPpR5TQSBUjIwsAs7XpumF1
+         U7HQGfk/ith5KWQ2ngrU5sLSmMmSEGJx0QWIcDhWFJXI0G6dmFVK4X5hG4k6PYkDaVZc
+         SU3Q4mqpsHj4Ce0YxV1bUZUuIi7ISX9l/Nd4Vr7oq4jktXJOUubImi7LYpeDo1rlCSX7
+         235w==
+X-Forwarded-Encrypted: i=1; AL+hErH903QaNfPDqIfW2o7zbklUAX+Pr8wQcjlBuUaMjBFqiLzg3r2fPHhC/U5CDbSFPLMTNvJ8MZK0hME=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/5pWYTvI2f7vz0aSoQpOMTdWND3A09CEw5nEk54ZnI7OqTgjUj
+	mBFPbSflF5l/GRQpYt7VJr/C8kFzO7vGOrZgI3vYzrMASJqox3BMu/Qx
+X-Gm-Gg: AZFdTZc0A/rtDs2Daer4c+s/65kBonKADTbG8DkJdnkn+Q4lEmNzfjKXNIc51iUa38q
+	C5XbfwDcfseJfgyCblbAi+7RoFPz89pSZks6Yinj1JFM36pMMQS0aygKXiBiD1BjiQKsX6cZMoi
+	HDbVilH7FacKAuUDronVh/xAweaevTWys37GlJZMck+PMIWWIyf/3IYzCpYHZafK7uZ2l4FRz5C
+	QhVl38rPj3jlAkE8wKbMaqUZWWQqu+X/vF2uFu5g43PC2rNlu7+zbyeYx89OnRW7bJ/cqJQIx0E
+	vfIu0Kc3jpSfJmJrcTWJ5ejAPqOqCrpW/q/vxs4n0u0uObXJdrpqzsFiwQ8pav3KwgCeCSEpIvQ
+	ry6TYaqxhyB/5mb+C7w16aJlrb/m7EqUS4bkQbbAjApNCNi9rW27F6gjrmR8Q8Nv67Qjeb8Kbm4
+	jM8O9Ti/ngfcgfYcYPlKpcJ2nAOrlP6Frl2NsqRg3uVy7QVgVzX12WBwxfPa9D5aKwBIi66+WhI
+	Pp/qPyfmB7y7H4zA2QurcRVoPcOPsj3GAIycs88qdQuYBV+IM1naRHRnPNKyCyJ+zztM4cXwnNI
+	ABo17mttLSYUA5oDQlMglI6ooKOsm3uvfkmkQTiJAZUO1GlQHRjS3NgS+Sqj2HMmfUg=
+X-Received: by 2002:adf:e009:0:10b0:492:b1c5:6db4 with SMTP id ffacd0b85a97d-4abb4c7ab68mr28124075f8f.26.1795684512114;
+        Thu, 26 Nov 2026 01:15:12 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b10b5f6sm37029320f8f.34.2026.11.26.01.15.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 00:59:12 -0800 (PST)
-From: Orgad Shaneh <orgads@gmail.com>
-To: miquel.raynal@bootlin.com,
-	richard@nod.at,
-	vigneshr@ti.com,
-	tsbogend@alpha.franken.de
-Cc: linux-mtd@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linusw@kernel.org,
-	kaloz@kernel.org,
-	ulli.kroll@googlemail.com,
-	john@phrozen.org,
-	nico@fluxnic.net,
-	dwmw2@infradead.org,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	Orgad Shaneh <orgads@gmail.com>
-Subject: [PATCH v5 4/4] MIPS: Octeon: flash: use the simple map accessors without a shared eMMC
-Date: Thu, 26 Nov 2026 08:59:06 +0000
-Message-ID: <20261126085906.814373-5-orgads@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261126085906.814373-1-orgads@gmail.com>
-References: <20261126085906.814373-1-orgads@gmail.com>
+        Thu, 26 Nov 2026 01:15:11 -0800 (PST)
+Date: Thu, 26 Nov 2026 09:15:10 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Ivan Vecera <ivecera@redhat.com>
+Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko
+ <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Min Li
+ <min.li@microchip.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek
+ Kitszel <przemyslaw.kitszel@intel.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, Grzegorz Nitka
+ <grzegorz.nitka@intel.com>, Karol Kolacinski <karol.kolacinski@intel.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Petr
+ Oros <poros@redhat.com>
+Subject: Re: [PATCH net-next v2 0/9] dpll: do not serialize driver callbacks
+ under global dpll_lock
+Message-ID: <20261126091510.7ac67b35@pumpkin>
+In-Reply-To: <20261111164021.273409-1-ivecera@redhat.com>
+References: <20261111164021.273409-1-ivecera@redhat.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -111,118 +111,108 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-CAVIUM_OCTEON_SOC selects MTD_COMPLEX_MAPPINGS, and since
-commit 8c1e6b14e27d ("MIPS: OCTEON: Protect accesses to bootbus flash
-with octeon_bootbus_sem.") the flash map accessors take the semaphore
-around every access; that commit gives no reason beyond "Without this,
-we get bus errors." The semaphore's only other user is the eMMC host
-of the older parts ("cavium,octeon-6130-mmc" in
-drivers/mmc/host/cavium-octeon.c), which shares the boot bus; the CIU3
-parts serialize their eMMC with a lock of their own.
+On Wed, 11 Nov 2026 17:40:11 +0100
+Ivan Vecera <ivecera@redhat.com> wrote:
 
-On boards without that host the semaphore guards nothing, but the
-custom accessors make the map non-simple, so MTD will not let jffs2
-point at it and its mount copies every used eraseblock. Use
-simple_map_init() there. The test is for the node, not the driver, so
-a disabled mmc node keeps the semaphore.
+> dpll_lock protects topology and object lifetime, but it also serializes
+> all driver callbacks in the system, so one slow device stalls every other
+> DPLL device, whichever driver it belongs to. mlx5 callbacks issue firmware
+> commands with a 60 s default timeout, and zl3073x callbacks can wait
+> seconds on a driver lock held across ToD writes and phase steps.
+> 
+> Make dpll_lock an rwsem for topology and lifetime and add a mutex per
+> domain for callbacks. A domain is all objects created with one (module,
+> clock_id), in practice one chip or card, so channels of one chip stay
+> serialized as drivers expect, and they still block each other. Device
+> callbacks run under the domain of the device, pin callbacks under the
+> domain of the pin, whichever driver registered them. Only one domain lock
+> is ever held, so domains have no lock order. A lock per device would not
+> work, because pins are N:M with devices and callbacks notify sibling
+> channels.
+> 
+> The driver API does not change, but a callback can now notify only
+> objects of its own domain. Patch 1 changes the one in-tree callback that
+> does not follow this.
+> 
+> Registrations across domains exist in the tree only on E825, where ice
+> registers fwnode pins of an external DPLL with its TXC and TSPLL DPLLs.
+> These callbacks are no longer serialized with TXC and TSPLL, they rely on
+> pf->dplls.lock, and requests about these pins wait while the external
+> DPLL is busy. Intel folks, please check that this is fine.
 
-simple_map_init() BUG()s on an unsupported bank width; the old code
-warned and then hit the BUG() in the inline map accessors on the first
-probe command. Check the width before mapping anything and fail the
-probe instead.
+Isn't the big problem with callbacks handling deregistration?
+With a global lock there isn't a problem.
+But as soon as you do anything else you have to have very explicit
+rules to safely deregister a callback without either a UAF or an ABBA
+locking issue.
 
-On an Octeon CN6635 board (no eMMC) with a 100 MB jffs2 partition on
-an 8-bit NOR the mount drops from 15-30 s to under 1 s together with
-point() support in cfi_cmdset_0002.
+I don't see this being mentioned.
 
-A little-endian kernel keeps the semaphore accessors: the boot bus
-there needs the address swizzle of the I/O accessors, and a pointed
-address would be read with plain loads.
-
-Signed-off-by: Orgad Shaneh <orgads@gmail.com>
----
-v5: keep the old accessors on little-endian kernels (sashiko);
-    quote the reason 8c1e6b14e27d gives, and drop a duplicated
-    bank width comment.
-v4: rebased onto v7.4-rc1; the Assisted-by tag is dropped (an LLM
-    helped write this series).
-    On top of the new 3/4: simple_map_init() gets the per-device
-    map, and the bank width check runs before the allocation.
-v3: Assisted-by in the documented form.
-v2: check the bank width before ioremap() and drop the added
-    iounmap() calls: flash_map was one static instance, so they could
-    unmap a mapping that an earlier probe registered (sashiko).
-
-
- arch/mips/cavium-octeon/flash_setup.c | 39 +++++++++++++++++++++++----
- 1 file changed, 34 insertions(+), 5 deletions(-)
-
-diff --git a/arch/mips/cavium-octeon/flash_setup.c b/arch/mips/cavium-octeon/flash_setup.c
-index d69249acf..896baf52d 100644
---- a/arch/mips/cavium-octeon/flash_setup.c
-+++ b/arch/mips/cavium-octeon/flash_setup.c
-@@ -61,6 +61,17 @@ static void octeon_flash_map_copy_to(struct map_info *map, unsigned long to,
- 	up(&octeon_bootbus_sem);
- }
+David
  
-+static bool octeon_flash_bus_shared(void)
-+{
-+	struct device_node *np;
-+	bool shared;
-+
-+	np = of_find_compatible_node(NULL, NULL, "cavium,octeon-6130-mmc");
-+	shared = !!np;
-+	of_node_put(np);
-+	return shared;
-+}
-+
- /*
-  * Module/ driver initialization.
-  *
-@@ -85,6 +96,11 @@ static int octeon_flash_probe(struct platform_device *pdev)
- 	 */
- 	region_cfg.u64 = cvmx_read_csr(CVMX_MIO_BOOT_REG_CFGX(cs));
- 	if (region_cfg.s.en) {
-+		if (!map_bankwidth_supported(region_cfg.s.width + 1)) {
-+			pr_err("Unsupported flash bank width %d\n",
-+			       region_cfg.s.width + 1);
-+			return -EINVAL;
-+		}
- 		map = devm_kzalloc(&pdev->dev, sizeof(*map), GFP_KERNEL);
- 		if (!map)
- 			return -ENOMEM;
-@@ -107,11 +123,24 @@ static int octeon_flash_probe(struct platform_device *pdev)
- 			return -ENOMEM;
- 		pr_notice("Bootbus flash: Setting flash for %luMB flash at 0x%08llx\n",
- 			  map->size >> 20, map->phys);
--		WARN_ON(!map_bankwidth_supported(map->bankwidth));
--		map->read = octeon_flash_map_read;
--		map->write = octeon_flash_map_write;
--		map->copy_from = octeon_flash_map_copy_from;
--		map->copy_to = octeon_flash_map_copy_to;
-+		/*
-+		 * The boot bus semaphore only serializes the flash against
-+		 * an eMMC host that shares the bus (the CIU3 parts have
-+		 * their own). Without one, use the simple accessors: they
-+		 * let MTD point at the flash, so jffs2 scans it in place.
-+		 * Not on little-endian: the boot bus needs the address
-+		 * swizzle of the I/O accessors, which a plain load through
-+		 * a pointed address does not get.
-+		 */
-+		if (octeon_flash_bus_shared() ||
-+		    IS_ENABLED(CONFIG_CPU_LITTLE_ENDIAN)) {
-+			map->read = octeon_flash_map_read;
-+			map->write = octeon_flash_map_write;
-+			map->copy_from = octeon_flash_map_copy_from;
-+			map->copy_to = octeon_flash_map_copy_to;
-+		} else {
-+			simple_map_init(map);
-+		}
- 		mtd = do_map_probe("cfi_probe", map);
- 		if (!mtd) {
- 			pr_err("Failed to register MTD device for flash\n");
--- 
-2.53.0
+> 
+> Each complex of a dual complex E825 has its own DSN and so its own
+> domain, but both use the CGU of complex 0. The lock for the registers
+> they share is in a fix sent to net [1], which this series needs. Without
+> it a test lost updates of them.
+> 
+> Patch 4 is the only patch that lets callbacks run concurrently. Patch 5
+> adds KUnit tests. I also tested each commit with a mock driver and YNL in
+> QEMU, with lockdep and KASAN, and the tip with lockdep on two systems:
+> 
+> - A board with ZL30732A: every notification the driver sends from a
+>   callback, concurrent traffic with PTP, driver reload and rebind.
+> - GNR-D with dual complex E825 and zl3073x: callbacks of the pins shared
+>   by both drivers, TX clock switches, RCLK pins of both complexes, a port
+>   going down and up, and both drivers unloaded and loaded in either order
+>   under load.
+> 
+> mlx5 is build tested only.
+> 
+> On GNR-D, with ToD writes running on the zl3073x and requests waiting for
+> them, requests to an ice DPLL took 1448 ms in median and 3.9 s at most
+> before this series, 0.2 ms and 0.3 ms with it, the same as when idle.
+> Requests about the pins shared by both drivers still wait for the zl3073x.
+> 
+> Changes in v2:
+> - Dropped "ice: dpll: serialize changes of the SyncE CGU registers", sent
+>   to net with a fix of the SyncE divider [1]
+> - Addressed the Sashiko review, see the patches for details
+> - Added Reviewed-by tags from Petr
+> 
+> v1: https://lore.kernel.org/netdev/20261106121005.1327603-1-ivecera@redhat.com/
+> 
+> [1] https://lore.kernel.org/netdev/20261110094350.184185-1-ivecera@redhat.com/
+> 
+> Ivan Vecera (9):
+>   ice: dpll: notify TSPLL lock status from the periodic work only
+>   dpll: add domain object
+>   dpll: take domain locks around driver callbacks
+>   dpll: convert dpll_lock to rwsem
+>   dpll: add KUnit tests for core locking
+>   dpll: reject measured_freq_get for foreign and on-pin registrations
+>   dpll: zl3073x: update locking comments
+>   ice: dpll: update locking comments
+>   dpll: document locking rules
+> 
+>  Documentation/driver-api/dpll.rst         |   48 +
+>  drivers/dpll/.kunitconfig                 |    5 +
+>  drivers/dpll/Kconfig                      |   13 +
+>  drivers/dpll/Makefile                     |    1 +
+>  drivers/dpll/dpll_core.c                  |  204 ++-
+>  drivers/dpll/dpll_core.h                  |   34 +-
+>  drivers/dpll/dpll_core_kunit.c            | 1580 +++++++++++++++++++++
+>  drivers/dpll/dpll_netlink.c               |  117 +-
+>  drivers/dpll/zl3073x/dpll.c               |    9 +-
+>  drivers/net/ethernet/intel/ice/ice_dpll.c |   24 +-
+>  drivers/net/ethernet/intel/ice/ice_dpll.h |    5 +
+>  11 files changed, 1919 insertions(+), 121 deletions(-)
+>  create mode 100644 drivers/dpll/.kunitconfig
+>  create mode 100644 drivers/dpll/dpll_core_kunit.c
+> 
+> 
+> base-commit: 368fbf5d82da9ebce309449c74fc0b128f7d0219
 
