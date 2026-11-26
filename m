@@ -1,100 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.54
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795661405;
-	b=ttwWUCKTNDL8p4o/6OYzJ9YxFqIFSkpinh0eWQxf6yZ2v8n0VB6x3EtLOz97JP7TywqA
-	 cm0wz8jMlAI4SUIbPZ/gu3x/D4IqwzyzybRmR2RD5C11dueDlK4YkU7QEI2kIX6CN6WSv
-	 gKGWDH3ryV/3OXQUg9FdCIzFIQUANc6VWugX0J2u/DU6rQXvj1hzjJLSufJFHiSrcYJgK
-	 1sVZrwf2b8OafFnQQpKEUC2kV+T75SElsLI4XBDMpCPS3fiVXqgARacJveGyQNhiSZKSi
-	 A1mprMO1OuznxByrAMPpqtgFyxuU68s6bViQTEen1+kEzBE2bhuelIGAe070lAHDi8g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795661405;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=BmeVPwr9SKwxZECZZ/qpqnmowyCWmqTyCjMYX/8OCrk=;
-	b=R8RPftSubEfIyQTC6adT1PLEFFfYI6uIhA3s7iw6ewZxLUi1zmwWa+KwuPrVZbw7GOk3
-	 XAk/0akJnHu2EFx5oTNZqloRnKbqSFJqlf21sIHfvb9/4WLUDj2f2KLJ6kOUGFpGgAE8v
-	 SNZ9lP8Ii0b+hmTj1dxpwzGL4gnuP1bidvVm/+lfPoQy+QK5ZS447ZYUtq4jxgterCtCt
-	 Cp12IdZLLZ22sMlo6fNSV2H8gQ5n/Ee586pg93mj9Dvgzb9mZxW6esdSXoRXL9sckwO8N
-	 OdPcPqY7z3LKjwKZKz5GshbaiSctu+bIZOst7OuqDVY1vFQH8vROJhLtRFa+mmo5UUQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=epBmNt2L;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.54
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.215
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795662688;
+	b=fEKM4nFLt1jlmDbySaC2WkuOi9Ja9KhXlvw4RX7d2fxH8rByY3GAaw+CoS2hFdRPOZ87
+	 18n3zx58pXHv1QvwKoUpmIrukhckRgWWONaZXIs28tEp26Aydacz5EWisihg7FXXBgleD
+	 DpLnVdYNA54otH6JxgdIiemzN7EIBLgj81ARwNbxpISek+YJsfu79kA7K9XkJHYzBAKpV
+	 B9D3Zgbnptq8G8d/rMa/nvdNC1OB51FM+nOCPIReb/g8YFapSVBVQNcXXqqRmnwxvtUML
+	 kX/o3UlCsn46q9Soy8U+rgZ1Y8u6OmhgN356hv7FbMlFalL9uumT3pFD71t+Wwg4QVg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795662688;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=WYSs5d5Lp36V/22Iomfy0//nynBZd0fYykzrM/pot3A=;
+	b=tjgvrshF/qmTusXOHUUyEkcKbDcmgdYVFGMRNJaLUmg5FQuKRLBRwu5xh4lahCAgN1sq
+	 FDRaJ8Z2dVoSiXftBpBUGi8eyFad/fMx+9mO7RIWfsJlbcA3v00tdZHkIEQ5PVr909CY2
+	 44+HU0I3s3mLUbxWXHURhPCX/avYvQjFf+OovoaDXixRE+FUSKvIugSrU1rdVeMiSjmf+
+	 DADdL3U8k47B9VUaOenr/X/fZaOuejEyfsdnRZ9PcDOAgC99g/qVeppR/Dj+d2x1iDeGc
+	 KVafMIEgNJYscw5tNs5PRPLZGmKZ5wxH1GNcvXcwdXVlHmmVYvGUc0+yqNRQAoqErlw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=XvQ+r2RM;
+	arc=none smtp.remote-ip=95.215.58.215
+Received: from mta1.migadu.com (out-215.mta1.migadu.com [95.215.58.215])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4529E606A31E
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 02:50:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4529E606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D99606A323
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 03:11:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3D99606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=epBmNt2L
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5c1a947b4adso5439721e87.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 18:50:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795661403; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Fs4xJErXj00R2ugvmbQxYuzrrvDmajt72ejfKp+jCd1PfQbDksmqZBL1ZOZtamK6At
-         TUNfHClYaSVoigrrzbIt1iEn3/8HkN0hnfLcuyYpzG5hH9RVnfUnps6tIAgEEboWr+iR
-         LE+tpHNM5fk6qjJfIr2axZQJ12ZAB0hEILkihfAlp8S8rzT5lrX6tvRAU9VQ1SCGriT3
-         i52zJl+hTjfHFhVKuJbGyAFrb1qXcIcFfOjeGWuSfQtKugZE0PG3cxUpGXhCDX2TeWwB
-         jNf5sLHwlBtj0Wo493X31eARU4pkfKBxaki5mGCWsI4rooidcNN9f5/zvEyN5kQ3/j3K
-         ppFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=BmeVPwr9SKwxZECZZ/qpqnmowyCWmqTyCjMYX/8OCrk=;
-        fh=n/KppdIqmbRLxoIjv7av7ttBbxOot3/3d+wS5NhGN84=;
-        b=IvWNdeus/f02lTNPFsRmftT5IBrC05ZjHta3kYgPlzJ/fZsK12TzDdBVuCIPbL61yZ
-         Bce8eUhBF51pmWR2eYPKg4II8FPomFRLACqakX/jwbComGGlvB//lcGO0nvorB5paUzF
-         oPzRagzsbhvKw/YPmL61EiBDEE4ImAU8VGRyrcIPFY7zrsOuSo9Y3TaAXmoNQTQehKOi
-         YXKhCRtFSKlhE1mx1IfpqBRycjWfnDRDDi3UWaPrPOoNVG2eQdzFGgQFJRHGb+R8p1zs
-         m+JepLDfyZiDw6i9KwhjcfBFS7TGY6SLq3hyf7JRyPC1LXaUTdk5UOya8WU2zsEfKTvb
-         19og==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795661403; x=1796266203; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BmeVPwr9SKwxZECZZ/qpqnmowyCWmqTyCjMYX/8OCrk=;
-        b=epBmNt2Lv7Dcu8bzZ4iBr1H6rQ82whFFTrCChG8DCgR1ptCnX78/BbmIpTwF8a7L3T
-         eIPXH3FwV2Ahe+Ar796UlHkbFTMIfk6SUNGp7L68LZ4MBNU0clJ1pPuiegK5QlB44jdi
-         XeuaJXP4HWpl033aBhoIISlJlOjGvc2OAxZoVeXxAxvPW9IW2PHJc3iil1phHrn3Qmow
-         tp5LPWh7gceHx8x8+yaJbZCAaRS+Z/AXpVEVZ6ed8qMJh0n9XCgavhUR49jhSJi6wUd0
-         91dLuVfikSCiKeUStFiicmpr8uIEOM1nUNOS25HxhleNe5g1sSWCjIUv8bha7OoZrHM8
-         yDSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795661403; x=1796266203;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BmeVPwr9SKwxZECZZ/qpqnmowyCWmqTyCjMYX/8OCrk=;
-        b=SyGJsLqskqIflkXWzTTSqAOwUo32hNRuERWn3+RWU/3W7nrmFVhMDd0c6FdrgNWT/t
-         r0cJ1vTZLl3t7LxWlxLQe2mkUJ4UcU3vxWnQiOlcp2bLXvLH2+kZwHKeCY16rEipbVSH
-         jocannIuQ/rDArW0/KnrBdiTBo5phzzaQ1w6e2vPP5KKArCCDkqQMaJ/n/+wMW4QME7n
-         xnHvHUKMNuYliowAWic1uMrfIvu/4tYqxbT0o4ofaVQafcV5TizKZfvxYaKe/xwfXL42
-         E3AqyjA4e+0sAbtSzO8oqxBCDi1QagfaKiuE0vrS80TlAccQLaB5ntRrRKzOmY6yRJqL
-         QcKw==
-X-Forwarded-Encrypted: i=1; AL+hErEOYtgIdD9x2Y9tv7hEVrU82Pv540sXMWPslbC9nUB0AdliANiEQ8i5IeKc7T8fnFCsFU0UjWiVog8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/ukTAgrpb7Mm4pX4F0GJBxB7eRLjh9sxIEryWfLHA1nWr+if5/
-	JUwBk7wGBuHsdkLPXTRetO2arlsXC8W09qF9rxEaYxtCiHGXkbzALkbHNT6JjMDjnhuDWOAT2Z4
-	od1uO5kwdzbD0tgZbVCViCfGn72kNcPAfcvE/YZ4O
-X-Gm-Gg: AZFdTZcSV/9e5HrTLR1BvPLfO8/XGp+3A4TTHWe76gdX/PLpjKNGN54z1s5Podc0Um5
-	i2pVH0owLudCN5tY51hr5rnG6b5MAElIaXfqieGvE8IMWlHyuFi7p4uNo5QzkyJFi39ajNtMHfz
-	eAW9lM8ehWRUnd/lQ/yBbWFbqtaRzmnM0VAhB5/XIoBNaFLoR6/vAeca5n+OrpYOMqEbmaWjhvY
-	OB1UCn/+OjRAJDMqNxBAD2re7Brp3cb7BNwy1NAcHM+YRRFsjsLpR4ZS+aQ4UXjBtaTnlBWb5ok
-	tkMq1Wofs6pG0Zx3XuQQFvRywxWr2qH0kQmEICVjWkUeFr05uZborHD/dp9dXvLYpbo01GPPmT8
-	JsiNV29HetxB8Q0Ir6yHoBkDhlE946r4lrscZDMj3azoIgslxgs3KWUSjN9vWmJtPQgE=
-X-Received: by 2002:a05:6512:1318:b0:5bf:b8f1:80cd with SMTP id
- 2adb3069b0e04-5c1bc8c2613mr5298026e87.49.1795661403093; Wed, 25 Nov 2026
- 18:50:03 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=XvQ+r2RM
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=vvqUdZiid5uV0/NNKfcYRq6aGGte+Ajub0kcJ88W1xw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795662685; v=1; x=1796267485;
+ b=XvQ+r2RMwGUGG5NBKscjbd1IEWuCTdDQIo98L1SjnbjCjJMgWoAL8FtytLaBy0CWLY2+jxXS
+ hdTmfApQPa0Z895vccKpW6ltMPzR86wOfdNzdome4YHjY1oUi+qMCfdssS3I22jaFLPBS91D5ts
+ dpF6fN1TnG+4+T5QhV2e4WU4=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c118c9884fa7c50c;
+	Thu, 26 Nov 2026 03:11:24 +0000
+X-Mizu-Trace-ID: c118c9884fa7c50c
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <82a7b4da-a67a-4e53-bdad-8c0551585cec@linux.dev>
+Date: Thu, 26 Nov 2026 11:11:10 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,98 +58,183 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110020632.4003499-1-svv@google.com> <avKAaJxlxE8gOYVV@google.com>
- <CAKF84v00nJ_+2Tf8m66LhGEKvqnHb26YD6p+FRUXK5juYEPQZA@mail.gmail.com> <awNosbiWPFdsbUN5@google.com>
-In-Reply-To: <awNosbiWPFdsbUN5@google.com>
-From: Siarhei Vishniakou <svv@google.com>
-Date: Wed, 25 Nov 2026 18:49:45 -0800
-X-Gm-Features: Aa3M54r6fq9UxV6r7ZXlZATug1kAneGhSH_0CFFee4KvRhKktEz0ou5Sv9ToIW8
-Message-ID: <CAKF84v1B6bu_YAAcdKkOxC-BKY8f72tWQMz2s5D3Mg-pMnEH5A@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Input: add ABS_TWIST and support it in HID and Wacom
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Ping Cheng <ping.cheng@wacom.com>, Jason Gerecke <jason.gerecke@wacom.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 04/18] mm/mglru: make generation page counters atomic
+To: kasong@tencent.com, linux-mm@kvack.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>,
+ Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>,
+ Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
+ Zi Yan <ziy@nvidia.com>, Gregory Price <gourry@gourry.net>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>,
+ SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>,
+ Yu Zhao <yuzhao@google.com>, Vernon Yang <vernon2gm@gmail.com>,
+ Zicheng Wang <wangzicheng@honor.com>, Tal Zussman <tz2294@columbia.edu>,
+ Kairui Song <ryncsn@gmail.com>, Xiang Liu <liuxiang.277@bytedance.com>,
+ Ehab Ababneh <ehab.ababneh@intel.com>,
+ Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, Lian Wang
+ <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>,
+ Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>,
+ Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org,
+ Tianyi Chen <hi@tychen.cc>
+References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
+ <20261124-mglru-fg-v6-4-8ffea39934a6@tencent.com>
+From: Ridong Chen <ridong.chen@linux.dev>
+In-Reply-To: <20261124-mglru-fg-v6-4-8ffea39934a6@tencent.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-=D0=B2=D1=81, 22 =D0=BD=D0=BE=D1=8F=D0=B1. 2026=E2=80=AF=D0=B3. =D0=B2 14:1=
-3, Dmitry Torokhov <dmitry.torokhov@gmail.com>:
->
-> On Tue, Nov 10, 2026 at 10:57:31AM -0800, Siarhei Vishniakou wrote:
-> > =D0=BF=D0=BD, 9 =D0=BD=D0=BE=D1=8F=D0=B1. 2026=E2=80=AF=D0=B3. =D0=B2 1=
-8:25, Dmitry Torokhov <dmitry.torokhov@gmail.com>:
-> > >
-> > > Hi Siarhei,
-> > >
-> > > On Mon, Nov 09, 2026 at 06:06:29PM -0800, Siarhei Vishniakou wrote:
-> > > > Some styli can report rotation along their long ("barrel") axis,
-> > > > commonly referred to as "twist". While the HID specification define=
-s
-> > > > this usage as HID_DG_TWIST (0x000d0041) in the Digitizers page, the=
-re is
-> > > > currently no corresponding evdev axis code to expose it to userspac=
-e.
-> > > >
-> > > > Because evdev has no MSC_SCAN equivalent for axes, drivers and OEMs
-> > > > currently work around this by mapping stylus twist onto unrelated a=
-xes
-> > > > such as ABS_Z or ABS_RZ. As a result, userspace input stacks must
-> > > > maintain device-specific workarounds to know which axis carries twi=
-st.
-> > >
-> > > How is it different from orientation?
-> > >
-> > > Thanks.
-> > >
-> > > --
-> > > Dmitry
-> >
-> > ABS_MT_ORIENTATION describes the 2D angle of the contact ellipse (or
-> > tool projection) on the surface of the touchscreen. Looking strictly at=
- that
-> > initial sentence in multi-touch-protocol.rst, it sounds promising:
-> >
-> > > ABS_MT_ORIENTATION ... The value should describe a signed quarter of =
-a
-> > > revolution clockwise around the touch center.
-> >
-> > However, the rest of the section clarifies that this is the alignment o=
-f
-> > the contact ellipse with the X/Y axes, not the "twist" of the finger
-> > itself. In fact, the docs note that orientation can be omitted if the
-> > contact area is circular - even though a circular finger or stylus tip
-> > could still spin in place, and that rotation would not be conveyed.
-> >
-> > For a stylus, orientation is equivalent to the tilt
-> > projected onto the touchscreen plane (which single-tool stylus drivers =
-already
-> > capture via ABS_TILT_X / ABS_TILT_Y).
-> > By contrast, the proposed ABS_TWIST can be thought of as keeping the
-> > stylus at a fixed position and tilt angle, and using two fingers to rol=
-l
-> > it in place like a pencil.
-> >
-> > This also matches the HID Digitizers specification, which defines
-> > Azimuth (0x3f, rotation of the tool projection around the surface Z
-> > axis) separately from Twist (0x41, clockwise rotation of the tool aroun=
-d
-> > its own major axis), and hid-multitouch already maps HID_DG_AZIMUTH to
-> > ABS_MT_ORIENTATION. Since styli can report tilt/azimuth and twist at th=
-e
-> > same time (and single-tool pen devices don't use ABS_MT_* events), twis=
-t
-> > needs a dedicated axis.
->
-> OK, let's add it then. But we need a more precise definition of what the
-> values mean (i.e. is rotation clock- or counterclockwise, only positive
-> or negative, what 0 means).
->
-> Can we also move it below ABS_SND_PROFILE in the doc?
->
 
-Great! I've now expanded the docs and defined 0 to be in the North
-direction. I re-sent a v2 series with these changes.
 
-Cheers!
+On 11/24/2026 2:52 AM, Kairui Song via B4 Relay wrote:
+> From: Kairui Song <kasong@tencent.com>
+> 
+> No feature change, convert them to atomic so we can update them without
+> holding the LRU lock. A temporary underflow is fine: readers clamp a
+> negative value to zero, and the counters only need to be eventually
+> consistent.
+> 
+> Tested-by: Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>
+> Reviewed-by: Barry Song <baohua@kernel.org>
+> Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
+> Tested-by: Andrew Morton <akpm@linux-foundation.org>
+> Reviewed-by: Lian Wang <lianux.mm@gmail.com>
+> Signed-off-by: Kairui Song <kasong@tencent.com>
+> ---
+>   include/linux/mm_inline.h |  6 ++----
+>   include/linux/mmzone.h    |  2 +-
+>   mm/vmscan.c               | 26 +++++++++++++-------------
+>   mm/vmscan.h               |  2 +-
+>   4 files changed, 17 insertions(+), 19 deletions(-)
+> 
+> diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
+> index 2edb9beef6d3..46beded51c7d 100644
+> --- a/include/linux/mm_inline.h
+> +++ b/include/linux/mm_inline.h
+> @@ -265,11 +265,9 @@ static inline void lru_gen_update_size(struct lruvec *lruvec, struct folio *foli
+>   	VM_WARN_ON_ONCE(old_gen == -1 && new_gen == -1);
+>   
+>   	if (old_gen >= 0)
+> -		WRITE_ONCE(lrugen->nr_pages[old_gen][type][zone],
+> -			   lrugen->nr_pages[old_gen][type][zone] - delta);
+> +		atomic_long_sub(delta, &lrugen->nr_pages[old_gen][type][zone]);
+>   	if (new_gen >= 0)
+> -		WRITE_ONCE(lrugen->nr_pages[new_gen][type][zone],
+> -			   lrugen->nr_pages[new_gen][type][zone] + delta);
+> +		atomic_long_add(delta, &lrugen->nr_pages[new_gen][type][zone]);
+>   
+>   	/* addition */
+>   	if (old_gen < 0) {
+> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> index 6a2ad0cff795..4e85bb520f76 100644
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -554,7 +554,7 @@ struct lru_gen_folio {
+>   	/* the multi-gen LRU lists, lazily sorted on eviction */
+>   	struct list_head folios[MAX_NR_GENS][ANON_AND_FILE][MAX_NR_ZONES];
+>   	/* the multi-gen LRU sizes, eventually consistent */
+> -	long nr_pages[MAX_NR_GENS][ANON_AND_FILE][MAX_NR_ZONES];
+> +	atomic_long_t nr_pages[MAX_NR_GENS][ANON_AND_FILE][MAX_NR_ZONES];
+>   	/* the exponential moving average of refaulted */
+>   	unsigned long avg_refaulted[ANON_AND_FILE][MAX_NR_TIERS];
+>   	/* the exponential moving average of evicted+protected */
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index bc7579d47f9b..202e0f874b23 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -3350,8 +3350,7 @@ static void reset_batch_size(struct lru_gen_mm_walk *walk)
+>   			continue;
+>   
+>   		walk->nr_pages[gen][type][zone] = 0;
+> -		WRITE_ONCE(lrugen->nr_pages[gen][type][zone],
+> -			   lrugen->nr_pages[gen][type][zone] + delta);
+> +		atomic_long_add(delta, &lrugen->nr_pages[gen][type][zone]);
+>   
+>   		if (lru_gen_is_active(lruvec, gen))
+>   			lru += LRU_ACTIVE;
+> @@ -3971,11 +3970,8 @@ static bool inc_min_seq(struct lruvec *lruvec, int type, int swappiness)
+>   				break;
+>   		}
+>   		flush_lru_batch(head, &batch_end, target_list);
+> -
+> -		WRITE_ONCE(lrugen->nr_pages[old_gen][type][zone],
+> -			   lrugen->nr_pages[old_gen][type][zone] - delta);
+> -		WRITE_ONCE(lrugen->nr_pages[target_gen][type][zone],
+> -			   lrugen->nr_pages[target_gen][type][zone] + delta);
+> +		atomic_long_sub(delta, &lrugen->nr_pages[old_gen][type][zone]);
+> +		atomic_long_add(delta, &lrugen->nr_pages[target_gen][type][zone]);
+>   		if (!remaining)
+>   			return false;
+>   	}
+> @@ -4093,8 +4089,8 @@ static bool inc_max_seq(struct lruvec *lruvec, unsigned long seq, int swappiness
+>   	for (type = 0; type < ANON_AND_FILE; type++) {
+>   		for (zone = 0; zone < MAX_NR_ZONES; zone++) {
+>   			enum lru_list lru = type * LRU_INACTIVE_FILE;
+> -			long delta = lrugen->nr_pages[prev][type][zone] -
+> -				     lrugen->nr_pages[next][type][zone];
+> +			long delta = atomic_long_read(&lrugen->nr_pages[prev][type][zone]) -
+> +				     atomic_long_read(&lrugen->nr_pages[next][type][zone]);
+>   
+>   			if (!delta)
+>   				continue;
+> @@ -4625,8 +4621,13 @@ static void __lru_gen_reparent_memcg(struct lruvec *child_lruvec, struct lruvec
+>   	child_lrugen = &child_lruvec->lrugen;
+>   	parent_lrugen = &parent_lruvec->lrugen;
+>   
+> +	/*
+> +	 * The child is offline and the lockless updaters, which hold
+> +	 * rcu_read_lock() over the update, avoid racing with reparenting,
+> +	 * so the read/set/add operations below are safe.
+> +	 */
+>   	for (gen = 0; gen < MAX_NR_GENS; gen++) {
+> -		long nr_pages = child_lrugen->nr_pages[gen][type][zone];
+> +		long nr_pages = atomic_long_read(&child_lrugen->nr_pages[gen][type][zone]);
+>   		int child_lru_active = lru_gen_is_active(child_lruvec, gen) ? LRU_ACTIVE : 0;
+>   		int parent_lru_active = lru_gen_is_active(parent_lruvec, gen) ? LRU_ACTIVE : 0;
+>   
+> @@ -4634,9 +4635,8 @@ static void __lru_gen_reparent_memcg(struct lruvec *child_lruvec, struct lruvec
+>   		list_splice_tail_init(&child_lrugen->folios[gen][type][zone],
+>   				      &parent_lrugen->folios[gen][type][zone]);
+>   
+> -		WRITE_ONCE(child_lrugen->nr_pages[gen][type][zone], 0);
+> -		WRITE_ONCE(parent_lrugen->nr_pages[gen][type][zone],
+> -			   parent_lrugen->nr_pages[gen][type][zone] + nr_pages);
+> +		atomic_long_set(&child_lrugen->nr_pages[gen][type][zone], 0);
+> +		atomic_long_add(nr_pages, &parent_lrugen->nr_pages[gen][type][zone]);
+>   
+>   		if (lru_gen_is_active(child_lruvec, gen) != lru_gen_is_active(parent_lruvec, gen)) {
+>   			__update_lru_size(child_lruvec, lru + child_lru_active, zone, -nr_pages);
+> diff --git a/mm/vmscan.h b/mm/vmscan.h
+> index c2cea36289f3..6551f0a6691a 100644
+> --- a/mm/vmscan.h
+> +++ b/mm/vmscan.h
+> @@ -126,7 +126,7 @@ static inline unsigned long lruvec_gen_size(struct lru_gen_folio *lrugen,
+>   	unsigned long size = 0;
+>   
+>   	for (int zone = 0; zone < max_zone; zone++)
+> -		size += max(READ_ONCE(lrugen->nr_pages[gen][type][zone]), 0L);
+> +		size += max(atomic_long_read(&lrugen->nr_pages[gen][type][zone]), 0L);
+>   
+>   	return size;
+>   }
+> 
+
+Reviewed-by: Ridong Chen <ridong.chen@linux.dev>
+Thanks.
+
+-- 
+Best regards
+Ridong
+
