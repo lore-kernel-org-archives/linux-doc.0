@@ -1,45 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795682074;
-	b=ZAptPxeo5aOdAd3MENI2C60EX1HpPF08hTGlLUI5m9KqhQlLsozIvyLHOx6jsz8+1UnR
-	 LxenKr1oR8pJzFmf6BXpbbdbGaq08RMXpPXChIBzBWckmAqC5bjW79RWfeMJa8LnTSIyC
-	 A1F9a580dHwqqS+H+B9SbEbpv8hxmf+mTqnFyNk/22mg4hzzcK1JJiHt1Zh7T8OreOH8S
-	 naAGCFRq9poM9fIQJvSpdjJgTfLbUSsUAIKnC7XHWtXAiVrF4uTK3GrCuGx7kVV1qMCce
-	 XHYtVS6+g3QkfQ0fIDbUJSJOQml5ZFyrmXLmzsGB7Gmd/8x0+fE6YHQ/J8AV6f/8Uxw==
+	t=1795683296;
+	b=Mi4Vj3hWmnwD4t8IqYWqbm0G+I8FXmkOxG2Tx0RTATmo0jTNeJ5VLOE1e3k7nrdfh5De
+	 M4hwX5mPBBikW5aDrfnDg1tUxvm4FDZ59Zx6fh/OKuhuxR2wKYxQUaRO05J4+Ob/UWzFE
+	 +4DAhuXjz6b3Zc9oA7FyVIstH2q0ZA94mTPW9wzDiL8IyibVMBmLM3BvH0Km9IGmqjxfp
+	 WT1y2qedCh/P1jPQRhWUg7z26BQag2LfAiFvxf7yMlkpbG8EpzO4L8o5Oiqwofi7+aaXB
+	 W2p7tQ2l3Ub+anb7aqQ+W2MCbYPoIlNH2AB7mUSVzdBcL17N1Q/VNilvE13nr25kNJQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795682074;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=32OnbdWrDIj2Ts2l8BoTGaqRee+Hqtkn11b3BapuxLw=;
-	b=kh/jH3JF3IdM1NAZgdBVaKjwCunT+BZqVhY2JKtooSAcGgei+7EgW2fdB9lKmAv2Ea2R
-	 pUEKZxWGhapfVJwN6AiRuxiVpG5RTMTvd+yrbBbscMrVl5VRsO1BMDxvNvLDuFhFNjyvV
-	 enYG58gbsLBHsY0PQZIJz+gQElLf14cBQk/KVo/iSr+PJPLKut1bqa43BFRECCvL28A4v
-	 aeXiMQ+J2xSWZKEdkRRmVekBaXd0Be2BENDb4XGYOvgHGXRduh/rp0SgTYWCCZJe3DWEr
-	 ExqWPfTLulmG8VvnCayFwzQVlQ8GqU3VUBvPzoGYZvBZIWN0L00ucjRyMZu2ttidb8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795683296;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=XD2aXTSUuiCiLHpGAugxfZVXZCiLEmjgR9QKZY9m6mI=;
+	b=ZAfI4YKIy0puo+bSgN92l1X3KmZaT/WOxFfsPMyG5GsDqqARhoWE7VhwQjmFknr+HM+E
+	 7b4pU1+YpoiVv/FsPWvrtlqs9UEjIaJEy7SkEcszwdek6ibOjvgrwe3tXcWnHbS6SdbUJ
+	 AS+4MhJRmCnWKUWEkRpnMhjQy8pzZXWbUpJ+85n0oXXTi3Ud6xMSakvpSIXJ/AuPSJBp8
+	 wgwOkGc2L4iPZp/hwkeGEfd9ox4ZUs+Fc8YZMpfGUnOjHQ0AWnlJ4hLYaKQmlsGlS0MSC
+	 d/akmqrTZ8sXEO5mr1i4LeutXoKg9zlO666cyDepeBy4KBaroJA0KBLaWqxheEorGbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lst.de;
-	spf=pass smtp.mailfrom=lst.de;
-	arc=none smtp.remote-ip=213.95.11.211
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NKZKjXt6;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D02D606A31C;
-	Thu, 26 Nov 2026 08:34:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D02D606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id F3CC968B05; Thu, 26 Nov 2026 09:34:21 +0100 (CET)
-Date: Thu, 26 Nov 2026 09:34:21 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Haris Iqbal <haris.iqbal@linux.dev>, Christoph Hellwig <hch@lst.de>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: Re: [v4 0/3] block: delay support for error injection
-Message-ID: <20261126083421.GA7403@lst.de>
-References: <20261111215838.103356-1-haris.iqbal@linux.dev> <179501806989.17649.3138860274842922761.b4-ty@b4> <20261120164416.GA32719@lst.de> <edb8249a-7bc3-430e-bbb7-243e1881a0b8@linux.dev> <1cf30693-44c6-4761-9900-e36259082e4e@kernel.dk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE11A606A326
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 08:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NKZKjXt6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 452AF1F000D0
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 08:54:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795683295;
+	bh=XD2aXTSUuiCiLHpGAugxfZVXZCiLEmjgR9QKZY9m6mI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=NKZKjXt60ggmjgkQWJs7L/z9sR6LDbN6c5x8VpKkLZDQE53ha1ofDe/J6yl0UZS32
+	 qzJaM4+wzGcmjm4PZRwDqFWYQD3EKl45jX2orGnelqnE8eYqfoHH7dytYIpYBkndMJ
+	 12B/SyZJnYFxj5CVxNehviesZLrza16sIOOMpM7lxscw0ntUIVaH/GFRgpnbQ9JlNQ
+	 V3VoRoKZ03LBCJjWduez4ImuY8wxZu/j/RF8Ot8LbprOmcOgzcnyItyBoN6DfJ5jpw
+	 7Ufd0tfHZr7iRU1FmGH6YOTfnUaeGK4YCMlOQVoRoYobzTHkSGmeu7IAfFqi8J/fhR
+	 ZIochXIzrnusQ==
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c4d28f75d62so1111922766b.0
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 00:54:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFAPaZiAKRmvMY8xV8HWXUKSd8gzUlt6LkCQf3iAzERpbBPLCZ8VW6MGI7LYDr2Lyi+ATXEZub+s7A=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+xEn1H1aPgAhc99YVyQOUCTR/AHeNMfe1PpdShb2ewMRIjHpG9
+	dUS8aH2fiwZqLx/VyLQY6YfcPfl3e7qSQ/Rf1BbzIYF5BctWElGhwlVVemQBJHLlFcaj1ILTGPB
+	hmbiLe8hQDQoE9SB68waBj0QXkrv7bCw=
+X-Received: by 2002:a17:906:c102:b0:c51:373e:d6a9 with SMTP id
+ a640c23a62f3a-c513aace989mr1575933166b.15.1795683293890; Thu, 26 Nov 2026
+ 00:54:53 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -49,26 +59,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1cf30693-44c6-4761-9900-e36259082e4e@kernel.dk>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <20261124230746.850528-1-shaopei_1012@163.com> <CAKYAXd_ap120uprmarov-GuO0fb1eXEgw-U8G08L1xRJ9bv18A@mail.gmail.com>
+ <20261126075247.850895-1-shaopei_1012@163.com>
+In-Reply-To: <20261126075247.850895-1-shaopei_1012@163.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Thu, 26 Nov 2026 17:54:42 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_Xc0XbehABVUOncbcDYxvfFg037+FxDivkM0NZMg29qQ@mail.gmail.com>
+X-Gm-Features: Aa3M54rKxK2yysLAQ3KYIgf-px-qmHSK27mnhAx20UoLmih8jMhUz2_ENxHtKqY
+Message-ID: <CAKYAXd_Xc0XbehABVUOncbcDYxvfFg037+FxDivkM0NZMg29qQ@mail.gmail.com>
+Subject: Re: [PATCH v7] exfat: add EXFAT_IOC_COMBINE to append a file's
+ clusters to another
+To: Shaopei Zhu <shaopei_1012@163.com>
+Cc: Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, exfat@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 25, 2026 at 06:49:59PM -0700, Jens Axboe wrote:
-> > I can resend with the fix, or send just the fix to be patched above
-> > this, since these are already picked. Let me know whats preferable.
-> 
-> Send a fix please, that should always be the default as otherwise
-> I have to rebase the tree.
+On Thu, Nov 26, 2026 at 4:53=E2=80=AFPM Shaopei Zhu <shaopei_1012@163.com> =
+wrote:
+>
+> On Wed, Nov 25, 2026 at 11:18 AM Namjae Jeon <linkinjeon@kernel.org> wrot=
+e:
+> > Is there a specific device or product expected to use this feature, or
+> > is it being added as a potentially useful capability without a
+> > concrete use case? If there is a target device or workflow, could you
+> > share some details?
+>
+> Hi Namjae,
+Hi Shaopei,
 
-Unless it is at the end of the branch.  And looking at your tree, it
-seems like you have queued this up at the end, but in the 7.4 branch.
-Which I hadn't noticed before, and which seems wrong.  Not only is
-this a brand new feature and we're at -rc4, it also makes it really
-hard to get the tree in sync for other features pending for 7.5.
-(which we plan to send after this lands).
+>
+> Thanks for the review.  Yes, it is going to be used in camera products
+> that record to exFAT SD cards.  The open source user is exfatcombine,
+> posted for exfatprogs [1], and a test for fstests (exfat/002) is posted
+> as well.
+>
+> The workflow: cameras and dashcams keep motion or position data with
+> the video, e.g. gyroscope and accelerometer samples for stabilization,
+> or GPS.
+>
+> The products on the market keep that data in one of three ways:
+>
+> - as a timed metadata track inside the MP4, e.g. GoPro's GPMF, muxed
+>   while recording, so that the samples are interleaved with the video
+>   in the mdat box and indexed in the moov box;
+> - as a separate sidecar file next to the video, e.g. the GPS logs of
+>   dashcams;
+> - as a trailer appended after the MP4 boxes when recording stops,
+>   which players ignore and stabilization tools read.
+>
+> A sidecar file is lost in practice: users copy, share or import only
+> the video file, and matching the two by name breaks once either is
+> renamed or moved.  A track needs the muxer to take the samples in real
+> time along with the video.  Where the sensor data comes from another
+> writer, at a few hundred samples per second, it cannot go into the file
+> the muxer is writing, so it is written to a separate file in the same
+> directory during recording and appended as a trailer when recording
+> stops.
+>
+> That last step is what this ioctl is for.  Today the sensor file is
+> copied into the video file, up to tens of MiB per recording, while the
+> user waits for the camera to be ready again, with flash wear and free
+> space needed for the copy.  With this ioctl its clusters are appended
+> to the video file instead, and the sensor file is removed.
+Okay.
 
-> 
-> -- 
-> Jens Axboe
----end quoted text---
+>
+> > I suggest changing EXFAT_IOC_COMBINE to transfer only the source's
+> > cluster chain to the destination, leaving the source linked as an
+> > empty file. Userspace can unlink it afterward if desired.
+>
+> The sensor file is only a temporary part of the recording.  With the
+> unlink in the same call, a power loss, e.g. the battery being pulled
+> right after recording stops, leaves one of the two states the
+> recording application already handles: not combined yet, or combined.
+> With the unlink in user space there is a third one, the combined video
+> next to an empty sensor file, which looks like the first one unless
+> every application also checks the size of the file.  It would be easy
+> to append the sensor data a second time, or to leave an empty file on
+> a card that users read directly.
+>
+> Doing it in the same call also refuses the whole call before anything
+> is changed if the source may not be removed, instead of leaving an
+> emptied file that cannot be deleted, and it removes the file that was
+> passed in, not whatever its name refers to by the time user space gets
+> to unlink it.  The unlink goes through start_removing_dentry(),
+> security_path_unlink() and vfs_unlink(), so it gets the same checks as
+> unlink(2).
+>
+> Does this address your concern?
+Unlinking in the ioctl does not make the operation atomic against
+power loss. It only avoids the interval between a successful ioctl and
+a later userspace unlink. I don't think that is a reason for the
+kernel to perform the unlink. exfatcombine already has the source path
+and opens the file to pass its file descriptor to the ioctl. It can
+unlink the source file after the ioctl succeeds and report an error if
+that fails. The ioctl should only append the source file's cluster
+chain to the destination file. Callers must prevent concurrent renames
+or replacements if they need the pathname to continue referring to the
+same file.
