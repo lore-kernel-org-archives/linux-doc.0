@@ -1,64 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.39
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795701191;
-	b=dbt8P1CDBOoESD90L0G0uWFwBwgI3JI5gxI731vFKsWRSDVPp91HXKbxMQtMwXZHuuON
-	 vyKvmHFFNEaa8KykLTf4mn89nWhns/A9fLN3mVe8ssswQdGUKksVIwVXPW8KjrO2bTi6X
-	 9aTV29GUe0A2H7PPO97treUGAz0mrpTDMQ0zK+d9ta9Wv47ssfnExp7TME3ysnPBieztZ
-	 Kr74hHp4C8z6g+a94HpW/flA4F/b6dsRSEiDYOypVGdRS7Mx9I1D9e1K6pyMYnsHuxdmd
-	 wvYEJpCKeeQDUAWPxYW5nDrmvek/Uo4SvN/Z1r4bXysl0IxbGzowcreTpmEirrsd2ug==
+	t=1795702358;
+	b=KN+/rSTZ09DouyqtJRX5lWBEP4uogJJrsdI+84+0Ql77BiwkDMHf0iujJTV+Vrboi3RH
+	 oqfoqB8uwZZsFEj5NaZjlKv0sO3jONt4UtxxDzAfLVssmPjeVe/DaZYHeeCNQxdER8hLf
+	 6OKMgSoOp9TaTU0bxIBa4zza27Ghhe8hhRXHJJJlWmnP2mrdmjBchIbYTIBgc81gNVi3P
+	 trWKZvauMCmMXsLPlkEGeaYLi3nNq2YO2jp5G7c5BmJ2wMSQUb4u5fqA7d4JFMQSL+mxg
+	 3Ph8EFzBvLIZzQkWmksAXv+s7ocZtmWO5ueN12G8T2gr4/S4bIv4+6qtWAp3emuJMMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795701191;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=wBNF/N6dV01CZXPBjN7hTYh2V25GC86ewPpc4xVTK6Y=;
-	b=azHu3PL4CHMu//YCA4NuET287PiznhIcmcPQif7tdU/vSHgnIt0h2qyG3t0f3eNmSF2C
-	 IyZyCtnukMlhBKmwp9NpmjnyvIW8aG2MFcKuSg7WEm9bsL0m3SzPtTxMrPny+Mq+UNnAj
-	 RULIcca7rPRmdZ4Bui1r7lACI05YosVuA24a10HAonhZ3w19dMB91IUONtBuYV24Tu0z9
-	 6SrotCm1LLfs/Z/Bf6TwQsk1xUHdG+1HOS0U0gEhM7cvrcxlb8rbf41Ldo89NEMeQpIBK
-	 jDltmEKJ6PDG0/MG1IESnpvM/6zacdj707aJtod3wWDsK8p1H1GGzghCu68OiUNIuIg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795702358;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=2bZHJ+NzaqOrSFu4+4BGl1SG3jfELd4rw0w18kP2wbg=;
+	b=NNRqi0SBT1iimnbN8E15U44Q12h5QCXw90USTNJk1gOwzTp5NkC1fZG0GahgNm/E9vuC
+	 SBnHJHcuyCs62j7K9zFXmys5b6wC7aW43xPv+l/JOlRH4/XmI//jw3U0Or0tg5AVPy9jT
+	 9wnVetrjp62GW/RxPXOoZnYR6oIbZMA+9RR1wGg3yVVAAaxycrL4ua+11zj+UUVdO8Pmc
+	 n/LF1+l+3cm7jGXjc4IZBmDs1NDCn5nRtpfzvogSmZEa+2SfnuegBNgCJlmhqlNDnp8VP
+	 pwteBGlSgNtupNy6TkILfQQT7JCegQUazW7Z4HLwHD3co1FI4D/xseJmFJ2ITYL490g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=n31L8E2O;
-	arc=none smtp.remote-ip=91.218.175.39
-Received: from mta0.migadu.com (out-39.mta0.migadu.com [91.218.175.39])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GTbw2A9R;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E53606A321
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 13:53:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1E53606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F1E606A32C;
+	Thu, 26 Nov 2026 14:12:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=n31L8E2O
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=wBNF/N6dV01CZXPBjN7hTYh2V25GC86ewPpc4xVTK6Y=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795701186; v=1; x=1796305986;
- b=n31L8E2OALKvoOVzU1ZbX00BV6t9pq4nic5j86P0CuIY430bBRGaskE0PWsvHYd+7LIm/zvP
- AzghWd5uJcA3BbjuHCoNWdV04khtlsJ/mTpO+4oGBZJysFXcPPDke9KmHwup5eSXhPV5iMR2JYP
- /X/2ukpl6tQy4cbb49tv8ThsfxLYdTAozhIfxQGrsQvKda1CmMQXkc+J0Q+AtyadCqT/ZBM7j5v
- d1A28oEJxfdR94x4bwGG8jyIpwerYzKjBETYbUU2GMO1pveBpdYO4z2FmmE67efGWuH0Y5Mpa1t
- 8/gLEH/ISX+0rD4ynkC9E8Fi0C57tIaYol6Vw0C6O+KnQ==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 8a22f4692d3e40a9;
-	Thu, 26 Nov 2026 13:53:05 +0000
-X-Mizu-Trace-ID: 8a22f4692d3e40a9
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 26 Nov 2026 21:52:50 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Bruce Song <xiongwei.song@linux.dev>
-Cc: alexs@kernel.org, si.yanteng@linux.dev, dzm91@hust.edu.cn,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	paulmck@kernel.org, linux-doc@vger.kernel.org, rcu@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] Add RCU docs Chinese translation
-Message-ID: <awg5sl7LxTOVqpSw@wyuan.org>
-References: <20261126132523.6329-1-xiongwei.song@linux.dev>
- <0d5126e6-7588-4cf7-90de-0bd193db8246@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GTbw2A9R
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 332831F000C6;
+	Thu, 26 Nov 2026 14:12:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795702357;
+	bh=2bZHJ+NzaqOrSFu4+4BGl1SG3jfELd4rw0w18kP2wbg=;
+	h=From:Subject:Date:To:Cc;
+	b=GTbw2A9RSzuDMIwAEHA0GuV4TMo2zTYsWqIU29XfSnw3bFGheGTDSvkyRR0RgLH+S
+	 bhEx85YHeAR8jCvVLzukUcYzq1IKU6LlIxWj42wbnx3YDSdTeIcltFzpIDYRu4lZ1q
+	 TShe3vSuKojvVJCdieOayyDRjRiWfmUVLExHeXFDwd5os/0L/6bZk3YpnCawrz6RcH
+	 Z6AztOy5cG3SGEFy70NHU5oqo+xGC7xZfWS+kMEg+QJjCg4dBpEhXvSgKQ3rDXed1F
+	 +zcWPd8TdI1KbXhLU5B3RB8ZtoHFZbilKeJ4L2DTnud6XelrluxySYP/WXurzgQSmn
+	 wkH7HsD8D9oqw==
+From: Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH v7 00/14] nvme-auth: switch to use the kernel keyring
+Date: Thu, 26 Nov 2026 15:12:18 +0100
+Message-Id: <20261126-dhchap-keyring-v4-v7-0-ee438ffea527@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,17 +53,120 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d5126e6-7588-4cf7-90de-0bd193db8246@linux.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEM+CGsC/4XOTQ7CIBAF4KsY1mIA+WldeQ/jgsLQkpq2AUNsm
+ t5d6Eqj0eV7yXxvFhQheIjotFtQgOSjH4cc1H6HTKeHFrC3OSNGmKSUEWy73E+4hzn4ocWJY1I
+ 70mhDbWUEyndTAOcfm3m55tz5eB/DvE0kXtpfWgGxcJVRtq6ZBDj3EAa4HcbQosIl8UocvxEiE
+ xUFcA03RDH+Qci/hCxfkIppXisqdPNGrOv6BJZw8D45AQAA
+X-Change-ID: 20261120-dhchap-keyring-v4-09f0bac1d8c5
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>, 
+ Eric Biggers <ebiggers@kernel.org>, David Howells <dhowells@redhat.com>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ keyrings@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, Hannes Reinecke <hare@kernel.org>, 
+ Martin Belanger <martin.nvme.dev@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795702352; l=4000;
+ i=hare@kernel.org; s=20260619; h=from:subject:message-id;
+ bh=EVI8g3eOLrBTbCyDoqJaqfs500gdELPondgS7V0OTX4=;
+ b=ovEYJtFJK1YaKtphlFBOoRWM24BKtrrMquCyqbuIM8bplwP1RekL+gg8Z86KY2nEPHeiWV0bU
+ Z+mD6g80RV1B7/KcxGswujiQ3Y/xNAjBkAzeFgOd7J6h1oySm8KRttS
+X-Developer-Key: i=hare@kernel.org; a=ed25519;
+ pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
 
-On Thu, Nov 26, 2026 at 09:35:28PM +0800, Bruce Song wrote:
-> Sorry for the noise. git send-email returned "timeout" after the cover
-> letter was sent out. So I resent v3 of the series. Please ignore this one.
+Hey all,
 
-I'm not sure if it's a problem with Migadu or network condition in
-mainland China. Every few months, I encounter the issue where email
-sending gets stuck. I do not know whether other linux.dev users or
-migadu users frequently meet this problem, or just me made stupid
-mistakes elsewhere.
+the current NVMe authentication code is using a hand-crafted key
+structure; idea was to have the initial implementation with a minimal
+set of dependencies.
+(And me not having a good grasp on how to use the kernel keyring :-)
+That had the drawback that keys always had to be specified on the
+nvme-cli commandline, which is far from ideal from a security standpoint.
+
+So this patchset switches the authentication code over to use
+'struct key' to hold DH-HMAC-CHAP secrets. User-facing interfaces
+(namely argument to 'nvme connect') remain the same, but the key data
+is converted into keys which are stored as a new key type 'dhchap' with
+a random UUID as description in the .nvme keyring.
+
+With this I have updated the dhchap arguments to 'nvme connect' and
+the configfs interface to either be the keydata (ie the original
+interface), a key description, _or_ a key serial referring to a
+pre-populated dhchap key in the kernel keyring. This allows for external
+provisioning of keys and avoids the security risk from having to specify
+the key data on the kernel commandline.
+
+The entire patchset can be found at
+git://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git
+branch dhchap-keyring.v6
+
+As usual, comments and reviews are welcome.
+
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+Changes in v7:
+- Fixup next round of issues from sashiko
+- Modify to use key_serial_t instead of 'struct key' to pass key references
+- Include suggestions from Martin Belanger
+- Link to v6: https://lore.kernel.org/r/20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org
+
+Changes in v6:
+- Fixup next round of issues from sashiko
+- Fixup kbuild robot issues
+- Link to v5: https://lore.kernel.org/r/20261123-dhchap-keyring-v4-v5-0-81eefb4c0724@kernel.org
+
+Changes in v5:
+- Fixup issues found by sashiko
+- Link to v4: https://lore.kernel.org/r/20261120-dhchap-keyring-v4-v4-0-5f8c7d9926ee@kernel.org
+
+---
+Hannes Reinecke (14):
+      nvme-auth: modify nvme_auth_transform_key() to return status
+      nvme-keyring: add 'dhchap' key type
+      nvme-keyring: drop nvme_tls_psk_revoked()
+      Documentation/security/keys: fixup function name
+      nvme-keyring: link addtional keyring into .nvme keyring
+      nvme-auth: switch to use 'struct key'
+      nvme: parse dhchap keys during option parsing
+      nvmet-auth: parse dhchap key from configfs attribute
+      nvme: allow to pass in key description as dhchap secret
+      nvme-auth: allow to specify the key by key serial
+      nvme-auth: wait for authentication to finish when changing keys
+      nvme-fabrics: allow to pass in keyring by name
+      nvme-auth: link pre-provisioned keys into .nvme keyring
+      nvme-auth: allow to update pre-provisioned keys
+
+ Documentation/ABI/stable/sysfs-nvme  |  10 +
+ Documentation/security/keys/core.rst |   2 +-
+ drivers/nvme/common/Kconfig          |   2 +
+ drivers/nvme/common/auth.c           | 232 ++++++++++------------
+ drivers/nvme/common/keyring.c        | 370 ++++++++++++++++++++++++++++++++---
+ drivers/nvme/host/Kconfig            |   1 -
+ drivers/nvme/host/auth.c             | 176 ++++++++++++-----
+ drivers/nvme/host/fabrics.c          | 169 ++++++++++++----
+ drivers/nvme/host/fabrics.h          |  12 +-
+ drivers/nvme/host/nvme.h             |   6 +-
+ drivers/nvme/host/sysfs.c            | 300 ++++++++++++++++++++++------
+ drivers/nvme/host/tcp.c              |   5 +-
+ drivers/nvme/target/Kconfig          |   1 -
+ drivers/nvme/target/auth.c           | 250 +++++++++++++++--------
+ drivers/nvme/target/configfs.c       |  84 ++++++--
+ drivers/nvme/target/nvmet.h          |  15 +-
+ include/linux/nvme-auth.h            |  17 +-
+ include/linux/nvme-keyring.h         |  47 ++++-
+ 18 files changed, 1257 insertions(+), 442 deletions(-)
+---
+base-commit: 68099cf27253a8c89d703a282d3d811446d9453b
+change-id: 20261120-dhchap-keyring-v4-09f0bac1d8c5
+
+Best regards,
+-- 
+Hannes Reinecke <hare@kernel.org>
 
