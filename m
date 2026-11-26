@@ -1,65 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795725230;
-	b=ppMnUdHCvY6eQ1D40IHZbqkBOp23lTke7k+6vaIg8nQN2UUjBBTPXxbECStqdK1vn83P
-	 vxyGVi8+5YBHvjLl9S3ZpK71VTaStPHGvnpLv+8OiRctc7lN5NiXHBWCDQqZvR66Z16/r
-	 0+4LeZ/MVDtN9jx/pUk3/7nJSLC1KKUnfWQp9qxWLB2wEAPfkPXLm/TSEyMwHn3cxHSfT
-	 r03hUkukly34MGOt1K82IiocJSQ24NKusafDfYnnc2mPNyWH7JhKByZHLZOdN3AdSRfJa
-	 ZlhFozCROu2prRoWqZecIIIxV8eZpBMrgV+Yxlb8zRqj51k4ChLZLuMZ9yft5Oo1VKQ==
+	t=1795725239;
+	b=Te0oRM8o4UdqOx6xTBVU3HGtfcDXrp9lC1rmqLKV1eg5vhKG4IjHWWAsG/HknmRxSew+
+	 ar4Tk9wNMqXIUyevyzMzVfv3uSVrj8Lj0NEs1k1ZIyXFWAIJl8uiOlEnBZMQgRvZfxu8h
+	 i5q/pwFwSLZdsKjUMX5TtkNUdEyq5ixKSUystYaqpyWEevVhC/u5z3kfKGpD05mv6SO8a
+	 qazZGqQOIQzhpRiX28JIMcFxY0z26LA5xpog7Oa2aAvMD/c1nHDVtHmwLElmh6Qh586XC
+	 naS91vkPiIv0fhlnYeYfb7JRPe5GGNVV8ALzxW9dR49EhobDH4OOjqRycJ68acy9n9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795725230;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795725239;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
 	 Message-ID:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-Scanned-By;
-	bh=Gybj3DkML2SufeUVzqzLs05OtQbk5JUJB/WPsJMqxF4=;
-	b=1tcuWOyF17I340g2dWf9zejwmTes7Bc2W5R/8EyoYx1ss7RWuQaHbfuY6hRGM4sVERBZ
-	 jXrnw9xd9kpKuKuP4hAZ/DJEftPQciNTPgypFFBuCfaDTkXo8MPUTdFVAw4fbIOo1rDk4
-	 0i/N7mJpFKmugTO3q7H0BynYGmNB774+nSseDNRuXTGFslpB01kMq8AW8UtocgarjjhHM
-	 jiqEnaJH4WGNA4WiBfAi6dmqqutSW5Va4YfiYxV/Z8+RGybQmlg+dJCKsB6IlCwfmeAn+
-	 KZo1fif+E4oW4uvvcWyfqWca/m9cLVg2aCQuJCf8yi3tbdmC1TsOppYU6akFzGbqqgQ==
+	bh=EWNSn7/qGLe4P+MNmNuGL5nNMpUQ5CrgVDoViR4hYXc=;
+	b=36TaRv5mIBSfPf2GTtXkI2cWTuie7EVSpb6FHalnKmcJ8Jg4lPfUTsABoI2J3RSYZ9id
+	 YtUkmCVMKFnd0uc1anwt8mJfV1BV8HSNt5Zqi7GYsjSlBzfnxnqCZGCxLhbcGJ8WZ5V6r
+	 uDFC1HY7iDimaAymmw8+SC5zumrjwoj8TwdpAwY5WnPP5W8qP8Uc5BRZit57MKW3ckiOr
+	 wCH2zvxoqgfIsVzQmhUpFvizeVGuNEoHd6Ad8LUapxRlKxckNLfJKNaaKonsnOpbBZdSH
+	 u0sVPOso4MemTQXMOdvJnECPq+CnIlr1K+6XwUxZ4oQZIUvcViRiXYI4VaS1jY3+HzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=NNTLq+v6;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=OJT5mX0i;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEF5606A327
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 20:33:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FEF5606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675E9606A68B
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 20:33:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 675E9606A68B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=NNTLq+v6
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=OJT5mX0i
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795725229;
+	s=mimecast20190719; t=1795725237;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Gybj3DkML2SufeUVzqzLs05OtQbk5JUJB/WPsJMqxF4=;
-	b=NNTLq+v6SIeVUtZRPrCHdYEST/4XsfuSmsE+0prtF4SfqAvhStiM9EkXK3HOKS5Z2esozL
-	q+Si/5szV9i4RMJ130tk459bl7iWn6Z9luRSS92fsdEZTe9+kSMGxT3cjKWszgLtjix/Yu
-	QHeFtFgqtS1rzYeBOSVq4km8fGXyBaw=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=EWNSn7/qGLe4P+MNmNuGL5nNMpUQ5CrgVDoViR4hYXc=;
+	b=OJT5mX0i+vjHOwJk3lqlEbktexk3YDgMrED8Dm0E+F/Pxf0rHMo9q9uKuU0S9ZGMwnTtja
+	adNaIAslVVZ+nvPjm1vINxGFE9JG5S097bKGM+FaX0pODDYCG/nK9RjCvUURcUizrVGuC3
+	sOSddvM2DM+3MHVgX/goqkxmls1sA2s=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-634-310NCRwROjGas_BUZG6hWQ-1; Thu,
- 26 Nov 2026 20:33:45 +0000
-X-MC-Unique: 310NCRwROjGas_BUZG6hWQ-1
-X-Mimecast-MFC-AGG-ID: 310NCRwROjGas_BUZG6hWQ_1795725222
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-379-PPslup6RNDuO54EKJcimBg-1; Thu,
+ 26 Nov 2026 20:33:51 +0000
+X-MC-Unique: PPslup6RNDuO54EKJcimBg-1
+X-Mimecast-MFC-AGG-ID: PPslup6RNDuO54EKJcimBg_1795725228
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D73E91944AA6;
-	Thu, 26 Nov 2026 20:33:41 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6E85B18011CC;
+	Thu, 26 Nov 2026 20:33:48 +0000 (UTC)
 Received: from ivecera-thinkpadp16vgen1.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9182B1801977;
-	Thu, 26 Nov 2026 20:33:35 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 464341800286;
+	Thu, 26 Nov 2026 20:33:42 +0000 (UTC)
 From: Ivan Vecera <ivecera@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
@@ -88,9 +88,9 @@ Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
 	Saeed Mahameed <saeedm@nvidia.com>,
 	Tariq Toukan <tariqt@nvidia.com>,
 	Petr Oros <poros@redhat.com>
-Subject: [PATCH RFC net-next 09/19] dpll: drop the source clock id from pin notifications
-Date: Thu, 26 Nov 2026 21:32:21 +0100
-Message-ID: <20261126203231.934632-10-ivecera@redhat.com>
+Subject: [PATCH RFC net-next 10/19] dpll: drop device events from the in-kernel notifier
+Date: Thu, 26 Nov 2026 21:32:22 +0100
+Message-ID: <20261126203231.934632-11-ivecera@redhat.com>
 In-Reply-To: <20261126203231.934632-1-ivecera@redhat.com>
 References: <20261126203231.934632-1-ivecera@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -105,164 +105,110 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Commit 0bf47f722fa9 ("dpll: extend pin notifier with notification source
-ID") added src_clock_id to the pin notifier info, so that ice could
-ignore the notifications caused by its own registrations of the zl3073x
-pins with its TXC and TSPLL DPLLs. ice does not register those pins any
-more and no other notifier user reads the field. Remove it.
+Commit 2be467588d6b ("dpll: Add notifier chain for dpll events") sends
+device created, deleted and changed events to the in-kernel notifier
+chain, but no driver ever handled them. The only driver that uses the
+notifier, ice, waits for pins with a firmware node and ignores
+everything else.
 
-The notifications are sent as before, only without the field.
+Keep the pin events and remove the device ones.
 
 Signed-off-by: Ivan Vecera <ivecera@redhat.com>
 ---
- drivers/dpll/dpll_core.c    | 14 ++++++--------
- drivers/dpll/dpll_core.h    |  3 +--
- drivers/dpll/dpll_netlink.c | 10 +++++-----
- drivers/dpll/dpll_netlink.h |  4 ++--
- include/linux/dpll.h        |  1 -
- 5 files changed, 14 insertions(+), 18 deletions(-)
+ drivers/dpll/dpll_core.c    | 13 -------------
+ drivers/dpll/dpll_core.h    |  1 -
+ drivers/dpll/dpll_netlink.c |  3 ---
+ include/linux/dpll.h        | 11 -----------
+ 4 files changed, 28 deletions(-)
 
 diff --git a/drivers/dpll/dpll_core.c b/drivers/dpll/dpll_core.c
-index 57eb4ff2c320e5..b1b76856c4a188 100644
+index b1b76856c4a188..2371b81181471d 100644
 --- a/drivers/dpll/dpll_core.c
 +++ b/drivers/dpll/dpll_core.c
-@@ -74,8 +74,7 @@ void dpll_device_notify(struct dpll_device *dpll, unsigned long action)
- 	call_dpll_notifiers(action, &info);
+@@ -61,19 +61,6 @@ static int call_dpll_notifiers(unsigned long action, void *info)
+ 	return raw_notifier_call_chain(&dpll_notifier_chain, action, info);
  }
  
--void dpll_pin_notify(struct dpll_pin *pin, u64 src_clock_id,
--		     unsigned long action)
-+void dpll_pin_notify(struct dpll_pin *pin, unsigned long action)
+-void dpll_device_notify(struct dpll_device *dpll, unsigned long action)
+-{
+-	struct dpll_device_notifier_info info = {
+-		.dpll = dpll,
+-		.id = dpll->id,
+-		.idx = dpll->device_idx,
+-		.clock_id = dpll->clock_id,
+-		.type = dpll->type,
+-	};
+-
+-	call_dpll_notifiers(action, &info);
+-}
+-
+ void dpll_pin_notify(struct dpll_pin *pin, unsigned long action)
  {
  	struct dpll_pin_notifier_info info = {
- 		.pin = pin,
-@@ -84,7 +83,6 @@ void dpll_pin_notify(struct dpll_pin *pin, u64 src_clock_id,
- 		.clock_id = pin->clock_id,
- 		.fwnode = pin->fwnode,
- 		.prop = &pin->prop,
--		.src_clock_id = src_clock_id,
- 	};
- 
- 	call_dpll_notifiers(action, &info);
-@@ -965,7 +963,7 @@ __dpll_pin_register(struct dpll_device *dpll, struct dpll_pin *pin,
- 		goto ref_pin_del;
- 	registered = xa_get_mark(&dpll_pin_xa, pin->id, DPLL_REGISTERED);
- 	xa_set_mark(&dpll_pin_xa, pin->id, DPLL_REGISTERED);
--	dpll_pin_create_ntf(pin, dpll->clock_id);
-+	dpll_pin_create_ntf(pin);
- 	if (!registered)
- 		dpll_pin_links_ntf(pin);
- 
-@@ -1054,7 +1052,7 @@ __dpll_pin_unregister(struct dpll_device *dpll, struct dpll_pin *pin,
- 		      const struct dpll_pin_ops *ops, void *priv, void *cookie)
- {
- 	ASSERT_DPLL_PIN_REGISTERED(pin);
--	dpll_pin_delete_ntf(pin, dpll->clock_id);
-+	dpll_pin_delete_ntf(pin);
- 	dpll_xa_ref_pin_del(&dpll->pin_refs, pin, ops, priv, cookie);
- 	dpll_xa_ref_dpll_del(&pin->dpll_refs, dpll, ops, priv, cookie);
- 	if (xa_empty(&pin->dpll_refs)) {
-@@ -1128,7 +1126,7 @@ int dpll_pin_on_pin_register(struct dpll_pin *parent, struct dpll_pin *pin,
- 			stop = i;
- 			goto dpll_unregister;
- 		}
--		dpll_pin_create_ntf(pin, parent->clock_id);
-+		dpll_pin_create_ntf(pin);
- 	}
- 	mutex_unlock(&dpll_lock);
- 
-@@ -1137,7 +1135,7 @@ int dpll_pin_on_pin_register(struct dpll_pin *parent, struct dpll_pin *pin,
- dpll_unregister:
- 	xa_for_each(&parent->dpll_refs, i, ref)
- 		if (i < stop) {
--			dpll_pin_delete_ntf(pin, parent->clock_id);
-+			dpll_pin_delete_ntf(pin);
- 			__dpll_pin_unregister(ref->dpll, pin, ops, priv,
- 					      parent);
- 		}
-@@ -1170,7 +1168,7 @@ void dpll_pin_on_pin_unregister(struct dpll_pin *parent, struct dpll_pin *pin,
- 		reg = dpll_pin_registration_find(ref, ops, priv, parent);
- 		if (!reg)
- 			continue;
--		dpll_pin_delete_ntf(pin, parent->clock_id);
-+		dpll_pin_delete_ntf(pin);
- 		__dpll_pin_unregister(ref->dpll, pin, ops, priv, parent);
- 	}
- 	dpll_xa_ref_pin_del(&pin->parent_refs, parent, ops, priv, pin);
 diff --git a/drivers/dpll/dpll_core.h b/drivers/dpll/dpll_core.h
-index f158785bf401b6..eb33ae2d6080ab 100644
+index eb33ae2d6080ab..1b3c74ef4c1b42 100644
 --- a/drivers/dpll/dpll_core.h
 +++ b/drivers/dpll/dpll_core.h
-@@ -114,7 +114,6 @@ extern struct xarray dpll_pin_xa;
+@@ -113,7 +113,6 @@ extern struct xarray dpll_device_xa;
+ extern struct xarray dpll_pin_xa;
  extern struct mutex dpll_lock;
  
- void dpll_device_notify(struct dpll_device *dpll, unsigned long action);
--void dpll_pin_notify(struct dpll_pin *pin, u64 src_clock_id,
--		     unsigned long action);
-+void dpll_pin_notify(struct dpll_pin *pin, unsigned long action);
+-void dpll_device_notify(struct dpll_device *dpll, unsigned long action);
+ void dpll_pin_notify(struct dpll_pin *pin, unsigned long action);
  
  #endif
 diff --git a/drivers/dpll/dpll_netlink.c b/drivers/dpll/dpll_netlink.c
-index fab234553b422a..7b9fadf3b3668a 100644
+index 7b9fadf3b3668a..78017aae19a6f2 100644
 --- a/drivers/dpll/dpll_netlink.c
 +++ b/drivers/dpll/dpll_netlink.c
-@@ -969,15 +969,15 @@ dpll_pin_event_send(enum dpll_cmd event, struct dpll_pin *pin)
- 	return ret;
- }
+@@ -891,13 +891,11 @@ dpll_device_event_send(enum dpll_cmd event, struct dpll_device *dpll)
  
--int dpll_pin_create_ntf(struct dpll_pin *pin, u64 src_clock_id)
-+int dpll_pin_create_ntf(struct dpll_pin *pin)
+ int dpll_device_create_ntf(struct dpll_device *dpll)
  {
--	dpll_pin_notify(pin, src_clock_id, DPLL_PIN_CREATED);
-+	dpll_pin_notify(pin, DPLL_PIN_CREATED);
- 	return dpll_pin_event_send(DPLL_CMD_PIN_CREATE_NTF, pin);
+-	dpll_device_notify(dpll, DPLL_DEVICE_CREATED);
+ 	return dpll_device_event_send(DPLL_CMD_DEVICE_CREATE_NTF, dpll);
  }
  
--int dpll_pin_delete_ntf(struct dpll_pin *pin, u64 src_clock_id)
-+int dpll_pin_delete_ntf(struct dpll_pin *pin)
+ int dpll_device_delete_ntf(struct dpll_device *dpll)
  {
--	dpll_pin_notify(pin, src_clock_id, DPLL_PIN_DELETED);
-+	dpll_pin_notify(pin, DPLL_PIN_DELETED);
- 	return dpll_pin_event_send(DPLL_CMD_PIN_DELETE_NTF, pin);
+-	dpll_device_notify(dpll, DPLL_DEVICE_DELETED);
+ 	return dpll_device_event_send(DPLL_CMD_DEVICE_DELETE_NTF, dpll);
  }
  
-@@ -992,7 +992,7 @@ int dpll_pin_delete_ntf(struct dpll_pin *pin, u64 src_clock_id)
- int __dpll_pin_change_ntf(struct dpll_pin *pin)
+@@ -912,7 +910,6 @@ int dpll_device_delete_ntf(struct dpll_device *dpll)
+ int __dpll_device_change_ntf(struct dpll_device *dpll)
  {
  	lockdep_assert_held(&dpll_lock);
--	dpll_pin_notify(pin, pin->clock_id, DPLL_PIN_CHANGED);
-+	dpll_pin_notify(pin, DPLL_PIN_CHANGED);
- 	return dpll_pin_event_send(DPLL_CMD_PIN_CHANGE_NTF, pin);
+-	dpll_device_notify(dpll, DPLL_DEVICE_CHANGED);
+ 	return dpll_device_event_send(DPLL_CMD_DEVICE_CHANGE_NTF, dpll);
  }
- EXPORT_SYMBOL_GPL(__dpll_pin_change_ntf);
-diff --git a/drivers/dpll/dpll_netlink.h b/drivers/dpll/dpll_netlink.h
-index bc20bcd248a512..ec7cace106c268 100644
---- a/drivers/dpll/dpll_netlink.h
-+++ b/drivers/dpll/dpll_netlink.h
-@@ -8,9 +8,9 @@ int dpll_device_create_ntf(struct dpll_device *dpll);
- 
- int dpll_device_delete_ntf(struct dpll_device *dpll);
- 
--int dpll_pin_create_ntf(struct dpll_pin *pin, u64 src_clock_id);
-+int dpll_pin_create_ntf(struct dpll_pin *pin);
- 
--int dpll_pin_delete_ntf(struct dpll_pin *pin, u64 src_clock_id);
-+int dpll_pin_delete_ntf(struct dpll_pin *pin);
- 
- #if IS_ENABLED(CONFIG_KUNIT)
- /* For KUnit tests, call with dpll_lock held for a registered pin */
+ EXPORT_SYMBOL_GPL(__dpll_device_change_ntf);
 diff --git a/include/linux/dpll.h b/include/linux/dpll.h
-index e252d3c6b4334a..99118dadb271e0 100644
+index 99118dadb271e0..9eccfe41240418 100644
 --- a/include/linux/dpll.h
 +++ b/include/linux/dpll.h
-@@ -233,7 +233,6 @@ struct dpll_pin_notifier_info {
- 	u64 clock_id;
- 	const struct fwnode_handle *fwnode;
- 	const struct dpll_pin_properties *prop;
--	u64 src_clock_id;
- };
+@@ -211,21 +211,10 @@ typedef struct ref_tracker *dpll_tracker;
+ typedef struct {} dpll_tracker;
+ #endif
  
- #if IS_ENABLED(CONFIG_DPLL)
+-#define DPLL_DEVICE_CREATED	1
+-#define DPLL_DEVICE_DELETED	2
+-#define DPLL_DEVICE_CHANGED	3
+ #define DPLL_PIN_CREATED	4
+ #define DPLL_PIN_DELETED	5
+ #define DPLL_PIN_CHANGED	6
+ 
+-struct dpll_device_notifier_info {
+-	struct dpll_device *dpll;
+-	u32 id;
+-	u32 idx;
+-	u64 clock_id;
+-	enum dpll_type type;
+-};
+-
+ struct dpll_pin_notifier_info {
+ 	struct dpll_pin *pin;
+ 	u32 id;
 -- 
 2.56.1
 
