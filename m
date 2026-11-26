@@ -1,105 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795649784;
-	b=ueLM7B8j66RIVsAon+KLE4pa8TPh8UAnEw8+M6DsEDkuwK84ZGhXWTMwHKT/u+XiTf+9
-	 YfqXQHnpw+75Kpdf0QmA10e65z5s6kt7CsRGRQyJOHL9tChSU6+07FYhf0Qb+6qgGNrvD
-	 j9C31zqBpoxeyv6IGAw/Ye6QnpURFUAqeA476N6fho2tvYdPXQIXyl0+LwRFruOE065hX
-	 D6DgOKLOiiNqvC92lnwrOcv1i8kl7fqwraOhQlpOQtabqKvQHW5h9h8YoJFzTs4os5uoD
-	 A1X+jaa3EgFhPkLMNQFzz9gl69naNaaWWIGKvgnHgkxUkuqnCT8NYT6KzeoPRlRdpzg==
+	t=1795651983;
+	b=Ymmo/NAEaX7ZPckIUMaJUdLFCNWrhxqhzQ5Vy0Yz+Ow9V88hsY6bw9xt/EBqFrJIpDYY
+	 HL3KYpGDFStvMihtIhwGugYHZ7apB4uAEoCNlE/JO2oI9SPlPgEi6pIvkSi4g7RP+E+as
+	 DyNEmc30T26GVr6QROPvPWKv04eXgBCpk6PVwF2iwB7ive+q/xeTE26Aljdr31oIAkQWd
+	 TVfFmCUv67s3e0wkCXXv671IWExWwHMVXL0CccQ3yX8Jv8nfVvpHbN/UZDWuILpFu2x1v
+	 2fSspU4bFQMX8G57bBsLeUmXZLnKcD7qfRJesT8cGr280t0wQRwPrvC5F83mdjdqlUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795649784;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795651983;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=rlp9gEwrZkHdgv9tEPsrmJHObN6Zh/DO91hvElQOqsQ=;
-	b=G98FQY3T8+9Tn9+63qWSqRDVBQVMHr11t1LeC2x95QLY3WZAwKnA06w7gmJt+XGo7AUE
-	 prxkhKGQoQv8dd3CxGMJXljthr6H2zB8g4BSRlvyGef7aT+sSlxEdguMFYJjvZJC7LSUt
-	 9rblhtB0bb9hpC+T1wRBKWTz2vdPq+j/DKWBKqNmvAgdiuxyDE+4PjYH/Y9xZGkoZHpb9
-	 gVf86uZwbQHJwty/TtuI7L+cnMwWwnX3j0QBTxI1/W2mJQ9Ae4Y/VJBcB6D+wJLdCTAL/
-	 53tuhGHjV6eL5RlyB0apC7wrYLb80rBMG3zCzX/90JHXxrCiQEPuviqvcRx1rq5eFSA==
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
+	bh=F7ZXso7jhWjYiqUU7UwYJiU8JPoYkJS5VDECLxAjalg=;
+	b=Ziz99H95VigZoUO4UweruyyvFI7fWSbIg/g0JblxGwLvNJYKZbIF6fSWgJ9H4MtzPTov
+	 1IO2DrAK3MTQCwFhNmXDI86NNaN/bmeN8dAUy3STzOu9k/d8zHcjiyQbxZeLI/1NvsSa1
+	 MkLc3I1rQh7whtoQ7gtKEsstIV+vwqCHOU0ssi7kZ+CLcAriwIRdvkcQnN5B04FOYsooX
+	 GS77VzDyxj14PX94DzcrAyTZWmNvbkhfoyETnYLWmgt2mfLJhVJvZZjvyhRD1/0L36KP5
+	 nUn0n/yq7Yv00wQxf2yBy98QDzSf+UzesBlCLSolQOv5JVnCpvpxaAaM/zqdAuZ4GTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nR9+m7iT;
-	arc=none smtp.remote-ip=209.85.214.180
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=CRyZoz22;
+	arc=none smtp.remote-ip=209.85.215.180
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E1C606A326
-	for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 23:36:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0E1C606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4CD606A321
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 00:13:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B4CD606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nR9+m7iT
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2f052ae3c86so35387655ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 15:36:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=CRyZoz22
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-cdd9d0c9bbdso3673274a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 16:13:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795649783; x=1796254583; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rlp9gEwrZkHdgv9tEPsrmJHObN6Zh/DO91hvElQOqsQ=;
-        b=nR9+m7iTvWR/jIkbcf9Z+O6bsNRp72Axj2s0OUlmt9yupfWpUT6wQsOmbmA/yZJycV
-         li74Whz8zjMczAWHicw6f0f6u4EbjNGeTVeld99kVxbyTQpe2UH7YhtyOh0QMNjRMOep
-         HDFIn6AteS/5VpRAOObaLgMoB1UpY+xLEepGGj+nAnWWf7f47TiOtegrcKmxE4VtrxQH
-         8OOQxOA/8pggzN/01WLKokpRZletP0m1gmJ/5enVlmreyR7RdJTTGCglXNYekVu8ZEY+
-         6SHfiqaacf6otbN3RQX1njz4RCmmRFNHgVZyIWxQeQ/vINPUGxE0gI+gO4JZjNy/S/m7
-         Nn+A==
+        d=google.com; s=20260707; t=1795651982; x=1796256782; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=F7ZXso7jhWjYiqUU7UwYJiU8JPoYkJS5VDECLxAjalg=;
+        b=CRyZoz223YPEgFuLspAYVU4C+wiGlk9ZRfC4HfdodSy0pSclT2YuU4hBncddoQ7NAP
+         zKu4VT2oW5ZfFBULJgFASRshVh9mA1r8lP6fnGbhH9xU2mqRmzIvmCWYvB+Kzom27kg5
+         JJFYfPxyGKTK03zpQXmD9E413UorfTlNFa+Rwa99uJ2mqFEPKSmjgNKtfgwMcAAa2/c4
+         Jqk3Tl75ny2JX/QBzMoJ5GTw1mxy+LgQ//NvfV60s+uFw7IkRE2D1pb05BgAhEcW0/G0
+         1p1usltjtOOjzyoVvVnmt3ft9YgNNpYavOWs8OxOi1FPdeQYukgE+XbkeBQ52EeN4OG5
+         +NNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795649783; x=1796254583;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1795651982; x=1796256782;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=rlp9gEwrZkHdgv9tEPsrmJHObN6Zh/DO91hvElQOqsQ=;
-        b=zs49gkIzKLTEHbXT8OKGLeXSwqYC18S0zqtGQWwjDao4P5t3UpnciPDJkIJzK2Plt7
-         BlY7Aj29pNIyGnNNZ5Tk45YIMSsGKGIxYCk/lOazC+KmOh75Lp1Yu+NELpYTri82K90c
-         5n9wBIgCJVirs06cifQSZRfvTavxOPLF0+IBSSWANLgyQ9IW39K91H31d2PoiJ2q6VaD
-         HLa3avGegFR5+owVTQeFYDCJ2hdQ98KVZXF//naSdNuBkQZsXWCUZYxKFF4uiCovpvty
-         NmdvQhAi+3D2CZcaCweyhryU6BqhE+goxvLq3i8pLZPNu552JDQnpQkS36PICukXtKEz
-         jC3A==
-X-Forwarded-Encrypted: i=1; AL+hErGXKmxSgw9ovuL6bcQuOupO0Np/KPqVLhpPnPRVIkqfuZBuTyWLstO1aOls/qwKWFqsxy/zFJA19k0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/qTYx5zZT3fWwakF1GBZBfGhIuPCNGpI0EaVyCpqflsDjBIodL
-	jHkdjznF3EWTTqKeX0Gf/KUFe9HmJlgMI0sNowMyUznMbph3IrJDvUkd
-X-Gm-Gg: AZFdTZcrDT9ePzI/+ykHMTqit3Aqqahxxzt64rz0uGQ/giMGEsbEpeavYOG5VcliIYF
-	03m0DWggyNvkZWAqOb0F5kbnucNGvtl4vu0FvrYdgoWm2DKAu1GazHLIs6jdxw3kGEyubgPOIoS
-	E8ozn6Mg005XcW15MJQniDNt/7GPXAxg2shEWQ0LfrrEcj/puTXyQfEOfwZmA7YrjM1A7JtVUin
-	mEMPF6SabwUV86oQtCcJsOGc//Dw+Wa9/BGD1pqK47qO13sl2k9q5c92ERN590LzLgFqhyP3fip
-	XPxHS/lODwym33sGM8ZDjtU8UB5TXhubvwyzPPaOcNrlw38oD1UtcJ8tudzkKrL7WBX7kmIYOTp
-	umI4qjzPbZFBzN9NlDGS3mrBhkkJEJ14sb+5LWM/ltaSVHpf2wzDTZVR4Ig+lJ2cIp3z2OMFEFr
-	WwPLgs9EtuE4dr6I6Y3eBeI5woPYDQ0mruk8txBAs1W3UH8kf7vya/poAuoST8x3K7bG1XeJJBw
-	+AUors4ZZagZSTAt+JhTIeMVFsN59vISdQiAfMqtO1Z6TDAKhnJ5KegJyv4l/vQKJz8pWhjKgFZ
-	rwAyIIqdH0fX6Birgk6zN1i7Lcuf
-X-Received: by 2002:a17:90b:4ec4:b0:3b0:a3eb:759d with SMTP id 98e67ed59e1d1-3b41c8fcd3fmr17046919a91.10.1795649783039;
-        Wed, 25 Nov 2026 15:36:23 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b48b41928esm19602862a91.9.2026.11.25.15.36.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 15:36:20 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id C3C7E420A76D; Thu, 26 Nov 2026 06:36:17 +0700 (WIB)
-Date: Thu, 26 Nov 2026 06:36:17 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Willy Tarreau <w@1wt.eu>
-Cc: Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, gregkh@linuxfoundation.org,
-	Johan Hovold <johan@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Subject: Re: [PATCH v2 05/14] docs: security-bugs: explain how to send a fix
- that can be applied
-Message-ID: <awdw7OLaYvXcGPgj@archie.me>
-References: <20261114190014.17826-1-w@1wt.eu>
- <20261114190014.17826-6-w@1wt.eu>
- <awdqgBF62SOKaU0Q@archie.me>
- <awdrPui-KI-SK_5N@1wt.eu>
+        bh=F7ZXso7jhWjYiqUU7UwYJiU8JPoYkJS5VDECLxAjalg=;
+        b=il0tzsAiMWN6kQmZG/ilhyr7JyTYoOiG5zxTcEz78FK5T+H+rHW5GmNiwYQQc3J2rk
+         pO3r4508LwTh2/eRoCwAwqLn9vK+cYaJCkmWK8FFBfNHXlRtsYr6J4IoRUOxzi9B8qmg
+         hz6VLT8wMO+H0iEUVUdwYfql7q9q2Y4iPO5QiadGSAtZceeW4/S17lo013UmsbE1q691
+         2UWHUNxOYlo73S42dRNYgkeqAJ8DqoTv5kb60vVTUzEFmafeNZeCVMbzo3ArbTJP0udk
+         A2LFNqrCgeVWsAWMOmEq5R2nkV5xMUtEYndorB/Ak9e1/wlir533ZT+NcJaRBKBTmLmI
+         k7SA==
+X-Forwarded-Encrypted: i=1; AL+hErGa3nW9tghi/9Qr+T4JSEleNgGBd2Vqbf2Ix0zAwedKP5Y/ow5ATDYZVrN9nGQJCVUU3DJ5bqlZGGU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+E/9ritGhp1mY9xnQlRytikEsenzTNHhu/NlSKcKyQ/q6fTKB8
+	KaNw6H84+lRDLDx2ZVZXci+YMVtXmJGrKQ28yOB0JiLL+dPC5s3vNAqtRWhhiqZMabmfRR1/3tj
+	EkhuWOZ04
+X-Gm-Gg: AZFdTZcRaECasuxa22hQITSm6NRL1NwisXRIHliKp0xbmD/uVuqsZ1y2yUqkYfMMYLZ
+	p3hG5RM1/gtzjSxtAZmbIkRdimJiVh8kDllFDDQnQrcFUmzRBU+BLKSiScf5bVK0jXfcYGT6MK5
+	CvrBvBfEsPNAboomictwWeHXLR/ZhsEky7qNUEQLnEVfHGPL/CkNn7WEbZjr+pa0e7xghzeaneG
+	6rCg4G0Nwh/aXwU7neJuERdm25zdsxBMyHSc6r/1NaiE+0pSpZM/mjGhAbYjp+9TAoucGJdTR6E
+	99p3/tpiENMyNWsCdYfWXdO+Qot9D4jmqmIO63MCCL76vraT65aP0W2YMboVon/dVqfOlx7Blsn
+	NKFk199wAYbCr+q53/qkbxHnkLrfbXnWL6GNENcUypabk0dbiiVWE87QLmdHXJiUQ6wWj4nUKnh
+	OPiEDXZkxYI0ZTMO3T0qrAm++uA0QqDaJDMB0jRolDQxEc+prbYI55FJoZFI8tqZKZnuhWDXYx/
+	/OT9uWxf1MzBvEJ7TJQYQGa05UDQveozGet/5b654iBYRhrSK+/8/ueF1h2JNWrupXDj9yHlP3A
+	fzyyXJvoNPKeoIEG9BNz8vm7SChjjBjSbKTsnTII5/AksnaQ/qLuHnxbfRZ1sfAe
+X-Received: by 2002:a17:90b:1dcd:b0:3b0:968f:fdef with SMTP id 98e67ed59e1d1-3b41c9758d8mr19498651a91.49.1795651980863;
+        Wed, 25 Nov 2026 16:13:00 -0800 (PST)
+Received: from localhost (33.79.127.34.bc.googleusercontent.com. [34.127.79.33])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdec1168866sm83815a12.25.2026.11.25.16.12.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Nov 2026 16:13:00 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -108,63 +88,424 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Kjo8vLeaeTg8pZ2D"
-Content-Disposition: inline
-In-Reply-To: <awdrPui-KI-SK_5N@1wt.eu>
-
---Kjo8vLeaeTg8pZ2D
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 25 Nov 2026 16:12:59 -0800
+Message-Id: <DN4PI3EAYYBF.NM3BHJ2OYRDG@google.com>
+Cc: <kvm@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] vfio: selftests: Add NVMe driver
+From: "David Matlack" <dmatlack@google.com>
+To: "Josh Hilke" <jrhilke@google.com>, "David Matlack"
+ <dmatlack@google.com>, "Alex Williamson" <alex@shazbot.org>
+X-Mailer: aerc 0.21.0
+References: <20261124020814.1679635-1-jrhilke@google.com>
+In-Reply-To: <20261124020814.1679635-1-jrhilke@google.com>
 
-On Thu, Nov 26, 2026 at 12:11:58AM +0100, Willy Tarreau wrote:
-> On Thu, Nov 26, 2026 at 06:08:54AM +0700, Bagas Sanjaya wrote:
-> > On Sat, Nov 14, 2026 at 08:00:05PM +0100, Willy Tarreau wrote:
-> > > +Most fixes sent along with reports cannot be applied as-is because t=
-hey were
-> > > +damaged by the mailer or lacking a commit message, forcing maintaine=
-rs to ask
-> > > +for a resend. A fix must be applicable using ``git am``, which is mo=
-st easily
-> > > +achieved by letting git produce and send the messages (see
-> > > +Documentation/process/submitting-patches.rst).
-> > > +
-> > > +When the fix is meant to only be sent privately, the preferred metho=
-d is to
-> > > +send the report as a cover letter of a series, followed by the fix::
-> >=20
-> > Documentation/process/submitting-patches.rst guidelines also applies to
-> > privately-sent fixes, no?
->=20
-> Yes, why this question ?
->=20
-> > > +
-> > > +  $ git format-patch --cover-letter -1
-> > > +  (edit 0000-cover-letter.patch and replace the subject and text wit=
-h the
-> > > +   report's subject and text)
-> > replace the subject and message body placeholder as appropriate for the=
- report
->=20
-> That's a wording detail / preference, not going to respin a series for th=
-at!
+On Mon Nov 23, 2026 at 6:08 PM PST, Josh Hilke wrote:
+> The driver overwrites the first max_memcpy_size bytes of the namespace.
+> Do not use a device that holds data you want to keep.
 
-OK, thanks!
+I'm worried about this. Today vfio_pci_driver_test skips NVMe devices
+("No driver found"), so anyone who already passes an NVMe device to the
+VFIO selftests (e.g. to run vfio_pci_device_test) would start losing the
+start of namespace 1 after this patch, without changing anything on
+their end. On a real disk that's the partition table or filesystem
+superblock. A note in the commit message and docs isn't enough
+protection for that.
 
---=20
-An old man doll... just what I always wanted! - Clara
+I'd like the driver to refuse to write anywhere that it can't prove is
+unused. How about something like this:
 
---Kjo8vLeaeTg8pZ2D
-Content-Type: application/pgp-signature; name=signature.asc
+ - Reserve the first 4 KiB of the namespace for a header (a magic string
+   plus the number of bytes after the header the driver has claimed),
+   and do the memcpys in the blocks after it.
 
------BEGIN PGP SIGNATURE-----
+ - On the first memcpy, read the header. If it's present and covers
+   max_memcpy_size, proceed.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCawdw7AAKCRD2uYlJVVFO
-oy3qAQC4EPhrAXmftWcO+Qjt6IRMGr42yV+tdJa0t7L7OWolnwEAxVxjaT6iGwY7
-vDe54HMMZEorAqWYR7Jt1hlwu+PDuA4=
-=BL++
------END PGP SIGNATURE-----
+ - Otherwise, check that every byte the driver could write (the header
+   plus max_memcpy_size, or just the part past what an existing header
+   already covers) is zero. If it isn't, fail with a message explaining
+   how to zero the range if the user really wants to use this device.
+   If it is, write the header and proceed.
 
---Kjo8vLeaeTg8pZ2D--
+That way things just work on a blank namespace (e.g. the QEMU device in
+your instructions), reruns on the same namespace just work since the
+memcpys never touch the header, and a disk with data on it is refused.
+A crash in the middle of a test doesn't matter either. And since the
+check happens on the first memcpy, tests that only use send_msi() (e.g.
+KVM's irq_test) still work on any NVMe device.
+
+I prototyped this on top of your patch (about 130 lines, mostly one
+function called from the first nvme_memcpy_start()) and
+vfio_pci_driver_test passes 35/35 on QEMU on a fresh namespace and on a
+rerun, and correctly refuses when there's data in the range. The diff is
+at the end of this email.
+
+> +/* nvme.h needs uuid_t from libuuid and struct_group(). */
+> +#include <uuid/uuid.h>
+
+Samiullah's "vfio: selftests: Remove libuuid dependency" removes libuuid
+from the VFIO selftests and adds uuid_t to libvfio, so please drop this
+include and rebase on top of that if it lands first.
+
+> +#include "nvme.h"
+
+This fails to build with clang:
+
+  nvme.h:524:52: error: '_Static_assert' with no message is a C23 extension=
+ [-Werror,-Wc23-extensions]
+    524 | static_assert(sizeof(struct nvme_id_ns_nvm) =3D=3D 4096);
+
+include/linux/nvme.h uses the kernel's static_assert(), where the
+message is optional, but <assert.h> has already defined static_assert()
+as _Static_assert(), which requires one before C23. gcc doesn't
+complain, so please build with LLVM=3D1 too. Something like this before
+including nvme.h fixes it:
+
+	/*
+	 * nvme.h uses the kernel's static_assert(), which makes the message
+	 * optional. <assert.h> defines static_assert() as _Static_assert(),
+	 * which needs one before C23.
+	 */
+	#undef static_assert
+	#define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #exp=
+r)
+	#ifndef __static_assert
+	#define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+	#endif
+
+Also, please Cc linux-nvme and the NVMe maintainers on the next version,
+so they're aware that the selftests now depend on include/linux/nvme.h,
+and to get their feedback on the driver, especially the scratch header
+design above.
+
+[...]
+
+> +static void nvme_enable_irqs(struct vfio_pci_device *device)
+> +{
+> +	/*
+> +	 * Admin completions always use vector 0. Require at least two MSI-X
+> +	 * vectors so I/O completions use vector 1 and admin commands never
+> +	 * signal the eventfd that the tests check.
+> +	 */
+> +	VFIO_ASSERT_GE(device->msix_info.count, 2,
+> +		       "Device must support at least 2 MSI-X vectors");
+
+Please check this in nvme_probe() instead, and fail the probe rather
+than asserting. A device that can't work with the driver shouldn't
+probe successfully. msix_info and the BARs are already set up when
+probe() runs (ioat_probe() already reads BAR0), so the CAP checks in
+nvme_enable_ctrl() (NVM command set, 4 KiB pages) can move to probe()
+too. Only the checks that need admin commands (number of queues,
+namespace format) have to stay in init().
+
+[...]
+
+> +static void nvme_create_io_queue(struct vfio_pci_device *device,
+> +				 struct nvme_queue *q, bool ien)
+
+nit: ien is hard to read unless you know it's the IEN bit from the spec.
+Please spell it out, e.g. irq_enabled.
+
+[...]
+
+> +static void nvme_set_prp(struct vfio_pci_device *device,
+> +			 struct nvme_command *cmd, iova_t buf, u64 size,
+> +			 __le64 *prp_list)
+> +{
+> +	u64 first =3D SZ_4K - (buf & (SZ_4K - 1));
+
+nit: Please add something like NVME_CTRL_PAGE_SIZE (like the kernel
+driver has in drivers/nvme/host/nvme.h) and use it instead of SZ_4K
+everywhere the code means the controller's memory page size (CC.MPS),
+e.g. here, in the PRP list and queue alignment, and in
+NVME_PRP_LIST_ENTRIES. That makes it clear that it's unrelated to the
+CPU's page size, which can be 16K or 64K on arm64.
+
+[...]
+
+> +	nvme_prep_rw_cmd(device, &cmd, nvme_cmd_read, dst, size,
+> +			 state->prp_dst);
+> +	for (i =3D 0; i < count; i++)
+> +		nvme_sq_push(device, &state->pollq[i % state->nr_pollqs], &cmd);
+
+memcpy_start() is supposed to kick off @count memcpy operations, i.e.
+@count DMA reads of @src and @count DMA writes to @dst. This only reads
+@src once. Please do @count writes from @src as well. e.g. keep the
+first write and the wait for it, and then queue the other @count - 1
+writes along with the @count reads. Once the first write completes, the
+blocks already hold @src, and the other writes store the same data, so
+the reads see @src no matter what order the controller runs them in.
+
+Note that max_memcpy_count will need to account for the extra commands
+(2 * @count - 1 in flight instead of @count).
+
+One possible concern with this is SSD wear. memcpy_storm would write
+around max_memcpy_count * max_memcpy_size (several GiB) per run on a real
+SSD, for each IOMMU mode. That's probably fine on datacenter drives, but
+I'm curious what you think.
+
+---
+
+diff --git a/Documentation/driver-api/vfio-selftests.rst b/Documentation/dr=
+iver-api/vfio-selftests.rst
+index b26040c48d5d..567262ac3d55 100644
+--- a/Documentation/driver-api/vfio-selftests.rst
++++ b/Documentation/driver-api/vfio-selftests.rst
+@@ -44,8 +44,10 @@ includes driver support for the following devices:
+ Note that using Intel DSA devices requires setting the module parameter
+ ``vfio_pci.disable_denylist=3DY`` to allow ``vfio-pci`` to bind to DSA dev=
+ices.
+=20
+-Note that the NVMe driver overwrites the start of the first active namespa=
+ce.
+-Do not use an NVMe device that holds data you want to keep.
++Note that the NVMe driver writes to the start of the first active namespac=
+e.
++To avoid destroying data, it refuses to write unless that space is all zer=
+o,
++or was zeroed and claimed by an earlier run (marked by a header in the fir=
+st
++4 KiB).
+=20
+ Setting up Devices
+ ------------------
+diff --git a/tools/testing/selftests/vfio/lib/drivers/nvme/nvme.c b/tools/t=
+esting/selftests/vfio/lib/drivers/nvme/nvme.c
+index 01f38b71a46b..04ae89f31cb2 100644
+--- a/tools/testing/selftests/vfio/lib/drivers/nvme/nvme.c
++++ b/tools/testing/selftests/vfio/lib/drivers/nvme/nvme.c
+@@ -69,6 +69,21 @@
+ #define NVME_CAP_TIMEOUT_UNIT_MS	500ULL
+ #define NVME_POLL_INTERVAL_US		1000
+=20
++/*
++ * The first NVME_SCRATCH_HDR_SIZE bytes of the namespace hold a header th=
+at
++ * marks the namespace as scratch space for VFIO selftests. memcpy command=
+s
++ * use the blocks after it, so the header survives a test that crashes.
++ */
++#define NVME_SCRATCH_HDR_SIZE		SZ_4K
++#define NVME_SCRATCH_MAGIC		"VFIO selftests NVMe scratch v1"
++#define NVME_SCRATCH_CHUNK		SZ_64K
++
++struct nvme_scratch_header {
++	char magic[32];
++	/* Bytes after the header that the driver has verified were zero. */
++	__le64 size;
++};
++
+ struct nvme_queue {
+ 	/* Byte offsets of the submission and completion rings in the region. */
+ 	u64 sq_offset;
+@@ -113,6 +128,12 @@ struct nvme_state {
+ 	/* Power-of-two shift for converting bytes to logical blocks. */
+ 	u32 lba_shift;
+=20
++	/* First logical block that memcpy commands use, after the header. */
++	u64 data_slba;
++
++	/* Set once nvme_claim_scratch() has verified the scratch space. */
++	bool scratch_claimed;
++
+ 	/* Result of the write in nvme_memcpy_start(). */
+ 	int memcpy_err;
+=20
+@@ -132,6 +153,8 @@ struct nvme_state {
+ 	 */
+ 	__le64 prp_src[NVME_PRP_LIST_ENTRIES] __aligned(SZ_4K);
+ 	__le64 prp_dst[NVME_PRP_LIST_ENTRIES] __aligned(SZ_4K);
++	/* Bounce buffer for reading and writing the scratch header and space. */
++	u8 scratch_buf[NVME_SCRATCH_CHUNK] __aligned(SZ_4K);
+ 	u8 poll_rings[] __aligned(SZ_4K);
+ };
+=20
+@@ -259,10 +282,6 @@ static u16 nvme_status(const struct nvme_completion *c=
+qe)
+ 	return (le16_to_cpu(cqe->status) >> 1) & NVME_SCT_SC_MASK;
+ }
+=20
+-/*
+- * The driver overwrites the first max_memcpy_size bytes of the namespace.=
+ Do
+- * not use a device that holds data you want to keep.
+- */
+ static int nvme_probe(struct vfio_pci_device *device)
+ {
+ 	u32 class_code;
+@@ -570,10 +589,12 @@ static void nvme_set_limits(struct vfio_pci_device *d=
+evice)
+ 	if (mdts && mdts < 32)
+ 		max_size =3D min_t(u64, max_size, (u64)SZ_4K << mdts);
+=20
+-	/* All memcpy operations use the logical blocks from LBA 0. */
+-	nsze =3D le64_to_cpu(state->id_ns.nsze);
+-	if (nsze < max_size >> state->lba_shift)
+-		max_size =3D nsze << state->lba_shift;
++	/* All memcpy operations use the logical blocks after the header. */
++	nsze =3D le64_to_cpu(state->id_ns.nsze) << state->lba_shift;
++	VFIO_ASSERT_GT(nsze, NVME_SCRATCH_HDR_SIZE,
++		       "Namespace %u is too small", state->nsid);
++	max_size =3D min_t(u64, max_size, nsze - NVME_SCRATCH_HDR_SIZE);
++	state->data_slba =3D NVME_SCRATCH_HDR_SIZE >> state->lba_shift;
+=20
+ 	device->driver.max_memcpy_size =3D max_size;
+ 	/* A ring of depth entries holds at most depth - 1 commands. */
+@@ -652,11 +673,11 @@ static void nvme_set_prp(struct vfio_pci_device *devi=
+ce,
+ }
+=20
+ /*
+- * Build a read or write command covering @size bytes from LBA 0, transfer=
+ring
++ * Build a read or write command covering @size bytes from @slba, transfer=
+ring
+  * to or from @buf. @size must be a whole number of logical blocks.
+  */
+ static void nvme_prep_rw_cmd(struct vfio_pci_device *device,
+-			     struct nvme_command *cmd, u8 opcode,
++			     struct nvme_command *cmd, u8 opcode, u64 slba,
+ 			     iova_t buf, u64 size, __le64 *prp_list)
+ {
+ 	struct nvme_state *state =3D to_nvme_state(device);
+@@ -667,6 +688,7 @@ static void nvme_prep_rw_cmd(struct vfio_pci_device *de=
+vice,
+ 	memset(cmd, 0, sizeof(*cmd));
+ 	cmd->rw.opcode =3D opcode;
+ 	cmd->rw.nsid =3D cpu_to_le32(state->nsid);
++	cmd->rw.slba =3D cpu_to_le64(slba);
+ 	nvme_set_prp(device, cmd, buf, size, prp_list);
+ 	cmd->rw.length =3D cpu_to_le16((size >> state->lba_shift) - 1);
+ }
+@@ -683,8 +705,92 @@ static int nvme_io_wait(struct vfio_pci_device *device=
+, struct nvme_queue *q)
+ 	return nvme_status(&cqe) ? -EIO : 0;
+ }
+=20
++/* Synchronously read or write @size bytes at byte @offset of the namespac=
+e. */
++static int nvme_scratch_rw(struct vfio_pci_device *device, u8 opcode,
++			   u64 offset, u64 size)
++{
++	struct nvme_state *state =3D to_nvme_state(device);
++	struct nvme_command cmd;
++
++	nvme_prep_rw_cmd(device, &cmd, opcode, offset >> state->lba_shift,
++			 to_iova(device, state->scratch_buf), size, state->prp_src);
++	nvme_sq_submit(device, &state->pollq[0], &cmd);
++
++	return nvme_io_wait(device, &state->pollq[0]);
++}
++
++static bool nvme_scratch_buf_is_zero(struct nvme_state *state, u64 size)
++{
++	u64 *p =3D (u64 *)state->scratch_buf;
++	u64 i;
++
++	for (i =3D 0; i < size / sizeof(*p); i++) {
++		if (p[i])
++			return false;
++	}
++
++	return true;
++}
++
+ /*
+- * Copy @src to @dst through the logical blocks from LBA 0 of the namespac=
+e.
++ * Refuse to overwrite data that the driver did not put there. The namespa=
+ce
++ * is scratch space if it starts with a header that covers max_memcpy_size=
+.
++ * Otherwise, claim it by checking that every byte the driver could write =
+is
++ * zero, and then writing the header. If the header covers less than
++ * max_memcpy_size, only the bytes past what it covers need to be zero.
++ */
++static void nvme_claim_scratch(struct vfio_pci_device *device)
++{
++	struct nvme_scratch_header *hdr =3D (void *)to_nvme_state(device)->scratc=
+h_buf;
++	struct nvme_state *state =3D to_nvme_state(device);
++	u64 max_size =3D device->driver.max_memcpy_size;
++	u64 start =3D 0, end, offset, size;
++	struct nvme_command cmd;
++	int ret;
++
++	ret =3D nvme_scratch_rw(device, nvme_cmd_read, 0, NVME_SCRATCH_HDR_SIZE);
++	VFIO_ASSERT_EQ(ret, 0, "Failed to read the scratch header");
++
++	if (!memcmp(hdr->magic, NVME_SCRATCH_MAGIC, sizeof(NVME_SCRATCH_MAGIC))) =
+{
++		if (le64_to_cpu(hdr->size) >=3D max_size)
++			return;
++
++		start =3D NVME_SCRATCH_HDR_SIZE + le64_to_cpu(hdr->size);
++	}
++
++	end =3D NVME_SCRATCH_HDR_SIZE + max_size;
++	for (offset =3D start; offset < end; offset +=3D size) {
++		size =3D min_t(u64, end - offset, NVME_SCRATCH_CHUNK);
++
++		ret =3D nvme_scratch_rw(device, nvme_cmd_read, offset, size);
++		VFIO_ASSERT_EQ(ret, 0, "Failed to read namespace %u", state->nsid);
++
++		VFIO_ASSERT_TRUE(nvme_scratch_buf_is_zero(state, size),
++				 "Namespace %u: bytes [0x%lx, 0x%lx) are not all zero.\n"
++				 "The NVMe driver only writes to zeroed space, to avoid\n"
++				 "destroying data. Zero that range to allow it, e.g.\n"
++				 "  blkdiscard -z -l %lu /dev/nvmeXn%u\n",
++				 state->nsid, start, end, end, state->nsid);
++	}
++
++	memset(state->scratch_buf, 0, NVME_SCRATCH_HDR_SIZE);
++	memcpy(hdr->magic, NVME_SCRATCH_MAGIC, sizeof(NVME_SCRATCH_MAGIC));
++	hdr->size =3D cpu_to_le64(max_size);
++
++	ret =3D nvme_scratch_rw(device, nvme_cmd_write, 0, NVME_SCRATCH_HDR_SIZE)=
+;
++	VFIO_ASSERT_EQ(ret, 0, "Failed to write the scratch header");
++
++	/* Make sure the header survives a reset or FLR of the controller. */
++	memset(&cmd, 0, sizeof(cmd));
++	cmd.common.opcode =3D nvme_cmd_flush;
++	cmd.common.nsid =3D cpu_to_le32(state->nsid);
++	nvme_sq_submit(device, &state->pollq[0], &cmd);
++	VFIO_ASSERT_EQ(nvme_io_wait(device, &state->pollq[0]), 0,
++		       "Failed to flush the scratch header");
++}
++
++/*
++ * Copy @src to @dst through the logical blocks after the scratch header.
+  * A write stores @src first. Then the driver queues @count reads of those
+  * blocks into @dst, spread over the polled queues.
+  *
+@@ -700,14 +806,19 @@ static void nvme_memcpy_start(struct vfio_pci_device =
+*device,
+ 	struct nvme_command cmd;
+ 	u64 i;
+=20
+-	nvme_prep_rw_cmd(device, &cmd, nvme_cmd_write, src, size,
++	if (!state->scratch_claimed) {
++		nvme_claim_scratch(device);
++		state->scratch_claimed =3D true;
++	}
++
++	nvme_prep_rw_cmd(device, &cmd, nvme_cmd_write, state->data_slba, src, siz=
+e,
+ 			 state->prp_src);
+ 	nvme_sq_submit(device, &state->pollq[0], &cmd);
+ 	state->memcpy_err =3D nvme_io_wait(device, &state->pollq[0]);
+ 	if (state->memcpy_err)
+ 		return;
+=20
+-	nvme_prep_rw_cmd(device, &cmd, nvme_cmd_read, dst, size,
++	nvme_prep_rw_cmd(device, &cmd, nvme_cmd_read, state->data_slba, dst, size=
+,
+ 			 state->prp_dst);
+ 	for (i =3D 0; i < count; i++)
+ 		nvme_sq_push(device, &state->pollq[i % state->nr_pollqs], &cmd);
