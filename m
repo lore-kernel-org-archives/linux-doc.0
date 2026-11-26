@@ -1,55 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795683296;
-	b=Mi4Vj3hWmnwD4t8IqYWqbm0G+I8FXmkOxG2Tx0RTATmo0jTNeJ5VLOE1e3k7nrdfh5De
-	 M4hwX5mPBBikW5aDrfnDg1tUxvm4FDZ59Zx6fh/OKuhuxR2wKYxQUaRO05J4+Ob/UWzFE
-	 +4DAhuXjz6b3Zc9oA7FyVIstH2q0ZA94mTPW9wzDiL8IyibVMBmLM3BvH0Km9IGmqjxfp
-	 WT1y2qedCh/P1jPQRhWUg7z26BQag2LfAiFvxf7yMlkpbG8EpzO4L8o5Oiqwofi7+aaXB
-	 W2p7tQ2l3Ub+anb7aqQ+W2MCbYPoIlNH2AB7mUSVzdBcL17N1Q/VNilvE13nr25kNJQ==
+	t=1795683551;
+	b=AzRL57ocrh2XITMKpuUoZQ1A+G6mhtL+yH4cmg5UI7b7R6iL6B2cWqUvA7N+REUjgF/n
+	 zY8WW1JGZ/g0Y9D0iZXg5WZIROEDxcjdxk2Pi5yoQ2j2o3JzZf1NtlX3VgJiY+bxx5PeY
+	 S8t/ityhh5m2bIQtwcTq5NJy46IBkHYdGForI/p5cvmNqmf4e5vqjXl2HP9Op2AmhluCY
+	 J3YwH+JBs5+ikxiKdMEXGEgOuAkhUI383pW/ubj/kh36BmWf2aXdZSsLm7K9deCUP/SnV
+	 R9gLeKqnjFbVQTvexQ9OBLqNFW5R7ulDb++q6v63YYCIxqtVE8YVwL4yn3I4Fu6x7Wg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795683296;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=XD2aXTSUuiCiLHpGAugxfZVXZCiLEmjgR9QKZY9m6mI=;
-	b=ZAfI4YKIy0puo+bSgN92l1X3KmZaT/WOxFfsPMyG5GsDqqARhoWE7VhwQjmFknr+HM+E
-	 7b4pU1+YpoiVv/FsPWvrtlqs9UEjIaJEy7SkEcszwdek6ibOjvgrwe3tXcWnHbS6SdbUJ
-	 AS+4MhJRmCnWKUWEkRpnMhjQy8pzZXWbUpJ+85n0oXXTi3Ud6xMSakvpSIXJ/AuPSJBp8
-	 wgwOkGc2L4iPZp/hwkeGEfd9ox4ZUs+Fc8YZMpfGUnOjHQ0AWnlJ4hLYaKQmlsGlS0MSC
-	 d/akmqrTZ8sXEO5mr1i4LeutXoKg9zlO666cyDepeBy4KBaroJA0KBLaWqxheEorGbg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795683551;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=jQc/CTIKgLFqNg7/EqVB3eWhheGznFwlbWTqinE5lFo=;
+	b=KQAlUFjN0bLn9qhKOXkVbbzDIr3Qfwq+MJxL7XKpiHOev2R/rWALezdpQW3dYxRzfBKP
+	 c9rubE/L5DAsj1k+XBNKWH+a+WYxbK5b/Qq6VBIEIu3HxnqpkgbymUsL3CjMF2TH0X50e
+	 fQGgQNhxuIp26TQQAU1p9JntKVa9dYlxylWZWWFCeEth4pvvThRK3W4pUyR2/K+t4imvx
+	 HZ5J16QWC20N3Vz4hGx2h6u/h0uDxGjb+rjqNP4pPbXcrdlkBS7RE2Ms2L+8RRFeOtNkN
+	 q3VpzHItife86Uh2HM7gzR3vzk1kaOcCqAVSkjpTBJ/8bFWHLuXD/BT57GfYkXsFcXg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NKZKjXt6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dFxc3MO3;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE11A606A326
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 08:54:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6CC606A31E
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 08:59:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D6CC606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NKZKjXt6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 452AF1F000D0
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 08:54:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795683295;
-	bh=XD2aXTSUuiCiLHpGAugxfZVXZCiLEmjgR9QKZY9m6mI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=NKZKjXt60ggmjgkQWJs7L/z9sR6LDbN6c5x8VpKkLZDQE53ha1ofDe/J6yl0UZS32
-	 qzJaM4+wzGcmjm4PZRwDqFWYQD3EKl45jX2orGnelqnE8eYqfoHH7dytYIpYBkndMJ
-	 12B/SyZJnYFxj5CVxNehviesZLrza16sIOOMpM7lxscw0ntUIVaH/GFRgpnbQ9JlNQ
-	 V3VoRoKZ03LBCJjWduez4ImuY8wxZu/j/RF8Ot8LbprOmcOgzcnyItyBoN6DfJ5jpw
-	 7Ufd0tfHZr7iRU1FmGH6YOTfnUaeGK4YCMlOQVoRoYobzTHkSGmeu7IAfFqi8J/fhR
-	 ZIochXIzrnusQ==
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c4d28f75d62so1111922766b.0
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 00:54:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFAPaZiAKRmvMY8xV8HWXUKSd8gzUlt6LkCQf3iAzERpbBPLCZ8VW6MGI7LYDr2Lyi+ATXEZub+s7A=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+xEn1H1aPgAhc99YVyQOUCTR/AHeNMfe1PpdShb2ewMRIjHpG9
-	dUS8aH2fiwZqLx/VyLQY6YfcPfl3e7qSQ/Rf1BbzIYF5BctWElGhwlVVemQBJHLlFcaj1ILTGPB
-	hmbiLe8hQDQoE9SB68waBj0QXkrv7bCw=
-X-Received: by 2002:a17:906:c102:b0:c51:373e:d6a9 with SMTP id
- a640c23a62f3a-c513aace989mr1575933166b.15.1795683293890; Thu, 26 Nov 2026
- 00:54:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dFxc3MO3
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4ba013938d7so62980135e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 00:59:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795683549; x=1796288349; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jQc/CTIKgLFqNg7/EqVB3eWhheGznFwlbWTqinE5lFo=;
+        b=dFxc3MO30YtmMEUfQjjqkHJLr+EbHSnZNHH8tZKjIJN3dcUHmp0qnA3QpfmW2JLafl
+         +QU3HmBAu6tKqTEffZiuFGb5MfpKeybOpmS3t1LtXNbM75purZ9Zrdvmp9Sbfw9Qv5ua
+         ETBCK5gDnnitPh81ui4WT1Y5QcYujGmDt/yq8oZzRRPn+4wV53mld5Ss0vgTOA5cR3K5
+         Chehx+uMB454+2gT8AVVIlvDLGL+COIMB8QcPvwtcbKdPXcHmUPbj9kxRyt9nqV4NMGU
+         DC4vYhEONf43QVbm0k+Pb3cnNLbtbrqbhDpyNKZOgSCTJAezKc7h6iD/aaeZZqbM8ZL1
+         oxYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795683549; x=1796288349;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jQc/CTIKgLFqNg7/EqVB3eWhheGznFwlbWTqinE5lFo=;
+        b=ovEFTWM/J+nuUjAgNN2mEBOpbib0drkHbhjnN19r321zkjgqSAvwL5QV/lVbVioF4M
+         YI1hOk5FPZ6obRnMg9fFys9LufxGl6RV+pxUisCkGE59zHWbvLBpLSkmXLn1NQS9ay5D
+         8FNeip6ZQoru2/lTa/droh7GCAvTNKsJk9v97mQEsFSzn8JpbjqL9ThsHkp33lIYQ8s0
+         rBLX0N4hC5nSXLv4tgHO/g0Pru8xxKkgroINlZbXKtSk6RSzQ3e4YsivXip+l9SBrG8q
+         m19nfwW7IzQQdavz/HKjdSDzH1EnBNhCQjfSuko02w5P3psEOY457Cgcn+wOnSxk2HwK
+         PdYw==
+X-Forwarded-Encrypted: i=1; AL+hErEemDZ04kL9tfA2L/XK2ee8/ZnBjkhHXRS0r8W0G4/jphEgSkZ0345icadIfE8DUH27C1PmKBIYMBM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8XMSmRyU5XXxud6POzlV+fQ+yXFHYyVGyH90hODO1IDR1dnS0Q
+	MVLhSf5BUzLyX+otgNwbt7DNh5cQqM9XqIX7f1Kqu/I2Afk2posdhDqM
+X-Gm-Gg: AZFdTZe9+//N+FXWezRFFaLqBq8MafGG0bUK/IA05RPB/YRN8fIGvaJbDiRTyu8Rn+y
+	rS6lifqkt+lh9KLOsnNQAyukLZZlduUKzlC/PkiSrJgnks0/AtW404vSiVV8ozR7PXgcYU5Gu90
+	T0eeN2wJqLKvQ/0gZBTeiKrqVqq2Js85WJrxVK8oL7aH/hipepiAD6Si9+N3ya0W6WQlK1A5CNJ
+	afjo7VUI6TdWCDdQjvWHKFJfuSLW7gdKNVbqgY079PSDgAakw1ckL8j21ky4W2oYA0QKNkekUjf
+	QSkmGyy6ejjxEor8MaL+7B3HVsfIboNqbfxNzHdP/DtJA0fpmbBBfb+fIo5OSFlz09KQ+v4CnJ0
+	L9tnGKZ/1+5MABck8ieXaa4Xp5mvgQ/mlpcffo4R1e0jm3af1Ey4ZXfLus44tHJs7A8tTf/EV3t
+	x0wJZnW7CyWMxC6rDNO8vyMSIqj/UH3WjR/K9BhGYihPKmpvnRXZBEbol+oq44yq0Dsb3CnwUcc
+	Q50Dex4KtuHFmxPMciroX1znEPzcay0rNDz9geea50iWEh96eT4tsmWgL/fYV8xQA7T0/K9Xvf/
+	tL+eLZ211BCEdesIwTyCpAuzu0Jw3JUI3V8GNa7klLHnMtVa/kT4BQ==
+X-Received: by 2002:a05:600c:154c:b0:4a2:729:f7ce with SMTP id 5b1f17b1804b1-4bb8881c378mr415302325e9.8.1795683548507;
+        Thu, 26 Nov 2026 00:59:08 -0800 (PST)
+Received: from center.. ([131.189.143.225])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6c61f558sm40313744f8f.58.2026.11.26.00.59.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2026 00:59:07 -0800 (PST)
+From: Orgad Shaneh <orgads@gmail.com>
+To: miquel.raynal@bootlin.com,
+	richard@nod.at,
+	vigneshr@ti.com,
+	tsbogend@alpha.franken.de
+Cc: linux-mtd@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linusw@kernel.org,
+	kaloz@kernel.org,
+	ulli.kroll@googlemail.com,
+	john@phrozen.org,
+	nico@fluxnic.net,
+	dwmw2@infradead.org,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	Orgad Shaneh <orgads@gmail.com>
+Subject: [PATCH v5 0/4] mtd: point() for cfi_cmdset_0002, on simple maps only
+Date: Thu, 26 Nov 2026 08:59:02 +0000
+Message-ID: <20261126085906.814373-1-orgads@gmail.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,104 +107,78 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261124230746.850528-1-shaopei_1012@163.com> <CAKYAXd_ap120uprmarov-GuO0fb1eXEgw-U8G08L1xRJ9bv18A@mail.gmail.com>
- <20261126075247.850895-1-shaopei_1012@163.com>
-In-Reply-To: <20261126075247.850895-1-shaopei_1012@163.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Thu, 26 Nov 2026 17:54:42 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_Xc0XbehABVUOncbcDYxvfFg037+FxDivkM0NZMg29qQ@mail.gmail.com>
-X-Gm-Features: Aa3M54rKxK2yysLAQ3KYIgf-px-qmHSK27mnhAx20UoLmih8jMhUz2_ENxHtKqY
-Message-ID: <CAKYAXd_Xc0XbehABVUOncbcDYxvfFg037+FxDivkM0NZMg29qQ@mail.gmail.com>
-Subject: Re: [PATCH v7] exfat: add EXFAT_IOC_COMBINE to append a file's
- clusters to another
-To: Shaopei Zhu <shaopei_1012@163.com>
-Cc: Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, exfat@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Matthew Wilcox <willy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 26, 2026 at 4:53=E2=80=AFPM Shaopei Zhu <shaopei_1012@163.com> =
-wrote:
->
-> On Wed, Nov 25, 2026 at 11:18 AM Namjae Jeon <linkinjeon@kernel.org> wrot=
-e:
-> > Is there a specific device or product expected to use this feature, or
-> > is it being added as a potentially useful capability without a
-> > concrete use case? If there is a target device or workflow, could you
-> > share some details?
->
-> Hi Namjae,
-Hi Shaopei,
+jffs2 scans a flash in place through mtd_point() when the chip driver
+offers it, and copies every used eraseblock otherwise. cfi_cmdset_0002
+has no point(), so an Octeon CN6635 board with a 100 MB jffs2
+partition on an 8-bit M29EW spends 15-30 s mounting it at every boot.
 
->
-> Thanks for the review.  Yes, it is going to be used in camera products
-> that record to exFAT SD cards.  The open source user is exfatcombine,
-> posted for exfatprogs [1], and a test for fstests (exfat/002) is posted
-> as well.
->
-> The workflow: cameras and dashcams keep motion or position data with
-> the video, e.g. gyroscope and accelerometer samples for stabilization,
-> or GPS.
->
-> The products on the market keep that data in one of three ways:
->
-> - as a timed metadata track inside the MP4, e.g. GoPro's GPMF, muxed
->   while recording, so that the samples are interleaved with the video
->   in the mdat box and indexed in the moov box;
-> - as a separate sidecar file next to the video, e.g. the GPS logs of
->   dashcams;
-> - as a trailer appended after the MP4 boxes when recording stops,
->   which players ignore and stabilization tools read.
->
-> A sidecar file is lost in practice: users copy, share or import only
-> the video file, and matching the two by name breaks once either is
-> renamed or moved.  A track needs the muxer to take the samples in real
-> time along with the video.  Where the sensor data comes from another
-> writer, at a few hundred samples per second, it cannot go into the file
-> the muxer is writing, so it is written to a separate file in the same
-> directory during recording and appended as a trailer when recording
-> stops.
->
-> That last step is what this ioctl is for.  Today the sensor file is
-> copied into the video file, up to tens of MiB per recording, while the
-> user waits for the camera to be ready again, with flash wear and free
-> space needed for the copy.  With this ioctl its clusters are appended
-> to the video file instead, and the sensor file is removed.
-Okay.
+1/4 lets point() through only for maps read through the simple
+accessors; cfi_cmdset_0001, lpddr, map_ram and map_rom point today at
+maps whose own accessors swap bytes, switch pins or lock the bus.
+2/4 adds point() to cfi_cmdset_0002 behind that gate.
+3/4 gives each Octeon flash device its own map.
+4/4 lets that map use the simple accessors when no eMMC shares the
+boot bus. 3/4 and 4/4 build alone, but 4/4 only pays off with 1/4 and
+2/4, so taking all four through mtd with an ack from Thomas seems
+simplest.
 
->
-> > I suggest changing EXFAT_IOC_COMBINE to transfer only the source's
-> > cluster chain to the destination, leaving the source linked as an
-> > empty file. Userspace can unlink it afterward if desired.
->
-> The sensor file is only a temporary part of the recording.  With the
-> unlink in the same call, a power loss, e.g. the battery being pulled
-> right after recording stops, leaves one of the two states the
-> recording application already handles: not combined yet, or combined.
-> With the unlink in user space there is a third one, the combined video
-> next to an empty sensor file, which looks like the first one unless
-> every application also checks the size of the file.  It would be easy
-> to append the sensor data a second time, or to leave an empty file on
-> a card that users read directly.
->
-> Doing it in the same call also refuses the whole call before anything
-> is changed if the source may not be removed, instead of leaving an
-> emptied file that cannot be deleted, and it removes the file that was
-> passed in, not whatever its name refers to by the time user space gets
-> to unlink it.  The unlink goes through start_removing_dentry(),
-> security_path_unlink() and vfs_unlink(), so it gets the same checks as
-> unlink(2).
->
-> Does this address your concern?
-Unlinking in the ioctl does not make the operation atomic against
-power loss. It only avoids the interval between a successful ioctl and
-a later userspace unlink. I don't think that is a reason for the
-kernel to perform the unlink. exfatcombine already has the source path
-and opens the file to pass its file descriptor to the ioctl. It can
-unlink the source file after the ioctl succeeds and report an error if
-that fails. The ioctl should only append the source file's cluster
-chain to the destination file. Callers must prevent concurrent renames
-or replacements if they need the pathname to continue referring to the
-same file.
+Tested on that board with 7.3.4: the mount drops to 0.55-0.6 s, and an
+8 MB file written to the jffs2 partition keeps its md5 across a
+reboot. v5 was booted on another Octeon board with 7.3.4; its code
+changes since v4 touch only a failed point() and little-endian
+kernels. v3 held its md5s across ten 8 MB write/delete rounds on
+7.2.9. The series applies to v7.4-rc1.
+
+One question: a cramfs on AMD flash falls back to the block device
+today. After 2/4 it keeps its image pointed while mounted, as it does
+on Intel flash, so jffs2 writes to the same chip wait until cramfs is
+unmounted. Is that acceptable, or should point() in cfi_cmdset_0002
+be opt-in?
+
+Changes in v5:
+- 2/4: no pointer is returned when nothing could be pointed (sashiko);
+  the changelog now also states the slower first CRC check of jffs2
+  data and that lock and OTP operations wait for an unpoint.
+- 3/4: Fixes tag (sashiko).
+- 4/4: little-endian kernels keep the semaphore accessors; their boot
+  bus needs the address swizzle of the I/O accessors (sashiko).
+
+Changes in v4:
+- 1/4 also gates lpddr, map_ram and map_rom (compile-tested only).
+- New 3/4: the per-device map sashiko asked for on v2 and v3.
+- Rebased onto v7.4-rc1; Assisted-by dropped (an LLM helped write
+  this series).
+
+Earlier changes, in v4 numbering:
+- v3: in 2/4, an XIP erase no longer lets a point through either.
+- v2: in 2/4, a point no longer suspends an erase in progress; 4/4
+  checks the bank width before ioremap().
+
+v4: https://lore.kernel.org/all/20261117214141.3826637-1-orgads@gmail.com/
+v3: https://lore.kernel.org/all/20261011062908.2365879-1-orgads@gmail.com/
+v2: https://lore.kernel.org/all/20261010180840.2152492-1-orgads@gmail.com/
+v1: https://lore.kernel.org/all/20261010172142.2138956-1-orgads@gmail.com/
+
+Orgad Shaneh (4):
+  mtd: maps: only point() maps read through the simple accessors
+  mtd: cfi_cmdset_0002: implement point() for simple linear maps
+  MIPS: Octeon: flash: allocate the map per device
+  MIPS: Octeon: flash: use the simple map accessors without a shared
+    eMMC
+
+ Documentation/filesystems/cramfs.rst  |  11 +-
+ arch/mips/cavium-octeon/flash_setup.c |  78 +++++++++---
+ drivers/mtd/chips/cfi_cmdset_0001.c   |   2 +-
+ drivers/mtd/chips/cfi_cmdset_0002.c   | 174 +++++++++++++++++++++++++-
+ drivers/mtd/chips/map_ram.c           |   4 +-
+ drivers/mtd/chips/map_rom.c           |   6 +-
+ drivers/mtd/lpddr/lpddr_cmds.c        |   2 +-
+ drivers/mtd/maps/map_funcs.c          |  12 ++
+ include/linux/mtd/map.h               |   2 +
+ 9 files changed, 256 insertions(+), 35 deletions(-)
+
+-- 
+2.53.0
+
