@@ -1,88 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795708494;
-	b=Q+yljGyNguYFAuw4jrJ6DmcjC2zQx8z5M/AgGiRWlUU7Cp12yF7q3i2ja9SzYR1WXXi9
-	 iDFfgcVoKluW6aa6RWWld3Sfg+Ou7t3Gjs65+VISR3DgZ9MxI2BUPAiK1FaQn2uwrHJ7g
-	 XYjiRE8lfrs+PlUYt7i6lszfn6IWY39ZvtGyhD1WDZMzIpGyKc5nJJkFKFNsxx2e37iml
-	 /1XzLFQgwSc6ILLq2dcyedNAhKdPc3cvAtgPfRMg2L8cSxtSOWqXWkaOwwABXA4kAH/oI
-	 WeyJpPotrQDYEeCz8Ylo5pfG+24qG7EmVrO8uNjwXRmWyotibtcRW0phyTA1YuajlCw==
+	t=1795708808;
+	b=Ho4dpeBhBNDsz8HCe4tqc/Dnvo4/v/9riHdnwCXPCkDsBgqZKvcjsfj4O0Yi19UkUPhz
+	 VDfEeZHdhYjb+JJKlcjqDKcxc0KVGSaxwmrXwbI+l2JktGH09wxKrhogOHAshoZraSV//
+	 vZT+JYg0zWk9YaMC5Ww5QJH+EQ8GWCE018gltKNFGehOeBuJdD0GWdR7xRdTwTdmd+NX3
+	 VKLteJ39Rz7/0QTI9ID7bPvyUk0It5hNaC0b5MsXBn8OQFYV6Fp36CCyEnkp3wnMPGdlb
+	 5yHW4wcU57rumr3A9f7nrRgB+aLhl+GTrFxrE+T2Y5gksL0NUgGle0jGHQc6YHn4y8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795708494;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Received:Received:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-	 In-Reply-To:X-CMS-MailID:X-Msg-Generator:Content-Type:
-	 X-Sendblock-Type:CMS-TYPE:cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:
-	 References;
-	bh=5M9xtfTWt/rD6V3Yq9/gJOzmL0PuY9q0JOmTonMrkYc=;
-	b=tTMXDsUPkUve7LOve57bQ+wovpB8krKhrLyTc2oyUo8bfPs8UHFbmkkco6wY5rUJEBCc
-	 lE+81OIQ7Ujy+oNovCftuduV39P0ZmAG49Ss5d/+y9n7difPoAhPry+QMhEoKV6Huu17k
-	 tq8APb3vqE5uV3xVgtma9mFc+kD96vEUiyg4L/6TCmwFPkoqlZmIE0eM5pDVi5d/QJLQO
-	 b2XRjuLzax61GYeJkPbDoMG98zNLcW4Fy3Hz8UpeEYmB1BwFV/a4nw3YGWN3k7pXmCoRg
-	 j7w9xpNL7V6XUdK4uONuQzToO5ywGHZ7UIeTlrJmuLhhJLhuX1x/697xHlzApjUmR1g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795708808;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=VE/MUdrae0rgGBZgvICrVU8zY9K62C8PJllKHbD1Ln4=;
+	b=EKfg41F8i6DZmPK+5ptjzu6AvtKn18MgKHNMWzMz++oP9I7eMdJHoJKdZisDHHExSQA/
+	 6+B/9qJ9c3F2ogul0p3tLba2j525+4N3jH815iokpB3tlikTdLD3VUnQo+Xgd2tbdutjl
+	 Mx9231wXc1155NYKIRy0pjevvAyIuc/bywwX9xUX/MxgSmRKgph9NrCjxt+RqJTozysYO
+	 YLXqzNt51Aur96qR8vxZCSYTPwjxrlE53n/iIavSDgFzv2xqWnc6/3MRbLUFBKCTWmWSP
+	 yKYktUiOfL+TlYwVhXr7ihnhPx3eJfnW20aQkUcpTroiRYqkqLVJKj5GwGo9tz9BG1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=S8Q+2CV4;
-	arc=none smtp.remote-ip=203.254.224.33
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="hgFW/BRA";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A23606A31E;
-	Thu, 26 Nov 2026 15:54:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03A23606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 697CB606A31E;
+	Thu, 26 Nov 2026 16:00:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=S8Q+2CV4
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20261126155444epoutp03dcd4ec9596cec66ed694dc1c2cd611a1~ro1pFr0S32621526215epoutp032;
-	Thu, 26 Nov 2026 15:54:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20261126155444epoutp03dcd4ec9596cec66ed694dc1c2cd611a1~ro1pFr0S32621526215epoutp032
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1795708484;
-	bh=5M9xtfTWt/rD6V3Yq9/gJOzmL0PuY9q0JOmTonMrkYc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=S8Q+2CV47r+jcyB/hxRZQoNdHuxQ/gWyvqpTmqCCGD4I8E1N/8Sp5R2e+BT1h5Dit
-	 Id45RW2ZS5AZJEl/R4M3H3tcJ9xLhuBNVHLz9LrKcWbkmclmhrryoUfbwW/+ukJYtW
-	 oFWXu+LFCdF+trLev1upv67SG1axo8gAriR3T9dQ=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20261126155443epcas5p3efe33a75b41143a93560ac14ae0acd78~ro1oKmgN02527325273epcas5p3D;
-	Thu, 26 Nov 2026 15:54:43 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.95]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4jb1MQ68Ssz3hhT3; Thu, 26 Nov
-	2026 15:54:42 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20261126140745epcas5p4f87a6186091785f4d3de4b69734aed88~rnYO8DwMQ2019420194epcas5p43;
-	Thu, 26 Nov 2026 14:07:45 +0000 (GMT)
-Received: from green245.gost (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20261126140741epsmtip24d507cb1363ab8b6b8b6b2fe8c81b878~rnYK24Eeh1787017870epsmtip2c;
-	Thu, 26 Nov 2026 14:07:41 +0000 (GMT)
-Date: Thu, 26 Nov 2026 19:36:51 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Mengmeng Zhao <mengmeng.zhao@linux.dev>, Anuj Gupta
-	<anuj20.g@samsung.com>, Christoph Hellwig <hch@lst.de>, Christian Brauner
-	<brauner@kernel.org>, Anuj Gupta <anuj1072538@gmail.com>, Jens Axboe
-	<axboe@kernel.dk>, Sumit Semwal <sumit.semwal@linaro.org>, Christian Koenig
-	<christian.koenig@amd.com>, Philipp Stanner <phasta@kernel.org>, Dan
-	Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, Jan Kara
-	<jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, Theodore Ts'o
-	<tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, Baokun Li
-	<libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, Ritesh
-	Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, Jonathan
-	Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy
-	Dunlap <rdunlap@infradead.org>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Li Wang <liwang@kylinos.cn>, Mengmeng Zhao
-	<zhaomengmeng@kylinos.cn>
-Subject: Re: [RFC PATCH v2 0/8] ext4: Add dma-buf read/write support
-Message-ID: <20261126140651.vzs2gdwajemvf6kt@green245.gost>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hgFW/BRA
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 032501F000D0;
+	Thu, 26 Nov 2026 16:00:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795708807;
+	bh=VE/MUdrae0rgGBZgvICrVU8zY9K62C8PJllKHbD1Ln4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hgFW/BRA65DPqOWtWM/gHt/VabwCrxCgXXz+9nSIwQHhamHnemeygSa83/9p2C86W
+	 sRuwUIjwdLY9P+dmCPycLRIeZ74vCmzvHW/XWfVKc0bHU3jhXKiw2+jwiGnidRFGFs
+	 ixyhTw7zavr/KFwjQAOA/Y2TLLwfvDe6Cv/Ac0Ua/w2f/DP5b8fg7uE88BIMOqFyzw
+	 cgd5QVxwfDG9Swd2IwLE/EDFFCgjBKEdcUGAZIIIXBiVDMztZmz5v31qrbr0CtTAwx
+	 gRoiYPvthCWCPbcTt1H5hERTcX3kBT2u70PrryJgSZVNyValwweN9omZ3bAs+iYErm
+	 bS4Lv4zBSJbHA==
+Date: Thu, 26 Nov 2026 18:00:03 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Martin Belanger <martin.nvme.dev@gmail.com>
+Subject: Re: [PATCH v7 00/14] nvme-auth: switch to use the kernel keyring
+Message-ID: <awhXg41rBQL982qk@kernel.org>
+References: <20261126-dhchap-keyring-v4-v7-0-ee438ffea527@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,43 +67,113 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <0b76171b-7f2e-41d2-8a5c-102dbe4cb85b@gmail.com>
-X-CMS-MailID: 20261126140745epcas5p4f87a6186091785f4d3de4b69734aed88
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----sfnc.NZyIOBfLTiZTLswaXBSL0w4GQC52Zj1LhBq2cHN2.MV=_ad66_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261124084131epcas5p3098eab1bc134da7aefcc83c646b54a9d
-References: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
-	<20261120154153.GC28611@lst.de>
-	<361c4312-f77b-495f-9ee4-e0b9612b4463@linux.dev>
-	<CGME20261124084131epcas5p3098eab1bc134da7aefcc83c646b54a9d@epcas5p3.samsung.com>
-	<20261124084025.2101804-1-anuj20.g@samsung.com>
-	<3bce3a69-e41c-4683-b1ca-9477dd41a7e0@linux.dev>
-	<0b76171b-7f2e-41d2-8a5c-102dbe4cb85b@gmail.com>
-
-------sfnc.NZyIOBfLTiZTLswaXBSL0w4GQC52Zj1LhBq2cHN2.MV=_ad66_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20261126-dhchap-keyring-v4-v7-0-ee438ffea527@kernel.org>
 
-On 26/11/26 10:44AM, Pavel Begunkov wrote:
->I'll resend it later, how to store the tag is the least interesting
->part, it can just move inside the block/ext4/etc code, which would
->be uglier, but whatever.
->
+On Thu, Nov 26, 2026 at 03:12:18PM +0100, Hannes Reinecke wrote:
+> Hey all,
+> 
+> the current NVMe authentication code is using a hand-crafted key
+> structure; idea was to have the initial implementation with a minimal
+> set of dependencies.
+> (And me not having a good grasp on how to use the kernel keyring :-)
+> That had the drawback that keys always had to be specified on the
+> nvme-cli commandline, which is far from ideal from a security standpoint.
+> 
+> So this patchset switches the authentication code over to use
+> 'struct key' to hold DH-HMAC-CHAP secrets. User-facing interfaces
+> (namely argument to 'nvme connect') remain the same, but the key data
+> is converted into keys which are stored as a new key type 'dhchap' with
+> a random UUID as description in the .nvme keyring.
+> 
+> With this I have updated the dhchap arguments to 'nvme connect' and
+> the configfs interface to either be the keydata (ie the original
+> interface), a key description, _or_ a key serial referring to a
+> pre-populated dhchap key in the kernel keyring. This allows for external
+> provisioning of keys and avoids the security risk from having to specify
+> the key data on the kernel commandline.
+> 
+> The entire patchset can be found at
+> git://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git
+> branch dhchap-keyring.v6
+> 
+> As usual, comments and reviews are welcome.
+> 
+> Signed-off-by: Hannes Reinecke <hare@kernel.org>
+> ---
+> Changes in v7:
+> - Fixup next round of issues from sashiko
+> - Modify to use key_serial_t instead of 'struct key' to pass key references
+> - Include suggestions from Martin Belanger
+> - Link to v6: https://lore.kernel.org/r/20261123-dhchap-keyring-v4-v6-0-5082a49715ab@kernel.org
+> 
+> Changes in v6:
+> - Fixup next round of issues from sashiko
+> - Fixup kbuild robot issues
+> - Link to v5: https://lore.kernel.org/r/20261123-dhchap-keyring-v4-v5-0-81eefb4c0724@kernel.org
+> 
+> Changes in v5:
+> - Fixup issues found by sashiko
+> - Link to v4: https://lore.kernel.org/r/20261120-dhchap-keyring-v4-v4-0-5f8c7d9926ee@kernel.org
+> 
+> ---
+> Hannes Reinecke (14):
+>       nvme-auth: modify nvme_auth_transform_key() to return status
+>       nvme-keyring: add 'dhchap' key type
+>       nvme-keyring: drop nvme_tls_psk_revoked()
+>       Documentation/security/keys: fixup function name
+>       nvme-keyring: link addtional keyring into .nvme keyring
+>       nvme-auth: switch to use 'struct key'
+>       nvme: parse dhchap keys during option parsing
+>       nvmet-auth: parse dhchap key from configfs attribute
+>       nvme: allow to pass in key description as dhchap secret
+>       nvme-auth: allow to specify the key by key serial
+>       nvme-auth: wait for authentication to finish when changing keys
+>       nvme-fabrics: allow to pass in keyring by name
+>       nvme-auth: link pre-provisioned keys into .nvme keyring
+>       nvme-auth: allow to update pre-provisioned keys
+> 
+>  Documentation/ABI/stable/sysfs-nvme  |  10 +
+>  Documentation/security/keys/core.rst |   2 +-
+>  drivers/nvme/common/Kconfig          |   2 +
+>  drivers/nvme/common/auth.c           | 232 ++++++++++------------
+>  drivers/nvme/common/keyring.c        | 370 ++++++++++++++++++++++++++++++++---
+>  drivers/nvme/host/Kconfig            |   1 -
+>  drivers/nvme/host/auth.c             | 176 ++++++++++++-----
+>  drivers/nvme/host/fabrics.c          | 169 ++++++++++++----
+>  drivers/nvme/host/fabrics.h          |  12 +-
+>  drivers/nvme/host/nvme.h             |   6 +-
+>  drivers/nvme/host/sysfs.c            | 300 ++++++++++++++++++++++------
+>  drivers/nvme/host/tcp.c              |   5 +-
+>  drivers/nvme/target/Kconfig          |   1 -
+>  drivers/nvme/target/auth.c           | 250 +++++++++++++++--------
+>  drivers/nvme/target/configfs.c       |  84 ++++++--
+>  drivers/nvme/target/nvmet.h          |  15 +-
+>  include/linux/nvme-auth.h            |  17 +-
+>  include/linux/nvme-keyring.h         |  47 ++++-
+>  18 files changed, 1257 insertions(+), 442 deletions(-)
+> ---
+> base-commit: 68099cf27253a8c89d703a282d3d811446d9453b
+> change-id: 20261120-dhchap-keyring-v4-09f0bac1d8c5
+> 
+> Best regards,
+> -- 
+> Hannes Reinecke <hare@kernel.org>
+> 
 
-What about the f_op method instead of storing the
-tag in multiple users that we support now i.e., block/ext4/xfs code?
-We refined your patches with this approach and it seemed to fit well.
+Without looking into detail to the changes, it'd be best if key type
+semantics would align with [1]. See the preparation patches for other
+subsystems.
 
---
-Nitesh
+I'll send updated patch set after v7.5 merge window. The only reason
+I'm not moving forward sooner is to gather as many bug fixes as
+possible for the "previous world", which LLM bots kindly provide.
 
-------sfnc.NZyIOBfLTiZTLswaXBSL0w4GQC52Zj1LhBq2cHN2.MV=_ad66_
-Content-Type: text/plain; charset="utf-8"
+Otherwise, this needs to be refactored very soon after the patch set is
+merged.
+
+[1] https://lore.kernel.org/keyrings/20261112040242.247168-1-jarkko@kernel.org/
 
 
-------sfnc.NZyIOBfLTiZTLswaXBSL0w4GQC52Zj1LhBq2cHN2.MV=_ad66_--
+Br, Jarkko
