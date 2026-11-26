@@ -1,85 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795698108;
-	b=hZMb0zUWjtt79clHCAD2844ELCYnNC+CtNngk2K5UdDdGmkThoy99Cu39XUY8eFW1M6x
-	 qT3i9aZ06vcKkXrPr94YWpH45MbtSXz8fGiJKLry4pKr+Ni6LFwRt3CdAhsCSvDpxMFNp
-	 2BY5J0cG8QVM6RzQoNaMqhavKarY9bSPq1XmdzNWt4THnT0FCvJ2YJeysrEeMPrCQevXP
-	 iH06Ctl/QPEhmaKfM/deorukKaT7bquX+l0NEFqLOx1yMnd5zjAaa/1h0mtg5OotDNe0A
-	 EbkUbUpb2PUW44mHGYz7+an2wmPdNUFIyILC6RNeqoD+x6SXH26gFx1M89UYMgiEBTQ==
+	t=1795698229;
+	b=aUHtWuMxZ4Jv2h+V/Rf/Ppil9/Lg9alciF0Nm66IdCIqgsaTQHEt5cAR8ogKQWxsirEt
+	 blHNueeN3rK6R1mdO2mJfKxKQBbOik+uXgxYMOoTdWa9YQxoP82SWDEQzD8mss4UA/bs2
+	 2wDXPIYPVHi53d22P1ZghxXkPs41L7szEI9apLhy9Ps7WF4DXAn7+hHkgYdkxowtOcgcn
+	 EWXxEDwtNyDYJT3Cl3fPqw2Zn51F0Ho/RYqWxutDuvF8vvkaE3srYu2UCxPz4ZUMRhW9G
+	 eSbNKgwReftxsNUdLh6QaYIkRkyWxV7qW/65xTZWSmrR3mysm0xQSCHRMznx7mwPZrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795698108;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Scanned-By;
-	bh=N2yHnZZDwtY9XXYQXiWDSwJtyosjFswTBECKZC2DsEY=;
-	b=f10qKtHnQstO5osNgu5Ig5Yn+5fKKsMtLtn7ygasKvrjj/KDO3pGGi9KXgjdcWDJ2hn0
-	 kH4lbdQrXf9iGlbbqRI1yaqtcR4xatrmmM1AafpLLcV4LTYRuH6UrihDb1mOz+/6KHngq
-	 DAkE8OqUWC9CNra7NiysmAv0WJLHMEb6emETqijnXyPbA59Y5Auesnoo6YHqbY60RQwb9
-	 1Q38PkDWb6HFPFQda7lefXnxucjDyNYj7+lyGwd7pDwcsnSBq2/TMk0jEys/OWSMcFkb2
-	 w01ZSBuHs0uto2FJ67+N3sMjFjNuS75QX58dzFVNqklxmX7nHxqFPYE/wIPtNUA97tg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795698229;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=OeRjPPZqNacTwo8Qqr0CJwW7bzppscpQmV9mkBf/Brc=;
+	b=oI2sxioYufrALW0xoFurzIUfegXJQ9Iogn1QuGAIgF1w5wSd5+hwVobh4AH77LWiMnaD
+	 2fnxlA8ha+N1CFp7Hg5EfHPSKL9zMqq/HtpvUUfUu4zg7YyCS22Zbw5JO9Qng1/IpgSa6
+	 jp1QkZlhfqY6wXP8Bk3Bgh3SlCMBKwt2ndnA28htaX36mzkgJV46BG4GT+/s3oj0LcxcK
+	 kjWSC5AYcHWxGP+6qfm5g87H9dXrsLGLEU9cqOuNAPfXrkwKi8SNTxL57y8Nop8/SMAOh
+	 xYzQptlYCM2o+3cDIo3bZ6DxOQalOKJHmHPUK7yr2K8Kb7Xd+VSxauoHSjTM9mdrV4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="hp/mp+gz";
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tCSI7GjG;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC2B606A32E
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 13:01:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EC2B606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0723E606A321
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 13:03:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0723E606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=hp/mp+gz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795698106;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=N2yHnZZDwtY9XXYQXiWDSwJtyosjFswTBECKZC2DsEY=;
-	b=hp/mp+gz1l6+BHRm5xNfCfdKaJcQbBCBHmMN5dlxdacnbtfG5HpLQJBYECwVXYtI7/fAdK
-	NgAemH1snAdUkXNcufsDQww8w+MRIEJWRZeaXSHCHoG6xVOLuQ1RlZwvehKIN/6KzsUg8K
-	mUdVgKEnIbDdilt48sj3+/RU7zxeEEY=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-443-nlifkvalPtuC54xxnQpWZg-1; Thu,
- 26 Nov 2026 13:01:41 +0000
-X-MC-Unique: nlifkvalPtuC54xxnQpWZg-1
-X-Mimecast-MFC-AGG-ID: nlifkvalPtuC54xxnQpWZg_1795698099
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0A2961800678;
-	Thu, 26 Nov 2026 13:01:39 +0000 (UTC)
-Received: from gmonaco-thinkpadt14gen3.redhat.corp (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4C1B7180054C;
-	Thu, 26 Nov 2026 13:01:35 +0000 (UTC)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	bpf@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	linux-doc@vger.kernel.org
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-	Nam Cao <namcao@linutronix.de>,
-	Wen Yang <wen.yang@linux.dev>,
-	Tobias Schaffner <tobias.schaffner@siemens.com>,
-	Viktor Malik <vmalik@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: [PATCH v3 15/18] tools/rv: Add -E/--errors-only option
-Date: Thu, 26 Nov 2026 14:00:01 +0100
-Message-ID: <20261126130004.127155-16-gmonaco@redhat.com>
-In-Reply-To: <20261126130004.127155-1-gmonaco@redhat.com>
-References: <20261126130004.127155-1-gmonaco@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tCSI7GjG
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb6886d30aso66706825e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 05:03:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795698226; x=1796303026; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=OeRjPPZqNacTwo8Qqr0CJwW7bzppscpQmV9mkBf/Brc=;
+        b=tCSI7GjGk0P3UCYE/Z2zC3FFcRRFNPQVRswKNCpXjvaV5wXDaLpeinnEhPNbANWZsN
+         A1vLB6eJFQfLGxqlq7STxYaMU3l+F6RJOnE9ccVE74gug/pxkiuHmHF/NxAkdquR2LOR
+         kCSmqA28ZxgRArJRu4YLsA96w2gyoQVVBzQBnoRrvOHahHWNeIhGGNoj+vYqafvgpzTY
+         AhhIF5pWq9EMLt0IrkDWToPoKbRnvuqYV+CJBNt7t+X9Nozzmvygirc7qX8+q1SEOE24
+         VGFP06eEjW+AosS+GgG/aIJWGJdc/9hKJ4OTB3zzvREs2CDaxM1/55zvCQJmU8D+Ew4L
+         QfHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795698226; x=1796303026;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=OeRjPPZqNacTwo8Qqr0CJwW7bzppscpQmV9mkBf/Brc=;
+        b=brC4jAPZ7w3R8mCuKjV2SuIZCcgzr789rDi0ZdiuOUtbq4leOJPH60XJjkn3jOgiME
+         lJd5jPZSokYQH1Qn7xoVuOzjBULD5pcZUSOx2vQlZPASzAEBcp9nRA6KeKB5PCbmgn7L
+         u/4cqBJfPO62qet8YDdjhFT6CpjpRoHKH9t5qVz5IDoCGI3PXkuPsjn5KtbzGgET1UcI
+         qnWFZZw3/iNsGVUqaV6VChaZMSR8qSr30tpk1lNO4AUNmNxt1sPPq0oe/ysXDWrNC+9A
+         QrG6iM1SOGbcN5WdyFjXKVrQVVYJeOb4aSVZ7ImbEHacswYb1KZuZjpfU+mEkiYzvMUN
+         dLAA==
+X-Forwarded-Encrypted: i=1; AL+hErHsvhSa8OMYSeF7y9k1WJ1dRFxiNxMxuk3EO6Wgs7kOXAMsETh/PlEy/jKFv1hYgAw6L/jK/y787qo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8sS5T4rKKi9eR9NIZJz1s+0Ux8DbEoPbYZQDnywZi1ZuH78JF8
+	rLiTsuyzM4R+ELBJtMOTuG5rVQBbw1fyePYogyO3CXiUMAIf07DEtWvB
+X-Gm-Gg: AZFdTZehMhioPq4traO6m6zxA4rbMmEHOh40xeqvHm7vyNL3qRi9gEnOCBIFluwCB95
+	GOJdrpTy+lgohN8KPuEAToQzKeXouvhpv+BSlHu0G2tO2qTuDIpLE5OY7xkIcJpzly0w5kne5jT
+	2qgV90/TlCL78yAaqiCmu/PsCk2AEmQqrix2dKmItQwe4IuOTw0jATrFXahNOUj5sMViaNKzH+v
+	7w52Ow+fW/VDyWtE72yWJa72bDsui3MqBX4/D3GAG8CUmdkL6SuM6SxMoY/erZrj15TksLUdmOV
+	txsHqbNd1rDV1Pwz0MXK17HCQxQSKlX65A0FR8qKalQ1U1jMtpZqfTLYkpPaJBTZsm5fY1gqnab
+	Blx2ASJ2cb6ZYMN+L1Vq5HjsqNx1tO0zqFgG4fOcqrmQXbxO8tWLQGUhhfVt77Dg4iZ6v36asJO
+	z6PplTUWfFQy7UmdIgraFTuo+EtNYbVMtCfQZ63i9J5MUGY1fQGM9H1WINrOIA7tm5uEjcnpZ8v
+	9PYSSMjIbH9OVgHeCH9FaqHbsPk6QSAW3xpRBury4brSNecw8Z6wchmqH3/IMD96qQfrHmMWPuv
+	HInnRNlc83g750VzJi/+ISqGxVYxOozAT5dMYd7W/y8ELPkQQCa2t6teloh22fCA22OKuCkHaBQ
+	hMUSpEjui+Mc4d2o=
+X-Received: by 2002:a05:600c:8486:b0:4a6:4d6b:a840 with SMTP id 5b1f17b1804b1-4bb88819468mr432182315e9.31.1795698226066;
+        Thu, 26 Nov 2026 05:03:46 -0800 (PST)
+Received: from zeus.unificl3slsbnxe8mz.com (212.71.14.70.adsl.dyn.edpnet.net. [212.71.14.70])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6ae2dd55sm39331425f8f.30.2026.11.26.05.03.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2026 05:03:45 -0800 (PST)
+From: Sander Speetjens <sander.speetjens@gmail.com>
+Subject: [PATCH v5 0/3] hwmon: add Raspberry Pi 5 PMIC driver
+Date: Thu, 26 Nov 2026 14:03:28 +0100
+Message-Id: <20261126-hwmon-da9091-v5-0-0c3570ba9133@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,155 +93,114 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAA/32Qy27DIBBFfwWxDjYYA8Gr/kfVBY+xjRrsBIibK
+ sq/V7Y3UVRlN69z587ccYYUIOMO3XGCJeQwT7hD4oCwG800AAkedwg3tJGMMUXGnzhPxBtNNSP
+ KABgn/RH6Iz4gfE7Qh9sm9/m15wku15BD2YvYmgykJIAOjaWcc1fXQyjVN6QJTtWchvp8tXV2s
+ T6F6Xqr98Y6U09wK3uVrGE1hIKiyQXSunoTdnOMoXRIecHAGu17ozynxhpLrRJCUdC9klRwKaE
+ VFq8mx5DLnH63Fyxsc/n/tQsjjPRC9NT02knDP4Zowqlyc9yEluYZ1i9wQyjx0smmbVRjNLzC/
+ B3MCSVMaCEpF15Z8Qq37+CWUEK9BN4Kx6WUz/Dj8fgDiWJDVwQCAAA=
+X-Change-ID: 20261117-hwmon-da9091-7aeeac6d8ef8
+To: Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Stefan Wahren <wahrenst@gmx.net>, Guenter Roeck <linux@roeck-us.net>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Peter Robinson <pbrobinson@gmail.com>, 
+ Sander Speetjens <sander.speetjens@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2788;
+ i=sander.speetjens@gmail.com; h=from:subject:message-id;
+ bh=U0sVFyBC3QFd3x50V6URzXzlIDLOye/rcYLW6iCW/8g=;
+ b=owEBbQKS/ZANAwAKAXjNeEUMBchnAcsmYgBrCC4x8u86m74sL2YYNiUcSPAW5L+l6TUbqXZ5E
+ mNZvw2J2eGJAjMEAAEKAB0WIQRWUkqLABoRw+7JUQF4zXhFDAXIZwUCawguMQAKCRB4zXhFDAXI
+ ZwUGEACO5KfOjKPSb0GGpDmYGtb4Jqi8x00+CRsbRIv2B/iCwnIbqgV8H0AKiBHygp2yGx8Pm9b
+ yBTaH2fwAezjZeows5pbvv3daCCXNBsRl2PJUBRSWogpsbeesifseRm4tY25agNO7cBb390Z9A0
+ juLfBKsJRTkTmC8yD3Y0UjIrQX2UuAVZlk/K6tQCruhbW5cm4dOQIIqi36YnvdQ1qbOQpTR//4P
+ OKBGXbVp7ocFGMA3kUgOAjlSbSutnlKpukbo9dhDMxiBMpSJnS2MZTFsdOK+KMifQufI/0k2Rwh
+ huIMmkAvdB0seIVI4sNEcLecLSWaZrangpzbxBT0eaE1rJMDfrCWPQU0eugp5i3r34FpqD8LK6P
+ YBWjpPPLzI3DVq+8HFjU9ZuE0GR93OXIHC69W0t+yuGJHmcOx1jDEhb1yriuEEIeNNgau9EcLsz
+ Cv0ZJv0PW5JigRl4rRqcoKZ/uf3mHRw0mIOcluoPl/evUGSryDfYN6uhtfaaL/gg37kfC3XMcnU
+ KQxsaYDf0cdSqctKiZifa4IyqjS6X14xYUYhUXYiodtnkiSCCMc/uJ7nol7BtdodRigJuy0pEJA
+ HvFNQ7W0obmOREl452Xr+4yMJOwP3rx24HoGvN9fV2YcqQo6BiItyhc9LYQdB3zza+Ea8h8dE3Y
+ n95KUz3kU+wV4Nw==
+X-Developer-Key: i=sander.speetjens@gmail.com; a=openpgp;
+ fpr=56524A8B001A11C3EEC9510178CD78450C05C867
 
-Currently the rv tool enables tracing when running with -t and that
-allows to see tracepoints generated from both in-kernel and BPF
-monitors.
-In-kernel monitors can be controlled also by other tools but BPF ones
-cannot, so if a user is only interested in seeing errors, they need to
-bear the performance overhead of other events too.
+This patch adds an hwmon driver for the PMIC used on the
+Raspberry Pi 5.
 
-Add the -E/--errors-only flag. If it's passed with -t, only enable error
-tracepoints. On BPF monitors, if -E is passed but -t isn't, still load
-the monitor with error tracing enabled, so the user can enable the error
-events in other tools.
+The PMIC exposes a set of voltage, current and temperature sensors.
+Access is only available through the VideoCore firmware mailbox
+interface; there is no direct register access from the ARM side.
 
-Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+A structured property tag (0x0003009f) was recently added to the
+firmware. It returns the ADC values in binary form (index + length +
+array of values), which is much cleaner for a kernel driver than
+parsing the text output of the existing gencmd interface.
+
+The driver follows the same instantiation pattern as the Raspberry Pi 5
+RTC driver: the raspberrypi-firmware driver creates a platform device
+at runtime, and this driver binds to it. All channels are read in a
+single mailbox call and a short refresh-on-read cache is used.
+
+The sensors are exposed through the standard hwmon sysfs interface so
+tools such as `sensors`, collectd and node-exporter work without
+modification.
+
+Dependencies:
+- Raspberry Pi firmware that implements property 0x0003009f
+- CONFIG_RASPBERRYPI_FIRMWARE
+
+Tested on a Raspberry Pi 5 with recent firmware.
+
+Signed-off-by: Sander Speetjens <sander.speetjens@gmail.com>
 ---
- Documentation/tools/rv/common_ikm.rst   |  6 ++++++
- tools/verification/rv/include/utils.h   |  1 +
- tools/verification/rv/src/bpf_monitor.c |  4 +++-
- tools/verification/rv/src/trace.c       | 11 +++++++----
- tools/verification/rv/src/utils.c       |  9 +++++++--
- 5 files changed, 24 insertions(+), 7 deletions(-)
+Changes in v5:
+- Split include into a separate patch 
+- Move the firmware registration before the driver
+- Link to v4: https://lore.kernel.org/r/20261119-hwmon-da9091-v4-0-0d6e345c3666@gmail.com
 
-diff --git a/Documentation/tools/rv/common_ikm.rst b/Documentation/tools/rv/common_ikm.rst
-index e50a5f8a7142..b2594f9c35e8 100644
---- a/Documentation/tools/rv/common_ikm.rst
-+++ b/Documentation/tools/rv/common_ikm.rst
-@@ -19,3 +19,9 @@
- **-v**, **--verbose**
- 
-         Print debug messages.
-+
-+**-E**, **--errors-only**
-+
-+        When tracing (**-t**), trace only error events, skipping the monitor's
-+	state transitions. Specifying this without tracing is meaningful only
-+	for BPF monitors.
-diff --git a/tools/verification/rv/include/utils.h b/tools/verification/rv/include/utils.h
-index 397a37981932..2fec9ef7c0b3 100644
---- a/tools/verification/rv/include/utils.h
-+++ b/tools/verification/rv/include/utils.h
-@@ -16,6 +16,7 @@ struct config {
- 	bool debug;
- 	bool is_container;
- 	bool trace;
-+	bool trace_errors_only;
- 	bool is_bpf;
- 	int my_pid;
- 	char *initial_reactor;
-diff --git a/tools/verification/rv/src/bpf_monitor.c b/tools/verification/rv/src/bpf_monitor.c
-index 1ff76a4ffb68..12cb407c55bc 100644
---- a/tools/verification/rv/src/bpf_monitor.c
-+++ b/tools/verification/rv/src/bpf_monitor.c
-@@ -411,7 +411,9 @@ static int bpf_enable_tracing(struct bpf_object *obj, struct bpf_monitor_ctx *ct
- 	if (!trace_level || data_size != sizeof(*trace_level))
- 		return -1;
- 
--	*trace_level = ctx->trace_types[TRACE_TYPE_EVENT];
-+	*trace_level = config.trace_errors_only ?
-+			       ctx->trace_types[TRACE_TYPE_ERROR] :
-+			       ctx->trace_types[TRACE_TYPE_EVENT];
- 	return 0;
- }
- 
-diff --git a/tools/verification/rv/src/trace.c b/tools/verification/rv/src/trace.c
-index 6fdbff2c28d4..629b4f63e147 100644
---- a/tools/verification/rv/src/trace.c
-+++ b/tools/verification/rv/src/trace.c
-@@ -213,7 +213,7 @@ static int enable_generic_event(struct trace_instance *inst, const char *event_n
-  */
- static int enable_bpf_events(struct trace_instance *inst, char *name)
- {
--	if (enable_generic_event(inst, "event_monitor", name))
-+	if (!config.trace_errors_only && enable_generic_event(inst, "event_monitor", name))
- 		return -1;
- 
- 	if (enable_generic_event(inst, "error_monitor", name))
-@@ -228,6 +228,7 @@ static int enable_bpf_events(struct trace_instance *inst, char *name)
-  * Enable the rv:event_"monitor" and rv:error_"monitor" events in the
-  * given trace instance, and register the filters for these events.
-  * If enabled, the filter for self pid (-s) is applied here.
-+ * Skip the "event" events if errors only (-E) is specified.
-  *
-  * Returns 0 on success, -1 otherwise.
-  */
-@@ -238,9 +239,11 @@ static int trace_enable_monitor_events(struct trace_instance *inst, char *name)
- 	if (config.is_bpf)
- 		return enable_bpf_events(inst, name);
- 
--	snprintf(event, sizeof(event), "event_%s", name);
--	if (enable_specific_event(inst, event))
--		return -1;
-+	if (!config.trace_errors_only) {
-+		snprintf(event, sizeof(event), "event_%s", name);
-+		if (enable_specific_event(inst, event))
-+			return -1;
-+	}
- 
- 	snprintf(event, sizeof(event), "error_%s", name);
- 	if (enable_specific_event(inst, event))
-diff --git a/tools/verification/rv/src/utils.c b/tools/verification/rv/src/utils.c
-index 1b1ad7a3ca32..854028324325 100644
---- a/tools/verification/rv/src/utils.c
-+++ b/tools/verification/rv/src/utils.c
-@@ -65,6 +65,7 @@ void mon_usage(int exit_val, char *monitor_name, const char *fmt, ...)
- 		"	-r/--reactor 'reactor': enables the 'reactor'",
- 		"	-s/--self: when tracing (-t), also trace rv command",
- 		"	-t/--trace: trace monitor's event",
-+		"	-E/--errors-only: when tracing (-t), trace only errors",
- 		"	-v/--verbose: print debug messages",
- 		"",
- 		NULL,
-@@ -76,7 +77,7 @@ void mon_usage(int exit_val, char *monitor_name, const char *fmt, ...)
- 
- 	fprintf(stderr, "  %s\n", message);
- 
--	fprintf(stderr, "\n  usage: rv mon %s [-h] [-q] [-r reactor] [-s] [-v]", monitor_name);
-+	fprintf(stderr, "\n  usage: rv mon %s [-E] [-h] [-r reactor] [-s] [-t] [-v]", monitor_name);
- 
- 	for (i = 0; usage[i]; i++)
- 		fprintf(stderr, "%s\n", usage[i]);
-@@ -103,6 +104,7 @@ int parse_arguments(char *monitor_name, int argc, char **argv)
- 			{"reactor",		required_argument,	0, 'r'},
- 			{"self",		no_argument,		0, 's'},
- 			{"trace",		no_argument,		0, 't'},
-+			{"errors-only",		no_argument,		0, 'E'},
- 			{"verbose",		no_argument,		0, 'v'},
- 			{0, 0, 0, 0}
- 		};
-@@ -110,7 +112,7 @@ int parse_arguments(char *monitor_name, int argc, char **argv)
- 		/* getopt_long stores the option index here. */
- 		int option_index = 0;
- 
--		c = getopt_long(argc, argv, "hr:stv", long_options, &option_index);
-+		c = getopt_long(argc, argv, "hr:stvE", long_options, &option_index);
- 
- 		/* detect the end of the options. */
- 		if (c == -1)
-@@ -132,6 +134,9 @@ int parse_arguments(char *monitor_name, int argc, char **argv)
- 		case 'v':
- 			config.debug = 1;
- 			break;
-+		case 'E':
-+			config.trace_errors_only = 1;
-+			break;
- 		}
- 	}
- 
+Changes in v4:
+- Fix sashiko reported bug 
+- Link to v3: https://lore.kernel.org/r/20261119-hwmon-da9091-v3-0-15956035d7b5@gmail.com
+
+Changes in v3:
+- Fix sashiko reported bugs
+- Link to v2: https://lore.kernel.org/r/20261119-hwmon-da9091-v2-0-d6c624272a9e@gmail.com
+
+Changes in v2:
+- Add documenation
+- Split firmware in a separate patch
+- Remove DA9091 mention
+- Remove extra lock
+- Use 64-bit jiffies
+- Remove lookup function
+- Link to v1: https://lore.kernel.org/r/20261117-hwmon-da9091-v1-1-f55f0af9c6a3@gmail.com
+
+---
+Sander Speetjens (3):
+      soc: bcm2835: raspberrypi-firmware: Add PMIC ADC property tag
+      firmware: raspberrypi: Register PMIC hwmon driver on Pi 5
+      hwmon: add Raspberry Pi PMIC driver
+
+ Documentation/hwmon/index.rst                  |   1 +
+ Documentation/hwmon/raspberrypi-pmic-hwmon.rst |  49 ++++
+ drivers/firmware/raspberrypi.c                 |  21 ++
+ drivers/hwmon/Kconfig                          |  11 +
+ drivers/hwmon/Makefile                         |   1 +
+ drivers/hwmon/raspberrypi-pmic-hwmon.c         | 296 +++++++++++++++++++++++++
+ include/soc/bcm2835/raspberrypi-firmware.h     |   1 +
+ 7 files changed, 380 insertions(+)
+---
+base-commit: 7d51eba9dfa7d30abab0b75570e9f7605366e45b
+change-id: 20261117-hwmon-da9091-7aeeac6d8ef8
+
+Best regards,
 -- 
-2.56.1
+Sander Speetjens <sander.speetjens@gmail.com>
 
