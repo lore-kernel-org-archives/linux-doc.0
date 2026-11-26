@@ -1,60 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795692814;
-	b=Ejh5zPfrfSXu4lts7qMQNTtqNTMiMZZMiq8T2ORYbnVWQIJ5jY/MtI6vBsQ/3K1onf9l
-	 nxoWNxNrQL/qDbrBXGu7KLUa3738XDOBJPgp8fmpVNbX+3bsSzkDfl3ZSDM2Q4TVuHS7X
-	 DvThcabAQYZuPFU+SWCRpS5aQop02pnDTpAg/i7wyafX0V6VuHbPjxW/T5bQ2kuA/OUii
-	 CTuHf3p3NbpjTI7dXwShu+cuy0ftizlvgiWdMybUi0FUGwlx31yMxwTQYFrs5I2UK3KqI
-	 PVxaRYRnNDyMd6ZkyaD/oHsVqVf68vR+m+eCgYZeHd9nDPBvG22Qc8rNYPuJZ/OXlIw==
+	t=1795692902;
+	b=Y6qRnJlyaWLapT5nOcyM+MG0yVIKKnExDzyNNnPSdtjoknXYPwne5WrfR7JJLa7KsVlt
+	 t0Pl+eJ9QAhv2AWgJlxyNNYNAQn/tNZtfPMl2pSiDky5m2LKDtGRweeguzxtkICl48LqK
+	 JOpM4fCmNoXKbyzaWkLHugt4lda5jI6GmEIZuHee5yun7EkBbCg+T8KG/zWsdm6NY7ZGa
+	 mlELySPYKv92fJaQAamCjT+CiuPXAtFlM3CxjYwdGpWSix8ry4UFPCW62EuzE/c18Gm31
+	 TjcwOo9OQFQ31lrj6T9ENU8T2+WQByd54RdCzjHxtKAYrTgWJL13qBHTtsd3jzuZ5pQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795692814;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Date:
-	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Last-TLS-Session-Version;
-	bh=HoA7X4ma5bwJj/kRPNS7vTcKgiIrboSXt7Y5O79fKEE=;
-	b=EF6sKbFsdyEcEoXC74jk80GKOJ5uDmRh83NUQUDSBnyWurrpWfIKONdgIjuFgi/pJCkX
-	 u8EYBCY/1XvQbGVhwH4HebBpYX+FTcZrgMI3gUjyKjJFDLkSV3LSMz0yEQhka9qeLgfnQ
-	 Pjs4H9aLCeoXmtwEkFjoJmsuXX/NtUJ/9mzd9ARnYKpGddY6gANbhCn+ne5JK3uMjknR7
-	 HyQ23H7WMBWqhZW/V+k6lKwdYw5tQW+Ttgwe3H7kosHVmwmj2zfB5zCGYjXJetLNFtILx
-	 Z1b6cnKsyOgkEdJrRC3uOscCUWci4OfCzHGcyy4pSodycJ8o4Jey5Aw4G58RLZ3WZTQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795692902;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=F1ysSIq8P4zmWw07TXTD7UWja5GSxoOEW3aTiOqMAwg=;
+	b=Hsmc6CyjhG58UwmdVALzjw4rBFGXqvCxlQF/VpvkF8GxE8aAv2taJ8Kta1Z1G+r3Knx5
+	 uc6oAH3ebCdUXa4tND6eUfeNk3hriDXueDlbPVi3ecXCnKT8A+FGOOY6hDJxmVLPtar7x
+	 cZDfi6RH6byVF7sEHD79SlJMen/UBdFQmDpkDCa6VBmTH+aWa2U3H7C2Ei317DH9EUNNy
+	 L+KUwWYaQvmhdFyF9D4hleKUUMK8eUzQ2O4UcJt+R4hb8p3XghvtPqJ3pvT4Cg/GwKlZk
+	 3UmGS6aN80m4GTd5jnKuivm1fWpw9ChBS+F7E6Wcv8fMT8HqTd5+A+Cqba6JrsAzrXg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=fXvRSfe0;
-	arc=none smtp.remote-ip=185.246.84.56
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Mqjef4Md;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2337606A32A;
-	Thu, 26 Nov 2026 11:33:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2337606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42853606A31E;
+	Thu, 26 Nov 2026 11:35:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42853606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=fXvRSfe0
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 9242B1A1808;
-	Thu, 26 Nov 2026 11:33:32 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 601B660237;
-	Thu, 26 Nov 2026 11:33:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2CDFF11E6B306;
-	Thu, 26 Nov 2026 12:33:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795692806; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=HoA7X4ma5bwJj/kRPNS7vTcKgiIrboSXt7Y5O79fKEE=;
-	b=fXvRSfe0MfaDTim26L+H+xvmIAfAJdy1AF4wSb1n/A1Ko0cq2qJvKz3Hy/WEsU5RyAL5tj
-	DOvCBD02/KO3AEHXnUM4MeUDGdOa4AasCWrEChDV44rJBollx0f/mVYIdaeReAmX2uw+pu
-	X0bCvAyeICVFkD/rWBwD0BWuyWEGy3JEPkTdyBZl4JfQ6mjuUtwzn5QfNMBUKTdy5BGmPX
-	PmsagCEJubaw/SNsFntJOhkX2rIF7sCAqScpv0rI+R6hFjaAl4J0+KOmiOmrmrHKlJqUV4
-	VdTkXa0xhrOldzo6hw7BHueJdh5ey943nFnte7N6M9PPbNRJ66Ryjx1F0DYtRQ==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Thu, 26 Nov 2026 12:29:26 +0100
-Subject: [PATCH v7 43/43] drm/vkms: Add ConfigFS interface for connector
- parent and port_id
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Mqjef4Md
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795692903; x=1827228903;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qZ4auUk8+IHrdvOEBAFF06C3MVQTviD6R5qX6NqXpgQ=;
+  b=Mqjef4MdAu0AZN5tYLRjOaB0A6S2C9xN+M5iJFQN/oIDbWSTXzFmqJiJ
+   4joe8UUQ7lY9Mv2HFzVPTN9oK72qxBL2M64masUndkGe6Zc7vLUf1F5LU
+   E8t28M/avPZzva3wcmkkWLvw6n93KWc3r5VIuiLKiKE/RtnEp1c8UBNNP
+   razhJ3T9xFl/JW1ASb448fBxhh+DuvJeJiXEzN6yRVa1Fch/EWZrlIxB6
+   UerApqckuqzSvFRRzd60gbRKEA6i1LuTqLz/djaP3VdrdfpKBLAPlX/Nv
+   gbrpDKMSUBXrbdq6ryA9z3ONpyEhF/ZGfVPi4f4BjWAO+Wjgh5Em2Bjc1
+   w==;
+X-CSE-ConnectionGUID: 2JAcOMHYRxCHN8HbnR8OFQ==
+X-CSE-MsgGUID: c1uzyWUbSBuNEuPvy/QUug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4614583"
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="4614583"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 03:34:33 -0800
+X-CSE-ConnectionGUID: JdG1uh/xRBaOMQe9t8sFcw==
+X-CSE-MsgGUID: IgW0FcPpSeKxGYB7k14OjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="12198114"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 26 Nov 2026 03:34:26 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWXk7-00000001Tz8-1c75;
+	Thu, 26 Nov 2026 11:34:23 +0000
+Date: Thu, 26 Nov 2026 19:33:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Gal Pressman <gal@nvidia.com>, Jiri Pirko <jiri@resnulli.us>,
+	Jonathan Corbet <corbet@lwn.net>, Leon Romanovsky <leon@kernel.org>,
+	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+	Mark Bloch <mbloch@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Saeed Mahameed <saeedm@nvidia.com>, Shay Drori <shayd@nvidia.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Simon Horman <horms@kernel.org>, Tariq Toukan <tariqt@nvidia.com>
+Subject: Re: [PATCH net-next] net/mlx5: Expose SW RoCE monitor matched
+ packets counter
+Message-ID: <20261126192651.xrb8kANY-lkp@intel.com>
+References: <20261125212344.243989-1-tariqt@nvidia.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,276 +93,112 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261126-vkms-all-config-v7-43-21194cda2468@bootlin.com>
-References: <20261126-vkms-all-config-v7-0-21194cda2468@bootlin.com>
-In-Reply-To: <20261126-vkms-all-config-v7-0-21194cda2468@bootlin.com>
-To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com, 
- Jonathan Corbet <corbet@lwn.net>, Oarora Etimis <oaroraetimis@gmail.com>, 
- Harry Wentland <harry.wentland@amd.com>, 
- Lucas De Marchi <demarchi@kernel.org>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Kory Maincent <kory.maincent@bootlin.com>, sebastian.wick@redhat.com, 
- victoria@system76.com, thomas.petazzoni@bootlin.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, llvm@lists.linux.dev
-X-Mailer: b4 0.17-dev
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125212344.243989-1-tariqt@nvidia.com>
 
-Add the parent and port_id configuration for a connector.
+Hi Tariq,
 
-- port_id can contain any u8 value
-- parent can contain at most one symlink to an other connector.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- Documentation/ABI/testing/configfs-vkms |  28 +++++++++
- drivers/gpu/drm/vkms/vkms_config.h      |   8 +--
- drivers/gpu/drm/vkms/vkms_configfs.c    | 103 ++++++++++++++++++++++++++++++++
- 3 files changed, 135 insertions(+), 4 deletions(-)
+[auto build test WARNING on 612848d37e68b858e15815175f1c5e609e09d719]
 
-diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/testing/configfs-vkms
-index f59533e6f80e..27d307935771 100644
---- a/Documentation/ABI/testing/configfs-vkms
-+++ b/Documentation/ABI/testing/configfs-vkms
-@@ -106,6 +106,15 @@ Description:
- 	the device is disabled, the value is only stored and takes
- 	effect when the device is enabled.
- 
-+What:		/sys/kernel/config/vkms/<device>/connectors/<connector>/port_id
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+	Port number of the connector, used together with parent to
-+	build the MST PATH property. Value is a decimal number
-+	between 0 and 255. Writing fails with -EBUSY if the device
-+	is enabled and the connector is enabled.
-+
- What:		/sys/kernel/config/vkms/<device>/connectors/<connector>/possible_encoders
- Date:		Nov 2025
- Contact:	dri-devel@lists.freedesktop.org
-@@ -116,6 +125,25 @@ Description:
- 	connector attaches it immediately, and linking into a
- 	static connector fails with -EBUSY.
- 
-+What:		/sys/kernel/config/vkms/<device>/connectors/<connector>/parent
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+	This group contains a symbolic link to the parent
-+	connector, to emulate a DP MST topology. The target must
-+	be a connector of the same VKMS device. Creating the link
-+	fails with -EMLINK if the connector already has a parent,
-+	and with -EBUSY if the device is enabled and the connector
-+	is enabled. Removing the link detaches the parent. A
-+	connector with a parent exposes a PATH property of the
-+	form "mst:<root connector DRM ID>-<port_id>...", listing
-+	the port IDs along the path from the first connector below
-+	the root down to this one (up to 16 levels of nesting).
-+	Creating a link that forms a parent cycle (A becoming the
-+	parent of B while B is already the parent of A) is accepted,
-+	but such a cycle is rejected when the device is enabled,
-+	during configuration validation (-EINVAL).
-+
- What:		/sys/kernel/config/vkms/<device>/crtcs
- Date:		Nov 2025
- Contact:	dri-devel@lists.freedesktop.org
-diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-index 83869e677f15..457239cfc2a4 100644
---- a/drivers/gpu/drm/vkms/vkms_config.h
-+++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -432,6 +432,10 @@ vkms_config_connector_get_edid(const struct vkms_config_connector *connector_cfg
- 	*len = 0;
- 	return NULL;
- }
-+
-+int vkms_config_connector_set_edid(struct vkms_config_connector *connector_cfg,
-+				   const u8 *edid, unsigned int len);
-+
- /**
-  * vkms_config_connector_attach_parent - Attach a connector to a parent connector
-  * @connector_cfg: Connector to attach
-@@ -492,10 +496,6 @@ vkms_config_connector_set_port_id(struct vkms_config_connector *connector_cfg,
- }
- 
- 
--int vkms_config_connector_set_edid(struct vkms_config_connector *connector_cfg,
--				   const u8 *edid, unsigned int len);
--
--
- /**
-  * vkms_config_get_device_name() - Return the name of the device
-  * @config: Configuration to get the device name from
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index e6222db02a2e..55de6a06ab2d 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -112,6 +112,7 @@ struct vkms_configfs_encoder {
- struct vkms_configfs_connector {
- 	struct config_group group;
- 	struct config_group possible_encoders_group;
-+	struct config_group parent_group;
- 	struct vkms_configfs_device *dev;
- 	struct vkms_config_connector *config;
- };
-@@ -149,6 +150,10 @@ struct vkms_configfs_connector {
- 	container_of(to_config_group((item)), struct vkms_configfs_connector, \
- 		     possible_encoders_group)
- 
-+#define connector_parent_item_to_vkms_configfs_connector(item) \
-+	container_of(to_config_group((item)), struct vkms_configfs_connector, \
-+		     parent_group)
-+
- static ssize_t crtc_writeback_show(struct config_item *item, char *page)
- {
- 	struct vkms_configfs_crtc *crtc;
-@@ -1391,6 +1396,42 @@ static ssize_t connector_dynamic_store(struct config_item *item,
- 	return count;
- }
- 
-+static ssize_t connector_port_id_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_connector *connector;
-+	u8 port_id;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	scoped_guard(mutex, &connector->dev->config->lock)
-+		port_id = vkms_config_connector_get_port_id(connector->config);
-+
-+	return sprintf(page, "%u\n", port_id);
-+}
-+
-+static ssize_t connector_port_id_store(struct config_item *item,
-+				       const char *page, size_t count)
-+{
-+	struct vkms_configfs_connector *connector;
-+	u8 port_id;
-+	int ret;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	ret = kstrtou8(page, 10, &port_id);
-+	if (ret)
-+		return ret;
-+
-+	scoped_guard(mutex, &connector->dev->config->lock) {
-+		if (connector->dev->enabled && connector_is_enabled(connector->config))
-+			return -EBUSY;
-+
-+		vkms_config_connector_set_port_id(connector->config, port_id);
-+	}
-+
-+	return count;
-+}
-+
- CONFIGFS_ATTR(connector_, status);
- CONFIGFS_ATTR(connector_, type);
- CONFIGFS_ATTR(connector_, supported_colorspaces);
-@@ -1398,6 +1439,7 @@ CONFIGFS_ATTR(connector_, edid_enabled);
- CONFIGFS_ATTR(connector_, edid);
- CONFIGFS_ATTR(connector_, dynamic);
- CONFIGFS_ATTR(connector_, enabled);
-+CONFIGFS_ATTR(connector_, port_id);
- 
- static struct configfs_attribute *connector_item_attrs[] = {
- 	&connector_attr_status,
-@@ -1407,6 +1449,7 @@ static struct configfs_attribute *connector_item_attrs[] = {
- 	&connector_attr_edid,
- 	&connector_attr_dynamic,
- 	&connector_attr_enabled,
-+	&connector_attr_port_id,
- 	NULL,
- };
- 
-@@ -1505,6 +1548,62 @@ static const struct config_item_type connector_possible_encoders_group_type = {
- 	.ct_owner	= THIS_MODULE,
- };
- 
-+static int connector_parent_connector_allow_link(struct config_item *src,
-+						 struct config_item *target)
-+{
-+	struct vkms_configfs_connector *connector;
-+	struct vkms_config_connector *connector_cfg;
-+	struct vkms_configfs_connector *parent;
-+	struct vkms_config_connector *parent_cfg;
-+
-+	if (target->ci_type != &connector_item_type)
-+		return -EINVAL;
-+
-+	connector = connector_parent_item_to_vkms_configfs_connector(src);
-+	connector_cfg = connector->config;
-+	parent = connector_item_to_vkms_configfs_connector(target);
-+	parent_cfg = parent->config;
-+
-+	if (connector->dev != parent->dev)
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &connector->dev->config->lock) {
-+		if (vkms_config_connector_get_parent(connector_cfg))
-+			return -EMLINK;
-+
-+		if (connector->dev->enabled && connector_cfg->enabled)
-+			return -EBUSY;
-+
-+		vkms_config_connector_attach_parent(connector_cfg,
-+						    parent_cfg);
-+	}
-+
-+	return 0;
-+}
-+
-+static void connector_parent_connector_drop_link(struct config_item *src,
-+						 struct config_item *target)
-+{
-+	struct vkms_configfs_connector *connector;
-+	struct vkms_config_connector *connector_cfg;
-+
-+	connector = connector_parent_item_to_vkms_configfs_connector(src);
-+	connector_cfg = connector->config;
-+
-+	scoped_guard(mutex, &connector->dev->config->lock)
-+		vkms_config_connector_attach_parent(connector_cfg, NULL);
-+}
-+
-+static struct configfs_item_operations connector_parent_item_operations = {
-+	.allow_link	= connector_parent_connector_allow_link,
-+	.drop_link	= connector_parent_connector_drop_link,
-+};
-+
-+static const struct config_item_type connector_parent_group_type = {
-+	.ct_item_ops	= &connector_parent_item_operations,
-+	.ct_owner	= THIS_MODULE,
-+};
-+
- static struct config_group *make_connector_group(struct config_group *group,
- 						 const char *name)
- {
-@@ -1537,6 +1636,10 @@ static struct config_group *make_connector_group(struct config_group *group,
- 		config_group_init_type_name(&connector->possible_encoders_group,
- 					    "possible_encoders",
- 					    &connector_possible_encoders_group_type);
-+		config_group_init_type_name(&connector->parent_group,
-+					    "parent",
-+					    &connector_parent_group_type);
-+		configfs_add_default_group(&connector->parent_group, &connector->group);
- 		configfs_add_default_group(&connector->possible_encoders_group,
- 					   &connector->group);
- 	}
+url:    https://github.com/intel-lab-lkp/linux/commits/Tariq-Toukan/net-mlx5-Expose-SW-RoCE-monitor-matched-packets-counter/20261125-232343
+base:   612848d37e68b858e15815175f1c5e609e09d719
+patch link:    https://lore.kernel.org/r/20261125212344.243989-1-tariqt%40nvidia.com
+patch subject: [PATCH net-next] net/mlx5: Expose SW RoCE monitor matched packets counter
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20261126/20261126192651.xrb8kANY-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126192651.xrb8kANY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126192651.xrb8kANY-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c: In function 'mlx5_reporter_vnic_diagnose_counters':
+>> drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c:133:1: warning: the frame size of 1344 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     133 | }
+         | ^
+
+
+vim +133 drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c
+
+b820864335c8b3 Akiva Goldberger 2025-02-09   63  
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   64  void mlx5_reporter_vnic_diagnose_counters(struct mlx5_core_dev *dev,
+b0bc615df488ab Maher Sanalla    2023-03-21   65  					  struct devlink_fmsg *fmsg,
+b0bc615df488ab Maher Sanalla    2023-03-21   66  					  u16 vport_num, bool other_vport)
+b0bc615df488ab Maher Sanalla    2023-03-21   67  {
+b0bc615df488ab Maher Sanalla    2023-03-21   68  	u32 in[MLX5_ST_SZ_DW(query_vnic_env_in)] = {};
+2520766fb420da Moshe Shemesh    2026-11-25   69  	u32 cap_reg[MLX5_ST_SZ_DW(nic_cap_reg)] = {};
+b0bc615df488ab Maher Sanalla    2023-03-21   70  	struct mlx5_vnic_diag_stats vnic;
+2520766fb420da Moshe Shemesh    2026-11-25   71  	bool cap_reg_valid = false;
+b0bc615df488ab Maher Sanalla    2023-03-21   72  
+b0bc615df488ab Maher Sanalla    2023-03-21   73  	MLX5_SET(query_vnic_env_in, in, opcode, MLX5_CMD_OP_QUERY_VNIC_ENV);
+b0bc615df488ab Maher Sanalla    2023-03-21   74  	MLX5_SET(query_vnic_env_in, in, vport_number, vport_num);
+b0bc615df488ab Maher Sanalla    2023-03-21   75  	MLX5_SET(query_vnic_env_in, in, other_vport, !!other_vport);
+b0bc615df488ab Maher Sanalla    2023-03-21   76  
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   77  	mlx5_cmd_exec_inout(dev, query_vnic_env, in, &vnic.query_vnic_env_out);
+b0bc615df488ab Maher Sanalla    2023-03-21   78  
+2520766fb420da Moshe Shemesh    2026-11-25   79  	if (MLX5_CAP_GEN(dev, nic_cap_reg))
+2520766fb420da Moshe Shemesh    2026-11-25   80  		cap_reg_valid = !mlx5_reporter_vnic_query_nic_cap(dev, cap_reg);
+2520766fb420da Moshe Shemesh    2026-11-25   81  
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   82  	devlink_fmsg_pair_nest_start(fmsg, "vNIC env counters");
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   83  	devlink_fmsg_obj_nest_start(fmsg);
+b0bc615df488ab Maher Sanalla    2023-03-21   84  
+548ee049b19fb9 Lama Kayal       2023-06-11   85  	if (MLX5_CAP_GEN(dev, vnic_env_queue_counters)) {
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   86  		devlink_fmsg_u32_pair_put(fmsg, "total_error_queues",
+548ee049b19fb9 Lama Kayal       2023-06-11   87  					  VNIC_ENV_GET(&vnic, total_error_queues));
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   88  		devlink_fmsg_u32_pair_put(fmsg, "send_queue_priority_update_flow",
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   89  					  VNIC_ENV_GET(&vnic, send_queue_priority_update_flow));
+548ee049b19fb9 Lama Kayal       2023-06-11   90  	}
+548ee049b19fb9 Lama Kayal       2023-06-11   91  	if (MLX5_CAP_GEN(dev, eq_overrun_count)) {
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   92  		devlink_fmsg_u32_pair_put(fmsg, "comp_eq_overrun",
+548ee049b19fb9 Lama Kayal       2023-06-11   93  					  VNIC_ENV_GET(&vnic, comp_eq_overrun));
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   94  		devlink_fmsg_u32_pair_put(fmsg, "async_eq_overrun",
+548ee049b19fb9 Lama Kayal       2023-06-11   95  					  VNIC_ENV_GET(&vnic, async_eq_overrun));
+548ee049b19fb9 Lama Kayal       2023-06-11   96  	}
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   97  	if (MLX5_CAP_GEN(dev, vnic_env_cq_overrun))
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18   98  		devlink_fmsg_u32_pair_put(fmsg, "cq_overrun",
+548ee049b19fb9 Lama Kayal       2023-06-11   99  					  VNIC_ENV_GET(&vnic, cq_overrun));
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  100  	if (MLX5_CAP_GEN(dev, invalid_command_count))
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  101  		devlink_fmsg_u32_pair_put(fmsg, "invalid_command",
+548ee049b19fb9 Lama Kayal       2023-06-11  102  					  VNIC_ENV_GET(&vnic, invalid_command));
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  103  	if (MLX5_CAP_GEN(dev, quota_exceeded_count))
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  104  		devlink_fmsg_u32_pair_put(fmsg, "quota_exceeded_command",
+548ee049b19fb9 Lama Kayal       2023-06-11  105  					  VNIC_ENV_GET(&vnic, quota_exceeded_command));
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  106  	if (MLX5_CAP_GEN(dev, nic_receive_steering_discard))
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  107  		devlink_fmsg_u64_pair_put(fmsg, "nic_receive_steering_discard",
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  108  					  VNIC_ENV_GET64(&vnic, nic_receive_steering_discard));
+548ee049b19fb9 Lama Kayal       2023-06-11  109  	if (MLX5_CAP_GEN(dev, vnic_env_cnt_steering_fail)) {
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  110  		devlink_fmsg_u64_pair_put(fmsg, "generated_pkt_steering_fail",
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  111  					  VNIC_ENV_GET64(&vnic, generated_pkt_steering_fail));
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  112  		devlink_fmsg_u64_pair_put(fmsg, "handled_pkt_steering_fail",
+a33682e4e78e24 Lama Kayal       2023-06-06  113  					  VNIC_ENV_GET64(&vnic, handled_pkt_steering_fail));
+548ee049b19fb9 Lama Kayal       2023-06-11  114  	}
+2520766fb420da Moshe Shemesh    2026-11-25  115  	if (cap_reg_valid && MLX5_GET(nic_cap_reg, cap_reg, vhca_icm_ctrl))
+b820864335c8b3 Akiva Goldberger 2025-02-09  116  		mlx5_reporter_vnic_diagnose_counter_icm(dev, fmsg, vport_num, other_vport);
+e835faaed2f80e Akiva Goldberger 2025-09-25  117  	if (MLX5_CAP_GEN(dev, vnic_env_cnt_bar_uar_access))
+e835faaed2f80e Akiva Goldberger 2025-09-25  118  		devlink_fmsg_u32_pair_put(fmsg, "bar_uar_access",
+e835faaed2f80e Akiva Goldberger 2025-09-25  119  					  VNIC_ENV_GET(&vnic, bar_uar_access));
+e835faaed2f80e Akiva Goldberger 2025-09-25  120  	if (MLX5_CAP_GEN(dev, vnic_env_cnt_odp_page_fault)) {
+e835faaed2f80e Akiva Goldberger 2025-09-25  121  		devlink_fmsg_u32_pair_put(fmsg, "odp_local_triggered_page_fault",
+e835faaed2f80e Akiva Goldberger 2025-09-25  122  					  VNIC_ENV_GET(&vnic, odp_local_triggered_page_fault));
+e835faaed2f80e Akiva Goldberger 2025-09-25  123  		devlink_fmsg_u32_pair_put(fmsg, "odp_remote_triggered_page_fault",
+e835faaed2f80e Akiva Goldberger 2025-09-25  124  					  VNIC_ENV_GET(&vnic, odp_remote_triggered_page_fault));
+e835faaed2f80e Akiva Goldberger 2025-09-25  125  	}
+2520766fb420da Moshe Shemesh    2026-11-25  126  	if (cap_reg_valid &&
+2520766fb420da Moshe Shemesh    2026-11-25  127  	    MLX5_GET(nic_cap_reg, cap_reg, sw_roce_monitor_classifier))
+2520766fb420da Moshe Shemesh    2026-11-25  128  		devlink_fmsg_u32_pair_put(fmsg, "sw_roce_monitor_matched_packets",
+2520766fb420da Moshe Shemesh    2026-11-25  129  					  VNIC_ENV_GET(&vnic, sw_roce_monitor_matched_packets));
+a33682e4e78e24 Lama Kayal       2023-06-06  130  
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  131  	devlink_fmsg_obj_nest_end(fmsg);
+d17f98bf7cc9ed Przemek Kitszel  2023-10-18  132  	devlink_fmsg_pair_nest_end(fmsg);
+b0bc615df488ab Maher Sanalla    2023-03-21 @133  }
+b0bc615df488ab Maher Sanalla    2023-03-21  134  
 
 -- 
-2.56.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
