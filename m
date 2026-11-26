@@ -1,54 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795679885;
-	b=HSSglZ3KIHDjuPl7TrSugO3NL1lR0VqWGOD32lUN619iK+K21QKdTI9TeEXTAVe5fnjc
-	 bHD14uXhPjj2UYPFSj/ExyBWce2uVx275/9avmUP//rANXgUF1egO10OiuZGOnVPxpWCp
-	 uhnhDFQazDcPrDB7QEYb+EBEIxKKrBusglItpVQXlVyrxVGl37xmgfMmIWsNTht22JejZ
-	 9+nbTqnzAUxgE9MEs61ILB7zgdUoYox33YgfmXbowlNPjqOE5MFT7US7RgItGbGmpFEcu
-	 wLPLWkZG6nWbrCU+gv9gF/kOLEv5cWB6+6Vt0flr38cQ9vjcUwncvp5GTVVYP/JUuyw==
+	t=1795680735;
+	b=TmkgWM2LdZWrH29foyKpv5aB/TyhN8MwOxBKJP1OVN7FcY2jl+EvUvuc5Nw8I0WJvpw7
+	 xuu/1zZ76XlYZXGiiIAFv40gdHvRCBiVLcBAthoI6sIFz6A5WLKdCkZFYAed2UaEyCHXG
+	 6aO57G9mv1xJoAVncO+SC5RY4KSs2CNemL6NlKB9DsFTd4zFs/vt1H3vNgUQMmKW920WL
+	 IufXFm/JuyIDKz0QI023i/PwXQOuXbfgelS8Vrz7lduhP35+9NEbVxce5Hk2RWc/s0zgq
+	 /WfeYJJ0egYum8gLW2t/3bBH17zEh5j/bYCQXvODAFjsSlRwKEhHLOGkLFyfzkHvQRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795679885;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795680735;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:X-Change-ID:X-Mailer:
 	 Content-Transfer-Encoding;
-	bh=LvwFbBDWNBefR0kvXHQjNB1xk2tLuKkLL0ZTvCS0RKo=;
-	b=PNrLQzQY+OospP0R9dOLDSJHTEmS0Iabc5tg/qVRvHjrgms4GfvQEG2X4ETmTmAJBN5k
-	 AeZWXsohsco93z6vSnoAOB/PgoW+75HDL519jOiIWrdqKUWkLOQaE2B3P+SBtAKHmI4fn
-	 BXd6freMTC+mV4V8tzm2rSgGDMy3aPm2tmhGt1DKIOnMcjYq9Z0p3phmVK9hHOB0r3OKO
-	 Z6ragBECDXCX6H1n9guBKmIe8rkbEVcwtuE4Ogy9g/K9fY/7dVJ78t5hV2WzWTCOfEog8
-	 HM/C+XYL1+x/7jnZvhH4qqBAKHaAc0EWCrSLnLwiEBTTDHgAVpl3R6syYZluhxSwyLg==
+	bh=aEhyTJ8dta3Tyq6V/L5LudIzKwOEoZUem/yxKoS2X7E=;
+	b=Yv1Mx6tSMpU7EsLw/yPnF32qZbRKtPEZDXK79me5KtPUXBlOiT68BJmqSN7J33q1U4uD
+	 OqKuFUlxuBMT/yHGwgOwJuLCUQpqhHsEN8EAf3luiY9Y6Us9B6tJHrGGyKVkaDIp/8Lu6
+	 egFtGX6L78u8r+ndeuEiIK2TsB1pIXqywyWKAUJEBII35UTxoDe1YoIFVZQ6n3jao1JFj
+	 uPGd1bGcUoWRwoyg9vZ0ImQV16WXfscanE3riyVPdaDHANjdzTQWzU14nvlhjB2f62Ul5
+	 YID4UBOFC3k5i1Q+Ac3lrwLSyd33sH+DVytahOdE5B5npoJVZp1IPoP6ATzZvLFc72g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=o6bjUeAs;
-	arc=none smtp.remote-ip=91.218.175.48
-Received: from mta0.migadu.com (out-48.mta0.migadu.com [91.218.175.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kkBRiaEA;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C984606A331
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 07:58:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C984606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FDA606A32E;
+	Thu, 26 Nov 2026 08:12:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=o6bjUeAs
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=FjE3HtgmKFq8WFEo5xKnHSon1s4J/tMgqoWdmhdBcjc=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795679882; v=1; x=1796284682;
- b=o6bjUeAscT1Lwh6QHVgwf2bJ1f75R+7XJvrz13QiJ08OF1Wvc9srPIbjDCJWT656QujjEIKP
- C45RqbYJStESB/bkq3kguAp8+hhqQh35vGPP3sYNU5Hnvdp3VEuqWvW1n0n4ZDr7tBB1bRGoaUZ
- /eWlpySvzH0QeYAOBQCoxV/w=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id c5246ef4abf9f853;
-	Thu, 26 Nov 2026 07:58:01 +0000
-X-Mizu-Trace-ID: c5246ef4abf9f853
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <b771065b-392d-4bf6-ab63-682179f6ed1f@linux.dev>
-Date: Thu, 26 Nov 2026 15:57:41 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kkBRiaEA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DF171F000E1;
+	Thu, 26 Nov 2026 08:12:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795680735;
+	bh=aEhyTJ8dta3Tyq6V/L5LudIzKwOEoZUem/yxKoS2X7E=;
+	h=From:To:Cc:Subject:Date;
+	b=kkBRiaEAX5nr1v/77fYTVJZSJ6x/FlQeMoFTtne3qUvIB9NHZTcdzmaSPSF7k8/4j
+	 52w9QavAN9x8ZKZUBgtaSswTeq2yKwA9jIVrMKuwtwegevJuEoFSo0h0isixjPQZSh
+	 lYJOCtnpdi2QHWS0qxKxfRpGqAUImzR2+M5qbL9Fz4mumKpHAewpp73O6zGY977zBZ
+	 O22pbmX84U7wizCcL5W7JRRQ5FRmQsAhOpWNR7us7Q9CL0T/i9Fy02Ve2DiXhU991U
+	 qFijqACX6Nykwo36MUfY7Sd2e1kK1WEIJ63imUjbBY9G4R1T2/4PpsNE86R9W8UPod
+	 tkUVr74vvr9sw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] docs: submitting-patches: Limit backtrace trimming to timestamps
+Date: Thu, 26 Nov 2026 10:12:08 +0200
+Message-ID: <20261126-backtrace-timestamps-v1-1-0a645b25e5ae@kernel.org>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,218 +59,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/18] mm/memcg: add folio-based lruvec live helper
-To: kasong@tencent.com, linux-mm@kvack.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>,
- Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>,
- Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
- Zi Yan <ziy@nvidia.com>, Gregory Price <gourry@gourry.net>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>,
- SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>,
- Yu Zhao <yuzhao@google.com>, Vernon Yang <vernon2gm@gmail.com>,
- Zicheng Wang <wangzicheng@honor.com>, Tal Zussman <tz2294@columbia.edu>,
- Kairui Song <ryncsn@gmail.com>, Xiang Liu <liuxiang.277@bytedance.com>,
- Ehab Ababneh <ehab.ababneh@intel.com>,
- Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, Lian Wang
- <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>,
- Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>,
- Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org,
- Tianyi Chen <hi@tychen.cc>
-References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
- <20261124-mglru-fg-v6-5-8ffea39934a6@tencent.com>
-From: Ridong Chen <ridong.chen@linux.dev>
-In-Reply-To: <20261124-mglru-fg-v6-5-8ffea39934a6@tencent.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20261125-backtrace-timestamps-29880a2f1cab
+X-Mailer: b4 0.15-dev-18f8f
+Content-Transfer-Encoding: 8bit
 
+From: Leon Romanovsky <leonro@nvidia.com>
 
+AI tools tend to trim backtraces too far. Taint flags, module lists and
+module names disappear, which hides that an out-of-tree module was
+involved or that an in-kernel API was misused, especially a driver API
+that is not meant for general use.
 
-On 11/24/2026 2:52 AM, Kairui Song via B4 Relay wrote:
-> From: Kairui Song <kasong@tencent.com>
-> 
-> Add a helper that resolves a live lruvec for a folio under RCU
-> without taking the lruvec lock.  It takes a folio directly so the
-> lruvec lookup happens inside the RCU read-side critical section,
-> which a lruvec-based interface cannot guarantee.  The first user is
-> the lockless folio_inc_lru_refs() path later in the series.
-> 
-> Factor the ancestor walk out of lruvec_live_lock_irq() into
-> __lruvec_get_live(), so that both entry points share it, and spell
-> out why the walk is enough while only the RCU read lock is held:
-> reparenting of a memcg that starts dying waits for a grace period,
-> so it cannot race with the caller until the lock is released.
-> 
-> Move memcg_is_dying() up in memcontrol.h, next to the other memcg state
-> predicates, and use it for the walk rather than repeating the open coded
-> css_is_dying() test a few definitions away from where it is explained.
-> 
-> No functional change for existing callers.
-> 
-> Tested-by: Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>
-> Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
-> Tested-by: Andrew Morton <akpm@linux-foundation.org>
-> Reviewed-by: Qi Zheng <qi.zheng@linux.dev>
-> Reviewed-by: Muchun Song (ByteDance) <muchun.song@linux.dev>
-> Signed-off-by: Kairui Song <kasong@tencent.com>
-> ---
->   include/linux/memcontrol.h | 71 ++++++++++++++++++++++++++++++++++++----------
->   1 file changed, 56 insertions(+), 15 deletions(-)
-> 
-> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> index 980358bc6f49..a03f9711522e 100644
-> --- a/include/linux/memcontrol.h
-> +++ b/include/linux/memcontrol.h
-> @@ -571,6 +571,11 @@ static inline bool mem_cgroup_disabled(void)
->   	return !cgroup_subsys_enabled(memory_cgrp_subsys);
->   }
->   
-> +static inline bool memcg_is_dying(struct mem_cgroup *memcg)
-> +{
-> +	return memcg ? css_is_dying(&memcg->css) : false;
-> +}
-> +
->   static inline void mem_cgroup_protection(const struct mem_cgroup *root,
->   					 const struct mem_cgroup *memcg,
->   					 unsigned long *min,
-> @@ -1349,6 +1354,11 @@ static inline bool mem_cgroup_online(struct mem_cgroup *memcg)
->   	return true;
->   }
->   
-> +static inline bool memcg_is_dying(struct mem_cgroup *memcg)
-> +{
-> +	return false;
-> +}
-> +
->   static inline
->   unsigned long mem_cgroup_get_zone_lru_size(const struct lruvec *lruvec,
->   		enum lru_list lru, int zone_idx)
-> @@ -1510,28 +1520,41 @@ static inline void lruvec_lock_irq(struct lruvec *lruvec)
->   	spin_lock_irq(&lruvec->lru_lock);
->   }
->   
-> -static inline struct lruvec *lruvec_live_lock_irq(struct lruvec *lruvec)
-> +/*
-> + * Reparenting moves a dying memcg's LRU state to its parent at any time,
-> + * so anything added to that LRU afterwards would be lost.  This helper
-> + * walks up to the nearest live ancestor while the caller must hold the
-> + * RCU read lock: reparenting of a memcg that starts dying waits for a
-> + * grace period, so it cannot race with the caller until the lock is
-> + * released.
-> + */
-> +static inline struct lruvec *__lruvec_get_live(struct lruvec *lruvec)
->   {
->   #ifdef CONFIG_MEMCG
->   	struct pglist_data *pgdat = lruvec_pgdat(lruvec);
->   	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
->   
-> -	rcu_read_lock();
-> -
->   	/*
->   	 * The memcg can be NULL when the memory controller is disabled.
->   	 * Otherwise, the caller keeps the memcg owning @lruvec alive.
->   	 */
-> -	while (unlikely(memcg && css_is_dying(&memcg->css))) {
-> +	while (unlikely(memcg_is_dying(memcg))) {
->   		memcg = parent_mem_cgroup(memcg);
->   		lruvec = mem_cgroup_lruvec(memcg, pgdat);
->   	}
-> +#endif
-> +	return lruvec;
-> +}
->   
-> +static inline struct lruvec *lruvec_live_lock_irq(struct lruvec *lruvec)
-> +{
-> +#ifdef CONFIG_MEMCG
-> +	rcu_read_lock();
-> +	lruvec = __lruvec_get_live(lruvec);
->   	spin_lock_irq(&lruvec->lru_lock);
->   #else
->   	lruvec_lock_irq(lruvec);
->   #endif
-> -
->   	return lruvec;
->   }
->   
-> @@ -1561,6 +1584,34 @@ static inline bool folio_matches_lruvec(const struct folio *folio,
->   	       lruvec_memcg(lruvec) == folio_memcg(folio);
->   }
->   
-> +/**
-> + * folio_lruvec_live_get - get a live lruvec for a folio under RCU
-> + * @folio: the folio
-> + *
-> + * Same as folio_lruvec(), except that a folio whose memcg is dying is
-> + * accounted to the nearest live ancestor, which is where reparenting
-> + * would put it anyway.
-> + *
-> + * Return: the live lruvec, with rcu_read_lock() held.  Pair it with
-> + * folio_lruvec_live_put().
-> + */
-> +static inline struct lruvec *folio_lruvec_live_get(const struct folio *folio)
-> +{
-> +#ifdef CONFIG_MEMCG
-> +	rcu_read_lock();
-> +	return __lruvec_get_live(folio_lruvec(folio));
-> +#else
-> +	return folio_lruvec(folio);
-> +#endif
-> +}
-> +
-> +static inline void folio_lruvec_live_put(const struct lruvec *lruvec)
-> +{
-> +#ifdef CONFIG_MEMCG
-> +	rcu_read_unlock();
-> +#endif
-> +}
-> +
->   /* Don't lock again iff page's lruvec locked */
->   static inline struct lruvec *folio_lruvec_relock_irq(const struct folio *folio,
->   		struct lruvec *locked_lruvec)
-> @@ -1826,11 +1877,6 @@ void mem_cgroup_node_filter_allowed(struct mem_cgroup *memcg, nodemask_t *mask);
->   
->   void mem_cgroup_show_protected_memory(struct mem_cgroup *memcg);
->   
-> -static inline bool memcg_is_dying(struct mem_cgroup *memcg)
-> -{
-> -	return memcg ? css_is_dying(&memcg->css) : false;
-> -}
-> -
->   #else
->   static inline bool mem_cgroup_kmem_disabled(void)
->   {
-> @@ -1901,11 +1947,6 @@ static inline void mem_cgroup_node_filter_allowed(struct mem_cgroup *memcg,
->   static inline void mem_cgroup_show_protected_memory(struct mem_cgroup *memcg)
->   {
->   }
-> -
-> -static inline bool memcg_is_dying(struct mem_cgroup *memcg)
-> -{
-> -	return false;
-> -}
->   #endif /* CONFIG_MEMCG */
->   
->   #if defined(CONFIG_MEMCG) && defined(CONFIG_LRU_GEN)
-> 
+Ask authors to remove only the timestamps and drop the example, which
+shows a trace reduced to bare function names. Timestamps are the one
+part of a dump that adds only noise.
 
-LGTM.
-Reviewed-by: Ridong Chen <ridong.chen@linux.dev>
-Thanks.
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ Documentation/process/submitting-patches.rst | 20 ++++----------------
+ 1 file changed, 4 insertions(+), 16 deletions(-)
 
--- 
-Best regards
-Ridong
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 85ba046d66fbf..56b1b38ac59cf 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -763,22 +763,10 @@ phrase``, it is important to be both succinct as well as descriptive.
+ Backtraces in commit messages
+ """""""""""""""""""""""""""""
+ 
+-Backtraces help document the call chain leading to a problem. However,
+-not all backtraces are helpful. For example, early boot call chains are
+-unique and obvious. Copying the full dmesg output verbatim, however,
+-adds distracting information like timestamps, module lists, register and
+-stack dumps.
+-
+-Therefore, the most useful backtraces should distill the relevant
+-information from the dump, which makes it easier to focus on the real
+-issue. Here is an example of a well-trimmed backtrace::
+-
+-  unchecked MSR access error: WRMSR to 0xd51 (tried to write 0x0000000000000064)
+-  at rIP: 0xffffffffae059994 (native_write_msr+0x4/0x20)
+-  Call Trace:
+-  mba_wrmsr
+-  update_domains
+-  rdtgroup_mkdir
++Backtraces help document the call chain leading to a problem. Remove
++only the timestamps and keep the rest of the dump unchanged. Taint
++flags, module lists and module names show whether an out-of-tree module
++was involved or an in-kernel API was misused.
+ 
+ Commentary
+ ^^^^^^^^^^
+
+---
+base-commit: b6a9fa34ce4187cb69d3c588a4bbffc31ce5db8f
+change-id: 20261125-backtrace-timestamps-29880a2f1cab
+
+Best regards,
+--  
+Leon Romanovsky <leon@kernel.org>
 
