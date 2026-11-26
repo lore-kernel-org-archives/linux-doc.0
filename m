@@ -1,65 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795725289;
-	b=H0oBjI5fZI2D9bCnRMTplvuqE5mS6JiUg3lhCckVovp+0xyrUsc92Y9KUFTEsnhCc4zQ
-	 VtgJ0+0ekmmw5xuGd3zc/KVR+G7UaOGyVzZIstWr6e1ZjeOTp9NpVtGE3TuYMBL88MXIW
-	 sNmeAUSXAoKD1noZosTUfB9ag3cT2yjx5IOnCh4rRXkb/jv9NEZVPsgRnWtGuW+U6gkS8
-	 cJZrqXrDkN83KSaaySnZD+C3Gfj+uhIFKHcqLlKd38UQsoj7qGFX21MwnH7TmZaVN+jtf
-	 6cVydvUfdD1e/0qznnr4lUD3r5fMGqyRpB5x4ReG2apjdPKq9y3qkbg2Ko0/+Xg4tbQ==
+	t=1795725299;
+	b=UfcVtoIXrO0OY5twfMZ9RnwMGuo8+MziQUvJYBTlAuwGKrXm+3RD7E0j/5tj1ozfMbXn
+	 +rd5j42avF5BE8VtsvtE4ZtnRjiYqz1j0lkcM83dSbDBIN9P3Nd2A5bHQzn74te/c0Rc7
+	 SLzXkkOec99bFIFRRtv7W1iT7TlKOJrHUKgFaf46iub2vXS0J+p2YxS1Eo11KRNV7y2Rz
+	 R/nrGmjkn4ZY1+qDLs6KHNo133QHSRTBAHQMkJSisxn8i89YN9ydV+CM9QlB3EvtH71s3
+	 OaD5CBJUvy+b3TKH3AZAT9cljA8eO3UUhvRgzzhrlPNMF6C2eP0UdiU6HRepu0m5bZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795725289;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795725299;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
 	 Message-ID:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-Scanned-By;
-	bh=XCoP2lR9dWoXQubbwuHi5uO9EefUEvGruaOQqElQJIQ=;
-	b=qpmSzkhkdSMxlWUIX+waaltu/UIm/24SpNwaytT7650VPvVueYvFQ5GpQ3cviwyArepM
-	 zNnzn0PrHlIH7DIZopxAi7GAu+3cUTa7kdVoHunetWTW4RrWnt1yxYlhLfr7AoMrE2ccA
-	 UG3TX2sYhPny6Fko6ZcA50HldFPkQ4+o1s9ggj5U7Q3IcRs8DZijQLuO892DP5xmgHgq0
-	 9AQUGvYAwA5x+0jn0tjwAR5veALODArPDRUKb2Aby8fYYPS4211AQ4MeznougHK3zcf0E
-	 XXhMhGVv/PQeCh4aywEtKnOW21pxXp/+kT18+cpwcWZObTCDZTJRrwr8CiZNTjUVlQQ==
+	bh=ZtIwCT3a4vXS9rYCNglRnCkULrvjfiTPxFncfyBIpu8=;
+	b=FTe09VG3QahIkICbS0DRc1/uBJAH15ivzseRa20AdWNEvmzfOj2W0Yxe97/7QQcn2StV
+	 GieC30VcuWUdmpHRP+EGTZcsaIrhn8nm6HjN7/mBwoJA9CecNVVu3kxV3bvhBKqetjcSw
+	 YleFX0n7z1HqG0Qze/E1rBfEOOysh0Za91b/BUnQCUXYmRqlaSfl5Ecuofk85pp7HoBxP
+	 3RkE20htlN9H63Gwiw36eSE8yyPlLaXDlqYMN2YFvW18IXxpEz3zt625l8utOrxR+qbsA
+	 y5zer9NTrjdtkBfuUH5GXUTkQxbVVsZ6zQVih8PzdCT82evDCw3M8f3fA1F0ApTlpBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Mdcv9WSm;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=aQtumrve;
 	arc=none smtp.remote-ip=170.10.129.124
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF00606A329
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 20:34:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AF00606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E8D606A331
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 20:34:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87E8D606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Mdcv9WSm
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=aQtumrve
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795725288;
+	s=mimecast20190719; t=1795725297;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XCoP2lR9dWoXQubbwuHi5uO9EefUEvGruaOQqElQJIQ=;
-	b=Mdcv9WSmKvVGc34OK/PviCZkc29Lh+tO6pn6Jsy9w6OmmWZw1ifZE7iHy6vMHwcP6F26T/
-	ZcX3WBYUQoz6bi/fIFzB2L1x1lIXarnned5fIpAGm5krFUu57kf6D4+BcNXlLmb0YK/xA3
-	V1S0WtR2J1XMq/PMYRnvhF6J4NWAS2k=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=ZtIwCT3a4vXS9rYCNglRnCkULrvjfiTPxFncfyBIpu8=;
+	b=aQtumrvemF3D8ZBLXrJLqgNXoYgZ0+7baApd6/Fxnco6sm+vOcgIuws/uofSlGgQIDOvH+
+	NAmK8AvoBEOaZoU0g/nujPap/8s+Ruw+0cDzGMplA9tHBnspiToMPMUXKbnvPRm7JCKEnj
+	AP+RiOQ5+2g0Q3tMPapN1iUsAZKx9hI=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-275-ztZ9ANb3NOyqu-W7-jAr4g-1; Thu,
- 26 Nov 2026 20:34:45 +0000
-X-MC-Unique: ztZ9ANb3NOyqu-W7-jAr4g-1
-X-Mimecast-MFC-AGG-ID: ztZ9ANb3NOyqu-W7-jAr4g_1795725282
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-509-FnEJEt8UPi6lUpDlNIUToA-1; Thu,
+ 26 Nov 2026 20:34:51 +0000
+X-MC-Unique: FnEJEt8UPi6lUpDlNIUToA-1
+X-Mimecast-MFC-AGG-ID: FnEJEt8UPi6lUpDlNIUToA_1795725289
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 345001800471;
-	Thu, 26 Nov 2026 20:34:42 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DB34D19560B2;
+	Thu, 26 Nov 2026 20:34:48 +0000 (UTC)
 Received: from ivecera-thinkpadp16vgen1.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 19AAF1801977;
-	Thu, 26 Nov 2026 20:34:35 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 95BFD1801977;
+	Thu, 26 Nov 2026 20:34:42 +0000 (UTC)
 From: Ivan Vecera <ivecera@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
@@ -88,9 +88,9 @@ Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
 	Saeed Mahameed <saeedm@nvidia.com>,
 	Tariq Toukan <tariqt@nvidia.com>,
 	Petr Oros <poros@redhat.com>
-Subject: [PATCH RFC net-next 18/19] dpll: drop the owner reference selection of pins
-Date: Thu, 26 Nov 2026 21:32:30 +0100
-Message-ID: <20261126203231.934632-19-ivecera@redhat.com>
+Subject: [PATCH RFC net-next 19/19] dpll: add KUnit tests for the pin owner checks
+Date: Thu, 26 Nov 2026 21:32:31 +0100
+Message-ID: <20261126203231.934632-20-ivecera@redhat.com>
 In-Reply-To: <20261126203231.934632-1-ivecera@redhat.com>
 References: <20261126203231.934632-1-ivecera@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -105,132 +105,253 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Commit 2c1bd78dc8e2 ("dpll: use pin owner's dpll ref for pin-level
-attribute reporting") and commit 84e85c325e5e ("dpll: use pin owner's
-dpll ref for pin-level attribute setting") made the pin-level paths look
-for the reference of a DPLL of the pin's owner, because a pin could also
-be registered with DPLLs of other owners.
+Check that dpll_pin_register() rejects a DPLL of another owner and a
+DPLL that is not registered, that dpll_pin_on_pin_register() rejects a
+parent pin of another owner and a parent pin registered with a DPLL
+that is not registered any more, and that a pin of the owner is still
+shared by its DPLLs and registered under its parent pin.
 
-Every DPLL a pin is registered with now has the owner of the pin. Use
-the first reference of a registered DPLL and drop
-dpll_pin_own_dpll_ref_first().
+The checks are WARN_ON_ONCE(), so the tests suppress the warning without
+counting it. A registration that is not rejected is undone, so the next
+case does not get the registered pin and the failure stays in its case.
 
 Signed-off-by: Ivan Vecera <ivecera@redhat.com>
 ---
- drivers/dpll/dpll_core.c    | 27 ---------------------------
- drivers/dpll/dpll_core.h    |  1 -
- drivers/dpll/dpll_netlink.c | 20 +++++++++-----------
- 3 files changed, 9 insertions(+), 39 deletions(-)
+ drivers/dpll/Kconfig            |   4 +-
+ drivers/dpll/tests/dpll_kunit.c | 150 +++++++++++++++++++++++++++++---
+ 2 files changed, 142 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/dpll/dpll_core.c b/drivers/dpll/dpll_core.c
-index af61c4882c2b6f..a58cd22164f0be 100644
---- a/drivers/dpll/dpll_core.c
-+++ b/drivers/dpll/dpll_core.c
-@@ -1229,33 +1229,6 @@ void *dpll_pin_on_pin_priv(struct dpll_pin *parent,
- 	return reg->priv;
+diff --git a/drivers/dpll/Kconfig b/drivers/dpll/Kconfig
+index d57696652d450a..9be76330a1d1de 100644
+--- a/drivers/dpll/Kconfig
++++ b/drivers/dpll/Kconfig
+@@ -31,7 +31,9 @@ config DPLL_KUNIT_TEST
+ 	help
+ 	  KUnit tests for the DPLL core. They use a mock driver to check
+ 	  that links between pins of two devices are reported and notified
+-	  while the pins at both ends are registered.
++	  while the pins at both ends are registered, and that a pin is
++	  registered only with the registered devices and the parent pins
++	  of its owner.
+ 
+ 	  The mock devices and pins are registered with the DPLL subsystem,
+ 	  so user space sees them and their create and delete notifications
+diff --git a/drivers/dpll/tests/dpll_kunit.c b/drivers/dpll/tests/dpll_kunit.c
+index 1804e5836f7db2..20bda0934acb1d 100644
+--- a/drivers/dpll/tests/dpll_kunit.c
++++ b/drivers/dpll/tests/dpll_kunit.c
+@@ -1,11 +1,12 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * KUnit tests for links between DPLL pins.
++ * KUnit tests for links between DPLL pins and for the owner checks of pin
++ * registrations.
+  *
+  * Each test starts with two owners that differ in clock_id:
+  *
+  * Owner A: devices A0 and A1, pin P with firmware node F, pin U with
+- *          neither a firmware node nor a link
++ *          neither a firmware node nor a link, MUX pin M
+  * Owner B: device B0, pin C with a link to F
+  *
+  * The devices are registered, the pins are not.
+@@ -40,9 +41,9 @@ struct dt_pin {
+ 
+ struct dt_ctx {
+ 	struct dt_dev a0, a1, b0;
+-	struct dt_pin p, u, c;
++	struct dt_pin p, u, c, m;
+ 	struct fwnode_handle *fwnode;
+-	bool p_a0, p_a1, u_a0, c_b0;	/* registrations */
++	bool p_a0, p_a1, u_a0, c_b0, m_a0, u_m;	/* registrations */
+ };
+ 
+ static int dt_mode_get(const struct dpll_device *dpll, void *dpll_priv,
+@@ -89,10 +90,29 @@ static const struct dpll_pin_ops dt_pin_ops = {
+ 	.direction_get = dt_direction_get,
+ };
+ 
++static int dt_state_on_pin_get(const struct dpll_pin *pin, void *pin_priv,
++			       const struct dpll_pin *parent_pin,
++			       void *parent_pin_priv,
++			       enum dpll_pin_state *state,
++			       struct netlink_ext_ack *extack)
++{
++	*state = DPLL_PIN_STATE_CONNECTED;
++	return 0;
++}
++
++static const struct dpll_pin_ops dt_child_ops = {
++	.state_on_pin_get = dt_state_on_pin_get,
++	.direction_get = dt_direction_get,
++};
++
+ static const struct dpll_pin_properties dt_pin_prop = {
+ 	.type = DPLL_PIN_TYPE_EXT,
+ };
+ 
++static const struct dpll_pin_properties dt_mux_prop = {
++	.type = DPLL_PIN_TYPE_MUX,
++};
++
+ /* Stub of __dpll_pin_change_ntf() that counts the notifications */
+ static int dt_pin_change_ntf(struct dpll_pin *pin)
+ {
+@@ -130,9 +150,9 @@ static void dt_dev_fini(struct dt_dev *dev)
  }
  
--/**
-- * dpll_pin_own_dpll_ref_first - find the first owner dpll ref of a pin
-- * @pin: pointer to a dpll pin
-- *
-- * Search pin's dpll_refs for a ref whose dpll matches the pin's
-- * (module, clock_id) tuple, i.e. the dpll registered by the driver
-- * that created the pin. This ensures pin-level attributes are
-- * reported and modified using the owner's ops even when the pin is
-- * also registered with dplls from other drivers.
-- *
-- * Return: pointer to the owner's dpll_pin_ref, or NULL if no
-- * owner ref is found.
-- */
--struct dpll_pin_ref *dpll_pin_own_dpll_ref_first(struct dpll_pin *pin)
--{
--	struct dpll_pin_ref *ref;
--	unsigned long i;
--
--	xa_for_each(&pin->dpll_refs, i, ref) {
--		if (ref->dpll->module == pin->module &&
--		    ref->dpll->clock_id == pin->clock_id)
--			return ref;
--	}
--
--	return NULL;
--}
--
- const struct dpll_pin_ops *dpll_pin_ops(struct dpll_pin_ref *ref)
+ static void dt_pin_get(struct kunit *test, struct dt_pin *pin, u64 clock_id,
+-		       u32 idx)
++		       u32 idx, const struct dpll_pin_properties *prop)
  {
- 	struct dpll_pin_registration *reg;
-diff --git a/drivers/dpll/dpll_core.h b/drivers/dpll/dpll_core.h
-index 6e10aadd2123d9..add518fef295d8 100644
---- a/drivers/dpll/dpll_core.h
-+++ b/drivers/dpll/dpll_core.h
-@@ -103,7 +103,6 @@ void *dpll_pin_on_pin_priv(struct dpll_pin *parent, struct dpll_pin *pin);
+-	pin->pin = dpll_pin_get(clock_id, idx, THIS_MODULE, &dt_pin_prop,
++	pin->pin = dpll_pin_get(clock_id, idx, THIS_MODULE, prop,
+ 				&pin->tracker);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pin->pin);
+ }
+@@ -223,9 +243,10 @@ static int dt_init(struct kunit *test)
+ 	dt_dev_init(test, &ctx->a0, DT_CLOCK_ID_A, 0);
+ 	dt_dev_init(test, &ctx->a1, DT_CLOCK_ID_A, 1);
+ 	dt_dev_init(test, &ctx->b0, DT_CLOCK_ID_B, 0);
+-	dt_pin_get(test, &ctx->p, DT_CLOCK_ID_A, 0);
+-	dt_pin_get(test, &ctx->u, DT_CLOCK_ID_A, 1);
+-	dt_pin_get(test, &ctx->c, DT_CLOCK_ID_B, 0);
++	dt_pin_get(test, &ctx->p, DT_CLOCK_ID_A, 0, &dt_pin_prop);
++	dt_pin_get(test, &ctx->u, DT_CLOCK_ID_A, 1, &dt_pin_prop);
++	dt_pin_get(test, &ctx->m, DT_CLOCK_ID_A, 2, &dt_mux_prop);
++	dt_pin_get(test, &ctx->c, DT_CLOCK_ID_B, 0, &dt_pin_prop);
+ 	dpll_pin_fwnode_set(ctx->p.pin, ctx->fwnode);
+ 	ret = dpll_pin_link_add(ctx->c.pin, ctx->fwnode);
+ 	KUNIT_ASSERT_EQ(test, ret, 0);
+@@ -242,11 +263,16 @@ static void dt_exit(struct kunit *test)
  
- const struct dpll_device_ops *dpll_device_ops(struct dpll_device *dpll);
- struct dpll_device *dpll_device_get_by_id(int id);
--struct dpll_pin_ref *dpll_pin_own_dpll_ref_first(struct dpll_pin *pin);
- const struct dpll_pin_ops *dpll_pin_ops(struct dpll_pin_ref *ref);
- struct dpll_pin_ref *dpll_xa_ref_dpll_first(struct xarray *xa_refs);
- bool dpll_pins_linked(const struct dpll_pin *a, const struct dpll_pin *b);
-diff --git a/drivers/dpll/dpll_netlink.c b/drivers/dpll/dpll_netlink.c
-index 6a46130fc687eb..ac341e3eba61ac 100644
---- a/drivers/dpll/dpll_netlink.c
-+++ b/drivers/dpll/dpll_netlink.c
-@@ -745,9 +745,7 @@ dpll_cmd_pin_get_one(struct sk_buff *msg, struct dpll_pin *pin,
- 	struct dpll_pin_ref *ref;
- 	int ret;
+ 	if (!ctx)
+ 		return;
++	if (ctx->u_m)
++		dpll_pin_on_pin_unregister(ctx->m.pin, ctx->u.pin,
++					   &dt_child_ops, &ctx->u);
++	dt_unreg(&ctx->a0, &ctx->m, &ctx->m_a0);
+ 	dt_unreg(&ctx->a0, &ctx->p, &ctx->p_a0);
+ 	dt_unreg(&ctx->a1, &ctx->p, &ctx->p_a1);
+ 	dt_unreg(&ctx->a0, &ctx->u, &ctx->u_a0);
+ 	dt_unreg(&ctx->b0, &ctx->c, &ctx->c_b0);
+ 	dt_pin_put(&ctx->c);
++	dt_pin_put(&ctx->m);
+ 	dt_pin_put(&ctx->u);
+ 	dt_pin_put(&ctx->p);
+ 	dt_dev_fini(&ctx->b0);
+@@ -404,7 +430,109 @@ static struct kunit_suite dt_suite = {
+ 	.test_cases = dt_cases,
+ };
  
--	ref = dpll_pin_own_dpll_ref_first(pin);
--	if (!ref || !dpll_device_registered(ref->dpll))
--		ref = dpll_pin_first_registered_ref(pin);
-+	ref = dpll_pin_first_registered_ref(pin);
- 	if (!ref)
- 		return -ENODEV;
+-kunit_test_suite(dt_suite);
++/*
++ * The checks are WARN_ON_ONCE(), so the tests suppress the warning without
++ * counting it. A registration that is not rejected is undone, otherwise the
++ * next case would get the registered pin from dpll_pin_get() and fail too.
++ */
++
++/* Expect the registration of @pin with @dev to be rejected */
++static void dt_expect_reg_rejected(struct kunit *test, struct dt_dev *dev,
++				   struct dt_pin *pin)
++{
++	int ret;
++
++	kunit_warning_suppress(test) {
++		ret = dpll_pin_register(dev->dpll, pin->pin, &dt_pin_ops, pin);
++		KUNIT_EXPECT_EQ(test, ret, -EINVAL);
++		if (!ret)
++			dpll_pin_unregister(dev->dpll, pin->pin, &dt_pin_ops,
++					    pin);
++	}
++}
++
++/* Expect the registration of @pin under @parent to be rejected */
++static void dt_expect_on_pin_rejected(struct kunit *test,
++				      struct dt_pin *parent,
++				      struct dt_pin *pin)
++{
++	int ret;
++
++	kunit_warning_suppress(test) {
++		ret = dpll_pin_on_pin_register(parent->pin, pin->pin,
++					       &dt_child_ops, pin);
++		KUNIT_EXPECT_EQ(test, ret, -EINVAL);
++		if (!ret)
++			dpll_pin_on_pin_unregister(parent->pin, pin->pin,
++						   &dt_child_ops, pin);
++	}
++}
++
++/* A pin is registered with the DPLLs of its owner only */
++static void dt_test_owner_register(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++
++	dt_expect_reg_rejected(test, &ctx->b0, &ctx->p);
++	dt_reg(test, &ctx->a0, &ctx->p, &ctx->p_a0);
++	dt_reg(test, &ctx->a1, &ctx->p, &ctx->p_a1);
++}
++
++/* A pin is registered under the parent pins of its owner only */
++static void dt_test_owner_on_pin(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++	int ret;
++
++	dt_reg(test, &ctx->a0, &ctx->m, &ctx->m_a0);
++	dt_expect_on_pin_rejected(test, &ctx->m, &ctx->c);
++
++	ret = dpll_pin_on_pin_register(ctx->m.pin, ctx->u.pin, &dt_child_ops,
++				       &ctx->u);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++	ctx->u_m = true;
++}
++
++/* A pin is registered with a registered DPLL only */
++static void dt_test_unregistered_dpll(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++	struct dt_dev a2 = {};
++
++	a2.dpll = dpll_device_get(DT_CLOCK_ID_A, 2, THIS_MODULE, &a2.tracker);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, a2.dpll);
++	dt_expect_reg_rejected(test, &a2, &ctx->p);
++	dt_dev_fini(&a2);
++}
++
++/* A pin is registered under a parent pin with registered DPLLs only */
++static void dt_test_unregistered_parent_dpll(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++
++	/* The parent pin stays registered with a0 after a0 goes, as on E810 */
++	dt_reg(test, &ctx->a0, &ctx->m, &ctx->m_a0);
++	dpll_device_unregister(ctx->a0.dpll, &dt_dev_ops, &ctx->a0);
++	ctx->a0.registered = false;
++	dt_expect_on_pin_rejected(test, &ctx->m, &ctx->u);
++}
++
++static struct kunit_case dt_owner_cases[] = {
++	KUNIT_CASE(dt_test_owner_register),
++	KUNIT_CASE(dt_test_owner_on_pin),
++	KUNIT_CASE(dt_test_unregistered_dpll),
++	KUNIT_CASE(dt_test_unregistered_parent_dpll),
++	{}
++};
++
++static struct kunit_suite dt_owner_suite = {
++	.name = "dpll_pin_owner",
++	.init = dt_init,
++	.exit = dt_exit,
++	.test_cases = dt_owner_cases,
++};
++
++kunit_test_suites(&dt_suite, &dt_owner_suite);
  
-@@ -1134,8 +1132,8 @@ dpll_pin_freq_set(struct dpll_pin *pin, struct nlattr *a,
- 		return -EINVAL;
- 	}
- 
--	ref = dpll_pin_own_dpll_ref_first(pin);
--	if (!ref || !dpll_device_registered(ref->dpll)) {
-+	ref = dpll_pin_first_registered_ref(pin);
-+	if (!ref) {
- 		NL_SET_ERR_MSG(extack, "pin owner dpll not found");
- 		return -ENODEV;
- 	}
-@@ -1180,8 +1178,8 @@ dpll_pin_esync_set(struct dpll_pin *pin, struct nlattr *a,
- 	bool supported = false;
- 	int ret, i;
- 
--	ref = dpll_pin_own_dpll_ref_first(pin);
--	if (!ref || !dpll_device_registered(ref->dpll)) {
-+	ref = dpll_pin_first_registered_ref(pin);
-+	if (!ref) {
- 		NL_SET_ERR_MSG(extack, "pin owner dpll not found");
- 		return -ENODEV;
- 	}
-@@ -1245,8 +1243,8 @@ dpll_pin_ref_sync_state_set(struct dpll_pin *pin,
- 		NL_SET_ERR_MSG(extack, "reference sync pin not available");
- 		return -EINVAL;
- 	}
--	ref = dpll_pin_own_dpll_ref_first(pin);
--	if (!ref || !dpll_device_registered(ref->dpll)) {
-+	ref = dpll_pin_first_registered_ref(pin);
-+	if (!ref) {
- 		NL_SET_ERR_MSG(extack, "pin owner dpll not found");
- 		return -ENODEV;
- 	}
-@@ -1458,8 +1456,8 @@ dpll_pin_phase_adj_set(struct dpll_pin *pin, struct nlattr *phase_adj_attr,
- 		return -EINVAL;
- 	}
- 
--	ref = dpll_pin_own_dpll_ref_first(pin);
--	if (!ref || !dpll_device_registered(ref->dpll)) {
-+	ref = dpll_pin_first_registered_ref(pin);
-+	if (!ref) {
- 		NL_SET_ERR_MSG(extack, "pin owner dpll not found");
- 		return -ENODEV;
- 	}
+-MODULE_DESCRIPTION("KUnit tests for links between DPLL pins");
++MODULE_DESCRIPTION("KUnit tests for links and owners of DPLL pins");
+ MODULE_LICENSE("GPL");
 -- 
 2.56.1
 
