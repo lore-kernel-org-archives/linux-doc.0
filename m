@@ -1,76 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795686330;
-	b=D/DHkqcM/snC7BpjzkJPRUDvKdneVPaLuZjd4Uuflz3KBi7UWcUcp+Y7A7KY8IwZ82/o
-	 uwCq1CAORECaQsjUyohhKelrZ7EhQwx/71urVu8kD7QO/Sq3yUa3zlzBqBPAWOte7nDrN
-	 C2qZqeT/0bDWLlpZrQyOg++y2wxMuBWi/+ZM/K4PEAfDLAoZ+90QsDNFXJgvNteoeCGBG
-	 MGmCo1+mTZtKkKiNaV9fP7CGPRU9Xms2DRk45SqW2RotFHV20zcba/6llrphC5Kh8R14m
-	 KMD9Rhjv4T+AeiDlKlxCokbW+FcYdd5zi0wJfVZ89PjQPrAVt/OgDFtOfIczxR/Q56g==
+	t=1795686653;
+	b=wRigE+ZsuOSoM6ajbzHdOPWVC1YkWBhhX+gATDkpRRCT7DCjNRL/Xk4LUY6jpyhj0qN8
+	 1Kr6KI2/bTxu1WZ06Q8CL1HJwiaZLNSw4zNjyjwzkcBvhdlhi/1iKf+FRmCg7gFFSIRYz
+	 irq0/k3X7cGTAVkBQ9ViGuPutq5vJ3lsjZ1wQbw7NbSQfp6S9LUUTBIK0t7qfCbJFsykz
+	 k+qxqkToZRqEz05nieZ1JuYGT3RB9T/TmFTMZErGZItK1R9Vu/U/UEA+mTa6LUMEXLvdx
+	 4f5TCs7iQhWfGYzWurkRseipKZJTUpPKOMOTxAsjuZi68WPrwF/kdWwuh+geXPLKcfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795686330;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=RHMpBqQRoMtd9sTA0lpFlz4dxCc29ZbqLl0UJOwJgLQ=;
-	b=gqeQzGdviZOR2YFjSWGlhUtf0zlbQQwEX+TzSeJ/XmhfKkjqXzIY9XKC0m26pWEuO6U6
-	 cEdU0RAyLw8BtU42LVl4ids6+hql0cit2BIUrEcZLnHPmJrnlCh8oyt2IR0j698CPp5Jp
-	 qz7w5+TVBTEMbAFJDRXZb29q3f0Bew2RSfMQq+lLHWNXox67qjjaOHOuWI0UHoMwxuJ6b
-	 fA4JtahTWcR9TDvm+9RG8wPXw1sExW7B5mUB8ZkkUy3sJJl6DW+l7QyefC07UbpdYtSXf
-	 J2UI3SaMqKwbzeNFEktOZTkPaaz8r//sD5ppGSIcbkMSgF2vzSh6iTIuNzL3UdSaYCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795686653;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=PcHNOjGg6mWjWyfm+bp/FehoMwcHoyo4XmWU8rkFwfE=;
+	b=NsN2G1zkbZoGiwnN0XRR4wZz0I+gdibSABcfToJsDkKX8SrDwMRMBLBjLrbACMAefeAH
+	 m7h3Rm0KykdPGiaC8W+ZNKeW1qnal5uIT9W59gQqW/1YVum9cBxHQq9XkHm2Hsj/TyX1C
+	 ogdxwWu+slWr9CulZoS4EdBBMARAzjoboNBdehZST5fmL5inLK4EkVk0CYLQ8ssW+1ESB
+	 QXY9yJA1yM8CvvbM8w89N18sG63R/xY9RQVc6FjPxI+NOt2mdjUwzPUzQTyVByZHY+ZHs
+	 8VpLKeMlpNht3q3AZDOQviv7tETmiyTEwyCWxjzbSOFHz8nBYpiy3NfCKK/Ke0q5jOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.222.49
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=O2mHvwLY;
+	arc=none smtp.remote-ip=113.46.200.219
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F233606A31C
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 09:45:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F233606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-99e156fe905so4921005241.1
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 01:45:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795686329; x=1796291129;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=RHMpBqQRoMtd9sTA0lpFlz4dxCc29ZbqLl0UJOwJgLQ=;
-        b=F5lLvgKr1/VyVJt3CDHii38L7pVuBequatXRbDWZ0HASx5gCndySjnfIDZRo+tOl3i
-         RH4wLML3q/fYEfUn+ADGb0QLU3RH4/W7jNccswg41YCWIMn5fNbYcRhw3P13RsDD6K1I
-         JfOqc1hzpfCDminOO7u6JKkn2pwZS0+PE0PUtNzkTtqEwfLeFchwsnE2iJZtCXaDQ3Cb
-         bZFfalB+opUOoQUjB8q2KmAoMk1Rf3fT577zncwsE6ZBaIPk/vnVPCmlyedh8NPasGuC
-         luHkwsj018n7Xqh2SBc/AHvJzo8pTJq6UnZR86C8102CUwi/63k+zmb5EmYBScksFaj4
-         VHbw==
-X-Forwarded-Encrypted: i=1; AL+hErGcfCH39OfmuDH+KfTrUN+KHl2TLPrEVdsDbre6ErjZEtj1tkcqSOMFeJLs2WFMKZz2TmcQAjuO8lU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+5EU61MdxMMjAbz1zczL3V/T5EiUl8iZjax2qWgbZS/6/5VMrh
-	aCQ/T8s8LS+JTX1zur39d8/rAu1juQ8Cszbc8wTtCbqA7wSYp49aNW0UgTykMphe
-X-Gm-Gg: AZFdTZfXwZ4laLS3RgYAxoYjI+CF6haVfV3Ftc6ZKV3PtvBqaqwcNuqSJQvCU4NCVuZ
-	KwEXXhxioIhzYYNxq3hF1nerY1V+LwLSpghQlgST8EEu/O/OHER8qV+U0IjwOkm/Q5DBrVhI5OH
-	jc/+NZw7TIRuXBRIS/WJUqhod8MZx21pvyWl+jQNqutCt96/JK3hnCa0PAU+PxV+8+2KH1UFfzH
-	kmovmdaoxHG4Xk+GdvOPkFgHT9D7c6yvqRgA1zR8enMJZIZQOLQNVQLA292ETZ4oioNe1bHOcfP
-	B1WhZq7ykW25KqUWKz3gAos1DdB9Hv3fpTda2KOSrn7YavGiZUIsI19QExEVFdyxiWGTzMJYqVI
-	ispiA1HF56CltfwB8wsQSKDKSqgA5avqWqZRa+Rd98Q/X5aXGSjJAJIHgt+5Vlr8eKQfCZgE0Yu
-	FmsvQT8IWkQWlA08JCPRDMMzL83Utg7lOIpgOrmMakEpOyeyybJL31+nVX/7zBwOCbze7UWmN8E
-	8xy7Ia8oTISdY7gQPqToBgnsRKkv90RHTosDDk7hG/3sOvuHiUMTnAqIpPy6+zf01UWnyU9ACR+
-	5brecAHqzM0abm4HYSX9DSrByVwWddyoG3u3RwUAe4qjnSREVzvnqQOUhNNViLgSoOw=
-X-Received: by 2002:a05:6102:3f48:b0:7d2:cdcb:6b4a with SMTP id ada2fe7eead31-7d6db9d311cmr8305482137.22.1795686329308;
-        Thu, 26 Nov 2026 01:45:29 -0800 (PST)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d6e80cb440sm21369613137.7.2026.11.26.01.45.28
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2026 01:45:29 -0800 (PST)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-78fb1fb9508so5761836137.1
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 01:45:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErHVcmVfmvJXvn6y7Oc3MvfVDMHsBTeQfZBM69vxWfJ8O/BdVQRZ3E7/jAcUwTz4HVSDepSnUdr+Ie0=@vger.kernel.org
-X-Received: by 2002:a05:6102:688a:b0:7ce:a873:731e with SMTP id
- ada2fe7eead31-7d6dba02e20mr8198948137.29.1795686328507; Thu, 26 Nov 2026
- 01:45:28 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821D8606A31C;
+	Thu, 26 Nov 2026 09:50:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 821D8606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=O2mHvwLY
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=PcHNOjGg6mWjWyfm+bp/FehoMwcHoyo4XmWU8rkFwfE=;
+	b=O2mHvwLYicVRufjtghpuBHGi68IyFjCJpBpGODJaogNMYUz0nNKlAhE2+4D1EmEfX58pZ8U2b
+	C6ag6IR93V/egmATBUkMmqDtZhn+4+KX5ej+hJakQqwSSwmbgDF3YgXhDMrNAQyLFflSUCIBQPi
+	Loeilm8lIAsDPJ9dC7pbOfY=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4jZsHB5hk1z1prMh;
+	Thu, 26 Nov 2026 17:50:30 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6BF4040537;
+	Thu, 26 Nov 2026 17:50:48 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 26 Nov
+ 2026 17:50:47 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
+	<james.morse@arm.com>, <babu.moger@amd.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <bp@alien8.de>,
+	<tan.shaopeng@fujitsu.com>, <fenghuay@nvidia.com>, <will@kernel.org>,
+	<gshan@redhat.com>, <jic23@kernel.org>, <ben.horgan@arm.com>,
+	<zengheng4@huawei.com>, <x86@kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH v7 0/6] fs/resctrl: Fix some resctl bugs related to mpam
+Date: Thu, 26 Nov 2026 17:50:32 +0800
+Message-ID: <20261126095038.2276975-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,76 +73,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261126-backtrace-timestamps-v1-1-0a645b25e5ae@kernel.org>
-In-Reply-To: <20261126-backtrace-timestamps-v1-1-0a645b25e5ae@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 26 Nov 2026 10:45:17 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW5mxjaAXcu6nAiK1k6umpCVbfCpPPofPCbv6f9xr3_dg@mail.gmail.com>
-X-Gm-Features: Aa3M54rURvENVkVkA3PAfM0AQ_OwL72uCl2_qD-V9nn44piqg3in3pY-rY30d-U
-Message-ID: <CAMuHMdW5mxjaAXcu6nAiK1k6umpCVbfCpPPofPCbv6f9xr3_dg@mail.gmail.com>
-Subject: Re: [PATCH] docs: submitting-patches: Limit backtrace trimming to timestamps
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-On Thu, 26 Nov 2026 at 09:13, Leon Romanovsky <leon@kernel.org> wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
->
-> AI tools tend to trim backtraces too far. Taint flags, module lists and
-> module names disappear, which hides that an out-of-tree module was
-> involved or that an in-kernel API was misused, especially a driver API
-> that is not meant for general use.
->
-> Ask authors to remove only the timestamps and drop the example, which
-> shows a trace reduced to bare function names. Timestamps are the one
-> part of a dump that adds only noise.
->
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  Documentation/process/submitting-patches.rst | 20 ++++----------------
->  1 file changed, 4 insertions(+), 16 deletions(-)
->
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 85ba046d66fbf..56b1b38ac59cf 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -763,22 +763,10 @@ phrase``, it is important to be both succinct as well as descriptive.
->  Backtraces in commit messages
->  """""""""""""""""""""""""""""
->
-> -Backtraces help document the call chain leading to a problem. However,
-> -not all backtraces are helpful. For example, early boot call chains are
-> -unique and obvious. Copying the full dmesg output verbatim, however,
-> -adds distracting information like timestamps, module lists, register and
-> -stack dumps.
-> -
-> -Therefore, the most useful backtraces should distill the relevant
-> -information from the dump, which makes it easier to focus on the real
-> -issue. Here is an example of a well-trimmed backtrace::
-> -
-> -  unchecked MSR access error: WRMSR to 0xd51 (tried to write 0x0000000000000064)
-> -  at rIP: 0xffffffffae059994 (native_write_msr+0x4/0x20)
-> -  Call Trace:
-> -  mba_wrmsr
-> -  update_domains
-> -  rdtgroup_mkdir
-> +Backtraces help document the call chain leading to a problem. Remove
-> +only the timestamps and keep the rest of the dump unchanged. Taint
-> +flags, module lists and module names show whether an out-of-tree module
-> +was involved or an in-kernel API was misused.
+Fix resctrl RMID allocation to report a retryable -EBUSY only when
+the target CLOSID actually has RMIDs in limbo.
 
-Please don't move the burden of distilling the relevant information
-from the (single) sender to the (multiple) receivers.
+Split the domain-offline path out so it releases busy RMIDs without
+allocating a monitor context it never uses.
 
-Gr{oetje,eeting}s,
+Also unmount resctrl with the CDP state it was mounted with to fix
+another bug with mpam cdp.
 
-                        Geert
+And do not allow monitor group move when the RMID index changes.
+
+These fixes are split out of the v10 Narrow-PARTID series below.
+	https://lore.kernel.org/all/20261020134239.3921377-1-ruanjinjie@huawei.com/
+
+v6 -> v7:
+- State that the stale assignments have no visible effect for clear
+  the CDP state after the cleanup (Ben).
+- Remove unnecessary line break (Ben).
+- Recreate the dirty RMIDs when the CDP state changes (Ben, Reinette).
+- Add reviewed-bys.
+- v6: https://lore.kernel.org/all/20261119094858.813874-1-ruanjinjie@huawei.com/
+
+v5 RESEND -> v6:
+- Drop the moveable_mon_group interface to be discussed widely.
+- Updated variable and function name, commit message, comments (Reinette).
+- Remove cdp hook and instead check whether all resource CDPs are
+  enabled and add a comment (Reinette, Ben).
+- Add reviewed-by.
+- v5 RESEND: https://lore.kernel.org/all/20261110133938.3768632-1-ruanjinjie@huawei.com/
+
+v5 -> v5 RESEND:
+- resend because of email problem.
+
+Changes in v5:
+- Update and split the patch as Reinette and Ben suggested.
+- Adjust the commit message.
+- Add Reviewed-by.
+- Link to v4:
+  - https://lore.kernel.org/all/20261105070934.2258613-1-ruanjinjie@huawei.com/
+  - https://lore.kernel.org/all/20261105123524.2282090-1-ruanjinjie@huawei.com/
+
+Changes in v4:
+- Fix the unmount resctrl bug as Reinette suggested.
+- Adjust the commit message.
+- Add Reviewed-bys.
+- Link to v3:
+  - https://lore.kernel.org/all/20261031063634.1678345-1-ruanjinjie@huawei.com/
+  - https://lore.kernel.org/all/20261031094616.1691026-1-ruanjinjie@huawei.com/
+
+Jinjie Ruan (5):
+  fs/resctrl: Report a temporary RMID shortage per CLOSID
+  fs/resctrl: Do not allocate a monitor context when releasing limbo
+    RMIDs
+  fs/resctrl: Clear the CDP state after the cleanup
+  fs/resctrl: Stop the limbo handler while resctrl is unmounted
+  fs/resctrl: Recreate the dirty RMIDs when the CDP state changes
+
+Peter Newman (1):
+  fs/resctrl: Disallow monitor group move when the RMID index changes
+
+ Documentation/filesystems/resctrl.rst |   8 +-
+ fs/resctrl/internal.h                 |   4 +-
+ fs/resctrl/monitor.c                  | 183 +++++++++++++++++++++-----
+ fs/resctrl/rdtgroup.c                 |  27 +++-
+ 4 files changed, 183 insertions(+), 39 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
