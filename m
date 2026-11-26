@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795713570;
-	b=oFRoEPj6usUXVXrDV5SQOpjvi52Xwc5PT7zE0bXPbiD63j03bHU1bpMepE9wWImmvujM
-	 XX7gGbF+hpoo3Fc6IPw9uu803DM1fuMYq8n5A2dVm9S6S2mDac8D8eCrEK+21UFpW1gzb
-	 4VWUIgaA0jfuVbaJYQ/JIxOJi1qmJ/ipAzTpsRh8vXKEwP1SUUQ2hE0pLii3fnc5nP+b8
-	 iXY3WOEeaqjeaUQTUC0fOPkgAdhN2A9zK3Dyoz6hRIab+/mp6IpvVYGT8w4BVTEE6HEW3
-	 gcQex7J1GH7rg0R3YwOexRQUpa2ujbb4pBd7LoM+6Bh4hjeevYAkffNBf+RJIapsSYg==
+	t=1795713575;
+	b=MTT+0OZk+Bog1AC7bssCwYqqDV+EuGbDcRteKqYUe/YfKO/4lMc6R9Xzd/3UhBV63VMA
+	 t52HmnHJOaAAUhWnX12Vo+JrpUIUjWKUSMu+5bzXQtVLUZBhIGS19pKK6Hh6WUQhz6b+b
+	 Bo5i90maONvGwGbJ9wd0He2hyPcb/xOygQ5B2KOAdsieOsm8Jsn77Ki8e1aXXZRFWDrPB
+	 0fKWB+g7/103e14CNQRAof5LUrwJuBMZDbJcHZ8KEnSwDyZFeUvCXjrI5mRpR9K16dMo6
+	 9QOn7Dz2RFZkKUNl5sA4yZ3OPhruIYe+Xng0R3KH+XucJs8Qpv6ZI1b+nw53b4nAkOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795713570;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795713575;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=oSy2smLc3cNbTuqMdwegN2l5C49OxKMBQCUYEQkVoUo=;
-	b=gN9ZwAsRl45RdZL6jid8zph5udqQCCn/oHRDB2zhON30Wej/Qbi1Mc7YsocoOTt6+mdI
-	 q6LuVevpQg/KwCB9fDkkMLdzGLY85A5813VWqjuAkj3e/EcJ+3aMtk5u2sjZ3vfZbU2g+
-	 TdkJfdSd5BSmrdGAyTzyoFH12oXTPZ+4siZoIGf68/kVT8ZZwyFYI4Uhkw7KotuvhxXJd
-	 SCRo4tWn73lZ1fmnN4R5qLkdOHavcS9uVNQsfT7m+Dv1UcQ1BZ9/q/aLBsvpumyexCGEk
-	 1ab14z1V8W3In5qnQrB/QWkm9fIi3ieUt7ipm3zLuhyq/idn0VqvrGwZjQO2Vh0MnpA==
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=6QABNub+dTZARCfJQEJTHzpf5kF7y3WNlSVigusNo7U=;
+	b=2E2XaFg3CncpKcg3LKhZ150iGo7sWoO9xwWVHTJAGOFEOWks+pmBR/OXBHjM3VBJcwv9
+	 RJ1qZWxHHsOPevaAh1Ct+B5TVBkHmz7tV3gq2yzS32Oc6drRIk0XJNTT9vi+eXDG/R2hM
+	 CntDyyOSN2YkE1LMI5lU5tK3lggCHyMsjcQqa8boAoPQXWdKn3IAYFeHUem7FwXxgewkz
+	 Qtjceq51TI3a1+c7myPVig/EYabxVMLmEk8rO33NDPJzyd9a4XJD62ntXSVmwh8voCGWq
+	 l6H7vqKIvgoy39f5tbygVOdLYUUJZXgXEDcIzUQGbaHJV+qRRQW9nWrJCH80AQAVj5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UmRWgeKR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=memaq40b;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2336606A31C;
-	Thu, 26 Nov 2026 17:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFAE606A687;
+	Thu, 26 Nov 2026 17:19:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UmRWgeKR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FB111F000C0;
-	Thu, 26 Nov 2026 17:19:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=memaq40b
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECDA61F000CF;
+	Thu, 26 Nov 2026 17:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795713569;
-	bh=oSy2smLc3cNbTuqMdwegN2l5C49OxKMBQCUYEQkVoUo=;
-	h=From:To:Cc:Subject:Date;
-	b=UmRWgeKRj4DvIvaRNu1iZI/R0f19ezl7i4Zt8PH+IfgoPGiYLw151aOaZUmyWrzOB
-	 Xjcvf/0hLWnwEub2FPU75PZaYXPIMdkd4UNCUl0dlX46BqRndiHo7hru8y5j9LFeZh
-	 pF6/OPmjwHo1elLrVQr+Ka9ycEQ4gVwTm3EB5vLN0F8MLCozwmaDBskJBw89e5q0mM
-	 Msx24JFRNZ2HOw3x6IYBMG4Rryb30Inc6L5NmmHYVvaYHvqcDbQvCHR1RB1RJ+PcDC
-	 aXllP5nFm3SBN1EaH5InqZsyweKzAOCqmq1OI5diu7zEHA39+zXdNJ5PvF44zC1Sba
-	 ZIRQWqww80pVw==
+	s=k20260515; t=1795713575;
+	bh=6QABNub+dTZARCfJQEJTHzpf5kF7y3WNlSVigusNo7U=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=memaq40bEXyu5rEoZF1ahkpSYArYKF0JZtOCgCSN0GqPPDEObrwd9wXxk9taylxzn
+	 n1pU+ownUT+YnpTkPZ3bNhlEhNm4HKN4nUbZ9PdZYJTsjA7R3hd0W0hPMUerLUPPE6
+	 ACET55cLiBpdp5yU5WxmJ275wKeKP35ntUC7z2YFHHqx407Jae35JJAhXFoVulZHBI
+	 yb4Fr1XGUXZDtsdSPFdoJLI3paRJwKIIsZbdI/7oU1tyaFdgQvooH+ZDt+K6YkQgNs
+	 JBGJGjhIh9gp9Tlwnqcwg2vKor2bCO363Ad9VTU9FTJD7Rk0LRd3Ug6jfSrf9NAPp1
+	 dL7EAUZzi3g0w==
 From: Sasha Levin <sashal@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Sasha Levin <sashal@kernel.org>,
@@ -64,10 +64,12 @@ Cc: Sasha Levin <sashal@kernel.org>,
 	workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] docs: ask AI-assisted patches for short changelogs and a cover letter
-Date: Thu, 26 Nov 2026 12:19:23 -0500
-Message-ID: <20261126171926.2766137-1-sashal@kernel.org>
+Subject: [PATCH 2/2] docs: security-bugs: ask AI-assisted fixes for their cover letter
+Date: Thu, 26 Nov 2026 12:19:25 -0500
+Message-ID: <20261126171926.2766137-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261126171926.2766137-1-sashal@kernel.org>
+References: <20261126171926.2766137-1-sashal@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,94 +81,59 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit messages written by AI coding assistants are too long, and
-maintainers keep saying so. Greg: "LLMs love to write a lot. Please
-always rewrite the changelog text to be sane and concise." [1] Linus,
-on a pull request text that read like an LLM's: "you can tell it to be
-a bit less verbose" [2]. Marc [3], Eric [4], Hans [5], Andrew [6] and
-Jonathan [7] are a few more examples from this year, from different
-subsystems. security-bugs.rst already carries a paragraph on the length
-of AI-generated reports. The messages read like a copy of the
-assistant's analysis, and what a reader needs is buried in them.
+coding-assistants.rst asks for a cover letter with the evidence behind
+every patch an AI assistant prepares. A fix for a security bug needs
+that evidence as much as any other fix, so name the cover letter in the
+summary of that procedure and in the list of recipients.
 
-When an assistant does trim, the opposite problem shows: a few lines of
-a backtrace do not tell a reviewer how the failure was produced. Leon
-showed a case where only the full log revealed that the crash came from
-an out-of-tree module written to provoke it [8], and Willy suggested a
-short quote in the changelog plus the full log attached [9].
+The cover letter goes where the patch goes, which usually includes a
+public list, while the reproducer goes to the maintainers only. Say
+that the reproducer and the steps to trigger the problem stay out of
+the cover letter, which only mentions that a reproducer exists.
 
-This series gives each kind of content its place. Patch 1 tells coding
-assistants to keep the commit message to the point and to put the
-evidence into a cover letter, which every patch or series they prepare
-has to come with, a single patch included. It lists seven items that
-the cover letter has to contain at a minimum. Patch 2 names the cover
-letter in security-bugs.rst and keeps the reproducer out of it there,
-as the cover letter goes to a public list with the patch.
+"Length" asks for short reports. With the complete output in the cover
+letter the report has no reason to carry it.
 
-The cover letter stays in the list archive, and the Link: tag or the
-patch-id of the applied commit leads back to it. The full log can then
-be found from the git history without being part of it.
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/process/security-bugs.rst | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-What follows is an example of such a cover letter, written for this
-series. The seven items are about both patches unless one is named.
-
-1. Based on docs-next d3b70c91af11 ("docs: ioctl-number: update DRM
-   entries") plus "docs: submitting-patches: ask bug fixes for their
-   user-visible impact" [10], which changes the same step 6 as patch 1.
-   Nothing else was added. No architecture or configuration, these are
-   documentation changes.
-
-2. The problem was reported on the list, in the mails [1] to [9] above.
-   No tool found it. The text of both patches was written with an AI
-   coding assistant, Claude Code.
-
-3. Not a kernel failure. The problem is in the patches that reach the
-   lists: [1] to [7] are replies to such patches and pull requests, and
-   [8] has an example of what a trimmed log can hide.
-
-4. No reproducer.
-
-5. scripts/checkpatch.pl on both patches: 0 errors, 0 warnings.
-   "make SPHINXDIRS=process htmldocs" from an empty output directory,
-   with and without the patches: exit 0 both times and the same 57
-   warnings, none of them new.
-   One trial of an earlier draft of patch 1, from before the paragraph
-   on vulnerabilities was added: Claude Code with Claude Sonnet 5.5 was
-   given a tree with the text applied, at the parent of 8e83fac77aa97
-   ("bootconfig: Fix xbc_verify_tree() to check subkeys of valued
-   keys"), and was asked to fix that bug, with no mention of cover
-   letters. It produced a [PATCH 0/1] with the seven items in order,
-   the captured outputs copied byte for byte, and a commit message of
-   16 lines.
-
-6. Nothing failed, so there is no output to show.
-
-7. Not done: a full "make htmldocs", only Documentation/process was
-   built. One trial with one assistant says little about the others,
-   and the vulnerability case and patch 2 were not tried at all.
-
-[1] https://lore.kernel.org/r/2026073057-moustache-unfixable-5ab1@gregkh
-[2] https://lore.kernel.org/r/CAHk-=wgXU50=KgZNZc1JDxsSxg9Z+DjG1_2yU-fNXpZtUe4XDw@mail.gmail.com
-[3] https://lore.kernel.org/r/861pf9xgkc.wl-maz@kernel.org
-[4] https://lore.kernel.org/r/CANn89iKErdqHOGFpQLM_MAi-LcAaR6ZR2_rhdtZzv1TJc2L4RQ@mail.gmail.com
-[5] https://lore.kernel.org/r/ab5c5ae1-1bfd-4fe4-adef-fb64b5b3dfbb@oss.qualcomm.com
-[6] https://lore.kernel.org/r/ef2eb733-4b94-4c2e-9165-0b324733a482@lunn.ch
-[7] https://lore.kernel.org/r/20261121195920.573a0727@jic23-hlaptop
-[8] https://lore.kernel.org/r/20261125125739.GA14811@unreal
-[9] https://lore.kernel.org/r/av7tY64O34gbJvH_@1wt.eu
-[10] https://lore.kernel.org/r/20261116200515.352387-1-sashal@kernel.org
-
-Sasha Levin (2):
-  docs: coding-assistants: ask for short changelogs and a cover letter
-  docs: security-bugs: ask AI-assisted fixes for their cover letter
-
- Documentation/process/coding-assistants.rst | 86 ++++++++++++++++++++-
- Documentation/process/security-bugs.rst     | 17 ++--
- 2 files changed, 95 insertions(+), 8 deletions(-)
-
-
-base-commit: d3b70c91af11cdf08aebbfdb166b333ada0276be
-prerequisite-patch-id: 3fe9b4033dfb06bcc2898e76439d04a11a239c33
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index c7dfecc87764c..0423a814c6a1e 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -233,8 +233,8 @@ At the very least, when using an AI assistant to find and report bugs, make the
+ assistant read this file and threat-model.rst before proceeding, and have it
+ follow the procedure described in coding-assistants.rst: work on an up-to-date
+ mainline tree and note the commit ID, verify the bug is real, write a fix,
+-build it warning-free and checkpatch-clean, commit it with a Fixes tag, and
+-identify the maintainers with get_maintainer.pl.
++build it warning-free and checkpatch-clean, commit it with a Fixes tag,
++identify the maintainers with get_maintainer.pl, and write the cover letter.
+ 
+ On top of that procedure, the AI assistant **MUST**:
+ 
+@@ -244,10 +244,15 @@ On top of that procedure, the AI assistant **MUST**:
+    the description of the problem, the reproducer or its status, and the
+    triggering conditions.
+ 2. Start the report with a temporary section listing the recipients' addresses
+-   (maintainers+list for the patch, maintainers only for the report and
+-   reproducer), and with instructions reminding the reporter to check that
+-   their email client is properly setup (see email-clients.rst), and leave it
+-   to the reporter to remove that temporary section.
++   (maintainers+list for the patch and its cover letter, maintainers only for
++   the report and reproducer), and with instructions reminding the reporter to
++   check that their email client is properly setup (see email-clients.rst), and
++   leave it to the reporter to remove that temporary section.
++3. Keep the reproducer, and the steps that trigger the problem, out of the
++   cover letter that coding-assistants.rst asks for. The cover letter goes
++   where the patch goes, which usually includes a public list, so it only says
++   that a reproducer exists. With the complete output in the cover letter, the
++   report itself can stay short.
+ 
+ A more detailed process is covered at https://github.com/masoncl/kres.git.
+ 
 -- 
 2.53.0
 
