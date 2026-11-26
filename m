@@ -1,47 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795691606;
-	b=l5lrer5piwsKMzt/gM4Rb7ZivTDVliJvwfsRx7qtUkZIAztHOGcHZXvkQTWAumUH4W8l
-	 VpWgTW0t2gquV1rZqhIw3f09rsrnlhqFOUHj24Dk80UWcppMjOe54c9UPjoVMJBr66J2Y
-	 4swd+BFNwqiyeihLhZ7CKDw9ZZ7APDPZ1/oOWmkJeSPbOKYUwO5YjCxA1j7E/jwbx0jF8
-	 3l6heVjVk8o00R1hCSOHtzYxP8opat45xkt2/OeZ7R+jQ6sbSTpP3Ll66Xjf4kZXpCNd/
-	 bchJ4P6SfhbblwFzg/mopeYPNzUtRSvsQxFPfi5rEY/+O1Q9O+ftpj/l2tq02IfDy0Q==
+	t=1795691833;
+	b=TUXPAcd8dwuj4nKeXhEwq9VZuLDgm+whqtHPBd2RzIhurXG1lg80ulBLSqP9uFDHIigW
+	 YWQi6xsUF1jtXgj8Q8XZGPdNEHbYnPQQg3LxzzPW5ykFZDYmNHun/7QqhmBrLg9aXZ6Az
+	 NsUXFCTa6ZedYLFcoBfieV0ug8oncesD3dd0deEK8mbuLC1mXL/hNxzqySyFfurAf6XlW
+	 n34IywEUFRCIL3vXMpwSjoC31M0ic7aNz1IlU5fHE/4GphVth3RiV5nKALA5zDwMFlO2V
+	 MsS4DLN8oaHjPz5CD3bhSELNLAa7R11b2c6tUg+fX+pegg5J03kE8UWHrVDaalhBvYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795691606;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=QyEzruHSk3PWNRGlXxnoXSvBzuBF1VHW0e91SegwgI4=;
-	b=ZvBeWNJjYh4YE4laN/BPJ5zusjEd+gfBr4rzmVGnRek0j9nR0UY1SoEZTNLXBV18auba
-	 qTdGfo5pofaV6j/NPjgHtVBxXTQsSFAxvCwUeD6kcr304b0PsnBEaU21f6oaTCUKzMn0Y
-	 9eTY8lXlpW6taj1TOMJC/5vbTEQUwIZFs2vhdtKX1hnSdEVDSv7I+ITA2CIQnvpCloBGo
-	 5fS8PT2kolMI3tvW2QuLZ+nqNcJ+pLip9H9md6QWEvEhN6uWkzAmMV7Vw0vhAwfca4xOD
-	 8o/6l8nZydvmb23A/tDrmImr5gFVsYkE+PoT5CmCpBFRtgjBVMvSgO9YJv9WYrWWYlg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795691833;
+	h=DMARC-Filter:X-UUID:X-CTIC-Tags:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:
+	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=yvpFVPS5nHjAd98a7zI89o00MRQ9zkYpBpD7SEFfFdo=;
+	b=Qupk+GPP31nEKR3g1ZQ+93JgQkzyASRv0hXORxqMF8ZQAetS4QTn4Zud51UYOJSQD2s/
+	 jpP19+DVAHZjTlb5dIZdJEFNEJR/s1JS1NOpyy7GNyhTZRa9avMY4OMqY3aJf06KAevHs
+	 wujP+a5mySzmTdwqaFTfgopP6GHO8a3yjLRGGi6JnqBwvZbH0HydXbew94jPmLE96ghQn
+	 ad4M66VLetZHGcbyLm++CuiAypiB7xiAwJIPtdRSzXY+C/FLn0DjPo/ME98AnZXE8UuOV
+	 Y2yeDOg3N4CXrehdjdPmCU4L/v+VgULN50WRACYu/ileP/GoCCDFDE5Hp4UlIbmwOjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KHqd8jGo;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CB2606A31C;
-	Thu, 26 Nov 2026 11:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KHqd8jGo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 750331F000C4;
-	Thu, 26 Nov 2026 11:13:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795691606;
-	bh=QyEzruHSk3PWNRGlXxnoXSvBzuBF1VHW0e91SegwgI4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=KHqd8jGoK63FBGz6hruXqVsJj0+OR5Kg92zKXvALh22HB3TDrcoyFshXfuUHkjShG
-	 X43MCgVG6Ql4ImY/4qE+dBYhOUtvDRdQ5Wev2E9cRKsZ6KE56T5+f0qr/tW6uiQKbW
-	 hVaGU1yCLlVKfSlzPravL9m5+aPBHHTQGkVJ8Ux9BezoV6AQkCI3nItKg0iJXcd7e9
-	 z3KKWdCcYd2b+f17PRrxM5csYQg9fJ8v5RHyyq6mxVrzii7ig9D4ko62yh1MVahScK
-	 B3lfEeMOIyw0XxB7xd7Ep+vMDo6FusSnITcevpn8wBF65Z76U2DPREUVw3v/TSJmiu
-	 HTpO4GMb6fWBQ==
-Message-ID: <d1d7e82c-a113-48e3-801e-61dcffc4c747@kernel.org>
-Date: Thu, 26 Nov 2026 12:13:19 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC043606A329;
+	Thu, 26 Nov 2026 11:17:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC043606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: e71d7726e98a11f19a56ed5b684f684d-20261126
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_TXT, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_MAILER_MTBG, HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER
+	HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_PRE_RE, HR_SJ_WS
+	HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME, IP_UNTRUSTED, SRC_UNTRUSTED
+	IP_UNFAMILIAR, SRC_UNFAMILIAR, SA_TRUSTED, SA_EXISTED, SN_TRUSTED
+	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD
+	CIE_GOOD_SPF, CIE_UNKNOWN, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
+	AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:7452ed6e-7e81-4150-93e8-1cd97ed03b34,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:10
+X-CID-INFO: VERSION:1.3.19,REQID:7452ed6e-7e81-4150-93e8-1cd97ed03b34,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:10
+X-CID-META: VersionHash:7db8b62,CLOUDID:ecac7c148939b6f01b1df28134bf306d,BulkI
+	D:261126094937PW693UOR,BulkQuantity:4,SF:10|38|64|66|78|80|81|82|83|102|12
+	7|136|153|841|865|898,TC:nil,Content:0|15|52|99,EDM:-3|-100,IP:-2,URL:0,Fi
+	le:nil,RT:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,D
+	KR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: e71d7726e98a11f19a56ed5b684f684d-20261126
+X-User: lihongfu@kylinos.cn
+Received: from [192.168.43.7] [(114.246.238.190)] by mailgw.kylinos.cn
+	(envelope-from <lihongfu@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1496325343; Thu, 26 Nov 2026 19:17:01 +0800
+Message-ID: <5dc5ea66-ba09-48d3-8c72-bcc5c141b6d9@kylinos.cn>
+Date: Thu, 26 Nov 2026 19:16:54 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -52,120 +76,134 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: Fix the name of the memory hotplug online type
- configs
-To: TAKANO Mitsuhiro <takano32@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Oscar Salvador <osalvador@suse.de>, Dan Williams <djbw@kernel.org>,
- Jonathan Cameron <jic23@kernel.org>, linux-mm@kvack.org,
- linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261125193039.2437025-1-takano32@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261125193039.2437025-1-takano32@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 01/21] mm/hugetlb: charge the copy made at fork to the
+ parent
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jinmeng Zhou <jinmengzhou22@gmail.com>, Hongfu Li <lihongfu@kylinos.cn>,
+ Andrea Arcangeli <aarcange@redhat.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Dave Airlie
+ <airlied@redhat.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Mike Rapoport <rppt@kernel.org>,
+ Mel Gorman <mel@csn.ul.ie>, Dave McCracken <dave.mccracken@oracle.com>,
+ Andy Whitcroft <apw@shadowen.org>, Adam Litke <agl@us.ibm.com>,
+ Lorenzo Stoakes <ljs@kernel.org>, Rik van Riel <riel@surriel.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>,
+ Lance Yang <lance.yang@linux.dev>, James Houghton <jthoughton@google.com>,
+ Yang Shi <shy828301@gmail.com>, Suren Baghdasaryan <surenb@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Pedro Falcato <pfalcato@suse.de>,
+ Gregory Price <gourry@gourry.net>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>,
+ Alistair Popple <apopple@nvidia.com>, Wanpeng Li
+ <liwanp@linux.vnet.ibm.com>, Andi Kleen <ak@linux.intel.com>,
+ Kenneth W Chen <kenneth.w.chen@intel.com>, Hugh Dickins <hugh@veritas.com>,
+ Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>,
+ Joern Engel <joern@logfs.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Michal Hocko <mhocko@suse.cz>,
+ "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
+ KAMEZAWA Hiroyuki <kamezawa.hiroyu@jp.fujitsu.com>,
+ "Kirill A. Shutemov" <kirill@shutemov.name>,
+ Sasha Levin <sasha.levin@oracle.com>, Guillaume Morin
+ <guillaume@morinfr.org>, Wanpeng Li <liwp.linux@gmail.com>
+Cc: linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@osdl.org>, linux-doc@vger.kernel.org,
+ Chris Mason <mason@kernel.org>, Hongfu Li <hongfu.li@linux.dev>
+References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
+ <20261125-hugetlb_fixes_2-v1-1-db27fd2f71a8@kernel.org>
+From: Hongfu Li <lihongfu@kylinos.cn>
+In-Reply-To: <20261125-hugetlb_fixes_2-v1-1-db27fd2f71a8@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 11/25/26 20:30, TAKANO Mitsuhiro wrote:
-> The default online type is a Kconfig choice, so the symbols it defines
-> are CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE, _ONLINE_AUTO,
-> _ONLINE_KERNEL and _ONLINE_MOVABLE.  There is no
-> CONFIG_MHP_DEFAULT_ONLINE_TYPE symbol, but five files name one:
-> 
->   Documentation/admin-guide/kernel-parameters.txt
->   Documentation/admin-guide/mm/memory-hotplug.rst
->   Documentation/driver-api/cxl/linux/early-boot.rst
->   Documentation/driver-api/cxl/linux/memory-hotplug.rst
->   Documentation/driver-api/cxl/linux/overview.rst
-> 
-> Spell the family with a trailing _* so that a reader looking the symbol
-> up in a .config finds one that exists.
-> 
-> early-boot.rst also gives the zone choices as _NORMAL and _MOVABLE.
-> The symbols are _ONLINE_KERNEL and _ONLINE_MOVABLE, so write those.
-> 
-> Verification: a build of the tree defines
-> CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE and no bare
-> CONFIG_MHP_DEFAULT_ONLINE_TYPE in include/generated/autoconf.h, and
-> grep finds no reference to the bare symbol under Documentation/ after
-> the change.
-> 
-> Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
+
+在 11/26/26 06:32, David Hildenbrand (Arm) 写道:
+> When copying page tables during fork(), the child is not yet assigned to
+> the right memcg. When copying possibly pinned anon hugetlb folios, we
+> must charge them to the parent's memcg, otherwise we can end up
+> allocating more hugetlb folios than allowed.
+>
+> Let's fix it by charging the copy to the parent's mm, like we do when
+> copying small folios in copy_present_page(), introducing a new helper
+> function alloc_hugetlb_folio_for_fork().
+>
+> This is a hotfix for v7.4.
+>
+> Fixes: c2deb1356d82 ("mm/hugetlb: charge folios to the target mm's memcg")
+> Reported-by: Chris Mason <mason@kernel.org>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+
+Tested-by: Hongfu Li <lihongfu@kylinos.cn>
+Reviewed-by: Hongfu Li <lihongfu@kylinos.cn>
+
 > ---
-
-[...]
-
->  		       See the ``state`` property of memory blocks for details.
-> diff --git a/Documentation/driver-api/cxl/linux/early-boot.rst b/Documentation/driver-api/cxl/linux/early-boot.rst
-> index 414481f33819..be9d5e510f99 100644
-> --- a/Documentation/driver-api/cxl/linux/early-boot.rst
-> +++ b/Documentation/driver-api/cxl/linux/early-boot.rst
-> @@ -34,7 +34,7 @@ which dictate how memory will be managed by Linux during early boot.
->    * Linux Build config option that dictates whether the kernel supports
->      Specific Purpose memory.
->  
-> -* CONFIG_MHP_DEFAULT_ONLINE_TYPE
-> +* CONFIG_MHP_DEFAULT_ONLINE_TYPE_*
->  
->    * Linux Build config that dictates whether and how Specific Purpose memory
->      converted to a dax device should be managed (left as DAX or onlined as
-> @@ -61,7 +61,7 @@ SystemRAM.  This will expose the memory to the kernel page allocator in
->  If `Specific Purpose` is set and supported, :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_*`
->  dictates whether the memory is onlined by default (:code:`_OFFLINE` or
->  :code:`_ONLINE_*`), and if online which zone to online this memory to by default
-> -(:code:`_NORMAL` or :code:`_MOVABLE`).
-> +(:code:`_ONLINE_KERNEL` or :code:`_ONLINE_MOVABLE`).
-But combining "CONFIG_MHP_DEFAULT_ONLINE_TYPE_*" with "_ONLINE_KERNEL" doesn't
-make any sense. What am I missing?
-
-Maybe we should just spell out the full config names then?
-
--- 
-Cheers,
-
-David
+>   mm/hugetlb.c | 26 ++++++++++++++++++++++----
+>   1 file changed, 22 insertions(+), 4 deletions(-)
+>
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index d0e66fb306221..f46c85fc0cd0b 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -3103,8 +3103,9 @@ typedef enum {
+>    * allocation).  New call sites should (probably) never set it to true!!
+>    * When it's set, the allocation will bypass all vma level reservations.
+>    */
+> -struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+> -				    unsigned long addr, bool cow_from_owner)
+> +static struct folio *__alloc_hugetlb_folio(struct vm_area_struct *vma,
+> +		unsigned long addr, bool cow_from_owner,
+> +		struct mm_struct *memcg_mm)
+>   {
+>   	struct hugepage_subpool *spool = subpool_vma(vma);
+>   	struct hstate *h = hstate_vma(vma);
+> @@ -3187,7 +3188,7 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+>   		.nodemask = nodemask,
+>   	};
+>   
+> -	folio = hugetlb_alloc_folio(h, &mpoli, vma->vm_mm, alloc_flags);
+> +	folio = hugetlb_alloc_folio(h, &mpoli, memcg_mm, alloc_flags);
+>   
+>   	mpol_cond_put(mpol);
+>   
+> @@ -3249,6 +3250,23 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+>   	return ERR_PTR(ret);
+>   }
+>   
+> +struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+> +		unsigned long addr, bool cow_from_owner)
+> +{
+> +	return __alloc_hugetlb_folio(vma, addr, cow_from_owner, vma->vm_mm);
+> +}
+> +
+> +/*
+> + * Allocate a folio for a copy in the child VMA during fork(), charged to the
+> + * parent's mm: the child is not in its memory cgroup yet.
+> + */
+> +static struct folio *alloc_hugetlb_folio_for_fork(struct vm_area_struct *dst_vma,
+> +		unsigned long addr, struct mm_struct *src_mm)
+> +{
+> +	return __alloc_hugetlb_folio(dst_vma, addr, /* cow_from_owner = */ false,
+> +				     src_mm);
+> +}
+> +
+>   static __init void *alloc_bootmem(struct hstate *h, int nid, bool node_exact)
+>   {
+>   	if (hugetlb_early_cma(h))
+> @@ -5110,7 +5128,7 @@ int copy_hugetlb_page_range(struct mm_struct *dst, struct mm_struct *src,
+>   				spin_unlock(src_ptl);
+>   				spin_unlock(dst_ptl);
+>   				/* Do not use reserve as it's private owned */
+> -				new_folio = alloc_hugetlb_folio(dst_vma, addr, false);
+> +				new_folio = alloc_hugetlb_folio_for_fork(dst_vma, addr, src);
+>   				if (IS_ERR(new_folio)) {
+>   					folio_put(pte_folio);
+>   					ret = PTR_ERR(new_folio);
+>
