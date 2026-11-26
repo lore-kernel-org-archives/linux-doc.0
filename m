@@ -1,65 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795725190;
-	b=RQHhPQf0AwkiV3grxbMArbcDLCsni8SHpMJrTPkaOIexoX3/O3SYd9A057RIECZYiQX6
-	 BgkxNgw7RiFhy1yWtHayqtrIjbbQgHRiZtgL2+Ck+7QNZlA3+6eSSItzRWVSkLbZHf+kc
-	 YnrulvAC614ppELhMHXOGtz9PXq67PZzqCJpHuH3MWDKvC9b0bKSK+Ed25KzRAn3JhfNy
-	 tGYjLoKLqIdJyPOOBELGRBcKVTQi6SPvq8RxzvPb8AZnYw0Yj6VCpoGw6CqZVzCCsjCh8
-	 CEOXIq7zvTTO9+Xg0C+nC6Hrtvgj9F09HzjD1H6voK2BiqKHB1jBb0W0VQbuw0QUDSw==
+	t=1795725196;
+	b=XZDWcPF6t9HIRsSIjUkYqPv6VWehdjqhy2M9di8+lNSKLks0YXBZtnJ9eEJBi70Vj30F
+	 Iybd9H8QWeb9tqBRyapOnim0QQ3UWhdwXr2PbiCTeakZAs+1FGcsOAZ82mFZrBa/CVhgS
+	 +ffsz2csJ+WX8yfV+5NRJjoHm748ftekM6XdmKetG/BO9tHX9hP+hqTy1dqzVoEswGsYd
+	 yFLKVq55gzmQAcGULQhyREJbiq94af6TwhfTFyvDS4szY+txCnOc177UBgG2PEyiAoQ8B
+	 QJyR3bzz9ZcURnwotj//YGl4+A4ZLz4Bs/fg6OJ+4n5z5z2tmpa9M6izUaDh5rEWU2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795725190;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795725196;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
 	 Message-ID:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-Scanned-By;
-	bh=uNjlnFFHs2yc3bElpWQbMGLuA2UYQGFca2rvsSqyvPs=;
-	b=vvL3TFqmHWztVeLyBiYwnF4y+yWvy2PPL64jr1BVdXzmH28/P4abTDtKzxqptngprq5S
-	 IIYX5Xkw62Q1rh6nTqhIbLhJ7IfNrBOWUsnFMW3wxky4pxQTNc5dXF4BItb4zbIe/ew49
-	 uZHoS+PFIwTEyL1k7kBFxrJ63KxQ5qlrSDhv2UmGBJ+VdioBseuq93xYgRBYuizg0UwNg
-	 Ay7CWzU++OwHjetIOAtVzq35FAb1w/E+CfeYVXM4v5BdnIXJvjzSXjb7nUKjp+dfc5PJI
-	 lc2iBZ1UqR9MXMjJNoSYJJV46zVDNvJ/n75npMBGiBcS4bvZUJFPbUf1pB02MIWLsCQ==
+	bh=1gAIuUl3mzk4EiOubnRQz26vNXagbUlKxFHlUdsrkEo=;
+	b=xV4cnOuOYjb1bkbO0IddP8nyhyfiTH1Oiro6s/192xf9ayP7lYm5d3C3mDGkpnWaCunK
+	 nKetbD+ZNO3a6AMWuPv6/5a9NO0zpq6RcHc2Mf/6qyiCzNC6irWbKAqtYop4sCl5TpDLq
+	 hZxFmBRAnbYNZnoZtPoICeM31NEFIUZxVYvQUkWaHn+LNAEUKDETTlD6UBUDySR2deJ3E
+	 /HLsFxhxaf/YbApnZaUIRIiBfLuBxRcMR6is4YPyAlhRQ+e5xB4GDzPoUjNrh0zHokfcF
+	 Y7dynsF1QWmVsvmSB0bqWuxqDYcYWLKqPgy2X0r61ieScWLKrpPgT+YrsHi6sE5eqMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BCCvHWkS;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=VLMXau55;
 	arc=none smtp.remote-ip=170.10.129.124
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59420606A329
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 20:33:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59420606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85D7606A31C
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 20:33:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D85D7606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BCCvHWkS
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=VLMXau55
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795725189;
+	s=mimecast20190719; t=1795725196;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uNjlnFFHs2yc3bElpWQbMGLuA2UYQGFca2rvsSqyvPs=;
-	b=BCCvHWkSOgFcTtWt216dChGQw9D30C7+Cb5rFKcTmxf4vtPmD0jmYgfZsLx1AzjfJ8BgEW
-	8Bms8UV2p7Uy5K8Kkmhl9gTkLtKJkrKiKaJU/xOU84nyOP8Rx3Thb2JFCEWMRvG0hnqsnV
-	+XSSQqob8p1wbAlbZLJ57H63uyXAB3g=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=1gAIuUl3mzk4EiOubnRQz26vNXagbUlKxFHlUdsrkEo=;
+	b=VLMXau55zwy+6PMCWkzOhWBKGP4Tl3Xb5WJKnM/mohIjEX3zrKhqD0g+vs5H4ODJgDOVQ/
+	00GD1DyH7hEyTTkoJwbSZfCubcQIXf4dIEWkwRPQmafq/bZph9jY3/WaR5B92NN7HdQVSQ
+	ClxVO7i0K7SDI7uxC66JtuSLU0ySqec=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-47-GKHbczCUNMyitkn9CvFwZQ-1; Thu,
- 26 Nov 2026 20:33:04 +0000
-X-MC-Unique: GKHbczCUNMyitkn9CvFwZQ-1
-X-Mimecast-MFC-AGG-ID: GKHbczCUNMyitkn9CvFwZQ_1795725181
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-13-CpEl3rhTMASG_hzVFsxNEA-1; Thu,
+ 26 Nov 2026 20:33:11 +0000
+X-MC-Unique: CpEl3rhTMASG_hzVFsxNEA-1
+X-Mimecast-MFC-AGG-ID: CpEl3rhTMASG_hzVFsxNEA_1795725188
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 244261800620;
-	Thu, 26 Nov 2026 20:33:01 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2E9F919560AB;
+	Thu, 26 Nov 2026 20:33:08 +0000 (UTC)
 Received: from ivecera-thinkpadp16vgen1.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E36641801977;
-	Thu, 26 Nov 2026 20:32:54 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 87637180197A;
+	Thu, 26 Nov 2026 20:33:01 +0000 (UTC)
 From: Ivan Vecera <ivecera@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
@@ -88,9 +88,9 @@ Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
 	Saeed Mahameed <saeedm@nvidia.com>,
 	Tariq Toukan <tariqt@nvidia.com>,
 	Petr Oros <poros@redhat.com>
-Subject: [PATCH RFC net-next 03/19] dpll: notify linked pins when a pin is registered or unregistered
-Date: Thu, 26 Nov 2026 21:32:15 +0100
-Message-ID: <20261126203231.934632-4-ivecera@redhat.com>
+Subject: [PATCH RFC net-next 04/19] dpll: add KUnit tests for pin links
+Date: Thu, 26 Nov 2026 21:32:16 +0100
+Message-ID: <20261126203231.934632-5-ivecera@redhat.com>
 In-Reply-To: <20261126203231.934632-1-ivecera@redhat.com>
 References: <20261126203231.934632-1-ivecera@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -105,100 +105,578 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-A link is reported only while the pins at both ends are registered. When
-a pin gets its first registration or loses its last one, send a change
-notification for every registered pin linked with it, so user space sees
-the link appear and disappear at both ends.
+Add a KUnit suite with a mock driver of two owners that differ in
+clock_id: a pin of one owner with a firmware node and a pin of the other
+owner with a link to it. The tests check that:
 
-The notifications follow the registration of the pin. A link also
-disappears from the report when the last registered dpll device of
-the pin goes away, so a pin with a link or a firmware node has to be
-unregistered before its dpll devices, as zl3073x and ice do. The
-documentation says so.
+- the link is reported for both pins only while both are registered,
+  whichever of them is registered first
+- the pin at the other end gets a change notification whenever the link
+  appears or disappears
+- a pin keeps its link when it is unregistered and registered again
+- for a pin registered with two DPLLs of its owner, only the first
+  registration and the last unregistration change the link
+- a pin with neither a link nor a firmware node is not linked or notified
+- a duplicate link is rejected, also on a registered pin, and a new
+  link cannot be added to a registered pin
 
-The notifications are sent from one helper, under dpll_lock like the
-other notifications. The message about a linked pin is built with the
-callbacks of its owner, also when another driver registers the pin at
-the other end.
+The tests build the pin message with dpll_cmd_pin_get_one() under
+dpll_lock, so both are exported for KUnit.
+
+Run them with:
+
+  tools/testing/kunit/kunit.py run --kunitconfig=drivers/dpll
 
 Signed-off-by: Ivan Vecera <ivecera@redhat.com>
 ---
- Documentation/driver-api/dpll.rst |  6 ++++++
- drivers/dpll/dpll_core.c          | 24 ++++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
+ drivers/dpll/.kunitconfig       |   5 +
+ drivers/dpll/Kconfig            |  16 ++
+ drivers/dpll/Makefile           |   2 +
+ drivers/dpll/dpll_core.c        |   2 +
+ drivers/dpll/dpll_netlink.c     |   4 +-
+ drivers/dpll/dpll_netlink.h     |   6 +
+ drivers/dpll/tests/dpll_kunit.c | 419 ++++++++++++++++++++++++++++++++
+ 7 files changed, 453 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/dpll/.kunitconfig
+ create mode 100644 drivers/dpll/tests/dpll_kunit.c
 
-diff --git a/Documentation/driver-api/dpll.rst b/Documentation/driver-api/dpll.rst
-index aed92693d9e604..7b083a59f0122d 100644
---- a/Documentation/driver-api/dpll.rst
-+++ b/Documentation/driver-api/dpll.rst
-@@ -370,6 +370,12 @@ each of them with the id of the pin at the other end:
-     ``DPLL_A_PIN_ID``            id of the pin at the other end
-   ============================== ==========================================
+diff --git a/drivers/dpll/.kunitconfig b/drivers/dpll/.kunitconfig
+new file mode 100644
+index 00000000000000..017c9d5b593a4f
+--- /dev/null
++++ b/drivers/dpll/.kunitconfig
+@@ -0,0 +1,5 @@
++CONFIG_KUNIT=y
++CONFIG_NET=y
++CONFIG_DPLL_KUNIT_TEST=y
++CONFIG_DEBUG_KERNEL=y
++CONFIG_PROVE_LOCKING=y
+diff --git a/drivers/dpll/Kconfig b/drivers/dpll/Kconfig
+index be98969f040ab6..6f1ffc3a6e7717 100644
+--- a/drivers/dpll/Kconfig
++++ b/drivers/dpll/Kconfig
+@@ -23,6 +23,22 @@ config DPLL_REFCNT_TRACKER
  
-+When a pin gets its first registration or loses its last one, the
-+subsystem sends ``DPLL_CMD_PIN_CHANGE_NTF`` for the registered pins
-+linked with it. A pin with a link or a firmware node has to be
-+unregistered before the dpll devices it is registered with, otherwise
-+its links disappear without a notification.
+ 	  If unsure, say N.
+ 
++config DPLL_KUNIT_TEST
++	tristate "KUnit tests for DPLL core" if !KUNIT_ALL_TESTS
++	depends on KUNIT && NET
++	select DPLL
++	default KUNIT_ALL_TESTS
++	help
++	  KUnit tests for the DPLL core. They use a mock driver to check
++	  that links between pins of two devices are reported and notified
++	  while the pins at both ends are registered.
 +
- For example, an output of a DPLL chip wired to an input of a network
- controller::
++	  The mock devices and pins are registered with the DPLL subsystem,
++	  so user space sees them and their notifications while the tests
++	  run.
++
++	  If unsure, say N.
++
+ source "drivers/dpll/zl3073x/Kconfig"
  
+ endmenu
+diff --git a/drivers/dpll/Makefile b/drivers/dpll/Makefile
+index 9e7a3a3e592e81..ef3081be2a113b 100644
+--- a/drivers/dpll/Makefile
++++ b/drivers/dpll/Makefile
+@@ -8,4 +8,6 @@ dpll-y                  += dpll_core.o
+ dpll-y                  += dpll_netlink.o
+ dpll-y                  += dpll_nl.o
+ 
++obj-$(CONFIG_DPLL_KUNIT_TEST)	+= tests/dpll_kunit.o
++
+ obj-$(CONFIG_ZL3073X)	+= zl3073x/
 diff --git a/drivers/dpll/dpll_core.c b/drivers/dpll/dpll_core.c
-index 6c61801a293b7e..58a5a4a41a0b72 100644
+index 58a5a4a41a0b72..7fd84b0e90e993 100644
 --- a/drivers/dpll/dpll_core.c
 +++ b/drivers/dpll/dpll_core.c
-@@ -929,10 +929,30 @@ int dpll_pin_link_add(struct dpll_pin *pin, struct fwnode_handle *peer)
- }
- EXPORT_SYMBOL_GPL(dpll_pin_link_add);
+@@ -8,6 +8,7 @@
  
-+/**
-+ * dpll_pin_links_ntf - notify the pins linked with a pin
-+ * @pin: pin that was registered or unregistered
-+ *
-+ * A link is reported only while the pins at both ends are registered, so
-+ * send a change notification for every registered pin linked with @pin.
-+ */
-+static void dpll_pin_links_ntf(struct dpll_pin *pin)
-+{
-+	struct dpll_pin *pos;
-+	unsigned long i;
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
++#include <kunit/visibility.h>
+ #include <linux/device.h>
+ #include <linux/err.h>
+ #include <linux/idr.h>
+@@ -21,6 +22,7 @@
+ 
+ /* Mutex lock to protect DPLL subsystem devices and pins */
+ DEFINE_MUTEX(dpll_lock);
++EXPORT_SYMBOL_IF_KUNIT(dpll_lock);
+ 
+ DEFINE_XARRAY_FLAGS(dpll_device_xa, XA_FLAGS_ALLOC);
+ DEFINE_XARRAY_FLAGS(dpll_pin_xa, XA_FLAGS_ALLOC);
+diff --git a/drivers/dpll/dpll_netlink.c b/drivers/dpll/dpll_netlink.c
+index 016f3026d2f2e5..931ea2027cf68f 100644
+--- a/drivers/dpll/dpll_netlink.c
++++ b/drivers/dpll/dpll_netlink.c
+@@ -6,6 +6,7 @@
+  *  Copyright (c) 2023 Intel and affiliates
+  *
+  */
++#include <kunit/visibility.h>
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/netdevice.h>
+@@ -735,7 +736,7 @@ static int dpll_msg_add_pin_links(struct sk_buff *msg, struct dpll_pin *pin)
+ 	return 0;
+ }
+ 
+-static int
++VISIBLE_IF_KUNIT int
+ dpll_cmd_pin_get_one(struct sk_buff *msg, struct dpll_pin *pin,
+ 		     struct netlink_ext_ack *extack)
+ {
+@@ -811,6 +812,7 @@ dpll_cmd_pin_get_one(struct sk_buff *msg, struct dpll_pin *pin,
+ 
+ 	return dpll_msg_add_pin_links(msg, pin);
+ }
++EXPORT_SYMBOL_IF_KUNIT(dpll_cmd_pin_get_one);
+ 
+ static int
+ dpll_device_get_one(struct dpll_device *dpll, struct sk_buff *msg,
+diff --git a/drivers/dpll/dpll_netlink.h b/drivers/dpll/dpll_netlink.h
+index 4f63aa58789a17..bc20bcd248a512 100644
+--- a/drivers/dpll/dpll_netlink.h
++++ b/drivers/dpll/dpll_netlink.h
+@@ -11,3 +11,9 @@ int dpll_device_delete_ntf(struct dpll_device *dpll);
+ int dpll_pin_create_ntf(struct dpll_pin *pin, u64 src_clock_id);
+ 
+ int dpll_pin_delete_ntf(struct dpll_pin *pin, u64 src_clock_id);
 +
-+	if (list_empty(&pin->links) && !pin->fwnode)
-+		return;
-+	xa_for_each_marked(&dpll_pin_xa, i, pos, DPLL_REGISTERED)
-+		if (pos != pin && dpll_pins_linked(pin, pos))
-+			__dpll_pin_change_ntf(pos);
++#if IS_ENABLED(CONFIG_KUNIT)
++/* For KUnit tests, call with dpll_lock held for a registered pin */
++int dpll_cmd_pin_get_one(struct sk_buff *msg, struct dpll_pin *pin,
++			 struct netlink_ext_ack *extack);
++#endif
+diff --git a/drivers/dpll/tests/dpll_kunit.c b/drivers/dpll/tests/dpll_kunit.c
+new file mode 100644
+index 00000000000000..7fb50fe0eea9a5
+--- /dev/null
++++ b/drivers/dpll/tests/dpll_kunit.c
+@@ -0,0 +1,419 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * KUnit tests for links between DPLL pins.
++ *
++ * Each test starts with two owners that differ in clock_id:
++ *
++ * Owner A: devices A0 and A1, pin P with firmware node F, pin U with
++ *          neither a firmware node nor a link
++ * Owner B: device B0, pin C with a link to F
++ *
++ * The devices are registered, the pins are not.
++ */
++
++#include <kunit/fwnode.h>
++#include <kunit/test.h>
++#include <linux/dpll.h>
++#include <linux/notifier.h>
++#include <net/netlink.h>
++
++#include "../dpll_core.h"
++#include "../dpll_netlink.h"
++
++MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
++
++#define DT_CLOCK_ID_A		0xd011a
++#define DT_CLOCK_ID_B		0xd011b
++#define DT_MAX_LINKS		4
++
++struct dt_dev {
++	struct dpll_device *dpll;
++	dpll_tracker tracker;
++	bool registered;
++};
++
++struct dt_pin {
++	struct dpll_pin *pin;
++	dpll_tracker tracker;
++	int changes;		/* DPLL_PIN_CHANGED notifications */
++};
++
++struct dt_ctx {
++	struct dt_dev a0, a1, b0;
++	struct dt_pin p, u, c;
++	struct fwnode_handle *fwnode;
++	struct notifier_block nb;
++	bool nb_registered;
++	bool p_a0, p_a1, u_a0, c_b0;	/* registrations */
++};
++
++static int dt_mode_get(const struct dpll_device *dpll, void *dpll_priv,
++		       enum dpll_mode *mode, struct netlink_ext_ack *extack)
++{
++	*mode = DPLL_MODE_MANUAL;
++	return 0;
 +}
 +
- static int
- __dpll_pin_register(struct dpll_device *dpll, struct dpll_pin *pin,
- 		    const struct dpll_pin_ops *ops, void *priv, void *cookie)
- {
-+	bool registered;
- 	int ret;
- 
- 	ret = dpll_xa_ref_pin_add(&dpll->pin_refs, pin, ops, priv, cookie);
-@@ -941,8 +961,11 @@ __dpll_pin_register(struct dpll_device *dpll, struct dpll_pin *pin,
- 	ret = dpll_xa_ref_dpll_add(&pin->dpll_refs, dpll, ops, priv, cookie);
- 	if (ret)
- 		goto ref_pin_del;
-+	registered = xa_get_mark(&dpll_pin_xa, pin->id, DPLL_REGISTERED);
- 	xa_set_mark(&dpll_pin_xa, pin->id, DPLL_REGISTERED);
- 	dpll_pin_create_ntf(pin, dpll->clock_id);
-+	if (!registered)
-+		dpll_pin_links_ntf(pin);
- 
- 	return ret;
- 
-@@ -1035,6 +1058,7 @@ __dpll_pin_unregister(struct dpll_device *dpll, struct dpll_pin *pin,
- 	if (xa_empty(&pin->dpll_refs)) {
- 		dpll_pin_ref_sync_pair_del(pin->id);
- 		xa_clear_mark(&dpll_pin_xa, pin->id, DPLL_REGISTERED);
-+		dpll_pin_links_ntf(pin);
- 	}
- }
- 
++static int dt_lock_status_get(const struct dpll_device *dpll, void *dpll_priv,
++			      enum dpll_lock_status *status,
++			      enum dpll_lock_status_error *status_error,
++			      struct netlink_ext_ack *extack)
++{
++	*status = DPLL_LOCK_STATUS_UNLOCKED;
++	return 0;
++}
++
++static const struct dpll_device_ops dt_dev_ops = {
++	.mode_get = dt_mode_get,
++	.lock_status_get = dt_lock_status_get,
++};
++
++static int dt_state_get(const struct dpll_pin *pin, void *pin_priv,
++			const struct dpll_device *dpll, void *dpll_priv,
++			enum dpll_pin_state *state,
++			struct netlink_ext_ack *extack)
++{
++	*state = DPLL_PIN_STATE_CONNECTED;
++	return 0;
++}
++
++static int dt_direction_get(const struct dpll_pin *pin, void *pin_priv,
++			    const struct dpll_device *dpll, void *dpll_priv,
++			    enum dpll_pin_direction *direction,
++			    struct netlink_ext_ack *extack)
++{
++	*direction = DPLL_PIN_DIRECTION_INPUT;
++	return 0;
++}
++
++static const struct dpll_pin_ops dt_pin_ops = {
++	.state_on_dpll_get = dt_state_get,
++	.direction_get = dt_direction_get,
++};
++
++static const struct dpll_pin_properties dt_pin_prop = {
++	.type = DPLL_PIN_TYPE_EXT,
++};
++
++static int dt_notify(struct notifier_block *nb, unsigned long action,
++		     void *data)
++{
++	struct dt_ctx *ctx = container_of(nb, struct dt_ctx, nb);
++	struct dpll_pin_notifier_info *info = data;
++
++	if (action != DPLL_PIN_CHANGED)
++		return NOTIFY_DONE;
++	if (info->pin == ctx->p.pin)
++		ctx->p.changes++;
++	else if (info->pin == ctx->u.pin)
++		ctx->u.changes++;
++	else if (info->pin == ctx->c.pin)
++		ctx->c.changes++;
++
++	return NOTIFY_OK;
++}
++
++static void dt_dev_init(struct kunit *test, struct dt_dev *dev, u64 clock_id,
++			u32 idx)
++{
++	int ret;
++
++	dev->dpll = dpll_device_get(clock_id, idx, THIS_MODULE, &dev->tracker);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev->dpll);
++	ret = dpll_device_register(dev->dpll, DPLL_TYPE_EEC, &dt_dev_ops, dev);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++	dev->registered = true;
++}
++
++static void dt_dev_fini(struct dt_dev *dev)
++{
++	if (IS_ERR_OR_NULL(dev->dpll))
++		return;
++	if (dev->registered)
++		dpll_device_unregister(dev->dpll, &dt_dev_ops, dev);
++	dpll_device_put(dev->dpll, &dev->tracker);
++}
++
++static void dt_pin_get(struct kunit *test, struct dt_pin *pin, u64 clock_id,
++		       u32 idx)
++{
++	pin->pin = dpll_pin_get(clock_id, idx, THIS_MODULE, &dt_pin_prop,
++				&pin->tracker);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pin->pin);
++}
++
++static void dt_pin_put(struct dt_pin *pin)
++{
++	if (!IS_ERR_OR_NULL(pin->pin))
++		dpll_pin_put(pin->pin, &pin->tracker);
++}
++
++static void dt_reg(struct kunit *test, struct dt_dev *dev, struct dt_pin *pin,
++		   bool *registered)
++{
++	int ret;
++
++	ret = dpll_pin_register(dev->dpll, pin->pin, &dt_pin_ops, pin);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++	*registered = true;
++}
++
++static void dt_unreg(struct dt_dev *dev, struct dt_pin *pin, bool *registered)
++{
++	if (!*registered)
++		return;
++	dpll_pin_unregister(dev->dpll, pin->pin, &dt_pin_ops, pin);
++	*registered = false;
++}
++
++/* Fill @ids with the pins reported as linked with @pin, return their count */
++static int dt_links(struct kunit *test, struct dt_pin *pin, u32 *ids)
++{
++	struct sk_buff *msg;
++	struct nlattr *attr;
++	int n = 0, rem, ret;
++
++	msg = nlmsg_new(NLMSG_GOODSIZE, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, msg);
++	mutex_lock(&dpll_lock);
++	ret = dpll_cmd_pin_get_one(msg, pin->pin, NULL);
++	mutex_unlock(&dpll_lock);
++	if (!ret)
++		nla_for_each_attr_type(attr, DPLL_A_PIN_LINK,
++				       (struct nlattr *)msg->data, msg->len,
++				       rem) {
++			struct nlattr *id = nla_find_nested(attr,
++							    DPLL_A_PIN_ID);
++
++			if (id && n < DT_MAX_LINKS)
++				ids[n] = nla_get_u32(id);
++			n++;
++		}
++	nlmsg_free(msg);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_ASSERT_LE(test, n, DT_MAX_LINKS);
++
++	return n;
++}
++
++/* Check that @pin is reported as linked with @peer only */
++static void dt_expect_link(struct kunit *test, struct dt_pin *pin,
++			   struct dt_pin *peer)
++{
++	u32 ids[DT_MAX_LINKS];
++
++	KUNIT_ASSERT_EQ(test, dt_links(test, pin, ids), 1);
++	KUNIT_EXPECT_EQ(test, ids[0], peer->pin->id);
++}
++
++static void dt_expect_no_link(struct kunit *test, struct dt_pin *pin)
++{
++	u32 ids[DT_MAX_LINKS];
++
++	KUNIT_EXPECT_EQ(test, dt_links(test, pin, ids), 0);
++}
++
++static int dt_init(struct kunit *test)
++{
++	struct dt_ctx *ctx;
++	int ret;
++
++	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, ctx);
++	test->priv = ctx;
++
++	ctx->fwnode = kunit_fwnode_create_software_node(test, NULL, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->fwnode);
++
++	dt_dev_init(test, &ctx->a0, DT_CLOCK_ID_A, 0);
++	dt_dev_init(test, &ctx->a1, DT_CLOCK_ID_A, 1);
++	dt_dev_init(test, &ctx->b0, DT_CLOCK_ID_B, 0);
++	dt_pin_get(test, &ctx->p, DT_CLOCK_ID_A, 0);
++	dt_pin_get(test, &ctx->u, DT_CLOCK_ID_A, 1);
++	dt_pin_get(test, &ctx->c, DT_CLOCK_ID_B, 0);
++	dpll_pin_fwnode_set(ctx->p.pin, ctx->fwnode);
++	ret = dpll_pin_link_add(ctx->c.pin, ctx->fwnode);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	ctx->nb.notifier_call = dt_notify;
++	ret = register_dpll_notifier(&ctx->nb);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++	ctx->nb_registered = true;
++
++	return 0;
++}
++
++static void dt_exit(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++
++	if (!ctx)
++		return;
++	if (ctx->nb_registered)
++		unregister_dpll_notifier(&ctx->nb);
++	dt_unreg(&ctx->a0, &ctx->p, &ctx->p_a0);
++	dt_unreg(&ctx->a1, &ctx->p, &ctx->p_a1);
++	dt_unreg(&ctx->a0, &ctx->u, &ctx->u_a0);
++	dt_unreg(&ctx->b0, &ctx->c, &ctx->c_b0);
++	dt_pin_put(&ctx->c);
++	dt_pin_put(&ctx->u);
++	dt_pin_put(&ctx->p);
++	dt_dev_fini(&ctx->b0);
++	dt_dev_fini(&ctx->a1);
++	dt_dev_fini(&ctx->a0);
++}
++
++/* The pin with the link is registered before the pin it names */
++static void dt_test_link_first(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++
++	dt_reg(test, &ctx->b0, &ctx->c, &ctx->c_b0);
++	dt_expect_no_link(test, &ctx->c);
++
++	dt_reg(test, &ctx->a0, &ctx->p, &ctx->p_a0);
++	KUNIT_EXPECT_EQ(test, ctx->c.changes, 1);
++	dt_expect_link(test, &ctx->c, &ctx->p);
++	dt_expect_link(test, &ctx->p, &ctx->c);
++}
++
++/* The pin named by the link is registered first */
++static void dt_test_link_last(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++
++	dt_reg(test, &ctx->a0, &ctx->p, &ctx->p_a0);
++	dt_expect_no_link(test, &ctx->p);
++
++	dt_reg(test, &ctx->b0, &ctx->c, &ctx->c_b0);
++	KUNIT_EXPECT_EQ(test, ctx->p.changes, 1);
++	dt_expect_link(test, &ctx->p, &ctx->c);
++	dt_expect_link(test, &ctx->c, &ctx->p);
++}
++
++/* The pin named by the link goes away and comes back */
++static void dt_test_peer_reregister(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++
++	dt_reg(test, &ctx->b0, &ctx->c, &ctx->c_b0);
++	dt_reg(test, &ctx->a0, &ctx->p, &ctx->p_a0);
++	KUNIT_EXPECT_EQ(test, ctx->c.changes, 1);
++
++	dt_unreg(&ctx->a0, &ctx->p, &ctx->p_a0);
++	KUNIT_EXPECT_EQ(test, ctx->c.changes, 2);
++	dt_expect_no_link(test, &ctx->c);
++
++	dt_reg(test, &ctx->a0, &ctx->p, &ctx->p_a0);
++	KUNIT_EXPECT_EQ(test, ctx->c.changes, 3);
++	dt_expect_link(test, &ctx->c, &ctx->p);
++}
++
++/* The link stays with its pin when the pin is unregistered */
++static void dt_test_link_reregister(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++
++	dt_reg(test, &ctx->a0, &ctx->p, &ctx->p_a0);
++	dt_reg(test, &ctx->b0, &ctx->c, &ctx->c_b0);
++	KUNIT_EXPECT_EQ(test, ctx->p.changes, 1);
++
++	dt_unreg(&ctx->b0, &ctx->c, &ctx->c_b0);
++	KUNIT_EXPECT_EQ(test, ctx->p.changes, 2);
++	dt_expect_no_link(test, &ctx->p);
++
++	dt_reg(test, &ctx->b0, &ctx->c, &ctx->c_b0);
++	KUNIT_EXPECT_EQ(test, ctx->p.changes, 3);
++	dt_expect_link(test, &ctx->p, &ctx->c);
++}
++
++/* Only the first registration and the last unregistration change the link */
++static void dt_test_peer_two_dplls(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++
++	dt_reg(test, &ctx->b0, &ctx->c, &ctx->c_b0);
++	dt_reg(test, &ctx->a0, &ctx->p, &ctx->p_a0);
++	dt_reg(test, &ctx->a1, &ctx->p, &ctx->p_a1);
++	KUNIT_EXPECT_EQ(test, ctx->c.changes, 1);
++
++	dt_unreg(&ctx->a0, &ctx->p, &ctx->p_a0);
++	KUNIT_EXPECT_EQ(test, ctx->c.changes, 1);
++	dt_expect_link(test, &ctx->c, &ctx->p);
++
++	dt_unreg(&ctx->a1, &ctx->p, &ctx->p_a1);
++	KUNIT_EXPECT_EQ(test, ctx->c.changes, 2);
++	dt_expect_no_link(test, &ctx->c);
++}
++
++/* A pin without a link and a firmware node is not linked or notified */
++static void dt_test_unrelated(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++
++	dt_reg(test, &ctx->a0, &ctx->u, &ctx->u_a0);
++	dt_reg(test, &ctx->b0, &ctx->c, &ctx->c_b0);
++	dt_reg(test, &ctx->a0, &ctx->p, &ctx->p_a0);
++	dt_unreg(&ctx->a0, &ctx->p, &ctx->p_a0);
++
++	KUNIT_EXPECT_EQ(test, ctx->u.changes, 0);
++	dt_expect_no_link(test, &ctx->u);
++	dt_expect_no_link(test, &ctx->c);
++}
++
++/* A duplicate link is rejected, also on a registered pin */
++static void dt_test_add_duplicate(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++	int ret;
++
++	ret = dpll_pin_link_add(ctx->c.pin, ctx->fwnode);
++	KUNIT_EXPECT_EQ(test, ret, -EEXIST);
++	dt_reg(test, &ctx->b0, &ctx->c, &ctx->c_b0);
++
++	kunit_warning_suppress(test) {
++		ret = dpll_pin_link_add(ctx->c.pin, ctx->fwnode);
++		KUNIT_EXPECT_EQ(test, ret, -EEXIST);
++		KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 0);
++	}
++}
++
++static void dt_test_add_registered(struct kunit *test)
++{
++	struct dt_ctx *ctx = test->priv;
++	struct fwnode_handle *other;
++
++	other = kunit_fwnode_create_software_node(test, NULL, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, other);
++	dt_reg(test, &ctx->b0, &ctx->c, &ctx->c_b0);
++
++	kunit_warning_suppress(test) {
++		KUNIT_EXPECT_EQ(test, dpll_pin_link_add(ctx->c.pin, other),
++				-EBUSY);
++		KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
++	}
++}
++
++static struct kunit_case dt_cases[] = {
++	KUNIT_CASE(dt_test_link_first),
++	KUNIT_CASE(dt_test_link_last),
++	KUNIT_CASE(dt_test_peer_reregister),
++	KUNIT_CASE(dt_test_link_reregister),
++	KUNIT_CASE(dt_test_peer_two_dplls),
++	KUNIT_CASE(dt_test_unrelated),
++	KUNIT_CASE(dt_test_add_duplicate),
++	KUNIT_CASE(dt_test_add_registered),
++	{}
++};
++
++static struct kunit_suite dt_suite = {
++	.name = "dpll_pin_link",
++	.init = dt_init,
++	.exit = dt_exit,
++	.test_cases = dt_cases,
++};
++
++kunit_test_suite(dt_suite);
++
++MODULE_DESCRIPTION("KUnit tests for links between DPLL pins");
++MODULE_LICENSE("GPL");
 -- 
 2.56.1
 
