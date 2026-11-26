@@ -1,63 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795725172;
-	b=iAgfX5xI28JRw9I6/aUdKkrNvsxhxrFywQNvqYWU6IKknXE/LraEApJeloQAdcd6Cec6
-	 xNdTdvy5ApUxaXF0+kdYl1BIuuiHPA8JJPQ9hrholn78iVsnyLLEvZJbE7T10vo/SKCgZ
-	 G7ookW0GD7wfHRD+2s996sSDh2dUwCPSP/1OD/ajbtptDrO7bMksmMbcIwx4c5NsbpOg+
-	 Chpa0F7LkoLpU3tcKZ2aQ38mkYPKHY8x+BMBZCtZde98wxfUTMBT74LUWWkyTIcJI54ex
-	 QILNIMqewbat0ccB4QQj8ceuqBvvv1+onMYG94P2U9ZmU0ltRKlCcbgfTj6nmu49d0Q==
+	t=1795725175;
+	b=ILTao1ly7l23yDy4q0KLYU9AytpJfLavdOm+/E/au/c7//WB9p9wrsJCbdDchySAC4Jp
+	 Kp1iAKG+u6Uec9HguRZZgOeHR44+7Kpj0tvX/7xxdkVXneV0iMqEUyFxYCo/0F7/mh0MJ
+	 8l05o+uOQuJXi/xBJmNKsGtW5UmeUXKNPnW+Pg1Rl7CxAjcErTVhBukInQ4sBZAMj2Bpf
+	 NRSL/aMCEUsa2L9mZEnQFCegM882aaWgSp6cPPZhgMOazQdOLY1jkqWoFKXqA2RAnmN7e
+	 s4s/aHR8QLwHykBFxW/C0q/yFaNw3Klq4gQxG22VmpwU4cm43IUkTwAJdiT4FvP9ekw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795725172;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795725175;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:MIME-Version:Content-Transfer-Encoding:X-Scanned-By;
-	bh=hteBlJecuyLDEt+A2GyVPbp3T0CryFhITZ+ug8ST7OQ=;
-	b=Rg7C6TkvSLqRULYJyXwXlUyWqsogLbMsCnjFwzQakhhupSmtbGlCITLtT6b+CJvTi/jz
-	 WtqkgUZGJ1nljhapSXU1waCkICMHdtyP3LJh44LabQ28SI157XyYLJanOFPcZYoJdtvOQ
-	 SfGm8iYNn8smMI6KQS3DaN2eKRjI62BWXTZZwElmQUHSqPA8UPPx5ZYaj5BbBTVSa7xvT
-	 YEqHUPz0dGwW3KsiMUdZw6nH4QnAooMZajpS1f6iAquMWk3Cduj5Uih+UGLZ4d0VN5tqZ
-	 VVydZn8+3NoXdQi7m7ZvJLicEcOqLsHKopn4a+4pJWzmT/GTOuUEYcu4dHru0rvztoQ==
+	 Message-ID:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Scanned-By;
+	bh=NIxE4m8l1izRwK6ahSUGuo2vdx0Q2NKrDP6SB3rfqu0=;
+	b=X0L/XIWJnjgw8+1pgzPNyuw2nJNsiMUJeeTT8YAiXnB0M1QzgS7c3ITB4AzM+1CmFvL6
+	 wun9RVrSCO68WRN6DXHRH7+H3uWLx/gs+pMZnnOaE506RWYz7avW6O/uwkt05V8u0frWa
+	 0FPjrC0h3V875cpMEGF1U83etn72Dvh3XnMdKttmjXrDhuGiC0U2UYNUaxs1h2p0Vr4Rs
+	 /HbB7xKqHsntUGmfms36Vxn7tAoKXTNlQHNRuSbQU2+AuUaVvKSCq500js8jyBIin1goO
+	 0/0sjIiIIDfyuJv665rbthOhOk57BB9pRyZOMM8h86jnNZgcIlbaGx2GGt+NjkfDDfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=eZtV17cV;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=gtZ4cY0Z;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4AD606A326
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 20:32:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE4AD606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6D5606A32F
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 20:32:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C6D5606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=eZtV17cV
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=gtZ4cY0Z
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795725171;
+	s=mimecast20190719; t=1795725175;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=hteBlJecuyLDEt+A2GyVPbp3T0CryFhITZ+ug8ST7OQ=;
-	b=eZtV17cVdmW48r8JPytYTbhLTvdJpRD0GmMkxbtdrLwj5jv6rFANo/66yjpF2qDutksXEC
-	WfTeOGYT9fl8tQs2OI6jEnDB8rXxWg78gyA2NeOfOaUadTh9y/h0WgbKrsfAu2LHuIUAne
-	78jmfyE73ffJmFucd8P8f6vilxYojUM=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NIxE4m8l1izRwK6ahSUGuo2vdx0Q2NKrDP6SB3rfqu0=;
+	b=gtZ4cY0ZOee5Qi2tzml+KEzbiN7T9XTeGYD0NEkeTco8d5XA/NKIlH+EX5QWD+hpSl8nrg
+	0olAOcr4ZCcS2cmn3XE9L4chycOyghAaAMh7rGag0V2E//1FvJAv/Ce4naOHkBhvlAa8Gc
+	8sbzRMAiEchk99LY3FiwlD7f6Nb7oFk=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-262-oHFUvPaKNC2yfKu9wYyJ3Q-1; Thu,
- 26 Nov 2026 20:32:44 +0000
-X-MC-Unique: oHFUvPaKNC2yfKu9wYyJ3Q-1
-X-Mimecast-MFC-AGG-ID: oHFUvPaKNC2yfKu9wYyJ3Q_1795725161
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-85-wPBfipf-POCTfNY6iEcjow-1; Thu,
+ 26 Nov 2026 20:32:50 +0000
+X-MC-Unique: wPBfipf-POCTfNY6iEcjow-1
+X-Mimecast-MFC-AGG-ID: wPBfipf-POCTfNY6iEcjow_1795725168
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8CA771955F3A;
-	Thu, 26 Nov 2026 20:32:40 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6D032180057E;
+	Thu, 26 Nov 2026 20:32:47 +0000 (UTC)
 Received: from ivecera-thinkpadp16vgen1.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1E3B21800286;
-	Thu, 26 Nov 2026 20:32:32 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DD006180197A;
+	Thu, 26 Nov 2026 20:32:40 +0000 (UTC)
 From: Ivan Vecera <ivecera@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
@@ -86,9 +88,11 @@ Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
 	Saeed Mahameed <saeedm@nvidia.com>,
 	Tariq Toukan <tariqt@nvidia.com>,
 	Petr Oros <poros@redhat.com>
-Subject: [PATCH RFC net-next 00/19] dpll: single-owner pins, board wiring as pin links
-Date: Thu, 26 Nov 2026 21:32:12 +0100
-Message-ID: <20261126203231.934632-1-ivecera@redhat.com>
+Subject: [PATCH RFC net-next 01/19] dpll: add pin links
+Date: Thu, 26 Nov 2026 21:32:13 +0100
+Message-ID: <20261126203231.934632-2-ivecera@redhat.com>
+In-Reply-To: <20261126203231.934632-1-ivecera@redhat.com>
+References: <20261126203231.934632-1-ivecera@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,208 +105,185 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Sorry for the size, I know 19 patches is over the netdev limit of 15.
-For the RFC I kept each step in its own patch, so all the changes are
-easy to see one by one. The final series will squash some of them.
+A pin is a pad of the chip whose driver registers it. When a board wires
+a pad of one chip to a pad of another, for example an output of an
+external DPLL to the TX reference input of a network controller, a
+driver now registers the pin of the other driver with its own DPLL. The
+pin then has two owners and a request about it runs callbacks of both
+drivers.
 
-In the thread on "dpll: do not serialize driver callbacks under global
-dpll_lock" [1], Jakub was not convinced: relations between DPLL objects
-are hard to follow, objects of one driver plug into objects of another,
-and the driver API should be much more "dummy-proof" [2]. Vadim agreed
-and asked to step back, because the subsystem was shaped to model one
-NIC family and is getting more complex for its next generation [3].
-Jiri agreed with Vadim [4]. This RFC removes the sharing of pin objects
-between drivers instead of picking a lock scheme for it.
+Add a link that describes such a wire instead. A driver adds it to its
+own pin with dpll_pin_link_add() and names the pin at the other end by
+its firmware node, which the driver of that pin sets with
+dpll_pin_fwnode_set(). The link holds only the firmware node, so the
+driver needs no pointer to a pin of another driver and that pin does not
+have to exist yet.
 
-Problems in DPLL today
-Model:
-- One pin, two owners: on E825, ice registers zl3073x output pins with
-  its DPLLs (c191b319f208) and hangs its recovered clock pins under
-  zl3073x inputs, so one request runs callbacks of two drivers.
-- Per-registration needs on one object: a state change bypass for
-  firmware node pins (521b6d5de08d), zl3073x inputs typed MUX although
-  the mux is in the NIC, one pin that is both an output and an input.
-Driver API:
-- ice waits for the zl3073x pins on a notifier chain (2be467588d6b) and
-  holds references to them, so probe order and lifetime are its job.
-- Core code exists only for that: the owner check exception, the
-  notifier source id (0bf47f722fa9), the owner ref selection
-  (2c1bd78dc8e2, 84e85c325e5e) and a cached module name.
-- Callbacks run under dpll_lock and must use __dpll_*_change_ntf(),
-  notifications go out without driver locks. Only comments say so.
-Locking:
-- dpll_lock serializes every callback of every driver. With a dual NAC
-  E825 and a ZL80132B, ice DPLL requests during zl3073x ToD writes took
-  a median of 1448 ms, at most 3.9 s (idle 0.1 ms). zl3073x is narrowing
-  its waits, but callbacks that wait for hardware stay (planned zl3073x
-  resync, up to 1 s; mlx5 commands, 60 s timeout).
-- No lock scheme fits pins shared between drivers. Options A-E from the
-  thread each cost something, from callbacks invisible to lockdep (A)
-  to one domain for everything connected, the global lock again (D).
-Fragility: 13 fixes in a year in the (un)register, on-pin and
-notification paths, e.g. 32239d600236, df0ba51ccf87, 1a2292101c0d.
+Links are added before the pin is registered and are released together
+with the pin. Adding an existing link returns -EEXIST, also on a
+registered pin, so each user of a shared pin can add the same link. The
+next patch reports links to user space.
 
-All of these come from one dpll_pin being both a pad of a chip and a
-wire on the board, so two drivers end up sharing one object.
+Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+---
+ drivers/dpll/dpll_core.c | 71 ++++++++++++++++++++++++++++++++++++++++
+ drivers/dpll/dpll_core.h | 12 +++++++
+ include/linux/dpll.h     |  2 ++
+ 3 files changed, 85 insertions(+)
 
-Proposal
-- I1: a pin is registered only with DPLLs and parent pins of its owner,
-  the module and clock_id it was created with. The core enforces it.
-- I2: so a request about an object runs only its owner's callbacks.
-- I3: a wire between pins of two devices is a link. The driver of one
-  end adds it to its own pin with dpll_pin_link_add() and names the
-  other end by its firmware node, so no driver holds a pin of another.
-- I4: a link is only a wire, with no state and no callbacks. pin-get
-  reports DPLL_A_PIN_LINK with the peer id for both pins while both are
-  registered, the peer is notified when one of them comes or goes.
-On E825 this covers the TX reference (zl3073x output to the ice TXC
-DPLL), the time reference (zl3073x output to the ice TSPLL) and the
-recovered clock crossbar: two ice mux devices, one per CGU output, with
-the port pins as inputs and outputs linked with zl3073x inputs.
-
-This removes the model and driver API problems and options A-E. The
-code of one fix is gone, the cross-owner cases behind other fixes cannot
-happen. The stall and unenforced rules stay, per-owner locks become
-possible. Not addressed: a netdev names only its recovered clock pin.
-
-For a driver
-TX reference and recovered clock, before and after (the first PF of the
-adapter creates the muxes):
-
-  pin = fwnode_dpll_pin_find(fwnode, &tracker); /* or wait for it */
-  dpll_pin_register(txc_dpll, pin, &txclk_ops, priv);
-  dpll_pin_on_pin_register(zl_input, rclk_pin, &rclk_ops, priv);
-
-  pin = dpll_pin_get(txc_clock_id, idx, THIS_MODULE, &prop, &tracker);
-  dpll_pin_link_add(pin, fwnode);
-  dpll_pin_register(txc_dpll, pin, &txclk_ops, priv);
-  dpll_device_register(mux, DPLL_TYPE_GENERIC, &mux_ops, adapter_mux);
-  dpll_pin_link_add(mux_out, rclk_fwnode);
-  dpll_pin_register(mux, mux_out, &out_ops, adapter_mux);
-  dpll_pin_register(mux, rclk_pin, &rclk_ops, priv);
-
-For user space (ids from the GNR-D below)
-The zl3073x output OUT3 (id 36) no longer lists the ice TXC DPLLs as
-parents; it is linked with the EXT_SYNCE pins of the eight PFs, which
-are inputs of their TXC DPLLs:
-
-  {'id': 36, 'module-name': 'zl3073x', 'package-label': 'OUT3',
-   'parent-device': [{'parent-id': 11, 'direction': 'output', ...}],
-   'link': [{'id': 4}, {'id': 8}, ..., {'id': 26}]}
-  {'id': 4, 'module-name': 'ice', 'board-label': 'EXT_SYNCE',
-   'parent-device': [{'parent-id': 1, 'direction': 'input', ...}],
-   'link': [{'id': 36}]}
-
-The port pin of eno1np0 (id 2) had the zl3073x inputs as parent pins.
-It is now an input of the muxes 2 and 3, and RCLK0 (id 0) is linked
-with REF1P (id 29):
-
-  {'id': 2, 'module-name': 'ice', 'type': 'synce-eth-port',
-   'parent-device': [{'parent-id': 2, 'state': 'connected', ...},
-                     {'parent-id': 3, 'state': 'disconnected', ...}]}
-  {'id': 0, 'board-label': 'RCLK0', 'link': [{'id': 29}], ...}
-
-pin-set {"id": 2, "parent-device": {"parent-id": 2, "state":
-"connected"}} routes the port and disconnects the one routed before.
-The clock-id of the port pin is the adapter index instead of the DSN.
-The E825 pins exist without zl3073x too.
-
-What it removes
-Core: everything under driver API above, cross-owner on-pin registration
-is rejected. ice: the notifier work, the firmware node parent pins and
-the foreign pin references. The tolerance for a DPLL without
-registrations (33f016b23a21) stays: on E810 the recovered clock pins of
-the PFs without the CGU stay registered with the DPLLs of the PF with
-the CGU when that PF goes first.
-
-  core (dpll_core, dpll_netlink, dpll.h)  +224/-173
-  ice                                     +727/-503
-  KUnit tests and build                   +563
-  docs, spec, uapi                        +69
-  exported symbols 21 -> 20 (+2 for KUnit only), ops unchanged
-
-ice grows, as the PFs of an ASIC share the muxes and the adapter
-records the routing. An E825 with N ports had N+1 DPLL devices (TXC per
-port, TSPLL) and 2N ice pins, now N+3 devices and 3N+3 ice pins. A mux
-is not a DPLL, but the generic type is for devices outside the EEC and
-PPS classes, and two driver-local devices replace two core mechanisms:
-cross-owner on-pin registration and a MUX parent of another driver.
-
-Locking series: v3 is on hold until the direction is agreed. On top of
-this the rule for drivers becomes "your callbacks run under your lock",
-and options A-E are not needed.
-
-Status: W=1 build at every patch, full build, sparse, kernel-doc,
-ynl-regen, htmldocs, KUnit (12 tests, UML, lockdep). Tested on a GNR-D
-platform with a dual NAC E825 and a ZL80132B: links, routing of all
-eight ports with notifications, the recovered clock at the zl3073x
-inputs, PF reset, CORER, GLOBR, PF unbind and bind, zl3073x reload and
-the TX reference; the test script and its results are in [5]. Not
-tested: EMPR, and the recovered clock of the second NAC, whose ports had
-no link. Prepared with the help of an AI coding assistant.
-
-Questions
-1. The E825 TX reference and recovered clock views change. Fine, or
-   should netlink translate the old view?
-2. Is a mux fine as a generic DPLL device that reports locked while it
-   routes a port, and are N+3 DPLL devices for N ports fine?
-3. The two muxes share module, clock-id and type, so device-id-get
-   finds neither. Is finding them through their output pins enough?
-4. The firmware still types the zl3073x inputs as MUX. Leave it?
-5. The ice pin does not know the frequency on the wire. Omit it, as
-   now, or read it from a firmware node property?
-6. Should the locking series be rebased on top of this?
-
-[1] https://lore.kernel.org/netdev/20261111164021.273409-1-ivecera@redhat.com/
-[2] https://lore.kernel.org/netdev/20261119133851.3f25074c@kernel.org/
-[3] https://lore.kernel.org/netdev/ff8b63b7-b943-444a-bd37-b6fb493b5d9f@linux.dev/
-[4] https://lore.kernel.org/netdev/awMP9Gj3Xhia0ZeI@FV6GYCPJ69/
-[5] https://gist.github.com/ivecera/b31f67adac6deac318719bbe0f282707
-
-Ivan Vecera (19):
-  dpll: add pin links
-  dpll: report pin links
-  dpll: notify linked pins when a pin is registered or unregistered
-  dpll: add KUnit tests for pin links
-  ice: dpll: use own pins for the TX and time references
-  ice: dpll: drop the filter of notifications from own registrations
-  dpll: register pins only with a DPLL of their owner
-  dpll: drop the state change exception for pins with a firmware node
-  dpll: drop the source clock id from pin notifications
-  dpll: drop device events from the in-kernel notifier
-  dpll: drop the cached module name of a pin
-  ice: dpll: track the E825 recovered clock routing in the adapter
-  ice: dpll: register the E825 recovered clock muxes as DPLL devices
-  ice: dpll: route the E825 recovered clock through the mux devices
-  dpll: register pins only with a parent pin of their owner
-  dpll: drop the in-kernel notifier chain
-  dpll: require a registered DPLL for pin registration
-  dpll: drop the owner reference selection of pins
-  dpll: add KUnit tests for the pin owner checks
-
- Documentation/driver-api/dpll.rst            |   53 +
- Documentation/netlink/specs/dpll.yaml        |   15 +
- drivers/dpll/.kunitconfig                    |    5 +
- drivers/dpll/Kconfig                         |   18 +
- drivers/dpll/Makefile                        |    2 +
- drivers/dpll/dpll_core.c                     |  253 ++--
- drivers/dpll/dpll_core.h                     |   20 +-
- drivers/dpll/dpll_netlink.c                  |   82 +-
- drivers/dpll/dpll_netlink.h                  |   10 +-
- drivers/dpll/tests/dpll_kunit.c              |  538 ++++++++
- drivers/net/ethernet/intel/ice/ice_adapter.c |    3 +-
- drivers/net/ethernet/intel/ice/ice_adapter.h |   33 +
- drivers/net/ethernet/intel/ice/ice_dpll.c    | 1175 ++++++++++--------
- drivers/net/ethernet/intel/ice/ice_dpll.h    |   11 +-
- drivers/net/ethernet/intel/ice/ice_ptp_hw.c  |    8 -
- include/linux/dpll.h                         |   32 +-
- include/uapi/linux/dpll.h                    |    1 +
- 17 files changed, 1583 insertions(+), 676 deletions(-)
- create mode 100644 drivers/dpll/.kunitconfig
- create mode 100644 drivers/dpll/tests/dpll_kunit.c
-
-
-base-commit: 2388bb763e323442f4dd8189238ac0c5f334c4a0
+diff --git a/drivers/dpll/dpll_core.c b/drivers/dpll/dpll_core.c
+index 277692d12d3d1e..4d871542ddf762 100644
+--- a/drivers/dpll/dpll_core.c
++++ b/drivers/dpll/dpll_core.c
+@@ -147,6 +147,16 @@ static void __dpll_pin_hold(struct dpll_pin *pin, dpll_tracker *tracker)
+ static void dpll_pin_idx_free(u32 pin_idx);
+ static void dpll_pin_prop_free(struct dpll_pin_properties *prop);
+ 
++static void dpll_pin_links_free(struct dpll_pin *pin)
++{
++	struct dpll_pin_link *link, *tmp;
++
++	list_for_each_entry_safe(link, tmp, &pin->links, list) {
++		fwnode_handle_put(link->peer);
++		kfree(link);
++	}
++}
++
+ static void __dpll_pin_put(struct dpll_pin *pin, dpll_tracker *tracker)
+ {
+ 	dpll_pin_tracker_free(pin, tracker);
+@@ -155,6 +165,7 @@ static void __dpll_pin_put(struct dpll_pin *pin, dpll_tracker *tracker)
+ 		xa_destroy(&pin->dpll_refs);
+ 		xa_destroy(&pin->parent_refs);
+ 		xa_destroy(&pin->ref_sync_pins);
++		dpll_pin_links_free(pin);
+ 		dpll_pin_prop_free(&pin->prop);
+ 		fwnode_handle_put(pin->fwnode);
+ 		dpll_pin_idx_free(pin->pin_idx);
+@@ -665,6 +676,7 @@ dpll_pin_alloc(u64 clock_id, u32 pin_idx, struct module *module,
+ 	if (ret)
+ 		goto err_pin_prop;
+ 	refcount_set(&pin->refcount, 1);
++	INIT_LIST_HEAD(&pin->links);
+ 	xa_init_flags(&pin->dpll_refs, XA_FLAGS_ALLOC);
+ 	xa_init_flags(&pin->parent_refs, XA_FLAGS_ALLOC);
+ 	xa_init_flags(&pin->ref_sync_pins, XA_FLAGS_ALLOC);
+@@ -838,6 +850,65 @@ struct dpll_pin *fwnode_dpll_pin_find(struct fwnode_handle *fwnode,
+ }
+ EXPORT_SYMBOL_GPL(fwnode_dpll_pin_find);
+ 
++static bool dpll_pin_has_link(const struct dpll_pin *pin,
++			      const struct fwnode_handle *peer)
++{
++	struct dpll_pin_link *link;
++
++	list_for_each_entry(link, &pin->links, list)
++		if (link->peer == peer)
++			return true;
++
++	return false;
++}
++
++/**
++ * dpll_pin_link_add - add a link from a pin to another pin
++ * @pin: pointer to a dpll pin
++ * @peer: firmware node of the pin at the other end
++ *
++ * Describe a fixed board connection between @pin and the pin of another
++ * device that its driver associates with @peer by dpll_pin_fwnode_set().
++ * The other pin does not need to exist yet. The link is kept until @pin is
++ * released. An existing link is reported also when @pin is registered, so
++ * each user of a shared pin can add the same link.
++ *
++ * Context: Acquires a lock (dpll_lock). Must be called before @pin is
++ *	    registered.
++ * Return:
++ * * 0 on success
++ * * -EEXIST if @pin already has a link to @peer
++ * * -EBUSY if @pin is already registered
++ * * -ENOMEM if the link cannot be allocated
++ */
++int dpll_pin_link_add(struct dpll_pin *pin, struct fwnode_handle *peer)
++{
++	struct dpll_pin_link *link;
++	int ret = 0;
++
++	mutex_lock(&dpll_lock);
++	if (dpll_pin_has_link(pin, peer)) {
++		ret = -EEXIST;
++		goto unlock;
++	}
++	if (WARN_ON(xa_get_mark(&dpll_pin_xa, pin->id, DPLL_REGISTERED))) {
++		ret = -EBUSY;
++		goto unlock;
++	}
++	link = kzalloc_obj(*link);
++	if (!link) {
++		ret = -ENOMEM;
++		goto unlock;
++	}
++	link->peer = fwnode_handle_get(peer);
++	list_add_tail(&link->list, &pin->links);
++unlock:
++	mutex_unlock(&dpll_lock);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(dpll_pin_link_add);
++
+ static int
+ __dpll_pin_register(struct dpll_device *dpll, struct dpll_pin *pin,
+ 		    const struct dpll_pin_ops *ops, void *priv, void *cookie)
+diff --git a/drivers/dpll/dpll_core.h b/drivers/dpll/dpll_core.h
+index da8a369556ed11..26a16df2b6410d 100644
+--- a/drivers/dpll/dpll_core.h
++++ b/drivers/dpll/dpll_core.h
+@@ -47,6 +47,7 @@ struct dpll_device {
+  * @module:		module of creator
+  * @module_name:	module name of creator
+  * @fwnode:		optional reference to firmware node
++ * @links:		links to other pins (struct dpll_pin_link)
+  * @dpll_refs:		hold referencees to dplls pin was registered with
+  * @parent_refs:	hold references to parent pins pin was registered with
+  * @ref_sync_pins:	hold references to pins for Reference SYNC feature
+@@ -62,6 +63,7 @@ struct dpll_pin {
+ 	struct module *module;
+ 	char module_name[MODULE_NAME_LEN];
+ 	struct fwnode_handle *fwnode;
++	struct list_head links;
+ 	struct xarray dpll_refs;
+ 	struct xarray parent_refs;
+ 	struct xarray ref_sync_pins;
+@@ -71,6 +73,16 @@ struct dpll_pin {
+ 	struct rcu_head rcu;
+ };
+ 
++/**
++ * struct dpll_pin_link - wire between a pin and another pin
++ * @list:		entry in the links list of the pin
++ * @peer:		firmware node of the pin at the other end
++ **/
++struct dpll_pin_link {
++	struct list_head list;
++	struct fwnode_handle *peer;
++};
++
+ /**
+  * struct dpll_pin_ref - structure for referencing either dpll or pins
+  * @dpll:		pointer to a dpll
+diff --git a/include/linux/dpll.h b/include/linux/dpll.h
+index 7a6f8796cda2ad..e252d3c6b4334a 100644
+--- a/include/linux/dpll.h
++++ b/include/linux/dpll.h
+@@ -301,6 +301,8 @@ void dpll_pin_put(struct dpll_pin *pin, dpll_tracker *tracker);
+ 
+ void dpll_pin_fwnode_set(struct dpll_pin *pin, struct fwnode_handle *fwnode);
+ 
++int dpll_pin_link_add(struct dpll_pin *pin, struct fwnode_handle *peer);
++
+ int dpll_pin_on_pin_register(struct dpll_pin *parent, struct dpll_pin *pin,
+ 			     const struct dpll_pin_ops *ops, void *priv);
+ 
 -- 
 2.56.1
 
