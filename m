@@ -1,57 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795719749;
-	b=S5rDiuAbfkK2zxCKoWQ0p2BnjOIsoKKBEZvvybnkhvVLWJfF0KWepHholJrMAMKcjaH3
-	 o8KDwy/nhoPujbBfju1chqHnAq8vnE3GDhkZ0bDF9Ito7e2pAWH/yeYflgH7UQ2aZQ4VJ
-	 SdTcbvEB0h68yV3e8gWGCf9BQ1lbvt0TpCWVCK/t7c6j+Koc2468kJ53W9ENE/VibfXy4
-	 4DVMBDAizBNRm6at322NDwLTCBjMjvod3Dk9WaxpeERUmHjKQBfNc5wM9y06Oe4OyqFkR
-	 r0c4L/r3RMI9ZFtjv7twtAm+EbaCkO0xg197skE+f+NXghOjij+0lg7C58BjL2h/fuQ==
+	t=1795720134;
+	b=RYbcFsudyjssXttSkimrksD2OiYo66sPDdfp1NspDQKwWuoMezFCuyTd943m0aEfnMRn
+	 CckC/ZDfhBTh4dIZcpy8gynqo6Tg/0L4dUW0e8BLt/Z1h8VOCgzWVM2Vphjm2TvuOStjp
+	 yvQsc2nJRRdkEAmTxIGmyMuVzw3guw6WX0QKYTwu7Ugl/kZn/ZGtzE1x+oGF0wZbHqvSX
+	 +5K2LJdqkNyArXqTJUI5kC/KDAu57NnG3lB6lmJYpFRutVbWuIfzNxsEh2tp6z90XqWMO
+	 8VEUqscr+POsh3x3y3mZWZmN0N+3YnvC3sm+Wzoaye8Rea2ZFb4K5k0iqYiuQFjvt4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795719749;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=sgsm41cVrYVXRN/ZczPr+NXSABYCL273lk2seEqIQI0=;
-	b=DFwrZZnoHNrcGeB0476RaJ/D0iDpDgS2HAXY9qXGrX33f5+gS4X4n6tniBawWH5WCV3G
-	 UaehvHkr36QgxamMv/+5Rz+aTYoZQC422a1uN2Wj1LWh19KxDUtHnZoRwpFLw64/+MJCq
-	 x0ZH4DcxxIBJruk+N5tIDvvfvk0EYWkImDlJajq+xczYMlLTHIE6l2HlCcmtMYQlhoa+G
-	 vMk9bmk4D7e9jk/tJo9+2mfAFtpuiRNJAgE8upKsp3N17yEptiJk+2K5+/S5Wu0aeXCgw
-	 FMeX26F6L5ZVxwVdnB5JA7iI6h24S8nrSyb0MkWtOU6juoeD8eQRJ8UnkHb5kIMQRzA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795720134;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=gzDN1QG2r+ew53MNcYjRJsztIJ6bXJi3dv7JbJUryts=;
+	b=r6RFK2eeT3bJYOUZr3iW1n7EvaEf/R5zweh3d4uV4lDJlZJ1k/plkkx+5AA+ry+mssmp
+	 gH6QRrZvdW5JzBBHBYyeZxcJR+SmFiWO9+FzFrlLY5IuuJfBvQCCcOt8HKO38AfGRpOvo
+	 9wBypGi456J6853NUcrhhJtUux2IrHAEk9CAsHwrQKluedMSVn5PFsQIh1ZNtYShvGcAm
+	 Q3FAARb7hQb/CDY47GjVm8jO8CN0Fug9otjiQSHmsEsFlEN6z8ZzVeWV7FpkqHS51CKpP
+	 LChREAUHSsA1cBcliwsPYAemwCOcqPjQBgYZMlCRQbKh0Tj21VAm2IqAVELEF0eb8WA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fh+ol2ez;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZjhVBDf7;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 13C7D606A31C;
-	Thu, 26 Nov 2026 19:02:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C459606A32E;
+	Thu, 26 Nov 2026 19:08:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fh+ol2ez
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id D27131F000C6;
-	Thu, 26 Nov 2026 19:02:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZjhVBDf7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06DF91F000C0;
+	Thu, 26 Nov 2026 19:08:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795719748;
-	bh=sgsm41cVrYVXRN/ZczPr+NXSABYCL273lk2seEqIQI0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Fh+ol2ezWUjyMhmE1tsESBXMONPu3gXFMuSY5sDYEdFAddpNy5P9x0P+dBQFZGML8
-	 b5VQRb6ASyBFBPVSoTjO5jqaWR7ArsBc/+KdYqv0FCmoMKZH5LMGl0ABaGVVM/fyO1
-	 rC1+BTag7S4+/Vu5SCqt00RtywNl+YAlY2cL1bfwvHNfD/3LvCVa+caMCVgrUfNUh8
-	 Yn0LqIMceBO4G7GyJvbsgTqc8Azw/UnHzQKLSVfp51j2kdJjs5HDy63u5pjq9BjLLW
-	 k4TYGBqvyb8w/9LhZJqerxeQzjmBViT6ImiFNR9fRVF7Or0Qogqtl/6VW3yaiAQ9P3
-	 5ltYe/aTG/g9w==
-Date: Thu, 26 Nov 2026 21:02:24 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Surendran Kanagaraj <surenkj@amazon.com>
-Cc: corbet@lwn.net, graf@amazon.de, gunnarku@amazon.com, jgg@ziepe.ca,
-	joshlev@amazon.com, leitao@debian.org, linux-doc@vger.kernel.org,
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nh-open-source@amazon.com, noodles@earth.li, peterhuewe@gmx.de,
-	rdunlap@infradead.org, skhan@linuxfoundation.org
-Subject: Re: [RFC PATCH v4 1/8] tpm: Add a single table for all TPM wait
- limits
-Message-ID: <awiCQCU-h8MQc6bQ@kernel.org>
-References: <20261118073852.81107-2-surenkj@amazon.com>
- <20261125230034.24726-1-surenkj@amazon.com>
+	s=k20260515; t=1795720132;
+	bh=gzDN1QG2r+ew53MNcYjRJsztIJ6bXJi3dv7JbJUryts=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=ZjhVBDf7i01xUwHDBDd6t5Dd9jfrgoOKt66dR9QNrrc7L0T0YpubcyqvMK0wbN/ia
+	 N5atc2f24UBtRU0S+Od103hhN6aomFIo4lUV8NH7otae9s9CkrP1XNak7SusKsyuNi
+	 JkL+MoY04YXrIsQU1zFKVFP9T3f4PE1zgUKcKB7/NL84/k+6u74vQKvJZyupKIEt0o
+	 AZfV4KXHHyeCjiK2GYQNrImZuCoSUW/eVZRcsXIQFlsap0dkg8rCu7Ve55neanZp3M
+	 VUneTvy83IDOxnbJ490HE8Lefc1MHbwcbYRzOzVKlpqtjxIzuSYB9j8bRAoC5SerdJ
+	 hF+qL17Mb0c0Q==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Chris Down <chris@chrisdown.name>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>,  Mike Rapoport
+ <rppt@kernel.org>,  Pratyush Yadav <pratyush@kernel.org>,  Alexander Graf
+ <graf@amazon.com>,  Baoquan He <baoquan.he@linux.dev>,  Jonathan Corbet
+ <corbet@lwn.net>,  Shuah Khan <skhan@linuxfoundation.org>,
+  kexec@lists.infradead.org,  linux-mm@kvack.org,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-kselftest@vger.kernel.org,  kernel-team@meta.com
+Subject: Re: [PATCH 2/9] kho: Make bootmem reservations visible to fleet
+ monitoring
+In-Reply-To: <20261113003059.056dd036a6546756@chrisdown.name> (Chris Down's
+	message of "Fri, 13 Nov 2026 00:30:59 -0800")
+References: <cover.1794383544.git.chris@chrisdown.name>
+	<c41c639fc5f453d60a265ba42a233f2ea5b48319.1794383544.git.chris@chrisdown.name>
+	<179443886218.2329176.10742245280418377061.b4-review@b4>
+	<20261113003059.056dd036a6546756@chrisdown.name>
+Date: Thu, 26 Nov 2026 19:08:48 +0000
+Message-ID: <2vxz4id3wgu7.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -61,66 +68,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261125230034.24726-1-surenkj@amazon.com>
+Content-Type: text/plain
 
-On Wed, Nov 25, 2026 at 11:00:34PM +0000, Surendran Kanagaraj wrote:
-> Hi Jarkko,
-> 
-> On Wed, Nov 18, 2026 at 07:38:45AM +0000, Surendran Kanagaraj wrote:
-> > +static const u32 tpm2_defaults[TPM_NR_LIMITS] = {
-> > +	[TPM_LIMIT_A]		= TPM2_TIMEOUT_A * USEC_PER_MSEC,
-> > +	[TPM_LIMIT_B]		= TPM2_TIMEOUT_B * USEC_PER_MSEC,
-> > +	[TPM_LIMIT_C]		= TPM2_TIMEOUT_C * USEC_PER_MSEC,
-> > +	[TPM_LIMIT_D]		= TPM2_TIMEOUT_D * USEC_PER_MSEC,
-> > +
-> > +	[TPM_LIMIT_SHORT]	= 750 * USEC_PER_MSEC,
-> > +	[TPM_LIMIT_MEDIUM]	= 2000 * USEC_PER_MSEC,
-> > +	[TPM_LIMIT_LONG]	= 3000 * USEC_PER_MSEC,
-> > +	[TPM_LIMIT_LONG_LONG]	= TPM2_DURATION_LONG_LONG * USEC_PER_MSEC,
-> > +	[TPM_LIMIT_DEFAULT]	= TPM2_DURATION_DEFAULT * USEC_PER_MSEC,
-> > +};
-> 
-> The TPM2_SelfTest duration bump [1] made me realize that mapping the
-> TPM 2.0 durations into these TPM 1.x style classes may not hold up long
-> term. A spec update to a single command turns into a change that
-> affects all commands under the class. I think it is better to keep the
-> existing maps as they are and let the driver modify the map if needed.
-> This is also what you suggested in commit 207696b17f38 ("tpm: use a
-> map for tpm2_calc_ordinal_duration()"): keep a per-chip copy of the
-> map and let the leaf driver patch it.
-> 
-> At a high level, the series would become:
-> 
-> 1) Set default interface timeouts and duration at chip allocation.
-> 2) Keep the chip durations in a union of TPM1.x and TPM2.0 durations.
-> 
->      union tpm_durations {
->              unsigned long tpm1[TPM1_NUM_DURATIONS];
->              struct tpm2_ordinal_duration tpm2[TPM2_NUM_DURATIONS];
->      };
-> 
->    struct tpm_chip holds the union tpm_durations in place of
->    chip->duration[]
+On Fri, Nov 13 2026, Chris Down wrote:
+> Pasha Tatashin writes:
+[...]
+>>> Today the collector would have to sum kho/out/bootmem_len in debugfs,
+>>> which isn't a userspace ABI. In /proc/meminfo, free bootmem contributes
+>>> to CmaFree, but the reservation doesn't contribute to CmaTotal. The cma
+>>
+>>Is this a different bug?
+>
+> I think so, yes. Bootmem pageblocks are MIGRATE_CMA, so their free pages are
+> counted in NR_FREE_CMA_PAGES, but totalcma_pages only counts the areas that
+> mm/cma.c knows about.
+>
+> zone->cma_pages is a separate problem. It only gets bootmem added by
+> init_cma_reserved_pageblock() in kho_init(), and on a KHO boot we return before
+> we get there.
+>
+> I can send patches for those separately if you agree that bootmem should be
+> counted in both. It wouldn't give us the bootmem size though, because CmaTotal
+> would still include any other CMA areas.
 
-It isn't possible to have single struct tpm duration that is partially
-used by TPM1?
+I have a internal bug assigned to me to fix this. It would be great if
+you could fix it for me. I'd owe you a beer ;-)
 
+On cold boot it is pretty easy. Call cma_init_reserved_mem() on each
+bootmem region.
 
+On a KHO boot it gets tricky. Not all of bootmem is CMA, since some of
+it is given out to early boot allocators like memmap. So we need to
+count the pageblocks that we mark as MIGRATE_CMA during MM init. And
+then update totalcma_pages directly, which already sounds kinda iffy.
 
-> 3) update_durations() now gets the union which TPM1.x and TPM2
->    drivers can adjust.
-> 4) Show the durations sysfs file for TPM 2.0 chips.
-> 
-> With this, I would drop the limits table, poll APIs and tpm.limits=
-> parameter for now and keep the series focused on duration handling.
-> 
-> Does this sound reasonable to you?
-> 
-> [1] https://lore.kernel.org/linux-integrity/20261125182251.19360-1-surenkj@amazon.com/
-> 
-> Thanks,
-> Surendran
+Plugging the accounting directly into kho_bootmem_migratetype() might
+work, but I don't like giving it a side effect. Maybe we do it directly
+in pageblock_migratetype_init_range() and __init_deferred_page()?
 
-Br, Jarkko
+None of it is super elegant and I never got around to figuring out
+something good.
+
+>
+>>I have some concerns about exposing this as a stable API. What if we get
+>>rid of bootmem or make it resizable? We only recently renamed it from
+>>scratch to bootmem, and we have been exploring for way to optimize it.
+>>
+>>I would keep this exposed under /sys/kernel/debug/kho/bootmem_size for
+>>now, and not worry about it being stable.
+>
+> That's fair. I'll move it to /sys/kernel/debug/kho/bootmem_size in v2, and we
+> can look at sysfs again once bootmem has settled down.
+
+Is it really that hard for your collector to sum up the areas. I don't
+mind this change since it is in debugfs and very simple, but I'm curious
+if you really need it.
+
+[...]
+
+-- 
+Regards,
+Pratyush Yadav
