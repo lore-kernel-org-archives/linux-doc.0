@@ -1,61 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.39
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795701140;
-	b=lTRJLvwHM6CybjT4pWlM6L8ESBty7sb0xl0/A8bqLoCC/4UjVNLZbt3zzmmwG1eCyXFZ
-	 uRRfBk1YVKw55MFnXYA8LNhK0R14aCx7rVHlT0wj66pTpNirc+/RjTWT1Oq6JWQ1P6xkS
-	 iRXCThWSfbsx/D4NocmKLifc9FIzLVHhIFrXbIfliM4ZqAD79ZSpcFVjpFQS54LReWB+v
-	 HL8YovvoClKZviHna9BeljXIQw9+3Xp/pECMYYoerLYv84y9AiF+B1ta0KRPDxxS4Fvas
-	 UzvJktPECd8qzTlV1elrdX3yxdPZAdRpehnOoRwdBiTNKKY2eWj0fiKHwfzE8wJ6QoQ==
+	t=1795701191;
+	b=dbt8P1CDBOoESD90L0G0uWFwBwgI3JI5gxI731vFKsWRSDVPp91HXKbxMQtMwXZHuuON
+	 vyKvmHFFNEaa8KykLTf4mn89nWhns/A9fLN3mVe8ssswQdGUKksVIwVXPW8KjrO2bTi6X
+	 9aTV29GUe0A2H7PPO97treUGAz0mrpTDMQ0zK+d9ta9Wv47ssfnExp7TME3ysnPBieztZ
+	 Kr74hHp4C8z6g+a94HpW/flA4F/b6dsRSEiDYOypVGdRS7Mx9I1D9e1K6pyMYnsHuxdmd
+	 wvYEJpCKeeQDUAWPxYW5nDrmvek/Uo4SvN/Z1r4bXysl0IxbGzowcreTpmEirrsd2ug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795701140;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=BkEswlZd/rW4NM/K4GIhLppyMoHKAr1sanl/GSXNwoA=;
-	b=ZLMpf1m9cQGFmE+DnhGMQLNGu6LkU7PbpB9Jiz7R4KeNZrmNl9a0Hi4iQUbvY3fc/NZQ
-	 +LAP8xP4Tya8ZJvMZm/cs6ckShtlzEnYl4WR7WVZ6mvFrPFK+enRVp3In0PcjYkhjywuX
-	 mBz5TkOeGTOSU+QbVuoE3a21R1aAg61QGzo3yVgHZ1HYNo4ZChgPvObLh7VL09NOY84/D
-	 rm+4lE20ojrRfIEnY7cmEa+y1/kToXikhUZXmun2cj0nPEvvii+B10zcv5YxHKdvMWA80
-	 FOng3WBihPfcX3PPos1nNDmzHFGC96Q3yWnn7I5CSCduOv3JDybtwtB3/5lJcPxo1Dg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795701191;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=wBNF/N6dV01CZXPBjN7hTYh2V25GC86ewPpc4xVTK6Y=;
+	b=azHu3PL4CHMu//YCA4NuET287PiznhIcmcPQif7tdU/vSHgnIt0h2qyG3t0f3eNmSF2C
+	 IyZyCtnukMlhBKmwp9NpmjnyvIW8aG2MFcKuSg7WEm9bsL0m3SzPtTxMrPny+Mq+UNnAj
+	 RULIcca7rPRmdZ4Bui1r7lACI05YosVuA24a10HAonhZ3w19dMB91IUONtBuYV24Tu0z9
+	 6SrotCm1LLfs/Z/Bf6TwQsk1xUHdG+1HOS0U0gEhM7cvrcxlb8rbf41Ldo89NEMeQpIBK
+	 jDltmEKJ6PDG0/MG1IESnpvM/6zacdj707aJtod3wWDsK8p1H1GGzghCu68OiUNIuIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BhLdlrsM;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=n31L8E2O;
+	arc=none smtp.remote-ip=91.218.175.39
+Received: from mta0.migadu.com (out-39.mta0.migadu.com [91.218.175.39])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6401606A33E;
-	Thu, 26 Nov 2026 13:52:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E53606A321
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 13:53:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1E53606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BhLdlrsM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D607A1F000CF;
-	Thu, 26 Nov 2026 13:52:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795701139;
-	bh=BkEswlZd/rW4NM/K4GIhLppyMoHKAr1sanl/GSXNwoA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BhLdlrsMGvrIMfBmOgPUTEIG7q4CJYulxYw+l+xQ3aFmHt4Tkk/zs1FKRxrKTUxUq
-	 eVCxhCtCXZtco4R82Hj7OEg/Q8Oy2C1jrTiagbG+vcwaAtEyB2nj0+qSOD81j0E3mY
-	 a1h2MKL32OLDwPHV7XOZ2AsdmTG5touUsZCv2lxUIQtYob3Ih4UNHlvmMduiQZRxWO
-	 JJJfDCXXxLqkYUw59j/XjgOG//klrXX2QAUiAcu1D6Z5rnYOZ6WlqpKiUrfXUs1DWV
-	 y4aFUtR15VzUQZGHbgTfXBd97Iqu0duQ3G/uCOmyOAB4Kj5NfvN1GUz+UZ8LHaKvQR
-	 G285RkmNg7MiA==
-Date: Thu, 26 Nov 2026 13:52:15 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] docs: submitting-patches: Limit backtrace trimming to
- timestamps
-Message-ID: <8836d5ee-b800-49e3-a866-327041384b40@sirena.org.uk>
-References: <20261126-backtrace-timestamps-v1-1-0a645b25e5ae@kernel.org>
- <d4848afd-a23a-4119-ac09-1fe5e4681e3a@sirena.org.uk>
- <20261126125959.GL774860@unreal>
- <00561b8f-c85c-4cb4-82dd-aee3d14e509b@sirena.org.uk>
- <20261126133042.GM774860@unreal>
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=n31L8E2O
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=wBNF/N6dV01CZXPBjN7hTYh2V25GC86ewPpc4xVTK6Y=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795701186; v=1; x=1796305986;
+ b=n31L8E2OALKvoOVzU1ZbX00BV6t9pq4nic5j86P0CuIY430bBRGaskE0PWsvHYd+7LIm/zvP
+ AzghWd5uJcA3BbjuHCoNWdV04khtlsJ/mTpO+4oGBZJysFXcPPDke9KmHwup5eSXhPV5iMR2JYP
+ /X/2ukpl6tQy4cbb49tv8ThsfxLYdTAozhIfxQGrsQvKda1CmMQXkc+J0Q+AtyadCqT/ZBM7j5v
+ d1A28oEJxfdR94x4bwGG8jyIpwerYzKjBETYbUU2GMO1pveBpdYO4z2FmmE67efGWuH0Y5Mpa1t
+ 8/gLEH/ISX+0rD4ynkC9E8Fi0C57tIaYol6Vw0C6O+KnQ==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 8a22f4692d3e40a9;
+	Thu, 26 Nov 2026 13:53:05 +0000
+X-Mizu-Trace-ID: 8a22f4692d3e40a9
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 26 Nov 2026 21:52:50 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Bruce Song <xiongwei.song@linux.dev>
+Cc: alexs@kernel.org, si.yanteng@linux.dev, dzm91@hust.edu.cn,
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+	paulmck@kernel.org, linux-doc@vger.kernel.org, rcu@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] Add RCU docs Chinese translation
+Message-ID: <awg5sl7LxTOVqpSw@wyuan.org>
+References: <20261126132523.6329-1-xiongwei.song@linux.dev>
+ <0d5126e6-7588-4cf7-90de-0bd193db8246@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,54 +68,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8uu7UyPLrzQWZn9l"
-Content-Disposition: inline
-In-Reply-To: <20261126133042.GM774860@unreal>
-X-Cookie: Sank heaven for leetle curls.
-
-
---8uu7UyPLrzQWZn9l
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <0d5126e6-7588-4cf7-90de-0bd193db8246@linux.dev>
 
-On Thu, Nov 26, 2026 at 03:30:42PM +0200, Leon Romanovsky wrote:
-> On Thu, Nov 26, 2026 at 01:22:26PM +0000, Mark Brown wrote:
+On Thu, Nov 26, 2026 at 09:35:28PM +0800, Bruce Song wrote:
+> Sorry for the noise. git send-email returned "timeout" after the cover
+> letter was sent out. So I resent v3 of the series. Please ignore this one.
 
-> > I think there's room for improvement but I think what you're proposing
-> > right now goes far too far in the other direction.  It is a very
-> > definitive statement that nothing should be removed, it would be better
-> > to do things like call out specific bits that are generally relevant and
-> > should not be removed (like taint information) and encourage people to
-> > use faddr2line.
+I'm not sure if it's a problem with Migadu or network condition in
+mainland China. Every few months, I encounter the issue where email
+sending gets stuck. I do not know whether other linux.dev users or
+migadu users frequently meet this problem, or just me made stupid
+mistakes elsewhere.
 
-> I'm aware that I took an overly aggressive approach, but there was a
-> reason for it - it lets us trim the text line by line. If we take the
-> opposite approach and add request for more information, we'll inevitably
-> miss important details.
-
-That doesn't help with making the patch submission readily legible which
-goes to Geert's point that you're pushing the work of making the thing
-comprehensible onto everyone looking at the mail, and ideally whoever
-applies the patch.  Perhaps the stronger version of this is something
-that needs to go into per subsystem documentation if you find that's the
-best balance there, I know I have vastly more issues with having to page
-through enormous amounts of irrelevant information than with missing
-details.
-
---8uu7UyPLrzQWZn9l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmsIOY4ACgkQJNaLcl1U
-h9AhPgf+Jf51BbM7AqUHj108U2hLwYcs9GRgMgk0ZQhXRewV1Bn+AZt4/QA4gyfL
-1bxNmtp3yKXwEkSFi6Jwk6hE+Sg7nHyZqrzBU2oJymVh8cSSG4onFcXduBZ/6HJS
-c28FyoZmoDPROug6U8kynpRus2B/Ok8xSyEaP1taAnHXd+0GmfHkw0T9V3VX2yEW
-CjrKBNjcHdP9p0lj+KTNmWTdwUFtVd5GikjLQbRYUnNGT97TVrv6xjH9qZxyk4Fo
-LAzH2v+P5+C5SYawg1fgqbVYU5bVBpP+PEqyJ/tUuHKcBCGYZLGYu3ego/I4Jn0+
-HGFwNGz+f1IZNZBrTqsqun28KMcElQ==
-=5WYh
------END PGP SIGNATURE-----
-
---8uu7UyPLrzQWZn9l--
