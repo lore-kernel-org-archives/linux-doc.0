@@ -1,63 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795698882;
-	b=AYbAJLzlzKd3MXEu8Q+ZZN7KxtfFY6Xks1RXCM8SsfENSERiidhYaWDv+63jbSqHvvtm
-	 1W0kXEnOhik0Wp2PUcGVRtU2KHQMJJr3yKQ503VhyLBMwCayFzC2ypLgycteibf3g7j4F
-	 43JjyjHXc0bUMCP0LrzlrTyNu7ajyyt1UgPFjatNv7ju5OXCYr9ZvKYI8+2TFMGn/yoVW
-	 Tuh2Luo1xbHdkNZSWvGhLfd1HITn/OJiOeye13/apBP6n/61hQ0mBt4PBgL6eCenRdz2j
-	 rbgDgUO9Gr89O80yn4YK2Fbl7e1cEXHOmo6NS54tTfXPNPqPynS3NBV3d/dqkQzgdYQ==
+	t=1795699319;
+	b=pReQMFSvJXTsyNIxE1AHVltnVbgsDkZTHE+8R6ai7h8cQOP/SiyLQTQ3dn+eKx6PyeCt
+	 R49qT0K1TyUWG8HIKAfCxFEfg+s4cQPK7Uwf4Y42F/vxuyl8bdeJ2YjNRj+CvQ2rtU7Yz
+	 N9TSz5+ndXmW/HoTGur/dfip+uXWzPh1prAJkwbU9VcXIItpWB57GAPIp3EHXQQKvsg5n
+	 WiQ5qRH6Tmt+GGNrUhb8ZEOgeNA4mSG0pVF6GKaogDDPs+grvE3uhcePFEDTnqHFrJ1Oe
+	 9wMDUI42QPVGCxtn/QTExNwaQZMEX6Fp7JfiaR2hBy974gEdPGpBXSTdZCpNhoVhtFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795698882;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=LzrFaLrOdtynZ+YqTrHBgX0gJsOg0q5WJ1+yf3sSxY8=;
-	b=HGm0yK+SnvKyPA/hygSSQbQDY1mlnpUQ1X8TF2W6JyrNm1wWhGlc9vscmUi89KVDX6Bv
-	 kRdMSOgGaE3imlXbaNMfJlxUfggLxgSEcTMciCEXvMCumlXiT/wBqFI+qXIcu/QI+fKvR
-	 EV+RKU4CMlAMTjSm43/VsM1UOxyMtbiRp8CflGx6HHrDQTxNSZtDjqNMQnOZDACTFLlgP
-	 IEQHHFbYEfL5f+n8AC7VOQbU7sw81OtPuidSNa8m70cmxHAKv8zeT+4bzMSWNI8WhBmLR
-	 pZFji/fspi4JlJo4fGsqmHXY9bJH44qFX2G84P2h6lpVOpSHn6QZZnKgtPProk8EhWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795699319;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=o+IKGY33LI/4UR2T1ioV9Lsm4KUenYJk3L8LJu2oAqU=;
+	b=gvFpkTG1xvI+ARkJJgtw3WDE/xJNznyPsYgs6ZqozDmTEGJt37R1rBna+FZ8nXPSMb5T
+	 ggwKbhNO51bFZB88iRs4M42oD/7QnF0/YgX43dGJGEZ3+KTfjgcv06S+H9CrxbLDoIkQL
+	 jFrSaHlCb1vEVD1iiRll2kaFHQrXqsBrvTlDisYLApZRjOiZOGkR+omVqLbDm3mXZjb+A
+	 L8PgQ6UeWquZXlyU7U+pu+XnFbSBOA3U7mGjmQh/0l3L+BdWBnDyBTzJgfa0HaWA5qK9/
+	 HOd2T2FDMl8GOI/8TpPK6kvN0aJ8Vs5FEO/4TgBwMfsl2iTSfUmwWU4OrU3BO9y9hmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Trrmgr1B;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ElDfkkUv;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8B9606A31C
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 13:14:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3535606A31C
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 13:21:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3535606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Trrmgr1B
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74C6E1F000C0;
-	Thu, 26 Nov 2026 13:14:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795698881;
-	bh=LzrFaLrOdtynZ+YqTrHBgX0gJsOg0q5WJ1+yf3sSxY8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Trrmgr1BPEBD9qbna5U/e+HQli0WAAkfjJQlX+f2zwRKDn03tMFWTGigBk0QHEjuA
-	 lY2gf84DYquCkVAod+yg2DyeQZhKmfSMqfravwMV1Qze5Kcx4HEi6bczuJt1GkAoJr
-	 TvXbOqrghBtkKSgP3fLzN7xXWtcRFW6gEJdXhtwp/BHEgCrpK/xZiPrlqZDJqIKNuH
-	 5AMWWCllTODXNr7+DP376agowqlSXVp+ycMgapV64BCHcHZAOS/FemIDCNdELAo4tt
-	 rhmQy5QLzZml2MX55ofVcbi9UtxVnavgoZuOCvd0YunXyYd/xlbJ53BxKFVBg34Nuh
-	 W8LHmKCPJdA+g==
-From: David Hildenbrand <david@kernel.org>
-To: David Hildenbrand <david@kernel.org>, Rik van Riel <riel@surriel.com>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>, 
- Lance Yang <lance.yang@linux.dev>, Suren Baghdasaryan <surenb@google.com>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Pedro Falcato <pfalcato@suse.de>, 
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>, 
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org
-In-Reply-To: <20261123-fix-rmap-lock-ordering-vma-locks-v2-1-11b04646abe4@kernel.org>
-References: <20261123-fix-rmap-lock-ordering-vma-locks-v2-1-11b04646abe4@kernel.org>
-Subject: Re: [PATCH v2] mm/rmap: correct VMA write lock position in lock
- ordering
-Message-Id: <179569887717.7709.10576258083946748966.b4-ty@b4>
-Date: Thu, 26 Nov 2026 14:14:37 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ElDfkkUv
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795699319; x=1827235319;
+  h=date:from:to:cc:subject:message-id;
+  bh=BJZD9yPKbvcN6W9D+zXkNm8VNP24d/zalauFK05dNqc=;
+  b=ElDfkkUvH0HfbAgk/Wv0fDrTmsujKe8kndfxT37KWwsRkTieHkPAMo09
+   uGbAea5qDA0y+fVgabigMRcbof97B39focGJXl/+XVhYQHtbSugRz1TEJ
+   T/mRHz7Il9ZSIjLXGSDkbCyCXZJdlGws6bhQ+zwTDaH/5FqEZuQ2KpbUh
+   H7DIvc37ZoWfDeeSEkX7o0YE2zkPiKFSnVAuiiETricPDvOKDptVrjymZ
+   Ro+6Uee1RGr1LnIHLhiVxLLbhFwxWknoG46mCAjRKEN4kmGzB6KgCGGrs
+   Es3snk9F8Wn02XdPHgzdcmaDT46T7CSVUHfXLNAAG8ToqRNHJmgQUlTxk
+   g==;
+X-CSE-ConnectionGUID: gu9Ir/h4T4SIOk8k7jw8zA==
+X-CSE-MsgGUID: hHpgvDL6QDSAhAECcTfy1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="4616498"
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="4616498"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2026 05:21:59 -0800
+X-CSE-ConnectionGUID: cECIvfpvQG+oNcmH5SEn6Q==
+X-CSE-MsgGUID: tUQGsGwpRv+hJ53B5qU3bg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="12498960"
+Received: from igk-lkp-server01.igk.intel.com (HELO 800201f3098f) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 26 Nov 2026 05:21:57 -0800
+Received: from kbuild by 800201f3098f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWZQA-00000000046-35Kx;
+	Thu, 26 Nov 2026 13:21:54 +0000
+Date: Thu, 26 Nov 2026 14:20:55 +0100
+From: kernel test robot <lkp@intel.com>
+To: Qais Yousef <qyousef@layalina.io>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [qais-yousef:schedqos 11/13] htmldocs:
+ Documentation/scheduler/sched-qos.rst:23: WARNING: Block quote ends without a
+ blank line; unexpected unindent. [docutils]
+Message-ID: <20261126141810.r4m9XARc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,45 +80,42 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16.0
 
-On Mon, 23 Nov 2026 16:10:15 +0000, Lorenzo Stoakes (ARM) wrote:
-> The list at the top of mm/rmap.c is taken to be the canonical order in
-> which locks must be taken in mm to avoid lock inversion.
-> 
-> However, VMA write locks appear to be misplaced. These were added there by
-> commit 55fd6fccad31 ("mm/khugepaged: write-lock VMA while collapsing a huge
-> page"), which was focused on expressing the dependency of locks after VMA
-> locks in the ordering on them, disregarding those prior to it.
-> 
-> [...]
+tree:   https://github.com/qais-yousef/linux schedqos
+head:   8e826d3d7ebbfa9b3452a017ddcd4b827e318436
+commit: 75e514d56a40feee2576d4a204338c724916c690 [11/13] sched/qos: Add a new sched-qos interface
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.23, Python 3.13.5, on linux)
+sphinx: sphinx-build 9.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20261126/20261126141810.r4m9XARc-lkp@intel.com/reproduce)
 
-Applied, thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126141810.r4m9XARc-lkp@intel.com/
 
-tree: mm/core.git
-branch: rmap-7.5.misc
+All warnings (new ones prefixed by >>):
 
-Applied patches will appear soon in mm-next, followed by linux-next.
+   Documentation/power/runtime_pm:312: ./include/linux/pm.h:3: WARNING: Duplicate C declaration, also defined at driver-api/pm/types:290.
+   Declaration is '.. c:struct:: dev_pm_info'. [duplicate_declaration.c]
+   Documentation/power/runtime_pm:323: ./drivers/base/power/runtime.c:1266: WARNING: Duplicate C declaration, also defined at driver-api/media/camera-sensor:117.
+   Declaration is '.. c:function:: int pm_runtime_get_if_active (struct device *dev)'. [duplicate_declaration.c]
+   Documentation/scheduler/sched-qos.rst:20: ERROR: Unexpected indentation. [docutils]
+>> Documentation/scheduler/sched-qos.rst:23: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/trace/events-landlock:359: ./include/trace/events/landlock.h:210: ERROR: Unexpected section title.
 
-Please report any outstanding bugs that were missed during review, so we
-can either drop the patch series or decide how to fix it up.
 
-It is encouraged to provide Acked-bys, Reviewed-bys, and Tested-bys even
-though the patches have already been applied. If possible, patch trailers
-will be updated.
+vim +23 Documentation/scheduler/sched-qos.rst
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. Further, this is not a guarantee that the
-patches will go upstream. If in doubt, please check the listed branch.
-
-[1/1] mm/rmap: correct VMA write lock position in lock ordering
-      https://git.kernel.org/mm/core/c/ddd689d1
+    17	
+    18	  @sched_qos_type	what QoS hint to apply
+    19	  @sched_qos_cookie	magic cookie to tag a group of tasks for which the QoS
+    20				applies. If 0, the hint will apply globally system
+    21				wide. If not 0, the hint will be relative to tasks that
+    22				have the same cookie value only.
+  > 23	  @sched_qos_value	value of the QoS hint
+    24	
 
 -- 
-Cheers,
-
-David
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
