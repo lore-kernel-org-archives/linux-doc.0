@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.54
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795661295;
-	b=hd9mg/I7pykqUzlPbIgFSoyiIdmSSPOB63H6t0v41KjIkA/Qudk8jM+tyw2CCBvKFiyN
-	 ZHbQX0vD+PsirYmLM+OJXtGiwlRLzrf/MVvfq79gyAhFvBZtTZsp6+1ZiKYDEfSU42cn2
-	 IR0zSOmLOK5v3EQMC1F395uIhX63mdbNGwd0CMNfUVN4ukb4LmEkOGfg5aRkm+1R9K8/U
-	 JeQ+PKxZ7TYT4V9KX0/mLi1BGmjp0ueXhXnhEILVPfhY6lfwSGhlwAqOuD1O1nULSXKDv
-	 ExnZla3v7MHqbzPg85imIqYNfMROvX3FrTQnEXSXPG/EXW/SmtHEVxhX0S4pzgXuRpQ==
+	t=1795661405;
+	b=ttwWUCKTNDL8p4o/6OYzJ9YxFqIFSkpinh0eWQxf6yZ2v8n0VB6x3EtLOz97JP7TywqA
+	 cm0wz8jMlAI4SUIbPZ/gu3x/D4IqwzyzybRmR2RD5C11dueDlK4YkU7QEI2kIX6CN6WSv
+	 gKGWDH3ryV/3OXQUg9FdCIzFIQUANc6VWugX0J2u/DU6rQXvj1hzjJLSufJFHiSrcYJgK
+	 1sVZrwf2b8OafFnQQpKEUC2kV+T75SElsLI4XBDMpCPS3fiVXqgARacJveGyQNhiSZKSi
+	 A1mprMO1OuznxByrAMPpqtgFyxuU68s6bViQTEen1+kEzBE2bhuelIGAe070lAHDi8g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795661295;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795661405;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=sSFnpqUuUbjElix+JO0v+jouPkVBxE7R6M/+d3k0EDM=;
-	b=Rp8+PJvDv/Ked4SkyM0bf5lghSOL3StSBFutaJ908+B/t4GUxp6mVJ+XHpODPIFfksFw
-	 yjEsvoK8MLlpvF5Bbguefiy72gONHrpbJPvbsordEk6w3IQm3Y2/DISLeCzO5Uv/Dz9E8
-	 S8BsXvCSMWEW2Uj47D+2h2hAaHlDMSXhiTp4LvKhq41U4BZriH+m8iGzMnLxgQEEmGuCt
-	 paoMFcBm5ZBlflTCeCkGq24kYa6YXQXZD4JkGWUVK86QKYR1TPP7jTq3s4SC2swHzaOXx
-	 o9Cm2FGQ+3ptcte7QNG7Mq9QIPC+BPlGXBmyefrkMXBEsRwlNefVM5QdctZiizY1KSA==
+	bh=BmeVPwr9SKwxZECZZ/qpqnmowyCWmqTyCjMYX/8OCrk=;
+	b=R8RPftSubEfIyQTC6adT1PLEFFfYI6uIhA3s7iw6ewZxLUi1zmwWa+KwuPrVZbw7GOk3
+	 XAk/0akJnHu2EFx5oTNZqloRnKbqSFJqlf21sIHfvb9/4WLUDj2f2KLJ6kOUGFpGgAE8v
+	 SNZ9lP8Ii0b+hmTj1dxpwzGL4gnuP1bidvVm/+lfPoQy+QK5ZS447ZYUtq4jxgterCtCt
+	 Cp12IdZLLZ22sMlo6fNSV2H8gQ5n/Ee586pg93mj9Dvgzb9mZxW6esdSXoRXL9sckwO8N
+	 OdPcPqY7z3LKjwKZKz5GshbaiSctu+bIZOst7OuqDVY1vFQH8vROJhLtRFa+mmo5UUQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=RZStdTq0;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.45
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=epBmNt2L;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.54
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02282606A326
-	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 02:48:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02282606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4529E606A31E
+	for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 02:50:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4529E606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=RZStdTq0
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5bfa65c8617so4088081e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 18:48:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795661293; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=epBmNt2L
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5c1a947b4adso5439721e87.2
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2026 18:50:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795661403; cv=none;
         d=google.com; s=arc-20260327;
-        b=ABXrqI4U+loWrMpoHA2HomChJ21nSb1XCTEfqErcmpdXX5NBB0Vxvyc8xG/iJzzKy7
-         uAy/wA0TpNmnG26UMlMT0HZIZZb9tdF8lpsxF/uJdIYA67Oljfnh3eVQL4uW6dCCDlFD
-         PAHHVSdVo/QUxsUGvBJg8IzkkmoQH1fLF2J2YywH3k7BZLsgSc0XqSkWYtwL5cvRVobM
-         rpMIagkHrYezfeLKPsG2T4RsBR1CLXVa9eja5Dq3MxWr32JLjcrN3K+7AeFW06wE1f8j
-         KxwgM85jFNxhKP8Mq//MBbO60UjZp5faibphTwymr3xuBoKQSvpJyBsk/UlvQgrGkUQn
-         2voA==
+        b=Fs4xJErXj00R2ugvmbQxYuzrrvDmajt72ejfKp+jCd1PfQbDksmqZBL1ZOZtamK6At
+         TUNfHClYaSVoigrrzbIt1iEn3/8HkN0hnfLcuyYpzG5hH9RVnfUnps6tIAgEEboWr+iR
+         LE+tpHNM5fk6qjJfIr2axZQJ12ZAB0hEILkihfAlp8S8rzT5lrX6tvRAU9VQ1SCGriT3
+         i52zJl+hTjfHFhVKuJbGyAFrb1qXcIcFfOjeGWuSfQtKugZE0PG3cxUpGXhCDX2TeWwB
+         jNf5sLHwlBtj0Wo493X31eARU4pkfKBxaki5mGCWsI4rooidcNN9f5/zvEyN5kQ3/j3K
+         ppFg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=sSFnpqUuUbjElix+JO0v+jouPkVBxE7R6M/+d3k0EDM=;
-        fh=eXiRMeKC9TPeZT2vps4mnCHSFtiknJ77TIiPSSwztX0=;
-        b=hZrAU76yN0JsvUDQaJ/S2WiPpL3w/nuJfhBrJJmB0XSBjhyBT1Ul0cvGz6CVpSNhx/
-         lIA2vO23dnFHKrU6pY+bEBGmPiuR1cXtvxoEbGQXPxr9gE5f53EXNEKYhrF15Ron183r
-         7cd2rS39xQWrxGKas1VxnxFpiRkbdMA/0cDxkHevWcYAD1cwjDLN/VnFes8V+uBH4TlP
-         mVPW4vfbj9wMzx9pB2JHWwMh/U9Wj8fEeRsVmlzPfR7ClWx60/6nhlmpWIJPnd00J5yf
-         3krFNqB0eHthjjYk+hmT+yH9NDHueOgTSUSsBLUwxDBcoscOsV52g4utFGVXplPxsgmD
-         GzYQ==;
+        bh=BmeVPwr9SKwxZECZZ/qpqnmowyCWmqTyCjMYX/8OCrk=;
+        fh=n/KppdIqmbRLxoIjv7av7ttBbxOot3/3d+wS5NhGN84=;
+        b=IvWNdeus/f02lTNPFsRmftT5IBrC05ZjHta3kYgPlzJ/fZsK12TzDdBVuCIPbL61yZ
+         Bce8eUhBF51pmWR2eYPKg4II8FPomFRLACqakX/jwbComGGlvB//lcGO0nvorB5paUzF
+         oPzRagzsbhvKw/YPmL61EiBDEE4ImAU8VGRyrcIPFY7zrsOuSo9Y3TaAXmoNQTQehKOi
+         YXKhCRtFSKlhE1mx1IfpqBRycjWfnDRDDi3UWaPrPOoNVG2eQdzFGgQFJRHGb+R8p1zs
+         m+JepLDfyZiDw6i9KwhjcfBFS7TGY6SLq3hyf7JRyPC1LXaUTdk5UOya8WU2zsEfKTvb
+         19og==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795661293; x=1796266093; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1795661403; x=1796266203; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=sSFnpqUuUbjElix+JO0v+jouPkVBxE7R6M/+d3k0EDM=;
-        b=RZStdTq0/KWhsgaLcWelVgO0rfVN/AIjokPuIYlr09nEwdBHkcFLaFMsdzW7BkHetL
-         TrDKVN/cTWJzYk71S7A4+NNtvQoP3fTbfFmvM43PDObmq4e8Xxy6WIJoZkDTK9IIUsIf
-         w9JLTG4dof3j4mgJPFctiDJ9T5scHcr4koVZskvs/v6f09ECohStwaZv5MEUwEfP5mnI
-         /g3RIu/7a5HYSdLBr9PIQGqSigyBJzfghlOrA1HmzbfehPa0QtlpFJqYU2GgRzZVInO7
-         xWFhVUeHQIvyS65EnUyqjeGxAoPMutTqJB8oRMUqZUKtwIB2fYuQluYoAPZrjP7DCQHn
-         fVYw==
+        bh=BmeVPwr9SKwxZECZZ/qpqnmowyCWmqTyCjMYX/8OCrk=;
+        b=epBmNt2Lv7Dcu8bzZ4iBr1H6rQ82whFFTrCChG8DCgR1ptCnX78/BbmIpTwF8a7L3T
+         eIPXH3FwV2Ahe+Ar796UlHkbFTMIfk6SUNGp7L68LZ4MBNU0clJ1pPuiegK5QlB44jdi
+         XeuaJXP4HWpl033aBhoIISlJlOjGvc2OAxZoVeXxAxvPW9IW2PHJc3iil1phHrn3Qmow
+         tp5LPWh7gceHx8x8+yaJbZCAaRS+Z/AXpVEVZ6ed8qMJh0n9XCgavhUR49jhSJi6wUd0
+         91dLuVfikSCiKeUStFiicmpr8uIEOM1nUNOS25HxhleNe5g1sSWCjIUv8bha7OoZrHM8
+         yDSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795661293; x=1796266093;
+        d=1e100.net; s=20260707; t=1795661403; x=1796266203;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sSFnpqUuUbjElix+JO0v+jouPkVBxE7R6M/+d3k0EDM=;
-        b=B7GcPhzmnRaSzq++w/kKFKTmaBB7K37ub/h1jskoYGbJdk5Je1fz6jbWFoLBFbat6e
-         Sge+M7CVbKJmMauX6OZpK8wrBYmvTf7w9JbyTZbU+ejJ967YEWxJkGLLQRjCJ6TJXBsh
-         bDtq6QLedr6KTYCJriFGWL01CEneyeTVGp0N8AM14OJ8c18I6aWzTy0NV4HrO7xBYASf
-         /cGiHcOZWEi1fPbv/8gnvixKFObRq2No1eY9t+z30FQbeOdugJ/rlvc4oLfHx1/1w62/
-         eJ+AxA3N34B1Wo/WHNpEJ+zJRVU4l0SIF3oAJ9f5zAafDJh84lDKE9c/TyiHpz0WQonA
-         gjXg==
-X-Forwarded-Encrypted: i=1; AL+hErF13QVEQ8c9ROxrRFgJYV50+vOvTLcSuujMn6bgATGbY4y+3H3NeR6+Ri7NgYINz0KSI8uD1vL+XbM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+BUAsTE02xsSE96cTCB200elxXTdnU6hDgStGU6QY3oDGIvfkf
-	b6uI5IFmo/AlPLYvgN5fPalx1xkCHb/Yh9KVLv8RCsbbd5L6ttv28fFXtlNA+z9nuY/o7owVVVl
-	bkhT+BJzvP/3tKpBFoUhmvY8PSvwIO71MlKUUsjhm
-X-Gm-Gg: AZFdTZfy/yg9XfGeoOh9w5lmIE+uMvs0jpH2ccbaHf44go4uF2+jEdUtfP9EHVLS3ln
-	zk8XPueEhgQ7aGGBZzP7MNpXMCfmv7VspPYFk4Sl+lsCyfHxyTZ8XYl6RAmoEEFzm3j5YszalIK
-	mxX9Yk8OzVElzQpqfs3vg2wuv2MBg8wClsmy+m62AVnnVP+NJycCm7c1zLHEuOruC/WBkhU8stz
-	24VpLRLYX8cmetBloYhb7eV53vvwFg/ahe9QW5beVvVpSwR90LgAN6xsQohLAaY0z6CeM3vZqMh
-	i56rHa+B3awpxP+kLTQtpDfxFu2rWgxu4sGz0k79xKipNbwvAzi2bObcBXP3FFIqKuKpaS1GOrq
-	JhRaKVGTnLHn9pBR9cd2u4oWMyfCE4PC32sJG7JuHLZJ3lE+DywrVi3vv5b6PedBmhFk=
-X-Received: by 2002:a05:6512:3d14:b0:5bf:d54c:c189 with SMTP id
- 2adb3069b0e04-5c1bc660a0dmr6174968e87.5.1795661292818; Wed, 25 Nov 2026
- 18:48:12 -0800 (PST)
+        bh=BmeVPwr9SKwxZECZZ/qpqnmowyCWmqTyCjMYX/8OCrk=;
+        b=SyGJsLqskqIflkXWzTTSqAOwUo32hNRuERWn3+RWU/3W7nrmFVhMDd0c6FdrgNWT/t
+         r0cJ1vTZLl3t7LxWlxLQe2mkUJ4UcU3vxWnQiOlcp2bLXvLH2+kZwHKeCY16rEipbVSH
+         jocannIuQ/rDArW0/KnrBdiTBo5phzzaQ1w6e2vPP5KKArCCDkqQMaJ/n/+wMW4QME7n
+         xnHvHUKMNuYliowAWic1uMrfIvu/4tYqxbT0o4ofaVQafcV5TizKZfvxYaKe/xwfXL42
+         E3AqyjA4e+0sAbtSzO8oqxBCDi1QagfaKiuE0vrS80TlAccQLaB5ntRrRKzOmY6yRJqL
+         QcKw==
+X-Forwarded-Encrypted: i=1; AL+hErEOYtgIdD9x2Y9tv7hEVrU82Pv540sXMWPslbC9nUB0AdliANiEQ8i5IeKc7T8fnFCsFU0UjWiVog8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/ukTAgrpb7Mm4pX4F0GJBxB7eRLjh9sxIEryWfLHA1nWr+if5/
+	JUwBk7wGBuHsdkLPXTRetO2arlsXC8W09qF9rxEaYxtCiHGXkbzALkbHNT6JjMDjnhuDWOAT2Z4
+	od1uO5kwdzbD0tgZbVCViCfGn72kNcPAfcvE/YZ4O
+X-Gm-Gg: AZFdTZcSV/9e5HrTLR1BvPLfO8/XGp+3A4TTHWe76gdX/PLpjKNGN54z1s5Podc0Um5
+	i2pVH0owLudCN5tY51hr5rnG6b5MAElIaXfqieGvE8IMWlHyuFi7p4uNo5QzkyJFi39ajNtMHfz
+	eAW9lM8ehWRUnd/lQ/yBbWFbqtaRzmnM0VAhB5/XIoBNaFLoR6/vAeca5n+OrpYOMqEbmaWjhvY
+	OB1UCn/+OjRAJDMqNxBAD2re7Brp3cb7BNwy1NAcHM+YRRFsjsLpR4ZS+aQ4UXjBtaTnlBWb5ok
+	tkMq1Wofs6pG0Zx3XuQQFvRywxWr2qH0kQmEICVjWkUeFr05uZborHD/dp9dXvLYpbo01GPPmT8
+	JsiNV29HetxB8Q0Ir6yHoBkDhlE946r4lrscZDMj3azoIgslxgs3KWUSjN9vWmJtPQgE=
+X-Received: by 2002:a05:6512:1318:b0:5bf:b8f1:80cd with SMTP id
+ 2adb3069b0e04-5c1bc8c2613mr5298026e87.49.1795661403093; Wed, 25 Nov 2026
+ 18:50:03 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,49 +104,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110020632.4003499-1-svv@google.com> <20261110020632.4003499-4-svv@google.com>
- <CANRwn3S63O+WRTGhpcNR__ybSuYUb2uEJavUY3b9Uaa_vEhWXQ@mail.gmail.com> <CANRwn3QjnmnhJP2y7tihZWrvgkdT9PG+qGaNbEW=x=mgUP4OHg@mail.gmail.com>
-In-Reply-To: <CANRwn3QjnmnhJP2y7tihZWrvgkdT9PG+qGaNbEW=x=mgUP4OHg@mail.gmail.com>
+References: <20261110020632.4003499-1-svv@google.com> <avKAaJxlxE8gOYVV@google.com>
+ <CAKF84v00nJ_+2Tf8m66LhGEKvqnHb26YD6p+FRUXK5juYEPQZA@mail.gmail.com> <awNosbiWPFdsbUN5@google.com>
+In-Reply-To: <awNosbiWPFdsbUN5@google.com>
 From: Siarhei Vishniakou <svv@google.com>
-Date: Wed, 25 Nov 2026 18:47:56 -0800
-X-Gm-Features: Aa3M54rOxoiOvBSclEq7_xDi6e9FQMltiQKQ215JTx5OlREUy9W3b-zaJJ0tzEE
-Message-ID: <CAKF84v0trQ5gpW9ceGmjGF-_Sh7vgitoeoqxRNZ-+xScnYU4MQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] HID: wacom: report ABS_TWIST alongside ABS_Z for pen twist
-To: Jason Gerecke <killertofu@gmail.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Ping Cheng <ping.cheng@wacom.com>, 
-	Jason Gerecke <jason.gerecke@wacom.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, 
+Date: Wed, 25 Nov 2026 18:49:45 -0800
+X-Gm-Features: Aa3M54r6fq9UxV6r7ZXlZATug1kAneGhSH_0CFFee4KvRhKktEz0ou5Sv9ToIW8
+Message-ID: <CAKF84v1B6bu_YAAcdKkOxC-BKY8f72tWQMz2s5D3Mg-pMnEH5A@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Input: add ABS_TWIST and support it in HID and Wacom
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Ping Cheng <ping.cheng@wacom.com>, Jason Gerecke <jason.gerecke@wacom.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-=D0=B2=D1=82, 24 =D0=BD=D0=BE=D1=8F=D0=B1. 2026=E2=80=AF=D0=B3. =D0=B2 11:3=
-9, Jason Gerecke <killertofu@gmail.com>:
+=D0=B2=D1=81, 22 =D0=BD=D0=BE=D1=8F=D0=B1. 2026=E2=80=AF=D0=B3. =D0=B2 14:1=
+3, Dmitry Torokhov <dmitry.torokhov@gmail.com>:
 >
-> On Fri, Nov 13, 2026 at 3:29=E2=80=AFPM Jason Gerecke <killertofu@gmail.c=
-om> wrote:
+> On Tue, Nov 10, 2026 at 10:57:31AM -0800, Siarhei Vishniakou wrote:
+> > =D0=BF=D0=BD, 9 =D0=BD=D0=BE=D1=8F=D0=B1. 2026=E2=80=AF=D0=B3. =D0=B2 1=
+8:25, Dmitry Torokhov <dmitry.torokhov@gmail.com>:
+> > >
+> > > Hi Siarhei,
+> > >
+> > > On Mon, Nov 09, 2026 at 06:06:29PM -0800, Siarhei Vishniakou wrote:
+> > > > Some styli can report rotation along their long ("barrel") axis,
+> > > > commonly referred to as "twist". While the HID specification define=
+s
+> > > > this usage as HID_DG_TWIST (0x000d0041) in the Digitizers page, the=
+re is
+> > > > currently no corresponding evdev axis code to expose it to userspac=
+e.
+> > > >
+> > > > Because evdev has no MSC_SCAN equivalent for axes, drivers and OEMs
+> > > > currently work around this by mapping stylus twist onto unrelated a=
+xes
+> > > > such as ABS_Z or ABS_RZ. As a result, userspace input stacks must
+> > > > maintain device-specific workarounds to know which axis carries twi=
+st.
+> > >
+> > > How is it different from orientation?
+> > >
+> > > Thanks.
+> > >
+> > > --
+> > > Dmitry
 > >
-> > On Mon, Nov 9, 2026 at 6:21=E2=80=AFPM Siarhei Vishniakou <svv@google.c=
-om> wrote:
-> > >
-> > > Historically, Wacom tablets reported stylus barrel rotation (twist)
-> > > via ABS_Z because a dedicated evdev axis did not exist. Now that we
-> > > have this axis, report pen twist on ABS_TWIST in addition to ABS_Z.
-> > >
-> > > Keep reporting ABS_Z to maintain backward compatibility for existing
-> > > applications that support Wacom devices.
-> > >
-> > > Signed-off-by: Siarhei Vishniakou <svv@google.com>
-> > > ---
+> > ABS_MT_ORIENTATION describes the 2D angle of the contact ellipse (or
+> > tool projection) on the surface of the touchscreen. Looking strictly at=
+ that
+> > initial sentence in multi-touch-protocol.rst, it sounds promising:
+> >
+> > > ABS_MT_ORIENTATION ... The value should describe a signed quarter of =
+a
+> > > revolution clockwise around the touch center.
+> >
+> > However, the rest of the section clarifies that this is the alignment o=
+f
+> > the contact ellipse with the X/Y axes, not the "twist" of the finger
+> > itself. In fact, the docs note that orientation can be omitted if the
+> > contact area is circular - even though a circular finger or stylus tip
+> > could still spin in place, and that rotation would not be conveyed.
+> >
+> > For a stylus, orientation is equivalent to the tilt
+> > projected onto the touchscreen plane (which single-tool stylus drivers =
+already
+> > capture via ABS_TILT_X / ABS_TILT_Y).
+> > By contrast, the proposed ABS_TWIST can be thought of as keeping the
+> > stylus at a fixed position and tilt angle, and using two fingers to rol=
+l
+> > it in place like a pencil.
+> >
+> > This also matches the HID Digitizers specification, which defines
+> > Azimuth (0x3f, rotation of the tool projection around the surface Z
+> > axis) separately from Twist (0x41, clockwise rotation of the tool aroun=
+d
+> > its own major axis), and hid-multitouch already maps HID_DG_AZIMUTH to
+> > ABS_MT_ORIENTATION. Since styli can report tilt/azimuth and twist at th=
+e
+> > same time (and single-tool pen devices don't use ABS_MT_* events), twis=
+t
+> > needs a dedicated axis.
 >
-> Still waiting for the requested inline comments, but in the meantime
-> I've been able to test and verify that the code works as expected:
+> OK, let's add it then. But we need a more precise definition of what the
+> values mean (i.e. is rotation clock- or counterclockwise, only positive
+> or negative, what 0 means).
+>
+> Can we also move it below ABS_SND_PROFILE in the doc?
+>
 
-Thanks Jason for the feedback and for testing this!
-I just uploaded a v2 where I had to rework the rotation logic - this
-way, reporting "0" would mean that the device is aligned with "North"
-direction.
+Great! I've now expanded the docs and defined 0 to be in the North
+direction. I re-sent a v2 series with these changes.
 
-Could you please re-review the patch? Some of the code had to change
-significantly.
+Cheers!
