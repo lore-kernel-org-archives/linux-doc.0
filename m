@@ -1,112 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.166.238
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795783775;
-	b=R4VfNAR1FI0dbq1dNIy6YuxsVvKQtd+XEXjAI7s5bAMM4LAuof7FSzXtypg6xAPdZ+Gh
-	 ZXIUJLNxHewmr/0f0hoDMnwUU6o7CygzjPEli2k3RL1X/hQU23Cd5Kzp4ALOwmEwH1KZe
-	 o9v65eRykBba2yy2UGo7gh2HcgpKPFDCluhMhGmC5ET6d+2kuA7Rm/ovsc9IMhaI4yGvv
-	 5K0SJlsyv/okae5urq3NvrgsA6QJg5JexEwJz//sSpJOCrbnN+ipxC2BPc0X95VeQNRP7
-	 An49glbbQgePFVtSXkRTTA4giSfmNWWn5WwLzp0hSFGRvXgpW4FS1NPvShsv+eaAMlQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795783775;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:X-Proofpoint-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=qX2QxydGOWQ0foSOYe+aF/9HCH/m0/YglsA+X/KctSA=;
-	b=5XnJQCu2tv+TQyljhifRJhy5KywqtghGCsxPYdnFBXDDTju+6/8XHAttALR2lx8OR9oV
-	 louJg8v04EnGdHo9La1gKmBPvXbvPoNSB4d55JuY9mp7mDu+lA7xkf2xGCx47wdqpTRlN
-	 OE6ZZZ09vbAXQiLVxWFxjLpAAvXlEI5mu0YzmQY+95ovEWTmIZpRVH8I4jjkk3dHeUJV7
-	 S1kgoK90k9/hZXJnqud7s/ZZa8dvx5YZaRELeEJgMfORQgi++Ey8viyg/0Y3ZlW72SCfr
-	 y9KOYr9opHt+wtiiaSRFRxG8G4MVwbnIRpQiIr/vboU9lcbHJRorOUIQwn4td9kebIg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=windriver.com;
-	spf=pass smtp.mailfrom=windriver.com;
-	dkim=pass header.d=windriver.com header.i=@windriver.com header.a=rsa-sha256 header.s=PPS06212021 header.b=WRREZ3ml;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.166.238
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.46
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795784098;
+	b=HpAr1o1zjnrC9KLgKCEl7zfu4cmffKJsvx4PJv8z0kGoeK/JFF4TlLSj78WF/4SIaEbG
+	 U2shjBE0Szyp7lp8JCwTf5NjvgO70UrUPXpFa/oTvth09XUPo9wh/4fRVpmi03KqGKIKG
+	 NtpgaRM5v7DDkKUEeufUZMaKZroSITQ6ZEqqPLaCzhVj2gjHl8iGxEDzErDIZnONA74kR
+	 P0mLL+OdffXgF6eYNibKO8zkiMQr7kRE+kYOjsG3ZQDPCV6OYbQuQ/StzmXpZAARdPkuR
+	 UTH1ceaUt7sy95WYo6CRxBt703j6rkOA21hE2nnaFQFCSBwNtrGNVgQwzajbtaSVOhQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795784098;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=BIsNU2toYcPxvRASiDSGEyVwKK+YxJ3krLZbrLRoCLo=;
+	b=UEQQHTQ/DTkA2swQ9LoFJ0y0pGZJ07WAmNjxgMzzhP7UWX7JMV5Cc3BtMkoGIYQnmIoo
+	 88I82hseiIaZC1aoaw7GHj/51tKOBKoFlUI2zXLkgE4wJdVtXh7whC5ZgfqbRWST85jko
+	 wGFqYMPvkndY8p4BNFfvYkD438T63ZF+SE6mMLo75Qt78+qyrCYUunmNwbkkhJveE/ZYX
+	 SVrdbkdgHqoBELJLX7bOnpXpW8wV8WrygdsYprxIvAml7NmZf6XJeGOyajJmqiA403ike
+	 MvnZJqKKbj9CF5Cj67kUDUfNylbbwOpd4HJrNAB/yYF9rTzrTQ0f+Qy17VqPALZOzbQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=resnulli.us;
+	spf=pass smtp.mailfrom=resnulli.us;
+	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b="h/lSNS6m";
+	arc=none smtp.remote-ip=209.85.167.46
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C2E606A31F;
-	Fri, 27 Nov 2026 12:49:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5C2E606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9DE606A326
+	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 12:54:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE9DE606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=windriver.com header.i=@windriver.com header.a=rsa-sha256 header.s=PPS06212021 header.b=WRREZ3ml
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ARCgDoo1163933;
-	Fri, 27 Nov 2026 04:48:48 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=qX2QxydGOWQ0foSOYe+aF/9HCH/m0/YglsA+X/KctSA=; b=
-	WRREZ3mlLgJuhE69lh/foBz11vZ1iap0BfINWFbeDwzueE6Xz9VkMBPMR3vM+KhQ
-	UYlbbUV7j7KLVmcMukJwbEI3QBWoqwQ4PGzm3XdbZXHBVEMKHsHFne1ANokkeLVq
-	SmZpldINhsYROCqUXjMNXaqB8fBa5Y7k04/pBAjrlrZiYJlbANxcMwyNdLo1YhEC
-	SPw6eskYeZ6/CShMMqOuitoNatPoto7w0zAXNZ5uLxaIvk2VtZqVQg3BUq22GUhh
-	Y5tcX32s4nNnD7dTBXH2zOwUic5oLfVwPqVdi96xmGoRxUhAy+ufsevtkyYv7SFN
-	gprF0+WkWuBUvUlmDMoVlA==
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11020089.outbound.protection.outlook.com [52.101.61.89])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4j516x05jm-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 27 Nov 2026 04:48:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JpeDPCRt4WxwVqiFF9NpjwNAYNBq87EX235wHoK6WksweuBsBaPEQ2yuQS9HLNQMp9TAsf93hC9QI5bXIFqiH779jc1a5pGzIe5VwPM/MSBOk3HcUmpJE8m9Qg6jnXxwZkVH3dJJS6Aoo0CjRntQrgt92V4X4NR2Kw3UUOdZljvYmuQORQXkswGpDz4JZ0aYY9Ux8SLhIs30PhAoC/TIpZWMpcivQR8UizfLUsU84AVWMUUPtwBAFKaje9Kv6z8i/Dc09NAXx4hBCrNpPRf7oWsXzhr0XUnSLx0cFGayJ4NERe2rF/RuT3iCqh/L88Vy6JKRxyUqGX+GN9mqFI87RQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qX2QxydGOWQ0foSOYe+aF/9HCH/m0/YglsA+X/KctSA=;
- b=mhEpsMHF4rtJzw4nCDzGXGbJVSh2T/wyE9pp0lu4q/J9JmJobSYIBMO7fVGA8HvQdbOeFIsIzUVUMSq96VXZc5RyCcjNXKTEoh7bojpQdc2HfdbarlFRVtazLsu2FOzyWEHnU/e7FPAXfyq+U4W1sZoBTXnFnVS/N9tpWWaAZrkdj38A+qG4+uQR6Cpf+kZn6lsfI8CkuPN+jJ+ajI5kFTfQ9sBQ4vBf0j3at1MC34A5WR2lZ5eUVlsFf5eeL80zQXArbl7Bu+TYodTXYy5U2p4/t9ml6ZMbCYnt5qPReHCJrMmqYUfxraTEzQg+Q+aROsoXNOT3mdAEJOtIoEbgTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=windriver.com;
-Received: from SJ2PR11MB7546.namprd11.prod.outlook.com (2603:10b6:a03:4cc::8)
- by DM6PR11MB4642.namprd11.prod.outlook.com (2603:10b6:5:2a2::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.6; Fri, 27 Nov
- 2026 12:48:44 +0000
-Received: from SJ2PR11MB7546.namprd11.prod.outlook.com
- ([fe80::ca9b:dcf:8881:bced]) by SJ2PR11MB7546.namprd11.prod.outlook.com
- ([fe80::ca9b:dcf:8881:bced%4]) with mapi id 15.21.0662.004; Fri, 27 Nov 2026
- 12:48:43 +0000
-From: "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>
-To: Aaron Tomlin <atomlin@atomlin.com>
-Cc: axboe@kernel.dk, bigeasy@linutronix.de, corbet@lwn.net,
-        frederic@kernel.org, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, marco.crivellari@suse.com,
-        mingo@redhat.com, mkp@kernel.org, neelx@suse.com, peterz@infradead.org,
-        tglx@kernel.org, vincent.guittot@linaro.org, wagi@kernel.org,
-        Ionut Nechita <ionut.nechita@windriver.com>
-Subject: Re: [PATCH v16 0/9] blk: honor isolcpus configuration
-Date: Fri, 27 Nov 2026 14:48:16 +0200
-Message-ID: <20261127124817.15699-1-ionut.nechita@windriver.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <rfppj6h3dfwsyvstju6k62cigzicdhoqy7j6yo7fnne7tcy3no@fvjpn5glg73m>
-References: <rfppj6h3dfwsyvstju6k62cigzicdhoqy7j6yo7fnne7tcy3no@fvjpn5glg73m>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VIUP296CA0040.AUTP296.PROD.OUTLOOK.COM
- (2603:10a6:800:34d::18) To SJ2PR11MB7546.namprd11.prod.outlook.com
- (2603:10b6:a03:4cc::8)
+	dkim=pass (2048-bit key) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=h/lSNS6m
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5c335ff461aso681886e87.0
+        for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 04:54:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli.us; s=google; t=1795784095; x=1796388895; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=BIsNU2toYcPxvRASiDSGEyVwKK+YxJ3krLZbrLRoCLo=;
+        b=h/lSNS6meNH3H33ItcK06LQ4siOR34uSFHUeHIkaa9tQVVkXDGSr5/fyoyUqZjM+4v
+         5nXjOR74edcabmb0d44caTq1P2mhqQyo4AZvRAklJNxQXS32K8mHR5yxOAhn+AK4deKm
+         nTQRj2lE0MiLFUZjIAXfCoxLWqeHe6vCDrczVRPwwRXtgxbBMogwnx2qUOXrw656oCWi
+         PDm3EV40p5p+xnKWU86lNx7nH+oaov3v2Lcza+jJj2VopoB2N2UE5rlOilEQ7Ts9nDXD
+         9rX9ncUq5461FLOhUlKIs4WD3CfOS6CN3b96kMBj31oddJ5ESzGKNWje8ne/b172bm7T
+         zsSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795784095; x=1796388895;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BIsNU2toYcPxvRASiDSGEyVwKK+YxJ3krLZbrLRoCLo=;
+        b=OIXz8/26XuvxnRd+OaWFAxyZzinXmj+xSciPbE6fzPD5k7Vd9dpJpXyZsrxFi3PZd+
+         gM2467KVfaypbpyXjGAovm6SlpmuFcWQxjbDviEBXoozcM61OpDS9Fd7X5Fyzp5J5H4n
+         +N6SWs9q/WXUPPxkfjcr7Ag8NJ/t03/Fk6OwNEx7cxMztHsqVTfBK7PQEBRJ9EjnBrDC
+         DWctEkYDHuc+oaoF0ekpVyB0/KjMCKcneHhJFsJzKqOOjO+kbcG+wqU+Z38wA2oz+gkO
+         3RGwBzw0GX1PCKeTvP7VEscBheVtbc/unVXq/gmS4HJwNJTLyVPNBpGD8ro94W4bNKEl
+         heGw==
+X-Forwarded-Encrypted: i=1; AL+hErGLsKA46MPogSmr4QSv1sWvCtUDVHVyWQUZFAePXEohgeTi6Zk9VY6KSnFLpyJEDORp7flfrFErLb0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8ze8r7wJameW6z2epROxo4nsz7VcJuQ14KXkdhdvGaXFTUmkpG
+	8/cdC9fu5ecJlnIrtDDHimFoiDSMw9gFkwWRgyGKlsstKObUYcTOKN3LDNUv0lD/KbU=
+X-Gm-Gg: AZFdTZcOr1YYfOxDXjrhT6zOy3XHCSaymKV4NuaFv6T0LYZA1hfh4VWv4u188knBdIG
+	e1PzSGVnG/owZ0vJcyItiXpCvtJ0iQU2FyxdGVEdsswRrdfLX6K02+KrW0EjlIFK7iEh+ifKnqO
+	JmNd0Vg+owHUQVz3If2mbXTf6Ab3QXkdNchtVcInU8t3ABkmK4C5cf5MNEqEDc1nw/9jdFQni6v
+	/LsflTfEgoqEtJXS2Yve8mbDmiiJ/i+vOyODNLO8tzOgG2lBFIprTicDcFdMqVfa+E8VfFK+65E
+	DnCkvtNwSUE1xl+eKuHq2qj3jMPup0HFYGSx8Ul4xvizLSIJSAN4CPjPWMmNM3nEjT0dn5osGlP
+	e4xYD080BSVGAOIWV0gjp2wDsM+5fXJBfdFexYdpz580KLVo0AIfPf8maT90gKxPGkdJiEYyYSo
+	/4LmYgs3z78mnazeMeIN8CqfnfmMhO4vUCnUI8VE9DBWVyT+Lp07V6w88XGS1LopwcTEwlhhCsa
+	is5Ti5PfTBa2JPMSNZ2ZN5y9T3qL/SQlckMH+Ken8p8DSY/B/vZYan7trWkEqkQNnsQg/+0TLVp
+	GhJ6kVOxYsTeaoekFW8P8/g26JfM7BIcL+O1sN5c
+X-Received: by 2002:ac2:4bd5:0:b0:5c1:5986:cd2 with SMTP id 2adb3069b0e04-5c1bc82f327mr8185787e87.56.1795784094485;
+        Fri, 27 Nov 2026 04:54:54 -0800 (PST)
+Received: from localhost ([140.209.217.212])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5c1bd079047sm5936259e87.76.2026.11.27.04.54.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2026 04:54:53 -0800 (PST)
+Date: Fri, 27 Nov 2026 13:54:49 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	jgg@ziepe.ca, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
+	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com, jarkko@kernel.org, zohar@linux.ibm.com, 
+	yeoreum.yun@arm.com, aneesh.kumar@kernel.org, dave.jiang@intel.com, 
+	nik.borisov@suse.com, sergii.dmytruk@3mdeb.com
+Subject: Re: [PATCH RFC v2 1/9] attestation: Add the base family
+ specification and generated files
+Message-ID: <awl4L8vEV5bvwE-Z@FV6GYCPJ69>
+References: <20261113160838.2512652-1-jiri@resnulli.us>
+ <20261113160838.2512652-2-jiri@resnulli.us>
+ <179573913907.519186.8407997114208887089.b4-review@b4>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -116,141 +108,330 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7546:EE_|DM6PR11MB4642:EE_
-X-MS-Office365-Filtering-Correlation-Id: a43e2ed9-4da5-4993-7c20-08df4c84c525
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|52116014|23010399003|38350700014|10067099003|11063799006|56012099006|261021121427099003|261102123227099003|261026140227099003|261022075727099003|261022105027099003|261028144727099003|22082099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	cIw+/Bfw5bpGDGLwIsXnqOYwPhmfoz6n2wkXQ7NkOizXEN9jmMVUKEnK6oQO7JFUlIwOj/IWSPQfXC7jqIfa8vOPSTA9Sk7xbqqjskXGJevQhSfiy1uLASvPUQk2pJvu3ueMwoo9ZtuvG8LJFDdSkTDg4UHmyw7ai6Ir2m65B/AVfAbVAojL6IyGhS8OZ+gSgQp3UbMAxbiANwbobYLfqvmkJbjoXO6c4nxWFkPpC9/EWWOhU3fByFY2A1/E9Oz5jNPNl9Yb5zyTUdNoG9BdJqqqo7V1Rc8xa9TzuBwj9h5QVL76k7IyTLbefL/RLYfnMpYJI5fLBB3iTGD+Hpop8LPyBwCpMtQLvteLJJTR2e108J0Y2ataid5DdUU1VFvijNB8RA5XV03XMI6eAa637nhkZl6iE+i8zb3dnJhI5zgr8MU8eXZBKJAMl8aerOy1RiEocwnXPZrUAAzVD8qKdEtdhor+pZa7EsKqXDdqYH//TtVVPKKKhNAi4K7Ve5PyoEgaegOTp1grNkN0fHFPp3sO/jC1JL16CO4hKK63U537oB3oAmQr1NEa7mgRjisQ6YeZIKJ42CzUs3vrz+jVtpnweArcQ2MgURPFjpVmMMk2FJfCOREj3O8mBM+kUObWjCusLwC6gZkIHkDLKuYfxLnXBmhyTkvM/ocv0E7ZjQuFa/7UDTeBe0FOTJ1XfOi90F77lRe6IkBLgn0pL68PpzNk2muxiTHHONxncK3cNgE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7546.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(52116014)(23010399003)(38350700014)(10067099003)(11063799006)(56012099006)(261021121427099003)(261102123227099003)(261026140227099003)(261022075727099003)(261022105027099003)(261028144727099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?X05ZTiSkyDqOfdvBN6JWJbwInRKM4iDvLHOcscgoDgQQdYovnComDxR6gaWE?=
- =?us-ascii?Q?ILTKJgaBnahZbh5We76XB4hlUJwj26jTcBpgnr0pZ+JbrzAWnUfmEiZVIPT1?=
- =?us-ascii?Q?BCy4CWAorFjRCtkGyOfjo8LWKcGLX0UqzMRxTTfM8pC/FlomeHBATD08+HNo?=
- =?us-ascii?Q?pr0YxFFemfsD67bmC/nfcjZ2SDc57T5Z75b0xPYZog32H2M0cW2xE82A7xB3?=
- =?us-ascii?Q?qMYmxbC2/wPdC6hVce5e9mJrKq0dusrAV+Bek7DnSqI8oto+AUxUGtjJ/Kaq?=
- =?us-ascii?Q?zbzG4yb1/YrEKCbKfIX6/t/yKmHroJVJ41SIPn4hf013srN32Xuu8fsP1/g6?=
- =?us-ascii?Q?/z5+M3neROLWSQf9Ap+ThrvQRxro13ZU0NtZ525duSdVhcTWDzc9isGpWM09?=
- =?us-ascii?Q?PlrdLqRLk5zBO2+6sHTMgihm/FCz44RAo1USsrIRg8uR5SRcmwfHwjMl4OAw?=
- =?us-ascii?Q?4NAdbQywKP+Os1p/lU15ghcHWw+cCmIvnRHeWy2GE5RlB0u0N7+XsdWDY8ka?=
- =?us-ascii?Q?Ai9ofCSR4BrKKPPiHdHt1V1LcZgfqVsOtGCLB66JFPgu0ifpxUJwIDOfGjmy?=
- =?us-ascii?Q?Uw9HojNj1Vh4AXTkfeN65xdvHKvoKxvMTr0s5PoyXpBfdhUxJGio3JOm86M+?=
- =?us-ascii?Q?zz1NFmLL4oCZtqVTlfHVVT7NeICwzSi5uruSAiu9WYmmJ4w8iDKPPfoXQPNB?=
- =?us-ascii?Q?AlBLnltiok0xD96uvSM4VInqPUgm8pfQu0lQXDEljcpJy69cWpqEkxCuT0My?=
- =?us-ascii?Q?PN7t/5IKeo1V5aaKtuIkSl8WhTcrZkmrJDmR5vfbk59EGpx07uInsocUyEai?=
- =?us-ascii?Q?e6qk6WId1LAf37+YYHQVOSt8SLzLaM8P+V/72lXODGmLmhE9spz83IOXLdzN?=
- =?us-ascii?Q?So1oOxBWDaIsLxyblDsKJD1Qz5F/W4cH6EbBrgsoLksF6XOuTbHoLbltVZHg?=
- =?us-ascii?Q?0pZ2qGn3gr6QmlJsBhsYKNn6dc5ms+PM5S+XnnF2xEhHIhezqetncmrEeTOc?=
- =?us-ascii?Q?WZEUWV1wQC5SyK4sS28GBS8qAKpWl+dXYzUXsypelAP1/bvF3+Z8neRT+N52?=
- =?us-ascii?Q?AF1XLpUTlyoXbjj1eyOLAibQlIj67VL/tOJgvjhBM/IGaWTjLKKzUCstbD5r?=
- =?us-ascii?Q?5qGiM8NhmikSqlSvfnH/ZExQjOF1KKsYqGY0YE3dgn1YwLjDgjxstukB5o4i?=
- =?us-ascii?Q?14ixbKA9Xr2xapouBVuLY0qGtgLeBEDyrYNvovQAYmar7lNRV7ChJ3CDY+tk?=
- =?us-ascii?Q?wN+MmoFG4AFJcJ8ti3tNtJbr8YNRM01mpJJ8LbdN/RSpNvYqmxEYrDyRdEmc?=
- =?us-ascii?Q?VlJh5IDFpspORFw56wRUCeKVUOPMX8LaMR/V1VGSO7HGss732YJbI7TlWK7s?=
- =?us-ascii?Q?F1dWlCnfUOpXtNaCk2THCbuKc8REYq67rSHdtywEmuYsBo+/yij94mTQjvMz?=
- =?us-ascii?Q?R+LkLVHJoBKs6qD/Euqcyfk5b4fcgXfC7ZS7U9NItHo6oWoqfMQJ8C5E1KWg?=
- =?us-ascii?Q?fookWnGiM+0wjOI4mP5BhJA8W8RFQbHNhPC/bkWgZJpWSLJWOyP90A3Vj11A?=
- =?us-ascii?Q?yxtnsnj47RLOS7B3CaPz+3JoTK/lpCYWZGslhkOZOQmXR3JulMn0yV+qWyRA?=
- =?us-ascii?Q?agaTVwk6BRBqxEVIXauAFbFMYANeT7UhWmrypfCvcEd98PohQkou+7qBj4Jf?=
- =?us-ascii?Q?9rXrcdfXVj/3882KsfYGw5L/iQc1hC0d2G9qtq79A2QzTbPoG8A2AoL0YlZr?=
- =?us-ascii?Q?WXLVr8zNhXZ6aXKPbAYIogz5xAi/6YY=3D?=
-X-Exchange-RoutingPolicyChecked:
-	eroycWP/X43IENP94kZ8DZCkxwoey2wlr7Z/9xWKUBS24gQsV8jdCA35ZAMfRypkbMObeelSTBsTFApPK6CNL2SmMpvt3Ar0LtS2MWXVPKmD3zJLYAAPCyKNi0e3kBs2JWZSZ9Tjfsa1C5zfM+nSHDEV9NB7ms5CmUZbJeR0FM7dOBA1Vk8RmlUaAdSzyV3pFHOW6mocum1i1Okfnf5KoV6gHKK7xwRpnsHECrFKfPTVbrblDT56++buJ8Vk2ipB7kVZ7u50fkMhfbYTe2DxhN3PlRhgmUf/nl+2qonK9pgZOA47sLts0fIwP1R7cVMoaSgWsZpbtbMJ9LTAOrv7IA==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a43e2ed9-4da5-4993-7c20-08df4c84c525
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7546.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2026 12:48:43.9230
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lvdd7RPzSIhuyQNLy9l309PF42UxPSwoFkOiR5cW1pa/yyuTcv75NApNAb6M0rcnz8ktHd28I4MFPXvJW7aJWn03P4HXAqhCrTwzOvv6oSQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4642
-X-Proofpoint-ORIG-GUID: cEjXajEMjIPfAiI1n_2pgOxMan2oPiKV
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDA1MCBTYWx0ZWRfX6dsfyOFgvFkP
- TJRaS1MrOs63N3RVBZficCneyW2TApeivjY+ADFFwIdKs3yIJ61NLjFBA/aPRpcSe4ia15T1JNp
- ruYXp2W5s3u2qXA2LxjniXxW6w1nIW4vuubWBsKLMifsQDiOZPLh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDA1MCBTYWx0ZWRfXzKWcYSyFzAWC
- BmP0WluyIxj7+vvimeix9s/I6f3qWeSbhsNbCI6sHfmZNsPr239fPoaXBHlTrAXD3EJK/d2TVC2
- A6xyzp1+E/jOOLMMe+tSahcoviA8B06QDnBxyzGOx1K/5g6KTooIqvXyEIELBW08hAbvOwTjQpq
- UBhrztXjA1HAQPFvpJvLLZucwDbkWvxFa+MRBXhPiieSBrroqXP3ZmRwlb1mx2A79UosEw4P4tr
- ccwjeXW+9g+maFGJAT/I3uucUNZuaQBzzatfM+8GkJ4lorj29AAoZhutE6riEggc2mjA3t1CuHH
- egukvlvg/QStJUXUAmxkU9M9WNXRGJUp3K0KLC+IwknQab6fYGWi+1oYkQXnt211qpABG89mbQs
- 8jkkbfiHqpcv8y/RA7z78K3ROYI3MXpyfWtunBcJw4RirZloqxbZ9qxp8hbJKfDiBxdf9iO9MH4
- FVBG/a2JbND1gdRkXog==
-X-Authority-Analysis: v=2.4 cv=bofZl0ai c=1 sm=1 tr=0 ts=6b097c2f cx=c_pps
- a=Od3vHKP1JmY3AU3jrO4qiQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8
- a=CY6fKGm0NjnL2UNsXdoA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: cEjXajEMjIPfAiI1n_2pgOxMan2oPiKV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-27_02,2026-11-27_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
- phishscore=0 bulkscore=0 spamscore=0 suspectscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611270050
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <179573913907.519186.8407997114208887089.b4-review@b4>
 
-On Thu, Nov 26, 2026 at 03:23:31PM -0500, Aaron Tomlin wrote:
-> It is worth noting why configuration (B) gave isolated CPU 2 its own
-> disjoint hardware context (ctx61) in the first place. With 120 queues
-> distributed across 128 CPUs under the legacy post-allocation
-> "isolcpus=managed_irq" behaviour, group_cpus_evenly() assigned hctx61's
-> managed interrupt affinity mask solely to isolated CPUs.
+Fri, Nov 27, 2026 at 01:25:39AM +0100, jgg@nvidia.com wrote:
+>> [ ... 60 lines skipped ... ]
+>> +++ b/Documentation/ctlv/abi/ctlv-attestation.yaml
+>> @@ -0,0 +1,147 @@
+>> +# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
+>> +%YAML 1.2
+>> +---
+>> +# Checked-in ABI snapshot of the ctlv-attestation family, from
+>> +# Documentation/ctlv/specs/ctlv-attestation.yaml, written by
+>> +# "make -C tools/ctlv regen".
+>> +#
+>> +# Updating the file is how a UAPI change gets reviewed; an update that
+>> +# removes or renumbers anything, narrows a bound, or makes a member required
+>> +# is an ABI break, whatever the file says afterwards.
+>> +family: {name: ctlv-attestation, id: 1, inherits: ctlv}
+>> +enums:
+>> +  evidence-class: {signed: 1, event-log: 2}
+>> +  evidence-format: {ccel: 1}
+>> +  hash-algo: {$header: linux/hash_info.h, $enum: hash_algo,
+>> +              $end: HASH_ALGO__LAST}
+>
+>I feel like this should parse the C enum into numbers here so the ABI
+>can be checked too?
 
-Hi Aaron,
+Well, note that this only works for uapi/ enums. So those are already
+part of ABI. I don't think we need to do anything extra here.
 
-Thanks a lot for the detailed answer and for your help throughout this
-series.
 
-Good point on (B). I had treated it as the healthy baseline, but as you
-say it only avoided etcd because hctx61's completion interrupt stayed
-on the isolated CPU, which is the isolation failure the series fixes.
-So the comparison really shows the cost of correct isolation on a
-shared slow disk, not something the series should avoid.
+>
+>> +flags:
+>> +  mr-device-caps: {extend: 0}
+>> +  mr-caps: {extend: 0}
+>> +records:
+>> +  mr-desc:
+>> +    id: 0x00010000
+>> +    fields:
+>> +      name: {number: 1, type: string, min-length: 1, max-length: 128}
+>> +      supported-hash-algorithms: {number: 2, enum: hash-algo,
+>> +                                  max-occurrences: hash-algo}
+>> +      caps: {number: 3, flags: mr-caps}
+>> +      register-index: {number: 4, type: uint, max: u32-max, optional: true}
+>> +  mr-value:
+>> +    id: 0x00020000
+>> +    fields:
+>> +      hash-algo: {number: 1, enum: hash-algo}
+>> +      data: {number: 2, type: binary, min-length: 16, max-length: 64}
+>> +  mr-generation:
+>> +    id: 0x00030000
+>> +    fields:
+>> +      mr-generation: {number: 1, type: uint, max: u32-max}
+>> +  mr-values:
+>> +    id: 0x00040000
+>> +    fields:
+>> +      mr-values: {number: 1, record: mr-value, max-occurrences: hash-algo}
+>> +  device-get request:
+>> +    id: 0x80010000
+>> +  device-get reply:
+>> +    id: 0xc0010000
+>> +    fields:
+>> +      caps: {number: 1, record: device-get caps}
+>> +      info: {number: 2, extension: device-info}
+>> +  device-get caps:
+>> +    id: 0xc0011000
+>> +    fields:
+>> +      evidence: {number: 1, record: device-get caps.evidence, optional: true}
+>> +      mr: {number: 2, record: device-get caps.mr, optional: true}
+>> +  device-get caps.evidence:
+>> +    id: 0xc0011100
+>> +    fields:
+>> +      objects: {number: 1, record: device-get caps.evidence.objects,
+>> +                max-occurrences: 16}
+>> +  device-get caps.evidence.objects:
+>> +    id: 0xc0011110
+>> +    fields:
+>> +      id: {number: 1, type: uint, max: 15}
+>> +      class: {number: 2, enum: evidence-class}
+>> +      formats: {number: 3, enum: evidence-format, max-occurrences: 4,
+>> +                optional: true}
+>> +      vendor-formats: {number: 4, enum: evidence-vendor-format,
+>> +                       max-occurrences: 4, optional: true}
+>> +      max-length: {number: 5, type: uint}
+>> +      challenge-lengths:
+>> +        {number: 6, record: device-get caps.evidence.objects.challenge-lengths,
+>> +         max-occurrences: 8, optional: true}
+>> +  device-get caps.evidence.objects.challenge-lengths:
+>> +    id: 0xc0011111
+>> +    fields:
+>> +      length: {number: 1, type: uint, min: 1, max: 4K, unit: bytes,
+>> +               optional: true}
+>> +      min-length: {number: 2, type: uint, min: 1, max: 4K, unit: bytes,
+>> +                   optional: true}
+>> +      max-length: {number: 3, type: uint, min: 1, max: 4K, unit: bytes,
+>> +                   optional: true}
+>> +  device-get caps.mr:
+>> +    id: 0xc0011200
+>> +    fields:
+>> +      flags: {number: 1, flags: mr-device-caps}
+>> +  evidence-get request:
+>> +    id: 0x80020000
+>> +    fields:
+>> +      challenge: {number: 1, type: binary, min-length: 1, max-length: 4K,
+>> +                  optional: true}
+>> +      objects: {number: 2, record: evidence-get objects, max-occurrences: 16}
+>> +  evidence-get objects:
+>> +    id: 0x80021000
+>> +    fields:
+>> +      id: {number: 1, type: uint, max: 15}
+>> +      data: {number: 2, blob: output, backings: [va], max-length: u32-max}
+>> +  evidence-get reply:
+>> +    id: 0xc0020000
+>> +    fields:
+>> +      results: {number: 1, record: evidence-get results, max-occurrences: 16}
+>> +    members: ['record mr-generation?']
+>> +  evidence-get results:
+>> +    id: 0xc0021000
+>> +    fields:
+>> +      format: {number: 1, enum: evidence-format, optional: true}
+>> +      vendor-format: {number: 2, enum: evidence-vendor-format, optional: true}
+>> +      length: {number: 3, type: uint}
+>> +  mr-get request:
+>> +    id: 0x80030000
+>> +    fields:
+>> +      id: {number: 1, type: uint, max: u32-max, optional: true}
+>> +  mr-get reply:
+>> +    id: 0xc0030000
+>> +    fields:
+>> +      items: {number: 1, record: mr-get items, max-occurrences: unlimited}
+>> +  mr-get items:
+>> +    id: 0xc0031000
+>> +    fields:
+>> +      id: {number: 1, type: uint, max: u32-max}
+>> +    members: [$include mr-desc]
+>> +  mr-read request:
+>> +    id: 0x80040000
+>> +    fields:
+>> +      id: {number: 1, type: uint, max: u32-max}
+>> +  mr-read reply:
+>> +    id: 0xc0040000
+>> +    members: [record mr-generation, record mr-values]
+>> +  mr-extend request:
+>> +    id: 0x80050000
+>> +    fields:
+>> +      id: {number: 1, type: uint, max: u32-max}
+>> +    members: [record mr-values]
+>> +  mr-extend reply:
+>> +    id: 0xc0050000
+>> +    members: [record mr-generation]
+>> +extensions: {device-info: 1}
+>> +enum-extensions: {evidence-vendor-format: 1}
+>> +ops:
+>> +  device-get: {id: 1, type: action, fd-access: read,
+>> +               request: device-get request, reply: device-get reply}
+>> +  evidence-get: {id: 2, type: action, availability: dynamic, optional: true,
+>> +                 request: evidence-get request, reply: evidence-get reply}
+>> +  mr-get: {id: 3, type: query, fd-access: read, optional: true,
+>> +           request: mr-get request, reply: mr-get reply}
+>> +  mr-read: {id: 4, type: query, fd-access: read, optional: true,
+>> +            request: mr-read request, reply: mr-read reply}
+>> +  mr-extend: {id: 5, type: action, optional: true, request: mr-extend request,
+>> +              reply: mr-extend reply}
+>> diff --git a/Documentation/ctlv/abi/families.registry.yaml b/Documentation/ctlv/abi/families.registry.yaml
+>> index 5845e745777150..7a5c6af2956578 100644
+>> --- a/Documentation/ctlv/abi/families.registry.yaml
+>> +++ b/Documentation/ctlv/abi/families.registry.yaml
+>> @@ -5,3 +5,4 @@
+>>  # Written by "make -C tools/ctlv regen".
+>>  families:
+>>    - ctlv
+>> +  - ctlv-attestation
+>> diff --git a/Documentation/ctlv/families.yaml b/Documentation/ctlv/families.yaml
+>> index 4d219d7af74a79..dbb0243b873d68 100644
+>> --- a/Documentation/ctlv/families.yaml
+>> +++ b/Documentation/ctlv/families.yaml
+>> @@ -15,3 +15,4 @@
+>>  
+>>  families:
+>>    - ctlv
+>> +  - ctlv-attestation
+>> diff --git a/Documentation/ctlv/generated-files.yaml b/Documentation/ctlv/generated-files.yaml
+>> index d4766b176ceb98..00a56634805d40 100644
+>> --- a/Documentation/ctlv/generated-files.yaml
+>> +++ b/Documentation/ctlv/generated-files.yaml
+>> @@ -16,3 +16,10 @@ families:
+>>        kernel-header: include/linux/ctlv_gen.h
+>>        kernel-source: lib/ctlv/ctlv_gen.c
+>>        user-source: tools/ctlv/libctlv/ctlv_user_gen.c
+>> +
+>> +  - name: ctlv-attestation
+>> +    source: Documentation/ctlv/specs/ctlv-attestation.yaml
+>> +    outputs:
+>> +      uapi-header: include/uapi/ctlv/ctlv_attestation_gen.h
+>> +      kernel-header: drivers/attestation/generated/ctlv_attestation_gen.h
+>> +      kernel-source: drivers/attestation/generated/ctlv_attestation_gen.c
+>> diff --git a/Documentation/ctlv/specs/ctlv-attestation.yaml b/Documentation/ctlv/specs/ctlv-attestation.yaml
+>> new file mode 100644
+>> index 00000000000000..78b2dad6318a6f
+>> --- /dev/null
+>> +++ b/Documentation/ctlv/specs/ctlv-attestation.yaml
+>> @@ -0,0 +1,181 @@
+>> +# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
+>> +%YAML 1.2
+>> +---
+>> +# Attestation devices: evidence and measurement registers (MRs). The device's
+>> +# family inherits this one, fills device-info and gives evidence-vendor-format
+>> +# the formats its vendor defines.
+>> +family: ctlv-attestation
+>> +inherits: ctlv
+>
+>This is much easier to read, I think it works well like this!
 
-An update from our side: the v16 managed_irq_strict backport is now in
-our extended test cycle, on the PREEMPT_RT platform builds. For the
-control-plane I/O case we are handling it on the host side, as you
-suggest, starting with the I/O scheduler on the controller root disk.
+Yeah, pretty happy with it as well. Thanks for the suggestion!
 
-> Also, following discussions at the Linux Plumbers Conference, the
-> consensus is to drop the separate "managed_irq_strict" flag and instead
-> upgrade "isolcpus=managed_irq" directly in place to enforce strict
-> pre-allocation queue and interrupt confinement.
 
-That works for us. My preference for a separate flag was only about
-not changing behaviour silently for existing users. With the Plumbers
-discussion and the OpenShift side on board, fixing managed_irq in place
-is the simpler result. We will move our command line back to plain
-managed_irq when we pick up v17.
+>
+>> +
+>> +enums:
+>> +  # What an evidence object is.
+>> +  evidence-class:
+>> +    # Made by evidence-get over its challenge, and signed by the root of
+>> +    # trust.
+>> +    - signed
+>> +    # The platform's log of what firmware and the boot chain measured into
+>> +    # the MRs. Later extends, through mr-extend or otherwise, are not in it.
+>> +    - event-log
+>> +  # A layout of an evidence object that a standard defines.
+>> +  evidence-format:
+>> +    # The log area of an ACPI CCEL table, a TCG crypto-agile event log.
+>> +    - ccel
+>
+>Lets be in the habit of including a detailed spec reference for things
+>that are standards.
 
-> I will also fold in your pre/post reserved vector patch under
-> HK_TYPE_MANAGED_IRQ in the next iteration.
+Agreed. Will add it.
 
-Thanks. A question on attribution for that part: would you add a
-Co-developed-by for me on patch 8, or keep it as a separate patch? I'm
-fine either way. For Co-developed-by, you can use:
 
-Co-developed-by: Ionut Nechita <ionut.nechita@windriver.com>
-Signed-off-by: Ionut Nechita <ionut.nechita@windriver.com>
+>
+>> +  # A layout of an evidence object that one vendor defines, given by the
+>> +  # device's family.
+>> +  evidence-vendor-format: extension
+>
+>I find this 'standard' 'vendor' distinction confusing. Is this an
+>artifact of the compilation process?
+>
+>This would be more usable if there was one enum but both this yaml and
+>the driver yaml can contribute values to it. If we made an 'extendable
+>enum' then the values could be full 64 bit ID numbers with the tree
+>coding so that the extension works the same way as a op and record?
+>
+>Though I'm a bit nervous about what happens if something in a driver
+>turns into a standard. It would be nice to be able to make the
+>driver's ID promoted to a global ID without changing the ID. That
+>sounds like something the generator could learn to do later I guess.
 
-Once v17 is out I'll test it on 6.18-rt and 7.3-rt (PREEMPT_RT), on
-the same machines as for v16 (the Granite Rapids NVMe box and the dual
-Ice Lake MegaRAID box). I'll rerun the queue mapping, effective
-affinity, hotplug guard and completion locality checks. I'll also
-cover the negative control I still owe you: the same isolcpus= with and
-without managed_irq, on the same kernel, to show the difference. I'll
-report back with a Tested-by.
+I see your point. Bit if we have 64bit enum value what included the
+family id, we still have per-family namespace of enum values. Hard to
+"promote to global id". We would have to have one range of enum values,
+some of which would be driver, some global. How exactly you see this
+happening?
 
-Thanks,
-Ionut
+
+>
+>The comment should be improved to define what consitutes a 'format'. I
+>was advocating that the format should define enough to check the
+>signature and the challenge universally.
+>
+>Like Peter described the new TDX evidence as "tdx-quote-eat-cwt-1.0".
+>
+>Poking at the IETF RFCs with AI a bit I think it should be described
+>as "CWT EAT" in this language. The EAT RFC defines the location of the
+>challenge and uses the CWT packaging which defines how the signature
+>is placed.
+>
+>I think ARM uses this format too, IDK what AMD uses.
+>
+>The EAT itself should have information inside that describes the
+>"tdx-quote-1.0" idea, so we don't need it externally.
+
+Perhaps we need 2 attributes, "evidence-packaging" and
+"evidence-format"? This is a bit unclear to me to be honest.
+
+
+>
+>> +  # The kernel's hash algorithms.
+>> +  hash-algo:
+>> +    $header: linux/hash_info.h
+>> +    $enum: hash_algo
+>> +    $end: HASH_ALGO__LAST
+>> +
+>> +flags:
+>> +  # What a device offers for its MRs.
+>> +  mr-device-caps:
+>> +    # mr-extend is provided.
+>> +    - extend
+>
+>I guessed the userspace should learn what operations are supported
+>using introspection directly on the operation? Do we need to specify
+>what ops are implemented in device-get?
+
+True, will remove this leftover.
+
+
+>
+>> [ ... 5 lines skipped ... ]
+>> +records:
+>> +  # One MR, as mr-get describes it.
+>> +  mr-desc:
+>> +    # The platform's name for the MR, such as rtmr0.
+>> +    name: string(1..128)
+>> +    # Its banks, each once, in the provider's order.
+>> +    supported-hash-algorithms[hash-algo]: hash-algo
+>
+>I wonder if it would be wise to put a bit more syntax here:
+>    supported-hash-algorithms[num_entries(hash-algo)]: hash-algo
+>
+>Just to be clear about exactly what is being extracted from
+>hash_algo.. It is the total number of entries, not the maximum value
+>or something else.
+
+I already have this changed in my work tree as:
+"supported-hash-algorithms[enum hash-algo]: enum hash-algo". I think it
+is enough, what do you think?
+
+[...]
