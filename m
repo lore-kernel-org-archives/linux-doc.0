@@ -1,95 +1,74 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795805907;
-	b=q+tWfglGc5tsblezqznz9OMNwZ/zM30L4SEcgmTV1b/Bwjfv0/yS4MBgqNdhpd83w43y
-	 5JfXKskHTm/slUjcGWFnzQPsGP+RSki/YptDldLknXbq6n79LBoBPc7PSCk+haZ6P+Mh6
-	 ua6UHiD7zjGb0kTpq+LuejKypV7nYi8/6a/Z3O9+Dqe7pmjfYs6GbB/IjJTqwOvyZrEWX
-	 ezxzuz4oc02sFIZ9kauZyd9BiFql2qYMCCXo7/tEGmV0Sa4BaXiUZzfRCzf1JwTo0ueQs
-	 AWq/w8UzLDDMIJ4c2zUFltA+QAAUwEnyCSt+HasaVmSW7bWniUsdQfVtS4zVFhUzZlw==
+	b=HBDUGzEMe3iw7etkWTPnYTl2fLxNU4uCT4RVQwg2xz+Xo8eFSoT+Vh25K07Jd5j/sItC
+	 UMicEu9qjsLiPuaGihaAGL32qNkp3imf+HWX3G3md9wmEy5J87/ASYhhLUStTEDKwjsdN
+	 8QgT1gT5pmCNU3DgkYyALASlXU8ZeLGm2kJsFQQ8EgZSebqUHN21PiAOn66pIDEsaE6Eu
+	 ZP8qKil5q9lTu+Uo1TPB1VlzcMpjNCjO/O4OiJKbDv69FBfdv7hZvsYtWR6ErKY9M+VF+
+	 HHZ/OCEjA9VCMVEfOBVcoGOJPEiWguF/mDkyLhzZDMIBYGz9WmTwpi1qIdYKHBtoF5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795805907;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=rF8sHZW1cTd+n7KcEI4fz6GZGwqe6JLJYuwVImB7MOs=;
-	b=q5diTy4N2TCLdjYQYqWDB1luikupItPqkLNHuCQkWhVSmICnfIBye9yXxgteZnPZRCmc
-	 +9h2c6hgbS7+quRdIbtDh5AYGYEcE9r66ktkegM+eUWxZ20RN2HPqqovePmizjxvqm2Jx
-	 t4duj/ZBswz7pGOQOPtgxjiqBx4q0CsKu7meECXkf/cDOUH8Adcm+E3eq0whKh50/YT9u
-	 SRUP1JnFAzV3/KFLyBNZKGbso/GEdpXpd+0vIzm1D05tzhgm8jETNjOFc1rBj7Dx4rG9N
-	 QmQedE+15eWiZ2Z32iEjk6P6r8z7KuWKrRRl2Zb1HRbBdqE+swwp/MH1sWP68QmVEPA==
+	bh=6kRCE4e9B1yAdG4N0ntHe8x6Dfjo7HptYTW2o7NmsLw=;
+	b=yLFfCVUE8oTV1cRqcmOqGiO9BHdh7xbZkZgH6tLV+hS35/rl8/NSd4wWU6kI04YQJDYS
+	 Ykg6TX4SqPwU5vJVwdf7XCvErNjVb03AatMibBCHWbLGkGz2H4fFop76ZconQPlXLFOeK
+	 4dSV++ZiVVES11bSRnx2eVerfC54mv5Cf08NmRfIudSAKn4Y8JalNiEpcR8ekUdUjyXSX
+	 uZkTqoDxIWpxvng4PB9ce5pytj5yFU9OZsgDuwIBYL4C0iFWs+wUMvrEG16Lbg8Ya/Aww
+	 cM3P/3DYgBmME+tjcSESxI2Sj0dFXcP8rbUYWRMv+UEfeGR3VdlTjNWfnMtk8Gh9YYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=q4blEadq;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=rL8GBQQS;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A04606A6A3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB895606A696;
 	Fri, 27 Nov 2026 18:58:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0A04606A6A3
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB895606A696
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=q4blEadq
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=rL8GBQQS
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1795805904;
-	bh=rF8sHZW1cTd+n7KcEI4fz6GZGwqe6JLJYuwVImB7MOs=;
+	s=smtpout1; t=1795805905;
+	bh=6kRCE4e9B1yAdG4N0ntHe8x6Dfjo7HptYTW2o7NmsLw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q4blEadqTvxKYWYF6QajeBr2d9uBZfo+WIzk4gpnujx/mHTrAjMe5mH3goY66EsGl
-	 vfGdAsGfiQflDvHaxbmwHM+xlRM7c/INxYXF19V+sBVp1Fmhv6KuOGV/MKTRrSeaCS
-	 xKC213z7s9QWX1WV+UkDOS22okkKbXWOIvIvsAuao33N7vKYXxssz9lyQlrtsrJ7Hx
-	 UwzzhPermKdzZjFhlGDj8q+XK/U9i4oI+weBMdQGSGg+XUGOWKWviNKHwyFcS7Ke3S
-	 tmGcQgRCsBZNGfHQ65QcH83g7QToF0o3i5Aqb3m5ld2dX+7ueLJxd7t1q5+6AVtXnY
-	 gd5/eYFmUqLwA==
+	b=rL8GBQQSZjalsn/InH7Bc1MLMqUaDyz2qxXxFvsPdenZHQPpjgSZefwOfT6xqrBro
+	 sx1aV/sEKfVyzGA5YeOzMrdVMfMNm4Ne/4FJHM9FOe1qdHYENl8bRsUkLUezNp0asq
+	 QGEVnUoNwbFdwTyXbckAd6MPX/2ge5KKAjyDpNbdfeQHvQRp7iU3pTnfkA1/36af+Q
+	 bzyTCiO8/oxl36QoaEIfcPbUkZnmeLNTjmcBDjBAmiwidN9o0jAIJD6vCJgcvuXfdL
+	 Cxe3HiXcCJBI44VahI72vNA0IwGjatFQt41hEuKn8+rxGiyB9fUJbgK/Bz9sgTNkVP
+	 temPGQlzAVaKw==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jbjNw68h6zXQN;
-	Fri, 27 Nov 2026 13:58:24 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jbjNx0KdszXX0;
+	Fri, 27 Nov 2026 13:58:25 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: Peter Zijlstra <peterz@infradead.org>,
 	Ingo Molnar <mingo@redhat.com>
 Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Guo Ren <guoren@kernel.org>,
-	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-csky@vger.kernel.org,
-	Jonas Bonn <jonas@southpole.se>,
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-	Stafford Horne <shorne@gmail.com>,
-	linux-openrisc@vger.kernel.org,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	linux-sh@vger.kernel.org,
-	Chris Zankel <chris@zankel.net>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	loongarch@lists.linux.dev,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Helge Deller <deller@gmx.de>,
-	linux-parisc@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Subject: [PATCH v2 10/16] Documentation/membarrier: Update the per-architecture barrier list
-Date: Fri, 27 Nov 2026 13:58:15 -0500
-Message-ID: <20261127185822.158216-11-mathieu.desnoyers@efficios.com>
+	linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 11/16] Documentation/features: Update the membarrier sync core requirements
+Date: Fri, 27 Nov 2026 13:58:16 -0500
+Message-ID: <20261127185822.158216-12-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261127185822.158216-1-mathieu.desnoyers@efficios.com>
 References: <20261127185822.158216-1-mathieu.desnoyers@efficios.com>
@@ -104,77 +83,88 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-membarrier.rst lists how each architecture provides the full memory
-barrier after the store to rq->curr. The list misses several SMP
-architectures.
+The x86 text says that the return from interrupt uses IRET, which
+serializes the core after the IPI. This is not what the code relies
+on, and it is not always true:
 
-Add csky, openrisc, sh and xtensa. They use the generic
-smp_store_release(). It issues smp_mb() before the store.
-finish_task() uses it.
+ - Since commit a493d1ca1a03 ("x86/membarrier: Get rid of a dubious
+   optimization"), the IPI handler issues a core serializing
+   instruction right away. The interrupted thread can be rescheduled
+   before the return from interrupt, and another thread of the mm can
+   then return to user-space through SYSRET.
 
-LoongArch and parisc now provide the barrier with
-membarrier_arch_switch_mm(). Add them next to powerpc and riscv.
+ - With FRED, the kernel returns through ERETS and ERETU. The Intel
+   SDM does not list them as serializing instructions. It states that
+   ERETU has the instruction ordering guarantees of SYSRET.
+   The AMD APM does not describe these two instructions.
 
-State the rule which both broke: an architecture which weakens
-smp_store_release() or spin_unlock() must provide the barrier another
-way.
+Describe what x86 relies on instead: sync_core_before_usermode() and
+the writes to CR3.
 
-Update the matching comment in __schedule().
+On arm64 with FEAT_ExS, an exception return is a context
+synchronization event only when SCTLR_ELx.EOS is set. The kernel sets
+it. Document that the sync core command depends on it.
 
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- Documentation/scheduler/membarrier.rst | 14 ++++++++++----
- kernel/sched/core.c                    | 10 ++++++----
- 2 files changed, 16 insertions(+), 8 deletions(-)
+ .../membarrier-sync-core/arch-support.txt     | 35 +++++++++++++------
+ 1 file changed, 24 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/scheduler/membarrier.rst b/Documentation/scheduler/membarrier.rst
-index 2387804b1c63..c5f6f4f57331 100644
---- a/Documentation/scheduler/membarrier.rst
-+++ b/Documentation/scheduler/membarrier.rst
-@@ -28,12 +28,18 @@ architectures are as follows.
-  - alpha, arc, arm, hexagon, mips rely on the full barrier implied by
-    spin_unlock() in finish_lock_switch().
- 
-+ - csky, openrisc, sh, xtensa rely on the generic smp_store_release(),
-+   which issues a full barrier before the store.  finish_task() uses it.
-+
-  - arm64 relies on the full barrier implied by switch_to().
- 
-- - powerpc, riscv, s390, sparc, x86 rely on the full barrier implied by
--   switch_mm(), if mm is not NULL; they rely on the full barrier implied
--   by mmdrop(), otherwise.  On powerpc and riscv, switch_mm() relies on
--   membarrier_arch_switch_mm().
-+ - loongarch, parisc, powerpc, riscv, s390, sparc, x86 rely on the full
-+   barrier implied by switch_mm(), if mm is not NULL; they rely on the full
-+   barrier implied by mmdrop(), otherwise.  On loongarch, parisc, powerpc and
-+   riscv, switch_mm() relies on membarrier_arch_switch_mm().
-+
-+An architecture which overrides smp_store_release() or spin_unlock() with
-+something weaker than a full barrier must provide this barrier another way.
- 
- The barrier matches a full barrier in the proximity of the membarrier system call
- entry, cf. membarrier_{private,global}_expedited().
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index df6d15cf7109..9985c95ecd73 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -7367,10 +7367,12 @@ static void __sched notrace __schedule(int sched_mode)
- 		 * Here are the schemes providing that barrier on the
- 		 * various architectures:
- 		 * - mm ? switch_mm() : mmdrop() for x86, s390, sparc, PowerPC,
--		 *   RISC-V.  switch_mm() relies on membarrier_arch_switch_mm()
--		 *   on PowerPC and on RISC-V.
--		 * - finish_lock_switch() for weakly-ordered
--		 *   architectures where spin_unlock is a full barrier,
-+		 *   RISC-V, LoongArch, PA-RISC.  switch_mm() relies on
-+		 *   membarrier_arch_switch_mm() on PowerPC, RISC-V,
-+		 *   LoongArch and PA-RISC.
-+		 * - finish_task() and finish_lock_switch() for weakly-ordered
-+		 *   architectures where smp_store_release() or spin_unlock
-+		 *   is a full barrier,
- 		 * - switch_to() for arm64 (weakly-ordered, spin_unlock
- 		 *   is a RELEASE barrier),
- 		 *
+diff --git a/Documentation/features/sched/membarrier-sync-core/arch-support.txt b/Documentation/features/sched/membarrier-sync-core/arch-support.txt
+index 7425d2b994a3..2782b0d25f43 100644
+--- a/Documentation/features/sched/membarrier-sync-core/arch-support.txt
++++ b/Documentation/features/sched/membarrier-sync-core/arch-support.txt
+@@ -10,6 +10,10 @@
+ # Rely on implicit context synchronization as a result of exception return
+ # when returning from IPI handler, and when returning to user-space.
+ #
++# On arm64 with FEAT_ExS, an exception return is a context synchronization
++# event only when SCTLR_ELx.EOS is set. The kernel sets it, cf.
++# SCTLR_EL1_EOS in INIT_SCTLR_EL1_MMU_ON. It must stay set.
++#
+ # * riscv
+ #
+ # riscv uses xRET as return from interrupt and to return to user-space.
+@@ -28,19 +32,28 @@
+ #
+ # * x86
+ #
+-# x86-32 uses IRET as return from interrupt, which takes care of the IPI.
+-# However, it uses both IRET and SYSEXIT to go back to user-space. The IRET
+-# instruction is core serializing, but not SYSEXIT.
++# x86-32 returns to user-space through either IRET or SYSEXIT. x86-64 returns
++# to user-space through either SYSRETL (compat code), SYSRETQ or IRET, or
++# through ERETU when FRED is enabled. It returns from interrupt through IRET,
++# or through ERETS or ERETU when FRED is enabled.
++#
++# The IRET instruction is core serializing. SYSRET{L,Q}, SYSEXIT, ERETS and
++# ERETU are not. Therefore x86 does not rely on the return instruction:
++#
++#  - the IPI handler calls sync_core_before_usermode(), which issues a core
++#    serializing instruction right away (cf. ipi_sync_core()). The thread may
++#    otherwise be rescheduled before the return from interrupt, and a thread
++#    of the same mm may return to user-space through SYSRET,
++#
++#  - write_cr3() performed by switch_mm() provides core serialization after
++#    changing the current mm,
+ #
+-# x86-64 uses IRET as return from interrupt, which takes care of the IPI.
+-# However, it can return to user-space through either SYSRETL (compat code),
+-# SYSRETQ, or IRET.
++#  - the special case of kthread -> uthread (temporarily keeping current mm
++#    into active_mm) issues a sync_core_before_usermode().
+ #
+-# Given that neither SYSRET{L,Q}, nor SYSEXIT, are core serializing, we rely
+-# instead on write_cr3() performed by switch_mm() to provide core serialization
+-# after changing the current mm, and deal with the special case of kthread ->
+-# uthread (temporarily keeping current mm into active_mm) by issuing a
+-# sync_core_before_usermode() in that specific case.
++# With page table isolation, sync_core_before_usermode() does nothing: each
++# return to user-space writes to CR3, which is core serializing. Page table
++# isolation and FRED are mutually exclusive.
+ #
+     -----------------------
+     |         arch |status|
 -- 
 2.47.3
 
