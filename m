@@ -1,116 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795817727;
-	b=jOHBut9RC9xc8WRDi65Ov06r0uXX1WBJqu5YMl1juToL+jUO4ZNBIuHADasjT6NQFSyq
-	 B4eBmpCr2a/tqcYZW9KaeN6u9qs2EYvv5DwcN98mfMiFh1IPZAQP/uQ2wpyc+Sdsa9Oq8
-	 7NnIfrFdsvrV64wfxRyV4kYPAF8c6kDRQuxJESUvysksSA94+L/ICnl3gsNezB1ESubjr
-	 +aXmAsQGcHFRqdiMw/2b2mF2qSSTmtUwtyPpqw95p/h6SW4ng9pqDWAKyTAxYktRi8DGq
-	 +EklOGdXQjSUxnMHL7Mh6vyCnWT5bJsWJe9fMTofMeOKMuh02u/b9RxhE+0Kan52PvQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795817727;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=RN/B4N8caDlaycAleYE1eEx7HfJ61p5JGE1Xsxo0c2U=;
-	b=JLY0Y4O0WOOo0n2W1eo3IwKZ75geIFnuUr93oh4FdjWp0zSWDzC/6ZBocQUfufy9jn7F
-	 giTBoBTm0w3K71JQldUM/5/0FIqNxo6VHegoMTZKLpCHMKDjn4sqdnyOUxw1QyNzTYuDz
-	 cBw4j7Z0Tzi7GFvK2NhQekb9DLob0qll+54bHfilN7rFnqgxRrW8eE0RuUqaFNXEunvOP
-	 2+I4wql/ZmtuefcoSnXr34pw2PaWb7tfa8X4UBeQmzh5a+jekzl44zQ1K1WlIArJSWfmu
-	 F9Bd47XzKz7qlurJtcogQ9jEDjt/+lTjpE2s8kzCb8DOimitN45oqy8ztLHnFyjmbiA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=hKxBmuPW;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QUL6W3jH;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=hKxBmuPW;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QUL6W3jH;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.178
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795817737;
+	b=18Qd9y6oowvoJhYTI4b5kfAqr2t+GuPp3X2kkfbC+XWwwxBJRU6xi3kre6c2hLhADSnk
+	 tL+geNJANDP+KTCKF1YYy3OWzxuOoMK+mmXj6MsXRCPQ2KP2ThGcR+nuPfwepAO3quoL2
+	 ShyrFJVcJAf5hnjAJH2iQPA6IzCWDBWPjCG80HYoMNokFOcReN/yYnUi1YnqaxT52+sUc
+	 26a/S7RQ0IL+Eoc8pkzbDmHPNUb7O6elG47hRjjCNjxs2dtOQrTmJDlRBHnd+HxOZIhqO
+	 jY9sKMGzNPd2F3Wx5nJW5w4vnC8drjNO6Wa1Gs/rezUzr409JZfQHh1VYlcbEQLB6/A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795817737;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=/HmmmGXpG7ODtH3/h0goccA1+PPzXKMF50hfxQ5Yw88=;
+	b=B8Vl7XbYOFj34xVmRx1f9M/flnJaFs7UW6bx41qL/1JO0oXLiw3EloppZfr0EEwqUIR0
+	 8ANCglWkzZ42v8ZCl8vFro47LGRCXdDra63mgJwdF5bXzmnuklnP+FYtu1WUjH8ZF0MP8
+	 q8m4W+fk/N/NkSsmM/DUo1FdYD/0xWaGM//eRATOagspDygZOHkRDW3+I2h1Vur9WkIQ3
+	 YN9M4lyn+Bt7+RaZ9nL32rsvO103MPmHNpny0KR/7FB52oEoh6p+8VUVcvMxND3iSs9Px
+	 iTuz6xVLehV/QGFQQr8jNaFZqBssrKik7uFyzhihQjHqgej60jnqReNWy97s/RwHKnA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nexthop.ai;
+	spf=pass smtp.mailfrom=nexthop.ai;
+	dkim=pass header.d=nexthop.ai header.i=@nexthop.ai header.a=rsa-sha256 header.s=google header.b=R7L1PNXj;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.178
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96144606A31E;
-	Fri, 27 Nov 2026 22:15:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96144606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CB8606A321
+	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 22:15:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35CB8606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=hKxBmuPW;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QUL6W3jH;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=hKxBmuPW;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QUL6W3jH
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D0DAA1FE50;
-	Fri, 27 Nov 2026 22:15:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795817724; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RN/B4N8caDlaycAleYE1eEx7HfJ61p5JGE1Xsxo0c2U=;
-	b=hKxBmuPWjwk1OXmTM4Wm7OwsAF/UcSrNjkeBGyq1seGNljMTKooCco5tV5TIPYOWpcbjLl
-	cfVVfzPUtPqsaachD+iuwsYhhfSzqyg///KN2OqugZFfqLytUUUYcgGhlieeEwWl8U/d1F
-	TACRCts70EMexEobu4a1zyxXhwZGwKU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795817724;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RN/B4N8caDlaycAleYE1eEx7HfJ61p5JGE1Xsxo0c2U=;
-	b=QUL6W3jHVbLqIEXq1Knc5v0gTslFRVOOZvrbjoASjm7e93tMKDSLr8K7D5Va0hOkP8zFGc
-	kO3DoEkJyqKtDKBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795817724; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RN/B4N8caDlaycAleYE1eEx7HfJ61p5JGE1Xsxo0c2U=;
-	b=hKxBmuPWjwk1OXmTM4Wm7OwsAF/UcSrNjkeBGyq1seGNljMTKooCco5tV5TIPYOWpcbjLl
-	cfVVfzPUtPqsaachD+iuwsYhhfSzqyg///KN2OqugZFfqLytUUUYcgGhlieeEwWl8U/d1F
-	TACRCts70EMexEobu4a1zyxXhwZGwKU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795817724;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RN/B4N8caDlaycAleYE1eEx7HfJ61p5JGE1Xsxo0c2U=;
-	b=QUL6W3jHVbLqIEXq1Knc5v0gTslFRVOOZvrbjoASjm7e93tMKDSLr8K7D5Va0hOkP8zFGc
-	kO3DoEkJyqKtDKBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C558D134E8;
-	Fri, 27 Nov 2026 22:15:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jT/OJPoACmtnKgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Fri, 27 Nov 2026 22:15:22 +0000
-Date: Fri, 27 Nov 2026 22:15:21 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
-	Andrew Morton <akpm@linux-foundation.org>, David Rheinsberg <david@readahead.eu>, 
-	Hugh Dickins <hughd@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, David Hildenbrand <david@kernel.org>, 
-	Jann Horn <jannh@google.com>, Alex Shi <alexs@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, David Rientjes <rientjes@google.com>, 
-	Rik van Riel <riel@redhat.com>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, Arnd Bergmann <arnd@arndb.de>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Muhammad Usama Anjum <usama.anjum@arm.com>, 
-	codalist@coda.cs.cmu.edu, linux-mm@kvack.org, Andrei Vagin <avagin@gmail.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Chris Mason <mason@kernel.org>
-Subject: Re: [PATCH 3/4] mm/mprotect: fix unpaired notifier start at address 0
-Message-ID: <awoA3jdrhuogntQD@pedro-suse.tail5790ac.ts.net>
-References: <20261127-mlock-madvise-mprotect-ai-fixes-v1-0-e46b2b1eb435@kernel.org>
- <20261127-mlock-madvise-mprotect-ai-fixes-v1-3-e46b2b1eb435@kernel.org>
+	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.a=rsa-sha256 header.s=google header.b=R7L1PNXj
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8b4d26094beso73116587b3.1
+        for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 14:15:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795817736; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Z7c4ZRkjVWQ+Ts6Uij0TDlnyeoVPucwq70GH8ujfp3HKrSsQru1rpgagpVfHiIW+VQ
+         YUWS3YwWA9CP2HyAY1r7CHTKctMKpyx22XOrfNbPnOKe3ECoysS/b/KMeQx/Fot1hezU
+         8cAoVQ/0YTccd5Wh1rtQArg58dv1F1OzeMYF+/R4u5xr4S2UbgsCRVAHKVOLblwsSnlu
+         bJ4xGX6cDNILR7WmBLH2/uM540PiYQB2+zSfSM9t+cD+5Qz3D6ZY5Z0+Auq6xXd15BNB
+         MJL+pPaKybUS/MmmDUcsjboWhCqwUI87OoA//WZy1cUbLFJa3P8LaiDfLZW6muLG67fJ
+         u6gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/HmmmGXpG7ODtH3/h0goccA1+PPzXKMF50hfxQ5Yw88=;
+        fh=pY79x2WJRReqnKG4bLPRp/x3Ihywo1uta3exogjtzVE=;
+        b=AqN5m+Zx4OaEjtHl/JfXXLwpFosPCSu3RXwiLHdq01m2ahzzHjRly6P6ZjMBVW2LtD
+         kJUs6F5nrWPjhQVzkVGeiJiflzn+xsqiDU+Z46VstfjFpfF/htxCpr0rn1K+k1jg3BCh
+         4TtuK2JsKBBGAF2efnM+A1aHEQcW3qxbSsGnuhPHPAaXmkk/758LLaEXETl3i/b5dbnn
+         bReaveM70btpSHXYuHJ9RZS6VNsjwDe0puVQasHzL0VQHihffIXyNJaqqWRyNToCq4DE
+         FN4kS5HyLIADHt03WuuZrblBZ3npng9VdwinOHgvk1tfcxcWr6NH4ccaEEY8jn4lQX4d
+         iO3Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nexthop.ai; s=google; t=1795817736; x=1796422536; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/HmmmGXpG7ODtH3/h0goccA1+PPzXKMF50hfxQ5Yw88=;
+        b=R7L1PNXj/Md5qNgsN/Yom1TwNgr5cwmA81rdx25vyLc840UAih1c8rhCiKCIP4WGOm
+         tw2Y0KOLd6rkQSfxmbPft1zsIJ+kM5NOrRHe/Zd2Duz2WLfnMLmPgPvoUz8aiEzeB23Q
+         xVUjwqrAYPcRRvOJBgHKOZvZiS5RzLMyCRNYjLoyvUpEs/JkLncF3hIAMGTsYAlHKhjU
+         8b/h/dl8zDLt5lyT/y/4XisjzHyiF1e9G1CEvNNcQNIQgK51pNCUqCSkBvEi4SuLYyWq
+         6tTF+zEPg8f7SE9XGAUIJCZ1VSUzcE6wbEsbISRNoVEja5MS6sOt5j4BS/ozykdFKoVR
+         Cb2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795817736; x=1796422536;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/HmmmGXpG7ODtH3/h0goccA1+PPzXKMF50hfxQ5Yw88=;
+        b=scoWK0Au5AL2zaewX9/5xF7haKi6IAnpHv2BgA5xGsfmA+ZlgO0FIeSJvLWBtKftzN
+         b8p4SpnngL9kxwpVqlSmavD8laUH60PiSfjAidjAmAh+8OSdT0ONQVCta/lKtseDyiw3
+         PmJtM/MT+LSb0mja/ouJhLmNtmTcr4/gE3ORzGRqRq3u3drxyItvmyFZujlIk2XvIxsU
+         h81o2B5RjR24WBa5ApB6Ur0m0/hWelrzmPeJtEMjorBt4BIqguNZST0ROeH+d0IMsOdv
+         7B2TfPUN0yaUvTwjazrTlNdkpqG52skQ1ZTqMPFtmuukHIDbdZLPZARTQVl7wS/e1/6U
+         j7KQ==
+X-Forwarded-Encrypted: i=1; AL+hErGcJ45ZLtPqmgDyg4Fjdh0CktOY12EjZPFiqQlFVqs85o6gJCp6QzBSQ+rb6mXXaMk/iqiCzV975bM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8u7D5cMPfRwBL/YXWib8mGczfiay2gK6y58g8MVtmljAUEr3hH
+	Y2FI431bRig7dLjreUIdYXAAVmo2lVT3EI/ImSAFe6djqOENy1zna2qXQETsHMY2M3dANCvL7iq
+	7NroYgNmE0TSSOh3qPxPJm04dxMo3M6GphIoboeurYg==
+X-Gm-Gg: AZFdTZdYqfiZ3eBthSzClArSzxzfWHTyZIecJqnpZggWBe1q3eZwia6BEUrZQzCzpQn
+	KczIGsLUFFIOI8mtQkbfz2uJbF68vs5Lrt0jKxVyPFU/7NAZLeHMt874ZIRFrTjKefMNZxRv829
+	O6X1f40F/d1jckhO9/EcZchN5lBhM4399vYaf00ZBLfIYtX5MDjT2q7twD4hcah6WgUqftqftxr
+	Rj4HDdd7Kjifc/Qeth3TJiKwhHtdxtfBd0DFMitjeWDakqPY2T5cPhbx+e8lTKVj1haPoToBEXe
+	VT+55UuqCL0/TA+JSLEkRaREZ1NUJJ4TLAowwpCOar+8C8Accv2tWmzvQC41HrXq98bkFpyMpe3
+	KIMn/Rlfc0zNEATwwMeZfsDdSXNWAZ4VtQlBjSCQE/JiuSdBLHYtCh/u/xc+8v+hK8lRt
+X-Received: by 2002:a05:690c:3607:b0:8b5:6e9:217a with SMTP id
+ 00721157ae682-8b5204a997cmr118432657b3.31.1795817735925; Fri, 27 Nov 2026
+ 14:15:35 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -120,53 +104,183 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261127-mlock-madvise-mprotect-ai-fixes-v1-3-e46b2b1eb435@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-13.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[cs.cmu.edu,linux-foundation.org,readahead.eu,google.com,kernel.org,infradead.org,cmpxchg.org,redhat.com,suse.com,lwn.net,linuxfoundation.org,rere.qmqm.pl,arndb.de,canb.auug.org.au,arm.com,coda.cs.cmu.edu,kvack.org,gmail.com,vger.kernel.org];
-	R_RATELIMIT(0.00)[to_ip_from(RL45qnsmh45s86h1s1babgqt3g)];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -13.30
+References: <20261125-tcp-l3mdev-exempt-ports-v2-2-b920f3ff8f5e@nexthop.ai> <179572802703.3135.17411865692194388871@kernel.org>
+In-Reply-To: <179572802703.3135.17411865692194388871@kernel.org>
+From: Kalash Nainwal <kalash@nexthop.ai>
+Date: Fri, 27 Nov 2026 15:15:22 -0700
+X-Gm-Features: Aa3M54p1KHSs9ceXPdvDTdxL0WR7OjSk7c2s4dSWeaRL6V-xTBYAqdTwA4fWcno
+Message-ID: <CAAv61uR6XcazqvJySkz3SRHTmw3f8N-dV1xJUqO_RNbXxHK3mA@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 2/2] selftests: net: add tcp_l3mdev_exempt_ports
+ test
+To: netdev-bot+sashiko@kernel.org
+Cc: davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, 
+	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, dsahern@kernel.org, 
+	idosch@nvidia.com, ncardwell@google.com, kuniyu@google.com, shuah@kernel.org, 
+	joel.granados@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 27, 2026 at 07:45:42PM +0000, Lorenzo Stoakes (ARM) wrote:
-> From: Chris Mason <mason@kernel.org>
-> 
-> A protection change on a VMA that starts at address 0 can leave an MMU
-> notifier invalidation open forever.
-> 
-> Waiters for its end, such as kvm_swap_active_memslots() and
-> mmu_interval_read_begin(), then sleep uninterruptibly and never wake up.
-> 
-> Fix by using a boolean value to track this instead of the start address of
-> the range.
-> 
-> Fixes: a5338093bfb4 ("mm: move mmu notifier call from change_protection to change_pmd_range")
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> [ ljs: commit msg tweak ]
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+On Thu, Nov 26, 2026 at 2:20=E2=80=AFPM <netdev-bot+sashiko@kernel.org> wro=
+te:
+>
+> Thank you for your contribution! Sashiko AI review found more severe
+> issue(s) in other patches of this series. This mail is only an FYI, in ca=
+se
+> you want to address the nit picks below when you respin.
+>
+> Low priority / nit picks for your consideration:
+>
+> - [Low] The header comment of the new test script
+>   tools/testing/selftests/net/tcp_l3mdev_exempt_ports.sh (lines 8-9)=E2=
+=80=A6
+> - [Low] In vrf_and_unbound_listeners() in
+>   tools/testing/selftests/net/tcp_l3mdev_exempt_ports.sh, the first=E2=80=
+=A6
+>
+> --
+>
+> selftests: net: add tcp_l3mdev_exempt_ports test
+>
+> This adds a selftest for net.ipv4.tcp_l3mdev_exempt_ports. With
+> tcp_l3mdev_accept=3D1 and the port exempted, it checks that a VRF
+> connection reaches the VRF-bound listener in either creation order and
+> is refused by an unbound-only listener. It also checks that default-VRF
+> connections still reach the unbound listener, for both IPv4 and IPv6.
+>
+> > diff --git a/tools/testing/selftests/net/tcp_l3mdev_exempt_ports.sh b/t=
+ools/testing/selftests/net/tcp_l3mdev_exempt_ports.sh
+> > new file mode 100755
+> > index 0000000000000..da7f20bf2e9e6
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/net/tcp_l3mdev_exempt_ports.sh
+> > @@ -0,0 +1,260 @@
+> > +#!/bin/bash
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +#
+> > +# Test net.ipv4.tcp_l3mdev_exempt_ports.
+> > +#
+> > +# With tcp_l3mdev_accept=3D1, a listener that is not bound to a device=
+ also
+> > +# matches connections that arrive in a VRF. For a port listed in
+> > +# tcp_l3mdev_exempt_ports it must not: only a listener bound to the VR=
+F
+> > +# may take such a connection. Connections in the default VRF are not
+> > +# affected.
+>
+> [Severity: Low]
+> This isn't a bug, but is this comment narrower than what the kernel
+> does?
+>
+> Documentation/networking/ip-sysctl.rst describes tcp_l3mdev_exempt_ports
+> as:
+>
+>     only a listen socket bound to the L3
+>     master device or to the receiving device can accept them.
+>
+> The check in compute_score() (net/ipv4/inet_hashtables.c, and its twin
+> in net/ipv6/inet6_hashtables.c) only rejects sockets with no bound
+> device:
+>
+>     if (!sk->sk_bound_dev_if && sdif &&
+>         tcp_port_l3mdev_exempt(net, hnum))
+>             return -1;
+>
+> A listener bound to the slave device (veth_vrf here) still matches
+> through the sdif comparison in inet_sk_bound_dev_eq().
+>
+> Could the comment say "bound to the VRF or to the receiving device"?
+>
+> Also, none of the cases uses a listener bound to the slave device, so
+> that documented behaviour has no test coverage. Would it be worth adding
+> one?
+>
+> [ ... ]
+>
+> > +# Start a server in the background. nettest sets SO_REUSEPORT on its
+> > +# listeners, so an unbound and a VRF-bound listener can share the port=
+.
+> > +# $1: IP version, $2: "vrf" or "unbound"
+> > +start_server()
+> > +{
+> > +     local args=3D()
+> > +
+> > +     [ "$1" =3D 6 ] && args+=3D(-6)
+> > +     [ "$2" =3D vrf ] && args+=3D(-I "$VRF")
+> > +     ip netns exec "$ns_s" nettest "${args[@]}" -s -p "$PORT" -t 3 -q =
+&
+> > +}
+>
+> [ ... ]
+>
+> > +             for order in "unbound vrf" "vrf unbound"; do
+> > +                     read -r first second <<< "$order"
+> > +                     RET=3D0
+> > +
+> > +                     start_server "$ver" "$first"
+> > +                     pid_first=3D$!
+> > +                     wait_listeners 1
+> > +                     check_err $? "first listener did not start"
+> > +                     start_server "$ver" "$second"
+> > +                     pid_second=3D$!
+> > +                     wait_listeners 2
+> > +                     check_err $? "second listener did not start"
+> > +
+> > +                     connect "$ns_c" "$ver" "$addr"
+> > +                     check_err $? "VRF connection failed"
+>
+> [Severity: Low]
+> Can the first server time out before the client's SYN arrives here?
+>
+> start_server() gives each nettest a fixed -t 3. In nettest.c, do_server()
+> does a single select() with that budget right after listen(), and closes
+> the listener when it expires:
+>
+> tools/testing/selftests/net/nettest.c:do_server() {
+>     ...
+>                 rc =3D select(lsd+1, &rfds, NULL, NULL, ptval);
+>                 if (rc =3D=3D 0) {
+>                         rc =3D 2;
+>                         break;
+>                 }
+>     ...
+> }
+>
+> The first server's 3 second timer is already running while the script
+> does all of this:
+>
+>   - finishes the slowwait poll
+>   - starts the second server through ip netns exec
+>   - polls until wait_listeners 2 sees two listeners (up to 2s)
+>   - starts the client through ip netns exec
+>
+> On a slow or debug kernel (KASAN, lockdep) these steps can add up to
+> about 3s.
+>
+> With order "vrf unbound", the VRF listener would then be gone. The
+> exempt port makes the unbound listener refuse the connection, so the
+> connect fails and rc_vrf is 2, even though the kernel behaved correctly.
+>
+> With order "unbound vrf", the unbound listener exits early. The
+> check_timeout() on rc_unbound then passes trivially, and the subtest no
+> longer shows that the unbound listener was skipped.
+>
+> If wait_listeners itself times out, check_err records it, but the
+> subtest still goes on to connect.
+>
+> Would a server -t larger than the total wait budget avoid this?
+>
+> > +
+> > +                     wait "$pid_first"
+> > +                     rc_first=3D$?
+> > +                     wait "$pid_second"
+> > +                     rc_second=3D$?
+>
+> [ ... ]
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
-
--- 
-Pedro
+Thanks. Both are fixed in v3. The header comment now says "bound to the
+VRF or to the receiving device", and new cases cover a listener bound to
+the VRF slave device. The listener that must not get the connection is
+now stopped by the test after the client connects, instead of relying on
+its timeout, so a slow setup cannot make it exit early.
