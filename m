@@ -1,66 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795785903;
-	b=FHTVTUNpui8ObjESU+auw30cjXzoiyzdn5S/JhkP5+96ZO++REGSVPE5BJgUMeB1RIgK
-	 /dalmTXkVSkvPN2AwARlNZyNGz6Eeh7YnYHGHgUhfXhNJeXBVyk2b+FYoMABCVh3wTx0H
-	 1+iWeOJJFKrtlSag2DTLTjc1apQY4tqKBZhpoTlgupXgYsVXVEQyGdHbWLWYarb0Ta7/H
-	 0+SC1eWrRa1Yzgq/O4mDFPDTVDT8X1tLwpH5xNzxyvv3EUFz3pbj30hfSuGwGyd02CZZb
-	 JCh4Nb2MSHklguqR+//+rmNIveYso0fbkszAEOEd5mVcNDcdHXQca2/YZ+xGJM68bOA==
+	t=1795786631;
+	b=444CNhSzB5yN83LaW6ycXXSMcVoKYnscbEqF98W1SYvij7Gy4QG8cy+AB5SHDL8VzY8b
+	 bTkzqnCSdSXJuI8ganKMTNph82dxN+DlmRokkorW7PZEwmzey2NBxVWkxNgV8wSJUBqGA
+	 gKpL6xJU1u+MV1Q3rERs4ruvdlkAfGqmz6Jo0mj6jpogbYLfJO3DwxkmkCTdPT0/LmHLu
+	 IsvmCnOR6Cd/tigLEfCihETXY6ndqoD3fqUvhtQ6ZTCDOQet9EJk8VwWJpO7B+rZfRvkU
+	 SVgGhf4D12njK9CIAnPP88lGjHPcuW8WUG/apATQ/NPBNRL2YCLRgHYR/cwhRTbVGQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795785903;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795786631;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=szfGN/dgC/JLyBFU1VQYVkraiko0/qhujWRZpDszyZE=;
-	b=tJAt87ao+TDZqL1/dSASAuPH0TE7DBvfYAXsRBxBf+oCeUL1cggNULQHd2xsWD7R+vU6
-	 mcJLxEtBg2ZykCEyrtVSt/MXr9J3sg9YhNhjTbdkE7xgFc5z9NvT4c3M+d1amqXOI94r0
-	 QA7YMeP1RFO59lEzcWeJ9QopPrUSoIz0XRi1P/JsuBaiZu8phxbzHgOkqWcz3uncKO7nB
-	 7+ROn8wfL7TDava0xvBofCyLR8vAXgRpL6Xs9/66VmjwVeluOB5oAOPSuWGGwJoDHxRWc
-	 yoDdFJDEK9WKRdMwcbMjhOOX9xYni2UQ/LoM/zsZrXTQIufOLApKLQ6/vpxpx9uL9Rg==
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=eyD3C/QUx/QEIXN3P1YhWhbA1u17b55oxMh6iN9XM+s=;
+	b=yjdc5lajOD9EDEnsTpzx4w9HVIX0odh66If8rOr9okAzNFv60Q5GXOFxelmy+jgpKnVz
+	 wNjwubXF0YwZb8yGtlR3fkEbvBdy24va53Jq1xYlH9BPF2JwlcVVUb0c98KVE62wQJ8cP
+	 IqP0qVVubNcmWp9eAajFZmZm5JX/DJpR2Aj1c7ipeyJtiUWG2DbE1yQ8D/Jyb8zCTm01m
+	 DG0LYI5JoytgRN1H/lYj8TgenWBmsPhiM5J0ryGFPYWEP0RwQo9Yzw8xFacE9Foe1iEgv
+	 se8MK2W+cW7pfsrwlbsw4zMg89Ig8rIRJPa0A8XmmbTK77M70bkOprEs8ZXMWna2ABw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=wyuan.org;
 	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=K+d8pQWv;
-	arc=none smtp.remote-ip=91.218.175.197
-Received: from mta0.migadu.com (out-197.mta0.migadu.com [91.218.175.197])
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=Br7YNrwq;
+	arc=none smtp.remote-ip=95.215.58.51
+Received: from mta1.migadu.com (out-51.mta1.migadu.com [95.215.58.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AF1606A335
-	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 13:25:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08AF1606A335
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66510606A31C
+	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 13:37:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66510606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=K+d8pQWv
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=Br7YNrwq
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=jUWIbjRKrhloOv0XHKi9nPNyc6F8oiWX7SWfLE34nxE=;
+DKIM-Signature: a=rsa-sha256; bh=rKwdOcOTYSAO3HhBRrj+mQuEWbqE2+hE/uapM7+M8/g=;
  c=simple/simple; d=wyuan.org;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795785900; v=1; x=1796390700;
- b=K+d8pQWvVXZhZVPjVcAJZl3dN/Pa+jtxcXkLz7fGXUcPf5SXzGuGlIxKbEZx666YSe9EKmcJ
- qT2oAni9LSWGO+PV28oxyVudOxh0S2GP5wDtmMJCrXBrY7yjrGC0ZOkMVYyAQif1DvDLfj+66ST
- xFo4U7i+uRny2HhyultXmeQD2pEqSLyyFipik3Xj7i8/HeQk78fe6qNaDrXrNIor1JVTWujwXC9
- 0w907Mk00NI6DaGQX6A9sEx0DRAII5PmkdFDpBVIwO0Mkxpdi96dw0JIXNlfhaZdK7e+atW6jgM
- dc1XBjJVQMb/neIdLLllc2Irxdx5p/EdOp1lTOoh8RPjw==
+ t=1795786626; v=1; x=1796391426;
+ b=Br7YNrwqFenMVCcvgPYm7idctWD+wmhdy+tbRe4bcKj6Qpvx1CUw1PDXgwIOorgYQP1xljx7
+ vhcDD1lRd4EMZnnRkzvKTUuoIRr/iLovycgir2JDhlq0sXURXkw66HBUOv2Bq3WBfilmEk8mTYz
+ slGvdTLUTg2u/BmEkWNzNrsWNjX1QkYcUokaROQK1rBNkV+DVloeXhnveWZnmVimfiXlE9B3lua
+ Ug/qIPzySUbAYzJFUudzNvn+KSqBVHFm0UwbQ1ppy5UPTyLa0AIxOcWD/RGUWAokvArVSLQjuvY
+ Dg8umR5FfSgpHSYNx4vWqMApaRVuNfc/f++w78gS/cE9A==
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 2c5e8a08dd82050f;
-	Fri, 27 Nov 2026 13:25:00 +0000
-X-Mizu-Trace-ID: 2c5e8a08dd82050f
+Received: by smtp.migadu.com with ESMTPS id 6978855d14d4823a;
+	Fri, 27 Nov 2026 13:37:06 +0000
+X-Mizu-Trace-ID: 6978855d14d4823a
 X-Migadu-Flow: FLOW_OUT
-Date: Fri, 27 Nov 2026 21:24:56 +0800
+Date: Fri, 27 Nov 2026 21:36:42 +0800
 From: Weijie Yuan <wy@wyuan.org>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Chen-Yu Yeh <chenyou910331@gmail.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/9] docs/zh_CN: align translation paths and update
- guides
-Message-ID: <awmEqJSOd8wKUPTM@wyuan.org>
-References: <20261029124429.294868-1-dzm91@hust.edu.cn>
+To: Yao Yiqi <yyaqia@gmail.com>
+Cc: alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net,
+	dzm91@hust.edu.cn, skhan@linuxfoundation.org, rdunlap@infradead.org,
+	yaoyiqi3@huawei.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: fix typos in admin-guide/README
+Message-ID: <awmHagnWky2UKEKk@wyuan.org>
+References: <20261022135949.361566-1-yyaqia@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,42 +67,41 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261029124429.294868-1-dzm91@hust.edu.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261022135949.361566-1-yyaqia@gmail.com>
 
-On Thu, Oct 29, 2026 at 08:44:20PM +0800, Dongliang Mu wrote:
-> Several Chinese translations are no longer at the same relative paths as
-> their English originals, and some Original fields are stale. This series
-> moves the translations to matching paths, adjusts their indexes, and
-> removes stale Original fields. It also updates selected translations to
-> newer English commits.
+On Thu, Oct 22, 2026 at 09:59:49PM +0800, Yao Yiqi wrote:
+> From: Yao Yiqi <yaoyiqi3@huawei.com>
 > 
-> v2->v3:
-> - Remove unused top-level labels from the translated V4L driver index,
->   process index, and magic-number guide.
-> - Update the zh_TW admin-guide README reference to the relocated zh_CN
->   GDB debugging guide.
+> "内个" -> "每个" and "愿意" -> "原因", matching the English
+> version: "the reason for the rebuild of each target".
 > 
-> v1->v2:
-> - Drop the unused top-level readme_zh label from the translated
->   admin-guide README.
+> Signed-off-by: Yao Yiqi <yaoyiqi3@huawei.com>
+> ---
+>  Documentation/translations/zh_CN/admin-guide/README.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Dongliang Mu (9):
->   docs/zh_CN: update admin-guide/index.rst translation
->   docs/zh_CN: update admin-guide/README.rst translation
->   docs/zh_CN: add media administrator guide translations
->   docs/zh_CN: reorganize process debugging guides
->   docs/zh_CN: update magic-number to match upstream
->   docs/zh_CN: reorganize media driver API translations
->   docs/zh_CN: move GFS2 translations into filesystems/gfs2
->   docs/zh_CN: update networking/xfrm/xfrm_proc.rst translation
->   docs/zh_CN: remove stale Original fields from SCSI and IPE
->     translations
+> diff --git a/Documentation/translations/zh_CN/admin-guide/README.rst b/Documentation/translations/zh_CN/admin-guide/README.rst
+> index ee6dd3782f4a..32bda8f3e088 100644
+> --- a/Documentation/translations/zh_CN/admin-guide/README.rst
+> +++ b/Documentation/translations/zh_CN/admin-guide/README.rst
+> @@ -244,7 +244,7 @@ Linux内核6.x版本 <http://kernel.org/>
+>  
+>       make V=1 all
+>  
+> -   如需构建系统也给出内个目标重建的愿意，请使用 ``V=2`` 。默认为 ``V=0`` 。
+> +   如需构建系统也给出每个目标重建的原因，请使用 ``V=2`` 。默认为 ``V=0`` 。
+>  
+>   - 准备一个备份内核以防出错。对于开发版本尤其如此，因为每个新版本都包含
+>     尚未调试的新代码。也要确保保留与该内核对应的模块的备份。如果要安装
+> -- 
+> 2.56.0
 
 Forward Alex's comment to this series in what's cooking (Nov 2026, #05)
 
-| Some of patches are conflict with latest documents, please sync up and
-| resend. Thanks!
+| Too small typo fix may cause conflicts with other patches. So, not worth 
+| to apply.
 
 Thanks.
