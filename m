@@ -1,119 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795818292;
-	b=PyXZenjH4il90ZRbAeal7pzlDSTjhhSeZM8ado32uCh98U86C3O8LnqKPL8JEOf/avDM
-	 zuFzFewWKfKXeJL6SF1PqhFDJglW9ylmV1G90QkNTfZJ24CFuLKHM6Z5esAj4/q/57NDv
-	 7IPSi3h5jpsx+t2xMESLcMprlxmtNqbw4fMOYkBCdzYbpjoFOx6t9tppBBi5+4mnP14zN
-	 vQ3p7NPscZ+mkKLCgF8RrfW4XUpcG2rJUutrOilwFWF633Ew+TxalYA7pDGzZXRyH1CqN
-	 AitRTS8FihCtMzlB5daY3rWUWofkPCac5/uML4Ee3jTuzeYLWxRD4S1AzhWcRpe1aSg==
+	t=1795818351;
+	b=RlAWyPRWGcrpCl60shnnjI6jqf9c0XiSnB9udVpVYlasSKSBLm8A30PSvBBUSUBsdxFo
+	 sVWGkrnklNlIez5FVqKNoFPr9XfQwyfome4rZH4stFo1FpEWHvK0R00ceg0Bh6V15yxoM
+	 Saxysj5kk+OPwtGeonaOsFiS61biEkFCesvBYsSJzDPCBf0pOZDfVHXuJyuFcV3TVqo4J
+	 YoGu5BDoEWDGg3iLzJ4iDrcQJczLxIABu7JPTLsEAf0F/6ufAhb44BXFWolMMXM+j4hY6
+	 irQCKEylWpnOGiLLfUgxi+ZJcbFZBJkJWyUMiRtuIPr4NxPOGrepaNtRUx6OSl5DBWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795818292;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=/LM70W0+E00PJvFbuomtZnd06N8Z64xKhm/h17DW5xM=;
-	b=L4SdljNx3OHXk6KmDikmcn1EcKqtygGlNSuWYqEYbUEh2d85i6bBkTSsBTWv+aqMiHV0
-	 5816a2Fu03IiNfUw9WyBGhHM18EYKzlfwXkidtHL6qFM8fS3ExzJ6v5AQrpIhXErGsdVj
-	 lvJguXAT5/G46Fh9JxbWFv8323znPzbkUseUJpBxyJyBw0f1oSPm+zakaTS4QnfnRMj3M
-	 IMkXKNnkR83fgskO2YZqjcqVaZ9go8WPYiQCqQLfr1nEfkT3Np8JLVMbq6nbsrURi/cwq
-	 YcWUUMxEv4ro1uwUMsM2lJVJNJlUbNdObZ+VDYiv6sV6GSTvHjpOo+TiaQzakDv4WsQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795818351;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=J3OXrB+qnfqs8J/pcjSchgPpiMrzp5iVIsEEnVjP9x0=;
+	b=S3/cH584RgPO98Z7VKHy4vel6WCZ6yhIRqw8fApG6Xp7SSnTXSS5l53Ns+CaeM6eF28F
+	 iBJlYYEKidC6jKsVlzOeZXwtC+8Ooi4SiQI2+fDHY4B2hJg/VqCvVrwWZtQkZX/PygNfx
+	 M6k/3ysP5lieX+fmKlAbmZoaB+joL8EpkBED47m8US4iIsMzy0+G4PktgcejjvobBvfVY
+	 0FJJmxR4MHkP6e46+GTpSX0CMVLOV4v7PmLbs9zcnee1Xf2G9UPlUEWZbJZ6HYzAIivAa
+	 m20XJI4LDY5bsFk9y/5/bZPdymUZ+nnJVMzPdc41b1OIzc2FTUlBSrBTSNovoE8lSDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FdFtfkSb;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+bjHVmkS;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=pwz7GrgD;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hPl4tkYc;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kvETFVJz;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F18A606A31C;
-	Fri, 27 Nov 2026 22:24:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F18A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33605606A31C;
+	Fri, 27 Nov 2026 22:25:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FdFtfkSb;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+bjHVmkS;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=pwz7GrgD;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hPl4tkYc
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 23DF122A3E;
-	Fri, 27 Nov 2026 22:24:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795818289; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/LM70W0+E00PJvFbuomtZnd06N8Z64xKhm/h17DW5xM=;
-	b=FdFtfkSbtBosM74bFNgxrkmsApewsLnO8XVPKHI1/HAYFEgKgCweUKsN0r8xrT7MMIgWLU
-	/djTEv95ekACF/0Y1oHOdB6pEUWVp/LtT7YIeb8+WW1cwzXPSzT5udmmawAi9nzliRe0iG
-	e5Xy/gCJ6otEsVlgPoeBxX8ramJjmyU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795818289;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/LM70W0+E00PJvFbuomtZnd06N8Z64xKhm/h17DW5xM=;
-	b=+bjHVmkStyVnkOMIhm/BT2fRcer2YSDsh47F4My/gtsZWtbMytzruRf02/SCRIyaSuEHlH
-	PYWtm8O2LW3OJiDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pwz7GrgD;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hPl4tkYc
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795818288; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/LM70W0+E00PJvFbuomtZnd06N8Z64xKhm/h17DW5xM=;
-	b=pwz7GrgDo6MpCMUFsOzOvHxqFoJ4Ri0bhf4ifa2AVOu58CcCIieGl+Z749jlSKQUunU4hy
-	W3Dv2urGVToG++U5+6M4dj2Hk7Zkt5J4tE3TZmcGISBZh8E+W6Cd1x2m+fS54FMHXKkPqF
-	k3rYYiiqFDtyD1zH8HG7VEb6GuyR4GA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795818288;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/LM70W0+E00PJvFbuomtZnd06N8Z64xKhm/h17DW5xM=;
-	b=hPl4tkYcdjq7eMml5h8L+E3NChYlNSCQNMhlSwaYTJvoQB4ZHlJDQQv6MBWItqZJdUNoym
-	4TISQT+utv5fklBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0D5D3134E8;
-	Fri, 27 Nov 2026 22:24:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dLGLMi0DCmtNNAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Fri, 27 Nov 2026 22:24:45 +0000
-Date: Fri, 27 Nov 2026 22:24:44 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
-	Andrew Morton <akpm@linux-foundation.org>, David Rheinsberg <david@readahead.eu>, 
-	Hugh Dickins <hughd@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, David Hildenbrand <david@kernel.org>, 
-	Jann Horn <jannh@google.com>, Alex Shi <alexs@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, David Rientjes <rientjes@google.com>, 
-	Rik van Riel <riel@redhat.com>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, Arnd Bergmann <arnd@arndb.de>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Muhammad Usama Anjum <usama.anjum@arm.com>, 
-	codalist@coda.cs.cmu.edu, linux-mm@kvack.org, Andrei Vagin <avagin@gmail.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Chris Mason <mason@kernel.org>
-Subject: Re: [PATCH 4/4] fs/proc/task_mmu: write-protect only with ptrace
- attach
-Message-ID: <awoC1CV9gBKm6wSi@pedro-suse.tail5790ac.ts.net>
-References: <20261127-mlock-madvise-mprotect-ai-fixes-v1-0-e46b2b1eb435@kernel.org>
- <20261127-mlock-madvise-mprotect-ai-fixes-v1-4-e46b2b1eb435@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kvETFVJz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CCC81F00893;
+	Fri, 27 Nov 2026 22:25:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795818350;
+	bh=J3OXrB+qnfqs8J/pcjSchgPpiMrzp5iVIsEEnVjP9x0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=kvETFVJzro+dil6nqdRekj5ajUY5DqVgP+NfLdPRaeTp0gVgHF2elnzohQtxmtLuR
+	 vDNSB7mqTKmvsyxh/qG1ojIEs+GjlpgaEobqmf4Lt0cOEft1gGuOzdJSnV3kRDX1gz
+	 ilMj0dNQ5XdcyL/NYvfaWTQk2dyhKFz2Fle+DGCwOgUHgczmQ1XWktk5SNICDIj/ef
+	 WoRHQQTzxwpXlWFAVw7ent73U73bg1lJkTQyvLPRPOf7Np6yZnpHvIr7sVBnW0ABzH
+	 yVKkzHy4IZQ9mC+QDCEK6nvzM6cSQZezAq2K5zo/Jdg8NH2C9iQUMk0NH+JPm6h48P
+	 DRCrF0zvNTP/A==
+Subject:
+ Re: [PATCH net-next 1/5] lisp: add LISP (Locator/ID Separation Protocol)
+From: netdev-bot+sashiko@kernel.org
+To: vjardin@free.fr
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, donald.hunter@gmail.com,
+ nicolas.dichtel@6wind.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, shuah@kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Date: Fri, 27 Nov 2026 22:25:48 +0000
+Message-ID: <179581834896.3135.15923750690737278293@kernel.org>
+In-Reply-To: <20261126-for-upstream-lisp-v1-v1-1-7382a4bcfd9b@free.fr>
+References: <20261126-for-upstream-lisp-v1-v1-1-7382a4bcfd9b@free.fr>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -123,73 +66,149 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261127-mlock-madvise-mprotect-ai-fixes-v1-4-e46b2b1eb435@kernel.org>
-X-Rspamd-Queue-Id: 23DF122A3E
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-13.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[cs.cmu.edu,linux-foundation.org,readahead.eu,google.com,kernel.org,infradead.org,cmpxchg.org,redhat.com,suse.com,lwn.net,linuxfoundation.org,rere.qmqm.pl,arndb.de,canb.auug.org.au,arm.com,coda.cs.cmu.edu,kvack.org,gmail.com,vger.kernel.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	R_RATELIMIT(0.00)[to_ip_from(RLrsmib7z51yjcgqxjkjha4j4m)];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email]
-X-Spam-Score: -13.51
 
-On Fri, Nov 27, 2026 at 07:45:43PM +0000, Lorenzo Stoakes (ARM) wrote:
-> The abomination known as PM_SCAN_WP_MATCHING, which makes PAGEMAP_SCAN not
-> scan but mutate for eldritch uffd-wp purposes, also lacks a permission
-> check when scanning the mm of another process.
-> 
-> It defaults to PTRACE_MODE_READ, which is insufficient for this accursed
-> operation.
-> 
-> Therefore actually check for permissions correctly, and also make sure the
-> mm is as expected when doing so.
-> 
-> As it stands, a task may currently manipulate page tables of the remote
-> process, write-protecting uffd-wp marked pages, allocating page tables and
-> splitting THP, and invoking MMU notifiers as needed.
-> 
-> The check is made at the time of the ioctl against its caller, as
-> lock_trace() does for other /proc files, rather than at open.
-> 
-> A tracker which passes READ but not ATTACH on another process now gets
-> EACCES for PM_SCAN_WP_MATCHING, whether it opened the pagemap file itself
-> or was handed the descriptor.
-> 
-> Also update the pagemap documentation to reflect the change.
-> 
-> Fixes: 52526ca7fdb9 ("fs/proc/task_mmu: implement IOCTL to get and optionally clear info about PTEs")
-> Reported-by: Chris Mason <mason@kernel.org>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+Critical: 0 · High: 0 · Medium: 1 · Low: 1
+
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [Medium] lisp_stop() unlinks a non-collect_md device's node from its
+  socket's IID hash chain with hlist_del_rcu() (lisp.c:414) and returns…
+- [Low] drivers/net/lisp.c does not build or link when CONFIG_IPV6=n.
+
+--
+
+lisp: add LISP (Locator/ID Separation Protocol)
+
+This adds a LISP (RFC 9300) data plane tunnel device. It encapsulates IPv4
+and IPv6 packets in a LISP header over UDP port 4341. The RLOC of each
+packet comes from the lightweight tunnel metadata of its route or nexthop,
+and the kernel keeps no map-cache.
+
+> diff --git a/drivers/net/lisp.c b/drivers/net/lisp.c
+> new file mode 100644
+> index 0000000000000..8f5a79c88b2c1
+> --- /dev/null
+> +++ b/drivers/net/lisp.c
+> @@ -0,0 +1,1033 @@
+
+[ ... ]
+
+> +static int lisp_stop(struct net_device *dev)
+> +{
+> +	struct lisp_dev *lisp = netdev_priv(dev);
+> +	struct lisp_sock *ls;
+> +	struct lisp_net *ln;
+> +
+> +	ln = net_generic(lisp->net, lisp_net_id);
+> +	mutex_lock(&ln->lock);
+> +
+> +	ls = rcu_dereference_protected(lisp->sock, lockdep_is_held(&ln->lock));
+> +	RCU_INIT_POINTER(lisp->sock, NULL);
+> +	if (lisp->collect_md)
+> +		RCU_INIT_POINTER(ls->md_dev, NULL);
+> +	else
+> +		hlist_del_rcu(&lisp->hlist);
+
+[Severity: Medium]
+Can this node be linked again before a grace period has passed?
+
+hlist_del_rcu() leaves lisp->hlist.next pointing into the old chain, and
+lisp_stop() returns without waiting. __dev_close_many() calls
+dev_deactivate_many() before ndo_stop, so the close path does not wait
+after this point either.
+
+The next lisp_open() then does:
+
+	hlist_add_head_rcu(&lisp->hlist,
+			   lisp_iid_head(found, lisp->iid));
+
+That overwrites lisp->hlist.next. lisp_l3mdev() is computed again on every
+open. If the link moved to another VRF while the device was up, found can
+be a different lisp_sock than before.
+
+Take a reader on the old socket A that is sitting on this node, in
+lisp_udp_encap_recv()->lisp_lookup(). It would follow the new next pointer
+into socket B's bucket:
+
+	hlist_for_each_entry_rcu(lisp, lisp_iid_head(ls, iid), hlist)
+		if (lisp->iid == iid && rcu_access_pointer(lisp->sock) == ls)
+			return lisp;
+
+	return rcu_dereference(ls->md_dev);
+
+Every entry in B's chain fails the lisp->sock == ls test. So any device
+that came after the moved node in A's bucket (same hash_32(iid, 10) value)
+is skipped. Its packet is then dropped or delivered to A's collect_md
+device.
+
+The comment in lisp_lookup() covers stale matches from a device that
+moved. Does it also cover valid entries being skipped like this? Memory
+stays valid, since lisp_dev and lisp_sock outlive the readers.
+
+Would hlist_del_init_rcu() followed by synchronize_net() in lisp_stop()
+avoid this? Delaying the re-add until after a grace period would also
+work.
+
+> +
+> +	if (--ls->refcnt) {
+> +		mutex_unlock(&ln->lock);
+> +		return 0;
+> +	}
+
+[ ... ]
+
+> +static netdev_tx_t lisp_xmit(struct sk_buff *skb, struct net_device *dev)
+> +{
+
+[ ... ]
+
+> +	rcu_read_lock();
+> +	ls = rcu_dereference(lisp->sock);
+> +	if (!ls)
+> +		err = -ESHUTDOWN;
+> +	else if (ip_tunnel_info_af(info) == AF_INET)
+> +		err = lisp_xmit_skb(skb, dev, ls->sk4, info, iid);
+> +	else if (ls->sk6)
+> +		err = lisp6_xmit_skb(skb, dev, ls->sk6, info, iid);
+
+[Severity: Low]
+Does this link when CONFIG_IPV6=n?
+
+The LISP Kconfig entry only has "depends on INET", so CONFIG_LISP=y or m
+with CONFIG_IPV6=n is a valid config. Only the runtime test on ls->sk6
+guards this call, so the compiler cannot drop it. lisp6_xmit_skb() calls
+udp_tunnel6_dst_lookup() and udp_tunnel6_xmit_skb().
+
+include/net/udp_tunnel.h declares those helpers without !IPV6 stubs. They
+are defined only in net/ipv6/ip6_udp_tunnel.c, and net/ipv6/Makefile
+builds that file only when CONFIG_IPV6 is set:
+
+ifneq ($(CONFIG_IPV6),)
+obj-$(CONFIG_NET_UDP_TUNNEL) += ip6_udp_tunnel.o
+
+With CONFIG_LISP=y the link would fail. With CONFIG_LISP=m, modpost would
+report the symbols as undefined. The later patches in the series do not
+seem to change lisp.c or the Kconfig dependencies.
+
+bareudp_xmit() avoids this with a guard that folds at compile time:
+
+	if (ipv6_mod_enabled() && info->mode & IP_TUNNEL_INFO_IPV6)
+
+Could this branch test ipv6_mod_enabled() or IS_ENABLED(CONFIG_IPV6)?
+Adding "depends on IPV6" to the Kconfig entry would also work.
+
+> +	else
+> +		err = -EAFNOSUPPORT;
+> +	rcu_read_unlock();
+
+[ ... ]
 
 -- 
-Pedro
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261126-for-upstream-lisp-v1-v1-0-7382a4bcfd9b%40free.fr
