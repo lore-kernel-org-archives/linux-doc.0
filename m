@@ -1,63 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795786631;
-	b=444CNhSzB5yN83LaW6ycXXSMcVoKYnscbEqF98W1SYvij7Gy4QG8cy+AB5SHDL8VzY8b
-	 bTkzqnCSdSXJuI8ganKMTNph82dxN+DlmRokkorW7PZEwmzey2NBxVWkxNgV8wSJUBqGA
-	 gKpL6xJU1u+MV1Q3rERs4ruvdlkAfGqmz6Jo0mj6jpogbYLfJO3DwxkmkCTdPT0/LmHLu
-	 IsvmCnOR6Cd/tigLEfCihETXY6ndqoD3fqUvhtQ6ZTCDOQet9EJk8VwWJpO7B+rZfRvkU
-	 SVgGhf4D12njK9CIAnPP88lGjHPcuW8WUG/apATQ/NPBNRL2YCLRgHYR/cwhRTbVGQw==
+	t=1795786680;
+	b=yhJAE9uS4+1cFigcAOxXuRC7gBSPM7r/J2FBmv9ERDXYainutLZf89yB1za7fm22EvcS
+	 guua8FM2l8rVXTy5YRJhOaq5N+1N7jGAJwxoFhr5Y1OZRlCxFyM51gbI6eH/3etfUHozi
+	 jg4PQnLmUeuBHuJpzxHQsk2ySSKIE1l1pBIWjTZN0xaZOEWCqrV26YdV/ic/au5+abCrf
+	 eORJXR/X4huyXBJsvqxp/F2/BFG2w/yaok6xUK8HwZukLeqn42KAG/lQsbEGJYTmzV+zG
+	 F3/uDx3Jm6MRPLo6dyjfJwCeiC8RchTlGkRVhQJK6dHfnXdpE9X2QZzwSYYjn6uvSXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795786631;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=eyD3C/QUx/QEIXN3P1YhWhbA1u17b55oxMh6iN9XM+s=;
-	b=yjdc5lajOD9EDEnsTpzx4w9HVIX0odh66If8rOr9okAzNFv60Q5GXOFxelmy+jgpKnVz
-	 wNjwubXF0YwZb8yGtlR3fkEbvBdy24va53Jq1xYlH9BPF2JwlcVVUb0c98KVE62wQJ8cP
-	 IqP0qVVubNcmWp9eAajFZmZm5JX/DJpR2Aj1c7ipeyJtiUWG2DbE1yQ8D/Jyb8zCTm01m
-	 DG0LYI5JoytgRN1H/lYj8TgenWBmsPhiM5J0ryGFPYWEP0RwQo9Yzw8xFacE9Foe1iEgv
-	 se8MK2W+cW7pfsrwlbsw4zMg89Ig8rIRJPa0A8XmmbTK77M70bkOprEs8ZXMWna2ABw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795786680;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=hOmInT4jFxNNTLRMB6mT54ZJFyBDVDe8HB3fBANc73I=;
+	b=X7DBJKVZ04saIcmQP+ZVJn5kqizitf/lsUcYuGOi7wewpSqHEexu7c5VNx0dpgfWaWWF
+	 VXPTW7VAePY7N6nl0BGFohNsbE0IRIREqDePUWkBuT6tNUHGdXSZ8G7ysiAcunpDBbvfR
+	 wnB0SojUaXrNE4rx5eJpFESDBe/1rC1DHi4Fz8tdxTs8U3sOchc+J5MXQPSa6YQno+6eW
+	 GH64nA146GT3CyrczfLoFiw26Gx4N75zuwt70ixUNxGf1WGl4TykkBT0XjuKIWyqPEwvb
+	 q0C6vas4kx7VLqAhOfo0LK5PnAiTeUU+TCdlo2lVrh9XPws4DUNas3dSNGKd6Ki/fvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=Br7YNrwq;
-	arc=none smtp.remote-ip=95.215.58.51
-Received: from mta1.migadu.com (out-51.mta1.migadu.com [95.215.58.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JZNeT+yF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66510606A31C
-	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 13:37:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66510606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF9E606A321;
+	Fri, 27 Nov 2026 13:38:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=Br7YNrwq
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=rKwdOcOTYSAO3HhBRrj+mQuEWbqE2+hE/uapM7+M8/g=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795786626; v=1; x=1796391426;
- b=Br7YNrwqFenMVCcvgPYm7idctWD+wmhdy+tbRe4bcKj6Qpvx1CUw1PDXgwIOorgYQP1xljx7
- vhcDD1lRd4EMZnnRkzvKTUuoIRr/iLovycgir2JDhlq0sXURXkw66HBUOv2Bq3WBfilmEk8mTYz
- slGvdTLUTg2u/BmEkWNzNrsWNjX1QkYcUokaROQK1rBNkV+DVloeXhnveWZnmVimfiXlE9B3lua
- Ug/qIPzySUbAYzJFUudzNvn+KSqBVHFm0UwbQ1ppy5UPTyLa0AIxOcWD/RGUWAokvArVSLQjuvY
- Dg8umR5FfSgpHSYNx4vWqMApaRVuNfc/f++w78gS/cE9A==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 6978855d14d4823a;
-	Fri, 27 Nov 2026 13:37:06 +0000
-X-Mizu-Trace-ID: 6978855d14d4823a
-X-Migadu-Flow: FLOW_OUT
-Date: Fri, 27 Nov 2026 21:36:42 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Yao Yiqi <yyaqia@gmail.com>
-Cc: alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net,
-	dzm91@hust.edu.cn, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	yaoyiqi3@huawei.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: fix typos in admin-guide/README
-Message-ID: <awmHagnWky2UKEKk@wyuan.org>
-References: <20261022135949.361566-1-yyaqia@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JZNeT+yF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EF5A1F00897;
+	Fri, 27 Nov 2026 13:37:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795786680;
+	bh=hOmInT4jFxNNTLRMB6mT54ZJFyBDVDe8HB3fBANc73I=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=JZNeT+yFaTizJ8RzpDmmM53KUynY6lcHmUCqcwmsTmRwP5WkTAdySOPsOa22PcXBs
+	 6OLcRserRnUJ/k0xOyBfBqE4qTeblAy2fR16JBiGFh4l3UIcibPEKkK0xRPj8PhME3
+	 1AuWNpYTarLToisfXVDa1nzkbfkp0TDYyYYZXLW8c+JuhCXIZL0RhQL2mZ3p0k0yo+
+	 ZCxdp2VQCIkXVz64G5OV4ETceNqER43dAH4GADMi9Frle55oxdRfuL0jZps8mguFkM
+	 dcNQDLAKMLygUmKbabqdrPXhpmZstMBOubFlm2CK6Dv/J4wKxlvfRqwig4hP0hcDD/
+	 8Mf+UESJpLVyg==
+From: Sasha Levin <sashal@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	Willy Tarreau <w@1wt.eu>,
+	Borislav Petkov <bp@alien8.de>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Security Officers <security@kernel.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs and a cover letter
+Date: Fri, 27 Nov 2026 08:37:56 -0500
+Message-ID: <20261127133756.455469-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <awlR9pQUjodcLjZK@gremlin>
+References: <20261126171926.2766137-1-sashal@kernel.org> <20261126171926.2766137-2-sashal@kernel.org> <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org> <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local> <awjopqoCJqwChwnF@laps> <awlCy3vDs0fKx1ku@gremlin> <awlNYsu1y8EhYgor@1wt.eu> <33c6cf3a-6b18-4e09-bd5c-68ed2c34de56@kernel.org> <awlR9pQUjodcLjZK@gremlin>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,41 +81,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261022135949.361566-1-yyaqia@gmail.com>
 
-On Thu, Oct 22, 2026 at 09:59:49PM +0800, Yao Yiqi wrote:
-> From: Yao Yiqi <yaoyiqi3@huawei.com>
-> 
-> "内个" -> "每个" and "愿意" -> "原因", matching the English
-> version: "the reason for the rebuild of each target".
-> 
-> Signed-off-by: Yao Yiqi <yaoyiqi3@huawei.com>
-> ---
->  Documentation/translations/zh_CN/admin-guide/README.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/admin-guide/README.rst b/Documentation/translations/zh_CN/admin-guide/README.rst
-> index ee6dd3782f4a..32bda8f3e088 100644
-> --- a/Documentation/translations/zh_CN/admin-guide/README.rst
-> +++ b/Documentation/translations/zh_CN/admin-guide/README.rst
-> @@ -244,7 +244,7 @@ Linux内核6.x版本 <http://kernel.org/>
->  
->       make V=1 all
->  
-> -   如需构建系统也给出内个目标重建的愿意，请使用 ``V=2`` 。默认为 ``V=0`` 。
-> +   如需构建系统也给出每个目标重建的原因，请使用 ``V=2`` 。默认为 ``V=0`` 。
->  
->   - 准备一个备份内核以防出错。对于开发版本尤其如此，因为每个新版本都包含
->     尚未调试的新代码。也要确保保留与该内核对应的模块的备份。如果要安装
-> -- 
-> 2.56.0
+On Fri, Nov 27, 2026 at 09:54:07AM +0000, Lorenzo Stoakes (ARM) wrote:
+>On Fri, Nov 27, 2026 at 10:44:56AM +0100, David Hildenbrand (Arm) wrote:
+>> So as usual: in the right hand it is very useful, In the wrong hands it's not.
 
-Forward Alex's comment to this series in what's cooking (Nov 2026, #05)
+Very much the case. But we can't stop the "wrong hands" from using it, so we
+need guardrails around them that make it produce what we, as a community, think
+is the right thing.
 
-| Too small typo fix may cause conflicts with other patches. So, not worth 
-| to apply.
+>I've dropped a bunch of reviewerships because if this keeps going, I'm going to
+>burnout completely.
+>
+>And to me the TL;DR is 'this bad thing you are dealing with on a daily basis -
+>is not bad, it's good, and we should have more of it, but only if you hold it
+>right'.
 
-Thanks.
+I think we're actually agreeing here: LLMs write crappy commit messages today.
+My point was that they have the capability to do this really well (the "and" in
+that line should have been "than"), we're just not getting that out of them
+right now. These things just helped prove the Riemann hypothesis, I have a hard
+time believing that a good kernel commit message is where they hit their limit.
+
+And it's not just you or me. That's exactly why the cover letter quotes a whole
+list of maintainers: pretty much everyone is hitting this. The series is there
+to push back on what you're dealing with, not to ask for more of it.
+
+-- 
+Thanks,
+Sasha
