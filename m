@@ -1,100 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.41
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795744931;
-	b=PNaE24sznqQD4tLCmA79FxhlEyir/TbxKEoK7lkb+AjYQTbJKV7mPVG+LTMn+01nJZsH
-	 i4y0VeRZPEu6P+1mcU4SbxrQfQOiGFt0sqy2aCOMNcm42H4bnzlRtU2dN4cLPeCTGke1m
-	 LQ/npQthiQSfQAFbw/e6FzCFF0lBYoy63BezYem112An796Uq7W87WLW0eZSXrxQ9U4vD
-	 Ia+aCZPsH3DUY66enhdfFaScW56EU7zW6ikTboTmpY6f9vVwdvb/lw7DBLOiqsSL/aUph
-	 4F3vfG12k3ZxsqtZRXGsjuKZDiEoZai/obJzJEqhMOnvfoCpd6RaEB7oRU9y7Tjsfnw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795744931;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=CD6edFGqmU8n4mTR3UtP0gostgp/pYDUUVhaESpICv4=;
-	b=XafrhsMDO4eKtApAHDluHoFfkaMDPgCCuecuJ9lCqxkrDN6NwdL3ItIKVfLE20Hvn0U9
-	 Zi7MM/+2u1SHgGH1WutddmJD7u9/FldX6l/Bu55jhD3P4bKC8E4+IPO+6eHPhiK9Q3N62
-	 3x3wOYY+LOgOrYHYQGKP4Dftm4RLTHphqU5xoB3lvv+mjE/rVWH86hSrBiD2qVCzwbm3J
-	 XT8X45B+KbzwrjdlsEzV/20TlIegzMD9MTWoQ0XtA398gDTTeBx44PmsoW7OFx58IFS24
-	 qACCys+QwXu7Gp21vTTYSNRm7lVlzWkx3UIrmS+ITYd+PXlLYRgN8eqUqu0EgHt6ZWg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QQCg0JXt;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.41
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795745960;
+	b=t2omvGTNng8+PnV+f2P7w9N5oBd9TDpEWH0K3V0iMKtbH0NRdsuIj6yH5BLaedAhYVsE
+	 oneZi07JkZpErhg4We5EBHoOifA+I1fClS7QFyztYZFaqPabol1Ka/H+cLOoPJO0PNsk3
+	 a6jW6Y+YjxiU0s7lv86sh6wNo05WSj8/lv4JtmDbBlDtWTIQ4bDS4q6dfdwWylNiXjm6U
+	 VOZy7uk2r2ZxVOmxnC2fF0xU9NC/56Xz1Rz3BujDLbAz2mhs16PDaNtrl3W2M6v36Hjxi
+	 F8Qji8ZF8DFMfXzNR1SbRvXTT5dsQG0fwflw+J6m1eHzba0bNdYzvWE+Sf+o9nPntWQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795745960;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=zbr7ENnf2fb+We9gjXvF41JxeJ/00DoKsyJi5Boh3ls=;
+	b=10Z1refbMZXrHAfmRcjMzHMoTv82eRaciV6fyXk9KQkmh9Mobrp4DGdsu6/VT1BHz3R1
+	 AbF/0DQTVdGYXgx0eD/4321nrigOXQQs2vYS7IlXGKuh78aJSah7P0Yxivu+G3T3KdPQp
+	 L1gOgaPiOBwQAaPDxvavw79FFkCCBwI2udN1+9SBiuS+anYUg/ZWSomfTC5InBtLEcanf
+	 WU1QKkmQ31BnyhovEtJ/HvkNnoorHZ5a7Dgnoft+H99W5vAf4x6ACUrj8IjeoOW4XojH8
+	 /iwkvslRxt6rU23/2TrjXX+NTUgmfZgJEMFvsLxyd7GnYUPi9lYCvNIuWHnnJ2yFGdA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TX5A5p4n;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8D3606A31E
-	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 02:02:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D8D3606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753CB606A31E;
+	Fri, 27 Nov 2026 02:19:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QQCg0JXt
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c5118deebcfso1129389766b.1
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 18:02:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795744929; cv=none;
-        d=google.com; s=arc-20260327;
-        b=p0Ug30pCtDW5iXvGBU032Uk1dzcvnFE0KwbdCQRYAKv0J3fYVZP911SI+s/HfVV3FO
-         Zua9wixIOEM8zBNELd16IUspwLZ4boAzOjt6TN48jOCCxunx5B59Z3CwPYMChJP+BqDs
-         evEOysxPausYQ3tYtnAH26WrAQHf5+ZHQpnP4vFEnNIcc45Z6BmeyQdrIwn+erBHxcvW
-         tHV24OLfsP9bH2sPljtcHxOEAtdwxvtMFVC4whK4Ql3lnYJbx913tfJODhuMaZVsfGaz
-         2bK4UFDYn3I7Qg2hcc5/QWYUjqGHaUc5GMmSN5tFAwMYQKAIvZN4mPtoobbNpEEdNQli
-         LxbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=CD6edFGqmU8n4mTR3UtP0gostgp/pYDUUVhaESpICv4=;
-        fh=/uUBkp/isj1E5wwnnMoDacyGbwKysfA22Fc1vMPAmLg=;
-        b=n7eMIkSx/e7/KSRiqKaRHP0yDxb0gCxnyc+lk5VaZ73BVP4BozI9t2773LEEkEfc72
-         jr+84+JpL5KKUz8CCuXKoYq7F8lOpuSZqFhVQqRUcYOIx2G+gUJucgLsiCMONM/2qcEH
-         hqQOK7Tf146EvBXontgzgJkzoWxYXTO7hnqJ46XrUJVg9Jl/UGPaGzkvMsdk4yMofy3W
-         QXIXQ8IqgGAOQ7MUvv4qGjh+HxcEty3Dr2IHSddWrwY56oWB9Hh0uiNV3ViaYp+uJFu4
-         plcuT2VNNGJJbXuuKji8RtfpjPdj0k7qNy4njPEqG7jsBqGaR5jLPmAOCpHF7VPsoKVW
-         46bQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795744929; x=1796349729; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=CD6edFGqmU8n4mTR3UtP0gostgp/pYDUUVhaESpICv4=;
-        b=QQCg0JXtU00HNsKgrqBi/W6XM3rMJrEM23W8vU0xV55dHIIMt5tdHI6YpWDrlqcmLW
-         5+KiF1uMwxpd7s+5Sv8gvW/5nlypKIFlMi6XDN/n5aAaPbrhH8QGA06sMHNPogDDhHv7
-         LVFO0+oZKZNM596R4PEWa0f56b7UlhG+1beqgzpMOqn5D+nNiWB4EN1KipEg2fgEgDz9
-         sTp1aozLeNudjWgDRnrPWT4tdmdLNzcXs909noAkj1DaTMBfQR5JlP/JhlGECOwCsxQt
-         rmI1FVvq39OUazqhvdkJ88wmW5jDK3EYrJ3p2Yn6ZdeGul++YWWV5ZX0qk3HZp0nyu/K
-         57kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795744929; x=1796349729;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CD6edFGqmU8n4mTR3UtP0gostgp/pYDUUVhaESpICv4=;
-        b=Xv4f4Xviwn31+ie33e5BVmOG+LIY9tC7beJHHEmX5Ek/iXOngmD6ZhM3A9Iq9+dvwx
-         /0iZEXBi8/sFNv5JJcXGlMNOnBLPja0Bc2zMuUSjGdpnlYG3ri2z/hI7CxwJf1muafXJ
-         N7zmwW2UEUa3Xto71F3lk/z2aBJANuGDrsWY6krk8jc+0E8mcaQXJod73/6o+8RNBqAM
-         nSd8g7JAebkh9ubyypzsxCXeRdodLm87TZTXcFJ3HCTfY627V+mf59Cgx4ac+AnDS0pd
-         uEWKkwh/WbczyTDKcQb9J8aHcivCzGnmXMtF1QBW6pFwASSOM5IyxUzup/ukrE1nYRPb
-         CorQ==
-X-Forwarded-Encrypted: i=1; AL+hErE7Y+DSNGVezlsJSnXu2GjzYbZHw3Rr11qa/cS+MOBCMx+CM1MT3rpGXT4YOJNg/NkXStTCJCsg0xM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9yZD+qFU9b45SMY4Srzs+QbaWUmicHarsP/Rimgc2mmGqXPsHG
-	Jj3iaEMr/M01tcXGaYm7q2W2zxHcF5xpHIRULvIzknxGBvzqHVyDn5zwD+M1Vxe5yIPOsKYrewT
-	84ZgMZ72VeLl7RFKSfX6ZTIV5cbInluQ=
-X-Gm-Gg: AZFdTZcGFXShYj9Sfba8r2FW7MiK1oi1d0dW0pyADPliBb7uq2fxnNOwGSnN209JUCJ
-	G1aW6LEznoX5nU/ED4i/vW7vXeEUBPeSI5pRPQCIFk0rm8Pw8qGugcxFIIAFUGBQZXANQbIKiVq
-	iqxtpeyoTcSzZMizlywf6+dTJrMShM/4vueg5uRdSuhpQ8NO48zxkj000efJ/6eHmtsY+3JlqcY
-	+YS3uIELdFGKeKZalG6aLa7bOqDZDeVrWs23M5j+zL1DVbHFKRRnOLQ8GE3WL4+CgHTY+qC1UPO
-	yJED0QudiBDGlSALGtJd1hFeBCySXpPlFkVvhKOpnhkgRA50BFyI7oHKAIO7eBcPTbU8Mjuwjot
-	6NKgjEEUB2B+41JvyuThz1NZq0J9t4Znp4RK1WtVEkRx9q9YDj7SZH+rBgJe4/m3BQnaqXg==
-X-Received: by 2002:a17:906:ad1:b0:c2d:d408:5d9c with SMTP id
- a640c23a62f3a-c513ac9c0d9mr1294611566b.48.1795744929390; Thu, 26 Nov 2026
- 18:02:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TX5A5p4n
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A97861F00898;
+	Fri, 27 Nov 2026 02:19:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795745959;
+	bh=zbr7ENnf2fb+We9gjXvF41JxeJ/00DoKsyJi5Boh3ls=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TX5A5p4nLMl5H0s5XFcEFJ+I+FgWKv2uAf09LixHdFgl6H4KgbVsti5qpvvjeboAR
+	 UHhVmMC65NS32hZ3DFyh/QmHlUWSnF8MqATwuGVjX6ch589cxE5f9YSZJUTfMV+RAv
+	 syEI0KQEkP2XK/fOsRhRBbhdo6xy82o15wF9XVtmaDEY211TWbqatuGsg0FCQMiJSk
+	 fPGiUskpGcXDmvTqq2mbhyE9EYj4eXViDNHiLhIeLlFY6AxPrZIXz3BWeIynSoZFYq
+	 58ie8S95NV9t4MkZVHEqavLOgGxPTi+7R2JM9CDxyc3CiiBY8rIjt9o3ZqF7Rtdd4n
+	 B7KLLJlmN76eQ==
+Date: Thu, 26 Nov 2026 21:19:18 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Willy Tarreau <w@1wt.eu>, Leon Romanovsky <leon@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Marc Zyngier <maz@kernel.org>, Eric Dumazet <edumazet@google.com>,
+	Hans de Goede <hansg@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+	Security Officers <security@kernel.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs
+ and a cover letter
+Message-ID: <awjopqoCJqwChwnF@laps>
+References: <20261126171926.2766137-1-sashal@kernel.org>
+ <20261126171926.2766137-2-sashal@kernel.org>
+ <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
+ <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,143 +73,73 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
- <20261124-mglru-fg-v6-8-8ffea39934a6@tencent.com> <e85a2666-9722-420b-9a60-9d4251fc3d4c@kernel.org>
- <awa30hwg6x82REoo@KASONG-MC4> <8ec3f3e2-5d3a-4bed-a571-88f7ba473b00@linux.dev>
-In-Reply-To: <8ec3f3e2-5d3a-4bed-a571-88f7ba473b00@linux.dev>
-From: Kairui Song <ryncsn@gmail.com>
-Date: Fri, 27 Nov 2026 10:01:32 +0800
-X-Gm-Features: Aa3M54rPWlNF1ipPnICVor68aKhcFmTtxDUbh6IGLENPtyVP2_2XjRG7xOmJZ1o
-Message-ID: <CAMgjq7Ayu9H85wurRAUdmXEPWYi9BdLJW13BhK+LMYoBX_7fuw@mail.gmail.com>
-Subject: Re: [PATCH v6 08/18] mm/mglru: make folio lru referenced times count
- a generic API
-To: Ridong Chen <ridong.chen@linux.dev>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org, 
-	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Muchun Song <muchun.song@linux.dev>, Qi Zheng <qi.zheng@linux.dev>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Chris Li <chrisl@kernel.org>, 
-	Baoquan He <baoquan.he@linux.dev>, Nico Pache <nico.pache@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
-	Gregory Price <gourry@gourry.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
-	SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>, Yu Zhao <yuzhao@google.com>, 
-	Vernon Yang <vernon2gm@gmail.com>, Zicheng Wang <wangzicheng@honor.com>, 
-	Tal Zussman <tz2294@columbia.edu>, Xiang Liu <liuxiang.277@bytedance.com>, 
-	Ehab Ababneh <ehab.ababneh@intel.com>, Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>, 
-	Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>, 
-	Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	damon@lists.linux.dev, linux-doc@vger.kernel.org, Tianyi Chen <hi@tychen.cc>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local>
 
-On Fri, Nov 27, 2026 at 9:48=E2=80=AFAM Ridong Chen <ridong.chen@linux.dev>=
- wrote:
->
->
->
-> On 11/25/2026 8:36 PM, Kairui Song wrote:
-> >> On 11/23/26 19:53, Kairui Song via B4 Relay wrote:
-> >>> From: Kairui Song<kasong@tencent.com>
-> >>>
-> >>> Pure code shuffle, no behavior change.
-> >>>
-> >>> Make the folio LRU refs helpers available regardless of CONFIG_LRU_GE=
-N.
-> >>> Without MGLRU the extra bits are never set, so they are inert. Move t=
-he
-> >>> lru_gen_* helpers into the CONFIG_LRU_GEN section.  This prepares for
-> >>> unifying the API for checking folio referenced and workingset status.
-> >>>
-> >>> folio_migrate_lru_refs() now migrates the complete refs count,
-> >>> including PG_workingset (bit 1 of the encoding), bitwise identical to
-> >>> the direct copy dropped from folio_migrate_flags().
-> >>>
-> >>> lru_set_refs_flags() skips the nonexistent mask bits when
-> >>> LRU_REFS_WIDTH collapses to 0, preserving the two independent flags f=
-or
-> >>> !CONFIG_LRU_GEN builds.
-> >>>
-> >>> Tested-by: Zhao Zhenzhuo<zhaozhengzhuo@uniontech.com>
-> >>> Reviewed-by: Kunwu Chan<kunwu.chan@gmail.com>
-> >>> Tested-by: Andrew Morton<akpm@linux-foundation.org>
-> >>> Signed-off-by: Kairui Song<kasong@tencent.com>
-> >>> ---
-> >>>   include/linux/mm_inline.h | 55 ++++++++++++++++++++++++------------=
------------
-> >> I'm starting to feel like all of these mglru/reclaim thingies should g=
-o into a
-> >> dedicated helper.
-> > Hi David
-> >
-> > I saw your comment on other patches too, about the header mm_inline.h,
-> > about ~690 / 860 lines of code in it is for MGLRU / CLRU only. The
-> > rest ~200 are for VMA / TLB / MMU.
-> >
-> >> Can you do that as a prio cleanup in this series, so we don't have to =
-mess with
-> >> mm_inline.h in later patches anymore?
-> > Perhaps we can instead move the non LRU helpers in it?
-> > These helpers:
-> >
-> >    - anon_vma_name_get
-> >    - anon_vma_name_put
-> >    - anon_vma_name_reuse
-> >    - dup_anon_vma_name
-> >    - free_anon_vma_name
-> >    - anon_vma_name_eq
-> >    - pfnmap_track_ctx_release
-> >    - init_tlb_flush_pending
-> >    - inc_tlb_flush_pending
-> >    - dec_tlb_flush_pending
-> >    - mm_tlb_flush_pending
-> >    - mm_tlb_flush_nested
-> >    - copy_pte_marker
-> >    - num_pages_contiguous
-> >
-> > All other helper in mm_inline.h are for LRU. So we rename mm_inline.h
-> > to mm_lru.h?
->
-> Moving the VMA/TLB helpers out looks good to me as a first step.
->
-> For the LRU part, there is already mm/vmscan.h, added by "mm/vmscan:
-> move struct scan_control to a dedicated header" in mm-new. Most LRU
-> helpers are only used inside mm/, e.g. lruvec_add_folio(),
-> lruvec_add_folio_tail(), lru_gen_add_folio() and the refs encoding
-> helpers, so they could move there instead of staying in a public
-> header. Barry also suggested moving lruvec_add_folio() and friends
-> to mm/vmscan.h in another thread.
->
-> A few are used outside mm/ and need to stay public:
-> folio_lru_list() in include/trace/events/pagemap.h, and
-> folio_test_workingset() in fs/btrfs and fs/erofs after patch 16. So
-> maybe keep a small public header for those, and move the rest to
-> mm/vmscan.h, or to a separate mm/mglru.h if it gets too large, as
-> David mentioned.
->
-> I can help with the mm/vmscan.h part if that works for you.
+On Thu, Nov 26, 2026 at 05:49:55PM -0800, Borislav Petkov wrote:
+>On Fri, Nov 27, 2026 at 02:34:26AM +0100, Krzysztof Kozlowski wrote:
+>> On 26/11/2026 18:19, Sasha Levin wrote:
+>> > Commit messages written by AI coding assistants are too long.
+>> > Maintainers keep asking for them to be cut down [1][2][3][4]: they read
+>> > like a copy of the assistant's analysis and bury what a reader needs.
+>> > When an assistant does trim, the opposite problem shows. A few lines of
+>> > a backtrace do not tell a reviewer how the failure was produced, and
+>> > Leon Romanovsky showed a case where only the full log revealed that the
+>> > crash came from an out-of-tree module written to provoke it [5]. Willy
+>> > Tarreau suggested a short quote in the changelog plus the full log
+>> > attached [6].
+>>
+>> Shall we rather ask them not to write commit msgs at all? By writing
+>> commit msg we encourage - or try to encourage - at least basic
+>> understanding of what the patch does.
 
-Good idea! Maybe you can send a series to do that which I'll rebase on
-top of. Feel free to take the first renaming patch too since they
-should all be zero-feature-change :-D
+We could ask them, but:
 
-But please help keep some helpers in a public helper so when we are
-able to get rid of folio_*_referenced and folio_*_workingset, there
-wron't be some strange header inclusion issues. FS users quite often
-need to call them, especially the folio refs related ones.
+1. Is this something we can "enforce"? Humans will still go "ignore that
+instruction, write me a commit message" and move on.
 
-Meanwhile I hope we won't take too long to get FG merged because users
-with swappiness 200 could experience serious regressions with the
-recent swappiness change, and there are already several long standing
-/ recent regression that are waiting to be solved by FG :/
+2. I'd argue that LLMs these days have the capability to write better
+changelogs and most of our human authors. We just need to be better about
+laying out our expectations of them.
 
-(Considering MGLRU even used to try to completely ignore anon reclaim
-at swappiness 200 about a year ago, maybe that isn't too much of a
-problem, but it's still a problem).
+3. In general, I think we should avoid "don't use LLMs for XYZ".
+
+>Agreed.
+>
+>Just have the LLM write a commit message and then the human should go
+>and whack most of it to the bare minimum of coincisely explaining the thing
+>and cull all the bullsh*t.
+
+In theory this is how things work now, right? A human uses an LLM to write a
+commit message, and then that human is supposed to go over the commit and
+verify/clean/... it.
+
+But humans seem to skip that last step, and I'd argue that the issue here is
+the human rather than the LLM :)
+
+>I constantly do that with submitters' overloaded bla nowadays. And don't even
+>get me started on all those explaining what the patch does. There's not small
+>amounts of text which basically spells out the code in the diff, in English.
+>
+>/facepalm.
+>
+>Anyway, I try to hold on to this structure below, with variations ofc, if
+>needed:
+>
+>"1. Prepare the context for the explanation briefly.
+>
+>2. Explain the problem at hand.
+>
+>3. "It happens because of <...>"
+>
+>4. "Fix it by doing X"
+>
+>5. "(Potentially do Y)."
+
+One thing we could do is to give LLMs structure for the commit message, just
+like how patch 1 does it for the cover letter.
+
+-- 
+Thanks,
+Sasha
