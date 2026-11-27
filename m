@@ -1,99 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.135
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795791829;
-	b=lpxe8pVCPTfZoGfXzYgmqEp24ET9r3jgXqy5bMyBfRs0eeOCgoGGAfCBSOm/pqjrWLY6
-	 yUpM1gZWt0FUJlhVxxhFd9VQV4NlFam949AEgwrYv2znLRHDRbh8u2chebFwJyF0tUeid
-	 n/QXJRUXw3kA7yMrrTQ2ntAuMcHQzJTLwNnm+ySmM68pfpBTTrzXGNxEYixsJXQOEz2uR
-	 YAXJA2OLe6R+oSRyBEiG+NxEfxQ8g9WCVc75JOBMtcmocMGFaPM9cSy0ggobpqgu21dd2
-	 FeI+GBKhgZJaBpFjdXPbzxWgnP8zdhSeVquUsqjejxkSA+44GVAOurPx/t13b9y+8nw==
+	t=1795792341;
+	b=gtjOFSmXPv4m4jkUiw1VGVu27zsLxYs/1uflFSP/4iFFHGGt9Tr3mBMF4diQi87jYwfC
+	 dAfo18kSqLJdhjrelXkwvKuUytoUDAOFfTZ8QakRFIv3P/B6SM06pWkZLUkRwzgO6uTcC
+	 sbXOm1hcIrSUuhsqlToelOUskX0fP/A9SbFuKck7w5jPY8/EVhtPXj6SoZB4E3piy1qOq
+	 nRb5F95qyRHhU7qVViEFIDV2NNaJMaeXthsSZ+EZ5G4y+2QIOMxmMLkq4ls0TI+YERkYg
+	 khZvrAcSYyh29vdOMkj3IzZ1Ui6Hs5/7j5UhphD5cUw+RtG+apK/1PByDyQKgsl5MUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795791829;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=igR2PdoSE5zC+luyFOEYbUW1HNx+27WRDKANfZMFdJU=;
-	b=5WSboDFEJeukKKuuHIWQ4A5FQpAfsy0WmP7vm/JIzhM/xfyQAFDE5c9KbU2wc6medkYC
-	 Z3HsEdHG9EZead2Ajk+it4QD75vE3Y+P0lhQ6qDicaOyuwRWmuGORFJKRx0tePuIMDTRv
-	 ldIdl/YRm9spMde2miRgxt9yl22V7DhkbwipHPIb9FgDcBcuP0gKwRU2lPFIfotu/Wmsw
-	 /xov++vlFm/YGBk8VGyvYLzyaR5hXX7D5Azl/17Bu/Q4ZXn57qNMozXN4SaHNkuzXtzOF
-	 mYq04DYn7tgxSiYQFCPQTmR51cUPM8s9rYmdUNFJCwOGb1teA7KfEPZlef4jS+swZLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795792341;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:Content-Language:To:Cc:References:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=hG1UcIeD5kDsTZ/j31mkrP5xd0P4UvuVoAKHdexqypg=;
+	b=5pRJku3gVLJzeKp0T6uZK+vNt66P52nR7G84MT++P4IIwPLk+ZKC01Fp7uOVFPvxEGmi
+	 FPPK1Km2Qlgi7QVxpDZ6vzxCaOE9RzrxBfP9n1P74K+MCRI9Fn6UAWWi/2SBSHQa2usRD
+	 6ucPmY4vTMwq0CEOZ9dAtfDt9Sz5n6DCt3iXEpbPwgFevljrL2wEHvxO+6zI4OSnwbEMF
+	 TViWkw8gbPsR1bNz7zwLZPykWoUkL1Gk0VtrPJCpRiI6/XH38oXE0WWRG3tUZRrbFpmy1
+	 KF2QB6jnd1ew/L9giR5GDb38hUXxi+GqH5O851mfNPRG8bPRAFOI53sF/GRSTOiShzg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=i44f+muv;
-	arc=none smtp.remote-ip=74.125.227.135
-Received: from mail-pj2-f7.google.com (mail-pj2-f7.google.com [74.125.227.135])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2238606A31E
-	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 15:03:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2238606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Aliu6mPB;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C8A606A336;
+	Fri, 27 Nov 2026 15:12:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36C8A606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=i44f+muv
-Received: by mail-pj2-f7.google.com with SMTP id 98e67ed59e1d1-3b4be95e0afso2508718a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 07:03:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795791828; x=1796396628; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=igR2PdoSE5zC+luyFOEYbUW1HNx+27WRDKANfZMFdJU=;
-        b=i44f+muvtDEeeOY5tIoUToTBUtVium07pkP95DOcd0GpoK82QhGFz5ypxCHdp/+AGS
-         ZBY6zDkNwAPki4z10a2QnVn/QKTOH76BbxA8rV3cMPMLOSlMBytIIgiBcNOCO4kRfJ0y
-         7OVYznGFbndV+JqP+GPGu4GjdJI93H6N6yYRgxS16CdYBgTiMBJNFpbii+LTBDrJBEIo
-         9eemZFVKWVyyvFtp6zgf4j6cNFeWUbBlRlorHq/QUMA1Pe5VkQfIIGRzr5Vn3GcQ28QU
-         jqqH5eANnHlHec69m/Uhd3vvwLIJ3VOe+HGQ1ZyfDo677MHWNolNUUQW130J1/sTS9cN
-         Yybw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795791828; x=1796396628;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=igR2PdoSE5zC+luyFOEYbUW1HNx+27WRDKANfZMFdJU=;
-        b=d/1Ltsn7OTGjKJGQ3lzOpPfoeYOv/BP2i5dzdAxX5Z1r8nILdizDrZZlC5maj0h8Yw
-         wPev7C6X3p3IgSwNJdOYLdsTXKA4gZ0k/DIuPf+Ho3DBGtMJ2qyzoj1c2lS4b5TXPDHq
-         suZkeoH+B363BThKdqLEGjWLXEWX00QeCE//42MIsPn0+ZLjBG/KjDv9aY7zMM5YlcHM
-         xfRCQVvHEdX5NVY8UMx6fbaoLQ3EO/opBZ4zPX0vErnlEU9J7RiVsqd4EoDu9CM5y3s/
-         L1XqZhQGGGwmLgWUqJf5GOHwCLhHoIBqV0By9/YZJOP88QuHd4UnPXNHvyEjk9g3Rgjg
-         eyKg==
-X-Forwarded-Encrypted: i=1; AL+hErFIXtEuXjhoW5XxFcHxS/6dtuy80IS5ivmcJZFkA3Wz4VclvS5K1f0keF/afnmeStllHE4TBdwyDPQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8B6FUaaAxztYStY74gpg9NtrNpHzlNSwm2qVwXz6TD5dus/Xz6
-	CuRNP/jW3CqZfvoPAXBF4EIGgtSmCVAgoGkHz7rEJWBqfm7LWssbUKYV
-X-Gm-Gg: AZFdTZdT+w8CC12P/g4uuXNRCf8cB6eZDDU1GLmc8y6r0jvOsWm3Qna0HXWRZmr/9YD
-	sJju7kAUmGWCbrVarmcmwMZWOlMxGcXvk686iXFmKk3ETd7ReelXdTlWQC1RZyovwlMUAnUzKZz
-	+aB83SzyscB71gQWDIINo/VAUgvoRkU36xPRHyDwqI8I5P9+w8o2hxqQeeQ6kmAF7mtPEAjFSTV
-	1Km3fxUl/dxU/CjxkBvtWgugH5CmCokGaM8mIVf5kZuwh1wSlQo6MPtkyMeSGlnvnTDo4OHFE8a
-	w7BbmeHf5lE1gokTyXL/M0s3DAw9gGkDb+PgBn8Ls17/03hntG+i8lyLumLXabyZRYI9p8844+d
-	pk8aVfidVLqVLYbbtSH8361oYVwhlWvtgA/M3TvsjJZwG6EItxxKWhN983EQkH9Ye1LSNbkst4v
-	KG4RUl6CSmsrP+MUbJhUmokSVH8JLJq/Sam9AsrLEDXxs+LqZO5lDvkuC0J+9+SCafaxZgAbAKC
-	8xTZJ7YaRO6OUxoKclxqMlT6r6T8JFz7At52u3ZYnOxg2r+XPlfHVyxCigzCj0It6P3KH1eJWvz
-	0hFAp5mkC6rb+eEfqdyJPOD2lIQ=
-X-Received: by 2002:a17:90b:2701:b0:3aa:fdad:7d6e with SMTP id 98e67ed59e1d1-3b41c8d9224mr23715014a91.10.1795791827753;
-        Fri, 27 Nov 2026 07:03:47 -0800 (PST)
-Received: from nixos ([2409:8a28:ae4:7f20:36ba:d0f9:ff68:162c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b5210be133sm7345191a91.11.2026.11.27.07.03.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 07:03:47 -0800 (PST)
-From: Zixin Wang <w1355457260@gmail.com>
-To: bigeasy@linutronix.de
-Cc: frederic@kernel.org,
-	darwi@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	linux-doc@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Zixin Wang <w1355457260@gmail.com>
-Subject: Re: [PATCH v7] Documentation: real-time: Add runtime tuning guide
-Date: Fri, 27 Nov 2026 15:03:30 +0000
-Message-ID: <20261127150330.798248-1-w1355457260@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261126114102.615558-1-w1355457260@gmail.com>
-References: <20261126114102.615558-1-w1355457260@gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Aliu6mPB
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BEC59169E;
+	Fri, 27 Nov 2026 07:12:17 -0800 (PST)
+Received: from [10.57.71.121] (unknown [10.57.71.121])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 391CF3F632;
+	Fri, 27 Nov 2026 07:12:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795792340; bh=UhKmPuC8DACVoypwIe16TXINMMAoEKBWaFZcV9+dSjo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Aliu6mPBwYN5HSMdptjc8jnPjK5BOd8wx9RKcKPyfNS43GcRQaSwUj25U3P1SnHAG
+	 8xkH6zd4yykKSeWXRHwyLkTXOsmF5IqkPe4GzVXq7CVj3Yqh+r31vXJuppbFq1Fwe1
+	 qxHQdEPjVzc2b7w4z6dBLBzE+oViDmSYGQd/rozE=
+Message-ID: <b1733f2a-ed03-4f38-8c40-6e0e535f1632@arm.com>
+Date: Fri, 27 Nov 2026 15:12:14 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,32 +53,107 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/8] Enhance TLP packet decoder with field-level
+ parsing and versioning
+Content-Language: en-GB
+To: Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Sizhe Liu <liusizhe5@huawei.com>
+Cc: rostedt@goodmis.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ corbet@lwn.net, skhan@linuxfoundation.org, bhelgaas@google.com,
+ yangyccccc@gmail.com, jic23@kernel.org, john.g.garry@oracle.com,
+ will@kernel.org, james.clark@linaro.org, mike.leach@arm.com,
+ leo.yan@linux.dev, peterz@infradead.org, mingo@redhat.com,
+ namhyung@kernel.org, mark.rutland@arm.com,
+ alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com,
+ adrian.hunter@intel.com, wangyushan12@huawei.com, wuzongyu1@huawei.com,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linuxarm@huawei.com, prime.zeng@hisilicon.com
+References: <20260908140509.2485649-1-liusizhe5@huawei.com>
+ <aqB37YCMUYKodo3N@x2>
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <aqB37YCMUYKodo3N@x2>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Sebastian,
+Hi Arnaldo,
 
-I am sorry for carrying your Reviewed-by into v7 without checking with
-you first.  I should have followed what the process documentation says
-in Documentation/process/submitting-patches.rst, section "Using
-Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:":
+On 08/09/2026 22:02, Arnaldo Carvalho de Melo wrote:
+> On Tue, Sep 08, 2026 at 10:05:01PM +0800, Sizhe Liu wrote:
+>> The original hisi-ptt-decoder only prints raw hex values with generic field
+>> names for DW0/DW1/DW2/DW3, without classifying TLP types or decoding
+>> DW0/DW1/DW2/DW3 fields according to the hardware-defined packet format.
+>>
+>> This series enhances the HiSilicon PTT (PCIe Trace and Tuning) packet
+>> decoder in perf tool to provide detailed field-level parsing of TLP headers
+>> based on message type, and adds a versioning mechanism for backward
+>> compatibility both in hisi_ptt driver and perf tool.
+> 
+> Series is sashiko clean by now, has a Reviewed-by, but it touches both
+> kernel and tools, I wouldn't have a problem if it was processed by
+> whoever maintains the kernel part.
+> 
+> - Arnaldo
 
-> Both Tested-by and Reviewed-by tags, once received on mailing list from
-> tester or reviewer, should be added by author to the applicable patches
-> when sending next versions.  However if the patch has changed
-> substantially in following version, these tags might not be applicable
-> anymore and thus should be removed.  Usually removal of someone's
-> Acked-by, Tested-by or Reviewed-by tags should be mentioned in the patch
-> changelog with an explanation (after the '---' separator).
+Please could you add your Ack on the series, so that I can pick it via
+Coresight tree.
 
-Since v7 changes the CPU isolation handling and the rcu_nocb_poll text
-after that review, I should have dropped the tag or asked you first.  I
-was wrong to carry it over without checking, and I am sorry for the
-oversight and for the extra noise.
+Suzuki
 
-Please treat v7 as needing your confirmation.  If you prefer, I will
-send a v8 with the tag dropped; otherwise I will keep it only if you
-are happy with v7 as-is.
 
-Thanks,
-Zixin
+>   
+>> ---
+>> Changes in v4:
+>> - Add missing space in hisi-ptt.rst (Sashiko).
+>> - Widen the pattern bit field in struct hisi_ptt_trace_ctrl (Sashiko).
+>> - Add protocol defined TLP header length parsing in patch 05/08.
+>> - Add MRd and DMRr message types parsing in patch 05/08.
+>> - Add comment for enum hisi_ptt_pkt_msg_type in patch 05/08.
+>> - Add DW0 and DW1 fields analysing in patch 06/08.
+>> - Refine bit-fields parsing of DW0/DW1/DW2/DW3 based on different requests
+>>    in patch 06/08.
+>> - Refine the description of pattern=1 in the document in patch 07/08.
+>> - Extract the bit-field printing of v1 version into functions in
+>>    patch 08/08.
+>> - Link to v3: https://lore.kernel.org/linux-pci/20260903075241.1445338-1-liusizhe5@huawei.com/
+>>
+>> Changes in v3:
+>> - Add explicit inclusion of <stdbool.h> (Sashiko).
+>> - Make patch 07/08 apply cleanly to mainline (Yushan).
+>> - Pick up the reviewed-by tag (Yushan).
+>> - Link to v2: https://lore.kernel.org/linux-pci/20260827140442.2031128-1-liusizhe5@huawei.com/
+>>
+>> Changes in v2:
+>> - Split patch 01/10 and patch 02/10 from series v1 into independent patch
+>>    series for backporting (Bjorn).
+>> - Use bitwise operations instead of C bitfields for cross-platform cases
+>>    (Sashiko).
+>> - Add `pattern` parameter in hisi_ptt driver for layout compatibility.
+>> - Link to v1: https://lore.kernel.org/linux-pci/20260604075005.2219785-1-liusizhe5@huawei.com/
+>>
+>> ---
+>> Sizhe Liu (8):
+>>    perf hisi-ptt: Abstract trace data buf and offset
+>>    perf hisi-ptt: Complete the field names for 4DW and 8DW packets
+>>    perf hisi-ptt: Extract the raw data printing part
+>>    perf hisi-ptt: Merge 4DW and 8DW HEAD0 printing
+>>    perf hisi-ptt: Add parsing of supported message types and proto length
+>>    perf hisi-ptt: Add field-level parsing for header DW0/DW1/DW2/DW3
+>>    hwtracing: hisi_ptt: Add pattern PMU config for trace format selection
+>>    perf hisi-ptt: Pass pattern version to decoder for compatibility
+>>
+>>   Documentation/trace/hisi-ptt.rst              |  26 +-
+>>   drivers/hwtracing/ptt/hisi_ptt.c              |  25 +-
+>>   drivers/hwtracing/ptt/hisi_ptt.h              |   4 +
+>>   tools/perf/arch/arm64/util/hisi-ptt.c         |  18 +
+>>   .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.c   | 593 ++++++++++++++++--
+>>   .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.h   | 241 ++++++-
+>>   tools/perf/util/hisi-ptt.c                    |  51 +-
+>>   tools/perf/util/hisi-ptt.h                    |   9 +-
+>>   8 files changed, 872 insertions(+), 95 deletions(-)
+>>
+>> -- 
+>> 2.33.0
+> 
+
