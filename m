@@ -1,122 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.203
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795779660;
-	b=jJ+7DsvhWcEBZ55+6a3ObVHwkCdVztY2weJ//PFWm8z7DaR9tt5thXfbrEWoKneUkv7q
-	 niJfvGmYt/E+1BXqzG7es/G5StNPXNJUAqOXH4Ph/rAiCUb03cYi4nLD/rPrt2EOHZatw
-	 AmgGsGA2s1SsCxgJ39HCFXN2gTvJZhmX7Mt7Tls+LceqNETGo1oPri8PCJIxIR/R+g+cS
-	 Km8crPUKknyy3HfYPsBhwjlcK8PMpGgnBY9zpLFPKBt5ExykDj+cfAdZPSc+BrykBHb1/
-	 XcpERdxajni+DqR/ECLhbzfACrvdPxdeuyTjtoHN0WSRPKCRJP9Wvn2s4XbS5ofSddw==
+	t=1795780989;
+	b=kbYLf6oo41LBmoxZ/O2cfO4sudJh1zGV3ksR7Ecm/t9HBXYA273wRTIt0BrLG1QOtEuN
+	 tKf0NxwdqhzBjqZHHa51UZGzHYsshNfqSTCRlFbFpxtb5nhC2/KMkuRx7dRkv+GYOOqkP
+	 S5H3PI3CAq9qRpU2JKELBGa98VmGUBQRkHPQ7BTxCQmUXV8eOVOG123V80wy2A+SRYxss
+	 DhRib5JoTlwrJ3AIwXesmT0uPQuHJWfLNsQpH3xc30HX0mUSUTU1E+ZaxFCvj+3FVgVa0
+	 GdKc95jy1da4VngsRuV1fQLzOAaM5iZSUj7kmfWGiavdUw8y8aMwy5L8J1ng8hw244g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795779660;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding;
-	bh=bp/KRA36N8EH7qPrylVQjtX79x1i14QeIGDoVR7yhis=;
-	b=llDjveASlnzFdXYr03jcKa1YAZpXi7JI7lggysKImZsYc9jGT3c19Tw0likLu+iQKxYO
-	 TPYI6mbjzYwTfsNVBhW4pbadB8mi1RHdKTwNIZT/8Hr7RjyScoR8QDtxZjTXMlc9x843m
-	 SzUhy2HwU9xezQGaChnVFBMlCigrSYPWmOLCsuN4zhuj01vObSB3Nl51Zmc2sefLluqgP
-	 b3Hco0b2cAc0FZcmr+WrfwQA6Bi1vjQ0445QB7qEaPtv35ivuH06geiYVpczd5z2fVw4a
-	 Vs9bQadd0Q+eoh2yCw3GTjb/Q6vatR3jHCVwsr3AcaPSLM94fZhJZ8zL3/obarTeZHQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795780989;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=Ltn0sWcC31++aXj+/6DDfsAZivYOHoeNN2HX52yNXmQ=;
+	b=k573AKkEM6wenjR+FOR3kFPrjKzekwykHuNmy7RZaH4vY4NNVc96xJYeOuc2khhzwq+l
+	 9xn7MoZDd0xq9aiX6rAjXdOlvfEtubjNxY7RviJ2DefWkSD3tDlydeTb5znAc42rYksRJ
+	 NK5a2FP36lzBVV+2mDww+dPjQrgitJhODPttmT8KXApS5e1X3HGO9STLt3N5sRUEnFwt/
+	 wQP9W7kg4xBlA0g1njpROD857FpkfmCGTKgfrk8Dg/FrJCYi22kIjIJTTcMeuE8FV4hli
+	 K98XY83x0f5zwiJ4h1mhU9PkOoRjj62tnkDB2Eo0cZwarvMhaxebY+vMhRYZo06smTQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=w76lUYV0;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=j5zfimuv;
+	arc=none smtp.remote-ip=91.218.175.203
+Received: from mta0.migadu.com (out-203.mta0.migadu.com [91.218.175.203])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A4F606A31F
-	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 11:40:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20A4F606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E4C606A326
+	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 12:03:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04E4C606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=w76lUYV0
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4bb702a7548so72980405e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 03:40:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795779658; x=1796384458; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bp/KRA36N8EH7qPrylVQjtX79x1i14QeIGDoVR7yhis=;
-        b=w76lUYV0D4/fpgQ7lJjXlr1jys2WZNl7dtEN7kZpf8x4waPSVDQ3xCU59ShzGHLJ7J
-         DxaGd++kmDwn8bekrJkp8EGtNzSf0iu/BM/12/DEsZuTHrgEpnDuAHF69Eba9IT3G0lh
-         I8GWsI0fbWH1QmLitKTQhBfdTR6eQPxbBtamuVRZNZMmNHHuIj2pd4V7NMESw0KtS9U4
-         /UN+jHiZIa2Ui60zEKxQoxqwwmTVGEqIKViOB84s/65Ay1jkEW1PQLFC4LkujB2V1kEM
-         XtTSfDEqU6LeaY/od/qoBE8wpVWsstt5voftAXO8BcW/s9OmTDJ9DxqdIiFLhQWIqfmi
-         Cdhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795779658; x=1796384458;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=bp/KRA36N8EH7qPrylVQjtX79x1i14QeIGDoVR7yhis=;
-        b=NQD5d1HrYAc7xCMsw0+7+ziJRyM3lMoF/Awpaa++znq5e0Uo+KhTwSPnWZykjfPRdI
-         clMuo6VOCOGU7G4W+PewLWHsr+4SvmD1JhBhombadVTHfIrd9ReKJFCOwqRrLvxfxdZI
-         EAbD28nFXeUNxhAaqQgekTLDncpSxvY3ewQ5NkEwW1bbqWJZjhS8wSx+dVVzK/9SVR+O
-         14HU5pa/p3V9KkK1ajbsZuX+bI0MJyRO1Khkd4GR8qa4vHS/R6m9OIz9aYiM7osOVkxD
-         wN9fYcmDKsUcBMwb0eTFz1/igLRV9u6trbW2rXQMy1dVVF1uwGUZy4kFT2FkISmT5ALP
-         gU2g==
-X-Forwarded-Encrypted: i=1; AL+hErH2AypEoMCFzuAFP4mdMB2g7L+75w6m7A22IXzYA8lgwOCBLvwmQKrjryME39PgU0qMCLVorcqzwIY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+UywuKtMWniXmVkv/fhmEHu9CHxJeMXwuTQHkDpR9tnGH2TPzU
-	Yel2VsZSfu0ah40Wh1fCicRmlQ+16ZEbMXRZjdfp7qz0YQP8YoF2ReLr
-X-Gm-Gg: AZFdTZfc25D4MYitfLvX6/eJQt5B7AYvCCooxiCEcikp/OgP84xiRVJ0HYs1rgoq7Ne
-	3emhgIoMYTgT6Jc/T4lfT9BOoUAaGiy4VG5eb2BeBxc+yGMQZGfpXyQgQG1tRoS99E4s0SsK1cI
-	vqv8HSVAGwxFqFjQtdfLPduksH27/uCOnjfCnNHt8LXQ/RxkVoW69e6tNoeApLcmVRUlPwSfOAk
-	BUtdzJUOFcIJYwX0U82kmXjHxFcKgTXBCUJzWuBTEdaFWmGcJK/gsQBJCldeg3eqm4ReMOWZBtJ
-	C8V7YYb50mVc5XSum02xglgNRRJLyVByiKNY3hRGFk82Q/2I9dUkUmcqe7XaH1xwtK1P7WKKgyo
-	YCnvAOSPz2AMFcDDl0wkMDAtYvWwHp6qZ8qLwAemj7/KLSDeEbOgeHNqxvA2+N8gpr+sMEoOzkt
-	/bznvAOKQp6NdLwhkXo07el97P/Zl0taVbGIlgcZ+okG1a5C2O4r90r/P5844Zs/qBGGvrL/ZNB
-	cGS802gO7NOenksyJQV6ILBqigWq9D28LVbz3Ju325Zo5Sfu9tz0xNnZA9yrnKK1PMPXb2cF4jX
-	HwBI7heYYB8t4ln30yzKcodievhLfRI=
-X-Received: by 2002:a05:600c:5246:b0:4bb:6de4:2f7c with SMTP id 5b1f17b1804b1-4bb8881c5bdmr504767125e9.20.1795779658410;
-        Fri, 27 Nov 2026 03:40:58 -0800 (PST)
-Received: from ArchOarora ([95.179.249.152])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab658e2d60sm47752163f8f.3.2026.11.27.03.40.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 03:40:57 -0800 (PST)
-From: Oarora Etimis <oaroraetimis@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	jose.exposito89@gmail.com,
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=j5zfimuv
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=/+UMH6lFYFERII58KJZZQxQ9aip1/x3WSyqE2VnKulg=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795780986; v=1; x=1796385786;
+ b=j5zfimuvax7k99jyP/kyy8+1JdN6LeIhaLYj1JlUqaKEXvblivDamCeRSeGKY9/TgDOHsDNC
+ hapSY7vJLmusbO5NwrwhLWTCpz3t3ip2w2zKeCQBKvDC48iB6fM1HoEdHp3/ECxM0dRb7haTLON
+ mtbVewI+gaDkTcVzBl2r6/BT0wRTHJtQWUwVJxFHY3tmvvFSWiC4W3dAfYWa2CsRVPrd4OxS5UM
+ ca1R+6DXF95URlWuaQXiBnTENSPBXFo0eULn7Q7Ivk/q8SS8mKn8lVGH1mYxl3trbTrlMNM1b4S
+ I77YO2E25wfhA+QbyfsH59eqJk0QfevVFXV50JRQA1vPw==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id f3a72c7ffadc0813;
+	Fri, 27 Nov 2026 12:03:05 +0000
+X-Mizu-Trace-ID: f3a72c7ffadc0813
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 27 Nov 2026 20:02:53 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Lucas De Marchi <demarchi@kernel.org>,
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	sebastian.wick@redhat.com,
-	victoria@system76.com,
-	thomas.petazzoni@bootlin.com,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v7 18/43] drm/vkms: Use plane folder name as plane name
-Date: Fri, 27 Nov 2026 12:40:44 +0100
-Message-ID: <awlsJLmNiJhyZH6Y@Oarora>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261126-vkms-all-config-v7-18-21194cda2468@bootlin.com>
-References: <20261126-vkms-all-config-v7-0-21194cda2468@bootlin.com> <20261126-vkms-all-config-v7-18-21194cda2468@bootlin.com>
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Chucheng Luo <luochucheng@vivo.com>
+Subject: Re: [PATCH v3 1/2] docs/zh_CN: remove translator-related headers
+Message-ID: <awlxbcfzMM0GdpA4@wyuan.org>
+References: <cover.1792745468.git.wy@wyuan.org>
+ <57bf0bce03cb0257532dc6c44dbba4b77e4f2b25.1792745468.git.wy@wyuan.org>
+ <f7e6aa9d-e47a-4480-a003-038f1c57631a@hust.edu.cn>
+ <at2WxoK-VN-Zfhkb@wyuan.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -129,54 +75,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <at2WxoK-VN-Zfhkb@wyuan.org>
 
-On Thu, Nov 26, 2026 at 12:29:01PM +0100, Louis Chauvet wrote:
-> The plane name is now directly derived from the configfs folder
-> name. When a plane directory is created under
-> /config/vkms/<device>/planes/, the folder name is used as the
-> plane name via vkms_config_plane_set_name.
+On Sun, Oct 25, 2026 at 01:42:39PM +0800, Weijie Yuan wrote:
 > 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  Documentation/ABI/testing/configfs-vkms | 3 ++-
->  drivers/gpu/drm/vkms/vkms_configfs.c    | 7 +++++++
->  2 files changed, 9 insertions(+), 1 deletion(-)
+> +cc Chucheng Luo <luochucheng@vivo.com>
 > 
-> diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/testing/configfs-vkms
-> index 26e7f81b5b7d..55e4183046ec 100644
-> --- a/Documentation/ABI/testing/configfs-vkms
-> +++ b/Documentation/ABI/testing/configfs-vkms
-> @@ -98,7 +98,8 @@ Date:		Nov 2025
->  Contact:	dri-devel@lists.freedesktop.org
->  Description:
->  	This group contains attributes corresponding to the
-> -	plane <plane> of the VKMS device <device>.
-> +	plane <plane> of the VKMS device <device>. The name of
-> +	the directory becomes the name of the DRM plane.
->  
->  What:		/sys/kernel/config/vkms/<device>/planes/<plane>/type
->  Date:		Nov 2025
-> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> index c57791df72cb..bbfc0c8a922c 100644
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -375,6 +375,13 @@ static struct config_group *make_plane_group(struct config_group *group,
->  			return ERR_PTR(ret);
->  		}
->  
-> +		ret = vkms_config_plane_set_name(plane->config, name, strlen(name));
-> +		if (ret) {
-> +			vkms_config_destroy_plane(plane->config);
-> +			kfree(plane);
-> +			return ERR_PTR(ret);
-> +		}
-> +
->  		config_group_init_type_name(&plane->group, name, &plane_item_type);
->  
->  		config_group_init_type_name(&plane->possible_crtcs_group,
+> Dongliang Mu <dzm91@hust.edu.cn> writes:
 > 
-> -- 
-> 2.56.0
+> > 
+> > On 10/23/26 4:58 PM, Weijie Yuan wrote:
+> > > The headers related to translators and proofreaders appear multiple
+> > > times in our directory. Their information is duplicated with that in the
+> > > commit logs, making it difficult to maintain over an extended period
+> > > of time, as there have been multiple instances of requests to update the
+> > > email address.
+> > > 
+> > > Remove the translator and proofreader credit fields from the headers.
+> > > 
+> > > Suggested-by: Jonathan Corbet <corbet@lwn.net>
+> > > Signed-off-by: Weijie Yuan <wy@wyuan.org>
+> > > ---
 > 
+> [...]
+> 
+> > > diff --git a/Documentation/translations/zh_CN/filesystems/debugfs.rst b/Documentation/translations/zh_CN/filesystems/debugfs.rst
+> > > index 4981a82dd651..e74fabca3bc2 100644
+> > > --- a/Documentation/translations/zh_CN/filesystems/debugfs.rst
+> > > +++ b/Documentation/translations/zh_CN/filesystems/debugfs.rst
+> > > @@ -8,17 +8,6 @@
+> > >   Debugfs
+> > >   =======
+> > > -译者
+> > > -::
+> > > -
+> > > -	中文版维护者： 罗楚成 Chucheng Luo <luochucheng@vivo.com>
+> > > -	中文版翻译者： 罗楚成 Chucheng Luo <luochucheng@vivo.com>
+> > > -	中文版校译者:  罗楚成 Chucheng Luo <luochucheng@vivo.com>
+> > > -
+> > > -
+> > > -
+> > > -版权所有2020 罗楚成 <luochucheng@vivo.com>
+> > 
+> > 
+> > 版权所有2020 罗楚成 <luochucheng@vivo.com> in debugfs.rst
+> > (Documentation/translations/zh_CN/filesystems/debugfs.rst:20)
+> > 
+> > I am wondering if it is suitable to directly delete these copyright
+> > information. @Jon, how do you think about this part?
+> > 
+> > Dongliang Mu
+> 
+> Ah so sorry, I do have some memory here, but I forgot to mention it
+> later.
+> 
+> Excerpt from the content of GPLv2:
+> 
+> ... 1. You may copy and distribute verbatim copies of the Program's
+> source code as you receive it, in any medium, provided that you
+> conspicuously and appropriately publish on each copy an appropriate
+> copyright notice and disclaimer of warranty; keep intact all the notices
+> that refer to this License and to the absence of any warranty; and give
+> any other recipients of the Program a copy of this License along with
+> the Program.
+> 
+> So maybe better not to delete this line? I dunno..
+> 
+> Thanks for pointing this out!
 
-Reviewed-by: Oarora Etimis <oaroraetimis@gmail.com>
+I'm going to rebase this series on top of Chinese-docs-7.5 tag for Alex
+to apply, so if we do not know whether it is suitable to delete that
+"Copyright Chucheng Luo 2022..", I might tend to be more cautious and
+prefer to keep this text intact to avoid any potential disputes, pending
+further clarification.
+
+Any ideas? I'll wait until next week and reroll.
+
+Thanks.
