@@ -1,54 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795771755;
-	b=bCN9wo3phe0myjIrdgnbU3D1WCfYLdCxIrfWiqlrndX+7ux6EBk8hBWGbOW1p29Xvmwg
-	 npkxsEm+kwwSLHeUAaw5pN4Mu2VZtEF6B6zZAZVnvGPDyyNXUzi74VelvDIhPjpW/4Hmw
-	 Wp1ZsEbJ2LBRki9fYVXZjASovf6tnqq4qDY1/Z/avSDzaKfMtqmi1RqZM3hND9ZSWMWR+
-	 Kb6FgEFGJk24lgVPV+13AU2oDp+SdfvMYXAAJ/96Gp/3KYDuPS2GdyzwJ3rdvyliBeUE9
-	 Z5HpX7WrSMbg0udewPMUp4R5hNS3pjfcc0rkiFsKb2PknbXLr+gvku1DBbWKv7zMP3Q==
+	t=1795772332;
+	b=R6t93gB0XXCsQG394AgUubuVt2XFuHX63kCbkb1qMnxvKS8ocKhteAZ8BT75l1TW7IhS
+	 L0n4cuEtQyzEe71k4dGctLgJWkij973DiV/+dKOntFiOP7eydKSk1xYocs80Ueaa/DaRi
+	 WNemY1yej+LZv/Uw91/1Eg0iFlrymV7lY9/l/kh3F6X4f0PXhqo+9573JkDBx8QcyA/hf
+	 YIH8X5RVilPfNCF6ZjFl4FE/6iY/cmDA2Fe4CNgyWaZcasVeBm2vWmzYDJ6E4+5NCV+MZ
+	 ME2hGCJ2pz+11Y+UtZXy+x1rxj3bjjhmRQB4XNVxMdBalHbipUqovhPr5twHiFICaWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795771755;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=5ssYLWCxAfo5jDi/0Ktn+mc8LR1rGP66TW/9Z5LQ1j8=;
-	b=rUfWGAUJTb/LJhc204SoVnfg32+qerszl5mDe+j6vEDseL42wDttAQbRiBbpY9odNMAS
-	 IDM6vp8kL+ckSAspg0BWF/hhFECLix7KjfNkXFJsGPGXZw4X6AExORPvqosESeJfJlzyQ
-	 lHIgu7zTwrMDGNZR64844FP1v0dLi7mYYDi3iQNyX9llu8Rtzo3puyQYUxS0RUzB1v/Df
-	 XmPb9CRf/SghEL35zdCNoK90UnwHe+K2g1INlmgWT+w6v+mODTW0tj8sHEgCve6do6z03
-	 DXCd+heRvStO0UJXo0NAhL+gi3nSJaBJtAhJ6GfDWvoo+YjF0cEsINUdyQrmaJMliaw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795772332;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=af07nmAT2WSeLQ3r8HG4fx8NCBpnVFPXtLomeeFOOx0=;
+	b=rI9HqBRweQyAlWJ/pQHqquEfy1ljuzHNUPDPrh5p/BOzfouOyxiYOEmFt0aXNxDgxpnq
+	 L3SnwcGKNLq+Z5EIGKOXcOu8bYI1UEY8i+0Gtx4wUU8W02+brjH+d94R/XWDKJ3qaL5au
+	 Ym1Uvgg0VatMo5q5ytwEFQMSkl+dQTw7rt/9EFo9WklZ4dfftgJp3coXmVRYf78uNaos3
+	 alDw1+XQUqRCih/ovFJOSwjXxMB6Z2v9CV6nCfJhIvg8KsM96IoKaVrt0wrd7jdEUbWpI
+	 4UpJMWZf4QJr54NEIaFJidyd0TDMyCJHTnQx3uZGpKAx/SxwDl5+L65KnnraEY4FHNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Y5QsFqKp;
-	arc=none smtp.remote-ip=95.215.58.64
-Received: from mta1.migadu.com (out-64.mta1.migadu.com [95.215.58.64])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cWVclR63;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F371606A331
-	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 09:29:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F371606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D3F606A31C;
+	Fri, 27 Nov 2026 09:38:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Y5QsFqKp
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=AAFEebURwC9q020+aAeTJMGbmmnNTHzYTx7bv2ZbPG4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795771751; v=1; x=1796376551;
- b=Y5QsFqKpPfh7VbTCp2KClTUxRJe1JamI1JJwtWAtl9RFIjoBiSKoeLl7/vNEFSLmKPSGeDR+
- XmysZh9pdGnlHGyd6KyC41aTZUPjNzY+hY+FvRfe+pWrDOlqOmFgXj8jSpYy9fp8rkex7tdSxdF
- NA9iCtuk7pq+TeChVHM3Rq0o=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 2556b294b86ac472;
-	Fri, 27 Nov 2026 09:29:11 +0000
-X-Mizu-Trace-ID: 2556b294b86ac472
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <392d04d6-c6f2-4e55-9b83-afe7fe8f60f3@linux.dev>
-Date: Fri, 27 Nov 2026 17:28:58 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cWVclR63
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2F241F00893;
+	Fri, 27 Nov 2026 09:38:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795772331;
+	bh=af07nmAT2WSeLQ3r8HG4fx8NCBpnVFPXtLomeeFOOx0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cWVclR636p/2K+YGUB2W5gV8J7QwvbdUU3viSXljAXhzwcn4L4LHTV8BTqb8q9N4o
+	 lazqnwsJamhj3bTqgh40aP+oNJh9XKiB4uiwv5U0OTwqS25N7uATauO2PO17AR5XHG
+	 5bONlfA2nj6uy5ErTPZubyDLwVRPOpltuP9x31nwaSpqk6Nd4L3IdBe99iZEw8gNaK
+	 mzo3IUGTRDkPAZlEa3x0LJMbt1dmE/I77DaEumph0uBC3YscMjQTlH9nQdFd82jTjv
+	 N+NsOIcwxT38RNB2mpctX6l6tlp/xx+saGoYOs7U1OPRTPZ+BJ2uuK1M3uGlxhD3YU
+	 S1ouDaX5VQBCw==
+Date: Fri, 27 Nov 2026 09:38:43 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Willy Tarreau <w@1wt.eu>
+Cc: Sasha Levin <sashal@kernel.org>, Borislav Petkov <bp@alien8.de>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Leon Romanovsky <leon@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Marc Zyngier <maz@kernel.org>, Eric Dumazet <edumazet@google.com>, 
+	Hans de Goede <hansg@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+	Jonathan Cameron <jic23@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Theodore Ts'o <tytso@mit.edu>, 
+	David Hildenbrand <david@kernel.org>, Security Officers <security@kernel.org>, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs
+ and a cover letter
+Message-ID: <awlOYxw29ANZOA1X@gremlin>
+References: <20261126171926.2766137-1-sashal@kernel.org>
+ <20261126171926.2766137-2-sashal@kernel.org>
+ <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
+ <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local>
+ <awjopqoCJqwChwnF@laps>
+ <awlCy3vDs0fKx1ku@gremlin>
+ <awlNYsu1y8EhYgor@1wt.eu>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,70 +73,78 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 1/2] tcp: avoid wrapping Fast Open blackhole
- timeout
-To: Yingjie Wang <x-professor@outlook.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Cc: "mptcp@lists.linux.dev" <mptcp@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- "rdunlap@infradead.org" <rdunlap@infradead.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "edumazet@kernel.org" <edumazet@kernel.org>,
- "ncardwell@google.com" <ncardwell@google.com>,
- "gang.yan@linux.dev" <gang.yan@linux.dev>,
- "kuniyu@google.com" <kuniyu@google.com>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com"
- <pabeni@redhat.com>, "horms@kernel.org" <horms@kernel.org>,
- "matttbe@kernel.org" <matttbe@kernel.org>,
- "martineau@kernel.org" <martineau@kernel.org>,
- "geliang@kernel.org" <geliang@kernel.org>,
- "ycheng@google.com" <ycheng@google.com>,
- "weiwan@google.com" <weiwan@google.com>,
- "joel.granados@kernel.org" <joel.granados@kernel.org>
-References: <cover.1795424546.git.x-professor@outlook.com>
- <f16def1cfc888fd26dad40f52e3e92b138bd3319.1795424547.git.x-professor@outlook.com>
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-In-Reply-To: <f16def1cfc888fd26dad40f52e3e92b138bd3319.1795424547.git.x-professor@outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <awlNYsu1y8EhYgor@1wt.eu>
 
+(for some reason this didn't get to my inbox, not sure if filtering broken or
+something?)
 
+On Fri, Nov 27, 2026 at 10:29:06AM +0100, Willy Tarreau wrote:
+> On Fri, Nov 27, 2026 at 09:18:34AM +0000, Lorenzo Stoakes (ARM) wrote:
+> > +cc Laurent who is probably interested in this and AI policy stuff in general.
+> >
+> > On Thu, Nov 26, 2026 at 09:19:18PM -0500, Sasha Levin wrote:
+> > > 2. I'd argue that LLMs these days have the capability to write better
+> > > changelogs and most of our human authors. We just need to be better about
+> > > laying out our expectations of them.
+> >
+> > Strongly disagree with this, it doesn't match what I see in practice at all.
+> >
+> > I'd say that >50% of my review work is of AI-generated patches now, and the
+> > commit messages and comments are consistently appalling + seriously painful to
+> > deal with.
+>
+> Note that every word in Sasha's message counts. *capability* doesn't mean
+> that it is commonly exploited. Commit messages are horrible most of the
 
-On 11/23/26 5:04 PM, Yingjie Wang wrote:
-> tcp_fastopen_active_should_disable() calculates the active-disable
-> interval as multiplier * tfo_bh_timeout * HZ. Since all operands are
-> 32-bit, a large tcp_fastopen_blackhole_timeout_sec can wrap the delay,
-> even on 64-bit kernels, and re-enable active Fast Open too soon.
-> 
-> With HZ=1000 and the maximum multiplier of 64, any timeout above 67108
-> seconds wraps. For example, 67109 seconds should produce 4,294,976,000
-> jiffies (about 50 days), but the calculation truncates it to 8,704
-> jiffies (8.7 seconds).
-> 
-> This issue was found using a static analysis tool. It was confirmed with
-> a loopback reproducer that induces 12 Fast Open blackholes and opens
-> another connection 10 seconds later: with a 67109 second timeout, the
-> unpatched kernel retried active Fast Open. The reproducer needs neither
-> kernel modifications nor error injection.
-> 
-> Compute the interval in u64 and cap it at MAX_JIFFY_OFFSET before adding
-> it to the saved timestamp. On 32-bit kernels, the cap keeps the interval
-> within the range that time_before() can compare, which limits the longest
-> backoff there to about 12.4 days at HZ=1000.
-> 
-> Also limit the writable initial timeout to one day, so the exponential
-> backoff does not start from an impractically long period. Writes above
-> 86400 seconds, which were previously accepted, now fail with -EINVAL and
-> leave the current value unchanged. The wider calculation is still needed
-> below that limit, as the 67109 second example shows.
-> 
-> Suggested-by: Kuniyuki Iwashima <kuniyu@google.com>
-> Signed-off-by: Yingjie Wang <x-professor@outlook.com>
+I addressed that in my reply. I have explored this with frontier models, and in
+fact seen people dedicate serious resource to adding skills explicitly for this,
+with no meaningful improvement in either case.
 
+> time but when properly explained over long sessions they can get amazingly
+> better. The other word was *most* of our humans authors. The Linux kernel
 
-Reviewed-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+Completely disagree based on fairly extensive review experience. Commit messages
+from humans are orders-of-magnitude better, it's not even close.
 
+Pre-2026 worst patches commit messages were incomparably better vs. 2026-onward
+AI-patches-of-any-quality.
+
+I continue to believe this is a fundamental consequence of how LLMs work.
+
+> community isn't the largest set of commit message authors and is already
+> doing very good at this. Look at many other projects to see absolute
+> horrors like "update" or "rebase" for the most verbose ones, when it's
+> not just "-".
+
+Yup, we established a great culture for commit messages. I fear that we are
+destroying that with slop.
+
+>
+> Whenever I was given commit messages by an LLM, I had to reword them,
+> but some were very close to what I could have written. And I must admit
+
+I'm happy you've had that experience :) but it runs so counter to my own and
+other's I have spoken to that I have to reflect that in the discussion.
+
+> that a few times when I only reworded a part of the message first and
+> came back to it later, I was no longer very sure where I stopped. *This*
+> is a good indication that they can get better than what you usually face
+> (or that mine are terrible as well, in which case we're back to first
+> point and I'm part of "most").
+
+They can get better, yes, but in my experience consistently remain
+appalling. Perhaps excluding rather mechanical changes.
+
+Of course I am happy to be proven wrong in future, but for a policy going
+forwards, that policy should reflect reality.
+
+And I think you missed a key point I made - that this is _crucial_ stuff as it
+is the commit message(s) that give you an overview for review.
+
+This stuff alone contributes to maintainer burnout. Let's try and take action
+that pushes back on that.
+
+--
+Cheers, Lorenzo
