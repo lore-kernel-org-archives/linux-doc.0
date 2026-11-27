@@ -1,73 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795803872;
-	b=FM4KQPkScydFIjXoW7XShIp7EXjv80juV2KHOk2PhYESfY+4mnX8GCgTP4JCBh/JyjQD
-	 1kIsGKsjEfKycLMYdrrhAARjk/qcLjbeW4nCg45Gdtz4JHm3keanYK/lqHmK8o/GKq2xo
-	 T1Kk43v8ZX7QMBUL634S69vg7KZ9YKDZQBTN62O21vsRMIv/oqy404muEe0U8EHU4yeyT
-	 PpAShQJx4gS/tU0YAtJQyfvkCmJBCZE2bpcuF/jXpCWukq6PsPI5f/xk7KdKQtXs2zViu
-	 oil32/nG2g7lHcsT0mxBVrfEfe1BAaJDOuq3F5HQHr6LK5KBnC90nqxE2waCEqiyUXA==
+	t=1795803966;
+	b=0WgnjVGfpS6R3SHEliJzqVFIv2vMv5KUW8KYFjxFHUUuYDzoIPB8pZI0JcJI+iKcI4kX
+	 21qLqJ+GG+ewo5EOMIiIDpBwIil8aRPWsJsL/kTw8//kKvfM1w9R/8AmWR72N5Xv+xGGD
+	 CpbH1v6sVpAEw+OgmfdYZsD30AAED5Ktrwczfuw0aTrq9sTIon3kvz5mIWA49enuVzges
+	 tYUyAgGVuA7Dvvny+XxdjL8niY7xJUuEf5vs4rocHki6J9zz9aCN7g1cNyNDjzwod5OCG
+	 cSFoEZ0s4lIv2vn7jaYVP+NFAMZOtegyzCGb/9yOrRVv/BJp22Ud2vUGpyHRc3LR39Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795803872;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=nPX0jKAZGslc2s414W7GnzS0L4XLdhKncic17g8wWB8=;
-	b=SUxYQ0DqimXWzN0jgMwvmfl+J/IGrFlloIx4PAbNCG8X9V/Wt/+/dyIS5K0C3LCaO7Si
-	 NbyoCaLlBPxH3cuD3uxSVxubS0Y86O0EkLUEAGEsnzoRPcXqrgugJ450by5p6c0G44QEI
-	 pakJYk//IHvqn4V8dJLEcwh+2jKjVnhcmxzr8bdEAhHQs/TsOEzsxydzyLGkt/0nVuulp
-	 5KwlhxNIlQwXdfhVR9Fu5VGNL/A72V+z4OMRCIipOt7tNmwtqpCKx0r6cdvUmaYly/no9
-	 xkYr/0tpadJm7gMXBL/sedeXgZ8bH5b/krolEwZo3LM7UNg1dEtAdn9gVmrlDt+zJQg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795803966;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=cAqKaSrO/Kb2u0gwNYd7UWkwvGMH5VVIq7G0v+SnKjM=;
+	b=l4O2o432ZhirQGyFcz49LVk8ttoR9YIOUgyRl7Xg1de7vWi4aTRJ5V7QPzbCimNGJ6xf
+	 7/uurV97E4/tnnajYopS5/stlO615EXD30DqHm0XtTjs+p/owK8zs4DRkxIKxQa6lcOo2
+	 Tpen2M/tGTqZe0J82QTZkcahQxrr5i6DkVWaZWYKtk2IND9zdifTrVf9vjgO04WxzPJvY
+	 bbBqg6cupS4j65E0PmJfiIcKyujMWTGcdnvwiX5t1GS/QIiryGbHlGxQJjshnsrdWia4A
+	 3tCLc2lUK1a1mab6+ntnKeGJJEzFAX0/RHTjeEbKfaJz4djtojHMKLyPYO1dFT+geXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=LBSQKh+U;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 678ED606A31C;
-	Fri, 27 Nov 2026 18:24:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 678ED606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lPyJ94k1;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53998606A31E;
+	Fri, 27 Nov 2026 18:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=LBSQKh+U
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F1A51575;
-	Fri, 27 Nov 2026 10:24:28 -0800 (PST)
-Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 957C33F86C;
-	Fri, 27 Nov 2026 10:24:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795803871; bh=tLEGXyc06QuVymTp9AwMRLhn4C3VvPR79JGgV7rqNd0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LBSQKh+UnuZvEmzVBMoqvxhxLlX4y9VCVIQ06t73ABXPt10R9qy/X5Y6ugaS7NPOo
-	 d1AuoDSzKGcEpaQ259M2A/qNGnaky9MIv0reMcaXWdUmoiyfRYZaurw1lOYjN/TUTF
-	 DBomwlpBErcMcNrZvxnSsO5JZUxKZNTysnK2dpM0=
-Date: Fri, 27 Nov 2026 18:24:25 +0000
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Yeoreum Yun <yeoreum.yun@arm.com>, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Suzuki Poulose <suzuki.poulose@arm.com>,
-	Steven Price <steven.price@arm.com>,
-	Sami Mujawar <sami.mujawar@arm.com>, thuth@redhat.com,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
-	Pawel Chmielewski <pawel.chmielewski@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, Len Brown <lenb@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lPyJ94k1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FF021F00893;
+	Fri, 27 Nov 2026 18:26:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795803966;
+	bh=cAqKaSrO/Kb2u0gwNYd7UWkwvGMH5VVIq7G0v+SnKjM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=lPyJ94k1zDfziOpPTrCracfJ2DIIRLEHBf/q+GiawX6fJzC2TPi2bGyeR4yU/p/P6
+	 6o/RV5Xa0oId2SbjipIoAU3NiafapI2YRXB4cEk0K/xDTd6//LUfrjyEZ3UMN26JZ9
+	 bjO66V4Ji+Tx3hr9pGgx3YzFuv0TmaY5aFEz8aSOu2OIiMAkrvaiCcCCAG3+3SUIlX
+	 VWFwbtMJPiS8B31AYBJgKHH8JuyzCID6th7FKP9xLHBvg3rDzwycYR+cOgPYty7C4B
+	 6NYuaDI1Ry7IEdUO79Xqr5qc4CFNU88tj0MweKw3vbrWd45u2UQ06lUM4nACNbswud
+	 Nb1f/5wyI6Zkw==
+From: Sasha Levin <sashal@kernel.org>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Willy Tarreau <w@1wt.eu>,
+	Borislav Petkov <bp@alien8.de>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH RFC v3 7/8] attestation: providers: introduce CCA Guest
- attestation provider
-Message-ID: <awnK2c3kMq8p2a_7@e129823.arm.com>
-References: <20261127-arm_cca_mr-v3-0-df3230afce8f@arm.com>
- <20261127-arm_cca_mr-v3-7-df3230afce8f@arm.com>
- <20261127170722.GT246011@ziepe.ca>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Security Officers <security@kernel.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs and a cover letter
+Date: Fri, 27 Nov 2026 13:26:02 -0500
+Message-ID: <20261127182602.2521454-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <61b33977-7c05-4d30-9a78-8fc711bd95ef@kernel.org>
+References: <20261126171926.2766137-1-sashal@kernel.org> <20261126171926.2766137-2-sashal@kernel.org> <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org> <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local> <awjopqoCJqwChwnF@laps> <awlCy3vDs0fKx1ku@gremlin> <awlNYsu1y8EhYgor@1wt.eu> <33c6cf3a-6b18-4e09-bd5c-68ed2c34de56@kernel.org> <awlR9pQUjodcLjZK@gremlin> <20261127133756.455469-1-sashal@kernel.org> <awmJ2c87NSDjtSwp@gremlin> <20261127143124.1039470-1-sashal@kernel.org> <33de19df-1729-4d1c-a6ce-e10e240e0c57@kernel.org> <20261127180325.2304501-1-sashal@kernel.org> <61b33977-7c05-4d30-9a78-8fc711bd95ef@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,91 +83,22 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261127170722.GT246011@ziepe.ca>
+Content-Transfer-Encoding: 8bit
 
-Hi Jason,
+On Fri, Nov 27, 2026 at 07:14:03PM +0100, Vlastimil Babka (SUSE) wrote:
+>Ugh I'm not sure about inventing a new placement. Rather focus on that not
+>being a wall of text in the first place? Because it really shouldn't be.
 
-[...]
+The part that's hard to keep short is the logs. Leon had an example in the
+other thread [1]: the patch came with a three line KASAN snippet, and only the
+full dmesg the submitter ended up sending [2] showed that the crash came from
+an out-of-tree module written to provoke it. That dmesg was 904 lines.
 
-> Similarly the TCG log should work the same way.
-> 
-> I'm also wondering if too much code is leaking into to drivers to
-> implement the uAPI. We should take a look at this vs the TDX one and
-> make sure we have the right level of helpers and abstraction.
->
-> I also can't help but notice there isn't a single comment in any of
-> this, it should be a bit more descriptive why some of these things are
-> in here.
+It sounds like a bit much for something under the scissor line.
 
-Okay. might next around, try to add comments.
-
-> > +
-> > +static const struct attestation_evidence_format cca_attestation_token_formats[] = {
-> > +	{ .vendor = true, .value = CTLV_ATTESTATION_CCA_GUEST_EVIDENCE_VENDOR_FORMAT_CCA_ATTESTATION_TOKEN },
-> > +};
-> 
-> should be the generic EAT token type
-
-Is there? but the content seems to be different according to vendor,
-So would it be better to keep it as vendor type format?
-
-[...]
-
-> > +static long cca_guest_get_max_token_size(void)
-> > +{
-> > +	u8 dummy[RSI_ATTEST_CHALLENGE_MAX_SIZE] = { 0x00, };
-> > +
-> > +	return rsi_attestation_token_init(dummy, RSI_ATTEST_CHALLENGE_MAX_SIZE);
-> > +}
-> > +
-> > +static int cca_guest_get_attest_tokens(const struct cca_guest_attestation *cca_guest_att,
-> > +				       const void *challenge, size_t challenge_size,
-> > +				       u8 *token, size_t *token_size)
-> > +{
-> > +	int ret;
-> > +	long max_token_size;
-> > +	void *buf;
-> > +	unsigned long granule, offset, len, rsi_ret;
-> > +
-> > +	guard(migrate)();
-> > +
-> > +	max_token_size = rsi_attestation_token_init(challenge, challenge_size);
-> > +	if (max_token_size <= 0)
-> > +		return -EINVAL;
-> > +
-> > +	if (max_token_size != cca_guest_att->max_token_size)
-> > +		return -ESTALE;
-> 
-> What is this and the related work? That isn't making sense to
-> me. If the token size is not absolutely fixed when the driver starts
-> then it should be fully dynamic and this just streams the variable
-> sized token.
-> 
-> Ideally directly into user memory so we don't need to allocate a kvmalloc.
-
-In case of live-activation. I think in that case CCA-Realm token could be
-different by activating the new RMM.
-But, in this round might we can drop this part.
-
-[...]
-
-> 
-> > +static const struct arm_smccc_device_id cca_guest_attest_id_table[] = {
-> > +	{ .func_id = SMC_RSI_ABI_VERSION, },
-> > +	{ },
-> > +};
-> > +MODULE_DEVICE_TABLE(arm_smccc, cca_guest_attest_id_table);
-> 
-> This isn't OK.. We only get one struct device per RSI and it gets to
-> bind to only one driver. Given there are other drivers that will need
-> to use the RSI, like the TSM and others, this needs some other
-> solution?
-
-Currently, this attestation driver is enabled when !ARM_CCA_GUEST only
-(IOW, when this driver can be built only when TSM arm-cca-guest
-disabled).
+[1] https://lore.kernel.org/all/20261125125739.GA14811@unreal/
+[2] https://lore.kernel.org/all/20261122103855.51859-1-lee@jaeyeong.cc/
 
 -- 
-Sincerely,
-Yeoreum Yun
+Thanks,
+Sasha
