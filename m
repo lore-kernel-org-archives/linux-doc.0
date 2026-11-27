@@ -1,45 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795794333;
-	b=LTIIIo4mfebx7Y9K1KthEFBv7DhBUI0usofDZvaNOmB+NYHQSMFSebtHFQcvGBnhzOY0
-	 y44+g/pshMfBafvYltH1vFJ8rcw3w+031LDDUssazI8jqudiuOZESCI/JIUuPD82x5VYf
-	 QzcRoVGVvwlco6NYozw6LcWqS2rLJ03ZCjgfe12Fv2JW6jxMjHK1h74o1HmwNyCFsR4XD
-	 8IISlHYhtCZokHtKoAXLKWOmQHqHvv4JQXh0wEy+QIkRmYZyvA7Hnw2BIYFBJ/qulqitW
-	 Bx7zHA6WO9u+LtuIouRtXEEhJCLII+P43Y6tm6eUSVH7O6AXRv1pOcIayHQaw1zNbHQ==
+	t=1795794615;
+	b=uizwTik4RYNhbvBugYbbf2SDZue95zSPfNlC7zFiVil8+hb9zymZ/QpcwNL7OA5x1KS0
+	 dUctQO+ALpzltPyeyZnPTBZc2Kg3KWfy9YPepO4qgzE4lPADTntkd8d1VyH2qwi9xJuK8
+	 pQoX/Egl718zQULiPrGBJIXtytVpAZOkWWY6tUGoZ29uRtNzBiWGEeQYkjGwyta46ryxI
+	 xS/0+7LikzZ8Aucy3/U2W8XEKuFoLYHnrT6Ut4c6UKZy2DgWUskP1iTH3MMyIscpUgYzH
+	 p4I5kLuSxf6wmB2JaB6LBrtRh84lPlrxZN5d2CK6ciITEE4zTEE6fXREw/X/OBRey/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795794333;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=AeC+f9+xtHroS5gZQKv6Mod1UF7caHj2d3eBTaqZD7o=;
-	b=XxvbY8OI0YObSCIRS7oJU+wsz+O+5U67BCC6Lfr80s1mgkgQP+Zyh+xnyjW3QBaIHbBM
-	 u9UbWr+HRtjDxnsgSs//lJc3OLRFMPPwWJVhINocKNAN+FRmA0x2GrPxYZEdJKPinSqz6
-	 vGQMM6e7G5GdMGtdmb/apJ0K+k4GRbff7lnEQclkNWB7DcYQ8QFvifNyRAqiz9x5CRPPK
-	 j9p+deSnvn0Py6WvwGyeOoLgehPAXyAFgMpVPUk/wAFTYAIlO2iX0apIq/+GerChzoH1A
-	 W4HKKVK4rxH4r6dmACygKUoTjBMYdz4liDivmMlwsjbJiALKyMCkbuKgtEIEzMXn8zQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795794615;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=/vBHlhJ/W1xZToIFFx1FnlTJw/r0UAj/MYnI+1u/MyU=;
+	b=hJKU+U7UJKKIg/DIa8JNhrWlkAxz8mAnll7Ph2QbP6USR4wlu0wEmTfCEvMnxv6evBnW
+	 IYWhm5Q68OzuPP+K/iyr9i2P/rNTzmcl7wWOmsg3SVoSVKbBiXLIjiIqxc04Y5HbibLQz
+	 IySOvtOdSWZy44+Ltd+imo+KyQ90eVZzbyJQqPXSXuyf0+g/aa+SYkHWojprAUvwdRDiC
+	 OfhT5N5cAa6xAZq8Ae2F7pE9ksAVle/em5fsLA4XFrMZ1zv5KdoMSlfuuzxZ6LwoWibA1
+	 b5O8zkmSKx2SIjMb8AcPCST3Uy7wRssHrSq4UmMIOn3j+H7BHWNiFLPA6NNlzIg5m6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ejQAYoBL;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835D1606A31C;
-	Fri, 27 Nov 2026 15:45:33 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=NrruEC5+;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACBF7606A31C;
+	Fri, 27 Nov 2026 15:50:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ACBF7606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ejQAYoBL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 012C91F0089B;
-	Fri, 27 Nov 2026 15:45:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795794332;
-	bh=AeC+f9+xtHroS5gZQKv6Mod1UF7caHj2d3eBTaqZD7o=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=ejQAYoBL+8h+u/6VCHtSI+eihT0YN8WGP4heq0DVMytYdTlOkmupyUvOL3V8vXyTZ
-	 LHCLcl4FnqW8OrZenqDsQa8B6QEtuS6oHGS6VZuj2TCcQ0aMxaygzhO8se0iCfe0aK
-	 3Qaub50AnSQcnOE4lYuUUSdrn7xIzlGMhbPGmxN4lZfPjCDIlKLqo2iEBaxx3gvfS7
-	 XHAdSIdpLXUNbofePRbDAkv8i0oIx9SuVXnQJc45hPucEcyk24tw0vHyfjsjkE48hN
-	 FJdJRpl5tUecsNSJ+VJF5Uv+ut/80Sv0CB0/hxFIE/Fd3NlWEnjUU1lQwzE/bgOAzg
-	 wjRWg4rJYPMfg==
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=NrruEC5+
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 360DF2F;
+	Fri, 27 Nov 2026 07:50:11 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 891343F632;
+	Fri, 27 Nov 2026 07:50:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795794614; bh=WfYS7XzkCTsLbNBcdEp/guv89SRLO1zfUYEw+X3yVdY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NrruEC5+ls++tnQfEGCdiET9qhxdHv9si6NUzzdUItiMF6244K9aNnhsOs57biYAe
+	 ctoc4C8jR2F3U2E1NjpJ2fdu99OvpUU1TFTb+R3JEFFeLuTKTZ26VqQKJe7F0j/lx4
+	 b0JDsNqOQdIoRqUvKOS3E5D4YUzpRlUOg8zo3VAQ=
+Date: Fri, 27 Nov 2026 15:50:02 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+	philip.radford@arm.com, david@kernel.org,
+	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v17 11/34] firmware: arm_scmi: Add Telemetry basic
+ attributes enumeration
+Message-ID: <awmmqnzicQgmW_KE@pluto>
+References: <20261124194841.1147072-1-cristian.marussi@arm.com>
+ <20261124194841.1147072-12-cristian.marussi@arm.com>
+ <20261124155940.0000336d@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -49,55 +70,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] dt-bindings: phy: Delete old 'phy-bindings.txt'
- bindings file
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Ioana Ciornei <ioana.ciornei@nxp.com>
-Cc: Vinod Koul <vkoul@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, linux-phy@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Heiko Stuebner <heiko@sntech.de>, 
- Alex Shi <alexs@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20261119092429.2414671-1-ioana.ciornei@nxp.com>
-References: <20261119092429.2414671-1-ioana.ciornei@nxp.com>
-Date: Fri, 27 Nov 2026 21:15:23 +0530
-Message-Id: <179579432303.13164.13606957919284075924.b4-reply@b4>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=716; i=mani@kernel.org;
- h=from:subject:message-id; bh=gWBvMZqEOIcJl/fTLY0ucaK+2ByPjJBWHHwmBGNtJJE=;
- b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBrCaWVgW/yoBztIlCon152Y4gUn3EHb4hWufHia
- Dckf2UYGh6JATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCawmllQAKCRBVnxHm/pHO
- 9dp1B/96S68FCMR1va5ajFHrsMksIjMtB9rVBmlfT/Mqe/eSV1mcqnb6YAwV6lNbfVeypC6WXg/
- Ri/DZkj+3PUFWtrVuETzoG0Fs0RnH23ZrcnW688OQ8S+zW7VLsLeL62Xtr+5JujKbq9W1RR3M18
- 9xG9KdWzCEzgumpKxbZP9Bgsh+DJAzRn/P5PNwWN7QlRZDhkqkMmLssU/MO+Mlgq00KfmdGCxJ8
- gSMiU4WZkJBOoRHUwp2wKxKchXHGQM3UByNoEoSaBDLGPr4egcGJ8e5N7lmRumDbzugQ/hxu+I+
- weYWXsbvs11qiDtOxFL7yvNQyWThV7gUXVKGm3qTsKN4VYB/
-X-Developer-Key: i=mani@kernel.org; a=openpgp;
- fpr=C668AEC3C3188E4C611465E7488550E901166008
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261124155940.0000336d@oss.qualcomm.com>
 
-On 2026-11-19 11:24 +0200, Ioana Ciornei wrote:
-> The generic PHY provider and consumer properties ('#phy-cells',
-> 'phy-supply', 'phys' and 'phy-names') are already described by the
-> phy-provider.yaml and phy-consumer.yaml schemas in the dt-schema
-> repository, which are applied to all nodes. The old free-form
-> Documentation/devicetree/bindings/phy/phy-bindings.txt file therefore
-> only duplicates them.
+On Tue, Nov 24, 2026 at 03:59:40PM -0800, Jonathan Cameron wrote:
+> On Tue, 24 Nov 2026 19:48:17 +0000
+> Cristian Marussi <cristian.marussi@arm.com> wrote:
 > 
-> Delete the file and remove or update the dangling references to it in
-> the remaining binding documents and in the PHY driver-api documentation.
+> > Add SCMIv4.0 Telemetry basic support for minimal initialization and
+> > protocol attributes enumeration: expose telemetry instance descriptor
+> > via a simple information retrieval protocol operation.
+> > 
+> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> > ---
+> > v15 --> v16
+> >  - ignore groups
 > 
-> Signed-off-by: Ioana Ciornei <ioana.ciornei@nxp.com>
+> Partly... Need to do a lot more ignoring to make this true and consistent.
+> There are a few things in here, but key is we need the whole framework
+> to be as unaware of groups as possible. At least up to the userspace interface
+> layer where we may need to ensure extensibility.
 
-Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+As of now I removed the logic, but kept the existing data structure and interfaces
+(like grps params in ops) and inhibited where needed any remaining code
+path pertaining to groups.
 
-- Mani
+I agree that a more clean but pervasive approach would be to fully obliterate
+any group reference and then just re-introduce all of this later when the
+extended series will be re-posted...it would be a lot of churn to remove/refactor
+and test to just then re-add later all of this support...but yes why not
+I can do that.
 
-
+Thanks,
+Cristian
