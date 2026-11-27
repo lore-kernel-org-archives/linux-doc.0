@@ -1,77 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795805907;
-	b=HBDUGzEMe3iw7etkWTPnYTl2fLxNU4uCT4RVQwg2xz+Xo8eFSoT+Vh25K07Jd5j/sItC
-	 UMicEu9qjsLiPuaGihaAGL32qNkp3imf+HWX3G3md9wmEy5J87/ASYhhLUStTEDKwjsdN
-	 8QgT1gT5pmCNU3DgkYyALASlXU8ZeLGm2kJsFQQ8EgZSebqUHN21PiAOn66pIDEsaE6Eu
-	 ZP8qKil5q9lTu+Uo1TPB1VlzcMpjNCjO/O4OiJKbDv69FBfdv7hZvsYtWR6ErKY9M+VF+
-	 HHZ/OCEjA9VCMVEfOBVcoGOJPEiWguF/mDkyLhzZDMIBYGz9WmTwpi1qIdYKHBtoF5Q==
+	t=1795806133;
+	b=vH/i220p+b2s+dVaKoO9VAdL/sNuL7AgFab2h6NKZ5Cat2uOq9ybWWi9KUGl0UjOCwOX
+	 rCc2lN2i8YrKZ/oukDbC5P9cMHMXFpG4zofbyd50EzhBG4yg6QAFzx5HT5q9V8EVbicJz
+	 lcdec4yqOGwSIdjDsjFJ4ngNwtjGqHUwUOA2tzEnDcYnmiGIpVjvqtx6wurZNGDjwsHSM
+	 tU+e4bDdBBFY7LET2QGX0bTHQrcLc3UIhl81VIyTw8XH4ykfM8rrJY84J69/4rgMcfHX9
+	 viol/llX7bEB3JY6pGLbVbFdoWmVTPHRcTyXBoUCRNquvQWVTO3+RRA1QbUiaRVORYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795805907;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=6kRCE4e9B1yAdG4N0ntHe8x6Dfjo7HptYTW2o7NmsLw=;
-	b=yLFfCVUE8oTV1cRqcmOqGiO9BHdh7xbZkZgH6tLV+hS35/rl8/NSd4wWU6kI04YQJDYS
-	 Ykg6TX4SqPwU5vJVwdf7XCvErNjVb03AatMibBCHWbLGkGz2H4fFop76ZconQPlXLFOeK
-	 4dSV++ZiVVES11bSRnx2eVerfC54mv5Cf08NmRfIudSAKn4Y8JalNiEpcR8ekUdUjyXSX
-	 uZkTqoDxIWpxvng4PB9ce5pytj5yFU9OZsgDuwIBYL4C0iFWs+wUMvrEG16Lbg8Ya/Aww
-	 cM3P/3DYgBmME+tjcSESxI2Sj0dFXcP8rbUYWRMv+UEfeGR3VdlTjNWfnMtk8Gh9YYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795806133;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=zkQBPyKgHhzReYEqUfH52eqklLDsrHQN3rdcMHP01SI=;
+	b=1DqUY3yqXuBYCX9eURodbQ5uIpx+KNzHaJmeF1wevGYW6nL0F2uUULAEt9bPLKMgaojp
+	 FqIveGFG2csKpSvzvZuvkVu4KXFvRzcvXulb3uP14HPglT49GZ/SVynjjlFaeTS/C8Usi
+	 Gx8dl+bg/Lyoeb36Y7ArNfn3WV7/GF10N5A8kpZdqCHUYqe1VFVTF8zD8tYnBB/x4aN36
+	 90D9EUXjlrAZRadzvdBtOC45vNjcJxredTpZYz8DU6VEGXhJ38t/n9o7K7nOUu3ptdORC
+	 CbVku3OjSbSvX0IGx5JCTBDXmFr7X5q/kuIs5brmFWuwkjx4B209rjYW4tVEmxDmqkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=rL8GBQQS;
-	arc=none smtp.remote-ip=158.69.130.18
-Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ENoUf1Ar;
+	arc=none smtp.remote-ip=74.125.82.42
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB895606A696;
-	Fri, 27 Nov 2026 18:58:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB895606A696
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A749606A323
+	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 19:02:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A749606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=rL8GBQQS
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1795805905;
-	bh=6kRCE4e9B1yAdG4N0ntHe8x6Dfjo7HptYTW2o7NmsLw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rL8GBQQSZjalsn/InH7Bc1MLMqUaDyz2qxXxFvsPdenZHQPpjgSZefwOfT6xqrBro
-	 sx1aV/sEKfVyzGA5YeOzMrdVMfMNm4Ne/4FJHM9FOe1qdHYENl8bRsUkLUezNp0asq
-	 QGEVnUoNwbFdwTyXbckAd6MPX/2ge5KKAjyDpNbdfeQHvQRp7iU3pTnfkA1/36af+Q
-	 bzyTCiO8/oxl36QoaEIfcPbUkZnmeLNTjmcBDjBAmiwidN9o0jAIJD6vCJgcvuXfdL
-	 Cxe3HiXcCJBI44VahI72vNA0IwGjatFQt41hEuKn8+rxGiyB9fUJbgK/Bz9sgTNkVP
-	 temPGQlzAVaKw==
-Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jbjNx0KdszXX0;
-	Fri, 27 Nov 2026 13:58:25 -0500 (EST)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ENoUf1Ar
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1aefd1bf74aso4777206c88.1
+        for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 11:02:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795806131; x=1796410931; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zkQBPyKgHhzReYEqUfH52eqklLDsrHQN3rdcMHP01SI=;
+        b=ENoUf1ArcEfIE2J7WrvZgIIMCYa4qWfn/gtvnY4g+FpJfoheJfm9CBabxVkguJTPUP
+         YQfjn7Vl3LN6DzpCxX5sW7o/Ng56wA6wxD7Q2pWnbn94mfSHn5DyMQMO5IRoTlGV5Tu8
+         Q1/0fcIA69vkPToJSVsdZpA2IXZOFCoHOi89tSVF4pihin3oEpDQiZSI5plyB2rNVkPl
+         8HAxisjmU2AreweJcKethZOCv1qYvUvtH5JwBsXSvanho6QP2iyc+g0vEs/40RdCqhcj
+         h3RiNO1IlZDS8WBJQTRBBiITDlSwLsfeQlUOSEOCgy0ZToiTU7K6AjUsqfsZdegDpI2k
+         2/6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795806131; x=1796410931;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zkQBPyKgHhzReYEqUfH52eqklLDsrHQN3rdcMHP01SI=;
+        b=0hitscLkuWU6LbIGBz7SPszVb68m+ww3e2fTuRAdwEfBtDMxVBU0iEuRSlWWB6Flj7
+         /RN1o5oSFxvYbXu0RnDfcv5jE+v4iu2MwhtcR5CXvMYAm6qWcjvkiaSnTjSy9UDtjUCx
+         eOJ6sWcimqhCauHr3KzDpxbM6TSZm5kO4NoCGbH3uXwDgQlfc9ZFEoKoLApfqqYFRwjK
+         7LQP160LsARCadFamrwkBtvR24OwW3UfOR5DLn0i0LOsAi+BjRqzUDdX5hgBgcl4eLgg
+         bKG8+vUid7/BQi4Yq1LzTDC4WU/5w99Q5Q4kHODJUu7X5cP7YWtEOpUkQv8eqrUUQI0u
+         4lmA==
+X-Forwarded-Encrypted: i=1; AL+hErGELEKvoVX9I9k9mkrXNl5HIOChORKEe8/hicvX9CQs5aGe15gV84k/71Kc6S9SpXItwRllVJZAr+U=@vger.kernel.org
+X-Gm-Message-State: APuU4Z86U05MvMwYFJAt+84mFgqn1vJTtec/kl3W8Varej5yDzZbTnGt
+	hLAHM360dQTMOUN1CKUj3x7LkA443vR5xvquFmif4WtHtmsw+o7pSj0o
+X-Gm-Gg: AZFdTZfnRHG3T0uvmHPX2tkziR7ENHtSMLnd95evaSh6Li+YmpSFqI4iYlXHz+2ksrk
+	T4vbBBlSQu+Q3wvu2v/VwN73EZ+3Z13Qc76Es/GYNomLMeCs5clI1PdpVIAN9YVpxVHVOuJpFPT
+	kyh8QXl7lrSXfeXpGLG2lxca4cdsFyPKc8swLuU5m/bIramcw88xC25I+2hcAi5uRRUEVvwyQjS
+	69+2BpONbPxBlUfGhh+mbNClQ/z5gJPrOXPdV3RdZnNstatGxn90MwW4F871sCSH1r/7Kbw9XWP
+	5swOBGA+1I7nq12ADbB5AqQ5U/1PnAG3JcxoSBH7Y99kxnd+SZ4FLwtdPEbcCyEWvV1JN6dy1VW
+	vF/YrG3dyTp3wl3IJrfQ0ruGx8xoR2zA0LXKt7FGwzSfFxvlDQeSGJ+7/52KnxNHrB87g3RV772
+	35eA8zoIz0ijqVCXpyhhHlvFqQiCmCXuzNobZrchtlt9d2q27ARAuOyBY66DMjNqF2qKXkffphV
+	2/ZL6RsE451BkAG5sVT7WAT9qLRJjqnf0RwyipT+PFn7C95Ohwnf7CvvaCSm1QCbzO25ECNOiBt
+	kJN0drBvG4rz/KhykxN9
+X-Received: by 2002:a05:7023:a41:b0:1b2:67f9:43cb with SMTP id a92af1059eb24-1b5525e786cmr25527192c88.17.1795806130946;
+        Fri, 27 Nov 2026 11:02:10 -0800 (PST)
+Received: from a1-free ([2603:c021:8021:f000:0:1865:8c38:18fc])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5566c3052sm58116574c88.1.2026.11.27.11.02.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2026 11:02:10 -0800 (PST)
+From: TAKANO Mitsuhiro <takano32@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Dan Williams <djbw@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	linux-mm@kvack.org,
+	linux-cxl@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 11/16] Documentation/features: Update the membarrier sync core requirements
-Date: Fri, 27 Nov 2026 13:58:16 -0500
-Message-ID: <20261127185822.158216-12-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261127185822.158216-1-mathieu.desnoyers@efficios.com>
-References: <20261127185822.158216-1-mathieu.desnoyers@efficios.com>
+	TAKANO Mitsuhiro <takano32@gmail.com>
+Subject: [PATCH v2] docs: Name the memory hotplug online type configs that exist
+Date: Fri, 27 Nov 2026 19:02:07 +0000
+Message-ID: <20261127190207.245175-1-takano32@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261125193039.2437025-1-takano32@gmail.com>
+References: <20261125193039.2437025-1-takano32@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,88 +107,121 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The x86 text says that the return from interrupt uses IRET, which
-serializes the core after the IPI. This is not what the code relies
-on, and it is not always true:
+The default online type is a Kconfig choice, so the symbols it defines are
+CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE, _ONLINE_AUTO, _ONLINE_KERNEL and
+_ONLINE_MOVABLE.  There is no CONFIG_MHP_DEFAULT_ONLINE_TYPE symbol, but
+five files name one.
 
- - Since commit a493d1ca1a03 ("x86/membarrier: Get rid of a dubious
-   optimization"), the IPI handler issues a core serializing
-   instruction right away. The interrupted thread can be rescheduled
-   before the return from interrupt, and another thread of the mm can
-   then return to user-space through SYSRET.
+Where a file lists the config, name the family with a trailing _*.  Where
+it names a choice value, spell the whole symbol out: early-boot.rst gave
+the zone choices as _NORMAL and _MOVABLE, which are not suffixes.
 
- - With FRED, the kernel returns through ERETS and ERETU. The Intel
-   SDM does not list them as serializing instructions. It states that
-   ERETU has the instruction ordering guarantees of SYSRET.
-   The AMD APM does not describe these two instructions.
+Verification: a build of the tree defines
+CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE and no bare
+CONFIG_MHP_DEFAULT_ONLINE_TYPE in include/generated/autoconf.h, and grep
+finds no reference to the bare symbol under Documentation/ afterwards.
 
-Describe what x86 relies on instead: sync_core_before_usermode() and
-the writes to CR3.
-
-On arm64 with FEAT_ExS, an exception return is a context
-synchronization event only when SCTLR_ELx.EOS is set. The kernel sets
-it. Document that the sync core command depends on it.
-
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
 ---
- .../membarrier-sync-core/arch-support.txt     | 35 +++++++++++++------
- 1 file changed, 24 insertions(+), 11 deletions(-)
+v2: Spell the full config names in early-boot.rst.  David Hildenbrand pointed
+    out that CONFIG_MHP_DEFAULT_ONLINE_TYPE_* with _ONLINE_KERNEL appended
+    does not parse.  The other four files keep the _* form because they list
+    the config, not one of its values.
 
-diff --git a/Documentation/features/sched/membarrier-sync-core/arch-support.txt b/Documentation/features/sched/membarrier-sync-core/arch-support.txt
-index 7425d2b994a3..2782b0d25f43 100644
---- a/Documentation/features/sched/membarrier-sync-core/arch-support.txt
-+++ b/Documentation/features/sched/membarrier-sync-core/arch-support.txt
-@@ -10,6 +10,10 @@
- # Rely on implicit context synchronization as a result of exception return
- # when returning from IPI handler, and when returning to user-space.
- #
-+# On arm64 with FEAT_ExS, an exception return is a context synchronization
-+# event only when SCTLR_ELx.EOS is set. The kernel sets it, cf.
-+# SCTLR_EL1_EOS in INIT_SCTLR_EL1_MMU_ON. It must stay set.
-+#
- # * riscv
- #
- # riscv uses xRET as return from interrupt and to return to user-space.
-@@ -28,19 +32,28 @@
- #
- # * x86
- #
--# x86-32 uses IRET as return from interrupt, which takes care of the IPI.
--# However, it uses both IRET and SYSEXIT to go back to user-space. The IRET
--# instruction is core serializing, but not SYSEXIT.
-+# x86-32 returns to user-space through either IRET or SYSEXIT. x86-64 returns
-+# to user-space through either SYSRETL (compat code), SYSRETQ or IRET, or
-+# through ERETU when FRED is enabled. It returns from interrupt through IRET,
-+# or through ERETS or ERETU when FRED is enabled.
-+#
-+# The IRET instruction is core serializing. SYSRET{L,Q}, SYSEXIT, ERETS and
-+# ERETU are not. Therefore x86 does not rely on the return instruction:
-+#
-+#  - the IPI handler calls sync_core_before_usermode(), which issues a core
-+#    serializing instruction right away (cf. ipi_sync_core()). The thread may
-+#    otherwise be rescheduled before the return from interrupt, and a thread
-+#    of the same mm may return to user-space through SYSRET,
-+#
-+#  - write_cr3() performed by switch_mm() provides core serialization after
-+#    changing the current mm,
- #
--# x86-64 uses IRET as return from interrupt, which takes care of the IPI.
--# However, it can return to user-space through either SYSRETL (compat code),
--# SYSRETQ, or IRET.
-+#  - the special case of kthread -> uthread (temporarily keeping current mm
-+#    into active_mm) issues a sync_core_before_usermode().
- #
--# Given that neither SYSRET{L,Q}, nor SYSEXIT, are core serializing, we rely
--# instead on write_cr3() performed by switch_mm() to provide core serialization
--# after changing the current mm, and deal with the special case of kthread ->
--# uthread (temporarily keeping current mm into active_mm) by issuing a
--# sync_core_before_usermode() in that specific case.
-+# With page table isolation, sync_core_before_usermode() does nothing: each
-+# return to user-space writes to CR3, which is core serializing. Page table
-+# isolation and FRED are mutually exclusive.
- #
-     -----------------------
-     |         arch |status|
+    Written with Hermes Agent, an LLM assistant; the author reviewed the
+    wording and the diff.
+
+ Documentation/admin-guide/kernel-parameters.txt      |  2 +-
+ Documentation/admin-guide/mm/memory-hotplug.rst      |  2 +-
+ Documentation/driver-api/cxl/linux/early-boot.rst    | 12 +++++++-----
+ .../driver-api/cxl/linux/memory-hotplug.rst          |  2 +-
+ Documentation/driver-api/cxl/linux/overview.rst      |  2 +-
+ 5 files changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 176648941aec..8580099b98c1 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3948,7 +3948,7 @@ Kernel parameters
+ 			[KNL] Set the initial state for the memory hotplug
+ 			onlining policy. If not specified, the default value is
+ 			set according to the
+-			CONFIG_MHP_DEFAULT_ONLINE_TYPE kernel config
++			CONFIG_MHP_DEFAULT_ONLINE_TYPE_* kernel config
+ 			options.
+ 			See Documentation/admin-guide/mm/memory-hotplug.rst.
+ 
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+index 0207f8725142..c7de458a962f 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -280,7 +280,7 @@ The following files are currently defined:
+ 		       blocks; configure auto-onlining.
+ 
+ 		       The default value depends on the
+-		       CONFIG_MHP_DEFAULT_ONLINE_TYPE kernel configuration
++		       CONFIG_MHP_DEFAULT_ONLINE_TYPE_* kernel configuration
+ 		       options.
+ 
+ 		       See the ``state`` property of memory blocks for details.
+diff --git a/Documentation/driver-api/cxl/linux/early-boot.rst b/Documentation/driver-api/cxl/linux/early-boot.rst
+index 414481f33819..c3a3def3b3c6 100644
+--- a/Documentation/driver-api/cxl/linux/early-boot.rst
++++ b/Documentation/driver-api/cxl/linux/early-boot.rst
+@@ -34,7 +34,7 @@ which dictate how memory will be managed by Linux during early boot.
+   * Linux Build config option that dictates whether the kernel supports
+     Specific Purpose memory.
+ 
+-* CONFIG_MHP_DEFAULT_ONLINE_TYPE
++* CONFIG_MHP_DEFAULT_ONLINE_TYPE_*
+ 
+   * Linux Build config that dictates whether and how Specific Purpose memory
+     converted to a dax device should be managed (left as DAX or onlined as
+@@ -58,10 +58,12 @@ SystemRAM.  This will expose the memory to the kernel page allocator in
+ :code:`ZONE_NORMAL`, making it available for use for most allocations (including
+ :code:`struct page` and page tables).
+ 
+-If `Specific Purpose` is set and supported, :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_*`
+-dictates whether the memory is onlined by default (:code:`_OFFLINE` or
+-:code:`_ONLINE_*`), and if online which zone to online this memory to by default
+-(:code:`_NORMAL` or :code:`_MOVABLE`).
++If `Specific Purpose` is set and supported,
++:code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE` leaves the memory offline,
++:code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_KERNEL` onlines it by default to
++:code:`ZONE_NORMAL`, and
++:code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_MOVABLE` onlines it by default to
++:code:`ZONE_MOVABLE`.
+ 
+ If placed in :code:`ZONE_MOVABLE`, the memory will not be available for most
+ kernel allocations (such as :code:`struct page` or page tables).  This may
+diff --git a/Documentation/driver-api/cxl/linux/memory-hotplug.rst b/Documentation/driver-api/cxl/linux/memory-hotplug.rst
+index af368c2bc9cf..df27520b193f 100644
+--- a/Documentation/driver-api/cxl/linux/memory-hotplug.rst
++++ b/Documentation/driver-api/cxl/linux/memory-hotplug.rst
+@@ -19,7 +19,7 @@ Default Online Behavior
+ The default-online behavior of hotplug memory is dictated by the following,
+ in order of precedence:
+ 
+-- :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE` Build Configuration
++- :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_*` Build Configuration
+ - :code:`memhp_default_state` Boot parameter
+ - :code:`/sys/devices/system/memory/auto_online_blocks` value
+ 
+diff --git a/Documentation/driver-api/cxl/linux/overview.rst b/Documentation/driver-api/cxl/linux/overview.rst
+index 648beb2c8c83..d567353e1dab 100644
+--- a/Documentation/driver-api/cxl/linux/overview.rst
++++ b/Documentation/driver-api/cxl/linux/overview.rst
+@@ -17,7 +17,7 @@ are generated.
+ 
+     i) EFI_MEMORY_SP
+     ii) CONFIG_EFI_SOFT_RESERVE
+-    iii) CONFIG_MHP_DEFAULT_ONLINE_TYPE
++    iii) CONFIG_MHP_DEFAULT_ONLINE_TYPE_*
+     iv) nosoftreserve
+ 
+   b) Memory Map Creation
+
+base-commit: b6a9fa34ce4187cb69d3c588a4bbffc31ce5db8f
 -- 
-2.47.3
+2.53.0
 
