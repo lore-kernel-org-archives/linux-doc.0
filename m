@@ -1,77 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795793947;
-	b=hW9ZV13nlfLsD71hjeqsd7laYNxDiZUU2FGa5+TQQvRdqdcGcmwkUEHvI6nM7epAPZ/a
-	 3UjmU2KrHtjseqV+Z+YxKmy30g7Ie90Re+d6CtkVVRbjMRAKjic1hyNEe/vr3cnsxhydR
-	 RYA+ctFMZXJ3tHDJRrVMT3ypevay3bYZh2BoFFDSZHhBvCTUq4nRKmNu//8yucdxLJsrM
-	 K545KmyA84MVUrrwUqTUQ77zzf6tF/zWkAOvrv+msUfYVvu4NJbf2nbUQLSc5eTwdnWxc
-	 PHK7owrw7eDMtVcU40SuHaSwHWa9lAb69vyNRi+6XojgBc6yUb94GA6fg8p+w2re4vw==
+	t=1795794333;
+	b=LTIIIo4mfebx7Y9K1KthEFBv7DhBUI0usofDZvaNOmB+NYHQSMFSebtHFQcvGBnhzOY0
+	 y44+g/pshMfBafvYltH1vFJ8rcw3w+031LDDUssazI8jqudiuOZESCI/JIUuPD82x5VYf
+	 QzcRoVGVvwlco6NYozw6LcWqS2rLJ03ZCjgfe12Fv2JW6jxMjHK1h74o1HmwNyCFsR4XD
+	 8IISlHYhtCZokHtKoAXLKWOmQHqHvv4JQXh0wEy+QIkRmYZyvA7Hnw2BIYFBJ/qulqitW
+	 Bx7zHA6WO9u+LtuIouRtXEEhJCLII+P43Y6tm6eUSVH7O6AXRv1pOcIayHQaw1zNbHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795793947;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=qH5+Ww68xkZnvfrsvjQG23c2fAu6p2U8OwJnyhiAXxc=;
-	b=NMJ3Q5jRi0zSkvoJ/VvuwrhPDTBZPo4PWmQOuHY4sHBNnQlswNeT5b7aHoW7haQ7AuRD
-	 680pca3CD/19LIUoeVLyJg8S/WzCZJx4WODKETKz8Wg/0ON1l/o8iq6g30THgbmfKG1JJ
-	 jHM2YUFhIFu/BVU8Ivx3srnHlyP79m805lpS2uhQFNgMf/EeusDLXmiHC5cupoxrgpgDg
-	 vYbE0iJB7oAO/A5TQ8sBHvq6j9UNhP09HZRdABVbd0NQTzzwULvTP2XdnCz6p6QQ5ba25
-	 Yxc+Eh9/DBUCNouSj1TX1wSXmf49UA/1d1pAFOnT53E+lZ45q/LKYfPWjgF8wSAzG5A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795794333;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=AeC+f9+xtHroS5gZQKv6Mod1UF7caHj2d3eBTaqZD7o=;
+	b=XxvbY8OI0YObSCIRS7oJU+wsz+O+5U67BCC6Lfr80s1mgkgQP+Zyh+xnyjW3QBaIHbBM
+	 u9UbWr+HRtjDxnsgSs//lJc3OLRFMPPwWJVhINocKNAN+FRmA0x2GrPxYZEdJKPinSqz6
+	 vGQMM6e7G5GdMGtdmb/apJ0K+k4GRbff7lnEQclkNWB7DcYQ8QFvifNyRAqiz9x5CRPPK
+	 j9p+deSnvn0Py6WvwGyeOoLgehPAXyAFgMpVPUk/wAFTYAIlO2iX0apIq/+GerChzoH1A
+	 W4HKKVK4rxH4r6dmACygKUoTjBMYdz4liDivmMlwsjbJiALKyMCkbuKgtEIEzMXn8zQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WG1+CJ+b;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ejQAYoBL;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112AD606A31F;
-	Fri, 27 Nov 2026 15:39:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835D1606A31C;
+	Fri, 27 Nov 2026 15:45:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WG1+CJ+b
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D1121F000C1;
-	Fri, 27 Nov 2026 15:39:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ejQAYoBL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 012C91F0089B;
+	Fri, 27 Nov 2026 15:45:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795793946;
-	bh=qH5+Ww68xkZnvfrsvjQG23c2fAu6p2U8OwJnyhiAXxc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=WG1+CJ+bdn3mEVHsQkUf7yzWJViNTCZh8/bNEclvEurYJS8pfS8JoiO3k4uIM7uYl
-	 fz34ZNYSZiRPpHt3g81798CdeDHkzFWK2oPx9Z3tSYNOFA+WMi/Moeg9gL05A8VvnJ
-	 1ZQVn35tdSbjfCAYrXJX8andLQbX4vU4hKouyAvXBpClcOvoJEAlCdmd2XhAFN+8hE
-	 XNAPmmv+oCLhxEDlyJjCdKgyD3tGj8x8rV53rXEIUvQYupyLnG10EVX1izv910WB3z
-	 UFm8ApHoo8svpTwyQPhpcSWCZmKgqPcWFr3HxH141wcIFYmx7pytHnog5U5eiV5Uu3
-	 3ELW+KbjkbxcQ==
-From: Sasha Levin <sashal@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Willy Tarreau <w@1wt.eu>,
-	Borislav Petkov <bp@alien8.de>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Security Officers <security@kernel.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs and a cover letter
-Date: Fri, 27 Nov 2026 10:39:02 -0500
-Message-ID: <20261127153902.1320179-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <awmU4L01OH9kWEVv@gremlin>
-References: <20261126171926.2766137-1-sashal@kernel.org> <20261126171926.2766137-2-sashal@kernel.org> <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org> <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local> <awjopqoCJqwChwnF@laps> <awlCy3vDs0fKx1ku@gremlin> <awlNYsu1y8EhYgor@1wt.eu> <33c6cf3a-6b18-4e09-bd5c-68ed2c34de56@kernel.org> <awlR9pQUjodcLjZK@gremlin> <20261127133756.455469-1-sashal@kernel.org> <awmJ2c87NSDjtSwp@gremlin> <20261127143124.1039470-1-sashal@kernel.org> <awmU4L01OH9kWEVv@gremlin>
+	s=k20260515; t=1795794332;
+	bh=AeC+f9+xtHroS5gZQKv6Mod1UF7caHj2d3eBTaqZD7o=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=ejQAYoBL+8h+u/6VCHtSI+eihT0YN8WGP4heq0DVMytYdTlOkmupyUvOL3V8vXyTZ
+	 LHCLcl4FnqW8OrZenqDsQa8B6QEtuS6oHGS6VZuj2TCcQ0aMxaygzhO8se0iCfe0aK
+	 3Qaub50AnSQcnOE4lYuUUSdrn7xIzlGMhbPGmxN4lZfPjCDIlKLqo2iEBaxx3gvfS7
+	 XHAdSIdpLXUNbofePRbDAkv8i0oIx9SuVXnQJc45hPucEcyk24tw0vHyfjsjkE48hN
+	 FJdJRpl5tUecsNSJ+VJF5Uv+ut/80Sv0CB0/hxFIE/Fd3NlWEnjUU1lQwzE/bgOAzg
+	 wjRWg4rJYPMfg==
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,58 +49,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] dt-bindings: phy: Delete old 'phy-bindings.txt'
+ bindings file
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Ioana Ciornei <ioana.ciornei@nxp.com>
+Cc: Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, linux-phy@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Alex Shi <alexs@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20261119092429.2414671-1-ioana.ciornei@nxp.com>
+References: <20261119092429.2414671-1-ioana.ciornei@nxp.com>
+Date: Fri, 27 Nov 2026 21:15:23 +0530
+Message-Id: <179579432303.13164.13606957919284075924.b4-reply@b4>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=716; i=mani@kernel.org;
+ h=from:subject:message-id; bh=gWBvMZqEOIcJl/fTLY0ucaK+2ByPjJBWHHwmBGNtJJE=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBrCaWVgW/yoBztIlCon152Y4gUn3EHb4hWufHia
+ Dckf2UYGh6JATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCawmllQAKCRBVnxHm/pHO
+ 9dp1B/96S68FCMR1va5ajFHrsMksIjMtB9rVBmlfT/Mqe/eSV1mcqnb6YAwV6lNbfVeypC6WXg/
+ Ri/DZkj+3PUFWtrVuETzoG0Fs0RnH23ZrcnW688OQ8S+zW7VLsLeL62Xtr+5JujKbq9W1RR3M18
+ 9xG9KdWzCEzgumpKxbZP9Bgsh+DJAzRn/P5PNwWN7QlRZDhkqkMmLssU/MO+Mlgq00KfmdGCxJ8
+ gSMiU4WZkJBOoRHUwp2wKxKchXHGQM3UByNoEoSaBDLGPr4egcGJ8e5N7lmRumDbzugQ/hxu+I+
+ weYWXsbvs11qiDtOxFL7yvNQyWThV7gUXVKGm3qTsKN4VYB/
+X-Developer-Key: i=mani@kernel.org; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
 
-On Fri, Nov 27, 2026 at 02:51:35PM +0000, Lorenzo Stoakes (ARM) wrote:
->On Fri, Nov 27, 2026 at 09:31:24AM -0500, Sasha Levin wrote:
->> I see this as the beginning of a guardrail. It'll take us some time to get to
->> something like checkpatch for LLMs, but we have to start somewhere.
->
->I'm honestly not sure checkpatch, which is false positive-central and gets
->confused very easily is the gold standard to aim for ;)
+On 2026-11-19 11:24 +0200, Ioana Ciornei wrote:
+> The generic PHY provider and consumer properties ('#phy-cells',
+> 'phy-supply', 'phys' and 'phy-names') are already described by the
+> phy-provider.yaml and phy-consumer.yaml schemas in the dt-schema
+> repository, which are applied to all nodes. The old free-form
+> Documentation/devicetree/bindings/phy/phy-bindings.txt file therefore
+> only duplicates them.
+> 
+> Delete the file and remove or update the dangling references to it in
+> the remaining binding documents and in the PHY driver-api documentation.
+> 
+> Signed-off-by: Ioana Ciornei <ioana.ciornei@nxp.com>
 
-Yes, checkpatch has bloated a bunch in recent years, but at its core it's been
-great at helping people write good commit messages.
+Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
->You're putting in a bunch of specifics about what the LLM SHOULD add and
->what we WANT to see etc.
->
->I.e. more text :)
->
->I think you should keep it VERY simple and make it REALLY clear that you
->want it to produce LESS text, as little as possible, in as clear terms as
->possible. And do NOT write code-as-English etc.
->
->Make it a denylist of stuff, not an ever-growing list of things to add,
->because if you do that you're just making my life harder, honestly.
+- Mani
 
-The series calls for *less* text in the commit message. The extra text goes
-into the cover letter, which humans can ignore if they don't want it.
 
->Where was this floated? I didn't hear anything about it? Was it another
->decision made by a cabal behind closed doors? :)
-
-Hallway track during LPC mostly :) There's no "decision" here. Folks were
-raising both concerns: "the changelogs are too long, they suck for humans" and
-"the changelogs are too short, we don't get enough information / the AI fakes
-stuff".
-
->Anyway, let me rephrase I guess - please don't ask LLMs to add more slopped
->text for me to deal with?
->
->I really dislike the idea of a cover letter for a single patch in general,
->but from an LLM you literally just made my life twice as bad.
->
->Please, don't?
-
-I suspect we won't find something here that works for everyone, so subsystems
-could tune it in their maintainer handbook docs if they need to.
-
-One question though: what stops you from ignoring the cover letter altogether
-and looking only at the commit message? We can have AI explicitly tag a
-"slopped" cover letter if it'll make it easier...
-
--- 
-Thanks,
-Sasha
