@@ -1,86 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795749199;
-	b=xJrf6/VL0A1pq+ahAGEYVf57aMYbI79L66ItmRBCw+SjDtSw7WLwTFfmrYILt0+/HeGt
-	 gbhS109kw0fJaN4MyNdCJZlIQDzoVhcQtZRTxOR48PCYBAxV1kjJl97gl4dMWKHCDfNhT
-	 6T5Y28qShXJwZTMf7MnsvmpIZaO7qvEDVpE9gFTue++l77IDH/ztrUGr+IvMJGGcMqINe
-	 eOLz1i4/empYIYy9X2r7R1Uqcz5YxdGOtKMLB02FGq1i/3mBdDKmItcsXnsPrVfgFNVq5
-	 YX8w8kQA3ibgVwGB2rgjZo2JOTommH3+B3Z1VMJLvPfuyfQHmhjsTQFjbdDYNqa94Qg==
+	t=1795750395;
+	b=K9z12khwtAmsSRbMvUwWbNkFUEAYtA/1iaxgxkKXgT7xXnqAkDl2MDB/t+ScpjMRpmiI
+	 M3gsh3yVs6D/3qm0v+SHbl5Rs3EEkx8OROkgJxyKUKr08E8+RpKK/zgQ5dAgqtvO02N4G
+	 /nrUA1szMfVSwEmdmcDP4ITIpOXKY/2+QOign1qh8ML7H7znQyUytIlEBLo8XEJLXKHas
+	 uGTDBAifhsXujd6zeXDhm5bXI0J4zcuehjiUfBjVUzQ7xHyWWFZsUyJA35N+s18quirB+
+	 rMGVRVopzYPmtcGBbpmxv9JIr4gpTtJABmpCWB+/vJXTAfGYWjdXwCweSWzLvWCBPoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795749199;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=rznm4eQLJ2BULtEjN80zJsnUxerikoTP0D42WLzgb6E=;
-	b=BgvUG50+WPFNQKJolVbRQXqZXO5kUfo538ivxnuUBF1XFWA7PsFDynmFvtyy0hJI4l6z
-	 miJr+Slrl4J8FXSq+XnEAFDqYReaZusI2rbV10tQW9M/PwbcaXCx+pDjr7+72hGUZBSBU
-	 WGGvF4FNq4R+F4K8hoVqBLLwBZYZZ7JuQzetO28IRDApmpk8F1OdK9sbOIw8ZG0GkKLRk
-	 8BAzif3O6eZ8X4F+lMjVpUnPXhksEM90so+F6bBpCuPFX11/YQjyrFWB/0Nv78q3Lao6J
-	 n1NWFQ9yICUiOearSG/1R4cVQIhT+O6hjPgNyO3I7dJeXrNG898wXqEKCRRHvdiHuwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795750395;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=IvS6PwiM0MwyaI9Q71Y3huXKWpS6mVFDFJuvxq1GyR4=;
+	b=ZoAr54urXjJpvIZp6o4sF4YFA+DMQhhiFVWmlPmgFEWJxKnjjFikuheDNAjKT9n1I6Zs
+	 LghGGLrRbNsqeabtmr/PUoJpLJIaP8JSuiV9PfJ690n0I40cUaAv3/9a3hY8f20R9IA+I
+	 QCjUlj3Vj+eC6I1Zl4QvDUwyWoRzX9hErEZXE8t9tCWTwikhxM6ObJdObhbjQZ0aw5qiP
+	 doLACbtipQnM3nxKnHIcvvQLpT7Rs9gHz2ji8sLIfSlfb+CN3UXYYkCpqJHLG9bgXUd/E
+	 MVjo+6RduXi+1W0BLwv1l51M0OzgJuFsv1Wang0guNBu2uAIJY5r5HgjchfMyuvm3Yw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=h+yk83zJ;
-	arc=none smtp.remote-ip=74.125.82.181
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=iuPaFvMW;
+	arc=none smtp.remote-ip=95.215.58.21
+Received: from mta1.migadu.com (out-21.mta1.migadu.com [95.215.58.21])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2235606A323
-	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 03:13:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2235606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CBB606A321
+	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 03:33:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34CBB606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=h+yk83zJ
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-386b8f2f671so4378587eec.1
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2026 19:13:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795749198; x=1796353998; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rznm4eQLJ2BULtEjN80zJsnUxerikoTP0D42WLzgb6E=;
-        b=h+yk83zJ8McnnP/TzXrHr7rRIOHy7RL1sPsIa8r3Z5gNtFP0nPXnYN6ZLgiE0Fa8Mh
-         clYS+SSaRKFNv2Po2kfIJ9RajgswayvXdNTlsaf9xy0HU1IEpS5caRUMPoIme9OQSiwU
-         WxRaF3E4qV7GW0E3xeJdYSHsW+7/bXyvANzSict4juBnB1EtYJxNeTheUzBtoqQBthrZ
-         8PFoXLSQPeUpIRvA2Yob2wTU3UVxsRNTPIVGWZiv9YShXLI9hDyV0d/bq3+sEhn5RKrQ
-         pgKJSijjWaHUrFxSGWsPhRkeaJNRyKSnFEIeTzkgtE5/VVHXW7jRag3ERgUyCQ0kxeVw
-         Hhpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795749198; x=1796353998;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rznm4eQLJ2BULtEjN80zJsnUxerikoTP0D42WLzgb6E=;
-        b=kmyE0C9JOLohW1gZ2Ods7HUhfMPakK79b0Fqy192pANwyYQRr7s9oB/Dlk4sLPUG2c
-         o5xXhVO14QoI3Dm4+Qps3zGtBETQ0I0zNRrRfK/ZH6uqjEuez7hWAHHmWfFRn3xqE394
-         jA8rwcxP6pHDgo8ha9Q1QzGpmOTQ1MKn4GU2hjREmk9fwljMRmk22jB3r+z/Y7+HnQdi
-         Q37b8PH+7NeRmw5bfgoIcDsRlTC4KeAiQeamSG/YVydEE9yVV6awivrTb494YNzt25n5
-         pn9pivHNe/6ggy1hW37Xe/mweWx7qBde+ElrlOIGVXaMzEbfiJQ3eQIJPMCm7oW166vx
-         LqLg==
-X-Forwarded-Encrypted: i=1; AL+hErH3whzOWIySyObKTgG7AOEMXKhhwy8siLQQgIkc/r9F6joST7KGih6PcD/GHNWGrwSsIZZc3fAxomk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/4Gs+Q6GP6Whi1h3pl5nTbnz1Zj9UYhzP1K39aVp1G8S1265QM
-	HVP5Y2A0TlHnJYYI/+8h2yim7C2yBDxkN5L2mXe4qQBix7jBIzG4ahlI
-X-Gm-Gg: AZFdTZe+1tLAZwiNegGcwjMGO3WBbz806G0CzA39QXryQyY/iYWsMId5/BhdPCLSxu1
-	pIDmVP4R9ATGBBO3+8BRnSIBKOpZjf5RKo8Ub9W9ZLO7HvgJjPQngIvo/sv/Cbh0YXpnGzxu5IQ
-	La7z1fdc5qX2oaVo5oNx38rPVKxDW1qjvjTI7yAR0K6RnwcFYllf5KzsvcpKY54ouJgVrFwgl8w
-	nimeFmjFZKwQ5yBHGhkZJm2B/vI23v3rr46mDcoBFTgItHvaF7mmvnhbewKC9Z4fyUuhrKoXkcD
-	9xiXds10XrssPJKI5ceWseorGsEmkTI3aP6En6t1Xvz4MlXlvn22d/k/dtHQFQo1XJJ+AGKj+Fx
-	cf8HfUPfBNtksBmxhYiQ9DyKsjd7ULbhZdN9oE57ZKBcSMUc+x8YZqQrgRpdx/MNJYFGa9Dz/Ob
-	f7lmB7mDvQPQyRxrrZsrTfBHfddEQ27WXdehE6689z0lCqdLYLcsWC08L4n7xLdUKE+y3F03Boq
-	Hc/LF693WSfIJxxGEHEE4czQTCbbCg6hV9Bsmowp1vOoCT+UPIduYBENjKsFd9NzeZUpoWUtBQf
-	AehThN6JG1jKlt16QHx35z8T+w4oY4phQbGOdXYsa2bzP2fuOE8=
-X-Received: by 2002:a05:7300:f14e:b0:386:d917:8d8a with SMTP id 5a478bee46e88-386d91794ecmr5071916eec.27.1795749197722;
-        Thu, 26 Nov 2026 19:13:17 -0800 (PST)
-Received: from [198.18.0.1] (104.194.78.75.16clouds.com. [104.194.78.75])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385666e96bdsm63194086eec.7.2026.11.26.19.13.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2026 19:13:17 -0800 (PST)
-Message-ID: <5bcd13dd-5164-4a0b-bec0-c8fdd795cf11@gmail.com>
-Date: Fri, 27 Nov 2026 11:13:12 +0800
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=iuPaFvMW
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=QgYTOSCJMTPUU6uzHqdiUg0E/5P+/jUuCCDzWFkkxHg=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795750392; v=1; x=1796355192;
+ b=iuPaFvMWMhrqtS/gCWCdJ/vMi7BLET2lqnp6VSOo013JgeQcAQFK2eGcdauV7SeSWBGWfWFS
+ +fNyXhU7CGSDhzWr4NhXvM6byFQ0uBBDIN9E9/Y0adxcevY6/kR+d16x6T1PUdhpuTCOM2U+Mmq
+ iMt79omfLORrmQsQ0ZAiWK1M=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 83cf2f4b8b8eda50;
+	Fri, 27 Nov 2026 03:33:11 +0000
+X-Mizu-Trace-ID: 83cf2f4b8b8eda50
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <60e890bf-d5c4-44db-9f90-ae7970b5de32@linux.dev>
+Date: Fri, 27 Nov 2026 11:32:57 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,346 +59,161 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: What's cooking in Chinese docs (Nov 2026, #05)
-To: Weijie Yuan <wy@wyuan.org>, linux-doc@vger.kernel.org
-Cc: Alex Shi <alexs@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>,
- Yanteng Si <si.yanteng@linux.dev>, Chen-Yu Yeh <chenyou910331@gmail.com>
-References: <awRWXw8KsV_TJs9A@wyuan.org>
-From: Alex Shi <seakeel@gmail.com>
-Content-Language: en-US
-In-Reply-To: <awRWXw8KsV_TJs9A@wyuan.org>
+Subject: Re: [PATCH v6 08/18] mm/mglru: make folio lru referenced times count
+ a generic API
+To: Kairui Song <ryncsn@gmail.com>, "David Hildenbrand (Arm)"
+ <david@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>,
+ Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>,
+ Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>,
+ Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>,
+ Gregory Price <gourry@gourry.net>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>,
+ SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>,
+ Yu Zhao <yuzhao@google.com>, Vernon Yang <vernon2gm@gmail.com>,
+ Zicheng Wang <wangzicheng@honor.com>, Tal Zussman <tz2294@columbia.edu>,
+ Xiang Liu <liuxiang.277@bytedance.com>, Ehab Ababneh
+ <ehab.ababneh@intel.com>, Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>,
+ Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>,
+ Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>,
+ Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org,
+ Tianyi Chen <hi@tychen.cc>
+References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
+ <20261124-mglru-fg-v6-8-8ffea39934a6@tencent.com>
+ <e85a2666-9722-420b-9a60-9d4251fc3d4c@kernel.org>
+ <awa30hwg6x82REoo@KASONG-MC4>
+ <8ec3f3e2-5d3a-4bed-a571-88f7ba473b00@linux.dev>
+ <CAMgjq7Ayu9H85wurRAUdmXEPWYi9BdLJW13BhK+LMYoBX_7fuw@mail.gmail.com>
+ <CAMgjq7DwCNbke2G25Bxfj3bi5aRp3_qkGeYmCTGVGv+Y5XzKTw@mail.gmail.com>
+From: Ridong Chen <ridong.chen@linux.dev>
+In-Reply-To: <CAMgjq7DwCNbke2G25Bxfj3bi5aRp3_qkGeYmCTGVGv+Y5XzKTw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 2026/11/23 23:06, Weijie Yuan wrote:
-> Here are the topics for Chinese docs waiting to be merged.
->
-> Copies of the source code to Chinese documentation development tree live
-> in here:
->
->      git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
->      https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
->      https://kernel.googlesource.com/pub/scm/linux/kernel/git/alexs/linux.git
->
-> Mirrors:
->
->      https://mirrors.hust.edu.cn/git/kernel-doc-zh.git
->      https://mirror.nju.edu.cn/git/kernel-doc-zh.git (experimental)
->
-> Please report any mirror instability tolinux-doc@vger.kernel.org
->
-> -------------------------------------------------------------------
-> [Cooking]
->
-> * Chen-Yu Yeh 2026-11-23
->    [PATCH v2 00/25] docs/zh_TW: process: resync translations with the English originals
->    [PATCH v2 01/25] docs/zh_TW: process: sync 1.Intro.rst with the English original
->    [PATCH v2 02/25] docs/zh_TW: process: sync 2.Process.rst with the English original
->    [PATCH v2 03/25] docs/zh_TW: process: sync 4.Coding.rst with the English original
->    [PATCH v2 04/25] docs/zh_TW: process: sync 5.Posting.rst with the English original
->    [PATCH v2 05/25] docs/zh_TW: process: sync 6.Followthrough.rst with the English original
->    [PATCH v2 06/25] docs/zh_TW: process: sync 7.AdvancedTopics.rst with the English original
->    [PATCH v2 07/25] docs/zh_TW: process: sync 8.Conclusion.rst with the English original
->    [PATCH v2 08/25] docs/zh_TW: process: sync code-of-conduct-interpretation.rst with the English original
->    [PATCH v2 09/25] docs/zh_TW: process: sync code-of-conduct.rst with the English original
->    [PATCH v2 10/25] docs/zh_TW: process: sync gdb-kernel-debugging.rst with the English original
->    [PATCH v2 11/25] docs/zh_TW: process: sync development-process.rst with the English original
->    [PATCH v2 12/25] docs/zh_TW: process: sync email-clients.rst with the English original
->    [PATCH v2 13/25] docs/zh_TW: process: sync kernel-driver-statement.rst with the English original
->    [PATCH v2 14/25] docs/zh_TW: process: sync kernel-enforcement-statement.rst with the English original
->    [PATCH v2 15/25] docs/zh_TW: process: sync management-style.rst with the English original
->    [PATCH v2 16/25] docs/zh_TW: process: sync security-bugs.rst with the English original
->    [PATCH v2 17/25] docs/zh_TW: process: sync volatile-considered-harmful.rst with the English original
->    [PATCH v2 18/25] docs/zh_TW: process: sync 3.Early-stage.rst with the English original
->    [PATCH v2 19/25] docs/zh_TW: process: sync coding-style.rst with the English original
->    [PATCH v2 20/25] docs/zh_TW: process: sync embargoed-hardware-issues.rst with the English original
->    [PATCH v2 21/25] docs/zh_TW: process: sync howto.rst with the English original
->    [PATCH v2 22/25] docs/zh_TW: process: sync license-rules.rst with the English original
->    [PATCH v2 23/25] docs/zh_TW: process: sync stable-api-nonsense.rst with the English original
->    [PATCH v2 24/25] docs/zh_TW: process: sync submit-checklist.rst with the English original
->    [PATCH v2 25/25] docs/zh_TW: process: sync submitting-patches.rst with the English original
->
->    Needs review.
->    source:<20261123110217.170025-1-chenyou910331@gmail.com>
->
->
-> * Chen-Yu Yeh 2026-11-23
->    [PATCH v2 00/13] docs/zh_TW: process: add translations of 13 documents
->    [PATCH v2 01/13] docs/zh_TW: process: add researcher-guidelines.rst translation
->    [PATCH v2 02/13] docs/zh_TW: process: add cve.rst translation
->    [PATCH v2 03/13] docs/zh_TW: process: add applying-patches.rst translation
->    [PATCH v2 04/13] docs/zh_TW: process: add maintainer-pgp-guide.rst translation
->    [PATCH v2 05/13] docs/zh_TW: process: add changes.rst translation
->    [PATCH v2 06/13] docs/zh_TW: process: add handling-regressions.rst translation
->    [PATCH v2 07/13] docs/zh_TW: process: add deprecated.rst translation
->    [PATCH v2 08/13] docs/zh_TW: process: add kernel-docs.rst translation
->    [PATCH v2 09/13] docs/zh_TW: process: add maintainer-handbooks.rst translation
->    [PATCH v2 10/13] docs/zh_TW: process: add contribution-maturity-model.rst translation
->    [PATCH v2 11/13] docs/zh_TW: process: add conclave.rst translation
->    [PATCH v2 12/13] docs/zh_TW: process: add threat-model.rst translation
->    [PATCH v2 13/13] docs/zh_TW: process: add maintainers.rst translation
->
->    Needs review.
->    source:<20261123110637.172045-1-chenyou910331@gmail.com>
->
->
-> * Zixin Wang 2026-11-21
->    [PATCH v2] docs/zh_CN: Add core-api/irq managed_irq Chinese translation
->
->    Needs review.
->    source:<20261120160539.103773-1-w1355457260@gmail.com>
->
->
-> * Xiongwei Song 2026-11-18
->    [PATCH v2 0/2] Add RCU docs Chinese translation
->    [PATCH v2 1/2] docs/zh_CN: Add RCU/index.rst translation
->    [PATCH v2 2/2] docs/zh_CN: Add RCU/whatisRCU.rst Chinese translation
->
->    Waiting for response.
->    cf.<09ef3d3d-0e68-49c6-a6a2-c754104ede9e@hust.edu.cn>
->    source:<20261118131636.5131-1-xiongwei.song@linux.dev>
->
->
-> * Yikun Wei 2026-11-17
->    [PATCH v2 0/4] docs/zh_CN: Add four process translations
->    [PATCH v2 1/4] docs/zh_CN: Add contribution maturity model translation
->    [PATCH v2 2/4] docs/zh_CN: Add deprecated translation
->    [PATCH v2 3/4] docs/zh_CN: Add backporting translation
->    [PATCH v2 4/4] docs/zh_CN: Add botching-up-ioctls translation
->
->    Waiting for response.
->    cf.<avxh6NCMrsJI3f_x@wyuan.org>
->    cf.<avx-ZOPV3q1VmSvm@wyuan.org>
->    source:<20261117115527.27937-1-YikunWei@126.com>
->
->
-> * Yaoze Wang 2026-11-15
->    [PATCH] docs/zh_CN: Add i3c Chinese translation
->
->    Needs review.
->    source:<20261115034307.15-1-wangyaoze999@gmail.com>
->
->
-> * Weijie Yuan 2026-11-09
->    [PATCH v3 0/2] docs/zh_CN: update maintainer/configure-git.rst
->    [PATCH v3 1/2] docs/zh_CN: sync maintainer/configure-git with upstream
->    [PATCH v3 2/2] docs/zh_CN: improve maintainer/pull-requests translation
->
->    Reviewed by Dongliang.
->    source:<20261109-configure-git-v3-0-d7807bb8e8c7@wyuan.org>
-Applied.
->
->
-> * Dongliang Mu 2026-11-09
->    [PATCH v2 0/4] docs/zh_CN: translate AI-related process guides
->    [PATCH v2 1/4] docs/zh_CN: translate coding-assistants.rst
->    [PATCH v2 2/4] docs/zh_CN: translate generated-content.rst
->    [PATCH v2 3/4] docs/zh_CN: translate threat-model.rst
->    [PATCH v2 4/4] docs/zh_CN: link AI guide to translated documents
->
->    Reviewed by Weijie.
->    source:<cover.1794197977.git.dzm91@hust.edu.cn>
-Applied.
->
->
-> * Dongliang Mu 2026-11-08
->    [PATCH] docs/zh_CN: add clang-format guide translation
->
->    Needs review.
->    source:<20261108070826.2000511-1-dzm91@hust.edu.cn>
->
->
-> * Dongliang Mu 2026-10-29
->    [PATCH v3 0/9] docs/zh_CN: align translation paths and update guides
->    [PATCH v3 1/9] docs/zh_CN: update admin-guide/index.rst translation
->    [PATCH v3 2/9] docs/zh_CN: update admin-guide/README.rst translation
->    [PATCH v3 3/9] docs/zh_CN: add media administrator guide translations
->    [PATCH v3 4/9] docs/zh_CN: reorganize process debugging guides
->    [PATCH v3 5/9] docs/zh_CN: update magic-number to match upstream
->    [PATCH v3 6/9] docs/zh_CN: reorganize media driver API translations
->    [PATCH v3 7/9] docs/zh_CN: move GFS2 translations into filesystems/gfs2
->    [PATCH v3 8/9] docs/zh_CN: update networking/xfrm/xfrm_proc.rst translation
->    [PATCH v3 9/9] docs/zh_CN: remove stale Original fields from SCSI and IPE translations
->
->    Reviewed by Yanteng.
->    source:<20261029124429.294868-1-dzm91@hust.edu.cn>
+On 11/27/2026 10:20 AM, Kairui Song wrote:
+> On Fri, Nov 27, 2026 at 10:01 AM Kairui Song <ryncsn@gmail.com> wrote:
+>>
+>> On Fri, Nov 27, 2026 at 9:48 AM Ridong Chen <ridong.chen@linux.dev> wrote:
+>>>
+>>> On 11/25/2026 8:36 PM, Kairui Song wrote:
+>>>>> On 11/23/26 19:53, Kairui Song via B4 Relay wrote:
+>>>>>> From: Kairui Song<kasong@tencent.com>
+>>>>>>
+>>>>>> Pure code shuffle, no behavior change.
+>>>>>>
+>>>>>> Make the folio LRU refs helpers available regardless of CONFIG_LRU_GEN.
+>>>>>> Without MGLRU the extra bits are never set, so they are inert. Move the
+>>>>>> lru_gen_* helpers into the CONFIG_LRU_GEN section.  This prepares for
+>>>>>> unifying the API for checking folio referenced and workingset status.
+>>>>>>
+>>>>>> folio_migrate_lru_refs() now migrates the complete refs count,
+>>>>>> including PG_workingset (bit 1 of the encoding), bitwise identical to
+>>>>>> the direct copy dropped from folio_migrate_flags().
+>>>>>>
+>>>>>> lru_set_refs_flags() skips the nonexistent mask bits when
+>>>>>> LRU_REFS_WIDTH collapses to 0, preserving the two independent flags for
+>>>>>> !CONFIG_LRU_GEN builds.
+>>>>>>
+>>>>>> Tested-by: Zhao Zhenzhuo<zhaozhengzhuo@uniontech.com>
+>>>>>> Reviewed-by: Kunwu Chan<kunwu.chan@gmail.com>
+>>>>>> Tested-by: Andrew Morton<akpm@linux-foundation.org>
+>>>>>> Signed-off-by: Kairui Song<kasong@tencent.com>
+>>>>>> ---
+>>>>>>    include/linux/mm_inline.h | 55 ++++++++++++++++++++++++-----------------------
+>>>>> I'm starting to feel like all of these mglru/reclaim thingies should go into a
+>>>>> dedicated helper.
+>>>> Hi David
+>>>>
+>>>> I saw your comment on other patches too, about the header mm_inline.h,
+>>>> about ~690 / 860 lines of code in it is for MGLRU / CLRU only. The
+>>>> rest ~200 are for VMA / TLB / MMU.
+>>>>
+>>>>> Can you do that as a prio cleanup in this series, so we don't have to mess with
+>>>>> mm_inline.h in later patches anymore?
+>>>> Perhaps we can instead move the non LRU helpers in it?
+>>>> These helpers:
+>>>>
+>>>>     - anon_vma_name_get
+>>>>     - anon_vma_name_put
+>>>>     - anon_vma_name_reuse
+>>>>     - dup_anon_vma_name
+>>>>     - free_anon_vma_name
+>>>>     - anon_vma_name_eq
+>>>>     - pfnmap_track_ctx_release
+>>>>     - init_tlb_flush_pending
+>>>>     - inc_tlb_flush_pending
+>>>>     - dec_tlb_flush_pending
+>>>>     - mm_tlb_flush_pending
+>>>>     - mm_tlb_flush_nested
+>>>>     - copy_pte_marker
+>>>>     - num_pages_contiguous
+>>>>
+>>>> All other helper in mm_inline.h are for LRU. So we rename mm_inline.h
+>>>> to mm_lru.h?
+>>>
+>>> Moving the VMA/TLB helpers out looks good to me as a first step.
+>>>
+>>> For the LRU part, there is already mm/vmscan.h, added by "mm/vmscan:
+>>> move struct scan_control to a dedicated header" in mm-new. Most LRU
+>>> helpers are only used inside mm/, e.g. lruvec_add_folio(),
+>>> lruvec_add_folio_tail(), lru_gen_add_folio() and the refs encoding
+>>> helpers, so they could move there instead of staying in a public
+>>> header. Barry also suggested moving lruvec_add_folio() and friends
+>>> to mm/vmscan.h in another thread.
+>>>
+>>> A few are used outside mm/ and need to stay public:
+>>> folio_lru_list() in include/trace/events/pagemap.h, and
+>>> folio_test_workingset() in fs/btrfs and fs/erofs after patch 16. So
+>>> maybe keep a small public header for those, and move the rest to
+>>> mm/vmscan.h, or to a separate mm/mglru.h if it gets too large, as
+>>> David mentioned.
+>>>
+>>> I can help with the mm/vmscan.h part if that works for you.
+>>
+>> Good idea! Maybe you can send a series to do that which I'll rebase on
+>> top of. Feel free to take the first renaming patch too since they
+>> should all be zero-feature-change :-D
+>>
+>> But please help keep some helpers in a public helper so when we are
+>> able to get rid of folio_*_referenced and folio_*_workingset, there
+>> wron't be some strange header inclusion issues. FS users quite often
+>> need to call them, especially the folio refs related ones.
+>>
+>> (Considering MGLRU even used to try to completely ignore anon reclaim
+>> at swappiness 200 about a year ago, maybe that isn't too much of a
+>> problem, but it's still a problem).
+> 
+> Sorry my mistake, I meant file reclaim, got it wrong in the opposite way :P
 
-some of patches are conflict with latest documents, please sync up and 
-resend. Thanks!
->
->
-> * Jiandong Qiu 2026-10-29
->    [PATCH v4 0/2] docs/zh_CN: update translation of doc-guide/sphinx.rst
->    [PATCH v4 1/2] docs/zh_CN: add process/changes.rst translation
->    [PATCH v4 2/2] docs/zh_CN: update sphinx.rst translation
->
->    Reviewed by Dongliang.
->    source:<cover.1793279600.git.qiujiandong1998@gmail.com>
-Applied.
->
->
-> * Jiaming Ouyang 2026-10-28
->    [PATCH v4] docs/zh_CN: add Chinese translation for usb/ohci.rst
->
->    Expecting a reroll.
->    cf.<fcabf691-cca4-477d-b387-e50467a41408@hust.edu.cn>
->    source:<20261028072643.32250-1-jiamingouyang13@gmail.com>
->
->
-> * Yao Yiqi 2026-10-22
->    [PATCH] docs/zh_CN: fix typos in admin-guide/README
->
->    Reviewed by Dongliang.
->    source:<20261022135949.361566-1-yyaqia@gmail.com>
-Too small typo fix may cause conflicts with other patches. So, not worth 
-to apply.
->
->
-> * Weijie Yuan 2026-10-21
->    [PATCH v3 0/2] docs/zh_CN: cleanup headers
->    [PATCH v3 1/2] docs/zh_CN: remove translator-related headers
->    [PATCH v3 2/2] docs/zh_CN: remove Translator field in header template
->
->    Partly reviewed by Dongliang with an extra question to Jon.
->    source:<cover.1792569583.git.wy@wyuan.org>
-Can not find in linux-doc emailing list.
->
->
-> * Yikun Wei 2026-10-20
->    [PATCH v3 0/5] docs/zh_CN: add fault-injection Chinese translations
->    [PATCH v3 1/5] docs/zh_CN: add fault-injection index Chinese translation
->    [PATCH v3 2/5] docs/zh_CN: add fault-injection Chinese translation
->    [PATCH v3 3/5] docs/zh_CN: add notifier-error-inject Chinese translation
->    [PATCH v3 4/5] docs/zh_CN: add nvme-fault-injection Chinese translation
->    [PATCH v3 5/5] docs/zh_CN: add provoke-crashes
->
->    Expecting a reroll. (thread broken)
->    cf.<6baba360-6ee2-4195-91e4-d22c97d3c146@hust.edu.cn>
->    source:<SI2PPFCA6543649A166AABA54D11A931F7DDD672@SI2PPFCA6543649.apcprd04.prod.outlook.com>
->
->
-> * Weijie Yuan 2026-08-23
->    [PATCH v2 0/5] Update maintainer-pgp-guide.rst Chinese translation
->    [PATCH v2 1/5] docs/zh_CN: update maintainer-pgp-guide translation
->    [PATCH v2 2/5] docs/zh_CN: clarify free Nitrokey requirements
->    [PATCH v2 3/5] docs/zh_CN: update maintainer-pgp-guide kernel.org link
->    [PATCH v2 4/5] docs/zh_CN: add kernel.org trust repository reference
->    [PATCH v2 5/5] docs/zh_CN: remove empty proofreader field from maintainer PGP guide
->
->    Reviewed by Dongliang.
->    source:<20260823-maintainer-pgp-guide-v2-0-bea33b2ece54@wyuan.org>
-applied.
->
-> * Yan Zhu 2026-06-12
->    [PATCH 00/10]<cover.1781105672.git.zhuyan2015@qq.com>
->     # Msgid changed
->    [PATCH 00/10] docs/zh_CN: add LSM admin-guide Chinese translation
->                  https://lore.kernel.org/linux-doc/tencent_001080DF135CEE2CD1B260EFA08E3CC71A09@qq.com/
->    [PATCH 01/10] docs/zh_CN: add LSM/index Chinese translation
->    [PATCH 02/10] docs/zh_CN: add LSM/apparmor Chinese translation
->    [PATCH 03/10] docs/zh_CN: add LSM/LoadPin Chinese translation
->    [PATCH 04/10] docs/zh_CN: add LSM/SELinux Chinese translation
->    [PATCH 05/10] docs/zh_CN: add LSM/Smack Chinese translation
->    [PATCH 06/10] docs/zh_CN: add LSM/tomoyo Chinese translation
->    [PATCH 07/10] docs/zh_CN: add LSM/Yama Chinese translation
->    [PATCH 08/10] docs/zh_CN: add LSM/SafeSetID Chinese translation
->    [PATCH 09/10] docs/zh_CN: add LSM/ipe Chinese translation
->    [PATCH 10/10] docs/zh_CN: add LSM/landlock Chinese translation
->
->    Waiting for response.
->    cf.<895533d5-99d7-406e-acc2-1f8659075f91@hust.edu.cn>
->    cf.<440378d6-d72c-4edd-9159-582df02b49e6@hust.edu.cn>
->    cf.<e708b270-3adc-4c7e-a48d-9804faed6c44@hust.edu.cn>
->    source:<tencent_7080BF6BB8F05936649DDC091FFD8C45210A@qq.com>
->
-> -------------------------------------------------------------------
-> [Queuing] #zh_TW
->
-> Queuing for 7.5 merge window.
-> Currently here:https://github.com/kernel-zh/linux-zh_TW.git docs-next
-> If anyone has any objections, please let us know.
->
-> * Weijie Yuan 2026-10-30
->    [PATCH v2] docs/zh_TW: drop unused enforcement statement label
->
->    Will be queued after Chen-Yu's two new series land.
->    source:<auQwssHcQiM09SDd@wyuan.org>
-applied
->
->
-> * Chen-Yu Yeh 2026-09-29
->    [PATCH 0/3] docs/zh_TW: mark translations that are not kept in sync
->    [PATCH 1/3] docs/zh_TW: add a notice for translations not kept in sync
->    [PATCH 2/3] docs/zh_TW: mark translations outside the maintained set
->    [PATCH 3/3] docs/zh_TW: link filesystems/ and cpu-freq/ from the index
->
->    Acked by Weijie.
->    source:<20260929131142.266819-1-chenyou910331@gmail.com>
-applied
->
-> * Chen-Yu Yeh 2026-09-29
->    [PATCH] docs/zh_TW: remove the unreachable plain-text translations Chen-Yu Yeh
->
->    Acked by Weijie.
->    source:<20260929131109.266535-1-chenyou910331@gmail.com>
-applied
->
-> * Chen-Yu Yeh 2026-09-29
->    [PATCH 0/4] docs/zh_TW: relocate translations to follow the English layout
->    [PATCH 1/4] docs/zh_TW: move security-bugs to process/
->    [PATCH 2/4] docs/zh_TW: move magic-number to staging/
->    [PATCH 3/4] docs/zh_TW: move gdb-kernel-debugging to process/debugging/
->    [PATCH 4/4] docs/zh_TW: add missing :Original: fields
->
->    Reviewed by Weijie.
->    source:<20260929131020.266120-1-chenyou910331@gmail.com>
-applied
->
-> * Chen-Yu Yeh 2026-09-29
->    [PATCH v2 0/7] docs/zh_TW: remove duplicated maintainer contact information
->    [PATCH v2 1/7] docs/zh_TW: process: remove maintainer contact information
->    [PATCH v2 2/7] docs/zh_TW: admin-guide: remove maintainer contact information
->    [PATCH v2 3/7] docs/zh_TW: arch: remove maintainer contact information
->    [PATCH v2 4/7] docs/zh_TW: dev-tools: remove maintainer contact information
->    [PATCH v2 5/7] docs/zh_TW: filesystems: remove maintainer contact information
->    [PATCH v2 6/7] docs/zh_TW: cpu-freq: remove maintainer contact information
->    [PATCH v2 7/7] docs/zh_TW: remove the last maintainer contact references
->
->    Acked by Weijie.
->    source:<20260929115956.229610-1-chenyou910331@gmail.com>
-Applied.
->
-> -------------------------------------------------------------------
-> [Discarded]
->
-> * Yikun Wei 2026-11-15
->    [PATCH] docs/zh_CN: Add botching-up-ioctls translation
->
->    Replaced by a complete series.
->    source:<20261115125052.59015-1-YikunWei@126.com>
->
->
-> * Yikun Wei 2026-11-14
->    [PATCH] docs/zh_CN: Add backporting translation
->
->    Replaced by a complete series.
->    source:<20261114043633.7459-1-YikunWei@126.com>
->
->
-> * Yikun Wei 2026-11-13
->    [PATCH] docs/zh_CN: Add deprecated translation
->
->    Replaced by a complete series.
->    cf.<6a11fb6c-53f8-4804-859c-dcdb28ddce4b@hust.edu.cn>
->    source:<20261113122844.24838-1-YikunWei@126.com>
->
->
-> * Yikun Wei 2026-11-13
->    [PATCH] docs/zh_CN: Add contribution maturity model translation
->
->    Replaced by a complete series.
->    cf.<0b283f1a-d516-4fb6-b5bc-e3171d9c291a@hust.edu.cn>
->    source:<20261113112200.16790-1-YikunWei@126.com>
+Thinking about it more, the header move is not urgent, while this
+series has been iterated for a long time and fixes real problems, e.g.
+the swappiness 200 regression you mentioned. Making it depend on a
+code shuffle would only delay it.
+
+So if David doesn't object, I would suggest landing MGLRU-FG first,
+and doing the mm_inline.h split as a follow-up on top of it. That also
+avoids rebasing this large series onto a moving header. I am happy to
+work on the follow-up then, keeping the folio refs helpers in a public
+header for the fs users as you said.
+
+David, would that work for you?
+
+-- 
+Best regards
+Ridong
 
