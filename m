@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795793256;
-	b=IL1/D0Smwxrj46SUVsQhyoIVl6Gj7rN10cOBT/ZC8h67SCIE7wz8EgrRmAxnikZEkAUE
-	 /vvstmFfh+wlmhgQBkKTHjx3Bq3CIN4Q5vPE0Mo87/45GyWyhyip8Y+BJL5ZC8t1a5ecn
-	 NMrh/1HWJVUBqvcb91kjc0jVPUHK/hONqPYQYBqiNho7c0VEkBjnViLMiC2ISTftmVSpu
-	 Nz3xSd9glPbkxeUW1T419gZjLDNHICrfwGdELXSC5uhelto5tpwtcM9YNsIUx0mxsyoiR
-	 p2wWa+wdAAHs6aVX9WhBSmATMMKGTvvtxtHvdcy+JH5HUCgeFj/BU8GFnnAOCyXVUmw==
+	t=1795793257;
+	b=MXTRRkZOBMBjcEKWIAHpmOajaqBVjTvqW6GNKKcjfrnbHJZ05mxQbeUVhPYn5XrpKML6
+	 I5Z4OCKBvXnAdHjKQwbuFqhIKh0xVPFwiWQ95pdWtx/IcXWUDT7hr8TGMDORf/oskG0De
+	 qgILPYr+bNsJSyigsWZqdo5HDimIHFi67JBKJ5xja9WMBa/qAKPsG59QJmw/9vI3NUrLH
+	 4N5o/LDe0QZnEOJG4Dbz2wOglWhbav30FXL2JYcVqIsPmgwYbCtQU7iTrBmEHg0yF0M8X
+	 vYfBfK/JZlZpX4W9MFNYzNE8K+QEpcRatyPC6bJznHtB03a4w/dBeflhsR12tTSQ0qQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795793256;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795793257;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=b21IBx176tNT26CrcV+lAj1FVajl2noTGMquN5oHS2k=;
-	b=WrXRsvE3Gt4lOrwayRmhaWr7W/W8FP2UXCOyIVvjbAcTe1YQF+UmYHZT3iQ8v0A4yl5X
-	 HtctGAaiuHelpkAmJ6ehvpOQ99AEoM/yYXo/PKz/LC+2ANGjRSwdqb1jOUnDgieQInI1X
-	 7ABe8TEiWzNdz6ndpdi2FdgPxUTBeilqp8WhO8UTc2XOEKgQfvVOvAWAehpGQmCabme7H
-	 xQ5vgwn53d0Ef+2rfRaVj7k+oWUhJT85f70ZbZKP0z7nuLypreWx6slIWYNDyiHB9jcZ7
-	 vyGzClwMqVbn3Uzz1AZAIgtiSkvktLGS7SStu5bMVZUpJfkdo47MRHxO762ZjJ35dpA==
+	bh=TWmd9+GxWKlZ+gfuxLpEDFCj6tyXaab+RqmwaOj/H9I=;
+	b=zR0azfkvEd25fwZYLwjjrJbzbPdA9ConP5/ldm/0/gcO0lLq4gMpgqOHcY4GmpSC+wz2
+	 C1fn098s4aETsB2mbicc8OHaHb8qqFdVVcN9ljEYCkqeb/CkYwXPUqr0Gh71lhBI9OGFG
+	 JXDR342lNMyL/CwEpbfWvaSE4K7OUK/YhcjmbEY9tc3PXcqpv64dMhUYaykQn/MawsAYp
+	 kGM48PBTbK6lrvsE8hxOusAafPHnVZjbibYxZDJpOjdrCjFkMGlRsY0+G0mUHp64R+a/b
+	 BuJ7PGyLNC3HRZr3P50zKddtyaCW/L15ZaasG0vTfsiRdyTPGcIwCdJZL/zNo3Oy62w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=eS88KzN3;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=BC5BzPv8;
 	arc=none smtp.remote-ip=90.155.50.34
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED97606A31F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE4E606A326;
 	Fri, 27 Nov 2026 15:27:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2ED97606A31F
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EE4E606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=eS88KzN3
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=BC5BzPv8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=b21IBx176tNT26CrcV+lAj1FVajl2noTGMquN5oHS2k=; b=eS88KzN37mbA/gyleS0bA4FRCT
-	tn34jW9YU7AMC3QOnsOvj2l1GuXRrFmzxbX725k2s4GyYzjpHH6p3vDpjKRPpLmipoOE1axEr8q+7
-	p8BBqHsCyM4JBpM+PgmhHZe73jwcQwER9gMH7Pflc0xnxq7PxCWwITl5GuTCB5lkJ9bQK4Cdb6oLK
-	DeS6uE1ZaE0svLQlXcUdfJil2X3j3tHu6yZ6K+6WzubWyNsGB85d9dVnhKPd36S/mX7pvJUEJMSTr
-	jBpmo4ItXiBLz2ck7CaiEQ40X+6gmSCvkV6d1gTlij46/0NdPA6xCuqILuKq9YgMdooUTE+cDL7o7
-	pVNMViww==;
+	bh=TWmd9+GxWKlZ+gfuxLpEDFCj6tyXaab+RqmwaOj/H9I=; b=BC5BzPv86RpYvckCraBvRDkVGF
+	sCDFwNfkqL63P7HoXzrqKf6F70ojoHzaGqvUQBn2OcEncaAPng7nHG3zxkBCp+fjVM3O9Mo1rPl16
+	EuykgxPXZxmVnXJYW/jtqGAJtsiZLaoS+N1jov5tRNLysx7FRfemOjzqqW8SoqKudLOR8SUvOhWlm
+	fRDPTwrMrEhpqs75MeSgLAAivCjXg0oAl5smDvt2CSX8Qp4Y1S8y74yNwH2d3sEohKZxeziQbTfDI
+	CZzbGL2EOtBHtYV9VxZA5dAFgsdp8Q4tGyjFuHAeBbptEXVMiShD0SY/AQRLlHdj+h6xeGkNKBorl
+	QlwJiFpQ==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWxrG-0000000Gy1V-2RVf;
-	Fri, 27 Nov 2026 15:27:30 +0000
+	id 1xWxrG-0000000Gy3R-3uqJ;
+	Fri, 27 Nov 2026 15:27:31 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xWxrG-00000000PqA-1Flc;
+	id 1xWxrG-00000000Pqi-2y2s;
 	Fri, 27 Nov 2026 15:27:30 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
@@ -89,9 +89,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Liran Alon <liran.alon@oracle.com>,
 	Arbel Moshe <arbel.moshe@oracle.com>,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH v3 03/15] KVM: x86: Let userspace leave an MSR access alone
-Date: Fri, 27 Nov 2026 15:27:18 +0000
-Message-ID: <20261127152730.99319-4-dwmw2@infradead.org>
+Subject: [PATCH v3 11/15] KVM: VMX: Support CR0 and CR4 write filters
+Date: Fri, 27 Nov 2026 15:27:26 +0000
+Message-ID: <20261127152730.99319-12-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261127152730.99319-1-dwmw2@infradead.org>
 References: <20261127152730.99319-1-dwmw2@infradead.org>
@@ -110,255 +110,454 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-A VMM completing KVM_EXIT_X86_RDMSR or KVM_EXIT_X86_WRMSR can only have
-KVM retire the instruction or inject #GP.  It cannot raise another
-exception, or hand the access to something which retires it later.
+Add the vendor hook which applies a changed filter.  VMX makes filtered
+bits host-owned in vmcs01 so that writes to them exit, and checks the
+filter in handle_cr().  CLTS can exit again, so it is only a KVM_BUG
+when no filter explains it.  When bits change owner, read them from the
+guest first and refresh the read shadows.
 
-With KVM_CAP_X86_MSR_EXIT_INSN, 'error' takes KVM_INSN_*: zero and one
-mean what they did, KVM_INSN_UD injects #UD and KVM_INSN_RESUME makes
-KVM do nothing.  Other values fail KVM_RUN.
+L2 is not filtered.  With a CR4 filter armed, nested entry recomputes
+CR4 ownership for a clean vmcs12 too, which prepare_vmcs02_rare() skips.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- Documentation/virt/kvm/api.rst  | 34 ++++++++++++++-
- arch/x86/include/asm/kvm_host.h |  2 +
- arch/x86/kvm/msrs.c             | 75 ++++++++++++++++++++++++++-------
- arch/x86/kvm/x86.c              |  8 ++++
- include/uapi/linux/kvm.h        |  3 +-
- 5 files changed, 105 insertions(+), 17 deletions(-)
+ Documentation/virt/kvm/api.rst     |  28 ++++++--
+ arch/x86/include/asm/kvm-x86-ops.h |   1 +
+ arch/x86/include/asm/kvm_host.h    |   7 ++
+ arch/x86/kvm/vmx/main.c            |  13 ++++
+ arch/x86/kvm/vmx/nested.c          |  27 +++++--
+ arch/x86/kvm/vmx/vmx.c             | 109 +++++++++++++++++++++++++++--
+ arch/x86/kvm/vmx/vmx.h             |  14 +++-
+ arch/x86/kvm/vmx/x86_ops.h         |   1 +
+ arch/x86/kvm/x86.c                 |   3 +
+ 9 files changed, 187 insertions(+), 16 deletions(-)
 
 diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index d15dddd79e5b..6d4a11ce368c 100644
+index 561d90c3b2d8..a5192d1ca599 100644
 --- a/Documentation/virt/kvm/api.rst
 +++ b/Documentation/virt/kvm/api.rst
-@@ -7441,7 +7441,7 @@ non-zero value, indicating that FEAT_LS64* is enabled.
+@@ -6819,16 +6819,19 @@ and zero on the fd of a VM on which no filter can be armed (see below).
+ The classes are:
  
- 		/* KVM_EXIT_X86_RDMSR / KVM_EXIT_X86_WRMSR */
- 		struct {
--			__u8 error; /* user -> kernel */
-+			__u8 error; /* in: KVM_INSN_* */
- 			__u8 pad[7];
- 			__u32 reason; /* kernel -> user */
- 			__u32 index; /* kernel -> user */
-@@ -7477,6 +7477,17 @@ wants to write. Once finished processing the event, userspace must continue
- vCPU execution. If the MSR write was unsuccessful, userspace also sets the
- "error" field to "1".
+   ========================== ============================================
++  KVM_X86_REG_FILTER_CR0     CR0, written by MOV to CR0, CLTS and LMSW
++  KVM_X86_REG_FILTER_CR4     CR4, written by MOV to CR4
+   KVM_X86_REG_FILTER_XCR0    XCR0, written by XSETBV
+   ========================== ============================================
  
-+Any non-zero "error" injects the #GP, unless KVM_CAP_X86_MSR_EXIT_INSN
-+is enabled.  "error" then takes one of the KVM_INSN_* values (see
-+:ref:`the description of completion <kvm_insn_action>`), of which zero
-+and one are the success and the #GP described above.  KVM_INSN_UD
-+injects #UD instead, and KVM_INSN_RESUME tells KVM to do nothing for the
-+access: "data" is ignored, no register is written, nothing is injected
-+and RIP is left alone.  For a guest whose register state is protected
-+(SEV-ES, SEV-SNP and TDX, a debuggable TD included) KVM can neither
-+leave the access unanswered nor inject #UD, and every non-zero value
-+fails the access like KVM_INSN_GP, with or without the capability.
-+
- See KVM_X86_SET_MSR_FILTER for details on the interaction with MSR filtering.
+ Only writes executed by the guest are filtered.  Writes from userspace
+-(KVM_SET_SREGS, KVM_SET_XCRS and similar) and state loaded by RSM, INIT
+-or SIPI do not trigger the filter.  Writes executed by a nested guest do
+-not trigger the filter, whether or not L1 intercepts them: they change
+-the nested guest's register.  XCR0 is the exception, because L1 and its
+-nested guest share it: an XSETBV which L1 lets the nested guest execute
+-is filtered like L1's own, and the exit is then taken with
++(KVM_SET_SREGS, KVM_SET_XCRS and similar), CR0/CR4 loads performed as
++part of VM entry and VM exit of a nested guest, and state loaded by RSM,
++INIT or SIPI do not trigger the filter.  Writes executed by a nested
++guest do not trigger the filter, whether or not L1 intercepts them: they
++change the nested guest's register.  XCR0 is the exception, because L1
++and its nested guest share it: an XSETBV which L1 lets the nested guest
++execute is filtered like L1's own, and the exit is then taken with
+ KVM_RUN_X86_GUEST_MODE set in kvm_run.flags.
  
- ::
-@@ -9231,6 +9242,27 @@ enabled, cmma can't be enabled anymore and pfmfi and the storage key
- interpretation are disabled. If cmma has already been enabled or the
- hpage_2g module parameter is not set to 1, -EINVAL is returned.
+ Writes executed in System Management Mode do not trigger the filter
+@@ -6840,6 +6843,19 @@ area, so a VMM which arms a filter against the guest's kernel has to
+ keep that kernel out of SMRAM, with the SMM address space
+ (KVM_CAP_MULTI_ADDRESS_SPACE) and firmware which locks it.
  
-+7.48 KVM_CAP_X86_MSR_EXIT_INSN
-+------------------------------
++Nor does a control register load which the guest brings about without
++writing the register.  A hardware task switch sets CR0.TS; it can only
++set that bit, and there is no task switch in 64-bit mode, so a filter on
++CR0.PG keeps it away from a 64-bit guest.  With VMX exposed to the
++guest, a nested VM-exit loads CR0 and CR4 from the host-state fields of
++the VMCS, which the guest writes.  A VMM which arms a CR0 or CR4 filter
++against the guest's kernel has to accept those, or not expose VMX.
 +
-+:Architectures: x86
-+:Target: VM
-+:Parameters: args[0] is 1 to enable, 0 to disable
-+:Returns: 0 on success, -EINVAL if args[0] is any other value
++Filtering a CR0 or CR4 bit that KVM otherwise lets the guest own (for
++example CR0.TS) forces interception of writes to that register, with the
++attendant cost on write-heavy bits; the per-bit mask exists so that only
++the bits userspace actually cares about pay it.
 +
-+With this capability enabled, the "error" field of every
-+KVM_EXIT_X86_RDMSR and KVM_EXIT_X86_WRMSR exit takes a KVM_INSN_* value,
-+whichever of the KVM_MSR_EXIT_REASON_* reasons caused the exit.
-+KVM_INSN_UD, and KVM_INSN_RESUME, which leaves the access for userspace
-+to resolve, become available, and other values fail KVM_RUN with -EINVAL
-+instead of injecting #GP.  It is disabled by default because existing
-+VMMs may pass any non-zero value for a failed access.  The capability
-+has no effect on which accesses exit; that is still selected with
-+KVM_CAP_X86_USER_SPACE_MSR and KVM_X86_SET_MSR_FILTER.
-+
-+A guest whose register state is protected is the exception: see the
-+description of those exits.
-+
- 8. Other capabilities.
- ======================
+ The ioctl fails with -EINVAL if ``reg`` or any ``mask`` bit is not
+ supported, or if ``flags`` or ``reserved`` are not zero.
  
+diff --git a/arch/x86/include/asm/kvm-x86-ops.h b/arch/x86/include/asm/kvm-x86-ops.h
+index 4dde4e3e608a..1e98d1c98303 100644
+--- a/arch/x86/include/asm/kvm-x86-ops.h
++++ b/arch/x86/include/asm/kvm-x86-ops.h
+@@ -143,6 +143,7 @@ KVM_X86_OP(check_emulate_instruction)
+ KVM_X86_OP(apic_init_signal_blocked)
+ KVM_X86_OP_OPTIONAL(enable_l2_tlb_flush)
+ KVM_X86_OP_OPTIONAL(migrate_timers)
++KVM_X86_OP_OPTIONAL(update_reg_write_filter)
+ KVM_X86_OP(recalc_intercepts)
+ KVM_X86_OP(complete_emulated_msr)
+ KVM_X86_OP(vcpu_deliver_sipi_vector)
 diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 1ee4b127004d..0e8150116e20 100644
+index 437e89ca93e1..3e0365f5557a 100644
 --- a/arch/x86/include/asm/kvm_host.h
 +++ b/arch/x86/include/asm/kvm_host.h
-@@ -1297,6 +1297,8 @@ struct kvm_arch {
- 	 * the opportunity to look at it.
+@@ -1745,6 +1745,13 @@ struct kvm_x86_ops {
+ 	int (*enable_l2_tlb_flush)(struct kvm_vcpu *vcpu);
+ 
+ 	void (*migrate_timers)(struct kvm_vcpu *vcpu);
++
++	/*
++	 * A register write filter changed: bring the interception which the
++	 * armed filters need in line with vcpu->arch.reg_write_filter.
++	 */
++	void (*update_reg_write_filter)(struct kvm_vcpu *vcpu);
++
+ 	void (*recalc_intercepts)(struct kvm_vcpu *vcpu);
+ 	int (*complete_emulated_msr)(struct kvm_vcpu *vcpu, int err);
+ 
+diff --git a/arch/x86/kvm/vmx/main.c b/arch/x86/kvm/vmx/main.c
+index d75170a6199e..f902b0afabc9 100644
+--- a/arch/x86/kvm/vmx/main.c
++++ b/arch/x86/kvm/vmx/main.c
+@@ -219,6 +219,18 @@ static int vt_complete_emulated_msr(struct kvm_vcpu *vcpu, int err)
+ 	return vmx_complete_emulated_msr(vcpu, err);
+ }
+ 
++static void vt_update_reg_write_filter(struct kvm_vcpu *vcpu)
++{
++	/*
++	 * KVM_X86_SET_REG_WRITE_FILTER refuses to arm a filter on a VM with
++	 * protected state, so there is never anything to apply for TDX.
++	 */
++	if (is_td_vcpu(vcpu))
++		return;
++
++	vmx_update_reg_write_filter(vcpu);
++}
++
+ #ifdef CONFIG_KVM_SMM
+ static int vt_smi_allowed(struct kvm_vcpu *vcpu, bool for_injection)
+ {
+@@ -1137,6 +1149,7 @@ struct kvm_x86_ops vt_x86_ops __initdata = {
+ 	.check_emulate_instruction = vt_op(check_emulate_instruction),
+ 	.apic_init_signal_blocked = vt_op(apic_init_signal_blocked),
+ 	.migrate_timers = vmx_migrate_timers,
++	.update_reg_write_filter = vt_op(update_reg_write_filter),
+ 
+ 	.recalc_intercepts = vt_op(recalc_intercepts),
+ 	.complete_emulated_msr = vt_op(complete_emulated_msr),
+diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
+index 879183c1bfa5..cd1083b2c344 100644
+--- a/arch/x86/kvm/vmx/nested.c
++++ b/arch/x86/kvm/vmx/nested.c
+@@ -2805,9 +2805,24 @@ static int prepare_vmcs02(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12,
+ 	 * trap. Note that CR0.TS also needs updating - we do this later.
  	 */
- 	bool exit_on_emulation_error;
-+	/* msr.error takes KVM_INSN_*, see KVM_CAP_X86_MSR_EXIT_INSN */
-+	bool user_space_msr_insn;
+ 	vmx_update_exception_bitmap(vcpu);
+-	vcpu->arch.cr0_guest_owned_bits &= ~vmcs12->cr0_guest_host_mask;
++	/*
++	 * Recompute from scratch rather than narrowing the current (vmcs01)
++	 * value: a register write filter (KVM_X86_SET_REG_WRITE_FILTER)
++	 * forces its bits host-owned there, but covers only L1's writes.
++	 */
++	vcpu->arch.cr0_guest_owned_bits = vmx_guest_owned_cr0_bits() &
++					  ~vmcs12->cr0_guest_host_mask;
+ 	vmcs_writel(CR0_GUEST_HOST_MASK, ~vcpu->arch.cr0_guest_owned_bits);
  
- 	/* Deflect RDMSR and WRMSR to user space when they trigger a #GP */
- 	u32 user_space_msr_mask;
-diff --git a/arch/x86/kvm/msrs.c b/arch/x86/kvm/msrs.c
-index e91650af44c2..6b1b93592c2e 100644
---- a/arch/x86/kvm/msrs.c
-+++ b/arch/x86/kvm/msrs.c
-@@ -952,12 +952,40 @@ fastpath_t handle_fastpath_wrmsr_imm(struct kvm_vcpu *vcpu, u32 msr, int reg)
++	/*
++	 * Likewise for CR4, which prepare_vmcs02_rare() computes only when
++	 * vmcs12 is dirty: the nested VM-exit left L1's set behind, which
++	 * with a filter armed has fewer bits than vmcs02 lets L2 own, and
++	 * KVM would then not read such a bit back from GUEST_CR4.
++	 */
++	if (vcpu->arch.reg_write_filter[KVM_X86_REG_FILTER_CR4])
++		set_cr4_guest_host_mask(vmx);
++
+ 	if (vcpu->arch.nested_run_pending &&
+ 	    (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_IA32_PAT)) {
+ 		vmcs_write64(GUEST_IA32_PAT, vmcs12->guest_ia32_pat);
+@@ -4823,10 +4838,11 @@ static void load_vmcs12_host_state(struct kvm_vcpu *vcpu,
+ 	 * Note that calling vmx_set_cr0 is important, even if cr0 hasn't
+ 	 * actually changed, because vmx_set_cr0 refers to efer set above.
+ 	 *
+-	 * CR0_GUEST_HOST_MASK is already set in the original vmcs01
+-	 * (KVM doesn't change it);
++	 * CR0_GUEST_HOST_MASK is already correct in vmcs01:
++	 * __nested_vmx_vmexit() refreshed it after switching back, in case
++	 * a register write filter changed while vmcs02 was loaded.
+ 	 */
+-	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits();
++	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits(vcpu);
+ 	vmx_set_cr0(vcpu, vmcs12->host_cr0);
+ 
+ 	/* Same as above - no reason to call set_cr4_guest_host_mask().  */
+@@ -4992,7 +5008,7 @@ static void nested_vmx_restore_host_state(struct kvm_vcpu *vcpu)
+ 	 */
+ 	vmx_set_efer(vcpu, nested_vmx_get_vmcs01_guest_efer(vmx));
+ 
+-	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits();
++	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits(vcpu);
+ 	vmx_set_cr0(vcpu, vmcs_readl(CR0_READ_SHADOW));
+ 
+ 	vcpu->arch.cr4_guest_owned_bits = ~vmcs_readl(CR4_GUEST_HOST_MASK);
+@@ -5172,6 +5188,7 @@ void __nested_vmx_vmexit(struct kvm_vcpu *vcpu, u32 vm_exit_reason,
+ 	 * Update any VMCS fields that might have changed while vmcs02 was the
+ 	 * active VMCS.  The tracking is per-vCPU, not per-VMCS.
+ 	 */
++	vmx_refresh_reg_write_filter(vcpu);
+ 	vmcs_write32(VM_EXIT_MSR_STORE_COUNT, vmx->msr_autostore.nr);
+ 	vmcs_write32(VM_EXIT_MSR_LOAD_COUNT, vmx->msr_autoload.host.nr);
+ 	vmcs_write32(VM_ENTRY_MSR_LOAD_COUNT, vmx->msr_autoload.guest.nr);
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index aeae8eedd19f..d785bcf52a3f 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -4563,12 +4563,69 @@ void set_cr4_guest_host_mask(struct vcpu_vmx *vmx)
+ 		vcpu->arch.cr4_guest_owned_bits &= ~X86_CR4_TLBFLUSH_BITS;
+ 		vcpu->arch.cr4_guest_owned_bits &= ~X86_CR4_PDPTR_BITS;
+ 	}
+-	if (is_guest_mode(&vmx->vcpu))
++	if (is_guest_mode(&vmx->vcpu)) {
+ 		vcpu->arch.cr4_guest_owned_bits &=
+ 			~get_vmcs12(vcpu)->cr4_guest_host_mask;
++	} else {
++		/*
++		 * A write filter (KVM_X86_SET_REG_WRITE_FILTER) forces
++		 * interception of L1's writes to the filtered bits.  It
++		 * covers only L1, so the vmcs02 mask is left alone.
++		 */
++		vcpu->arch.cr4_guest_owned_bits &=
++			~vcpu->arch.reg_write_filter[KVM_X86_REG_FILTER_CR4];
++	}
+ 	vmcs_writel(CR4_GUEST_HOST_MASK, ~vcpu->arch.cr4_guest_owned_bits);
  }
- EXPORT_SYMBOL_FOR_KVM_INTERNAL(handle_fastpath_wrmsr_imm);
  
 +/*
-+ * Act on what userspace answered in msr.error.  Returns 1 if nothing is left
-+ * to do for the access, or -EINVAL; otherwise 0, with @fail set for the
-+ * common completion, which retires the instruction or injects #GP by
-+ * whatever means the guest needs.
++ * Refresh the interception that the register write filter needs: a
++ * filtered CR0/CR4 bit must be host-owned in the vmcs01 guest/host masks
++ * so that the guest's writes to it actually exit.  For vmcs01, which must
++ * be loaded.
 + *
-+ * Without KVM_CAP_X86_MSR_EXIT_INSN any error is a #GP.  So it is for a
-+ * guest with protected state, which kvm_insn_uncompleted() only completes.
++ * This is all a nested VM-exit needs, for a filter which changed while
++ * vmcs02 was loaded: it loads L1's CR0 and CR4 afresh.
 + */
-+static int kvm_msr_exit_answer(struct kvm_vcpu *vcpu, bool *fail)
++void vmx_refresh_reg_write_filter(struct kvm_vcpu *vcpu)
 +{
-+	u8 error = READ_ONCE(vcpu->run->msr.error);
-+
-+	*fail = error;
-+
-+	if (!vcpu->kvm->arch.user_space_msr_insn ||
-+	    error == KVM_INSN_COMPLETE || error == KVM_INSN_GP)
-+		return 0;
-+
-+	return kvm_insn_uncompleted(vcpu, error);
++	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits(vcpu);
++	vmcs_writel(CR0_GUEST_HOST_MASK, ~vcpu->arch.cr0_guest_owned_bits);
++	set_cr4_guest_host_mask(to_vmx(vcpu));
 +}
 +
- static void complete_userspace_rdmsr(struct kvm_vcpu *vcpu)
++/*
++ * A filter changed.  While vmcs02 is loaded there is nothing to do yet:
++ * __nested_vmx_vmexit() refreshes vmcs01 after switching back.
++ */
++void vmx_update_reg_write_filter(struct kvm_vcpu *vcpu)
++{
++	struct vcpu_vmx *vmx = to_vmx(vcpu);
++	unsigned long cr0, cr4;
++
++	if (vmx->loaded_vmcs != &vmx->vmcs01)
++		return;
++
++	/*
++	 * The guest changes the bits it owns without an exit, and KVM reads
++	 * them back from GUEST_CR0/GUEST_CR4 only on demand, and only those
++	 * it knows the guest to own.  Read them all before any changes
++	 * owner, or the cached value of such a bit stays stale for ever.
++	 */
++	cr0 = kvm_read_cr0(vcpu);
++	cr4 = kvm_read_cr4(vcpu);
++
++	vmx_refresh_reg_write_filter(vcpu);
++
++	/*
++	 * The guest reads a bit which the host owns from the read shadow,
++	 * and CLTS and LMSW exit or not by it: it has to hold the current
++	 * value of the bits which the host has just taken.
++	 */
++	vmcs_writel(CR0_READ_SHADOW, cr0);
++	vmcs_writel(CR4_READ_SHADOW, cr4);
++}
++
+ static u32 vmx_pin_based_exec_ctrl(struct vcpu_vmx *vmx)
  {
--	if (!vcpu->run->msr.error) {
--		kvm_eax_write(vcpu, vcpu->run->msr.data);
--		kvm_edx_write(vcpu, vcpu->run->msr.data >> 32);
--	}
-+	u64 data = READ_ONCE(vcpu->run->msr.data);
-+
-+	kvm_eax_write(vcpu, data);
-+	kvm_edx_write(vcpu, data >> 32);
-+}
-+
-+static void complete_userspace_rdmsr_imm(struct kvm_vcpu *vcpu)
-+{
-+	kvm_register_write(vcpu, vcpu->arch.cui_rdmsr_imm_reg,
-+			   READ_ONCE(vcpu->run->msr.data));
- }
+ 	u32 pin_based_exec_ctrl = vmcs_config.pin_based_exec_ctrl;
+@@ -4976,7 +5033,7 @@ static void init_vmcs(struct kvm_vcpu *vcpu)
+ 	/* 22.2.1, 20.8.1 */
+ 	vm_entry_controls_set(vmx, vmx_get_initial_vmentry_ctrl());
  
- static int complete_emulated_insn_gp(struct kvm_vcpu *vcpu, int err)
-@@ -971,35 +999,52 @@ static int complete_emulated_insn_gp(struct kvm_vcpu *vcpu, int err)
- 				       EMULTYPE_COMPLETE_USER_EXIT);
+-	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits();
++	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits(vcpu);
+ 	vmcs_writel(CR0_GUEST_HOST_MASK, ~vcpu->arch.cr0_guest_owned_bits);
+ 
+ 	set_cr4_guest_host_mask(vmx);
+@@ -5680,6 +5737,21 @@ static int handle_desc(struct kvm_vcpu *vcpu)
+ 	return kvm_emulate_instruction(vcpu, 0);
  }
  
 +/*
-+ * The one completion of an MSR exit: @emulated says whether the emulator or
-+ * an intercept raised it, and @result writes what a successful read returned.
++ * Send an intercepted write which a register write filter catches to
++ * userspace instead of performing it.
 + */
-+static int complete_msr_access(struct kvm_vcpu *vcpu, bool emulated,
-+			       void (*result)(struct kvm_vcpu *vcpu))
++static bool vmx_reg_write_filtered(struct kvm_vcpu *vcpu, u32 reg,
++				   unsigned long old, unsigned long val)
 +{
-+	bool fail;
-+	int r;
++	if (!kvm_reg_write_filtered(vcpu, reg, old, val))
++		return false;
 +
-+	r = kvm_msr_exit_answer(vcpu, &fail);
-+	if (r)
-+		return r;
-+
-+	if (!fail && result)
-+		result(vcpu);
-+
-+	if (emulated)
-+		return complete_emulated_insn_gp(vcpu, fail);
-+
-+	return kvm_x86_call(complete_emulated_msr)(vcpu, fail);
++	kvm_reg_write_user_space(vcpu, reg, old, val,
++				 vmcs_read32(VM_EXIT_INSTRUCTION_LEN));
++	return true;
 +}
 +
- static int complete_emulated_msr_access(struct kvm_vcpu *vcpu)
+ static int handle_cr(struct kvm_vcpu *vcpu)
  {
--	return complete_emulated_insn_gp(vcpu, vcpu->run->msr.error);
-+	return complete_msr_access(vcpu, true, NULL);
+ 	unsigned long exit_qualification, val;
+@@ -5697,6 +5769,9 @@ static int handle_cr(struct kvm_vcpu *vcpu)
+ 		trace_kvm_cr_write(cr, val);
+ 		switch (cr) {
+ 		case 0:
++			if (vmx_reg_write_filtered(vcpu, KVM_X86_REG_FILTER_CR0,
++						   kvm_read_cr0(vcpu), val))
++				return 0;
+ 			err = handle_set_cr0(vcpu, val);
+ 			return kvm_complete_insn_gp(vcpu, err);
+ 		case 3:
+@@ -5705,6 +5780,9 @@ static int handle_cr(struct kvm_vcpu *vcpu)
+ 			err = kvm_set_cr3(vcpu, val);
+ 			return kvm_complete_insn_gp(vcpu, err);
+ 		case 4:
++			if (vmx_reg_write_filtered(vcpu, KVM_X86_REG_FILTER_CR4,
++						   kvm_read_cr4(vcpu), val))
++				return 0;
+ 			err = handle_set_cr4(vcpu, val);
+ 			return kvm_complete_insn_gp(vcpu, err);
+ 		case 8: {
+@@ -5727,8 +5805,23 @@ static int handle_cr(struct kvm_vcpu *vcpu)
+ 		}
+ 		break;
+ 	case 2: /* clts */
+-		KVM_BUG(1, vcpu->kvm, "Guest always owns CR0.TS");
+-		return -EIO;
++		val = kvm_read_cr0(vcpu);
++		/* Trace the write whether or not it is filtered, as for MOV. */
++		trace_kvm_cr_write(0, val & ~X86_CR0_TS);
++		if (vmx_reg_write_filtered(vcpu, KVM_X86_REG_FILTER_CR0,
++					   val, val & ~X86_CR0_TS))
++			return 0;
++		/*
++		 * The guest owns CR0.TS unless a write filter on it forced
++		 * it host-owned, and the filter never reaches into vmcs02.
++		 */
++		if (KVM_BUG(is_guest_mode(vcpu) ||
++			    !(vcpu->arch.reg_write_filter[KVM_X86_REG_FILTER_CR0] &
++			      X86_CR0_TS), vcpu->kvm, "Unexpected CLTS exit"))
++			return -EIO;
++
++		err = kvm_set_cr0(vcpu, val & ~X86_CR0_TS);
++		return kvm_complete_insn_gp(vcpu, err);
+ 	case 1: /*mov from cr*/
+ 		switch (cr) {
+ 		case 3:
+@@ -5748,6 +5841,10 @@ static int handle_cr(struct kvm_vcpu *vcpu)
+ 	case 3: /* lmsw */
+ 		val = (exit_qualification >> LMSW_SOURCE_DATA_SHIFT) & 0x0f;
+ 		trace_kvm_cr_write(0, (kvm_read_cr0_bits(vcpu, ~0xful) | val));
++		if (vmx_reg_write_filtered(vcpu, KVM_X86_REG_FILTER_CR0,
++					   kvm_read_cr0(vcpu),
++					   kvm_read_cr0_bits(vcpu, ~0x0eul) | val))
++			return 0;
+ 		kvm_lmsw(vcpu, val);
+ 
+ 		return kvm_skip_emulated_instruction(vcpu);
+@@ -8648,6 +8745,10 @@ __init int vmx_hardware_setup(void)
+ 	kvm_caps.has_bus_lock_exit = cpu_has_vmx_bus_lock_detection();
+ 	kvm_caps.has_notify_vmexit = cpu_has_notify_vmexit();
+ 
++	/* The guest/host masks can force any CR0/CR4 bit host-owned. */
++	kvm_caps.supported_reg_write_filter |= BIT(KVM_X86_REG_FILTER_CR0) |
++					       BIT(KVM_X86_REG_FILTER_CR4);
++
+ 	set_bit(0, vmx_vpid_bitmap); /* 0 is reserved for host */
+ 
+ 	if (enable_ept)
+diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
+index 74cd50f29fa4..80b17d69f9c1 100644
+--- a/arch/x86/kvm/vmx/vmx.h
++++ b/arch/x86/kvm/vmx/vmx.h
+@@ -315,6 +315,7 @@ int vmx_set_efer(struct kvm_vcpu *vcpu, u64 efer);
+ void vmx_set_cr0(struct kvm_vcpu *vcpu, unsigned long cr0);
+ void vmx_set_cr4(struct kvm_vcpu *vcpu, unsigned long cr4);
+ void set_cr4_guest_host_mask(struct vcpu_vmx *vmx);
++void vmx_refresh_reg_write_filter(struct kvm_vcpu *vcpu);
+ void ept_save_pdptrs(struct kvm_vcpu *vcpu);
+ void vmx_get_segment(struct kvm_vcpu *vcpu, struct kvm_segment *var, int seg);
+ void __vmx_set_segment(struct kvm_vcpu *vcpu, struct kvm_segment *var, int seg);
+@@ -592,7 +593,7 @@ BUILD_CONTROLS_SHADOW(tertiary_exec, TERTIARY_VM_EXEC_CONTROL, 64)
+ 				 BIT(VCPU_REG_EXIT_INFO_1) |	\
+ 				 BIT(VCPU_REG_EXIT_INFO_2))
+ 
+-static inline unsigned long vmx_l1_guest_owned_cr0_bits(void)
++static inline unsigned long vmx_guest_owned_cr0_bits(void)
+ {
+ 	unsigned long bits = KVM_POSSIBLE_CR0_GUEST_BITS;
+ 
+@@ -610,6 +611,17 @@ static inline unsigned long vmx_l1_guest_owned_cr0_bits(void)
+ 	return bits;
  }
  
- static int complete_emulated_rdmsr(struct kvm_vcpu *vcpu)
++static inline unsigned long vmx_l1_guest_owned_cr0_bits(struct kvm_vcpu *vcpu)
++{
++	/*
++	 * A write filter (KVM_X86_SET_REG_WRITE_FILTER) forces interception
++	 * of L1's writes to the filtered bits.  It covers only L1:
++	 * prepare_vmcs02() computes the nested masks without it.
++	 */
++	return vmx_guest_owned_cr0_bits() &
++	       ~vcpu->arch.reg_write_filter[KVM_X86_REG_FILTER_CR0];
++}
++
+ static __always_inline struct kvm_vmx *to_kvm_vmx(struct kvm *kvm)
  {
--	complete_userspace_rdmsr(vcpu);
--	return complete_emulated_msr_access(vcpu);
-+	return complete_msr_access(vcpu, true, complete_userspace_rdmsr);
- }
- 
- static int complete_fast_msr_access(struct kvm_vcpu *vcpu)
- {
--	return kvm_x86_call(complete_emulated_msr)(vcpu, vcpu->run->msr.error);
-+	return complete_msr_access(vcpu, false, NULL);
- }
- 
- static int complete_fast_rdmsr(struct kvm_vcpu *vcpu)
- {
--	complete_userspace_rdmsr(vcpu);
--	return complete_fast_msr_access(vcpu);
-+	return complete_msr_access(vcpu, false, complete_userspace_rdmsr);
- }
- 
- static int complete_fast_rdmsr_imm(struct kvm_vcpu *vcpu)
- {
--	if (!vcpu->run->msr.error)
--		kvm_register_write(vcpu, vcpu->arch.cui_rdmsr_imm_reg,
--				   vcpu->run->msr.data);
--
--	return complete_fast_msr_access(vcpu);
-+	return complete_msr_access(vcpu, false, complete_userspace_rdmsr_imm);
- }
- 
- static u64 kvm_msr_reason(int r)
+ 	return container_of(kvm, struct kvm_vmx, kvm);
+diff --git a/arch/x86/kvm/vmx/x86_ops.h b/arch/x86/kvm/vmx/x86_ops.h
+index cd72684d075d..0da766f1998f 100644
+--- a/arch/x86/kvm/vmx/x86_ops.h
++++ b/arch/x86/kvm/vmx/x86_ops.h
+@@ -45,6 +45,7 @@ int vmx_check_intercept(struct kvm_vcpu *vcpu,
+ 			struct x86_exception *exception);
+ bool vmx_apic_init_signal_blocked(struct kvm_vcpu *vcpu);
+ void vmx_migrate_timers(struct kvm_vcpu *vcpu);
++void vmx_update_reg_write_filter(struct kvm_vcpu *vcpu);
+ void vmx_set_virtual_apic_mode(struct kvm_vcpu *vcpu);
+ void vmx_hwapic_isr_update(struct kvm_vcpu *vcpu, int max_isr);
+ int vmx_sync_pir_to_irr(struct kvm_vcpu *vcpu);
 diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 26e7beaff8a0..31c6759f38b9 100644
+index 4e6f0cb80288..7fe4b559ed73 100644
 --- a/arch/x86/kvm/x86.c
 +++ b/arch/x86/kvm/x86.c
-@@ -2276,6 +2276,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_SET_GUEST_DEBUG:
- 	case KVM_CAP_LAST_CPU:
- 	case KVM_CAP_X86_USER_SPACE_MSR:
-+	case KVM_CAP_X86_MSR_EXIT_INSN:
- 	case KVM_CAP_X86_MSR_FILTER:
- 	case KVM_CAP_ENFORCE_PV_FEATURE_CPUID:
- #ifdef CONFIG_X86_SGX_KVM
-@@ -4091,6 +4092,13 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
- 		kvm->arch.user_space_msr_mask = cap->args[0];
- 		r = 0;
- 		break;
-+	case KVM_CAP_X86_MSR_EXIT_INSN:
-+		r = -EINVAL;
-+		if (cap->args[0] > 1)
-+			break;
-+		kvm->arch.user_space_msr_insn = cap->args[0];
-+		r = 0;
-+		break;
- 	case KVM_CAP_X86_BUS_LOCK_EXIT:
- 		r = -EINVAL;
- 		if (cap->args[0] & ~KVM_BUS_LOCK_DETECTION_VALID_MODE)
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 0a4c548cb329..a146c0487960 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -431,7 +431,7 @@ struct kvm_run {
- 		} arm_nisv;
- 		/* KVM_EXIT_X86_RDMSR / KVM_EXIT_X86_WRMSR */
- 		struct {
--			__u8 error; /* user -> kernel */
-+			__u8 error; /* in: KVM_INSN_* */
- 			__u8 pad[7];
- #define KVM_MSR_EXIT_REASON_INVAL	(1 << 0)
- #define KVM_MSR_EXIT_REASON_UNKNOWN	(1 << 1)
-@@ -1009,6 +1009,7 @@ struct kvm_enable_cap {
- #define KVM_CAP_PPC_COMPAT_CAPS 250
- #define KVM_CAP_ARM_PMU_V3_STRICT 251
- #define KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES 252
-+#define KVM_CAP_X86_MSR_EXIT_INSN 253
+@@ -760,6 +760,7 @@ bool __kvm_reg_write_filtered(struct kvm_vcpu *vcpu, u32 reg, u64 changed_bits)
  
- struct kvm_irq_routing_irqchip {
- 	__u32 irqchip;
+ 	return changed_bits & vcpu->arch.reg_write_filter[reg];
+ }
++EXPORT_SYMBOL_FOR_KVM_INTERNAL(__kvm_reg_write_filtered);
+ 
+ /*
+  * KVM_RUN after KVM_EXIT_X86_REG_WRITE: userspace has performed the write,
+@@ -812,6 +813,7 @@ void kvm_reg_write_user_space(struct kvm_vcpu *vcpu, u32 reg, u64 old_value,
+ 	kvm_fill_reg_write_exit(vcpu, reg, old_value, new_value, insn_len);
+ 	vcpu->arch.complete_userspace_io = complete_fast_reg_write;
+ }
++EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_reg_write_user_space);
+ 
+ int kvm_emulate_xsetbv(struct kvm_vcpu *vcpu, u8 insn_len)
+ {
+@@ -906,6 +908,7 @@ int kvm_vcpu_ioctl_set_reg_write_filter(struct kvm_vcpu *vcpu,
+ 	else
+ 		vcpu->arch.reg_write_filter_armed &= ~BIT(filter->reg);
+ 
++	kvm_x86_call(update_reg_write_filter)(vcpu);
+ 	return 0;
+ }
+ 
 -- 
 2.50.1
 
