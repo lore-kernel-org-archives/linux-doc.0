@@ -1,74 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795803142;
-	b=BW9XFMxrN7p7rYR0wPCDjp/wfBxXPLsLE9PWYUyQmu/lJWqo96NGgublk3w20LRlOKqE
-	 y/7vdRDH3KpUbys/duqQ6c4f6isPkJFFvdPJ1HdC8fviWzAXyrUiQH0nKpGxbhEOs+VoT
-	 6xTlbThegwJw+OcNlbOoaMTjnELmWrGQxJD3Twy+y9FcnmRsyOBSM9CgOtV65S++ryWaR
-	 joG/tm2WyOPkUilJszZYhbE9nBqan4+cZkWeFg6i25lwg21cnxyUCwpDewUNoZa/ucyf9
-	 dtC5d2X1mF3eQ5y1oEf7itxeZBBKMx7OU2NerheVk97Wdf3/wo/w6GLTvEulKGXxcGA==
+	t=1795803251;
+	b=5gbMQIkfwEIUo60fHe9hjYNwMhzHmOX8PZBV3Lybq8MHxsa4tqoFqGewIbgYVE2MMXzH
+	 0/dJ3Sv9qDMibjj9DZ7Z8tgccusCnZE+/Zv+6l9PSGja7DOhomnug9a8Of5kygtwgeZoA
+	 vbg58GfOMLbCUTj7McZDvjuluCDu+wjK5niyG9frcMPY1oq78xb/6EEzT3tj5OVViLIx7
+	 kBYIwD1jeBjl45YXXsNfM1Gbi9Zlzh39R0DDyVPuA47QFcALflx/RyoH9TiezJi8k+FJq
+	 2JdZjxck2LwB62U1W15E9LFydTsCJmSkJ6jRsORyIaH+EO/c/qvrDp52sZKpQvvC6hg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795803142;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=NZGcvqBJEfT7g/whVf4ukhs+6BekUU6T21N+nSw//EY=;
-	b=QbFi4qRnFYvQf40z1UgpeNwkDNIgu8qBjo8AMl4OlQhvfpCXravsGCebefyEefY/59Oo
-	 MGCrqATtU+MowMo5CzMNKC2O6lkuTfE412M65sgTqq5J5HAGgv5YN7u72f2e29GqJCSLE
-	 XEQVFm8g8RUk23yyFdPSTRSNwdk+3JpFqsj3ZjG/VA3HZca0tYyJP2UikUdC5moFlI9SV
-	 7MdjuG/5Ty7eSh0q2e5G+IqgbLFT6vCqklEVY+tLt7SMU/7YCRHnxcCwqkGJbdj1fwoli
-	 vdiaq3MwdSDX8a0yPZcjIBGdeITE/CLm00RUS8lwW1psyGrt/XhxHSsLhGWTp5Nc7ng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795803251;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=AE7oJ4veC91R+VLYZKOnhXfo5TNhuhSeW8wXpT4PnZM=;
+	b=TdAb7ZpymoDb6h6EFfk1y+VGc3TxlTRbh/ka7+0x+Wvc0THJV0Kllzx1Uf98vQp/6Ybu
+	 YBns659xGrNQeuk/iOzM0dvQYJ2S/YPnhH9G7OV5AFma2DG37wEfKUqnw33te0CS3YFmh
+	 RrM3Yk3ZtJN2BJZHj/87BIICPqzYcYSXIIvQjuDhgXHCZs/TjRZ/jFDgW2EerLv6FjApW
+	 qrrHsgy7qszqZ6+uca6+dkMI39c9qul+Tsv2UBvKWKsTWWtwwfCKvaBytSmXvvxEd56Iy
+	 Me0P5vufk6mj1PsJ+PDTCa1eh5DheXfYG5SFJFfs89OuG8xNgG6HrYCEMTFQUmAxUzA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=HHc77jFv;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67BD5606A321;
-	Fri, 27 Nov 2026 18:12:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67BD5606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XoljLrzS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1292606A31F;
+	Fri, 27 Nov 2026 18:14:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=HHc77jFv
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 891F61575;
-	Fri, 27 Nov 2026 10:12:18 -0800 (PST)
-Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EBA4E3F86C;
-	Fri, 27 Nov 2026 10:12:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795803141; bh=BX01zZQ8nHBs4mxff7UBzSukxYsQTZNUpf0gX1VR81o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HHc77jFvjaccfHJE17xqKL/IqiGPQ+BeH6zBI+g2ieHQmh2//J2eW8wELdkkk8hRu
-	 dO/oTl4A3EAMrpugvgDmxQrH2rsSUmToa4UBPRb6Y5gHJGiXiSml4XSNmZSjqEaPjT
-	 FKNykJLuwmnANFhWJPm0cV+aM5RAEJZy25LS3Ack=
-Date: Fri, 27 Nov 2026 18:12:15 +0000
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc: Yeoreum Yun <yeoreum.yun@arm.com>, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Steven Price <steven.price@arm.com>,
-	Sami Mujawar <sami.mujawar@arm.com>, thuth@redhat.com,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
-	Pawel Chmielewski <pawel.chmielewski@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, Len Brown <lenb@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Mark Brown <broonie@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Gavin Shan <gshan@redhat.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>
-Subject: Re: [PATCH RFC v3 3/8] arm64: acpi: Enable ACPI CCEL support
-Message-ID: <awnH_1vFvFXpny-M@e129823.arm.com>
-References: <20261127-arm_cca_mr-v3-0-df3230afce8f@arm.com>
- <20261127-arm_cca_mr-v3-3-df3230afce8f@arm.com>
- <3a46bcc3-33bb-4c9d-a3e5-44144406dbda@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XoljLrzS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 644A41F000C1;
+	Fri, 27 Nov 2026 18:14:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795803250;
+	bh=AE7oJ4veC91R+VLYZKOnhXfo5TNhuhSeW8wXpT4PnZM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XoljLrzSv9TtczYZLyJAzunZ0gxNBmZaGNUTg+uEaYGE00gcTQMRiSf1NVGGN66Kp
+	 +AfeYdXh9i5oROY4jQM1aiUqrzSOp1ciSdc3C4sJ2gTTk6iXHuNeowlHj04kQHN0xz
+	 9tyMZhjIV10QtDWpiL0+sC/miJpmanhMUKcWN2gLzESUE1t950BqXI+/KXprOeJpEi
+	 puMMAz0S8jOaaYkG+PQOvnuuvfFsePcZC7uvhbzHGaFJE0mnhWLGH0YvC1uV2kFU/E
+	 Z0QKlwuQ8+uzr9HNNITxaRh6SEJwWujpbwYJvHEqdr5NWyxaUNeOUUbWoRxGLcwknX
+	 2zWhMS9LsoJuw==
+Message-ID: <61b33977-7c05-4d30-9a78-8fc711bd95ef@kernel.org>
+Date: Fri, 27 Nov 2026 19:14:03 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,58 +51,101 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3a46bcc3-33bb-4c9d-a3e5-44144406dbda@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs and
+ a cover letter
+Content-Language: en-US
+To: Sasha Levin <sashal@kernel.org>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ "David Hildenbrand (Arm)" <david@kernel.org>, Willy Tarreau <w@1wt.eu>,
+ Borislav Petkov <bp@alien8.de>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Leon Romanovsky <leon@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Marc Zyngier <maz@kernel.org>,
+ Eric Dumazet <edumazet@google.com>, Hans de Goede <hansg@kernel.org>,
+ Andrew Lunn <andrew@lunn.ch>, Jonathan Cameron <jic23@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Theodore Ts'o <tytso@mit.edu>, Security Officers <security@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20261126171926.2766137-1-sashal@kernel.org>
+ <20261126171926.2766137-2-sashal@kernel.org>
+ <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
+ <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local> <awjopqoCJqwChwnF@laps>
+ <awlCy3vDs0fKx1ku@gremlin> <awlNYsu1y8EhYgor@1wt.eu>
+ <33c6cf3a-6b18-4e09-bd5c-68ed2c34de56@kernel.org> <awlR9pQUjodcLjZK@gremlin>
+ <20261127133756.455469-1-sashal@kernel.org> <awmJ2c87NSDjtSwp@gremlin>
+ <20261127143124.1039470-1-sashal@kernel.org>
+ <33de19df-1729-4d1c-a6ce-e10e240e0c57@kernel.org>
+ <20261127180325.2304501-1-sashal@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20261127180325.2304501-1-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 27, 2026 at 04:28:01PM +0000, Suzuki K Poulose wrote:
-> On 27/11/2026 15:32, Yeoreum Yun wrote:
-> > From: Suzuki K Poulose <suzuki.poulose@arm.com>
-> > 
-> > Add support for ACPI CCEL by handling the EfiACPIMemoryNVS type memory.
-> > As per UEFI specifications NVS memory is reserved for Firmware use even
-> > after exiting boot services. Thus map the region as read-only.
-> > 
-> > Cc: Sami Mujawar <sami.mujawar@arm.com>
-> > Cc: Will Deacon <will@kernel.org>
-> > Cc: Catalin Marinas <catalin.marinas@arm.com>
-> > Cc: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-> > Cc: Steven Price <steven.price@arm.com>
-> > Cc: Sudeep Holla <sudeep.holla@arm.com>
-> > Cc: Gavin Shan <gshan@redhat.com>
-> > Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> > Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> > ---
-> >   arch/arm64/kernel/acpi.c | 11 +++++++++++
-> >   1 file changed, 11 insertions(+)
-> > 
-> > diff --git a/arch/arm64/kernel/acpi.c b/arch/arm64/kernel/acpi.c
-> > index 681aa2bbc3995..3d6335db882d3 100644
-> > --- a/arch/arm64/kernel/acpi.c
-> > +++ b/arch/arm64/kernel/acpi.c
-> > @@ -354,6 +354,17 @@ void __iomem *acpi_os_ioremap(acpi_physical_address phys, acpi_size size)
-> >   			prot = PAGE_KERNEL_RO;
-> >   			break;
-> > +		case EFI_ACPI_MEMORY_NVS:
-> > +			/*
-> > +			 * ACPI NVS marks an area reserved for use by the
-> > +			 * firmware, even after exiting the boot service.
-> > +			 * This may be used by the firmware for sharing dynamic
-> > +			 * tables/data (e.g., ACPI CCEL) with the OS. Map it
-> > +			 * as read-only.
-> > +			 */
-> > +			prot = PAGE_KERNEL_RO;
-> > +			break;
-> > +
+On 11/27/26 19:03, Sasha Levin wrote:
+> On Fri, Nov 27, 2026 at 06:51:17PM +0100, Vlastimil Babka (SUSE) wrote:
+>>If you then do 'b4 send' and it's a single patch, it indeed puts it below
+>>the '---' line. So git am discards it.
+>>I think it makes a lot of sense? If there is a single patch, it should be
+>>self-descriptive anyway, there isn't much information necessary to explain
+>>the whole series, if there's no series. So you might consider some extra
+>>info/context useful for reviewing, but not important enough for a commit log
+>>you want to see doing a git blame later (but it's still reachable via Link:
+>>anyway). So putting it below the --- should be good enough.
 > 
-> Unfortunately this breaks some platforms, where the NVS must be mapped
-> R/W. Thats why we dropped this patch.
+> Yup, that works: git am would drop it, and it's still on lore for anyone who
+> follows the Link:.
 > 
-> https://lore.kernel.org/all/20251124103329.363afcc6@foz.lan
+> The concern I thought folks would have is that it creates a big wall of text
+> before you get to the diff itself...
+> 
+> What about putting it at the end of the patch mail instead, after the diff, the
+> same way format-patch --base adds base-commit? git am ignores it there too, and
+> reviewers who don't care about it never have to scroll past it.
 
-Thanks to share. anyway it's enough to read in this series.
-So I'll drop this in the next spin. Thanks!
-
--- 
-Sincerely,
-Yeoreum Yun
+Ugh I'm not sure about inventing a new placement. Rather focus on that not
+being a wall of text in the first place? Because it really shouldn't be.
