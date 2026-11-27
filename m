@@ -1,114 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795799343;
-	b=ea9x/FLan14ylRYrmOnqMlpjamk4h6iI/vgagkmlfm3FoQ1aXhvyDW/l5uxhawJgLcpn
-	 KMF/dUWuSNhQNOhctLlI798Cxf5ZqBV4lK1A7O2hk4t0+kjq3OXZ/3FIzeML8qrXgIWN0
-	 ZfTfCPWoblKk29MVcZXcmGpF1f6kpB+jmjvRTxC9aTeD0pl60/03bnp+YcB9cLe5CCjEo
-	 SOwztUBS8h65m37WcguFZ9aI7yWwOcTRxbgK168k4moP7B8FPdy6sInDtCs5lPYB6KxoA
-	 327jNDgf3I7JHq6YH1s3fcGPw0W+FExFLFDA2LAz2e8cc/WkjcnQkRHvgNWtnI31/Zg==
+	t=1795801885;
+	b=EkKzgSPNOEHBtOuGECFpiJcRRqlIu189eMxjIHZfYpyId8liPDhzejGCaXyD3cDLccGz
+	 b3LURojOaPkGWknfMsvrmxJS5sN1cDCI2vy3d68r9baszxYJYap6WPJVS6FPgAn66dgb4
+	 uehwrY26VpiJgSEYcGgJfc7rjDELVlfkcx3+5KGQ4mdkH3o5JJa7Je5+9e7AlNma2omOR
+	 1jBxxMGsmI1G9K04MN6niNMr4Fw5nGT7YPns+GFr0qZdgDITDyeJrWuNZTfF+Azp1b46h
+	 o3PCos8EwNA2oQtfmiiRFE7AM2RNIW3sKXFzwyUqhpJ9wnLkuLOBWtLrhkncCEuZ9Tw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795799343;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=HB0ZTSdDDmOkIsTidMqTBiLshJg4ThGdlzLSWF0DBNU=;
-	b=w6AHcESzleo1UqTTXOAo+LbViKJRTBwWKEoT3Rnzz+ks0cwqIAAp+mmMUE5vx0O4Wgs3
-	 GsTdZhyTh/tN5C8GXYWtrKqvJ1G43Hyvzj3Purmp47ifhgQ7OSi1kRGGkqUOF2xR87Psp
-	 q5l2SsPalPdchkS5o0OQVNLdRTblpaw3edw1TafMBw7TZYxSiyGRKp39+aAIG/bYYl5K+
-	 am1JJf6p3oxp6yRgDfFeQ3CX0DQKd22i65mzmkGmHbA9360/P7yVkBpy1lplHNoWHvlPH
-	 GP3VVENIPYIu3jEfqwE1+2n2mS8j9vYK7oZ+gnfyLlcfRZuYaOBtPKrFN44jzLL8/qw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795801885;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=vZUCFIgUPUAkwneDlYHb0hMYoy5QBl/Pl9WSaWIz7y4=;
+	b=Czd94mC8YHZnTL4vEOvfgm/sAw1haZsvhjVFBBp+R6n1fn/9x/6p889TtDWsJdODruf/
+	 +Bn63ikB2lxNT3QEIiaYb7pP5SCiDB44XEwED97hoxTPkrHOfbABDRHE6/DgJNtk6H5Ba
+	 OV4NpyESsTZXp6IdYEdm4yMpCzm2s6zrb/jCUK/NCmS4YxMhcmL7tulJqPs4txWO6Di2J
+	 HR5LquCXG9uVlxflHmepH5GVPmpDEPV+WLMAjdfYmBpT4BeQQsn9dVkg2XSkwQYAa3dcB
+	 MFpmLV6Hhs7k2sT9CG/jbatrCe0SHyGgWyof6n2ao2L2aCc0qBpX857btFGtzbKZbkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=NpcMn18Z;
-	arc=none smtp.remote-ip=209.85.222.175
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sh+Z9zUQ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E0E606A32A
-	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 17:09:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9E0E606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09533606A31C;
+	Fri, 27 Nov 2026 17:51:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=NpcMn18Z
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-949664ee41cso840114985a.3
-        for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 09:09:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1795799341; x=1796404141; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=HB0ZTSdDDmOkIsTidMqTBiLshJg4ThGdlzLSWF0DBNU=;
-        b=NpcMn18ZOcBUH/K57xXEmosR6TjqGtaHb4iOQyIq0GgNDqO6dAa3ahAGzdoMm6DK/R
-         3dkns94RmQsNEaf/27kIYiOKFNzoSKhIXNccUkBguWLK26AIyGo+A089UsFFPfbNz3JT
-         fRNukHbF1g5uEH+w2aeet1LpRPQxG0BgLshkGNvKg+X6WFsNVdvtlTlH7jbh0mMU3AE+
-         droQd+7Wzvs1ZZv0Bm+V2UKWtzqHa4QvPeJsxPzSnXUzGeAIakkUFw1mjKjdYkbgy2S8
-         Y9PJhCrLM+XiW39othsK/ZS90eIpfnqQ3cGzLWFY0EcectQslbi4vHXfem+Makltaxhy
-         GuXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795799341; x=1796404141;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HB0ZTSdDDmOkIsTidMqTBiLshJg4ThGdlzLSWF0DBNU=;
-        b=FvLmIiKUJ1hq618p1V6AaNkgNxmosW804Y7Yx0tGFQGjSaU635spKShjcbFdBETsYC
-         +sep7BsXhY/5HVHATpx609QBtqz+MmwajOzKFa+LPA55vzM3GIal9N7VTgf41DnDVSlu
-         EmfVpd07eAHz3gFogVvUZt4vJ5IGicU6yVE6auwr54qR0Y4v95loZDjlJXWnPatMzVes
-         TOwaFOXuDhXQlElwSdfzFZBn6vU0PeMltFFMb4yiotQUazoSNqhioeu+iolkhv2nqv39
-         U6jO20XvQvS9U78wMi8ZaflCrY1dBaZ5RHQshX/k38N0I2VlTUGvyGfDt3vpaf+v0GNo
-         rvKw==
-X-Forwarded-Encrypted: i=1; AL+hErF9S2pvXpvuzUjmqAL1lvncaepPExkY49u8Vu4WME1nMKIuGepODeX9wSCe9HYkiKm70l1JSNg8sjU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z//KElryCJRdfXGB92kKawSi47QkgjpeghGFXLAXL3IApovCEhG
-	o74UJ2VhSrBno3itGhyapr/FZyP8UKjd+1tK/isy+dgXlr3uxgdfKDQKudhu3OK64dvQeDGTAg5
-	hp4d8
-X-Gm-Gg: AZFdTZdiy7NbPoKJviOc/ChF2mpA7zOmCQ0zYYys/U8jzkRuhhtRUZzb99v+H4RQYDZ
-	INgNd7RCjO4lZqZtd6h8DAcOeUj1srUxCpkmr+8OM6iSizTqA+XmKgompWNJ3JO2CTRMMI7qQvA
-	E59hUCSgDrx+vt2pUTGetZxrsdMiqxyWSiiT3eVxfxxFeCvQSj2YxE/ntUUys7Obj/TD6Tp2xzn
-	4hdcPUkgYZEFeoR1VGxqC/zc8YUI1qVcGfRxrmRRzB3ZwBumAEOCF/jwvkcwg4qNGTGjc6apkQZ
-	BHXSUcSSAY+M+dZETUc29DSqCd2G8XA2GPAMhi2yAt02utKiEDb/mJili9YtZXYtyIPs6TcpJ5y
-	Ss1h4QtDwI2tUi86jgIpJ4jBE5wMJzDN3nxJ/nIEmIE6U6wFa+PEjFZpkMDjBZmdZmuypSRl82k
-	kRb3awc2onC4QODRDx9705iuPVYMoQ0knBiTqFoUBpVngHRO6yivCzEEta5neyge1+xdhE+Q4iN
-	KP+/9eWlMAh7p32jaaWO60Dq/v7MmUWHeTv46uliNOM4tnhxqcSF08kGizzoSwuYR5eYtr1c4R0
-	tmOLYw==
-X-Received: by 2002:a05:620a:7206:b0:94a:889:5a33 with SMTP id af79cd13be357-94a08896165mr1311739085a.30.1795799341642;
-        Fri, 27 Nov 2026 09:09:01 -0800 (PST)
-Received: from ziepe.ca ([142.177.118.84])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb41a341sm1875035285a.37.2026.11.27.09.09.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 09:09:01 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xWzRU-000000079ec-2Xcr;
-	Fri, 27 Nov 2026 13:09:00 -0400
-Date: Fri, 27 Nov 2026 13:09:00 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-acpi@vger.kernel.org,
-	acpica-devel@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Suzuki Poulose <suzuki.poulose@arm.com>,
-	Steven Price <steven.price@arm.com>,
-	Sami Mujawar <sami.mujawar@arm.com>, thuth@redhat.com,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
-	Pawel Chmielewski <pawel.chmielewski@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, Len Brown <lenb@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH RFC v3 8/8] selftest: attestation: add
- cca_guest_attestation_test selftest
-Message-ID: <20261127170900.GU246011@ziepe.ca>
-References: <20261127-arm_cca_mr-v3-0-df3230afce8f@arm.com>
- <20261127-arm_cca_mr-v3-8-df3230afce8f@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sh+Z9zUQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79E2A1F00893;
+	Fri, 27 Nov 2026 17:51:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795801884;
+	bh=vZUCFIgUPUAkwneDlYHb0hMYoy5QBl/Pl9WSaWIz7y4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Sh+Z9zUQOQDS9AA3I7rOGEsY+9NzfIRIxL8zeELyYOpYS72uhYMcJ8VVWvTQCy7Vb
+	 F5BBiD9Or6/F298ntI4IOSetQnzPF5Y832xSkqxhbZL5SfJqjRLh7t/SC9u8W7doiD
+	 aWgnfbbR/TYzuKGlTOyo3sZsdcTqNe3pIg4Y16aSanJTWbzjm7/eY0npPkkdhPo7x6
+	 pSwqiQkMwaKotrc0REto9UhN2vOACFz0hPV11ulDklYGa7zJC5iJtjLxIbGZy9H/OH
+	 Mg7K31FTEYZMI764ZwnPe2h9fjOKm3RHVJ+J0BJnHiS0+6yEnjBaW/XXqqCPBep5FM
+	 GjVhr8e7lHDMg==
+Message-ID: <33de19df-1729-4d1c-a6ce-e10e240e0c57@kernel.org>
+Date: Fri, 27 Nov 2026 18:51:17 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -118,25 +51,122 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261127-arm_cca_mr-v3-8-df3230afce8f@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs and
+ a cover letter
+Content-Language: en-US
+To: Sasha Levin <sashal@kernel.org>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Willy Tarreau <w@1wt.eu>,
+ Borislav Petkov <bp@alien8.de>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Leon Romanovsky <leon@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Marc Zyngier <maz@kernel.org>,
+ Eric Dumazet <edumazet@google.com>, Hans de Goede <hansg@kernel.org>,
+ Andrew Lunn <andrew@lunn.ch>, Jonathan Cameron <jic23@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Theodore Ts'o <tytso@mit.edu>, Security Officers <security@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20261126171926.2766137-1-sashal@kernel.org>
+ <20261126171926.2766137-2-sashal@kernel.org>
+ <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
+ <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local> <awjopqoCJqwChwnF@laps>
+ <awlCy3vDs0fKx1ku@gremlin> <awlNYsu1y8EhYgor@1wt.eu>
+ <33c6cf3a-6b18-4e09-bd5c-68ed2c34de56@kernel.org> <awlR9pQUjodcLjZK@gremlin>
+ <20261127133756.455469-1-sashal@kernel.org> <awmJ2c87NSDjtSwp@gremlin>
+ <20261127143124.1039470-1-sashal@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20261127143124.1039470-1-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 27, 2026 at 03:33:03PM +0000, Yeoreum Yun wrote:
-> Add CCA Realm Guest attestation selftest to test evidence-get, mr_read
-> and mr_extend interfaces.
+On 11/27/26 15:31, Sasha Levin wrote:
+> On Fri, Nov 27, 2026 at 02:20:15PM +0000, Lorenzo Stoakes (ARM) wrote:
+>>On Fri, Nov 27, 2026 at 08:37:56AM -0500, Sasha Levin wrote:
+>>> Very much the case. But we can't stop the "wrong hands" from using it, so we
+>>> need guardrails around them that make it produce what we, as a community, think
+>>> is the right thing.
+>>
+>>These aren't guardrails, you are just trying to modify the output of
+>>something that's broken here IMO.
 > 
-> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> ---
->  tools/testing/selftests/attestation/.gitignore     |   1 +
->  tools/testing/selftests/attestation/Makefile       |   9 +-
->  .../attestation/cca_guest_attestation_test.c       | 517 +++++++++++++++++++++
->  3 files changed, 524 insertions(+), 3 deletions(-)
+> I see this as the beginning of a guardrail. It'll take us some time to get to
+> something like checkpatch for LLMs, but we have to start somewhere.
+> 
+>>I think a placeholder works better, personally.
+> 
+> I don't think we can really instruct LLMs not to write the message. The human
+> will just turn around and tell it to ignore that instruction and write the
+> commit message anyway.
+> 
+>>+10. Write the cover letter described in "Cover letter" above from what the
+>>+    previous steps produced. This part is not optional, not even for a single
+>>+    patch or a one-line fix.
+>>
+>>BTW this seems to be instructing LLMs to generate cover letters for single
+>>patches which I don't personally love to see.
+>>
+>>And it therefore gives the LLM double the chance to post awful word
+>>salad. So I'd prefer not to have that clause ideally.
+> 
+> The single patch cover letter was something that was floated during LPC and the
+> Maintainers Summit. The other option I was thinking about is a git note
+> attached to the patch: format-patch puts it below the "---" and git am discards
+> it, so it never lands in the tree. I'm open to suggestions though.
 
-FWIW, I really want to have an attestation userspace project and there
-is where stuff like this should end up living..
+b4 tracks the cover letter (with to/cc list and its own metadata) as an
+empty commit preceding the series itself, regardless of whether it's a
+single patch or a series. IIUC the empty commit is less easy to lose than
+git note, but that's probably not the crucial part.
 
-We haven't got to launching a github for it yet, but that's the plan
-anyhow.
-
-Jason
+If you then do 'b4 send' and it's a single patch, it indeed puts it below
+the '---' line. So git am discards it.
+I think it makes a lot of sense? If there is a single patch, it should be
+self-descriptive anyway, there isn't much information necessary to explain
+the whole series, if there's no series. So you might consider some extra
+info/context useful for reviewing, but not important enough for a commit log
+you want to see doing a git blame later (but it's still reachable via Link:
+anyway). So putting it below the --- should be good enough.
