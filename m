@@ -1,52 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.155.198.111
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795817995;
-	b=b8xYJKXLLUVzJB9G6sXTDo8DUBQnhshPCcxSvmvNp80jtbxLevxfFTtog5yeJ5f0HFfZ
-	 3lehchDBfbFJwBbxKa8Hovx+wwIIhKOojAlNbQWtre1DbYV0TB9U4s/ilCmBi3DkJpeyd
-	 AB6PTjZ+vb4Yx5K1pJJaMX40sbbzmofBWhBhhqEKYWo3ul85RJgTAJx9KEwnxp8y4QvO9
-	 UQWo9ktj3+OM6VuEWHwQ9hc+/RpHu1BSmuy1FUPk6BTZRkgsHWZe05Q0JCsXeM77CzhcY
-	 lxYCjGlz9zHW92/H6NzS9+KexQdmkThZIvje/pAr1EyHPLcAtADTX7zHlk5rTiWsOUg==
+	t=1795818240;
+	b=4Cj2U4R6ZzneXzLbxMwP7csJ8tLYZ0R0K9cYkeheYSOLBoweVTy0oCpvya5YEi/Ln++y
+	 4KoKlWxEaaYqP1uHCji/BgnjIngLmH4Etip8cDKcoX47Q+Cjlt2eRfjCv9tX1JCRKF9IO
+	 WFsfiRAdAOQP2AHbg+ou9YCjzFpYz/ErfS4er0JTg33ZPH8JmKMQjfRYebIAdngNQnCBe
+	 1DUnQnwlDB/J3HKucJySumN0mjopqI7rv6w2Wj+4SGIeuE0kpBhwtg3Mi9BzII2BDl0In
+	 HQPR+SgVnWOdE2PSiepDTCOHfpNbby19sa8x2GdqGVAAIALtgEQk8tLsNjshNMK4Mhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795817995;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=Vcatt8Yseeu3grJzN3DTmydm5PfHsbdoMOyAc0A57NA=;
-	b=T7CwTpz2+pYjUNbqyOfnxB8WKwQJecaxyWQb+ARKkmtPd6hnuyGZ3lUa9mgDAGDsQKwr
-	 6RWcZ+1B1d8/9xcciocBiBj4Le/hjUh7zmBU3IoEasn2N4FdzkW2Z9BpdviIG5G7FPu3/
-	 JXZDPx6VgfSrp/4USzUP/J6rgJDDIhrhzmLCHz7lIuNnyAX3/J15jwtgtY9uxTtVubdb4
-	 zNizpS9KUpyo3u8v4MZ+srHglk0+pjgD0kvzfKYgnBRaHxFo2LDQKK+UhgykNH5zRUUux
-	 oxlDzfYBhUo48J6v4GQpS7/BWuGesyTk2O/ZyT+sx0g4d02ZEoL+fX6MkmOSsI0wzdg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795818240;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=k0iiKTShuZ2pTGwItgfN88ty0wCxAVF1X1qAn7I9Kjs=;
+	b=JhysJpVIEmM6RGw8ny0qi+2rFhJrylCf+r4IRtAOBHDfl0vj79c0Akq4MYFaANLUgqux
+	 b1rkKlyo+M53HR361F8R2JMCnTAYKG5OwmhyUy3K9X7WxRdg4PMeUOsopEOv6nudeNrzx
+	 SyKfDUDLphdshpZW8kkNmM68P2z43BLXSf/qUFkseD+/pU4awbjUPyoScs1tmo9a6ViRR
+	 GGaYPJ2kD7C6/6BdLNE603dNEItWp0U/LxjM2CShOvn3ySKO0CMrqfhANFaZEdmOpj1wT
+	 8z3ZbKjdFbktcxhGGu4YFskIWyc6abWGzB9DNBB+rlBIODgmeX8zy0fs4ZI72iM4x3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=corp.free.fr;
-	spf=pass smtp.mailfrom=corp.free.fr;
-	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=Nx1oBwoL;
-	arc=none smtp.remote-ip=212.27.60.169
-Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.com;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=r2jPl15D;
+	arc=none smtp.remote-ip=35.155.198.111
+Received: from pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.155.198.111])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFAC606A323;
-	Fri, 27 Nov 2026 22:19:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BEFAC606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C66606A321;
+	Fri, 27 Nov 2026 22:23:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9C66606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=Nx1oBwoL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
-	t=1795817986; bh=VeQyV1mK6VqRPBq7e4DAfTGfLV31JYzS0eyZ60VjWkc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Nx1oBwoLHoI7ZVYWfrmJtNjkBGdp2lVkR/VnEedfRGU1jG69wYyIRZ8zQ+bhCYt1y
-	 DAdiYW9jXt1H1vhddY2NB5kk1rsV8ygcp9W4TT+HK6oVDiARIeZbLCaFbhP2IbQF2P
-	 M5fJtldf7n4O3HeNL1B1Ws/luqWAupjpm1cXRIOrOlQh28hzoAxwNk/5Qz7ByTlvBb
-	 0PVZtUJn7frCZFCxJwtocycW+pSl1Nnc4i5TE5pOVIThXSu/HijWT9kbs6HfIa8ckA
-	 Cn5ct07ehiJVFUmZnhBB9vVbMRaJb8xk10ixVsvVt9WpxLB1UMaP5NLRLAWHTqTOdP
-	 hwPfnq4NAzzzg==
-Received: from [0.0.0.0] (unknown [213.228.1.188])
-	by rcs.proxad.net (Postfix) with ESMTPSA id 45D0344C0E09;
-	Fri, 27 Nov 2026 23:19:44 +0100 (CET)
-Message-ID: <3c82dec8-e3b9-4095-ad40-232dcc811f13@corp.free.fr>
-Date: Fri, 27 Nov 2026 23:19:43 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=r2jPl15D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1795818239; x=1827354239;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=k0iiKTShuZ2pTGwItgfN88ty0wCxAVF1X1qAn7I9Kjs=;
+  b=r2jPl15D+aEKoZtOb4snGDW15Xq+fX595XXrN4k6UtT4J9RvskcLu3Ow
+   m7ZjdHzdBQaNOGQw7nvLZTCl3r0jwfrNmbGN5hbIE8mt2sYfgm/EHCqiR
+   haVEKfUEuypPII+RWL8TI1aJtwrk+LpQ1I3Z1VScrHjvkfyrX3kOjmY81
+   B0qoYuJ1dayLWy7d8BexSxZb4rRYbE8kY5h5vPx84KUPmWcQOHfRLRHbC
+   3iicSo3KE2N8+1W9Q8jwP2Cu6WmYN+D35ijAZ59tTL7dektPhdA9qNln2
+   urpij/U7XOYmXLQAC236f4HtuJA5hSwPB7LhPaMicatJc6V9QEPzFTNPj
+   w==;
+X-CSE-ConnectionGUID: 5Miof4nJQRqz+0ysRiVCsw==
+X-CSE-MsgGUID: rNVAqRo/R2C9UvBwJpvPfA==
+X-IronPort-AV: E=Sophos;i="6.27,237,1787011200"; 
+   d="scan'208";a="35231788"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 22:23:51 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:9580]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.22.116:2525] with esmtp (Farcaster)
+ id 67b814c5-46e7-4b55-900a-8dc4db453fb4; Fri, 27 Nov 2026 22:23:50 +0000 (UTC)
+X-Farcaster-Flow-ID: 67b814c5-46e7-4b55-900a-8dc4db453fb4
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.57;
+ Fri, 27 Nov 2026 22:23:50 +0000
+Received: from dev-dsk-surenkj-2b-416930d2.us-west-2.amazon.com (10.169.26.94)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.57;
+ Fri, 27 Nov 2026 22:23:49 +0000
+From: Surendran Kanagaraj <surenkj@amazon.com>
+To: <jarkko@kernel.org>
+CC: <corbet@lwn.net>, <graf@amazon.de>, <gunnarku@amazon.com>, <jgg@ziepe.ca>,
+	<joshlev@amazon.com>, <leitao@debian.org>, <linux-doc@vger.kernel.org>,
+	<linux-integrity@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nh-open-source@amazon.com>, <noodles@earth.li>, <peterhuewe@gmx.de>,
+	<rdunlap@infradead.org>, <skhan@linuxfoundation.org>
+Subject: Re: [RFC PATCH v4 1/8] tpm: Add a single table for all TPM wait limits
+Date: Fri, 27 Nov 2026 22:23:47 +0000
+Message-ID: <20261127222347.92729-1-surenkj@amazon.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <awiCQCU-h8MQc6bQ@kernel.org>
+References: <awiCQCU-h8MQc6bQ@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -56,66 +87,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 05/11] net/mlx5e: TC, reject a partial tunnel
- key with tunnel mapping
-To: netdev-bot+sashiko@kernel.org
-Cc: saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
- jhs@mojatatu.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, michael.chan@broadcom.com,
- pavan.chebbi@broadcom.com, bharat@chelsio.com, donald.hunter@gmail.com,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- dsahern@kernel.org, idosch@nvidia.com, shuah@kernel.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- oss-drivers@corigine.com
-References: <20261122213200.3207385-6-acassen@corp.free.fr>
- <179546966530.3135.14742631609975673237@kernel.org>
-Content-Language: en-US
-From: Alexandre Cassen <acassen@corp.free.fr>
-In-Reply-To: <179546966530.3135.14742631609975673237@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWC003.ant.amazon.com (10.13.139.252) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
+On Thu, Nov 26, 2026 at 09:02:24PM +0200, Jarkko Sakkinen wrote:
+> On Wed, Nov 25, 2026 at 11:00:34PM +0000, Surendran Kanagaraj wrote:
+> > 2) Keep the chip durations in a union of TPM1.x and TPM2.0 durations.
+> >
+> >      union tpm_durations {
+> >              unsigned long tpm1[TPM1_NUM_DURATIONS];
+> >              struct tpm2_ordinal_duration tpm2[TPM2_NUM_DURATIONS];
+> >      };
+> >
+> >    struct tpm_chip holds the union tpm_durations in place of
+> >    chip->duration[]
+>
+> It isn't possible to have single struct tpm duration that is partially
+> used by TPM1?
 
+Yes, that should work. Something like this:
 
-On 11/23/26 22:34, netdev-bot+sashiko@kernel.org wrote:
-> [Severity: Low]
-> Is this check too strict for VXLAN and Geneve? It compares against a
-> 32-bit all-ones mask for every tunnel type. Those tunnels carry a 24-bit
-> VNI, so a mask of 0x00ffffff already covers every bit a packet can carry.
-> 
-> Both parsers run before mlx5e_get_flow_tunnel_id(), and they already
-> reject keys that don't fit in 24 bits:
-> 
-> mlx5e_tc_tun_parse_vxlan() and mlx5e_tc_tun_parse_geneve_vni():
-> 	if (be32_to_cpu(enc_keyid.key->keyid) >= MLX5E_TC_TUN_N_VNI) {
-> 		NL_SET_ERR_MSG_MOD(extack,
-> 				   "Tunnel key does not fit the 24 bit VNI");
-> 
-> The mask is then written into fte_match_set_misc.vxlan_vni[0x18] or
-> geneve_vni[0x18]. Both fields are 24 bits wide, so 0x00ffffff and
-> 0xffffffff program the same hardware match.
-> 
-> This means the masked key stored in the tunnel mapping is the full VNI.
-> key32_to_tunnel_id(key.enc_key_id.keyid) in mlx5e_restore_tunnel() would
-> give back the packet's real tunnel id, so the wrong-id restore described
-> in the commit message can't happen with this mask.
-> 
-> Once the flower enc_key_id mask patch later in this series is applied, a
-> VXLAN or Geneve rule such as "enc_key_id 42/0xffffff ... action goto
-> chain 1" would fail here with -EOPNOTSUPP. The same goes for a sample
-> action, or for any such rule in a chain above 0. With skip_sw the rule
-> is refused, and otherwise it stays in software. Only GRE uses all 32
-> bits of the key.
-> 
-> Could the check instead require that the mask covers the full key width
-> of the tunnel type? No later patch in the series changes
-> mlx5e_get_flow_tunnel_id(), so this limit is still there at the end of
-> the series.
-No as on v1 and v2 [1]. The exact key matches the same packets and this 
-works in chains.
+	struct tpm_cmd_duration {
+		/* TPM 2.0: command code or TPM 1.x: duration class */
+		u32 cmd;
+		u32 duration;	/* msecs */
+	};
 
-[1] 
-https://lore.kernel.org/netdev/3b3dff0d-e879-4a14-9f17-2b3015b6da39@corp.free.fr/
+	/* in struct tpm_chip, in place of chip->duration[] */
+	struct tpm_cmd_duration durations[TPM_MAX_DURATIONS];
+
+eg:
+	/* TPM 1.x */
+	chip->durations[0] = { TPM_SHORT, 750 }
+
+	/* TPM 2.0 */
+	chip->durations[2] = { TPM2_CC_GET_RANDOM, 2000 }
+
+Does this match what you had in mind?
+
+Thanks,
+Surendran
