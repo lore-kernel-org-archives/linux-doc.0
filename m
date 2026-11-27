@@ -1,47 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795803251;
-	b=5gbMQIkfwEIUo60fHe9hjYNwMhzHmOX8PZBV3Lybq8MHxsa4tqoFqGewIbgYVE2MMXzH
-	 0/dJ3Sv9qDMibjj9DZ7Z8tgccusCnZE+/Zv+6l9PSGja7DOhomnug9a8Of5kygtwgeZoA
-	 vbg58GfOMLbCUTj7McZDvjuluCDu+wjK5niyG9frcMPY1oq78xb/6EEzT3tj5OVViLIx7
-	 kBYIwD1jeBjl45YXXsNfM1Gbi9Zlzh39R0DDyVPuA47QFcALflx/RyoH9TiezJi8k+FJq
-	 2JdZjxck2LwB62U1W15E9LFydTsCJmSkJ6jRsORyIaH+EO/c/qvrDp52sZKpQvvC6hg==
+	t=1795803872;
+	b=FM4KQPkScydFIjXoW7XShIp7EXjv80juV2KHOk2PhYESfY+4mnX8GCgTP4JCBh/JyjQD
+	 1kIsGKsjEfKycLMYdrrhAARjk/qcLjbeW4nCg45Gdtz4JHm3keanYK/lqHmK8o/GKq2xo
+	 T1Kk43v8ZX7QMBUL634S69vg7KZ9YKDZQBTN62O21vsRMIv/oqy404muEe0U8EHU4yeyT
+	 PpAShQJx4gS/tU0YAtJQyfvkCmJBCZE2bpcuF/jXpCWukq6PsPI5f/xk7KdKQtXs2zViu
+	 oil32/nG2g7lHcsT0mxBVrfEfe1BAaJDOuq3F5HQHr6LK5KBnC90nqxE2waCEqiyUXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795803251;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=AE7oJ4veC91R+VLYZKOnhXfo5TNhuhSeW8wXpT4PnZM=;
-	b=TdAb7ZpymoDb6h6EFfk1y+VGc3TxlTRbh/ka7+0x+Wvc0THJV0Kllzx1Uf98vQp/6Ybu
-	 YBns659xGrNQeuk/iOzM0dvQYJ2S/YPnhH9G7OV5AFma2DG37wEfKUqnw33te0CS3YFmh
-	 RrM3Yk3ZtJN2BJZHj/87BIICPqzYcYSXIIvQjuDhgXHCZs/TjRZ/jFDgW2EerLv6FjApW
-	 qrrHsgy7qszqZ6+uca6+dkMI39c9qul+Tsv2UBvKWKsTWWtwwfCKvaBytSmXvvxEd56Iy
-	 Me0P5vufk6mj1PsJ+PDTCa1eh5DheXfYG5SFJFfs89OuG8xNgG6HrYCEMTFQUmAxUzA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795803872;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=nPX0jKAZGslc2s414W7GnzS0L4XLdhKncic17g8wWB8=;
+	b=SUxYQ0DqimXWzN0jgMwvmfl+J/IGrFlloIx4PAbNCG8X9V/Wt/+/dyIS5K0C3LCaO7Si
+	 NbyoCaLlBPxH3cuD3uxSVxubS0Y86O0EkLUEAGEsnzoRPcXqrgugJ450by5p6c0G44QEI
+	 pakJYk//IHvqn4V8dJLEcwh+2jKjVnhcmxzr8bdEAhHQs/TsOEzsxydzyLGkt/0nVuulp
+	 5KwlhxNIlQwXdfhVR9Fu5VGNL/A72V+z4OMRCIipOt7tNmwtqpCKx0r6cdvUmaYly/no9
+	 xkYr/0tpadJm7gMXBL/sedeXgZ8bH5b/krolEwZo3LM7UNg1dEtAdn9gVmrlDt+zJQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XoljLrzS;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1292606A31F;
-	Fri, 27 Nov 2026 18:14:10 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=LBSQKh+U;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 678ED606A31C;
+	Fri, 27 Nov 2026 18:24:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 678ED606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XoljLrzS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 644A41F000C1;
-	Fri, 27 Nov 2026 18:14:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795803250;
-	bh=AE7oJ4veC91R+VLYZKOnhXfo5TNhuhSeW8wXpT4PnZM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XoljLrzSv9TtczYZLyJAzunZ0gxNBmZaGNUTg+uEaYGE00gcTQMRiSf1NVGGN66Kp
-	 +AfeYdXh9i5oROY4jQM1aiUqrzSOp1ciSdc3C4sJ2gTTk6iXHuNeowlHj04kQHN0xz
-	 9tyMZhjIV10QtDWpiL0+sC/miJpmanhMUKcWN2gLzESUE1t950BqXI+/KXprOeJpEi
-	 puMMAz0S8jOaaYkG+PQOvnuuvfFsePcZC7uvhbzHGaFJE0mnhWLGH0YvC1uV2kFU/E
-	 Z0QKlwuQ8+uzr9HNNITxaRh6SEJwWujpbwYJvHEqdr5NWyxaUNeOUUbWoRxGLcwknX
-	 2zWhMS9LsoJuw==
-Message-ID: <61b33977-7c05-4d30-9a78-8fc711bd95ef@kernel.org>
-Date: Fri, 27 Nov 2026 19:14:03 +0100
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=LBSQKh+U
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F1A51575;
+	Fri, 27 Nov 2026 10:24:28 -0800 (PST)
+Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 957C33F86C;
+	Fri, 27 Nov 2026 10:24:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795803871; bh=tLEGXyc06QuVymTp9AwMRLhn4C3VvPR79JGgV7rqNd0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LBSQKh+UnuZvEmzVBMoqvxhxLlX4y9VCVIQ06t73ABXPt10R9qy/X5Y6ugaS7NPOo
+	 d1AuoDSzKGcEpaQ259M2A/qNGnaky9MIv0reMcaXWdUmoiyfRYZaurw1lOYjN/TUTF
+	 DBomwlpBErcMcNrZvxnSsO5JZUxKZNTysnK2dpM0=
+Date: Fri, 27 Nov 2026 18:24:25 +0000
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yeoreum Yun <yeoreum.yun@arm.com>, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Suzuki Poulose <suzuki.poulose@arm.com>,
+	Steven Price <steven.price@arm.com>,
+	Sami Mujawar <sami.mujawar@arm.com>, thuth@redhat.com,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+	Pawel Chmielewski <pawel.chmielewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, Len Brown <lenb@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH RFC v3 7/8] attestation: providers: introduce CCA Guest
+ attestation provider
+Message-ID: <awnK2c3kMq8p2a_7@e129823.arm.com>
+References: <20261127-arm_cca_mr-v3-0-df3230afce8f@arm.com>
+ <20261127-arm_cca_mr-v3-7-df3230afce8f@arm.com>
+ <20261127170722.GT246011@ziepe.ca>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,101 +77,92 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs and
- a cover letter
-Content-Language: en-US
-To: Sasha Levin <sashal@kernel.org>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- "David Hildenbrand (Arm)" <david@kernel.org>, Willy Tarreau <w@1wt.eu>,
- Borislav Petkov <bp@alien8.de>, Krzysztof Kozlowski <krzk@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Leon Romanovsky <leon@kernel.org>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Marc Zyngier <maz@kernel.org>,
- Eric Dumazet <edumazet@google.com>, Hans de Goede <hansg@kernel.org>,
- Andrew Lunn <andrew@lunn.ch>, Jonathan Cameron <jic23@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Theodore Ts'o <tytso@mit.edu>, Security Officers <security@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20261126171926.2766137-1-sashal@kernel.org>
- <20261126171926.2766137-2-sashal@kernel.org>
- <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
- <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local> <awjopqoCJqwChwnF@laps>
- <awlCy3vDs0fKx1ku@gremlin> <awlNYsu1y8EhYgor@1wt.eu>
- <33c6cf3a-6b18-4e09-bd5c-68ed2c34de56@kernel.org> <awlR9pQUjodcLjZK@gremlin>
- <20261127133756.455469-1-sashal@kernel.org> <awmJ2c87NSDjtSwp@gremlin>
- <20261127143124.1039470-1-sashal@kernel.org>
- <33de19df-1729-4d1c-a6ce-e10e240e0c57@kernel.org>
- <20261127180325.2304501-1-sashal@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <20261127180325.2304501-1-sashal@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261127170722.GT246011@ziepe.ca>
 
-On 11/27/26 19:03, Sasha Levin wrote:
-> On Fri, Nov 27, 2026 at 06:51:17PM +0100, Vlastimil Babka (SUSE) wrote:
->>If you then do 'b4 send' and it's a single patch, it indeed puts it below
->>the '---' line. So git am discards it.
->>I think it makes a lot of sense? If there is a single patch, it should be
->>self-descriptive anyway, there isn't much information necessary to explain
->>the whole series, if there's no series. So you might consider some extra
->>info/context useful for reviewing, but not important enough for a commit log
->>you want to see doing a git blame later (but it's still reachable via Link:
->>anyway). So putting it below the --- should be good enough.
-> 
-> Yup, that works: git am would drop it, and it's still on lore for anyone who
-> follows the Link:.
-> 
-> The concern I thought folks would have is that it creates a big wall of text
-> before you get to the diff itself...
-> 
-> What about putting it at the end of the patch mail instead, after the diff, the
-> same way format-patch --base adds base-commit? git am ignores it there too, and
-> reviewers who don't care about it never have to scroll past it.
+Hi Jason,
 
-Ugh I'm not sure about inventing a new placement. Rather focus on that not
-being a wall of text in the first place? Because it really shouldn't be.
+[...]
+
+> Similarly the TCG log should work the same way.
+> 
+> I'm also wondering if too much code is leaking into to drivers to
+> implement the uAPI. We should take a look at this vs the TDX one and
+> make sure we have the right level of helpers and abstraction.
+>
+> I also can't help but notice there isn't a single comment in any of
+> this, it should be a bit more descriptive why some of these things are
+> in here.
+
+Okay. might next around, try to add comments.
+
+> > +
+> > +static const struct attestation_evidence_format cca_attestation_token_formats[] = {
+> > +	{ .vendor = true, .value = CTLV_ATTESTATION_CCA_GUEST_EVIDENCE_VENDOR_FORMAT_CCA_ATTESTATION_TOKEN },
+> > +};
+> 
+> should be the generic EAT token type
+
+Is there? but the content seems to be different according to vendor,
+So would it be better to keep it as vendor type format?
+
+[...]
+
+> > +static long cca_guest_get_max_token_size(void)
+> > +{
+> > +	u8 dummy[RSI_ATTEST_CHALLENGE_MAX_SIZE] = { 0x00, };
+> > +
+> > +	return rsi_attestation_token_init(dummy, RSI_ATTEST_CHALLENGE_MAX_SIZE);
+> > +}
+> > +
+> > +static int cca_guest_get_attest_tokens(const struct cca_guest_attestation *cca_guest_att,
+> > +				       const void *challenge, size_t challenge_size,
+> > +				       u8 *token, size_t *token_size)
+> > +{
+> > +	int ret;
+> > +	long max_token_size;
+> > +	void *buf;
+> > +	unsigned long granule, offset, len, rsi_ret;
+> > +
+> > +	guard(migrate)();
+> > +
+> > +	max_token_size = rsi_attestation_token_init(challenge, challenge_size);
+> > +	if (max_token_size <= 0)
+> > +		return -EINVAL;
+> > +
+> > +	if (max_token_size != cca_guest_att->max_token_size)
+> > +		return -ESTALE;
+> 
+> What is this and the related work? That isn't making sense to
+> me. If the token size is not absolutely fixed when the driver starts
+> then it should be fully dynamic and this just streams the variable
+> sized token.
+> 
+> Ideally directly into user memory so we don't need to allocate a kvmalloc.
+
+In case of live-activation. I think in that case CCA-Realm token could be
+different by activating the new RMM.
+But, in this round might we can drop this part.
+
+[...]
+
+> 
+> > +static const struct arm_smccc_device_id cca_guest_attest_id_table[] = {
+> > +	{ .func_id = SMC_RSI_ABI_VERSION, },
+> > +	{ },
+> > +};
+> > +MODULE_DEVICE_TABLE(arm_smccc, cca_guest_attest_id_table);
+> 
+> This isn't OK.. We only get one struct device per RSI and it gets to
+> bind to only one driver. Given there are other drivers that will need
+> to use the RSI, like the TSM and others, this needs some other
+> solution?
+
+Currently, this attestation driver is enabled when !ARM_CCA_GUEST only
+(IOW, when this driver can be built only when TSM arm-cca-guest
+disabled).
+
+-- 
+Sincerely,
+Yeoreum Yun
