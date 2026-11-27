@@ -1,54 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.113
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795744112;
-	b=3m3cfAsiNd6ZnGuY0WJO9IfDvi53QsNPjNPD0TDrOlDsPOSyhXebBTGqHdZI8Xkn8uSe
-	 XZy/WnWfItYhkzDWjVRfR/0YWsqgyn8TgGzOmpVmliuOMxDT3dcJ0PSpEWZngIW0P7d0m
-	 jcuL6jjYME92iWXvIXlvRVeoGmfgE/KH5hB+pOVvgf+AEWfuSpXLmBfDOVmfjyRxJwt8I
-	 dU4JkhtmqQWIDISPro1K1fCJhUhopPSWHmemNFIQlXrAMbhApvFqEJBk/qfDdGKoYEjDW
-	 4eFHn1JUL9f5Ng9Jkacs528QOrwOZBU4NjbxFmcvJ68+3LcKASuJyJOvSJDtIRprU+A==
+	t=1795744228;
+	b=M30pESNsou4njAvDdW4ghXAJUPj8EiqI2/XtbhLHXupmKCWHfesmpDbcKNxkh7T5mkwn
+	 AaF3LuYnYFuhbt/u1YdUS4BTEOedGOI072NsucxnXzdD3PznjTTVwWYtuUDyxrR6zBpcL
+	 vVzwCzcki4nXaQFTRf7zrNsQj+WOt2k9UJuYrOlyYHC01UTxQ37zSnfRVDn7u38qn1pOk
+	 GKbVa2F2CF8uWbtOucd0YEQDfNeaHggcoHl1NloYD8Pu1z0GTeKJSx+IvtHxLfqIDjnP0
+	 YjsNWaNufvlXDr1IWFUR3IV8O8BLkSvBMDZOb7NYY81W86JiA+3ItCY9ip3dQpWAFLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795744112;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=aTJQdyhxcBsW+3THmacQX4CnuREPTh1k/3kUlckbS3I=;
-	b=ynmbMHYZKo4Ut5csUVXN6eb9NVHYOLw/3p5ghYaXPfLHzdL5UAT6Rg2NdHxscd9IwU3E
-	 mvWkfH/pqKtgfgnIcfdft1qf3JH5p0u1k9O/+/is2t0W46L1yMCMyyeTAh1S5Msjxyc4w
-	 r4uJYgSNdlDUs3GPQG8Zz0/EEyYHO4sBUONt3l8cN8r5h4ScW95rryWwX+jn0sAjMNbCB
-	 sqhpsPtbkWkhRqe30SHR+3ePNLeWW19hMUHfVrML5s68Ojxq7AeHzS/3A8Z6frJG99y/o
-	 iC1FBxD8IFnwQTil/Is8a3If/FDRYBNU/N/54o3Oj+kR0BjKxQQAd7t+29BnzL3e9rw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795744228;
+	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=uUavxelTZRtFV0GBlnXp7zzHRPVbuF2ydfagKIyAC6I=;
+	b=LtGSO9UUwwinF12xqB2Fo2aj6gek7B6r5HvxKVDgHEKrpZN/02io4EXcepee5yn4A94s
+	 Tu6E1C+kedGCq2lGrHPYAEfKypWYoaRTgJSINw9LICCXCjDYr7EoNzFtTSVVi+0YDJHxB
+	 Y9fZF6Wdeop0i/WGso2ZA7jYDzqGyl5qZSBA3YgyqfjX3KwHefTKwLGl7G5C9bNUvzuI3
+	 LalgH08MSRx6m+7HRPFdw/hIuB5yGD0PKgsL7EwqLbKhOL5XYSEFoNthnsV0UsCCpIVC1
+	 QJnxpAeb+pgz/A3qJhA+WLO062xE5uys1f8QWO6+Zjox7qDbs3WBhhLks8YqSqwqiUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=GQAyIF3A;
-	arc=none smtp.remote-ip=91.218.175.113
-Received: from mta0.migadu.com (out-113.mta0.migadu.com [91.218.175.113])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=alien8.de;
+	spf=pass smtp.mailfrom=alien8.de;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=X4oontNW;
+	arc=none smtp.remote-ip=65.109.113.108
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E07606A323
-	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 01:48:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14E07606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9599F606A31C;
+	Fri, 27 Nov 2026 01:50:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9599F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=GQAyIF3A
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Q9H1ZM4mU9UmY5HM2f6Dg/Q5kejbxPRjAjPA/4aeIW4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795744108; v=1; x=1796348908;
- b=GQAyIF3A+2EButRR4JjY4Bm85mad1mJTAC5S3LZHCgaYBn6qF95pIY9iOIbYAg16WrObnc//
- 1njH7JPm+cZcEpzTh9ZJhUeqKtAj9cEzgaJlNiLYxECchCkjH5pS6HJYNL74uFQ4EBpJmAqJFTI
- 0+vPU1w3AO7emKvOqe6Hh4Ps=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b8479f5f7f50d961;
-	Fri, 27 Nov 2026 01:48:27 +0000
-X-Mizu-Trace-ID: b8479f5f7f50d961
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <8ec3f3e2-5d3a-4bed-a571-88f7ba473b00@linux.dev>
-Date: Fri, 27 Nov 2026 09:48:13 +0800
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=X4oontNW
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 21AB640E0219;
+	Fri, 27 Nov 2026 01:50:25 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id F4nSUESuFsq6; Fri, 27 Nov 2026 01:50:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1795744221; bh=uUavxelTZRtFV0GBlnXp7zzHRPVbuF2ydfagKIyAC6I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X4oontNWub6DK1ACbhGnPPvfWTxg+N6xqcMDviD75yX9EOkr8tU59KFI4Yhlzk5+L
+	 h2I/Lj3fJmJ206MHZ+KRKFEjB64R3PFTG73Ztt33Wqo+ug4QmVKv6mBc3iCknmJW81
+	 LqmUvJyEb/mvJNs18coEcFjuQS8D+VZO3dXL7TnCgebDHxjPVtF95ascABpPCLf/WU
+	 QeLX4m4xNB1ELRX5X2+9Drhx8Jc9HGwChSOZSrT/rdZHpqSQWeDmBCEVIeMNOUXeGe
+	 ZVOJVMLWd8q5UmJbvoC9CNW7za/kpNgugmHzQ9IY2n5LF8cryNiaF8Cq2R+XalE5eR
+	 3qBpV0IAjbTOGdfeChDe8mtomBDSskLmgTefyyPTOFSeLAebi3gtnQFhDVVZVBDX/Z
+	 +zhSKFRJ2v8+a5JCcmdj1SA+eDCszsH4ZYd7f9LCL9OCy83G6bbzDG6GHgTBJBDC4g
+	 BvlEYq6gbkao+0P3n3k8B+vT49sRO7JHBMvzcQl6kfMoNskNH9ENOZsjCsG1gwfNNy
+	 zKJzaUboJjp9HchAawT05gX45+MkRu4BB6FfAoHQedUMx4EljFfoXV98BGowihRaCZ
+	 KwuUsuo3vORov9p9wTYnHJ5Mpi4/O8T4HwhRP/8KV0iT3KsRRNXyKxfTY273DcAvbI
+	 +Szu+RaH8qccVC0ilMwkNhkM=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2ABD140E00C2;
+	Fri, 27 Nov 2026 01:49:57 +0000 (UTC)
+Date: Thu, 26 Nov 2026 17:49:55 -0800
+From: Borislav Petkov <bp@alien8.de>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Willy Tarreau <w@1wt.eu>, Leon Romanovsky <leon@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Marc Zyngier <maz@kernel.org>, Eric Dumazet <edumazet@google.com>,
+	Hans de Goede <hansg@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
+	Security Officers <security@kernel.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs
+ and a cover letter
+Message-ID: <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local>
+References: <20261126171926.2766137-1-sashal@kernel.org>
+ <20261126171926.2766137-2-sashal@kernel.org>
+ <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,126 +93,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 08/18] mm/mglru: make folio lru referenced times count
- a generic API
-To: Kairui Song <ryncsn@gmail.com>, "David Hildenbrand (Arm)"
- <david@kernel.org>
-Cc: kasong@tencent.com, linux-mm@kvack.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Muchun Song <muchun.song@linux.dev>,
- Qi Zheng <qi.zheng@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>,
- Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Nico Pache <nico.pache@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Vlastimil Babka <vbabka@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Nhat Pham <nphamcs@gmail.com>,
- Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>,
- Gregory Price <gourry@gourry.net>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>,
- SJ Park <sj@kernel.org>, David Rientjes <rientjes@google.com>,
- Yu Zhao <yuzhao@google.com>, Vernon Yang <vernon2gm@gmail.com>,
- Zicheng Wang <wangzicheng@honor.com>, Tal Zussman <tz2294@columbia.edu>,
- Xiang Liu <liuxiang.277@bytedance.com>, Ehab Ababneh
- <ehab.ababneh@intel.com>, Zhao Zhenzhuo <zhaozhengzhuo@uniontech.com>,
- Lian Wang <lianux.mm@gmail.com>, Joanne Koong <joannelkoong@gmail.com>,
- Kunwu Chan <kunwu.chan@gmail.com>, Hui Zhu <hui.zhu@linux.dev>,
- Maxim Muzafarov <maxmuzaf@gmail.com>, linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org, damon@lists.linux.dev, linux-doc@vger.kernel.org,
- Tianyi Chen <hi@tychen.cc>
-References: <20261124-mglru-fg-v6-0-8ffea39934a6@tencent.com>
- <20261124-mglru-fg-v6-8-8ffea39934a6@tencent.com>
- <e85a2666-9722-420b-9a60-9d4251fc3d4c@kernel.org>
- <awa30hwg6x82REoo@KASONG-MC4>
-From: Ridong Chen <ridong.chen@linux.dev>
-In-Reply-To: <awa30hwg6x82REoo@KASONG-MC4>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
 
-
-
-On 11/25/2026 8:36 PM, Kairui Song wrote:
->> On 11/23/26 19:53, Kairui Song via B4 Relay wrote:
->>> From: Kairui Song<kasong@tencent.com>
->>>
->>> Pure code shuffle, no behavior change.
->>>
->>> Make the folio LRU refs helpers available regardless of CONFIG_LRU_GEN.
->>> Without MGLRU the extra bits are never set, so they are inert. Move the
->>> lru_gen_* helpers into the CONFIG_LRU_GEN section.  This prepares for
->>> unifying the API for checking folio referenced and workingset status.
->>>
->>> folio_migrate_lru_refs() now migrates the complete refs count,
->>> including PG_workingset (bit 1 of the encoding), bitwise identical to
->>> the direct copy dropped from folio_migrate_flags().
->>>
->>> lru_set_refs_flags() skips the nonexistent mask bits when
->>> LRU_REFS_WIDTH collapses to 0, preserving the two independent flags for
->>> !CONFIG_LRU_GEN builds.
->>>
->>> Tested-by: Zhao Zhenzhuo<zhaozhengzhuo@uniontech.com>
->>> Reviewed-by: Kunwu Chan<kunwu.chan@gmail.com>
->>> Tested-by: Andrew Morton<akpm@linux-foundation.org>
->>> Signed-off-by: Kairui Song<kasong@tencent.com>
->>> ---
->>>   include/linux/mm_inline.h | 55 ++++++++++++++++++++++++-----------------------
->> I'm starting to feel like all of these mglru/reclaim thingies should go into a
->> dedicated helper.
-> Hi David
+On Fri, Nov 27, 2026 at 02:34:26AM +0100, Krzysztof Kozlowski wrote:
+> On 26/11/2026 18:19, Sasha Levin wrote:
+> > Commit messages written by AI coding assistants are too long.
+> > Maintainers keep asking for them to be cut down [1][2][3][4]: they read
+> > like a copy of the assistant's analysis and bury what a reader needs.
+> > When an assistant does trim, the opposite problem shows. A few lines of
+> > a backtrace do not tell a reviewer how the failure was produced, and
+> > Leon Romanovsky showed a case where only the full log revealed that the
+> > crash came from an out-of-tree module written to provoke it [5]. Willy
+> > Tarreau suggested a short quote in the changelog plus the full log
+> > attached [6].
 > 
-> I saw your comment on other patches too, about the header mm_inline.h,
-> about ~690 / 860 lines of code in it is for MGLRU / CLRU only. The
-> rest ~200 are for VMA / TLB / MMU.
-> 
->> Can you do that as a prio cleanup in this series, so we don't have to mess with
->> mm_inline.h in later patches anymore?
-> Perhaps we can instead move the non LRU helpers in it?
-> These helpers:
-> 
->    - anon_vma_name_get
->    - anon_vma_name_put
->    - anon_vma_name_reuse
->    - dup_anon_vma_name
->    - free_anon_vma_name
->    - anon_vma_name_eq
->    - pfnmap_track_ctx_release
->    - init_tlb_flush_pending
->    - inc_tlb_flush_pending
->    - dec_tlb_flush_pending
->    - mm_tlb_flush_pending
->    - mm_tlb_flush_nested
->    - copy_pte_marker
->    - num_pages_contiguous
-> 
-> All other helper in mm_inline.h are for LRU. So we rename mm_inline.h
-> to mm_lru.h?
+> Shall we rather ask them not to write commit msgs at all? By writing
+> commit msg we encourage - or try to encourage - at least basic
+> understanding of what the patch does.
 
-Moving the VMA/TLB helpers out looks good to me as a first step.
+Agreed.
 
-For the LRU part, there is already mm/vmscan.h, added by "mm/vmscan:
-move struct scan_control to a dedicated header" in mm-new. Most LRU
-helpers are only used inside mm/, e.g. lruvec_add_folio(),
-lruvec_add_folio_tail(), lru_gen_add_folio() and the refs encoding
-helpers, so they could move there instead of staying in a public
-header. Barry also suggested moving lruvec_add_folio() and friends
-to mm/vmscan.h in another thread.
+Just have the LLM write a commit message and then the human should go
+and whack most of it to the bare minimum of coincisely explaining the thing
+and cull all the bullsh*t.
 
-A few are used outside mm/ and need to stay public:
-folio_lru_list() in include/trace/events/pagemap.h, and
-folio_test_workingset() in fs/btrfs and fs/erofs after patch 16. So
-maybe keep a small public header for those, and move the rest to
-mm/vmscan.h, or to a separate mm/mglru.h if it gets too large, as
-David mentioned.
+I constantly do that with submitters' overloaded bla nowadays. And don't even
+get me started on all those explaining what the patch does. There's not small
+amounts of text which basically spells out the code in the diff, in English.
 
-I can help with the mm/vmscan.h part if that works for you.
+/facepalm.
+
+Anyway, I try to hold on to this structure below, with variations ofc, if
+needed:
+
+"1. Prepare the context for the explanation briefly.
+
+2. Explain the problem at hand.
+
+3. "It happens because of <...>"
+
+4. "Fix it by doing X"
+
+5. "(Potentially do Y)."
+
+And some of those above are optional depending on the issue being
+explained."
 
 -- 
-Best regards
-Ridong
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
