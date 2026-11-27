@@ -1,76 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795771751;
-	b=FVU1WSd4Ev4bb+jcyIX2R1menAhvHiR9ZUAIt1jwVwUkrUQKE/FPJNee7qcyLGJPH9M2
-	 DbepakUufNd2xRK2Du9OJad/uQTOz2EfFxN5eoG1zy3ZbQJJ3C4J60mWRSYZ5V3lWqTXa
-	 VEpmWw3LJHJO67E8SyTV03AnoxUYhrR7Tsxo2RaaJp/PDa11/3rNBktVlNUIHEkyLlZvO
-	 VJuJk/9XkKXnv5W9NhtUbBqysB4Cx+LqH2YjO4MIKylJ4E31Oh4SwjcBnDQ8YXBIMigft
-	 OcuT2cTOBmpH8HY3F6KPh+wHgLAIJPxfWsSS6d381hYiRmbRMsG0lijBUCavUMGgzSw==
+	t=1795771755;
+	b=bCN9wo3phe0myjIrdgnbU3D1WCfYLdCxIrfWiqlrndX+7ux6EBk8hBWGbOW1p29Xvmwg
+	 npkxsEm+kwwSLHeUAaw5pN4Mu2VZtEF6B6zZAZVnvGPDyyNXUzi74VelvDIhPjpW/4Hmw
+	 Wp1ZsEbJ2LBRki9fYVXZjASovf6tnqq4qDY1/Z/avSDzaKfMtqmi1RqZM3hND9ZSWMWR+
+	 Kb6FgEFGJk24lgVPV+13AU2oDp+SdfvMYXAAJ/96Gp/3KYDuPS2GdyzwJ3rdvyliBeUE9
+	 Z5HpX7WrSMbg0udewPMUp4R5hNS3pjfcc0rkiFsKb2PknbXLr+gvku1DBbWKv7zMP3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795771751;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=OX368Eg4KtV1PPGO1H9XOYA5FgVsuvC3JtGRi1RdJBU=;
-	b=XwtA5ljFNY+/nRiHlsmppa+twUvir6a4tPZlCMMBVNWeVNhttq1ZKyfaEPL0dWo9QU5h
-	 1PjOb/VDDT4QdlUkp+qRAdpm2o0vgPfiHYSD6qgxldslHjHi1nUIJw9GLn6VzAAB8laVD
-	 22wEGDlKfcGD/NnJElcRY5u3nPkU4ZX9UOVKJQF4lgAOmw2Cr613YXTkcZtKhRs5zjbHq
-	 l8PTJ6oFIEJdKqAHwxI8zAQ0jGxcUHmdRvibDnsNXEASHqwi6e/MPdPz6SrJFC1i6hUfi
-	 lAtG990tjp0ivCpmN6KdvF4jDCgBSByFVX1tpUxqF2ToyBx0sUeN+hZsEAfzsIxj+/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795771755;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=5ssYLWCxAfo5jDi/0Ktn+mc8LR1rGP66TW/9Z5LQ1j8=;
+	b=rUfWGAUJTb/LJhc204SoVnfg32+qerszl5mDe+j6vEDseL42wDttAQbRiBbpY9odNMAS
+	 IDM6vp8kL+ckSAspg0BWF/hhFECLix7KjfNkXFJsGPGXZw4X6AExORPvqosESeJfJlzyQ
+	 lHIgu7zTwrMDGNZR64844FP1v0dLi7mYYDi3iQNyX9llu8Rtzo3puyQYUxS0RUzB1v/Df
+	 XmPb9CRf/SghEL35zdCNoK90UnwHe+K2g1INlmgWT+w6v+mODTW0tj8sHEgCve6do6z03
+	 DXCd+heRvStO0UJXo0NAhL+gi3nSJaBJtAhJ6GfDWvoo+YjF0cEsINUdyQrmaJMliaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=1wt.eu;
-	spf=pass smtp.mailfrom=1wt.eu;
-	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=Z00DYon0;
-	arc=none smtp.remote-ip=51.159.59.229
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Y5QsFqKp;
+	arc=none smtp.remote-ip=95.215.58.64
+Received: from mta1.migadu.com (out-64.mta1.migadu.com [95.215.58.64])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F6F606A31C;
-	Fri, 27 Nov 2026 09:29:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78F6F606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F371606A331
+	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 09:29:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F371606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=Z00DYon0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1795771747; bh=OX368Eg4KtV1PPGO1H9XOYA5FgVsuvC3JtGRi1RdJBU=;
-	h=From:Message-ID:From;
-	b=Z00DYon0yhZcBFMUXmH1Uxo7qKMaMJCL6ZNXSF7cZ2638N/Bl5Pt6kP3ExZyCI/vz
-	 jMP3oakvif2netB9N/9II7zXnWMB7sSkKXHHo5cn2wz9iOL4MupjTUGpNWz6jOdIAA
-	 +aqGNDYL3Y2RFYZrh2ZleSoOCxQ3ZHpg4THgaebU=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 380B3C0716;
-	Fri, 27 Nov 2026 10:29:07 +0100 (CET)
-Date: Fri, 27 Nov 2026 10:29:06 +0100
-From: Willy Tarreau <w@1wt.eu>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Sasha Levin <sashal@kernel.org>, Borislav Petkov <bp@alien8.de>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Leon Romanovsky <leon@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Marc Zyngier <maz@kernel.org>, Eric Dumazet <edumazet@google.com>,
-        Hans de Goede <hansg@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Theodore Ts'o" <tytso@mit.edu>, David Hildenbrand <david@kernel.org>,
-        Security Officers <security@kernel.org>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs
- and a cover letter
-Message-ID: <awlNYsu1y8EhYgor@1wt.eu>
-References: <20261126171926.2766137-1-sashal@kernel.org>
- <20261126171926.2766137-2-sashal@kernel.org>
- <cf3596c6-742e-49c1-a90b-941d300d0b4a@kernel.org>
- <20261127014955.GBawjhw2j2YEUeiG1G@fat_crate.local>
- <awjopqoCJqwChwnF@laps>
- <awlCy3vDs0fKx1ku@gremlin>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Y5QsFqKp
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=AAFEebURwC9q020+aAeTJMGbmmnNTHzYTx7bv2ZbPG4=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795771751; v=1; x=1796376551;
+ b=Y5QsFqKpPfh7VbTCp2KClTUxRJe1JamI1JJwtWAtl9RFIjoBiSKoeLl7/vNEFSLmKPSGeDR+
+ XmysZh9pdGnlHGyd6KyC41aTZUPjNzY+hY+FvRfe+pWrDOlqOmFgXj8jSpYy9fp8rkex7tdSxdF
+ NA9iCtuk7pq+TeChVHM3Rq0o=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 2556b294b86ac472;
+	Fri, 27 Nov 2026 09:29:11 +0000
+X-Mizu-Trace-ID: 2556b294b86ac472
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <392d04d6-c6f2-4e55-9b83-afe7fe8f60f3@linux.dev>
+Date: Fri, 27 Nov 2026 17:28:58 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,39 +58,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awlCy3vDs0fKx1ku@gremlin>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4 1/2] tcp: avoid wrapping Fast Open blackhole
+ timeout
+To: Yingjie Wang <x-professor@outlook.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Cc: "mptcp@lists.linux.dev" <mptcp@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "rdunlap@infradead.org" <rdunlap@infradead.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "edumazet@kernel.org" <edumazet@kernel.org>,
+ "ncardwell@google.com" <ncardwell@google.com>,
+ "gang.yan@linux.dev" <gang.yan@linux.dev>,
+ "kuniyu@google.com" <kuniyu@google.com>,
+ "davem@davemloft.net" <davem@davemloft.net>,
+ "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com"
+ <pabeni@redhat.com>, "horms@kernel.org" <horms@kernel.org>,
+ "matttbe@kernel.org" <matttbe@kernel.org>,
+ "martineau@kernel.org" <martineau@kernel.org>,
+ "geliang@kernel.org" <geliang@kernel.org>,
+ "ycheng@google.com" <ycheng@google.com>,
+ "weiwan@google.com" <weiwan@google.com>,
+ "joel.granados@kernel.org" <joel.granados@kernel.org>
+References: <cover.1795424546.git.x-professor@outlook.com>
+ <f16def1cfc888fd26dad40f52e3e92b138bd3319.1795424547.git.x-professor@outlook.com>
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+In-Reply-To: <f16def1cfc888fd26dad40f52e3e92b138bd3319.1795424547.git.x-professor@outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 27, 2026 at 09:18:34AM +0000, Lorenzo Stoakes (ARM) wrote:
-> +cc Laurent who is probably interested in this and AI policy stuff in general.
+
+
+On 11/23/26 5:04 PM, Yingjie Wang wrote:
+> tcp_fastopen_active_should_disable() calculates the active-disable
+> interval as multiplier * tfo_bh_timeout * HZ. Since all operands are
+> 32-bit, a large tcp_fastopen_blackhole_timeout_sec can wrap the delay,
+> even on 64-bit kernels, and re-enable active Fast Open too soon.
 > 
-> On Thu, Nov 26, 2026 at 09:19:18PM -0500, Sasha Levin wrote:
-> > 2. I'd argue that LLMs these days have the capability to write better
-> > changelogs and most of our human authors. We just need to be better about
-> > laying out our expectations of them.
+> With HZ=1000 and the maximum multiplier of 64, any timeout above 67108
+> seconds wraps. For example, 67109 seconds should produce 4,294,976,000
+> jiffies (about 50 days), but the calculation truncates it to 8,704
+> jiffies (8.7 seconds).
 > 
-> Strongly disagree with this, it doesn't match what I see in practice at all.
+> This issue was found using a static analysis tool. It was confirmed with
+> a loopback reproducer that induces 12 Fast Open blackholes and opens
+> another connection 10 seconds later: with a 67109 second timeout, the
+> unpatched kernel retried active Fast Open. The reproducer needs neither
+> kernel modifications nor error injection.
 > 
-> I'd say that >50% of my review work is of AI-generated patches now, and the
-> commit messages and comments are consistently appalling + seriously painful to
-> deal with.
+> Compute the interval in u64 and cap it at MAX_JIFFY_OFFSET before adding
+> it to the saved timestamp. On 32-bit kernels, the cap keeps the interval
+> within the range that time_before() can compare, which limits the longest
+> backoff there to about 12.4 days at HZ=1000.
+> 
+> Also limit the writable initial timeout to one day, so the exponential
+> backoff does not start from an impractically long period. Writes above
+> 86400 seconds, which were previously accepted, now fail with -EINVAL and
+> leave the current value unchanged. The wider calculation is still needed
+> below that limit, as the 67109 second example shows.
+> 
+> Suggested-by: Kuniyuki Iwashima <kuniyu@google.com>
+> Signed-off-by: Yingjie Wang <x-professor@outlook.com>
 
-Note that every word in Sasha's message counts. *capability* doesn't mean
-that it is commonly exploited. Commit messages are horrible most of the
-time but when properly explained over long sessions they can get amazingly
-better. The other word was *most* of our humans authors. The Linux kernel
-community isn't the largest set of commit message authors and is already
-doing very good at this. Look at many other projects to see absolute
-horrors like "update" or "rebase" for the most verbose ones, when it's
-not just "-".
 
-Whenever I was given commit messages by an LLM, I had to reword them,
-but some were very close to what I could have written. And I must admit
-that a few times when I only reworded a part of the message first and
-came back to it later, I was no longer very sure where I stopped. *This*
-is a good indication that they can get better than what you usually face
-(or that mine are terrible as well, in which case we're back to first
-point and I'm part of "most").
+Reviewed-by: Jiayuan Chen <jiayuan.chen@linux.dev>
 
-Willy
