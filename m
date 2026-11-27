@@ -1,84 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795796887;
-	b=DDUlOmWXCfIP9IROxMhagVsDOeWsty8GiQs4Z78GNKWGWrTJprhid/VV1MDfmO8ToPK1
-	 5S/IHhNd5eC5vv5JagD9k7cAdyJSJnXJjlncmB7vbMt280oghrdhQU/az8o/94GjAbfFk
-	 v67Xbb6tQryxN9/Oe/sreemlaimnYGao0afR9vhGBnM/cAUeZjg7JTsXo2X5FpT1r2lxw
-	 h9JNPLCTZsBr8QhPC54XNoiTSTx/pUihYdHIKcq0sNzYUFZTRGkfGCM37a5ttZ5mp3V7F
-	 EceoVe4CiKYWJMKYdwYh8Dr1P4Dv60Kdevy0volZm+xxdf1dTmzZXyIllaS5GHPSmPw==
+	t=1795796888;
+	b=a+TJ6plqf8HkzLKLLfuRLhEwouKUBsnwLU2hPRddg7uyG+3D3jg7oTw5AFYXyiIaiwH5
+	 c31Hpm/P2u4ZTfJTmhuRrTm2Hf/wn3KAFK4ypkMbQGbvdRdQzFlx7lPPCPGCqnC1bFMAV
+	 h4G8K6Vb7xFuXqx02MvPhTR2/avSILeLEcBCmhzOKEJrskYCCOKMBAoo/cZKBk8stPc9Z
+	 h5xTcEfHq0TjOWpaCPT5z+dhbqP8Alfo70crwNNogYeI3DNR4UNmzLqxu4Rad6KWP5boI
+	 wzfEHToPBfZKJQ0d08Hf6afd6Vm+m56zP76WX5xFW+s9gYLupZT0yQ4TzNTBrs3zk7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795796887;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=RE449hdXjDfZ9lfTsQ/wHKgoP0IBy8MiOMaH0f+BiYI=;
-	b=nQQ1fzRhUrPj8dbEFz6YskRC1IwZUd/GYXKBk9irlvDPKLXti4ANyOeZ6dRZQpz9VXAU
-	 wORd8PR0PtvyGbJVooSl0hcjGs1f2EMvQ0MiiRp2IjSl//p6wQt62PObcAhPMQdC+lQeq
-	 haX9jZFbCtJLKaE9Jnsl3AO+i2WHiJ91M02KycOxNL0lQDDv4oElL4FzUkRsQYISSSRVP
-	 3xoqUOWaohWub4SxKttJ2xaGpPT5HUG7iCyfFEL2pw+JbmF06XtNq2RnvkUjaWiTfrN31
-	 7bvRvtpp9FfZWu3K6Kc0qjhILXgZ2e1qDz64RqvSbcgxk62NZA7V3NnLhTU4wMjXT/g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795796888;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:Content-Language:To:Cc:References:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=c4qt7wJmo33DH5hr5919v3DQD2BX8Lp+y10YBFjPKmk=;
+	b=Yyj4QCg7GMEQ0mUMMNClOccsyT7/ywOO0tduvnTFzV3YQtvhtIk/3BdOhzfiJ6nFZLrO
+	 /CDedh/gVnTai0dXPORTgTTiO8a/bopWXGSXUit5JHUnOEefwm0ppp6EWDWTS8C0I7u9W
+	 FtJG79oWUD2e8HX36AQUHujAI6FwXPWux7ZubtqgtMlZ0biOqzOZZlZcIRVC51kQ8hcEh
+	 73h1jHK9wIl1BtcKNQHiryveSCzZ0yqXvRpBv493K6J1r0apoDxw6szlU/2YtRISr899t
+	 3/68xbp3OhPTKaomE20Ec7AMf7y4Xy1nOb8n7xDmXEUqelr6LUSNxp1XOvuY+4ovhig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lunn.ch;
-	spf=pass smtp.mailfrom=lunn.ch;
-	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=2gPJlDFG;
-	arc=none smtp.remote-ip=156.67.10.101
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692C0606A31E;
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=tDBgDGsD;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CC48606A323;
 	Fri, 27 Nov 2026 16:28:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 692C0606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4CC48606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=2gPJlDFG
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=RE449hdXjDfZ9lfTsQ/wHKgoP0IBy8MiOMaH0f+BiYI=; b=2gPJlDFGUs6opx3O3g2ST85Zve
-	zHN6dHn7VCgUUDSClLyFvuRYA0KOG/Sm69uNSo+oaZN7V/IdHFvuj0X/q52xTcYCAkXML+BmuBX/2
-	H4XC9I+wl3/kT+67WW5NWPLsbU8jy1oSbOofIYBKOEk5nbelBcSb/KPpg66vet/uJlT0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xWynU-001plE-1v; Fri, 27 Nov 2026 17:27:40 +0100
-Date: Fri, 27 Nov 2026 17:27:40 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Sasha Levin <sashal@kernel.org>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Willy Tarreau <w@1wt.eu>, Borislav Petkov <bp@alien8.de>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Leon Romanovsky <leon@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Marc Zyngier <maz@kernel.org>, Eric Dumazet <edumazet@google.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Security Officers <security@kernel.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs
- and a cover letter
-Message-ID: <71acea69-b7ad-4090-ac57-8d562c5c3bfb@lunn.ch>
-References: <awjopqoCJqwChwnF@laps>
- <awlCy3vDs0fKx1ku@gremlin>
- <awlNYsu1y8EhYgor@1wt.eu>
- <33c6cf3a-6b18-4e09-bd5c-68ed2c34de56@kernel.org>
- <awlR9pQUjodcLjZK@gremlin>
- <20261127133756.455469-1-sashal@kernel.org>
- <awmJ2c87NSDjtSwp@gremlin>
- <20261127143124.1039470-1-sashal@kernel.org>
- <awmU4L01OH9kWEVv@gremlin>
- <20261127153902.1320179-1-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=tDBgDGsD
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 925061570;
+	Fri, 27 Nov 2026 08:28:03 -0800 (PST)
+Received: from [10.57.71.121] (unknown [10.57.71.121])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DCB863F632;
+	Fri, 27 Nov 2026 08:28:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795796886; bh=uvuUXT6/oqsW0UDpUW3bxTylCGwKduT/Ak8GOkRy0JI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tDBgDGsDThNcbZ/lRt+L05X+6ny7A+3HRqTsQbrQsJ2FvfB/00IVOcWQzTiPzD1C3
+	 UIxSjIS/Jj4KtHiTh778z9A54Dxs9VRSk16Yiuh6Eb6+a2vsIyCvRZTOGpVDmc4Jhv
+	 iF5991BtBv4GBMMLieU7slocKD2Zui4XCnT02ssA=
+Message-ID: <3a46bcc3-33bb-4c9d-a3e5-44144406dbda@arm.com>
+Date: Fri, 27 Nov 2026 16:28:01 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,17 +53,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261127153902.1320179-1-sashal@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v3 3/8] arm64: acpi: Enable ACPI CCEL support
+Content-Language: en-GB
+To: Yeoreum Yun <yeoreum.yun@arm.com>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Steven Price <steven.price@arm.com>,
+ Sami Mujawar <sami.mujawar@arm.com>, thuth@redhat.com,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+ Pawel Chmielewski <pawel.chmielewski@intel.com>,
+ Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>, Len Brown <lenb@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Gavin Shan <gshan@redhat.com>,
+ Sudeep Holla <sudeep.holla@kernel.org>
+References: <20261127-arm_cca_mr-v3-0-df3230afce8f@arm.com>
+ <20261127-arm_cca_mr-v3-3-df3230afce8f@arm.com>
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20261127-arm_cca_mr-v3-3-df3230afce8f@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> One question though: what stops you from ignoring the cover letter altogether
-> and looking only at the commit message? We can have AI explicitly tag a
-> "slopped" cover letter if it'll make it easier...
+On 27/11/2026 15:32, Yeoreum Yun wrote:
+> From: Suzuki K Poulose <suzuki.poulose@arm.com>
+> 
+> Add support for ACPI CCEL by handling the EfiACPIMemoryNVS type memory.
+> As per UEFI specifications NVS memory is reserved for Firmware use even
+> after exiting boot services. Thus map the region as read-only.
+> 
+> Cc: Sami Mujawar <sami.mujawar@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: Sudeep Holla <sudeep.holla@arm.com>
+> Cc: Gavin Shan <gshan@redhat.com>
+> Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> ---
+>   arch/arm64/kernel/acpi.c | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
+> 
+> diff --git a/arch/arm64/kernel/acpi.c b/arch/arm64/kernel/acpi.c
+> index 681aa2bbc3995..3d6335db882d3 100644
+> --- a/arch/arm64/kernel/acpi.c
+> +++ b/arch/arm64/kernel/acpi.c
+> @@ -354,6 +354,17 @@ void __iomem *acpi_os_ioremap(acpi_physical_address phys, acpi_size size)
+>   			prot = PAGE_KERNEL_RO;
+>   			break;
+>   
+> +		case EFI_ACPI_MEMORY_NVS:
+> +			/*
+> +			 * ACPI NVS marks an area reserved for use by the
+> +			 * firmware, even after exiting the boot service.
+> +			 * This may be used by the firmware for sharing dynamic
+> +			 * tables/data (e.g., ACPI CCEL) with the OS. Map it
+> +			 * as read-only.
+> +			 */
+> +			prot = PAGE_KERNEL_RO;
+> +			break;
+> +
 
-Some subsystems 'git am' a patchset into a branch, and then merge the
-branch into there -next tree. The cover letter is used as the commit
-message in the merge commit, since it is supposed to explain the big
-picture of what the patshset does.
+Unfortunately this breaks some platforms, where the NVS must be mapped
+R/W. Thats why we dropped this patch.
 
-	Andrew
+https://lore.kernel.org/all/20251124103329.363afcc6@foz.lan
+
+Cheers
+Suzuki
+
+>   		case EFI_ACPI_RECLAIM_MEMORY:
+>   			/*
+>   			 * ACPI reclaim memory is used to pass firmware tables
+> 
+
