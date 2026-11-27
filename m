@@ -1,65 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795784176;
-	b=I1VqfUaPWe5NjITbexboNKkwshlsv3ffBfDHJU+pV104Zd3ir676L968/MzVfI1/Y03e
-	 vO7kaP74fLcDpATVm5fr9kS6ibEyUPDW6akdpf03mgOKIhKFW0WdzH2n0E6DlzO23Hhoo
-	 bjlnyToWZWzl1Yo7uD8y2HGnDE1ZswP0R196mE2IYJ6MHRUPwydQQyuB864iYeCPm7lsg
-	 U/5QfUjwEvXlPsIxInYdqZXWRMOUUbRENf21WFBOMtLjj01ccvi6oi4ffgy0HF94gxdD5
-	 JH9/Ihn8t7I6u6DhqxlkKq4ohKLfGCE/wpF0a9CrlJFPZee9TabNpH2u4EOCjM1rG0Q==
+	t=1795785903;
+	b=FHTVTUNpui8ObjESU+auw30cjXzoiyzdn5S/JhkP5+96ZO++REGSVPE5BJgUMeB1RIgK
+	 /dalmTXkVSkvPN2AwARlNZyNGz6Eeh7YnYHGHgUhfXhNJeXBVyk2b+FYoMABCVh3wTx0H
+	 1+iWeOJJFKrtlSag2DTLTjc1apQY4tqKBZhpoTlgupXgYsVXVEQyGdHbWLWYarb0Ta7/H
+	 0+SC1eWrRa1Yzgq/O4mDFPDTVDT8X1tLwpH5xNzxyvv3EUFz3pbj30hfSuGwGyd02CZZb
+	 JCh4Nb2MSHklguqR+//+rmNIveYso0fbkszAEOEd5mVcNDcdHXQca2/YZ+xGJM68bOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795784176;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795785903;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=VCgU5Kg2KvKrAQHYH6tU0m/C/hUcvMv2qP9GBHYvr3o=;
-	b=G9MORe3B3wStWoM7Bov8p0/dHuc/tjrR4NBJHk/slek4r8+cWA2ebT8+xWhxeYslr64N
-	 smbfMwzuZNU59IKpUKVW9zLLdEDHO1LcGpu/ZeEfH9P1u5dH3+bk42tUj+sXa760ILFUn
-	 V62GEuzSEOmA917zd+eWlc2FDEl7uEJAyXUDM0C7ZyGfuOpDCOx1FkEpxQYZjT2FbnAPK
-	 2FxXrxNp6ZaJnu5beAmL1etXGBppas2W+pn7n+dZ2zCUETPVcUcLXsG2XQup62LQ9TMuh
-	 XY0C3tzRSFaoHKe/FueQh9JIl38mXyzDsddFJC3X/UoJdEQZSJwRjIVRKdygMxMsO1Q==
+	bh=szfGN/dgC/JLyBFU1VQYVkraiko0/qhujWRZpDszyZE=;
+	b=tJAt87ao+TDZqL1/dSASAuPH0TE7DBvfYAXsRBxBf+oCeUL1cggNULQHd2xsWD7R+vU6
+	 mcJLxEtBg2ZykCEyrtVSt/MXr9J3sg9YhNhjTbdkE7xgFc5z9NvT4c3M+d1amqXOI94r0
+	 QA7YMeP1RFO59lEzcWeJ9QopPrUSoIz0XRi1P/JsuBaiZu8phxbzHgOkqWcz3uncKO7nB
+	 7+ROn8wfL7TDava0xvBofCyLR8vAXgRpL6Xs9/66VmjwVeluOB5oAOPSuWGGwJoDHxRWc
+	 yoDdFJDEK9WKRdMwcbMjhOOX9xYni2UQ/LoM/zsZrXTQIufOLApKLQ6/vpxpx9uL9Rg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G1NP2Erz;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=K+d8pQWv;
+	arc=none smtp.remote-ip=91.218.175.197
+Received: from mta0.migadu.com (out-197.mta0.migadu.com [91.218.175.197])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B1C606A31E;
-	Fri, 27 Nov 2026 12:56:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AF1606A335
+	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 13:25:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08AF1606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G1NP2Erz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF9CD1F00893;
-	Fri, 27 Nov 2026 12:56:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795784175;
-	bh=VCgU5Kg2KvKrAQHYH6tU0m/C/hUcvMv2qP9GBHYvr3o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=G1NP2ErzHAioaVQ+nq2m7ayY7YcxNVkVJBX390lHxNjRrXeEYuztB/tbo/rgHtCrQ
-	 CKJDVzC2jFZT+wf5yZOlgXfYlfA6XYXwaitYBHL7K6Yov5uLo1Mp/5mMAtMpVEp6J6
-	 o9VeU2wzc0cJcsUJDFY5B3x73p4j7tzuJaDKOJHBOrYbLhfwPmEsBn2enO26FBiPuu
-	 FKIHmIbV5+GeNCmnmebxxQgy1ag4A7ecdWd/y4JvGOHSwRvPCG7jCmOxiYTj8S7NmG
-	 +tS6HLUhsEpLfhtX3W27g8tiiCOODNEfUdkh9XOS3x7z/CUZOfbG3fPmaIBlz0RTIv
-	 qlctJuf5Q13BQ==
-Date: Fri, 27 Nov 2026 13:56:07 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: ackerleytng@google.com, Alexey Kardashevskiy <aik@amd.com>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	David Woodhouse <dwmw2@infradead.org>, Fred Griffoul <fgriffo@amazon.co.uk>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jianxiong Gao <jxgao@google.com>, 
-	John Starks <John.Starks@microsoft.com>, Michael Roth <michael.roth@amd.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Tarun Sahu <tarunsahu@google.com>, 
-	Vishal Annapurve <vannapurve@google.com>, Xu Yilun <yilun.xu@linux.intel.com>, 
-	Fuad Tabba <fuad.tabba@linux.dev>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCH RFC v3 03/88] mm: shmem: Implement guest_memfd provider
- operations for tmpfs
-Message-ID: <20261127-plagiat-bergtour-einfrieren-b73600501aca@brauner>
-References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
- <20261106-gmem-alternative-providers-v3-3-8484dde66a7e@google.com>
- <20261120-provokant-zyklisch-schutt-55d8eddf2ce4@brauner>
- <awBaeiUw0i-uEQzM@seanjc-mac.roam.internal>
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=K+d8pQWv
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=jUWIbjRKrhloOv0XHKi9nPNyc6F8oiWX7SWfLE34nxE=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795785900; v=1; x=1796390700;
+ b=K+d8pQWvVXZhZVPjVcAJZl3dN/Pa+jtxcXkLz7fGXUcPf5SXzGuGlIxKbEZx666YSe9EKmcJ
+ qT2oAni9LSWGO+PV28oxyVudOxh0S2GP5wDtmMJCrXBrY7yjrGC0ZOkMVYyAQif1DvDLfj+66ST
+ xFo4U7i+uRny2HhyultXmeQD2pEqSLyyFipik3Xj7i8/HeQk78fe6qNaDrXrNIor1JVTWujwXC9
+ 0w907Mk00NI6DaGQX6A9sEx0DRAII5PmkdFDpBVIwO0Mkxpdi96dw0JIXNlfhaZdK7e+atW6jgM
+ dc1XBjJVQMb/neIdLLllc2Irxdx5p/EdOp1lTOoh8RPjw==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 2c5e8a08dd82050f;
+	Fri, 27 Nov 2026 13:25:00 +0000
+X-Mizu-Trace-ID: 2c5e8a08dd82050f
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 27 Nov 2026 21:24:56 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Chen-Yu Yeh <chenyou910331@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/9] docs/zh_CN: align translation paths and update
+ guides
+Message-ID: <awmEqJSOd8wKUPTM@wyuan.org>
+References: <20261029124429.294868-1-dzm91@hust.edu.cn>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,30 +70,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <awBaeiUw0i-uEQzM@seanjc-mac.roam.internal>
+In-Reply-To: <20261029124429.294868-1-dzm91@hust.edu.cn>
 
-On Fri, Nov 20, 2026 at 06:34:34AM -0800, Sean Christopherson wrote:
-> Eww.  I really, really want to avoid having to update KVM just to recognize a
-> new provider, and I shudder to think of the potential module dependency hell we
-> could end up in.
+On Thu, Oct 29, 2026 at 08:44:20PM +0800, Dongliang Mu wrote:
+> Several Chinese translations are no longer at the same relative paths as
+> their English originals, and some Original fields are stale. This series
+> moves the translations to matching paths, adjusts their indexes, and
+> removes stale Original fields. It also updates selected translations to
+> newer English commits.
+> 
+> v2->v3:
+> - Remove unused top-level labels from the translated V4L driver index,
+>   process index, and magic-number guide.
+> - Update the zh_TW admin-guide README reference to the relocated zh_CN
+>   GDB debugging guide.
+> 
+> v1->v2:
+> - Drop the unused top-level readme_zh label from the translated
+>   admin-guide README.
+> 
+> Dongliang Mu (9):
+>   docs/zh_CN: update admin-guide/index.rst translation
+>   docs/zh_CN: update admin-guide/README.rst translation
+>   docs/zh_CN: add media administrator guide translations
+>   docs/zh_CN: reorganize process debugging guides
+>   docs/zh_CN: update magic-number to match upstream
+>   docs/zh_CN: reorganize media driver API translations
+>   docs/zh_CN: move GFS2 translations into filesystems/gfs2
+>   docs/zh_CN: update networking/xfrm/xfrm_proc.rst translation
+>   docs/zh_CN: remove stale Original fields from SCSI and IPE
+>     translations
 
-I don't think you have to. LUO solves the same thing without file
-operations:
+Forward Alex's comment to this series in what's cooking (Nov 2026, #05)
 
-* Providers register a handler with the core.
-* The core asks each registered handler whether it owns the file:
+| Some of patches are conflict with latest documents, please sync up and
+| resend. Thanks!
 
-	liveupdate_register_file_handler(&memfd_luo_handler);
-
-	bool (*can_preserve)(struct liveupdate_file_handler *handler,
-			     struct file *file);
-
-You should just do the same here, I think. So put a small provider
-registry into core code that is always built in and not into kvm.ko.
-
-Providers register a handler with a ->can_connect(file) callback and kvm
-walks the handlers when it's handed a file. This way kvm never needs to
-know about individual providers and the providers only depend on the
-registry but neither on kvm noor on each other.
+Thanks.
