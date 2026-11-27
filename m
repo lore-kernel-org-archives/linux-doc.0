@@ -1,71 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795816235;
-	b=tn/7/IdyFygAOSdTI0O9aRT6k4wkHV3awYcBmq5Twc87EAl6RGrPb8FmaMZuyc/x3Z0T
-	 dcmCrfcTm/xJdjD+Xa5LWbp3NEDWYEwbUf2BZDqmTQ1bUnLa1nJibgegr29oX93LhlRQA
-	 78gOpguA9mrR152VbO9HyMKcJRoef56KAn7aBriR4znEw5D4qRNxb6zgjpx7kA3cO483V
-	 X9ZUDQawbvD8oH5tEPTffk9eCOWBA1GrbJfpi1kvV4s3hwYKY0WHop++vTX50nUfCk+9+
-	 JI1jD65LYSYPX4O6E5mUy1icGkUlzu12pqIbFW8MR/mFaCEiy5Xt9xGPLeh9RSMV5Vw==
+	t=1795816878;
+	b=QBGDLe0kCLsHHdzfHlEW7YttOwWaPL29/FX3n3OdTpKe4Zls4aBNeKZ/y7pB/OcUtS9b
+	 Gxyo0BHpYiwzX/FtUnqELtZg3TmHbwUpN+89jpxhPZpXEzT/HlohzQWavSf96x93rwmCm
+	 xT9nmMyra1OMO4iM17nJX5DD6u0sWz34R3MjGGs4Hae8pt7o+2fBWztJz4PHI6jHcOOrj
+	 oReFG2oa0uFVQsK324aSwYNwSbW+inuEmEVKNobUk5wwv0hpRlOD/7SVHSI9yetcI5lol
+	 aYsUf7eSCM9TOft/v4BJxYw65b81GTLwLUmlNuzTjm7Kq8hxDeRy4a/Bkglj7AsN4mQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795816235;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=4+vJzaNaeGRIahAAcqcSHLCv6EEY6IvTeEZnCp6y4sA=;
-	b=wmaGzC/MFfwgxSkHO7wnEdJRcSEMdOXjvGjrFZPd9zqQEETMIFfzlhiZjESNzw5U63vp
-	 TCcNb4twyvJf4IUs01raZ7BmhY/ehkeypDYWKKUecDO4C3N4bzgvtzvEBYbtOwT3VoVYW
-	 GTJdn+FUDc21AteH8RlLzytOJtQKz7i5Iv8/hzLxKxWeYNZM2zbcQFIiLSOEME2cUt57Y
-	 PTphy28IPYL4fwofjoGioznBVnHwqZ12OzAWebmRM3S1BOOzk/RQKhwAgm93zidBZF/Cw
-	 scgeDpVYQPBSxYBjrKzuxBRxLtOiFxRb6IIxzWGm0U/tovuTBFw0CYn/0raiPnPasMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795816878;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=1vo+NyvwQIvYNQKVdVyOnd5CSTKNIDNypXUPDIcTJpw=;
+	b=vBWYh41CGC3U1yIHBVVnouuz178eBqqPHeZepwNcbu4Pc0YN8fhIHOEogs1TQFQ+LDi4
+	 jNtF62IZHO1ZOLQPP69wfTjanifxq5LOpza7ZUD3a4fUPWWzroN+XRppLbHso4PkJLGOk
+	 stsomy0iZMjxHkByZjNr2h6WxuC2pvySWJ7N1Ak2GD/gtNBET/SGDwQQu8XSYXsSnoWHC
+	 UNgEJEh/0FFViGrD7sRXnRd3Ejp6jujacsqfuDgF+PZUs1GmxMqnll7INy7H6Uqidvegd
+	 HRa6WqOwLvgTDAZiYz2jZsgIa1qofDqjRBN/8cNLSvWBScMWqAcCvsyneu8wn6gbEvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="m7y5w/m3";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=LYxtQkNU;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBAB606A31E;
-	Fri, 27 Nov 2026 21:50:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465E8606A31E
+	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 22:01:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 465E8606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m7y5w/m3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3147B1F000C1;
-	Fri, 27 Nov 2026 21:50:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795816235;
-	bh=4+vJzaNaeGRIahAAcqcSHLCv6EEY6IvTeEZnCp6y4sA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=m7y5w/m3OjJrj+5R4ikLU7JDrMEaSbKrnjTSf1QWAmR98ovVN2zl6t8KJ8jgLjOnm
-	 lQxjlR9kpwVnEbP5P16pc5WNVRaxx3ufkQLGjZkCphaj6ZW36OHQqmHxWgrCVvukg8
-	 O2+UBBGkOqVraRpTQLqUcSmBCMuEapy3kjLyRUSxVtCvlaaPOzCcoHj8++dAnLLsf6
-	 aFH0lpCkdhoyLnvZDAu3I7v8MzDxd7tNhjYdo3lDd+OY52Kjvy8zNbPD6VBJAXt0ly
-	 yvfcRSidsej6T+v+zviabcsKUu6F/Er4LTv3m4jRFgHV0MLADAinFwPHi6tZnli7rZ
-	 +1+32wAO3SRug==
-Date: Fri, 27 Nov 2026 13:50:32 -0800
-From: Namhyung Kim <namhyung@kernel.org>
-To: James Clark <james.clark@linaro.org>
-Cc: Adrian Hunter <adrian.hunter@intel.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>, Leo Yan <leo.yan@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>,
-	linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org, John Garry <john.garry@linux.dev>,
-	Leo Yan <leo.yan@linux.dev>
-Subject: Re: [PATCH v4 00/19] perf cs-etm: Per-thread mode fixes and snapshot
- wrap support
-Message-ID: <awn7KH6aDpurtZQH@google.com>
-References: <20261105-james-cs-unformatted-per-thread-fix-v4-0-7759e0ce2449@linaro.org>
- <fa4e19d5-2e66-4468-9860-19cd9f3ea8db@linaro.org>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=LYxtQkNU
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4ac109a8a12so5058051f8f.3
+        for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 14:01:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1795816875; x=1796421675; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1vo+NyvwQIvYNQKVdVyOnd5CSTKNIDNypXUPDIcTJpw=;
+        b=LYxtQkNU4gSDdTcaICQeJiEwxSOvDWLl566CKfw2vDJ0/R/xCiIMAi2buU8BXvgQfP
+         f9644AhHeK3HMI+mgq7NZg4hcAulTLtYZhom0JQXEL13o2sW9rich/g6JhdrPHJds9Qf
+         WCClSJZtp85Olb860ISj9Tv4i421rxSJGQQ5mJesOcrnUTPEjOACsiwlvXq1ChXtctUb
+         dptte4Hx3d9yYIsSfVLfYdI/5unnVuiKwEIq/xICCIVDGMYD1sC9pxzTA5iaac9urMTC
+         kq3b5cxPofQBuQJT0ogJ5CYw3ZdCCQ8PkxLQrM4Y56xxXk4zGiYg5JE1BfrPMVDbKPXW
+         yJLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795816875; x=1796421675;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1vo+NyvwQIvYNQKVdVyOnd5CSTKNIDNypXUPDIcTJpw=;
+        b=k9oewDfilkKv3+5H0zuBT7piGErDamuQ1dxCxBZSsaErHvL/1gR0eODyejy3EvOhqp
+         j6wsaawkAgr2pww2IH1hSH1dQF647GnVEsoKlH7jdbXYnx2UXnNOI+Uisk2vc1xR9abh
+         lZK4eCQBOHNBtKk0uKpsotiu0dYbe4SAq8SzBQzAe181S7H9Gi1mQGFtdeRukRM6ZAAI
+         uW3dzVCfVTtvwHRVWvkzNHDOtZYMDcPgFwi+QkMm0RceOQlD8lLMNmqMaEjCTK346U6o
+         WZGPUh5wJUwm/STljtQ/C6gl2jBCyUR6q+2EZnfXR04PB69QvgTobjsccSAHGV5S9g8r
+         B2vA==
+X-Forwarded-Encrypted: i=1; AL+hErEjb/IS8GSOwRaSIcVt24+peDzYhkY0UIZiDMvAH8Eq4kar3VZ4ImYTT2LD7Xs6gWcVcl4Z3acvUA0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+E2x4o0yNJd7ogjsGSBn/tOr4uBPGnWL/OsRnxPkgAZE1vqUmq
+	+tTxERiRblNVZlr5TIE6+IWDGKcRFJwpy7awwC5ftnz/bCM0XZwyE0iRrRiA7m7rAao=
+X-Gm-Gg: AZFdTZcyN6rz8TY0zGMQNoAdQKvcSY0FQ/ko+ZPdyrzv29PWVtuoRUulXYJYFpNspE4
+	4JEBsY/4s+7BdphajVsmhj8w0cwax2kgEFS8qIw59lTTkqhzk3QZOP93h3hEx+4SpFpEY3i1zXM
+	G5Nz2Xh0nqJJaaAbJB84Bty/MbUZgXgkVE4RaxuCIRg80A26VQOhvGYsLDpdd+0fblz7jbWvyy0
+	HPYOqx4malJfxyO+2YTkkdyBblPA3eOQGmRFAztWk4OL2zT5RneeTfGxYA0kcm1mmeBrOFxuBOY
+	GqYn26vQo7BVFMyFQHfTi67J6fexznL8DFevwAMslE9XB4VWj+QC38uoQAtqdfVjnF7BMT8PfKb
+	dfSZMo4PJlswgbGRdASzQBIrytjXSr7QETsMH21yYVvAGYlyi17GKuvWUeL8XI01TBYMTqOENnf
+	/32AOPgcqQ2OXJmXQ/h1Kbn8Rl0LN2mSWymyCyTLV2178UclCP/aJGyYT1qEp26pzdt8AH3njEC
+	AMYWUiUj2J2XG/ynVccTO70XqbfjNfVD35x0Ashm9GbrD2OAc43z9OjgtVX85xZlNDRDbVGpUKD
+	H5CDC6quKxqwFrBuLafwaw==
+X-Received: by 2002:a05:600d:82d0:b0:4bb:818d:8d8f with SMTP id 5b1f17b1804b1-4bb88818955mr644873285e9.23.1795816875412;
+        Fri, 27 Nov 2026 14:01:15 -0800 (PST)
+Received: from [172.16.0.229] ([159.196.52.54])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385666e7fc3sm67195403eec.8.2026.11.27.14.01.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Nov 2026 14:01:14 -0800 (PST)
+Message-ID: <138ba3eb-7225-429b-9791-2de9d49e1fdf@suse.com>
+Date: Sat, 28 Nov 2026 08:31:09 +1030
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,59 +92,328 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <fa4e19d5-2e66-4468-9860-19cd9f3ea8db@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] btrfs: add a maintainer entry profile
+To: Leon Romanovsky <leon@kernel.org>
+Cc: linux-btrfs@vger.kernel.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <0037554862c0d9dce3ddafd1238347e4b16a5079.1795581896.git.wqu@suse.com>
+ <20261126133712.GN774860@unreal>
+ <978c5ae0-8cf2-47d4-8fb5-1d96896132be@suse.com>
+ <20261127151418.GY774860@unreal>
+Content-Language: en-US
+From: Qu Wenruo <wqu@suse.com>
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJq3ujyBQkUpLw5AAoJEMI9kfOh
+ Jf6o8OIH/0mqW+TQM4m2x3hCsnK+oB4yJH1qnGvIhFF/Lhs48wI02sGh6/4aA0hkCDfd9LHQ
+ +ci4FUepZ9y4VS01+oIExbg/8ytzGYTzLtb44jK2GBOBVSJkMiha6jp22XFt7WUkT/tvbreu
+ WWdGsaJIRQaZChy7xsMI8lqQ2WdmluZJ4LT0wD3l/l6QU1ZseMGySebdY9sVOQEOJNV7Qj92
+ /KOAFNmeZshV/qDI8Iw1RTs6TvLqCcqmlZLCmJkYSVhT1RonWRren8xIRcFEgMe004IDnt7V
+ qdQhk/nhTS9x9MBAhMRl0TTE1VKDLvVALsud3iZLrmmtYvwPApzGJk052f0m28vOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJq3ukKBQkUzDspAAoJEMI9kfOhJf6o
+ SNsH/1ysUWOKmzY0rGS3ZdS61QgqMGhSWD/EJ4UiPw+xO4l4+GtX0fOAqxqsmBKqje3vyhBa
+ Z5o/1Y+gNiN+E6RBcSz4b1TAd78sQ2bvT5DWOvBjeeVxHdiuQMIn4S8xk5ZpySBw5ifjoiuL
+ 0M33UVtJOzM8yfAeL+d/Rp4leJw72SutjkLyZTG/gJIp4pJGD/kFHn24OLL0IxEcO0gOekNZ
+ os5e1R6jAJ2ILk7+MDnvU8wXHcCiVzuDhJLI1tih1uUIE50muHQJWbYuVBbdJeu8WlIDDssx
+ UOCxLylNG3gDXV5MhLubPTOpp9OiFc/XC37nvkgEcrlmlOFBv4/NJCbECpo=
+In-Reply-To: <20261127151418.GY774860@unreal>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi James,
 
-On Tue, Nov 24, 2026 at 05:35:37PM +0000, James Clark wrote:
-> 
-> 
-> On 05/11/2026 11:44, James Clark wrote:
-> > This series depends on:
-> > https://lore.kernel.org/linux-perf-users/20261030-perf_cs_etm_fix_non_taken-v3-0-7629b52ab047@arm.com/
-> > 
-> > Fix a few issues with per-thread mode:
-> >    - On nVHE, everything looks like guest trace instead of host
-> >    - Tracing multiple threads didn't really work
-> > 
-> > After adding a tests for those, it turns out there were some snapshot
-> > bugs not picked up by the other snapshot tests. That showed that the
-> > different snapshot searches for Intel BTS and Arm SPE were inconsistent
-> > and I think all tracers can benefit from using the same pointer fixup
-> > logic, so that gets refactored into the common auxtrace.c. Then SPE can
-> > just share the Intel BTS search as it was obviously copied from it
-> > originally. IntelPT keeps the more advanced duplicate data search, but
-> > in the future that could probably be made the common one and all tracers
-> > would benefit from using it (except maybe BTS if it always has a very
-> > small buffer, but I doubt the overhead of the duplicate search would be
-> > an issue). For now this is more of a refactor rather than behavioral
-> > change so don't do that yet.
-> > 
-> > Signed-off-by: James Clark <james.clark@linaro.org>
-> > ---
-> > Changes in v4:
-> > - Change test snapshot size to 128K for 64K machines
-> > - Put patchset depencency in cover letter text
-> > - Link to v3: https://patch.msgid.link/20261102-james-cs-unformatted-per-thread-fix-v3-0-dbcb0c281b9b@linaro.org
-> > 
-> > Changes in v3:
-> > - Keep the find_snapshot() callback instead of adding
-> >    snapshot_has_wrapped() and monotonic_snapshot_head boolean (Adrian)
-> > - Add auxtrace_record__default_find_snapshot() for the simple search for
-> >    BTS and SPE (Adrian)
-> > - Add auxtrace_record__snapshot_fixup() for any snapshot search
-> >    implementation to use to update the pointers (Adrian)
-> 
-> Hi Adrian,
-> 
-> Did you get a chance to check these changes? Sorry it took a while to send
-> the V3 after your comments.
 
-I've tried to apply it with Adrian's ack but it's didn't work.  Can you
-please rebase?
+在 2026/11/28 01:44, Leon Romanovsky 写道:
+> On Fri, Nov 27, 2026 at 08:23:13PM +1030, Qu Wenruo wrote:
+>>
+>>
+>> 在 2026/11/27 00:07, Leon Romanovsky 写道:
+>>> On Wed, Nov 25, 2026 at 03:16:21PM +1030, Qu Wenruo wrote:
+>>>> This new file is mostly based on my personal preferences, focusing on
+>>>> how to improve the human readability in the LLM era.
+>>>>
+>>>> The new file should also act as a guide for humans that want to be a
+>>>> long term contributor to btrfs.
+>>>
+>>> My previous comment still applies. Most of it is relevant to other
+>>> subsystems as well, and some of the suggestions duplicate existing
+>>> documentation.
+>>
+>> One question is, I can't find a generic one, nor there is a generic entry
+>> inside the MAINTAINERS file.
+>>
+>> If we're going to create a generic one, shouldn't we just update the
+>> existing docs like `Documentation/process/submitting-patches.rst` instead?
+> 
+> See Documentation/process/coding-assistants.rst file.
+> For example, this series from Sasha changes it
+> https://lore.kernel.org/workflows/20261126171926.2766137-1-sashal@kernel.org/
 
-Thanks,
-Namhyung
+I think this is against Krzysztof's comment:
+
+
+ > Then it should be a maintainer profile. We should write docs for humans,
+ > which can be used by agents. Not the other way around.
+
+I agree with that comment.
+
+But putting that into code-assistants.rst means it's only for LLMs, not 
+humans.
+
+
+> 
+>>
+>> And to be honest, the current one is already a little LLM orient, lengthy
+>> and not well human reader friendly.
+> 
+> I disagree that file was written before AI era and everyone who
+> submitted patches or read it was asked to read after first mistake.
+> 
+>>
+>>
+>> So what's the recommended next step?
+> 
+> Read the documentation :) and more seriously, update Documentation/process/coding-assistants.rst.
+> 
+> Thanks
+> 
+>>
+>> Thanks,
+>> Qu
+>>
+>>>
+>>>>
+>>>> Signed-off-by: Qu Wenruo <wqu@suse.com>
+>>>> ---
+>>>> Changelog:
+>>>> RFC->v1:
+>>>> - Use maintainer entry profile instead of agent.md
+>>>>
+>>>> - Further simplfy the content for human readers
+>>>>
+>>>> ---
+>>>>    Documentation/process/maintainer-btrfs.rst | 154 +++++++++++++++++++++
+>>>>    MAINTAINERS                                |   2 +
+>>>>    2 files changed, 156 insertions(+)
+>>>>    create mode 100644 Documentation/process/maintainer-btrfs.rst
+>>>>
+>>>> diff --git a/Documentation/process/maintainer-btrfs.rst b/Documentation/process/maintainer-btrfs.rst
+>>>> new file mode 100644
+>>>> index 000000000000..5170dd73e655
+>>>> --- /dev/null
+>>>> +++ b/Documentation/process/maintainer-btrfs.rst
+>>>> @@ -0,0 +1,154 @@
+>>>> +.. SPDX-License-Identifier: GPL-2.0
+>>>> +
+>>>> +Btrfs patch guidelines
+>>>> +======================
+>>>> +
+>>>> +Human readability comes first. A reviewer should be able to understand the
+>>>> +problem and the fix from the message and code.
+>>>> +
+>>>> +Bloated LLM-generated information only wastes precious human time, no matter
+>>>> +whether it is in a comment or a commit message.
+>>>
+>>> This is general.
+>>>
+>>>> +
+>>>> +Code comments
+>>>> +-------------
+>>>> +
+>>>> +* **Necessary comment only**
+>>>> +
+>>>> +  Comment is for things that are not obvious by itself, e.g. a locking
+>>>> +  rule, an ordering requirement or a non-trivial reason for a workaround.
+>>>> +
+>>>> +  Keep the comment short if possible.
+>>>> +
+>>>> +  Don't repeat what the code does.
+>>>
+>>> General too.
+>>>
+>>>> +
+>>>> +* **Add kernel-doc only for complex and/or exported functions**
+>>>> +
+>>>> +  If the function and parameter names are self-explaining, don't waste words
+>>>> +  on the kernel-doc.
+>>>
+>>> This is applicable to many subsystems, but probably not general.
+>>>
+>>>> +
+>>>> +Commit messages and cover letters
+>>>> +---------------------------------
+>>>> +
+>>>> +* **Keep it simple**
+>>>> +
+>>>> +  Use short and simple sentences, avoid long paragraphs.
+>>>> +
+>>>> +  Simple patch for simple bug. Don't write a full [BUG] [CAUSE] [FIX] analysis
+>>>> +  for something like a simple error handling enhancement.
+>>>> +
+>>>> +  And we don't care how you or your LLM found the bug unless it's hit in the
+>>>> +  real world, so don't put such information even after the "---" line.
+>>>
+>>> General
+>>>
+>>>> +
+>>>> +* **Prefer visual aids over long sentences**
+>>>> +
+>>>> +  See "Visual aids" section below.
+>>>
+>>> General
+>>>
+>>>> +
+>>>> +* **Follow the style of well-known btrfs developers**
+>>>> +
+>>>> +  Check ``git log -- fs/btrfs`` for recent examples before drafting.
+>>>
+>>> General
+>>>
+>>>> +
+>>>> +Visual aids
+>>>> +-----------
+>>>> +
+>>>> +Prefer visual aids like an ASCII chart over words, e.g.:
+>>>> +
+>>>> +* A race. Show the race window, do not describe it in prose only.
+>>>> +* An error handling bug in a function, seen from several call sites.
+>>>> +* A call chain across layers, where the bug only shows on a certain path.
+>>>> +
+>>>> +Example, a race::
+>>>> +
+>>>> +   CPU0 (endio)                       CPU1 (fsync)
+>>>> +   end_bbio_data_write()
+>>>> +   |-btrfs_folio_clear_writeback()
+>>>> +   |                                  btrfs_sync_file()
+>>>> +   |                                  |-filemap_fdatawait_range()
+>>>> +   |                                  | Returns after writeback finished
+>>>> +   |                                  |
+>>>> +   |                                  \-test_and_clear_bit(COW_WRITE_ERROR)
+>>>> +   |                                    Still 0, skips waiting
+>>>> +   \-set_bit(COW_WRITE_ERROR)
+>>>> +     Too late.
+>>>> +
+>>>> +Example, an error handling bug, from commit c9583ada8cc4. The callee cleans up
+>>>> +on error, then the caller cleans up again::
+>>>> +
+>>>> +   btrfs_do_readpage()
+>>>> +   |-submit_extent_page()
+>>>> +   | \-submit_one_bio()
+>>>> +   |   \-btrfs_submit_data_bio()
+>>>> +   |     \-bio_endio()
+>>>> +   |       Calls end_page_read() and unlock_extent().
+>>>> +   |
+>>>> +   \-end_page_read() and unlock_extent()
+>>>> +     Cleaned up again, the subpage reader count underflows.
+>>>
+>>> General
+>>>
+>>>> +
+>>>> +Versioned patches
+>>>> +-----------------
+>>>> +
+>>>> +* **Full history**
+>>>> +
+>>>> +  Include all versions, not only the changes of the last version.
+>>>
+>>> General
+>>>
+>>>> +
+>>>> +* **Newest version first**
+>>>> +
+>>>> +  E.g.::
+>>>> +
+>>>> +    v3:
+>>>> +    - Rename the helper to xxx()
+>>>> +    - Add a missing lock in yyy()
+>>>> +
+>>>> +    v2:
+>>>> +    - Fix the build failure on 32-bit
+>>>> +
+>>>> +* **Changelog location**
+>>>> +
+>>>> +  Put it in the cover letter for a patch series, or after the "---" line for
+>>>> +  a single patch.
+>>>> +
+>>>> +  Don't put it in the commit message body.
+>>>
+>>> General
+>>>
+>>>> +
+>>>> +Review
+>>>> +------
+>>>> +
+>>>> +* **Follow the review**
+>>>> +
+>>>> +  Don't send a patch and just forget it. If you're not a well known developer,
+>>>> +  it's uncommon to get merged on the first try.
+>>>> +
+>>>> +  One will need to communicate with the reviewers to get at least one review
+>>>> +  from a well known btrfs developer, before getting the patch merged.
+>>>> +
+>>>> +* **Check Sashiko**
+>>>> +
+>>>> +  Sashiko posts AI-generated review for patches sent to the mailing list. The
+>>>> +  btrfs list is at https://sashiko.dev/#/?list=org.kernel.vger.linux-btrfs
+>>>> +
+>>>> +  If a report is valid, address it in a newer version.
+>>>> +
+>>>> +  If a report is obviously wrong, it can be ignored. If the report is wrong but
+>>>> +  the reason is not obvious, explaining it on the mailing list can help.
+>>>> +
+>>>> +Testing
+>>>> +-------
+>>>> +
+>>>> +* **Run full fstests**
+>>>> +
+>>>> +  That's the main test suite we use.
+>>>> +
+>>>> +* **Testing procedures and results are only for complex patches**
+>>>> +
+>>>> +  Simple fixes shouldn't need a long paragraph on how to verify the fix.
+>>>> +  Those simple fixes should be explained well by the commit message and code.
+>>>> +
+>>>> +  Bloated LLM-generated test procedures and results only waste human time.
+>>>> +
+>>>> +Before sending a patch
+>>>> +----------------------
+>>>> +
+>>>> +* **Check the development branch**
+>>>> +
+>>>> +* **Check the mailing list**
+>>>> +
+>>>> +If your bug was found by an LLM, someone else may have already found, or even
+>>>> +fixed, it.
+>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>> index 44540a1eb2b8..55f0b3dca133 100644
+>>>> --- a/MAINTAINERS
+>>>> +++ b/MAINTAINERS
+>>>> @@ -5838,9 +5838,11 @@ S:	Maintained
+>>>>    W:	https://btrfs.readthedocs.io
+>>>>    Q:	https://patchwork.kernel.org/project/linux-btrfs/list/
+>>>>    C:	irc://irc.libera.chat/btrfs
+>>>> +P:	Documentation/process/maintainer-btrfs.rst
+>>>>    T:	git https://github.com/btrfs/linux.git for-next
+>>>>    T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+>>>>    F:	Documentation/filesystems/btrfs.rst
+>>>> +F:	Documentation/process/maintainer-btrfs.rst
+>>>>    F:	fs/btrfs/
+>>>>    F:	include/linux/btrfs*
+>>>>    F:	include/trace/events/btrfs.h
+>>>> -- 
+>>>> 2.56.1
+>>>>
+>>>>
+>>
+>>
 
