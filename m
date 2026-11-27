@@ -1,78 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=207.54.90.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795757875;
-	b=tnNWRHu8TE1PvvBKAoGuXSZzL76bTBfsrtV6YFLHN0oJ/af/zR5rd08yROkq60QNApEp
-	 FY2c1plMIk24lgZQfTNfDb1vRJOlhVFz8WLucGoMILSMYDhO8TkgUN7RdQChMiXuIM8Ts
-	 ieMDgqI5Y8Di85txCac6qoURhrgN+xEWrBeWxOwE18L/AX1oIsaIyeK2l0+efZK9+AYQp
-	 X6ipWU+HP9VAzcAibMrqzZPvgBqRON3WEnEIZXAeUFBZVLG1LhXwUjbFDSeti5fDVOEWY
-	 6oI+00gZ5i65nD92Hm3nL9zrqQR+P8F4DDA+2LrmmfVCBcOINIGskPPjtIWNpdbXkdA==
+	t=1795758974;
+	b=tjqS6UxXrd1zJwNiw1A9WO3EvIpSbvL5SfX+6LyRaSAZw3+Fe2Qy27Rg+tO1aaz+A3jd
+	 YTP91dnvYa5W6Pf7XqXs1GGvozLuGGsSbeJirUXNThm1JjBWY4caJnW57iWmE1saEhqsx
+	 VrP6qfp8L8eQJ4iMAIUUTfe1wRHMEBLau7CdHMkBwuYDOIWlc2kQCX9IBjFKOv7enuVtw
+	 8ImewIwOn1ZHjHhMqaB2GHyzW68VLJZ8DeNi0HjPKOgoGylkH9Tk5+6uhdUQprqm4Xb0q
+	 Nk5fwIJshAV37KBvva4bkAY5bOq9y+MxfWGbdRrSWTR7PwOFljqFWI/aF7C9ErLo7eQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795757875;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:Received:Received:Received:From:
-	 Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=LncpIWG6iTepcF/WKfjkr7sRjr1uPyZNvnirgUbb4J0=;
-	b=K3GnWYylYJg5bGv6dtXl/CA1P9svhvFWEaGo/dKY99bAqlZm3YF/zv1bZP+PZQ1ZtHob
-	 /unKXqOsauuPiyOGNu2nPAnwlxgHVkJPWNU39pl1IQGpTpJo+S74u8P6YG4IvgrR6nm1e
-	 uYVOwh+1ry8vWM0CFUPyvzsu5zrmJ2jdx8okThdEri98ETvjD7Ot2EuGCdp6w4aKbFl0x
-	 lVk481b01I0kvs6o4/pH9soMKgwpEMZBsWEfAxXZWMUGY+RJ/XEeM0xNDW+BZ3/4lA5uz
-	 icz7oG83J6aQKDaXjQMTKnTZjQ6IDmj5oYjY56DqQkVQF5KCXni4/AnbaVT7ZA32PHg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795758974;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=azcPEH4/peQx1l3uD7G3Qn3mAvlz6nuiC2XMgqmglxg=;
+	b=or6Lac4LDburMdqwAwNZ+MQ3RmYSKfjVSZgqxnkIiHNRC2EFGk5Vpa664X1hBdegFtKC
+	 jKKI+OC5Me8IchN9xVI4Q+0X4nN229SdqhPjbTI7Km109ITv1c9Nfrc5l8NBiyqgX7UFg
+	 /718C9YU9WNLdV3YUhX+68Hk89c8XB3L15weJPVMnB3TsTLmXScrAC8jMsivb2nqvs63/
+	 Hj1gH9yAlXT5U/pIBEuE5SYgrCOzLmMt54USG2Q1su4T7V8oVyOYS+rrDQxH7BZHI83BI
+	 hRB4CxNxQSWn2oCprlGMSADb+CGTMJh7YbDds0Dk3l2p3NEX+iMVRSC87nAenT2dfUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=fujitsu.com;
-	spf=pass smtp.mailfrom=fujitsu.com;
-	dkim=pass header.d=fujitsu.com header.i=@fujitsu.com header.a=rsa-sha256 header.s=fj2 header.b=Uu+ng4Ff;
-	arc=none smtp.remote-ip=207.54.90.48
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TkQIp58q;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503BC606A321;
-	Fri, 27 Nov 2026 05:37:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 503BC606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id AD66E606A31E;
+	Fri, 27 Nov 2026 05:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.a=rsa-sha256 header.s=fj2 header.b=Uu+ng4Ff
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1795757874; x=1827293874;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=Q8c8VlFPRQHMx0oQxdd88FZY+/L6JFZnz3WaEVSHBC4=;
-  b=Uu+ng4FfwPvW+6Mhw3UBsZld3oZxC4pTpECjYmzP2SGb10ePFPkOEJp+
-   oD55Ia0F/ECuNy4Dd4bnMqZn4+KKG5Oe2MbGHWH2pXGKJhDr2W79bUcam
-   0Pd8hJVoUOA91wfiqXMJsisEhjsZJV1U3Xp3M0y9LCGnJPfWYMQol/man
-   sBW0OdHBvGO/w3a7OAeILyzMijQT6HwdXL6FAkrIbSojinTqTDyDpABe5
-   +dZdmFR0FBzy569vGJLQAi0X3jo9BJ5I25x7M1LvNon71ZWvyP8trfKP2
-   4oVFkXOANmTY1BZyaDr31YEVbc0EFTMaizb3WsZPYqknA03/XTzK+7uB2
-   A==;
-X-CSE-ConnectionGUID: J0f2JgQ3QgCZjb0cyPzA7w==
-X-CSE-MsgGUID: tVxbWcp0QmezENits27kAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11978"; a="263301741"
-X-IronPort-AV: E=Sophos;i="6.27,236,1786978800"; 
-   d="scan'208";a="263301741"
-Received: from gmgwnl01.global.fujitsu.com ([52.143.17.124])
-  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 14:37:47 +0900
-Received: from az2nlsmgm1.o.css.fujitsu.com (unknown [10.150.26.203])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by gmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id C2AF01C06346;
-	Fri, 27 Nov 2026 05:37:46 +0000 (UTC)
-Received: from az2uksmom4.o.css.fujitsu.com (unknown [10.151.22.204])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 6C721C01835;
-	Fri, 27 Nov 2026 05:37:46 +0000 (UTC)
-Received: from [127.0.1.1] (unknown [10.124.178.20])
-	by az2uksmom4.o.css.fujitsu.com (Postfix) with ESMTP id EBED640262B;
-	Fri, 27 Nov 2026 05:37:38 +0000 (UTC)
-From: Tomohiro Misono <misono.tomohiro@fujitsu.com>
-Date: Fri, 27 Nov 2026 14:36:34 +0900
-Subject: [PATCH v4 5/5] arm64: Add workaround to replace WFE with NOP for
- FUJITSU-MONAKA Erratum E#030004
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TkQIp58q
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 7CCFF1F0092C;
+	Fri, 27 Nov 2026 05:56:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795758974;
+	bh=azcPEH4/peQx1l3uD7G3Qn3mAvlz6nuiC2XMgqmglxg=;
+	h=From:To:Cc:Subject:Date;
+	b=TkQIp58qvMRt1Q9i4ZZ0BUgC2kPKzhN249B/pm62zNIiRkP+KxXFzr/g6x8rOyVQB
+	 dBFJikCXRW9NmBfZ3R+lGGh1B3E4wB6j3t3eJiTqoPHTxQARFfQNCq99DGu1Vg/wVU
+	 vVDgmnVmtZPH0dZwhMOi2fMHxF5pUEhnFSK2Pupf461V2DjS009cFG/xRqE3jJK172
+	 1fWRdB3ypqoEOI/VLAaoEMkHf3ODZqxcegqgnpPN93Y2yUCKFMl+CXOqy4Myo+maM4
+	 ISbPQ7Cgx4uSjAj8gi0pTPlLXlke8D9Wh+wa9px4tU/PnbO4xPrmDhp1ewnka0rf17
+	 yDyjf12dHYktw==
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: keyrings@vger.kernel.org
+Cc: Jarkko Sakkinen <jarkko@kernel.org>,
+	dm-devel@lists.linux.dev,
+	linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Alasdair Kergon <agk@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	David Gstir <david@sigma-star.at>,
+	David Howells <dhowells@redhat.com>,
+	David Laight <david.laight.linux@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ignat Korchagin <ignat@linux.win>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>,
+	James Morris <jmorris@namei.org>,
+	James Prestwood <prestwoj@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jonathan McDowell <noodles@meta.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sumit Garg <sumit.garg@kernel.org>
+Subject: [PATCH v5 00/17] KEYS: trusted: asymmetric keys
+Date: Fri, 27 Nov 2026 07:55:45 +0200
+Message-ID: <20261127055602.2357884-1-jarkko@kernel.org>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -82,237 +90,179 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261127-monaka-fix-for-upstream-v4-5-3395c415bbe4@fujitsu.com>
-References: <20261127-monaka-fix-for-upstream-v4-0-3395c415bbe4@fujitsu.com>
-In-Reply-To: <20261127-monaka-fix-for-upstream-v4-0-3395c415bbe4@fujitsu.com>
-To: Tomohiro Misono <misono.tomohiro@fujitsu.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Marc Zyngier <maz@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
- Oliver Upton <oupton@kernel.org>, Fuad Tabba <fuad.tabba@linux.dev>, 
- Joey Gouly <joey.gouly@arm.com>, Steffen Eiden <seiden@linux.ibm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Zenghui Yu <yuzenghui@huawei.com>, 
- Vladimir Murzin <vladimir.murzin@arm.com>
-Cc: Kohei Enju <enju.kohei@fujitsu.com>, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org, 
- kvmarm@lists.linux.dev
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795757822; l=8485;
- i=misono.tomohiro@fujitsu.com; s=20261002; h=from:subject:message-id;
- bh=Q8c8VlFPRQHMx0oQxdd88FZY+/L6JFZnz3WaEVSHBC4=;
- b=7ohupvYzWh/aKgkXhbtT6oYS0fqFTYylJomYHNhrUB3GRp+uywsHnGmypBxxw1AtwZYl1KwCG
- fYQQjA5ZfSgAVWWRFAvO0I3Gk3Aib0PlmAkT9jFKrmgKZkCAcPxgIsJ
-X-Developer-Key: i=misono.tomohiro@fujitsu.com; a=ed25519;
- pk=VLRxj5y4GJrHLmj3e2NBg30fX2U//ydi7c2G2qiNo10=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-This option adds a workaround for FUJITSU-MONAKA erratum E#030004.
+OVERVIEW
+========
 
-On affected CPUs, if a wake-up event generated by clearing the
-global exclusive monitor or by a SEV instruction arrives in the
-same cycle as a WFE instruction commits, the CPU may fail to
-advance the program counter and re-execute the same WFE
-instruction. If no further wake-up event occurs, the CPU may
-remain waiting indefinitely (for example, in spinlock code).
-This may cause a system hang before the generic timer event stream
-is enabled. WFI, WFIT, and WFET instructions are not affected.
+Extend TPM 2.0 trusted keys to load ASN.1 TPMKey [1] asymmetric keys
+(OID_TPMLoadableKey, 2.23.133.10.1.3) and expose keyctl pkey-operations
+directly on key_type_trusted. In addition there are some TPMKey
+interoperability fixes.
 
-After the event stream is enabled (shortly after the secondary CPU
-bring-up), event stream could wake up affected cores.
-However, in order to prevent the condition during secondary CPU
-bring-up, the workaround replaces all WFE instructions in host kernel
-code with NOP using the boot alternative framework before the secondary
-CPU bring-up on the MONAKA CPU.
+I.e. this my old series with a twist: instead of introducing a separate
+subtype for asymmetric keys, factor out pkey-operations into a separate
+CONFIG_KEYCTL_PKEY-feature, and wire asymmetric operations to
+key_type_trusted.
 
-Note that there is no need to take care of WFE usage in Host EL0 and
-VHE Guest since if event stream is enabled in Host EL2, the event
-reaches to every ELx & world. This effectively means FUJITSU-MONAKA
-does not guarantee disabling event stream
-(clocksource.arm_arch_timer.evtstrm=0) nor running nVHE guests
-(kvm-arm.mode=nvhe/protected), although these configurations
-are not rejected by this patch.
+This work was originally derived from [3], is direct offspring of [2],
+and folds in the prerequisite tpm2-sessions and tpm-buf cleanups from
+[4].
 
-This only affects FUJITSU-MONAKA CPUs.
+[1] https://www.hansenpartnership.com/draft-bottomley-tpm2-keys.html
+[2] https://lore.kernel.org/linux-integrity/20240520184727.22038-1-jarkko@kernel.org/
+[3] https://lore.kernel.org/all/20200518172704.29608-1-prestwoj@gmail.com/
+[4] https://lore.kernel.org/linux-integrity/20261116005105.1573016-1-jarkko@kernel.org/
 
-Signed-off-by: Tomohiro Misono <misono.tomohiro@fujitsu.com>
+CHANGES
+=======
 
----
-Changes in v4:
- - Remove assisted-by: LLM tag as I understand it is not needed.
-   No code change
-Changes in v3:
- - New patch
- - Note that wfe instruction used in nVHE spinlock code is
-   not updated since nVHE is out of scope of this patch as the
-   above commit message explains
----
- Documentation/arch/arm64/silicon-errata.rst |  2 ++
- arch/arm64/Kconfig                          | 22 ++++++++++++++++++++++
- arch/arm64/include/asm/assembler.h          |  4 ++++
- arch/arm64/include/asm/barrier.h            |  3 ++-
- arch/arm64/include/asm/cmpxchg.h            |  4 ++--
- arch/arm64/include/asm/cpucaps.h            |  2 ++
- arch/arm64/kernel/cpu_errata.c              | 18 ++++++++++++++++++
- arch/arm64/tools/cpucaps                    |  1 +
- 8 files changed, 53 insertions(+), 3 deletions(-)
+v5:
+- tpm / trusted: Fold in the tpm2-sessions and fallible tpm_buf_read*()
+  patches [4] (adding Jonathan McDowell's Reviewed-by to "tpm2-sessions:
+  Drop TPM2_NAME_SIZE"), resolve handle names with tpm2_read_public(),
+  and replace the custom tpm2_read_*() / tpm2_skip_bytes() helpers with
+  tpm_buf_read_u{16,32}() in tpm2_asym_parse_*_public().
+- trusted: Split "KEYS: trusted: Add asymmetric key support for TPM2"
+  into a framework patch ("KEYS: trusted: Add asymmetric key
+  operations", adding optional asym_* callbacks on struct
+  trusted_key_ops and HAVE_TRUSTED_KEYS_ASYMMETRIC) and the TPM2 backend
+  patch.
+- trusted: Move "KEYS: trusted: Validate public_len before reading key
+  attributes" to patch 01/17 and add the Fixes tag for e5fb5d2c5a03.
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index e6bbc54208b1..8cf25857c617 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -405,6 +405,8 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | Fujitsu        | MONAKA GICv3/v4 | E#030003        | N/A                         |
- +----------------+-----------------+-----------------+-----------------------------+
-+| Fujitsu        | MONAKA          | E#030004        | FUJITSU_ERRATUM_030004      |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | ASR            | ASR8601         | #8601001        | N/A                         |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 2f195da6dd1c..6fa2d728eff8 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1420,6 +1420,28 @@ config FUJITSU_ERRATUM_030002
- 
- 	  If unsure, say Y.
- 
-+config FUJITSU_ERRATUM_030004
-+	bool "FUJITSU-MONAKA erratum E#030004: CPU may hang when executing WFE"
-+	default y
-+	help
-+	  This option adds a workaround for FUJITSU-MONAKA erratum E#030004.
-+	  On affected CPUs, if a wake-up event generated by clearing the
-+	  global exclusive monitor or by a SEV instruction arrives in the
-+	  same cycle as a WFE instruction commits, the CPU may fail to
-+	  advance the program counter and re-execute the same WFE
-+	  instruction. If no further wake-up event occurs, the CPU may
-+	  remain waiting indefinitely (for example, in spinlock code).
-+	  This may cause a system hang before the generic timer event stream
-+	  is enabled. WFI, WFIT, and WFET instructions are not affected.
-+
-+	  The workaround replaces host WFE instructions in arm64 code with
-+	  NOP using the boot alternative framework before the secondary
-+	  CPU bring-up on the MONAKA CPU.
-+
-+	  The workaround only affects the FUJITSU-MONAKA.
-+
-+	  If unsure, say Y.
-+
- config HISILICON_ERRATUM_161600802
- 	bool "Hip07 161600802: Erroneous redistributor VLPI base"
- 	default y
-diff --git a/arch/arm64/include/asm/assembler.h b/arch/arm64/include/asm/assembler.h
-index 020670814bda..a83db010a88e 100644
---- a/arch/arm64/include/asm/assembler.h
-+++ b/arch/arm64/include/asm/assembler.h
-@@ -69,6 +69,10 @@
- 9990:
- 	.endm
- 
-+	.macro	wfe
-+alternative_insn "hint #2", nop, ARM64_WORKAROUND_FUJITSU_030004
-+	.endm
-+
- /*
-  * RAS Error Synchronization barrier
-  */
-diff --git a/arch/arm64/include/asm/barrier.h b/arch/arm64/include/asm/barrier.h
-index 9495c4441a46..28598d441c10 100644
---- a/arch/arm64/include/asm/barrier.h
-+++ b/arch/arm64/include/asm/barrier.h
-@@ -17,7 +17,8 @@
- #define nops(n)		asm volatile(__nops(n))
- 
- #define sev()		asm volatile("sev" : : : "memory")
--#define wfe()		asm volatile("wfe" : : : "memory")
-+#define ARM64_WFE_INSN	ALTERNATIVE("wfe", "nop", ARM64_WORKAROUND_FUJITSU_030004)
-+#define wfe()		asm volatile(ARM64_WFE_INSN : : : "memory")
- #define wfet(val)	asm volatile("msr s0_3_c1_c0_0, %0"	\
- 				     : : "r" (val) : "memory")
- #define wfi()		asm volatile("wfi" : : : "memory")
-diff --git a/arch/arm64/include/asm/cmpxchg.h b/arch/arm64/include/asm/cmpxchg.h
-index 6cf3cd6873f5..afedf2788469 100644
---- a/arch/arm64/include/asm/cmpxchg.h
-+++ b/arch/arm64/include/asm/cmpxchg.h
-@@ -218,11 +218,11 @@ static inline void __cmpwait_case_##sz(volatile void *ptr,		\
- 									\
- 	asm volatile(							\
- 	"	sevl\n"							\
--	"	wfe\n"							\
-+	ARM64_WFE_INSN "\n"						\
- 	"	ldxr" #sfx "\t%" #w "[tmp], %[v]\n"			\
- 	"	eor	%" #w "[tmp], %" #w "[tmp], %" #w "[val]\n"	\
- 	"	cbnz	%" #w "[tmp], 1f\n"				\
--	"	wfe\n"							\
-+	ARM64_WFE_INSN "\n"						\
- 	"1:"								\
- 	: [tmp] "=&r" (tmp), [v] "+Q" (*(u##sz *)ptr)			\
- 	: [val] "r" (val));						\
-diff --git a/arch/arm64/include/asm/cpucaps.h b/arch/arm64/include/asm/cpucaps.h
-index f4aa6bd257c5..cc6b8f2270e1 100644
---- a/arch/arm64/include/asm/cpucaps.h
-+++ b/arch/arm64/include/asm/cpucaps.h
-@@ -72,6 +72,8 @@ cpucap_is_possible(const unsigned int cap)
- 		return IS_ENABLED(CONFIG_FUJITSU_ERRATUM_030001);
- 	case ARM64_WORKAROUND_FUJITSU_030002:
- 		return IS_ENABLED(CONFIG_FUJITSU_ERRATUM_030002);
-+	case ARM64_WORKAROUND_FUJITSU_030004:
-+		return IS_ENABLED(CONFIG_FUJITSU_ERRATUM_030004);
- 	case ARM64_MPAM:
- 		/*
- 		 * KVM MPAM support doesn't rely on the host kernel supporting MPAM.
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 37bbe8268499..2a91292b6329 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -723,6 +723,15 @@ static const struct midr_range cnp_erratum_cpus[] = {
- };
- #endif
- 
-+#ifdef CONFIG_FUJITSU_ERRATUM_030004
-+static bool
-+has_fujitsu_monaka_erratum_030004(const struct arm64_cpu_capabilities *entry,
-+				  int __unused)
-+{
-+	return is_midr_in_range(&entry->midr_range);
-+}
-+#endif
-+
- const struct arm64_cpu_capabilities arm64_errata[] = {
- #ifdef CONFIG_ARM64_WORKAROUND_CLEAN_CACHE
- 	{
-@@ -1109,6 +1118,15 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
- 		.capability = ARM64_WORKAROUND_FUJITSU_030002,
- 		ERRATA_MIDR_ALL_VERSIONS(MIDR_FUJITSU_MONAKA),
- 	},
-+#endif
-+#ifdef CONFIG_FUJITSU_ERRATUM_030004
-+	{
-+		.desc = "FUJITSU-MONAKA Erratum E#030004",
-+		.capability = ARM64_WORKAROUND_FUJITSU_030004,
-+		.type = ARM64_CPUCAP_SCOPE_BOOT_CPU,
-+		.matches = has_fujitsu_monaka_erratum_030004,
-+		.midr_range = MIDR_ALL_VERSIONS(MIDR_FUJITSU_MONAKA),
-+	},
- #endif
- 	{
- 		.desc = "Known broken GICv3 SEIS implementation",
-diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-index 73a4aeb535a0..4d97f20aad07 100644
---- a/arch/arm64/tools/cpucaps
-+++ b/arch/arm64/tools/cpucaps
-@@ -136,3 +136,4 @@ WORKAROUND_BROKEN_AMU_CONSTCNT
- WORKAROUND_BROKEN_AMU_CORECNT
- WORKAROUND_FUJITSU_030001
- WORKAROUND_FUJITSU_030002
-+WORKAROUND_FUJITSU_030004
+v4:
+- KEYS: Turn CONFIG_KEYCTL_PKEY into a hidden helper symbol selected per
+  subsystem: add off-by-default CONFIG_ASYMMETRIC_KEY_PKEY for software
+  asymmetric keys, and switch TURRIS_SIGNING_KEY,
+  TURRIS_OMNIA_MCU_KEYCTL, and TURRIS_MOX_RWTM_KEYCTL from
+  CONFIG_ASYMMETRIC_KEY_TYPE to CONFIG_KEYCTL_PKEY (remaining default y).
+- trusted: Default CONFIG_TRUSTED_KEYS_ASYMMETRIC to y and select
+  CONFIG_KEYCTL_PKEY.
+- trusted: Split "KEYS: trusted: Factor out TPM2 blob loading" into
+  separate patches for public_len bounds checking, the private backend
+  pointer in trusted_key_payload, and TPM2 blob loading.
+
+v3:
+- KEYS: Move CONFIG_KEYCTL_PKEY factoring to the beginning of the series
+  and make it an off-by-default prompt instead of selecting it from
+  CONFIG_ASYMMETRIC_KEY_TYPE.
+- trusted: Make CONFIG_TRUSTED_KEYS_ASYMMETRIC depend on
+  CONFIG_KEYCTL_PKEY instead of selecting it.
+- trusted: Use unsigned int instead of u16 for data_len and min_len in
+  tpm2_unseal_cmd().
+- asn1: The reason for not supporting implicit tags was that it follows
+  what other functions do in asn1_encoder.c, and is that way coherent.
+
+v2:
+- lib/asn1_encoder: Remove unreachable !bytes_len branch in
+  asn1_encode_integer_bytes().
+- tpm: Bounds-check ECC coordinates, defer state updates until after
+  validation, and verify subsequent TPM2_RH_NULL primaries against
+  chip->null_key_name in tpm2_parse_create_primary().
+- trusted: Reject trailing or truncated TPM2B bytes in tpm2_key_decode() so
+  tpm2_load_cmd() and tpm2_asym_load() pass the same blob length.
+- trusted: Avoid 32-bit param_size wraparound in tpm2_asym_rsa_decrypt()
+  and tpm2_asym_parse_signature().
+
+VERSIONS
+========
+
+v4: https://lore.kernel.org/keyrings/20261126205021.2200819-1-jarkko@kernel.org/
+v3: https://lore.kernel.org/keyrings/20261125180616.1854753-1-jarkko@kernel.org/
+v2: https://lore.kernel.org/keyrings/20261124194043.1651679-1-jarkko@kernel.org/
+v1: https://lore.kernel.org/keyrings/20261124120044.1481752-1-jarkko@kernel.org/
+
+Cc: dm-devel@lists.linux.dev
+Cc: keyrings@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-integrity@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-security-module@vger.kernel.org
+Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: Alasdair Kergon <agk@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Benjamin Marzinski <bmarzins@redhat.com>
+Cc: David Gstir <david@sigma-star.at>
+Cc: David Howells <dhowells@redhat.com>
+Cc: David Laight <david.laight.linux@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: David Woodhouse <dwmw2@infradead.org>
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Ignat Korchagin <ignat@linux.win>
+Cc: James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: James Morris <jmorris@namei.org>
+Cc: James Prestwood <prestwoj@gmail.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Jonathan McDowell <noodles@meta.com>
+Cc: Lukas Wunner <lukas@wunner.de>
+Cc: Marek Behún <kabel@kernel.org>
+Cc: Mike Snitzer <snitzer@kernel.org>
+Cc: Mikulas Patocka <mpatocka@redhat.com>
+Cc: Mimi Zohar <zohar@linux.ibm.com>
+Cc: Paul Moore <paul@paul-moore.com>
+Cc: Peter Huewe <peterhuewe@gmx.de>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Sumit Garg <sumit.garg@kernel.org>
+
+Jarkko Sakkinen (17):
+  KEYS: trusted: Validate public_len before reading key attributes
+  KEYS: Factor out KEYCTL_PKEY
+  tpm2-sessions: Drop TPM2_NAME_SIZE
+  KEYS: trusted: Open code tpm2_buf_append_auth()
+  KEYS: trusted: Remove dead branch from tpm2_unseal_cmd
+  tpm2-sessions: Re-orchestrate tpm2_read_public() use
+  tpm-buf: Make tpm_buf_read*() fallible
+  KEYS: trusted: Allow ASN.1 TPM2 sealed data shorter than MIN_KEY_SIZE
+  lib/asn1_encoder: Add asn1_encode_integer_bytes()
+  tpm: Export tpm2_create_primary()
+  tpm: Add persistent hierarchies to tpm2_create_primary()
+  KEYS: trusted: Extend TPMKey support
+  KEYS: trusted: Reject zero-length keys in symmetric consumers
+  KEYS: trusted: Add private backend data to trusted_key_payload
+  KEYS: trusted: Factor out TPM2 blob loading
+  KEYS: trusted: Add asymmetric key operations
+  KEYS: trusted: Add asymmetric key support for TPM2
+
+ .../security/keys/trusted-encrypted.rst       |   25 +-
+ crypto/af_alg.c                               |    2 +
+ crypto/asymmetric_keys/Kconfig                |   11 +
+ crypto/asymmetric_keys/asymmetric_keys.h      |    2 +
+ crypto/asymmetric_keys/asymmetric_type.c      |    4 +
+ drivers/char/tpm/Kconfig                      |    2 +-
+ drivers/char/tpm/tpm-buf.c                    |   56 +-
+ drivers/char/tpm/tpm-sysfs.c                  |    2 +-
+ drivers/char/tpm/tpm2-cmd.c                   |    9 +-
+ drivers/char/tpm/tpm2-sessions.c              |  524 ++++---
+ drivers/firmware/Kconfig                      |    1 -
+ drivers/md/dm-crypt.c                         |    2 +-
+ drivers/platform/cznic/Kconfig                |    3 +-
+ include/keys/trusted-type.h                   |   19 +-
+ include/keys/trusted_tpm.h                    |   18 +-
+ include/linux/asn1_encoder.h                  |    3 +
+ include/linux/tpm.h                           |   20 +-
+ include/linux/tpm_buf.h                       |    6 +-
+ include/linux/tpm_command.h                   |   13 +
+ lib/asn1_encoder.c                            |   56 +
+ security/keys/Kconfig                         |    3 +
+ security/keys/Makefile                        |    2 +-
+ .../keys/encrypted-keys/masterkey_trusted.c   |    5 +
+ security/keys/internal.h                      |    2 +-
+ security/keys/keyctl.c                        |    2 +-
+ security/keys/trusted-keys/Kconfig            |   15 +
+ security/keys/trusted-keys/tpm2key.asn1       |   19 +
+ security/keys/trusted-keys/trusted_core.c     |  103 +-
+ security/keys/trusted-keys/trusted_tpm1.c     |   24 +
+ security/keys/trusted-keys/trusted_tpm2.c     | 1329 +++++++++++++++--
+ 30 files changed, 1872 insertions(+), 410 deletions(-)
 
 -- 
-2.43.0
+2.47.3
 
