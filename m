@@ -1,103 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.174
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795793204;
-	b=a2kwYLTjDx99jtXkpXs2kRZZ8xni7amUC6shVUsPtNJN+Q3lj+x1dqhZJsWMqEVJp+JS
-	 xJPGy3T1OF4q1iXxgEyfU5Oz6sePu9bRzKZ9nyagn19yRjm6tdVYVAhXoAlMPk2k3GB5X
-	 lf1inxDLV4vrDKFheS0FuWadh9w3CpynPj9cTZXwIZ8F3WEG6c3yWbt19yRUjsfaHOwhW
-	 KpTti0sMPhLaelIpc/deF5AjPLK3wlgDlhF54tam8FvhIeA/FFQCQyw+tObLJErykJfL1
-	 mvdBzSsWZF9E2AnOklt88wG1Lz0CO61waqJhjMDHvzX5mqyAOMsNQvXZeCletgB9jvA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795793204;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=+cNaFNq+h0C98G3vTstsz5kW6XsnAXUPToskRbu44xM=;
-	b=blm9dvRVVLV5y5xBukIlV9zW/PzqoE//6izC5MjNYXU+CHm97L0hRc1GjbJxBB6iPrtO
-	 8/m3HghpfHS8dZg81RLWZpcEd9cuQEW7qpOy05wPeL4PIYEtE/yl20Ojja4YI5F1mZzra
-	 219N5/EvU79l7ZgCxQ+bkuUPIjU4EggqLBfpXn+h3sNoQ1lkZihRC1faA+1SQwFYmscsE
-	 rDH0oqyFDN9ZbRXOPFMxHoGbyeRUfcyMPNi1wKoqrew/8O+12sxZZmNCrrWM9tgbD3cIW
-	 Jy77kgL2AeTbEDYvS69RCSIW4CqBUOG56OOFABIE2eKE74PQTIurqY9gTnnWuSNPFjA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bairaktaris.de;
-	spf=pass smtp.mailfrom=bairaktaris.de;
-	dkim=pass header.d=bairaktaris.de header.i=@bairaktaris.de header.a=rsa-sha256 header.s=google header.b=n94mAkyJ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.174
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795793256;
+	b=IL1/D0Smwxrj46SUVsQhyoIVl6Gj7rN10cOBT/ZC8h67SCIE7wz8EgrRmAxnikZEkAUE
+	 /vvstmFfh+wlmhgQBkKTHjx3Bq3CIN4Q5vPE0Mo87/45GyWyhyip8Y+BJL5ZC8t1a5ecn
+	 NMrh/1HWJVUBqvcb91kjc0jVPUHK/hONqPYQYBqiNho7c0VEkBjnViLMiC2ISTftmVSpu
+	 Nz3xSd9glPbkxeUW1T419gZjLDNHICrfwGdELXSC5uhelto5tpwtcM9YNsIUx0mxsyoiR
+	 p2wWa+wdAAHs6aVX9WhBSmATMMKGTvvtxtHvdcy+JH5HUCgeFj/BU8GFnnAOCyXVUmw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795793256;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
+	bh=b21IBx176tNT26CrcV+lAj1FVajl2noTGMquN5oHS2k=;
+	b=WrXRsvE3Gt4lOrwayRmhaWr7W/W8FP2UXCOyIVvjbAcTe1YQF+UmYHZT3iQ8v0A4yl5X
+	 HtctGAaiuHelpkAmJ6ehvpOQ99AEoM/yYXo/PKz/LC+2ANGjRSwdqb1jOUnDgieQInI1X
+	 7ABe8TEiWzNdz6ndpdi2FdgPxUTBeilqp8WhO8UTc2XOEKgQfvVOvAWAehpGQmCabme7H
+	 xQ5vgwn53d0Ef+2rfRaVj7k+oWUhJT85f70ZbZKP0z7nuLypreWx6slIWYNDyiHB9jcZ7
+	 vyGzClwMqVbn3Uzz1AZAIgtiSkvktLGS7SStu5bMVZUpJfkdo47MRHxO762ZjJ35dpA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=infradead.org;
+	spf=none smtp.mailfrom=casper.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=eS88KzN3;
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E176606A31C
-	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 15:26:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E176606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bairaktaris.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bairaktaris.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED97606A31F;
+	Fri, 27 Nov 2026 15:27:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2ED97606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bairaktaris.de header.i=@bairaktaris.de header.a=rsa-sha256 header.s=google header.b=n94mAkyJ
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8b3402105b9so58064437b3.0
-        for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 07:26:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795793203; cv=none;
-        d=google.com; s=arc-20260327;
-        b=foboZYSHy8ZsUASiO/1H423faeQz7UJrmLevDpJAZlqXRWR/mhRHsyM7XVmEi+5Wu5
-         Rk3rozlGr7Fm0As0CO6oRpa42yoO0DmImPqimKFh9ZIfYGjLCAwvTFj8uFholpSKwlEa
-         RtY/ftu70ktxaslB+aA5qw6FCmh6Bi3uaaMgpGXZST2KCvvvdOQ2dceLCz2UTI3stHlc
-         qNRyhas8hSHS4jLGu4aEqkb3WdENVSATDqSsL4R1cuyeay8elwgsKeCmKIKoy49yMReD
-         7cq4RpJx8qo5jjb37W63BdkD9Rxh9vLcO9x6UxpZIioAmfAZDNZ11ZIQ4caIb/dxTseF
-         0RjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=+cNaFNq+h0C98G3vTstsz5kW6XsnAXUPToskRbu44xM=;
-        fh=P77JaKheQgGO9GNxRPTwSGEfMxd0Tve4lMVF9j6oSAw=;
-        b=q9tKKLlkj3PHZ35r660rco2Wf0yf2lvJevRJ6EfdwEgG/soSENP0QJXCamymWyQjUy
-         w2wSYaGuRGZ4YkgT777cqZODdbKZJEq88Ci+KQLmENlPHOcAXbvhraPp/n9xkONI2Z5u
-         sVThM8irlVLpXvKJvqrl/zwEZ1AqojnyWS6y1WulGQOW8wCzNdzJiQEZdFPBat+8Y+An
-         mM/rVHgFCbwiQwYUAIVaJWeBsPqWmNR4EqBKYrfOo/Dymu2CzI6eKKIEbVJFKGkV4NKe
-         edpmchx9LKWCLnB5R5QEC4rgXXt83hg8PLQ04fvc9y1cuE6l/9oyP7BXfSsizafIfXiw
-         p7ww==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bairaktaris.de; s=google; t=1795793203; x=1796398003; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+cNaFNq+h0C98G3vTstsz5kW6XsnAXUPToskRbu44xM=;
-        b=n94mAkyJOfvvvFdqyDtEpzjXrweT8JaZWeLZ+JYOiBFDDuYaMPknPGxHUMwIf2p4QI
-         XbOKYuOKTdVMFxaHokKbNXTGDBUktL/B8JSyE7b6YdHb/W74KbvW6rbiCZmnIQlF/i8I
-         ALou6ktP1I5Zbs41mBTFycRR8rPWR02G+g/k6UH6l6DD/aedUb053tQ5jkZ91GKvmJIw
-         67G0iRK3SJp9Ne0ESx6cqkBNNWwucbSzu7o0e1KmDO5YpJZRB7LNyeyOHGcjxEYRPjwa
-         qp45YwL1Q5w8yIJrLzHHQk7QAC0knp49PvcDTYRwISeZGMmOYrkYRgoOL+1gkc/Fe8L+
-         ufMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795793203; x=1796398003;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=+cNaFNq+h0C98G3vTstsz5kW6XsnAXUPToskRbu44xM=;
-        b=OY9oEqXv3ZQYvaJkvP1TjZgpuIZIvJeDduZb9a79P6W87o4wXFdnen6lHP+UzidXII
-         fXGpsctesJqmzV+qvunwJq4UxfX0m0GYptvbF8Ij/PBveHb3hfbbydPQskdesa4RzY0V
-         SswiW4lbJSHoqeNz7yfB+0aAxDxgah0/ktzAMQz/HXbt5y7+ZZl2Vgya706bOZLv6NRR
-         7LCigsbYpWee+/3hUB6Ptj45xkvcaqMcMMuSu64tcfhaGG+OXUZ58xKrexOWC1uUOJwM
-         +9IWsJt/QgovNGjSh/Ku8Z0QR/ZhyufcM+exAJJAPtWcghk1dMwxvqUvEWqzRJmgRIwZ
-         qPMQ==
-X-Forwarded-Encrypted: i=1; AL+hErEfVOI1+z5mAT26Gw7U5jEpllLHgZ+WXG/y9lAJbceKnESlFDy7Pne4WZ2TN1x6B+rnc0NOxDUjMCY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+RvOu6dlQ+sYTyZ6azX/hwy6elvCbjZifDjvsAHrO5J4Dr4sFO
-	8AFXe8ink+UV+W8VTW6Ym8CkQuAVT9HvVePf/MlCUDF6dv1Vy7GMFtKM3PMyIKgSQNfvA7hxQwN
-	doITAsMnVDmk9fZfWXgyvoYWyqFaR1NbATSzK1aSG
-X-Gm-Gg: AZFdTZcK56cAghDceNbK7vsOEf33tAYlBF95E/pCKg9BVbp7OanV79una/kSHHJ26QH
-	JiShGOvU3tKX1XAgtLoftFE2576igbxSUgflDEO0D0RED238+StZNUK1yg2dtizZt4KQDkY+SXx
-	Mx6QGVk3MBWNUFB1FH6CwweB47mXyyDePjOcT5/ONOJFFSeL9mDW8PiPMf0geg9UWFKbk3Lhr03
-	p0AqpwkZa7tDDc6zXOzG52qZ+Fr01cNq+bay7bmAba5Nj3YdQE4uEGOADWm+WpB5vH01DRoCySF
-	BPvDbD2BGebCxdKVVQf+8bePc3tzupMQAIyvjxoyx2n/LComs482yzjlNrTFloiQj+MP07JnC18
-	Ti5OTMj9I5K51MrXJSQPttzsKud3/ZAfGo60t5oPZfBCbN7hVczUwmVZ8lYuO2MLowm/gxtYZcD
-	7XgIGt9+UwEyheD3Y6cg25Ij3c0GicJeg4SgQ4jl1nVygLVjIPuOBTTr478mdjIsg1YDZjQFNoN
-	AtrBmO4WhzROxLWJKpRNR+l10rs3XhFYBgR15x48uv4CCEoWchDLd/4zmnX4xW/BWX+Ll1BECvU
-	5M4/CUKaGe8SMZSW9HYY7td+DsPU+opycpN+XSv56NijknTI9bK314qwzkj6hmBFaZ68k6/dAD0
-	lBIZBw9Nr55W121oAB59SzXmruiILse/k
-X-Received: by 2002:a05:690c:698e:b0:8b3:45b:a4f3 with SMTP id
- 00721157ae682-8b5204ed736mr106681927b3.83.1795793203488; Fri, 27 Nov 2026
- 07:26:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=eS88KzN3
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=b21IBx176tNT26CrcV+lAj1FVajl2noTGMquN5oHS2k=; b=eS88KzN37mbA/gyleS0bA4FRCT
+	tn34jW9YU7AMC3QOnsOvj2l1GuXRrFmzxbX725k2s4GyYzjpHH6p3vDpjKRPpLmipoOE1axEr8q+7
+	p8BBqHsCyM4JBpM+PgmhHZe73jwcQwER9gMH7Pflc0xnxq7PxCWwITl5GuTCB5lkJ9bQK4Cdb6oLK
+	DeS6uE1ZaE0svLQlXcUdfJil2X3j3tHu6yZ6K+6WzubWyNsGB85d9dVnhKPd36S/mX7pvJUEJMSTr
+	jBpmo4ItXiBLz2ck7CaiEQ40X+6gmSCvkV6d1gTlij46/0NdPA6xCuqILuKq9YgMdooUTE+cDL7o7
+	pVNMViww==;
+Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
+	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xWxrG-0000000Gy1V-2RVf;
+	Fri, 27 Nov 2026 15:27:30 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xWxrG-00000000PqA-1Flc;
+	Fri, 27 Nov 2026 15:27:30 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: kvm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>,
+	Thara Gopinath <tgopinath@linux.microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Nicolas Saenz Julienne <nsaenz@amazon.com>,
+	Nikolas Wipper <nik.wipper@gmx.de>,
+	Mushahid Hussain <hmushi@amazon.co.uk>,
+	Sriram Nambakam <snambakam@linux.microsoft.com>,
+	Zack Rusin <zack.rusin@broadcom.com>,
+	Doug Covelli <doug.covelli@broadcom.com>,
+	Jim Mattson <jmattson@google.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Paul Durrant <paul@xen.org>,
+	Xin Li <xin@zytor.com>,
+	Francesco Lavra <flavra@baylibre.com>,
+	=?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>,
+	Liran Alon <liran.alon@oracle.com>,
+	Arbel Moshe <arbel.moshe@oracle.com>,
+	David Woodhouse <dwmw@amazon.co.uk>
+Subject: [PATCH v3 03/15] KVM: x86: Let userspace leave an MSR access alone
+Date: Fri, 27 Nov 2026 15:27:18 +0000
+Message-ID: <20261127152730.99319-4-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261127152730.99319-1-dwmw2@infradead.org>
+References: <20261127152730.99319-1-dwmw2@infradead.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,36 +104,261 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <cover.1795284858.git.julius@bairaktaris.de> <7c74b2076dc7dee1d481d39a135e0946d5e04145.1795284858.git.julius@bairaktaris.de>
- <34e77fff-c57b-4ed0-9035-b9682ad3914e@redhat.com>
-In-Reply-To: <34e77fff-c57b-4ed0-9035-b9682ad3914e@redhat.com>
-From: Julius Bairaktaris <julius@bairaktaris.de>
-Date: Fri, 27 Nov 2026 15:26:08 +0000
-X-Gm-Features: Aa3M54pxMqgZ_s-9JbfNek_3dyGz87LXsEraMMuneoiDkKTrHn3sKg0m5hARvDM
-Message-ID: <CAC1t37L_+P72w+gNcrdphB7xkBmCQp5PQRFpcu1zqM1m-2Am+A@mail.gmail.com>
-Subject: Re: [PATCH net v3 1/2] net: keep the TCP fixed-ID flags on the header
- they describe
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@kernel.org, 
-	kuba@kernel.org, willemb@google.com, horms@kernel.org, andrew+netdev@lunn.ch, 
-	dsahern@kernel.org, idosch@nvidia.com, ncardwell@google.com, 
-	kuniyu@google.com, steffen.klassert@secunet.com, herbert@gondor.apana.org.au, 
-	richardbgobert@gmail.com, ecree.xilinx@gmail.com, andy.moreton@amd.com, 
-	alex.austin@amd.com, linux-net-drivers@amd.com, saeedm@nvidia.com, 
-	tariqt@nvidia.com, mbloch@nvidia.com, leon@kernel.org, 
-	linux-rdma@vger.kernel.org, alexei.starovoitov@gmail.com, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, 
-	martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev, 
-	jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev, 
-	john.fastabend@gmail.com, sdf@fomichev.me, izaiahsun@gmail.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	shuah@kernel.org, bpf@vger.kernel.org, ipsec@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Sender: David Woodhouse <dwmw2@infradead.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-Ack.
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-Thanks for looking into this!
+A VMM completing KVM_EXIT_X86_RDMSR or KVM_EXIT_X86_WRMSR can only have
+KVM retire the instruction or inject #GP.  It cannot raise another
+exception, or hand the access to something which retires it later.
 
-Julius
+With KVM_CAP_X86_MSR_EXIT_INSN, 'error' takes KVM_INSN_*: zero and one
+mean what they did, KVM_INSN_UD injects #UD and KVM_INSN_RESUME makes
+KVM do nothing.  Other values fail KVM_RUN.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ Documentation/virt/kvm/api.rst  | 34 ++++++++++++++-
+ arch/x86/include/asm/kvm_host.h |  2 +
+ arch/x86/kvm/msrs.c             | 75 ++++++++++++++++++++++++++-------
+ arch/x86/kvm/x86.c              |  8 ++++
+ include/uapi/linux/kvm.h        |  3 +-
+ 5 files changed, 105 insertions(+), 17 deletions(-)
+
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index d15dddd79e5b..6d4a11ce368c 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -7441,7 +7441,7 @@ non-zero value, indicating that FEAT_LS64* is enabled.
+ 
+ 		/* KVM_EXIT_X86_RDMSR / KVM_EXIT_X86_WRMSR */
+ 		struct {
+-			__u8 error; /* user -> kernel */
++			__u8 error; /* in: KVM_INSN_* */
+ 			__u8 pad[7];
+ 			__u32 reason; /* kernel -> user */
+ 			__u32 index; /* kernel -> user */
+@@ -7477,6 +7477,17 @@ wants to write. Once finished processing the event, userspace must continue
+ vCPU execution. If the MSR write was unsuccessful, userspace also sets the
+ "error" field to "1".
+ 
++Any non-zero "error" injects the #GP, unless KVM_CAP_X86_MSR_EXIT_INSN
++is enabled.  "error" then takes one of the KVM_INSN_* values (see
++:ref:`the description of completion <kvm_insn_action>`), of which zero
++and one are the success and the #GP described above.  KVM_INSN_UD
++injects #UD instead, and KVM_INSN_RESUME tells KVM to do nothing for the
++access: "data" is ignored, no register is written, nothing is injected
++and RIP is left alone.  For a guest whose register state is protected
++(SEV-ES, SEV-SNP and TDX, a debuggable TD included) KVM can neither
++leave the access unanswered nor inject #UD, and every non-zero value
++fails the access like KVM_INSN_GP, with or without the capability.
++
+ See KVM_X86_SET_MSR_FILTER for details on the interaction with MSR filtering.
+ 
+ ::
+@@ -9231,6 +9242,27 @@ enabled, cmma can't be enabled anymore and pfmfi and the storage key
+ interpretation are disabled. If cmma has already been enabled or the
+ hpage_2g module parameter is not set to 1, -EINVAL is returned.
+ 
++7.48 KVM_CAP_X86_MSR_EXIT_INSN
++------------------------------
++
++:Architectures: x86
++:Target: VM
++:Parameters: args[0] is 1 to enable, 0 to disable
++:Returns: 0 on success, -EINVAL if args[0] is any other value
++
++With this capability enabled, the "error" field of every
++KVM_EXIT_X86_RDMSR and KVM_EXIT_X86_WRMSR exit takes a KVM_INSN_* value,
++whichever of the KVM_MSR_EXIT_REASON_* reasons caused the exit.
++KVM_INSN_UD, and KVM_INSN_RESUME, which leaves the access for userspace
++to resolve, become available, and other values fail KVM_RUN with -EINVAL
++instead of injecting #GP.  It is disabled by default because existing
++VMMs may pass any non-zero value for a failed access.  The capability
++has no effect on which accesses exit; that is still selected with
++KVM_CAP_X86_USER_SPACE_MSR and KVM_X86_SET_MSR_FILTER.
++
++A guest whose register state is protected is the exception: see the
++description of those exits.
++
+ 8. Other capabilities.
+ ======================
+ 
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 1ee4b127004d..0e8150116e20 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -1297,6 +1297,8 @@ struct kvm_arch {
+ 	 * the opportunity to look at it.
+ 	 */
+ 	bool exit_on_emulation_error;
++	/* msr.error takes KVM_INSN_*, see KVM_CAP_X86_MSR_EXIT_INSN */
++	bool user_space_msr_insn;
+ 
+ 	/* Deflect RDMSR and WRMSR to user space when they trigger a #GP */
+ 	u32 user_space_msr_mask;
+diff --git a/arch/x86/kvm/msrs.c b/arch/x86/kvm/msrs.c
+index e91650af44c2..6b1b93592c2e 100644
+--- a/arch/x86/kvm/msrs.c
++++ b/arch/x86/kvm/msrs.c
+@@ -952,12 +952,40 @@ fastpath_t handle_fastpath_wrmsr_imm(struct kvm_vcpu *vcpu, u32 msr, int reg)
+ }
+ EXPORT_SYMBOL_FOR_KVM_INTERNAL(handle_fastpath_wrmsr_imm);
+ 
++/*
++ * Act on what userspace answered in msr.error.  Returns 1 if nothing is left
++ * to do for the access, or -EINVAL; otherwise 0, with @fail set for the
++ * common completion, which retires the instruction or injects #GP by
++ * whatever means the guest needs.
++ *
++ * Without KVM_CAP_X86_MSR_EXIT_INSN any error is a #GP.  So it is for a
++ * guest with protected state, which kvm_insn_uncompleted() only completes.
++ */
++static int kvm_msr_exit_answer(struct kvm_vcpu *vcpu, bool *fail)
++{
++	u8 error = READ_ONCE(vcpu->run->msr.error);
++
++	*fail = error;
++
++	if (!vcpu->kvm->arch.user_space_msr_insn ||
++	    error == KVM_INSN_COMPLETE || error == KVM_INSN_GP)
++		return 0;
++
++	return kvm_insn_uncompleted(vcpu, error);
++}
++
+ static void complete_userspace_rdmsr(struct kvm_vcpu *vcpu)
+ {
+-	if (!vcpu->run->msr.error) {
+-		kvm_eax_write(vcpu, vcpu->run->msr.data);
+-		kvm_edx_write(vcpu, vcpu->run->msr.data >> 32);
+-	}
++	u64 data = READ_ONCE(vcpu->run->msr.data);
++
++	kvm_eax_write(vcpu, data);
++	kvm_edx_write(vcpu, data >> 32);
++}
++
++static void complete_userspace_rdmsr_imm(struct kvm_vcpu *vcpu)
++{
++	kvm_register_write(vcpu, vcpu->arch.cui_rdmsr_imm_reg,
++			   READ_ONCE(vcpu->run->msr.data));
+ }
+ 
+ static int complete_emulated_insn_gp(struct kvm_vcpu *vcpu, int err)
+@@ -971,35 +999,52 @@ static int complete_emulated_insn_gp(struct kvm_vcpu *vcpu, int err)
+ 				       EMULTYPE_COMPLETE_USER_EXIT);
+ }
+ 
++/*
++ * The one completion of an MSR exit: @emulated says whether the emulator or
++ * an intercept raised it, and @result writes what a successful read returned.
++ */
++static int complete_msr_access(struct kvm_vcpu *vcpu, bool emulated,
++			       void (*result)(struct kvm_vcpu *vcpu))
++{
++	bool fail;
++	int r;
++
++	r = kvm_msr_exit_answer(vcpu, &fail);
++	if (r)
++		return r;
++
++	if (!fail && result)
++		result(vcpu);
++
++	if (emulated)
++		return complete_emulated_insn_gp(vcpu, fail);
++
++	return kvm_x86_call(complete_emulated_msr)(vcpu, fail);
++}
++
+ static int complete_emulated_msr_access(struct kvm_vcpu *vcpu)
+ {
+-	return complete_emulated_insn_gp(vcpu, vcpu->run->msr.error);
++	return complete_msr_access(vcpu, true, NULL);
+ }
+ 
+ static int complete_emulated_rdmsr(struct kvm_vcpu *vcpu)
+ {
+-	complete_userspace_rdmsr(vcpu);
+-	return complete_emulated_msr_access(vcpu);
++	return complete_msr_access(vcpu, true, complete_userspace_rdmsr);
+ }
+ 
+ static int complete_fast_msr_access(struct kvm_vcpu *vcpu)
+ {
+-	return kvm_x86_call(complete_emulated_msr)(vcpu, vcpu->run->msr.error);
++	return complete_msr_access(vcpu, false, NULL);
+ }
+ 
+ static int complete_fast_rdmsr(struct kvm_vcpu *vcpu)
+ {
+-	complete_userspace_rdmsr(vcpu);
+-	return complete_fast_msr_access(vcpu);
++	return complete_msr_access(vcpu, false, complete_userspace_rdmsr);
+ }
+ 
+ static int complete_fast_rdmsr_imm(struct kvm_vcpu *vcpu)
+ {
+-	if (!vcpu->run->msr.error)
+-		kvm_register_write(vcpu, vcpu->arch.cui_rdmsr_imm_reg,
+-				   vcpu->run->msr.data);
+-
+-	return complete_fast_msr_access(vcpu);
++	return complete_msr_access(vcpu, false, complete_userspace_rdmsr_imm);
+ }
+ 
+ static u64 kvm_msr_reason(int r)
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 26e7beaff8a0..31c6759f38b9 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -2276,6 +2276,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_SET_GUEST_DEBUG:
+ 	case KVM_CAP_LAST_CPU:
+ 	case KVM_CAP_X86_USER_SPACE_MSR:
++	case KVM_CAP_X86_MSR_EXIT_INSN:
+ 	case KVM_CAP_X86_MSR_FILTER:
+ 	case KVM_CAP_ENFORCE_PV_FEATURE_CPUID:
+ #ifdef CONFIG_X86_SGX_KVM
+@@ -4091,6 +4092,13 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+ 		kvm->arch.user_space_msr_mask = cap->args[0];
+ 		r = 0;
+ 		break;
++	case KVM_CAP_X86_MSR_EXIT_INSN:
++		r = -EINVAL;
++		if (cap->args[0] > 1)
++			break;
++		kvm->arch.user_space_msr_insn = cap->args[0];
++		r = 0;
++		break;
+ 	case KVM_CAP_X86_BUS_LOCK_EXIT:
+ 		r = -EINVAL;
+ 		if (cap->args[0] & ~KVM_BUS_LOCK_DETECTION_VALID_MODE)
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 0a4c548cb329..a146c0487960 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -431,7 +431,7 @@ struct kvm_run {
+ 		} arm_nisv;
+ 		/* KVM_EXIT_X86_RDMSR / KVM_EXIT_X86_WRMSR */
+ 		struct {
+-			__u8 error; /* user -> kernel */
++			__u8 error; /* in: KVM_INSN_* */
+ 			__u8 pad[7];
+ #define KVM_MSR_EXIT_REASON_INVAL	(1 << 0)
+ #define KVM_MSR_EXIT_REASON_UNKNOWN	(1 << 1)
+@@ -1009,6 +1009,7 @@ struct kvm_enable_cap {
+ #define KVM_CAP_PPC_COMPAT_CAPS 250
+ #define KVM_CAP_ARM_PMU_V3_STRICT 251
+ #define KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES 252
++#define KVM_CAP_X86_MSR_EXIT_INSN 253
+ 
+ struct kvm_irq_routing_irqchip {
+ 	__u32 irqchip;
+-- 
+2.50.1
+
