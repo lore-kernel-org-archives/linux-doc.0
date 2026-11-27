@@ -1,63 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.154
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=180.181.231.80
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795752668;
-	b=o3A4/h5rPvTjhqx27LzUg2Lz1FBSjheFSl/Aq+VaK7NqCgukBJ66VByhuQtYWMiL1uhi
-	 ileHeTV+pciXpsiNsqwSyaLoUqnSwnqlvVrpWgrCkvvHj3DqT9PM672qFSxGQRBV03XRx
-	 1UhVmw44UZMMbOWeeiwcY/XKqZl5IUFTSQzncir+bl3XOPR5YsGoH54NBMLhYuRZ+ppjJ
-	 MGVBgLaAvuPuZPnmrbj3ExGFyYbr73t20hsZNR7rXCbZga4EeQbLNzG6sqTji6GATHGGa
-	 fj8BJVLsea9uiB5So81zMIItGcG/BCTJ0bxF8w5pbf6Ty6VIFIXRAsmPjWIXfk1WtRQ==
+	t=1795753805;
+	b=dNYPuW/dwLKXKCfi7w5oYQODuGPgd6+MQ61um6er5GtWYArQYdtTzyL45mbmjCcPMYZc
+	 9OthoKPgJCGvTm0bQOvGy5IkjVjJOgUcaYjqtEHg31m5NwheJvn4KscxQMBhxygzLcQNz
+	 uG+1HjOfDDHHKgIoNYeEhI2CX94VikorRdl67Vq7GbIPrbiQTml3Yom3IVjFmjAhojhqW
+	 YZMJ4XJTG1KFJNgh5589IP/LwrPm9KcEPNapiBLjgjMbzb57BwFa6fown0iKY1SZ9oljN
+	 gpoDouSrBxi7ti5rtnaJ28z0DRlGSoQ0mnsycjU+f0+at26o7g7VMS2ZSrXrADOUd0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795752668;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ma5fVbVqsuTPHL3uo579JA1YqK1wZC2YyyAKMq6IkV0=;
-	b=A19fPNWJKGvdVu/HZan5bXma15rUFc0QhPXP7PVBQBm0TPQWFIkpNYbGAiDRWy5wXXf5
-	 zERKwJ3UpFwCfBOmkOZsG61A4FbZ5LQiv3eIU51PixTwX6W79Zs7p3/nF+QxzQZkCc0Qc
-	 7tly9G1L+0lmmdkT8gmhw/aPO76VV9ofdJVclcAgVhTcm4/jPkSqPHUP5K6LCwxz3nAj5
-	 loENgYM9f73eLQPPagIpy0sl9byc2PVlJD13n138ebjj0MaNF7YPgKFn52p1Ag9Fss9Lv
-	 gS3Zusku/kpMXEq2Hc3tiaIBiByAUu2qRB6X0KKvJi74hUkEduUIEXyq4r9Miw2R74A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795753805;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=HVhye+rjgDmsCjpX2SwqjFpF4uhxTqFX9Wg2OTfFpuA=;
+	b=l5TaIVPhs0OeaL7GD3xwphi14I6N98zVhyKb07W+jXacQZO8MxqjQa/EdSvA3LLErtd3
+	 DTp5St34FatZnvfdkpVFQOF2PbhO4/ZyL2AxrWjdPXN5/RAGmxpdceQhJ8K08RfUIM4ud
+	 9p8tVIJ2WYKwXWF8Mt3PoK/yZa0zl/BW2OWN/hZGKPZ8ZJzhLJGaJQ4x2m/orCzOhcZmi
+	 fGQl8Zcosif4qW2aB5R/AAEa8uzEwdKl+exZePX8Bp/bRwjrh+JMBDYg/2YI++axwvgyD
+	 MRPEexyBzFsQfDElSuzqAkS3lyTBQ/+K5qe7i1aYNRTuBQ4rmtdJOxzAZoiZxd3o5Pg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b="w/2S2LBs";
-	arc=none smtp.remote-ip=95.215.58.154
-Received: from mta1.migadu.com (out-154.mta1.migadu.com [95.215.58.154])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gondor.apana.org.au;
+	spf=pass smtp.mailfrom=gondor.apana.org.au;
+	dkim=pass header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.a=rsa-sha256 header.s=h01 header.b=NmWVr9U7;
+	arc=none smtp.remote-ip=180.181.231.80
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F469606A31E
-	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 04:11:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F469606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D35606A321;
+	Fri, 27 Nov 2026 04:30:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24D35606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=w/2S2LBs
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=aXjlXeLzw2qZstyZgpc0LEAZitvOS6XRlrVaFNAG5Js=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795752665; v=1; x=1796357465;
- b=w/2S2LBsg1ssjUHhK9SDl9E28oO3QHF2MZqkIsqxrXA3itlJEAXnWpABJQlE1oDJa3XFMSNE
- byxuxzZdFGRZpMryYN3ACXuC6VkSakkkR4hs4zA2LOVFOFr5gh9Iygytn/QdMUJc4yp9+FV9RQe
- g2Ml57IBq1sOmz+Cp9ICBqjik8Oxt5GMOBOhlkJvMxrnp6mzKjNsW9XN54ss8tFgHNDA1SYBql4
- IWr5I2HTCpCtsnQ7QM8w7Qt7SlMp7u1+nKdPSzXny7jNorLq4BbUv+ZaQhCPYizkcdNm/d804a+
- FmyhpL3+XoxuJrADvc58vn4Dv+pVRbvXbLD7vxGDNBeDQ==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id d4c1a30c01a366e5;
-	Fri, 27 Nov 2026 04:11:05 +0000
-X-Mizu-Trace-ID: d4c1a30c01a366e5
-X-Migadu-Flow: FLOW_OUT
-Date: Fri, 27 Nov 2026 12:10:58 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Alex Shi <seakeel@gmail.com>
-Cc: linux-doc@vger.kernel.org, Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
-	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: Re: What's cooking in Chinese docs (Nov 2026, #05)
-Message-ID: <awkC0plVerzZe-hi@wyuan.org>
-References: <awRWXw8KsV_TJs9A@wyuan.org>
- <5bcd13dd-5164-4a0b-bec0-c8fdd795cf11@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.a=rsa-sha256 header.s=h01 header.b=NmWVr9U7
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
+	from:content-type:reply-to; bh=HVhye+rjgDmsCjpX2SwqjFpF4uhxTqFX9Wg2OTfFpuA=; 
+	b=NmWVr9U7Gr3gNZ4/ksBJgj83dIvNF4V+Pu1NHI/9SPwucWZblQwVUwJxbeQ9Hp2KCvDxkb3ZSkT
+	2QESNFteS3kwKZ34CHxQ1tuDKFOO/+L0DAnmuKgpoWXQlF+4IYVM5eFTxFx1L1EnlzuT5daKgd1Db
+	T6+EPJLJZnzCvHfhmXgvu3Mg0nuwyb2YiacDVgtWEcZEy5NZKYKS0zD16k54P3DThmafxjSPl2stB
+	lPa5HNKhstRiWjy4YlUgBnlzqOnSqRb/ErXLwlWvw0iuNc+q1KV9Oq9kJD/WasV+Up5bCYD3bzCMB
+	RCE2fcdERnH/WojTd6LzDvqzZIVWc0QTQYPA==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.98.2 #2 (Debian))
+	id 1xWnao-00000002V1X-2RzR;
+	Fri, 27 Nov 2026 12:29:51 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 27 Nov 2026 12:29:50 +0800
+Date: Fri, 27 Nov 2026 12:29:50 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: aousherovitch@rambus.com
+Cc: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>,
+	Joel Wittenauer <Joel.Wittenauer@cryptography.com>,
+	Thi Nguyen <thin@rambus.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-crypto@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 4/5] crypto: cmh - add AES skcipher/aead/cmac
+Message-ID: <awkHPjWDibjxrb7F@gondor.apana.org.au>
+References: <20261118-cmh-b4-a-v9-v9-0-70385613fd50@rambus.com>
+ <20261118-cmh-b4-a-v9-v9-4-70385613fd50@rambus.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,26 +77,34 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5bcd13dd-5164-4a0b-bec0-c8fdd795cf11@gmail.com>
+In-Reply-To: <20261118-cmh-b4-a-v9-v9-4-70385613fd50@rambus.com>
 
-On Fri, Nov 27, 2026 at 11:13:12AM +0800, Alex Shi wrote:
+On Wed, Nov 18, 2026 at 09:51:48AM -0800, Alex Ousherovitch via B4 Relay wrote:
+>
+> +/*
+> + * Incremental operations and request-state export/import forward to the
+> + * keyed generic cmac(aes) fallback allocated in cmh_aes_cmac_init_tfm().
+> + * The AES core cannot save/restore intermediate CMAC state, so the
+> + * fallback holds the request state; it is synchronous, was
+> + * keyed by cmh_aes_cmac_setkey(), and handles both scatterlist and
+> + * virtual (CRYPTO_AHASH_REQ_VIRT) input.
+> + */
+> +static int cmh_aes_cmac_init(struct ahash_request *req)
+> +{
+> +	struct crypto_ahash *tfm = crypto_ahash_reqtfm(req);
+> +	struct cmh_aes_cmac_tfm_ctx *tctx = crypto_ahash_ctx(tfm);
+> +	struct cmh_aes_cmac_reqctx *rctx = ahash_request_ctx(req);
+> +	struct ahash_request *fb_req = cmh_aes_cmac_fb_req(rctx);
+> +
+> +	ahash_request_set_tfm(fb_req, tctx->fb);
+> +	ahash_request_set_callback(fb_req, 0, NULL, NULL);
+> +	return crypto_ahash_init(fb_req);
 
-> > * Weijie Yuan 2026-10-21
-> >    [PATCH v3 0/2] docs/zh_CN: cleanup headers
-> >    [PATCH v3 1/2] docs/zh_CN: remove translator-related headers
-> >    [PATCH v3 2/2] docs/zh_CN: remove Translator field in header template
-> > 
-> >    Partly reviewed by Dongliang with an extra question to Jon.
-> >    source:<cover.1792569583.git.wy@wyuan.org>
-> 
-> Can not find in linux-doc emailing list.
+Please don't use embedded fallback requests.  Put them on the stack
+instead with HASH_FBREQ_ON_STACK.
 
-Ah, so sorry. My manual operation at that time must have gone wrong.
-Now I have a script to do this, and should be much better.
-
-They are here:
-
-https://lore.kernel.org/linux-doc/cover.1792745468.git.wy@wyuan.org/
-
-Thanks!
-
+Thanks,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
