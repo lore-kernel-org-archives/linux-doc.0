@@ -1,49 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795808784;
-	b=pYb79LNl2fsjUBktO4jVzdXaagwyhbwE8K7jpOmpsLYkLTIbgT4gP084VgOyjX+ElTfn
-	 IshPagwUPIzfOTts4F4SDtgYutA+9nWrF3o2UEaPexRgYl5k86TSOWQjYAUsJBFmJSNuG
-	 QbJhDv5tI1Uhxfgk8UkFHQdMmV56Fv2t9fVt2U2GuhuDTa8TsNEs+RCSo4kfwhsiiINMg
-	 8O9y80GJ/2CxX6Ez4T9bYG352/beczhYX+43d0zlw7MNV4D6NQxE4g3Xs1b0K7cMlAa8W
-	 eHgezMS15lBKqDoH3945uCqNCRi0ES/LtVIlOUx18UnpKMQySNNJ5V2CQT46+w0PLAQ==
+	t=1795810474;
+	b=lhPCCZfnV7lkWV4DSi0lc36rL7bYKxeGZh30+Dvv5SFiqEMvrkV5/kd8vbhH5AuVb1L3
+	 PP7d627aMo2xeEeNo4TH5VfM7wvU4XXpqm1UYVouLTiWUpDHQ5h+pH7s/+QcGgj8Fc9W1
+	 1ivNPNZ4wGCfJGoXCtnJDQ7xJGEhkBsImV3YG4X0FlvcpcLd3+A4cv/7BLcnRU+89HCBq
+	 FrtWEVYuIpPM/hSwEnb4A1e8hYH84S6XpnkJru5OQN1G/YQaI5ZeFHRjsRCwZLpyHY0GB
+	 YSmo6bfAOU9lN9w9Q/OqQi0Pmaba5OVGtskVNnSwi6bseki7iZ14RR0+chjmptCIYOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795808784;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=k3mLM1wyRXEsg+PNLXtW45Wd/AVD4xoxhnOqafugdiQ=;
-	b=VrMDKldtkQCr1j2FyEPAiLcBqGUEOjD3VZDTw95Sfanljadvg3yUNTM8QYM4cSdx7/5h
-	 KWPQIQG/UkqjIBA1FobtQx7rM7ildk626dvqTP5tUXzTpI8+g/kytEI9Z5szM7/n3KUUO
-	 JlzhY17tOOn9iGUKTkoPkBxewSRsLAHBevXyITFvVoKoTw90TyHyI1ysgXcm5XJqyiZ2z
-	 0lZ0ehgzxGdpwIXV6OZ+Xhjppwxxg5VKp7N4TGylJQKRFFCJv0ENirxTtHbT9v2orjPa5
-	 T1+k7NcNvvW0VsAsqX7wpk+DfjMHW8kyWD5DTFFl5duvuYHGVNBhviPl9irHksiTNmA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795810474;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=2tL8owTw2PwzoEHxqPksYuP4hbl3MRd9EfCtfzCRkZU=;
+	b=sR4ZO/LG4ePoK06R4aBBe1A/9m29mt8wk3xTdy4PmYBzP0z9eBTSvc+OJs8FqhU1m4RA
+	 fKlfs6ybfz5ZymJ2otGI4uPWdvR4wIuSJudfz1xEDgbR+KUYFV+x+UgyieUg9XEmi0xIs
+	 A2Uebhp5ykywOrtmS28IeHvEtfvwqVlbiXTiAwlvJZCLxAyfUCC3RuvEGXbadC1RfsWCe
+	 xIbuB0zWbaUdKrH28XB35zAG1couY8U2MWBw6hO9qGQooaxyPFEnD90TljvJO2jL8oX0O
+	 jgSJy/budY+zI12NLm1xD7OODOKXF8d/Hu+Ed2UdDSEVRAB6blooAVt8E35BaK04tUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ayy9Q0Mu;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=q7Ee4tcF;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A8E606A31C;
-	Fri, 27 Nov 2026 19:46:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FD7606A331
+	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 20:14:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24FD7606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ayy9Q0Mu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C03D1F00924;
-	Fri, 27 Nov 2026 19:46:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795808784;
-	bh=k3mLM1wyRXEsg+PNLXtW45Wd/AVD4xoxhnOqafugdiQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ayy9Q0MuJnX7YhI1XdSAFEYJ6S2e28R4qby8PzluI4BQ0YFOhYr0KTv7fbVo97Im/
-	 mSRkHq3NiQJIY1xJ1pJPkRdUNk8scBCJe8/NqAjuttTECCKLhmFBDkv+1h3Y6Sax2X
-	 sTdQp8UYr5Or8RVpRWODiqTpxeNi9Lp+znszkSItlz4OCutmyhO3ZRcpaaY+cPtcmc
-	 PAx2Ab/mrzHAanNJHrfhBsUQ4AK8OceqKgDMfzfsBeT6nSHZCpuqxMTeofF19u08av
-	 JkZ5N/kNKCccI0t6D4kzSwSCbwBMJ4BQ/12C49t1v67J6o4wso0UzU3uTTKHiLridj
-	 GbMl9w5ZdETFQ==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Fri, 27 Nov 2026 19:45:43 +0000
-Subject: [PATCH 4/4] fs/proc/task_mmu: write-protect only with ptrace
- attach
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=q7Ee4tcF
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-386c336eab8so4921848eec.0
+        for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 12:14:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795810472; x=1796415272; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2tL8owTw2PwzoEHxqPksYuP4hbl3MRd9EfCtfzCRkZU=;
+        b=q7Ee4tcFLWvxTUg1AC9tTbuzOXSp+tXGbM/TXTp/ElJluabfKu+7TMjgFBL7tPHlCY
+         J/LisMOFsSPJjMnG+xUtUNQrjXpgMqqkExts93dJ12cNMWhPD46PHCFJqvqGqSz0lRQ+
+         5Vj0reUTUohffSCwbTE4+bme0Q+YAlWGfEQ9ENPdh3fS8MFDn88FMjrp4/ChNX5+LfaW
+         T6F7jt+HXC7xTGVlmx/B+StLstm8Gts3vq+M9GW9EkpGpy1Iv5+bwugK1ZKEFLXC9O5p
+         6mm/hQ1a02bwqTEfz0xUMob6zr20AFH4U3b37nc8yryimXs5qN0MdQGNoNm8VCxk4JDP
+         eDXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795810472; x=1796415272;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2tL8owTw2PwzoEHxqPksYuP4hbl3MRd9EfCtfzCRkZU=;
+        b=aZ3sh/6m07FzkJ4kahavdd7Cp38RGnLUVrIzGZbVu2uqVzZ6tRSt35IpSHUmRvUHcK
+         HKdt0r0iAx/pJxeixkVFrdjE8kZ19EGWOkLC+iIdTRORoC2i1o254ZV42LAQ0rPGIjpd
+         Yp8Wif67KCQlzwwaRSSHSWs5Gynd3vRN5ZJhjF339Ov2qPGixNAgBjg2KkODlBfggoBe
+         UOkpGYGUpi9Kf6dnNknYp4OJGaw1nplJtMb4+TAkuxc5Ugf5A3z6uBsRh+Fk63zKLdOb
+         Ab1m4itCy+8Rb4up/kJ8SBGerzaDcwirN01OvZLOTOMTZTmzktGJpSPzRpLIB8ZpM0Q/
+         7nBA==
+X-Forwarded-Encrypted: i=1; AL+hErEfCM+xPRl8yH8YLRtajgIZ1OYReybzx3sisi2yf2flLBLSqpwh0iRBxMdKONfbLxQ7i+0SrRpXZAc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8woMCwPQ6j1abWl8lhoR8KH+oJf4KYZbqOhQUYux8Ws5RBbuwD
+	se2P9Tv7UvXpY78OkRnurTuX0ej+AAH+XRjhb3ElJs4z63qlwEZXaGxi
+X-Gm-Gg: AZFdTZd1CMKbjEHdhjvMHpVtqGi1pYj+zqnHtndMNmYkF0ZiZawQt3TKq3QTt6uE5EK
+	byj/I7I5WCVcInJUNkpy//XIHRZUUIu8IFEDx/kEET9XYhLdz8nXBDORYPyQ2mJ/x1k2lktTZt6
+	5JivNzUb1bdsg1HP2RHSViBluM+KPboyktXM8ewsERZTVfB8VWvKMUVF8god2aq1K67p8XH6Sxr
+	a20uqlaA+KxxCCno7AZLKQKw21BFxDQ0sYP2Dz1wxBwonWMsvxN5qrpXgcbv2LrzME8rZPUHYGa
+	xT/y7nkMueAweo0Bel2j2EABfTILf93Cs9N2PQiv7GLVGXgWeVe7sHkhYH36rO3j3YRB0waqWWO
+	olHq5kICnXX2HYR/pWfHiwD1Ss8XxI1ZwEK/LiBcx0Z+OJKtryGSjV/v2YUT+8K3j5+JpcMQUio
+	LqR8c7VbiEqk1b0+tnicIUtz+GASNjyrNjKSvSQ0dIrakOHRBrqKVBa3ixdC2wpsdnzoJxP7Srp
+	1Rbg1J6ck97V6sEctegDEeYZf3APHkRBWAEWa3+vwyFYE5DN855z3sz8NUo+Dlr8NCXAmez4CzS
+	VA29VMe7jrA8OIu8z23VRkgs14XMaas+PAIE8bnHew==
+X-Received: by 2002:a05:7301:d804:b0:386:b076:a940 with SMTP id 5a478bee46e88-386b076a9e4mr16325542eec.26.1795810472092;
+        Fri, 27 Nov 2026 12:14:32 -0800 (PST)
+Received: from a1-free ([2603:c021:8021:f000:0:1865:8c38:18fc])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385f68bc0adsm70396821eec.13.2026.11.27.12.14.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2026 12:14:31 -0800 (PST)
+From: TAKANO Mitsuhiro <takano32@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Dan Williams <djbw@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	linux-mm@kvack.org,
+	linux-cxl@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	TAKANO Mitsuhiro <takano32@gmail.com>
+Subject: [PATCH v3] docs: Name the memory hotplug online type configs that exist
+Date: Fri, 27 Nov 2026 20:14:28 +0000
+Message-ID: <20261127201428.293257-1-takano32@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261127190207.245175-1-takano32@gmail.com>
+References: <20261127190207.245175-1-takano32@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,178 +105,132 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261127-mlock-madvise-mprotect-ai-fixes-v1-4-e46b2b1eb435@kernel.org>
-References: <20261127-mlock-madvise-mprotect-ai-fixes-v1-0-e46b2b1eb435@kernel.org>
-In-Reply-To: <20261127-mlock-madvise-mprotect-ai-fixes-v1-0-e46b2b1eb435@kernel.org>
-To: Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Rheinsberg <david@readahead.eu>, Hugh Dickins <hughd@google.com>, 
- Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- David Hildenbrand <david@kernel.org>, Jann Horn <jannh@google.com>, 
- Alex Shi <alexs@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
- Pedro Falcato <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, 
- Rik van Riel <riel@redhat.com>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- =?utf-8?q?Micha=C5=82_Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>, 
- Arnd Bergmann <arnd@arndb.de>, Stephen Rothwell <sfr@canb.auug.org.au>, 
- Muhammad Usama Anjum <usama.anjum@arm.com>
-Cc: codalist@coda.cs.cmu.edu, linux-mm@kvack.org, 
- Andrei Vagin <avagin@gmail.com>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Chris Mason <mason@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5134; i=ljs@kernel.org;
- h=from:subject:message-id; bh=LDwlOoGL+Fn5OvyHg2RGXRShc7rrh/h1bpGPWGzw/QM=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLI5776UnsqgY2scx+B02GzrzbLIuS/0wj8LnUzS7Hh9e
- HK8XWZjRykLgxgXg6yYIsvzL+L7g0TC5nVe8HeDmcPKBDKEgYtTACZypI7hf/EOM55TOmyXlYO2
- mCz+6t6xb5rhWeZHN9WPx2Qfz3gWcp+R4aPbRvGwTVnn478uz2ZXvLlzb9jsRaJ/pTZ4bTV5ckw
- xiBsA
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+Content-Transfer-Encoding: 8bit
 
-The abomination known as PM_SCAN_WP_MATCHING, which makes PAGEMAP_SCAN not
-scan but mutate for eldritch uffd-wp purposes, also lacks a permission
-check when scanning the mm of another process.
+The default online type is a Kconfig choice, so the symbols it defines are
+CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE, _ONLINE_AUTO, _ONLINE_KERNEL and
+_ONLINE_MOVABLE.  There is no CONFIG_MHP_DEFAULT_ONLINE_TYPE symbol, but
+five files name one.
 
-It defaults to PTRACE_MODE_READ, which is insufficient for this accursed
-operation.
+Where a file lists the config, name the family with a trailing _*.  Where
+it names a choice value, spell the whole symbol out: early-boot.rst gave
+the zone choices as _NORMAL and _MOVABLE, which are not suffixes, and it
+left _ONLINE_AUTO out of the list of values.
 
-Therefore actually check for permissions correctly, and also make sure the
-mm is as expected when doing so.
+Verification: a build of the tree defines
+CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE and no bare
+CONFIG_MHP_DEFAULT_ONLINE_TYPE in include/generated/autoconf.h, and grep
+finds no reference to the bare symbol under Documentation/ afterwards.
 
-As it stands, a task may currently manipulate page tables of the remote
-process, write-protecting uffd-wp marked pages, allocating page tables and
-splitting THP, and invoking MMU notifiers as needed.
-
-The check is made at the time of the ioctl against its caller, as
-lock_trace() does for other /proc files, rather than at open.
-
-A tracker which passes READ but not ATTACH on another process now gets
-EACCES for PM_SCAN_WP_MATCHING, whether it opened the pagemap file itself
-or was handed the descriptor.
-
-Also update the pagemap documentation to reflect the change.
-
-Fixes: 52526ca7fdb9 ("fs/proc/task_mmu: implement IOCTL to get and optionally clear info about PTEs")
-Reported-by: Chris Mason <mason@kernel.org>
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
 ---
- Documentation/admin-guide/mm/pagemap.rst |  4 ++-
- fs/proc/task_mmu.c                       | 47 ++++++++++++++++++++++++++++----
- 2 files changed, 44 insertions(+), 7 deletions(-)
+v3: Add CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO, which v2 dropped when it
+    spelled the values out, and write the kernel zone as "a zone that can
+    hold kernel data (usually ZONE_NORMAL)" since the choice can land in
+    ZONE_DMA or ZONE_DMA32.
 
-diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
-index 77447c454632..f000296e5ab3 100644
---- a/Documentation/admin-guide/mm/pagemap.rst
-+++ b/Documentation/admin-guide/mm/pagemap.rst
-@@ -240,7 +240,9 @@ in this IOCTL:
- - Write-protect the pages. The ``PM_SCAN_WP_MATCHING`` is used to write-protect
-   the pages of interest. The ``PM_SCAN_CHECK_WPASYNC`` aborts the operation if
-   non-Async Write Protected pages are found. The ``PM_SCAN_WP_MATCHING`` can be
--  used with or without ``PM_SCAN_CHECK_WPASYNC``.
-+  used with or without ``PM_SCAN_CHECK_WPASYNC``. On the pagemap file of another
-+  process, ``PM_SCAN_WP_MATCHING`` requires that the caller is allowed to attach
-+  to that process with ptrace. Otherwise the IOCTL fails with ``EACCES``.
- - Both of those operations can be combined into one atomic operation where we can
-   get and write protect the pages as well.
- 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index e3d894ed2b91..19acdddd4b23 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -3120,11 +3120,41 @@ static long pagemap_scan_flush_buffer(struct pagemap_scan_private *p)
- 	return n;
- }
- 
--static long do_pagemap_scan(struct mm_struct *mm, unsigned long uarg)
-+/*
-+ * Ensure the caller has PTRACE_MODE_ATTACH_FSCREDS permission for wp scan, and
-+ * that the file's mm still matches the process's.
-+ */
-+static int pagemap_scan_check_wp(struct file *file, struct mm_struct *mm)
-+{
-+	struct task_struct *task;
-+	struct mm_struct *task_mm;
-+	bool same_mm;
-+
-+	if (mm == current->mm)
-+		return 0;
-+
-+	task = get_proc_task(file_inode(file));
-+	if (!task)
-+		return -ESRCH;
-+
-+	task_mm = mm_access(task, PTRACE_MODE_ATTACH_FSCREDS);
-+	put_task_struct(task);
-+	if (IS_ERR(task_mm))
-+		return PTR_ERR(task_mm);
-+
-+	same_mm = task_mm == mm;
-+	mmput(task_mm);
-+
-+	return same_mm ? 0 : -EACCES;
-+}
-+
-+static long do_pagemap_scan(struct file *file, unsigned long uarg)
- {
- 	struct pagemap_scan_private p = {0};
-+	struct mm_struct *mm = file->private_data;
- 	unsigned long walk_start;
- 	size_t n_ranges_out = 0;
-+	bool scan_wp;
- 	int ret;
- 
- 	if (!mmget_not_zero(mm))
-@@ -3134,6 +3164,13 @@ static long do_pagemap_scan(struct mm_struct *mm, unsigned long uarg)
- 	if (ret)
- 		goto out_mmput;
- 
-+	scan_wp = p.arg.flags & PM_SCAN_WP_MATCHING;
-+	if (scan_wp) {
-+		ret = pagemap_scan_check_wp(file, mm);
-+		if (ret)
-+			goto out_mmput;
-+	}
-+
- 	p.masks_of_interest = p.arg.category_mask | p.arg.category_anyof_mask |
- 			      p.arg.return_mask;
- 	ret = pagemap_scan_init_bounce_buffer(&p);
-@@ -3155,7 +3192,7 @@ static long do_pagemap_scan(struct mm_struct *mm, unsigned long uarg)
- 			break;
- 
- 		/* Protection change for the range is going to happen. */
--		if (p.arg.flags & PM_SCAN_WP_MATCHING) {
-+		if (scan_wp) {
- 			mmu_notifier_range_init(&range, MMU_NOTIFY_PROTECTION_VMA, 0,
- 						mm, walk_start, p.arg.end);
- 			mmu_notifier_invalidate_range_start(&range);
-@@ -3164,7 +3201,7 @@ static long do_pagemap_scan(struct mm_struct *mm, unsigned long uarg)
- 		ret = walk_page_range(mm, walk_start, p.arg.end,
- 				      &pagemap_scan_ops, &p);
- 
--		if (p.arg.flags & PM_SCAN_WP_MATCHING)
-+		if (scan_wp)
- 			mmu_notifier_invalidate_range_end(&range);
- 
- 		mmap_read_unlock(mm);
-@@ -3201,11 +3238,9 @@ static long do_pagemap_scan(struct mm_struct *mm, unsigned long uarg)
- static long do_pagemap_cmd(struct file *file, unsigned int cmd,
- 			   unsigned long arg)
- {
--	struct mm_struct *mm = file->private_data;
--
- 	switch (cmd) {
- 	case PAGEMAP_SCAN:
--		return do_pagemap_scan(mm, arg);
-+		return do_pagemap_scan(file, arg);
- 
- 	default:
- 		return -ENOIOCTLCMD;
+v2: Spell the full config names in early-boot.rst.  David Hildenbrand pointed
+    out that CONFIG_MHP_DEFAULT_ONLINE_TYPE_* with _ONLINE_KERNEL appended
+    does not parse.  The other four files keep the _* form because they list
+    the config, not one of its values.
 
+    Written with Hermes Agent, an LLM assistant; the author reviewed the
+    wording and the diff.
+
+ Documentation/admin-guide/kernel-parameters.txt   |  2 +-
+ Documentation/admin-guide/mm/memory-hotplug.rst   |  2 +-
+ Documentation/driver-api/cxl/linux/early-boot.rst | 15 ++++++++++-----
+ .../driver-api/cxl/linux/memory-hotplug.rst       |  2 +-
+ Documentation/driver-api/cxl/linux/overview.rst   |  2 +-
+ 5 files changed, 14 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 176648941aec..8580099b98c1 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3948,7 +3948,7 @@ Kernel parameters
+ 			[KNL] Set the initial state for the memory hotplug
+ 			onlining policy. If not specified, the default value is
+ 			set according to the
+-			CONFIG_MHP_DEFAULT_ONLINE_TYPE kernel config
++			CONFIG_MHP_DEFAULT_ONLINE_TYPE_* kernel config
+ 			options.
+ 			See Documentation/admin-guide/mm/memory-hotplug.rst.
+ 
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+index 0207f8725142..c7de458a962f 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -280,7 +280,7 @@ The following files are currently defined:
+ 		       blocks; configure auto-onlining.
+ 
+ 		       The default value depends on the
+-		       CONFIG_MHP_DEFAULT_ONLINE_TYPE kernel configuration
++		       CONFIG_MHP_DEFAULT_ONLINE_TYPE_* kernel configuration
+ 		       options.
+ 
+ 		       See the ``state`` property of memory blocks for details.
+diff --git a/Documentation/driver-api/cxl/linux/early-boot.rst b/Documentation/driver-api/cxl/linux/early-boot.rst
+index 414481f33819..7118f3372596 100644
+--- a/Documentation/driver-api/cxl/linux/early-boot.rst
++++ b/Documentation/driver-api/cxl/linux/early-boot.rst
+@@ -34,7 +34,7 @@ which dictate how memory will be managed by Linux during early boot.
+   * Linux Build config option that dictates whether the kernel supports
+     Specific Purpose memory.
+ 
+-* CONFIG_MHP_DEFAULT_ONLINE_TYPE
++* CONFIG_MHP_DEFAULT_ONLINE_TYPE_*
+ 
+   * Linux Build config that dictates whether and how Specific Purpose memory
+     converted to a dax device should be managed (left as DAX or onlined as
+@@ -58,10 +58,15 @@ SystemRAM.  This will expose the memory to the kernel page allocator in
+ :code:`ZONE_NORMAL`, making it available for use for most allocations (including
+ :code:`struct page` and page tables).
+ 
+-If `Specific Purpose` is set and supported, :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_*`
+-dictates whether the memory is onlined by default (:code:`_OFFLINE` or
+-:code:`_ONLINE_*`), and if online which zone to online this memory to by default
+-(:code:`_NORMAL` or :code:`_MOVABLE`).
++If `Specific Purpose` is set and supported, the default online type decides
++what happens to the memory:
++:code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE` leaves it offline,
++:code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO` onlines it to whichever zone
++the kernel picks,
++:code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_KERNEL` onlines it to a zone that
++can hold kernel data (usually :code:`ZONE_NORMAL`), and
++:code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_MOVABLE` onlines it to
++:code:`ZONE_MOVABLE`.
+ 
+ If placed in :code:`ZONE_MOVABLE`, the memory will not be available for most
+ kernel allocations (such as :code:`struct page` or page tables).  This may
+diff --git a/Documentation/driver-api/cxl/linux/memory-hotplug.rst b/Documentation/driver-api/cxl/linux/memory-hotplug.rst
+index af368c2bc9cf..df27520b193f 100644
+--- a/Documentation/driver-api/cxl/linux/memory-hotplug.rst
++++ b/Documentation/driver-api/cxl/linux/memory-hotplug.rst
+@@ -19,7 +19,7 @@ Default Online Behavior
+ The default-online behavior of hotplug memory is dictated by the following,
+ in order of precedence:
+ 
+-- :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE` Build Configuration
++- :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_*` Build Configuration
+ - :code:`memhp_default_state` Boot parameter
+ - :code:`/sys/devices/system/memory/auto_online_blocks` value
+ 
+diff --git a/Documentation/driver-api/cxl/linux/overview.rst b/Documentation/driver-api/cxl/linux/overview.rst
+index 648beb2c8c83..d567353e1dab 100644
+--- a/Documentation/driver-api/cxl/linux/overview.rst
++++ b/Documentation/driver-api/cxl/linux/overview.rst
+@@ -17,7 +17,7 @@ are generated.
+ 
+     i) EFI_MEMORY_SP
+     ii) CONFIG_EFI_SOFT_RESERVE
+-    iii) CONFIG_MHP_DEFAULT_ONLINE_TYPE
++    iii) CONFIG_MHP_DEFAULT_ONLINE_TYPE_*
+     iv) nosoftreserve
+ 
+   b) Memory Map Creation
+
+base-commit: b6a9fa34ce4187cb69d3c588a4bbffc31ce5db8f
 -- 
-2.56.1
+2.53.0
 
