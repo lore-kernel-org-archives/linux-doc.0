@@ -1,101 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795810474;
-	b=lhPCCZfnV7lkWV4DSi0lc36rL7bYKxeGZh30+Dvv5SFiqEMvrkV5/kd8vbhH5AuVb1L3
-	 PP7d627aMo2xeEeNo4TH5VfM7wvU4XXpqm1UYVouLTiWUpDHQ5h+pH7s/+QcGgj8Fc9W1
-	 1ivNPNZ4wGCfJGoXCtnJDQ7xJGEhkBsImV3YG4X0FlvcpcLd3+A4cv/7BLcnRU+89HCBq
-	 FrtWEVYuIpPM/hSwEnb4A1e8hYH84S6XpnkJru5OQN1G/YQaI5ZeFHRjsRCwZLpyHY0GB
-	 YSmo6bfAOU9lN9w9Q/OqQi0Pmaba5OVGtskVNnSwi6bseki7iZ14RR0+chjmptCIYOQ==
+	t=1795812094;
+	b=vIW4Kc+wMKOyG2vUsa4UOCB5LMcPO4++hUbNM3duB1adLcyS8X6xe0eMxqiZ5yz5+tx1
+	 qrLXbHEH/N7cJxdxRzYhXz68/ymegDqQ6MYxJvm09Yp/lnCsC1zVYBL3GhiYSXSSJxQk1
+	 QWmyjsFqqDAtTO4jDFPYFxpKOKcaBCmzW7OepGbzuZiER+9jo9uxHSiAxK47JxNGnQU3P
+	 RrF+q0g+9o+1cHmxaAIdnNNon4PxlyHUSx0cCYThO4e7EVqBL3f6upYCirsqIPLl+hUTK
+	 WmJy5IMFI8ZffcIlBpcaQtGdKWxD4LqelQCjWuY+zdSUqKer+umrzSUVB+bE5hDSFZg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795810474;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=2tL8owTw2PwzoEHxqPksYuP4hbl3MRd9EfCtfzCRkZU=;
-	b=sR4ZO/LG4ePoK06R4aBBe1A/9m29mt8wk3xTdy4PmYBzP0z9eBTSvc+OJs8FqhU1m4RA
-	 fKlfs6ybfz5ZymJ2otGI4uPWdvR4wIuSJudfz1xEDgbR+KUYFV+x+UgyieUg9XEmi0xIs
-	 A2Uebhp5ykywOrtmS28IeHvEtfvwqVlbiXTiAwlvJZCLxAyfUCC3RuvEGXbadC1RfsWCe
-	 xIbuB0zWbaUdKrH28XB35zAG1couY8U2MWBw6hO9qGQooaxyPFEnD90TljvJO2jL8oX0O
-	 jgSJy/budY+zI12NLm1xD7OODOKXF8d/Hu+Ed2UdDSEVRAB6blooAVt8E35BaK04tUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795812094;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=7LbIq7QtBuD8l1ZM3ysDGC4GsDSWb7XrF/nM20+iPNU=;
+	b=i2ZTBmRTtM/rw1QnRD+v2TGBtFY0Vo0LbfkwcDgWjGV0Bf215JNKnsZhkmFexX9hJqrv
+	 +gi9fUPMBCSNsRZQ9ZgbkMd/mdSedmlZujcV7KeoodAhYLFZ95bkZoJratNqwPFt7q+l9
+	 iK1ubg7RAldmZQDL/QZTRe4DQrX95oB+EwstzonfDjkeLPvprHMlUxr318KYGEjJTZ0wF
+	 CW1OgrmWglZfb+7X7rqDZ442sThoKLrM8nzrXSZ/6SAys45ATPvbvNWT6j1iER1gVC0mC
+	 N+jHv0pIooIAzxxmYyHkn5nzHyOT01MI3kh3spSBeVqUoVP60YewMeAR3CqrHmmPn3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=q7Ee4tcF;
-	arc=none smtp.remote-ip=74.125.82.179
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZkDuJUxA;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FD7606A331
-	for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 20:14:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24FD7606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5691E606A31C;
+	Fri, 27 Nov 2026 20:41:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5691E606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=q7Ee4tcF
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-386c336eab8so4921848eec.0
-        for <linux-doc@vger.kernel.org>; Fri, 27 Nov 2026 12:14:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795810472; x=1796415272; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2tL8owTw2PwzoEHxqPksYuP4hbl3MRd9EfCtfzCRkZU=;
-        b=q7Ee4tcFLWvxTUg1AC9tTbuzOXSp+tXGbM/TXTp/ElJluabfKu+7TMjgFBL7tPHlCY
-         J/LisMOFsSPJjMnG+xUtUNQrjXpgMqqkExts93dJ12cNMWhPD46PHCFJqvqGqSz0lRQ+
-         5Vj0reUTUohffSCwbTE4+bme0Q+YAlWGfEQ9ENPdh3fS8MFDn88FMjrp4/ChNX5+LfaW
-         T6F7jt+HXC7xTGVlmx/B+StLstm8Gts3vq+M9GW9EkpGpy1Iv5+bwugK1ZKEFLXC9O5p
-         6mm/hQ1a02bwqTEfz0xUMob6zr20AFH4U3b37nc8yryimXs5qN0MdQGNoNm8VCxk4JDP
-         eDXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795810472; x=1796415272;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2tL8owTw2PwzoEHxqPksYuP4hbl3MRd9EfCtfzCRkZU=;
-        b=aZ3sh/6m07FzkJ4kahavdd7Cp38RGnLUVrIzGZbVu2uqVzZ6tRSt35IpSHUmRvUHcK
-         HKdt0r0iAx/pJxeixkVFrdjE8kZ19EGWOkLC+iIdTRORoC2i1o254ZV42LAQ0rPGIjpd
-         Yp8Wif67KCQlzwwaRSSHSWs5Gynd3vRN5ZJhjF339Ov2qPGixNAgBjg2KkODlBfggoBe
-         UOkpGYGUpi9Kf6dnNknYp4OJGaw1nplJtMb4+TAkuxc5Ugf5A3z6uBsRh+Fk63zKLdOb
-         Ab1m4itCy+8Rb4up/kJ8SBGerzaDcwirN01OvZLOTOMTZTmzktGJpSPzRpLIB8ZpM0Q/
-         7nBA==
-X-Forwarded-Encrypted: i=1; AL+hErEfCM+xPRl8yH8YLRtajgIZ1OYReybzx3sisi2yf2flLBLSqpwh0iRBxMdKONfbLxQ7i+0SrRpXZAc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8woMCwPQ6j1abWl8lhoR8KH+oJf4KYZbqOhQUYux8Ws5RBbuwD
-	se2P9Tv7UvXpY78OkRnurTuX0ej+AAH+XRjhb3ElJs4z63qlwEZXaGxi
-X-Gm-Gg: AZFdTZd1CMKbjEHdhjvMHpVtqGi1pYj+zqnHtndMNmYkF0ZiZawQt3TKq3QTt6uE5EK
-	byj/I7I5WCVcInJUNkpy//XIHRZUUIu8IFEDx/kEET9XYhLdz8nXBDORYPyQ2mJ/x1k2lktTZt6
-	5JivNzUb1bdsg1HP2RHSViBluM+KPboyktXM8ewsERZTVfB8VWvKMUVF8god2aq1K67p8XH6Sxr
-	a20uqlaA+KxxCCno7AZLKQKw21BFxDQ0sYP2Dz1wxBwonWMsvxN5qrpXgcbv2LrzME8rZPUHYGa
-	xT/y7nkMueAweo0Bel2j2EABfTILf93Cs9N2PQiv7GLVGXgWeVe7sHkhYH36rO3j3YRB0waqWWO
-	olHq5kICnXX2HYR/pWfHiwD1Ss8XxI1ZwEK/LiBcx0Z+OJKtryGSjV/v2YUT+8K3j5+JpcMQUio
-	LqR8c7VbiEqk1b0+tnicIUtz+GASNjyrNjKSvSQ0dIrakOHRBrqKVBa3ixdC2wpsdnzoJxP7Srp
-	1Rbg1J6ck97V6sEctegDEeYZf3APHkRBWAEWa3+vwyFYE5DN855z3sz8NUo+Dlr8NCXAmez4CzS
-	VA29VMe7jrA8OIu8z23VRkgs14XMaas+PAIE8bnHew==
-X-Received: by 2002:a05:7301:d804:b0:386:b076:a940 with SMTP id 5a478bee46e88-386b076a9e4mr16325542eec.26.1795810472092;
-        Fri, 27 Nov 2026 12:14:32 -0800 (PST)
-Received: from a1-free ([2603:c021:8021:f000:0:1865:8c38:18fc])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385f68bc0adsm70396821eec.13.2026.11.27.12.14.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 12:14:31 -0800 (PST)
-From: TAKANO Mitsuhiro <takano32@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Dan Williams <djbw@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	linux-mm@kvack.org,
-	linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	TAKANO Mitsuhiro <takano32@gmail.com>
-Subject: [PATCH v3] docs: Name the memory hotplug online type configs that exist
-Date: Fri, 27 Nov 2026 20:14:28 +0000
-Message-ID: <20261127201428.293257-1-takano32@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261127190207.245175-1-takano32@gmail.com>
-References: <20261127190207.245175-1-takano32@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZkDuJUxA
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=7LbIq7QtBuD8l1ZM3ysDGC4GsDSWb7XrF/nM20+iPNU=; b=ZkDuJUxA9cZyB5AMHphN927eCi
+	FYGWouY7hPHj6talUX8YvUrIt/dci8NmB4AqJtX5VgzGMt7CQpueHa9dyDeyYxvt5X4knIbwDsN3t
+	Zd/QNABiso4PIzKSRmG7Kkb63qiTjEuLOnd3aOPwwKA6e3yppVLCdqrIeuwqCTLRTKTqfWmZNa6RJ
+	JI4d8xTR9MzoNzvFEN6gSuVB7WKRbDF3Atbxztart7n4EWC5ZURYJOl0vGsUnZjjJMqGxT84xzXYS
+	K+TjfpXMAVrAdo6sdJeZzxapyG3oW+KfxdDEZ95tlOzcXKMpRX7u5GC0fISQH+1UCmTPXX2ypiY7O
+	Y6YYf5OA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xX2l8-000000004Xo-3KUI;
+	Fri, 27 Nov 2026 20:41:30 +0000
+Message-ID: <17a9f3e0-f075-42de-b173-ae334b51d0bd@infradead.org>
+Date: Fri, 27 Nov 2026 12:41:29 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,132 +58,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 01/10] Documentation: coresight: cpu-debug: Fix the
+ module parameter name
+To: iav@iav.lv, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Mike Leach <mike.leach@arm.com>, James Clark <james.clark@linaro.org>,
+ Leo Yan <leo.yan@arm.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Douglas Anderson <dianders@chromium.org>, Petr Mladek <pmladek@suse.com>,
+ Feng Tang <feng.tang@linux.alibaba.com>
+References: <20261127-b4-coresight-cpu-debug-lockup-v1-0-69d3ad1e0fc8@iav.lv>
+ <20261127-b4-coresight-cpu-debug-lockup-v1-1-69d3ad1e0fc8@iav.lv>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20261127-b4-coresight-cpu-debug-lockup-v1-1-69d3ad1e0fc8@iav.lv>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The default online type is a Kconfig choice, so the symbols it defines are
-CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE, _ONLINE_AUTO, _ONLINE_KERNEL and
-_ONLINE_MOVABLE.  There is no CONFIG_MHP_DEFAULT_ONLINE_TYPE symbol, but
-five files name one.
 
-Where a file lists the config, name the family with a trailing _*.  Where
-it names a choice value, spell the whole symbol out: early-boot.rst gave
-the zone choices as _NORMAL and _MOVABLE, which are not suffixes, and it
-left _ONLINE_AUTO out of the list of values.
 
-Verification: a build of the tree defines
-CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE and no bare
-CONFIG_MHP_DEFAULT_ONLINE_TYPE in include/generated/autoconf.h, and grep
-finds no reference to the bare symbol under Documentation/ afterwards.
+On 11/26/26 10:38 PM, Igor Velkov via B4 Relay wrote:
+> From: Igor Velkov <iav@iav.lv>
+> 
+> The parameter that enables the debugging is "enable"; the module has no
+> "debug" parameter.
+> 
+> Fixes: 0cd555c35131 ("doc: Add documentation for Coresight CPU debug")
+> Signed-off-by: Igor Velkov <iav@iav.lv>
 
-Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
----
-v3: Add CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO, which v2 dropped when it
-    spelled the values out, and write the kernel zone as "a zone that can
-    hold kernel data (usually ZONE_NORMAL)" since the choice can land in
-    ZONE_DMA or ZONE_DMA32.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-v2: Spell the full config names in early-boot.rst.  David Hildenbrand pointed
-    out that CONFIG_MHP_DEFAULT_ONLINE_TYPE_* with _ONLINE_KERNEL appended
-    does not parse.  The other four files keep the _* form because they list
-    the config, not one of its values.
 
-    Written with Hermes Agent, an LLM assistant; the author reviewed the
-    wording and the diff.
+> ---
+>  Documentation/trace/coresight/coresight-cpu-debug.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/trace/coresight/coresight-cpu-debug.rst b/Documentation/trace/coresight/coresight-cpu-debug.rst
+> index 836b35532667..32fbae244524 100644
+> --- a/Documentation/trace/coresight/coresight-cpu-debug.rst
+> +++ b/Documentation/trace/coresight/coresight-cpu-debug.rst
+> @@ -130,7 +130,7 @@ If you want to enable debugging functionality at boot time, you can add
+>  The driver also can work as module, so can enable the debugging when insmod
+>  module::
+>  
+> -  # insmod coresight_cpu_debug.ko debug=1
+> +  # insmod coresight_cpu_debug.ko enable=1
+>  
+>  When boot time or insmod module you have not enabled the debugging, the driver
+>  uses the debugfs file system to provide a knob to dynamically enable or disable
+> 
 
- Documentation/admin-guide/kernel-parameters.txt   |  2 +-
- Documentation/admin-guide/mm/memory-hotplug.rst   |  2 +-
- Documentation/driver-api/cxl/linux/early-boot.rst | 15 ++++++++++-----
- .../driver-api/cxl/linux/memory-hotplug.rst       |  2 +-
- Documentation/driver-api/cxl/linux/overview.rst   |  2 +-
- 5 files changed, 14 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 176648941aec..8580099b98c1 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3948,7 +3948,7 @@ Kernel parameters
- 			[KNL] Set the initial state for the memory hotplug
- 			onlining policy. If not specified, the default value is
- 			set according to the
--			CONFIG_MHP_DEFAULT_ONLINE_TYPE kernel config
-+			CONFIG_MHP_DEFAULT_ONLINE_TYPE_* kernel config
- 			options.
- 			See Documentation/admin-guide/mm/memory-hotplug.rst.
- 
-diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-index 0207f8725142..c7de458a962f 100644
---- a/Documentation/admin-guide/mm/memory-hotplug.rst
-+++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-@@ -280,7 +280,7 @@ The following files are currently defined:
- 		       blocks; configure auto-onlining.
- 
- 		       The default value depends on the
--		       CONFIG_MHP_DEFAULT_ONLINE_TYPE kernel configuration
-+		       CONFIG_MHP_DEFAULT_ONLINE_TYPE_* kernel configuration
- 		       options.
- 
- 		       See the ``state`` property of memory blocks for details.
-diff --git a/Documentation/driver-api/cxl/linux/early-boot.rst b/Documentation/driver-api/cxl/linux/early-boot.rst
-index 414481f33819..7118f3372596 100644
---- a/Documentation/driver-api/cxl/linux/early-boot.rst
-+++ b/Documentation/driver-api/cxl/linux/early-boot.rst
-@@ -34,7 +34,7 @@ which dictate how memory will be managed by Linux during early boot.
-   * Linux Build config option that dictates whether the kernel supports
-     Specific Purpose memory.
- 
--* CONFIG_MHP_DEFAULT_ONLINE_TYPE
-+* CONFIG_MHP_DEFAULT_ONLINE_TYPE_*
- 
-   * Linux Build config that dictates whether and how Specific Purpose memory
-     converted to a dax device should be managed (left as DAX or onlined as
-@@ -58,10 +58,15 @@ SystemRAM.  This will expose the memory to the kernel page allocator in
- :code:`ZONE_NORMAL`, making it available for use for most allocations (including
- :code:`struct page` and page tables).
- 
--If `Specific Purpose` is set and supported, :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_*`
--dictates whether the memory is onlined by default (:code:`_OFFLINE` or
--:code:`_ONLINE_*`), and if online which zone to online this memory to by default
--(:code:`_NORMAL` or :code:`_MOVABLE`).
-+If `Specific Purpose` is set and supported, the default online type decides
-+what happens to the memory:
-+:code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE` leaves it offline,
-+:code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO` onlines it to whichever zone
-+the kernel picks,
-+:code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_KERNEL` onlines it to a zone that
-+can hold kernel data (usually :code:`ZONE_NORMAL`), and
-+:code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_MOVABLE` onlines it to
-+:code:`ZONE_MOVABLE`.
- 
- If placed in :code:`ZONE_MOVABLE`, the memory will not be available for most
- kernel allocations (such as :code:`struct page` or page tables).  This may
-diff --git a/Documentation/driver-api/cxl/linux/memory-hotplug.rst b/Documentation/driver-api/cxl/linux/memory-hotplug.rst
-index af368c2bc9cf..df27520b193f 100644
---- a/Documentation/driver-api/cxl/linux/memory-hotplug.rst
-+++ b/Documentation/driver-api/cxl/linux/memory-hotplug.rst
-@@ -19,7 +19,7 @@ Default Online Behavior
- The default-online behavior of hotplug memory is dictated by the following,
- in order of precedence:
- 
--- :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE` Build Configuration
-+- :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_*` Build Configuration
- - :code:`memhp_default_state` Boot parameter
- - :code:`/sys/devices/system/memory/auto_online_blocks` value
- 
-diff --git a/Documentation/driver-api/cxl/linux/overview.rst b/Documentation/driver-api/cxl/linux/overview.rst
-index 648beb2c8c83..d567353e1dab 100644
---- a/Documentation/driver-api/cxl/linux/overview.rst
-+++ b/Documentation/driver-api/cxl/linux/overview.rst
-@@ -17,7 +17,7 @@ are generated.
- 
-     i) EFI_MEMORY_SP
-     ii) CONFIG_EFI_SOFT_RESERVE
--    iii) CONFIG_MHP_DEFAULT_ONLINE_TYPE
-+    iii) CONFIG_MHP_DEFAULT_ONLINE_TYPE_*
-     iv) nosoftreserve
- 
-   b) Memory Map Creation
-
-base-commit: b6a9fa34ce4187cb69d3c588a4bbffc31ce5db8f
 -- 
-2.53.0
-
+~Randy
