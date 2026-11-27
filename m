@@ -1,74 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795806537;
-	b=ABMxJ9a0aqknoTgJE7YW8mgWp2SssUDZELkKRSjuDCTq41SUa6W4yk/kKtjS+x1fqCZX
-	 Cagzf3PdLi6CMOTT8eEDMH1UeCBYqzxdwEcrMEgIZjvdxhb0dIZMhDeeb4ZAwFQ26K37C
-	 pWBW59GUuPPNxIt0mC46GXQV0ZBGYPWTVf6JD13JSrzpCrXW/wdNI6swGsHtFsZkCjaEQ
-	 Zw8yIQz+gs1eZacoWV7qYkicszaSPDNr5ec46sbs7umQwDfTHitM2qPWzqw/LnsgDSBxi
-	 c150La/999Cs0r51hNs1f3capf/Uf+hT7KU2ckBZhQSBWw+YM1rHtIvurLluGbguffw==
+	t=1795806700;
+	b=jOFqsTXrynbg6svmeTOZwAxLW8Rq4YFcujAQwwRgubeNEM0ySVW/F8MULQFtHgP10H5Q
+	 NQBqSrgg9I2c8DProaiS6S1RiLQnQZKHFA3CvS/NXCieqO/CKUcyIzRId9/6uS04B/jjR
+	 6Bb11rF/eFFUQK8jG1xAN74YXv0QrOZdcyd4rOy3Ermu9NP5C+cEEjkNIGtDy0pSHaxBl
+	 /ErRdcSasuMNn+lKv1Dgdl26F9iGvZ/Q9YoLRI3rWIzQcUHxD5eqKpc52GnpaT+T1U1lu
+	 AVpGqy1sXNufjXUggb2/Ti51Roo3HOUiIbgL7YEW6bnfcuQ0Xctx1TdynubpN4kdADA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795806537;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=P9SKuwUFDPBABhQujd3HajxawMwgGPjhz3T3jOvDByI=;
-	b=4Ruj3tungkDHgdE/csyUi1r5Qoiy5izd0WluyU4LIuT/+zrytzw5dZijdwNxmuMrQ+vy
-	 12dVfZGzWZA+5OQC5IGQMGklTPGTOUfWZ4zi22etSFHb5m/6tglZRw+oSuq3d6VbN68vF
-	 fq9AgnzWpS5wkRvinp9w2emTcFVIAJF82WXmgnOTB8wnBevrqE6PKK1gVECYF7r2kWsYL
-	 UCwSsiPNeA4WGzGSZ34ITXlA4pVZuozWcLafDCOQHU87TNVZxGH6Qaxz39TzrXBCnjyq+
-	 BQyv1wxcnivTYcQCrWpMqkXcuy6bCPsUgN+gP2fGBs3zyxrzFo3uJv4QVOklcpiPyZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795806700;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Z5ynsES00wYEUeedNs4jtHwgichiF18CXZfx/XgmedE=;
+	b=r+/DuHMKjloSb5uxgAYP5A4J6+oTKHIKD3LBv0bQtmmI8ZCz4Yh3/MF7vcYENYpV1SZy
+	 Hv42uU2ulUPZ4p0LsJDf7csJ6HHIx7gAfAAUGTPUUnh7OE6gcLkTrc+kRN+S5s4Aeh7oa
+	 cdvUR7EDFkjxl3W84kXLRLHQU7UwgqawlWTXq53VmsJafEY7j8SqZmkyUFtLOQ0bkL6Kb
+	 6Sii9X5EWwI3qOKO8xQlC8vG5lSCZm7iUit/Sq5baVeR21j6mBnKXfNSluGKjen0yW6GY
+	 hJo1nA+FOBVuxamu3kvHAhcgF/55haFBd0mWOj6R05t8XuJKzKZ1IRPMl4n9mbMuaQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=v3jIp4rQ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A8A606A31F;
-	Fri, 27 Nov 2026 19:08:52 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=K2lPE9jj;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A23AA606A31E;
+	Fri, 27 Nov 2026 19:11:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A23AA606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=v3jIp4rQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 898511F00893;
-	Fri, 27 Nov 2026 19:08:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1795806532;
-	bh=P9SKuwUFDPBABhQujd3HajxawMwgGPjhz3T3jOvDByI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=v3jIp4rQGkNqC3Y//vKCcpLdU4JgVL0nhUjvAUZkSdA8Wu8EX3S1YnVwT0hOa+0jR
-	 bMgdbvM+60JUbVu0enAkdQUnDs5CTwDJTMJTdZ639LtxSBPfzPH6P6KOTj+Tul2+E6
-	 emVwApFQ0EZQJa3yMhX5GEYfkotyLDsN6iwXTI4A=
-Date: Fri, 27 Nov 2026 11:08:51 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Sasha Levin <sashal@kernel.org>, "David Hildenbrand (Arm)"
- <david@kernel.org>, Willy Tarreau <w@1wt.eu>, Borislav Petkov
- <bp@alien8.de>, Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Linus Torvalds <torvalds@linux-foundation.org>, Leon
- Romanovsky <leon@kernel.org>, Mark Brown <broonie@kernel.org>, Geert
- Uytterhoeven <geert@linux-m68k.org>, Marc Zyngier <maz@kernel.org>, Eric
- Dumazet <edumazet@google.com>, Hans de Goede <hansg@kernel.org>, Andrew
- Lunn <andrew@lunn.ch>, Jonathan Cameron <jic23@kernel.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Theodore Ts'o <tytso@mit.edu>,
- Security Officers <security@kernel.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/2] docs: coding-assistants: ask for short changelogs
- and a cover letter
-Message-Id: <20261127110851.ce0b89df5ad254c9f2125801@linux-foundation.org>
-In-Reply-To: <awmrvCPm6ZI7Yd7_@gremlin>
-References: <awjopqoCJqwChwnF@laps>
-	<awlCy3vDs0fKx1ku@gremlin>
-	<awlNYsu1y8EhYgor@1wt.eu>
-	<33c6cf3a-6b18-4e09-bd5c-68ed2c34de56@kernel.org>
-	<awlR9pQUjodcLjZK@gremlin>
-	<20261127133756.455469-1-sashal@kernel.org>
-	<awmJ2c87NSDjtSwp@gremlin>
-	<20261127143124.1039470-1-sashal@kernel.org>
-	<awmU4L01OH9kWEVv@gremlin>
-	<20261127153902.1320179-1-sashal@kernel.org>
-	<awmrvCPm6ZI7Yd7_@gremlin>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=K2lPE9jj
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E15231575;
+	Fri, 27 Nov 2026 11:11:35 -0800 (PST)
+Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A401D3F632;
+	Fri, 27 Nov 2026 11:11:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795806698; bh=JdKubajU0Ssw7SHvFWHr6lht5z3s8WLxzysColAW2jM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K2lPE9jjBra7em4MB8/Ba7uuYvZTFFBbnH4UkDOCn1jPrFuqN3NaedvG0f/iA14t5
+	 xSTGOJ9TEbVyFbPWAeSUnykq0ZzhaZ+Bf+Cq9VG6RmPP0KLVBuGoaqb8VE0VjuJN9h
+	 hFEpZ8z1UdOYcFrBpKGNplVRM5wbCItZIUnvUIrE=
+Date: Fri, 27 Nov 2026 19:11:33 +0000
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yeoreum Yun <yeoreum.yun@arm.com>, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Suzuki Poulose <suzuki.poulose@arm.com>,
+	Steven Price <steven.price@arm.com>,
+	Sami Mujawar <sami.mujawar@arm.com>, thuth@redhat.com,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+	Pawel Chmielewski <pawel.chmielewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, Len Brown <lenb@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH RFC v3 7/8] attestation: providers: introduce CCA Guest
+ attestation provider
+Message-ID: <awnV5S703Rgf5sh5@e129823.arm.com>
+References: <20261127-arm_cca_mr-v3-0-df3230afce8f@arm.com>
+ <20261127-arm_cca_mr-v3-7-df3230afce8f@arm.com>
+ <20261127170722.GT246011@ziepe.ca>
+ <awnK2c3kMq8p2a_7@e129823.arm.com>
+ <20261127183550.GV246011@ziepe.ca>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,29 +78,91 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261127183550.GV246011@ziepe.ca>
 
-On Fri, 27 Nov 2026 16:46:58 +0000 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+> On Fri, Nov 27, 2026 at 06:24:25PM +0000, Yeoreum Yun wrote:
+> > > > +static const struct attestation_evidence_format cca_attestation_token_formats[] = {
+> > > > +	{ .vendor = true, .value = CTLV_ATTESTATION_CCA_GUEST_EVIDENCE_VENDOR_FORMAT_CCA_ATTESTATION_TOKEN },
+> > > > +};
+> > > 
+> > > should be the generic EAT token type
+> > 
+> > Is there?
+> 
+> That's the idea. TDX uses EAT as well.
+> 
+> > but the content seems to be different according to vendor, So would
+> > it be better to keep it as vendor type format?
+> 
+> EAT is intended to be self describing, so if you parse the EAT then
+> you should understand what the vendor and content is.
+> 
+> Knowing the EAT came from RMM won't even tell you which ARM profile
+> version it follows, so I'm feeling like maybe we just need to tell
+> userspace it is an EAT and then userspace can parse it deeply to learn
+> exactly what it is??
 
-> I've got the distinct impression my views are not welcome on this topic,
-> rather had that feeling from the start
+Okay. might this would be applied in the FIRME too for PAT once the
+attestation patchset is updated.
+> 
+> > > What is this and the related work? That isn't making sense to
+> > > me. If the token size is not absolutely fixed when the driver starts
+> > > then it should be fully dynamic and this just streams the variable
+> > > sized token.
+> > > 
+> > > Ideally directly into user memory so we don't need to allocate a kvmalloc.
+> > 
+> > In case of live-activation. I think in that case CCA-Realm token could be
+> > different by activating the new RMM.
+> 
+> Then the size isn't static and you need to just stream it to userspace
+> whatever you have.
+> 
+> I'm expecting these unsized tokens to work by streaming them into a
+> memfd so that userspace doesn't have to try to guess how much space is
+> required.
+> 
+> I also think it is pretty broken if LFA is changing the token for
+> realms that are already running. How is that even going to work with
+> an RSI API like that gets the length then tries to fetch into the
+> allocated buffer? Token silently truncates? You need to loop?
 
-I agree with everything Lorenzo has written!
+I think the problem is the *max-token-size* could be changed.
+once the LFA updates the Realm definitely the contents of hash of
+firmware binary can be changed. this means the token's content could be
+change including the *max-token-size*.
 
+For this, the RSI host call interface has the way to get LFA eventlog.
+IOW, after LFA, there will be LFA log is genreated and then for the
+time of re-attestation, it should deliver the LFA logs together.
 
-I dunno Sasha, everything here seems rather .... wordy.
+And userspace to get a token, it'll check the *max-token-size*,
+So I think it's enough with virtual address not needing streaming.
 
-Has anyone tried this:
+IOW, after LFA, the max-token-size can be changed and it should
+re-attestat, get new token and sent with LFA eventlog.
 
-- find some tens of *good* changelogs
+> 
+> > > This isn't OK.. We only get one struct device per RSI and it gets to
+> > > bind to only one driver. Given there are other drivers that will need
+> > > to use the RSI, like the TSM and others, this needs some other
+> > > solution?
+> > 
+> > Currently, this attestation driver is enabled when !ARM_CCA_GUEST only
+> > (IOW, when this driver can be built only when TSM arm-cca-guest
+> > disabled).
+> 
+> I saw in your FIRME series a solution to this problem, I think that
+> would be good to get out on its own and apply it first to RSI as
+> well. We will have the core RSI stuff, the realm attestation and TSM
+> driver at a minimum..
 
-- get it to crunch on those in order to
-  generate how-to-write-changelogs.md
+Hm,, Does this mean do we need to create two device one for TSM and
+one for attestation even the functionality same?
 
-- argue with it for an hour, as always
-
-- add how-to-write-changelogs.md to Linux
-
-?
+-- 
+Sincerely,
+Yeoreum Yun
