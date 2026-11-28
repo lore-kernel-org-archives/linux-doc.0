@@ -1,39 +1,39 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.161.220
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=206.189.79.184
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795848571;
-	b=S7NojWyJ1NMUe7U3TJctLh6d987GOGXqHGNtrzGhqUbKJ9vzoOS+8JJEamSXXnhF+K0D
-	 2B9qg9WX9schD8clCaGUlHduuUHIPjVtfefLKG9jmvJNAWlXfDdGeiVtVeK28xQskvLPD
-	 cvlgZjwZcAExqjEc3BgY+wIvopOYcObb2NtEgyTzM6+oMcqUaPztYeN369Lh0e459YrUN
-	 FQfM7MeBCHKmKHnh9P7FtAc4GL4fK+z6gVnlWvRpB7aqJJFRwD9Z2YCvtcu0x2PkLpheW
-	 1nCxZSBGrShyTXmGxFt8fuWf7LEBr0Dzi//ylv1mmytMoxSqssjuWPmxZVK0Ld+N0YA==
+	b=Viaf+a4c7hXlTVasVnRmJh8zwyCFFdel/lbw7LGXD6zXkGCXv9VgBxRit0DiGsP5m/QA
+	 XWPtd+cvJIjQgj8DpryqhJxyvIm7/mPRbuoKShU5qlxwMcpgRYHqXfaJgRHDKyJletsjp
+	 fcQFrqv50Aksl/rLEBdTDFUN2JHl2W4Sxs/3Au4rixNHglFPikuwoDg2/lYf5YnY87Oop
+	 LM771uv7o+glL3tr04sH5LpkunBVlq/1vGjVw3WmAI1L4rw+kDoCkoxV7sgNyCFkU0UNn
+	 f/+iClmc1hMm4RAOoXqwMIfFNfZ380uucjM3VNVsfz6M1kF+mc8tbFoPOCdnFY0xnMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795848571;
 	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
 	 X-CM-SenderInfo;
-	bh=TO9t5lXORWX9kcKmBUQq3bCAcaP51RZRP/nl28+fRlE=;
-	b=mYIW2fFYhCFZDYhKbnPDPj8vHb711flwt7DwYKJ0Ra4lWZwIXfg+A/4mV14uUCIuwTLf
-	 /w/qeMgkrdD001OtKtTLkeae8f+sNMhldf1LzB09+LLwYYKDbafn7wslh2VnGaTXniFJ+
-	 jYZ46bHZo3Ip9dZX5ZLoHv9YxIuQRz1Xi/0que95f9zmIvbbKxL5SFc5NzDI1Qpc0ORNe
-	 aHeXb19z3DWykMitkTm17B46VPphj2iDSOsDxtUUo3hk6SyhwovM8Ujk0aAAWAyEN9LXx
-	 5cW4LXVy7+nMcdEVmEbZ1u7l6AD73yY47kl90J2wjQPZkDPOXTzY4d200ARiMJuhZlg==
+	bh=w2K3gLavbBJF2tXGVVPdBR0uV7DZf3XXZMRfQ/hGQDA=;
+	b=cJKdFhaAzh0rdaAkPimsdY5AIzTIC+r7gcNX+L7EO72up8GtLM+UmmJD9P5scpZBElk2
+	 xmoPw6bcQlTYnqENTSFMUDRVuVp52gH6tKWwDqVHJkxCc54cYxS6wcEDFfFFXZN37rV+4
+	 j7ztSmPT0cIV3ZGdEiuJZB53lGy2kgCSyTPQnaA7JWUQMlaig/Jk7jikvS2TYGjFLUass
+	 HyD6UAoGajEGmBqfBvevKgjMZ8QSiWqLqtooonZ1P6DwKbIk6nvvXA6Q5AAZiB2mEe+3Y
+	 U/ovFoTyvRPOY8NUd5MU+ASLdpoitTLIRIkohFbPqc1CCs6XGhM9Q/wW+hdreQr4oaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=hust.edu.cn;
 	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=162.243.161.220
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCF82606A330;
-	Sat, 28 Nov 2026 06:49:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BCF82606A330
+	arc=none smtp.remote-ip=206.189.79.184
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62C73606A32D;
+	Sat, 28 Nov 2026 06:49:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62C73606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
 Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with UTF8SMTP id IAEQrMC2_c54eQprmW0hAA--.61686S2;
-	Sat, 28 Nov 2026 14:49:28 +0800 (CST)
+	by app2 (Coremail) with UTF8SMTP id IQEQrMAG7Q96eQprpuYJAA--.14079S2;
+	Sat, 28 Nov 2026 14:49:30 +0800 (CST)
 Received: from mudongliang-PC.tailb307d0.ts.net (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wAnsjxseQprphd_AA--.15110S7;
-	Sat, 28 Nov 2026 14:49:25 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____wAnsjxseQprphd_AA--.15110S9;
+	Sat, 28 Nov 2026 14:49:28 +0800 (CST)
 From: Dongliang Mu <dzm91@hust.edu.cn>
 To: Alex Shi <alexs@kernel.org>,
 	Yanteng Si <si.yanteng@linux.dev>
@@ -44,9 +44,9 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	Chen-Yu Yeh <chenyou910331@gmail.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 5/9] docs/zh_CN: update magic-number to match upstream
-Date: Sat, 28 Nov 2026 14:49:12 +0800
-Message-ID: <20261128064916.3481435-6-dzm91@hust.edu.cn>
+Subject: [PATCH v4 7/9] docs/zh_CN: move GFS2 translations into filesystems/gfs2
+Date: Sat, 28 Nov 2026 14:49:14 +0800
+Message-ID: <20261128064916.3481435-8-dzm91@hust.edu.cn>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20261128064916.3481435-1-dzm91@hust.edu.cn>
 References: <20261128064916.3481435-1-dzm91@hust.edu.cn>
@@ -61,156 +61,272 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:IAEQrMC2_c54eQprmW0hAA--.61686S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxKrykXF1rXF1rArW8Zw4fKrg_yoWxGw4xpr
-	92gr97G3WSyryY9ry7Gr17WF18AF4xGw47K3W8Aw1rtr1kJF4UJrnrKr90yrnagry8AayU
-	ZF4rKr4Y9F42vwUanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUHjb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-CM-TRANSID:IQEQrMAG7Q96eQprpuYJAA--.14079S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW3Gw1rCrW5Aw1UZFW8Ary7Jrb_yoW3Jr1xpF
+	9a9rWxKa4kJFyUC34fCF42qr18C3WrWwnrJr97X3Zaqr1DJF1ftrsxt3yDKasxGrWxZay5
+	XaySgryjgry2y3DanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUHYb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26F
-	4j6r4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
-	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1lc2
-	xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2Iq
-	xVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r
-	18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
-	r41lIxAIcVC0I7IYx2IY67AKxVW7JVWDJwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
-	1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY
-	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUrSoGDUUUU
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	WxJVW8Jr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r126r1DMx
+	kIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I
+	3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJV
+	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
+	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Ar0_tr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r
+	4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF
+	0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UKXdUUUUUU=
 X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Update the Chinese magic-number guide to match its English source.
-Move it from process to staging and update the staging index.
-
-Synchronize the translation with upstream revision dd8d4bc28ad7.
+Move the GFS2 overview, glock, and uevent translations into the GFS2
+directory. Update the filesystem index and add the GFS2 chapter index.
 
 Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
 Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 ---
- .../translations/zh_CN/staging/index.rst      |  6 ++--
- .../{process => staging}/magic-number.rst     | 33 +++++++++----------
- 2 files changed, 17 insertions(+), 22 deletions(-)
- rename Documentation/translations/zh_CN/{process => staging}/magic-number.rst (58%)
+ .../{gfs2-glocks.rst => gfs2/glocks.rst}      |   4 +-
+ .../filesystems/{gfs2.rst => gfs2/index.rst}  |  18 ++-
+ .../{gfs2-uevents.rst => gfs2/uevents.rst}    |   4 +-
+ .../translations/zh_CN/filesystems/index.rst  | 112 ++++++++++++++++--
+ 4 files changed, 116 insertions(+), 22 deletions(-)
+ rename Documentation/translations/zh_CN/filesystems/{gfs2-glocks.rst => gfs2/glocks.rst} (99%)
+ rename Documentation/translations/zh_CN/filesystems/{gfs2.rst => gfs2/index.rst} (93%)
+ rename Documentation/translations/zh_CN/filesystems/{gfs2-uevents.rst => gfs2/uevents.rst} (97%)
 
-diff --git a/Documentation/translations/zh_CN/staging/index.rst b/Documentation/translations/zh_CN/staging/index.rst
-index 6d68fabce175..896734ade5eb 100644
---- a/Documentation/translations/zh_CN/staging/index.rst
-+++ b/Documentation/translations/zh_CN/staging/index.rst
+diff --git a/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst b/Documentation/translations/zh_CN/filesystems/gfs2/glocks.rst
+similarity index 99%
+rename from Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
+rename to Documentation/translations/zh_CN/filesystems/gfs2/glocks.rst
+index abfd2f2f94e9..a73444759a27 100644
+--- a/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
++++ b/Documentation/translations/zh_CN/filesystems/gfs2/glocks.rst
 @@ -1,8 +1,6 @@
  .. SPDX-License-Identifier: GPL-2.0
- .. include:: ../disclaimer-zh_CN.rst
  
--:Original: Documentation/staging/index.rst
+-.. include:: ../disclaimer-zh_CN.rst
 -
+-:Original: Documentation/filesystems/gfs2-glocks.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
  :翻译:
  
-  李睿 Rui Li <me@lirui.org>
-@@ -13,14 +11,14 @@
+diff --git a/Documentation/translations/zh_CN/filesystems/gfs2.rst b/Documentation/translations/zh_CN/filesystems/gfs2/index.rst
+similarity index 93%
+rename from Documentation/translations/zh_CN/filesystems/gfs2.rst
+rename to Documentation/translations/zh_CN/filesystems/gfs2/index.rst
+index ffa62b12b019..af6c10af2fca 100644
+--- a/Documentation/translations/zh_CN/filesystems/gfs2.rst
++++ b/Documentation/translations/zh_CN/filesystems/gfs2/index.rst
+@@ -1,8 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
+-
+-:Original: Documentation/filesystems/gfs2.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+ :翻译:
+ 
+@@ -16,6 +14,9 @@
+ 全局文件系统 2 (Global File System 2)
+ =====================================
+ 
++概述
++====
++
+ GFS2 是一个集群文件系统。它允许一组计算机同时使用在它们之间共享的块设备（通
+ 过 FC、iSCSI、NBD 等）。GFS2 像本地文件系统一样读写块设备，但也使用一个锁
+ 模块来让计算机协调它们的 I/O 操作，从而维护文件系统的一致性。GFS2 的出色特
+@@ -33,7 +34,7 @@ GFS2 使用可互换的节点间锁定机制，当前支持的机制有：
+ 
+ lock_dlm 依赖于在上述 URL 中找到的用户空间集群管理系统。
+ 
+-若要将 GFS2 用作本地文件系统，则不需要外部集群系统，只需：:
++若要将 GFS2 用作本地文件系统，则不需要外部集群系统，只需::
+ 
+   $ mkfs -t gfs2 -p lock_nolock -j 1 /dev/block_device
+   $ mount -t gfs2 /dev/block_device /dir
+@@ -55,3 +56,12 @@ GFS2 在磁盘格式上与早期版本的 GFS 不兼容，但它已相当接近
+   gfs2_convert		用于将 gfs 文件系统原地转换为 GFS2
+   mkfs.gfs2		用于创建文件系统
+   ============          =============================================
++
++实现说明
++========
++
++.. toctree::
++   :maxdepth: 1
++
++   glocks
++   uevents
+diff --git a/Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst b/Documentation/translations/zh_CN/filesystems/gfs2/uevents.rst
+similarity index 97%
+rename from Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst
+rename to Documentation/translations/zh_CN/filesystems/gfs2/uevents.rst
+index 3975c4544118..a60f9fdae6bc 100644
+--- a/Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst
++++ b/Documentation/translations/zh_CN/filesystems/gfs2/uevents.rst
+@@ -1,8 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
+-
+-:Original: Documentation/filesystems/gfs2-uevents.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+ :翻译:
+ 
+diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+index fcc79ff9fdad..5e198707c16b 100644
+--- a/Documentation/translations/zh_CN/filesystems/index.rst
++++ b/Documentation/translations/zh_CN/filesystems/index.rst
+@@ -2,7 +2,6 @@
+ 
+ .. include:: ../disclaimer-zh_CN.rst
+ 
+-:Original: :ref:`Documentation/filesystems/index.rst <filesystems_index>`
+ :Translator: Wang Wenhu <wenhu.wang@vivo.com>
+ 
+ .. _cn_filesystems_index:
+@@ -11,34 +10,123 @@
+ Linux Kernel中的文件系统
+ ========================
+ 
+-这份正在开发的手册或许在未来某个辉煌的日子里以易懂的形式将Linux虚拟\
+-文件系统（VFS）层以及基于其上的各种文件系统如何工作呈现给大家。当前\
+-可以看到下面的内容。
++这份仍在编写中的手册，希望有一天能全面介绍 Linux 虚拟文件系统（VFS）层及其下层
++文件系统的工作方式。目前已有的内容如下。
+ 
+ 核心 VFS 文档
+ =============
+ 
+-有关 VFS 层本身以及其算法工作方式的文档，请参阅这些手册。
++这些手册介绍 VFS 层本身及其算法的工作方式。
+ 
+ .. toctree::
+-   :maxdepth: 1
++   :maxdepth: 2
+ 
+    dnotify
+ 
++Todolist:
++
++* vfs
++* path-lookup
++* api-summary
++* splice
++* locking
++* directory-locking
++* devpts
++* fiemap
++* files
++* locks
++* mmap_prepare
++* multigrain-ts
++* mount_api
++* quota
++* seq_file
++* sharedsubtree
++* idmappings
++* iomap/index
++* automount-support
++* caching/index
++* porting
++* adding-new-filesystems
++
++文件系统支持层
++==============
++
++这些文档介绍供文件系统实现使用的文件系统层支持代码。
++
++Todolist:
++
++* buffer
++* journalling
++* fscrypt
++* fsverity
++* netfs_library
++
+ 文件系统
+ ========
+ 
+-文件系统实现文档。
++这些文档介绍各个文件系统的实现。
+ 
  .. toctree::
     :maxdepth: 2
  
-+   magic-number
-    speculation
-    xz
- 
--TODOList:
+-   virtiofs
+    debugfs
++   gfs2/index
++   inotify
+    tmpfs
+    ubifs
+    ubifs-authentication
+-   gfs2
+-   gfs2-uevents
+-   gfs2-glocks
+-   inotify
++   virtiofs
++
 +Todolist:
- 
- * crc32
- * lzo
- * remoteproc
- * rpmsg
- * static-keys
--* tee
-diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Documentation/translations/zh_CN/staging/magic-number.rst
-similarity index 58%
-rename from Documentation/translations/zh_CN/process/magic-number.rst
-rename to Documentation/translations/zh_CN/staging/magic-number.rst
-index 05ee75cf4346..e8fdf9a7fbdd 100644
---- a/Documentation/translations/zh_CN/process/magic-number.rst
-+++ b/Documentation/translations/zh_CN/staging/magic-number.rst
-@@ -1,7 +1,5 @@
- .. include:: ../disclaimer-zh_CN.rst
- 
--:Original: Documentation/staging/magic-number.rst
--
- :翻译:
- 
-  贾威威 Jia Wei Wei <harryxiyou@gmail.com>
-@@ -13,13 +11,13 @@
- Linux 魔术数
- ============
- 
--这个文件是有关当前使用的魔术值注册表。当你给一个结构体添加了一个魔术值，你也
--应该把这个魔术值添加到这个文件，因为我们最好把用于各种结构体的魔术值统一起来。
-+本文档登记当前使用的魔术数。给结构体添加魔术数时，也应将其登记在这里，
-+因为不同结构体使用的魔术数最好互不相同。
- 
--使用魔术值来保护内核数据结构是一个 **非常好的主意** 。这就允许你在运行时检
--查一个结构体(a)是否已经被攻击，或者(b)你已经给一个例程传递了一个错误的结构
--体。最后一种情况特别地有用---特别是当你通过一个空指针指向结构体的时候。例如，
--tty源码经常通过特定驱动使用这种方法用来反复地排列特定方面的结构体。
-+用魔术数保护内核数据结构是一个 **非常好的主意**。这样可以在运行时检查：
-+（a）结构体是否被意外覆盖，或（b）是否向函数传入了错误的结构体。后一种情况
-+尤其常见于通过 ``void *`` 指针传递结构体指针时。例如，tty 代码经常这样
-+在驱动专用结构体和线路规程专用结构体之间传递指针。
- 
- 使用魔术值的方法是在结构体的开头声明它们，如下::
- 
-@@ -28,30 +26,29 @@ tty源码经常通过特定驱动使用这种方法用来反复地排列特定
-         	...
-         };
- 
--当你以后给内核添加增强功能的时候，请遵守这条规则！这样就会节省数不清的调试
--时间，特别是一些古怪的情况，例如，数组超出范围并且覆盖写了超出部分。利用这
--个规则，这些情况可以被快速地，安全地检测到这些案例。
-+今后扩展内核时，请遵循这一做法！它能节省大量调试时间，尤其是在数组越界并
-+覆盖后续结构体等难以排查的情况下。使用魔术数可以快速、安全地发现这些问题。
- 
- 变更日志::
- 
- 					Theodore Ts'o
- 					31 Mar 94
- 
--  给当前的Linux 2.1.55添加魔术表。
-+  此魔术数表已更新至 Linux 2.1.55。
- 
- 					Michael Chastain
- 					<mailto:mec@shout.net>
- 					22 Sep 1997
- 
--  现在应该最新的Linux 2.1.112.因为在特性冻结期间，不能在2.2.x前改变任
--  何东西。这些条目被数域所排序。
-+  此表现在应已更新至 Linux 2.1.112。由于目前处于功能冻结期，在 2.2.x
-+  发布前不太可能再发生变化。条目按数值字段排序。
- 
- 					Krzysztof G.Baranowski
- 					<mailto: kgb@knm.org.pl>
- 					29 Jul 1998
- 
--  更新魔术表到Linux 2.5.45。刚好越过特性冻结，但是有可能还会有一些新的魔
--  术值在2.6.x之前融入到内核中。
-+  将魔术数表更新至 Linux 2.5.45。虽然刚进入功能冻结期，2.6.x 发布前
-+  仍可能有新的魔术数进入内核。
- 
- 					Petr Baudis
- 					<pasky@ucw.cz>
-@@ -66,10 +63,10 @@ tty源码经常通过特定驱动使用这种方法用来反复地排列特定
- ===================== ================ ======================== ==========================================
- 魔术数名              数字             结构                     文件
- ===================== ================ ======================== ==========================================
--PG_MAGIC              'P'              pg_{read,write}_hdr      ``include/linux/pg.h``
-+PG_MAGIC              'P'              pg_{read,write}_hdr      ``include/uapi/linux/pg.h``
- APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86/kernel/apm_32.c``
- FASYNC_MAGIC          0x4601           fasync_struct            ``include/linux/fs.h``
--SLIP_MAGIC            0x5302           slip                     ``drivers/net/slip.h``
-+SLIP_MAGIC            0x5302           slip                     ``drivers/net/slip/slip.h``
- KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mips/include/asm/sn/klkernvars.h``
- CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/coda_fs_i.h``
- CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/scsi/ncr53c8xx.c``
++
++* 9p
++* adfs
++* affs
++* afs
++* autofs
++* autofs-mount-control
++* befs
++* bfs
++* btrfs
++* ceph
++* coda
++* configfs
++* cramfs
++* dax
++* dlmfs
++* ecryptfs
++* efivarfs
++* erofs
++* ext2
++* ext3
++* ext4/index
++* f2fs
++* failfs
++* hfs
++* hfsplus
++* hpfs
++* fuse/index
++* isofs
++* nilfs2
++* nfs/index
++* ntfs
++* ntfs3
++* ocfs2
++* ocfs2-online-filecheck
++* omfs
++* orangefs
++* overlayfs
++* proc
++* qnx6
++* ramfs-rootfs-initramfs
++* relay
++* resctrl
++* romfs
++* smb/index
++* spufs/index
++* squashfs
++* sysfs
++* udf
++* vfat
++* xfs/index
++* zonefs
 -- 
 2.51.0
 
