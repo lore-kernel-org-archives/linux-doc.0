@@ -1,100 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.202
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795857527;
-	b=AkY4T2RrKFuln+brmeC8jpgRrDksAGwofzxO5DiFRyEI8asbAKf4HRQAmkp7tLvLEOH5
-	 QAxn3Bg/7IuhQbkfMSDd1TOjehxPl80Hd9VS041Wr++4OExjJiUGiEbC3SLOoI0dUl7Au
-	 26B86F6MUyiLj7cM8SOm7fICYtNj0d2i8Uzlx4c5HEbakKdnTLUofAaKBfpHkf0N7DaL3
-	 HfOxZVLs8V7CXxdtddGwVo7AfCokYXnXmmifUaPWiLIBXjikpCOImltcRD+8WzQ/wYL2W
-	 Ma6bO8f4EadUIUAiYdfPmObjSY2C4vUK5OXeLlJ1GPwL79PyUjKLOHpM3LFqN/gP/9A==
+	t=1795859587;
+	b=yHFpHWECK2Zxlks6JvSxg7dRkEbRPzm0KP5iz6/jliVnYkIzIBgu0f/LDNGqW7yo12kb
+	 1N1mJqdDqajUHQslxZkeREQlGL7SB2f9atPgMsENaghLNPoF9+WlDjjjqlg/NBnN3TCV8
+	 dRmdBVkaWlJPNtfWUXBhqg0ANqFKbE+7hdZ6z9JA96A8MQf8vNaC3niWR4wrEHmPjAUET
+	 3Mjazqz6sMc0Nhu+4R78x5E1AxuBvJvE5Bf2Ms7daj/luV2n7nQYQ6OMRIEC8xOpfm2H/
+	 bIb8K2i1Watxju7icV21/Hv/Oew+1gdswkCcs3uYmVbKOJR1/b4+9r/oA9HFyNBgz7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795857527;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=QHBi/kFqk++CZ+SPDTCxQq76agXRbZkghzbM3h1MwDA=;
-	b=D9ZeLp+EtwrvxbqiwmUwVf7z9Os5VsejNyoqXz8FaTbKZA6PzZcLLKH22IR+9UPQeVuq
-	 MM4QokYZH4iaX4xCMzLtRdyNpaLsM+EU8aAZMoMMwyQUbKNGlfODEbhRmBJ44tzjKyUYo
-	 cj7N7V28ireNowpYmZeq/EK0NZ/3PpdPPJ+5Y8V7V8CB+Dv9Bv61h3arV9MGRIWKlDcx7
-	 NLwSFrE4iuKKIMXMTGw7WoN8AVOANbHhEp1f+PGlSzyOQ/CMNR275OJqKBduZpVDj4E5b
-	 +MvShxBxBFPQmppfno5okbz0trrZcayE/+ZYNNgbhGLNOS47waHHVHvaC+v++lnlkaA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795859587;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=uuCJfxu+5v/s3T9HZYDDO4PQ78T7+CAZAP1vnBBAvlk=;
+	b=DKnV45xERraCS/3urkMRt6Fi66FZeNubL110mp0L1rL8UJNLS3/RFwX8hDJgZE/XcZrG
+	 3ZuDyOJ4F5gskYKDyyz9JHgby8VEvIF238dlGvc0Z7mSq/4WQ5JR+rjgVS14knc63WnWT
+	 P2wLQ5nQ1+MQTo070Lm/niWvcWti7EOBL0z0p1RGnbMTOLqECCQAvqMW763stbk+AtPXr
+	 j2xWVADX5AvFihCLFnUFbdrWRWbDOifggkipwJrq1XJL0m0yNEgqKs2mGj/X9+glO4OH2
+	 AJgq7zhRe/qSKVfX36naVGNJp/TwjMrtFAdq8vezRV9glSEW0HSAdBIaYQg5DTHZLSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qfwPj9vc;
-	arc=none smtp.remote-ip=74.125.227.202
-Received: from mail-pi2-f10.google.com (mail-pi2-f10.google.com [74.125.227.202])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O90bpdZJ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6180C606A31F
-	for <linux-doc@vger.kernel.org>; Sat, 28 Nov 2026 09:18:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6180C606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id EBDA2606A332;
+	Sat, 28 Nov 2026 09:53:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qfwPj9vc
-Received: by mail-pi2-f10.google.com with SMTP id 41be03b00d2f7-cd697a57d7eso2452560a12.0
-        for <linux-doc@vger.kernel.org>; Sat, 28 Nov 2026 01:18:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795857527; x=1796462327; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=QHBi/kFqk++CZ+SPDTCxQq76agXRbZkghzbM3h1MwDA=;
-        b=qfwPj9vchvVNjqffu/2Q4ek0v80MK+yha822ZDECq49xZAo/Mj3Pkdyvd/G1VZe/Rt
-         deyxNHXI+CZgOSgF1zYGzDXFeWxavtJdQK6/WvQmLO09dBAi5aO9EYCRjSogtOXQQY/0
-         TqRKHxY7dHFtfZajCp4aU0ACdhY+Q+S9MzPfVEjs6sSum3Ioi3VLhni2jKw83+mpHQiT
-         /TQEMPl+aC11LSOpIrY1ASCU8ULCyS4UX1d11HG6e016N7VoTFed16Lw9+ERNZ4pQZku
-         jiUNg/J8FJDSRjgK4aHBXmMmupUvb9LG+L/W+twqCFzDf+vLDTkfEi2ikL81TwManYnr
-         XCvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795857527; x=1796462327;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QHBi/kFqk++CZ+SPDTCxQq76agXRbZkghzbM3h1MwDA=;
-        b=1HkE5e0FzbzNUUe7pK21Al2oXia5A8Lt0Ziksk5iegyOjXRSRVhh943+qZIKCpNDOs
-         MVWlmLyYn4LlPRjzLwbdCODjqSAWStYOocqZmv8Ey4L9pJYnTOC+SLRNwA60qR7uTGua
-         aFXqH8ijT+N7fa2xVDbjAUAmX5LddSsfKV2yNtMoyQkrWKLr/VzLOREsHmTmt9v3aHTH
-         gpc2EcyV8Ng01HEw/hDGRTwM2N6WZlW1bGV4XYdFLapS4iywB8WzbB+bUwISBmtzAreX
-         tGe5ODgJkzdHqJCxxsxCk0d8DowZ7j/lzeJPDpHEcb+LrptbRFepuFWvKSqH0Mt3NWzG
-         EDGw==
-X-Forwarded-Encrypted: i=1; AL+hErGnftXNprbHyBlwGOR5qDI4tpQwMcCnlILZX6EjzUNs3i1BWs/hbA+jErDR2LbDQ2c41VU/0h77UE0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8NqAvoYvWPM4Q8nennoBT3Jt8sJq171BQODVtnNzAFlLgjfIZF
-	cOwbSkS8y/PWh+6KACGvlWKX3ktD0/DUUkOTUPtUucrI6c7+yuU5Fxz4
-X-Gm-Gg: AZFdTZdlmITgP6VWrH5Cn136udf1uzD46e6qv24jUTRmToo0MSbQ09AHRCWpbUpZ0y7
-	o+jsc0wEFkHgF+gSmPGw9AgnOp4+8ou4UWEZn65tOf45tOIx/OvoBB8W6kpDx4/yUpb2Q3rhpv/
-	Lbprf4StroejFg8qVaU1w2ozg7rqNcsh4/hVeTNIcNago6P3ldCHU+bGfAWSgJYGlc+2v7IqSFy
-	QSyY8nfqWDqRJJ4xMjD655BJhwiHlrkFFuAzCVj56xmxi9G3Sfd9dbzDz3XsuqQrm90LtYguLi/
-	Gp8uz7k6u9AIFacwllYZR/XztYaPwc8BHPUy+rYN3H5gQbYbDiUzOmU80IVW1xgraqLc8s/bvYC
-	WVHsFjKW9FzRPoJmbkrj/TCrxdi/hlhFKTAk1oXFQl9ho7zCIFcP3w1sLD5VEc/AicJVZduERnk
-	sRcApdxmaXJ4dBPg9vVCKgjnCmgT0FoxxHnVae9mpQGRvKNK5JEcfsqp2WNliRrPAuDAPsiuJf3
-	jQyt/+ny6bJwD7Yg/cU6A0vXUJnk2imb49PTvduIMdWqkDB33Vpjz5bUtBPQUgpHOUff0owCDNN
-	SyXF2z5Tcf4QfaF5M1qXvEkyazI=
-X-Received: by 2002:a05:6a00:2e9d:b0:880:849d:c07c with SMTP id d2e1a72fcca58-8c87c29172cmr24528688b3a.25.1795857526632;
-        Sat, 28 Nov 2026 01:18:46 -0800 (PST)
-Received: from nixos ([2409:8a28:ae4:7f20:c549:2fb1:e189:bced])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c873f16b41sm14070618b3a.56.2026.11.28.01.18.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2026 01:18:46 -0800 (PST)
-From: Zixin Wang <w1355457260@gmail.com>
-To: dzm91@hust.edu.cn
-Cc: chao.liu@processmission.com,
-	alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net,
-	zenghui.yu@linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zixin Wang <w1355457260@gmail.com>
-Subject: Re: [PATCH v2] docs/zh_CN: Add core-api/irq managed_irq Chinese translation
-Date: Sat, 28 Nov 2026 09:18:29 +0000
-Message-ID: <20261128091829.983996-1-w1355457260@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <948a8c4c-8899-4393-ab14-eb6eaebb4177@hust.edu.cn>
-References: <20261120160539.103773-1-w1355457260@gmail.com> <948a8c4c-8899-4393-ab14-eb6eaebb4177@hust.edu.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O90bpdZJ
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 6485B1F00898;
+	Sat, 28 Nov 2026 09:53:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795859586;
+	bh=uuCJfxu+5v/s3T9HZYDDO4PQ78T7+CAZAP1vnBBAvlk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=O90bpdZJYUF4YtVEHRhxLIqAQcGy50tt88f4anF0VE/73UpKeNhLHD68p2I+WORMK
+	 rah82jxUIvM05z0HQJ/7Gqht46duwVcWBAA4Oly/9mfXmO+FtP3AerdVZuhwSDsTND
+	 qM0CwtmBy7HUavbGOi/u6v2oO6ryFERhYnwndigZHNCMKVkkArcGDjH2cQyn7u/Yxo
+	 ch06xXxQT+3tv/6rc/cH79zuTzT4aXGnW4UDzq/DNhpOjsNAQ3DeH1WZiEw6CYGr70
+	 9+Za9L+aD1Tujgq7wvwmbeuoir2+LQrCzVjdS4n48dDUNG4J7VG+DZVSNmaxFXrDCA
+	 BIidWv+0lMYcA==
+Date: Sat, 28 Nov 2026 11:53:02 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: aleksa@amutable.com, alex@amutable.com, alexei.starovoitov@gmail.com,
+	arnd@arndb.de, bpf@vger.kernel.org, brauner@kernel.org,
+	containers@lists.linux.dev, corbet@lwn.net, dhowells@redhat.com,
+	ebiggers@kernel.org, giuseppe@scrivano.org, hughd@google.com,
+	jack@suse.cz, jlayton@kernel.org, josef@toxicpanda.com,
+	kees@kernel.org, kpsingh@kernel.org, lennart@poettering.net,
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	luto@amacapital.net, neal@gompa.dev, oleg@redhat.com,
+	paul@paul-moore.com, ptikhomirov@virtuozzo.com, sergeh@kernel.org,
+	skhan@linuxfoundation.org, viro@zeniv.linux.org.uk,
+	zygmunt.krynicki@canonical.com
+Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
+Message-ID: <awqkft-e6Tbj7dbJ@kernel.org>
+References: <awOQDOel_72Xwjm7@kernel.org>
+ <20261127214103.542291-1-safinaskar@gmail.com>
+ <awn-ioAuksHNV-Rc@kernel.org>
+ <awn_Y7oI4ckfsjSv@kernel.org>
+ <awoHex4LVst2JwkO@kernel.org>
+ <awoO9R7YF_5_6dHA@kernel.org>
+ <CAPnZJGBnFyrmr88OsYkMwtLiR93z4g0NAuoMurcnhcYFXz51jg@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,15 +75,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPnZJGBnFyrmr88OsYkMwtLiR93z4g0NAuoMurcnhcYFXz51jg@mail.gmail.com>
 
-Hi Dongliang,
+On Sat, Nov 28, 2026 at 04:50:42AM +0300, Askar Safin wrote:
+> On Sat, Nov 28, 2026 at 2:15 AM Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> > thinking more sequencing than data structures. I.e. I have a game where
+> > I need to end up to process creation without embryonic state, and add
+> > just enough weight to kernel to support that outcome, and that leads
+> > to ~2K'ish LOC of extra kernel complexity.
+> 
+> So you don't have embryonic state? I don't like this.
+> 
+> Let's assume the following situation. Userland's PID 1 is already running.
+> Our container manager attempts to spawn yet another process into userland.
+> As well as I understand, it should do clone3 with CLONE_INTO_USERLAND,
+> and then execve.
+> This creates time hole when there is process, which already runs inside
+> userland (i. e. its PID namespace and other namespaces), but runs
+> container manager's binary and have container manager's mm.
+> This invites for bugs. Other processes, which already run inside userland,
+> may somehow take advantage of this.
+> For example, see section "CVE-2019-5736 Is a Very Very Very Bad
+> Privilege Escalation to Host Root"
+> of https://brauner.io/2019/02/12/privileged-containers.html .
+> So, here I like embryos.
 
-Thanks for the review and the Reviewed-by.  I have sent v3 with the
-unused cn_managed_irq.rst label removed as you suggested.  Since that
-is the only change, I kept your Reviewed-by; please let me know if you
-would prefer it dropped.
+We all have things that I like but let's talk about facts instead.
 
-Thanks,
-Zixin
+CVE-2019-5736 was also not a sibling process racing the pre-execve
+window: it happened inside execve() itself via binfmt_script resolving
+container-controlled #!/proc/self/exe.
+
+CLONE_INTO_USERLAND rejects CLONE_VM, CLONE_FILES, CLONE_FS, and
+CLONE_SIGHAND, keeps exec_state->user_ns in the caller's outer user
+namespace, and resets exec_state->dumpable to suid_dumpable (0) when
+installing userland->user_ns. Until execve(), ptrace_may_access() checks
+CAP_SYS_PTRACE against the outer user_ns, so processes inside the
+userland cannot ptrace the child or access /proc/<pid>/{exe,mem,fd}.
+
+
+> 
+> -- 
+> Askar Safin
+
+Br, Jarkko
