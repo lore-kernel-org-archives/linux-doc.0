@@ -1,79 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795826523;
-	b=K1O4Bw6OAwKm9Mh97Rg2aXkIrud9om06it4u1FVu0EtpKpFMD4W0KRTXiorrUM5gP1zn
-	 PpDN6L6o1Ei133/jT9IQ81FxVoMn9iVwwvsdQIW5FV9tzhgJ7JMSJrp4tOtE7JSjisMX6
-	 r1lSTewG8maFTahnxnzoUmZNIgdloGymhE8mE5wfVtBd9jonvbR5C2U44QmrJe01ZN2dT
-	 iFm4HC0uKrSkITFYVIqLgu3c3AMDwp/sWcbZZm51WNfSEvy41wgf96mQMUx5znNGMdD7a
-	 F3jLcoWt0KMw0+E0lOoPXHzl0tBKXfh6pJiZr/UO4/tThdTSBUDJvupN0jHcmvK+kDQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795826523;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Y0X2+JtaSu8RoVd5++OIga8k8voJZCwQm1LERPaXDRY=;
-	b=RpSNzhJbS36ZXx3IsxZtH83vykRAYDePUvDE7BaA78APwRltJexVqekkocmh3cHqK/2I
-	 +HLMYRv4YuLXqBFnBaEgtOotkORvSq9JqhCksjNsrVnZDw8ue4IYMF5A2FQL78HPqY5vB
-	 ULeok2BcnOycDHtpn23IyFj4Z3UIrOSFVTJiIyzJHgqG0hLqNXmRhd5KV1CYO8tNxXo9o
-	 R2N5P7xRRyA1yW6HAHvIRRvFFJ+960VbzzmJo+5f/uv/+eYZIwrqre2whDn++T2RZkzrw
-	 8gsa5vn3EmxAbckKt7lFMdEPT4VZi0INm5ctkcIkxPfUQjrnrcWYV3hc6tZDm02yc/Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PQ0jtBzs;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795826600;
+	b=PJbPK+4Bd460fBnApRsbfYGAJQbFjb030bn8b8gPrL2jMAB7W5IuwMikL/tPqn1u1OPk
+	 Exe8hl2Pf5TSBeuiLpjFgGrfoM2B0NrVz7VzYxeCwralp9SOCVI5c8ob9wwS2wrNxgANV
+	 7xJ/PcKGXje+qQr9O7jGoyeFm2bd8PtmWP4Xr/yuz7Me+8EZKpUQXgva/UpYu0lznmZRN
+	 GTKYXKmUKx36TmdMDkk/ZzBaLZL6aWrLcNqZx2fxueqzL9as0eNlWQB/iXmdSzCh3BWaa
+	 tIPYkGW2zKULT4qX57UIpXwI50DQroU14ydAftfRNUkguhSFUL9P4+GjqxnVm56NNCA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795826600;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=GFNyH0Ir4kVCvrZZWUN3b3y+Hhr3cHiie3fTLT72VVg=;
+	b=5A+AMNKB4mYVm+TVOacoYCe7ON79ktaDa8GKovmYr3POtTSueUbV5jydQqltvigAGJQ+
+	 qDI97mlURPjwRrjnkRszk/Q29l5xXlBJQmZKQx60gGMZF0h+ee3zi9FodljhqM7wj3P5f
+	 yAxRzJNjiAJqqC/Y+K0PX17MSKjiZvcGWOGEUqMrsNltP4O6tt2kXiNnSKm9clKx2dRGf
+	 JSnErV521l4wlNyFMiKLBY5OJAEobDEzPx0kPn3EHdGwFR0LeTRpTXzXoQA7jq15PnKzv
+	 kdrIYS8JTz8PkSJXa/10bIcXAHB+zxEeZ8bGhea22ApsCXW+TwsFNyGZw5UrJUhBCOg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VyEGnqmY;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16303606A6A5;
-	Sat, 28 Nov 2026 00:42:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id A0011606A31C;
+	Sat, 28 Nov 2026 00:43:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PQ0jtBzs
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795826522;
-	b=XeVH9PDdghuCt7ujwJ7jQzM599/20ImVIk8EOWLS+VtsFSjkJWURA8KzAgXls0MdHmj1
-	 UXPfuh4C5Q8VpCcpux8U9ZXBUQ5RSkR96hQKe+nKxMc9ZkNHoSpD+S5QZ53ZxfhR/XUZj
-	 +DJbqtc3LhKoq75T7EA2eCSAfy5mzmKCaH0wLfl/BbsO0qvPUe4ZgWNy96YpJH8swgO1T
-	 iTvSnbKDzLG46Iz/tBXHADnRG5VI/zulmGDdhhtLKmyTy36mSwkUoQunP4gZcOVnZDW+a
-	 /Jmy6Uc/tq3HQRTydviuY11VBGc+X3EM+lE6ZNxxUH2VpbJQUmTTb2H8yik0MEoL6FA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795826522;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Y0X2+JtaSu8RoVd5++OIga8k8voJZCwQm1LERPaXDRY=;
-	b=UCtMkGwErU3O8QfseFcWDODqkd/uwVackP0nsdjvd1W5Etjf4CzHqV8Ah2lngiCLHkyj
-	 IH0AotpSX9mm8CHTFN3ass/r93wROYExBFPzpF/Z/Atgjo2JtdnjXDVoJH+TCi+Xn+fKe
-	 +2NFFN/xDim6UAIjVYriCCn2J4gtWqVtyQY4tt8va0am38Npwgc8NI44tdwEf0Cbuqv0j
-	 OluaTZBL426y+8TXKF8wNxHacVITTJNQStiZIrfe5WKAvkggwymoCSr56vISAW9iyK9oq
-	 9WA+5SdS2FYIA43m2w0Jb81EaTWW+TOuzcscvqz8puf92qgmXQVJ5j3YgKpdc9zOKVQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 545D41F00897;
-	Sat, 28 Nov 2026 00:41:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VyEGnqmY
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 84F131F00893;
+	Sat, 28 Nov 2026 00:43:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795826522;
-	bh=Y0X2+JtaSu8RoVd5++OIga8k8voJZCwQm1LERPaXDRY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=PQ0jtBzswQ+LM2o9YoAjdMMSZvQaXqlWCUQP2Rpv8x59oOy8x87KOmXpU2yICyPMi
-	 Jl4ldwc5zNZjPWN45Yy5815fj3cTSfE/lAsCHaOLHUrVacPKOFwKodUfCtKdUfSZst
-	 QhIx42y/MpCKPQtqfU5R55CthyBMuw7JC9rK7uf6w449GEGk3tLFEIcz9UMxZV4cVY
-	 RgRyWRXbBsQb4FOfZp/uqcEcv+4bSAuCeuQ1rVaOt6akzSPrj/pJIMDyXEu1F7mBez
-	 mkYJ4hwKemk4NcLEfzu+u+NqNeC16CuotZ8t63nalDAw1w2gcshZiM8bzqnZjPNZYE
-	 6zZbuoIjzdPRg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id D28434DED5;
-	Sat, 28 Nov 2026 00:41:44 +0000 (UTC)
-From: Vincent Jardin via B4 Relay <devnull+vjardin.free.fr@kernel.org>
-Date: Sat, 28 Nov 2026 01:41:36 +0100
-Subject: [PATCH net-next v2 4/5] selftests: net: add a test of the LISP
- devices
+	s=k20260515; t=1795826600;
+	bh=GFNyH0Ir4kVCvrZZWUN3b3y+Hhr3cHiie3fTLT72VVg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VyEGnqmYPetw/50oz5XSjsTb4xi26lMs43Venrqj/HUi95seUUqVD0uzK9hWHnikT
+	 wM2+usQQChXcmo2je9Dk+oIU/OHuQHymSsx9MS6vyNbyCmGwqFAeflmPnuUj4fnwSU
+	 AE+hNJb5JLlh+foTdAxRPHTxwNAXU+8UDdfpTKCd+QQsQeJuxftROt5GlZnClHsY+W
+	 NqS0RyUehuYWXz/roswvNCvYvIov7uvf+KEKMRHVGN6ASi1SD1h8OlwkQSg0Gy97h5
+	 IHOlZcwkv2mVhwd8faWKe9QAauXdix2kby+VdUvM+hDAdTneFfoe1KzwqBQxK4lYA1
+	 kY0RDpASwkwwg==
+Date: Sat, 28 Nov 2026 02:43:16 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: keyrings@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Alasdair Kergon <agk@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	David Gstir <david@sigma-star.at>,
+	David Howells <dhowells@redhat.com>,
+	David Laight <david.laight.linux@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ignat Korchagin <ignat@linux.win>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	James Morris <jmorris@namei.org>,
+	James Prestwood <prestwoj@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>,
+	Jonathan McDowell <noodles@meta.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Mimi Zohar <zohar@linux.ibm.com>, Paul Moore <paul@paul-moore.com>,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sumit Garg <sumit.garg@kernel.org>
+Subject: Re: [PATCH v5 00/17] KEYS: trusted: asymmetric keys
+Message-ID: <awojpAZ81dakxfQY@kernel.org>
+References: <20261127055602.2357884-1-jarkko@kernel.org>
+ <20261127193133.GE8300@quark>
+ <awnrj-s1qL0Bw0nI@kernel.org>
+ <awnugO__1DBkLlFe@kernel.org>
+ <awn3tIYuqM-J1tXz@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,1252 +88,178 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261128-for-upstream-lisp-v1-v2-4-68e8649c3ed2@free.fr>
-References: <20261128-for-upstream-lisp-v1-v2-0-68e8649c3ed2@free.fr>
-In-Reply-To: <20261128-for-upstream-lisp-v1-v2-0-68e8649c3ed2@free.fr>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Vincent Jardin <vjardin@free.fr>, Donald Hunter <donald.hunter@gmail.com>, 
- Nicolas Dichtel <nicolas.dichtel@6wind.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- =?utf-8?q?Asbj=C3=B8rn_Sloth_T=C3=B8nnesen?= <ast@fiberby.net>, 
- Danielle Ratson <danieller@nvidia.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795826502; l=39986;
- i=vjardin@free.fr; s=20260525; h=from:subject:message-id;
- bh=ArU5l36NgxSgK6DoEhmCvkbgOCHh0hlMGy+ipSOF1iY=;
- b=UfhaAf9JtkEwdjXLQ1jILAnVKitxIx1YvIqXmWFkwlMV7yDkkRvN2Wl3gCnv46t5Ml3RVfdvP
- 53E/Th+nrkgAe2VRErHtHeULAxxLiTuM1VfaDTy5CgVZ93SCpQG364n
-X-Developer-Key: i=vjardin@free.fr; a=ed25519;
- pk=hppgLeFpGpKOi7LNwGEZ4jOYofJCoGd4Jf1ltAabiLw=
-X-Endpoint-Received: by B4 Relay for vjardin@free.fr/20260525 with
- auth_id=871
-X-Original-From: Vincent Jardin <vjardin@free.fr>
-Reply-To: vjardin@free.fr
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <awn3tIYuqM-J1tXz@kernel.org>
 
-From: Vincent Jardin <vjardin@free.fr>
+On Fri, Nov 27, 2026 at 11:35:53PM +0200, Jarkko Sakkinen wrote:
+> On Fri, Nov 27, 2026 at 10:56:37PM +0200, Jarkko Sakkinen wrote:
+> > On Fri, Nov 27, 2026 at 10:44:03PM +0200, Jarkko Sakkinen wrote:
+> > > On Fri, Nov 27, 2026 at 11:31:33AM -0800, Eric Biggers wrote:
+> > > > On Fri, Nov 27, 2026 at 07:55:45AM +0200, Jarkko Sakkinen wrote:
+> > > > > OVERVIEW
+> > > > > ========
+> > > > > 
+> > > > > Extend TPM 2.0 trusted keys to load ASN.1 TPMKey [1] asymmetric keys
+> > > > > (OID_TPMLoadableKey, 2.23.133.10.1.3) and expose keyctl pkey-operations
+> > > > > directly on key_type_trusted. In addition there are some TPMKey
+> > > > > interoperability fixes.
+> > > > > 
+> > > > > I.e. this my old series with a twist: instead of introducing a separate
+> > > > > subtype for asymmetric keys, factor out pkey-operations into a separate
+> > > > > CONFIG_KEYCTL_PKEY-feature, and wire asymmetric operations to
+> > > > > key_type_trusted.
+> > > > > 
+> > > > > This work was originally derived from [3], is direct offspring of [2],
+> > > > > and folds in the prerequisite tpm2-sessions and tpm-buf cleanups from
+> > > > > [4].
+> > > > > 
+> > > > > [1] https://www.hansenpartnership.com/draft-bottomley-tpm2-keys.html
+> > > > > [2] https://lore.kernel.org/linux-integrity/20240520184727.22038-1-jarkko@kernel.org/
+> > > > > [3] https://lore.kernel.org/all/20200518172704.29608-1-prestwoj@gmail.com/
+> > > > > [4] https://lore.kernel.org/linux-integrity/20261116005105.1573016-1-jarkko@kernel.org/
+> > > > 
+> > > > Could you describe the motivation for these changes here?  And also
+> > > > include more context directly, for people who aren't already familiar
+> > > > with all the earlier patches linked to above.
+> > > > 
+> > > > Also, this series is missing a base-commit, and I don't know how to
+> > > > apply it for review.
+> > > 
+> > > Sure, I'll do that if this moves forward.
+> > > 
+> > > The feature allows to provision an external key so that private portion
+> > > is secured by TPM, and used for e.g., signing and authentication. One
+> > > example of a program that might use this is iwd.
+> > > 
+> > > First, a parent is needed.
+> > > 
+> > > 0x40000001 (Owner) primary following TCG H-2 ECC P-256 template:
+> > > 
+> > > 	tpm2_createprimary -C o -g sha256 -G ecc256:null:aes128cfb \
+> > >       		-a "fixedtpm|fixedparent|sensitivedataorigin|userwithauth|noda|restricted|decrypt" \
+> > >       		-c primary.ctx
+> > > 
+> > >     	tpm2_import -C primary.ctx -G ecc -i key.pem -u key.pub -r key.priv
+> > >     	tpm2_encodeobject -C primary.ctx -u key.pub -r key.priv -o key.tpm.pem
+> > >     	tpm2_flushcontext primary.ctx
+> > > 	
+> > > Alternatively, a persistent handle can be used. This follows TPMKey
+> > > specification recommendations.
+> > > 
+> > > Then external key can be imported an used as follows:
+> > > 
+> > > 	openssl ecparam -name prime256v1 -genkey -noout -out key.pem
+> > >     	openssl pkey -in key.pem -pubout -out pub.pem
+> > >  	openssl asn1parse -in key.tpm.pem -out key.tpm.der -noout
+> > >     	HEX=$(xxd -p -c 0 key.tpm.der)
+> > >     	TPM_KEY=$(keyctl add trusted tpm-key "load $HEX" @u)
+> > >     	keyctl pkey_query "$TPM_KEY" 0 enc=x962 hash=sha256
+> > > 
+> > > 	echo "secret sauce" > plain.txt
+> > > 	openssl dgst -sha256 -binary -out plain.sha256 plain.txt
+> > > 	keyctl pkey_sign "$TPM_KEY" 0 plain.sha256 enc=x962 hash=sha256 > plain.sig
+> > > 
+> > > > 
+> > > > - Eric
+> > > 
+> > > Another document that is source for what should be supported is:
+> > > 
+> > > https://datatracker.ietf.org/doc/draft-woodhouse-cert-best-practice/
+> > > 
+> > > Althought, I'm not sure how relevant this is anymore.
+> > 
+> > One other thing in addition to decoupling pkey operations that could be
+> > done as part of this would be to modularize the documentation, and use
+> > rst file at Documentation/ to include the snippets.
+> > 
+> > I left documentation part a bit stub as I started considering whether
+> > to do this or not. I.e., do it like some of the GPU drivers manage
+> > documentation.
+> > 
+> > With all these backends it's getting messy.
+> 
+> For tying in PCRs or system state in general it would be best to
+> implement policy command intepreter, which is a blob than can be
+> supplied with TPMKey. It's not a big leap from this.
+> 
+> It could be also used for regular trusted keys and benefit over
+> special parameters would be that it keeps the keyctl interface
+> backend agnostic (as e.g., PCRs bindings come with the data).
 
-Scenario: 2 xTRs carry the packets of 2 hosts through a core router.
-The EIDs of the first one are in a VRF and its RLOCs in another one,
-the second one uses its main table.
+Not the prettiest script but this is current version of the smoke
+test that I've used to test this:
 
-Signed-off-by: Vincent Jardin <vjardin@free.fr>
----
- MAINTAINERS                          |    1 +
- tools/testing/selftests/net/Makefile |    1 +
- tools/testing/selftests/net/config   |    4 +
- tools/testing/selftests/net/lisp.sh  | 1139 ++++++++++++++++++++++++++++++++++
- 4 files changed, 1145 insertions(+)
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2024-2026 Jarkko Sakkinen <jarkko@kernel.org>
+#
+# Cross-verification test for TPM2 asymmetric trusted keys.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index addedadf43446..0d3a537d87023 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15512,6 +15512,7 @@ L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/networking/lisp.rst
- F:	drivers/net/lisp.c
-+F:	tools/testing/selftests/net/lisp*.sh
- 
- LIST KUNIT TEST
- M:	David Gow <david@davidgow.net>
-diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
-index fb0a64662053f..7263049ab7c44 100644
---- a/tools/testing/selftests/net/Makefile
-+++ b/tools/testing/selftests/net/Makefile
-@@ -63,6 +63,7 @@ TEST_PROGS := \
- 	l2_tos_ttl_inherit.sh \
- 	l2tp.sh \
- 	link_netns.py \
-+	lisp.sh \
- 	lwt_dst_cache_ref_loop.sh \
- 	macvlan_mcast_shared_mac.sh \
- 	msg_zerocopy.sh \
-diff --git a/tools/testing/selftests/net/config b/tools/testing/selftests/net/config
-index dab62cdfa27ba..767c0fdb79353 100644
---- a/tools/testing/selftests/net/config
-+++ b/tools/testing/selftests/net/config
-@@ -31,8 +31,10 @@ CONFIG_IP6_NF_MATCH_SRH=m
- CONFIG_IP6_NF_NAT=m
- CONFIG_IP6_NF_RAW=m
- CONFIG_IP6_NF_TARGET_REJECT=m
-+CONFIG_IP_ADVANCED_ROUTER=y
- CONFIG_IP_MROUTE=y
- CONFIG_IP_MULTICAST=y
-+CONFIG_IP_MULTIPLE_TABLES=y
- CONFIG_IP_NF_FILTER=m
- CONFIG_IP_NF_IPTABLES=m
- CONFIG_IP_NF_IPTABLES_LEGACY=m
-@@ -42,6 +44,7 @@ CONFIG_IP_NF_NAT=m
- CONFIG_IP_NF_RAW=m
- CONFIG_IP_NF_TARGET_REJECT=m
- CONFIG_IP_NF_TARGET_TTL=m
-+CONFIG_IP_ROUTE_MULTIPATH=y
- CONFIG_IP_SCTP=m
- CONFIG_IPV6=y
- CONFIG_IPV6_FOU=m
-@@ -64,6 +67,7 @@ CONFIG_L2TP=m
- CONFIG_L2TP_ETH=m
- CONFIG_L2TP_IP=m
- CONFIG_L2TP_V3=y
-+CONFIG_LISP=m
- CONFIG_MACSEC=m
- CONFIG_MACVLAN=y
- CONFIG_MACVTAP=y
-diff --git a/tools/testing/selftests/net/lisp.sh b/tools/testing/selftests/net/lisp.sh
-new file mode 100755
-index 0000000000000..3b2e6590e41b0
---- /dev/null
-+++ b/tools/testing/selftests/net/lisp.sh
-@@ -0,0 +1,1139 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (c) 2026 Vincent Jardin <vjardin@free.fr>, Free Mobile
-+#
-+# Test the LISP data plane of drivers/net/lisp.c between two xTRs.
-+#
-+# The EIDs of x1 are in the VRF "site" and its RLOCs in the VRF "wan". x2 keeps
-+# everything in its main table. The instance 101 has one LISP device on each
-+# xTR. The instance 102 has a device on x1, in the VRF "site2", and uses a
-+# device that collects metadata on x2.
-+#
-+# h1         x1                        core               x2           h2
-+# 10.1.0.2   10.1.0.1 (site)                              10.2.0.1     10.2.0.2
-+# fd00:1::2  fd00:1::1                                    fd00:2::1    fd00:2::2
-+#       veth      lisp101 (site)                   lisp101      veth
-+#                 lisp102 (site2)                  lispmd
-+#                 192.0.2.1 (wan)     192.0.2.2
-+#                 2001:db8:1::1  veth 2001:db8:1::2
-+#                                     198.51.100.2        198.51.100.1
-+#                                     2001:db8:2::2  veth 2001:db8:2::1
-+
-+# shellcheck disable=SC2154 # variables assigned by setup_ns
-+source lib.sh
-+
-+# shellcheck disable=SC2155 # prefer RO variable over return value from cmd
-+readonly CLI="$(dirname "$(readlink -f "$0")")/../../../net/ynl/pyynl/cli.py"
-+
-+ALL_TESTS="
-+	netlink_test
-+	ping_test
-+	fields_test
-+	mtu_test
-+	pmtu_test
-+	multipath_test
-+	instance_test
-+	receive_test
-+	rpfilter_test
-+	updown_test
-+	tcp_test
-+	cross_vrf_test
-+	cross_netns_test
-+	netns_test
-+"
-+
-+LISP_PORT=4341
-+IID=101
-+
-+X1_RLOC4=192.0.2.1
-+X1_RLOC6=2001:db8:1::1
-+X2_RLOC4=198.51.100.1
-+X2_RLOC6=2001:db8:2::1
-+
-+# ID of the nexthop that reaches the other xTR at its RLOC of a family
-+NH4=14
-+NH6=16
-+# IDs of the nexthops that a test makes for itself
-+NH_FIELDS=24
-+NH_GROUP=30
-+NH_INSTANCE=40
-+NH_OTHER=99
-+
-+# An RLOC that is not the one of an xTR
-+OTHER_RLOC4=203.0.113.9
-+
-+TCP_PORT=5000
-+TCP_TIMEOUT=60
-+TCP_FILE=
-+
-+################################################################################
-+# Helpers
-+
-+h1_ping()
-+{
-+	ip netns exec "$h1" ping -q -c 1 -W 2 "$@" > /dev/null 2>&1
-+}
-+
-+h2_ping()
-+{
-+	ip netns exec "$h2" ping -q -c 1 -W 1 "$@" > /dev/null 2>&1
-+}
-+
-+tc_packets()
-+{
-+	local ns=$1; shift
-+	local dev=$1; shift
-+	local pref=$1; shift
-+
-+	tc -n "$ns" -j -s filter show dev "$dev" ingress pref "$pref" |
-+		jq '[.[] | select(.options.actions) |
-+		     .options.actions[0].stats.packets] | add'
-+}
-+
-+# On the core, coming from x1.
-+core_packets()
-+{
-+	tc_packets "$core" c1 "$1"
-+}
-+
-+h2_packets()
-+{
-+	tc_packets "$h2" eth0 "$1"
-+}
-+
-+link_stat()
-+{
-+	local ns=$1; shift
-+	local dev=$1; shift
-+	local stat=$1; shift
-+
-+	ip -n "$ns" -j -s -s link show dev "$dev" | jq ".[0].stats64$stat"
-+}
-+
-+# What the kernel answers to the creation of a device with these attributes,
-+# which ip refuses to send.
-+ynl_add()
-+{
-+	local data=$1; shift
-+
-+	ip netns exec "$x2" "$CLI" --family rt-link --create --excl \
-+		--do newlink --json "{\"ifname\": \"t0\", \"linkinfo\":
-+			{\"kind\": \"lisp\", \"data\": $data}}" 2>&1
-+}
-+
-+# The EID prefixes of the instance 101 use the RLOCs of a family.
-+use_rlocs()
-+{
-+	local family=$1; shift
-+	local nh=NH$family
-+
-+	ip -n "$x1" route replace 10.2.0.0/24 vrf site nhid "${!nh}"
-+	ip -n "$x1" -6 route replace fd00:2::/64 vrf site nhid "${!nh}"
-+	ip -n "$x2" route replace 10.1.0.0/24 nhid "${!nh}"
-+	ip -n "$x2" -6 route replace fd00:1::/64 nhid "${!nh}"
-+}
-+
-+core_send()
-+{
-+	local bytes=$1; shift
-+
-+	ip netns exec "$core" bash -c \
-+		"printf '$bytes' > /dev/udp/$X1_RLOC4/$LISP_PORT"
-+}
-+
-+################################################################################
-+# Setup
-+
-+host_setup()
-+{
-+	local ns=$1; shift
-+	local id=$1; shift
-+
-+	ip -n "$ns" link set eth0 up
-+	ip -n "$ns" addr add "10.$id.0.2/24" dev eth0
-+	ip -n "$ns" addr add "fd00:$id::2/64" dev eth0 nodad
-+	ip -n "$ns" route add default via "10.$id.0.1"
-+	ip -n "$ns" -6 route add default via "fd00:$id::1"
-+	tc -n "$ns" qdisc add dev eth0 clsact
-+}
-+
-+setup()
-+{
-+	local ns
-+
-+	setup_ns h1 x1 core x2 h2 || return
-+
-+	for ns in "$h1" "$x1" "$core" "$x2" "$h2"; do
-+		ip netns exec "$ns" sysctl -wq net.ipv6.conf.all.accept_dad=0
-+		ip netns exec "$ns" sysctl -wq \
-+			net.ipv6.conf.default.accept_dad=0
-+	done
-+	ip netns exec "$x2" sysctl -wq net.ipv6.bindv6only=1
-+
-+	ip link add eth0 netns "$h1" type veth peer name eth0 netns "$x1"
-+	ip link add eth1 netns "$x1" type veth peer name c1 netns "$core"
-+	ip link add eth1 netns "$x2" type veth peer name c2 netns "$core"
-+	ip link add eth0 netns "$h2" type veth peer name eth0 netns "$x2"
-+
-+	for ns in "$x1" "$core" "$x2"; do
-+		ip netns exec "$ns" sysctl -wq net.ipv4.ip_forward=1
-+		ip netns exec "$ns" sysctl -wq net.ipv6.conf.all.forwarding=1
-+	done
-+
-+	host_setup "$h1" 1
-+	host_setup "$h2" 2
-+
-+	ip -n "$core" link set c1 up
-+	ip -n "$core" link set c2 up
-+	ip -n "$core" addr add 192.0.2.2/30 dev c1
-+	ip -n "$core" addr add 2001:db8:1::2/64 dev c1 nodad
-+	ip -n "$core" addr add 198.51.100.2/30 dev c2
-+	ip -n "$core" addr add 2001:db8:2::2/64 dev c2 nodad
-+	tc -n "$core" qdisc add dev c1 clsact
-+	tc -n "$core" qdisc add dev c2 clsact
-+
-+	# The packets of the instance 101, by family of RLOC: the I flag and
-+	# the instance ID after the UDP header, and DF in the IPv4 header.
-+	tc -n "$core" filter add dev c1 ingress protocol ip pref 4 u32 \
-+		match ip protocol 17 0xff match ip dport $LISP_PORT 0xffff \
-+		match u16 0x4000 0xffff at 6 match u8 0x08 0xff at 28 \
-+		match u32 $((IID << 8)) 0xffffffff at 32 action continue
-+	tc -n "$core" filter add dev c1 ingress protocol ipv6 pref 6 u32 \
-+		match ip6 protocol 17 0xff match ip6 dport $LISP_PORT 0xffff \
-+		match u8 0x08 0xff at 48 \
-+		match u32 $((IID << 8)) 0xffffffff at 52 action continue
-+
-+	ip -n "$x1" link add site type vrf table 10
-+	ip -n "$x1" link add wan type vrf table 20
-+	ip -n "$x1" link add site2 type vrf table 30
-+	ip -n "$x1" link set site up
-+	ip -n "$x1" link set wan up
-+	ip -n "$x1" link set site2 up
-+	ip -n "$x1" link set eth0 master site up
-+	ip -n "$x1" link set eth1 master wan up
-+	ip -n "$x1" addr add 10.1.0.1/24 dev eth0
-+	ip -n "$x1" addr add fd00:1::1/64 dev eth0 nodad
-+	ip -n "$x1" addr add $X1_RLOC4/30 dev eth1
-+	ip -n "$x1" addr add $X1_RLOC6/64 dev eth1 nodad
-+	ip -n "$x1" route add default vrf wan via 192.0.2.2
-+	ip -n "$x1" -6 route add default vrf wan via 2001:db8:1::2
-+
-+	ip -n "$x1" link add link wan name lisp101 type lisp id $IID \
-+		local $X1_RLOC4 local $X1_RLOC6 || return
-+	ip -n "$x1" link set lisp101 master site up
-+	ip -n "$x1" -6 nexthop add id $NH4 encap ip dst $X2_RLOC4 dev lisp101
-+	ip -n "$x1" -6 nexthop add id $NH6 encap ip6 dst $X2_RLOC6 dev lisp101
-+
-+	ip -n "$x2" link set eth0 up
-+	ip -n "$x2" link set eth1 up
-+	ip -n "$x2" addr add 10.2.0.1/24 dev eth0
-+	ip -n "$x2" addr add fd00:2::1/64 dev eth0 nodad
-+	ip -n "$x2" addr add $X2_RLOC4/30 dev eth1
-+	ip -n "$x2" addr add $X2_RLOC6/64 dev eth1 nodad
-+	ip -n "$x2" route add default via 198.51.100.2
-+	ip -n "$x2" -6 route add default via 2001:db8:2::2
-+
-+	ip -n "$x2" link add lisp101 type lisp id $IID
-+	ip -n "$x2" link set lisp101 up
-+	ip -n "$x2" -6 nexthop add id $NH4 encap ip dst $X1_RLOC4 dev lisp101
-+	ip -n "$x2" -6 nexthop add id $NH6 encap ip6 dst $X1_RLOC6 dev lisp101
-+
-+	use_rlocs 4
-+}
-+
-+cleanup()
-+{
-+	[[ -n $TCP_FILE ]] && rm -f "$TCP_FILE" "$TCP_FILE.out"
-+	cleanup_all_ns
-+}
-+
-+################################################################################
-+# Tests
-+
-+netlink_test()
-+{
-+	local out
-+
-+	RET=0
-+
-+	out=$(ip -n "$x2" link add t0 type lisp id "$IID" 2>&1)
-+	check_fail $? "an instance ID is used twice"
-+	[[ $out == *"already has this instance ID"* ]]
-+	check_err $? "unexpected error for a used instance ID: $out"
-+
-+	ip -n "$x2" link add t1 type lisp external
-+	check_err $? "no device that collects metadata"
-+	out=$(ip -n "$x2" link add t0 type lisp external 2>&1)
-+	check_fail $? "two devices collect metadata"
-+	[[ $out == *"already collects the metadata"* ]]
-+	check_err $? "unexpected error for a second device with metadata: $out"
-+	out=$(ip -n "$x2" -d -j link show dev t1 |
-+	      jq -c '.[0].linkinfo.info_data')
-+	[[ $out == '{"external":true}' ]]
-+	check_err $? "unexpected attributes with metadata: $out"
-+	ip -n "$x2" link del t1
-+
-+	out=$(ip -n "$x2" link add t0 type lisp id 7 local 224.0.0.1 2>&1)
-+	check_fail $? "a multicast local RLOC is accepted"
-+	[[ $out == *"not a unicast address"* ]]
-+	check_err $? "unexpected error for a multicast RLOC: $out"
-+
-+	out=$(ip -n "$x2" link add t0 type lisp id 7 local fe80::1 2>&1)
-+	check_fail $? "a link-local local RLOC is accepted"
-+	[[ $out == *"not a global unicast address"* ]]
-+	check_err $? "unexpected error for a link-local RLOC: $out"
-+
-+	out=$(ip -n "$x2" link set lisp101 type lisp id 7 2>&1)
-+	check_fail $? "the instance ID of a device can be changed"
-+	[[ $out == *"Operation not supported"* ]]
-+	check_err $? "unexpected error for a change: $out"
-+	ip -n "$x1" link set lisp101 type lisp local 192.0.2.99 2> /dev/null
-+	check_fail $? "a local RLOC of a device can be changed"
-+
-+	ip -n "$x2" link add t0 type lisp id 16777215 local 192.0.2.9 \
-+		local 2001:db8::9
-+	check_err $? "the highest instance ID is refused"
-+	out=$(ip -n "$x2" -d -j link show dev t0 | jq -c \
-+		'.[0] | [.mtu, .linkinfo.info_data.id,
-+			 .linkinfo.info_data.local,
-+			 .linkinfo.info_data.local6]')
-+	[[ $out == '[1444,16777215,"192.0.2.9","2001:db8::9"]' ]]
-+	check_err $? "unexpected attributes: $out"
-+	ip -n "$x2" link del t0
-+
-+	[[ $(ip -n "$x1" -j link show dev lisp101 | jq -r '.[0].link') == wan ]]
-+	check_err $? "the link of the RLOCs is not reported"
-+
-+	# The same instance ID can be used with RLOCs of another l3mdev, but
-+	# not twice with the same one.
-+	ip -n "$x1" link add link site2 name t0 type lisp id "$IID"
-+	check_err $? "an instance ID cannot be used with two l3mdevs"
-+	ip -n "$x1" link set t0 up
-+	check_err $? "an instance ID cannot be up with two l3mdevs"
-+	ip -n "$x1" link del t0
-+
-+	out=$(ip -n "$x1" link add link eth1 name t0 type lisp id "$IID" 2>&1)
-+	check_fail $? "an instance ID is used twice with the links of an l3mdev"
-+	[[ $out == *"already has this instance ID"* ]]
-+	check_err $? "unexpected error for a used l3mdev: $out"
-+
-+	# A link that joins the l3mdev later: the device cannot be up.
-+	ip -n "$x1" link add port9 type dummy
-+	ip -n "$x1" link add link port9 name t0 type lisp id "$IID"
-+	check_err $? \
-+		"an instance ID cannot be used with a link of the main table"
-+	ip -n "$x1" link set port9 master wan
-+	out=$(ip -n "$x1" link set t0 up 2>&1)
-+	check_fail $? "an instance ID is up twice with the same l3mdev"
-+	[[ $out == *"Device or resource busy"* ]]
-+	check_err $? "unexpected error for a used l3mdev: $out"
-+
-+	# A device goes with its link.
-+	ip -n "$x1" link del port9
-+	busywait "$BUSYWAIT_TIMEOUT" bash -c \
-+		"! ip -n $x1 link show dev t0 > /dev/null 2>&1"
-+	check_err $? "a device outlives its link"
-+
-+	log_test "Device attributes"
-+
-+	if ! "$CLI" --family rt-link --list-ops > /dev/null 2>&1; then
-+		log_test_skip "Device attributes that ip does not send" \
-+			"YNL CLI not usable"
-+		return
-+	fi
-+
-+	RET=0
-+
-+	out=$(ynl_add '{"id": 16777216}')
-+	[[ $out == *"Numerical result out of range"* ]]
-+	check_err $? "unexpected answer to an instance ID of 25 bits: $out"
-+	out=$(ynl_add '{"local": "192.0.2.9"}')
-+	[[ $out == *"Invalid argument"* ]]
-+	check_err $? "unexpected answer without instance ID: $out"
-+	out=$(ynl_add '{"id": 7, "collect-metadata": true}')
-+	[[ $out == *"Invalid argument"* ]]
-+	check_err $? "unexpected answer with an instance ID and metadata: $out"
-+	out=$(ynl_add '{"id": 7, "local": "192.0.2.9"}')
-+	check_err $? "unexpected answer to valid attributes: $out"
-+	ip -n "$x2" link del t0
-+
-+	log_test "Device attributes that ip does not send"
-+}
-+
-+rloc_family_test()
-+{
-+	local family=$1; shift
-+	local other=$1; shift
-+	local before_other
-+	local before
-+
-+	RET=0
-+
-+	use_rlocs "$family"
-+	before=$(core_packets "$family")
-+	before_other=$(core_packets "$other")
-+
-+	h1_ping 10.2.0.2
-+	check_err $? "no answer from the IPv4 EID"
-+	h1_ping fd00:2::2
-+	check_err $? "no answer from the IPv6 EID"
-+
-+	(( $(core_packets "$family") - before == 2 ))
-+	check_err $? "unexpected LISP header with IPv$family RLOCs"
-+	(( $(core_packets "$other") == before_other ))
-+	check_err $? "packets sent to IPv$other RLOCs"
-+
-+	log_test "IPv4 and IPv6 EIDs with IPv$family RLOCs"
-+}
-+
-+ping_test()
-+{
-+	rloc_family_test 4 6
-+	rloc_family_test 6 4
-+	use_rlocs 4
-+}
-+
-+# The TTL and the DSCP of a packet go to the outer header, then come back with
-+# what the core did to them. The host sends 20, x1 forwards 19, which the core
-+# gets in the outer header and forwards as 18. x2 forwards 17.
-+fields_test()
-+{
-+	RET=0
-+
-+	tc -n "$core" filter add dev c1 ingress protocol ip pref 10 u32 \
-+		match ip dport "$LISP_PORT" 0xffff match ip tos 0x28 0xff \
-+		match u8 19 0xff at 8 action pass
-+	tc -n "$h2" filter add dev eth0 ingress protocol ip pref 10 u32 \
-+		match ip protocol 1 0xff match ip tos 0x28 0xff \
-+		match u8 17 0xff at 8 action pass
-+	tc -n "$h2" filter add dev eth0 ingress protocol ipv6 pref 11 u32 \
-+		match ip6 protocol 58 0xff match ip6 priority 0x28 0xff \
-+		match u8 17 0xff at 7 action pass
-+
-+	h1_ping -t 20 -Q 0x28 10.2.0.2
-+	check_err $? "no answer from the IPv4 EID"
-+	h1_ping -t 20 -Q 0x28 fd00:2::2
-+	check_err $? "no answer from the IPv6 EID"
-+
-+	(( $(core_packets 10) == 2 ))
-+	check_err $? "the outer header did not inherit the TTL and the DSCP"
-+	(( $(h2_packets 10) == 1 ))
-+	check_err $? "the IPv4 packet did not get the outer TTL and DSCP"
-+	(( $(h2_packets 11) == 1 ))
-+	check_err $? "the IPv6 packet did not get the outer TTL and DSCP"
-+
-+	tc -n "$core" filter del dev c1 ingress pref 10
-+	tc -n "$h2" filter del dev eth0 ingress pref 10
-+	tc -n "$h2" filter del dev eth0 ingress pref 11
-+	log_test "TTL and DSCP inherited"
-+
-+	RET=0
-+
-+	ip -n "$x1" -6 nexthop add id "$NH_FIELDS" encap ip dst "$X2_RLOC4" \
-+		ttl 5 tos 0x40 dev lisp101
-+	ip -n "$x1" route replace 10.2.0.0/24 vrf site nhid "$NH_FIELDS"
-+	ip -n "$x1" -6 route replace fd00:2::/64 vrf site nhid "$NH_FIELDS"
-+
-+	tc -n "$core" filter add dev c1 ingress protocol ip pref 10 u32 \
-+		match ip dport "$LISP_PORT" 0xffff match ip tos 0x42 0xff \
-+		match u8 5 0xff at 8 action pass
-+	tc -n "$core" filter add dev c2 egress protocol ip pref 10 u32 \
-+		match ip dport "$LISP_PORT" 0xffff match ip tos 0x02 0x03 \
-+		action pedit ex munge ip tos set 0x03 retain 0x03 \
-+		pipe action csum ip4h
-+	tc -n "$h2" filter add dev eth0 ingress protocol ip pref 10 u32 \
-+		match ip protocol 1 0xff match ip tos 0x43 0xff \
-+		match u8 3 0xff at 8 action pass
-+	tc -n "$h2" filter add dev eth0 ingress protocol ipv6 pref 11 u32 \
-+		match ip6 protocol 58 0xff match ip6 priority 0x43 0xff \
-+		match u8 3 0xff at 7 action pass
-+
-+	h1_ping -Q 0x2a 10.2.0.2
-+	check_err $? "no answer from the IPv4 EID"
-+	h1_ping -Q 0x2a fd00:2::2
-+	check_err $? "no answer from the IPv6 EID"
-+
-+	(( $(core_packets 10) == 2 ))
-+	check_err $? \
-+		"the outer header did not get the TTL and DSCP of the nexthop"
-+	(( $(h2_packets 10) == 1 ))
-+	check_err $? "the IPv4 packet did not get the outer TTL, DSCP and ECN"
-+	(( $(h2_packets 11) == 1 ))
-+	check_err $? "the IPv6 packet did not get the outer TTL, DSCP and ECN"
-+
-+	tc -n "$core" filter del dev c1 ingress pref 10
-+	tc -n "$core" filter del dev c2 egress pref 10
-+	tc -n "$h2" filter del dev eth0 ingress pref 10
-+	tc -n "$h2" filter del dev eth0 ingress pref 11
-+	use_rlocs 4
-+	ip -n "$x1" nexthop del id "$NH_FIELDS"
-+	log_test "TTL and DSCP of the nexthop, congestion marked by the core"
-+}
-+
-+mtu_test()
-+{
-+	local family
-+
-+	for family in 4 6; do
-+		RET=0
-+		use_rlocs "$family"
-+
-+		h1_ping -M "do" -s 1416 10.2.0.2
-+		check_err $? "an IPv4 packet of 1444 bytes is lost"
-+		h1_ping -M "do" -s 1417 10.2.0.2
-+		check_fail $? "an IPv4 packet of 1445 bytes goes through"
-+		h1_ping -s 1396 fd00:2::2
-+		check_err $? "an IPv6 packet of 1444 bytes is lost"
-+		h1_ping -s 1397 fd00:2::2
-+		check_fail $? "an IPv6 packet of 1445 bytes goes through"
-+		h1_ping -s 3000 10.2.0.2
-+		check_err $? "IPv4 fragments are lost"
-+
-+		log_test "Device MTU with IPv$family RLOCs"
-+
-+		# The next pass must not start from the path MTU of this one.
-+		ip -n "$h1" route flush cache
-+		ip -n "$h1" -6 route flush cache
-+	done
-+
-+	use_rlocs 4
-+}
-+
-+pmtu_family_test()
-+{
-+	local family=$1; shift
-+	local hlen=$1; shift
-+	local mtu=$((1400 - hlen))
-+
-+	RET=0
-+	use_rlocs "$family"
-+
-+	h1_ping -M "do" -s 1372 10.2.0.2
-+	check_fail $? "a packet goes through a path that is too small"
-+	h1_ping -M "do" -s 1372 10.2.0.2
-+	check_fail $? "a packet goes through a path that is known as too small"
-+	ip -n "$h1" route get 10.2.0.2 | grep -qw "mtu $mtu"
-+	check_err $? "no IPv4 path MTU of $mtu on the host"
-+	h1_ping -M "do" -s $((mtu - 28)) 10.2.0.2
-+	check_err $? "an IPv4 packet of the path MTU is lost"
-+
-+	h1_ping -s 1352 fd00:2::2
-+	check_fail $? "an IPv6 packet goes through a path that is too small"
-+	ip -n "$h1" -6 route get fd00:2::2 | grep -qw "mtu $mtu"
-+	check_err $? "no IPv6 path MTU of $mtu on the host"
-+	h1_ping -s $((mtu - 48)) fd00:2::2
-+	check_err $? "an IPv6 packet of the path MTU is lost"
-+
-+	log_test "Path MTU with IPv$family RLOCs"
-+
-+	ip -n "$h1" route flush cache
-+	ip -n "$h1" -6 route flush cache
-+	ip -n "$x1" route flush cache
-+	ip -n "$x1" -6 route flush cache
-+}
-+
-+frag_family_test()
-+{
-+	local family=$1; shift
-+
-+	RET=0
-+	use_rlocs "$family"
-+
-+	# x1 learns the path MTU to the RLOC with a first packet.
-+	h1_ping -s 1232 fd00:2::2
-+	h1_ping -s 1232 fd00:2::2
-+	check_err $? "an IPv6 packet of 1280 bytes is lost"
-+	h1_ping -s 1233 fd00:2::2
-+	check_fail $? "an IPv6 packet of 1281 bytes goes through"
-+	ip -n "$h1" -6 route get fd00:2::2 | grep -qw "mtu 1280"
-+	check_err $? "no IPv6 path MTU of 1280 on the host"
-+
-+	log_test "Path that leaves less than 1280 bytes, IPv$family RLOCs"
-+
-+	ip -n "$h1" -6 route flush cache
-+	ip -n "$x1" route flush cache
-+	ip -n "$x1" -6 route flush cache
-+}
-+
-+pmtu_test()
-+{
-+	ip -n "$core" link set c2 mtu 1400
-+	ip -n "$x2" link set eth1 mtu 1400
-+
-+	pmtu_family_test 4 36
-+	pmtu_family_test 6 56
-+
-+	ip -n "$core" link set c2 mtu 1300
-+	ip -n "$x2" link set eth1 mtu 1300
-+
-+	frag_family_test 4
-+	frag_family_test 6
-+
-+	ip -n "$core" link set c2 mtu 1500
-+	ip -n "$x2" link set eth1 mtu 1500
-+	use_rlocs 4
-+}
-+
-+multipath_test()
-+{
-+	local before4
-+	local before6
-+	local i
-+
-+	RET=0
-+
-+	for i in $(seq 16 47); do
-+		ip -n "$h2" addr add "10.2.0.$i/24" dev eth0
-+	done
-+	ip -n "$x1" nexthop add id "$NH_GROUP" group "$NH4"/"$NH6"
-+	ip -n "$x1" route replace 10.2.0.0/24 vrf site nhid "$NH_GROUP"
-+
-+	before4=$(core_packets 4)
-+	before6=$(core_packets 6)
-+	for i in $(seq 16 47); do
-+		h1_ping "10.2.0.$i"
-+		check_err $? "no answer from 10.2.0.$i"
-+	done
-+
-+	(( $(core_packets 4) > before4 ))
-+	check_err $? "nothing was sent to the IPv4 RLOC of the group"
-+	(( $(core_packets 6) > before6 ))
-+	check_err $? "nothing was sent to the IPv6 RLOC of the group"
-+	(( $(core_packets 4) + $(core_packets 6) - before4 - before6 == 32 ))
-+	check_err $? "packets were not sent once"
-+
-+	# The group counts what it sends to each RLOC.
-+	(( $(ip -n "$x1" -j -s nexthop show id "$NH_GROUP" |
-+	     jq --argjson id "$NH4" \
-+	     '.[0].group_stats[] | select(.id == $id) | .packets') ==
-+	   $(core_packets 4) - before4 ))
-+	check_err $? "unexpected count of the packets sent to the IPv4 RLOC"
-+	(( $(ip -n "$x1" -j -s nexthop show id "$NH_GROUP" |
-+	     jq --argjson id "$NH6" \
-+	     '.[0].group_stats[] | select(.id == $id) | .packets') ==
-+	   $(core_packets 6) - before6 ))
-+	check_err $? "unexpected count of the packets sent to the IPv6 RLOC"
-+
-+	use_rlocs 4
-+	ip -n "$x1" nexthop del id "$NH_GROUP"
-+	for i in $(seq 16 47); do
-+		ip -n "$h2" addr del "10.2.0.$i/24" dev eth0
-+	done
-+	log_test "Group of nexthops"
-+}
-+
-+# Another instance uses the same sockets: a device in another VRF of x1, and
-+# the device that collects metadata on x2, where the routes give the instance
-+# ID.
-+instance_test()
-+{
-+	local rx_before
-+	local tx_errors
-+	local family
-+	local addr
-+
-+	RET=0
-+
-+	ip -n "$x1" link add link wan name lisp102 type lisp id 102
-+	ip -n "$x1" link set lisp102 master site2 up
-+	ip -n "$x1" addr add 10.9.1.1/32 dev lisp102
-+	ip -n "$x1" addr add fd00:91::1/128 dev lisp102 nodad
-+
-+	ip -n "$x2" link add lispmd type lisp external
-+	ip -n "$x2" link set lispmd up
-+	ip -n "$x2" link add dummy0 type dummy
-+	ip -n "$x2" link set dummy0 up
-+	ip -n "$x2" addr add 10.9.2.1/24 dev dummy0
-+	ip -n "$x2" addr add fd00:92::1/64 dev dummy0 nodad
-+	tc -n "$x2" qdisc add dev lispmd clsact
-+
-+	for family in 4 6; do
-+		if [[ $family == 4 ]]; then
-+			ip -n "$x1" -6 nexthop add id "$NH_INSTANCE" encap ip \
-+				dst "$X2_RLOC4" dev lisp102
-+			ip -n "$x2" -6 nexthop add id "$NH_INSTANCE" encap ip \
-+				id 102 dst "$X1_RLOC4" dev lispmd
-+			tc -n "$x2" filter add dev lispmd ingress pref 1 \
-+				flower enc_key_id 102 enc_src_ip "$X1_RLOC4" \
-+				action pass
-+		else
-+			ip -n "$x1" -6 nexthop replace id "$NH_INSTANCE" \
-+				encap ip6 dst "$X2_RLOC6" dev lisp102
-+			ip -n "$x2" -6 nexthop replace id "$NH_INSTANCE" \
-+				encap ip6 id 102 dst "$X1_RLOC6" dev lispmd
-+			tc -n "$x2" filter add dev lispmd ingress pref 1 \
-+				flower enc_key_id 102 enc_src_ip "$X1_RLOC6" \
-+				action pass
-+		fi
-+		ip -n "$x1" route replace 10.9.2.0/24 vrf site2 \
-+			nhid "$NH_INSTANCE"
-+		ip -n "$x1" -6 route replace fd00:92::/64 vrf site2 \
-+			nhid "$NH_INSTANCE"
-+		ip -n "$x2" route replace 10.9.1.0/24 nhid "$NH_INSTANCE"
-+		ip -n "$x2" -6 route replace fd00:91::/64 nhid "$NH_INSTANCE"
-+
-+		rx_before=$(link_stat "$x1" lisp101 .rx.packets)
-+		for addr in 10.9.2.1 fd00:92::1; do
-+			ip netns exec "$x1" ping -q -c 1 -W 2 -I site2 "$addr" \
-+				> /dev/null 2>&1
-+			check_err $? \
-+				"no answer from $addr with IPv$family RLOCs"
-+		done
-+
-+		(( $(tc_packets "$x2" lispmd 1) == 2 ))
-+		check_err $? "no metadata with IPv$family RLOCs"
-+		(( $(link_stat "$x1" lisp101 .rx.packets) == rx_before ))
-+		check_err $? "packets received by another instance"
-+
-+		tc -n "$x2" filter del dev lispmd ingress pref 1
-+	done
-+
-+	h1_ping 10.2.0.2
-+	check_err $? "the first instance is lost"
-+
-+	# An instance ID that does not fit the header: the device refuses it.
-+	ip -n "$x2" -6 route del fd00:91::/64
-+	ip -n "$x2" -6 nexthop replace id "$NH_INSTANCE" encap ip id 16777216 \
-+		dst "$X1_RLOC4" dev lispmd
-+	tx_errors=$(link_stat "$x2" lispmd .tx.errors)
-+	ip netns exec "$x2" ping -q -c 1 -W 1 10.9.1.1 > /dev/null 2>&1
-+	check_fail $? "an instance ID of 25 bits is sent"
-+	(( $(link_stat "$x2" lispmd .tx.errors) == tx_errors + 1 ))
-+	check_err $? "an instance ID of 25 bits is not refused by the device"
-+
-+	ip -n "$x2" route del 10.9.1.0/24
-+	ip -n "$x2" nexthop del id "$NH_INSTANCE"
-+	ip -n "$x2" link del dummy0
-+	ip -n "$x2" link del lispmd
-+	ip -n "$x1" link del lisp102
-+	log_test "Instances with a device each and with metadata"
-+}
-+
-+receive_test()
-+{
-+	local frame_errors
-+	local length_errors
-+	local rx
-+
-+	RET=0
-+
-+	rx=$(link_stat "$x1" lisp101 .rx.packets)
-+	frame_errors=$(link_stat "$x1" lisp101 .rx.frame_errors)
-+	length_errors=$(link_stat "$x1" lisp101 .rx.length_errors)
-+
-+	# Neither IPv4 nor IPv6 after the header.
-+	core_send '\x08\x00\x00\x00\x00\x00\x65\x00\x00\x00\x00\x00'
-+	busywait "$BUSYWAIT_TIMEOUT" until_counter_is \
-+		"== $((frame_errors + 1))" \
-+		link_stat "$x1" lisp101 .rx.frame_errors > /dev/null
-+	check_err $? "a payload of an unknown version is not counted"
-+
-+	# An IPv4 header that is cut.
-+	core_send '\x08\x00\x00\x00\x00\x00\x65\x00\x45\x00\x00\x00'
-+	busywait "$BUSYWAIT_TIMEOUT" until_counter_is \
-+		"== $((length_errors + 1))" \
-+		link_stat "$x1" lisp101 .rx.length_errors > /dev/null
-+	check_err $? "a short payload is not counted"
-+
-+	# An encrypted payload, an unknown instance, and no instance.
-+	core_send '\x09\x00\x00\x00\x00\x00\x65\x00\x00\x00\x00\x00'
-+	core_send '\x08\x00\x00\x00\x00\x00\x66\x00\x00\x00\x00\x00'
-+	core_send '\x00\x00\x00\x00\x00\x00\x65\x00\x00\x00\x00\x00'
-+	core_send '\x08\x00\x00\x00\x00\x00\x65\x00\x00\x00\x00\x00'
-+	busywait "$BUSYWAIT_TIMEOUT" until_counter_is \
-+		"== $((frame_errors + 2))" \
-+		link_stat "$x1" lisp101 .rx.frame_errors > /dev/null
-+	check_err $? "packets of other instances are counted"
-+
-+	# Without the I flag, the instance is 0.
-+	ip -n "$x1" link add link wan name lisp0 type lisp id 0
-+	ip -n "$x1" link set lisp0 up
-+	core_send '\x00\x00\x00\x00\xff\xff\xff\xff\x00\x00\x00\x00'
-+	busywait "$BUSYWAIT_TIMEOUT" until_counter_is "== 1" \
-+		link_stat "$x1" lisp0 .rx.frame_errors > /dev/null
-+	check_err $? "a packet without instance ID is not for the instance 0"
-+	ip -n "$x1" link del lisp0
-+
-+	(( $(link_stat "$x1" lisp101 .rx.packets) == rx ))
-+	check_err $? "packets were received"
-+
-+	# A route without RLOC.
-+	ip -n "$x1" route add 10.3.0.0/24 vrf site dev lisp101
-+	rx=$(link_stat "$x1" lisp101 .tx.errors)
-+	h1_ping -W 1 10.3.0.1
-+	(( $(link_stat "$x1" lisp101 .tx.errors) == rx + 1 ))
-+	check_err $? "a packet without RLOC is not counted"
-+	ip -n "$x1" route del 10.3.0.0/24 vrf site
-+
-+	log_test "Packets that are dropped"
-+}
-+
-+# the reverse path filter of IPv4 dropped on x1
-+x1_filtered()
-+{
-+	ip netns exec "$x1" nstat -asz TcpExtIPReversePathFilter |
-+		awk '$1 == "TcpExtIPReversePathFilter" { print $2 }'
-+}
-+
-+h1_echos()
-+{
-+	ip netns exec "$h1" nstat -asz IcmpInEchos |
-+		awk '$1 == "IcmpInEchos" { print $2 }'
-+}
-+
-+rpfilter_test()
-+{
-+	local filtered
-+	local echos
-+	local all
-+
-+	RET=0
-+
-+	use_rlocs 4
-+	all=$(ip netns exec "$x1" sysctl -n net.ipv4.conf.all.rp_filter)
-+	ip netns exec "$x1" sysctl -qw net.ipv4.conf.all.rp_filter=0
-+	ip netns exec "$x1" sysctl -qw net.ipv4.conf.lisp101.rp_filter=1
-+
-+	h2_ping 10.1.0.2
-+	check_err $? "a source is dropped, whose route sends to the device"
-+
-+	# The route of the source has another RLOC than the one of x2.
-+	ip -n "$x1" -6 nexthop add id "$NH_OTHER" encap ip dst "$OTHER_RLOC4" \
-+		dev lisp101
-+	ip -n "$x1" route replace 10.2.0.0/24 vrf site nhid "$NH_OTHER"
-+	echos=$(h1_echos)
-+	h2_ping 10.1.0.2
-+	busywait "$BUSYWAIT_TIMEOUT" until_counter_is "== $((echos + 1))" \
-+		h1_echos > /dev/null
-+	check_err $? "a source is dropped for the RLOC that it comes from"
-+
-+	ip -n "$x1" link add nomap type dummy
-+	ip -n "$x1" link set nomap master site up
-+	ip -n "$x1" route replace 10.2.0.0/24 vrf site dev nomap
-+	filtered=$(x1_filtered)
-+	h2_ping 10.1.0.2
-+	busywait "$BUSYWAIT_TIMEOUT" until_counter_is "== $((filtered + 1))" \
-+		x1_filtered > /dev/null
-+	check_err $? "a source without mapping is not dropped by the filter"
-+
-+	ip netns exec "$x1" sysctl -qw net.ipv4.conf.lisp101.rp_filter=0
-+	echos=$(h1_echos)
-+	h2_ping 10.1.0.2
-+	busywait "$BUSYWAIT_TIMEOUT" until_counter_is "== $((echos + 1))" \
-+		h1_echos > /dev/null
-+	check_err $? "a source without mapping is dropped without the filter"
-+
-+	ip netns exec "$x1" sysctl -qw net.ipv4.conf.all.rp_filter="$all"
-+	ip -n "$x1" link del nomap
-+	ip -n "$x1" nexthop del id "$NH_OTHER"
-+	use_rlocs 4
-+	h2_ping 10.1.0.2
-+	check_err $? "no connectivity after the test"
-+
-+	log_test "Reverse path filter on a device"
-+}
-+
-+updown_test()
-+{
-+	RET=0
-+
-+	ip -n "$x1" link add link wan name lisp102 type lisp id 102
-+	ip -n "$x1" link set lisp102 up
-+	ip -n "$x1" link set lisp101 down
-+	h1_ping -W 1 10.2.0.2
-+	check_fail $? "an answer through a device that is down"
-+
-+	ip -n "$x1" nexthop show id "$NH4" > /dev/null 2>&1
-+	check_fail $? "a nexthop outlives its device"
-+	ip -n "$x1" link set lisp101 up
-+	ip -n "$x1" -6 nexthop add id "$NH4" encap ip dst "$X2_RLOC4" \
-+		dev lisp101
-+	ip -n "$x1" -6 nexthop add id "$NH6" encap ip6 dst "$X2_RLOC6" \
-+		dev lisp101
-+	use_rlocs 4
-+	ip -n "$x1" link del lisp102
-+	h1_ping 10.2.0.2
-+	check_err $? "no answer once the device is up again"
-+
-+	ip -n "$x1" link set lisp101 down
-+	ip -n "$x1" link set lisp101 up
-+	ip -n "$x1" -6 nexthop add id "$NH4" encap ip dst "$X2_RLOC4" \
-+		dev lisp101
-+	ip -n "$x1" -6 nexthop add id "$NH6" encap ip6 dst "$X2_RLOC6" \
-+		dev lisp101
-+	use_rlocs 4
-+	h1_ping fd00:2::2
-+	check_err $? "no answer with a new socket"
-+
-+	log_test "Devices going down and up"
-+}
-+
-+tcp_family_test()
-+{
-+	local family=$1; shift
-+	local addr=$1; shift
-+	local pid
-+
-+	ip netns exec "$h2" timeout "$TCP_TIMEOUT" socat -u \
-+		"TCP$family-LISTEN:$TCP_PORT,reuseaddr" \
-+		"OPEN:$TCP_FILE.out,creat,trunc" &
-+	pid=$!
-+	wait_local_port_listen "$h2" "$TCP_PORT" tcp
-+	if ip netns exec "$h1" timeout "$TCP_TIMEOUT" \
-+			socat -u "OPEN:$TCP_FILE" \
-+			"TCP$family:$addr:$TCP_PORT"; then
-+		wait "$pid"
-+		check_err $? "the listener of $addr did not end"
-+	else
-+		check_err 1 "no TCP connection to $addr"
-+		kill_process "$pid"
-+	fi
-+
-+	cmp -s "$TCP_FILE" "$TCP_FILE.out"
-+	check_err $? "the data sent to $addr is not what was received"
-+}
-+
-+tcp_test()
-+{
-+	local family
-+
-+	if ! command -v socat > /dev/null; then
-+		log_test_skip "TCP" "socat not installed"
-+		return
-+	fi
-+
-+	TCP_FILE=$(mktemp)
-+	head -c 16M /dev/urandom > "$TCP_FILE"
-+
-+	for family in 4 6; do
-+		RET=0
-+		use_rlocs "$family"
-+		tcp_family_test 4 10.2.0.2
-+		tcp_family_test 6 "[fd00:2::2]"
-+		log_test "TCP with IPv$family RLOCs"
-+	done
-+	use_rlocs 4
-+}
-+
-+# Two xTRs whose EIDs and RLOCs are in two routing domains with the same
-+# addresses: the EID of an xTR is the RLOC of the other one. A packet and its
-+# outer header have then the same addresses, the other way around, and they
-+# only reach their destinations when each one is routed in its own domain.
-+CROSS_A4=192.0.2.9
-+CROSS_A6=2001:db8:3::1
-+CROSS_B4=192.0.2.10
-+CROSS_B6=2001:db8:3::2
-+
-+cross_nexthops()
-+{
-+	local ns=$1; shift
-+	local rloc4=$1; shift
-+	local rloc6=$1; shift
-+
-+	ip -n "$ns" -6 nexthop add id "$NH4" encap ip dst "$rloc4" dev lisp0
-+	ip -n "$ns" -6 nexthop add id "$NH6" encap ip6 dst "$rloc6" dev lisp0
-+}
-+
-+cross_routes()
-+{
-+	local ns=$1; shift
-+	local nh=$1; shift
-+	local eid4=$1; shift
-+	local eid6=$1; shift
-+
-+	ip -n "$ns" route replace "$eid4/32" "$@" nhid "$nh"
-+	ip -n "$ns" -6 route replace "$eid6/128" "$@" nhid "$nh"
-+}
-+
-+cross_ping()
-+{
-+	local ns=$1; shift
-+	local eid4=$1; shift
-+	local eid6=$1; shift
-+	local before
-+
-+	before=$(link_stat "$ns" lisp0 .rx.packets)
-+	ip netns exec "$ns" ping -q -c 1 -W 2 "$@" "$eid4" > /dev/null 2>&1
-+	check_err $? "no answer from the EID $eid4"
-+	ip netns exec "$ns" ping -q -c 1 -W 2 "$@" "$eid6" > /dev/null 2>&1
-+	check_err $? "no answer from the EID $eid6"
-+	(( $(link_stat "$ns" lisp0 .rx.packets) == before + 2 ))
-+	check_err $? "the answers did not come through the LISP device"
-+}
-+
-+# The first xTR has its EIDs in a VRF and its RLOCs in the main table, the
-+# second one has its RLOCs in a VRF and its EIDs in the main table.
-+#
-+#   y1                                           y2
-+#   VRF "eid", lisp0: B4, B6 ................... lisp0: A4, A6
-+#   eth0: A4, A6 ------------------------------- VRF "rloc", eth0: B4, B6
-+cross_vrf_test()
-+{
-+	local family
-+	local before
-+	local ns
-+	local nh
-+	local msg="EIDs and RLOCs in a VRF and the main table"
-+
-+	setup_ns y1 y2
-+	ip link add eth0 netns "$y1" type veth peer name eth0 netns "$y2"
-+
-+	for ns in "$y1" "$y2"; do
-+		ip -n "$ns" rule add pref 32765 table local
-+		ip -n "$ns" rule del pref 0
-+		ip -n "$ns" -6 rule add pref 32765 table local
-+		ip -n "$ns" -6 rule del pref 0
-+	done
-+
-+	ip -n "$y1" link set eth0 up
-+	ip -n "$y1" addr add "$CROSS_A4"/30 dev eth0
-+	ip -n "$y1" addr add "$CROSS_A6"/64 dev eth0 nodad
-+	ip -n "$y1" link add eid type vrf table 10
-+	ip -n "$y1" link set eid up
-+	ip -n "$y1" link add lisp0 type lisp id 7
-+	ip -n "$y1" link set lisp0 master eid up
-+	ip -n "$y1" addr add "$CROSS_B4"/32 dev lisp0
-+	ip -n "$y1" addr add "$CROSS_B6"/128 dev lisp0 nodad
-+	cross_nexthops "$y1" "$CROSS_B4" "$CROSS_B6"
-+
-+	ip -n "$y2" link add rloc type vrf table 10
-+	ip -n "$y2" link set rloc up
-+	ip -n "$y2" link set eth0 master rloc up
-+	ip -n "$y2" addr add "$CROSS_B4"/30 dev eth0
-+	ip -n "$y2" addr add "$CROSS_B6"/64 dev eth0 nodad
-+	ip -n "$y2" link add link rloc name lisp0 type lisp id 7
-+	ip -n "$y2" link set lisp0 up
-+	ip -n "$y2" addr add "$CROSS_A4"/32 dev lisp0
-+	ip -n "$y2" addr add "$CROSS_A6"/128 dev lisp0 nodad
-+	cross_nexthops "$y2" "$CROSS_A4" "$CROSS_A6"
-+
-+	for family in 4 6; do
-+		RET=0
-+		nh=NH$family
-+		cross_routes "$y1" "${!nh}" "$CROSS_A4" "$CROSS_A6" vrf eid
-+		cross_routes "$y2" "${!nh}" "$CROSS_B4" "$CROSS_B6"
-+
-+		cross_ping "$y1" "$CROSS_A4" "$CROSS_A6" -I eid
-+		cross_ping "$y2" "$CROSS_B4" "$CROSS_B6"
-+
-+		# In the main table of y1, the same addresses are the RLOCs
-+		# of y2, which answer without LISP.
-+		before=$(link_stat "$y1" lisp0 .tx.packets)
-+		ip netns exec "$y1" ping -q -c 1 -W 2 "$CROSS_B4" \
-+			> /dev/null 2>&1
-+		check_err $? "no answer from the RLOC $CROSS_B4"
-+		ip netns exec "$y1" ping -q -c 1 -W 2 "$CROSS_B6" \
-+			> /dev/null 2>&1
-+		check_err $? "no answer from the RLOC $CROSS_B6"
-+		(( $(link_stat "$y1" lisp0 .tx.packets) == before ))
-+		check_err $? "packets for an RLOC were sent to the LISP device"
-+
-+		log_test "$msg, IPv$family RLOCs"
-+	done
-+
-+	cleanup_ns "$y1" "$y2"
-+}
-+
-+# Both xTRs have their EIDs in a netns and their RLOCs in another one. The
-+# netns of the EIDs has no other device than the LISP one.
-+#
-+#   ain                                          bin
-+#   lisp0: B4, B6 .............................. lisp0: A4, A6
-+#   aout                                         bout
-+#   eth0: A4, A6 ------------------------------- eth0: B4, B6
-+cross_netns_test()
-+{
-+	local family
-+	local nh
-+
-+	setup_ns ain aout bin bout
-+	ip link add eth0 netns "$aout" type veth peer name eth0 netns "$bout"
-+
-+	ip -n "$aout" link set eth0 up
-+	ip -n "$aout" addr add "$CROSS_A4"/30 dev eth0
-+	ip -n "$aout" addr add "$CROSS_A6"/64 dev eth0 nodad
-+	ip -n "$ain" link add lisp0 link-netns "$aout" type lisp id 8
-+	ip -n "$ain" link set lisp0 up
-+	ip -n "$ain" addr add "$CROSS_B4"/32 dev lisp0
-+	ip -n "$ain" addr add "$CROSS_B6"/128 dev lisp0 nodad
-+	cross_nexthops "$ain" "$CROSS_B4" "$CROSS_B6"
-+
-+	ip -n "$bout" link set eth0 up
-+	ip -n "$bout" addr add "$CROSS_B4"/30 dev eth0
-+	ip -n "$bout" addr add "$CROSS_B6"/64 dev eth0 nodad
-+	ip -n "$bin" link add lisp0 link-netns "$bout" type lisp id 8
-+	ip -n "$bin" link set lisp0 up
-+	ip -n "$bin" addr add "$CROSS_A4"/32 dev lisp0
-+	ip -n "$bin" addr add "$CROSS_A6"/128 dev lisp0 nodad
-+	cross_nexthops "$bin" "$CROSS_A4" "$CROSS_A6"
-+
-+	for family in 4 6; do
-+		RET=0
-+		nh=NH$family
-+		cross_routes "$ain" "${!nh}" "$CROSS_A4" "$CROSS_A6"
-+		cross_routes "$bin" "${!nh}" "$CROSS_B4" "$CROSS_B6"
-+
-+		cross_ping "$ain" "$CROSS_A4" "$CROSS_A6"
-+		cross_ping "$bin" "$CROSS_B4" "$CROSS_B6"
-+
-+		log_test "EIDs and RLOCs in two netns, IPv$family RLOCs"
-+	done
-+
-+	cleanup_ns "$ain" "$aout" "$bin" "$bout"
-+}
-+
-+netns_test()
-+{
-+	local port
-+
-+	RET=0
-+	port=$(printf ':%04X' "$LISP_PORT")
-+
-+	setup_ns eid rloc
-+	ip -n "$eid" link add lisp0 link-netns "$rloc" type lisp id 5
-+	check_err $? "no device with a link netns"
-+	ip -n "$eid" link set lisp0 up
-+	ip -n "$eid" -d link show dev lisp0 | grep -q link-netns
-+	check_err $? "the link netns is not reported"
-+	ip netns exec "$rloc" grep -q "$port " /proc/net/udp /proc/net/udp6
-+	check_err $? "no socket in the link netns"
-+	ip netns exec "$eid" grep -q "$port " /proc/net/udp /proc/net/udp6
-+	check_fail $? "a socket in the netns of the device"
-+
-+	cleanup_ns "$rloc"
-+	busywait "$BUSYWAIT_TIMEOUT" bash -c \
-+		"! ip -n $eid link show dev lisp0 > /dev/null 2>&1"
-+	check_err $? "the device outlives the netns of its RLOCs"
-+	cleanup_ns "$eid"
-+
-+	log_test "RLOCs in another netns"
-+}
-+
-+################################################################################
-+# Main
-+
-+require_command jq
-+
-+if ! ip link help lisp 2>&1 | grep -q "^Usage: ... lisp"; then
-+	echo "SKIP: iproute2 does not know the lisp devices"
-+	exit "$ksft_skip"
-+fi
-+
-+trap cleanup EXIT
-+
-+setup_ns probe
-+out=$(ip -n "$probe" link add lisp0 type lisp id 1 2>&1)
-+if [[ $out == *"Unknown device type"* ]]; then
-+	echo "SKIP: the kernel does not have the lisp devices (CONFIG_LISP)"
-+	exit "$ksft_skip"
-+fi
-+cleanup_ns "$probe"
-+
-+if ! setup; then
-+	echo "FAIL: the setup of the test failed"
-+	exit "$ksft_fail"
-+fi
-+
-+tests_run
-+
-+exit "$EXIT_STATUS"
+set -e
 
--- 
-2.43.0
+WORK=$(mktemp -d)
+persistent_handle=
+TPM2_KEY=
+X509_KEY=
+cleanup()
+{
+  rc=$?
+  if [ -n "$TPM2_KEY" ]; then
+    keyctl unlink "$TPM2_KEY" @s >/dev/null 2>&1 || true
+  fi
+  if [ -n "$X509_KEY" ]; then
+    keyctl unlink "$X509_KEY" @s >/dev/null 2>&1 || true
+  fi
+  rm -rf "$WORK"
+  if [ -n "$persistent_handle" ]; then
+    tpm2sh delete "$persistent_handle" || true
+  fi
+  exit "$rc"
+}
+trap cleanup EXIT
 
+openssl ecparam -genkey -name prime256v1 -noout -out "$WORK/ec_key.pem"
 
+handle=$(tpm2sh create-primary ecc-nist-p256:sha256)
+tpm2sh evict "$handle" 81000001
+persistent_handle=81000001
+
+tpm2sh import --loadable 81000001 \
+  -I "$WORK/ec_key.pem" \
+  -O "$WORK/tpm2_key.pem"
+openssl asn1parse -inform pem -in "$WORK/tpm2_key.pem" \
+  -noout -out "$WORK/tpm2_key.der"
+TPM2_HEX=$(od -An -tx1 "$WORK/tpm2_key.der" | tr -d ' \n')
+
+openssl req -new -x509 -key "$WORK/ec_key.pem" \
+  -out "$WORK/cert.pem" -days 1 \
+  -subj "/CN=tpm2_asymmetric_test" -sha256
+openssl x509 -in "$WORK/cert.pem" -outform der -out "$WORK/cert.der"
+
+TPM2_KEY=$(keyctl add trusted "tpm2_asymmetric" "load $TPM2_HEX" @s)
+X509_KEY=$(keyctl padd asymmetric "x509_ecdsa" @s < "$WORK/cert.der")
+
+keyctl pkey_query "$TPM2_KEY" 0 enc=x962 hash=sha256 >/dev/null
+
+printf "tpm2 asymmetric cross-verification test data" > "$WORK/testdata"
+openssl dgst -sha256 -binary "$WORK/testdata" > "$WORK/hash.bin"
+
+keyctl pkey_sign "$TPM2_KEY" 0 "$WORK/hash.bin" enc=x962 hash=sha256 \
+  > "$WORK/sig_tpm.der"
+keyctl pkey_verify "$X509_KEY" 0 "$WORK/hash.bin" "$WORK/sig_tpm.der" \
+  enc=x962 hash=sha256
+echo "PASS: TPM2 key signed, X.509 key verified"
+
+openssl dgst -sha256 -sign "$WORK/ec_key.pem" \
+  -out "$WORK/sig_sw.der" "$WORK/testdata"
+keyctl pkey_verify "$TPM2_KEY" 0 "$WORK/hash.bin" "$WORK/sig_sw.der" \
+  enc=x962 hash=sha256
+echo "PASS: OpenSSL signed, TPM2 key verified"
+
+I should add RSA signing/encryption test to this tho (which is working but
+test cases are missing).
+
+Perhaps this could be used to derive a kselftest.
+
+Br, Jarkko
