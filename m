@@ -1,89 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795831880;
-	b=T+iwr+1M8HGCv2IKtpq8bcjVkxRLlfwhYhJxUyGTFJ9ZyDmNwg4vZUxdJd1VBF5szrgx
-	 BrrMHbeAmexWt13wu3bl1zBKz7RfIWdgX3Y9y9QnE4qh5FdHY6XO6x1ljnAinQm3/lj0q
-	 Pjc58XfQWlnp4jcs3mJBla6nvVJUwMJ+q8lxbqYWVpoBFe1ahjUeBgF2Pqh7pzN26rLQn
-	 sndTxfIbvTil/q5q1J3DYzCwoQzNkpLmUwsr2paEfn2QJVKAmHJP4goSalO6FozWM4+H3
-	 Dm6c9MA05Tjzkbwe5Cf9vmsXtxqBDBenSnTFu4bQ3j7P52YezaoMjjpvi5R+rMIBwnw==
+	t=1795835668;
+	b=iiaB1KBGIHk9u+Y4rk8bBmT/Q/5CYzc1GJPX4JCUdt9TmRYZfFI+qWesrF+wdRRV7gi2
+	 rrAuc2IDyd5pwWZ+9fBMnu+8EGc/NJ1wlvEHBWeOjf4nQzHfXk2GiIgT+kqogWKALMeYr
+	 jwtREIS3HV8ItUmPA2TmNwp0sn99vePVzjg4f7LeO5tNo0UmMnAP+fA3fULZbeym1LZ2E
+	 my7y4Vpo2Xlimcpglxm0YnmnhvyQFIY/4CKzCI3vzaeRPJJFdS5IFaqRudyh6zptJM2Og
+	 oJZnV5HROF9NPO2KxZ5o+fMOxq3WrslzTO7v2y/S5oTaW+BW6FLflgofqGjpZ7eNl6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795831880;
-	h=DMARC-Filter:X-UUID:X-CTIC-Tags:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:
-	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding;
-	bh=eOHjsspusfU6sZOt8ovIxCa3ef057Zof8I66FPeUQHg=;
-	b=LcgQOXqqEoFQAo//zDEM0wwG2jAYvM+exWyIyKRQOEcCL/vhIfd2gb6RTZ8GhQmG1Oty
-	 ZR9yRKm4eznwwuLBMjtq09k6NsQZodYiWJqQDONaMiGIfMexw7G9+3X1r+3R+n0IoI6WN
-	 56ZfTV6RqDAWK9dYwxF2yIVVgs+XsP+RBrNDpWglp+aFp/+jmc3qKjMxdGRdFFqOLmbv4
-	 Gr6cem8UF2SpoB7m69v8poH2CYVcxgvGrLG4JlIdSrRqEdfSiGzvEgfGJioY8x9lsltxy
-	 VZ7HwnEm4UGa3hngTypF+wm1bcI4srIbFvlJPrDPR/MggGmKq+GpcSPgQDTXRz81Xrw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795835668;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Subject:To:CC:
+	 References:From:Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+	 Content-Type:Content-Language:Content-Transfer-Encoding:
+	 X-Originating-IP:X-ClientProxiedBy;
+	bh=KTKPmpu7cQqp9OdU/3u1dQB38lywShDeIEXeWARcue8=;
+	b=MPqxMfI0fBBE2RQAry8HdueMttpMAB8tG0U6rZ6TcNAKZglxAyAJZwt3GuJwd39g1JWB
+	 G78lmN3+cKdE/kTTmhqjYOLd+G6aonuOY4u6xyPZbn+VcisJrJ10Y3JzKS4cCbLPise+d
+	 t4vcn262Cr0sojy2vFq4khsPlRm2vOSVIXUkdAqlnn+P8wSTMyD/c8f6diQTCBUzgU34T
+	 5IVqWr5SiGdTZxOPOxwiHyGk3Vl8M8Oxpnm8gXBdGFWn5jHGoGu454lxUFy9HZkpZ1gqc
+	 bneGn/J9WoCXZWjcFurx/h72nawLgb5anzivLBDBKVl8dVgfzrQbM8LFyj5sDUE15eg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=na6IyvOs;
+	arc=none smtp.remote-ip=113.46.200.220
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A11606A31E;
-	Sat, 28 Nov 2026 02:11:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0A11606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: fb349518ead011f19a56ed5b684f684d-20261128
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_PRE_RE, HR_SJ_WS, HR_TO_COUNT
-	HR_TO_DOMAIN_COUNT, HR_TO_NAME, SA_TRUSTED, SA_EXISTED, SN_TRUSTED
-	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD
-	CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
-	AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:0cde317f-f4de-4d2a-8a57-9c6acc0b0e1b,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:10
-X-CID-INFO: VERSION:1.3.19,REQID:0cde317f-f4de-4d2a-8a57-9c6acc0b0e1b,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:10
-X-CID-META: VersionHash:7db8b62,CLOUDID:bc5cb7b1ca9e9edd1da1829313e35cfc,BulkI
-	D:26112810111476XI8E8K,BulkQuantity:0,SF:17|19|64|66|78|80|81|82|83|102|12
-	7|153|841|850|865|898|915,TC:nil,Content:0|15|50|99|300|310,EDM:-3,IP:-2,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: fb349518ead011f19a56ed5b684f684d-20261128
-X-User: maguicai@kylinos.cn
-Received: from localhost.localdomain [(36.106.123.207)] by mailgw.kylinos.cn
-	(envelope-from <maguicai@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 331505988; Sat, 28 Nov 2026 10:11:11 +0800
-From: Guicai Ma <maguicai@kylinos.cn>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: Guicai Ma <maguicai@kylinos.cn>,
-	keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	David Howells <dhowells@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jann Horn <jannh@google.com>
-Subject: Re: [PATCH v4 2/2] KEYS: Reject keyring creation with overridden credentials
-Date: Fri, 27 Nov 2026 21:11:08 -0500
-Message-ID: <20261128021108.3171324-1-maguicai@kylinos.cn>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261127121433.2400766-2-jarkko@kernel.org>
-References: <20261127121433.2400766-1-jarkko@kernel.org> <20261127121433.2400766-2-jarkko@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBF5606A31F;
+	Sat, 28 Nov 2026 03:14:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCBF5606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=na6IyvOs
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=KTKPmpu7cQqp9OdU/3u1dQB38lywShDeIEXeWARcue8=;
+	b=na6IyvOsUpAhRUvw5wJnlVmOZKwpv4u7S6ZFdiwUVU7aJuyZBUXKW+lpp5xZRI3qEPLqWRbgG
+	kz0oEqWY6ghGjwbDxUbm/zLdpiPSbDMcSuFJ1tiNx4TAbHIzwwT82F2xecmJZ4POLREdUtv0zpK
+	0mx4Pxf0e4m+Ze/0a3pN7XU=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4jbwNB54phz12LCv;
+	Sat, 28 Nov 2026 11:13:30 +0800 (CST)
+Received: from whupemk100004.china.huawei.com (unknown [7.152.185.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 46203202E6;
+	Sat, 28 Nov 2026 11:14:17 +0800 (CST)
+Received: from [10.173.98.163] (10.173.98.163) by
+ whupemk100004.china.huawei.com (7.152.185.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Sat, 28 Nov 2026 11:14:14 +0800
+Subject: Re: [PATCH v4 1/3] mm: memfd/hugetlb: memfd-based userspace HugeTLB
+ MFR policy
+To: Jiaqi Yan <jiaqiyan@google.com>
+CC: <nao.horiguchi@gmail.com>, <william.roche@oracle.com>, <ljs@kernel.org>,
+	<vbabka@kernel.org>, <tony.luck@intel.com>, <wangkefeng.wang@huawei.com>,
+	<willy@infradead.org>, <akpm@linux-foundation.org>, <osalvador@suse.de>,
+	<rientjes@google.com>, <duenwen@google.com>, <jthoughton@google.com>,
+	<jgg@nvidia.com>, <ankita@nvidia.com>, <peterx@redhat.com>,
+	<sidhartha.kumar@oracle.com>, <ziy@nvidia.com>, <skhan@linuxfoundation.org>,
+	<corbet@lwn.net>, <david@kernel.org>, <dave.hansen@linux.intel.com>,
+	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>, Muchun Song
+	<muchun.song@linux.dev>
+References: <20261115160105.2507650-1-jiaqiyan@google.com>
+ <20261115160105.2507650-2-jiaqiyan@google.com>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <3dbb102a-9860-f5db-28ae-801bdb3ae8c5@huawei.com>
+Date: Sat, 28 Nov 2026 11:14:13 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,18 +81,65 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261115160105.2507650-2-jiaqiyan@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ whupemk100004.china.huawei.com (7.152.185.74)
 
-On Fri, Nov 27, 2026 at 02:14:32PM +0200, Jarkko Sakkinen wrote:
-> If the current task is running with overridden credentials calling
-> commit_creds() is forbidden and triggers a BUG_ON().
-> 
-> Reject keyring creation with -EPERM when credentials are overridden.
+On 2026/11/16 0:01, Jiaqi Yan wrote:
 
-Tested on the same arm64/KVM KASAN/lockdep setup on top of patch 1/2.
-Under override_creds(), lookup_user_key() with KEY_LOOKUP_CREATE now
-returns -EPERM for KEY_SPEC_{SESSION,PROCESS,THREAD,USER}_KEYRING
-without hitting commit_creds().
+Thanks for your patch. Some comments below.
 
-Reviewed-by: Guicai Ma <maguicai@kylinos.cn>
-Tested-by: Guicai Ma <maguicai@kylinos.cn>
+> +static inline bool mapping_mf_keep_ue_mapped(const struct address_space *mapping)
+> +{
+> +	return test_bit(AS_MF_KEEP_UE_MAPPED, &mapping->flags);
+> +}
+> +
+> +static inline void mapping_set_mf_keep_ue_mapped(struct address_space *mapping)
+> +{
+> +	set_bit(AS_MF_KEEP_UE_MAPPED, &mapping->flags);
+> +}
+> +
+
+Is mapping_clear_mf_keep_ue_mapped not supported?
+
+> @@ -1229,6 +1259,15 @@ static int me_huge_page(struct page_state *ps, struct page *p)
+>  		/* The page is kept in page cache. */
+>  		extra_pins = true;
+>  		folio_unlock(folio);
+> +
+> +		if (hugetlb_should_keep_hwpoison_mapped(folio, mapping)) {
+> +			/*
+> +			 * Page cache keeps the folio until
+> +			 * filemap_offline_hwpoison_folio() dissolves it.
+> +			 */
+> +			folio_put(folio);
+
+There is a has_extra_refcount check below that may change the return value.
+Is it problematic to return directly here?
+
+> @@ -2070,7 +2122,15 @@ static int get_huge_page_for_hwpoison(unsigned long pfn, int flags,
+>  		count_increased = true;
+>  	} else if (folio_test_hugetlb_freed(folio)) {
+>  		ret = MF_HUGETLB_FREED;
+> -	} else if (folio_test_hugetlb_migratable(folio)) {
+> +	} else if (folio_test_hugetlb_migratable(folio) ||
+> +		   (folio_test_hwpoison(folio) &&
+> +		    hugetlb_should_keep_hwpoison_mapped(folio, mapping))) {
+> +		/*
+> +		 * A kept-mapped HWPoison hugepage is
+> +		 * no longer migratable (cleared by
+> +		 * the 1st error), but it is still in use
+
+hugetlb_migratable could also be cleared by folio_isolate_hugetlb. So when a kept-mapped
+HWPoison hugepage is no longer migratable, it still might be the 1st error.
+
+> +		 * and should/can go through same handling.
+
+The folio has already been handled in the first pass when 1st error happened. Why does it
+need to go through the whole process again?
+
+Thanks.
+.
